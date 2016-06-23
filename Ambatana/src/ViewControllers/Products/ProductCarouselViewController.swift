@@ -62,8 +62,9 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     private let moreInfoViewHeight: CGFloat = 50
     private let moreInfoDragMinimumSeparation: CGFloat = 100
     private let moreInfoOpeningTopMargin: CGFloat = 86
+    private let moreInfoTooltipMargin: CGFloat = -10
     private var moreInfoTooltip: Tooltip?
-    
+
     private var activeDisposeBag = DisposeBag()
     private var productInfoConstraintOffset: CGFloat = 0
 
@@ -361,11 +362,12 @@ extension ProductCarouselViewController {
                                                                   options: .CaseInsensitiveSearch)
         resultText.addAttributes(tapTextAttributes, range: boldRange)
 
-        let moreInfoTooltip = Tooltip(targetView: moreInfoView, superView: view, title: resultText, style: .Blue(closeEnabled: false),
-                                      peakOnTop: false, actionBlock: { [weak self] in self?.openMoreInfo() },
-                                      closeBlock: nil)
+        let moreInfoTooltip = Tooltip(targetView: moreInfoView, superView: view, title: resultText,
+                                      style: .Blue(closeEnabled: false), peakOnTop: false,
+                                      actionBlock: { [weak self] in self?.openMoreInfo() }, closeBlock: nil)
         view.addSubview(moreInfoTooltip)
-        setupExternalConstraintsForTooltip(moreInfoTooltip, targetView: moreInfoView, containerView: view, margin: -10)
+        setupExternalConstraintsForTooltip(moreInfoTooltip, targetView: moreInfoView, containerView: view,
+                                           margin: moreInfoTooltipMargin)
         self.moreInfoTooltip = moreInfoTooltip
     }
 
