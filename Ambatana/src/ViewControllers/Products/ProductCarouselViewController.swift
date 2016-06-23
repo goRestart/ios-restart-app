@@ -634,7 +634,7 @@ extension ProductCarouselViewController: ProductCarouselViewModelDelegate {
 
 extension ProductCarouselViewController: ProductCarouselCellDelegate {
     func didTapOnCarouselCell(cell: UICollectionViewCell) {
-        let indexPath = collectionView.indexPathForCell(cell)!
+        guard let indexPath = collectionView.indexPathForCell(cell) else { return }
         let newIndexRow = indexPath.row + 1
         if newIndexRow < collectionView.numberOfItemsInSection(0) {
             pendingMovement = .Tap
