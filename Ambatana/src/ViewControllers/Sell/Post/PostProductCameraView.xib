@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -24,7 +24,6 @@
                 <outlet property="infoContainer" destination="bbo-Hb-IJv" id="qU9-uX-XwG"/>
                 <outlet property="infoSubtitle" destination="9HN-xW-gbA" id="Qo9-Kj-eud"/>
                 <outlet property="infoTitle" destination="SO4-2P-LhD" id="rOf-io-E92"/>
-                <outlet property="makePhotoButton" destination="quP-02-Mhn" id="G6P-r0-AUz"/>
                 <outlet property="retryPhotoButton" destination="a8u-Wc-WM7" id="bfv-eR-Y8t"/>
                 <outlet property="switchCamButton" destination="OeN-MM-ewe" id="Han-Kb-6eC"/>
                 <outlet property="usePhotoButton" destination="QjL-HL-daC" id="KqV-La-80e"/>
@@ -145,15 +144,6 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="46F-6A-OD4" userLabel="BottomControlsContainer">
                     <rect key="frame" x="0.0" y="525" width="375" height="142"/>
                     <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="quP-02-Mhn" userLabel="PhotoBtn">
-                            <rect key="frame" x="155" y="39" width="64" height="64"/>
-                            <state key="normal" image="ic_post_take_photo_icon" backgroundImage="ic_post_take_photo">
-                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </state>
-                            <connections>
-                                <action selector="onTakePhotoButton:" destination="-1" eventType="touchUpInside" id="HSI-2U-EpE"/>
-                            </connections>
-                        </button>
                         <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="a8u-Wc-WM7" userLabel="RetryPhotoBtn">
                             <rect key="frame" x="0.0" y="27" width="90" height="88"/>
                             <constraints>
@@ -190,8 +180,6 @@
                         <constraint firstItem="a8u-Wc-WM7" firstAttribute="centerY" secondItem="46F-6A-OD4" secondAttribute="centerY" id="R1J-ws-Sjl"/>
                         <constraint firstItem="QjL-HL-daC" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="a8u-Wc-WM7" secondAttribute="trailing" id="ZNX-NM-zZf"/>
                         <constraint firstAttribute="height" constant="142" id="aUC-8e-eRd"/>
-                        <constraint firstItem="quP-02-Mhn" firstAttribute="centerY" secondItem="46F-6A-OD4" secondAttribute="centerY" id="g09-Rn-bbW"/>
-                        <constraint firstItem="quP-02-Mhn" firstAttribute="centerX" secondItem="46F-6A-OD4" secondAttribute="centerX" id="rgr-n8-bxO"/>
                     </constraints>
                 </view>
                 <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bbo-Hb-IJv" userLabel="ErrorContainer">
@@ -328,7 +316,5 @@
         <image name="ic_post_corner" width="16" height="16"/>
         <image name="ic_post_flash_auto" width="36" height="36"/>
         <image name="ic_post_switch_cam" width="36" height="36"/>
-        <image name="ic_post_take_photo" width="64" height="64"/>
-        <image name="ic_post_take_photo_icon" width="26" height="24"/>
     </resources>
 </document>

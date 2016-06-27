@@ -14,6 +14,11 @@ UITextFieldDelegate {
 
     weak var delegate: SellProductViewControllerDelegate?
 
+    @IBOutlet weak var cameraGalleryContainer: UIView!
+    @IBOutlet weak var galleryButton: UIButton!
+    @IBOutlet weak var photoButton: UIButton!
+    @IBOutlet weak var photoButtonCenterX: NSLayoutConstraint!
+
     @IBOutlet weak var selectPriceContainer: UIView!
     @IBOutlet weak var selectPriceContentContainerCenterY: NSLayoutConstraint!
     @IBOutlet weak var customLoadingView: LoadingIndicator!
@@ -49,7 +54,7 @@ UITextFieldDelegate {
     }
 
     required init(viewModel: PostProductViewModel, forceCamera: Bool) {
-        let viewPagerConfig = LGViewPagerConfig(tabPosition: .Bottom, tabLayout: .Fixed, tabHeight: 54)
+        let viewPagerConfig = LGViewPagerConfig(tabPosition: .Hidden, tabLayout: .Fixed, tabHeight: 54)
         self.viewPager = LGViewPager(config: viewPagerConfig, frame: CGRect.zero)
         self.cameraView = PostProductCameraView()
         self.galleryView = PostProductGalleryView()
@@ -86,6 +91,7 @@ UITextFieldDelegate {
         if !viewDidAppear {
             viewPager.delegate = self
             viewPager.selectTabAtIndex(initialTab)
+            updateButtonsForPagerScroll(CGFloat(initialTab))
         }
     }
 
@@ -132,6 +138,18 @@ UITextFieldDelegate {
             presentViewController(alert, animated: true, completion: nil)
         } else {
             viewModel.closeButtonPressed(sellController: self, delegate: delegate)
+        }
+    }
+
+    @IBAction func galleryButtonPressed(sender: AnyObject) {
+        viewPager.selectTabAtIndex(0, animated: true)
+    }
+
+    @IBAction func photoButtonPressed(sender: AnyObject) {
+        if viewPager.currentPage == 1 {
+            cameraView.takePhoto()
+        } else {
+            viewPager.selectTabAtIndex(1, animated: true)
         }
     }
 
@@ -214,6 +232,13 @@ UITextFieldDelegate {
         priceFieldContainer.layer.borderWidth = 1
 
         currencyButton.setTitle(viewModel.currency?.symbol, forState: UIControlState.Normal)
+    }
+
+    private func updateButtonsForPagerScroll(scroll: CGFloat) {
+        galleryButton.alpha = scroll
+
+        let movement = (view.width/2) * (1.0 - scroll)
+        photoButtonCenterX.constant = movement
     }
 
     private func setSelectPriceState(loading loading: Bool, error: String?) {
@@ -301,7 +326,8 @@ extension PostProductViewController: PostProductCameraViewDelegate {
     }
 
     func productCameraRequestHideTabs(hide: Bool) {
-        viewPager.tabsHidden = hide
+        galleryButton.hidden = hide
+        photoButton.hidden = hide
     }
 
     func productCameraRequestsScrollLock(lock: Bool) {
@@ -346,7 +372,7 @@ extension PostProductViewController: LGViewPagerDataSource, LGViewPagerDelegate,
         viewPager.tabsBackgroundColor = StyleHelper.postProductTabColor
         viewPager.tabsSeparatorColor = UIColor.clearColor()
         viewPager.translatesAutoresizingMaskIntoConstraints = false
-        view.insertSubview(viewPager, atIndex: 0)
+        cameraGalleryContainer.insertSubview(viewPager, atIndex: 0)
         setupViewPagerConstraints()
 
         viewPager.reloadData()
@@ -354,9 +380,9 @@ extension PostProductViewController: LGViewPagerDataSource, LGViewPagerDelegate,
 
     private func setupViewPagerConstraints() {
         let views = ["viewPager": viewPager]
-        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[viewPager]|",
+        cameraGalleryContainer.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[viewPager]|",
             options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: views))
-        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[viewPager]|",
+        cameraGalleryContainer.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[viewPager]|",
             options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: views))
     }
 
@@ -369,6 +395,8 @@ extension PostProductViewController: LGViewPagerDataSource, LGViewPagerDelegate,
     func viewPager(viewPager: LGViewPager, didScrollToPagePosition pagePosition: CGFloat) {
         cameraView.showHeader(pagePosition == 1.0)
         galleryView.showHeader(pagePosition == 0.0)
+
+        updateButtonsForPagerScroll(pagePosition)
     }
 
     func viewPagerNumberOfTabs(viewPager: LGViewPager) -> Int {

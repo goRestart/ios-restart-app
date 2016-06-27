@@ -30,7 +30,6 @@ class PostProductCameraView: BaseView, LGViewPagerPage {
     @IBOutlet weak var bottomControlsContainerHeight: NSLayoutConstraint!
     @IBOutlet weak var switchCamButton: UIButton!
     @IBOutlet weak var usePhotoButton: UIButton!
-    @IBOutlet weak var makePhotoButton: UIButton!
 
     @IBOutlet weak var infoContainer: UIView!
     @IBOutlet weak var infoTitle: UILabel!
@@ -128,6 +127,13 @@ class PostProductCameraView: BaseView, LGViewPagerPage {
         }
     }
 
+    func takePhoto() {
+        hideFirstTimeAlert()
+        guard let fastCamera = fastCamera else { return }
+
+        fastCamera.takePicture()
+    }
+
 
     // MARK: - Actions
     @IBAction func onCloseButton(sender: AnyObject) {
@@ -223,7 +229,6 @@ class PostProductCameraView: BaseView, LGViewPagerPage {
         captureModeHidden.bindTo(cornersContainer.rx_hidden).addDisposableTo(disposeBag)
         captureModeHidden.bindTo(switchCamButton.rx_hidden).addDisposableTo(disposeBag)
         captureModeHidden.bindTo(flashButton.rx_hidden).addDisposableTo(disposeBag)
-        captureModeHidden.bindTo(makePhotoButton.rx_hidden).addDisposableTo(disposeBag)
         
         viewModel.imageSelected.asObservable().bindTo(imagePreview.rx_image).addDisposableTo(disposeBag)
 
