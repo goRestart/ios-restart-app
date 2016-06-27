@@ -23,11 +23,9 @@ class PostProductCameraView: BaseView, LGViewPagerPage {
     @IBOutlet var contentView: UIView!
 
     @IBOutlet weak var cameraContainerView: UIView!
-    @IBOutlet weak var cameraContainerViewHeight: NSLayoutConstraint!
     @IBOutlet weak var imagePreview: UIImageView!
     @IBOutlet weak var cornersContainer: UIView!
 
-    @IBOutlet weak var bottomControlsContainerHeight: NSLayoutConstraint!
     @IBOutlet weak var switchCamButton: UIButton!
     @IBOutlet weak var usePhotoButton: UIButton!
 
@@ -44,9 +42,6 @@ class PostProductCameraView: BaseView, LGViewPagerPage {
     @IBOutlet weak var firstTimeAlert: UIView!
     @IBOutlet weak var firstTimeAlertTitle: UILabel!
     @IBOutlet weak var firstTimeAlertSubtitle: UILabel!
-
-
-    private static let bottomControlsCollapsedSize: CGFloat = 88
 
     var visible: Bool {
         set {
@@ -188,9 +183,7 @@ class PostProductCameraView: BaseView, LGViewPagerPage {
         //i18n
         retryPhotoButton.setTitle(LGLocalizedString.productPostRetake, forState: UIControlState.Normal)
         usePhotoButton.setTitle(usePhotoButtonText, forState: UIControlState.Normal)
-        usePhotoButton.setPrimaryStyle()
-        usePhotoButton.setBackgroundImage(StyleHelper.postProductDisabledPostButton
-            .imageWithSize(CGSize(width: 1, height: 1)), forState: .Disabled)
+        usePhotoButton.setStyle(.Primary(fontSize: .Medium))
 
         setupInfoView()
         setupFirstTimeAlertView()
@@ -201,18 +194,6 @@ class PostProductCameraView: BaseView, LGViewPagerPage {
     }
 
     private func adaptLayoutsToScreenSize() {
-
-        if DeviceFamily.current == .iPhone4 {
-            //Small screen mode -> collapse buttons (hiding some info) + expand camera
-            bottomControlsContainerHeight.constant = PostProductCameraView.bottomControlsCollapsedSize
-            cameraContainerViewHeight.constant = contentView.height
-        } else {
-            let expectedCameraHeight = contentView.width * (4/3) //Camera aspect ratio is 4/3
-            let bottomSpace = contentView.height - expectedCameraHeight
-            bottomControlsContainerHeight.constant = bottomSpace
-            cameraContainerViewHeight.constant = expectedCameraHeight
-        }
-
         if let fastCamera = fastCamera {
             fastCamera.view.frame = cameraContainerView.frame
         }
@@ -299,7 +280,7 @@ extension PostProductCameraView {
 extension PostProductCameraView {
 
     private func setupInfoView() {
-        infoButton.setPrimaryStyle()
+        infoButton.setStyle(.Primary(fontSize: .Medium))
 
         viewModel.infoShown.asObservable().map{ !$0 }.bindTo(infoContainer.rx_hidden).addDisposableTo(disposeBag)
         viewModel.infoTitle.asObservable().bindTo(infoTitle.rx_text).addDisposableTo(disposeBag)
