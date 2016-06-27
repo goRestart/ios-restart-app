@@ -28,6 +28,10 @@ final class ImageDownloader: ImageDownloaderType {
         imageDownloader.downloadImageWithURL(url, completion: completion)
     }
 
+    func cachedImageForUrl(url: NSURL) -> UIImage? {
+        return imageDownloader.cachedImageForUrl(url)
+    }
+
     private static func buildImageDownloader() -> ImageDownloaderType {
 //        return SDWebImageManager.sharedManager()
         return AlamofireImage.ImageDownloader.defaultInstance
