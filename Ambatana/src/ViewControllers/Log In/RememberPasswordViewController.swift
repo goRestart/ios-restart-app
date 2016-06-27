@@ -50,7 +50,7 @@ class RememberPasswordViewController: BaseViewController, RememberPasswordViewMo
         setupUI()
         
         emailTextField.becomeFirstResponder()
-        emailTextField.tintColor = StyleHelper.textFieldTintColor
+        emailTextField.tintColor = UIColor.primaryColor
         
         // update the textfield with the e-mail from previous view
         emailTextField.text = viewModel.email
@@ -65,8 +65,8 @@ class RememberPasswordViewController: BaseViewController, RememberPasswordViewMo
             line.removeFromSuperlayer()
         }
         lines = []
-        lines.append(emailButton.addTopBorderWithWidth(1, color: StyleHelper.lineColor))
-        lines.append(emailButton.addBottomBorderWithWidth(1, color: StyleHelper.lineColor))
+        lines.append(emailButton.addTopBorderWithWidth(1, color: UIColor.lineGray))
+        lines.append(emailButton.addBottomBorderWithWidth(1, color: UIColor.lineGray))
     }
     
     // MARK: - Actions

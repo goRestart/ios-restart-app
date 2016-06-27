@@ -110,22 +110,22 @@ SignUpLogInViewModelDelegate, GIDSignInUIDelegate {
             line.removeFromSuperlayer()
         }
         lines = []
-        lines.append(dividerView.addBottomBorderWithWidth(1, color: StyleHelper.darkLineColor))
-        lines.append(firstDividerView.addBottomBorderWithWidth(1, color: StyleHelper.darkLineColor))
+        lines.append(dividerView.addBottomBorderWithWidth(1, color: UIColor.lineGray))
+        lines.append(firstDividerView.addBottomBorderWithWidth(1, color: UIColor.lineGray))
         
         if viewModel.currentActionType == .Signup && signupEditModeActive {
-            lines.append(emailButton.addTopBorderWithWidth(1, color: StyleHelper.lineColor))
-            lines.append(passwordButton.addTopBorderWithWidth(1, color: StyleHelper.lineColor))
-            lines.append(usernameButton.addTopBorderWithWidth(1, color: StyleHelper.lineColor))
-            lines.append(usernameButton.addBottomBorderWithWidth(1, color: StyleHelper.lineColor))
+            lines.append(emailButton.addTopBorderWithWidth(1, color: UIColor.lineGray))
+            lines.append(passwordButton.addTopBorderWithWidth(1, color: UIColor.lineGray))
+            lines.append(usernameButton.addTopBorderWithWidth(1, color: UIColor.lineGray))
+            lines.append(usernameButton.addBottomBorderWithWidth(1, color: UIColor.lineGray))
 
         } else if viewModel.currentActionType == .Login && loginEditModeActive {
-            lines.append(emailButton.addTopBorderWithWidth(1, color: StyleHelper.lineColor))
-            lines.append(passwordButton.addTopBorderWithWidth(1, color: StyleHelper.lineColor))
-            lines.append(passwordButton.addBottomBorderWithWidth(1, color: StyleHelper.lineColor))
+            lines.append(emailButton.addTopBorderWithWidth(1, color: UIColor.lineGray))
+            lines.append(passwordButton.addTopBorderWithWidth(1, color: UIColor.lineGray))
+            lines.append(passwordButton.addBottomBorderWithWidth(1, color: UIColor.lineGray))
         } else {
-            lines.append(emailButton.addTopBorderWithWidth(1, color: StyleHelper.lineColor))
-            lines.append(emailButton.addBottomBorderWithWidth(1, color: StyleHelper.lineColor))
+            lines.append(emailButton.addTopBorderWithWidth(1, color: UIColor.lineGray))
+            lines.append(emailButton.addBottomBorderWithWidth(1, color: UIColor.lineGray))
         }
     }
 
@@ -444,7 +444,7 @@ SignUpLogInViewModelDelegate, GIDSignInUIDelegate {
         sendButton.setBackgroundImage(StyleHelper.highlightedRedButtonColor.imageWithSize(CGSize(width: 1, height: 1)),
             forState: .Highlighted)
 
-        sendButton.layer.cornerRadius = StyleHelper.defaultCornerRadius
+        sendButton.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
         sendButton.enabled = false
         sendButton.alpha = StyleHelper.disabledButtonAlpha
 

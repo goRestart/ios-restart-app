@@ -253,11 +253,11 @@ UICollectionViewDataSource, UICollectionViewDelegate {
         setNavBarTitle(LGLocalizedString.filtersTitle)
         let cancelButton = UIBarButtonItem(title: LGLocalizedString.commonCancel, style: UIBarButtonItemStyle.Plain,
             target: self, action: #selector(FiltersViewController.onNavbarCancel))
-        cancelButton.tintColor = StyleHelper.primaryColor
+        cancelButton.tintColor = UIColor.primaryColor
         self.navigationItem.leftBarButtonItem = cancelButton;
         let resetButton = UIBarButtonItem(title: LGLocalizedString.filtersNavbarReset, style: UIBarButtonItemStyle.Plain,
             target: self, action: #selector(FiltersViewController.onNavbarReset))
-        resetButton.tintColor = StyleHelper.primaryColor
+        resetButton.tintColor = UIColor.primaryColor
         self.navigationItem.rightBarButtonItem = resetButton;
         
         // Cells sizes

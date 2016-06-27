@@ -113,8 +113,8 @@ public class CommercialDisplayViewController: BaseViewController {
     // MARK: - Private methods
     
     private func setupScrollView() {
-        pageControl.pageIndicatorTintColor = StyleHelper.pageIndicatorTintColorDark
-        pageControl.currentPageIndicatorTintColor = StyleHelper.currentPageIndicatorTintColorDark
+        pageControl.pageIndicatorTintColor = UIColor.pageIndicatorTintColorDark
+        pageControl.currentPageIndicatorTintColor = UIColor.currentPageIndicatorTintColorDark
         
         pageControl.currentPage = 0
         pageControl.numberOfPages = viewModel.numberOfCommercials
@@ -172,7 +172,7 @@ public class CommercialDisplayViewController: BaseViewController {
     }
 
     private func setupShareUI() {
-        closeButton.tintColor = StyleHelper.primaryColor
+        closeButton.tintColor = UIColor.primaryColor
         titleLabel.text = viewModel.isMyVideo ? LGLocalizedString.commercializerDisplayTitleLabel : nil
         shareLabel.text = viewModel.isMyVideo ? LGLocalizedString.commercializerDisplayShareLabel : nil
         shareButton.setPrimaryStyle()

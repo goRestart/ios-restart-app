@@ -65,11 +65,11 @@ extension ChatDisclaimerCell {
 
 private extension ChatDisclaimerCell {
     func setupUI() {
-        backgroundCellView.layer.cornerRadius = StyleHelper.defaultCornerRadius
+        backgroundCellView.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
         backgroundCellView.backgroundColor = UIColor.disclaimerColor
 
-        messageLabel.textColor = StyleHelper.chatDisclaimerMessageColor
-        messageLabel.font = UIFont.bodyFont
+        messageLabel.textColor = UIColor.darkGrayText
+        messageLabel.font = UIFont.bigBodyFont
         button.setStyle(.Primary(fontSize: .Small))
         button.contentEdgeInsets = UIEdgeInsets(top: 0, left: ChatDisclaimerCell.buttonHContentInset,
                                                 bottom: 0, right: ChatDisclaimerCell.buttonHContentInset)

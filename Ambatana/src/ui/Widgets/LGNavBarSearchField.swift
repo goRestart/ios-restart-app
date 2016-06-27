@@ -81,17 +81,16 @@ public class LGNavBarSearchField: UIView {
         
         backgroundColor = UIColor.clearColor()
         
-        searchTextField.textColor = StyleHelper.navBarTitleColor
+        searchTextField.textColor = UIColor.lightBarTitle
         searchTextField.clearButtonMode = UITextFieldViewMode.Always
         searchTextField.clearButtonOffset = 5
         searchTextField.insetX = 30
         
         searchTextField.borderStyle = UITextBorderStyle.None
         searchTextField.layer.cornerRadius = 4
-        searchTextField.layer.borderWidth = StyleHelper.onePixelSize
+        searchTextField.layer.borderWidth = LGUIKitConstants.onePixelSize
         searchTextField.layer.borderColor = StyleHelper.navBarSearchBorderColor.CGColor
-        searchTextField.backgroundColor = StyleHelper.navBarSearchFieldBgColor
-        searchTextField.tintColor = StyleHelper.textFieldTintColor // UIColor.clearColor() //
+        searchTextField.backgroundColor = UIColor.white
         
         
         if let actualText = text {

@@ -110,18 +110,18 @@ class PopupSignUpViewController: BaseViewController, SignUpViewModelDelegate, UI
 
     private func setupUI() {
 
-        contentContainer.layer.cornerRadius = StyleHelper.defaultCornerRadius
+        contentContainer.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
         
         connectFBButton.setCustomButtonStyle()
         connectGoogleButton.setCustomButtonStyle()
         
         signUpButton.setBackgroundImage(signUpButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)),
             forState: .Normal)
-        signUpButton.layer.cornerRadius = StyleHelper.defaultCornerRadius
+        signUpButton.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
 
         logInButton.setBackgroundImage(logInButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)),
             forState: .Normal)
-        logInButton.layer.cornerRadius = StyleHelper.defaultCornerRadius
+        logInButton.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
 
         connectFBButton.setTitle(LGLocalizedString.mainSignUpFacebookConnectButton, forState: .Normal)
         connectGoogleButton.setTitle(LGLocalizedString.mainSignUpGoogleConnectButton, forState: .Normal)

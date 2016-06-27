@@ -50,11 +50,11 @@ class ChatProductView: UIView {
     }
     
     func setupUI() {
-        productImage.layer.cornerRadius = StyleHelper.defaultCornerRadius
-        productImage.backgroundColor = StyleHelper.conversationCellBgColor
-        userName.font = StyleHelper.chatProductViewUserFont
-        productName.font = StyleHelper.chatProductViewNameFont
-        productPrice.font = StyleHelper.chatProductViewPriceFont
+        productImage.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
+        productImage.backgroundColor = UIColor.placeholderBackgroundColor()
+        userName.font = UIFont.chatProductViewUserFont
+        productName.font = UIFont.chatProductViewNameFont
+        productPrice.font = UIFont.chatProductViewPriceFont
         
         userAvatar.layer.minificationFilter = kCAFilterTrilinear
     }

@@ -84,8 +84,8 @@ class MainSignUpViewController: BaseViewController, SignUpViewModelDelegate, UIT
             line.removeFromSuperlayer()
         }
         lines = []
-        lines.append(dividerView.addBottomBorderWithWidth(1, color: StyleHelper.darkLineColor))
-        lines.append(firstDividerView.addBottomBorderWithWidth(1, color: StyleHelper.darkLineColor))
+        lines.append(dividerView.addBottomBorderWithWidth(1, color: UIColor.lineGray))
+        lines.append(firstDividerView.addBottomBorderWithWidth(1, color: UIColor.lineGray))
     }
     
     // MARK: - Actions
@@ -176,11 +176,11 @@ class MainSignUpViewController: BaseViewController, SignUpViewModelDelegate, UIT
         
         signUpButton.setBackgroundImage(signUpButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)),
             forState: .Normal)
-        signUpButton.layer.cornerRadius = StyleHelper.defaultCornerRadius
+        signUpButton.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
 
         logInButton.setBackgroundImage(logInButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)),
             forState: .Normal)
-        logInButton.layer.cornerRadius = StyleHelper.defaultCornerRadius
+        logInButton.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
 
         // i18n
         claimLabel.text = LGLocalizedString.mainSignUpClaimLabel

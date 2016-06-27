@@ -100,11 +100,11 @@ public class ProcessingVideoDialogViewController: BaseViewController {
         okButton.setPrimaryStyle()
         okButton.setTitle(LGLocalizedString.commonOk, forState: .Normal)
 
-        loadingIndicator.color = StyleHelper.primaryColor
+        loadingIndicator.color = UIColor.primaryColor
 
         processingLabel.text = LGLocalizedString.commercializerProcessingTitleLabel
         videoWillAppearLabel.text = LGLocalizedString.commercializerProcessingWillAppearLabel
-        successView.layer.cornerRadius = StyleHelper.defaultCornerRadius
+        successView.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
         errorView.hidden = true
     }
 
@@ -114,7 +114,7 @@ public class ProcessingVideoDialogViewController: BaseViewController {
 
         errorTitleLabel.text = LGLocalizedString.commonErrorTitle.capitalizedString
         errorMessageLabel.text = LGLocalizedString.commercializerProcessVideoFailedErrorMessage
-        errorView.layer.cornerRadius = StyleHelper.defaultCornerRadius
+        errorView.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
         successView.hidden = true
     }
 

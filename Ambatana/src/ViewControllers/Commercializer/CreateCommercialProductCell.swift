@@ -11,11 +11,11 @@ class CreateCommercialProductCell: UICollectionViewCell {
     @IBOutlet weak var imageView: UIImageView!
     
     override func awakeFromNib() {
-        imageView.layer.cornerRadius = StyleHelper.defaultCornerRadius
+        imageView.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
         imageView.clipsToBounds = true
     }
     
     override func prepareForReuse() {
-        imageView.backgroundColor = StyleHelper.productCellImageBgColor
+        imageView.backgroundColor = UIColor.placeholderBackgroundColor()
     }
 }

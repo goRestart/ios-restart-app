@@ -169,7 +169,7 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, FBSDKAppInviteD
                 cell.iconImageView.lg_setImageWithURL(avatarUrl, placeholderImage: placeholder)
             }
         case .CreateCommercializer:
-            cell.label.textColor = StyleHelper.primaryColor
+            cell.label.textColor = UIColor.primaryColor
         case .LogOut:
             cell.accessoryType = .None
         default:

@@ -207,13 +207,13 @@ extension AppDelegate: AppNavigatorDelegate {
 
 private extension AppDelegate {
     private func setupAppearance() {
-        UINavigationBar.appearance().tintColor = StyleHelper.navBarButtonsColor
-        UINavigationBar.appearance().titleTextAttributes = [NSFontAttributeName : StyleHelper.navBarTitleFont,
-                                                            NSForegroundColorAttributeName : StyleHelper.navBarTitleColor]
-        UITabBar.appearance().tintColor = StyleHelper.tabBarIconSelectedColor
+        UINavigationBar.appearance().tintColor = UIColor.lightBarButton
+        UINavigationBar.appearance().titleTextAttributes = [NSFontAttributeName : UIFont.pageTitleFont,
+                                                            NSForegroundColorAttributeName : UIColor.lightBarTitle]
+        UITabBar.appearance().tintColor = UIColor.tabBarIconSelectedColor
 
-        UIPageControl.appearance().pageIndicatorTintColor = StyleHelper.pageIndicatorTintColor
-        UIPageControl.appearance().currentPageIndicatorTintColor = StyleHelper.currentPageIndicatorTintColor
+        UIPageControl.appearance().pageIndicatorTintColor = UIColor.pageIndicatorTintColor
+        UIPageControl.appearance().currentPageIndicatorTintColor = UIColor.currentPageIndicatorTintColor
     }
 
     private func setupLibraries(application: UIApplication, launchOptions: [NSObject: AnyObject]?) {

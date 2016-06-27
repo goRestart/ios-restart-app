@@ -42,8 +42,8 @@ class FilterSingleCheckCell: UICollectionViewCell {
     // MARK: - Private methods
     
     private func setupUI() {
-        bottomSeparatorHeight.constant = StyleHelper.onePixelSize
-        topSeparatorHeight.constant = StyleHelper.onePixelSize
+        bottomSeparatorHeight.constant = LGUIKitConstants.onePixelSize
+        topSeparatorHeight.constant = LGUIKitConstants.onePixelSize
     }
     
     // Resets the UI to the initial state

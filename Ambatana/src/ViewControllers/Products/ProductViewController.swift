@@ -159,7 +159,7 @@ class ProductViewController: BaseViewController {
             line.removeFromSuperlayer()
         }
         lines = []
-        lines.append(separatorView.addTopBorderWithWidth(1, color: StyleHelper.lineColor))
+        lines.append(separatorView.addTopBorderWithWidth(1, color: UIColor.lineGray))
 
         // Adjust gradient layer
         if let layers = shadowGradientView.layer.sublayers {

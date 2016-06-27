@@ -25,7 +25,7 @@ enum ButtonStyle {
         case .Primary, .Terciary, .Google, .Facebook, .Dark:
             return UIColor.whiteColor()
         case .Secondary:
-            return StyleHelper.primaryColor
+            return UIColor.primaryColor
         }
     }
     

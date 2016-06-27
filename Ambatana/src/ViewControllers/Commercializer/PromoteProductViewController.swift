@@ -218,7 +218,7 @@ UICollectionViewDelegateFlowLayout {
     private func setupUI() {
         promoteButton.setPrimaryStyle()
         introButton.setPrimaryStyle()
-        introContainer.layer.cornerRadius = StyleHelper.defaultCornerRadius
+        introContainer.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
 
         // Localization
         introLabel.text = LGLocalizedString.commercializerPromoteIntroLabel

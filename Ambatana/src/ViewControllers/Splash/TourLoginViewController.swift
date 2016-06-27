@@ -69,10 +69,10 @@ final class TourLoginViewController: BaseViewController {
         signupButton.titleLabel?.font = StyleHelper.tourButtonFont
         signupButton.setTitle(LGLocalizedString.signUpSendButton, forState: .Normal)
         signupButton.setPrimaryStyle()
-        signupButton.layer.cornerRadius = StyleHelper.defaultCornerRadius
+        signupButton.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
         
         loginButton.backgroundColor = UIColor.clearColor()
-        loginButton.layer.cornerRadius = StyleHelper.defaultCornerRadius
+        loginButton.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
         loginButton.layer.borderWidth = 1
         loginButton.layer.borderColor = UIColor.whiteColor().CGColor
         loginButton.tintColor = UIColor.whiteColor()

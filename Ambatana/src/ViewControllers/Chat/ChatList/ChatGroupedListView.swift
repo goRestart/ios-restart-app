@@ -197,11 +197,11 @@ class ChatGroupedListView: BaseView, ChatGroupedListViewModelDelegate, Scrollabl
         NSBundle.mainBundle().loadNibNamed("ChatGroupedListView", owner: self, options: nil)
         contentView.frame = bounds
         contentView.autoresizingMask = [.FlexibleHeight, .FlexibleWidth]
-        contentView.backgroundColor = StyleHelper.backgroundColor
+        contentView.backgroundColor = UIColor.chatListBackgroundColor
         addSubview(contentView)
 
         // Empty view
-        emptyView.backgroundColor = StyleHelper.backgroundColor
+        emptyView.backgroundColor = UIColor.chatListBackgroundColor
         refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(ChatGroupedListView.refresh),
                                  forControlEvents: UIControlEvents.ValueChanged)

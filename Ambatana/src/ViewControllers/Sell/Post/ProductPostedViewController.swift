@@ -124,15 +124,15 @@ class ProductPostedViewController: BaseViewController, SellProductViewController
 
     private func setupView() {
 
-        contentContainer.layer.cornerRadius = StyleHelper.defaultCornerRadius
+        contentContainer.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
         mainButton.setPrimaryStyle()
         editButton.setSecondaryStyle()
 
         editOrLabel.text = LGLocalizedString.productPostConfirmationAnother.uppercase
         editButton.setTitle(LGLocalizedString.productPostConfirmationEdit, forState: UIControlState.Normal)
 
-        mainIconImage.tintColor = StyleHelper.primaryColor
-        loadingIndicator.color = StyleHelper.primaryColor
+        mainIconImage.tintColor = UIColor.primaryColor
+        loadingIndicator.color = UIColor.primaryColor
     }
 
     private func setupStatic(correct: Bool) {

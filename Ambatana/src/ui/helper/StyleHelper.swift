@@ -12,31 +12,43 @@ import Foundation
 class StyleHelper {
 
     // Colors
-    static var primaryColor: UIColor { return StyleHelper.red }
-    static var primaryColorHighlighted: UIColor { return StyleHelper.highlightedRed }
-    static var primaryColorDisabled: UIColor { return StyleHelper.disabledRed }
+//    static var primaryColor: UIColor { return StyleHelper.red }
+//    static var primaryColorHighlighted: UIColor { return StyleHelper.highlightedRed }
+//    static var primaryColorDisabled: UIColor { return StyleHelper.disabledRed }
     static var backgroundColor: UIColor { return StyleHelper.reddishWhite }
 
     private static let red = UIColor(rgb: 0xFF3F55)
     private static let highlightedRed = UIColor(rgb: 0xFE6E7F)
     private static let disabledRed = UIColor(rgb: 0xF6C7CC)
     private static let reddishWhite = UIColor(rgb: 0xF7F3F3)
-    private static let highlightedWhite = StyleHelper.gray238
+    private static let highlightedWhite = lgGrayLighter
 
     //TODO: Remove all those and switch to the closer from the gray palette
-    private static let gray74 = UIColor(rgb: 0x4a4a4a)
-    private static let gray117 = UIColor(rgb: 0x757575)
-    private static let gray153 = UIColor(rgb: 0x999999)
-    private static let gray167 = UIColor(rgb: 0xA7A7A7)
-    private static let gray204 = UIColor(rgb: 0xCCCCCC)
-    private static let gray213 = UIColor(rgb: 0xD5D5D5)
-    private static let gray222 = UIColor(rgb: 0xDEDEDE)
-    private static let gray225 = UIColor(rgb: 0xE1E1E1)
-    private static let gray235 = UIColor(rgb: 0xEBEBEB)
-    private static let gray238 = UIColor(rgb: 0xEEEEEE)
-    private static let gray245 = UIColor(rgb: 0xF5F5F5)
+//    private static let gray74 = UIColor(rgb: 0x4a4a4a)
+//    private static let gray117 = UIColor(rgb: 0x757575)
+//    private static let gray153 = UIColor(rgb: 0x999999)
+//    private static let gray167 = UIColor(rgb: 0xA7A7A7)
+//    private static let gray204 = UIColor(rgb: 0xCCCCCC)
+//    private static let gray213 = UIColor(rgb: 0xD5D5D5)
+//    private static let gray222 = UIColor(rgb: 0xDEDEDE)
+//    private static let gray225 = UIColor(rgb: 0xE1E1E1)
+//    private static let gray235 = UIColor(rgb: 0xEBEBEB)
+//    private static let gray238 = UIColor(rgb: 0xEEEEEE)
+//    private static let gray245 = UIColor(rgb: 0xF5F5F5)
 
-    
+    private static let lgBlack = UIColor.black
+    private static let lgGrayDark = UIColor.grayDark
+    private static let lgGray = UIColor.gray
+//    private static let gray167 = lgGray //UIColor(rgb: 0xA7A7A7)
+    private static let lgGrayLight = UIColor.grayLight
+//    private static let lgGrayLight = UIColor(rgb: 0xD5D5D5)
+//    private static let lgGrayLight = UIColor(rgb: 0xDEDEDE)
+//    private static let lgGrayLight = UIColor(rgb: 0xE1E1E1)
+    private static let lgGrayLighter = UIColor.grayLighter
+//    private static let lgGrayLighter = UIColor(rgb: 0xEEEEEE)
+    private static let lgGrayBackground = UIColor.grayBackground
+
+
     // > Palette
     private static let brownDark = UIColor(rgb: 0xBBA298)
     private static let cream = UIColor(rgb: 0xF3F1EC)
@@ -98,7 +110,7 @@ class StyleHelper {
 
     // Corners
     static let defaultCornerRadius: CGFloat = 4
-    static var buttonCornerRadius: CGFloat { return StyleHelper.defaultCornerRadius }
+    static var buttonCornerRadius: CGFloat { return LGUIKitConstants.defaultCornerRadius }
     static let productOnboardingTipsCornerRadius: CGFloat = 10
     static let ratingCornerRadius: CGFloat = 16
     static let alertCornerRadius: CGFloat = 15
@@ -107,26 +119,26 @@ class StyleHelper {
     static let enabledButtonHeight: CGFloat = 44
     private static let disabledItemAlpha : CGFloat = 0.32
     
-    private static let palette = [UIColor.gray, UIColor.grayLight, brownDark, cream, brownLight, brownMedium, greenMedium]
+//    private static let palette = [UIColor.gray, UIColor.grayLight, brownDark, cream, brownLight, brownMedium, greenMedium]
 
 
     // MARK: - Common
     
     static var lineColor: UIColor {
-        return gray204
+        return lgGrayLight
     }
     
     static var darkLineColor: UIColor {
-        return gray153
+        return lgGray
     }
     
 
     static var disabledButtonBackgroundColor: UIColor {
-        return  red //gray204
+        return  red
     }
 
     static var emptypictureCellBackgroundColor: UIColor {
-        return gray225
+        return lgGrayLight
     }
     
     static var soldColor: UIColor {
@@ -142,7 +154,7 @@ class StyleHelper {
     }
 
     static var termsConditionsBasecolor: UIColor {
-        return gray153
+        return lgGray
     }
 
     static var termsConditionsFont: UIFont {
@@ -157,7 +169,7 @@ class StyleHelper {
     // MARK: - NavBar
     
     static var navBarButtonsColor: UIColor {
-        return primaryColor;
+        return UIColor.primaryColor;
     }
     
     static var navBarTitleColor: UIColor {
@@ -253,7 +265,7 @@ class StyleHelper {
     // MARK: - Product Cell
 
     static var productCellImageBgColor: UIColor {
-        return palette[Int(arc4random_uniform(UInt32(palette.count)))]
+        return UIColor.placeholderBackgroundColor()
     }
 
     // MARK: - Edit Product
@@ -265,7 +277,7 @@ class StyleHelper {
     // MARK: - Conversation Cell
     
     static var conversationCellBgColor: UIColor {
-        return palette[Int(arc4random_uniform(UInt32(palette.count)))]
+        return UIColor.placeholderBackgroundColor()
     }
     
     static var badgeBgColor: UIColor {
@@ -317,15 +329,15 @@ class StyleHelper {
     }
     
     static var conversationProductColor: UIColor {
-        return gray117
+        return lgGrayDark
     }
     
     static var conversationTimeColor: UIColor {
-        return gray117
+        return lgGrayDark
     }
 
     static var conversationBlockedColor: UIColor {
-        return gray74
+        return lgBlack
     }
 
     static var conversationProductDeletedColor: UIColor {
@@ -356,7 +368,7 @@ class StyleHelper {
     // MARK: - Notifications
 
     static var notificationCellImageBgColor: UIColor {
-        return palette[Int(arc4random_uniform(UInt32(palette.count)))]
+        return UIColor.placeholderBackgroundColor()
     }
 
     static var notificationTitleUnreadFont: UIFont {
@@ -388,11 +400,11 @@ class StyleHelper {
     }
 
     static var notificationSubtitleColor: UIColor {
-        return gray117
+        return lgGrayDark
     }
 
     static var notificationTimeColor: UIColor {
-        return gray117
+        return lgGrayDark
     }
 
 
@@ -403,18 +415,18 @@ class StyleHelper {
     }
 
     static var productAutogeneratedTitleTextColor: UIColor {
-        return gray117
+        return lgGrayDark
     }
 
     static var productDescriptionTextColor: UIColor {
-        return gray117
+        return lgGrayDark
     }
     
 
     // MARK: - Edit
 
     static var editTitleDisclaimerTextColor: UIColor {
-        return gray117
+        return lgGrayDark
     }
 
     static var editTitleDisclaimerFont: UIFont {
@@ -444,7 +456,7 @@ class StyleHelper {
     }
     
     static var chatOthersBubbleBgColorSelected: UIColor {
-        return gray238
+        return lgGrayLighter
     }
     
     static var chatMyBubbleBgColor: UIColor {
@@ -456,7 +468,7 @@ class StyleHelper {
     }
     
     static var chatTableViewBgColor: UIColor {
-        return gray245
+        return lgGrayBackground
     }
     
     static var chatSendButtonFont: UIFont {
@@ -480,7 +492,7 @@ class StyleHelper {
     }
     
     static var chatProductViewUserColor: UIColor {
-        return gray153
+        return lgGray
     }
     
     static var chatProductViewPriceColor: UIColor {
@@ -488,7 +500,7 @@ class StyleHelper {
     }
     
     static var chatCellAvatarBorderColor: UIColor {
-        return gray213
+        return lgGrayLight
     }
     
     static var chatSendButtonTintColor: UIColor {
@@ -496,7 +508,7 @@ class StyleHelper {
     }
     
     static var chatLeftButtonColor: UIColor {
-        return gray117
+        return lgGrayDark
     }
     
     static var chatInfoLabelFont: UIFont {
@@ -504,11 +516,11 @@ class StyleHelper {
     }
 
     static var chatInfoBackgrounColorAccountDeactivated: UIColor {
-        return gray74
+        return lgBlack
     }
 
     static var chatInfoBackgrounColorBlockedBy: UIColor {
-        return gray74
+        return lgBlack
     }
 
     static var chatInfoBackgrounColorBlocked: UIColor {
@@ -516,7 +528,7 @@ class StyleHelper {
     }
 
     static var chatInfoBackgroundColorProductDeleted: UIColor {
-        return gray74
+        return lgBlack
     }
 
     static var chatInfoBackgroundColorProductSold: UIColor {
@@ -544,13 +556,13 @@ class StyleHelper {
     }
     
     static var chatCellTimeColor: UIColor {
-        return gray117
+        return lgGrayDark
     }
 
     // MARK: - Chat disclaimer
 
     static var chatDisclaimerMessageColor: UIColor {
-        return gray117
+        return lgGrayDark
     }
 
     // MARK: - User
@@ -580,7 +592,7 @@ class StyleHelper {
     }
 
     static var userAccountsVerifiedTitleColor: UIColor {
-        return StyleHelper.gray117
+        return StyleHelper.lgGrayDark
     }
 
 
@@ -629,7 +641,7 @@ class StyleHelper {
     // MARK: - Chat safety tips
     
     static var tipTextColor: UIColor {
-        return gray117
+        return lgGrayDark
     }
     
     static var tipTextFont: UIFont {
@@ -637,7 +649,7 @@ class StyleHelper {
     }
 
     static var safetyTipsPageIndicatorTintColor: UIColor {
-        return gray167
+        return lgGray
     }
 
     static var safetyTipsPageIndicatorCurrentPageTintColor: UIColor {
@@ -656,7 +668,7 @@ class StyleHelper {
     // MARK: - Report users
 
     static var reportPlaceholderColor: UIColor {
-        return gray153
+        return lgGray
     }
 
     static var reportTextColor: UIColor {
@@ -704,7 +716,7 @@ class StyleHelper {
     }
 
     static var emptyViewContentBorderColor: UIColor {
-        return StyleHelper.lineColor
+        return UIColor.lineGray
     }
 
     static var emptyViewContentBgColor: UIColor {
@@ -712,7 +724,7 @@ class StyleHelper {
     }
 
     static var emptyViewContentBorderRadius: CGFloat {
-        return StyleHelper.defaultCornerRadius
+        return LGUIKitConstants.defaultCornerRadius
     }
 
     static var emptyViewContentBorderWith: CGFloat {
@@ -736,7 +748,7 @@ class StyleHelper {
     }
 
     static var emptyViewBodyColor: UIColor {
-        return gray117
+        return lgGrayDark
     }
 
     static var emptyViewActionButtonFont: UIFont {
@@ -763,7 +775,7 @@ class StyleHelper {
     }
     
     static var commercialButtonTextColor: UIColor {
-        return primaryColor
+        return UIColor.primaryColor
     }
 
     
@@ -857,7 +869,7 @@ extension StyleHelper {
         return UIFont.systemRegularFont(size: 13)
     }
     static var productMoreInfoDescriptionTextColor: UIColor {
-        return gray222
+        return lgGrayLight
     }
     static var productStatusSoldFont: UIFont {
         return UIFont.systemMediumFont(size: 13)
@@ -954,10 +966,10 @@ extension UIButton {
         clipsToBounds = true
         layer.cornerRadius = StyleHelper.buttonCornerRadius
 
-        setBackgroundImage(StyleHelper.primaryColor.imageWithSize(CGSize(width: 1, height: 1)), forState: .Normal)
-        setBackgroundImage(StyleHelper.primaryColorHighlighted.imageWithSize(CGSize(width: 1, height: 1)),
+        setBackgroundImage(UIColor.primaryColor.imageWithSize(CGSize(width: 1, height: 1)), forState: .Normal)
+        setBackgroundImage(UIColor.primaryColorHighlighted.imageWithSize(CGSize(width: 1, height: 1)),
             forState: .Highlighted)
-        setBackgroundImage(StyleHelper.primaryColorDisabled.imageWithSize(CGSize(width: 1, height: 1)), forState: .Disabled)
+        setBackgroundImage(UIColor.primaryColorDisabled.imageWithSize(CGSize(width: 1, height: 1)), forState: .Disabled)
 
         titleLabel?.font = StyleHelper.defaultButtonFont
         setTitleColor(UIColor.whiteColor(), forState: .Normal)
@@ -972,18 +984,18 @@ extension UIButton {
         clipsToBounds = true
         layer.borderWidth = 1
         layer.cornerRadius = StyleHelper.buttonCornerRadius
-        layer.borderColor = StyleHelper.primaryColor.CGColor
+        layer.borderColor = UIColor.primaryColor.CGColor
 
         setBackgroundImage(UIColor.white.imageWithSize(CGSize(width: 1, height: 1)), forState: .Normal)
         setBackgroundImage(StyleHelper.highlightedWhite.imageWithSize(CGSize(width: 1, height: 1)), forState: .Highlighted)
 
         titleLabel?.font = StyleHelper.defaultButtonFont
-        setTitleColor(StyleHelper.primaryColor, forState: .Normal)
+        setTitleColor(UIColor.primaryColor, forState: .Normal)
     }
 
     func setCustomButtonStyle() {
         clipsToBounds = true
         setBackgroundImage(backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)), forState: .Normal)
-        layer.cornerRadius = StyleHelper.defaultCornerRadius
+        layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
     }
 }

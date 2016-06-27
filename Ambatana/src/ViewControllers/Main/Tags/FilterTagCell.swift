@@ -92,8 +92,8 @@ class FilterTagCell: UICollectionViewCell {
     // MARK: - Private methods
     
     private func setupUI() {
-        self.contentView.layer.borderColor = StyleHelper.lineColor.CGColor
-        self.contentView.layer.borderWidth = StyleHelper.onePixelSize
+        self.contentView.layer.borderColor = UIColor.lineGray.CGColor
+        self.contentView.layer.borderWidth = LGUIKitConstants.onePixelSize
         self.contentView.layer.cornerRadius = 4.0
         self.contentView.layer.backgroundColor = UIColor.whiteColor().CGColor
     }

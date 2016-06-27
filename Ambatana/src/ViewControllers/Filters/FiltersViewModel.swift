@@ -162,10 +162,10 @@ class FiltersViewModel: BaseViewModel {
     }
     
     func categoryColorAtIndex(index: Int) -> UIColor {
-        guard index < numOfCategories else { return StyleHelper.standardTextColor }
+        guard index < numOfCategories else { return UIColor.blackText }
         
         let category = categories[index]
-        return productFilter.hasSelectedCategory(category) ? category.color : StyleHelper.standardTextColor
+        return productFilter.hasSelectedCategory(category) ? category.color : UIColor.blackText
     }
     
     // MARK: Within

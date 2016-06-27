@@ -30,7 +30,7 @@ class WelcomeNotificationCell: UITableViewCell, ReusableCell {
             line.removeFromSuperlayer()
         }
         lines = []
-        lines.append(contentView.addBottomBorderWithWidth(1, color: StyleHelper.lineColor))
+        lines.append(contentView.addBottomBorderWithWidth(1, color: UIColor.lineGray))
     }
 
 

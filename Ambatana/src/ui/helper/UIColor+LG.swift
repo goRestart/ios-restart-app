@@ -8,6 +8,12 @@
 
 import Foundation
 
+// MARK: > Basic Letgo Palette
+
+extension UIColor {
+    static var soldColor: UIColor { return tealBlue }
+
+}
 
 // MARK: > Basic Buttons Palette
 
@@ -67,6 +73,32 @@ extension UIColor {
 }
 
 
+// MARK: > Gray Palette
+
+extension UIColor {
+
+    // Solid Grays
+    static var black: UIColor { return UIColor(rgb: 0x2c2c2c) }
+    static var grayDark: UIColor { return UIColor(rgb: 0x757575) }
+    static var gray: UIColor { return UIColor(rgb: 0xbdbdbd) }
+    static var grayLight: UIColor { return UIColor(rgb: 0xdddddd) }
+    static var grayLighter: UIColor { return UIColor(rgb: 0xede9e9) }
+    static var grayBackground: UIColor { return UIColor(rgb: 0xF5F5F5) }
+    static var white: UIColor { return UIColor(rgb: 0xFFFFFF) }
+
+
+    // Alpha grays
+    private static let blackAlpha80 = black.colorWithAlphaComponent(0.8)
+    private static let blackAlpha50 = black.colorWithAlphaComponent(0.5)
+    private static let blackAlpha30 = black.colorWithAlphaComponent(0.3)
+    private static let blackAlpha15 = black.colorWithAlphaComponent(0.15)
+
+    private static let whiteAlpha70 = white.colorWithAlphaComponent(0.7)
+    private static let whiteAlpha30 = white.colorWithAlphaComponent(0.3)
+    private static let whiteAlpha10 = white.colorWithAlphaComponent(0.1)
+}
+
+
 // MARK: > Text colors
 
 extension UIColor {
@@ -75,62 +107,120 @@ extension UIColor {
     static var blackText: UIColor { return black }
     static var darkGrayText: UIColor { return grayDark }
     static var redText: UIColor { return watermelon }
+    static var blackTextHighAlpha: UIColor { return blackAlpha50 }
+    static var blackTextLowAlpha: UIColor { return blackAlpha30 }
 
     // Dark Background
     static var whiteText: UIColor { return white }
     static var pinkText: UIColor { return rosa }
+    static var whiteTextHighAlpha: UIColor { return whiteAlpha70 }
+    static var whiteTextLowAlpha: UIColor { return whiteAlpha30 }
 
-
-
-    // TODO: decide if is better fix one of the already decided colors with alpha and use a var instead of a func
-    static func blackTextColoredBG(alpha: CGFloat) -> UIColor {
-        return black.colorWithAlphaComponent(alpha)
-    }
-
-    static func whiteTextColoredBG(alpha: CGFloat) -> UIColor {
-        return white.colorWithAlphaComponent(alpha)
-    }
-}
-
-// MARK: > Gray Palette
-
-extension UIColor {
-    static var black: UIColor { return UIColor(rgb: 0x2c2c2c) }
-    static var grayDark: UIColor { return  UIColor(rgb: 0x757575) }
-    static var gray: UIColor { return  UIColor(rgb: 0xbdbdbd) }
-    static var grayLight: UIColor { return  UIColor(rgb: 0xdddddd) }
-    static var grayLighter: UIColor { return  UIColor(rgb: 0xede9e9) }
-    static var white: UIColor { return  UIColor(rgb: 0xFFFFFF) }
 }
 
 
-// MARK: > Alpha Palette
-
-extension UIColor {
-    static var blackAlpha80: UIColor { return black.colorWithAlphaComponent(0.8) }
-    static var blackAlpha50: UIColor { return black.colorWithAlphaComponent(0.5) }
-    static var blackAlpha30: UIColor { return black.colorWithAlphaComponent(0.3) }
-    static var blackAlpha15: UIColor { return black.colorWithAlphaComponent(0.15) }
-
-    static var whiteAlpha70: UIColor { return white.colorWithAlphaComponent(0.7) }
-    static var whiteAlpha30: UIColor { return white.colorWithAlphaComponent(0.3) }
-    static var whiteAlpha10: UIColor { return white.colorWithAlphaComponent(0.1) }
-}
-
-
-// MARK: > Bar Colors
+// MARK: > Nav Bar Colors
 
 extension UIColor {
 
     // Light bar
+    static var lightBarBackground: UIColor { return white }
+    static var lightBarTitle: UIColor { return black }
+    static var lightBarSubtitle: UIColor { return black }
+    static var lightBarButton: UIColor { return watermelon }
 
     // Dark bar
+    static var darkBarBackground: UIColor { return blackAlpha50 }
+    static var darkBarTitle: UIColor { return white }
+    static var darkBarSubtitle: UIColor { return white }
+    static var darkBarButton: UIColor { return white }
 
     // Red bar
+    static var redBarBackground: UIColor { return watermelon }
+    static var redBarTitle: UIColor { return white }
+    static var redBarSubtitle: UIColor { return white }
+    static var redBarButton: UIColor { return white }
 
     // Clear bar
+    static var clearBarBackground: UIColor { return clearColor() }
+    static var clearBarTitle: UIColor { return white }
+    static var clearBarSubtitle: UIColor { return white }
+    static var clearBarButton: UIColor { return white }
+}
 
+extension UIColor {
+
+    static var tabBarIconSelectedColor: UIColor { return watermelon }
+    static var tabBarIconUnselectedColor: UIColor { return black }
+    static var tabBarSellIconBgColor: UIColor { return watermelon }
+    static var tabBarTooltipBgColor: UIColor { return watermelon }
+    static var tabBarTooltipTextColor: UIColor { return white }
+}
+
+
+// MARK: > UIPageControl
+
+extension UIColor {
+    static var pageIndicatorTintColor: UIColor { return whiteAlpha30 }
+    static var currentPageIndicatorTintColor: UIColor { return white }
+    static var pageIndicatorTintColorDark: UIColor { return blackAlpha15 }
+    static var currentPageIndicatorTintColorDark: UIColor { return blackAlpha80 }
+}
+
+
+// MARK: > Separation lines
+
+extension UIColor {
+    static var lineGray: UIColor { return grayLight }
+    static var lineWhite: UIColor { return white }
+}
+
+
+// MARK: > pattern colors
+
+extension UIColor {
+    static var ratingBannerBackgroundColor: UIColor? {
+        guard let patternImage = UIImage(named: "pattern_red") else { return nil }
+        return UIColor(patternImage: patternImage)
+    }
+}
+
+
+// MARK: > Chat colors
+
+extension UIColor {
+
+    static var chatListBackgroundColor: UIColor { return reddishWhite }
+
+    static var chatMyBubbleBgColor: UIColor { return primaryColorAlpha16 }
+    static var chatMyBubbleBgColorSelected: UIColor { return primaryColorAlpha30 }
+
+    static var chatOthersBubbleBgColor: UIColor { return white }
+    static var chatOthersBubbleBgColorSelected: UIColor { return grayLighter }
+
+    staticVar
+
+    private static let reddishWhite = UIColor(rgb: 0xF7F3F3)
+    private static let primaryColorAlpha16 = UIColor(rgb: 0xFFE0E4)
+    private static let primaryColorAlpha30 = UIColor(rgb: 0xFFC6CD)
 
 }
 
+// MARK: > Placeholder colors
+
+extension UIColor {
+    private static let brownDark = UIColor(rgb: 0xBBA298)
+    private static let cream = UIColor(rgb: 0xF3F1EC)
+    private static let brownLight = UIColor(rgb: 0xE9E2D7)
+    private static let brownMedium = UIColor(rgb: 0xD8CAB7)
+    private static let greenMedium = UIColor(rgb: 0xC7C8B5)
+
+    // Placeholder Colors array
+    private static let palette = [gray, grayLight, brownDark, cream, brownLight, brownMedium, greenMedium]
+
+    static func placeholderBackgroundColor() -> UIColor {
+        return palette[Int(arc4random_uniform(UInt32(palette.count)))]
+    }
+
+}
 

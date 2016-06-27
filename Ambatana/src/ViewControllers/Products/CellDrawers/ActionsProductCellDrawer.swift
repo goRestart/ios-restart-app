@@ -44,7 +44,7 @@ class ActionsProductCellDrawer: BaseCollectionCellDrawer<ProductCell>, ProductCe
         switch data.status {
         case .Sold, .SoldOld:
             cell.stripeImageView.image = UIImage(named: "stripe_white")
-            cell.stripeLabel.textColor = StyleHelper.soldColor
+            cell.stripeLabel.textColor = UIColor.soldColor
             cell.stripeLabel.text = LGLocalizedString.productListItemSoldStatusLabel.capitalizedString
             cell.stripeIcon.image = UIImage(named: "ic_sold_stripe")
             cell.chatButtonEnabled = false
@@ -53,7 +53,7 @@ class ActionsProductCellDrawer: BaseCollectionCellDrawer<ProductCell>, ProductCe
             if let createdAt = data.date where
                 NSDate().timeIntervalSinceDate(createdAt) < Constants.productListNewLabelThreshold {
                     cell.stripeImageView.image = UIImage(named: "stripe_white")
-                    cell.stripeLabel.textColor = StyleHelper.primaryColor
+                    cell.stripeLabel.textColor = UIColor.primaryColor
                     cell.stripeLabel.text = createdAt.simpleTimeStringForDate()
                     cell.stripeIcon.image = UIImage(named: "ic_new_stripe")
             }

@@ -130,10 +130,10 @@ final class TourNotificationsViewController: BaseViewController {
         notifyButton.tintColor = UIColor.whiteColor()
         notifyButton.titleLabel?.font = StyleHelper.tourButtonFont
         notifyButton.setPrimaryStyle()
-        notifyButton.layer.cornerRadius = StyleHelper.defaultCornerRadius
+        notifyButton.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
         
         noButton.backgroundColor = UIColor.clearColor()
-        noButton.layer.cornerRadius = StyleHelper.defaultCornerRadius
+        noButton.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
         noButton.layer.borderWidth = 1
         noButton.layer.borderColor = UIColor.whiteColor().CGColor
         noButton.tintColor = UIColor.whiteColor()

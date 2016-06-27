@@ -33,7 +33,7 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
             let currencySymbol = Core.currencyHelper.currencySymbolWithCurrencyCode(currencyCode)
             currencyButton.setTitle(currencySymbol, forState: .Normal)
         }
-        currencyButton.layer.cornerRadius = StyleHelper.defaultCornerRadius
+        currencyButton.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
         activityIndicator.hidden = true
         makeAnOfferButton.setPrimaryStyle()
         

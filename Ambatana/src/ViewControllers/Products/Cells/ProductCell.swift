@@ -121,7 +121,7 @@ class ProductCell: UICollectionViewCell, ReusableCell {
     
     // Sets up the UI
     private func setupUI() {
-        cellContent.layer.cornerRadius = StyleHelper.defaultCornerRadius
+        cellContent.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
         let shadowLayer = CAGradientLayer.gradientWithColor(UIColor.blackColor(), alphas:[0.0,0.4],
             locations: [0.0,1.0])
         shadowLayer.frame = priceGradientView.bounds

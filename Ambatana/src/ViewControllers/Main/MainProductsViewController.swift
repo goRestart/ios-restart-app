@@ -76,7 +76,7 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
         productListView.collectionViewContentInset.top = topBarHeight
         productListView.collectionViewContentInset.bottom = tabBarHeight + Constants.tabBarSellFloatingButtonHeight
         productListView.setErrorViewStyle(bgColor: UIColor(patternImage: UIImage(named: "pattern_white")!),
-                            borderColor: StyleHelper.lineColor, containerColor: StyleHelper.emptyViewContentBgColor)
+                            borderColor: UIColor.lineGray, containerColor: UIColor.white)
         productListView.scrollDelegate = self
         productListView.headerDelegate = self
         productListView.cellsDelegate = viewModel
@@ -434,8 +434,8 @@ extension MainProductsViewController: UITableViewDelegate, UITableViewDataSource
         let trendingTitleLabel = UILabel()
         trendingTitleLabel.translatesAutoresizingMaskIntoConstraints = false
         trendingTitleLabel.textAlignment = .Center
-        trendingTitleLabel.font = StyleHelper.trendingSearchesTitleFont
-        trendingTitleLabel.textColor = StyleHelper.trendingSearchesTitleColor
+        trendingTitleLabel.font = UIFont.mediumHeadlineFont
+        trendingTitleLabel.textColor = UIColor.darkGrayText
         trendingTitleLabel.text = LGLocalizedString.trendingSearchesTitle
         container.addSubview(trendingTitleLabel)
         var views = [String: AnyObject]()

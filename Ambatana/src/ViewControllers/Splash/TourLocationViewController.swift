@@ -99,10 +99,10 @@ final class TourLocationViewController: BaseViewController {
         yesButton.titleLabel?.font = StyleHelper.tourButtonFont
         yesButton.setTitle(LGLocalizedString.locationPermissionsButton, forState: .Normal)
         yesButton.setPrimaryStyle()
-        yesButton.layer.cornerRadius = StyleHelper.defaultCornerRadius
+        yesButton.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
         
         noButton.backgroundColor = UIColor.clearColor()
-        noButton.layer.cornerRadius = StyleHelper.defaultCornerRadius
+        noButton.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
         noButton.layer.borderWidth = 1
         noButton.layer.borderColor = UIColor.whiteColor().CGColor
         noButton.tintColor = UIColor.whiteColor()

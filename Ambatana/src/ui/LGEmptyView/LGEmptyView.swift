@@ -113,10 +113,10 @@ class LGEmptyView: UIView {
     private func setupUI() {
         backgroundColor = StyleHelper.emptyViewBackgroundColor
 
-        contentView.layer.borderColor = StyleHelper.lineColor.CGColor
+        contentView.layer.borderColor = UIColor.lineGray.CGColor
         contentView.layer.borderWidth = StyleHelper.emptyViewContentBorderWith
-        contentView.layer.cornerRadius = StyleHelper.emptyViewContentBorderRadius
-        contentView.backgroundColor = StyleHelper.emptyViewContentBackgroundColor
+        contentView.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
+        contentView.backgroundColor = UIColor.white
         contentView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(contentView)
 
