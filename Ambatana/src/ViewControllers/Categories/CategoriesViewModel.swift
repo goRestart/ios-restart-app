@@ -10,12 +10,12 @@ import LGCoreKit
 import UIKit
 
 protocol CategoriesViewModelDelegate: class {
-    func viewModelDidUpdate(viewModel: CategoriesViewModel)
+    func vmDidUpdate()
 }
 
 class CategoriesViewModel: BaseViewModel {
 
-    private var categoriesManager: CategoriesManager
+    private let categoryRepository: CategoryRepository
     private var categories: [ProductCategory]
 
     var numOfCategories : Int {
@@ -25,11 +25,11 @@ class CategoriesViewModel: BaseViewModel {
 
     
     override convenience init() {
-        self.init(categoriesManager: Core.categoriesManager, categories: [])
+        self.init(categoryRepository: Core.categoryRepository, categories: [])
     }
 
-    required init(categoriesManager: CategoriesManager, categories: [ProductCategory]) {
-        self.categoriesManager = categoriesManager
+    required init(categoryRepository: CategoryRepository, categories: [ProductCategory]) {
+        self.categoryRepository = categoryRepository
         self.categories = categories
         super.init()
     }
@@ -39,15 +39,11 @@ class CategoriesViewModel: BaseViewModel {
     */
     
     func retrieveCategories() {
-        
-        // Data
-        let myCompletion: CategoriesRetrieveServiceCompletion = { (result: CategoriesRetrieveServiceResult) in
-            if let categories = result.value {
-                self.categories = categories
-                self.delegate?.viewModelDidUpdate(self)
-            }
+        categoryRepository.index(filterVisible: true) { [weak self] result in
+            guard let categories = result.value else { return }
+            self?.categories = categories
+            self?.delegate?.vmDidUpdate()
         }
-        categoriesManager.retrieveCategoriesWithCompletion(myCompletion)
     }
 
     /**
