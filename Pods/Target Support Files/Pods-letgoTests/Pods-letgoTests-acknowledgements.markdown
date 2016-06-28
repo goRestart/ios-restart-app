@@ -611,6 +611,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
 
+## Leanplum-iOS-SDK
+
+See https://www.leanplum.com/tos
+
 ## Result
 
 The MIT License (MIT)
