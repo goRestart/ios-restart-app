@@ -149,7 +149,6 @@ extension UIColor {
 }
 
 extension UIColor {
-
     static var tabBarIconSelectedColor: UIColor { return watermelon }
     static var tabBarIconUnselectedColor: UIColor { return black }
     static var tabBarSellIconBgColor: UIColor { return watermelon }
@@ -183,6 +182,11 @@ extension UIColor {
         guard let patternImage = UIImage(named: "pattern_red") else { return nil }
         return UIColor(patternImage: patternImage)
     }
+
+    static var emptyViewBackgroundColor: UIColor? {
+        guard let patternImage = UIImage(named: "pattern_white") else { return nil }
+        return UIColor(patternImage: patternImage)
+    }
 }
 
 
@@ -197,8 +201,6 @@ extension UIColor {
 
     static var chatOthersBubbleBgColor: UIColor { return white }
     static var chatOthersBubbleBgColorSelected: UIColor { return grayLighter }
-
-    staticVar
 
     private static let reddishWhite = UIColor(rgb: 0xF7F3F3)
     private static let primaryColorAlpha16 = UIColor(rgb: 0xFFE0E4)
@@ -222,5 +224,6 @@ extension UIColor {
         return palette[Int(arc4random_uniform(UInt32(palette.count)))]
     }
 
+    static var defaultAvatarColor: UIColor { return rosa }
 }
 

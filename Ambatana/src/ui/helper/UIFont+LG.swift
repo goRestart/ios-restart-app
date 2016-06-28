@@ -42,7 +42,7 @@ extension UIFont {
     static var bigButtonFont: UIFont { return systemSemiBoldFont(size: 19) }
     static var mediumButtonFont: UIFont { return systemMediumFont(size: 17) }
     static var smallButtonFont: UIFont { return systemMediumFont(size: 15) }
-    
+
 
     // MARK: Private methods
     
@@ -129,4 +129,15 @@ extension UIFont {
     static var notificationTimeFont: UIFont { return systemLightFont(size: 13) }
 }
 
+
+// MARK: > Product caroussel
+extension UIFont {
+    static var productTitleFont: UIFont { return UIFont.systemSemiBoldFont(size: 17) }
+    static var productPriceFont: UIFont { return UIFont.systemBoldFont(size: 21) }
+    static var productTitleDisclaimersFont: UIFont { return UIFont.systemItalicFont(size: 13) }
+    static var productAddresFont: UIFont { return UIFont.systemMediumFont(size: 13) }
+    static var productDistanceFont: UIFont { return UIFont.systemBoldFont(size: 13) }
+    static var productSocialShareTitleFont: UIFont { return UIFont.systemRegularFont(size: 13) }
+    static var productStatusSoldFont: UIFont { return UIFont.systemMediumFont(size: 13) }
+}
 

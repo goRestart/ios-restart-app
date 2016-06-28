@@ -20,7 +20,7 @@ class ProductCarouselImageCell: UICollectionViewCell, UIScrollViewDelegate {
         self.imageView = UIImageView()
         super.init(frame: frame)
         setupUI()
-        backgroundColor = StyleHelper.productCellImageBgColor
+        backgroundColor = UIColor.placeholderBackgroundColor()
     }
     
     required init?(coder aDecoder: NSCoder) {

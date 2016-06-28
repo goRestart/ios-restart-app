@@ -170,7 +170,7 @@ class PostProductCameraView: BaseView, LGViewPagerPage {
         NSBundle.mainBundle().loadNibNamed("PostProductCameraView", owner: self, options: nil)
         contentView.frame = bounds
         contentView.autoresizingMask = [.FlexibleHeight, .FlexibleWidth]
-        contentView.backgroundColor = StyleHelper.postProductTabColor
+        contentView.backgroundColor = UIColor.black
         addSubview(contentView)
 
         //We're using same image for the 4 corners, so 3 of them must be rotated to the correct angle
@@ -183,8 +183,7 @@ class PostProductCameraView: BaseView, LGViewPagerPage {
         retryPhotoButton.setTitle(LGLocalizedString.productPostRetake, forState: UIControlState.Normal)
         usePhotoButton.setTitle(usePhotoButtonText, forState: UIControlState.Normal)
         usePhotoButton.setPrimaryStyle()
-        usePhotoButton.setBackgroundImage(StyleHelper.postProductDisabledPostButton
-            .imageWithSize(CGSize(width: 1, height: 1)), forState: .Disabled)
+        usePhotoButton.setBackgroundImage(UIColor.black.imageWithSize(CGSize(width: 1, height: 1)), forState: .Disabled)
 
         setupInfoView()
         setupFirstTimeAlertView()
@@ -312,7 +311,7 @@ extension PostProductCameraView {
 
 extension PostProductCameraView{
     func setupFirstTimeAlertView() {
-        firstTimeAlert.layer.cornerRadius = StyleHelper.alertCornerRadius
+        firstTimeAlert.layer.cornerRadius = LGUIKitConstants.alertCornerRadius
         firstTimeAlertTitle.text = LGLocalizedString.productPostCameraFirstTimeAlertTitle
         firstTimeAlertSubtitle.text = LGLocalizedString.productPostCameraFirstTimeAlertSubtitle
     }

@@ -343,7 +343,7 @@ extension PostProductViewController: LGViewPagerDataSource, LGViewPagerDelegate,
         viewPager.dataSource = self
         viewPager.scrollDelegate = self
         viewPager.indicatorSelectedColor = UIColor.primaryColor
-        viewPager.tabsBackgroundColor = StyleHelper.postProductTabColor
+        viewPager.tabsBackgroundColor = UIColor.black
         viewPager.tabsSeparatorColor = UIColor.clearColor()
         viewPager.translatesAutoresizingMaskIntoConstraints = false
         view.insertSubview(viewPager, atIndex: 0)
@@ -406,8 +406,8 @@ extension PostProductViewController: LGViewPagerDataSource, LGViewPagerDelegate,
 
     private func tabTextAttributes(selected: Bool)-> [String : AnyObject] {
         var titleAttributes = [String : AnyObject]()
-        titleAttributes[NSForegroundColorAttributeName] = selected ? UIColor.primaryColor : UIColor.whiteColor()
-        titleAttributes[NSFontAttributeName] = StyleHelper.postProductTabFont
+        titleAttributes[NSForegroundColorAttributeName] = selected ? UIColor.primaryColor : UIColor.white
+        titleAttributes[NSFontAttributeName] = selected ? UIFont.activeTabFont : UIFont.inactiveTabFont
         return titleAttributes
     }
 }

@@ -113,7 +113,7 @@ public class ProductDetailOnboardingView: UIView {
 
     private func setupMoreInfoTagView() {
         moreInfoLabel.text = LGLocalizedString.productOnboardingMoreInfoLabel
-        moreInfoBubbleView.layer.cornerRadius = StyleHelper.productOnboardingTipsCornerRadius
+        moreInfoBubbleView.layer.cornerRadius = LGUIKitConstants.tooltipCornerRadius
     }
 
     private func setupViewsVisibility() {

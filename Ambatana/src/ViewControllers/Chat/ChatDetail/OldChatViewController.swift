@@ -212,7 +212,7 @@ class OldChatViewController: SLKTextViewController {
         textInputbar.translucent = false
         textInputbar.rightButton.setTitle(LGLocalizedString.chatSendButton, forState: .Normal)
         rightButton.tintColor = UIColor.primaryColor
-        rightButton.titleLabel?.font = StyleHelper.chatSendButtonFont
+        rightButton.titleLabel?.font = UIFont.smallButtonFont
         leftButton.setImage(UIImage(named: "ic_stickers"), forState: .Normal)
         leftButton.tintColor = UIColor.grayDark
 
@@ -226,7 +226,7 @@ class OldChatViewController: SLKTextViewController {
         // chat info view setup
         keyboardPanningEnabled = false
         
-        if let patternBackground = StyleHelper.emptyViewBackgroundColor {
+        if let patternBackground = UIColor.emptyViewBackgroundColor {
             tableView.backgroundColor = UIColor.clearColor()
             view.backgroundColor = patternBackground
         }

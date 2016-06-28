@@ -168,7 +168,7 @@ class ProductPostedViewController: BaseViewController, SellProductViewController
             if correct {
                 self?.editContainerHeight.constant = ProductPostedViewController.contentContainerShownHeight
             }
-            self?.mainButtonHeight.constant = StyleHelper.enabledButtonHeight
+            self?.mainButtonHeight.constant = LGUIKitConstants.enabledButtonHeight
             UIView.animateWithDuration(0.2,
                 animations: { [weak self] in
                     self?.mainTextLabel.text = self?.viewModel.mainText

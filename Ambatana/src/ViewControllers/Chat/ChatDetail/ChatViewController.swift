@@ -175,7 +175,7 @@ class ChatViewController: SLKTextViewController {
 
         keyboardPanningEnabled = false
         
-        if let patternBackground = StyleHelper.emptyViewBackgroundColor {
+        if let patternBackground = UIColor.emptyViewBackgroundColor {
             tableView.backgroundColor = UIColor.clearColor()
             view.backgroundColor = patternBackground
         }

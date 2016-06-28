@@ -111,7 +111,7 @@ class LGEmptyView: UIView {
     // MARK: - Private methods
 
     private func setupUI() {
-        backgroundColor = StyleHelper.emptyViewBackgroundColor
+        backgroundColor = UIColor.emptyViewBackgroundColor
 
         contentView.layer.borderColor = UIColor.lineGray.CGColor
         contentView.layer.borderWidth = StyleHelper.emptyViewContentBorderWith
