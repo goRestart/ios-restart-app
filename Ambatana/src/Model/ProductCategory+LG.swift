@@ -13,7 +13,7 @@ extension ProductCategory {
     public var name : String {
         switch(self) {
         case .UnAssigned:
-            return "" //TODO: LOCALIZE
+            return LGLocalizedString.categoriesUnassigned
         case .Electronics:
             return LGLocalizedString.categoriesElectronics
         case .CarsAndMotors:

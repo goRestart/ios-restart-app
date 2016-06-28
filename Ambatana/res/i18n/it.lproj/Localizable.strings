@@ -20,6 +20,7 @@
 "categories_other" = "Altro";
 "categories_sports_leisure_and_games" = "Sport, Tempo libero e Giochi";
 "categories_title" = "Categorie";
+"categories_unassigned" = "Not selected";
 "change_location_apply_button" = "Imposta posizione";
 "change_location_approximate_location_label" = "Mostra indirizzo approssimativo";
 "change_location_ask_update_location_message" = "Trova delle occasioni vicino a te! Vuoi aggiornare la tua posizione?";
@@ -386,8 +387,8 @@
 "product_mark_as_sold_confirm_title" = "Segna come venduto";
 "product_mark_as_sold_error_generic" = "Si è verificato un errore durante il tentativo di segnare il prodotto come venduto. Riprova più tardi.";
 "product_mark_as_sold_success_message" = "Complimenti, Il tuo prodotto è stato correttamente contrassegnato come venduto.";
-"product_more_info_tooltip_part_1" = "Tap";
-"product_more_info_tooltip_part_2" = "%@ to see more info";
+"product_more_info_tooltip_part_1" = "Tocca";
+"product_more_info_tooltip_part_2" = "%@ per vedere maggiori informazioni";
 "product_negotiable_price" = "Trattabile";
 "product_onboarding_finger_scroll_label" = "Scorri per vedere altre foto";
 "product_onboarding_finger_swipe_label" = "Striscia il dito per passare al prodotto successivo o a quello precendente";

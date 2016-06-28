@@ -211,7 +211,7 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
 
         self.locationInfo.value = product.postalAddress.zipCodeCityString ?? ""
 
-        category = product.category
+        self.category = product.category
 
         self.productImages = ProductImages()
         for file in product.images { productImages.append(file) }
