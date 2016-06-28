@@ -515,7 +515,7 @@ extension EditProductViewModel {
 
     func selectCategoryAtIndex(index: Int) {
         guard 0..<categories.count ~= index else { return }
-        category = categories[index] //index from 0 to N and prodCat from 1 to N+1
+        category = categories[index]
         delegate?.vmDidSelectCategoryWithName(category?.name ?? "")
     }
 
