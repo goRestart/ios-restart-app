@@ -158,8 +158,9 @@
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QjL-HL-daC" userLabel="UsePhotoBtn">
-                            <rect key="frame" x="329" y="15" width="30" height="44"/>
+                            <rect key="frame" x="269" y="15" width="90" height="44"/>
                             <constraints>
+                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="90" id="cg7-WM-up2"/>
                                 <constraint firstAttribute="height" constant="44" id="mEa-Im-hzu"/>
                             </constraints>
                             <inset key="contentEdgeInsets" minX="15" minY="0.0" maxX="15" maxY="0.0"/>
