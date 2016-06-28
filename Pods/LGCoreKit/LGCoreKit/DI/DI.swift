@@ -14,7 +14,6 @@ public protocol DI: class {
     // Manager
     var sessionManager: SessionManager { get }
     var locationManager: LocationManager { get }
-    var categoriesManager: CategoriesManager { get }
 
     // Repository
     var myUserRepository: MyUserRepository { get }
@@ -29,7 +28,9 @@ public protocol DI: class {
     var notificationsRepository: NotificationsRepository { get }
     var stickersRepository: StickersRepository { get }
     var trendingSearchesRepository: TrendingSearchesRepository { get }
-    
+    var categoryRepository: CategoryRepository { get }
+
+
     // Helper
     var dateFormatter: NSDateFormatter { get }
     var currencyHelper: CurrencyHelper { get }
