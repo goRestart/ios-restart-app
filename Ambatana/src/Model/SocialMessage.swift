@@ -55,7 +55,7 @@ struct ProductSocialMessage: SocialMessage {
 
     init(title: String, product: Product) {
         self.title = title
-        self.body = [product.user.name, product.name ?? product.nameAuto].flatMap{$0}.joinWithSeparator(" - ")
+        self.body = [product.user.name, product.title].flatMap{$0}.joinWithSeparator(" - ")
         self.imageURL = product.images.first?.fileURL ?? product.thumbnail?.fileURL
         self.productId = product.objectId ?? ""
     }

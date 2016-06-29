@@ -94,6 +94,8 @@
 		2EE5EEE11B5E4D330056BF76 /* ChangeUsernameViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2EE5EEE01B5E4D330056BF76 /* ChangeUsernameViewController.xib */; };
 		2EE5EEE71B5E759F0056BF76 /* ChangeUsernameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE5EEE61B5E759F0056BF76 /* ChangeUsernameViewModel.swift */; };
 		2EE6026A1C638EF600AF94E4 /* ChatViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE602671C638EF600AF94E4 /* ChatViewModelSpec.swift */; };
+		2EED4D251D23F03E0024328A /* ChatProduct+title.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EED4D241D23F03E0024328A /* ChatProduct+title.swift */; };
+		2EED4D261D23F03E0024328A /* ChatProduct+title.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EED4D241D23F03E0024328A /* ChatProduct+title.swift */; };
 		2EF172541CCA77AC00C18918 /* ProductDetailOnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF172531CCA77AC00C18918 /* ProductDetailOnboardingView.swift */; };
 		2EF172551CCA77AC00C18918 /* ProductDetailOnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF172531CCA77AC00C18918 /* ProductDetailOnboardingView.swift */; };
 		2EF1725B1CCE159800C18918 /* ProductDetailOnboardingView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2EF1725A1CCE159800C18918 /* ProductDetailOnboardingView.xib */; };
@@ -1011,6 +1013,7 @@
 		2EE5EEE01B5E4D330056BF76 /* ChangeUsernameViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChangeUsernameViewController.xib; sourceTree = "<group>"; };
 		2EE5EEE61B5E759F0056BF76 /* ChangeUsernameViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangeUsernameViewModel.swift; sourceTree = "<group>"; };
 		2EE602671C638EF600AF94E4 /* ChatViewModelSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatViewModelSpec.swift; sourceTree = "<group>"; };
+		2EED4D241D23F03E0024328A /* ChatProduct+title.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ChatProduct+title.swift"; sourceTree = "<group>"; };
 		2EF172531CCA77AC00C18918 /* ProductDetailOnboardingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProductDetailOnboardingView.swift; path = ProductDetailOnboarding/ProductDetailOnboardingView.swift; sourceTree = "<group>"; };
 		2EF1725A1CCE159800C18918 /* ProductDetailOnboardingView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ProductDetailOnboardingView.xib; path = ProductDetailOnboarding/ProductDetailOnboardingView.xib; sourceTree = "<group>"; };
 		2EF99DFD1C90443C001300DF /* Commercializer.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Commercializer.xcassets; sourceTree = "<group>"; };
@@ -1902,6 +1905,7 @@
 				C7BC1BBB1CCA304900208B1B /* SocialMessage.swift */,
 				C7E73E891CD1F77E000F2591 /* NotificationData.swift */,
 				C7B6FA891D182F4200DAA19D /* LocalChat.swift */,
+				2EED4D241D23F03E0024328A /* ChatProduct+title.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -3796,6 +3800,7 @@
 				502B705B1BAAC3AE00C5D465 /* FloatingButton.swift in Sources */,
 				50CF61C91CD9FC4C0070281A /* UINavigationController+LG.swift in Sources */,
 				507F1BFB1C89DDF9001F0A95 /* PostalAddress+String.swift in Sources */,
+				2EED4D251D23F03E0024328A /* ChatProduct+title.swift in Sources */,
 				C7B5887D1CE1DFA6009B3975 /* BaseChatCellDrawer.swift in Sources */,
 				503996D71C60C258004D2E09 /* LGViewPagerTabItem.swift in Sources */,
 				5076228A1CD0EB1D004E5D0D /* AppCoordinator.swift in Sources */,
@@ -4116,6 +4121,7 @@
 				C7DB420D1C5138B500400945 /* FloatingButton.swift in Sources */,
 				50CF61CA1CD9FC4C0070281A /* UINavigationController+LG.swift in Sources */,
 				C7DB42111C5138B500400945 /* UIApplication+TopViewController.swift in Sources */,
+				2EED4D261D23F03E0024328A /* ChatProduct+title.swift in Sources */,
 				C7B5887E1CE1DFA6009B3975 /* BaseChatCellDrawer.swift in Sources */,
 				C7DB42121C5138B500400945 /* UIView+Border.swift in Sources */,
 				2EE4BD221CDA398400EAADF9 /* CrashManager.swift in Sources */,
