@@ -484,7 +484,10 @@ extension ProductCarouselViewController {
         fullScreenAvatarView.alpha = 0
         fullScreenAvatarView.image = viewModel.ownerAvatarPlaceholder
         if let avatar = viewModel.ownerAvatar {
-            fullScreenAvatarView.lg_setImageWithURL(avatar)
+            ImageDownloader.sharedInstance.downloadImageWithURL(avatar) { [weak self] result, url in
+                guard let imageWithSource = result.value where url == self?.viewModel.currentProductViewModel?.ownerAvatar else { return }
+                self?.fullScreenAvatarView.image = imageWithSource.image
+            }
         }
     }
 
