@@ -39,6 +39,11 @@ extension String {
         return stringByTrimmingCharactersInSet(trimSet)
     }
 
+    mutating func capitalizedFirstLetterOnly() -> String  {
+        self.replaceRange(self.startIndex...self.startIndex, with: String(self[self.startIndex]).capitalizedString)
+        return self
+    }
+
     func attributedHyperlinkedStringWithURLDict(urlDict: [String : NSURL], textColor: UIColor)
         -> NSMutableAttributedString {
         

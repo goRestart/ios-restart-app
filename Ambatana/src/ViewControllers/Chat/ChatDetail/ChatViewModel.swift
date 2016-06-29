@@ -806,8 +806,8 @@ private extension ChatViewModel {
         self.productId = productId
 
         // Configure product + user info
-        title.value = product.name ?? ""
-        productName.value = product.name ?? ""
+        title.value = product.title ?? ""
+        productName.value = product.title ?? ""
         productImageUrl.value = product.thumbnail?.fileURL
         productPrice.value = product.priceString()
         interlocutorAvatarURL.value = product.user.avatar?.fileURL
