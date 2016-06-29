@@ -35,7 +35,7 @@ class ChatBubbleCell: UITableViewCell {
         messageLabel.textColor = UIColor.blackText
         dateLabel.textColor = UIColor.darkGrayText
         
-        StyleHelper.applyDefaultShadow(bubbleView.layer)
+        bubbleView.applyDefaultShadow()
         bubbleView.layer.shouldRasterize = true
         bubbleView.layer.rasterizationScale = UIScreen.mainScreen().scale
     }

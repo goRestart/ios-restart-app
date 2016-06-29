@@ -335,7 +335,7 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     
     private func setupInfoBubble() {
         infoBubbleLabel.text = viewModel.infoBubbleDefaultText
-        StyleHelper.applyInfoBubbleShadow(infoBubbleShadow.layer)
+        infoBubbleShadow.applyInfoBubbleShadow()
 
         showInfoBubble(false, alpha: 0.0)
     }

@@ -35,7 +35,7 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
         }
         currencyButton.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
         activityIndicator.hidden = true
-        makeAnOfferButton.setPrimaryStyle()
+        makeAnOfferButton.setStyle(.Primary(fontSize: .Medium))
         
         // internationalization
         priceTextField.placeholder = LGLocalizedString.makeAnOfferPriceFieldHint

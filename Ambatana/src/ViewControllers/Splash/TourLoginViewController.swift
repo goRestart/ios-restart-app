@@ -66,9 +66,9 @@ final class TourLoginViewController: BaseViewController {
     }
     
     func setupUI() {
-        signupButton.titleLabel?.font = StyleHelper.tourButtonFont
+        signupButton.titleLabel?.font = UIFont.tourButtonFont
         signupButton.setTitle(LGLocalizedString.signUpSendButton, forState: .Normal)
-        signupButton.setPrimaryStyle()
+        signupButton.setStyle(.Primary(fontSize: .Medium))
         signupButton.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
         
         loginButton.backgroundColor = UIColor.clearColor()
@@ -76,12 +76,12 @@ final class TourLoginViewController: BaseViewController {
         loginButton.layer.borderWidth = 1
         loginButton.layer.borderColor = UIColor.whiteColor().CGColor
         loginButton.tintColor = UIColor.whiteColor()
-        loginButton.titleLabel?.font = StyleHelper.tourButtonFont
+        loginButton.titleLabel?.font = UIFont.tourButtonFont
         loginButton.setTitle(LGLocalizedString.logInSendButton, forState: .Normal)
         
         skipButton.backgroundColor = UIColor.clearColor()
         skipButton.tintColor = UIColor.whiteColor()
-        skipButton.titleLabel?.font = StyleHelper.tourButtonFont
+        skipButton.titleLabel?.font = UIFont.tourButtonFont
         skipButton.setTitle(LGLocalizedString.onboardingLoginSkip, forState: .Normal)
         
         messageLabel.text = LGLocalizedString.tourPage1Body

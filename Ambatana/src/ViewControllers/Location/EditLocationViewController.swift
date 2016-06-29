@@ -141,7 +141,7 @@ class EditLocationViewController: BaseViewController, EditLocationViewModelDeleg
         suggestionsTableView.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
         suggestionsTableView.layer.borderColor = UIColor.lineGray.CGColor
         suggestionsTableView.layer.borderWidth = LGUIKitConstants.onePixelSize
-        setLocationButton.setPrimaryStyle()
+        setLocationButton.setStyle(.Primary(fontSize: .Medium))
         setLocationButton.setTitle(LGLocalizedString.changeLocationApplyButton, forState: UIControlState.Normal)
         gpsLocationButton.layer.cornerRadius = 10
         aproxLocationArea.layer.cornerRadius = aproxLocationArea.width / 2

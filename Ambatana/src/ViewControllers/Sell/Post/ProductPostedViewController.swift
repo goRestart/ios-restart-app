@@ -125,8 +125,8 @@ class ProductPostedViewController: BaseViewController, SellProductViewController
     private func setupView() {
 
         contentContainer.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
-        mainButton.setPrimaryStyle()
-        editButton.setSecondaryStyle()
+        mainButton.setStyle(.Primary(fontSize: .Medium))
+        editButton.setStyle(.Secondary(fontSize: .Medium, withBorder: true))
 
         editOrLabel.text = LGLocalizedString.productPostConfirmationAnother.uppercase
         editButton.setTitle(LGLocalizedString.productPostConfirmationEdit, forState: UIControlState.Normal)

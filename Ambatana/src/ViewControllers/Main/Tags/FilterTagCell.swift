@@ -45,7 +45,7 @@ class FilterTagCell: UICollectionViewCell {
         let constraintRect = CGSize(width: CGFloat.max, height: FilterTagCell.cellHeigh)
         let boundingBox = text.boundingRectWithSize(constraintRect,
             options: NSStringDrawingOptions.UsesLineFragmentOrigin,
-            attributes: [NSFontAttributeName: StyleHelper.filterTagFont], context: nil)
+            attributes: [NSFontAttributeName: UIFont.smallBodyFont], context: nil)
         return CGSize(width: boundingBox.width+fixedWidthSpace+5, height: FilterTagCell.cellHeigh)
     }
 

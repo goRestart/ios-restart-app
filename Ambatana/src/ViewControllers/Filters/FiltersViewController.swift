@@ -267,7 +267,7 @@ UICollectionViewDataSource, UICollectionViewDelegate {
         singleCheckCellSize = CGSize(width: screenWidth, height: 50.0)
         
         // Rounded save button
-        saveFiltersBtn.setPrimaryStyle()
+        saveFiltersBtn.setStyle(.Primary(fontSize: .Medium))
         saveFiltersBtn.setTitle(LGLocalizedString.filtersSaveButton, forState: UIControlState.Normal)
     }
 }

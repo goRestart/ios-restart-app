@@ -171,8 +171,8 @@ class MainSignUpViewController: BaseViewController, SignUpViewModelDelegate, UIT
         navigationItem.rightBarButtonItem = helpButton
 
         // Appearance
-        connectFBButton.setCustomButtonStyle()
-        connectGoogleButton.setCustomButtonStyle()
+        connectFBButton.setStyle(.Facebook)
+        connectGoogleButton.setStyle(.Google)
         
         signUpButton.setBackgroundImage(signUpButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)),
             forState: .Normal)

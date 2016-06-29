@@ -216,8 +216,8 @@ UICollectionViewDelegateFlowLayout {
     // MARK: private methods
 
     private func setupUI() {
-        promoteButton.setPrimaryStyle()
-        introButton.setPrimaryStyle()
+        promoteButton.setStyle(.Primary(fontSize: .Medium))
+        introButton.setStyle(.Primary(fontSize: .Medium))
         introContainer.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
 
         // Localization

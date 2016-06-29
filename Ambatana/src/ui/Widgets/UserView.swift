@@ -14,6 +14,60 @@ protocol UserViewDelegate: class {
 
 enum UserViewStyle {
     case CompactShadow(size: CGSize), CompactBorder(size: CGSize), Full
+
+    var bgColor: UIColor {
+        switch self {
+        case .Full:
+            return UIColor.white.colorWithAlphaComponent(0.9)
+        case .CompactShadow, .CompactBorder:
+            return UIColor.clearColor()
+        }
+    }
+
+    var usernameLabelFont: UIFont {
+        switch self {
+        case .Full:
+            return UIFont.mediumBodyFont
+        case .CompactShadow, .CompactBorder:
+            return UIFont.smallBodyFont
+        }
+    }
+
+    var usernameLabelColor: UIColor {
+        switch self {
+        case .Full:
+            return UIColor.black
+        case .CompactShadow, .CompactBorder:
+            return UIColor.white
+        }
+    }
+
+    var subtitleLabelFont: UIFont {
+        switch self {
+        case .Full:
+            return UIFont.smallBodyFontLight
+        case .CompactShadow, .CompactBorder:
+            return UIFont.subtitleFontLight
+        }
+    }
+
+    var subtitleLabelColor: UIColor {
+        switch self {
+        case .Full:
+            return UIColor.black
+        case .CompactShadow, .CompactBorder:
+            return UIColor.white
+        }
+    }
+
+    var avatarBorderColor: UIColor? {
+        switch self {
+        case .Full, .CompactShadow:
+            return nil
+        case .CompactBorder:
+            return UIColor.white
+        }
+    }
 }
 
 class UserView: UIView {
@@ -84,13 +138,13 @@ class UserView: UIView {
         
         showShadow(true)
 
-        backgroundColor = StyleHelper.userViewBgColor(style)
-        userNameLabel.font = StyleHelper.userViewUsernameLabelFont(style)
-        userNameLabel.textColor = StyleHelper.userViewUsernameLabelColor(style)
-        subtitleLabel.font = StyleHelper.userViewSubtitleLabelFont(style)
-        subtitleLabel.textColor = StyleHelper.userViewSubtitleLabelColor(style)
+        backgroundColor = style.bgColor
+        userNameLabel.font = style.usernameLabelFont
+        userNameLabel.textColor = style.usernameLabelColor
+        subtitleLabel.font = style.subtitleLabelFont
+        subtitleLabel.textColor = style.subtitleLabelColor
 
-        if let borderColor = StyleHelper.userViewAvatarBorderColor(style) {
+        if let borderColor = style.avatarBorderColor {
             userAvatarImageView.layer.borderWidth = 1
             userAvatarImageView.layer.borderColor = borderColor.CGColor
         }

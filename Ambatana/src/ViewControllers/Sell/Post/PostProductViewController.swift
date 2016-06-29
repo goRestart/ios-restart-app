@@ -207,8 +207,8 @@ UITextFieldDelegate {
         retryButton.setTitle(LGLocalizedString.commonErrorListRetryButton, forState: UIControlState.Normal)
 
         //Layers
-        retryButton.setPrimaryStyle()
-        doneButton.setPrimaryStyle()
+        retryButton.setStyle(.Primary(fontSize: .Medium))
+        doneButton.setStyle(.Primary(fontSize: .Medium))
         priceFieldContainer.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
         priceFieldContainer.layer.borderColor = UIColor.whiteColor().CGColor
         priceFieldContainer.layer.borderWidth = 1

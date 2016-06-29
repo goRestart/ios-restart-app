@@ -37,10 +37,10 @@ class WelcomeNotificationCell: UITableViewCell, ReusableCell {
     // MARK: - Private methods
 
     private func setupUI() {
-        titleLabel.font = StyleHelper.notificationTitleFont
-        subtitleLabel.font = StyleHelper.notificationSubtitleFont
+        titleLabel.font = UIFont.notificationTitleFont
+        subtitleLabel.font = UIFont.notificationSubtitleFont
 
-        titleLabel.textColor = StyleHelper.notificationTitleColor
-        subtitleLabel.textColor = StyleHelper.notificationSubtitleColor
+        titleLabel.textColor = UIColor.blackText
+        subtitleLabel.textColor = UIColor.darkGrayText
     }
 }

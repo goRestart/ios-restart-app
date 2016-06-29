@@ -133,7 +133,7 @@ public class Tooltip: UIView {
         translatesAutoresizingMaskIntoConstraints = false
 
         coloredView.translatesAutoresizingMaskIntoConstraints = false
-        coloredView.layer.cornerRadius = StyleHelper.productOnboardingTipsCornerRadius
+        coloredView.layer.cornerRadius = LGUIKitConstants.tooltipCornerRadius
         coloredView.backgroundColor = style.bgColor
         addSubview(coloredView)
 
@@ -265,8 +265,8 @@ public class Tooltip: UIView {
 
     private func peakFinalOffset() -> CGFloat {
         let tmpPeakOffset = -(frame.origin.x+width/2-targetGlobalCenter.x)
-        let maxOffset =  width/2-StyleHelper.productOnboardingTipsCornerRadius-Tooltip.peakViewCenterDistance
-        let minOffset =  -(width/2-StyleHelper.productOnboardingTipsCornerRadius-Tooltip.peakViewCenterDistance)
+        let maxOffset =  width/2-LGUIKitConstants.tooltipCornerRadius-Tooltip.peakViewCenterDistance
+        let minOffset =  -(width/2-LGUIKitConstants.tooltipCornerRadius-Tooltip.peakViewCenterDistance)
         return max(min(tmpPeakOffset,maxOffset), minOffset)
     }
 }

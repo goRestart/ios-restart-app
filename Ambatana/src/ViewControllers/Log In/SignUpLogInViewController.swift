@@ -321,7 +321,6 @@ SignUpLogInViewModelDelegate, GIDSignInUIDelegate {
 
     func viewModel(viewModel: SignUpLogInViewModel, updateSendButtonEnabledState enabled: Bool) {
         sendButton.enabled = enabled
-        sendButton.alpha = enabled ? 1 : StyleHelper.disabledButtonAlpha
     }
     
     func viewModel(viewModel: SignUpLogInViewModel, updateShowPasswordVisible visible: Bool) {
@@ -434,19 +433,18 @@ SignUpLogInViewModelDelegate, GIDSignInUIDelegate {
         usernameTextField.tag = TextFieldTag.Username.rawValue
 
         // appearance
-        connectGoogleButton.setCustomButtonStyle()
-        connectFBButton.setCustomButtonStyle()
+        connectFBButton.setStyle(.Facebook)
+        connectGoogleButton.setStyle(.Google)
 
-        sendButton.setBackgroundImage(sendButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)),
+        sendButton.setBackgroundImage(UIColor.primaryColor.imageWithSize(CGSize(width: 1, height: 1)),
             forState: .Normal)
-        sendButton.setBackgroundImage(StyleHelper.disabledButtonBackgroundColor.imageWithSize(
+        sendButton.setBackgroundImage(UIColor.primaryColorDisabled.imageWithSize(
             CGSize(width: 1, height: 1)), forState: .Disabled)
-        sendButton.setBackgroundImage(StyleHelper.highlightedRedButtonColor.imageWithSize(CGSize(width: 1, height: 1)),
+        sendButton.setBackgroundImage(UIColor.primaryColorHighlighted.imageWithSize(CGSize(width: 1, height: 1)),
             forState: .Highlighted)
 
         sendButton.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
         sendButton.enabled = false
-        sendButton.alpha = StyleHelper.disabledButtonAlpha
 
         showPasswordButton.setImage(UIImage(named: "ic_show_password_inactive"), forState: .Normal)
 

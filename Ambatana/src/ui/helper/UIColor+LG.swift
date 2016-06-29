@@ -106,6 +106,7 @@ extension UIColor {
     // Light Background
     static var blackText: UIColor { return black }
     static var darkGrayText: UIColor { return grayDark }
+    static var grayText: UIColor { return gray }
     static var redText: UIColor { return watermelon }
     static var blackTextHighAlpha: UIColor { return blackAlpha50 }
     static var blackTextLowAlpha: UIColor { return blackAlpha30 }
@@ -115,6 +116,8 @@ extension UIColor {
     static var pinkText: UIColor { return rosa }
     static var whiteTextHighAlpha: UIColor { return whiteAlpha70 }
     static var whiteTextLowAlpha: UIColor { return whiteAlpha30 }
+
+    static var grayPlaceholderText: UIColor { return gray }
 
 }
 
@@ -194,7 +197,7 @@ extension UIColor {
 
 extension UIColor {
 
-    static var chatListBackgroundColor: UIColor { return reddishWhite }
+    static var listBackgroundColor: UIColor { return reddishWhite }
 
     static var chatMyBubbleBgColor: UIColor { return primaryColorAlpha16 }
     static var chatMyBubbleBgColorSelected: UIColor { return primaryColorAlpha30 }
@@ -223,7 +226,53 @@ extension UIColor {
     static func placeholderBackgroundColor() -> UIColor {
         return palette[Int(arc4random_uniform(UInt32(palette.count)))]
     }
+}
 
-    static var defaultAvatarColor: UIColor { return rosa }
+
+// MARK: > Avatars
+
+extension UIColor {
+    static var defaultAvatarColor: UIColor { return avatarRed }
+    static var defaultBackgroundColor: UIColor { return bgRed }
+
+    // Avatar Colors
+    private static let avatarRed = rosa
+    private static let avatarOrange = UIColor(rgb: 0xF3B685)
+    private static let avatarYellow = UIColor(rgb: 0xF5CD77)
+    private static let avatarGreen = UIColor(rgb: 0xA6c488)
+    private static let avatarBlue = paleTeal
+    private static let avatarDarkBlue = UIColor(rgb: 0x86B0DE)
+    private static let avatarPurple = UIColor(rgb: 0xBEA8D2)
+    private static let avatarBrown = UIColor(rgb: 0xC9B5B8)
+
+    // Bg Colors
+    private static let bgRed = UIColor(rgb: 0xfc4259)
+    private static let bgOrange = UIColor(rgb: 0xed9859)
+    private static let bgYellow = UIColor(rgb: 0xf0b74a)
+    private static let bgGreen = UIColor(rgb: 0x82ab5a)
+    private static let bgBlue = UIColor(rgb: 0x3da2ac)
+    private static let bgDarkBlue = UIColor(rgb: 0x5690cf)
+    private static let bgPurple = UIColor(rgb: 0xa285bd)
+    private static let bgBrown = UIColor(rgb: 0xb29196)
+
+    private static let avatarColors: [UIColor] = [avatarOrange, avatarYellow, avatarGreen, avatarBlue,
+                                                  avatarDarkBlue, avatarPurple, avatarBrown]
+
+    private static let bgColors: [UIColor] = [bgOrange, bgYellow, bgGreen, bgBlue, bgDarkBlue, bgPurple, bgBrown]
+
+
+    static func avatarColorForString(string: String?) -> UIColor {
+        guard let id = string else { return defaultAvatarColor }
+        guard let asciiValue = id.unicodeScalars.first?.value else { return defaultAvatarColor }
+        let colors = avatarColors
+        return colors[Int(asciiValue) % colors.count]
+    }
+
+    static func backgroundColorForString(string: String?) -> UIColor {
+        guard let id = string else { return defaultBackgroundColor }
+        guard let asciiValue = id.unicodeScalars.first?.value else { return defaultBackgroundColor }
+        let colors = bgColors
+        return colors[Int(asciiValue) % colors.count]
+    }
 }
 

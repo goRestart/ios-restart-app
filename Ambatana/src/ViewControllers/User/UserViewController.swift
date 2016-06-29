@@ -246,7 +246,7 @@ extension UserViewController {
 
     private func setupProductListView() {
         productListView.headerDelegate = self
-        productListViewBackgroundView.backgroundColor = StyleHelper.userProductListBgColor
+        productListViewBackgroundView.backgroundColor = UIColor.listBackgroundColor
 
         // Remove pull to refresh
         productListView.refreshControl?.removeFromSuperview()

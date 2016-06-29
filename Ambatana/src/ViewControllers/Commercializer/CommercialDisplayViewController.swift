@@ -175,7 +175,7 @@ public class CommercialDisplayViewController: BaseViewController {
         closeButton.tintColor = UIColor.primaryColor
         titleLabel.text = viewModel.isMyVideo ? LGLocalizedString.commercializerDisplayTitleLabel : nil
         shareLabel.text = viewModel.isMyVideo ? LGLocalizedString.commercializerDisplayShareLabel : nil
-        shareButton.setPrimaryStyle()
+        shareButton.setStyle(.Primary(fontSize: .Medium))
         let shareButtonTitle = viewModel.isMyVideo ?
             LGLocalizedString.commercializerDisplayShareMyVideoButton :
             LGLocalizedString.commercializerDisplayShareOthersVideoButton

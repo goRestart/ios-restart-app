@@ -56,7 +56,7 @@ class NotificationsViewController: BaseViewController {
 
     private func setupUI() {
         setNavBarTitle(LGLocalizedString.notificationsTitle)
-        view.backgroundColor = UIColor.chatListBackgroundColor
+        view.backgroundColor = UIColor.listBackgroundColor
 
         // Enable refresh control
         refreshControl.addTarget(self, action: #selector(refreshControlTriggered),

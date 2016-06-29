@@ -97,7 +97,7 @@ public class ProcessingVideoDialogViewController: BaseViewController {
     // MARK: - private methods
 
     private func setupSuccessView() {
-        okButton.setPrimaryStyle()
+        okButton.setStyle(.Primary(fontSize: .Medium))
         okButton.setTitle(LGLocalizedString.commonOk, forState: .Normal)
 
         loadingIndicator.color = UIColor.primaryColor
@@ -109,7 +109,7 @@ public class ProcessingVideoDialogViewController: BaseViewController {
     }
 
     private func setupErrorView() {
-        tryAgainButton.setPrimaryStyle()
+        tryAgainButton.setStyle(.Primary(fontSize: .Medium))
         tryAgainButton.setTitle(LGLocalizedString.commonErrorRetryButton, forState: .Normal)
 
         errorTitleLabel.text = LGLocalizedString.commonErrorTitle.capitalizedString

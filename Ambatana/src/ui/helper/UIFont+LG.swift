@@ -19,7 +19,7 @@ extension UIFont {
     // Bar Buttons
     // TODO: improve those 2 names (when is used one and the other? active/inactive?? )
     static var boldBarButtonFont: UIFont { return systemSemiBoldFont(size: 17) }
-    static var regularButtonFont: UIFont { return systemRegularFont(size: 17) }
+    static var regularBarButtonFont: UIFont { return systemRegularFont(size: 17) }
 
     // Body
     static var bigBodyFont: UIFont { return systemRegularFont(size: 17) }
@@ -30,6 +30,7 @@ extension UIFont {
     static var bigBodyFontLight: UIFont { return systemLightFont(size: 17) }
     static var mediumBodyFontLight: UIFont { return systemLightFont(size: 15) }
     static var smallBodyFontLight: UIFont { return systemLightFont (size: 13) }
+    static var subtitleFontLight: UIFont { return systemLightFont(size: 11) }
 
     // Tabs
     static var inactiveTabFont: UIFont { return systemRegularFont(size: 15) }
@@ -141,3 +142,20 @@ extension UIFont {
     static var productStatusSoldFont: UIFont { return UIFont.systemMediumFont(size: 13) }
 }
 
+
+// MARK: - Tour
+extension UIFont {
+    static var tourButtonFont: UIFont { return systemMediumFont(size: 17) }
+    static var tourNotificationsTitleFont: UIFont { return systemMediumFont(size: 30) }
+    static var tourNotificationsTitleMiniFont: UIFont { return systemMediumFont(size: 24) }
+    static var tourNotificationsSubtitleFont: UIFont { return systemRegularFont(size: 17) }
+    static var tourNotificationsSubtitleMiniFont: UIFont { return systemRegularFont(size: 15) }
+    static var tourLocationDistanceLabelFont: UIFont { return systemMediumFont(size: 16) }
+}
+
+
+// MARK: > PrePremission Push Settings
+extension UIFont {
+    static var notificationsSettingsCellTextFont: UIFont { return mediumBodyFont }
+    static var notificationsSettingsCellTextMiniFont: UIFont { return smallBodyFont }
+}

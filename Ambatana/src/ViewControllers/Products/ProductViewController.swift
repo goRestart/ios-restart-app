@@ -680,7 +680,7 @@ extension ProductViewController {
     }
 
     private func setupProductStatusView() {
-        StyleHelper.applyInfoBubbleShadow(productStatusShadow.layer)
+        productStatusShadow.applyInfoBubbleShadow()
     }
 
     private func setupGalleryView() {
@@ -749,15 +749,15 @@ extension ProductViewController {
         askButton.titleLabel?.numberOfLines = 2
 
         askButtonContainerView.backgroundColor =  UIColor.whiteColor()
-        askButton.setSecondaryStyle()
+        askButton.setStyle(.Secondary(fontSize: .Medium, withBorder: true))
         switch FeatureFlags.productDetailVersion {
         case .Original:
             askButton.setTitle(viewModel.askQuestionButtonTitle.value, forState: .Normal)
             askButtonContainerView.backgroundColor = UIColor.whiteColor()
-            askButton.setSecondaryStyle()
+            askButton.setStyle(.Secondary(fontSize: .Medium, withBorder: true))
         case .OriginalWithoutOffer:
             askButton.setTitle(viewModel.chatWithSellerButtonTitle.value, forState: .Normal)
-            askButton.setPrimaryStyle()
+            askButton.setStyle(.Primary(fontSize: .Medium))
         case .Snapchat:
             break
         }
@@ -765,23 +765,23 @@ extension ProductViewController {
         offerButton.setTitle(LGLocalizedString.productMakeAnOfferButton, forState: .Normal)
         offerButton.titleLabel?.textAlignment = .Center
         offerButton.titleLabel?.numberOfLines = 2
-        offerButton.setPrimaryStyle()
+        offerButton.setStyle(.Primary(fontSize: .Medium))
 
         resellButton.setTitle(LGLocalizedString.productSellAgainButton, forState: .Normal)
-        resellButton.setSecondaryStyle()
+        resellButton.setStyle(.Secondary(fontSize: .Medium, withBorder: true))
 
         markSoldButton.setTitle(LGLocalizedString.productMarkAsSoldButton, forState: .Normal)
         markSoldButton.titleLabel?.textAlignment = .Center
         markSoldButton.titleLabel?.numberOfLines = 2
         markSoldButton.backgroundColor = UIColor.soldColor
-        markSoldButton.setCustomButtonStyle()
+        markSoldButton.setStyle(.Terciary)
         markSoldButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
         markSoldButton.titleLabel?.font = UIFont.mediumButtonFont
 
         promoteButton.setTitle(LGLocalizedString.productCreateCommercialButton, forState: .Normal)
         promoteButton.titleLabel?.textAlignment = .Center
         promoteButton.titleLabel?.numberOfLines = 2
-        promoteButton.setPrimaryStyle()
+        promoteButton.setStyle(.Primary(fontSize: .Medium))
     }
 
     

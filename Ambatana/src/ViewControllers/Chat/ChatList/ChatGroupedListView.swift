@@ -197,18 +197,18 @@ class ChatGroupedListView: BaseView, ChatGroupedListViewModelDelegate, Scrollabl
         NSBundle.mainBundle().loadNibNamed("ChatGroupedListView", owner: self, options: nil)
         contentView.frame = bounds
         contentView.autoresizingMask = [.FlexibleHeight, .FlexibleWidth]
-        contentView.backgroundColor = UIColor.chatListBackgroundColor
+        contentView.backgroundColor = UIColor.listBackgroundColor
         addSubview(contentView)
 
         // Empty view
-        emptyView.backgroundColor = UIColor.chatListBackgroundColor
+        emptyView.backgroundColor = UIColor.listBackgroundColor
         refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(ChatGroupedListView.refresh),
                                  forControlEvents: UIControlEvents.ValueChanged)
         tableView.addSubview(refreshControl)
 
         // Footer
-        footerButton.setPrimaryStyle()
+        footerButton.setStyle(.Primary(fontSize: .Medium))
         footerButton.enabled = false
         bottomInset = tabBarBottomInset
         setFooterHidden(true, animated: false)

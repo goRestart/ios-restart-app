@@ -162,7 +162,7 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, FBSDKAppInviteD
             }
         case .ChangePhoto:
             let myUser = Core.myUserRepository.myUser
-            let placeholder =  LetgoAvatar.avatarWithColor(StyleHelper.defaultAvatarColor, name: myUser?.name)
+            let placeholder =  LetgoAvatar.avatarWithColor(UIColor.defaultAvatarColor, name: myUser?.name)
             cell.iconImageView.image = placeholder
             
             if let myUser = myUser, let avatarUrl = myUser.avatar?.fileURL {

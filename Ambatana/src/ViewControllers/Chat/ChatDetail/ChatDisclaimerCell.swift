@@ -75,7 +75,7 @@ private extension ChatDisclaimerCell {
                                                 bottom: 0, right: ChatDisclaimerCell.buttonHContentInset)
 
         backgroundColor = UIColor.clearColor()
-        StyleHelper.applyDefaultShadow(backgroundCellView.layer)
+        backgroundCellView.applyDefaultShadow()
         layer.shouldRasterize = true
         layer.rasterizationScale = UIScreen.mainScreen().scale
         

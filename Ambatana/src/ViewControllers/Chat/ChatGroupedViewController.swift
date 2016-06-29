@@ -247,7 +247,7 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
     // MARK: - Private methods
 
     private func setupUI() {
-        view.backgroundColor = UIColor.chatListBackgroundColor
+        view.backgroundColor = UIColor.listBackgroundColor
         setNavBarTitle(LGLocalizedString.chatListTitle)
 
         viewPager.dataSource = self

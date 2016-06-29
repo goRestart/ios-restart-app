@@ -182,7 +182,7 @@ class PostProductCameraView: BaseView, LGViewPagerPage {
         //i18n
         retryPhotoButton.setTitle(LGLocalizedString.productPostRetake, forState: UIControlState.Normal)
         usePhotoButton.setTitle(usePhotoButtonText, forState: UIControlState.Normal)
-        usePhotoButton.setPrimaryStyle()
+        usePhotoButton.setStyle(.Primary(fontSize: .Medium))
         usePhotoButton.setBackgroundImage(UIColor.black.imageWithSize(CGSize(width: 1, height: 1)), forState: .Disabled)
 
         setupInfoView()
@@ -293,7 +293,7 @@ extension PostProductCameraView {
 extension PostProductCameraView {
 
     private func setupInfoView() {
-        infoButton.setPrimaryStyle()
+        infoButton.setStyle(.Primary(fontSize: .Medium))
 
         viewModel.infoShown.asObservable().map{ !$0 }.bindTo(infoContainer.rx_hidden).addDisposableTo(disposeBag)
         viewModel.infoTitle.asObservable().bindTo(infoTitle.rx_text).addDisposableTo(disposeBag)

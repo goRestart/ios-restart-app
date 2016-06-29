@@ -10,7 +10,7 @@ import Foundation
 
 class LetgoAvatar {
     static func avatarWithID(id: String?, name: String?) -> UIImage {
-        let color = StyleHelper.avatarColorForString(id)
+        let color = UIColor.avatarColorForString(id)
         return LetgoAvatar.avatarWithColor(color, name: name)
     }
 

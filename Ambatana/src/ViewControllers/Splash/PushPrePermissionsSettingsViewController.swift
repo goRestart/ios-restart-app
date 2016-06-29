@@ -58,23 +58,23 @@ final class PushPrePermissionsSettingsViewController: BaseViewController {
     // MARK: - UI
     
     func setupUI() {
-        yesButton.setPrimaryStyle()
+        yesButton.setStyle(.Primary(fontSize: .Medium))
         
         switch DeviceFamily.current {
         case .iPhone4, .iPhone5:
-            titleLabel.font = StyleHelper.tourNotificationsTitleMiniFont
-            subtitleLabel.font = StyleHelper.tourNotificationsSubtitleMiniFont
-            firstSectionLabel.font = StyleHelper.tourNotificationsSubtitleMiniFont
-            secondSectionLabel.font = StyleHelper.tourNotificationsSubtitleMiniFont
-            notificationsLabel.font = StyleHelper.notificationsSettingsCellTextMiniFont
-            allowNotificationsLabel.font = StyleHelper.notificationsSettingsCellTextMiniFont
+            titleLabel.font = UIFont.tourNotificationsTitleMiniFont
+            subtitleLabel.font = UIFont.tourNotificationsSubtitleMiniFont
+            firstSectionLabel.font = UIFont.tourNotificationsSubtitleMiniFont
+            secondSectionLabel.font = UIFont.tourNotificationsSubtitleMiniFont
+            notificationsLabel.font = UIFont.notificationsSettingsCellTextMiniFont
+            allowNotificationsLabel.font = UIFont.notificationsSettingsCellTextMiniFont
         case .iPhone6, .iPhone6Plus, .unknown:
-            titleLabel.font = StyleHelper.tourNotificationsTitleFont
-            subtitleLabel.font = StyleHelper.tourNotificationsSubtitleFont
-            firstSectionLabel.font = StyleHelper.tourNotificationsSubtitleFont
-            secondSectionLabel.font = StyleHelper.tourNotificationsSubtitleFont
-            notificationsLabel.font = StyleHelper.notificationsSettingsCellTextFont
-            allowNotificationsLabel.font = StyleHelper.notificationsSettingsCellTextFont
+            titleLabel.font = UIFont.tourNotificationsTitleFont
+            subtitleLabel.font = UIFont.tourNotificationsSubtitleFont
+            firstSectionLabel.font = UIFont.tourNotificationsSubtitleFont
+            secondSectionLabel.font = UIFont.tourNotificationsSubtitleFont
+            notificationsLabel.font = UIFont.notificationsSettingsCellTextFont
+            allowNotificationsLabel.font = UIFont.notificationsSettingsCellTextFont
         }
     }
     
