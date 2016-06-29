@@ -37,6 +37,9 @@
 // Text for unsuccessful user block
 "block_user_error_generic" = "An error occurred while blocking this user.";
 
+// Text for non assigned category
+"categories_unassigned" = "Not selected";
+
 // Categories baby and child. Check attached image "categories (2).png"
 "categories_baby_and_child" = "Baby and Child";
 

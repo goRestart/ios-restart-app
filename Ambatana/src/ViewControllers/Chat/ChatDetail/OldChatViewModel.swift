@@ -68,10 +68,10 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     
     weak var delegate: OldChatViewModelDelegate?
     var title: String? {
-        return product.name
+        return product.title
     }
     var productName: String? {
-        return product.name
+        return product.title
     }
     var productImageUrl: NSURL? {
         return product.thumbnail?.fileURL

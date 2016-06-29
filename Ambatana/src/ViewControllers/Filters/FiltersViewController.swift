@@ -101,11 +101,11 @@ UICollectionViewDataSource, UICollectionViewDelegate {
     
     // MARK: - FiltersViewModelDelegate
 
-    func vmDidUpdate(vm: FiltersViewModel) {
+    func vmDidUpdate() {
         collectionView.reloadData()
     }
 
-    func vmOpenLocation(vm: FiltersViewModel, locationViewModel: EditLocationViewModel) {
+    func vmOpenLocation(locationViewModel: EditLocationViewModel) {
         let ctrl = EditLocationViewController(viewModel: locationViewModel)
         pushViewController(ctrl, animated: true, completion: nil)
     }

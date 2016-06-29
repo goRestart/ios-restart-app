@@ -44,6 +44,10 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     private let userView: UserView
     private let fullScreenAvatarEffectView: UIVisualEffectView
     private let fullScreenAvatarView: UIImageView
+    private var fullScreenAvatarWidth: NSLayoutConstraint?
+    private var fullScreenAvatarHeight: NSLayoutConstraint?
+    private var fullScreenAvatarTop: NSLayoutConstraint?
+    private var fullScreenAvatarLeft: NSLayoutConstraint?
     private let loadingTimer: LoadingTimer
     private let passThroughView: PassThroughView
     private let viewModel: ProductCarouselViewModel
@@ -228,7 +232,20 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         fullScreenAvatarView.clipsToBounds = true
         fullScreenAvatarView.contentMode = .ScaleAspectFill
         fullScreenAvatarView.alpha = 0
-        
+        let fullAvatarWidth = NSLayoutConstraint(item: fullScreenAvatarView, attribute: .Width, relatedBy: .Equal, toItem: nil,
+                                              attribute: .NotAnAttribute, multiplier: 1, constant: 0)
+        fullScreenAvatarWidth = fullAvatarWidth
+        let fullAvatarHeight = NSLayoutConstraint(item: fullScreenAvatarView, attribute: .Height, relatedBy: .Equal, toItem: nil,
+                                               attribute: .NotAnAttribute, multiplier: 1, constant: 0)
+        fullScreenAvatarHeight = fullAvatarHeight
+        fullScreenAvatarView.addConstraints([fullAvatarWidth, fullAvatarHeight])
+        let fullAvatarTop = NSLayoutConstraint(item: fullScreenAvatarView, attribute: .Top, relatedBy: .Equal,
+                                              toItem: view, attribute: .Top, multiplier: 1, constant: 0)
+        fullScreenAvatarTop = fullAvatarTop
+        let fullAvatarLeft = NSLayoutConstraint(item: fullScreenAvatarView, attribute: .Left, relatedBy: .Equal,
+                                               toItem: view, attribute: .Left, multiplier: 1, constant: 0)
+        fullScreenAvatarLeft = fullAvatarLeft
+        view.addConstraints([fullAvatarTop, fullAvatarLeft])
         userView.showShadow(false)
         
         productStatusView.layer.cornerRadius = productStatusView.height/2
@@ -584,34 +601,35 @@ extension ProductCarouselViewController: UserViewDelegate {
 
     func userViewAvatarLongPressStarted(userView: UserView) {
         view.bringSubviewToFront(fullScreenAvatarView)
-        fullScreenAvatarView.frame = CGRect(x: userView.frame.left + userView.userAvatarImageView.frame.left,
-                                            y: userView.frame.top + userView.userAvatarImageView.frame.top,
-                                            width: userView.userAvatarImageView.frame.size.width,
-                                            height: userView.userAvatarImageView.frame.size.height)
+        fullScreenAvatarLeft?.constant = userView.frame.left + userView.userAvatarImageView.frame.left
+        fullScreenAvatarTop?.constant = userView.frame.top + userView.userAvatarImageView.frame.top
+        fullScreenAvatarWidth?.constant = userView.userAvatarImageView.frame.size.width
+        fullScreenAvatarHeight?.constant = userView.userAvatarImageView.frame.size.height
+        view.layoutIfNeeded()
 
+        let viewSide = min(view.frame.width, view.frame.height)
+        fullScreenAvatarLeft?.constant = view.frame.centerX - viewSide/2
+        fullScreenAvatarTop?.constant = view.frame.centerY - viewSide/2
+        fullScreenAvatarWidth?.constant = viewSide
+        fullScreenAvatarHeight?.constant = viewSide
         UIView.animateWithDuration(0.25) { [weak self] in
-            guard let view = self?.view else { return }
-
             self?.navigationController?.navigationBar.alpha = 0
             self?.fullScreenAvatarEffectView.alpha = 1
-            let viewSide = min(view.frame.width, view.frame.height)
-            self?.fullScreenAvatarView.frame = CGRect(x: view.frame.centerX - viewSide/2,
-                                                      y: view.frame.centerY - viewSide/2,
-                                                      width: viewSide,
-                                                      height: viewSide)
             self?.fullScreenAvatarView.alpha = 1
+            self?.view.layoutIfNeeded()
         }
     }
 
     func userViewAvatarLongPressEnded(userView: UserView) {
+        fullScreenAvatarLeft?.constant = userView.frame.left + userView.userAvatarImageView.frame.left
+        fullScreenAvatarTop?.constant = userView.frame.top + userView.userAvatarImageView.frame.top
+        fullScreenAvatarWidth?.constant = userView.userAvatarImageView.frame.size.width
+        fullScreenAvatarHeight?.constant = userView.userAvatarImageView.frame.size.height
         UIView.animateWithDuration(0.25) { [weak self] in
             self?.navigationController?.navigationBar.alpha = 1
             self?.fullScreenAvatarEffectView.alpha = 0
-            self?.fullScreenAvatarView.frame = CGRect(x: userView.frame.left + userView.userAvatarImageView.frame.left,
-                                                      y: userView.frame.top + userView.userAvatarImageView.frame.top,
-                                                      width: userView.userAvatarImageView.frame.size.width,
-                                                      height: userView.userAvatarImageView.frame.size.height)
             self?.fullScreenAvatarView.alpha = 0
+            self?.view.layoutIfNeeded()
         }
     }
 }
@@ -815,6 +833,26 @@ extension ProductCarouselViewController {
                 self?.navigationController?.view.bringSubviewToFront(passThroughView)
             }
         }
+        setupLoadingTimerTap()
+    }
+
+    private func setupLoadingTimerTap() {
+        let tapView = UIView()
+        tapView.userInteractionEnabled = true
+        tapView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(tapView)
+        let centerY = NSLayoutConstraint(item: tapView, attribute: .CenterY, relatedBy: .Equal, toItem: loadingTimer,
+                                            attribute: .CenterY, multiplier: 1, constant: 0)
+        let centerX = NSLayoutConstraint(item: tapView, attribute: .CenterX, relatedBy: .Equal, toItem: loadingTimer,
+                                         attribute: .CenterX, multiplier: 1, constant: 0)
+        let width = NSLayoutConstraint(item: tapView, attribute: .Width, relatedBy: .Equal, toItem: nil,
+                                              attribute: .NotAnAttribute, multiplier: 1, constant: loadingViewDiameter*2)
+        let height = NSLayoutConstraint(item: tapView, attribute: .Height, relatedBy: .Equal, toItem: nil,
+                                               attribute: .NotAnAttribute, multiplier: 1, constant: loadingViewDiameter*2)
+        tapView.addConstraints([width, height])
+        view.addConstraints([centerY, centerX])
+        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(loadingTimerStop))
+        tapView.addGestureRecognizer(tapRecognizer)
     }
 
     private func loadingTimerCleanup() {
@@ -827,7 +865,7 @@ extension ProductCarouselViewController {
             return
         }
         loadingTimer.hidden = false
-        loadingTimer.start(3) { [weak self] completed in
+        loadingTimer.start(Constants.autoNextItemTimerSeconds) { [weak self] completed in
             self?.loadingTimer.hidden = true
             if completed {
                 self?.switchAutoToNextItem()
@@ -847,7 +885,7 @@ extension ProductCarouselViewController {
         }
     }
 
-    private func loadingTimerStop() {
+    dynamic private func loadingTimerStop() {
         loadingTimer.stop()
         loadingTimer.hidden = true
     }

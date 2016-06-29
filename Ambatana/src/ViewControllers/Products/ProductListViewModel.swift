@@ -313,7 +313,7 @@ class ProductListViewModel: BaseViewModel {
             where productUserId == myUserId {
                 isMine = true
         }
-        return ProductCellData(title: product.name, price: product.priceString(),
+        return ProductCellData(title: product.title, price: product.priceString(),
             thumbUrl: product.thumbnail?.fileURL, status: product.status, date: product.createdAt,
             isFavorite: product.favorite, isMine: isMine, cellWidth: cellWidth,
             indexPath: NSIndexPath(forRow: index, inSection: 0))

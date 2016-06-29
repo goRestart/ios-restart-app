@@ -128,11 +128,6 @@ final class CoreDI: InternalDI {
     let sessionManager: SessionManager
     let locationManager: LocationManager
     
-    lazy var categoriesManager: CategoriesManager = {
-        let categoriesRetrieveService = LGCategoriesRetrieveService()
-        return CategoriesManager(categoriesRetrieveService: categoriesRetrieveService)
-    }()
-    
     
     // MARK: > Repository
     
@@ -144,7 +139,10 @@ final class CoreDI: InternalDI {
     let notificationsRepository: NotificationsRepository
     let stickersRepository: StickersRepository
     let trendingSearchesRepository: TrendingSearchesRepository
-    
+    lazy var categoryRepository: CategoryRepository = {
+        return CategoryRepository()
+    }()
+
     lazy var productRepository: ProductRepository = {
         let dataSource = ProductApiDataSource(apiClient: self.apiClient)
         return ProductRepository(productDataSource: dataSource, myUserRepository: self.myUserRepository,

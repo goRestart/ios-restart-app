@@ -20,6 +20,7 @@
 "categories_other" = "Άλλα";
 "categories_sports_leisure_and_games" = "Αθλητικά, Ψυχαγωγία και Παιχνίδια";
 "categories_title" = "Κατηγορίες";
+"categories_unassigned" = "Not selected";
 "change_location_apply_button" = "Επιλογή τοποθεσίας";
 "change_location_approximate_location_label" = "Παρουσίαση πλησιέστερης τοποθεσίας";
 "change_location_ask_update_location_message" = "Βρες ευκαιρίες κοντά σου! Θέλεις να αλλάξεις την τοποθεσία σου;";

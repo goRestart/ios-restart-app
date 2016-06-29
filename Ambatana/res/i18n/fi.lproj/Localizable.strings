@@ -20,6 +20,7 @@
 "categories_other" = "Muut";
 "categories_sports_leisure_and_games" = "Urheilu, vapaa-aika ja pelit";
 "categories_title" = "Kategoriat";
+"categories_unassigned" = "Not selected";
 "change_location_apply_button" = "Aseta sijainti";
 "change_location_approximate_location_label" = "Näytä suurpiirteinen osoite";
 "change_location_ask_update_location_message" = "Tee löytöjä läheltä sinua! Haluatko päivittää sijaintisi?";
@@ -386,8 +387,8 @@
 "product_mark_as_sold_confirm_title" = "Merkitse myydyksi";
 "product_mark_as_sold_error_generic" = "Merkittäessä tuotetta myydyksi tapahtui virhe. Ole hyvä ja yritä myöhemmin uudelleen.";
 "product_mark_as_sold_success_message" = "Onneksi olkoon, tuotteesi merkittiin onnistuneesti myydyksi!";
-"product_more_info_tooltip_part_1" = "Tap";
-"product_more_info_tooltip_part_2" = "%@ to see more info";
+"product_more_info_tooltip_part_1" = "Paina";
+"product_more_info_tooltip_part_2" = "%@ nähdäksesi lisätietoja";
 "product_negotiable_price" = "Neuvoteltavissa";
 "product_onboarding_finger_scroll_label" = "Vieritä nähdäksesi lisää kuvia";
 "product_onboarding_finger_swipe_label" = "Pyyhkäise mennäksesi seuraavaan tai edelliseen tuotteeseen";
