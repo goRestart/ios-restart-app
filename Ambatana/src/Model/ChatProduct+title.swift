@@ -12,8 +12,8 @@ import LGCoreKit
 extension ChatProduct {
 
     var title: String? {
-        if var name = name?.trim where !name.isEmpty {
-            return name.capitalizedFirstLetterOnly()
+        if let name = name?.trim where !name.isEmpty {
+            return name.capitalizedFirstLetterOnly
         }
         return nil
     }
