@@ -20,7 +20,7 @@
 "categories_other" = "Muut";
 "categories_sports_leisure_and_games" = "Urheilu, vapaa-aika ja pelit";
 "categories_title" = "Kategoriat";
-"categories_unassigned" = "Not selected";
+"categories_unassigned" = "Ei valittu";
 "change_location_apply_button" = "Aseta sijainti";
 "change_location_approximate_location_label" = "Näytä suurpiirteinen osoite";
 "change_location_ask_update_location_message" = "Tee löytöjä läheltä sinua! Haluatko päivittää sijaintisi?";
