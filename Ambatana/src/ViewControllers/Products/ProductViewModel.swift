@@ -391,6 +391,7 @@ extension ProductViewModel {
     }
     
     func chatWithSeller() {
+        trackChatWithSeller()
         openChat()
     }
     
@@ -979,6 +980,11 @@ extension ProductViewModel {
 
     private func trackSaveFavoriteCompleted() {
         let trackerEvent = TrackerEvent.productFavorite(product.value, typePage: .ProductDetail)
+        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+    }
+
+    private func trackChatWithSeller() {
+        let trackerEvent = TrackerEvent.productDetailChatButton(product.value)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
 }

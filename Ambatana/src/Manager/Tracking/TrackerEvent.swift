@@ -268,6 +268,12 @@ public struct TrackerEvent {
         return TrackerEvent(name: .ProductContinueChatting, params: params)
     }
 
+    public static func productDetailChatButton(product: Product) -> TrackerEvent {
+        var params = EventParameters()
+        params[.ProductId] = product.objectId
+        return TrackerEvent(name: .ProductChatButton, params: params)
+    }
+
     public static func productMarkAsSold(source: EventParameterSellSourceValue, product: Product)
         -> TrackerEvent {
             var params = EventParameters()

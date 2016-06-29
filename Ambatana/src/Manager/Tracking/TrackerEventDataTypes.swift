@@ -42,6 +42,7 @@ public enum EventName: String {
     case ProductOffer                       = "product-detail-offer"
     case ProductAskQuestion                 = "product-detail-ask-question"
     case ProductContinueChatting            = "product-detail-continue-chatting"
+    case ProductChatButton                  = "product-detail-chat-button"
     case ProductMarkAsSold                  = "product-detail-sold"
     case ProductMarkAsUnsold                = "product-detail-unsold"
     
