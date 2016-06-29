@@ -77,9 +77,10 @@ class CategoriesViewController: BaseViewController, CategoriesViewModelDelegate,
         collectionView.setContentOffset(point, animated: true)
     }
 
+
     // MARK: - CategoriesViewModelDelegate
     
-    func viewModelDidUpdate(viewModel: CategoriesViewModel) {
+    func vmDidUpdate() {
         self.collectionView.reloadData()
     }
     

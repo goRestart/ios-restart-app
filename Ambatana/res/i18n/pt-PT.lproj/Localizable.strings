@@ -20,6 +20,7 @@
 "categories_other" = "Outros";
 "categories_sports_leisure_and_games" = "Desportos, Lazer e Jogos";
 "categories_title" = "Categorias";
+"categories_unassigned" = "Not selected";
 "change_location_apply_button" = "Definir localização";
 "change_location_approximate_location_label" = "Mostrar endereço apropriado";
 "change_location_ask_update_location_message" = "Encontre pechinchas perto de si! Deseja atualizar a sua localização?";

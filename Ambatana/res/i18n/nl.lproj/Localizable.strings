@@ -20,6 +20,7 @@
 "categories_other" = "Overige";
 "categories_sports_leisure_and_games" = "Sport, vrije tijd en games";
 "categories_title" = "Categorieën";
+"categories_unassigned" = "Not selected";
 "change_location_apply_button" = "Locatie instellen";
 "change_location_approximate_location_label" = "Laat adres zien";
 "change_location_ask_update_location_message" = "Vind deals bij jouw in de buurt! Wil je je locatie updaten?";
