@@ -815,6 +815,26 @@ extension ProductCarouselViewController {
                 self?.navigationController?.view.bringSubviewToFront(passThroughView)
             }
         }
+        setupLoadingTimerTap()
+    }
+
+    private func setupLoadingTimerTap() {
+        let tapView = UIView()
+        tapView.userInteractionEnabled = true
+        tapView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(tapView)
+        let centerY = NSLayoutConstraint(item: tapView, attribute: .CenterY, relatedBy: .Equal, toItem: loadingTimer,
+                                            attribute: .CenterY, multiplier: 1, constant: 0)
+        let centerX = NSLayoutConstraint(item: tapView, attribute: .CenterX, relatedBy: .Equal, toItem: loadingTimer,
+                                         attribute: .CenterX, multiplier: 1, constant: 0)
+        let width = NSLayoutConstraint(item: tapView, attribute: .Width, relatedBy: .Equal, toItem: nil,
+                                              attribute: .NotAnAttribute, multiplier: 1, constant: loadingViewDiameter*2)
+        let height = NSLayoutConstraint(item: tapView, attribute: .Height, relatedBy: .Equal, toItem: nil,
+                                               attribute: .NotAnAttribute, multiplier: 1, constant: loadingViewDiameter*2)
+        tapView.addConstraints([width, height])
+        view.addConstraints([centerY, centerX])
+        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(loadingTimerStop))
+        tapView.addGestureRecognizer(tapRecognizer)
     }
 
     private func loadingTimerCleanup() {
@@ -827,7 +847,7 @@ extension ProductCarouselViewController {
             return
         }
         loadingTimer.hidden = false
-        loadingTimer.start(3) { [weak self] completed in
+        loadingTimer.start(Constants.autoNextItemTimerSeconds) { [weak self] completed in
             self?.loadingTimer.hidden = true
             if completed {
                 self?.switchAutoToNextItem()
@@ -847,7 +867,7 @@ extension ProductCarouselViewController {
         }
     }
 
-    private func loadingTimerStop() {
+    dynamic private func loadingTimerStop() {
         loadingTimer.stop()
         loadingTimer.hidden = true
     }
