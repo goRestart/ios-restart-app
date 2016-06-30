@@ -215,8 +215,17 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
 
         super.init()
 
-        startTimer()
         trackStart()
+    }
+
+    override func didBecomeActive(firstTime: Bool) {
+        super.didBecomeActive(firstTime)
+        startTimer()
+    }
+
+    override func didBecomeInactive() {
+        super.didBecomeInactive()
+        stopTimer()
     }
     
     
