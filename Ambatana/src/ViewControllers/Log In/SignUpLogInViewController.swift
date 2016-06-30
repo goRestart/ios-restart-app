@@ -416,9 +416,11 @@ SignUpLogInViewModelDelegate, GIDSignInUIDelegate {
         passwordTextField.placeholder = LGLocalizedString.signUpPasswordFieldHint
         newsletterLabel.text = LGLocalizedString.signUpNewsleter
         quicklyLabel.text = LGLocalizedString.mainSignUpQuicklyLabel
+        quicklyLabel.font = UIFont.smallBodyFont
         connectFBButton.setTitle(LGLocalizedString.mainSignUpFacebookConnectButton, forState: .Normal)
         connectGoogleButton.setTitle(LGLocalizedString.mainSignUpGoogleConnectButton, forState: .Normal)
         orLabel.text = LGLocalizedString.mainSignUpOrLabel
+        orLabel.font = UIFont.smallBodyFont
         forgotPasswordButton.setTitle(LGLocalizedString.logInResetPasswordButton, forState: .Normal)
 
         emailTextField.clearButtonOffset = 0
@@ -436,14 +438,7 @@ SignUpLogInViewModelDelegate, GIDSignInUIDelegate {
         connectFBButton.setStyle(.Facebook)
         connectGoogleButton.setStyle(.Google)
 
-        sendButton.setBackgroundImage(UIColor.primaryColor.imageWithSize(CGSize(width: 1, height: 1)),
-            forState: .Normal)
-        sendButton.setBackgroundImage(UIColor.primaryColorDisabled.imageWithSize(
-            CGSize(width: 1, height: 1)), forState: .Disabled)
-        sendButton.setBackgroundImage(UIColor.primaryColorHighlighted.imageWithSize(CGSize(width: 1, height: 1)),
-            forState: .Highlighted)
-
-        sendButton.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
+        sendButton.setStyle(.Primary(fontSize: .Medium))
         sendButton.enabled = false
 
         showPasswordButton.setImage(UIImage(named: "ic_show_password_inactive"), forState: .Normal)
@@ -460,10 +455,10 @@ SignUpLogInViewModelDelegate, GIDSignInUIDelegate {
     }
 
     private func setupUI() {
-        
+        view.backgroundColor = UIColor.listBackgroundColor
+
         // action type
         loginSegmentedControl.selectedSegmentIndex = viewModel.currentActionType.rawValue
-
 
         emailButton.hidden = false
         emailIconImageView.hidden = false

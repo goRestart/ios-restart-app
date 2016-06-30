@@ -89,8 +89,10 @@ enum ButtonStyle {
             fontSize = size
         case let .Secondary(size,_):
             fontSize = size
-        case .Terciary, .Google, .Facebook:
+        case .Terciary:
             fontSize = .Big
+        case .Google, .Facebook:
+            fontSize = .Medium
         }
         
         switch fontSize {

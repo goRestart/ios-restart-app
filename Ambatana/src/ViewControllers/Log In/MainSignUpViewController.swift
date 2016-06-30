@@ -161,7 +161,10 @@ class MainSignUpViewController: BaseViewController, SignUpViewModelDelegate, UIT
     // MARK: > UI
     
     private func setupUI() {
-        
+
+        // View
+        view.backgroundColor = UIColor.listBackgroundColor
+
         // Navigation bar
         let closeButton = UIBarButtonItem(image: UIImage(named: "navbar_close"), style: .Plain, target: self,
             action: #selector(MainSignUpViewController.closeButtonPressed))
@@ -173,22 +176,23 @@ class MainSignUpViewController: BaseViewController, SignUpViewModelDelegate, UIT
         // Appearance
         connectFBButton.setStyle(.Facebook)
         connectGoogleButton.setStyle(.Google)
-        
-        signUpButton.setBackgroundImage(signUpButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)),
-            forState: .Normal)
-        signUpButton.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
 
-        logInButton.setBackgroundImage(logInButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)),
-            forState: .Normal)
-        logInButton.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
+        signUpButton.setStyle(.Secondary(fontSize: .Medium, withBorder: true))
+        logInButton.setStyle(.Secondary(fontSize: .Medium, withBorder: true))
 
         // i18n
         claimLabel.text = LGLocalizedString.mainSignUpClaimLabel
+        claimLabel.font = UIFont.smallBodyFont
+        claimLabel.textColor = UIColor.black
         quicklyLabel.text = LGLocalizedString.mainSignUpQuicklyLabel
-        
+        quicklyLabel.font = UIFont.smallBodyFont
+        quicklyLabel.backgroundColor = view.backgroundColor
+
         connectFBButton.setTitle(LGLocalizedString.mainSignUpFacebookConnectButton, forState: .Normal)
         connectGoogleButton.setTitle(LGLocalizedString.mainSignUpGoogleConnectButton, forState: .Normal)
         orLabel.text = LGLocalizedString.mainSignUpOrLabel
+        orLabel.font = UIFont.smallBodyFont
+        orLabel.backgroundColor = view.backgroundColor
         signUpButton.setTitle(LGLocalizedString.mainSignUpSignUpButton, forState: .Normal)
         logInButton.setTitle(LGLocalizedString.mainSignUpLogInLabel, forState: .Normal)
 

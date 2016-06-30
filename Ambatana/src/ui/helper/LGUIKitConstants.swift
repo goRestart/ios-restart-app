@@ -46,6 +46,11 @@ struct LGUIKitConstants {
     static let alertCornerRadius: CGFloat = 15
     static let mapCornerRadius: CGFloat = 15
 
+    // MARK: - Button Heights
+    static let bigButtonHeight = 50
+    static let mediumButtonHeight = 44
+    static let smallButtonHeight = 30
+
     // MARK: - Sizes
     static var onePixelSize: CGFloat {
         return 1 / UIScreen.mainScreen().scale

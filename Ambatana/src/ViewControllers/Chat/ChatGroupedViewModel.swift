@@ -117,7 +117,7 @@ class ChatGroupedViewModel: BaseViewModel {
 
         var titleAttributes = [String : AnyObject]()
         titleAttributes[NSForegroundColorAttributeName] = color
-        titleAttributes[NSFontAttributeName] = UIFont.systemFontOfSize(14)
+        titleAttributes[NSFontAttributeName] = selected ? UIFont.activeTabFont : UIFont.inactiveTabFont
 
         let string: NSAttributedString
         switch tab {
