@@ -20,6 +20,7 @@
 "categories_other" = "Egyéb";
 "categories_sports_leisure_and_games" = "Sport, szabadidő, játékok";
 "categories_title" = "Kategóriák";
+"categories_unassigned" = "Nincs megadva";
 "change_location_apply_button" = "Hely beállítása";
 "change_location_approximate_location_label" = "Megközelítőleges cím megjelenítése";
 "change_location_ask_update_location_message" = "Találd meg a közeli alkalmi vételeket! Szeretnéd frissíteni a tartózkodási helyedet?";

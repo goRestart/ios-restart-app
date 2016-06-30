@@ -20,6 +20,7 @@
 "categories_other" = "기타";
 "categories_sports_leisure_and_games" = "스포츠,레저 및 게임";
 "categories_title" = "항목";
+"categories_unassigned" = "선택되지 않음";
 "change_location_apply_button" = "위치 설정";
 "change_location_approximate_location_label" = "예상 주소를 보여주세요";
 "change_location_ask_update_location_message" = "주변의 상품을 찾아보세요! 위치를 업데이트할까요?";

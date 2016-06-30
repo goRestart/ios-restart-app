@@ -20,6 +20,7 @@
 "categories_other" = "Другое";
 "categories_sports_leisure_and_games" = "Спорт и Развлечения";
 "categories_title" = "Категории";
+"categories_unassigned" = "Не выбрана";
 "change_location_apply_button" = "Задать местоположение";
 "change_location_approximate_location_label" = "Показать приблизительный адрес";
 "change_location_ask_update_location_message" = "Предложения по соседству! Хотите обновить свое местоположение?";
@@ -386,8 +387,8 @@
 "product_mark_as_sold_confirm_title" = "Отметить как проданный";
 "product_mark_as_sold_error_generic" = "При изменении статуса товара произошла ошибка. Пожалуйста, попробуйте еще раз позже.";
 "product_mark_as_sold_success_message" = "Поздравляем! Ваш продукт был продан!";
-"product_more_info_tooltip_part_1" = "Tap";
-"product_more_info_tooltip_part_2" = "%@ to see more info";
+"product_more_info_tooltip_part_1" = "Нажмите";
+"product_more_info_tooltip_part_2" = "%@ просмотреть больше информации";
 "product_negotiable_price" = "Обсуждаема";
 "product_onboarding_finger_scroll_label" = "Проведите вверх или вниз, чтобы листать фотографии";
 "product_onboarding_finger_swipe_label" = "Проведите влево или вправо, чтобы переключаться между предыдущим и следующим товаром";

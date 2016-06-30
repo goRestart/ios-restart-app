@@ -20,6 +20,7 @@
 "categories_other" = "Khác";
 "categories_sports_leisure_and_games" = "Thể thao, Giải trí và Trò chơi";
 "categories_title" = "Danh mục";
+"categories_unassigned" = "Chưa được chọn";
 "change_location_apply_button" = "Cài đặt Địa điểm";
 "change_location_approximate_location_label" = "Hiện địa chỉ tương đối chính xác";
 "change_location_ask_update_location_message" = "Hãy tìm một món hời ở ngay quanh bạn! Bạn có muốn cập nhật địa điểm của mình?";

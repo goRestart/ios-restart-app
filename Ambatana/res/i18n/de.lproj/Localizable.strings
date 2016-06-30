@@ -20,6 +20,7 @@
 "categories_other" = "Sonstige";
 "categories_sports_leisure_and_games" = "Sport und Freizeit";
 "categories_title" = "Kategorien";
+"categories_unassigned" = "Nichts ausgewählt";
 "change_location_apply_button" = "Standort einstellen";
 "change_location_approximate_location_label" = "Zeige ungefähre Adresse";
 "change_location_ask_update_location_message" = "Finde Schnäppchen in deiner Nähe! Möchtest du deinen Standort aktualisieren?";

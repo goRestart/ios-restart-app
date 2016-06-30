@@ -59,6 +59,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("block_user_error_generic", comment: "")
 	}
 
+	static var categoriesUnassigned: String {
+		return NSLocalizedString("categories_unassigned", comment: "")
+	}
+
 	static var categoriesBabyAndChild: String {
 		return NSLocalizedString("categories_baby_and_child", comment: "")
 	}
