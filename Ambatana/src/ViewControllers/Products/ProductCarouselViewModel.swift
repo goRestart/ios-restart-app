@@ -51,6 +51,7 @@ class ProductCarouselViewModel: BaseViewModel {
     }
 
     var autoSwitchToNextEnabled: Bool {
+        guard FeatureFlags.automaticNextItem else { return false }
         guard let myUserId = myUserRepository.myUser?.objectId,
             userProductListRequester = productListRequester as? UserProductListRequester,
             requesterUserId = userProductListRequester.userObjectId else { return true }
