@@ -19,6 +19,6 @@ public struct ABTests {
         return BoolABDynamicVar(key: "sell_on_startup_after_posting", type: .Bool, defaultValue: false)
     }
     static var automaticNextItem: BoolABDynamicVar {
-        return BoolABDynamicVar(key: "automatic_next_item", type: .Bool, defaultValue: false)
+        return BoolABDynamicVar(key: "automatic_next_item", type: .Bool, defaultValue: true)
     }
 }
