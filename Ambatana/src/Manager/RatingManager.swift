@@ -83,6 +83,8 @@ extension RatingManager {
 
     func userDidCloseProductListBanner() {
         updateUserRatingShowProductListBanner(false)
+        let event = TrackerEvent.appRatingBannerClose()
+        TrackerProxy.sharedInstance.trackEvent(event)
     }
 }
 
@@ -91,6 +93,10 @@ extension RatingManager {
 
 private extension RatingManager {
     func updateUserRatingShowProductListBanner(show: Bool) {
+        if show {
+            let event = TrackerEvent.appRatingBannerOpen()
+            TrackerProxy.sharedInstance.trackEvent(event)
+        }
         keyValueStorage.userRatingShowProductListBanner = show
         ratingProductListBannerVisible.onNext(shouldShowRatingProductListBanner)
     }

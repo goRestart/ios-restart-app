@@ -20,6 +20,7 @@
 "categories_other" = "Diğer";
 "categories_sports_leisure_and_games" = "Spor, Eğlence ve Oyunlar";
 "categories_title" = "Kategoriler";
+"categories_unassigned" = "Seçilmedi";
 "change_location_apply_button" = "Konum seç";
 "change_location_approximate_location_label" = "Yaklaşık bir adres göster";
 "change_location_ask_update_location_message" = "Yakınındaki fırsatları bul! Konumunu güncellemek ister misin?";
@@ -386,6 +387,8 @@
 "product_mark_as_sold_confirm_title" = "Satıldı olarak işaretle";
 "product_mark_as_sold_error_generic" = "Ürün satıldı olarak işaretlenirken bir hata oluştu. Lütfen, daha sonra tekrar dene.";
 "product_mark_as_sold_success_message" = "Tebrikler, ürünün satıldı olarak işaretlendi!";
+"product_more_info_tooltip_part_1" = "dokun";
+"product_more_info_tooltip_part_2" = "Daha fazla bilgi için %@";
 "product_negotiable_price" = "Pazarlık edilebilir";
 "product_onboarding_finger_scroll_label" = "Daha fazla fotoğraf görmek için sürükle";
 "product_onboarding_finger_swipe_label" = "Bir önceki veya sonraki ürüne gitmek için ekranı kaydır";

@@ -426,7 +426,7 @@ extension ProductViewController {
             self?.askButton.userInteractionEnabled = !isLoading
         }.addDisposableTo(disposeBag)
         askButton.rx_tap.bindNext { [weak self] in
-            self?.viewModel.ask(nil)
+            self?.viewModel.chatWithSeller()
             }.addDisposableTo(disposeBag)
         offerButton.rx_tap.bindNext { [weak self] in
             self?.viewModel.offer()

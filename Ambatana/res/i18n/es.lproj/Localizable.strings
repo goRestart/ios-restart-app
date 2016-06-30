@@ -20,6 +20,7 @@
 "categories_other" = "Otros";
 "categories_sports_leisure_and_games" = "Deporte, Ocio y Juegos";
 "categories_title" = "Categorías";
+"categories_unassigned" = "No seleccionada";
 "change_location_apply_button" = "Aplicar";
 "change_location_approximate_location_label" = "Mostrar la dirección aproximada";
 "change_location_ask_update_location_message" = "¡Encuentra ofertas cerca de ti! ¿Quieres actualizar tu ubicación?";
@@ -386,6 +387,8 @@
 "product_mark_as_sold_confirm_title" = "Marcar como vendido";
 "product_mark_as_sold_error_generic" = "Se ha producido un error al marcar el artículo como vendido. Por favor, vuelve a intentarlo.";
 "product_mark_as_sold_success_message" = "¡Enhorabuena, tu producto ha sido marcado como vendido!";
+"product_more_info_tooltip_part_1" = "Pulsa";
+"product_more_info_tooltip_part_2" = "%@ para ver más detalles";
 "product_negotiable_price" = "Negociable";
 "product_onboarding_finger_scroll_label" = "Desplázate arriba o abajo para ver más fotos";
 "product_onboarding_finger_swipe_label" = "Desliza hacia la derecha o a la izquierda para pasar al próximo producto o al anterior";

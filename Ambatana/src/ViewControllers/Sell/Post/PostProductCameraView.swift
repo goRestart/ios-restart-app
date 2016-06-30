@@ -23,14 +23,11 @@ class PostProductCameraView: BaseView, LGViewPagerPage {
     @IBOutlet var contentView: UIView!
 
     @IBOutlet weak var cameraContainerView: UIView!
-    @IBOutlet weak var cameraContainerViewHeight: NSLayoutConstraint!
     @IBOutlet weak var imagePreview: UIImageView!
     @IBOutlet weak var cornersContainer: UIView!
 
-    @IBOutlet weak var bottomControlsContainerHeight: NSLayoutConstraint!
     @IBOutlet weak var switchCamButton: UIButton!
     @IBOutlet weak var usePhotoButton: UIButton!
-    @IBOutlet weak var makePhotoButton: UIButton!
 
     @IBOutlet weak var infoContainer: UIView!
     @IBOutlet weak var infoTitle: UILabel!
@@ -45,9 +42,6 @@ class PostProductCameraView: BaseView, LGViewPagerPage {
     @IBOutlet weak var firstTimeAlert: UIView!
     @IBOutlet weak var firstTimeAlertTitle: UILabel!
     @IBOutlet weak var firstTimeAlertSubtitle: UILabel!
-
-
-    private static let bottomControlsCollapsedSize: CGFloat = 88
 
     var visible: Bool {
         set {
@@ -128,6 +122,13 @@ class PostProductCameraView: BaseView, LGViewPagerPage {
         }
     }
 
+    func takePhoto() {
+        hideFirstTimeAlert()
+        guard let fastCamera = fastCamera else { return }
+
+        fastCamera.takePicture()
+    }
+
 
     // MARK: - Actions
     @IBAction func onCloseButton(sender: AnyObject) {
@@ -183,7 +184,6 @@ class PostProductCameraView: BaseView, LGViewPagerPage {
         retryPhotoButton.setTitle(LGLocalizedString.productPostRetake, forState: UIControlState.Normal)
         usePhotoButton.setTitle(usePhotoButtonText, forState: UIControlState.Normal)
         usePhotoButton.setStyle(.Primary(fontSize: .Medium))
-        usePhotoButton.setBackgroundImage(UIColor.black.imageWithSize(CGSize(width: 1, height: 1)), forState: .Disabled)
 
         setupInfoView()
         setupFirstTimeAlertView()
@@ -194,18 +194,6 @@ class PostProductCameraView: BaseView, LGViewPagerPage {
     }
 
     private func adaptLayoutsToScreenSize() {
-
-        if DeviceFamily.current == .iPhone4 {
-            //Small screen mode -> collapse buttons (hiding some info) + expand camera
-            bottomControlsContainerHeight.constant = PostProductCameraView.bottomControlsCollapsedSize
-            cameraContainerViewHeight.constant = contentView.height
-        } else {
-            let expectedCameraHeight = contentView.width * (4/3) //Camera aspect ratio is 4/3
-            let bottomSpace = contentView.height - expectedCameraHeight
-            bottomControlsContainerHeight.constant = bottomSpace
-            cameraContainerViewHeight.constant = expectedCameraHeight
-        }
-
         if let fastCamera = fastCamera {
             fastCamera.view.frame = cameraContainerView.frame
         }
@@ -222,7 +210,6 @@ class PostProductCameraView: BaseView, LGViewPagerPage {
         captureModeHidden.bindTo(cornersContainer.rx_hidden).addDisposableTo(disposeBag)
         captureModeHidden.bindTo(switchCamButton.rx_hidden).addDisposableTo(disposeBag)
         captureModeHidden.bindTo(flashButton.rx_hidden).addDisposableTo(disposeBag)
-        captureModeHidden.bindTo(makePhotoButton.rx_hidden).addDisposableTo(disposeBag)
         
         viewModel.imageSelected.asObservable().bindTo(imagePreview.rx_image).addDisposableTo(disposeBag)
 

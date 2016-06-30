@@ -12,6 +12,8 @@ extension ProductCategory {
     
     public var name : String {
         switch(self) {
+        case .Unassigned:
+            return LGLocalizedString.categoriesUnassigned
         case .Electronics:
             return LGLocalizedString.categoriesElectronics
         case .CarsAndMotors:
@@ -33,6 +35,8 @@ extension ProductCategory {
         
     public var image : UIImage? {
         switch (self) {
+        case .Unassigned:
+            return nil
         case .Electronics:
             return UIImage(named: "categories_electronics")
         case .CarsAndMotors:
@@ -54,6 +58,8 @@ extension ProductCategory {
     
     public var imageSmallInactive : UIImage? {
         switch (self) {
+        case .Unassigned:
+            return nil
         case .Electronics:
             return UIImage(named: "categories_electronics_inactive")
         case .CarsAndMotors:
@@ -75,6 +81,8 @@ extension ProductCategory {
     
     public var color : UIColor {
         switch (self) {
+        case .Unassigned:
+            return UIColor.clearColor()
         case .Electronics:
             return UIColor(rgb: 0x009aab)   // 0 154 171 - tealBlue
         case .CarsAndMotors:

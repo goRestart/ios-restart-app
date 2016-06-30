@@ -53,7 +53,7 @@ public final class ProductRepository {
     }
 
     public func buildNewProduct(name: String? = nil, description: String? = nil, price: Double? = nil,
-                                category: ProductCategory = .Other) -> Product? {
+                                category: ProductCategory = .Unassigned) -> Product? {
         guard let myUser = myUserRepository.myUser, lgLocation = locationManager.currentLocation else { return nil }
 
         let currency: Currency

@@ -37,6 +37,9 @@
 // Text for unsuccessful user block
 "block_user_error_generic" = "An error occurred while blocking this user.";
 
+// Text for non assigned category
+"categories_unassigned" = "Not selected";
+
 // Categories baby and child. Check attached image "categories (2).png"
 "categories_baby_and_child" = "Baby and Child";
 
@@ -1331,6 +1334,12 @@
 
 // Product detail auto gen title translated disclaimer label.
 "product_auto_generated_translated_title_label" = "(and translated by Google)";
+
+// Tooltip to see more info on snapchat, just the "tap" text
+"product_more_info_tooltip_part_1" = "Tap";
+
+// Tooltip to see more info on snapchat, just the "to see more info" text
+"product_more_info_tooltip_part_2" = "%@ to see more info";
 
 // Profile, you blocked this user label (wo username)
 "profile_blocked_by_me_label" = "You've blocked this user";

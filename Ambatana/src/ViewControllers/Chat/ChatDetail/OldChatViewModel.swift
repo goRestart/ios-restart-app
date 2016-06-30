@@ -25,8 +25,6 @@ protocol OldChatViewModelDelegate: BaseViewModelDelegate {
     func vmDidUpdateProduct(messageToShow message: String?)
     
     func vmShowProduct(productVC: UIViewController)
-    func vmShowProductRemovedError()
-    func vmShowProductSoldError()
     func vmShowUser(userVM: UserViewModel)
     
     func vmShowReportUser(reportUserViewModel: ReportUsersViewModel)
@@ -35,11 +33,11 @@ protocol OldChatViewModelDelegate: BaseViewModelDelegate {
     func vmAskForRating()
     func vmShowPrePermissions(type: PrePermissionType)
     func vmShowKeyboard()
-    func vmHideKeyboard()
+    func vmHideKeyboard(animated animated: Bool)
     func vmShowMessage(message: String, completion: (() -> ())?)
-    func vmShowOptionsList(options: [String], actions: [()->Void])
-    func vmShowQuestion(title title: String, message: String, positiveText: String, positiveAction: (()->Void)?,
-                              positiveActionStyle: UIAlertActionStyle?, negativeText: String, negativeAction: (()->Void)?,
+    func vmShowOptionsList(options: [String], actions: [() -> Void])
+    func vmShowQuestion(title title: String, message: String, positiveText: String, positiveAction: (() -> Void)?,
+                              positiveActionStyle: UIAlertActionStyle?, negativeText: String, negativeAction: (() -> Void)?,
                               negativeActionStyle: UIAlertActionStyle?)
     func vmClose()
     
@@ -49,12 +47,14 @@ protocol OldChatViewModelDelegate: BaseViewModelDelegate {
     func vmUpdateChatInteraction(enabled: Bool)
     
     func vmDidUpdateStickers()
+    func vmClearText()
 }
 
 enum AskQuestionSource {
     case ProductList
     case ProductDetail
 }
+
 
 public class OldChatViewModel: BaseViewModel, Paginable {
     
@@ -68,10 +68,10 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     
     weak var delegate: OldChatViewModelDelegate?
     var title: String? {
-        return product.name
+        return product.title
     }
     var productName: String? {
-        return product.name
+        return product.title
     }
     var productImageUrl: NSURL? {
         return product.thumbnail?.fileURL
@@ -94,14 +94,14 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     var otherUserName: String? {
         return otherUser?.name
     }
-    var otherUser: User?
+
     var stickers: [Sticker] = []
 
     var userRelation: UserUserRelation? {
         didSet {
             delegate?.vmUpdateRelationInfoView(chatStatus)
             if let relation = userRelation where relation.isBlocked || relation.isBlockedBy {
-                delegate?.vmHideKeyboard()
+                delegate?.vmHideKeyboard(animated: true)
                 showDirectAnswers(false)
             } else {
                 showDirectAnswers(shouldShowDirectAnswers)
@@ -244,15 +244,19 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     private var isDeleted = false
     private var shouldAskProductSold: Bool = false
     private var userDefaultsSubKey: String {
-        return "\(product.objectId) + \(buyer?.objectId)"
+        return "\(product.objectId) + \(buyer?.objectId ?? "offline")"
     }
     
     private var loadedMessages: [ChatViewMessage]
     private var buyer: User?
+    private var otherUser: User?
     private var isSendingMessage = false
-    
+    private var afterRetrieveMessagesBlock: (() -> Void)?
+    private var autoKeyboardEnabled = true
+
     private var isBuyer: Bool {
-        guard let buyerId = buyer?.objectId, myUserId = myUserRepository.myUser?.objectId else { return false }
+        guard let buyer = buyer else { return true }
+        guard let buyerId = buyer.objectId, myUserId = myUserRepository.myUser?.objectId else { return false }
         return buyerId == myUserId
     }
     private var shouldShowSafetyTips: Bool {
@@ -260,16 +264,43 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     }
     private var didReceiveMessageFromOtherUser: Bool {
         guard let otherUserId = otherUser?.objectId else { return false }
-        return chat.didReceiveMessageFrom(otherUserId)
+        for message in loadedMessages {
+            if message.talkerId == otherUserId {
+                return true
+            }
+        }
+        return false
+    }
+    private var didSendMessage: Bool {
+        guard let myUserId = myUserRepository.myUser?.objectId else { return false }
+        for message in loadedMessages {
+            if message.talkerId == myUserId {
+                return true
+            }
+        }
+        return false
+    }
+    private var shouldShowOtherUserInfo: Bool {
+        guard chat.isSaved else { return true }
+        return !isLoading && isLastPage
     }
     
     private let disposeBag = DisposeBag()
     
     
     // MARK: - Lifecycle
-    
+
     convenience init?(chat: Chat) {
+        self.init(chat: chat, myUserRepository: Core.myUserRepository)
+    }
+    
+    convenience init?(product: Product) {
         let myUserRepository = Core.myUserRepository
+        let chat = LocalChat(product: product, myUser: myUserRepository.myUser)
+        self.init(chat: chat, myUserRepository: myUserRepository)
+    }
+
+    convenience init?(chat: Chat, myUserRepository: MyUserRepository) {
         let chatRepository = Core.oldChatRepository
         let productRepository = Core.productRepository
         let userRepository = Core.userRepository
@@ -279,12 +310,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
                   productRepository: productRepository, userRepository: userRepository,
                   stickersRepository: stickersRepository, tracker: tracker)
     }
-    
-    convenience init?(product: Product) {
-        guard let chatFromProduct = Core.oldChatRepository.newChatWithProduct(product) else { return nil }
-        self.init(chat: chatFromProduct)
-    }
-    
+
     init?(chat: Chat, myUserRepository: MyUserRepository, chatRepository: OldChatRepository,
           productRepository: ProductRepository, userRepository: UserRepository, stickersRepository: StickersRepository, tracker: Tracker) {
         self.chat = chat
@@ -304,8 +330,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         initUsers()
         loadStickers()
         if otherUser == nil { return nil }
-        if buyer == nil { return nil }
-        
+
         setupDeepLinksRx()
     }
     
@@ -316,6 +341,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
             return
         }   // only load messages if the chat is not forbidden
         retrieveFirstPage()
+        retrieveUsersRelation()
         if firstTime {
             retrieveInterlocutorInfo()
             loadStickersTooltip()
@@ -334,8 +360,8 @@ public class OldChatViewModel: BaseViewModel, Paginable {
             fromMakeOffer = false
             delegate?.vmShowPrePermissions(.Chat(buyer: isBuyer))
         } else if !chatEnabled {
-            delegate?.vmHideKeyboard()
-        } else {
+            delegate?.vmHideKeyboard(animated: true)
+        } else if autoKeyboardEnabled {
             delegate?.vmShowKeyboard()
         }
     }
@@ -346,7 +372,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     func productInfoPressed() {
         switch product.status {
         case .Deleted:
-            delegate?.vmShowProductRemovedError()
+            break
         case .Pending, .Approved, .Discarded, .Sold, .SoldOld:
             guard let productVC = ProductDetailFactory.productDetailFromProduct(product) else { return }
             delegate?.vmShowProduct(productVC)
@@ -365,13 +391,13 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     
     func optionsBtnPressed() {
         var texts: [String] = []
-        var actions: [()->Void] = []
+        var actions: [() -> Void] = []
         //Safety tips
         texts.append(LGLocalizedString.chatSafetyTips)
         actions.append({ [weak self] in self?.delegate?.vmShowSafetyTips() })
-        
+
         //Direct answers
-        if chatEnabled {
+        if chat.isSaved && chatEnabled {
             texts.append(shouldShowDirectAnswers ? LGLocalizedString.directAnswersHide :
                 LGLocalizedString.directAnswersShow)
             actions.append({ [weak self] in self?.toggleDirectAnswers() })
@@ -381,16 +407,19 @@ public class OldChatViewModel: BaseViewModel, Paginable {
             texts.append(LGLocalizedString.chatListDelete)
             actions.append({ [weak self] in self?.delete() })
         }
-        //Report
-        texts.append(LGLocalizedString.reportUserTitle)
-        actions.append({ [weak self] in self?.reportUserPressed() })
-        
-        if let relation = userRelation where relation.isBlocked {
-            texts.append(LGLocalizedString.chatUnblockUser)
-            actions.append({ [weak self] in self?.unblockUserPressed() })
-        } else {
-            texts.append(LGLocalizedString.chatBlockUser)
-            actions.append({ [weak self] in self?.blockUserPressed() })
+
+        if myUserRepository.myUser != nil && otherUser != nil {
+            //Report
+            texts.append(LGLocalizedString.reportUserTitle)
+            actions.append({ [weak self] in self?.reportUserPressed() })
+            
+            if let relation = userRelation where relation.isBlocked {
+                texts.append(LGLocalizedString.chatUnblockUser)
+                actions.append({ [weak self] in self?.unblockUserPressed() })
+            } else {
+                texts.append(LGLocalizedString.chatBlockUser)
+                actions.append({ [weak self] in self?.blockUserPressed() })
+            }
         }
         
         delegate?.vmShowOptionsList(texts, actions: actions)
@@ -412,13 +441,76 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         sendMessage(text, isQuickAnswer: isQuickAnswer, type: .Text)
     }
     
+    func isMatchingConversationData(data: ConversationData) -> Bool {
+        switch data {
+        case .Conversation(let conversationId):
+            return conversationId == chat.objectId
+        case let .ProductBuyer(productId, buyerId):
+            return productId == product.objectId && buyerId == buyer?.objectId
+        }
+    }
+
+    func stickersShown() {
+        KeyValueStorage.sharedInstance[.stickersTooltipAlreadyShown] = true
+    }
+    
+    
+    // MARK: - private methods
+    
+    private func initUsers() {
+        if otherUser == nil || otherUser?.objectId == nil {
+            if let myUser = myUserRepository.myUser {
+                self.otherUser = chat.otherUser(myUser: myUser)
+            } else {
+                self.otherUser = chat.userTo
+            }
+        }
+
+        if let _ = myUserRepository.myUser {
+            self.buyer = chat.buyer
+        } else {
+            self.buyer = nil
+        }
+    }
+
+    private func loadStickers() {
+        stickersRepository.show { [weak self] result in
+            if let value = result.value {
+                self?.stickers = value
+                self?.delegate?.vmDidUpdateStickers()
+            }
+        }
+    }
+    
+    private func setupDeepLinksRx() {
+        DeepLinksRouter.sharedInstance.chatDeepLinks.subscribeNext { [weak self] deepLink in
+            switch deepLink.action {
+            case .Conversation(let data):
+                guard self?.isMatchingConversationData(data) ?? false else { return }
+                self?.retrieveFirstPageWithNumResults(Constants.numMessagesPerPage)
+            case .Message(_, let data):
+                guard self?.isMatchingConversationData(data) ?? false else { return }
+                self?.retrieveFirstPageWithNumResults(Constants.numMessagesPerPage)
+            default: break
+            }
+            }.addDisposableTo(disposeBag)
+    }
+
     private func sendMessage(text: String, isQuickAnswer: Bool, type: MessageType) {
+        guard myUserRepository.myUser != nil else {
+            loginAndResend(text, isQuickAnswer: isQuickAnswer, type: type)
+            return
+        }
+
         if isSendingMessage { return }
         let message = text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
         guard message.characters.count > 0 else { return }
         guard let toUser = otherUser else { return }
-        self.isSendingMessage = true
-        
+        if !isQuickAnswer && type != .Sticker {
+            delegate?.vmClearText()
+        }
+        isSendingMessage = true
+
         chatRepository.sendMessage(type, message: message, product: product, recipient: toUser) { [weak self] result in
             guard let strongSelf = self else { return }
             if let sentMessage = result.value, let adapter = self?.chatViewMessageAdapter {
@@ -444,6 +536,17 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         }
     }
 
+    private func retrieveUsersRelation() {
+        guard let otherUserId = otherUser?.objectId else { return }
+        userRepository.retrieveUserToUserRelation(otherUserId) { [weak self] result in
+            if let value = result.value {
+                self?.userRelation = value
+            } else {
+                self?.userRelation = nil
+            }
+        }
+    }
+
     private func userNotVerifiedError() {
         guard let myUserEmail = myUserRepository.myUser?.email else {
             delegate?.vmDidFailSendingMessage()
@@ -454,8 +557,8 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         let resendAction = UIAction(interface: .Button(LGLocalizedString.chatVerifyAlertResendButton, .Default),
                                     action: { [weak self] in self?.resendEmailVerification(myUserEmail) })
         delegate?.vmShowAlertWithTitle(LGLocalizedString.chatVerifyAlertTitle,
-                                           text: LGLocalizedString.chatVerifyAlertMessage(myUserEmail),
-                                           alertType: .PlainAlert, actions: [resendAction, okAction])
+                                       text: LGLocalizedString.chatVerifyAlertMessage(myUserEmail),
+                                       alertType: .PlainAlert, actions: [resendAction, okAction])
     }
 
     private func resendEmailVerification(email: String) {
@@ -474,7 +577,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
             }
         }
     }
-    
+
     private func afterSendMessageEvents() {
         if shouldAskProductSold {
             shouldAskProductSold = false
@@ -492,31 +595,10 @@ public class OldChatViewModel: BaseViewModel, Paginable {
             delegate?.vmAskForRating()
         }
     }
-    
-    func isMatchingConversationData(data: ConversationData) -> Bool {
-        switch data {
-        case .Conversation(let conversationId):
-            return conversationId == chat.objectId
-        case let .ProductBuyer(productId, buyerId):
-            return productId == product.objectId && buyerId == buyer?.objectId
-        }
-    }
-    
-    func retrieveUsersRelation() {
-        
-        guard let otherUserId = otherUser?.objectId else { return }
-        
-        userRepository.retrieveUserToUserRelation(otherUserId) { [weak self] result in
-            if let value = result.value {
-                self?.userRelation = value
-            } else {
-                self?.userRelation = nil
-            }
-        }
-    }
 
-    func loadStickersTooltip() {
-        guard !KeyValueStorage.sharedInstance[.stickersTooltipAlreadyShown] else { return }
+
+    private func loadStickersTooltip() {
+        guard chatEnabled && !KeyValueStorage.sharedInstance[.stickersTooltipAlreadyShown] else { return }
 
         var newTextAttributes = [String : AnyObject]()
         newTextAttributes[NSForegroundColorAttributeName] = UIColor.primaryColorHighlighted
@@ -536,42 +618,8 @@ public class OldChatViewModel: BaseViewModel, Paginable {
 
         delegate?.vmLoadStickersTooltipWithText(fullTitle)
     }
+    
 
-    func stickersShown() {
-        KeyValueStorage.sharedInstance[.stickersTooltipAlreadyShown] = true
-    }
-
-    // MARK: - private methods
-    
-    private func initUsers() {
-        guard let myUser = myUserRepository.myUser else { return }
-        self.otherUser = chat.otherUser(myUser: myUser)
-        self.buyer = chat.buyer
-    }
-    
-    private func loadStickers() {
-        stickersRepository.show { [weak self] result in
-            if let value = result.value {
-                self?.stickers = value
-                self?.delegate?.vmDidUpdateStickers()
-            }
-        }
-    }
-    
-    private func setupDeepLinksRx() {
-        DeepLinksRouter.sharedInstance.chatDeepLinks.subscribeNext { [weak self] deepLink in
-            switch deepLink.action {
-            case .Conversation(let data):
-                guard self?.isMatchingConversationData(data) ?? false else { return }
-                self?.retrieveFirstPageWithNumResults(Constants.numMessagesPerPage)
-            case .Message(_, let data):
-                guard self?.isMatchingConversationData(data) ?? false else { return }
-                self?.retrieveFirstPageWithNumResults(Constants.numMessagesPerPage)
-            default: break
-            }
-            }.addDisposableTo(disposeBag)
-    }
-    
     /**
      Retrieves the specified number of the newest messages
      
@@ -787,8 +835,8 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     // MARK: Tracking
     
     private func trackQuestion(source: AskQuestionSource, type: MessageType) {
-        // only track ask question if there were no previous messages
-        guard objectCount == 0 else { return }
+        // only track ask question if I didn't send any previous message
+        guard !didSendMessage else { return }
         let typePageParam: EventParameterTypePage
         switch source {
         case .ProductDetail:
@@ -876,8 +924,12 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     }
     
     private func afterRetrieveChatMessagesEvents() {
-        guard shouldShowSafetyTips else { return }
-        delegate?.vmShowSafetyTips()
+        afterRetrieveMessagesBlock?()
+        afterRetrieveMessagesBlock = nil
+
+        if shouldShowSafetyTips {
+            delegate?.vmShowSafetyTips()
+        }
     }
     
     func createDiclaimerBlockedMessage() -> ChatViewMessage {
@@ -896,7 +948,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
 extension OldChatViewModel: DirectAnswersPresenterDelegate {
     
     var directAnswers: [DirectAnswer] {
-        let emptyAction: ()->Void = { [weak self] in
+        let emptyAction: () -> Void = { [weak self] in
             self?.clearProductSoldDirectAnswer()
         }
         if isBuyer {
@@ -944,10 +996,41 @@ private extension OldChatViewModel {
             guard let strongSelf = self else { return }
             guard let userWaccounts = result.value else { return }
             strongSelf.otherUser = userWaccounts
-            if let userInfoMessage = strongSelf.userInfoMessage where !strongSelf.isLoading && strongSelf.isLastPage {
+            if let userInfoMessage = strongSelf.userInfoMessage where strongSelf.shouldShowOtherUserInfo {
                 strongSelf.loadedMessages += [userInfoMessage]
+                strongSelf.delegate?.vmDidSucceedRetrievingChatMessages()
             }
         }
+    }
+}
+
+
+// MARK: - User verification & Second step login
+
+private extension OldChatViewModel {
+    func loginAndResend(text: String, isQuickAnswer: Bool, type: MessageType) {
+        let completion = { [weak self] in
+            guard let strongSelf = self else { return }
+            strongSelf.autoKeyboardEnabled = true
+            strongSelf.chat = LocalChat(product: strongSelf.product , myUser: strongSelf.myUserRepository.myUser)
+            // Setting the buyer
+            strongSelf.initUsers()
+            strongSelf.afterRetrieveMessagesBlock = { [weak self] in
+                // Updating with real data
+                self?.initUsers()
+                // In case there were messages in the conversation, don't send the message automatically.
+                guard let messages = self?.chat.messages where messages.isEmpty else { return }
+                self?.sendMessage(text, isQuickAnswer: isQuickAnswer, type: type)
+            }
+            strongSelf.retrieveFirstPage()
+            strongSelf.retrieveUsersRelation()
+        }
+        /* Needed to avoid showing the keyboard while login in (as the login is overCurrentContext) so chat will become
+         'visible' while login screen is there */
+        autoKeyboardEnabled = false
+        delegate?.vmHideKeyboard(animated: false) // this forces SLKTextViewController to have correct keyboard info
+        delegate?.ifLoggedInThen(.AskQuestion, loginStyle: .Popup(LGLocalizedString.chatLoginPopupText),
+                                 loggedInAction: completion, elsePresentSignUpWithSuccessAction: completion)
     }
 }
 

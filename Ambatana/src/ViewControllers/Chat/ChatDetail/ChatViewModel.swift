@@ -21,13 +21,17 @@ protocol ChatViewModelDelegate: BaseViewModelDelegate {
     func vmShowReportUser(reportUserViewModel: ReportUsersViewModel)
 
     func vmShowSafetyTips()
+
+    func vmClearText()
+    func vmHideKeyboard(animated: Bool)
+    func vmShowKeyboard()
     
     func vmAskForRating()
     func vmShowPrePermissions(type: PrePermissionType)
     func vmShowMessage(message: String, completion: (() -> ())?)
-    func vmClose()
-    func vmShowKeyboard()
+    func vmRequestLogin(loggedInAction: () -> Void)
     func vmLoadStickersTooltipWithText(text: NSAttributedString)
+    func vmClose()
 }
 
 struct EmptyConversation: ChatConversation {
@@ -79,7 +83,17 @@ class ChatViewModel: BaseViewModel {
         }
         return false
     }
-    
+
+    private var didSendMessage: Bool {
+        guard let myUserId = myUserRepository.myUser?.objectId else { return false }
+        for message in messages.value {
+            if message.talkerId == myUserId {
+                return true
+            }
+        }
+        return false
+    }
+
     var shouldShowDirectAnswers: Bool {
         return chatEnabled.value && KeyValueStorage.sharedInstance.userLoadChatShowDirectAnswersForKey(userDefaultsSubKey)
     }
@@ -106,18 +120,26 @@ class ChatViewModel: BaseViewModel {
     private var isDeleted = false
     private var shouldAskProductSold: Bool = false
     private var isSendingQuickAnswer = false
+    private var productId: String?
+    private var preSendMessageCompletion: ((text: String, isQuickAnswer: Bool, type: ChatMessageType) -> Void)?
+    private var afterRetrieveMessagesCompletion: (() -> Void)?
     
     private var disposeBag = DisposeBag()
     
     private var userDefaultsSubKey: String {
-        return "\(conversation.value.product?.objectId) + \(conversation.value.interlocutor?.objectId)"
+        return "\(conversation.value.product?.objectId ?? productId) + \(conversation.value.interlocutor?.objectId)"
     }
 
     private var isBuyer: Bool {
         return !conversation.value.amISelling
     }
 
-    convenience init?(conversation: ChatConversation) {
+    private var shouldShowOtherUserInfo: Bool {
+        guard conversation.value.isSaved else { return true }
+        return !isLoading && isLastPage
+    }
+
+    convenience init(conversation: ChatConversation) {
         let myUserRepository = Core.myUserRepository
         let chatRepository = Core.chatRepository
         let productRepository = Core.productRepository
@@ -129,24 +151,26 @@ class ChatViewModel: BaseViewModel {
                   stickersRepository: stickersRepository, tracker: tracker)
     }
     
-    convenience init?(productId: String, sellerId: String) {
+    convenience init?(product: Product) {
+        guard let _ = product.objectId, sellerId = product.user.objectId else { return nil }
+
         let myUserRepository = Core.myUserRepository
         let chatRepository = Core.chatRepository
         let productRepository = Core.productRepository
         let userRepository = Core.userRepository
         let stickersRepository = Core.stickersRepository
         let tracker = TrackerProxy.sharedInstance
-        
+
         let amISelling = myUserRepository.myUser?.objectId == sellerId
         let empty = EmptyConversation(objectId: nil, unreadMessageCount: 0, lastMessageSentAt: nil, product: nil,
                                       interlocutor: nil, amISelling: amISelling)
         self.init(conversation: empty, myUserRepository: myUserRepository, chatRepository: chatRepository,
                   productRepository: productRepository, userRepository: userRepository,
                   stickersRepository: stickersRepository ,tracker: tracker)
-        self.syncConversation(productId, sellerId: sellerId)
+        self.setupConversationFromProduct(product)
     }
     
-    init?(conversation: ChatConversation, myUserRepository: MyUserRepository, chatRepository: ChatRepository,
+    init(conversation: ChatConversation, myUserRepository: MyUserRepository, chatRepository: ChatRepository,
           productRepository: ProductRepository, userRepository: UserRepository, stickersRepository: StickersRepository, tracker: Tracker) {
         self.conversation = Variable<ChatConversation>(conversation)
         self.myUserRepository = myUserRepository
@@ -167,8 +191,17 @@ class ChatViewModel: BaseViewModel {
         guard !interlocutor.isBanned else { return }
         retrieveMoreMessages()
         loadStickersTooltip()
-        if chatEnabled.value {
+        if conversation.value.isSaved && chatEnabled.value {
             delegate?.vmShowKeyboard()
+        }
+    }
+
+    func setupConversationFromProduct(product: Product) {
+        guard let productId = product.objectId, sellerId = product.user.objectId else { return }
+        if let _ =  myUserRepository.myUser?.objectId {
+            syncConversation(productId, sellerId: sellerId)
+        } else {
+            setupNotLoggedIn(product)
         }
     }
 
@@ -274,7 +307,7 @@ class ChatViewModel: BaseViewModel {
     }
 
     func loadStickersTooltip() {
-        guard !KeyValueStorage.sharedInstance[.stickersTooltipAlreadyShown] else { return }
+        guard chatEnabled.value && !KeyValueStorage.sharedInstance[.stickersTooltipAlreadyShown] else { return }
 
         var newTextAttributes = [String : AnyObject]()
         newTextAttributes[NSForegroundColorAttributeName] = UIColor.primaryColorHighlighted
@@ -332,6 +365,11 @@ extension ChatViewModel {
     }
     
     private func sendMessage(text: String, isQuickAnswer: Bool, type: ChatMessageType) {
+        if let preSendMessageCompletion = preSendMessageCompletion {
+            preSendMessageCompletion(text: text, isQuickAnswer: isQuickAnswer, type: type)
+            return
+        }
+
         if isQuickAnswer {
             if isSendingQuickAnswer { return }
             isSendingQuickAnswer = true
@@ -340,7 +378,11 @@ extension ChatViewModel {
         guard message.characters.count > 0 else { return }
         guard let convId = conversation.value.objectId else { return }
         guard let userId = myUserRepository.myUser?.objectId else { return }
-        
+
+        if !isQuickAnswer && type != .Sticker {
+            delegate?.vmClearText()
+        }
+
         let newMessage = chatRepository.createNewMessage(userId, text: text, type: type)
         let viewMessage = chatViewMessageAdapter.adapt(newMessage).markAsSent()
         messages.insert(viewMessage, atIndex: 0)
@@ -474,33 +516,35 @@ extension ChatViewModel {
             self?.delegate?.vmShowSafetyTips()
         }
         actions.append(safetyTips)
-        
-        if chatEnabled.value {
-            let directAnswersText = shouldShowDirectAnswers ? LGLocalizedString.directAnswersHide :
-                LGLocalizedString.directAnswersShow
-            let directAnswersAction = UIAction(interface: UIActionInterface.Text(directAnswersText),
-                                               action: toggleDirectAnswers)
-            actions.append(directAnswersAction)
-        }
-        
-        if !isDeleted {
-            let delete = UIAction(interface: UIActionInterface.Text(LGLocalizedString.chatListDelete),
-                                               action: deleteAction)
-            actions.append(delete)
-        }
-        
-        let report = UIAction(interface: UIActionInterface.Text(LGLocalizedString.reportUserTitle),
-                              action: reportUserAction)
-        actions.append(report)
-      
-        if interlocutorIsMuted.value {
-            let unblock = UIAction(interface: UIActionInterface.Text(LGLocalizedString.chatUnblockUser),
-                                  action: unblockUserAction)
-            actions.append(unblock)
-        } else {
-            let block = UIAction(interface: UIActionInterface.Text(LGLocalizedString.chatBlockUser),
-                                   action: blockUserAction)
-            actions.append(block)
+
+        if conversation.value.isSaved {
+            if chatEnabled.value {
+                let directAnswersText = shouldShowDirectAnswers ? LGLocalizedString.directAnswersHide :
+                    LGLocalizedString.directAnswersShow
+                let directAnswersAction = UIAction(interface: UIActionInterface.Text(directAnswersText),
+                                                   action: toggleDirectAnswers)
+                actions.append(directAnswersAction)
+            }
+            
+            if !isDeleted {
+                let delete = UIAction(interface: UIActionInterface.Text(LGLocalizedString.chatListDelete),
+                                                   action: deleteAction)
+                actions.append(delete)
+            }
+            
+            let report = UIAction(interface: UIActionInterface.Text(LGLocalizedString.reportUserTitle),
+                                  action: reportUserAction)
+            actions.append(report)
+          
+            if interlocutorIsMuted.value {
+                let unblock = UIAction(interface: UIActionInterface.Text(LGLocalizedString.chatUnblockUser),
+                                      action: unblockUserAction)
+                actions.append(unblock)
+            } else {
+                let block = UIAction(interface: UIActionInterface.Text(LGLocalizedString.chatBlockUser),
+                                       action: blockUserAction)
+                actions.append(block)
+            }
         }
         
         delegate?.vmShowActionSheet(LGLocalizedString.commonCancel, actions: actions)
@@ -745,8 +789,44 @@ extension ChatViewModel {
     }
 
     private func afterRetrieveChatMessagesEvents() {
-        guard shouldShowSafetyTips else { return }
-        delegate?.vmShowSafetyTips()
+        if shouldShowSafetyTips {
+            delegate?.vmShowSafetyTips()
+        }
+
+        afterRetrieveMessagesCompletion?()
+    }
+}
+
+
+// MARK: - Second step login
+
+private extension ChatViewModel {
+    func setupNotLoggedIn(product: Product) {
+        guard let productId = product.objectId, sellerId = product.user.objectId else { return }
+        self.productId = productId
+
+        // Configure product + user info
+        title.value = product.title ?? ""
+        productName.value = product.title ?? ""
+        productImageUrl.value = product.thumbnail?.fileURL
+        productPrice.value = product.priceString()
+        interlocutorAvatarURL.value = product.user.avatar?.fileURL
+        interlocutorName.value = product.user.name ?? ""
+        interlocutorId.value = sellerId
+
+        // Configure login + send actions
+        preSendMessageCompletion = { [weak self] (text: String, isQuickAnswer: Bool, type: ChatMessageType) in
+            self?.delegate?.vmHideKeyboard(false)
+            self?.delegate?.vmRequestLogin() { [weak self] in
+                self?.preSendMessageCompletion = nil
+                self?.afterRetrieveMessagesCompletion = { [weak self] in
+                    self?.afterRetrieveMessagesCompletion = nil
+                    guard let messages = self?.messages.value where messages.isEmpty else { return }
+                    self?.sendMessage(text, isQuickAnswer: isQuickAnswer, type: type)
+                }
+                self?.syncConversation(productId, sellerId: sellerId)
+            }
+        }
     }
 }
 
@@ -756,8 +836,8 @@ extension ChatViewModel {
 private extension ChatViewModel {
     
     private func trackQuestion(source: AskQuestionSource, type: ChatMessageType) {
-        // only track ask question if there were no previous messages
-        guard objectCount == 0 else { return }
+        // only track ask question if I didn't send any message previously
+        guard !didSendMessage else { return }
         let typePageParam: EventParameterTypePage
         switch source {
         case .ProductDetail:
@@ -829,7 +909,7 @@ private extension ChatConversation {
 extension ChatViewModel: DirectAnswersPresenterDelegate {
     
     var directAnswers: [DirectAnswer] {
-        let emptyAction: ()->Void = { [weak self] in
+        let emptyAction: () -> Void = { [weak self] in
             self?.clearProductSoldDirectAnswer()
         }
         if conversation.value.amISelling {
@@ -889,7 +969,7 @@ private extension ChatViewModel {
                 guard let strongSelf = self else { return }
                 guard let userWaccounts = result.value else { return }
                 strongSelf.interlocutor = userWaccounts
-                if let userInfoMessage = strongSelf.userInfoMessage where !strongSelf.isLoading && strongSelf.isLastPage {
+                if let userInfoMessage = strongSelf.userInfoMessage where strongSelf.shouldShowOtherUserInfo {
                     strongSelf.messages.append(userInfoMessage)
                 }
             }

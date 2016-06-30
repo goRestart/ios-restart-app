@@ -43,12 +43,14 @@ class ChangePasswordViewController: UIViewController, UITextFieldDelegate, Chang
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setNavBarBackButton(nil)
 
         setupUI()
     }
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        setNavBarBackgroundStyle(.Default)
         UIApplication.sharedApplication().setStatusBarStyle(.Default, animated: true)
     }
     

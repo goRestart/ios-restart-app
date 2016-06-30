@@ -123,7 +123,6 @@ class ChatViewController: SLKTextViewController {
     
     override func didPressRightButton(sender: AnyObject!) {
         let message = textView.text
-        textView.text = ""
         viewModel.sendText(message, isQuickAnswer: false)
     }
     
@@ -496,7 +495,11 @@ extension ChatViewController: ChatViewModelDelegate {
         let vc = UserViewController(viewModel: userVM)
         self.navigationController?.pushViewController(vc, animated: true)
     }
-    
+
+    func vmClearText() {
+        textView.text = ""
+    }
+
     
     // MARK: > Report user
     
@@ -526,8 +529,8 @@ extension ChatViewController: ChatViewModelDelegate {
         showKeyboard(true, animated: true)
     }
 
-    func vmHideKeyboard() {
-        showKeyboard(false, animated: true)
+    func vmHideKeyboard(animated: Bool) {
+        showKeyboard(false, animated: animated)
     }
     
     func vmShowMessage(message: String, completion: (() -> ())?) {
@@ -538,10 +541,16 @@ extension ChatViewController: ChatViewModelDelegate {
         navigationController?.popViewControllerAnimated(true)
     }
 
+    func vmRequestLogin(loggedInAction: () -> Void) {
+        dismissKeyboard(false)
+        ifLoggedInThen(.AskQuestion, loginStyle: .Popup(LGLocalizedString.chatLoginPopupText),
+                       loggedInAction: loggedInAction, elsePresentSignUpWithSuccessAction: loggedInAction)
+    }
+
     func vmLoadStickersTooltipWithText(text: NSAttributedString) {
         guard stickersTooltip == nil else { return }
 
-        stickersTooltip = Tooltip(targetView: leftButton, superView: view, title: text, style: .Black,
+        stickersTooltip = Tooltip(targetView: leftButton, superView: view, title: text, style: .Black(closeEnabled: true),
                                   peakOnTop: false, actionBlock: { [weak self] in
                                     self?.showStickers()
                         }, closeBlock: { [weak self] in

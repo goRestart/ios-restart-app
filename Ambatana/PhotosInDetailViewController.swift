@@ -27,10 +27,12 @@ class PhotosInDetailViewController: UIViewController, UIScrollViewDelegate {
         
         super.viewDidLoad()
         setNavBarTitle(productName)
+        setNavBarBackButton(nil)
     }
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        setNavBarBackgroundStyle(.Default)
         UIApplication.sharedApplication().setStatusBarStyle(.Default, animated: true)
     }
 

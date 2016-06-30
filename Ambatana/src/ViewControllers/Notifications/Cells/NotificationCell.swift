@@ -21,8 +21,8 @@ class NotificationCell: UITableViewCell, ReusableCell {
 
     private var lines: [CALayer] = []
 
-    var primaryImageAction: (()->Void)?
-    var secondaryImageAction: (()->Void)?
+    var primaryImageAction: (() -> Void)?
+    var secondaryImageAction: (() -> Void)?
 
     override func awakeFromNib() {
         super.awakeFromNib()

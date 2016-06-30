@@ -30,6 +30,7 @@ class ProductLocationViewController: UIViewController, MKMapViewDelegate {
         
         super.viewDidLoad()
         setNavBarTitle(LGLocalizedString.productLocationTitle)
+        setNavBarBackButton(nil)
         
         if location != nil {
             // set map region
@@ -60,6 +61,7 @@ class ProductLocationViewController: UIViewController, MKMapViewDelegate {
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        setNavBarBackgroundStyle(.Default)
         UIApplication.sharedApplication().setStatusBarStyle(.Default, animated: true)
     }
 

@@ -20,6 +20,7 @@
 "categories_other" = "Khác";
 "categories_sports_leisure_and_games" = "Thể thao, Giải trí và Trò chơi";
 "categories_title" = "Danh mục";
+"categories_unassigned" = "Chưa được chọn";
 "change_location_apply_button" = "Cài đặt Địa điểm";
 "change_location_approximate_location_label" = "Hiện địa chỉ tương đối chính xác";
 "change_location_ask_update_location_message" = "Hãy tìm một món hời ở ngay quanh bạn! Bạn có muốn cập nhật địa điểm của mình?";
@@ -386,6 +387,8 @@
 "product_mark_as_sold_confirm_title" = "Đánh dấu Đã bán";
 "product_mark_as_sold_error_generic" = "Lỗi xảy ra trong khi đánh dấu đã bán cho sản phẩm. Xin vui lòng thử lại sau.";
 "product_mark_as_sold_success_message" = "Chúc mừng, sản phẩm của bạn đã được đánh dấu đã bán!";
+"product_more_info_tooltip_part_1" = "Chạm";
+"product_more_info_tooltip_part_2" = "%@ để xem thêm thông tin";
 "product_negotiable_price" = "Có thể thương lượng";
 "product_onboarding_finger_scroll_label" = "Cuộn để xem thêm ảnh";
 "product_onboarding_finger_swipe_label" = "Vuốt để tới sản phẩm tiếp theo hoặc sản phẩm trước";

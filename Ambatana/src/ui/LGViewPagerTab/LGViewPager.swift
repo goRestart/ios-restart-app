@@ -185,8 +185,12 @@ class LGViewPager: UIView, UIScrollViewDelegate {
     }
 
     func selectTabAtIndex(index: Int) {
+        selectTabAtIndex(index, animated: false)
+    }
+
+    func selectTabAtIndex(index: Int, animated: Bool) {
         guard 0..<tabMenuItems.count ~= index else { return }
-        changeSelectedTab(tabMenuItems[index], animated: false)
+        changeSelectedTab(tabMenuItems[index], animated: animated)
     }
     
 

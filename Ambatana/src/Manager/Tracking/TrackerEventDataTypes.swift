@@ -42,6 +42,7 @@ public enum EventName: String {
     case ProductOffer                       = "product-detail-offer"
     case ProductAskQuestion                 = "product-detail-ask-question"
     case ProductContinueChatting            = "product-detail-continue-chatting"
+    case ProductChatButton                  = "product-detail-chat-button"
     case ProductMarkAsSold                  = "product-detail-sold"
     case ProductMarkAsUnsold                = "product-detail-unsold"
     
@@ -194,7 +195,6 @@ public enum EventParameterLoginSourceValue: String {
     case Chats = "messages"
     case Profile = "view-profile"
     case Notifications = "notifications"
-    
     case Favourite = "favourite"
     case MakeOffer = "offer"
     case MarkAsSold = "mark-as-sold"

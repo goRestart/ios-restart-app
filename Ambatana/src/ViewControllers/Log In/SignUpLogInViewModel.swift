@@ -306,7 +306,7 @@ public class SignUpLogInViewModel: BaseViewModel {
             message = LGLocalizedString.signUpSendErrorGeneric
         }
         self.delegate?.viewModelDidFailSigningUp(self, message: message)
-        loginFailedWithError(eventParameterForSessionError(error))
+        signupFailedWithError(eventParameterForSessionError(error))
     }
 
     private func eventParameterForSessionError(error: SessionManagerError) -> EventParameterLoginError {
