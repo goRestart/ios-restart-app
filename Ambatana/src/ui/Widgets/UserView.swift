@@ -24,6 +24,8 @@ class UserView: UIView {
     @IBOutlet weak var subtitleLabel: UILabel!
 
     private var style: UserViewStyle = .Full
+    private var avatarURL: NSURL?   // Used as an "image id" to avoid loading the avatar of the previous user
+                                    //if the current doesn't has one
 
     weak var delegate: UserViewDelegate?
 
@@ -56,10 +58,13 @@ class UserView: UIView {
     }
 
     func setupWith(userAvatar avatar: NSURL?, placeholder: UIImage?, userName: String?, subtitle: String?) {
+        avatarURL = avatar
+        userAvatarImageView.image = placeholder
         if let avatar = avatar {
-            userAvatarImageView.lg_setImageWithURL(avatar, placeholderImage: placeholder)
-        } else {
-            userAvatarImageView.image = placeholder
+            ImageDownloader.sharedInstance.downloadImageWithURL(avatar) { [weak self] result, url in
+                guard let imageWithSource = result.value where url == self?.avatarURL else { return }
+                self?.userAvatarImageView.image = imageWithSource.image
+            }
         }
         userNameLabel.text = userName
         subtitleLabel.text = subtitle

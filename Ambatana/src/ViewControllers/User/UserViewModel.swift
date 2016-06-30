@@ -122,14 +122,17 @@ class UserViewModel: BaseViewModel {
         self.favoritesProductListViewModel.dataDelegate = self
 
         setupRxBindings()
+        setupPermissionsNotification()
+    }
+
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
     }
 
     override func didBecomeActive(firstTime: Bool) {
         super.didBecomeActive(firstTime)
 
-        if isMyProfile {
-            pushPermissionsDisabledWarning.value = !UIApplication.sharedApplication().isRegisteredForRemoteNotifications()
-        }
+        updatePermissionsWarning()
 
         if itsMe {
             resetLists()
@@ -520,6 +523,23 @@ extension UserViewModel: ProductListViewModelDataDelegate {
         guard let productVC = ProductDetailFactory.productDetailFromProductList(viewModel, index: index,
                                                                     thumbnailImage: thumbnailImage, originFrame: originFrame) else { return }
         delegate?.vmOpenProduct(productVC)
+    }
+}
+
+
+// MARK: Push Permissions
+
+private extension UserViewModel {
+
+    func setupPermissionsNotification() {
+        guard isMyProfile else { return }
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(updatePermissionsWarning),
+                        name: PushManager.Notification.DidRegisterUserNotificationSettings.rawValue, object: nil)
+    }
+
+    dynamic func updatePermissionsWarning() {
+        guard isMyProfile else { return }
+        pushPermissionsDisabledWarning.value = !UIApplication.sharedApplication().isRegisteredForRemoteNotifications()
     }
 }
 

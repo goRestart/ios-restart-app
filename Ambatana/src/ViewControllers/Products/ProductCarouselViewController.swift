@@ -290,6 +290,9 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         alphaSignal.bindTo(productStatusView.rx_alpha).addDisposableTo(disposeBag)
         alphaSignal.bindTo(commercialButton.rx_alpha).addDisposableTo(disposeBag)
         alphaSignal.bindTo(loadingTimer.rx_alpha).addDisposableTo(disposeBag)
+        alphaSignal.bindNext{ [weak self] alpha in
+            self?.moreInfoTooltip?.alpha = alpha
+        }.addDisposableTo(disposeBag)
         
         if let navBar = navigationController?.navigationBar {
             alphaSignal.bindTo(navBar.rx_alpha).addDisposableTo(disposeBag)
@@ -481,7 +484,10 @@ extension ProductCarouselViewController {
         fullScreenAvatarView.alpha = 0
         fullScreenAvatarView.image = viewModel.ownerAvatarPlaceholder
         if let avatar = viewModel.ownerAvatar {
-            fullScreenAvatarView.lg_setImageWithURL(avatar)
+            ImageDownloader.sharedInstance.downloadImageWithURL(avatar) { [weak self] result, url in
+                guard let imageWithSource = result.value where url == self?.viewModel.currentProductViewModel?.ownerAvatar else { return }
+                self?.fullScreenAvatarView.image = imageWithSource.image
+            }
         }
     }
 
@@ -672,6 +678,7 @@ extension ProductCarouselViewController: ProductCarouselCellDelegate {
             self?.userView.alpha = shouldHide ? 0 : 1
             self?.pageControl.alpha = shouldHide ? 0 : 1
             self?.moreInfoView.alpha = shouldHide ? 0 : 1
+            self?.moreInfoTooltip?.alpha = shouldHide ? 0 : 1
         }
     }
     
