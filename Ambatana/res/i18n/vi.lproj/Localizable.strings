@@ -20,6 +20,7 @@
 "categories_other" = "Khác";
 "categories_sports_leisure_and_games" = "Thể thao, Giải trí và Trò chơi";
 "categories_title" = "Danh mục";
+"categories_unassigned" = "Chưa được chọn";
 "change_location_apply_button" = "Cài đặt Địa điểm";
 "change_location_approximate_location_label" = "Hiện địa chỉ tương đối chính xác";
 "change_location_ask_update_location_message" = "Hãy tìm một món hời ở ngay quanh bạn! Bạn có muốn cập nhật địa điểm của mình?";
@@ -101,6 +102,7 @@
 "chat_list_unarchive_error_one" = "Có lỗi xảy ra khi bỏ lưu trữ hội thoại. Vui lòng thử lại sau.";
 "chat_list_unarchive_ok_one" = "Bỏ lưu trữ trò chuyện thành công!";
 "chat_list_unblock" = "Bỏ chặn";
+"chat_login_popup_text" = "Bạn cần đăng nhập để bắt đầu trò chuyện";
 "chat_message_disclaimer_scammer" = "Hãy đặc biệt cẩn thận khi trao đổi thông tin số điện thoại/email. Người dùng lừa đảo thường muốn bạn rời khỏi trò chuyện trong letgo. Hãy lưu ý! Nhấn váo đây để xem %@ của chúng tôi.";
 "chat_message_field_hint" = "Nhập tin nhắn của bạn tại đây";
 "chat_message_load_generic_error" = "Lỗi xảy ra trong khi hồi phục dữ liệu trò chuyện của bạn. Xin vui lòng thử lại sau.";
@@ -114,6 +116,8 @@
 "chat_safety_tips_title" = "LỜI KHUYÊN AN TOÀN";
 "chat_send_button" = "Gửi";
 "chat_send_error_generic" = "Lỗi xảy ra trong khi gửi tin nhắn. Xin vui lòng thử lại sau.";
+"chat_stickers_tooltip_add_stickers" = "Thêm nhãn dán vui nhộn";
+"chat_stickers_tooltip_new" = "MỚI!";
 "chat_unblock_user" = "Bỏ chặn Người dùng";
 "chat_user_info_name" = "Xin chào, tôi là %@";
 "chat_user_info_verified_with" = "Xác nhận bằng: ";
@@ -383,6 +387,8 @@
 "product_mark_as_sold_confirm_title" = "Đánh dấu Đã bán";
 "product_mark_as_sold_error_generic" = "Lỗi xảy ra trong khi đánh dấu đã bán cho sản phẩm. Xin vui lòng thử lại sau.";
 "product_mark_as_sold_success_message" = "Chúc mừng, sản phẩm của bạn đã được đánh dấu đã bán!";
+"product_more_info_tooltip_part_1" = "Chạm";
+"product_more_info_tooltip_part_2" = "%@ để xem thêm thông tin";
 "product_negotiable_price" = "Có thể thương lượng";
 "product_onboarding_finger_scroll_label" = "Cuộn để xem thêm ảnh";
 "product_onboarding_finger_swipe_label" = "Vuốt để tới sản phẩm tiếp theo hoặc sản phẩm trước";

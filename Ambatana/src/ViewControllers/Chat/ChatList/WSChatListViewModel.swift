@@ -163,7 +163,7 @@ private extension ChatsType {
 private extension ChatConversation {
     var conversationCellStatus: ConversationCellStatus {
         guard let product = product, interlocutor = interlocutor else { return .Deleted }
-        if interlocutor.isBlocked { return .Forbidden }
+        if interlocutor.isBanned { return .Forbidden }
         switch product.status {
         case .Deleted, .Discarded:
             return .Deleted

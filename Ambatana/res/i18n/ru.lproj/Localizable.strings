@@ -20,6 +20,7 @@
 "categories_other" = "Другое";
 "categories_sports_leisure_and_games" = "Спорт и Развлечения";
 "categories_title" = "Категории";
+"categories_unassigned" = "Не выбрана";
 "change_location_apply_button" = "Задать местоположение";
 "change_location_approximate_location_label" = "Показать приблизительный адрес";
 "change_location_ask_update_location_message" = "Предложения по соседству! Хотите обновить свое местоположение?";
@@ -101,6 +102,7 @@
 "chat_list_unarchive_error_one" = "При разархивировании чата произошла ошибка. Пожалуйста, попробуйте еще раз.";
 "chat_list_unarchive_ok_one" = "Чат разархивирован!";
 "chat_list_unblock" = "Разблокировать";
+"chat_login_popup_text" = "Для того, чтобы начать переписку, Вам необходимо войти в систему";
 "chat_message_disclaimer_scammer" = "Будьте особенно осторожны, когда обмениваетесь телефонами или е-мейлами. Мошенники часто просят пообщаться вне чата letgo. Будьте в курсе! Нажмите здесь, чтобы посмотреть наши %@.";
 "chat_message_field_hint" = "Введите сообщение";
 "chat_message_load_generic_error" = "При загрузке диалога произошла ошибка. Пожалуйста, попробуйте еще раз позже.";
@@ -114,6 +116,8 @@
 "chat_safety_tips_title" = "СОВЕТАМИ ПО БЕЗОПАСНОСТИ";
 "chat_send_button" = "Отправить";
 "chat_send_error_generic" = "При отправке сообщения произошла ошибка. Пожалуйста, попробуйте еще раз позже.";
+"chat_stickers_tooltip_add_stickers" = "Добавить стикеры";
+"chat_stickers_tooltip_new" = "НОВОЕ!";
 "chat_unblock_user" = "Разблокировать пользователя";
 "chat_user_info_name" = "Привет, я %@";
 "chat_user_info_verified_with" = "Проверен: ";
@@ -383,6 +387,8 @@
 "product_mark_as_sold_confirm_title" = "Отметить как проданный";
 "product_mark_as_sold_error_generic" = "При изменении статуса товара произошла ошибка. Пожалуйста, попробуйте еще раз позже.";
 "product_mark_as_sold_success_message" = "Поздравляем! Ваш продукт был продан!";
+"product_more_info_tooltip_part_1" = "Нажмите";
+"product_more_info_tooltip_part_2" = "%@ просмотреть больше информации";
 "product_negotiable_price" = "Обсуждаема";
 "product_onboarding_finger_scroll_label" = "Проведите вверх или вниз, чтобы листать фотографии";
 "product_onboarding_finger_swipe_label" = "Проведите влево или вправо, чтобы переключаться между предыдущим и следующим товаром";

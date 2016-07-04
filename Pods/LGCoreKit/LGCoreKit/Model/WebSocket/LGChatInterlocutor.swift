@@ -13,7 +13,7 @@ struct LGChatInterlocutor: ChatInterlocutor {
     let objectId: String?
     let name: String
     let avatar: File?
-    let isBlocked: Bool
+    let isBanned: Bool
     let isMuted: Bool
     let hasMutedYou: Bool
 }
@@ -24,7 +24,7 @@ extension LGChatInterlocutor: Decodable {
         static let objectId = "id"
         static let name = "name"
         static let avatar = "avatar"
-        static let isBlocked = "is_blocked"
+        static let isBanned = "is_banned"
         static let isMuted = "is_muted"
         static let hasMutedYou = "has_muted_you"
     }
@@ -34,7 +34,7 @@ extension LGChatInterlocutor: Decodable {
             <^> j <|? JSONKeys.objectId
             <*> j <| JSONKeys.name
             <*> LGArgo.jsonToAvatarFile(j, avatarKey: JSONKeys.avatar)
-            <*> j <| JSONKeys.isBlocked
+            <*> j <| JSONKeys.isBanned
             <*> j <| JSONKeys.isMuted
             <*> j <| JSONKeys.hasMutedYou
         return init1

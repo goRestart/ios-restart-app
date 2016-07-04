@@ -9,12 +9,6 @@
 import Taplytics
 
 public struct ABTests {
-    static var snapchatProductDetail: BoolABDynamicVar {
-        return BoolABDynamicVar(key: "snap_product_detail", type: .Bool, defaultValue: false)
-    }
-    static var chatStickers: BoolABDynamicVar {
-        return BoolABDynamicVar(key: "chat_stickers", type: .Bool, defaultValue: false)
-    }
     static var mainProducts3Columns: BoolABDynamicVar {
         return BoolABDynamicVar(key: "main_products_3_columns", type: .Bool, defaultValue: false)
     }
@@ -23,5 +17,8 @@ public struct ABTests {
     }
     static var sellOnStartupAfterPosting: BoolABDynamicVar {
         return BoolABDynamicVar(key: "sell_on_startup_after_posting", type: .Bool, defaultValue: false)
+    }
+    static var automaticNextItem: BoolABDynamicVar {
+        return BoolABDynamicVar(key: "automatic_next_item", type: .Bool, defaultValue: true)
     }
 }

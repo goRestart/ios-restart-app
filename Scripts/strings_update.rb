@@ -5,11 +5,8 @@ require 'rubygems'
 require 'erb'
 require 'fileutils'
 require 'micro-optparse'
-gem 'google_drive', '>=1.0.0'
+gem 'google_drive', '>=2.0.0'
 require 'google_drive'
-require "google/api_client"
-require "google/api_client/client_secrets"
-require "google/api_client/auth/installed_app"
 
 require_relative 'helpers/String'
 require_relative 'helpers/Term'
@@ -142,43 +139,16 @@ check_unused_mark = options[:check_unused_mark]
 keep_keys = options[:keep_keys]
 
 # Get the spreadsheet from Google Drive
-puts 'Logging in to Google Drive...'
+puts 'Logging in to Google Drive. After accepting permissions in the given url paste code below'
 
-CREDENTIALS_PATH = Dir.home + '/.locgen/lg_strings_update.json'
+CREDENTIALS_PATH = Dir.home + '/.locgen/lg_strings_update_v2.json'
+FileUtils.mkdir_p(File.dirname(CREDENTIALS_PATH))
 
-def authorize(certificate)
-  FileUtils.mkdir_p(File.dirname(CREDENTIALS_PATH))
-  file_store = Google::APIClient::FileStore.new(CREDENTIALS_PATH)
-  storage = Google::APIClient::Storage.new(file_store)
-
-  auth = storage.authorize
-
-  if auth.nil? || (auth.expired? && auth.refresh_token.nil?)
-    client_secrets = Google::APIClient::ClientSecrets.load(certificate)
-    flow = Google::APIClient::InstalledAppFlow.new(
-      :client_id => client_secrets.client_id,
-      :client_secret => client_secrets.client_secret,
-      :scope => ['https://www.googleapis.com/auth/drive','https://spreadsheets.google.com/feeds/']
-    )
-    auth = flow.authorize(storage)
-    puts "Credentials saved to #{CREDENTIALS_PATH}" unless auth.nil?
-  end
-  auth
-end
-
-client = Google::APIClient.new(
-    :application_name => "Ztory Localizables",
-    :application_version => "1.0"
-  )
-client.authorization = authorize(client_json_path)
-
-access_token = client.authorization.access_token
-
-begin
-  # session = GoogleDrive.login(drive_user, drive_pass)
-  session = GoogleDrive.login_with_oauth(access_token)
+begin 
+  session = GoogleDrive.saved_session(CREDENTIALS_PATH, nil, "680212417077-vj4n4ju8ktnkfsng7buuj1ddho5hn3cd.apps.googleusercontent.com", "hIaVSK5sAFnHl12f4k3S5t4x")
 rescue
   show_error 'Couldn\'t access Google Drive. Check your credentials!'
+  exit -1
 end
 
 # Recover our spreadsheets

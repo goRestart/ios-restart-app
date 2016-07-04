@@ -39,4 +39,8 @@ extension SDWebImageManager: ImageDownloaderType {
             completion?(result: result, url: url)
         }
     }
+    func cachedImageForUrl(url: NSURL) -> UIImage? {
+        guard let key = cacheKeyForURL(url) else { return nil }
+        return imageCache?.imageFromMemoryCacheForKey(key)
+    }
 }

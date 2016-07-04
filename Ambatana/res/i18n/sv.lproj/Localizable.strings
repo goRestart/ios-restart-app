@@ -20,6 +20,7 @@
 "categories_other" = "Övrigt";
 "categories_sports_leisure_and_games" = "Sport, fritid och spel";
 "categories_title" = "Kategorier";
+"categories_unassigned" = "Inte vald";
 "change_location_apply_button" = "Välj plats";
 "change_location_approximate_location_label" = "Visa uppskattad adress";
 "change_location_ask_update_location_message" = "Fynda i din närhet! Vill du uppdatera din plats?";
@@ -101,6 +102,7 @@
 "chat_list_unarchive_error_one" = "Ett fel uppstod när dessa konversationer skulle tas bort från arkivet. Var god försök igen.";
 "chat_list_unarchive_ok_one" = "Chatten har tagits bort från arkivet!";
 "chat_list_unblock" = "Avblockera";
+"chat_login_popup_text" = "För att börja chatta, måste du logga in";
 "chat_message_disclaimer_scammer" = "Var extra försiktig när du delar med dig av telefonnummer/e-postadress. Bedragare ber ofta om att lämna letgo-chatten. Klicka här för att läsa våra %@.";
 "chat_message_field_hint" = "Skriv ditt meddelande här";
 "chat_message_load_generic_error" = "Ett fel uppstod vid hämtning av din information. Var god försök senare.";
@@ -114,6 +116,8 @@
 "chat_safety_tips_title" = "SÄKERHETSTIPS";
 "chat_send_button" = "Skicka";
 "chat_send_error_generic" = "Ett fel uppstod vid sändning av meddlande. Var god försök senare.";
+"chat_stickers_tooltip_add_stickers" = "Lägg till roliga stickers";
+"chat_stickers_tooltip_new" = "NY!";
 "chat_unblock_user" = "Avblockera användare";
 "chat_user_info_name" = "Hej, jag heter %@";
 "chat_user_info_verified_with" = "Bekräftad med: ";
@@ -383,6 +387,8 @@
 "product_mark_as_sold_confirm_title" = "Markera som såld";
 "product_mark_as_sold_error_generic" = "Ett fel uppstod vid markering av produkten som såld. Var god försök igen.";
 "product_mark_as_sold_success_message" = "Grattis, din produkt har markerats som såld!";
+"product_more_info_tooltip_part_1" = "Klicka";
+"product_more_info_tooltip_part_2" = "%@ för mer information";
 "product_negotiable_price" = "Förhandlingsbart";
 "product_onboarding_finger_scroll_label" = "Skrolla ner för att se fler bilder.";
 "product_onboarding_finger_swipe_label" = "Dra för att gå till nästa eller föregående produkt";

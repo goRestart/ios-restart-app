@@ -20,6 +20,7 @@
 "categories_other" = "Egyéb";
 "categories_sports_leisure_and_games" = "Sport, szabadidő, játékok";
 "categories_title" = "Kategóriák";
+"categories_unassigned" = "Nincs megadva";
 "change_location_apply_button" = "Hely beállítása";
 "change_location_approximate_location_label" = "Megközelítőleges cím megjelenítése";
 "change_location_ask_update_location_message" = "Találd meg a közeli alkalmi vételeket! Szeretnéd frissíteni a tartózkodási helyedet?";
@@ -101,6 +102,7 @@
 "chat_list_unarchive_error_one" = "Hiba történt a csevegés dearchiválása során. Próbálkozz újra.";
 "chat_list_unarchive_ok_one" = "A csevegés sikeresen dearchiválva!";
 "chat_list_unblock" = "Feloldás";
+"chat_login_popup_text" = "A csevegéshez be kell jelentkezned";
 "chat_message_disclaimer_scammer" = "Légy extra óvatos, ha megosztod telefonszámodat/e-mail címedet. A csalók gyakran megpróbálnak rávenni, hogy leváltsátok a letgo csevegést. Tájékozódj! Ide koppintva olvasd át %@ oldalát.";
 "chat_message_field_hint" = "Ide írd az üzeneted…";
 "chat_message_load_generic_error" = "Hiba történt a beszélgetésed adatainak begyűjtése során. Próbálkozz újra később.";
@@ -114,6 +116,8 @@
 "chat_safety_tips_title" = "BIZTONSÁGI TANÁCSAINK";
 "chat_send_button" = "Küldés";
 "chat_send_error_generic" = "Hiba történt az üzenet elküldése során. Próbálkozz újra később.";
+"chat_stickers_tooltip_add_stickers" = "Mókás matricák";
+"chat_stickers_tooltip_new" = "ÚJ!";
 "chat_unblock_user" = "Blokkolás feloldása";
 "chat_user_info_name" = "Szia, %@ vagyok";
 "chat_user_info_verified_with" = "Jóváhagyva ezzel: ";
@@ -383,6 +387,8 @@
 "product_mark_as_sold_confirm_title" = "Megjelölés eladottként";
 "product_mark_as_sold_error_generic" = "Hiba történt a megjelölés során. Kérjük, próbálkozz később.";
 "product_mark_as_sold_success_message" = "Gratulálunk, a portéka sikeresen megjelölve eladottként!";
+"product_more_info_tooltip_part_1" = "Koppints";
+"product_more_info_tooltip_part_2" = "%@ a részletekért";
 "product_negotiable_price" = "Alkudható";
 "product_onboarding_finger_scroll_label" = "Csúsztatással további képeket jeleníthetsz meg";
 "product_onboarding_finger_swipe_label" = "Suhintással a következő vagy az előző portékára ugorhatsz";

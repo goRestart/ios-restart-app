@@ -357,7 +357,7 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate {
             switch error {
             case .Network:
                 errorString = LGLocalizedString.toastNoNetwork
-            case .Internal, .NotFound, .Forbidden, .TooManyRequests:
+            case .Internal, .NotFound, .Forbidden, .TooManyRequests, .UserNotVerified:
                 errorString = LGLocalizedString.toastErrorInternal
             case .Unauthorized:
                 errorString = nil
@@ -470,16 +470,8 @@ extension MainProductsViewModel {
 // MARK: - Rating Banner
 
 extension MainProductsViewModel {
-    func ratingBannerIsVisible() {
-        let event = TrackerEvent.appRatingBannerOpen()
-        TrackerProxy.sharedInstance.trackEvent(event)
-    }
-
     func appRatingBannerClose() {
-        RatingManager.sharedInstance.userDidCloseProductListBanner()
-        
-        let event = TrackerEvent.appRatingBannerClose()
-        TrackerProxy.sharedInstance.trackEvent(event)
+        RatingManager.sharedInstance.userDidCloseProductListBanner()        
         listViewModel.reloadData()
     }
 }

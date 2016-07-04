@@ -20,6 +20,7 @@
 "categories_other" = "Sonstige";
 "categories_sports_leisure_and_games" = "Sport und Freizeit";
 "categories_title" = "Kategorien";
+"categories_unassigned" = "Nichts ausgewählt";
 "change_location_apply_button" = "Standort einstellen";
 "change_location_approximate_location_label" = "Zeige ungefähre Adresse";
 "change_location_ask_update_location_message" = "Finde Schnäppchen in deiner Nähe! Möchtest du deinen Standort aktualisieren?";
@@ -101,6 +102,7 @@
 "chat_list_unarchive_error_one" = "Beim Rückgängigmachen der Archivierung des Gesprächs ist ein Fehler aufgetreten. Bitte versuche es erneut.";
 "chat_list_unarchive_ok_one" = "Archivierung erfolgreich rückgängig gemacht!";
 "chat_list_unblock" = "Blockierung aufheben";
+"chat_login_popup_text" = "Bitte melde dich an, um ein Gespräch zu beginnen";
 "chat_message_disclaimer_scammer" = "Sei besonders vorsichtig, wenn du Kontaktinformationen wie Telefonnummern oder E-Mail-Adressen austauschst. Betrügerische Nutzer wollen häufig außerhalb des letgo-Systems kommunizieren. Sei informiert! Drücke hier, um unsere %@ anzuschauen.";
 "chat_message_field_hint" = "Gib hier deine Nachricht ein";
 "chat_message_load_generic_error" = "Beim Abrufen deiner Gesprächsdaten ist ein Fehler aufgetreten. Versuche es bitte später noch einmal.";
@@ -114,6 +116,8 @@
 "chat_safety_tips_title" = "SICHERHEITSTIPPS";
 "chat_send_button" = "Senden";
 "chat_send_error_generic" = "Beim Senden der Nachricht ist ein Fehler aufgetreten. Versuche es bitte später noch einmal.";
+"chat_stickers_tooltip_add_stickers" = "Sticker hinzufügen";
+"chat_stickers_tooltip_new" = "NEU!";
 "chat_unblock_user" = "Blockierung aufheben";
 "chat_user_info_name" = "Hallo, ich bin %@";
 "chat_user_info_verified_with" = "Verifiziert durch: ";
@@ -383,6 +387,8 @@
 "product_mark_as_sold_confirm_title" = "Als verkauft markieren";
 "product_mark_as_sold_error_generic" = "Beim als verkauft Markieren ist ein Fehler aufgetreten. Bitte versuche es später noch mal.";
 "product_mark_as_sold_success_message" = "Glückwunsch, dein Produkt wurde erfolgreich als verkauft markiert!";
+"product_more_info_tooltip_part_1" = "Drücke";
+"product_more_info_tooltip_part_2" = "%@ für weitere Infos";
 "product_negotiable_price" = "Verhandelbar";
 "product_onboarding_finger_scroll_label" = "Scrolle, mehr Bilder zu sehen";
 "product_onboarding_finger_swipe_label" = "Wische, um zum nächsten oder vorherigen Produkt zu gelangen";

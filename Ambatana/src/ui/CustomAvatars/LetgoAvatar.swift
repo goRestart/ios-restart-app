@@ -30,7 +30,8 @@ class LetgoAvatar {
         view.addSubview(label)
 
         UIGraphicsBeginImageContextWithOptions(view.bounds.size, true, 0)
-        view.layer.renderInContext(UIGraphicsGetCurrentContext()!)
+        guard let currentContext = UIGraphicsGetCurrentContext() else { return UIImage() }
+        view.layer.renderInContext(currentContext)
         let image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
 

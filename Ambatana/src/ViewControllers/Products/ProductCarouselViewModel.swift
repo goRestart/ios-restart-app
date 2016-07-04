@@ -10,10 +10,11 @@ import LGCoreKit
 
 protocol ProductCarouselViewModelDelegate: BaseViewModelDelegate {
     func vmReloadData()
+    func vmRemoveMoreInfoTooltip()
 }
 
 enum CarouselMovement {
-    case Tap, SwipeLeft, SwipeRight, Initial
+    case Tap, SwipeLeft, SwipeRight, Initial, Auto
 }
 
 class ProductCarouselViewModel: BaseViewModel {
@@ -26,16 +27,16 @@ class ProductCarouselViewModel: BaseViewModel {
     var initialThumbnail: UIImage?
     weak var delegate: ProductCarouselViewModelDelegate?
     
-    private var productListRequester: ProductListRequester?
-    private var productListViewModel: ProductListViewModel?
-    private var productsViewModels: [String: ProductViewModel] = [:]
-    
     var objectCount: Int {
         return productListViewModel?.numberOfProducts ?? 0
     }
 
-    var onboardingState: OnboardingState? {
-        return KeyValueStorage.sharedInstance[.didShowProductDetailOnboarding] ? nil : .Fingers
+    var shouldShowOnboarding: Bool {
+        return !KeyValueStorage.sharedInstance[.didShowProductDetailOnboarding]
+    }
+
+    var shouldShowMoreInfoTooltip: Bool {
+        return !KeyValueStorage.sharedInstance[.productMoreInfoTooltipDismissed]
     }
 
     var onboardingShouldShowChatsStep: Bool {
@@ -48,16 +49,40 @@ class ProductCarouselViewModel: BaseViewModel {
             return false
         }
     }
-    
+
+    var autoSwitchToNextEnabled: Bool {
+        guard FeatureFlags.automaticNextItem else { return false }
+        guard !singleProductList else { return false }
+        guard let myUserId = myUserRepository.myUser?.objectId,
+            userProductListRequester = productListRequester as? UserProductListRequester,
+            requesterUserId = userProductListRequester.userObjectId else { return true }
+        return myUserId != requesterUserId
+    }
+
+    private let singleProductList: Bool
+    private var productListRequester: ProductListRequester?
+    private var productListViewModel: ProductListViewModel?
+    private var productsViewModels: [String: ProductViewModel] = [:]
+    private let myUserRepository: MyUserRepository
+
 
     // MARK: - Init
-    
-    init(productListVM: ProductListViewModel, index: Int, thumbnailImage: UIImage?,
-         productListRequester: ProductListRequester?) {
+    convenience init(productListVM: ProductListViewModel, index: Int, thumbnailImage: UIImage?,
+         singleProductList: Bool, productListRequester: ProductListRequester?) {
+        let myUserRepository = Core.myUserRepository
+        self.init(myUserRepository: myUserRepository, productListVM: productListVM, index: index,
+                  thumbnailImage: thumbnailImage, singleProductList: singleProductList,
+                  productListRequester: productListRequester)
+    }
+
+    init(myUserRepository: MyUserRepository, productListVM: ProductListViewModel, index: Int, thumbnailImage: UIImage?,
+         singleProductList: Bool, productListRequester: ProductListRequester?) {
+        self.myUserRepository = myUserRepository
         self.startIndex = index
         self.productListViewModel = productListVM
         self.initialThumbnail = thumbnailImage
         self.productListRequester = productListRequester
+        self.singleProductList = singleProductList
         super.init()
         self.productListViewModel?.dataDelegate = self
         self.currentProductViewModel = viewModelAtIndex(index)
@@ -108,6 +133,8 @@ class ProductCarouselViewModel: BaseViewModel {
 
     func didTapMoreInfoBar() {
         currentProductViewModel?.trackVisitMoreInfo()
+        KeyValueStorage.sharedInstance[.productMoreInfoTooltipDismissed] = true
+        delegate?.vmRemoveMoreInfoTooltip()
     }
 
     
@@ -149,7 +176,7 @@ extension ProductCarouselViewModel {
         switch movement {
         case .Initial:
             range = (index-previousImagesToPrefetch)...(index+nextImagesToPrefetch)
-        case .Tap, .SwipeRight:
+        case .Auto, .Tap, .SwipeRight:
             range = (index+1)...(index+nextImagesToPrefetch)
         case .SwipeLeft:
             range = (index-previousImagesToPrefetch)...(index-1)
@@ -179,6 +206,8 @@ extension CarouselMovement {
         switch self {
         case .Tap:
             return .Tap
+        case .Auto:
+            return .Automatic
         case .SwipeLeft:
             return .SwipeLeft
         case .SwipeRight:

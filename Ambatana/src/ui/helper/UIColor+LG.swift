@@ -51,11 +51,12 @@ extension UIColor {
 
     static var disclaimerColor: UIColor { return pale }
 
-
+    static var blueTooltip: UIColor { return cornflower}
+    static var blackTooltip: UIColor { return black }
 
     private static let denimBlue = UIColor(rgb: 0x3f5b96)
     private static let dodgerBlue = UIColor(rgb: 0x4285f4)
-    
+
     private static let dustyBlue = UIColor(rgb: 0x657cab)
     private static let cornflower = UIColor(rgb: 0x689df6)
     

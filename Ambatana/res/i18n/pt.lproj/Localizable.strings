@@ -20,6 +20,7 @@
 "categories_other" = "Other";
 "categories_sports_leisure_and_games" = "Sports, Leisure and Games";
 "categories_title" = "Categories";
+"categories_unassigned" = "Not selected";
 "change_location_apply_button" = "Set location";
 "change_location_approximate_location_label" = "Use approximate location";
 "change_location_ask_update_location_message" = "Find bargains near you! Do you want to update your location?";
@@ -101,6 +102,7 @@
 "chat_list_unarchive_error_one" = "An error occurred while unarchiving the conversation. Please try again.";
 "chat_list_unarchive_ok_one" = "Chat successfully unarchived!";
 "chat_list_unblock" = "Unblock";
+"chat_login_popup_text" = "To start chatting, you have to log in";
 "chat_message_disclaimer_scammer" = "Be extra careful when exchanging phone/email details. Fraudulent users often ask you to leave the letgo chat. Be informed! Tap here to review our %@.";
 "chat_message_field_hint" = "Type your message here";
 "chat_message_load_generic_error" = "An error occurred while retrieving your conversation data. Please try again later.";
@@ -114,6 +116,8 @@
 "chat_safety_tips_title" = "STAY SAFE";
 "chat_send_button" = "Send";
 "chat_send_error_generic" = "There was an error sending the message. Please try again later.";
+"chat_stickers_tooltip_add_stickers" = "Add fun stickers";
+"chat_stickers_tooltip_new" = "NEW!";
 "chat_unblock_user" = "Unblock User";
 "chat_user_info_name" = "Hi, I'm %@";
 "chat_user_info_verified_with" = "Verified with: ";
@@ -383,6 +387,8 @@
 "product_mark_as_sold_confirm_title" = "Mark as Sold";
 "product_mark_as_sold_error_generic" = "An error occurred while marking your product as sold. Please try again later.";
 "product_mark_as_sold_success_message" = "Congratulations, your product was successfully marked as sold!";
+"product_more_info_tooltip_part_1" = "Tap";
+"product_more_info_tooltip_part_2" = "%@ to see more info";
 "product_negotiable_price" = "Negotiable";
 "product_onboarding_finger_scroll_label" = "Scroll to see more pictures";
 "product_onboarding_finger_swipe_label" = "Swipe to go to the next product or to the previous one";

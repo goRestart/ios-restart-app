@@ -8,7 +8,7 @@
 
 import UIKit
 
-@IBDesignable
+
 public class LoadingIndicator: UIView {
 
     public var color: UIColor = UIColor.whiteColor() {

@@ -142,9 +142,7 @@ class PostProductGalleryView: BaseView, LGViewPagerPage {
         contentView.backgroundColor = UIColor.blackColor()
         addSubview(contentView)
 
-        postButton.setPrimaryStyle()
-        postButton.setBackgroundImage(StyleHelper.postProductDisabledPostButton
-            .imageWithSize(CGSize(width: 1, height: 1)), forState: .Disabled)
+        postButton.setStyle(.Primary(fontSize: .Medium))
         postButton.titleLabel?.font = StyleHelper.smallButtonFont
 
         let cellNib = UINib(nibName: GalleryImageCell.reusableID, bundle: nil)
@@ -159,7 +157,7 @@ class PostProductGalleryView: BaseView, LGViewPagerPage {
         shadowLayer.frame = collectionGradientView.bounds
         collectionGradientView.layer.addSublayer(shadowLayer)
 
-        infoButton.setPrimaryStyle()
+        infoButton.setStyle(.Primary(fontSize: .Medium))
         loadImageErrorTitleLabel.text = LGLocalizedString.productPostGalleryLoadImageErrorTitle
         loadImageErrorSubtitleLabel.text = LGLocalizedString.productPostGalleryLoadImageErrorSubtitle
 

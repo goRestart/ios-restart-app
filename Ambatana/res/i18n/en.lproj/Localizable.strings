@@ -37,6 +37,9 @@
 // Text for unsuccessful user block
 "block_user_error_generic" = "An error occurred while blocking this user.";
 
+// Text for non assigned category
+"categories_unassigned" = "Not selected";
+
 // Categories baby and child. Check attached image "categories (2).png"
 "categories_baby_and_child" = "Baby and Child";
 
@@ -349,6 +352,12 @@
 // Chat send error generic. Message displayal is like the other error messages
 "chat_send_error_generic" = "There was an error sending the message. Please try again later.";
 
+// Chat tooltip add stickers "NEW"
+"chat_stickers_tooltip_new" = "NEW!";
+
+// Chat tooltip add stickers text
+"chat_stickers_tooltip_add_stickers" = "Add fun stickers";
+
 // Alert when an unverified user tries to chat
 "chat_verify_alert_title" = "Verify your email to chat";
 
@@ -360,6 +369,9 @@
 
 // Alert when an unverified user tries to chat
 "chat_verify_alert_ok_button" = "Ok";
+
+// Login info when trying to chat logged-out
+"chat_login_popup_text" = "To start chatting, you have to log in";
 
 // User info bubble to show information about the other user
 "chat_user_info_name" = "Hi, I'm %@";
@@ -1322,6 +1334,12 @@
 
 // Product detail auto gen title translated disclaimer label.
 "product_auto_generated_translated_title_label" = "(and translated by Google)";
+
+// Tooltip to see more info on snapchat, just the "tap" text
+"product_more_info_tooltip_part_1" = "Tap";
+
+// Tooltip to see more info on snapchat, just the "to see more info" text
+"product_more_info_tooltip_part_2" = "%@ to see more info";
 
 // Profile, you blocked this user label (wo username)
 "profile_blocked_by_me_label" = "You've blocked this user";

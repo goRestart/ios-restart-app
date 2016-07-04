@@ -6,8 +6,6 @@
 //  Copyright (c) 2015 Ambatana. All rights reserved.
 //
 
-import Adjust
-
 class ProductionEnvironment: AppEnvironment {
     // General
     var appleAppId: String { get { return "986339882" } }
@@ -30,10 +28,6 @@ class ProductionEnvironment: AppEnvironment {
     // Config
     var configFileName: String { get { return "ios-prod" } }
     
-    // Adjust
-    var adjustAppToken: String { get { return "ddy5ww1scx6o" } }
-    var adjustEnvironment: String { get { return ADJEnvironmentProduction } }
-
     // Twitter
     var twitterConsumerKey: String { get { return "krEbU50JQnxY9WkNp6zevuOpK" } }
     var twitterConsumerSecret: String { get { return "QftWuBwJMb0UrfvGOErcIS6Oyf7d6RGn60HfN4DRLjgt7XmTgI" } }

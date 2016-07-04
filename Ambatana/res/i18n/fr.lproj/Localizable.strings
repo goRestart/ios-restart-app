@@ -20,6 +20,7 @@
 "categories_other" = "Autre";
 "categories_sports_leisure_and_games" = "Sports, Loisirs et Jeux";
 "categories_title" = "Catégories";
+"categories_unassigned" = "Non sélectionnée";
 "change_location_apply_button" = "Configurer une localisation";
 "change_location_approximate_location_label" = "Afficher l'adresse approximative";
 "change_location_ask_update_location_message" = "Trouvez des affaires près de chez vous ! Souhaitez-vous actualiser votre localisation ?";
@@ -101,6 +102,7 @@
 "chat_list_unarchive_error_one" = "Une erreur est survenue lors de la désarchivation de cette conversation. Veuillez réessayer.";
 "chat_list_unarchive_ok_one" = "Chat désarchivé avec succès !";
 "chat_list_unblock" = "Débloquer";
+"chat_login_popup_text" = "Pour commencer à chatter, vous devez vous connecter";
 "chat_message_disclaimer_scammer" = "Prenez vos précautions lorsque vous donnez votre email/téléphone. Les utilisateurs frauduleux demandent souvent de chatter en dehors de letgo. Informez-vous ! Tapez ici pour lire nos %@.";
 "chat_message_field_hint" = "Entrez votre message ici";
 "chat_message_load_generic_error" = "Une erreur est survenue lors de la récupération des données de conversation. Veuillez réessayer plus tard.";
@@ -114,6 +116,8 @@
 "chat_safety_tips_title" = "CONSEILS DE SECURITÉ";
 "chat_send_button" = "Envoyer";
 "chat_send_error_generic" = "Il y a eu une erreur lors de l'envoi du message. Veuillez réessayer plus tard.";
+"chat_stickers_tooltip_add_stickers" = "Envoyez des stickers !";
+"chat_stickers_tooltip_new" = "NOUVEAU !";
 "chat_unblock_user" = "Débloquer l'Utilisateur";
 "chat_user_info_name" = "Bonjour, je m'appelle %@";
 "chat_user_info_verified_with" = "Vérifié avec :";
@@ -383,6 +387,8 @@
 "product_mark_as_sold_confirm_title" = "Marquer comme vendu";
 "product_mark_as_sold_error_generic" = "Il y a eu une erreur lors du passage du bien au statut 'vendu'. Veuillez réessayer plus tard.";
 "product_mark_as_sold_success_message" = "Félicitations, votre bien a été marqué comme vendu !";
+"product_more_info_tooltip_part_1" = "Tapez";
+"product_more_info_tooltip_part_2" = "%@ pour plus d'infos";
 "product_negotiable_price" = "Negociable";
 "product_onboarding_finger_scroll_label" = "Scrollez pour voir plus de photos";
 "product_onboarding_finger_swipe_label" = "Glissez pour voir le bien suivant ou le précédent";

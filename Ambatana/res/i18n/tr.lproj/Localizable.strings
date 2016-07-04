@@ -20,6 +20,7 @@
 "categories_other" = "Diğer";
 "categories_sports_leisure_and_games" = "Spor, Eğlence ve Oyunlar";
 "categories_title" = "Kategoriler";
+"categories_unassigned" = "Seçilmedi";
 "change_location_apply_button" = "Konum seç";
 "change_location_approximate_location_label" = "Yaklaşık bir adres göster";
 "change_location_ask_update_location_message" = "Yakınındaki fırsatları bul! Konumunu güncellemek ister misin?";
@@ -101,6 +102,7 @@
 "chat_list_unarchive_error_one" = "Konuşma arşivden çıkarılırken bir hata oluştu. Lütfen tekrar dene.";
 "chat_list_unarchive_ok_one" = "Sohbet başarıyla arşivden çıkarıldı!";
 "chat_list_unblock" = "Engeli Kaldir";
+"chat_login_popup_text" = "Mesajlaşmaya başlamak için, giriş yapmalısın";
 "chat_message_disclaimer_scammer" = "Telefon numarası ve e-posta bilgilerini paylaşırken çok temkinli ol. Dolandırıcı kullanıcılar görüşmeyi genelde letgo sohbet sisteminden dışarıya taşımayı teklif ederler. Dikkatli ol ve %@ kısmını okumak için buraya dokun.";
 "chat_message_field_hint" = "Mesajını buraya yaz";
 "chat_message_load_generic_error" = "Sohbet bilgilerine erişirken bir hata oluştu. Lütfen tekrar dene.";
@@ -114,6 +116,8 @@
 "chat_safety_tips_title" = "TAVSİYELER";
 "chat_send_button" = "Gönder";
 "chat_send_error_generic" = "Mesaj gönderilirken bir hata oluştu. Lütfen tekrar dene.";
+"chat_stickers_tooltip_add_stickers" = "Eğlenceli çıkartmalar ekle";
+"chat_stickers_tooltip_new" = "YENİ!";
 "chat_unblock_user" = "Engellemeyi Kaldır";
 "chat_user_info_name" = "Merhaba, Ben %@";
 "chat_user_info_verified_with" = "Şununla doğrulandı: ";
@@ -383,6 +387,8 @@
 "product_mark_as_sold_confirm_title" = "Satıldı olarak işaretle";
 "product_mark_as_sold_error_generic" = "Ürün satıldı olarak işaretlenirken bir hata oluştu. Lütfen, daha sonra tekrar dene.";
 "product_mark_as_sold_success_message" = "Tebrikler, ürünün satıldı olarak işaretlendi!";
+"product_more_info_tooltip_part_1" = "dokun";
+"product_more_info_tooltip_part_2" = "Daha fazla bilgi için %@";
 "product_negotiable_price" = "Pazarlık edilebilir";
 "product_onboarding_finger_scroll_label" = "Daha fazla fotoğraf görmek için sürükle";
 "product_onboarding_finger_swipe_label" = "Bir önceki veya sonraki ürüne gitmek için ekranı kaydır";

@@ -48,8 +48,8 @@ final class DIProxy: InternalDI {
     var locationManager: LocationManager {
         return di.locationManager
     }
-    var categoriesManager: CategoriesManager {
-        return di.categoriesManager
+    var categoryRepository: CategoryRepository {
+        return di.categoryRepository
     }
     var myUserRepository: MyUserRepository {
         return di.myUserRepository

@@ -26,7 +26,7 @@ def shared_pods
     pod "AppsFlyerFramework",   "~> 4.3.9"
 
 	# letgo Core
-    pod "LGCoreKit",            "0.25.7" #:path => "../lgcorekit"
+    pod "LGCoreKit",            "0.25.9" #:path => "../lgcorekit"
 
 	# Slack Chat controller
     pod "SlackTextViewController", "1.9.1"
@@ -56,9 +56,6 @@ def shared_pods
 
     # Twitter Kit
     pod "TwitterKit",           "2.0.2"
-
-    # Adjust
-	pod "Adjust",               "~> 4.5.0"
 
     # Branch.io
     pod "Branch",               "~> 0.12.2"
@@ -110,6 +107,13 @@ target "letgoTests" do
 end
 
 post_install do | installer |
+    #Disable bitcode in all pods
+    installer.pods_project.targets.each do |target|
+        target.build_configurations.each do |config|
+            config.build_settings['ENABLE_BITCODE'] = 'NO'
+        end
+    end
+    #Update Acknowledgements.plist
     require 'fileutils'
     FileUtils.cp_r('Pods/Target Support Files/Pods-LetGo/Pods-LetGo-acknowledgements.plist', 'Ambatana/res/Settings.bundle/Acknowledgements.plist', :remove_destination => true)
     FileUtils.cp_r('Pods/Target Support Files/Pods-LetGoGodMode/Pods-LetGoGodMode-acknowledgements.plist', 'Ambatana/res/development/Settings.bundle/Acknowledgements.plist', :remove_destination => true)

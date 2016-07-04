@@ -31,10 +31,6 @@ protocol AppEnvironment {
     // Config
     var configFileName: String { get }
 
-    // Adjust
-    var adjustAppToken: String { get }
-    var adjustEnvironment: String { get }
-
     // Twitter
     var twitterConsumerKey: String { get }
     var twitterConsumerSecret: String { get }

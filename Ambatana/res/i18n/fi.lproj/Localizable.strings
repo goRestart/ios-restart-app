@@ -20,6 +20,7 @@
 "categories_other" = "Muut";
 "categories_sports_leisure_and_games" = "Urheilu, vapaa-aika ja pelit";
 "categories_title" = "Kategoriat";
+"categories_unassigned" = "Ei valittu";
 "change_location_apply_button" = "Aseta sijainti";
 "change_location_approximate_location_label" = "Näytä suurpiirteinen osoite";
 "change_location_ask_update_location_message" = "Tee löytöjä läheltä sinua! Haluatko päivittää sijaintisi?";
@@ -101,6 +102,7 @@
 "chat_list_unarchive_error_one" = "Keskustelua palautettaessa tapahtui virhe. Ole hyvä ja yritä uudelleen.";
 "chat_list_unarchive_ok_one" = "Keskustelun palautus onnistui!";
 "chat_list_unblock" = "Poista Esto";
+"chat_login_popup_text" = "Sinun täytyy kirjautua sisään aloittaaksesi keskustelun";
 "chat_message_disclaimer_scammer" = "Ole erityisen varovainen, kun vaihdatte puhelinnumeroita/sähköpostiosoitteita. Vilpillisillä aikeilla liikkeellä olevat käyttäjät pyytävät usein poistumaan letgon keskustelusta. Ole varuillasi! Paina tästä käydäksesi läpi %@";
 "chat_message_field_hint" = "Kirjoita viestisi tähän";
 "chat_message_load_generic_error" = "Keskustelutietojasi noudettaessa tapahtui virhe. Ole hyvä ja yritä myöhemmin uudelleen.";
@@ -114,6 +116,8 @@
 "chat_safety_tips_title" = "TURVALLISUUSVINKIT";
 "chat_send_button" = "Lähetä";
 "chat_send_error_generic" = "Viestiä lähetettäessä tapahtui virhe. Ole hyvä ja yritä myöhemmin uudelleen.";
+"chat_stickers_tooltip_add_stickers" = "Lisää hauskoja tarroja";
+"chat_stickers_tooltip_new" = "UUTTA!";
 "chat_unblock_user" = "Poista käyttäjän esto";
 "chat_user_info_name" = "Hei, olen %@";
 "chat_user_info_verified_with" = "Todennettu käyttäen: ";
@@ -383,6 +387,8 @@
 "product_mark_as_sold_confirm_title" = "Merkitse myydyksi";
 "product_mark_as_sold_error_generic" = "Merkittäessä tuotetta myydyksi tapahtui virhe. Ole hyvä ja yritä myöhemmin uudelleen.";
 "product_mark_as_sold_success_message" = "Onneksi olkoon, tuotteesi merkittiin onnistuneesti myydyksi!";
+"product_more_info_tooltip_part_1" = "Paina";
+"product_more_info_tooltip_part_2" = "%@ nähdäksesi lisätietoja";
 "product_negotiable_price" = "Neuvoteltavissa";
 "product_onboarding_finger_scroll_label" = "Vieritä nähdäksesi lisää kuvia";
 "product_onboarding_finger_swipe_label" = "Pyyhkäise mennäksesi seuraavaan tai edelliseen tuotteeseen";

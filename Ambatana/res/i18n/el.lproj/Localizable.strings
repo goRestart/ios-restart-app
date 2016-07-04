@@ -20,6 +20,7 @@
 "categories_other" = "Άλλα";
 "categories_sports_leisure_and_games" = "Αθλητικά, Ψυχαγωγία και Παιχνίδια";
 "categories_title" = "Κατηγορίες";
+"categories_unassigned" = "Δεν έχει επιλεχθεί";
 "change_location_apply_button" = "Επιλογή τοποθεσίας";
 "change_location_approximate_location_label" = "Παρουσίαση πλησιέστερης τοποθεσίας";
 "change_location_ask_update_location_message" = "Βρες ευκαιρίες κοντά σου! Θέλεις να αλλάξεις την τοποθεσία σου;";
@@ -101,6 +102,7 @@
 "chat_list_unarchive_error_one" = "Παρουσιάστηκε σφάλμα κατά την αφαίρεση της συνομιλίας από τα αρχειοθετημένα. Παρακαλώ προσπαθήστε ξανά.";
 "chat_list_unarchive_ok_one" = "Η συνομιλία αφαιρέθηκε από τα αρχειοθετημένα με επιτυχία!";
 "chat_list_unblock" = "Ξεμπλοκάρισμα";
+"chat_login_popup_text" = "Για να ξεκινήσετε να συνομιλείτε, θα πρέπει να συνδεθείτε";
 "chat_message_disclaimer_scammer" = "Να είστε ιδαίτερα προσεκτικοί όταν ανταλλάζετε πληροφορίες τηλεφώνων/email. Οι χρήστες που θέλουν να σας εξαπατήσουν, ενδέχεται να σας ζητήσουν να αποχωρήσετε από τη συνομιλία στο letgo. Να είστε ενημερωμένοι! Πατήστε εδώ για να ελέγξετε τις %@ μας.";
 "chat_message_field_hint" = "Γράψε το μήνυμά σου εδώ";
 "chat_message_load_generic_error" = "Παρουσιάσθηκε σφάλμα κατά την ανάκτηση των δεδομένων των συνομιλιών σου. Θα πρέπει να προσπαθήσεις ξανά αργότερα.";
@@ -114,12 +116,14 @@
 "chat_safety_tips_title" = "ΣΥΜΒΟΥΛΈΣ ΑΣΦΑΛΕΊΑΣ";
 "chat_send_button" = "Αποστολή";
 "chat_send_error_generic" = "Παρουσιάσθηκε σφάλμα κατά την αποστολή του μηνύματος. Θα πρέπει να προσπαθήσεις ξανά αργότερα.";
+"chat_stickers_tooltip_add_stickers" = "Προσθέστε αυτοκόλλητα";
+"chat_stickers_tooltip_new" = "ΝΕΟ!";
 "chat_unblock_user" = "Ξεμπλοκάρισμα Χρήστη";
 "chat_user_info_name" = "Γεια, είμαι ο/η %@";
 "chat_user_info_verified_with" = "Επιβεβαιωμένο με: ";
 "chat_verify_alert_message" = "Στείλαμε ένα email επιβεβαίωσης στο %@";
 "chat_verify_alert_ok_button" = "ΟΚ";
-"chat_verify_alert_resend_button" = "Ξαναστείλτε";
+"chat_verify_alert_resend_button" = "Ξαναστείλτε το";
 "chat_verify_alert_title" = "Επιβεβαιώστε το email σας για να συνομιλήσετε";
 "commercializer_create_from_settings" = "Create a Free Commercial";
 "commercializer_display_share_alert" = "Share this masterpiece";
@@ -383,6 +387,8 @@
 "product_mark_as_sold_confirm_title" = "Μάρκαρε ότι πωλήθηκε";
 "product_mark_as_sold_error_generic" = "Παρουσιάσθηκε σφάλμα κατά το μαρκάρισμα του προϊόντος πως έχει πωληθεί! Θα πρέπει να προσπαθήσεις ξανά αργότερα.";
 "product_mark_as_sold_success_message" = "Συγχαρητήρια, το προϊόν σας έχει πωληθεί επιτυχώς!";
+"product_more_info_tooltip_part_1" = "Πατήστε";
+"product_more_info_tooltip_part_2" = "%@ για πληροφορίες";
 "product_negotiable_price" = "Συζητήσιμη";
 "product_onboarding_finger_scroll_label" = "Σύρετε για να δείτε περισσότερες φωτογραφίες";
 "product_onboarding_finger_swipe_label" = "Σύρετε για να πάτε στο επόμενο ή στο προηγούμενο προϊόν";

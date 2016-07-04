@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -9,9 +9,13 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PostProductViewController" customModule="LetGo" customModuleProvider="target">
             <connections>
                 <outlet property="addPriceLabel" destination="on4-aa-GJF" id="IJO-ev-99X"/>
+                <outlet property="cameraGalleryContainer" destination="ZCG-gR-EN6" id="1xg-Ra-Q1g"/>
                 <outlet property="currencyButton" destination="jBJ-Et-CEX" id="CZ4-lf-gsW"/>
                 <outlet property="customLoadingView" destination="wW5-ZX-UqE" id="web-O5-ekj"/>
                 <outlet property="doneButton" destination="96p-Kr-gVK" id="ezZ-yI-NyK"/>
+                <outlet property="galleryButton" destination="dcg-ot-rV0" id="npw-Hc-T2R"/>
+                <outlet property="photoButton" destination="yr8-Uu-gWs" id="BvO-hZ-jnk"/>
+                <outlet property="photoButtonCenterX" destination="CAS-nZ-bzx" id="imR-RB-EED"/>
                 <outlet property="postErrorLabel" destination="ceY-sz-ePA" id="She-qR-gcK"/>
                 <outlet property="postedInfoLabel" destination="bb0-id-OIx" id="ibe-jQ-ayN"/>
                 <outlet property="priceFieldContainer" destination="Alw-xS-yOd" id="aIw-LV-0bf"/>
@@ -27,6 +31,38 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZCG-gR-EN6" userLabel="cameraGalleryContainer">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dcg-ot-rV0" userLabel="GalleryButton">
+                            <rect key="frame" x="0.0" y="597" width="70" height="70"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="70" id="B04-Bh-mfk"/>
+                                <constraint firstAttribute="height" constant="70" id="LDm-je-dCo"/>
+                            </constraints>
+                            <state key="normal" image="ic_post_gallery"/>
+                            <connections>
+                                <action selector="galleryButtonPressed:" destination="-1" eventType="touchUpInside" id="vNb-iP-z2x"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yr8-Uu-gWs" userLabel="PhotoBtn">
+                            <rect key="frame" x="145" y="568" width="84" height="84"/>
+                            <state key="normal" image="ic_post_take_photo_icon" backgroundImage="ic_post_take_photo">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="photoButtonPressed:" destination="-1" eventType="touchUpInside" id="Z4i-EF-veS"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="bottom" secondItem="yr8-Uu-gWs" secondAttribute="bottom" constant="15" id="C41-gG-dsU"/>
+                        <constraint firstItem="yr8-Uu-gWs" firstAttribute="centerX" secondItem="ZCG-gR-EN6" secondAttribute="centerX" id="CAS-nZ-bzx"/>
+                        <constraint firstItem="dcg-ot-rV0" firstAttribute="leading" secondItem="ZCG-gR-EN6" secondAttribute="leading" id="Hvu-Tk-7of"/>
+                        <constraint firstAttribute="bottom" secondItem="dcg-ot-rV0" secondAttribute="bottom" id="L2s-kw-uq0"/>
+                    </constraints>
+                </view>
                 <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="o7t-oA-DP2" userLabel="SelectPriceContainer">
                     <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                     <subviews>
@@ -60,8 +96,8 @@
                                             <constraint firstAttribute="height" constant="52" id="tTX-9U-HrB"/>
                                         </constraints>
                                     </view>
-                                    <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xup-cr-6f7" userLabel="ContentContainer">
-                                        <rect key="frame" x="31" y="220" width="313" height="228"/>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xup-cr-6f7" userLabel="ContentContainer">
+                                        <rect key="frame" x="31" y="219" width="313" height="229"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wW5-ZX-UqE" userLabel="customLoadingView" customClass="LoadingIndicator" customModule="LetGo" customModuleProvider="target">
                                                 <rect key="frame" x="133" y="0.0" width="48" height="48"/>
@@ -77,14 +113,14 @@
                                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="_WANT TO ADD A PRICE?" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="on4-aa-GJF" userLabel="addPriceLabel">
-                                                <rect key="frame" x="0.0" y="108" width="313" height="16"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_WANT TO ADD A PRICE?" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="on4-aa-GJF" userLabel="addPriceLabel">
+                                                <rect key="frame" x="0.0" y="109" width="313" height="16"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <view clipsSubviews="YES" alpha="0.0" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Alw-xS-yOd" userLabel="priceFieldContainer">
-                                                <rect key="frame" x="71" y="131" width="170" height="44"/>
+                                            <view clipsSubviews="YES" alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Alw-xS-yOd" userLabel="priceFieldContainer">
+                                                <rect key="frame" x="71" y="132" width="170" height="44"/>
                                                 <subviews>
                                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="249" horizontalCompressionResistancePriority="751" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="_Negotiable" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="JzZ-No-upa">
                                                         <rect key="frame" x="8" y="4" width="130" height="36"/>
@@ -120,8 +156,8 @@
                                                     <constraint firstAttribute="bottom" secondItem="jBJ-Et-CEX" secondAttribute="bottom" id="mqi-et-Igy"/>
                                                 </constraints>
                                             </view>
-                                            <button opaque="NO" clipsSubviews="YES" alpha="0.0" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="96p-Kr-gVK" userLabel="doneButton">
-                                                <rect key="frame" x="71" y="184" width="170" height="44"/>
+                                            <button opaque="NO" clipsSubviews="YES" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="96p-Kr-gVK" userLabel="doneButton">
+                                                <rect key="frame" x="71" y="185" width="170" height="44"/>
                                                 <color key="backgroundColor" red="1" green="0.24705882370000001" blue="0.33333334329999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="44" id="B2O-zD-xCv"/>
@@ -134,14 +170,14 @@
                                                     <action selector="onDoneButton:" destination="-1" eventType="touchUpInside" id="8Q2-RC-QLN"/>
                                                 </connections>
                                             </button>
-                                            <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="_Your product hasn't been posted. Please check your network settings." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ceY-sz-ePA" userLabel="errorLabel">
-                                                <rect key="frame" x="0.0" y="89" width="313" height="36"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_Your product hasn't been posted. Please check your network settings." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ceY-sz-ePA" userLabel="errorLabel">
+                                                <rect key="frame" x="0.0" y="90" width="313" height="36"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <button opaque="NO" clipsSubviews="YES" alpha="0.0" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hZ2-Pa-uBQ" userLabel="retryButton">
-                                                <rect key="frame" x="71" y="135" width="170" height="44"/>
+                                            <button opaque="NO" clipsSubviews="YES" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hZ2-Pa-uBQ" userLabel="retryButton">
+                                                <rect key="frame" x="71" y="136" width="170" height="44"/>
                                                 <color key="backgroundColor" red="1" green="0.24705882370000001" blue="0.33333334329999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="44" id="wQj-Eu-ak5"/>
@@ -203,10 +239,14 @@
             </subviews>
             <color key="backgroundColor" red="0.17254901960784313" green="0.17254901960784313" blue="0.17254901960784313" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
+                <constraint firstItem="ZCG-gR-EN6" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="2ZE-TX-hCC"/>
                 <constraint firstItem="o7t-oA-DP2" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="HPp-HR-sOu"/>
+                <constraint firstAttribute="bottom" secondItem="ZCG-gR-EN6" secondAttribute="bottom" id="NGI-hv-444"/>
+                <constraint firstAttribute="trailing" secondItem="ZCG-gR-EN6" secondAttribute="trailing" id="PLb-mJ-Q5x"/>
                 <constraint firstAttribute="trailing" secondItem="o7t-oA-DP2" secondAttribute="trailing" id="hGQ-FS-oPO"/>
                 <constraint firstItem="o7t-oA-DP2" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="ll7-Wz-8yt"/>
                 <constraint firstAttribute="bottom" secondItem="o7t-oA-DP2" secondAttribute="bottom" id="mWS-lk-mFn"/>
+                <constraint firstItem="ZCG-gR-EN6" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="qkY-Xz-HF1"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
@@ -215,5 +255,8 @@
     </objects>
     <resources>
         <image name="ic_post_close" width="36" height="36"/>
+        <image name="ic_post_gallery" width="36" height="36"/>
+        <image name="ic_post_take_photo" width="84" height="84"/>
+        <image name="ic_post_take_photo_icon" width="31" height="30"/>
     </resources>
 </document>

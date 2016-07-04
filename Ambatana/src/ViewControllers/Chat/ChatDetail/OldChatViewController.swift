@@ -29,7 +29,9 @@ class OldChatViewController: SLKTextViewController {
     var directAnswersPresenter: DirectAnswersPresenter
     let keyboardHelper: KeyboardHelper
     let disposeBag = DisposeBag()
-    
+
+    var stickersTooltip: Tooltip?
+
     var blockedToastOffset: CGFloat {
         return relationInfoView.hidden ? 0 : RelationInfoView.defaultHeight
     }
@@ -66,6 +68,7 @@ class OldChatViewController: SLKTextViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         ChatCellDrawerFactory.registerCells(tableView)
+        setNavBarBackButton(nil)
         setupUI()
         setupToastView()
         setupDirectAnswers()
@@ -84,20 +87,20 @@ class OldChatViewController: SLKTextViewController {
         setNavBarBackgroundStyle(.Default)
         updateReachableAndToastViewVisibilityIfNeeded()
         viewModel.active = true
-        viewModel.retrieveUsersRelation()
         updateChatInteraction(viewModel.chatEnabled)
     }
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         viewModel.active = false
+        removeStickersTooltip()
     }
-    
+
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         viewModel.didAppear()
     }
-    
+
     override func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
         guard !text.hasEmojis() else { return false }
         return super.textView(textView, shouldChangeTextInRange: range, replacementText: text)
@@ -120,9 +123,7 @@ class OldChatViewController: SLKTextViewController {
     // MARK: > Slack methods
     
     override func didPressRightButton(sender: AnyObject!) {
-        let message = textView.text
-        textView.text = ""
-        viewModel.sendText(message, isQuickAnswer: false)
+        viewModel.sendText(textView.text, isQuickAnswer: false)
     }
     
     override func didPressLeftButton(sender: AnyObject!) {
@@ -209,11 +210,8 @@ class OldChatViewController: SLKTextViewController {
         textInputbar.rightButton.setTitle(LGLocalizedString.chatSendButton, forState: .Normal)
         rightButton.tintColor = StyleHelper.chatSendButtonTintColor
         rightButton.titleLabel?.font = StyleHelper.chatSendButtonFont
-        
-        if FeatureFlags.chatStickers {
-            leftButton.setImage(UIImage(named: "ic_stickers"), forState: .Normal)
-            leftButton.tintColor = StyleHelper.chatLeftButtonColor
-        }
+        leftButton.setImage(UIImage(named: "ic_stickers"), forState: .Normal)
+        leftButton.tintColor = StyleHelper.chatLeftButtonColor
 
         addSubviews()
         setupFrames()
@@ -315,6 +313,13 @@ class OldChatViewController: SLKTextViewController {
             dismissKeyboard(animated)
         }
     }
+
+    private func removeStickersTooltip() {
+        if let tooltip = stickersTooltip where view.subviews.contains(tooltip) {
+            tooltip.removeFromSuperview()
+        }
+    }
+
     
     // MARK: > Navigation
     
@@ -342,8 +347,6 @@ class OldChatViewController: SLKTextViewController {
 // MARK: - OldChatViewModelDelegate
 
 extension OldChatViewController: OldChatViewModelDelegate {
-    
-    
     // MARK: > Messages list
     
     func vmDidStartRetrievingChatMessages(hasData hasData: Bool) {
@@ -378,6 +381,10 @@ extension OldChatViewController: OldChatViewModelDelegate {
     
     
     // MARK: > Send Message
+
+    func vmClearText() {
+        textView.text = ""
+    }
     
     func vmDidFailSendingMessage() {
         showAutoFadingOutMessageAlert(LGLocalizedString.chatMessageLoadGenericError)
@@ -411,22 +418,6 @@ extension OldChatViewController: OldChatViewModelDelegate {
     func vmShowProduct(productVC: UIViewController) {
         showKeyboard(false, animated: false)
         self.navigationController?.pushViewController(productVC, animated: true)
-    }
-    
-    func vmShowProductRemovedError() {
-        // productView.showProductRemovedError(LGLocalizedString.commonProductNotAvailable)
-        // let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(2.5 * Double(NSEC_PER_SEC)))
-        // dispatch_after(delayTime, dispatch_get_main_queue()) {
-        //     self.productView.hideError()
-        // }
-    }
-    
-    func vmShowProductSoldError() {
-        // productView.showProductSoldError(LGLocalizedString.commonProductSold)
-        // let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(2.5 * Double(NSEC_PER_SEC)))
-        // dispatch_after(delayTime, dispatch_get_main_queue()) {
-        //     self.productView.hideError()
-        // }
     }
     
     func vmShowUser(userVM: UserViewModel) {
@@ -472,15 +463,15 @@ extension OldChatViewController: OldChatViewModelDelegate {
         showKeyboard(true, animated: true)
     }
     
-    func vmHideKeyboard() {
-        showKeyboard(false, animated: true)
+    func vmHideKeyboard(animated animated: Bool) {
+        showKeyboard(false, animated: animated)
     }
     
     func vmShowMessage(message: String, completion: (() -> ())?) {
         showAutoFadingOutMessageAlert(message, completion:  completion)
     }
     
-    func vmShowOptionsList(options: [String], actions: [()->Void]) {
+    func vmShowOptionsList(options: [String], actions: [() -> Void]) {
         guard options.count == actions.count else { return }
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
         
@@ -493,8 +484,8 @@ extension OldChatViewController: OldChatViewModelDelegate {
     }
     
     func vmShowQuestion(title title: String, message: String, positiveText: String,
-                              positiveAction: (()->Void)?, positiveActionStyle: UIAlertActionStyle?, negativeText: String,
-                              negativeAction: (()->Void)?, negativeActionStyle: UIAlertActionStyle?) {
+                              positiveAction: (() -> Void)?, positiveActionStyle: UIAlertActionStyle?, negativeText: String,
+                              negativeAction: (() -> Void)?, negativeActionStyle: UIAlertActionStyle?) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .Alert)
         let cancelAction = UIAlertAction(title: negativeText, style: negativeActionStyle ?? .Cancel,
                                          handler: { _ in negativeAction?() })
@@ -509,6 +500,23 @@ extension OldChatViewController: OldChatViewModelDelegate {
     
     func vmClose() {
         navigationController?.popViewControllerAnimated(true)
+    }
+
+    func vmLoadStickersTooltipWithText(text: NSAttributedString) {
+        guard stickersTooltip == nil else { return }
+
+        stickersTooltip = Tooltip(targetView: leftButton, superView: view, title: text, style: .Black(closeEnabled: true),
+                                  peakOnTop: false, actionBlock: { [weak self] in
+                                    self?.showStickers()
+                            }, closeBlock: { [weak self] in
+                                    self?.viewModel.stickersShown()
+        })
+
+        guard let tooltip = stickersTooltip else { return }
+        view.addSubview(tooltip)
+        setupExternalConstraintsForTooltip(tooltip, targetView: leftButton, containerView: view)
+
+        view.layoutIfNeeded()
     }
 }
 
@@ -665,11 +673,13 @@ extension OldChatViewController {
             self.stickersWindow?.frame = windowFrame
             self.stickersView.frame = stickersFrame
             self.stickersCloseButton.frame = buttonFrame
+
             }.addDisposableTo(disposeBag)
     }
-    
+
     func showStickers() {
-        guard FeatureFlags.chatStickers else { return }
+        viewModel.stickersShown()
+        removeStickersTooltip()
         showKeyboard(true, animated: false)
         stickersWindow?.hidden = false
         stickersView.hidden = false
@@ -678,7 +688,6 @@ extension OldChatViewController {
     }
     
     func hideStickers() {
-        guard FeatureFlags.chatStickers else { return }
         stickersWindow?.hidden = true
         stickersView.hidden = true
         leftButton.setImage(UIImage(named: "ic_stickers"), forState: .Normal)

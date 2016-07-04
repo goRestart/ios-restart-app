@@ -117,6 +117,7 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, FBSDKAppInviteD
         // appearance
         settingProfileImageView.hidden = true
         setNavBarTitle(LGLocalizedString.settingsTitle)
+        setNavBarBackButton(nil)
 
         // tableview
         let cellNib = UINib(nibName: "SettingsCell", bundle: nil)
@@ -130,6 +131,7 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, FBSDKAppInviteD
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        setNavBarBackgroundStyle(.Default)
         UIApplication.sharedApplication().setStatusBarStyle(.Default, animated: true)
         tableView.reloadData()
     }
