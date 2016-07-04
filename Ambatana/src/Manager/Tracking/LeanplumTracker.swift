@@ -9,7 +9,48 @@
 import LGCoreKit
 import Taplytics
 
+private extension TrackerEvent {
+    var shouldTrack: Bool {
+        get {
+            switch name {
+            case .AppRatingRate, .AppRatingSuggest, .AppRatingDontAsk,
+                 .AppInviteFriendComplete, .AppInviteFriendDontAsk, .AppInviteFriendCancel,
+                 .UserMessageSent,
+                 .LoginEmail, .LoginFB, .LoginGoogle, .SignupEmail,
+                 .SearchComplete, .FilterComplete,
+                 .ProductAskQuestion, .ProductOffer, .ProductChatButton, .ProductFavorite, .ProductShareComplete,
+                 .ProductMarkAsSold, .ProductDetailVisit,
+                 .ProductSellComplete, .ProductSellStart,
+                 .ProfileVisit:
+                return true
+            default:
+                return false
+            }
+        }
+    }
+}
+
 final class LeanplumTracker: Tracker {
+
+    // Constants
+    // > User properties
+    private static let userPropIdKey = "user-id"
+    private static let userPropEmailKey = "user-email"
+    private static let userPropLatitudeKey = "user-lat"
+    private static let userPropLongitudeKey = "user-lon"
+    private static let userPropCityKey = "user-city"
+    private static let userPropCountryKey = "user-country-code"
+    private static let userPropPublicUsernameKey = "user-public-username"
+
+    private static let userPropTypeKey = "UserType"
+    private static let userPropTypeValueReal = "1"
+    private static let userPropTypeValueDummy = "0"
+
+    private static let userPropInstallationIdKey = "installation-id"
+
+    // enabled permissions
+    private static let userPropPushEnabled = "push-enabled"
+    private static let userPropGpsEnabled = "gps-enabled"
 
     // MARK: - Tracker
 
@@ -35,22 +76,40 @@ final class LeanplumTracker: Tracker {
     func setInstallation(installation: Installation?) {
         guard let installationId = installation?.objectId else { return }
         Leanplum.setDeviceId(installationId)
+        Leanplum.setUserAttributes([LeanplumTracker.userPropInstallationIdKey : installationId])
     }
 
     func setUser(user: MyUser?) {
-        guard let userId = user?.objectId else { return }
-        Leanplum.setUserId(userId)
+        Leanplum.setUserId(user?.objectId)
 
-        //TODO ADD USER ATTRIBUTES
+        var userAttributes: [NSObject : AnyObject] = [:]
+        userAttributes[LeanplumTracker.userPropIdKey] = user?.objectId
+        userAttributes[LeanplumTracker.userPropTypeKey] = (user?.isDummy ?? false) ?
+            LeanplumTracker.userPropTypeValueReal : LeanplumTracker.userPropTypeValueDummy
+        userAttributes[LeanplumTracker.userPropEmailKey] = user?.email
+        userAttributes[LeanplumTracker.userPropPublicUsernameKey] = user?.name
+        userAttributes[LeanplumTracker.userPropCityKey] = user?.postalAddress.city
+        userAttributes[LeanplumTracker.userPropCountryKey] = user?.postalAddress.countryCode
+        Leanplum.setUserAttributes(userAttributes)
     }
 
     func trackEvent(event: TrackerEvent) {
-
+        guard event.shouldTrack else { return }
+        Leanplum.track(event.actualName, withParameters: event.params?.stringKeyParams)
     }
 
-    func setLocation(location: LGLocation?) {}
+    func setLocation(location: LGLocation?) {
+        var userAttributes: [NSObject : AnyObject] = [:]
+        userAttributes[LeanplumTracker.userPropLatitudeKey] = location?.coordinate.latitude
+        userAttributes[LeanplumTracker.userPropLongitudeKey] = location?.coordinate.longitude
+        Leanplum.setUserAttributes(userAttributes)
+    }
 
-    func setNotificationsPermission(enabled: Bool) {}
+    func setNotificationsPermission(enabled: Bool) {
+        Leanplum.setUserAttributes([LeanplumTracker.userPropPushEnabled : enabled ? "true" : "false"])
+    }
     
-    func setGPSPermission(enabled: Bool) {}
+    func setGPSPermission(enabled: Bool) {
+        Leanplum.setUserAttributes([LeanplumTracker.userPropGpsEnabled : enabled ? "true" : "false"])
+    }
 }
