@@ -57,6 +57,13 @@ struct FeatureFlags {
         }
         return ABTests.sellOnStartupAfterPosting.value
     }
+
+    static var automaticNextItem: Bool {
+        if FTSFlipTheSwitch.overridesABTests {
+            return FTSFlipTheSwitch.automaticNextItem
+        }
+        return ABTests.automaticNextItem.value
+    }
 }
 
 private extension FTSFlipTheSwitch {
@@ -90,5 +97,9 @@ private extension FTSFlipTheSwitch {
 
     static var sellOnStartupAfterPosting: Bool {
         return FTSFlipTheSwitch.sharedInstance().isFeatureEnabled("sell_on_startup_after_posting")
+    }
+
+    static var automaticNextItem: Bool {
+        return FTSFlipTheSwitch.sharedInstance().isFeatureEnabled("automatic_next_item")
     }
 }
