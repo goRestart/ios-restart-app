@@ -253,7 +253,6 @@ private extension AppDelegate {
         #endif
 
         // Leanplum
-//      Leanplum.setDeviceId(ASIdentifierManager.sharedManager().advertisingIdentifier.UUIDString) //TODO SET TO INSTALLATION ID
         Leanplum.setAppId(EnvironmentProxy.sharedInstance.leanplumAppId,
                           withDevelopmentKey:EnvironmentProxy.sharedInstance.leanplumEnvKey)
         Leanplum.start()
