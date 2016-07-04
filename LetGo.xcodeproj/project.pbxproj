@@ -77,6 +77,7 @@
 		2E6009B61B5CE5E500FC9CAC /* LGTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E6009B51B5CE5E500FC9CAC /* LGTextField.swift */; };
 		2E64D41A1D11B34F00257B69 /* Tooltip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E64D4191D11B34F00257B69 /* Tooltip.swift */; };
 		2E64D41B1D11B34F00257B69 /* Tooltip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E64D4191D11B34F00257B69 /* Tooltip.swift */; };
+		2E6B6E3B1D2AC44F00C10A20 /* Congrats-Screen-Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2E6B6E3A1D2AC44F00C10A20 /* Congrats-Screen-Images.xcassets */; };
 		2EBF3E251C298EB70024D947 /* MockChat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EBF3E241C298EB70024D947 /* MockChat.swift */; };
 		2EC1C1781BBC12BA00834D64 /* ChangePasswordViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2EC1C1771BBC12BA00834D64 /* ChangePasswordViewController.xib */; };
 		2EC1C17A1BBC17F400834D64 /* ChangePasswordViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EC1C1791BBC17F400834D64 /* ChangePasswordViewModel.swift */; };
@@ -996,6 +997,7 @@
 		2E5350431CF8A181003B06CC /* ProductStatsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProductStatsView.xib; sourceTree = "<group>"; };
 		2E6009B51B5CE5E500FC9CAC /* LGTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGTextField.swift; sourceTree = "<group>"; };
 		2E64D4191D11B34F00257B69 /* Tooltip.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tooltip.swift; sourceTree = "<group>"; };
+		2E6B6E3A1D2AC44F00C10A20 /* Congrats-Screen-Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Congrats-Screen-Images.xcassets"; sourceTree = "<group>"; };
 		2EBF3E241C298EB70024D947 /* MockChat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockChat.swift; sourceTree = "<group>"; };
 		2EC1C1771BBC12BA00834D64 /* ChangePasswordViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChangePasswordViewController.xib; sourceTree = "<group>"; };
 		2EC1C1791BBC17F400834D64 /* ChangePasswordViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangePasswordViewModel.swift; sourceTree = "<group>"; };
@@ -2242,6 +2244,7 @@
 				50CD8F5E1BC2A4A40031DCD3 /* Errors.xcassets */,
 				6A12E05A1C63B0AE00C1BFE3 /* iPhoneParts.xcassets */,
 				2E51F8B71CCE4DDE00B57283 /* ProductOnboarding-Images.xcassets */,
+				2E6B6E3A1D2AC44F00C10A20 /* Congrats-Screen-Images.xcassets */,
 			);
 			name = "Assets & Resources";
 			sourceTree = "<group>";
@@ -3070,6 +3073,7 @@
 				C708C83E1CDB590400AA87B3 /* AppRatingView.xib in Resources */,
 				50CBCD601BF0BB8F00A329BB /* CollectionViewFooter.xib in Resources */,
 				D4B0CF7B1B07308800A61E1A /* SellPictureCell.xib in Resources */,
+				2E6B6E3B1D2AC44F00C10A20 /* Congrats-Screen-Images.xcassets in Resources */,
 				500DC12C1BDA1C4C00B494FA /* ios-prod.json in Resources */,
 				505B06A91B15A9910049F9CD /* GalleryPageView.xib in Resources */,
 				2E5350441CF8A181003B06CC /* ProductStatsView.xib in Resources */,
