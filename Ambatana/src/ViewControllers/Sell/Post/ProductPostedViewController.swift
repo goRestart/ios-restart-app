@@ -142,8 +142,7 @@ class ProductPostedViewController: BaseViewController, SellProductViewController
 
     private func setupView() {
         setStatusBarHidden(true)
-        mainButton.setPrimaryStyle()
-//        editButton.setSecondaryStyle()
+        mainButton.setStyle(.Primary(fontSize: .Big))
 
         editOrLabel.text = LGLocalizedString.productPostConfirmationAnother.uppercase
         editButton.setTitle(LGLocalizedString.productPostConfirmationEdit, forState: UIControlState.Normal)
@@ -180,6 +179,7 @@ class ProductPostedViewController: BaseViewController, SellProductViewController
         editContainerHeight.constant = 0
         mainButtonHeight.constant = 0
         loadingIndicator.startAnimating()
+        incentiveContainer.hidden = true
     }
 
     private func finishedLoading(correct: Bool) {
@@ -187,6 +187,7 @@ class ProductPostedViewController: BaseViewController, SellProductViewController
         loadingIndicator.stopAnimating(correct) { [weak self] in
             if correct {
                 self?.editContainerHeight.constant = ProductPostedViewController.contentContainerShownHeight
+                self?.incentiveContainer.hidden = false
             }
             self?.mainButtonHeight.constant = StyleHelper.enabledButtonHeight
             UIView.animateWithDuration(0.2,
@@ -271,25 +272,6 @@ extension ProductPostedViewController {
     }
 
     var incentiveText: NSAttributedString {
-
-
-//        var gotAnyTextAttributes = [String : AnyObject]()
-//        gotAnyTextAttributes[NSForegroundColorAttributeName] = UIColor.darkTextColor()
-//        gotAnyTextAttributes[NSFontAttributeName] = UIFont.systemSemiBoldFont(size: 15)
-//
-//        let newText = NSAttributedString(string: LGLocalizedString.productPostIncentiveGotAny, attributes: gotAnyTextAttributes)
-//
-//        var titleTextAttributes = [String : AnyObject]()
-//        titleTextAttributes[NSForegroundColorAttributeName] = UIColor.whiteColor()
-//        titleTextAttributes[NSFontAttributeName] = UIFont.systemSemiBoldFont(size: 17)
-//
-//        let titleText = NSAttributedString(string: LGLocalizedString.productPostIncentiveLookingFor(newText), attributes: titleTextAttributes)
-//
-//        let fullTitle: NSMutableAttributedString = NSMutableAttributedString(attributedString: newText)
-//        fullTitle.appendAttributedString(NSAttributedString(string: " "))
-//        fullTitle.appendAttributedString(titleText)
-
-
         let gotAnyTextAttributes: [String : AnyObject] = [NSForegroundColorAttributeName : UIColor.darkTextColor(),
                                                        NSFontAttributeName : UIFont.systemBoldFont(size: 15)]
         let lookingForTextAttributes: [String : AnyObject] = [ NSForegroundColorAttributeName : UIColor.darkTextColor(),
@@ -302,5 +284,4 @@ extension ProductPostedViewController {
 
         return resultText
     }
-
 }
