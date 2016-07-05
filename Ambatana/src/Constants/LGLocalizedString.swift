@@ -1563,6 +1563,46 @@ struct LGLocalizedString {
 		return NSLocalizedString("product_post_confirmation_title", comment: "")
 	}
 
+	static var productPostIncentiveTitle: String {
+		return NSLocalizedString("product_post_incentive_title", comment: "")
+	}
+
+	static var productPostIncentiveSubtitle: String {
+		return NSLocalizedString("product_post_incentive_subtitle", comment: "")
+	}
+
+	static func productPostIncentiveLookingFor(var1: String) -> String {
+		return String(format: NSLocalizedString("product_post_incentive_looking_for", comment: ""), var1)
+	}
+
+	static var productPostIncentiveGotAny: String {
+		return NSLocalizedString("product_post_incentive_got_any", comment: "")
+	}
+
+	static var productPostIncentivePs4: String {
+		return NSLocalizedString("product_post_incentive_ps4", comment: "")
+	}
+
+	static var productPostIncentiveTv: String {
+		return NSLocalizedString("product_post_incentive_tv", comment: "")
+	}
+
+	static var productPostIncentiveBike: String {
+		return NSLocalizedString("product_post_incentive_bike", comment: "")
+	}
+
+	static var productPostIncentiveCar: String {
+		return NSLocalizedString("product_post_incentive_car", comment: "")
+	}
+
+	static var productPostIncentiveDresser: String {
+		return NSLocalizedString("product_post_incentive_dresser", comment: "")
+	}
+
+	static var productPostIncentiveMotorcycle: String {
+		return NSLocalizedString("product_post_incentive_motorcycle", comment: "")
+	}
+
 	static var productPostDone: String {
 		return NSLocalizedString("product_post_done", comment: "")
 	}
