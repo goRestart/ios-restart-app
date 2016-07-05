@@ -142,6 +142,7 @@ UITextFieldDelegate {
     }
 
     @IBAction func galleryButtonPressed(sender: AnyObject) {
+        guard viewPager.scrollEnabled else { return }
         viewPager.selectTabAtIndex(0, animated: true)
     }
 
