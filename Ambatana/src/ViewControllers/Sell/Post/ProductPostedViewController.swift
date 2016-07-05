@@ -27,6 +27,19 @@ class ProductPostedViewController: BaseViewController, SellProductViewController
     @IBOutlet weak var mainButtonHeight: NSLayoutConstraint!
     @IBOutlet weak var mainButton: UIButton!
 
+    // incentivize items
+    @IBOutlet weak var incentiveContainer: UIView!
+    @IBOutlet weak var incentiveLabel: UILabel!
+    @IBOutlet weak var firstImage: UIImageView!
+    @IBOutlet weak var firstNameLabel: UILabel!
+    @IBOutlet weak var firstCountLabel: UILabel!
+    @IBOutlet weak var secondImage: UIImageView!
+    @IBOutlet weak var secondNameLabel: UILabel!
+    @IBOutlet weak var secondCountLabel: UILabel!
+    @IBOutlet weak var thirdImage: UIImageView!
+    @IBOutlet weak var thirdNameLabel: UILabel!
+    @IBOutlet weak var thirdCountLabel: UILabel!
+
 
     private static let contentContainerShownHeight: CGFloat = 80
     private var viewModel: ProductPostedViewModel!
@@ -56,6 +69,11 @@ class ProductPostedViewController: BaseViewController, SellProductViewController
         super.viewDidLoad()
 
         setupView()
+    }
+
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        setStatusBarHidden(false)
     }
     
 
@@ -123,10 +141,9 @@ class ProductPostedViewController: BaseViewController, SellProductViewController
     // MARK: - Private methods
 
     private func setupView() {
-
-        contentContainer.layer.cornerRadius = StyleHelper.defaultCornerRadius
+        setStatusBarHidden(true)
         mainButton.setPrimaryStyle()
-        editButton.setSecondaryStyle()
+//        editButton.setSecondaryStyle()
 
         editOrLabel.text = LGLocalizedString.productPostConfirmationAnother.uppercase
         editButton.setTitle(LGLocalizedString.productPostConfirmationEdit, forState: UIControlState.Normal)
@@ -141,10 +158,13 @@ class ProductPostedViewController: BaseViewController, SellProductViewController
         secondaryTextLabel.text = viewModel.secondaryText
         mainButton.setTitle(viewModel.mainButtonText, forState: UIControlState.Normal)
 
+        setupIncentiviseView()
+
         if !correct {
             editContainer.hidden = true
             editContainerHeight.constant = 0
             shareButton.hidden = true
+            incentiveContainer.hidden = true
         }
     }
 
@@ -216,4 +236,71 @@ extension ProductPostedViewController: NativeShareDelegate {
     func nativeShareInWhatsApp() {
         viewModel.nativeShareInWhatsApp()
     }
+}
+
+// MARK: - Incentivise methods
+
+extension ProductPostedViewController {
+
+    func setupIncentiviseView() {
+
+        let itemPack = PostIncentiviserItem.incentiviserPack()
+
+        guard itemPack.count == 3 else {
+            incentiveContainer.hidden = true
+            return
+        }
+
+        let firstItem = itemPack[0]
+        let secondItem = itemPack[1]
+        let thirdItem = itemPack[2]
+
+        firstImage.image = firstItem.image
+        firstNameLabel.text = firstItem.name
+        firstCountLabel.text = firstItem.searchCount
+
+        secondImage.image = secondItem.image
+        secondNameLabel.text = secondItem.name
+        secondCountLabel.text = secondItem.searchCount
+
+        thirdImage.image = thirdItem.image
+        thirdNameLabel.text = thirdItem.name
+        thirdCountLabel.text = thirdItem.searchCount
+
+        incentiveLabel.attributedText = incentiveText
+    }
+
+    var incentiveText: NSAttributedString {
+
+
+//        var gotAnyTextAttributes = [String : AnyObject]()
+//        gotAnyTextAttributes[NSForegroundColorAttributeName] = UIColor.darkTextColor()
+//        gotAnyTextAttributes[NSFontAttributeName] = UIFont.systemSemiBoldFont(size: 15)
+//
+//        let newText = NSAttributedString(string: LGLocalizedString.productPostIncentiveGotAny, attributes: gotAnyTextAttributes)
+//
+//        var titleTextAttributes = [String : AnyObject]()
+//        titleTextAttributes[NSForegroundColorAttributeName] = UIColor.whiteColor()
+//        titleTextAttributes[NSFontAttributeName] = UIFont.systemSemiBoldFont(size: 17)
+//
+//        let titleText = NSAttributedString(string: LGLocalizedString.productPostIncentiveLookingFor(newText), attributes: titleTextAttributes)
+//
+//        let fullTitle: NSMutableAttributedString = NSMutableAttributedString(attributedString: newText)
+//        fullTitle.appendAttributedString(NSAttributedString(string: " "))
+//        fullTitle.appendAttributedString(titleText)
+
+
+        let gotAnyTextAttributes: [String : AnyObject] = [NSForegroundColorAttributeName : UIColor.darkTextColor(),
+                                                       NSFontAttributeName : UIFont.systemBoldFont(size: 15)]
+        let lookingForTextAttributes: [String : AnyObject] = [ NSForegroundColorAttributeName : UIColor.darkTextColor(),
+                                                         NSFontAttributeName : UIFont.systemRegularFont(size: 15)]
+        let plainText = LGLocalizedString.productPostIncentiveLookingFor(LGLocalizedString.productPostIncentiveGotAny)
+        let resultText = NSMutableAttributedString(string: plainText, attributes: lookingForTextAttributes)
+        let boldRange = NSString(string: plainText).rangeOfString(LGLocalizedString.productPostIncentiveGotAny,
+                                                                  options: .CaseInsensitiveSearch)
+        resultText.addAttributes(gotAnyTextAttributes, range: boldRange)
+
+        return resultText
+    }
+
 }

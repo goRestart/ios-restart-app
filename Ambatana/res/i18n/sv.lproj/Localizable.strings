@@ -424,6 +424,16 @@
 "product_post_gallery_permissions_title" = "Tillåt åtkomst till Bilder";
 "product_post_gallery_tab" = "BIBLIOTEK";
 "product_post_generic_error" = "Ett fel uppstod när vi skulle lägga upp din produkt.";
+"product_post_incentive_bike" = "Bikes";
+"product_post_incentive_car" = "Cars";
+"product_post_incentive_dresser" = "Dressers";
+"product_post_incentive_got_any" = "got any to sell?";
+"product_post_incentive_looking_for" = "People around you are looking for these items, %@";
+"product_post_incentive_motorcycle" = "Motorcycles";
+"product_post_incentive_ps4" = "PS4s";
+"product_post_incentive_subtitle" = "Your listing has been updated.";
+"product_post_incentive_title" = "LOOKS COOL!";
+"product_post_incentive_tv" = "TVs";
 "product_post_login_message" = "Du måste logga in för att sälja dina saker";
 "product_post_network_error" = "Din produkt har inte lagts upp.\nVänligen kolla dina nätverksinställningar.";
 "product_post_price_label" = "Vill du lägga till ett pris?";

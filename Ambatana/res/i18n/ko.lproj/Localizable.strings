@@ -424,6 +424,16 @@
 "product_post_gallery_permissions_title" = "사진 사용 허가";
 "product_post_gallery_tab" = "사진첩";
 "product_post_generic_error" = "회원님의 상품을 게시하는데 오류가 발생했습니다.";
+"product_post_incentive_bike" = "Bikes";
+"product_post_incentive_car" = "Cars";
+"product_post_incentive_dresser" = "Dressers";
+"product_post_incentive_got_any" = "got any to sell?";
+"product_post_incentive_looking_for" = "People around you are looking for these items, %@";
+"product_post_incentive_motorcycle" = "Motorcycles";
+"product_post_incentive_ps4" = "PS4s";
+"product_post_incentive_subtitle" = "Your listing has been updated.";
+"product_post_incentive_title" = "LOOKS COOL!";
+"product_post_incentive_tv" = "TVs";
 "product_post_login_message" = "판매를 시작하기 위해서, 로그인 하셔야합니다";
 "product_post_network_error" = "회원님의 상품이 게시되지 않았습니다.\n네트워크 설정을 확인해주십시오.";
 "product_post_price_label" = "가격을 추가하고 싶으신가요?";
