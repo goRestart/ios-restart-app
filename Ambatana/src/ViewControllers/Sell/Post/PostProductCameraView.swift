@@ -151,7 +151,6 @@ class PostProductCameraView: BaseView, LGViewPagerPage {
         hideFirstTimeAlert()
         guard let fastCamera = fastCamera else { return }
 
-        delegate?.productCameraRequestsScrollLock(true)
         fastCamera.takePicture()
     }
 
