@@ -151,6 +151,7 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
     let productRepository: ProductRepository
     let categoryRepository: CategoryRepository
     let locationManager: LocationManager
+    let commercializerRepository: CommercializerRepository
     let tracker: Tracker
 
     // Product info
@@ -173,18 +174,21 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
         let productRepository = Core.productRepository
         let categoryRepository = Core.categoryRepository
         let locationManager = Core.locationManager
+        let commercializerRepository = Core.commercializerRepository
         let tracker = TrackerProxy.sharedInstance
         self.init(myUserRepository: myUserRepository, productRepository: productRepository,
-                  categoryRepository: categoryRepository, locationManager: locationManager, tracker: tracker,
-                  product: product)
+                  categoryRepository: categoryRepository, locationManager: locationManager,
+                  commercializerRepository: commercializerRepository, tracker: tracker, product: product)
     }
     
     init(myUserRepository: MyUserRepository, productRepository: ProductRepository, categoryRepository: CategoryRepository,
-         locationManager: LocationManager, tracker: Tracker, product: Product) {
+         locationManager: LocationManager, commercializerRepository: CommercializerRepository, tracker: Tracker,
+         product: Product) {
         self.myUserRepository = myUserRepository
         self.productRepository = productRepository
         self.categoryRepository = categoryRepository
         self.locationManager = locationManager
+        self.commercializerRepository = commercializerRepository
         self.tracker = tracker
         
         self.initialProduct = product
@@ -543,6 +547,12 @@ extension EditProductViewModel {
         location = place.location
         postalAddress = place.postalAddress
         locationInfo.value = place.postalAddress?.zipCodeCityString ?? ""
+
+        guard let countryCode = postalAddress?.countryCode
+            where commercializerRepository.templatesForCountryCode(countryCode).count > 0 else {
+                promoteProductVM = nil
+                return
+        }
     }
 }
 
