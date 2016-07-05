@@ -252,11 +252,6 @@ private extension AppDelegate {
             Fabric.with([Crashlytics.self, Twitter.self])
         #endif
 
-        // Leanplum
-        Leanplum.setAppId(EnvironmentProxy.sharedInstance.leanplumAppId,
-                          withDevelopmentKey:EnvironmentProxy.sharedInstance.leanplumEnvKey)
-        Leanplum.start()
-
         // LGCoreKit
         LGCoreKit.initialize(launchOptions, environmentType: environmentHelper.coreEnvironment)
         reporter?.addReporter(CrashlyticsReporter())
