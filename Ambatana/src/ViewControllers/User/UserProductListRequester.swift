@@ -28,6 +28,14 @@ class UserFavoritesProductListRequester: UserProductListRequester {
     }
 
     func canRetrieve() -> Bool { return true }
+    
+    func retrieveFirstPage(completion: ProductsCompletion?) {
+        // TODO: 🎪 Implement
+    }
+    
+    func retrieveNextPage(completion: ProductsCompletion?) {
+        // TODO: 🎪 Implement
+    }
 
     func productsRetrieval(offset offset: Int, completion: ProductsCompletion?) {
         guard let userId = userObjectId else { return }
@@ -65,6 +73,14 @@ class UserStatusesProductListRequester: UserProductListRequester {
 
     func canRetrieve() -> Bool { return userObjectId != nil }
 
+    func retrieveFirstPage(completion: ProductsCompletion?) {
+        // TODO: 🎪 Implement
+    }
+    
+    func retrieveNextPage(completion: ProductsCompletion?) {
+        // TODO: 🎪 Implement
+    }
+    
     func productsRetrieval(offset offset: Int, completion: ProductsCompletion?) {
         guard let params = retrieveProductsParams else { return }
         guard let userId = userObjectId else { return  }

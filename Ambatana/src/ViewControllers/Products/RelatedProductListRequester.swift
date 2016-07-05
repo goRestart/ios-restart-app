@@ -27,6 +27,14 @@ class RelatedProductListRequester: ProductListRequester {
     func canRetrieve() -> Bool {
         return true
     }
+    
+    func retrieveFirstPage(completion: ProductsCompletion?) {
+        // TODO: 🎪 Implement
+    }
+    
+    func retrieveNextPage(completion: ProductsCompletion?) {
+        // TODO: 🎪 Implement
+    }
 
     func productsRetrieval(offset offset: Int, completion: ProductsCompletion?) {
         // We need to substract 1 to the offset because every RelatedProductList is always initialized with one product

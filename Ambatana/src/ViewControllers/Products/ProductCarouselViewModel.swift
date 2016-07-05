@@ -100,7 +100,9 @@ class ProductCarouselViewModel: BaseViewModel {
 
     func productAtIndex(index: Int) -> Product? {
         guard 0..<objectCount ~= index else { return nil }
-        return productListViewModel?.products[index]
+        // TODO: 🎪 FIX
+        return nil
+//        return productListViewModel?.products[index]
     }
     
     func thumbnailAtIndex(index: Int) -> UIImage? {

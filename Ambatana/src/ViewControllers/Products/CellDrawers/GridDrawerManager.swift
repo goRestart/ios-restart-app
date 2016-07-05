@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import LGCoreKit
 
 class GridDrawerManager {
     
@@ -19,25 +20,35 @@ class GridDrawerManager {
         BannerCellDrawer.registerCell(collectionView)
     }
     
-    func cell(model: ProductListModel, collectionView: UICollectionView, atIndexPath: NSIndexPath) -> UICollectionViewCell {
+    func cell(model: ProductCellModel, collectionView: UICollectionView, atIndexPath: NSIndexPath) -> UICollectionViewCell {
         switch model {
-        case .Banner:
+        case .BannerCell:
             return bannerDrawer.cell(collectionView, atIndexPath: atIndexPath)
-        case .Product:
+        case .ProductCell:
             return productDrawer.cell(collectionView, atIndexPath: atIndexPath)
         }
     }
     
-    func draw(model: ProductListModel, inCell cell: UICollectionViewCell) {
+    func draw(model: ProductCellModel, inCell cell: UICollectionViewCell) {
         switch model {
-        case .Banner(let data) where cell is ProductCell:
+            
+        case .BannerCell(let data) where cell is ProductCell:
             guard let cell = cell as? ProductCell else { return }
             return bannerDrawer.draw(data, inCell: cell)
-        case .Product(let data) where cell is ProductCell:
+            
+        case .ProductCell(let product) where cell is ProductCell:
             guard let cell = cell as? ProductCell else { return }
-            return productDrawer.draw(data, inCell: cell)
+            return productDrawer.draw(product.cellData, inCell: cell)
+        
         default:
             assert(false, "⛔️ You shouldn't be here!")
         }
+    }
+}
+
+
+private extension Product {
+    var cellData: ProductData {
+        return ProductData(productID: objectId, thumbUrl: thumbnail?.fileURL)
     }
 }

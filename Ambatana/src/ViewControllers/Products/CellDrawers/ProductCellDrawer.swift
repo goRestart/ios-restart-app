@@ -10,17 +10,15 @@ import LGCoreKit
 
 class ProductCellDrawer: BaseCollectionCellDrawer<ProductCell>, GridCellDrawer {
     func draw(model: ProductData, inCell cell: ProductCell) {
-//        cell.setCellWidth(data.cellWidth)
-//        
-//        //Disabling actions, price and stripe icon
-//        cell.setupActions(false, delegate: nil, indexPath: data.indexPath)
-//        cell.priceLabel.text = ""
-//        cell.priceGradientView.hidden = true
-//        
-//        // Thumb
-//        if let thumbURL = data.thumbUrl {
-//            cell.setImageUrl(thumbURL)
-//        }
-//
+       
+        //Disabling actions, price and stripe icon
+        cell.setupActions(false, delegate: nil, indexPath: nil)
+        cell.priceLabel.text = ""
+        cell.priceGradientView.hidden = true
+        
+        // Thumb
+        if let thumbURL = model.thumbUrl {
+            cell.setImageUrl(thumbURL)
+        }
     }
 }

@@ -127,6 +127,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     
     // Data
     internal(set) var viewModel: ProductListViewModel
+    var drawerManager = GridDrawerManager()
     
     // Delegate
     weak var scrollDelegate: ProductListViewScrollDelegate?
@@ -277,12 +278,10 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
 
     func collectionView(collectionView: UICollectionView,
                                cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = viewModel.cellDrawer.cell(collectionView, atIndexPath: indexPath)
+        guard let item = viewModel.itemAtIndex(indexPath.row) else { return UICollectionViewCell() }
+        let cell = drawerManager.cell(item, collectionView: collectionView, atIndexPath: indexPath)
+        drawerManager.draw(item, inCell: cell)
         cell.tag = indexPath.hash
-        if let data = viewModel.productCellDataAtIndex(indexPath.item) {
-            viewModel.cellDrawer.draw(cell, data: data, delegate: self)
-        }
-        
         return cell
     }
 
@@ -462,7 +461,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         collectionView.alwaysBounceVertical = true
         collectionView.contentInset = collectionViewContentInset
 
-        ProductCellDrawerFactory.registerCells(collectionView)
+        drawerManager.registerCell(inCollectionView: collectionView)
         let footerNib = UINib(nibName: "CollectionViewFooter", bundle: nil)
         self.collectionView.registerNib(footerNib, forSupplementaryViewOfKind: CHTCollectionElementKindSectionFooter,
                                         withReuseIdentifier: "CollectionViewFooter")
@@ -590,22 +589,5 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         default:
             break
         }
-    }
-}
-
-
-// MARK: - ProductCellDelegate
-
-extension ProductListView: ProductCellDelegate {
-    func productCellDidChat(cell: ProductCell, indexPath: NSIndexPath) {
-        viewModel.cellDidTapChat(indexPath.row)
-    }
-
-    func productCellDidShare(cell: ProductCell, indexPath: NSIndexPath) {
-        viewModel.cellDidTapShare(indexPath.row)
-    }
-
-    func productCellDidLike(cell: ProductCell, indexPath: NSIndexPath) {
-        viewModel.cellDidTapFavorite(indexPath.row)
     }
 }
