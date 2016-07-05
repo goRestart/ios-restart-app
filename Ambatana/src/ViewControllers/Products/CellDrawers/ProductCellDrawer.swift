@@ -8,20 +8,19 @@
 
 import LGCoreKit
 
-struct ProductCellData {
-    var title: String?
-    var price: String?
-    var thumbUrl: NSURL?
-    var status: ProductStatus
-    var date: NSDate?
-    var isFavorite: Bool
-    var isMine: Bool
-    var cellWidth: CGFloat
-    var indexPath: NSIndexPath?
-}
-
-protocol ProductCellDrawer: CollectionCellDrawer {
-    func cellHeightForThumbnailHeight(height: CGFloat) -> CGFloat
-    func draw(collectionCell: UICollectionViewCell, data: ProductCellData)
-    func draw(collectionCell: UICollectionViewCell, data: ProductCellData, delegate: ProductCellDelegate?)
+class ProductCellDrawer: BaseCollectionCellDrawer<ProductCell>, GridCellDrawer {
+    func draw(model: ProductData, inCell cell: ProductCell) {
+//        cell.setCellWidth(data.cellWidth)
+//        
+//        //Disabling actions, price and stripe icon
+//        cell.setupActions(false, delegate: nil, indexPath: data.indexPath)
+//        cell.priceLabel.text = ""
+//        cell.priceGradientView.hidden = true
+//        
+//        // Thumb
+//        if let thumbURL = data.thumbUrl {
+//            cell.setImageUrl(thumbURL)
+//        }
+//
+    }
 }

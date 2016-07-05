@@ -78,7 +78,7 @@ class ProductListViewModel: BaseViewModel {
     }
 
     // Data
-    private(set) var products: [Product]
+    private(set) var products: [ProductListModel]
 
     // UI
     private(set) var defaultCellSize: CGSize!
@@ -117,7 +117,8 @@ class ProductListViewModel: BaseViewModel {
 
         self.init(requester: requester, locationManager: locationManager, productRepository: productRepository,
                   myUserRepository: myUserRepository, cellDrawer: cellDrawer, numberOfColumns: numberOfColumns)
-        self.products = products ?? []
+        
+        self.products = (products ?? []).map{ProductListModel.RealProduct(product: $0)}
     }
     
     convenience init(listViewModel: ProductListViewModel) {
@@ -214,11 +215,11 @@ class ProductListViewModel: BaseViewModel {
             if let newProducts = result.value {
                 let indexes: [Int]
                 if offset == 0 {
-                    strongSelf.products = newProducts
+                    strongSelf.products = newProducts.map{ProductListModel.RealProduct(product: $0)}
                     strongSelf.refreshing = false
                     indexes = [Int](0 ..< newProducts.count)
                 } else {
-                    strongSelf.products += newProducts
+                    strongSelf.products += newProducts.map{ProductListModel.RealProduct(product: $0)}
                     indexes = [Int](currentCount ..< (currentCount+newProducts.count))
                 }
                 strongSelf.pageNumber = nextPageNumber
@@ -296,7 +297,13 @@ class ProductListViewModel: BaseViewModel {
     */
     func productAtIndex(index: Int) -> Product? {
         guard 0..<numberOfProducts ~= index else { return nil }
-        return products[index]
+        let productModel = products[index]
+        switch productModel {
+        case .RealProduct(let product):
+            return product
+        default:
+            return nil
+        }
     }
 
     func productViewModelForProductAtIndex(index: Int, thumbnailImage: UIImage?) -> ProductViewModel? {
@@ -369,7 +376,7 @@ class ProductListViewModel: BaseViewModel {
 
     private func updateProduct(product: Product, atIndex index: Int) {
         guard 0..<numberOfProducts ~= index else { return }
-        products[index] = product
+        products[index] = ProductListModel.RealProduct(product: product)
         delegate?.vmDidUpdateProductDataAtIndex(self, index: index)
     }
 }
