@@ -7,7 +7,8 @@
 //
 
 import LGCoreKit
-import Taplytics
+import AppsFlyer
+
 
 private extension TrackerEvent {
     var shouldTrack: Bool {
@@ -42,11 +43,12 @@ final class LeanplumTracker: Tracker {
     private static let userPropCountryKey = "user-country-code"
     private static let userPropPublicUsernameKey = "user-public-username"
 
-    private static let userPropTypeKey = "UserType"
+    private static let userPropTypeKey = "user-type"
     private static let userPropTypeValueReal = "1"
     private static let userPropTypeValueDummy = "0"
 
     private static let userPropInstallationIdKey = "installation-id"
+    private static let userPropLoggedIn = "logged-in"
 
     // enabled permissions
     private static let userPropPushEnabled = "push-enabled"
@@ -55,6 +57,10 @@ final class LeanplumTracker: Tracker {
     // MARK: - Tracker
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) {
+        if let deviceId = AppsFlyerTracker.sharedTracker().getAppsFlyerUID() {
+            Leanplum.setDeviceId(deviceId)
+        }
+        Leanplum.start()
     }
 
     func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?) {
@@ -75,7 +81,6 @@ final class LeanplumTracker: Tracker {
 
     func setInstallation(installation: Installation?) {
         guard let installationId = installation?.objectId else { return }
-        Leanplum.setDeviceId(installationId)
         Leanplum.setUserAttributes([LeanplumTracker.userPropInstallationIdKey : installationId])
     }
 
@@ -90,6 +95,7 @@ final class LeanplumTracker: Tracker {
         userAttributes[LeanplumTracker.userPropPublicUsernameKey] = user?.name
         userAttributes[LeanplumTracker.userPropCityKey] = user?.postalAddress.city
         userAttributes[LeanplumTracker.userPropCountryKey] = user?.postalAddress.countryCode
+        userAttributes[LeanplumTracker.userPropLoggedIn] = user != nil
         Leanplum.setUserAttributes(userAttributes)
     }
 
