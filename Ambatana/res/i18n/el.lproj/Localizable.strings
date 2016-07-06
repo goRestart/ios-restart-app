@@ -424,6 +424,16 @@
 "product_post_gallery_permissions_title" = "Επιτρέψτε πρόσβαση στις Φωτογραφίες";
 "product_post_gallery_tab" = "ΓΚΑΛΕΡΙ";
 "product_post_generic_error" = "Παρουσιάστηκε σφάλμα κατά τη δημοσίευση του αντικειμένου σας.";
+"product_post_incentive_bike" = "Ποδήλατα";
+"product_post_incentive_car" = "Αυτοκίνητα";
+"product_post_incentive_dresser" = "Φορέματα";
+"product_post_incentive_got_any" = "έχετε τίποτα να πουλήσετε;";
+"product_post_incentive_looking_for" = "Άνθρωποι γύρω σας ψάχνουν γι' αυτά τα αντικείμενα, %@";
+"product_post_incentive_motorcycle" = "Μηχανές";
+"product_post_incentive_ps4" = "PS4";
+"product_post_incentive_subtitle" = "Η καταχώρησή σας έχει δημοσιευθεί.";
+"product_post_incentive_title" = "ΣΥΓΧΑΡΗΤΗΡΙΑ!";
+"product_post_incentive_tv" = "TV";
 "product_post_login_message" = "Για να πουλήσετε τα πράγματά σας, θα πρέπει να συνδεθείτε";
 "product_post_network_error" = "Το αντικείμενό σας δεν έχει δημοσιευτεί.\nΠαρακαλώ, ελέγξτε τις ρυθμίσεις δικτύου.";
 "product_post_price_label" = "Θέλετε να προσθέσετε τιμή;";

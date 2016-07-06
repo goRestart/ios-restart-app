@@ -424,6 +424,16 @@
 "product_post_gallery_permissions_title" = "Cho phép truy cập Ảnh";
 "product_post_gallery_tab" = "THƯ VIỆN HÌNH ẢNH";
 "product_post_generic_error" = "Có lỗi xảy ra trong khi đăng sản phẩm.";
+"product_post_incentive_bike" = "Xe đạp";
+"product_post_incentive_car" = "Ô tô";
+"product_post_incentive_dresser" = "Tủ";
+"product_post_incentive_got_any" = "có gì đó để bán?";
+"product_post_incentive_looking_for" = "Những người xung quanh bạn đang tìm kiếm những sản phẩm này, %@";
+"product_post_incentive_motorcycle" = "Xe máy";
+"product_post_incentive_ps4" = "PS4";
+"product_post_incentive_subtitle" = "Bài đăng của bạn đã được cập nhật.";
+"product_post_incentive_title" = "THÚ VỊ ĐẤY!";
+"product_post_incentive_tv" = "TV";
 "product_post_login_message" = "Bạn cần đăng nhập để bán sản phẩm";
 "product_post_network_error" = "Sản phẩm của bạn chưa được đăng.\nXin vui lòng kiểm tra kết nối mạng.";
 "product_post_price_label" = "Bạn muốn bổ sung giá?";

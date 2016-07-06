@@ -424,6 +424,16 @@
 "product_post_gallery_permissions_title" = "Geef toegang tot Foto's";
 "product_post_gallery_tab" = "BIBLIOTHEEK";
 "product_post_generic_error" = "Er is een fout opgetreden tijdens het plaatsen van jouw product.";
+"product_post_incentive_bike" = "Fietsen";
+"product_post_incentive_car" = "Auto's";
+"product_post_incentive_dresser" = "Dressoirs";
+"product_post_incentive_got_any" = "heb jij er te koop staan?";
+"product_post_incentive_looking_for" = "People around you are looking for these items, %@";
+"product_post_incentive_motorcycle" = "Motorfietsen";
+"product_post_incentive_ps4" = "PS4's";
+"product_post_incentive_subtitle" = "Jouw advertentie is geplaatst.";
+"product_post_incentive_title" = "GEFELICITEERD!";
+"product_post_incentive_tv" = "TV's";
 "product_post_login_message" = "Om je spullen te verkopen, moet je inloggen";
 "product_post_network_error" = "Je product werd niet geplaatst.\nGelieve je netwerkinstellingen te controleren.";
 "product_post_price_label" = "Wil je een prijs toevoegen?";

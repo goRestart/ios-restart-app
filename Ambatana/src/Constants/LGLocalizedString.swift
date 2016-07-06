@@ -395,6 +395,30 @@ struct LGLocalizedString {
 		return NSLocalizedString("chat_list_blocked_users_title", comment: "")
 	}
 
+	static var chatListAccountDeleted: String {
+		return NSLocalizedString("chat_list_account_deleted", comment: "")
+	}
+
+	static var chatListAccountDeletedUsername: String {
+		return NSLocalizedString("chat_list_account_deleted_username", comment: "")
+	}
+
+	static func chatAccountDeletedWName(var1: String) -> String {
+		return String(format: NSLocalizedString("chat_account_deleted_w_name", comment: ""), var1)
+	}
+
+	static var chatAccountDeletedWoName: String {
+		return NSLocalizedString("chat_account_deleted_wo_name", comment: "")
+	}
+
+	static func chatDeletedDisclaimerWName(var1: String) -> String {
+		return String(format: NSLocalizedString("chat_deleted_disclaimer_w_name", comment: ""), var1)
+	}
+
+	static var chatDeletedDisclaimerWoName: String {
+		return NSLocalizedString("chat_deleted_disclaimer_wo_name", comment: "")
+	}
+
 	static var chatBlockedByMeLabel: String {
 		return NSLocalizedString("chat_blocked_by_me_label", comment: "")
 	}
@@ -1561,6 +1585,46 @@ struct LGLocalizedString {
 
 	static var productPostConfirmationTitle: String {
 		return NSLocalizedString("product_post_confirmation_title", comment: "")
+	}
+
+	static var productPostIncentiveTitle: String {
+		return NSLocalizedString("product_post_incentive_title", comment: "")
+	}
+
+	static var productPostIncentiveSubtitle: String {
+		return NSLocalizedString("product_post_incentive_subtitle", comment: "")
+	}
+
+	static func productPostIncentiveLookingFor(var1: String) -> String {
+		return String(format: NSLocalizedString("product_post_incentive_looking_for", comment: ""), var1)
+	}
+
+	static var productPostIncentiveGotAny: String {
+		return NSLocalizedString("product_post_incentive_got_any", comment: "")
+	}
+
+	static var productPostIncentivePs4: String {
+		return NSLocalizedString("product_post_incentive_ps4", comment: "")
+	}
+
+	static var productPostIncentiveTv: String {
+		return NSLocalizedString("product_post_incentive_tv", comment: "")
+	}
+
+	static var productPostIncentiveBike: String {
+		return NSLocalizedString("product_post_incentive_bike", comment: "")
+	}
+
+	static var productPostIncentiveCar: String {
+		return NSLocalizedString("product_post_incentive_car", comment: "")
+	}
+
+	static var productPostIncentiveDresser: String {
+		return NSLocalizedString("product_post_incentive_dresser", comment: "")
+	}
+
+	static var productPostIncentiveMotorcycle: String {
+		return NSLocalizedString("product_post_incentive_motorcycle", comment: "")
 	}
 
 	static var productPostDone: String {

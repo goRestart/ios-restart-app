@@ -424,6 +424,16 @@
 "product_post_gallery_permissions_title" = "Tillat tilgang til bilder";
 "product_post_gallery_tab" = "BIBLIOTEK";
 "product_post_generic_error" = "Det oppstod en feil ved publisering av ditt produkt.";
+"product_post_incentive_bike" = "Bikes";
+"product_post_incentive_car" = "Cars";
+"product_post_incentive_dresser" = "Dressers";
+"product_post_incentive_got_any" = "got any to sell?";
+"product_post_incentive_looking_for" = "People around you are looking for these items, %@";
+"product_post_incentive_motorcycle" = "Motorcycles";
+"product_post_incentive_ps4" = "PS4s";
+"product_post_incentive_subtitle" = "Your listing has been posted.";
+"product_post_incentive_title" = "CONGRATULATIONS!";
+"product_post_incentive_tv" = "TVs";
 "product_post_login_message" = "Du må være innlogget for å kunne selge dine ting";
 "product_post_network_error" = "Ditt produkt er ikke publisert.\nVennligst sjekk dine nettverksinnstillinger.";
 "product_post_price_label" = "Ønsker du å legge til pris?";

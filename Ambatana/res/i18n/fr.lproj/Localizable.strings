@@ -424,6 +424,16 @@
 "product_post_gallery_permissions_title" = "Permettre l'accès aux Photos";
 "product_post_gallery_tab" = "BIBLIOTHÈQUE";
 "product_post_generic_error" = "Une erreur est survenue lors de la publication de votre bien.";
+"product_post_incentive_bike" = "Vélos";
+"product_post_incentive_car" = "Voitures";
+"product_post_incentive_dresser" = "Commodes";
+"product_post_incentive_got_any" = "En avez-vous à vendre ?";
+"product_post_incentive_looking_for" = "Des gens près de vous recherchent ces biens, %@";
+"product_post_incentive_motorcycle" = "Motos";
+"product_post_incentive_ps4" = "PS4s";
+"product_post_incentive_subtitle" = "Votre bien est en ligne !";
+"product_post_incentive_title" = "FÉLICITATIONS !";
+"product_post_incentive_tv" = "Télés";
 "product_post_login_message" = "Pour vendre vos affaires, vous devez vous connecter";
 "product_post_network_error" = "Votre bien n'a pas été posté.\nVeuillez vérifier votre connexion réseau.";
 "product_post_price_label" = "Vous souhaitez ajouter un prix ?";

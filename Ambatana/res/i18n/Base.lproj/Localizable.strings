@@ -289,6 +289,24 @@
 // Chat list blocked users title
 "chat_list_blocked_users_title" = "BLOCKED USERS";
 
+// When a user asked to delete his account (state)
+"chat_list_account_deleted" = "Deleted account";
+
+// Text to put on the username field when user is deleted
+"chat_list_account_deleted_username" = "Inactive";
+
+// When a user asked to delete his account (short info message)
+"chat_account_deleted_w_name" = "%@ account has been deleted";
+
+// When a user asked to delete his account (short info message)
+"chat_account_deleted_wo_name" = "This account has been deleted";
+
+// When a user asked to delete his account (disclaimer message)
+"chat_deleted_disclaimer_w_name" = "You can't continue this conversation because %@ account is no longer active.";
+
+// When a user asked to delete his account (disclaimer message)
+"chat_deleted_disclaimer_wo_name" = "You can't continue this conversation because this account is no longer active.";
+
 // Chat detail, you blocked this user label
 "chat_blocked_by_me_label" = "You've blocked this user";
 
@@ -1157,6 +1175,36 @@
 
 // After posting, real confirmation
 "product_post_confirmation_title" = "Congratulations!";
+
+// After posting, real confirmation
+"product_post_incentive_title" = "CONGRATULATIONS!";
+
+// After posting, real confirmation subtitle
+"product_post_incentive_subtitle" = "Your listing has been posted.";
+
+// 1st part of the incentivation text
+"product_post_incentive_looking_for" = "People around you are looking for these items, %@";
+
+// !!!! -> this text will go at the place of the variable %@ in "product_post_incentive_looking_for"
+"product_post_incentive_got_any" = "got any to sell?";
+
+// product name ps4
+"product_post_incentive_ps4" = "PS4s";
+
+// product name Tvs
+"product_post_incentive_tv" = "TVs";
+
+// product name bikes
+"product_post_incentive_bike" = "Bikes";
+
+// product name cars
+"product_post_incentive_car" = "Cars";
+
+// product name dressers
+"product_post_incentive_dresser" = "Dressers";
+
+// product name motorcycle
+"product_post_incentive_motorcycle" = "Motorcycles";
 
 // Done button after setting (or not) a price
 "product_post_done" = "Done";

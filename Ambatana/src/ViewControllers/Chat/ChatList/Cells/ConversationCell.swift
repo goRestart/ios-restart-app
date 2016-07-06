@@ -139,11 +139,18 @@ class ConversationCell: UITableViewCell, ReusableCell {
             statusImageView.hidden = false
             separationStatusImageToTimeLabel.constant = ConversationCell.statusImageDefaultMargin
         case .UserPendingDelete:
-            //TODO: IMPLEMENT
-            break
+            timeLabel.text = LGLocalizedString.chatListAccountDeleted
+            statusImageView.image = UIImage(named: "ic_blocked")
+            statusImageView.hidden = false
+            separationStatusImageToTimeLabel.constant = ConversationCell.statusImageDefaultMargin
         case .UserDeleted:
-            //TODO: IMPLEMENT
-            break
+            timeLabel.text = LGLocalizedString.chatListAccountDeleted
+            statusImageView.image = UIImage(named: "ic_blocked")
+            statusImageView.hidden = false
+            separationStatusImageToTimeLabel.constant = ConversationCell.statusImageDefaultMargin
+            userLabel.text = LGLocalizedString.chatListAccountDeletedUsername
+            productLabel.text = nil
+            avatarImageView.image = UIImage(named: "user_placeholder")
         case .Available:
             timeLabel.text = data.messageDate?.relativeTimeString(false) ?? ""
             statusImageView.hidden = true
@@ -174,6 +181,7 @@ class ConversationCell: UITableViewCell, ReusableCell {
     }
 
     private func resetUI() {
+        thumbnailImageView.image = UIImage(named: "product_placeholder")
         avatarImageView.image = nil
         productLabel.text = ""
         userLabel.text = ""

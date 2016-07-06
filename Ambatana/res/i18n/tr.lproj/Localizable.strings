@@ -424,6 +424,16 @@
 "product_post_gallery_permissions_title" = "Fotoğraflara erişime izin ver";
 "product_post_gallery_tab" = "KÜTÜPHANE";
 "product_post_generic_error" = "Bir hata oluştuğu için ürün yayınlanamadı.";
+"product_post_incentive_bike" = "Bisikletler";
+"product_post_incentive_car" = "Arabalar";
+"product_post_incentive_dresser" = "Şifonyerler";
+"product_post_incentive_got_any" = "satacak bir şeyin var mı?";
+"product_post_incentive_looking_for" = "Çevrendekiler şu ürünleri arıyor, %@";
+"product_post_incentive_motorcycle" = "Motosikletler";
+"product_post_incentive_ps4" = "PS4'ler";
+"product_post_incentive_subtitle" = "Ürünün güncellendi.";
+"product_post_incentive_title" = "HARİKA GÖRÜNÜYOR!";
+"product_post_incentive_tv" = "TV'ler";
 "product_post_login_message" = "Bir şeyler satmak için, önce giriş yapmalısın";
 "product_post_network_error" = "Ürünün yayınlanmadı.\nLütfen internete bağlı olduğundan emin ol.";
 "product_post_price_label" = "Fiyat eklemek ister misin?";
