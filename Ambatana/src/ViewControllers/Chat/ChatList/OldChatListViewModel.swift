@@ -67,7 +67,7 @@ class OldChatListViewModel: BaseChatGroupedListViewModel<Chat>, ChatListViewMode
             otherUser = (myUserId == userFromId) ? chat.userTo : chat.userFrom
         }
 
-        return ConversationCellData(status: chat.status.conversationCellStatus,
+        return ConversationCellData(status: chat.conversationCellStatus(otherUser),
                                     userName: otherUser?.name ?? "",
                                     userImageUrl: otherUser?.avatar?.fileURL,
                                     userImagePlaceholder: LetgoAvatar.avatarWithID(otherUser?.objectId, name: otherUser?.name),
@@ -147,15 +147,29 @@ class OldChatListViewModel: BaseChatGroupedListViewModel<Chat>, ChatListViewMode
 
 // MARK: Extension helpers
 
-private extension ChatStatus {
-    var conversationCellStatus: ConversationCellStatus {
-        switch self {
+private extension Chat {
+    func conversationCellStatus(otherUser: User?) -> ConversationCellStatus {
+
+        if let otherUser = otherUser {
+            switch otherUser.status {
+            case .Scammer:
+                return .Forbidden
+            case .PendingDelete:
+                return .UserPendingDelete
+            case .Deleted:
+                return .UserDeleted
+            case .Active, .Inactive, .NotFound:
+                break // In this case we rely on the chat status
+            }
+        }
+
+        switch self.status {
         case .Forbidden:
             return .Forbidden
         case .Sold:
-            return .Sold
+            return .ProductSold
         case .Deleted:
-            return .Deleted
+            return .ProductDeleted
         case .Available:
             return .Available
         }

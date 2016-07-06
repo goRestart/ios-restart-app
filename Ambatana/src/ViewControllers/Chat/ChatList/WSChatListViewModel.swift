@@ -162,13 +162,25 @@ private extension ChatsType {
 
 private extension ChatConversation {
     var conversationCellStatus: ConversationCellStatus {
-        guard let product = product, interlocutor = interlocutor else { return .Deleted }
+        guard let product = product, interlocutor = interlocutor else { return .UserDeleted }
         if interlocutor.isBanned { return .Forbidden }
+
+        switch interlocutor.status {
+        case .Scammer:
+            return .Forbidden
+        case .PendingDelete:
+            return .UserPendingDelete
+        case .Deleted:
+            return .UserDeleted
+        case .Active, .Inactive, .NotFound:
+            break // In this case we rely on the product status
+        }
+
         switch product.status {
         case .Deleted, .Discarded:
-            return .Deleted
+            return .ProductDeleted
         case .Sold, .SoldOld:
-            return .Sold
+            return .ProductSold
         case .Approved, .Pending:
             return .Available
         }

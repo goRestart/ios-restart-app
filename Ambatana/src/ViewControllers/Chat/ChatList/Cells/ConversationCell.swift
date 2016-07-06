@@ -11,8 +11,10 @@ import UIKit
 enum ConversationCellStatus {
     case Available
     case Forbidden
-    case Sold
-    case Deleted
+    case ProductSold
+    case ProductDeleted
+    case UserPendingDelete
+    case UserDeleted
 }
 
 struct ConversationCellData {
@@ -126,16 +128,22 @@ class ConversationCell: UITableViewCell, ReusableCell {
             statusImageView.image = UIImage(named: "ic_alert_yellow_white_inside")
             statusImageView.hidden = false
             separationStatusImageToTimeLabel.constant = ConversationCell.statusImageDefaultMargin
-        case .Sold:
+        case .ProductSold:
             timeLabel.text = LGLocalizedString.commonProductSold
             statusImageView.image = UIImage(named: "ic_dollar_sold")
             statusImageView.hidden = false
             separationStatusImageToTimeLabel.constant = ConversationCell.statusImageDefaultMargin
-        case .Deleted:
+        case .ProductDeleted:
             timeLabel.text = LGLocalizedString.commonProductNotAvailable
             statusImageView.image = UIImage(named: "ic_alert_yellow_white_inside")
             statusImageView.hidden = false
             separationStatusImageToTimeLabel.constant = ConversationCell.statusImageDefaultMargin
+        case .UserPendingDelete:
+            //TODO: IMPLEMENT
+            break
+        case .UserDeleted:
+            //TODO: IMPLEMENT
+            break
         case .Available:
             timeLabel.text = data.messageDate?.relativeTimeString(false) ?? ""
             statusImageView.hidden = true
