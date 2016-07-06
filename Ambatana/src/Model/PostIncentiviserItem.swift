@@ -11,7 +11,8 @@ enum PostIncentiviserItem: Int {
     case PS4 = 1, TV, Bike, Motorcycle, Dresser, Car
 
     static func incentiviserPack() -> [PostIncentiviserItem] {
-        let pack = rand()%2
+        let pack = arc4random_uniform(2)
+
         guard pack == 0 else { return [.Motorcycle, .Dresser, .Car] }
         return [.PS4, .TV, .Bike]
     }
@@ -53,17 +54,17 @@ enum PostIncentiviserItem: Int {
     var baseSearchCount: Int {
         switch self {
         case .PS4:
-            return 10000
+            return 82801
         case .TV:
-            return 30000
+            return 71715
         case .Bike:
-            return 20000
+            return 56687
         case .Motorcycle:
-            return 15000
+            return 74661
         case .Dresser:
-            return 25000
+            return 50559
         case .Car:
-            return 5000
+            return 77296
         }
     }
 
@@ -80,8 +81,9 @@ enum PostIncentiviserItem: Int {
 
     private func searchCountIncrement() -> Int {
         let currentCalendar = NSCalendar.currentCalendar()
-        let components = currentCalendar.components([.Year,.Month,.Day], fromDate: NSDate())
-        let increment = self.rawValue * components.day * components.month + components.year
+        let components = currentCalendar.components([.Month,.Day], fromDate: NSDate())
+        let dailyIncrement = baseSearchCount/200
+        let increment = dailyIncrement + (self.rawValue * components.day) / (components.month / self.rawValue) // "randomizing" like a baws
         return increment
     }
 
