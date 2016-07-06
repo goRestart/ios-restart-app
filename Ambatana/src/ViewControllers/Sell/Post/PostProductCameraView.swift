@@ -126,6 +126,7 @@ class PostProductCameraView: BaseView, LGViewPagerPage {
         hideFirstTimeAlert()
         guard let fastCamera = fastCamera else { return }
 
+        viewModel.takePhotoButtonPressed()
         fastCamera.takePicture()
     }
 
@@ -308,9 +309,9 @@ extension PostProductCameraView{
 // MARK: - FastttCameraDelegate
 
 extension PostProductCameraView: FastttCameraDelegate {
-    func cameraController(cameraController: FastttCameraInterface!, didFinishNormalizingCapturedImage
-        capturedImage: FastttCapturedImage!) {
-            viewModel.takePhotoButtonPressed(capturedImage.fullImage)
+    func cameraController(cameraController: FastttCameraInterface!,
+                          didFinishNormalizingCapturedImage capturedImage: FastttCapturedImage!) {
+        viewModel.photoTaken(capturedImage.fullImage)
     }
 }
 

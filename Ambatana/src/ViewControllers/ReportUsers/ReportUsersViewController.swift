@@ -38,6 +38,7 @@ class ReportUsersViewController: BaseViewController, ReportUsersViewModelDelegat
         self.viewModel = viewModel
         super.init(viewModel: viewModel, nibName: "ReportUsersViewController")
         self.viewModel.delegate = self
+        hidesBottomBarWhenPushed = false
     }
 
     required init?(coder aDecoder: NSCoder) {

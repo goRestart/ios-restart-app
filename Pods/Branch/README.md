@@ -93,8 +93,8 @@ With iOS 9, Apple has added the ability to allow http links to directly open you
 1. Select the "Capabilities" tab.
 1. Expand the "Associated Domains" tab.
 1. Enable the setting (toggle the switch).
-1. Add "applinks:bnc.lt" to the list.
-1. Add any additional custom domains you have (e.g. applinks:vng.io)
+1. Add `applinks:xxxx.app.link` and `applinks:xxxx-alternate.app.link` to the list. Make sure `xxxx` matches the 4 character subdomain for your app (you can find it on the [dashboard here](https://dashboard.branch.io/#/settings/link)). If you use a custom subdomain, use that in place of the x's (eg `imgur.app.link` and `imgur-alternate.app.link`).
+1. Add any additional custom domains you have (e.g. `applinks:vng.io`)
 
 ![Xcode Enable UL](docs/images/xcode-ul-enable.png)
 
@@ -597,7 +597,7 @@ You can do custom redirection by inserting the following _optional keys in the d
 
 | Key | Value
 | --- | ---
-| "$fallback_url" | Where to send the user for all platforms when app is not installed.
+| "$fallback_url" | Where to send the user for all platforms when app is not installed. Note that Branch will forward all robots to this URL, overriding any OG tags entered in the link.
 | "$desktop_url" | Where to send the user on a desktop or laptop. By default it is the Branch-hosted text-me service.
 | "$android_url" | The replacement URL for the Play Store to send the user if they don't have the app. _Only necessary if you want a mobile web splash_.
 | "$ios_url" | The replacement URL for the App Store to send the user if they don't have the app. _Only necessary if you want a mobile web splash_.
