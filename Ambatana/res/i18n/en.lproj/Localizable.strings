@@ -1159,10 +1159,10 @@
 "product_post_confirmation_title" = "Congratulations!";
 
 // After posting, real confirmation
-"product_post_incentive_title" = "LOOKS COOL!";
+"product_post_incentive_title" = "CONGRATULATIONS!";
 
 // After posting, real confirmation subtitle
-"product_post_incentive_subtitle" = "Your listing has been updated.";
+"product_post_incentive_subtitle" = "Your listing has been posted.";
 
 // 1st part of the incentivation text
 "product_post_incentive_looking_for" = "People around you are looking for these items, %@";
