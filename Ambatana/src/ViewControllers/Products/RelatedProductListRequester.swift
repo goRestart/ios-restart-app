@@ -31,6 +31,7 @@ class RelatedProductListRequester: ProductListRequester {
     }
     
     func retrieveFirstPage(completion: ProductsCompletion?) {
+        offset = 0
         productsRetrieval(offset: 0, completion: completion)
     }
     
@@ -53,7 +54,6 @@ class RelatedProductListRequester: ProductListRequester {
     }
     
     func duplicate() -> ProductListRequester {
-        // TODO: 🎪 Implement
         let r = RelatedProductListRequester(productId: productObjectId)
         r.offset = offset
         return r

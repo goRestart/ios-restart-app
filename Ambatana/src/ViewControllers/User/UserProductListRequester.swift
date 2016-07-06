@@ -84,6 +84,7 @@ class UserStatusesProductListRequester: UserProductListRequester {
     func canRetrieve() -> Bool { return userObjectId != nil }
 
     func retrieveFirstPage(completion: ProductsCompletion?) {
+        offset = 0
         productsRetrieval(offset: 0, completion: completion)
     }
     
