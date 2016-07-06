@@ -81,6 +81,16 @@ class FilteredProductListRequester: ProductListRequester {
     func isLastPage(resultCount: Int) -> Bool {
         return resultCount == 0
     }
+    
+    func duplicate() -> ProductListRequester {
+        let requester = FilteredProductListRequester()
+        requester.offset = offset
+        requester.queryFirstCallCoordinates = queryFirstCallCoordinates
+        requester.queryFirstCallCountryCode = queryFirstCallCountryCode
+        requester.queryString = queryString
+        requester.filters = filters
+        return requester
+    }
 
 
     // MARK: - MainProductListRequester

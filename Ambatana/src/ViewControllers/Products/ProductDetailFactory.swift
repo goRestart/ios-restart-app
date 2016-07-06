@@ -36,7 +36,7 @@ class ProductDetailFactory {
             let newListVM = ProductListViewModel(listViewModel: productListVM)
             let vm = ProductCarouselViewModel(productListVM: newListVM, index: index,
                                               thumbnailImage: thumbnailImage,
-                                              productListRequester: newListVM.productListRequester)
+                                              productListRequester: newListVM.productListRequester?.duplicate())
             let animator = ProductCarouselPushAnimator(originFrame: originFrame, originThumbnail: thumbnailImage)
             return ProductCarouselViewController(viewModel: vm, pushAnimator: animator)
         case .Original, .OriginalWithoutOffer:

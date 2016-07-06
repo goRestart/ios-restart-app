@@ -216,19 +216,8 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         errorContentView.layer.cornerRadius = 4
     }
 
+    
     // MARK: > ViewModel
-    
-    
-    /**
-        Returns the product view model for the given index.
-    
-        - parameter index: The index of the product.
-        - parameter thumbnailImage: The thumbnail image.
-        - returns: The product view model.
-    */
-    func productViewModelForProductAtIndex(index: Int, thumbnailImage: UIImage?) -> ProductViewModel? {
-        return viewModel.productViewModelForProductAtIndex(index, thumbnailImage: thumbnailImage)
-    }
 
     func switchViewModel(vm: ProductListViewModel) {
         viewModel.delegate = nil
@@ -560,7 +549,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         AND the lastContentOffset is less than the bouncing limit. The limit is equal to the offset after scrolling up
         to the maximum and then let the table bounce to a stable position. The bouncing counts as a DidScroll event
         with scrollingDown = false. checking for this limit we avoid that the delegate is called when we are not 
-        scrolling, but the table is bouncing. -> YES IF (0 < LastContentOffset < BouncingLimit)
+        scrolling, but the table is bouncing. -> YES IF (0 < LastContentOffset < BouncingLimit)c
      
         OR
      

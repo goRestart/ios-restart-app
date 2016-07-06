@@ -712,7 +712,7 @@ extension ProductCarouselViewController: UICollectionViewDataSource, UICollectio
     func collectionView(collectionView: UICollectionView, willDisplayCell cell: UICollectionViewCell,
                         forItemAtIndexPath indexPath: NSIndexPath) {
         dispatch_async(dispatch_get_main_queue()) { [weak self] in
-            self?.viewModel.setCurrentItemIndex(indexPath.row)
+            self?.viewModel.setCurrentIndex(indexPath.row)
         }
     }
 }

@@ -50,6 +50,12 @@ class UserFavoritesProductListRequester: UserProductListRequester {
     func isLastPage(resultCount: Int) -> Bool {
         return userObjectId != nil
     }
+    
+    
+    func duplicate() -> ProductListRequester {
+        // TODO: 🎪 Implement
+        return self
+    }
 }
 
 
@@ -106,5 +112,11 @@ class UserStatusesProductListRequester: UserProductListRequester {
         params.sortCriteria = .Creation
         params.statuses = statuses
         return params
+    }
+    
+    
+    func duplicate() -> ProductListRequester {
+        // TODO: 🎪 Implement
+        return self
     }
 }

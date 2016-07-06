@@ -29,6 +29,7 @@ protocol ProductListRequester: class {
     func retrieveFirstPage(completion: ProductsCompletion?)
     func retrieveNextPage(completion: ProductsCompletion?)
     func isLastPage(resultCount: Int) -> Bool
+    func duplicate() -> ProductListRequester
 }
 
 
@@ -55,7 +56,7 @@ class ProductListViewModel: BaseViewModel {
     weak var dataDelegate: ProductListViewModelDataDelegate?
     
     // Requester
-    weak var productListRequester: ProductListRequester?
+    var productListRequester: ProductListRequester?
 
     //State
     private(set) var pageNumber: UInt
@@ -114,6 +115,7 @@ class ProductListViewModel: BaseViewModel {
         self.init(requester: listViewModel.productListRequester)
         self.pageNumber = listViewModel.pageNumber
         self.state = listViewModel.state
+        self.objects = listViewModel.objects
     }
 
     
@@ -253,22 +255,6 @@ class ProductListViewModel: BaseViewModel {
         case .BannerCell:
             return nil
         }
-    }
-    
-    func productViewModelForProductAtIndex(index: Int, thumbnailImage: UIImage?) -> ProductViewModel? {
-        guard let product = productAtIndex(index) else { return nil }
-        let productVM = ProductViewModel(product: product, thumbnailImage: thumbnailImage)
-        return productVM
-    }
-    
-    /**
-        Returns the product object id for the product at the given index.
-    
-        - parameter index: The index of the product.
-        - returns: The product object id.
-    */
-    func productObjectIdForProductAtIndex(index: Int) -> String? {
-        return productAtIndex(index)?.objectId
     }
     
     /**

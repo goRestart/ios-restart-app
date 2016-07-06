@@ -46,4 +46,9 @@ class RelatedProductListRequester: ProductListRequester {
     func isLastPage(resultCount: Int) -> Bool {
         return resultCount == 0
     }
+    
+    func duplicate() -> ProductListRequester {
+        // TODO: 🎪 Implement
+        return self
+    }
 }
