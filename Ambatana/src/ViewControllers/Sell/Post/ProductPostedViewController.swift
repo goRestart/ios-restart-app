@@ -14,7 +14,6 @@ class ProductPostedViewController: BaseViewController, SellProductViewController
 
     @IBOutlet weak var shareButton: UIButton!
     @IBOutlet weak var contentContainer: UIView!
-    @IBOutlet weak var mainIconImage: UIImageView!
     @IBOutlet weak var loadingIndicator: LoadingIndicator!
     @IBOutlet weak var mainTextLabel: UILabel!
     @IBOutlet weak var secondaryTextLabel: UILabel!
@@ -147,8 +146,9 @@ class ProductPostedViewController: BaseViewController, SellProductViewController
         editOrLabel.text = LGLocalizedString.productPostConfirmationAnother.uppercase
         editButton.setTitle(LGLocalizedString.productPostConfirmationEdit, forState: UIControlState.Normal)
 
-        mainIconImage.tintColor = StyleHelper.primaryColor
         loadingIndicator.color = StyleHelper.primaryColor
+
+        setupIncentiviseView()
     }
 
     private func setupStatic(correct: Bool) {
@@ -156,8 +156,6 @@ class ProductPostedViewController: BaseViewController, SellProductViewController
         mainTextLabel.text = viewModel.mainText
         secondaryTextLabel.text = viewModel.secondaryText
         mainButton.setTitle(viewModel.mainButtonText, forState: UIControlState.Normal)
-
-        setupIncentiviseView()
 
         if !correct {
             editContainer.hidden = true
@@ -168,7 +166,6 @@ class ProductPostedViewController: BaseViewController, SellProductViewController
     }
 
     private func setupLoading() {
-        mainIconImage.hidden = true
         mainTextLabel.alpha = 0
         mainTextLabel.text = nil
         secondaryTextLabel.alpha = 0
@@ -184,6 +181,7 @@ class ProductPostedViewController: BaseViewController, SellProductViewController
 
     private func finishedLoading(correct: Bool) {
         mainButton.setTitle(viewModel.mainButtonText, forState: UIControlState.Normal)
+        loadingIndicator.hidden = true
         loadingIndicator.stopAnimating(correct) { [weak self] in
             if correct {
                 self?.editContainerHeight.constant = ProductPostedViewController.contentContainerShownHeight
@@ -258,23 +256,29 @@ extension ProductPostedViewController {
 
         firstImage.image = firstItem.image
         firstNameLabel.text = firstItem.name
+        firstNameLabel.textColor = UIColor.black
         firstCountLabel.text = firstItem.searchCount
+        firstCountLabel.textColor = UIColor.grayDark
 
         secondImage.image = secondItem.image
         secondNameLabel.text = secondItem.name
+        secondNameLabel.textColor = UIColor.black
         secondCountLabel.text = secondItem.searchCount
+        secondCountLabel.textColor = UIColor.grayDark
 
         thirdImage.image = thirdItem.image
         thirdNameLabel.text = thirdItem.name
+        thirdNameLabel.textColor = UIColor.black
         thirdCountLabel.text = thirdItem.searchCount
+        thirdCountLabel.textColor = UIColor.grayDark
 
         incentiveLabel.attributedText = incentiveText
     }
 
     var incentiveText: NSAttributedString {
-        let gotAnyTextAttributes: [String : AnyObject] = [NSForegroundColorAttributeName : UIColor.darkTextColor(),
+        let gotAnyTextAttributes: [String : AnyObject] = [NSForegroundColorAttributeName : UIColor.grayDark,
                                                        NSFontAttributeName : UIFont.systemBoldFont(size: 15)]
-        let lookingForTextAttributes: [String : AnyObject] = [ NSForegroundColorAttributeName : UIColor.darkTextColor(),
+        let lookingForTextAttributes: [String : AnyObject] = [ NSForegroundColorAttributeName : UIColor.grayDark,
                                                          NSFontAttributeName : UIFont.systemRegularFont(size: 15)]
         let plainText = LGLocalizedString.productPostIncentiveLookingFor(LGLocalizedString.productPostIncentiveGotAny)
         let resultText = NSMutableAttributedString(string: plainText, attributes: lookingForTextAttributes)
