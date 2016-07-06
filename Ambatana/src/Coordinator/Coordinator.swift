@@ -33,10 +33,16 @@ extension Coordinator {
 
         if let _ = child.child {
             child.closeChild(animated: animated) {
-                child.viewController.dismissViewControllerAnimated(animated, completion: completion)
+                child.viewController.dismissViewControllerAnimated(animated) {
+                    child.child = nil
+                    completion?()
+                }
             }
         } else {
-            child.viewController.dismissViewControllerAnimated(animated, completion: completion)
+            child.viewController.dismissViewControllerAnimated(animated) { [weak self] in
+                self?.child = nil
+                completion?()
+            }
         }
     }
 }
