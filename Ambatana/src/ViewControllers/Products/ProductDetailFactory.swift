@@ -18,7 +18,8 @@ class ProductDetailFactory {
                 let requester = RelatedProductListRequester(productId: productId)
                 let listViewModel = ProductListViewModel(requester: requester, products: [product])
                 let vm = ProductCarouselViewModel(productListVM: listViewModel, index: 0,
-                                                  thumbnailImage: thumbnailImage, productListRequester: requester)
+                                                  thumbnailImage: thumbnailImage, singleProductList: true,
+                                                  productListRequester: requester)
                 let animator = ProductCarouselPushAnimator(originFrame: originFrame, originThumbnail: thumbnailImage)
                 return ProductCarouselViewController(viewModel: vm, pushAnimator: animator)
                 
@@ -35,7 +36,7 @@ class ProductDetailFactory {
         case .Snapchat:
             let newListVM = ProductListViewModel(listViewModel: productListVM)
             let vm = ProductCarouselViewModel(productListVM: newListVM, index: index,
-                                              thumbnailImage: thumbnailImage,
+                                              thumbnailImage: thumbnailImage, singleProductList: false,
                                               productListRequester: newListVM.productListRequester?.duplicate())
             let animator = ProductCarouselPushAnimator(originFrame: originFrame, originThumbnail: thumbnailImage)
             return ProductCarouselViewController(viewModel: vm, pushAnimator: animator)

@@ -56,12 +56,15 @@ class ProductCarouselViewModel: BaseViewModel {
     }
 
     var autoSwitchToNextEnabled: Bool {
+        guard FeatureFlags.automaticNextItem else { return false }
+        guard !singleProductList else { return false }
         guard let myUserId = myUserRepository.myUser?.objectId,
             userProductListRequester = productListRequester as? UserProductListRequester,
             requesterUserId = userProductListRequester.userObjectId else { return true }
         return myUserId != requesterUserId
     }
 
+    private let singleProductList: Bool
     private var productListRequester: ProductListRequester?
     private var productsViewModels: [String: ProductViewModel] = [:]
     private let myUserRepository: MyUserRepository
@@ -69,19 +72,21 @@ class ProductCarouselViewModel: BaseViewModel {
 
     // MARK: - Init
     convenience init(productListVM: ProductListViewModel, index: Int, thumbnailImage: UIImage?,
-         productListRequester: ProductListRequester?) {
+         singleProductList: Bool, productListRequester: ProductListRequester?) {
         let myUserRepository = Core.myUserRepository
         self.init(myUserRepository: myUserRepository, productListVM: productListVM, index: index,
-                  thumbnailImage: thumbnailImage, productListRequester: productListRequester)
+                  thumbnailImage: thumbnailImage, singleProductList: singleProductList,
+                  productListRequester: productListRequester)
     }
 
     init(myUserRepository: MyUserRepository, productListVM: ProductListViewModel, index: Int, thumbnailImage: UIImage?,
-         productListRequester: ProductListRequester?) {
+         singleProductList: Bool, productListRequester: ProductListRequester?) {
         self.myUserRepository = myUserRepository
         self.objects = productListVM.objects.flatMap(ProductCarouselCellModel.adapter)
         self.startIndex = index
         self.initialThumbnail = thumbnailImage
         self.productListRequester = productListRequester
+        self.singleProductList = singleProductList
         super.init()
         self.currentProductViewModel = viewModelAtIndex(index)
     }
