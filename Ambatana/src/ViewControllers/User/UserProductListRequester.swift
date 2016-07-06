@@ -34,7 +34,9 @@ class UserFavoritesProductListRequester: UserProductListRequester {
     }
     
     func retrieveNextPage(completion: ProductsCompletion?) {
-        productsRetrieval(offset: 0, completion: completion)
+        //User favorites doesn't have pagination.
+        completion?(ProductsResult(value: []))
+        return
     }
 
     private func productsRetrieval(offset offset: Int, completion: ProductsCompletion?) {
