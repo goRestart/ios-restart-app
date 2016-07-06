@@ -99,6 +99,26 @@ extension UIColor {
 }
 
 
+// MARK: > Categories colors
+
+extension UIColor {
+
+    private static let asparagus = UIColor(rgb: 0x81ac56)
+    private static let macaroniAndCheese = UIColor(rgb: 0xf1b83d)
+    private static let wisteria = UIColor(rgb: 0xa384bf)
+    private static let desert = UIColor(rgb: 0xa384bf)
+
+    static var unassignedCategory: UIColor { return clearColor() }
+    static var electronicsCategory: UIColor { return tealBlue }
+    static var carsMotorsCategory: UIColor { return UIColor(rgb: 0x9b9b9b) }
+    static var sportsGamesCategory: UIColor { return asparagus }
+    static var homeGardenCategory: UIColor { return macaroniAndCheese }
+    static var moviesBooksCategory: UIColor { return wisteria }
+    static var fashionAccessoriesCategory: UIColor { return UIColor(rgb: 0xfe6e7f) }
+    static var babyChildCategory: UIColor { return cornflower }
+    static var otherCategory: UIColor { return desert }
+}
+
 // MARK: > Text colors
 
 extension UIColor {
@@ -118,7 +138,6 @@ extension UIColor {
     static var whiteTextLowAlpha: UIColor { return whiteAlpha30 }
 
     static var grayPlaceholderText: UIColor { return gray }
-
 }
 
 
