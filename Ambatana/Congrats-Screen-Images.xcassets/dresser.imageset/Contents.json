@@ -2,15 +2,17 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "6.dresser.pdf",
+      "filename" : "dresser.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
+      "filename" : "dresser-1.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
+      "filename" : "dresser-2.png",
       "scale" : "3x"
     }
   ],
