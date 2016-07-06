@@ -30,14 +30,14 @@ class UserFavoritesProductListRequester: UserProductListRequester {
     func canRetrieve() -> Bool { return true }
     
     func retrieveFirstPage(completion: ProductsCompletion?) {
-        // TODO: 🎪 Implement
+        productsRetrieval(offset: 0, completion: completion)
     }
     
     func retrieveNextPage(completion: ProductsCompletion?) {
-        // TODO: 🎪 Implement
+        productsRetrieval(offset: 0, completion: completion)
     }
 
-    func productsRetrieval(offset offset: Int, completion: ProductsCompletion?) {
+    private func productsRetrieval(offset offset: Int, completion: ProductsCompletion?) {
         guard let userId = userObjectId else { return }
         guard offset == 0 else {
             //User favorites doesn't have pagination.
@@ -53,8 +53,9 @@ class UserFavoritesProductListRequester: UserProductListRequester {
     
     
     func duplicate() -> ProductListRequester {
-        // TODO: 🎪 Implement
-        return self
+        let r = UserFavoritesProductListRequester()
+        r.userObjectId = userObjectId
+        return r
     }
 }
 
@@ -66,6 +67,7 @@ class UserStatusesProductListRequester: UserProductListRequester {
     let locationManager: LocationManager
 
     var userObjectId: String? = nil
+    var offset: Int = 0
 
     convenience init(statuses: [ProductStatus]) {
         self.init(productRepository: Core.productRepository, locationManager: Core.locationManager, statuses: statuses)
@@ -80,18 +82,19 @@ class UserStatusesProductListRequester: UserProductListRequester {
     func canRetrieve() -> Bool { return userObjectId != nil }
 
     func retrieveFirstPage(completion: ProductsCompletion?) {
-        // TODO: 🎪 Implement
+        productsRetrieval(offset: 0, completion: completion)
     }
     
     func retrieveNextPage(completion: ProductsCompletion?) {
-        // TODO: 🎪 Implement
+        productsRetrieval(offset: offset, completion: completion)
     }
     
-    func productsRetrieval(offset offset: Int, completion: ProductsCompletion?) {
+    private func productsRetrieval(offset offset: Int, completion: ProductsCompletion?) {
         guard let params = retrieveProductsParams else { return }
         guard let userId = userObjectId else { return  }
-        productRepository.index(userId: userId, params: params, pageOffset: offset) { result in
+        productRepository.index(userId: userId, params: params, pageOffset: offset) { [weak self] result in
             if let products = result.value where !products.isEmpty {
+                self?.offset += products.count
                 //User posted previously -> Store it
                 KeyValueStorage.sharedInstance.userPostProductPostedPreviously = true
             }
@@ -116,7 +119,9 @@ class UserStatusesProductListRequester: UserProductListRequester {
     
     
     func duplicate() -> ProductListRequester {
-        // TODO: 🎪 Implement
-        return self
+        let r = UserStatusesProductListRequester(statuses: statuses)
+        r.offset = offset
+        r.userObjectId = userObjectId
+        return r
     }
 }
