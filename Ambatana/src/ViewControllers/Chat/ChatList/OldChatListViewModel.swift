@@ -149,9 +149,6 @@ class OldChatListViewModel: BaseChatGroupedListViewModel<Chat>, ChatListViewMode
 
 private extension Chat {
     func conversationCellStatus(otherUser: User?) -> ConversationCellStatus {
-
-        return .UserDeleted
-
         if let otherUser = otherUser {
             switch otherUser.status {
             case .Scammer:
