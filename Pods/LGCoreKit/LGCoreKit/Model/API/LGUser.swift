@@ -19,16 +19,18 @@ public struct LGUser: User {
     public var avatar: File?
     public var postalAddress: PostalAddress
     public var accounts: [Account]?    // TODO: When switching to bouncer only make accounts non-optional
+    public var status: UserStatus
     public var isDummy: Bool
 
 
     init(objectId: String?, name: String?, avatar: String?, postalAddress: PostalAddress, accounts: [LGAccount]?,
-         isDummy: Bool) {
+         status: UserStatus?, isDummy: Bool) {
         self.objectId = objectId
         self.name = name
         self.avatar = LGFile(id: nil, urlString: avatar)
         self.postalAddress = postalAddress
         self.accounts = accounts?.map { $0 as Account }
+        self.status = status ?? .Active
         self.isDummy = isDummy
     }
 }
@@ -37,6 +39,7 @@ extension LGUser {
     // Lifecycle
     public init() {
         self.postalAddress = PostalAddress(address: nil, city: nil, zipCode: nil, countryCode: nil, country: nil)
+        self.status = .Active
         self.isDummy = false
     }
 }
@@ -74,6 +77,7 @@ extension LGUser : Decodable {
             <*> j <|? "avatar_url"
             <*> PostalAddress.decode(j)
             <*> j <||? "accounts"
+            <*> j <|? "status"
             <*> LGArgo.mandatoryWithFallback(json: j, key: "is_richy", fallback: false)
 
         if let error = result.error {

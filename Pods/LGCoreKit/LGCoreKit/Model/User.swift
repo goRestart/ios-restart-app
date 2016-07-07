@@ -11,6 +11,7 @@ public protocol User: BaseModel {
     var avatar: File? { get }
     var postalAddress: PostalAddress { get }
     var accounts: [Account]? { get }    // TODO: When switching to bouncer only make accounts non-optional
+    var status: UserStatus { get }
     
     var isDummy: Bool { get }
 }

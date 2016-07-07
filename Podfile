@@ -27,7 +27,7 @@ def shared_pods
     pod "Leanplum-iOS-SDK",     "~> 1.3.11"
 
 	# letgo Core
-    pod "LGCoreKit",            :path => "../lgcorekit" #"0.25.9"
+    pod "LGCoreKit",            "0.26.0" #:path => "../lgcorekit"
 
 	# Slack Chat controller
     pod "SlackTextViewController", "1.9.1"

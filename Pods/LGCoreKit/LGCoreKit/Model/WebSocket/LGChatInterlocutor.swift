@@ -16,6 +16,7 @@ struct LGChatInterlocutor: ChatInterlocutor {
     let isBanned: Bool
     let isMuted: Bool
     let hasMutedYou: Bool
+    let status: UserStatus
 }
 
 extension LGChatInterlocutor: Decodable {
@@ -27,6 +28,7 @@ extension LGChatInterlocutor: Decodable {
         static let isBanned = "is_banned"
         static let isMuted = "is_muted"
         static let hasMutedYou = "has_muted_you"
+        static let status = "status"
     }
     
     static func decode(j: JSON) -> Decoded<LGChatInterlocutor> {
@@ -37,6 +39,7 @@ extension LGChatInterlocutor: Decodable {
             <*> j <| JSONKeys.isBanned
             <*> j <| JSONKeys.isMuted
             <*> j <| JSONKeys.hasMutedYou
+            <*> j <| JSONKeys.status
         return init1
     }
     
