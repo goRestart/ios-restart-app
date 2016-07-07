@@ -754,7 +754,6 @@
 		C7DB422A1C5138B500400945 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6601BFC01A8E5A8500A2C60B /* SettingsViewController.swift */; };
 		C7DB422C1C5138B500400945 /* KeyboardAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5021E8571C490C99001012B6 /* KeyboardAnimation.swift */; };
 		C7DB422F1C5138B500400945 /* SettingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E64F261B09D36500544DE3 /* SettingsCell.swift */; };
-		C7DB42301C5138B500400945 /* StyleHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45838401AEE6AB100B5F181 /* StyleHelper.swift */; };
 		C7DB42321C5138B500400945 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6640F03F1AE13EBE00004556 /* AdSupport.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		C7DB42331C5138B500400945 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E4562151BE0F76D00C485D7 /* Accelerate.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		C7DB42341C5138B500400945 /* LGCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7CD6D621BE7ADF800A13EC3 /* LGCoreKit.framework */; };
@@ -887,7 +886,6 @@
 		D412E0881B4F17C200683FFD /* ProductListView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D412E0871B4F17C200683FFD /* ProductListView.xib */; };
 		D43FF0251AB0737400757EED /* ProductLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43FF0241AB0737400757EED /* ProductLocationViewController.swift */; };
 		D4443D6B1B1288B700237095 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4443D6A1B1288B700237095 /* Constants.swift */; };
-		D45838411AEE6AB100B5F181 /* StyleHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45838401AEE6AB100B5F181 /* StyleHelper.swift */; };
 		D45838431AEE6B9300B5F181 /* UIColor+RGB.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45838421AEE6B9300B5F181 /* UIColor+RGB.swift */; };
 		D46FF5321B81299B00D03B37 /* SocialHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46FF5311B81299B00D03B37 /* SocialHelper.swift */; };
 		D4912A831B08E12C00DACD5A /* UIImage+Tint.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4912A821B08E12C00DACD5A /* UIImage+Tint.swift */; };
@@ -1452,7 +1450,6 @@
 		D4293A021B3DA148004F2DA8 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Localizable.strings; sourceTree = "<group>"; };
 		D43FF0241AB0737400757EED /* ProductLocationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductLocationViewController.swift; sourceTree = "<group>"; };
 		D4443D6A1B1288B700237095 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
-		D45838401AEE6AB100B5F181 /* StyleHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StyleHelper.swift; sourceTree = "<group>"; };
 		D45838421AEE6B9300B5F181 /* UIColor+RGB.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+RGB.swift"; sourceTree = "<group>"; };
 		D46FF5311B81299B00D03B37 /* SocialHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialHelper.swift; sourceTree = "<group>"; };
 		D4912A821B08E12C00DACD5A /* UIImage+Tint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Tint.swift"; sourceTree = "<group>"; };
@@ -2771,7 +2768,6 @@
 			children = (
 				C7239A171C11F92B006CB5A6 /* CAGradientLayer+Color.swift */,
 				5021E8571C490C99001012B6 /* KeyboardAnimation.swift */,
-				D45838401AEE6AB100B5F181 /* StyleHelper.swift */,
 				5063949B1C8D97520091C831 /* UIAction.swift */,
 				5007279C1B32CE660058DA76 /* UIApplication+TopViewController.swift */,
 				D45838421AEE6B9300B5F181 /* UIColor+RGB.swift */,
@@ -3879,7 +3875,6 @@
 				C7AB4EC61CD39C67007B573D /* NotificationsManager.swift in Sources */,
 				50E64F281B09D36500544DE3 /* SettingsCell.swift in Sources */,
 				C7F4CBA61C92CC5A008E40D6 /* LGViewPagerPage.swift in Sources */,
-				D45838411AEE6AB100B5F181 /* StyleHelper.swift in Sources */,
 				C7DE3AD81CB7F6BB002CB482 /* CGAffineTransform+LG.swift in Sources */,
 				C7B6FA8A1D182F4200DAA19D /* LocalChat.swift in Sources */,
 				C703BE021C7F1AF900EC8EF2 /* EditLocationViewModel.swift in Sources */,
@@ -4200,7 +4195,6 @@
 				C7AB4EC71CD39C67007B573D /* NotificationsManager.swift in Sources */,
 				C7DB422F1C5138B500400945 /* SettingsCell.swift in Sources */,
 				C7F4CBA71C92CC5A008E40D6 /* LGViewPagerPage.swift in Sources */,
-				C7DB42301C5138B500400945 /* StyleHelper.swift in Sources */,
 				C7DE3AD91CB7F6BB002CB482 /* CGAffineTransform+LG.swift in Sources */,
 				C7B6FA8B1D182F4200DAA19D /* LocalChat.swift in Sources */,
 				C703BE031C7F1AF900EC8EF2 /* EditLocationViewModel.swift in Sources */,
