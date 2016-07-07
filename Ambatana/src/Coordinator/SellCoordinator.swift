@@ -52,7 +52,6 @@ final class SellCoordinator: NSObject, Coordinator {
 
         super.init()
         postProductVM.navigator = self
-        postProductVC.delegate = self
     }
 
     func open(parent parent: UIViewController, animated: Bool, completion: (() -> Void)?) {
@@ -95,31 +94,6 @@ extension SellCoordinator: SellNavigator {
 }
 
 
-// MARK: - SellProductViewControllerDelegate
-
-extension SellCoordinator: SellProductViewControllerDelegate {
-    func sellProductViewController(sellVC: SellProductViewController?, didCompleteSell successfully: Bool,
-                                   withPromoteProductViewModel promoteProductVM: PromoteProductViewModel?) {
-        guard successfully else { return }
-//        delegate?.sellNavigator(self, didCompleteSellWithViewModel: promoteProductVM)
-    }
-
-    func sellProductViewController(sellVC: SellProductViewController?,
-                                   didFinishPostingProduct postedViewModel: ProductPostedViewModel) {
-//        delegate?.sellNavigator(self, productPostedWithViewModel: postedViewModel)
-    }
-
-    func sellProductViewController(sellVC: SellProductViewController?,
-                                   didEditProduct editVC: EditProductViewController?) {
-//        guard let editVC = editVC else { return }
-//        delegate?.sellNavigator(self, editProductWithViewModel: editVC) // TODO: ⚠️ it's a fucking VC (venture capital)
-    }
-
-    func sellProductViewControllerDidTapPostAgain(sellVC: SellProductViewController?) {
-//        openSell()
-    }
-}
-
 // MARK: - PostProductNavigator
 
 extension SellCoordinator: PostProductNavigator {
@@ -135,16 +109,13 @@ extension SellCoordinator: PostProductNavigator {
 
         close(animated: true, notifyDelegate: false) { [weak self] in
             self?.productRepository.create(product, images: images) { result in
-
                 self?.trackPost(result, trackingInfo: trackingInfo)
-
 
                 if showConfirmation {
                     guard let parentVC = self?.parentViewController else { return }
 
                     let productPostedVM = ProductPostedViewModel(postResult: result, trackingInfo: trackingInfo)
                     let productPostedVC = ProductPostedViewController(viewModel: productPostedVM)
-                    productPostedVC.delegate = self
                     self?.viewController = productPostedVC
                     parentVC.presentViewController(productPostedVC, animated: true, completion: nil)
                 } else {
