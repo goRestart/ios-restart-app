@@ -25,9 +25,17 @@ class DirectAnswersPresenter : NSObject, UICollectionViewDelegate, UICollectionV
         }
     }
 
+    var enabled: Bool = true {
+        didSet {
+            collectionView?.alpha = enabled ? 1 : DirectAnswersPresenter.disabledAlpha
+        }
+    }
+
     private let directAnswersHeight: CGFloat = 48
     private weak var collectionView: UICollectionView?
     private var answers: [DirectAnswer] = []
+
+    private static let disabledAlpha: CGFloat = 0.6
 
 
     // MARK: - Public methods
@@ -75,6 +83,7 @@ class DirectAnswersPresenter : NSObject, UICollectionViewDelegate, UICollectionV
     }
 
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        guard enabled else { return }
         if indexPath.row == answers.count {
             delegate?.directAnswersDidTapClose(self)
         } else {
@@ -84,6 +93,7 @@ class DirectAnswersPresenter : NSObject, UICollectionViewDelegate, UICollectionV
 
     func collectionView(collectionView: UICollectionView, didHighlightItemAtIndexPath indexPath: NSIndexPath) {
         guard let cell = collectionView.cellForItemAtIndexPath(indexPath) as? DirectAnswerCell else { return }
+        guard enabled else { return }
         cell.setCellHighlighted(true)
     }
     
@@ -114,6 +124,7 @@ class DirectAnswersPresenter : NSObject, UICollectionViewDelegate, UICollectionV
         parentView.addConstraints([bottom,left,right])
 
         view.hidden = hidden
+        view.alpha = enabled ? 1 : DirectAnswersPresenter.disabledAlpha
         collectionView = view
     }
 

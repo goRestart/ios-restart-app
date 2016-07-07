@@ -13,11 +13,21 @@ protocol ChatStickersViewDelegate: class {
 }
 
 class ChatStickersView: UIView {
-    let collectionView: UICollectionView
-    var numberOfColumns: Int = 3
-    var stickers: [Sticker] = []
+
+    var enabled: Bool = true {
+        didSet {
+            collectionView.alpha = enabled ? 1 : ChatStickersView.disabledAlpha
+        }
+    }
+
     weak var delegate: ChatStickersViewDelegate?
-    
+
+    private let collectionView: UICollectionView
+    private var numberOfColumns: Int = 3
+    private var stickers: [Sticker] = []
+
+    private static let disabledAlpha: CGFloat = 0.6
+
     init() {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .Vertical
@@ -35,6 +45,7 @@ class ChatStickersView: UIView {
     }
     
     func setupUI() {
+        backgroundColor = UIColor.whiteColor()
         collectionView.backgroundColor = UIColor.whiteColor()
         collectionView.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
         collectionView.registerClass(ChatStickerGridCell.self, forCellWithReuseIdentifier: ChatStickerGridCell.reuseIdentifier)
@@ -69,6 +80,7 @@ extension ChatStickersView: UICollectionViewDataSource, UICollectionViewDelegate
     }
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        guard enabled else { return }
         let sticker = stickers[indexPath.row]
         delegate?.stickersViewDidSelectSticker(sticker)
     }
