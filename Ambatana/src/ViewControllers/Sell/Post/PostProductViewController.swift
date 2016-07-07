@@ -119,23 +119,7 @@ UITextFieldDelegate {
     
     @IBAction func onCloseButton(sender: AnyObject) {
         priceTextField.resignFirstResponder()
-        if viewModel.shouldShowCloseAlert() {
-            let alert = UIAlertController(title: LGLocalizedString.productPostCloseAlertTitle,
-                message: LGLocalizedString.productPostCloseAlertDescription, preferredStyle: .Alert)
-            let cancelAction = UIAlertAction(title: LGLocalizedString.productPostCloseAlertCloseButton,
-                style: .Cancel, handler: { [weak self] _ in
-                    self?.viewModel.closeButtonPressed()
-                })
-            let postAction = UIAlertAction(title: LGLocalizedString.productPostCloseAlertOkButton, style: .Default,
-                handler: { [weak self] _ in
-                    self?.viewModel.doneButtonPressed(priceText: nil)
-            })
-            alert.addAction(cancelAction)
-            alert.addAction(postAction)
-            presentViewController(alert, animated: true, completion: nil)
-        } else {
-            viewModel.closeButtonPressed()
-        }
+        viewModel.closeButtonPressed()
     }
 
     @IBAction func galleryButtonPressed(sender: AnyObject) {
@@ -179,7 +163,7 @@ UITextFieldDelegate {
         setSelectPriceState(loading: false, error: error)
     }
 
-    func postProductviewModelshouldClose(viewModel: PostProductViewModel, animated: Bool, completion: (() -> Void)?) {
+    func postProductviewModelShouldClose(viewModel: PostProductViewModel, animated: Bool, completion: (() -> Void)?) {
         dismissViewControllerAnimated(animated, completion: completion)
     }
 

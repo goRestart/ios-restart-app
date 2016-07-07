@@ -41,7 +41,7 @@ protocol PostProductNavigator: class {
     func closeAndPost(product: Product, images: [File], showConfirmation: Bool, trackingInfo: PostProductTrackingInfo)
 
     // Closes post product screen and opens product posted to post the product
-    func closeAndPost(priceText priceText: String?, image: UIImage, trackingInfo: PostProductTrackingInfo)
+    func closeAndPost(product: Product, image: UIImage, trackingInfo: PostProductTrackingInfo)
 }
 
 

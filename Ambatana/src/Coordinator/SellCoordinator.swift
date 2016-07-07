@@ -97,21 +97,17 @@ extension SellCoordinator: SellNavigator {
 // MARK: - PostProductNavigator
 
 extension SellCoordinator: PostProductNavigator {
-//    weak var postProductNavigatorDelegate: PostProductNavigatorDelegate? { get }
-
-    // Cancels post product flow.
     func cancel() {
         close(animated: true, notifyDelegate: true, completion: nil)
     }
 
-    // Closes post product screen, posts the product and opens product posted if `showConfirmation` is `true`
     func closeAndPost(product: Product, images: [File], showConfirmation: Bool, trackingInfo: PostProductTrackingInfo) {
 
         close(animated: true, notifyDelegate: false) { [weak self] in
             self?.productRepository.create(product, images: images) { result in
                 self?.trackPost(result, trackingInfo: trackingInfo)
 
-                if let _ = result.value {
+                if let _ = result.value {
                     self?.keyValueStorage.userPostProductPostedPreviously = true
                 }
 
@@ -138,19 +134,16 @@ extension SellCoordinator: PostProductNavigator {
         }
     }
 
-    // Closes post product screen and opens product posted to post the product
-    func closeAndPost(priceText priceText: String?, image: UIImage, trackingInfo: PostProductTrackingInfo) {
+    func closeAndPost(product: Product, image: UIImage, trackingInfo: PostProductTrackingInfo) {
+        guard let parentVC = parentViewController else { return }
 
-//        delegate?.postProductviewModel(self, shouldAskLoginWithCompletion: { [weak self] in
-//            guard let strongSelf = self else { return }
-//            strongSelf.delegate?.postProductviewModelshouldClose(strongSelf, animated: false, completion: {
-//                [weak self] in
-//                guard let product = self?.buildProduct(priceText: priceText) else { return }
-//                let productPostedViewModel = ProductPostedViewModel(productToPost: product, productImage: image,
-//                    trackingInfo: trackInfo)
-//                sellDelegate?.sellProductViewController(controller, didFinishPostingProduct: productPostedViewModel)
-//                })
-//            })
+        close(animated: true, notifyDelegate: false) { [weak self] in
+            let productPostedVM = ProductPostedViewModel(productToPost: product, productImage: image,
+                                                         trackingInfo: trackingInfo)
+            let productPostedVC = ProductPostedViewController(viewModel: productPostedVM)
+            self?.viewController = productPostedVC
+            parentVC.presentViewController(productPostedVC, animated: true, completion: nil)
+        }
     }
 }
 

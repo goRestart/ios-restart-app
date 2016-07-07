@@ -8,10 +8,10 @@
 
 import LGCoreKit
 
-protocol PostProductViewModelDelegate: class {
+protocol PostProductViewModelDelegate: BaseViewModelDelegate {
     func postProductViewModelDidStartUploadingImage(viewModel: PostProductViewModel)
     func postProductViewModelDidFinishUploadingImage(viewModel: PostProductViewModel, error: String?)
-    func postProductviewModelshouldClose(viewModel: PostProductViewModel, animated: Bool, completion: (() -> Void)?)
+    func postProductviewModelShouldClose(viewModel: PostProductViewModel, animated: Bool, completion: (() -> Void)?)
     func postProductviewModel(viewModel: PostProductViewModel, shouldAskLoginWithCompletion completion: () -> Void)
 }
 
@@ -134,10 +134,6 @@ class PostProductViewModel: BaseViewModel {
         }
     }
 
-    func shouldShowCloseAlert() -> Bool {
-        return pendingToUploadImage != nil
-    }
-
     func doneButtonPressed(priceText priceText: String?) {
         let trackingInfo = PostProductTrackingInfo(buttonName: .Done, imageSource: uploadedImageSource,
                                                    price: priceText)
@@ -145,31 +141,56 @@ class PostProductViewModel: BaseViewModel {
             guard let product = buildProduct(priceText: priceText), image = uploadedImage else { return }
             navigator?.closeAndPost(product, images: [image], showConfirmation: true, trackingInfo: trackingInfo)
         } else if let image = pendingToUploadImage {
-            navigator?.closeAndPost(priceText: priceText, image: image, trackingInfo: trackingInfo)
+            delegate?.postProductviewModel(self, shouldAskLoginWithCompletion: { [weak self] in
+                guard let product = self?.buildProduct(priceText: priceText) else { return }
+                self?.navigator?.closeAndPost(product, image: image, trackingInfo: trackingInfo)
+            })
+        } else {
+            navigator?.cancel()
         }
     }
 
     func closeButtonPressed() {
-        let priceText: String? = nil
-        guard let product = buildProduct(priceText: priceText), image = uploadedImage else {
-            navigator?.cancel()
-            return
+        if pendingToUploadImage != nil {
+            openPostAbandonAlertNotLoggedIn()
+        } else {
+            guard let product = buildProduct(priceText: nil), image = uploadedImage else {
+                navigator?.cancel()
+                return
+            }
+            let trackingInfo = PostProductTrackingInfo(buttonName: .Close, imageSource: uploadedImageSource, price: nil)
+            navigator?.closeAndPost(product, images: [image], showConfirmation: false, trackingInfo: trackingInfo)
         }
+    }
+}
 
-        let trackingInfo = PostProductTrackingInfo(buttonName: .Close, imageSource: uploadedImageSource,
-                                                   price: priceText)
-        navigator?.closeAndPost(product, images: [image], showConfirmation: false, trackingInfo: trackingInfo)
+
+// MARK: - Private methods
+
+private extension PostProductViewModel {
+    func openPostAbandonAlertNotLoggedIn() {
+        let title = LGLocalizedString.productPostCloseAlertTitle
+        let message = LGLocalizedString.productPostCloseAlertDescription
+        let cancelAction = UIAction(interface: .Text(LGLocalizedString.productPostCloseAlertCloseButton),
+                                    action: { [weak self] in
+                                        self?.navigator?.cancel()
+            })
+        let postAction = UIAction(interface: .Text(LGLocalizedString.productPostCloseAlertOkButton),
+                                  action: { [weak self] in
+                                    self?.doneButtonPressed(priceText: nil)
+            })
+        delegate?.vmShowAlert(title, message: message, actions: [cancelAction, postAction])
     }
 
-
-    // MARK: - Private methods
-
-    private func buildProduct(priceText priceText: String?) -> Product? {
+    func buildProduct(priceText priceText: String?) -> Product? {
         let priceText = priceText ?? "0"
         let price = priceText.toPriceDouble()
         return productRepository.buildNewProduct(price: price)
     }
 }
+
+
+// MARK: - PostingSource Tracking
 
 extension PostingSource {
     var typePage: EventParameterTypePage {
