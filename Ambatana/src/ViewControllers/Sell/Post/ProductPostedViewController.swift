@@ -254,6 +254,7 @@ extension ProductPostedViewController {
         let secondItem = itemPack[1]
         let thirdItem = itemPack[2]
 
+        // TODO: update colors from generic to the one corresponding to texts
         firstImage.image = firstItem.image
         firstNameLabel.text = firstItem.name
         firstNameLabel.textColor = UIColor.black
@@ -276,6 +277,7 @@ extension ProductPostedViewController {
     }
 
     var incentiveText: NSAttributedString {
+        // TODO: update fonts and colors from generic to the one corresponding to texts
         let gotAnyTextAttributes: [String : AnyObject] = [NSForegroundColorAttributeName : UIColor.grayDark,
                                                        NSFontAttributeName : UIFont.systemBoldFont(size: 15)]
         let lookingForTextAttributes: [String : AnyObject] = [ NSForegroundColorAttributeName : UIColor.grayDark,

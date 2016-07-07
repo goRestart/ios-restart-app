@@ -86,5 +86,4 @@ enum PostIncentiviserItem: Int {
         let increment = dailyIncrement + (self.rawValue * components.day) / (components.month / self.rawValue) // "randomizing" like a baws
         return increment
     }
-
 }
