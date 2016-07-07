@@ -13,8 +13,7 @@ class RelatedProductListRequester: ProductListRequester {
     private let productObjectId: String
     private let productRepository: ProductRepository
     private let locationManager: LocationManager
-    
-    var offset: Int = 0
+    private var offset: Int = 0
 
     convenience init(productId: String) {
         self.init(productId: productId, productRepository: Core.productRepository, locationManager: Core.locationManager)
@@ -32,21 +31,20 @@ class RelatedProductListRequester: ProductListRequester {
     
     func retrieveFirstPage(completion: ProductsCompletion?) {
         offset = 0
-        productsRetrieval(offset: 0, completion: completion)
+        productsRetrieval(completion)
     }
     
     func retrieveNextPage(completion: ProductsCompletion?) {
-        productsRetrieval(offset: offset, completion: completion)
+        productsRetrieval(completion)
     }
 
-    func productsRetrieval(offset offset: Int, completion: ProductsCompletion?) {
+    func productsRetrieval(completion: ProductsCompletion?) {
         productRepository.index(productId: productObjectId, params: RetrieveProductsParams()) { [weak self] result in
             if let value = result.value {
                 self?.offset += value.count
             }
             completion?(result)
         }
-        
     }
 
     func isLastPage(resultCount: Int) -> Bool {

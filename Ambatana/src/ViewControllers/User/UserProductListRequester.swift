@@ -30,7 +30,7 @@ class UserFavoritesProductListRequester: UserProductListRequester {
     func canRetrieve() -> Bool { return true }
     
     func retrieveFirstPage(completion: ProductsCompletion?) {
-        productsRetrieval(offset: 0, completion: completion)
+        productsRetrieval(completion)
     }
     
     func retrieveNextPage(completion: ProductsCompletion?) {
@@ -39,13 +39,8 @@ class UserFavoritesProductListRequester: UserProductListRequester {
         return
     }
 
-    private func productsRetrieval(offset offset: Int, completion: ProductsCompletion?) {
+    private func productsRetrieval(completion: ProductsCompletion?) {
         guard let userId = userObjectId else { return }
-        guard offset == 0 else {
-            //User favorites doesn't have pagination.
-            completion?(ProductsResult(value: []))
-            return
-        }
         productRepository.indexFavorites(userId, completion: completion)
     }
 
@@ -64,12 +59,11 @@ class UserFavoritesProductListRequester: UserProductListRequester {
 
 class UserStatusesProductListRequester: UserProductListRequester {
 
-    let statuses: [ProductStatus]
-    let productRepository: ProductRepository
-    let locationManager: LocationManager
-
     var userObjectId: String? = nil
-    var offset: Int = 0
+    private let statuses: [ProductStatus]
+    private let productRepository: ProductRepository
+    private let locationManager: LocationManager
+    private var offset: Int = 0
 
     convenience init(statuses: [ProductStatus]) {
         self.init(productRepository: Core.productRepository, locationManager: Core.locationManager, statuses: statuses)
@@ -85,14 +79,14 @@ class UserStatusesProductListRequester: UserProductListRequester {
 
     func retrieveFirstPage(completion: ProductsCompletion?) {
         offset = 0
-        productsRetrieval(offset: 0, completion: completion)
+        productsRetrieval(completion)
     }
     
     func retrieveNextPage(completion: ProductsCompletion?) {
-        productsRetrieval(offset: offset, completion: completion)
+        productsRetrieval(completion)
     }
     
-    private func productsRetrieval(offset offset: Int, completion: ProductsCompletion?) {
+    private func productsRetrieval(completion: ProductsCompletion?) {
         guard let params = retrieveProductsParams else { return }
         guard let userId = userObjectId else { return  }
         productRepository.index(userId: userId, params: params, pageOffset: offset) { [weak self] result in

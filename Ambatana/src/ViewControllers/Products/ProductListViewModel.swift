@@ -235,23 +235,10 @@ class ProductListViewModel: BaseViewModel {
     }
 
     func selectedItemAtIndex(index: Int, thumbnailImage: UIImage?, originFrame: CGRect?) {
-        guard let item = itemAtIndex(index) else { return }
-       
-        
+        guard let item = itemAtIndex(index) else { return }        
         switch item {
         case .ProductCell:
-            
-            // To open the product we need to calculate the index without the banners (they will be filtered out)
-            let productIndex = objects[0..<index].reduce(0) { (total: Int, model) -> Int in
-                switch model {
-                case .ProductCell:
-                    return total + 1
-                case .BannerCell:
-                    return total
-                }
-            }
-            
-            dataDelegate?.productListVM(self, didSelectItemAtIndex: productIndex, thumbnailImage: thumbnailImage,
+            dataDelegate?.productListVM(self, didSelectItemAtIndex: index, thumbnailImage: thumbnailImage,
                                         originFrame: originFrame)
         case .BannerCell(let data):
             dataDelegate?.vmDidSelectSellBanner(data.style.rawValue)

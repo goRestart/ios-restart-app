@@ -127,7 +127,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     
     // Data
     internal(set) var viewModel: ProductListViewModel
-    var drawerManager = GridDrawerManager()
+    private let drawerManager = GridDrawerManager()
     
     // Delegate
     weak var scrollDelegate: ProductListViewScrollDelegate?
