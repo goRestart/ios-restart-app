@@ -686,6 +686,15 @@ extension ChatViewModel {
         return chatViewMessageAdapter.createUserInfoMessage(interlocutor)
     }
 
+    var userDeletedMessage: ChatViewMessage? {
+        switch chatStatus.value {
+        case .UserDeleted, .UserPendingDelete:
+            return chatViewMessageAdapter.createUserDeletedDisclaimerMessage(conversation.value.interlocutor?.name)
+        case .Available, .Blocked, .BlockedBy, .Forbidden, .ProductDeleted, .ProductSold:
+            return nil
+        }
+    }
+
     private func downloadFirstPage(conversationId: String) {
         chatRepository.indexMessages(conversationId, numResults: resultsPerPage, offset: 0) {
             [weak self] result in
@@ -697,6 +706,9 @@ extension ChatViewModel {
                 let newMessages = strongSelf.chatViewMessageAdapter
                     .addDisclaimers(messages, disclaimerMessage: strongSelf.defaultDisclaimerMessage)
                 self?.messages.removeAll()
+                if let userDeletedMessage = self?.userDeletedMessage {
+                    self?.messages.append(userDeletedMessage)
+                }
                 self?.messages.appendContentsOf(newMessages)
                 if let userInfoMessage = self?.userInfoMessage where strongSelf.isLastPage {
                     self?.messages.append(userInfoMessage)
@@ -718,7 +730,7 @@ extension ChatViewModel {
                 let messages = value.map(adapter.adapt)
                 if messages.count == 0 {
                     self?.isLastPage = true
-                    if let userInfoMessage = self?.userInfoMessage where strongSelf.isLastPage {
+                    if let userInfoMessage = self?.userInfoMessage {
                         self?.messages.append(userInfoMessage)
                     }
                 } else {
