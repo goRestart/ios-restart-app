@@ -22,4 +22,8 @@ class ChatStickerGridCell: UICollectionViewCell {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
+    func setCellHighlighted(highlighted: Bool) {
+        contentView.alpha = highlighted ? 0.6 : 1
+    }
 }

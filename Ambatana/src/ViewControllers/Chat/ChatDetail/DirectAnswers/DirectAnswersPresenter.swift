@@ -27,7 +27,10 @@ class DirectAnswersPresenter : NSObject, UICollectionViewDelegate, UICollectionV
 
     var enabled: Bool = true {
         didSet {
-            collectionView?.alpha = enabled ? 1 : DirectAnswersPresenter.disabledAlpha
+            collectionView?.scrollEnabled = enabled
+            if enabled {
+                reEnableCells()
+            }
         }
     }
 
@@ -87,17 +90,21 @@ class DirectAnswersPresenter : NSObject, UICollectionViewDelegate, UICollectionV
         if indexPath.row == answers.count {
             delegate?.directAnswersDidTapClose(self)
         } else {
+            if let cell = collectionView.cellForItemAtIndexPath(indexPath) as? DirectAnswerCell {
+                cell.setCellHighlighted(true)
+            }
             delegate?.directAnswersDidTapAnswer(self, answer: answers[indexPath.row])
         }
     }
 
     func collectionView(collectionView: UICollectionView, didHighlightItemAtIndexPath indexPath: NSIndexPath) {
-        guard let cell = collectionView.cellForItemAtIndexPath(indexPath) as? DirectAnswerCell else { return }
         guard enabled else { return }
+        guard let cell = collectionView.cellForItemAtIndexPath(indexPath) as? DirectAnswerCell else { return }
         cell.setCellHighlighted(true)
     }
     
     func collectionView(collectionView: UICollectionView, didUnhighlightItemAtIndexPath indexPath: NSIndexPath) {
+        guard enabled else { return }
         guard let cell = collectionView.cellForItemAtIndexPath(indexPath) as? DirectAnswerCell else { return }
         cell.setCellHighlighted(false)
     }
@@ -124,7 +131,6 @@ class DirectAnswersPresenter : NSObject, UICollectionViewDelegate, UICollectionV
         parentView.addConstraints([bottom,left,right])
 
         view.hidden = hidden
-        view.alpha = enabled ? 1 : DirectAnswersPresenter.disabledAlpha
         collectionView = view
     }
 
@@ -145,6 +151,14 @@ class DirectAnswersPresenter : NSObject, UICollectionViewDelegate, UICollectionV
         if let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
             layout.scrollDirection = UICollectionViewScrollDirection.Horizontal
             layout.minimumInteritemSpacing = 4.0
+        }
+    }
+
+    private func reEnableCells() {
+        guard let collectionView = collectionView else { return }
+        collectionView.visibleCells().forEach { cell in
+            guard let cell = cell as? DirectAnswerCell else { return }
+            cell.setCellHighlighted(false)
         }
     }
 }

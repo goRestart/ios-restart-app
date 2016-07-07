@@ -61,5 +61,6 @@ class DirectAnswerCell: UICollectionViewCell, ReusableCell {
 
     private func resetUI() {
         cellText.text = nil
+        setCellHighlighted(false)
     }
 }
