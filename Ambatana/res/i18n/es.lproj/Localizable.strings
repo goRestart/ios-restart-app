@@ -49,6 +49,8 @@
 "change_username_save_button" = "Guardar";
 "change_username_send_ok" = "¡Nombre de usuario cambiado!";
 "change_username_title" = "Cambiar nombre";
+"chat_account_deleted_w_name" = "La cuenta de %@ ha sido eliminada";
+"chat_account_deleted_wo_name" = "Esta cuenta ha sido eliminada";
 "chat_block_user" = "Bloquear usuario";
 "chat_block_user_alert_block_button" = "Bloquear";
 "chat_block_user_alert_text" = "Bloquear a un usuario evita cualquier interacción entre vosotros en el futuro.";
@@ -62,6 +64,10 @@
 "chat_blocked_disclaimer_scammer_w_name" = "Por razones de seguridad, el equipo de letgo ha eliminado la cuenta de %@ y estos mensajes se han borrado.";
 "chat_blocked_disclaimer_scammer_wo_name" = "Por razones de seguridad, el equipo de letgo ha eliminado esta cuenta y estos mensajes se han borrado.";
 "chat_delete_chat" = "Eliminar chat";
+"chat_deleted_disclaimer_w_name" = "No puedes continuar esta conversación porque la cuenta de %@ ya no está activa.";
+"chat_deleted_disclaimer_wo_name" = "No puedes continuar esta conversación porque esta cuenta ya no está activa.";
+"chat_list_account_deleted" = "Cuenta eliminada";
+"chat_list_account_deleted_username" = "Inactivo";
 "chat_list_all_empty_title" = "NO HAY CHATS (¡TODAVÍA!)";
 "chat_list_all_title" = "TODOS";
 "chat_list_archive" = "Archivar";
@@ -424,6 +430,16 @@
 "product_post_gallery_permissions_title" = "Permitir el acceso a Fotos";
 "product_post_gallery_tab" = "BIBLIOTECA";
 "product_post_generic_error" = "Se ha producido un error al publicar tu producto.";
+"product_post_incentive_bike" = "Bicis";
+"product_post_incentive_car" = "Coches";
+"product_post_incentive_dresser" = "Cómodas";
+"product_post_incentive_got_any" = "¿tienes alguno para vender?";
+"product_post_incentive_looking_for" = "People around you are looking for these items, %@";
+"product_post_incentive_motorcycle" = "Motos";
+"product_post_incentive_ps4" = "PS4";
+"product_post_incentive_subtitle" = "Tu producto ha sido publicado.";
+"product_post_incentive_title" = "¡ENHORABUENA!";
+"product_post_incentive_tv" = "Televisiones";
 "product_post_login_message" = "Para vender, tienes que iniciar sesión";
 "product_post_network_error" = "Tu producto no se ha publicado.\nPor favor comprueba tu conexión.";
 "product_post_price_label" = "¿Quieres añadir un precio?";

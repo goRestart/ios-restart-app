@@ -49,6 +49,8 @@
 "change_username_save_button" = "Kaydet";
 "change_username_send_ok" = "Kullanıcı adı başarıyla değiştirildi!";
 "change_username_title" = "İsim Değiştir";
+"chat_account_deleted_w_name" = "%@'s account has been deleted";
+"chat_account_deleted_wo_name" = "This account has been deleted";
 "chat_block_user" = "Kullanıcıyı Engelle";
 "chat_block_user_alert_block_button" = "Engelle";
 "chat_block_user_alert_text" = "Bir kullanıcıyı engellediğinde seninle bir daha iletişime geçemez.";
@@ -62,6 +64,10 @@
 "chat_blocked_disclaimer_scammer_w_name" = "Güvenlik nedeniyle, %@ isimli kullanıcının hesabı letgo ekibi tarafından silinmiştir ve bu mesajlar da kaldırılmıştır.";
 "chat_blocked_disclaimer_scammer_wo_name" = "Güvenlik nedeniyle, bu kullanıcının hesabı letgo ekibi tarafından silinmiştir ve bu mesajlar da kaldırılmıştır.";
 "chat_delete_chat" = "Sohbeti Sil";
+"chat_deleted_disclaimer_w_name" = "You can't continue this conversation because %@'s account is no longer active.";
+"chat_deleted_disclaimer_wo_name" = "You can't continue this conversation because this account is no longer active.";
+"chat_list_account_deleted" = "Deleted account";
+"chat_list_account_deleted_username" = "Inactive";
 "chat_list_all_empty_title" = "(HENÜZ!) SOHBET MESAJI YOK";
 "chat_list_all_title" = "HEPSİ";
 "chat_list_archive" = "Arşivle";
@@ -424,6 +430,16 @@
 "product_post_gallery_permissions_title" = "Fotoğraflara erişime izin ver";
 "product_post_gallery_tab" = "KÜTÜPHANE";
 "product_post_generic_error" = "Bir hata oluştuğu için ürün yayınlanamadı.";
+"product_post_incentive_bike" = "Bisikletler";
+"product_post_incentive_car" = "Arabalar";
+"product_post_incentive_dresser" = "Şifonyerler";
+"product_post_incentive_got_any" = "satacak bir şeyin var mı?";
+"product_post_incentive_looking_for" = "Çevrendekiler şu ürünleri arıyor, %@";
+"product_post_incentive_motorcycle" = "Motosikletler";
+"product_post_incentive_ps4" = "PS4'ler";
+"product_post_incentive_subtitle" = "Ürünün güncellendi.";
+"product_post_incentive_title" = "HARİKA GÖRÜNÜYOR!";
+"product_post_incentive_tv" = "TV'ler";
 "product_post_login_message" = "Bir şeyler satmak için, önce giriş yapmalısın";
 "product_post_network_error" = "Ürünün yayınlanmadı.\nLütfen internete bağlı olduğundan emin ol.";
 "product_post_price_label" = "Fiyat eklemek ister misin?";

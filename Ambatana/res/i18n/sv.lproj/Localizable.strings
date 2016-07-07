@@ -49,6 +49,8 @@
 "change_username_save_button" = "Spara";
 "change_username_send_ok" = "Användarnamn bytt!";
 "change_username_title" = "Byt namn";
+"chat_account_deleted_w_name" = "%@s konto har avslutats";
+"chat_account_deleted_wo_name" = "Kontot har avslutats";
 "chat_block_user" = "Blockera användare";
 "chat_block_user_alert_block_button" = "Blockera";
 "chat_block_user_alert_text" = "Att blockera en användare förhindrar all vidare kontakt mellan er.";
@@ -62,6 +64,10 @@
 "chat_blocked_disclaimer_scammer_w_name" = "Av säkerhetsskäl har %@ konto tagits bort av letgo och dessa meddelanden har raderats.";
 "chat_blocked_disclaimer_scammer_wo_name" = "Av säkerhetsskäl har det här kontot tagits bort av letgo och dessa meddelanden har raderats.";
 "chat_delete_chat" = "Radera chatt";
+"chat_deleted_disclaimer_w_name" = "Du kan inte fortsätta denna konversation, för %@s konto är inte längre aktivt.";
+"chat_deleted_disclaimer_wo_name" = "Du kan inte fortsätta den här konversationen för detta konto är inte längre aktivt.";
+"chat_list_account_deleted" = "Kontot har avslutats";
+"chat_list_account_deleted_username" = "Inaktiv";
 "chat_list_all_empty_title" = "INGEN CHATT (ÄNNU!)";
 "chat_list_all_title" = "ALLA";
 "chat_list_archive" = "Arkiv";
@@ -424,6 +430,16 @@
 "product_post_gallery_permissions_title" = "Tillåt åtkomst till Bilder";
 "product_post_gallery_tab" = "BIBLIOTEK";
 "product_post_generic_error" = "Ett fel uppstod när vi skulle lägga upp din produkt.";
+"product_post_incentive_bike" = "Cyklar";
+"product_post_incentive_car" = "Bilar";
+"product_post_incentive_dresser" = "Byråer";
+"product_post_incentive_got_any" = "har du någon att sälja?";
+"product_post_incentive_looking_for" = "Folk nära dig söker efter dessa saker, %@";
+"product_post_incentive_motorcycle" = "Motorcyklar";
+"product_post_incentive_ps4" = "PS4";
+"product_post_incentive_subtitle" = "Din produkt har lagts upp.";
+"product_post_incentive_title" = "GRATTIS!";
+"product_post_incentive_tv" = "TV-apparater";
 "product_post_login_message" = "Du måste logga in för att sälja dina saker";
 "product_post_network_error" = "Din produkt har inte lagts upp.\nVänligen kolla dina nätverksinställningar.";
 "product_post_price_label" = "Vill du lägga till ett pris?";

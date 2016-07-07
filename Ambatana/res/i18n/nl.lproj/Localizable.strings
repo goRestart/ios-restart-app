@@ -49,6 +49,8 @@
 "change_username_save_button" = "Opslaan";
 "change_username_send_ok" = "Gebruikersnaam succesvol gewijzigd!";
 "change_username_title" = "Naam wijzigen";
+"chat_account_deleted_w_name" = "%@'s account is verwijderd";
+"chat_account_deleted_wo_name" = "Dit account is verwijderd";
 "chat_block_user" = "Blokkeer Gebruiker";
 "chat_block_user_alert_block_button" = "Blokkeer";
 "chat_block_user_alert_text" = "Het blokkeren van een gebruiker voorkomt verdere interactie tussen jullie.";
@@ -62,6 +64,10 @@
 "chat_blocked_disclaimer_scammer_w_name" = "Om veiligheidsredenen werd %@'s account verwijderd door het letgo team en deze berichten zijn gewist.";
 "chat_blocked_disclaimer_scammer_wo_name" = "Om veiligheidsredenen werd dit account verwijderd door het letgo team en deze berichten zijn gewist.";
 "chat_delete_chat" = "Chat Verwijderen";
+"chat_deleted_disclaimer_w_name" = "Je kunt niet verdergaan met dit gesprek omdat %@'s account niet meer actief is.";
+"chat_deleted_disclaimer_wo_name" = "Je kunt niet verder gaan met dit gesprek omdat dit account niet meer actief is.";
+"chat_list_account_deleted" = "Verwijderd account";
+"chat_list_account_deleted_username" = "Inactief";
 "chat_list_all_empty_title" = "(NOG!) GEEN CHATS";
 "chat_list_all_title" = "ALLE";
 "chat_list_archive" = "Archiveren ";
@@ -424,6 +430,16 @@
 "product_post_gallery_permissions_title" = "Geef toegang tot Foto's";
 "product_post_gallery_tab" = "BIBLIOTHEEK";
 "product_post_generic_error" = "Er is een fout opgetreden tijdens het plaatsen van jouw product.";
+"product_post_incentive_bike" = "Fietsen";
+"product_post_incentive_car" = "Auto's";
+"product_post_incentive_dresser" = "Dressoirs";
+"product_post_incentive_got_any" = "heb jij er te koop staan?";
+"product_post_incentive_looking_for" = "People around you are looking for these items, %@";
+"product_post_incentive_motorcycle" = "Motorfietsen";
+"product_post_incentive_ps4" = "PS4's";
+"product_post_incentive_subtitle" = "Jouw advertentie is geplaatst.";
+"product_post_incentive_title" = "GEFELICITEERD!";
+"product_post_incentive_tv" = "TV's";
 "product_post_login_message" = "Om je spullen te verkopen, moet je inloggen";
 "product_post_network_error" = "Je product werd niet geplaatst.\nGelieve je netwerkinstellingen te controleren.";
 "product_post_price_label" = "Wil je een prijs toevoegen?";

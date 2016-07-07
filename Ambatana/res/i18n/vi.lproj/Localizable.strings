@@ -49,6 +49,8 @@
 "change_username_save_button" = "Lưu";
 "change_username_send_ok" = "Tên người dùng đã được thay đổi thành công!";
 "change_username_title" = "Thay đổi tên";
+"chat_account_deleted_w_name" = "Tài khoản của %@ đã bị xóa";
+"chat_account_deleted_wo_name" = "Tài khoản này đã bị xóa";
 "chat_block_user" = "Chặn Người dùng";
 "chat_block_user_alert_block_button" = "Chặn";
 "chat_block_user_alert_text" = "Chặn không cho phép người dùng có bất kì tương tác nào với bạn.";
@@ -62,6 +64,10 @@
 "chat_blocked_disclaimer_scammer_w_name" = "Vì lý do an toàn, tài khoản %@ đã bị letgo xóa và các tin nhắn cũng được gỡ bỏ.";
 "chat_blocked_disclaimer_scammer_wo_name" = "Vì lý do an toàn, tài khoản này đã bị letgo xóa và các tin nhắn cũng được gỡ bỏ.";
 "chat_delete_chat" = "Xóa Trò chuyện";
+"chat_deleted_disclaimer_w_name" = "Bạn không thể tiếp tục cuộc trò chuyện này bởi tài khoản của %@ không còn hoạt động.";
+"chat_deleted_disclaimer_wo_name" = "Bạn không thể tiếp tục cuộc trò chuyện này bởi tài khoản này không còn hoạt động.";
+"chat_list_account_deleted" = "Tài khoản bị xóa";
+"chat_list_account_deleted_username" = "Không hoạt động";
 "chat_list_all_empty_title" = "KHÔNG (CHƯA) CÓ TRÒ CHUYỆN!";
 "chat_list_all_title" = "TẤT CẢ";
 "chat_list_archive" = "Lưu trữ";
@@ -424,6 +430,16 @@
 "product_post_gallery_permissions_title" = "Cho phép truy cập Ảnh";
 "product_post_gallery_tab" = "THƯ VIỆN HÌNH ẢNH";
 "product_post_generic_error" = "Có lỗi xảy ra trong khi đăng sản phẩm.";
+"product_post_incentive_bike" = "Xe đạp";
+"product_post_incentive_car" = "Ô tô";
+"product_post_incentive_dresser" = "Tủ";
+"product_post_incentive_got_any" = "có gì đó để bán?";
+"product_post_incentive_looking_for" = "Những người xung quanh bạn đang tìm kiếm những sản phẩm này, %@";
+"product_post_incentive_motorcycle" = "Xe máy";
+"product_post_incentive_ps4" = "PS4";
+"product_post_incentive_subtitle" = "Sản phẩm của bạn đã được đăng.";
+"product_post_incentive_title" = "CHÚC MỪNG!";
+"product_post_incentive_tv" = "TV";
 "product_post_login_message" = "Bạn cần đăng nhập để bán sản phẩm";
 "product_post_network_error" = "Sản phẩm của bạn chưa được đăng.\nXin vui lòng kiểm tra kết nối mạng.";
 "product_post_price_label" = "Bạn muốn bổ sung giá?";
