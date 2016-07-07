@@ -111,6 +111,10 @@ extension SellCoordinator: PostProductNavigator {
             self?.productRepository.create(product, images: images) { result in
                 self?.trackPost(result, trackingInfo: trackingInfo)
 
+                if let _ = result.value {
+                    self?.keyValueStorage.userPostProductPostedPreviously = true
+                }
+
                 if showConfirmation {
                     guard let parentVC = self?.parentViewController else { return }
 
@@ -149,7 +153,7 @@ extension SellCoordinator: PostProductNavigator {
 //            })
     }
 }
-//keyValueStorage.userPostProductPostedPreviously = true
+
 
 // MARK: - Tracking
 
