@@ -222,7 +222,7 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
 
     func vmOpenSell() {
         guard let tabBarController = self.tabBarController as? TabBarController else { return }
-        tabBarController.sellButtonPressed()
+        tabBarController.openSell(.BannerCell, forceCamera: true)
     }
     
     
