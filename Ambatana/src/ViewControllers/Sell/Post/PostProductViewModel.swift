@@ -16,13 +16,23 @@ protocol PostProductViewModelDelegate: class {
 }
 
 enum PostingSource {
-    case AppStart, SellButton
+    case AppStart, SellButton, DeepLink
+
+    var forceCamera: Bool {
+        switch self {
+        case .AppStart:
+            return true
+        case .SellButton, .DeepLink:
+            return false
+        }
+    }
 }
 
 
 class PostProductViewModel: BaseViewModel {
 
     weak var delegate: PostProductViewModelDelegate?
+    weak var navigator: PostProductNavigator?
 
     var usePhotoButtonText: String {
         if Core.sessionManager.loggedIn {
@@ -130,33 +140,31 @@ class PostProductViewModel: BaseViewModel {
 
     func doneButtonPressed(priceText priceText: String?, sellController: SellProductViewController,
         delegate: SellProductViewControllerDelegate?) {
-            let trackInfo = PostProductTrackingInfo(buttonName: .Done, imageSource: uploadedImageSource,
-                price: priceText)
-            if Core.sessionManager.loggedIn {
-                self.delegate?.postProductviewModelshouldClose(self, animated: true, completion: { [weak self] in
-                    guard let product = self?.buildProduct(priceText: priceText) else { return }
-                    self?.saveProduct(product, showConfirmation: true, trackInfo: trackInfo, controller: sellController,
-                        delegate: delegate)
-                    })
-            } else if let imageToUpload = pendingToUploadImage {
-                forwardProductCreationToProductPostedViewController(imageToUpload: imageToUpload, priceText: priceText,
-                    trackInfo: trackInfo, controller: sellController, sellDelegate: delegate)
-            }
+
+        let trackingInfo = PostProductTrackingInfo(buttonName: .Done, imageSource: uploadedImageSource,
+                                                   price: priceText)
+
+        if Core.sessionManager.loggedIn {
+            guard let product = buildProduct(priceText: priceText), image = uploadedImage else { return }
+            navigator?.closeAndPost(productRepository, product: product, images: [image], showConfirmation: true,
+                                    trackingInfo: trackingInfo)
+        } else if let image = pendingToUploadImage {
+            navigator?.closeAndPost(priceText: priceText, image: image, trackingInfo: trackingInfo)
+        }
     }
 
     func closeButtonPressed(sellController sellController: SellProductViewController,
-        delegate: SellProductViewControllerDelegate?) {
-            guard let product = buildProduct(priceText: nil) else {
-                self.delegate?.postProductviewModelshouldClose(self, animated: true, completion: nil)
-                return
-            }
+                                           delegate: SellProductViewControllerDelegate?) {
+        let priceText: String? = nil
+        guard let product = buildProduct(priceText: priceText), image = uploadedImage else {
+            navigator?.cancel()
+            return
+        }
 
-            self.delegate?.postProductviewModelshouldClose(self, animated: true, completion: { [weak self] in
-                let trackInfo = PostProductTrackingInfo(buttonName: .Close, imageSource: self?.uploadedImageSource,
-                    price: nil)
-                self?.saveProduct(product, showConfirmation: false, trackInfo: trackInfo, controller: sellController,
-                    delegate: delegate)
-                })
+        let trackingInfo = PostProductTrackingInfo(buttonName: .Close, imageSource: uploadedImageSource,
+                                                   price: priceText)
+        navigator?.closeAndPost(productRepository, product: product, images: [image], showConfirmation: false,
+                                trackingInfo: trackingInfo)
     }
 
 
@@ -230,6 +238,8 @@ extension PostingSource {
             return .OpenApp
         case .SellButton:
             return .Sell
+        case .DeepLink:
+            return .External
         }
     }
 }

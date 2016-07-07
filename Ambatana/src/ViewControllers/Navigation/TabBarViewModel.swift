@@ -55,7 +55,7 @@ class TabBarViewModel: BaseViewModel {
     }
 
     func sellButtonPressed() {
-        navigator?.openSell()
+        navigator?.openSell(.SellButton)
     }
 
     func externalSwitchToTab(tab: Tab) {

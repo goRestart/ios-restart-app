@@ -8,42 +8,36 @@
 
 import UIKit
 
-protocol Coordinator: class {
+protocol CoordinatorDelegate: class {
+    func coordinatorDidClose(coordinator: Coordinator)
+}
+
+protocol Coordinator: CoordinatorDelegate {
     var child: Coordinator? { get set }
     var viewController: UIViewController { get }
     weak var presentedAlertController: UIAlertController? { get set }
 
-    func openChild(coordinator: Coordinator, animated: Bool, completion: (() -> Void)?)
-    func closeChild(animated animated: Bool, completion: (() -> Void)?)
+    func open(parent parent: UIViewController, animated: Bool, completion: (() -> Void)?)
+    func close(animated animated: Bool, completion: (() -> Void)?)
 }
 
 
-// MARK: - Children
+// MARK: - CoordinatorDelegate
 
 extension Coordinator {
-    func openChild(coordinator: Coordinator, animated: Bool = true, completion: (() -> Void)? = nil) {
-        guard child == nil else { return }
-
-        child = coordinator
-        viewController.presentViewController(coordinator.viewController, animated: animated, completion: completion)
+    func coordinatorDidClose(coordinator: Coordinator) {
+        child = nil
     }
-    
-    func closeChild(animated animated: Bool = true, completion: (() -> Void)? = nil) {
-        guard let child = child else { return }
+}
 
-        if let _ = child.child {
-            child.closeChild(animated: animated) {
-                child.viewController.dismissViewControllerAnimated(animated) {
-                    child.child = nil
-                    completion?()
-                }
-            }
-        } else {
-            child.viewController.dismissViewControllerAnimated(animated) { [weak self] in
-                self?.child = nil
-                completion?()
-            }
-        }
+
+// MARK: - Helpers
+
+extension Coordinator {
+    func openCoordinator(coordinator coordinator: Coordinator, parent: UIViewController, animated: Bool,
+                                     completion: (() -> Void)?) {
+        child = coordinator
+        coordinator.open(parent: parent, animated: animated, completion: completion)
     }
 }
 

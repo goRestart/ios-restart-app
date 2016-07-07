@@ -11,9 +11,8 @@ import LGCoreKit
 import RxSwift
 import UIKit
 
-final class AppCoordinator: NSObject, Coordinator {
+final class AppCoordinator: NSObject {
     var child: Coordinator?
-    var viewController: UIViewController { return tabBarCtl }
     var presentedAlertController: UIAlertController?
 
     private let tabBarCtl: TabBarController
@@ -110,8 +109,8 @@ extension AppCoordinator: AppNavigator {
 
             if let deepLink = self?.deepLinksRouter.consumeInitialDeepLink() {
                 self?.openDeepLink(deepLink, initialDeepLink: true)
-            } else {
-                self?.openSellOnStartup()
+            } else if SellProductControllerFactory.shouldShowSellOnStartup { // TODO: 🌶 This shouldn't be in a factory
+                self?.openSell(.AppStart)
             }
         }
 
@@ -145,17 +144,74 @@ extension AppCoordinator: AppNavigator {
             application.openURL(url)
         }
         alert.addAction(openAppStore)
-        viewController.presentViewController(alert, animated: true, completion: nil)
+        tabBarCtl.presentViewController(alert, animated: true, completion: nil)
     }
 
-    func openSell() {
-        // TODO: should open child coordinator using `openChild`
-        SellProductControllerFactory.presentSellProductOn(viewController: tabBarCtl, delegate: self)
+    func openSell(source: PostingSource) {
+        let sellCoordinator = SellCoordinator(source: source)
+        sellCoordinator.delegate = self
+        openCoordinator(coordinator: sellCoordinator, parent: tabBarCtl, animated: true, completion: nil)
+    }
+}
+
+
+// MARK: - SellNavigatorDelegate
+
+// TODO: 🌶 Must be burnt
+extension AppCoordinator: SellNavigatorDelegate {
+    func sellNavigator(sellNavigator: SellNavigator,
+                       didCompleteSellWithViewModel promoteProductVM: PromoteProductViewModel?) {
+
+        // TODO: Split into two delegate methods: promote & sell, then remove the optional view model
+        keyValueStorage.userPostProductPostedPreviously = true
+        refreshSelectedProductsRefreshable()
+
+        if let promoteProductVM = promoteProductVM {
+            let promoteProductVC = PromoteProductViewController(viewModel: promoteProductVM)
+            promoteProductVC.delegate = self
+
+            let event = TrackerEvent.commercializerStart(promoteProductVM.productId, typePage: .Sell)
+            TrackerProxy.sharedInstance.trackEvent(event)
+
+            tabBarCtl.presentViewController(promoteProductVC, animated: true, completion: nil)
+
+        } else if PushPermissionsManager.sharedInstance.shouldShowPushPermissionsAlertFromViewController(.Sell) {
+            PushPermissionsManager.sharedInstance.showPrePermissionsViewFrom(tabBarCtl, type: .Sell,
+                                                                             completion: nil)
+        } else if RatingManager.sharedInstance.shouldShowRating {
+            showAppRatingViewIfNeeded(.ProductSellComplete)
+        }
     }
 
-    func openSellOnStartup() {
-        // TODO: should open child coordinator using `openChild`
-        SellProductControllerFactory.presentSellOnStartupIfRequiredOn(viewController: tabBarCtl, delegate: self)
+    func sellNavigator(sellNavigator: SellNavigator,
+                       productPostedWithViewModel productPostedVM: ProductPostedViewModel) {
+
+        // TODO: Refactor with an "product posted coordinator"
+        let productPostedVC = ProductPostedViewController(viewModel: productPostedVM)
+
+        // TODO: Split sell delegate having a product posted delegate
+//        productPostedVC.delegate = self
+        tabBarCtl.presentViewController(productPostedVC, animated: true, completion: nil)
+    }
+
+    func sellNavigatorDidTapPostAgain(sellNavigator: SellNavigator) {
+
+    }
+
+    func sellNavigator(sellNavigator: SellNavigator,
+                       editProductWithViewModel editVC: EditProductViewController) {
+
+        // TODO: Refactor with an "edit coordinator"
+        let navC = UINavigationController(rootViewController: editVC)
+        tabBarCtl.presentViewController(navC, animated: true, completion: nil)
+    }
+}
+
+private extension AppCoordinator {
+    func refreshSelectedProductsRefreshable() {
+        guard let selectedVC = tabBarCtl.selectedViewController else { return }
+        guard let refreshable = topViewControllerInController(selectedVC) as? ProductsRefreshable else { return }
+        refreshable.productsRefresh()
     }
 }
 
@@ -170,8 +226,10 @@ extension AppCoordinator: PromoteProductViewControllerDelegate {
     func promoteProductViewControllerDidCancelFromSource(promotionSource: PromotionSource) {
         promoteProductPostActions(promotionSource)
     }
+}
 
-    private func promoteProductPostActions(source: PromotionSource) {
+private extension AppCoordinator {
+    func promoteProductPostActions(source: PromotionSource) {
         if source.hasPostPromotionActions {
             if PushPermissionsManager.sharedInstance
                 .shouldShowPushPermissionsAlertFromViewController(.Sell) {
@@ -181,61 +239,57 @@ extension AppCoordinator: PromoteProductViewControllerDelegate {
             }
         }
     }
+
+    func showAppRatingViewIfNeeded(source: EventParameterRatingSource) -> Bool {
+        return tabBarCtl.showAppRatingViewIfNeeded(source)
+    }
 }
 
 
-// MARK: - SellProductViewControllerDelegate
+// MARK: - CoordinatorDelegate
 
-extension AppCoordinator: SellProductViewControllerDelegate {
-    func sellProductViewController(sellVC: SellProductViewController?, didCompleteSell successfully: Bool,
-                                   withPromoteProductViewModel promoteProductVM: PromoteProductViewModel?) {
-        guard successfully else { return }
+extension AppCoordinator: CoordinatorDelegate {
+    func coordinatorDidClose(coordinator: Coordinator) {
+        child = nil
+    }
+}
 
-        keyValueStorage.userPostProductPostedPreviously = true
+// MARK: - SellCoordinatorDelegate
 
-        refreshSelectedProductsRefreshable()
-        if let promoteProductVM = promoteProductVM {
-            let promoteProductVC = PromoteProductViewController(viewModel: promoteProductVM)
-            promoteProductVC.delegate = self
-            let event = TrackerEvent.commercializerStart(promoteProductVM.productId, typePage: .Sell)
-            TrackerProxy.sharedInstance.trackEvent(event)
-            tabBarCtl.presentViewController(promoteProductVC, animated: true, completion: nil)
-        } else if PushPermissionsManager.sharedInstance
-            .shouldShowPushPermissionsAlertFromViewController(.Sell) {
-            PushPermissionsManager.sharedInstance.showPrePermissionsViewFrom(tabBarCtl, type: .Sell, completion: nil)
+extension AppCoordinator: SellCoordinatorDelegate {
+    func sellCoordinator(coordinator: SellCoordinator, openPromoteIfNeeded postResult: ProductResult) -> Bool {
+        // TODO: Promote Coordinator (move tracking into promote coordinator)
+
+        // We do not promote if it's a failure or if it's a success w/o country code
+        guard let product = postResult.value, productId = product.objectId,
+            countryCode = product.postalAddress.countryCode else { return false }
+        // We do not promote if we do not have promo themes for the given country code
+        // TODO: 🌶 Inject commercializer repo & uncomment line below
+//        let themes = commercializerRepository.templatesForCountryCode(countryCode)
+        let themes: [CommercializerTemplate] = /*commercializerRepository.templatesForCountryCode(countryCode) ??*/ []
+        guard let promoteVM = PromoteProductViewModel(productId: productId, themes: themes, commercializers: [],
+                                                      promotionSource: .ProductSell) else { return false }
+        let promoteVC = PromoteProductViewController(viewModel: promoteVM)
+        promoteVC.delegate = self
+        tabBarCtl.presentViewController(promoteVC, animated: true, completion: nil)
+
+        // Tracking
+        let event = TrackerEvent.commercializerStart(productId, typePage: .Sell)
+        TrackerProxy.sharedInstance.trackEvent(event)
+
+        return true
+    }
+
+    func sellCoordinatorOpenAfterSellDialogIfNeeded(coordinator: SellCoordinator) -> Bool {
+        if PushPermissionsManager.sharedInstance.shouldShowPushPermissionsAlertFromViewController(.Sell) {
+            PushPermissionsManager.sharedInstance.showPrePermissionsViewFrom(tabBarCtl, type: .Sell,
+                                                                             completion: nil)
         } else if RatingManager.sharedInstance.shouldShowRating {
             showAppRatingViewIfNeeded(.ProductSellComplete)
+        } else {
+            return false
         }
-    }
-
-    private func refreshSelectedProductsRefreshable() {
-        if let selectedVC = tabBarCtl.selectedViewController,
-            refreshable = topViewControllerInController(selectedVC) as? ProductsRefreshable {
-            refreshable.productsRefresh()
-        }
-    }
-
-    private func showAppRatingViewIfNeeded(source: EventParameterRatingSource) -> Bool {
-        return tabBarCtl.showAppRatingViewIfNeeded(source)
-    }
-
-    func sellProductViewController(sellVC: SellProductViewController?, didFinishPostingProduct
-        postedViewModel: ProductPostedViewModel) {
-
-        let productPostedVC = ProductPostedViewController(viewModel: postedViewModel)
-        productPostedVC.delegate = self
-        tabBarCtl.presentViewController(productPostedVC, animated: true, completion: nil)
-    }
-
-    func sellProductViewController(sellVC: SellProductViewController?,
-                                   didEditProduct editVC: EditProductViewController?) {
-        guard let editVC = editVC else { return }
-        let navC = UINavigationController(rootViewController: editVC)
-        tabBarCtl.presentViewController(navC, animated: true, completion: nil)
-    }
-
-    func sellProductViewControllerDidTapPostAgain(sellVC: SellProductViewController?) {
-        openSell()
+        return true
     }
 }
 
@@ -367,6 +421,12 @@ private extension AppCoordinator {
 // MARK: > Navigation
 
 private extension AppCoordinator {
+    func openCoordinator(coordinator coordinator: Coordinator, parent: UIViewController, animated: Bool,
+                                     completion: (() -> Void)?) {
+        child = coordinator
+        coordinator.open(parent: parent, animated: animated, completion: completion)
+    }
+
     func openTab(tab: Tab, force: Bool) {
         let shouldOpen = force || shouldOpenTab(tab)
         if shouldOpen {
@@ -397,7 +457,7 @@ private extension AppCoordinator {
         case .Home:
             openTab(.Home, force: false)
         case .Sell:
-            openSell()
+            openSell(.DeepLink)
         case let .Product(productId):
             afterDelayClosure = { [weak self] in
                 self?.openProductWithId(productId)
