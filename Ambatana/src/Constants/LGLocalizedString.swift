@@ -1443,6 +1443,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("product_list_no_products_title", comment: "")
 	}
 
+	static var productListBannerCellTitle: String {
+		return NSLocalizedString("product_list_banner_cell_title", comment: "")
+	}
+
 	static var productLocationTitle: String {
 		return NSLocalizedString("product_location_title", comment: "")
 	}

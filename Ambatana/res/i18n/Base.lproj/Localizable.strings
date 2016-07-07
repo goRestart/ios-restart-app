@@ -1068,6 +1068,9 @@
 // <strong>SEE SCREENSHOT</strong> Product list no products title.
 "product_list_no_products_title" = "CITY UNLOCKED!";
 
+// Banner cell inserted in the product list to incentivize posting
+"product_list_banner_cell_title" = "SEE YOUR LISTING HERE";
+
 // Product location title. Check attached image "product_location.png"
 "product_location_title" = "Location";
 
