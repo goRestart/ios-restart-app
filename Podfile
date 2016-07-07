@@ -24,6 +24,7 @@ def shared_pods
 	# Tracking
 	pod "Amplitude-iOS",        "~> 3.5.0"
     pod "AppsFlyerFramework",   "~> 4.3.9"
+    pod "Leanplum-iOS-SDK",     "~> 1.3.11"
 
 	# letgo Core
     pod "LGCoreKit",            :path => "../lgcorekit" #"0.25.9"
