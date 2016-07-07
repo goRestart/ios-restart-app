@@ -32,8 +32,8 @@ class GridDrawerManager {
     func draw(model: ProductCellModel, inCell cell: UICollectionViewCell) {
         switch model {
             
-        case .BannerCell(let data) where cell is ProductCell:
-            guard let cell = cell as? ProductCell else { return }
+        case .BannerCell(let data) where cell is BannerCell:
+            guard let cell = cell as? BannerCell else { return }
             return bannerDrawer.draw(data, inCell: cell)
             
         case .ProductCell(let product) where cell is ProductCell:

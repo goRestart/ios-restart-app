@@ -220,6 +220,11 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
         navigationController?.pushViewController(productVC, animated: true)
     }
 
+    func vmOpenSell() {
+        guard let tabBarController = self.tabBarController as? TabBarController else { return }
+        tabBarController.sellButtonPressed()
+    }
+    
     
     // MARK: UITextFieldDelegate Methods
     

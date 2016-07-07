@@ -13,5 +13,10 @@ import Foundation
 class BannerCell: UICollectionViewCell, ReusableCell {
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var title: UILabel!
+    @IBOutlet weak var colorView: UIView!
     
+    override func awakeFromNib() {
+        contentView.layer.cornerRadius = StyleHelper.defaultCornerRadius
+        contentView.clipsToBounds = true
+    }
 }

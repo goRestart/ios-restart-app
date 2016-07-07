@@ -8,8 +8,10 @@
 
 import Foundation
 
-class BannerCellDrawer: BaseCollectionCellDrawer<ProductCell>, GridCellDrawer {
-    func draw(model: BannerData, inCell cell: ProductCell) {
-        
+class BannerCellDrawer: BaseCollectionCellDrawer<BannerCell>, GridCellDrawer {
+    func draw(model: BannerData, inCell cell: BannerCell) {
+        cell.imageView.image = model.style.image
+        cell.colorView.backgroundColor = model.style.backColor
+        cell.title.text = model.title
     }
 }

@@ -18,6 +18,7 @@ protocol MainProductsViewModelDelegate: BaseViewModelDelegate {
     func vmDidFailRetrievingProducts(hasProducts hasProducts: Bool, error: String?)
     func vmDidSuceedRetrievingProducts(hasProducts hasProducts: Bool, isFirstPage: Bool)
     func vmShowProduct(productVC: UIViewController)
+    func vmOpenSell()
 }
 
 protocol InfoBubbleDelegate: class {
@@ -376,10 +377,15 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate {
     func vmProcessReceivedProductPage(products: [Product]) -> [ProductCellModel] {
         var cellModels = products.map(ProductCellModel.init)
         guard cellModels.count > 8 else { return cellModels }
-        let bannerData = BannerData(title: "", image: UIImage())
+        let bannerData = BannerData(title: LGLocalizedString.productListBannerCellTitle)
         let banner = ProductCellModel.BannerCell(banner: bannerData)
         cellModels.insert(banner, atIndex: 8)
         return cellModels
+    }
+    
+    func vmDidSelectSellBanner(type: Int) {
+        // TODO: Add Trackings!
+        delegate?.vmOpenSell()
     }
 }
 

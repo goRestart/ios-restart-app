@@ -79,6 +79,6 @@ enum BannerCellStyle: Int {
 }
 
 struct BannerData {
-    var title: String
-    var style: BannerCellStyle = BannerCellStyle.random()
+    let title: String
+    let style: BannerCellStyle = BannerCellStyle.random()
 }

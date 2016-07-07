@@ -23,12 +23,14 @@ protocol ProductListViewModelDataDelegate: class {
     func productListVM(viewModel: ProductListViewModel, didSelectItemAtIndex index: Int, thumbnailImage: UIImage?,
                        originFrame: CGRect?)
     func vmProcessReceivedProductPage(products: [Product]) -> [ProductCellModel]
+    func vmDidSelectSellBanner(type: Int)
 }
 
 extension ProductListViewModelDataDelegate {
     func vmProcessReceivedProductPage(products: [Product]) -> [ProductCellModel] {
         return products.map(ProductCellModel.init)
     }
+    func vmDidSelectSellBanner(type: Int) {}
 }
 
 protocol ProductListRequester: class {
@@ -45,6 +47,7 @@ class ProductListViewModel: BaseViewModel {
     // MARK: - Constants
     private static let cellMinHeight: CGFloat = 120.0
     private static let cellAspectRatio: CGFloat = 198.0 / cellMinHeight
+    private static let cellBannerAspectRatio: CGFloat = 1.3
     private static let cellMaxThumbFactor: CGFloat = 2.0
 
     
@@ -197,10 +200,10 @@ class ProductListViewModel: BaseViewModel {
                 if firstPage {
                     strongSelf.objects = cellModels
                     strongSelf.refreshing = false
-                    indexes = [Int](0 ..< newProducts.count)
+                    indexes = [Int](0 ..< cellModels.count)
                 } else {
                     strongSelf.objects += cellModels
-                    indexes = [Int](currentCount ..< (currentCount+newProducts.count))
+                    indexes = [Int](currentCount ..< (currentCount+cellModels.count))
                 }
                 strongSelf.pageNumber = nextPageNumber
                 let hasProducts = strongSelf.objects.count > 0
@@ -232,8 +235,27 @@ class ProductListViewModel: BaseViewModel {
     }
 
     func selectedItemAtIndex(index: Int, thumbnailImage: UIImage?, originFrame: CGRect?) {
-        dataDelegate?.productListVM(self, didSelectItemAtIndex: index, thumbnailImage: thumbnailImage,
-                                    originFrame: originFrame)
+        guard let item = itemAtIndex(index) else { return }
+       
+        
+        switch item {
+        case .ProductCell:
+            
+            // To open the product we need to calculate the index without the banners (they will be filtered out)
+            let productIndex = objects[0..<index].reduce(0) { (total: Int, model) -> Int in
+                switch model {
+                case .ProductCell:
+                    return total + 1
+                case .BannerCell:
+                    return total
+                }
+            }
+            
+            dataDelegate?.productListVM(self, didSelectItemAtIndex: productIndex, thumbnailImage: thumbnailImage,
+                                        originFrame: originFrame)
+        case .BannerCell(let data):
+            dataDelegate?.vmDidSelectSellBanner(data.style.rawValue)
+        }
     }
 
 
@@ -273,15 +295,21 @@ class ProductListViewModel: BaseViewModel {
         - returns: The cell size.
     */
     func sizeForCellAtIndex(index: Int) -> CGSize {
-        guard let product = productAtIndex(index) else { return defaultCellSize }
+        guard let item = itemAtIndex(index) else { return defaultCellSize }
+        switch item {
+        case .ProductCell(let product):
+            guard let thumbnailSize = product.thumbnailSize where thumbnailSize.height != 0 && thumbnailSize.width != 0
+                else { return defaultCellSize }
+            
+            let thumbFactor = min(ProductListViewModel.cellMaxThumbFactor,
+                                  CGFloat(thumbnailSize.height / thumbnailSize.width))
+            let imageFinalHeight = max(ProductListViewModel.cellMinHeight, round(defaultCellSize.width * thumbFactor))
+            return CGSize(width: defaultCellSize.width, height: imageFinalHeight)
 
-        guard let thumbnailSize = product.thumbnailSize where thumbnailSize.height != 0 && thumbnailSize.width != 0
-            else { return defaultCellSize }
-
-        let thumbFactor = min(ProductListViewModel.cellMaxThumbFactor,
-            CGFloat(thumbnailSize.height / thumbnailSize.width))
-        let imageFinalHeight = max(ProductListViewModel.cellMinHeight, round(defaultCellSize.width * thumbFactor))
-        return CGSize(width: defaultCellSize.width, height: imageFinalHeight)
+        case .BannerCell:
+            let height = defaultCellSize.width*ProductListViewModel.cellBannerAspectRatio
+            return CGSize(width: defaultCellSize.width, height: height)
+        }
     }
         
     /**
