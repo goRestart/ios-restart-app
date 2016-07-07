@@ -22,6 +22,13 @@ protocol ProductListViewModelDataDelegate: class {
     func productListVM(viewModel: ProductListViewModel, didSucceedRetrievingProductsPage page: UInt, hasProducts: Bool)
     func productListVM(viewModel: ProductListViewModel, didSelectItemAtIndex index: Int, thumbnailImage: UIImage?,
                        originFrame: CGRect?)
+    func vmProcessReceivedProductPage(products: [Product]) -> [ProductCellModel]
+}
+
+extension ProductListViewModelDataDelegate {
+    func vmProcessReceivedProductPage(products: [Product]) -> [ProductCellModel] {
+        return products.map(ProductCellModel.init)
+    }
 }
 
 protocol ProductListRequester: class {
@@ -184,13 +191,15 @@ class ProductListViewModel: BaseViewModel {
         let completion: ProductsCompletion = { [weak self] result in
             guard let strongSelf = self else { return }
             if let newProducts = result.value {
+                
+                let cellModels = self?.dataDelegate?.vmProcessReceivedProductPage(newProducts) ?? newProducts.map(ProductCellModel.init)
                 let indexes: [Int]
                 if firstPage {
-                    strongSelf.objects = newProducts.map(ProductCellModel.init)
+                    strongSelf.objects = cellModels
                     strongSelf.refreshing = false
                     indexes = [Int](0 ..< newProducts.count)
                 } else {
-                    strongSelf.objects += newProducts.map(ProductCellModel.init)
+                    strongSelf.objects += cellModels
                     indexes = [Int](currentCount ..< (currentCount+newProducts.count))
                 }
                 strongSelf.pageNumber = nextPageNumber

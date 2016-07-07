@@ -57,7 +57,6 @@ class FilteredProductListRequester: ProductListRequester {
         }
     }
     
-    
     func retrieveNextPage(completion: ProductsCompletion?) {
         retrieve() { [weak self] result in
             if let value = result.value {

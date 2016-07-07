@@ -372,6 +372,15 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate {
                                             thumbnailImage: thumbnailImage, originFrame: originFrame) else { return }
         delegate?.vmShowProduct(productVC)
     }
+    
+    func vmProcessReceivedProductPage(products: [Product]) -> [ProductCellModel] {
+        var cellModels = products.map(ProductCellModel.init)
+        guard cellModels.count > 8 else { return cellModels }
+        let bannerData = BannerData(title: "", image: UIImage())
+        let banner = ProductCellModel.BannerCell(banner: bannerData)
+        cellModels.insert(banner, atIndex: 8)
+        return cellModels
+    }
 }
 
 
