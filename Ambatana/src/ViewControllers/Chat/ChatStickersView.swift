@@ -16,9 +16,8 @@ class ChatStickersView: UIView {
 
     var enabled: Bool = true {
         didSet {
-            collectionView.scrollEnabled = enabled
             if enabled {
-                reEnableCells()
+                collectionView.deselectAll()
             }
         }
     }
@@ -58,13 +57,6 @@ class ChatStickersView: UIView {
         self.stickers = stickers
         collectionView.reloadData()
     }
-
-    private func reEnableCells() {
-        collectionView.visibleCells().forEach { cell in
-            guard let cell = cell as? ChatStickerGridCell else { return }
-            cell.setCellHighlighted(false)
-        }
-    }
 }
 
 extension ChatStickersView: UICollectionViewDataSource, UICollectionViewDelegate {
@@ -86,26 +78,23 @@ extension ChatStickersView: UICollectionViewDataSource, UICollectionViewDelegate
             }
             return cell
     }
+
+    func collectionView(collectionView: UICollectionView, shouldSelectItemAtIndexPath indexPath: NSIndexPath) -> Bool {
+        return enabled
+    }
+
+    func collectionView(collectionView: UICollectionView, shouldDeselectItemAtIndexPath indexPath: NSIndexPath) -> Bool {
+        return enabled
+    }
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         guard enabled else { return }
-        if let cell = collectionView.cellForItemAtIndexPath(indexPath) as? ChatStickerGridCell {
-            cell.setCellHighlighted(true)
-        }
         let sticker = stickers[indexPath.row]
         delegate?.stickersViewDidSelectSticker(sticker)
     }
 
-    func collectionView(collectionView: UICollectionView, didHighlightItemAtIndexPath indexPath: NSIndexPath) {
-        guard enabled else { return }
-        guard let cell = collectionView.cellForItemAtIndexPath(indexPath) as? ChatStickerGridCell else { return }
-        cell.setCellHighlighted(true)
-    }
-
-    func collectionView(collectionView: UICollectionView, didUnhighlightItemAtIndexPath indexPath: NSIndexPath) {
-        guard enabled else { return }
-        guard let cell = collectionView.cellForItemAtIndexPath(indexPath) as? ChatStickerGridCell else { return }
-        cell.setCellHighlighted(false)
+    func collectionView(collectionView: UICollectionView, shouldHighlightItemAtIndexPath indexPath: NSIndexPath) -> Bool {
+        return enabled
     }
 }
 

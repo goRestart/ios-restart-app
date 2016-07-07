@@ -27,9 +27,8 @@ class DirectAnswersPresenter : NSObject, UICollectionViewDelegate, UICollectionV
 
     var enabled: Bool = true {
         didSet {
-            collectionView?.scrollEnabled = enabled
             if enabled {
-                reEnableCells()
+                collectionView?.deselectAll()
             }
         }
     }
@@ -85,30 +84,27 @@ class DirectAnswersPresenter : NSObject, UICollectionViewDelegate, UICollectionV
         }
     }
 
+    func collectionView(collectionView: UICollectionView, shouldSelectItemAtIndexPath indexPath: NSIndexPath) -> Bool {
+        return enabled
+    }
+
+    func collectionView(collectionView: UICollectionView, shouldDeselectItemAtIndexPath indexPath: NSIndexPath) -> Bool {
+        return enabled
+    }
+
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         guard enabled else { return }
         if indexPath.row == answers.count {
             delegate?.directAnswersDidTapClose(self)
         } else {
-            if let cell = collectionView.cellForItemAtIndexPath(indexPath) as? DirectAnswerCell {
-                cell.setCellHighlighted(true)
-            }
             delegate?.directAnswersDidTapAnswer(self, answer: answers[indexPath.row])
         }
     }
 
-    func collectionView(collectionView: UICollectionView, didHighlightItemAtIndexPath indexPath: NSIndexPath) {
-        guard enabled else { return }
-        guard let cell = collectionView.cellForItemAtIndexPath(indexPath) as? DirectAnswerCell else { return }
-        cell.setCellHighlighted(true)
+    func collectionView(collectionView: UICollectionView, shouldHighlightItemAtIndexPath indexPath: NSIndexPath) -> Bool {
+        return enabled
     }
-    
-    func collectionView(collectionView: UICollectionView, didUnhighlightItemAtIndexPath indexPath: NSIndexPath) {
-        guard enabled else { return }
-        guard let cell = collectionView.cellForItemAtIndexPath(indexPath) as? DirectAnswerCell else { return }
-        cell.setCellHighlighted(false)
-    }
-    
+
 
     // MARK: - Private methods
 
@@ -142,6 +138,8 @@ class DirectAnswersPresenter : NSObject, UICollectionViewDelegate, UICollectionV
         let closeNib = UINib(nibName: DirectAnswersCloseCell.reusableID, bundle: nil)
         collectionView.registerNib(closeNib, forCellWithReuseIdentifier: DirectAnswersCloseCell.reusableID)
 
+        collectionView.allowsSelection = true
+        collectionView.allowsMultipleSelection = false
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.scrollsToTop = false
@@ -151,14 +149,6 @@ class DirectAnswersPresenter : NSObject, UICollectionViewDelegate, UICollectionV
         if let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
             layout.scrollDirection = UICollectionViewScrollDirection.Horizontal
             layout.minimumInteritemSpacing = 4.0
-        }
-    }
-
-    private func reEnableCells() {
-        guard let collectionView = collectionView else { return }
-        collectionView.visibleCells().forEach { cell in
-            guard let cell = cell as? DirectAnswerCell else { return }
-            cell.setCellHighlighted(false)
         }
     }
 }
