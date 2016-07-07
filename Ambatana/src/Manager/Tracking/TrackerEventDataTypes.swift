@@ -340,6 +340,7 @@ public enum EventParameterEditedFields: String {
     case Price
     case Description
     case Category
+    case Location
     case Share
 
     public var value: String {
