@@ -18,7 +18,7 @@ protocol MainProductsViewModelDelegate: BaseViewModelDelegate {
     func vmDidFailRetrievingProducts(hasProducts hasProducts: Bool, error: String?)
     func vmDidSuceedRetrievingProducts(hasProducts hasProducts: Bool, isFirstPage: Bool)
     func vmShowProduct(productVC: UIViewController)
-    func vmOpenSell()
+    func vmOpenSell(type: String)
 }
 
 protocol InfoBubbleDelegate: class {
@@ -383,9 +383,8 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate {
         return cellModels
     }
     
-    func vmDidSelectSellBanner(type: Int) {
-        // TODO: Add Trackings!
-        delegate?.vmOpenSell()
+    func vmDidSelectSellBanner(type: String) {
+        delegate?.vmOpenSell(type)
     }
 }
 

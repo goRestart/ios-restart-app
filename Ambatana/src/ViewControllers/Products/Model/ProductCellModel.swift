@@ -34,15 +34,19 @@ struct ProductData {
 
 // MARK: Banner
 
-enum BannerCellStyle: Int {
-    case SofaBlack
-    case BicycleBlack
-    case PhoneBlack
-    case PlayBlack
-    case SofaRed
-    case BicycleBlue
-    case PhoneYellow
-    case PlayBlue
+enum BannerCellStyle: String {
+    case SofaBlack = "sofa-black"
+    case BicycleBlack = "bicycle-black"
+    case PhoneBlack = "phone-black"
+    case PlayBlack = "play-black"
+    case SofaRed = "sofa-red"
+    case BicycleBlue = "bicycle-blue"
+    case PhoneYellow = "phone-yellow"
+    case PlayBlue = "play-blue"
+    
+    static var allValues: [BannerCellStyle] {
+        return [.SofaBlack, .BicycleBlack, .PhoneBlack, .PlayBlack, .SofaRed, .BicycleBlue, .PhoneYellow, .PlayBlue]
+    }
     
     var image: UIImage? {
         switch self {
@@ -74,7 +78,7 @@ enum BannerCellStyle: Int {
     
     static func random() -> BannerCellStyle {
         let n = Int(arc4random_uniform(8))
-        return BannerCellStyle.init(rawValue: n) ?? .SofaBlack
+        return BannerCellStyle.allValues[n] ?? .SofaBlack
     }
 }
 

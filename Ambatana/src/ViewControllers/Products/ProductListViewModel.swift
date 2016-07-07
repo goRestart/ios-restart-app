@@ -23,14 +23,14 @@ protocol ProductListViewModelDataDelegate: class {
     func productListVM(viewModel: ProductListViewModel, didSelectItemAtIndex index: Int, thumbnailImage: UIImage?,
                        originFrame: CGRect?)
     func vmProcessReceivedProductPage(products: [Product]) -> [ProductCellModel]
-    func vmDidSelectSellBanner(type: Int)
+    func vmDidSelectSellBanner(type: String)
 }
 
 extension ProductListViewModelDataDelegate {
     func vmProcessReceivedProductPage(products: [Product]) -> [ProductCellModel] {
         return products.map(ProductCellModel.init)
     }
-    func vmDidSelectSellBanner(type: Int) {}
+    func vmDidSelectSellBanner(type: String) {}
 }
 
 protocol ProductListRequester: class {
