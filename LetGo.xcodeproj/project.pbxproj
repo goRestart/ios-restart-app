@@ -764,8 +764,6 @@
 		C7DB42361C5138B500400945 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66A0CFC61A83612500FAADF0 /* CFNetwork.framework */; };
 		C7DB42371C5138B500400945 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66A0CFC71A83612500FAADF0 /* CoreGraphics.framework */; };
 		C7DB42381C5138B500400945 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66A0CFC81A83612500FAADF0 /* CoreLocation.framework */; };
-		C7DB42391C5138B500400945 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4A478871B08B0240046D301 /* Crashlytics.framework */; };
-		C7DB423A1C5138B500400945 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4A478881B08B0240046D301 /* Fabric.framework */; };
 		C7DB423B1C5138B500400945 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50C9E4E71B74C03D001E4E92 /* Foundation.framework */; };
 		C7DB423D1C5138B500400945 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 66A0CFC91A83612500FAADF0 /* libsqlite3.dylib */; };
 		C7DB423E1C5138B500400945 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 66A0CFCA1A83612500FAADF0 /* libz.dylib */; };
@@ -895,8 +893,6 @@
 		D4912A831B08E12C00DACD5A /* UIImage+Tint.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4912A821B08E12C00DACD5A /* UIImage+Tint.swift */; };
 		D4912A881B08FDA000DACD5A /* UIColor+UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4912A871B08FDA000DACD5A /* UIColor+UIImage.swift */; };
 		D4912A8A1B08FFF900DACD5A /* UIView+Border.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4912A891B08FFF900DACD5A /* UIView+Border.swift */; };
-		D4A478891B08B0240046D301 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4A478871B08B0240046D301 /* Crashlytics.framework */; };
-		D4A4788A1B08B0240046D301 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4A478881B08B0240046D301 /* Fabric.framework */; };
 		D4B0CF761B07307000A61E1A /* SellAddPictureCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B0CF741B07307000A61E1A /* SellAddPictureCell.swift */; };
 		D4B0CF771B07307000A61E1A /* SellAddPictureCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D4B0CF751B07307000A61E1A /* SellAddPictureCell.xib */; };
 		D4B0CF7A1B07308800A61E1A /* SellPictureCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B0CF781B07308800A61E1A /* SellPictureCell.swift */; };
@@ -1461,8 +1457,6 @@
 		D4912A821B08E12C00DACD5A /* UIImage+Tint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Tint.swift"; sourceTree = "<group>"; };
 		D4912A871B08FDA000DACD5A /* UIColor+UIImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+UIImage.swift"; sourceTree = "<group>"; };
 		D4912A891B08FFF900DACD5A /* UIView+Border.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Border.swift"; sourceTree = "<group>"; };
-		D4A478871B08B0240046D301 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
-		D4A478881B08B0240046D301 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
 		D4B0CF741B07307000A61E1A /* SellAddPictureCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SellAddPictureCell.swift; sourceTree = "<group>"; };
 		D4B0CF751B07307000A61E1A /* SellAddPictureCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SellAddPictureCell.xib; sourceTree = "<group>"; };
 		D4B0CF781B07308800A61E1A /* SellPictureCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SellPictureCell.swift; sourceTree = "<group>"; };
@@ -1504,8 +1498,6 @@
 				66A0CFD11A83612500FAADF0 /* CFNetwork.framework in Frameworks */,
 				66A0CFD21A83612500FAADF0 /* CoreGraphics.framework in Frameworks */,
 				66A0CFD31A83612500FAADF0 /* CoreLocation.framework in Frameworks */,
-				D4A478891B08B0240046D301 /* Crashlytics.framework in Frameworks */,
-				D4A4788A1B08B0240046D301 /* Fabric.framework in Frameworks */,
 				50C9E4E81B74C03D001E4E92 /* Foundation.framework in Frameworks */,
 				66A0CFD41A83612500FAADF0 /* libsqlite3.dylib in Frameworks */,
 				66A0CFD51A83612500FAADF0 /* libz.dylib in Frameworks */,
@@ -1528,8 +1520,6 @@
 				C7DB42361C5138B500400945 /* CFNetwork.framework in Frameworks */,
 				C7DB42371C5138B500400945 /* CoreGraphics.framework in Frameworks */,
 				C7DB42381C5138B500400945 /* CoreLocation.framework in Frameworks */,
-				C7DB42391C5138B500400945 /* Crashlytics.framework in Frameworks */,
-				C7DB423A1C5138B500400945 /* Fabric.framework in Frameworks */,
 				C7DB423B1C5138B500400945 /* Foundation.framework in Frameworks */,
 				C7DB423D1C5138B500400945 /* libsqlite3.dylib in Frameworks */,
 				C7DB423E1C5138B500400945 /* libz.dylib in Frameworks */,
@@ -2839,9 +2829,7 @@
 		D4FE33521AF2166800088532 /* 3rd Party */ = {
 			isa = PBXGroup;
 			children = (
-				D4A478871B08B0240046D301 /* Crashlytics.framework */,
 				50C9E50A1B74EEED001E4E92 /* DLImageResizing */,
-				D4A478881B08B0240046D301 /* Fabric.framework */,
 			);
 			name = "3rd Party";
 			sourceTree = "<group>";
@@ -3349,7 +3337,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "./Fabric.framework/run da82303e33e3a2dc304cdccaa4e19dba00334a34 964f1bd4540dbfa7d78d93439cf95e216ec156e046a4e46db36778084770ebbe";
+			shellScript = "\"${PODS_ROOT}/Fabric/run\" da82303e33e3a2dc304cdccaa4e19dba00334a34 964f1bd4540dbfa7d78d93439cf95e216ec156e046a4e46db36778084770ebbe";
 		};
 		502B70571BA9C7FD00C5D465 /* Warnings Script */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -3523,7 +3511,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "./Fabric.framework/run da82303e33e3a2dc304cdccaa4e19dba00334a34 964f1bd4540dbfa7d78d93439cf95e216ec156e046a4e46db36778084770ebbe";
+			shellScript = "\"${PODS_ROOT}/Fabric/run\" da82303e33e3a2dc304cdccaa4e19dba00334a34 964f1bd4540dbfa7d78d93439cf95e216ec156e046a4e46db36778084770ebbe";
 		};
 		C7DB428D1C5138B500400945 /* Warnings Script */ = {
 			isa = PBXShellScriptBuildPhase;
