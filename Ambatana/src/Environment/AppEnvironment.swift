@@ -37,4 +37,8 @@ protocol AppEnvironment {
 
     // Taplytics
     var taplyticsApiKey: String { get }
+
+    // Leanplum
+    var leanplumAppId: String { get }
+    var leanplumEnvKey: String { get }
 }

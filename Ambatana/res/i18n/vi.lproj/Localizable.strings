@@ -377,6 +377,7 @@
 "product_distance_from_you" = "từ bạn";
 "product_distance_more_than_from_you" = "Hơn %@ từ bạn";
 "product_gallery_title" = "Ảnh";
+"product_list_banner_cell_title" = "SEE YOUR LISTING HERE";
 "product_list_item_new_status_label" = "MỚI";
 "product_list_item_sold_status_label" = "ĐÃ BÁN";
 "product_list_item_time_hour_label" = "%ih";
