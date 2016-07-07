@@ -11,8 +11,7 @@ enum PostIncentiviserItem: Int {
     case PS4 = 1, TV, Bike, Motorcycle, Dresser, Car
 
     static func incentiviserPack() -> [PostIncentiviserItem] {
-        let pack = arc4random_uniform(2)
-
+        let pack = Int.random(0, 1)
         guard pack == 0 else { return [.Motorcycle, .Dresser, .Car] }
         return [.PS4, .TV, .Bike]
     }

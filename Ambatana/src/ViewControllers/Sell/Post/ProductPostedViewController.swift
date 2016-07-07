@@ -151,13 +151,13 @@ class ProductPostedViewController: BaseViewController, SellProductViewController
         setupIncentiviseView()
     }
 
-    private func setupStatic(correct: Bool) {
+    private func setupStatic(loadingSuccessful: Bool) {
         loadingIndicator.hidden = true
         mainTextLabel.text = viewModel.mainText
         secondaryTextLabel.text = viewModel.secondaryText
         mainButton.setTitle(viewModel.mainButtonText, forState: UIControlState.Normal)
 
-        if !correct {
+        if !loadingSuccessful {
             editContainer.hidden = true
             editContainerHeight.constant = 0
             shareButton.hidden = true
