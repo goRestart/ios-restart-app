@@ -6,10 +6,12 @@
 //  Copyright © 2015 Ambatana. All rights reserved.
 //
 
+// TODO: 🌶 delete
 public protocol SellProductViewController: class {
     func dismissViewControllerAnimated(flag: Bool, completion: (() -> Void)?)
 }
 
+// TODO: 🌶 delete
 protocol SellProductViewControllerDelegate : class {
     
     func sellProductViewController(sellVC: SellProductViewController?, didCompleteSell successfully: Bool,

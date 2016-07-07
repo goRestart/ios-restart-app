@@ -9,11 +9,7 @@
 import UIKit
 import FastttCamera
 
-class PostProductViewController: BaseViewController, SellProductViewController, PostProductViewModelDelegate,
-UITextFieldDelegate {
-
-    weak var delegate: SellProductViewControllerDelegate?
-
+class PostProductViewController: BaseViewController, PostProductViewModelDelegate, UITextFieldDelegate {
     @IBOutlet weak var cameraGalleryContainer: UIView!
     @IBOutlet weak var galleryButton: UIButton!
     @IBOutlet weak var photoButton: UIButton!
