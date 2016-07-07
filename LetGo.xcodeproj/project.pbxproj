@@ -559,6 +559,8 @@
 		C78BB50C1C5A314700614096 /* AppShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C78BB5091C5A314700614096 /* AppShareViewController.swift */; };
 		C78BB50D1C5A314700614096 /* AppShareViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C78BB50A1C5A314700614096 /* AppShareViewController.xib */; };
 		C78BB50E1C5A314700614096 /* AppShareViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C78BB50A1C5A314700614096 /* AppShareViewController.xib */; };
+		C797404F1D2A95B100381A4A /* LeanplumTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C797404E1D2A95B100381A4A /* LeanplumTracker.swift */; };
+		C79740501D2A95B100381A4A /* LeanplumTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C797404E1D2A95B100381A4A /* LeanplumTracker.swift */; };
 		C79842011CC8E8C900C300FF /* User+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = C79842001CC8E8C900C300FF /* User+LG.swift */; };
 		C79842021CC8E8C900C300FF /* User+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = C79842001CC8E8C900C300FF /* User+LG.swift */; };
 		C79842041CC903A500C300FF /* MockAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = C79842031CC903A500C300FF /* MockAccount.swift */; };
@@ -1341,6 +1343,7 @@
 		C78BB5051C5A304B00614096 /* SellProductControllerFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SellProductControllerFactory.swift; path = Sell/SellProductControllerFactory.swift; sourceTree = "<group>"; };
 		C78BB5091C5A314700614096 /* AppShareViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppShareViewController.swift; sourceTree = "<group>"; };
 		C78BB50A1C5A314700614096 /* AppShareViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AppShareViewController.xib; sourceTree = "<group>"; };
+		C797404E1D2A95B100381A4A /* LeanplumTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeanplumTracker.swift; sourceTree = "<group>"; };
 		C79842001CC8E8C900C300FF /* User+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "User+LG.swift"; sourceTree = "<group>"; };
 		C79842031CC903A500C300FF /* MockAccount.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockAccount.swift; sourceTree = "<group>"; };
 		C7AB4EC51CD39C67007B573D /* NotificationsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationsManager.swift; sourceTree = "<group>"; };
@@ -2036,6 +2039,7 @@
 				2E29C17C1C1ED73A008FCD87 /* GANTracker.swift */,
 				50C9E4BE1B721FBB001E4E92 /* GoogleConversionTracker.swift */,
 				2E2634CC1BB19D1800BBFFBC /* KahunaTracker.swift */,
+				C797404E1D2A95B100381A4A /* LeanplumTracker.swift */,
 				2E52CCC31CBD2A20003B7A96 /* TaplyticsTracker.swift */,
 				50C9E4B81B71FBB7001E4E92 /* Tracker.swift */,
 				50C9E4BC1B721F6B001E4E92 /* TrackerProxy.swift */,
@@ -3810,6 +3814,7 @@
 				C77593ED1BF0C1FD0097D62F /* FilterDistanceCell.swift in Sources */,
 				D45838431AEE6B9300B5F181 /* UIColor+RGB.swift in Sources */,
 				C788EED11CC4EC6700B9E26F /* ProductDetailFactory.swift in Sources */,
+				C797404F1D2A95B100381A4A /* LeanplumTracker.swift in Sources */,
 				C711A1AD1CDC99E5002D30D9 /* WelcomeNotificationCellDrawer.swift in Sources */,
 				C7B588811CE1DFA6009B3975 /* ChatCellDrawerFactory.swift in Sources */,
 				502B705B1BAAC3AE00C5D465 /* FloatingButton.swift in Sources */,
@@ -4133,6 +4138,7 @@
 				C7DB420A1C5138B500400945 /* FilterDistanceCell.swift in Sources */,
 				C7DB420C1C5138B500400945 /* UIColor+RGB.swift in Sources */,
 				C788EED21CC4EC6700B9E26F /* ProductDetailFactory.swift in Sources */,
+				C79740501D2A95B100381A4A /* LeanplumTracker.swift in Sources */,
 				C711A1AE1CDC99E5002D30D9 /* WelcomeNotificationCellDrawer.swift in Sources */,
 				C7B588821CE1DFA6009B3975 /* ChatCellDrawerFactory.swift in Sources */,
 				C7DB420D1C5138B500400945 /* FloatingButton.swift in Sources */,

@@ -302,6 +302,9 @@ class OldChatViewController: SLKTextViewController {
     private func updateChatInteraction(enabled: Bool) {
         setTextInputbarHidden(!enabled, animated: true)
         textView.userInteractionEnabled = enabled
+        if !enabled {
+            removeStickersTooltip()
+        }
     }
     
     func showKeyboard(show: Bool, animated: Bool) {

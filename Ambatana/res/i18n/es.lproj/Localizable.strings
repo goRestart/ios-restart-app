@@ -49,6 +49,8 @@
 "change_username_save_button" = "Guardar";
 "change_username_send_ok" = "¡Nombre de usuario cambiado!";
 "change_username_title" = "Cambiar nombre";
+"chat_account_deleted_w_name" = "La cuenta de %@ ha sido eliminada";
+"chat_account_deleted_wo_name" = "Esta cuenta ha sido eliminada";
 "chat_block_user" = "Bloquear usuario";
 "chat_block_user_alert_block_button" = "Bloquear";
 "chat_block_user_alert_text" = "Bloquear a un usuario evita cualquier interacción entre vosotros en el futuro.";
@@ -62,6 +64,10 @@
 "chat_blocked_disclaimer_scammer_w_name" = "Por razones de seguridad, el equipo de letgo ha eliminado la cuenta de %@ y estos mensajes se han borrado.";
 "chat_blocked_disclaimer_scammer_wo_name" = "Por razones de seguridad, el equipo de letgo ha eliminado esta cuenta y estos mensajes se han borrado.";
 "chat_delete_chat" = "Eliminar chat";
+"chat_deleted_disclaimer_w_name" = "No puedes continuar esta conversación porque la cuenta de %@ ya no está activa.";
+"chat_deleted_disclaimer_wo_name" = "No puedes continuar esta conversación porque esta cuenta ya no está activa.";
+"chat_list_account_deleted" = "Cuenta eliminada";
+"chat_list_account_deleted_username" = "Inactivo";
 "chat_list_all_empty_title" = "NO HAY CHATS (¡TODAVÍA!)";
 "chat_list_all_title" = "TODOS";
 "chat_list_archive" = "Archivar";
@@ -371,6 +377,7 @@
 "product_distance_from_you" = "de ti";
 "product_distance_more_than_from_you" = "A más de %@ de ti";
 "product_gallery_title" = "Fotos";
+"product_list_banner_cell_title" = "SEE YOUR LISTING HERE";
 "product_list_item_new_status_label" = "NUEVO";
 "product_list_item_sold_status_label" = "VENDIDO";
 "product_list_item_time_hour_label" = "%ih";
@@ -431,8 +438,8 @@
 "product_post_incentive_looking_for" = "People around you are looking for these items, %@";
 "product_post_incentive_motorcycle" = "Motos";
 "product_post_incentive_ps4" = "PS4";
-"product_post_incentive_subtitle" = "Tu producto se ha actualizado.";
-"product_post_incentive_title" = "¡TIENE BUENA PINTA!";
+"product_post_incentive_subtitle" = "Tu producto ha sido publicado.";
+"product_post_incentive_title" = "¡ENHORABUENA!";
 "product_post_incentive_tv" = "Televisiones";
 "product_post_login_message" = "Para vender, tienes que iniciar sesión";
 "product_post_network_error" = "Tu producto no se ha publicado.\nPor favor comprueba tu conexión.";
