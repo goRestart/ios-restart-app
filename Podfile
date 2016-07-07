@@ -47,12 +47,12 @@ def shared_pods
 	pod "Kahuna",               "2.3.1"
 
 	# Google
-    pod "Google/Analytics",         "~> 2.0.3"
-    pod "Google/SignIn",            "~> 2.0.3"
+    pod "Google/Analytics"#,         "~> 3.0.0"
+    pod "GoogleSignIn"#,            "~> 4.0.0"
 
-    pod "GoogleAppIndexing",        "~> 2.0.3"
-    pod "GoogleConversionTracking", "~> 3.4.0"
-    pod "GoogleIDFASupport",        "~> 3.14.0"
+    pod "GoogleAppIndexing"#,        "~> 2.0.3"
+    pod "GoogleConversionTracking"#, "~> 3.4.0"
+    pod "GoogleIDFASupport"#,        "~> 3.14.0"
 
     # Twitter Kit
     pod "TwitterKit",           "2.0.2"

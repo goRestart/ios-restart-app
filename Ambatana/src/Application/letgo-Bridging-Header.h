@@ -17,7 +17,7 @@
 // Google
 #import <Google/Analytics.h>
 #import <GoogleAppIndexing/GoogleAppIndexing.h>
-#import <GoogleSignIn.h>
+#import <GoogleSignIn/GoogleSignIn.h>
 
 #if GOD_MODE
 // FLEX
