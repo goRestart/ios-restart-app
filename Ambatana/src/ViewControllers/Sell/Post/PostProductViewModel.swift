@@ -168,60 +168,6 @@ class PostProductViewModel: BaseViewModel {
 
     // MARK: - Private methods
 
-    private func saveProduct(theProduct: Product, showConfirmation: Bool, trackInfo: PostProductTrackingInfo,
-        controller: SellProductViewController, delegate: SellProductViewControllerDelegate?) {
-            guard let uploadedImage = uploadedImage else { return }
-
-            productRepository.create(theProduct, images: [uploadedImage]) { [weak self] result in
-                // Tracking
-                if let product = result.value {
-                    let event = TrackerEvent.productSellComplete(product, buttonName:
-                        trackInfo.buttonName, negotiable: trackInfo.negotiablePrice,
-                        pictureSource: trackInfo.imageSource)
-                    TrackerProxy.sharedInstance.trackEvent(event)
-
-                    // Track product was sold in the first 24h (and not tracked before)
-                    if let firstOpenDate = KeyValueStorage.sharedInstance[.firstRunDate]
-                        where NSDate().timeIntervalSinceDate(firstOpenDate) <= 86400 &&
-                            !KeyValueStorage.sharedInstance.userTrackingProductSellComplete24hTracked {
-                        KeyValueStorage.sharedInstance.userTrackingProductSellComplete24hTracked = true
-
-                        let event = TrackerEvent.productSellComplete24h(product)
-                        TrackerProxy.sharedInstance.trackEvent(event)
-                    }
-                }
-
-                if showConfirmation {
-                    let productPostedViewModel = ProductPostedViewModel(postResult: result, trackingInfo: trackInfo)
-                    delegate?.sellProductViewController(controller, didFinishPostingProduct: productPostedViewModel)
-                } else {
-                    var promoteProductVM: PromoteProductViewModel? = nil
-                    if let product = result.value, let countryCode = product.postalAddress.countryCode, let productId = product.objectId {
-                        let themes = self?.commercializerRepository.templatesForCountryCode(countryCode) ?? []
-                        promoteProductVM = PromoteProductViewModel(productId: productId, themes: themes, commercializers: [],
-                                                                   promotionSource: .ProductSell)
-                    }
-                    delegate?.sellProductViewController(controller, didCompleteSell: result.value != nil,
-                        withPromoteProductViewModel: promoteProductVM)
-                }
-            }
-    }
-
-    private func forwardProductCreationToProductPostedViewController(imageToUpload image: UIImage,
-        priceText: String?, trackInfo: PostProductTrackingInfo, controller: SellProductViewController,
-        sellDelegate: SellProductViewControllerDelegate?) {
-            delegate?.postProductviewModel(self, shouldAskLoginWithCompletion: { [weak self] in
-                guard let strongSelf = self else { return }
-                strongSelf.delegate?.postProductviewModelshouldClose(strongSelf, animated: false, completion: {
-                    [weak self] in
-                    guard let product = self?.buildProduct(priceText: priceText) else { return }
-                    let productPostedViewModel = ProductPostedViewModel(productToPost: product, productImage: image,
-                        trackingInfo: trackInfo)
-                    sellDelegate?.sellProductViewController(controller, didFinishPostingProduct: productPostedViewModel)
-                    })
-                })
-    }
-
     private func buildProduct(priceText priceText: String?) -> Product? {
         let priceText = priceText ?? "0"
         let price = priceText.toPriceDouble()
