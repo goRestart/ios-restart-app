@@ -49,6 +49,8 @@
 "change_username_save_button" = "저장";
 "change_username_send_ok" = "유저명이 성공적으로 변경되었습니다!";
 "change_username_title" = "이름 변경";
+"chat_account_deleted_w_name" = "%@의 계정은 삭제되었습니다";
+"chat_account_deleted_wo_name" = "이 계정은 삭제되었습니다";
 "chat_block_user" = "사용자 차단하기";
 "chat_block_user_alert_block_button" = "차단하기";
 "chat_block_user_alert_text" = "문제를 발생하는 사용자를 차단하십시오.";
@@ -62,6 +64,10 @@
 "chat_blocked_disclaimer_scammer_w_name" = "안전상의 이유로, %@의 계정 및 메세지는 letgo 팀에 의해서 삭제되었습니다.";
 "chat_blocked_disclaimer_scammer_wo_name" = "안전상의 이유로, 이 계정 및 메세지는 letgo 팀에 의해서 삭제되었습니다.";
 "chat_delete_chat" = "채팅 삭제";
+"chat_deleted_disclaimer_w_name" = "%@의 계정이 비활성화 되었기 때문에 사용자께서는 이 대화를 진행하실 수 없습니다.";
+"chat_deleted_disclaimer_wo_name" = "이 계정이 비활성화 되었기 때문에 사용자께서는 이 대화를 진행하실 수 없습니다.";
+"chat_list_account_deleted" = "계정 삭제";
+"chat_list_account_deleted_username" = "비활성화";
 "chat_list_all_empty_title" = "대화 없음 (아직이에요!)";
 "chat_list_all_title" = "전체";
 "chat_list_archive" = "저장공간";
@@ -371,6 +377,7 @@
 "product_distance_from_you" = "고객님으로부터";
 "product_distance_more_than_from_you" = "당신에게 %@ 더 많이";
 "product_gallery_title" = "사진";
+"product_list_banner_cell_title" = "SEE YOUR LISTING HERE";
 "product_list_item_new_status_label" = "새로운";
 "product_list_item_sold_status_label" = "품절";
 "product_list_item_time_hour_label" = "%i시간";
@@ -431,8 +438,8 @@
 "product_post_incentive_looking_for" = "주변에 있는 사람들이 다음 상품, %@을 찾고 있습니다.";
 "product_post_incentive_motorcycle" = "오토바이";
 "product_post_incentive_ps4" = "PS4";
-"product_post_incentive_subtitle" = "게시글이 업데이트 되었습니다.";
-"product_post_incentive_title" = "훌륭해 보입니다!";
+"product_post_incentive_subtitle" = "상품목록이 게시되었습니다.";
+"product_post_incentive_title" = "축하드립니다!";
 "product_post_incentive_tv" = "티비";
 "product_post_login_message" = "판매를 시작하기 위해서, 로그인 하셔야합니다";
 "product_post_network_error" = "회원님의 상품이 게시되지 않았습니다.\n네트워크 설정을 확인해주십시오.";

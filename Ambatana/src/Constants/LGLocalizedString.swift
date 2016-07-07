@@ -395,6 +395,30 @@ struct LGLocalizedString {
 		return NSLocalizedString("chat_list_blocked_users_title", comment: "")
 	}
 
+	static var chatListAccountDeleted: String {
+		return NSLocalizedString("chat_list_account_deleted", comment: "")
+	}
+
+	static var chatListAccountDeletedUsername: String {
+		return NSLocalizedString("chat_list_account_deleted_username", comment: "")
+	}
+
+	static func chatAccountDeletedWName(var1: String) -> String {
+		return String(format: NSLocalizedString("chat_account_deleted_w_name", comment: ""), var1)
+	}
+
+	static var chatAccountDeletedWoName: String {
+		return NSLocalizedString("chat_account_deleted_wo_name", comment: "")
+	}
+
+	static func chatDeletedDisclaimerWName(var1: String) -> String {
+		return String(format: NSLocalizedString("chat_deleted_disclaimer_w_name", comment: ""), var1)
+	}
+
+	static var chatDeletedDisclaimerWoName: String {
+		return NSLocalizedString("chat_deleted_disclaimer_wo_name", comment: "")
+	}
+
 	static var chatBlockedByMeLabel: String {
 		return NSLocalizedString("chat_blocked_by_me_label", comment: "")
 	}
@@ -1417,6 +1441,10 @@ struct LGLocalizedString {
 
 	static var productListNoProductsTitle: String {
 		return NSLocalizedString("product_list_no_products_title", comment: "")
+	}
+
+	static var productListBannerCellTitle: String {
+		return NSLocalizedString("product_list_banner_cell_title", comment: "")
 	}
 
 	static var productLocationTitle: String {

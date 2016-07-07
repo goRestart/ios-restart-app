@@ -49,6 +49,8 @@
 "change_username_save_button" = "Tallenna";
 "change_username_send_ok" = "Käyttäjänimi vaihdettu onnistuneesti!";
 "change_username_title" = "Vaihda nimi";
+"chat_account_deleted_w_name" = "%@'s account has been deleted";
+"chat_account_deleted_wo_name" = "This account has been deleted";
 "chat_block_user" = "Estä Käyttäjä";
 "chat_block_user_alert_block_button" = "Estä";
 "chat_block_user_alert_text" = "Käyttäjän estäminen estää kaiken tulevan yhteenpidon välillänne.";
@@ -62,6 +64,10 @@
 "chat_blocked_disclaimer_scammer_w_name" = "letgo-tiimi on poistanut käyttäjän %@ tilin turvallisuussyistä, ja nämä viestit on poistettu.";
 "chat_blocked_disclaimer_scammer_wo_name" = "letgo-tiimi on poistanut tämän tilin turvallisuussyistä, ja nämä viestit on poistettu.";
 "chat_delete_chat" = "Poista keskustelu";
+"chat_deleted_disclaimer_w_name" = "You can't continue this conversation because %@'s account is no longer active.";
+"chat_deleted_disclaimer_wo_name" = "You can't continue this conversation because this account is no longer active.";
+"chat_list_account_deleted" = "Deleted account";
+"chat_list_account_deleted_username" = "Inactive";
 "chat_list_all_empty_title" = "EI KESKUSTELUJA (VIELÄ!)";
 "chat_list_all_title" = "KAIKKI";
 "chat_list_archive" = "Arkisto";
@@ -371,6 +377,7 @@
 "product_distance_from_you" = "sinusta";
 "product_distance_more_than_from_you" = "Yli %@ sinusta";
 "product_gallery_title" = "Kuvat";
+"product_list_banner_cell_title" = "SEE YOUR LISTING HERE";
 "product_list_item_new_status_label" = "UUTUUS";
 "product_list_item_sold_status_label" = "MYYTY";
 "product_list_item_time_hour_label" = "%it";

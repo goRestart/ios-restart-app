@@ -49,6 +49,8 @@
 "change_username_save_button" = "Сохранить";
 "change_username_send_ok" = "Имя пользователя успешно изменено!";
 "change_username_title" = "Сменить имя";
+"chat_account_deleted_w_name" = "%@'s account has been deleted";
+"chat_account_deleted_wo_name" = "This account has been deleted";
 "chat_block_user" = "Заблокировать пользователя";
 "chat_block_user_alert_block_button" = "Блокировать";
 "chat_block_user_alert_text" = "Блокировка предотвращает дальнейшее общение между вами.";
@@ -62,6 +64,10 @@
 "chat_blocked_disclaimer_scammer_w_name" = "В целях безопасности аккаунт %@ был удален командой letgo вместе с сообщениями.";
 "chat_blocked_disclaimer_scammer_wo_name" = "В целях безопасности этот аккаунт был удален командой letgo вместе с сообщениями.";
 "chat_delete_chat" = "Удалить чат";
+"chat_deleted_disclaimer_w_name" = "You can't continue this conversation because %@'s account is no longer active.";
+"chat_deleted_disclaimer_wo_name" = "You can't continue this conversation because this account is no longer active.";
+"chat_list_account_deleted" = "Deleted account";
+"chat_list_account_deleted_username" = "Inactive";
 "chat_list_all_empty_title" = "НЕТ ЧАТОВ (ПОКА ЧТО!)";
 "chat_list_all_title" = "BCE";
 "chat_list_archive" = "Архив";
@@ -371,6 +377,7 @@
 "product_distance_from_you" = "от вас";
 "product_distance_more_than_from_you" = "Более %@ от вас";
 "product_gallery_title" = "Фотографии";
+"product_list_banner_cell_title" = "SEE YOUR LISTING HERE";
 "product_list_item_new_status_label" = "НОВОЕ";
 "product_list_item_sold_status_label" = "ПРОДАНО";
 "product_list_item_time_hour_label" = "%iч";

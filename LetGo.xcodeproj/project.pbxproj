@@ -77,6 +77,12 @@
 		2E6009B61B5CE5E500FC9CAC /* LGTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E6009B51B5CE5E500FC9CAC /* LGTextField.swift */; };
 		2E64D41A1D11B34F00257B69 /* Tooltip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E64D4191D11B34F00257B69 /* Tooltip.swift */; };
 		2E64D41B1D11B34F00257B69 /* Tooltip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E64D4191D11B34F00257B69 /* Tooltip.swift */; };
+		2E6B6E3B1D2AC44F00C10A20 /* Congrats-Screen-Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2E6B6E3A1D2AC44F00C10A20 /* Congrats-Screen-Images.xcassets */; };
+		2E6B6E3D1D2BC0A500C10A20 /* PostIncentiviserItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E6B6E3C1D2BC0A500C10A20 /* PostIncentiviserItem.swift */; };
+		2E6B6E3E1D2BCC9800C10A20 /* PostIncentiviserItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E6B6E3C1D2BC0A500C10A20 /* PostIncentiviserItem.swift */; };
+		2E6B6E3F1D2BE08C00C10A20 /* Congrats-Screen-Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2E6B6E3A1D2AC44F00C10A20 /* Congrats-Screen-Images.xcassets */; };
+		2E6B6E411D2E8BDD00C10A20 /* Int+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E6B6E401D2E8BDD00C10A20 /* Int+LG.swift */; };
+		2E6B6E421D2E8FDF00C10A20 /* Int+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E6B6E401D2E8BDD00C10A20 /* Int+LG.swift */; };
 		2EBF3E251C298EB70024D947 /* MockChat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EBF3E241C298EB70024D947 /* MockChat.swift */; };
 		2EC1C1781BBC12BA00834D64 /* ChangePasswordViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2EC1C1771BBC12BA00834D64 /* ChangePasswordViewController.xib */; };
 		2EC1C17A1BBC17F400834D64 /* ChangePasswordViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EC1C1791BBC17F400834D64 /* ChangePasswordViewModel.swift */; };
@@ -994,6 +1000,9 @@
 		2E5350431CF8A181003B06CC /* ProductStatsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProductStatsView.xib; sourceTree = "<group>"; };
 		2E6009B51B5CE5E500FC9CAC /* LGTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGTextField.swift; sourceTree = "<group>"; };
 		2E64D4191D11B34F00257B69 /* Tooltip.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tooltip.swift; sourceTree = "<group>"; };
+		2E6B6E3A1D2AC44F00C10A20 /* Congrats-Screen-Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Congrats-Screen-Images.xcassets"; sourceTree = "<group>"; };
+		2E6B6E3C1D2BC0A500C10A20 /* PostIncentiviserItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostIncentiviserItem.swift; sourceTree = "<group>"; };
+		2E6B6E401D2E8BDD00C10A20 /* Int+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Int+LG.swift"; sourceTree = "<group>"; };
 		2EBF3E241C298EB70024D947 /* MockChat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockChat.swift; sourceTree = "<group>"; };
 		2EC1C1771BBC12BA00834D64 /* ChangePasswordViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChangePasswordViewController.xib; sourceTree = "<group>"; };
 		2EC1C1791BBC17F400834D64 /* ChangePasswordViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangePasswordViewModel.swift; sourceTree = "<group>"; };
@@ -1899,6 +1908,7 @@
 				C7E73E891CD1F77E000F2591 /* NotificationData.swift */,
 				C7B6FA891D182F4200DAA19D /* LocalChat.swift */,
 				2EED4D241D23F03E0024328A /* ChatProduct+title.swift */,
+				2E6B6E3C1D2BC0A500C10A20 /* PostIncentiviserItem.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -2236,6 +2246,7 @@
 				50CD8F5E1BC2A4A40031DCD3 /* Errors.xcassets */,
 				6A12E05A1C63B0AE00C1BFE3 /* iPhoneParts.xcassets */,
 				2E51F8B71CCE4DDE00B57283 /* ProductOnboarding-Images.xcassets */,
+				2E6B6E3A1D2AC44F00C10A20 /* Congrats-Screen-Images.xcassets */,
 			);
 			name = "Assets & Resources";
 			sourceTree = "<group>";
@@ -2699,6 +2710,7 @@
 				C77184B11C2AB1D600196E1D /* FBLoginHelper.swift */,
 				6AE5F1171BFE3E7B0079E8B6 /* FBSDKSharing+LG.swift */,
 				6AC51B291C7238AC0093FDB2 /* GoogleLoginHelper.swift */,
+				2E6B6E401D2E8BDD00C10A20 /* Int+LG.swift */,
 				C7F7A79C1C47B73900019200 /* LetgoURLHelper.swift */,
 				50F681EB1C8EC7C5001F33A3 /* LGCollapsibleLabel+Rx.swift */,
 				C788EED91CC7861500B9E26F /* NSDate+LG.swift */,
@@ -3062,6 +3074,7 @@
 				C708C83E1CDB590400AA87B3 /* AppRatingView.xib in Resources */,
 				50CBCD601BF0BB8F00A329BB /* CollectionViewFooter.xib in Resources */,
 				D4B0CF7B1B07308800A61E1A /* SellPictureCell.xib in Resources */,
+				2E6B6E3B1D2AC44F00C10A20 /* Congrats-Screen-Images.xcassets in Resources */,
 				500DC12C1BDA1C4C00B494FA /* ios-prod.json in Resources */,
 				505B06A91B15A9910049F9CD /* GalleryPageView.xib in Resources */,
 				2E5350441CF8A181003B06CC /* ProductStatsView.xib in Resources */,
@@ -3176,6 +3189,7 @@
 				C7DB424F1C5138B500400945 /* Main.storyboard in Resources */,
 				C7DB42511C5138B500400945 /* CollectionViewFooter.xib in Resources */,
 				C7DB42521C5138B500400945 /* SellPictureCell.xib in Resources */,
+				2E6B6E3F1D2BE08C00C10A20 /* Congrats-Screen-Images.xcassets in Resources */,
 				C7DB42531C5138B500400945 /* ios-prod.json in Resources */,
 				C7DB42541C5138B500400945 /* GalleryPageView.xib in Resources */,
 				2E5350451CF8A181003B06CC /* ProductStatsView.xib in Resources */,
@@ -3670,6 +3684,7 @@
 				C768CC1A1CA44B5F00E39E5F /* BranchDeepLink.swift in Sources */,
 				6AF75D0A1CF457D800EACCF0 /* ChatViewMessageAdapter.swift in Sources */,
 				6A8BE8FD1CDA2C3F00D97727 /* ProductCarouselMoreInfoViewController.swift in Sources */,
+				2E6B6E411D2E8BDD00C10A20 /* Int+LG.swift in Sources */,
 				6A3C730C1CEF0DEB00A062E0 /* KeyboardHelper.swift in Sources */,
 				C727FBC31CCFC545002BC643 /* NotificationsViewModel.swift in Sources */,
 				2E2C7B331C859F4E00F46E8F /* PromoteProductViewModel.swift in Sources */,
@@ -3867,6 +3882,7 @@
 				C7DE8ABA1C888750005CF37E /* ProductPostedViewController.swift in Sources */,
 				5021E8581C490C99001012B6 /* KeyboardAnimation.swift in Sources */,
 				6A38ADEE1C689A33009E1A31 /* DeviceFamily.swift in Sources */,
+				2E6B6E3D1D2BC0A500C10A20 /* PostIncentiviserItem.swift in Sources */,
 				C768CC1D1CA457F300E39E5F /* NSURL+LG.swift in Sources */,
 				2E4B359C1CC90A9500B8CB64 /* RelatedProductListRequester.swift in Sources */,
 				C7AB4EC61CD39C67007B573D /* NotificationsManager.swift in Sources */,
@@ -3992,6 +4008,7 @@
 				C7DB41C71C5138B500400945 /* SellEmptyCell.swift in Sources */,
 				C768CC1B1CA44B5F00E39E5F /* BranchDeepLink.swift in Sources */,
 				6AF75D0B1CF457D800EACCF0 /* ChatViewMessageAdapter.swift in Sources */,
+				2E6B6E421D2E8FDF00C10A20 /* Int+LG.swift in Sources */,
 				6A8BE8FE1CDA2C4000D97727 /* ProductCarouselMoreInfoViewController.swift in Sources */,
 				6A3C730D1CEF0DEB00A062E0 /* KeyboardHelper.swift in Sources */,
 				C727FBC41CCFC545002BC643 /* NotificationsViewModel.swift in Sources */,
@@ -4189,6 +4206,7 @@
 				C7DE8ABB1C888750005CF37E /* ProductPostedViewController.swift in Sources */,
 				C7DB422C1C5138B500400945 /* KeyboardAnimation.swift in Sources */,
 				6A38ADEF1C689A33009E1A31 /* DeviceFamily.swift in Sources */,
+				2E6B6E3E1D2BCC9800C10A20 /* PostIncentiviserItem.swift in Sources */,
 				C768CC1E1CA457F300E39E5F /* NSURL+LG.swift in Sources */,
 				2E4B359D1CC90A9500B8CB64 /* RelatedProductListRequester.swift in Sources */,
 				C7AB4EC71CD39C67007B573D /* NotificationsManager.swift in Sources */,
