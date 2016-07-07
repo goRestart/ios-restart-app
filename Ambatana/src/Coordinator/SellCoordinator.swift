@@ -21,6 +21,7 @@ final class SellCoordinator: NSObject, Coordinator {
     var viewController: UIViewController
     var presentedAlertController: UIAlertController?
 
+    private let productRepository: ProductRepository
     private let keyValueStorage: KeyValueStorage
     private let tracker: Tracker
 
@@ -32,12 +33,16 @@ final class SellCoordinator: NSObject, Coordinator {
     // MARK: - Lifecycle
 
     convenience init(source: PostingSource) {
+        let productRepository = Core.productRepository
         let keyValueStorage = KeyValueStorage.sharedInstance
         let tracker = TrackerProxy.sharedInstance
-        self.init(source: source, keyValueStorage: keyValueStorage, tracker: tracker)
+        self.init(source: source, productRepository: productRepository,
+                  keyValueStorage: keyValueStorage, tracker: tracker)
     }
 
-    init(source: PostingSource, keyValueStorage: KeyValueStorage, tracker: Tracker) {
+    init(source: PostingSource, productRepository: ProductRepository,
+         keyValueStorage: KeyValueStorage, tracker: Tracker) {
+        self.productRepository = productRepository
         self.keyValueStorage = keyValueStorage
         self.tracker = tracker
         
@@ -126,11 +131,10 @@ extension SellCoordinator: PostProductNavigator {
     }
 
     // Closes post product screen, posts the product and opens product posted if `showConfirmation` is `true`
-    func closeAndPost(productRepository: ProductRepository, product: Product, images: [File], showConfirmation: Bool,
-                      trackingInfo: PostProductTrackingInfo) {
+    func closeAndPost(product: Product, images: [File], showConfirmation: Bool, trackingInfo: PostProductTrackingInfo) {
 
-        close(animated: true, notifyDelegate: false) {
-            productRepository.create(product, images: images) { [weak self] result in
+        close(animated: true, notifyDelegate: false) { [weak self] in
+            self?.productRepository.create(product, images: images) { result in
 
                 self?.trackPost(result, trackingInfo: trackingInfo)
 

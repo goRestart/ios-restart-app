@@ -9,17 +9,6 @@
 import LGCoreKit
 import Foundation
 
-protocol SellNavigatorDelegate: class {
-    func sellNavigator(sellNavigator: SellNavigator,
-                       didCompleteSellWithViewModel promoteProductVM: PromoteProductViewModel?)
-
-    func sellNavigator(sellNavigator: SellNavigator,
-                       productPostedWithViewModel productPostedVM: ProductPostedViewModel)
-
-    func sellNavigatorDidTapPostAgain(sellNavigator: SellNavigator)
-    func sellNavigator(sellNavigator: SellNavigator,
-                       editProductWithViewModel: EditProductViewController)
-}
 
 
 
@@ -49,8 +38,7 @@ protocol PostProductNavigator: class {
     func cancel()
 
     // Closes post product screen, posts the product and opens product posted if `showConfirmation` is `true`
-    func closeAndPost(productRepository: ProductRepository, product: Product, images: [File],
-                      showConfirmation: Bool, trackingInfo: PostProductTrackingInfo)
+    func closeAndPost(product: Product, images: [File], showConfirmation: Bool, trackingInfo: PostProductTrackingInfo)
 
     // Closes post product screen and opens product posted to post the product
     func closeAndPost(priceText priceText: String?, image: UIImage, trackingInfo: PostProductTrackingInfo)

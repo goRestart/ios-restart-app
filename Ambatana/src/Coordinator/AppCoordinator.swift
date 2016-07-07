@@ -158,54 +158,54 @@ extension AppCoordinator: AppNavigator {
 // MARK: - SellNavigatorDelegate
 
 // TODO: 🌶 Must be burnt
-extension AppCoordinator: SellNavigatorDelegate {
-    func sellNavigator(sellNavigator: SellNavigator,
-                       didCompleteSellWithViewModel promoteProductVM: PromoteProductViewModel?) {
-
-        // TODO: Split into two delegate methods: promote & sell, then remove the optional view model
-        keyValueStorage.userPostProductPostedPreviously = true
-        refreshSelectedProductsRefreshable()
-
-        if let promoteProductVM = promoteProductVM {
-            let promoteProductVC = PromoteProductViewController(viewModel: promoteProductVM)
-            promoteProductVC.delegate = self
-
-            let event = TrackerEvent.commercializerStart(promoteProductVM.productId, typePage: .Sell)
-            TrackerProxy.sharedInstance.trackEvent(event)
-
-            tabBarCtl.presentViewController(promoteProductVC, animated: true, completion: nil)
-
-        } else if PushPermissionsManager.sharedInstance.shouldShowPushPermissionsAlertFromViewController(.Sell) {
-            PushPermissionsManager.sharedInstance.showPrePermissionsViewFrom(tabBarCtl, type: .Sell,
-                                                                             completion: nil)
-        } else if RatingManager.sharedInstance.shouldShowRating {
-            showAppRatingViewIfNeeded(.ProductSellComplete)
-        }
-    }
-
-    func sellNavigator(sellNavigator: SellNavigator,
-                       productPostedWithViewModel productPostedVM: ProductPostedViewModel) {
-
-        // TODO: Refactor with an "product posted coordinator"
-        let productPostedVC = ProductPostedViewController(viewModel: productPostedVM)
-
-        // TODO: Split sell delegate having a product posted delegate
-//        productPostedVC.delegate = self
-        tabBarCtl.presentViewController(productPostedVC, animated: true, completion: nil)
-    }
-
-    func sellNavigatorDidTapPostAgain(sellNavigator: SellNavigator) {
-
-    }
-
-    func sellNavigator(sellNavigator: SellNavigator,
-                       editProductWithViewModel editVC: EditProductViewController) {
-
-        // TODO: Refactor with an "edit coordinator"
-        let navC = UINavigationController(rootViewController: editVC)
-        tabBarCtl.presentViewController(navC, animated: true, completion: nil)
-    }
-}
+//extension AppCoordinator: SellNavigatorDelegate {
+//    func sellNavigator(sellNavigator: SellNavigator,
+//                       didCompleteSellWithViewModel promoteProductVM: PromoteProductViewModel?) {
+//
+//        // TODO: Split into two delegate methods: promote & sell, then remove the optional view model
+//        keyValueStorage.userPostProductPostedPreviously = true
+//        refreshSelectedProductsRefreshable()
+//
+//        if let promoteProductVM = promoteProductVM {
+//            let promoteProductVC = PromoteProductViewController(viewModel: promoteProductVM)
+//            promoteProductVC.delegate = self
+//
+//            let event = TrackerEvent.commercializerStart(promoteProductVM.productId, typePage: .Sell)
+//            TrackerProxy.sharedInstance.trackEvent(event)
+//
+//            tabBarCtl.presentViewController(promoteProductVC, animated: true, completion: nil)
+//
+//        } else if PushPermissionsManager.sharedInstance.shouldShowPushPermissionsAlertFromViewController(.Sell) {
+//            PushPermissionsManager.sharedInstance.showPrePermissionsViewFrom(tabBarCtl, type: .Sell,
+//                                                                             completion: nil)
+//        } else if RatingManager.sharedInstance.shouldShowRating {
+//            showAppRatingViewIfNeeded(.ProductSellComplete)
+//        }
+//    }
+//
+//    func sellNavigator(sellNavigator: SellNavigator,
+//                       productPostedWithViewModel productPostedVM: ProductPostedViewModel) {
+//
+//        // TODO: Refactor with an "product posted coordinator"
+//        let productPostedVC = ProductPostedViewController(viewModel: productPostedVM)
+//
+//        // TODO: Split sell delegate having a product posted delegate
+////        productPostedVC.delegate = self
+//        tabBarCtl.presentViewController(productPostedVC, animated: true, completion: nil)
+//    }
+//
+//    func sellNavigatorDidTapPostAgain(sellNavigator: SellNavigator) {
+//
+//    }
+//
+//    func sellNavigator(sellNavigator: SellNavigator,
+//                       editProductWithViewModel editVC: EditProductViewController) {
+//
+//        // TODO: Refactor with an "edit coordinator"
+//        let navC = UINavigationController(rootViewController: editVC)
+//        tabBarCtl.presentViewController(navC, animated: true, completion: nil)
+//    }
+//}
 
 private extension AppCoordinator {
     func refreshSelectedProductsRefreshable() {

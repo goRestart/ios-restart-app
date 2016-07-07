@@ -146,8 +146,7 @@ class PostProductViewModel: BaseViewModel {
 
         if Core.sessionManager.loggedIn {
             guard let product = buildProduct(priceText: priceText), image = uploadedImage else { return }
-            navigator?.closeAndPost(productRepository, product: product, images: [image], showConfirmation: true,
-                                    trackingInfo: trackingInfo)
+            navigator?.closeAndPost(product, images: [image], showConfirmation: true, trackingInfo: trackingInfo)
         } else if let image = pendingToUploadImage {
             navigator?.closeAndPost(priceText: priceText, image: image, trackingInfo: trackingInfo)
         }
@@ -163,8 +162,7 @@ class PostProductViewModel: BaseViewModel {
 
         let trackingInfo = PostProductTrackingInfo(buttonName: .Close, imageSource: uploadedImageSource,
                                                    price: priceText)
-        navigator?.closeAndPost(productRepository, product: product, images: [image], showConfirmation: false,
-                                trackingInfo: trackingInfo)
+        navigator?.closeAndPost(product, images: [image], showConfirmation: false, trackingInfo: trackingInfo)
     }
 
 
