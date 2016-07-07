@@ -174,7 +174,7 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
 
     func didSelectBlockedUser(user: User) {
         let viewModel = UserViewModel(user: user, source: .Chat)
-        let vc = UserViewController(viewModel: viewModel)
+        let vc = UserViewController(viewModel: viewModel, hidesBottomBarWhenPushed: true)
         navigationController?.pushViewController(vc, animated: true)
     }
 
