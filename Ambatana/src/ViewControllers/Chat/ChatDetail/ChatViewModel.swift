@@ -124,7 +124,7 @@ class ChatViewModel: BaseViewModel {
     private var preSendMessageCompletion: ((text: String, isQuickAnswer: Bool, type: ChatMessageType) -> Void)?
     private var afterRetrieveMessagesCompletion: (() -> Void)?
     
-    private var disposeBag = DisposeBag()
+    private let disposeBag = DisposeBag()
     
     private var userDefaultsSubKey: String {
         return "\(conversation.value.product?.objectId ?? productId) + \(conversation.value.interlocutor?.objectId)"
@@ -137,6 +137,12 @@ class ChatViewModel: BaseViewModel {
     private var shouldShowOtherUserInfo: Bool {
         guard conversation.value.isSaved else { return true }
         return !isLoading && isLastPage
+    }
+
+    private var safetyTipsAction: () -> Void {
+        return { [weak self] in
+            self?.delegate?.vmShowSafetyTips()
+        }
     }
 
     convenience init(conversation: ChatConversation) {
@@ -244,10 +250,9 @@ class ChatViewModel: BaseViewModel {
             guard let strongSelf = self else { return }
             
             if status == .Forbidden {
-                let chatType = ChatViewMessageType.Disclaimer(text: strongSelf.chatBlockedViewMessage,
-                actionTitle: LGLocalizedString.chatBlockedDisclaimerSafetyTipsButton, action: strongSelf.safetyTipsAction)
-                let disclaimer = ChatViewMessage(objectId: nil, talkerId: "", sentAt: nil, receivedAt: nil, readAt: nil,
-                    type: chatType, status: nil, warningStatus: .Normal)
+                let disclaimer = strongSelf.chatViewMessageAdapter.createUserBlockedDisclaimerMessage(
+                    isBuyer: strongSelf.isBuyer, userName: strongSelf.conversation.value.interlocutor?.name,
+                    actionTitle:  LGLocalizedString.chatBlockedDisclaimerSafetyTipsButton, action: strongSelf.safetyTipsAction)
                 self?.messages.removeAll()
                 self?.messages.append(disclaimer)
             }
@@ -649,48 +654,6 @@ extension ChatViewModel {
     }
 }
 
-// MARK: - Chat blocked message view
-
-extension ChatViewModel {
-
-    var chatBlockedViewMessage: NSAttributedString {
-        let icon = NSTextAttachment()
-        icon.image = UIImage(named: "ic_alert_gray")
-        let iconString = NSAttributedString(attachment: icon)
-        let chatBlockedMessage = NSMutableAttributedString(attributedString: iconString)
-        chatBlockedMessage.appendAttributedString(NSAttributedString(string: " "))
-
-        let firstPhrase: NSAttributedString
-        if let interlocutorName = conversation.value.interlocutor?.name {
-            firstPhrase = NSAttributedString(string: LGLocalizedString.chatBlockedDisclaimerScammerWName(interlocutorName))
-        } else {
-            firstPhrase = NSAttributedString(string: LGLocalizedString.chatBlockedDisclaimerScammerWoName)
-        }
-        chatBlockedMessage.appendAttributedString(firstPhrase)
-
-        if isBuyer {
-            chatBlockedMessage.appendAttributedString(NSAttributedString(string: " "))
-            let keyword = LGLocalizedString.chatBlockedDisclaimerScammerAppendSafetyTipsKeyword
-            let secondPhraseStr = LGLocalizedString.chatBlockedDisclaimerScammerAppendSafetyTips(keyword)
-            let secondPhraseNSStr = NSString(string: secondPhraseStr)
-            let range = secondPhraseNSStr.rangeOfString(keyword)
-
-            let secondPhrase = NSMutableAttributedString(string: secondPhraseStr)
-            if range.location != NSNotFound {
-                secondPhrase.addAttribute(NSForegroundColorAttributeName, value: UIColor.primaryColor, range: range)
-            }
-            chatBlockedMessage.appendAttributedString(secondPhrase)
-        }
-        return chatBlockedMessage
-    }
-
-    var safetyTipsAction: () -> Void {
-        return { [weak self] in
-            self?.delegate?.vmShowSafetyTips()
-        }
-    }
-}
-
 
 // MARK: - Paginable
 
@@ -716,8 +679,7 @@ extension ChatViewModel {
     }
     
     private var defaultDisclaimerMessage: ChatViewMessage {
-        return chatViewMessageAdapter.createDisclaimerMessage(chatBlockedViewMessage, actionTitle: nil,
-                                                              action: safetyTipsAction)
+        return chatViewMessageAdapter.createMessageSuspiciousDisclaimerMessage(safetyTipsAction)
     }
 
     var userInfoMessage: ChatViewMessage? {
@@ -879,6 +841,18 @@ private extension ChatConversation {
     var chatStatus: ChatInfoViewStatus {
         guard let interlocutor = interlocutor else { return .Available }
         guard let product = product else { return .Available }
+
+        switch interlocutor.status {
+        case .Scammer:
+            return .Forbidden
+        case .PendingDelete:
+            return .UserPendingDelete
+        case .Deleted:
+            return .UserDeleted
+        case .Active, .Inactive, .NotFound:
+            break // In this case we rely on the rest of states
+        }
+
         if interlocutor.isBanned { return .Forbidden }
         if interlocutor.isMuted { return .Blocked }
         if interlocutor.hasMutedYou { return .BlockedBy }
@@ -894,13 +868,12 @@ private extension ChatConversation {
     
     var chatEnabled: Bool {
         switch chatStatus {
-        case .Forbidden, .Blocked, .BlockedBy:
+        case .Forbidden, .Blocked, .BlockedBy, .UserPendingDelete, .UserDeleted:
             return false
         case .Available, .ProductSold, .ProductDeleted:
             return true
         }
     }
-
 }
 
 

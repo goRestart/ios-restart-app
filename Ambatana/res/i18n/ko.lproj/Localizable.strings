@@ -49,6 +49,8 @@
 "change_username_save_button" = "저장";
 "change_username_send_ok" = "유저명이 성공적으로 변경되었습니다!";
 "change_username_title" = "이름 변경";
+"chat_account_deleted_w_name" = "%@'s account has been deleted";
+"chat_account_deleted_wo_name" = "This account has been deleted";
 "chat_block_user" = "사용자 차단하기";
 "chat_block_user_alert_block_button" = "차단하기";
 "chat_block_user_alert_text" = "문제를 발생하는 사용자를 차단하십시오.";
@@ -62,6 +64,10 @@
 "chat_blocked_disclaimer_scammer_w_name" = "안전상의 이유로, %@의 계정 및 메세지는 letgo 팀에 의해서 삭제되었습니다.";
 "chat_blocked_disclaimer_scammer_wo_name" = "안전상의 이유로, 이 계정 및 메세지는 letgo 팀에 의해서 삭제되었습니다.";
 "chat_delete_chat" = "채팅 삭제";
+"chat_deleted_disclaimer_w_name" = "You can't continue this conversation because %@'s account is no longer active.";
+"chat_deleted_disclaimer_wo_name" = "You can't continue this conversation because this account is no longer active.";
+"chat_list_account_deleted" = "Deleted account";
+"chat_list_account_deleted_username" = "Inactive";
 "chat_list_all_empty_title" = "대화 없음 (아직이에요!)";
 "chat_list_all_title" = "전체";
 "chat_list_archive" = "저장공간";

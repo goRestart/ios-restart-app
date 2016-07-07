@@ -15,6 +15,8 @@ public enum ChatInfoViewStatus: Int {
     case BlockedBy
     case ProductDeleted
     case ProductSold
+    case UserPendingDelete
+    case UserDeleted
     case Available
 
     func infoText(otherUserName userName: String?) -> String {
@@ -37,6 +39,12 @@ public enum ChatInfoViewStatus: Int {
             return LGLocalizedString.commonProductNotAvailable
         case .ProductSold:
             return LGLocalizedString.chatProductSoldLabel
+        case .UserPendingDelete, .UserDeleted:
+            if let userName = userName {
+                return LGLocalizedString.chatAccountDeletedWName(userName)
+            } else {
+                return LGLocalizedString.chatAccountDeletedWoName
+            }
         case .Available:
             return ""
         }
@@ -49,7 +57,7 @@ public enum ChatInfoViewStatus: Int {
 
     var bgColor: UIColor {
         switch self {
-        case .Forbidden:
+        case .Forbidden, .UserDeleted, .UserPendingDelete:
             return StyleHelper.chatInfoBackgrounColorAccountDeactivated
         case .Blocked:
             return StyleHelper.chatInfoBackgrounColorBlocked
@@ -66,7 +74,7 @@ public enum ChatInfoViewStatus: Int {
 
     var iconImage: UIImage {
         switch self {
-        case .Forbidden:
+        case .Forbidden, .UserDeleted, .UserPendingDelete:
             return UIImage(named: "ic_alert_yellow_white_inside") ?? UIImage()
         case .Blocked:
             return UIImage(named: "ic_blocked_white") ?? UIImage()
@@ -83,7 +91,7 @@ public enum ChatInfoViewStatus: Int {
 
     var isHidden: Bool {
         switch self {
-        case .Forbidden, .Blocked, .BlockedBy, .ProductDeleted, .ProductSold:
+        case .Forbidden, .Blocked, .BlockedBy, .ProductDeleted, .ProductSold, .UserDeleted, .UserPendingDelete:
             return false
         case .Available:
             return true
@@ -91,12 +99,7 @@ public enum ChatInfoViewStatus: Int {
     }
 
     var heightValue: CGFloat {
-        switch self {
-        case .Forbidden, .Blocked, .BlockedBy, .ProductDeleted, .ProductSold:
-            return 28
-        case .Available:
-            return 0
-        }
+        return isHidden ? 0 : RelationInfoView.defaultHeight
     }
 }
 

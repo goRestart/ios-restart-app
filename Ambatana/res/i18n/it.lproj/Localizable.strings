@@ -49,6 +49,8 @@
 "change_username_save_button" = "Salva";
 "change_username_send_ok" = "Nome utente cambiato con successo!";
 "change_username_title" = "Cambia Nome";
+"chat_account_deleted_w_name" = "%@'s account has been deleted";
+"chat_account_deleted_wo_name" = "This account has been deleted";
 "chat_block_user" = "Blocca Utente";
 "chat_block_user_alert_block_button" = "Blocca";
 "chat_block_user_alert_text" = "Bloccare un utente impedisce qualsiasi ulteriore interazione tra di voi.";
@@ -62,6 +64,10 @@
 "chat_blocked_disclaimer_scammer_w_name" = "Per ragioni di sicurezza, l'account di %@ è stato eliminato dal team letgo e questi messaggi sono stati rimossi.";
 "chat_blocked_disclaimer_scammer_wo_name" = "Per ragioni di sicurezza, questo account è stato eliminato dal team letgo e questi messaggi sono stati rimossi.";
 "chat_delete_chat" = "Elimina Chat";
+"chat_deleted_disclaimer_w_name" = "You can't continue this conversation because %@'s account is no longer active.";
+"chat_deleted_disclaimer_wo_name" = "You can't continue this conversation because this account is no longer active.";
+"chat_list_account_deleted" = "Deleted account";
+"chat_list_account_deleted_username" = "Inactive";
 "chat_list_all_empty_title" = "NESSUNA CONVERSAZIONE (ANCORA!)";
 "chat_list_all_title" = "TUTTE";
 "chat_list_archive" = "Archivia";

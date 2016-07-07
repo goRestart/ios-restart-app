@@ -141,9 +141,9 @@ class ConversationCell: UITableViewCell, ReusableCell {
         case .ProductDeleted:
             setInfo(text: LGLocalizedString.commonProductNotAvailable, icon: UIImage(named: "ic_alert_yellow_white_inside"))
         case .UserPendingDelete:
-            setInfo(text: LGLocalizedString.chatListAccountDeleted, icon: UIImage(named: "ic_blocked"))
+            setInfo(text: LGLocalizedString.chatListAccountDeleted, icon: UIImage(named: "ic_alert_yellow_white_inside"))
         case .UserDeleted:
-            setInfo(text: LGLocalizedString.chatListAccountDeleted, icon: UIImage(named: "ic_blocked"))
+            setInfo(text: LGLocalizedString.chatListAccountDeleted, icon: UIImage(named: "ic_alert_yellow_white_inside"))
             userLabel.text = LGLocalizedString.chatListAccountDeletedUsername
             productLabel.text = nil
             avatarImageView.image = UIImage(named: "user_placeholder")
