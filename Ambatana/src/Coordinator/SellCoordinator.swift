@@ -18,15 +18,13 @@ final class SellCoordinator: NSObject, Coordinator {
     var child: Coordinator?
 
     private var parentViewController: UIViewController?
-    var viewController: UIViewController// { return postProductViewController }
+    var viewController: UIViewController
     var presentedAlertController: UIAlertController?
 
     private let keyValueStorage: KeyValueStorage
-
-//    private let postProductViewController: PostProductViewController
+    private let tracker: Tracker
 
     weak var delegate: SellCoordinatorDelegate?
-//    weak var delegate: SellNavigatorDelegate?
 
     private let disposeBag = DisposeBag()
 
@@ -35,11 +33,13 @@ final class SellCoordinator: NSObject, Coordinator {
 
     convenience init(source: PostingSource) {
         let keyValueStorage = KeyValueStorage.sharedInstance
-        self.init(source: source, keyValueStorage: keyValueStorage)
+        let tracker = TrackerProxy.sharedInstance
+        self.init(source: source, keyValueStorage: keyValueStorage, tracker: tracker)
     }
 
-    init(source: PostingSource, keyValueStorage: KeyValueStorage) {
+    init(source: PostingSource, keyValueStorage: KeyValueStorage, tracker: Tracker) {
         self.keyValueStorage = keyValueStorage
+        self.tracker = tracker
         
         let postProductVM = PostProductViewModel(source: source)
         let postProductVC = PostProductViewController(viewModel: postProductVM, forceCamera: source.forceCamera)
@@ -86,7 +86,7 @@ private extension SellCoordinator {
 // MARK: - SellNavigator
 
 extension SellCoordinator: SellNavigator {
-//    weak var delegate: SellNavigatorDelegate?
+
 }
 
 
@@ -132,23 +132,8 @@ extension SellCoordinator: PostProductNavigator {
         close(animated: true, notifyDelegate: false) {
             productRepository.create(product, images: images) { [weak self] result in
 
-                // Tracking
-                if let product = result.value {
-                    let event = TrackerEvent.productSellComplete(product, buttonName: trackingInfo.buttonName,
-                                                                 negotiable: trackingInfo.negotiablePrice,
-                                                                 pictureSource: trackingInfo.imageSource)
-                    TrackerProxy.sharedInstance.trackEvent(event)
+                self?.trackPost(result, trackingInfo: trackingInfo)
 
-                    // Track product was sold in the first 24h (and not tracked before)
-                    if let firstOpenDate = KeyValueStorage.sharedInstance[.firstRunDate]
-                        where NSDate().timeIntervalSinceDate(firstOpenDate) <= 86400 &&
-                            !KeyValueStorage.sharedInstance.userTrackingProductSellComplete24hTracked {
-                        KeyValueStorage.sharedInstance.userTrackingProductSellComplete24hTracked = true
-
-                        let event = TrackerEvent.productSellComplete24h(product)
-                        TrackerProxy.sharedInstance.trackEvent(event)
-                    }
-                }
 
                 if showConfirmation {
                     guard let parentVC = self?.parentViewController else { return }
@@ -189,13 +174,27 @@ extension SellCoordinator: PostProductNavigator {
 //            })
     }
 }
+//keyValueStorage.userPostProductPostedPreviously = true
 
-//private extension SellCoordinator {
-//    func dismiss() {
-//        if viewController is PostProductViewController {
-//            viewController.dismissViewControllerAnimated(true) {
-//
-//            }
-//        }
-//    }
-//}
+// MARK: - Tracking
+
+private extension SellCoordinator {
+    func trackPost(result: ProductResult, trackingInfo: PostProductTrackingInfo) {
+        guard let product = result.value else { return }
+
+        let event = TrackerEvent.productSellComplete(product, buttonName: trackingInfo.buttonName,
+                                                     negotiable: trackingInfo.negotiablePrice,
+                                                     pictureSource: trackingInfo.imageSource)
+        tracker.trackEvent(event)
+
+        // Track product was sold in the first 24h (and not tracked before)
+        if let firstOpenDate = keyValueStorage[.firstRunDate]
+            where NSDate().timeIntervalSinceDate(firstOpenDate) <= 86400 &&
+                !keyValueStorage.userTrackingProductSellComplete24hTracked {
+            keyValueStorage.userTrackingProductSellComplete24hTracked = true
+
+            let event = TrackerEvent.productSellComplete24h(product)
+            tracker.trackEvent(event)
+        }
+    }
+}
