@@ -18,7 +18,12 @@
 "tw__card_composer_app_store" = "App Store";
 /* Placeholder text for the composer */
 "tw__composer_placeholder_text" = "What's Happening?";
-
+/* Label to explain this view contains sponsored ads. This is also spoken out with VoiceOver when an ad is shown. */
+"tw__view_is_sponsored_ad" = "This is a sponsored ad";
+/* Label to show users when a button will open a link in another app */
+"tw__open_in_text" = "Open in %@";
+/* Label for explaining that there were no matching Tweets found for a given timeline (User/Collection/Search, etc). */
+"tw__empty_timeline" = "Timeline is empty";
 
 /* Timestamps */
 
@@ -73,6 +78,8 @@
 "tw__tweet_not_liked_state" = "Not Liked";
 /* VoiceOver label for Share button */
 "tw__tweet_share_button" = "Share";
+/* VoiceOver for privacy button to bring up the privacy page URL for ads */
+"tw__privacy_information_button" = "Privacy information";
 
 /* Test String (just for unit tests) */
 "tw__test_string" = "Test";

@@ -8,6 +8,9 @@
 #import <UIKit/UIKit.h>
 @class TWTRTweet;
 @class TWTRUser;
+@class TWTRTweetCashtagEntity;
+@class TWTRTweetHashtagEntity;
+@class TWTRTweetUserMentionEntity;
 @protocol TWTRTweetDetailViewControllerDelegate;
 
 NS_ASSUME_NONNULL_BEGIN
@@ -74,7 +77,7 @@ NS_ASSUME_NONNULL_BEGIN
 @optional
 
 /**
- *  A URL in the text of a tweet was tapped. Implement to show your own webview rather than opening Safari.
+ *  called when a URL in the text of a tweet was tapped. Implement to show your own webview rather than opening Safari.
  *
  *  @param controller The TWTRTweetDetailViewController.
  *  @param url        The URL that was tapped.
@@ -89,6 +92,31 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param user       The Twitter user.
  */
 - (void)tweetDetailViewController:(TWTRTweetDetailViewController *)controller didTapProfileImageForUser:(TWTRUser *)user;
+
+/**
+ *  Called when a hashtag in the text of a tweet was tapped.
+ *
+ *  @param controller The TWTRTweetDetailViewController.
+ *  @param hashtag    The hashtag that was tapped.
+ */
+- (void)tweetDetailViewController:(TWTRTweetDetailViewController *)controller didTapHashtag:(TWTRTweetHashtagEntity *)hashtag;
+
+/**
+ *  Called when a cashtag in the text of a tweet was tapped.
+ *
+ *  @param controller The TWTRTweetDetailViewController.
+ *  @param cashtag    The cashtag that was tapped.
+ */
+- (void)tweetDetailViewController:(TWTRTweetDetailViewController *)controller didTapCashtag:(TWTRTweetCashtagEntity *)cashtag;
+
+/**
+ *  Called when a user mention in the text of a tweet was tapped.
+ *
+ *  @param controller  The TWTRTweetDetailViewController.
+ *  @param userMention The user mention that was tapped.
+ */
+- (void)tweetDetailViewController:(TWTRTweetDetailViewController *)controller didTapUserMention:(TWTRTweetUserMentionEntity *)userMention;
+
 
 @end
 
