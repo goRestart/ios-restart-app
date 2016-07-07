@@ -138,12 +138,9 @@ class PostProductViewModel: BaseViewModel {
         return pendingToUploadImage != nil
     }
 
-    func doneButtonPressed(priceText priceText: String?, sellController: SellProductViewController,
-        delegate: SellProductViewControllerDelegate?) {
-
+    func doneButtonPressed(priceText priceText: String?) {
         let trackingInfo = PostProductTrackingInfo(buttonName: .Done, imageSource: uploadedImageSource,
                                                    price: priceText)
-
         if Core.sessionManager.loggedIn {
             guard let product = buildProduct(priceText: priceText), image = uploadedImage else { return }
             navigator?.closeAndPost(product, images: [image], showConfirmation: true, trackingInfo: trackingInfo)
@@ -152,8 +149,7 @@ class PostProductViewModel: BaseViewModel {
         }
     }
 
-    func closeButtonPressed(sellController sellController: SellProductViewController,
-                                           delegate: SellProductViewControllerDelegate?) {
+    func closeButtonPressed() {
         let priceText: String? = nil
         guard let product = buildProduct(priceText: priceText), image = uploadedImage else {
             navigator?.cancel()

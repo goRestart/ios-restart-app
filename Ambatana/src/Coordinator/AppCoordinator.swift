@@ -105,11 +105,12 @@ final class AppCoordinator: NSObject {
 extension AppCoordinator: AppNavigator {
     func open() {
         let openAppWithInitialDeepLink: () -> () = { [weak self] in
-            self?.delegate?.appNavigatorDidOpenApp()
+            guard let strongSelf = self else { return }
+            strongSelf.delegate?.appNavigatorDidOpenApp()
 
-            if let deepLink = self?.deepLinksRouter.consumeInitialDeepLink() {
+            if let deepLink = strongSelf.deepLinksRouter.consumeInitialDeepLink() {
                 self?.openDeepLink(deepLink, initialDeepLink: true)
-            } else if SellProductControllerFactory.shouldShowSellOnStartup { // TODO: 🌶 This shouldn't be in a factory
+            } else if strongSelf.shouldShowSellOnStartup {
                 self?.openSell(.AppStart)
             }
         }
@@ -414,6 +415,11 @@ private extension AppCoordinator {
 
     private func selectedNavigationController() -> UINavigationController? {
         return tabBarCtl.selectedViewController as? UINavigationController
+    }
+
+    private var shouldShowSellOnStartup: Bool {
+        guard FeatureFlags.sellOnStartupAfterPosting else { return false }
+        return MediaPickerManager.hasCameraPermissions() && keyValueStorage.userPostProductPostedPreviously
     }
 }
 

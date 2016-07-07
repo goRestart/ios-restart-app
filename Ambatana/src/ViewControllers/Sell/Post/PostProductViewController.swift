@@ -123,21 +123,18 @@ UITextFieldDelegate {
             let alert = UIAlertController(title: LGLocalizedString.productPostCloseAlertTitle,
                 message: LGLocalizedString.productPostCloseAlertDescription, preferredStyle: .Alert)
             let cancelAction = UIAlertAction(title: LGLocalizedString.productPostCloseAlertCloseButton,
-                style: .Cancel, handler: { [weak self] action in
-                    guard let strongSelf = self else { return }
-                    strongSelf.viewModel.closeButtonPressed(sellController: strongSelf, delegate: strongSelf.delegate)
+                style: .Cancel, handler: { [weak self] _ in
+                    self?.viewModel.closeButtonPressed()
                 })
             let postAction = UIAlertAction(title: LGLocalizedString.productPostCloseAlertOkButton, style: .Default,
-                handler: { [weak self] action in
-                    guard let strongSelf = self else { return }
-                    strongSelf.viewModel.doneButtonPressed(priceText: nil, sellController: strongSelf,
-                        delegate: strongSelf.delegate)
+                handler: { [weak self] _ in
+                    self?.viewModel.doneButtonPressed(priceText: nil)
             })
             alert.addAction(cancelAction)
             alert.addAction(postAction)
             presentViewController(alert, animated: true, completion: nil)
         } else {
-            viewModel.closeButtonPressed(sellController: self, delegate: delegate)
+            viewModel.closeButtonPressed()
         }
     }
 
@@ -160,7 +157,7 @@ UITextFieldDelegate {
     @IBAction func onDoneButton(sender: AnyObject) {
         priceTextField.resignFirstResponder()
 
-        viewModel.doneButtonPressed(priceText: priceTextField.text, sellController: self, delegate: delegate)
+        viewModel.doneButtonPressed(priceText: priceTextField.text)
     }
 
     @IBAction func onRetryButton(sender: AnyObject) {
