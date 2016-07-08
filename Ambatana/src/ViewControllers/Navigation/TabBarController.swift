@@ -272,6 +272,11 @@ final class TabBarController: UITabBarController, UINavigationControllerDelegate
         viewModel.sellButtonPressed()
     }
     
+    func openSell(source: PostingSource, forceCamera: Bool) {
+        viewModel.openSell(source, forceCamera: forceCamera)
+    }
+    
+    
     // MARK: > UI
 
     /**

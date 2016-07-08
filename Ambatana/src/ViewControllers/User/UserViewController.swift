@@ -72,7 +72,7 @@ class UserViewController: BaseViewController {
         self.header = UserViewHeader.userViewHeader()
         self.headerGestureRecognizer = UIPanGestureRecognizer()
         self.viewModel = viewModel
-        self.cellDrawer = ProductCellDrawerFactory.drawerForProduct(true)
+        self.cellDrawer = ProductCellDrawer()
         self.disposeBag = DisposeBag()
         super.init(viewModel: viewModel, nibName: "UserViewController", statusBarStyle: .LightContent,
                    navBarBackgroundStyle: .Transparent)

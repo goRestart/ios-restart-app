@@ -18,6 +18,7 @@ protocol MainProductsViewModelDelegate: BaseViewModelDelegate {
     func vmDidFailRetrievingProducts(hasProducts hasProducts: Bool, error: String?)
     func vmDidSuceedRetrievingProducts(hasProducts hasProducts: Bool, isFirstPage: Bool)
     func vmShowProduct(productVC: UIViewController)
+    func vmOpenSell()
 }
 
 protocol InfoBubbleDelegate: class {
@@ -34,6 +35,7 @@ class MainProductsViewModel: BaseViewModel {
     
     // > Input
     let searchString: String? // The initial search string
+    let bannerCellPosition: Int = 8
     var filters: ProductFilters
     
     var infoBubblePresent: Bool {
@@ -371,6 +373,20 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate {
         guard let productVC = ProductDetailFactory.productDetailFromProductList(viewModel, index: index,
                                             thumbnailImage: thumbnailImage, originFrame: originFrame) else { return }
         delegate?.vmShowProduct(productVC)
+    }
+    
+    func vmProcessReceivedProductPage(products: [ProductCellModel]) -> [ProductCellModel] {
+        guard products.count > bannerCellPosition else { return products }
+        let bannerData = BannerData(title: LGLocalizedString.productListBannerCellTitle)
+        let banner = ProductCellModel.BannerCell(banner: bannerData)
+        var cellModels = products
+        cellModels.insert(banner, atIndex: bannerCellPosition)
+        return cellModels
+    }
+    
+    func vmDidSelectSellBanner(type: Int) {
+        // TODO: Add Trackings!
+        delegate?.vmOpenSell()
     }
 }
 

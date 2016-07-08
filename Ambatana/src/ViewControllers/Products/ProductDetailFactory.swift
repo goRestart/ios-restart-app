@@ -17,7 +17,8 @@ class ProductDetailFactory {
                 guard let productId = product.objectId else { return nil }
                 let requester = RelatedProductListRequester(productId: productId)
                 let listViewModel = ProductListViewModel(requester: requester, products: [product])
-                let vm = ProductCarouselViewModel(productListVM: listViewModel, index: 0,
+                let product = listViewModel.productAtIndex(0)
+                let vm = ProductCarouselViewModel(productListVM: listViewModel, initialProduct: product,
                                                   thumbnailImage: thumbnailImage, singleProductList: true,
                                                   productListRequester: requester)
                 let animator = ProductCarouselPushAnimator(originFrame: originFrame, originThumbnail: thumbnailImage)
@@ -29,15 +30,16 @@ class ProductDetailFactory {
             }
     }
     
-    static func productDetailFromProductList(productListVM: ProductListViewModel, index: Int, thumbnailImage: UIImage?,
-                                             originFrame: CGRect? = nil) -> UIViewController? {
+    static func productDetailFromProductList(productListVM: ProductListViewModel, index: Int,
+                                             thumbnailImage: UIImage?, originFrame: CGRect? = nil) -> UIViewController? {
         
         switch FeatureFlags.productDetailVersion {
         case .Snapchat:
             let newListVM = ProductListViewModel(listViewModel: productListVM)
-            let vm = ProductCarouselViewModel(productListVM: newListVM, index: index,
+            guard let product = productListVM.productAtIndex(index) else { return nil }
+            let vm = ProductCarouselViewModel(productListVM: newListVM, initialProduct: product,
                                               thumbnailImage: thumbnailImage, singleProductList: false,
-                                              productListRequester: newListVM.productListRequester)
+                                              productListRequester: newListVM.productListRequester?.duplicate())
             let animator = ProductCarouselPushAnimator(originFrame: originFrame, originThumbnail: thumbnailImage)
             return ProductCarouselViewController(viewModel: vm, pushAnimator: animator)
         case .Original, .OriginalWithoutOffer:

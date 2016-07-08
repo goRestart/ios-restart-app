@@ -148,9 +148,10 @@ extension AppCoordinator: AppNavigator {
         viewController.presentViewController(alert, animated: true, completion: nil)
     }
 
-    func openSell() {
+    func openSell(source: PostingSource, forceCamera: Bool) {
         // TODO: should open child coordinator using `openChild`
-        SellProductControllerFactory.presentSellProductOn(viewController: tabBarCtl, delegate: self)
+        SellProductControllerFactory.presentSellOn(viewController: tabBarCtl, source: source, forceCamera: forceCamera,
+                                                   delegate: self)
     }
 
     func openSellOnStartup() {
@@ -235,7 +236,7 @@ extension AppCoordinator: SellProductViewControllerDelegate {
     }
 
     func sellProductViewControllerDidTapPostAgain(sellVC: SellProductViewController?) {
-        openSell()
+        openSell(.SellButton, forceCamera: false)
     }
 }
 
@@ -397,7 +398,7 @@ private extension AppCoordinator {
         case .Home:
             openTab(.Home, force: false)
         case .Sell:
-            openSell()
+            openSell(.SellButton, forceCamera: false)
         case let .Product(productId):
             afterDelayClosure = { [weak self] in
                 self?.openProductWithId(productId)
