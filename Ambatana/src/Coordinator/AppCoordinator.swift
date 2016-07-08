@@ -258,15 +258,23 @@ extension AppCoordinator: CoordinatorDelegate {
 // MARK: - SellCoordinatorDelegate
 
 extension AppCoordinator: SellCoordinatorDelegate {
-    func sellCoordinator(coordinator: SellCoordinator, openPromoteIfNeeded postResult: ProductResult) -> Bool {
+    func sellCoordinatorDidCancel(coordinator: SellCoordinator) {}
+
+    func sellCoordinator(coordinator: SellCoordinator, didFinishWithProduct product: Product) {
+        guard !openPromoteIfNeeded(product: product) else { return }
+        guard !openAfterSellDialogIfNeeded() else { return }
+    }
+}
+
+private extension AppCoordinator {
+    func openPromoteIfNeeded(product product: Product) -> Bool {
         // TODO: Promote Coordinator (move tracking into promote coordinator)
 
         // We do not promote if it's a failure or if it's a success w/o country code
-        guard let product = postResult.value, productId = product.objectId,
-            countryCode = product.postalAddress.countryCode else { return false }
+        guard let productId = product.objectId, countryCode = product.postalAddress.countryCode else { return false }
         // We do not promote if we do not have promo themes for the given country code
         // TODO: 🌶 Inject commercializer repo & uncomment line below
-//        let themes = commercializerRepository.templatesForCountryCode(countryCode)
+        //        let themes = commercializerRepository.templatesForCountryCode(countryCode)
         let themes: [CommercializerTemplate] = /*commercializerRepository.templatesForCountryCode(countryCode) ??*/ []
         guard let promoteVM = PromoteProductViewModel(productId: productId, themes: themes, commercializers: [],
                                                       promotionSource: .ProductSell) else { return false }
@@ -281,7 +289,7 @@ extension AppCoordinator: SellCoordinatorDelegate {
         return true
     }
 
-    func sellCoordinatorOpenAfterSellDialogIfNeeded(coordinator: SellCoordinator) -> Bool {
+    func openAfterSellDialogIfNeeded() -> Bool {
         if PushPermissionsManager.sharedInstance.shouldShowPushPermissionsAlertFromViewController(.Sell) {
             PushPermissionsManager.sharedInstance.showPrePermissionsViewFrom(tabBarCtl, type: .Sell,
                                                                              completion: nil)
