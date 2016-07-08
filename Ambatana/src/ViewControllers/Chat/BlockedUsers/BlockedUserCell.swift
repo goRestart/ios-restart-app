@@ -78,7 +78,7 @@ class BlockedUserCell: UITableViewCell {
     }
 
     private func resetUI() {
-        avatarImageView.image = UIImage(named: "no_photo")
+        avatarImageView.image = UIImage(named: "user_placeholder")
         userNameLabel.text = ""
         blockedLabel.text = LGLocalizedString.chatListBlockedUserLabel
     }

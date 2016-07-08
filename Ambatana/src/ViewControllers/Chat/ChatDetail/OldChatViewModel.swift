@@ -118,10 +118,24 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     }
 
     var chatStatus: ChatInfoViewStatus {
+
         if chat.forbidden {
             return .Forbidden
         }
-        
+
+        if let otherUser = otherUser {
+            switch otherUser.status {
+            case .Scammer:
+                return .Forbidden
+            case .PendingDelete:
+                return .UserPendingDelete
+            case .Deleted:
+                return .UserDeleted
+            case .Active, .Inactive, .NotFound:
+                break // In this case we rely on the rest of states
+            }
+        }
+
         if let relation = userRelation {
             if relation.isBlocked { return .Blocked }
             if relation.isBlockedBy { return .BlockedBy }
@@ -139,7 +153,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     
     var chatEnabled: Bool {
         switch chatStatus {
-        case .Forbidden, .Blocked, .BlockedBy:
+        case .Forbidden, .Blocked, .BlockedBy, .UserDeleted, .UserPendingDelete:
             return false
         case .Available, .ProductSold, .ProductDeleted:
             return true
@@ -148,74 +162,33 @@ public class OldChatViewModel: BaseViewModel, Paginable {
 
     let isSendingMessage = Variable<Bool>(false)
 
-    var chatBlockedViewVisible: Bool {
-        return chat.forbidden
+    var userBlockedDisclaimerMessage: ChatViewMessage {
+        return chatViewMessageAdapter.createUserBlockedDisclaimerMessage(
+            isBuyer: isBuyer, userName: otherUser?.name,
+            actionTitle: LGLocalizedString.chatBlockedDisclaimerSafetyTipsButton, action: safetyTipsAction)
     }
 
-    var chatBlockedViewMessage: NSAttributedString {
-        let icon = NSTextAttachment()
-        icon.image = UIImage(named: "ic_alert_gray")
-        let iconString = NSAttributedString(attachment: icon)
-        let chatBlockedMessage = NSMutableAttributedString(attributedString: iconString)
-        chatBlockedMessage.appendAttributedString(NSAttributedString(string: " "))
+    var messageSuspiciousDisclaimerMessage: ChatViewMessage {
+        return chatViewMessageAdapter.createMessageSuspiciousDisclaimerMessage(safetyTipsAction)
+    }
 
-        let firstPhrase: NSAttributedString
-        if let otherUserName = otherUserName {
-            firstPhrase = NSAttributedString(string: LGLocalizedString.chatBlockedDisclaimerScammerWName(otherUserName))
-        } else {
-            firstPhrase = NSAttributedString(string: LGLocalizedString.chatBlockedDisclaimerScammerWoName)
+    var userInfoMessage: ChatViewMessage? {
+        return chatViewMessageAdapter.createUserInfoMessage(otherUser)
+    }
+
+    var userDeletedDisclaimerMessage: ChatViewMessage? {
+        switch chatStatus {
+        case  .UserPendingDelete, .UserDeleted:
+            return chatViewMessageAdapter.createUserDeletedDisclaimerMessage(otherUser?.name)
+        case .ProductDeleted, .Forbidden, .Available, .Blocked, .BlockedBy, .ProductSold:
+            return nil
         }
-        chatBlockedMessage.appendAttributedString(firstPhrase)
-
-        if isBuyer {
-            chatBlockedMessage.appendAttributedString(NSAttributedString(string: " "))
-            let keyword = LGLocalizedString.chatBlockedDisclaimerScammerAppendSafetyTipsKeyword
-            let secondPhraseStr = LGLocalizedString.chatBlockedDisclaimerScammerAppendSafetyTips(keyword)
-            let secondPhraseNSStr = NSString(string: secondPhraseStr)
-            let range = secondPhraseNSStr.rangeOfString(keyword)
-
-            let secondPhrase = NSMutableAttributedString(string: secondPhraseStr)
-            if range.location != NSNotFound {
-                secondPhrase.addAttribute(NSForegroundColorAttributeName, value: UIColor.primaryColor, range: range)
-            }
-            chatBlockedMessage.appendAttributedString(secondPhrase)
-        }
-        return chatBlockedMessage
     }
 
     var safetyTipsAction: () -> Void {
         return { [weak self] in
             self?.delegate?.vmShowSafetyTips()
         }
-    }
-    
-    var chatInlineDisclaimerViewMessage: NSAttributedString {
-        let icon = NSTextAttachment()
-        icon.image = UIImage(named: "ic_alert_gray")
-        let iconString = NSAttributedString(attachment: icon)
-        let chatBlockedMessage = NSMutableAttributedString(attributedString: iconString)
-        chatBlockedMessage.appendAttributedString(NSAttributedString(string: " "))
-        
-        let keyword = LGLocalizedString.chatBlockedDisclaimerScammerAppendSafetyTipsKeyword
-        let secondPhraseStr = LGLocalizedString.chatMessageDisclaimerScammer(keyword)
-        let secondPhraseNSStr = NSString(string: secondPhraseStr)
-        let range = secondPhraseNSStr.rangeOfString(keyword)
-        
-        let secondPhrase = NSMutableAttributedString(string: secondPhraseStr)
-        if range.location != NSNotFound {
-            secondPhrase.addAttribute(NSForegroundColorAttributeName, value: UIColor.primaryColor, range: range)
-        }
-        chatBlockedMessage.appendAttributedString(secondPhrase)
-        return chatBlockedMessage
-    }
-    
-    var defaultDisclaimerMessage: ChatViewMessage {
-        return chatViewMessageAdapter.createDisclaimerMessage(chatInlineDisclaimerViewMessage, actionTitle: nil,
-                                                              action: safetyTipsAction)
-    }
-
-    var userInfoMessage: ChatViewMessage? {
-        return chatViewMessageAdapter.createUserInfoMessage(otherUser)
     }
 
 
@@ -350,8 +323,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     }
     
     func showDisclaimerMessage() {
-        let disclaimer = createDiclaimerBlockedMessage()
-        loadedMessages = [disclaimer]
+        loadedMessages = [userBlockedDisclaimerMessage]
         delegate?.vmDidSucceedRetrievingChatMessages()
     }
     
@@ -371,19 +343,24 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     // MARK: - Public
     
     func productInfoPressed() {
-        switch product.status {
-        case .Deleted:
+        switch chatStatus {
+        case .ProductDeleted, .Forbidden:
             break
-        case .Pending, .Approved, .Discarded, .Sold, .SoldOld:
+        case .Available, .Blocked, .BlockedBy, .ProductSold, .UserPendingDelete, .UserDeleted:
             guard let productVC = ProductDetailFactory.productDetailFromProduct(product) else { return }
             delegate?.vmShowProduct(productVC)
         }
     }
     
     func userInfoPressed() {
-        guard let user = otherUser else { return }
-        let userVM = UserViewModel(user: user, source: .Chat)
-        delegate?.vmShowUser(userVM)
+        switch chatStatus {
+        case .ProductDeleted, .Forbidden, .UserPendingDelete, .UserDeleted:
+            break
+        case .Available, .Blocked, .BlockedBy, .ProductSold:
+            guard let user = otherUser else { return }
+            let userVM = UserViewModel(user: user, source: .Chat)
+            delegate?.vmShowUser(userVM)
+        }
     }
     
     func safetyTipsDismissed() {
@@ -641,7 +618,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
                 
                 let chatMessages = chat.messages.map(strongSelf.chatViewMessageAdapter.adapt)
                 let newChatMessages = strongSelf.chatViewMessageAdapter
-                    .addDisclaimers(chatMessages, disclaimerMessage: strongSelf.defaultDisclaimerMessage)
+                    .addDisclaimers(chatMessages, disclaimerMessage: strongSelf.messageSuspiciousDisclaimerMessage)
                 
                 let insertedMessagesInfo = OldChatViewModel.insertNewMessagesAt(strongSelf.loadedMessages,
                                                                                 newMessages: newChatMessages)
@@ -885,10 +862,14 @@ public class OldChatViewModel: BaseViewModel, Paginable {
 
                 let mappedChatMessages = chat.messages.map(strongSelf.chatViewMessageAdapter.adapt)
                 let chatMessages: [ChatViewMessage] = strongSelf.chatViewMessageAdapter
-                    .addDisclaimers(mappedChatMessages, disclaimerMessage: strongSelf.defaultDisclaimerMessage)
+                    .addDisclaimers(mappedChatMessages, disclaimerMessage: strongSelf.messageSuspiciousDisclaimerMessage)
                 
                 if page == 0 {
-                    strongSelf.loadedMessages = chatMessages
+                    if let userDeletedMessage = strongSelf.userDeletedDisclaimerMessage {
+                        strongSelf.loadedMessages = [userDeletedMessage] + chatMessages
+                    } else {
+                        strongSelf.loadedMessages = chatMessages
+                    }
                 } else {
                     strongSelf.loadedMessages += chatMessages
                 }
@@ -931,15 +912,6 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         if shouldShowSafetyTips {
             delegate?.vmShowSafetyTips()
         }
-    }
-    
-    func createDiclaimerBlockedMessage() -> ChatViewMessage {
-        let type = ChatViewMessageType.Disclaimer(text: chatBlockedViewMessage,
-                                                  actionTitle: LGLocalizedString.chatBlockedDisclaimerSafetyTipsButton,
-                                                  action: safetyTipsAction)
-        return ChatViewMessage(objectId: nil, talkerId: "", sentAt: nil, receivedAt: nil, readAt: nil, type: type,
-                               status: nil, warningStatus: .Normal)
-        
     }
 }
 

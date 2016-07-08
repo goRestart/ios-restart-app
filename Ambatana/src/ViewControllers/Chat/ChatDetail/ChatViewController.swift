@@ -349,7 +349,7 @@ extension ChatViewController {
             switch status {
             case .ProductDeleted:
                 self?.productView.disableProductInteraction()
-            case .Forbidden:
+            case .Forbidden, .UserPendingDelete, .UserDeleted:
                 self?.productView.disableUserProfileInteraction()
                 self?.productView.disableProductInteraction()
             case .Available, .Blocked, .BlockedBy, .ProductSold:

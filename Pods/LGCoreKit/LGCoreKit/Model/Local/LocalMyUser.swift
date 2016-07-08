@@ -17,19 +17,21 @@ struct LocalMyUser: MyUser, UserDefaultsDecodable {
     var avatar: File?
     var postalAddress: PostalAddress
     var accounts: [Account]?    // TODO: When switching to bouncer only make accounts non-optional
+    var status: UserStatus
 
     // MyUser
     var email: String?
     var location: LGLocation?
 
     init(objectId: String?, name: String?, avatar: File?, postalAddress: PostalAddress, accounts: [LocalAccount]?,
-         email: String?, location: LGLocation?) {
+         status: UserStatus, email: String?, location: LGLocation?) {
         self.objectId = objectId
 
         self.name = name
         self.avatar = avatar
         self.postalAddress = postalAddress
         self.accounts = accounts?.map {$0 as Account }
+        self.status = status
 
         self.email = email
         self.location = location
@@ -38,8 +40,8 @@ struct LocalMyUser: MyUser, UserDefaultsDecodable {
     init(myUser: MyUser) {
         let localAccounts = myUser.accounts?.map { LocalAccount(account: $0) }
         self.init(objectId: myUser.objectId, name: myUser.name, avatar: myUser.avatar,
-                  postalAddress: myUser.postalAddress, accounts: localAccounts, email: myUser.email,
-                  location: myUser.location)
+                  postalAddress: myUser.postalAddress, accounts: localAccounts, status: myUser.status,
+                  email: myUser.email, location: myUser.location)
     }
 }
 
@@ -60,6 +62,7 @@ private struct MyUserUDKeys {
     static let countryCode = "countryCode"
     static let country = "country"
     static let accounts = "accounts"
+    static let status = "status"
 }
 
 extension LocalMyUser {
@@ -90,8 +93,12 @@ extension LocalMyUser {
         if let encodedAccounts = dictionary[MyUserUDKeys.accounts] as? [[String : AnyObject]] {
             accounts = encodedAccounts.flatMap { LocalAccount.decode($0) }
         }
+        var status = UserStatus.Active
+        if let statusStr = dictionary[MyUserUDKeys.status] as? String, udStatus = UserStatus(rawValue: statusStr) {
+            status = udStatus
+        }
         return self.init(objectId: objectId, name: name, avatar: avatar, postalAddress: postalAddress,
-                         accounts: accounts, email: email, location: location)
+                         accounts: accounts, status: status, email: email, location: location)
     }
 
     func encode() -> [String: AnyObject] {
@@ -113,6 +120,7 @@ extension LocalMyUser {
             encodedAccounts = accounts.map { LocalAccount(account: $0).encode() }
         }
         dictionary[MyUserUDKeys.accounts] = encodedAccounts
+        dictionary[MyUserUDKeys.status] = status.rawValue
 
         return dictionary
     }

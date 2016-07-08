@@ -285,14 +285,15 @@ class OldChatViewController: SLKTextViewController {
         if let avatar = viewModel.otherUserAvatarUrl {
             productView.userAvatar.lg_setImageWithURL(avatar, placeholderImage: placeholder)
         }
-        
-        if viewModel.chatStatus == .ProductDeleted {
-            productView.disableProductInteraction()
-        }
-        
-        if viewModel.chatStatus == .Forbidden {
+
+        switch viewModel.chatStatus {
+        case .Forbidden, .UserDeleted, .UserPendingDelete:
             productView.disableUserProfileInteraction()
             productView.disableProductInteraction()
+        case .ProductDeleted:
+            productView.disableProductInteraction()
+        case .Available, .Blocked, .BlockedBy, .ProductSold:
+            break
         }
     }
     

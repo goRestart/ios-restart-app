@@ -11,8 +11,10 @@ import UIKit
 enum ConversationCellStatus {
     case Available
     case Forbidden
-    case Sold
-    case Deleted
+    case ProductSold
+    case ProductDeleted
+    case UserPendingDelete
+    case UserDeleted
 }
 
 struct ConversationCellData {
@@ -80,6 +82,17 @@ class ConversationCell: UITableViewCell, ReusableCell {
         }
     }
 
+    override func setEditing(editing: Bool, animated: Bool) {
+        if (editing) {
+            let bgView = UIView()
+            selectedBackgroundView = bgView
+        } else {
+            selectedBackgroundView = nil
+        }
+        super.setEditing(editing, animated: animated)
+        tintColor = UIColor.primaryColor
+    }
+
 
     // MARK: - Public methods
 
@@ -122,24 +135,20 @@ class ConversationCell: UITableViewCell, ReusableCell {
 
         switch data.status {
         case .Forbidden:
-            timeLabel.text = LGLocalizedString.accountDeactivated
-            statusImageView.image = UIImage(named: "ic_alert_yellow_white_inside")
-            statusImageView.hidden = false
-            separationStatusImageToTimeLabel.constant = ConversationCell.statusImageDefaultMargin
-        case .Sold:
-            timeLabel.text = LGLocalizedString.commonProductSold
-            statusImageView.image = UIImage(named: "ic_dollar_sold")
-            statusImageView.hidden = false
-            separationStatusImageToTimeLabel.constant = ConversationCell.statusImageDefaultMargin
-        case .Deleted:
-            timeLabel.text = LGLocalizedString.commonProductNotAvailable
-            statusImageView.image = UIImage(named: "ic_alert_yellow_white_inside")
-            statusImageView.hidden = false
-            separationStatusImageToTimeLabel.constant = ConversationCell.statusImageDefaultMargin
+            setInfo(text: LGLocalizedString.accountDeactivated, icon: UIImage(named: "ic_alert_yellow_white_inside"))
+        case .ProductSold:
+            setInfo(text: LGLocalizedString.commonProductSold, icon: UIImage(named: "ic_dollar_sold"))
+        case .ProductDeleted:
+            setInfo(text: LGLocalizedString.commonProductNotAvailable, icon: UIImage(named: "ic_alert_yellow_white_inside"))
+        case .UserPendingDelete:
+            setInfo(text: LGLocalizedString.chatListAccountDeleted, icon: UIImage(named: "ic_alert_yellow_white_inside"))
+        case .UserDeleted:
+            setInfo(text: LGLocalizedString.chatListAccountDeleted, icon: UIImage(named: "ic_alert_yellow_white_inside"))
+            userLabel.text = LGLocalizedString.chatListAccountDeletedUsername
+            productLabel.text = nil
+            avatarImageView.image = UIImage(named: "user_placeholder")
         case .Available:
-            timeLabel.text = data.messageDate?.relativeTimeString(false) ?? ""
-            statusImageView.hidden = true
-            separationStatusImageToTimeLabel.constant = -statusImageView.frame.width
+            setInfo(text: data.messageDate?.relativeTimeString(false) ?? "", icon: nil)
         }
 
         let badge: String? = data.unreadCount > 0 ? String(data.unreadCount) : nil
@@ -166,6 +175,7 @@ class ConversationCell: UITableViewCell, ReusableCell {
     }
 
     private func resetUI() {
+        thumbnailImageView.image = UIImage(named: "product_placeholder")
         avatarImageView.image = nil
         productLabel.text = ""
         userLabel.text = ""
@@ -176,14 +186,15 @@ class ConversationCell: UITableViewCell, ReusableCell {
         badgeLabel.font = UIFont.conversationBadgeFont
     }
 
-    override func setEditing(editing: Bool, animated: Bool) {
-        if (editing) {
-            let bgView = UIView()
-            selectedBackgroundView = bgView
+    private func setInfo(text text: String?, icon: UIImage?) {
+        timeLabel.text = text
+        if let icon = icon {
+            statusImageView.image = icon
+            statusImageView.hidden = false
+            separationStatusImageToTimeLabel.constant = ConversationCell.statusImageDefaultMargin
         } else {
-            selectedBackgroundView = nil
+            statusImageView.hidden = true
+            separationStatusImageToTimeLabel.constant = -statusImageView.frame.width
         }
-        super.setEditing(editing, animated: animated)
-        tintColor = UIColor.primaryColor
     }
 }
