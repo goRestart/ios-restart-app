@@ -10,7 +10,7 @@ import LGCoreKit
 import RxSwift
 
 protocol SellCoordinatorDelegate: CoordinatorDelegate {
-    func sellCoordinator(coordinator: SellCoordinator, openPromoteIfNeeded postResult: ProductResult) -> Bool
+    func sellCoordinator(coordinator: SellCoordinator, openPromoteIfNeeded product: Product) -> Bool
     func sellCoordinatorOpenAfterSellDialogIfNeeded(coordinator: SellCoordinator) -> Bool
 }
 
@@ -63,15 +63,15 @@ final class SellCoordinator: NSObject, Coordinator {
     }
 
     func close(animated animated: Bool, completion: (() -> Void)?) {
-        close(animated: animated, notifyDelegate: true, completion: completion)
+        close(PostProductViewController.self, animated: animated, notifyDelegate: true, completion: completion)
     }
 }
 
 private extension SellCoordinator {
-    func close(animated animated: Bool, notifyDelegate: Bool, completion: (() -> Void)?) {
+    func close<T: UIViewController>(type: T.Type, animated: Bool, notifyDelegate: Bool, completion: (() -> Void)?) {
         let dismiss: () -> Void = { [weak self] in
-            guard let postProductVC = self?.viewController as? PostProductViewController else { return }
-            postProductVC.dismissViewControllerAnimated(animated) { [weak self] in
+            guard let viewController = self?.viewController as? T else { return }
+            viewController.dismissViewControllerAnimated(animated) { [weak self] in
                 if let strongSelf = self where notifyDelegate {
                     strongSelf.delegate?.coordinatorDidClose(strongSelf)
                 }
@@ -98,12 +98,12 @@ extension SellCoordinator: SellNavigator {
 
 extension SellCoordinator: PostProductNavigator {
     func cancel() {
-        close(animated: true, notifyDelegate: true, completion: nil)
+        close(PostProductViewController.self, animated: true, notifyDelegate: true, completion: nil)
     }
 
     func closeAndPost(product: Product, images: [File], showConfirmation: Bool, trackingInfo: PostProductTrackingInfo) {
 
-        close(animated: true, notifyDelegate: false) { [weak self] in
+        close(PostProductViewController.self, animated: true, notifyDelegate: false) { [weak self] in
             self?.productRepository.create(product, images: images) { result in
                 self?.trackPost(result, trackingInfo: trackingInfo)
 
@@ -122,7 +122,10 @@ extension SellCoordinator: PostProductNavigator {
                     guard let strongSelf = self else { return }
                     guard let delegate = strongSelf.delegate else { return }
 
-                    var nextActionExecuted = delegate.sellCoordinator(strongSelf, openPromoteIfNeeded: result)
+                    var nextActionExecuted = false
+                    if let product = result.value {
+                        nextActionExecuted = delegate.sellCoordinator(strongSelf, openPromoteIfNeeded: product)
+                    }
                     if !nextActionExecuted {
                         nextActionExecuted = delegate.sellCoordinatorOpenAfterSellDialogIfNeeded(strongSelf)
                     }
@@ -137,7 +140,7 @@ extension SellCoordinator: PostProductNavigator {
     func closeAndPost(product: Product, image: UIImage, trackingInfo: PostProductTrackingInfo) {
         guard let parentVC = parentViewController else { return }
 
-        close(animated: true, notifyDelegate: false) { [weak self] in
+        close(PostProductViewController.self, animated: true, notifyDelegate: false) { [weak self] in
             let productPostedVM = ProductPostedViewModel(productToPost: product, productImage: image,
                                                          trackingInfo: trackingInfo)
             let productPostedVC = ProductPostedViewController(viewModel: productPostedVM)
