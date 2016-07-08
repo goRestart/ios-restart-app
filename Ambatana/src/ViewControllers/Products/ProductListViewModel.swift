@@ -27,9 +27,7 @@ protocol ProductListViewModelDataDelegate: class {
 }
 
 extension ProductListViewModelDataDelegate {
-    func vmProcessReceivedProductPage(products: [Product]) -> [ProductCellModel] {
-        return products.map(ProductCellModel.init)
-    }
+    func vmProcessReceivedProductPage(products: [ProductCellModel]) -> [ProductCellModel] { return products }
     func vmDidSelectSellBanner(type: Int) {}
 }
 
