@@ -157,7 +157,7 @@ extension UIViewController {
     func openInternalUrl(url: NSURL) {
         if #available(iOS 9.0, *) {
             let svc = SFSafariViewController(URL: url, entersReaderIfAvailable: false)
-            svc.view.tintColor = StyleHelper.primaryColor
+            svc.view.tintColor = UIColor.primaryColor
             self.presentViewController(svc, animated: true, completion: nil)
         } else {
             UIApplication.sharedApplication().openURL(url)

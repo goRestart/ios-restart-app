@@ -49,6 +49,8 @@
 "change_username_save_button" = "Αποθήκευση";
 "change_username_send_ok" = "Το όνομα χρήστη άλλαξε επιτυχώς!";
 "change_username_title" = "Αλλαγή Ονόματος";
+"chat_account_deleted_w_name" = "Ο λογαριασμός του %@ έχει διαγραφεί";
+"chat_account_deleted_wo_name" = "Αυτός ο λογαριασμός έχει διαγραφεί";
 "chat_block_user" = "Μπλοκάρισμα Χρήστη";
 "chat_block_user_alert_block_button" = "Μπλοκάρισμα";
 "chat_block_user_alert_text" = "Το μπλοκάρισμα ενός χρήστη εμποδίζει κάθε είδους αλληλεπίδραση.";
@@ -62,6 +64,10 @@
 "chat_blocked_disclaimer_scammer_w_name" = "Για λόγους ασφαλείας, ο λογαριασμός του %@ έχει σβηστεί από την ομάδα του letgo και τα μηνύματα αυτά έχουν αφαιρεθεί.";
 "chat_blocked_disclaimer_scammer_wo_name" = "Για λόγους ασφαλείας, ο λογαριασμός αυτός έχει σβηστεί από την ομάδα του letgo και τα μηνύματα αυτά έχουν αφαιρεθεί.";
 "chat_delete_chat" = "Διαγραφή Συνομιλίας";
+"chat_deleted_disclaimer_w_name" = "Δεν μπορείτε να συνεχίσετε αυτή τη συνομιλία επειδή ο λογαριασμός του %@ δεν είναι πια ενεργός.";
+"chat_deleted_disclaimer_wo_name" = "Δεν μπορείτε να συνεχίσετε αυτή τη συνομιλία επειδή ο λογαριασμός αυτός δεν είναι πια ενεργός.";
+"chat_list_account_deleted" = "Διαγραμμένος λογαριασμός";
+"chat_list_account_deleted_username" = "Ανενεργός";
 "chat_list_all_empty_title" = "ΚΑΜΙΑ ΣΥΝΟΜΙΛΙΑ (ΑΚΟΜΗ!)";
 "chat_list_all_title" = "ΟΛΑ";
 "chat_list_archive" = "Αρχείο";
@@ -371,6 +377,7 @@
 "product_distance_from_you" = "από σένα";
 "product_distance_more_than_from_you" = "Περισσότερο από %@ από εσάς";
 "product_gallery_title" = "Φωτογραφίες";
+"product_list_banner_cell_title" = "SEE YOUR LISTING HERE";
 "product_list_item_new_status_label" = "ΝΕΟ";
 "product_list_item_sold_status_label" = "ΠΩΛΗΘΗΚΕ";
 "product_list_item_time_hour_label" = "%iώρ.";

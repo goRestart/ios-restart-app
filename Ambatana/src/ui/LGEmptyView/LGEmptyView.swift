@@ -10,6 +10,7 @@ import UIKit
 
 class LGEmptyView: UIView {
 
+    static let contentBorderWith: CGFloat = 0.5
     static let contentViewHMargin: CGFloat = 24
     static let contentViewWidth: CGFloat = 270
 
@@ -111,12 +112,12 @@ class LGEmptyView: UIView {
     // MARK: - Private methods
 
     private func setupUI() {
-        backgroundColor = StyleHelper.emptyViewBackgroundColor
+        backgroundColor = UIColor.emptyViewBackgroundColor
 
-        contentView.layer.borderColor = StyleHelper.lineColor.CGColor
-        contentView.layer.borderWidth = StyleHelper.emptyViewContentBorderWith
-        contentView.layer.cornerRadius = StyleHelper.emptyViewContentBorderRadius
-        contentView.backgroundColor = StyleHelper.emptyViewContentBackgroundColor
+        contentView.layer.borderColor = UIColor.lineGray.CGColor
+        contentView.layer.borderWidth = LGEmptyView.contentBorderWith
+        contentView.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
+        contentView.backgroundColor = UIColor.white
         contentView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(contentView)
 
@@ -124,28 +125,28 @@ class LGEmptyView: UIView {
         iconImageView.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(iconImageView)
 
-        titleLabel.font = StyleHelper.emptyViewTitleFont
-        titleLabel.textColor = StyleHelper.emptyViewTitleColor
+        titleLabel.font = UIFont.bigBodyFont
+        titleLabel.textColor = UIColor.blackText
         titleLabel.numberOfLines = 0
         titleLabel.textAlignment = .Center
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(titleLabel)
 
-        bodyLabel.font = StyleHelper.emptyViewBodyFont
-        bodyLabel.textColor = StyleHelper.emptyViewBodyColor
+        bodyLabel.font = UIFont.bigBodyFont
+        bodyLabel.textColor = UIColor.darkGrayText
         bodyLabel.numberOfLines = 0
         bodyLabel.textAlignment = .Center
         bodyLabel.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(bodyLabel)
 
-        actionButton.setPrimaryStyle()
-        actionButton.titleLabel?.font = StyleHelper.emptyViewActionButtonFont
+        actionButton.setStyle(.Primary(fontSize: .Medium))
+        actionButton.titleLabel?.font = UIFont.mediumButtonFont
         actionButton.addTarget(self, action: #selector(LGEmptyView.actionButtonPressed), forControlEvents: .TouchUpInside)
         actionButton.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(actionButton)
         
-        actionSecondaryButton.setSecondaryStyle()
-        actionSecondaryButton.titleLabel?.font = StyleHelper.emptyViewActionButtonFont
+        actionSecondaryButton.setStyle(.Secondary(fontSize: .Medium, withBorder: true))
+        actionSecondaryButton.titleLabel?.font = UIFont.mediumButtonFont
         actionSecondaryButton.addTarget(self, action: #selector(LGEmptyView.secondaryActionButtonPressed), forControlEvents: .TouchUpInside)
         actionSecondaryButton.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(actionSecondaryButton)

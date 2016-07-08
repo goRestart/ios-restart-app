@@ -17,7 +17,7 @@ class LGTextField: UITextField {
     var showCursor = true {
         didSet {
             if showCursor {
-                self.tintColor = StyleHelper.textFieldTintColor
+                self.tintColor = UIColor.primaryColor
             }
             else {
                 self.tintColor = UIColor.clearColor()
@@ -58,6 +58,6 @@ class LGTextField: UITextField {
         self.borderStyle = UITextBorderStyle.None
         self.insetX = 16
         self.clearButtonOffset = 12
-        self.tintColor = StyleHelper.textFieldTintColor
+        self.tintColor = UIColor.primaryColor
     }
 }

@@ -224,8 +224,8 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         
         
         // More Info
-        productTitleLabel.font = StyleHelper.productTitleFont
-        productPriceLabel.font = StyleHelper.productPriceFont
+        productTitleLabel.font = UIFont.productTitleFont
+        productPriceLabel.font = UIFont.productPriceFont
 
         // UserView effect
         fullScreenAvatarEffectView.alpha = 0
@@ -249,8 +249,8 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         userView.showShadow(false)
         
         productStatusView.layer.cornerRadius = productStatusView.height/2
-        productStatusLabel.textColor = StyleHelper.soldColor
-        productStatusLabel.font = StyleHelper.productStatusSoldFont
+        productStatusLabel.textColor = UIColor.soldColor
+        productStatusLabel.font = UIFont.productStatusSoldFont
     }
     
     private func setupNavigationBar() {
@@ -702,7 +702,7 @@ extension ProductCarouselViewController: UICollectionViewDataSource, UICollectio
                                                                              forIndexPath: indexPath)
             guard let carouselCell = cell as? ProductCarouselCell else { return UICollectionViewCell() }
             guard let product = viewModel.productAtIndex(indexPath.row) else { return carouselCell }
-            carouselCell.backgroundColor = StyleHelper.productCellImageBgColor
+            carouselCell.backgroundColor = UIColor.placeholderBackgroundColor()
             carouselCell.configureCellWithProduct(product, placeholderImage: viewModel.thumbnailAtIndex(indexPath.row),
                                                   indexPath: indexPath)
             carouselCell.delegate = self

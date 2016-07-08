@@ -84,6 +84,14 @@ typedef void (^TWTRTweetActionCompletion)(TWTRTweet * _Nullable tweet, NSError *
 typedef void (^TWTRMediaUploadResponseCompletion)(NSString * _Nullable mediaID, NSError * _Nullable error);
 
 /**
+ *  Completion block called when a request for the user's email succeeds or fails.
+ *
+ *  @param email The email of the user
+ *  @param error Error object describing the error that occurred.
+ */
+typedef void(^TWTRRequestEmailCompletion)(NSString * _Nullable email, NSError * _Nullable error);
+
+/**
  *  Client for consuming the Twitter REST API. Provides methods for common API requests, as well as the ability to create and send custom requests.
  */
 @interface TWTRAPIClient : NSObject
@@ -176,6 +184,20 @@ typedef void (^TWTRMediaUploadResponseCompletion)(NSString * _Nullable mediaID, 
  *  @param completion  The completion handler to invoke.
  */
 - (void)uploadMedia:(NSData *)media contentType:(NSString *)contentType completion:(TWTRMediaUploadResponseCompletion)completion;
+
+/**
+ *  Requests the email for the user id which the API client was instantiated with. 
+ *  This method requires that you are using an API Client which was instantiated with 
+ *  a logged in user otherwise you will receive a "Request failed: forbidden (403)" error.
+ *
+ *  @param completion A completion block to invoke when the request completes. The email address may
+ *                    be a nil if the user does not have an email address, the email address
+ *                    is unverified or you do not have the correct permissions to request the email address.
+ *
+ *  @note Requesting a user’s email address requires your application to be whitelisted by Twitter. 
+ *  To request access, please visit https://support.twitter.com/forms/platform.
+ */
+- (void)requestEmailForCurrentUser:(TWTRRequestEmailCompletion)completion;
 
 @end
 

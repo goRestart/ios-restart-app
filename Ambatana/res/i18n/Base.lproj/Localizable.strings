@@ -289,6 +289,24 @@
 // Chat list blocked users title
 "chat_list_blocked_users_title" = "BLOCKED USERS";
 
+// When a user asked to delete his account (state)
+"chat_list_account_deleted" = "Deleted account";
+
+// Text to put on the username field when user is deleted
+"chat_list_account_deleted_username" = "Inactive";
+
+// When a user asked to delete his account (short info message)
+"chat_account_deleted_w_name" = "%@'s account has been deleted";
+
+// When a user asked to delete his account (short info message)
+"chat_account_deleted_wo_name" = "This account has been deleted";
+
+// When a user asked to delete his account (disclaimer message)
+"chat_deleted_disclaimer_w_name" = "You can't continue this conversation because %@'s account is no longer active.";
+
+// When a user asked to delete his account (disclaimer message)
+"chat_deleted_disclaimer_wo_name" = "You can't continue this conversation because this account is no longer active.";
+
 // Chat detail, you blocked this user label
 "chat_blocked_by_me_label" = "You've blocked this user";
 
@@ -1049,6 +1067,9 @@
 
 // <strong>SEE SCREENSHOT</strong> Product list no products title.
 "product_list_no_products_title" = "CITY UNLOCKED!";
+
+// Banner cell inserted in the product list to incentivize posting
+"product_list_banner_cell_title" = "SEE YOUR LISTING HERE";
 
 // Product location title. Check attached image "product_location.png"
 "product_location_title" = "Location";
