@@ -302,9 +302,9 @@ extension UIColor {
     
     private static let cornflowerBlue = UIColor(rgb: 0x538fd1)
     
-    static let bannerBlue = cornflower.colorWithAlphaComponent(0.7)
-    static let bannerYellow = macaroniAndCheese.colorWithAlphaComponent(0.7)
-    static let bannerRed = primaryColor.colorWithAlphaComponent(0.7)
-    static let bannerLightBlue = terciaryColor.colorWithAlphaComponent(0.7)
-    static let bannerBlack = UIColor.blackColor().colorWithAlphaComponent(0.4)
+    static var bannerBlue: UIColor { return cornflower.colorWithAlphaComponent(0.7) }
+    static var bannerYellow: UIColor { return macaroniAndCheese.colorWithAlphaComponent(0.7) }
+    static var bannerRed: UIColor { return primaryColor.colorWithAlphaComponent(0.7) }
+    static var bannerLightBlue: UIColor { return terciaryColor.colorWithAlphaComponent(0.7) }
+    static var bannerBlack: UIColor { return UIColor.blackColor().colorWithAlphaComponent(0.4) }
 }
