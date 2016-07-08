@@ -133,6 +133,7 @@ extension SellCoordinator: PostProductNavigator {
         close(PostProductViewController.self, animated: true) { [weak self] in
             let productPostedVM = ProductPostedViewModel(productToPost: product, productImage: image,
                                                          trackingInfo: trackingInfo)
+            productPostedVM.navigator = self
             let productPostedVC = ProductPostedViewController(viewModel: productPostedVM)
             self?.viewController = productPostedVC
             parentVC.presentViewController(productPostedVC, animated: true, completion: nil)
