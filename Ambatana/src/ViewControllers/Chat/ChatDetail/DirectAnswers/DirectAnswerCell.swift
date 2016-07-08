@@ -24,6 +24,18 @@ class DirectAnswerCell: UICollectionViewCell, ReusableCell {
         return CGSize(width: boundingBox.width+20, height: DirectAnswerCell.cellHeight)
     }
 
+    override var highlighted: Bool {
+        didSet {
+            refreshBckgState()
+        }
+    }
+
+    override var selected: Bool {
+        didSet {
+            refreshBckgState()
+        }
+    }
+
 
     // MARK: - Lifecycle
 
@@ -38,11 +50,6 @@ class DirectAnswerCell: UICollectionViewCell, ReusableCell {
         self.resetUI()
     }
 
-    func setCellHighlighted(highlighted: Bool) {
-        contentView.layer.backgroundColor = highlighted ? UIColor.primaryColorHighlighted.CGColor :
-            UIColor.primaryColor.CGColor
-    }
-    
 
     // MARK: - Public methods
 
@@ -61,5 +68,11 @@ class DirectAnswerCell: UICollectionViewCell, ReusableCell {
 
     private func resetUI() {
         cellText.text = nil
+    }
+
+    private func refreshBckgState() {
+        let highlighedState = self.highlighted || self.selected
+        contentView.layer.backgroundColor = highlighedState ? UIColor.primaryColorHighlighted.CGColor :
+            UIColor.primaryColor.CGColor
     }
 }
