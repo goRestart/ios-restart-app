@@ -157,7 +157,6 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
     private var initialProduct: Product
     private var editedProduct: Product
     weak var updateDetailDelegate : UpdateDetailInfoDelegate?
-    var promoteProductVM: PromoteProductViewModel?
 
     // Delegate
     weak var delegate: EditProductViewModelDelegate?

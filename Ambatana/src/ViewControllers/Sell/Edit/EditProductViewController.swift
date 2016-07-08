@@ -13,8 +13,8 @@ import RxSwift
 
 
 class EditProductViewController: BaseViewController, UITextFieldDelegate,
-UITextViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UIImagePickerControllerDelegate,
-UINavigationControllerDelegate, FBSDKSharingDelegate, SellProductViewController {
+    UITextViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UIImagePickerControllerDelegate,
+    UINavigationControllerDelegate, FBSDKSharingDelegate {
     
     // UI
     private static let loadingTitleDisclaimerLeadingConstraint: CGFloat = 8
@@ -68,7 +68,7 @@ UINavigationControllerDelegate, FBSDKSharingDelegate, SellProductViewController 
 
     // viewModel
     private var viewModel : EditProductViewModel!
-    weak var sellDelegate: SellProductViewControllerDelegate?
+    var closeCompletion: (() -> Void)?
 
     // Rx
     private let disposeBag = DisposeBag()
@@ -506,9 +506,7 @@ UINavigationControllerDelegate, FBSDKSharingDelegate, SellProductViewController 
 
     private func dismiss(action: (() -> ())? = nil) {
         self.dismissViewControllerAnimated(true) { [weak self] in
-            guard let strongSelf = self else { return }
-            strongSelf.sellDelegate?.sellProductViewController(strongSelf, didCompleteSell: true,
-                                                               withPromoteProductViewModel: strongSelf.viewModel.promoteProductVM)
+            self?.closeCompletion?()
             action?()
         }
     }

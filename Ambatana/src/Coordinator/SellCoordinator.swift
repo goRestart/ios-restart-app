@@ -96,7 +96,6 @@ extension SellCoordinator: PostProductNavigator {
 
     func closePostProductAndPostInBackground(product: Product, images: [File], showConfirmation: Bool,
                                              trackingInfo: PostProductTrackingInfo) {
-
         close(PostProductViewController.self, animated: true) { [weak self] in
             self?.productRepository.create(product, images: images) { result in
                 self?.trackPost(result, trackingInfo: trackingInfo)
@@ -109,6 +108,7 @@ extension SellCoordinator: PostProductNavigator {
                     guard let parentVC = self?.parentViewController else { return }
 
                     let productPostedVM = ProductPostedViewModel(postResult: result, trackingInfo: trackingInfo)
+                    productPostedVM.navigator = self
                     let productPostedVC = ProductPostedViewController(viewModel: productPostedVM)
                     self?.viewController = productPostedVC
                     parentVC.presentViewController(productPostedVC, animated: true, completion: nil)
@@ -136,6 +136,61 @@ extension SellCoordinator: PostProductNavigator {
             let productPostedVC = ProductPostedViewController(viewModel: productPostedVM)
             self?.viewController = productPostedVC
             parentVC.presentViewController(productPostedVC, animated: true, completion: nil)
+        }
+    }
+}
+
+extension SellCoordinator: ProductPostedNavigator {
+    func cancelProductPosted() {
+        close(ProductPostedViewController.self, animated: true) { [weak self] in
+            guard let strongSelf = self else { return }
+            guard let delegate = strongSelf.delegate else { return }
+
+            delegate.sellCoordinatorDidCancel(strongSelf)
+            delegate.coordinatorDidClose(strongSelf)
+        }
+    }
+
+    func closeProductPosted(product: Product) {
+        close(ProductPostedViewController.self, animated: true) { [weak self] in
+            guard let strongSelf = self else { return }
+            guard let delegate = strongSelf.delegate else { return }
+
+            delegate.sellCoordinator(strongSelf, didFinishWithProduct: product)
+            delegate.coordinatorDidClose(strongSelf)
+        }
+    }
+
+    func closeProductPostedAndOpenEdit(product: Product) {
+        close(ProductPostedViewController.self, animated: true) { [weak self] in
+            guard let strongSelf = self else { return }
+            guard let parentVC = strongSelf.parentViewController else { return }
+            guard let delegate = strongSelf.delegate else { return }
+
+            // TODO: Open EditProductCoordinator, refactor this completion with a EditProductCoordinatorDelegate func
+            let editVM = EditProductViewModel(product: product)
+            let editVC = EditProductViewController(viewModel: editVM, updateDelegate: nil)
+            editVC.closeCompletion = { [weak self] in
+                delegate.sellCoordinator(strongSelf, didFinishWithProduct: product)
+                delegate.coordinatorDidClose(strongSelf)
+            }
+            let navCtl = UINavigationController(rootViewController: editVC)
+            parentVC.presentViewController(navCtl, animated: true, completion: nil)
+        }
+    }
+
+    func closeProductPostedAndOpenPost() {
+        close(ProductPostedViewController.self, animated: true) { [weak self] in
+            guard let strongSelf = self else { return }
+            guard let parentVC = strongSelf.parentViewController else { return }
+
+            let source: PostingSource = .SellButton
+            let postProductVM = PostProductViewModel(source: source)
+            let postProductVC = PostProductViewController(viewModel: postProductVM, forceCamera: source.forceCamera)
+            strongSelf.viewController = postProductVC
+            postProductVM.navigator = self
+
+            strongSelf.open(parent: parentVC, animated: true, completion: nil)
         }
     }
 }

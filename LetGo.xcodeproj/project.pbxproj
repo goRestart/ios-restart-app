@@ -551,8 +551,6 @@
 		C788EED81CC7847400B9E26F /* FilteredProductListRequester.swift in Sources */ = {isa = PBXBuildFile; fileRef = C788EED61CC7847400B9E26F /* FilteredProductListRequester.swift */; };
 		C788EEDA1CC7861500B9E26F /* NSDate+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = C788EED91CC7861500B9E26F /* NSDate+LG.swift */; };
 		C788EEDB1CC7861500B9E26F /* NSDate+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = C788EED91CC7861500B9E26F /* NSDate+LG.swift */; };
-		C78BB5061C5A304B00614096 /* SellProductControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = C78BB5051C5A304B00614096 /* SellProductControllerFactory.swift */; };
-		C78BB5071C5A304B00614096 /* SellProductControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = C78BB5051C5A304B00614096 /* SellProductControllerFactory.swift */; };
 		C78BB50B1C5A314700614096 /* AppShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C78BB5091C5A314700614096 /* AppShareViewController.swift */; };
 		C78BB50C1C5A314700614096 /* AppShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C78BB5091C5A314700614096 /* AppShareViewController.swift */; };
 		C78BB50D1C5A314700614096 /* AppShareViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C78BB50A1C5A314700614096 /* AppShareViewController.xib */; };
@@ -1335,7 +1333,6 @@
 		C788EED31CC6935600B9E26F /* UserProductListRequester.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProductListRequester.swift; sourceTree = "<group>"; };
 		C788EED61CC7847400B9E26F /* FilteredProductListRequester.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilteredProductListRequester.swift; sourceTree = "<group>"; };
 		C788EED91CC7861500B9E26F /* NSDate+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSDate+LG.swift"; sourceTree = "<group>"; };
-		C78BB5051C5A304B00614096 /* SellProductControllerFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SellProductControllerFactory.swift; path = Sell/SellProductControllerFactory.swift; sourceTree = "<group>"; };
 		C78BB5091C5A314700614096 /* AppShareViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppShareViewController.swift; sourceTree = "<group>"; };
 		C78BB50A1C5A314700614096 /* AppShareViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AppShareViewController.xib; sourceTree = "<group>"; };
 		C79842001CC8E8C900C300FF /* User+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "User+LG.swift"; sourceTree = "<group>"; };
@@ -1667,7 +1664,6 @@
 			children = (
 				C7DE8AA71C88870B005CF37E /* Edit */,
 				C7DE8AA61C8886FE005CF37E /* Post */,
-				C78BB5051C5A304B00614096 /* SellProductControllerFactory.swift */,
 			);
 			name = Sell;
 			sourceTree = "<group>";
@@ -3750,7 +3746,6 @@
 				C739C1DB1D142E360014AD6A /* LoadingTimer.swift in Sources */,
 				C7E73E8D1CD20A49000F2591 /* ViewState.swift in Sources */,
 				508D48701CD0A1C500C52BE3 /* NSError+LG.swift in Sources */,
-				C78BB5061C5A304B00614096 /* SellProductControllerFactory.swift in Sources */,
 				C749C78F1C10836C00F7118E /* BaseCellDrawer.swift in Sources */,
 				C7111EFF1CA4389C000C5C5A /* PushNotification.swift in Sources */,
 				669A0FAB1A8CC1F000B96EC8 /* PhotosInDetailViewController.swift in Sources */,
@@ -4069,7 +4064,6 @@
 				C7BC1BBD1CCA304900208B1B /* SocialMessage.swift in Sources */,
 				C7DB41EF1C5138B500400945 /* ProductListView.swift in Sources */,
 				6A383F7D1CB29AC100F99D79 /* CreateCommercialViewController.swift in Sources */,
-				C78BB5071C5A304B00614096 /* SellProductControllerFactory.swift in Sources */,
 				C739C1DC1D142E360014AD6A /* LoadingTimer.swift in Sources */,
 				C7E73E8E1CD20A49000F2591 /* ViewState.swift in Sources */,
 				508D48711CD0A1C500C52BE3 /* NSError+LG.swift in Sources */,

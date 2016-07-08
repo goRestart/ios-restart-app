@@ -8,10 +8,7 @@
 
 import UIKit
 
-class ProductPostedViewController: BaseViewController, SellProductViewController, ProductPostedViewModelDelegate {
-
-    weak var delegate: SellProductViewControllerDelegate?
-
+class ProductPostedViewController: BaseViewController, ProductPostedViewModelDelegate {
     @IBOutlet weak var shareButton: UIButton!
     @IBOutlet weak var contentContainer: UIView!
     @IBOutlet weak var mainIconImage: UIImageView!
@@ -92,32 +89,33 @@ class ProductPostedViewController: BaseViewController, SellProductViewController
         setupStatic(correct)
     }
 
-    func productPostedViewModelDidFinishPosting(viewModel: ProductPostedViewModel, correctly: Bool) {
-        dismissViewControllerAnimated(true) { [weak self] in
-            guard let strongSelf = self else { return }
-            strongSelf.delegate?.sellProductViewController(strongSelf, didCompleteSell: correctly,
-                withPromoteProductViewModel: viewModel.promoteProductViewModel)
-        }
-    }
-
-    func productPostedViewModelDidEditPosting(viewModel: ProductPostedViewModel,
-        editViewModel: EditProductViewModel) {
-            dismissViewControllerAnimated(true) { [weak self] in
-                guard let strongSelf = self else { return }
-
-                let editVC = EditProductViewController(viewModel: editViewModel, updateDelegate: nil)
-                editVC.sellDelegate = self?.delegate
-
-                strongSelf.delegate?.sellProductViewController(strongSelf, didEditProduct: editVC)
-            }
-    }
-
-    func productPostedViewModelDidRestartPosting(viewModel: ProductPostedViewModel) {
-        dismissViewControllerAnimated(true) { [weak self] in
-            guard let strongSelf = self else { return }
-            strongSelf.delegate?.sellProductViewControllerDidTapPostAgain(strongSelf)
-        }
-    }
+//    func productPostedViewModelDidFinishPosting(viewModel: ProductPostedViewModel, correctly: Bool) {
+//        navigator?.
+//        dismissViewControllerAnimated(true) { [weak self] in
+//            guard let strongSelf = self else { return }
+//            strongSelf.delegate?.sellProductViewController(strongSelf, didCompleteSell: correctly,
+//                withPromoteProductViewModel: viewModel.promoteProductViewModel)
+//        }
+//    }
+//
+//    func productPostedViewModelDidEditPosting(viewModel: ProductPostedViewModel,
+//        editViewModel: EditProductViewModel) {
+//            dismissViewControllerAnimated(true) { [weak self] in
+//                guard let strongSelf = self else { return }
+//
+//                let editVC = EditProductViewController(viewModel: editViewModel, updateDelegate: nil)
+//                editVC.sellDelegate = self?.delegate
+//
+//                strongSelf.delegate?.sellProductViewController(strongSelf, didEditProduct: editVC)
+//            }
+//    }
+//
+//    func productPostedViewModelDidRestartPosting(viewModel: ProductPostedViewModel) {
+//        dismissViewControllerAnimated(true) { [weak self] in
+//            guard let strongSelf = self else { return }
+//            strongSelf.delegate?.sellProductViewControllerDidTapPostAgain(strongSelf)
+//        }
+//    }
 
 
     // MARK: - Private methods

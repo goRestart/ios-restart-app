@@ -17,7 +17,8 @@ protocol PostProductNavigator: class {
 }
 
 protocol ProductPostedNavigator: class {
-    func closeProductPosted(product: Product?)
-    func openEdit(product: Product)
-    func openPost()
+    func cancelProductPosted()
+    func closeProductPosted(product: Product)
+    func closeProductPostedAndOpenEdit(product: Product)
+    func closeProductPostedAndOpenPost()
 }

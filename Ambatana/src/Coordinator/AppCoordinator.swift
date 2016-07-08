@@ -28,6 +28,7 @@ final class AppCoordinator: NSObject {
     private let userRepository: UserRepository
     private let myUserRepository: MyUserRepository
     private let chatRepository: OldChatRepository
+    private let commercializerRepository: CommercializerRepository
 
     weak var delegate: AppNavigatorDelegate?
 
@@ -47,19 +48,21 @@ final class AppCoordinator: NSObject {
         let userRepository = Core.userRepository
         let myUserRepository = Core.myUserRepository
         let chatRepository = Core.oldChatRepository
+        let commercializerRepository = Core.commercializerRepository
 
         self.init(tabBarController: tabBarController, configManager: configManager,
                   sessionManager: sessionManager, keyValueStorage: keyValueStorage,
                   pushPermissionsManager: pushPermissionsManager, ratingManager: ratingManager,
                   deepLinksRouter: deepLinksRouter, productRepository: productRepository, userRepository: userRepository,
-                  myUserRepository: myUserRepository, chatRepository: chatRepository)
+                  myUserRepository: myUserRepository, chatRepository: chatRepository,
+                  commercializerRepository: commercializerRepository)
     }
 
     init(tabBarController: TabBarController, configManager: ConfigManager,
          sessionManager: SessionManager, keyValueStorage: KeyValueStorage,
          pushPermissionsManager: PushPermissionsManager, ratingManager: RatingManager, deepLinksRouter: DeepLinksRouter,
          productRepository: ProductRepository, userRepository: UserRepository, myUserRepository: MyUserRepository,
-         chatRepository: OldChatRepository) {
+         chatRepository: OldChatRepository, commercializerRepository: CommercializerRepository) {
 
         self.tabBarCtl = tabBarController
 
@@ -74,6 +77,7 @@ final class AppCoordinator: NSObject {
         self.userRepository = userRepository
         self.myUserRepository = myUserRepository
         self.chatRepository = chatRepository
+        self.commercializerRepository = commercializerRepository
 
         super.init()
         tabBarCtl.delegate = self
@@ -156,67 +160,6 @@ extension AppCoordinator: AppNavigator {
 }
 
 
-// MARK: - SellNavigatorDelegate
-
-// TODO: 🌶 Must be burnt
-//extension AppCoordinator: SellNavigatorDelegate {
-//    func sellNavigator(sellNavigator: SellNavigator,
-//                       didCompleteSellWithViewModel promoteProductVM: PromoteProductViewModel?) {
-//
-//        // TODO: Split into two delegate methods: promote & sell, then remove the optional view model
-//        keyValueStorage.userPostProductPostedPreviously = true
-//        refreshSelectedProductsRefreshable()
-//
-//        if let promoteProductVM = promoteProductVM {
-//            let promoteProductVC = PromoteProductViewController(viewModel: promoteProductVM)
-//            promoteProductVC.delegate = self
-//
-//            let event = TrackerEvent.commercializerStart(promoteProductVM.productId, typePage: .Sell)
-//            TrackerProxy.sharedInstance.trackEvent(event)
-//
-//            tabBarCtl.presentViewController(promoteProductVC, animated: true, completion: nil)
-//
-//        } else if PushPermissionsManager.sharedInstance.shouldShowPushPermissionsAlertFromViewController(.Sell) {
-//            PushPermissionsManager.sharedInstance.showPrePermissionsViewFrom(tabBarCtl, type: .Sell,
-//                                                                             completion: nil)
-//        } else if RatingManager.sharedInstance.shouldShowRating {
-//            showAppRatingViewIfNeeded(.ProductSellComplete)
-//        }
-//    }
-//
-//    func sellNavigator(sellNavigator: SellNavigator,
-//                       productPostedWithViewModel productPostedVM: ProductPostedViewModel) {
-//
-//        // TODO: Refactor with an "product posted coordinator"
-//        let productPostedVC = ProductPostedViewController(viewModel: productPostedVM)
-//
-//        // TODO: Split sell delegate having a product posted delegate
-////        productPostedVC.delegate = self
-//        tabBarCtl.presentViewController(productPostedVC, animated: true, completion: nil)
-//    }
-//
-//    func sellNavigatorDidTapPostAgain(sellNavigator: SellNavigator) {
-//
-//    }
-//
-//    func sellNavigator(sellNavigator: SellNavigator,
-//                       editProductWithViewModel editVC: EditProductViewController) {
-//
-//        // TODO: Refactor with an "edit coordinator"
-//        let navC = UINavigationController(rootViewController: editVC)
-//        tabBarCtl.presentViewController(navC, animated: true, completion: nil)
-//    }
-//}
-
-private extension AppCoordinator {
-    func refreshSelectedProductsRefreshable() {
-        guard let selectedVC = tabBarCtl.selectedViewController else { return }
-        guard let refreshable = topViewControllerInController(selectedVC) as? ProductsRefreshable else { return }
-        refreshable.productsRefresh()
-    }
-}
-
-
 // MARK: - PromoteProductViewControllerDelegate
 
 extension AppCoordinator: PromoteProductViewControllerDelegate {
@@ -261,21 +204,27 @@ extension AppCoordinator: SellCoordinatorDelegate {
     func sellCoordinatorDidCancel(coordinator: SellCoordinator) {}
 
     func sellCoordinator(coordinator: SellCoordinator, didFinishWithProduct product: Product) {
+        refreshSelectedProductsRefreshable()
+
         guard !openPromoteIfNeeded(product: product) else { return }
         guard !openAfterSellDialogIfNeeded() else { return }
     }
 }
 
 private extension AppCoordinator {
+    func refreshSelectedProductsRefreshable() {
+        guard let selectedVC = tabBarCtl.selectedViewController else { return }
+        guard let refreshable = topViewControllerInController(selectedVC) as? ProductsRefreshable else { return }
+        refreshable.productsRefresh()
+    }
+
     func openPromoteIfNeeded(product product: Product) -> Bool {
         // TODO: Promote Coordinator (move tracking into promote coordinator)
 
         // We do not promote if it's a failure or if it's a success w/o country code
         guard let productId = product.objectId, countryCode = product.postalAddress.countryCode else { return false }
         // We do not promote if we do not have promo themes for the given country code
-        // TODO: 🌶 Inject commercializer repo & uncomment line below
-        //        let themes = commercializerRepository.templatesForCountryCode(countryCode)
-        let themes: [CommercializerTemplate] = /*commercializerRepository.templatesForCountryCode(countryCode) ??*/ []
+        let themes = commercializerRepository.templatesForCountryCode(countryCode)
         guard let promoteVM = PromoteProductViewModel(productId: productId, themes: themes, commercializers: [],
                                                       promotionSource: .ProductSell) else { return false }
         let promoteVC = PromoteProductViewController(viewModel: promoteVM)
