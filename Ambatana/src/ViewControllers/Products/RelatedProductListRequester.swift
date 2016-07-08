@@ -13,6 +13,7 @@ class RelatedProductListRequester: ProductListRequester {
     private let productObjectId: String
     private let productRepository: ProductRepository
     private let locationManager: LocationManager
+    private var offset: Int = 0
 
     convenience init(productId: String) {
         self.init(productId: productId, productRepository: Core.productRepository, locationManager: Core.locationManager)
@@ -27,15 +28,32 @@ class RelatedProductListRequester: ProductListRequester {
     func canRetrieve() -> Bool {
         return true
     }
+    
+    func retrieveFirstPage(completion: ProductsCompletion?) {
+        offset = 0
+        productsRetrieval(completion)
+    }
+    
+    func retrieveNextPage(completion: ProductsCompletion?) {
+        productsRetrieval(completion)
+    }
 
-    func productsRetrieval(offset offset: Int, completion: ProductsCompletion?) {
-        // We need to substract 1 to the offset because every RelatedProductList is always initialized with one product
-        // The product that will be use as seed to get the related ones. That product shouldn't be counted in the offset
-        productRepository.index(productId: productObjectId, params: RetrieveProductsParams(), pageOffset: offset-1,
-                                completion: completion)
+    func productsRetrieval(completion: ProductsCompletion?) {
+        productRepository.index(productId: productObjectId, params: RetrieveProductsParams()) { [weak self] result in
+            if let value = result.value {
+                self?.offset += value.count
+            }
+            completion?(result)
+        }
     }
 
     func isLastPage(resultCount: Int) -> Bool {
         return resultCount == 0
+    }
+    
+    func duplicate() -> ProductListRequester {
+        let r = RelatedProductListRequester(productId: productObjectId)
+        r.offset = offset
+        return r
     }
 }

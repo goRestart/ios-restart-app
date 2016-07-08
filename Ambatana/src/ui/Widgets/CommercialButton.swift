@@ -33,14 +33,12 @@ class CommercialButton: UIButton {
     }
     
     private func setupUI() {
-        innerButton.setBackgroundImage(StyleHelper.commercialButtonBackgroundColor
-            .imageWithSize(CGSize(width: 1, height: 1)), forState: .Normal)
-        innerButton.setBackgroundImage(StyleHelper.commercialButtonHighLightedColor
-            .imageWithSize(CGSize(width: 1, height: 1)), forState: .Highlighted)
+        innerButton.setBackgroundImage(UIColor.white.imageWithSize(CGSize(width: 1, height: 1)), forState: .Normal)
+        innerButton.setBackgroundImage(UIColor.grayLighter.imageWithSize(CGSize(width: 1, height: 1)), forState: .Highlighted)
         
         innerButton.layer.cornerRadius = CGRectGetHeight(innerButton.frame) / 2
         innerButton.clipsToBounds = true
-        innerButton.titleLabel?.font = StyleHelper.commercialButtonFont
+        innerButton.titleLabel?.font = UIFont.smallButtonFont
         innerButton.setTitle(LGLocalizedString.productOpenCommercialButton, forState: .Normal)
     }
 }

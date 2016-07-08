@@ -66,21 +66,21 @@ class UserViewController: BaseViewController {
 
     // MARK: - Lifecycle
 
-    init(viewModel: UserViewModel) {
+    init(viewModel: UserViewModel, hidesBottomBarWhenPushed: Bool = false) {
         let size = CGSize(width: CGFloat.max, height: UserViewController.navBarUserViewHeight)
         self.navBarUserView = UserView.userView(.CompactBorder(size: size))
         self.header = UserViewHeader.userViewHeader()
         self.headerGestureRecognizer = UIPanGestureRecognizer()
         self.viewModel = viewModel
-        self.cellDrawer = ProductCellDrawerFactory.drawerForProduct(true)
+        self.cellDrawer = ProductCellDrawer()
         self.disposeBag = DisposeBag()
         super.init(viewModel: viewModel, nibName: "UserViewController", statusBarStyle: .LightContent,
                    navBarBackgroundStyle: .Transparent)
 
-        viewModel.delegate = self
-        hidesBottomBarWhenPushed = false
-        automaticallyAdjustsScrollViewInsets = false
-        hasTabBar = viewModel.isMyProfile
+        self.viewModel.delegate = self
+        self.hidesBottomBarWhenPushed = hidesBottomBarWhenPushed
+        self.automaticallyAdjustsScrollViewInsets = false
+        self.hasTabBar = viewModel.isMyProfile
     }
 
     required init?(coder: NSCoder) {
@@ -246,7 +246,7 @@ extension UserViewController {
 
     private func setupProductListView() {
         productListView.headerDelegate = self
-        productListViewBackgroundView.backgroundColor = StyleHelper.userProductListBgColor
+        productListViewBackgroundView.backgroundColor = UIColor.listBackgroundColor
 
         // Remove pull to refresh
         productListView.refreshControl?.removeFromSuperview()

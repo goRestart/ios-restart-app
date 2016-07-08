@@ -101,7 +101,7 @@ class ProductLocationViewController: UIViewController, MKMapViewDelegate {
         let subtitleLabel = UILabel(frame: CGRect(x: 0, y: 0, width: ProductLocationViewController.annotationLabelMaxWidth-20, height: 25))
         subtitleLabel.text = annotationSubtitle
         subtitleLabel.textAlignment = .Center
-        subtitleLabel.textColor = StyleHelper.lineColor
+        subtitleLabel.textColor = UIColor.lineGray
         subtitleLabel.numberOfLines = 0
         subtitleLabel.sizeToFit()
         

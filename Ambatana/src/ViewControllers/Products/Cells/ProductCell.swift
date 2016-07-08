@@ -121,7 +121,7 @@ class ProductCell: UICollectionViewCell, ReusableCell {
     
     // Sets up the UI
     private func setupUI() {
-        cellContent.layer.cornerRadius = StyleHelper.defaultCornerRadius
+        cellContent.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
         let shadowLayer = CAGradientLayer.gradientWithColor(UIColor.blackColor(), alphas:[0.0,0.4],
             locations: [0.0,1.0])
         shadowLayer.frame = priceGradientView.bounds
@@ -137,7 +137,7 @@ class ProductCell: UICollectionViewCell, ReusableCell {
     // Resets the UI to the initial state
     private func resetUI() {
         priceLabel.text = ""
-        thumbnailBgColorView.backgroundColor = StyleHelper.productCellImageBgColor
+        thumbnailBgColorView.backgroundColor = UIColor.placeholderBackgroundColor()
         thumbnailImageView.image = nil
         stripeImageView.image = nil
         stripeLabel.text = ""

@@ -46,3 +46,23 @@ extension UIView {
         return line
     }
 }
+
+
+// MARK: - Shadows
+
+extension UIView {
+    func applyDefaultShadow() {
+        layer.shadowColor = UIColor.blackColor().CGColor
+        layer.shadowOffset = CGSize(width: 0, height: 0)
+        layer.shadowRadius = 1
+        layer.shadowOpacity = 0.3
+    }
+    func applyInfoBubbleShadow() {
+        layer.cornerRadius = 15
+        layer.shadowColor = UIColor.blackColor().CGColor
+        layer.shadowRadius = 15
+        layer.shadowOffset = CGSize(width: 0.0, height: 0.0)
+        layer.shadowOpacity = 0.12
+        layer.shadowRadius = 8.0
+    }
+}

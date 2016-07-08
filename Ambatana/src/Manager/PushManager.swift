@@ -8,7 +8,7 @@
 
 import LGCoreKit
 import Kahuna
-
+import Leanplum
 
 final class PushManager: NSObject, KahunaDelegate {
     enum Notification: String {
@@ -49,9 +49,9 @@ final class PushManager: NSObject, KahunaDelegate {
 
     func application(application: UIApplication,
                             didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) {
-
         // Setup push notification libraries
         setupKahuna()
+        setupLeanplum()
     }
 
     func applicationDidBecomeActive(application: UIApplication) {
@@ -86,6 +86,7 @@ final class PushManager: NSObject, KahunaDelegate {
 
     func application(application: UIApplication, handleActionWithIdentifier identifier: String?,
                             forRemoteNotification userInfo: [NSObject : AnyObject], completionHandler: () -> Void) {
+        Leanplum.handleActionWithIdentifier(identifier, forRemoteNotification: userInfo, completionHandler: completionHandler)
         Kahuna.handleNotification(userInfo, withActionIdentifier: identifier,
                                   withApplicationState: UIApplication.sharedApplication().applicationState)
     }
@@ -101,14 +102,13 @@ final class PushManager: NSObject, KahunaDelegate {
 
     // MARK: - Private methods
 
-    private func tokenStringFromData(data: NSData) -> String {
-        let characterSet: NSCharacterSet = NSCharacterSet( charactersInString: "<>" )
-        return (data.description as NSString).stringByTrimmingCharactersInSet(characterSet)
-            .stringByReplacingOccurrencesOfString(" ", withString: "") as String
-    }
-
     private func setupKahuna() {
         Kahuna.launchWithKey(EnvironmentProxy.sharedInstance.kahunaAPIKey)
+    }
+
+    private func setupLeanplum() {
+        Leanplum.setAppId(EnvironmentProxy.sharedInstance.leanplumAppId,
+                          withDevelopmentKey:EnvironmentProxy.sharedInstance.leanplumEnvKey)
     }
 
     dynamic private func login(notification: NSNotification) {
@@ -130,5 +130,11 @@ final class PushManager: NSObject, KahunaDelegate {
     
     dynamic private func logout(notification: NSNotification) {
         Kahuna.logout()
+    }
+
+    private func tokenStringFromData(data: NSData) -> String {
+        let characterSet: NSCharacterSet = NSCharacterSet( charactersInString: "<>" )
+        return (data.description as NSString).stringByTrimmingCharactersInSet(characterSet)
+            .stringByReplacingOccurrencesOfString(" ", withString: "") as String
     }
 }

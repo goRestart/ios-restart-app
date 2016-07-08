@@ -25,9 +25,19 @@ class DirectAnswersPresenter : NSObject, UICollectionViewDelegate, UICollectionV
         }
     }
 
+    var enabled: Bool = true {
+        didSet {
+            if enabled {
+                collectionView?.deselectAll()
+            }
+        }
+    }
+
     private let directAnswersHeight: CGFloat = 48
     private weak var collectionView: UICollectionView?
     private var answers: [DirectAnswer] = []
+
+    private static let disabledAlpha: CGFloat = 0.6
 
 
     // MARK: - Public methods
@@ -74,7 +84,16 @@ class DirectAnswersPresenter : NSObject, UICollectionViewDelegate, UICollectionV
         }
     }
 
+    func collectionView(collectionView: UICollectionView, shouldSelectItemAtIndexPath indexPath: NSIndexPath) -> Bool {
+        return enabled
+    }
+
+    func collectionView(collectionView: UICollectionView, shouldDeselectItemAtIndexPath indexPath: NSIndexPath) -> Bool {
+        return enabled
+    }
+
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        guard enabled else { return }
         if indexPath.row == answers.count {
             delegate?.directAnswersDidTapClose(self)
         } else {
@@ -82,16 +101,10 @@ class DirectAnswersPresenter : NSObject, UICollectionViewDelegate, UICollectionV
         }
     }
 
-    func collectionView(collectionView: UICollectionView, didHighlightItemAtIndexPath indexPath: NSIndexPath) {
-        guard let cell = collectionView.cellForItemAtIndexPath(indexPath) as? DirectAnswerCell else { return }
-        cell.setCellHighlighted(true)
+    func collectionView(collectionView: UICollectionView, shouldHighlightItemAtIndexPath indexPath: NSIndexPath) -> Bool {
+        return enabled
     }
-    
-    func collectionView(collectionView: UICollectionView, didUnhighlightItemAtIndexPath indexPath: NSIndexPath) {
-        guard let cell = collectionView.cellForItemAtIndexPath(indexPath) as? DirectAnswerCell else { return }
-        cell.setCellHighlighted(false)
-    }
-    
+
 
     // MARK: - Private methods
 
@@ -125,6 +138,8 @@ class DirectAnswersPresenter : NSObject, UICollectionViewDelegate, UICollectionV
         let closeNib = UINib(nibName: DirectAnswersCloseCell.reusableID, bundle: nil)
         collectionView.registerNib(closeNib, forCellWithReuseIdentifier: DirectAnswersCloseCell.reusableID)
 
+        collectionView.allowsSelection = true
+        collectionView.allowsMultipleSelection = false
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.scrollsToTop = false

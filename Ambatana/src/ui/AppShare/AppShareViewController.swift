@@ -103,11 +103,11 @@ class AppShareViewController: UIViewController {
     // MARK: - Private methods
 
     private func setupUI() {
-        contentContainer.layer.cornerRadius = StyleHelper.defaultCornerRadius
+        contentContainer.layer.cornerRadius = LGUIKitConstants.alertCornerRadius
 
-        inviteFBMessengerBtn.setCustomButtonStyle()
-        inviteWhatsappBtn.setCustomButtonStyle()
-        inviteEmailBtn.setCustomButtonStyle()
+//        inviteFBMessengerBtn.setCustomButtonStyle()
+//        inviteWhatsappBtn.setCustomButtonStyle()
+//        inviteEmailBtn.setCustomButtonStyle()
 
         titleLabel.text = LGLocalizedString.appShareTitle
         subtitleLabel.text = LGLocalizedString.appShareSubtitle

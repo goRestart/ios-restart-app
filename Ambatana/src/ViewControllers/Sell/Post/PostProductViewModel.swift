@@ -16,7 +16,7 @@ protocol PostProductViewModelDelegate: class {
 }
 
 enum PostingSource {
-    case AppStart, SellButton
+    case AppStart, SellButton, BannerCell
 }
 
 
@@ -229,6 +229,9 @@ extension PostingSource {
         case .AppStart:
             return .OpenApp
         case .SellButton:
+            return .Sell
+        case .BannerCell:
+            // TODO: 🎪 Update
             return .Sell
         }
     }

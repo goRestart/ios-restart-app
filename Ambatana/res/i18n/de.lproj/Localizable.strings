@@ -49,6 +49,8 @@
 "change_username_save_button" = "Speichern";
 "change_username_send_ok" = "Dein Name wurde erfolgreich geändert!";
 "change_username_title" = "Name ändern";
+"chat_account_deleted_w_name" = "Das Benutzerkonto von %@ wurde gelöscht";
+"chat_account_deleted_wo_name" = "Dieses Benutzerkonto wurde gelöscht";
 "chat_block_user" = "Nutzer blockieren";
 "chat_block_user_alert_block_button" = "Blockieren";
 "chat_block_user_alert_text" = "Wenn du einen Nutzer blockierst, kann dieser dich nicht mehr kontaktieren.";
@@ -62,6 +64,10 @@
 "chat_blocked_disclaimer_scammer_w_name" = "Aus Sicherheitsgründen wurden das Benutzerkonto von %@ und die dazugehörigen Nachrichten vom letgo-Team gelöscht.";
 "chat_blocked_disclaimer_scammer_wo_name" = "Aus Sicherheitsgründen wurden dieses Benutzerkonto und die dazugehörigen Nachrichten vom letgo-Team gelöscht.";
 "chat_delete_chat" = "Gespräch löschen";
+"chat_deleted_disclaimer_w_name" = "Du kannst dieses Gespräch nicht fortführen, weil das Benutzerkonto von %@ nicht mehr aktiv ist.";
+"chat_deleted_disclaimer_wo_name" = "Du kannst dieses Gespräch nicht fortführen, weil dieses Benutzerkonto nicht mehr aktiv ist.";
+"chat_list_account_deleted" = "Benutzerkonto löschen";
+"chat_list_account_deleted_username" = "Inaktiv";
 "chat_list_all_empty_title" = "(NOCH) KEINE GESPRÄCHE";
 "chat_list_all_title" = "TODOS";
 "chat_list_archive" = "Archiv";
@@ -371,6 +377,7 @@
 "product_distance_from_you" = "von dir";
 "product_distance_more_than_from_you" = "Mehr als %@ von dir";
 "product_gallery_title" = "Fotos";
+"product_list_banner_cell_title" = "SEE YOUR LISTING HERE";
 "product_list_item_new_status_label" = "NEU";
 "product_list_item_sold_status_label" = "VERKAUFT";
 "product_list_item_time_hour_label" = "%i h";
@@ -424,6 +431,16 @@
 "product_post_gallery_permissions_title" = "Zugriff auf Fotos erlauben";
 "product_post_gallery_tab" = "BIBLIOTHEK";
 "product_post_generic_error" = "Beim Einstellen deines Produkts ist ein Fehler aufgetreten.";
+"product_post_incentive_bike" = "Fahrräder";
+"product_post_incentive_car" = "Autos";
+"product_post_incentive_dresser" = "Kommoden";
+"product_post_incentive_got_any" = "möchtest du welche verkaufen?";
+"product_post_incentive_looking_for" = "Leute in deiner Nähe suchen nach diesen Dingen, %@";
+"product_post_incentive_motorcycle" = "Motorräder";
+"product_post_incentive_ps4" = "PS4s";
+"product_post_incentive_subtitle" = "Dein Angebot wurde eingestellt.";
+"product_post_incentive_title" = "GRATULIERE!";
+"product_post_incentive_tv" = "Fernseher";
 "product_post_login_message" = "Bitte melde dich an, um Sachen verkaufen zu können";
 "product_post_network_error" = "Dein Produkt wurde nicht eingestellt.\nBitte überprüfe deine Netzwerkeinstellungen.";
 "product_post_price_label" = "Möchtest du einen Preis hinzufügen?";

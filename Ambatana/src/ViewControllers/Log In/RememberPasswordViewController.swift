@@ -50,7 +50,7 @@ class RememberPasswordViewController: BaseViewController, RememberPasswordViewMo
         setupUI()
         
         emailTextField.becomeFirstResponder()
-        emailTextField.tintColor = StyleHelper.textFieldTintColor
+        emailTextField.tintColor = UIColor.primaryColor
         
         // update the textfield with the e-mail from previous view
         emailTextField.text = viewModel.email
@@ -65,8 +65,8 @@ class RememberPasswordViewController: BaseViewController, RememberPasswordViewMo
             line.removeFromSuperlayer()
         }
         lines = []
-        lines.append(emailButton.addTopBorderWithWidth(1, color: StyleHelper.lineColor))
-        lines.append(emailButton.addBottomBorderWithWidth(1, color: StyleHelper.lineColor))
+        lines.append(emailButton.addTopBorderWithWidth(1, color: UIColor.lineGray))
+        lines.append(emailButton.addBottomBorderWithWidth(1, color: UIColor.lineGray))
     }
     
     // MARK: - Actions
@@ -79,7 +79,6 @@ class RememberPasswordViewController: BaseViewController, RememberPasswordViewMo
     
     func viewModel(viewModel: RememberPasswordViewModel, updateSendButtonEnabledState enabled: Bool) {
         resetPasswordButton.enabled = enabled
-        resetPasswordButton.alpha = enabled ? 1 : StyleHelper.disabledButtonAlpha
     }
     
     func viewModelDidStartResettingPassword(viewModel: RememberPasswordViewModel) {
@@ -155,9 +154,9 @@ class RememberPasswordViewController: BaseViewController, RememberPasswordViewMo
     
     func setupUI() {
         // Appearance
-        resetPasswordButton.setBackgroundImage(resetPasswordButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)), forState: .Normal)
-        resetPasswordButton.setBackgroundImage(StyleHelper.disabledButtonBackgroundColor.imageWithSize(CGSize(width: 1, height: 1)), forState: .Disabled)
-        resetPasswordButton.setBackgroundImage(StyleHelper.highlightedRedButtonColor.imageWithSize(CGSize(width: 1, height: 1)), forState: .Highlighted)
+        resetPasswordButton.setBackgroundImage(UIColor.primaryColor.imageWithSize(CGSize(width: 1, height: 1)), forState: .Normal)
+        resetPasswordButton.setBackgroundImage(UIColor.primaryColorDisabled.imageWithSize(CGSize(width: 1, height: 1)), forState: .Disabled)
+        resetPasswordButton.setBackgroundImage(UIColor.primaryColorHighlighted.imageWithSize(CGSize(width: 1, height: 1)), forState: .Highlighted)
 
         resetPasswordButton.layer.cornerRadius = 4
         
@@ -176,7 +175,6 @@ class RememberPasswordViewController: BaseViewController, RememberPasswordViewMo
             resetPasswordButton.enabled = email.characters.count > 0
         } else {
             resetPasswordButton.enabled = false
-            resetPasswordButton.alpha = StyleHelper.disabledButtonAlpha
         }
     }
     
