@@ -16,6 +16,11 @@ Will clone develop, create a new `release-x.x.x` branch from, update the build i
 fastlane ios beta
 ```
 Will clone the specified branch, update the build info and do a deploy of that to crashlytics
+### ios local_beta
+```
+fastlane ios local_beta
+```
+Build and distribute local code to Crashlytics
 ### ios deploy_to_appstore
 ```
 fastlane ios deploy_to_appstore
@@ -29,6 +34,6 @@ Will update Web Translate It with the new validated strings from google drive, d
 
 ----
 
-This README.md is auto-generated and will be re-generated every time to run [fastlane](https://fastlane.tools).  
-More information about fastlane can be found on [https://fastlane.tools](https://fastlane.tools).  
-The documentation of fastlane can be found on [GitHub](https://github.com/fastlane/fastlane).
+This README.md is auto-generated and will be re-generated every time to run [fastlane](https://fastlane.tools).
+More information about fastlane can be found on [https://fastlane.tools](https://fastlane.tools).
+The documentation of fastlane can be found on [GitHub](https://github.com/fastlane/fastlane/tree/master/fastlane).
