@@ -139,11 +139,12 @@ class PostProductViewModel: BaseViewModel {
                                                    price: priceText)
         if Core.sessionManager.loggedIn {
             guard let product = buildProduct(priceText: priceText), image = uploadedImage else { return }
-            navigator?.closeAndPost(product, images: [image], showConfirmation: true, trackingInfo: trackingInfo)
+            navigator?.closeAndPostInBackground(product, images: [image], showConfirmation: true,
+                                                trackingInfo: trackingInfo)
         } else if let image = pendingToUploadImage {
             delegate?.postProductviewModel(self, shouldAskLoginWithCompletion: { [weak self] in
                 guard let product = self?.buildProduct(priceText: priceText) else { return }
-                self?.navigator?.closeAndPost(product, image: image, trackingInfo: trackingInfo)
+                self?.navigator?.closeAndPostLater(product, image: image, trackingInfo: trackingInfo)
             })
         } else {
             navigator?.cancel()
@@ -159,7 +160,8 @@ class PostProductViewModel: BaseViewModel {
                 return
             }
             let trackingInfo = PostProductTrackingInfo(buttonName: .Close, imageSource: uploadedImageSource, price: nil)
-            navigator?.closeAndPost(product, images: [image], showConfirmation: false, trackingInfo: trackingInfo)
+            navigator?.closeAndPostInBackground(product, images: [image], showConfirmation: false,
+                                                trackingInfo: trackingInfo)
         }
     }
 }

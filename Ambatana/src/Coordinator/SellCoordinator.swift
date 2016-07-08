@@ -100,7 +100,8 @@ extension SellCoordinator: PostProductNavigator {
         }
     }
 
-    func closeAndPost(product: Product, images: [File], showConfirmation: Bool, trackingInfo: PostProductTrackingInfo) {
+    func closeAndPostInBackground(product: Product, images: [File], showConfirmation: Bool,
+                                  trackingInfo: PostProductTrackingInfo) {
 
         close(PostProductViewController.self, animated: true) { [weak self] in
             self?.productRepository.create(product, images: images) { result in
@@ -132,7 +133,7 @@ extension SellCoordinator: PostProductNavigator {
         }
     }
 
-    func closeAndPost(product: Product, image: UIImage, trackingInfo: PostProductTrackingInfo) {
+    func closeAndPostLater(product: Product, image: UIImage, trackingInfo: PostProductTrackingInfo) {
         guard let parentVC = parentViewController else { return }
 
         close(PostProductViewController.self, animated: true) { [weak self] in
