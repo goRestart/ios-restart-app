@@ -15,9 +15,9 @@
 #import "ACTReporter.h"
 
 // Google
-#import <Google/Analytics.h>
 #import <GoogleAppIndexing/GoogleAppIndexing.h>
-#import <GoogleSignIn/GoogleSignIn.h>
+#import <Google/SignIn.h>
+#import <Google/Analytics.h>
 
 #if GOD_MODE
 // FLEX

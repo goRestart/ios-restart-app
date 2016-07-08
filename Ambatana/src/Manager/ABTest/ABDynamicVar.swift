@@ -42,7 +42,8 @@ struct NumberABDynamicVar: ABDynamicVar {
 
 extension ABDynamicVar {
     var value: ValueType {
-        return TaplyticsVar.taplyticsSyncVarWithName(key, defaultValue: defaultValue as? NSObject)
+        guard let theValue = defaultValue as? NSObject else { return defaultValue }
+        return TaplyticsVar.taplyticsSyncVarWithName(key, defaultValue: theValue)
             .value as? ValueType ?? defaultValue
     }
 }
