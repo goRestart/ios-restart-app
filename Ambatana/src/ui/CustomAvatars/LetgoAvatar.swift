@@ -10,7 +10,7 @@ import Foundation
 
 class LetgoAvatar {
     static func avatarWithID(id: String?, name: String?) -> UIImage {
-        let color = StyleHelper.avatarColorForString(id)
+        let color = UIColor.avatarColorForString(id)
         return LetgoAvatar.avatarWithColor(color, name: name)
     }
 
@@ -23,7 +23,7 @@ class LetgoAvatar {
         if let c = name?.characters.first {
             label.text = String(c).capitalizedString
         }
-        label.font = StyleHelper.avatarFont
+        label.font = UIFont.avatarFont
         label.textColor = UIColor.whiteColor()
         label.backgroundColor = UIColor.clearColor()
         label.textAlignment = .Center

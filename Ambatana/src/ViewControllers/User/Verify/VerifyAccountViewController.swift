@@ -85,8 +85,8 @@ class VerifyAccountViewController: BaseViewController, GIDSignInUIDelegate {
     // MARK: - Private methods
 
     private func setupUI() {
-        contentContainer.layer.cornerRadius = StyleHelper.defaultCornerRadius
-        textFieldContainer.layer.cornerRadius = StyleHelper.defaultCornerRadius
+        contentContainer.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
+        textFieldContainer.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
         setupContentUI()
     }
 

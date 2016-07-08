@@ -57,16 +57,12 @@ public enum ChatInfoViewStatus: Int {
 
     var bgColor: UIColor {
         switch self {
-        case .Forbidden, .UserDeleted, .UserPendingDelete:
-            return StyleHelper.chatInfoBackgrounColorAccountDeactivated
+        case .Forbidden, .UserDeleted, .UserPendingDelete, .BlockedBy, .ProductDeleted:
+            return UIColor.black
         case .Blocked:
-            return StyleHelper.chatInfoBackgrounColorBlocked
-        case .BlockedBy:
-            return StyleHelper.chatInfoBackgrounColorBlockedBy
-        case .ProductDeleted:
-            return StyleHelper.chatInfoBackgroundColorProductDeleted
+            return UIColor.primaryColor
         case .ProductSold:
-            return StyleHelper.chatInfoBackgroundColorProductSold
+            return UIColor.soldColor
         case .Available:
             return UIColor.clearColor()
         }
@@ -141,7 +137,7 @@ public class RelationInfoView: UIView {
     func setupBasicUI() {
         // Non-Status dependant setup
         containerView.backgroundColor = UIColor.clearColor()
-        chatInfoLabel.font = StyleHelper.chatInfoLabelFont
+        chatInfoLabel.font = UIFont.smallBodyFont
         chatInfoLabel.textAlignment = .Left
         chatInfoIcon.contentMode = .ScaleAspectFill
         chatInfoIcon.clipsToBounds = true

@@ -56,7 +56,7 @@ class ThemeCollectionCell: UICollectionViewCell {
     // MARK: - Private methods
 
     private func setupUI() {
-        layer.borderColor = StyleHelper.primaryColor.CGColor
+        layer.borderColor = UIColor.primaryColor.CGColor
         thumbnailImageView.contentMode = UIViewContentMode.ScaleAspectFit
         disabledLabel.text = LGLocalizedString.commercializerPromoteThemeAlreadyUsed
     }

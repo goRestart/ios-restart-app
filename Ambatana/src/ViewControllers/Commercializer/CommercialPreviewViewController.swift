@@ -53,7 +53,7 @@ class CommercialPreviewViewController: BaseViewController {
     // MARK: - Private methods
 
     private func setupUI() {
-        contentContainer.layer.cornerRadius = StyleHelper.defaultCornerRadius
+        contentContainer.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
         
         socialShareView.socialMessage = viewModel.socialShareMessage
         socialShareView.delegate = self

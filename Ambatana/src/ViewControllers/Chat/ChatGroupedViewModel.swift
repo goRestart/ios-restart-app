@@ -113,11 +113,11 @@ class ChatGroupedViewModel: BaseViewModel {
     func titleForTabAtIndex(index: Int, selected: Bool) -> NSAttributedString {
         guard let tab = Tab(rawValue: index) else { return NSMutableAttributedString() }
 
-        let color: UIColor = selected ? StyleHelper.primaryColor : UIColor.blackColor()
+        let color: UIColor = selected ? UIColor.primaryColor : UIColor.blackColor()
 
         var titleAttributes = [String : AnyObject]()
         titleAttributes[NSForegroundColorAttributeName] = color
-        titleAttributes[NSFontAttributeName] = UIFont.systemFontOfSize(14)
+        titleAttributes[NSFontAttributeName] = selected ? UIFont.activeTabFont : UIFont.inactiveTabFont
 
         let string: NSAttributedString
         switch tab {

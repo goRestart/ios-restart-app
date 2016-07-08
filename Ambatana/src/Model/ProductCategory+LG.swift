@@ -82,23 +82,23 @@ extension ProductCategory {
     public var color : UIColor {
         switch (self) {
         case .Unassigned:
-            return UIColor.clearColor()
+            return UIColor.unassignedCategory
         case .Electronics:
-            return UIColor(rgb: 0x009aab)
+            return UIColor.electronicsCategory
         case .CarsAndMotors:
-            return UIColor(rgb: 0x9b9b9b)
+            return UIColor.carsMotorsCategory
         case .SportsLeisureAndGames:
-            return UIColor(rgb: 0x81ac56)
+            return UIColor.sportsGamesCategory
         case .HomeAndGarden:
-            return UIColor(rgb: 0xf1b83d)
+            return UIColor.homeGardenCategory
         case .MoviesBooksAndMusic:
-            return UIColor(rgb: 0xa384bf)
+            return UIColor.moviesBooksCategory
         case .FashionAndAccesories:
-            return UIColor(rgb: 0xfe6e7f)
+            return UIColor.fashionAccessoriesCategory
         case .BabyAndChild:
-            return UIColor(rgb: 0x538fd1)
+            return UIColor.babyChildCategory
         case .Other:
-            return UIColor(rgb: 0xd1a960)
+            return UIColor.otherCategory
         }
     }
 

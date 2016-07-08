@@ -164,14 +164,14 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, FBSDKAppInviteD
             }
         case .ChangePhoto:
             let myUser = Core.myUserRepository.myUser
-            let placeholder =  LetgoAvatar.avatarWithColor(StyleHelper.defaultAvatarColor, name: myUser?.name)
+            let placeholder =  LetgoAvatar.avatarWithColor(UIColor.defaultAvatarColor, name: myUser?.name)
             cell.iconImageView.image = placeholder
             
             if let myUser = myUser, let avatarUrl = myUser.avatar?.fileURL {
                 cell.iconImageView.lg_setImageWithURL(avatarUrl, placeholderImage: placeholder)
             }
         case .CreateCommercializer:
-            cell.label.textColor = StyleHelper.primaryColor
+            cell.label.textColor = UIColor.primaryColor
         case .LogOut:
             cell.accessoryType = .None
         default:
