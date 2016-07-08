@@ -295,3 +295,16 @@ extension UIColor {
     }
 }
 
+
+// MARK: > Product List Banners
+
+extension UIColor {
+    
+    private static let cornflowerBlue = UIColor(rgb: 0x538fd1)
+    
+    static let bannerBlue = cornflower.colorWithAlphaComponent(0.7)
+    static let bannerYellow = macaroniAndCheese.colorWithAlphaComponent(0.7)
+    static let bannerRed = primaryColor.colorWithAlphaComponent(0.7)
+    static let bannerLightBlue = terciaryColor.colorWithAlphaComponent(0.7)
+    static let bannerBlack = UIColor.blackColor().colorWithAlphaComponent(0.4)
+}

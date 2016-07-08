@@ -2251,11 +2251,8 @@
 				50CD8F5E1BC2A4A40031DCD3 /* Errors.xcassets */,
 				6A12E05A1C63B0AE00C1BFE3 /* iPhoneParts.xcassets */,
 				2E51F8B71CCE4DDE00B57283 /* ProductOnboarding-Images.xcassets */,
-<<<<<<< HEAD
 				6A94346B1D2E544B0053F924 /* ProductCellBanners.xcassets */,
-=======
 				2E6B6E3A1D2AC44F00C10A20 /* Congrats-Screen-Images.xcassets */,
->>>>>>> develop
 			);
 			name = "Assets & Resources";
 			sourceTree = "<group>";

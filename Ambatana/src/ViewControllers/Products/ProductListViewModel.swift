@@ -22,7 +22,7 @@ protocol ProductListViewModelDataDelegate: class {
     func productListVM(viewModel: ProductListViewModel, didSucceedRetrievingProductsPage page: UInt, hasProducts: Bool)
     func productListVM(viewModel: ProductListViewModel, didSelectItemAtIndex index: Int, thumbnailImage: UIImage?,
                        originFrame: CGRect?)
-    func vmProcessReceivedProductPage(products: [Product]) -> [ProductCellModel]
+    func vmProcessReceivedProductPage(products: [ProductCellModel]) -> [ProductCellModel]
     func vmDidSelectSellBanner(type: Int)
 }
 
@@ -194,8 +194,8 @@ class ProductListViewModel: BaseViewModel {
         let completion: ProductsCompletion = { [weak self] result in
             guard let strongSelf = self else { return }
             if let newProducts = result.value {
-                
-                let cellModels = self?.dataDelegate?.vmProcessReceivedProductPage(newProducts) ?? newProducts.map(ProductCellModel.init)
+                let productCellModels = newProducts.map(ProductCellModel.init)
+                let cellModels = self?.dataDelegate?.vmProcessReceivedProductPage(productCellModels) ?? productCellModels
                 let indexes: [Int]
                 if firstPage {
                     strongSelf.objects = cellModels
