@@ -35,6 +35,7 @@ class MainProductsViewModel: BaseViewModel {
     
     // > Input
     let searchString: String? // The initial search string
+    let bannerCellPosition: Int = 8
     var filters: ProductFilters
     
     var infoBubblePresent: Bool {
@@ -374,12 +375,12 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate {
         delegate?.vmShowProduct(productVC)
     }
     
-    func vmProcessReceivedProductPage(products: [Product]) -> [ProductCellModel] {
-        var cellModels = products.map(ProductCellModel.init)
-        guard cellModels.count > 8 else { return cellModels }
+    func vmProcessReceivedProductPage(products: [ProductCellModel]) -> [ProductCellModel] {
+        guard products.count > bannerCellPosition else { return products }
         let bannerData = BannerData(title: LGLocalizedString.productListBannerCellTitle)
         let banner = ProductCellModel.BannerCell(banner: bannerData)
-        cellModels.insert(banner, atIndex: 8)
+        var cellModels = products
+        cellModels.insert(banner, atIndex: bannerCellPosition)
         return cellModels
     }
     

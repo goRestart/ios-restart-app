@@ -33,7 +33,7 @@ struct LGViewPagerConfig {
     let tabHeight: CGFloat
 
     static func defaultConfig() -> LGViewPagerConfig {
-        return LGViewPagerConfig(tabPosition: .Top, tabLayout: .Dynamic, tabHeight: 38)
+        return LGViewPagerConfig(tabPosition: .Top, tabLayout: .Dynamic, tabHeight: 44)
     }
 }
 
@@ -100,7 +100,7 @@ class LGViewPager: UIView, UIScrollViewDelegate {
     weak var scrollDelegate: LGViewPagerScrollDelegate?
 
     // Data
-    private let indicatorHeight: CGFloat = 2
+    private let indicatorHeight: CGFloat = 3
 
     private(set) var currentPage: Int = 0
 

@@ -20,8 +20,20 @@ class DirectAnswerCell: UICollectionViewCell, ReusableCell {
         let constraintRect = CGSize(width: CGFloat.max, height: DirectAnswerCell.cellHeight)
         let boundingBox = answer.text.boundingRectWithSize(constraintRect,
             options: NSStringDrawingOptions.UsesFontLeading,
-            attributes: [NSFontAttributeName: StyleHelper.directAnswerFont], context: nil)
+            attributes: [NSFontAttributeName: UIFont.mediumBodyFont], context: nil)
         return CGSize(width: boundingBox.width+20, height: DirectAnswerCell.cellHeight)
+    }
+
+    override var highlighted: Bool {
+        didSet {
+            refreshBckgState()
+        }
+    }
+
+    override var selected: Bool {
+        didSet {
+            refreshBckgState()
+        }
     }
 
 
@@ -38,11 +50,6 @@ class DirectAnswerCell: UICollectionViewCell, ReusableCell {
         self.resetUI()
     }
 
-    func setCellHighlighted(highlighted: Bool) {
-        contentView.layer.backgroundColor = highlighted ? StyleHelper.directAnswerHighlightedColor.CGColor :
-            StyleHelper.directAnswerBackgroundColor.CGColor
-    }
-    
 
     // MARK: - Public methods
 
@@ -55,11 +62,17 @@ class DirectAnswerCell: UICollectionViewCell, ReusableCell {
 
     private func setupUI() {
         contentView.layer.cornerRadius = DirectAnswerCell.cellHeight/2
-        contentView.layer.backgroundColor = StyleHelper.directAnswerBackgroundColor.CGColor
+        contentView.layer.backgroundColor = UIColor.primaryColor.CGColor
         cellText.textColor = UIColor.whiteColor()
     }
 
     private func resetUI() {
         cellText.text = nil
+    }
+
+    private func refreshBckgState() {
+        let highlighedState = self.highlighted || self.selected
+        contentView.layer.backgroundColor = highlighedState ? UIColor.primaryColorHighlighted.CGColor :
+            UIColor.primaryColor.CGColor
     }
 }

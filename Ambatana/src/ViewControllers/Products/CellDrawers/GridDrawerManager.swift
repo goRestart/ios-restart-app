@@ -12,8 +12,8 @@ import LGCoreKit
 
 class GridDrawerManager {
     
-    var productDrawer = ProductCellDrawer()
-    var bannerDrawer = BannerCellDrawer()
+    private let productDrawer = ProductCellDrawer()
+    private let bannerDrawer = BannerCellDrawer()
     
     func registerCell(inCollectionView collectionView: UICollectionView) {
         ProductCellDrawer.registerCell(collectionView)

@@ -294,11 +294,11 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
         self.editedProduct = product
 
         // if nothing is changed, we don't track the edition
-        guard editedFields().count > 0  else { return }
+        guard !editedFields.isEmpty  else { return }
 
         let myUser = myUserRepository.myUser
         let event = TrackerEvent.productEditComplete(myUser, product: product, category: category,
-                                                     editedFields: editedFields())
+                                                     editedFields: editedFields)
         trackEvent(event)
     }
 
@@ -310,7 +310,7 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
         }
     }
 
-    private func editedFields() -> [EventParameterEditedFields] {
+    private var editedFields: [EventParameterEditedFields] {
 
         var editedFields : [EventParameterEditedFields] = []
 
@@ -328,6 +328,9 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
         }
         if initialProduct.category != editedProduct.category {
             editedFields.append(.Category)
+        }
+        if initialProduct.location != editedProduct.location {
+            editedFields.append(.Location)
         }
         if shareInFbChanged() {
             editedFields.append(.Share)

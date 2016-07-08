@@ -74,7 +74,7 @@ class ProductStatsView: UIView {
         if postedDate.isFromLast24h() {
             timePostedIcon.image = UIImage(named: "ic_new_stripe")
             timePostedView.backgroundColor = UIColor.whiteColor()
-            timePostedLabel.textColor = StyleHelper.primaryColor
+            timePostedLabel.textColor = UIColor.primaryColor
         } else {
             timePostedIcon.image = UIImage(named: "ic_stats_time")
             timePostedView.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.54)

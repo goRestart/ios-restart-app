@@ -61,10 +61,9 @@ class ChangePasswordViewController: UIViewController, UITextFieldDelegate, Chang
             line.removeFromSuperlayer()
         }
         lines = []
-        lines.append(passwordTextfield.addTopBorderWithWidth(1, color: StyleHelper.lineColor))
-        lines.append(confirmPasswordTextfield.addTopBorderWithWidth(1, color: StyleHelper.lineColor))
-        lines.append(confirmPasswordTextfield.addBottomBorderWithWidth(1, color: StyleHelper.lineColor))
-        
+        lines.append(passwordTextfield.addTopBorderWithWidth(1, color: UIColor.lineGray))
+        lines.append(confirmPasswordTextfield.addTopBorderWithWidth(1, color: UIColor.lineGray))
+        lines.append(confirmPasswordTextfield.addBottomBorderWithWidth(1, color: UIColor.lineGray))
     }
    
     @IBAction func sendChangePasswordButtonPressed(sender: AnyObject) {
@@ -165,7 +164,6 @@ class ChangePasswordViewController: UIViewController, UITextFieldDelegate, Chang
     
     func viewModel(viewModel: ChangePasswordViewModel, updateSendButtonEnabledState enabled: Bool) {
         sendButton.enabled = enabled
-        sendButton.alpha = enabled ? 1 : StyleHelper.disabledButtonAlpha
     }
     
     func closeButtonPressed() {
@@ -188,22 +186,19 @@ class ChangePasswordViewController: UIViewController, UITextFieldDelegate, Chang
         // UI/UX & Appearance
         passwordTextfield.delegate = self
         passwordTextfield.tag = TextFieldTag.Password.rawValue
-        passwordTextfield.tintColor = StyleHelper.textFieldTintColor
 
         confirmPasswordTextfield.delegate = self
         confirmPasswordTextfield.tag = TextFieldTag.ConfirmPassword.rawValue
-        confirmPasswordTextfield.tintColor = StyleHelper.textFieldTintColor
-        
+
         setNavBarTitle(LGLocalizedString.changePasswordTitle)
         
         sendButton.setTitle(LGLocalizedString.changePasswordTitle, forState: UIControlState.Normal)
         sendButton.setBackgroundImage(sendButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)), forState: .Normal)
-        sendButton.setBackgroundImage(StyleHelper.disabledButtonBackgroundColor.imageWithSize(CGSize(width: 1, height: 1)), forState: .Disabled)
-        sendButton.setBackgroundImage(StyleHelper.highlightedRedButtonColor.imageWithSize(CGSize(width: 1, height: 1)), forState: .Highlighted)
+        sendButton.setBackgroundImage(UIColor.primaryColorDisabled.imageWithSize(CGSize(width: 1, height: 1)), forState: .Disabled)
+        sendButton.setBackgroundImage(UIColor.primaryColorHighlighted.imageWithSize(CGSize(width: 1, height: 1)), forState: .Highlighted)
 
         sendButton.layer.cornerRadius = 4
         sendButton.enabled = false
-        sendButton.alpha = StyleHelper.disabledButtonAlpha
 
         // internationalization
         passwordTextfield.placeholder = LGLocalizedString.changePasswordNewPasswordFieldHint

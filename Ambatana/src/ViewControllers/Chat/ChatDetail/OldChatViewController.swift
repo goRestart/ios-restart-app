@@ -74,6 +74,7 @@ class OldChatViewController: SLKTextViewController {
         setupDirectAnswers()
         setupStickersView()
         initStickersWindow()
+        setupSendingRx()
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(menuControllerWillShow(_:)),
                                                          name: UIMenuControllerWillShowMenuNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(menuControllerWillHide(_:)),
@@ -192,7 +193,7 @@ class OldChatViewController: SLKTextViewController {
     // MARK: > UI
     
     private func setupUI() {
-        view.backgroundColor = StyleHelper.chatTableViewBgColor
+        view.backgroundColor = UIColor.grayBackground
         
         setupNavigationBar()
         
@@ -200,7 +201,7 @@ class OldChatViewController: SLKTextViewController {
         tableView.estimatedRowHeight = 120
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.separatorStyle = .None
-        tableView.backgroundColor = StyleHelper.chatTableViewBgColor
+        tableView.backgroundColor = UIColor.grayBackground
         tableView.allowsSelection = false
         textView.placeholder = LGLocalizedString.chatMessageFieldHint
         textView.backgroundColor = UIColor.whiteColor()
@@ -208,10 +209,10 @@ class OldChatViewController: SLKTextViewController {
         textInputbar.clipsToBounds = true
         textInputbar.translucent = false
         textInputbar.rightButton.setTitle(LGLocalizedString.chatSendButton, forState: .Normal)
-        rightButton.tintColor = StyleHelper.chatSendButtonTintColor
-        rightButton.titleLabel?.font = StyleHelper.chatSendButtonFont
+        rightButton.tintColor = UIColor.primaryColor
+        rightButton.titleLabel?.font = UIFont.smallButtonFont
         leftButton.setImage(UIImage(named: "ic_stickers"), forState: .Normal)
-        leftButton.tintColor = StyleHelper.chatLeftButtonColor
+        leftButton.tintColor = UIColor.grayDark
 
         addSubviews()
         setupFrames()
@@ -223,7 +224,7 @@ class OldChatViewController: SLKTextViewController {
         // chat info view setup
         keyboardPanningEnabled = false
         
-        if let patternBackground = StyleHelper.emptyViewBackgroundColor {
+        if let patternBackground = UIColor.emptyViewBackgroundColor {
             tableView.backgroundColor = UIColor.clearColor()
             view.backgroundColor = patternBackground
         }
@@ -284,14 +285,15 @@ class OldChatViewController: SLKTextViewController {
         if let avatar = viewModel.otherUserAvatarUrl {
             productView.userAvatar.lg_setImageWithURL(avatar, placeholderImage: placeholder)
         }
-        
-        if viewModel.chatStatus == .ProductDeleted {
-            productView.disableProductInteraction()
-        }
-        
-        if viewModel.chatStatus == .Forbidden {
+
+        switch viewModel.chatStatus {
+        case .Forbidden, .UserDeleted, .UserPendingDelete:
             productView.disableUserProfileInteraction()
             productView.disableProductInteraction()
+        case .ProductDeleted:
+            productView.disableProductInteraction()
+        case .Available, .Blocked, .BlockedBy, .ProductSold:
+            break
         }
     }
     
@@ -701,5 +703,19 @@ extension OldChatViewController {
 extension OldChatViewController: ChatStickersViewDelegate {
     func stickersViewDidSelectSticker(sticker: Sticker) {
         viewModel.sendSticker(sticker)
+    }
+}
+
+
+// MARK: Sending blocks
+
+extension OldChatViewController {
+    func setupSendingRx() {
+        let sendActionsEnabled = viewModel.isSendingMessage.asObservable().map { !$0 }
+        sendActionsEnabled.bindTo(rightButton.rx_enabled).addDisposableTo(disposeBag)
+        sendActionsEnabled.bindNext { [weak self] enabled in
+            self?.stickersView.enabled = enabled
+            self?.directAnswersPresenter.enabled = enabled
+        }.addDisposableTo(disposeBag)
     }
 }

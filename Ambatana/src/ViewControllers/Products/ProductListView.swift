@@ -127,7 +127,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     
     // Data
     internal(set) var viewModel: ProductListViewModel
-    var drawerManager = GridDrawerManager()
+    private let drawerManager = GridDrawerManager()
     
     // Delegate
     weak var scrollDelegate: ProductListViewScrollDelegate?
@@ -549,7 +549,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         AND the lastContentOffset is less than the bouncing limit. The limit is equal to the offset after scrolling up
         to the maximum and then let the table bounce to a stable position. The bouncing counts as a DidScroll event
         with scrollingDown = false. checking for this limit we avoid that the delegate is called when we are not 
-        scrolling, but the table is bouncing. -> YES IF (0 < LastContentOffset < BouncingLimit)c
+        scrolling, but the table is bouncing. -> YES IF (0 < LastContentOffset < BouncingLimit)
      
         OR
      

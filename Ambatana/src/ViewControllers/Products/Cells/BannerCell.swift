@@ -16,7 +16,7 @@ class BannerCell: UICollectionViewCell, ReusableCell {
     @IBOutlet weak var colorView: UIView!
     
     override func awakeFromNib() {
-        contentView.layer.cornerRadius = StyleHelper.defaultCornerRadius
+        contentView.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
         contentView.clipsToBounds = true
     }
 }

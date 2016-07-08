@@ -336,7 +336,7 @@ public class VideoPlayerContainerView: UIView {
 
     private func setupVideoPlayerProgressSlider() {
         progressSlider.transform = CGAffineTransformMakeScale(0.8, 0.8);
-        progressSlider.tintColor = StyleHelper.primaryColor
+        progressSlider.tintColor = UIColor.primaryColor
         progressSlider.addTarget(self, action: #selector(VideoPlayerContainerView.progressValueChanged),
                                  forControlEvents: .ValueChanged)
         progressSlider.addTarget(self, action: #selector(VideoPlayerContainerView.disableUpdateVideoProgress),

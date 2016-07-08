@@ -94,7 +94,7 @@ class FilterDistanceCell: UICollectionViewCell {
     // MARK: - Private methods
     
     private func setupUI() {
-        separatorHeight.constant = StyleHelper.onePixelSize
+        separatorHeight.constant = LGUIKitConstants.onePixelSize
         
         tipTopBackground.layer.cornerRadius = floor(tipTopBackground.frame.size.height / 2)
         slider.maximumValue = Float(positions.count-1)

@@ -22,14 +22,12 @@ protocol ProductListViewModelDataDelegate: class {
     func productListVM(viewModel: ProductListViewModel, didSucceedRetrievingProductsPage page: UInt, hasProducts: Bool)
     func productListVM(viewModel: ProductListViewModel, didSelectItemAtIndex index: Int, thumbnailImage: UIImage?,
                        originFrame: CGRect?)
-    func vmProcessReceivedProductPage(products: [Product]) -> [ProductCellModel]
+    func vmProcessReceivedProductPage(products: [ProductCellModel]) -> [ProductCellModel]
     func vmDidSelectSellBanner(type: String)
 }
 
 extension ProductListViewModelDataDelegate {
-    func vmProcessReceivedProductPage(products: [Product]) -> [ProductCellModel] {
-        return products.map(ProductCellModel.init)
-    }
+    func vmProcessReceivedProductPage(products: [ProductCellModel]) -> [ProductCellModel] { return products }
     func vmDidSelectSellBanner(type: String) {}
 }
 
@@ -194,8 +192,8 @@ class ProductListViewModel: BaseViewModel {
         let completion: ProductsCompletion = { [weak self] result in
             guard let strongSelf = self else { return }
             if let newProducts = result.value {
-                
-                let cellModels = self?.dataDelegate?.vmProcessReceivedProductPage(newProducts) ?? newProducts.map(ProductCellModel.init)
+                let productCellModels = newProducts.map(ProductCellModel.init)
+                let cellModels = self?.dataDelegate?.vmProcessReceivedProductPage(productCellModels) ?? productCellModels
                 let indexes: [Int]
                 if firstPage {
                     strongSelf.objects = cellModels
@@ -235,23 +233,10 @@ class ProductListViewModel: BaseViewModel {
     }
 
     func selectedItemAtIndex(index: Int, thumbnailImage: UIImage?, originFrame: CGRect?) {
-        guard let item = itemAtIndex(index) else { return }
-       
-        
+        guard let item = itemAtIndex(index) else { return }        
         switch item {
         case .ProductCell:
-            
-            // To open the product we need to calculate the index without the banners (they will be filtered out)
-            let productIndex = objects[0..<index].reduce(0) { (total: Int, model) -> Int in
-                switch model {
-                case .ProductCell:
-                    return total + 1
-                case .BannerCell:
-                    return total
-                }
-            }
-            
-            dataDelegate?.productListVM(self, didSelectItemAtIndex: productIndex, thumbnailImage: thumbnailImage,
+            dataDelegate?.productListVM(self, didSelectItemAtIndex: index, thumbnailImage: thumbnailImage,
                                         originFrame: originFrame)
         case .BannerCell(let data):
             dataDelegate?.vmDidSelectSellBanner(data.style.rawValue)

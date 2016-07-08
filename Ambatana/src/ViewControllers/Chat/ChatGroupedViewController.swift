@@ -247,14 +247,14 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
     // MARK: - Private methods
 
     private func setupUI() {
-        view.backgroundColor = StyleHelper.backgroundColor
+        view.backgroundColor = UIColor.listBackgroundColor
         setNavBarTitle(LGLocalizedString.chatListTitle)
 
         viewPager.dataSource = self
         viewPager.delegate = self
-        viewPager.indicatorSelectedColor = StyleHelper.primaryColor
-        viewPager.infoBadgeColor = StyleHelper.primaryColor
-        viewPager.tabsSeparatorColor = StyleHelper.lineColor
+        viewPager.indicatorSelectedColor = UIColor.primaryColor
+        viewPager.infoBadgeColor = UIColor.primaryColor
+        viewPager.tabsSeparatorColor = UIColor.lineGray
         viewPager.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(viewPager)
 

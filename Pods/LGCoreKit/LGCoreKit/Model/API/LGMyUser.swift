@@ -23,19 +23,21 @@ struct LGMyUser: MyUser {
     var avatar: File?
     var postalAddress: PostalAddress
     var accounts: [Account]?
+    var status: UserStatus
 
     // MyUser
     var email: String?
     var location: LGLocation?
 
     init(objectId: String?, name: String?, avatar: File?, postalAddress: PostalAddress, accounts: [LGAccount]?,
-         email: String?, location: LGLocation?) {
+         status: UserStatus?, email: String?, location: LGLocation?) {
         self.objectId = objectId
 
         self.name = name
         self.avatar = avatar
         self.postalAddress = postalAddress
         self.accounts = accounts?.map { $0 as Account }
+        self.status = status ?? .Active
 
         self.email = email
         self.location = location
@@ -61,6 +63,7 @@ extension LGMyUser: Decodable {
         static let countryCode = "country_code"
         static let newsletter = "newsletter"
         static let accounts = "accounts"
+        static let status = "status"
     }
 
     /**
@@ -94,6 +97,7 @@ extension LGMyUser: Decodable {
                             <*> LGArgo.jsonToAvatarFile(j, avatarKey: JSONKeys.avatar)
                             <*> PostalAddress.decode(j)
         let init2 = init1   <*> j <||? JSONKeys.accounts
+                            <*> j <|? JSONKeys.status
                             <*> j <|? JSONKeys.email
                             <*> LGArgo.jsonToLocation(j, latKey: JSONKeys.latitude, lonKey: JSONKeys.longitude,
                                       typeKey: JSONKeys.locationType)

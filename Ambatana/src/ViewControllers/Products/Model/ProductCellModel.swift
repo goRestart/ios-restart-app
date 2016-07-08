@@ -64,20 +64,20 @@ enum BannerCellStyle: String {
     var backColor: UIColor {
         switch self {
         case .SofaBlack, .BicycleBlack, .PhoneBlack, .PlayBlack:
-            return UIColor.blackColor().colorWithAlphaComponent(0.4)
+            return UIColor.bannerBlack
         case .SofaRed:
-            return UIColor.primaryColor.colorWithAlphaComponent(0.7)
+            return UIColor.bannerRed
         case .BicycleBlue:
-            return UIColor.terciaryColor.colorWithAlphaComponent(0.7)
+            return UIColor.bannerLightBlue
         case .PhoneYellow:
-            return UIColor.init(rgb: 0xf1b83d, alpha: 0.7)
+            return UIColor.bannerYellow
         case .PlayBlue:
-            return UIColor.init(rgb: 0x538fd1, alpha: 0.7)
+            return UIColor.bannerBlue
         }
     }
     
     static func random() -> BannerCellStyle {
-        let n = Int(arc4random_uniform(8))
+        let n = Int.random(0, 7)
         return BannerCellStyle.allValues[n] ?? .SofaBlack
     }
 }

@@ -28,7 +28,7 @@ class ProductCarouselViewModel: BaseViewModel {
     private let nextImagesToPrefetch = 3
 
     var currentProductViewModel: ProductViewModel?
-    var startIndex: Int
+    var startIndex: Int = 0
     var initialThumbnail: UIImage?
     weak var delegate: ProductCarouselViewModelDelegate?
     
@@ -71,26 +71,38 @@ class ProductCarouselViewModel: BaseViewModel {
     private var objects: [ProductCarouselCellModel] = []
 
     // MARK: - Init
-    convenience init(productListVM: ProductListViewModel, index: Int, thumbnailImage: UIImage?,
+    convenience init(productListVM: ProductListViewModel, initialProduct: Product?, thumbnailImage: UIImage?,
          singleProductList: Bool, productListRequester: ProductListRequester?) {
         let myUserRepository = Core.myUserRepository
-        self.init(myUserRepository: myUserRepository, productListVM: productListVM, index: index,
+        self.init(myUserRepository: myUserRepository, productListVM: productListVM, initialProduct: initialProduct,
                   thumbnailImage: thumbnailImage, singleProductList: singleProductList,
                   productListRequester: productListRequester)
     }
 
-    init(myUserRepository: MyUserRepository, productListVM: ProductListViewModel, index: Int, thumbnailImage: UIImage?,
+    init(myUserRepository: MyUserRepository, productListVM: ProductListViewModel, initialProduct: Product?, thumbnailImage: UIImage?,
          singleProductList: Bool, productListRequester: ProductListRequester?) {
         self.myUserRepository = myUserRepository
         self.objects = productListVM.objects.flatMap(ProductCarouselCellModel.adapter)
-        self.startIndex = index
         self.initialThumbnail = thumbnailImage
         self.productListRequester = productListRequester
         self.singleProductList = singleProductList
         super.init()
-        self.currentProductViewModel = viewModelAtIndex(index)
+        self.startIndex = indexForProduct(initialProduct) ?? 0
+        self.currentProductViewModel = viewModelAtIndex(startIndex)
     }
     
+    func indexForProduct(product: Product?) -> Int? {
+        guard let product = product else { return nil }
+        for i in 0..<objects.count {
+            switch objects[i] {
+            case .ProductCell(let data):
+                if data.objectId == product.objectId {
+                    return i
+                }
+            }
+        }
+        return nil
+    }
     
     // MARK: - Public Methods
     

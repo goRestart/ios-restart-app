@@ -76,7 +76,7 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
         productListView.collectionViewContentInset.top = topBarHeight
         productListView.collectionViewContentInset.bottom = tabBarHeight + Constants.tabBarSellFloatingButtonHeight
         productListView.setErrorViewStyle(bgColor: UIColor(patternImage: UIImage(named: "pattern_white")!),
-                            borderColor: StyleHelper.lineColor, containerColor: StyleHelper.emptyViewContentBgColor)
+                            borderColor: UIColor.lineGray, containerColor: UIColor.white)
         productListView.scrollDelegate = self
         productListView.headerDelegate = self
         productListView.cellsDelegate = viewModel
@@ -221,6 +221,7 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     }
 
     func vmOpenSell(type: String) {
+        // TODO: Open with sell coordinator
         guard let tabBarController = self.tabBarController as? TabBarController else { return }
         tabBarController.openSell(.BannerCell(designType: type), forceCamera: true)
     }
@@ -341,7 +342,7 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     
     private func setupInfoBubble() {
         infoBubbleLabel.text = viewModel.infoBubbleDefaultText
-        StyleHelper.applyInfoBubbleShadow(infoBubbleShadow.layer)
+        infoBubbleShadow.applyInfoBubbleShadow()
 
         showInfoBubble(false, alpha: 0.0)
     }
@@ -438,8 +439,8 @@ extension MainProductsViewController: UITableViewDelegate, UITableViewDataSource
         let trendingTitleLabel = UILabel()
         trendingTitleLabel.translatesAutoresizingMaskIntoConstraints = false
         trendingTitleLabel.textAlignment = .Center
-        trendingTitleLabel.font = StyleHelper.trendingSearchesTitleFont
-        trendingTitleLabel.textColor = StyleHelper.trendingSearchesTitleColor
+        trendingTitleLabel.font = UIFont.mediumHeadlineFont
+        trendingTitleLabel.textColor = UIColor.darkGrayText
         trendingTitleLabel.text = LGLocalizedString.trendingSearchesTitle
         container.addSubview(trendingTitleLabel)
         var views = [String: AnyObject]()

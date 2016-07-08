@@ -226,9 +226,9 @@ UITextFieldDelegate {
         retryButton.setTitle(LGLocalizedString.commonErrorListRetryButton, forState: UIControlState.Normal)
 
         //Layers
-        retryButton.setPrimaryStyle()
-        doneButton.setPrimaryStyle()
-        priceFieldContainer.layer.cornerRadius = StyleHelper.defaultCornerRadius
+        retryButton.setStyle(.Primary(fontSize: .Medium))
+        doneButton.setStyle(.Primary(fontSize: .Medium))
+        priceFieldContainer.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
         priceFieldContainer.layer.borderColor = UIColor.whiteColor().CGColor
         priceFieldContainer.layer.borderWidth = 1
 
@@ -369,8 +369,8 @@ extension PostProductViewController: LGViewPagerDataSource, LGViewPagerDelegate,
     func setupViewPager() {
         viewPager.dataSource = self
         viewPager.scrollDelegate = self
-        viewPager.indicatorSelectedColor = StyleHelper.primaryColor
-        viewPager.tabsBackgroundColor = StyleHelper.postProductTabColor
+        viewPager.indicatorSelectedColor = UIColor.primaryColor
+        viewPager.tabsBackgroundColor = UIColor.black
         viewPager.tabsSeparatorColor = UIColor.clearColor()
         viewPager.translatesAutoresizingMaskIntoConstraints = false
         cameraGalleryContainer.insertSubview(viewPager, atIndex: 0)
@@ -435,8 +435,8 @@ extension PostProductViewController: LGViewPagerDataSource, LGViewPagerDelegate,
 
     private func tabTextAttributes(selected: Bool)-> [String : AnyObject] {
         var titleAttributes = [String : AnyObject]()
-        titleAttributes[NSForegroundColorAttributeName] = selected ? StyleHelper.primaryColor : UIColor.whiteColor()
-        titleAttributes[NSFontAttributeName] = StyleHelper.postProductTabFont
+        titleAttributes[NSForegroundColorAttributeName] = selected ? UIColor.primaryColor : UIColor.white
+        titleAttributes[NSFontAttributeName] = selected ? UIFont.activeTabFont : UIFont.inactiveTabFont
         return titleAttributes
     }
 }

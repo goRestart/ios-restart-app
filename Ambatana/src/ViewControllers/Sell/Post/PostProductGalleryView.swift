@@ -142,9 +142,8 @@ class PostProductGalleryView: BaseView, LGViewPagerPage {
         contentView.backgroundColor = UIColor.blackColor()
         addSubview(contentView)
 
-        postButton.setStyle(.Primary(fontSize: .Medium))
-        postButton.titleLabel?.font = StyleHelper.smallButtonFont
-
+        postButton.setStyle(.Primary(fontSize: .Small))
+        
         let cellNib = UINib(nibName: GalleryImageCell.reusableID, bundle: nil)
         collectionView.registerNib(cellNib, forCellWithReuseIdentifier: GalleryImageCell.reusableID)
         collectionView.alwaysBounceVertical = true

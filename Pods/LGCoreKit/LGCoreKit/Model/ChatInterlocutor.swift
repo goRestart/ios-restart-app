@@ -13,4 +13,5 @@ public protocol ChatInterlocutor: BaseModel {
     var isBanned: Bool { get }
     var isMuted: Bool { get }
     var hasMutedYou: Bool { get }
+    var status: UserStatus { get }
 }
