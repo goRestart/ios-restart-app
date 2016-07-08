@@ -74,6 +74,7 @@ class OldChatViewController: SLKTextViewController {
         setupDirectAnswers()
         setupStickersView()
         initStickersWindow()
+        setupSendingRx()
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(menuControllerWillShow(_:)),
                                                          name: UIMenuControllerWillShowMenuNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(menuControllerWillHide(_:)),
@@ -702,5 +703,19 @@ extension OldChatViewController {
 extension OldChatViewController: ChatStickersViewDelegate {
     func stickersViewDidSelectSticker(sticker: Sticker) {
         viewModel.sendSticker(sticker)
+    }
+}
+
+
+// MARK: Sending blocks
+
+extension OldChatViewController {
+    func setupSendingRx() {
+        let sendActionsEnabled = viewModel.isSendingMessage.asObservable().map { !$0 }
+        sendActionsEnabled.bindTo(rightButton.rx_enabled).addDisposableTo(disposeBag)
+        sendActionsEnabled.bindNext { [weak self] enabled in
+            self?.stickersView.enabled = enabled
+            self?.directAnswersPresenter.enabled = enabled
+        }.addDisposableTo(disposeBag)
     }
 }

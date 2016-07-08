@@ -160,6 +160,8 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         }
     }
 
+    let isSendingMessage = Variable<Bool>(false)
+
     var userBlockedDisclaimerMessage: ChatViewMessage {
         return chatViewMessageAdapter.createUserBlockedDisclaimerMessage(
             isBuyer: isBuyer, userName: otherUser?.name,
@@ -223,7 +225,6 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     private var loadedMessages: [ChatViewMessage]
     private var buyer: User?
     private var otherUser: User?
-    private var isSendingMessage = false
     private var afterRetrieveMessagesBlock: (() -> Void)?
     private var autoKeyboardEnabled = true
 
@@ -479,14 +480,14 @@ public class OldChatViewModel: BaseViewModel, Paginable {
             return
         }
 
-        if isSendingMessage { return }
+        if isSendingMessage.value { return }
         let message = text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
         guard message.characters.count > 0 else { return }
         guard let toUser = otherUser else { return }
         if !isQuickAnswer && type != .Sticker {
             delegate?.vmClearText()
         }
-        isSendingMessage = true
+        isSendingMessage.value = true
 
         chatRepository.sendMessage(type, message: message, product: product, recipient: toUser) { [weak self] result in
             guard let strongSelf = self else { return }
@@ -509,7 +510,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
                     strongSelf.delegate?.vmDidFailSendingMessage()
                 }
             }
-            strongSelf.isSendingMessage = false
+            strongSelf.isSendingMessage.value = false
         }
     }
 
