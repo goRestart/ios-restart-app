@@ -192,7 +192,7 @@ class OldChatViewController: SLKTextViewController {
     // MARK: > UI
     
     private func setupUI() {
-        view.backgroundColor = StyleHelper.chatTableViewBgColor
+        view.backgroundColor = UIColor.grayBackground
         
         setupNavigationBar()
         
@@ -200,7 +200,7 @@ class OldChatViewController: SLKTextViewController {
         tableView.estimatedRowHeight = 120
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.separatorStyle = .None
-        tableView.backgroundColor = StyleHelper.chatTableViewBgColor
+        tableView.backgroundColor = UIColor.grayBackground
         tableView.allowsSelection = false
         textView.placeholder = LGLocalizedString.chatMessageFieldHint
         textView.backgroundColor = UIColor.whiteColor()
@@ -208,10 +208,10 @@ class OldChatViewController: SLKTextViewController {
         textInputbar.clipsToBounds = true
         textInputbar.translucent = false
         textInputbar.rightButton.setTitle(LGLocalizedString.chatSendButton, forState: .Normal)
-        rightButton.tintColor = StyleHelper.chatSendButtonTintColor
-        rightButton.titleLabel?.font = StyleHelper.chatSendButtonFont
+        rightButton.tintColor = UIColor.primaryColor
+        rightButton.titleLabel?.font = UIFont.smallButtonFont
         leftButton.setImage(UIImage(named: "ic_stickers"), forState: .Normal)
-        leftButton.tintColor = StyleHelper.chatLeftButtonColor
+        leftButton.tintColor = UIColor.grayDark
 
         addSubviews()
         setupFrames()
@@ -223,7 +223,7 @@ class OldChatViewController: SLKTextViewController {
         // chat info view setup
         keyboardPanningEnabled = false
         
-        if let patternBackground = StyleHelper.emptyViewBackgroundColor {
+        if let patternBackground = UIColor.emptyViewBackgroundColor {
             tableView.backgroundColor = UIColor.clearColor()
             view.backgroundColor = patternBackground
         }

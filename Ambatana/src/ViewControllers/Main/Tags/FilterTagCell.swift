@@ -45,7 +45,7 @@ class FilterTagCell: UICollectionViewCell {
         let constraintRect = CGSize(width: CGFloat.max, height: FilterTagCell.cellHeigh)
         let boundingBox = text.boundingRectWithSize(constraintRect,
             options: NSStringDrawingOptions.UsesLineFragmentOrigin,
-            attributes: [NSFontAttributeName: StyleHelper.filterTagFont], context: nil)
+            attributes: [NSFontAttributeName: UIFont.smallBodyFont], context: nil)
         return CGSize(width: boundingBox.width+fixedWidthSpace+5, height: FilterTagCell.cellHeigh)
     }
 
@@ -92,8 +92,8 @@ class FilterTagCell: UICollectionViewCell {
     // MARK: - Private methods
     
     private func setupUI() {
-        self.contentView.layer.borderColor = StyleHelper.lineColor.CGColor
-        self.contentView.layer.borderWidth = StyleHelper.onePixelSize
+        self.contentView.layer.borderColor = UIColor.lineGray.CGColor
+        self.contentView.layer.borderWidth = LGUIKitConstants.onePixelSize
         self.contentView.layer.cornerRadius = 4.0
         self.contentView.layer.backgroundColor = UIColor.whiteColor().CGColor
     }

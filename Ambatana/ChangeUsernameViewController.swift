@@ -49,8 +49,8 @@ class ChangeUsernameViewController: BaseViewController, UITextFieldDelegate, Cha
             line.removeFromSuperlayer()
         }
         lines = []
-        lines.append(usernameTextfield.addTopBorderWithWidth(1, color: StyleHelper.lineColor))
-        lines.append(usernameTextfield.addBottomBorderWithWidth(1, color: StyleHelper.lineColor))
+        lines.append(usernameTextfield.addTopBorderWithWidth(1, color: UIColor.lineGray))
+        lines.append(usernameTextfield.addBottomBorderWithWidth(1, color: UIColor.lineGray))
         
     }
     
@@ -149,7 +149,6 @@ class ChangeUsernameViewController: BaseViewController, UITextFieldDelegate, Cha
     
     func viewModel(viewModel: ChangeUsernameViewModel, updateSaveButtonEnabledState enabled: Bool) {
         saveButton.enabled = enabled
-        saveButton.alpha = enabled ? 1 : StyleHelper.disabledButtonAlpha
     }
 
     
@@ -164,12 +163,10 @@ class ChangeUsernameViewController: BaseViewController, UITextFieldDelegate, Cha
         
         saveButton.setTitle(LGLocalizedString.changeUsernameSaveButton, forState: .Normal)
         saveButton.setBackgroundImage(saveButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)), forState: .Normal)
-        saveButton.setBackgroundImage(StyleHelper.disabledButtonBackgroundColor.imageWithSize(CGSize(width: 1, height: 1)), forState: .Disabled)
-        saveButton.setBackgroundImage(StyleHelper.highlightedRedButtonColor.imageWithSize(CGSize(width: 1, height: 1)), forState: .Highlighted)
+        saveButton.setBackgroundImage(UIColor.primaryColorDisabled.imageWithSize(CGSize(width: 1, height: 1)), forState: .Disabled)
+        saveButton.setBackgroundImage(UIColor.primaryColorHighlighted.imageWithSize(CGSize(width: 1, height: 1)), forState: .Highlighted)
 
         saveButton.layer.cornerRadius = 4
         saveButton.enabled = false
-        saveButton.alpha = StyleHelper.disabledButtonAlpha
-
     }
 }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -65,7 +65,7 @@
                                 <action selector="connectFBButtonPressed:" destination="-1" eventType="touchUpInside" id="amb-NH-kfC"/>
                             </connections>
                         </button>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo_facebook" translatesAutoresizingMaskIntoConstraints="NO" id="vo4-5j-pWi" userLabel="FB Logo Image View">
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_facebook_rounded" translatesAutoresizingMaskIntoConstraints="NO" id="vo4-5j-pWi" userLabel="FB Logo Image View">
                             <rect key="frame" x="24" y="121" width="28" height="28"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="28" id="C5u-zX-DcF"/>
@@ -88,7 +88,7 @@
                                 <action selector="connectGoogleButtonPressed:" destination="-1" eventType="touchUpInside" id="71j-pG-Yz4"/>
                             </connections>
                         </button>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_google" translatesAutoresizingMaskIntoConstraints="NO" id="Xuk-sg-2kr" userLabel="Google logo image view">
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_google_rounded" translatesAutoresizingMaskIntoConstraints="NO" id="Xuk-sg-2kr" userLabel="Google logo image view">
                             <rect key="frame" x="24" y="181" width="28" height="28"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="28" id="9dV-Xh-ZDY"/>
@@ -192,7 +192,7 @@
     </objects>
     <resources>
         <image name="ic_close_dark" width="18" height="18"/>
-        <image name="ic_google" width="28" height="28"/>
-        <image name="logo_facebook" width="28" height="28"/>
+        <image name="ic_facebook_rounded" width="30" height="30"/>
+        <image name="ic_google_rounded" width="30" height="30"/>
     </resources>
 </document>

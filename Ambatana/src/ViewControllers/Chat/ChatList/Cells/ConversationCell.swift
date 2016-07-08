@@ -66,7 +66,7 @@ class ConversationCell: UITableViewCell, ReusableCell {
             line.removeFromSuperlayer()
         }
         lines = []
-        lines.append(contentView.addBottomBorderWithWidth(1, color: StyleHelper.lineColor))
+        lines.append(contentView.addBottomBorderWithWidth(1, color: UIColor.lineGray))
     }
 
 
@@ -111,13 +111,13 @@ class ConversationCell: UITableViewCell, ReusableCell {
         userLabel.text = data.userName
 
         if data.unreadCount > 0 {
-            timeLabel.font = StyleHelper.conversationTimeUnreadFont
-            productLabel.font = StyleHelper.conversationProductUnreadFont
-            userLabel.font = StyleHelper.conversationUserNameUnreadFont
+            timeLabel.font = UIFont.conversationTimeUnreadFont
+            productLabel.font = UIFont.conversationProductUnreadFont
+            userLabel.font = UIFont.conversationUserNameUnreadFont
         } else {
-            timeLabel.font = StyleHelper.conversationTimeFont
-            productLabel.font = StyleHelper.conversationProductFont
-            userLabel.font = StyleHelper.conversationUserNameFont
+            timeLabel.font = UIFont.conversationTimeFont
+            productLabel.font = UIFont.conversationProductFont
+            userLabel.font = UIFont.conversationUserNameFont
         }
 
         switch data.status {
@@ -151,17 +151,17 @@ class ConversationCell: UITableViewCell, ReusableCell {
     // MARK: - Private methods
 
     private func setupUI() {
-        thumbnailImageView.layer.cornerRadius = StyleHelper.defaultCornerRadius
+        thumbnailImageView.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
         avatarImageView.layer.cornerRadius = avatarImageView.width/2
         avatarImageView.clipsToBounds = true
-        productLabel.font = StyleHelper.conversationProductFont
-        userLabel.font = StyleHelper.conversationUserNameFont
-        timeLabel.font = StyleHelper.conversationTimeFont
+        productLabel.font = UIFont.conversationProductFont
+        userLabel.font = UIFont.conversationUserNameFont
+        timeLabel.font = UIFont.conversationTimeFont
 
-        productLabel.textColor = StyleHelper.conversationProductColor
-        userLabel.textColor = StyleHelper.conversationUserNameColor
-        timeLabel.textColor = StyleHelper.conversationTimeColor
-        thumbnailImageView.backgroundColor = StyleHelper.conversationCellBgColor
+        productLabel.textColor = UIColor.darkGrayText
+        userLabel.textColor = UIColor.blackText
+        timeLabel.textColor = UIColor.darkGrayText
+        thumbnailImageView.backgroundColor = UIColor.placeholderBackgroundColor()
         badgeView.layer.cornerRadius = badgeView.height/2
     }
 
@@ -171,9 +171,9 @@ class ConversationCell: UITableViewCell, ReusableCell {
         userLabel.text = ""
         timeLabel.text = ""
         badgeView.hidden = true
-        badgeView.backgroundColor = StyleHelper.badgeBgColor
+        badgeView.backgroundColor = UIColor.primaryColor
         badgeLabel.text = ""
-        badgeLabel.font = StyleHelper.conversationBadgeFont
+        badgeLabel.font = UIFont.conversationBadgeFont
     }
 
     override func setEditing(editing: Bool, animated: Bool) {
@@ -184,6 +184,6 @@ class ConversationCell: UITableViewCell, ReusableCell {
             selectedBackgroundView = nil
         }
         super.setEditing(editing, animated: animated)
-        tintColor = StyleHelper.primaryColor
+        tintColor = UIColor.primaryColor
     }
 }

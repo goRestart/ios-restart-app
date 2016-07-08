@@ -277,26 +277,26 @@ extension UserViewHeader {
 
     private func setupInfoView() {
         userRelationView.hidden = true
-        userRelationLabel.font = StyleHelper.userRelationLabelFont
-        userRelationLabel.textColor = StyleHelper.userRelationLabelColor
+        userRelationLabel.font = UIFont.smallBodyFont
+        userRelationLabel.textColor = UIColor.primaryColor
     }
 
     private func setupVerifiedViews() {
         verifiedMyUserView.hidden = true
         verifiedMyUserTitle.text = LGLocalizedString.profileVerifiedAccountsMyUser
-        verifiedMyUserTitle.textColor = StyleHelper.userAccountsVerifiedTitleColor
-        verifiedMyUserTitle.font = StyleHelper.userAccountsVerifiedTitleFont
+        verifiedMyUserTitle.textColor = UIColor.grayDark
+        verifiedMyUserTitle.font = UIFont.mediumBodyFontLight
 
         verifiedOtherUserView.hidden = true
         verifiedOtherUserTitle.text = nil
-        verifiedOtherUserTitle.textColor = StyleHelper.userAccountsVerifiedTitleColor
-        verifiedOtherUserTitle.font = StyleHelper.userAccountsVerifiedTitleFont
+        verifiedOtherUserTitle.textColor = UIColor.grayDark
+        verifiedOtherUserTitle.font = UIFont.mediumBodyFontLight
     }
 
     private func setupButtons() {
         var attributes = [String : AnyObject]()
-        attributes[NSForegroundColorAttributeName] = StyleHelper.userTabNonSelectedColor
-        attributes[NSFontAttributeName] = StyleHelper.userTabNonSelectedFont
+        attributes[NSForegroundColorAttributeName] = UIColor.black
+        attributes[NSFontAttributeName] = UIFont.inactiveTabFont
 
         let sellingTitle = NSAttributedString(string: LGLocalizedString.profileSellingProductsTab.uppercase,
             attributes: attributes)
@@ -337,7 +337,7 @@ extension UserViewHeader {
     private func setupButtonsSelectedState() {
         var attributes = [String : AnyObject]()
         attributes[NSForegroundColorAttributeName] = selectedColor
-        attributes[NSFontAttributeName] = StyleHelper.userTabSelectedFont
+        attributes[NSFontAttributeName] = UIFont.activeTabFont
 
         let sellingTitle = NSAttributedString(string: LGLocalizedString.profileSellingProductsTab.uppercase,
             attributes: attributes)
