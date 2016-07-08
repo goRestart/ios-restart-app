@@ -34,8 +34,8 @@ class AppRatingBannerCell: UICollectionReusableView {
     }
 
     func setupUI() {
-        backgroundImage.backgroundColor = StyleHelper.ratingBannerBackgroundColor
-        backgroundImage.layer.cornerRadius = StyleHelper.defaultCornerRadius
+        backgroundImage.backgroundColor = UIColor.ratingBannerBackgroundColor
+        backgroundImage.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
         textLabel.text = LGLocalizedString.ratingViewTitleLabel
     }
 

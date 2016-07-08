@@ -54,8 +54,8 @@ class CreateCommercialViewController: BaseViewController {
         automaticallyAdjustsScrollViewInsets = false
         
         titleLabel.text = LGLocalizedString.commercializerSelectFromSettingsTitle
-        titleLabel.font = StyleHelper.commercialFromSettingsTitleFont
-        titleLabel.textColor = StyleHelper.commercialFromSettingsTitleColor
+        titleLabel.font = UIFont.mediumBodyFont
+        titleLabel.textColor = UIColor.blackText
 
         setNavBarTitle(LGLocalizedString.commercializerIntroTitleLabel)
         

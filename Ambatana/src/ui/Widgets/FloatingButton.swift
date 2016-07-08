@@ -62,7 +62,7 @@ public class FloatingButton: UIButton {
     // MARK: - Private methods
     
     private func setupUIWithTitle(title: String?, icon: UIImage?) {
-        innerButton.setPrimaryStyle()
+        innerButton.setStyle(.Primary(fontSize: .Medium))
         innerButton.layer.cornerRadius = CGRectGetHeight(innerButton.frame) / 2
 
         setTitle(title)

@@ -142,11 +142,9 @@ class ProductPostedViewController: BaseViewController, SellProductViewController
     private func setupView() {
         setStatusBarHidden(true)
         mainButton.setStyle(.Primary(fontSize: .Big))
-
         editOrLabel.text = LGLocalizedString.productPostConfirmationAnother.uppercase
         editButton.setTitle(LGLocalizedString.productPostConfirmationEdit, forState: UIControlState.Normal)
-
-        loadingIndicator.color = StyleHelper.primaryColor
+        loadingIndicator.color = UIColor.primaryColor
 
         setupIncentiviseView()
     }
@@ -187,7 +185,7 @@ class ProductPostedViewController: BaseViewController, SellProductViewController
                 self?.editContainerHeight.constant = ProductPostedViewController.contentContainerShownHeight
                 self?.incentiveContainer.hidden = false
             }
-            self?.mainButtonHeight.constant = StyleHelper.enabledButtonHeight
+            self?.mainButtonHeight.constant = LGUIKitConstants.enabledButtonHeight
             UIView.animateWithDuration(0.2,
                 animations: { [weak self] in
                     self?.mainTextLabel.text = self?.viewModel.mainText
@@ -254,34 +252,32 @@ extension ProductPostedViewController {
         let secondItem = itemPack[1]
         let thirdItem = itemPack[2]
 
-        // TODO: update colors from generic to the one corresponding to texts
         firstImage.image = firstItem.image
         firstNameLabel.text = firstItem.name
-        firstNameLabel.textColor = UIColor.black
+        firstNameLabel.textColor = UIColor.blackText
         firstCountLabel.text = firstItem.searchCount
-        firstCountLabel.textColor = UIColor.grayDark
+        firstCountLabel.textColor = UIColor.darkGrayText
 
         secondImage.image = secondItem.image
         secondNameLabel.text = secondItem.name
-        secondNameLabel.textColor = UIColor.black
+        secondNameLabel.textColor = UIColor.blackText
         secondCountLabel.text = secondItem.searchCount
-        secondCountLabel.textColor = UIColor.grayDark
+        secondCountLabel.textColor = UIColor.darkGrayText
 
         thirdImage.image = thirdItem.image
         thirdNameLabel.text = thirdItem.name
-        thirdNameLabel.textColor = UIColor.black
+        thirdNameLabel.textColor = UIColor.blackText
         thirdCountLabel.text = thirdItem.searchCount
-        thirdCountLabel.textColor = UIColor.grayDark
+        thirdCountLabel.textColor = UIColor.darkGrayText
 
         incentiveLabel.attributedText = incentiveText
     }
 
     var incentiveText: NSAttributedString {
-        // TODO: update fonts and colors from generic to the one corresponding to texts
-        let gotAnyTextAttributes: [String : AnyObject] = [NSForegroundColorAttributeName : UIColor.grayDark,
+        let gotAnyTextAttributes: [String : AnyObject] = [NSForegroundColorAttributeName : UIColor.darkGrayText,
                                                        NSFontAttributeName : UIFont.systemBoldFont(size: 15)]
-        let lookingForTextAttributes: [String : AnyObject] = [ NSForegroundColorAttributeName : UIColor.grayDark,
-                                                         NSFontAttributeName : UIFont.systemRegularFont(size: 15)]
+        let lookingForTextAttributes: [String : AnyObject] = [ NSForegroundColorAttributeName : UIColor.darkGrayText,
+                                                         NSFontAttributeName : UIFont.mediumBodyFont]
         let plainText = LGLocalizedString.productPostIncentiveLookingFor(LGLocalizedString.productPostIncentiveGotAny)
         let resultText = NSMutableAttributedString(string: plainText, attributes: lookingForTextAttributes)
         let boldRange = NSString(string: plainText).rangeOfString(LGLocalizedString.productPostIncentiveGotAny,

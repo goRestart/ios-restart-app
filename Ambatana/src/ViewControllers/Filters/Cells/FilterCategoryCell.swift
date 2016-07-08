@@ -32,8 +32,8 @@ class FilterCategoryCell: UICollectionViewCell {
     // MARK: - Private methods
     
     private func setupUI() {
-        separatorHeight.constant = StyleHelper.onePixelSize
-        separatorWidth.constant = StyleHelper.onePixelSize
+        separatorHeight.constant = LGUIKitConstants.onePixelSize
+        separatorWidth.constant = LGUIKitConstants.onePixelSize
     }
     
     // Resets the UI to the initial state

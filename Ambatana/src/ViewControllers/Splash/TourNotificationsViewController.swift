@@ -128,28 +128,28 @@ final class TourNotificationsViewController: BaseViewController {
     
     func setupUI() {
         notifyButton.tintColor = UIColor.whiteColor()
-        notifyButton.titleLabel?.font = StyleHelper.tourButtonFont
-        notifyButton.setPrimaryStyle()
-        notifyButton.layer.cornerRadius = StyleHelper.defaultCornerRadius
+        notifyButton.titleLabel?.font = UIFont.tourButtonFont
+        notifyButton.setStyle(.Primary(fontSize: .Medium))
+        notifyButton.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
         
         noButton.backgroundColor = UIColor.clearColor()
-        noButton.layer.cornerRadius = StyleHelper.defaultCornerRadius
+        noButton.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
         noButton.layer.borderWidth = 1
         noButton.layer.borderColor = UIColor.whiteColor().CGColor
         noButton.tintColor = UIColor.whiteColor()
-        noButton.titleLabel?.font = StyleHelper.tourButtonFont
+        noButton.titleLabel?.font = UIFont.tourButtonFont
         
         switch DeviceFamily.current {
         case .iPhone4:
-            titleLabel.font = StyleHelper.tourNotificationsTitleMiniFont
-            subtitleLabel.font = StyleHelper.tourNotificationsSubtitleMiniFont
+            titleLabel.font = UIFont.tourNotificationsTitleMiniFont
+            subtitleLabel.font = UIFont.tourNotificationsSubtitleMiniFont
         case .iPhone5:
-            titleLabel.font = StyleHelper.tourNotificationsTitleMiniFont
-            subtitleLabel.font = StyleHelper.tourNotificationsSubtitleMiniFont
+            titleLabel.font = UIFont.tourNotificationsTitleMiniFont
+            subtitleLabel.font = UIFont.tourNotificationsSubtitleMiniFont
             iphoneRightHeightConstraint.constant = 165
         case .iPhone6, .iPhone6Plus, .unknown:
-            titleLabel.font = StyleHelper.tourNotificationsTitleFont
-            subtitleLabel.font = StyleHelper.tourNotificationsSubtitleFont
+            titleLabel.font = UIFont.tourNotificationsTitleFont
+            subtitleLabel.font = UIFont.tourNotificationsSubtitleFont
         }
     }
 }
