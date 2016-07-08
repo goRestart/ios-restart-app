@@ -139,15 +139,15 @@ class PostProductViewModel: BaseViewModel {
                                                    price: priceText)
         if Core.sessionManager.loggedIn {
             guard let product = buildProduct(priceText: priceText), image = uploadedImage else { return }
-            navigator?.closeAndPostInBackground(product, images: [image], showConfirmation: true,
-                                                trackingInfo: trackingInfo)
+            navigator?.closePostProductAndPostInBackground(product, images: [image], showConfirmation: true,
+                                                           trackingInfo: trackingInfo)
         } else if let image = pendingToUploadImage {
             delegate?.postProductviewModel(self, shouldAskLoginWithCompletion: { [weak self] in
                 guard let product = self?.buildProduct(priceText: priceText) else { return }
-                self?.navigator?.closeAndPostLater(product, image: image, trackingInfo: trackingInfo)
+                self?.navigator?.closePostProductAndPostLater(product, image: image, trackingInfo: trackingInfo)
             })
         } else {
-            navigator?.cancel()
+            navigator?.cancelPostProduct()
         }
     }
 
@@ -156,12 +156,12 @@ class PostProductViewModel: BaseViewModel {
             openPostAbandonAlertNotLoggedIn()
         } else {
             guard let product = buildProduct(priceText: nil), image = uploadedImage else {
-                navigator?.cancel()
+                navigator?.cancelPostProduct()
                 return
             }
             let trackingInfo = PostProductTrackingInfo(buttonName: .Close, imageSource: uploadedImageSource, price: nil)
-            navigator?.closeAndPostInBackground(product, images: [image], showConfirmation: false,
-                                                trackingInfo: trackingInfo)
+            navigator?.closePostProductAndPostInBackground(product, images: [image], showConfirmation: false,
+                                                           trackingInfo: trackingInfo)
         }
     }
 }
@@ -173,14 +173,12 @@ private extension PostProductViewModel {
     func openPostAbandonAlertNotLoggedIn() {
         let title = LGLocalizedString.productPostCloseAlertTitle
         let message = LGLocalizedString.productPostCloseAlertDescription
-        let cancelAction = UIAction(interface: .Text(LGLocalizedString.productPostCloseAlertCloseButton),
-                                    action: { [weak self] in
-                                        self?.navigator?.cancel()
-            })
-        let postAction = UIAction(interface: .Text(LGLocalizedString.productPostCloseAlertOkButton),
-                                  action: { [weak self] in
-                                    self?.doneButtonPressed(priceText: nil)
-            })
+        let cancelAction = UIAction(interface: .Text(LGLocalizedString.productPostCloseAlertCloseButton)) { [weak self] in
+            self?.navigator?.cancelPostProduct()
+        }
+        let postAction = UIAction(interface: .Text(LGLocalizedString.productPostCloseAlertOkButton)) { [weak self] in
+            self?.doneButtonPressed(priceText: nil)
+        }
         delegate?.vmShowAlert(title, message: message, actions: [cancelAction, postAction])
     }
 

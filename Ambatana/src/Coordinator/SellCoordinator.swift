@@ -82,17 +82,11 @@ private extension SellCoordinator {
     }
 }
 
-// MARK: - SellNavigator
-
-extension SellCoordinator: SellNavigator {
-
-}
-
 
 // MARK: - PostProductNavigator
 
 extension SellCoordinator: PostProductNavigator {
-    func cancel() {
+    func cancelPostProduct() {
         close(PostProductViewController.self, animated: true) { [weak self] in
             guard let strongSelf = self else { return }
             strongSelf.delegate?.sellCoordinatorDidCancel(strongSelf)
@@ -100,8 +94,8 @@ extension SellCoordinator: PostProductNavigator {
         }
     }
 
-    func closeAndPostInBackground(product: Product, images: [File], showConfirmation: Bool,
-                                  trackingInfo: PostProductTrackingInfo) {
+    func closePostProductAndPostInBackground(product: Product, images: [File], showConfirmation: Bool,
+                                             trackingInfo: PostProductTrackingInfo) {
 
         close(PostProductViewController.self, animated: true) { [weak self] in
             self?.productRepository.create(product, images: images) { result in
@@ -133,7 +127,7 @@ extension SellCoordinator: PostProductNavigator {
         }
     }
 
-    func closeAndPostLater(product: Product, image: UIImage, trackingInfo: PostProductTrackingInfo) {
+    func closePostProductAndPostLater(product: Product, image: UIImage, trackingInfo: PostProductTrackingInfo) {
         guard let parentVC = parentViewController else { return }
 
         close(PostProductViewController.self, animated: true) { [weak self] in

@@ -10,10 +10,10 @@ import LGCoreKit
 import Foundation
 
 protocol PostProductNavigator: class {
-    func cancel()
-    func closeAndPostInBackground(product: Product, images: [File], showConfirmation: Bool,
-                                  trackingInfo: PostProductTrackingInfo)
-    func closeAndPostLater(product: Product, image: UIImage, trackingInfo: PostProductTrackingInfo)
+    func cancelPostProduct()
+    func closePostProductAndPostInBackground(product: Product, images: [File], showConfirmation: Bool,
+                                             trackingInfo: PostProductTrackingInfo)
+    func closePostProductAndPostLater(product: Product, image: UIImage, trackingInfo: PostProductTrackingInfo)
 }
 
 protocol ProductPostedNavigator: class {
