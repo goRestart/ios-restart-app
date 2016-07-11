@@ -36,6 +36,7 @@ extension Coordinator {
 extension Coordinator {
     func openCoordinator(coordinator coordinator: Coordinator, parent: UIViewController, animated: Bool,
                                      completion: (() -> Void)?) {
+        guard child == nil else { return }
         child = coordinator
         coordinator.open(parent: parent, animated: animated, completion: completion)
     }
