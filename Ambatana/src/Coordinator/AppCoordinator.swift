@@ -113,9 +113,9 @@ extension AppCoordinator: AppNavigator {
             strongSelf.delegate?.appNavigatorDidOpenApp()
 
             if let deepLink = strongSelf.deepLinksRouter.consumeInitialDeepLink() {
-                self?.openDeepLink(deepLink, initialDeepLink: true)
+                strongSelf.openDeepLink(deepLink, initialDeepLink: true)
             } else if strongSelf.shouldShowSellOnStartup {
-                self?.openSell(.AppStart)
+                strongSelf.openSell(.AppStart)
             }
         }
 
