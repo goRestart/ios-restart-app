@@ -52,7 +52,7 @@ class CommercialShareViewController: BaseViewController {
     // MARK: - Private methods
 
     private func setupUI() {
-        contentContainer.layer.cornerRadius = StyleHelper.defaultCornerRadius
+        contentContainer.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
         titleLabel.text = LGLocalizedString.commercializerDisplayShareAlert
         socialShareView.socialMessage = socialMessage
         socialShareView.delegate = self

@@ -96,34 +96,34 @@ final class TourLocationViewController: BaseViewController {
         distanceLabel.text = LGLocalizedString.locationPermissionsBubble
         
         yesButton.tintColor = UIColor.whiteColor()
-        yesButton.titleLabel?.font = StyleHelper.tourButtonFont
+        yesButton.titleLabel?.font = UIFont.tourButtonFont
         yesButton.setTitle(LGLocalizedString.locationPermissionsButton, forState: .Normal)
-        yesButton.setPrimaryStyle()
-        yesButton.layer.cornerRadius = StyleHelper.defaultCornerRadius
+        yesButton.setStyle(.Primary(fontSize: .Medium))
+        yesButton.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
         
         noButton.backgroundColor = UIColor.clearColor()
-        noButton.layer.cornerRadius = StyleHelper.defaultCornerRadius
+        noButton.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
         noButton.layer.borderWidth = 1
         noButton.layer.borderColor = UIColor.whiteColor().CGColor
         noButton.tintColor = UIColor.whiteColor()
-        noButton.titleLabel?.font = StyleHelper.tourButtonFont
+        noButton.titleLabel?.font = UIFont.tourButtonFont
         noButton.setTitle(LGLocalizedString.commonNo, forState: .Normal)
         
         labelContainer.layer.cornerRadius = labelContainer.height/2
-        distanceLabel.font = StyleHelper.tourLocationDistanceLabelFont
-        distanceLabel.textColor = StyleHelper.tourLocationDistanceLabelColor
+        distanceLabel.font = UIFont.tourLocationDistanceLabelFont
+        distanceLabel.textColor = UIColor.black
         
         switch DeviceFamily.current {
         case .iPhone4:
-            titleLabel.font = StyleHelper.tourNotificationsTitleMiniFont
-            subtitleLabel.font = StyleHelper.tourNotificationsSubtitleMiniFont
+            titleLabel.font = UIFont.tourNotificationsTitleMiniFont
+            subtitleLabel.font = UIFont.tourNotificationsSubtitleMiniFont
         case .iPhone5:
-            titleLabel.font = StyleHelper.tourNotificationsTitleMiniFont
-            subtitleLabel.font = StyleHelper.tourNotificationsSubtitleMiniFont
+            titleLabel.font = UIFont.tourNotificationsTitleMiniFont
+            subtitleLabel.font = UIFont.tourNotificationsSubtitleMiniFont
             iphoneRightHeightConstraint.constant = 165
         case .iPhone6, .iPhone6Plus, .unknown:
-            titleLabel.font = StyleHelper.tourNotificationsTitleFont
-            subtitleLabel.font = StyleHelper.tourNotificationsSubtitleFont
+            titleLabel.font = UIFont.tourNotificationsTitleFont
+            subtitleLabel.font = UIFont.tourNotificationsSubtitleFont
         }
     }
 }

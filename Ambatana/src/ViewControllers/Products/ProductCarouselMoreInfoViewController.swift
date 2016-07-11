@@ -109,7 +109,7 @@ extension ProductCarouselMoreInfoViewController: MKMapViewDelegate {
         mapView.addGestureRecognizer(tap)
         
         overlayMap.frame = view.convertRect(mapView.frame, fromView: scrollViewContent)
-        overlayMap.layer.cornerRadius = StyleHelper.productMapCornerRadius
+        overlayMap.layer.cornerRadius = LGUIKitConstants.mapCornerRadius
         overlayMap.clipsToBounds = true
         overlayMap.region = mapView.region
 
@@ -187,33 +187,33 @@ extension ProductCarouselMoreInfoViewController: UIScrollViewDelegate {
 extension ProductCarouselMoreInfoViewController {
     private func setupUI() {
         titleLabel.textColor = UIColor.whiteColor()
-        titleLabel.font = StyleHelper.productTitleFont
+        titleLabel.font = UIFont.productTitleFont
         
         priceLabel.textColor = UIColor.whiteColor()
-        priceLabel.font = StyleHelper.productPriceFont
+        priceLabel.font = UIFont.productPriceFont
         
         autoTitleLabel.textColor = UIColor.whiteColor()
-        autoTitleLabel.font = StyleHelper.productTitleDisclaimersFont
+        autoTitleLabel.font = UIFont.productTitleDisclaimersFont
         autoTitleLabel.alpha = 0.5
         
         transTitleLabel.textColor = UIColor.whiteColor()
-        transTitleLabel.font = StyleHelper.productTitleDisclaimersFont
+        transTitleLabel.font = UIFont.productTitleDisclaimersFont
         transTitleLabel.alpha = 0.5
         
         addressLabel.textColor = UIColor.whiteColor()
-        addressLabel.font = StyleHelper.productAddresFont
+        addressLabel.font = UIFont.productAddresFont
         
         distanceLabel.textColor = UIColor.whiteColor()
-        distanceLabel.font = StyleHelper.productDistanceFont
+        distanceLabel.font = UIFont.productDistanceFont
         
-        mapView.layer.cornerRadius = StyleHelper.productMapCornerRadius
+        mapView.layer.cornerRadius = LGUIKitConstants.mapCornerRadius
         mapView.clipsToBounds = true
         
         socialShareTitleLabel.textColor = UIColor.whiteColor()
-        socialShareTitleLabel.font = StyleHelper.productSocialShareTitleFont
+        socialShareTitleLabel.font = UIFont.productSocialShareTitleFont
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(toggleDescriptionState))
-        descriptionLabel.textColor = StyleHelper.productMoreInfoDescriptionTextColor
+        descriptionLabel.textColor = UIColor.grayLight
         descriptionLabel.addGestureRecognizer(tapGesture)
         descriptionLabel.expandText = LGLocalizedString.commonExpand.uppercase
         descriptionLabel.collapseText = LGLocalizedString.commonCollapse.uppercase

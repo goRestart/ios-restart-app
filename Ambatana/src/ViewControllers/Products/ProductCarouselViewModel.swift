@@ -19,16 +19,21 @@ enum CarouselMovement {
 
 class ProductCarouselViewModel: BaseViewModel {
 
+    // Paginable
+    var nextPage: Int = 0
+    var isLastPage: Bool = false
+    var isLoading: Bool = false
+    
     private let previousImagesToPrefetch = 1
     private let nextImagesToPrefetch = 3
 
     var currentProductViewModel: ProductViewModel?
-    var startIndex: Int
+    var startIndex: Int = 0
     var initialThumbnail: UIImage?
     weak var delegate: ProductCarouselViewModelDelegate?
     
     var objectCount: Int {
-        return productListViewModel?.numberOfProducts ?? 0
+        return objects.count
     }
 
     var shouldShowOnboarding: Bool {
@@ -61,33 +66,43 @@ class ProductCarouselViewModel: BaseViewModel {
 
     private let singleProductList: Bool
     private var productListRequester: ProductListRequester?
-    private var productListViewModel: ProductListViewModel?
     private var productsViewModels: [String: ProductViewModel] = [:]
     private let myUserRepository: MyUserRepository
-
+    private var objects: [ProductCarouselCellModel] = []
 
     // MARK: - Init
-    convenience init(productListVM: ProductListViewModel, index: Int, thumbnailImage: UIImage?,
+    convenience init(productListVM: ProductListViewModel, initialProduct: Product?, thumbnailImage: UIImage?,
          singleProductList: Bool, productListRequester: ProductListRequester?) {
         let myUserRepository = Core.myUserRepository
-        self.init(myUserRepository: myUserRepository, productListVM: productListVM, index: index,
+        self.init(myUserRepository: myUserRepository, productListVM: productListVM, initialProduct: initialProduct,
                   thumbnailImage: thumbnailImage, singleProductList: singleProductList,
                   productListRequester: productListRequester)
     }
 
-    init(myUserRepository: MyUserRepository, productListVM: ProductListViewModel, index: Int, thumbnailImage: UIImage?,
+    init(myUserRepository: MyUserRepository, productListVM: ProductListViewModel, initialProduct: Product?, thumbnailImage: UIImage?,
          singleProductList: Bool, productListRequester: ProductListRequester?) {
         self.myUserRepository = myUserRepository
-        self.startIndex = index
-        self.productListViewModel = productListVM
+        self.objects = productListVM.objects.flatMap(ProductCarouselCellModel.adapter)
         self.initialThumbnail = thumbnailImage
         self.productListRequester = productListRequester
         self.singleProductList = singleProductList
         super.init()
-        self.productListViewModel?.dataDelegate = self
-        self.currentProductViewModel = viewModelAtIndex(index)
+        self.startIndex = indexForProduct(initialProduct) ?? 0
+        self.currentProductViewModel = viewModelAtIndex(startIndex)
     }
     
+    func indexForProduct(product: Product?) -> Int? {
+        guard let product = product else { return nil }
+        for i in 0..<objects.count {
+            switch objects[i] {
+            case .ProductCell(let data):
+                if data.objectId == product.objectId {
+                    return i
+                }
+            }
+        }
+        return nil
+    }
     
     // MARK: - Public Methods
     
@@ -105,7 +120,11 @@ class ProductCarouselViewModel: BaseViewModel {
 
     func productAtIndex(index: Int) -> Product? {
         guard 0..<objectCount ~= index else { return nil }
-        return productListViewModel?.products[index]
+        let item = objects[index]
+        switch item {
+        case .ProductCell(let product):
+            return product
+        }
     }
     
     func thumbnailAtIndex(index: Int) -> UIImage? {
@@ -121,10 +140,6 @@ class ProductCarouselViewModel: BaseViewModel {
 
     func viewModelForProduct(product: Product) -> ProductViewModel {
         return ProductViewModel(product: product, thumbnailImage: nil)
-    }
-
-    func setCurrentItemIndex(index: Int) {
-        productListViewModel?.setCurrentItemIndex(index)
     }
 
     func openProductOwnerProfile() {
@@ -151,20 +166,31 @@ class ProductCarouselViewModel: BaseViewModel {
     }
 }
 
-
-// MARK: > ProductListViewModelDataDelegate
-
-extension ProductCarouselViewModel: ProductListViewModelDataDelegate {
-    func productListMV(viewModel: ProductListViewModel, didFailRetrievingProductsPage page: UInt, hasProducts: Bool,
-                       error: RepositoryError) {}
-    
-    func productListVM(viewModel: ProductListViewModel, didSucceedRetrievingProductsPage page: UInt,
-                       hasProducts: Bool) {
-        delegate?.vmReloadData()
+extension ProductCarouselViewModel: Paginable {
+    func retrievePage(page: Int) {
+        let isFirstPage = (page == firstPage)
+        isLoading = true
+        
+        let completion: ProductsCompletion = { [weak self] result in
+            guard let strongSelf = self else { return }
+            if let newProducts = result.value {
+                if isFirstPage {
+                    strongSelf.objects = newProducts.map(ProductCarouselCellModel.init)
+                } else {
+                    strongSelf.objects += newProducts.map(ProductCarouselCellModel.init)
+                }
+                strongSelf.isLastPage = strongSelf.productListRequester?.isLastPage(newProducts.count) ?? true
+                self?.delegate?.vmReloadData()
+            }
+            self?.isLoading = false
+        }
+        
+        if isFirstPage {
+            productListRequester?.retrieveFirstPage(completion)
+        } else {
+            productListRequester?.retrieveNextPage(completion)
+        }
     }
-    
-    func productListVM(viewModel: ProductListViewModel, didSelectItemAtIndex index: Int, thumbnailImage: UIImage?,
-                       originFrame: CGRect?) {}
 }
 
 

@@ -126,6 +126,7 @@ class PostProductCameraView: BaseView, LGViewPagerPage {
         hideFirstTimeAlert()
         guard let fastCamera = fastCamera else { return }
 
+        viewModel.takePhotoButtonPressed()
         fastCamera.takePicture()
     }
 
@@ -171,7 +172,7 @@ class PostProductCameraView: BaseView, LGViewPagerPage {
         NSBundle.mainBundle().loadNibNamed("PostProductCameraView", owner: self, options: nil)
         contentView.frame = bounds
         contentView.autoresizingMask = [.FlexibleHeight, .FlexibleWidth]
-        contentView.backgroundColor = StyleHelper.postProductTabColor
+        contentView.backgroundColor = UIColor.black
         addSubview(contentView)
 
         //We're using same image for the 4 corners, so 3 of them must be rotated to the correct angle
@@ -298,7 +299,7 @@ extension PostProductCameraView {
 
 extension PostProductCameraView{
     func setupFirstTimeAlertView() {
-        firstTimeAlert.layer.cornerRadius = StyleHelper.alertCornerRadius
+        firstTimeAlert.layer.cornerRadius = LGUIKitConstants.alertCornerRadius
         firstTimeAlertTitle.text = LGLocalizedString.productPostCameraFirstTimeAlertTitle
         firstTimeAlertSubtitle.text = LGLocalizedString.productPostCameraFirstTimeAlertSubtitle
     }
@@ -308,9 +309,9 @@ extension PostProductCameraView{
 // MARK: - FastttCameraDelegate
 
 extension PostProductCameraView: FastttCameraDelegate {
-    func cameraController(cameraController: FastttCameraInterface!, didFinishNormalizingCapturedImage
-        capturedImage: FastttCapturedImage!) {
-            viewModel.takePhotoButtonPressed(capturedImage.fullImage)
+    func cameraController(cameraController: FastttCameraInterface!,
+                          didFinishNormalizingCapturedImage capturedImage: FastttCapturedImage!) {
+        viewModel.photoTaken(capturedImage.fullImage)
     }
 }
 

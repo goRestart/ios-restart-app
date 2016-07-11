@@ -151,6 +151,7 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
     let productRepository: ProductRepository
     let categoryRepository: CategoryRepository
     let locationManager: LocationManager
+    let commercializerRepository: CommercializerRepository
     let tracker: Tracker
 
     // Product info
@@ -160,6 +161,7 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
 
     // Delegate
     weak var delegate: EditProductViewModelDelegate?
+    var closeCompletion: ((Product) -> Void)?
 
     // Rx
     let disposeBag = DisposeBag()
@@ -172,18 +174,21 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
         let productRepository = Core.productRepository
         let categoryRepository = Core.categoryRepository
         let locationManager = Core.locationManager
+        let commercializerRepository = Core.commercializerRepository
         let tracker = TrackerProxy.sharedInstance
         self.init(myUserRepository: myUserRepository, productRepository: productRepository,
-                  categoryRepository: categoryRepository, locationManager: locationManager, tracker: tracker,
-                  product: product)
+                  categoryRepository: categoryRepository, locationManager: locationManager,
+                  commercializerRepository: commercializerRepository, tracker: tracker, product: product)
     }
     
     init(myUserRepository: MyUserRepository, productRepository: ProductRepository, categoryRepository: CategoryRepository,
-         locationManager: LocationManager, tracker: Tracker, product: Product) {
+         locationManager: LocationManager, commercializerRepository: CommercializerRepository, tracker: Tracker,
+         product: Product) {
         self.myUserRepository = myUserRepository
         self.productRepository = productRepository
         self.categoryRepository = categoryRepository
         self.locationManager = locationManager
+        self.commercializerRepository = commercializerRepository
         self.tracker = tracker
         
         self.initialProduct = product
@@ -256,6 +261,10 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
         saveTheProduct(editedProduct, withImages: productImages)
     }
 
+    func didClose() {
+        closeCompletion?(editedProduct)
+    }
+
 
     // MARK: - Tracking methods
 
@@ -289,11 +298,11 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
         self.editedProduct = product
 
         // if nothing is changed, we don't track the edition
-        guard editedFields().count > 0  else { return }
+        guard !editedFields.isEmpty  else { return }
 
         let myUser = myUserRepository.myUser
         let event = TrackerEvent.productEditComplete(myUser, product: product, category: category,
-                                                     editedFields: editedFields())
+                                                     editedFields: editedFields)
         trackEvent(event)
     }
 
@@ -305,7 +314,7 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
         }
     }
 
-    private func editedFields() -> [EventParameterEditedFields] {
+    private var editedFields: [EventParameterEditedFields] {
 
         var editedFields : [EventParameterEditedFields] = []
 
@@ -323,6 +332,9 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
         }
         if initialProduct.category != editedProduct.category {
             editedFields.append(.Category)
+        }
+        if initialProduct.location != editedProduct.location {
+            editedFields.append(.Location)
         }
         if shareInFbChanged() {
             editedFields.append(.Share)

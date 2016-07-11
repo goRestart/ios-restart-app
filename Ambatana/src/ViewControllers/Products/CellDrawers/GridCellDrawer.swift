@@ -1,0 +1,15 @@
+//
+//  GridCellDrawer.swift
+//  LetGo
+//
+//  Created by Isaac Roldan on 4/7/16.
+//  Copyright © 2016 Ambatana. All rights reserved.
+//
+
+import Foundation
+
+protocol GridCellDrawer {
+    associatedtype T: UICollectionViewCell
+    associatedtype M
+    func draw(model: M, inCell cell: T)
+}

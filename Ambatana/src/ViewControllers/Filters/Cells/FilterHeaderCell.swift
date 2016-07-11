@@ -29,7 +29,7 @@ class FilterHeaderCell: UICollectionReusableView {
     // MARK: - Private methods
     
     private func setupUI() {
-        separatorHeight.constant = StyleHelper.onePixelSize
+        separatorHeight.constant = LGUIKitConstants.onePixelSize
     }
     
     // Resets the UI to the initial state

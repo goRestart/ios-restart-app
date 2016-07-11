@@ -12,6 +12,6 @@ class ChatOthersMessageCell: ChatBubbleCell, ReusableCell {
         
     override func setSelected(selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-        bubbleView.backgroundColor = selected ? StyleHelper.chatOthersBubbleBgColorSelected : StyleHelper.chatOthersBubbleBgColor
+        bubbleView.backgroundColor = selected ? UIColor.chatOthersBubbleBgColorSelected : UIColor.chatOthersBubbleBgColor
     }
 }

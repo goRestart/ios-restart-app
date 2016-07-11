@@ -170,11 +170,11 @@ extension SellCoordinator: ProductPostedNavigator {
 
             // TODO: Open EditProductCoordinator, refactor this completion with a EditProductCoordinatorDelegate func
             let editVM = EditProductViewModel(product: product)
-            let editVC = EditProductViewController(viewModel: editVM, updateDelegate: nil)
-            editVC.closeCompletion = { [weak self] in
+            editVM.closeCompletion = { product in
                 delegate.sellCoordinator(strongSelf, didFinishWithProduct: product)
                 delegate.coordinatorDidClose(strongSelf)
             }
+            let editVC = EditProductViewController(viewModel: editVM, updateDelegate: nil)
             let navCtl = UINavigationController(rootViewController: editVC)
             parentVC.presentViewController(navCtl, animated: true, completion: nil)
         }

@@ -188,6 +188,7 @@ public enum EventParameterName: String {
     case UserAction           = "user-action"
     case AppRatingSource      = "app-rating-source"
     case MessageType          = "message-type"
+    case DesignType           = "design-type"
 }
 
 public enum EventParameterLoginSourceValue: String {
@@ -340,6 +341,7 @@ public enum EventParameterEditedFields: String {
     case Price
     case Description
     case Category
+    case Location
     case Share
 
     public var value: String {
@@ -365,6 +367,7 @@ public enum EventParameterTypePage: String {
     case External = "external"
     case Notifications = "notifications"
     case OpenApp = "open-app"
+    case IncentivizePosting = "incentivize-posting"
 }
 
 public enum EventParameterPermissionType: String {

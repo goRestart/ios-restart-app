@@ -68,7 +68,7 @@ enum ProductViewModelStatus {
     var bgColor: UIColor {
         switch self {
         case .Sold, .OtherSold:
-            return StyleHelper.soldColor
+            return UIColor.soldColor
         case .Pending, .PendingAndCommercializable, .Available, .AvailableAndCommercializable, .OtherAvailable,
              .NotAvailable:
             return UIColor.clearColor()
@@ -207,7 +207,7 @@ class ProductViewModel: BaseViewModel {
         self.ownerAvatar = ownerIsMyUser ? (myAvatarURL ?? ownerAvatarURL) : ownerAvatarURL
 
         if ownerIsMyUser {
-            self.ownerAvatarPlaceholder = LetgoAvatar.avatarWithColor(StyleHelper.defaultAvatarColor,
+            self.ownerAvatarPlaceholder = LetgoAvatar.avatarWithColor(UIColor.defaultAvatarColor,
                                                                       name: ownerUsername)
         } else {
             self.ownerAvatarPlaceholder = LetgoAvatar.avatarWithID(ownerId, name: ownerUsername)
@@ -251,9 +251,11 @@ class ProductViewModel: BaseViewModel {
                 guard let value = result.value, let strongSelf = self else { return }
 
                 if let code = strongSelf.product.value.postalAddress.countryCode {
-                    let availableTemplates = strongSelf.commercializerRepository.availableTemplatesFor(value, countryCode: code)
+                    let availableTemplates = strongSelf.commercializerRepository.availableTemplatesFor(value,
+                                                                                                       countryCode: code)
                     strongSelf.commercializerAvailableTemplatesCount = availableTemplates.count
-                    strongSelf.status.value = strongSelf.status.value.setCommercializable(availableTemplates.count > 0)
+                    strongSelf.status.value = strongSelf.status.value
+                        .setCommercializable(availableTemplates.count > 0 && strongSelf.commercializerIsAvailable)
                 }
 
                 let readyCommercials = value.filter {$0.status == .Ready }
@@ -282,7 +284,7 @@ class ProductViewModel: BaseViewModel {
           
             let status = product.viewModelStatus
             if let templates = strongSelf.commercializerAvailableTemplatesCount {
-                strongSelf.status.value = status.setCommercializable(templates > 0)
+                strongSelf.status.value = status.setCommercializable(templates > 0 && strongSelf.commercializerIsAvailable)
             } else {
                 strongSelf.status.value = status
             }

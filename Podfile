@@ -21,12 +21,19 @@ def shared_pods
     pod "RxBlocking",           "~> 2.5.0"
     pod "CollectionVariable",   :git => 'https://github.com/gitdoapp/CollectionVariable', :commit => 'd99e7a8dfaad32823c207e40fca7c2f2c3894ead'
 
+    #Fabric
+    pod "Fabric",               "~> 1.6.3"
+    pod "Crashlytics",          "~> 3.7.2"
+    pod "TwitterKit",           "~> 2.3.0"
+    pod "Branch",               "~> 0.12.2"
+
 	# Tracking
 	pod "Amplitude-iOS",        "~> 3.5.0"
     pod "AppsFlyerFramework",   "~> 4.3.9"
+    pod "Leanplum-iOS-SDK",     "~> 1.3.11"
 
 	# letgo Core
-    pod "LGCoreKit",            "0.25.9" #:path => "../lgcorekit"
+    pod "LGCoreKit",            "0.26.0" #:path => "../lgcorekit"
 
 	# Slack Chat controller
     pod "SlackTextViewController", "1.9.1"
@@ -54,11 +61,6 @@ def shared_pods
     pod "GoogleConversionTracking", "~> 3.4.0"
     pod "GoogleIDFASupport",        "~> 3.14.0"
 
-    # Twitter Kit
-    pod "TwitterKit",           "2.0.2"
-
-    # Branch.io
-    pod "Branch",               "~> 0.12.2"
 
 	# Semi modal view controller
 	pod "LGSemiModalNavController", "~> 0.2.0"

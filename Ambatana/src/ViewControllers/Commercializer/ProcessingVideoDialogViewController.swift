@@ -97,24 +97,24 @@ public class ProcessingVideoDialogViewController: BaseViewController {
     // MARK: - private methods
 
     private func setupSuccessView() {
-        okButton.setPrimaryStyle()
+        okButton.setStyle(.Primary(fontSize: .Medium))
         okButton.setTitle(LGLocalizedString.commonOk, forState: .Normal)
 
-        loadingIndicator.color = StyleHelper.primaryColor
+        loadingIndicator.color = UIColor.primaryColor
 
         processingLabel.text = LGLocalizedString.commercializerProcessingTitleLabel
         videoWillAppearLabel.text = LGLocalizedString.commercializerProcessingWillAppearLabel
-        successView.layer.cornerRadius = StyleHelper.defaultCornerRadius
+        successView.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
         errorView.hidden = true
     }
 
     private func setupErrorView() {
-        tryAgainButton.setPrimaryStyle()
+        tryAgainButton.setStyle(.Primary(fontSize: .Medium))
         tryAgainButton.setTitle(LGLocalizedString.commonErrorRetryButton, forState: .Normal)
 
         errorTitleLabel.text = LGLocalizedString.commonErrorTitle.capitalizedString
         errorMessageLabel.text = LGLocalizedString.commercializerProcessVideoFailedErrorMessage
-        errorView.layer.cornerRadius = StyleHelper.defaultCornerRadius
+        errorView.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
         successView.hidden = true
     }
 

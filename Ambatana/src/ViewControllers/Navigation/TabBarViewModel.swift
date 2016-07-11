@@ -58,6 +58,10 @@ class TabBarViewModel: BaseViewModel {
         navigator?.openSell(.SellButton)
     }
 
+    func sellFromBannerCell(designType: String) {
+        navigator?.openSell(.BannerCell(designType: designType))
+    }
+
     func externalSwitchToTab(tab: Tab) {
         delegate?.vmSwitchToTab(tab, force: false)
     }

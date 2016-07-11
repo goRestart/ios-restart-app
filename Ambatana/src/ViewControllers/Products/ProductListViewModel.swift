@@ -14,7 +14,6 @@ protocol ProductListViewModelDelegate: class {
     func vmDidUpdateState(vm: ProductListViewModel, state: ViewState)
     func vmDidFailRetrievingProducts(vm: ProductListViewModel, page: UInt)
     func vmDidSucceedRetrievingProductsPage(vm: ProductListViewModel, page: UInt, indexes: [Int])
-    func vmDidUpdateProductDataAtIndex(vm: ProductListViewModel, index: Int)
 }
 
 protocol ProductListViewModelDataDelegate: class {
@@ -23,19 +22,21 @@ protocol ProductListViewModelDataDelegate: class {
     func productListVM(viewModel: ProductListViewModel, didSucceedRetrievingProductsPage page: UInt, hasProducts: Bool)
     func productListVM(viewModel: ProductListViewModel, didSelectItemAtIndex index: Int, thumbnailImage: UIImage?,
                        originFrame: CGRect?)
+    func vmProcessReceivedProductPage(products: [ProductCellModel]) -> [ProductCellModel]
+    func vmDidSelectSellBanner(type: String)
 }
 
-protocol ProductListActionsDelegate: class {
-    func productListViewModel(productListViewModel: ProductListViewModel,
-        requiresLoginWithSource source: EventParameterLoginSourceValue, completion: () -> Void)
-    func productListViewModel(productListViewModel: ProductListViewModel, didTapChatOnProduct product: Product)
-    func productListViewModel(productListViewModel: ProductListViewModel, didTapShareOnProduct product: Product)
+extension ProductListViewModelDataDelegate {
+    func vmProcessReceivedProductPage(products: [ProductCellModel]) -> [ProductCellModel] { return products }
+    func vmDidSelectSellBanner(type: String) {}
 }
 
 protocol ProductListRequester: class {
     func canRetrieve() -> Bool
-    func productsRetrieval(offset offset: Int, completion: ProductsCompletion?)
+    func retrieveFirstPage(completion: ProductsCompletion?)
+    func retrieveNextPage(completion: ProductsCompletion?)
     func isLastPage(resultCount: Int) -> Bool
+    func duplicate() -> ProductListRequester
 }
 
 
@@ -44,6 +45,7 @@ class ProductListViewModel: BaseViewModel {
     // MARK: - Constants
     private static let cellMinHeight: CGFloat = 120.0
     private static let cellAspectRatio: CGFloat = 198.0 / cellMinHeight
+    private static let cellBannerAspectRatio: CGFloat = 1.3
     private static let cellMaxThumbFactor: CGFloat = 2.0
 
     
@@ -60,13 +62,9 @@ class ProductListViewModel: BaseViewModel {
     // Delegates
     weak var delegate: ProductListViewModelDelegate?
     weak var dataDelegate: ProductListViewModelDataDelegate?
-    weak var actionsDelegate: ProductListActionsDelegate?
     
-    // Requester & Repositories
-    weak var productListRequester: ProductListRequester?
-    private let locationManager: LocationManager
-    private let productRepository: ProductRepository
-    private let myUserRepository: MyUserRepository
+    // Requester
+    var productListRequester: ProductListRequester?
 
     //State
     private(set) var pageNumber: UInt
@@ -78,11 +76,10 @@ class ProductListViewModel: BaseViewModel {
     }
 
     // Data
-    private(set) var products: [Product]
+    private(set) var objects: [ProductCellModel]
 
     // UI
     private(set) var defaultCellSize: CGSize!
-    let cellDrawer: ProductCellDrawer
     
     private(set) var isLastPage: Bool = false
     private(set) var isLoading: Bool = false
@@ -101,7 +98,7 @@ class ProductListViewModel: BaseViewModel {
     // MARK: - Computed iVars
     
     var numberOfProducts: Int {
-        return products.count
+        return objects.count
     }
     
     let numberOfColumns: Int
@@ -109,43 +106,26 @@ class ProductListViewModel: BaseViewModel {
     
     // MARK: - Lifecycle
 
-    convenience init(requester: ProductListRequester?, products: [Product]? = nil, numberOfColumns: Int = 2) {
-        let locationManager = Core.locationManager
-        let productRepository = Core.productRepository
-        let myUserRepository = Core.myUserRepository
-        let cellDrawer = ProductCellDrawerFactory.drawerForProduct(true)
-
-        self.init(requester: requester, locationManager: locationManager, productRepository: productRepository,
-                  myUserRepository: myUserRepository, cellDrawer: cellDrawer, numberOfColumns: numberOfColumns)
-        self.products = products ?? []
-    }
-    
-    convenience init(listViewModel: ProductListViewModel) {
-        self.init(requester: listViewModel.productListRequester)
-        self.products = listViewModel.products
-        self.pageNumber = listViewModel.pageNumber
-        self.state = listViewModel.state
-    }
-    
-    init(requester: ProductListRequester?, locationManager: LocationManager, productRepository: ProductRepository,
-         myUserRepository: MyUserRepository, cellDrawer: ProductCellDrawer, numberOfColumns: Int) {
-        self.productListRequester = requester
-        self.locationManager = locationManager
-        self.productRepository = productRepository
-        self.myUserRepository = myUserRepository
-        self.cellDrawer = cellDrawer
-        
-        self.products = []
+    init(requester: ProductListRequester?, products: [Product]? = nil, numberOfColumns: Int = 2) {
+        self.objects = (products ?? []).map(ProductCellModel.init)
         self.pageNumber = 0
         self.refreshing = false
         self.state = .Loading
         self.numberOfColumns = numberOfColumns
+        self.productListRequester = requester
         
         super.init()
         let cellHeight = cellWidth * ProductListViewModel.cellAspectRatio
         self.defaultCellSize = CGSizeMake(cellWidth, cellHeight)
     }
     
+    convenience init(listViewModel: ProductListViewModel) {
+        self.init(requester: listViewModel.productListRequester)
+        self.pageNumber = listViewModel.pageNumber
+        self.state = listViewModel.state
+        self.objects = listViewModel.objects
+    }
+
     
     // MARK: - Public methods
     // MARK: > Requests
@@ -171,24 +151,23 @@ class ProductListViewModel: BaseViewModel {
     }
 
     func reloadData() {
-        products = productRepository.updateFavoritesInfo(products)
         delegate?.vmReloadData(self)
     }
     
     func retrieveProducts() -> Bool {
         guard canRetrieveProducts else { return false }
-        retrieveProductsWithOffset(0)
+        retrieveProducts(firstPage: true)
         return true
     }
     
     func retrieveProductsNextPage() {
         if canRetrieveProductsNextPage {
-            retrieveProductsWithOffset(products.count)
+            retrieveProducts(firstPage: false)
         }
     }
 
     func resetUI() {
-        products = []
+        objects = []
         pageNumber = 0
         refreshing = false
         state = .Loading
@@ -196,33 +175,36 @@ class ProductListViewModel: BaseViewModel {
         isLoading = false
         isOnErrorState = false
     }
+ 
 
-    private func retrieveProductsWithOffset(offset: Int) {
+    private func retrieveProducts(firstPage firstPage: Bool) {
         guard let productListRequester = productListRequester else { return } //Should not happen
 
         isLoading = true
         isOnErrorState = false
         let currentCount = numberOfProducts
-        let nextPageNumber = offset == 0 ? 0 : pageNumber + 1
+        let nextPageNumber = firstPage ? 0 : pageNumber + 1
 
         if nextPageNumber == 0 && currentCount == 0 {
             state = .Loading
         }
-
-        productListRequester.productsRetrieval(offset: offset) { [weak self] result in
+        
+        let completion: ProductsCompletion = { [weak self] result in
             guard let strongSelf = self else { return }
             if let newProducts = result.value {
+                let productCellModels = newProducts.map(ProductCellModel.init)
+                let cellModels = self?.dataDelegate?.vmProcessReceivedProductPage(productCellModels) ?? productCellModels
                 let indexes: [Int]
-                if offset == 0 {
-                    strongSelf.products = newProducts
+                if firstPage {
+                    strongSelf.objects = cellModels
                     strongSelf.refreshing = false
-                    indexes = [Int](0 ..< newProducts.count)
+                    indexes = [Int](0 ..< cellModels.count)
                 } else {
-                    strongSelf.products += newProducts
-                    indexes = [Int](currentCount ..< (currentCount+newProducts.count))
+                    strongSelf.objects += cellModels
+                    indexes = [Int](currentCount ..< (currentCount+cellModels.count))
                 }
                 strongSelf.pageNumber = nextPageNumber
-                let hasProducts = strongSelf.products.count > 0
+                let hasProducts = strongSelf.objects.count > 0
                 strongSelf.isLastPage = strongSelf.productListRequester?.isLastPage(newProducts.count) ?? true
                 //This assignment should be ALWAYS before calling the delegates to give them the option to re-set the state
                 strongSelf.state = .Data
@@ -234,57 +216,38 @@ class ProductListViewModel: BaseViewModel {
             }
             self?.isLoading = false
         }
+
+        if firstPage {
+            productListRequester.retrieveFirstPage(completion)
+        } else {
+            productListRequester.retrieveNextPage(completion)
+        }
     }
 
     private func processError(error: RepositoryError, nextPageNumber: UInt) {
         isOnErrorState = true
-        let hasProducts = products.count > 0
+        let hasProducts = objects.count > 0
         delegate?.vmDidFailRetrievingProducts(self, page: nextPageNumber)
         dataDelegate?.productListMV(self, didFailRetrievingProductsPage: nextPageNumber,
                                                hasProducts: hasProducts, error: error)
     }
 
     func selectedItemAtIndex(index: Int, thumbnailImage: UIImage?, originFrame: CGRect?) {
-        dataDelegate?.productListVM(self, didSelectItemAtIndex: index, thumbnailImage: thumbnailImage,
-                                    originFrame: originFrame)
-    }
-
-    func cellDidTapFavorite(index: Int) {
-        guard let product = productAtIndex(index) else { return }
-        let loggedInAction = { [weak self] in
-            if product.favorite {
-                self?.productRepository.deleteFavorite(product) { [weak self] result in
-                    guard let product = result.value else { return }
-                    self?.updateProduct(product, atIndex: index)
-                }
-            } else {
-                self?.productRepository.saveFavorite(product) { [weak self] result in
-                    guard let product = result.value else { return }
-                    self?.updateProduct(product, atIndex: index)
-
-                    let trackerEvent = TrackerEvent.productFavorite(product, typePage: .ProductList)
-                    TrackerProxy.sharedInstance.trackEvent(trackerEvent)
-                }
-            }
+        guard let item = itemAtIndex(index) else { return }        
+        switch item {
+        case .ProductCell:
+            dataDelegate?.productListVM(self, didSelectItemAtIndex: index, thumbnailImage: thumbnailImage,
+                                        originFrame: originFrame)
+        case .BannerCell(let data):
+            dataDelegate?.vmDidSelectSellBanner(data.style.rawValue)
         }
-        actionsDelegate?.productListViewModel(self, requiresLoginWithSource: .Favourite, completion: loggedInAction)
-    }
-
-    func cellDidTapChat(index: Int) {
-        guard let product = productAtIndex(index) else { return }
-        actionsDelegate?.productListViewModel(self, didTapChatOnProduct: product)
-    }
-
-    func cellDidTapShare(index: Int) {
-        guard let product = productAtIndex(index) else { return }
-        actionsDelegate?.productListViewModel(self, didTapShareOnProduct: product)
     }
 
 
     // MARK: > UI
 
     func clearList() {
-        products = []
+        objects = []
         delegate?.vmReloadData(self)
     }
     
@@ -294,39 +257,20 @@ class ProductListViewModel: BaseViewModel {
         - parameter index: The index of the product.
         - returns: The product.
     */
+    func itemAtIndex(index: Int) -> ProductCellModel? {
+        guard 0..<numberOfProducts ~= index else { return nil }
+        return objects[index]
+    }
+
     func productAtIndex(index: Int) -> Product? {
         guard 0..<numberOfProducts ~= index else { return nil }
-        return products[index]
-    }
-
-    func productViewModelForProductAtIndex(index: Int, thumbnailImage: UIImage?) -> ProductViewModel? {
-        guard let product = productAtIndex(index) else { return nil }
-        let productVM = ProductViewModel(product: product, thumbnailImage: thumbnailImage)
-        return productVM
-    }
-
-    func productCellDataAtIndex(index: Int) -> ProductCellData? {
-        guard let product = productAtIndex(index) else { return nil }
-
-        var isMine = false
-        if let productUserId = product.user.objectId, myUserId = myUserRepository.myUser?.objectId
-            where productUserId == myUserId {
-                isMine = true
+        let item = objects[index]
+        switch item {
+        case .ProductCell(let product):
+            return product
+        case .BannerCell:
+            return nil
         }
-        return ProductCellData(title: product.title, price: product.priceString(),
-            thumbUrl: product.thumbnail?.fileURL, status: product.status, date: product.createdAt,
-            isFavorite: product.favorite, isMine: isMine, cellWidth: cellWidth,
-            indexPath: NSIndexPath(forRow: index, inSection: 0))
-    }
-    
-    /**
-        Returns the product object id for the product at the given index.
-    
-        - parameter index: The index of the product.
-        - returns: The product object id.
-    */
-    func productObjectIdForProductAtIndex(index: Int) -> String? {
-        return productAtIndex(index)?.objectId
     }
     
     /**
@@ -336,18 +280,21 @@ class ProductListViewModel: BaseViewModel {
         - returns: The cell size.
     */
     func sizeForCellAtIndex(index: Int) -> CGSize {
-        guard let product = productAtIndex(index) else { return defaultCellSize }
+        guard let item = itemAtIndex(index) else { return defaultCellSize }
+        switch item {
+        case .ProductCell(let product):
+            guard let thumbnailSize = product.thumbnailSize where thumbnailSize.height != 0 && thumbnailSize.width != 0
+                else { return defaultCellSize }
+            
+            let thumbFactor = min(ProductListViewModel.cellMaxThumbFactor,
+                                  CGFloat(thumbnailSize.height / thumbnailSize.width))
+            let imageFinalHeight = max(ProductListViewModel.cellMinHeight, round(defaultCellSize.width * thumbFactor))
+            return CGSize(width: defaultCellSize.width, height: imageFinalHeight)
 
-        guard let thumbnailSize = product.thumbnailSize where thumbnailSize.height != 0 && thumbnailSize.width != 0
-            else { return defaultCellSize }
-
-        let thumbFactor = min(ProductListViewModel.cellMaxThumbFactor,
-            CGFloat(thumbnailSize.height / thumbnailSize.width))
-        let imageFinalHeight = max(ProductListViewModel.cellMinHeight, round(defaultCellSize.width * thumbFactor))
-        return CGSize(
-            width: defaultCellSize.width,
-            height: cellDrawer.cellHeightForThumbnailHeight(imageFinalHeight)
-        )
+        case .BannerCell:
+            let height = defaultCellSize.width*ProductListViewModel.cellBannerAspectRatio
+            return CGSize(width: defaultCellSize.width, height: height)
+        }
     }
         
     /**
@@ -362,14 +309,5 @@ class ProductListViewModel: BaseViewModel {
         if shouldRetrieveProductsNextPage {
             retrieveProductsNextPage()
         }
-    }
-
-
-    // MARK: - Private methods
-
-    private func updateProduct(product: Product, atIndex index: Int) {
-        guard 0..<numberOfProducts ~= index else { return }
-        products[index] = product
-        delegate?.vmDidUpdateProductDataAtIndex(self, index: index)
     }
 }

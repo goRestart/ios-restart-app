@@ -85,7 +85,7 @@ class ProductPostedViewModel: BaseViewModel {
         case .Posting:
             return nil
         case .Success:
-            return LGLocalizedString.productPostConfirmationTitle
+            return LGLocalizedString.productPostIncentiveTitle
         case .Error:
             return LGLocalizedString.commonErrorTitle.capitalizedString
         }
@@ -96,7 +96,7 @@ class ProductPostedViewModel: BaseViewModel {
         case .Posting:
             return nil
         case .Success:
-            return LGLocalizedString.productPostConfirmationSubtitle
+            return LGLocalizedString.productPostIncentiveSubtitle
         case let .Error(error):
             switch error {
             case .Network:

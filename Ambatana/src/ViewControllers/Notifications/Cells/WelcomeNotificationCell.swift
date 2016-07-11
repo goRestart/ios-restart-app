@@ -30,17 +30,17 @@ class WelcomeNotificationCell: UITableViewCell, ReusableCell {
             line.removeFromSuperlayer()
         }
         lines = []
-        lines.append(contentView.addBottomBorderWithWidth(1, color: StyleHelper.lineColor))
+        lines.append(contentView.addBottomBorderWithWidth(1, color: UIColor.lineGray))
     }
 
 
     // MARK: - Private methods
 
     private func setupUI() {
-        titleLabel.font = StyleHelper.notificationTitleFont
-        subtitleLabel.font = StyleHelper.notificationSubtitleFont
+        titleLabel.font = UIFont.notificationTitleFont
+        subtitleLabel.font = UIFont.notificationSubtitleFont
 
-        titleLabel.textColor = StyleHelper.notificationTitleColor
-        subtitleLabel.textColor = StyleHelper.notificationSubtitleColor
+        titleLabel.textColor = UIColor.blackText
+        subtitleLabel.textColor = UIColor.darkGrayText
     }
 }

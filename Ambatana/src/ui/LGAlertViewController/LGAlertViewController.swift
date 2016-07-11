@@ -108,7 +108,7 @@ class LGAlertViewController: UIViewController {
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(closeWithFadeOut))
         view.addGestureRecognizer(tapRecognizer)
 
-        alertContentView.layer.cornerRadius = StyleHelper.alertCornerRadius
+        alertContentView.layer.cornerRadius = LGUIKitConstants.alertCornerRadius
 
         alertTitleLabel.text = alertTitle
         alertTitleLabel.font = UIFont.systemMediumFont(size: 17)

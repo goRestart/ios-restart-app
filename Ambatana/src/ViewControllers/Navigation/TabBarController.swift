@@ -218,7 +218,7 @@ final class TabBarController: UITabBarController, UINavigationControllerDelegate
 
         // Customize the selected appereance
         if let imageItem = tabBarItem.selectedImage {
-            tabBarItem.image = imageItem.imageWithColor(StyleHelper.tabBarIconUnselectedColor)
+            tabBarItem.image = imageItem.imageWithColor(UIColor.tabBarIconUnselectedColor)
                 .imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
         } else {
             tabBarItem.image = UIImage()
@@ -271,6 +271,11 @@ final class TabBarController: UITabBarController, UINavigationControllerDelegate
     dynamic func sellButtonPressed() {
         viewModel.sellButtonPressed()
     }
+
+    func openSellFromBannerCell(designType: String) {
+        viewModel.sellFromBannerCell(designType)
+    }
+    
     
     // MARK: > UI
 

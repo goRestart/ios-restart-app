@@ -70,7 +70,7 @@ class ProductCarouselPushAnimator: NSObject, PushAnimator {
         containerView.addSubview(toView)
         snapshot.contentMode = .ScaleAspectFill
         snapshot.clipsToBounds = true
-        snapshot.layer.cornerRadius = StyleHelper.defaultCornerRadius
+        snapshot.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
         
         let margin: CGFloat = 5
         snapshot.frame = CGRect(x: originFrame.origin.x + margin, y: originFrame.origin.y + margin,

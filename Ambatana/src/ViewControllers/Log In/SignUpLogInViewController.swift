@@ -110,22 +110,22 @@ SignUpLogInViewModelDelegate, GIDSignInUIDelegate {
             line.removeFromSuperlayer()
         }
         lines = []
-        lines.append(dividerView.addBottomBorderWithWidth(1, color: StyleHelper.darkLineColor))
-        lines.append(firstDividerView.addBottomBorderWithWidth(1, color: StyleHelper.darkLineColor))
+        lines.append(dividerView.addBottomBorderWithWidth(1, color: UIColor.lineGray))
+        lines.append(firstDividerView.addBottomBorderWithWidth(1, color: UIColor.lineGray))
         
         if viewModel.currentActionType == .Signup && signupEditModeActive {
-            lines.append(emailButton.addTopBorderWithWidth(1, color: StyleHelper.lineColor))
-            lines.append(passwordButton.addTopBorderWithWidth(1, color: StyleHelper.lineColor))
-            lines.append(usernameButton.addTopBorderWithWidth(1, color: StyleHelper.lineColor))
-            lines.append(usernameButton.addBottomBorderWithWidth(1, color: StyleHelper.lineColor))
+            lines.append(emailButton.addTopBorderWithWidth(1, color: UIColor.lineGray))
+            lines.append(passwordButton.addTopBorderWithWidth(1, color: UIColor.lineGray))
+            lines.append(usernameButton.addTopBorderWithWidth(1, color: UIColor.lineGray))
+            lines.append(usernameButton.addBottomBorderWithWidth(1, color: UIColor.lineGray))
 
         } else if viewModel.currentActionType == .Login && loginEditModeActive {
-            lines.append(emailButton.addTopBorderWithWidth(1, color: StyleHelper.lineColor))
-            lines.append(passwordButton.addTopBorderWithWidth(1, color: StyleHelper.lineColor))
-            lines.append(passwordButton.addBottomBorderWithWidth(1, color: StyleHelper.lineColor))
+            lines.append(emailButton.addTopBorderWithWidth(1, color: UIColor.lineGray))
+            lines.append(passwordButton.addTopBorderWithWidth(1, color: UIColor.lineGray))
+            lines.append(passwordButton.addBottomBorderWithWidth(1, color: UIColor.lineGray))
         } else {
-            lines.append(emailButton.addTopBorderWithWidth(1, color: StyleHelper.lineColor))
-            lines.append(emailButton.addBottomBorderWithWidth(1, color: StyleHelper.lineColor))
+            lines.append(emailButton.addTopBorderWithWidth(1, color: UIColor.lineGray))
+            lines.append(emailButton.addBottomBorderWithWidth(1, color: UIColor.lineGray))
         }
     }
 
@@ -321,7 +321,6 @@ SignUpLogInViewModelDelegate, GIDSignInUIDelegate {
 
     func viewModel(viewModel: SignUpLogInViewModel, updateSendButtonEnabledState enabled: Bool) {
         sendButton.enabled = enabled
-        sendButton.alpha = enabled ? 1 : StyleHelper.disabledButtonAlpha
     }
     
     func viewModel(viewModel: SignUpLogInViewModel, updateShowPasswordVisible visible: Bool) {
@@ -417,9 +416,11 @@ SignUpLogInViewModelDelegate, GIDSignInUIDelegate {
         passwordTextField.placeholder = LGLocalizedString.signUpPasswordFieldHint
         newsletterLabel.text = LGLocalizedString.signUpNewsleter
         quicklyLabel.text = LGLocalizedString.mainSignUpQuicklyLabel
+        quicklyLabel.font = UIFont.smallBodyFont
         connectFBButton.setTitle(LGLocalizedString.mainSignUpFacebookConnectButton, forState: .Normal)
         connectGoogleButton.setTitle(LGLocalizedString.mainSignUpGoogleConnectButton, forState: .Normal)
         orLabel.text = LGLocalizedString.mainSignUpOrLabel
+        orLabel.font = UIFont.smallBodyFont
         forgotPasswordButton.setTitle(LGLocalizedString.logInResetPasswordButton, forState: .Normal)
 
         emailTextField.clearButtonOffset = 0
@@ -434,19 +435,11 @@ SignUpLogInViewModelDelegate, GIDSignInUIDelegate {
         usernameTextField.tag = TextFieldTag.Username.rawValue
 
         // appearance
-        connectGoogleButton.setCustomButtonStyle()
-        connectFBButton.setCustomButtonStyle()
+        connectFBButton.setStyle(.Facebook)
+        connectGoogleButton.setStyle(.Google)
 
-        sendButton.setBackgroundImage(sendButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)),
-            forState: .Normal)
-        sendButton.setBackgroundImage(StyleHelper.disabledButtonBackgroundColor.imageWithSize(
-            CGSize(width: 1, height: 1)), forState: .Disabled)
-        sendButton.setBackgroundImage(StyleHelper.highlightedRedButtonColor.imageWithSize(CGSize(width: 1, height: 1)),
-            forState: .Highlighted)
-
-        sendButton.layer.cornerRadius = StyleHelper.defaultCornerRadius
+        sendButton.setStyle(.Primary(fontSize: .Medium))
         sendButton.enabled = false
-        sendButton.alpha = StyleHelper.disabledButtonAlpha
 
         showPasswordButton.setImage(UIImage(named: "ic_show_password_inactive"), forState: .Normal)
 
@@ -462,10 +455,10 @@ SignUpLogInViewModelDelegate, GIDSignInUIDelegate {
     }
 
     private func setupUI() {
-        
+        view.backgroundColor = UIColor.listBackgroundColor
+
         // action type
         loginSegmentedControl.selectedSegmentIndex = viewModel.currentActionType.rawValue
-
 
         emailButton.hidden = false
         emailIconImageView.hidden = false
