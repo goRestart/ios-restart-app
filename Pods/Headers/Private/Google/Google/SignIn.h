@@ -1,1 +1,1 @@
-../../../../Google/Headers/GGLSignIn/Public/SignIn.h
+../../../../Google/Headers/SignIn.h

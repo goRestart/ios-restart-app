@@ -20,6 +20,7 @@ import UIKit
     import AdSupport
 #endif
 import Leanplum
+import Firebase
 
 
 @UIApplicationMain
@@ -274,7 +275,7 @@ private extension AppDelegate {
         TrackerProxy.sharedInstance.application(application, didFinishLaunchingWithOptions: launchOptions)
 
         // Google app indexing
-        GSDAppIndexing.sharedInstance().registerApp(EnvironmentProxy.sharedInstance.googleAppIndexingId)
+        FIRAppIndexing.sharedInstance().registerApp(EnvironmentProxy.sharedInstance.googleAppIndexingId)
 
         CommercializerManager.sharedInstance.setup()
         NotificationsManager.sharedInstance.setup()
