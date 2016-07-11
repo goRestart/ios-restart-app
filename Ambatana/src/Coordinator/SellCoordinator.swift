@@ -144,8 +144,7 @@ extension SellCoordinator: PostProductNavigator {
 extension SellCoordinator: ProductPostedNavigator {
     func cancelProductPosted() {
         close(ProductPostedViewController.self, animated: true) { [weak self] in
-            guard let strongSelf = self else { return }
-            guard let delegate = strongSelf.delegate else { return }
+            guard let strongSelf = self, delegate = strongSelf.delegate else { return }
 
             delegate.sellCoordinatorDidCancel(strongSelf)
             delegate.coordinatorDidClose(strongSelf)
@@ -154,8 +153,7 @@ extension SellCoordinator: ProductPostedNavigator {
 
     func closeProductPosted(product: Product) {
         close(ProductPostedViewController.self, animated: true) { [weak self] in
-            guard let strongSelf = self else { return }
-            guard let delegate = strongSelf.delegate else { return }
+            guard let strongSelf = self, delegate = strongSelf.delegate else { return }
 
             delegate.sellCoordinator(strongSelf, didFinishWithProduct: product)
             delegate.coordinatorDidClose(strongSelf)
@@ -164,9 +162,8 @@ extension SellCoordinator: ProductPostedNavigator {
 
     func closeProductPostedAndOpenEdit(product: Product) {
         close(ProductPostedViewController.self, animated: true) { [weak self] in
-            guard let strongSelf = self else { return }
-            guard let parentVC = strongSelf.parentViewController else { return }
-            guard let delegate = strongSelf.delegate else { return }
+            guard let strongSelf = self, parentVC = strongSelf.parentViewController,
+                delegate = strongSelf.delegate else { return }
 
             // TODO: Open EditProductCoordinator, refactor this completion with a EditProductCoordinatorDelegate func
             let editVM = EditProductViewModel(product: product)
@@ -182,8 +179,7 @@ extension SellCoordinator: ProductPostedNavigator {
 
     func closeProductPostedAndOpenPost() {
         close(ProductPostedViewController.self, animated: true) { [weak self] in
-            guard let strongSelf = self else { return }
-            guard let parentVC = strongSelf.parentViewController else { return }
+            guard let strongSelf = self, parentVC = strongSelf.parentViewController else { return }
 
             let source: PostingSource = .SellButton
             let postProductVM = PostProductViewModel(source: source)
