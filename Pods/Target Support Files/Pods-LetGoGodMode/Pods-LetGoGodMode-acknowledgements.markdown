@@ -419,9 +419,17 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
 
+## Firebase
+
+Copyright 2016 Google Inc.
+
 ## FirebaseAnalytics
 
 Copyright 2016 Google
+
+## FirebaseAppIndexing
+
+Copyright 2016 Google Inc.
 
 ## FirebaseInstanceID
 
@@ -456,10 +464,6 @@ SOFTWARE.
 Copyright 2016 Google Inc.
 
 ## GoogleAnalytics
-
-Copyright 2015 Google Inc.
-
-## GoogleAppIndexing
 
 Copyright 2015 Google Inc.
 

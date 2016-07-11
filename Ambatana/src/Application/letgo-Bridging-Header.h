@@ -16,7 +16,6 @@
 #import <Leanplum/Leanplum.h>
 
 // Google
-#import <GoogleAppIndexing/GoogleAppIndexing.h>
 #import <Google/SignIn.h>
 #import <Google/Analytics.h>
 

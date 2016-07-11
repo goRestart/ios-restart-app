@@ -57,7 +57,7 @@ def shared_pods
     pod "Google/Analytics",         "~> 3.0.3"
     pod "Google/SignIn",            "~> 3.0.3"
 
-    pod "GoogleAppIndexing",        "~> 2.0.3"
+    pod "Firebase/AppIndexing",        "~> 3.3.0"
     pod "GoogleConversionTracking", "~> 3.4.0"
     pod "GoogleIDFASupport",        "~> 3.14.0"
 
