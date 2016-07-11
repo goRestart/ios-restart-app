@@ -207,7 +207,7 @@ extension AppCoordinator: SellCoordinatorDelegate {
         refreshSelectedProductsRefreshable()
 
         guard !openPromoteIfNeeded(product: product) else { return }
-        guard !openAfterSellDialogIfNeeded() else { return }
+        openAfterSellDialogIfNeeded()
     }
 }
 
