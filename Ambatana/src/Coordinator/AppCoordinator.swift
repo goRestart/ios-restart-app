@@ -21,6 +21,7 @@ final class AppCoordinator: NSObject {
     private let sessionManager: SessionManager
     private let keyValueStorage: KeyValueStorage
     private let pushPermissionsManager: PushPermissionsManager
+    private let ratingManager: RatingManager
 
     private let deepLinksRouter: DeepLinksRouter
 
@@ -70,6 +71,7 @@ final class AppCoordinator: NSObject {
         self.sessionManager = sessionManager
         self.keyValueStorage = keyValueStorage
         self.pushPermissionsManager = pushPermissionsManager
+        self.ratingManager = ratingManager
 
         self.deepLinksRouter = deepLinksRouter
 
@@ -175,10 +177,9 @@ extension AppCoordinator: PromoteProductViewControllerDelegate {
 private extension AppCoordinator {
     func promoteProductPostActions(source: PromotionSource) {
         if source.hasPostPromotionActions {
-            if PushPermissionsManager.sharedInstance
-                .shouldShowPushPermissionsAlertFromViewController(.Sell) {
-                PushPermissionsManager.sharedInstance.showPrePermissionsViewFrom(tabBarCtl, type: .Sell, completion: nil)
-            } else if RatingManager.sharedInstance.shouldShowRating {
+            if pushPermissionsManager.shouldShowPushPermissionsAlertFromViewController(.Sell) {
+                pushPermissionsManager.showPrePermissionsViewFrom(tabBarCtl, type: .Sell, completion: nil)
+            } else if ratingManager.shouldShowRating {
                 showAppRatingViewIfNeeded(.ProductSellComplete)
             }
         }
@@ -239,10 +240,10 @@ private extension AppCoordinator {
     }
 
     func openAfterSellDialogIfNeeded() -> Bool {
-        if PushPermissionsManager.sharedInstance.shouldShowPushPermissionsAlertFromViewController(.Sell) {
-            PushPermissionsManager.sharedInstance.showPrePermissionsViewFrom(tabBarCtl, type: .Sell,
+        if pushPermissionsManager.shouldShowPushPermissionsAlertFromViewController(.Sell) {
+            pushPermissionsManager.showPrePermissionsViewFrom(tabBarCtl, type: .Sell,
                                                                              completion: nil)
-        } else if RatingManager.sharedInstance.shouldShowRating {
+        } else if ratingManager.shouldShowRating {
             showAppRatingViewIfNeeded(.ProductSellComplete)
         } else {
             return false
