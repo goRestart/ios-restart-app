@@ -271,9 +271,9 @@ final class TabBarController: UITabBarController, UINavigationControllerDelegate
     dynamic func sellButtonPressed() {
         viewModel.sellButtonPressed()
     }
-    
-    func openSell(source: PostingSource, forceCamera: Bool) {
-        viewModel.openSell(source, forceCamera: forceCamera)
+
+    func openSellFromBannerCell(designType: String) {
+        viewModel.sellFromBannerCell(designType)
     }
     
     

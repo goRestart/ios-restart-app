@@ -221,9 +221,8 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     }
 
     func vmOpenSell(type: String) {
-        // TODO: Open with sell coordinator
         guard let tabBarController = self.tabBarController as? TabBarController else { return }
-        tabBarController.openSell(.BannerCell(designType: type), forceCamera: true)
+        tabBarController.openSellFromBannerCell(type)
     }
     
     
