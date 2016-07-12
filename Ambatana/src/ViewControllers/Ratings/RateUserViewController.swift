@@ -8,15 +8,15 @@
 
 import UIKit
 
-class UserRatingViewController: BaseViewController {
+class RateUserViewController: BaseViewController {
 
-    private let viewModel: UserRatingViewModel
+    private let viewModel: RateUserViewModel
 
     // MARK: - Lifecycle
 
-    init(viewModel: UserRatingViewModel) {
+    init(viewModel: RateUserViewModel) {
         self.viewModel = viewModel
-        super.init(viewModel: viewModel, nibName: "UserRatingViewController")
+        super.init(viewModel: viewModel, nibName: "RateUserViewController")
         self.viewModel.delegate = self
     }
 
@@ -52,4 +52,4 @@ class UserRatingViewController: BaseViewController {
 
 // MARK: - UserRatingViewModelDelegate
 
-extension UserRatingViewController: UserRatingViewModelDelegate {}
+extension RateUserViewController: RateUserViewModelDelegate {}
