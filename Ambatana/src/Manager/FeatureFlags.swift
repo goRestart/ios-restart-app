@@ -64,6 +64,10 @@ struct FeatureFlags {
         }
         return ABTests.automaticNextItem.value
     }
+
+    static var userRatings: Bool {
+        return FTSFlipTheSwitch.userRatings
+    }
 }
 
 private extension FTSFlipTheSwitch {
@@ -101,5 +105,9 @@ private extension FTSFlipTheSwitch {
 
     static var automaticNextItem: Bool {
         return FTSFlipTheSwitch.sharedInstance().isFeatureEnabled("automatic_next_item")
+    }
+
+    static var userRatings: Bool {
+        return FTSFlipTheSwitch.sharedInstance().isFeatureEnabled("user_ratings")
     }
 }
