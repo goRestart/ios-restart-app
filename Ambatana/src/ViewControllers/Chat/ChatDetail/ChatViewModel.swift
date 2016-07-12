@@ -70,6 +70,9 @@ class ChatViewModel: BaseViewModel {
     var stickers = Variable<[Sticker]>([])
     var keyForTextCaching: String { return userDefaultsSubKey }
     var askQuestion: AskQuestionSource?
+    var userIsReviewable: Bool {
+        return didReceiveMessageFromOtherUser && didSendMessage
+    }
 
     private var shouldShowSafetyTips: Bool {
         return !KeyValueStorage.sharedInstance.userChatSafetyTipsShown && didReceiveMessageFromOtherUser
@@ -296,6 +299,10 @@ class ChatViewModel: BaseViewModel {
     
     func userInfoPressed() {
         // TODO: 🎪 Create a UserVC Factory that allows to create a UserVC with a ChatInterlocutor
+    }
+
+    func reviewUserPressed() {
+        print(" 👾 👾 👾 👾 👾 👾  NEW CHAT REVIEW USER PRESSED ")
     }
 
     func safetyTipsDismissed() {

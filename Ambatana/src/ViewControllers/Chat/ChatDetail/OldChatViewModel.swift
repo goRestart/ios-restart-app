@@ -48,6 +48,8 @@ protocol OldChatViewModelDelegate: BaseViewModelDelegate {
     
     func vmDidUpdateStickers()
     func vmClearText()
+
+    func vmUpdateUserIsReadyToReview()
 }
 
 enum AskQuestionSource {
@@ -191,6 +193,14 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         }
     }
 
+    var userIsReviewable: Bool {
+        switch chatStatus {
+        case .Available, .ProductSold:
+            return didReceiveMessageFromOtherUser && didSendMessage
+        case .ProductDeleted, .Forbidden, .UserPendingDelete, .UserDeleted, .Blocked, .BlockedBy:
+            return false
+        }
+    }
 
     // MARK: Paginable
     
@@ -361,6 +371,10 @@ public class OldChatViewModel: BaseViewModel, Paginable {
             let userVM = UserViewModel(user: user, source: .Chat)
             delegate?.vmShowUser(userVM)
         }
+    }
+
+    func reviewUserPressed() {
+        print(" 🌺 🌺 🌺 🌺 🌺 🌺 OLD CHAT REVIEW USER PRESSED ")
     }
     
     func safetyTipsDismissed() {
@@ -572,6 +586,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         } else if RatingManager.sharedInstance.shouldShowRating {
             delegate?.vmAskForRating()
         }
+        delegate?.vmUpdateUserIsReadyToReview()
     }
 
 
@@ -912,6 +927,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         if shouldShowSafetyTips {
             delegate?.vmShowSafetyTips()
         }
+        delegate?.vmUpdateUserIsReadyToReview()
     }
 }
 

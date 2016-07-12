@@ -355,6 +355,7 @@ extension ChatViewController {
             case .Available, .Blocked, .BlockedBy, .ProductSold:
                 break
             }
+            self?.productView.shouldShowReviewButton(self?.viewModel.userIsReviewable ?? false)
             }.addDisposableTo(disposeBag)
         
         
@@ -367,7 +368,7 @@ extension ChatViewController {
                 self?.handleTableChange(change)
                 self?.tableView.endUpdates()
             }
-            
+            self?.productView.shouldShowReviewButton(self?.viewModel.userIsReviewable ?? false)
             }.addDisposableTo(disposeBag)
         
         viewModel.productName.asObservable().bindTo(productView.productName.rx_text).addDisposableTo(disposeBag)
@@ -668,5 +669,9 @@ extension ChatViewController: ChatProductViewDelegate {
     
     func productViewDidTapUserAvatar() {
         viewModel.userInfoPressed()
+    }
+
+    func productViewDidTapUserReview() {
+        viewModel.reviewUserPressed()
     }
 }
