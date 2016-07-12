@@ -9,10 +9,10 @@
 import UIKit
 
 enum DeviceFamily {
-    case iPhone4        // width = 480
-    case iPhone5        // width = 568
-    case iPhone6        // width = 667
-    case iPhone6Plus    // width = 736
+    case iPhone4        // height = 480
+    case iPhone5        // height = 568
+    case iPhone6        // height = 667
+    case iPhone6Plus    // height = 736
     case unknown
 
     static var current: DeviceFamily {
