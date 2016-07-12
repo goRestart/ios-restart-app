@@ -456,14 +456,10 @@ public struct EventParameters {
     }
     
     internal mutating func addProductParams(product: Product) {
-        if let productId = product.objectId {
-            params[.ProductId] = productId
-        }
+        params[.ProductId] = product.objectId
         params[.ProductLatitude] = product.location.latitude
         params[.ProductLongitude] = product.location.longitude
-        if let productPrice = product.price {
-            params[.ProductPrice] = productPrice
-        }
+        params[.ProductPrice] = product.price
         params[.ProductCurrency] = product.currency.code
         params[.CategoryId] = product.category.rawValue
         params[.ProductType] = product.user.isDummy ?
@@ -474,14 +470,12 @@ public struct EventParameters {
     internal mutating func addChatProductParams(product: ChatProduct) {
         params[.ProductId] = product.objectId
         params[.ProductPrice] = product.price
-        params[.ProductCurrency] = product.currency
+        params[.ProductCurrency] = product.currency.code
         params[.ProductType] = EventParameterProductItemType.Real.rawValue
     }
     
     internal mutating func addUserParams(user: User?) {
-        if let userToId = user?.objectId {
-            params[.UserToId] = userToId
-        }
+        params[.UserToId] = user?.objectId
     }
 
     internal subscript(paramName: EventParameterName) -> AnyObject? {
