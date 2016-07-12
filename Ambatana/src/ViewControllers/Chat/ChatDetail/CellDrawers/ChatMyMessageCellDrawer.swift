@@ -13,7 +13,7 @@ class ChatMyMessageCellDrawer: BaseChatCellDrawer<ChatMyMessageCell> {
     
     override func draw(cell: ChatMyMessageCell, message: ChatViewMessage, delegate: AnyObject?) {
         cell.messageLabel.text = message.value ?? ""
-        cell.dateLabel.text = message.sentAt?.relativeTimeString(false) ?? LGLocalizedString.productChatMessageSending
+        cell.dateLabel.text = message.sentAt?.relativeTimeString(false)
         cell.checkImageView.image = nil
         drawCheckForMessage(cell, message: message)
     }
@@ -27,10 +27,12 @@ class ChatMyMessageCellDrawer: BaseChatCellDrawer<ChatMyMessageCell> {
             return
         }
         switch status {
-        case .Sent, .Received:
-            cell.checkImageView.image = UIImage(named: "ic_check_sent")
+        case .Sent:
+            cell.checkImageView.image = UIImage(named: "ic_tick_sent")
+        case .Received:
+            cell.checkImageView.image = UIImage(named: "ic_doble_received")
         case .Read:
-            cell.checkImageView.image = UIImage(named: "ic_check_read")
+            cell.checkImageView.image = UIImage(named: "ic_doble_read")
         case .Unknown:
             cell.checkImageView.image = nil
         }

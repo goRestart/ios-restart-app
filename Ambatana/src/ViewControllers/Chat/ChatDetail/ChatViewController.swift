@@ -391,6 +391,14 @@ extension ChatViewController {
                     self?.productView.userAvatar.image = placeholder
                 }
             }.addDisposableTo(disposeBag)
+        
+        
+        let sendActionsEnabled = viewModel.isSendingMessage.asObservable().map { !$0 }
+        sendActionsEnabled.bindTo(rightButton.rx_enabled).addDisposableTo(disposeBag)
+        sendActionsEnabled.bindNext { [weak self] enabled in
+            self?.stickersView.enabled = enabled
+            self?.directAnswersPresenter.enabled = enabled
+            }.addDisposableTo(disposeBag)
     }
 
     private func handleTableChange(change: CollectionChange<ChatViewMessage>) {

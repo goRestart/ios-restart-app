@@ -306,6 +306,8 @@
 		6A12E0591C6398BE00C1BFE3 /* TourNotificationsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A12E0571C6398BE00C1BFE3 /* TourNotificationsViewController.xib */; };
 		6A12E05B1C63B0AE00C1BFE3 /* iPhoneParts.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6A12E05A1C63B0AE00C1BFE3 /* iPhoneParts.xcassets */; };
 		6A12E05C1C63B0AE00C1BFE3 /* iPhoneParts.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6A12E05A1C63B0AE00C1BFE3 /* iPhoneParts.xcassets */; };
+		6A195EE01D34FB2600FA137E /* Chat.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6A195EDF1D34FB2600FA137E /* Chat.xcassets */; };
+		6A195EE11D34FB2600FA137E /* Chat.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6A195EDF1D34FB2600FA137E /* Chat.xcassets */; };
 		6A32072B1CC78F5B003DD9AF /* ProductCarouselPushAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A32072A1CC78F5B003DD9AF /* ProductCarouselPushAnimator.swift */; };
 		6A32072C1CC78F5B003DD9AF /* ProductCarouselPushAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A32072A1CC78F5B003DD9AF /* ProductCarouselPushAnimator.swift */; };
 		6A32072E1CC8D897003DD9AF /* UIImage+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A32072D1CC8D897003DD9AF /* UIImage+LG.swift */; };
@@ -1197,6 +1199,7 @@
 		6A12E0541C6398A400C1BFE3 /* TourNotificationsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TourNotificationsViewModel.swift; sourceTree = "<group>"; };
 		6A12E0571C6398BE00C1BFE3 /* TourNotificationsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TourNotificationsViewController.xib; sourceTree = "<group>"; };
 		6A12E05A1C63B0AE00C1BFE3 /* iPhoneParts.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = iPhoneParts.xcassets; sourceTree = "<group>"; };
+		6A195EDF1D34FB2600FA137E /* Chat.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Chat.xcassets; sourceTree = "<group>"; };
 		6A32072A1CC78F5B003DD9AF /* ProductCarouselPushAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProductCarouselPushAnimator.swift; path = ../ProductCarouselPushAnimator.swift; sourceTree = "<group>"; };
 		6A32072D1CC8D897003DD9AF /* UIImage+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+LG.swift"; sourceTree = "<group>"; };
 		6A383F7B1CB29AC100F99D79 /* CreateCommercialViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CreateCommercialViewController.swift; path = Commercializer/CreateCommercialViewController.swift; sourceTree = "<group>"; };
@@ -2256,6 +2259,7 @@
 				2E51F8B71CCE4DDE00B57283 /* ProductOnboarding-Images.xcassets */,
 				6A94346B1D2E544B0053F924 /* ProductCellBanners.xcassets */,
 				2E6B6E3A1D2AC44F00C10A20 /* Congrats-Screen-Images.xcassets */,
+				6A195EDF1D34FB2600FA137E /* Chat.xcassets */,
 			);
 			name = "Assets & Resources";
 			sourceTree = "<group>";
@@ -3188,6 +3192,7 @@
 				50A8DC801BA06B92008296B0 /* ChatSafetyTipsView.xib in Resources */,
 				C7B588511CE1DE1C009B3975 /* DirectAnswerCell.xib in Resources */,
 				66FC911B1A9238770008AFAD /* Icons-Buttons.xcassets in Resources */,
+				6A195EE01D34FB2600FA137E /* Chat.xcassets in Resources */,
 				502B705D1BAAC3B500C5D465 /* FloatingButton.xib in Resources */,
 				C7B5889C1CE1E025009B3975 /* ConversationCell.xib in Resources */,
 				C7DE8AC91C888761005CF37E /* EditProductViewController.xib in Resources */,
@@ -3305,6 +3310,7 @@
 				C7DB427F1C5138B500400945 /* ChatSafetyTipsView.xib in Resources */,
 				C7B588521CE1DE1C009B3975 /* DirectAnswerCell.xib in Resources */,
 				C7DB42811C5138B500400945 /* Icons-Buttons.xcassets in Resources */,
+				6A195EE11D34FB2600FA137E /* Chat.xcassets in Resources */,
 				C7DB42821C5138B500400945 /* FloatingButton.xib in Resources */,
 				C7B5889D1CE1E025009B3975 /* ConversationCell.xib in Resources */,
 				C7DE8ACA1C888761005CF37E /* EditProductViewController.xib in Resources */,

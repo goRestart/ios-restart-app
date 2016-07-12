@@ -104,6 +104,7 @@ class ChatViewModel: BaseViewModel {
     var chatStatus = Variable<ChatInfoViewStatus>(.Available)
     var chatEnabled = Variable<Bool>(true)
     var interlocutorTyping = Variable<Bool>(false)
+    let isSendingMessage = Variable<Bool>(false)
     var messages = CollectionVariable<ChatViewMessage>([])
     private var conversation: Variable<ChatConversation>
     private var interlocutor: User?

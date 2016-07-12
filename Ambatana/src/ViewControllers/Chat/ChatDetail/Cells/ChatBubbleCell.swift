@@ -28,7 +28,7 @@ class ChatBubbleCell: UITableViewCell {
     }
     
     func setupUI() {
-        bubbleView.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
+        bubbleView.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius * 2
         messageLabel.font = UIFont.bigBodyFont
         dateLabel.font = UIFont.smallBodyFontLight
         
