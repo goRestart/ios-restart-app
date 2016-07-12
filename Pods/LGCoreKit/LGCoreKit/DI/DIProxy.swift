@@ -19,20 +19,31 @@ final class DIProxy: InternalDI {
     
     // MARK: - Lifecycle
     
-    init() {
-        self.di = DIProxy.buildDI(DIProxy.diType)
+    init(backgroundEnabled: Bool = true) {
+        self.di = DIProxy.buildDI(DIProxy.diType, backgroundEnabled: backgroundEnabled)
     }
     
     
     // MARK: - Internal methods
-    
+
+    /**
+    This method is only used from test target, backgroundEnabled needs to be false
+    */
     func setType(type: InternalDI.Type) {
-        self.di = DIProxy.buildDI(type)
+        self.di = DIProxy.buildDI(type, backgroundEnabled: false)
     }
     
     
     // MARK: - InternalDI
     
+    var networkBackgroundCompletion: (() -> Void)? {
+        get {
+            return di.networkBackgroundCompletion
+        }
+        set {
+            di.networkBackgroundCompletion = newValue
+        }
+    }
     var apiClient: ApiClient {
         return di.apiClient
     }
@@ -121,7 +132,7 @@ final class DIProxy: InternalDI {
     
     // MARK: - Private methods
     
-    private static func buildDI(type: InternalDI.Type) -> InternalDI {
-        return type.init()
+    private static func buildDI(type: InternalDI.Type, backgroundEnabled: Bool) -> InternalDI {
+        return type.init(backgroundEnabled: backgroundEnabled)
     }
 }

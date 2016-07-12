@@ -84,7 +84,7 @@ PODS:
   - KeychainSwift (3.0.16)
   - Leanplum-iOS-SDK (1.3.11)
   - LGCollapsibleLabel (0.1.8)
-  - LGCoreKit (0.26.0):
+  - LGCoreKit (0.26.1):
     - Alamofire (~> 3.4.0)
     - Argo (~> 3.0.1)
     - CocoaLumberjack/Swift (~> 2.3.0)
@@ -145,7 +145,7 @@ DEPENDENCIES:
   - Kahuna (= 2.3.1)
   - Leanplum-iOS-SDK (~> 1.3.11)
   - LGCollapsibleLabel (= 0.1.8)
-  - LGCoreKit (from `../lgcorekit`)
+  - LGCoreKit (= 0.26.1)
   - LGSemiModalNavController (~> 0.2.0)
   - Nimble (~> 4.0.1)
   - pop (~> 1.0.8)
@@ -168,8 +168,6 @@ EXTERNAL SOURCES:
   JBKenBurnsView:
     :commit: 56419f79cb763f8d2ee3a75e4eca51ebc1deab6a
     :git: https://github.com/letgoapp/JBKenBurns
-  LGCoreKit:
-    :path: ../lgcorekit
   TMReachability:
     :commit: e34782b386307e386348b481c02c176d58ba45e6
     :git: https://github.com/albertbori/Reachability
@@ -225,7 +223,7 @@ SPEC CHECKSUMS:
   KeychainSwift: a5bb85cd498ce2217b55e055ec59e9268d83384c
   Leanplum-iOS-SDK: 0d415b4241c2c1d621b93846a0d70a9ea73566bc
   LGCollapsibleLabel: c7c43dc5932e93faf1fe858bb9f860b38d7c3f9f
-  LGCoreKit: 403ecd156b81cf83f5e7ef601f92f72deba5d256
+  LGCoreKit: fca1262f41d438343e29f2176373a30e9deebabb
   LGSemiModalNavController: ba49f8cbc24638be981cbca8a526f66b5dd90414
   Nimble: 0f3c8b8b084cda391209c3c5efbb48bedeeb920a
   pop: f667631a5108a2e60d9e8797c9b32ddaf2080bce
@@ -244,6 +242,6 @@ SPEC CHECKSUMS:
   TwitterCore: 817eae3e291fa4125b47789e26a4f6f024115c1f
   TwitterKit: 8a383da8d9c21b0423716381ea8bbfce20622d91
 
-PODFILE CHECKSUM: 2d11f36137637d881006494cf504f4b71b3ca6cc
+PODFILE CHECKSUM: 06671dbf52db260daf59152376046b1f130fd974
 
 COCOAPODS: 1.0.1

@@ -9,8 +9,14 @@
 import Alamofire
 
 extension Manager {
-    static var lgManager: Manager {
-        let configuration = NSURLSessionConfiguration.defaultSessionConfiguration()
+    static func lgManager(backgroundEnabled: Bool) -> Manager {
+        let configuration: NSURLSessionConfiguration
+        if backgroundEnabled {
+            configuration = NSURLSessionConfiguration
+                .backgroundSessionConfigurationWithIdentifier(LGCoreKitConstants.networkBackgroundIdentifier)
+        } else {
+            configuration = NSURLSessionConfiguration.defaultSessionConfiguration()
+        }
         configuration.HTTPAdditionalHeaders = Manager.defaultHTTPHeaders
         configuration.requestCachePolicy = .ReloadIgnoringLocalCacheData
         return Manager(configuration: configuration)
