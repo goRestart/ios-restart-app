@@ -12,6 +12,7 @@ import LGCoreKit
 protocol ChatProductViewDelegate: class {
     func productViewDidTapUserAvatar()
     func productViewDidTapProductImage()
+    func productViewDidTapUserReview()
 }
 
 class ChatProductView: UIView {
@@ -25,6 +26,7 @@ class ChatProductView: UIView {
 
     @IBOutlet weak var productButton: UIButton!
     @IBOutlet weak var userButton: UIButton!
+    @IBOutlet weak var reviewButton: UIButton!
     
     let imageHeight: CGFloat = 64
     let imageWidth: CGFloat = 64
@@ -57,6 +59,14 @@ class ChatProductView: UIView {
         productPrice.font = UIFont.chatProductViewPriceFont
         
         userAvatar.layer.minificationFilter = kCAFilterTrilinear
+
+        reviewButton.setStyle(.Review)
+        reviewButton.hidden = true
+    }
+
+    func shouldShowReviewButton(userIsReviewable: Bool) {
+        userName.hidden = userIsReviewable && FeatureFlags.userRatings
+        reviewButton.hidden = !userIsReviewable || !FeatureFlags.userRatings
     }
 
     func disableProductInteraction() {
@@ -70,6 +80,7 @@ class ChatProductView: UIView {
         userAvatar.alpha = 0.3
         userName.alpha = 0.3
         userButton.enabled = false
+        reviewButton.enabled = false
     }
     
     // MARK: - Actions
@@ -80,5 +91,9 @@ class ChatProductView: UIView {
     
     @IBAction func userButtonPressed(sender: AnyObject) {
         delegate?.productViewDidTapUserAvatar()
+    }
+
+    @IBAction func reviewButtonPressed(sender: AnyObject) {
+        delegate?.productViewDidTapUserReview()
     }
 }
