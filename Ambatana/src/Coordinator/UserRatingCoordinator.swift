@@ -6,6 +6,8 @@
 //  Copyright © 2016 Ambatana. All rights reserved.
 //
 
+import LGCoreKit
+
 protocol UserRatingCoordinatorDelegate: CoordinatorDelegate {
     func userRatingCoordinatorDidCancel(coordinator: UserRatingCoordinator)
     func userRatingCoordinatorDidFinish(coordinator: UserRatingCoordinator)
@@ -23,14 +25,23 @@ final class UserRatingCoordinator: Coordinator {
 
     // MARK: - Lifecycle
 
-    init(userId: String, userAvatar: NSURL?, userName: String?) {
+    convenience init?(user: User) {
+        guard let userId = user.objectId else { return nil }
+        self.init(userId: userId, userAvatar: user.avatar?.fileURL, userName: user.name)
+    }
 
-        let userRatingVM = UserRatingViewModel(userId: userId, userAvatar: userAvatar, userName: userName)
-        self.viewController = UserRatingViewController(viewModel: userRatingVM)
+    convenience init?(user: ChatInterlocutor) {
+        guard let userId = user.objectId else { return nil }
+        self.init(userId: userId, userAvatar: user.avatar?.fileURL, userName: user.name)
+    }
+
+    init(userId: String, userAvatar: NSURL?, userName: String?) {
+        let userRatingVM = RateUserViewModel(userId: userId, userAvatar: userAvatar, userName: userName)
+        self.viewController = RateUserViewController(viewModel: userRatingVM)
     }
 
     func open(parent parent: UIViewController, animated: Bool, completion: (() -> Void)?) {
-        guard let userRatingVC = viewController as? UserRatingViewController else { return }
+        guard let userRatingVC = viewController as? RateUserViewController else { return }
         guard userRatingVC.parentViewController == nil else { return }
 
         parentViewController = parent
