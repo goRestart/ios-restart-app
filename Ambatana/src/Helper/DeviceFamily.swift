@@ -31,6 +31,6 @@ enum DeviceFamily {
     }
 
     static var isWideScreen: Bool {
-        return UIScreen.mainScreen().bounds.width <= 375
+        return UIScreen.mainScreen().bounds.width > 375
     }
 }
