@@ -31,6 +31,8 @@ enum DeviceFamily {
     }
 
     static var isWideScreen: Bool {
-        return UIScreen.mainScreen().bounds.width > 375
+        return UIScreen.mainScreen().bounds.width > DeviceFamily.iPhone6ScreenWidth
     }
+
+    private static let iPhone6ScreenWidth: CGFloat = 375
 }
