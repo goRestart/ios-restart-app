@@ -143,7 +143,8 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
     var images: [EditProductImageType] {
         return productImages.images
     }
-    var savedProduct: Product?
+    private let initialProduct: Product
+    private var savedProduct: Product?
     private var categories: [ProductCategory] = []
     
     // Repositories
@@ -154,13 +155,10 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
     let commercializerRepository: CommercializerRepository
     let tracker: Tracker
 
-    // Product info
-    private var initialProduct: Product
-    private var editedProduct: Product
-    weak var updateDetailDelegate : UpdateDetailInfoDelegate?
-
     // Delegate
     weak var delegate: EditProductViewModelDelegate?
+    weak var updateDetailDelegate : UpdateDetailInfoDelegate?
+
     var closeCompletion: ((Product) -> Void)?
 
     // Rx
@@ -192,7 +190,6 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
         self.tracker = tracker
         
         self.initialProduct = product
-        self.editedProduct = product
 
         self.title = product.title
         
@@ -253,16 +250,20 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
         let name = title ?? ""
         let description = (descr ?? "").stringByRemovingEmoji()
         let priceAmount = (price ?? "0").toPriceDouble()
-        let currency = editedProduct.currency
+        let currency = initialProduct.currency
 
-        editedProduct = productRepository.updateProduct(editedProduct, name: name, description: description,
-                                                        price: priceAmount, currency: currency, location: location,
-                                                        postalAddress: postalAddress, category: category)
+        let editedProduct = productRepository.updateProduct(initialProduct, name: name, description: description,
+                                                            price: priceAmount, currency: currency, location: location,
+                                                            postalAddress: postalAddress, category: category)
         saveTheProduct(editedProduct, withImages: productImages)
     }
 
     func didClose() {
-        closeCompletion?(editedProduct)
+        if let savedProduct = savedProduct {
+            closeCompletion?(savedProduct)
+        } else {
+            closeCompletion?(initialProduct)
+        }
     }
 
 
@@ -278,13 +279,14 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
 
     internal func trackStart() {
         let myUser = myUserRepository.myUser
-        let event = TrackerEvent.productEditStart(myUser, product: editedProduct)
+        let event = TrackerEvent.productEditStart(myUser, product: initialProduct)
         trackEvent(event)
     }
     
     internal func trackValidationFailedWithError(error: ProductCreateValidationError) {
         let myUser = myUserRepository.myUser
-        let event = TrackerEvent.productEditFormValidationFailed(myUser, product: editedProduct, description: error.rawValue)
+        let event = TrackerEvent.productEditFormValidationFailed(myUser, product: initialProduct,
+                                                                 description: error.rawValue)
         trackEvent(event)
     }
 
@@ -295,9 +297,8 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
     }
 
     internal func trackComplete(product: Product) {
-        self.editedProduct = product
-
         // if nothing is changed, we don't track the edition
+        let editedFields = editFieldsComparedTo(product)
         guard !editedFields.isEmpty  else { return }
 
         let myUser = myUserRepository.myUser
@@ -314,26 +315,25 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
         }
     }
 
-    private var editedFields: [EventParameterEditedFields] {
-
-        var editedFields : [EventParameterEditedFields] = []
+    private func editFieldsComparedTo(product: Product) -> [EventParameterEditedFields] {
+        var editedFields: [EventParameterEditedFields] = []
 
         if productImages.localImages.count > 0 || initialProduct.images.count != productImages.remoteImages.count  {
             editedFields.append(.Picture)
         }
-        if initialProduct.name != editedProduct.name {
+        if initialProduct.name != product.name {
             editedFields.append(.Title)
         }
-        if initialProduct.priceString() != editedProduct.priceString() {
+        if initialProduct.priceString() != product.priceString() {
             editedFields.append(.Price)
         }
-        if initialProduct.descr != editedProduct.descr {
+        if initialProduct.descr != product.descr {
             editedFields.append(.Description)
         }
-        if initialProduct.category != editedProduct.category {
+        if initialProduct.category != product.category {
             editedFields.append(.Category)
         }
-        if initialProduct.location != editedProduct.location {
+        if initialProduct.location != product.location {
             editedFields.append(.Location)
         }
         if shareInFbChanged() {
