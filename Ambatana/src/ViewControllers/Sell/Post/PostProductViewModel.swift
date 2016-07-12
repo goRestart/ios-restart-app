@@ -16,7 +16,18 @@ protocol PostProductViewModelDelegate: class {
 }
 
 enum PostingSource {
-    case AppStart, SellButton, BannerCell
+    case AppStart
+    case SellButton
+    case BannerCell(designType: String)
+    
+    var designType: String? {
+        switch self {
+        case BannerCell(let type):
+            return type
+        default:
+            return nil
+        }
+    }
 }
 
 
@@ -84,7 +95,7 @@ class PostProductViewModel: BaseViewModel {
     // MARK: - Public methods
 
     func onViewLoaded() {
-        let event = TrackerEvent.productSellStart(postingSource.typePage)
+        let event = TrackerEvent.productSellStart(postingSource.typePage, designType: postingSource.designType)
         TrackerProxy.sharedInstance.trackEvent(event)
     }
 
@@ -231,8 +242,7 @@ extension PostingSource {
         case .SellButton:
             return .Sell
         case .BannerCell:
-            // TODO: 🎪 Update
-            return .Sell
+            return .IncentivizePosting
         }
     }
 }

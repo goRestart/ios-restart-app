@@ -53,11 +53,11 @@ def shared_pods
 	# Push Notifications
 	pod "Kahuna",               "2.3.1"
 
-	# Google
-    pod "Google/Analytics",         "~> 2.0.3"
-    pod "Google/SignIn",            "~> 2.0.3"
+	# Google -> we have to ask for the Google/"subpod" so it imports Google/Core too
+    pod "Google/Analytics",         "~> 3.0.3"
+    pod "Google/SignIn",            "~> 3.0.3"
 
-    pod "GoogleAppIndexing",        "~> 2.0.3"
+    pod "Firebase/AppIndexing",        "~> 3.3.0"
     pod "GoogleConversionTracking", "~> 3.4.0"
     pod "GoogleIDFASupport",        "~> 3.14.0"
 
