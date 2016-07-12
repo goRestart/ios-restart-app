@@ -8,12 +8,12 @@
 
 import UIKit
 
-enum DeviceFamily: Int {
-    case iPhone4 = 480
-    case iPhone5 = 568
-    case iPhone6 = 667
-    case iPhone6Plus = 736
-    case unknown = 0
+enum DeviceFamily {
+    case iPhone4        // width = 480
+    case iPhone5        // width = 568
+    case iPhone6        // width = 667
+    case iPhone6Plus    // width = 736
+    case unknown
 
     static var current: DeviceFamily {
         switch UIScreen.mainScreen().bounds.height {
@@ -28,5 +28,9 @@ enum DeviceFamily: Int {
         default:
             return unknown
         }
+    }
+
+    static var isWideScreen: Bool {
+        return UIScreen.mainScreen().bounds.width <= 375
     }
 }
