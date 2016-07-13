@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -113,55 +113,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="h6O-nj-IHh" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="852" y="1629"/>
-        </scene>
-        <!--Photos In Detail View Controller-->
-        <scene sceneID="Isz-iK-SAk">
-            <objects>
-                <viewController storyboardIdentifier="PhotosInDetailViewController" automaticallyAdjustsScrollViewInsets="NO" id="9k4-lE-YS1" customClass="PhotosInDetailViewController" customModule="LetGo" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="BV3-Pw-rsh"/>
-                        <viewControllerLayoutGuide type="bottom" id="xOF-5t-A4I"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="gkn-ta-aGw">
-                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lgg-4s-Thy">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
-                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                                <connections>
-                                    <outlet property="delegate" destination="9k4-lE-YS1" id="mCr-Yh-bfh"/>
-                                </connections>
-                            </scrollView>
-                            <pageControl hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="3fB-fj-4QY">
-                                <rect key="frame" x="140" y="447" width="39" height="37"/>
-                                <color key="pageIndicatorTintColor" red="0.90196079015731812" green="0.90196079015731812" blue="0.90196079015731812" alpha="1" colorSpace="calibratedRGB"/>
-                                <color key="currentPageIndicatorTintColor" red="1" green="0.36355292797088623" blue="0.38490483164787292" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <connections>
-                                    <action selector="pageChanged:" destination="9k4-lE-YS1" eventType="valueChanged" id="V9B-Jq-LU1"/>
-                                </connections>
-                            </pageControl>
-                        </subviews>
-                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="lgg-4s-Thy" firstAttribute="leading" secondItem="gkn-ta-aGw" secondAttribute="leadingMargin" constant="-16" id="6wq-ME-hS6"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="lgg-4s-Thy" secondAttribute="trailing" constant="-16" id="KXd-8p-tzy"/>
-                            <constraint firstItem="xOF-5t-A4I" firstAttribute="top" secondItem="3fB-fj-4QY" secondAttribute="bottom" constant="20" id="OsZ-bF-3eS"/>
-                            <constraint firstItem="lgg-4s-Thy" firstAttribute="top" secondItem="BV3-Pw-rsh" secondAttribute="bottom" id="TCN-2b-bfg"/>
-                            <constraint firstItem="xOF-5t-A4I" firstAttribute="top" secondItem="lgg-4s-Thy" secondAttribute="bottom" id="V3V-ug-0fx"/>
-                            <constraint firstAttribute="centerX" secondItem="3fB-fj-4QY" secondAttribute="centerX" constant="0.5" id="ZKy-Pm-1LV"/>
-                        </constraints>
-                    </view>
-                    <navigationItem key="navigationItem" id="QRF-eG-Ahu"/>
-                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
-                    <connections>
-                        <outlet property="pageControl" destination="3fB-fj-4QY" id="89H-Au-KQa"/>
-                        <outlet property="scrollView" destination="lgg-4s-Thy" id="2c5-7r-8qg"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="XSg-6q-24x" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="852" y="991"/>
         </scene>
         <!--Make An Offer View Controller-->
         <scene sceneID="po5-LC-h9F">
