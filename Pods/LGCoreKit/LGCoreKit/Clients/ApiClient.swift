@@ -173,11 +173,12 @@ extension ApiClient {
         } else {
             installationQueue.addOperationWithBlock { [weak self] in
                 guard let strongSelf = self else { return }
-
-                if strongSelf.tokenDAO.level > .None {
-                    succeeded?()
-                } else {
-                    failed?(.Unauthorized)
+                dispatch_async(dispatch_get_main_queue()) {
+                    if strongSelf.tokenDAO.level > .None {
+                        succeeded?()
+                    } else {
+                        failed?(.Unauthorized)
+                    }
                 }
             }
         }
