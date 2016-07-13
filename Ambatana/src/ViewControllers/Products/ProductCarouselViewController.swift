@@ -630,17 +630,11 @@ extension ProductCarouselViewController: ProductCarouselViewModelDelegate {
     func vmReloadItemAtIndex(index: Int) {
         let indexPath = NSIndexPath(forItem: index, inSection: 0)
         collectionView.reloadItemsAtIndexPaths([indexPath])
-
         refreshOverlayElements()
     }
 
     func vmRemoveMoreInfoTooltip() {
         removeMoreInfoTooltip()
-    }
-    
-    func vmRefreshCurrentItem() {
-        collectionView.reloadData()
-        refreshOverlayElements()
     }
 }
 
