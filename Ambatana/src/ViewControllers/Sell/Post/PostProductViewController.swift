@@ -9,11 +9,7 @@
 import UIKit
 import FastttCamera
 
-class PostProductViewController: BaseViewController, SellProductViewController, PostProductViewModelDelegate,
-UITextFieldDelegate {
-
-    weak var delegate: SellProductViewControllerDelegate?
-
+class PostProductViewController: BaseViewController, PostProductViewModelDelegate, UITextFieldDelegate {
     @IBOutlet weak var cameraGalleryContainer: UIView!
     @IBOutlet weak var galleryButton: UIButton!
     @IBOutlet weak var photoButton: UIButton!
@@ -119,26 +115,7 @@ UITextFieldDelegate {
     
     @IBAction func onCloseButton(sender: AnyObject) {
         priceTextField.resignFirstResponder()
-        if viewModel.shouldShowCloseAlert() {
-            let alert = UIAlertController(title: LGLocalizedString.productPostCloseAlertTitle,
-                message: LGLocalizedString.productPostCloseAlertDescription, preferredStyle: .Alert)
-            let cancelAction = UIAlertAction(title: LGLocalizedString.productPostCloseAlertCloseButton,
-                style: .Cancel, handler: { [weak self] action in
-                    guard let strongSelf = self else { return }
-                    strongSelf.viewModel.closeButtonPressed(sellController: strongSelf, delegate: strongSelf.delegate)
-                })
-            let postAction = UIAlertAction(title: LGLocalizedString.productPostCloseAlertOkButton, style: .Default,
-                handler: { [weak self] action in
-                    guard let strongSelf = self else { return }
-                    strongSelf.viewModel.doneButtonPressed(priceText: nil, sellController: strongSelf,
-                        delegate: strongSelf.delegate)
-            })
-            alert.addAction(cancelAction)
-            alert.addAction(postAction)
-            presentViewController(alert, animated: true, completion: nil)
-        } else {
-            viewModel.closeButtonPressed(sellController: self, delegate: delegate)
-        }
+        viewModel.closeButtonPressed()
     }
 
     @IBAction func galleryButtonPressed(sender: AnyObject) {
@@ -161,7 +138,7 @@ UITextFieldDelegate {
     @IBAction func onDoneButton(sender: AnyObject) {
         priceTextField.resignFirstResponder()
 
-        viewModel.doneButtonPressed(priceText: priceTextField.text, sellController: self, delegate: delegate)
+        viewModel.doneButtonPressed(priceText: priceTextField.text)
     }
 
     @IBAction func onRetryButton(sender: AnyObject) {
@@ -183,7 +160,7 @@ UITextFieldDelegate {
         setSelectPriceState(loading: false, error: error)
     }
 
-    func postProductviewModelshouldClose(viewModel: PostProductViewModel, animated: Bool, completion: (() -> Void)?) {
+    func postProductviewModelShouldClose(viewModel: PostProductViewModel, animated: Bool, completion: (() -> Void)?) {
         dismissViewControllerAnimated(animated, completion: completion)
     }
 

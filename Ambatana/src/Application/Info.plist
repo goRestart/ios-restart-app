@@ -17,7 +17,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.10.6</string>
+	<string>1.10.7</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -48,20 +48,9 @@
 				<string>com.letgo.ios</string>
 			</array>
 		</dict>
-		<dict>
-			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
-			<key>CFBundleURLName</key>
-			<string>com.taplytics</string>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>tl-6c429045</string>
-				<string>tl-ea6f171c</string>
-			</array>
-		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>139</string>
+	<string>140</string>
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>

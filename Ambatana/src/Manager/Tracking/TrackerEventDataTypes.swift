@@ -39,7 +39,6 @@ public enum EventName: String {
     case ProductShareCancel                 = "product-detail-share-cancel"
     case ProductShareComplete               = "product-detail-share-complete"
     
-    case ProductOffer                       = "product-detail-offer"
     case ProductAskQuestion                 = "product-detail-ask-question"
     case ProductContinueChatting            = "product-detail-continue-chatting"
     case ProductChatButton                  = "product-detail-chat-button"
@@ -151,7 +150,6 @@ public enum EventParameterName: String {
     case ProductPrice         = "product-price"
     case ProductCurrency      = "product-currency"
     case ProductType          = "item-type"             // real (1) / dummy (0).
-    case ProductOfferAmount   = "amount-offer"
     case UserToId             = "user-to-id"
     case UserEmail            = "user-email"
     case UserCity             = "user-city"
@@ -197,7 +195,6 @@ public enum EventParameterLoginSourceValue: String {
     case Profile = "view-profile"
     case Notifications = "notifications"
     case Favourite = "favourite"
-    case MakeOffer = "offer"
     case MarkAsSold = "mark-as-sold"
     case MarkAsUnsold = "mark-as-unsold"
     case AskQuestion = "question"
@@ -424,7 +421,6 @@ public enum EventParameterPermissionGoToSettings: String {
 
 public enum ProductVisitUserAction: String {
     case Tap = "tap"
-    case Automatic = "automatic"
     case SwipeLeft = "swipe-left"
     case SwipeRight = "swipe-right"
     case None = "N/A"
@@ -456,14 +452,10 @@ public struct EventParameters {
     }
     
     internal mutating func addProductParams(product: Product) {
-        if let productId = product.objectId {
-            params[.ProductId] = productId
-        }
+        params[.ProductId] = product.objectId
         params[.ProductLatitude] = product.location.latitude
         params[.ProductLongitude] = product.location.longitude
-        if let productPrice = product.price {
-            params[.ProductPrice] = productPrice
-        }
+        params[.ProductPrice] = product.price
         params[.ProductCurrency] = product.currency.code
         params[.CategoryId] = product.category.rawValue
         params[.ProductType] = product.user.isDummy ?
@@ -474,14 +466,12 @@ public struct EventParameters {
     internal mutating func addChatProductParams(product: ChatProduct) {
         params[.ProductId] = product.objectId
         params[.ProductPrice] = product.price
-        params[.ProductCurrency] = product.currency
+        params[.ProductCurrency] = product.currency.code
         params[.ProductType] = EventParameterProductItemType.Real.rawValue
     }
     
     internal mutating func addUserParams(user: User?) {
-        if let userToId = user?.objectId {
-            params[.UserToId] = userToId
-        }
+        params[.UserToId] = user?.objectId
     }
 
     internal subscript(paramName: EventParameterName) -> AnyObject? {

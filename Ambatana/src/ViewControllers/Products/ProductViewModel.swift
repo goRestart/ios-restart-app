@@ -21,7 +21,6 @@ protocol ProductViewModelDelegate: class, BaseViewModelDelegate {
     func vmOpenUser(userVM: UserViewModel)
     func vmOpenChat(chatVM: OldChatViewModel)
     func vmOpenWebSocketChat(chatVM: ChatViewModel)
-    func vmOpenOffer(offerVC: MakeAnOfferViewController)
 
     func vmOpenPromoteProduct(promoteVM: PromoteProductViewModel)
     func vmOpenCommercialDisplay(displayVM: CommercialDisplayViewModel)
@@ -238,10 +237,6 @@ class ProductViewModel: BaseViewModel {
         super.init()
 
         setupRxBindings()
-        
-        if FeatureFlags.productDetailVersion != .Snapchat {
-            trackVisit(.None)
-        }
     }
     
     internal override func didBecomeActive(firstTime: Bool) {
@@ -426,19 +421,6 @@ extension ProductViewModel {
         trackChatWithSeller()
         openChat()
     }
-    
-    func offer() {
-        ifLoggedInRunActionElseOpenMainSignUp({ [weak self] in
-            guard let strongSelf = self else { return }
-
-            // TODO: Refactor to return a view model as soon as MakeAnOfferViewController is refactored to MVVM
-            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            guard let offerVC = storyboard.instantiateViewControllerWithIdentifier("MakeAnOfferViewController")
-                as? MakeAnOfferViewController else { return }
-            offerVC.product = strongSelf.product.value
-            strongSelf.delegate?.vmOpenOffer(offerVC)
-            }, source: .MakeOffer)
-    }
 
     func sendDirectMessage(message: String?) {
         delegate?.vmShowLoading(LGLocalizedString.productChatDirectMessageSending)
@@ -597,8 +579,11 @@ extension ProductViewModel {
         return UIAction(interface: .Image(icon), action: { [weak self] in
             guard let strongSelf = self else { return }
             let editProductVM = EditProductViewModel(product: strongSelf.product.value)
+            editProductVM.closeCompletion = { [weak self] product in
+                self?.product.value = product
+            }
             strongSelf.delegate?.vmOpenEditProduct(editProductVM)
-            })
+        })
     }
 
     private func buildShareNavBarAction() -> UIAction {
@@ -823,21 +808,6 @@ extension ProductViewModel {
 
 
 // MARK: - UpdateDetailInfoDelegate
-
-extension ProductViewModel: UpdateDetailInfoDelegate {
-    func updateDetailInfo(viewModel: EditProductViewModel, withSavedProduct savedProduct: Product) {
-        product.value = savedProduct
-    }
-
-    func updateDetailInfo(viewModel: EditProductViewModel, withInitialProduct initialProduct: Product) {
-        switch initialProduct.status {
-        case .Pending:
-            promoteProduct(.ProductEdit)
-        case .Approved, .Discarded, .Sold, .SoldOld, .Deleted:
-            break
-        }
-    }
-}
 
 extension ProductViewModel {
     private func ifLoggedInRunActionElseOpenMainSignUp(action: () -> (), source: EventParameterLoginSourceValue) {

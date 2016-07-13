@@ -12,7 +12,7 @@ private extension TrackerEvent {
     var shouldTrack: Bool {
         get {
             switch name {
-            case .ProductSellComplete, .ProductDetailVisit, .ProductDetailVisitMoreInfo, .ProductAskQuestion, .ProductOffer, .UserMessageSent,
+            case .ProductSellComplete, .ProductDetailVisit, .ProductDetailVisitMoreInfo, .ProductAskQuestion, .UserMessageSent,
                  .ProductMarkAsSold, .ProductDeleteComplete, .SignupEmail, .LoginEmail, .LoginFB, .Logout:
                 return true
             default:
@@ -24,7 +24,7 @@ private extension TrackerEvent {
     var ganCategory: String {
         get {
             switch name {
-            case .ProductDetailVisit, .ProductDetailVisitMoreInfo, .ProductAskQuestion, .ProductOffer:
+            case .ProductDetailVisit, .ProductDetailVisitMoreInfo, .ProductAskQuestion:
                 return "buyer"
             case .ProductSellComplete, .ProductMarkAsSold, .ProductDeleteComplete:
                 return "seller"

@@ -15,5 +15,5 @@ protocol AppNavigator: class {
     
     func open()
     func openForceUpdateAlertIfNeeded()
-    func openSell(source: PostingSource, forceCamera: Bool)
+    func openSell(source: PostingSource)
 }

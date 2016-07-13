@@ -7,15 +7,17 @@
 //
 
 import LGCoreKit
+import RxSwift
 
 protocol ProductCarouselViewModelDelegate: BaseViewModelDelegate {
     func vmReloadData()
+    func vmReloadItemAtIndex(index: Int)
     func vmRemoveMoreInfoTooltip()
     func vmRefreshCurrentItem()
 }
 
 enum CarouselMovement {
-    case Tap, SwipeLeft, SwipeRight, Initial, Auto
+    case Tap, SwipeLeft, SwipeRight, Initial
 }
 
 class ProductCarouselViewModel: BaseViewModel {
@@ -32,7 +34,9 @@ class ProductCarouselViewModel: BaseViewModel {
     var startIndex: Int = 0
     var initialThumbnail: UIImage?
     weak var delegate: ProductCarouselViewModelDelegate?
-    
+
+    private var activeDisposeBag = DisposeBag()
+
     var objectCount: Int {
         return objects.count
     }
@@ -56,20 +60,12 @@ class ProductCarouselViewModel: BaseViewModel {
         }
     }
 
-    var autoSwitchToNextEnabled: Bool {
-        guard FeatureFlags.automaticNextItem else { return false }
-        guard !singleProductList else { return false }
-        guard let myUserId = myUserRepository.myUser?.objectId,
-            userProductListRequester = productListRequester as? UserProductListRequester,
-            requesterUserId = userProductListRequester.userObjectId else { return true }
-        return myUserId != requesterUserId
-    }
-
     private let singleProductList: Bool
     private var productListRequester: ProductListRequester?
     private var productsViewModels: [String: ProductViewModel] = [:]
     private let myUserRepository: MyUserRepository
     private var objects: [ProductCarouselCellModel] = []
+
 
     // MARK: - Init
     
@@ -133,9 +129,10 @@ class ProductCarouselViewModel: BaseViewModel {
         }
         return nil
     }
-    
+
+
     // MARK: - Public Methods
-    
+
     func moveToProductAtIndex(index: Int, delegate: ProductViewModelDelegate, movement: CarouselMovement) {
         guard let viewModel = viewModelAtIndex(index) else { return }
         currentProductViewModel?.active = false
@@ -143,6 +140,14 @@ class ProductCarouselViewModel: BaseViewModel {
         currentProductViewModel?.delegate = delegate
         currentProductViewModel?.active = true
         currentProductViewModel?.trackVisit(movement.visitUserAction)
+
+        activeDisposeBag = DisposeBag()
+        currentProductViewModel?.product.asObservable().skip(1).bindNext { [weak self] updatedProduct in
+            guard let strongSelf = self else { return }
+            guard 0..<strongSelf.objects.count ~= index else { return }
+            strongSelf.objects[index] = ProductCarouselCellModel(product: updatedProduct)
+            strongSelf.delegate?.vmReloadItemAtIndex(index)
+        }.addDisposableTo(activeDisposeBag)
 
         prefetchImages(index)
         prefetchNeighborsImages(index, movement: movement)
@@ -232,7 +237,7 @@ extension ProductCarouselViewModel {
         switch movement {
         case .Initial:
             range = (index-previousImagesToPrefetch)...(index+nextImagesToPrefetch)
-        case .Auto, .Tap, .SwipeRight:
+        case .Tap, .SwipeRight:
             range = (index+1)...(index+nextImagesToPrefetch)
         case .SwipeLeft:
             range = (index-previousImagesToPrefetch)...(index-1)
@@ -262,8 +267,6 @@ extension CarouselMovement {
         switch self {
         case .Tap:
             return .Tap
-        case .Auto:
-            return .Automatic
         case .SwipeLeft:
             return .SwipeLeft
         case .SwipeRight:

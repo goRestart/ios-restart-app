@@ -20,7 +20,7 @@ private extension TrackerEvent {
                  .UserMessageSent,
                  .LoginEmail, .LoginFB, .LoginGoogle, .SignupEmail,
                  .SearchComplete, .FilterComplete,
-                 .ProductAskQuestion, .ProductOffer, .ProductChatButton, .ProductFavorite, .ProductShareComplete,
+                 .ProductAskQuestion, .ProductChatButton, .ProductFavorite, .ProductShareComplete,
                  .ProductMarkAsSold, .ProductDetailVisit,
                  .ProductSellComplete, .ProductSellStart,
                  .ProfileVisit:

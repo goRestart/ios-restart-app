@@ -55,11 +55,11 @@ class TabBarViewModel: BaseViewModel {
     }
 
     func sellButtonPressed() {
-        navigator?.openSell(.SellButton, forceCamera: false)
+        navigator?.openSell(.SellButton)
     }
-    
-    func openSell(source: PostingSource, forceCamera: Bool) {
-        navigator?.openSell(source, forceCamera: forceCamera)
+
+    func sellFromBannerCell(designType: String) {
+        navigator?.openSell(.BannerCell(designType: designType))
     }
 
     func externalSwitchToTab(tab: Tab) {

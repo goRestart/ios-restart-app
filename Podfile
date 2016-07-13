@@ -9,7 +9,6 @@ workspace "LetGo.xcworkspace"
 project "LetGo.xcodeproj"
 
 def shared_pods
-	pod "SDWebImage",            "~> 3.8.1"
     pod "AlamofireImage",        "~> 2.4.0"
 
 	pod "FBSDKLoginKit",         "~> 4.9.1"
@@ -33,7 +32,7 @@ def shared_pods
     pod "Leanplum-iOS-SDK",     "~> 1.3.11"
 
 	# letgo Core
-    pod "LGCoreKit",            "0.26.1" #:path => "../lgcorekit"
+    pod "LGCoreKit",            "0.26.2" #:path => "../lgcorekit"
 
 	# Slack Chat controller
     pod "SlackTextViewController", "1.9.1"
@@ -73,9 +72,6 @@ def shared_pods
 
 	# Reachability, done like this cos' of https://github.com/tonymillion/Reachability/issues/95
 	pod "TMReachability",        :git => 'https://github.com/albertbori/Reachability', :commit => 'e34782b386307e386348b481c02c176d58ba45e6'
-
-    # A/B testing
-    pod "Taplytics",            "~> 2.10.38"
 
     # Logging
     pod "CocoaLumberjack/Swift", "~> 2.3.0"
