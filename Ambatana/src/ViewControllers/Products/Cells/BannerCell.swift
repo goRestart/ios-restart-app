@@ -18,7 +18,7 @@ class BannerCell: UICollectionViewCell, ReusableCell {
     override func awakeFromNib() {
         contentView.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
         contentView.clipsToBounds = true
-        if FeatureFlags.mainProducts3Columns {
+        if DeviceFamily.isWideScreen {
             title.font = UIFont.systemBoldFont(size: 15)
         } else {
             title.font = UIFont.systemBoldFont(size: 19)
