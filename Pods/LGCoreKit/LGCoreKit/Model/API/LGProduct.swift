@@ -64,6 +64,21 @@ public struct LGProduct: Product {
         self.user = user
         self.favorite = false
     }
+    
+    public init(chatProduct chatProduct: ChatProduct, chatInterlocutor: ChatInterlocutor) {
+        self.objectId = chatProduct.objectId
+        self.name = chatProduct.name
+        self.status = chatProduct.status
+        self.thumbnail = chatProduct.image
+        self.price = chatProduct.price
+        self.currency = chatProduct.currency
+        self.user = LGUser(chatInterlocutor: chatInterlocutor)
+
+        self.images = [chatProduct.image].flatMap{$0}
+        self.location = LGLocationCoordinates2D(latitude: 0, longitude: 0)
+        self.postalAddress = PostalAddress(address: nil, city: nil, zipCode: nil, countryCode: nil, country: nil)
+        self.category = ProductCategory.Other
+    }
 
     static func productWithId(objectId: String?, updatedAt: NSDate?, createdAt: NSDate?, name: String?, nameAuto: String?, descr: String?,
          price: Double?, currency: String, location: LGLocationCoordinates2D, postalAddress: PostalAddress,

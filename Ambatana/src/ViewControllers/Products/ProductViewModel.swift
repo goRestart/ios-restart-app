@@ -159,6 +159,24 @@ class ProductViewModel: BaseViewModel {
 
     // MARK: - Lifecycle
 
+    convenience init(product: ChatProduct, user: ChatInterlocutor, thumbnailImage: UIImage?) {
+        let myUserRepository = Core.myUserRepository
+        let productRepository = Core.productRepository
+        let commercializerRepository = Core.commercializerRepository
+        let chatRepository = Core.oldChatRepository
+        let countryHelper = Core.countryHelper
+        let tracker = TrackerProxy.sharedInstance
+        let chatWebSocketRepository = Core.chatRepository
+        let locationManager = Core.locationManager
+        
+        let product = LGProduct(chatProduct: product, chatInterlocutor: user)
+        
+        self.init(myUserRepository: myUserRepository, productRepository: productRepository,
+                  commercializerRepository: commercializerRepository, chatRepository: chatRepository,
+                  chatWebSocketRepository: chatWebSocketRepository, locationManager: locationManager, countryHelper: countryHelper, tracker: tracker,
+                  product: product, thumbnailImage: thumbnailImage)
+    }
+    
     convenience init(product: Product, thumbnailImage: UIImage?) {
         let myUserRepository = Core.myUserRepository
         let productRepository = Core.productRepository

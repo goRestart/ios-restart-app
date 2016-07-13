@@ -33,6 +33,15 @@ public struct LGUser: User {
         self.status = status ?? .Active
         self.isDummy = isDummy
     }
+    
+    public init(chatInterlocutor chatInterlocutor: ChatInterlocutor) {
+        self.objectId = chatInterlocutor.objectId
+        self.name = chatInterlocutor.name
+        self.avatar = chatInterlocutor.avatar
+        self.status = chatInterlocutor.status        
+        self.postalAddress = PostalAddress(address: nil, city: nil, zipCode: nil, countryCode: nil, country: nil)
+        self.isDummy = false
+    }
 }
 
 extension LGUser {

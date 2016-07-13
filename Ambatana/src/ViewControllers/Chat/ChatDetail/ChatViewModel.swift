@@ -289,7 +289,7 @@ class ChatViewModel: BaseViewModel {
         case .Deleted:
             break
         case .Pending, .Approved, .Discarded, .Sold, .SoldOld:
-            guard let productVC = ProductDetailFactory.productDetailFromChatProduct(product, thumbnailImage: nil)
+            guard let productVC = ProductDetailFactory.productDetailFromChatProduct(product, user: conversation.value.interlocutor!, thumbnailImage: nil, originFrame: nil)
                 else { return }
             delegate?.vmShowProduct(productVC)
         }
