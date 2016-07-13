@@ -127,6 +127,7 @@
 "chat_unblock_user" = "Débloquer l'Utilisateur";
 "chat_user_info_name" = "Bonjour, je m'appelle %@";
 "chat_user_info_verified_with" = "Vérifié avec :";
+"chat_user_rating_button_title" = "Noter";
 "chat_verify_alert_message" = "Nous avons envoyé un email de vérification à %@";
 "chat_verify_alert_ok_button" = "Ok";
 "chat_verify_alert_resend_button" = "Renvoyer";
@@ -650,3 +651,9 @@
 "trending_searches_Title" = "Tendance des recherches";
 "unblock_user_error_generic" = "Une erreur est survenue lors du déblocage de cet utilisateur.";
 "unblock_user_success_message" = "Cet utilisateur a été débloqué !";
+"user_rating_message_w_name" = "Tapez les étoiles pour noter et nous dire si votre expérience avec %@ s'est bien passée. Vous pouvez la modifier à tout moment.";
+"user_rating_message_wo_name" = "Tapez les étoiles pour noter et nous dire si votre expérience avec cet utilisateur s'est bien passée. Vous pouvez la modifier à tout moment.";
+"user_rating_review_button" = "Publier";
+"user_rating_review_placeholder" = "Laissez un commentaire (optionnel)";
+"user_rating_review_send_success" = "Votre avis a été publié !";
+"user_rating_title" = "Notez votre expérience avec";
