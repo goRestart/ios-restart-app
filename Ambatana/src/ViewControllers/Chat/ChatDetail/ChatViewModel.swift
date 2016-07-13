@@ -71,7 +71,8 @@ class ChatViewModel: BaseViewModel {
     var keyForTextCaching: String { return userDefaultsSubKey }
     var askQuestion: AskQuestionSource?
     var userIsReviewable: Bool {
-        return didReceiveMessageFromOtherUser && didSendMessage
+        return myMessagesCount >= configManager.myMessagesCountForRating &&
+            otherUserMessagesCount >= configManager.otherMessagesCountForRating
     }
 
     private var shouldShowSafetyTips: Bool {
@@ -119,6 +120,7 @@ class ChatViewModel: BaseViewModel {
     private let stickersRepository: StickersRepository
     private let chatViewMessageAdapter: ChatViewMessageAdapter
     private let tracker: Tracker
+    private let configManager: ConfigManager
     
     private var isDeleted = false
     private var shouldAskProductSold: Bool = false
@@ -135,6 +137,28 @@ class ChatViewModel: BaseViewModel {
 
     private var isBuyer: Bool {
         return !conversation.value.amISelling
+    }
+
+    private var otherUserMessagesCount: Int {
+        guard let otherUserId = conversation.value.interlocutor?.objectId else { return 0 }
+        var messagesCount = 0
+        for message in messages.value {
+            if message.talkerId == otherUserId {
+                messagesCount += 1
+            }
+        }
+        return messagesCount
+    }
+
+    private var myMessagesCount: Int {
+        guard let myUserId = myUserRepository.myUser?.objectId else { return 0 }
+        var messagesCount = 0
+        for message in messages.value {
+            if message.talkerId == myUserId {
+                messagesCount += 1
+            }
+        }
+        return messagesCount
     }
 
     private var shouldShowOtherUserInfo: Bool {
@@ -155,9 +179,14 @@ class ChatViewModel: BaseViewModel {
         let userRepository = Core.userRepository
         let tracker = TrackerProxy.sharedInstance
         let stickersRepository = Core.stickersRepository
+
+        let configFileName = EnvironmentProxy.sharedInstance.configFileName
+        let dao = LGConfigDAO(bundle: NSBundle.mainBundle(), configFileName: configFileName)
+        let configManager = ConfigManager(dao: dao)
+
         self.init(conversation: conversation, myUserRepository: myUserRepository, chatRepository: chatRepository,
                   productRepository: productRepository, userRepository: userRepository,
-                  stickersRepository: stickersRepository, tracker: tracker)
+                  stickersRepository: stickersRepository, tracker: tracker, configManager: configManager)
     }
     
     convenience init?(product: Product) {
@@ -170,23 +199,29 @@ class ChatViewModel: BaseViewModel {
         let stickersRepository = Core.stickersRepository
         let tracker = TrackerProxy.sharedInstance
 
+        let configFileName = EnvironmentProxy.sharedInstance.configFileName
+        let dao = LGConfigDAO(bundle: NSBundle.mainBundle(), configFileName: configFileName)
+        let configManager = ConfigManager(dao: dao)
+
         let amISelling = myUserRepository.myUser?.objectId == sellerId
         let empty = EmptyConversation(objectId: nil, unreadMessageCount: 0, lastMessageSentAt: nil, product: nil,
                                       interlocutor: nil, amISelling: amISelling)
         self.init(conversation: empty, myUserRepository: myUserRepository, chatRepository: chatRepository,
                   productRepository: productRepository, userRepository: userRepository,
-                  stickersRepository: stickersRepository ,tracker: tracker)
+                  stickersRepository: stickersRepository ,tracker: tracker, configManager: configManager)
         self.setupConversationFromProduct(product)
     }
     
     init(conversation: ChatConversation, myUserRepository: MyUserRepository, chatRepository: ChatRepository,
-          productRepository: ProductRepository, userRepository: UserRepository, stickersRepository: StickersRepository, tracker: Tracker) {
+          productRepository: ProductRepository, userRepository: UserRepository, stickersRepository: StickersRepository,
+          tracker: Tracker, configManager: ConfigManager) {
         self.conversation = Variable<ChatConversation>(conversation)
         self.myUserRepository = myUserRepository
         self.chatRepository = chatRepository
         self.productRepository = productRepository
         self.userRepository = userRepository
         self.tracker = tracker
+        self.configManager = configManager
         self.stickersRepository = stickersRepository
         self.chatViewMessageAdapter = ChatViewMessageAdapter()
         super.init()
