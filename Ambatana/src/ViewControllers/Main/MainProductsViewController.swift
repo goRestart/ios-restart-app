@@ -81,6 +81,10 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
         productListView.headerDelegate = self
         productListView.cellsDelegate = viewModel
         productListView.switchViewModel(viewModel.listViewModel)
+        let show3Columns = DeviceFamily.isWideScreen
+        if show3Columns {
+            productListView.updateLayoutWithSeparation(6)
+        }
         addSubview(productListView)
 
         setupInfoBubble()
