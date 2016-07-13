@@ -273,6 +273,11 @@ class ProductViewModel: BaseViewModel {
             strongSelf.productStatusLabelText.value = status.string
             strongSelf.productStatusLabelColor.value = status.labelColor
             }.addDisposableTo(disposeBag)
+        
+        isFavorite.asObservable().subscribeNext { [weak self] _ in
+            guard let strongSelf = self else { return }
+            strongSelf.navBarButtons.value = strongSelf.buildNavBarButtons()
+        }.addDisposableTo(disposeBag)
 
         product.asObservable().subscribeNext { [weak self] product in
             guard let strongSelf = self else { return }

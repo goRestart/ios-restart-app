@@ -19,7 +19,7 @@ class BannerCell: UICollectionViewCell, ReusableCell {
         contentView.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
         contentView.clipsToBounds = true
         if FeatureFlags.mainProducts3Columns {
-            title.font = UIFont.systemBoldFont(size: 15)
+            title.font = UIFont.systemBoldFont(size: 17)
         } else {
             title.font = UIFont.systemBoldFont(size: 19)
         }
