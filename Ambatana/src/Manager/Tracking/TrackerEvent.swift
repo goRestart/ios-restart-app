@@ -234,14 +234,6 @@ public struct TrackerEvent {
             return TrackerEvent(name: .ProductShareComplete, params: params)
     }
 
-    public static func productOffer(product: Product, amount: Double) -> TrackerEvent {
-        var params = EventParameters()
-        params.addProductParams(product)
-        params[.ProductOfferAmount] = amount
-        params[.TypePage] = EventParameterTypePage.ProductDetail.rawValue
-        return TrackerEvent(name: .ProductOffer, params: params)
-    }
-
     public static func productAskQuestion(product: Product, messageType: EventParameterMessageType,
                                           typePage: EventParameterTypePage) -> TrackerEvent {
         var params = EventParameters()

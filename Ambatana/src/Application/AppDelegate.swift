@@ -158,6 +158,11 @@ extension AppDelegate: UIApplicationDelegate {
 
     }
 
+    func application(application: UIApplication, handleEventsForBackgroundURLSession identifier: String,
+                     completionHandler: () -> Void) {
+        Core.networkBackgroundCompletion = completionHandler
+    }
+
     // MARK: > App continuation
 
     func application(application: UIApplication, continueUserActivity userActivity: NSUserActivity,

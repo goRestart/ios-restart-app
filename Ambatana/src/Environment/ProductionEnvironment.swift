@@ -32,9 +32,6 @@ class ProductionEnvironment: AppEnvironment {
     let twitterConsumerKey = "krEbU50JQnxY9WkNp6zevuOpK"
     let twitterConsumerSecret = "QftWuBwJMb0UrfvGOErcIS6Oyf7d6RGn60HfN4DRLjgt7XmTgI"
 
-    // Taplytics
-    let taplyticsApiKey = "18371c3d3cebea738a848f901c5bedf04c5f9897"
-
     // Leanplum
     let leanplumAppId = "app_gYgnjLc98J3vIVHbmdD9W0Qwvy0A3KHMdo4PKd0zJD4"
     let leanplumEnvKey = "prod_OQEDqHOM3iZxZSKbcMuhnMZcee4PKDji5yJGfS5jn64"

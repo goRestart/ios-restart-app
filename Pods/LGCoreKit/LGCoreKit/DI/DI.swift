@@ -7,9 +7,13 @@
 //
 
 import KeychainSwift
+import Alamofire
 
 public protocol DI: class {
-    init()
+    init(backgroundEnabled: Bool)
+
+    // Background
+    var networkBackgroundCompletion: (() -> Void)? { get set }
     
     // Manager
     var sessionManager: SessionManager { get }

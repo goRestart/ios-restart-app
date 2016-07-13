@@ -14,7 +14,7 @@ protocol ProductCarouselViewModelDelegate: BaseViewModelDelegate {
 }
 
 enum CarouselMovement {
-    case Tap, SwipeLeft, SwipeRight, Initial, Auto
+    case Tap, SwipeLeft, SwipeRight, Initial
 }
 
 class ProductCarouselViewModel: BaseViewModel {
@@ -53,15 +53,6 @@ class ProductCarouselViewModel: BaseViewModel {
              .OtherSold, .Sold:
             return false
         }
-    }
-
-    var autoSwitchToNextEnabled: Bool {
-        guard FeatureFlags.automaticNextItem else { return false }
-        guard !singleProductList else { return false }
-        guard let myUserId = myUserRepository.myUser?.objectId,
-            userProductListRequester = productListRequester as? UserProductListRequester,
-            requesterUserId = userProductListRequester.userObjectId else { return true }
-        return myUserId != requesterUserId
     }
 
     private let singleProductList: Bool
@@ -202,7 +193,7 @@ extension ProductCarouselViewModel {
         switch movement {
         case .Initial:
             range = (index-previousImagesToPrefetch)...(index+nextImagesToPrefetch)
-        case .Auto, .Tap, .SwipeRight:
+        case .Tap, .SwipeRight:
             range = (index+1)...(index+nextImagesToPrefetch)
         case .SwipeLeft:
             range = (index-previousImagesToPrefetch)...(index-1)
@@ -232,8 +223,6 @@ extension CarouselMovement {
         switch self {
         case .Tap:
             return .Tap
-        case .Auto:
-            return .Automatic
         case .SwipeLeft:
             return .SwipeLeft
         case .SwipeRight:

@@ -16,6 +16,11 @@ Will clone develop, create a new `release-x.x.x` branch from, update the build i
 fastlane ios beta
 ```
 Will clone the specified branch, update the build info and do a deploy of that to crashlytics
+### ios local_beta
+```
+fastlane ios local_beta
+```
+Build and distribute local code to Crashlytics
 ### ios deploy_to_appstore
 ```
 fastlane ios deploy_to_appstore

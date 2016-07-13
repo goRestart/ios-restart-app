@@ -8,7 +8,6 @@
 
 import AlamofireImage
 import Result
-import SDWebImage
 
 final class ImageDownloader: ImageDownloaderType {
     static let sharedInstance = ImageDownloader(imageDownloader: ImageDownloader.buildImageDownloader())
@@ -33,7 +32,6 @@ final class ImageDownloader: ImageDownloaderType {
     }
 
     private static func buildImageDownloader() -> ImageDownloaderType {
-//        return SDWebImageManager.sharedManager()
         return AlamofireImage.ImageDownloader.defaultInstance
     }
 }

@@ -17,10 +17,10 @@ final class CoreDI: InternalDI {
     
     // MARK: - Lifecycle
     
-    init() {
-        let alamofireManager = Manager.lgManager
+    init(backgroundEnabled: Bool) {
+        self.networkManager = Manager.lgManager(backgroundEnabled)
         let tokenDAO = CoreDI.tokenDAO
-        let apiClient = AFApiClient(alamofireManager: alamofireManager, tokenDAO: tokenDAO)
+        let apiClient = AFApiClient(alamofireManager: self.networkManager, tokenDAO: tokenDAO)
         let webSocketClient = LGWebSocketClient()
         
         let userDefaults = NSUserDefaults.standardUserDefaults()
@@ -121,7 +121,16 @@ final class CoreDI: InternalDI {
     var keychain: KeychainSwift {
         return CoreDI.keychain
     }
-    
+
+    var networkBackgroundCompletion: (() -> Void)? {
+        get {
+            return networkManager.backgroundCompletionHandler
+        }
+        set {
+            networkManager.backgroundCompletionHandler = newValue
+        }
+    }
+
     
     // MARK: > Manager
     
@@ -194,4 +203,5 @@ final class CoreDI: InternalDI {
     // MARK: - Private iVars
     
     private let userDefaults: NSUserDefaults
+    private let networkManager: Manager
 }
