@@ -567,8 +567,11 @@ extension ProductViewModel {
         return UIAction(interface: .Image(icon), action: { [weak self] in
             guard let strongSelf = self else { return }
             let editProductVM = EditProductViewModel(product: strongSelf.product.value)
+            editProductVM.closeCompletion = { [weak self] product in
+                self?.product.value = product
+            }
             strongSelf.delegate?.vmOpenEditProduct(editProductVM)
-            })
+        })
     }
 
     private func buildShareNavBarAction() -> UIAction {
@@ -793,21 +796,6 @@ extension ProductViewModel {
 
 
 // MARK: - UpdateDetailInfoDelegate
-
-extension ProductViewModel: UpdateDetailInfoDelegate {
-    func updateDetailInfo(viewModel: EditProductViewModel, withSavedProduct savedProduct: Product) {
-        product.value = savedProduct
-    }
-
-    func updateDetailInfo(viewModel: EditProductViewModel, withInitialProduct initialProduct: Product) {
-        switch initialProduct.status {
-        case .Pending:
-            promoteProduct(.ProductEdit)
-        case .Approved, .Discarded, .Sold, .SoldOld, .Deleted:
-            break
-        }
-    }
-}
 
 extension ProductViewModel {
     private func ifLoggedInRunActionElseOpenMainSignUp(action: () -> (), source: EventParameterLoginSourceValue) {

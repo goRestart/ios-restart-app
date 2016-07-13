@@ -252,7 +252,7 @@ extension ProductViewController: ProductViewModelDelegate {
     }
 
     func vmOpenEditProduct(editProductVM: EditProductViewModel) {
-        let vc = EditProductViewController(viewModel: editProductVM, updateDelegate: viewModel)
+        let vc = EditProductViewController(viewModel: editProductVM)
         let navCtl = UINavigationController(rootViewController: vc)
         navigationController?.presentViewController(navCtl, animated: true, completion: nil)
     }

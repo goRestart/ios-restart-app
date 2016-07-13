@@ -76,12 +76,11 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
     // MARK: - Lifecycle
     
 
-    init(viewModel: EditProductViewModel, updateDelegate: UpdateDetailInfoDelegate?) {
+    init(viewModel: EditProductViewModel) {
         self.viewModel = viewModel
         super.init(viewModel: viewModel, nibName: "EditProductViewController")
         
         self.viewModel.delegate = self
-        self.viewModel.updateDetailDelegate = updateDelegate
         automaticallyAdjustsScrollViewInsets = false
     }
 
@@ -488,11 +487,9 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
         super.popBackViewController()
     }
     
-    internal func sellCompleted() {
+    internal func editCompleted() {
         showAutoFadingOutMessageAlert(LGLocalizedString.editProductSendOk) { [weak self] in
-            guard let strongSelf = self else { return }
-            let action: () -> () = { strongSelf.viewModel.notifyPreviousVCEditCompleted() }
-            strongSelf.dismiss(action)
+            self?.dismiss(nil)
         }
     }
 
@@ -504,7 +501,7 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
     }
 
     private func dismiss(action: (() -> ())? = nil) {
-        self.dismissViewControllerAnimated(true) { [weak self] in
+        dismissViewControllerAnimated(true) { [weak self] in
 
             // TODO: Refactor w EditCoordinator
             self?.viewModel.didClose()
@@ -519,7 +516,7 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
         viewModel.trackSharedFB()
         // @ahl: delayed is needed thanks to facebook
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.25 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) {
-            self.sellCompleted()
+            self.editCompleted()
         }
     }
     
@@ -528,7 +525,7 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
         // @ahl: delayed is needed thanks to facebook
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.25 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) {
             self.showAutoFadingOutMessageAlert(LGLocalizedString.sellSendErrorSharingFacebook) {
-                self.sellCompleted()
+                self.editCompleted()
             }
         }
     }
@@ -537,7 +534,7 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
         viewModel.shouldEnableTracking()
         // @ahl: delayed is needed thanks to facebook
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.25 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) {
-            self.sellCompleted()
+            self.editCompleted()
         }
     }
 }
@@ -583,11 +580,7 @@ extension EditProductViewController: EditProductViewModelDelegate {
             let content = viewModel.fbShareContent
             FBSDKShareDialog.showFromViewController(self, withContent: content, delegate: self)
         } else {
-            sellCompleted()
-        }
-
-        if let savedProduct = result.value {
-            viewModel.updateInfoOfPreviousVCWithProduct(savedProduct)
+            editCompleted()
         }
     }
 

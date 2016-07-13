@@ -171,7 +171,7 @@ extension SellCoordinator: ProductPostedNavigator {
                 delegate.sellCoordinator(strongSelf, didFinishWithProduct: product)
                 delegate.coordinatorDidClose(strongSelf)
             }
-            let editVC = EditProductViewController(viewModel: editVM, updateDelegate: nil)
+            let editVC = EditProductViewController(viewModel: editVM)
             let navCtl = UINavigationController(rootViewController: editVC)
             parentVC.presentViewController(navCtl, animated: true, completion: nil)
         }
