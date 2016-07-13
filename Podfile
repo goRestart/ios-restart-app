@@ -9,7 +9,6 @@ workspace "LetGo.xcworkspace"
 project "LetGo.xcodeproj"
 
 def shared_pods
-	pod "SDWebImage",            "~> 3.8.1"
     pod "AlamofireImage",        "~> 2.4.0"
 
 	pod "FBSDKLoginKit",         "~> 4.9.1"

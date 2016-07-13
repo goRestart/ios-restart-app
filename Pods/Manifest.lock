@@ -114,9 +114,6 @@ PODS:
   - RxSwift (2.5.0)
   - RxTests (2.5.0):
     - RxSwift (~> 2.5)
-  - SDWebImage (3.8.1):
-    - SDWebImage/Core (= 3.8.1)
-  - SDWebImage/Core (3.8.1)
   - SlackTextViewController (1.9.1)
   - SwiftWebSocket (2.6.2)
   - SwiftyUserDefaults (2.2.0)
@@ -161,7 +158,6 @@ DEPENDENCIES:
   - RxCocoa (~> 2.5.0)
   - RxSwift (~> 2.5.0)
   - RxTests (~> 2.5.0)
-  - SDWebImage (~> 3.8.1)
   - SlackTextViewController (= 1.9.1)
   - SwiftyUserDefaults (~> 2.2.0)
   - TMReachability (from `https://github.com/albertbori/Reachability`, commit `e34782b386307e386348b481c02c176d58ba45e6`)
@@ -242,7 +238,6 @@ SPEC CHECKSUMS:
   RxCocoa: e1b1562e57a554d0fb2aabf9d71b637f177257c7
   RxSwift: 402b41a50e922a0368fc14cb3bc9f4427920e8ae
   RxTests: 1b13bea0a138552b52aeead549ef08d578bcda9e
-  SDWebImage: 35f9627a3e44b4f292a8a8ce6a531fa488239b91
   SlackTextViewController: 6b0d1030c53937226fc5358f217af2a34fc211cf
   SwiftWebSocket: 2bb9dda75c87f64eaf9768131141857ca8611aac
   SwiftyUserDefaults: e7c8197a9d4068702e7f2406a968cae413b8de27
@@ -250,6 +245,6 @@ SPEC CHECKSUMS:
   TwitterCore: 817eae3e291fa4125b47789e26a4f6f024115c1f
   TwitterKit: 8a383da8d9c21b0423716381ea8bbfce20622d91
 
-PODFILE CHECKSUM: 9ca169ac2a8fdbadf4ee9f4e30d5153b3e96dda4
+PODFILE CHECKSUM: ac3c9415bbbe118a71c08b12cbe2e241c79c0e93
 
 COCOAPODS: 1.0.1
