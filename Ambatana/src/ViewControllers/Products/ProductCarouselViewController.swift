@@ -640,7 +640,7 @@ extension ProductCarouselViewController: ProductCarouselViewModelDelegate {
     
     func vmRefreshCurrentItem() {
         collectionView.reloadData()
-        refreshOverlayElements(.Initial)
+        refreshOverlayElements()
     }
 }
 

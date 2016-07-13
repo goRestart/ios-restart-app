@@ -13,7 +13,6 @@ protocol ProductCarouselViewModelDelegate: BaseViewModelDelegate {
     func vmReloadData()
     func vmReloadItemAtIndex(index: Int)
     func vmRemoveMoreInfoTooltip()
-    func vmRefreshCurrentItem()
 }
 
 enum CarouselMovement {
@@ -112,7 +111,7 @@ class ProductCarouselViewModel: BaseViewModel {
             let newModel = ProductCarouselCellModel(product: product)
             self.objects.removeAtIndex(self.startIndex)
             self.objects.insert(newModel, atIndex: self.startIndex)
-            self.delegate?.vmRefreshCurrentItem()
+            self.delegate?.vmReloadItemAtIndex(self.startIndex)
         }
     }
     
