@@ -175,14 +175,6 @@ class TrackerEventSpec: QuickSpec {
                     let loginType = sut.params!.stringKeyParams["login-type"] as? String
                     expect(loginType).to(equal("favourite"))
                 }
-                it("contains the appropiate login source when visiting login from make an offer") {
-                    sut = TrackerEvent.loginVisit(.MakeOffer)
-                    expect(sut.params).notTo(beNil())
-                    
-                    expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
-                    let loginType = sut.params!.stringKeyParams["login-type"] as? String
-                    expect(loginType).to(equal("offer"))
-                }
                 it("contains the appropiate login source when visiting login from mark as sold") {
                     sut = TrackerEvent.loginVisit(.MarkAsSold)
                     expect(sut.params).notTo(beNil())
@@ -245,14 +237,6 @@ class TrackerEventSpec: QuickSpec {
                     expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
                     let loginType = sut.params!.stringKeyParams["login-type"] as? String
                     expect(loginType).to(equal("favourite"))
-                }
-                it("contains the appropiate login source when abandoning login from make an offer") {
-                    sut = TrackerEvent.loginAbandon(.MakeOffer)
-                    expect(sut.params).notTo(beNil())
-                    
-                    expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
-                    let loginType = sut.params!.stringKeyParams["login-type"] as? String
-                    expect(loginType).to(equal("offer"))
                 }
                 it("contains the appropiate login source when abandoning login from mark as sold") {
                     sut = TrackerEvent.loginAbandon(.MarkAsSold)
@@ -317,14 +301,6 @@ class TrackerEventSpec: QuickSpec {
                     let loginType = sut.params!.stringKeyParams["login-type"] as? String
                     expect(loginType).to(equal("favourite"))
                 }
-                it("contains the appropiate login source logging in via FB from make an offer") {
-                    sut = TrackerEvent.loginFB(.MakeOffer)
-                    expect(sut.params).notTo(beNil())
-                    
-                    expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
-                    let loginType = sut.params!.stringKeyParams["login-type"] as? String
-                    expect(loginType).to(equal("offer"))
-                }
                 it("contains the appropiate login source logging in via FB from mark as sold") {
                     sut = TrackerEvent.loginFB(.MarkAsSold)
                     expect(sut.params).notTo(beNil())
@@ -388,14 +364,6 @@ class TrackerEventSpec: QuickSpec {
                     let loginType = sut.params!.stringKeyParams["login-type"] as? String
                     expect(loginType).to(equal("favourite"))
                 }
-                it("contains the appropiate login source logging in via email from make an offer") {
-                    sut = TrackerEvent.loginEmail(.MakeOffer)
-                    expect(sut.params).notTo(beNil())
-                    
-                    expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
-                    let loginType = sut.params!.stringKeyParams["login-type"] as? String
-                    expect(loginType).to(equal("offer"))
-                }
                 it("contains the appropiate login source logging in via email from mark as sold") {
                     sut = TrackerEvent.loginEmail(.MarkAsSold)
                     expect(sut.params).notTo(beNil())
@@ -458,14 +426,6 @@ class TrackerEventSpec: QuickSpec {
                     expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
                     let loginType = sut.params!.stringKeyParams["login-type"] as? String
                     expect(loginType).to(equal("favourite"))
-                }
-                it("contains the appropiate login source signing in via email from make an offer") {
-                    sut = TrackerEvent.signupEmail(.MakeOffer, newsletter: .Unset)
-                    expect(sut.params).notTo(beNil())
-                    
-                    expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
-                    let loginType = sut.params!.stringKeyParams["login-type"] as? String
-                    expect(loginType).to(equal("offer"))
                 }
                 it("contains the appropiate login source signing in via email from mark as sold") {
                     sut = TrackerEvent.signupEmail(.MarkAsSold, newsletter: .Unset)
@@ -1036,82 +996,6 @@ class TrackerEventSpec: QuickSpec {
                 }
             }
             
-            describe("productOffer") {
-                it("has its event name") {
-                    let product = MockProduct()
-                    sut = TrackerEvent.productOffer(product, amount: 0)
-                    expect(sut.name.rawValue).to(equal("product-detail-offer"))
-                }
-                it("contains the product related params when passing by a product and my user") {
-                    let productUser = MockUser()
-                    productUser.objectId = "56897"
-                    productUser.postalAddress = PostalAddress(address: nil, city: "Amsterdam", zipCode: "GD 1013",
-                        countryCode: "NL", country: nil)
-                    productUser.isDummy = true
-                    
-                    let product = MockProduct()
-                    product.objectId = "AAAAA"
-                    product.name = "iPhone 7S"
-                    product.price = Double(123.983)
-                    product.currency = Currency(code: "EUR", symbol: "€")
-                    product.category = .HomeAndGarden
-                    product.user = productUser
-                    product.location = LGLocationCoordinates2D(latitude: 3.12354534, longitude: 7.23983292)
-                    product.postalAddress = PostalAddress(address: nil, city: "Baltimore", zipCode: "12345",
-                        countryCode: "US", country: nil)
-                    
-                    sut = TrackerEvent.productOffer(product, amount: 0)
-                    expect(sut.params).notTo(beNil())
-
-                    expect(sut.params!.stringKeyParams["type-page"]).notTo(beNil())
-                    let typePage = sut.params!.stringKeyParams["type-page"] as? String
-                    expect(typePage).to(equal(EventParameterTypePage.ProductDetail.rawValue))
-
-                    // Product
-                    
-                    expect(sut.params!.stringKeyParams["product-id"]).notTo(beNil())
-                    let productId = sut.params!.stringKeyParams["product-id"] as? String
-                    expect(productId).to(equal(product.objectId))
-                    
-                    expect(sut.params!.stringKeyParams["product-price"]).notTo(beNil())
-                    let productPrice = sut.params!.stringKeyParams["product-price"] as? Double
-                    expect(productPrice).to(equal(product.price!))
-                    
-                    expect(sut.params!.stringKeyParams["product-currency"]).notTo(beNil())
-                    let productCurrency = sut.params!.stringKeyParams["product-currency"] as? String
-                    expect(productCurrency).to(equal(product.currency.code))
-                    
-                    expect(sut.params!.stringKeyParams["category-id"]).notTo(beNil())
-                    let productCategory = sut.params!.stringKeyParams["category-id"] as? Int
-                    expect(productCategory).to(equal(product.category.rawValue))
-                    
-                    expect(sut.params!.stringKeyParams["product-lat"]).notTo(beNil())
-                    let productLat = sut.params!.stringKeyParams["product-lat"] as? Double
-                    expect(productLat).to(equal(product.location.latitude))
-                    
-                    expect(sut.params!.stringKeyParams["product-lng"]).notTo(beNil())
-                    let productLng = sut.params!.stringKeyParams["product-lng"] as? Double
-                    expect(productLng).to(equal(product.location.longitude))
-                    
-                    expect(sut.params!.stringKeyParams["user-to-id"]).notTo(beNil())
-                    let productUserId = sut.params!.stringKeyParams["user-to-id"] as? String
-                    expect(productUserId).to(equal(product.user.objectId))
-                    
-                    expect(sut.params!.stringKeyParams["item-type"]).notTo(beNil())
-                    let itemType = sut.params!.stringKeyParams["item-type"] as? String
-                    expect(itemType).to(equal("0"))
-                    
-                }
-                it("contains the offered amount when passing it by") {
-                    let product = MockProduct()
-                    sut = TrackerEvent.productOffer(product, amount: 25.67)
-                    
-                    expect(sut.params!.stringKeyParams["amount-offer"]).notTo(beNil())
-                    let amount = sut.params!.stringKeyParams["amount-offer"] as? Double
-                    expect(amount).to(equal(25.67))
-                }
-            }
-
             describe("productAskQuestion") {
                 it("has its event name") {
                     let product = MockProduct()

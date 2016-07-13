@@ -116,8 +116,6 @@ extension AppCoordinator: AppNavigator {
 
             if let deepLink = strongSelf.deepLinksRouter.consumeInitialDeepLink() {
                 strongSelf.openDeepLink(deepLink, initialDeepLink: true)
-            } else if strongSelf.shouldShowSellOnStartup {
-                strongSelf.openSell(.AppStart)
             }
         }
 
@@ -388,11 +386,6 @@ private extension AppCoordinator {
 
     private func selectedNavigationController() -> UINavigationController? {
         return tabBarCtl.selectedViewController as? UINavigationController
-    }
-
-    private var shouldShowSellOnStartup: Bool {
-        guard FeatureFlags.sellOnStartupAfterPosting else { return false }
-        return MediaPickerManager.hasCameraPermissions() && keyValueStorage.userPostProductPostedPreviously
     }
 }
 

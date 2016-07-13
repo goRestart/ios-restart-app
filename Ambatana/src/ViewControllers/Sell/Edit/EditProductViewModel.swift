@@ -52,11 +52,6 @@ protocol EditProductViewModelDelegate : BaseViewModelDelegate {
     func vmShouldOpenMapWithViewModel(locationViewModel: EditLocationViewModel)
 }
 
-protocol UpdateDetailInfoDelegate : class {
-    func updateDetailInfo(viewModel: EditProductViewModel, withSavedProduct: Product)
-    func updateDetailInfo(viewModel: EditProductViewModel, withInitialProduct: Product)
-}
-
 enum EditProductImageType {
     case Local(image: UIImage)
     case Remote(file: File)
@@ -157,8 +152,6 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
 
     // Delegate
     weak var delegate: EditProductViewModelDelegate?
-    weak var updateDetailDelegate : UpdateDetailInfoDelegate?
-
     var closeCompletion: ((Product) -> Void)?
 
     // Rx
@@ -505,16 +498,6 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
     private func openLocationAppSettings() {
         guard let settingsURL = NSURL(string:UIApplicationOpenSettingsURLString) else { return }
         UIApplication.sharedApplication().openURL(settingsURL)
-    }
-
-    // MARK: - Update info of previous VC
-
-    func updateInfoOfPreviousVCWithProduct(savedProduct: Product) {
-        updateDetailDelegate?.updateDetailInfo(self, withSavedProduct: savedProduct)
-    }
-
-    func notifyPreviousVCEditCompleted() {
-        updateDetailDelegate?.updateDetailInfo(self, withInitialProduct: initialProduct)
     }
 }
 
