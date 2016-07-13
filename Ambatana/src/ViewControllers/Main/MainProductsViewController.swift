@@ -102,13 +102,7 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
 
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
-        switch FeatureFlags.productDetailVersion {
-        case .Snapchat:
-            self.navigationController?.setNavigationBarHidden(false, animated: false)
-        case .Original, .OriginalWithoutOffer:
-            setBarsHidden(false, animated: false)
-        }
-
+        self.navigationController?.setNavigationBarHidden(false, animated: false)
         endEdit()
     }
 

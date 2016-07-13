@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import pop
 
 protocol ProductCellDelegate: class {
     func productCellDidChat(cell: ProductCell, indexPath: NSIndexPath)
@@ -79,12 +78,10 @@ class ProductCell: UICollectionViewCell, ReusableCell {
         thumbnailImageView.lg_setImageWithURL(imageUrl, placeholderImage: nil, completion: {
             [weak self] (result, url) -> Void in
             if let (_, cached) = result.value where !cached {
-                let alphaAnim = POPBasicAnimation(propertyNamed: kPOPLayerOpacity)
-                alphaAnim.fromValue = 0
-                alphaAnim.toValue = 1
-                self?.thumbnailImageView.layer.pop_addAnimation(alphaAnim, forKey: "alpha")
+                self?.thumbnailImageView.alpha = 0
+                UIView.animateWithDuration(0.4, animations: { self?.thumbnailImageView.alpha = 1 })
             }
-            })
+        })
     }
 
     func setCellWidth(width: CGFloat) {

@@ -82,12 +82,9 @@ public class EnvironmentProxy: AppEnvironment {
     var twitterConsumerKey: String {
         return environment.twitterConsumerKey
     }
+
     var twitterConsumerSecret: String {
         return environment.twitterConsumerSecret
-    }
-
-    var taplyticsApiKey: String {
-        return environment.taplyticsApiKey
     }
 
     var leanplumAppId: String {

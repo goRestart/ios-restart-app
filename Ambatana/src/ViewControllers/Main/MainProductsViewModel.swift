@@ -103,7 +103,6 @@ class MainProductsViewModel: BaseViewModel {
         self.searchString = searchString
         self.filters = filters
         self.productListRequester = FilteredProductListRequester()
-
         let show3Columns = DeviceFamily.isWideScreen
         let columns = show3Columns ? 3 : 2
         self.listViewModel = ProductListViewModel(requester: self.productListRequester, products: nil,
