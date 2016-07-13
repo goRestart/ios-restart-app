@@ -18,6 +18,7 @@ struct LGChatMessage: ChatMessage {
     var receivedAt: NSDate?
     var readAt: NSDate?
     let type: ChatMessageType
+    var warnings: [ChatMessageWarning]
 }
 
 extension LGChatMessage: Decodable {
@@ -30,6 +31,7 @@ extension LGChatMessage: Decodable {
         static let receivedAt = "received_at"
         static let readAt = "read_at"
         static let type = "type"
+        static let warnings = "warnings"
     }
     
     static func decode(j: JSON) -> Decoded<LGChatMessage> {
@@ -41,6 +43,7 @@ extension LGChatMessage: Decodable {
             <*> j <|? JSONKeys.receivedAt
             <*> j <|? JSONKeys.readAt
             <*> LGArgo.parseChatMessageType(j, key: [JSONKeys.type])
+            <*> j <|| JSONKeys.warnings
         return init1
     }
 }

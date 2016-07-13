@@ -6,10 +6,16 @@
 //  Copyright © 2016 Ambatana Inc. All rights reserved.
 //
 
+import Argo
+
 public enum ChatMessageType: String {
     case Text = "text"
     case Offer = "offer"
     case Sticker = "sticker"
+}
+
+public enum ChatMessageWarning: String, Decodable {
+    case Spam = "spam"
 }
 
 public protocol ChatMessage: BaseModel {
@@ -19,6 +25,7 @@ public protocol ChatMessage: BaseModel {
     var receivedAt: NSDate? { get }
     var readAt: NSDate? { get }
     var type: ChatMessageType { get }
+    var warnings: [ChatMessageWarning] { get }
 }
 
 extension ChatMessage {
