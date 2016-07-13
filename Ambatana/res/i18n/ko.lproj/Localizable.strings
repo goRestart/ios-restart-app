@@ -377,7 +377,7 @@
 "product_distance_from_you" = "고객님으로부터";
 "product_distance_more_than_from_you" = "당신에게 %@ 더 많이";
 "product_gallery_title" = "사진";
-"product_list_banner_cell_title" = "SEE YOUR LISTING HERE";
+"product_list_banner_cell_title" = "회원님의 목록을 이곳에서 확인하세요";
 "product_list_item_new_status_label" = "새로운";
 "product_list_item_sold_status_label" = "품절";
 "product_list_item_time_hour_label" = "%i시간";
@@ -435,7 +435,7 @@
 "product_post_incentive_car" = "자동차";
 "product_post_incentive_dresser" = "드레서";
 "product_post_incentive_got_any" = "판매하실 상품이 있으신가요?";
-"product_post_incentive_looking_for" = "주변에 있는 사람들이 다음 상품, %@을 찾고 있습니다.";
+"product_post_incentive_looking_for" = "People around you are looking for these items, %@";
 "product_post_incentive_motorcycle" = "오토바이";
 "product_post_incentive_ps4" = "PS4";
 "product_post_incentive_subtitle" = "상품목록이 게시되었습니다.";
@@ -650,3 +650,9 @@
 "trending_searches_Title" = "트렌드 검색";
 "unblock_user_error_generic" = "이 사용자의 차단을 해제하는데 오류가 발생했습니다.";
 "unblock_user_success_message" = "이 사용자의 차단이 해제되었습니다!";
+"user_rating_message_w_name" = "Tap the stars to rate and tell us if your experience with %@ went well. You can update it whenever you want.";
+"user_rating_message_wo_name" = "Tap the stars to rate and tell us if your experience with this user went well. You can update it whenever you want.";
+"user_rating_review_button" = "Publish review";
+"user_rating_review_placeholder" = "Leave a review (optional)";
+"user_rating_review_send_success" = "Your review has been published!";
+"user_rating_title" = "Rate your experience with";

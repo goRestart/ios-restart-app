@@ -1875,6 +1875,24 @@
 // Text for unsuccessful user unblock
 "unblock_user_error_generic" = "An error occurred while unblocking this user.";
 
+// Title when you rate a user
+"user_rating_title" = "Rate your experience with";
+
+// Information message when rating a user
+"user_rating_message_w_name" = "Tap the stars to rate and tell us if your experience with %@ went well. You can update it whenever you want.";
+
+// Information message when rating a user
+"user_rating_message_wo_name" = "Tap the stars to rate and tell us if your experience with this user went well. You can update it whenever you want.";
+
+// Review message
+"user_rating_review_placeholder" = "Leave a review (optional)";
+
+// Send review button
+"user_rating_review_button" = "Publish review";
+
+// Message when review was published
+"user_rating_review_send_success" = "Your review has been published!";
+
 // Subtitle asking for Push notifications in onboarding
 "notifications_permissions_1_subtitle" = "Do you want to be notified when another user sends you a message?";
 

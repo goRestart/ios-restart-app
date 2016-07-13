@@ -377,7 +377,7 @@
 "product_distance_from_you" = "senden";
 "product_distance_more_than_from_you" = "Senden %@'den daha uzakta";
 "product_gallery_title" = "Fotoğraflar";
-"product_list_banner_cell_title" = "SEE YOUR LISTING HERE";
+"product_list_banner_cell_title" = "İLANINI BURADA GÖR";
 "product_list_item_new_status_label" = "YENİ";
 "product_list_item_sold_status_label" = "Satıldı";
 "product_list_item_time_hour_label" = "%isa";
@@ -650,3 +650,9 @@
 "trending_searches_Title" = "Popüler Aramalar";
 "unblock_user_error_generic" = "Kullanıcı engeli kaldırılırken bir hata oluştu.";
 "unblock_user_success_message" = "Kullanıcı engeli kaldırıldı!";
+"user_rating_message_w_name" = "Tap the stars to rate and tell us if your experience with %@ went well. You can update it whenever you want.";
+"user_rating_message_wo_name" = "Tap the stars to rate and tell us if your experience with this user went well. You can update it whenever you want.";
+"user_rating_review_button" = "Publish review";
+"user_rating_review_placeholder" = "Leave a review (optional)";
+"user_rating_review_send_success" = "Your review has been published!";
+"user_rating_title" = "Rate your experience with";

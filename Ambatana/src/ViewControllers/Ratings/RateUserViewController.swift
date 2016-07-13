@@ -16,7 +16,7 @@ class RateUserViewController: BaseViewController {
 
     init(viewModel: RateUserViewModel) {
         self.viewModel = viewModel
-        super.init(viewModel: viewModel, nibName: "RateUserViewController")
+        super.init(viewModel: viewModel, nibName: "RateUserViewController", navBarBackgroundStyle: .Transparent)
         self.viewModel.delegate = self
     }
 
@@ -34,13 +34,9 @@ class RateUserViewController: BaseViewController {
     // MARK: - Private methods
 
     private func setupUI() {
-        // View
         view.backgroundColor = UIColor.listBackgroundColor
-
-        // Navigation bar
-        let closeButton = UIBarButtonItem(image: UIImage(named: "navbar_close"), style: .Plain, target: self,
-                                          action: #selector(closeButtonPressed))
-        navigationItem.leftBarButtonItem = closeButton
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "navbar_close"), style: .Plain,
+                                                           target: self, action: #selector(closeButtonPressed))
     }
 
     dynamic private func closeButtonPressed() {

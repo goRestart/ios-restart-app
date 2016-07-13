@@ -49,7 +49,12 @@ class TabBarViewModel: BaseViewModel {
     }
 
     func sellButtonPressed() {
-        navigator?.openSell(.SellButton)
+//        navigator?.openSell(.SellButton)
+
+
+        //TODO: ⚠️⚠️⚠️ REMOVE!!! JUST TO TEST!! ⚠️⚠️⚠️
+        guard let myUser = Core.myUserRepository.myUser, data = UserRatingData(user: myUser) else { return }
+        navigator?.openUserRating(data)
     }
 
     func sellFromBannerCell(designType: String) {

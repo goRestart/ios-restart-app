@@ -49,8 +49,8 @@
 "change_username_save_button" = "Mentés";
 "change_username_send_ok" = "Felhasználónév sikeresen megváltoztatva!";
 "change_username_title" = "Név megváltoztatása";
-"chat_account_deleted_w_name" = "%@'s account has been deleted";
-"chat_account_deleted_wo_name" = "This account has been deleted";
+"chat_account_deleted_w_name" = "%@ törölte fiókját";
+"chat_account_deleted_wo_name" = "Ez egy törölt fiók";
 "chat_block_user" = "Felhasználó blokkolása";
 "chat_block_user_alert_block_button" = "Blokkolás";
 "chat_block_user_alert_text" = "A blokkolt felhasználóval sehogyan sem léphetsz kapcsolatba.";
@@ -64,10 +64,10 @@
 "chat_blocked_disclaimer_scammer_w_name" = "A letgo csapata biztonsági okokból törölte %@ fiókját, és vele együtt ezeket az üzeneteket is.";
 "chat_blocked_disclaimer_scammer_wo_name" = "A letgo csapata biztonsági okokból törölte ezt a fiókot, és vele együtt ezeket az üzeneteket is.";
 "chat_delete_chat" = "Csevegés törlése";
-"chat_deleted_disclaimer_w_name" = "You can't continue this conversation because %@'s account is no longer active.";
-"chat_deleted_disclaimer_wo_name" = "You can't continue this conversation because this account is no longer active.";
-"chat_list_account_deleted" = "Deleted account";
-"chat_list_account_deleted_username" = "Inactive";
+"chat_deleted_disclaimer_w_name" = "Nem tudod folytatni a beszélgetést, mert %@ fiókja már nem aktív.";
+"chat_deleted_disclaimer_wo_name" = "Nem tudod folytatni a beszélgetést, mert ez a fiók már nem aktív.";
+"chat_list_account_deleted" = "Törölt fiók";
+"chat_list_account_deleted_username" = "Inaktív";
 "chat_list_all_empty_title" = "NINCS BESZÉLGETÉS (EGYELŐRE!)";
 "chat_list_all_title" = "MIND";
 "chat_list_archive" = "Archív";
@@ -377,7 +377,7 @@
 "product_distance_from_you" = "tőled";
 "product_distance_more_than_from_you" = "Több, mint %@-re tőled";
 "product_gallery_title" = "Fotók";
-"product_list_banner_cell_title" = "SEE YOUR LISTING HERE";
+"product_list_banner_cell_title" = "TEKINTSD MEG HIRDETÉSED";
 "product_list_item_new_status_label" = "ÚJ";
 "product_list_item_sold_status_label" = "ELADVA";
 "product_list_item_time_hour_label" = "%i ó";
@@ -650,3 +650,9 @@
 "trending_searches_Title" = "Felkapott kulcsszavak";
 "unblock_user_error_generic" = "Hiba történt a blokkolás feloldása során.";
 "unblock_user_success_message" = "A blokkolás feloldva!";
+"user_rating_message_w_name" = "Tap the stars to rate and tell us if your experience with %@ went well. You can update it whenever you want.";
+"user_rating_message_wo_name" = "Tap the stars to rate and tell us if your experience with this user went well. You can update it whenever you want.";
+"user_rating_review_button" = "Publish review";
+"user_rating_review_placeholder" = "Leave a review (optional)";
+"user_rating_review_send_success" = "Your review has been published!";
+"user_rating_title" = "Rate your experience with";
