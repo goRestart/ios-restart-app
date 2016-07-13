@@ -16,14 +16,13 @@ protocol PostProductViewModelDelegate: BaseViewModelDelegate {
 }
 
 enum PostingSource {
-    case AppStart
     case SellButton
     case DeepLink
     case BannerCell(designType: String)
 
     var forceCamera: Bool {
         switch self {
-        case .AppStart, .BannerCell:
+        case .BannerCell:
             return true
         case .SellButton, .DeepLink:
             return false
@@ -207,8 +206,6 @@ private extension PostProductViewModel {
 extension PostingSource {
     var typePage: EventParameterTypePage {
         switch self {
-        case .AppStart:
-            return .OpenApp
         case .SellButton:
             return .Sell
         case .DeepLink:

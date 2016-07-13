@@ -867,17 +867,17 @@ extension ProductCarouselViewController {
     }
 
     private func startAutoNextItem(lastMovement: CarouselMovement) {
-        guard lastMovement != .SwipeLeft && viewModel.autoSwitchToNextEnabled && productOnboardingView == nil else {
-            loadingTimerStop()
+//        guard lastMovement != .SwipeLeft && viewModel.autoSwitchToNextEnabled && productOnboardingView == nil else {
+//            loadingTimerStop()
             return
-        }
-        loadingTimer.hidden = false
-        loadingTimer.start(Constants.autoNextItemTimerSeconds) { [weak self] completed in
-            self?.loadingTimer.hidden = true
-            if completed {
-                self?.switchAutoToNextItem()
-            }
-        }
+//        }
+//        loadingTimer.hidden = false
+//        loadingTimer.start(Constants.autoNextItemTimerSeconds) { [weak self] completed in
+//            self?.loadingTimer.hidden = true
+//            if completed {
+//                self?.switchAutoToNextItem()
+//            }
+//        }
     }
 
     private func switchAutoToNextItem() {

@@ -103,9 +103,10 @@ class MainProductsViewModel: BaseViewModel {
         self.searchString = searchString
         self.filters = filters
         self.productListRequester = FilteredProductListRequester()
-        let columns = FeatureFlags.mainProducts3Columns ? 3 : 2
+        let show3Columns = true
+        let columns = show3Columns ? 3 : 2
         self.listViewModel = ProductListViewModel(requester: self.productListRequester, products: nil, numberOfColumns: columns)
-        self.listViewModel.productListFixedInset = FeatureFlags.mainProducts3Columns ? 6 : 10
+        self.listViewModel.productListFixedInset = show3Columns ? 6 : 10
         
         if let search = searchString where !search.isEmpty {
             self.shouldTrackSearch = true

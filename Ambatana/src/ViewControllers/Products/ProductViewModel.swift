@@ -218,10 +218,6 @@ class ProductViewModel: BaseViewModel {
         super.init()
 
         setupRxBindings()
-        
-        if FeatureFlags.productDetailVersion != .Snapchat {
-            trackVisit(.None)
-        }
     }
     
     internal override func didBecomeActive(firstTime: Bool) {

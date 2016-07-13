@@ -622,25 +622,6 @@ extension ProductViewController {
     }
 
     private func setupConstraints() {
-        
-        switch FeatureFlags.productDetailVersion {
-        case .OriginalWithoutOffer:
-            askButtonContainerWidthConstraint.active = false
-            askButtonContainerTrailingToSuperviewConstraint.active = true
-            askButtonTrailingToContainerConstraint.constant = 10
-            offerButtonTrailingToContainerConstraint.constant = 0
-            offerButtonLeadingToContainerConstraint.constant = 0
-        case .Original:
-            askButtonContainerWidthConstraint.active = true
-            askButtonContainerTrailingToSuperviewConstraint.active = false
-            askButtonTrailingToContainerConstraint.constant = 5
-            offerButtonTrailingToContainerConstraint.constant = 10
-            offerButtonLeadingToContainerConstraint.constant = 5
-        case .Snapchat:
-            break
-        }
-
-
         // Constraints added manually to set the position of the Promote and MarkSold buttons
         // (both can't be active at the same time).
         promoteButtonLeadingConstraint = NSLayoutConstraint(item: promoteContainerView, attribute: .Leading,
@@ -750,18 +731,9 @@ extension ProductViewController {
 
         askButtonContainerView.backgroundColor =  UIColor.whiteColor()
         askButton.setStyle(.Secondary(fontSize: .Medium, withBorder: true))
-        switch FeatureFlags.productDetailVersion {
-        case .Original:
-            askButton.setTitle(viewModel.askQuestionButtonTitle.value, forState: .Normal)
-            askButtonContainerView.backgroundColor = UIColor.whiteColor()
-            askButton.setStyle(.Secondary(fontSize: .Medium, withBorder: true))
-        case .OriginalWithoutOffer:
-            askButton.setTitle(viewModel.chatWithSellerButtonTitle.value, forState: .Normal)
-            askButton.setStyle(.Primary(fontSize: .Medium))
-        case .Snapchat:
-            break
-        }
-        
+        askButton.setTitle(viewModel.chatWithSellerButtonTitle.value, forState: .Normal)
+        askButton.setStyle(.Primary(fontSize: .Medium))
+
         offerButton.setTitle(LGLocalizedString.productMakeAnOfferButton, forState: .Normal)
         offerButton.titleLabel?.textAlignment = .Center
         offerButton.titleLabel?.numberOfLines = 2
