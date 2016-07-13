@@ -127,6 +127,7 @@
 "chat_unblock_user" = "Desbloquear usuario";
 "chat_user_info_name" = "Hola, soy %@";
 "chat_user_info_verified_with" = "Verificado con: ";
+"chat_user_rating_button_title" = "Review";
 "chat_verify_alert_message" = "Hemos enviado un email de verificación a %@";
 "chat_verify_alert_ok_button" = "OK";
 "chat_verify_alert_resend_button" = "Reenviar";
@@ -377,7 +378,7 @@
 "product_distance_from_you" = "de ti";
 "product_distance_more_than_from_you" = "A más de %@ de ti";
 "product_gallery_title" = "Fotos";
-"product_list_banner_cell_title" = "SEE YOUR LISTING HERE";
+"product_list_banner_cell_title" = "¿QUIERES VER TU PRODUCTO AQUÍ?";
 "product_list_item_new_status_label" = "NUEVO";
 "product_list_item_sold_status_label" = "VENDIDO";
 "product_list_item_time_hour_label" = "%ih";
@@ -435,7 +436,7 @@
 "product_post_incentive_car" = "Coches";
 "product_post_incentive_dresser" = "Cómodas";
 "product_post_incentive_got_any" = "¿tienes alguno para vender?";
-"product_post_incentive_looking_for" = "People around you are looking for these items, %@";
+"product_post_incentive_looking_for" = "Alrededor de ti se buscan estos productos, %@";
 "product_post_incentive_motorcycle" = "Motos";
 "product_post_incentive_ps4" = "PS4";
 "product_post_incentive_subtitle" = "Tu producto ha sido publicado.";
@@ -650,3 +651,9 @@
 "trending_searches_Title" = "Tendencias de búsqueda";
 "unblock_user_error_generic" = "Se ha producido un error al desbloquear a este usuario.";
 "unblock_user_success_message" = "¡El usuario ha sido desbloqueado!";
+"user_rating_message_w_name" = "Pulsa las estrellas para valorar y cuéntanos cómo fue tu experiencia con %@. Puedes actualizar tu valoración cuando quieras.";
+"user_rating_message_wo_name" = "Pulsa las estrellas para valorar y cuéntanos si tu experiencia con este usuario ha ido bien. Puedes actualizar tu valoración cuando quieras.";
+"user_rating_review_button" = "Publicar valoración";
+"user_rating_review_placeholder" = "Deja una valoración (opcional)";
+"user_rating_review_send_success" = "¡Tu valoración se ha publicado!";
+"user_rating_title" = "Valora tu experiencia con";

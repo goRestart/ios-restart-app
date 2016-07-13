@@ -62,6 +62,7 @@ class ChatProductView: UIView {
 
         reviewButton.setStyle(.Review)
         reviewButton.hidden = true
+        reviewButton.setTitle(LGLocalizedString.chatUserRatingButtonTitle, forState: .Normal)
     }
 
     func shouldShowReviewButton(userIsReviewable: Bool) {

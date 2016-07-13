@@ -127,6 +127,7 @@
 "chat_unblock_user" = "Bỏ chặn Người dùng";
 "chat_user_info_name" = "Xin chào, tôi là %@";
 "chat_user_info_verified_with" = "Xác nhận bằng: ";
+"chat_user_rating_button_title" = "Review";
 "chat_verify_alert_message" = "Chúng tôi đã gửi một email xác nhận tới %@";
 "chat_verify_alert_ok_button" = "Ok";
 "chat_verify_alert_resend_button" = "Gửi lại";
@@ -377,7 +378,7 @@
 "product_distance_from_you" = "từ bạn";
 "product_distance_more_than_from_you" = "Hơn %@ từ bạn";
 "product_gallery_title" = "Ảnh";
-"product_list_banner_cell_title" = "SEE YOUR LISTING HERE";
+"product_list_banner_cell_title" = "XEM BÀI ĐĂNG CỦA BẠN TẠI ĐÂY";
 "product_list_item_new_status_label" = "MỚI";
 "product_list_item_sold_status_label" = "ĐÃ BÁN";
 "product_list_item_time_hour_label" = "%ih";
@@ -650,3 +651,9 @@
 "trending_searches_Title" = "Xu hướng Tìm kiếm";
 "unblock_user_error_generic" = "Có lỗi xảy ra trong khi bỏ chặn người dùng này.";
 "unblock_user_success_message" = "Người dùng đã bị chặn!";
+"user_rating_message_w_name" = "Tap the stars to rate and tell us if your experience with %@ went well. You can update it whenever you want.";
+"user_rating_message_wo_name" = "Tap the stars to rate and tell us if your experience with this user went well. You can update it whenever you want.";
+"user_rating_review_button" = "Publish review";
+"user_rating_review_placeholder" = "Leave a review (optional)";
+"user_rating_review_send_success" = "Your review has been published!";
+"user_rating_title" = "Rate your experience with";

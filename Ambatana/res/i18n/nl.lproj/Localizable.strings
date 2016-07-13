@@ -127,6 +127,7 @@
 "chat_unblock_user" = "Deblokkeer gebruiker";
 "chat_user_info_name" = "Hoi, ik ben %@";
 "chat_user_info_verified_with" = "Geverifieerd met:";
+"chat_user_rating_button_title" = "Review";
 "chat_verify_alert_message" = "We hebben een verificatie e-mail verstuurd naar %@";
 "chat_verify_alert_ok_button" = "Ok";
 "chat_verify_alert_resend_button" = "Opnieuw verzenden";
@@ -377,7 +378,7 @@
 "product_distance_from_you" = "Van jou";
 "product_distance_more_than_from_you" = "Meer dan %@ van bij jou";
 "product_gallery_title" = "Foto's";
-"product_list_banner_cell_title" = "SEE YOUR LISTING HERE";
+"product_list_banner_cell_title" = "ZIE JOUW ADVERTENTIE HIER";
 "product_list_item_new_status_label" = "NIEUW";
 "product_list_item_sold_status_label" = "VERKOCHT";
 "product_list_item_time_hour_label" = "%iu";
@@ -435,7 +436,7 @@
 "product_post_incentive_car" = "Auto's";
 "product_post_incentive_dresser" = "Dressoirs";
 "product_post_incentive_got_any" = "heb jij er te koop staan?";
-"product_post_incentive_looking_for" = "People around you are looking for these items, %@";
+"product_post_incentive_looking_for" = "Mensen in jouw buurt zijn op zoek naar deze items, %@";
 "product_post_incentive_motorcycle" = "Motorfietsen";
 "product_post_incentive_ps4" = "PS4's";
 "product_post_incentive_subtitle" = "Jouw advertentie is geplaatst.";
@@ -650,3 +651,9 @@
 "trending_searches_Title" = "Trending Zoekopdrachten";
 "unblock_user_error_generic" = "Er is een fout opgetreden tijdens het deblokkeren van deze gebruiker.";
 "unblock_user_success_message" = "De gebruiker is gedeblokkeerd!";
+"user_rating_message_w_name" = "Tik op de sterren om te beoordelen en vertel ons of je ervaring met %@ goed ging. Je kunt het aanpassen wanneer je maar wilt.";
+"user_rating_message_wo_name" = "Tik op de sterren om te beoordelen en vertel ons of je ervaring met deze gebruiker goed ging. Je kunt het aanpassen wanneer je maar wilt.";
+"user_rating_review_button" = "Publiceer beoordeling";
+"user_rating_review_placeholder" = "Laat een beoordeling achter (optioneel)";
+"user_rating_review_send_success" = "Jouw beoordeling werd gepubliceerd!";
+"user_rating_title" = "Beoordeel jouw ervaring met";

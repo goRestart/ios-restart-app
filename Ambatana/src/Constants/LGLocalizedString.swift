@@ -471,6 +471,10 @@ struct LGLocalizedString {
 		return String(format: NSLocalizedString("chat_message_disclaimer_scammer", comment: ""), var1)
 	}
 
+	static var chatUserRatingButtonTitle: String {
+		return NSLocalizedString("chat_user_rating_button_title", comment: "")
+	}
+
 	static var chatSafetyTips: String {
 		return NSLocalizedString("chat_safety_tips", comment: "")
 	}
@@ -2517,6 +2521,30 @@ struct LGLocalizedString {
 
 	static var unblockUserErrorGeneric: String {
 		return NSLocalizedString("unblock_user_error_generic", comment: "")
+	}
+
+	static var userRatingTitle: String {
+		return NSLocalizedString("user_rating_title", comment: "")
+	}
+
+	static func userRatingMessageWName(var1: String) -> String {
+		return String(format: NSLocalizedString("user_rating_message_w_name", comment: ""), var1)
+	}
+
+	static var userRatingMessageWoName: String {
+		return NSLocalizedString("user_rating_message_wo_name", comment: "")
+	}
+
+	static var userRatingReviewPlaceholder: String {
+		return NSLocalizedString("user_rating_review_placeholder", comment: "")
+	}
+
+	static var userRatingReviewButton: String {
+		return NSLocalizedString("user_rating_review_button", comment: "")
+	}
+
+	static var userRatingReviewSendSuccess: String {
+		return NSLocalizedString("user_rating_review_send_success", comment: "")
 	}
 
 	static var notificationsPermissions1Subtitle: String {
