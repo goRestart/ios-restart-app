@@ -488,7 +488,7 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
         super.popBackViewController()
     }
     
-    internal func sellCompleted() {
+    internal func editCompleted() {
         showAutoFadingOutMessageAlert(LGLocalizedString.editProductSendOk) { [weak self] in
             guard let strongSelf = self else { return }
             let action: () -> () = { strongSelf.viewModel.notifyPreviousVCEditCompleted() }
@@ -519,7 +519,7 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
         viewModel.trackSharedFB()
         // @ahl: delayed is needed thanks to facebook
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.25 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) {
-            self.sellCompleted()
+            self.editCompleted()
         }
     }
     
@@ -528,7 +528,7 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
         // @ahl: delayed is needed thanks to facebook
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.25 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) {
             self.showAutoFadingOutMessageAlert(LGLocalizedString.sellSendErrorSharingFacebook) {
-                self.sellCompleted()
+                self.editCompleted()
             }
         }
     }
@@ -537,7 +537,7 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
         viewModel.shouldEnableTracking()
         // @ahl: delayed is needed thanks to facebook
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.25 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) {
-            self.sellCompleted()
+            self.editCompleted()
         }
     }
 }
@@ -583,7 +583,7 @@ extension EditProductViewController: EditProductViewModelDelegate {
             let content = viewModel.fbShareContent
             FBSDKShareDialog.showFromViewController(self, withContent: content, delegate: self)
         } else {
-            sellCompleted()
+            editCompleted()
         }
 
         if let savedProduct = result.value {
