@@ -3,7 +3,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--Product Location View Controller-->
@@ -113,84 +112,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="h6O-nj-IHh" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="852" y="1629"/>
-        </scene>
-        <!--Make An Offer View Controller-->
-        <scene sceneID="po5-LC-h9F">
-            <objects>
-                <viewController storyboardIdentifier="MakeAnOfferViewController" id="J7x-I7-tMF" customClass="MakeAnOfferViewController" customModule="LetGo" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="BSA-5S-iSX"/>
-                        <viewControllerLayoutGuide type="bottom" id="aRi-FC-vhU"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="3ms-LZ-mNb">
-                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AhN-X5-bDh">
-                                <rect key="frame" x="16" y="32" width="32" height="34"/>
-                                <color key="backgroundColor" red="0.0" green="0.57647058819999997" blue="0.81960784310000001" alpha="1" colorSpace="calibratedRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="32" id="4qg-Z9-kYl"/>
-                                </constraints>
-                                <state key="normal" title="$">
-                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                            </button>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Price" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="rhL-jt-cdK">
-                                <rect key="frame" x="56" y="34" width="248" height="30"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" keyboardType="decimalPad" returnKeyType="next"/>
-                                <connections>
-                                    <outlet property="delegate" destination="J7x-I7-tMF" id="oLg-WZ-u4V"/>
-                                </connections>
-                            </textField>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0fC-u2-KeU">
-                                <rect key="frame" x="16" y="98" width="288" height="40"/>
-                                <color key="backgroundColor" red="1" green="0.36355292797088623" blue="0.38490483164787292" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="40" id="zF6-RV-63V"/>
-                                </constraints>
-                                <state key="normal" title="Send">
-                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="makeAnOffer:" destination="J7x-I7-tMF" eventType="touchUpInside" id="3WI-fg-l6G"/>
-                                </connections>
-                            </button>
-                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="L7k-tA-J0J">
-                                <rect key="frame" x="150" y="108" width="20" height="20"/>
-                                <color key="color" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </activityIndicatorView>
-                        </subviews>
-                        <color key="backgroundColor" red="0.90196079015731812" green="0.90196079015731812" blue="0.90196079015731812" alpha="1" colorSpace="calibratedRGB"/>
-                        <constraints>
-                            <constraint firstItem="AhN-X5-bDh" firstAttribute="centerY" secondItem="rhL-jt-cdK" secondAttribute="centerY" id="4gG-eq-CmU"/>
-                            <constraint firstItem="0fC-u2-KeU" firstAttribute="leading" secondItem="3ms-LZ-mNb" secondAttribute="leadingMargin" id="Eev-pq-uB0"/>
-                            <constraint firstItem="rhL-jt-cdK" firstAttribute="leading" secondItem="AhN-X5-bDh" secondAttribute="trailing" constant="8" id="HBs-Pz-YA1"/>
-                            <constraint firstItem="rhL-jt-cdK" firstAttribute="trailing" secondItem="3ms-LZ-mNb" secondAttribute="trailingMargin" id="HRw-4k-69i"/>
-                            <constraint firstItem="AhN-X5-bDh" firstAttribute="leading" secondItem="3ms-LZ-mNb" secondAttribute="leadingMargin" id="KIF-67-WVH"/>
-                            <constraint firstItem="0fC-u2-KeU" firstAttribute="top" secondItem="AhN-X5-bDh" secondAttribute="bottom" constant="32" id="WM2-Q9-9Zn"/>
-                            <constraint firstItem="0fC-u2-KeU" firstAttribute="trailing" secondItem="3ms-LZ-mNb" secondAttribute="trailingMargin" id="WMC-hc-QP8"/>
-                            <constraint firstItem="L7k-tA-J0J" firstAttribute="centerY" secondItem="0fC-u2-KeU" secondAttribute="centerY" id="eAJ-ZX-V2R"/>
-                            <constraint firstItem="rhL-jt-cdK" firstAttribute="leading" secondItem="AhN-X5-bDh" secondAttribute="trailing" constant="8" id="hD4-OZ-oN7"/>
-                            <constraint firstItem="L7k-tA-J0J" firstAttribute="centerX" secondItem="0fC-u2-KeU" secondAttribute="centerX" id="iem-7l-C1C"/>
-                            <constraint firstItem="AhN-X5-bDh" firstAttribute="top" secondItem="BSA-5S-iSX" secondAttribute="bottom" constant="32" id="wfe-tN-V2p"/>
-                        </constraints>
-                    </view>
-                    <navigationItem key="navigationItem" id="c2n-Zt-NA3"/>
-                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
-                    <connections>
-                        <outlet property="activityIndicator" destination="L7k-tA-J0J" id="CSJ-1n-IBh"/>
-                        <outlet property="currencyButton" destination="AhN-X5-bDh" id="Fic-8a-DrW"/>
-                        <outlet property="makeAnOfferButton" destination="0fC-u2-KeU" id="s4A-ct-Ks5"/>
-                        <outlet property="priceTextField" destination="rhL-jt-cdK" id="DLR-dA-vje"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Wdm-eI-71J" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1894" y="991"/>
         </scene>
     </scenes>
 </document>

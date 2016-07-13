@@ -606,8 +606,6 @@
 		C7B588561CE1DE1C009B3975 /* DirectAnswersCloseCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C7B588171CE1DE1C009B3975 /* DirectAnswersCloseCell.xib */; };
 		C7B588571CE1DE1C009B3975 /* DirectAnswersPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B588181CE1DE1C009B3975 /* DirectAnswersPresenter.swift */; };
 		C7B588581CE1DE1C009B3975 /* DirectAnswersPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B588181CE1DE1C009B3975 /* DirectAnswersPresenter.swift */; };
-		C7B588591CE1DE1C009B3975 /* MakeAnOfferViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B588191CE1DE1C009B3975 /* MakeAnOfferViewController.swift */; };
-		C7B5885A1CE1DE1C009B3975 /* MakeAnOfferViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B588191CE1DE1C009B3975 /* MakeAnOfferViewController.swift */; };
 		C7B5885B1CE1DE1C009B3975 /* OldChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B5881A1CE1DE1C009B3975 /* OldChatViewController.swift */; };
 		C7B5885C1CE1DE1C009B3975 /* OldChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B5881A1CE1DE1C009B3975 /* OldChatViewController.swift */; };
 		C7B5885D1CE1DE1C009B3975 /* OldChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B5881B1CE1DE1C009B3975 /* OldChatViewModel.swift */; };
@@ -1355,7 +1353,6 @@
 		C7B588161CE1DE1C009B3975 /* DirectAnswersCloseCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DirectAnswersCloseCell.swift; sourceTree = "<group>"; };
 		C7B588171CE1DE1C009B3975 /* DirectAnswersCloseCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DirectAnswersCloseCell.xib; sourceTree = "<group>"; };
 		C7B588181CE1DE1C009B3975 /* DirectAnswersPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DirectAnswersPresenter.swift; sourceTree = "<group>"; };
-		C7B588191CE1DE1C009B3975 /* MakeAnOfferViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MakeAnOfferViewController.swift; sourceTree = "<group>"; };
 		C7B5881A1CE1DE1C009B3975 /* OldChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OldChatViewController.swift; sourceTree = "<group>"; };
 		C7B5881B1CE1DE1C009B3975 /* OldChatViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OldChatViewModel.swift; sourceTree = "<group>"; };
 		C7B5881C1CE1DE1C009B3975 /* RelationInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RelationInfoView.swift; sourceTree = "<group>"; };
@@ -2533,7 +2530,6 @@
 				C7B588111CE1DE1C009B3975 /* ChatViewModel.swift */,
 				6AF75D061CF449AF00EACCF0 /* ChatViewMessage.swift */,
 				6AF75D091CF457D800EACCF0 /* ChatViewMessageAdapter.swift */,
-				C7B588191CE1DE1C009B3975 /* MakeAnOfferViewController.swift */,
 				C7B5881A1CE1DE1C009B3975 /* OldChatViewController.swift */,
 				C7B5881B1CE1DE1C009B3975 /* OldChatViewModel.swift */,
 				C7B5881C1CE1DE1C009B3975 /* RelationInfoView.swift */,
@@ -3663,7 +3659,6 @@
 				C7111F021CA438AC000C5C5A /* UniversalLink.swift in Sources */,
 				2EE5EEE71B5E759F0056BF76 /* ChangeUsernameViewModel.swift in Sources */,
 				50F681F21C8F4586001F33A3 /* RxPaginable.swift in Sources */,
-				C7B588591CE1DE1C009B3975 /* MakeAnOfferViewController.swift in Sources */,
 				C783D97C1C64BB90000EE5CA /* ReportUsersViewController.swift in Sources */,
 				50BA5C061C3C093E00F34042 /* AppDelegate.swift in Sources */,
 				C783D98E1C650F38000EE5CA /* ReportUserCellDrawer.swift in Sources */,
@@ -3986,7 +3981,6 @@
 				C7111F031CA438AC000C5C5A /* UniversalLink.swift in Sources */,
 				C7DB41B21C5138B500400945 /* MediaPickerManager.swift in Sources */,
 				C7DB41B31C5138B500400945 /* ChangeUsernameViewModel.swift in Sources */,
-				C7B5885A1CE1DE1C009B3975 /* MakeAnOfferViewController.swift in Sources */,
 				50F681F31C8F4586001F33A3 /* RxPaginable.swift in Sources */,
 				C783D97D1C64BB90000EE5CA /* ReportUsersViewController.swift in Sources */,
 				C7DB41B41C5138B500400945 /* AppDelegate.swift in Sources */,

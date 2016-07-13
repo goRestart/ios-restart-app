@@ -21,7 +21,6 @@ protocol ProductViewModelDelegate: class, BaseViewModelDelegate {
     func vmOpenUser(userVM: UserViewModel)
     func vmOpenChat(chatVM: OldChatViewModel)
     func vmOpenWebSocketChat(chatVM: ChatViewModel)
-    func vmOpenOffer(offerVC: MakeAnOfferViewController)
 
     func vmOpenPromoteProduct(promoteVM: PromoteProductViewModel)
     func vmOpenCommercialDisplay(displayVM: CommercialDisplayViewModel)
@@ -391,19 +390,6 @@ extension ProductViewModel {
     func chatWithSeller() {
         trackChatWithSeller()
         openChat()
-    }
-    
-    func offer() {
-        ifLoggedInRunActionElseOpenMainSignUp({ [weak self] in
-            guard let strongSelf = self else { return }
-
-            // TODO: Refactor to return a view model as soon as MakeAnOfferViewController is refactored to MVVM
-            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            guard let offerVC = storyboard.instantiateViewControllerWithIdentifier("MakeAnOfferViewController")
-                as? MakeAnOfferViewController else { return }
-            offerVC.product = strongSelf.product.value
-            strongSelf.delegate?.vmOpenOffer(offerVC)
-            }, source: .MakeOffer)
     }
 
     func sendDirectMessage(message: String?) {

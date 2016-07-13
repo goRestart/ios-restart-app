@@ -39,7 +39,6 @@ public enum EventName: String {
     case ProductShareCancel                 = "product-detail-share-cancel"
     case ProductShareComplete               = "product-detail-share-complete"
     
-    case ProductOffer                       = "product-detail-offer"
     case ProductAskQuestion                 = "product-detail-ask-question"
     case ProductContinueChatting            = "product-detail-continue-chatting"
     case ProductChatButton                  = "product-detail-chat-button"
@@ -151,7 +150,6 @@ public enum EventParameterName: String {
     case ProductPrice         = "product-price"
     case ProductCurrency      = "product-currency"
     case ProductType          = "item-type"             // real (1) / dummy (0).
-    case ProductOfferAmount   = "amount-offer"
     case UserToId             = "user-to-id"
     case UserEmail            = "user-email"
     case UserCity             = "user-city"
@@ -197,7 +195,6 @@ public enum EventParameterLoginSourceValue: String {
     case Profile = "view-profile"
     case Notifications = "notifications"
     case Favourite = "favourite"
-    case MakeOffer = "offer"
     case MarkAsSold = "mark-as-sold"
     case MarkAsUnsold = "mark-as-unsold"
     case AskQuestion = "question"

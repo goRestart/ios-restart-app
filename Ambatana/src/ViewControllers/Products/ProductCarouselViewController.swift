@@ -726,10 +726,6 @@ extension ProductCarouselViewController: ProductViewModelDelegate {
         navigationController?.pushViewController(chatVC, animated: true)
     }
     
-    func vmOpenOffer(offerVC: MakeAnOfferViewController) {
-        navigationController?.pushViewController(offerVC, animated: true)
-    }
-    
     func vmOpenPromoteProduct(promoteVM: PromoteProductViewModel) {
         let promoteProductVC = PromoteProductViewController(viewModel: promoteVM)
         promoteProductVC.delegate = self
