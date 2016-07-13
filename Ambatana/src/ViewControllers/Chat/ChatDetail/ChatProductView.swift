@@ -65,9 +65,9 @@ class ChatProductView: UIView {
         reviewButton.setTitle(LGLocalizedString.chatUserRatingButtonTitle, forState: .Normal)
     }
 
-    func shouldShowReviewButton(userIsReviewable: Bool) {
-        userName.hidden = userIsReviewable && FeatureFlags.userRatings
-        reviewButton.hidden = !userIsReviewable || !FeatureFlags.userRatings
+    func showReviewButton(showButton: Bool) {
+        userName.hidden = showButton && FeatureFlags.userRatings
+        reviewButton.hidden = !showButton || !FeatureFlags.userRatings
     }
 
     func disableProductInteraction() {

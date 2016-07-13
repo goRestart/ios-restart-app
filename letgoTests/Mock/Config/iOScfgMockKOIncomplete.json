@@ -1,0 +1,11 @@
+{
+    "currentVersionInfo": {
+        "forceUpdateVersions": [
+        1,
+        2,
+        3
+        ]
+    },
+    "configURL": "https://letgo-images.s3.amazonaws.com/config/ios.json",
+    "showOnboarding":false
+}

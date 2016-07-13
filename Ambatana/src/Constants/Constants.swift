@@ -87,4 +87,11 @@ struct Constants {
     // Edit Product
     static let cloudsightTimeThreshold: NSTimeInterval = 900        // just ask for automatic generated name the first 15 mins
     static let cloudsightRequestRepeatInterval: NSTimeInterval = 2  // repeat the request every 2 seconds
+
+    // Config
+    static let defaultConfigTimeOut: Double = 3    // seconds
+
+    // user rating from chat
+    static let myMessagesCountForRating = 1
+    static let otherMessagesCountForRating = 1
 }

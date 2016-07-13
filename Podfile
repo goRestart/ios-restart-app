@@ -10,6 +10,7 @@ project "LetGo.xcodeproj"
 
 def shared_pods
     pod "AlamofireImage",        "~> 2.4.0"
+    pod "Argo",                 "~> 3.0.1"
 
 	pod "FBSDKLoginKit",         "~> 4.9.1"
 	pod "FBSDKCoreKit",          "~> 4.9.1"
@@ -32,7 +33,7 @@ def shared_pods
     pod "Leanplum-iOS-SDK",     "~> 1.3.11"
 
 	# letgo Core
-    pod "LGCoreKit",            "0.26.1" #:path => "../lgcorekit"
+    pod "LGCoreKit",            :path => "../lgcorekit" #"0.26.1"
 
 	# Slack Chat controller
     pod "SlackTextViewController", "1.9.1"

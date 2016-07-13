@@ -179,10 +179,7 @@ class ChatViewModel: BaseViewModel {
         let userRepository = Core.userRepository
         let tracker = TrackerProxy.sharedInstance
         let stickersRepository = Core.stickersRepository
-
-        let configFileName = EnvironmentProxy.sharedInstance.configFileName
-        let dao = LGConfigDAO(bundle: NSBundle.mainBundle(), configFileName: configFileName)
-        let configManager = ConfigManager(dao: dao)
+        let configManager = ConfigManager.sharedInstance
 
         self.init(conversation: conversation, myUserRepository: myUserRepository, chatRepository: chatRepository,
                   productRepository: productRepository, userRepository: userRepository,

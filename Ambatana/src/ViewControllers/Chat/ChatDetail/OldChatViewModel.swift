@@ -196,8 +196,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     var userIsReviewable: Bool {
         switch chatStatus {
         case .Available, .ProductSold:
-            return myMessagesCount >= configManager.myMessagesCountForRating &&
-                otherUserMessagesCount >= configManager.otherMessagesCountForRating
+            return enoughMessagesForUserRating
         case .ProductDeleted, .Forbidden, .UserPendingDelete, .UserDeleted, .Blocked, .BlockedBy:
             return false
         }
@@ -286,6 +285,25 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         }
         return messagesCount
     }
+    private var enoughMessagesForUserRating: Bool {
+        guard let myUserId = myUserRepository.myUser?.objectId else { return false }
+        guard let otherUserId = otherUser?.objectId else { return false }
+
+        var myMessagesCount = 0
+        var otherMessagesCount = 0
+        for message in loadedMessages {
+            if message.talkerId == myUserId {
+                myMessagesCount += 1
+            } else if message.talkerId == otherUserId {
+                otherMessagesCount += 1
+            }
+            if myMessagesCount >= configManager.myMessagesCountForRating &&
+                otherMessagesCount >= configManager.otherMessagesCountForRating {
+                return true
+            }
+        }
+        return false
+    }
     private var shouldShowOtherUserInfo: Bool {
         guard chat.isSaved else { return true }
         return !isLoading && isLastPage
@@ -307,10 +325,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     convenience init?(product: Product) {
         let myUserRepository = Core.myUserRepository
         let chat = LocalChat(product: product, myUser: myUserRepository.myUser)
-
-        let configFileName = EnvironmentProxy.sharedInstance.configFileName
-        let dao = LGConfigDAO(bundle: NSBundle.mainBundle(), configFileName: configFileName)
-        let configManager = ConfigManager(dao: dao)
+        let configManager = ConfigManager.sharedInstance
 
         self.init(chat: chat, myUserRepository: myUserRepository, configManager: configManager)
     }

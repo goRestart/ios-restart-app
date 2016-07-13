@@ -296,7 +296,7 @@ class OldChatViewController: SLKTextViewController {
             break
         }
 
-        productView.shouldShowReviewButton(viewModel.userIsReviewable)
+        productView.showReviewButton(viewModel.userIsReviewable)
     }
     
     private func showActivityIndicator(show: Bool) {
@@ -527,7 +527,7 @@ extension OldChatViewController: OldChatViewModelDelegate {
     }
 
     func vmUpdateUserIsReadyToReview() {
-        productView.shouldShowReviewButton(viewModel.userIsReviewable)
+        productView.showReviewButton(viewModel.userIsReviewable)
     }
 }
 
