@@ -465,7 +465,7 @@ extension ProductCarouselViewController {
         setupUserView(viewModel)
         setupFullScreenAvatarView(viewModel)
         setupRxNavbarBindings(viewModel)
-        setupRxWhatever(viewModel)
+        setupRxProductUpdate(viewModel)
         refreshPageControl(viewModel)
         refreshProductOnboarding(viewModel)
         refreshBottomButtons(viewModel)
@@ -509,7 +509,7 @@ extension ProductCarouselViewController {
             }.addDisposableTo(activeDisposeBag)
     }
 
-    private func setupRxWhatever(viewModel: ProductViewModel) {
+    private func setupRxProductUpdate(viewModel: ProductViewModel) {
         viewModel.product.asObservable().skip(1).bindNext { [weak self] _ in
             guard let strongSelf = self else { return }
             let visibleIndexPaths = strongSelf.collectionView.indexPathsForVisibleItems()
