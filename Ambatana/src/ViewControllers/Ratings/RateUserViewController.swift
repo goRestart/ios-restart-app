@@ -44,8 +44,7 @@ class RateUserViewController: BaseViewController {
     }
 
     dynamic private func closeButtonPressed() {
-        //TODO: NAVIGATOR!
-        dismissViewControllerAnimated(true, completion: nil)
+        viewModel.closeButtonPressed()
     }
 }
 

@@ -47,15 +47,17 @@ final class UserRatingCoordinator: Coordinator {
 
     init(data: UserRatingData) {
         let userRatingVM = RateUserViewModel(userId: data.userId, userAvatar: data.userAvatar, userName: data.userName)
-        self.viewController = RateUserViewController(viewModel: userRatingVM)
+        let userRatingVC = RateUserViewController(viewModel: userRatingVM)
+        self.viewController = UINavigationController(rootViewController: userRatingVC)
+
+        userRatingVM.navigator = self
     }
 
     func open(parent parent: UIViewController, animated: Bool, completion: (() -> Void)?) {
-        guard let userRatingVC = viewController as? RateUserViewController else { return }
-        guard userRatingVC.parentViewController == nil else { return }
+        guard viewController.parentViewController == nil else { return }
 
         parentViewController = parent
-        parent.presentViewController(userRatingVC, animated: animated, completion: completion)
+        parent.presentViewController(viewController, animated: animated, completion: completion)
     }
 
     func close(animated animated: Bool, completion: (() -> Void)?) {
