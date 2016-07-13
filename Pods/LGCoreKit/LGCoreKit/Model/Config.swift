@@ -17,6 +17,7 @@ public class Config: ResponseObjectSerializable {
     private static let forceUpdateVersionsJSONKey = "forceUpdateVersions"
     private static let configURLJSONKey = "configURL"
 
+
     public var buildNumber : Int
     public var forceUpdateVersions : [Int]
     public var configURL : String
