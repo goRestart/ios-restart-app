@@ -11,6 +11,7 @@ import LGCoreKit
 protocol ProductCarouselViewModelDelegate: BaseViewModelDelegate {
     func vmReloadData()
     func vmRemoveMoreInfoTooltip()
+    func vmRefreshCurrentItem()
 }
 
 enum CarouselMovement {
@@ -71,6 +72,18 @@ class ProductCarouselViewModel: BaseViewModel {
     private var objects: [ProductCarouselCellModel] = []
 
     // MARK: - Init
+    
+    convenience init(chatProduct: ChatProduct, chatInterlocutor: ChatInterlocutor,
+                                 thumbnailImage: UIImage?, singleProductList: Bool,
+                                 productListRequester: ProductListRequester?) {
+        let product = LGProduct(chatProduct: chatProduct, chatInterlocutor: chatInterlocutor)
+        let myUserRepository = Core.myUserRepository
+        self.init(myUserRepository: myUserRepository, productListVM: nil, initialProduct: product,
+                  thumbnailImage: thumbnailImage, singleProductList: singleProductList,
+                  productListRequester: productListRequester)
+        syncFirstProduct()
+    }
+    
     convenience init(productListVM: ProductListViewModel, initialProduct: Product?, thumbnailImage: UIImage?,
          singleProductList: Bool, productListRequester: ProductListRequester?) {
         let myUserRepository = Core.myUserRepository
@@ -79,10 +92,14 @@ class ProductCarouselViewModel: BaseViewModel {
                   productListRequester: productListRequester)
     }
 
-    init(myUserRepository: MyUserRepository, productListVM: ProductListViewModel, initialProduct: Product?, thumbnailImage: UIImage?,
+    init(myUserRepository: MyUserRepository, productListVM: ProductListViewModel?, initialProduct: Product?, thumbnailImage: UIImage?,
          singleProductList: Bool, productListRequester: ProductListRequester?) {
         self.myUserRepository = myUserRepository
-        self.objects = productListVM.objects.flatMap(ProductCarouselCellModel.adapter)
+        if let productListVM = productListVM {
+            self.objects = productListVM.objects.flatMap(ProductCarouselCellModel.adapter)
+        } else {
+            self.objects = [initialProduct].flatMap{$0}.map(ProductCarouselCellModel.init)
+        }
         self.initialThumbnail = thumbnailImage
         self.productListRequester = productListRequester
         self.singleProductList = singleProductList
@@ -90,6 +107,19 @@ class ProductCarouselViewModel: BaseViewModel {
         self.startIndex = indexForProduct(initialProduct) ?? 0
         self.currentProductViewModel = viewModelAtIndex(startIndex)
     }
+    
+    
+    private func syncFirstProduct() {
+        currentProductViewModel?.syncProduct() { [weak self] in
+            guard let `self` = self else { return }
+            guard let product = self.currentProductViewModel?.product.value else { return }
+            let newModel = ProductCarouselCellModel(product: product)
+            self.objects.removeAtIndex(self.startIndex)
+            self.objects.insert(newModel, atIndex: self.startIndex)
+            self.delegate?.vmRefreshCurrentItem()
+        }
+    }
+    
     
     func indexForProduct(product: Product?) -> Int? {
         guard let product = product else { return nil }

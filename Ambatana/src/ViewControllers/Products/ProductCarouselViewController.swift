@@ -651,6 +651,11 @@ extension ProductCarouselViewController: ProductCarouselViewModelDelegate {
     func vmRemoveMoreInfoTooltip() {
         removeMoreInfoTooltip()
     }
+    
+    func vmRefreshCurrentItem() {
+        collectionView.reloadData()
+        refreshOverlayElements(.Initial)
+    }
 }
 
 

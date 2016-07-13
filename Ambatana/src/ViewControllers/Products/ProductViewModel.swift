@@ -175,6 +175,8 @@ class ProductViewModel: BaseViewModel {
                   commercializerRepository: commercializerRepository, chatRepository: chatRepository,
                   chatWebSocketRepository: chatWebSocketRepository, locationManager: locationManager, countryHelper: countryHelper, tracker: tracker,
                   product: product, thumbnailImage: thumbnailImage)
+        
+        syncProduct(nil)
     }
     
     convenience init(product: Product, thumbnailImage: UIImage?) {
@@ -280,6 +282,16 @@ class ProductViewModel: BaseViewModel {
                 self?.productHasReadyCommercials.value = !readyCommercials.isEmpty
                 self?.commercializers.value = value
             }
+        }
+    }
+    
+    func syncProduct(completion: (() -> ())?) {
+        guard let productId = product.value.objectId else { return }
+        productRepository.retrieve(productId) { [weak self] result in
+            if let value = result.value {
+                self?.product.value = value
+            }
+            completion?()
         }
     }
 

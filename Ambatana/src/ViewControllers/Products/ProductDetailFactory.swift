@@ -38,12 +38,17 @@ class ProductDetailFactory {
         case .Snapchat:
             guard let productId = product.objectId else { return nil }
             let requester = RelatedProductListRequester(productId: productId)
-            let newProduct = LGProduct(chatProduct: product, chatInterlocutor: user)
-            let listViewModel = ProductListViewModel(requester: requester, products: [newProduct])
-            let product = listViewModel.productAtIndex(0)
-            let vm = ProductCarouselViewModel(productListVM: listViewModel, initialProduct: product,
+//            let newProduct = LGProduct(chatProduct: product, chatInterlocutor: user)
+//            let listViewModel = ProductListViewModel(requester: requester, products: [newProduct])
+//            let product = listViewModel.productAtIndex(0)
+            let vm = ProductCarouselViewModel(chatProduct: product, chatInterlocutor: user,
                                               thumbnailImage: thumbnailImage, singleProductList: true,
                                               productListRequester: requester)
+            
+//            
+//            let vm = ProductCarouselViewModel(productListVM: listViewModel, initialProduct: product,
+//                                              thumbnailImage: thumbnailImage, singleProductList: true,
+//                                              productListRequester: requester)
             let animator = ProductCarouselPushAnimator(originFrame: originFrame, originThumbnail: thumbnailImage)
             return ProductCarouselViewController(viewModel: vm, pushAnimator: animator)
             
@@ -51,7 +56,6 @@ class ProductDetailFactory {
             let viewModel = ProductViewModel(product: product, user: user, thumbnailImage: thumbnailImage)
             return ProductViewController(viewModel: viewModel)
         }
-            return nil
     }
     
     static func productDetailFromProductList(productListVM: ProductListViewModel, index: Int,
