@@ -81,7 +81,8 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
         productListView.headerDelegate = self
         productListView.cellsDelegate = viewModel
         productListView.switchViewModel(viewModel.listViewModel)
-        if FeatureFlags.mainProducts3Columns {
+        let show3Columns = DeviceFamily.isWideScreen
+        if show3Columns {
             productListView.updateLayoutWithSeparation(6)
         }
         addSubview(productListView)

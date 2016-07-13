@@ -30,13 +30,6 @@ struct FeatureFlags {
     static var indexProductsTrendingFirst24h: Bool {
         return FTSFlipTheSwitch.indexProductsTrendingFirst24h
     }
-      
-    static var mainProducts3Columns: Bool {
-        if FTSFlipTheSwitch.overridesABTests {
-            return FTSFlipTheSwitch.mainProducts3Columns
-        }
-        return ABTests.mainProducts3Columns.value
-    }
     
     static var productDetailVersion: ProductDetailVersion {
         if FTSFlipTheSwitch.overridesABTests {
@@ -87,10 +80,6 @@ private extension FTSFlipTheSwitch {
         return FTSFlipTheSwitch.sharedInstance().isFeatureEnabled("index_products_trending_first_24h")
     }
 
-    static var mainProducts3Columns: Bool {
-        return FTSFlipTheSwitch.sharedInstance().isFeatureEnabled("main_products_3_columns")
-    }
-    
     static var productDetailShowOfferButton: Bool {
         return FTSFlipTheSwitch.sharedInstance().isFeatureEnabled("product_detail_offer_button")
     }
