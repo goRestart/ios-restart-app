@@ -159,6 +159,12 @@ extension AppCoordinator: AppNavigator {
         sellCoordinator.delegate = self
         openCoordinator(coordinator: sellCoordinator, parent: tabBarCtl, animated: true, completion: nil)
     }
+
+    func openUserRating(data: UserRatingData) {
+        let userRatingCoordinator = UserRatingCoordinator(data: data)
+        userRatingCoordinator.delegate = self
+        openCoordinator(coordinator: userRatingCoordinator, parent: tabBarCtl, animated: true, completion: nil)
+    }
 }
 
 
@@ -210,6 +216,15 @@ extension AppCoordinator: SellCoordinatorDelegate {
         guard !openPromoteIfNeeded(product: product) else { return }
         openAfterSellDialogIfNeeded()
     }
+}
+
+
+// MARK: - UserRatingCoordinatorDelegate
+
+extension AppCoordinator: UserRatingCoordinatorDelegate {
+    func userRatingCoordinatorDidCancel(coordinator: UserRatingCoordinator) {}
+
+    func userRatingCoordinatorDidFinish(coordinator: UserRatingCoordinator) {}
 }
 
 private extension AppCoordinator {

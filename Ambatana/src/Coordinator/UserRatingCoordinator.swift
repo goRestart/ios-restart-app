@@ -8,6 +8,26 @@
 
 import LGCoreKit
 
+struct UserRatingData {
+    let userId: String
+    let userAvatar: NSURL?
+    let userName: String?
+
+    init?(user: User) {
+        guard let userId = user.objectId else { return nil }
+        self.userId = userId
+        self.userAvatar = user.avatar?.fileURL
+        self.userName = user.name
+    }
+
+    init?(interlocutor: ChatInterlocutor) {
+        guard let userId = interlocutor.objectId else { return nil }
+        self.userId = userId
+        self.userAvatar = interlocutor.avatar?.fileURL
+        self.userName = interlocutor.name
+    }
+}
+
 protocol UserRatingCoordinatorDelegate: CoordinatorDelegate {
     func userRatingCoordinatorDidCancel(coordinator: UserRatingCoordinator)
     func userRatingCoordinatorDidFinish(coordinator: UserRatingCoordinator)
@@ -25,18 +45,8 @@ final class UserRatingCoordinator: Coordinator {
 
     // MARK: - Lifecycle
 
-    convenience init?(user: User) {
-        guard let userId = user.objectId else { return nil }
-        self.init(userId: userId, userAvatar: user.avatar?.fileURL, userName: user.name)
-    }
-
-    convenience init?(user: ChatInterlocutor) {
-        guard let userId = user.objectId else { return nil }
-        self.init(userId: userId, userAvatar: user.avatar?.fileURL, userName: user.name)
-    }
-
-    init(userId: String, userAvatar: NSURL?, userName: String?) {
-        let userRatingVM = RateUserViewModel(userId: userId, userAvatar: userAvatar, userName: userName)
+    init(data: UserRatingData) {
+        let userRatingVM = RateUserViewModel(userId: data.userId, userAvatar: data.userAvatar, userName: data.userName)
         self.viewController = RateUserViewController(viewModel: userRatingVM)
     }
 

@@ -275,7 +275,10 @@ final class TabBarController: UITabBarController, UINavigationControllerDelegate
     func openSellFromBannerCell(designType: String) {
         viewModel.sellFromBannerCell(designType)
     }
-    
+
+    func openUserRating(data: UserRatingData) {
+        viewModel.userRating(data)
+    }
     
     // MARK: > UI
 
@@ -324,46 +327,6 @@ final class TabBarController: UITabBarController, UINavigationControllerDelegate
 extension TabBarController: TabBarViewModelDelegate {
     func vmSwitchToTab(tab: Tab, force: Bool) {
         switchToTab(tab, checkIfShouldSwitch: !force)
-    }
-
-    func vmShowProduct(productVC: UIViewController) {
-        guard let navBarCtl = selectedViewController as? UINavigationController else { return }
-
-        navBarCtl.pushViewController(productVC, animated: true)
-    }
-
-    func vmShowUser(userViewModel viewModel: UserViewModel) {
-        guard let navBarCtl = selectedViewController as? UINavigationController else { return }
-
-        let vc = UserViewController(viewModel: viewModel)
-        navBarCtl.pushViewController(vc, animated: true)
-    }
-
-    func vmShowChat(chatViewModel viewModel: OldChatViewModel) {
-        guard let navBarCtl = selectedViewController as? UINavigationController else { return }
-
-        let chatVC = OldChatViewController(viewModel: viewModel)
-        navBarCtl.pushViewController(chatVC, animated: true)
-    }
-
-    func vmShowResetPassword(changePasswordViewModel viewModel: ChangePasswordViewModel) {
-        let vc = ChangePasswordViewController(viewModel: viewModel)
-        let navCtl = UINavigationController(rootViewController: vc)
-        presentViewController(navCtl, animated: true, completion: nil)
-    }
-
-    func vmShowMainProducts(mainProductsViewModel viewModel: MainProductsViewModel) {
-        guard let navBarCtl = selectedViewController as? UINavigationController else { return }
-
-        let vc = MainProductsViewController(viewModel: viewModel)
-        navBarCtl.pushViewController(vc, animated: true)
-    }
-
-    func isAtRootLevel() -> Bool {
-        guard let selectedNavC = selectedViewController as? UINavigationController,
-            selectedViewController = selectedNavC.topViewController where selectedViewController.isRootViewController()
-                    else { return false }
-        return true
     }
 }
 
