@@ -48,8 +48,6 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     private var fullScreenAvatarHeight: NSLayoutConstraint?
     private var fullScreenAvatarTop: NSLayoutConstraint?
     private var fullScreenAvatarLeft: NSLayoutConstraint?
-    private let loadingTimer: LoadingTimer
-    private let passThroughView: PassThroughView
     private let viewModel: ProductCarouselViewModel
     private let disposeBag: DisposeBag = DisposeBag()
     private var currentIndex = 0
@@ -60,8 +58,6 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     private let pageControlWidth: CGFloat = 18
     private let pageControlMargin: CGFloat = 18
     private let userViewMargin: CGFloat = 15
-    private let loadingViewDiameter: CGFloat = 30
-    private let loadingViewMargin: CGFloat = 15
     private let moreInfoDragMargin: CGFloat = 15
     private let moreInfoViewHeight: CGFloat = 50
     private let moreInfoDragMinimumSeparation: CGFloat = 100
@@ -86,8 +82,6 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         let blurEffect = UIBlurEffect(style: .Dark)
         self.fullScreenAvatarEffectView = UIVisualEffectView(effect: blurEffect)
         self.fullScreenAvatarView = UIImageView(frame: CGRect.zero)
-        self.loadingTimer = LoadingTimer(frame: CGRect(x: 0, y: 0, width: loadingViewDiameter, height: loadingViewDiameter))
-        self.passThroughView = PassThroughView()
         self.animator = pushAnimator
         self.pageControl = UIPageControl(frame: CGRect.zero)
         super.init(viewModel: viewModel, nibName: "ProductCarouselViewController", statusBarStyle: .LightContent,
@@ -98,10 +92,6 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-
-    deinit {
-        loadingTimerCleanup()
     }
     
     override func viewWillLayoutSubviews() {
@@ -143,11 +133,6 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         setupGradientView()
     }
 
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        setupLoadingTimer()
-    }
-    
     func addSubviews() {
         view.addSubview(pageControl)
         fullScreenAvatarEffectView.translatesAutoresizingMaskIntoConstraints = false
@@ -156,8 +141,6 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         view.addSubview(userView)
         fullScreenAvatarView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(fullScreenAvatarView)
-        loadingTimer.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(loadingTimer)
     }
     
     func setupUI() {
@@ -195,23 +178,13 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         let bottomMargin = NSLayoutConstraint(item: userView, attribute: .Bottom, relatedBy: .Equal, toItem: view,
                                               attribute: .Bottom, multiplier: 1, constant: -userViewMargin)
         let rightMargin = NSLayoutConstraint(item: userView, attribute: .Trailing, relatedBy: .LessThanOrEqual,
-                                             toItem: loadingTimer, attribute: .Leading, multiplier: 1, constant: -userViewMargin)
+                                             toItem: view, attribute: .Trailing, multiplier: 1,
+                                             constant: -userViewMargin)
         let height = NSLayoutConstraint(item: userView, attribute: .Height, relatedBy: .Equal, toItem: nil,
                                          attribute: .NotAnAttribute, multiplier: 1, constant: 50)
         view.addConstraints([leftMargin, rightMargin, bottomMargin, height])
         userViewBottomConstraint = bottomMargin
 
-        let loadingWidth = NSLayoutConstraint(item: loadingTimer, attribute: .Width, relatedBy: .Equal, toItem: nil,
-                                              attribute: .NotAnAttribute, multiplier: 1, constant: loadingViewDiameter)
-        let loadingHeight = NSLayoutConstraint(item: loadingTimer, attribute: .Height, relatedBy: .Equal, toItem: nil,
-                                              attribute: .NotAnAttribute, multiplier: 1, constant: loadingViewDiameter)
-        loadingTimer.addConstraints([loadingWidth, loadingHeight])
-        let loadingRight = NSLayoutConstraint(item: loadingTimer, attribute: .Trailing, relatedBy: .Equal,
-                                              toItem: view, attribute: .Trailing, multiplier: 1, constant: -loadingViewMargin)
-        let loadingBottom = NSLayoutConstraint(item: loadingTimer, attribute: .Bottom, relatedBy: .Equal,
-                                               toItem: userView, attribute: .Bottom, multiplier: 1, constant: 0)
-        view.addConstraints([loadingRight, loadingBottom])
-        
         view.addSubview(commercialButton)
         commercialButton.translatesAutoresizingMaskIntoConstraints = false
         let topCommercial = NSLayoutConstraint(item: commercialButton, attribute: .Top, relatedBy: .Equal, toItem: view,
@@ -289,7 +262,6 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         alphaSignal.bindTo(moreInfoView.rx_alpha).addDisposableTo(disposeBag)
         alphaSignal.bindTo(productStatusView.rx_alpha).addDisposableTo(disposeBag)
         alphaSignal.bindTo(commercialButton.rx_alpha).addDisposableTo(disposeBag)
-        alphaSignal.bindTo(loadingTimer.rx_alpha).addDisposableTo(disposeBag)
         alphaSignal.bindNext{ [weak self] alpha in
             self?.moreInfoTooltip?.alpha = alpha
         }.addDisposableTo(disposeBag)
@@ -471,8 +443,6 @@ extension ProductCarouselViewController {
         refreshMoreInfoView(viewModel)
         refreshProductStatusLabel(viewModel)
         refreshCommercialVideoButton(viewModel)
-        startAutoNextItem(lastMovement)
-        setupLoadingTimer()
     }
 
     private func setupUserView(viewModel: ProductViewModel) {
@@ -816,84 +786,5 @@ extension ProductCarouselViewController: ProductDetailOnboardingViewDelegate {
         // nav bar shown again, but under the onboarding
         navigationController?.setNavigationBarHidden(false, animated: false)
         productOnboardingView = nil
-        startAutoNextItem(.SwipeRight)
-    }
-}
-
-
-// MARK: - Auto next item
-
-extension ProductCarouselViewController {
-
-    func setupLoadingTimer() {
-        guard passThroughView.superview == nil else {
-            navigationController?.view.bringSubviewToFront(passThroughView)
-            return
-        }
-        passThroughView.onTouch = { [weak self] in
-            self?.loadingTimerStop()
-        }
-        navigationController?.view.addSubview(passThroughView)
-        if let animator = animator {
-            animator.completion = { [weak self] in
-                guard let passThroughView = self?.passThroughView else { return }
-                self?.navigationController?.view.bringSubviewToFront(passThroughView)
-            }
-        }
-        setupLoadingTimerTap()
-    }
-
-    private func setupLoadingTimerTap() {
-        let tapView = UIView()
-        tapView.userInteractionEnabled = true
-        tapView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(tapView)
-        let centerY = NSLayoutConstraint(item: tapView, attribute: .CenterY, relatedBy: .Equal, toItem: loadingTimer,
-                                            attribute: .CenterY, multiplier: 1, constant: 0)
-        let centerX = NSLayoutConstraint(item: tapView, attribute: .CenterX, relatedBy: .Equal, toItem: loadingTimer,
-                                         attribute: .CenterX, multiplier: 1, constant: 0)
-        let width = NSLayoutConstraint(item: tapView, attribute: .Width, relatedBy: .Equal, toItem: nil,
-                                              attribute: .NotAnAttribute, multiplier: 1, constant: loadingViewDiameter*2)
-        let height = NSLayoutConstraint(item: tapView, attribute: .Height, relatedBy: .Equal, toItem: nil,
-                                               attribute: .NotAnAttribute, multiplier: 1, constant: loadingViewDiameter*2)
-        tapView.addConstraints([width, height])
-        view.addConstraints([centerY, centerX])
-        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(loadingTimerStop))
-        tapView.addGestureRecognizer(tapRecognizer)
-    }
-
-    private func loadingTimerCleanup() {
-        passThroughView.removeFromSuperview()
-    }
-
-    private func startAutoNextItem(lastMovement: CarouselMovement) {
-//        guard lastMovement != .SwipeLeft && viewModel.autoSwitchToNextEnabled && productOnboardingView == nil else {
-//            loadingTimerStop()
-            return
-//        }
-//        loadingTimer.hidden = false
-//        loadingTimer.start(Constants.autoNextItemTimerSeconds) { [weak self] completed in
-//            self?.loadingTimer.hidden = true
-//            if completed {
-//                self?.switchAutoToNextItem()
-//            }
-//        }
-    }
-
-    private func switchAutoToNextItem() {
-        guard let indexPath = collectionView.indexPathsForVisibleItems().first else { return }
-        let newIndexRow = indexPath.row + 1
-        if newIndexRow < collectionView.numberOfItemsInSection(0) {
-            pendingMovement = .Auto
-            let nextIndexPath = NSIndexPath(forItem: newIndexRow, inSection: 0)
-            collectionView.scrollToItemAtIndexPath(nextIndexPath, atScrollPosition: .Right, animated: false)
-        } else {
-            collectionView.showRubberBandEffect(.Right)
-        }
-    }
-
-    dynamic private func loadingTimerStop() {
-        loadingTimer.stop()
-        loadingTimer.hidden = true
     }
 }
