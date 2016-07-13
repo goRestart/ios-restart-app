@@ -74,9 +74,6 @@ def shared_pods
 	# Reachability, done like this cos' of https://github.com/tonymillion/Reachability/issues/95
 	pod "TMReachability",        :git => 'https://github.com/albertbori/Reachability', :commit => 'e34782b386307e386348b481c02c176d58ba45e6'
 
-    # A/B testing
-    pod "Taplytics",            "~> 2.10.38"
-
     # Logging
     pod "CocoaLumberjack/Swift", "~> 2.3.0"
 

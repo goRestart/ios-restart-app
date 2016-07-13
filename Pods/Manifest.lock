@@ -120,7 +120,6 @@ PODS:
   - SlackTextViewController (1.9.1)
   - SwiftWebSocket (2.6.2)
   - SwiftyUserDefaults (2.2.0)
-  - Taplytics (2.10.42)
   - TMReachability (3.2)
   - TwitterCore (2.3.0):
     - Fabric
@@ -165,7 +164,6 @@ DEPENDENCIES:
   - SDWebImage (~> 3.8.1)
   - SlackTextViewController (= 1.9.1)
   - SwiftyUserDefaults (~> 2.2.0)
-  - Taplytics (~> 2.10.38)
   - TMReachability (from `https://github.com/albertbori/Reachability`, commit `e34782b386307e386348b481c02c176d58ba45e6`)
   - TwitterKit (~> 2.3.0)
 
@@ -248,11 +246,10 @@ SPEC CHECKSUMS:
   SlackTextViewController: 6b0d1030c53937226fc5358f217af2a34fc211cf
   SwiftWebSocket: 2bb9dda75c87f64eaf9768131141857ca8611aac
   SwiftyUserDefaults: e7c8197a9d4068702e7f2406a968cae413b8de27
-  Taplytics: ae7d6c38d315ed457e1055d2d0cc06f30901f554
   TMReachability: 48c99d728a8b0ad4493800592484b8cbb65c896c
   TwitterCore: 817eae3e291fa4125b47789e26a4f6f024115c1f
   TwitterKit: 8a383da8d9c21b0423716381ea8bbfce20622d91
 
-PODFILE CHECKSUM: 95a93e8f3a274ff51cff5b5a8638aeeb41d84a5a
+PODFILE CHECKSUM: 9ca169ac2a8fdbadf4ee9f4e30d5153b3e96dda4
 
 COCOAPODS: 1.0.1

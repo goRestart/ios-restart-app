@@ -6,8 +6,6 @@
 //  Copyright © 2016 Ambatana. All rights reserved.
 //
 
-import Taplytics
-
 public enum ABType {
     case Bool
     case Number
@@ -43,7 +41,10 @@ struct NumberABDynamicVar: ABDynamicVar {
 extension ABDynamicVar {
     var value: ValueType {
         guard let theValue = defaultValue as? NSObject else { return defaultValue }
-        return TaplyticsVar.taplyticsSyncVarWithName(key, defaultValue: theValue)
-            .value as? ValueType ?? defaultValue
+
+        // TODO: Update when implementing first Leanplum ABTest
+        return defaultValue
+//        return TaplyticsVar.taplyticsSyncVarWithName(key, defaultValue: theValue)
+//            .value as? ValueType ?? defaultValue
     }
 }
