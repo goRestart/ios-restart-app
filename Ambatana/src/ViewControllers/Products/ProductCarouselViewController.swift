@@ -317,7 +317,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
                     movement = .SwipeLeft
                 }
                 self?.viewModel.moveToProductAtIndex(index, delegate: strongSelf, movement: movement)
-                self?.refreshOverlayElements(movement)
+                self?.refreshOverlayElements()
                 strongSelf.currentIndex = index
             }
             .addDisposableTo(disposeBag)
@@ -459,19 +459,19 @@ extension ProductCarouselViewController {
 
 extension ProductCarouselViewController {
 
-    private func refreshOverlayElements(lastMovement: CarouselMovement) {
+    private func refreshOverlayElements() {
         guard let viewModel = viewModel.currentProductViewModel else { return }
         activeDisposeBag = DisposeBag()
         setupUserView(viewModel)
         setupFullScreenAvatarView(viewModel)
         setupRxNavbarBindings(viewModel)
+        setupRxWhatever(viewModel)
         refreshPageControl(viewModel)
         refreshProductOnboarding(viewModel)
         refreshBottomButtons(viewModel)
         refreshMoreInfoView(viewModel)
         refreshProductStatusLabel(viewModel)
         refreshCommercialVideoButton(viewModel)
-        startAutoNextItem(lastMovement)
         setupLoadingTimer()
     }
 
@@ -508,7 +508,15 @@ extension ProductCarouselViewController {
             strongSelf.setNavigationBarRightButtons(buttons)
             }.addDisposableTo(activeDisposeBag)
     }
-    
+
+    private func setupRxWhatever(viewModel: ProductViewModel) {
+        viewModel.product.asObservable().skip(1).bindNext { [weak self] _ in
+            guard let strongSelf = self else { return }
+            let visibleIndexPaths = strongSelf.collectionView.indexPathsForVisibleItems()
+            strongSelf.collectionView.reloadItemsAtIndexPaths(visibleIndexPaths)
+        }.addDisposableTo(activeDisposeBag)
+    }
+
     private func refreshPageControl(viewModel: ProductViewModel) {
         pageControl.currentPage = 0
         pageControl.numberOfPages = viewModel.product.value.images.count
@@ -648,6 +656,13 @@ extension ProductCarouselViewController: ProductCarouselViewModelDelegate {
         collectionView.reloadData()
     }
 
+    func vmReloadItemAtIndex(index: Int) {
+        let indexPath = NSIndexPath(forItem: index, inSection: 0)
+        collectionView.reloadItemsAtIndexPaths([indexPath])
+
+        refreshOverlayElements()
+    }
+
     func vmRemoveMoreInfoTooltip() {
         removeMoreInfoTooltip()
     }
@@ -726,8 +741,7 @@ extension ProductCarouselViewController: ProductViewModelDelegate {
     }
     
     func vmOpenEditProduct(editProductVM: EditProductViewModel) {
-        let vc = EditProductViewController(viewModel: editProductVM, updateDelegate:
-            viewModel.currentProductViewModel)
+        let vc = EditProductViewController(viewModel: editProductVM)
         let navCtl = UINavigationController(rootViewController: vc)
         navigationController?.presentViewController(navCtl, animated: true, completion: nil)
     }
