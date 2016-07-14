@@ -127,7 +127,7 @@
 "chat_unblock_user" = "Engellemeyi Kaldır";
 "chat_user_info_name" = "Merhaba, Ben %@";
 "chat_user_info_verified_with" = "Şununla doğrulandı: ";
-"chat_user_rating_button_title" = "Review";
+"chat_user_rating_button_title" = "Değerlendirme";
 "chat_verify_alert_message" = "%@ adresine doğrulama e-postası gönderdik";
 "chat_verify_alert_ok_button" = "OK";
 "chat_verify_alert_resend_button" = "Tekrar Gönder";
@@ -651,9 +651,9 @@
 "trending_searches_Title" = "Popüler Aramalar";
 "unblock_user_error_generic" = "Kullanıcı engeli kaldırılırken bir hata oluştu.";
 "unblock_user_success_message" = "Kullanıcı engeli kaldırıldı!";
-"user_rating_message_w_name" = "Tap the stars to rate and tell us if your experience with %@ went well. You can update it whenever you want.";
-"user_rating_message_wo_name" = "Tap the stars to rate and tell us if your experience with this user went well. You can update it whenever you want.";
-"user_rating_review_button" = "Publish review";
-"user_rating_review_placeholder" = "Leave a review (optional)";
-"user_rating_review_send_success" = "Your review has been published!";
-"user_rating_title" = "Rate your experience with";
+"user_rating_message_w_name" = "Yıldızlara dokunup değerlendirme yaparak bize %@ ile deneyimini söyle. Ne zaman istersen güncelleyebilirsin.";
+"user_rating_message_wo_name" = "Yıldızlara dokunup değerlendirme yaparak bize bu kullanıcı ile deneyimini söyle. Ne zaman istersen güncelleyebilirsin.";
+"user_rating_review_button" = "Değerlendirme yayınla";
+"user_rating_review_placeholder" = "Değerlendirme yap (isteğe bağlı)";
+"user_rating_review_send_success" = "Değerlendirmen yayınlandı!";
+"user_rating_title" = "Bu kullanıcı ile deneyimine puan ver";

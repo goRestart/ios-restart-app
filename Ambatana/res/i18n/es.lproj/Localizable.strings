@@ -127,7 +127,7 @@
 "chat_unblock_user" = "Desbloquear usuario";
 "chat_user_info_name" = "Hola, soy %@";
 "chat_user_info_verified_with" = "Verificado con: ";
-"chat_user_rating_button_title" = "Review";
+"chat_user_rating_button_title" = "Valorar";
 "chat_verify_alert_message" = "Hemos enviado un email de verificación a %@";
 "chat_verify_alert_ok_button" = "OK";
 "chat_verify_alert_resend_button" = "Reenviar";

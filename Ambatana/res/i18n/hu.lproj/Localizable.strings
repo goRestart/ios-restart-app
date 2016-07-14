@@ -127,7 +127,7 @@
 "chat_unblock_user" = "Blokkolás feloldása";
 "chat_user_info_name" = "Szia, %@ vagyok";
 "chat_user_info_verified_with" = "Jóváhagyva ezzel: ";
-"chat_user_rating_button_title" = "Review";
+"chat_user_rating_button_title" = "Értékelés";
 "chat_verify_alert_message" = "Visszaigazoló e-mailt küldtünk a következő címre: %@";
 "chat_verify_alert_ok_button" = "OK";
 "chat_verify_alert_resend_button" = "Újraküldés";
@@ -439,8 +439,8 @@
 "product_post_incentive_looking_for" = "A környéked lakói ezeket keresik, %@";
 "product_post_incentive_motorcycle" = "Motorkerékpárok";
 "product_post_incentive_ps4" = "PS4-ek";
-"product_post_incentive_subtitle" = "Hirdetésed frissült.";
-"product_post_incentive_title" = "JÓL NÉZ KI!";
+"product_post_incentive_subtitle" = "Hirdetésed felkerült a többi közé.";
+"product_post_incentive_title" = "GRATULÁLUNK";
 "product_post_incentive_tv" = "TV-k";
 "product_post_login_message" = "Dolgaid eladásához be kell jelentkezned";
 "product_post_network_error" = "Portékád meghirdetése sikertelen.\nEllenőrizd a hálózati beállításokat.";
@@ -651,9 +651,9 @@
 "trending_searches_Title" = "Felkapott kulcsszavak";
 "unblock_user_error_generic" = "Hiba történt a blokkolás feloldása során.";
 "unblock_user_success_message" = "A blokkolás feloldva!";
-"user_rating_message_w_name" = "Tap the stars to rate and tell us if your experience with %@ went well. You can update it whenever you want.";
-"user_rating_message_wo_name" = "Tap the stars to rate and tell us if your experience with this user went well. You can update it whenever you want.";
-"user_rating_review_button" = "Publish review";
-"user_rating_review_placeholder" = "Leave a review (optional)";
-"user_rating_review_send_success" = "Your review has been published!";
-"user_rating_title" = "Rate your experience with";
+"user_rating_message_w_name" = "Adj értékelést a csillagokkal, és meséld el, %@ milyen üzletfélnek bizonyult. Később bármikor módosíthatod.";
+"user_rating_message_wo_name" = "Adj értékelést a csillagokkal, és meséld el, ez a felhasználó milyen üzletfélnek  bizonyult. Később bármikor módosíthatod.";
+"user_rating_review_button" = "Értékelés beküldése";
+"user_rating_review_placeholder" = "Hagyj értékelést (nem kötelező)";
+"user_rating_review_send_success" = "Értékelésed beküldve!";
+"user_rating_title" = "Mondd el, milyen volt.";

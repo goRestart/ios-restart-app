@@ -127,7 +127,7 @@
 "chat_unblock_user" = "Blockierung aufheben";
 "chat_user_info_name" = "Hallo, ich bin %@";
 "chat_user_info_verified_with" = "Verifiziert durch: ";
-"chat_user_rating_button_title" = "Review";
+"chat_user_rating_button_title" = "Bewertung";
 "chat_verify_alert_message" = "Wir haben ein Verifikations-E-Mail an %@ geschickt";
 "chat_verify_alert_ok_button" = "Ok";
 "chat_verify_alert_resend_button" = "Erneut verschicken";
@@ -651,9 +651,9 @@
 "trending_searches_Title" = "Beliebte Suchbegriffe";
 "unblock_user_error_generic" = "Bei der Aufhebung der Blockierung dieses Nutzers ist ein Fehler aufgetreten.";
 "unblock_user_success_message" = "Die Blockierung des Nutzers wurde aufgehoben!";
-"user_rating_message_w_name" = "Tap the stars to rate and tell us if your experience with %@ went well. You can update it whenever you want.";
-"user_rating_message_wo_name" = "Tap the stars to rate and tell us if your experience with this user went well. You can update it whenever you want.";
-"user_rating_review_button" = "Publish review";
-"user_rating_review_placeholder" = "Leave a review (optional)";
-"user_rating_review_send_success" = "Your review has been published!";
-"user_rating_title" = "Rate your experience with";
+"user_rating_message_w_name" = "Drücke zum Bewerten auf die Sterne und erzähle uns, ob dein Handel mit %@ gut verlaufen ist. Du kannst die Bewertung nach Belieben aktualisieren.";
+"user_rating_message_wo_name" = "Drücke zum Bewerten auf die Sterne und erzähle uns, ob dein Handel mit diesem Nutzer gut verlaufen ist. Du kannst die Bewertung nach Belieben aktualisieren.";
+"user_rating_review_button" = "Bewertung veröffentlichen";
+"user_rating_review_placeholder" = "Schreibe eine Bewertung (optional)";
+"user_rating_review_send_success" = "Deine Bewertung wurde veröffentlicht!";
+"user_rating_title" = "Hinterlasse eine Bewertung für";
