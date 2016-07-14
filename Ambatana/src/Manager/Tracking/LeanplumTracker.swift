@@ -13,7 +13,6 @@ import AppsFlyer
 private extension TrackerEvent {
     var shouldTrack: Bool {
         get {
-            return false
             switch name {
             case .AppRatingRate, .AppRatingSuggest, .AppRatingDontAsk,
                  .AppInviteFriendComplete, .AppInviteFriendDontAsk, .AppInviteFriendCancel,
