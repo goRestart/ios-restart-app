@@ -43,7 +43,7 @@ public class ChatRepository {
     
     public func createNewMessage(talkerId: String, text: String, type: ChatMessageType) -> ChatMessage {
         let message = LGChatMessage(objectId: LGUUID().UUIDString, talkerId: talkerId, text: text, sentAt: nil,
-                                    receivedAt: nil, readAt: nil, type: type)
+                                    receivedAt: nil, readAt: nil, type: type, warnings: [])
         return message
     }
     
