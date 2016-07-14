@@ -42,7 +42,7 @@ class ChatViewMessageAdapter {
         let status: ChatMessageStatus = message.isRead ? .Read : .Sent
         return ChatViewMessage(objectId: message.objectId ,talkerId: message.userId, sentAt: message.createdAt,
                                receivedAt: nil, readAt: nil, type: type, status: status,
-                               warningStatus: message.warningStatus)
+                               warningStatus: ChatViewMessageWarningStatus(status: message.warningStatus))
     }
     
     func adapt(message: ChatMessage) -> ChatViewMessage {
@@ -62,12 +62,13 @@ class ChatViewMessageAdapter {
         }
         return ChatViewMessage(objectId: message.objectId, talkerId: message.talkerId, sentAt: message.sentAt,
                                receivedAt: message.receivedAt, readAt: message.readAt, type: type,
-                               status: message.messageStatus, warningStatus: .Normal)
+                               status: message.messageStatus,
+                               warningStatus: ChatViewMessageWarningStatus(status: message.warnings))
     }
     
     func addDisclaimers(messages: [ChatViewMessage], disclaimerMessage: ChatViewMessage) -> [ChatViewMessage] {
         return messages.reduce([ChatViewMessage]()) { [weak self] (array, message) -> [ChatViewMessage] in
-            if message.warningStatus == .Suspicious && message.talkerId != self?.myUserRepository.myUser?.objectId {
+            if message.warningStatus == .Spam && message.talkerId != self?.myUserRepository.myUser?.objectId {
                 return array + [disclaimerMessage] + [message]
             }
             return array + [message]

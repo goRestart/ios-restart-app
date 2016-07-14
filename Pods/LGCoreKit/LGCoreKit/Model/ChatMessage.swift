@@ -14,7 +14,7 @@ public enum ChatMessageType: String {
     case Sticker = "sticker"
 }
 
-public enum ChatMessageWarning: String, Decodable {
+public enum ChatMessageWarning: String, Decodable, Equatable {
     case Spam = "spam"
 }
 
