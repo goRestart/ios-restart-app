@@ -8,5 +8,8 @@
         ]
     },
     "configURL": "https://letgo-images.s3.amazonaws.com/config/ios.json",
-    "showOnboarding":false
+    "userRating": {
+        "myMessagesCountForRating": 1,
+        "otherMessagesCountForRating": 1
+    }
 }

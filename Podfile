@@ -103,6 +103,10 @@ target "letgoTests" do
     pod "Quick",            "~> 0.9.2"
     pod "Nimble",           "~> 4.0.1"
     pod "RxTests",          "~> 2.5.0"
+
+    # Mocking
+    pod "OHHTTPStubs",      "~> 5.1.0"
+    pod "OHHTTPStubs/Swift"
 end
 
 post_install do | installer |

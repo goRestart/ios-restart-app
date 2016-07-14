@@ -36,6 +36,7 @@
 		2E2D53E11D369B0500348D12 /* ConfigRetrieveService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF4E3AB1D3688AB00A09DFD /* ConfigRetrieveService.swift */; };
 		2E2D53E21D369B0500348D12 /* LGConfigDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF4E3AC1D3688AB00A09DFD /* LGConfigDAO.swift */; };
 		2E2D53E31D369B0500348D12 /* LGConfigRetrieveService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF4E3AD1D3688AB00A09DFD /* LGConfigRetrieveService.swift */; };
+		2E2D53E71D37E67800348D12 /* No_JSON.txt in Resources */ = {isa = PBXBuildFile; fileRef = 2E2D53E61D37E67800348D12 /* No_JSON.txt */; };
 		2E3047E11CA196F30099C0BC /* VideoPlayerContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E3047E01CA196F30099C0BC /* VideoPlayerContainerView.swift */; };
 		2E3047E21CA196F30099C0BC /* VideoPlayerContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E3047E01CA196F30099C0BC /* VideoPlayerContainerView.swift */; };
 		2E3047E71CA1AE670099C0BC /* VideoPlayerContainerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E3047E61CA1AE670099C0BC /* VideoPlayerContainerView.xib */; };
@@ -978,6 +979,7 @@
 		2E2C7B321C859F4E00F46E8F /* PromoteProductViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PromoteProductViewModel.swift; path = Commercializer/PromoteProductViewModel.swift; sourceTree = "<group>"; };
 		2E2C7B351C85F82C00F46E8F /* ThemeCollectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ThemeCollectionCell.swift; path = Commercializer/ThemeCollectionCell.swift; sourceTree = "<group>"; };
 		2E2C7B361C85F82C00F46E8F /* ThemeCollectionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ThemeCollectionCell.xib; path = Commercializer/ThemeCollectionCell.xib; sourceTree = "<group>"; };
+		2E2D53E61D37E67800348D12 /* No_JSON.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = No_JSON.txt; path = Config/No_JSON.txt; sourceTree = "<group>"; };
 		2E3047E01CA196F30099C0BC /* VideoPlayerContainerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = VideoPlayerContainerView.swift; path = Commercializer/VideoPlayer/VideoPlayerContainerView.swift; sourceTree = "<group>"; };
 		2E3047E61CA1AE670099C0BC /* VideoPlayerContainerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = VideoPlayerContainerView.xib; path = Commercializer/VideoPlayer/VideoPlayerContainerView.xib; sourceTree = "<group>"; };
 		2E3047E91CA4083B0099C0BC /* CommercialDisplayViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CommercialDisplayViewController.swift; path = Commercializer/CommercialDisplayViewController.swift; sourceTree = "<group>"; };
@@ -1708,6 +1710,7 @@
 				2EF4E3B61D3688C400A09DFD /* iOScfgReadDAO.json */,
 				2EF4E3B71D3688C400A09DFD /* MockConfigFileDAO.swift */,
 				2EF4E3B81D3688C400A09DFD /* MockConfigRetrieveService.swift */,
+				2E2D53E61D37E67800348D12 /* No_JSON.txt */,
 			);
 			name = Config;
 			sourceTree = "<group>";
@@ -3360,6 +3363,7 @@
 				2EF4E3BA1D3688C400A09DFD /* iOScfgMockKOIncomplete.json in Resources */,
 				2EF4E3B91D3688C400A09DFD /* iOScfgMockOK.json in Resources */,
 				2EF4E3BB1D3688C400A09DFD /* iOScfgReadDAO.json in Resources */,
+				2E2D53E71D37E67800348D12 /* No_JSON.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

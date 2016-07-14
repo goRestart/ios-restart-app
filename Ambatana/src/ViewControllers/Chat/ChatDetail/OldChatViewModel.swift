@@ -272,26 +272,6 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         }
         return false
     }
-    private var otherUserMessagesCount: Int {
-        guard let otherUserId = otherUser?.objectId else { return 0 }
-        var messagesCount = 0
-        for message in loadedMessages {
-            if message.talkerId == otherUserId {
-                messagesCount += 1
-            }
-        }
-        return messagesCount
-    }
-    private var myMessagesCount: Int {
-        guard let myUserId = myUserRepository.myUser?.objectId else { return 0 }
-        var messagesCount = 0
-        for message in loadedMessages {
-            if message.talkerId == myUserId {
-                messagesCount += 1
-            }
-        }
-        return messagesCount
-    }
     private var enoughMessagesForUserRating: Bool {
         guard let myUserId = myUserRepository.myUser?.objectId else { return false }
         guard let otherUserId = otherUser?.objectId else { return false }

@@ -10,23 +10,25 @@ import Quick
 @testable import LetGo
 import Nimble
 import Argo
+import OHHTTPStubs
 import Result
 
 class LGConfigRetrieveServiceSpec: QuickSpec {
     
     override func spec() {
-//        var sut : ConfigRetrieveService!
-//        var result: ConfigRetrieveServiceResult?
-//        let completion = { (r: ConfigRetrieveServiceResult) in
-//            result = r
-//        }
-//        beforeEach {
-//            result = nil
-//            self.removeAllStubs()
-//        }
-//        afterEach {
-//            self.removeAllStubs()
-//        }
+        var sut : ConfigRetrieveService!
+        var result: ConfigRetrieveServiceResult?
+        let completion = { (r: ConfigRetrieveServiceResult) in
+            result = r
+        }
+        beforeEach {
+            result = nil
+            OHHTTPStubs.removeAllStubs()
+        }
+        afterEach {
+            result = nil
+            OHHTTPStubs.removeAllStubs()
+        }
 
         describe("initialization") {
            
@@ -44,90 +46,96 @@ class LGConfigRetrieveServiceSpec: QuickSpec {
             }
         }
         
-//        describe("retrieval") {
-//            context("OK") {
-//                beforeEach {
-//                    let path = NSBundle(forClass: self.classForCoder).pathForResource("iOScfgMockOK", ofType: "json")
-//                    let data = NSData(contentsOfFile: path!)!
-//                    var body: AnyObject!
-//                    expect { body = try NSJSONSerialization.JSONObjectWithData(data, options: []) }.notTo(raiseException())
-//                    
-//                    let cfgFile = Config(data: data)
-//                    expect(cfgFile).notTo(beNil())
-//                    
-//                    self.stub(uri(cfgFile!.configURL), builder: json(body, status: 200))
-//                    
-//                    sut = LGConfigRetrieveService()
-//                    sut.retrieveConfigWithCompletion(completion)
-//                    expect(result).toEventuallyNot(beNil())
-//                }
-//                
-//                it("should receive a valid result") {
-//                    expect(result?.value).notTo(beNil())
-//                }
-//            }
-//
-//             context("ERROR") {
-//                beforeEach {
-//                    sut = LGConfigRetrieveService()
-//                }
-//                context("network error") {
-//                    beforeEach {
-//                        let error = NSError(domain: NSURLErrorDomain, code: NSURLErrorTimedOut, userInfo: nil)
-//                        self.stub(uri(EnvironmentProxy.sharedInstance.configURL), builder: failure(error))
-//
-//                        sut.retrieveConfigWithCompletion(completion)
-//                        expect(result).toEventuallyNot(beNil())
-//                    }
-//                    it("should not receive a value") {
-//                        expect(result!.value).to(beNil())
-//                    }
-//                    it("should receive a network error") {
-//                        expect(result!.error).notTo(beNil())
-//                        expect(result!.error).to(equal(ConfigRetrieveServiceError.Network))
-//                    }
-//                }
-//                
-//                context("unexpected format") {
-//                    beforeEach {
-//                        let path = NSBundle(forClass: self.classForCoder).pathForResource("No_JSON", ofType: "txt")
-//                        let data = NSData(contentsOfFile: path!)!
-//                        self.stub(uri(EnvironmentProxy.sharedInstance.configURL), builder: http(200, data: data))
-//                        
-//                        sut.retrieveConfigWithCompletion(completion)
-//                        expect(result).toEventuallyNot(beNil())
-//                    }
-//                    it("should not receive a value") {
-//                        expect(result!.value).to(beNil())
-//                    }
-//                    it("should receive an internal error") {
-//                        expect(result!.error).notTo(beNil())
-//                        expect(result!.error).to(equal(ConfigRetrieveServiceError.Internal))
-//                    }
-//                }
-//                
-//                context("incomplete JSON") {
-//                    beforeEach {
-//                        let path = NSBundle(forClass: self.classForCoder).pathForResource("iOScfgMockKOIncomplete", ofType: "json")
-//                        let data = NSData(contentsOfFile: path!)!
-//                        var body: AnyObject!
-//                        expect { body = try NSJSONSerialization.JSONObjectWithData(data, options: []) }.notTo(raiseException())
-//                        
-//                        sut = LGConfigRetrieveService()
-//                        self.stub(uri(EnvironmentProxy.sharedInstance.configURL), builder: json(body, status: 200))
-//                        
-//                        sut.retrieveConfigWithCompletion(completion)
-//                        expect(result).toEventuallyNot(beNil())
-//                    }
-//                    it("should receive a value") {
-//                        expect(result!.value).notTo(beNil())
-//                    }
-//                    it("should not receive an internal error") {
-//                        expect(result!.error).to(beNil())
-//                    }
-//                }
-//            }
-//        }
+        describe("retrieval") {
+            context("OK") {
+                beforeEach {
+                    let path = NSBundle(forClass: self.classForCoder).pathForResource("iOScfgMockOK", ofType: "json")
+                    let data = NSData(contentsOfFile: path!)!
+
+                    let cfgFile = Config(data: data)
+                    expect(cfgFile).notTo(beNil())
+
+                    stub(isPath("/config/ios.json")) { _ in
+                        let path = OHPathForFile("iOScfgMockOK.json", LGConfigRetrieveServiceSpec.self)!
+                        return fixture(path, status: 200, headers: nil)
+                        }.name = "iOScfgMockOK"
+
+                    sut = LGConfigRetrieveService()
+                    sut.retrieveConfigWithCompletion(completion)
+                    expect(result).toEventuallyNot(beNil())
+                }
+                it("should receive a result") {
+                    expect(result).notTo(beNil())
+                }
+                it("should receive a result with value") {
+                    expect(result?.value).notTo(beNil())
+                }
+            }
+
+            context("ERROR") {
+                beforeEach {
+                    sut = LGConfigRetrieveService()
+                }
+                context("network error") {
+                    beforeEach {
+                        stub(isPath("/config/ios.json")) { _ in
+                            let notConnectedError = NSError(domain:NSURLErrorDomain, code:Int(CFNetworkErrors.CFURLErrorNotConnectedToInternet.rawValue), userInfo:nil)
+                            return OHHTTPStubsResponse(error:notConnectedError)
+                            }.name = "iOScfgMockKONetworkError"
+
+                        sut.retrieveConfigWithCompletion(completion)
+                        expect(result).toEventuallyNot(beNil())
+                    }
+                    it("should not receive a value") {
+                        expect(result?.value).to(beNil())
+                    }
+                    it("should receive a network error") {
+                        expect(result?.error).notTo(beNil())
+                    }
+                    it("should receive a network error") {
+                        expect(result?.error).to(equal(ConfigRetrieveServiceError.Network))
+                    }
+                }
+
+                context("unexpected format") {
+                    beforeEach {
+                        stub(isPath("/config/ios.json")) { _ in
+                            let path = OHPathForFile("No_JSON.txt", LGConfigRetrieveServiceSpec.self)!
+                            return fixture(path, status: 200, headers: nil)
+                            }.name = "iOScfgMockNoJSON"
+                        
+                        sut.retrieveConfigWithCompletion(completion)
+                        expect(result).toEventuallyNot(beNil())
+                    }
+                    it("should not receive a value") {
+                        expect(result?.value).to(beNil())
+                    }
+                    it("should receive an error") {
+                        expect(result?.error).notTo(beNil())
+                    }
+                    it("should receive an internal error") {
+                        expect(result?.error).to(equal(ConfigRetrieveServiceError.Internal))
+                    }
+                }
+
+                context("incomplete JSON (well formatted, missing data)") {
+                    beforeEach {
+                        stub(isPath("/config/ios.json")) { _ in
+                            let path = OHPathForFile("iOScfgMockKOIncomplete.json", LGConfigRetrieveServiceSpec.self)!
+                            return fixture(path, status: 200, headers: nil)
+                            }.name = "iOScfgMockJSONIncomplete"
+                        
+                        sut.retrieveConfigWithCompletion(completion)
+                        expect(result).toEventuallyNot(beNil())
+                    }
+                    it("should receive a value") {
+                        expect(result?.value).notTo(beNil())
+                    }
+                    it("should not receive any error") {
+                        expect(result?.error).to(beNil())
+                    }
+                }
+            }
+        }
     }
-   
 }
