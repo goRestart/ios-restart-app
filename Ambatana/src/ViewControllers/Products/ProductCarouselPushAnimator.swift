@@ -76,30 +76,23 @@ class ProductCarouselPushAnimator: NSObject, PushAnimator {
         snapshot.frame = CGRect(x: originFrame.origin.x + margin, y: originFrame.origin.y + margin,
                                 width: originFrame.width - margin*2, height: originFrame.height - margin*2)
         
-        let animationScaleHeight = UIScreen.mainScreen().bounds.height / (originFrame.height - margin*2)
-        
-        var scale = animationScaleHeight
-        var needsRotation = false
-
-        if let thumbnail = originThumbnail {
-            let aspectRatio = thumbnail.size.height / thumbnail.size.width
-            if aspectRatio < 1 {
-                // horizontal image, change orientation
-                needsRotation = true
-                let imageAspectRatio = thumbnail.size.width/thumbnail.size.height
-                let frameAspectRatio = (originFrame.size.width - margin*2)/(originFrame.size.height - margin*2)
-                let widthCorrection = (originFrame.size.width - margin*2) / frameAspectRatio * imageAspectRatio
-                let animationScaleWidth = UIScreen.mainScreen().bounds.height / widthCorrection
-                scale = animationScaleWidth
-            }
+        let scale: CGFloat
+        if originFrame.height > originFrame.width {
+            scale = UIScreen.mainScreen().bounds.height / (originFrame.height - margin*2)
+        } else {
+            scale = UIScreen.mainScreen().bounds.width / (originFrame.width - margin*2)
         }
         
+//        
+//        
+//        let aspectRatio = img.size.width / img.size.height
+//        let screenAspectRatio = UIScreen.mainScreen().bounds.width / UIScreen.mainScreen().bounds.height
+//        imageView.image = img
+//        let zoomLevel = screenAspectRatio / aspectRatio
+        
+        
         UIView.animateWithDuration(animationDuration, animations: {
-            var transform = CGAffineTransformMakeScale(scale, scale)
-            if needsRotation {
-                transform = CGAffineTransformRotate(transform, CGFloat(M_PI_2))
-            }
-            snapshot.transform = transform
+            snapshot.transform = CGAffineTransformMakeScale(scale, scale)
             snapshot.center = toView.center
             
             },completion:{finished in
