@@ -113,7 +113,6 @@ class ChatViewModel: BaseViewModel {
     var chatStatus = Variable<ChatInfoViewStatus>(.Available)
     var chatEnabled = Variable<Bool>(true)
     var interlocutorTyping = Variable<Bool>(false)
-    let isSendingMessage = Variable<Bool>(false)
     var messages = CollectionVariable<ChatViewMessage>([])
     private var conversation: Variable<ChatConversation>
     private var interlocutor: User?
@@ -298,7 +297,10 @@ class ChatViewModel: BaseViewModel {
         case .Deleted:
             break
         case .Pending, .Approved, .Discarded, .Sold, .SoldOld:
-            guard let productVC = ProductDetailFactory.productDetailFromChatProduct(product, user: conversation.value.interlocutor!, thumbnailImage: nil, originFrame: nil)
+            guard let interlocutor = conversation.value.interlocutor else { return }
+            guard let productVC = ProductDetailFactory.productDetailFromChatProduct(product, user: interlocutor,
+                                                                                    thumbnailImage: nil,
+                                                                                    originFrame: nil)
                 else { return }
             delegate?.vmShowProduct(productVC)
         }
