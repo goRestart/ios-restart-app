@@ -422,7 +422,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     }
 
     func reviewUserPressed() {
-        print(" 🌺 🌺 🌺 🌺 🌺 🌺 OLD CHAT REVIEW USER PRESSED ")
+        // TODO: show rate user view
     }
     
     func safetyTipsDismissed() {
