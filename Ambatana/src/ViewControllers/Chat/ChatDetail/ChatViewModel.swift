@@ -94,6 +94,15 @@ class ChatViewModel: BaseViewModel {
         return false
     }
 
+    var interlocutorEnabled: Bool {
+        switch chatStatus.value {
+        case .Forbidden, .UserDeleted, .UserPendingDelete:
+            return false
+        case .Available, .ProductSold, .ProductDeleted, .Blocked, .BlockedBy:
+            return true
+        }
+    }
+
     var shouldShowDirectAnswers: Bool {
         return chatEnabled.value && KeyValueStorage.sharedInstance.userLoadChatShowDirectAnswersForKey(userDefaultsSubKey)
     }
@@ -593,19 +602,21 @@ extension ChatViewModel {
                                                    action: deleteAction)
                 actions.append(delete)
             }
-            
-            let report = UIAction(interface: UIActionInterface.Text(LGLocalizedString.reportUserTitle),
-                                  action: reportUserAction)
-            actions.append(report)
-          
-            if interlocutorIsMuted.value {
-                let unblock = UIAction(interface: UIActionInterface.Text(LGLocalizedString.chatUnblockUser),
-                                      action: unblockUserAction)
-                actions.append(unblock)
-            } else {
-                let block = UIAction(interface: UIActionInterface.Text(LGLocalizedString.chatBlockUser),
-                                       action: blockUserAction)
-                actions.append(block)
+
+            if interlocutorEnabled {
+                let report = UIAction(interface: UIActionInterface.Text(LGLocalizedString.reportUserTitle),
+                                      action: reportUserAction)
+                actions.append(report)
+              
+                if interlocutorIsMuted.value {
+                    let unblock = UIAction(interface: UIActionInterface.Text(LGLocalizedString.chatUnblockUser),
+                                          action: unblockUserAction)
+                    actions.append(unblock)
+                } else {
+                    let block = UIAction(interface: UIActionInterface.Text(LGLocalizedString.chatBlockUser),
+                                           action: blockUserAction)
+                    actions.append(block)
+                }
             }
         }
         

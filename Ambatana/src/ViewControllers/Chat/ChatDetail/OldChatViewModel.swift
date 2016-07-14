@@ -120,22 +120,20 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     }
 
     var chatStatus: ChatInfoViewStatus {
-
         if chat.forbidden {
             return .Forbidden
         }
 
-        if let otherUser = otherUser {
-            switch otherUser.status {
-            case .Scammer:
-                return .Forbidden
-            case .PendingDelete:
-                return .UserPendingDelete
-            case .Deleted:
-                return .UserDeleted
-            case .Active, .Inactive, .NotFound:
-                break // In this case we rely on the rest of states
-            }
+        guard let otherUser = otherUser else { return .UserDeleted }
+        switch otherUser.status {
+        case .Scammer:
+            return .Forbidden
+        case .PendingDelete:
+            return .UserPendingDelete
+        case .Deleted:
+            return .UserDeleted
+        case .Active, .Inactive, .NotFound:
+            break // In this case we rely on the rest of states
         }
 
         if let relation = userRelation {
@@ -158,6 +156,15 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         case .Forbidden, .Blocked, .BlockedBy, .UserDeleted, .UserPendingDelete:
             return false
         case .Available, .ProductSold, .ProductDeleted:
+            return true
+        }
+    }
+
+    var otherUserEnabled: Bool {
+        switch chatStatus {
+        case .Forbidden, .UserDeleted, .UserPendingDelete:
+            return false
+        case .Available, .ProductSold, .ProductDeleted, .Blocked, .BlockedBy:
             return true
         }
     }
@@ -448,7 +455,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
             actions.append({ [weak self] in self?.delete() })
         }
 
-        if myUserRepository.myUser != nil && otherUser != nil {
+        if myUserRepository.myUser != nil && otherUserEnabled {
             //Report
             texts.append(LGLocalizedString.reportUserTitle)
             actions.append({ [weak self] in self?.reportUserPressed() })
