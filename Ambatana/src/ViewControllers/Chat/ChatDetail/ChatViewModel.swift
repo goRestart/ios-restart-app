@@ -232,6 +232,14 @@ class ChatViewModel: BaseViewModel {
         }
     }
     
+    func refreshConversation(conversationId: String) {
+        chatRepository.showConversation(conversationId) { [weak self] result in
+            if let value = result.value {
+                self?.conversation.value = value
+            }
+        }
+    }
+    
     func loadStickers() {
         stickersRepository.show { [weak self] result in
             if let value = result.value {
@@ -519,7 +527,12 @@ extension ChatViewModel {
 
 extension ChatViewModel {
     private func markProductAsSold() {
-        // TODO:🎪 Add a way to mark a product as sold pasing only the productId to the productRepository
+        guard conversation.value.amISelling else { return }
+        guard let productId = conversation.value.product?.objectId else { return }
+        productRepository.markProductAsSold(productId) { [weak self] result in
+            guard let conversationId = self?.conversation.value.objectId else { return }
+            self?.refreshConversation(conversationId)
+        }
     }
 }
 
@@ -913,7 +926,7 @@ extension ChatViewModel: DirectAnswersPresenterDelegate {
         let emptyAction: () -> Void = { [weak self] in
             self?.clearProductSoldDirectAnswer()
         }
-        if conversation.value.amISelling {
+        if !conversation.value.amISelling {
             return [DirectAnswer(text: LGLocalizedString.directAnswerInterested, action: emptyAction),
                     DirectAnswer(text: LGLocalizedString.directAnswerIsNegotiable, action: emptyAction),
                     DirectAnswer(text: LGLocalizedString.directAnswerLikeToBuy, action: emptyAction),
