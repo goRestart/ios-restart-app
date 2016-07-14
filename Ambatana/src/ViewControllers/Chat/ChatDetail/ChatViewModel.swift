@@ -307,7 +307,9 @@ class ChatViewModel: BaseViewModel {
     }
     
     func userInfoPressed() {
-        // TODO: 🎪 Create a UserVC Factory that allows to create a UserVC with a ChatInterlocutor
+        guard let interlocutor = conversation.value.interlocutor else { return }
+        let userVM = UserViewModel(chatInterlocutor: interlocutor, source: .Chat)
+        delegate?.vmShowUser(userVM)
     }
 
     func safetyTipsDismissed() {

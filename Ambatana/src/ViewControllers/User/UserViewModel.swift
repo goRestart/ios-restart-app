@@ -95,6 +95,11 @@ class UserViewModel: BaseViewModel {
         self.init(sessionManager: sessionManager, myUserRepository: myUserRepository, userRepository: userRepository,
             tracker: tracker, isMyProfile: false, user: user, source: source)
     }
+    
+    convenience init(chatInterlocutor: ChatInterlocutor, source: UserSource) {
+        let user = LGUser(chatInterlocutor: chatInterlocutor)
+        self.init(user: user, source: source)
+    }
 
     init(sessionManager: SessionManager, myUserRepository: MyUserRepository, userRepository: UserRepository,
         tracker: Tracker, isMyProfile: Bool, user: User?, source: UserSource) {
