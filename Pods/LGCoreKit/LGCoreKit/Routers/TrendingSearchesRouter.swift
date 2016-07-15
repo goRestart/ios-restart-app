@@ -18,6 +18,8 @@ enum TrendingSearchesRouter: URLRequestAuthenticable {
         return .None
     }
 
+    var reportingBlacklistedApiError: Array<ApiError> { return [.Scammer] }
+
     var URLRequest: NSMutableURLRequest {
         switch self {
         case .Index(let params):

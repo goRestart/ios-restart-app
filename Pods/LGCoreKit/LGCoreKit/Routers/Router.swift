@@ -11,18 +11,32 @@ import Alamofire
 
 protocol BaseURL {
     static var baseURL: String { get }
+    static var acceptHeader: String? { get }
+    static var contentTypeHeader: String? { get }
 }
 
 struct APIBaseURL: BaseURL {
-    static var baseURL: String = EnvironmentProxy.sharedInstance.apiBaseURL
+    static let baseURL = EnvironmentProxy.sharedInstance.apiBaseURL
+    static let acceptHeader: String? = nil
+    static let contentTypeHeader: String? = nil
 }
 
 struct BouncerBaseURL: BaseURL {
     static var baseURL: String = EnvironmentProxy.sharedInstance.bouncerBaseURL
+    static let acceptHeader: String? = "application/vnd.letgo.v1-mobile+json"
+    static let contentTypeHeader: String? = "application/vnd.letgo.v1-mobile+json"
 }
 
 struct CommercializerBaseURL: BaseURL {
     static var baseURL: String = EnvironmentProxy.sharedInstance.commercializerBaseURL
+    static let acceptHeader: String? = nil
+    static let contentTypeHeader: String? = nil
+}
+
+struct UserRatingsBaseURL: BaseURL {
+    static var baseURL: String = EnvironmentProxy.sharedInstance.userRatingsBaseURL
+    static let acceptHeader: String? = "application/vnd.letgo-api+json;version=1"
+    static let contentTypeHeader: String? = "application/vnd.letgo-api+json;version=1"
 }
 
 enum Encoding {
@@ -137,12 +151,12 @@ enum Router<T: BaseURL>: URLRequestConvertible {
 
 
         // When calling `paramEncoding.encode` the Content-Type Header is setted automatically to the correct value
-        // JSON is a special case. The defaul value would be `application/json` but we need to override it for our
-        // custom value for the Bouncer API (only for Bouncer, not the normal API)
+        // JSON is a special case. The defaul value would be `application/json` but we need to override it for some of
+        // our apis
         switch paramEncoding {
         case .JSON:
-            if T.baseURL == BouncerBaseURL.baseURL {
-                req.setValue("application/vnd.letgo.v1-mobile+json", forHTTPHeaderField: "Content-Type")
+            if let contentType = T.contentTypeHeader {
+                req.setValue(contentType, forHTTPHeaderField: "Content-Type")
             }
         default:
             break
@@ -152,8 +166,8 @@ enum Router<T: BaseURL>: URLRequestConvertible {
         // All the responses will always be of type JSON, when calling the Bouncer API we need to set the
         // `Accept` Header to our custom JSON format.
         // By default, the Accept Header is `application/json`
-        if T.baseURL == BouncerBaseURL.baseURL {
-            req.setValue("application/vnd.letgo.v1-mobile+json", forHTTPHeaderField: "Accept")
+        if let accept = T.acceptHeader {
+            req.setValue(accept, forHTTPHeaderField: "Accept")
         }
 
         return req
