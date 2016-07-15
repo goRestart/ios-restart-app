@@ -6,28 +6,6 @@
 //  Copyright © 2016 Ambatana. All rights reserved.
 //
 
-import LGCoreKit
-
-struct UserRatingData {
-    let userId: String
-    let userAvatar: NSURL?
-    let userName: String?
-
-    init?(user: User) {
-        guard let userId = user.objectId else { return nil }
-        self.userId = userId
-        self.userAvatar = user.avatar?.fileURL
-        self.userName = user.name
-    }
-
-    init?(interlocutor: ChatInterlocutor) {
-        guard let userId = interlocutor.objectId else { return nil }
-        self.userId = userId
-        self.userAvatar = interlocutor.avatar?.fileURL
-        self.userName = interlocutor.name
-    }
-}
-
 protocol UserRatingCoordinatorDelegate: CoordinatorDelegate {
     func userRatingCoordinatorDidCancel(coordinator: UserRatingCoordinator)
     func userRatingCoordinatorDidFinish(coordinator: UserRatingCoordinator)
@@ -45,7 +23,7 @@ final class UserRatingCoordinator: Coordinator {
 
     // MARK: - Lifecycle
 
-    init(data: UserRatingData) {
+    init(data: RateUserData) {
         let userRatingVM = RateUserViewModel(userId: data.userId, userAvatar: data.userAvatar, userName: data.userName)
         let userRatingVC = RateUserViewController(viewModel: userRatingVM)
         self.viewController = UINavigationController(rootViewController: userRatingVC)

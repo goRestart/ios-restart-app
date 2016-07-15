@@ -7,6 +7,27 @@
 //
 
 import RxSwift
+import LGCoreKit
+
+struct RateUserData {
+    let userId: String
+    let userAvatar: NSURL?
+    let userName: String?
+
+    init?(user: User) {
+        guard let userId = user.objectId else { return nil }
+        self.userId = userId
+        self.userAvatar = user.avatar?.fileURL
+        self.userName = user.name
+    }
+
+    init?(interlocutor: ChatInterlocutor) {
+        guard let userId = interlocutor.objectId else { return nil }
+        self.userId = userId
+        self.userAvatar = interlocutor.avatar?.fileURL
+        self.userName = interlocutor.name
+    }
+}
 
 protocol RateUserViewModelDelegate: BaseViewModelDelegate {
     func vmUpdateDescription(description: String)
@@ -33,15 +54,18 @@ class RateUserViewModel: BaseViewModel {
     let description = Variable<String?>(nil)
     let descriptionCharLimit = Variable<Int>(Constants.userRatingDescriptionMaxLength)
 
+
+    private let userRatingRepository: UserRatingRepository
     private let userId: String
     private let disposeBag = DisposeBag()
 
     // MARK: - Lifecycle
 
-    init(userId: String, userAvatar: NSURL?, userName: String?) {
-        self.userId = userId
-        self.userAvatar = userAvatar
-        self.userName = userName
+    init(data: RateUserData, userRatingRepository: UserRatingRepository) {
+        self.userId = data.userId
+        self.userAvatar = data.userAvatar
+        self.userName = data.userName
+        self.userRatingRepository = userRatingRepository
 
         super.init()
 
@@ -80,5 +104,4 @@ class RateUserViewModel: BaseViewModel {
         description.asObservable().map { Constants.userRatingDescriptionMaxLength - ($0?.characters.count ?? 0) }
             .bindTo(descriptionCharLimit).addDisposableTo(disposeBag)
     }
-
 }

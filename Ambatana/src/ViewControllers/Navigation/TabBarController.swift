@@ -276,7 +276,7 @@ final class TabBarController: UITabBarController, UINavigationControllerDelegate
         viewModel.sellFromBannerCell(designType)
     }
 
-    func openUserRating(data: UserRatingData) {
+    func openUserRating(data: RateUserData) {
         viewModel.userRating(data)
     }
     

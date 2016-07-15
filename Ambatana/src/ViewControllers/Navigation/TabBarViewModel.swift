@@ -53,7 +53,7 @@ class TabBarViewModel: BaseViewModel {
 
 
         //TODO: ⚠️⚠️⚠️ REMOVE!!! JUST TO TEST!! ⚠️⚠️⚠️
-        guard let myUser = Core.myUserRepository.myUser, data = UserRatingData(user: myUser) else { return }
+        guard let myUser = Core.myUserRepository.myUser, data = RateUserData(user: myUser) else { return }
         navigator?.openUserRating(data)
     }
 
@@ -61,7 +61,7 @@ class TabBarViewModel: BaseViewModel {
         navigator?.openSell(.BannerCell(designType: designType))
     }
 
-    func userRating(data: UserRatingData) {
+    func userRating(data: RateUserData) {
         navigator?.openUserRating(data)
     }
 
