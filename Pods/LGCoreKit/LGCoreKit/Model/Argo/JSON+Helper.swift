@@ -10,7 +10,7 @@ import Argo
 
 // MARK: - Basic types
 
-extension JSON {
+public extension JSON {
     func decode(key: Swift.String) -> JSON? {
         let decoded: Decoded<JSON> = self <| key
         return decoded.value

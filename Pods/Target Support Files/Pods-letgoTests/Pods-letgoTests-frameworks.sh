@@ -118,6 +118,7 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "$BUILT_PRODUCTS_DIR/TMReachability/TMReachability.framework"
   install_framework "$BUILT_PRODUCTS_DIR/pop/pop.framework"
   install_framework "$BUILT_PRODUCTS_DIR/Nimble/Nimble.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/OHHTTPStubs/OHHTTPStubs.framework"
   install_framework "$BUILT_PRODUCTS_DIR/Quick/Quick.framework"
   install_framework "$BUILT_PRODUCTS_DIR/RxTests/RxTests.framework"
 fi
@@ -156,6 +157,7 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "$BUILT_PRODUCTS_DIR/TMReachability/TMReachability.framework"
   install_framework "$BUILT_PRODUCTS_DIR/pop/pop.framework"
   install_framework "$BUILT_PRODUCTS_DIR/Nimble/Nimble.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/OHHTTPStubs/OHHTTPStubs.framework"
   install_framework "$BUILT_PRODUCTS_DIR/Quick/Quick.framework"
   install_framework "$BUILT_PRODUCTS_DIR/RxTests/RxTests.framework"
 fi
@@ -194,6 +196,7 @@ if [[ "$CONFIGURATION" == "Adhoc" ]]; then
   install_framework "$BUILT_PRODUCTS_DIR/TMReachability/TMReachability.framework"
   install_framework "$BUILT_PRODUCTS_DIR/pop/pop.framework"
   install_framework "$BUILT_PRODUCTS_DIR/Nimble/Nimble.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/OHHTTPStubs/OHHTTPStubs.framework"
   install_framework "$BUILT_PRODUCTS_DIR/Quick/Quick.framework"
   install_framework "$BUILT_PRODUCTS_DIR/RxTests/RxTests.framework"
 fi
