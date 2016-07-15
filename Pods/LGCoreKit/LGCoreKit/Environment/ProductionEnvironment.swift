@@ -14,7 +14,4 @@ struct ProductionEnvironment: Environment {
     let bouncerBaseURL = "https://bouncer.letgo.com/api"
     let commercializerBaseURL = "https://commercializer.letgo.com"
     let webSocketURL = "ws://chat.letgo.com/socket"
-    
-    // Config
-    let configURL = "https://letgo-images.s3.amazonaws.com/config/ios.json"
 }
