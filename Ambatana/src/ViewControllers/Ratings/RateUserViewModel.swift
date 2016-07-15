@@ -34,6 +34,7 @@ struct RateUserData {
 
 protocol RateUserViewModelDelegate: BaseViewModelDelegate {
     func vmUpdateDescription(description: String?)
+    func vmUpdateDescriptionPlaceholder(placeholder: String)
 }
 
 class RateUserViewModel: BaseViewModel {
@@ -59,12 +60,14 @@ class RateUserViewModel: BaseViewModel {
     let sendEnabled = Variable<Bool>(false)
     let rating = Variable<Int?>(nil)
     let description = Variable<String?>(nil)
+    let descriptionPlaceholder = Variable<String>(LGLocalizedString.userRatingReviewPlaceholder)
     let descriptionCharLimit = Variable<Int>(Constants.userRatingDescriptionMaxLength)
 
     private let userRatingRepository: UserRatingRepository
     private let data: RateUserData
     private var previousRating: UserRating?
     private let disposeBag = DisposeBag()
+
 
     // MARK: - Lifecycle
 
@@ -140,6 +143,13 @@ class RateUserViewModel: BaseViewModel {
                     description.characters.count <= Constants.userRatingDescriptionMaxLength else { return false }
                 return true
             }.bindTo(sendEnabled).addDisposableTo(disposeBag)
+
+        rating.asObservable().map {
+                ($0 ?? 0) < 4 ? LGLocalizedString.userRatingReviewPlaceholder :
+                    LGLocalizedString.userRatingReviewPlaceholderOptional
+            }.bindNext { [weak self] placeholder in
+                self?.delegate?.vmUpdateDescriptionPlaceholder(placeholder)
+            }.addDisposableTo(disposeBag)
 
         description.asObservable().map { Constants.userRatingDescriptionMaxLength - ($0?.characters.count ?? 0) }
             .bindTo(descriptionCharLimit).addDisposableTo(disposeBag)

@@ -654,6 +654,7 @@
 "user_rating_message_w_name" = "Adj értékelést a csillagokkal, és meséld el, %@ milyen üzletfélnek bizonyult. Később bármikor módosíthatod.";
 "user_rating_message_wo_name" = "Adj értékelést a csillagokkal, és meséld el, ez a felhasználó milyen üzletfélnek  bizonyult. Később bármikor módosíthatod.";
 "user_rating_review_button" = "Értékelés beküldése";
-"user_rating_review_placeholder" = "Hagyj értékelést (nem kötelező)";
+"user_rating_review_placeholder" = "Hagyj értékelést";
+"user_rating_review_placeholder_optional" = "Hagyj értékelést (nem kötelező)";
 "user_rating_review_send_success" = "Értékelésed beküldve!";
 "user_rating_title" = "Mondd el, milyen volt.";

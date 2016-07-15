@@ -22,7 +22,7 @@ class RateUserViewController: BaseViewController {
     @IBOutlet weak var publishButton: UIButton!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
 
-    private let descrPlaceholder = LGLocalizedString.userRatingReviewPlaceholder
+    private var descrPlaceholder = LGLocalizedString.userRatingReviewPlaceholder
     private let descrPlaceholderColor = UIColor.gray
     private static let sendButtonMargin: CGFloat = 15
 
@@ -67,6 +67,7 @@ class RateUserViewController: BaseViewController {
     @IBAction func starHighlighted(sender: AnyObject) {
         guard let tag = (sender as? UIButton)?.tag else { return }
         stars.forEach{$0.highlighted = ($0.tag <= tag)}
+        viewBackgroundTap()
     }
 
     @IBAction func starSelected(sender: AnyObject) {
@@ -141,6 +142,15 @@ extension RateUserViewController: RateUserViewModelDelegate {
     func vmUpdateDescription(description: String?) {
         descriptionText.text = description
     }
+
+    func vmUpdateDescriptionPlaceholder(placeholder: String) {
+        guard let descriptionText = descriptionText else { return }
+        guard placeholder != descrPlaceholder else { return }
+        if descriptionText.text == descrPlaceholder {
+            descriptionText.text = placeholder
+        }
+        descrPlaceholder = placeholder
+    }
 }
 
 
@@ -163,16 +173,15 @@ extension RateUserViewController: UITextViewDelegate {
     }
 
     func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
-        if let textViewText = textView.text {
-            let cleanReplacement = text.stringByRemovingEmoji()
-            let finalText = (textViewText as NSString).stringByReplacingCharactersInRange(range, withString: cleanReplacement)
-            if finalText != descrPlaceholder && textView.textColor != descrPlaceholderColor {
-                viewModel.description.value = finalText.isEmpty ? nil : finalText
-                if text.hasEmojis() {
-                    //Forcing the new text (without emojis) by returning false
-                    textView.text = finalText
-                    return false
-                }
+        guard let textViewText = textView.text else { return true }
+        let cleanReplacement = text.stringByRemovingEmoji()
+        let finalText = (textViewText as NSString).stringByReplacingCharactersInRange(range, withString: cleanReplacement)
+        if finalText != descrPlaceholder && textView.textColor != descrPlaceholderColor {
+            viewModel.description.value = finalText.isEmpty ? nil : finalText
+            if text.hasEmojis() {
+                //Forcing the new text (without emojis) by returning false
+                textView.text = finalText
+                return false
             }
         }
         return true

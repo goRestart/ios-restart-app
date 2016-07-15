@@ -654,6 +654,7 @@
 "user_rating_message_w_name" = "Napauta tähtiä antaaksesi arviosi ja kertoaksesi meille sujuiko kaikki hyvin käyttäjän %@ kanssa. Voit päivittää arviota milloin haluat.";
 "user_rating_message_wo_name" = "Napauta tähtiä antaaksesi arviosi ja kertoaksesi meille sujuiko kaikki hyvin tämän käyttäjän kanssa. Voit päivittää arviota milloin haluat.";
 "user_rating_review_button" = "Julkaise arvostelu";
-"user_rating_review_placeholder" = "Kirjoita arvostelu (vapaaehtoinen)";
+"user_rating_review_placeholder" = "Kirjoita arvostelu";
+"user_rating_review_placeholder_optional" = "Kirjoita arvostelu (vapaaehtoinen)";
 "user_rating_review_send_success" = "Arvostelusi on julkaistu!";
 "user_rating_title" = "Arvostele kokemuksesi seuraavan käyttäjän kanssa";
