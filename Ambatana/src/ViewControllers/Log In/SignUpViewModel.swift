@@ -132,9 +132,9 @@ public class SignUpViewModel: BaseViewModel {
         case .AlreadyExists:
             delegate?.viewModel(self, didFailLoginIn: LGLocalizedString.mainSignUpFbConnectErrorEmailTaken)
             loginWithFBFailedWithError(.EmailTaken)
-        case .Internal:
+        case let .Internal(description):
             delegate?.viewModel(self, didFailLoginIn: LGLocalizedString.mainSignUpFbConnectErrorGeneric)
-            loginWithFBFailedWithError(.Internal)
+            loginWithFBFailedWithError(.Internal(description: description))
         }
     }
 

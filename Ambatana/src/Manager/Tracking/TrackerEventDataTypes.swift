@@ -171,6 +171,7 @@ public enum EventParameterName: String {
     case FilterDistanceUnit   = "distance-unit"
     case FilterSortBy         = "sort-by"
     case ErrorDescription     = "error-description"
+    case ErrorDetails         = "error-details"
     case PermissionType       = "permission-type"
     case TypePage             = "type-page"
     case AlertType            = "alert-type"
@@ -272,10 +273,10 @@ public enum EventParameterMessageType: String {
     case Sticker    = "sticker"
 }
 
-public enum EventParameterLoginError: String {
+public enum EventParameterLoginError {
     
     case Network
-    case Internal
+    case Internal(description: String)
     case Unauthorized
     case NotFound
     case Forbidden
@@ -289,10 +290,10 @@ public enum EventParameterLoginError: String {
     case UsernameTaken
     case TermsNotAccepted
     case TooManyRequests
-
+    case Scammer
 
     public var description: String {
-        switch (self) {
+        switch self {
         case .Network:
             return "Network"
         case .Internal:
@@ -323,6 +324,20 @@ public enum EventParameterLoginError: String {
             return "TermsNotAccepted"
         case .TooManyRequests:
             return "TooManyRequests"
+        case .Scammer:
+            return "Scammer"
+        }
+
+    }
+
+    public var details: String? {
+        switch self {
+        case let .Internal(description):
+            return description
+        case .Network, .Unauthorized, .NotFound, .Forbidden, .InvalidEmail, .NonExistingEmail, .InvalidPassword,
+             .InvalidUsername, .UserNotFoundOrWrongPassword, .EmailTaken, .PasswordMismatch, .UsernameTaken,
+             .TermsNotAccepted, .TooManyRequests, .Scammer:
+            return nil
         }
     }
 }

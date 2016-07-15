@@ -16,14 +16,22 @@ enum ExternalServiceAuthResult {
     case Forbidden
     case NotFound
     case AlreadyExists
-    case Internal
+    case Internal(description: String)
     
     init(sessionError: SessionManagerError) {
         switch sessionError {
         case .AlreadyExists:
             self = .AlreadyExists
-        case .NonExistingEmail, .Internal, .Unauthorized, .Forbidden, .TooManyRequests:
-            self = .Internal
+        case let .Internal(description):
+            self = .Internal(description: description)
+        case .NonExistingEmail:
+            self = .Internal(description: "NonExistingEmail")
+        case .Unauthorized:
+            self = .Internal(description: "Unauthorized")
+        case .Forbidden:
+            self = .Internal(description: "Forbidden")
+        case .TooManyRequests:
+            self = .Internal(description: "TooManyRequests")
         case .Network:
             self = .Network
         case .NotFound:

@@ -90,6 +90,7 @@ public struct TrackerEvent {
         var params = EventParameters()
 
         params[.ErrorDescription] = errorDescription.description
+        params[.ErrorDetails] = errorDescription.details
 
         return TrackerEvent(name: .LoginError, params: params)
     }
@@ -98,6 +99,7 @@ public struct TrackerEvent {
         var params = EventParameters()
 
         params[.ErrorDescription] = errorDescription.description
+        params[.ErrorDetails] = errorDescription.details
 
         return TrackerEvent(name: .SignupError, params: params)
     }
@@ -106,6 +108,7 @@ public struct TrackerEvent {
         var params = EventParameters()
 
         params[.ErrorDescription] = errorDescription.description
+        params[.ErrorDetails] = errorDescription.details
 
         return TrackerEvent(name: .PasswordResetError, params: params)
     }

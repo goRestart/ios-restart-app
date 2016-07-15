@@ -462,53 +462,64 @@ class TrackerEventSpec: QuickSpec {
             }
 
             describe("login error") {
+                let error = EventParameterLoginError.Internal(description: "details")
+                beforeEach {
+                    sut = TrackerEvent.loginError(error)
+                    expect(sut.params).notTo(beNil())
+                }
+
                 it("has its event name") {
-                    sut = TrackerEvent.loginError(.Network)
                     expect(sut.name.rawValue).to(equal("login-error"))
                 }
                 it("contains the error description param") {
-                    let errorDescription = EventParameterLoginError.Network
-                    sut = TrackerEvent.loginError(errorDescription)
-                    expect(sut.params).notTo(beNil())
-                    
-                    expect(sut.params!.stringKeyParams["error-description"]).notTo(beNil())
-                    let description = sut.params!.stringKeyParams["error-description"] as? String
-                    expect(description).to(equal(errorDescription.description))
+                    let description = sut.params!.stringKeyParams["error-description"] as! String
+                    expect(description) == error.description
+                }
+                it("contains the error details param") {
+                    let description = sut.params!.stringKeyParams["error-details"] as! String
+                    expect(description) == error.details
                 }
             }
             
             describe("signup error") {
+                let error = EventParameterLoginError.Internal(description: "details")
+                beforeEach {
+                    sut = TrackerEvent.signupError(error)
+                    expect(sut.params).notTo(beNil())
+                }
+
                 it("has its event name") {
-                    sut = TrackerEvent.signupError(.Network)
                     expect(sut.name.rawValue).to(equal("signup-error"))
                 }
                 it("contains the error description param") {
-                    let errorDescription = EventParameterLoginError.Network
-                    sut = TrackerEvent.signupError(errorDescription)
-                    expect(sut.params).notTo(beNil())
-                    
-                    expect(sut.params!.stringKeyParams["error-description"]).notTo(beNil())
-                    let description = sut.params!.stringKeyParams["error-description"] as? String
-                    expect(description).to(equal(errorDescription.description))
+                    let description = sut.params!.stringKeyParams["error-description"] as! String
+                    expect(description) == error.description
+                }
+                it("contains the error details param") {
+                    let description = sut.params!.stringKeyParams["error-details"] as! String
+                    expect(description) == error.details
                 }
             }
             
             describe("password reset error error") {
+                let error = EventParameterLoginError.Internal(description: "details")
+                beforeEach {
+                    sut = TrackerEvent.passwordResetError(error)
+                    expect(sut.params).notTo(beNil())
+                }
+
                 it("has its event name") {
-                    sut = TrackerEvent.passwordResetError(.Network)
                     expect(sut.name.rawValue).to(equal("password-reset-error"))
                 }
                 it("contains the error description param") {
-                    
-                    let errorDescription = EventParameterLoginError.Network
-                    sut = TrackerEvent.passwordResetError(errorDescription)
-                    expect(sut.params).notTo(beNil())
-                    
-                    expect(sut.params!.stringKeyParams["error-description"]).notTo(beNil())
-                    let description = sut.params!.stringKeyParams["error-description"] as? String
-                    expect(description).to(equal(errorDescription.description))
+                    let description = sut.params!.stringKeyParams["error-description"] as! String
+                    expect(description) == error.description
                 }
-            }            
+                it("contains the error details param") {
+                    let description = sut.params!.stringKeyParams["error-details"] as! String
+                    expect(description) == error.details
+                }
+            }
             
             describe("productList") {
                 it("has its event name") {

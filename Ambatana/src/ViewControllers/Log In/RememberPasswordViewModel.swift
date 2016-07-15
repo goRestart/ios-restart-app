@@ -75,9 +75,21 @@ public class RememberPasswordViewModel: BaseViewModel {
                     case .AlreadyExists, .TooManyRequests:
                         errorMessage = LGLocalizedString.resetPasswordSendTooManyRequests
                         errorDescription = .TooManyRequests
-                    case .Scammer, .Internal, .Forbidden, .Unauthorized, .NonExistingEmail:
+                    case .Scammer:
                         errorMessage = LGLocalizedString.resetPasswordSendErrorGeneric
-                        errorDescription = .Internal
+                        errorDescription = .Scammer
+                    case let .Internal(description):
+                        errorMessage = LGLocalizedString.resetPasswordSendErrorGeneric
+                        errorDescription = .Internal(description: description)
+                    case .Forbidden:
+                        errorMessage = LGLocalizedString.resetPasswordSendErrorGeneric
+                        errorDescription = .Forbidden
+                    case .Unauthorized:
+                        errorMessage = LGLocalizedString.resetPasswordSendErrorGeneric
+                        errorDescription = .Unauthorized
+                    case .NonExistingEmail:
+                        errorMessage = LGLocalizedString.resetPasswordSendErrorGeneric
+                        errorDescription = .NonExistingEmail
                     }
                     if let errorDescription = errorDescription {
                         TrackerProxy.sharedInstance.trackEvent(TrackerEvent.passwordResetError(errorDescription))

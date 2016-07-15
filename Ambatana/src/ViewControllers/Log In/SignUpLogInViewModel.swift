@@ -319,8 +319,10 @@ public class SignUpLogInViewModel: BaseViewModel {
             return .NotFound
         case .AlreadyExists:
             return .EmailTaken
-        case .Internal, .Forbidden:
-            return .Internal
+        case .Forbidden:
+            return .Forbidden
+        case let .Internal(description):
+            return .Internal(description: description)
         case .NonExistingEmail:
             return .NonExistingEmail
         case .Unauthorized:
@@ -348,9 +350,9 @@ public class SignUpLogInViewModel: BaseViewModel {
         case .AlreadyExists:
             delegate?.viewModel(self, didFailAuthWithExternalService: LGLocalizedString.mainSignUpFbConnectErrorEmailTaken)
             loginFailedWithError(.EmailTaken)
-        case .Internal:
+        case let .Internal(description):
             delegate?.viewModel(self, didFailAuthWithExternalService: LGLocalizedString.mainSignUpFbConnectErrorGeneric)
-            loginFailedWithError(.Internal)
+            loginFailedWithError(.Internal(description: description))
         }
     }
     
