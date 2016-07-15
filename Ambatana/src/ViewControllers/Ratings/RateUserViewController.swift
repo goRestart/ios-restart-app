@@ -138,7 +138,7 @@ class RateUserViewController: BaseViewController {
 
 extension RateUserViewController: RateUserViewModelDelegate {
 
-    func vmUpdateDescription(description: String) {
+    func vmUpdateDescription(description: String?) {
         descriptionText.text = description
     }
 }

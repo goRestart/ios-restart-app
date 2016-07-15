@@ -13,12 +13,14 @@ struct RateUserData {
     let userId: String
     let userAvatar: NSURL?
     let userName: String?
+    let ratingType: UserRatingType
 
     init?(user: User) {
         guard let userId = user.objectId else { return nil }
         self.userId = userId
         self.userAvatar = user.avatar?.fileURL
         self.userName = user.name
+        self.ratingType = .Conversation
     }
 
     init?(interlocutor: ChatInterlocutor) {
@@ -26,11 +28,12 @@ struct RateUserData {
         self.userId = userId
         self.userAvatar = interlocutor.avatar?.fileURL
         self.userName = interlocutor.name
+        self.ratingType = .Conversation
     }
 }
 
 protocol RateUserViewModelDelegate: BaseViewModelDelegate {
-    func vmUpdateDescription(description: String)
+    func vmUpdateDescription(description: String?)
 }
 
 class RateUserViewModel: BaseViewModel {
@@ -38,8 +41,12 @@ class RateUserViewModel: BaseViewModel {
     weak var delegate: RateUserViewModelDelegate?
     weak var navigator: RateUserNavigator?
 
-    let userAvatar: NSURL?
-    let userName: String?
+    var userAvatar: NSURL? {
+        return data.userAvatar
+    }
+    var userName: String? {
+        return data.userName
+    }
     var infoText: String {
         if let userName = userName where !userName.isEmpty {
             return LGLocalizedString.userRatingMessageWName(userName)
@@ -54,17 +61,19 @@ class RateUserViewModel: BaseViewModel {
     let description = Variable<String?>(nil)
     let descriptionCharLimit = Variable<Int>(Constants.userRatingDescriptionMaxLength)
 
-
     private let userRatingRepository: UserRatingRepository
-    private let userId: String
+    private let data: RateUserData
+    private var previousRating: UserRating?
     private let disposeBag = DisposeBag()
 
     // MARK: - Lifecycle
 
+    convenience init(data: RateUserData) {
+        self.init(data: data, userRatingRepository: Core.userRatingRepository)
+    }
+
     init(data: RateUserData, userRatingRepository: UserRatingRepository) {
-        self.userId = data.userId
-        self.userAvatar = data.userAvatar
-        self.userName = data.userName
+        self.data = data
         self.userRatingRepository = userRatingRepository
 
         super.init()
@@ -72,6 +81,12 @@ class RateUserViewModel: BaseViewModel {
         self.setupRx()
     }
 
+    override func didBecomeActive(firstTime: Bool) {
+        super.didBecomeActive(firstTime)
+        if firstTime {
+            retrievePreviousRating()
+        }
+    }
 
     // MARK: - Actions
 
@@ -84,7 +99,32 @@ class RateUserViewModel: BaseViewModel {
     }
 
     func publishButtonPressed() {
-        
+        guard let rating = rating.value where sendEnabled.value else { return }
+
+        let ratingCompletion: UserRatingCompletion = { [weak self] result in
+            self?.isLoading.value = false
+            if let rating = result.value {
+                self?.finishedRating(rating)
+            } else if let error = result.error {
+                let message: String
+                switch error {
+                case .Network:
+                    message = LGLocalizedString.commonErrorConnectionFailed
+                case .Internal, .NotFound, .Unauthorized, .Forbidden, .TooManyRequests, .UserNotVerified:
+                    message = LGLocalizedString.commonError
+                }
+                self?.delegate?.vmShowAutoFadingMessage(message, completion: nil)
+            }
+        }
+
+        self.isLoading.value = true
+        if let previousRating = previousRating {
+            userRatingRepository.updateRating(previousRating, value: rating, comment: description.value,
+                                              completion: ratingCompletion)
+        } else {
+            userRatingRepository.createRating(data.userId, value: rating, comment: description.value,
+                                              type: data.ratingType, completion: ratingCompletion)
+        }
     }
 
 
@@ -95,7 +135,7 @@ class RateUserViewModel: BaseViewModel {
             description.asObservable(), resultSelector: { $0 })
             .map { (loading, rating, description) in
                 guard !loading, let rating = rating else { return false }
-                guard rating < 4 else { return true }
+                guard rating < 4 else { return true } // 4-5 stars allows rating without description
                 guard let description = description where !description.isEmpty &&
                     description.characters.count <= Constants.userRatingDescriptionMaxLength else { return false }
                 return true
@@ -103,5 +143,24 @@ class RateUserViewModel: BaseViewModel {
 
         description.asObservable().map { Constants.userRatingDescriptionMaxLength - ($0?.characters.count ?? 0) }
             .bindTo(descriptionCharLimit).addDisposableTo(disposeBag)
+    }
+
+    private func retrievePreviousRating() {
+        isLoading.value = true
+        userRatingRepository.show(data.userId, type: data.ratingType) { [weak self] result in
+            self?.isLoading.value = false
+            guard let userRating = result.value else { return }
+            self?.previousRating = userRating
+            self?.rating.value = userRating.value
+            self?.description.value = userRating.comment
+            self?.delegate?.vmUpdateDescription(userRating.comment)
+        }
+    }
+
+    private func finishedRating(userRating: UserRating) {
+        //TODO: TRACKING?
+        delegate?.vmShowAutoFadingMessage(LGLocalizedString.userRatingReviewSendSuccess) { [weak self] in
+            self?.navigator?.rateUserFinish()
+        }
     }
 }

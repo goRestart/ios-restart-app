@@ -158,7 +158,7 @@ extension AppCoordinator: AppNavigator {
         openCoordinator(coordinator: sellCoordinator, parent: tabBarCtl, animated: true, completion: nil)
     }
 
-    func openUserRating(data: UserRatingData) {
+    func openUserRating(data: RateUserData) {
         let userRatingCoordinator = UserRatingCoordinator(data: data)
         userRatingCoordinator.delegate = self
         openCoordinator(coordinator: userRatingCoordinator, parent: tabBarCtl, animated: true, completion: nil)
