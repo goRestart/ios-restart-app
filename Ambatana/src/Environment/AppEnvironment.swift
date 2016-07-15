@@ -38,4 +38,7 @@ protocol AppEnvironment {
     // Leanplum
     var leanplumAppId: String { get }
     var leanplumEnvKey: String { get }
+
+    // Config
+    var configURL: String { get }
 }

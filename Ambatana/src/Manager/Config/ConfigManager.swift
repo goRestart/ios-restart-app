@@ -10,6 +10,8 @@ import Result
 
 public class ConfigManager {
 
+    static let sharedInstance: ConfigManager = ConfigManager()
+
     private let service : ConfigRetrieveService
     private let dao : ConfigDAO
     private let appCurrentVersion : String
@@ -30,8 +32,22 @@ public class ConfigManager {
         return false
     }
 
-    
+    public var myMessagesCountForRating: Int {
+        return config?.myMessagesCountForRating ?? Constants.myMessagesCountForRating
+    }
+
+    public var otherMessagesCountForRating: Int {
+        return config?.otherMessagesCountForRating ?? Constants.otherMessagesCountForRating
+    }
+
+
     // MARK: - Lifecycle
+
+    public convenience init() {
+        let configFileName = EnvironmentProxy.sharedInstance.configFileName
+        let dao = LGConfigDAO(bundle: NSBundle.mainBundle(), configFileName: configFileName)
+        self.init(dao: dao)
+    }
 
     public convenience init(dao: ConfigDAO) {
 
@@ -50,7 +66,7 @@ public class ConfigManager {
         self.appCurrentVersion = appCurrentVersion
 
         self.config = dao.retrieve()
-        self.updateTimeout = LGCoreKitConstants.defaultConfigTimeOut
+        self.updateTimeout = Constants.defaultConfigTimeOut
     }
 
     // MARK : - Public methods

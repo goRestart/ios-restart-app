@@ -94,4 +94,8 @@ public class EnvironmentProxy: AppEnvironment {
     var leanplumEnvKey: String {
         return environment.leanplumEnvKey
     }
+
+    var configURL: String {
+        return environment.configURL
+    }
 }

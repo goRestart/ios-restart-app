@@ -295,6 +295,8 @@ class OldChatViewController: SLKTextViewController {
         case .Available, .Blocked, .BlockedBy, .ProductSold:
             break
         }
+
+        productView.showReviewButton(viewModel.userIsReviewable)
     }
     
     private func showActivityIndicator(show: Bool) {
@@ -523,6 +525,10 @@ extension OldChatViewController: OldChatViewModelDelegate {
 
         view.layoutIfNeeded()
     }
+
+    func vmUpdateUserIsReadyToReview() {
+        productView.showReviewButton(viewModel.userIsReviewable)
+    }
 }
 
 
@@ -630,6 +636,10 @@ extension OldChatViewController: ChatProductViewDelegate {
     
     func productViewDidTapUserAvatar() {
         viewModel.userInfoPressed()
+    }
+
+    func productViewDidTapUserReview() {
+        viewModel.reviewUserPressed()
     }
 }
 

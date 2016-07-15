@@ -35,4 +35,7 @@ class DevelopmentEnvironment: AppEnvironment {
     // Leanplum
     let leanplumAppId = "app_gYgnjLc98J3vIVHbmdD9W0Qwvy0A3KHMdo4PKd0zJD4"
     let leanplumEnvKey = "dev_4pEk10FFVnVlZLhlVAmV2yrM1M7huTZgLQMntH61dyk"
+
+    // Config
+    var configURL = "https://letgo-images-devel.s3.amazonaws.com/config/ios.json"
 }

@@ -14,7 +14,4 @@ struct StagingEnvironment: Environment {
     let bouncerBaseURL = "http://bouncer.stg.letgo.com/api"
     let commercializerBaseURL = "http://commercializer.stg.letgo.com"
     let webSocketURL = "ws://chat.stg.letgo.com/socket"
-
-    // Config
-    let configURL = "http://letgo-images-devel.s3.amazonaws.com/config/ios.json"
 }

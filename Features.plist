@@ -30,5 +30,12 @@
 		<key>enabled</key>
 		<false/>
 	</dict>
+	<key>user_ratings</key>
+	<dict>
+		<key>description</key>
+		<string>User can rate other users</string>
+		<key>enabled</key>
+		<false/>
+	</dict>
 </dict>
 </plist>

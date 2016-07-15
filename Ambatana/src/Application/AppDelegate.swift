@@ -56,10 +56,7 @@ extension AppDelegate: UIApplicationDelegate {
         setupLibraries(application, launchOptions: launchOptions)
         setupRxBindings()
 
-        let configFileName = EnvironmentProxy.sharedInstance.configFileName
-        let dao = LGConfigDAO(bundle: NSBundle.mainBundle(), configFileName: configFileName)
-        let configManager = ConfigManager(dao: dao)
-        self.configManager = configManager
+        self.configManager = ConfigManager.sharedInstance
 
         let keyValueStorage = KeyValueStorage.sharedInstance
         let versionChecker = VersionChecker.sharedInstance
@@ -76,7 +73,7 @@ extension AppDelegate: UIApplicationDelegate {
 
         let tabBarViewModel = TabBarViewModel()
         let tabBarController = TabBarController(viewModel: tabBarViewModel)
-        let appCoordinator = AppCoordinator(tabBarController: tabBarController, configManager: configManager)
+        let appCoordinator = AppCoordinator(tabBarController: tabBarController, configManager: ConfigManager.sharedInstance)
         appCoordinator.delegate = self
         tabBarViewModel.navigator = appCoordinator
 
