@@ -41,6 +41,15 @@ enum ChatRouter: URLRequestAuthenticable {
         return .User
     }
 
+    var reportingBlacklistedApiError: Array<ApiError> {
+        switch self {
+        case .Show:
+            return [.NotFound, .Scammer]
+        case .Index, .ShowConversation, .CreateMessage, .UnreadCount, .Archive, .Unarchive:
+            return [.Scammer]
+        }
+    }
+
     var URLRequest: NSMutableURLRequest {
         switch self {
         case let .Index(params):
