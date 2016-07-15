@@ -302,11 +302,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     // MARK: - Lifecycle
 
     convenience init?(chat: Chat) {
-        let configFileName = EnvironmentProxy.sharedInstance.configFileName
-        let dao = LGConfigDAO(bundle: NSBundle.mainBundle(), configFileName: configFileName)
-        let configManager = ConfigManager(dao: dao)
-
-        self.init(chat: chat, myUserRepository: Core.myUserRepository, configManager: configManager)
+        self.init(chat: chat, myUserRepository: Core.myUserRepository, configManager: ConfigManager.sharedInstance)
     }
     
     convenience init?(product: Product) {
