@@ -127,6 +127,7 @@
 "chat_unblock_user" = "Ξεμπλοκάρισμα Χρήστη";
 "chat_user_info_name" = "Γεια, είμαι ο/η %@";
 "chat_user_info_verified_with" = "Επιβεβαιωμένο με: ";
+"chat_user_rating_button_title" = "Review";
 "chat_verify_alert_message" = "Στείλαμε ένα email επιβεβαίωσης στο %@";
 "chat_verify_alert_ok_button" = "ΟΚ";
 "chat_verify_alert_resend_button" = "Ξαναστείλτε το";

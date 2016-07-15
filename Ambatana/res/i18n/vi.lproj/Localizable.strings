@@ -127,6 +127,7 @@
 "chat_unblock_user" = "Bỏ chặn Người dùng";
 "chat_user_info_name" = "Xin chào, tôi là %@";
 "chat_user_info_verified_with" = "Xác nhận bằng: ";
+"chat_user_rating_button_title" = "Đánh giá";
 "chat_verify_alert_message" = "Chúng tôi đã gửi một email xác nhận tới %@";
 "chat_verify_alert_ok_button" = "Ok";
 "chat_verify_alert_resend_button" = "Gửi lại";
@@ -650,9 +651,9 @@
 "trending_searches_Title" = "Xu hướng Tìm kiếm";
 "unblock_user_error_generic" = "Có lỗi xảy ra trong khi bỏ chặn người dùng này.";
 "unblock_user_success_message" = "Người dùng đã bị chặn!";
-"user_rating_message_w_name" = "Tap the stars to rate and tell us if your experience with %@ went well. You can update it whenever you want.";
-"user_rating_message_wo_name" = "Tap the stars to rate and tell us if your experience with this user went well. You can update it whenever you want.";
-"user_rating_review_button" = "Publish review";
-"user_rating_review_placeholder" = "Leave a review (optional)";
-"user_rating_review_send_success" = "Your review has been published!";
-"user_rating_title" = "Rate your experience with";
+"user_rating_message_w_name" = "Nhấn vào ngôi sao để đánh giá và cho chúng tôi biết trải nghiệm của bạn với %@ có tốt hay không. Bạn có thể cập nhật đánh giá bất kỳ khi nào bạn muốn.";
+"user_rating_message_wo_name" = "Nhấn vào ngôi sao để đánh giá và cho chúng tôi biết trải nghiệm của bạn với người dùng này có tốt hay không. Bạn có thể cập nhật đánh giá bất kỳ khi nào bạn muốn.";
+"user_rating_review_button" = "Đăng đánh giá";
+"user_rating_review_placeholder" = "Để lại đánh giá (không bắt buộc)";
+"user_rating_review_send_success" = "Đánh giá của bạn đã được đăng!";
+"user_rating_title" = "Đánh giá trải nghiệm của bạn với";

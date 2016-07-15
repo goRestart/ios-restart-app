@@ -471,6 +471,10 @@ struct LGLocalizedString {
 		return String(format: NSLocalizedString("chat_message_disclaimer_scammer", comment: ""), var1)
 	}
 
+	static var chatUserRatingButtonTitle: String {
+		return NSLocalizedString("chat_user_rating_button_title", comment: "")
+	}
+
 	static var chatSafetyTips: String {
 		return NSLocalizedString("chat_safety_tips", comment: "")
 	}
