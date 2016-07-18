@@ -95,6 +95,9 @@ final class CoreDI: InternalDI {
 
         let trendingSearchesDataSource = TrendingSearchesApiDataSource(apiClient: self.apiClient)
         self.trendingSearchesRepository = TrendingSearchesRepository(dataSource: trendingSearchesDataSource)
+
+        let userRatingDataSource = UserRatingApiDataSource(apiClient: self.apiClient)
+        self.userRatingRepository = UserRatingRepository(dataSource: userRatingDataSource, myUserRepository: myUserRepository)
         
         self.deviceIdDAO = deviceIdDAO
         self.installationDAO = installationDAO
@@ -148,6 +151,7 @@ final class CoreDI: InternalDI {
     let notificationsRepository: NotificationsRepository
     let stickersRepository: StickersRepository
     let trendingSearchesRepository: TrendingSearchesRepository
+    let userRatingRepository: UserRatingRepository
     lazy var categoryRepository: CategoryRepository = {
         return CategoryRepository()
     }()

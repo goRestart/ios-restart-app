@@ -14,7 +14,7 @@ protocol SellCoordinatorDelegate: CoordinatorDelegate {
     func sellCoordinator(coordinator: SellCoordinator, didFinishWithProduct product: Product)
 }
 
-final class SellCoordinator: NSObject, Coordinator {
+final class SellCoordinator: Coordinator {
     var child: Coordinator?
 
     private var parentViewController: UIViewController?
@@ -50,7 +50,6 @@ final class SellCoordinator: NSObject, Coordinator {
         let postProductVC = PostProductViewController(viewModel: postProductVM, forceCamera: source.forceCamera)
         self.viewController = postProductVC
 
-        super.init()
         postProductVM.navigator = self
     }
 
@@ -140,6 +139,9 @@ extension SellCoordinator: PostProductNavigator {
         }
     }
 }
+
+
+// MARK: - ProductPostedNavigator
 
 extension SellCoordinator: ProductPostedNavigator {
     func cancelProductPosted() {

@@ -24,6 +24,8 @@ enum InstallationRouter: URLRequestAuthenticable {
         }
     }
 
+    var reportingBlacklistedApiError: Array<ApiError> { return [.Scammer] }
+
     var URLRequest: NSMutableURLRequest {
         switch self {
         case let .Create(params):

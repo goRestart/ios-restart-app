@@ -18,6 +18,8 @@ enum ContactRouter: URLRequestAuthenticable {
         return .Installation
     }
 
+    var reportingBlacklistedApiError: Array<ApiError> { return [.Scammer] }
+
     var URLRequest: NSMutableURLRequest {
         switch self {
         case let .Send(params):

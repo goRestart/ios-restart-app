@@ -37,6 +37,8 @@ enum CommercializerRouter: URLRequestAuthenticable {
             return .User
         }
     }
+
+    var reportingBlacklistedApiError: Array<ApiError> { return [.Scammer] }
     
     var URLRequest: NSMutableURLRequest {
         switch self {

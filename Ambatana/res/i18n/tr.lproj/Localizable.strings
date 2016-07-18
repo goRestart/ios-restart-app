@@ -655,5 +655,6 @@
 "user_rating_message_wo_name" = "Yıldızlara dokunup değerlendirme yaparak bize bu kullanıcı ile deneyimini söyle. Ne zaman istersen güncelleyebilirsin.";
 "user_rating_review_button" = "Değerlendirme yayınla";
 "user_rating_review_placeholder" = "Değerlendirme yap (isteğe bağlı)";
+"user_rating_review_placeholder_optional" = "Leave a review (optional)";
 "user_rating_review_send_success" = "Değerlendirmen yayınlandı!";
 "user_rating_title" = "Bu kullanıcı ile deneyimine puan ver";
