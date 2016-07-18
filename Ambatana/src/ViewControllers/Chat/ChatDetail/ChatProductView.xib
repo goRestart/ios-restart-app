@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -16,13 +16,13 @@
                     <rect key="frame" x="0.0" y="0.0" width="600" height="97"/>
                     <subviews>
                         <button contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tXA-rl-mNl" userLabel="ProductButton">
-                            <rect key="frame" x="308" y="0.0" width="292" height="97"/>
+                            <rect key="frame" x="307.5" y="0.0" width="292.5" height="97"/>
                             <connections>
                                 <action selector="productButtonPressed:" destination="iN0-l3-epB" eventType="touchUpInside" id="7Lh-4c-Qof"/>
                             </connections>
                         </button>
                         <button contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VgI-GQ-SIV" userLabel="UserButton">
-                            <rect key="frame" x="0.0" y="0.0" width="293" height="97"/>
+                            <rect key="frame" x="0.0" y="0.0" width="292.5" height="97"/>
                             <connections>
                                 <action selector="userButtonPressed:" destination="iN0-l3-epB" eventType="touchUpInside" id="AhI-wF-UwS"/>
                             </connections>
@@ -66,6 +66,18 @@
                                 <constraint firstItem="29i-nA-Bwk" firstAttribute="leading" secondItem="if8-xz-rXM" secondAttribute="leading" priority="900" id="x7L-9V-Npg"/>
                             </constraints>
                         </view>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0ey-O1-8EX" userLabel="Review Button">
+                            <rect key="frame" x="95" y="34" width="78" height="30"/>
+                            <color key="backgroundColor" red="1" green="0.74901960784313726" blue="0.21176470588235294" alpha="1" colorSpace="calibratedRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="30" id="eb8-3H-wP2"/>
+                            </constraints>
+                            <inset key="contentEdgeInsets" minX="10" minY="0.0" maxX="10" maxY="0.0"/>
+                            <state key="normal" title="Review"/>
+                            <connections>
+                                <action selector="reviewButtonPressed:" destination="iN0-l3-epB" eventType="touchUpInside" id="bab-Nt-gK5"/>
+                            </connections>
+                        </button>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6kP-z9-oUp">
                             <rect key="frame" x="94" y="38" width="42" height="21"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -74,6 +86,7 @@
                         </label>
                     </subviews>
                     <constraints>
+                        <constraint firstItem="0ey-O1-8EX" firstAttribute="leading" secondItem="8L5-nL-5he" secondAttribute="trailing" constant="6" id="5lE-1Q-aR5"/>
                         <constraint firstItem="6kP-z9-oUp" firstAttribute="centerY" secondItem="8L5-nL-5he" secondAttribute="centerY" id="9sc-9U-VvE"/>
                         <constraint firstAttribute="bottom" secondItem="ruo-Pz-RdL" secondAttribute="bottom" constant="8" id="DeL-gR-JdU"/>
                         <constraint firstItem="ruo-Pz-RdL" firstAttribute="top" secondItem="BMI-MF-wDZ" secondAttribute="top" constant="3" id="Dpb-SW-UTA"/>
@@ -88,6 +101,7 @@
                         <constraint firstAttribute="trailing" secondItem="ruo-Pz-RdL" secondAttribute="trailing" id="VCo-Ft-186"/>
                         <constraint firstItem="tXA-rl-mNl" firstAttribute="width" secondItem="VgI-GQ-SIV" secondAttribute="width" id="d9J-XY-dBP"/>
                         <constraint firstItem="tXA-rl-mNl" firstAttribute="width" secondItem="VgI-GQ-SIV" secondAttribute="width" id="e40-Vu-Cwk"/>
+                        <constraint firstItem="0ey-O1-8EX" firstAttribute="centerY" secondItem="8L5-nL-5he" secondAttribute="centerY" id="f5o-41-2uD"/>
                         <constraint firstItem="8L5-nL-5he" firstAttribute="leading" secondItem="BMI-MF-wDZ" secondAttribute="leading" id="kP8-m6-gHq"/>
                         <constraint firstItem="6kP-z9-oUp" firstAttribute="leading" secondItem="8L5-nL-5he" secondAttribute="trailing" constant="5" id="l6y-PA-VZ9"/>
                         <constraint firstItem="tXA-rl-mNl" firstAttribute="top" secondItem="BMI-MF-wDZ" secondAttribute="top" id="mN5-Uw-gbg"/>
@@ -95,6 +109,7 @@
                         <constraint firstAttribute="bottom" secondItem="VgI-GQ-SIV" secondAttribute="bottom" id="piE-gi-7DA"/>
                         <constraint firstAttribute="bottom" secondItem="tXA-rl-mNl" secondAttribute="bottom" id="tJK-Ix-fWp"/>
                         <constraint firstItem="tXA-rl-mNl" firstAttribute="leading" secondItem="VgI-GQ-SIV" secondAttribute="trailing" constant="15" id="tcP-gr-XPN"/>
+                        <constraint firstItem="29i-nA-Bwk" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="0ey-O1-8EX" secondAttribute="trailing" constant="8" id="z4G-bl-nzj"/>
                     </constraints>
                     <variation key="default">
                         <mask key="constraints">
@@ -117,11 +132,12 @@
                 <outlet property="productImage" destination="ruo-Pz-RdL" id="XI7-z2-jMm"/>
                 <outlet property="productName" destination="29i-nA-Bwk" id="lBn-cf-DM0"/>
                 <outlet property="productPrice" destination="x9Z-aV-1b6" id="ffL-Mi-6ca"/>
+                <outlet property="reviewButton" destination="0ey-O1-8EX" id="8Lk-J3-7L5"/>
                 <outlet property="userAvatar" destination="8L5-nL-5he" id="b3n-lr-BL0"/>
                 <outlet property="userButton" destination="VgI-GQ-SIV" id="5Ko-Mb-Kwk"/>
                 <outlet property="userName" destination="6kP-z9-oUp" id="ja9-eT-2gA"/>
             </connections>
-            <point key="canvasLocation" x="897" y="289.5"/>
+            <point key="canvasLocation" x="551" y="414.5"/>
         </view>
     </objects>
 </document>

@@ -23,13 +23,13 @@ public enum RepositoryError: ErrorType {
     case UserNotVerified
     
     private static let NotModifiedMessage = "Not modified in API"
-    
+
     public init(apiError: ApiError) {
         switch apiError {
         case .Network:
             self = .Network
-        case .Internal:
-            self = .Internal(message: "Internal API Error")
+        case let .Internal(description):
+            self = .Internal(message: description)
         case .Unauthorized:
             self = .Unauthorized
         case .NotFound:
@@ -50,6 +50,8 @@ public enum RepositoryError: ErrorType {
             self = .Internal(message: "Internal Server Error")
         case .NotModified:
             self = .Internal(message: RepositoryError.NotModifiedMessage)
+        case let .Other(httpCode):
+            self = .Internal(message: "Unhandled \(httpCode) status code")
         }
     }
     

@@ -10,6 +10,7 @@ project "LetGo.xcodeproj"
 
 def shared_pods
     pod "AlamofireImage",        "~> 2.4.0"
+    pod "Argo",                 "~> 3.0.1"
 
 	pod "FBSDKLoginKit",         "~> 4.9.1"
 	pod "FBSDKCoreKit",          "~> 4.9.1"
@@ -32,7 +33,7 @@ def shared_pods
     pod "Leanplum-iOS-SDK",     "~> 1.3.11"
 
 	# letgo Core
-    pod "LGCoreKit",            "0.26.2" #:path => "../lgcorekit"
+    pod "LGCoreKit",            "0.27.0" #:path => "../lgcorekit"
 
 	# Slack Chat controller
     pod "SlackTextViewController", "1.9.1"
@@ -102,6 +103,10 @@ target "letgoTests" do
     pod "Quick",            "~> 0.9.2"
     pod "Nimble",           "~> 4.0.1"
     pod "RxTests",          "~> 2.5.0"
+
+    # Mocking
+    pod "OHHTTPStubs",      "~> 5.1.0"
+    pod "OHHTTPStubs/Swift"
 end
 
 post_install do | installer |

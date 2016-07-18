@@ -8,25 +8,77 @@
 
 private let coreDomain = "com.letgo.ios.LGCoreKit"
 
-// 100000..<200000
-enum CoreReportNetworking: Int, ReportType {
-    case UnauthorizedNone           = 140100
-    case UnauthorizedInstallation   = 140101
-    case UnauthorizedUser           = 140102
-    case NotFound                   = 140400
-    case AlreadyExists              = 140900
-    case Scammer                    = 141800
-    case UnprocessableEntity        = 142200
-    case UserNotVerified            = 142400
-    case InternalServerError        = 150000
+// 100000..<300000
+enum CoreReportNetworking: ReportType {
+    case Unauthorized(authLevel: AuthLevel)     // 1401XX
+    case NotFound                               // 140400
+    case AlreadyExists                          // 140900
+    case Scammer                                // 141800
+    case UnprocessableEntity                    // 142200
+    case UserNotVerified                        // 142400
+    case InternalServerError                    // 150000
 
-    case InvalidJWT                 = 160000
+    case InvalidJWT                             // 160000
+
+    case Other(httpCode: Int)                   // 2XXX00
 
     var domain: String {
         return coreDomain
     }
     var code: Int {
-        return rawValue
+        switch self {
+        case let .Unauthorized(authLevel):
+            let baseCode = 140100
+            switch authLevel {
+            case .None:
+                return baseCode
+            case .Installation:
+                return baseCode + 1
+            case .User:
+                return baseCode + 2
+        }
+        case .NotFound:
+            return 140400
+        case .AlreadyExists:
+            return 140900
+        case .Scammer:
+            return 141800
+        case .UnprocessableEntity:
+            return 142200
+        case .UserNotVerified:
+            return 142400
+        case .InternalServerError:
+            return 150000
+        case .InvalidJWT:
+            return 160000
+        case let .Other(code):
+            return 200000 + code * 100
+        }
+    }
+
+    init?(apiError: ApiError, currentAuthLevel: AuthLevel? = nil) {
+        switch apiError {
+        case .Unauthorized where currentAuthLevel != nil:
+            guard let authLevel = currentAuthLevel else { return nil }
+            self = .Unauthorized(authLevel: authLevel)
+        case .Scammer:
+            self = .Scammer
+        case .NotFound:
+            self = .NotFound
+        case .AlreadyExists:
+            self = .AlreadyExists
+        case .InternalServerError:
+            self = .InternalServerError
+        case .UnprocessableEntity:
+            self = .UnprocessableEntity
+        case .UserNotVerified:
+            self = .UserNotVerified
+        case let .Other(httpCode):
+            self = .Other(httpCode: httpCode)
+        case  .Network, .Internal, .NotModified, .Forbidden, .TooManyRequests, .Unauthorized:
+            break
+        }
+        return nil
     }
 }
 

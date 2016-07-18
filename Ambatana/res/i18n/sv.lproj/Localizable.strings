@@ -127,6 +127,7 @@
 "chat_unblock_user" = "Avblockera användare";
 "chat_user_info_name" = "Hej, jag heter %@";
 "chat_user_info_verified_with" = "Bekräftad med: ";
+"chat_user_rating_button_title" = "Omdöme";
 "chat_verify_alert_message" = "Vi har skickat ett bekräftelsemejl till %@";
 "chat_verify_alert_ok_button" = "Ok";
 "chat_verify_alert_resend_button" = "Återsänd";
@@ -650,3 +651,10 @@
 "trending_searches_Title" = "Sökningar som trendar";
 "unblock_user_error_generic" = "Ett fel uppstod när blockeringen av användaren skulle tas bort.";
 "unblock_user_success_message" = "Blockering av användaren har tagits bort!";
+"user_rating_message_w_name" = "Klicka på stjärnorna för att ge din bedömning och berätta om din upplevelse med %@ var bra. Du kan uppdatera när du vill.";
+"user_rating_message_wo_name" = "Klicka på stjärnorna och berätta för oss om din upplevelse med den här användaren var bra. Du kan uppdatera när du vill.";
+"user_rating_review_button" = "Publicera omdömet";
+"user_rating_review_placeholder" = "Lämna ett omdöme (frivilligt)";
+"user_rating_review_placeholder_optional" = "Leave a review (optional)";
+"user_rating_review_send_success" = "Ditt omdöme har publicerats!";
+"user_rating_title" = "Bedöm din upplevelse med";

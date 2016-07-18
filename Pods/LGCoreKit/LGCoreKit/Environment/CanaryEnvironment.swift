@@ -11,8 +11,6 @@ class CanaryEnvironment: Environment {
     let apiBaseURL = "http://canary.api.letgo.com"
     let bouncerBaseURL = "http://bouncer.canary.letgo.com/api"
     let commercializerBaseURL = "http://commercializer.canary.letgo.com"
+    let userRatingsBaseURL = "http://ratings.canary.letgo.com/api"
     let webSocketURL = "ws://chat.letgo.com/socket"
-    
-    // Config (same as production)
-    let configURL = "https://letgo-images.s3.amazonaws.com/config/ios.json"
 }

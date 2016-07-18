@@ -295,6 +295,8 @@ class OldChatViewController: SLKTextViewController {
         case .Available, .Blocked, .BlockedBy, .ProductSold:
             break
         }
+
+        productView.showReviewButton(viewModel.userIsReviewable)
     }
     
     private func showActivityIndicator(show: Bool) {
@@ -438,6 +440,15 @@ extension OldChatViewController: OldChatViewModelDelegate {
         let vc = ReportUsersViewController(viewModel: reportUserViewModel)
         self.navigationController?.pushViewController(vc, animated: true)
     }
+
+    // MARK: > Rate user
+
+    func vmShowUserRating(data: RateUserData) {
+        guard let tabBarController = self.tabBarController as? TabBarController else { return }
+        tabBarController.openUserRating(data)
+    }
+
+    // MARK: > Info views
     
     func vmUpdateRelationInfoView(status: ChatInfoViewStatus) {
         relationInfoView.setupUIForStatus(status, otherUserName: viewModel.otherUserName)
@@ -522,6 +533,10 @@ extension OldChatViewController: OldChatViewModelDelegate {
         setupExternalConstraintsForTooltip(tooltip, targetView: leftButton, containerView: view)
 
         view.layoutIfNeeded()
+    }
+
+    func vmUpdateUserIsReadyToReview() {
+        productView.showReviewButton(viewModel.userIsReviewable)
     }
 }
 
@@ -630,6 +645,10 @@ extension OldChatViewController: ChatProductViewDelegate {
     
     func productViewDidTapUserAvatar() {
         viewModel.userInfoPressed()
+    }
+
+    func productViewDidTapUserReview() {
+        viewModel.reviewUserPressed()
     }
 }
 

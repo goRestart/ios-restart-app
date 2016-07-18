@@ -107,8 +107,15 @@ final class PushManager: NSObject, KahunaDelegate {
     }
 
     private func setupLeanplum() {
-        Leanplum.setAppId(EnvironmentProxy.sharedInstance.leanplumAppId,
-                          withDevelopmentKey:EnvironmentProxy.sharedInstance.leanplumEnvKey)
+        let environmentHelper = EnvironmentsHelper()
+        switch environmentHelper.appEnvironment {
+        case .Production:
+            Leanplum.setAppId(EnvironmentProxy.sharedInstance.leanplumAppId,
+                              withProductionKey: EnvironmentProxy.sharedInstance.leanplumEnvKey)
+        case .Development:
+            Leanplum.setAppId(EnvironmentProxy.sharedInstance.leanplumAppId,
+                              withDevelopmentKey:EnvironmentProxy.sharedInstance.leanplumEnvKey)
+        }
     }
 
     dynamic private func login(notification: NSNotification) {

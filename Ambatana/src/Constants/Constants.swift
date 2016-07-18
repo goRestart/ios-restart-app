@@ -12,6 +12,7 @@ struct Constants {
     static let passwordMinLength = 4
     static let passwordMaxLength = 20
     static let productDescriptionMaxLength = 1500
+    static let userRatingDescriptionMaxLength = 250
 
     // Map
     static let accurateRegionRadius = 1000.0    // meters
@@ -87,4 +88,11 @@ struct Constants {
     // Edit Product
     static let cloudsightTimeThreshold: NSTimeInterval = 900        // just ask for automatic generated name the first 15 mins
     static let cloudsightRequestRepeatInterval: NSTimeInterval = 2  // repeat the request every 2 seconds
+
+    // Config
+    static let defaultConfigTimeOut: Double = 3    // seconds
+
+    // user rating from chat
+    static let myMessagesCountForRating = 1
+    static let otherMessagesCountForRating = 1
 }
