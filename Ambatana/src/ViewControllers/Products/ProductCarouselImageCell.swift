@@ -47,7 +47,6 @@ class ProductCarouselImageCell: UICollectionViewCell, UIScrollViewDelegate {
         }
         imageView.image = img
         backgroundImage.image = img
-        scrollView.setNeedsDisplay()
     }
     
     func setupUI() {

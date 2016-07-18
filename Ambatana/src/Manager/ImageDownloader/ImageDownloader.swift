@@ -34,10 +34,6 @@ final class ImageDownloader: ImageDownloaderType {
     private static func buildImageDownloader() -> ImageDownloaderType {
         return AlamofireImage.ImageDownloader.defaultInstance
     }
-    
-    func clean() {
-        AlamofireImage.ImageDownloader.defaultInstance.imageCache?.removeAllImages()
-    }
 }
 
 extension UIImageView {

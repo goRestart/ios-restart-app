@@ -126,7 +126,6 @@ extension ProductCarouselCell: UICollectionViewDelegate, UICollectionViewDataSou
                     imageCell.setImage(value.image)
                 }
             }
-            ImageDownloader.sharedInstance.clean()
             imageCell.backgroundColor = UIColor.placeholderBackgroundColor(product?.objectId)
             imageCell.zoomLevel.subscribeNext { [weak self] level in
                 self?.delegate?.didChangeZoomLevel(level)
