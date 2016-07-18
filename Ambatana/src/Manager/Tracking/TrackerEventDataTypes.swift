@@ -114,6 +114,9 @@ public enum EventName: String {
     case CommercializerShareStart           = "commercializer-share-start"
     case CommercializerShareComplete        = "commercializer-share-complete"
 
+    case UserRatingStart                    = "user-rating-start"
+    case UserRatingComplete                 = "user-rating-complete"
+
 
     // Constants
     private static let eventNameDummyPrefix  = "dummy-"
@@ -187,6 +190,8 @@ public enum EventParameterName: String {
     case AppRatingSource      = "app-rating-source"
     case MessageType          = "message-type"
     case DesignType           = "design-type"
+    case RatingStars          = "rating-stars"
+    case RatingComments       = "rating-comments"
 }
 
 public enum EventParameterLoginSourceValue: String {

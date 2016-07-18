@@ -1921,6 +1921,48 @@ class TrackerEventSpec: QuickSpec {
                     expect(userId).to(equal("test-id-1,test-id-2"))
                 }
             }
+
+            describe("user rating start") {
+                beforeEach {
+                    sut = TrackerEvent.userRatingStart("12345", typePage: .Chat)
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue) == "user-rating-start"
+                }
+                it("contains type-page param") {
+                    let typePage = sut.params!.stringKeyParams["type-page"] as? String
+                    expect(typePage) == "chat"
+                }
+                it("contains user-to-id param") {
+                    let userToId = sut.params!.stringKeyParams["user-to-id"] as? String
+                    expect(userToId) == "12345"
+                }
+            }
+
+            describe("user rating complete") {
+                beforeEach {
+                    sut = TrackerEvent.userRatingComplete("12345", typePage: .Chat, rating: 4, hasComments: true)
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("user-rating-complete"))
+                }
+                it("contains type-page param") {
+                    let typePage = sut.params!.stringKeyParams["type-page"] as? String
+                    expect(typePage) == "chat"
+                }
+                it("contains user-to-id param") {
+                    let userToId = sut.params!.stringKeyParams["user-to-id"] as? String
+                    expect(userToId) == "12345"
+                }
+                it("contains rating-stars param") {
+                    let ratingStars = sut.params!.stringKeyParams["rating-stars"] as? Int
+                    expect(ratingStars) == 4
+                }
+                it("contains rating-comments param") {
+                    let ratingComments = sut.params!.stringKeyParams["rating-comments"] as? Bool
+                    expect(ratingComments) == true
+                }
+            }
         }
     }
 }
