@@ -654,6 +654,7 @@
 "user_rating_message_w_name" = "Drücke zum Bewerten auf die Sterne und erzähle uns, ob dein Handel mit %@ gut verlaufen ist. Du kannst die Bewertung nach Belieben aktualisieren.";
 "user_rating_message_wo_name" = "Drücke zum Bewerten auf die Sterne und erzähle uns, ob dein Handel mit diesem Nutzer gut verlaufen ist. Du kannst die Bewertung nach Belieben aktualisieren.";
 "user_rating_review_button" = "Bewertung veröffentlichen";
-"user_rating_review_placeholder" = "Schreibe eine Bewertung (optional)";
+"user_rating_review_placeholder" = "Schreibe eine Bewertung";
+"user_rating_review_placeholder_optional" = "Schreibe eine Bewertung (optional)";
 "user_rating_review_send_success" = "Deine Bewertung wurde veröffentlicht!";
 "user_rating_title" = "Hinterlasse eine Bewertung für";

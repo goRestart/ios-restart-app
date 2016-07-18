@@ -655,5 +655,6 @@
 "user_rating_message_wo_name" = "Tocca le stelle per dare un giudizio e farci sapere com'è andata la tua esperienza con questo utente. Potrai aggiornarlo quando desideri.";
 "user_rating_review_button" = "Pubblica recensione";
 "user_rating_review_placeholder" = "Lascia una recensione (facoltativo)";
+"user_rating_review_placeholder_optional" = "Lascia una recensione (facoltativo)";
 "user_rating_review_send_success" = "La tua recensione è stata pubblicata!";
 "user_rating_title" = "Giudica la tua esperienza con";

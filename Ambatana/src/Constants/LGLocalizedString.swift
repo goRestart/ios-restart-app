@@ -2539,6 +2539,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("user_rating_review_placeholder", comment: "")
 	}
 
+	static var userRatingReviewPlaceholderOptional: String {
+		return NSLocalizedString("user_rating_review_placeholder_optional", comment: "")
+	}
+
 	static var userRatingReviewButton: String {
 		return NSLocalizedString("user_rating_review_button", comment: "")
 	}

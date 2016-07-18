@@ -18,6 +18,8 @@ enum LocationRouter: URLRequestAuthenticable {
         return .None
     }
 
+    var reportingBlacklistedApiError: Array<ApiError> { return [.Scammer] }
+
     var URLRequest: NSMutableURLRequest {
         return Router<APIBaseURL>.Read(endpoint: LocationRouter.endpoint, params: [:]).URLRequest
     }

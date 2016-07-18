@@ -42,6 +42,8 @@ enum MyUserRouter: URLRequestAuthenticable {
         }
     }
 
+    var reportingBlacklistedApiError: Array<ApiError> { return [.Scammer] }
+
     var URLRequest: NSMutableURLRequest {
         switch self {
         case let .Show(myUserId):

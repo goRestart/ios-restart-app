@@ -89,8 +89,8 @@ extension ApiClient {
                 switch error {
                 case .Unauthorized:
                     loggingType = [CoreLoggingOptions.Networking, CoreLoggingOptions.Token]
-                case .Scammer, .NotFound, .Forbidden, .AlreadyExists, .UnprocessableEntity, .InternalServerError, .Network,
-                .Internal, .NotModified, .TooManyRequests, .UserNotVerified:
+                case .Scammer, .NotFound, .Forbidden, .AlreadyExists, .UnprocessableEntity, .InternalServerError,
+                     .Network, .Internal, .NotModified, .TooManyRequests, .UserNotVerified, .Other:
                     loggingType = [CoreLoggingOptions.Networking]
                 }
                 logMessage(.Verbose, type: loggingType, message: response.logMessage)
@@ -117,7 +117,7 @@ extension ApiClient {
         } else if let statusCode = response.response?.statusCode {
             return ApiError.errorForCode(statusCode)
         } else {
-            return .Internal
+            return ApiError.Internal(description: error.description)
         }
     }
     
@@ -189,37 +189,29 @@ extension ApiClient {
     - parameter error: The API error.
     */
     private func handlePrivateApiErrorResponse<T>(error: ApiError, response: Response<T, NSError>) {
+        let currentLevel = tokenDAO.level
         switch error {
         case .Unauthorized:
-            let currentLevel = tokenDAO.level
             switch currentLevel {
             case .None:
-                report(CoreReportNetworking.UnauthorizedNone, message: response.logMessage)
+                break
             case .User:
                 sessionManager?.tearDownSession(kicked: true)
-                report(CoreReportNetworking.UnauthorizedUser, message: response.logMessage)
             case .Installation:
                 // Erase installation and all tokens
                 installationRepository?.delete()
                 tokenDAO.reset()
-                report(CoreReportNetworking.UnauthorizedInstallation, message: response.logMessage)
             }
         case .Scammer:
             // If scammer then force logout
             sessionManager?.tearDownSession(kicked: true)
-            report(CoreReportNetworking.Scammer, message: response.logMessage)
-        case .NotFound:
-            report(CoreReportNetworking.NotFound, message: response.logMessage)
-        case .AlreadyExists:
-            report(CoreReportNetworking.AlreadyExists, message: response.logMessage)
-        case .InternalServerError:
-            report(CoreReportNetworking.InternalServerError, message: response.logMessage)
-        case .UnprocessableEntity:
-            report(CoreReportNetworking.UnprocessableEntity, message: response.logMessage)
-        case .UserNotVerified:
-            report(CoreReportNetworking.UserNotVerified, message: response.logMessage)
-        case  .Network, .Internal, .NotModified, .Forbidden, .TooManyRequests:
+        case .NotFound, .AlreadyExists, .InternalServerError, .UnprocessableEntity, .UserNotVerified, .Other, .Network,
+             .Internal, .NotModified, .Forbidden, .TooManyRequests:
             break
+        }
+
+        if let networkReport = CoreReportNetworking(apiError: error, currentAuthLevel: currentLevel) {
+            report(networkReport, message: response.logMessage)
         }
     }
 

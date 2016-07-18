@@ -18,6 +18,8 @@ enum FileRouter: URLRequestAuthenticable {
     var requiredAuthLevel: AuthLevel {
         return .User
     }
+    
+    var reportingBlacklistedApiError: Array<ApiError> { return [.Scammer] }
 
     var URLRequest: NSMutableURLRequest {
         switch self {

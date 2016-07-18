@@ -13,7 +13,7 @@ import Result
 public enum ApiError: ErrorType {
     // errorCode references NSURLError codes (i.e. NSURLErrorUnknown)
     case Network(errorCode: Int)
-    case Internal
+    case Internal(description: String)
 
     case Unauthorized
     case NotFound
@@ -23,15 +23,14 @@ public enum ApiError: ErrorType {
     case UnprocessableEntity
     case UserNotVerified
     case TooManyRequests
-    case InternalServerError
+    case InternalServerError(httpCode: Int)
     case NotModified
+    case Other(httpCode: Int)
 
     static func errorForCode(code: Int) -> ApiError {
         switch code {
         case 304:
             return .NotModified
-        case 400:   // Bad request is our fault
-            return .Internal
         case 401:   // Wrong credentials
             return .Unauthorized
         case 403:
@@ -49,14 +48,43 @@ public enum ApiError: ErrorType {
         case 429:
             return .TooManyRequests
         case 500..<600:
-            return .InternalServerError
+            return .InternalServerError(httpCode: code)
         default:
-            return .Internal
+            return .Other(httpCode: code)
+        }
+    }
+
+    var httpStatusCode: Int? {
+        switch self {
+        case .Network, .Internal:
+            return nil
+        case let .Other(httpCode):
+            return httpCode
+        case .NotModified:
+            return 304
+        case .Unauthorized:
+            return 401
+        case .NotFound:
+            return 404
+        case .Forbidden:
+            return 403
+        case .AlreadyExists:
+            return 409
+        case .Scammer:
+            return 418
+        case .UnprocessableEntity:
+            return 422
+        case .UserNotVerified:
+            return 424
+        case .TooManyRequests:
+            return 429
+        case let .InternalServerError(httpCode):
+            return httpCode
         }
     }
 }
 
-protocol URLRequestAuthenticable: URLRequestConvertible {
+protocol URLRequestAuthenticable: URLRequestConvertible, ReportableRequest {
     var requiredAuthLevel: AuthLevel { get }
     var acceptedStatus: Array<Int> { get }
 }
@@ -129,8 +157,9 @@ class AFApiClient: ApiClient {
                                 completion?(ResultResult<T, ApiError>.t(value: uploadFileResponse))
                             }
                         }.progress(progress)
-                case .Failure(_):
-                    completion?(ResultResult<T, ApiError>.t(error: .Internal))
+                case .Failure:
+                    let description = "Multipart form data encoding failed"
+                    completion?(ResultResult<T, ApiError>.t(error: .Internal(description: description)))
                 }
             }
     }

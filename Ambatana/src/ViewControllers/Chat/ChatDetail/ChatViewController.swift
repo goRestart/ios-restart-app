@@ -509,7 +509,14 @@ extension ChatViewController: ChatViewModelDelegate {
         let vc = ReportUsersViewController(viewModel: reportUserViewModel)
         self.navigationController?.pushViewController(vc, animated: true)
     }
-    
+
+    // MARK: > Rate user
+
+    func vmShowUserRating(data: RateUserData) {
+        guard let tabBarController = self.tabBarController as? TabBarController else { return }
+        tabBarController.openUserRating(data)
+    }
+
     
     // MARK: > Alerts and messages
     

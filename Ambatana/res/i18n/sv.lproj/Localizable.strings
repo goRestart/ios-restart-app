@@ -655,5 +655,6 @@
 "user_rating_message_wo_name" = "Klicka på stjärnorna och berätta för oss om din upplevelse med den här användaren var bra. Du kan uppdatera när du vill.";
 "user_rating_review_button" = "Publicera omdömet";
 "user_rating_review_placeholder" = "Lämna ett omdöme (frivilligt)";
+"user_rating_review_placeholder_optional" = "Leave a review (optional)";
 "user_rating_review_send_success" = "Ditt omdöme har publicerats!";
 "user_rating_title" = "Bedöm din upplevelse med";

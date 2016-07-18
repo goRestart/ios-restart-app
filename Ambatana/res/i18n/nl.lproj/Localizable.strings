@@ -655,5 +655,6 @@
 "user_rating_message_wo_name" = "Tik op de sterren om te beoordelen en vertel ons of je ervaring met deze gebruiker goed ging. Je kunt het aanpassen wanneer je maar wilt.";
 "user_rating_review_button" = "Publiceer beoordeling";
 "user_rating_review_placeholder" = "Laat een beoordeling achter (optioneel)";
+"user_rating_review_placeholder_optional" = "Leave a review (optional)";
 "user_rating_review_send_success" = "Jouw beoordeling werd gepubliceerd!";
 "user_rating_title" = "Beoordeel jouw ervaring met";

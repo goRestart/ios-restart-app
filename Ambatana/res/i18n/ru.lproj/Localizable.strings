@@ -655,5 +655,6 @@
 "user_rating_message_wo_name" = "Нажмите на звезды для оценки и расскажите, если ваша сделка с этим пользователем прошла хорошо. Вы можете обновить оценку в любое время.";
 "user_rating_review_button" = "Опубликовать отзыв";
 "user_rating_review_placeholder" = "Оставьте комментарий (опционально)";
+"user_rating_review_placeholder_optional" = "Leave a review (optional)";
 "user_rating_review_send_success" = "Ваш отзыв опубликован!";
 "user_rating_title" = "Оцените свое общение с";

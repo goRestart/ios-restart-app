@@ -30,6 +30,8 @@ enum SessionRouter: URLRequestAuthenticable {
         }
     }
 
+    var reportingBlacklistedApiError: Array<ApiError> { return [.Scammer] }
+
     var URLRequest: NSMutableURLRequest {
         switch self {
         case let .RecoverPassword(email):
