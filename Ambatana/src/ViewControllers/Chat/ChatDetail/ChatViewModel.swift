@@ -19,6 +19,7 @@ protocol ChatViewModelDelegate: BaseViewModelDelegate {
     func vmShowProduct(productVC: UIViewController)
     func vmShowUser(userVM: UserViewModel)
     func vmShowReportUser(reportUserViewModel: ReportUsersViewModel)
+    func vmShowUserRating(data: RateUserData)
 
     func vmShowSafetyTips()
 
@@ -116,7 +117,10 @@ class ChatViewModel: BaseViewModel {
     var messages = CollectionVariable<ChatViewMessage>([])
     private var conversation: Variable<ChatConversation>
     private var interlocutor: User?
-    
+    private var myMessagesCount = Variable<Int>(0)
+    private var otherMessagesCount = Variable<Int>(0)
+    var userIsReviewable = Variable<Bool>(false)
+
     // Private    
     private let myUserRepository: MyUserRepository
     private let chatRepository: ChatRepository
@@ -125,6 +129,7 @@ class ChatViewModel: BaseViewModel {
     private let stickersRepository: StickersRepository
     private let chatViewMessageAdapter: ChatViewMessageAdapter
     private let tracker: Tracker
+    private let configManager: ConfigManager
     
     private var isDeleted = false
     private var shouldAskProductSold: Bool = false
@@ -161,9 +166,11 @@ class ChatViewModel: BaseViewModel {
         let userRepository = Core.userRepository
         let tracker = TrackerProxy.sharedInstance
         let stickersRepository = Core.stickersRepository
+        let configManager = ConfigManager.sharedInstance
+
         self.init(conversation: conversation, myUserRepository: myUserRepository, chatRepository: chatRepository,
                   productRepository: productRepository, userRepository: userRepository,
-                  stickersRepository: stickersRepository, tracker: tracker)
+                  stickersRepository: stickersRepository, tracker: tracker, configManager: configManager)
     }
     
     convenience init?(product: Product) {
@@ -175,24 +182,27 @@ class ChatViewModel: BaseViewModel {
         let userRepository = Core.userRepository
         let stickersRepository = Core.stickersRepository
         let tracker = TrackerProxy.sharedInstance
+        let configManager = ConfigManager.sharedInstance
 
         let amISelling = myUserRepository.myUser?.objectId == sellerId
         let empty = EmptyConversation(objectId: nil, unreadMessageCount: 0, lastMessageSentAt: nil, product: nil,
                                       interlocutor: nil, amISelling: amISelling)
         self.init(conversation: empty, myUserRepository: myUserRepository, chatRepository: chatRepository,
                   productRepository: productRepository, userRepository: userRepository,
-                  stickersRepository: stickersRepository ,tracker: tracker)
+                  stickersRepository: stickersRepository ,tracker: tracker, configManager: configManager)
         self.setupConversationFromProduct(product)
     }
     
     init(conversation: ChatConversation, myUserRepository: MyUserRepository, chatRepository: ChatRepository,
-          productRepository: ProductRepository, userRepository: UserRepository, stickersRepository: StickersRepository, tracker: Tracker) {
+          productRepository: ProductRepository, userRepository: UserRepository, stickersRepository: StickersRepository,
+          tracker: Tracker, configManager: ConfigManager) {
         self.conversation = Variable<ChatConversation>(conversation)
         self.myUserRepository = myUserRepository
         self.chatRepository = chatRepository
         self.productRepository = productRepository
         self.userRepository = userRepository
         self.tracker = tracker
+        self.configManager = configManager
         self.stickersRepository = stickersRepository
         self.chatViewMessageAdapter = ChatViewMessageAdapter()
         super.init()
@@ -266,8 +276,49 @@ class ChatViewModel: BaseViewModel {
                 self?.messages.append(disclaimer)
             }
         }.addDisposableTo(disposeBag)
-        
+
+
+        let cfgManager = configManager
+        let myMessagesReviewable = myMessagesCount.asObservable()
+            .map { $0 >= cfgManager.myMessagesCountForRating }
+            .distinctUntilChanged()
+        let otherMessagesReviewable = otherMessagesCount.asObservable()
+            .map { $0 >= cfgManager.otherMessagesCountForRating }
+            .distinctUntilChanged()
+        let chatStatusReviewable = chatStatus.asObservable().map { $0.userReviewEnabled }.distinctUntilChanged()
+
+        Observable.combineLatest(myMessagesReviewable, otherMessagesReviewable, chatStatusReviewable) { $0 && $1 && $2 }
+            .bindTo(userIsReviewable).addDisposableTo(disposeBag)
+
+        messages.changesObservable.subscribeNext { [weak self] change in
+            self?.updateMessagesCounts(change)
+        }.addDisposableTo(disposeBag)
+
         setupChatEventsRx()
+    }
+
+    func updateMessagesCounts(changeInMessages: CollectionChange<ChatViewMessage>) {
+        guard let myUserId = myUserRepository.myUser?.objectId else { return }
+        guard let otherUserId = conversation.value.interlocutor?.objectId else { return }
+
+        switch changeInMessages {
+        case let .Remove(_, message):
+            if message.talkerId == myUserId {
+                myMessagesCount.value = max(0, myMessagesCount.value-1)
+            } else if message.talkerId == otherUserId {
+                otherMessagesCount.value = max(0, otherMessagesCount.value-1)
+            }
+        case let .Insert(_, message):
+            if message.talkerId == myUserId {
+                myMessagesCount.value += 1
+            } else if message.talkerId == otherUserId {
+                otherMessagesCount.value += 1
+            }
+        case let .Composite(changes):
+            changes.forEach { [weak self] change in
+                self?.updateMessagesCounts(change)
+            }
+        }
     }
 
     func setupChatEventsRx() {
@@ -305,6 +356,12 @@ class ChatViewModel: BaseViewModel {
     
     func userInfoPressed() {
         // TODO: 🎪 Create a UserVC Factory that allows to create a UserVC with a ChatInterlocutor
+    }
+
+    func reviewUserPressed() {
+        guard let interlocutor = conversation.value.interlocutor, reviewData = RateUserData(interlocutor: interlocutor)
+            else { return }
+        delegate?.vmShowUserRating(reviewData)
     }
 
     func safetyTipsDismissed() {
@@ -899,6 +956,16 @@ private extension ChatConversation {
     }
 }
 
+private extension ChatInfoViewStatus {
+    var userReviewEnabled: Bool {
+        switch self {
+        case .Forbidden, .Blocked, .BlockedBy, .UserPendingDelete, .UserDeleted, .ProductDeleted:
+            return false
+        case .Available, .ProductSold:
+            return true
+        }
+    }
+}
 
 //// MARK: - DirectAnswers
 

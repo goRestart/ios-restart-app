@@ -356,7 +356,10 @@ extension ChatViewController {
                 break
             }
             }.addDisposableTo(disposeBag)
-        
+
+        viewModel.userIsReviewable.asObservable().subscribeNext { [weak self] showReviewButton in
+            self?.productView.showReviewButton(showReviewButton)
+        }.addDisposableTo(disposeBag)
         
         viewModel.messages.changesObservable.subscribeNext { [weak self] change in
             switch change {
@@ -367,7 +370,6 @@ extension ChatViewController {
                 self?.handleTableChange(change)
                 self?.tableView.endUpdates()
             }
-            
             }.addDisposableTo(disposeBag)
         
         viewModel.productName.asObservable().bindTo(productView.productName.rx_text).addDisposableTo(disposeBag)
@@ -507,7 +509,14 @@ extension ChatViewController: ChatViewModelDelegate {
         let vc = ReportUsersViewController(viewModel: reportUserViewModel)
         self.navigationController?.pushViewController(vc, animated: true)
     }
-    
+
+    // MARK: > Rate user
+
+    func vmShowUserRating(data: RateUserData) {
+        guard let tabBarController = self.tabBarController as? TabBarController else { return }
+        tabBarController.openUserRating(data)
+    }
+
     
     // MARK: > Alerts and messages
     
@@ -668,5 +677,9 @@ extension ChatViewController: ChatProductViewDelegate {
     
     func productViewDidTapUserAvatar() {
         viewModel.userInfoPressed()
+    }
+
+    func productViewDidTapUserReview() {
+        viewModel.reviewUserPressed()
     }
 }

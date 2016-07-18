@@ -23,6 +23,10 @@ struct FeatureFlags {
     static var indexProductsTrendingFirst24h: Bool {
         return FTSFlipTheSwitch.indexProductsTrendingFirst24h
     }
+
+    static var userRatings: Bool {
+        return FTSFlipTheSwitch.userRatings
+    }
 }
 
 private extension FTSFlipTheSwitch {
@@ -40,5 +44,9 @@ private extension FTSFlipTheSwitch {
     
     static var indexProductsTrendingFirst24h: Bool {
         return FTSFlipTheSwitch.sharedInstance().isFeatureEnabled("index_products_trending_first_24h")
+    }
+
+    static var userRatings: Bool {
+        return FTSFlipTheSwitch.sharedInstance().isFeatureEnabled("user_ratings")
     }
 }

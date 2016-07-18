@@ -12,7 +12,7 @@ import Foundation
 
 extension UIColor {
     static var soldColor: UIColor { return tealBlue }
-
+    static var reviewColor: UIColor { return macaroniAndCheese }
 }
 
 // MARK: > Basic Buttons Palette
@@ -60,6 +60,10 @@ extension UIColor {
     static var blueTooltip: UIColor { return cornflower}
     static var blackTooltip: UIColor { return black }
 
+    static var reviewColorHighlighted: UIColor { return sandy }
+    static var reviewColorDisabled: UIColor { return lightSandy }
+
+
     private static let denimBlue = UIColor(rgb: 0x3f5b96)
     private static let dodgerBlue = UIColor(rgb: 0x4285f4)
 
@@ -70,6 +74,9 @@ extension UIColor {
     private static let lightPeriwinkle = UIColor(rgb: 0xc6dafb)
 
     private static let pale = UIColor(rgb: 0xfff1d2)
+
+    private static let sandy = UIColor(rgb: 0xF5CD77)
+    private static let lightSandy = UIColor(rgb: 0xFCF1D8)
 }
 
 

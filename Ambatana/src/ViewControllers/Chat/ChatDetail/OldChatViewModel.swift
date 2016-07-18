@@ -26,8 +26,8 @@ protocol OldChatViewModelDelegate: BaseViewModelDelegate {
     
     func vmShowProduct(productVC: UIViewController)
     func vmShowUser(userVM: UserViewModel)
-    
     func vmShowReportUser(reportUserViewModel: ReportUsersViewModel)
+    func vmShowUserRating(data: RateUserData)
     
     func vmShowSafetyTips()
     func vmAskForRating()
@@ -48,6 +48,8 @@ protocol OldChatViewModelDelegate: BaseViewModelDelegate {
     
     func vmDidUpdateStickers()
     func vmClearText()
+
+    func vmUpdateUserIsReadyToReview()
 }
 
 enum AskQuestionSource {
@@ -198,6 +200,14 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         }
     }
 
+    var userIsReviewable: Bool {
+        switch chatStatus {
+        case .Available, .ProductSold:
+            return enoughMessagesForUserRating
+        case .ProductDeleted, .Forbidden, .UserPendingDelete, .UserDeleted, .Blocked, .BlockedBy:
+            return false
+        }
+    }
 
     // MARK: Paginable
     
@@ -220,6 +230,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     private let stickersRepository: StickersRepository
     private let chatViewMessageAdapter: ChatViewMessageAdapter
     private let tracker: Tracker
+    private let configManager: ConfigManager
     
     private var chat: Chat
     private var product: Product
@@ -261,6 +272,25 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         }
         return false
     }
+    private var enoughMessagesForUserRating: Bool {
+        guard let myUserId = myUserRepository.myUser?.objectId else { return false }
+        guard let otherUserId = otherUser?.objectId else { return false }
+
+        var myMessagesCount = 0
+        var otherMessagesCount = 0
+        for message in loadedMessages {
+            if message.talkerId == myUserId {
+                myMessagesCount += 1
+            } else if message.talkerId == otherUserId {
+                otherMessagesCount += 1
+            }
+            if myMessagesCount >= configManager.myMessagesCountForRating &&
+                otherMessagesCount >= configManager.otherMessagesCountForRating {
+                return true
+            }
+        }
+        return false
+    }
     private var shouldShowOtherUserInfo: Bool {
         guard chat.isSaved else { return true }
         return !isLoading && isLastPage
@@ -272,16 +302,18 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     // MARK: - Lifecycle
 
     convenience init?(chat: Chat) {
-        self.init(chat: chat, myUserRepository: Core.myUserRepository)
+        self.init(chat: chat, myUserRepository: Core.myUserRepository, configManager: ConfigManager.sharedInstance)
     }
     
     convenience init?(product: Product) {
         let myUserRepository = Core.myUserRepository
         let chat = LocalChat(product: product, myUser: myUserRepository.myUser)
-        self.init(chat: chat, myUserRepository: myUserRepository)
+        let configManager = ConfigManager.sharedInstance
+
+        self.init(chat: chat, myUserRepository: myUserRepository, configManager: configManager)
     }
 
-    convenience init?(chat: Chat, myUserRepository: MyUserRepository) {
+    convenience init?(chat: Chat, myUserRepository: MyUserRepository, configManager: ConfigManager) {
         let chatRepository = Core.oldChatRepository
         let productRepository = Core.productRepository
         let userRepository = Core.userRepository
@@ -289,11 +321,12 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         let stickersRepository = Core.stickersRepository
         self.init(chat: chat, myUserRepository: myUserRepository, chatRepository: chatRepository,
                   productRepository: productRepository, userRepository: userRepository,
-                  stickersRepository: stickersRepository, tracker: tracker)
+                  stickersRepository: stickersRepository, tracker: tracker, configManager: configManager)
     }
 
     init?(chat: Chat, myUserRepository: MyUserRepository, chatRepository: OldChatRepository,
-          productRepository: ProductRepository, userRepository: UserRepository, stickersRepository: StickersRepository, tracker: Tracker) {
+          productRepository: ProductRepository, userRepository: UserRepository, stickersRepository: StickersRepository,
+          tracker: Tracker, configManager: ConfigManager) {
         self.chat = chat
         self.myUserRepository = myUserRepository
         self.chatRepository = chatRepository
@@ -302,6 +335,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         self.stickersRepository = stickersRepository
         self.chatViewMessageAdapter = ChatViewMessageAdapter()
         self.tracker = tracker
+        self.configManager = configManager
         self.loadedMessages = []
         self.product = chat.product
         if let myUser = myUserRepository.myUser {
@@ -368,6 +402,11 @@ public class OldChatViewModel: BaseViewModel, Paginable {
             let userVM = UserViewModel(user: user, source: .Chat)
             delegate?.vmShowUser(userVM)
         }
+    }
+
+    func reviewUserPressed() {
+        guard let otherUser = otherUser, reviewData = RateUserData(user: otherUser) else { return }
+        delegate?.vmShowUserRating(reviewData)
     }
     
     func safetyTipsDismissed() {
@@ -579,6 +618,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         } else if RatingManager.sharedInstance.shouldShowRating {
             delegate?.vmAskForRating()
         }
+        delegate?.vmUpdateUserIsReadyToReview()
     }
 
 
@@ -919,6 +959,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         if shouldShowSafetyTips {
             delegate?.vmShowSafetyTips()
         }
+        delegate?.vmUpdateUserIsReadyToReview()
     }
 }
 

@@ -21,6 +21,8 @@ enum StickersRouter: URLRequestAuthenticable {
     var requiredAuthLevel: AuthLevel {
         return .None
     }
+
+    var reportingBlacklistedApiError: Array<ApiError> { return [.Scammer] }
     
     var URLRequest: NSMutableURLRequest {
         switch self {

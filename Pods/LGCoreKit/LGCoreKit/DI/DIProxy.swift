@@ -98,6 +98,9 @@ final class DIProxy: InternalDI {
     var trendingSearchesRepository: TrendingSearchesRepository {
         return di.trendingSearchesRepository
     }
+    var userRatingRepository: UserRatingRepository {
+        return di.userRatingRepository
+    }
     static var tokenDAO: TokenDAO {
         return diType.tokenDAO
     }

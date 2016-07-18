@@ -44,7 +44,11 @@ public enum SessionManagerError: ErrorType {
             self = .TooManyRequests
         case .InternalServerError:
             self = .Internal(message: "Internal Server Error")
-        case .Internal, .NotModified, .UserNotVerified:
+        case let .Internal(description):
+            self = .Internal(message: description)
+        case let .Other(httpCode):
+            self = .Internal(message: "\(httpCode) HTTP code is not handled")
+        case .NotModified, .UserNotVerified:
             self = .Internal(message: "Internal API Error")
         }
     }
@@ -352,7 +356,7 @@ public class SessionManager {
 
                 switch error {
                 case .Network, .Internal, .Unauthorized, .Forbidden, .AlreadyExists, .Scammer, .UnprocessableEntity,
-                     .InternalServerError, .NotModified, .TooManyRequests, .UserNotVerified:
+                     .InternalServerError, .NotModified, .TooManyRequests, .UserNotVerified, .Other:
                     completion?(Result<Installation, ApiError>(error: error))
                 case .NotFound:
                     logMessage(.Info, type: CoreLoggingOptions.Session, message: "Installation not found")

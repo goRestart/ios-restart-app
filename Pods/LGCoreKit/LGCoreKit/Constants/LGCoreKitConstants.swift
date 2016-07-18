@@ -26,8 +26,6 @@ public struct LGCoreKitConstants {
 
     public static let defaultQuadKeyPrecision: Int = 15
 
-    static let defaultConfigTimeOut: Double = 3    // seconds
-
     static let defaultShouldShowOnboarding = true
 
     static let viewedProductsThreshold = 5 // the view counts will be sent in batch when there are

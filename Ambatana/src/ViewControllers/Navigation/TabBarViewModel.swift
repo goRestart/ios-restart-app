@@ -11,12 +11,6 @@ import RxSwift
 
 protocol TabBarViewModelDelegate: BaseViewModelDelegate {
     func vmSwitchToTab(tab: Tab, force: Bool)
-    func vmShowProduct(productVC: UIViewController)
-    func vmShowUser(userViewModel viewModel: UserViewModel)
-    func vmShowChat(chatViewModel viewModel: OldChatViewModel)
-    func vmShowResetPassword(changePasswordViewModel viewModel: ChangePasswordViewModel)
-    func vmShowMainProducts(mainProductsViewModel viewModel: MainProductsViewModel)
-    func isAtRootLevel() -> Bool
 }
 
 
@@ -60,6 +54,10 @@ class TabBarViewModel: BaseViewModel {
 
     func sellFromBannerCell(designType: String) {
         navigator?.openSell(.BannerCell(designType: designType))
+    }
+
+    func userRating(data: RateUserData) {
+        navigator?.openUserRating(data)
     }
 
     func externalSwitchToTab(tab: Tab) {

@@ -127,6 +127,7 @@
 "chat_unblock_user" = "Разблокировать пользователя";
 "chat_user_info_name" = "Привет, я %@";
 "chat_user_info_verified_with" = "Проверен: ";
+"chat_user_rating_button_title" = "Отзыв";
 "chat_verify_alert_message" = "Вы отправили письмо-подтверждение на %@";
 "chat_verify_alert_ok_button" = "Ok";
 "chat_verify_alert_resend_button" = "Перевыслать";
@@ -650,3 +651,10 @@
 "trending_searches_Title" = "Популярные запросы";
 "unblock_user_error_generic" = "При разблокировке произошла ошибка.";
 "unblock_user_success_message" = "Пользователь разблокирован!";
+"user_rating_message_w_name" = "Нажмите на звезды для оценки и расскажите, если ваша сделка с %@ прошла хорошо. Вы можете обновить оценку в любое время.";
+"user_rating_message_wo_name" = "Нажмите на звезды для оценки и расскажите, если ваша сделка с этим пользователем прошла хорошо. Вы можете обновить оценку в любое время.";
+"user_rating_review_button" = "Опубликовать отзыв";
+"user_rating_review_placeholder" = "Оставьте комментарий (опционально)";
+"user_rating_review_placeholder_optional" = "Leave a review (optional)";
+"user_rating_review_send_success" = "Ваш отзыв опубликован!";
+"user_rating_title" = "Оцените свое общение с";

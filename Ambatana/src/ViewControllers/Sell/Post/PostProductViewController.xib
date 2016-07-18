@@ -255,7 +255,7 @@
     </objects>
     <resources>
         <image name="ic_post_close" width="36" height="36"/>
-        <image name="ic_post_gallery" width="36" height="36"/>
+        <image name="ic_post_gallery" width="32" height="32"/>
         <image name="ic_post_take_photo" width="84" height="84"/>
         <image name="ic_post_take_photo_icon" width="31" height="30"/>
     </resources>
