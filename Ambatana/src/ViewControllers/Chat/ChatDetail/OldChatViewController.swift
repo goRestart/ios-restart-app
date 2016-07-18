@@ -443,9 +443,9 @@ extension OldChatViewController: OldChatViewModelDelegate {
 
     // MARK: > Rate user
 
-    func vmShowUserRating(data: RateUserData) {
+    func vmShowUserRating(source: RateUserSource, data: RateUserData) {
         guard let tabBarController = self.tabBarController as? TabBarController else { return }
-        tabBarController.openUserRating(data)
+        tabBarController.openUserRating(source, data: data)
     }
 
     // MARK: > Info views

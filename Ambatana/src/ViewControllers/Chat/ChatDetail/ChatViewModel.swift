@@ -19,7 +19,7 @@ protocol ChatViewModelDelegate: BaseViewModelDelegate {
     func vmShowProduct(productVC: UIViewController)
     func vmShowUser(userVM: UserViewModel)
     func vmShowReportUser(reportUserViewModel: ReportUsersViewModel)
-    func vmShowUserRating(data: RateUserData)
+    func vmShowUserRating(source: RateUserSource, data: RateUserData)
 
     func vmShowSafetyTips()
 
@@ -361,7 +361,7 @@ class ChatViewModel: BaseViewModel {
     func reviewUserPressed() {
         guard let interlocutor = conversation.value.interlocutor, reviewData = RateUserData(interlocutor: interlocutor)
             else { return }
-        delegate?.vmShowUserRating(reviewData)
+        delegate?.vmShowUserRating(.Chat, data: reviewData)
     }
 
     func safetyTipsDismissed() {

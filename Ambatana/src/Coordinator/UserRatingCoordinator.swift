@@ -23,8 +23,8 @@ final class UserRatingCoordinator: Coordinator {
 
     // MARK: - Lifecycle
 
-    init(data: RateUserData) {
-        let userRatingVM = RateUserViewModel(data: data)
+    init(source: RateUserSource, data: RateUserData) {
+        let userRatingVM = RateUserViewModel(source: source, data: data)
         let userRatingVC = RateUserViewController(viewModel: userRatingVM)
         self.viewController = UINavigationController(rootViewController: userRatingVC)
 
