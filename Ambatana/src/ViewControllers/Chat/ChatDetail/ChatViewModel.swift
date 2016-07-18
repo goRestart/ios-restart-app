@@ -242,7 +242,8 @@ class ChatViewModel: BaseViewModel {
         }
     }
     
-    func refreshConversation(conversationId: String) {
+    func refreshConversation() {
+        guard let conversationId = conversation.value.objectId else { return }
         chatRepository.showConversation(conversationId) { [weak self] result in
             if let value = result.value {
                 self?.conversation.value = value
@@ -587,8 +588,7 @@ extension ChatViewModel {
         guard conversation.value.amISelling else { return }
         guard let productId = conversation.value.product?.objectId else { return }
         productRepository.markProductAsSold(productId) { [weak self] result in
-            guard let conversationId = self?.conversation.value.objectId else { return }
-            self?.refreshConversation(conversationId)
+            self?.refreshConversation()
         }
     }
 }
@@ -690,6 +690,7 @@ extension ChatViewModel {
             self?.blockUser() { [weak self] success in
                 if success {
                     self?.interlocutorIsMuted.value = true
+                    self?.refreshConversation()
                 } else {
                     self?.delegate?.vmShowMessage(LGLocalizedString.blockUserErrorGeneric, completion: nil)
                 }
@@ -720,6 +721,7 @@ extension ChatViewModel {
         unBlockUser() { [weak self] success in
             if success {
                 self?.interlocutorIsMuted.value = false
+                self?.refreshConversation()
             } else {
                 self?.delegate?.vmShowMessage(LGLocalizedString.unblockUserErrorGeneric, completion: nil)
             }
