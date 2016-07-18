@@ -26,8 +26,8 @@ protocol OldChatViewModelDelegate: BaseViewModelDelegate {
     
     func vmShowProduct(productVC: UIViewController)
     func vmShowUser(userVM: UserViewModel)
-    
     func vmShowReportUser(reportUserViewModel: ReportUsersViewModel)
+    func vmShowUserRating(data: RateUserData)
     
     func vmShowSafetyTips()
     func vmAskForRating()
@@ -405,7 +405,8 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     }
 
     func reviewUserPressed() {
-        // TODO: show rate user view
+        guard let otherUser = otherUser, reviewData = RateUserData(user: otherUser) else { return }
+        delegate?.vmShowUserRating(reviewData)
     }
     
     func safetyTipsDismissed() {

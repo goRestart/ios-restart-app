@@ -33,6 +33,7 @@ public protocol DI: class {
     var stickersRepository: StickersRepository { get }
     var trendingSearchesRepository: TrendingSearchesRepository { get }
     var categoryRepository: CategoryRepository { get }
+    var userRatingRepository: UserRatingRepository { get }
 
 
     // Helper

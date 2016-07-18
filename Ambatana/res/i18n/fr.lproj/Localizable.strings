@@ -654,6 +654,7 @@
 "user_rating_message_w_name" = "Tapez les étoiles pour noter et nous dire si votre expérience avec %@ s'est bien passée. Vous pouvez la modifier à tout moment.";
 "user_rating_message_wo_name" = "Tapez les étoiles pour noter et nous dire si votre expérience avec cet utilisateur s'est bien passée. Vous pouvez la modifier à tout moment.";
 "user_rating_review_button" = "Publier";
-"user_rating_review_placeholder" = "Laissez un commentaire (optionnel)";
+"user_rating_review_placeholder" = "Laissez un commentaire";
+"user_rating_review_placeholder_optional" = "Laissez un commentaire (optionnel)";
 "user_rating_review_send_success" = "Votre avis a été publié !";
 "user_rating_title" = "Notez votre expérience avec";

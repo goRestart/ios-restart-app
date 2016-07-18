@@ -655,5 +655,6 @@
 "user_rating_message_wo_name" = "Nhấn vào ngôi sao để đánh giá và cho chúng tôi biết trải nghiệm của bạn với người dùng này có tốt hay không. Bạn có thể cập nhật đánh giá bất kỳ khi nào bạn muốn.";
 "user_rating_review_button" = "Đăng đánh giá";
 "user_rating_review_placeholder" = "Để lại đánh giá (không bắt buộc)";
+"user_rating_review_placeholder_optional" = "Leave a review (optional)";
 "user_rating_review_send_success" = "Đánh giá của bạn đã được đăng!";
 "user_rating_title" = "Đánh giá trải nghiệm của bạn với";
