@@ -192,6 +192,7 @@ public enum EventParameterName: String {
     case DesignType           = "design-type"
     case RatingStars          = "rating-stars"
     case RatingComments       = "rating-comments"
+    case SellerUserRating     = "seller-user-rating"
 }
 
 public enum EventParameterLoginSourceValue: String {
