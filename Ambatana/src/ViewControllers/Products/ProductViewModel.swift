@@ -168,7 +168,7 @@ class ProductViewModel: BaseViewModel {
         let chatWebSocketRepository = Core.chatRepository
         let locationManager = Core.locationManager
         
-        let product = LGProduct(chatProduct: product, chatInterlocutor: user)
+        let product = productRepository.build(fromChatproduct: product, chatInterlocutor: user)
         
         self.init(myUserRepository: myUserRepository, productRepository: productRepository,
                   commercializerRepository: commercializerRepository, chatRepository: chatRepository,

@@ -9,39 +9,39 @@
 import Argo
 import Curry
 
-public struct LGProduct: Product {
+struct LGProduct: Product {
 
     // Global iVars
-    public var objectId: String?
-    public var updatedAt: NSDate?
-    public var createdAt: NSDate?
+    var objectId: String?
+    var updatedAt: NSDate?
+    var createdAt: NSDate?
 
     // Product iVars
-    public var name: String?
-    public var nameAuto: String?
-    public var descr: String?
-    public var price: Double?
-    public var currency: Currency
+    var name: String?
+    var nameAuto: String?
+    var descr: String?
+    var price: Double?
+    var currency: Currency
 
-    public var location: LGLocationCoordinates2D
-    public var postalAddress: PostalAddress
+    var location: LGLocationCoordinates2D
+    var postalAddress: PostalAddress
 
-    public var languageCode: String?
+    var languageCode: String?
 
-    public var category: ProductCategory
-    public var status: ProductStatus
+    var category: ProductCategory
+    var status: ProductStatus
 
-    public var thumbnail: File?
-    public var thumbnailSize: LGSize?
-    public var images: [File]
+    var thumbnail: File?
+    var thumbnailSize: LGSize?
+    var images: [File]
 
-    public var user: User
+    var user: User
     
     // This parameters is not included in the API, we set a default value that must be changed if needed once 
     // the object is created after the decoding.
-    public var favorite: Bool = false
+    var favorite: Bool = false
 
-    public init(objectId: String?, updatedAt: NSDate?, createdAt: NSDate?, name: String?, nameAuto: String?, descr: String?,
+    init(objectId: String?, updatedAt: NSDate?, createdAt: NSDate?, name: String?, nameAuto: String?, descr: String?,
          price: Double?, currency: Currency, location: LGLocationCoordinates2D, postalAddress: PostalAddress,
          languageCode: String?, category: ProductCategory, status: ProductStatus, thumbnail: File?,
          thumbnailSize: LGSize?, images: [File], user: User) {
@@ -65,31 +65,31 @@ public struct LGProduct: Product {
         self.favorite = false
     }
     
-    public init(chatProduct chatProduct: ChatProduct, chatInterlocutor: ChatInterlocutor) {
-        self.objectId = chatProduct.objectId
-        self.name = chatProduct.name
-        self.status = chatProduct.status
-        self.thumbnail = chatProduct.image
-        self.price = chatProduct.price
-        self.currency = chatProduct.currency
-        self.user = LGUser(chatInterlocutor: chatInterlocutor)
-
-        self.images = [chatProduct.image].flatMap{$0}
-        self.location = LGLocationCoordinates2D(latitude: 0, longitude: 0)
-        self.postalAddress = PostalAddress(address: nil, city: nil, zipCode: nil, countryCode: nil, country: nil)
-        self.category = ProductCategory.Other
+    init(chatProduct: ChatProduct, chatInterlocutor: ChatInterlocutor) {
+        let user = LGUser(chatInterlocutor: chatInterlocutor)
+        let images = [chatProduct.image].flatMap{$0}
+        let location = LGLocationCoordinates2D(latitude: 0, longitude: 0)
+        let postalAddress = PostalAddress(address: nil, city: nil, zipCode: nil, countryCode: nil, country: nil)
+        let category = ProductCategory.Other
+        
+        self.init(objectId: chatProduct.objectId, updatedAt: nil, createdAt: nil, name: chatProduct.name,
+                  nameAuto: nil, descr: nil, price: chatProduct.price, currency: chatProduct.currency, location: location,
+                  postalAddress: postalAddress, languageCode: nil, category: category,
+                  status: chatProduct.status, thumbnail: chatProduct.image, thumbnailSize: nil,
+                  images: images, user: user)
     }
-
-    static func productWithId(objectId: String?, updatedAt: NSDate?, createdAt: NSDate?, name: String?, nameAuto: String?, descr: String?,
-         price: Double?, currency: String, location: LGLocationCoordinates2D, postalAddress: PostalAddress,
-         languageCode: String?, category: Int, status: Int, thumbnail: String?, thumbnailSize: LGSize?,
-         images: [LGFile], user: LGUser) -> LGProduct {
+    
+    static func productWithId(objectId: String?, updatedAt: NSDate?, createdAt: NSDate?, name: String?,
+                              nameAuto: String?, descr: String?, price: Double?, currency: String,
+                              location: LGLocationCoordinates2D, postalAddress: PostalAddress, languageCode: String?,
+                              category: Int, status: Int, thumbnail: String?, thumbnailSize: LGSize?, images: [LGFile],
+                              user: LGUser) -> LGProduct {
         let actualCurrency = Currency.currencyWithCode(currency)
         let actualCategory = ProductCategory(rawValue: category) ?? .Other
         let actualStatus = ProductStatus(rawValue: status) ?? .Pending
         let actualThumbnail = LGFile(id: nil, urlString: thumbnail)
         let actualImages = images.flatMap { $0 as File }
-
+        
         return self.init(objectId: objectId, updatedAt: updatedAt, createdAt: createdAt, name: name,
                          nameAuto: nameAuto, descr: descr, price: price, currency: actualCurrency, location: location,
                          postalAddress: postalAddress, languageCode: languageCode, category: actualCategory,
@@ -100,31 +100,20 @@ public struct LGProduct: Product {
 
 // Designated initializers
 extension LGProduct {
-    public init(product: Product) {
-        self.objectId = product.objectId
-        self.updatedAt = product.updatedAt
-        self.createdAt = product.createdAt
-        self.name = product.name
-        self.nameAuto = product.nameAuto
-        self.descr = product.descr
-        self.price = product.price
-        self.currency = product.currency
-        self.location = product.location
-        self.postalAddress = product.postalAddress
-        self.languageCode = product.languageCode
-        self.category = product.category
-        self.status = product.status
-        self.thumbnail = product.thumbnail
-        self.thumbnailSize = product.thumbnailSize
-        self.images = product.images
-        self.user = product.user
+    init(product: Product) {
+        self.init(objectId: product.objectId, updatedAt: product.updatedAt, createdAt: product.createdAt,
+                  name: product.name, nameAuto: product.nameAuto, descr: product.descr, price: product.price,
+                  currency: product.currency, location: product.location, postalAddress: product.postalAddress,
+                  languageCode: product.languageCode, category: product.category, status: product.status,
+                  thumbnail: product.thumbnail, thumbnailSize: product.thumbnailSize,
+                  images: product.images, user: product.user)
         self.favorite = product.favorite
     }
 }
 
 //String convertible
 extension LGProduct: CustomStringConvertible {
-    public var description: String {
+    var description: String {
 
         return "name: \(name); nameAuto: \(nameAuto); descr: \(descr); price: \(price); currency: \(currency); location: \(location); postalAddress: \(postalAddress); languageCode: \(languageCode); category: \(category); status: \(status); thumbnail: \(thumbnail); thumbnailSize: \(thumbnailSize); images: \(images); user: \(user); descr: \(descr);"
     }
@@ -175,7 +164,7 @@ extension LGProduct : Decodable {
 			"image_information": "black fitbit wireless activity wristband"
 		}
     */
-    public static func decode(j: JSON) -> Decoded<LGProduct> {
+    static func decode(j: JSON) -> Decoded<LGProduct> {
         let geo: JSON? = j.decode("geo")
         let init1 = curry(LGProduct.productWithId)
                             <^> j <|? "id"                                          // objectId : String?

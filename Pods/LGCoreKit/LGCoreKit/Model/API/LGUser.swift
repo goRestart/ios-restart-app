@@ -9,18 +9,18 @@
 import Argo
 import Curry
 
-public struct LGUser: User {
+struct LGUser: User {
 
     // Global iVars
-    public var objectId: String?
+    var objectId: String?
 
     // User iVars
-    public var name: String?
-    public var avatar: File?
-    public var postalAddress: PostalAddress
-    public var accounts: [Account]?    // TODO: When switching to bouncer only make accounts non-optional
-    public var status: UserStatus
-    public var isDummy: Bool
+    var name: String?
+    var avatar: File?
+    var postalAddress: PostalAddress
+    var accounts: [Account]?    // TODO: When switching to bouncer only make accounts non-optional
+    var status: UserStatus
+    var isDummy: Bool
 
 
     init(objectId: String?, name: String?, avatar: String?, postalAddress: PostalAddress, accounts: [LGAccount]?,
@@ -34,22 +34,21 @@ public struct LGUser: User {
         self.isDummy = isDummy
     }
     
-    public init(chatInterlocutor chatInterlocutor: ChatInterlocutor) {
-        self.objectId = chatInterlocutor.objectId
-        self.name = chatInterlocutor.name
-        self.avatar = chatInterlocutor.avatar
-        self.status = chatInterlocutor.status        
-        self.postalAddress = PostalAddress(address: nil, city: nil, zipCode: nil, countryCode: nil, country: nil)
-        self.isDummy = false
+    init(chatInterlocutor: ChatInterlocutor) {
+        let postalAddress = PostalAddress(address: nil, city: nil, zipCode: nil, countryCode: nil, country: nil)
+        self.init(objectId: chatInterlocutor.objectId, name: chatInterlocutor.name,
+                  avatar: chatInterlocutor.avatar?.fileURL?.absoluteString,
+                  postalAddress: postalAddress, accounts: nil,
+                  status: chatInterlocutor.status, isDummy: false)
     }
 }
 
 extension LGUser {
     // Lifecycle
-    public init() {
-        self.postalAddress = PostalAddress(address: nil, city: nil, zipCode: nil, countryCode: nil, country: nil)
-        self.status = .Active
-        self.isDummy = false
+    init() {
+        let postalAddress = PostalAddress(address: nil, city: nil, zipCode: nil, countryCode: nil, country: nil)
+        self.init(objectId: nil, name: nil, avatar: nil, postalAddress: postalAddress, accounts: nil,
+                  status: .Active, isDummy: false)
     }
 }
 
@@ -79,7 +78,7 @@ extension LGUser : Decodable {
     	}]
     }
     */
-    public static func decode(j: JSON) -> Decoded<LGUser> {
+    static func decode(j: JSON) -> Decoded<LGUser> {
         let result = curry(LGUser.init)
             <^> j <|? "id"
             <*> j <|? "name"

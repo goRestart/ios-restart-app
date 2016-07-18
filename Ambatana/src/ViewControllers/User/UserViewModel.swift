@@ -97,8 +97,13 @@ class UserViewModel: BaseViewModel {
     }
     
     convenience init(chatInterlocutor: ChatInterlocutor, source: UserSource) {
-        let user = LGUser(chatInterlocutor: chatInterlocutor)
-        self.init(user: user, source: source)
+        let sessionManager = Core.sessionManager
+        let myUserRepository = Core.myUserRepository
+        let userRepository = Core.userRepository
+        let tracker = TrackerProxy.sharedInstance
+        let user = userRepository.build(fromChatInterlocutor: chatInterlocutor)
+        self.init(sessionManager: sessionManager, myUserRepository: myUserRepository, userRepository: userRepository,
+                  tracker: tracker, isMyProfile: false, user: user, source: source)
     }
 
     init(sessionManager: SessionManager, myUserRepository: MyUserRepository, userRepository: UserRepository,
