@@ -13,14 +13,19 @@ class ProductCarouselImageCell: UICollectionViewCell, UIScrollViewDelegate {
     static let identifier = "ProductCarouselImageCell"
     var scrollView: UIScrollView
     var imageView: UIImageView
+    var backgroundImage: UIImageView
+    var effectsView: UIVisualEffectView
     var zoomLevel = PublishSubject<CGFloat>()
+    var referenceZoomLevel: CGFloat = 1.0
     
     override init(frame: CGRect) {
         self.scrollView = UIScrollView()
         self.imageView = UIImageView()
+        self.backgroundImage = UIImageView()
+        let effect = UIBlurEffect(style: .Light)
+        self.effectsView = UIVisualEffectView(effect: effect)
         super.init(frame: frame)
         setupUI()
-        backgroundColor = UIColor.placeholderBackgroundColor()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -31,13 +36,30 @@ class ProductCarouselImageCell: UICollectionViewCell, UIScrollViewDelegate {
         guard let img = image else { return }
         let aspectRatio = img.size.width / img.size.height
         let screenAspectRatio = UIScreen.mainScreen().bounds.width / UIScreen.mainScreen().bounds.height
-        imageView.image = img
         let zoomLevel = screenAspectRatio / aspectRatio
-        scrollView.zoomScale = zoomLevel
         scrollView.minimumZoomScale = min(1, zoomLevel)
+        if aspectRatio >= 0.9 {
+            referenceZoomLevel = zoomLevel
+            scrollView.setZoomScale(zoomLevel, animated: false)
+        } else {
+            referenceZoomLevel = 1.0
+            scrollView.setZoomScale(1.0, animated: false)
+        }
+        imageView.image = img
+        backgroundImage.image = img
+        scrollView.setNeedsDisplay()
     }
     
     func setupUI() {
+        addSubview(backgroundImage)
+        backgroundImage.contentMode = .ScaleAspectFill
+        backgroundImage.frame = bounds
+        backgroundImage.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
+        
+        addSubview(effectsView)
+        effectsView.frame = bounds
+        effectsView.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
+        
         addSubview(scrollView)
         scrollView.frame = bounds
         scrollView.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
@@ -50,7 +72,7 @@ class ProductCarouselImageCell: UICollectionViewCell, UIScrollViewDelegate {
         imageView.userInteractionEnabled = true
         
         scrollView.contentSize = imageView.frame.size
-        scrollView.minimumZoomScale = 1.0
+        scrollView.minimumZoomScale = 0.5
         scrollView.maximumZoomScale = 2.0
         scrollView.delegate = self
     }
@@ -60,19 +82,18 @@ class ProductCarouselImageCell: UICollectionViewCell, UIScrollViewDelegate {
     }
     
     override func prepareForReuse() {
-        scrollView.zoomScale = 1.0
-        scrollView.minimumZoomScale = 1.0
         zoomLevel.onCompleted()
         zoomLevel = PublishSubject<CGFloat>()
     }
     
     func scrollViewDidZoom(scrollView: UIScrollView) {
-        let offsetX = max((scrollView.bounds.size.width - scrollView.contentSize.width) * 0.5, 0.0);
-        let offsetY = max((scrollView.bounds.size.height - scrollView.contentSize.height) * 0.5, 0.0);
+        let offsetX = max((scrollView.bounds.size.width - scrollView.contentSize.width) * 0.5, 0.0)
+        let offsetY = max((scrollView.bounds.size.height - scrollView.contentSize.height) * 0.5, 0.0)
         
         imageView.center = CGPointMake(scrollView.contentSize.width * 0.5 + offsetX,
-                                       scrollView.contentSize.height * 0.5 + offsetY);
+                                       scrollView.contentSize.height * 0.5 + offsetY)
         
-        zoomLevel.onNext(scrollView.zoomScale)
+        let level = round((scrollView.zoomScale/referenceZoomLevel) * 10) / 10
+        zoomLevel.onNext(level)
     }
 }

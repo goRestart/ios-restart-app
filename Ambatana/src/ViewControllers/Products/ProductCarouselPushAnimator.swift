@@ -19,8 +19,9 @@ protocol PushAnimator: UIViewControllerAnimatedTransitioning {
 class ProductCarouselPushAnimator: NSObject, PushAnimator {
     
     let originFrame: CGRect?
-    let originThumbnail: UIImage?
+    var originThumbnail: UIImage?
     let animationDuration = 0.35
+    let backgroundColor: UIColor
     var pushing = true
     var toViewValidatedFrame = false
     var completion: (() -> Void)?
@@ -29,9 +30,10 @@ class ProductCarouselPushAnimator: NSObject, PushAnimator {
         self.init(originFrame: nil, originThumbnail: nil)
     }
 
-    required init(originFrame: CGRect?, originThumbnail: UIImage?) {
+    required init(originFrame: CGRect?, originThumbnail: UIImage?, backgroundColor: UIColor = UIColor.blackColor()) {
         self.originFrame = originFrame
         self.originThumbnail = originThumbnail
+        self.backgroundColor = backgroundColor
     }
     
     func transitionDuration(transitionContext: UIViewControllerContextTransitioning?) -> NSTimeInterval {
@@ -66,6 +68,23 @@ class ProductCarouselPushAnimator: NSObject, PushAnimator {
         toView.alpha = 0
         
         let snapshot = UIImageView(image: originThumbnail)
+        
+        let backgroundColorView = UIView(frame: CGRect.zero)
+        backgroundColorView.backgroundColor = backgroundColor
+    
+        let backgroundImage = UIImageView(image: originThumbnail)
+        backgroundImage.contentMode = .ScaleAspectFill
+        
+        let effect = UIBlurEffect(style: .Light)
+        let effectsView = UIVisualEffectView(effect: effect)
+        let effectViewContainer = UIView(frame: CGRect.zero)
+        effectViewContainer.alpha = 0
+    
+        effectViewContainer.addSubview(backgroundColorView)
+        effectViewContainer.addSubview(backgroundImage)
+        effectViewContainer.addSubview(effectsView)
+        
+        containerView.addSubview(effectViewContainer)
         containerView.addSubview(snapshot)
         containerView.addSubview(toView)
         snapshot.contentMode = .ScaleAspectFill
@@ -75,33 +94,37 @@ class ProductCarouselPushAnimator: NSObject, PushAnimator {
         let margin: CGFloat = 5
         snapshot.frame = CGRect(x: originFrame.origin.x + margin, y: originFrame.origin.y + margin,
                                 width: originFrame.width - margin*2, height: originFrame.height - margin*2)
+        snapshot.frame = originFrame
+        
+        effectViewContainer.frame = toView.frame
+        backgroundImage.frame = effectViewContainer.bounds
+        effectsView.frame = effectViewContainer.bounds
+        backgroundColorView.frame = effectViewContainer.bounds
         
         let scale: CGFloat
-        if originFrame.height > originFrame.width {
-            scale = UIScreen.mainScreen().bounds.height / (originFrame.height - margin*2)
+        let aspectRatio = originFrame.width / originFrame.height
+        
+        if aspectRatio >= 0.9 {
+            scale = UIScreen.mainScreen().bounds.width / (originFrame.width)
         } else {
-            scale = UIScreen.mainScreen().bounds.width / (originFrame.width - margin*2)
+            scale = UIScreen.mainScreen().bounds.height / (originFrame.height)
         }
-        
-//        
-//        
-//        let aspectRatio = img.size.width / img.size.height
-//        let screenAspectRatio = UIScreen.mainScreen().bounds.width / UIScreen.mainScreen().bounds.height
-//        imageView.image = img
-//        let zoomLevel = screenAspectRatio / aspectRatio
-        
         
         UIView.animateWithDuration(animationDuration, animations: {
             snapshot.transform = CGAffineTransformMakeScale(scale, scale)
             snapshot.center = toView.center
+            effectViewContainer.alpha = 1.0
             
             },completion:{finished in
                 guard finished else { return }
-                UIView.animateWithDuration(0.2, animations: {
+                UIView.animateWithDuration(0.3, animations: {
                     toView.alpha = 1
                     }, completion: { [weak self] _ in
                         fromView.removeFromSuperview()
                         snapshot.removeFromSuperview()
+                        backgroundImage.removeFromSuperview()
+                        effectsView.removeFromSuperview()
+                        backgroundColorView.removeFromSuperview()
                         transitionContext.completeTransition(true)
                         self?.completion?()
                 })
