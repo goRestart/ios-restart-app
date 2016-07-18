@@ -737,17 +737,17 @@ public struct TrackerEvent {
         return TrackerEvent(name: .CommercializerShareComplete, params: params)
     }
 
-    public static func userRatingStart(userId: String?, typePage: EventParameterTypePage) -> TrackerEvent {
+    public static func userRatingStart(userId: String, typePage: EventParameterTypePage) -> TrackerEvent {
         var params = EventParameters()
-        params[.UserToId] = userId ?? ""
+        params[.UserToId] = userId
         params[.TypePage] = typePage.rawValue
         return TrackerEvent(name: .UserRatingStart, params: params)
     }
 
-    public static func userRatingComplete(userId: String?, typePage: EventParameterTypePage,
+    public static func userRatingComplete(userId: String, typePage: EventParameterTypePage,
                                           rating: Int, hasComments: Bool) -> TrackerEvent {
         var params = EventParameters()
-        params[.UserToId] = userId ?? ""
+        params[.UserToId] = userId
         params[.TypePage] = typePage.rawValue
         params[.RatingStars] = rating
         params[.RatingComments] = hasComments
