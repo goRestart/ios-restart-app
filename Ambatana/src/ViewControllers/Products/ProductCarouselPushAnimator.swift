@@ -19,7 +19,7 @@ protocol PushAnimator: UIViewControllerAnimatedTransitioning {
 class ProductCarouselPushAnimator: NSObject, PushAnimator {
     
     let originFrame: CGRect?
-    var originThumbnail: UIImage?
+    let originThumbnail: UIImage?
     let animationDuration = 0.35
     let backgroundColor: UIColor
     var pushing = true
@@ -104,10 +104,10 @@ class ProductCarouselPushAnimator: NSObject, PushAnimator {
         let scale: CGFloat
         let aspectRatio = originFrame.width / originFrame.height
         
-        if aspectRatio >= 0.9 {
-            scale = UIScreen.mainScreen().bounds.width / (originFrame.width)
+        if aspectRatio >= LGUIKitConstants.horizontalImageMinAspectRatio {
+            scale = UIScreen.mainScreen().bounds.width / originFrame.width
         } else {
-            scale = UIScreen.mainScreen().bounds.height / (originFrame.height)
+            scale = UIScreen.mainScreen().bounds.height / originFrame.height
         }
         
         UIView.animateWithDuration(animationDuration, animations: {

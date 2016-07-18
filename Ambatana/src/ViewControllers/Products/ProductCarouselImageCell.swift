@@ -38,7 +38,7 @@ class ProductCarouselImageCell: UICollectionViewCell, UIScrollViewDelegate {
         let screenAspectRatio = UIScreen.mainScreen().bounds.width / UIScreen.mainScreen().bounds.height
         let zoomLevel = screenAspectRatio / aspectRatio
         scrollView.minimumZoomScale = min(1, zoomLevel)
-        if aspectRatio >= 0.9 {
+        if aspectRatio >= LGUIKitConstants.horizontalImageMinAspectRatio {
             referenceZoomLevel = zoomLevel
             scrollView.setZoomScale(zoomLevel, animated: false)
         } else {
