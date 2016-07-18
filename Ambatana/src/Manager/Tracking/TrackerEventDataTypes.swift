@@ -19,7 +19,9 @@ public enum EventName: String {
     case SignupEmail                        = "signup-email"
     case Logout                             = "logout"
     
-    case LoginError                         = "login-error"
+    case LoginEmailError                    = "login-error"
+    case LoginFBError                       = "login-signup-error-facebook"
+    case LoginGoogleError                   = "login-signup-error-google"
     case SignupError                        = "signup-error"
     case PasswordResetError                 = "password-reset-error"
 

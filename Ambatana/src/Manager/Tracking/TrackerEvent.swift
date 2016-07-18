@@ -86,13 +86,31 @@ public struct TrackerEvent {
         return TrackerEvent(name: .Logout, params: nil)
     }
 
-    public static func loginError(errorDescription: EventParameterLoginError) -> TrackerEvent {
+    public static func loginEmailError(errorDescription: EventParameterLoginError) -> TrackerEvent {
         var params = EventParameters()
 
         params[.ErrorDescription] = errorDescription.description
         params[.ErrorDetails] = errorDescription.details
 
-        return TrackerEvent(name: .LoginError, params: params)
+        return TrackerEvent(name: .LoginEmailError, params: params)
+    }
+
+    public static func loginFBError(errorDescription: EventParameterLoginError) -> TrackerEvent {
+        var params = EventParameters()
+
+        params[.ErrorDescription] = errorDescription.description
+        params[.ErrorDetails] = errorDescription.details
+
+        return TrackerEvent(name: .LoginFBError, params: params)
+    }
+
+    public static func loginGoogleError(errorDescription: EventParameterLoginError) -> TrackerEvent {
+        var params = EventParameters()
+
+        params[.ErrorDescription] = errorDescription.description
+        params[.ErrorDetails] = errorDescription.details
+
+        return TrackerEvent(name: .LoginGoogleError, params: params)
     }
 
     public static func signupError(errorDescription: EventParameterLoginError) -> TrackerEvent {

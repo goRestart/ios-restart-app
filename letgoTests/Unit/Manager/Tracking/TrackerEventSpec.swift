@@ -461,15 +461,55 @@ class TrackerEventSpec: QuickSpec {
                 }
             }
 
-            describe("login error") {
+            describe("login email error") {
                 let error = EventParameterLoginError.Internal(description: "details")
                 beforeEach {
-                    sut = TrackerEvent.loginError(error)
+                    sut = TrackerEvent.loginEmailError(error)
                     expect(sut.params).notTo(beNil())
                 }
 
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("login-error"))
+                }
+                it("contains the error description param") {
+                    let description = sut.params!.stringKeyParams["error-description"] as! String
+                    expect(description) == error.description
+                }
+                it("contains the error details param") {
+                    let description = sut.params!.stringKeyParams["error-details"] as! String
+                    expect(description) == error.details
+                }
+            }
+
+            describe("login fb error") {
+                let error = EventParameterLoginError.Internal(description: "details")
+                beforeEach {
+                    sut = TrackerEvent.loginFBError(error)
+                    expect(sut.params).notTo(beNil())
+                }
+
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("login-signup-error-facebook"))
+                }
+                it("contains the error description param") {
+                    let description = sut.params!.stringKeyParams["error-description"] as! String
+                    expect(description) == error.description
+                }
+                it("contains the error details param") {
+                    let description = sut.params!.stringKeyParams["error-details"] as! String
+                    expect(description) == error.details
+                }
+            }
+
+            describe("login google error") {
+                let error = EventParameterLoginError.Internal(description: "details")
+                beforeEach {
+                    sut = TrackerEvent.loginGoogleError(error)
+                    expect(sut.params).notTo(beNil())
+                }
+
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("login-signup-error-google"))
                 }
                 it("contains the error description param") {
                     let description = sut.params!.stringKeyParams["error-description"] as! String
