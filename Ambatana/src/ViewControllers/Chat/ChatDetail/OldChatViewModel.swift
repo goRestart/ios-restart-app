@@ -869,8 +869,10 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         case .ProductList:
             typePageParam = .ProductList
         }
+
+        let sellerRating: Float? = isBuyer ? otherUser?.ratingAverage : myUserRepository.myUser?.ratingAverage
         let askQuestionEvent = TrackerEvent.productAskQuestion(product, messageType: type.trackingMessageType,
-                                                               typePage: typePageParam)
+                                                               typePage: typePageParam, sellerRating: sellerRating)
         TrackerProxy.sharedInstance.trackEvent(askQuestionEvent)
     }
     
