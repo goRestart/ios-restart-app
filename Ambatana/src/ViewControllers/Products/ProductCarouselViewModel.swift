@@ -63,22 +63,43 @@ class ProductCarouselViewModel: BaseViewModel {
     private var productListRequester: ProductListRequester?
     private var productsViewModels: [String: ProductViewModel] = [:]
     private let myUserRepository: MyUserRepository
+    private let productRepository: ProductRepository
     private var objects: [ProductCarouselCellModel] = []
 
 
     // MARK: - Init
+    
+    convenience init(chatProduct: ChatProduct, chatInterlocutor: ChatInterlocutor,
+                                 thumbnailImage: UIImage?, singleProductList: Bool,
+                                 productListRequester: ProductListRequester?) {
+        let myUserRepository = Core.myUserRepository
+        let productRepository = Core.productRepository
+        let product = productRepository.build(fromChatproduct: chatProduct, chatInterlocutor: chatInterlocutor)
+        self.init(myUserRepository: myUserRepository, productRepository: productRepository,
+                  productListVM: nil, initialProduct: product, thumbnailImage: thumbnailImage,
+                  singleProductList: singleProductList, productListRequester: productListRequester)
+        syncFirstProduct()
+    }
+    
     convenience init(productListVM: ProductListViewModel, initialProduct: Product?, thumbnailImage: UIImage?,
          singleProductList: Bool, productListRequester: ProductListRequester?) {
         let myUserRepository = Core.myUserRepository
-        self.init(myUserRepository: myUserRepository, productListVM: productListVM, initialProduct: initialProduct,
+        let productRepository = Core.productRepository
+        self.init(myUserRepository: myUserRepository, productRepository: productRepository, productListVM: productListVM, initialProduct: initialProduct,
                   thumbnailImage: thumbnailImage, singleProductList: singleProductList,
                   productListRequester: productListRequester)
     }
 
-    init(myUserRepository: MyUserRepository, productListVM: ProductListViewModel, initialProduct: Product?, thumbnailImage: UIImage?,
+    init(myUserRepository: MyUserRepository, productRepository: ProductRepository,
+         productListVM: ProductListViewModel?, initialProduct: Product?, thumbnailImage: UIImage?,
          singleProductList: Bool, productListRequester: ProductListRequester?) {
         self.myUserRepository = myUserRepository
-        self.objects = productListVM.objects.flatMap(ProductCarouselCellModel.adapter)
+        self.productRepository = productRepository
+        if let productListVM = productListVM {
+            self.objects = productListVM.objects.flatMap(ProductCarouselCellModel.adapter)
+        } else {
+            self.objects = [initialProduct].flatMap{$0}.map(ProductCarouselCellModel.init)
+        }
         self.initialThumbnail = thumbnailImage
         self.productListRequester = productListRequester
         self.singleProductList = singleProductList
@@ -86,6 +107,19 @@ class ProductCarouselViewModel: BaseViewModel {
         self.startIndex = indexForProduct(initialProduct) ?? 0
         self.currentProductViewModel = viewModelAtIndex(startIndex)
     }
+    
+    
+    private func syncFirstProduct() {
+        currentProductViewModel?.syncProduct() { [weak self] in
+            guard let `self` = self else { return }
+            guard let product = self.currentProductViewModel?.product.value else { return }
+            let newModel = ProductCarouselCellModel(product: product)
+            self.objects.removeAtIndex(self.startIndex)
+            self.objects.insert(newModel, atIndex: self.startIndex)
+            self.delegate?.vmReloadItemAtIndex(self.startIndex)
+        }
+    }
+    
     
     func indexForProduct(product: Product?) -> Int? {
         guard let product = product else { return nil }

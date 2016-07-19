@@ -35,6 +35,9 @@ final class MockUser: MockBaseModel, MyUser {
     var status: UserStatus
     var name: String?
     
+    var ratingAverage: Float?
+    var ratingCount: Int?
+    
     // Lifecycle
     
     override init() {

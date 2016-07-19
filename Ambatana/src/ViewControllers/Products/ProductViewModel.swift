@@ -158,6 +158,26 @@ class ProductViewModel: BaseViewModel {
 
     // MARK: - Lifecycle
 
+    convenience init(product: ChatProduct, user: ChatInterlocutor, thumbnailImage: UIImage?) {
+        let myUserRepository = Core.myUserRepository
+        let productRepository = Core.productRepository
+        let commercializerRepository = Core.commercializerRepository
+        let chatRepository = Core.oldChatRepository
+        let countryHelper = Core.countryHelper
+        let tracker = TrackerProxy.sharedInstance
+        let chatWebSocketRepository = Core.chatRepository
+        let locationManager = Core.locationManager
+        
+        let product = productRepository.build(fromChatproduct: product, chatInterlocutor: user)
+        
+        self.init(myUserRepository: myUserRepository, productRepository: productRepository,
+                  commercializerRepository: commercializerRepository, chatRepository: chatRepository,
+                  chatWebSocketRepository: chatWebSocketRepository, locationManager: locationManager, countryHelper: countryHelper, tracker: tracker,
+                  product: product, thumbnailImage: thumbnailImage)
+        
+        syncProduct(nil)
+    }
+    
     convenience init(product: Product, thumbnailImage: UIImage?) {
         let myUserRepository = Core.myUserRepository
         let productRepository = Core.productRepository
@@ -259,6 +279,16 @@ class ProductViewModel: BaseViewModel {
             }
         }
     }
+    
+    func syncProduct(completion: (() -> ())?) {
+        guard let productId = product.value.objectId else { return }
+        productRepository.retrieve(productId) { [weak self] result in
+            if let value = result.value {
+                self?.product.value = value
+            }
+            completion?()
+        }
+    }
 
     private func setupRxBindings() {
         
@@ -274,6 +304,12 @@ class ProductViewModel: BaseViewModel {
             strongSelf.navBarButtons.value = strongSelf.buildNavBarButtons()
         }.addDisposableTo(disposeBag)
 
+        
+        isFavorite.asObservable().subscribeNext { [weak self] _ in
+            guard let strongSelf = self else { return }
+            strongSelf.navBarButtons.value = strongSelf.buildNavBarButtons()
+        }.addDisposableTo(disposeBag)
+        
         product.asObservable().subscribeNext { [weak self] product in
             guard let strongSelf = self else { return }
             
