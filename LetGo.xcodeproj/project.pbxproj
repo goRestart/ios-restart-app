@@ -275,6 +275,7 @@
 		50F0BAA61B28937800E50A68 /* SignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F0BAA51B28937800E50A68 /* SignUpViewModel.swift */; };
 		50F0BAA91B28938D00E50A68 /* MainSignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F0BAA71B28938D00E50A68 /* MainSignUpViewController.swift */; };
 		50F0BAAA1B28938D00E50A68 /* MainSignUpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50F0BAA81B28938D00E50A68 /* MainSignUpViewController.xib */; };
+		50F344F21D3CDEA2000A8774 /* MockChatProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F344F11D3CDEA2000A8774 /* MockChatProduct.swift */; };
 		50F681E91C8EC716001F33A3 /* UILabel+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F681E81C8EC716001F33A3 /* UILabel+Rx.swift */; };
 		50F681EA1C8EC716001F33A3 /* UILabel+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F681E81C8EC716001F33A3 /* UILabel+Rx.swift */; };
 		50F681EC1C8EC7C5001F33A3 /* LGCollapsibleLabel+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F681EB1C8EC7C5001F33A3 /* LGCollapsibleLabel+Rx.swift */; };
@@ -1180,6 +1181,7 @@
 		50F0BAA51B28937800E50A68 /* SignUpViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpViewModel.swift; sourceTree = "<group>"; };
 		50F0BAA71B28938D00E50A68 /* MainSignUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainSignUpViewController.swift; sourceTree = "<group>"; };
 		50F0BAA81B28938D00E50A68 /* MainSignUpViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainSignUpViewController.xib; sourceTree = "<group>"; };
+		50F344F11D3CDEA2000A8774 /* MockChatProduct.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockChatProduct.swift; sourceTree = "<group>"; };
 		50F681E81C8EC716001F33A3 /* UILabel+Rx.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UILabel+Rx.swift"; sourceTree = "<group>"; };
 		50F681EB1C8EC7C5001F33A3 /* LGCollapsibleLabel+Rx.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LGCollapsibleLabel+Rx.swift"; sourceTree = "<group>"; };
 		50F681EE1C8EE24F001F33A3 /* UIBarItem+Rx.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIBarItem+Rx.swift"; sourceTree = "<group>"; };
@@ -2152,6 +2154,7 @@
 				50C9E4DB1B73A238001E4E92 /* MockProduct.swift */,
 				50C9E4D71B73A017001E4E92 /* MockUser.swift */,
 				C79842031CC903A500C300FF /* MockAccount.swift */,
+				50F344F11D3CDEA2000A8774 /* MockChatProduct.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -4346,6 +4349,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				50F344F21D3CDEA2000A8774 /* MockChatProduct.swift in Sources */,
 				C75018451D0EFBDB007D4CE4 /* String+LGSpec.swift in Sources */,
 				50C9E4E21B749DE9001E4E92 /* MockTracker.swift in Sources */,
 				2EE6026A1C638EF600AF94E4 /* ChatViewModelSpec.swift in Sources */,

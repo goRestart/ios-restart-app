@@ -32,6 +32,10 @@ struct RateUserData {
     }
 }
 
+enum RateUserSource {
+    case Chat
+}
+
 protocol RateUserViewModelDelegate: BaseViewModelDelegate {
     func vmUpdateDescription(description: String?)
     func vmUpdateDescriptionPlaceholder(placeholder: String)
@@ -64,6 +68,8 @@ class RateUserViewModel: BaseViewModel {
     let descriptionCharLimit = Variable<Int>(Constants.userRatingDescriptionMaxLength)
 
     private let userRatingRepository: UserRatingRepository
+    private let tracker: Tracker
+    private let source: RateUserSource
     private let data: RateUserData
     private var previousRating: UserRating?
     private let disposeBag = DisposeBag()
@@ -71,17 +77,20 @@ class RateUserViewModel: BaseViewModel {
 
     // MARK: - Lifecycle
 
-    convenience init(data: RateUserData) {
-        self.init(data: data, userRatingRepository: Core.userRatingRepository)
+    convenience init(source: RateUserSource, data: RateUserData) {
+        self.init(source: source, data: data, userRatingRepository: Core.userRatingRepository, tracker: TrackerProxy.sharedInstance)
     }
 
-    init(data: RateUserData, userRatingRepository: UserRatingRepository) {
+    init(source: RateUserSource, data: RateUserData, userRatingRepository: UserRatingRepository, tracker: Tracker) {
+        self.source = source
         self.data = data
         self.userRatingRepository = userRatingRepository
+        self.tracker = tracker
 
         super.init()
 
         self.setupRx()
+        self.trackStart()
     }
 
     override func didBecomeActive(firstTime: Bool) {
@@ -168,9 +177,37 @@ class RateUserViewModel: BaseViewModel {
     }
 
     private func finishedRating(userRating: UserRating) {
-        //TODO: TRACKING?
+        trackComplete(userRating)
         delegate?.vmShowAutoFadingMessage(LGLocalizedString.userRatingReviewSendSuccess) { [weak self] in
             self?.navigator?.rateUserFinish()
         }
     }
 }
+
+
+// MARK: - Tracking
+
+private extension EventParameterTypePage {
+    init(source: RateUserSource) {
+        switch source {
+        case .Chat:
+            self = .Chat
+        }
+    }
+}
+
+private extension RateUserViewModel {
+    func trackStart() {
+        let event = TrackerEvent.userRatingStart(data.userId, typePage: EventParameterTypePage(source: source))
+        tracker.trackEvent(event)
+    }
+
+    func trackComplete(rating: UserRating) {
+        let hasComments = !(rating.comment ?? "").isEmpty
+        let event = TrackerEvent.userRatingComplete(data.userId, typePage: EventParameterTypePage(source: source),
+                                                    rating: rating.value, hasComments: hasComments)
+        tracker.trackEvent(event)
+    }
+}
+
+
