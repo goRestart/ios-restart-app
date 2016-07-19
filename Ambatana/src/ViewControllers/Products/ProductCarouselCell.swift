@@ -77,8 +77,6 @@ class ProductCarouselCell: UICollectionViewCell {
             self.placeholderImage = ImageDownloader.sharedInstance.cachedImageForUrl(firstImageUrl)
         }
         collectionView.reloadData()
-        let indexPath = NSIndexPath(forItem: startIndex(), inSection: 0)
-        collectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: .Bottom, animated: false)
     }
     
     private func numberOfImages() -> Int {
@@ -87,20 +85,14 @@ class ProductCarouselCell: UICollectionViewCell {
     
     private func imageAtIndex(index: Int) -> NSURL? {
         guard numberOfImages() > 0 else { return nil }
-        let newIndex = index % numberOfImages()
-        guard let url = product?.images[newIndex].fileURL else { return nil }
+        guard let url = product?.images[index].fileURL else { return nil }
         return url
-    }
-    
-    private func startIndex() -> Int {
-        let midIndex = collectionView.numberOfItemsInSection(0)/2
-        return midIndex - midIndex % numberOfImages()
     }
 }
 
 extension ProductCarouselCell: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return numberOfImages() == 1 ? 1 : 10000 // Hackish infinite scroll :3
+        return numberOfImages()
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath)
@@ -114,7 +106,7 @@ extension ProductCarouselCell: UICollectionViewDelegate, UICollectionViewDataSou
             let productCarouselTag = self.tag
             cell.tag = imageCellTag
 
-            let usePlaceholder = indexPath.row % numberOfImages() == 0
+            let usePlaceholder = indexPath.row == 0
 
             if let placeholder = placeholderImage where usePlaceholder {
                 imageCell.setImage(placeholder)
