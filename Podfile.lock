@@ -1,21 +1,21 @@
 PODS:
   - Alamofire (3.4.1)
-  - AlamofireImage (2.4.0):
+  - AlamofireImage (2.4.1):
     - Alamofire (~> 3.3)
   - Amplitude-iOS (3.5.0)
   - AppsFlyerFramework (4.3.9)
   - Argo (3.0.1)
-  - Bolts (1.8.0):
-    - Bolts/AppLinks (= 1.8.0)
-    - Bolts/Tasks (= 1.8.0)
-  - Bolts/AppLinks (1.8.0):
+  - Bolts (1.8.4):
+    - Bolts/AppLinks (= 1.8.4)
+    - Bolts/Tasks (= 1.8.4)
+  - Bolts/AppLinks (1.8.4):
     - Bolts/Tasks
-  - Bolts/Tasks (1.8.0)
-  - Branch (0.12.3):
-    - Branch/Core (= 0.12.3)
-    - Branch/without-IDFA (= 0.12.3)
-  - Branch/Core (0.12.3)
-  - Branch/without-IDFA (0.12.3)
+  - Bolts/Tasks (1.8.4)
+  - Branch (0.12.4):
+    - Branch/Core (= 0.12.4)
+    - Branch/without-IDFA (= 0.12.4)
+  - Branch/Core (0.12.4)
+  - Branch/without-IDFA (0.12.4)
   - CHTCollectionViewWaterfallLayout (0.9.4):
     - CHTCollectionViewWaterfallLayout/ObjC (= 0.9.4)
   - CHTCollectionViewWaterfallLayout/ObjC (0.9.4)
@@ -205,12 +205,12 @@ CHECKOUT OPTIONS:
 
 SPEC CHECKSUMS:
   Alamofire: 01a82e2f6c0f860ade35534c8dd88be61bdef40c
-  AlamofireImage: 87408b652e0f5ae5fe364035f15aea8b9b24c77e
+  AlamofireImage: 3ccf3347d9ea24580dc11fb892770a0be6a29826
   Amplitude-iOS: 06d4f103728b15e95487b77a16749ae373f970a3
   AppsFlyerFramework: f23ebf0fc8f99b2d239fa8d6f36c286ad91f7735
   Argo: 22c5d62b7967020a641468c91dc9488bea9523b8
-  Bolts: 127daec4981dab569d07314c198dfcae47f4ce4c
-  Branch: eced5b5201554811ecb039c74f9913b72caf6cc5
+  Bolts: 8a7995239dbe724f9cba2248b766d48b7ebdd322
+  Branch: f5a2eada319b7ac0c7e492c195c6c23f3cf345e3
   CHTCollectionViewWaterfallLayout: db74be9135826d285f45ff163fd090e57c99fc50
   CocoaLumberjack: 97fab7ee5f507fe54445cca7ea80f926729cfd15
   CollectionVariable: 2c0b7ded33c06baf7e5f75bc852e3b5112132b3d

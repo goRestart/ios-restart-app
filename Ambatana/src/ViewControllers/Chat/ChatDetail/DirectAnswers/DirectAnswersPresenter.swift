@@ -93,6 +93,9 @@ class DirectAnswersPresenter : NSObject, UICollectionViewDelegate, UICollectionV
     }
 
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        if FeatureFlags.websocketChat {
+            collectionView.deselectItemAtIndexPath(indexPath, animated: true)
+        }
         guard enabled else { return }
         if indexPath.row == answers.count {
             delegate?.directAnswersDidTapClose(self)

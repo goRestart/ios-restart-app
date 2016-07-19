@@ -242,6 +242,15 @@ class ChatViewModel: BaseViewModel {
         }
     }
     
+    func refreshConversation() {
+        guard let conversationId = conversation.value.objectId else { return }
+        chatRepository.showConversation(conversationId) { [weak self] result in
+            if let value = result.value {
+                self?.conversation.value = value
+            }
+        }
+    }
+    
     func loadStickers() {
         stickersRepository.show { [weak self] result in
             if let value = result.value {
@@ -348,14 +357,19 @@ class ChatViewModel: BaseViewModel {
         case .Deleted:
             break
         case .Pending, .Approved, .Discarded, .Sold, .SoldOld:
-            guard let productVC = ProductDetailFactory.productDetailFromChatProduct(product, thumbnailImage: nil)
+            guard let interlocutor = conversation.value.interlocutor else { return }
+            guard let productVC = ProductDetailFactory.productDetailFromChatProduct(product, user: interlocutor,
+                                                                                    thumbnailImage: nil,
+                                                                                    originFrame: nil)
                 else { return }
             delegate?.vmShowProduct(productVC)
         }
     }
     
     func userInfoPressed() {
-        // TODO: 🎪 Create a UserVC Factory that allows to create a UserVC with a ChatInterlocutor
+        guard let interlocutor = conversation.value.interlocutor else { return }
+        let userVM = UserViewModel(chatInterlocutor: interlocutor, source: .Chat)
+        delegate?.vmShowUser(userVM)
     }
 
     func reviewUserPressed() {
@@ -571,7 +585,11 @@ extension ChatViewModel {
 
 extension ChatViewModel {
     private func markProductAsSold() {
-        // TODO:🎪 Add a way to mark a product as sold pasing only the productId to the productRepository
+        guard conversation.value.amISelling else { return }
+        guard let productId = conversation.value.product?.objectId else { return }
+        productRepository.markProductAsSold(productId) { [weak self] result in
+            self?.refreshConversation()
+        }
     }
 }
 
@@ -672,6 +690,7 @@ extension ChatViewModel {
             self?.blockUser() { [weak self] success in
                 if success {
                     self?.interlocutorIsMuted.value = true
+                    self?.refreshConversation()
                 } else {
                     self?.delegate?.vmShowMessage(LGLocalizedString.blockUserErrorGeneric, completion: nil)
                 }
@@ -702,6 +721,7 @@ extension ChatViewModel {
         unBlockUser() { [weak self] success in
             if success {
                 self?.interlocutorIsMuted.value = false
+                self?.refreshConversation()
             } else {
                 self?.delegate?.vmShowMessage(LGLocalizedString.unblockUserErrorGeneric, completion: nil)
             }
@@ -979,7 +999,7 @@ extension ChatViewModel: DirectAnswersPresenterDelegate {
         let emptyAction: () -> Void = { [weak self] in
             self?.clearProductSoldDirectAnswer()
         }
-        if conversation.value.amISelling {
+        if !conversation.value.amISelling {
             return [DirectAnswer(text: LGLocalizedString.directAnswerInterested, action: emptyAction),
                     DirectAnswer(text: LGLocalizedString.directAnswerIsNegotiable, action: emptyAction),
                     DirectAnswer(text: LGLocalizedString.directAnswerLikeToBuy, action: emptyAction),
