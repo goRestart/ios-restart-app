@@ -1063,7 +1063,7 @@ class TrackerEventSpec: QuickSpec {
 
                     product = mockProduct
                     sut = TrackerEvent.productAskQuestion(product, messageType: .Text,
-                                                          typePage: .ProductDetail, ownerRating: 4)
+                                                          typePage: .ProductDetail, sellerRating: 4)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("product-detail-ask-question"))
@@ -1124,7 +1124,7 @@ class TrackerEventSpec: QuickSpec {
 
                     product = mockProduct
                     sut = TrackerEvent.productAskQuestion(product, messageType: .Text, interlocutorId: "67890",
-                                                          typePage: .ProductDetail, ownerRating: 4)
+                                                          typePage: .ProductDetail, sellerRating: 4)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("product-detail-ask-question"))
