@@ -18,12 +18,6 @@ struct LGUser: User {
     var name: String?
     var avatar: File?
     var postalAddress: PostalAddress
-<<<<<<< HEAD
-    var accounts: [Account]?    // TODO: When switching to bouncer only make accounts non-optional
-    var status: UserStatus
-    var isDummy: Bool
-=======
->>>>>>> develop
 
     var ratingAverage: Float?     // TODO: When switching to bouncer only make ratings & accounts non-optional
     var ratingCount: Int?
@@ -51,11 +45,7 @@ struct LGUser: User {
         let postalAddress = PostalAddress(address: nil, city: nil, zipCode: nil, countryCode: nil, country: nil)
         self.init(objectId: chatInterlocutor.objectId, name: chatInterlocutor.name,
                   avatar: chatInterlocutor.avatar?.fileURL?.absoluteString,
-<<<<<<< HEAD
-                  postalAddress: postalAddress, accounts: nil,
-=======
                   postalAddress: postalAddress, ratingAverage: nil, ratingCount: nil, accounts: nil,
->>>>>>> develop
                   status: chatInterlocutor.status, isDummy: false)
     }
 }
@@ -64,13 +54,8 @@ extension LGUser {
     // Lifecycle
     init() {
         let postalAddress = PostalAddress(address: nil, city: nil, zipCode: nil, countryCode: nil, country: nil)
-<<<<<<< HEAD
-        self.init(objectId: nil, name: nil, avatar: nil, postalAddress: postalAddress, accounts: nil,
-                  status: .Active, isDummy: false)
-=======
         self.init(objectId: nil, name: nil, avatar: nil, postalAddress: postalAddress, ratingAverage: nil,
                   ratingCount: nil, accounts: nil, status: .Active, isDummy: false)
->>>>>>> develop
     }
 }
 
@@ -104,11 +89,7 @@ extension LGUser : Decodable {
     }
     */
     static func decode(j: JSON) -> Decoded<LGUser> {
-<<<<<<< HEAD
-        let result = curry(LGUser.init)
-=======
         let init1 = curry(LGUser.init)
->>>>>>> develop
             <^> j <|? "id"
             <*> j <|? "name"
             <*> j <|? "avatar_url"
