@@ -16,7 +16,11 @@ struct LocalMyUser: MyUser, UserDefaultsDecodable {
     var name: String?
     var avatar: File?
     var postalAddress: PostalAddress
-    var accounts: [Account]?    // TODO: When switching to bouncer only make accounts non-optional
+
+    var accounts: [Account]?    // TODO: When switching to bouncer only make ratings & accounts non-optional
+    var ratingAverage: Float?
+    var ratingCount: Int?
+
     var status: UserStatus
 
     // MyUser
@@ -24,13 +28,17 @@ struct LocalMyUser: MyUser, UserDefaultsDecodable {
     var location: LGLocation?
 
     init(objectId: String?, name: String?, avatar: File?, postalAddress: PostalAddress, accounts: [LocalAccount]?,
-         status: UserStatus, email: String?, location: LGLocation?) {
+         ratingAverage: Float?, ratingCount: Int?, status: UserStatus, email: String?, location: LGLocation?) {
         self.objectId = objectId
 
         self.name = name
         self.avatar = avatar
         self.postalAddress = postalAddress
-        self.accounts = accounts?.map {$0 as Account }
+
+        self.ratingAverage = ratingAverage
+        self.ratingCount = ratingCount
+        self.accounts = accounts?.map { $0 as Account }
+
         self.status = status
 
         self.email = email
@@ -40,7 +48,8 @@ struct LocalMyUser: MyUser, UserDefaultsDecodable {
     init(myUser: MyUser) {
         let localAccounts = myUser.accounts?.map { LocalAccount(account: $0) }
         self.init(objectId: myUser.objectId, name: myUser.name, avatar: myUser.avatar,
-                  postalAddress: myUser.postalAddress, accounts: localAccounts, status: myUser.status,
+                  postalAddress: myUser.postalAddress, accounts: localAccounts,
+                  ratingAverage: myUser.ratingAverage, ratingCount: myUser.ratingCount, status: myUser.status,
                   email: myUser.email, location: myUser.location)
     }
 }
@@ -62,6 +71,8 @@ private struct MyUserUDKeys {
     static let countryCode = "countryCode"
     static let country = "country"
     static let accounts = "accounts"
+    static let ratingAverage = "ratingAverage"
+    static let ratingCount = "ratingCount"
     static let status = "status"
 }
 
@@ -93,12 +104,15 @@ extension LocalMyUser {
         if let encodedAccounts = dictionary[MyUserUDKeys.accounts] as? [[String : AnyObject]] {
             accounts = encodedAccounts.flatMap { LocalAccount.decode($0) }
         }
+        let ratingAverage = dictionary[MyUserUDKeys.ratingAverage] as? Float
+        let ratingCount = dictionary[MyUserUDKeys.ratingCount] as? Int
         var status = UserStatus.Active
         if let statusStr = dictionary[MyUserUDKeys.status] as? String, udStatus = UserStatus(rawValue: statusStr) {
             status = udStatus
         }
         return self.init(objectId: objectId, name: name, avatar: avatar, postalAddress: postalAddress,
-                         accounts: accounts, status: status, email: email, location: location)
+                         accounts: accounts, ratingAverage: ratingAverage, ratingCount: ratingCount, status: status,
+                         email: email, location: location)
     }
 
     func encode() -> [String: AnyObject] {
@@ -120,6 +134,8 @@ extension LocalMyUser {
             encodedAccounts = accounts.map { LocalAccount(account: $0).encode() }
         }
         dictionary[MyUserUDKeys.accounts] = encodedAccounts
+        dictionary[MyUserUDKeys.ratingAverage] = ratingAverage
+        dictionary[MyUserUDKeys.ratingCount] = ratingCount
         dictionary[MyUserUDKeys.status] = status.rawValue
 
         return dictionary

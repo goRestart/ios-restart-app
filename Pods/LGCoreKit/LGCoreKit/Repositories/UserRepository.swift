@@ -45,6 +45,10 @@ public final class UserRepository {
             handleApiResult(result, success: nil, completion: completion)
         }
     }
+    
+    public func build(fromChatInterlocutor chatInterlocutor: ChatInterlocutor) -> User {
+        return LGUser(chatInterlocutor: chatInterlocutor)
+    }
 
     /**
      Retrieves relation data with other user
