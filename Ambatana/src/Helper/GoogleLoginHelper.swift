@@ -65,7 +65,7 @@ class GoogleLoginHelper: NSObject, GIDSignInDelegate {
                 case .Cancelled:
                     loginCompletion?(result: .Cancelled)
                 case .Error:
-                    loginCompletion?(result: .Internal)
+                    loginCompletion?(result: .Internal(description: "Google SDK error"))
                 }
         }
     }

@@ -18,7 +18,9 @@ class ProductDetailFactory {
         let vm = ProductCarouselViewModel(productListVM: listViewModel, initialProduct: product,
                                           thumbnailImage: thumbnailImage, singleProductList: true,
                                           productListRequester: requester)
-        let animator = ProductCarouselPushAnimator(originFrame: originFrame, originThumbnail: thumbnailImage)
+        let color = UIColor.placeholderBackgroundColor(product?.objectId)
+        let animator = ProductCarouselPushAnimator(originFrame: originFrame, originThumbnail: thumbnailImage,
+                                                   backgroundColor: color)
         return ProductCarouselViewController(viewModel: vm, pushAnimator: animator)
     }
     
@@ -41,7 +43,9 @@ class ProductDetailFactory {
         let vm = ProductCarouselViewModel(productListVM: newListVM, initialProduct: product,
                                           thumbnailImage: thumbnailImage, singleProductList: false,
                                           productListRequester: newListVM.productListRequester?.duplicate())
-        let animator = ProductCarouselPushAnimator(originFrame: originFrame, originThumbnail: thumbnailImage)
+        let color = UIColor.placeholderBackgroundColor(product.objectId)
+        let animator = ProductCarouselPushAnimator(originFrame: originFrame, originThumbnail: thumbnailImage,
+                                                   backgroundColor: color)
         return ProductCarouselViewController(viewModel: vm, pushAnimator: animator)
     }
 }

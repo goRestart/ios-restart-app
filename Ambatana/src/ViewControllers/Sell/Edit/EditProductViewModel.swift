@@ -314,13 +314,13 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
         if productImages.localImages.count > 0 || initialProduct.images.count != productImages.remoteImages.count  {
             editedFields.append(.Picture)
         }
-        if initialProduct.name != product.name {
+        if (initialProduct.name ?? "") != (product.name ?? "") {
             editedFields.append(.Title)
         }
         if initialProduct.priceString() != product.priceString() {
             editedFields.append(.Price)
         }
-        if initialProduct.descr != product.descr {
+        if (initialProduct.descr ?? "") != (product.descr ?? "") {
             editedFields.append(.Description)
         }
         if initialProduct.category != product.category {
