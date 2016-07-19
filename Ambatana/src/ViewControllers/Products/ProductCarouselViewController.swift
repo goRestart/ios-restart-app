@@ -31,15 +31,8 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     @IBOutlet weak var gradientShadowView: UIView!
     @IBOutlet weak var gradientShadowBottomView: UIView!
     
-    @IBOutlet weak var moreInfoView: UIView!
-    @IBOutlet weak var productTitleLabel: UILabel!
-    @IBOutlet weak var productPriceLabel: UILabel!
     @IBOutlet weak var productStatusView: UIView!
     @IBOutlet weak var productStatusLabel: UILabel!
-    
-    @IBOutlet weak var moreInfoCenterConstraint: NSLayoutConstraint!
-    @IBOutlet weak var moreInfoHeightConstraint: NSLayoutConstraint!
-    @IBOutlet weak var productInfoCenterConstraint: NSLayoutConstraint!
     
     private let userView: UserView
     private let fullScreenAvatarEffectView: UIVisualEffectView
@@ -58,10 +51,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     private let pageControlWidth: CGFloat = 18
     private let pageControlMargin: CGFloat = 18
     private let userViewMargin: CGFloat = 15
-    private let moreInfoDragMargin: CGFloat = 15
-    private let moreInfoViewHeight: CGFloat = 50
-    private let moreInfoDragMinimumSeparation: CGFloat = 100
-    private let moreInfoOpeningTopMargin: CGFloat = 86
+    
     private let moreInfoTooltipMargin: CGFloat = -10
     private var moreInfoTooltip: Tooltip?
 
@@ -117,8 +107,6 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         currentIndex = viewModel.startIndex
         collectionView.reloadData()
         collectionView.scrollToItemAtIndexPath(startIndexPath, atScrollPosition: .Right, animated: false)
-
-        setupMoreInfoTooltip()
     }
     
     
@@ -128,7 +116,6 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         super.viewDidLoad()
         addSubviews()
         setupUI()
-        setupMoreInfo()
         setupNavigationBar()
         setupGradientView()
     }
@@ -195,11 +182,6 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
                                         attribute: .NotAnAttribute, multiplier: 1, constant: 32)
         view.addConstraints([topCommercial, rightCommercial, heightCommercial])
         
-        
-        // More Info
-        productTitleLabel.font = UIFont.productTitleFont
-        productPriceLabel.font = UIFont.productPriceFont
-
         // UserView effect
         fullScreenAvatarEffectView.alpha = 0
         fullScreenAvatarView.clipsToBounds = true
@@ -259,7 +241,6 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         alphaSignal.bindTo(userView.rx_alpha).addDisposableTo(disposeBag)
         alphaSignal.bindTo(pageControl.rx_alpha).addDisposableTo(disposeBag)
         alphaSignal.bindTo(buttonTop.rx_alpha).addDisposableTo(disposeBag)
-        alphaSignal.bindTo(moreInfoView.rx_alpha).addDisposableTo(disposeBag)
         alphaSignal.bindTo(productStatusView.rx_alpha).addDisposableTo(disposeBag)
         alphaSignal.bindTo(commercialButton.rx_alpha).addDisposableTo(disposeBag)
         alphaSignal.bindNext{ [weak self] alpha in
@@ -330,103 +311,6 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
 }
 
 
-// MARK: - More Info
-
-extension ProductCarouselViewController {
-    private func setupMoreInfo() {
-        let tap = UITapGestureRecognizer(target: self, action: #selector(openMoreInfo))
-        moreInfoView.addGestureRecognizer(tap)
-        
-        let pan = UIPanGestureRecognizer(target: self, action: #selector(moreInfoDragged))
-        moreInfoView.addGestureRecognizer(pan)
-    }
-
-    private func setupMoreInfoTooltip() {
-        guard viewModel.shouldShowMoreInfoTooltip else { return }
-
-        let tapTextAttributes: [String : AnyObject] = [NSForegroundColorAttributeName : UIColor.white,
-                                                       NSFontAttributeName : UIFont.systemBoldFont(size: 17)]
-        let infoTextAttributes: [String : AnyObject] = [ NSForegroundColorAttributeName : UIColor.grayLighter,
-                                                         NSFontAttributeName : UIFont.systemSemiBoldFont(size: 17)]
-        let plainText = LGLocalizedString.productMoreInfoTooltipPart2(LGLocalizedString.productMoreInfoTooltipPart1)
-        let resultText = NSMutableAttributedString(string: plainText, attributes: infoTextAttributes)
-        let boldRange = NSString(string: plainText).rangeOfString(LGLocalizedString.productMoreInfoTooltipPart1,
-                                                                  options: .CaseInsensitiveSearch)
-        resultText.addAttributes(tapTextAttributes, range: boldRange)
-
-        let moreInfoTooltip = Tooltip(targetView: moreInfoView, superView: view, title: resultText,
-                                      style: .Blue(closeEnabled: false), peakOnTop: false,
-                                      actionBlock: { [weak self] in self?.openMoreInfo() }, closeBlock: nil)
-        view.addSubview(moreInfoTooltip)
-        setupExternalConstraintsForTooltip(moreInfoTooltip, targetView: moreInfoView, containerView: view,
-                                           margin: moreInfoTooltipMargin)
-        self.moreInfoTooltip = moreInfoTooltip
-    }
-
-    private func removeMoreInfoTooltip() {
-        moreInfoTooltip?.removeFromSuperview()
-        moreInfoTooltip = nil
-    }
-
-    func openMoreInfo() {
-        guard let productViewModel = viewModel.currentProductViewModel else { return }
-        viewModel.didTapMoreInfoBar()
-        let originalCenterConstantCopy = moreInfoCenterConstraint.constant
-        let vc = ProductCarouselMoreInfoViewController(viewModel: productViewModel) { [weak self] view in
-            guard let strongSelf = self else { return }
-            self?.moreInfoHeightConstraint.constant = strongSelf.moreInfoViewHeight
-            self?.productInfoCenterConstraint.constant = 0
-            self?.moreInfoCenterConstraint.constant = originalCenterConstantCopy
-            
-            UIView.animateWithDuration(0.1) { view.alpha = 0 }
-
-            UIView.animateWithDuration(0.3) {
-                self?.moreInfoView.alpha = 1
-                self?.view.layoutIfNeeded()
-            }
-            
-            delay(0.3) {
-                UIView.animateWithDuration(0.2) { self?.navigationController?.navigationBar.alpha = 1 }
-                self?.dismissViewControllerAnimated(false, completion: nil)
-            }
-        }
-        
-        moreInfoHeightConstraint.constant = view.height
-        productInfoCenterConstraint.constant = -(view.height/2 - moreInfoOpeningTopMargin)
-        moreInfoCenterConstraint.constant = 0
-        UIView.animateWithDuration(0.2) { [weak self] in
-            self?.view.layoutIfNeeded()
-            self?.navigationController?.navigationBar.alpha = 0
-        }
-        
-        delay(0.1) { [weak self] in
-            UIView.animateWithDuration(0.3) { self?.moreInfoView.alpha = 0 }
-            self?.presentViewController(vc, animated: true, completion: nil)
-        }
-    }
-    
-    func moreInfoDragged(gesture: UIPanGestureRecognizer) {
-        
-        let topLimit = view.height/2 - max(moreInfoDragMinimumSeparation, pageControl.bottom)
-            - moreInfoView.height/2 - moreInfoDragMargin
-        
-        let bottomLimit = min(view.height-moreInfoDragMinimumSeparation, userView.top) - view.height/2
-            - moreInfoView.height/2 - moreInfoDragMargin
-        
-        guard -topLimit < bottomLimit else { return }
-        
-        let translatedPoint = gesture.translationInView(view)
-        if gesture.state == .Began  {
-            productInfoConstraintOffset = moreInfoCenterConstraint.constant
-        }
-        let newConstant = productInfoConstraintOffset + translatedPoint.y
-        if Int(-topLimit)..<Int(bottomLimit) ~= Int(newConstant) {
-            moreInfoCenterConstraint.constant = newConstant
-        }
-    }
-}
-
-
 // MARK: > Configure Carousel With ProductViewModel
 
 extension ProductCarouselViewController {
@@ -441,7 +325,6 @@ extension ProductCarouselViewController {
         refreshPageControl(viewModel)
         refreshProductOnboarding(viewModel)
         refreshBottomButtons(viewModel)
-        refreshMoreInfoView(viewModel)
         refreshProductStatusLabel(viewModel)
         refreshCommercialVideoButton(viewModel)
     }
@@ -543,12 +426,6 @@ extension ProductCarouselViewController {
         onboarding.frame = navigationCtrlView.frame
         onboarding.layoutIfNeeded()
     }
-
-    private func refreshMoreInfoView(viewModel: ProductViewModel) {
-        viewModel.productTitle.asObservable().map{$0 ?? ""}
-            .bindTo(productTitleLabel.rx_text).addDisposableTo(activeDisposeBag)
-        viewModel.productPrice.asObservable().bindTo(productPriceLabel.rx_text).addDisposableTo(activeDisposeBag)
-    }
     
     private func refreshProductStatusLabel(viewModel: ProductViewModel) {
         viewModel.productStatusLabelText
@@ -635,7 +512,7 @@ extension ProductCarouselViewController: ProductCarouselViewModelDelegate {
     }
 
     func vmRemoveMoreInfoTooltip() {
-        removeMoreInfoTooltip()
+        // TODO: 🎪 Remove tooptip if any
     }
 }
 
@@ -663,7 +540,6 @@ extension ProductCarouselViewController: ProductCarouselCellDelegate {
             self?.buttonTop.alpha = shouldHide ? 0 : 1
             self?.userView.alpha = shouldHide ? 0 : 1
             self?.pageControl.alpha = shouldHide ? 0 : 1
-            self?.moreInfoView.alpha = shouldHide ? 0 : 1
             self?.moreInfoTooltip?.alpha = shouldHide ? 0 : 1
         }
     }
