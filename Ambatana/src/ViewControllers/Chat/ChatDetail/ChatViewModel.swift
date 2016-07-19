@@ -910,7 +910,7 @@ private extension ChatViewModel {
         guard let product = conversation.value.product else { return }
         guard let userId = conversation.value.interlocutor?.objectId else { return }
 
-        var sellerRating = conversation.value.amISelling ?
+        let sellerRating = conversation.value.amISelling ?
             myUserRepository.myUser?.ratingAverage : interlocutor?.ratingAverage
         let askQuestionEvent = TrackerEvent.productAskQuestion(product, messageType: type.trackingMessageType,
                                                                interlocutorId: userId, typePage: typePageParam,
