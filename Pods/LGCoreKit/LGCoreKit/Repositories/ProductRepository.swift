@@ -72,6 +72,10 @@ public final class ProductRepository {
                          languageCode: languageCode, category: category, status: status, thumbnail: nil,
                          thumbnailSize: nil, images: [], user: myUser)
     }
+    
+    public func build(fromChatproduct chatProduct: ChatProduct, chatInterlocutor: ChatInterlocutor) -> Product {
+        return LGProduct(chatProduct: chatProduct, chatInterlocutor: chatInterlocutor)
+    }
 
     public func updateProduct(product: Product, name: String?, description: String?, price: Double?,
                               currency: Currency, location: LGLocationCoordinates2D?, postalAddress: PostalAddress?,

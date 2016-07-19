@@ -23,6 +23,8 @@ struct LGMyUser: MyUser {
     var avatar: File?
     var postalAddress: PostalAddress
     var accounts: [Account]?
+    var ratingAverage: Float?
+    var ratingCount: Int?
     var status: UserStatus
 
     // MyUser
@@ -30,13 +32,17 @@ struct LGMyUser: MyUser {
     var location: LGLocation?
 
     init(objectId: String?, name: String?, avatar: File?, postalAddress: PostalAddress, accounts: [LGAccount]?,
-         status: UserStatus?, email: String?, location: LGLocation?) {
+         ratingAverage: Float?, ratingCount: Int?, status: UserStatus?, email: String?, location: LGLocation?) {
         self.objectId = objectId
 
         self.name = name
         self.avatar = avatar
         self.postalAddress = postalAddress
+
         self.accounts = accounts?.map { $0 as Account }
+        self.ratingAverage = ratingAverage
+        self.ratingCount = ratingCount
+
         self.status = status ?? .Active
 
         self.email = email
@@ -62,11 +68,14 @@ extension LGMyUser: Decodable {
         static let zipCode = "zip_code"
         static let countryCode = "country_code"
         static let newsletter = "newsletter"
+        static let ratingAverage = "rating_value"
+        static let ratingCount = "num_ratings"
         static let accounts = "accounts"
         static let status = "status"
     }
 
     /**
+    https://ambatana.atlassian.net/wiki/display/BAPI/Users
     Decodes a json in the form:
     {
     	"id": "d67a38d4-6a80-4ca7-a54e-ccf0c57076a3",
@@ -81,6 +90,8 @@ extension LGMyUser: Decodable {
     	"city": "New York",
     	"country_code": "US",
     	"is_richy": false,
+        "rating_value": "number"|null,
+        "num_ratings": "integer",
     	"accounts": [{
     		"type": "facebook",
     		"verified": false
@@ -97,6 +108,8 @@ extension LGMyUser: Decodable {
                             <*> LGArgo.jsonToAvatarFile(j, avatarKey: JSONKeys.avatar)
                             <*> PostalAddress.decode(j)
         let init2 = init1   <*> j <||? JSONKeys.accounts
+                            <*> j <|? JSONKeys.ratingAverage
+                            <*> j <|? JSONKeys.ratingCount
                             <*> j <|? JSONKeys.status
                             <*> j <|? JSONKeys.email
                             <*> LGArgo.jsonToLocation(j, latKey: JSONKeys.latitude, lonKey: JSONKeys.longitude,

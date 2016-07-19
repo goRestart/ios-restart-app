@@ -23,7 +23,19 @@ class ProductDetailFactory {
                                                    backgroundColor: color)
         return ProductCarouselViewController(viewModel: vm, pushAnimator: animator)
     }
-
+    
+    static func productDetailFromChatProduct(product: ChatProduct, user: ChatInterlocutor,
+                                             thumbnailImage: UIImage? = nil, originFrame: CGRect? = nil) -> UIViewController? {
+        
+        guard let productId = product.objectId else { return nil }
+        let requester = RelatedProductListRequester(productId: productId)
+        let vm = ProductCarouselViewModel(chatProduct: product, chatInterlocutor: user,
+                                          thumbnailImage: thumbnailImage, singleProductList: true,
+                                          productListRequester: requester)
+        let animator = ProductCarouselPushAnimator(originFrame: originFrame, originThumbnail: thumbnailImage)
+        return ProductCarouselViewController(viewModel: vm, pushAnimator: animator)
+    }
+    
     static func productDetailFromProductList(productListVM: ProductListViewModel, index: Int,
                                              thumbnailImage: UIImage?, originFrame: CGRect? = nil) -> UIViewController? {
         let newListVM = ProductListViewModel(listViewModel: productListVM)
@@ -35,11 +47,5 @@ class ProductDetailFactory {
         let animator = ProductCarouselPushAnimator(originFrame: originFrame, originThumbnail: thumbnailImage,
                                                    backgroundColor: color)
         return ProductCarouselViewController(viewModel: vm, pushAnimator: animator)
-    }
-
-    static func productDetailFromChatProduct(product: ChatProduct, thumbnailImage: UIImage? = nil)
-        -> UIViewController? {
-            // TODO: 🎪 Create a Product View Controller from a ChatProduct
-            return nil
     }
 }
