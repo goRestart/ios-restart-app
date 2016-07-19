@@ -37,6 +37,8 @@ private struct EmptyUser: User {
     let avatar: File? = nil
     let postalAddress: PostalAddress = PostalAddress.emptyAddress()
     let accounts: [Account]? = nil
+    var ratingAverage: Float? = nil
+    var ratingCount: Int? = nil
     let status: UserStatus = .Inactive
 
     var isDummy: Bool = false
