@@ -22,6 +22,8 @@ private class MockMyUser: MyUser {
     var avatar: File?
     var postalAddress: PostalAddress = PostalAddress(address: nil, city: nil, zipCode: nil, countryCode: nil, country: nil)
     var accounts: [Account]?
+    var ratingCount: Int?
+    var ratingAverage: Float?
     var status: UserStatus = .Active
 
     var isDummy: Bool = false
