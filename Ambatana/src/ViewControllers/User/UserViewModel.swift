@@ -58,7 +58,7 @@ class UserViewModel: BaseViewModel {
     let headerMode = Variable<UserViewHeaderMode>(.MyUser)
     let userAvatarPlaceholder = Variable<UIImage?>(nil)
     let userAvatarURL = Variable<NSURL?>(nil)
-    let userRatingAverage = Variable<Int?>(nil)
+    let userRatingAverage = Variable<Float?>(nil)
     let userRatingCount = Variable<Int?>(nil)
     let userRelationText = Variable<String?>(nil)
     let userName = Variable<String?>(nil)
@@ -403,10 +403,9 @@ extension UserViewModel {
                 strongSelf.userAvatarPlaceholder.value = LetgoAvatar.avatarWithID(user?.objectId, name: user?.name)
             }
             strongSelf.userAvatarURL.value = user?.avatar?.fileURL
-            strongSelf.userRatingAverage.value = Int(ceil(user?.ratingAverage ?? 0))
+            strongSelf.userRatingAverage.value = user?.ratingAverage?.roundNearest(0.5)
             strongSelf.userRatingCount.value = user?.ratingCount
-//            strongSelf.userRatingAverage.value = 12
-//            strongSelf.userRatingCount.value = 4
+
             strongSelf.userName.value = user?.name
             strongSelf.userLocation.value = user?.postalAddress.cityCountryString
 

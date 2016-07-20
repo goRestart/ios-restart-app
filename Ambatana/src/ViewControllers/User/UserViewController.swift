@@ -268,13 +268,25 @@ extension UserViewController {
         productListView.scrollDelegate = self
     }
 
-    func setupRatingAverage(ratingAverage: Int?) {
-        let rating = Int(ratingAverage ?? 0)
+    func setupRatingAverage(ratingAverage: Float?) {
+        let rating = ratingAverage ?? 0
         if rating > 0 {
             averageRatingContainerViewHeight.constant = UserViewController.ratingAverageContainerHeightVisible
+
+            let full = UIImage(named: "ic_star_avg_full")
+            let half = UIImage(named: "ic_star_avg_half")
+            let empty = UIImage(named: "ic_star_avg_empty")
             averageRatingImageViews.forEach { imageView in
-                let highlighted = imageView.tag <= rating
-                imageView.highlighted = highlighted
+                let tag = Float(imageView.tag)
+                let diff = tag - rating
+
+                if diff <= 0 {
+                    imageView.image = full
+                } else if diff <= 0.5 {
+                    imageView.image = half
+                } else {
+                    imageView.image = empty
+                }
             }
         } else {
             averageRatingContainerViewHeight.constant = 0
