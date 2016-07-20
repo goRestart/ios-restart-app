@@ -33,6 +33,9 @@ class UserViewController: BaseViewController {
     private static let userEffectViewHeaderExpandedAlpha: CGFloat = 1.0
     private static let userEffectViewHeaderCollapsedAlpha: CGFloat = 1.0
 
+    private static let ratingAverageContainerHeightVisible: CGFloat = 30
+
+
     private var navBarUserView: UserView?
     private var navBarUserViewAlphaOnDisappear: CGFloat = 0.0
 
@@ -52,6 +55,8 @@ class UserViewController: BaseViewController {
 
     @IBOutlet weak var userLabelsContainer: UIView!
     @IBOutlet weak var userNameLabel: UILabel!
+    @IBOutlet weak var averageRatingContainerViewHeight: NSLayoutConstraint!
+    @IBOutlet var averageRatingImageViews: [UIImageView]!
     @IBOutlet weak var userLocationLabel: UILabel!
     @IBOutlet weak var userBgImageView: UIImageView!
     @IBOutlet weak var userBgTintView: UIView!
@@ -263,6 +268,19 @@ extension UserViewController {
         productListView.scrollDelegate = self
     }
 
+    func setupRatingAverage(ratingAverage: Int?) {
+        let rating = Int(ratingAverage ?? 0)
+        if rating > 0 {
+            averageRatingContainerViewHeight.constant = UserViewController.ratingAverageContainerHeightVisible
+            averageRatingImageViews.forEach { imageView in
+                let highlighted = imageView.tag <= rating
+                imageView.highlighted = highlighted
+            }
+        } else {
+            averageRatingContainerViewHeight.constant = 0
+        }
+    }
+
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         productListView.minimumContentHeight = productListView.collectionView.frame.height - UserViewController.headerCollapsedHeight - bottomInset
@@ -416,6 +434,10 @@ extension UserViewController {
         }.addDisposableTo(disposeBag)
 
         // Ratings
+        viewModel.userRatingAverage.asObservable().subscribeNext { [weak self] userRatingAverage in
+            self?.setupRatingAverage(userRatingAverage)
+        }.addDisposableTo(disposeBag)
+
         viewModel.userRatingCount.asObservable().subscribeNext { [weak self] userRatingCount in
             self?.header?.setRatingCount(userRatingCount)
         }.addDisposableTo(disposeBag)
