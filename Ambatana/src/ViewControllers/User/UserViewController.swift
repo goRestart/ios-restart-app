@@ -56,6 +56,7 @@ class UserViewController: BaseViewController {
     @IBOutlet weak var userLabelsContainer: UIView!
     @IBOutlet weak var userNameLabel: UILabel!
     @IBOutlet weak var averageRatingContainerViewHeight: NSLayoutConstraint!
+    @IBOutlet weak var averageRatingView: UIView!
     @IBOutlet var averageRatingImageViews: [UIImageView]!
     @IBOutlet weak var userLocationLabel: UILabel!
     @IBOutlet weak var userBgImageView: UIImageView!
@@ -296,6 +297,9 @@ extension UserViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         productListView.minimumContentHeight = productListView.collectionView.frame.height - UserViewController.headerCollapsedHeight - bottomInset
+
+        let height = averageRatingView.bounds.height
+        averageRatingView.layer.cornerRadius = height / 2
     }
 
     private func scrollDidChange(contentOffsetInsetY: CGFloat) {

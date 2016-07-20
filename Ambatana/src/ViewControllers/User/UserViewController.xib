@@ -9,6 +9,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="UserViewController" customModule="LetGo" customModuleProvider="target">
             <connections>
                 <outlet property="averageRatingContainerViewHeight" destination="kuw-6a-PeO" id="EmM-BP-wgP"/>
+                <outlet property="averageRatingView" destination="vc2-g1-bIT" id="WBc-2W-f3l"/>
                 <outlet property="headerContainerBottom" destination="3Pl-0d-BZp" id="xg7-Nk-TfV"/>
                 <outlet property="headerContainerView" destination="3Kp-we-Xh1" id="lC1-Qg-H1T"/>
                 <outlet property="headerContainerViewHeight" destination="N3e-nv-cas" id="OEx-i4-GYr"/>
@@ -100,7 +101,7 @@
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vmB-KE-ViC" userLabel="Average Rating Container View">
                             <rect key="frame" x="203" y="21" width="95" height="30"/>
                             <subviews>
-                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vc2-g1-bIT" userLabel="Average Rating View">
+                                <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vc2-g1-bIT" userLabel="Average Rating View">
                                     <rect key="frame" x="0.0" y="6" width="95" height="20"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" tag="1" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_star" highlightedImage="ic_star_filled" translatesAutoresizingMaskIntoConstraints="NO" id="4Xv-hz-pIY" userLabel="Average Rating 1 Image View">
