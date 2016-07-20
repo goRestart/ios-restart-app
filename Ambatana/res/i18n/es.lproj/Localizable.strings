@@ -504,6 +504,7 @@
 "profile_permissions_alert_ok" = "Activar";
 "profile_permissions_alert_title" = "¡NO TE PIERDAS UNA RESPUESTA!";
 "profile_permissions_header_message" = "Activa las notificaciones de mensaje";
+"profile_reviews_count" = "Reviews";
 "profile_selling_my_user_no_products_button" = "Empieza a vender";
 "profile_selling_no_products_label" = "NO HAY ARTÍCULOS (¡TODAVÍA!)";
 "profile_selling_other_user_no_products_button" = "Sigue navegando";
@@ -531,6 +532,11 @@
 "push_notification_message_body" = "%@: %@";
 "push_notification_message_body_no_username" = "Mensaje: %@";
 "push_notification_message_title" = "Nuevo mensaje - %@";
+"rating_list_action_report_review" = "Report review";
+"rating_list_action_review_user" = "Review user";
+"rating_list_rating_type_buyer_text_label" = "%@ bought a product";
+"rating_list_rating_type_conversation_text_label" = "%@ chatted about a product";
+"rating_list_rating_type_seller_text_label" = "%@ sold a product";
 "rating_view_dont_ask_again_button" = "No preguntar de nuevo";
 "rating_view_love_it_label" = "¡Me encanta!";
 "rating_view_needs_improvements_label" = "Necesita mejoras";
@@ -654,7 +660,7 @@
 "user_rating_message_w_name" = "Pulsa las estrellas para valorar y cuéntanos cómo fue tu experiencia con %@. Puedes actualizar tu valoración cuando quieras.";
 "user_rating_message_wo_name" = "Pulsa las estrellas para valorar y cuéntanos si tu experiencia con este usuario ha ido bien. Puedes actualizar tu valoración cuando quieras.";
 "user_rating_review_button" = "Publicar valoración";
-"user_rating_review_placeholder" = "Deja una valoración";
+"user_rating_review_placeholder" = "Deja una valoración (requerido)";
 "user_rating_review_placeholder_optional" = "Deja una valoración (opcional)";
 "user_rating_review_send_success" = "¡Tu valoración se ha publicado!";
 "user_rating_title" = "Valora tu experiencia con";

@@ -504,6 +504,7 @@
 "profile_permissions_alert_ok" = "Activer";
 "profile_permissions_alert_title" = "NE MANQUEZ PAS UNE RÉPONSE !";
 "profile_permissions_header_message" = "Activer les notifications de message";
+"profile_reviews_count" = "Reviews";
 "profile_selling_my_user_no_products_button" = "Vendre vos biens";
 "profile_selling_no_products_label" = "AUCUN BIEN (POUR LE MOMENT !)";
 "profile_selling_other_user_no_products_button" = "Continuer à naviguer";
@@ -531,6 +532,11 @@
 "push_notification_message_body" = "%@ : %@";
 "push_notification_message_body_no_username" = "Message : %@";
 "push_notification_message_title" = "Nouveau message - %@";
+"rating_list_action_report_review" = "Report review";
+"rating_list_action_review_user" = "Review user";
+"rating_list_rating_type_buyer_text_label" = "%@ bought a product";
+"rating_list_rating_type_conversation_text_label" = "%@ chatted about a product";
+"rating_list_rating_type_seller_text_label" = "%@ sold a product";
 "rating_view_dont_ask_again_button" = "Ne plus me demander";
 "rating_view_love_it_label" = "J'aime !";
 "rating_view_needs_improvements_label" = "Doit être amélioré";
@@ -654,7 +660,7 @@
 "user_rating_message_w_name" = "Tapez les étoiles pour noter et nous dire si votre expérience avec %@ s'est bien passée. Vous pouvez la modifier à tout moment.";
 "user_rating_message_wo_name" = "Tapez les étoiles pour noter et nous dire si votre expérience avec cet utilisateur s'est bien passée. Vous pouvez la modifier à tout moment.";
 "user_rating_review_button" = "Publier";
-"user_rating_review_placeholder" = "Laissez un commentaire";
+"user_rating_review_placeholder" = "Laissez un commentaire (requis)";
 "user_rating_review_placeholder_optional" = "Laissez un commentaire (optionnel)";
 "user_rating_review_send_success" = "Votre avis a été publié !";
 "user_rating_title" = "Notez votre expérience avec";

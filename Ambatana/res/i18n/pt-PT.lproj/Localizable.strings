@@ -127,7 +127,7 @@
 "chat_unblock_user" = "Desbloquear utilizador";
 "chat_user_info_name" = "Olá, chamo-me %@";
 "chat_user_info_verified_with" = "verificado com: ";
-"chat_user_rating_button_title" = "Review";
+"chat_user_rating_button_title" = "Comentário";
 "chat_verify_alert_message" = "Reenviamos um email de verificação para %@";
 "chat_verify_alert_ok_button" = "Ok";
 "chat_verify_alert_resend_button" = "Reenviar";
@@ -504,6 +504,7 @@
 "profile_permissions_alert_ok" = "Ativar";
 "profile_permissions_alert_title" = "NÃO PERCA UMA RESPOSTA!";
 "profile_permissions_header_message" = "Ativar notificações de mensagens";
+"profile_reviews_count" = "Reviews";
 "profile_selling_my_user_no_products_button" = "Venda suas coisas";
 "profile_selling_no_products_label" = "SEM PRODUTOS (AINDA!)";
 "profile_selling_other_user_no_products_button" = "Continue a navegar";
@@ -531,6 +532,11 @@
 "push_notification_message_body" = "%@: %@";
 "push_notification_message_body_no_username" = "Mensagem: %@";
 "push_notification_message_title" = "Nova mensagem - %@";
+"rating_list_action_report_review" = "Report review";
+"rating_list_action_review_user" = "Review user";
+"rating_list_rating_type_buyer_text_label" = "%@ bought a product";
+"rating_list_rating_type_conversation_text_label" = "%@ chatted about a product";
+"rating_list_rating_type_seller_text_label" = "%@ sold a product";
 "rating_view_dont_ask_again_button" = "Não perguntar de novo";
 "rating_view_love_it_label" = "Adoro-a!";
 "rating_view_needs_improvements_label" = "Precisa de melhorias";
@@ -651,10 +657,10 @@
 "trending_searches_Title" = "Pesquisa por Tendências";
 "unblock_user_error_generic" = "Ocorreu um erro ao desbloquear este utilizador.";
 "unblock_user_success_message" = "O utilizador foi desbloqueado!";
-"user_rating_message_w_name" = "Tap the stars to rate and tell us if your experience with %@ went well. You can update it whenever you want.";
-"user_rating_message_wo_name" = "Tap the stars to rate and tell us if your experience with this user went well. You can update it whenever you want.";
-"user_rating_review_button" = "Publish review";
-"user_rating_review_placeholder" = "Leave a review (required)";
-"user_rating_review_placeholder_optional" = "Leave a review (optional)";
-"user_rating_review_send_success" = "Your review has been published!";
-"user_rating_title" = "Rate your experience with";
+"user_rating_message_w_name" = "Toque nas estrelas para classificar e diga-nos se a sua experiência com %@ correu bem. Poderá atualizá-la quando quiser.";
+"user_rating_message_wo_name" = "Toque nas estrelas para classificar e diga-nos se a sua experiência com este utilizador ou utilizadora correu bem. Poderá atualizá-la quando quiser.";
+"user_rating_review_button" = "Publique o comentário";
+"user_rating_review_placeholder" = "Deixe um comentário (obrigatório)";
+"user_rating_review_placeholder_optional" = "Deixe um comentário (opcional)";
+"user_rating_review_send_success" = "O seu comentário foi publicado!";
+"user_rating_title" = "Avalie a sua experiência com";

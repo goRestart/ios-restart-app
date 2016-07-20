@@ -1935,6 +1935,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("profile_no_products", comment: "")
 	}
 
+	static var profileReviewsCount: String {
+		return NSLocalizedString("profile_reviews_count", comment: "")
+	}
+
 	static var profileSellingNoProductsLabel: String {
 		return NSLocalizedString("profile_selling_no_products_label", comment: "")
 	}
@@ -2041,6 +2045,26 @@ struct LGLocalizedString {
 
 	static func pushNotificationMessageTitle(var1: String) -> String {
 		return String(format: NSLocalizedString("push_notification_message_title", comment: ""), var1)
+	}
+
+	static var ratingListActionReviewUser: String {
+		return NSLocalizedString("rating_list_action_review_user", comment: "")
+	}
+
+	static var ratingListActionReportReview: String {
+		return NSLocalizedString("rating_list_action_report_review", comment: "")
+	}
+
+	static func ratingListRatingTypeBuyerTextLabel(var1: String) -> String {
+		return String(format: NSLocalizedString("rating_list_rating_type_buyer_text_label", comment: ""), var1)
+	}
+
+	static func ratingListRatingTypeConversationTextLabel(var1: String) -> String {
+		return String(format: NSLocalizedString("rating_list_rating_type_conversation_text_label", comment: ""), var1)
+	}
+
+	static func ratingListRatingTypeSellerTextLabel(var1: String) -> String {
+		return String(format: NSLocalizedString("rating_list_rating_type_seller_text_label", comment: ""), var1)
 	}
 
 	static var ratingViewDontAskAgainButton: String {

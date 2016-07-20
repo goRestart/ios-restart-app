@@ -1437,6 +1437,9 @@
 // Profile no products. Check attached image "profile_no_products.png"
 "profile_no_products" = "There are no products in this section (yet!)";
 
+// Profile reviews count (appears below review count number)
+"profile_reviews_count" = "Reviews";
+
 // Profile selling tab (both my user and other user) empty title.
 "profile_selling_no_products_label" = "NO PRODUCTS (YET!)";
 
@@ -1517,6 +1520,21 @@
 
 // Push notification message title
 "push_notification_message_title" = "New message - %@";
+
+// action for user to review another user
+"rating_list_action_review_user" = "Review user";
+
+// action for user to report a review by another user
+"rating_list_action_report_review" = "Report review";
+
+// Text for rating of type "buyer" ( %s will be the username)
+"rating_list_rating_type_buyer_text_label" = "%@ bought a product";
+
+// Text for rating of type "conversation" ( %s will be the username)
+"rating_list_rating_type_conversation_text_label" = "%@ chatted about a product";
+
+// Text for rating of type "seller" ( %s will be the username)
+"rating_list_rating_type_seller_text_label" = "%@ sold a product";
 
 // Rating view don't ask button.  Check image @ "rating_view_title_label" segment
 "rating_view_dont_ask_again_button" = "Don't ask me again";
