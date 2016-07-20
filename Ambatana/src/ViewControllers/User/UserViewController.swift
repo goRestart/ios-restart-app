@@ -43,9 +43,8 @@ class UserViewController: BaseViewController {
     @IBOutlet weak var userBgView: UIView!
     @IBOutlet weak var userBgEffectView: UIVisualEffectView!
 
-    @IBOutlet weak var headerContainerView: UIView!
-    @IBOutlet weak var headerContainerBottom: NSLayoutConstraint!
-    @IBOutlet weak var headerContainerViewHeight: NSLayoutConstraint!
+    private var headerBottom: NSLayoutConstraint!
+    private var headerHeight: NSLayoutConstraint!
 
     private var header: UserViewHeader?
     private let headerGestureRecognizer: UIPanGestureRecognizer
@@ -222,7 +221,7 @@ extension UserViewController {
         guard let header = header else { return }
         header.delegate = self
         header.translatesAutoresizingMaskIntoConstraints = false
-        headerContainerView.addSubview(header)
+        view.addSubview(header)
 
         headerGestureRecognizer.addTarget(self, action: #selector(handleHeaderPan))
         view.addGestureRecognizer(headerGestureRecognizer)
@@ -231,12 +230,19 @@ extension UserViewController {
         let hConstraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|-0-[header]-0-|",
             options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: views)
         view.addConstraints(hConstraints)
-        let vConstraints = NSLayoutConstraint.constraintsWithVisualFormat("V:|-0-[header]-0-|",
-            options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: views)
-        view.addConstraints(vConstraints)
 
-        headerContainerBottom.constant = UserViewController.headerExpandedBottom
-        headerContainerViewHeight.constant = UserViewController.headerExpandedHeight
+        headerBottom = NSLayoutConstraint(item: view, attribute: .Top, relatedBy: .Equal, toItem: header,
+                                          attribute: .Bottom, multiplier: 1, constant: -300)
+        headerHeight = NSLayoutConstraint(item: header, attribute: .Height, relatedBy: .Equal, toItem: nil,
+                                          attribute: .NotAnAttribute, multiplier: 1, constant: 150)
+        let top = NSLayoutConstraint(item: header, attribute: .Top, relatedBy: .Equal, toItem: userBgView,
+                                     attribute: .Bottom, multiplier: 1, constant: 0)
+        let bottom = NSLayoutConstraint(item: productListViewBackgroundView, attribute: .Top, relatedBy: .Equal,
+                                        toItem: header, attribute: .Bottom, multiplier: 1, constant: -44)
+        view.addConstraints([headerBottom,headerHeight,top,bottom])
+
+        headerBottom.constant = UserViewController.headerExpandedBottom
+        headerHeight.constant = UserViewController.headerExpandedHeight
     }
 
     private func setupNavigationBar() {
@@ -307,12 +313,12 @@ extension UserViewController {
         let maxBottom = UserViewController.headerCollapsedBottom
 
         let bottom = min(maxBottom, contentOffsetInsetY - UserViewController.productListViewTopMargin)
-        headerContainerBottom.constant = bottom
+        headerBottom.constant = bottom
 
         let percentage = min(1, abs(bottom - maxBottom) / abs(maxBottom - minBottom))
 
         let height = UserViewController.headerCollapsedHeight + percentage * (UserViewController.headerExpandedHeight - UserViewController.headerCollapsedHeight)
-        headerContainerViewHeight.constant = height
+        headerHeight.constant = height
 
         // header expands more than 100% to hide the avatar when pulling
         let headerPercentage = abs(bottom - maxBottom) / abs(maxBottom - minBottom)

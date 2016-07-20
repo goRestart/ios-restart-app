@@ -164,6 +164,18 @@ class UserViewHeader: UIView {
 
         updateUI()
     }
+
+
+    // MARK: - Overrides
+
+    override func pointInside(point: CGPoint, withEvent event: UIEvent?) -> Bool {
+        // As avatarButton & reviewButton is out of view boundaries we intercept touches to be handled manually
+        let superResult = super.pointInside(point, withEvent: event)
+        guard !superResult else { return superResult }
+
+        let convertedPoint = avatarButton.convertPoint(point, fromView: self)
+        return avatarButton.pointInside(convertedPoint, withEvent: event)
+    }
 }
 
 

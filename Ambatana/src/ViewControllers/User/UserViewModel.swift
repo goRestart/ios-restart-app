@@ -383,7 +383,6 @@ extension UserViewModel {
     }
 
     private func setupUserInfoRxBindings() {
-
         if itsMe {
             myUserRepository.rx_myUser.asObservable().bindNext { [weak self] myUser in
                 self?.user.value = myUser
@@ -403,8 +402,8 @@ extension UserViewModel {
                 strongSelf.userAvatarPlaceholder.value = LetgoAvatar.avatarWithID(user?.objectId, name: user?.name)
             }
             strongSelf.userAvatarURL.value = user?.avatar?.fileURL
-            strongSelf.userRatingAverage.value = Float(3.4)/*.user?.ratingAverage?*/.roundNearest(0.5)
-            strongSelf.userRatingCount.value = 23//user?.ratingCount
+            strongSelf.userRatingAverage.value = user?.ratingAverage?.roundNearest(0.5)
+            strongSelf.userRatingCount.value = user?.ratingCount
 
             strongSelf.userName.value = user?.name
             strongSelf.userLocation.value = user?.postalAddress.cityCountryString
