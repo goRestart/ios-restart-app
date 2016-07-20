@@ -188,18 +188,12 @@ extension UserViewHeader {
     }
 
     func setRatingCount(ratingCount: Int?) {
-        let count = ratingCount ?? 0
-
-        let hidden = (count == 0)
-        ratingCountLabel.text = hidden ? nil : String(count)
-        ratingsLabel.text = hidden ? nil : 
-
+        let hidden = (ratingCount ?? 0) <= 0
+        ratingCountLabel.text = hidden ? nil : String(ratingCount)
+        ratingsLabel.text = hidden ? nil : "Reviews"    // TODO: 🌶
         avatarRatingsEffectView.hidden = hidden
         ratingCountContainerLeading.constant = hidden ? 0 : UserViewHeader.ratingCountContainerLeadingVisible
         ratingCountContainerTrailing.constant = hidden ? 0 : UserViewHeader.ratingCountContainerTrailingVisible
-
-        ratingCountLabel.text = nil
-        ratingsLabel.text = nil
     }
 
     func setUserRelationText(userRelationText: String?) {
