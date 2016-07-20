@@ -32,9 +32,13 @@ class UserViewHeader: UIView {
     private static let otherAccountHeight: CGFloat = 28
     private static let otherAccountEmptyHeight: CGFloat = 20
 
+    @IBOutlet weak var avatarRatingsContainerView: UIView!
+    @IBOutlet weak var avatarRatingsEffectView: UIVisualEffectView!
     @IBOutlet weak var avatarImageView: UIImageView!
     var avatarBorderLayer: CAShapeLayer?
     @IBOutlet weak var avatarButton: UIButton!
+    @IBOutlet weak var ratingCountLabel: UILabel!
+    @IBOutlet weak var ratingsLabel: UILabel!
 
     @IBOutlet weak var infoView: UIView!
 
@@ -175,7 +179,12 @@ extension UserViewHeader {
         } else {
             avatarImageView.image = placeholderImage
         }
+    }
 
+    func setReviewCount(reviewCount: Int?) {
+        let count = reviewCount ?? 0
+        ratingCountLabel.text = String(count)
+        setReviewsHidden(count == 0)
     }
 
     func setUserRelationText(userRelationText: String?) {
@@ -267,11 +276,13 @@ extension UserViewHeader {
 extension UserViewHeader {
     private func setupUI() {
         setupInfoView()
+        setupAvatarRatingsContainerView()
         setupVerifiedViews()
         setupButtons()
     }
 
     private func updateUI() {
+        updateAvatarRatingsContainerView()
         updateUserAvatarView()
     }
 
@@ -279,6 +290,13 @@ extension UserViewHeader {
         userRelationView.hidden = true
         userRelationLabel.font = UIFont.smallBodyFont
         userRelationLabel.textColor = UIColor.primaryColor
+    }
+
+    private func setupAvatarRatingsContainerView() {
+        ratingCountLabel.font = UIFont.systemLightFont(size: 24)
+        ratingCountLabel.textColor = UIColor.black
+        ratingsLabel.font = UIFont.systemRegularFont(size: 13)
+        ratingsLabel.textColor = UIColor.grayDark
     }
 
     private func setupVerifiedViews() {
@@ -314,6 +332,11 @@ extension UserViewHeader {
         setupButtonsSelectedState()
     }
 
+    private func updateAvatarRatingsContainerView() {
+        let height = avatarRatingsContainerView.bounds.height
+        avatarRatingsContainerView.layer.cornerRadius = height / 2
+    }
+
     private func updateUserAvatarView() {
         let width = min(avatarImageView.bounds.width, avatarImageView.bounds.height)
         let path = UIBezierPath(arcCenter: CGPointMake(avatarImageView.bounds.midX, avatarImageView.bounds.midY),
@@ -332,6 +355,10 @@ extension UserViewHeader {
         avatarBorderLayer?.removeFromSuperlayer()
         avatarImageView.layer.addSublayer(borderLayer)
         avatarBorderLayer = borderLayer
+    }
+
+    private func setReviewsHidden(hidden: Bool) {
+
     }
 
     private func setupButtonsSelectedState() {
