@@ -3,7 +3,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
-        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
@@ -226,9 +225,9 @@
                     <rect key="frame" x="218" y="-40" width="165" height="80"/>
                     <subviews>
                         <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lXe-iz-uxi">
-                            <rect key="frame" x="40" y="0.0" width="125" height="80"/>
+                            <rect key="frame" x="0.0" y="0.0" width="165" height="80"/>
                             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="B2F-fQ-mCV">
-                                <rect key="frame" x="0.0" y="0.0" width="125" height="80"/>
+                                <rect key="frame" x="0.0" y="0.0" width="165" height="80"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </view>
                             <constraints>
@@ -292,7 +291,7 @@
                         <constraint firstItem="lXe-iz-uxi" firstAttribute="top" secondItem="sT8-Xm-l7l" secondAttribute="top" id="HR1-c0-y2r"/>
                         <constraint firstItem="RbE-u8-EtU" firstAttribute="leading" secondItem="gF5-W0-Byp" secondAttribute="trailing" constant="15" id="Kb3-8E-ES6"/>
                         <constraint firstItem="cqR-Ic-7m7" firstAttribute="leading" secondItem="gF5-W0-Byp" secondAttribute="leading" id="OEE-Kk-zEv"/>
-                        <constraint firstItem="lXe-iz-uxi" firstAttribute="leading" secondItem="gF5-W0-Byp" secondAttribute="centerX" id="TNx-nA-YVn"/>
+                        <constraint firstItem="lXe-iz-uxi" firstAttribute="leading" secondItem="gF5-W0-Byp" secondAttribute="leading" id="TNx-nA-YVn"/>
                         <constraint firstItem="cqR-Ic-7m7" firstAttribute="trailing" secondItem="gF5-W0-Byp" secondAttribute="trailing" id="YGB-kD-mts"/>
                         <constraint firstItem="gF5-W0-Byp" firstAttribute="top" secondItem="sT8-Xm-l7l" secondAttribute="top" id="ao3-jY-JGT"/>
                         <constraint firstAttribute="bottom" secondItem="lXe-iz-uxi" secondAttribute="bottom" id="yZS-pD-dsR"/>
