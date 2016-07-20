@@ -15,6 +15,7 @@ protocol UserViewHeaderDelegate: class {
     func facebookAccountAction()
     func googleAccountAction()
     func emailAccountAction()
+    func ratingListAction()
 }
 
 enum UserViewHeaderMode {
@@ -54,6 +55,10 @@ class UserViewHeader: UIView {
     @IBOutlet weak var myUserFacebookButton: UIButton!
     @IBOutlet weak var myUserGoogleButton: UIButton!
     @IBOutlet weak var myUserEmailButton: UIButton!
+
+    // TODO : uncomment (and adapt) once merged with new user profile view
+//    @IBOutlet weak var ratingListButton: UIButton!
+
 
     private var verifiedView: UIView {
         switch mode {
@@ -312,6 +317,9 @@ extension UserViewHeader {
         favoritesButton.setAttributedTitle(favsTitle, forState: .Normal)
 
         setupButtonsSelectedState()
+
+        // TODO : uncomment once merged with new user profile view
+//        ratingListButton.hidden = !FeatureFlags.userRatings
     }
 
     private func updateUserAvatarView() {
@@ -403,6 +411,11 @@ extension UserViewHeader {
         tab.asObservable().skip(1).subscribeNext { [weak self] tab in
             self?.setIndicatorAtTab(tab, animated: true)
         }.addDisposableTo(disposeBag)
+
+        // TODO : uncomment once merged with new user profile view
+//        ratingListButton.rx_tap.subscribeNext { [weak self] _ in
+//            self?.delegate?.ratingListAction()
+//            }.addDisposableTo(disposeBag)
     }
 
     private func setupAccountsRxBindings() {
