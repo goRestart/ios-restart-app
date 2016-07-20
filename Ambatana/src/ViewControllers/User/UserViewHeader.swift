@@ -57,7 +57,7 @@ class UserViewHeader: UIView {
     @IBOutlet weak var myUserEmailButton: UIButton!
 
     // TODO : uncomment (and adapt) once merged with new user profile view
-//    @IBOutlet weak var ratingListButton: UIButton!
+    @IBOutlet weak var ratingListButton: UIButton!
 
 
     private var verifiedView: UIView {
@@ -319,7 +319,7 @@ extension UserViewHeader {
         setupButtonsSelectedState()
 
         // TODO : uncomment once merged with new user profile view
-//        ratingListButton.hidden = !FeatureFlags.userRatings
+        ratingListButton.hidden = !FeatureFlags.userRatings
     }
 
     private func updateUserAvatarView() {
@@ -413,9 +413,9 @@ extension UserViewHeader {
         }.addDisposableTo(disposeBag)
 
         // TODO : uncomment once merged with new user profile view
-//        ratingListButton.rx_tap.subscribeNext { [weak self] _ in
-//            self?.delegate?.ratingListAction()
-//            }.addDisposableTo(disposeBag)
+        ratingListButton.rx_tap.subscribeNext { [weak self] _ in
+            self?.delegate?.ratingListAction()
+            }.addDisposableTo(disposeBag)
     }
 
     private func setupAccountsRxBindings() {
