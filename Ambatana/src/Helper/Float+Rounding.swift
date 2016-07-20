@@ -8,6 +8,7 @@
 
 extension Float {
     func roundNearest(nearest: Float) -> Float {
-        return round(self * 1/nearest) / nearest
+        let n = 1/nearest
+        return round(self * n) / n
     }
 }
