@@ -132,7 +132,8 @@ public struct MockUserForRating: User {
     public var accounts: [Account]?
     public var status: UserStatus
     public var isDummy: Bool
-
+    public var ratingAverage: Float?     // TODO: When switching to bouncer only make ratings & accounts non-optional
+    public var ratingCount: Int?
 
     init(objectId: String?, name: String?, avatar: String?, postalAddress: PostalAddress, accounts: [Account]?,
          status: UserStatus?, isDummy: Bool) {
