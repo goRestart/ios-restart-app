@@ -339,6 +339,8 @@
                 <outlet property="otherEmailButtonWidth" destination="3Al-wE-KeT" id="3bi-fX-rde"/>
                 <outlet property="otherFacebookButtonWidth" destination="yby-bx-5v3" id="Jhp-HK-1gZ"/>
                 <outlet property="otherGoogleButtonWidth" destination="Mhr-Tp-r6f" id="WCR-U0-d9p"/>
+                <outlet property="ratingCountContainerLeading" destination="Kb3-8E-ES6" id="wFh-F3-ymH"/>
+                <outlet property="ratingCountContainerTrailing" destination="6r5-GU-xjZ" id="wVg-Tc-KvE"/>
                 <outlet property="ratingCountLabel" destination="80u-WE-Qym" id="6Zw-cz-Xe3"/>
                 <outlet property="ratingsLabel" destination="aqu-Rs-NBg" id="BDz-g0-Mqw"/>
                 <outlet property="sellingButton" destination="G2f-92-HRP" id="IFD-Vf-g42"/>

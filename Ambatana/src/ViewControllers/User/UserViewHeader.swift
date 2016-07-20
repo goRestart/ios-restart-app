@@ -32,13 +32,19 @@ class UserViewHeader: UIView {
     private static let otherAccountHeight: CGFloat = 28
     private static let otherAccountEmptyHeight: CGFloat = 20
 
+    private static let ratingCountContainerLeadingVisible: CGFloat = 15
+    private static let ratingCountContainerTrailingVisible: CGFloat = 20
+
     @IBOutlet weak var avatarRatingsContainerView: UIView!
-    @IBOutlet weak var avatarRatingsEffectView: UIVisualEffectView!
     @IBOutlet weak var avatarImageView: UIImageView!
     var avatarBorderLayer: CAShapeLayer?
     @IBOutlet weak var avatarButton: UIButton!
+    @IBOutlet weak var avatarRatingsEffectView: UIVisualEffectView!
+    @IBOutlet weak var ratingCountContainerLeading: NSLayoutConstraint!
+    @IBOutlet weak var ratingCountContainerTrailing: NSLayoutConstraint!
     @IBOutlet weak var ratingCountLabel: UILabel!
     @IBOutlet weak var ratingsLabel: UILabel!
+
 
     @IBOutlet weak var infoView: UIView!
 
@@ -181,10 +187,19 @@ extension UserViewHeader {
         }
     }
 
-    func setReviewCount(reviewCount: Int?) {
-        let count = reviewCount ?? 0
-        ratingCountLabel.text = String(count)
-        setReviewsHidden(count == 0)
+    func setRatingCount(ratingCount: Int?) {
+        let count = ratingCount ?? 0
+
+        let hidden = (count == 0)
+        ratingCountLabel.text = hidden ? nil : String(count)
+        ratingsLabel.text = hidden ? nil : 
+
+        avatarRatingsEffectView.hidden = hidden
+        ratingCountContainerLeading.constant = hidden ? 0 : UserViewHeader.ratingCountContainerLeadingVisible
+        ratingCountContainerTrailing.constant = hidden ? 0 : UserViewHeader.ratingCountContainerTrailingVisible
+
+        ratingCountLabel.text = nil
+        ratingsLabel.text = nil
     }
 
     func setUserRelationText(userRelationText: String?) {
@@ -355,10 +370,6 @@ extension UserViewHeader {
         avatarBorderLayer?.removeFromSuperlayer()
         avatarImageView.layer.addSublayer(borderLayer)
         avatarBorderLayer = borderLayer
-    }
-
-    private func setReviewsHidden(hidden: Bool) {
-
     }
 
     private func setupButtonsSelectedState() {
