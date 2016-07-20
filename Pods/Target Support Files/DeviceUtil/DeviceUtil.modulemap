@@ -1,0 +1,6 @@
+framework module DeviceUtil {
+  umbrella header "DeviceUtil-umbrella.h"
+
+  export *
+  module * { export * }
+}

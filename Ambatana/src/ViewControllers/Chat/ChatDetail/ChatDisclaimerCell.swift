@@ -65,7 +65,7 @@ extension ChatDisclaimerCell {
 
 private extension ChatDisclaimerCell {
     func setupUI() {
-        backgroundCellView.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
+        backgroundCellView.layer.cornerRadius = LGUIKitConstants.chatCellCornerRadius
         backgroundCellView.backgroundColor = UIColor.disclaimerColor
 
         messageLabel.textColor = UIColor.darkGrayText
@@ -75,7 +75,6 @@ private extension ChatDisclaimerCell {
                                                 bottom: 0, right: ChatDisclaimerCell.buttonHContentInset)
 
         backgroundColor = UIColor.clearColor()
-        backgroundCellView.applyDefaultShadow()
         layer.shouldRasterize = true
         layer.rasterizationScale = UIScreen.mainScreen().scale
         

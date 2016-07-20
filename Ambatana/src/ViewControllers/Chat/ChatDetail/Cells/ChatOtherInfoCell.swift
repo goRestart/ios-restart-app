@@ -78,8 +78,7 @@ extension ChatOtherInfoCell {
 
 private extension ChatOtherInfoCell {
     func setupUI() {
-        userInfoContainer.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
-        userInfoContainer.applyDefaultShadow()
+        userInfoContainer.layer.cornerRadius = LGUIKitConstants.chatCellCornerRadius
         userInfoContainer.layer.shouldRasterize = true
         userInfoContainer.layer.rasterizationScale = UIScreen.mainScreen().scale
 

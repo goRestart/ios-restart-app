@@ -630,7 +630,6 @@ extension ProductCarouselViewController: ProductCarouselViewModelDelegate {
     func vmReloadItemAtIndex(index: Int) {
         let indexPath = NSIndexPath(forItem: index, inSection: 0)
         collectionView.reloadItemsAtIndexPaths([indexPath])
-
         refreshOverlayElements()
     }
 
@@ -688,7 +687,7 @@ extension ProductCarouselViewController: UICollectionViewDataSource, UICollectio
                                                                              forIndexPath: indexPath)
             guard let carouselCell = cell as? ProductCarouselCell else { return UICollectionViewCell() }
             guard let product = viewModel.productAtIndex(indexPath.row) else { return carouselCell }
-            carouselCell.backgroundColor = UIColor.placeholderBackgroundColor()
+            carouselCell.backgroundColor = UIColor.placeholderBackgroundColor(product.objectId)
             carouselCell.configureCellWithProduct(product, placeholderImage: viewModel.thumbnailAtIndex(indexPath.row),
                                                   indexPath: indexPath)
             carouselCell.delegate = self

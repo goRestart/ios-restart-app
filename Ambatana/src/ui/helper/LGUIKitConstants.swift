@@ -43,6 +43,7 @@ struct LGUIKitConstants {
     // MARK: - Corner radius
     static let defaultCornerRadius: CGFloat = 4
     static let tooltipCornerRadius: CGFloat = 10
+    static let chatCellCornerRadius: CGFloat = 10
     static let alertCornerRadius: CGFloat = 15
     static let mapCornerRadius: CGFloat = 15
 
@@ -56,4 +57,7 @@ struct LGUIKitConstants {
         return 1 / UIScreen.mainScreen().scale
     }
     static let enabledButtonHeight: CGFloat = 44
+    
+    //0.9 so it will consider images that are slightly vertical as horizontal ones (for better rendering)
+    static let horizontalImageMinAspectRatio: CGFloat = 0.9
 }

@@ -253,6 +253,13 @@ extension UIColor {
     static func placeholderBackgroundColor() -> UIColor {
         return palette[Int(arc4random_uniform(UInt32(palette.count)))]
     }
+    
+    static func placeholderBackgroundColor(id: String?) -> UIColor {
+        guard let id = id else { return brownDark }
+        guard let asciiValue = id.unicodeScalars.first?.value else { return brownDark }
+        let color = palette[Int(asciiValue) % palette.count]
+        return color
+    }
 }
 
 

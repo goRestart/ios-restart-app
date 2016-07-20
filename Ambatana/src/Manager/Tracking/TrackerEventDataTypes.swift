@@ -19,7 +19,9 @@ public enum EventName: String {
     case SignupEmail                        = "signup-email"
     case Logout                             = "logout"
     
-    case LoginError                         = "login-error"
+    case LoginEmailError                    = "login-error"
+    case LoginFBError                       = "login-signup-error-facebook"
+    case LoginGoogleError                   = "login-signup-error-google"
     case SignupError                        = "signup-error"
     case PasswordResetError                 = "password-reset-error"
 
@@ -114,6 +116,9 @@ public enum EventName: String {
     case CommercializerShareStart           = "commercializer-share-start"
     case CommercializerShareComplete        = "commercializer-share-complete"
 
+    case UserRatingStart                    = "user-rating-start"
+    case UserRatingComplete                 = "user-rating-complete"
+
 
     // Constants
     private static let eventNameDummyPrefix  = "dummy-"
@@ -171,6 +176,7 @@ public enum EventParameterName: String {
     case FilterDistanceUnit   = "distance-unit"
     case FilterSortBy         = "sort-by"
     case ErrorDescription     = "error-description"
+    case ErrorDetails         = "error-details"
     case PermissionType       = "permission-type"
     case TypePage             = "type-page"
     case AlertType            = "alert-type"
@@ -187,6 +193,9 @@ public enum EventParameterName: String {
     case AppRatingSource      = "app-rating-source"
     case MessageType          = "message-type"
     case DesignType           = "design-type"
+    case RatingStars          = "rating-stars"
+    case RatingComments       = "rating-comments"
+    case SellerUserRating     = "seller-user-rating"
 }
 
 public enum EventParameterLoginSourceValue: String {
@@ -272,10 +281,10 @@ public enum EventParameterMessageType: String {
     case Sticker    = "sticker"
 }
 
-public enum EventParameterLoginError: String {
+public enum EventParameterLoginError {
     
     case Network
-    case Internal
+    case Internal(description: String)
     case Unauthorized
     case NotFound
     case Forbidden
@@ -289,10 +298,10 @@ public enum EventParameterLoginError: String {
     case UsernameTaken
     case TermsNotAccepted
     case TooManyRequests
-
+    case Scammer
 
     public var description: String {
-        switch (self) {
+        switch self {
         case .Network:
             return "Network"
         case .Internal:
@@ -323,6 +332,20 @@ public enum EventParameterLoginError: String {
             return "TermsNotAccepted"
         case .TooManyRequests:
             return "TooManyRequests"
+        case .Scammer:
+            return "Scammer"
+        }
+
+    }
+
+    public var details: String? {
+        switch self {
+        case let .Internal(description):
+            return description
+        case .Network, .Unauthorized, .NotFound, .Forbidden, .InvalidEmail, .NonExistingEmail, .InvalidPassword,
+             .InvalidUsername, .UserNotFoundOrWrongPassword, .EmailTaken, .PasswordMismatch, .UsernameTaken,
+             .TermsNotAccepted, .TooManyRequests, .Scammer:
+            return nil
         }
     }
 }
