@@ -120,28 +120,19 @@ class UserViewHeader: UIView {
 
     var collapsed: Bool = false {
         didSet {
-            let isCollapsed = avatarImageView.alpha == 0
+            let isCollapsed = avatarRatingsContainerView.alpha == 0
             guard isCollapsed != collapsed else { return }
 
             UIView.animateWithDuration(0.2, delay: 0, options: [.CurveEaseIn, .BeginFromCurrentState],
                                        animations: { [weak self] in
                 guard let strongSelf = self else { return }
-                strongSelf.avatarImageView.alpha = strongSelf.collapsed ? 0 : 1
-                strongSelf.userRelationView.alpha = strongSelf.collapsed ? 0 : 1
-                strongSelf.verifiedOtherUserView.alpha = strongSelf.collapsed ? 0 : 1
-                strongSelf.verifiedMyUserView.alpha = strongSelf.collapsed ? 0 : 1
-                strongSelf.layoutIfNeeded()
+                let alpha: CGFloat = strongSelf.collapsed ? 0 : 1
+                strongSelf.avatarRatingsContainerView.alpha = alpha
+                strongSelf.userRelationView.alpha = alpha
+                strongSelf.verifiedOtherUserView.alpha = alpha
+                strongSelf.verifiedMyUserView.alpha = alpha
             }, completion: nil)
 
-            let transformAnim = CABasicAnimation(keyPath: "transform")
-            transformAnim.duration = 0.2
-            transformAnim.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseIn)
-            transformAnim.removedOnCompletion = false
-            transformAnim.fillMode = kCAFillModeForwards
-
-            let transform = collapsed ? CATransform3DMakeScale(0.01, 0.01, 1) : CATransform3DIdentity
-            transformAnim.toValue = NSValue(CATransform3D: transform)
-            avatarImageView.layer.addAnimation(transformAnim, forKey: "transform")
             avatarButton.enabled = !collapsed
         }
     }
