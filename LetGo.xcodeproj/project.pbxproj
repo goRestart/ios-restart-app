@@ -264,6 +264,8 @@
 		50D67B9B1D182EE9003AC0A5 /* SellCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D67B991D182EE9003AC0A5 /* SellCoordinator.swift */; };
 		50D67B9D1D182F07003AC0A5 /* SellNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D67B9C1D182F07003AC0A5 /* SellNavigator.swift */; };
 		50D67B9E1D182F07003AC0A5 /* SellNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D67B9C1D182F07003AC0A5 /* SellNavigator.swift */; };
+		50E0E8481D3FB4BA00A6397C /* Float+Rounding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E0E8471D3FB4BA00A6397C /* Float+Rounding.swift */; };
+		50E0E8491D3FB4BA00A6397C /* Float+Rounding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E0E8471D3FB4BA00A6397C /* Float+Rounding.swift */; };
 		50E64F251B09D24A00544DE3 /* SettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50E64F241B09D24A00544DE3 /* SettingsViewController.xib */; };
 		50E64F281B09D36500544DE3 /* SettingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E64F261B09D36500544DE3 /* SettingsCell.swift */; };
 		50E64F291B09D36500544DE3 /* SettingsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50E64F271B09D36500544DE3 /* SettingsCell.xib */; };
@@ -1171,6 +1173,7 @@
 		50D67B961D0AFF24003AC0A5 /* TabBarShowable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarShowable.swift; sourceTree = "<group>"; };
 		50D67B991D182EE9003AC0A5 /* SellCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SellCoordinator.swift; sourceTree = "<group>"; };
 		50D67B9C1D182F07003AC0A5 /* SellNavigator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SellNavigator.swift; sourceTree = "<group>"; };
+		50E0E8471D3FB4BA00A6397C /* Float+Rounding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Float+Rounding.swift"; sourceTree = "<group>"; };
 		50E64F241B09D24A00544DE3 /* SettingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingsViewController.xib; sourceTree = "<group>"; };
 		50E64F261B09D36500544DE3 /* SettingsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsCell.swift; sourceTree = "<group>"; };
 		50E64F271B09D36500544DE3 /* SettingsCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingsCell.xib; sourceTree = "<group>"; };
@@ -2813,6 +2816,7 @@
 				C77184B11C2AB1D600196E1D /* FBLoginHelper.swift */,
 				6AE5F1171BFE3E7B0079E8B6 /* FBSDKSharing+LG.swift */,
 				6AC51B291C7238AC0093FDB2 /* GoogleLoginHelper.swift */,
+				50E0E8471D3FB4BA00A6397C /* Float+Rounding.swift */,
 				2E6B6E401D2E8BDD00C10A20 /* Int+LG.swift */,
 				C7F7A79C1C47B73900019200 /* LetgoURLHelper.swift */,
 				50F681EB1C8EC7C5001F33A3 /* LGCollapsibleLabel+Rx.swift */,
@@ -4007,6 +4011,7 @@
 				C7B6FA8A1D182F4200DAA19D /* LocalChat.swift in Sources */,
 				6ACC24C41D2A90400064B165 /* GridDrawerManager.swift in Sources */,
 				C703BE021C7F1AF900EC8EF2 /* EditLocationViewModel.swift in Sources */,
+				50E0E8481D3FB4BA00A6397C /* Float+Rounding.swift in Sources */,
 				C7B588891CE1DFA6009B3975 /* ChatMyMessageCell.swift in Sources */,
 				50C59BD81CE0DB4400377124 /* UserDefaultsUser.swift in Sources */,
 				C79842041CC903A500C300FF /* MockAccount.swift in Sources */,
@@ -4334,6 +4339,7 @@
 				C7B6FA8B1D182F4200DAA19D /* LocalChat.swift in Sources */,
 				6ACC24C51D2A90400064B165 /* GridDrawerManager.swift in Sources */,
 				C703BE031C7F1AF900EC8EF2 /* EditLocationViewModel.swift in Sources */,
+				50E0E8491D3FB4BA00A6397C /* Float+Rounding.swift in Sources */,
 				C7B5888A1CE1DFA6009B3975 /* ChatMyMessageCell.swift in Sources */,
 				50C59BD91CE0DB4400377124 /* UserDefaultsUser.swift in Sources */,
 				C79842051CC903A500C300FF /* MockAccount.swift in Sources */,
