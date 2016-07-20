@@ -415,6 +415,11 @@ extension UserViewController {
             self?.header?.selectedColor = bgColor
         }.addDisposableTo(disposeBag)
 
+        // Ratings
+        viewModel.userRatingCount.asObservable().subscribeNext { [weak self] userRatingCount in
+            self?.header?.setRatingCount(userRatingCount)
+        }.addDisposableTo(disposeBag)
+
         // User relation
         viewModel.userRelationText.asObservable().subscribeNext { [weak self] userRelationText in
             self?.header?.setUserRelationText(userRelationText)
