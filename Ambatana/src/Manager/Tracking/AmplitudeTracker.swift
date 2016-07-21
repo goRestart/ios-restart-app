@@ -28,6 +28,8 @@ final class AmplitudeTracker: Tracker {
     private static let userPropPushEnabled = "push-enabled"
     private static let userPropGpsEnabled = "gps-enabled"
 
+    private static let userPropUserRating = "user-rating"
+
     // > Prefix
     private static let dummyEmailPrefix = "usercontent"
 
@@ -73,6 +75,7 @@ final class AmplitudeTracker: Tracker {
         identify.set(AmplitudeTracker.userPropIdKey, value: user?.objectId ?? "")
         let userType = isDummy ? AmplitudeTracker.userPropTypeValueDummy : AmplitudeTracker.userPropTypeValueReal
         identify.set(AmplitudeTracker.userPropTypeKey, value: userType)
+        identify.set(AmplitudeTracker.userPropUserRating, value: user?.ratingAverage)
         Amplitude.instance().identify(identify)
 
         loggedIn = user != nil

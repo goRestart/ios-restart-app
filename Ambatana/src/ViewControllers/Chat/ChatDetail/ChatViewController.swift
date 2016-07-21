@@ -504,7 +504,7 @@ extension ChatViewController: ChatViewModelDelegate {
 
     
     // MARK: > Report user
-    
+
     func vmShowReportUser(reportUserViewModel: ReportUsersViewModel) {
         let vc = ReportUsersViewController(viewModel: reportUserViewModel)
         self.navigationController?.pushViewController(vc, animated: true)
@@ -512,9 +512,9 @@ extension ChatViewController: ChatViewModelDelegate {
 
     // MARK: > Rate user
 
-    func vmShowUserRating(data: RateUserData) {
+    func vmShowUserRating(source: RateUserSource, data: RateUserData) {
         guard let tabBarController = self.tabBarController as? TabBarController else { return }
-        tabBarController.openUserRating(data)
+        tabBarController.openUserRating(source, data: data)
     }
 
     

@@ -266,6 +266,7 @@ final class TabBarController: UITabBarController, UINavigationControllerDelegate
         }.bindTo(notificationsTab.rx_badgeValue).addDisposableTo(disposeBag)
     }
 
+    
     // MARK: > Action
 
     dynamic func sellButtonPressed() {
@@ -276,9 +277,10 @@ final class TabBarController: UITabBarController, UINavigationControllerDelegate
         viewModel.sellFromBannerCell(designType)
     }
 
-    func openUserRating(data: RateUserData) {
-        viewModel.userRating(data)
+    func openUserRating(source: RateUserSource, data: RateUserData) {
+        viewModel.userRating(source, data: data)
     }
+
     
     // MARK: > UI
 
