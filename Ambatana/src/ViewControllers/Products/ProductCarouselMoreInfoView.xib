@@ -154,14 +154,34 @@
                     </constraints>
                     <state key="normal" image="ic_close"/>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oKk-rH-dDx">
-                    <rect key="frame" x="120" y="829" width="120" height="30"/>
-                    <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lq7-uR-qpI">
+                    <rect key="frame" x="136" y="829" width="90" height="30"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="izu-M0-9D7">
+                            <rect key="frame" x="15" y="0.0" width="42" height="30"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_arrow_down" translatesAutoresizingMaskIntoConstraints="NO" id="c2c-7V-Amf">
+                            <rect key="frame" x="57" y="4" width="24" height="24"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="24" id="Noz-Nj-0WW"/>
+                                <constraint firstAttribute="height" constant="24" id="ptN-nO-hYf"/>
+                            </constraints>
+                        </imageView>
+                    </subviews>
+                    <color key="backgroundColor" red="0.23170797409999999" green="1" blue="1" alpha="0.31006205669999998" colorSpace="calibratedRGB"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="30" id="Lfg-sd-cqP"/>
+                        <constraint firstItem="c2c-7V-Amf" firstAttribute="leading" secondItem="izu-M0-9D7" secondAttribute="trailing" id="3eF-RU-c15"/>
+                        <constraint firstItem="c2c-7V-Amf" firstAttribute="top" secondItem="lq7-uR-qpI" secondAttribute="top" constant="4" id="6gq-rb-eLQ"/>
+                        <constraint firstAttribute="trailing" secondItem="c2c-7V-Amf" secondAttribute="trailing" constant="9" id="9xu-Yb-mqz"/>
+                        <constraint firstItem="izu-M0-9D7" firstAttribute="top" secondItem="lq7-uR-qpI" secondAttribute="top" id="Fe6-rg-HdE"/>
+                        <constraint firstItem="izu-M0-9D7" firstAttribute="leading" secondItem="lq7-uR-qpI" secondAttribute="leading" constant="15" id="K2l-KT-vDp"/>
+                        <constraint firstAttribute="bottom" secondItem="izu-M0-9D7" secondAttribute="bottom" id="MhW-Oe-Dz8"/>
+                        <constraint firstAttribute="height" constant="30" id="YJ0-TG-ilQ"/>
                     </constraints>
-                    <state key="normal" title="Button"/>
-                </button>
+                </view>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <constraints>
@@ -169,15 +189,14 @@
                 <constraint firstItem="Uon-Cu-FRl" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="29" id="GAL-WE-Fni"/>
                 <constraint firstItem="fp4-l8-YJ2" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="Ghu-50-2r3"/>
                 <constraint firstAttribute="trailing" secondItem="fp4-l8-YJ2" secondAttribute="trailing" id="Mf5-jj-Aho"/>
-                <constraint firstAttribute="bottom" secondItem="oKk-rH-dDx" secondAttribute="bottom" constant="7" id="OMh-af-w1e"/>
-                <constraint firstAttribute="trailing" secondItem="oKk-rH-dDx" secondAttribute="trailing" constant="120" id="T2h-wS-cQA"/>
+                <constraint firstAttribute="bottom" secondItem="lq7-uR-qpI" secondAttribute="bottom" constant="7" id="Ola-IP-MF8"/>
                 <constraint firstItem="Sdr-8s-uVp" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="64" id="UOL-x8-r43"/>
                 <constraint firstAttribute="bottom" secondItem="fp4-l8-YJ2" secondAttribute="bottom" constant="64" id="fwt-ek-ej9"/>
                 <constraint firstAttribute="trailing" secondItem="Sdr-8s-uVp" secondAttribute="trailing" id="gO2-sc-hNL"/>
                 <constraint firstItem="Uon-Cu-FRl" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="15" id="sfb-qK-23x"/>
                 <constraint firstItem="fp4-l8-YJ2" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="vZX-Wn-wfR"/>
-                <constraint firstItem="oKk-rH-dDx" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="120" id="yE7-mT-U2d"/>
                 <constraint firstItem="Sdr-8s-uVp" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="yVb-UW-mun"/>
+                <constraint firstItem="lq7-uR-qpI" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="zi0-r2-bKr"/>
             </constraints>
             <nil key="simulatedTopBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
@@ -187,7 +206,9 @@
                 <outlet property="closeButton" destination="Uon-Cu-FRl" id="dFx-eA-5LN"/>
                 <outlet property="descriptionLabel" destination="o3x-0v-hnd" id="cRR-pA-LHP"/>
                 <outlet property="distanceLabel" destination="NxP-nG-TB9" id="gP3-Y9-hrw"/>
-                <outlet property="dragButton" destination="oKk-rH-dDx" id="NUn-xj-AXO"/>
+                <outlet property="dragView" destination="lq7-uR-qpI" id="84m-7C-8UB"/>
+                <outlet property="dragViewImage" destination="c2c-7V-Amf" id="3eF-ez-dsu"/>
+                <outlet property="dragViewTitle" destination="izu-M0-9D7" id="0Bf-ZS-spW"/>
                 <outlet property="mapView" destination="iLQ-Vi-Sle" id="ld0-3Z-vWn"/>
                 <outlet property="priceLabel" destination="FJ3-IZ-f8e" id="CyT-QN-x2P"/>
                 <outlet property="scrollView" destination="Sdr-8s-uVp" id="VYC-sX-HPk"/>
@@ -205,6 +226,7 @@
         </view>
     </objects>
     <resources>
+        <image name="ic_arrow_down" width="10" height="5"/>
         <image name="ic_close" width="18" height="18"/>
         <image name="item_location_white" width="11" height="16"/>
     </resources>

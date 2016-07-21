@@ -123,7 +123,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     }
     
     override func viewDidAppear(animated: Bool) {
-        guard let button = moreInfoView?.dragButton else { return }
+        guard let button = moreInfoView?.dragView else { return }
         self.navigationController?.navigationBar.ignoreTouchesFor(button)
         setupMoreInfoDragging()
     }
@@ -140,14 +140,15 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     
     func setupMoreInfoDragging() {
         let pan = UIPanGestureRecognizer(target: self, action: #selector(dragMoreInfoButton))
-        moreInfoView?.dragButton.addGestureRecognizer(pan)
+        moreInfoView?.dragView.addGestureRecognizer(pan)
     }
     
     func dragMoreInfoButton(pan: UIPanGestureRecognizer) {
         let point = pan.locationInView(view)
-        guard let moreInfoView = moreInfoView else { return }
-        let dragButtonCenterMargin = moreInfoView.frame.height - moreInfoView.dragButton.bottom
-        moreInfoView.frame.bottom = point.y + dragButtonCenterMargin
+        
+        if point.y >= self.navigationBarHeight {
+            moreInfoView?.frame.bottom = point.y
+        }
         
         switch pan.state {
         case .Ended:

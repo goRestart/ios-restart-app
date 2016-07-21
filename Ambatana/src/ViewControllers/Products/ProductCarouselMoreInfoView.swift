@@ -29,8 +29,11 @@ class ProductCarouselMoreInfoView: UIView {
     @IBOutlet weak var statsContainerView: UIView!
     @IBOutlet weak var statsContainerViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var statsContainerViewTopConstraint: NSLayoutConstraint!
-    @IBOutlet weak var dragButton: UIButton!
+    @IBOutlet weak var dragView: UIView!
+    @IBOutlet weak var dragViewTitle: UILabel!
+    @IBOutlet weak var dragViewImage: UIImageView!
 
+    
     private let disposeBag = DisposeBag()
     private var viewModel: ProductViewModel?
     private let overlayMap = MKMapView()
@@ -223,6 +226,14 @@ extension ProductCarouselMoreInfoView {
         
         setupSocialShareView()
         setupStatsView()
+        
+        dragView.layer.cornerRadius = dragView.height/2
+        dragView.layer.borderColor = UIColor.white.CGColor
+        dragView.layer.borderWidth = 1
+        dragView.backgroundColor = UIColor.clearColor()
+        dragViewTitle.text = "MORE INFO"
+        dragViewTitle.textColor = UIColor.white
+        dragViewTitle.font = UIFont.systemSemiBoldFont(size: 13)
         
         scrollView.delegate = self
     }
