@@ -173,8 +173,9 @@ extension UserViewController: UserViewModelDelegate {
         tabBarCtl.switchToTab(.Home)
     }
 
-    func vmOpenRatingList(ratingListVC: UserRatingListViewController) {
-        navigationController?.pushViewController(ratingListVC, animated: true)
+    func vmOpenRatingList(ratingListVM: UserRatingListViewModel) {
+        let vc = UserRatingListViewController(viewModel: ratingListVM)
+        navigationController?.pushViewController(vc, animated: true)
     }
 }
 

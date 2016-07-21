@@ -116,9 +116,7 @@ class UserRatingCell: UITableViewCell {
             }
         }
         userAvatar.layer.cornerRadius = userAvatar.height/2
-
         timeLabel.text = data.ratingDate.relativeTimeString(false)
-
         drawStarsForValue(data.ratingValue)
     }
 

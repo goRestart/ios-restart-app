@@ -35,8 +35,8 @@ struct CommercializerBaseURL: BaseURL {
 
 struct UserRatingsBaseURL: BaseURL {
     static var baseURL: String = EnvironmentProxy.sharedInstance.userRatingsBaseURL
-    static let acceptHeader: String? = "application/vnd.letgo-api+json;version=1"
-    static let contentTypeHeader: String? = "application/vnd.letgo-api+json;version=1"
+    static let acceptHeader: String? = nil
+    static let contentTypeHeader: String? = nil
 }
 
 enum Encoding {

@@ -9,10 +9,10 @@
 import Foundation
 import LGCoreKit
 
-protocol UserRatingListViewModelDelegate : class {
+protocol UserRatingListViewModelDelegate : BaseViewModelDelegate {
+    func vmIsLoadingUserRatingsRequest(isLoading: Bool, firstPage: Bool)
     func vmDidLoadUserRatings(ratings: [UserRating])
-    func vmDidFailLoadingUserRatings()
-    func showActionSheetForCellAtIndex(cancelAction: UIAction, actions: [UIAction])
+    func vmDidFailLoadingUserRatings(firstPage: Bool)
 }
 
 
@@ -38,8 +38,8 @@ class UserRatingListViewModel: BaseViewModel {
 
     // MARK: Lifecycle
 
-    convenience init(userId: String?) {
-        let requester = UserRatingListRequester(userId: userId ?? "")
+    convenience init(userId: String) {
+        let requester = UserRatingListRequester(userId: userId)
         let myUserRepository = Core.myUserRepository
         self.init(userIdRated: userId, userRatingListRequester: requester, myUserRepository: myUserRepository)
     }
@@ -53,15 +53,14 @@ class UserRatingListViewModel: BaseViewModel {
     }
     
     override func didBecomeActive(firstTime: Bool) {
-        userRatingListRequester.delegate = self
-        userRatingListRequester.retrieveFirstPage()
+        if firstTime {
+            userRatingListRequester.delegate = self
+            userRatingListRequester.retrieveFirstPage()
+        }
     }
 
 
-    func ratingAtIndex(index: Int) -> UserRating? {
-        guard index < objectCount else { return nil }
-        return ratings[index]
-    }
+    // MARK: public methods
 
     func dataForCellAtIndexPath(indexPath: NSIndexPath) -> UserRatingCellData? {
         guard let rating = ratingAtIndex(indexPath.row) else { return nil }
@@ -73,16 +72,29 @@ class UserRatingListViewModel: BaseViewModel {
                                       ratingValue: rating.value, ratingDescription: rating.comment, ratingDate: ratingDate,
                                       isMyRating: isMyRatingsList)
     }
+
+
+    // MARK: private methods
+
+    private func ratingAtIndex(index: Int) -> UserRating? {
+        guard index < objectCount else { return nil }
+        return ratings[index]
+    }
 }
 
 extension UserRatingListViewModel : UserRatingListRequesterDelegate {
+
+    func requesterIsLoadingUserRatings(isLoading: Bool, firstPage: Bool) {
+        delegate?.vmIsLoadingUserRatingsRequest(isLoading, firstPage: firstPage)
+    }
+
     func requesterDidLoadUserRatings(ratings: [UserRating]) {
         self.ratings = ratings
         delegate?.vmDidLoadUserRatings(ratings)
     }
 
-    func requesterDidFailLoadingUserRatings() {
-
+    func requesterDidFailLoadingUserRatings(firstPage: Bool) {
+        delegate?.vmDidFailLoadingUserRatings(firstPage)
     }
 }
 
@@ -107,7 +119,6 @@ extension UserRatingListViewModel:  UserRatingCellDelegate {
         let cancelAction = UIAction(interface: .Text(LGLocalizedString.commonCancel), action: {
             print("CANCEL ACTION")
         })
-
-        delegate?.showActionSheetForCellAtIndex(cancelAction, actions: actions)
+        delegate?.vmShowActionSheet(cancelAction, actions: actions)
     }
 }

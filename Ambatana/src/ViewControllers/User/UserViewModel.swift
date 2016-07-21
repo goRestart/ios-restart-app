@@ -22,7 +22,7 @@ protocol UserViewModelDelegate: BaseViewModelDelegate {
     func vmOpenProduct(productVC: UIViewController)
     func vmOpenVerifyAccount(verifyVM: VerifyAccountViewModel)
     func vmOpenHome()
-    func vmOpenRatingList(ratingListVC: UserRatingListViewController)
+    func vmOpenRatingList(ratingListVM: UserRatingListViewModel)
 }
 
 class UserViewModel: BaseViewModel {
@@ -191,8 +191,7 @@ extension UserViewModel {
     func ratingListButtonPressed() {
         guard let userId = user.value?.objectId else { return }
         let vm = UserRatingListViewModel(userId: userId)
-        let vc = UserRatingListViewController(viewModel: vm)
-        delegate?.vmOpenRatingList(vc)
+        delegate?.vmOpenRatingList(vm)
     }
 }
 
