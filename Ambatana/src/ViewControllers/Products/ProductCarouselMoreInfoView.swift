@@ -12,7 +12,6 @@ import LGCollapsibleLabel
 
 class ProductCarouselMoreInfoView: UIView {
     
-    @IBOutlet weak var closeButton: UIButton!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var priceLabel: UILabel!
     @IBOutlet weak var autoTitleLabel: UILabel!
@@ -41,6 +40,7 @@ class ProductCarouselMoreInfoView: UIView {
     private let bigMapMargin: CGFloat = 65.0
     private var bigMapVisible = false
     private var mapZoomBlocker: MapZoomBlocker?
+    private var statsView: ProductStatsView?
 
 
     private let statsContainerViewHeight: CGFloat = 24.0
@@ -55,6 +55,7 @@ class ProductCarouselMoreInfoView: UIView {
         view?.addGestures()
         view?.configureMapView()
         view?.configureOverlayMapView()
+        view?.setupStatsView()
         return view!
     }
     
@@ -68,6 +69,9 @@ class ProductCarouselMoreInfoView: UIView {
         setupContent()
         configureMapView()
         configureOverlayMapView()
+        if let statsView = statsView {
+            updateStatsView(statsView)
+        }
     }
 }
 
@@ -221,7 +225,6 @@ extension ProductCarouselMoreInfoView {
         descriptionLabel.expandTextColor = UIColor.whiteColor()
         
         setupSocialShareView()
-        setupStatsView()
         
         dragView.layer.cornerRadius = dragView.height/2
         dragView.layer.borderColor = UIColor.white.CGColor
@@ -273,6 +276,7 @@ extension ProductCarouselMoreInfoView {
         guard let statsView = ProductStatsView.productStatsViewWithInfo(viewModel.viewsCount.value,
                                                     favouritesCount: viewModel.favouritesCount.value,
                                                     postedDate: viewModel.productCreationDate.value) else { return }
+        self.statsView = statsView
         statsContainerView.addSubview(statsView)
 
         statsView.translatesAutoresizingMaskIntoConstraints = false
