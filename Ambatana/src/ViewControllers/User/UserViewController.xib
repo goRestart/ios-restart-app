@@ -10,6 +10,9 @@
             <connections>
                 <outlet property="averageRatingContainerViewHeight" destination="kuw-6a-PeO" id="EmM-BP-wgP"/>
                 <outlet property="averageRatingView" destination="vc2-g1-bIT" id="WBc-2W-f3l"/>
+                <outlet property="headerContainer" destination="3Kp-we-Xh1" id="f4J-GU-py2"/>
+                <outlet property="headerContainerBottom" destination="3Pl-0d-BZp" id="kOk-BW-kKF"/>
+                <outlet property="headerContainerHeight" destination="N3e-nv-cas" id="Gx5-Ol-4oK"/>
                 <outlet property="patternView" destination="jUL-st-g1H" id="Hvu-DW-u0J"/>
                 <outlet property="productListView" destination="GOJ-t3-gBZ" id="8gJ-Jt-zc1"/>
                 <outlet property="productListViewBackgroundView" destination="qzg-je-AY2" id="tcl-C9-12g"/>
@@ -79,11 +82,11 @@
                         <constraint firstItem="OrV-Pm-AHl" firstAttribute="top" secondItem="Hy6-gu-q5k" secondAttribute="top" id="wVN-0S-q2k"/>
                     </constraints>
                 </view>
-                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3Kp-we-Xh1" userLabel="Fake Header Container">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3Kp-we-Xh1" customClass="UserViewHeaderContainer" customModule="LetGo" customModuleProvider="target">
                     <rect key="frame" x="0.0" y="150" width="600" height="150"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
-                        <constraint firstAttribute="height" priority="250" constant="150" id="N3e-nv-cas"/>
+                        <constraint firstAttribute="height" constant="150" id="N3e-nv-cas"/>
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="r4n-rR-ucf">
@@ -183,7 +186,7 @@
             </subviews>
             <color key="backgroundColor" red="1" green="0.2470588235" blue="0.33333333329999998" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
-                <constraint firstAttribute="top" secondItem="3Kp-we-Xh1" secondAttribute="bottom" priority="250" constant="-300" id="3Pl-0d-BZp"/>
+                <constraint firstAttribute="top" secondItem="3Kp-we-Xh1" secondAttribute="bottom" constant="-300" id="3Pl-0d-BZp"/>
                 <constraint firstItem="r4n-rR-ucf" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="30" id="6Uh-4X-OE4"/>
                 <constraint firstItem="Hy6-gu-q5k" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="A8d-kd-Bop"/>
                 <constraint firstItem="jUL-st-g1H" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="AMg-v6-zVx"/>
@@ -198,7 +201,7 @@
                 <constraint firstItem="qzg-je-AY2" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="VFQ-Fv-bnm"/>
                 <constraint firstAttribute="trailing" secondItem="GOJ-t3-gBZ" secondAttribute="trailing" id="XAG-b7-gh5"/>
                 <constraint firstItem="GOJ-t3-gBZ" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="cfg-PP-HdB"/>
-                <constraint firstItem="qzg-je-AY2" firstAttribute="top" secondItem="3Kp-we-Xh1" secondAttribute="bottom" priority="250" constant="-44" id="lCl-gb-Lsb"/>
+                <constraint firstItem="qzg-je-AY2" firstAttribute="top" secondItem="3Kp-we-Xh1" secondAttribute="bottom" constant="-44" id="lCl-gb-Lsb"/>
                 <constraint firstAttribute="trailing" secondItem="r4n-rR-ucf" secondAttribute="trailing" constant="50" id="mCh-JL-coW"/>
                 <constraint firstAttribute="trailing" secondItem="jUL-st-g1H" secondAttribute="trailing" id="mPS-Sk-9Rw"/>
                 <constraint firstItem="r4n-rR-ucf" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="50" id="n8n-dh-X6g"/>
