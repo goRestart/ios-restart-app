@@ -480,7 +480,7 @@
 "product_share_email_error" = "Oops! You don't seem to have an account set up in the Mail app.";
 "product_share_generic_error" = "An error occurred while sharing the product. Please try again later.";
 "product_share_generic_ok" = "Product successfully shared!";
-"product_share_sms_error" = "An error ocurred while sending your message.";
+"product_share_sms_error" = "An error occurred while sending your message.";
 "product_share_sms_ok" = "Sending...";
 "product_share_telegram_error" = "Oops! You don't seem to have Telegram installed.";
 "product_share_title_label" = "SHARE THIS PRODUCT";
@@ -534,6 +534,7 @@
 "push_notification_message_title" = "New message - %@";
 "rating_list_action_report_review" = "Report review";
 "rating_list_action_review_user" = "Review user";
+"rating_list_loading_error_message" = "An error occurred while loading ratings.";
 "rating_list_rating_type_buyer_text_label" = "%@ bought a product";
 "rating_list_rating_type_conversation_text_label" = "%@ chatted about a product";
 "rating_list_rating_type_seller_text_label" = "%@ sold a product";

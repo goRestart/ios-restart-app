@@ -504,7 +504,7 @@
 "profile_permissions_alert_ok" = "Inschakelen";
 "profile_permissions_alert_title" = "MIS GEEN ENKELE REACTIE!";
 "profile_permissions_header_message" = "Bericht meldingen inschakelen";
-"profile_reviews_count" = "Reviews";
+"profile_reviews_count" = "Beoordelingen";
 "profile_selling_my_user_no_products_button" = "Verkoop je spullen";
 "profile_selling_no_products_label" = "(NOG!) GEEN PRODUCTEN";
 "profile_selling_other_user_no_products_button" = "Blijf browsen";
@@ -532,11 +532,12 @@
 "push_notification_message_body" = "%@:%@";
 "push_notification_message_body_no_username" = "Bericht: %@";
 "push_notification_message_title" = "Nieuwe bericht - %@";
-"rating_list_action_report_review" = "Report review";
-"rating_list_action_review_user" = "Review user";
-"rating_list_rating_type_buyer_text_label" = "%@ bought a product";
-"rating_list_rating_type_conversation_text_label" = "%@ chatted about a product";
-"rating_list_rating_type_seller_text_label" = "%@ sold a product";
+"rating_list_action_report_review" = "Rapporteer beoordeling";
+"rating_list_action_review_user" = "Beoordeel gebruiker";
+"rating_list_loading_error_message" = "An error occurred while loading ratings.";
+"rating_list_rating_type_buyer_text_label" = "%@ kocht een product";
+"rating_list_rating_type_conversation_text_label" = "%@ chatte over een product";
+"rating_list_rating_type_seller_text_label" = "%@ verkocht een product";
 "rating_view_dont_ask_again_button" = "Vraag me niet opnieuw";
 "rating_view_love_it_label" = "Heel leuk!";
 "rating_view_needs_improvements_label" = "Heeft verbeteringen nodig";

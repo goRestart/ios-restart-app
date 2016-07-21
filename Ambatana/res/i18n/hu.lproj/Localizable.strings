@@ -504,7 +504,7 @@
 "profile_permissions_alert_ok" = "Engedélyezés";
 "profile_permissions_alert_title" = "NE MARADJ LE A VÁLASZOKRÓL!";
 "profile_permissions_header_message" = "Üzenetértesítések engedélyezése";
-"profile_reviews_count" = "Reviews";
+"profile_reviews_count" = "Értékelések";
 "profile_selling_my_user_no_products_button" = "Add el a dolgaid";
 "profile_selling_no_products_label" = "NINCSENEK PORTÉKÁK (EGYELŐRE!)";
 "profile_selling_other_user_no_products_button" = "Tovább böngészek";
@@ -532,11 +532,12 @@
 "push_notification_message_body" = "%@: %@";
 "push_notification_message_body_no_username" = "Üzenet: %@";
 "push_notification_message_title" = "Új üzenet - %@";
-"rating_list_action_report_review" = "Report review";
-"rating_list_action_review_user" = "Review user";
-"rating_list_rating_type_buyer_text_label" = "%@ bought a product";
-"rating_list_rating_type_conversation_text_label" = "%@ chatted about a product";
-"rating_list_rating_type_seller_text_label" = "%@ sold a product";
+"rating_list_action_report_review" = "Értékelés jelentése";
+"rating_list_action_review_user" = "Felhasználó értékelése";
+"rating_list_loading_error_message" = "An error occurred while loading ratings.";
+"rating_list_rating_type_buyer_text_label" = "%@ vásárolt";
+"rating_list_rating_type_conversation_text_label" = "%@ beszélgetett";
+"rating_list_rating_type_seller_text_label" = "%@ eladott";
 "rating_view_dont_ask_again_button" = "Ne kérdezz többet";
 "rating_view_love_it_label" = "Tetszik!";
 "rating_view_needs_improvements_label" = "Javításokra van szükség";

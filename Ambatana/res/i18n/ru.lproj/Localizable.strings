@@ -504,7 +504,7 @@
 "profile_permissions_alert_ok" = "Включить";
 "profile_permissions_alert_title" = "НЕ ПРОПУСТИТЕ ОТВЕТ!";
 "profile_permissions_header_message" = "Включить уведомления о сообщениях";
-"profile_reviews_count" = "Reviews";
+"profile_reviews_count" = "Отзывов";
 "profile_selling_my_user_no_products_button" = "Продать свои вещи";
 "profile_selling_no_products_label" = "НЕТ ТОВАРОВ (ПОКА ЧТО!)";
 "profile_selling_other_user_no_products_button" = "Продолжить поиск";
@@ -532,11 +532,12 @@
 "push_notification_message_body" = "%@: %@";
 "push_notification_message_body_no_username" = "Сообщение: %@";
 "push_notification_message_title" = "Новое сообщение - %@";
-"rating_list_action_report_review" = "Report review";
-"rating_list_action_review_user" = "Review user";
-"rating_list_rating_type_buyer_text_label" = "%@ bought a product";
-"rating_list_rating_type_conversation_text_label" = "%@ chatted about a product";
-"rating_list_rating_type_seller_text_label" = "%@ sold a product";
+"rating_list_action_report_review" = "Пожаловаться на отзыв";
+"rating_list_action_review_user" = "Оценить пользователя";
+"rating_list_loading_error_message" = "An error occurred while loading ratings.";
+"rating_list_rating_type_buyer_text_label" = "%@ купил товар";
+"rating_list_rating_type_conversation_text_label" = "%@ спрашивал о товаре";
+"rating_list_rating_type_seller_text_label" = "%@ продал товар";
 "rating_view_dont_ask_again_button" = "Не спрашивать снова";
 "rating_view_love_it_label" = "Мне нравится!";
 "rating_view_needs_improvements_label" = "Нуждается в усовершенствованиях";

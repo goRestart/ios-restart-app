@@ -504,7 +504,7 @@
 "profile_permissions_alert_ok" = "Aç";
 "profile_permissions_alert_title" = "YANITLARI KAÇIRMA!";
 "profile_permissions_header_message" = "Mesaj bildirimlerini aç";
-"profile_reviews_count" = "Reviews";
+"profile_reviews_count" = "Yorumlar";
 "profile_selling_my_user_no_products_button" = "Eşyalarını Sat";
 "profile_selling_no_products_label" = "(HENÜZ!) ÜRÜN YOK";
 "profile_selling_other_user_no_products_button" = "Aramaya Başla";
@@ -532,11 +532,12 @@
 "push_notification_message_body" = "%@: %@";
 "push_notification_message_body_no_username" = "Mesaj: %@";
 "push_notification_message_title" = "Yeni mesaj - %@";
-"rating_list_action_report_review" = "Report review";
-"rating_list_action_review_user" = "Review user";
-"rating_list_rating_type_buyer_text_label" = "%@ bought a product";
-"rating_list_rating_type_conversation_text_label" = "%@ chatted about a product";
-"rating_list_rating_type_seller_text_label" = "%@ sold a product";
+"rating_list_action_report_review" = "Yorumu bildir";
+"rating_list_action_review_user" = "Kullanıcıyı değerlendir";
+"rating_list_loading_error_message" = "An error occurred while loading ratings.";
+"rating_list_rating_type_buyer_text_label" = "%@ bir ürün aldı";
+"rating_list_rating_type_conversation_text_label" = "%@ bir ürün hakkında sohbet etti";
+"rating_list_rating_type_seller_text_label" = "%@ bir ürün sattı";
 "rating_view_dont_ask_again_button" = "BUNU BİR DAHA SORMA";
 "rating_view_love_it_label" = "SEVİYORUM";
 "rating_view_needs_improvements_label" = "GELİŞTİRİLMESİ GEREKİYOR";

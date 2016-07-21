@@ -504,7 +504,7 @@
 "profile_permissions_alert_ok" = "Ativar";
 "profile_permissions_alert_title" = "NÃO PERCA UMA RESPOSTA!";
 "profile_permissions_header_message" = "Ativar notificações de mensagens";
-"profile_reviews_count" = "Reviews";
+"profile_reviews_count" = "Comentários";
 "profile_selling_my_user_no_products_button" = "Venda suas coisas";
 "profile_selling_no_products_label" = "SEM PRODUTOS (AINDA!)";
 "profile_selling_other_user_no_products_button" = "Continue a navegar";
@@ -532,11 +532,12 @@
 "push_notification_message_body" = "%@: %@";
 "push_notification_message_body_no_username" = "Mensagem: %@";
 "push_notification_message_title" = "Nova mensagem - %@";
-"rating_list_action_report_review" = "Report review";
-"rating_list_action_review_user" = "Review user";
-"rating_list_rating_type_buyer_text_label" = "%@ bought a product";
-"rating_list_rating_type_conversation_text_label" = "%@ chatted about a product";
-"rating_list_rating_type_seller_text_label" = "%@ sold a product";
+"rating_list_action_report_review" = "Denunciar comentário";
+"rating_list_action_review_user" = "Comentar utilizador";
+"rating_list_loading_error_message" = "An error occurred while loading ratings.";
+"rating_list_rating_type_buyer_text_label" = "%@ comprou um produto";
+"rating_list_rating_type_conversation_text_label" = "%@ conversou sobre um produto";
+"rating_list_rating_type_seller_text_label" = "%@ vendeu um produto";
 "rating_view_dont_ask_again_button" = "Não perguntar de novo";
 "rating_view_love_it_label" = "Adoro-a!";
 "rating_view_needs_improvements_label" = "Precisa de melhorias";

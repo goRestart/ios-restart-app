@@ -1363,7 +1363,7 @@
 "product_share_sms_ok" = "Sending...";
 
 // Product share via sms error message
-"product_share_sms_error" = "An error ocurred while sending your message.";
+"product_share_sms_error" = "An error occurred while sending your message.";
 
 // Product share via copy_link success
 "product_share_copylink_ok" = "Your link has been copied!";
@@ -1526,6 +1526,9 @@
 
 // action for user to report a review by another user
 "rating_list_action_report_review" = "Report review";
+
+// Text for loading error at user ratings list
+"rating_list_loading_error_message" = "An error occurred while loading ratings.";
 
 // Text for rating of type "buyer" ( %s will be the username)
 "rating_list_rating_type_buyer_text_label" = "%@ bought a product";

@@ -2055,6 +2055,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("rating_list_action_report_review", comment: "")
 	}
 
+	static var ratingListLoadingErrorMessage: String {
+		return NSLocalizedString("rating_list_loading_error_message", comment: "")
+	}
+
 	static func ratingListRatingTypeBuyerTextLabel(var1: String) -> String {
 		return String(format: NSLocalizedString("rating_list_rating_type_buyer_text_label", comment: ""), var1)
 	}

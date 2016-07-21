@@ -504,7 +504,7 @@
 "profile_permissions_alert_ok" = "Tillåt";
 "profile_permissions_alert_title" = "MISSA INGA SVAR!";
 "profile_permissions_header_message" = "Tillåt meddelandenotifieringar";
-"profile_reviews_count" = "Reviews";
+"profile_reviews_count" = "Omdömen";
 "profile_selling_my_user_no_products_button" = "Sälj dina prylar";
 "profile_selling_no_products_label" = "INGA PRODUKTER (ÄNNU!)";
 "profile_selling_other_user_no_products_button" = "Surfa vidare";
@@ -532,11 +532,12 @@
 "push_notification_message_body" = "%@:%@";
 "push_notification_message_body_no_username" = "Meddelande: %@";
 "push_notification_message_title" = "Nytt meddelande - %@";
-"rating_list_action_report_review" = "Report review";
-"rating_list_action_review_user" = "Review user";
-"rating_list_rating_type_buyer_text_label" = "%@ bought a product";
-"rating_list_rating_type_conversation_text_label" = "%@ chatted about a product";
-"rating_list_rating_type_seller_text_label" = "%@ sold a product";
+"rating_list_action_report_review" = "Rapportera bedömning";
+"rating_list_action_review_user" = "Bedöm användare";
+"rating_list_loading_error_message" = "An error occurred while loading ratings.";
+"rating_list_rating_type_buyer_text_label" = "%@ köpte en produkt";
+"rating_list_rating_type_conversation_text_label" = "%@ chattade om en produkt";
+"rating_list_rating_type_seller_text_label" = "%@ sålde en produkt";
 "rating_view_dont_ask_again_button" = "Fråga mig inte igen";
 "rating_view_love_it_label" = "Älskar det!";
 "rating_view_needs_improvements_label" = "Behöver förbättringar";
