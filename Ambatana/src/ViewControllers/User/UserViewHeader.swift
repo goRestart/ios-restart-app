@@ -183,7 +183,7 @@ extension UserViewHeader {
     func setRatingCount(ratingCount: Int?) {
         let hidden = (ratingCount ?? 0) <= 0
         ratingCountLabel.text = hidden ? nil : String(ratingCount ?? 0)
-        ratingsLabel.text = hidden ? nil : "Reviews"    // TODO: 🌶
+        ratingsLabel.text = hidden ? nil : LGLocalizedString.profileReviewsCount
         avatarRatingsEffectView.hidden = hidden
         ratingCountContainerLeading.constant = hidden ? 0 : UserViewHeader.ratingCountContainerLeadingVisible
         ratingCountContainerTrailing.constant = hidden ? 0 : UserViewHeader.ratingCountContainerTrailingVisible
