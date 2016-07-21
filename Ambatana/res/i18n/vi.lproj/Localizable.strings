@@ -504,6 +504,7 @@
 "profile_permissions_alert_ok" = "Bật";
 "profile_permissions_alert_title" = "ĐỪNG BỎ LỠ TRẢ LỜI NÀO!";
 "profile_permissions_header_message" = "Bật thông báo tin nhắn";
+"profile_reviews_count" = "Đánh giá";
 "profile_selling_my_user_no_products_button" = "Bán đồ của bạn";
 "profile_selling_no_products_label" = "KHÔNG (CHƯA) CÓ SẢN PHẨM NÀO!";
 "profile_selling_other_user_no_products_button" = "Tiếp tục Duyệt";
@@ -531,6 +532,12 @@
 "push_notification_message_body" = "%@: %@";
 "push_notification_message_body_no_username" = "Tin nhắn: %@";
 "push_notification_message_title" = "Tin nhắn mới - %@";
+"rating_list_action_report_review" = "Báo cáo đánh giá";
+"rating_list_action_review_user" = "Xem người dùng";
+"rating_list_loading_error_message" = "An error occurred while loading ratings.";
+"rating_list_rating_type_buyer_text_label" = "%@ đã mua một sản phẩm";
+"rating_list_rating_type_conversation_text_label" = "%@ đã trò chuyện về một sản phẩm";
+"rating_list_rating_type_seller_text_label" = "%@ đã bán một sản phẩm";
 "rating_view_dont_ask_again_button" = "Đừng hỏi lại tôi";
 "rating_view_love_it_label" = "Tôi thích!";
 "rating_view_needs_improvements_label" = "Cần cải thiện";
@@ -654,7 +661,7 @@
 "user_rating_message_w_name" = "Nhấn vào ngôi sao để đánh giá và cho chúng tôi biết trải nghiệm của bạn với %@ có tốt hay không. Bạn có thể cập nhật đánh giá bất kỳ khi nào bạn muốn.";
 "user_rating_message_wo_name" = "Nhấn vào ngôi sao để đánh giá và cho chúng tôi biết trải nghiệm của bạn với người dùng này có tốt hay không. Bạn có thể cập nhật đánh giá bất kỳ khi nào bạn muốn.";
 "user_rating_review_button" = "Đăng đánh giá";
-"user_rating_review_placeholder" = "Để lại đánh giá (không bắt buộc)";
-"user_rating_review_placeholder_optional" = "Leave a review (optional)";
+"user_rating_review_placeholder" = "Để lại đánh giá (bắt buộc)";
+"user_rating_review_placeholder_optional" = "Để lại đánh giá (không bắt buộc)";
 "user_rating_review_send_success" = "Đánh giá của bạn đã được đăng!";
 "user_rating_title" = "Đánh giá trải nghiệm của bạn với";

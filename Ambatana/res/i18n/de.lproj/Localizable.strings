@@ -504,6 +504,7 @@
 "profile_permissions_alert_ok" = "Aktivieren";
 "profile_permissions_alert_title" = "VERPASSE KEINE ANTWORT!";
 "profile_permissions_header_message" = "Aktiviere Mitteilungen";
+"profile_reviews_count" = "Bewertungen";
 "profile_selling_my_user_no_products_button" = "Verkaufe deine Dinge";
 "profile_selling_no_products_label" = "(NOCH) KEINE PRODUKTE";
 "profile_selling_other_user_no_products_button" = "Mehr entdecken";
@@ -531,6 +532,12 @@
 "push_notification_message_body" = "%@: %@";
 "push_notification_message_body_no_username" = "Nachricht: %@";
 "push_notification_message_title" = "Neue Nachricht - %@";
+"rating_list_action_report_review" = "Bewertung melden";
+"rating_list_action_review_user" = "Nutzer bewerten";
+"rating_list_loading_error_message" = "Beim Laden der Bewertungen ist ein Fehler aufgetreten.";
+"rating_list_rating_type_buyer_text_label" = "%@ hat einen Artikel gekauft";
+"rating_list_rating_type_conversation_text_label" = "%@ hat über den Artikel gesprochen";
+"rating_list_rating_type_seller_text_label" = "%@ hat einen Artikel verkauft";
 "rating_view_dont_ask_again_button" = "Nicht erneut fragen";
 "rating_view_love_it_label" = "Absolut!";
 "rating_view_needs_improvements_label" = "Könnte besser sein";
@@ -654,7 +661,7 @@
 "user_rating_message_w_name" = "Drücke zum Bewerten auf die Sterne und erzähle uns, ob dein Handel mit %@ gut verlaufen ist. Du kannst die Bewertung nach Belieben aktualisieren.";
 "user_rating_message_wo_name" = "Drücke zum Bewerten auf die Sterne und erzähle uns, ob dein Handel mit diesem Nutzer gut verlaufen ist. Du kannst die Bewertung nach Belieben aktualisieren.";
 "user_rating_review_button" = "Bewertung veröffentlichen";
-"user_rating_review_placeholder" = "Schreibe eine Bewertung";
+"user_rating_review_placeholder" = "Hinterlasse eine Bewertung (Pflichtfeld)";
 "user_rating_review_placeholder_optional" = "Schreibe eine Bewertung (optional)";
 "user_rating_review_send_success" = "Deine Bewertung wurde veröffentlicht!";
 "user_rating_title" = "Hinterlasse eine Bewertung für";

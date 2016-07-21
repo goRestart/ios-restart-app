@@ -1363,7 +1363,7 @@
 "product_share_sms_ok" = "Sending...";
 
 // Product share via sms error message
-"product_share_sms_error" = "An error ocurred while sending your message.";
+"product_share_sms_error" = "An error occurred while sending your message.";
 
 // Product share via copy_link success
 "product_share_copylink_ok" = "Your link has been copied!";
@@ -1394,6 +1394,9 @@
 
 // Tooltip to see more info on snapchat, just the "to see more info" text
 "product_more_info_tooltip_part_2" = "%@ to see more info";
+
+// Button to open the More Info view tapping or dragging it
+"product_more_info_open_button" = "MORE INFO";
 
 // Profile, you blocked this user label (wo username)
 "profile_blocked_by_me_label" = "You've blocked this user";
@@ -1436,6 +1439,9 @@
 
 // Profile no products. Check attached image "profile_no_products.png"
 "profile_no_products" = "There are no products in this section (yet!)";
+
+// Profile reviews count (appears below review count number)
+"profile_reviews_count" = "Reviews";
 
 // Profile selling tab (both my user and other user) empty title.
 "profile_selling_no_products_label" = "NO PRODUCTS (YET!)";
@@ -1517,6 +1523,24 @@
 
 // Push notification message title
 "push_notification_message_title" = "New message - %@";
+
+// action for user to review another user
+"rating_list_action_review_user" = "Review user";
+
+// action for user to report a review by another user
+"rating_list_action_report_review" = "Report review";
+
+// Text for loading error at user ratings list
+"rating_list_loading_error_message" = "An error occurred while loading ratings.";
+
+// Text for rating of type "buyer" ( %s will be the username)
+"rating_list_rating_type_buyer_text_label" = "%@ bought a product";
+
+// Text for rating of type "conversation" ( %s will be the username)
+"rating_list_rating_type_conversation_text_label" = "%@ chatted about a product";
+
+// Text for rating of type "seller" ( %s will be the username)
+"rating_list_rating_type_seller_text_label" = "%@ sold a product";
 
 // Rating view don't ask button.  Check image @ "rating_view_title_label" segment
 "rating_view_dont_ask_again_button" = "Don't ask me again";
@@ -1879,7 +1903,7 @@
 "unblock_user_error_generic" = "An error occurred while unblocking this user.";
 
 // Title when you rate a user
-"user_rating_title" = "Rate your experience with";
+"user_rating_title" = "Review your experience with";
 
 // Information message when rating a user
 "user_rating_message_w_name" = "Tap the stars to rate and tell us if your experience with %@ went well. You can update it whenever you want.";

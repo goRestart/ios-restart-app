@@ -230,7 +230,7 @@ extension ProductCarouselMoreInfoView {
         dragView.layer.borderColor = UIColor.white.CGColor
         dragView.layer.borderWidth = 1
         dragView.backgroundColor = UIColor.clearColor()
-        dragViewTitle.text = "MORE INFO"
+        dragViewTitle.text = LGLocalizedString.productMoreInfoOpenButton
         dragViewTitle.textColor = UIColor.white
         dragViewTitle.font = UIFont.systemSemiBoldFont(size: 13)
         

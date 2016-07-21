@@ -540,7 +540,6 @@ extension ProductViewModel {
         let isMine = product.value.isMine
         let isFavouritable = !isMine
         let isEditable: Bool
-        let isShareable = true
         let isReportable = !isMine
         let isDeletable: Bool
         switch status.value {
@@ -563,9 +562,6 @@ extension ProductViewModel {
         }
         if isEditable {
             navBarButtons.append(buildEditNavBarAction())
-        }
-        if isShareable {
-            navBarButtons.append(buildShareNavBarAction())
         }
 
         let hasMoreActions = isReportable || isDeletable
@@ -595,14 +591,6 @@ extension ProductViewModel {
             }
             strongSelf.delegate?.vmOpenEditProduct(editProductVM)
         })
-    }
-
-    private func buildShareNavBarAction() -> UIAction {
-        let icon = UIImage(named: "navbar_share")?.imageWithRenderingMode(.AlwaysOriginal)
-        return UIAction(interface: .Image(icon), action: { [weak self] in
-            guard let strongSelf = self, socialMessage = strongSelf.socialMessage.value else { return }
-            strongSelf.delegate?.vmShowNativeShare(socialMessage)
-            })
     }
 
     private func buildMoreNavBarAction(isReportable: Bool, isDeletable: Bool) -> UIAction {
