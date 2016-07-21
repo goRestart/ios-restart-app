@@ -93,6 +93,6 @@ struct Constants {
     static let defaultConfigTimeOut: Double = 3    // seconds
 
     // user rating from chat
-    static let myMessagesCountForRating = 1
-    static let otherMessagesCountForRating = 1
+    static let myMessagesCountForRating = 2
+    static let otherMessagesCountForRating = 2
 }
