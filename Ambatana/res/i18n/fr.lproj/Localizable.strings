@@ -480,7 +480,7 @@
 "product_share_email_error" = "Oops, il semble que vous n'avez pas paramétré de compte dans l'application Mail.";
 "product_share_generic_error" = "Une erreur est survenue lors du partage du bien. Veuillez réessayer plus tard.";
 "product_share_generic_ok" = "Bien partagé avec succès !";
-"product_share_sms_error" = "Une erreur est survenue lors de l'envoi du message";
+"product_share_sms_error" = "Une erreur est survenue lors de l'envoi du message.";
 "product_share_sms_ok" = "Envoi...";
 "product_share_telegram_error" = "Oups ! Il semble que vous n'avez pas installé Telegram.";
 "product_share_title_label" = "PARTAGER CE BIEN";

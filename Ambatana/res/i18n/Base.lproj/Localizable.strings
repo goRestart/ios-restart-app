@@ -1900,7 +1900,7 @@
 "unblock_user_error_generic" = "An error occurred while unblocking this user.";
 
 // Title when you rate a user
-"user_rating_title" = "Rate your experience with";
+"user_rating_title" = "Review your experience with";
 
 // Information message when rating a user
 "user_rating_message_w_name" = "Tap the stars to rate and tell us if your experience with %@ went well. You can update it whenever you want.";
