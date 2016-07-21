@@ -380,10 +380,10 @@
 		6A879DA61C8DAED300E0C868 /* PushPrePermissionsSettingsViewControllerMini.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A879DA41C8DAED300E0C868 /* PushPrePermissionsSettingsViewControllerMini.xib */; };
 		6A879DA81C8DD2BD00E0C868 /* PushPrePermissionsSettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A879DA71C8DD2BD00E0C868 /* PushPrePermissionsSettingsViewModel.swift */; };
 		6A879DA91C8DD2BD00E0C868 /* PushPrePermissionsSettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A879DA71C8DD2BD00E0C868 /* PushPrePermissionsSettingsViewModel.swift */; };
-		6A8BE8FD1CDA2C3F00D97727 /* ProductCarouselMoreInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A8BE8FC1CDA2C3F00D97727 /* ProductCarouselMoreInfoViewController.swift */; };
-		6A8BE8FE1CDA2C4000D97727 /* ProductCarouselMoreInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A8BE8FC1CDA2C3F00D97727 /* ProductCarouselMoreInfoViewController.swift */; };
-		6A8BE9031CDA3C6300D97727 /* ProductCarouselMoreInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A8BE9021CDA3C6300D97727 /* ProductCarouselMoreInfoViewController.xib */; };
-		6A8BE9041CDA3C6300D97727 /* ProductCarouselMoreInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A8BE9021CDA3C6300D97727 /* ProductCarouselMoreInfoViewController.xib */; };
+		6A8BE8FD1CDA2C3F00D97727 /* ProductCarouselMoreInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A8BE8FC1CDA2C3F00D97727 /* ProductCarouselMoreInfoView.swift */; };
+		6A8BE8FE1CDA2C4000D97727 /* ProductCarouselMoreInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A8BE8FC1CDA2C3F00D97727 /* ProductCarouselMoreInfoView.swift */; };
+		6A8BE9031CDA3C6300D97727 /* ProductCarouselMoreInfoView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A8BE9021CDA3C6300D97727 /* ProductCarouselMoreInfoView.xib */; };
+		6A8BE9041CDA3C6300D97727 /* ProductCarouselMoreInfoView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A8BE9021CDA3C6300D97727 /* ProductCarouselMoreInfoView.xib */; };
 		6A9434661D2E52260053F924 /* BannerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A9434651D2E52260053F924 /* BannerCell.swift */; };
 		6A9434671D2E52260053F924 /* BannerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A9434651D2E52260053F924 /* BannerCell.swift */; };
 		6A9434691D2E52330053F924 /* BannerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A9434681D2E52330053F924 /* BannerCell.xib */; };
@@ -1246,8 +1246,8 @@
 		6A879DA11C8D89B300E0C868 /* PushPrePermissionsSettingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PushPrePermissionsSettingsViewController.xib; sourceTree = "<group>"; };
 		6A879DA41C8DAED300E0C868 /* PushPrePermissionsSettingsViewControllerMini.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PushPrePermissionsSettingsViewControllerMini.xib; sourceTree = "<group>"; };
 		6A879DA71C8DD2BD00E0C868 /* PushPrePermissionsSettingsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PushPrePermissionsSettingsViewModel.swift; sourceTree = "<group>"; };
-		6A8BE8FC1CDA2C3F00D97727 /* ProductCarouselMoreInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProductCarouselMoreInfoViewController.swift; path = ../ProductCarouselMoreInfoViewController.swift; sourceTree = "<group>"; };
-		6A8BE9021CDA3C6300D97727 /* ProductCarouselMoreInfoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ProductCarouselMoreInfoViewController.xib; path = ../ProductCarouselMoreInfoViewController.xib; sourceTree = "<group>"; };
+		6A8BE8FC1CDA2C3F00D97727 /* ProductCarouselMoreInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProductCarouselMoreInfoView.swift; path = ../ProductCarouselMoreInfoView.swift; sourceTree = "<group>"; };
+		6A8BE9021CDA3C6300D97727 /* ProductCarouselMoreInfoView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ProductCarouselMoreInfoView.xib; path = ../ProductCarouselMoreInfoView.xib; sourceTree = "<group>"; };
 		6A9434651D2E52260053F924 /* BannerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BannerCell.swift; sourceTree = "<group>"; };
 		6A9434681D2E52330053F924 /* BannerCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BannerCell.xib; sourceTree = "<group>"; };
 		6A94346B1D2E544B0053F924 /* ProductCellBanners.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = ProductCellBanners.xcassets; sourceTree = "<group>"; };
@@ -2398,8 +2398,8 @@
 				6A8656A71CBFD1AF0041EEFB /* ProductCarouselCell.swift */,
 				6A8656AD1CC4E72D0041EEFB /* ProductCarouselImageCell.swift */,
 				6A32072A1CC78F5B003DD9AF /* ProductCarouselPushAnimator.swift */,
-				6A8BE8FC1CDA2C3F00D97727 /* ProductCarouselMoreInfoViewController.swift */,
-				6A8BE9021CDA3C6300D97727 /* ProductCarouselMoreInfoViewController.xib */,
+				6A8BE8FC1CDA2C3F00D97727 /* ProductCarouselMoreInfoView.swift */,
+				6A8BE9021CDA3C6300D97727 /* ProductCarouselMoreInfoView.xib */,
 				6AA827901D2D094A0068C39B /* ProductCarouselCellModel.swift */,
 			);
 			path = Carousel;
@@ -3218,7 +3218,7 @@
 				C7F6F7541CB5081F000147F9 /* CommercialShareViewController.xib in Resources */,
 				C7B588611CE1DE1C009B3975 /* RelationInfoView.xib in Resources */,
 				C754E0151CB2679D006FDFD5 /* CommercialPreviewViewController.xib in Resources */,
-				6A8BE9031CDA3C6300D97727 /* ProductCarouselMoreInfoViewController.xib in Resources */,
+				6A8BE9031CDA3C6300D97727 /* ProductCarouselMoreInfoView.xib in Resources */,
 				C73C163D1D06C1B500DFC67D /* TrendingSearchCell.xib in Resources */,
 				2E3760341BD914BA00A5A030 /* CategoriesViewController.xib in Resources */,
 				508C3F7C1C984BEC00CF431F /* UserViewHeader.xib in Resources */,
@@ -3335,7 +3335,7 @@
 				C7F6F7551CB5081F000147F9 /* CommercialShareViewController.xib in Resources */,
 				C7B588621CE1DE1C009B3975 /* RelationInfoView.xib in Resources */,
 				C754E0161CB2679D006FDFD5 /* CommercialPreviewViewController.xib in Resources */,
-				6A8BE9041CDA3C6300D97727 /* ProductCarouselMoreInfoViewController.xib in Resources */,
+				6A8BE9041CDA3C6300D97727 /* ProductCarouselMoreInfoView.xib in Resources */,
 				C73C163E1D06C1B500DFC67D /* TrendingSearchCell.xib in Resources */,
 				C7DB426C1C5138B500400945 /* CategoriesViewController.xib in Resources */,
 				508C3F7D1C984BEC00CF431F /* UserViewHeader.xib in Resources */,
@@ -3795,7 +3795,7 @@
 				D4B0CF7E1B07309800A61E1A /* SellEmptyCell.swift in Sources */,
 				C768CC1A1CA44B5F00E39E5F /* BranchDeepLink.swift in Sources */,
 				6AF75D0A1CF457D800EACCF0 /* ChatViewMessageAdapter.swift in Sources */,
-				6A8BE8FD1CDA2C3F00D97727 /* ProductCarouselMoreInfoViewController.swift in Sources */,
+				6A8BE8FD1CDA2C3F00D97727 /* ProductCarouselMoreInfoView.swift in Sources */,
 				2E6B6E411D2E8BDD00C10A20 /* Int+LG.swift in Sources */,
 				6A3C730C1CEF0DEB00A062E0 /* KeyboardHelper.swift in Sources */,
 				C727FBC31CCFC545002BC643 /* NotificationsViewModel.swift in Sources */,
@@ -4125,7 +4125,7 @@
 				C768CC1B1CA44B5F00E39E5F /* BranchDeepLink.swift in Sources */,
 				6AF75D0B1CF457D800EACCF0 /* ChatViewMessageAdapter.swift in Sources */,
 				2E6B6E421D2E8FDF00C10A20 /* Int+LG.swift in Sources */,
-				6A8BE8FE1CDA2C4000D97727 /* ProductCarouselMoreInfoViewController.swift in Sources */,
+				6A8BE8FE1CDA2C4000D97727 /* ProductCarouselMoreInfoView.swift in Sources */,
 				6A3C730D1CEF0DEB00A062E0 /* KeyboardHelper.swift in Sources */,
 				C749316F1D34FD0200E117F1 /* RateUserViewController.swift in Sources */,
 				C727FBC41CCFC545002BC643 /* NotificationsViewModel.swift in Sources */,
@@ -4614,7 +4614,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "03781f61-f220-4297-8e75-3047c33fed22";
+				PROVISIONING_PROFILE = "b6488ed7-614a-4857-a917-98e77a52b19e";
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -4664,6 +4664,7 @@
 			baseConfigurationReference = 9DF506523FC9C0A89601A8E3 /* Pods-LetGo.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 29;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -4692,6 +4693,7 @@
 			baseConfigurationReference = 7ED714BB7ABD1804F5E818D4 /* Pods-LetGo.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 29;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -4829,7 +4831,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PROVISIONING_PROFILE = "b71cc457-bec8-46cb-9a85-a4330f505849";
+				PROVISIONING_PROFILE = "d70828c1-2db6-4976-9f6a-50765b0de6d9";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -4840,6 +4842,7 @@
 			baseConfigurationReference = 44786E34D54C91974EA860A2 /* Pods-LetGo.adhoc.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 29;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",

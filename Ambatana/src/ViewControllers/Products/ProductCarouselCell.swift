@@ -13,6 +13,9 @@ protocol ProductCarouselCellDelegate: class {
     func didTapOnCarouselCell(cell: UICollectionViewCell)
     func didChangeZoomLevel(level: CGFloat)
     func didScrollToPage(page: Int)
+    func didPullFromTopWith(offset: CGFloat)
+    func canScrollToNextPage() -> Bool
+    func didEndDraggingCell()
 }
 
 class ProductCarouselCell: UICollectionViewCell {
@@ -130,5 +133,19 @@ extension ProductCarouselCell: UICollectionViewDelegate, UICollectionViewDataSou
         let pageSize = collectionView.frame.size.height;
         let page = Int(collectionView.contentOffset.y / pageSize) % numberOfImages()
         delegate?.didScrollToPage(page)
+    }
+    
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        guard let delegate = delegate else { return }
+    
+        delegate.didPullFromTopWith(scrollView.contentOffset.y)
+
+        if !delegate.canScrollToNextPage() {
+            scrollView.contentOffset = CGPoint(x: 0, y: 0)
+        }
+    }
+    
+    func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        delegate?.didEndDraggingCell()
     }
 }

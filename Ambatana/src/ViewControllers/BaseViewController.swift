@@ -16,6 +16,48 @@ private struct TostableKeys {
     static var ToastViewTopMarginConstraintKey = 0
 }
 
+private struct NavigationBarKeys {
+    static var letTouchesPass = 0
+    static var viewsToIgnoreTouchersFor = 0
+}
+
+extension UINavigationBar {
+    
+    var viewsToIgnoreTouchesFor: [UIView] {
+        get {
+            let views = objc_getAssociatedObject(self, &NavigationBarKeys.viewsToIgnoreTouchersFor) as? [UIView]
+            return views ?? []
+        }
+        set {
+            objc_setAssociatedObject(
+                self,
+                &NavigationBarKeys.viewsToIgnoreTouchersFor,
+                newValue as [UIView]?,
+                .OBJC_ASSOCIATION_RETAIN_NONATOMIC
+            )
+        }
+    }
+    
+    func ignoreTouchesFor(view: UIView) {
+        var views = viewsToIgnoreTouchesFor
+        views.append(view)
+        viewsToIgnoreTouchesFor = views
+    }
+    
+    override public func pointInside(point: CGPoint, withEvent event: UIEvent?) -> Bool {
+        let pointInside = super.pointInside(point, withEvent: event)
+        
+        for view in viewsToIgnoreTouchesFor {
+            let convertedPoint = view.convertPoint(point, fromView: self)
+            if view.pointInside(convertedPoint, withEvent: event) {
+                return false
+            }
+        }
+        
+        return pointInside
+    }
+}
+
 extension UIViewController {
     
     var toastView: ToastView? {
