@@ -104,7 +104,6 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     }
     
     
-    
     /*
      We need to setup some properties after we are sure the view has the final frame, to do that
      the animator will tell us when the view has a valid frame to configure the elements.
@@ -125,10 +124,10 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     }
     
     override func viewDidAppear(animated: Bool) {
-        guard let button = moreInfoView?.dragView else { return }
-        self.navigationController?.navigationBar.ignoreTouchesFor(button)
+        super.viewDidAppear(animated)
         setupMoreInfoDragging()
     }
+    
     
     // MARK: - Lifecycle
     
@@ -140,30 +139,6 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         setupGradientView()
     }
     
-    func setupMoreInfoDragging() {
-        let pan = UIPanGestureRecognizer(target: self, action: #selector(dragMoreInfoButton))
-        moreInfoView?.dragView.addGestureRecognizer(pan)
-    }
-    
-    func dragMoreInfoButton(pan: UIPanGestureRecognizer) {
-        let point = pan.locationInView(view)
-
-        if point.y >= 64 { // start dragging when point is below the navbar
-            moreInfoView?.frame.bottom = point.y
-        }
-        
-        switch pan.state {
-        case .Ended:
-            if point.y > moreInfoDragMargin {
-                showMoreInfo()
-            } else {
-                hideMoreInfo()
-            }
-        default:
-            break
-        }
-    }
-
     func addSubviews() {
         view.addSubview(pageControl)
         fullScreenAvatarEffectView.translatesAutoresizingMaskIntoConstraints = false
@@ -623,13 +598,13 @@ extension ProductCarouselViewController: ProductCarouselCellDelegate {
         } else {
             moreInfoState = .Hidden
         }
-        if moreInfoView?.frame.bottom > view.frame.height/3 {
+        if moreInfoView?.frame.bottom > moreInfoDragMargin {
             showMoreInfo()
         }
     }
     
     func didEndDraggingCell() {
-        if moreInfoView?.frame.bottom > view.frame.height/3 {
+        if moreInfoView?.frame.bottom > moreInfoDragMargin {
             showMoreInfo()
         } else {
             hideMoreInfo()
@@ -639,7 +614,6 @@ extension ProductCarouselViewController: ProductCarouselCellDelegate {
     func canScrollToNextPage() -> Bool {
         return moreInfoState == .Hidden
     }
-    
 }
 
 
@@ -647,8 +621,38 @@ extension ProductCarouselViewController: ProductCarouselCellDelegate {
 
 extension ProductCarouselViewController {
     
-    func moreInfoRx() {
+    func setupMoreInfoDragging() {
+        guard let button = moreInfoView?.dragView else { return }
+        self.navigationController?.navigationBar.ignoreTouchesFor(button)
         
+        let pan = UIPanGestureRecognizer(target: self, action: #selector(dragMoreInfoButton))
+        moreInfoView?.dragView.addGestureRecognizer(pan)
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(dragViewTapped))
+        moreInfoView?.dragView.addGestureRecognizer(tap)
+    }
+    
+    func dragMoreInfoButton(pan: UIPanGestureRecognizer) {
+        let point = pan.locationInView(view)
+        
+        if point.y >= 64 { // start dragging when point is below the navbar
+            moreInfoView?.frame.bottom = point.y
+        }
+        
+        switch pan.state {
+        case .Ended:
+            if point.y > moreInfoDragMargin {
+                showMoreInfo()
+            } else {
+                hideMoreInfo()
+            }
+        default:
+            break
+        }
+    }
+    
+    func dragViewTapped(tap: UITapGestureRecognizer) {
+        showMoreInfo()
     }
     
     @IBAction func showMoreInfo() {
