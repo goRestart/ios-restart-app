@@ -187,6 +187,10 @@ extension UserViewController : UserViewHeaderDelegate {
         viewModel.avatarButtonPressed()
     }
 
+    func ratingsAvatarAction() {
+        viewModel.ratingsButtonPressed()
+    }
+
     func facebookAccountAction() {
         viewModel.facebookButtonPressed()
     }

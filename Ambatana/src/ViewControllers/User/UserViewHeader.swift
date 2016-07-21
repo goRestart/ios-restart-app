@@ -12,6 +12,7 @@ import UIKit
 
 protocol UserViewHeaderDelegate: class {
     func headerAvatarAction()
+    func ratingsAvatarAction()
     func facebookAccountAction()
     func googleAccountAction()
     func emailAccountAction()
@@ -44,7 +45,7 @@ class UserViewHeader: UIView {
     @IBOutlet weak var ratingCountContainerTrailing: NSLayoutConstraint!
     @IBOutlet weak var ratingCountLabel: UILabel!
     @IBOutlet weak var ratingsLabel: UILabel!
-
+    @IBOutlet weak var ratingsButton: UIButton!
 
     @IBOutlet weak var infoView: UIView!
 
@@ -134,6 +135,7 @@ class UserViewHeader: UIView {
             }, completion: nil)
 
             avatarButton.enabled = !collapsed
+            ratingsButton.enabled = !collapsed
         }
     }
 
@@ -173,8 +175,11 @@ class UserViewHeader: UIView {
         let superResult = super.pointInside(point, withEvent: event)
         guard !superResult else { return superResult }
 
-        let convertedPoint = avatarButton.convertPoint(point, fromView: self)
-        return avatarButton.pointInside(convertedPoint, withEvent: event)
+        let avatarButtonConvertedPoint = avatarButton.convertPoint(point, fromView: self)
+        let insideAvatarButton = avatarButton.pointInside(avatarButtonConvertedPoint, withEvent: event)
+        let ratingsButtonConvertedPoint = ratingsButton.convertPoint(point, fromView: self)
+        let insideRatingsButton = ratingsButton.pointInside(ratingsButtonConvertedPoint, withEvent: event)
+        return insideAvatarButton || insideRatingsButton
     }
 }
 
@@ -407,18 +412,19 @@ extension UserViewHeader {
 extension UserViewHeader {
     
     private func setupRxBindings() {
-        setupAvatarButtonRxBinding()
         setupButtonsRxBindings()
         setupAccountsRxBindings()
     }
 
-    private func setupAvatarButtonRxBinding() {
+    private func setupButtonsRxBindings() {
         avatarButton.rx_tap.subscribeNext { [weak self] _ in
             self?.delegate?.headerAvatarAction()
-            }.addDisposableTo(disposeBag)
-    }
+        }.addDisposableTo(disposeBag)
 
-    private func setupButtonsRxBindings() {
+        ratingsButton.rx_tap.subscribeNext { [weak self] _ in
+            self?.delegate?.ratingsAvatarAction()
+        }.addDisposableTo(disposeBag)
+
         sellingButton.rx_tap.subscribeNext { [weak self] _ in
             self?.tab.value = .Selling
         }.addDisposableTo(disposeBag)

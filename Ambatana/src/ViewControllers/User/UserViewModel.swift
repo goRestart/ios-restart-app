@@ -170,6 +170,10 @@ extension UserViewModel {
         openSettings()
     }
 
+    func ratingsButtonPressed() {
+        openRatings()
+    }
+
     func facebookButtonPressed() {
         let vm = VerifyAccountViewModel(verificationType: .Facebook)
         delegate?.vmOpenVerifyAccount(vm)
@@ -293,6 +297,11 @@ extension UserViewModel {
         delegate?.vmOpenSettings(vc)
     }
 
+    private func openRatings() {
+        // TODO: connect with ABIOS-1418
+        print("TODO: connect with ABIOS-1418")
+    }
+
     private func openPushPermissionsAlert() {
         let positive = UIAction(interface: .Button(LGLocalizedString.profilePermissionsAlertOk, .Default),
                         action: {
@@ -402,8 +411,8 @@ extension UserViewModel {
                 strongSelf.userAvatarPlaceholder.value = LetgoAvatar.avatarWithID(user?.objectId, name: user?.name)
             }
             strongSelf.userAvatarURL.value = user?.avatar?.fileURL
-            strongSelf.userRatingAverage.value = user?.ratingAverage?.roundNearest(0.5)
-            strongSelf.userRatingCount.value = user?.ratingCount
+            strongSelf.userRatingAverage.value = Float(3.2).roundNearest(0.5)//user?.ratingAverage?.roundNearest(0.5)
+            strongSelf.userRatingCount.value = 24//user?.ratingCount
 
             strongSelf.userName.value = user?.name
             strongSelf.userLocation.value = user?.postalAddress.cityCountryString
