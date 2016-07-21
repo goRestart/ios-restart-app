@@ -54,6 +54,7 @@ class ProductCarouselMoreInfoView: UIView {
         view?.setupContent()
         view?.addGestures()
         view?.configureMapView()
+        view?.configureOverlayMapView()
         return view!
     }
     
@@ -61,18 +62,13 @@ class ProductCarouselMoreInfoView: UIView {
         super.init(coder: aDecoder)
     }
     
-//    init(viewModel: ProductViewModel, dismissBlock: ((viewToHide: UIView) -> ())?) {
-//        self.viewModel = viewModel
-//        self.dismissBlock = dismissBlock
-//        super.init(viewModel: viewModel, nibName: "ProductCarouselMoreInfoViewController",
-//                   statusBarStyle: .LightContent)
-//        modalPresentationStyle = .OverCurrentContext
-//        modalTransitionStyle = .CrossDissolve
-//    }
-//    override func viewDidAppear(animated: Bool) {
-//        super.viewDidAppear(animated)
-//        configureOverlayMapView()
-//    }
+    func update(viewModel: ProductViewModel) {
+        self.viewModel = viewModel
+        setupUI()
+        setupContent()
+        configureMapView()
+        configureOverlayMapView()
+    }
 }
 
 
@@ -142,7 +138,7 @@ extension ProductCarouselMoreInfoView: MKMapViewDelegate {
 
         var newFrame = overlayMap.frame
         newFrame.origin.y = bigMapMargin
-        newFrame.size.height = height - bigMapMargin*2
+        newFrame.size.height = height - bigMapMargin*3 - 15
         UIView.animateWithDuration(0.3) { [weak self] in
             self?.overlayMap.frame = newFrame
         }

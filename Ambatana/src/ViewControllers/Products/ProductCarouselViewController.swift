@@ -103,6 +103,8 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         gradientShadowBottomView.layer.sublayers?.forEach{ $0.frame = gradientShadowBottomView.bounds }
     }
     
+    
+    
     /*
      We need to setup some properties after we are sure the view has the final frame, to do that
      the animator will tell us when the view has a valid frame to configure the elements.
@@ -145,8 +147,8 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     
     func dragMoreInfoButton(pan: UIPanGestureRecognizer) {
         let point = pan.locationInView(view)
-        
-        if point.y >= self.navigationBarHeight {
+
+        if point.y >= 64 { // start dragging when point is below the navbar
             moreInfoView?.frame.bottom = point.y
         }
         
@@ -251,8 +253,18 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     }
     
     private func setupNavigationBar() {
-        let backIcon = UIImage(named: "ic_close_carousel")
-        setNavBarBackButton(backIcon)
+        let backIconImage = UIImage(named: "ic_close_carousel")
+        let backButton = UIBarButtonItem(image: backIconImage, style: UIBarButtonItemStyle.Plain,
+                                         target: self, action: #selector(close))
+        self.navigationItem.leftBarButtonItem = backButton
+    }
+    
+    @objc private func close() {
+        if moreInfoView?.frame.origin.y < 0 {
+            popViewController(animated: true, completion: nil)
+        } else {
+            hideMoreInfo()
+        }
     }
     
     private func setupGradientView() {
@@ -373,12 +385,16 @@ extension ProductCarouselViewController {
     }
     
     private func setupMoreInfo(viewModel: ProductViewModel) {
-        moreInfoView = ProductCarouselMoreInfoView.moreInfoView(viewModel)
+        if moreInfoView == nil {
+            moreInfoView = ProductCarouselMoreInfoView.moreInfoView(viewModel)
+            view.addSubview(self.moreInfoView!)
+            view.bringSubviewToFront(buttonBottom)
+
+        }
+        moreInfoView?.update(viewModel)
         moreInfoView?.frame = view.bounds
         moreInfoView?.height = view.height+64
         moreInfoView?.frame.origin.y = -view.bounds.height
-        view.addSubview(self.moreInfoView!)
-        view.bringSubviewToFront(buttonBottom)
     }
 
     private func setupUserView(viewModel: ProductViewModel) {
@@ -601,12 +617,15 @@ extension ProductCarouselViewController: ProductCarouselCellDelegate {
     
     func didPullFromTopWith(offset: CGFloat) {
         if moreInfoState == .Shown { return }
-        moreInfoState = .Moving
-        moreInfoView?.frame.origin.y = moreInfoView!.frame.origin.y-offset
+        if moreInfoView!.frame.origin.y-offset > -view.frame.height {
+            moreInfoState = .Moving
+            moreInfoView?.frame.origin.y = moreInfoView!.frame.origin.y-offset
+        } else {
+            moreInfoState = .Hidden
+        }
         if moreInfoView?.frame.bottom > view.frame.height/3 {
             showMoreInfo()
         }
-        print("😘 ORIGIN: \(moreInfoView?.frame.origin.y) :: \(offset)")
     }
     
     func didEndDraggingCell() {
