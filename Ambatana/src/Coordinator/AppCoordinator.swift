@@ -466,6 +466,16 @@ private extension AppCoordinator {
                 CommercializerManager.sharedInstance.commercializerReadyInitialDeepLink(productId: productId,
                                                                                         templateId: templateId)
             }
+        case .UserRatings:
+            openTab(.Profile)
+            afterDelayClosure = { [weak self] in
+                self?.openUserRatings()
+            }
+        case let .UserRating(ratingId):
+            openTab(.Profile)
+            afterDelayClosure = { [weak self] in
+                self?.openUserRating(ratingId)
+            }
         }
 
         if let afterDelayClosure = afterDelayClosure {
@@ -609,6 +619,14 @@ private extension AppCoordinator {
 
         // TODO: Should open a Reset Password coordinator child calling `openChild`
         tabBarCtl.presentViewController(navCtl, animated: true, completion: nil)
+    }
+
+    private func openUserRatings() {
+        // TODO: 🌶
+    }
+
+    private func openUserRating(ratingId: String) {
+        // TODO: 🌶
     }
 }
 
