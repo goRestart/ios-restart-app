@@ -354,6 +354,7 @@
 "product_chat_go_to_chat" = "Mene keskusteluun";
 "product_chat_message_sending" = "Lähetetään...";
 "product_chat_with_seller_button" = "Keskustele myyjän kanssa";
+"product_chat_with_seller_name_button" = "Chat with %@";
 "product_chat_with_seller_send_ok" = "Viestisi on lähetetty!";
 "product_continue_chatting_button" = "Jatka keskustelua";
 "product_create_commercial_button" = "Create Commercial";
@@ -395,6 +396,7 @@
 "product_mark_as_sold_confirm_title" = "Merkitse myydyksi";
 "product_mark_as_sold_error_generic" = "Merkittäessä tuotetta myydyksi tapahtui virhe. Ole hyvä ja yritä myöhemmin uudelleen.";
 "product_mark_as_sold_success_message" = "Onneksi olkoon, tuotteesi merkittiin onnistuneesti myydyksi!";
+"product_more_info_open_button" = "MORE INFO";
 "product_more_info_tooltip_part_1" = "Paina";
 "product_more_info_tooltip_part_2" = "%@ nähdäksesi lisätietoja";
 "product_negotiable_price" = "Neuvoteltavissa";
@@ -504,7 +506,7 @@
 "profile_permissions_alert_ok" = "Ota käyttöön";
 "profile_permissions_alert_title" = "ÄLÄ MISSAA VASTAUSTA!";
 "profile_permissions_header_message" = "Ota viesti-ilmoitukset käyttöön";
-"profile_reviews_count" = "Reviews";
+"profile_reviews_count" = "arvostelua";
 "profile_selling_my_user_no_products_button" = "Myy tavarasi";
 "profile_selling_no_products_label" = "EI TUOTTEITA (VIELÄ!)";
 "profile_selling_other_user_no_products_button" = "Jatka selaamista";
@@ -532,12 +534,14 @@
 "push_notification_message_body" = "%@: %@";
 "push_notification_message_body_no_username" = "Viesti: %@";
 "push_notification_message_title" = "Uusi viesti - %@";
-"rating_list_action_report_review" = "Report review";
-"rating_list_action_review_user" = "Review user";
-"rating_list_loading_error_message" = "An error occurred while loading ratings.";
-"rating_list_rating_type_buyer_text_label" = "%@ bought a product";
-"rating_list_rating_type_conversation_text_label" = "%@ chatted about a product";
-"rating_list_rating_type_seller_text_label" = "%@ sold a product";
+"rating_list_action_report_review" = "Ilmianna arvostelu";
+"rating_list_action_report_review_error_message" = "Ilmiantoasi lähetettäessä tapahtui virhe.";
+"rating_list_action_report_review_success_message" = "Ilmiantosi on lähetetty!";
+"rating_list_action_review_user" = "Arvostele käyttäjä";
+"rating_list_loading_error_message" = "Luokituksia ladattaessa tapahtui virhe.";
+"rating_list_rating_type_buyer_text_label" = "%@ osti tuotteen";
+"rating_list_rating_type_conversation_text_label" = "%@ keskusteli tuotteesta";
+"rating_list_rating_type_seller_text_label" = "%@ myi tuotteen";
 "rating_view_dont_ask_again_button" = "Älä kysy uudelleen";
 "rating_view_love_it_label" = "Rakastan sitä!";
 "rating_view_needs_improvements_label" = "Tarvitsee parannuksia";

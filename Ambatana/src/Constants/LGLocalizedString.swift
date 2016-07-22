@@ -1283,6 +1283,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("product_chat_with_seller_button", comment: "")
 	}
 
+	static func productChatWithSellerNameButton(var1: String) -> String {
+		return String(format: NSLocalizedString("product_chat_with_seller_name_button", comment: ""), var1)
+	}
+
 	static var productChatWithSellerSendOk: String {
 		return NSLocalizedString("product_chat_with_seller_send_ok", comment: "")
 	}
@@ -2057,6 +2061,14 @@ struct LGLocalizedString {
 
 	static var ratingListActionReportReview: String {
 		return NSLocalizedString("rating_list_action_report_review", comment: "")
+	}
+
+	static var ratingListActionReportReviewSuccessMessage: String {
+		return NSLocalizedString("rating_list_action_report_review_success_message", comment: "")
+	}
+
+	static var ratingListActionReportReviewErrorMessage: String {
+		return NSLocalizedString("rating_list_action_report_review_error_message", comment: "")
 	}
 
 	static var ratingListLoadingErrorMessage: String {

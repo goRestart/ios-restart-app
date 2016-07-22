@@ -948,6 +948,9 @@
 // product chat with the seller button title
 "product_chat_with_seller_button" = "Chat with the seller";
 
+// product chat with the seller button title including seller name
+"product_chat_with_seller_name_button" = "Chat with %@";
+
 // product chat with the seller button title send ok
 "product_chat_with_seller_send_ok" = "Your chat has been sent!";
 
@@ -1529,6 +1532,10 @@
 
 // action for user to report a review by another user
 "rating_list_action_report_review" = "Report review";
+
+"rating_list_action_report_review_success_message" = "Your report has been sent!";
+
+"rating_list_action_report_review_error_message" = "An error occurred while sending your report.";
 
 // Text for loading error at user ratings list
 "rating_list_loading_error_message" = "An error occurred while loading ratings.";
