@@ -81,7 +81,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     
     init(viewModel: ProductCarouselViewModel, pushAnimator: ProductCarouselPushAnimator?) {
         self.viewModel = viewModel
-        self.userView = UserView.userView(.Full)
+        self.userView = UserView.userView(.WithProductInfo)
         let blurEffect = UIBlurEffect(style: .Dark)
         self.fullScreenAvatarEffectView = UIVisualEffectView(effect: blurEffect)
         self.fullScreenAvatarView = UIImageView(frame: CGRect.zero)
@@ -378,8 +378,11 @@ extension ProductCarouselViewController {
     }
 
     private func setupUserView(viewModel: ProductViewModel) {
-        userView.setupWith(userAvatar: viewModel.ownerAvatar, placeholder: viewModel.ownerAvatarPlaceholder,
-                           userName: viewModel.ownerName, subtitle: nil)
+        userView.setupWith(userAvatar: viewModel.ownerAvatar,
+                           userName: viewModel.ownerName,
+                           productTitle: viewModel.productTitle.value,
+                           productPrice: viewModel.productPrice.value,
+                           userId: viewModel.ownerId)
     }
 
     private func setupFullScreenAvatarView(viewModel: ProductViewModel) {
