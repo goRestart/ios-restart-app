@@ -71,7 +71,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     private var moreInfoState: MoreInfoState = .Hidden
     
     private var moreInfoDragMargin: CGFloat {
-        return 60
+        return 45
     }
 
     let animator: PushAnimator?
@@ -599,9 +599,6 @@ extension ProductCarouselViewController: ProductCarouselCellDelegate {
         } else {
             moreInfoState = .Hidden
         }
-        if moreInfoView?.frame.bottom > moreInfoDragMargin {
-//            showMoreInfo()
-        }
     }
     
     func didEndDraggingCell() {
@@ -659,7 +656,7 @@ extension ProductCarouselViewController {
     
     @IBAction func showMoreInfo() {
         moreInfoState = .Shown
-        UIView.animateWithDuration(0.2, delay: 0, options: UIViewAnimationOptions.CurveEaseOut, animations:
+        UIView.animateWithDuration(0.4, delay: 0, options: UIViewAnimationOptions.CurveEaseOut, animations:
             { [weak self] in
                 self?.moreInfoView?.frame.origin.y = 0
             }, completion: nil)
@@ -667,7 +664,7 @@ extension ProductCarouselViewController {
     
     func hideMoreInfo() {
         moreInfoState = .Hidden
-        UIView.animateWithDuration(0.2, delay: 0, options: UIViewAnimationOptions.CurveEaseOut, animations:
+        UIView.animateWithDuration(0.4, delay: 0, options: UIViewAnimationOptions.CurveEaseOut, animations:
             { [weak self] in
                 guard let `self` = self else { return }
                 self.moreInfoView?.frame.origin.y = -self.view.bounds.height
@@ -686,11 +683,22 @@ extension ProductCarouselViewController: ProductCarouselMoreInfoDelegate {
     
     func didEndScrolling() {
         guard let moreInfoView = moreInfoView else { return }
-        if -moreInfoView.frame.origin.y > moreInfoDragMargin {
-            hideMoreInfo()
+        let origin = moreInfoView.frame.origin.y
+        if origin < 0 {
+            if -origin > moreInfoDragMargin {
+                hideMoreInfo()
+            } else {
+                showMoreInfo()
+            }
         } else {
-            showMoreInfo()
+            hideMoreInfo()
         }
+    }
+    
+    func didScrollFromTopWith(deltaOffset: CGFloat) {
+        guard let moreInfoView = moreInfoView where deltaOffset < 0 else { return }
+        moreInfoState = .Moving
+        moreInfoView.frame.origin.y = moreInfoView.frame.origin.y + abs(deltaOffset)
     }
 }
 

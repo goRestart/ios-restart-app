@@ -13,6 +13,7 @@ import LGCollapsibleLabel
 
 protocol ProductCarouselMoreInfoDelegate: class {
     func didScrollFromBottomWith(deltaOffset: CGFloat)
+    func didScrollFromTopWith(deltaOffset: CGFloat)
     func didEndScrolling()
 }
 
@@ -198,6 +199,9 @@ extension ProductCarouselMoreInfoView: UIScrollViewDelegate {
         if scrollView.contentOffset.y > border || frame.origin.y < 0 {
             delegate?.didScrollFromBottomWith(scrollView.contentOffset.y - border)
             scrollView.contentOffset.y = border
+        } else if scrollView.contentOffset.y < 0 {
+            delegate?.didScrollFromTopWith(scrollView.contentOffset.y)
+            scrollView.contentOffset.y = 0
         }
     }
     
