@@ -78,10 +78,6 @@ extension UserRatingListViewController: UserRatingListViewModelDelegate {
             }
         }
     }
-
-//    func showActionSheetForCellAtIndex(cancelAction: UIAction, actions: [UIAction]) {
-//        vmShowActionSheet(cancelAction, actions: actions)
-//    }
 }
 
 // MARK: UITableView Delegate

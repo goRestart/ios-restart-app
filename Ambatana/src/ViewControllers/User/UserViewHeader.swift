@@ -86,7 +86,6 @@ class UserViewHeader: UIView {
     weak var delegate: UserViewHeaderDelegate?
 
     let tab = Variable<UserViewHeaderTab>(.Selling)
-    let userRatingsDisabled = Variable<Bool>(true)
 
     var mode: UserViewHeaderMode = .MyUser {
         didSet {
@@ -338,7 +337,6 @@ extension UserViewHeader {
     private func updateAvatarRatingsContainerView() {
         let height = avatarRatingsContainerView.bounds.height
         avatarRatingsContainerView.layer.cornerRadius = height / 2
-        userRatingsDisabled.value = !FeatureFlags.userRatings
     }
 
     private func updateUserAvatarView() {
@@ -431,8 +429,6 @@ extension UserViewHeader {
         tab.asObservable().skip(1).subscribeNext { [weak self] tab in
             self?.setIndicatorAtTab(tab, animated: true)
         }.addDisposableTo(disposeBag)
-
-        userRatingsDisabled.asObservable().bindTo(ratingsButton.rx_hidden).addDisposableTo(disposeBag)
     }
 
     private func setupAccountsRxBindings() {

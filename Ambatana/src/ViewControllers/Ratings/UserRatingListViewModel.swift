@@ -27,7 +27,7 @@ class UserRatingListViewModel: BaseViewModel {
     var userIdRated: String
 
     var isMyRatingsList: Bool {
-        return myUserRepository.myUser?.objectId == userIdRated && userIdRated != ""
+        return myUserRepository.myUser?.objectId == userIdRated
     }
 
     var userRatingListRequester: UserRatingListRequester
@@ -44,10 +44,10 @@ class UserRatingListViewModel: BaseViewModel {
         self.init(userIdRated: userId, userRatingListRequester: requester, myUserRepository: myUserRepository)
     }
 
-    required init(userIdRated: String?, userRatingListRequester: UserRatingListRequester, myUserRepository: MyUserRepository) {
+    required init(userIdRated: String, userRatingListRequester: UserRatingListRequester, myUserRepository: MyUserRepository) {
         self.userRatingListRequester = userRatingListRequester
         self.myUserRepository = myUserRepository
-        self.userIdRated = userIdRated ?? ""
+        self.userIdRated = userIdRated
         self.ratings = []
         super.init()
     }
