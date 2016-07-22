@@ -395,6 +395,7 @@
 "product_mark_as_sold_confirm_title" = "Merk som solgt";
 "product_mark_as_sold_error_generic" = "En geil oppstod ved å merke produktet som solgt. Vennligst prøv igjen senere.";
 "product_mark_as_sold_success_message" = "Gratulerer, ditt produkt ble merket som solgt!";
+"product_more_info_open_button" = "MORE INFO";
 "product_more_info_tooltip_part_1" = "Trykk";
 "product_more_info_tooltip_part_2" = "%@ for å se mer info";
 "product_negotiable_price" = "Kan diskuteres";
@@ -533,6 +534,8 @@
 "push_notification_message_body_no_username" = "Melding: %@";
 "push_notification_message_title" = "Ny melding - %@";
 "rating_list_action_report_review" = "Rapporter vurdering";
+"rating_list_action_report_review_error_message" = "En feil oppstod ved sending av din rapport.";
+"rating_list_action_report_review_success_message" = "Din rapport ble sendt!";
 "rating_list_action_review_user" = "Vurder bruker";
 "rating_list_loading_error_message" = "En feil oppstod ved lasting av vurderinger.";
 "rating_list_rating_type_buyer_text_label" = "%@ kjøpte et produkt";
@@ -664,4 +667,4 @@
 "user_rating_review_placeholder" = "Legg igjen en omtale (påkrevd)";
 "user_rating_review_placeholder_optional" = "Legg igjen en omtale (valgfritt)";
 "user_rating_review_send_success" = "Din omtale er publisert!";
-"user_rating_title" = "Ranger din opplevelse med";
+"user_rating_title" = "Vurder din opplevelse med";

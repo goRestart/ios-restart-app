@@ -395,6 +395,7 @@
 "product_mark_as_sold_confirm_title" = "Segna come venduto";
 "product_mark_as_sold_error_generic" = "Si è verificato un errore durante il tentativo di segnare il prodotto come venduto. Riprova più tardi.";
 "product_mark_as_sold_success_message" = "Complimenti, Il tuo prodotto è stato correttamente contrassegnato come venduto.";
+"product_more_info_open_button" = "MORE INFO";
 "product_more_info_tooltip_part_1" = "Tocca";
 "product_more_info_tooltip_part_2" = "%@ per vedere maggiori informazioni";
 "product_negotiable_price" = "Trattabile";
@@ -533,6 +534,8 @@
 "push_notification_message_body_no_username" = "Messaggio: %@";
 "push_notification_message_title" = "Nuovo messaggio - %@";
 "rating_list_action_report_review" = "Segnala utente";
+"rating_list_action_report_review_error_message" = "Si è verificato un errore durante l'invio della tua segnalazione.";
+"rating_list_action_report_review_success_message" = "La tua segnalazione è stata inviata!";
 "rating_list_action_review_user" = "Recensisci utente";
 "rating_list_loading_error_message" = "Si è verificato un errore durante il caricamento dei giudizi";
 "rating_list_rating_type_buyer_text_label" = "%@ ha acquistato un prodotto";
@@ -664,4 +667,4 @@
 "user_rating_review_placeholder" = "Lascia una recensione (obbligatorio)";
 "user_rating_review_placeholder_optional" = "Lascia una recensione (facoltativo)";
 "user_rating_review_send_success" = "La tua recensione è stata pubblicata!";
-"user_rating_title" = "Giudica la tua esperienza con";
+"user_rating_title" = "Valuta la tua esperienza con";

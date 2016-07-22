@@ -1879,6 +1879,10 @@ struct LGLocalizedString {
 		return String(format: NSLocalizedString("product_more_info_tooltip_part_2", comment: ""), var1)
 	}
 
+	static var productMoreInfoOpenButton: String {
+		return NSLocalizedString("product_more_info_open_button", comment: "")
+	}
+
 	static var profileBlockedByMeLabel: String {
 		return NSLocalizedString("profile_blocked_by_me_label", comment: "")
 	}
@@ -2053,6 +2057,14 @@ struct LGLocalizedString {
 
 	static var ratingListActionReportReview: String {
 		return NSLocalizedString("rating_list_action_report_review", comment: "")
+	}
+
+	static var ratingListActionReportReviewSuccessMessage: String {
+		return NSLocalizedString("rating_list_action_report_review_success_message", comment: "")
+	}
+
+	static var ratingListActionReportReviewErrorMessage: String {
+		return NSLocalizedString("rating_list_action_report_review_error_message", comment: "")
 	}
 
 	static var ratingListLoadingErrorMessage: String {

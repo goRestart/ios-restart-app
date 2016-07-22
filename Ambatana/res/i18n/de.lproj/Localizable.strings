@@ -395,6 +395,7 @@
 "product_mark_as_sold_confirm_title" = "Als verkauft markieren";
 "product_mark_as_sold_error_generic" = "Beim als verkauft Markieren ist ein Fehler aufgetreten. Bitte versuche es später noch mal.";
 "product_mark_as_sold_success_message" = "Glückwunsch, dein Produkt wurde erfolgreich als verkauft markiert!";
+"product_more_info_open_button" = "MORE INFO";
 "product_more_info_tooltip_part_1" = "Drücke";
 "product_more_info_tooltip_part_2" = "%@ für weitere Infos";
 "product_negotiable_price" = "Verhandelbar";
@@ -533,6 +534,8 @@
 "push_notification_message_body_no_username" = "Nachricht: %@";
 "push_notification_message_title" = "Neue Nachricht - %@";
 "rating_list_action_report_review" = "Bewertung melden";
+"rating_list_action_report_review_error_message" = "Beim Abschicken deiner Nachricht ist ein Fehler aufgetreten.";
+"rating_list_action_report_review_success_message" = "Deine Nachricht wurde abgeschickt!";
 "rating_list_action_review_user" = "Nutzer bewerten";
 "rating_list_loading_error_message" = "Beim Laden der Bewertungen ist ein Fehler aufgetreten.";
 "rating_list_rating_type_buyer_text_label" = "%@ hat einen Artikel gekauft";

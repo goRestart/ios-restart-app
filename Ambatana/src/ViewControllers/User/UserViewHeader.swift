@@ -12,10 +12,10 @@ import UIKit
 
 protocol UserViewHeaderDelegate: class {
     func headerAvatarAction()
+    func ratingsAvatarAction()
     func facebookAccountAction()
     func googleAccountAction()
     func emailAccountAction()
-    func ratingListAction()
 }
 
 enum UserViewHeaderMode {
@@ -33,9 +33,19 @@ class UserViewHeader: UIView {
     private static let otherAccountHeight: CGFloat = 28
     private static let otherAccountEmptyHeight: CGFloat = 20
 
+    private static let ratingCountContainerLeadingVisible: CGFloat = 15
+    private static let ratingCountContainerTrailingVisible: CGFloat = 20
+
+    @IBOutlet weak var avatarRatingsContainerView: UIView!
     @IBOutlet weak var avatarImageView: UIImageView!
     var avatarBorderLayer: CAShapeLayer?
     @IBOutlet weak var avatarButton: UIButton!
+    @IBOutlet weak var avatarRatingsEffectView: UIVisualEffectView!
+    @IBOutlet weak var ratingCountContainerLeading: NSLayoutConstraint!
+    @IBOutlet weak var ratingCountContainerTrailing: NSLayoutConstraint!
+    @IBOutlet weak var ratingCountLabel: UILabel!
+    @IBOutlet weak var ratingsLabel: UILabel!
+    @IBOutlet weak var ratingsButton: UIButton!
 
     @IBOutlet weak var infoView: UIView!
 
@@ -55,10 +65,6 @@ class UserViewHeader: UIView {
     @IBOutlet weak var myUserFacebookButton: UIButton!
     @IBOutlet weak var myUserGoogleButton: UIButton!
     @IBOutlet weak var myUserEmailButton: UIButton!
-
-    // TODO : uncomment (and adapt) once merged with new user profile view
-    @IBOutlet weak var ratingListButton: UIButton!
-
 
     private var verifiedView: UIView {
         switch mode {
@@ -80,6 +86,7 @@ class UserViewHeader: UIView {
     weak var delegate: UserViewHeaderDelegate?
 
     let tab = Variable<UserViewHeaderTab>(.Selling)
+    let userRatingsDisabled = Variable<Bool>(true)
 
     var mode: UserViewHeaderMode = .MyUser {
         didSet {
@@ -115,29 +122,21 @@ class UserViewHeader: UIView {
 
     var collapsed: Bool = false {
         didSet {
-            let isCollapsed = avatarImageView.alpha == 0
+            let isCollapsed = avatarRatingsContainerView.alpha == 0
             guard isCollapsed != collapsed else { return }
 
             UIView.animateWithDuration(0.2, delay: 0, options: [.CurveEaseIn, .BeginFromCurrentState],
                                        animations: { [weak self] in
                 guard let strongSelf = self else { return }
-                strongSelf.avatarImageView.alpha = strongSelf.collapsed ? 0 : 1
-                strongSelf.userRelationView.alpha = strongSelf.collapsed ? 0 : 1
-                strongSelf.verifiedOtherUserView.alpha = strongSelf.collapsed ? 0 : 1
-                strongSelf.verifiedMyUserView.alpha = strongSelf.collapsed ? 0 : 1
-                strongSelf.layoutIfNeeded()
+                let alpha: CGFloat = strongSelf.collapsed ? 0 : 1
+                strongSelf.avatarRatingsContainerView.alpha = alpha
+                strongSelf.userRelationView.alpha = alpha
+                strongSelf.verifiedOtherUserView.alpha = alpha
+                strongSelf.verifiedMyUserView.alpha = alpha
             }, completion: nil)
 
-            let transformAnim = CABasicAnimation(keyPath: "transform")
-            transformAnim.duration = 0.2
-            transformAnim.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseIn)
-            transformAnim.removedOnCompletion = false
-            transformAnim.fillMode = kCAFillModeForwards
-
-            let transform = collapsed ? CATransform3DMakeScale(0.01, 0.01, 1) : CATransform3DIdentity
-            transformAnim.toValue = NSValue(CATransform3D: transform)
-            avatarImageView.layer.addAnimation(transformAnim, forKey: "transform")
             avatarButton.enabled = !collapsed
+            ratingsButton.enabled = !collapsed
         }
     }
 
@@ -180,7 +179,15 @@ extension UserViewHeader {
         } else {
             avatarImageView.image = placeholderImage
         }
+    }
 
+    func setRatingCount(ratingCount: Int?) {
+        let hidden = (ratingCount ?? 0) <= 0
+        ratingCountLabel.text = hidden ? nil : String(ratingCount ?? 0)
+        ratingsLabel.text = hidden ? nil : LGLocalizedString.profileReviewsCount
+        avatarRatingsEffectView.hidden = hidden
+        ratingCountContainerLeading.constant = hidden ? 0 : UserViewHeader.ratingCountContainerLeadingVisible
+        ratingCountContainerTrailing.constant = hidden ? 0 : UserViewHeader.ratingCountContainerTrailingVisible
     }
 
     func setUserRelationText(userRelationText: String?) {
@@ -272,11 +279,13 @@ extension UserViewHeader {
 extension UserViewHeader {
     private func setupUI() {
         setupInfoView()
+        setupAvatarRatingsContainerView()
         setupVerifiedViews()
         setupButtons()
     }
 
     private func updateUI() {
+        updateAvatarRatingsContainerView()
         updateUserAvatarView()
     }
 
@@ -284,6 +293,13 @@ extension UserViewHeader {
         userRelationView.hidden = true
         userRelationLabel.font = UIFont.smallBodyFont
         userRelationLabel.textColor = UIColor.primaryColor
+    }
+
+    private func setupAvatarRatingsContainerView() {
+        ratingCountLabel.font = UIFont.systemLightFont(size: 24)
+        ratingCountLabel.textColor = UIColor.black
+        ratingsLabel.font = UIFont.systemRegularFont(size: 13)
+        ratingsLabel.textColor = UIColor.grayDark
     }
 
     private func setupVerifiedViews() {
@@ -317,9 +333,12 @@ extension UserViewHeader {
         favoritesButton.setAttributedTitle(favsTitle, forState: .Normal)
 
         setupButtonsSelectedState()
+    }
 
-        // TODO : uncomment once merged with new user profile view
-        ratingListButton.hidden = !FeatureFlags.userRatings
+    private func updateAvatarRatingsContainerView() {
+        let height = avatarRatingsContainerView.bounds.height
+        avatarRatingsContainerView.layer.cornerRadius = height / 2
+        userRatingsDisabled.value = !FeatureFlags.userRatings
     }
 
     private func updateUserAvatarView() {
@@ -380,18 +399,19 @@ extension UserViewHeader {
 extension UserViewHeader {
     
     private func setupRxBindings() {
-        setupAvatarButtonRxBinding()
         setupButtonsRxBindings()
         setupAccountsRxBindings()
     }
 
-    private func setupAvatarButtonRxBinding() {
+    private func setupButtonsRxBindings() {
         avatarButton.rx_tap.subscribeNext { [weak self] _ in
             self?.delegate?.headerAvatarAction()
-            }.addDisposableTo(disposeBag)
-    }
+        }.addDisposableTo(disposeBag)
 
-    private func setupButtonsRxBindings() {
+        ratingsButton.rx_tap.subscribeNext { [weak self] _ in
+            self?.delegate?.ratingsAvatarAction()
+        }.addDisposableTo(disposeBag)
+
         sellingButton.rx_tap.subscribeNext { [weak self] _ in
             self?.tab.value = .Selling
         }.addDisposableTo(disposeBag)
@@ -412,10 +432,7 @@ extension UserViewHeader {
             self?.setIndicatorAtTab(tab, animated: true)
         }.addDisposableTo(disposeBag)
 
-        // TODO : uncomment once merged with new user profile view
-        ratingListButton.rx_tap.subscribeNext { [weak self] _ in
-            self?.delegate?.ratingListAction()
-            }.addDisposableTo(disposeBag)
+        userRatingsDisabled.asObservable().bindTo(ratingsButton.rx_hidden).addDisposableTo(disposeBag)
     }
 
     private func setupAccountsRxBindings() {

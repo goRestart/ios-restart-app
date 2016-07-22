@@ -395,6 +395,7 @@
 "product_mark_as_sold_confirm_title" = "Marcar como vendido";
 "product_mark_as_sold_error_generic" = "Se ha producido un error al marcar el artículo como vendido. Por favor, vuelve a intentarlo.";
 "product_mark_as_sold_success_message" = "¡Enhorabuena, tu producto ha sido marcado como vendido!";
+"product_more_info_open_button" = "MORE INFO";
 "product_more_info_tooltip_part_1" = "Pulsa";
 "product_more_info_tooltip_part_2" = "%@ para ver más detalles";
 "product_negotiable_price" = "Negociable";
@@ -533,6 +534,8 @@
 "push_notification_message_body_no_username" = "Mensaje: %@";
 "push_notification_message_title" = "Nuevo mensaje - %@";
 "rating_list_action_report_review" = "Denunciar valoración";
+"rating_list_action_report_review_error_message" = "Se ha producido un error al enviar tu denuncia.";
+"rating_list_action_report_review_success_message" = "¡Tu denuncia ha sido enviada!";
 "rating_list_action_review_user" = "Valorar usuario";
 "rating_list_loading_error_message" = "Se ha producido un error al cargar las valoraciones.";
 "rating_list_rating_type_buyer_text_label" = "%@ ha comprado un producto";

@@ -59,6 +59,8 @@ class UserViewModel: BaseViewModel {
     let headerMode = Variable<UserViewHeaderMode>(.MyUser)
     let userAvatarPlaceholder = Variable<UIImage?>(nil)
     let userAvatarURL = Variable<NSURL?>(nil)
+    let userRatingAverage = Variable<Float?>(nil)
+    let userRatingCount = Variable<Int?>(nil)
     let userRelationText = Variable<String?>(nil)
     let userName = Variable<String?>(nil)
     let userLocation = Variable<String?>(nil)
@@ -169,6 +171,10 @@ extension UserViewModel {
         openSettings()
     }
 
+    func ratingsButtonPressed() {
+        openRatings()
+    }
+
     func facebookButtonPressed() {
         let vm = VerifyAccountViewModel(verificationType: .Facebook)
         delegate?.vmOpenVerifyAccount(vm)
@@ -186,12 +192,6 @@ extension UserViewModel {
 
     func pushPermissionsWarningPressed() {
         openPushPermissionsAlert()
-    }
-
-    func ratingListButtonPressed() {
-        guard let userId = user.value?.objectId else { return }
-        let vm = UserRatingListViewModel(userId: userId)
-        delegate?.vmOpenRatingList(vm)
     }
 }
 
@@ -298,6 +298,12 @@ extension UserViewModel {
         delegate?.vmOpenSettings(vc)
     }
 
+    private func openRatings() {
+        guard let userId = user.value?.objectId else { return }
+        let vm = UserRatingListViewModel(userId: userId)
+        delegate?.vmOpenRatingList(vm)
+    }
+
     private func openPushPermissionsAlert() {
         let positive = UIAction(interface: .Button(LGLocalizedString.profilePermissionsAlertOk, .Default),
                         action: {
@@ -388,7 +394,6 @@ extension UserViewModel {
     }
 
     private func setupUserInfoRxBindings() {
-
         if itsMe {
             myUserRepository.rx_myUser.asObservable().bindNext { [weak self] myUser in
                 self?.user.value = myUser
@@ -408,6 +413,9 @@ extension UserViewModel {
                 strongSelf.userAvatarPlaceholder.value = LetgoAvatar.avatarWithID(user?.objectId, name: user?.name)
             }
             strongSelf.userAvatarURL.value = user?.avatar?.fileURL
+            strongSelf.userRatingAverage.value = user?.ratingAverage?.roundNearest(0.5)
+            strongSelf.userRatingCount.value = user?.ratingCount
+
             strongSelf.userName.value = user?.name
             strongSelf.userLocation.value = user?.postalAddress.cityCountryString
 
