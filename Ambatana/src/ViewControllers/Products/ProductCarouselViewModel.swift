@@ -45,6 +45,7 @@ class ProductCarouselViewModel: BaseViewModel {
     }
 
     var shouldShowMoreInfoTooltip: Bool {
+        return true
         return !KeyValueStorage.sharedInstance[.productMoreInfoTooltipDismissed]
     }
 
@@ -185,7 +186,7 @@ class ProductCarouselViewModel: BaseViewModel {
         currentProductViewModel?.openProductOwnerProfile()
     }
 
-    func didTapMoreInfoBar() {
+    func didOpenMoreInfo() {
         currentProductViewModel?.trackVisitMoreInfo()
         KeyValueStorage.sharedInstance[.productMoreInfoTooltipDismissed] = true
         delegate?.vmRemoveMoreInfoTooltip()

@@ -58,7 +58,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     private let pageControlMargin: CGFloat = 18
     private let userViewMargin: CGFloat = 15
     
-    private let moreInfoTooltipMargin: CGFloat = -10
+    private let moreInfoTooltipMargin: CGFloat = 0
     private var moreInfoTooltip: Tooltip?
 
     private var activeDisposeBag = DisposeBag()
@@ -121,6 +121,8 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         currentIndex = viewModel.startIndex
         collectionView.reloadData()
         collectionView.scrollToItemAtIndexPath(startIndexPath, atScrollPosition: .Right, animated: false)
+        
+        setupMoreInfoTooltip()
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -562,7 +564,7 @@ extension ProductCarouselViewController: ProductCarouselViewModelDelegate {
     }
 
     func vmRemoveMoreInfoTooltip() {
-        // TODO: 🎪 Remove tooptip if any
+        removeMoreInfoTooltip()
     }
 }
 
@@ -592,6 +594,7 @@ extension ProductCarouselViewController: ProductCarouselCellDelegate {
             self?.pageControl.alpha = shouldHide ? 0 : 1
             self?.moreInfoTooltip?.alpha = shouldHide ? 0 : 1
             self?.moreInfoView?.dragView.alpha = shouldHide ? 0 : 1
+            UIApplication.sharedApplication().setStatusBarHidden(shouldHide, withAnimation: .Fade)
         }
     }
     
@@ -664,6 +667,7 @@ extension ProductCarouselViewController {
     
     @IBAction func showMoreInfo() {
         moreInfoState = .Shown
+        viewModel.didOpenMoreInfo()
         UIView.animateWithDuration(0.4, delay: 0, options: UIViewAnimationOptions.CurveEaseOut, animations:
             { [weak self] in
                 self?.moreInfoView?.frame.origin.y = 0
@@ -707,6 +711,40 @@ extension ProductCarouselViewController: ProductCarouselMoreInfoDelegate {
         guard let moreInfoView = moreInfoView where deltaOffset < 0 else { return }
         moreInfoState = .Moving
         moreInfoView.frame.origin.y = moreInfoView.frame.origin.y + abs(deltaOffset)
+    }
+}
+
+
+// MARK: > ToolTip
+
+extension ProductCarouselViewController {
+    
+    private func setupMoreInfoTooltip() {
+        guard viewModel.shouldShowMoreInfoTooltip else { return }
+        guard let moreInfoView = moreInfoView else { return }
+        
+        let tapTextAttributes: [String : AnyObject] = [NSForegroundColorAttributeName : UIColor.white,
+                                                       NSFontAttributeName : UIFont.systemBoldFont(size: 17)]
+        let infoTextAttributes: [String : AnyObject] = [ NSForegroundColorAttributeName : UIColor.grayLighter,
+                                                         NSFontAttributeName : UIFont.systemSemiBoldFont(size: 17)]
+        let plainText = LGLocalizedString.productMoreInfoTooltipPart2(LGLocalizedString.productMoreInfoTooltipPart1)
+        let resultText = NSMutableAttributedString(string: plainText, attributes: infoTextAttributes)
+        let boldRange = NSString(string: plainText).rangeOfString(LGLocalizedString.productMoreInfoTooltipPart1,
+                                                                  options: .CaseInsensitiveSearch)
+        resultText.addAttributes(tapTextAttributes, range: boldRange)
+        
+        let moreInfoTooltip = Tooltip(targetView: moreInfoView, superView: view, title: resultText,
+                                      style: .Blue(closeEnabled: false), peakOnTop: true,
+                                      actionBlock: { [weak self] in self?.showMoreInfo() }, closeBlock: nil)
+        view.addSubview(moreInfoTooltip)
+        setupExternalConstraintsForTooltip(moreInfoTooltip, targetView: moreInfoView, containerView: view,
+                                           margin: moreInfoTooltipMargin)
+        self.moreInfoTooltip = moreInfoTooltip
+    }
+    
+    private func removeMoreInfoTooltip() {
+        moreInfoTooltip?.removeFromSuperview()
+        moreInfoTooltip = nil
     }
 }
 
