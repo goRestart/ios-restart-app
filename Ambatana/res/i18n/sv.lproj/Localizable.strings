@@ -533,6 +533,8 @@
 "push_notification_message_body_no_username" = "Meddelande: %@";
 "push_notification_message_title" = "Nytt meddelande - %@";
 "rating_list_action_report_review" = "Rapportera bedömning";
+"rating_list_action_report_review_error_message" = "An error occurred while sending your report.";
+"rating_list_action_report_review_success_message" = "Your report has been sent!";
 "rating_list_action_review_user" = "Bedöm användare";
 "rating_list_loading_error_message" = "An error occurred while loading ratings.";
 "rating_list_rating_type_buyer_text_label" = "%@ köpte en produkt";

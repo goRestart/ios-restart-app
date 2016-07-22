@@ -533,8 +533,10 @@
 "push_notification_message_body_no_username" = "메세지: %@";
 "push_notification_message_title" = "새로운 메세지 -%@";
 "rating_list_action_report_review" = "리뷰 신고하기";
+"rating_list_action_report_review_error_message" = "An error occurred while sending your report.";
+"rating_list_action_report_review_success_message" = "Your report has been sent!";
 "rating_list_action_review_user" = "사용자 리뷰";
-"rating_list_loading_error_message" = "An error occurred while loading ratings.";
+"rating_list_loading_error_message" = "평점을 불러오는 동안 오류가 발생했습니다.";
 "rating_list_rating_type_buyer_text_label" = "%@께서 상품을 구매하였습니다";
 "rating_list_rating_type_conversation_text_label" = "%@께서 상품에 관하여 채팅을 보냈습니다";
 "rating_list_rating_type_seller_text_label" = "%@ sold a product";
@@ -664,4 +666,4 @@
 "user_rating_review_placeholder" = "댓글 남기기 (필수항목)";
 "user_rating_review_placeholder_optional" = "댓글 남기기 (선택사항)";
 "user_rating_review_send_success" = "사용자의 댓글이 정상적으로 등록되었습니다!";
-"user_rating_title" = "회원님의 경험을 평가하기";
+"user_rating_title" = "회원님의 경험을 댓글로 남기기";

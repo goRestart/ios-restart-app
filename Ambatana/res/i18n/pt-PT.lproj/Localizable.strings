@@ -533,8 +533,10 @@
 "push_notification_message_body_no_username" = "Mensagem: %@";
 "push_notification_message_title" = "Nova mensagem - %@";
 "rating_list_action_report_review" = "Denunciar comentário";
+"rating_list_action_report_review_error_message" = "An error occurred while sending your report.";
+"rating_list_action_report_review_success_message" = "Your report has been sent!";
 "rating_list_action_review_user" = "Comentar utilizador";
-"rating_list_loading_error_message" = "An error occurred while loading ratings.";
+"rating_list_loading_error_message" = "Ocorreu um erro ao carregar as classificações.";
 "rating_list_rating_type_buyer_text_label" = "%@ comprou um produto";
 "rating_list_rating_type_conversation_text_label" = "%@ conversou sobre um produto";
 "rating_list_rating_type_seller_text_label" = "%@ vendeu um produto";
@@ -664,4 +666,4 @@
 "user_rating_review_placeholder" = "Deixe um comentário (obrigatório)";
 "user_rating_review_placeholder_optional" = "Deixe um comentário (opcional)";
 "user_rating_review_send_success" = "O seu comentário foi publicado!";
-"user_rating_title" = "Avalie a sua experiência com";
+"user_rating_title" = "Comente a sua experiência com";

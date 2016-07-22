@@ -533,8 +533,10 @@
 "push_notification_message_body_no_username" = "Μήνυμα: %@";
 "push_notification_message_title" = "Νέο μήνυμα- %@";
 "rating_list_action_report_review" = "Κάντε αναφορά μιας κριτικής";
+"rating_list_action_report_review_error_message" = "An error occurred while sending your report.";
+"rating_list_action_report_review_success_message" = "Your report has been sent!";
 "rating_list_action_review_user" = "Κάντε κριτική σε χρήστη";
-"rating_list_loading_error_message" = "An error occurred while loading ratings.";
+"rating_list_loading_error_message" = "Παρουσιάστηκε σφάλμα κατά τη φόρτωση της κριτικής.";
 "rating_list_rating_type_buyer_text_label" = "Ο %@ αγόρασε ένα προϊόν";
 "rating_list_rating_type_conversation_text_label" = "Ο %@ συζήτησε για ένα προϊόν";
 "rating_list_rating_type_seller_text_label" = "Ο %@ πούλησε ένα προϊόν";
@@ -664,4 +666,4 @@
 "user_rating_review_placeholder" = "Αφήστε μια κριτική (απαραίτητο)";
 "user_rating_review_placeholder_optional" = "Αφήστε μια κριτική (προαιρετικό)";
 "user_rating_review_send_success" = "Η κριτική σας έχει δημοσιευθεί!";
-"user_rating_title" = "Βαθμολογήστε την εμπειρία σας με";
+"user_rating_title" = "Αναφέρετε την εμπειρία σας με";

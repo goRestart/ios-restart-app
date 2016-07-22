@@ -533,6 +533,8 @@
 "push_notification_message_body_no_username" = "Mesaj: %@";
 "push_notification_message_title" = "Yeni mesaj - %@";
 "rating_list_action_report_review" = "Yorumu bildir";
+"rating_list_action_report_review_error_message" = "An error occurred while sending your report.";
+"rating_list_action_report_review_success_message" = "Your report has been sent!";
 "rating_list_action_review_user" = "Kullanıcıyı değerlendir";
 "rating_list_loading_error_message" = "Yorumlar yüklenirken bir hata oluştu.";
 "rating_list_rating_type_buyer_text_label" = "%@ bir ürün aldı";
@@ -664,4 +666,4 @@
 "user_rating_review_placeholder" = "Değerlendirme yap (gerekli)";
 "user_rating_review_placeholder_optional" = "Değerlendirme yap (isteğe bağlı)";
 "user_rating_review_send_success" = "Değerlendirmen yayınlandı!";
-"user_rating_title" = "Bu kullanıcı ile deneyimine puan ver";
+"user_rating_title" = "Bu kullanıcı ile deneyimini değerlendir";

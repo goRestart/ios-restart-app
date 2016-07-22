@@ -533,8 +533,10 @@
 "push_notification_message_body_no_username" = "Tin nhắn: %@";
 "push_notification_message_title" = "Tin nhắn mới - %@";
 "rating_list_action_report_review" = "Báo cáo đánh giá";
+"rating_list_action_report_review_error_message" = "An error occurred while sending your report.";
+"rating_list_action_report_review_success_message" = "Your report has been sent!";
 "rating_list_action_review_user" = "Xem người dùng";
-"rating_list_loading_error_message" = "An error occurred while loading ratings.";
+"rating_list_loading_error_message" = "Có lỗi xảy ra khi tải các đánh giá";
 "rating_list_rating_type_buyer_text_label" = "%@ đã mua một sản phẩm";
 "rating_list_rating_type_conversation_text_label" = "%@ đã trò chuyện về một sản phẩm";
 "rating_list_rating_type_seller_text_label" = "%@ đã bán một sản phẩm";

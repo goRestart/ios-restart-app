@@ -533,8 +533,10 @@
 "push_notification_message_body_no_username" = "Üzenet: %@";
 "push_notification_message_title" = "Új üzenet - %@";
 "rating_list_action_report_review" = "Értékelés jelentése";
+"rating_list_action_report_review_error_message" = "An error occurred while sending your report.";
+"rating_list_action_report_review_success_message" = "Your report has been sent!";
 "rating_list_action_review_user" = "Felhasználó értékelése";
-"rating_list_loading_error_message" = "An error occurred while loading ratings.";
+"rating_list_loading_error_message" = "Hiba történt az értékelések betöltése során.";
 "rating_list_rating_type_buyer_text_label" = "%@ vásárolt";
 "rating_list_rating_type_conversation_text_label" = "%@ beszélgetett";
 "rating_list_rating_type_seller_text_label" = "%@ eladott";
@@ -664,4 +666,4 @@
 "user_rating_review_placeholder" = "Hagyj értékelést (kötelező)";
 "user_rating_review_placeholder_optional" = "Hagyj értékelést (nem kötelező)";
 "user_rating_review_send_success" = "Értékelésed beküldve!";
-"user_rating_title" = "Mondd el, milyen volt.";
+"user_rating_title" = "Mondd el, milyen volt";
