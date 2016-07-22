@@ -411,8 +411,8 @@ extension UserViewModel {
                 strongSelf.userAvatarPlaceholder.value = LetgoAvatar.avatarWithID(user?.objectId, name: user?.name)
             }
             strongSelf.userAvatarURL.value = user?.avatar?.fileURL
-            strongSelf.userRatingAverage.value = Float(3.2).roundNearest(0.5)//user?.ratingAverage?.roundNearest(0.5)
-            strongSelf.userRatingCount.value = 24//user?.ratingCount
+            strongSelf.userRatingAverage.value = user?.ratingAverage?.roundNearest(0.5)
+            strongSelf.userRatingCount.value = user?.ratingCount
 
             strongSelf.userName.value = user?.name
             strongSelf.userLocation.value = user?.postalAddress.cityCountryString
