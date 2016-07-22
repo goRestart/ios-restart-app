@@ -259,9 +259,18 @@ extension ProductCarouselMoreInfoView {
         dragView.layer.borderColor = UIColor.white.CGColor
         dragView.layer.borderWidth = 1
         dragView.backgroundColor = UIColor.clearColor()
+        
         dragViewTitle.text = LGLocalizedString.productMoreInfoOpenButton
         dragViewTitle.textColor = UIColor.white
         dragViewTitle.font = UIFont.systemSemiBoldFont(size: 13)
+        
+        [dragView, dragViewTitle, dragViewImage].forEach { view in
+            view.layer.shadowColor = UIColor.black.CGColor
+            view.layer.shadowOpacity = 0.5
+            view.layer.shadowRadius = 1
+            view.layer.shadowOffset = CGSize.zero
+            view.layer.masksToBounds = false
+        }
         
         scrollView.delegate = self
     }
