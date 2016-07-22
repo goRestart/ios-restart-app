@@ -30,7 +30,7 @@
   },
   "configURL": "http://letgo-images-devel.s3.amazonaws.com/config/ios.json",
     "userRating": {
-        "myMessagesCountForRating": 1,
-        "otherMessagesCountForRating": 1
+        "myMessagesCountForRating": 2,
+        "otherMessagesCountForRating": 2
     }
 }

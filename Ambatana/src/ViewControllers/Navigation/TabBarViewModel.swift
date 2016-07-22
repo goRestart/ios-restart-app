@@ -56,8 +56,8 @@ class TabBarViewModel: BaseViewModel {
         navigator?.openSell(.BannerCell(designType: designType))
     }
 
-    func userRating(data: RateUserData) {
-        navigator?.openUserRating(data)
+    func userRating(source: RateUserSource, data: RateUserData) {
+        navigator?.openUserRating(source, data: data)
     }
 
     func externalSwitchToTab(tab: Tab) {

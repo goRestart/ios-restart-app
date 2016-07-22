@@ -19,7 +19,7 @@ protocol ChatViewModelDelegate: BaseViewModelDelegate {
     func vmShowProduct(productVC: UIViewController)
     func vmShowUser(userVM: UserViewModel)
     func vmShowReportUser(reportUserViewModel: ReportUsersViewModel)
-    func vmShowUserRating(data: RateUserData)
+    func vmShowUserRating(source: RateUserSource, data: RateUserData)
 
     func vmShowSafetyTips()
 
@@ -375,7 +375,7 @@ class ChatViewModel: BaseViewModel {
     func reviewUserPressed() {
         guard let interlocutor = conversation.value.interlocutor, reviewData = RateUserData(interlocutor: interlocutor)
             else { return }
-        delegate?.vmShowUserRating(reviewData)
+        delegate?.vmShowUserRating(.Chat, data: reviewData)
     }
 
     func safetyTipsDismissed() {
@@ -909,8 +909,12 @@ private extension ChatViewModel {
         }
         guard let product = conversation.value.product else { return }
         guard let userId = conversation.value.interlocutor?.objectId else { return }
+
+        let sellerRating = conversation.value.amISelling ?
+            myUserRepository.myUser?.ratingAverage : interlocutor?.ratingAverage
         let askQuestionEvent = TrackerEvent.productAskQuestion(product, messageType: type.trackingMessageType,
-                                                               interlocutorId: userId, typePage: typePageParam)
+                                                               interlocutorId: userId, typePage: typePageParam,
+                                                               sellerRating: sellerRating)
         TrackerProxy.sharedInstance.trackEvent(askQuestionEvent)
     }
 

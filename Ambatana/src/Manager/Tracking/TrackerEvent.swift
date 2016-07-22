@@ -256,22 +256,26 @@ public struct TrackerEvent {
     }
 
     public static func productAskQuestion(product: Product, messageType: EventParameterMessageType,
-                                          typePage: EventParameterTypePage) -> TrackerEvent {
+                                          typePage: EventParameterTypePage, sellerRating: Float? = nil) -> TrackerEvent {
         var params = EventParameters()
         params.addProductParams(product)
         params[.MessageType] = messageType.rawValue
         params[.TypePage] = typePage.rawValue
+        params[.SellerUserRating] = sellerRating
         return TrackerEvent(name: .ProductAskQuestion, params: params)
     }
     
     // Duplicated method from the one above to support tracking using ChatProduct model
     public static func productAskQuestion(product: ChatProduct, messageType: EventParameterMessageType,
-                                          interlocutorId: String?, typePage: EventParameterTypePage) -> TrackerEvent {
+                                          interlocutorId: String?, typePage: EventParameterTypePage,
+                                          sellerRating: Float? = nil) -> TrackerEvent {
+        // Note: does not have: category-id, product-lat, product-lng
         var params = EventParameters()
         params.addChatProductParams(product)
         params[.MessageType] = messageType.rawValue
         params[.TypePage] = typePage.rawValue
         params[.UserToId] = interlocutorId
+        params[.SellerUserRating] = sellerRating
         return TrackerEvent(name: .ProductAskQuestion, params: params)
     }
 
@@ -752,6 +756,23 @@ public struct TrackerEvent {
         params[.Template] = template
         params[.ShareNetwork] = shareNetwork.rawValue
         return TrackerEvent(name: .CommercializerShareComplete, params: params)
+    }
+
+    public static func userRatingStart(userId: String, typePage: EventParameterTypePage) -> TrackerEvent {
+        var params = EventParameters()
+        params[.UserToId] = userId
+        params[.TypePage] = typePage.rawValue
+        return TrackerEvent(name: .UserRatingStart, params: params)
+    }
+
+    public static func userRatingComplete(userId: String, typePage: EventParameterTypePage,
+                                          rating: Int, hasComments: Bool) -> TrackerEvent {
+        var params = EventParameters()
+        params[.UserToId] = userId
+        params[.TypePage] = typePage.rawValue
+        params[.RatingStars] = rating
+        params[.RatingComments] = hasComments
+        return TrackerEvent(name: .UserRatingComplete, params: params)
     }
 
     

@@ -354,7 +354,7 @@
 "product_chat_go_to_chat" = "Aller vers le chat";
 "product_chat_message_sending" = "Envoi...";
 "product_chat_with_seller_button" = "Chatter avec le vendeur";
-"product_chat_with_seller_name_button" = "Chat with %@";
+"product_chat_with_seller_name_button" = "Chatter avec %@";
 "product_chat_with_seller_send_ok" = "Votre chat a été envoyé !";
 "product_continue_chatting_button" = "Continuer le chat";
 "product_create_commercial_button" = "Create Commercial";

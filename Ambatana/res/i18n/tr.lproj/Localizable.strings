@@ -354,7 +354,7 @@
 "product_chat_go_to_chat" = "Sohbete Git";
 "product_chat_message_sending" = "Gönderiliyor...";
 "product_chat_with_seller_button" = "Satıcı ile mesajlaş";
-"product_chat_with_seller_name_button" = "Chat with %@";
+"product_chat_with_seller_name_button" = "%@ ile sohbet et";
 "product_chat_with_seller_send_ok" = "Mesajın yollandı!";
 "product_continue_chatting_button" = "Mesajlaşmaya devam et";
 "product_create_commercial_button" = "Create Commercial";
