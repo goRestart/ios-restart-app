@@ -948,6 +948,9 @@
 // product chat with the seller button title
 "product_chat_with_seller_button" = "Chat with the seller";
 
+// product chat with the seller button title including seller name
+"product_chat_with_seller_name_button" = "Chat with %@";
+
 // product chat with the seller button title send ok
 "product_chat_with_seller_send_ok" = "Your chat has been sent!";
 

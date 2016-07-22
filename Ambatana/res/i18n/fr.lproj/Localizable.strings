@@ -354,6 +354,7 @@
 "product_chat_go_to_chat" = "Aller vers le chat";
 "product_chat_message_sending" = "Envoi...";
 "product_chat_with_seller_button" = "Chatter avec le vendeur";
+"product_chat_with_seller_name_button" = "Chatter avec %@";
 "product_chat_with_seller_send_ok" = "Votre chat a été envoyé !";
 "product_continue_chatting_button" = "Continuer le chat";
 "product_create_commercial_button" = "Create Commercial";
@@ -395,6 +396,7 @@
 "product_mark_as_sold_confirm_title" = "Marquer comme vendu";
 "product_mark_as_sold_error_generic" = "Il y a eu une erreur lors du passage du bien au statut 'vendu'. Veuillez réessayer plus tard.";
 "product_mark_as_sold_success_message" = "Félicitations, votre bien a été marqué comme vendu !";
+"product_more_info_open_button" = "PLUS d'INFO";
 "product_more_info_tooltip_part_1" = "Tapez";
 "product_more_info_tooltip_part_2" = "%@ pour plus d'infos";
 "product_negotiable_price" = "Negociable";
@@ -533,10 +535,10 @@
 "push_notification_message_body_no_username" = "Message : %@";
 "push_notification_message_title" = "Nouveau message - %@";
 "rating_list_action_report_review" = "Signaler une note";
-"rating_list_action_report_review_error_message" = "An error occurred while sending your report.";
-"rating_list_action_report_review_success_message" = "Your report has been sent!";
+"rating_list_action_report_review_error_message" = "Une erreur est survenue lors de l'envoi du signalement.";
+"rating_list_action_report_review_success_message" = "Votre signalement a été envoyé !";
 "rating_list_action_review_user" = "Noter utilisateur";
-"rating_list_loading_error_message" = "An error occurred while loading ratings.";
+"rating_list_loading_error_message" = "Une erreur est survenue lors du chargement des notes.";
 "rating_list_rating_type_buyer_text_label" = "%@ a acheté votre bien";
 "rating_list_rating_type_conversation_text_label" = "%@ a chatté à propos d'un bien";
 "rating_list_rating_type_seller_text_label" = "%@ a vendu un bien";

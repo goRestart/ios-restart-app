@@ -354,6 +354,7 @@
 "product_chat_go_to_chat" = "채팅으로 이동하기";
 "product_chat_message_sending" = "발송중...";
 "product_chat_with_seller_button" = "판매자와 채팅하기";
+"product_chat_with_seller_name_button" = "Chat with %@";
 "product_chat_with_seller_send_ok" = "당신의 채팅이 발송되었습니다!";
 "product_continue_chatting_button" = "계속 채팅하기";
 "product_create_commercial_button" = "Create Commercial";
@@ -395,6 +396,7 @@
 "product_mark_as_sold_confirm_title" = "품절로 표시하기";
 "product_mark_as_sold_error_generic" = "품절로 표시하는데 오류가 발생했습니다. 다시 시도해주세요.";
 "product_mark_as_sold_success_message" = "축하드립니다, 고객님의 제품이 품절로 표시되었습니다.";
+"product_more_info_open_button" = "MORE INFO";
 "product_more_info_tooltip_part_1" = "탭";
 "product_more_info_tooltip_part_2" = "%@ 더 많은 정보 확인하기";
 "product_negotiable_price" = "흥정가능한";
@@ -533,8 +535,8 @@
 "push_notification_message_body_no_username" = "메세지: %@";
 "push_notification_message_title" = "새로운 메세지 -%@";
 "rating_list_action_report_review" = "리뷰 신고하기";
-"rating_list_action_report_review_error_message" = "An error occurred while sending your report.";
-"rating_list_action_report_review_success_message" = "Your report has been sent!";
+"rating_list_action_report_review_error_message" = "신고를 발송하는동안 오류가 발생했습니다.";
+"rating_list_action_report_review_success_message" = "신고가 발송되었습니다!";
 "rating_list_action_review_user" = "사용자 리뷰";
 "rating_list_loading_error_message" = "평점을 불러오는 동안 오류가 발생했습니다.";
 "rating_list_rating_type_buyer_text_label" = "%@께서 상품을 구매하였습니다";

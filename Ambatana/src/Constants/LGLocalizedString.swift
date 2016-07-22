@@ -1283,6 +1283,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("product_chat_with_seller_button", comment: "")
 	}
 
+	static func productChatWithSellerNameButton(var1: String) -> String {
+		return String(format: NSLocalizedString("product_chat_with_seller_name_button", comment: ""), var1)
+	}
+
 	static var productChatWithSellerSendOk: String {
 		return NSLocalizedString("product_chat_with_seller_send_ok", comment: "")
 	}

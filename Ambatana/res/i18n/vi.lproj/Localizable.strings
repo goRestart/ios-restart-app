@@ -354,6 +354,7 @@
 "product_chat_go_to_chat" = "Tới Trò chuyện";
 "product_chat_message_sending" = "Đang gửi...";
 "product_chat_with_seller_button" = "Trò chuyện với người bán";
+"product_chat_with_seller_name_button" = "Trò chuyện với %@";
 "product_chat_with_seller_send_ok" = "Trò chuyện vừa được gửi!";
 "product_continue_chatting_button" = "Tiếp tục trò chuyện";
 "product_create_commercial_button" = "Create Commercial";
@@ -395,6 +396,7 @@
 "product_mark_as_sold_confirm_title" = "Đánh dấu Đã bán";
 "product_mark_as_sold_error_generic" = "Lỗi xảy ra trong khi đánh dấu đã bán cho sản phẩm. Xin vui lòng thử lại sau.";
 "product_mark_as_sold_success_message" = "Chúc mừng, sản phẩm của bạn đã được đánh dấu đã bán!";
+"product_more_info_open_button" = "THÊM THÔNG TIN";
 "product_more_info_tooltip_part_1" = "Chạm";
 "product_more_info_tooltip_part_2" = "%@ để xem thêm thông tin";
 "product_negotiable_price" = "Có thể thương lượng";
@@ -533,8 +535,8 @@
 "push_notification_message_body_no_username" = "Tin nhắn: %@";
 "push_notification_message_title" = "Tin nhắn mới - %@";
 "rating_list_action_report_review" = "Báo cáo đánh giá";
-"rating_list_action_report_review_error_message" = "An error occurred while sending your report.";
-"rating_list_action_report_review_success_message" = "Your report has been sent!";
+"rating_list_action_report_review_error_message" = "Có lỗi xảy ra trong khi gửi báo cáo.";
+"rating_list_action_report_review_success_message" = "Báo cáo của bạn đã được gửi đi!";
 "rating_list_action_review_user" = "Xem người dùng";
 "rating_list_loading_error_message" = "Có lỗi xảy ra khi tải các đánh giá";
 "rating_list_rating_type_buyer_text_label" = "%@ đã mua một sản phẩm";
