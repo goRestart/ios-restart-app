@@ -10,6 +10,13 @@ import MapKit
 import RxSwift
 import LGCollapsibleLabel
 
+
+protocol ProductCarouselMoreInfoDelegate: class {
+    func didScrollFromBottomWith(deltaOffset: CGFloat)
+    func didEndScrolling()
+}
+
+
 class ProductCarouselMoreInfoView: UIView {
     
     @IBOutlet weak var titleLabel: UILabel!
@@ -42,10 +49,11 @@ class ProductCarouselMoreInfoView: UIView {
     private var mapZoomBlocker: MapZoomBlocker?
     private var statsView: ProductStatsView?
 
-
     private let statsContainerViewHeight: CGFloat = 24.0
     private let statsContainerViewTop: CGFloat = 30.0
+    var canDrag: Bool = true
 
+    weak var delegate: ProductCarouselMoreInfoDelegate?
 
     static func moreInfoView(viewModel: ProductViewModel) -> ProductCarouselMoreInfoView {
         let view = NSBundle.mainBundle().loadNibNamed("ProductCarouselMoreInfoView", owner: self, options: nil).first as? ProductCarouselMoreInfoView
@@ -178,10 +186,28 @@ extension ProductCarouselMoreInfoView: MKMapViewDelegate {
 }
 
 extension ProductCarouselMoreInfoView: UIScrollViewDelegate {
+    
+    
     func scrollViewDidScroll(scrollView: UIScrollView) {
+        guard canDrag else { return }
         if scrollView.contentOffset.y < -100 {
             closeView()
         }
+        
+        let border = max(0, scrollView.contentSize.height - scrollView.height + scrollView.contentInset.bottom)
+        if scrollView.contentOffset.y > border || frame.origin.y < 0 {
+            delegate?.didScrollFromBottomWith(scrollView.contentOffset.y - border)
+            scrollView.contentOffset.y = border
+        }
+    }
+    
+    func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        canDrag = !decelerate
+        delegate?.didEndScrolling()
+    }
+    
+    func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
+        canDrag = true
     }
 }
 
@@ -190,6 +216,9 @@ extension ProductCarouselMoreInfoView: UIScrollViewDelegate {
 
 extension ProductCarouselMoreInfoView {
     private func setupUI() {
+        
+        scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 80, right: 0)
+        
         titleLabel.textColor = UIColor.whiteColor()
         titleLabel.font = UIFont.productTitleFont
         

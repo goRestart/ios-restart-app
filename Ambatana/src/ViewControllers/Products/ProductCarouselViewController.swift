@@ -71,7 +71,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     private var moreInfoState: MoreInfoState = .Hidden
     
     private var moreInfoDragMargin: CGFloat {
-        return self.view.height / 3
+        return 60
     }
 
     let animator: PushAnimator?
@@ -583,6 +583,7 @@ extension ProductCarouselViewController: ProductCarouselCellDelegate {
             self?.userView.alpha = shouldHide ? 0 : 1
             self?.pageControl.alpha = shouldHide ? 0 : 1
             self?.moreInfoTooltip?.alpha = shouldHide ? 0 : 1
+            self?.moreInfoView?.dragView.alpha = shouldHide ? 0 : 1
         }
     }
     
@@ -599,12 +600,12 @@ extension ProductCarouselViewController: ProductCarouselCellDelegate {
             moreInfoState = .Hidden
         }
         if moreInfoView?.frame.bottom > moreInfoDragMargin {
-            showMoreInfo()
+//            showMoreInfo()
         }
     }
     
     func didEndDraggingCell() {
-        if moreInfoView?.frame.bottom > moreInfoDragMargin {
+        if moreInfoView?.frame.bottom > moreInfoDragMargin*2 {
             showMoreInfo()
         } else {
             hideMoreInfo()
@@ -630,6 +631,7 @@ extension ProductCarouselViewController {
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(dragViewTapped))
         moreInfoView?.dragView.addGestureRecognizer(tap)
+        moreInfoView?.delegate = self
     }
     
     func dragMoreInfoButton(pan: UIPanGestureRecognizer) {
@@ -657,7 +659,7 @@ extension ProductCarouselViewController {
     
     @IBAction func showMoreInfo() {
         moreInfoState = .Shown
-        UIView.animateWithDuration(0.3, delay: 0, options: UIViewAnimationOptions.CurveEaseInOut, animations:
+        UIView.animateWithDuration(0.2, delay: 0, options: UIViewAnimationOptions.CurveEaseOut, animations:
             { [weak self] in
                 self?.moreInfoView?.frame.origin.y = 0
             }, completion: nil)
@@ -665,11 +667,30 @@ extension ProductCarouselViewController {
     
     func hideMoreInfo() {
         moreInfoState = .Hidden
-        UIView.animateWithDuration(0.3, delay: 0, options: UIViewAnimationOptions.CurveEaseInOut, animations:
+        UIView.animateWithDuration(0.2, delay: 0, options: UIViewAnimationOptions.CurveEaseOut, animations:
             { [weak self] in
                 guard let `self` = self else { return }
                 self.moreInfoView?.frame.origin.y = -self.view.bounds.height
             }, completion: nil)
+    }
+}
+
+extension ProductCarouselViewController: ProductCarouselMoreInfoDelegate {
+    func didScrollFromBottomWith(deltaOffset: CGFloat) {
+        guard let moreInfoView = moreInfoView else { return }
+        moreInfoState = .Moving
+        if moreInfoView.frame.origin.y > -view.frame.height {
+            moreInfoView.frame.origin.y = moreInfoView.frame.origin.y - deltaOffset
+        }
+    }
+    
+    func didEndScrolling() {
+        guard let moreInfoView = moreInfoView else { return }
+        if -moreInfoView.frame.origin.y > moreInfoDragMargin {
+            hideMoreInfo()
+        } else {
+            showMoreInfo()
+        }
     }
 }
 
