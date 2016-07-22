@@ -127,7 +127,7 @@
 "chat_unblock_user" = "Ξεμπλοκάρισμα Χρήστη";
 "chat_user_info_name" = "Γεια, είμαι ο/η %@";
 "chat_user_info_verified_with" = "Επιβεβαιωμένο με: ";
-"chat_user_rating_button_title" = "Review";
+"chat_user_rating_button_title" = "Κριτική";
 "chat_verify_alert_message" = "Στείλαμε ένα email επιβεβαίωσης στο %@";
 "chat_verify_alert_ok_button" = "ΟΚ";
 "chat_verify_alert_resend_button" = "Ξαναστείλτε το";
@@ -504,6 +504,7 @@
 "profile_permissions_alert_ok" = "Ενεργοποίηση";
 "profile_permissions_alert_title" = "ΜΗ ΧΆΝΕΤΕ ΑΠΑΝΤΉΣΕΙΣ!";
 "profile_permissions_header_message" = "Ενεργοποιήστε τις γνωστοποιησεις μηνυμάτων";
+"profile_reviews_count" = "Κριτικές";
 "profile_selling_my_user_no_products_button" = "Πούλα τα Πράγματά Σου";
 "profile_selling_no_products_label" = "ΚΑΝΕΝΑ ΠΡΟΪΟΝ (ΑΚΟΜΗ!)";
 "profile_selling_other_user_no_products_button" = "Συνεχίστε την πλοήγηση";
@@ -531,6 +532,11 @@
 "push_notification_message_body" = "%@: %@";
 "push_notification_message_body_no_username" = "Μήνυμα: %@";
 "push_notification_message_title" = "Νέο μήνυμα- %@";
+"rating_list_action_report_review" = "Κάντε αναφορά μιας κριτικής";
+"rating_list_action_review_user" = "Κάντε κριτική σε χρήστη";
+"rating_list_rating_type_buyer_text_label" = "Ο %@ αγόρασε ένα προϊόν";
+"rating_list_rating_type_conversation_text_label" = "Ο %@ συζήτησε για ένα προϊόν";
+"rating_list_rating_type_seller_text_label" = "Ο %@ πούλησε ένα προϊόν";
 "rating_view_dont_ask_again_button" = "Να μην ερωτηθώ ξανά";
 "rating_view_love_it_label" = "Μου αρέσει!";
 "rating_view_needs_improvements_label" = "Χρειάζεται βελτιώσεις";
@@ -651,10 +657,10 @@
 "trending_searches_Title" = "Δημοφιλείς Αναζητήσεις";
 "unblock_user_error_generic" = "Παρουσιάστηκε σφάλμα κατά το ξεμπλοκάρισμα του χρήστη.";
 "unblock_user_success_message" = "Ο χρήστης έχει ξεμπλοκαριστεί!";
-"user_rating_message_w_name" = "Tap the stars to rate and tell us if your experience with %@ went well. You can update it whenever you want.";
-"user_rating_message_wo_name" = "Tap the stars to rate and tell us if your experience with this user went well. You can update it whenever you want.";
-"user_rating_review_button" = "Publish review";
-"user_rating_review_placeholder" = "Leave a review (required)";
-"user_rating_review_placeholder_optional" = "Leave a review (optional)";
-"user_rating_review_send_success" = "Your review has been published!";
-"user_rating_title" = "Rate your experience with";
+"user_rating_message_w_name" = "Πατήστε τα αστεράκια για να βαθμολογήσετε και να μας πείτε αν η εμπειρία σας με το %@ ήταν καλή. Μπορείτε να την ενημερώσετε όποτε θέλετε.";
+"user_rating_message_wo_name" = "Πατήστε τα αστεράκια για να βαθμολογήσετε και να μας πείτε αν η εμπειρία σας με το χρήστη αυτό ήταν καλή. Μπορείτε να την ενημερώσετε όποτε θέλετε.";
+"user_rating_review_button" = "Δημοσιεύστε κριτική";
+"user_rating_review_placeholder" = "Αφήστε μια κριτική (απαραίτητο)";
+"user_rating_review_placeholder_optional" = "Αφήστε μια κριτική (προαιρετικό)";
+"user_rating_review_send_success" = "Η κριτική σας έχει δημοσιευθεί!";
+"user_rating_title" = "Βαθμολογήστε την εμπειρία σας με";

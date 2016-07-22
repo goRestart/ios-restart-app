@@ -504,6 +504,7 @@
 "profile_permissions_alert_ok" = "Tillåt";
 "profile_permissions_alert_title" = "MISSA INGA SVAR!";
 "profile_permissions_header_message" = "Tillåt meddelandenotifieringar";
+"profile_reviews_count" = "Omdömen";
 "profile_selling_my_user_no_products_button" = "Sälj dina prylar";
 "profile_selling_no_products_label" = "INGA PRODUKTER (ÄNNU!)";
 "profile_selling_other_user_no_products_button" = "Surfa vidare";
@@ -531,6 +532,11 @@
 "push_notification_message_body" = "%@:%@";
 "push_notification_message_body_no_username" = "Meddelande: %@";
 "push_notification_message_title" = "Nytt meddelande - %@";
+"rating_list_action_report_review" = "Rapportera bedömning";
+"rating_list_action_review_user" = "Bedöm användare";
+"rating_list_rating_type_buyer_text_label" = "%@ köpte en produkt";
+"rating_list_rating_type_conversation_text_label" = "%@ chattade om en produkt";
+"rating_list_rating_type_seller_text_label" = "%@ sålde en produkt";
 "rating_view_dont_ask_again_button" = "Fråga mig inte igen";
 "rating_view_love_it_label" = "Älskar det!";
 "rating_view_needs_improvements_label" = "Behöver förbättringar";
@@ -654,7 +660,7 @@
 "user_rating_message_w_name" = "Klicka på stjärnorna för att ge din bedömning och berätta om din upplevelse med %@ var bra. Du kan uppdatera när du vill.";
 "user_rating_message_wo_name" = "Klicka på stjärnorna och berätta för oss om din upplevelse med den här användaren var bra. Du kan uppdatera när du vill.";
 "user_rating_review_button" = "Publicera omdömet";
-"user_rating_review_placeholder" = "Lämna ett omdöme (frivilligt)";
-"user_rating_review_placeholder_optional" = "Leave a review (optional)";
+"user_rating_review_placeholder" = "Lämna ett omdöme (obligatoriskt)";
+"user_rating_review_placeholder_optional" = "Lämna ett omdöme (frivilligt)";
 "user_rating_review_send_success" = "Ditt omdöme har publicerats!";
 "user_rating_title" = "Bedöm din upplevelse med";

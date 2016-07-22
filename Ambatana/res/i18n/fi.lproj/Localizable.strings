@@ -504,6 +504,7 @@
 "profile_permissions_alert_ok" = "Ota käyttöön";
 "profile_permissions_alert_title" = "ÄLÄ MISSAA VASTAUSTA!";
 "profile_permissions_header_message" = "Ota viesti-ilmoitukset käyttöön";
+"profile_reviews_count" = "Reviews";
 "profile_selling_my_user_no_products_button" = "Myy tavarasi";
 "profile_selling_no_products_label" = "EI TUOTTEITA (VIELÄ!)";
 "profile_selling_other_user_no_products_button" = "Jatka selaamista";
@@ -531,6 +532,11 @@
 "push_notification_message_body" = "%@: %@";
 "push_notification_message_body_no_username" = "Viesti: %@";
 "push_notification_message_title" = "Uusi viesti - %@";
+"rating_list_action_report_review" = "Report review";
+"rating_list_action_review_user" = "Review user";
+"rating_list_rating_type_buyer_text_label" = "%@ bought a product";
+"rating_list_rating_type_conversation_text_label" = "%@ chatted about a product";
+"rating_list_rating_type_seller_text_label" = "%@ sold a product";
 "rating_view_dont_ask_again_button" = "Älä kysy uudelleen";
 "rating_view_love_it_label" = "Rakastan sitä!";
 "rating_view_needs_improvements_label" = "Tarvitsee parannuksia";
@@ -654,7 +660,7 @@
 "user_rating_message_w_name" = "Napauta tähtiä antaaksesi arviosi ja kertoaksesi meille sujuiko kaikki hyvin käyttäjän %@ kanssa. Voit päivittää arviota milloin haluat.";
 "user_rating_message_wo_name" = "Napauta tähtiä antaaksesi arviosi ja kertoaksesi meille sujuiko kaikki hyvin tämän käyttäjän kanssa. Voit päivittää arviota milloin haluat.";
 "user_rating_review_button" = "Julkaise arvostelu";
-"user_rating_review_placeholder" = "Kirjoita arvostelu";
+"user_rating_review_placeholder" = "Kirjoita arvostelu (pakollinen)";
 "user_rating_review_placeholder_optional" = "Kirjoita arvostelu (vapaaehtoinen)";
 "user_rating_review_send_success" = "Arvostelusi on julkaistu!";
 "user_rating_title" = "Arvostele kokemuksesi seuraavan käyttäjän kanssa";

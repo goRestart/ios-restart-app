@@ -504,6 +504,7 @@
 "profile_permissions_alert_ok" = "Aç";
 "profile_permissions_alert_title" = "YANITLARI KAÇIRMA!";
 "profile_permissions_header_message" = "Mesaj bildirimlerini aç";
+"profile_reviews_count" = "Yorumlar";
 "profile_selling_my_user_no_products_button" = "Eşyalarını Sat";
 "profile_selling_no_products_label" = "(HENÜZ!) ÜRÜN YOK";
 "profile_selling_other_user_no_products_button" = "Aramaya Başla";
@@ -531,6 +532,11 @@
 "push_notification_message_body" = "%@: %@";
 "push_notification_message_body_no_username" = "Mesaj: %@";
 "push_notification_message_title" = "Yeni mesaj - %@";
+"rating_list_action_report_review" = "Yorumu bildir";
+"rating_list_action_review_user" = "Kullanıcıyı değerlendir";
+"rating_list_rating_type_buyer_text_label" = "%@ bir ürün aldı";
+"rating_list_rating_type_conversation_text_label" = "%@ bir ürün hakkında sohbet etti";
+"rating_list_rating_type_seller_text_label" = "%@ bir ürün sattı";
 "rating_view_dont_ask_again_button" = "BUNU BİR DAHA SORMA";
 "rating_view_love_it_label" = "SEVİYORUM";
 "rating_view_needs_improvements_label" = "GELİŞTİRİLMESİ GEREKİYOR";
@@ -654,7 +660,7 @@
 "user_rating_message_w_name" = "Yıldızlara dokunup değerlendirme yaparak bize %@ ile deneyimini söyle. Ne zaman istersen güncelleyebilirsin.";
 "user_rating_message_wo_name" = "Yıldızlara dokunup değerlendirme yaparak bize bu kullanıcı ile deneyimini söyle. Ne zaman istersen güncelleyebilirsin.";
 "user_rating_review_button" = "Değerlendirme yayınla";
-"user_rating_review_placeholder" = "Değerlendirme yap (isteğe bağlı)";
-"user_rating_review_placeholder_optional" = "Leave a review (optional)";
+"user_rating_review_placeholder" = "Değerlendirme yap (gerekli)";
+"user_rating_review_placeholder_optional" = "Değerlendirme yap (isteğe bağlı)";
 "user_rating_review_send_success" = "Değerlendirmen yayınlandı!";
 "user_rating_title" = "Bu kullanıcı ile deneyimine puan ver";
