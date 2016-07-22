@@ -272,6 +272,9 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         alphaSignal.bindTo(buttonTop.rx_alpha).addDisposableTo(disposeBag)
         alphaSignal.bindTo(productStatusView.rx_alpha).addDisposableTo(disposeBag)
         alphaSignal.bindTo(commercialButton.rx_alpha).addDisposableTo(disposeBag)
+        if let moreInfoView = moreInfoView {
+            alphaSignal.bindTo(moreInfoView.rx_alpha).addDisposableTo(disposeBag)
+        }
         alphaSignal.bindNext{ [weak self] alpha in
             self?.moreInfoTooltip?.alpha = alpha
         }.addDisposableTo(disposeBag)
@@ -364,7 +367,8 @@ extension ProductCarouselViewController {
             moreInfoView = ProductCarouselMoreInfoView.moreInfoView(viewModel)
             view.addSubview(self.moreInfoView!)
             view.bringSubviewToFront(buttonBottom)
-
+            view.bringSubviewToFront(fullScreenAvatarEffectView)
+            view.bringSubviewToFront(fullScreenAvatarView)
         }
         moreInfoView?.update(viewModel)
         moreInfoView?.frame = view.bounds
