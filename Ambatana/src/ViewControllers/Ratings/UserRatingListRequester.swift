@@ -28,6 +28,9 @@ class UserRatingListRequester {
 
     weak var delegate: UserRatingListRequesterDelegate?
 
+
+    // MARK: Lifecycle
+
     convenience init(userId: String) {
         self.init(userRatingRepository: Core.userRatingRepository, userId: userId)
     }
@@ -36,20 +39,22 @@ class UserRatingListRequester {
         self.userRatingRepository = userRatingRepository
         self.userId = userId
     }
+
+
+    // MARK: public methods
+
+    func reportRating(rating: UserRating, completion: UserRatingEmptyCompletion?) {
+        userRatingRepository.reportRating(rating, completion: completion)
+    }
+
 }
+
+
+// MARK: Paginable
 
 extension UserRatingListRequester: Paginable {
 
     func retrievePage(page: Int) {
-
-//        isLoading = true
-//
-//        delegate?.requesterIsLoadingUserRatings(isLoading, firstPage: nextPage == 0)
-//        let _ = NSTimer.scheduledTimerWithTimeInterval(1.5, target: self, selector: #selector(mockDelayAndThrowData), userInfo: nil, repeats: false)
-
-
-
-        // TODO: ⚠️ Uncomment once we have the right URLs and LGCoreKit is fixed
         isLoading = true
         delegate?.requesterIsLoadingUserRatings(isLoading, firstPage: nextPage == 0)
         userRatingRepository.index(userId, offset: objectCount, limit: resultsPerPage) { [weak self] result in
@@ -64,98 +69,4 @@ extension UserRatingListRequester: Paginable {
         }
     }
 
-//    dynamic func mockDelayAndThrowData() {
-//        delegate?.requesterDidLoadUserRatings(MockUserRating.mockupRatings())
-//        isLoading = false
-//        delegate?.requesterIsLoadingUserRatings(isLoading, firstPage: nextPage == 0)
-//        nextPage = 1
-//    }
-
 }
-
-// TODO: ⚠️ Delete once we have the right URLs and LGCoreKit is fixed
-
-//struct MockUserRating: UserRating {
-//
-//    let objectId: String?
-//    let userToId: String
-//    let userFrom: User
-//    let type: UserRatingType
-//    let value: Int
-//    let comment: String?
-//    let status: UserRatingStatus
-//    let createdAt: NSDate
-//    let updatedAt: NSDate
-//
-//    init(objectId: String, userToId: String, userFrom: User, type: UserRatingType, value: Int, comment: String?,
-//         status: UserRatingStatus, createdAt: NSDate, updatedAt: NSDate) {
-//        self.objectId = objectId
-//        self.userToId = userToId
-//        self.userFrom = userFrom
-//        self.type = type
-//        self.value = value
-//        self.comment = comment
-//        self.status = status
-//        self.createdAt = createdAt
-//        self.updatedAt = updatedAt
-//    }
-//
-//    static func mockupRatings() -> [UserRating] {
-//
-//        let user1 = MockUserForRating(objectId: "1234", name: "A user 1", avatar: nil,
-//                           postalAddress: PostalAddress.emptyAddress(), accounts: nil, status: .Active, isDummy: false)
-//        let ratingConv = MockUserRating(objectId: "abcd", userToId: "0000", userFrom: user1, type: .Conversation, value: 3, comment: nil, status: .Published , createdAt: NSDate(), updatedAt: NSDate())
-//
-//        let user2 = MockUserForRating(objectId: "5678", name: "M user 2", avatar: nil,
-//                                      postalAddress: PostalAddress.emptyAddress(), accounts: nil, status: .Active, isDummy: false)
-//        let ratingSell = MockUserRating(objectId: "efgh", userToId: "0000", userFrom: user2, type: .Seller(productId: "rrrrr"), value: 2, comment: "Super long comment, Super long comment, Super long comment, Super long comment, Super long comment, Super long comment, Super long comment, Super long comment, Super long comment, Super long comment, Super long comment, Super long comment, Super long comment, Super long comment, Super long comment, Super long comment. Koniek.", status: .Published , createdAt: NSDate(), updatedAt: NSDate())
-//
-//
-//        let user3 = MockUserForRating(objectId: "9012", name: "Z user 3", avatar: nil,
-//                                      postalAddress: PostalAddress.emptyAddress(), accounts: nil, status: .Active, isDummy: false)
-//        let ratingBuy = MockUserRating(objectId: "ijkl", userToId: "0000", userFrom: user3, type: .Buyer(productId: "pfffff"), value: 5, comment: "Short comment!", status: .Published , createdAt: NSDate(), updatedAt: NSDate())
-//
-//
-//        let user4 = MockUserForRating(objectId: "5678", name: "3 user 4", avatar: nil,
-//                                      postalAddress: PostalAddress.emptyAddress(), accounts: nil, status: .Active, isDummy: false)
-//        let ratingConv2 = MockUserRating(objectId: "efgh", userToId: "0000", userFrom: user4, type: .Conversation, value: 2, comment: nil, status: .Published , createdAt: NSDate(), updatedAt: NSDate())
-//
-//
-//        let user5 = MockUserForRating(objectId: "5678", name: "G user 5", avatar: nil,
-//                                      postalAddress: PostalAddress.emptyAddress(), accounts: nil, status: .Active, isDummy: false)
-//        let ratingConv3 = MockUserRating(objectId: "efgh", userToId: "0000", userFrom: user5, type: .Conversation, value: 0, comment: "Lorem fistrum se calle ustée ahorarr ese hombree amatomaa no puedor pupita pupita al ataquerl te va a hasé pupitaa apetecan.", status: .Published , createdAt: NSDate(), updatedAt: NSDate())
-//
-//
-//        let ratingSell2 = MockUserRating(objectId: "efgh", userToId: "0000", userFrom: user2, type: .Seller(productId: "uuuuu"), value: 4, comment: "Rating Also from user 2, Tiene musho peligro diodeno qué dise usteer mamaar te voy a borrar el cerito.  Llevame al sircoo ese que llega va usté muy cargadoo ahorarr ese pedazo de papaar papaar tiene musho peligro te voy a borrar el cerito a wan papaar papaar. ", status: .Published , createdAt: NSDate(), updatedAt: NSDate())
-//
-//
-//        return [ratingConv, ratingSell, ratingBuy, ratingConv2, ratingConv3, ratingSell2]
-//    }
-//}
-//
-//public struct MockUserForRating: User {
-//
-//    // Global iVars
-//    public var objectId: String?
-//
-//    // User iVars
-//    public var name: String?
-//    public var avatar: File?
-//    public var postalAddress: PostalAddress
-//    public var accounts: [Account]?
-//    public var status: UserStatus
-//    public var isDummy: Bool
-//    public var ratingAverage: Float?     // TODO: When switching to bouncer only make ratings & accounts non-optional
-//    public var ratingCount: Int?
-//
-//    init(objectId: String?, name: String?, avatar: String?, postalAddress: PostalAddress, accounts: [Account]?,
-//         status: UserStatus?, isDummy: Bool) {
-//        self.objectId = objectId
-//        self.name = name
-//        self.avatar = LGFile(id: nil, urlString: avatar)
-//        self.postalAddress = postalAddress
-//        self.accounts = accounts?.map { $0 as Account }
-//        self.status = status ?? .Active
-//        self.isDummy = isDummy
-//    }
-//}

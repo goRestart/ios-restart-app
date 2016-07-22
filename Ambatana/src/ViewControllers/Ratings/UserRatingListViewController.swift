@@ -79,9 +79,10 @@ extension UserRatingListViewController: UserRatingListViewModelDelegate {
         }
     }
 
-//    func showActionSheetForCellAtIndex(cancelAction: UIAction, actions: [UIAction]) {
-//        vmShowActionSheet(cancelAction, actions: actions)
-//    }
+    func vmShowUserRating(source: RateUserSource, data: RateUserData) {
+        guard let tabBarController = self.tabBarController as? TabBarController else { return }
+        tabBarController.openUserRating(source, data: data)
+    }
 }
 
 // MARK: UITableView Delegate

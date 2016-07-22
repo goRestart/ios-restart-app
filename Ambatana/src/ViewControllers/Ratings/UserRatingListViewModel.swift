@@ -13,6 +13,7 @@ protocol UserRatingListViewModelDelegate : BaseViewModelDelegate {
     func vmIsLoadingUserRatingsRequest(isLoading: Bool, firstPage: Bool)
     func vmDidLoadUserRatings(ratings: [UserRating])
     func vmDidFailLoadingUserRatings(firstPage: Bool)
+    func vmShowUserRating(source: RateUserSource, data: RateUserData)
 }
 
 
@@ -99,26 +100,47 @@ extension UserRatingListViewModel : UserRatingListRequesterDelegate {
 }
 
 extension UserRatingListViewModel:  UserRatingCellDelegate {
-
+    
     func actionButtonPressedForCellAtIndex(indexPath: NSIndexPath) {
+        guard let rating = ratingAtIndex(indexPath.row) else { return }
+        let userFrom = rating.userFrom
+
         var actions: [UIAction] = []
-        let userFrom = ratings[indexPath.row].userFrom
 
-        // TODO: ⚠️➡️ set proper actions
-        // https://ambatana.atlassian.net/browse/ABIOS-1419
-
-        let reviewAction = UIAction(interface: .Text(LGLocalizedString.ratingListActionReviewUser), action: {
-            print("REVIEW ACTION for user \(userFrom)")})
-
-        let reportAction = UIAction(interface: .Text(LGLocalizedString.ratingListActionReportReview), action: {
-            print("REPORT ACTION for user \(userFrom)")
-            })
-
-        actions = [reviewAction, reportAction]
-
-        let cancelAction = UIAction(interface: .Text(LGLocalizedString.commonCancel), action: {
-            print("CANCEL ACTION")
+        let reviewAction = UIAction(interface: .Text(LGLocalizedString.ratingListActionReviewUser), action: { [weak self] in
+            guard let userData = RateUserData(user: userFrom) else { return }
+            self?.delegate?.vmShowUserRating(.UserRatingList, data: userData)
         })
+
+        actions = [reviewAction]
+
+        if rating.status == .Published {
+            let reportAction = UIAction(interface: .Text(LGLocalizedString.ratingListActionReportReview), action: { [weak self] in
+                self?.userRatingListRequester.reportRating(rating, completion: { result in
+                    if let _ = result.value {
+                        self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.ratingListActionReportReviewSuccessMessage,
+                            completion: nil)
+                    } else if let _ = result.error {
+                        self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.ratingListActionReportReviewErrorMessage,
+                            completion: nil)
+                    }
+                })
+            })
+            actions.append(reportAction)
+        }
+
+        let cancelAction = UIAction(interface: .Text(LGLocalizedString.commonCancel), action: {})
         delegate?.vmShowActionSheet(cancelAction, actions: actions)
+    }
+
+    private func rateBackRatingType(receivedRating: UserRatingType) -> UserRatingType {
+        switch receivedRating {
+        case .Conversation:
+            return .Conversation
+        case let .Seller(productId):
+            return .Buyer(productId: productId)
+        case let .Buyer(productId):
+            return .Seller(productId: productId)
+        }
     }
 }
