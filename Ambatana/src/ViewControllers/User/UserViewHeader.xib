@@ -243,7 +243,7 @@
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RbE-u8-EtU" userLabel="Rating Count Container">
                             <rect key="frame" x="95" y="22" width="50" height="37"/>
                             <subviews>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="80u-WE-Qym" userLabel="Rating Count Label">
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="23" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="80u-WE-Qym" userLabel="Rating Count Label">
                                     <rect key="frame" x="0.0" y="0.0" width="50" height="21"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -275,17 +275,19 @@
                                 <constraint firstAttribute="width" secondItem="gF5-W0-Byp" secondAttribute="height" multiplier="1:1" id="6tc-It-BrS"/>
                             </constraints>
                         </imageView>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cqR-Ic-7m7">
-                            <rect key="frame" x="0.0" y="0.0" width="80" height="80"/>
-                        </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4Ch-CZ-5Ya" userLabel="Ratings Button">
-                            <rect key="frame" x="80" y="0.0" width="85" height="80"/>
+                            <rect key="frame" x="0.0" y="0.0" width="165" height="80"/>
+                            <edgeInsets key="layoutMargins" top="0.0" left="0.0" bottom="0.0" right="0.0"/>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cqR-Ic-7m7">
+                            <rect key="frame" x="0.0" y="0.0" width="80" height="80"/>
                         </button>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
+                        <constraint firstAttribute="trailing" secondItem="4Ch-CZ-5Ya" secondAttribute="trailing" id="0Uk-mt-uJf"/>
                         <constraint firstItem="cqR-Ic-7m7" firstAttribute="top" secondItem="gF5-W0-Byp" secondAttribute="top" id="3ZY-qj-iXR"/>
-                        <constraint firstItem="4Ch-CZ-5Ya" firstAttribute="bottom" secondItem="lXe-iz-uxi" secondAttribute="bottom" id="627-j2-Gc6"/>
+                        <constraint firstAttribute="bottom" secondItem="4Ch-CZ-5Ya" secondAttribute="bottom" id="3dg-Wd-70O"/>
                         <constraint firstItem="RbE-u8-EtU" firstAttribute="centerY" secondItem="sT8-Xm-l7l" secondAttribute="centerY" id="6dM-Mm-dZR"/>
                         <constraint firstAttribute="trailing" secondItem="RbE-u8-EtU" secondAttribute="trailing" constant="20" id="6r5-GU-xjZ"/>
                         <constraint firstItem="cqR-Ic-7m7" firstAttribute="bottom" secondItem="gF5-W0-Byp" secondAttribute="bottom" id="79Z-Yb-iwS"/>
@@ -294,15 +296,20 @@
                         <constraint firstItem="gF5-W0-Byp" firstAttribute="leading" secondItem="sT8-Xm-l7l" secondAttribute="leading" id="GB7-qM-39e"/>
                         <constraint firstItem="lXe-iz-uxi" firstAttribute="top" secondItem="sT8-Xm-l7l" secondAttribute="top" id="HR1-c0-y2r"/>
                         <constraint firstItem="RbE-u8-EtU" firstAttribute="leading" secondItem="gF5-W0-Byp" secondAttribute="trailing" constant="15" id="Kb3-8E-ES6"/>
+                        <constraint firstItem="4Ch-CZ-5Ya" firstAttribute="top" secondItem="sT8-Xm-l7l" secondAttribute="top" id="L02-I3-fz0"/>
+                        <constraint firstItem="4Ch-CZ-5Ya" firstAttribute="leading" secondItem="sT8-Xm-l7l" secondAttribute="leading" id="MUI-bp-YZI"/>
                         <constraint firstItem="cqR-Ic-7m7" firstAttribute="leading" secondItem="gF5-W0-Byp" secondAttribute="leading" id="OEE-Kk-zEv"/>
                         <constraint firstItem="lXe-iz-uxi" firstAttribute="leading" secondItem="gF5-W0-Byp" secondAttribute="leading" id="TNx-nA-YVn"/>
-                        <constraint firstItem="4Ch-CZ-5Ya" firstAttribute="top" secondItem="lXe-iz-uxi" secondAttribute="top" id="U68-sk-Gb7"/>
                         <constraint firstItem="cqR-Ic-7m7" firstAttribute="trailing" secondItem="gF5-W0-Byp" secondAttribute="trailing" id="YGB-kD-mts"/>
                         <constraint firstItem="gF5-W0-Byp" firstAttribute="top" secondItem="sT8-Xm-l7l" secondAttribute="top" id="ao3-jY-JGT"/>
-                        <constraint firstItem="4Ch-CZ-5Ya" firstAttribute="trailing" secondItem="lXe-iz-uxi" secondAttribute="trailing" id="esY-5O-eWQ"/>
                         <constraint firstItem="4Ch-CZ-5Ya" firstAttribute="leading" secondItem="gF5-W0-Byp" secondAttribute="trailing" id="wjb-bG-k2B"/>
                         <constraint firstAttribute="bottom" secondItem="lXe-iz-uxi" secondAttribute="bottom" id="yZS-pD-dsR"/>
                     </constraints>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="wjb-bG-k2B"/>
+                        </mask>
+                    </variation>
                 </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
