@@ -543,6 +543,7 @@
 "rating_list_rating_type_buyer_text_label" = "%@께서 상품을 구매하였습니다";
 "rating_list_rating_type_conversation_text_label" = "%@께서 상품에 관하여 채팅을 보냈습니다";
 "rating_list_rating_type_seller_text_label" = "%@ sold a product";
+"rating_list_title" = "Reviews";
 "rating_view_dont_ask_again_button" = "다시 묻지 말아주세요";
 "rating_view_love_it_label" = "마음에 들어요!";
 "rating_view_needs_improvements_label" = "개선이 필요합니다";

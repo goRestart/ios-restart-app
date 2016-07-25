@@ -2091,6 +2091,10 @@ struct LGLocalizedString {
 		return String(format: NSLocalizedString("rating_list_rating_type_seller_text_label", comment: ""), var1)
 	}
 
+	static var ratingListTitle: String {
+		return NSLocalizedString("rating_list_title", comment: "")
+	}
+
 	static var ratingViewDontAskAgainButton: String {
 		return NSLocalizedString("rating_view_dont_ask_again_button", comment: "")
 	}

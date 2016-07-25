@@ -543,6 +543,7 @@
 "rating_list_rating_type_buyer_text_label" = "Ο %@ αγόρασε ένα προϊόν";
 "rating_list_rating_type_conversation_text_label" = "Ο %@ συζήτησε για ένα προϊόν";
 "rating_list_rating_type_seller_text_label" = "Ο %@ πούλησε ένα προϊόν";
+"rating_list_title" = "Reviews";
 "rating_view_dont_ask_again_button" = "Να μην ερωτηθώ ξανά";
 "rating_view_love_it_label" = "Μου αρέσει!";
 "rating_view_needs_improvements_label" = "Χρειάζεται βελτιώσεις";

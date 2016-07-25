@@ -543,6 +543,7 @@
 "rating_list_rating_type_buyer_text_label" = "%@ купил товар";
 "rating_list_rating_type_conversation_text_label" = "%@ спрашивал о товаре";
 "rating_list_rating_type_seller_text_label" = "%@ продал товар";
+"rating_list_title" = "Reviews";
 "rating_view_dont_ask_again_button" = "Не спрашивать снова";
 "rating_view_love_it_label" = "Мне нравится!";
 "rating_view_needs_improvements_label" = "Нуждается в усовершенствованиях";

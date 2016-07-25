@@ -543,6 +543,7 @@
 "rating_list_rating_type_buyer_text_label" = "%@ osti tuotteen";
 "rating_list_rating_type_conversation_text_label" = "%@ keskusteli tuotteesta";
 "rating_list_rating_type_seller_text_label" = "%@ myi tuotteen";
+"rating_list_title" = "Reviews";
 "rating_view_dont_ask_again_button" = "Älä kysy uudelleen";
 "rating_view_love_it_label" = "Rakastan sitä!";
 "rating_view_needs_improvements_label" = "Tarvitsee parannuksia";

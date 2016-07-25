@@ -543,6 +543,7 @@
 "rating_list_rating_type_buyer_text_label" = "%@ kjøpte et produkt";
 "rating_list_rating_type_conversation_text_label" = "%@ snakket om et produkt";
 "rating_list_rating_type_seller_text_label" = "%@ solgte et produkt";
+"rating_list_title" = "Reviews";
 "rating_view_dont_ask_again_button" = "Ikke spør meg igjen";
 "rating_view_love_it_label" = "Elsker det!";
 "rating_view_needs_improvements_label" = "Trenger forbedringer";

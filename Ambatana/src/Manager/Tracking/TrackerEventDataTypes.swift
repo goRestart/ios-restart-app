@@ -388,6 +388,7 @@ public enum EventParameterTypePage: String {
     case Notifications = "notifications"
     case OpenApp = "open-app"
     case IncentivizePosting = "incentivize-posting"
+    case UserRatingList = "user-rating-list"
 }
 
 public enum EventParameterPermissionType: String {

@@ -543,6 +543,7 @@
 "rating_list_rating_type_buyer_text_label" = "%@ đã mua một sản phẩm";
 "rating_list_rating_type_conversation_text_label" = "%@ đã trò chuyện về một sản phẩm";
 "rating_list_rating_type_seller_text_label" = "%@ đã bán một sản phẩm";
+"rating_list_title" = "Reviews";
 "rating_view_dont_ask_again_button" = "Đừng hỏi lại tôi";
 "rating_view_love_it_label" = "Tôi thích!";
 "rating_view_needs_improvements_label" = "Cần cải thiện";

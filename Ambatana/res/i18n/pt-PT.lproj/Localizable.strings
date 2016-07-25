@@ -543,6 +543,7 @@
 "rating_list_rating_type_buyer_text_label" = "%@ comprou um produto";
 "rating_list_rating_type_conversation_text_label" = "%@ conversou sobre um produto";
 "rating_list_rating_type_seller_text_label" = "%@ vendeu um produto";
+"rating_list_title" = "Reviews";
 "rating_view_dont_ask_again_button" = "Não perguntar de novo";
 "rating_view_love_it_label" = "Adoro-a!";
 "rating_view_needs_improvements_label" = "Precisa de melhorias";
