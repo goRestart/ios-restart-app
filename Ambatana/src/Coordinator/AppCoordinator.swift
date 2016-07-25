@@ -30,6 +30,7 @@ final class AppCoordinator: NSObject {
     private let myUserRepository: MyUserRepository
     private let chatRepository: OldChatRepository
     private let commercializerRepository: CommercializerRepository
+    private let userRatingRepository: UserRatingRepository
 
     weak var delegate: AppNavigatorDelegate?
 
@@ -50,20 +51,22 @@ final class AppCoordinator: NSObject {
         let myUserRepository = Core.myUserRepository
         let chatRepository = Core.oldChatRepository
         let commercializerRepository = Core.commercializerRepository
+        let userRatingRepository = Core.userRatingRepository
 
         self.init(tabBarController: tabBarController, configManager: configManager,
                   sessionManager: sessionManager, keyValueStorage: keyValueStorage,
                   pushPermissionsManager: pushPermissionsManager, ratingManager: ratingManager,
                   deepLinksRouter: deepLinksRouter, productRepository: productRepository, userRepository: userRepository,
                   myUserRepository: myUserRepository, chatRepository: chatRepository,
-                  commercializerRepository: commercializerRepository)
+                  commercializerRepository: commercializerRepository, userRatingRepository: userRatingRepository)
     }
 
     init(tabBarController: TabBarController, configManager: ConfigManager,
          sessionManager: SessionManager, keyValueStorage: KeyValueStorage,
          pushPermissionsManager: PushPermissionsManager, ratingManager: RatingManager, deepLinksRouter: DeepLinksRouter,
          productRepository: ProductRepository, userRepository: UserRepository, myUserRepository: MyUserRepository,
-         chatRepository: OldChatRepository, commercializerRepository: CommercializerRepository) {
+         chatRepository: OldChatRepository, commercializerRepository: CommercializerRepository,
+         userRatingRepository: UserRatingRepository) {
 
         self.tabBarCtl = tabBarController
 
@@ -80,6 +83,7 @@ final class AppCoordinator: NSObject {
         self.myUserRepository = myUserRepository
         self.chatRepository = chatRepository
         self.commercializerRepository = commercializerRepository
+        self.userRatingRepository = userRatingRepository
 
         super.init()
         tabBarCtl.delegate = self
@@ -622,11 +626,34 @@ private extension AppCoordinator {
     }
 
     private func openUserRatings() {
+        guard FeatureFlags.userRatings else { return }
+//        tabBarCtl.openUserRating(.DeepLink, data: <#T##RateUserData#>)
         // TODO: 🌶
     }
 
     private func openUserRating(ratingId: String) {
-        // TODO: 🌶
+        guard FeatureFlags.userRatings else { return }
+        guard let navCtl = selectedNavigationController() else { return }
+
+        navCtl.showLoadingMessageAlert()
+        userRatingRepository.show(ratingId) { [weak self] result in
+            if let rating = result.value, data = RateUserData(user: rating.userFrom) {
+                navCtl.dismissLoadingMessageAlert {
+                    self?.openUserRating(.DeepLink, data: data)
+                }
+            } else if let error = result.error {
+                let message: String
+                switch error {
+                case .Network:
+                    message = LGLocalizedString.commonErrorConnectionFailed
+                case .Internal, .NotFound, .Unauthorized, .Forbidden, .TooManyRequests, .UserNotVerified:
+                    message = LGLocalizedString.commonUserReviewNotAvailable
+                }
+                navCtl.dismissLoadingMessageAlert {
+                    navCtl.showAutoFadingOutMessageAlert(message)
+                }
+            }
+        }
     }
 }
 
