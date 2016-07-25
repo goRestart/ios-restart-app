@@ -147,7 +147,7 @@ class RateUserViewModel: BaseViewModel {
             description.asObservable(), resultSelector: { $0 })
             .map { (loading, rating, description) in
                 guard !loading, let rating = rating else { return false }
-                guard rating < 4 else { return true } // 4-5 stars allows rating without description
+                guard rating < Constants.userRatingMinStarsToOptionalDescr else { return true }
                 guard let description = description where !description.isEmpty &&
                     description.characters.count <= Constants.userRatingDescriptionMaxLength else { return false }
                 return true
