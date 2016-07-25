@@ -46,6 +46,7 @@ class UserRatingListViewController: BaseViewController {
     // MARK: private methods
 
     private func setupUI() {
+        title = LGLocalizedString.ratingListTitle
         let cellNib = UINib(nibName: UserRatingListViewController.cellReuseIdentifier, bundle: nil)
         tableView.registerNib(cellNib, forCellReuseIdentifier: UserRatingListViewController.cellReuseIdentifier)
         tableView.hidden = true

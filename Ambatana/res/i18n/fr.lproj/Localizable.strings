@@ -201,6 +201,7 @@
 "common_time_week_ago_label" = "il y a une semaine";
 "common_time_weeks_ago_label" = "il y a %d semaines";
 "common_user_not_available" = "Oops ! Utilisateur non trouvé.";
+"common_user_review_not_available" = "Oops! Review not found.";
 "common_yes" = "Oui";
 "contact_body_field_hint" = "Message";
 "contact_choose_subject_dialog_title" = "Choisir un sujet";
@@ -542,6 +543,7 @@
 "rating_list_rating_type_buyer_text_label" = "%@ a acheté votre bien";
 "rating_list_rating_type_conversation_text_label" = "%@ a chatté à propos d'un bien";
 "rating_list_rating_type_seller_text_label" = "%@ a vendu un bien";
+"rating_list_title" = "Reviews";
 "rating_view_dont_ask_again_button" = "Ne plus me demander";
 "rating_view_love_it_label" = "J'aime !";
 "rating_view_needs_improvements_label" = "Doit être amélioré";

@@ -201,6 +201,7 @@
 "common_time_week_ago_label" = "неделю назад";
 "common_time_weeks_ago_label" = "%d недель назад";
 "common_user_not_available" = "Упс! Пользователь не найден.";
+"common_user_review_not_available" = "Oops! Review not found.";
 "common_yes" = "Да";
 "contact_body_field_hint" = "Сообщение";
 "contact_choose_subject_dialog_title" = "Выберите тему";
@@ -354,7 +355,7 @@
 "product_chat_go_to_chat" = "В чат";
 "product_chat_message_sending" = "Отправка...";
 "product_chat_with_seller_button" = "Чат с продавцом";
-"product_chat_with_seller_name_button" = "Chat with %@";
+"product_chat_with_seller_name_button" = "Чат с %@";
 "product_chat_with_seller_send_ok" = "Ваш разговор отправлен!";
 "product_continue_chatting_button" = "Продолжить чат";
 "product_create_commercial_button" = "Create Commercial";
@@ -396,7 +397,7 @@
 "product_mark_as_sold_confirm_title" = "Отметить как проданный";
 "product_mark_as_sold_error_generic" = "При изменении статуса товара произошла ошибка. Пожалуйста, попробуйте еще раз позже.";
 "product_mark_as_sold_success_message" = "Поздравляем! Ваш продукт был продан!";
-"product_more_info_open_button" = "MORE INFO";
+"product_more_info_open_button" = "БОЛЬШЕ ИНФОРМАЦИИ";
 "product_more_info_tooltip_part_1" = "Нажмите";
 "product_more_info_tooltip_part_2" = "%@ просмотреть больше информации";
 "product_negotiable_price" = "Обсуждаема";
@@ -542,6 +543,7 @@
 "rating_list_rating_type_buyer_text_label" = "%@ купил товар";
 "rating_list_rating_type_conversation_text_label" = "%@ спрашивал о товаре";
 "rating_list_rating_type_seller_text_label" = "%@ продал товар";
+"rating_list_title" = "Reviews";
 "rating_view_dont_ask_again_button" = "Не спрашивать снова";
 "rating_view_love_it_label" = "Мне нравится!";
 "rating_view_needs_improvements_label" = "Нуждается в усовершенствованиях";

@@ -201,6 +201,7 @@
 "common_time_week_ago_label" = "a week ago";
 "common_time_weeks_ago_label" = "%d weeks ago";
 "common_user_not_available" = "Oops! User not found.";
+"common_user_review_not_available" = "Oops! Review not found.";
 "common_yes" = "Yes";
 "contact_body_field_hint" = "Message";
 "contact_choose_subject_dialog_title" = "Choose a subject";
@@ -542,6 +543,7 @@
 "rating_list_rating_type_buyer_text_label" = "%@ bought a product";
 "rating_list_rating_type_conversation_text_label" = "%@ chatted about a product";
 "rating_list_rating_type_seller_text_label" = "%@ sold a product";
+"rating_list_title" = "Reviews";
 "rating_view_dont_ask_again_button" = "Don't ask me again";
 "rating_view_love_it_label" = "Love it!";
 "rating_view_needs_improvements_label" = "Needs improvement";
