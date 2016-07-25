@@ -221,6 +221,9 @@ extension UserViewController {
     }
 
     private func setupHeader() {
+        headerGestureRecognizer.addTarget(self, action: #selector(handleHeaderPan))
+        view.addGestureRecognizer(headerGestureRecognizer)
+
         headerContainer.headerDelegate = self
     }
 
