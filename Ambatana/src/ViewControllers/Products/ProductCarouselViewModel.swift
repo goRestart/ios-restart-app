@@ -45,7 +45,6 @@ class ProductCarouselViewModel: BaseViewModel {
     }
 
     var shouldShowMoreInfoTooltip: Bool {
-        return true
         return !KeyValueStorage.sharedInstance[.productMoreInfoTooltipDismissed]
     }
 

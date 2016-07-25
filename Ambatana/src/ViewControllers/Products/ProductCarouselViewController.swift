@@ -57,6 +57,8 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     private let pageControlWidth: CGFloat = 18
     private let pageControlMargin: CGFloat = 18
     private let userViewMargin: CGFloat = 15
+    private var moreInfoDragMargin: CGFloat = 45
+    private var moreInfoExtraHeight: CGFloat = 64
     
     private let moreInfoTooltipMargin: CGFloat = 0
     private var moreInfoTooltip: Tooltip?
@@ -70,9 +72,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     private var moreInfoView: ProductCarouselMoreInfoView?
     private var moreInfoState: MoreInfoState = .Hidden
     
-    private var moreInfoDragMargin: CGFloat {
-        return 45
-    }
+    
 
     let animator: PushAnimator?
     var pendingMovement: CarouselMovement?
@@ -375,7 +375,7 @@ extension ProductCarouselViewController {
         }
         moreInfoView?.update(viewModel)
         moreInfoView?.frame = view.bounds
-        moreInfoView?.height = view.height+64
+        moreInfoView?.height = view.height + moreInfoExtraHeight
         moreInfoView?.frame.origin.y = -view.bounds.height
     }
 
@@ -645,7 +645,7 @@ extension ProductCarouselViewController {
     func dragMoreInfoButton(pan: UIPanGestureRecognizer) {
         let point = pan.locationInView(view)
         
-        if point.y >= 64 { // start dragging when point is below the navbar
+        if point.y >= moreInfoExtraHeight { // start dragging when point is below the navbar
             moreInfoView?.frame.bottom = point.y
         }
         
@@ -684,6 +684,9 @@ extension ProductCarouselViewController {
     }
 }
 
+
+// MARK: More Info Delegate
+
 extension ProductCarouselViewController: ProductCarouselMoreInfoDelegate {
     func didScrollFromBottomWith(deltaOffset: CGFloat) {
         guard let moreInfoView = moreInfoView else { return }
@@ -711,6 +714,10 @@ extension ProductCarouselViewController: ProductCarouselMoreInfoDelegate {
         guard let moreInfoView = moreInfoView where deltaOffset < 0 else { return }
         moreInfoState = .Moving
         moreInfoView.frame.origin.y = moreInfoView.frame.origin.y + abs(deltaOffset)
+    }
+    
+    func shareDidFailedWith(error: String) {
+        showAutoFadingOutMessageAlert(error)
     }
 }
 

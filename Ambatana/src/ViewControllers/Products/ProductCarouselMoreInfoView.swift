@@ -15,6 +15,7 @@ protocol ProductCarouselMoreInfoDelegate: class {
     func didScrollFromBottomWith(deltaOffset: CGFloat)
     func didScrollFromTopWith(deltaOffset: CGFloat)
     func didEndScrolling()
+    func shareDidFailedWith(error: String)
 }
 
 
@@ -392,8 +393,7 @@ extension ProductCarouselMoreInfoView: SocialShareViewDelegate {
         case .Cancelled:
             viewModel.shareInFBCancelled()
         case .Failed:
-            break
-//            showAutoFadingOutMessageAlert(LGLocalizedString.sellSendErrorSharingFacebook)
+            delegate?.shareDidFailedWith(LGLocalizedString.sellSendErrorSharingFacebook)
         }
     }
     
@@ -410,8 +410,7 @@ extension ProductCarouselMoreInfoView: SocialShareViewDelegate {
         case .Cancelled:
             viewModel.shareInFBMessengerCancelled()
         case .Failed:
-            break
-//            showAutoFadingOutMessageAlert(LGLocalizedString.sellSendErrorSharingFacebook)
+            delegate?.shareDidFailedWith(LGLocalizedString.sellSendErrorSharingFacebook)
         }
     }
     
@@ -459,8 +458,7 @@ extension ProductCarouselMoreInfoView: SocialShareViewDelegate {
         case .Cancelled:
             viewModel.shareInSMSCancelled()
         case .Failed:
-            break
-//            showAutoFadingOutMessageAlert(LGLocalizedString.productShareSmsError)
+            delegate?.shareDidFailedWith(LGLocalizedString.productShareSmsError)
         }
     }
     
