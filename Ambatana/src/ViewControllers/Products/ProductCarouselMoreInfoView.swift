@@ -46,6 +46,7 @@ class ProductCarouselMoreInfoView: UIView {
     private let overlayMap = MKMapView()
     private var locationZone: MKOverlay?
     private let bigMapMargin: CGFloat = 65.0
+    private let bigMapBottomMargin: CGFloat = 210
     private var bigMapVisible = false
     private var mapZoomBlocker: MapZoomBlocker?
     private var statsView: ProductStatsView?
@@ -89,8 +90,8 @@ class ProductCarouselMoreInfoView: UIView {
 
 extension ProductCarouselMoreInfoView {
     func addGestures() {
-        let tap = UITapGestureRecognizer(target: self, action: #selector(closeView))
-        let tap2 = UITapGestureRecognizer(target: self, action: #selector(closeView))
+        let tap = UITapGestureRecognizer(target: self, action: #selector(hideBigMap))
+        let tap2 = UITapGestureRecognizer(target: self, action: #selector(hideBigMap))
 
         scrollView.addGestureRecognizer(tap)
         visualEffectView.addGestureRecognizer(tap2)
@@ -151,7 +152,7 @@ extension ProductCarouselMoreInfoView: MKMapViewDelegate {
 
         var newFrame = overlayMap.frame
         newFrame.origin.y = bigMapMargin
-        newFrame.size.height = height - bigMapMargin*3 - 15
+        newFrame.size.height = height - bigMapBottomMargin
         UIView.animateWithDuration(0.3) { [weak self] in
             self?.overlayMap.frame = newFrame
         }
@@ -191,10 +192,6 @@ extension ProductCarouselMoreInfoView: UIScrollViewDelegate {
     
     func scrollViewDidScroll(scrollView: UIScrollView) {
         guard canDrag else { return }
-        if scrollView.contentOffset.y < -100 {
-            closeView()
-        }
-        
         let border = max(0, scrollView.contentSize.height - scrollView.height + scrollView.contentInset.bottom)
         if scrollView.contentOffset.y > border || frame.origin.y < 0 {
             delegate?.didScrollFromBottomWith(scrollView.contentOffset.y - border)
@@ -359,21 +356,6 @@ extension ProductCarouselMoreInfoView {
     }
 }
 
-
-// MARK: - IB Actions
-
-extension ProductCarouselMoreInfoView {
-    
-    @IBAction func closeView() {
-        if bigMapVisible {
-            hideBigMap()
-        } else {
-//            closeButton.alpha = 0
-//            dismissBlock?(viewToHide: view)
-//            dismissViewControllerAnimated(true, completion: nil)
-        }
-    }
-}
 
 
 // MARK: - SocialShareViewDelegate
