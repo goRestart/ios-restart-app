@@ -61,12 +61,14 @@ class UserRatingCell: UITableViewCell {
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var actionsButton: UIButton!
+    @IBOutlet weak var timeLabelTopConstraint: NSLayoutConstraint!
 
     private var cellIndex: NSIndexPath?
 
     private var lines: [CALayer] = []
 
     weak var delegate: UserRatingCellDelegate?
+
 
     // MARK: - Lifecycle
 
@@ -102,7 +104,11 @@ class UserRatingCell: UITableViewCell {
         userNameLabel.text = data.userName
         ratingTypeLabel.text = data.ratingType.ratingTypeText(data.userName)
         ratingTypeLabel.textColor = data.ratingType.ratingTypeTextColor
-        descriptionLabel.text = data.ratingDescription
+        if let description = data.ratingDescription where description != "" {
+            timeLabelTopConstraint.constant = 5
+            descriptionLabel.text = description
+        }
+
         actionsButton.hidden = !data.isMyRating
 
         userAvatar.image = data.userAvatarPlaceholder
@@ -140,10 +146,11 @@ class UserRatingCell: UITableViewCell {
     private func resetUI() {
         userNameLabel.text = ""
         ratingTypeLabel.text = ""
-        descriptionLabel.text = ""
+        descriptionLabel.text = nil
         actionsButton.hidden = true
         userAvatar.image = nil
         timeLabel.text = ""
+        timeLabelTopConstraint.constant = 0
     }
 
     private func drawStarsForValue(value: Int) {

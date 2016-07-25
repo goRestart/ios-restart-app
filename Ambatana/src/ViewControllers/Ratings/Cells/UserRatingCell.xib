@@ -172,6 +172,7 @@
                 <outlet property="descriptionLabel" destination="gNQ-wo-Y1G" id="Ma9-rv-6Yh"/>
                 <outlet property="ratingTypeLabel" destination="4XA-8j-HPJ" id="JJW-gJ-B8r"/>
                 <outlet property="timeLabel" destination="UtL-Fl-g8p" id="4Bf-SJ-Efy"/>
+                <outlet property="timeLabelTopConstraint" destination="gXK-tq-0WR" id="9Zr-4T-qAw"/>
                 <outlet property="userAvatar" destination="aJR-yk-Cb1" id="Fft-Dw-xkZ"/>
                 <outlet property="userNameLabel" destination="6RB-3Q-VtW" id="C7y-ui-Y2u"/>
                 <outletCollection property="stars" destination="Jf7-9l-I0y" collectionClass="NSMutableArray" id="gKa-uD-GSk"/>
