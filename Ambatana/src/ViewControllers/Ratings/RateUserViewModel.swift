@@ -154,7 +154,7 @@ class RateUserViewModel: BaseViewModel {
             }.bindTo(sendEnabled).addDisposableTo(disposeBag)
 
         rating.asObservable().map {
-                ($0 ?? 0) < 4 ? LGLocalizedString.userRatingReviewPlaceholder :
+                ($0 ?? 0) < Constants.userRatingMinStarsToOptionalDescr ? LGLocalizedString.userRatingReviewPlaceholder :
                     LGLocalizedString.userRatingReviewPlaceholderOptional
             }.bindNext { [weak self] placeholder in
                 self?.delegate?.vmUpdateDescriptionPlaceholder(placeholder)
