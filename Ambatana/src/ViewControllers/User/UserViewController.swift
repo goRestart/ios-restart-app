@@ -176,6 +176,11 @@ extension UserViewController: UserViewModelDelegate {
         guard let tabBarCtl = tabBarController as? TabBarController else { return }
         tabBarCtl.switchToTab(.Home)
     }
+
+    func vmOpenRatingList(ratingListVM: UserRatingListViewModel) {
+        let vc = UserRatingListViewController(viewModel: ratingListVM)
+        navigationController?.pushViewController(vc, animated: true)
+    }
 }
 
 
@@ -201,6 +206,7 @@ extension UserViewController : UserViewHeaderDelegate {
     func emailAccountAction() {
         viewModel.emailButtonPressed()
     }
+
 }
 
 

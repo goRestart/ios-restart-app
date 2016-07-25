@@ -395,6 +395,7 @@
 "product_mark_as_sold_confirm_title" = "Отметить как проданный";
 "product_mark_as_sold_error_generic" = "При изменении статуса товара произошла ошибка. Пожалуйста, попробуйте еще раз позже.";
 "product_mark_as_sold_success_message" = "Поздравляем! Ваш продукт был продан!";
+"product_more_info_open_button" = "MORE INFO";
 "product_more_info_tooltip_part_1" = "Нажмите";
 "product_more_info_tooltip_part_2" = "%@ просмотреть больше информации";
 "product_negotiable_price" = "Обсуждаема";
@@ -533,7 +534,10 @@
 "push_notification_message_body_no_username" = "Сообщение: %@";
 "push_notification_message_title" = "Новое сообщение - %@";
 "rating_list_action_report_review" = "Пожаловаться на отзыв";
+"rating_list_action_report_review_error_message" = "При отправке произошла ошибка.";
+"rating_list_action_report_review_success_message" = "Ваша жалоба была отправлена!";
 "rating_list_action_review_user" = "Оценить пользователя";
+"rating_list_loading_error_message" = "При загрузке оценок произошла ошибка.";
 "rating_list_rating_type_buyer_text_label" = "%@ купил товар";
 "rating_list_rating_type_conversation_text_label" = "%@ спрашивал о товаре";
 "rating_list_rating_type_seller_text_label" = "%@ продал товар";

@@ -395,6 +395,7 @@
 "product_mark_as_sold_confirm_title" = "Μάρκαρε ότι πωλήθηκε";
 "product_mark_as_sold_error_generic" = "Παρουσιάσθηκε σφάλμα κατά το μαρκάρισμα του προϊόντος πως έχει πωληθεί! Θα πρέπει να προσπαθήσεις ξανά αργότερα.";
 "product_mark_as_sold_success_message" = "Συγχαρητήρια, το προϊόν σας έχει πωληθεί επιτυχώς!";
+"product_more_info_open_button" = "MORE INFO";
 "product_more_info_tooltip_part_1" = "Πατήστε";
 "product_more_info_tooltip_part_2" = "%@ για πληροφορίες";
 "product_negotiable_price" = "Συζητήσιμη";
@@ -533,7 +534,10 @@
 "push_notification_message_body_no_username" = "Μήνυμα: %@";
 "push_notification_message_title" = "Νέο μήνυμα- %@";
 "rating_list_action_report_review" = "Κάντε αναφορά μιας κριτικής";
+"rating_list_action_report_review_error_message" = "Παρουσιάστηκε σφάλμα κατά την αποστολή της αναφοράς σας.";
+"rating_list_action_report_review_success_message" = "Η αναφορά σας έχει σταλεί";
 "rating_list_action_review_user" = "Κάντε κριτική σε χρήστη";
+"rating_list_loading_error_message" = "Παρουσιάστηκε σφάλμα κατά τη φόρτωση της κριτικής.";
 "rating_list_rating_type_buyer_text_label" = "Ο %@ αγόρασε ένα προϊόν";
 "rating_list_rating_type_conversation_text_label" = "Ο %@ συζήτησε για ένα προϊόν";
 "rating_list_rating_type_seller_text_label" = "Ο %@ πούλησε ένα προϊόν";
@@ -663,4 +667,4 @@
 "user_rating_review_placeholder" = "Αφήστε μια κριτική (απαραίτητο)";
 "user_rating_review_placeholder_optional" = "Αφήστε μια κριτική (προαιρετικό)";
 "user_rating_review_send_success" = "Η κριτική σας έχει δημοσιευθεί!";
-"user_rating_title" = "Βαθμολογήστε την εμπειρία σας με";
+"user_rating_title" = "Αναφέρετε την εμπειρία σας με";

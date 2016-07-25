@@ -395,6 +395,7 @@
 "product_mark_as_sold_confirm_title" = "Markeer als verkocht";
 "product_mark_as_sold_error_generic" = "Er is een fout opgetreden bij het markeren van het product als verkocht. Probeer het later nog eens.";
 "product_mark_as_sold_success_message" = "Gefeliciteerd, jouw product werd succesvol gemarkeerd als verkocht!";
+"product_more_info_open_button" = "MORE INFO";
 "product_more_info_tooltip_part_1" = "Tik";
 "product_more_info_tooltip_part_2" = "%@ om meer informatie te zien";
 "product_negotiable_price" = "Bespreekbaar";
@@ -533,7 +534,10 @@
 "push_notification_message_body_no_username" = "Bericht: %@";
 "push_notification_message_title" = "Nieuwe bericht - %@";
 "rating_list_action_report_review" = "Rapporteer beoordeling";
+"rating_list_action_report_review_error_message" = "Er is een fout opgetreden tijdens het versturen van jouw melding.";
+"rating_list_action_report_review_success_message" = "Jouw melding is verzonden!";
 "rating_list_action_review_user" = "Beoordeel gebruiker";
+"rating_list_loading_error_message" = "Er is een fout opgetreden tijdens het laden van beoordelingen.";
 "rating_list_rating_type_buyer_text_label" = "%@ kocht een product";
 "rating_list_rating_type_conversation_text_label" = "%@ chatte over een product";
 "rating_list_rating_type_seller_text_label" = "%@ verkocht een product";

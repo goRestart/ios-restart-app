@@ -395,6 +395,7 @@
 "product_mark_as_sold_confirm_title" = "Mark as Sold";
 "product_mark_as_sold_error_generic" = "An error occurred while marking your product as sold. Please try again later.";
 "product_mark_as_sold_success_message" = "Congratulations, your product was successfully marked as sold!";
+"product_more_info_open_button" = "MORE INFO";
 "product_more_info_tooltip_part_1" = "Tap";
 "product_more_info_tooltip_part_2" = "%@ to see more info";
 "product_negotiable_price" = "Negotiable";
@@ -480,7 +481,7 @@
 "product_share_email_error" = "Oops! You don't seem to have an account set up in the Mail app.";
 "product_share_generic_error" = "An error occurred while sharing the product. Please try again later.";
 "product_share_generic_ok" = "Product successfully shared!";
-"product_share_sms_error" = "An error ocurred while sending your message.";
+"product_share_sms_error" = "An error occurred while sending your message.";
 "product_share_sms_ok" = "Sending...";
 "product_share_telegram_error" = "Oops! You don't seem to have Telegram installed.";
 "product_share_title_label" = "SHARE THIS PRODUCT";
@@ -533,7 +534,10 @@
 "push_notification_message_body_no_username" = "Message: %@";
 "push_notification_message_title" = "New message - %@";
 "rating_list_action_report_review" = "Report review";
+"rating_list_action_report_review_error_message" = "An error occurred while sending your report.";
+"rating_list_action_report_review_success_message" = "Your report has been sent!";
 "rating_list_action_review_user" = "Review user";
+"rating_list_loading_error_message" = "An error occurred while loading ratings.";
 "rating_list_rating_type_buyer_text_label" = "%@ bought a product";
 "rating_list_rating_type_conversation_text_label" = "%@ chatted about a product";
 "rating_list_rating_type_seller_text_label" = "%@ sold a product";
@@ -663,4 +667,4 @@
 "user_rating_review_placeholder" = "Leave a review (required)";
 "user_rating_review_placeholder_optional" = "Leave a review (optional)";
 "user_rating_review_send_success" = "Your review has been published!";
-"user_rating_title" = "Rate your experience with";
+"user_rating_title" = "Review your experience with";

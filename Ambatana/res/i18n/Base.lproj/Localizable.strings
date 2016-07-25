@@ -1363,7 +1363,7 @@
 "product_share_sms_ok" = "Sending...";
 
 // Product share via sms error message
-"product_share_sms_error" = "An error ocurred while sending your message.";
+"product_share_sms_error" = "An error occurred while sending your message.";
 
 // Product share via copy_link success
 "product_share_copylink_ok" = "Your link has been copied!";
@@ -1394,6 +1394,9 @@
 
 // Tooltip to see more info on snapchat, just the "to see more info" text
 "product_more_info_tooltip_part_2" = "%@ to see more info";
+
+// Button to open the More Info view tapping or dragging it
+"product_more_info_open_button" = "MORE INFO";
 
 // Profile, you blocked this user label (wo username)
 "profile_blocked_by_me_label" = "You've blocked this user";
@@ -1526,6 +1529,13 @@
 
 // action for user to report a review by another user
 "rating_list_action_report_review" = "Report review";
+
+"rating_list_action_report_review_success_message" = "Your report has been sent!";
+
+"rating_list_action_report_review_error_message" = "An error occurred while sending your report.";
+
+// Text for loading error at user ratings list
+"rating_list_loading_error_message" = "An error occurred while loading ratings.";
 
 // Text for rating of type "buyer" ( %s will be the username)
 "rating_list_rating_type_buyer_text_label" = "%@ bought a product";
@@ -1897,7 +1907,7 @@
 "unblock_user_error_generic" = "An error occurred while unblocking this user.";
 
 // Title when you rate a user
-"user_rating_title" = "Rate your experience with";
+"user_rating_title" = "Review your experience with";
 
 // Information message when rating a user
 "user_rating_message_w_name" = "Tap the stars to rate and tell us if your experience with %@ went well. You can update it whenever you want.";

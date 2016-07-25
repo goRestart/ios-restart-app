@@ -395,6 +395,7 @@
 "product_mark_as_sold_confirm_title" = "Marquer comme vendu";
 "product_mark_as_sold_error_generic" = "Il y a eu une erreur lors du passage du bien au statut 'vendu'. Veuillez réessayer plus tard.";
 "product_mark_as_sold_success_message" = "Félicitations, votre bien a été marqué comme vendu !";
+"product_more_info_open_button" = "MORE INFO";
 "product_more_info_tooltip_part_1" = "Tapez";
 "product_more_info_tooltip_part_2" = "%@ pour plus d'infos";
 "product_negotiable_price" = "Negociable";
@@ -480,7 +481,7 @@
 "product_share_email_error" = "Oops, il semble que vous n'avez pas paramétré de compte dans l'application Mail.";
 "product_share_generic_error" = "Une erreur est survenue lors du partage du bien. Veuillez réessayer plus tard.";
 "product_share_generic_ok" = "Bien partagé avec succès !";
-"product_share_sms_error" = "Une erreur est survenue lors de l'envoi du message";
+"product_share_sms_error" = "Une erreur est survenue lors de l'envoi du message.";
 "product_share_sms_ok" = "Envoi...";
 "product_share_telegram_error" = "Oups ! Il semble que vous n'avez pas installé Telegram.";
 "product_share_title_label" = "PARTAGER CE BIEN";
@@ -533,7 +534,10 @@
 "push_notification_message_body_no_username" = "Message : %@";
 "push_notification_message_title" = "Nouveau message - %@";
 "rating_list_action_report_review" = "Signaler une note";
+"rating_list_action_report_review_error_message" = "Une erreur est survenue lors de l'envoi du signalement.";
+"rating_list_action_report_review_success_message" = "Votre signalement a été envoyé !";
 "rating_list_action_review_user" = "Noter utilisateur";
+"rating_list_loading_error_message" = "An error occurred while loading ratings.";
 "rating_list_rating_type_buyer_text_label" = "%@ a acheté votre bien";
 "rating_list_rating_type_conversation_text_label" = "%@ a chatté à propos d'un bien";
 "rating_list_rating_type_seller_text_label" = "%@ a vendu un bien";

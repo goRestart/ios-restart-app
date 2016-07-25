@@ -395,6 +395,7 @@
 "product_mark_as_sold_confirm_title" = "Megjelölés eladottként";
 "product_mark_as_sold_error_generic" = "Hiba történt a megjelölés során. Kérjük, próbálkozz később.";
 "product_mark_as_sold_success_message" = "Gratulálunk, a portéka sikeresen megjelölve eladottként!";
+"product_more_info_open_button" = "MORE INFO";
 "product_more_info_tooltip_part_1" = "Koppints";
 "product_more_info_tooltip_part_2" = "%@ a részletekért";
 "product_negotiable_price" = "Alkudható";
@@ -533,7 +534,10 @@
 "push_notification_message_body_no_username" = "Üzenet: %@";
 "push_notification_message_title" = "Új üzenet - %@";
 "rating_list_action_report_review" = "Értékelés jelentése";
+"rating_list_action_report_review_error_message" = "Hiba történt jelentésed beküldése során.";
+"rating_list_action_report_review_success_message" = "Jelentésed beküldve!";
 "rating_list_action_review_user" = "Felhasználó értékelése";
+"rating_list_loading_error_message" = "Hiba történt az értékelések betöltése során.";
 "rating_list_rating_type_buyer_text_label" = "%@ vásárolt";
 "rating_list_rating_type_conversation_text_label" = "%@ beszélgetett";
 "rating_list_rating_type_seller_text_label" = "%@ eladott";
@@ -663,4 +667,4 @@
 "user_rating_review_placeholder" = "Hagyj értékelést (kötelező)";
 "user_rating_review_placeholder_optional" = "Hagyj értékelést (nem kötelező)";
 "user_rating_review_send_success" = "Értékelésed beküldve!";
-"user_rating_title" = "Mondd el, milyen volt.";
+"user_rating_title" = "Mondd el, milyen volt";

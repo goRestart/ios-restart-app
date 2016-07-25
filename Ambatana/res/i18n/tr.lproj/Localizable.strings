@@ -395,6 +395,7 @@
 "product_mark_as_sold_confirm_title" = "Satıldı olarak işaretle";
 "product_mark_as_sold_error_generic" = "Ürün satıldı olarak işaretlenirken bir hata oluştu. Lütfen, daha sonra tekrar dene.";
 "product_mark_as_sold_success_message" = "Tebrikler, ürünün satıldı olarak işaretlendi!";
+"product_more_info_open_button" = "MORE INFO";
 "product_more_info_tooltip_part_1" = "dokun";
 "product_more_info_tooltip_part_2" = "Daha fazla bilgi için %@";
 "product_negotiable_price" = "Pazarlık edilebilir";
@@ -533,7 +534,10 @@
 "push_notification_message_body_no_username" = "Mesaj: %@";
 "push_notification_message_title" = "Yeni mesaj - %@";
 "rating_list_action_report_review" = "Yorumu bildir";
+"rating_list_action_report_review_error_message" = "Şikayetin gönderilirken bir hata oluştu.";
+"rating_list_action_report_review_success_message" = "Şikayetin bildirildi!";
 "rating_list_action_review_user" = "Kullanıcıyı değerlendir";
+"rating_list_loading_error_message" = "Yorumlar yüklenirken bir hata oluştu.";
 "rating_list_rating_type_buyer_text_label" = "%@ bir ürün aldı";
 "rating_list_rating_type_conversation_text_label" = "%@ bir ürün hakkında sohbet etti";
 "rating_list_rating_type_seller_text_label" = "%@ bir ürün sattı";
@@ -663,4 +667,4 @@
 "user_rating_review_placeholder" = "Değerlendirme yap (gerekli)";
 "user_rating_review_placeholder_optional" = "Değerlendirme yap (isteğe bağlı)";
 "user_rating_review_send_success" = "Değerlendirmen yayınlandı!";
-"user_rating_title" = "Bu kullanıcı ile deneyimine puan ver";
+"user_rating_title" = "Bu kullanıcı ile deneyimini değerlendir";
