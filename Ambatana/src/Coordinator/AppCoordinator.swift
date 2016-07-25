@@ -473,12 +473,12 @@ private extension AppCoordinator {
         case .UserRatings:
             openTab(.Profile)
             afterDelayClosure = { [weak self] in
-                self?.openUserRatings()
+                self?.openMyUserRatings()
             }
         case let .UserRating(ratingId):
             openTab(.Profile)
             afterDelayClosure = { [weak self] in
-                self?.openUserRating(ratingId)
+                self?.openUserRatingForUserFromRating(ratingId)
             }
         }
 
@@ -625,13 +625,18 @@ private extension AppCoordinator {
         tabBarCtl.presentViewController(navCtl, animated: true, completion: nil)
     }
 
-    private func openUserRatings() {
+    private func openMyUserRatings() {
         guard FeatureFlags.userRatings else { return }
-//        tabBarCtl.openUserRating(.DeepLink, data: <#T##RateUserData#>)
-        // TODO: 🌶
+        guard let navCtl = selectedNavigationController() else { return }
+
+        guard let myUserId = myUserRepository.myUser?.objectId else { return }
+        let viewModel = UserRatingListViewModel(userId: myUserId)
+
+        let viewController = UserRatingListViewController(viewModel: viewModel)
+        navCtl.pushViewController(viewController, animated: true)
     }
 
-    private func openUserRating(ratingId: String) {
+    private func openUserRatingForUserFromRating(ratingId: String) {
         guard FeatureFlags.userRatings else { return }
         guard let navCtl = selectedNavigationController() else { return }
 
