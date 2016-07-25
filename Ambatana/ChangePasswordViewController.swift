@@ -54,6 +54,11 @@ class ChangePasswordViewController: UIViewController, UITextFieldDelegate, Chang
         UIApplication.sharedApplication().setStatusBarStyle(.Default, animated: true)
     }
     
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        passwordTextfield.becomeFirstResponder()
+    }
+    
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         // Redraw the lines
@@ -203,7 +208,5 @@ class ChangePasswordViewController: UIViewController, UITextFieldDelegate, Chang
         // internationalization
         passwordTextfield.placeholder = LGLocalizedString.changePasswordNewPasswordFieldHint
         confirmPasswordTextfield.placeholder = LGLocalizedString.changePasswordConfirmPasswordFieldHint
-
-        passwordTextfield.becomeFirstResponder()
     }
 }
