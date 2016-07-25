@@ -45,9 +45,9 @@ enum UserViewStyle {
     var subtitleLabelFont: UIFont {
         switch self {
         case .Full:
-            return UIFont.smallBodyFontLight
+            return UIFont.systemRegularFont(size: 13)
         case .CompactShadow, .CompactBorder:
-            return UIFont.subtitleFontLight
+            return UIFont.systemRegularFont(size: 11)
         }
     }
 

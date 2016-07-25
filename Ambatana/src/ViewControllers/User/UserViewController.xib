@@ -90,7 +90,7 @@
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="r4n-rR-ucf">
-                    <rect key="frame" x="50" y="30" width="500" height="68"/>
+                    <rect key="frame" x="50" y="30" width="500" height="70"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_username" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="be4-ac-vae">
                             <rect key="frame" x="0.0" y="0.0" width="500" height="21"/>
@@ -99,13 +99,13 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vmB-KE-ViC" userLabel="Average Rating Container View">
-                            <rect key="frame" x="203" y="21" width="95" height="30"/>
+                            <rect key="frame" x="201" y="21" width="98" height="32"/>
                             <subviews>
                                 <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vc2-g1-bIT" userLabel="Average Rating View">
-                                    <rect key="frame" x="0.0" y="6" width="95" height="20"/>
+                                    <rect key="frame" x="0.0" y="6" width="98" height="22"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" tag="1" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_star" highlightedImage="ic_star_filled" translatesAutoresizingMaskIntoConstraints="NO" id="4Xv-hz-pIY" userLabel="Average Rating 1 Image View">
-                                            <rect key="frame" x="11" y="5" width="10" height="10"/>
+                                            <rect key="frame" x="11" y="5" width="12" height="12"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="12" id="7RL-MP-lVh"/>
                                                 <constraint firstAttribute="width" secondItem="4Xv-hz-pIY" secondAttribute="height" multiplier="1:1" id="xMy-uX-qz0"/>
@@ -117,24 +117,24 @@
                                             </variation>
                                         </imageView>
                                         <imageView userInteractionEnabled="NO" tag="2" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_star" highlightedImage="ic_star_filled" translatesAutoresizingMaskIntoConstraints="NO" id="j9f-X1-VAR" userLabel="Average Rating 2 Image View">
-                                            <rect key="frame" x="27" y="5" width="10" height="10"/>
+                                            <rect key="frame" x="27" y="5" width="12" height="12"/>
                                         </imageView>
                                         <imageView userInteractionEnabled="NO" tag="3" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_star" highlightedImage="ic_star_filled" translatesAutoresizingMaskIntoConstraints="NO" id="VoE-Mm-Awo" userLabel="Average Rating 3 Image View">
-                                            <rect key="frame" x="43" y="5" width="10" height="10"/>
+                                            <rect key="frame" x="43" y="5" width="12" height="12"/>
                                         </imageView>
                                         <imageView userInteractionEnabled="NO" tag="4" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_star" highlightedImage="ic_star_filled" translatesAutoresizingMaskIntoConstraints="NO" id="CsO-1l-LAW" userLabel="Average Rating 4 Image View">
-                                            <rect key="frame" x="59" y="5" width="10" height="10"/>
+                                            <rect key="frame" x="59" y="5" width="12" height="12"/>
                                         </imageView>
                                         <imageView userInteractionEnabled="NO" tag="5" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_star" highlightedImage="ic_star_filled" translatesAutoresizingMaskIntoConstraints="NO" id="omf-dl-pXI" userLabel="Average Rating 5 Image View">
-                                            <rect key="frame" x="74" y="5" width="10" height="10"/>
+                                            <rect key="frame" x="75" y="5" width="12" height="12"/>
                                         </imageView>
                                     </subviews>
                                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.14999999999999999" colorSpace="calibratedRGB"/>
                                     <constraints>
-                                        <constraint firstItem="CsO-1l-LAW" firstAttribute="leading" secondItem="VoE-Mm-Awo" secondAttribute="trailing" constant="6" id="3zC-wM-Um4"/>
+                                        <constraint firstItem="CsO-1l-LAW" firstAttribute="leading" secondItem="VoE-Mm-Awo" secondAttribute="trailing" constant="4" id="3zC-wM-Um4"/>
                                         <constraint firstAttribute="trailing" secondItem="omf-dl-pXI" secondAttribute="trailing" constant="11" id="4G1-Rs-rl2"/>
                                         <constraint firstItem="omf-dl-pXI" firstAttribute="height" secondItem="4Xv-hz-pIY" secondAttribute="height" id="5TK-zF-cuK"/>
-                                        <constraint firstItem="VoE-Mm-Awo" firstAttribute="leading" secondItem="j9f-X1-VAR" secondAttribute="trailing" constant="6" id="5Vl-uv-ZKt"/>
+                                        <constraint firstItem="VoE-Mm-Awo" firstAttribute="leading" secondItem="j9f-X1-VAR" secondAttribute="trailing" constant="4" id="5Vl-uv-ZKt"/>
                                         <constraint firstItem="4Xv-hz-pIY" firstAttribute="top" secondItem="vc2-g1-bIT" secondAttribute="top" constant="5" id="9Y1-0s-MrM"/>
                                         <constraint firstAttribute="bottom" secondItem="4Xv-hz-pIY" secondAttribute="bottom" constant="5" id="DD4-4M-X8z"/>
                                         <constraint firstItem="VoE-Mm-Awo" firstAttribute="width" secondItem="4Xv-hz-pIY" secondAttribute="width" id="JLN-MH-x9J"/>
@@ -149,8 +149,8 @@
                                         <constraint firstItem="CsO-1l-LAW" firstAttribute="top" secondItem="4Xv-hz-pIY" secondAttribute="top" id="oyf-KM-pNl"/>
                                         <constraint firstItem="VoE-Mm-Awo" firstAttribute="height" secondItem="4Xv-hz-pIY" secondAttribute="height" id="puW-BM-hE0"/>
                                         <constraint firstItem="CsO-1l-LAW" firstAttribute="width" secondItem="4Xv-hz-pIY" secondAttribute="width" id="xNc-NZ-s7t"/>
-                                        <constraint firstItem="j9f-X1-VAR" firstAttribute="leading" secondItem="4Xv-hz-pIY" secondAttribute="trailing" constant="6" id="yW9-Jo-oSH"/>
-                                        <constraint firstItem="omf-dl-pXI" firstAttribute="leading" secondItem="CsO-1l-LAW" secondAttribute="trailing" constant="5" id="zzs-4h-peZ"/>
+                                        <constraint firstItem="j9f-X1-VAR" firstAttribute="leading" secondItem="4Xv-hz-pIY" secondAttribute="trailing" constant="4" id="yW9-Jo-oSH"/>
+                                        <constraint firstItem="omf-dl-pXI" firstAttribute="leading" secondItem="CsO-1l-LAW" secondAttribute="trailing" constant="4" id="zzs-4h-peZ"/>
                                     </constraints>
                                 </view>
                             </subviews>
@@ -159,12 +159,12 @@
                                 <constraint firstItem="vc2-g1-bIT" firstAttribute="top" secondItem="vmB-KE-ViC" secondAttribute="top" constant="6" id="Pzg-Ef-Ml0"/>
                                 <constraint firstAttribute="bottom" secondItem="vc2-g1-bIT" secondAttribute="bottom" constant="4" id="R2M-u8-4g6"/>
                                 <constraint firstItem="vc2-g1-bIT" firstAttribute="leading" secondItem="vmB-KE-ViC" secondAttribute="leading" id="XLh-gK-3ND"/>
-                                <constraint firstAttribute="height" constant="30" id="kuw-6a-PeO"/>
+                                <constraint firstAttribute="height" constant="32" id="kuw-6a-PeO"/>
                             </constraints>
                         </view>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_location" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rlh-Aj-lzp">
-                            <rect key="frame" x="0.0" y="51" width="500" height="17"/>
-                            <fontDescription key="fontDescription" type="system" weight="light" pointSize="14"/>
+                            <rect key="frame" x="0.0" y="53" width="500" height="17"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="highlightedColor"/>
                         </label>

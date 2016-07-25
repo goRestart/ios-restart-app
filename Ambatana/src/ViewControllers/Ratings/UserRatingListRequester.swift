@@ -46,14 +46,12 @@ class UserRatingListRequester {
     func reportRating(rating: UserRating, completion: UserRatingEmptyCompletion?) {
         userRatingRepository.reportRating(rating, completion: completion)
     }
-
 }
 
 
 // MARK: Paginable
 
 extension UserRatingListRequester: Paginable {
-
     func retrievePage(page: Int) {
         isLoading = true
         delegate?.requesterIsLoadingUserRatings(isLoading, firstPage: nextPage == 0)
@@ -68,5 +66,4 @@ extension UserRatingListRequester: Paginable {
             self?.delegate?.requesterIsLoadingUserRatings(self?.isLoading ?? false, firstPage: self?.nextPage == 0)
         }
     }
-
 }
