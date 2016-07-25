@@ -719,6 +719,10 @@ extension ProductCarouselViewController: ProductCarouselMoreInfoDelegate {
     func shareDidFailedWith(error: String) {
         showAutoFadingOutMessageAlert(error)
     }
+    
+    func viewControllerToShowShareOptions() -> UIViewController {
+        return self
+    }
 }
 
 

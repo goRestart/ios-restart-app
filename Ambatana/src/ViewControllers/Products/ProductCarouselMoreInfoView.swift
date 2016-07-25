@@ -16,6 +16,7 @@ protocol ProductCarouselMoreInfoDelegate: class {
     func didScrollFromTopWith(deltaOffset: CGFloat)
     func didEndScrolling()
     func shareDidFailedWith(error: String)
+    func viewControllerToShowShareOptions() -> UIViewController
 }
 
 
@@ -442,7 +443,7 @@ extension ProductCarouselMoreInfoView: SocialShareViewDelegate {
     }
     
     func viewController() -> UIViewController? {
-        return nil
+        return delegate?.viewControllerToShowShareOptions()
     }
     
     func shareInSMS() {
