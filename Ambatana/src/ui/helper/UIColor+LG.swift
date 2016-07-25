@@ -135,6 +135,7 @@ extension UIColor {
     static var darkGrayText: UIColor { return grayDark }
     static var grayText: UIColor { return gray }
     static var redText: UIColor { return watermelon }
+    static var soldText: UIColor { return soldColor }
     static var blackTextHighAlpha: UIColor { return blackAlpha50 }
     static var blackTextLowAlpha: UIColor { return blackAlpha30 }
 
