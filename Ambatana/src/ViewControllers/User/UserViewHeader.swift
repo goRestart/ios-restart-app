@@ -295,6 +295,11 @@ extension UserViewHeader {
     }
 
     private func setupAvatarRatingsContainerView() {
+        let gradient = CAGradientLayer.gradientWithColor(UIColor.whiteColor(), alphas:[0.0,1.0],
+                                                         locations: [0.0,1.0])
+        gradient.frame = avatarRatingsEffectView.bounds
+        avatarRatingsEffectView.layer.addSublayer(gradient)
+
         ratingCountLabel.font = UIFont.systemLightFont(size: 24)
         ratingCountLabel.textColor = UIColor.black
         ratingsLabel.font = UIFont.systemRegularFont(size: 13)

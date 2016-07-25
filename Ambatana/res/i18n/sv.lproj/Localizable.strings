@@ -201,6 +201,7 @@
 "common_time_week_ago_label" = "en vecka sedan";
 "common_time_weeks_ago_label" = "%d veckor sedan";
 "common_user_not_available" = "Hoppsan! Användaren hittades inte.";
+"common_user_review_not_available" = "Oops! Review not found.";
 "common_yes" = "Ja";
 "contact_body_field_hint" = "Meddelande";
 "contact_choose_subject_dialog_title" = "Välj ett ämne";
@@ -354,7 +355,7 @@
 "product_chat_go_to_chat" = "Gå till chatten";
 "product_chat_message_sending" = "Sänder...";
 "product_chat_with_seller_button" = "Chatta med säljaren";
-"product_chat_with_seller_name_button" = "Chat with %@";
+"product_chat_with_seller_name_button" = "Chatta med %@";
 "product_chat_with_seller_send_ok" = "Din chatt har sänts!";
 "product_continue_chatting_button" = "Fortsätt chatta";
 "product_create_commercial_button" = "Create Commercial";
@@ -396,7 +397,7 @@
 "product_mark_as_sold_confirm_title" = "Markera som såld";
 "product_mark_as_sold_error_generic" = "Ett fel uppstod vid markering av produkten som såld. Var god försök igen.";
 "product_mark_as_sold_success_message" = "Grattis, din produkt har markerats som såld!";
-"product_more_info_open_button" = "MORE INFO";
+"product_more_info_open_button" = "MER INFORMATION";
 "product_more_info_tooltip_part_1" = "Klicka";
 "product_more_info_tooltip_part_2" = "%@ för mer information";
 "product_negotiable_price" = "Förhandlingsbart";
@@ -538,7 +539,7 @@
 "rating_list_action_report_review_error_message" = "Ett fel uppstod när din rapport skulle skickas.";
 "rating_list_action_report_review_success_message" = "Din rapport har skickats!";
 "rating_list_action_review_user" = "Bedöm användare";
-"rating_list_loading_error_message" = "An error occurred while loading ratings.";
+"rating_list_loading_error_message" = "Ett fel uppstod när omdömdet skulle laddas upp.";
 "rating_list_rating_type_buyer_text_label" = "%@ köpte en produkt";
 "rating_list_rating_type_conversation_text_label" = "%@ chattade om en produkt";
 "rating_list_rating_type_seller_text_label" = "%@ sålde en produkt";

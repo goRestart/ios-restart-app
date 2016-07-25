@@ -22,6 +22,7 @@ protocol UserViewModelDelegate: BaseViewModelDelegate {
     func vmOpenProduct(productVC: UIViewController)
     func vmOpenVerifyAccount(verifyVM: VerifyAccountViewModel)
     func vmOpenHome()
+    func vmOpenRatingList(ratingListVM: UserRatingListViewModel)
 }
 
 class UserViewModel: BaseViewModel {
@@ -171,6 +172,7 @@ extension UserViewModel {
     }
 
     func ratingsButtonPressed() {
+        guard FeatureFlags.userRatings else { return }
         openRatings()
     }
 
@@ -298,8 +300,9 @@ extension UserViewModel {
     }
 
     private func openRatings() {
-        // TODO: connect with ABIOS-1418
-        print("TODO: connect with ABIOS-1418")
+        guard let userId = user.value?.objectId else { return }
+        let vm = UserRatingListViewModel(userId: userId)
+        delegate?.vmOpenRatingList(vm)
     }
 
     private func openPushPermissionsAlert() {
@@ -411,8 +414,11 @@ extension UserViewModel {
                 strongSelf.userAvatarPlaceholder.value = LetgoAvatar.avatarWithID(user?.objectId, name: user?.name)
             }
             strongSelf.userAvatarURL.value = user?.avatar?.fileURL
-            strongSelf.userRatingAverage.value = user?.ratingAverage?.roundNearest(0.5)
-            strongSelf.userRatingCount.value = user?.ratingCount
+
+            if FeatureFlags.userRatings {
+                strongSelf.userRatingAverage.value = user?.ratingAverage?.roundNearest(0.5)
+                strongSelf.userRatingCount.value = user?.ratingCount
+            }
 
             strongSelf.userName.value = user?.name
             strongSelf.userLocation.value = user?.postalAddress.cityCountryString

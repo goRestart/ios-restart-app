@@ -815,6 +815,10 @@ struct LGLocalizedString {
 		return String(format: NSLocalizedString("common_short_time_weeks_ago_label", comment: ""), var1)
 	}
 
+	static var commonUserReviewNotAvailable: String {
+		return NSLocalizedString("common_user_review_not_available", comment: "")
+	}
+
 	static var commonUserNotAvailable: String {
 		return NSLocalizedString("common_user_not_available", comment: "")
 	}

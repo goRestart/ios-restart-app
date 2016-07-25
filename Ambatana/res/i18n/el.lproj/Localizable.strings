@@ -201,6 +201,7 @@
 "common_time_week_ago_label" = "πριν από μια εβδομάδα";
 "common_time_weeks_ago_label" = "%d εβδομάδες πριν";
 "common_user_not_available" = "Όπα! Δε βρέθηκε ο χρήστης.";
+"common_user_review_not_available" = "Oops! Review not found.";
 "common_yes" = "Ναι";
 "contact_body_field_hint" = "Μήνυμα";
 "contact_choose_subject_dialog_title" = "Επιλογή θέματος";
@@ -354,7 +355,7 @@
 "product_chat_go_to_chat" = "Πηγαίνετε στις Συνομιλίες";
 "product_chat_message_sending" = "Αποστολή...";
 "product_chat_with_seller_button" = "Συνομιλήστε με τον πωλητή";
-"product_chat_with_seller_name_button" = "Chat with %@";
+"product_chat_with_seller_name_button" = "Συνομιλήστε με τον/την %@";
 "product_chat_with_seller_send_ok" = "Το μήνυμά σας έχει σταλεί!";
 "product_continue_chatting_button" = "Συνεχίστε τη συνομιλία";
 "product_create_commercial_button" = "Create Commercial";

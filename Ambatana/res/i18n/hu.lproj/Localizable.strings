@@ -201,6 +201,7 @@
 "common_time_week_ago_label" = "egy héttel ezelőtt";
 "common_time_weeks_ago_label" = "%d héttel ezelőtt";
 "common_user_not_available" = "Hoppá! A felhasználó nem található.";
+"common_user_review_not_available" = "Oops! Review not found.";
 "common_yes" = "Igen";
 "contact_body_field_hint" = "Üzenet";
 "contact_choose_subject_dialog_title" = "Válassz témát";
@@ -354,7 +355,7 @@
 "product_chat_go_to_chat" = "Ugrás a csevegéshez";
 "product_chat_message_sending" = "Küldés...";
 "product_chat_with_seller_button" = "Csevegés az eladóval";
-"product_chat_with_seller_name_button" = "Chat with %@";
+"product_chat_with_seller_name_button" = "Csevegés: %@";
 "product_chat_with_seller_send_ok" = "Üzeneted elküldve!";
 "product_continue_chatting_button" = "Csevegés folytatása";
 "product_create_commercial_button" = "Create Commercial";
@@ -396,7 +397,7 @@
 "product_mark_as_sold_confirm_title" = "Megjelölés eladottként";
 "product_mark_as_sold_error_generic" = "Hiba történt a megjelölés során. Kérjük, próbálkozz később.";
 "product_mark_as_sold_success_message" = "Gratulálunk, a portéka sikeresen megjelölve eladottként!";
-"product_more_info_open_button" = "MORE INFO";
+"product_more_info_open_button" = "RÉSZLETEK";
 "product_more_info_tooltip_part_1" = "Koppints";
 "product_more_info_tooltip_part_2" = "%@ a részletekért";
 "product_negotiable_price" = "Alkudható";

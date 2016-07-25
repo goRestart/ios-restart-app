@@ -201,6 +201,7 @@
 "common_time_week_ago_label" = "bir hafta önce";
 "common_time_weeks_ago_label" = "%d hafta önce";
 "common_user_not_available" = "Oops! Kullanıcı bulunamadı.";
+"common_user_review_not_available" = "Oops! Review not found.";
 "common_yes" = "Evet";
 "contact_body_field_hint" = "Mesaj";
 "contact_choose_subject_dialog_title" = "Konu seç";

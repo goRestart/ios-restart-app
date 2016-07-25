@@ -201,6 +201,7 @@
 "common_time_week_ago_label" = "viikko sitten";
 "common_time_weeks_ago_label" = "%d viikkoa sitten";
 "common_user_not_available" = "Hups! Käyttäjää ei löytynyt.";
+"common_user_review_not_available" = "Oops! Review not found.";
 "common_yes" = "Kyllä";
 "contact_body_field_hint" = "Viesti";
 "contact_choose_subject_dialog_title" = "Valitse aihe";
@@ -354,7 +355,7 @@
 "product_chat_go_to_chat" = "Mene keskusteluun";
 "product_chat_message_sending" = "Lähetetään...";
 "product_chat_with_seller_button" = "Keskustele myyjän kanssa";
-"product_chat_with_seller_name_button" = "Chat with %@";
+"product_chat_with_seller_name_button" = "Keskustele käyttäjän %@ kanssa";
 "product_chat_with_seller_send_ok" = "Viestisi on lähetetty!";
 "product_continue_chatting_button" = "Jatka keskustelua";
 "product_create_commercial_button" = "Create Commercial";
@@ -396,7 +397,7 @@
 "product_mark_as_sold_confirm_title" = "Merkitse myydyksi";
 "product_mark_as_sold_error_generic" = "Merkittäessä tuotetta myydyksi tapahtui virhe. Ole hyvä ja yritä myöhemmin uudelleen.";
 "product_mark_as_sold_success_message" = "Onneksi olkoon, tuotteesi merkittiin onnistuneesti myydyksi!";
-"product_more_info_open_button" = "MORE INFO";
+"product_more_info_open_button" = "LISÄTIEDOT";
 "product_more_info_tooltip_part_1" = "Paina";
 "product_more_info_tooltip_part_2" = "%@ nähdäksesi lisätietoja";
 "product_negotiable_price" = "Neuvoteltavissa";

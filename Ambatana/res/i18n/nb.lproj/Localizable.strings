@@ -201,6 +201,7 @@
 "common_time_week_ago_label" = "for en uke siden";
 "common_time_weeks_ago_label" = "for %d uker siden";
 "common_user_not_available" = "Oops! Fant ikke bruker.";
+"common_user_review_not_available" = "Oops! Review not found.";
 "common_yes" = "Ja";
 "contact_body_field_hint" = "Melding";
 "contact_choose_subject_dialog_title" = "Velg et emne";
@@ -354,7 +355,7 @@
 "product_chat_go_to_chat" = "Gå til Chat";
 "product_chat_message_sending" = "Sender...";
 "product_chat_with_seller_button" = "Snakk med selgeren";
-"product_chat_with_seller_name_button" = "Chat with %@";
+"product_chat_with_seller_name_button" = "Chat med %@";
 "product_chat_with_seller_send_ok" = "Din melding ble sendt!";
 "product_continue_chatting_button" = "Fortsett å snakke";
 "product_create_commercial_button" = "Create Commercial";
@@ -396,7 +397,7 @@
 "product_mark_as_sold_confirm_title" = "Merk som solgt";
 "product_mark_as_sold_error_generic" = "En geil oppstod ved å merke produktet som solgt. Vennligst prøv igjen senere.";
 "product_mark_as_sold_success_message" = "Gratulerer, ditt produkt ble merket som solgt!";
-"product_more_info_open_button" = "MORE INFO";
+"product_more_info_open_button" = "MER INFO";
 "product_more_info_tooltip_part_1" = "Trykk";
 "product_more_info_tooltip_part_2" = "%@ for å se mer info";
 "product_negotiable_price" = "Kan diskuteres";

@@ -597,6 +597,9 @@
 
 "common_short_time_weeks_ago_label" = "%d weeks";
 
+// Common user review not available
+"common_user_review_not_available" = "Oops! Review not found.";
+
 // Common user not available
 "common_user_not_available" = "Oops! User not found.";
 
