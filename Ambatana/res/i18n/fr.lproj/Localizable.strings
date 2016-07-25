@@ -201,6 +201,7 @@
 "common_time_week_ago_label" = "il y a une semaine";
 "common_time_weeks_ago_label" = "il y a %d semaines";
 "common_user_not_available" = "Oops ! Utilisateur non trouvé.";
+"common_user_review_not_available" = "Oops! Review not found.";
 "common_yes" = "Oui";
 "contact_body_field_hint" = "Message";
 "contact_choose_subject_dialog_title" = "Choisir un sujet";
@@ -354,6 +355,7 @@
 "product_chat_go_to_chat" = "Aller vers le chat";
 "product_chat_message_sending" = "Envoi...";
 "product_chat_with_seller_button" = "Chatter avec le vendeur";
+"product_chat_with_seller_name_button" = "Chatter avec %@";
 "product_chat_with_seller_send_ok" = "Votre chat a été envoyé !";
 "product_continue_chatting_button" = "Continuer le chat";
 "product_create_commercial_button" = "Create Commercial";
@@ -395,6 +397,7 @@
 "product_mark_as_sold_confirm_title" = "Marquer comme vendu";
 "product_mark_as_sold_error_generic" = "Il y a eu une erreur lors du passage du bien au statut 'vendu'. Veuillez réessayer plus tard.";
 "product_mark_as_sold_success_message" = "Félicitations, votre bien a été marqué comme vendu !";
+"product_more_info_open_button" = "PLUS d'INFO";
 "product_more_info_tooltip_part_1" = "Tapez";
 "product_more_info_tooltip_part_2" = "%@ pour plus d'infos";
 "product_negotiable_price" = "Negociable";
@@ -480,7 +483,7 @@
 "product_share_email_error" = "Oops, il semble que vous n'avez pas paramétré de compte dans l'application Mail.";
 "product_share_generic_error" = "Une erreur est survenue lors du partage du bien. Veuillez réessayer plus tard.";
 "product_share_generic_ok" = "Bien partagé avec succès !";
-"product_share_sms_error" = "Une erreur est survenue lors de l'envoi du message";
+"product_share_sms_error" = "Une erreur est survenue lors de l'envoi du message.";
 "product_share_sms_ok" = "Envoi...";
 "product_share_telegram_error" = "Oups ! Il semble que vous n'avez pas installé Telegram.";
 "product_share_title_label" = "PARTAGER CE BIEN";
@@ -504,6 +507,7 @@
 "profile_permissions_alert_ok" = "Activer";
 "profile_permissions_alert_title" = "NE MANQUEZ PAS UNE RÉPONSE !";
 "profile_permissions_header_message" = "Activer les notifications de message";
+"profile_reviews_count" = "Notes";
 "profile_selling_my_user_no_products_button" = "Vendre vos biens";
 "profile_selling_no_products_label" = "AUCUN BIEN (POUR LE MOMENT !)";
 "profile_selling_other_user_no_products_button" = "Continuer à naviguer";
@@ -531,6 +535,14 @@
 "push_notification_message_body" = "%@ : %@";
 "push_notification_message_body_no_username" = "Message : %@";
 "push_notification_message_title" = "Nouveau message - %@";
+"rating_list_action_report_review" = "Signaler une note";
+"rating_list_action_report_review_error_message" = "Une erreur est survenue lors de l'envoi du signalement.";
+"rating_list_action_report_review_success_message" = "Votre signalement a été envoyé !";
+"rating_list_action_review_user" = "Noter utilisateur";
+"rating_list_loading_error_message" = "Une erreur est survenue lors du chargement des notes.";
+"rating_list_rating_type_buyer_text_label" = "%@ a acheté votre bien";
+"rating_list_rating_type_conversation_text_label" = "%@ a chatté à propos d'un bien";
+"rating_list_rating_type_seller_text_label" = "%@ a vendu un bien";
 "rating_view_dont_ask_again_button" = "Ne plus me demander";
 "rating_view_love_it_label" = "J'aime !";
 "rating_view_needs_improvements_label" = "Doit être amélioré";
@@ -654,7 +666,7 @@
 "user_rating_message_w_name" = "Tapez les étoiles pour noter et nous dire si votre expérience avec %@ s'est bien passée. Vous pouvez la modifier à tout moment.";
 "user_rating_message_wo_name" = "Tapez les étoiles pour noter et nous dire si votre expérience avec cet utilisateur s'est bien passée. Vous pouvez la modifier à tout moment.";
 "user_rating_review_button" = "Publier";
-"user_rating_review_placeholder" = "Laissez un commentaire";
+"user_rating_review_placeholder" = "Laissez un commentaire (requis)";
 "user_rating_review_placeholder_optional" = "Laissez un commentaire (optionnel)";
 "user_rating_review_send_success" = "Votre avis a été publié !";
 "user_rating_title" = "Notez votre expérience avec";

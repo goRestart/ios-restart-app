@@ -201,6 +201,7 @@
 "common_time_week_ago_label" = "for en uke siden";
 "common_time_weeks_ago_label" = "for %d uker siden";
 "common_user_not_available" = "Oops! Fant ikke bruker.";
+"common_user_review_not_available" = "Oops! Review not found.";
 "common_yes" = "Ja";
 "contact_body_field_hint" = "Melding";
 "contact_choose_subject_dialog_title" = "Velg et emne";
@@ -354,6 +355,7 @@
 "product_chat_go_to_chat" = "Gå til Chat";
 "product_chat_message_sending" = "Sender...";
 "product_chat_with_seller_button" = "Snakk med selgeren";
+"product_chat_with_seller_name_button" = "Chat med %@";
 "product_chat_with_seller_send_ok" = "Din melding ble sendt!";
 "product_continue_chatting_button" = "Fortsett å snakke";
 "product_create_commercial_button" = "Create Commercial";
@@ -395,6 +397,7 @@
 "product_mark_as_sold_confirm_title" = "Merk som solgt";
 "product_mark_as_sold_error_generic" = "En geil oppstod ved å merke produktet som solgt. Vennligst prøv igjen senere.";
 "product_mark_as_sold_success_message" = "Gratulerer, ditt produkt ble merket som solgt!";
+"product_more_info_open_button" = "MER INFO";
 "product_more_info_tooltip_part_1" = "Trykk";
 "product_more_info_tooltip_part_2" = "%@ for å se mer info";
 "product_negotiable_price" = "Kan diskuteres";
@@ -504,6 +507,7 @@
 "profile_permissions_alert_ok" = "Aktiver";
 "profile_permissions_alert_title" = "IKKE GÅ GLIPP AV ET SVAR!";
 "profile_permissions_header_message" = "Aktiver meldingsvarslinger";
+"profile_reviews_count" = "Vurderinger";
 "profile_selling_my_user_no_products_button" = "Selg Dine Ting";
 "profile_selling_no_products_label" = "INGEN PRODUKTER (ENDA!)";
 "profile_selling_other_user_no_products_button" = "Fortsett å bla i produktene";
@@ -531,6 +535,14 @@
 "push_notification_message_body" = "%@: %@";
 "push_notification_message_body_no_username" = "Melding: %@";
 "push_notification_message_title" = "Ny melding - %@";
+"rating_list_action_report_review" = "Rapporter vurdering";
+"rating_list_action_report_review_error_message" = "En feil oppstod ved sending av din rapport.";
+"rating_list_action_report_review_success_message" = "Din rapport ble sendt!";
+"rating_list_action_review_user" = "Vurder bruker";
+"rating_list_loading_error_message" = "En feil oppstod ved lasting av vurderinger.";
+"rating_list_rating_type_buyer_text_label" = "%@ kjøpte et produkt";
+"rating_list_rating_type_conversation_text_label" = "%@ snakket om et produkt";
+"rating_list_rating_type_seller_text_label" = "%@ solgte et produkt";
 "rating_view_dont_ask_again_button" = "Ikke spør meg igjen";
 "rating_view_love_it_label" = "Elsker det!";
 "rating_view_needs_improvements_label" = "Trenger forbedringer";
@@ -654,7 +666,7 @@
 "user_rating_message_w_name" = "Trykk på stjernene for å rangere og fortelle oss om din opplevelse med %@ gikk bra. Du kan oppdatere rangeringen når som helst.";
 "user_rating_message_wo_name" = "Trykk på stjernene for å rangere og fortelle oss om din opplevelse med denne brukeren gikk bra. Du kan oppdatere rangeringen når som helst.";
 "user_rating_review_button" = "Publiser omtale";
-"user_rating_review_placeholder" = "Legg igjen en omtale (valgfritt)";
+"user_rating_review_placeholder" = "Legg igjen en omtale (påkrevd)";
 "user_rating_review_placeholder_optional" = "Legg igjen en omtale (valgfritt)";
 "user_rating_review_send_success" = "Din omtale er publisert!";
-"user_rating_title" = "Ranger din opplevelse med";
+"user_rating_title" = "Vurder din opplevelse med";

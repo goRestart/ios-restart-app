@@ -201,6 +201,7 @@
 "common_time_week_ago_label" = "1 주 전";
 "common_time_weeks_ago_label" = "%d 주 전";
 "common_user_not_available" = "이런! 사용자를 찾을 수 없습니다.";
+"common_user_review_not_available" = "Oops! Review not found.";
 "common_yes" = "예";
 "contact_body_field_hint" = "메세지";
 "contact_choose_subject_dialog_title" = "항목을 선택해주세요";
@@ -354,6 +355,7 @@
 "product_chat_go_to_chat" = "채팅으로 이동하기";
 "product_chat_message_sending" = "발송중...";
 "product_chat_with_seller_button" = "판매자와 채팅하기";
+"product_chat_with_seller_name_button" = "%@와 대화하기";
 "product_chat_with_seller_send_ok" = "당신의 채팅이 발송되었습니다!";
 "product_continue_chatting_button" = "계속 채팅하기";
 "product_create_commercial_button" = "Create Commercial";
@@ -395,6 +397,7 @@
 "product_mark_as_sold_confirm_title" = "품절로 표시하기";
 "product_mark_as_sold_error_generic" = "품절로 표시하는데 오류가 발생했습니다. 다시 시도해주세요.";
 "product_mark_as_sold_success_message" = "축하드립니다, 고객님의 제품이 품절로 표시되었습니다.";
+"product_more_info_open_button" = "더 많은 정보";
 "product_more_info_tooltip_part_1" = "탭";
 "product_more_info_tooltip_part_2" = "%@ 더 많은 정보 확인하기";
 "product_negotiable_price" = "흥정가능한";
@@ -504,6 +507,7 @@
 "profile_permissions_alert_ok" = "활성화";
 "profile_permissions_alert_title" = "대답하는 것을 잊지 마세요!";
 "profile_permissions_header_message" = "메세지 알림 활성화";
+"profile_reviews_count" = "리뷰";
 "profile_selling_my_user_no_products_button" = "고객님의 물건을 판매하세요";
 "profile_selling_no_products_label" = "상품이 없습니다 (아직이에요!)";
 "profile_selling_other_user_no_products_button" = "계속 검색하기";
@@ -531,6 +535,14 @@
 "push_notification_message_body" = "%@: %@";
 "push_notification_message_body_no_username" = "메세지: %@";
 "push_notification_message_title" = "새로운 메세지 -%@";
+"rating_list_action_report_review" = "리뷰 신고하기";
+"rating_list_action_report_review_error_message" = "신고를 발송하는동안 오류가 발생했습니다.";
+"rating_list_action_report_review_success_message" = "신고가 발송되었습니다!";
+"rating_list_action_review_user" = "사용자 리뷰";
+"rating_list_loading_error_message" = "평점을 불러오는 동안 오류가 발생했습니다.";
+"rating_list_rating_type_buyer_text_label" = "%@께서 상품을 구매하였습니다";
+"rating_list_rating_type_conversation_text_label" = "%@께서 상품에 관하여 채팅을 보냈습니다";
+"rating_list_rating_type_seller_text_label" = "%@ sold a product";
 "rating_view_dont_ask_again_button" = "다시 묻지 말아주세요";
 "rating_view_love_it_label" = "마음에 들어요!";
 "rating_view_needs_improvements_label" = "개선이 필요합니다";
@@ -654,7 +666,7 @@
 "user_rating_message_w_name" = "평가를 시작하기 위해 클릭하신 후 %@와 거래하는데 불편한 점이 없으셨다면 저희에게 알려주세요. 사용자께서는 원하실 때 없데이트를 하실 수 있습니다.";
 "user_rating_message_wo_name" = "평가를 시작하기 위해 클릭하신 후 이 사용자와 거래하는데 불편한 점이 없으셨다면 저희에게 알려주세요. 사용자께서는 원하실 때 없데이트를 하실 수 있습니다.";
 "user_rating_review_button" = "댓글 남기기";
-"user_rating_review_placeholder" = "댓글 남기기 (선택사항)";
+"user_rating_review_placeholder" = "댓글 남기기 (필수항목)";
 "user_rating_review_placeholder_optional" = "댓글 남기기 (선택사항)";
 "user_rating_review_send_success" = "사용자의 댓글이 정상적으로 등록되었습니다!";
-"user_rating_title" = "회원님의 경험을 평가하기";
+"user_rating_title" = "회원님의 경험을 댓글로 남기기";

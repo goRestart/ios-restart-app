@@ -201,6 +201,7 @@
 "common_time_week_ago_label" = "một tuần trước";
 "common_time_weeks_ago_label" = "%d tuần trước";
 "common_user_not_available" = "Ồ! Không tìm thấy người dùng.";
+"common_user_review_not_available" = "Oops! Review not found.";
 "common_yes" = "Có";
 "contact_body_field_hint" = "Tin nhắn";
 "contact_choose_subject_dialog_title" = "Chọn một tiêu đề";
@@ -354,6 +355,7 @@
 "product_chat_go_to_chat" = "Tới Trò chuyện";
 "product_chat_message_sending" = "Đang gửi...";
 "product_chat_with_seller_button" = "Trò chuyện với người bán";
+"product_chat_with_seller_name_button" = "Trò chuyện với %@";
 "product_chat_with_seller_send_ok" = "Trò chuyện vừa được gửi!";
 "product_continue_chatting_button" = "Tiếp tục trò chuyện";
 "product_create_commercial_button" = "Create Commercial";
@@ -395,6 +397,7 @@
 "product_mark_as_sold_confirm_title" = "Đánh dấu Đã bán";
 "product_mark_as_sold_error_generic" = "Lỗi xảy ra trong khi đánh dấu đã bán cho sản phẩm. Xin vui lòng thử lại sau.";
 "product_mark_as_sold_success_message" = "Chúc mừng, sản phẩm của bạn đã được đánh dấu đã bán!";
+"product_more_info_open_button" = "THÊM THÔNG TIN";
 "product_more_info_tooltip_part_1" = "Chạm";
 "product_more_info_tooltip_part_2" = "%@ để xem thêm thông tin";
 "product_negotiable_price" = "Có thể thương lượng";
@@ -504,6 +507,7 @@
 "profile_permissions_alert_ok" = "Bật";
 "profile_permissions_alert_title" = "ĐỪNG BỎ LỠ TRẢ LỜI NÀO!";
 "profile_permissions_header_message" = "Bật thông báo tin nhắn";
+"profile_reviews_count" = "Đánh giá";
 "profile_selling_my_user_no_products_button" = "Bán đồ của bạn";
 "profile_selling_no_products_label" = "KHÔNG (CHƯA) CÓ SẢN PHẨM NÀO!";
 "profile_selling_other_user_no_products_button" = "Tiếp tục Duyệt";
@@ -531,6 +535,14 @@
 "push_notification_message_body" = "%@: %@";
 "push_notification_message_body_no_username" = "Tin nhắn: %@";
 "push_notification_message_title" = "Tin nhắn mới - %@";
+"rating_list_action_report_review" = "Báo cáo đánh giá";
+"rating_list_action_report_review_error_message" = "Có lỗi xảy ra trong khi gửi báo cáo.";
+"rating_list_action_report_review_success_message" = "Báo cáo của bạn đã được gửi đi!";
+"rating_list_action_review_user" = "Xem người dùng";
+"rating_list_loading_error_message" = "Có lỗi xảy ra khi tải các đánh giá";
+"rating_list_rating_type_buyer_text_label" = "%@ đã mua một sản phẩm";
+"rating_list_rating_type_conversation_text_label" = "%@ đã trò chuyện về một sản phẩm";
+"rating_list_rating_type_seller_text_label" = "%@ đã bán một sản phẩm";
 "rating_view_dont_ask_again_button" = "Đừng hỏi lại tôi";
 "rating_view_love_it_label" = "Tôi thích!";
 "rating_view_needs_improvements_label" = "Cần cải thiện";
@@ -654,7 +666,7 @@
 "user_rating_message_w_name" = "Nhấn vào ngôi sao để đánh giá và cho chúng tôi biết trải nghiệm của bạn với %@ có tốt hay không. Bạn có thể cập nhật đánh giá bất kỳ khi nào bạn muốn.";
 "user_rating_message_wo_name" = "Nhấn vào ngôi sao để đánh giá và cho chúng tôi biết trải nghiệm của bạn với người dùng này có tốt hay không. Bạn có thể cập nhật đánh giá bất kỳ khi nào bạn muốn.";
 "user_rating_review_button" = "Đăng đánh giá";
-"user_rating_review_placeholder" = "Để lại đánh giá (không bắt buộc)";
-"user_rating_review_placeholder_optional" = "Leave a review (optional)";
+"user_rating_review_placeholder" = "Để lại đánh giá (bắt buộc)";
+"user_rating_review_placeholder_optional" = "Để lại đánh giá (không bắt buộc)";
 "user_rating_review_send_success" = "Đánh giá của bạn đã được đăng!";
 "user_rating_title" = "Đánh giá trải nghiệm của bạn với";

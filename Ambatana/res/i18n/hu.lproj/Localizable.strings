@@ -201,6 +201,7 @@
 "common_time_week_ago_label" = "egy héttel ezelőtt";
 "common_time_weeks_ago_label" = "%d héttel ezelőtt";
 "common_user_not_available" = "Hoppá! A felhasználó nem található.";
+"common_user_review_not_available" = "Oops! Review not found.";
 "common_yes" = "Igen";
 "contact_body_field_hint" = "Üzenet";
 "contact_choose_subject_dialog_title" = "Válassz témát";
@@ -354,6 +355,7 @@
 "product_chat_go_to_chat" = "Ugrás a csevegéshez";
 "product_chat_message_sending" = "Küldés...";
 "product_chat_with_seller_button" = "Csevegés az eladóval";
+"product_chat_with_seller_name_button" = "Csevegés: %@";
 "product_chat_with_seller_send_ok" = "Üzeneted elküldve!";
 "product_continue_chatting_button" = "Csevegés folytatása";
 "product_create_commercial_button" = "Create Commercial";
@@ -395,6 +397,7 @@
 "product_mark_as_sold_confirm_title" = "Megjelölés eladottként";
 "product_mark_as_sold_error_generic" = "Hiba történt a megjelölés során. Kérjük, próbálkozz később.";
 "product_mark_as_sold_success_message" = "Gratulálunk, a portéka sikeresen megjelölve eladottként!";
+"product_more_info_open_button" = "RÉSZLETEK";
 "product_more_info_tooltip_part_1" = "Koppints";
 "product_more_info_tooltip_part_2" = "%@ a részletekért";
 "product_negotiable_price" = "Alkudható";
@@ -504,6 +507,7 @@
 "profile_permissions_alert_ok" = "Engedélyezés";
 "profile_permissions_alert_title" = "NE MARADJ LE A VÁLASZOKRÓL!";
 "profile_permissions_header_message" = "Üzenetértesítések engedélyezése";
+"profile_reviews_count" = "Értékelések";
 "profile_selling_my_user_no_products_button" = "Add el a dolgaid";
 "profile_selling_no_products_label" = "NINCSENEK PORTÉKÁK (EGYELŐRE!)";
 "profile_selling_other_user_no_products_button" = "Tovább böngészek";
@@ -531,6 +535,14 @@
 "push_notification_message_body" = "%@: %@";
 "push_notification_message_body_no_username" = "Üzenet: %@";
 "push_notification_message_title" = "Új üzenet - %@";
+"rating_list_action_report_review" = "Értékelés jelentése";
+"rating_list_action_report_review_error_message" = "Hiba történt jelentésed beküldése során.";
+"rating_list_action_report_review_success_message" = "Jelentésed beküldve!";
+"rating_list_action_review_user" = "Felhasználó értékelése";
+"rating_list_loading_error_message" = "Hiba történt az értékelések betöltése során.";
+"rating_list_rating_type_buyer_text_label" = "%@ vásárolt";
+"rating_list_rating_type_conversation_text_label" = "%@ beszélgetett";
+"rating_list_rating_type_seller_text_label" = "%@ eladott";
 "rating_view_dont_ask_again_button" = "Ne kérdezz többet";
 "rating_view_love_it_label" = "Tetszik!";
 "rating_view_needs_improvements_label" = "Javításokra van szükség";
@@ -654,7 +666,7 @@
 "user_rating_message_w_name" = "Adj értékelést a csillagokkal, és meséld el, %@ milyen üzletfélnek bizonyult. Később bármikor módosíthatod.";
 "user_rating_message_wo_name" = "Adj értékelést a csillagokkal, és meséld el, ez a felhasználó milyen üzletfélnek  bizonyult. Később bármikor módosíthatod.";
 "user_rating_review_button" = "Értékelés beküldése";
-"user_rating_review_placeholder" = "Hagyj értékelést";
+"user_rating_review_placeholder" = "Hagyj értékelést (kötelező)";
 "user_rating_review_placeholder_optional" = "Hagyj értékelést (nem kötelező)";
 "user_rating_review_send_success" = "Értékelésed beküldve!";
-"user_rating_title" = "Mondd el, milyen volt.";
+"user_rating_title" = "Mondd el, milyen volt";

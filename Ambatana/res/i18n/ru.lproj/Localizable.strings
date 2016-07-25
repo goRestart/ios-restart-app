@@ -201,6 +201,7 @@
 "common_time_week_ago_label" = "неделю назад";
 "common_time_weeks_ago_label" = "%d недель назад";
 "common_user_not_available" = "Упс! Пользователь не найден.";
+"common_user_review_not_available" = "Oops! Review not found.";
 "common_yes" = "Да";
 "contact_body_field_hint" = "Сообщение";
 "contact_choose_subject_dialog_title" = "Выберите тему";
@@ -354,6 +355,7 @@
 "product_chat_go_to_chat" = "В чат";
 "product_chat_message_sending" = "Отправка...";
 "product_chat_with_seller_button" = "Чат с продавцом";
+"product_chat_with_seller_name_button" = "Чат с %@";
 "product_chat_with_seller_send_ok" = "Ваш разговор отправлен!";
 "product_continue_chatting_button" = "Продолжить чат";
 "product_create_commercial_button" = "Create Commercial";
@@ -395,6 +397,7 @@
 "product_mark_as_sold_confirm_title" = "Отметить как проданный";
 "product_mark_as_sold_error_generic" = "При изменении статуса товара произошла ошибка. Пожалуйста, попробуйте еще раз позже.";
 "product_mark_as_sold_success_message" = "Поздравляем! Ваш продукт был продан!";
+"product_more_info_open_button" = "БОЛЬШЕ ИНФОРМАЦИИ";
 "product_more_info_tooltip_part_1" = "Нажмите";
 "product_more_info_tooltip_part_2" = "%@ просмотреть больше информации";
 "product_negotiable_price" = "Обсуждаема";
@@ -504,6 +507,7 @@
 "profile_permissions_alert_ok" = "Включить";
 "profile_permissions_alert_title" = "НЕ ПРОПУСТИТЕ ОТВЕТ!";
 "profile_permissions_header_message" = "Включить уведомления о сообщениях";
+"profile_reviews_count" = "Отзывов";
 "profile_selling_my_user_no_products_button" = "Продать свои вещи";
 "profile_selling_no_products_label" = "НЕТ ТОВАРОВ (ПОКА ЧТО!)";
 "profile_selling_other_user_no_products_button" = "Продолжить поиск";
@@ -531,6 +535,14 @@
 "push_notification_message_body" = "%@: %@";
 "push_notification_message_body_no_username" = "Сообщение: %@";
 "push_notification_message_title" = "Новое сообщение - %@";
+"rating_list_action_report_review" = "Пожаловаться на отзыв";
+"rating_list_action_report_review_error_message" = "При отправке произошла ошибка.";
+"rating_list_action_report_review_success_message" = "Ваша жалоба была отправлена!";
+"rating_list_action_review_user" = "Оценить пользователя";
+"rating_list_loading_error_message" = "При загрузке оценок произошла ошибка.";
+"rating_list_rating_type_buyer_text_label" = "%@ купил товар";
+"rating_list_rating_type_conversation_text_label" = "%@ спрашивал о товаре";
+"rating_list_rating_type_seller_text_label" = "%@ продал товар";
 "rating_view_dont_ask_again_button" = "Не спрашивать снова";
 "rating_view_love_it_label" = "Мне нравится!";
 "rating_view_needs_improvements_label" = "Нуждается в усовершенствованиях";
@@ -654,7 +666,7 @@
 "user_rating_message_w_name" = "Нажмите на звезды для оценки и расскажите, если ваша сделка с %@ прошла хорошо. Вы можете обновить оценку в любое время.";
 "user_rating_message_wo_name" = "Нажмите на звезды для оценки и расскажите, если ваша сделка с этим пользователем прошла хорошо. Вы можете обновить оценку в любое время.";
 "user_rating_review_button" = "Опубликовать отзыв";
-"user_rating_review_placeholder" = "Оставьте комментарий (опционально)";
-"user_rating_review_placeholder_optional" = "Leave a review (optional)";
+"user_rating_review_placeholder" = "Оставить отзыв (обязательно)";
+"user_rating_review_placeholder_optional" = "Оставьте комментарий (опционально)";
 "user_rating_review_send_success" = "Ваш отзыв опубликован!";
 "user_rating_title" = "Оцените свое общение с";

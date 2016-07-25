@@ -201,6 +201,7 @@
 "common_time_week_ago_label" = "hace una semana";
 "common_time_weeks_ago_label" = "hace %d semanas";
 "common_user_not_available" = "¡Ups! No se ha encontrado el usuario.";
+"common_user_review_not_available" = "Oops! Review not found.";
 "common_yes" = "Sí";
 "contact_body_field_hint" = "Mensaje";
 "contact_choose_subject_dialog_title" = "Elige un asunto";
@@ -354,6 +355,7 @@
 "product_chat_go_to_chat" = "Ir al chat";
 "product_chat_message_sending" = "Enviando...";
 "product_chat_with_seller_button" = "Chatea con el vendedor";
+"product_chat_with_seller_name_button" = "Chatea con %@";
 "product_chat_with_seller_send_ok" = "¡Tu chat ha sido enviado!";
 "product_continue_chatting_button" = "Sigue chateando";
 "product_create_commercial_button" = "Crear comercial";
@@ -395,6 +397,7 @@
 "product_mark_as_sold_confirm_title" = "Marcar como vendido";
 "product_mark_as_sold_error_generic" = "Se ha producido un error al marcar el artículo como vendido. Por favor, vuelve a intentarlo.";
 "product_mark_as_sold_success_message" = "¡Enhorabuena, tu producto ha sido marcado como vendido!";
+"product_more_info_open_button" = "MÁS INFORMACIÓN";
 "product_more_info_tooltip_part_1" = "Pulsa";
 "product_more_info_tooltip_part_2" = "%@ para ver más detalles";
 "product_negotiable_price" = "Negociable";
@@ -504,6 +507,7 @@
 "profile_permissions_alert_ok" = "Activar";
 "profile_permissions_alert_title" = "¡NO TE PIERDAS UNA RESPUESTA!";
 "profile_permissions_header_message" = "Activa las notificaciones de mensaje";
+"profile_reviews_count" = "Valoraciones";
 "profile_selling_my_user_no_products_button" = "Empieza a vender";
 "profile_selling_no_products_label" = "NO HAY ARTÍCULOS (¡TODAVÍA!)";
 "profile_selling_other_user_no_products_button" = "Sigue navegando";
@@ -531,6 +535,14 @@
 "push_notification_message_body" = "%@: %@";
 "push_notification_message_body_no_username" = "Mensaje: %@";
 "push_notification_message_title" = "Nuevo mensaje - %@";
+"rating_list_action_report_review" = "Denunciar valoración";
+"rating_list_action_report_review_error_message" = "Se ha producido un error al enviar tu denuncia.";
+"rating_list_action_report_review_success_message" = "¡Tu denuncia ha sido enviada!";
+"rating_list_action_review_user" = "Valorar usuario";
+"rating_list_loading_error_message" = "Se ha producido un error al cargar las valoraciones.";
+"rating_list_rating_type_buyer_text_label" = "%@ ha comprado un producto";
+"rating_list_rating_type_conversation_text_label" = "%@ ha chateado sobre un producto";
+"rating_list_rating_type_seller_text_label" = "%@ ha vendido un producto";
 "rating_view_dont_ask_again_button" = "No preguntar de nuevo";
 "rating_view_love_it_label" = "¡Me encanta!";
 "rating_view_needs_improvements_label" = "Necesita mejoras";
@@ -654,7 +666,7 @@
 "user_rating_message_w_name" = "Pulsa las estrellas para valorar y cuéntanos cómo fue tu experiencia con %@. Puedes actualizar tu valoración cuando quieras.";
 "user_rating_message_wo_name" = "Pulsa las estrellas para valorar y cuéntanos si tu experiencia con este usuario ha ido bien. Puedes actualizar tu valoración cuando quieras.";
 "user_rating_review_button" = "Publicar valoración";
-"user_rating_review_placeholder" = "Deja una valoración";
+"user_rating_review_placeholder" = "Deja una valoración (requerido)";
 "user_rating_review_placeholder_optional" = "Deja una valoración (opcional)";
 "user_rating_review_send_success" = "¡Tu valoración se ha publicado!";
 "user_rating_title" = "Valora tu experiencia con";
