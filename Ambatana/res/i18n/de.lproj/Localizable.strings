@@ -201,6 +201,7 @@
 "common_time_week_ago_label" = "vor einer Woche";
 "common_time_weeks_ago_label" = "vor %d Wochen";
 "common_user_not_available" = "Hoppla! Benutzer nicht gefunden.";
+"common_user_review_not_available" = "Oops! Review not found.";
 "common_yes" = "Ja";
 "contact_body_field_hint" = "Nachricht";
 "contact_choose_subject_dialog_title" = "Wähle einen Betreff";
@@ -354,6 +355,7 @@
 "product_chat_go_to_chat" = "Gehe zu den Gesprächen";
 "product_chat_message_sending" = "Abschicken...";
 "product_chat_with_seller_button" = "Sprich mit dem Verkäufer";
+"product_chat_with_seller_name_button" = "Kontaktiere %@";
 "product_chat_with_seller_send_ok" = "Deine Nachricht wurde verschickt!";
 "product_continue_chatting_button" = "Weiter unterhalten";
 "product_create_commercial_button" = "Create Commercial";
@@ -395,7 +397,7 @@
 "product_mark_as_sold_confirm_title" = "Als verkauft markieren";
 "product_mark_as_sold_error_generic" = "Beim als verkauft Markieren ist ein Fehler aufgetreten. Bitte versuche es später noch mal.";
 "product_mark_as_sold_success_message" = "Glückwunsch, dein Produkt wurde erfolgreich als verkauft markiert!";
-"product_more_info_open_button" = "MORE INFO";
+"product_more_info_open_button" = "WEITERE INFOS";
 "product_more_info_tooltip_part_1" = "Drücke";
 "product_more_info_tooltip_part_2" = "%@ für weitere Infos";
 "product_negotiable_price" = "Verhandelbar";
@@ -541,6 +543,7 @@
 "rating_list_rating_type_buyer_text_label" = "%@ hat einen Artikel gekauft";
 "rating_list_rating_type_conversation_text_label" = "%@ hat über den Artikel gesprochen";
 "rating_list_rating_type_seller_text_label" = "%@ hat einen Artikel verkauft";
+"rating_list_title" = "Reviews";
 "rating_view_dont_ask_again_button" = "Nicht erneut fragen";
 "rating_view_love_it_label" = "Absolut!";
 "rating_view_needs_improvements_label" = "Könnte besser sein";
@@ -667,4 +670,4 @@
 "user_rating_review_placeholder" = "Hinterlasse eine Bewertung (Pflichtfeld)";
 "user_rating_review_placeholder_optional" = "Schreibe eine Bewertung (optional)";
 "user_rating_review_send_success" = "Deine Bewertung wurde veröffentlicht!";
-"user_rating_title" = "Hinterlasse eine Bewertung für";
+"user_rating_title" = "Bewerte deine Transaktion mit";

@@ -46,6 +46,7 @@ class UserRatingListViewController: BaseViewController {
     // MARK: private methods
 
     private func setupUI() {
+        title = LGLocalizedString.ratingListTitle
         let cellNib = UINib(nibName: UserRatingListViewController.cellReuseIdentifier, bundle: nil)
         tableView.registerNib(cellNib, forCellReuseIdentifier: UserRatingListViewController.cellReuseIdentifier)
         tableView.hidden = true
@@ -77,6 +78,11 @@ extension UserRatingListViewController: UserRatingListViewModelDelegate {
                 self?.navigationController?.popViewControllerAnimated(true)
             }
         }
+    }
+
+    func vmShowUserRating(source: RateUserSource, data: RateUserData) {
+        guard let tabBarController = self.tabBarController as? TabBarController else { return }
+        tabBarController.openUserRating(source, data: data)
     }
 }
 

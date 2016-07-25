@@ -597,6 +597,9 @@
 
 "common_short_time_weeks_ago_label" = "%d weeks";
 
+// Common user review not available
+"common_user_review_not_available" = "Oops! Review not found.";
+
 // Common user not available
 "common_user_not_available" = "Oops! User not found.";
 
@@ -947,6 +950,9 @@
 
 // product chat with the seller button title
 "product_chat_with_seller_button" = "Chat with the seller";
+
+// product chat with the seller button title including seller name
+"product_chat_with_seller_name_button" = "Chat with %@";
 
 // product chat with the seller button title send ok
 "product_chat_with_seller_send_ok" = "Your chat has been sent!";
@@ -1545,6 +1551,9 @@
 
 // Text for rating of type "seller" ( %s will be the username)
 "rating_list_rating_type_seller_text_label" = "%@ sold a product";
+
+// Title for rating list view
+"rating_list_title" = "Reviews";
 
 // Rating view don't ask button.  Check image @ "rating_view_title_label" segment
 "rating_view_dont_ask_again_button" = "Don't ask me again";
