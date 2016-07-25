@@ -635,10 +635,10 @@ extension ProductCarouselViewController {
         self.navigationController?.navigationBar.ignoreTouchesFor(button)
         
         let pan = UIPanGestureRecognizer(target: self, action: #selector(dragMoreInfoButton))
-        moreInfoView?.dragView.addGestureRecognizer(pan)
+        button.addGestureRecognizer(pan)
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(dragViewTapped))
-        moreInfoView?.dragView.addGestureRecognizer(tap)
+        button.addGestureRecognizer(tap)
         moreInfoView?.delegate = self
     }
     

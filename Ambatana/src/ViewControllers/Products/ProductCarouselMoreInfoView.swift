@@ -49,6 +49,7 @@ class ProductCarouselMoreInfoView: UIView {
     private var locationZone: MKOverlay?
     private let bigMapMargin: CGFloat = 65.0
     private let bigMapBottomMargin: CGFloat = 210
+    private let bottomInset: CGFloat = 80 // Needed to avoid drawing content below the chat button
     private var bigMapVisible = false
     private var mapZoomBlocker: MapZoomBlocker?
     private var statsView: ProductStatsView?
@@ -220,7 +221,7 @@ extension ProductCarouselMoreInfoView: UIScrollViewDelegate {
 extension ProductCarouselMoreInfoView {
     private func setupUI() {
         
-        scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 80, right: 0)
+        scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: bottomInset, right: 0)
         
         titleLabel.textColor = UIColor.whiteColor()
         titleLabel.font = UIFont.productTitleFont
