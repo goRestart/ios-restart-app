@@ -815,6 +815,10 @@ struct LGLocalizedString {
 		return String(format: NSLocalizedString("common_short_time_weeks_ago_label", comment: ""), var1)
 	}
 
+	static var commonUserReviewNotAvailable: String {
+		return NSLocalizedString("common_user_review_not_available", comment: "")
+	}
+
 	static var commonUserNotAvailable: String {
 		return NSLocalizedString("common_user_not_available", comment: "")
 	}
@@ -1281,6 +1285,10 @@ struct LGLocalizedString {
 
 	static var productChatWithSellerButton: String {
 		return NSLocalizedString("product_chat_with_seller_button", comment: "")
+	}
+
+	static func productChatWithSellerNameButton(var1: String) -> String {
+		return String(format: NSLocalizedString("product_chat_with_seller_name_button", comment: ""), var1)
 	}
 
 	static var productChatWithSellerSendOk: String {

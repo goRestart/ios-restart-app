@@ -34,6 +34,11 @@ class UserRatingApiDataSource: UserRatingDataSource {
         apiClient.request(request, decoder: UserRatingApiDataSource.decoderArray, completion: completion)
     }
 
+    func show(ratingId: String, completion: UserRatingDataSourceCompletion?) {
+        let request = UserRatingRouter.Show(objectId: ratingId)
+        apiClient.request(request, decoder: UserRatingApiDataSource.decoder, completion: completion)
+    }
+
     func show(userId: String, userFromId: String, type: UserRatingType, completion: UserRatingDataSourceCompletion?) {
         var params: [String: AnyObject] = [:]
         params[userFilter] = userId

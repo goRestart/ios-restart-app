@@ -201,6 +201,7 @@
 "common_time_week_ago_label" = "há uma semana";
 "common_time_weeks_ago_label" = "há %d semanas";
 "common_user_not_available" = "Ops! Utilizador não encontrado.";
+"common_user_review_not_available" = "Oops! Review not found.";
 "common_yes" = "Sim";
 "contact_body_field_hint" = "Mensagem";
 "contact_choose_subject_dialog_title" = "Escolha um assunto";
@@ -354,6 +355,7 @@
 "product_chat_go_to_chat" = "Ir para o Chat";
 "product_chat_message_sending" = "A enviar...";
 "product_chat_with_seller_button" = "Converse com o vendedor";
+"product_chat_with_seller_name_button" = "Converse com %@";
 "product_chat_with_seller_send_ok" = "O seu chat foi enviado!";
 "product_continue_chatting_button" = "Continue a conversar";
 "product_create_commercial_button" = "Create Commercial";
@@ -395,7 +397,7 @@
 "product_mark_as_sold_confirm_title" = "Marcar como vendido";
 "product_mark_as_sold_error_generic" = "Ocorreu um erro ao marcar o artigo como vendido. Por favor tente novamente mais tarde.";
 "product_mark_as_sold_success_message" = "Parabéns, o seu artigo foi com sucesso marcado como vendido!";
-"product_more_info_open_button" = "MORE INFO";
+"product_more_info_open_button" = "MAIS INFORMAÇÕES";
 "product_more_info_tooltip_part_1" = "Toque";
 "product_more_info_tooltip_part_2" = "%@ para mais informações";
 "product_negotiable_price" = "Negociável";

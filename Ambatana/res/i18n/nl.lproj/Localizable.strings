@@ -201,6 +201,7 @@
 "common_time_week_ago_label" = "een week geleden";
 "common_time_weeks_ago_label" = "%d weken geleden";
 "common_user_not_available" = "Oeps! Gebruiker niet gevonden.";
+"common_user_review_not_available" = "Oops! Review not found.";
 "common_yes" = "Ja";
 "contact_body_field_hint" = "Bericht";
 "contact_choose_subject_dialog_title" = "Kies een onderwerp";
@@ -354,6 +355,7 @@
 "product_chat_go_to_chat" = "Ga naar Chat";
 "product_chat_message_sending" = "Verzenden...";
 "product_chat_with_seller_button" = "Chat met de verkoper";
+"product_chat_with_seller_name_button" = "Chat met %@";
 "product_chat_with_seller_send_ok" = "Jouw chat is verstuurd!";
 "product_continue_chatting_button" = "Doorgaan met chatten";
 "product_create_commercial_button" = "Create Commercial";
@@ -395,7 +397,7 @@
 "product_mark_as_sold_confirm_title" = "Markeer als verkocht";
 "product_mark_as_sold_error_generic" = "Er is een fout opgetreden bij het markeren van het product als verkocht. Probeer het later nog eens.";
 "product_mark_as_sold_success_message" = "Gefeliciteerd, jouw product werd succesvol gemarkeerd als verkocht!";
-"product_more_info_open_button" = "MORE INFO";
+"product_more_info_open_button" = "MEER INFO";
 "product_more_info_tooltip_part_1" = "Tik";
 "product_more_info_tooltip_part_2" = "%@ om meer informatie te zien";
 "product_negotiable_price" = "Bespreekbaar";

@@ -19,7 +19,7 @@ final class UserApiDataSource: UserDataSource {
     init(apiClient: ApiClient) {
         self.apiClient = apiClient
     }
-    
+
     func show(userId: String, includeAccounts: Bool, completion: UserDataSourceCompletion?) {
         let request = UserRouter.Show(userId: userId, includeAccounts: includeAccounts)
         apiClient.request(request, decoder: decoder, completion: completion)

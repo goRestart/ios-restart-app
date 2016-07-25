@@ -37,6 +37,8 @@ enum DeepLinkAction {
     case ResetPassword(token: String)
     case Commercializer(productId: String, templateId: String)
     case CommercializerReady(productId: String, templateId: String)
+    case UserRatings
+    case UserRating(ratingId: String)
 }
 
 enum DeepLinkOrigin {
