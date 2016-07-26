@@ -248,7 +248,6 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         let midPoint = width/2
         let minMargin = midPoint * 0.15
 
-        collectionView.rx_contentOffset
         let alphaSignal: Observable<CGFloat> = collectionContentOffset.asObservable()
             .map {
                 let midValue = fabs($0.x % width - midPoint)
