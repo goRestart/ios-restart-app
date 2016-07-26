@@ -304,12 +304,6 @@ class ProductViewModel: BaseViewModel {
             strongSelf.navBarButtons.value = strongSelf.buildNavBarButtons()
         }.addDisposableTo(disposeBag)
 
-        
-        isFavorite.asObservable().subscribeNext { [weak self] _ in
-            guard let strongSelf = self else { return }
-            strongSelf.navBarButtons.value = strongSelf.buildNavBarButtons()
-        }.addDisposableTo(disposeBag)
-        
         product.asObservable().subscribeNext { [weak self] product in
             guard let strongSelf = self else { return }
             
@@ -708,7 +702,6 @@ extension ProductViewModel {
                 guard let strongSelf = self else { return }
                 if let product = result.value {
                     strongSelf.product.value = product
-                    strongSelf.isFavorite.value = product.favorite
                 }
                 strongSelf.favoriteButtonEnabled.value = true
             }
@@ -717,7 +710,6 @@ extension ProductViewModel {
                 guard let strongSelf = self else { return }
                 if let product = result.value {
                     strongSelf.product.value = product
-                    strongSelf.isFavorite.value = product.favorite
                     self?.trackSaveFavoriteCompleted()
 
                     if RatingManager.sharedInstance.shouldShowRating {
