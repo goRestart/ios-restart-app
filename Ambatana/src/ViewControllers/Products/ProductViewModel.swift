@@ -380,20 +380,6 @@ extension ProductViewModel {
         }
     }
 
-    func openProductLocation() -> UIViewController? {
-        // TODO: Refactor to return a view model as soon as ProductLocationViewController is refactored to MVVM
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        guard let vc = storyboard.instantiateViewControllerWithIdentifier("ProductLocationViewController")
-            as? ProductLocationViewController else { return nil }
-
-        let location = product.value.location
-        let coordinate = CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude)
-        vc.location = coordinate
-        vc.annotationTitle = product.value.name
-        vc.annotationSubtitle = product.value.postalAddress.zipCodeCityString
-        return vc
-    }
-
     func markSold() {
         ifLoggedInRunActionElseOpenMainSignUp({ [weak self] in
 
