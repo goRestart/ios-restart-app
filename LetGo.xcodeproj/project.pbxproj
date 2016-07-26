@@ -79,8 +79,6 @@
 		2E50E9AA1D057E92002DC4C1 /* LGAlertViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E50E9A61D057E92002DC4C1 /* LGAlertViewController.xib */; };
 		2E50EBE31C8F0A9A0097CB82 /* ProcessingVideoDialogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E50EBE21C8F0A9A0097CB82 /* ProcessingVideoDialogViewModel.swift */; };
 		2E50EBE41C8F0A9A0097CB82 /* ProcessingVideoDialogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E50EBE21C8F0A9A0097CB82 /* ProcessingVideoDialogViewModel.swift */; };
-		2E51F8B81CCE4DDE00B57283 /* ProductOnboarding-Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2E51F8B71CCE4DDE00B57283 /* ProductOnboarding-Images.xcassets */; };
-		2E51F8B91CCE4DDE00B57283 /* ProductOnboarding-Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2E51F8B71CCE4DDE00B57283 /* ProductOnboarding-Images.xcassets */; };
 		2E52CCC81CBD3F9B003B7A96 /* ABDynamicVar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E52CCC71CBD3F9B003B7A96 /* ABDynamicVar.swift */; };
 		2E52CCC91CBD3F9B003B7A96 /* ABDynamicVar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E52CCC71CBD3F9B003B7A96 /* ABDynamicVar.swift */; };
 		2E52CCD41CBD54F3003B7A96 /* ABTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E52CCD31CBD54F3003B7A96 /* ABTests.swift */; };
@@ -92,10 +90,8 @@
 		2E6009B61B5CE5E500FC9CAC /* LGTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E6009B51B5CE5E500FC9CAC /* LGTextField.swift */; };
 		2E64D41A1D11B34F00257B69 /* Tooltip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E64D4191D11B34F00257B69 /* Tooltip.swift */; };
 		2E64D41B1D11B34F00257B69 /* Tooltip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E64D4191D11B34F00257B69 /* Tooltip.swift */; };
-		2E6B6E3B1D2AC44F00C10A20 /* Congrats-Screen-Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2E6B6E3A1D2AC44F00C10A20 /* Congrats-Screen-Images.xcassets */; };
 		2E6B6E3D1D2BC0A500C10A20 /* PostIncentiviserItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E6B6E3C1D2BC0A500C10A20 /* PostIncentiviserItem.swift */; };
 		2E6B6E3E1D2BCC9800C10A20 /* PostIncentiviserItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E6B6E3C1D2BC0A500C10A20 /* PostIncentiviserItem.swift */; };
-		2E6B6E3F1D2BE08C00C10A20 /* Congrats-Screen-Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2E6B6E3A1D2AC44F00C10A20 /* Congrats-Screen-Images.xcassets */; };
 		2E6B6E411D2E8BDD00C10A20 /* Int+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E6B6E401D2E8BDD00C10A20 /* Int+LG.swift */; };
 		2E6B6E421D2E8FDF00C10A20 /* Int+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E6B6E401D2E8BDD00C10A20 /* Int+LG.swift */; };
 		2EBF3E251C298EB70024D947 /* MockChat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EBF3E241C298EB70024D947 /* MockChat.swift */; };
@@ -130,8 +126,6 @@
 		2EF4E3C31D36891200A09DFD /* ConfigSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF4E3C21D36891200A09DFD /* ConfigSpec.swift */; };
 		2EF4E3C61D36891C00A09DFD /* LGConfigRetrieveServiceSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF4E3C41D36891C00A09DFD /* LGConfigRetrieveServiceSpec.swift */; };
 		2EF4E3C71D36891C00A09DFD /* LGConfigDAOSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF4E3C51D36891C00A09DFD /* LGConfigDAOSpec.swift */; };
-		2EF99DFE1C90443C001300DF /* Commercializer.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2EF99DFD1C90443C001300DF /* Commercializer.xcassets */; };
-		2EF99DFF1C90443C001300DF /* Commercializer.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2EF99DFD1C90443C001300DF /* Commercializer.xcassets */; };
 		4C211D0CB0A4B97A2C263A3F /* Pods_LetGoGodMode.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7166AA5BA494F5827085F946 /* Pods_LetGoGodMode.framework */; };
 		500210B61CF5D94F0034519F /* ChatDisclaimerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500210B51CF5D94F0034519F /* ChatDisclaimerCell.swift */; };
 		500210B71CF5D94F0034519F /* ChatDisclaimerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500210B51CF5D94F0034519F /* ChatDisclaimerCell.swift */; };
@@ -217,6 +211,26 @@
 		508011041D4749030073F362 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 508011021D4749030073F362 /* LaunchScreen.xib */; };
 		508011061D4749360073F362 /* Features.plist in Resources */ = {isa = PBXBuildFile; fileRef = 508011051D4749360073F362 /* Features.plist */; };
 		508011071D4749360073F362 /* Features.plist in Resources */ = {isa = PBXBuildFile; fileRef = 508011051D4749360073F362 /* Features.plist */; };
+		508011131D474ED80073F362 /* Backgrounds-and-Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 508011091D474ED80073F362 /* Backgrounds-and-Images.xcassets */; };
+		508011141D474ED80073F362 /* Backgrounds-and-Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 508011091D474ED80073F362 /* Backgrounds-and-Images.xcassets */; };
+		508011151D474ED80073F362 /* Chat.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5080110A1D474ED80073F362 /* Chat.xcassets */; };
+		508011161D474ED80073F362 /* Chat.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5080110A1D474ED80073F362 /* Chat.xcassets */; };
+		508011171D474ED80073F362 /* Commercializer.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5080110B1D474ED80073F362 /* Commercializer.xcassets */; };
+		508011181D474ED80073F362 /* Commercializer.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5080110B1D474ED80073F362 /* Commercializer.xcassets */; };
+		508011191D474ED80073F362 /* Congrats-Screen-Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5080110C1D474ED80073F362 /* Congrats-Screen-Images.xcassets */; };
+		5080111A1D474ED80073F362 /* Congrats-Screen-Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5080110C1D474ED80073F362 /* Congrats-Screen-Images.xcassets */; };
+		5080111B1D474ED80073F362 /* Errors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5080110D1D474ED80073F362 /* Errors.xcassets */; };
+		5080111C1D474ED80073F362 /* Errors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5080110D1D474ED80073F362 /* Errors.xcassets */; };
+		5080111D1D474ED80073F362 /* Icons-Buttons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5080110E1D474ED80073F362 /* Icons-Buttons.xcassets */; };
+		5080111E1D474ED80073F362 /* Icons-Buttons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5080110E1D474ED80073F362 /* Icons-Buttons.xcassets */; };
+		5080111F1D474ED80073F362 /* Icons-Launchers.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5080110F1D474ED80073F362 /* Icons-Launchers.xcassets */; };
+		508011201D474ED80073F362 /* Icons-Launchers.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5080110F1D474ED80073F362 /* Icons-Launchers.xcassets */; };
+		508011211D474ED80073F362 /* iPhoneParts.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 508011101D474ED80073F362 /* iPhoneParts.xcassets */; };
+		508011221D474ED80073F362 /* iPhoneParts.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 508011101D474ED80073F362 /* iPhoneParts.xcassets */; };
+		508011231D474ED80073F362 /* ProductCellBanners.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 508011111D474ED80073F362 /* ProductCellBanners.xcassets */; };
+		508011241D474ED80073F362 /* ProductCellBanners.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 508011111D474ED80073F362 /* ProductCellBanners.xcassets */; };
+		508011251D474ED80073F362 /* ProductOnboarding-Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 508011121D474ED80073F362 /* ProductOnboarding-Images.xcassets */; };
+		508011261D474ED80073F362 /* ProductOnboarding-Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 508011121D474ED80073F362 /* ProductOnboarding-Images.xcassets */; };
 		508C3F791C984BCA00CF431F /* UserViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508C3F781C984BCA00CF431F /* UserViewHeader.swift */; };
 		508C3F7A1C984BCA00CF431F /* UserViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508C3F781C984BCA00CF431F /* UserViewHeader.swift */; };
 		508C3F7C1C984BEC00CF431F /* UserViewHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 508C3F7B1C984BEC00CF431F /* UserViewHeader.xib */; };
@@ -286,7 +300,6 @@
 		50CA9FB11C91696800350C5F /* UserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CA9FAF1C91696800350C5F /* UserViewModel.swift */; };
 		50CBCD5F1BF0BB8F00A329BB /* CollectionViewFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CBCD5D1BF0BB8F00A329BB /* CollectionViewFooter.swift */; };
 		50CBCD601BF0BB8F00A329BB /* CollectionViewFooter.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50CBCD5E1BF0BB8F00A329BB /* CollectionViewFooter.xib */; };
-		50CD8F5F1BC2A4A40031DCD3 /* Errors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 50CD8F5E1BC2A4A40031DCD3 /* Errors.xcassets */; };
 		50CF61C91CD9FC4C0070281A /* UINavigationController+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CF61C81CD9FC4C0070281A /* UINavigationController+LG.swift */; };
 		50CF61CA1CD9FC4C0070281A /* UINavigationController+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CF61C81CD9FC4C0070281A /* UINavigationController+LG.swift */; };
 		50CF61CC1CD9FD180070281A /* UIViewController+Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CF61CB1CD9FD180070281A /* UIViewController+Alert.swift */; };
@@ -319,9 +332,7 @@
 		50F681F21C8F4586001F33A3 /* RxPaginable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F681F11C8F4586001F33A3 /* RxPaginable.swift */; };
 		50F681F31C8F4586001F33A3 /* RxPaginable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F681F11C8F4586001F33A3 /* RxPaginable.swift */; };
 		6262F62C201A1B1FE7DA6040 /* Pods_LetGo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7FF25262DBFA224AC937A467 /* Pods_LetGo.framework */; };
-		6608E0431A820FBD005895ED /* Icons-Launchers.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6608E0421A820FBD005895ED /* Icons-Launchers.xcassets */; };
 		6640F0401AE13EBE00004556 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6640F03F1AE13EBE00004556 /* AdSupport.framework */; settings = {ATTRIBUTES = (Required, ); }; };
-		66911D971A8677E5006CFBE1 /* Backgrounds-and-Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 66911D961A8677E5006CFBE1 /* Backgrounds-and-Images.xcassets */; };
 		66A0CFD01A83612500FAADF0 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66A0CFC51A83612500FAADF0 /* AudioToolbox.framework */; };
 		66A0CFD11A83612500FAADF0 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66A0CFC61A83612500FAADF0 /* CFNetwork.framework */; };
 		66A0CFD21A83612500FAADF0 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66A0CFC71A83612500FAADF0 /* CoreGraphics.framework */; };
@@ -332,7 +343,6 @@
 		66A0CFD71A83612500FAADF0 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66A0CFCC1A83612500FAADF0 /* QuartzCore.framework */; };
 		66A0CFD81A83612500FAADF0 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66A0CFCD1A83612500FAADF0 /* Security.framework */; };
 		66A0CFDA1A83612500FAADF0 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66A0CFCF1A83612500FAADF0 /* SystemConfiguration.framework */; };
-		66FC911B1A9238770008AFAD /* Icons-Buttons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 66FC911A1A9238770008AFAD /* Icons-Buttons.xcassets */; };
 		6A056FDC1CE0EB9100FE3A07 /* LGLocationCoordinates2D+Distance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A056FDB1CE0EB9100FE3A07 /* LGLocationCoordinates2D+Distance.swift */; };
 		6A056FDD1CE0EB9100FE3A07 /* LGLocationCoordinates2D+Distance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A056FDB1CE0EB9100FE3A07 /* LGLocationCoordinates2D+Distance.swift */; };
 		6A12E0491C635F6B00C1BFE3 /* TourLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A12E0481C635F6B00C1BFE3 /* TourLoginViewController.swift */; };
@@ -347,10 +357,6 @@
 		6A12E0561C6398A400C1BFE3 /* TourNotificationsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A12E0541C6398A400C1BFE3 /* TourNotificationsViewModel.swift */; };
 		6A12E0581C6398BE00C1BFE3 /* TourNotificationsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A12E0571C6398BE00C1BFE3 /* TourNotificationsViewController.xib */; };
 		6A12E0591C6398BE00C1BFE3 /* TourNotificationsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A12E0571C6398BE00C1BFE3 /* TourNotificationsViewController.xib */; };
-		6A12E05B1C63B0AE00C1BFE3 /* iPhoneParts.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6A12E05A1C63B0AE00C1BFE3 /* iPhoneParts.xcassets */; };
-		6A12E05C1C63B0AE00C1BFE3 /* iPhoneParts.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6A12E05A1C63B0AE00C1BFE3 /* iPhoneParts.xcassets */; };
-		6A195EE01D34FB2600FA137E /* Chat.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6A195EDF1D34FB2600FA137E /* Chat.xcassets */; };
-		6A195EE11D34FB2600FA137E /* Chat.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6A195EDF1D34FB2600FA137E /* Chat.xcassets */; };
 		6A32072B1CC78F5B003DD9AF /* ProductCarouselPushAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A32072A1CC78F5B003DD9AF /* ProductCarouselPushAnimator.swift */; };
 		6A32072C1CC78F5B003DD9AF /* ProductCarouselPushAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A32072A1CC78F5B003DD9AF /* ProductCarouselPushAnimator.swift */; };
 		6A32072E1CC8D897003DD9AF /* UIImage+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A32072D1CC8D897003DD9AF /* UIImage+LG.swift */; };
@@ -420,8 +426,6 @@
 		6A9434671D2E52260053F924 /* BannerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A9434651D2E52260053F924 /* BannerCell.swift */; };
 		6A9434691D2E52330053F924 /* BannerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A9434681D2E52330053F924 /* BannerCell.xib */; };
 		6A94346A1D2E52330053F924 /* BannerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A9434681D2E52330053F924 /* BannerCell.xib */; };
-		6A94346C1D2E544B0053F924 /* ProductCellBanners.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6A94346B1D2E544B0053F924 /* ProductCellBanners.xcassets */; };
-		6A94346D1D2E544B0053F924 /* ProductCellBanners.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6A94346B1D2E544B0053F924 /* ProductCellBanners.xcassets */; };
 		6A9BFE541C08B444000114DF /* FilterSingleCheckCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77593E71BF0C0290097D62F /* FilterSingleCheckCell.swift */; };
 		6A9C9EBE1CCF959E009D866C /* UIButton+LetgoStyles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A9C9EBD1CCF959E009D866C /* UIButton+LetgoStyles.swift */; };
 		6A9C9EBF1CCF95A1009D866C /* UIButton+LetgoStyles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A9C9EBD1CCF959E009D866C /* UIButton+LetgoStyles.swift */; };
@@ -828,13 +832,11 @@
 		C7DB42561C5138B500400945 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5023745B1B3D3EAB00E02656 /* Localizable.strings */; };
 		C7DB42571C5138B500400945 /* ProductListView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D412E0871B4F17C200683FFD /* ProductListView.xib */; };
 		C7DB42591C5138B500400945 /* PopupSignUpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C71589B31C4F8E1C00E7563E /* PopupSignUpViewController.xib */; };
-		C7DB425C1C5138B500400945 /* Backgrounds-and-Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 66911D961A8677E5006CFBE1 /* Backgrounds-and-Images.xcassets */; };
 		C7DB425E1C5138B500400945 /* levelup.caf in Resources */ = {isa = PBXBuildFile; fileRef = 506DC19B1BBE7D8A00E59D27 /* levelup.caf */; };
 		C7DB425F1C5138B500400945 /* ToastView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50BCE92D1BF6357600C130CD /* ToastView.xib */; };
 		C7DB42641C5138B500400945 /* CategoryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E3760321BD914BA00A5A030 /* CategoryCell.xib */; };
 		C7DB42661C5138B500400945 /* FilterHeaderCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C77593F01BF0E48D0097D62F /* FilterHeaderCell.xib */; };
 		C7DB426C1C5138B500400945 /* CategoriesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E37602F1BD914BA00A5A030 /* CategoriesViewController.xib */; };
-		C7DB426E1C5138B500400945 /* Icons-Launchers.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6608E0421A820FBD005895ED /* Icons-Launchers.xcassets */; };
 		C7DB426F1C5138B500400945 /* FilterCategoryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C77593E41BF0BD310097D62F /* FilterCategoryCell.xib */; };
 		C7DB42711C5138B500400945 /* LGNavBarSearchField.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E4436321BF389EE00814624 /* LGNavBarSearchField.xib */; };
 		C7DB42741C5138B500400945 /* MainSignUpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50F0BAA81B28938D00E50A68 /* MainSignUpViewController.xib */; };
@@ -842,9 +844,7 @@
 		C7DB42771C5138B500400945 /* FilterTagCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C7363FB41BF9CB8D00A4BF6F /* FilterTagCell.xib */; };
 		C7DB427B1C5138B500400945 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 50BA5C071C3C096D00F34042 /* GoogleService-Info.plist */; };
 		C7DB427C1C5138B500400945 /* RememberPasswordViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5021910C1B2F1DAA00ABD31F /* RememberPasswordViewController.xib */; };
-		C7DB427E1C5138B500400945 /* Errors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 50CD8F5E1BC2A4A40031DCD3 /* Errors.xcassets */; };
 		C7DB427F1C5138B500400945 /* ChatSafetyTipsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50A8DC7F1BA06B92008296B0 /* ChatSafetyTipsView.xib */; };
-		C7DB42811C5138B500400945 /* Icons-Buttons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 66FC911A1A9238770008AFAD /* Icons-Buttons.xcassets */; };
 		C7DB42821C5138B500400945 /* FloatingButton.xib in Resources */ = {isa = PBXBuildFile; fileRef = 502B705C1BAAC3B500C5D465 /* FloatingButton.xib */; };
 		C7DB42851C5138B500400945 /* ios-devel.json in Resources */ = {isa = PBXBuildFile; fileRef = 500DC1291BDA1C4C00B494FA /* ios-devel.json */; };
 		C7DB42861C5138B500400945 /* SignUpLogInViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2EDCFA2F1BFF8AB00000E47D /* SignUpLogInViewController.xib */; };
@@ -1018,14 +1018,12 @@
 		2E50E9A51D057E92002DC4C1 /* LGAlertViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LGAlertViewController.swift; path = LGAlertViewController/LGAlertViewController.swift; sourceTree = "<group>"; };
 		2E50E9A61D057E92002DC4C1 /* LGAlertViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LGAlertViewController.xib; path = LGAlertViewController/LGAlertViewController.xib; sourceTree = "<group>"; };
 		2E50EBE21C8F0A9A0097CB82 /* ProcessingVideoDialogViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProcessingVideoDialogViewModel.swift; path = Commercializer/ProcessingVideoDialogViewModel.swift; sourceTree = "<group>"; };
-		2E51F8B71CCE4DDE00B57283 /* ProductOnboarding-Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "ProductOnboarding-Images.xcassets"; sourceTree = "<group>"; };
 		2E52CCC71CBD3F9B003B7A96 /* ABDynamicVar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ABDynamicVar.swift; path = ABTest/ABDynamicVar.swift; sourceTree = "<group>"; };
 		2E52CCD31CBD54F3003B7A96 /* ABTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ABTests.swift; path = ABTest/ABTests.swift; sourceTree = "<group>"; };
 		2E5350401CF8A0C6003B06CC /* ProductStatsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductStatsView.swift; sourceTree = "<group>"; };
 		2E5350431CF8A181003B06CC /* ProductStatsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProductStatsView.xib; sourceTree = "<group>"; };
 		2E6009B51B5CE5E500FC9CAC /* LGTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGTextField.swift; sourceTree = "<group>"; };
 		2E64D4191D11B34F00257B69 /* Tooltip.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tooltip.swift; sourceTree = "<group>"; };
-		2E6B6E3A1D2AC44F00C10A20 /* Congrats-Screen-Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Congrats-Screen-Images.xcassets"; sourceTree = "<group>"; };
 		2E6B6E3C1D2BC0A500C10A20 /* PostIncentiviserItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostIncentiviserItem.swift; sourceTree = "<group>"; };
 		2E6B6E401D2E8BDD00C10A20 /* Int+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Int+LG.swift"; sourceTree = "<group>"; };
 		2EBF3E241C298EB70024D947 /* MockChat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockChat.swift; sourceTree = "<group>"; };
@@ -1057,7 +1055,6 @@
 		2EF4E3C21D36891200A09DFD /* ConfigSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConfigSpec.swift; path = Model/ConfigSpec.swift; sourceTree = "<group>"; };
 		2EF4E3C41D36891C00A09DFD /* LGConfigRetrieveServiceSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LGConfigRetrieveServiceSpec.swift; path = Services/LGConfigRetrieveServiceSpec.swift; sourceTree = "<group>"; };
 		2EF4E3C51D36891C00A09DFD /* LGConfigDAOSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LGConfigDAOSpec.swift; path = Services/LGConfigDAOSpec.swift; sourceTree = "<group>"; };
-		2EF99DFD1C90443C001300DF /* Commercializer.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Commercializer.xcassets; sourceTree = "<group>"; };
 		44786E34D54C91974EA860A2 /* Pods-LetGo.adhoc.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetGo.adhoc.xcconfig"; path = "Pods/Target Support Files/Pods-LetGo/Pods-LetGo.adhoc.xcconfig"; sourceTree = "<group>"; };
 		4B0A305B22EED8C967344DB3 /* Pods-LetGoGodMode.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetGoGodMode.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LetGoGodMode/Pods-LetGoGodMode.debug.xcconfig"; sourceTree = "<group>"; };
 		500210B51CF5D94F0034519F /* ChatDisclaimerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatDisclaimerCell.swift; path = ../ChatDisclaimerCell.swift; sourceTree = "<group>"; };
@@ -1123,6 +1120,16 @@
 		508010E71D4748120073F362 /* SettingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingsViewController.xib; sourceTree = "<group>"; };
 		508011021D4749030073F362 /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
 		508011051D4749360073F362 /* Features.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Features.plist; sourceTree = "<group>"; };
+		508011091D474ED80073F362 /* Backgrounds-and-Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Backgrounds-and-Images.xcassets"; sourceTree = "<group>"; };
+		5080110A1D474ED80073F362 /* Chat.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Chat.xcassets; sourceTree = "<group>"; };
+		5080110B1D474ED80073F362 /* Commercializer.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Commercializer.xcassets; sourceTree = "<group>"; };
+		5080110C1D474ED80073F362 /* Congrats-Screen-Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Congrats-Screen-Images.xcassets"; sourceTree = "<group>"; };
+		5080110D1D474ED80073F362 /* Errors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Errors.xcassets; sourceTree = "<group>"; };
+		5080110E1D474ED80073F362 /* Icons-Buttons.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Icons-Buttons.xcassets"; sourceTree = "<group>"; };
+		5080110F1D474ED80073F362 /* Icons-Launchers.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Icons-Launchers.xcassets"; sourceTree = "<group>"; };
+		508011101D474ED80073F362 /* iPhoneParts.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = iPhoneParts.xcassets; sourceTree = "<group>"; };
+		508011111D474ED80073F362 /* ProductCellBanners.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = ProductCellBanners.xcassets; sourceTree = "<group>"; };
+		508011121D474ED80073F362 /* ProductOnboarding-Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "ProductOnboarding-Images.xcassets"; sourceTree = "<group>"; };
 		508C3F781C984BCA00CF431F /* UserViewHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserViewHeader.swift; sourceTree = "<group>"; };
 		508C3F7B1C984BEC00CF431F /* UserViewHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserViewHeader.xib; sourceTree = "<group>"; };
 		508D48631CCF4FFC00C52BE3 /* ImageDownloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageDownloader.swift; sourceTree = "<group>"; };
@@ -1179,7 +1186,6 @@
 		50CBCD5D1BF0BB8F00A329BB /* CollectionViewFooter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewFooter.swift; sourceTree = "<group>"; };
 		50CBCD5E1BF0BB8F00A329BB /* CollectionViewFooter.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CollectionViewFooter.xib; sourceTree = "<group>"; };
 		50CD8F5C1BC27DE30031DCD3 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		50CD8F5E1BC2A4A40031DCD3 /* Errors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Errors.xcassets; sourceTree = "<group>"; };
 		50CF61C81CD9FC4C0070281A /* UINavigationController+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UINavigationController+LG.swift"; sourceTree = "<group>"; };
 		50CF61CB1CD9FD180070281A /* UIViewController+Alert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Alert.swift"; sourceTree = "<group>"; };
 		50D67B961D0AFF24003AC0A5 /* TabBarShowable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarShowable.swift; sourceTree = "<group>"; };
@@ -1200,10 +1206,8 @@
 		50F681F11C8F4586001F33A3 /* RxPaginable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RxPaginable.swift; sourceTree = "<group>"; };
 		621A022FD11014184694D7E6 /* Pods-letgoTests.adhoc.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-letgoTests.adhoc.xcconfig"; path = "Pods/Target Support Files/Pods-letgoTests/Pods-letgoTests.adhoc.xcconfig"; sourceTree = "<group>"; };
 		6608E0361A820FBD005895ED /* LetGo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LetGo.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		6608E0421A820FBD005895ED /* Icons-Launchers.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Icons-Launchers.xcassets"; sourceTree = "<group>"; };
 		6640F03F1AE13EBE00004556 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		6640F0411AE141A800004556 /* libGoogleConversionTracking.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libGoogleConversionTracking.a; path = "Ambatana/GoogleConversionTrackingSDK-iOS-3.2.0/libGoogleConversionTracking.a"; sourceTree = "<group>"; };
-		66911D961A8677E5006CFBE1 /* Backgrounds-and-Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Backgrounds-and-Images.xcassets"; sourceTree = "<group>"; };
 		66A0CFC51A83612500FAADF0 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		66A0CFC61A83612500FAADF0 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		66A0CFC71A83612500FAADF0 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -1214,7 +1218,6 @@
 		66A0CFCC1A83612500FAADF0 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		66A0CFCD1A83612500FAADF0 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		66A0CFCF1A83612500FAADF0 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
-		66FC911A1A9238770008AFAD /* Icons-Buttons.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Icons-Buttons.xcassets"; sourceTree = "<group>"; };
 		6A056FDB1CE0EB9100FE3A07 /* LGLocationCoordinates2D+Distance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LGLocationCoordinates2D+Distance.swift"; sourceTree = "<group>"; };
 		6A12E0481C635F6B00C1BFE3 /* TourLoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TourLoginViewController.swift; sourceTree = "<group>"; };
 		6A12E04A1C635FA000C1BFE3 /* TourLoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TourLoginViewController.xib; sourceTree = "<group>"; };
@@ -1222,8 +1225,6 @@
 		6A12E0511C63988100C1BFE3 /* TourNotificationsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TourNotificationsViewController.swift; sourceTree = "<group>"; };
 		6A12E0541C6398A400C1BFE3 /* TourNotificationsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TourNotificationsViewModel.swift; sourceTree = "<group>"; };
 		6A12E0571C6398BE00C1BFE3 /* TourNotificationsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TourNotificationsViewController.xib; sourceTree = "<group>"; };
-		6A12E05A1C63B0AE00C1BFE3 /* iPhoneParts.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = iPhoneParts.xcassets; sourceTree = "<group>"; };
-		6A195EDF1D34FB2600FA137E /* Chat.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Chat.xcassets; sourceTree = "<group>"; };
 		6A32072A1CC78F5B003DD9AF /* ProductCarouselPushAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProductCarouselPushAnimator.swift; path = ../ProductCarouselPushAnimator.swift; sourceTree = "<group>"; };
 		6A32072D1CC8D897003DD9AF /* UIImage+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+LG.swift"; sourceTree = "<group>"; };
 		6A383F7B1CB29AC100F99D79 /* CreateCommercialViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CreateCommercialViewController.swift; path = Commercializer/CreateCommercialViewController.swift; sourceTree = "<group>"; };
@@ -1260,7 +1261,6 @@
 		6A8BE9021CDA3C6300D97727 /* ProductCarouselMoreInfoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ProductCarouselMoreInfoViewController.xib; path = ../ProductCarouselMoreInfoViewController.xib; sourceTree = "<group>"; };
 		6A9434651D2E52260053F924 /* BannerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BannerCell.swift; sourceTree = "<group>"; };
 		6A9434681D2E52330053F924 /* BannerCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BannerCell.xib; sourceTree = "<group>"; };
-		6A94346B1D2E544B0053F924 /* ProductCellBanners.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = ProductCellBanners.xcassets; sourceTree = "<group>"; };
 		6A9C9EBD1CCF959E009D866C /* UIButton+LetgoStyles.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIButton+LetgoStyles.swift"; sourceTree = "<group>"; };
 		6AA26CFC1CFDBA7600546063 /* ChatDisclaimerCellDrawer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatDisclaimerCellDrawer.swift; sourceTree = "<group>"; };
 		6AA26CFF1CFDCA2000546063 /* ChatDisclaimerCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatDisclaimerCell.xib; sourceTree = "<group>"; };
@@ -1954,6 +1954,23 @@
 			path = Coordinator;
 			sourceTree = "<group>";
 		};
+		508011081D474ED80073F362 /* img */ = {
+			isa = PBXGroup;
+			children = (
+				508011091D474ED80073F362 /* Backgrounds-and-Images.xcassets */,
+				5080110A1D474ED80073F362 /* Chat.xcassets */,
+				5080110B1D474ED80073F362 /* Commercializer.xcassets */,
+				5080110C1D474ED80073F362 /* Congrats-Screen-Images.xcassets */,
+				5080110D1D474ED80073F362 /* Errors.xcassets */,
+				5080110E1D474ED80073F362 /* Icons-Buttons.xcassets */,
+				5080110F1D474ED80073F362 /* Icons-Launchers.xcassets */,
+				508011101D474ED80073F362 /* iPhoneParts.xcassets */,
+				508011111D474ED80073F362 /* ProductCellBanners.xcassets */,
+				508011121D474ED80073F362 /* ProductOnboarding-Images.xcassets */,
+			);
+			path = img;
+			sourceTree = "<group>";
+		};
 		508D48621CCF4FFC00C52BE3 /* ImageDownloader */ = {
 			isa = PBXGroup;
 			children = (
@@ -2301,27 +2318,9 @@
 			children = (
 				D458383B1AEE6A9100B5F181 /* src */,
 				D40DA2841AEE274600B64CE1 /* res */,
-				6649D1671A8210B4000F6966 /* Assets & Resources */,
 			);
 			name = LetGo;
 			path = Ambatana;
-			sourceTree = "<group>";
-		};
-		6649D1671A8210B4000F6966 /* Assets & Resources */ = {
-			isa = PBXGroup;
-			children = (
-				66911D961A8677E5006CFBE1 /* Backgrounds-and-Images.xcassets */,
-				2EF99DFD1C90443C001300DF /* Commercializer.xcassets */,
-				66FC911A1A9238770008AFAD /* Icons-Buttons.xcassets */,
-				6608E0421A820FBD005895ED /* Icons-Launchers.xcassets */,
-				50CD8F5E1BC2A4A40031DCD3 /* Errors.xcassets */,
-				6A12E05A1C63B0AE00C1BFE3 /* iPhoneParts.xcassets */,
-				2E51F8B71CCE4DDE00B57283 /* ProductOnboarding-Images.xcassets */,
-				6A94346B1D2E544B0053F924 /* ProductCellBanners.xcassets */,
-				2E6B6E3A1D2AC44F00C10A20 /* Congrats-Screen-Images.xcassets */,
-				6A195EDF1D34FB2600FA137E /* Chat.xcassets */,
-			);
-			name = "Assets & Resources";
 			sourceTree = "<group>";
 		};
 		6A4E805C1C7761A500C6423E /* CustomAvatars */ = {
@@ -2766,6 +2765,7 @@
 				D40DA2851AEE274600B64CE1 /* data */,
 				50BA5C071C3C096D00F34042 /* GoogleService-Info.plist */,
 				502374531B3D3E8D00E02656 /* i18n */,
+				508011081D474ED80073F362 /* img */,
 				C78448DC1BD5196E00C76199 /* LetGo.entitlements */,
 				2EE47E591BBEA5B70034C19D /* Settings.bundle */,
 				506DC19A1BBE7D8A00E59D27 /* sound */,
@@ -3151,15 +3151,17 @@
 				D40DA2891AEE291D00B64CE1 /* words_lowercase.json in Resources */,
 				C75B55FB1C7E12C90001F5CD /* FilterLocationCell.xib in Resources */,
 				6A383F7F1CB29AD700F99D79 /* CreateCommercialViewController.xib in Resources */,
+				5080111D1D474ED80073F362 /* Icons-Buttons.xcassets in Resources */,
 				502374571B3D3E8D00E02656 /* InfoPlist.strings in Resources */,
 				C77593EE1BF0C1FD0097D62F /* FilterDistanceCell.xib in Resources */,
 				6A9434691D2E52330053F924 /* BannerCell.xib in Resources */,
 				C708C83E1CDB590400AA87B3 /* AppRatingView.xib in Resources */,
 				50CBCD601BF0BB8F00A329BB /* CollectionViewFooter.xib in Resources */,
-				2E6B6E3B1D2AC44F00C10A20 /* Congrats-Screen-Images.xcassets in Resources */,
 				2E373FA21D3CDEF500AC811C /* UserRatingCell.xib in Resources */,
+				508011191D474ED80073F362 /* Congrats-Screen-Images.xcassets in Resources */,
 				500DC12C1BDA1C4C00B494FA /* ios-prod.json in Resources */,
 				2E5350441CF8A181003B06CC /* ProductStatsView.xib in Resources */,
+				508011251D474ED80073F362 /* ProductOnboarding-Images.xcassets in Resources */,
 				5015881E1C7396B7006AEFC8 /* UserView.xib in Resources */,
 				C783D97E1C64BB90000EE5CA /* ReportUsersViewController.xib in Resources */,
 				502374591B3D3EAB00E02656 /* Localizable.strings in Resources */,
@@ -3171,7 +3173,7 @@
 				C71589B51C4F8E1C00E7563E /* PopupSignUpViewController.xib in Resources */,
 				2E3047E71CA1AE670099C0BC /* VideoPlayerContainerView.xib in Resources */,
 				6A38ADE51C64C4F9009E1A31 /* TourLocationViewController.xib in Resources */,
-				66911D971A8677E5006CFBE1 /* Backgrounds-and-Images.xcassets in Resources */,
+				508011151D474ED80073F362 /* Chat.xcassets in Resources */,
 				506DC19C1BBE7D8A00E59D27 /* levelup.caf in Resources */,
 				C7B588A01CE1E025009B3975 /* ChatGroupedListView.xib in Resources */,
 				50BCE92E1BF6357600C130CD /* ToastView.xib in Resources */,
@@ -3183,12 +3185,10 @@
 				6A38ADE81C64EAA1009E1A31 /* TourNotificationsViewControllerMini.xib in Resources */,
 				C7B588271CE1DE1C009B3975 /* BlockedUserCell.xib in Resources */,
 				508011031D4749030073F362 /* LaunchScreen.xib in Resources */,
-				2E51F8B81CCE4DDE00B57283 /* ProductOnboarding-Images.xcassets in Resources */,
 				6A38ADEB1C650294009E1A31 /* TourLocationViewControllerMini.xib in Resources */,
 				508010F61D4748120073F362 /* HelpViewController.xib in Resources */,
 				6A610CBD1CB4085B00736DA0 /* CreateCommercialProductCell.xib in Resources */,
 				508011001D4748120073F362 /* SettingsViewController.xib in Resources */,
-				6A94346C1D2E544B0053F924 /* ProductCellBanners.xcassets in Resources */,
 				C77593F21BF0E48D0097D62F /* FilterHeaderCell.xib in Resources */,
 				C7F6F7541CB5081F000147F9 /* CommercialShareViewController.xib in Resources */,
 				C7B588611CE1DE1C009B3975 /* RelationInfoView.xib in Resources */,
@@ -3199,14 +3199,13 @@
 				2E3760341BD914BA00A5A030 /* CategoriesViewController.xib in Resources */,
 				508C3F7C1C984BEC00CF431F /* UserViewHeader.xib in Resources */,
 				508011061D4749360073F362 /* Features.plist in Resources */,
-				6608E0431A820FBD005895ED /* Icons-Launchers.xcassets in Resources */,
 				C783D98B1C64C15B000EE5CA /* ReportUserCell.xib in Resources */,
 				508010EA1D4748120073F362 /* ChangePasswordViewController.xib in Resources */,
 				C7B588551CE1DE1C009B3975 /* DirectAnswersCloseCell.xib in Resources */,
 				C77593E61BF0BD310097D62F /* FilterCategoryCell.xib in Resources */,
+				508011211D474ED80073F362 /* iPhoneParts.xcassets in Resources */,
 				2E3047ED1CA4083B0099C0BC /* CommercialDisplayViewController.xib in Resources */,
 				2E4436331BF389EE00814624 /* LGNavBarSearchField.xib in Resources */,
-				2EF99DFE1C90443C001300DF /* Commercializer.xcassets in Resources */,
 				C7B5888B1CE1DFA6009B3975 /* ChatMyMessageCell.xib in Resources */,
 				6A879DA21C8D89B300E0C868 /* PushPrePermissionsSettingsViewController.xib in Resources */,
 				C739D94C1CDC9A2A000F8BA9 /* WelcomeNotificationCell.xib in Resources */,
@@ -3219,25 +3218,25 @@
 				C7363FB61BF9CB8D00A4BF6F /* FilterTagCell.xib in Resources */,
 				C7DE8AD91C8892C9005CF37E /* PostProductCameraView.xib in Resources */,
 				2E373FA61D3D019600AC811C /* UserRatingListViewController.xib in Resources */,
+				508011171D474ED80073F362 /* Commercializer.xcassets in Resources */,
 				50BA5C081C3C096D00F34042 /* GoogleService-Info.plist in Resources */,
 				5021910E1B2F1DAA00ABD31F /* RememberPasswordViewController.xib in Resources */,
-				50CD8F5F1BC2A4A40031DCD3 /* Errors.xcassets in Resources */,
 				C7B588471CE1DE1C009B3975 /* ChatProductView.xib in Resources */,
 				2E2C7B301C859F0C00F46E8F /* PromoteProductViewController.xib in Resources */,
+				5080111F1D474ED80073F362 /* Icons-Launchers.xcassets in Resources */,
 				C708C8471CDB60B200AA87B3 /* AppRatingBannerCell.xib in Resources */,
+				5080111B1D474ED80073F362 /* Errors.xcassets in Resources */,
 				C7F18AA11C89D62600D23319 /* GalleryImageCell.xib in Resources */,
 				C727FBC01CCFC4ED002BC643 /* NotificationsViewController.xib in Resources */,
 				C78BB50D1C5A314700614096 /* AppShareViewController.xib in Resources */,
 				50A8DC801BA06B92008296B0 /* ChatSafetyTipsView.xib in Resources */,
 				C7B588511CE1DE1C009B3975 /* DirectAnswerCell.xib in Resources */,
-				66FC911B1A9238770008AFAD /* Icons-Buttons.xcassets in Resources */,
-				6A195EE01D34FB2600FA137E /* Chat.xcassets in Resources */,
 				502B705D1BAAC3B500C5D465 /* FloatingButton.xib in Resources */,
 				C7B5889C1CE1E025009B3975 /* ConversationCell.xib in Resources */,
+				508011231D474ED80073F362 /* ProductCellBanners.xcassets in Resources */,
 				C7DE8AC91C888761005CF37E /* EditProductViewController.xib in Resources */,
 				508010FC1D4748120073F362 /* SettingsCell.xib in Resources */,
 				6AA26D001CFDCA2000546063 /* ChatDisclaimerCell.xib in Resources */,
-				6A12E05B1C63B0AE00C1BFE3 /* iPhoneParts.xcassets in Resources */,
 				C727FBD31CD10E77002BC643 /* NotificationCell.xib in Resources */,
 				C7F18A971C89CB4C00D23319 /* PostProductGalleryView.xib in Resources */,
 				500DC12B1BDA1C4C00B494FA /* ios-devel.json in Resources */,
@@ -3249,6 +3248,7 @@
 				C7DB41811C51239500400945 /* Settings.bundle in Resources */,
 				D4BFE5B51B640C36006A8CB6 /* MainProductsViewController.xib in Resources */,
 				C7DE8ABC1C888750005CF37E /* ProductPostedViewController.xib in Resources */,
+				508011131D474ED80073F362 /* Backgrounds-and-Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3266,15 +3266,17 @@
 				C75B55FC1C7E12C90001F5CD /* FilterLocationCell.xib in Resources */,
 				6A383F801CB29AD700F99D79 /* CreateCommercialViewController.xib in Resources */,
 				C7DB424B1C5138B500400945 /* words_lowercase.json in Resources */,
+				5080111E1D474ED80073F362 /* Icons-Buttons.xcassets in Resources */,
 				C7DB424C1C5138B500400945 /* InfoPlist.strings in Resources */,
 				C7DB424E1C5138B500400945 /* FilterDistanceCell.xib in Resources */,
 				C708C83F1CDB590400AA87B3 /* AppRatingView.xib in Resources */,
 				6A94346A1D2E52330053F924 /* BannerCell.xib in Resources */,
 				C7DB42511C5138B500400945 /* CollectionViewFooter.xib in Resources */,
-				2E6B6E3F1D2BE08C00C10A20 /* Congrats-Screen-Images.xcassets in Resources */,
 				2E373FAE1D3E6F4500AC811C /* UserRatingCell.xib in Resources */,
+				5080111A1D474ED80073F362 /* Congrats-Screen-Images.xcassets in Resources */,
 				C7DB42531C5138B500400945 /* ios-prod.json in Resources */,
 				2E5350451CF8A181003B06CC /* ProductStatsView.xib in Resources */,
+				508011261D474ED80073F362 /* ProductOnboarding-Images.xcassets in Resources */,
 				5015881F1C7396B7006AEFC8 /* UserView.xib in Resources */,
 				C783D97F1C64BB90000EE5CA /* ReportUsersViewController.xib in Resources */,
 				C7DB42561C5138B500400945 /* Localizable.strings in Resources */,
@@ -3286,7 +3288,7 @@
 				C703BE011C7F1AF900EC8EF2 /* EditLocationViewController.xib in Resources */,
 				2E3047E81CA1AE670099C0BC /* VideoPlayerContainerView.xib in Resources */,
 				6A38ADE61C64C4F9009E1A31 /* TourLocationViewController.xib in Resources */,
-				C7DB425C1C5138B500400945 /* Backgrounds-and-Images.xcassets in Resources */,
+				508011161D474ED80073F362 /* Chat.xcassets in Resources */,
 				C7DB425E1C5138B500400945 /* levelup.caf in Resources */,
 				C7DB425F1C5138B500400945 /* ToastView.xib in Resources */,
 				C7B588A11CE1E025009B3975 /* ChatGroupedListView.xib in Resources */,
@@ -3299,12 +3301,10 @@
 				6A38ADEC1C650294009E1A31 /* TourLocationViewControllerMini.xib in Resources */,
 				C7B588281CE1DE1C009B3975 /* BlockedUserCell.xib in Resources */,
 				508011041D4749030073F362 /* LaunchScreen.xib in Resources */,
-				2E51F8B91CCE4DDE00B57283 /* ProductOnboarding-Images.xcassets in Resources */,
 				C7DB42661C5138B500400945 /* FilterHeaderCell.xib in Resources */,
 				508010F71D4748120073F362 /* HelpViewController.xib in Resources */,
 				6A610CBE1CB4085B00736DA0 /* CreateCommercialProductCell.xib in Resources */,
 				508011011D4748120073F362 /* SettingsViewController.xib in Resources */,
-				6A94346D1D2E544B0053F924 /* ProductCellBanners.xcassets in Resources */,
 				C7F6F7551CB5081F000147F9 /* CommercialShareViewController.xib in Resources */,
 				C7B588621CE1DE1C009B3975 /* RelationInfoView.xib in Resources */,
 				C754E0161CB2679D006FDFD5 /* CommercialPreviewViewController.xib in Resources */,
@@ -3314,14 +3314,13 @@
 				C7DB426C1C5138B500400945 /* CategoriesViewController.xib in Resources */,
 				508C3F7D1C984BEC00CF431F /* UserViewHeader.xib in Resources */,
 				508011071D4749360073F362 /* Features.plist in Resources */,
-				C7DB426E1C5138B500400945 /* Icons-Launchers.xcassets in Resources */,
 				C783D98C1C64C15B000EE5CA /* ReportUserCell.xib in Resources */,
 				508010EB1D4748120073F362 /* ChangePasswordViewController.xib in Resources */,
 				C7B588561CE1DE1C009B3975 /* DirectAnswersCloseCell.xib in Resources */,
 				C7DB426F1C5138B500400945 /* FilterCategoryCell.xib in Resources */,
+				508011221D474ED80073F362 /* iPhoneParts.xcassets in Resources */,
 				2E3047EE1CA4083B0099C0BC /* CommercialDisplayViewController.xib in Resources */,
 				C7DB42711C5138B500400945 /* LGNavBarSearchField.xib in Resources */,
-				2EF99DFF1C90443C001300DF /* Commercializer.xcassets in Resources */,
 				C7B5888C1CE1DFA6009B3975 /* ChatMyMessageCell.xib in Resources */,
 				6A879DA31C8D89B300E0C868 /* PushPrePermissionsSettingsViewController.xib in Resources */,
 				C739D94D1CDC9A2A000F8BA9 /* WelcomeNotificationCell.xib in Resources */,
@@ -3334,25 +3333,25 @@
 				C7DB42771C5138B500400945 /* FilterTagCell.xib in Resources */,
 				C7DE8ADA1C8892C9005CF37E /* PostProductCameraView.xib in Resources */,
 				2E373FAF1D3E6F4E00AC811C /* UserRatingListViewController.xib in Resources */,
+				508011181D474ED80073F362 /* Commercializer.xcassets in Resources */,
 				C7DB427B1C5138B500400945 /* GoogleService-Info.plist in Resources */,
 				C7DB427C1C5138B500400945 /* RememberPasswordViewController.xib in Resources */,
-				C7DB427E1C5138B500400945 /* Errors.xcassets in Resources */,
 				C7B588481CE1DE1C009B3975 /* ChatProductView.xib in Resources */,
 				2E2C7B311C859F0C00F46E8F /* PromoteProductViewController.xib in Resources */,
+				508011201D474ED80073F362 /* Icons-Launchers.xcassets in Resources */,
 				C708C8481CDB60B200AA87B3 /* AppRatingBannerCell.xib in Resources */,
+				5080111C1D474ED80073F362 /* Errors.xcassets in Resources */,
 				C7F18AA21C89D62600D23319 /* GalleryImageCell.xib in Resources */,
 				C727FBC11CCFC4ED002BC643 /* NotificationsViewController.xib in Resources */,
 				C78BB50E1C5A314700614096 /* AppShareViewController.xib in Resources */,
 				C7DB427F1C5138B500400945 /* ChatSafetyTipsView.xib in Resources */,
 				C7B588521CE1DE1C009B3975 /* DirectAnswerCell.xib in Resources */,
-				C7DB42811C5138B500400945 /* Icons-Buttons.xcassets in Resources */,
-				6A195EE11D34FB2600FA137E /* Chat.xcassets in Resources */,
 				C7DB42821C5138B500400945 /* FloatingButton.xib in Resources */,
 				C7B5889D1CE1E025009B3975 /* ConversationCell.xib in Resources */,
+				508011241D474ED80073F362 /* ProductCellBanners.xcassets in Resources */,
 				C7DE8ACA1C888761005CF37E /* EditProductViewController.xib in Resources */,
 				508010FD1D4748120073F362 /* SettingsCell.xib in Resources */,
 				6AA26D011CFDCA2000546063 /* ChatDisclaimerCell.xib in Resources */,
-				6A12E05C1C63B0AE00C1BFE3 /* iPhoneParts.xcassets in Resources */,
 				C727FBD41CD10E77002BC643 /* NotificationCell.xib in Resources */,
 				C7F18A981C89CB4C00D23319 /* PostProductGalleryView.xib in Resources */,
 				C7DB42851C5138B500400945 /* ios-devel.json in Resources */,
@@ -3364,6 +3363,7 @@
 				C7DB42961C513BB900400945 /* Settings.bundle in Resources */,
 				C7DB42881C5138B500400945 /* MainProductsViewController.xib in Resources */,
 				C7DE8ABD1C888750005CF37E /* ProductPostedViewController.xib in Resources */,
+				508011141D474ED80073F362 /* Backgrounds-and-Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
