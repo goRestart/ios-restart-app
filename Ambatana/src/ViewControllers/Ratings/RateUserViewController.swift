@@ -121,8 +121,9 @@ class RateUserViewController: BaseViewController {
             .addDisposableTo(disposeBag)
 
         viewModel.rating.asObservable().bindNext { [weak self] rating in
-            self?.stars.forEach{$0.highlighted = ($0.tag <= rating)}
-            self?.stars.forEach{$0.selected = ($0.tag == rating)}
+            onMainThread { [weak self] in
+                self?.stars.forEach{$0.highlighted = ($0.tag <= rating)}
+            }
         }.addDisposableTo(disposeBag)
 
         keyboardHelper.rx_keyboardOrigin.asObservable().bindNext { [weak self] origin in
@@ -140,7 +141,7 @@ class RateUserViewController: BaseViewController {
 extension RateUserViewController: RateUserViewModelDelegate {
 
     func vmUpdateDescription(description: String?) {
-        descriptionText.text = description
+        setDescription(description)
     }
 
     func vmUpdateDescriptionPlaceholder(placeholder: String) {
@@ -180,10 +181,20 @@ extension RateUserViewController: UITextViewDelegate {
             viewModel.description.value = finalText.isEmpty ? nil : finalText
             if text.hasEmojis() {
                 //Forcing the new text (without emojis) by returning false
-                textView.text = finalText
+                setDescription(finalText)
                 return false
             }
         }
         return true
+    }
+
+    private func setDescription(description: String?) {
+        if let description = description where !description.isEmpty {
+            descriptionText.text = description
+            descriptionText.textColor = UIColor.grayDark
+        } else {
+            descriptionText.text = descrPlaceholder
+            descriptionText.textColor = descrPlaceholderColor
+        }
     }
 }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -53,102 +53,6 @@
                                     <color key="textColor" red="0.45882352941176469" green="0.45882352941176469" blue="0.45882352941176469" alpha="1" colorSpace="calibratedRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hgH-LD-l39" userLabel="starsContainer">
-                                    <rect key="frame" x="80" y="317" width="214" height="30"/>
-                                    <subviews>
-                                        <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XKa-h6-91A">
-                                            <rect key="frame" x="0.0" y="0.0" width="30" height="30"/>
-                                            <constraints>
-                                                <constraint firstAttribute="height" constant="30" id="nkY-wm-Ltb"/>
-                                                <constraint firstAttribute="width" constant="30" id="yoA-KW-Y9y"/>
-                                            </constraints>
-                                            <state key="normal" title="Button" image="ic_star"/>
-                                            <state key="selected" image="ic_star_filled"/>
-                                            <state key="highlighted" image="ic_star_filled"/>
-                                            <state key="focused" image="ic_star_filled"/>
-                                            <connections>
-                                                <action selector="starHighlighted:" destination="-1" eventType="touchDown" id="2wG-ZE-WQu"/>
-                                                <action selector="starSelected:" destination="-1" eventType="touchUpInside" id="szX-Xe-ATt"/>
-                                            </connections>
-                                        </button>
-                                        <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XtW-lp-Fac">
-                                            <rect key="frame" x="46" y="0.0" width="30" height="30"/>
-                                            <constraints>
-                                                <constraint firstAttribute="height" constant="30" id="176-fb-uG3"/>
-                                                <constraint firstAttribute="width" constant="30" id="JJS-f8-rFt"/>
-                                            </constraints>
-                                            <state key="normal" title="Button" image="ic_star"/>
-                                            <state key="selected" image="ic_star_filled"/>
-                                            <state key="highlighted" image="ic_star_filled"/>
-                                            <state key="focused" image="ic_star_filled"/>
-                                            <connections>
-                                                <action selector="starHighlighted:" destination="-1" eventType="touchDown" id="IcF-sP-fQF"/>
-                                                <action selector="starSelected:" destination="-1" eventType="touchUpInside" id="TNs-MW-crJ"/>
-                                            </connections>
-                                        </button>
-                                        <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lsi-8h-3FY">
-                                            <rect key="frame" x="92" y="0.0" width="30" height="30"/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" constant="30" id="1pX-ga-QCG"/>
-                                                <constraint firstAttribute="height" constant="30" id="T8X-TO-hnB"/>
-                                            </constraints>
-                                            <state key="normal" title="Button" image="ic_star"/>
-                                            <state key="selected" image="ic_star_filled"/>
-                                            <state key="highlighted" image="ic_star_filled"/>
-                                            <state key="focused" image="ic_star_filled"/>
-                                            <connections>
-                                                <action selector="starHighlighted:" destination="-1" eventType="touchDown" id="PYp-xR-ElG"/>
-                                                <action selector="starSelected:" destination="-1" eventType="touchUpInside" id="N8o-cI-H4A"/>
-                                            </connections>
-                                        </button>
-                                        <button opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4pk-tA-3ZW">
-                                            <rect key="frame" x="138" y="0.0" width="30" height="30"/>
-                                            <constraints>
-                                                <constraint firstAttribute="height" constant="30" id="CZy-yw-2iN"/>
-                                                <constraint firstAttribute="width" constant="30" id="NqI-57-rsW"/>
-                                            </constraints>
-                                            <state key="normal" title="Button" image="ic_star"/>
-                                            <state key="selected" image="ic_star_filled"/>
-                                            <state key="highlighted" image="ic_star_filled"/>
-                                            <state key="focused" image="ic_star_filled"/>
-                                            <connections>
-                                                <action selector="starHighlighted:" destination="-1" eventType="touchDown" id="LQx-qf-4wr"/>
-                                                <action selector="starSelected:" destination="-1" eventType="touchUpInside" id="Ts3-d8-lBh"/>
-                                            </connections>
-                                        </button>
-                                        <button opaque="NO" tag="5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1Dk-8G-kwX">
-                                            <rect key="frame" x="184" y="0.0" width="30" height="30"/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" constant="30" id="3Yn-Hb-F7o"/>
-                                                <constraint firstAttribute="height" constant="30" id="FhR-9u-9fz"/>
-                                            </constraints>
-                                            <state key="normal" title="Button" image="ic_star"/>
-                                            <state key="selected" image="ic_star_filled"/>
-                                            <state key="highlighted" image="ic_star_filled"/>
-                                            <state key="focused" image="ic_star_filled"/>
-                                            <connections>
-                                                <action selector="starHighlighted:" destination="-1" eventType="touchDown" id="kAm-rH-COO"/>
-                                                <action selector="starSelected:" destination="-1" eventType="touchUpInside" id="KFy-i6-SJ3"/>
-                                            </connections>
-                                        </button>
-                                    </subviews>
-                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                    <constraints>
-                                        <constraint firstItem="1Dk-8G-kwX" firstAttribute="centerY" secondItem="4pk-tA-3ZW" secondAttribute="centerY" id="1ki-Z3-RQS"/>
-                                        <constraint firstAttribute="height" constant="30" id="9Ux-nk-Oqt"/>
-                                        <constraint firstItem="4pk-tA-3ZW" firstAttribute="leading" secondItem="Lsi-8h-3FY" secondAttribute="trailing" constant="16" id="C4c-Nb-6VS"/>
-                                        <constraint firstItem="1Dk-8G-kwX" firstAttribute="leading" secondItem="4pk-tA-3ZW" secondAttribute="trailing" constant="16" id="PP0-gg-cGj"/>
-                                        <constraint firstItem="XKa-h6-91A" firstAttribute="centerY" secondItem="XtW-lp-Fac" secondAttribute="centerY" id="UAz-ZA-W2O"/>
-                                        <constraint firstItem="4pk-tA-3ZW" firstAttribute="centerY" secondItem="Lsi-8h-3FY" secondAttribute="centerY" id="WLK-QT-hXK"/>
-                                        <constraint firstItem="Lsi-8h-3FY" firstAttribute="leading" secondItem="XtW-lp-Fac" secondAttribute="trailing" constant="16" id="Ync-O2-AVc"/>
-                                        <constraint firstItem="XtW-lp-Fac" firstAttribute="centerY" secondItem="Lsi-8h-3FY" secondAttribute="centerY" id="dz1-SN-fVu"/>
-                                        <constraint firstItem="XKa-h6-91A" firstAttribute="leading" secondItem="hgH-LD-l39" secondAttribute="leading" id="h1a-lV-0k4"/>
-                                        <constraint firstItem="Lsi-8h-3FY" firstAttribute="centerY" secondItem="hgH-LD-l39" secondAttribute="centerY" id="pUA-Ah-DOY"/>
-                                        <constraint firstItem="Lsi-8h-3FY" firstAttribute="centerX" secondItem="hgH-LD-l39" secondAttribute="centerX" id="pXL-lu-Of1"/>
-                                        <constraint firstItem="XtW-lp-Fac" firstAttribute="leading" secondItem="XKa-h6-91A" secondAttribute="trailing" constant="16" id="wHY-f2-doF"/>
-                                        <constraint firstAttribute="trailing" secondItem="1Dk-8G-kwX" secondAttribute="trailing" id="wb2-l5-A1r"/>
-                                    </constraints>
-                                </view>
                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="_Leave a review (Optional)" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="VmE-1m-3hI" userLabel="description">
                                     <rect key="frame" x="0.0" y="377" width="375" height="104"/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -184,6 +88,102 @@
                                 <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="JuU-CL-dkO" userLabel="activityIndicator">
                                     <rect key="frame" x="177" y="523" width="20" height="20"/>
                                 </activityIndicatorView>
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hgH-LD-l39" userLabel="starsContainer">
+                                    <rect key="frame" x="80" y="317" width="214" height="30"/>
+                                    <subviews>
+                                        <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XKa-h6-91A">
+                                            <rect key="frame" x="0.0" y="0.0" width="30" height="30"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="30" id="nkY-wm-Ltb"/>
+                                                <constraint firstAttribute="width" constant="30" id="yoA-KW-Y9y"/>
+                                            </constraints>
+                                            <state key="normal" image="ic_star"/>
+                                            <state key="selected" image="ic_star_filled"/>
+                                            <state key="highlighted" image="ic_star_filled"/>
+                                            <state key="focused" image="ic_star_filled"/>
+                                            <connections>
+                                                <action selector="starHighlighted:" destination="-1" eventType="touchDown" id="2wG-ZE-WQu"/>
+                                                <action selector="starSelected:" destination="-1" eventType="touchUpInside" id="szX-Xe-ATt"/>
+                                            </connections>
+                                        </button>
+                                        <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XtW-lp-Fac">
+                                            <rect key="frame" x="46" y="0.0" width="30" height="30"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="30" id="176-fb-uG3"/>
+                                                <constraint firstAttribute="width" constant="30" id="JJS-f8-rFt"/>
+                                            </constraints>
+                                            <state key="normal" image="ic_star"/>
+                                            <state key="selected" image="ic_star_filled"/>
+                                            <state key="highlighted" image="ic_star_filled"/>
+                                            <state key="focused" image="ic_star_filled"/>
+                                            <connections>
+                                                <action selector="starHighlighted:" destination="-1" eventType="touchDown" id="IcF-sP-fQF"/>
+                                                <action selector="starSelected:" destination="-1" eventType="touchUpInside" id="TNs-MW-crJ"/>
+                                            </connections>
+                                        </button>
+                                        <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lsi-8h-3FY">
+                                            <rect key="frame" x="92" y="0.0" width="30" height="30"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="30" id="1pX-ga-QCG"/>
+                                                <constraint firstAttribute="height" constant="30" id="T8X-TO-hnB"/>
+                                            </constraints>
+                                            <state key="normal" image="ic_star"/>
+                                            <state key="selected" image="ic_star_filled"/>
+                                            <state key="highlighted" image="ic_star_filled"/>
+                                            <state key="focused" image="ic_star_filled"/>
+                                            <connections>
+                                                <action selector="starHighlighted:" destination="-1" eventType="touchDown" id="PYp-xR-ElG"/>
+                                                <action selector="starSelected:" destination="-1" eventType="touchUpInside" id="N8o-cI-H4A"/>
+                                            </connections>
+                                        </button>
+                                        <button opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4pk-tA-3ZW">
+                                            <rect key="frame" x="138" y="0.0" width="30" height="30"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="30" id="CZy-yw-2iN"/>
+                                                <constraint firstAttribute="width" constant="30" id="NqI-57-rsW"/>
+                                            </constraints>
+                                            <state key="normal" image="ic_star"/>
+                                            <state key="selected" image="ic_star_filled"/>
+                                            <state key="highlighted" image="ic_star_filled"/>
+                                            <state key="focused" image="ic_star_filled"/>
+                                            <connections>
+                                                <action selector="starHighlighted:" destination="-1" eventType="touchDown" id="LQx-qf-4wr"/>
+                                                <action selector="starSelected:" destination="-1" eventType="touchUpInside" id="Ts3-d8-lBh"/>
+                                            </connections>
+                                        </button>
+                                        <button opaque="NO" tag="5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1Dk-8G-kwX">
+                                            <rect key="frame" x="184" y="0.0" width="30" height="30"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="30" id="3Yn-Hb-F7o"/>
+                                                <constraint firstAttribute="height" constant="30" id="FhR-9u-9fz"/>
+                                            </constraints>
+                                            <state key="normal" image="ic_star"/>
+                                            <state key="selected" image="ic_star_filled"/>
+                                            <state key="highlighted" image="ic_star_filled"/>
+                                            <state key="focused" image="ic_star_filled"/>
+                                            <connections>
+                                                <action selector="starHighlighted:" destination="-1" eventType="touchDown" id="kAm-rH-COO"/>
+                                                <action selector="starSelected:" destination="-1" eventType="touchUpInside" id="KFy-i6-SJ3"/>
+                                            </connections>
+                                        </button>
+                                    </subviews>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    <constraints>
+                                        <constraint firstItem="1Dk-8G-kwX" firstAttribute="centerY" secondItem="4pk-tA-3ZW" secondAttribute="centerY" id="1ki-Z3-RQS"/>
+                                        <constraint firstAttribute="height" constant="30" id="9Ux-nk-Oqt"/>
+                                        <constraint firstItem="4pk-tA-3ZW" firstAttribute="leading" secondItem="Lsi-8h-3FY" secondAttribute="trailing" constant="16" id="C4c-Nb-6VS"/>
+                                        <constraint firstItem="1Dk-8G-kwX" firstAttribute="leading" secondItem="4pk-tA-3ZW" secondAttribute="trailing" constant="16" id="PP0-gg-cGj"/>
+                                        <constraint firstItem="XKa-h6-91A" firstAttribute="centerY" secondItem="XtW-lp-Fac" secondAttribute="centerY" id="UAz-ZA-W2O"/>
+                                        <constraint firstItem="4pk-tA-3ZW" firstAttribute="centerY" secondItem="Lsi-8h-3FY" secondAttribute="centerY" id="WLK-QT-hXK"/>
+                                        <constraint firstItem="Lsi-8h-3FY" firstAttribute="leading" secondItem="XtW-lp-Fac" secondAttribute="trailing" constant="16" id="Ync-O2-AVc"/>
+                                        <constraint firstItem="XtW-lp-Fac" firstAttribute="centerY" secondItem="Lsi-8h-3FY" secondAttribute="centerY" id="dz1-SN-fVu"/>
+                                        <constraint firstItem="XKa-h6-91A" firstAttribute="leading" secondItem="hgH-LD-l39" secondAttribute="leading" id="h1a-lV-0k4"/>
+                                        <constraint firstItem="Lsi-8h-3FY" firstAttribute="centerY" secondItem="hgH-LD-l39" secondAttribute="centerY" id="pUA-Ah-DOY"/>
+                                        <constraint firstItem="Lsi-8h-3FY" firstAttribute="centerX" secondItem="hgH-LD-l39" secondAttribute="centerX" id="pXL-lu-Of1"/>
+                                        <constraint firstItem="XtW-lp-Fac" firstAttribute="leading" secondItem="XKa-h6-91A" secondAttribute="trailing" constant="16" id="wHY-f2-doF"/>
+                                        <constraint firstAttribute="trailing" secondItem="1Dk-8G-kwX" secondAttribute="trailing" id="wb2-l5-A1r"/>
+                                    </constraints>
+                                </view>
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             <constraints>
