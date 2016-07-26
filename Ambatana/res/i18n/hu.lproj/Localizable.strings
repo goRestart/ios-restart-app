@@ -543,7 +543,7 @@
 "rating_list_rating_type_buyer_text_label" = "%@ vásárolt";
 "rating_list_rating_type_conversation_text_label" = "%@ beszélgetett";
 "rating_list_rating_type_seller_text_label" = "%@ eladott";
-"rating_list_title" = "Reviews";
+"rating_list_title" = "Értékelések";
 "rating_view_dont_ask_again_button" = "Ne kérdezz többet";
 "rating_view_love_it_label" = "Tetszik!";
 "rating_view_needs_improvements_label" = "Javításokra van szükség";
@@ -667,7 +667,9 @@
 "user_rating_message_w_name" = "Adj értékelést a csillagokkal, és meséld el, %@ milyen üzletfélnek bizonyult. Később bármikor módosíthatod.";
 "user_rating_message_wo_name" = "Adj értékelést a csillagokkal, és meséld el, ez a felhasználó milyen üzletfélnek  bizonyult. Később bármikor módosíthatod.";
 "user_rating_review_button" = "Értékelés beküldése";
-"user_rating_review_placeholder" = "Hagyj értékelést (kötelező)";
-"user_rating_review_placeholder_optional" = "Hagyj értékelést (nem kötelező)";
+"user_rating_review_info" = "You can update this review whenever you want.";
+"user_rating_review_placeholder" = "Write about your experience";
+"user_rating_review_placeholder_mandatory" = "Write about your experience (required)";
+"user_rating_review_placeholder_optional" = "Write about your experience (optional)";
 "user_rating_review_send_success" = "Értékelésed beküldve!";
 "user_rating_title" = "Mondd el, milyen volt";

@@ -201,7 +201,7 @@
 "common_time_week_ago_label" = "il y a une semaine";
 "common_time_weeks_ago_label" = "il y a %d semaines";
 "common_user_not_available" = "Oops ! Utilisateur non trouvé.";
-"common_user_review_not_available" = "Oops! Review not found.";
+"common_user_review_not_available" = "Oups ! Note introuvable.";
 "common_yes" = "Oui";
 "contact_body_field_hint" = "Message";
 "contact_choose_subject_dialog_title" = "Choisir un sujet";
@@ -543,7 +543,7 @@
 "rating_list_rating_type_buyer_text_label" = "%@ a acheté votre bien";
 "rating_list_rating_type_conversation_text_label" = "%@ a chatté à propos d'un bien";
 "rating_list_rating_type_seller_text_label" = "%@ a vendu un bien";
-"rating_list_title" = "Reviews";
+"rating_list_title" = "Notes";
 "rating_view_dont_ask_again_button" = "Ne plus me demander";
 "rating_view_love_it_label" = "J'aime !";
 "rating_view_needs_improvements_label" = "Doit être amélioré";
@@ -664,10 +664,12 @@
 "trending_searches_Title" = "Tendance des recherches";
 "unblock_user_error_generic" = "Une erreur est survenue lors du déblocage de cet utilisateur.";
 "unblock_user_success_message" = "Cet utilisateur a été débloqué !";
-"user_rating_message_w_name" = "Tapez les étoiles pour noter et nous dire si votre expérience avec %@ s'est bien passée. Vous pouvez la modifier à tout moment.";
-"user_rating_message_wo_name" = "Tapez les étoiles pour noter et nous dire si votre expérience avec cet utilisateur s'est bien passée. Vous pouvez la modifier à tout moment.";
+"user_rating_message_w_name" = "Votre expérience avec %@ vaut-elle 5 étoiles ? Dites-nous comment ça s'est passé.";
+"user_rating_message_wo_name" = "Votre expérience avec cet utilisateur vaut-elle 5 étoiles ? Dites-nous comment ça s'est passé.";
 "user_rating_review_button" = "Publier";
-"user_rating_review_placeholder" = "Laissez un commentaire (requis)";
-"user_rating_review_placeholder_optional" = "Laissez un commentaire (optionnel)";
+"user_rating_review_info" = "Vous pourrez modifier cette note à tout moment.";
+"user_rating_review_placeholder" = "Dites-nous en plus sur votre expérience (requis)";
+"user_rating_review_placeholder_mandatory" = "Write about your experience (required)";
+"user_rating_review_placeholder_optional" = "Dites-nous en plus sur votre expérience (optionnel)";
 "user_rating_review_send_success" = "Votre avis a été publié !";
 "user_rating_title" = "Notez votre expérience avec";

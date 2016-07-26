@@ -154,8 +154,13 @@ class RateUserViewModel: BaseViewModel {
             }.bindTo(sendEnabled).addDisposableTo(disposeBag)
 
         rating.asObservable().map {
-                ($0 ?? 0) < Constants.userRatingMinStarsToOptionalDescr ? LGLocalizedString.userRatingReviewPlaceholder :
-                    LGLocalizedString.userRatingReviewPlaceholderOptional
+                if let stars = $0 {
+                    return stars < Constants.userRatingMinStarsToOptionalDescr ?
+                        LGLocalizedString.userRatingReviewPlaceholderMandatory :
+                        LGLocalizedString.userRatingReviewPlaceholderOptional
+                } else {
+                    return LGLocalizedString.userRatingReviewPlaceholder
+                }
             }.bindNext { [weak self] placeholder in
                 self?.delegate?.vmUpdateDescriptionPlaceholder(placeholder)
             }.addDisposableTo(disposeBag)

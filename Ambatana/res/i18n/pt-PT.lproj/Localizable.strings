@@ -201,7 +201,7 @@
 "common_time_week_ago_label" = "há uma semana";
 "common_time_weeks_ago_label" = "há %d semanas";
 "common_user_not_available" = "Ops! Utilizador não encontrado.";
-"common_user_review_not_available" = "Oops! Review not found.";
+"common_user_review_not_available" = "Ups! Comentário não encontrado.";
 "common_yes" = "Sim";
 "contact_body_field_hint" = "Mensagem";
 "contact_choose_subject_dialog_title" = "Escolha um assunto";
@@ -543,7 +543,7 @@
 "rating_list_rating_type_buyer_text_label" = "%@ comprou um produto";
 "rating_list_rating_type_conversation_text_label" = "%@ conversou sobre um produto";
 "rating_list_rating_type_seller_text_label" = "%@ vendeu um produto";
-"rating_list_title" = "Reviews";
+"rating_list_title" = "Comentários";
 "rating_view_dont_ask_again_button" = "Não perguntar de novo";
 "rating_view_love_it_label" = "Adoro-a!";
 "rating_view_needs_improvements_label" = "Precisa de melhorias";
@@ -664,10 +664,12 @@
 "trending_searches_Title" = "Pesquisa por Tendências";
 "unblock_user_error_generic" = "Ocorreu um erro ao desbloquear este utilizador.";
 "unblock_user_success_message" = "O utilizador foi desbloqueado!";
-"user_rating_message_w_name" = "Toque nas estrelas para classificar e diga-nos se a sua experiência com %@ correu bem. Poderá atualizá-la quando quiser.";
-"user_rating_message_wo_name" = "Toque nas estrelas para classificar e diga-nos se a sua experiência com este utilizador ou utilizadora correu bem. Poderá atualizá-la quando quiser.";
+"user_rating_message_w_name" = "Será que a sua experiência com %@ merece cinco estrelas? Conte-nos como correu.";
+"user_rating_message_wo_name" = "Será que a sua experiência com este utilizador merece cinco estrelas? Conte-nos como correu.";
 "user_rating_review_button" = "Publique o comentário";
-"user_rating_review_placeholder" = "Deixe um comentário (obrigatório)";
-"user_rating_review_placeholder_optional" = "Deixe um comentário (opcional)";
+"user_rating_review_info" = "You can update this review whenever you want.";
+"user_rating_review_placeholder" = "Escreva algo sobre a sua experiência (obrigatório)";
+"user_rating_review_placeholder_mandatory" = "Write about your experience (required)";
+"user_rating_review_placeholder_optional" = "Escreva algo sobre a sua experiência (opcional)";
 "user_rating_review_send_success" = "O seu comentário foi publicado!";
 "user_rating_title" = "Comente a sua experiência com";

@@ -201,7 +201,7 @@
 "common_time_week_ago_label" = "viikko sitten";
 "common_time_weeks_ago_label" = "%d viikkoa sitten";
 "common_user_not_available" = "Hups! Käyttäjää ei löytynyt.";
-"common_user_review_not_available" = "Oops! Review not found.";
+"common_user_review_not_available" = "Hups! Arvostelua ei löytynyt.";
 "common_yes" = "Kyllä";
 "contact_body_field_hint" = "Viesti";
 "contact_choose_subject_dialog_title" = "Valitse aihe";
@@ -543,7 +543,7 @@
 "rating_list_rating_type_buyer_text_label" = "%@ osti tuotteen";
 "rating_list_rating_type_conversation_text_label" = "%@ keskusteli tuotteesta";
 "rating_list_rating_type_seller_text_label" = "%@ myi tuotteen";
-"rating_list_title" = "Reviews";
+"rating_list_title" = "Arvostelut";
 "rating_view_dont_ask_again_button" = "Älä kysy uudelleen";
 "rating_view_love_it_label" = "Rakastan sitä!";
 "rating_view_needs_improvements_label" = "Tarvitsee parannuksia";
@@ -664,10 +664,12 @@
 "trending_searches_Title" = "Nousussa olevat haut";
 "unblock_user_error_generic" = "Tämän käyttäjän estoa poistettaessa tapahtui virhe.";
 "unblock_user_success_message" = "Käyttäjän esto on poistettu!";
-"user_rating_message_w_name" = "Napauta tähtiä antaaksesi arviosi ja kertoaksesi meille sujuiko kaikki hyvin käyttäjän %@ kanssa. Voit päivittää arviota milloin haluat.";
-"user_rating_message_wo_name" = "Napauta tähtiä antaaksesi arviosi ja kertoaksesi meille sujuiko kaikki hyvin tämän käyttäjän kanssa. Voit päivittää arviota milloin haluat.";
+"user_rating_message_w_name" = "Onko kokemuksesi käyttäjän %@ kanssa viiden tähden arvoinen? Kerro meille, miten asiat sujuivat.";
+"user_rating_message_wo_name" = "Onko kokemuksesi tämän käyttäjän kanssa viiden tähden arvoinen? Kerro meille, miten asiat sujuivat.";
 "user_rating_review_button" = "Julkaise arvostelu";
-"user_rating_review_placeholder" = "Kirjoita arvostelu (pakollinen)";
-"user_rating_review_placeholder_optional" = "Kirjoita arvostelu (vapaaehtoinen)";
+"user_rating_review_info" = "You can update this review whenever you want.";
+"user_rating_review_placeholder" = "Kirjoita kokemuksestasi (pakollinen)";
+"user_rating_review_placeholder_mandatory" = "Write about your experience (required)";
+"user_rating_review_placeholder_optional" = "Kirjoita kokemuksestasi (vapaaehtoinen)";
 "user_rating_review_send_success" = "Arvostelusi on julkaistu!";
 "user_rating_title" = "Arvostele kokemuksesi seuraavan käyttäjän kanssa";

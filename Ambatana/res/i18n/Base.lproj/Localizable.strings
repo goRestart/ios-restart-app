@@ -1919,16 +1919,22 @@
 "user_rating_title" = "Review your experience with";
 
 // Information message when rating a user
-"user_rating_message_w_name" = "Tap the stars to rate and tell us if your experience with %@ went well. You can update it whenever you want.";
+"user_rating_message_w_name" = "Does your experience with %@ get five stars? Tell us how it went.";
 
 // Information message when rating a user
-"user_rating_message_wo_name" = "Tap the stars to rate and tell us if your experience with this user went well. You can update it whenever you want.";
+"user_rating_message_wo_name" = "Does your experience with this user get five stars? Tell us how it went.";
+
+// Information about review comment when rating a user
+"user_rating_review_info" = "You can update this review whenever you want.";
 
 // Review message
-"user_rating_review_placeholder" = "Leave a review (required)";
+"user_rating_review_placeholder" = "Write about your experience";
+
+// Review message mandatory (1-3 stars)
+"user_rating_review_placeholder_mandatory" = "Write about your experience (required)";
 
 // Review message optional (when user selected 4-5 stars)
-"user_rating_review_placeholder_optional" = "Leave a review (optional)";
+"user_rating_review_placeholder_optional" = "Write about your experience (optional)";
 
 // Send review button
 "user_rating_review_button" = "Publish review";
