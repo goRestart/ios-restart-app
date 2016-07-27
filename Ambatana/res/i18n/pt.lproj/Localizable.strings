@@ -128,6 +128,7 @@
 "chat_user_info_name" = "Hi, I'm %@";
 "chat_user_info_verified_with" = "Verified with: ";
 "chat_user_rating_button_title" = "Review";
+"chat_user_rating_button_tooltip" = "Review this user";
 "chat_verify_alert_message" = "We sent a verification email to %@";
 "chat_verify_alert_ok_button" = "Ok";
 "chat_verify_alert_resend_button" = "Resend";
@@ -664,10 +665,12 @@
 "trending_searches_Title" = "Trending Searches";
 "unblock_user_error_generic" = "An error occurred while unblocking this user.";
 "unblock_user_success_message" = "The user has been unblocked!";
-"user_rating_message_w_name" = "Tap the stars to rate and tell us if your experience with %@ went well. You can update it whenever you want.";
-"user_rating_message_wo_name" = "Tap the stars to rate and tell us if your experience with this user went well. You can update it whenever you want.";
+"user_rating_message_w_name" = "Does your experience with %@ get five stars? Tell us how it went.";
+"user_rating_message_wo_name" = "Does your experience with this user get five stars? Tell us how it went.";
 "user_rating_review_button" = "Publish review";
-"user_rating_review_placeholder" = "Leave a review (required)";
-"user_rating_review_placeholder_optional" = "Leave a review (optional)";
+"user_rating_review_info" = "You can update this review whenever you want.";
+"user_rating_review_placeholder" = "Write about your experience";
+"user_rating_review_placeholder_mandatory" = "Write about your experience (required)";
+"user_rating_review_placeholder_optional" = "Write about your experience (optional)";
 "user_rating_review_send_success" = "Your review has been published!";
 "user_rating_title" = "Review your experience with";

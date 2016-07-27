@@ -475,6 +475,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("chat_user_rating_button_title", comment: "")
 	}
 
+	static var chatUserRatingButtonTooltip: String {
+		return NSLocalizedString("chat_user_rating_button_tooltip", comment: "")
+	}
+
 	static var chatSafetyTips: String {
 		return NSLocalizedString("chat_safety_tips", comment: "")
 	}
@@ -2587,8 +2591,16 @@ struct LGLocalizedString {
 		return NSLocalizedString("user_rating_message_wo_name", comment: "")
 	}
 
+	static var userRatingReviewInfo: String {
+		return NSLocalizedString("user_rating_review_info", comment: "")
+	}
+
 	static var userRatingReviewPlaceholder: String {
 		return NSLocalizedString("user_rating_review_placeholder", comment: "")
+	}
+
+	static var userRatingReviewPlaceholderMandatory: String {
+		return NSLocalizedString("user_rating_review_placeholder_mandatory", comment: "")
 	}
 
 	static var userRatingReviewPlaceholderOptional: String {

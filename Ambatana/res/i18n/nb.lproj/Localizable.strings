@@ -128,6 +128,7 @@
 "chat_user_info_name" = "Hei, jeg er %@";
 "chat_user_info_verified_with" = "Verifisert med: ";
 "chat_user_rating_button_title" = "Omtale";
+"chat_user_rating_button_tooltip" = "Review this user";
 "chat_verify_alert_message" = "Vi har sendt e-post for verifisering til %@";
 "chat_verify_alert_ok_button" = "Ok";
 "chat_verify_alert_resend_button" = "Send på nytt";
@@ -201,7 +202,7 @@
 "common_time_week_ago_label" = "for en uke siden";
 "common_time_weeks_ago_label" = "for %d uker siden";
 "common_user_not_available" = "Oops! Fant ikke bruker.";
-"common_user_review_not_available" = "Oops! Review not found.";
+"common_user_review_not_available" = "Oops! Kunne ikke finne vurderingen.";
 "common_yes" = "Ja";
 "contact_body_field_hint" = "Melding";
 "contact_choose_subject_dialog_title" = "Velg et emne";
@@ -543,7 +544,7 @@
 "rating_list_rating_type_buyer_text_label" = "%@ kjøpte et produkt";
 "rating_list_rating_type_conversation_text_label" = "%@ snakket om et produkt";
 "rating_list_rating_type_seller_text_label" = "%@ solgte et produkt";
-"rating_list_title" = "Reviews";
+"rating_list_title" = "Vurderinger";
 "rating_view_dont_ask_again_button" = "Ikke spør meg igjen";
 "rating_view_love_it_label" = "Elsker det!";
 "rating_view_needs_improvements_label" = "Trenger forbedringer";
@@ -664,10 +665,12 @@
 "trending_searches_Title" = "Populære søk";
 "unblock_user_error_generic" = "En feil oppstod ved oppheving av blokkering for denne brukeren.";
 "unblock_user_success_message" = "Brukerens blokkering er opphevet!";
-"user_rating_message_w_name" = "Trykk på stjernene for å rangere og fortelle oss om din opplevelse med %@ gikk bra. Du kan oppdatere rangeringen når som helst.";
-"user_rating_message_wo_name" = "Trykk på stjernene for å rangere og fortelle oss om din opplevelse med denne brukeren gikk bra. Du kan oppdatere rangeringen når som helst.";
+"user_rating_message_w_name" = "Får din opplevelse med %@ fem stjerner? Fortell oss hvordan det gikk.";
+"user_rating_message_wo_name" = "Får din opplevelse med denne brukeren fem stjerner? Fortell oss hvordan det gikk.";
 "user_rating_review_button" = "Publiser omtale";
-"user_rating_review_placeholder" = "Legg igjen en omtale (påkrevd)";
-"user_rating_review_placeholder_optional" = "Legg igjen en omtale (valgfritt)";
+"user_rating_review_info" = "Du kan oppdatere denne vurderingen når som helst.";
+"user_rating_review_placeholder" = "Skriv om din opplevelse";
+"user_rating_review_placeholder_mandatory" = "Skriv om din opplevelse (påkrevd)";
+"user_rating_review_placeholder_optional" = "Skriv om din opplevelse (valgfritt)";
 "user_rating_review_send_success" = "Din omtale er publisert!";
 "user_rating_title" = "Vurder din opplevelse med";

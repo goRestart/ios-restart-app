@@ -128,6 +128,7 @@
 "chat_user_info_name" = "Привет, я %@";
 "chat_user_info_verified_with" = "Проверен: ";
 "chat_user_rating_button_title" = "Отзыв";
+"chat_user_rating_button_tooltip" = "Review this user";
 "chat_verify_alert_message" = "Вы отправили письмо-подтверждение на %@";
 "chat_verify_alert_ok_button" = "Ok";
 "chat_verify_alert_resend_button" = "Перевыслать";
@@ -201,7 +202,7 @@
 "common_time_week_ago_label" = "неделю назад";
 "common_time_weeks_ago_label" = "%d недель назад";
 "common_user_not_available" = "Упс! Пользователь не найден.";
-"common_user_review_not_available" = "Oops! Review not found.";
+"common_user_review_not_available" = "Упс! Отзыв не найден.";
 "common_yes" = "Да";
 "contact_body_field_hint" = "Сообщение";
 "contact_choose_subject_dialog_title" = "Выберите тему";
@@ -543,7 +544,7 @@
 "rating_list_rating_type_buyer_text_label" = "%@ купил товар";
 "rating_list_rating_type_conversation_text_label" = "%@ спрашивал о товаре";
 "rating_list_rating_type_seller_text_label" = "%@ продал товар";
-"rating_list_title" = "Reviews";
+"rating_list_title" = "Отзывов";
 "rating_view_dont_ask_again_button" = "Не спрашивать снова";
 "rating_view_love_it_label" = "Мне нравится!";
 "rating_view_needs_improvements_label" = "Нуждается в усовершенствованиях";
@@ -664,10 +665,12 @@
 "trending_searches_Title" = "Популярные запросы";
 "unblock_user_error_generic" = "При разблокировке произошла ошибка.";
 "unblock_user_success_message" = "Пользователь разблокирован!";
-"user_rating_message_w_name" = "Нажмите на звезды для оценки и расскажите, если ваша сделка с %@ прошла хорошо. Вы можете обновить оценку в любое время.";
-"user_rating_message_wo_name" = "Нажмите на звезды для оценки и расскажите, если ваша сделка с этим пользователем прошла хорошо. Вы можете обновить оценку в любое время.";
+"user_rating_message_w_name" = "Ваша сделка с %@ прошла на 5 звезд? Расскажите нам о ней.";
+"user_rating_message_wo_name" = "Ваша сделка с этим пользователем прошла на 5 звезд? Расскажите нам о ней.";
 "user_rating_review_button" = "Опубликовать отзыв";
-"user_rating_review_placeholder" = "Оставить отзыв (обязательно)";
-"user_rating_review_placeholder_optional" = "Оставьте комментарий (опционально)";
+"user_rating_review_info" = "Вы можете обновить этот отзыв в любое время.";
+"user_rating_review_placeholder" = "Опишите свой опыт (обязательно)";
+"user_rating_review_placeholder_mandatory" = "Опишите ваш опыт (обязательно)";
+"user_rating_review_placeholder_optional" = "Опишите свой опыт (опционально)";
 "user_rating_review_send_success" = "Ваш отзыв опубликован!";
 "user_rating_title" = "Оцените свое общение с";
