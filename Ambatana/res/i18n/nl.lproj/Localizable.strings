@@ -20,6 +20,7 @@
 "categories_other" = "Overige";
 "categories_sports_leisure_and_games" = "Sport, vrije tijd en games";
 "categories_title" = "Categorieën";
+"categories_unassigned" = "Niet geselecteerd ";
 "change_location_apply_button" = "Locatie instellen";
 "change_location_approximate_location_label" = "Laat adres zien";
 "change_location_ask_update_location_message" = "Vind deals bij jouw in de buurt! Wil je je locatie updaten?";
@@ -48,6 +49,8 @@
 "change_username_save_button" = "Opslaan";
 "change_username_send_ok" = "Gebruikersnaam succesvol gewijzigd!";
 "change_username_title" = "Naam wijzigen";
+"chat_account_deleted_w_name" = "%@'s account is verwijderd";
+"chat_account_deleted_wo_name" = "Dit account is verwijderd";
 "chat_block_user" = "Blokkeer Gebruiker";
 "chat_block_user_alert_block_button" = "Blokkeer";
 "chat_block_user_alert_text" = "Het blokkeren van een gebruiker voorkomt verdere interactie tussen jullie.";
@@ -61,6 +64,10 @@
 "chat_blocked_disclaimer_scammer_w_name" = "Om veiligheidsredenen werd %@'s account verwijderd door het letgo team en deze berichten zijn gewist.";
 "chat_blocked_disclaimer_scammer_wo_name" = "Om veiligheidsredenen werd dit account verwijderd door het letgo team en deze berichten zijn gewist.";
 "chat_delete_chat" = "Chat Verwijderen";
+"chat_deleted_disclaimer_w_name" = "Je kunt niet verdergaan met dit gesprek omdat %@'s account niet meer actief is.";
+"chat_deleted_disclaimer_wo_name" = "Je kunt niet verder gaan met dit gesprek omdat dit account niet meer actief is.";
+"chat_list_account_deleted" = "Verwijderd account";
+"chat_list_account_deleted_username" = "Inactief";
 "chat_list_all_empty_title" = "(NOG!) GEEN CHATS";
 "chat_list_all_title" = "ALLE";
 "chat_list_archive" = "Archiveren ";
@@ -101,6 +108,7 @@
 "chat_list_unarchive_error_one" = "Er is een fout opgetreden tijdens het terugplaatsen van het gesprek. Probeer het nog eens.";
 "chat_list_unarchive_ok_one" = "Chat werd succesvol teruggeplaatst!";
 "chat_list_unblock" = "Deblokkeer";
+"chat_login_popup_text" = "Om te beginnen met chatten, moet je inloggen";
 "chat_message_disclaimer_scammer" = "Wees extra voorzichtig bij het uitwisselen van telefoon/e-mailgegevens. Frauduleuze gebruikers vragen je vaak om de letgo chat te verlaten. Wees geïnformeerd! Tik hier om onze %@ te herzien.";
 "chat_message_field_hint" = "Schrijf hier je bericht...";
 "chat_message_load_generic_error" = "Er is een fout opgetreden bij het opvragen van jouw gespreksgegevens. Probeer het later nog eens.";
@@ -114,9 +122,12 @@
 "chat_safety_tips_title" = "VEILIGHEIDSTIPS";
 "chat_send_button" = "Versturen";
 "chat_send_error_generic" = "Er is een fout opgetreden bij het versturen van het bericht. Probeer het later nog eens.";
+"chat_stickers_tooltip_add_stickers" = "Voeg leuke stickers toe";
+"chat_stickers_tooltip_new" = "NIEUW!";
 "chat_unblock_user" = "Deblokkeer gebruiker";
 "chat_user_info_name" = "Hoi, ik ben %@";
 "chat_user_info_verified_with" = "Geverifieerd met:";
+"chat_user_rating_button_title" = "Beoordeling";
 "chat_verify_alert_message" = "We hebben een verificatie e-mail verstuurd naar %@";
 "chat_verify_alert_ok_button" = "Ok";
 "chat_verify_alert_resend_button" = "Opnieuw verzenden";
@@ -190,6 +201,7 @@
 "common_time_week_ago_label" = "een week geleden";
 "common_time_weeks_ago_label" = "%d weken geleden";
 "common_user_not_available" = "Oeps! Gebruiker niet gevonden.";
+"common_user_review_not_available" = "Oops! Review not found.";
 "common_yes" = "Ja";
 "contact_body_field_hint" = "Bericht";
 "contact_choose_subject_dialog_title" = "Kies een onderwerp";
@@ -343,6 +355,7 @@
 "product_chat_go_to_chat" = "Ga naar Chat";
 "product_chat_message_sending" = "Verzenden...";
 "product_chat_with_seller_button" = "Chat met de verkoper";
+"product_chat_with_seller_name_button" = "Chat met %@";
 "product_chat_with_seller_send_ok" = "Jouw chat is verstuurd!";
 "product_continue_chatting_button" = "Doorgaan met chatten";
 "product_create_commercial_button" = "Create Commercial";
@@ -367,6 +380,7 @@
 "product_distance_from_you" = "Van jou";
 "product_distance_more_than_from_you" = "Meer dan %@ van bij jou";
 "product_gallery_title" = "Foto's";
+"product_list_banner_cell_title" = "ZIE JOUW ADVERTENTIE HIER";
 "product_list_item_new_status_label" = "NIEUW";
 "product_list_item_sold_status_label" = "VERKOCHT";
 "product_list_item_time_hour_label" = "%iu";
@@ -383,6 +397,9 @@
 "product_mark_as_sold_confirm_title" = "Markeer als verkocht";
 "product_mark_as_sold_error_generic" = "Er is een fout opgetreden bij het markeren van het product als verkocht. Probeer het later nog eens.";
 "product_mark_as_sold_success_message" = "Gefeliciteerd, jouw product werd succesvol gemarkeerd als verkocht!";
+"product_more_info_open_button" = "MEER INFO";
+"product_more_info_tooltip_part_1" = "Tik";
+"product_more_info_tooltip_part_2" = "%@ om meer informatie te zien";
 "product_negotiable_price" = "Bespreekbaar";
 "product_onboarding_finger_scroll_label" = "Scroll om meer afbeeldingen te zien";
 "product_onboarding_finger_swipe_label" = "Schuif om naar het volgende of vorige product te gaan";
@@ -418,6 +435,16 @@
 "product_post_gallery_permissions_title" = "Geef toegang tot Foto's";
 "product_post_gallery_tab" = "BIBLIOTHEEK";
 "product_post_generic_error" = "Er is een fout opgetreden tijdens het plaatsen van jouw product.";
+"product_post_incentive_bike" = "Fietsen";
+"product_post_incentive_car" = "Auto's";
+"product_post_incentive_dresser" = "Dressoirs";
+"product_post_incentive_got_any" = "heb jij er te koop staan?";
+"product_post_incentive_looking_for" = "Mensen in jouw buurt zijn op zoek naar deze items, %@";
+"product_post_incentive_motorcycle" = "Motorfietsen";
+"product_post_incentive_ps4" = "PS4's";
+"product_post_incentive_subtitle" = "Jouw advertentie is geplaatst.";
+"product_post_incentive_title" = "GEFELICITEERD!";
+"product_post_incentive_tv" = "TV's";
 "product_post_login_message" = "Om je spullen te verkopen, moet je inloggen";
 "product_post_network_error" = "Je product werd niet geplaatst.\nGelieve je netwerkinstellingen te controleren.";
 "product_post_price_label" = "Wil je een prijs toevoegen?";
@@ -480,6 +507,7 @@
 "profile_permissions_alert_ok" = "Inschakelen";
 "profile_permissions_alert_title" = "MIS GEEN ENKELE REACTIE!";
 "profile_permissions_header_message" = "Bericht meldingen inschakelen";
+"profile_reviews_count" = "Beoordelingen";
 "profile_selling_my_user_no_products_button" = "Verkoop je spullen";
 "profile_selling_no_products_label" = "(NOG!) GEEN PRODUCTEN";
 "profile_selling_other_user_no_products_button" = "Blijf browsen";
@@ -507,6 +535,15 @@
 "push_notification_message_body" = "%@:%@";
 "push_notification_message_body_no_username" = "Bericht: %@";
 "push_notification_message_title" = "Nieuwe bericht - %@";
+"rating_list_action_report_review" = "Rapporteer beoordeling";
+"rating_list_action_report_review_error_message" = "Er is een fout opgetreden tijdens het versturen van jouw melding.";
+"rating_list_action_report_review_success_message" = "Jouw melding is verzonden!";
+"rating_list_action_review_user" = "Beoordeel gebruiker";
+"rating_list_loading_error_message" = "Er is een fout opgetreden tijdens het laden van beoordelingen.";
+"rating_list_rating_type_buyer_text_label" = "%@ kocht een product";
+"rating_list_rating_type_conversation_text_label" = "%@ chatte over een product";
+"rating_list_rating_type_seller_text_label" = "%@ verkocht een product";
+"rating_list_title" = "Reviews";
 "rating_view_dont_ask_again_button" = "Vraag me niet opnieuw";
 "rating_view_love_it_label" = "Heel leuk!";
 "rating_view_needs_improvements_label" = "Heeft verbeteringen nodig";
@@ -627,3 +664,10 @@
 "trending_searches_Title" = "Trending Zoekopdrachten";
 "unblock_user_error_generic" = "Er is een fout opgetreden tijdens het deblokkeren van deze gebruiker.";
 "unblock_user_success_message" = "De gebruiker is gedeblokkeerd!";
+"user_rating_message_w_name" = "Tik op de sterren om te beoordelen en vertel ons of je ervaring met %@ goed ging. Je kunt het aanpassen wanneer je maar wilt.";
+"user_rating_message_wo_name" = "Tik op de sterren om te beoordelen en vertel ons of je ervaring met deze gebruiker goed ging. Je kunt het aanpassen wanneer je maar wilt.";
+"user_rating_review_button" = "Publiceer beoordeling";
+"user_rating_review_placeholder" = "Laat een beoordeling achter (vereist)";
+"user_rating_review_placeholder_optional" = "Laat een beoordeling achter (optioneel)";
+"user_rating_review_send_success" = "Jouw beoordeling werd gepubliceerd!";
+"user_rating_title" = "Beoordeel jouw ervaring met";

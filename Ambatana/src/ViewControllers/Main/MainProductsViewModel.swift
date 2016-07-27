@@ -18,6 +18,7 @@ protocol MainProductsViewModelDelegate: BaseViewModelDelegate {
     func vmDidFailRetrievingProducts(hasProducts hasProducts: Bool, error: String?)
     func vmDidSuceedRetrievingProducts(hasProducts hasProducts: Bool, isFirstPage: Bool)
     func vmShowProduct(productVC: UIViewController)
+    func vmOpenSell(type: String)
 }
 
 protocol InfoBubbleDelegate: class {
@@ -34,6 +35,7 @@ class MainProductsViewModel: BaseViewModel {
     
     // > Input
     let searchString: String? // The initial search string
+    let bannerCellPosition: Int = 8
     var filters: ProductFilters
     
     var infoBubblePresent: Bool {
@@ -101,9 +103,11 @@ class MainProductsViewModel: BaseViewModel {
         self.searchString = searchString
         self.filters = filters
         self.productListRequester = FilteredProductListRequester()
-        let columns = FeatureFlags.mainProducts3Columns ? 3 : 2
-        self.listViewModel = ProductListViewModel(requester: self.productListRequester, products: nil, numberOfColumns: columns)
-        self.listViewModel.productListFixedInset = FeatureFlags.mainProducts3Columns ? 6 : 10
+        let show3Columns = DeviceFamily.isWideScreen
+        let columns = show3Columns ? 3 : 2
+        self.listViewModel = ProductListViewModel(requester: self.productListRequester, products: nil,
+                                                  numberOfColumns: columns)
+        self.listViewModel.productListFixedInset = show3Columns ? 6 : 10
         
         if let search = searchString where !search.isEmpty {
             self.shouldTrackSearch = true
@@ -357,7 +361,7 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate {
             switch error {
             case .Network:
                 errorString = LGLocalizedString.toastNoNetwork
-            case .Internal, .NotFound, .Forbidden, .TooManyRequests:
+            case .Internal, .NotFound, .Forbidden, .TooManyRequests, .UserNotVerified:
                 errorString = LGLocalizedString.toastErrorInternal
             case .Unauthorized:
                 errorString = nil
@@ -371,6 +375,19 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate {
         guard let productVC = ProductDetailFactory.productDetailFromProductList(viewModel, index: index,
                                             thumbnailImage: thumbnailImage, originFrame: originFrame) else { return }
         delegate?.vmShowProduct(productVC)
+    }
+    
+    func vmProcessReceivedProductPage(products: [ProductCellModel]) -> [ProductCellModel] {
+        guard products.count > bannerCellPosition else { return products }
+        let bannerData = BannerData(title: LGLocalizedString.productListBannerCellTitle)
+        let banner = ProductCellModel.BannerCell(banner: bannerData)
+        var cellModels = products
+        cellModels.insert(banner, atIndex: bannerCellPosition)
+        return cellModels
+    }
+    
+    func vmDidSelectSellBanner(type: String) {
+        delegate?.vmOpenSell(type)
     }
 }
 
@@ -470,16 +487,8 @@ extension MainProductsViewModel {
 // MARK: - Rating Banner
 
 extension MainProductsViewModel {
-    func ratingBannerIsVisible() {
-        let event = TrackerEvent.appRatingBannerOpen()
-        TrackerProxy.sharedInstance.trackEvent(event)
-    }
-
     func appRatingBannerClose() {
-        RatingManager.sharedInstance.userDidCloseProductListBanner()
-        
-        let event = TrackerEvent.appRatingBannerClose()
-        TrackerProxy.sharedInstance.trackEvent(event)
+        RatingManager.sharedInstance.userDidCloseProductListBanner()        
         listViewModel.reloadData()
     }
 }

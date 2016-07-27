@@ -86,18 +86,38 @@ public struct TrackerEvent {
         return TrackerEvent(name: .Logout, params: nil)
     }
 
-    public static func loginError(errorDescription: EventParameterLoginError) -> TrackerEvent {
+    public static func loginEmailError(errorDescription: EventParameterLoginError) -> TrackerEvent {
         var params = EventParameters()
 
         params[.ErrorDescription] = errorDescription.description
+        params[.ErrorDetails] = errorDescription.details
 
-        return TrackerEvent(name: .LoginError, params: params)
+        return TrackerEvent(name: .LoginEmailError, params: params)
+    }
+
+    public static func loginFBError(errorDescription: EventParameterLoginError) -> TrackerEvent {
+        var params = EventParameters()
+
+        params[.ErrorDescription] = errorDescription.description
+        params[.ErrorDetails] = errorDescription.details
+
+        return TrackerEvent(name: .LoginFBError, params: params)
+    }
+
+    public static func loginGoogleError(errorDescription: EventParameterLoginError) -> TrackerEvent {
+        var params = EventParameters()
+
+        params[.ErrorDescription] = errorDescription.description
+        params[.ErrorDetails] = errorDescription.details
+
+        return TrackerEvent(name: .LoginGoogleError, params: params)
     }
 
     public static func signupError(errorDescription: EventParameterLoginError) -> TrackerEvent {
         var params = EventParameters()
 
         params[.ErrorDescription] = errorDescription.description
+        params[.ErrorDetails] = errorDescription.details
 
         return TrackerEvent(name: .SignupError, params: params)
     }
@@ -106,6 +126,7 @@ public struct TrackerEvent {
         var params = EventParameters()
 
         params[.ErrorDescription] = errorDescription.description
+        params[.ErrorDetails] = errorDescription.details
 
         return TrackerEvent(name: .PasswordResetError, params: params)
     }
@@ -234,31 +255,27 @@ public struct TrackerEvent {
             return TrackerEvent(name: .ProductShareComplete, params: params)
     }
 
-    public static func productOffer(product: Product, amount: Double) -> TrackerEvent {
-        var params = EventParameters()
-        params.addProductParams(product)
-        params[.ProductOfferAmount] = amount
-        params[.TypePage] = EventParameterTypePage.ProductDetail.rawValue
-        return TrackerEvent(name: .ProductOffer, params: params)
-    }
-
     public static func productAskQuestion(product: Product, messageType: EventParameterMessageType,
-                                          typePage: EventParameterTypePage) -> TrackerEvent {
+                                          typePage: EventParameterTypePage, sellerRating: Float? = nil) -> TrackerEvent {
         var params = EventParameters()
         params.addProductParams(product)
         params[.MessageType] = messageType.rawValue
         params[.TypePage] = typePage.rawValue
+        params[.SellerUserRating] = sellerRating
         return TrackerEvent(name: .ProductAskQuestion, params: params)
     }
     
     // Duplicated method from the one above to support tracking using ChatProduct model
     public static func productAskQuestion(product: ChatProduct, messageType: EventParameterMessageType,
-                                          interlocutorId: String?, typePage: EventParameterTypePage) -> TrackerEvent {
+                                          interlocutorId: String?, typePage: EventParameterTypePage,
+                                          sellerRating: Float? = nil) -> TrackerEvent {
+        // Note: does not have: category-id, product-lat, product-lng
         var params = EventParameters()
         params.addChatProductParams(product)
         params[.MessageType] = messageType.rawValue
         params[.TypePage] = typePage.rawValue
         params[.UserToId] = interlocutorId
+        params[.SellerUserRating] = sellerRating
         return TrackerEvent(name: .ProductAskQuestion, params: params)
     }
 
@@ -266,6 +283,12 @@ public struct TrackerEvent {
         var params = EventParameters()
         params.addProductParams(product)
         return TrackerEvent(name: .ProductContinueChatting, params: params)
+    }
+
+    public static func productDetailChatButton(product: Product) -> TrackerEvent {
+        var params = EventParameters()
+        params[.ProductId] = product.objectId
+        return TrackerEvent(name: .ProductChatButton, params: params)
     }
 
     public static func productMarkAsSold(source: EventParameterSellSourceValue, product: Product)
@@ -303,9 +326,10 @@ public struct TrackerEvent {
         return TrackerEvent(name: .ProductReport, params: params)
     }
 
-    public static func productSellStart(typePage: EventParameterTypePage) -> TrackerEvent {
+    public static func productSellStart(typePage: EventParameterTypePage, designType: String? = nil) -> TrackerEvent {
         var params = EventParameters()
         params[.TypePage] = typePage.rawValue
+        params[.DesignType] = designType
         return TrackerEvent(name: .ProductSellStart, params: params)
     }
 
@@ -732,6 +756,23 @@ public struct TrackerEvent {
         params[.Template] = template
         params[.ShareNetwork] = shareNetwork.rawValue
         return TrackerEvent(name: .CommercializerShareComplete, params: params)
+    }
+
+    public static func userRatingStart(userId: String, typePage: EventParameterTypePage) -> TrackerEvent {
+        var params = EventParameters()
+        params[.UserToId] = userId
+        params[.TypePage] = typePage.rawValue
+        return TrackerEvent(name: .UserRatingStart, params: params)
+    }
+
+    public static func userRatingComplete(userId: String, typePage: EventParameterTypePage,
+                                          rating: Int, hasComments: Bool) -> TrackerEvent {
+        var params = EventParameters()
+        params[.UserToId] = userId
+        params[.TypePage] = typePage.rawValue
+        params[.RatingStars] = rating
+        params[.RatingComments] = hasComments
+        return TrackerEvent(name: .UserRatingComplete, params: params)
     }
 
     

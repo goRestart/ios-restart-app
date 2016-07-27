@@ -11,9 +11,8 @@ import LGCoreKit
 import RxSwift
 import UIKit
 
-final class AppCoordinator: NSObject, Coordinator {
+final class AppCoordinator: NSObject {
     var child: Coordinator?
-    var viewController: UIViewController { return tabBarCtl }
     var presentedAlertController: UIAlertController?
 
     private let tabBarCtl: TabBarController
@@ -22,6 +21,7 @@ final class AppCoordinator: NSObject, Coordinator {
     private let sessionManager: SessionManager
     private let keyValueStorage: KeyValueStorage
     private let pushPermissionsManager: PushPermissionsManager
+    private let ratingManager: RatingManager
 
     private let deepLinksRouter: DeepLinksRouter
 
@@ -29,6 +29,8 @@ final class AppCoordinator: NSObject, Coordinator {
     private let userRepository: UserRepository
     private let myUserRepository: MyUserRepository
     private let chatRepository: OldChatRepository
+    private let commercializerRepository: CommercializerRepository
+    private let userRatingRepository: UserRatingRepository
 
     weak var delegate: AppNavigatorDelegate?
 
@@ -48,19 +50,23 @@ final class AppCoordinator: NSObject, Coordinator {
         let userRepository = Core.userRepository
         let myUserRepository = Core.myUserRepository
         let chatRepository = Core.oldChatRepository
+        let commercializerRepository = Core.commercializerRepository
+        let userRatingRepository = Core.userRatingRepository
 
         self.init(tabBarController: tabBarController, configManager: configManager,
                   sessionManager: sessionManager, keyValueStorage: keyValueStorage,
                   pushPermissionsManager: pushPermissionsManager, ratingManager: ratingManager,
                   deepLinksRouter: deepLinksRouter, productRepository: productRepository, userRepository: userRepository,
-                  myUserRepository: myUserRepository, chatRepository: chatRepository)
+                  myUserRepository: myUserRepository, chatRepository: chatRepository,
+                  commercializerRepository: commercializerRepository, userRatingRepository: userRatingRepository)
     }
 
     init(tabBarController: TabBarController, configManager: ConfigManager,
          sessionManager: SessionManager, keyValueStorage: KeyValueStorage,
          pushPermissionsManager: PushPermissionsManager, ratingManager: RatingManager, deepLinksRouter: DeepLinksRouter,
          productRepository: ProductRepository, userRepository: UserRepository, myUserRepository: MyUserRepository,
-         chatRepository: OldChatRepository) {
+         chatRepository: OldChatRepository, commercializerRepository: CommercializerRepository,
+         userRatingRepository: UserRatingRepository) {
 
         self.tabBarCtl = tabBarController
 
@@ -68,6 +74,7 @@ final class AppCoordinator: NSObject, Coordinator {
         self.sessionManager = sessionManager
         self.keyValueStorage = keyValueStorage
         self.pushPermissionsManager = pushPermissionsManager
+        self.ratingManager = ratingManager
 
         self.deepLinksRouter = deepLinksRouter
 
@@ -75,6 +82,8 @@ final class AppCoordinator: NSObject, Coordinator {
         self.userRepository = userRepository
         self.myUserRepository = myUserRepository
         self.chatRepository = chatRepository
+        self.commercializerRepository = commercializerRepository
+        self.userRatingRepository = userRatingRepository
 
         super.init()
         tabBarCtl.delegate = self
@@ -106,12 +115,11 @@ final class AppCoordinator: NSObject, Coordinator {
 extension AppCoordinator: AppNavigator {
     func open() {
         let openAppWithInitialDeepLink: () -> () = { [weak self] in
-            self?.delegate?.appNavigatorDidOpenApp()
+            guard let strongSelf = self else { return }
+            strongSelf.delegate?.appNavigatorDidOpenApp()
 
-            if let deepLink = self?.deepLinksRouter.consumeInitialDeepLink() {
-                self?.openDeepLink(deepLink, initialDeepLink: true)
-            } else {
-                self?.openSellOnStartup()
+            if let deepLink = strongSelf.deepLinksRouter.consumeInitialDeepLink() {
+                strongSelf.openDeepLink(deepLink, initialDeepLink: true)
             }
         }
 
@@ -145,17 +153,19 @@ extension AppCoordinator: AppNavigator {
             application.openURL(url)
         }
         alert.addAction(openAppStore)
-        viewController.presentViewController(alert, animated: true, completion: nil)
+        tabBarCtl.presentViewController(alert, animated: true, completion: nil)
     }
 
-    func openSell() {
-        // TODO: should open child coordinator using `openChild`
-        SellProductControllerFactory.presentSellProductOn(viewController: tabBarCtl, delegate: self)
+    func openSell(source: PostingSource) {
+        let sellCoordinator = SellCoordinator(source: source)
+        sellCoordinator.delegate = self
+        openCoordinator(coordinator: sellCoordinator, parent: tabBarCtl, animated: true, completion: nil)
     }
 
-    func openSellOnStartup() {
-        // TODO: should open child coordinator using `openChild`
-        SellProductControllerFactory.presentSellOnStartupIfRequiredOn(viewController: tabBarCtl, delegate: self)
+    func openUserRating(source: RateUserSource, data: RateUserData) {
+        let userRatingCoordinator = UserRatingCoordinator(source: source, data: data)
+        userRatingCoordinator.delegate = self
+        openCoordinator(coordinator: userRatingCoordinator, parent: tabBarCtl, animated: true, completion: nil)
     }
 }
 
@@ -170,72 +180,92 @@ extension AppCoordinator: PromoteProductViewControllerDelegate {
     func promoteProductViewControllerDidCancelFromSource(promotionSource: PromotionSource) {
         promoteProductPostActions(promotionSource)
     }
+}
 
-    private func promoteProductPostActions(source: PromotionSource) {
+private extension AppCoordinator {
+    func promoteProductPostActions(source: PromotionSource) {
         if source.hasPostPromotionActions {
-            if PushPermissionsManager.sharedInstance
-                .shouldShowPushPermissionsAlertFromViewController(.Sell) {
-                PushPermissionsManager.sharedInstance.showPrePermissionsViewFrom(tabBarCtl, type: .Sell, completion: nil)
-            } else if RatingManager.sharedInstance.shouldShowRating {
+            if pushPermissionsManager.shouldShowPushPermissionsAlertFromViewController(.Sell) {
+                pushPermissionsManager.showPrePermissionsViewFrom(tabBarCtl, type: .Sell, completion: nil)
+            } else if ratingManager.shouldShowRating {
                 showAppRatingViewIfNeeded(.ProductSellComplete)
             }
         }
     }
+
+    func showAppRatingViewIfNeeded(source: EventParameterRatingSource) -> Bool {
+        return tabBarCtl.showAppRatingViewIfNeeded(source)
+    }
 }
 
 
-// MARK: - SellProductViewControllerDelegate
+// MARK: - CoordinatorDelegate
 
-extension AppCoordinator: SellProductViewControllerDelegate {
-    func sellProductViewController(sellVC: SellProductViewController?, didCompleteSell successfully: Bool,
-                                   withPromoteProductViewModel promoteProductVM: PromoteProductViewModel?) {
-        guard successfully else { return }
+extension AppCoordinator: CoordinatorDelegate {
+    func coordinatorDidClose(coordinator: Coordinator) {
+        child = nil
+    }
+}
 
-        keyValueStorage.userPostProductPostedPreviously = true
+// MARK: - SellCoordinatorDelegate
 
+extension AppCoordinator: SellCoordinatorDelegate {
+    func sellCoordinatorDidCancel(coordinator: SellCoordinator) {}
+
+    func sellCoordinator(coordinator: SellCoordinator, didFinishWithProduct product: Product) {
         refreshSelectedProductsRefreshable()
-        if let promoteProductVM = promoteProductVM {
-            let promoteProductVC = PromoteProductViewController(viewModel: promoteProductVM)
-            promoteProductVC.delegate = self
-            let event = TrackerEvent.commercializerStart(promoteProductVM.productId, typePage: .Sell)
-            TrackerProxy.sharedInstance.trackEvent(event)
-            tabBarCtl.presentViewController(promoteProductVC, animated: true, completion: nil)
-        } else if PushPermissionsManager.sharedInstance
-            .shouldShowPushPermissionsAlertFromViewController(.Sell) {
-            PushPermissionsManager.sharedInstance.showPrePermissionsViewFrom(tabBarCtl, type: .Sell, completion: nil)
-        } else if RatingManager.sharedInstance.shouldShowRating {
+
+        guard !openPromoteIfNeeded(product: product) else { return }
+        openAfterSellDialogIfNeeded()
+    }
+}
+
+
+// MARK: - UserRatingCoordinatorDelegate
+
+extension AppCoordinator: UserRatingCoordinatorDelegate {
+    func userRatingCoordinatorDidCancel(coordinator: UserRatingCoordinator) {}
+
+    func userRatingCoordinatorDidFinish(coordinator: UserRatingCoordinator) {}
+}
+
+private extension AppCoordinator {
+    func refreshSelectedProductsRefreshable() {
+        guard let selectedVC = tabBarCtl.selectedViewController else { return }
+        guard let refreshable = topViewControllerInController(selectedVC) as? ProductsRefreshable else { return }
+        refreshable.productsRefresh()
+    }
+
+    func openPromoteIfNeeded(product product: Product) -> Bool {
+        // TODO: Promote Coordinator (move tracking into promote coordinator)
+
+        // We do not promote if it's a failure or if it's a success w/o country code
+        guard let productId = product.objectId, countryCode = product.postalAddress.countryCode else { return false }
+        // We do not promote if we do not have promo themes for the given country code
+        let themes = commercializerRepository.templatesForCountryCode(countryCode)
+        guard let promoteVM = PromoteProductViewModel(productId: productId, themes: themes, commercializers: [],
+                                                      promotionSource: .ProductSell) else { return false }
+        let promoteVC = PromoteProductViewController(viewModel: promoteVM)
+        promoteVC.delegate = self
+        tabBarCtl.presentViewController(promoteVC, animated: true, completion: nil)
+
+        // Tracking
+        let event = TrackerEvent.commercializerStart(productId, typePage: .Sell)
+        TrackerProxy.sharedInstance.trackEvent(event)
+
+        return true
+    }
+
+    func openAfterSellDialogIfNeeded() -> Bool {
+        if pushPermissionsManager.shouldShowPushPermissionsAlertFromViewController(.Sell) {
+            pushPermissionsManager.showPrePermissionsViewFrom(tabBarCtl, type: .Sell,
+                                                                             completion: nil)
+        } else if ratingManager.shouldShowRating {
             showAppRatingViewIfNeeded(.ProductSellComplete)
+        } else {
+            return false
         }
-    }
-
-    private func refreshSelectedProductsRefreshable() {
-        if let selectedVC = tabBarCtl.selectedViewController,
-            refreshable = topViewControllerInController(selectedVC) as? ProductsRefreshable {
-            refreshable.productsRefresh()
-        }
-    }
-
-    private func showAppRatingViewIfNeeded(source: EventParameterRatingSource) -> Bool {
-        return tabBarCtl.showAppRatingViewIfNeeded(source)
-    }
-
-    func sellProductViewController(sellVC: SellProductViewController?, didFinishPostingProduct
-        postedViewModel: ProductPostedViewModel) {
-
-        let productPostedVC = ProductPostedViewController(viewModel: postedViewModel)
-        productPostedVC.delegate = self
-        tabBarCtl.presentViewController(productPostedVC, animated: true, completion: nil)
-    }
-
-    func sellProductViewController(sellVC: SellProductViewController?,
-                                   didEditProduct editVC: EditProductViewController?) {
-        guard let editVC = editVC else { return }
-        let navC = UINavigationController(rootViewController: editVC)
-        tabBarCtl.presentViewController(navC, animated: true, completion: nil)
-    }
-
-    func sellProductViewControllerDidTapPostAgain(sellVC: SellProductViewController?) {
-        openSell()
+        return true
     }
 }
 
@@ -367,6 +397,13 @@ private extension AppCoordinator {
 // MARK: > Navigation
 
 private extension AppCoordinator {
+    func openCoordinator(coordinator coordinator: Coordinator, parent: UIViewController, animated: Bool,
+                                     completion: (() -> Void)?) {
+        guard child == nil else { return }
+        child = coordinator
+        coordinator.open(parent: parent, animated: animated, completion: completion)
+    }
+
     func openTab(tab: Tab, force: Bool) {
         let shouldOpen = force || shouldOpenTab(tab)
         if shouldOpen {
@@ -397,7 +434,7 @@ private extension AppCoordinator {
         case .Home:
             openTab(.Home, force: false)
         case .Sell:
-            openSell()
+            openSell(.DeepLink)
         case let .Product(productId):
             afterDelayClosure = { [weak self] in
                 self?.openProductWithId(productId)
@@ -433,6 +470,16 @@ private extension AppCoordinator {
                 CommercializerManager.sharedInstance.commercializerReadyInitialDeepLink(productId: productId,
                                                                                         templateId: templateId)
             }
+        case .UserRatings:
+            openTab(.Profile)
+            afterDelayClosure = { [weak self] in
+                self?.openMyUserRatings()
+            }
+        case let .UserRating(ratingId):
+            openTab(.Profile)
+            afterDelayClosure = { [weak self] in
+                self?.openUserRatingForUserFromRating(ratingId)
+            }
         }
 
         if let afterDelayClosure = afterDelayClosure {
@@ -457,7 +504,7 @@ private extension AppCoordinator {
                 switch error {
                 case .Network:
                     message = LGLocalizedString.commonErrorConnectionFailed
-                case .Internal, .NotFound, .Unauthorized, .Forbidden, .TooManyRequests:
+                case .Internal, .NotFound, .Unauthorized, .Forbidden, .TooManyRequests, .UserNotVerified:
                     message = LGLocalizedString.commonProductNotAvailable
                 }
                 navCtl.dismissLoadingMessageAlert {
@@ -488,7 +535,7 @@ private extension AppCoordinator {
                 switch error {
                 case .Network:
                     message = LGLocalizedString.commonErrorConnectionFailed
-                case .Internal, .NotFound, .Unauthorized, .Forbidden, .TooManyRequests:
+                case .Internal, .NotFound, .Unauthorized, .Forbidden, .TooManyRequests, .UserNotVerified:
                     message = LGLocalizedString.commonUserNotAvailable
                 }
                 navCtl.dismissLoadingMessageAlert { navCtl.showAutoFadingOutMessageAlert(message) }
@@ -547,7 +594,7 @@ private extension AppCoordinator {
             switch error {
             case .Network:
                 message = LGLocalizedString.commonErrorConnectionFailed
-            case .Internal, .NotFound, .Unauthorized, .Forbidden, .TooManyRequests:
+            case .Internal, .NotFound, .Unauthorized, .Forbidden, .TooManyRequests, .UserNotVerified:
                 message = LGLocalizedString.commonChatNotAvailable
             }
             dismissLoadingCompletion = { navCtl.showAutoFadingOutMessageAlert(message) }
@@ -576,6 +623,42 @@ private extension AppCoordinator {
 
         // TODO: Should open a Reset Password coordinator child calling `openChild`
         tabBarCtl.presentViewController(navCtl, animated: true, completion: nil)
+    }
+
+    private func openMyUserRatings() {
+        guard FeatureFlags.userRatings else { return }
+        guard let navCtl = selectedNavigationController() else { return }
+
+        guard let myUserId = myUserRepository.myUser?.objectId else { return }
+        let viewModel = UserRatingListViewModel(userId: myUserId)
+
+        let viewController = UserRatingListViewController(viewModel: viewModel)
+        navCtl.pushViewController(viewController, animated: true)
+    }
+
+    private func openUserRatingForUserFromRating(ratingId: String) {
+        guard FeatureFlags.userRatings else { return }
+        guard let navCtl = selectedNavigationController() else { return }
+
+        navCtl.showLoadingMessageAlert()
+        userRatingRepository.show(ratingId) { [weak self] result in
+            if let rating = result.value, data = RateUserData(user: rating.userFrom) {
+                navCtl.dismissLoadingMessageAlert {
+                    self?.openUserRating(.DeepLink, data: data)
+                }
+            } else if let error = result.error {
+                let message: String
+                switch error {
+                case .Network:
+                    message = LGLocalizedString.commonErrorConnectionFailed
+                case .Internal, .NotFound, .Unauthorized, .Forbidden, .TooManyRequests, .UserNotVerified:
+                    message = LGLocalizedString.commonUserReviewNotAvailable
+                }
+                navCtl.dismissLoadingMessageAlert {
+                    navCtl.showAutoFadingOutMessageAlert(message)
+                }
+            }
+        }
     }
 }
 

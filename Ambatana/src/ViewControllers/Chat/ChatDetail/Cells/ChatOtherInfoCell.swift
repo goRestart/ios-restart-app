@@ -21,9 +21,11 @@ class ChatOtherInfoCell: UITableViewCell, ReusableCell {
     @IBOutlet weak var googleIconWidth: NSLayoutConstraint!
     @IBOutlet weak var mailIconWidth: NSLayoutConstraint!
     @IBOutlet weak var locationLabel: UILabel!
+    @IBOutlet weak var locationIconHeight: NSLayoutConstraint!
+    @IBOutlet weak var locationIconTop: NSLayoutConstraint!
 
     private static let iconsMargin: CGFloat = 8
-    private static let verifyIconHeight: CGFloat = 14
+    private static let iconsHeight: CGFloat = 14
     private static let verifyIconsWidth: CGFloat = 20
 
 
@@ -48,13 +50,26 @@ extension ChatOtherInfoCell {
             return
         }
         verifyIconTop.constant = ChatOtherInfoCell.iconsMargin
-        verifyIconHeight.constant = ChatOtherInfoCell.verifyIconHeight
+        verifyIconHeight.constant = ChatOtherInfoCell.iconsHeight
         verifyLabel.hidden = false
         verifyContainer.hidden = false
 
         fbIconWidth.constant = facebook ? ChatOtherInfoCell.verifyIconsWidth : 0
         googleIconWidth.constant = google ? ChatOtherInfoCell.verifyIconsWidth : 0
         mailIconWidth.constant = email ? ChatOtherInfoCell.verifyIconsWidth : 0
+    }
+
+    func setupLocation(location: String?) {
+        guard let location = location where !location.isEmpty else {
+            locationIconTop.constant = 0
+            locationIconHeight.constant = 0
+            locationLabel.hidden = true
+            return
+        }
+        locationIconTop.constant = ChatOtherInfoCell.iconsMargin
+        locationIconHeight.constant = ChatOtherInfoCell.iconsHeight
+        locationLabel.hidden = false
+        locationLabel.text = location
     }
 }
 
@@ -63,8 +78,7 @@ extension ChatOtherInfoCell {
 
 private extension ChatOtherInfoCell {
     func setupUI() {
-        userInfoContainer.layer.cornerRadius = StyleHelper.defaultCornerRadius
-        StyleHelper.applyDefaultShadow(userInfoContainer.layer)
+        userInfoContainer.layer.cornerRadius = LGUIKitConstants.chatCellCornerRadius
         userInfoContainer.layer.shouldRasterize = true
         userInfoContainer.layer.rasterizationScale = UIScreen.mainScreen().scale
 

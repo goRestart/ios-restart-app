@@ -12,6 +12,7 @@ import LGCoreKit
 protocol ChatProductViewDelegate: class {
     func productViewDidTapUserAvatar()
     func productViewDidTapProductImage()
+    func productViewDidTapUserReview()
 }
 
 class ChatProductView: UIView {
@@ -25,6 +26,7 @@ class ChatProductView: UIView {
 
     @IBOutlet weak var productButton: UIButton!
     @IBOutlet weak var userButton: UIButton!
+    @IBOutlet weak var reviewButton: UIButton!
     
     let imageHeight: CGFloat = 64
     let imageWidth: CGFloat = 64
@@ -50,13 +52,22 @@ class ChatProductView: UIView {
     }
     
     func setupUI() {
-        productImage.layer.cornerRadius = StyleHelper.defaultCornerRadius
-        productImage.backgroundColor = StyleHelper.conversationCellBgColor
-        userName.font = StyleHelper.chatProductViewUserFont
-        productName.font = StyleHelper.chatProductViewNameFont
-        productPrice.font = StyleHelper.chatProductViewPriceFont
+        productImage.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
+        productImage.backgroundColor = UIColor.placeholderBackgroundColor()
+        userName.font = UIFont.chatProductViewUserFont
+        productName.font = UIFont.chatProductViewNameFont
+        productPrice.font = UIFont.chatProductViewPriceFont
         
         userAvatar.layer.minificationFilter = kCAFilterTrilinear
+
+        reviewButton.setStyle(.Review)
+        reviewButton.hidden = true
+        reviewButton.setTitle(LGLocalizedString.chatUserRatingButtonTitle, forState: .Normal)
+    }
+
+    func showReviewButton(showButton: Bool) {
+        userName.hidden = showButton && FeatureFlags.userRatings
+        reviewButton.hidden = !showButton || !FeatureFlags.userRatings
     }
 
     func disableProductInteraction() {
@@ -70,6 +81,7 @@ class ChatProductView: UIView {
         userAvatar.alpha = 0.3
         userName.alpha = 0.3
         userButton.enabled = false
+        reviewButton.enabled = false
     }
     
     // MARK: - Actions
@@ -80,5 +92,9 @@ class ChatProductView: UIView {
     
     @IBAction func userButtonPressed(sender: AnyObject) {
         delegate?.productViewDidTapUserAvatar()
+    }
+
+    @IBAction func reviewButtonPressed(sender: AnyObject) {
+        delegate?.productViewDidTapUserReview()
     }
 }

@@ -13,7 +13,29 @@ enum ChatViewMessageType {
     case Offer(text: String)
     case Sticker(url: String)
     case Disclaimer(text: NSAttributedString, actionTitle: String? ,action: (() -> ())?)
-    case UserInfo(name: String, address: String, facebook: Bool, google: Bool, email: Bool)
+    case UserInfo(name: String, address: String?, facebook: Bool, google: Bool, email: Bool)
+}
+
+enum ChatViewMessageWarningStatus: String {
+    case Normal
+    case Spam
+    
+    init(status: MessageWarningStatus) {
+        switch status {
+        case .Normal:
+            self = .Normal
+        case .Suspicious:
+            self = .Spam
+        }
+    }
+    
+    init(status: [ChatMessageWarning]) {
+        if status.contains(.Spam) {
+            self = .Spam
+        } else {
+            self = .Normal
+        }
+    }
 }
 
 struct ChatViewMessage: BaseModel {
@@ -24,7 +46,7 @@ struct ChatViewMessage: BaseModel {
     var readAt: NSDate?
     var type: ChatViewMessageType
     var status: ChatMessageStatus?
-    var warningStatus: MessageWarningStatus
+    var warningStatus: ChatViewMessageWarningStatus
 
     var copyEnabled: Bool {
         switch type {

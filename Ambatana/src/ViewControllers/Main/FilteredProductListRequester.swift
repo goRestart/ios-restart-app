@@ -16,12 +16,10 @@ class FilteredProductListRequester: ProductListRequester {
     private let locationManager: LocationManager
     private var queryFirstCallCoordinates: LGLocationCoordinates2D?
     private var queryFirstCallCountryCode: String?
+    private var offset: Int = 0
 
     var queryString: String?
     var filters: ProductFilters?
-
-    //Required to avoid counting limbo products from offset
-    private var offsetDelta = 0
 
     convenience init() {
         self.init(productRepository: Core.productRepository, locationManager: Core.locationManager)
@@ -36,46 +34,62 @@ class FilteredProductListRequester: ProductListRequester {
     // MARK: - ProductListRequester
 
     func canRetrieve() -> Bool { return queryCoordinates != nil }
-
-    func productsRetrieval(offset offset: Int, completion: ProductsCompletion?) {
-        if offset == 0 {
-            offsetDelta = 0
-            if let currentLocation = locationManager.currentLocation {
-                queryFirstCallCoordinates = LGLocationCoordinates2D(location: currentLocation)
-                queryFirstCallCountryCode = locationManager.currentPostalAddress?.countryCode
-            }
+    
+    
+    func retrieveFirstPage(completion: ProductsCompletion?) {
+        offset = 0
+        if let currentLocation = locationManager.currentLocation {
+            queryFirstCallCoordinates = LGLocationCoordinates2D(location: currentLocation)
+            queryFirstCallCountryCode = locationManager.currentPostalAddress?.countryCode
         }
-
-        let indexCompletion: ProductsCompletion = { [weak self] result in
-            guard offset == 0, let indexProducts = result.value, useLimbo = self?.prependLimbo where useLimbo else {
+     
+        retrieve() { [weak self] result in
+            guard let indexProducts = result.value, useLimbo = self?.prependLimbo where useLimbo else {
                 completion?(result)
                 return
             }
             self?.productRepository.indexLimbo { [weak self] limboResult in
-                let finalProducts: [Product]
-                if let limboProducts = limboResult.value {
-                    self?.offsetDelta = limboProducts.count
-                    finalProducts = limboProducts + indexProducts
-                } else {
-                    finalProducts = indexProducts
-                }
+                var finalProducts: [Product] = limboResult.value ?? []
+                finalProducts += indexProducts
+                self?.offset = indexProducts.count
                 completion?(ProductsResult(finalProducts))
             }
         }
-
-        let realOffset = offset >= offsetDelta ? offset - offsetDelta : offset
-
+    }
+    
+    func retrieveNextPage(completion: ProductsCompletion?) {
+        retrieve() { [weak self] result in
+            if let value = result.value {
+                self?.offset += value.count
+            }
+            completion?(result)
+        }
+    }
+    
+    private func retrieve(completion: ProductsCompletion?) {
         if shouldIndexProductTrending {
             let params = IndexTrendingProductsParams(countryCode: countryCode, coordinates: queryCoordinates,
-                                                     offset: realOffset)
-            productRepository.indexTrending(params, completion: indexCompletion)
-
+                                                     offset: offset)
+            productRepository.indexTrending(params, completion: completion)
+            
         } else {
-            productRepository.index(retrieveProductsParams, pageOffset: realOffset, completion: indexCompletion)
+            productRepository.index(retrieveProductsParams, pageOffset: offset, completion: completion)
         }
     }
 
-    func isLastPage(resultCount: Int) -> Bool { return resultCount == 0 }
+    func isLastPage(resultCount: Int) -> Bool {
+        return resultCount == 0
+    }
+    
+    func duplicate() -> ProductListRequester {
+        let requester = FilteredProductListRequester()
+        requester.offset = offset
+        requester.queryFirstCallCoordinates = queryFirstCallCoordinates
+        requester.queryFirstCallCountryCode = queryFirstCallCountryCode
+        requester.queryString = queryString
+        requester.filters = filters
+        return requester
+    }
 
 
     // MARK: - MainProductListRequester

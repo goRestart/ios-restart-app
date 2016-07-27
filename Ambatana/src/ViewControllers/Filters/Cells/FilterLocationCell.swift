@@ -33,7 +33,7 @@ class FilterLocationCell: UICollectionViewCell {
     // MARK: - Private methods
 
     private func setupUI() {
-        separatorHeight.constant = StyleHelper.onePixelSize
+        separatorHeight.constant = LGUIKitConstants.onePixelSize
         titleLabel.text = LGLocalizedString.changeLocationTitle
     }
 

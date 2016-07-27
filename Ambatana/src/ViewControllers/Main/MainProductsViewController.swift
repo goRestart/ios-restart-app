@@ -76,12 +76,13 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
         productListView.collectionViewContentInset.top = topBarHeight
         productListView.collectionViewContentInset.bottom = tabBarHeight + Constants.tabBarSellFloatingButtonHeight
         productListView.setErrorViewStyle(bgColor: UIColor(patternImage: UIImage(named: "pattern_white")!),
-                            borderColor: StyleHelper.lineColor, containerColor: StyleHelper.emptyViewContentBgColor)
+                            borderColor: UIColor.lineGray, containerColor: UIColor.white)
         productListView.scrollDelegate = self
         productListView.headerDelegate = self
         productListView.cellsDelegate = viewModel
         productListView.switchViewModel(viewModel.listViewModel)
-        if FeatureFlags.mainProducts3Columns {
+        let show3Columns = DeviceFamily.isWideScreen
+        if show3Columns {
             productListView.updateLayoutWithSeparation(6)
         }
         addSubview(productListView)
@@ -101,13 +102,7 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
 
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
-        switch FeatureFlags.productDetailVersion {
-        case .Snapchat:
-            self.navigationController?.setNavigationBarHidden(false, animated: false)
-        case .Original, .OriginalWithoutOffer:
-            setBarsHidden(false, animated: false)
-        }
-
+        self.navigationController?.setNavigationBarHidden(false, animated: false)
         endEdit()
     }
 
@@ -147,10 +142,11 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     // MARK: - ProductListViewScrollDelegate
     
     func productListView(productListView: ProductListView, didScrollDown scrollDown: Bool) {
+        guard viewModel.active else { return }
+
         if !self.tagsViewController.tags.isEmpty {
             showTagsView(!scrollDown)
         }
-        
         setBarsHidden(scrollDown)
     }
 
@@ -219,6 +215,11 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
         navigationController?.pushViewController(productVC, animated: true)
     }
 
+    func vmOpenSell(type: String) {
+        guard let tabBarController = self.tabBarController as? TabBarController else { return }
+        tabBarController.openSellFromBannerCell(type)
+    }
+    
     
     // MARK: UITextFieldDelegate Methods
     
@@ -335,7 +336,7 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     
     private func setupInfoBubble() {
         infoBubbleLabel.text = viewModel.infoBubbleDefaultText
-        StyleHelper.applyInfoBubbleShadow(infoBubbleShadow.layer)
+        infoBubbleShadow.applyInfoBubbleShadow()
 
         showInfoBubble(false, alpha: 0.0)
     }
@@ -388,7 +389,6 @@ extension MainProductsViewController: ProductListViewHeaderDelegate, AppRatingBa
             else { return UICollectionReusableView() }
         footer.setupUI()
         footer.delegate = self
-        viewModel.ratingBannerIsVisible()
         return footer
     }
 
@@ -397,9 +397,8 @@ extension MainProductsViewController: ProductListViewHeaderDelegate, AppRatingBa
     }
 
     func appRatingBannerShowRating() {
-        guard let view = tabBarController?.view, let ratingView = AppRatingView.ratingView(.Banner) else { return }
-        ratingView.setupWithFrame(view.frame)
-        view.addSubview(ratingView)
+        guard let tabBarController = tabBarController as? TabBarController else { return }
+        tabBarController.showAppRatingView(.Banner)
     }
 }
 
@@ -434,8 +433,8 @@ extension MainProductsViewController: UITableViewDelegate, UITableViewDataSource
         let trendingTitleLabel = UILabel()
         trendingTitleLabel.translatesAutoresizingMaskIntoConstraints = false
         trendingTitleLabel.textAlignment = .Center
-        trendingTitleLabel.font = StyleHelper.trendingSearchesTitleFont
-        trendingTitleLabel.textColor = StyleHelper.trendingSearchesTitleColor
+        trendingTitleLabel.font = UIFont.mediumHeadlineFont
+        trendingTitleLabel.textColor = UIColor.darkGrayText
         trendingTitleLabel.text = LGLocalizedString.trendingSearchesTitle
         container.addSubview(trendingTitleLabel)
         var views = [String: AnyObject]()

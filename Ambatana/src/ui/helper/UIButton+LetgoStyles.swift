@@ -19,13 +19,14 @@ enum ButtonStyle {
     case Google
     case Facebook
     case Dark(fontSize: ButtonFontSize)
+    case Review
     
     var titleColor: UIColor {
         switch self {
-        case .Primary, .Terciary, .Google, .Facebook, .Dark:
+        case .Primary, .Terciary, .Google, .Facebook, .Dark, .Review:
             return UIColor.whiteColor()
         case .Secondary:
-            return StyleHelper.primaryColor
+            return UIColor.primaryColor
         }
     }
     
@@ -43,6 +44,8 @@ enum ButtonStyle {
             return UIColor.googleColor
         case .Dark:
             return UIColor.blackColor().colorWithAlphaComponent(0.3)
+        case .Review:
+            return UIColor.reviewColor
         }
     }
     
@@ -60,6 +63,8 @@ enum ButtonStyle {
             return UIColor.googleColorHighlighted
         case .Dark:
             return UIColor.blackColor().colorWithAlphaComponent(0.5)
+        case .Review:
+            return UIColor.reviewColorHighlighted
         }
     }
     
@@ -77,6 +82,8 @@ enum ButtonStyle {
             return UIColor.googleColorDisabled
         case .Dark:
             return UIColor.blackColor().colorWithAlphaComponent(0.3)
+        case .Review:
+            return UIColor.reviewColorDisabled
         }
     }
     
@@ -89,8 +96,12 @@ enum ButtonStyle {
             fontSize = size
         case let .Secondary(size,_):
             fontSize = size
-        case .Terciary, .Google, .Facebook:
+        case .Terciary:
             fontSize = .Big
+        case .Google, .Facebook:
+            fontSize = .Medium
+        case .Review:
+            fontSize = .Small
         }
         
         switch fontSize {
@@ -105,7 +116,7 @@ enum ButtonStyle {
     
     var withBorder: Bool {
         switch self {
-        case .Primary, .Terciary, .Google, .Facebook, .Dark:
+        case .Primary, .Terciary, .Google, .Facebook, .Dark, .Review:
             return false
         case let .Secondary(_, withBorder):
             return withBorder

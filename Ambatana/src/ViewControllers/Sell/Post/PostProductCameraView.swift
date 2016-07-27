@@ -23,14 +23,11 @@ class PostProductCameraView: BaseView, LGViewPagerPage {
     @IBOutlet var contentView: UIView!
 
     @IBOutlet weak var cameraContainerView: UIView!
-    @IBOutlet weak var cameraContainerViewHeight: NSLayoutConstraint!
     @IBOutlet weak var imagePreview: UIImageView!
     @IBOutlet weak var cornersContainer: UIView!
 
-    @IBOutlet weak var bottomControlsContainerHeight: NSLayoutConstraint!
     @IBOutlet weak var switchCamButton: UIButton!
     @IBOutlet weak var usePhotoButton: UIButton!
-    @IBOutlet weak var makePhotoButton: UIButton!
 
     @IBOutlet weak var infoContainer: UIView!
     @IBOutlet weak var infoTitle: UILabel!
@@ -45,9 +42,6 @@ class PostProductCameraView: BaseView, LGViewPagerPage {
     @IBOutlet weak var firstTimeAlert: UIView!
     @IBOutlet weak var firstTimeAlertTitle: UILabel!
     @IBOutlet weak var firstTimeAlertSubtitle: UILabel!
-
-
-    private static let bottomControlsCollapsedSize: CGFloat = 88
 
     var visible: Bool {
         set {
@@ -128,6 +122,14 @@ class PostProductCameraView: BaseView, LGViewPagerPage {
         }
     }
 
+    func takePhoto() {
+        hideFirstTimeAlert()
+        guard let fastCamera = fastCamera else { return }
+
+        viewModel.takePhotoButtonPressed()
+        fastCamera.takePicture()
+    }
+
 
     // MARK: - Actions
     @IBAction func onCloseButton(sender: AnyObject) {
@@ -170,7 +172,7 @@ class PostProductCameraView: BaseView, LGViewPagerPage {
         NSBundle.mainBundle().loadNibNamed("PostProductCameraView", owner: self, options: nil)
         contentView.frame = bounds
         contentView.autoresizingMask = [.FlexibleHeight, .FlexibleWidth]
-        contentView.backgroundColor = StyleHelper.postProductTabColor
+        contentView.backgroundColor = UIColor.black
         addSubview(contentView)
 
         //We're using same image for the 4 corners, so 3 of them must be rotated to the correct angle
@@ -182,9 +184,7 @@ class PostProductCameraView: BaseView, LGViewPagerPage {
         //i18n
         retryPhotoButton.setTitle(LGLocalizedString.productPostRetake, forState: UIControlState.Normal)
         usePhotoButton.setTitle(usePhotoButtonText, forState: UIControlState.Normal)
-        usePhotoButton.setPrimaryStyle()
-        usePhotoButton.setBackgroundImage(StyleHelper.postProductDisabledPostButton
-            .imageWithSize(CGSize(width: 1, height: 1)), forState: .Disabled)
+        usePhotoButton.setStyle(.Primary(fontSize: .Medium))
 
         setupInfoView()
         setupFirstTimeAlertView()
@@ -195,18 +195,6 @@ class PostProductCameraView: BaseView, LGViewPagerPage {
     }
 
     private func adaptLayoutsToScreenSize() {
-
-        if DeviceFamily.current == .iPhone4 {
-            //Small screen mode -> collapse buttons (hiding some info) + expand camera
-            bottomControlsContainerHeight.constant = PostProductCameraView.bottomControlsCollapsedSize
-            cameraContainerViewHeight.constant = contentView.height
-        } else {
-            let expectedCameraHeight = contentView.width * (4/3) //Camera aspect ratio is 4/3
-            let bottomSpace = contentView.height - expectedCameraHeight
-            bottomControlsContainerHeight.constant = bottomSpace
-            cameraContainerViewHeight.constant = expectedCameraHeight
-        }
-
         if let fastCamera = fastCamera {
             fastCamera.view.frame = cameraContainerView.frame
         }
@@ -223,7 +211,6 @@ class PostProductCameraView: BaseView, LGViewPagerPage {
         captureModeHidden.bindTo(cornersContainer.rx_hidden).addDisposableTo(disposeBag)
         captureModeHidden.bindTo(switchCamButton.rx_hidden).addDisposableTo(disposeBag)
         captureModeHidden.bindTo(flashButton.rx_hidden).addDisposableTo(disposeBag)
-        captureModeHidden.bindTo(makePhotoButton.rx_hidden).addDisposableTo(disposeBag)
         
         viewModel.imageSelected.asObservable().bindTo(imagePreview.rx_image).addDisposableTo(disposeBag)
 
@@ -267,6 +254,7 @@ extension PostProductCameraView {
 
         fastCamera.scalesImage = false
         fastCamera.normalizesImageOrientations = true
+        fastCamera.interfaceRotatesWithOrientation = false
         fastCamera.delegate = self
         fastCamera.cameraFlashMode = viewModel.cameraFlashMode.value.fastttCameraFlash
         fastCamera.cameraDevice = viewModel.cameraSourceMode.value.fastttCameraDevice
@@ -294,7 +282,7 @@ extension PostProductCameraView {
 extension PostProductCameraView {
 
     private func setupInfoView() {
-        infoButton.setPrimaryStyle()
+        infoButton.setStyle(.Primary(fontSize: .Medium))
 
         viewModel.infoShown.asObservable().map{ !$0 }.bindTo(infoContainer.rx_hidden).addDisposableTo(disposeBag)
         viewModel.infoTitle.asObservable().bindTo(infoTitle.rx_text).addDisposableTo(disposeBag)
@@ -312,7 +300,7 @@ extension PostProductCameraView {
 
 extension PostProductCameraView{
     func setupFirstTimeAlertView() {
-        firstTimeAlert.layer.cornerRadius = StyleHelper.alertCornerRadius
+        firstTimeAlert.layer.cornerRadius = LGUIKitConstants.alertCornerRadius
         firstTimeAlertTitle.text = LGLocalizedString.productPostCameraFirstTimeAlertTitle
         firstTimeAlertSubtitle.text = LGLocalizedString.productPostCameraFirstTimeAlertSubtitle
     }
@@ -322,9 +310,9 @@ extension PostProductCameraView{
 // MARK: - FastttCameraDelegate
 
 extension PostProductCameraView: FastttCameraDelegate {
-    func cameraController(cameraController: FastttCameraInterface!, didFinishNormalizingCapturedImage
-        capturedImage: FastttCapturedImage!) {
-            viewModel.takePhotoButtonPressed(capturedImage.fullImage)
+    func cameraController(cameraController: FastttCameraInterface!,
+                          didFinishNormalizingCapturedImage capturedImage: FastttCapturedImage!) {
+        viewModel.photoTaken(capturedImage.fullImage)
     }
 }
 

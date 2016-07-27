@@ -21,8 +21,8 @@ class NotificationCell: UITableViewCell, ReusableCell {
 
     private var lines: [CALayer] = []
 
-    var primaryImageAction: (()->Void)?
-    var secondaryImageAction: (()->Void)?
+    var primaryImageAction: (() -> Void)?
+    var secondaryImageAction: (() -> Void)?
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -42,7 +42,7 @@ class NotificationCell: UITableViewCell, ReusableCell {
             line.removeFromSuperlayer()
         }
         lines = []
-        lines.append(contentView.addBottomBorderWithWidth(1, color: StyleHelper.lineColor))
+        lines.append(contentView.addBottomBorderWithWidth(1, color: UIColor.lineGray))
     }
 
 
@@ -60,18 +60,18 @@ class NotificationCell: UITableViewCell, ReusableCell {
     // MARK: - Private methods
 
     private func setupUI() {
-        secondaryImage.layer.cornerRadius = StyleHelper.defaultCornerRadius
-        secondaryImage.backgroundColor = StyleHelper.notificationCellImageBgColor
+        secondaryImage.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
+        secondaryImage.backgroundColor = UIColor.placeholderBackgroundColor()
         primaryImage.layer.cornerRadius = primaryImage.width/2
         primaryImage.clipsToBounds = true
-        titleLabel.font = StyleHelper.notificationTitleFont
-        timeLabel.font = StyleHelper.notificationTimeFont
-        actionLabel.font = StyleHelper.notificationSubtitleFont
+        titleLabel.font = UIFont.notificationTitleFont
+        timeLabel.font = UIFont.notificationTimeFont
+        actionLabel.font = UIFont.notificationSubtitleFont
 
-        titleLabel.textColor = StyleHelper.notificationTitleColor
-        actionLabel.textColor = StyleHelper.notificationSubtitleColor
-        timeLabel.textColor = StyleHelper.notificationTimeColor
-        primaryImage.backgroundColor = StyleHelper.notificationCellImageBgColor
+        titleLabel.textColor = UIColor.blackText
+        actionLabel.textColor = UIColor.darkGrayText
+        timeLabel.textColor = UIColor.darkGrayText
+        primaryImage.backgroundColor = UIColor.placeholderBackgroundColor()
         iconImage.layer.cornerRadius = iconImage.height/2
     }
 

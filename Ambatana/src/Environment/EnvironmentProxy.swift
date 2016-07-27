@@ -79,24 +79,23 @@ public class EnvironmentProxy: AppEnvironment {
         return environment.configFileName
     }
 
-    var adjustAppToken: String {
-        return environment.adjustAppToken
-    }
-
-    var adjustEnvironment: String {
-        return environment.adjustEnvironment
-    }
-
-    // Twitter
     var twitterConsumerKey: String {
         return environment.twitterConsumerKey
     }
+
     var twitterConsumerSecret: String {
         return environment.twitterConsumerSecret
     }
 
-    // Taplytics
-    var taplyticsApiKey: String {
-        return environment.taplyticsApiKey
+    var leanplumAppId: String {
+        return environment.leanplumAppId
+    }
+
+    var leanplumEnvKey: String {
+        return environment.leanplumEnvKey
+    }
+
+    var configURL: String {
+        return environment.configURL
     }
 }

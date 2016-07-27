@@ -44,7 +44,7 @@ class BlockedUserCell: UITableViewCell {
         // Redraw the lines
         lines.forEach { $0.removeFromSuperlayer() }
         lines = []
-        lines.append(contentView.addBottomBorderWithWidth(1, color: StyleHelper.lineColor))
+        lines.append(contentView.addBottomBorderWithWidth(1, color: UIColor.lineGray))
     }
 
     func setupCellWithUser(user: User, indexPath: NSIndexPath) {
@@ -68,17 +68,17 @@ class BlockedUserCell: UITableViewCell {
     private func setupUI() {
         avatarImageView.layer.cornerRadius = avatarImageView.width/2
         avatarImageView.clipsToBounds = true
-        userNameLabel.font = StyleHelper.conversationUserNameFont
-        blockedLabel.font = StyleHelper.conversationBlockedFont
+        userNameLabel.font = UIFont.bigBodyFontLight
+        blockedLabel.font = UIFont.smallBodyFontLight
 
-        userNameLabel.textColor = StyleHelper.conversationUserNameColor
-        blockedLabel.textColor = StyleHelper.conversationBlockedColor
+        userNameLabel.textColor = UIColor.blackText
+        blockedLabel.textColor = UIColor.blackText
         blockedLabel.hidden = true
         blockedIcon.hidden = true
     }
 
     private func resetUI() {
-        avatarImageView.image = UIImage(named: "no_photo")
+        avatarImageView.image = UIImage(named: "user_placeholder")
         userNameLabel.text = ""
         blockedLabel.text = LGLocalizedString.chatListBlockedUserLabel
     }
@@ -91,6 +91,6 @@ class BlockedUserCell: UITableViewCell {
             selectedBackgroundView = nil
         }
         super.setEditing(editing, animated: animated)
-        tintColor = StyleHelper.primaryColor
+        tintColor = UIColor.primaryColor
     }
 }

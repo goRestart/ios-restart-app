@@ -8,13 +8,9 @@
 
 import UIKit
 
-class ProductPostedViewController: BaseViewController, SellProductViewController, ProductPostedViewModelDelegate {
-
-    weak var delegate: SellProductViewControllerDelegate?
-
+class ProductPostedViewController: BaseViewController, ProductPostedViewModelDelegate {
     @IBOutlet weak var shareButton: UIButton!
     @IBOutlet weak var contentContainer: UIView!
-    @IBOutlet weak var mainIconImage: UIImageView!
     @IBOutlet weak var loadingIndicator: LoadingIndicator!
     @IBOutlet weak var mainTextLabel: UILabel!
     @IBOutlet weak var secondaryTextLabel: UILabel!
@@ -26,6 +22,19 @@ class ProductPostedViewController: BaseViewController, SellProductViewController
     @IBOutlet weak var editButton: UIButton!
     @IBOutlet weak var mainButtonHeight: NSLayoutConstraint!
     @IBOutlet weak var mainButton: UIButton!
+
+    // incentivize items
+    @IBOutlet weak var incentiveContainer: UIView!
+    @IBOutlet weak var incentiveLabel: UILabel!
+    @IBOutlet weak var firstImage: UIImageView!
+    @IBOutlet weak var firstNameLabel: UILabel!
+    @IBOutlet weak var firstCountLabel: UILabel!
+    @IBOutlet weak var secondImage: UIImageView!
+    @IBOutlet weak var secondNameLabel: UILabel!
+    @IBOutlet weak var secondCountLabel: UILabel!
+    @IBOutlet weak var thirdImage: UIImageView!
+    @IBOutlet weak var thirdNameLabel: UILabel!
+    @IBOutlet weak var thirdCountLabel: UILabel!
 
 
     private static let contentContainerShownHeight: CGFloat = 80
@@ -56,6 +65,11 @@ class ProductPostedViewController: BaseViewController, SellProductViewController
         super.viewDidLoad()
 
         setupView()
+    }
+
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        setStatusBarHidden(false)
     }
     
 
@@ -92,64 +106,34 @@ class ProductPostedViewController: BaseViewController, SellProductViewController
         setupStatic(correct)
     }
 
-    func productPostedViewModelDidFinishPosting(viewModel: ProductPostedViewModel, correctly: Bool) {
-        dismissViewControllerAnimated(true) { [weak self] in
-            guard let strongSelf = self else { return }
-            strongSelf.delegate?.sellProductViewController(strongSelf, didCompleteSell: correctly,
-                withPromoteProductViewModel: viewModel.promoteProductViewModel)
-        }
-    }
-
-    func productPostedViewModelDidEditPosting(viewModel: ProductPostedViewModel,
-        editViewModel: EditProductViewModel) {
-            dismissViewControllerAnimated(true) { [weak self] in
-                guard let strongSelf = self else { return }
-
-                let editVC = EditProductViewController(viewModel: editViewModel, updateDelegate: nil)
-                editVC.sellDelegate = self?.delegate
-
-                strongSelf.delegate?.sellProductViewController(strongSelf, didEditProduct: editVC)
-            }
-    }
-
-    func productPostedViewModelDidRestartPosting(viewModel: ProductPostedViewModel) {
-        dismissViewControllerAnimated(true) { [weak self] in
-            guard let strongSelf = self else { return }
-            strongSelf.delegate?.sellProductViewControllerDidTapPostAgain(strongSelf)
-        }
-    }
-
 
     // MARK: - Private methods
 
     private func setupView() {
-
-        contentContainer.layer.cornerRadius = StyleHelper.defaultCornerRadius
-        mainButton.setPrimaryStyle()
-        editButton.setSecondaryStyle()
-
+        setStatusBarHidden(true)
+        mainButton.setStyle(.Primary(fontSize: .Big))
         editOrLabel.text = LGLocalizedString.productPostConfirmationAnother.uppercase
         editButton.setTitle(LGLocalizedString.productPostConfirmationEdit, forState: UIControlState.Normal)
+        loadingIndicator.color = UIColor.primaryColor
 
-        mainIconImage.tintColor = StyleHelper.primaryColor
-        loadingIndicator.color = StyleHelper.primaryColor
+        setupIncentiviseView()
     }
 
-    private func setupStatic(correct: Bool) {
+    private func setupStatic(loadingSuccessful: Bool) {
         loadingIndicator.hidden = true
         mainTextLabel.text = viewModel.mainText
         secondaryTextLabel.text = viewModel.secondaryText
         mainButton.setTitle(viewModel.mainButtonText, forState: UIControlState.Normal)
 
-        if !correct {
+        if !loadingSuccessful {
             editContainer.hidden = true
             editContainerHeight.constant = 0
             shareButton.hidden = true
+            incentiveContainer.hidden = true
         }
     }
 
     private func setupLoading() {
-        mainIconImage.hidden = true
         mainTextLabel.alpha = 0
         mainTextLabel.text = nil
         secondaryTextLabel.alpha = 0
@@ -160,15 +144,18 @@ class ProductPostedViewController: BaseViewController, SellProductViewController
         editContainerHeight.constant = 0
         mainButtonHeight.constant = 0
         loadingIndicator.startAnimating()
+        incentiveContainer.hidden = true
     }
 
     private func finishedLoading(correct: Bool) {
         mainButton.setTitle(viewModel.mainButtonText, forState: UIControlState.Normal)
+        loadingIndicator.hidden = true
         loadingIndicator.stopAnimating(correct) { [weak self] in
             if correct {
                 self?.editContainerHeight.constant = ProductPostedViewController.contentContainerShownHeight
+                self?.incentiveContainer.hidden = false
             }
-            self?.mainButtonHeight.constant = StyleHelper.enabledButtonHeight
+            self?.mainButtonHeight.constant = LGUIKitConstants.enabledButtonHeight
             UIView.animateWithDuration(0.2,
                 animations: { [weak self] in
                     self?.mainTextLabel.text = self?.viewModel.mainText
@@ -215,5 +202,58 @@ extension ProductPostedViewController: NativeShareDelegate {
 
     func nativeShareInWhatsApp() {
         viewModel.nativeShareInWhatsApp()
+    }
+}
+
+// MARK: - Incentivise methods
+
+extension ProductPostedViewController {
+
+    func setupIncentiviseView() {
+
+        let itemPack = PostIncentiviserItem.incentiviserPack()
+
+        guard itemPack.count == 3 else {
+            incentiveContainer.hidden = true
+            return
+        }
+
+        let firstItem = itemPack[0]
+        let secondItem = itemPack[1]
+        let thirdItem = itemPack[2]
+
+        firstImage.image = firstItem.image
+        firstNameLabel.text = firstItem.name
+        firstNameLabel.textColor = UIColor.blackText
+        firstCountLabel.text = firstItem.searchCount
+        firstCountLabel.textColor = UIColor.darkGrayText
+
+        secondImage.image = secondItem.image
+        secondNameLabel.text = secondItem.name
+        secondNameLabel.textColor = UIColor.blackText
+        secondCountLabel.text = secondItem.searchCount
+        secondCountLabel.textColor = UIColor.darkGrayText
+
+        thirdImage.image = thirdItem.image
+        thirdNameLabel.text = thirdItem.name
+        thirdNameLabel.textColor = UIColor.blackText
+        thirdCountLabel.text = thirdItem.searchCount
+        thirdCountLabel.textColor = UIColor.darkGrayText
+
+        incentiveLabel.attributedText = incentiveText
+    }
+
+    var incentiveText: NSAttributedString {
+        let gotAnyTextAttributes: [String : AnyObject] = [NSForegroundColorAttributeName : UIColor.darkGrayText,
+                                                       NSFontAttributeName : UIFont.systemBoldFont(size: 15)]
+        let lookingForTextAttributes: [String : AnyObject] = [ NSForegroundColorAttributeName : UIColor.darkGrayText,
+                                                         NSFontAttributeName : UIFont.mediumBodyFont]
+        let plainText = LGLocalizedString.productPostIncentiveLookingFor(LGLocalizedString.productPostIncentiveGotAny)
+        let resultText = NSMutableAttributedString(string: plainText, attributes: lookingForTextAttributes)
+        let boldRange = NSString(string: plainText).rangeOfString(LGLocalizedString.productPostIncentiveGotAny,
+                                                                  options: .CaseInsensitiveSearch)
+        resultText.addAttributes(gotAnyTextAttributes, range: boldRange)
+
+        return resultText
     }
 }

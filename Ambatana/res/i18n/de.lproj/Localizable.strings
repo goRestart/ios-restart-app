@@ -20,6 +20,7 @@
 "categories_other" = "Sonstige";
 "categories_sports_leisure_and_games" = "Sport und Freizeit";
 "categories_title" = "Kategorien";
+"categories_unassigned" = "Nichts ausgewählt";
 "change_location_apply_button" = "Standort einstellen";
 "change_location_approximate_location_label" = "Zeige ungefähre Adresse";
 "change_location_ask_update_location_message" = "Finde Schnäppchen in deiner Nähe! Möchtest du deinen Standort aktualisieren?";
@@ -48,6 +49,8 @@
 "change_username_save_button" = "Speichern";
 "change_username_send_ok" = "Dein Name wurde erfolgreich geändert!";
 "change_username_title" = "Name ändern";
+"chat_account_deleted_w_name" = "Das Benutzerkonto von %@ wurde gelöscht";
+"chat_account_deleted_wo_name" = "Dieses Benutzerkonto wurde gelöscht";
 "chat_block_user" = "Nutzer blockieren";
 "chat_block_user_alert_block_button" = "Blockieren";
 "chat_block_user_alert_text" = "Wenn du einen Nutzer blockierst, kann dieser dich nicht mehr kontaktieren.";
@@ -61,6 +64,10 @@
 "chat_blocked_disclaimer_scammer_w_name" = "Aus Sicherheitsgründen wurden das Benutzerkonto von %@ und die dazugehörigen Nachrichten vom letgo-Team gelöscht.";
 "chat_blocked_disclaimer_scammer_wo_name" = "Aus Sicherheitsgründen wurden dieses Benutzerkonto und die dazugehörigen Nachrichten vom letgo-Team gelöscht.";
 "chat_delete_chat" = "Gespräch löschen";
+"chat_deleted_disclaimer_w_name" = "Du kannst dieses Gespräch nicht fortführen, weil das Benutzerkonto von %@ nicht mehr aktiv ist.";
+"chat_deleted_disclaimer_wo_name" = "Du kannst dieses Gespräch nicht fortführen, weil dieses Benutzerkonto nicht mehr aktiv ist.";
+"chat_list_account_deleted" = "Benutzerkonto löschen";
+"chat_list_account_deleted_username" = "Inaktiv";
 "chat_list_all_empty_title" = "(NOCH) KEINE GESPRÄCHE";
 "chat_list_all_title" = "TODOS";
 "chat_list_archive" = "Archiv";
@@ -101,6 +108,7 @@
 "chat_list_unarchive_error_one" = "Beim Rückgängigmachen der Archivierung des Gesprächs ist ein Fehler aufgetreten. Bitte versuche es erneut.";
 "chat_list_unarchive_ok_one" = "Archivierung erfolgreich rückgängig gemacht!";
 "chat_list_unblock" = "Blockierung aufheben";
+"chat_login_popup_text" = "Bitte melde dich an, um ein Gespräch zu beginnen";
 "chat_message_disclaimer_scammer" = "Sei besonders vorsichtig, wenn du Kontaktinformationen wie Telefonnummern oder E-Mail-Adressen austauschst. Betrügerische Nutzer wollen häufig außerhalb des letgo-Systems kommunizieren. Sei informiert! Drücke hier, um unsere %@ anzuschauen.";
 "chat_message_field_hint" = "Gib hier deine Nachricht ein";
 "chat_message_load_generic_error" = "Beim Abrufen deiner Gesprächsdaten ist ein Fehler aufgetreten. Versuche es bitte später noch einmal.";
@@ -114,9 +122,12 @@
 "chat_safety_tips_title" = "SICHERHEITSTIPPS";
 "chat_send_button" = "Senden";
 "chat_send_error_generic" = "Beim Senden der Nachricht ist ein Fehler aufgetreten. Versuche es bitte später noch einmal.";
+"chat_stickers_tooltip_add_stickers" = "Sticker hinzufügen";
+"chat_stickers_tooltip_new" = "NEU!";
 "chat_unblock_user" = "Blockierung aufheben";
 "chat_user_info_name" = "Hallo, ich bin %@";
 "chat_user_info_verified_with" = "Verifiziert durch: ";
+"chat_user_rating_button_title" = "Bewertung";
 "chat_verify_alert_message" = "Wir haben ein Verifikations-E-Mail an %@ geschickt";
 "chat_verify_alert_ok_button" = "Ok";
 "chat_verify_alert_resend_button" = "Erneut verschicken";
@@ -190,6 +201,7 @@
 "common_time_week_ago_label" = "vor einer Woche";
 "common_time_weeks_ago_label" = "vor %d Wochen";
 "common_user_not_available" = "Hoppla! Benutzer nicht gefunden.";
+"common_user_review_not_available" = "Oops! Review not found.";
 "common_yes" = "Ja";
 "contact_body_field_hint" = "Nachricht";
 "contact_choose_subject_dialog_title" = "Wähle einen Betreff";
@@ -343,6 +355,7 @@
 "product_chat_go_to_chat" = "Gehe zu den Gesprächen";
 "product_chat_message_sending" = "Abschicken...";
 "product_chat_with_seller_button" = "Sprich mit dem Verkäufer";
+"product_chat_with_seller_name_button" = "Kontaktiere %@";
 "product_chat_with_seller_send_ok" = "Deine Nachricht wurde verschickt!";
 "product_continue_chatting_button" = "Weiter unterhalten";
 "product_create_commercial_button" = "Create Commercial";
@@ -367,6 +380,7 @@
 "product_distance_from_you" = "von dir";
 "product_distance_more_than_from_you" = "Mehr als %@ von dir";
 "product_gallery_title" = "Fotos";
+"product_list_banner_cell_title" = "HIER KÖNNTE DEIN ANGEBOT STEHEN";
 "product_list_item_new_status_label" = "NEU";
 "product_list_item_sold_status_label" = "VERKAUFT";
 "product_list_item_time_hour_label" = "%i h";
@@ -383,6 +397,9 @@
 "product_mark_as_sold_confirm_title" = "Als verkauft markieren";
 "product_mark_as_sold_error_generic" = "Beim als verkauft Markieren ist ein Fehler aufgetreten. Bitte versuche es später noch mal.";
 "product_mark_as_sold_success_message" = "Glückwunsch, dein Produkt wurde erfolgreich als verkauft markiert!";
+"product_more_info_open_button" = "WEITERE INFOS";
+"product_more_info_tooltip_part_1" = "Drücke";
+"product_more_info_tooltip_part_2" = "%@ für weitere Infos";
 "product_negotiable_price" = "Verhandelbar";
 "product_onboarding_finger_scroll_label" = "Scrolle, mehr Bilder zu sehen";
 "product_onboarding_finger_swipe_label" = "Wische, um zum nächsten oder vorherigen Produkt zu gelangen";
@@ -418,6 +435,16 @@
 "product_post_gallery_permissions_title" = "Zugriff auf Fotos erlauben";
 "product_post_gallery_tab" = "BIBLIOTHEK";
 "product_post_generic_error" = "Beim Einstellen deines Produkts ist ein Fehler aufgetreten.";
+"product_post_incentive_bike" = "Fahrräder";
+"product_post_incentive_car" = "Autos";
+"product_post_incentive_dresser" = "Kommoden";
+"product_post_incentive_got_any" = "möchtest du welche verkaufen?";
+"product_post_incentive_looking_for" = "Leute in deiner Nähe suchen nach diesen Dingen, %@";
+"product_post_incentive_motorcycle" = "Motorräder";
+"product_post_incentive_ps4" = "PS4s";
+"product_post_incentive_subtitle" = "Dein Angebot wurde eingestellt.";
+"product_post_incentive_title" = "GRATULIERE!";
+"product_post_incentive_tv" = "Fernseher";
 "product_post_login_message" = "Bitte melde dich an, um Sachen verkaufen zu können";
 "product_post_network_error" = "Dein Produkt wurde nicht eingestellt.\nBitte überprüfe deine Netzwerkeinstellungen.";
 "product_post_price_label" = "Möchtest du einen Preis hinzufügen?";
@@ -480,6 +507,7 @@
 "profile_permissions_alert_ok" = "Aktivieren";
 "profile_permissions_alert_title" = "VERPASSE KEINE ANTWORT!";
 "profile_permissions_header_message" = "Aktiviere Mitteilungen";
+"profile_reviews_count" = "Bewertungen";
 "profile_selling_my_user_no_products_button" = "Verkaufe deine Dinge";
 "profile_selling_no_products_label" = "(NOCH) KEINE PRODUKTE";
 "profile_selling_other_user_no_products_button" = "Mehr entdecken";
@@ -507,6 +535,15 @@
 "push_notification_message_body" = "%@: %@";
 "push_notification_message_body_no_username" = "Nachricht: %@";
 "push_notification_message_title" = "Neue Nachricht - %@";
+"rating_list_action_report_review" = "Bewertung melden";
+"rating_list_action_report_review_error_message" = "Beim Abschicken deiner Nachricht ist ein Fehler aufgetreten.";
+"rating_list_action_report_review_success_message" = "Deine Nachricht wurde abgeschickt!";
+"rating_list_action_review_user" = "Nutzer bewerten";
+"rating_list_loading_error_message" = "Beim Laden der Bewertungen ist ein Fehler aufgetreten.";
+"rating_list_rating_type_buyer_text_label" = "%@ hat einen Artikel gekauft";
+"rating_list_rating_type_conversation_text_label" = "%@ hat über den Artikel gesprochen";
+"rating_list_rating_type_seller_text_label" = "%@ hat einen Artikel verkauft";
+"rating_list_title" = "Reviews";
 "rating_view_dont_ask_again_button" = "Nicht erneut fragen";
 "rating_view_love_it_label" = "Absolut!";
 "rating_view_needs_improvements_label" = "Könnte besser sein";
@@ -627,3 +664,10 @@
 "trending_searches_Title" = "Beliebte Suchbegriffe";
 "unblock_user_error_generic" = "Bei der Aufhebung der Blockierung dieses Nutzers ist ein Fehler aufgetreten.";
 "unblock_user_success_message" = "Die Blockierung des Nutzers wurde aufgehoben!";
+"user_rating_message_w_name" = "Drücke zum Bewerten auf die Sterne und erzähle uns, ob dein Handel mit %@ gut verlaufen ist. Du kannst die Bewertung nach Belieben aktualisieren.";
+"user_rating_message_wo_name" = "Drücke zum Bewerten auf die Sterne und erzähle uns, ob dein Handel mit diesem Nutzer gut verlaufen ist. Du kannst die Bewertung nach Belieben aktualisieren.";
+"user_rating_review_button" = "Bewertung veröffentlichen";
+"user_rating_review_placeholder" = "Hinterlasse eine Bewertung (Pflichtfeld)";
+"user_rating_review_placeholder_optional" = "Schreibe eine Bewertung (optional)";
+"user_rating_review_send_success" = "Deine Bewertung wurde veröffentlicht!";
+"user_rating_title" = "Bewerte deine Transaktion mit";

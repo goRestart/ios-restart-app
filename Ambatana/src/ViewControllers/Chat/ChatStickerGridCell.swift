@@ -22,4 +22,21 @@ class ChatStickerGridCell: UICollectionViewCell {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
+    override var highlighted: Bool {
+        didSet {
+            refreshState()
+        }
+    }
+
+    override var selected: Bool {
+        didSet {
+            refreshState()
+        }
+    }
+
+    private func refreshState() {
+        let highlighedState = self.highlighted || self.selected
+        contentView.alpha = highlighedState ? 0.6 : 1
+    }
 }

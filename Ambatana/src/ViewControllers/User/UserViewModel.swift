@@ -22,6 +22,7 @@ protocol UserViewModelDelegate: BaseViewModelDelegate {
     func vmOpenProduct(productVC: UIViewController)
     func vmOpenVerifyAccount(verifyVM: VerifyAccountViewModel)
     func vmOpenHome()
+    func vmOpenRatingList(ratingListVM: UserRatingListViewModel)
 }
 
 class UserViewModel: BaseViewModel {
@@ -58,6 +59,8 @@ class UserViewModel: BaseViewModel {
     let headerMode = Variable<UserViewHeaderMode>(.MyUser)
     let userAvatarPlaceholder = Variable<UIImage?>(nil)
     let userAvatarURL = Variable<NSURL?>(nil)
+    let userRatingAverage = Variable<Float?>(nil)
+    let userRatingCount = Variable<Int?>(nil)
     let userRelationText = Variable<String?>(nil)
     let userName = Variable<String?>(nil)
     let userLocation = Variable<String?>(nil)
@@ -95,6 +98,16 @@ class UserViewModel: BaseViewModel {
         self.init(sessionManager: sessionManager, myUserRepository: myUserRepository, userRepository: userRepository,
             tracker: tracker, isMyProfile: false, user: user, source: source)
     }
+    
+    convenience init(chatInterlocutor: ChatInterlocutor, source: UserSource) {
+        let sessionManager = Core.sessionManager
+        let myUserRepository = Core.myUserRepository
+        let userRepository = Core.userRepository
+        let tracker = TrackerProxy.sharedInstance
+        let user = userRepository.build(fromChatInterlocutor: chatInterlocutor)
+        self.init(sessionManager: sessionManager, myUserRepository: myUserRepository, userRepository: userRepository,
+                  tracker: tracker, isMyProfile: false, user: user, source: source)
+    }
 
     init(sessionManager: SessionManager, myUserRepository: MyUserRepository, userRepository: UserRepository,
         tracker: Tracker, isMyProfile: Bool, user: User?, source: UserSource) {
@@ -122,14 +135,17 @@ class UserViewModel: BaseViewModel {
         self.favoritesProductListViewModel.dataDelegate = self
 
         setupRxBindings()
+        setupPermissionsNotification()
+    }
+
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
     }
 
     override func didBecomeActive(firstTime: Bool) {
         super.didBecomeActive(firstTime)
 
-        if isMyProfile {
-            pushPermissionsDisabledWarning.value = !UIApplication.sharedApplication().isRegisteredForRemoteNotifications()
-        }
+        updatePermissionsWarning()
 
         if itsMe {
             resetLists()
@@ -153,6 +169,11 @@ extension UserViewModel {
     func avatarButtonPressed() {
         guard isMyProfile else { return }
         openSettings()
+    }
+
+    func ratingsButtonPressed() {
+        guard FeatureFlags.userRatings else { return }
+        openRatings()
     }
 
     func facebookButtonPressed() {
@@ -278,6 +299,12 @@ extension UserViewModel {
         delegate?.vmOpenSettings(vc)
     }
 
+    private func openRatings() {
+        guard let userId = user.value?.objectId else { return }
+        let vm = UserRatingListViewModel(userId: userId)
+        delegate?.vmOpenRatingList(vm)
+    }
+
     private func openPushPermissionsAlert() {
         let positive = UIAction(interface: .Button(LGLocalizedString.profilePermissionsAlertOk, .Default),
                         action: {
@@ -368,7 +395,6 @@ extension UserViewModel {
     }
 
     private func setupUserInfoRxBindings() {
-
         if itsMe {
             myUserRepository.rx_myUser.asObservable().bindNext { [weak self] myUser in
                 self?.user.value = myUser
@@ -380,14 +406,20 @@ extension UserViewModel {
             guard let strongSelf = self else { return }
 
             if strongSelf.isMyProfile {
-                strongSelf.backgroundColor.value = StyleHelper.defaultBackgroundColor
-                strongSelf.userAvatarPlaceholder.value = LetgoAvatar.avatarWithColor(StyleHelper.defaultAvatarColor,
+                strongSelf.backgroundColor.value = UIColor.defaultBackgroundColor
+                strongSelf.userAvatarPlaceholder.value = LetgoAvatar.avatarWithColor(UIColor.defaultAvatarColor,
                     name: user?.name)
             } else {
-                strongSelf.backgroundColor.value = StyleHelper.backgroundColorForString(user?.objectId)
+                strongSelf.backgroundColor.value = UIColor.backgroundColorForString(user?.objectId)
                 strongSelf.userAvatarPlaceholder.value = LetgoAvatar.avatarWithID(user?.objectId, name: user?.name)
             }
             strongSelf.userAvatarURL.value = user?.avatar?.fileURL
+
+            if FeatureFlags.userRatings {
+                strongSelf.userRatingAverage.value = user?.ratingAverage?.roundNearest(0.5)
+                strongSelf.userRatingCount.value = user?.ratingCount
+            }
+
             strongSelf.userName.value = user?.name
             strongSelf.userLocation.value = user?.postalAddress.cityCountryString
 
@@ -495,7 +527,7 @@ extension UserViewModel: ProductListViewModelDataDelegate {
 
         let errTitle: String?
         let errButTitle: String?
-        var errButAction: (()->Void)? = nil
+        var errButAction: (() -> Void)? = nil
         if viewModel === sellingProductListViewModel {
             errTitle = LGLocalizedString.profileSellingNoProductsLabel
             errButTitle = itsMe ? nil : LGLocalizedString.profileSellingOtherUserNoProductsButton
@@ -520,6 +552,23 @@ extension UserViewModel: ProductListViewModelDataDelegate {
         guard let productVC = ProductDetailFactory.productDetailFromProductList(viewModel, index: index,
                                                                     thumbnailImage: thumbnailImage, originFrame: originFrame) else { return }
         delegate?.vmOpenProduct(productVC)
+    }
+}
+
+
+// MARK: Push Permissions
+
+private extension UserViewModel {
+
+    func setupPermissionsNotification() {
+        guard isMyProfile else { return }
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(updatePermissionsWarning),
+                        name: PushManager.Notification.DidRegisterUserNotificationSettings.rawValue, object: nil)
+    }
+
+    dynamic func updatePermissionsWarning() {
+        guard isMyProfile else { return }
+        pushPermissionsDisabledWarning.value = !UIApplication.sharedApplication().isRegisteredForRemoteNotifications()
     }
 }
 

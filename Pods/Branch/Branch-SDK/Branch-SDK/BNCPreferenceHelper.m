@@ -10,6 +10,7 @@
 #import "BNCEncodingUtils.h"
 #import "BNCConfig.h"
 #import "Branch.h"
+#import "../Fabric/Fabric+FABKits.h"
 
 static const NSTimeInterval DEFAULT_TIMEOUT = 5.5;
 static const NSTimeInterval DEFAULT_RETRY_INTERVAL = 0;
@@ -17,7 +18,6 @@ static const NSInteger DEFAULT_RETRY_COUNT = 3;
 
 NSString * const BRANCH_PREFS_FILE = @"BNCPreferences";
 
-NSString * const BRANCH_PREFS_KEY_APP_KEY = @"bnc_app_key";
 NSString * const BRANCH_PREFS_KEY_APP_VERSION = @"bnc_app_version";
 NSString * const BRANCH_PREFS_KEY_LAST_RUN_BRANCH_KEY = @"bnc_last_run_branch_key";
 NSString * const BRANCH_PREFS_KEY_LAST_STRONG_MATCH_DATE = @"bnc_strong_match_created_date";
@@ -32,25 +32,23 @@ NSString * const BRANCH_PREFS_KEY_UNIVERSAL_LINK_URL = @"bnc_universal_link_url"
 NSString * const BRANCH_PREFS_KEY_SESSION_PARAMS = @"bnc_session_params";
 NSString * const BRANCH_PREFS_KEY_INSTALL_PARAMS = @"bnc_install_params";
 NSString * const BRANCH_PREFS_KEY_USER_URL = @"bnc_user_url";
-NSString * const BRANCH_PREFS_KEY_IS_REFERRABLE = @"bnc_is_referrable";
 NSString * const BRANCH_PREFS_KEY_BRANCH_UNIVERSAL_LINK_DOMAINS = @"branch_universal_link_domains";
 NSString * const BRANCH_REQUEST_KEY_EXTERNAL_INTENT_URI = @"external_intent_uri";
 
 NSString * const BRANCH_PREFS_KEY_CREDITS = @"bnc_credits";
 NSString * const BRANCH_PREFS_KEY_CREDIT_BASE = @"bnc_credit_base_";
 
-NSString * const BRANCH_PREFS_KEY_COUNTS = @"bnc_counts";
-NSString * const BRANCH_PREFS_KEY_TOTAL_BASE = @"bnc_total_base_";
-NSString * const BRANCH_PREFS_KEY_UNIQUE_BASE = @"bnc_unique_base_";
-
 NSString * const BRANCH_PREFS_KEY_BRANCH_VIEW_USAGE_CNT = @"bnc_branch_view_usage_cnt_";
+
+// The name of this key was specified in the account-creation API integration
+static NSString * const BNC_BRANCH_FABRIC_APP_KEY_KEY = @"branch_key";
 
 @interface BNCPreferenceHelper ()
 
 @property (strong, nonatomic) NSMutableDictionary *persistenceDict;
-@property (strong, nonatomic) NSMutableDictionary *countsDictionary;
 @property (strong, nonatomic) NSMutableDictionary *creditsDictionary;
 @property (strong, nonatomic) NSMutableDictionary *requestMetadataDictionary;
+@property (strong, nonatomic) NSMutableDictionary *instrumentationDictionary;
 @property (assign, nonatomic) BOOL isUsingLiveKey;
 
 @end
@@ -58,7 +56,6 @@ NSString * const BRANCH_PREFS_KEY_BRANCH_VIEW_USAGE_CNT = @"bnc_branch_view_usag
 @implementation BNCPreferenceHelper
 
 @synthesize branchKey = _branchKey,
-            appKey = _appKey,
             lastRunBranchKey = _lastRunBranchKey,
             appVersion = _appVersion,
             deviceFingerprintID = _deviceFingerprintID,
@@ -72,7 +69,6 @@ NSString * const BRANCH_PREFS_KEY_BRANCH_VIEW_USAGE_CNT = @"bnc_branch_view_usag
             installParams = _installParams,
             universalLinkUrl = _universalLinkUrl,
             externalIntentURI = _externalIntentURI,
-            isReferrable = _isReferrable,
             isDebug = _isDebug,
             shouldWaitForInit = _shouldWaitForInit,
             suppressWarningLogs = _suppressWarningLogs,
@@ -81,7 +77,8 @@ NSString * const BRANCH_PREFS_KEY_BRANCH_VIEW_USAGE_CNT = @"bnc_branch_view_usag
             timeout = _timeout,
             lastStrongMatchDate = _lastStrongMatchDate,
             checkedFacebookAppLinks = _checkedFacebookAppLinks,
-            requestMetadataDictionary = _requestMetadataDictionary;
+            requestMetadataDictionary = _requestMetadataDictionary,
+            instrumentationDictionary = _instrumentationDictionary;
 
 + (BNCPreferenceHelper *)preferenceHelper {
     static BNCPreferenceHelper *preferenceHelper;
@@ -102,8 +99,6 @@ NSString * const BRANCH_PREFS_KEY_BRANCH_VIEW_USAGE_CNT = @"bnc_branch_view_usag
         
         _isDebug = NO;
         _suppressWarningLogs = NO;
-        _explicitlyRequestedReferrable = NO;
-        _isReferrable = [self readBoolFromDefaults:BRANCH_PREFS_KEY_IS_REFERRABLE];
     }
     
     return self;
@@ -158,24 +153,11 @@ NSString * const BRANCH_PREFS_KEY_BRANCH_VIEW_USAGE_CNT = @"bnc_branch_view_usag
     return [[self getAPIBaseURL] stringByAppendingString:endpoint];
 }
 
+- (NSString *)getEndpointFromURL:(NSString *)url {
+    NSUInteger index = BNC_API_BASE_URL.length;
+    return [url substringFromIndex:index];
+}
 #pragma mark - Preference Storage
-
-- (NSString *)appKey {
-    if (!_appKey) {
-        _appKey = [[[NSBundle mainBundle] infoDictionary] objectForKey:BRANCH_PREFS_KEY_APP_KEY];
-    }
-    
-    return _appKey;
-}
-
-- (void)setAppKey:(NSString *)appKey {
-    NSLog(@"Usage of App Key is deprecated, please move toward using a Branch key");
-    
-    if (![_appKey isEqualToString:appKey]) {
-        _appKey = appKey;
-        [self writeObjectToDefaults:BRANCH_PREFS_KEY_APP_KEY value:appKey];
-    }
-}
 
 - (NSString *)getBranchKey:(BOOL)isLive {
     // Already loaded a key, and it's the same state (live/test)
@@ -192,6 +174,17 @@ NSString * const BRANCH_PREFS_KEY_BRANCH_VIEW_USAGE_CNT = @"bnc_branch_view_usag
         }
         else if ([ret isKindOfClass:[NSDictionary class]]) {
             self.branchKey = isLive ? ret[@"live"] : ret[@"test"];
+        }
+    } else {
+        Class fabric = NSClassFromString(@"Fabric");
+        
+        if (fabric) {
+            NSDictionary *configDictionary = [fabric configurationDictionaryForKitClass:[Branch class]];
+            ret = [configDictionary objectForKey:BNC_BRANCH_FABRIC_APP_KEY_KEY];
+            
+            if ([ret isKindOfClass:[NSString class]]) {
+                self.branchKey = ret;
+            }
         }
     }
     
@@ -433,29 +426,8 @@ NSString * const BRANCH_PREFS_KEY_BRANCH_VIEW_USAGE_CNT = @"bnc_branch_view_usag
     [self writeBoolToDefaults:BRANCH_PREFS_KEY_CHECKED_FACEBOOK_APP_LINKS value:checked];
 }
 
-- (BOOL)isReferrable {
-    BOOL hasIdentity = self.identityID != nil;
-    
-    // If referrable is set, but they already have an identity, they should only
-    // still be referrable if the dev has explicitly set always referrable.
-    if (_isReferrable && hasIdentity) {
-        return _explicitlyRequestedReferrable;
-    }
-    
-    // If not referrable, or no identity yet, whatever isReferrable has is fine to return.
-    return _isReferrable;
-}
-
-- (void)setIsReferrable:(BOOL)isReferrable {
-    if (_isReferrable != isReferrable) {
-        _isReferrable = isReferrable;
-        [self writeBoolToDefaults:BRANCH_PREFS_KEY_IS_REFERRABLE value:isReferrable];
-    }
-}
-
 - (void)clearUserCreditsAndCounts {
     self.creditsDictionary = [[NSMutableDictionary alloc] init];
-    self.countsDictionary = [[NSMutableDictionary alloc] init];
 }
 
 - (id)getBranchUniversalLinkDomains {
@@ -478,6 +450,26 @@ NSString * const BRANCH_PREFS_KEY_BRANCH_VIEW_USAGE_CNT = @"bnc_branch_view_usag
     }
     else if (value) {
         [self.requestMetadataDictionary setObject:value forKey:key];
+    }
+}
+
+- (NSMutableDictionary *)instrumentationDictionary {
+    if (!_instrumentationDictionary) {
+        _instrumentationDictionary = [NSMutableDictionary dictionary];
+    }
+    return _instrumentationDictionary;
+}
+
+- (void)addInstrumentationDictionaryKey:(NSString *)key value:(NSString *)value {
+    if (key && value) {
+        [self.instrumentationDictionary setObject:value forKey:key];
+    }
+}
+
+- (void)clearInstrumentationDictionary {
+    NSArray *keys = [_instrumentationDictionary allKeys];
+    for (int i = 0 ; i < [keys count]; i++) {
+        [_instrumentationDictionary removeObjectForKey:keys[i]];
     }
 }
 
@@ -536,38 +528,6 @@ NSString * const BRANCH_PREFS_KEY_BRANCH_VIEW_USAGE_CNT = @"bnc_branch_view_usag
 }
 
 #pragma mark - Count Storage
-
-- (NSMutableDictionary *)countsDictionary {
-    if (!_countsDictionary) {
-        _countsDictionary = [[self readObjectFromDefaults:BRANCH_PREFS_KEY_COUNTS] mutableCopy];
-        
-        if (!_countsDictionary) {
-            _countsDictionary = [[NSMutableDictionary alloc] init];
-        }
-    }
-    
-    return _countsDictionary;
-}
-
-- (void)setActionTotalCount:(NSString *)action withCount:(NSInteger)count {
-    self.countsDictionary[[BRANCH_PREFS_KEY_TOTAL_BASE stringByAppendingString:action]] = @(count);
-    
-    [self writeObjectToDefaults:BRANCH_PREFS_KEY_COUNTS value:self.countsDictionary];
-}
-
-- (void)setActionUniqueCount:(NSString *)action withCount:(NSInteger)count {
-    self.countsDictionary[[BRANCH_PREFS_KEY_UNIQUE_BASE stringByAppendingString:action]] = @(count);
-
-    [self writeObjectToDefaults:BRANCH_PREFS_KEY_COUNTS value:self.countsDictionary];
-}
-
-- (NSInteger)getActionTotalCount:(NSString *)action {
-    return [self.countsDictionary[[BRANCH_PREFS_KEY_TOTAL_BASE stringByAppendingString:action]] integerValue];
-}
-
-- (NSInteger)getActionUniqueCount:(NSString *)action {
-    return [self.countsDictionary[[BRANCH_PREFS_KEY_UNIQUE_BASE stringByAppendingString:action]] integerValue];
-}
 
 - (void)updateBranchViewCount:(NSString *)branchViewID {
     NSInteger currentCount = [self getBranchViewCount:branchViewID] + 1;

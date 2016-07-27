@@ -135,13 +135,13 @@ class EditLocationViewController: BaseViewController, EditLocationViewModelDeleg
             toItem: topLayoutGuide, attribute: .Bottom, multiplier: 1.0, constant: 8.0))
         searchField.insetX = 40
         searchField.placeholder = LGLocalizedString.changeLocationSearchFieldHint
-        searchField.layer.cornerRadius = StyleHelper.defaultCornerRadius
-        searchField.layer.borderColor = StyleHelper.lineColor.CGColor
-        searchField.layer.borderWidth = StyleHelper.onePixelSize
-        suggestionsTableView.layer.cornerRadius = StyleHelper.defaultCornerRadius
-        suggestionsTableView.layer.borderColor = StyleHelper.lineColor.CGColor
-        suggestionsTableView.layer.borderWidth = StyleHelper.onePixelSize
-        setLocationButton.setPrimaryStyle()
+        searchField.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
+        searchField.layer.borderColor = UIColor.lineGray.CGColor
+        searchField.layer.borderWidth = LGUIKitConstants.onePixelSize
+        suggestionsTableView.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
+        suggestionsTableView.layer.borderColor = UIColor.lineGray.CGColor
+        suggestionsTableView.layer.borderWidth = LGUIKitConstants.onePixelSize
+        setLocationButton.setStyle(.Primary(fontSize: .Medium))
         setLocationButton.setTitle(LGLocalizedString.changeLocationApplyButton, forState: UIControlState.Normal)
         gpsLocationButton.layer.cornerRadius = 10
         aproxLocationArea.layer.cornerRadius = aproxLocationArea.width / 2

@@ -33,70 +33,66 @@ public class PushPermissionsManager: NSObject {
     - parameter prePermissionType: what kind of alert will be shown
     */
     public func shouldShowPushPermissionsAlertFromViewController(prePermissionType: PrePermissionType) -> Bool {
-        
-            // If the user is already registered for notifications, we shouldn't ask anything.
-            guard !UIApplication.sharedApplication().isRegisteredForRemoteNotifications() else {
-                return false
-            }
-            switch (prePermissionType) {
-            case .ProductList:
-                return shouldAskForListPermissions()
-            case .Chat:
-                return shouldAskForDailyPermissions()
-            case .Sell, .Onboarding, .Profile:
-                return true
-            }
+        // If the user is already registered for notifications, we shouldn't ask anything.
+        guard !UIApplication.sharedApplication().isRegisteredForRemoteNotifications() else {
+            return false
+        }
+        switch (prePermissionType) {
+        case .ProductList:
+            return shouldAskForListPermissions()
+        case .Chat:
+            return shouldAskForDailyPermissions()
+        case .Sell, .Onboarding, .Profile:
+            return true
+        }
     }
-    
+
     public func showPushPermissionsAlert(prePermissionType type: PrePermissionType) {
-            guard shouldShowPushPermissionsAlertFromViewController(type)
-                else { return }
-            checkForSystemPushPermissions()
+        guard shouldShowPushPermissionsAlertFromViewController(type) else { return }
+        checkForSystemPushPermissions()
     }
-    
+
     public func application(application: UIApplication,
-        didRegisterUserNotificationSettings notificationSettings: UIUserNotificationSettings) {
-            guard didShowSystemPermissions else { return }
+                            didRegisterUserNotificationSettings notificationSettings: UIUserNotificationSettings) {
+        guard didShowSystemPermissions else { return }
 
-            if notificationSettings.types.contains(.Alert) ||
-                notificationSettings.types.contains(.Badge) ||
-                notificationSettings.types.contains(.Sound) {
-                    trackPermissionSystemComplete()
-            } else {
-                trackPermissionSystemCancel()
-            }
+        if notificationSettings.types.contains(.Alert) ||
+            notificationSettings.types.contains(.Badge) ||
+            notificationSettings.types.contains(.Sound) {
+            trackPermissionSystemComplete()
+        } else {
+            trackPermissionSystemCancel()
+        }
     }
-    
+
     public func showPrePermissionsViewFrom(viewController: UIViewController, type: PrePermissionType,
-        completion: (() -> ())?) {
-            guard shouldShowPushPermissionsAlertFromViewController(type) else { return }
-            
-            self.prePermissionType = type
+                                           completion: (() -> ())?) {
+        guard shouldShowPushPermissionsAlertFromViewController(type) else { return }
 
-            let keyValueStorage = KeyValueStorage.sharedInstance
+        prePermissionType = type
 
-            // if already shown system dialog, show the view to go to settings, if not, show the normal one
-            let showSettingsPrePermission = keyValueStorage[.pushPermissionsDidShowNativeAlert]
-            let pushRepeateDate = NSDate().dateByAddingTimeInterval(Constants.pushPermissionRepeatTime)
+        let keyValueStorage = KeyValueStorage.sharedInstance
 
-            switch (prePermissionType) {
-            case .ProductList:
-                keyValueStorage[.pushPermissionsDidAskAtList] = true
-            case .Chat, .Onboarding:
-                keyValueStorage[.pushPermissionsDailyDate] = pushRepeateDate
-            case .Sell:
-                keyValueStorage[.pushPermissionsDailyDate] = pushRepeateDate
-            case .Profile:
-                break
-            }
-            
-            if showSettingsPrePermission {
-                presentSettingsPrePermissionsFrom(viewController, type: type)
-            } else {
-                presentNormalPrePermissionsFrom(viewController, type: type, completion: completion)
-            }
+        // if already shown system dialog, show the view to go to settings, if not, show the normal one
+        let showSettingsPrePermission = keyValueStorage[.pushPermissionsDidShowNativeAlert]
+        let pushRepeateDate = NSDate().dateByAddingTimeInterval(Constants.pushPermissionRepeatTime)
+
+        switch prePermissionType {
+        case .ProductList:
+            keyValueStorage[.pushPermissionsDidAskAtList] = true
+        case .Chat, .Sell:
+            keyValueStorage[.pushPermissionsDailyDate] = pushRepeateDate
+        case .Profile, .Onboarding:
+            break
+        }
+
+        if showSettingsPrePermission {
+            presentSettingsPrePermissionsFrom(viewController, type: type)
+        } else {
+            presentNormalPrePermissionsFrom(viewController, type: type, completion: completion)
+        }
     }
-    
+
     private func presentNormalPrePermissionsFrom(viewController: UIViewController, type: PrePermissionType,
         completion: (() -> ())?) {
             let vm = TourNotificationsViewModel(title: type.title, subtitle: type.subtitle, pushText: type.pushMessage,
@@ -213,7 +209,7 @@ public class PushPermissionsManager: NSObject {
 
 extension PrePermissionType {
     public var title: String {
-        switch (self) {
+        switch self {
         case Onboarding:
             return LGLocalizedString.notificationsPermissions1Title
         case ProductList:
@@ -228,7 +224,7 @@ extension PrePermissionType {
     }
 
     public var subtitle: String {
-        switch (self) {
+        switch self {
         case Onboarding:
             return LGLocalizedString.notificationsPermissions1Subtitle
         case ProductList:
@@ -243,7 +239,7 @@ extension PrePermissionType {
     }
 
     public var pushMessage: String {
-        switch (self) {
+        switch self {
         case Onboarding:
             return LGLocalizedString.notificationsPermissions1Push
         case ProductList:
@@ -258,7 +254,7 @@ extension PrePermissionType {
     }
     
     public var trackingParam: EventParameterTypePage {
-        switch (self) {
+        switch self {
         case Onboarding:
             return .Install
         case ProductList:

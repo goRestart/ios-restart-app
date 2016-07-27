@@ -126,15 +126,19 @@ final class TabBarController: UITabBarController, UINavigationControllerDelegate
      - returns: Whether app rating has been shown or not
      */
     func showAppRatingViewIfNeeded(source: EventParameterRatingSource) -> Bool {
-        guard RatingManager.sharedInstance.shouldShowRating, let nav = selectedViewController
-            as? UINavigationController, let ratingView = AppRatingView.ratingView(source) else { return false}
+        guard RatingManager.sharedInstance.shouldShowRating else { return false}
+        return showAppRatingView(source)
+    }
+
+    func showAppRatingView(source: EventParameterRatingSource) -> Bool {
+        guard let nav = selectedViewController as? UINavigationController,
+            let ratingView = AppRatingView.ratingView(source) else { return false}
 
         ratingView.setupWithFrame(nav.view.frame)
         ratingView.delegate = self
         view.addSubview(ratingView)
         return true
     }
-
 
     // MARK: - UINavigationControllerDelegate
     
@@ -214,7 +218,7 @@ final class TabBarController: UITabBarController, UINavigationControllerDelegate
 
         // Customize the selected appereance
         if let imageItem = tabBarItem.selectedImage {
-            tabBarItem.image = imageItem.imageWithColor(StyleHelper.tabBarIconUnselectedColor)
+            tabBarItem.image = imageItem.imageWithColor(UIColor.tabBarIconUnselectedColor)
                 .imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
         } else {
             tabBarItem.image = UIImage()
@@ -262,11 +266,21 @@ final class TabBarController: UITabBarController, UINavigationControllerDelegate
         }.bindTo(notificationsTab.rx_badgeValue).addDisposableTo(disposeBag)
     }
 
+    
     // MARK: > Action
 
     dynamic func sellButtonPressed() {
         viewModel.sellButtonPressed()
     }
+
+    func openSellFromBannerCell(designType: String) {
+        viewModel.sellFromBannerCell(designType)
+    }
+
+    func openUserRating(source: RateUserSource, data: RateUserData) {
+        viewModel.userRating(source, data: data)
+    }
+
     
     // MARK: > UI
 
@@ -315,46 +329,6 @@ final class TabBarController: UITabBarController, UINavigationControllerDelegate
 extension TabBarController: TabBarViewModelDelegate {
     func vmSwitchToTab(tab: Tab, force: Bool) {
         switchToTab(tab, checkIfShouldSwitch: !force)
-    }
-
-    func vmShowProduct(productVC: UIViewController) {
-        guard let navBarCtl = selectedViewController as? UINavigationController else { return }
-
-        navBarCtl.pushViewController(productVC, animated: true)
-    }
-
-    func vmShowUser(userViewModel viewModel: UserViewModel) {
-        guard let navBarCtl = selectedViewController as? UINavigationController else { return }
-
-        let vc = UserViewController(viewModel: viewModel)
-        navBarCtl.pushViewController(vc, animated: true)
-    }
-
-    func vmShowChat(chatViewModel viewModel: OldChatViewModel) {
-        guard let navBarCtl = selectedViewController as? UINavigationController else { return }
-
-        let chatVC = OldChatViewController(viewModel: viewModel)
-        navBarCtl.pushViewController(chatVC, animated: true)
-    }
-
-    func vmShowResetPassword(changePasswordViewModel viewModel: ChangePasswordViewModel) {
-        let vc = ChangePasswordViewController(viewModel: viewModel)
-        let navCtl = UINavigationController(rootViewController: vc)
-        presentViewController(navCtl, animated: true, completion: nil)
-    }
-
-    func vmShowMainProducts(mainProductsViewModel viewModel: MainProductsViewModel) {
-        guard let navBarCtl = selectedViewController as? UINavigationController else { return }
-
-        let vc = MainProductsViewController(viewModel: viewModel)
-        navBarCtl.pushViewController(vc, animated: true)
-    }
-
-    func isAtRootLevel() -> Bool {
-        guard let selectedNavC = selectedViewController as? UINavigationController,
-            selectedViewController = selectedNavC.topViewController where selectedViewController.isRootViewController()
-                    else { return false }
-        return true
     }
 }
 

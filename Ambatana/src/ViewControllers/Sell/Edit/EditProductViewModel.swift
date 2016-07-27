@@ -27,7 +27,7 @@ enum ProductCreateValidationError: String, ErrorType {
             self = .Internal
         case .Network:
             self = .Network
-        case .NotFound, .Forbidden, .Unauthorized, .TooManyRequests:
+        case .NotFound, .Forbidden, .Unauthorized, .TooManyRequests, .UserNotVerified:
             self = .Internal
         }
     }
@@ -50,11 +50,6 @@ protocol EditProductViewModelDelegate : BaseViewModelDelegate {
     func vmDidFailWithError(error: ProductCreateValidationError)
     func vmFieldCheckSucceeded()
     func vmShouldOpenMapWithViewModel(locationViewModel: EditLocationViewModel)
-}
-
-protocol UpdateDetailInfoDelegate : class {
-    func updateDetailInfo(viewModel: EditProductViewModel, withSavedProduct: Product)
-    func updateDetailInfo(viewModel: EditProductViewModel, withInitialProduct: Product)
 }
 
 enum EditProductImageType {
@@ -143,22 +138,21 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
     var images: [EditProductImageType] {
         return productImages.images
     }
-    var savedProduct: Product?
+    private let initialProduct: Product
+    private var savedProduct: Product?
+    private var categories: [ProductCategory] = []
     
-    // Managers
+    // Repositories
     let myUserRepository: MyUserRepository
     let productRepository: ProductRepository
+    let categoryRepository: CategoryRepository
     let locationManager: LocationManager
+    let commercializerRepository: CommercializerRepository
     let tracker: Tracker
-
-    // Product info
-    private var initialProduct: Product
-    private var editedProduct: Product
-    weak var updateDetailDelegate : UpdateDetailInfoDelegate?
-    var promoteProductVM: PromoteProductViewModel?
 
     // Delegate
     weak var delegate: EditProductViewModelDelegate?
+    var closeCompletion: ((Product) -> Void)?
 
     // Rx
     let disposeBag = DisposeBag()
@@ -169,21 +163,26 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
     convenience init(product: Product) {
         let myUserRepository = Core.myUserRepository
         let productRepository = Core.productRepository
+        let categoryRepository = Core.categoryRepository
         let locationManager = Core.locationManager
+        let commercializerRepository = Core.commercializerRepository
         let tracker = TrackerProxy.sharedInstance
         self.init(myUserRepository: myUserRepository, productRepository: productRepository,
-                  locationManager: locationManager, tracker: tracker, product: product)
+                  categoryRepository: categoryRepository, locationManager: locationManager,
+                  commercializerRepository: commercializerRepository, tracker: tracker, product: product)
     }
     
-    init(myUserRepository: MyUserRepository, productRepository: ProductRepository, locationManager: LocationManager,
-         tracker: Tracker, product: Product) {
+    init(myUserRepository: MyUserRepository, productRepository: ProductRepository, categoryRepository: CategoryRepository,
+         locationManager: LocationManager, commercializerRepository: CommercializerRepository, tracker: Tracker,
+         product: Product) {
         self.myUserRepository = myUserRepository
         self.productRepository = productRepository
+        self.categoryRepository = categoryRepository
         self.locationManager = locationManager
+        self.commercializerRepository = commercializerRepository
         self.tracker = tracker
         
         self.initialProduct = product
-        self.editedProduct = product
 
         self.title = product.title
         
@@ -197,7 +196,7 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
             self.price = String.fromPriceDouble(price)
         }
         currency = product.currency
-        if let descr = product.descr {
+        if let descr = product.description {
             self.descr = descr
         }
 
@@ -206,7 +205,7 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
 
         self.locationInfo.value = product.postalAddress.zipCodeCityString ?? ""
 
-        category = product.category
+        self.category = product.category
 
         self.productImages = ProductImages()
         for file in product.images { productImages.append(file) }
@@ -215,8 +214,18 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
 
         super.init()
 
-        startTimer()
+        setupCategories()
         trackStart()
+    }
+
+    override func didBecomeActive(firstTime: Bool) {
+        super.didBecomeActive(firstTime)
+        startTimer()
+    }
+
+    override func didBecomeInactive() {
+        super.didBecomeInactive()
+        stopTimer()
     }
     
     
@@ -234,12 +243,20 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
         let name = title ?? ""
         let description = (descr ?? "").stringByRemovingEmoji()
         let priceAmount = (price ?? "0").toPriceDouble()
-        let currency = editedProduct.currency
+        let currency = initialProduct.currency
 
-        editedProduct = productRepository.updateProduct(editedProduct, name: name, description: description,
-                                                        price: priceAmount, currency: currency, location: location,
-                                                        postalAddress: postalAddress, category: category)
+        let editedProduct = productRepository.updateProduct(initialProduct, name: name, description: description,
+                                                            price: priceAmount, currency: currency, location: location,
+                                                            postalAddress: postalAddress, category: category)
         saveTheProduct(editedProduct, withImages: productImages)
+    }
+
+    func didClose() {
+        if let savedProduct = savedProduct {
+            closeCompletion?(savedProduct)
+        } else {
+            closeCompletion?(initialProduct)
+        }
     }
 
 
@@ -255,13 +272,14 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
 
     internal func trackStart() {
         let myUser = myUserRepository.myUser
-        let event = TrackerEvent.productEditStart(myUser, product: editedProduct)
+        let event = TrackerEvent.productEditStart(myUser, product: initialProduct)
         trackEvent(event)
     }
     
     internal func trackValidationFailedWithError(error: ProductCreateValidationError) {
         let myUser = myUserRepository.myUser
-        let event = TrackerEvent.productEditFormValidationFailed(myUser, product: editedProduct, description: error.rawValue)
+        let event = TrackerEvent.productEditFormValidationFailed(myUser, product: initialProduct,
+                                                                 description: error.rawValue)
         trackEvent(event)
     }
 
@@ -272,14 +290,13 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
     }
 
     internal func trackComplete(product: Product) {
-        self.editedProduct = product
-
         // if nothing is changed, we don't track the edition
-        guard editedFields().count > 0  else { return }
+        let editedFields = editFieldsComparedTo(product)
+        guard !editedFields.isEmpty  else { return }
 
         let myUser = myUserRepository.myUser
         let event = TrackerEvent.productEditComplete(myUser, product: product, category: category,
-                                                     editedFields: editedFields())
+                                                     editedFields: editedFields)
         trackEvent(event)
     }
 
@@ -291,24 +308,26 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
         }
     }
 
-    private func editedFields() -> [EventParameterEditedFields] {
-
-        var editedFields : [EventParameterEditedFields] = []
+    private func editFieldsComparedTo(product: Product) -> [EventParameterEditedFields] {
+        var editedFields: [EventParameterEditedFields] = []
 
         if productImages.localImages.count > 0 || initialProduct.images.count != productImages.remoteImages.count  {
             editedFields.append(.Picture)
         }
-        if initialProduct.name != editedProduct.name {
+        if (initialProduct.name ?? "") != (product.name ?? "") {
             editedFields.append(.Title)
         }
-        if initialProduct.priceString() != editedProduct.priceString() {
+        if initialProduct.priceString() != product.priceString() {
             editedFields.append(.Price)
         }
-        if initialProduct.descr != editedProduct.descr {
+        if (initialProduct.descr ?? "") != (product.descr ?? "") {
             editedFields.append(.Description)
         }
-        if initialProduct.category != editedProduct.category {
+        if initialProduct.category != product.category {
             editedFields.append(.Category)
+        }
+        if initialProduct.location != product.location {
+            editedFields.append(.Location)
         }
         if shareInFbChanged() {
             editedFields.append(.Share)
@@ -330,10 +349,6 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
         return images[index]
     }
     
-    var numberOfCategories: Int {
-        return ProductCategory.allValues().count
-    }
-    
     var categoryName: String? {
         return category?.name
     }
@@ -341,18 +356,6 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
     var descriptionCharCount: Int {
         guard let descr = descr else { return Constants.productDescriptionMaxLength }
         return Constants.productDescriptionMaxLength-descr.characters.count
-    }
-    
-    // fills action sheet
-    func categoryNameAtIndex(index: Int) -> String {
-        return ProductCategory.allValues()[index].name
-    }
-    
-    // fills category field
-    func selectCategoryAtIndex(index: Int) {
-        category = ProductCategory(rawValue: index+1) //index from 0 to N and prodCat from 1 to N+1
-        delegate?.vmDidSelectCategoryWithName(category?.name ?? "")
-        
     }
     
     func appendImage(image: UIImage) {
@@ -496,20 +499,38 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
         guard let settingsURL = NSURL(string:UIApplicationOpenSettingsURLString) else { return }
         UIApplication.sharedApplication().openURL(settingsURL)
     }
+}
 
-    // MARK: - Update info of previous VC
 
-    func updateInfoOfPreviousVCWithProduct(savedProduct: Product) {
-        updateDetailDelegate?.updateDetailInfo(self, withSavedProduct: savedProduct)
+// MARK: - Categories
+
+extension EditProductViewModel {
+
+    var numberOfCategories: Int {
+        return categories.count
     }
 
-    func notifyPreviousVCEditCompleted() {
-        updateDetailDelegate?.updateDetailInfo(self, withInitialProduct: initialProduct)
+    func categoryNameAtIndex(index: Int) -> String {
+        guard 0..<categories.count ~= index else { return "" }
+        return categories[index].name
+    }
+
+    func selectCategoryAtIndex(index: Int) {
+        guard 0..<categories.count ~= index else { return }
+        category = categories[index]
+        delegate?.vmDidSelectCategoryWithName(category?.name ?? "")
+    }
+
+    private func setupCategories() {
+        categoryRepository.index(filterVisible: true) { [weak self] result in
+            guard let categories = result.value else { return }
+            self?.categories = categories
+        }
     }
 }
 
 
-// MARK: EditLocationDelegate
+// MARK: - EditLocationDelegate
 
 extension EditProductViewModel {
     func editLocationDidSelectPlace(place: Place) {
@@ -520,8 +541,7 @@ extension EditProductViewModel {
 }
 
 
-// MARK: Cloudsight in real time
-
+// MARK: - Cloudsight in real time
 
 extension EditProductViewModel {
     dynamic func getAutoGeneratedTitle() {

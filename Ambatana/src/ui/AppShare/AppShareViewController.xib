@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AppShareViewController" customModule="LetGo" customModuleProvider="target">
@@ -33,7 +33,6 @@
             <subviews>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gi0-9f-QTK" userLabel="backgroundButton">
                     <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                    <animations/>
                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="calibratedRGB"/>
                     <connections>
                         <action selector="onClose:" destination="-1" eventType="touchUpInside" id="0fM-ML-Ucz"/>
@@ -44,7 +43,6 @@
                     <subviews>
                         <imageView userInteractionEnabled="NO" contentMode="bottom" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_dialog_share" translatesAutoresizingMaskIntoConstraints="NO" id="SRs-kw-rCB">
                             <rect key="frame" x="0.0" y="0.0" width="270" height="136"/>
-                            <animations/>
                             <color key="backgroundColor" red="0.96862745098039216" green="0.95294117647058818" blue="0.95294117647058818" alpha="1" colorSpace="calibratedRGB"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="136" id="QFZ-Q7-0Wk"/>
@@ -52,7 +50,6 @@
                         </imageView>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QdV-5u-Wfi" userLabel="closeButton">
                             <rect key="frame" x="0.0" y="0.0" width="56" height="56"/>
-                            <animations/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="56" id="KAP-VS-Bve"/>
                                 <constraint firstAttribute="width" constant="56" id="KCP-ph-idB"/>
@@ -64,21 +61,18 @@
                         </button>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_Share the love" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4dL-Vh-zEi">
                             <rect key="frame" x="16" y="152" width="238" height="24"/>
-                            <animations/>
                             <fontDescription key="fontDescription" type="system" pointSize="20"/>
                             <color key="textColor" red="0.29019607843137252" green="0.29019607843137252" blue="0.29019607843137252" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_Share letgo with your friends and help us grow our community!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="r4F-5Z-OMj">
                             <rect key="frame" x="16" y="182" width="238" height="34"/>
-                            <animations/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <color key="textColor" red="0.45882352941176469" green="0.45882352941176469" blue="0.45882352941176469" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <button clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ULX-ER-Ysf" userLabel="MessengerInviteBtn">
                             <rect key="frame" x="16" y="244" width="238" height="44"/>
-                            <animations/>
                             <color key="backgroundColor" red="0.0" green="0.51764705882352935" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="44" id="0sb-nO-HAT"/>
@@ -94,11 +88,9 @@
                         </button>
                         <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_share_fbmessenger" translatesAutoresizingMaskIntoConstraints="NO" id="2sh-MF-fIP" userLabel="MessengerInviteIcon">
                             <rect key="frame" x="27" y="255" width="22" height="23"/>
-                            <animations/>
                         </imageView>
                         <button clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wu7-vj-7Uq" userLabel="WhatsappInviteBtn">
                             <rect key="frame" x="16" y="296" width="238" height="44"/>
-                            <animations/>
                             <color key="backgroundColor" red="0.36078431372549019" green="0.74509803921568629" blue="0.29019607843137252" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="44" id="Qm0-G1-Uab"/>
@@ -114,11 +106,9 @@
                         </button>
                         <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_share_whatsapp" translatesAutoresizingMaskIntoConstraints="NO" id="7u7-s2-J0t" userLabel="WhatsappInviteIcon">
                             <rect key="frame" x="27" y="308" width="20" height="20"/>
-                            <animations/>
                         </imageView>
                         <button clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zlF-Os-mMu" userLabel="EmailInviteBtn">
                             <rect key="frame" x="16" y="348" width="238" height="44"/>
-                            <animations/>
                             <color key="backgroundColor" red="0.59999999999999998" green="0.5725490196078431" blue="0.57647058823529407" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="44" id="kac-sW-e0g"/>
@@ -134,11 +124,9 @@
                         </button>
                         <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_share_email" translatesAutoresizingMaskIntoConstraints="NO" id="Alz-ma-eX6" userLabel="EmailInviteIcon">
                             <rect key="frame" x="27" y="362" width="22" height="16"/>
-                            <animations/>
                         </imageView>
                         <button clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fde-88-fNS" userLabel="DontAskAgainBtn">
                             <rect key="frame" x="16" y="396" width="238" height="44"/>
-                            <animations/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             <constraints>
                                 <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="44" id="Irs-ay-vuX"/>
@@ -153,7 +141,6 @@
                             </connections>
                         </button>
                     </subviews>
-                    <animations/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstItem="4dL-Vh-zEi" firstAttribute="leading" secondItem="nfv-Fs-8Sb" secondAttribute="leading" constant="16" id="27s-Ju-LgV"/>
@@ -190,7 +177,6 @@
                     </constraints>
                 </view>
             </subviews>
-            <animations/>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstAttribute="bottom" secondItem="gi0-9f-QTK" secondAttribute="bottom" id="7XI-rc-cZ9"/>

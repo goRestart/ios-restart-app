@@ -12,7 +12,7 @@ class ChatOtherInfoCellDrawer: BaseChatCellDrawer<ChatOtherInfoCell> {
         switch message.type {
         case let .UserInfo(name, address, facebook, google, email):
             cell.nameLabel.text = name
-            cell.locationLabel.text = address
+            cell.setupLocation(address)
             cell.setupVerifiedInfo(facebook: facebook, google: google, email: email)
         default:
             break

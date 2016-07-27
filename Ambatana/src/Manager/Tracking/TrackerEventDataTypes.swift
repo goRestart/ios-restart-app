@@ -19,7 +19,9 @@ public enum EventName: String {
     case SignupEmail                        = "signup-email"
     case Logout                             = "logout"
     
-    case LoginError                         = "login-error"
+    case LoginEmailError                    = "login-error"
+    case LoginFBError                       = "login-signup-error-facebook"
+    case LoginGoogleError                   = "login-signup-error-google"
     case SignupError                        = "signup-error"
     case PasswordResetError                 = "password-reset-error"
 
@@ -39,9 +41,9 @@ public enum EventName: String {
     case ProductShareCancel                 = "product-detail-share-cancel"
     case ProductShareComplete               = "product-detail-share-complete"
     
-    case ProductOffer                       = "product-detail-offer"
     case ProductAskQuestion                 = "product-detail-ask-question"
     case ProductContinueChatting            = "product-detail-continue-chatting"
+    case ProductChatButton                  = "product-detail-chat-button"
     case ProductMarkAsSold                  = "product-detail-sold"
     case ProductMarkAsUnsold                = "product-detail-unsold"
     
@@ -114,6 +116,9 @@ public enum EventName: String {
     case CommercializerShareStart           = "commercializer-share-start"
     case CommercializerShareComplete        = "commercializer-share-complete"
 
+    case UserRatingStart                    = "user-rating-start"
+    case UserRatingComplete                 = "user-rating-complete"
+
 
     // Constants
     private static let eventNameDummyPrefix  = "dummy-"
@@ -150,7 +155,6 @@ public enum EventParameterName: String {
     case ProductPrice         = "product-price"
     case ProductCurrency      = "product-currency"
     case ProductType          = "item-type"             // real (1) / dummy (0).
-    case ProductOfferAmount   = "amount-offer"
     case UserToId             = "user-to-id"
     case UserEmail            = "user-email"
     case UserCity             = "user-city"
@@ -172,6 +176,7 @@ public enum EventParameterName: String {
     case FilterDistanceUnit   = "distance-unit"
     case FilterSortBy         = "sort-by"
     case ErrorDescription     = "error-description"
+    case ErrorDetails         = "error-details"
     case PermissionType       = "permission-type"
     case TypePage             = "type-page"
     case AlertType            = "alert-type"
@@ -187,6 +192,10 @@ public enum EventParameterName: String {
     case UserAction           = "user-action"
     case AppRatingSource      = "app-rating-source"
     case MessageType          = "message-type"
+    case DesignType           = "design-type"
+    case RatingStars          = "rating-stars"
+    case RatingComments       = "rating-comments"
+    case SellerUserRating     = "seller-user-rating"
 }
 
 public enum EventParameterLoginSourceValue: String {
@@ -194,9 +203,7 @@ public enum EventParameterLoginSourceValue: String {
     case Chats = "messages"
     case Profile = "view-profile"
     case Notifications = "notifications"
-    
     case Favourite = "favourite"
-    case MakeOffer = "offer"
     case MarkAsSold = "mark-as-sold"
     case MarkAsUnsold = "mark-as-unsold"
     case AskQuestion = "question"
@@ -274,10 +281,10 @@ public enum EventParameterMessageType: String {
     case Sticker    = "sticker"
 }
 
-public enum EventParameterLoginError: String {
+public enum EventParameterLoginError {
     
     case Network
-    case Internal
+    case Internal(description: String)
     case Unauthorized
     case NotFound
     case Forbidden
@@ -291,10 +298,10 @@ public enum EventParameterLoginError: String {
     case UsernameTaken
     case TermsNotAccepted
     case TooManyRequests
-
+    case Scammer
 
     public var description: String {
-        switch (self) {
+        switch self {
         case .Network:
             return "Network"
         case .Internal:
@@ -325,6 +332,20 @@ public enum EventParameterLoginError: String {
             return "TermsNotAccepted"
         case .TooManyRequests:
             return "TooManyRequests"
+        case .Scammer:
+            return "Scammer"
+        }
+
+    }
+
+    public var details: String? {
+        switch self {
+        case let .Internal(description):
+            return description
+        case .Network, .Unauthorized, .NotFound, .Forbidden, .InvalidEmail, .NonExistingEmail, .InvalidPassword,
+             .InvalidUsername, .UserNotFoundOrWrongPassword, .EmailTaken, .PasswordMismatch, .UsernameTaken,
+             .TermsNotAccepted, .TooManyRequests, .Scammer:
+            return nil
         }
     }
 }
@@ -340,6 +361,7 @@ public enum EventParameterEditedFields: String {
     case Price
     case Description
     case Category
+    case Location
     case Share
 
     public var value: String {
@@ -365,6 +387,8 @@ public enum EventParameterTypePage: String {
     case External = "external"
     case Notifications = "notifications"
     case OpenApp = "open-app"
+    case IncentivizePosting = "incentivize-posting"
+    case UserRatingList = "user-rating-list"
 }
 
 public enum EventParameterPermissionType: String {
@@ -452,14 +476,10 @@ public struct EventParameters {
     }
     
     internal mutating func addProductParams(product: Product) {
-        if let productId = product.objectId {
-            params[.ProductId] = productId
-        }
+        params[.ProductId] = product.objectId
         params[.ProductLatitude] = product.location.latitude
         params[.ProductLongitude] = product.location.longitude
-        if let productPrice = product.price {
-            params[.ProductPrice] = productPrice
-        }
+        params[.ProductPrice] = product.price
         params[.ProductCurrency] = product.currency.code
         params[.CategoryId] = product.category.rawValue
         params[.ProductType] = product.user.isDummy ?
@@ -470,14 +490,12 @@ public struct EventParameters {
     internal mutating func addChatProductParams(product: ChatProduct) {
         params[.ProductId] = product.objectId
         params[.ProductPrice] = product.price
-        params[.ProductCurrency] = product.currency
+        params[.ProductCurrency] = product.currency.code
         params[.ProductType] = EventParameterProductItemType.Real.rawValue
     }
     
     internal mutating func addUserParams(user: User?) {
-        if let userToId = user?.objectId {
-            params[.UserToId] = userToId
-        }
+        params[.UserToId] = user?.objectId
     }
 
     internal subscript(paramName: EventParameterName) -> AnyObject? {

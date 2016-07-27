@@ -32,7 +32,11 @@ final class MockUser: MockBaseModel, MyUser {
     
     var location: LGLocation?
     var accounts: [Account]?
+    var status: UserStatus
     var name: String?
+    
+    var ratingAverage: Float?
+    var ratingCount: Int?
     
     // Lifecycle
     
@@ -45,6 +49,7 @@ final class MockUser: MockBaseModel, MyUser {
         self.didLogInByFacebook = false
         self.location = nil
         self.accounts = [MockAccount(provider: .Email, verified: true)]
+        self.status = .Active
         super.init()
     }
     
@@ -58,5 +63,6 @@ final class MockUser: MockBaseModel, MyUser {
         self.email = email
         self.location = location
         self.accounts = accounts
+        self.status = .Active
     }
 }

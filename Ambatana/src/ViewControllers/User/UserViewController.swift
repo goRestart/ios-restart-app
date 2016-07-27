@@ -23,7 +23,7 @@ class UserViewController: BaseViewController {
     private static let headerCollapsedBottom: CGFloat = -(20+44+UserViewController.headerCollapsedHeight) // 20 status bar + 44 fake nav bar + 44 header buttons
     private static let headerCollapsedHeight: CGFloat = 44
 
-    private static let expandedPercentageUserInfoSwitch: CGFloat = 0.75
+    private static let expandedPercentageUserInfoSwitch: CGFloat = 0.85
     private static let expandedPercentageUserInfoDisappear: CGFloat = 1.2
 
     private static let userBgTintViewHeaderExpandedAlpha: CGFloat = 0.54
@@ -33,6 +33,9 @@ class UserViewController: BaseViewController {
     private static let userEffectViewHeaderExpandedAlpha: CGFloat = 1.0
     private static let userEffectViewHeaderCollapsedAlpha: CGFloat = 1.0
 
+    private static let ratingAverageContainerHeightVisible: CGFloat = 30
+
+
     private var navBarUserView: UserView?
     private var navBarUserViewAlphaOnDisappear: CGFloat = 0.0
 
@@ -40,18 +43,20 @@ class UserViewController: BaseViewController {
     @IBOutlet weak var userBgView: UIView!
     @IBOutlet weak var userBgEffectView: UIVisualEffectView!
 
-    @IBOutlet weak var headerContainerView: UIView!
+    @IBOutlet weak var headerContainer: UserViewHeaderContainer!
     @IBOutlet weak var headerContainerBottom: NSLayoutConstraint!
-    @IBOutlet weak var headerContainerViewHeight: NSLayoutConstraint!
-
-    private var header: UserViewHeader?
+    @IBOutlet weak var headerContainerHeight: NSLayoutConstraint!
     private let headerGestureRecognizer: UIPanGestureRecognizer
     private let headerRecognizerDragging = Variable<Bool>(false)
+    
     @IBOutlet weak var productListViewBackgroundView: UIView!
     @IBOutlet weak var productListView: ProductListView!
 
     @IBOutlet weak var userLabelsContainer: UIView!
     @IBOutlet weak var userNameLabel: UILabel!
+    @IBOutlet weak var averageRatingContainerViewHeight: NSLayoutConstraint!
+    @IBOutlet weak var averageRatingView: UIView!
+    @IBOutlet var averageRatingImageViews: [UIImageView]!
     @IBOutlet weak var userLocationLabel: UILabel!
     @IBOutlet weak var userBgImageView: UIImageView!
     @IBOutlet weak var userBgTintView: UIView!
@@ -66,21 +71,20 @@ class UserViewController: BaseViewController {
 
     // MARK: - Lifecycle
 
-    init(viewModel: UserViewModel) {
+    init(viewModel: UserViewModel, hidesBottomBarWhenPushed: Bool = false) {
         let size = CGSize(width: CGFloat.max, height: UserViewController.navBarUserViewHeight)
         self.navBarUserView = UserView.userView(.CompactBorder(size: size))
-        self.header = UserViewHeader.userViewHeader()
         self.headerGestureRecognizer = UIPanGestureRecognizer()
         self.viewModel = viewModel
-        self.cellDrawer = ProductCellDrawerFactory.drawerForProduct(true)
+        self.cellDrawer = ProductCellDrawer()
         self.disposeBag = DisposeBag()
         super.init(viewModel: viewModel, nibName: "UserViewController", statusBarStyle: .LightContent,
                    navBarBackgroundStyle: .Transparent)
 
-        viewModel.delegate = self
-        hidesBottomBarWhenPushed = false
-        automaticallyAdjustsScrollViewInsets = false
-        hasTabBar = viewModel.isMyProfile
+        self.viewModel.delegate = self
+        self.hidesBottomBarWhenPushed = hidesBottomBarWhenPushed
+        self.automaticallyAdjustsScrollViewInsets = false
+        self.hasTabBar = viewModel.isMyProfile
     }
 
     required init?(coder: NSCoder) {
@@ -172,6 +176,11 @@ extension UserViewController: UserViewModelDelegate {
         guard let tabBarCtl = tabBarController as? TabBarController else { return }
         tabBarCtl.switchToTab(.Home)
     }
+
+    func vmOpenRatingList(ratingListVM: UserRatingListViewModel) {
+        let vc = UserRatingListViewController(viewModel: ratingListVM)
+        navigationController?.pushViewController(vc, animated: true)
+    }
 }
 
 
@@ -180,6 +189,10 @@ extension UserViewController: UserViewModelDelegate {
 extension UserViewController : UserViewHeaderDelegate {
     func headerAvatarAction() {
         viewModel.avatarButtonPressed()
+    }
+
+    func ratingsAvatarAction() {
+        viewModel.ratingsButtonPressed()
     }
 
     func facebookAccountAction() {
@@ -193,6 +206,7 @@ extension UserViewController : UserViewHeaderDelegate {
     func emailAccountAction() {
         viewModel.emailButtonPressed()
     }
+
 }
 
 
@@ -213,24 +227,10 @@ extension UserViewController {
     }
 
     private func setupHeader() {
-        guard let header = header else { return }
-        header.delegate = self
-        header.translatesAutoresizingMaskIntoConstraints = false
-        headerContainerView.addSubview(header)
-
         headerGestureRecognizer.addTarget(self, action: #selector(handleHeaderPan))
         view.addGestureRecognizer(headerGestureRecognizer)
 
-        let views = ["header": header]
-        let hConstraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|-0-[header]-0-|",
-            options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: views)
-        view.addConstraints(hConstraints)
-        let vConstraints = NSLayoutConstraint.constraintsWithVisualFormat("V:|-0-[header]-0-|",
-            options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: views)
-        view.addConstraints(vConstraints)
-
-        headerContainerBottom.constant = UserViewController.headerExpandedBottom
-        headerContainerViewHeight.constant = UserViewController.headerExpandedHeight
+        headerContainer.headerDelegate = self
     }
 
     private func setupNavigationBar() {
@@ -246,7 +246,7 @@ extension UserViewController {
 
     private func setupProductListView() {
         productListView.headerDelegate = self
-        productListViewBackgroundView.backgroundColor = StyleHelper.userProductListBgColor
+        productListViewBackgroundView.backgroundColor = UIColor.listBackgroundColor
 
         // Remove pull to refresh
         productListView.refreshControl?.removeFromSuperview()
@@ -263,9 +263,37 @@ extension UserViewController {
         productListView.scrollDelegate = self
     }
 
+    func setupRatingAverage(ratingAverage: Float?) {
+        let rating = ratingAverage ?? 0
+        if rating > 0 {
+            averageRatingContainerViewHeight.constant = UserViewController.ratingAverageContainerHeightVisible
+
+            let full = UIImage(named: "ic_star_avg_full")
+            let half = UIImage(named: "ic_star_avg_half")
+            let empty = UIImage(named: "ic_star_avg_empty")
+            averageRatingImageViews.forEach { imageView in
+                let tag = Float(imageView.tag)
+                let diff = tag - rating
+
+                if diff <= 0 {
+                    imageView.image = full
+                } else if diff <= 0.5 {
+                    imageView.image = half
+                } else {
+                    imageView.image = empty
+                }
+            }
+        } else {
+            averageRatingContainerViewHeight.constant = 0
+        }
+    }
+
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         productListView.minimumContentHeight = productListView.collectionView.frame.height - UserViewController.headerCollapsedHeight - bottomInset
+
+        let height = averageRatingView.bounds.height
+        averageRatingView.layer.cornerRadius = height / 2
     }
 
     private func scrollDidChange(contentOffsetInsetY: CGFloat) {
@@ -278,7 +306,7 @@ extension UserViewController {
         let percentage = min(1, abs(bottom - maxBottom) / abs(maxBottom - minBottom))
 
         let height = UserViewController.headerCollapsedHeight + percentage * (UserViewController.headerExpandedHeight - UserViewController.headerCollapsedHeight)
-        headerContainerViewHeight.constant = height
+        headerContainerHeight.constant = height
 
         // header expands more than 100% to hide the avatar when pulling
         let headerPercentage = abs(bottom - maxBottom) / abs(maxBottom - minBottom)
@@ -408,26 +436,35 @@ extension UserViewController {
         Observable.combineLatest(viewModel.userAvatarURL.asObservable(),
             viewModel.userAvatarPlaceholder.asObservable()) { ($0, $1) }
             .subscribeNext { [weak self] (avatar, placeholder) in
-                self?.header?.setAvatar(avatar, placeholderImage: placeholder)
+                self?.headerContainer.header?.setAvatar(avatar, placeholderImage: placeholder)
         }.addDisposableTo(disposeBag)
 
         viewModel.backgroundColor.asObservable().subscribeNext { [weak self] bgColor in
-            self?.header?.selectedColor = bgColor
+            self?.headerContainer.header?.selectedColor = bgColor
+        }.addDisposableTo(disposeBag)
+
+        // Ratings
+        viewModel.userRatingAverage.asObservable().subscribeNext { [weak self] userRatingAverage in
+            self?.setupRatingAverage(userRatingAverage)
+        }.addDisposableTo(disposeBag)
+
+        viewModel.userRatingCount.asObservable().subscribeNext { [weak self] userRatingCount in
+            self?.headerContainer.header?.setRatingCount(userRatingCount)
         }.addDisposableTo(disposeBag)
 
         // User relation
         viewModel.userRelationText.asObservable().subscribeNext { [weak self] userRelationText in
-            self?.header?.setUserRelationText(userRelationText)
+            self?.headerContainer.header?.setUserRelationText(userRelationText)
         }.addDisposableTo(disposeBag)
 
         // Accounts
         viewModel.userAccounts.asObservable().subscribeNext { [weak self] accounts in
-            self?.header?.accounts = accounts
+            self?.headerContainer.header?.accounts = accounts
         }.addDisposableTo(disposeBag)
 
         // Header mode
         viewModel.headerMode.asObservable().subscribeNext { [weak self] mode in
-            self?.header?.mode = mode
+            self?.headerContainer.header?.mode = mode
         }.addDisposableTo(disposeBag)
 
         // Header collapse notify percentage
@@ -452,7 +489,7 @@ extension UserViewController {
         // Header collapse switch
         headerExpandedPercentage.asObservable().map { $0 <= UserViewController.expandedPercentageUserInfoSwitch }
             .distinctUntilChanged().subscribeNext { [weak self] collapsed in
-                self?.header?.collapsed = collapsed
+                self?.headerContainer.header?.collapsed = collapsed
 
                 UIView.animateWithDuration(0.2, delay: 0, options: [.CurveEaseIn, .BeginFromCurrentState], animations: {
                     let topAlpha: CGFloat = collapsed ? 1 : 0
@@ -465,7 +502,7 @@ extension UserViewController {
         // Header disappear
         headerExpandedPercentage.asObservable().map { $0 >= UserViewController.expandedPercentageUserInfoDisappear }
             .distinctUntilChanged().subscribeNext { [weak self] hidden in
-                self?.header?.collapsed = hidden
+                self?.headerContainer.header?.collapsed = hidden
 
                 UIView.animateWithDuration(0.2, delay: 0, options: [.CurveEaseIn, .BeginFromCurrentState], animations: {
                     self?.userLabelsContainer.alpha = hidden ? 0 : 1
@@ -490,7 +527,7 @@ extension UserViewController {
             .addDisposableTo(disposeBag)
 
         // Tab switch
-        header?.tab.asObservable().bindTo(viewModel.tab).addDisposableTo(disposeBag)
+        headerContainer.header?.tab.asObservable().bindTo(viewModel.tab).addDisposableTo(disposeBag)
     }
 
     private func setupProductListViewRxBindings() {

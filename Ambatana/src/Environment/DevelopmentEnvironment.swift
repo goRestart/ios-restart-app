@@ -6,38 +6,36 @@
 //  Copyright (c) 2015 Ambatana. All rights reserved.
 //
 
-import Adjust
-
 class DevelopmentEnvironment: AppEnvironment {
     // General
-    var appleAppId: String { get { return "986339882" } }
-    var facebookAppId: String { get { return "924384130976182" } }
+    let appleAppId = "986339882"
+    let facebookAppId = "924384130976182"
     
     // Tracking
-    var appsFlyerAPIKey: String { get { return "5EKnCjmwmNKjE2e7gYBo6T" } }
-    var amplitudeAPIKey: String { get { return "1c32ba5ed444237608436bad4f310307" } }
-    var gcPrimaryTrackingId: String { get { return "947998763" } }
-    var gcSecondaryTrackingId: String { get { return "952362970" } }
+    let appsFlyerAPIKey = "5EKnCjmwmNKjE2e7gYBo6T"
+    let amplitudeAPIKey = "1c32ba5ed444237608436bad4f310307"
+    let gcPrimaryTrackingId = "947998763"
+    let gcSecondaryTrackingId = "952362970"
     
-    var kahunaAPIKey: String { get { return "9188e3c6b7cf47acb94a10ab027a08f3" } }
+    let kahunaAPIKey = "9188e3c6b7cf47acb94a10ab027a08f3"
     
     // App indexing
-    var googleAppIndexingId: UInt { get { return 986339882} }
+    let googleAppIndexingId: UInt = 986339882
 
     // Google login
-    var googleServerClientID: String { return "914431496661-7s28hvdioe432kpco4lvh53frmkqlllv.apps.googleusercontent.com" }
+    let googleServerClientID = "914431496661-7s28hvdioe432kpco4lvh53frmkqlllv.apps.googleusercontent.com"
 
     // Config
-    var configFileName: String { get { return "ios-devel" } }
+    let configFileName = "ios-devel"
     
-    // Adjust
-    var adjustAppToken: String { get { return "ddy5ww1scx6o" } }
-    var adjustEnvironment: String { get { return ADJEnvironmentSandbox } }
-
     // Twitter
-    var twitterConsumerKey: String { get { return "krEbU50JQnxY9WkNp6zevuOpK" } }
-    var twitterConsumerSecret: String { get { return "QftWuBwJMb0UrfvGOErcIS6Oyf7d6RGn60HfN4DRLjgt7XmTgI" } }
+    let twitterConsumerKey = "krEbU50JQnxY9WkNp6zevuOpK"
+    let twitterConsumerSecret = "QftWuBwJMb0UrfvGOErcIS6Oyf7d6RGn60HfN4DRLjgt7XmTgI"
 
-    // Taplytics
-    var taplyticsApiKey: String { get { return "c864eea9a7d5bc68df7c85345f1d9ed1eb2602c3" } }
+    // Leanplum
+    let leanplumAppId = "app_gYgnjLc98J3vIVHbmdD9W0Qwvy0A3KHMdo4PKd0zJD4"
+    let leanplumEnvKey = "dev_4pEk10FFVnVlZLhlVAmV2yrM1M7huTZgLQMntH61dyk"
+
+    // Config
+    var configURL = "https://letgo-images-devel.s3.amazonaws.com/config/ios.json"
 }

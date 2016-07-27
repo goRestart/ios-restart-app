@@ -71,7 +71,11 @@ class ProductCarouselCell: UICollectionViewCell {
     func configureCellWithProduct(product: Product, placeholderImage: UIImage?, indexPath: NSIndexPath) {
         self.tag = indexPath.hash
         self.product = product
+
         self.placeholderImage = placeholderImage
+        if let firstImageUrl = product.images.first?.fileURL where placeholderImage == nil {
+            self.placeholderImage = ImageDownloader.sharedInstance.cachedImageForUrl(firstImageUrl)
+        }
         collectionView.reloadData()
         let indexPath = NSIndexPath(forItem: startIndex(), inSection: 0)
         collectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: .Bottom, animated: false)
@@ -122,7 +126,7 @@ extension ProductCarouselCell: UICollectionViewDelegate, UICollectionViewDataSou
                     imageCell.setImage(value.image)
                 }
             }
-            
+            imageCell.backgroundColor = UIColor.placeholderBackgroundColor(product?.objectId)
             imageCell.zoomLevel.subscribeNext { [weak self] level in
                 self?.delegate?.didChangeZoomLevel(level)
             }.addDisposableTo(disposeBag)

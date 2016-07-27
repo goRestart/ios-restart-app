@@ -16,6 +16,11 @@ import LGCoreKit
 import RxSwift
 import TwitterKit
 import UIKit
+#if DEBUG
+    import AdSupport
+#endif
+import Leanplum
+import Firebase
 
 
 @UIApplicationMain
@@ -54,10 +59,7 @@ extension AppDelegate: UIApplicationDelegate {
         setupLibraries(application, launchOptions: launchOptions)
         setupRxBindings()
 
-        let configFileName = EnvironmentProxy.sharedInstance.configFileName
-        let dao = LGConfigDAO(bundle: NSBundle.mainBundle(), configFileName: configFileName)
-        let configManager = ConfigManager(dao: dao)
-        self.configManager = configManager
+        self.configManager = ConfigManager.sharedInstance
 
         let keyValueStorage = KeyValueStorage.sharedInstance
         let versionChecker = VersionChecker.sharedInstance
@@ -74,7 +76,7 @@ extension AppDelegate: UIApplicationDelegate {
 
         let tabBarViewModel = TabBarViewModel()
         let tabBarController = TabBarController(viewModel: tabBarViewModel)
-        let appCoordinator = AppCoordinator(tabBarController: tabBarController, configManager: configManager)
+        let appCoordinator = AppCoordinator(tabBarController: tabBarController, configManager: ConfigManager.sharedInstance)
         appCoordinator.delegate = self
         tabBarViewModel.navigator = appCoordinator
 
@@ -97,7 +99,7 @@ extension AppDelegate: UIApplicationDelegate {
 
     func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?,
                      annotation: AnyObject) -> Bool {
-            return app(application, openURL: url, sourceApplication: sourceApplication, annotation: annotation)
+        return app(application, openURL: url, sourceApplication: sourceApplication, annotation: annotation)
     }
 
     @available(iOS 9.0, *)
@@ -156,6 +158,11 @@ extension AppDelegate: UIApplicationDelegate {
 
     }
 
+    func application(application: UIApplication, handleEventsForBackgroundURLSession identifier: String,
+                     completionHandler: () -> Void) {
+        Core.networkBackgroundCompletion = completionHandler
+    }
+
     // MARK: > App continuation
 
     func application(application: UIApplication, continueUserActivity userActivity: NSUserActivity,
@@ -210,13 +217,13 @@ extension AppDelegate: AppNavigatorDelegate {
 
 private extension AppDelegate {
     private func setupAppearance() {
-        UINavigationBar.appearance().tintColor = StyleHelper.navBarButtonsColor
-        UINavigationBar.appearance().titleTextAttributes = [NSFontAttributeName : StyleHelper.navBarTitleFont,
-                                                            NSForegroundColorAttributeName : StyleHelper.navBarTitleColor]
-        UITabBar.appearance().tintColor = StyleHelper.tabBarIconSelectedColor
+        UINavigationBar.appearance().tintColor = UIColor.lightBarButton
+        UINavigationBar.appearance().titleTextAttributes = [NSFontAttributeName : UIFont.pageTitleFont,
+                                                            NSForegroundColorAttributeName : UIColor.lightBarTitle]
+        UITabBar.appearance().tintColor = UIColor.tabBarIconSelectedColor
 
-        UIPageControl.appearance().pageIndicatorTintColor = StyleHelper.pageIndicatorTintColor
-        UIPageControl.appearance().currentPageIndicatorTintColor = StyleHelper.currentPageIndicatorTintColor
+        UIPageControl.appearance().pageIndicatorTintColor = UIColor.pageIndicatorTintColor
+        UIPageControl.appearance().currentPageIndicatorTintColor = UIColor.currentPageIndicatorTintColor
     }
 
     private func setupLibraries(application: UIApplication, launchOptions: [NSObject: AnyObject]?) {
@@ -273,7 +280,7 @@ private extension AppDelegate {
         TrackerProxy.sharedInstance.application(application, didFinishLaunchingWithOptions: launchOptions)
 
         // Google app indexing
-        GSDAppIndexing.sharedInstance().registerApp(EnvironmentProxy.sharedInstance.googleAppIndexingId)
+        FIRAppIndexing.sharedInstance().registerApp(EnvironmentProxy.sharedInstance.googleAppIndexingId)
 
         CommercializerManager.sharedInstance.setup()
         NotificationsManager.sharedInstance.setup()

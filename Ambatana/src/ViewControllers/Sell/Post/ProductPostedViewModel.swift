@@ -15,17 +15,13 @@ protocol ProductPostedViewModelDelegate: class {
     func productPostedViewModelSetupLoadingState(viewModel: ProductPostedViewModel)
     func productPostedViewModel(viewModel: ProductPostedViewModel, finishedLoadingState correct: Bool)
     func productPostedViewModel(viewModel: ProductPostedViewModel, setupStaticState correct: Bool)
-    func productPostedViewModelDidFinishPosting(viewModel: ProductPostedViewModel, correctly: Bool)
-    func productPostedViewModelDidEditPosting(viewModel: ProductPostedViewModel,
-        editViewModel: EditProductViewModel)
-    func productPostedViewModelDidRestartPosting(viewModel: ProductPostedViewModel)
 }
 
 
 // MARK: - ProductPostedViewModel
 
 class ProductPostedViewModel: BaseViewModel {
-
+    weak var navigator: ProductPostedNavigator?
     weak var delegate: ProductPostedViewModelDelegate?
 
     private var status: ProductPostedStatus
@@ -89,7 +85,7 @@ class ProductPostedViewModel: BaseViewModel {
         case .Posting:
             return nil
         case .Success:
-            return LGLocalizedString.productPostConfirmationTitle
+            return LGLocalizedString.productPostIncentiveTitle
         case .Error:
             return LGLocalizedString.commonErrorTitle.capitalizedString
         }
@@ -100,7 +96,7 @@ class ProductPostedViewModel: BaseViewModel {
         case .Posting:
             return nil
         case .Success:
-            return LGLocalizedString.productPostConfirmationSubtitle
+            return LGLocalizedString.productPostIncentiveSubtitle
         case let .Error(error):
             switch error {
             case .Network:
@@ -136,30 +132,32 @@ class ProductPostedViewModel: BaseViewModel {
     // MARK: > Actions
 
     func closeActionPressed() {
+        var product: Product? = nil
         switch status {
+        case let .Success(productPosted):
+            trackEvent(TrackerEvent.productSellConfirmationClose(productPosted))
+            product = productPosted
         case .Posting:
             break
-        case let .Success(product):
-            trackEvent(TrackerEvent.productSellConfirmationClose(product))
         case let .Error(error):
             trackEvent(TrackerEvent.productSellErrorClose(error))
         }
-        delegate?.productPostedViewModelDidFinishPosting(self, correctly: status.success)
+
+        if let product = product {
+            navigator?.closeProductPosted(product)
+        } else {
+            navigator?.cancelProductPosted()
+        }
     }
 
     func editActionPressed() {
         guard let product = status.product else { return }
 
         trackEvent(TrackerEvent.productSellConfirmationEdit(product))
-
-        let editViewModel = EditProductViewModel(product: product)
-        editViewModel.promoteProductVM = promoteProductViewModel
-        delegate?.productPostedViewModelDidEditPosting(self, editViewModel: editViewModel)
+        navigator?.closeProductPostedAndOpenEdit(product)
     }
 
     func mainActionPressed() {
-        delegate?.productPostedViewModelDidRestartPosting(self)
-
         switch status {
         case .Posting:
             break
@@ -168,6 +166,8 @@ class ProductPostedViewModel: BaseViewModel {
         case let .Error(error):
             trackEvent(TrackerEvent.productSellErrorPost(error))
         }
+
+        navigator?.closeProductPostedAndOpenPost()
     }
 
     func nativeShareInEmail() {

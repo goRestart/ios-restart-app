@@ -59,6 +59,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("block_user_error_generic", comment: "")
 	}
 
+	static var categoriesUnassigned: String {
+		return NSLocalizedString("categories_unassigned", comment: "")
+	}
+
 	static var categoriesBabyAndChild: String {
 		return NSLocalizedString("categories_baby_and_child", comment: "")
 	}
@@ -391,6 +395,30 @@ struct LGLocalizedString {
 		return NSLocalizedString("chat_list_blocked_users_title", comment: "")
 	}
 
+	static var chatListAccountDeleted: String {
+		return NSLocalizedString("chat_list_account_deleted", comment: "")
+	}
+
+	static var chatListAccountDeletedUsername: String {
+		return NSLocalizedString("chat_list_account_deleted_username", comment: "")
+	}
+
+	static func chatAccountDeletedWName(var1: String) -> String {
+		return String(format: NSLocalizedString("chat_account_deleted_w_name", comment: ""), var1)
+	}
+
+	static var chatAccountDeletedWoName: String {
+		return NSLocalizedString("chat_account_deleted_wo_name", comment: "")
+	}
+
+	static func chatDeletedDisclaimerWName(var1: String) -> String {
+		return String(format: NSLocalizedString("chat_deleted_disclaimer_w_name", comment: ""), var1)
+	}
+
+	static var chatDeletedDisclaimerWoName: String {
+		return NSLocalizedString("chat_deleted_disclaimer_wo_name", comment: "")
+	}
+
 	static var chatBlockedByMeLabel: String {
 		return NSLocalizedString("chat_blocked_by_me_label", comment: "")
 	}
@@ -443,6 +471,10 @@ struct LGLocalizedString {
 		return String(format: NSLocalizedString("chat_message_disclaimer_scammer", comment: ""), var1)
 	}
 
+	static var chatUserRatingButtonTitle: String {
+		return NSLocalizedString("chat_user_rating_button_title", comment: "")
+	}
+
 	static var chatSafetyTips: String {
 		return NSLocalizedString("chat_safety_tips", comment: "")
 	}
@@ -475,6 +507,14 @@ struct LGLocalizedString {
 		return NSLocalizedString("chat_send_error_generic", comment: "")
 	}
 
+	static var chatStickersTooltipNew: String {
+		return NSLocalizedString("chat_stickers_tooltip_new", comment: "")
+	}
+
+	static var chatStickersTooltipAddStickers: String {
+		return NSLocalizedString("chat_stickers_tooltip_add_stickers", comment: "")
+	}
+
 	static var chatVerifyAlertTitle: String {
 		return NSLocalizedString("chat_verify_alert_title", comment: "")
 	}
@@ -489,6 +529,10 @@ struct LGLocalizedString {
 
 	static var chatVerifyAlertOkButton: String {
 		return NSLocalizedString("chat_verify_alert_ok_button", comment: "")
+	}
+
+	static var chatLoginPopupText: String {
+		return NSLocalizedString("chat_login_popup_text", comment: "")
 	}
 
 	static func chatUserInfoName(var1: String) -> String {
@@ -769,6 +813,10 @@ struct LGLocalizedString {
 
 	static func commonShortTimeWeeksAgoLabel(var1: Int) -> String {
 		return String(format: NSLocalizedString("common_short_time_weeks_ago_label", comment: ""), var1)
+	}
+
+	static var commonUserReviewNotAvailable: String {
+		return NSLocalizedString("common_user_review_not_available", comment: "")
 	}
 
 	static var commonUserNotAvailable: String {
@@ -1239,6 +1287,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("product_chat_with_seller_button", comment: "")
 	}
 
+	static func productChatWithSellerNameButton(var1: String) -> String {
+		return String(format: NSLocalizedString("product_chat_with_seller_name_button", comment: ""), var1)
+	}
+
 	static var productChatWithSellerSendOk: String {
 		return NSLocalizedString("product_chat_with_seller_send_ok", comment: "")
 	}
@@ -1403,6 +1455,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("product_list_no_products_title", comment: "")
 	}
 
+	static var productListBannerCellTitle: String {
+		return NSLocalizedString("product_list_banner_cell_title", comment: "")
+	}
+
 	static var productLocationTitle: String {
 		return NSLocalizedString("product_location_title", comment: "")
 	}
@@ -1545,6 +1601,46 @@ struct LGLocalizedString {
 
 	static var productPostConfirmationTitle: String {
 		return NSLocalizedString("product_post_confirmation_title", comment: "")
+	}
+
+	static var productPostIncentiveTitle: String {
+		return NSLocalizedString("product_post_incentive_title", comment: "")
+	}
+
+	static var productPostIncentiveSubtitle: String {
+		return NSLocalizedString("product_post_incentive_subtitle", comment: "")
+	}
+
+	static func productPostIncentiveLookingFor(var1: String) -> String {
+		return String(format: NSLocalizedString("product_post_incentive_looking_for", comment: ""), var1)
+	}
+
+	static var productPostIncentiveGotAny: String {
+		return NSLocalizedString("product_post_incentive_got_any", comment: "")
+	}
+
+	static var productPostIncentivePs4: String {
+		return NSLocalizedString("product_post_incentive_ps4", comment: "")
+	}
+
+	static var productPostIncentiveTv: String {
+		return NSLocalizedString("product_post_incentive_tv", comment: "")
+	}
+
+	static var productPostIncentiveBike: String {
+		return NSLocalizedString("product_post_incentive_bike", comment: "")
+	}
+
+	static var productPostIncentiveCar: String {
+		return NSLocalizedString("product_post_incentive_car", comment: "")
+	}
+
+	static var productPostIncentiveDresser: String {
+		return NSLocalizedString("product_post_incentive_dresser", comment: "")
+	}
+
+	static var productPostIncentiveMotorcycle: String {
+		return NSLocalizedString("product_post_incentive_motorcycle", comment: "")
 	}
 
 	static var productPostDone: String {
@@ -1783,6 +1879,18 @@ struct LGLocalizedString {
 		return NSLocalizedString("product_auto_generated_translated_title_label", comment: "")
 	}
 
+	static var productMoreInfoTooltipPart1: String {
+		return NSLocalizedString("product_more_info_tooltip_part_1", comment: "")
+	}
+
+	static func productMoreInfoTooltipPart2(var1: String) -> String {
+		return String(format: NSLocalizedString("product_more_info_tooltip_part_2", comment: ""), var1)
+	}
+
+	static var productMoreInfoOpenButton: String {
+		return NSLocalizedString("product_more_info_open_button", comment: "")
+	}
+
 	static var profileBlockedByMeLabel: String {
 		return NSLocalizedString("profile_blocked_by_me_label", comment: "")
 	}
@@ -1837,6 +1945,10 @@ struct LGLocalizedString {
 
 	static var profileNoProducts: String {
 		return NSLocalizedString("profile_no_products", comment: "")
+	}
+
+	static var profileReviewsCount: String {
+		return NSLocalizedString("profile_reviews_count", comment: "")
 	}
 
 	static var profileSellingNoProductsLabel: String {
@@ -1945,6 +2057,42 @@ struct LGLocalizedString {
 
 	static func pushNotificationMessageTitle(var1: String) -> String {
 		return String(format: NSLocalizedString("push_notification_message_title", comment: ""), var1)
+	}
+
+	static var ratingListActionReviewUser: String {
+		return NSLocalizedString("rating_list_action_review_user", comment: "")
+	}
+
+	static var ratingListActionReportReview: String {
+		return NSLocalizedString("rating_list_action_report_review", comment: "")
+	}
+
+	static var ratingListActionReportReviewSuccessMessage: String {
+		return NSLocalizedString("rating_list_action_report_review_success_message", comment: "")
+	}
+
+	static var ratingListActionReportReviewErrorMessage: String {
+		return NSLocalizedString("rating_list_action_report_review_error_message", comment: "")
+	}
+
+	static var ratingListLoadingErrorMessage: String {
+		return NSLocalizedString("rating_list_loading_error_message", comment: "")
+	}
+
+	static func ratingListRatingTypeBuyerTextLabel(var1: String) -> String {
+		return String(format: NSLocalizedString("rating_list_rating_type_buyer_text_label", comment: ""), var1)
+	}
+
+	static func ratingListRatingTypeConversationTextLabel(var1: String) -> String {
+		return String(format: NSLocalizedString("rating_list_rating_type_conversation_text_label", comment: ""), var1)
+	}
+
+	static func ratingListRatingTypeSellerTextLabel(var1: String) -> String {
+		return String(format: NSLocalizedString("rating_list_rating_type_seller_text_label", comment: ""), var1)
+	}
+
+	static var ratingListTitle: String {
+		return NSLocalizedString("rating_list_title", comment: "")
 	}
 
 	static var ratingViewDontAskAgainButton: String {
@@ -2425,6 +2573,34 @@ struct LGLocalizedString {
 
 	static var unblockUserErrorGeneric: String {
 		return NSLocalizedString("unblock_user_error_generic", comment: "")
+	}
+
+	static var userRatingTitle: String {
+		return NSLocalizedString("user_rating_title", comment: "")
+	}
+
+	static func userRatingMessageWName(var1: String) -> String {
+		return String(format: NSLocalizedString("user_rating_message_w_name", comment: ""), var1)
+	}
+
+	static var userRatingMessageWoName: String {
+		return NSLocalizedString("user_rating_message_wo_name", comment: "")
+	}
+
+	static var userRatingReviewPlaceholder: String {
+		return NSLocalizedString("user_rating_review_placeholder", comment: "")
+	}
+
+	static var userRatingReviewPlaceholderOptional: String {
+		return NSLocalizedString("user_rating_review_placeholder_optional", comment: "")
+	}
+
+	static var userRatingReviewButton: String {
+		return NSLocalizedString("user_rating_review_button", comment: "")
+	}
+
+	static var userRatingReviewSendSuccess: String {
+		return NSLocalizedString("user_rating_review_send_success", comment: "")
 	}
 
 	static var notificationsPermissions1Subtitle: String {

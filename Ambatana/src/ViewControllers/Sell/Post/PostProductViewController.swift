@@ -9,10 +9,11 @@
 import UIKit
 import FastttCamera
 
-class PostProductViewController: BaseViewController, SellProductViewController, PostProductViewModelDelegate,
-UITextFieldDelegate {
-
-    weak var delegate: SellProductViewControllerDelegate?
+class PostProductViewController: BaseViewController, PostProductViewModelDelegate, UITextFieldDelegate {
+    @IBOutlet weak var cameraGalleryContainer: UIView!
+    @IBOutlet weak var galleryButton: UIButton!
+    @IBOutlet weak var photoButton: UIButton!
+    @IBOutlet weak var photoButtonCenterX: NSLayoutConstraint!
 
     @IBOutlet weak var selectPriceContainer: UIView!
     @IBOutlet weak var selectPriceContentContainerCenterY: NSLayoutConstraint!
@@ -49,7 +50,7 @@ UITextFieldDelegate {
     }
 
     required init(viewModel: PostProductViewModel, forceCamera: Bool) {
-        let viewPagerConfig = LGViewPagerConfig(tabPosition: .Bottom, tabLayout: .Fixed, tabHeight: 54)
+        let viewPagerConfig = LGViewPagerConfig(tabPosition: .Hidden, tabLayout: .Fixed, tabHeight: 54)
         self.viewPager = LGViewPager(config: viewPagerConfig, frame: CGRect.zero)
         self.cameraView = PostProductCameraView()
         self.galleryView = PostProductGalleryView()
@@ -86,6 +87,7 @@ UITextFieldDelegate {
         if !viewDidAppear {
             viewPager.delegate = self
             viewPager.selectTabAtIndex(initialTab)
+            updateButtonsForPagerScroll(CGFloat(initialTab))
         }
     }
 
@@ -113,25 +115,19 @@ UITextFieldDelegate {
     
     @IBAction func onCloseButton(sender: AnyObject) {
         priceTextField.resignFirstResponder()
-        if viewModel.shouldShowCloseAlert() {
-            let alert = UIAlertController(title: LGLocalizedString.productPostCloseAlertTitle,
-                message: LGLocalizedString.productPostCloseAlertDescription, preferredStyle: .Alert)
-            let cancelAction = UIAlertAction(title: LGLocalizedString.productPostCloseAlertCloseButton,
-                style: .Cancel, handler: { [weak self] action in
-                    guard let strongSelf = self else { return }
-                    strongSelf.viewModel.closeButtonPressed(sellController: strongSelf, delegate: strongSelf.delegate)
-                })
-            let postAction = UIAlertAction(title: LGLocalizedString.productPostCloseAlertOkButton, style: .Default,
-                handler: { [weak self] action in
-                    guard let strongSelf = self else { return }
-                    strongSelf.viewModel.doneButtonPressed(priceText: nil, sellController: strongSelf,
-                        delegate: strongSelf.delegate)
-            })
-            alert.addAction(cancelAction)
-            alert.addAction(postAction)
-            presentViewController(alert, animated: true, completion: nil)
+        viewModel.closeButtonPressed()
+    }
+
+    @IBAction func galleryButtonPressed(sender: AnyObject) {
+        guard viewPager.scrollEnabled else { return }
+        viewPager.selectTabAtIndex(0, animated: true)
+    }
+
+    @IBAction func photoButtonPressed(sender: AnyObject) {
+        if viewPager.currentPage == 1 {
+            cameraView.takePhoto()
         } else {
-            viewModel.closeButtonPressed(sellController: self, delegate: delegate)
+            viewPager.selectTabAtIndex(1, animated: true)
         }
     }
 
@@ -142,7 +138,7 @@ UITextFieldDelegate {
     @IBAction func onDoneButton(sender: AnyObject) {
         priceTextField.resignFirstResponder()
 
-        viewModel.doneButtonPressed(priceText: priceTextField.text, sellController: self, delegate: delegate)
+        viewModel.doneButtonPressed(priceText: priceTextField.text)
     }
 
     @IBAction func onRetryButton(sender: AnyObject) {
@@ -164,7 +160,7 @@ UITextFieldDelegate {
         setSelectPriceState(loading: false, error: error)
     }
 
-    func postProductviewModelshouldClose(viewModel: PostProductViewModel, animated: Bool, completion: (() -> Void)?) {
+    func postProductviewModelShouldClose(viewModel: PostProductViewModel, animated: Bool, completion: (() -> Void)?) {
         dismissViewControllerAnimated(animated, completion: completion)
     }
 
@@ -207,13 +203,20 @@ UITextFieldDelegate {
         retryButton.setTitle(LGLocalizedString.commonErrorListRetryButton, forState: UIControlState.Normal)
 
         //Layers
-        retryButton.setPrimaryStyle()
-        doneButton.setPrimaryStyle()
-        priceFieldContainer.layer.cornerRadius = StyleHelper.defaultCornerRadius
+        retryButton.setStyle(.Primary(fontSize: .Medium))
+        doneButton.setStyle(.Primary(fontSize: .Medium))
+        priceFieldContainer.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
         priceFieldContainer.layer.borderColor = UIColor.whiteColor().CGColor
         priceFieldContainer.layer.borderWidth = 1
 
         currencyButton.setTitle(viewModel.currency?.symbol, forState: UIControlState.Normal)
+    }
+
+    private func updateButtonsForPagerScroll(scroll: CGFloat) {
+        galleryButton.alpha = scroll
+
+        let movement = (view.width/2) * (1.0 - scroll)
+        photoButtonCenterX.constant = movement
     }
 
     private func setSelectPriceState(loading loading: Bool, error: String?) {
@@ -301,7 +304,8 @@ extension PostProductViewController: PostProductCameraViewDelegate {
     }
 
     func productCameraRequestHideTabs(hide: Bool) {
-        viewPager.tabsHidden = hide
+        galleryButton.hidden = hide
+        photoButton.hidden = hide
     }
 
     func productCameraRequestsScrollLock(lock: Bool) {
@@ -342,11 +346,11 @@ extension PostProductViewController: LGViewPagerDataSource, LGViewPagerDelegate,
     func setupViewPager() {
         viewPager.dataSource = self
         viewPager.scrollDelegate = self
-        viewPager.indicatorSelectedColor = StyleHelper.primaryColor
-        viewPager.tabsBackgroundColor = StyleHelper.postProductTabColor
+        viewPager.indicatorSelectedColor = UIColor.primaryColor
+        viewPager.tabsBackgroundColor = UIColor.black
         viewPager.tabsSeparatorColor = UIColor.clearColor()
         viewPager.translatesAutoresizingMaskIntoConstraints = false
-        view.insertSubview(viewPager, atIndex: 0)
+        cameraGalleryContainer.insertSubview(viewPager, atIndex: 0)
         setupViewPagerConstraints()
 
         viewPager.reloadData()
@@ -354,9 +358,9 @@ extension PostProductViewController: LGViewPagerDataSource, LGViewPagerDelegate,
 
     private func setupViewPagerConstraints() {
         let views = ["viewPager": viewPager]
-        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[viewPager]|",
+        cameraGalleryContainer.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[viewPager]|",
             options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: views))
-        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[viewPager]|",
+        cameraGalleryContainer.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[viewPager]|",
             options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: views))
     }
 
@@ -369,6 +373,8 @@ extension PostProductViewController: LGViewPagerDataSource, LGViewPagerDelegate,
     func viewPager(viewPager: LGViewPager, didScrollToPagePosition pagePosition: CGFloat) {
         cameraView.showHeader(pagePosition == 1.0)
         galleryView.showHeader(pagePosition == 0.0)
+
+        updateButtonsForPagerScroll(pagePosition)
     }
 
     func viewPagerNumberOfTabs(viewPager: LGViewPager) -> Int {
@@ -406,8 +412,8 @@ extension PostProductViewController: LGViewPagerDataSource, LGViewPagerDelegate,
 
     private func tabTextAttributes(selected: Bool)-> [String : AnyObject] {
         var titleAttributes = [String : AnyObject]()
-        titleAttributes[NSForegroundColorAttributeName] = selected ? StyleHelper.primaryColor : UIColor.whiteColor()
-        titleAttributes[NSFontAttributeName] = StyleHelper.postProductTabFont
+        titleAttributes[NSForegroundColorAttributeName] = selected ? UIColor.primaryColor : UIColor.white
+        titleAttributes[NSFontAttributeName] = selected ? UIFont.activeTabFont : UIFont.inactiveTabFont
         return titleAttributes
     }
 }

@@ -12,6 +12,7 @@ import UIKit
 
 protocol UserViewHeaderDelegate: class {
     func headerAvatarAction()
+    func ratingsAvatarAction()
     func facebookAccountAction()
     func googleAccountAction()
     func emailAccountAction()
@@ -32,9 +33,19 @@ class UserViewHeader: UIView {
     private static let otherAccountHeight: CGFloat = 28
     private static let otherAccountEmptyHeight: CGFloat = 20
 
+    private static let ratingCountContainerLeadingVisible: CGFloat = 15
+    private static let ratingCountContainerTrailingVisible: CGFloat = 20
+
+    @IBOutlet weak var avatarRatingsContainerView: UIView!
     @IBOutlet weak var avatarImageView: UIImageView!
     var avatarBorderLayer: CAShapeLayer?
     @IBOutlet weak var avatarButton: UIButton!
+    @IBOutlet weak var avatarRatingsEffectView: UIVisualEffectView!
+    @IBOutlet weak var ratingCountContainerLeading: NSLayoutConstraint!
+    @IBOutlet weak var ratingCountContainerTrailing: NSLayoutConstraint!
+    @IBOutlet weak var ratingCountLabel: UILabel!
+    @IBOutlet weak var ratingsLabel: UILabel!
+    @IBOutlet weak var ratingsButton: UIButton!
 
     @IBOutlet weak var infoView: UIView!
 
@@ -110,29 +121,21 @@ class UserViewHeader: UIView {
 
     var collapsed: Bool = false {
         didSet {
-            let isCollapsed = avatarImageView.alpha == 0
+            let isCollapsed = avatarRatingsContainerView.alpha == 0
             guard isCollapsed != collapsed else { return }
 
             UIView.animateWithDuration(0.2, delay: 0, options: [.CurveEaseIn, .BeginFromCurrentState],
                                        animations: { [weak self] in
                 guard let strongSelf = self else { return }
-                strongSelf.avatarImageView.alpha = strongSelf.collapsed ? 0 : 1
-                strongSelf.userRelationView.alpha = strongSelf.collapsed ? 0 : 1
-                strongSelf.verifiedOtherUserView.alpha = strongSelf.collapsed ? 0 : 1
-                strongSelf.verifiedMyUserView.alpha = strongSelf.collapsed ? 0 : 1
-                strongSelf.layoutIfNeeded()
+                let alpha: CGFloat = strongSelf.collapsed ? 0 : 1
+                strongSelf.avatarRatingsContainerView.alpha = alpha
+                strongSelf.userRelationView.alpha = alpha
+                strongSelf.verifiedOtherUserView.alpha = alpha
+                strongSelf.verifiedMyUserView.alpha = alpha
             }, completion: nil)
 
-            let transformAnim = CABasicAnimation(keyPath: "transform")
-            transformAnim.duration = 0.2
-            transformAnim.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseIn)
-            transformAnim.removedOnCompletion = false
-            transformAnim.fillMode = kCAFillModeForwards
-
-            let transform = collapsed ? CATransform3DMakeScale(0.01, 0.01, 1) : CATransform3DIdentity
-            transformAnim.toValue = NSValue(CATransform3D: transform)
-            avatarImageView.layer.addAnimation(transformAnim, forKey: "transform")
             avatarButton.enabled = !collapsed
+            ratingsButton.enabled = !collapsed
         }
     }
 
@@ -175,7 +178,15 @@ extension UserViewHeader {
         } else {
             avatarImageView.image = placeholderImage
         }
+    }
 
+    func setRatingCount(ratingCount: Int?) {
+        let hidden = (ratingCount ?? 0) <= 0
+        ratingCountLabel.text = hidden ? nil : String(ratingCount ?? 0)
+        ratingsLabel.text = hidden ? nil : LGLocalizedString.profileReviewsCount
+        avatarRatingsEffectView.hidden = hidden
+        ratingCountContainerLeading.constant = hidden ? 0 : UserViewHeader.ratingCountContainerLeadingVisible
+        ratingCountContainerTrailing.constant = hidden ? 0 : UserViewHeader.ratingCountContainerTrailingVisible
     }
 
     func setUserRelationText(userRelationText: String?) {
@@ -267,36 +278,50 @@ extension UserViewHeader {
 extension UserViewHeader {
     private func setupUI() {
         setupInfoView()
+        setupAvatarRatingsContainerView()
         setupVerifiedViews()
         setupButtons()
     }
 
     private func updateUI() {
+        updateAvatarRatingsContainerView()
         updateUserAvatarView()
     }
 
     private func setupInfoView() {
         userRelationView.hidden = true
-        userRelationLabel.font = StyleHelper.userRelationLabelFont
-        userRelationLabel.textColor = StyleHelper.userRelationLabelColor
+        userRelationLabel.font = UIFont.smallBodyFont
+        userRelationLabel.textColor = UIColor.primaryColor
+    }
+
+    private func setupAvatarRatingsContainerView() {
+        let gradient = CAGradientLayer.gradientWithColor(UIColor.whiteColor(), alphas:[0.0,1.0],
+                                                         locations: [0.0,1.0])
+        gradient.frame = avatarRatingsEffectView.bounds
+        avatarRatingsEffectView.layer.addSublayer(gradient)
+
+        ratingCountLabel.font = UIFont.systemLightFont(size: 24)
+        ratingCountLabel.textColor = UIColor.black
+        ratingsLabel.font = UIFont.systemRegularFont(size: 13)
+        ratingsLabel.textColor = UIColor.grayDark
     }
 
     private func setupVerifiedViews() {
         verifiedMyUserView.hidden = true
         verifiedMyUserTitle.text = LGLocalizedString.profileVerifiedAccountsMyUser
-        verifiedMyUserTitle.textColor = StyleHelper.userAccountsVerifiedTitleColor
-        verifiedMyUserTitle.font = StyleHelper.userAccountsVerifiedTitleFont
+        verifiedMyUserTitle.textColor = UIColor.grayDark
+        verifiedMyUserTitle.font = UIFont.mediumBodyFontLight
 
         verifiedOtherUserView.hidden = true
         verifiedOtherUserTitle.text = nil
-        verifiedOtherUserTitle.textColor = StyleHelper.userAccountsVerifiedTitleColor
-        verifiedOtherUserTitle.font = StyleHelper.userAccountsVerifiedTitleFont
+        verifiedOtherUserTitle.textColor = UIColor.grayDark
+        verifiedOtherUserTitle.font = UIFont.mediumBodyFontLight
     }
 
     private func setupButtons() {
         var attributes = [String : AnyObject]()
-        attributes[NSForegroundColorAttributeName] = StyleHelper.userTabNonSelectedColor
-        attributes[NSFontAttributeName] = StyleHelper.userTabNonSelectedFont
+        attributes[NSForegroundColorAttributeName] = UIColor.black
+        attributes[NSFontAttributeName] = UIFont.inactiveTabFont
 
         let sellingTitle = NSAttributedString(string: LGLocalizedString.profileSellingProductsTab.uppercase,
             attributes: attributes)
@@ -312,6 +337,11 @@ extension UserViewHeader {
         favoritesButton.setAttributedTitle(favsTitle, forState: .Normal)
 
         setupButtonsSelectedState()
+    }
+
+    private func updateAvatarRatingsContainerView() {
+        let height = avatarRatingsContainerView.bounds.height
+        avatarRatingsContainerView.layer.cornerRadius = height / 2
     }
 
     private func updateUserAvatarView() {
@@ -337,7 +367,7 @@ extension UserViewHeader {
     private func setupButtonsSelectedState() {
         var attributes = [String : AnyObject]()
         attributes[NSForegroundColorAttributeName] = selectedColor
-        attributes[NSFontAttributeName] = StyleHelper.userTabSelectedFont
+        attributes[NSFontAttributeName] = UIFont.activeTabFont
 
         let sellingTitle = NSAttributedString(string: LGLocalizedString.profileSellingProductsTab.uppercase,
             attributes: attributes)
@@ -372,18 +402,19 @@ extension UserViewHeader {
 extension UserViewHeader {
     
     private func setupRxBindings() {
-        setupAvatarButtonRxBinding()
         setupButtonsRxBindings()
         setupAccountsRxBindings()
     }
 
-    private func setupAvatarButtonRxBinding() {
+    private func setupButtonsRxBindings() {
         avatarButton.rx_tap.subscribeNext { [weak self] _ in
             self?.delegate?.headerAvatarAction()
-            }.addDisposableTo(disposeBag)
-    }
+        }.addDisposableTo(disposeBag)
 
-    private func setupButtonsRxBindings() {
+        ratingsButton.rx_tap.subscribeNext { [weak self] _ in
+            self?.delegate?.ratingsAvatarAction()
+        }.addDisposableTo(disposeBag)
+
         sellingButton.rx_tap.subscribeNext { [weak self] _ in
             self?.tab.value = .Selling
         }.addDisposableTo(disposeBag)

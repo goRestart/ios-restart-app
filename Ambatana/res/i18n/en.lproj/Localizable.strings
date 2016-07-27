@@ -37,6 +37,9 @@
 // Text for unsuccessful user block
 "block_user_error_generic" = "An error occurred while blocking this user.";
 
+// Text for non assigned category
+"categories_unassigned" = "Not selected";
+
 // Categories baby and child. Check attached image "categories (2).png"
 "categories_baby_and_child" = "Baby and Child";
 
@@ -286,6 +289,24 @@
 // Chat list blocked users title
 "chat_list_blocked_users_title" = "BLOCKED USERS";
 
+// When a user asked to delete his account (state)
+"chat_list_account_deleted" = "Deleted account";
+
+// Text to put on the username field when user is deleted
+"chat_list_account_deleted_username" = "Inactive";
+
+// When a user asked to delete his account (short info message)
+"chat_account_deleted_w_name" = "%@'s account has been deleted";
+
+// When a user asked to delete his account (short info message)
+"chat_account_deleted_wo_name" = "This account has been deleted";
+
+// When a user asked to delete his account (disclaimer message)
+"chat_deleted_disclaimer_w_name" = "You can't continue this conversation because %@'s account is no longer active.";
+
+// When a user asked to delete his account (disclaimer message)
+"chat_deleted_disclaimer_wo_name" = "You can't continue this conversation because this account is no longer active.";
+
 // Chat detail, you blocked this user label
 "chat_blocked_by_me_label" = "You've blocked this user";
 
@@ -325,6 +346,9 @@
 // Disclaimer shown for each suspicious message received in chat
 "chat_message_disclaimer_scammer" = "Be extra careful when exchanging phone/email details. Fraudulent users often ask you to leave the letgo chat. Be informed! Tap here to review our %@.";
 
+// Title for the review user button
+"chat_user_rating_button_title" = "Review";
+
 // Chat safety tips.
 "chat_safety_tips" = "Safety tips";
 
@@ -349,6 +373,12 @@
 // Chat send error generic. Message displayal is like the other error messages
 "chat_send_error_generic" = "There was an error sending the message. Please try again later.";
 
+// Chat tooltip add stickers "NEW"
+"chat_stickers_tooltip_new" = "NEW!";
+
+// Chat tooltip add stickers text
+"chat_stickers_tooltip_add_stickers" = "Add fun stickers";
+
 // Alert when an unverified user tries to chat
 "chat_verify_alert_title" = "Verify your email to chat";
 
@@ -360,6 +390,9 @@
 
 // Alert when an unverified user tries to chat
 "chat_verify_alert_ok_button" = "Ok";
+
+// Login info when trying to chat logged-out
+"chat_login_popup_text" = "To start chatting, you have to log in";
 
 // User info bubble to show information about the other user
 "chat_user_info_name" = "Hi, I'm %@";
@@ -563,6 +596,9 @@
 "common_short_time_week_ago_label" = "%d week";
 
 "common_short_time_weeks_ago_label" = "%d weeks";
+
+// Common user review not available
+"common_user_review_not_available" = "Oops! Review not found.";
 
 // Common user not available
 "common_user_not_available" = "Oops! User not found.";
@@ -915,6 +951,9 @@
 // product chat with the seller button title
 "product_chat_with_seller_button" = "Chat with the seller";
 
+// product chat with the seller button title including seller name
+"product_chat_with_seller_name_button" = "Chat with %@";
+
 // product chat with the seller button title send ok
 "product_chat_with_seller_send_ok" = "Your chat has been sent!";
 
@@ -1038,6 +1077,9 @@
 // <strong>SEE SCREENSHOT</strong> Product list no products title.
 "product_list_no_products_title" = "CITY UNLOCKED!";
 
+// Banner cell inserted in the product list to incentivize posting
+"product_list_banner_cell_title" = "SEE YOUR LISTING HERE";
+
 // Product location title. Check attached image "product_location.png"
 "product_location_title" = "Location";
 
@@ -1145,6 +1187,36 @@
 
 // After posting, real confirmation
 "product_post_confirmation_title" = "Congratulations!";
+
+// After posting, real confirmation
+"product_post_incentive_title" = "CONGRATULATIONS!";
+
+// After posting, real confirmation subtitle
+"product_post_incentive_subtitle" = "Your listing has been posted.";
+
+// 1st part of the incentivation text
+"product_post_incentive_looking_for" = "People around you are looking for these items, %@";
+
+// !!!! -> this text will go at the place of the variable %@ in "product_post_incentive_looking_for"
+"product_post_incentive_got_any" = "got any to sell?";
+
+// product name ps4
+"product_post_incentive_ps4" = "PS4s";
+
+// product name Tvs
+"product_post_incentive_tv" = "TVs";
+
+// product name bikes
+"product_post_incentive_bike" = "Bikes";
+
+// product name cars
+"product_post_incentive_car" = "Cars";
+
+// product name dressers
+"product_post_incentive_dresser" = "Dressers";
+
+// product name motorcycle
+"product_post_incentive_motorcycle" = "Motorcycles";
 
 // Done button after setting (or not) a price
 "product_post_done" = "Done";
@@ -1297,7 +1369,7 @@
 "product_share_sms_ok" = "Sending...";
 
 // Product share via sms error message
-"product_share_sms_error" = "An error ocurred while sending your message.";
+"product_share_sms_error" = "An error occurred while sending your message.";
 
 // Product share via copy_link success
 "product_share_copylink_ok" = "Your link has been copied!";
@@ -1322,6 +1394,15 @@
 
 // Product detail auto gen title translated disclaimer label.
 "product_auto_generated_translated_title_label" = "(and translated by Google)";
+
+// Tooltip to see more info on snapchat, just the "tap" text
+"product_more_info_tooltip_part_1" = "Tap";
+
+// Tooltip to see more info on snapchat, just the "to see more info" text
+"product_more_info_tooltip_part_2" = "%@ to see more info";
+
+// Button to open the More Info view tapping or dragging it
+"product_more_info_open_button" = "MORE INFO";
 
 // Profile, you blocked this user label (wo username)
 "profile_blocked_by_me_label" = "You've blocked this user";
@@ -1364,6 +1445,9 @@
 
 // Profile no products. Check attached image "profile_no_products.png"
 "profile_no_products" = "There are no products in this section (yet!)";
+
+// Profile reviews count (appears below review count number)
+"profile_reviews_count" = "Reviews";
 
 // Profile selling tab (both my user and other user) empty title.
 "profile_selling_no_products_label" = "NO PRODUCTS (YET!)";
@@ -1445,6 +1529,31 @@
 
 // Push notification message title
 "push_notification_message_title" = "New message - %@";
+
+// action for user to review another user
+"rating_list_action_review_user" = "Review user";
+
+// action for user to report a review by another user
+"rating_list_action_report_review" = "Report review";
+
+"rating_list_action_report_review_success_message" = "Your report has been sent!";
+
+"rating_list_action_report_review_error_message" = "An error occurred while sending your report.";
+
+// Text for loading error at user ratings list
+"rating_list_loading_error_message" = "An error occurred while loading ratings.";
+
+// Text for rating of type "buyer" ( %s will be the username)
+"rating_list_rating_type_buyer_text_label" = "%@ bought a product";
+
+// Text for rating of type "conversation" ( %s will be the username)
+"rating_list_rating_type_conversation_text_label" = "%@ chatted about a product";
+
+// Text for rating of type "seller" ( %s will be the username)
+"rating_list_rating_type_seller_text_label" = "%@ sold a product";
+
+// Title for rating list view
+"rating_list_title" = "Reviews";
 
 // Rating view don't ask button.  Check image @ "rating_view_title_label" segment
 "rating_view_dont_ask_again_button" = "Don't ask me again";
@@ -1805,6 +1914,27 @@
 
 // Text for unsuccessful user unblock
 "unblock_user_error_generic" = "An error occurred while unblocking this user.";
+
+// Title when you rate a user
+"user_rating_title" = "Review your experience with";
+
+// Information message when rating a user
+"user_rating_message_w_name" = "Tap the stars to rate and tell us if your experience with %@ went well. You can update it whenever you want.";
+
+// Information message when rating a user
+"user_rating_message_wo_name" = "Tap the stars to rate and tell us if your experience with this user went well. You can update it whenever you want.";
+
+// Review message
+"user_rating_review_placeholder" = "Leave a review (required)";
+
+// Review message optional (when user selected 4-5 stars)
+"user_rating_review_placeholder_optional" = "Leave a review (optional)";
+
+// Send review button
+"user_rating_review_button" = "Publish review";
+
+// Message when review was published
+"user_rating_review_send_success" = "Your review has been published!";
 
 // Subtitle asking for Push notifications in onboarding
 "notifications_permissions_1_subtitle" = "Do you want to be notified when another user sends you a message?";

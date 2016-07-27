@@ -23,7 +23,7 @@ class ReportUsersViewController: BaseViewController, ReportUsersViewModelDelegat
     private var cellSize: CGSize = CGSize(width: 160.0, height: 150.0)
     private var isCommentPlaceholder: Bool {
         return commentTextView.text == LGLocalizedString.reportUserTextPlaceholder &&
-            commentTextView.textColor == StyleHelper.reportPlaceholderColor
+            commentTextView.textColor == UIColor.grayPlaceholderText
     }
 
     private var comment: String? {
@@ -38,6 +38,7 @@ class ReportUsersViewController: BaseViewController, ReportUsersViewModelDelegat
         self.viewModel = viewModel
         super.init(viewModel: viewModel, nibName: "ReportUsersViewController")
         self.viewModel.delegate = self
+        hidesBottomBarWhenPushed = false
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -99,12 +100,12 @@ class ReportUsersViewController: BaseViewController, ReportUsersViewModelDelegat
     private func setupUI() {
         ReportUserCellDrawer.registerCell(collectionView)
 
-        sendButton.setPrimaryStyle()
+        sendButton.setStyle(.Primary(fontSize: .Medium))
         sendButton.setTitle(LGLocalizedString.reportUserSendButton, forState: UIControlState.Normal)
         sendButton.enabled = false
 
         commentTextView.text = LGLocalizedString.reportUserTextPlaceholder
-        commentTextView.textColor = StyleHelper.reportPlaceholderColor
+        commentTextView.textColor = UIColor.grayPlaceholderText
 
         let cellWidth = UIScreen.mainScreen().bounds.size.width * 0.33 //3 columns
         cellSize = CGSizeMake(cellWidth, 140)
@@ -154,14 +155,14 @@ extension ReportUsersViewController: UITextViewDelegate {
     func textViewDidBeginEditing(textView: UITextView) {
         if isCommentPlaceholder {
             textView.text = nil
-            textView.textColor = StyleHelper.reportTextColor
+            textView.textColor = UIColor.blackText
         }
     }
 
     func textViewDidEndEditing(textView: UITextView) {
         if textView.text.isEmpty {
             textView.text = LGLocalizedString.reportUserTextPlaceholder
-            textView.textColor = StyleHelper.reportPlaceholderColor
+            textView.textColor = UIColor.grayPlaceholderText
         }
     }
 

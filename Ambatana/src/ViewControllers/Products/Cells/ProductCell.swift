@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import pop
 
 protocol ProductCellDelegate: class {
     func productCellDidChat(cell: ProductCell, indexPath: NSIndexPath)
@@ -79,12 +78,10 @@ class ProductCell: UICollectionViewCell, ReusableCell {
         thumbnailImageView.lg_setImageWithURL(imageUrl, placeholderImage: nil, completion: {
             [weak self] (result, url) -> Void in
             if let (_, cached) = result.value where !cached {
-                let alphaAnim = POPBasicAnimation(propertyNamed: kPOPLayerOpacity)
-                alphaAnim.fromValue = 0
-                alphaAnim.toValue = 1
-                self?.thumbnailImageView.layer.pop_addAnimation(alphaAnim, forKey: "alpha")
+                self?.thumbnailImageView.alpha = 0
+                UIView.animateWithDuration(0.4, animations: { self?.thumbnailImageView.alpha = 1 })
             }
-            })
+        })
     }
 
     func setCellWidth(width: CGFloat) {
@@ -121,7 +118,7 @@ class ProductCell: UICollectionViewCell, ReusableCell {
     
     // Sets up the UI
     private func setupUI() {
-        cellContent.layer.cornerRadius = StyleHelper.defaultCornerRadius
+        cellContent.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
         let shadowLayer = CAGradientLayer.gradientWithColor(UIColor.blackColor(), alphas:[0.0,0.4],
             locations: [0.0,1.0])
         shadowLayer.frame = priceGradientView.bounds
@@ -137,7 +134,7 @@ class ProductCell: UICollectionViewCell, ReusableCell {
     // Resets the UI to the initial state
     private func resetUI() {
         priceLabel.text = ""
-        thumbnailBgColorView.backgroundColor = StyleHelper.productCellImageBgColor
+        thumbnailBgColorView.backgroundColor = UIColor.placeholderBackgroundColor()
         thumbnailImageView.image = nil
         stripeImageView.image = nil
         stripeLabel.text = ""

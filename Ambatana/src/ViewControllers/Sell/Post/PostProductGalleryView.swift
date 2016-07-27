@@ -142,11 +142,8 @@ class PostProductGalleryView: BaseView, LGViewPagerPage {
         contentView.backgroundColor = UIColor.blackColor()
         addSubview(contentView)
 
-        postButton.setPrimaryStyle()
-        postButton.setBackgroundImage(StyleHelper.postProductDisabledPostButton
-            .imageWithSize(CGSize(width: 1, height: 1)), forState: .Disabled)
-        postButton.titleLabel?.font = StyleHelper.smallButtonFont
-
+        postButton.setStyle(.Primary(fontSize: .Small))
+        
         let cellNib = UINib(nibName: GalleryImageCell.reusableID, bundle: nil)
         collectionView.registerNib(cellNib, forCellWithReuseIdentifier: GalleryImageCell.reusableID)
         collectionView.alwaysBounceVertical = true
@@ -159,7 +156,7 @@ class PostProductGalleryView: BaseView, LGViewPagerPage {
         shadowLayer.frame = collectionGradientView.bounds
         collectionGradientView.layer.addSublayer(shadowLayer)
 
-        infoButton.setPrimaryStyle()
+        infoButton.setStyle(.Primary(fontSize: .Medium))
         loadImageErrorTitleLabel.text = LGLocalizedString.productPostGalleryLoadImageErrorTitle
         loadImageErrorSubtitleLabel.text = LGLocalizedString.productPostGalleryLoadImageErrorSubtitle
 

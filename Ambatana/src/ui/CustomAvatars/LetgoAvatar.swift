@@ -10,7 +10,7 @@ import Foundation
 
 class LetgoAvatar {
     static func avatarWithID(id: String?, name: String?) -> UIImage {
-        let color = StyleHelper.avatarColorForString(id)
+        let color = UIColor.avatarColorForString(id)
         return LetgoAvatar.avatarWithColor(color, name: name)
     }
 
@@ -23,14 +23,15 @@ class LetgoAvatar {
         if let c = name?.characters.first {
             label.text = String(c).capitalizedString
         }
-        label.font = StyleHelper.avatarFont
+        label.font = UIFont.avatarFont
         label.textColor = UIColor.whiteColor()
         label.backgroundColor = UIColor.clearColor()
         label.textAlignment = .Center
         view.addSubview(label)
 
         UIGraphicsBeginImageContextWithOptions(view.bounds.size, true, 0)
-        view.layer.renderInContext(UIGraphicsGetCurrentContext()!)
+        guard let currentContext = UIGraphicsGetCurrentContext() else { return UIImage() }
+        view.layer.renderInContext(currentContext)
         let image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
 

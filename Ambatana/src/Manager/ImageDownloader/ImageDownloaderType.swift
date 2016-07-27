@@ -17,6 +17,7 @@ protocol ImageDownloaderType {
                       completion: ImageDownloadCompletion?)
     func downloadImageWithURL(url: NSURL, completion: ImageDownloadCompletion?)
     func downloadImagesWithURLs(urls: [NSURL])
+    func cachedImageForUrl(url: NSURL) -> UIImage?
 }
 
 extension ImageDownloaderType {

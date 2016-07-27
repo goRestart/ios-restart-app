@@ -52,7 +52,7 @@ class FBLoginHelper {
             case .Cancelled:
                 completion?(result: .Cancelled)
             case .Error:
-                completion?(result: .Internal)
+                completion?(result: .Internal(description: "FB SDK error"))
             }
         }
     }

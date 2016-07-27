@@ -11,8 +11,10 @@ import UIKit
 enum ConversationCellStatus {
     case Available
     case Forbidden
-    case Sold
-    case Deleted
+    case ProductSold
+    case ProductDeleted
+    case UserPendingDelete
+    case UserDeleted
 }
 
 struct ConversationCellData {
@@ -66,7 +68,7 @@ class ConversationCell: UITableViewCell, ReusableCell {
             line.removeFromSuperlayer()
         }
         lines = []
-        lines.append(contentView.addBottomBorderWithWidth(1, color: StyleHelper.lineColor))
+        lines.append(contentView.addBottomBorderWithWidth(1, color: UIColor.lineGray))
     }
 
 
@@ -78,6 +80,17 @@ class ConversationCell: UITableViewCell, ReusableCell {
         } else {
             super.setSelected(selected, animated: animated)
         }
+    }
+
+    override func setEditing(editing: Bool, animated: Bool) {
+        if (editing) {
+            let bgView = UIView()
+            selectedBackgroundView = bgView
+        } else {
+            selectedBackgroundView = nil
+        }
+        super.setEditing(editing, animated: animated)
+        tintColor = UIColor.primaryColor
     }
 
 
@@ -111,35 +124,31 @@ class ConversationCell: UITableViewCell, ReusableCell {
         userLabel.text = data.userName
 
         if data.unreadCount > 0 {
-            timeLabel.font = StyleHelper.conversationTimeUnreadFont
-            productLabel.font = StyleHelper.conversationProductUnreadFont
-            userLabel.font = StyleHelper.conversationUserNameUnreadFont
+            timeLabel.font = UIFont.conversationTimeUnreadFont
+            productLabel.font = UIFont.conversationProductUnreadFont
+            userLabel.font = UIFont.conversationUserNameUnreadFont
         } else {
-            timeLabel.font = StyleHelper.conversationTimeFont
-            productLabel.font = StyleHelper.conversationProductFont
-            userLabel.font = StyleHelper.conversationUserNameFont
+            timeLabel.font = UIFont.conversationTimeFont
+            productLabel.font = UIFont.conversationProductFont
+            userLabel.font = UIFont.conversationUserNameFont
         }
 
         switch data.status {
         case .Forbidden:
-            timeLabel.text = LGLocalizedString.accountDeactivated
-            statusImageView.image = UIImage(named: "ic_alert_yellow_white_inside")
-            statusImageView.hidden = false
-            separationStatusImageToTimeLabel.constant = ConversationCell.statusImageDefaultMargin
-        case .Sold:
-            timeLabel.text = LGLocalizedString.commonProductSold
-            statusImageView.image = UIImage(named: "ic_dollar_sold")
-            statusImageView.hidden = false
-            separationStatusImageToTimeLabel.constant = ConversationCell.statusImageDefaultMargin
-        case .Deleted:
-            timeLabel.text = LGLocalizedString.commonProductNotAvailable
-            statusImageView.image = UIImage(named: "ic_alert_yellow_white_inside")
-            statusImageView.hidden = false
-            separationStatusImageToTimeLabel.constant = ConversationCell.statusImageDefaultMargin
+            setInfo(text: LGLocalizedString.accountDeactivated, icon: UIImage(named: "ic_alert_yellow_white_inside"))
+        case .ProductSold:
+            setInfo(text: LGLocalizedString.commonProductSold, icon: UIImage(named: "ic_dollar_sold"))
+        case .ProductDeleted:
+            setInfo(text: LGLocalizedString.commonProductNotAvailable, icon: UIImage(named: "ic_alert_yellow_white_inside"))
+        case .UserPendingDelete:
+            setInfo(text: LGLocalizedString.chatListAccountDeleted, icon: UIImage(named: "ic_alert_yellow_white_inside"))
+        case .UserDeleted:
+            setInfo(text: LGLocalizedString.chatListAccountDeleted, icon: UIImage(named: "ic_alert_yellow_white_inside"))
+            userLabel.text = LGLocalizedString.chatListAccountDeletedUsername
+            productLabel.text = nil
+            avatarImageView.image = UIImage(named: "user_placeholder")
         case .Available:
-            timeLabel.text = data.messageDate?.relativeTimeString(false) ?? ""
-            statusImageView.hidden = true
-            separationStatusImageToTimeLabel.constant = -statusImageView.frame.width
+            setInfo(text: data.messageDate?.relativeTimeString(false) ?? "", icon: nil)
         }
 
         let badge: String? = data.unreadCount > 0 ? String(data.unreadCount) : nil
@@ -151,39 +160,41 @@ class ConversationCell: UITableViewCell, ReusableCell {
     // MARK: - Private methods
 
     private func setupUI() {
-        thumbnailImageView.layer.cornerRadius = StyleHelper.defaultCornerRadius
+        thumbnailImageView.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
         avatarImageView.layer.cornerRadius = avatarImageView.width/2
         avatarImageView.clipsToBounds = true
-        productLabel.font = StyleHelper.conversationProductFont
-        userLabel.font = StyleHelper.conversationUserNameFont
-        timeLabel.font = StyleHelper.conversationTimeFont
+        productLabel.font = UIFont.conversationProductFont
+        userLabel.font = UIFont.conversationUserNameFont
+        timeLabel.font = UIFont.conversationTimeFont
 
-        productLabel.textColor = StyleHelper.conversationProductColor
-        userLabel.textColor = StyleHelper.conversationUserNameColor
-        timeLabel.textColor = StyleHelper.conversationTimeColor
-        thumbnailImageView.backgroundColor = StyleHelper.conversationCellBgColor
+        productLabel.textColor = UIColor.darkGrayText
+        userLabel.textColor = UIColor.blackText
+        timeLabel.textColor = UIColor.darkGrayText
+        thumbnailImageView.backgroundColor = UIColor.placeholderBackgroundColor()
         badgeView.layer.cornerRadius = badgeView.height/2
     }
 
     private func resetUI() {
+        thumbnailImageView.image = UIImage(named: "product_placeholder")
         avatarImageView.image = nil
         productLabel.text = ""
         userLabel.text = ""
         timeLabel.text = ""
         badgeView.hidden = true
-        badgeView.backgroundColor = StyleHelper.badgeBgColor
+        badgeView.backgroundColor = UIColor.primaryColor
         badgeLabel.text = ""
-        badgeLabel.font = StyleHelper.conversationBadgeFont
+        badgeLabel.font = UIFont.conversationBadgeFont
     }
 
-    override func setEditing(editing: Bool, animated: Bool) {
-        if (editing) {
-            let bgView = UIView()
-            selectedBackgroundView = bgView
+    private func setInfo(text text: String?, icon: UIImage?) {
+        timeLabel.text = text
+        if let icon = icon {
+            statusImageView.image = icon
+            statusImageView.hidden = false
+            separationStatusImageToTimeLabel.constant = ConversationCell.statusImageDefaultMargin
         } else {
-            selectedBackgroundView = nil
+            statusImageView.hidden = true
+            separationStatusImageToTimeLabel.constant = -statusImageView.frame.width
         }
-        super.setEditing(editing, animated: animated)
-        tintColor = StyleHelper.primaryColor
     }
 }

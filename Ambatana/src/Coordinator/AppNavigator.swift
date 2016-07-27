@@ -15,5 +15,6 @@ protocol AppNavigator: class {
     
     func open()
     func openForceUpdateAlertIfNeeded()
-    func openSell()
+    func openSell(source: PostingSource)
+    func openUserRating(source: RateUserSource, data: RateUserData)
 }

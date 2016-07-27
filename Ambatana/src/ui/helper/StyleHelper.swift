@@ -104,7 +104,7 @@ class StyleHelper {
     static let alertCornerRadius: CGFloat = 15
 
     // state-depending features
-    static let enabledButtonHeight: CGFloat = 44
+    static let enabledButtonHeight: CGFloat = 50
     private static let disabledItemAlpha : CGFloat = 0.32
     
     private static let palette = [UIColor.gray, UIColor.grayLight, brownDark, cream, brownLight, brownMedium, greenMedium]

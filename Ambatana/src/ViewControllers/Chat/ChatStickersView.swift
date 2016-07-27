@@ -13,11 +13,21 @@ protocol ChatStickersViewDelegate: class {
 }
 
 class ChatStickersView: UIView {
-    let collectionView: UICollectionView
-    var numberOfColumns: Int = 3
-    var stickers: [Sticker] = []
+
+    var enabled: Bool = true {
+        didSet {
+            if enabled {
+                collectionView.deselectAll()
+            }
+        }
+    }
+
     weak var delegate: ChatStickersViewDelegate?
-    
+
+    private let collectionView: UICollectionView
+    private var numberOfColumns: Int = 3
+    private var stickers: [Sticker] = []
+
     init() {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .Vertical
@@ -35,6 +45,7 @@ class ChatStickersView: UIView {
     }
     
     func setupUI() {
+        backgroundColor = UIColor.whiteColor()
         collectionView.backgroundColor = UIColor.whiteColor()
         collectionView.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
         collectionView.registerClass(ChatStickerGridCell.self, forCellWithReuseIdentifier: ChatStickerGridCell.reuseIdentifier)
@@ -67,10 +78,26 @@ extension ChatStickersView: UICollectionViewDataSource, UICollectionViewDelegate
             }
             return cell
     }
+
+    func collectionView(collectionView: UICollectionView, shouldSelectItemAtIndexPath indexPath: NSIndexPath) -> Bool {
+        return enabled
+    }
+
+    func collectionView(collectionView: UICollectionView, shouldDeselectItemAtIndexPath indexPath: NSIndexPath) -> Bool {
+        return enabled
+    }
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        if FeatureFlags.websocketChat {
+            collectionView.deselectItemAtIndexPath(indexPath, animated: true)
+        }
+        guard enabled else { return }
         let sticker = stickers[indexPath.row]
         delegate?.stickersViewDidSelectSticker(sticker)
+    }
+
+    func collectionView(collectionView: UICollectionView, shouldHighlightItemAtIndexPath indexPath: NSIndexPath) -> Bool {
+        return enabled
     }
 }
 
@@ -81,4 +108,3 @@ extension ChatStickersView: UICollectionViewDelegateFlowLayout {
         return CGSize(width: width, height: width)
     }
 }
-

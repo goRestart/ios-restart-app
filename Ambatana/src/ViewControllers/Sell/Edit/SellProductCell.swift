@@ -71,7 +71,7 @@ class SellProductCell: UICollectionViewCell {
         self.activity.hidden = true
         iconImageView.image = UIImage(named: "ic_add_white")
         imageView.image = UIImage()
-        self.backgroundColor = StyleHelper.editProductAddPhotoCellBgColor
+        self.backgroundColor = UIColor.black
     }
 }
 

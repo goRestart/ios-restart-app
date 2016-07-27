@@ -32,6 +32,8 @@ class ChatViewController: SLKTextViewController {
     let keyboardHelper: KeyboardHelper
     let disposeBag = DisposeBag()
 
+    var stickersTooltip: Tooltip?
+
     var blockedToastOffset: CGFloat {
         return relationInfoView.hidden ? 0 : RelationInfoView.defaultHeight
     }
@@ -70,6 +72,7 @@ class ChatViewController: SLKTextViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         ChatCellDrawerFactory.registerCells(tableView)
+        setNavBarBackButton(nil)
         setupUI()
         setupToastView()
         setupDirectAnswers()
@@ -90,10 +93,11 @@ class ChatViewController: SLKTextViewController {
         updateReachableAndToastViewVisibilityIfNeeded()
         viewModel.active = true
     }
-    
+
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         viewModel.active = false
+        removeStickersTooltip()
     }
 
     override func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
@@ -119,7 +123,6 @@ class ChatViewController: SLKTextViewController {
     
     override func didPressRightButton(sender: AnyObject!) {
         let message = textView.text
-        textView.text = ""
         viewModel.sendText(message, isQuickAnswer: false)
     }
     
@@ -144,7 +147,7 @@ class ChatViewController: SLKTextViewController {
     // MARK: > UI
     
     private func setupUI() {
-        view.backgroundColor = StyleHelper.chatTableViewBgColor
+        view.backgroundColor = UIColor.grayBackground
 
         setupNavigationBar()
 
@@ -152,7 +155,7 @@ class ChatViewController: SLKTextViewController {
         tableView.estimatedRowHeight = 120
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.separatorStyle = .None
-        tableView.backgroundColor = StyleHelper.chatTableViewBgColor
+        tableView.backgroundColor = UIColor.grayBackground
         tableView.allowsSelection = false
         textView.placeholder = LGLocalizedString.chatMessageFieldHint
         textView.backgroundColor = UIColor.whiteColor()
@@ -160,21 +163,18 @@ class ChatViewController: SLKTextViewController {
         textInputbar.clipsToBounds = true
         textInputbar.translucent = false
         textInputbar.rightButton.setTitle(LGLocalizedString.chatSendButton, forState: .Normal)
-        rightButton.tintColor = StyleHelper.chatSendButtonTintColor
-        rightButton.titleLabel?.font = StyleHelper.chatSendButtonFont
-    
-        if FeatureFlags.chatStickers {
-            leftButton.setImage(UIImage(named: "ic_stickers"), forState: .Normal)
-            leftButton.tintColor = StyleHelper.chatLeftButtonColor
-        }
-        
+        rightButton.tintColor = UIColor.primaryColor
+        rightButton.titleLabel?.font = UIFont.smallButtonFont
+        leftButton.setImage(UIImage(named: "ic_stickers"), forState: .Normal)
+        leftButton.tintColor = UIColor.grayDark
+
         addSubviews()
         setupFrames()
         setupConstraints()
 
         keyboardPanningEnabled = false
         
-        if let patternBackground = StyleHelper.emptyViewBackgroundColor {
+        if let patternBackground = UIColor.emptyViewBackgroundColor {
             tableView.backgroundColor = UIColor.clearColor()
             view.backgroundColor = patternBackground
         }
@@ -228,6 +228,12 @@ class ChatViewController: SLKTextViewController {
         if !show { hideStickers() }
         guard viewModel.chatEnabled.value else { return }
         show ? presentKeyboard(animated) : dismissKeyboard(animated)
+    }
+
+    private func removeStickersTooltip() {
+        if let tooltip = stickersTooltip where view.subviews.contains(tooltip) {
+            tooltip.removeFromSuperview()
+        }
     }
 
     
@@ -300,7 +306,8 @@ extension ChatViewController {
     }
     
     func showStickers() {
-        guard FeatureFlags.chatStickers else { return }
+        viewModel.stickersShown()
+        removeStickersTooltip()
         showKeyboard(true, animated: false)
         stickersWindow?.hidden = false
         stickersView.hidden = false
@@ -309,7 +316,6 @@ extension ChatViewController {
     }
     
     func hideStickers() {
-        guard FeatureFlags.chatStickers else { return }
         stickersWindow?.hidden = true
         stickersView.hidden = true
         leftButton.setImage(UIImage(named: "ic_stickers"), forState: .Normal)
@@ -347,14 +353,17 @@ extension ChatViewController {
             switch status {
             case .ProductDeleted:
                 self?.productView.disableProductInteraction()
-            case .Forbidden:
+            case .Forbidden, .UserPendingDelete, .UserDeleted:
                 self?.productView.disableUserProfileInteraction()
                 self?.productView.disableProductInteraction()
             case .Available, .Blocked, .BlockedBy, .ProductSold:
                 break
             }
             }.addDisposableTo(disposeBag)
-        
+
+        viewModel.userIsReviewable.asObservable().subscribeNext { [weak self] showReviewButton in
+            self?.productView.showReviewButton(showReviewButton)
+        }.addDisposableTo(disposeBag)
         
         viewModel.messages.changesObservable.subscribeNext { [weak self] change in
             switch change {
@@ -365,7 +374,6 @@ extension ChatViewController {
                 self?.handleTableChange(change)
                 self?.tableView.endUpdates()
             }
-            
             }.addDisposableTo(disposeBag)
         
         viewModel.productName.asObservable().bindTo(productView.productName.rx_text).addDisposableTo(disposeBag)
@@ -493,15 +501,26 @@ extension ChatViewController: ChatViewModelDelegate {
         let vc = UserViewController(viewModel: userVM)
         self.navigationController?.pushViewController(vc, animated: true)
     }
-    
+
+    func vmClearText() {
+        textView.text = ""
+    }
+
     
     // MARK: > Report user
-    
+
     func vmShowReportUser(reportUserViewModel: ReportUsersViewModel) {
         let vc = ReportUsersViewController(viewModel: reportUserViewModel)
         self.navigationController?.pushViewController(vc, animated: true)
     }
-    
+
+    // MARK: > Rate user
+
+    func vmShowUserRating(source: RateUserSource, data: RateUserData) {
+        guard let tabBarController = self.tabBarController as? TabBarController else { return }
+        tabBarController.openUserRating(source, data: data)
+    }
+
     
     // MARK: > Alerts and messages
     
@@ -522,9 +541,9 @@ extension ChatViewController: ChatViewModelDelegate {
     func vmShowKeyboard() {
         showKeyboard(true, animated: true)
     }
-    
-    func vmHideKeyboard() {
-        showKeyboard(false, animated: true)
+
+    func vmHideKeyboard(animated: Bool) {
+        showKeyboard(false, animated: animated)
     }
     
     func vmShowMessage(message: String, completion: (() -> ())?) {
@@ -533,6 +552,29 @@ extension ChatViewController: ChatViewModelDelegate {
     
     func vmClose() {
         navigationController?.popViewControllerAnimated(true)
+    }
+
+    func vmRequestLogin(loggedInAction: () -> Void) {
+        dismissKeyboard(false)
+        ifLoggedInThen(.AskQuestion, loginStyle: .Popup(LGLocalizedString.chatLoginPopupText),
+                       loggedInAction: loggedInAction, elsePresentSignUpWithSuccessAction: loggedInAction)
+    }
+
+    func vmLoadStickersTooltipWithText(text: NSAttributedString) {
+        guard stickersTooltip == nil else { return }
+
+        stickersTooltip = Tooltip(targetView: leftButton, superView: view, title: text, style: .Black(closeEnabled: true),
+                                  peakOnTop: false, actionBlock: { [weak self] in
+                                    self?.showStickers()
+                        }, closeBlock: { [weak self] in
+                                    self?.viewModel.stickersShown()
+            })
+
+        guard let tooltip = stickersTooltip else { return }
+        view.addSubview(tooltip)
+        setupExternalConstraintsForTooltip(tooltip, targetView: leftButton, containerView: view)
+
+        view.layoutIfNeeded()
     }
 }
 
@@ -639,5 +681,9 @@ extension ChatViewController: ChatProductViewDelegate {
     
     func productViewDidTapUserAvatar() {
         viewModel.userInfoPressed()
+    }
+
+    func productViewDidTapUserReview() {
+        viewModel.reviewUserPressed()
     }
 }

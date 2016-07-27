@@ -21,7 +21,6 @@ protocol ProductViewModelDelegate: class, BaseViewModelDelegate {
     func vmOpenUser(userVM: UserViewModel)
     func vmOpenChat(chatVM: OldChatViewModel)
     func vmOpenWebSocketChat(chatVM: ChatViewModel)
-    func vmOpenOffer(offerVC: MakeAnOfferViewController)
 
     func vmOpenPromoteProduct(promoteVM: PromoteProductViewModel)
     func vmOpenCommercialDisplay(displayVM: CommercialDisplayViewModel)
@@ -68,7 +67,7 @@ enum ProductViewModelStatus {
     var bgColor: UIColor {
         switch self {
         case .Sold, .OtherSold:
-            return StyleHelper.soldColor
+            return UIColor.soldColor
         case .Pending, .PendingAndCommercializable, .Available, .AvailableAndCommercializable, .OtherAvailable,
              .NotAvailable:
             return UIColor.clearColor()
@@ -159,6 +158,26 @@ class ProductViewModel: BaseViewModel {
 
     // MARK: - Lifecycle
 
+    convenience init(product: ChatProduct, user: ChatInterlocutor, thumbnailImage: UIImage?) {
+        let myUserRepository = Core.myUserRepository
+        let productRepository = Core.productRepository
+        let commercializerRepository = Core.commercializerRepository
+        let chatRepository = Core.oldChatRepository
+        let countryHelper = Core.countryHelper
+        let tracker = TrackerProxy.sharedInstance
+        let chatWebSocketRepository = Core.chatRepository
+        let locationManager = Core.locationManager
+        
+        let product = productRepository.build(fromChatproduct: product, chatInterlocutor: user)
+        
+        self.init(myUserRepository: myUserRepository, productRepository: productRepository,
+                  commercializerRepository: commercializerRepository, chatRepository: chatRepository,
+                  chatWebSocketRepository: chatWebSocketRepository, locationManager: locationManager, countryHelper: countryHelper, tracker: tracker,
+                  product: product, thumbnailImage: thumbnailImage)
+        
+        syncProduct(nil)
+    }
+    
     convenience init(product: Product, thumbnailImage: UIImage?) {
         let myUserRepository = Core.myUserRepository
         let productRepository = Core.productRepository
@@ -207,7 +226,7 @@ class ProductViewModel: BaseViewModel {
         self.ownerAvatar = ownerIsMyUser ? (myAvatarURL ?? ownerAvatarURL) : ownerAvatarURL
 
         if ownerIsMyUser {
-            self.ownerAvatarPlaceholder = LetgoAvatar.avatarWithColor(StyleHelper.defaultAvatarColor,
+            self.ownerAvatarPlaceholder = LetgoAvatar.avatarWithColor(UIColor.defaultAvatarColor,
                                                                       name: ownerUsername)
         } else {
             self.ownerAvatarPlaceholder = LetgoAvatar.avatarWithID(ownerId, name: ownerUsername)
@@ -218,10 +237,6 @@ class ProductViewModel: BaseViewModel {
         super.init()
 
         setupRxBindings()
-        
-        if FeatureFlags.productDetailVersion != .Snapchat {
-            trackVisit(.None)
-        }
     }
     
     internal override func didBecomeActive(firstTime: Bool) {
@@ -251,15 +266,27 @@ class ProductViewModel: BaseViewModel {
                 guard let value = result.value, let strongSelf = self else { return }
 
                 if let code = strongSelf.product.value.postalAddress.countryCode {
-                    let availableTemplates = strongSelf.commercializerRepository.availableTemplatesFor(value, countryCode: code)
+                    let availableTemplates = strongSelf.commercializerRepository.availableTemplatesFor(value,
+                                                                                                       countryCode: code)
                     strongSelf.commercializerAvailableTemplatesCount = availableTemplates.count
-                    strongSelf.status.value = strongSelf.status.value.setCommercializable(availableTemplates.count > 0)
+                    strongSelf.status.value = strongSelf.status.value
+                        .setCommercializable(availableTemplates.count > 0 && strongSelf.commercializerIsAvailable)
                 }
 
                 let readyCommercials = value.filter {$0.status == .Ready }
                 self?.productHasReadyCommercials.value = !readyCommercials.isEmpty
                 self?.commercializers.value = value
             }
+        }
+    }
+    
+    func syncProduct(completion: (() -> ())?) {
+        guard let productId = product.value.objectId else { return }
+        productRepository.retrieve(productId) { [weak self] result in
+            if let value = result.value {
+                self?.product.value = value
+            }
+            completion?()
         }
     }
 
@@ -271,6 +298,11 @@ class ProductViewModel: BaseViewModel {
             strongSelf.productStatusLabelText.value = status.string
             strongSelf.productStatusLabelColor.value = status.labelColor
             }.addDisposableTo(disposeBag)
+        
+        isFavorite.asObservable().subscribeNext { [weak self] _ in
+            guard let strongSelf = self else { return }
+            strongSelf.navBarButtons.value = strongSelf.buildNavBarButtons()
+        }.addDisposableTo(disposeBag)
 
         product.asObservable().subscribeNext { [weak self] product in
             guard let strongSelf = self else { return }
@@ -282,7 +314,7 @@ class ProductViewModel: BaseViewModel {
           
             let status = product.viewModelStatus
             if let templates = strongSelf.commercializerAvailableTemplatesCount {
-                strongSelf.status.value = status.setCommercializable(templates > 0)
+                strongSelf.status.value = status.setCommercializable(templates > 0 && strongSelf.commercializerIsAvailable)
             } else {
                 strongSelf.status.value = status
             }
@@ -296,7 +328,7 @@ class ProductViewModel: BaseViewModel {
             strongSelf.productTitle.value = product.title
             strongSelf.productTitleAutogenerated.value = product.isTitleAutoGenerated
             strongSelf.productTitleAutoTranslated.value = product.isTitleAutoTranslated(strongSelf.countryHelper)
-            strongSelf.productDescription.value = product.descr?.trim
+            strongSelf.productDescription.value = product.description?.trim
             strongSelf.productPrice.value = product.priceString()
             strongSelf.productAddress.value = product.postalAddress.zipCodeCityString
             strongSelf.productLocation.value = product.location
@@ -342,20 +374,6 @@ extension ProductViewModel {
         }
     }
 
-    func openProductLocation() -> UIViewController? {
-        // TODO: Refactor to return a view model as soon as ProductLocationViewController is refactored to MVVM
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        guard let vc = storyboard.instantiateViewControllerWithIdentifier("ProductLocationViewController")
-            as? ProductLocationViewController else { return nil }
-
-        let location = product.value.location
-        let coordinate = CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude)
-        vc.location = coordinate
-        vc.annotationTitle = product.value.name
-        vc.annotationSubtitle = product.value.postalAddress.zipCodeCityString
-        return vc
-    }
-
     func markSold() {
         ifLoggedInRunActionElseOpenMainSignUp({ [weak self] in
 
@@ -390,28 +408,9 @@ extension ProductViewModel {
             }, source: .MarkAsUnsold)
     }
     
-    func ask(message: String?) {
-        ifLoggedInRunActionElseOpenMainSignUp({ [weak self] in
-            guard let strongSelf = self else { return }
-            strongSelf.openChat()
-            }, source: .AskQuestion)
-    }
-    
-    func didSelectGoToChat() {
+    func chatWithSeller() {
+        trackChatWithSeller()
         openChat()
-    }
-    
-    func offer() {
-        ifLoggedInRunActionElseOpenMainSignUp({ [weak self] in
-            guard let strongSelf = self else { return }
-
-            // TODO: Refactor to return a view model as soon as MakeAnOfferViewController is refactored to MVVM
-            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            guard let offerVC = storyboard.instantiateViewControllerWithIdentifier("MakeAnOfferViewController")
-                as? MakeAnOfferViewController else { return }
-            offerVC.product = strongSelf.product.value
-            strongSelf.delegate?.vmOpenOffer(offerVC)
-            }, source: .MakeOffer)
     }
 
     func sendDirectMessage(message: String?) {
@@ -435,7 +434,7 @@ extension ProductViewModel {
                 switch error {
                 case .Forbidden:
                     self?.delegate?.vmHideLoading(LGLocalizedString.productChatDirectErrorBlockedUserMessage, afterMessageCompletion: nil)
-                case .Network, .Internal, .NotFound, .Unauthorized, .TooManyRequests:
+                case .Network, .Internal, .NotFound, .Unauthorized, .TooManyRequests, .UserNotVerified:
                     self?.delegate?.vmHideLoading(LGLocalizedString.chatSendErrorGeneric, afterMessageCompletion: nil)
                 }
             }
@@ -471,8 +470,7 @@ extension ProductViewModel {
 extension ProductViewModel {
     private func openChat() {
         if FeatureFlags.websocketChat {
-            guard let sellerId = product.value.user.objectId, productId = product.value.objectId else { return }
-            guard let chatVM = ChatViewModel(productId: productId, sellerId: sellerId) else { return }
+            guard let chatVM = ChatViewModel(product: product.value) else { return }
             chatVM.askQuestion = .ProductDetail
             self.delegate?.vmOpenWebSocketChat(chatVM)
         } else {
@@ -572,8 +570,11 @@ extension ProductViewModel {
         return UIAction(interface: .Image(icon), action: { [weak self] in
             guard let strongSelf = self else { return }
             let editProductVM = EditProductViewModel(product: strongSelf.product.value)
+            editProductVM.closeCompletion = { [weak self] product in
+                self?.product.value = product
+            }
             strongSelf.delegate?.vmOpenEditProduct(editProductVM)
-            })
+        })
     }
 
     private func buildShareNavBarAction() -> UIAction {
@@ -687,7 +688,6 @@ extension ProductViewModel {
                 guard let strongSelf = self else { return }
                 if let product = result.value {
                     strongSelf.product.value = product
-                    strongSelf.isFavorite.value = product.favorite
                 }
                 strongSelf.favoriteButtonEnabled.value = true
             }
@@ -696,7 +696,6 @@ extension ProductViewModel {
                 guard let strongSelf = self else { return }
                 if let product = result.value {
                     strongSelf.product.value = product
-                    strongSelf.isFavorite.value = product.favorite
                     self?.trackSaveFavoriteCompleted()
 
                     if RatingManager.sharedInstance.shouldShowRating {
@@ -798,21 +797,6 @@ extension ProductViewModel {
 
 
 // MARK: - UpdateDetailInfoDelegate
-
-extension ProductViewModel: UpdateDetailInfoDelegate {
-    func updateDetailInfo(viewModel: EditProductViewModel, withSavedProduct savedProduct: Product) {
-        product.value = savedProduct
-    }
-
-    func updateDetailInfo(viewModel: EditProductViewModel, withInitialProduct initialProduct: Product) {
-        switch initialProduct.status {
-        case .Pending:
-            promoteProduct(.ProductEdit)
-        case .Approved, .Discarded, .Sold, .SoldOld, .Deleted:
-            break
-        }
-    }
-}
 
 extension ProductViewModel {
     private func ifLoggedInRunActionElseOpenMainSignUp(action: () -> (), source: EventParameterLoginSourceValue) {
@@ -987,6 +971,11 @@ extension ProductViewModel {
 
     private func trackSaveFavoriteCompleted() {
         let trackerEvent = TrackerEvent.productFavorite(product.value, typePage: .ProductDetail)
+        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+    }
+
+    private func trackChatWithSeller() {
+        let trackerEvent = TrackerEvent.productDetailChatButton(product.value)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
 }

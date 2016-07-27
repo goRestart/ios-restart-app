@@ -33,7 +33,7 @@ struct LGViewPagerConfig {
     let tabHeight: CGFloat
 
     static func defaultConfig() -> LGViewPagerConfig {
-        return LGViewPagerConfig(tabPosition: .Top, tabLayout: .Dynamic, tabHeight: 38)
+        return LGViewPagerConfig(tabPosition: .Top, tabLayout: .Dynamic, tabHeight: 44)
     }
 }
 
@@ -100,7 +100,7 @@ class LGViewPager: UIView, UIScrollViewDelegate {
     weak var scrollDelegate: LGViewPagerScrollDelegate?
 
     // Data
-    private let indicatorHeight: CGFloat = 2
+    private let indicatorHeight: CGFloat = 3
 
     private(set) var currentPage: Int = 0
 
@@ -185,8 +185,12 @@ class LGViewPager: UIView, UIScrollViewDelegate {
     }
 
     func selectTabAtIndex(index: Int) {
+        selectTabAtIndex(index, animated: false)
+    }
+
+    func selectTabAtIndex(index: Int, animated: Bool) {
         guard 0..<tabMenuItems.count ~= index else { return }
-        changeSelectedTab(tabMenuItems[index], animated: false)
+        changeSelectedTab(tabMenuItems[index], animated: animated)
     }
     
 

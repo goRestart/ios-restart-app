@@ -31,14 +31,14 @@ protocol AppEnvironment {
     // Config
     var configFileName: String { get }
 
-    // Adjust
-    var adjustAppToken: String { get }
-    var adjustEnvironment: String { get }
-
     // Twitter
     var twitterConsumerKey: String { get }
     var twitterConsumerSecret: String { get }
 
-    // Taplytics
-    var taplyticsApiKey: String { get }
+    // Leanplum
+    var leanplumAppId: String { get }
+    var leanplumEnvKey: String { get }
+
+    // Config
+    var configURL: String { get }
 }

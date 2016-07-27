@@ -20,6 +20,7 @@
 "categories_other" = "Annet";
 "categories_sports_leisure_and_games" = "Sport, fritid og spill";
 "categories_title" = "Kategorier";
+"categories_unassigned" = "Ikke valgt";
 "change_location_apply_button" = "Velg plassering";
 "change_location_approximate_location_label" = "Vis omtrentlig adresse";
 "change_location_ask_update_location_message" = "Finn et kupp nært deg! Ønsker du å oppdatere din plassering?";
@@ -48,6 +49,8 @@
 "change_username_save_button" = "Lagre";
 "change_username_send_ok" = "Endring av brukernavn var vellykket!";
 "change_username_title" = "Endre navn";
+"chat_account_deleted_w_name" = "%@'s konto er slettet";
+"chat_account_deleted_wo_name" = "Denne kontoen er slettet";
 "chat_block_user" = "Blokker bruker";
 "chat_block_user_alert_block_button" = "Blokker";
 "chat_block_user_alert_text" = "Blokkering av brukere forhindrer enhver handling mellom dere.";
@@ -61,6 +64,10 @@
 "chat_blocked_disclaimer_scammer_w_name" = "Av sikkerhetsgrunner er %@'s konto slettet av letgo's team, samt disse meldingene.";
 "chat_blocked_disclaimer_scammer_wo_name" = "Av sikkerhetsgrunner er denne kontoen slettet av letgo's team, samt disse meldingene.";
 "chat_delete_chat" = "Slett samtale";
+"chat_deleted_disclaimer_w_name" = "Du kan ikke fortsette denne samtalen, fordi %@'s konto ikke lenger er aktiv.";
+"chat_deleted_disclaimer_wo_name" = "Du kan ikke fortsette denne samtalen, fordi denne kontoen ikke lenger er aktiv.";
+"chat_list_account_deleted" = "Slettet konto";
+"chat_list_account_deleted_username" = "Inaktiv";
 "chat_list_all_empty_title" = "INGEN SAMTALER (ENDA!)";
 "chat_list_all_title" = "ALLE";
 "chat_list_archive" = "Arkiv";
@@ -101,6 +108,7 @@
 "chat_list_unarchive_error_one" = "En feil oppstod ved dearkivering av samtalen. Vennligst prøv igjen.";
 "chat_list_unarchive_ok_one" = "Dearkivering av samtale var vellykket!";
 "chat_list_unblock" = "Opphev Blokkering";
+"chat_login_popup_text" = "Du må være pålogget for å kunne starte samtale";
 "chat_message_disclaimer_scammer" = "Vær ekstra forsiktig når du veksler telefonnummer eller e-postadresse med andre. Falske bruker vil ofte be deg om å fortsette kommunikasjonen utenfor letgo. Pass på! Trykk her for å se våre %@.";
 "chat_message_field_hint" = "Skriv din melding her";
 "chat_message_load_generic_error" = "En feil oppstod ved å motta samtaledata. Vennligst prøv igjen senere.";
@@ -114,9 +122,12 @@
 "chat_safety_tips_title" = "SIKKERHETSTIPS";
 "chat_send_button" = "Send";
 "chat_send_error_generic" = "En feil oppstod ved sending av melding. Vennligst prøv igjen senere.";
+"chat_stickers_tooltip_add_stickers" = "Legg til morsomme etiketter";
+"chat_stickers_tooltip_new" = "NYHET!";
 "chat_unblock_user" = "Opphev blokkering";
 "chat_user_info_name" = "Hei, jeg er %@";
 "chat_user_info_verified_with" = "Verifisert med: ";
+"chat_user_rating_button_title" = "Omtale";
 "chat_verify_alert_message" = "Vi har sendt e-post for verifisering til %@";
 "chat_verify_alert_ok_button" = "Ok";
 "chat_verify_alert_resend_button" = "Send på nytt";
@@ -190,6 +201,7 @@
 "common_time_week_ago_label" = "for en uke siden";
 "common_time_weeks_ago_label" = "for %d uker siden";
 "common_user_not_available" = "Oops! Fant ikke bruker.";
+"common_user_review_not_available" = "Oops! Review not found.";
 "common_yes" = "Ja";
 "contact_body_field_hint" = "Melding";
 "contact_choose_subject_dialog_title" = "Velg et emne";
@@ -343,6 +355,7 @@
 "product_chat_go_to_chat" = "Gå til Chat";
 "product_chat_message_sending" = "Sender...";
 "product_chat_with_seller_button" = "Snakk med selgeren";
+"product_chat_with_seller_name_button" = "Chat med %@";
 "product_chat_with_seller_send_ok" = "Din melding ble sendt!";
 "product_continue_chatting_button" = "Fortsett å snakke";
 "product_create_commercial_button" = "Create Commercial";
@@ -367,6 +380,7 @@
 "product_distance_from_you" = "fra deg";
 "product_distance_more_than_from_you" = "Mer enn %@ fra deg";
 "product_gallery_title" = "Bilder";
+"product_list_banner_cell_title" = "SE DIN ANNONSE HER";
 "product_list_item_new_status_label" = "NY";
 "product_list_item_sold_status_label" = "SOLGT";
 "product_list_item_time_hour_label" = "%i t";
@@ -383,6 +397,9 @@
 "product_mark_as_sold_confirm_title" = "Merk som solgt";
 "product_mark_as_sold_error_generic" = "En geil oppstod ved å merke produktet som solgt. Vennligst prøv igjen senere.";
 "product_mark_as_sold_success_message" = "Gratulerer, ditt produkt ble merket som solgt!";
+"product_more_info_open_button" = "MER INFO";
+"product_more_info_tooltip_part_1" = "Trykk";
+"product_more_info_tooltip_part_2" = "%@ for å se mer info";
 "product_negotiable_price" = "Kan diskuteres";
 "product_onboarding_finger_scroll_label" = "Scroll for å se flere bilder";
 "product_onboarding_finger_swipe_label" = "Swipe for å gå til neste eller forrige produkt";
@@ -418,6 +435,16 @@
 "product_post_gallery_permissions_title" = "Tillat tilgang til bilder";
 "product_post_gallery_tab" = "BIBLIOTEK";
 "product_post_generic_error" = "Det oppstod en feil ved publisering av ditt produkt.";
+"product_post_incentive_bike" = "Sykler";
+"product_post_incentive_car" = "Biler";
+"product_post_incentive_dresser" = "Kommoder";
+"product_post_incentive_got_any" = "har du noe å selge?";
+"product_post_incentive_looking_for" = "Personer i ditt område ser etter disse produktene, %@";
+"product_post_incentive_motorcycle" = "Motorsykler";
+"product_post_incentive_ps4" = "PS4";
+"product_post_incentive_subtitle" = "Din annonse er publisert.";
+"product_post_incentive_title" = "GRATULERER!";
+"product_post_incentive_tv" = "TV'er";
 "product_post_login_message" = "Du må være innlogget for å kunne selge dine ting";
 "product_post_network_error" = "Ditt produkt er ikke publisert.\nVennligst sjekk dine nettverksinnstillinger.";
 "product_post_price_label" = "Ønsker du å legge til pris?";
@@ -480,6 +507,7 @@
 "profile_permissions_alert_ok" = "Aktiver";
 "profile_permissions_alert_title" = "IKKE GÅ GLIPP AV ET SVAR!";
 "profile_permissions_header_message" = "Aktiver meldingsvarslinger";
+"profile_reviews_count" = "Vurderinger";
 "profile_selling_my_user_no_products_button" = "Selg Dine Ting";
 "profile_selling_no_products_label" = "INGEN PRODUKTER (ENDA!)";
 "profile_selling_other_user_no_products_button" = "Fortsett å bla i produktene";
@@ -507,6 +535,15 @@
 "push_notification_message_body" = "%@: %@";
 "push_notification_message_body_no_username" = "Melding: %@";
 "push_notification_message_title" = "Ny melding - %@";
+"rating_list_action_report_review" = "Rapporter vurdering";
+"rating_list_action_report_review_error_message" = "En feil oppstod ved sending av din rapport.";
+"rating_list_action_report_review_success_message" = "Din rapport ble sendt!";
+"rating_list_action_review_user" = "Vurder bruker";
+"rating_list_loading_error_message" = "En feil oppstod ved lasting av vurderinger.";
+"rating_list_rating_type_buyer_text_label" = "%@ kjøpte et produkt";
+"rating_list_rating_type_conversation_text_label" = "%@ snakket om et produkt";
+"rating_list_rating_type_seller_text_label" = "%@ solgte et produkt";
+"rating_list_title" = "Reviews";
 "rating_view_dont_ask_again_button" = "Ikke spør meg igjen";
 "rating_view_love_it_label" = "Elsker det!";
 "rating_view_needs_improvements_label" = "Trenger forbedringer";
@@ -627,3 +664,10 @@
 "trending_searches_Title" = "Populære søk";
 "unblock_user_error_generic" = "En feil oppstod ved oppheving av blokkering for denne brukeren.";
 "unblock_user_success_message" = "Brukerens blokkering er opphevet!";
+"user_rating_message_w_name" = "Trykk på stjernene for å rangere og fortelle oss om din opplevelse med %@ gikk bra. Du kan oppdatere rangeringen når som helst.";
+"user_rating_message_wo_name" = "Trykk på stjernene for å rangere og fortelle oss om din opplevelse med denne brukeren gikk bra. Du kan oppdatere rangeringen når som helst.";
+"user_rating_review_button" = "Publiser omtale";
+"user_rating_review_placeholder" = "Legg igjen en omtale (påkrevd)";
+"user_rating_review_placeholder_optional" = "Legg igjen en omtale (valgfritt)";
+"user_rating_review_send_success" = "Din omtale er publisert!";
+"user_rating_title" = "Vurder din opplevelse med";

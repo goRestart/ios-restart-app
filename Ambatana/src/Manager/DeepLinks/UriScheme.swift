@@ -57,6 +57,11 @@ struct UriScheme {
         case .Commercializer:
             guard let productId = params["p"], templateId = params["t"] else { return nil }
             return UriScheme(deepLink: DeepLink.link(.CommercializerReady(productId: productId, templateId: templateId)))
+        case .UserRatings:
+            return UriScheme(deepLink: DeepLink.link(.UserRatings))
+        case .UserRating:
+            guard let ratingId = components.first else { return nil }
+            return UriScheme(deepLink: DeepLink.link(.UserRating(ratingId: ratingId)))
         }
     }
 }
@@ -72,4 +77,6 @@ enum UriSchemeHost: String {
     case Search = "search"
     case ResetPassword = "reset_password"
     case Commercializer = "commercializer"
+    case UserRatings = "userreviews"
+    case UserRating = "userreview"
 }

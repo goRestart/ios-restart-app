@@ -20,6 +20,7 @@
 "categories_other" = "Altro";
 "categories_sports_leisure_and_games" = "Sport, Tempo libero e Giochi";
 "categories_title" = "Categorie";
+"categories_unassigned" = "Non selezionata";
 "change_location_apply_button" = "Imposta posizione";
 "change_location_approximate_location_label" = "Mostra indirizzo approssimativo";
 "change_location_ask_update_location_message" = "Trova delle occasioni vicino a te! Vuoi aggiornare la tua posizione?";
@@ -48,6 +49,8 @@
 "change_username_save_button" = "Salva";
 "change_username_send_ok" = "Nome utente cambiato con successo!";
 "change_username_title" = "Cambia Nome";
+"chat_account_deleted_w_name" = "L'account di %@ è stato eliminato";
+"chat_account_deleted_wo_name" = "Questo account è stato eliminato";
 "chat_block_user" = "Blocca Utente";
 "chat_block_user_alert_block_button" = "Blocca";
 "chat_block_user_alert_text" = "Bloccare un utente impedisce qualsiasi ulteriore interazione tra di voi.";
@@ -61,6 +64,10 @@
 "chat_blocked_disclaimer_scammer_w_name" = "Per ragioni di sicurezza, l'account di %@ è stato eliminato dal team letgo e questi messaggi sono stati rimossi.";
 "chat_blocked_disclaimer_scammer_wo_name" = "Per ragioni di sicurezza, questo account è stato eliminato dal team letgo e questi messaggi sono stati rimossi.";
 "chat_delete_chat" = "Elimina Chat";
+"chat_deleted_disclaimer_w_name" = "Non puoi continuare questa conversazione perché l'account di %@ non è più attivo.";
+"chat_deleted_disclaimer_wo_name" = "Non puoi continuare questa conversazione perché questo account non è più attivo.";
+"chat_list_account_deleted" = "Account eliminato";
+"chat_list_account_deleted_username" = "Inattivo";
 "chat_list_all_empty_title" = "NESSUNA CONVERSAZIONE (ANCORA!)";
 "chat_list_all_title" = "TUTTE";
 "chat_list_archive" = "Archivia";
@@ -101,6 +108,7 @@
 "chat_list_unarchive_error_one" = "Si è verificato un errore durante il tentativo di annullare l'archiviazione della conversazione. Riprova.";
 "chat_list_unarchive_ok_one" = "Archiviazione della chat annullata con successo!";
 "chat_list_unblock" = "Sblocca";
+"chat_login_popup_text" = "Devi effettuare l'accesso per iniziare a chattare";
 "chat_message_disclaimer_scammer" = "Fai particolare attenzione quando scambi dettagli telefonici o email. Utenti disonesti chiedono spesso di lasciare la chat di letgo. Informati bene! Tocca qui per consultare i nostri %@.";
 "chat_message_field_hint" = "Digita qui il tuo messaggio";
 "chat_message_load_generic_error" = "Si è verificato un errore durante il recupero del contenuto della tua conversazione. Riprova più tardi.";
@@ -114,9 +122,12 @@
 "chat_safety_tips_title" = "CONSIGLI UTILI";
 "chat_send_button" = "Invia";
 "chat_send_error_generic" = "Si è verificato un errore durante l'invio del messaggio. Riprova più tardi.";
+"chat_stickers_tooltip_add_stickers" = "Aggiungi divertenti adesivi";
+"chat_stickers_tooltip_new" = "NOVITÀ!";
 "chat_unblock_user" = "Sblocca Utente";
 "chat_user_info_name" = "Ciao, sono %@";
 "chat_user_info_verified_with" = "Verificato con: ";
+"chat_user_rating_button_title" = "Recensione";
 "chat_verify_alert_message" = "Abbiamo inviato un'email di verifica all'indirizzo %@";
 "chat_verify_alert_ok_button" = "Ok";
 "chat_verify_alert_resend_button" = "Reinvia";
@@ -190,6 +201,7 @@
 "common_time_week_ago_label" = "una settimana fa";
 "common_time_weeks_ago_label" = "%d settimane fa";
 "common_user_not_available" = "Ops! Utente non trovato.";
+"common_user_review_not_available" = "Oops! Review not found.";
 "common_yes" = "Sì";
 "contact_body_field_hint" = "Messaggio";
 "contact_choose_subject_dialog_title" = "Scegli un oggetto";
@@ -343,6 +355,7 @@
 "product_chat_go_to_chat" = "Vai alla chat";
 "product_chat_message_sending" = "Invio in corso...";
 "product_chat_with_seller_button" = "Chatta con il venditore";
+"product_chat_with_seller_name_button" = "Chatta con %@";
 "product_chat_with_seller_send_ok" = "Il tuo messaggio è stato inviato!";
 "product_continue_chatting_button" = "Continua a chattare";
 "product_create_commercial_button" = "Create Commercial";
@@ -367,6 +380,7 @@
 "product_distance_from_you" = "da te";
 "product_distance_more_than_from_you" = "Più di %@ da te";
 "product_gallery_title" = "Foto";
+"product_list_banner_cell_title" = "GUARDA QUI LA TUA INSERZIONE";
 "product_list_item_new_status_label" = "NUOVO";
 "product_list_item_sold_status_label" = "VENDUTO";
 "product_list_item_time_hour_label" = "%ih";
@@ -383,6 +397,9 @@
 "product_mark_as_sold_confirm_title" = "Segna come venduto";
 "product_mark_as_sold_error_generic" = "Si è verificato un errore durante il tentativo di segnare il prodotto come venduto. Riprova più tardi.";
 "product_mark_as_sold_success_message" = "Complimenti, Il tuo prodotto è stato correttamente contrassegnato come venduto.";
+"product_more_info_open_button" = "ALTRE INFORMAZIONI";
+"product_more_info_tooltip_part_1" = "Tocca";
+"product_more_info_tooltip_part_2" = "%@ per vedere maggiori informazioni";
 "product_negotiable_price" = "Trattabile";
 "product_onboarding_finger_scroll_label" = "Scorri per vedere altre foto";
 "product_onboarding_finger_swipe_label" = "Striscia il dito per passare al prodotto successivo o a quello precendente";
@@ -418,6 +435,16 @@
 "product_post_gallery_permissions_title" = "Consenti accesso alle foto";
 "product_post_gallery_tab" = "LIBRERIA";
 "product_post_generic_error" = "Si è verificato un errore durante la pubblicazione del tuo prodotto.";
+"product_post_incentive_bike" = "Biciclette";
+"product_post_incentive_car" = "Auto";
+"product_post_incentive_dresser" = "Comò";
+"product_post_incentive_got_any" = "hai niente da vendere?";
+"product_post_incentive_looking_for" = "Le persone vicino a te stanno cercando questi oggetti, %@";
+"product_post_incentive_motorcycle" = "Moto";
+"product_post_incentive_ps4" = "PS4";
+"product_post_incentive_subtitle" = "Il tuo annuncio è stato pubblicato.";
+"product_post_incentive_title" = "CONGRATULAZIONI!";
+"product_post_incentive_tv" = "TV";
 "product_post_login_message" = "Per vendere le tue cose, devi effettuare l'accesso";
 "product_post_network_error" = "Il tuo prodotto non è stato pubblicato.\nControlla le impostazioni di rete.";
 "product_post_price_label" = "Vuoi aggiungere un prezzo?";
@@ -480,6 +507,7 @@
 "profile_permissions_alert_ok" = "Attiva";
 "profile_permissions_alert_title" = "NON PERDERE NEANCHE UNA RISPOSTA!";
 "profile_permissions_header_message" = "Attiva notifiche messaggi";
+"profile_reviews_count" = "Recensioni";
 "profile_selling_my_user_no_products_button" = "Vendi le tue cose";
 "profile_selling_no_products_label" = "ANCORA NESSUN PRODOTTO!";
 "profile_selling_other_user_no_products_button" = "Continua la consultazione";
@@ -507,6 +535,15 @@
 "push_notification_message_body" = "%@: %@";
 "push_notification_message_body_no_username" = "Messaggio: %@";
 "push_notification_message_title" = "Nuovo messaggio - %@";
+"rating_list_action_report_review" = "Segnala utente";
+"rating_list_action_report_review_error_message" = "Si è verificato un errore durante l'invio della tua segnalazione.";
+"rating_list_action_report_review_success_message" = "La tua segnalazione è stata inviata!";
+"rating_list_action_review_user" = "Recensisci utente";
+"rating_list_loading_error_message" = "Si è verificato un errore durante il caricamento dei giudizi";
+"rating_list_rating_type_buyer_text_label" = "%@ ha acquistato un prodotto";
+"rating_list_rating_type_conversation_text_label" = "%@ ha chattato riguardo a un prodotto";
+"rating_list_rating_type_seller_text_label" = "%@ ha venduto un prodotto";
+"rating_list_title" = "Reviews";
 "rating_view_dont_ask_again_button" = "Non chiedermelo ancora";
 "rating_view_love_it_label" = "Lo adoro!";
 "rating_view_needs_improvements_label" = "Ha bisogno di miglioramenti";
@@ -627,3 +664,10 @@
 "trending_searches_Title" = "Ricerche di tendenza";
 "unblock_user_error_generic" = "Si è verificato un errore durante il tentativo di sbloccare questo utente.";
 "unblock_user_success_message" = "L'utente è stato sbloccato!";
+"user_rating_message_w_name" = "Tocca le stelle per dare un giudizio e farci sapere com'è andata la tua esperienza con %@. Potrai aggiornarlo quando desideri.";
+"user_rating_message_wo_name" = "Tocca le stelle per dare un giudizio e farci sapere com'è andata la tua esperienza con questo utente. Potrai aggiornarlo quando desideri.";
+"user_rating_review_button" = "Pubblica recensione";
+"user_rating_review_placeholder" = "Lascia una recensione (obbligatorio)";
+"user_rating_review_placeholder_optional" = "Lascia una recensione (facoltativo)";
+"user_rating_review_send_success" = "La tua recensione è stata pubblicata!";
+"user_rating_title" = "Valuta la tua esperienza con";
