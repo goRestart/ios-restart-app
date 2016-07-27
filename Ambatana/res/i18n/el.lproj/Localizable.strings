@@ -201,7 +201,7 @@
 "common_time_week_ago_label" = "πριν από μια εβδομάδα";
 "common_time_weeks_ago_label" = "%d εβδομάδες πριν";
 "common_user_not_available" = "Όπα! Δε βρέθηκε ο χρήστης.";
-"common_user_review_not_available" = "Oops! Review not found.";
+"common_user_review_not_available" = "Όπα! Η κριτική δε βρέθηκε.";
 "common_yes" = "Ναι";
 "contact_body_field_hint" = "Μήνυμα";
 "contact_choose_subject_dialog_title" = "Επιλογή θέματος";
@@ -543,7 +543,7 @@
 "rating_list_rating_type_buyer_text_label" = "Ο %@ αγόρασε ένα προϊόν";
 "rating_list_rating_type_conversation_text_label" = "Ο %@ συζήτησε για ένα προϊόν";
 "rating_list_rating_type_seller_text_label" = "Ο %@ πούλησε ένα προϊόν";
-"rating_list_title" = "Reviews";
+"rating_list_title" = "Κριτικές";
 "rating_view_dont_ask_again_button" = "Να μην ερωτηθώ ξανά";
 "rating_view_love_it_label" = "Μου αρέσει!";
 "rating_view_needs_improvements_label" = "Χρειάζεται βελτιώσεις";
@@ -664,10 +664,12 @@
 "trending_searches_Title" = "Δημοφιλείς Αναζητήσεις";
 "unblock_user_error_generic" = "Παρουσιάστηκε σφάλμα κατά το ξεμπλοκάρισμα του χρήστη.";
 "unblock_user_success_message" = "Ο χρήστης έχει ξεμπλοκαριστεί!";
-"user_rating_message_w_name" = "Πατήστε τα αστεράκια για να βαθμολογήσετε και να μας πείτε αν η εμπειρία σας με το %@ ήταν καλή. Μπορείτε να την ενημερώσετε όποτε θέλετε.";
-"user_rating_message_wo_name" = "Πατήστε τα αστεράκια για να βαθμολογήσετε και να μας πείτε αν η εμπειρία σας με το χρήστη αυτό ήταν καλή. Μπορείτε να την ενημερώσετε όποτε θέλετε.";
+"user_rating_message_w_name" = "Αξίζει η εμπειρία σας με τον/ την %@ πέντε αστεράκια; Πείτε μας πώς πήγε.";
+"user_rating_message_wo_name" = "Αξίζει η εμπειρία σας με αυτό το χρήστη πέντε αστεράκια; Πείτε μας πώς πήγε.";
 "user_rating_review_button" = "Δημοσιεύστε κριτική";
-"user_rating_review_placeholder" = "Αφήστε μια κριτική (απαραίτητο)";
-"user_rating_review_placeholder_optional" = "Αφήστε μια κριτική (προαιρετικό)";
+"user_rating_review_info" = "Μπορείτε να ενημερώσετε αυτήν την κριτική όποτε θέλετε.";
+"user_rating_review_placeholder" = "Γράψτε για την εμπειρία σας (απαραίτητο)";
+"user_rating_review_placeholder_mandatory" = "Write about your experience (required)";
+"user_rating_review_placeholder_optional" = "Γράψτε για την εμπειρία σας (προαιρετικό)";
 "user_rating_review_send_success" = "Η κριτική σας έχει δημοσιευθεί!";
 "user_rating_title" = "Αναφέρετε την εμπειρία σας με";

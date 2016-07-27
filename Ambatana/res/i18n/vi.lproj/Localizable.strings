@@ -201,7 +201,7 @@
 "common_time_week_ago_label" = "một tuần trước";
 "common_time_weeks_ago_label" = "%d tuần trước";
 "common_user_not_available" = "Ồ! Không tìm thấy người dùng.";
-"common_user_review_not_available" = "Oops! Review not found.";
+"common_user_review_not_available" = "Ồ! Không tìm thấy đánh giá.";
 "common_yes" = "Có";
 "contact_body_field_hint" = "Tin nhắn";
 "contact_choose_subject_dialog_title" = "Chọn một tiêu đề";
@@ -543,7 +543,7 @@
 "rating_list_rating_type_buyer_text_label" = "%@ đã mua một sản phẩm";
 "rating_list_rating_type_conversation_text_label" = "%@ đã trò chuyện về một sản phẩm";
 "rating_list_rating_type_seller_text_label" = "%@ đã bán một sản phẩm";
-"rating_list_title" = "Reviews";
+"rating_list_title" = "Đánh giá";
 "rating_view_dont_ask_again_button" = "Đừng hỏi lại tôi";
 "rating_view_love_it_label" = "Tôi thích!";
 "rating_view_needs_improvements_label" = "Cần cải thiện";
@@ -664,10 +664,12 @@
 "trending_searches_Title" = "Xu hướng Tìm kiếm";
 "unblock_user_error_generic" = "Có lỗi xảy ra trong khi bỏ chặn người dùng này.";
 "unblock_user_success_message" = "Người dùng đã bị chặn!";
-"user_rating_message_w_name" = "Nhấn vào ngôi sao để đánh giá và cho chúng tôi biết trải nghiệm của bạn với %@ có tốt hay không. Bạn có thể cập nhật đánh giá bất kỳ khi nào bạn muốn.";
-"user_rating_message_wo_name" = "Nhấn vào ngôi sao để đánh giá và cho chúng tôi biết trải nghiệm của bạn với người dùng này có tốt hay không. Bạn có thể cập nhật đánh giá bất kỳ khi nào bạn muốn.";
+"user_rating_message_w_name" = "Trải nghiệm của bạn với %@ có xứng đáng năm sao? Hãy cho chúng tôi biết.";
+"user_rating_message_wo_name" = "Trải nghiệm của bạn với người dùng này có xứng đáng năm sao? Hãy cho chúng tôi biết.";
 "user_rating_review_button" = "Đăng đánh giá";
-"user_rating_review_placeholder" = "Để lại đánh giá (bắt buộc)";
-"user_rating_review_placeholder_optional" = "Để lại đánh giá (không bắt buộc)";
+"user_rating_review_info" = "Bạn có thể cập nhật đánh giá bất cứ khi nào.";
+"user_rating_review_placeholder" = "Viết về trải nghiệm của bạn (bắt buộc)";
+"user_rating_review_placeholder_mandatory" = "Write about your experience (required)";
+"user_rating_review_placeholder_optional" = "Viết về trải nghiệm của bạn (không bắt buộc)";
 "user_rating_review_send_success" = "Đánh giá của bạn đã được đăng!";
 "user_rating_title" = "Đánh giá trải nghiệm của bạn với";

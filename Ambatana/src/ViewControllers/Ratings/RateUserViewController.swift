@@ -17,8 +17,10 @@ class RateUserViewController: BaseViewController {
     @IBOutlet weak var userNameText: UILabel!
     @IBOutlet weak var rateInfoText: UILabel!
     @IBOutlet var stars: [UIButton]!
+    @IBOutlet weak var descriptionContainer: UIView!
     @IBOutlet weak var descriptionText: UITextView!
     @IBOutlet weak var descriptionCharCounter: UILabel!
+    @IBOutlet weak var descriptionInfoLabel: UILabel!
     @IBOutlet weak var publishButton: UIButton!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
 
@@ -40,8 +42,7 @@ class RateUserViewController: BaseViewController {
     init(viewModel: RateUserViewModel, keyboardHelper: KeyboardHelper) {
         self.viewModel = viewModel
         self.keyboardHelper = keyboardHelper
-        let navbarStyle = NavBarBackgroundStyle.Custom(background:
-            UIColor.listBackgroundColor.colorWithAlphaComponent(0.8).imageWithSize(CGSize(width: 1, height: 1)), shadow: UIImage())
+        let navbarStyle = NavBarBackgroundStyle.Transparent
         super.init(viewModel: viewModel, nibName: "RateUserViewController", navBarBackgroundStyle: navbarStyle)
         self.viewModel.delegate = self
     }
@@ -87,7 +88,6 @@ class RateUserViewController: BaseViewController {
 
     private func setupUI() {
         automaticallyAdjustsScrollViewInsets = false
-        view.backgroundColor = UIColor.listBackgroundColor
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "navbar_close"), style: .Plain,
                                                            target: self, action: #selector(closeButtonPressed))
 
@@ -99,10 +99,11 @@ class RateUserViewController: BaseViewController {
         }
         userNameText.text = viewModel.userName
         rateInfoText.text = viewModel.infoText
-        descriptionText.layer.borderColor = UIColor.lineGray.CGColor
-        descriptionText.layer.borderWidth = LGUIKitConstants.onePixelSize
+        descriptionContainer.layer.borderColor = UIColor.lineGray.CGColor
+        descriptionContainer.layer.borderWidth = LGUIKitConstants.onePixelSize
         descriptionText.text = descrPlaceholder
         descriptionText.textColor = descrPlaceholderColor
+        descriptionInfoLabel.text = LGLocalizedString.userRatingReviewInfo
 
         publishButton.setStyle(.Primary(fontSize: .Big))
 
@@ -127,8 +128,9 @@ class RateUserViewController: BaseViewController {
         }.addDisposableTo(disposeBag)
 
         keyboardHelper.rx_keyboardOrigin.asObservable().bindNext { [weak self] origin in
-            guard let scrollView = self?.scrollView, var buttonRect = self?.publishButton.frame else { return }
-            scrollView.contentInset.bottom = scrollView.height - origin
+            guard let scrollView = self?.scrollView, var buttonRect = self?.publishButton.frame,
+                let topHeight = self?.topBarHeight else { return }
+            scrollView.contentInset.bottom = scrollView.height - origin + topHeight
             buttonRect.bottom = buttonRect.bottom + RateUserViewController.sendButtonMargin
             scrollView.scrollRectToVisible(buttonRect, animated: false)
         }.addDisposableTo(disposeBag)

@@ -201,7 +201,7 @@
 "common_time_week_ago_label" = "vor einer Woche";
 "common_time_weeks_ago_label" = "vor %d Wochen";
 "common_user_not_available" = "Hoppla! Benutzer nicht gefunden.";
-"common_user_review_not_available" = "Oops! Review not found.";
+"common_user_review_not_available" = "Hoppla! Bewertung konnte nicht gefunden werden.";
 "common_yes" = "Ja";
 "contact_body_field_hint" = "Nachricht";
 "contact_choose_subject_dialog_title" = "Wähle einen Betreff";
@@ -543,7 +543,7 @@
 "rating_list_rating_type_buyer_text_label" = "%@ hat einen Artikel gekauft";
 "rating_list_rating_type_conversation_text_label" = "%@ hat über den Artikel gesprochen";
 "rating_list_rating_type_seller_text_label" = "%@ hat einen Artikel verkauft";
-"rating_list_title" = "Reviews";
+"rating_list_title" = "Bewertungen";
 "rating_view_dont_ask_again_button" = "Nicht erneut fragen";
 "rating_view_love_it_label" = "Absolut!";
 "rating_view_needs_improvements_label" = "Könnte besser sein";
@@ -664,10 +664,12 @@
 "trending_searches_Title" = "Beliebte Suchbegriffe";
 "unblock_user_error_generic" = "Bei der Aufhebung der Blockierung dieses Nutzers ist ein Fehler aufgetreten.";
 "unblock_user_success_message" = "Die Blockierung des Nutzers wurde aufgehoben!";
-"user_rating_message_w_name" = "Drücke zum Bewerten auf die Sterne und erzähle uns, ob dein Handel mit %@ gut verlaufen ist. Du kannst die Bewertung nach Belieben aktualisieren.";
-"user_rating_message_wo_name" = "Drücke zum Bewerten auf die Sterne und erzähle uns, ob dein Handel mit diesem Nutzer gut verlaufen ist. Du kannst die Bewertung nach Belieben aktualisieren.";
+"user_rating_message_w_name" = "Verdient der Handel mit %@ fünf Sterne? Erzähle uns, wie es gelaufen ist.";
+"user_rating_message_wo_name" = "Verdient der Handel mit diesem Nutzer fünf Sterne? Erzähle uns, wie es gelaufen ist.";
 "user_rating_review_button" = "Bewertung veröffentlichen";
-"user_rating_review_placeholder" = "Hinterlasse eine Bewertung (Pflichtfeld)";
-"user_rating_review_placeholder_optional" = "Schreibe eine Bewertung (optional)";
+"user_rating_review_info" = "You can update this review whenever you want.";
+"user_rating_review_placeholder" = "Schreibe einen Erfahrungsbericht (Pflichtfeld)";
+"user_rating_review_placeholder_mandatory" = "Write about your experience (required)";
+"user_rating_review_placeholder_optional" = "Schreibe einen Erfahrungsbericht (optional)";
 "user_rating_review_send_success" = "Deine Bewertung wurde veröffentlicht!";
 "user_rating_title" = "Bewerte deine Transaktion mit";
