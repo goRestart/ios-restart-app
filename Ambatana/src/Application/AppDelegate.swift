@@ -304,7 +304,7 @@ private extension AppDelegate {
             if enabled {
                 self.disconnectChatTimer.invalidate()
                 self.locationManager?.startSensorLocationUpdates()
-                self.chatRepository?.openAndAuthenticate()
+                self.chatRepository?.openAndAuthenticate(nil)
             } else {
                 self.locationManager?.stopSensorLocationUpdates()
                 self.disconnectChatTimer = NSTimer.scheduledTimerWithTimeInterval(15, target: self, selector: #selector(self.disconnectChat), userInfo: nil, repeats: false)
@@ -320,7 +320,7 @@ private extension AppDelegate {
     }
     
     @objc func disconnectChat() {
-        self.chatRepository?.close()
+        self.chatRepository?.close(nil)
     }
 }
 

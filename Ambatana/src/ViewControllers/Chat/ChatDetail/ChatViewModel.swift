@@ -345,10 +345,12 @@ class ChatViewModel: BaseViewModel {
                 self?.interlocutorTyping.value = true
             case .InterlocutorTypingStopped:
                 self?.interlocutorTyping.value = false
+            case .AuthenticationTokenExpired:
+                break
             }
         }.addDisposableTo(disposeBag)
         
-        chatRepository.chatAvailable.asObservable().bindTo(chatConnected)
+        chatRepository.chatAvailable.asObservable().bindTo(chatConnected).addDisposableTo(disposeBag)
     }
 
     
