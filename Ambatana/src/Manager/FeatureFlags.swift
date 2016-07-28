@@ -27,6 +27,10 @@ struct FeatureFlags {
     static var userRatings: Bool {
         return FTSFlipTheSwitch.userRatings
     }
+    
+    static var showRelatedProducts: Bool {
+        return FTSFlipTheSwitch.showRelatedProducts
+    }
 }
 
 private extension FTSFlipTheSwitch {
@@ -48,5 +52,8 @@ private extension FTSFlipTheSwitch {
 
     static var userRatings: Bool {
         return FTSFlipTheSwitch.sharedInstance().isFeatureEnabled("user_ratings")
+    }
+    static var showRelatedProducts: Bool {
+        return FTSFlipTheSwitch.sharedInstance().isFeatureEnabled("show_related_products")
     }
 }

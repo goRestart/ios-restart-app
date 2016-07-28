@@ -374,10 +374,19 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate {
                        thumbnailImage: UIImage?, originFrame: CGRect?) {
         
         guard let product = viewModel.productAtIndex(index) else { return }
-        guard let productVC = ProductDetailFactory.productDetailFromProduct(product,
-                                                                            thumbnailImage: thumbnailImage,
-                                                                            originFrame: originFrame) else { return }
-        delegate?.vmShowProduct(productVC)
+        let productVC: UIViewController?
+        if FeatureFlags.showRelatedProducts {
+            productVC = ProductDetailFactory.productDetailFromProduct(product,
+                                                                      thumbnailImage: thumbnailImage,
+                                                                      originFrame: originFrame)
+        } else {
+            productVC = ProductDetailFactory.productDetailFromProductList(viewModel, index: index,
+                                                                          thumbnailImage: thumbnailImage,
+                                                                          originFrame: originFrame)
+        }
+        if let productVC = productVC {
+            delegate?.vmShowProduct(productVC)
+        }
     }
     
     func vmProcessReceivedProductPage(products: [ProductCellModel]) -> [ProductCellModel] {
