@@ -1042,7 +1042,10 @@ private extension OldChatViewModel {
                 // Updating with real data
                 self?.initUsers()
                 // In case there were messages in the conversation, don't send the message automatically.
-                guard let messages = self?.chat.messages where messages.isEmpty else { return }
+                guard let messages = self?.chat.messages where messages.isEmpty else {
+                    strongSelf.isSendingMessage.value = false
+                    return
+                }
                 self?.sendMessage(text, isQuickAnswer: isQuickAnswer, type: type)
             }
             strongSelf.retrieveFirstPage()
