@@ -112,8 +112,8 @@ extension ChatProductView {
         guard userRatingTooltip == nil else { return }
         guard let superView = superview else { return }
 
-        userRatingTooltip = Tooltip(targetView: reviewButton, superView: superView, title: tooltipText(), style: .Black(closeEnabled: true),
-                                    peakOnTop: true, actionBlock: { [weak self] in
+        userRatingTooltip = Tooltip(targetView: reviewButton, superView: superView, title: tooltipText(),
+                                    style: .Black(closeEnabled: true), peakOnTop: true, actionBlock: { [weak self] in
                                         self?.delegate?.productViewDidTapUserReview()
             }, closeBlock: {
                 KeyValueStorage.sharedInstance[.userRatingTooltipAlreadyShown] = true
@@ -137,7 +137,8 @@ extension ChatProductView {
         titleTextAttributes[NSForegroundColorAttributeName] = UIColor.whiteColor()
         titleTextAttributes[NSFontAttributeName] = UIFont.systemSemiBoldFont(size: 17)
 
-        let titleText = NSAttributedString(string: LGLocalizedString.chatUserRatingButtonTooltip, attributes: titleTextAttributes)
+        let titleText = NSAttributedString(string: LGLocalizedString.chatUserRatingButtonTooltip,
+                                           attributes: titleTextAttributes)
 
         let fullTitle: NSMutableAttributedString = NSMutableAttributedString(attributedString: newText)
         fullTitle.appendAttributedString(NSAttributedString(string: " "))
@@ -147,7 +148,7 @@ extension ChatProductView {
     }
 
     override func hitTest(point: CGPoint, withEvent event: UIEvent?) -> UIView? {
-        // As userRatingTooltip title label & close button are out of view boundaries we intercept touches to be handled manually
+        // As userRatingTooltip titleLabel & close button are out of boundaries we intercept touches to handle manually
         let superResult = super.hitTest(point, withEvent: event)
         guard let userRatingTooltip = userRatingTooltip where superResult == nil else { return superResult }
 
@@ -155,8 +156,8 @@ extension ChatProductView {
         let tooltipTitleConvertedPoint = userRatingTooltip.titleLabel.convertPoint(point, fromView: self)
         let insideTooltipTitle = userRatingTooltip.titleLabel.pointInside(tooltipTitleConvertedPoint, withEvent: event)
         let tooltipCloseButtonConvertedPoint = userRatingTooltip.closeButton.convertPoint(point, fromView: self)
-        let insideTooltipCloseButton = userRatingTooltip.closeButton.pointInside(tooltipCloseButtonConvertedPoint, withEvent: event)
-
+        let insideTooltipCloseButton = userRatingTooltip.closeButton.pointInside(tooltipCloseButtonConvertedPoint,
+                                                                                 withEvent: event)
         if insideTooltipTitle {
             return userRatingTooltip.titleLabel
         } else if insideTooltipCloseButton {
