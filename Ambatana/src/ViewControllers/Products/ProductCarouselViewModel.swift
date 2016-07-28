@@ -220,6 +220,7 @@ extension ProductCarouselViewModel: Paginable {
                 }
                 strongSelf.isLastPage = strongSelf.productListRequester?.isLastPage(newProducts.count) ?? true
                 self?.delegate?.vmReloadData()
+                self?.isLastPage = newProducts.count == 0
             }
             self?.isLoading = false
         }
