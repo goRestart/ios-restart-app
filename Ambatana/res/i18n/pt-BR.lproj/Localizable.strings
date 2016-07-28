@@ -128,6 +128,7 @@
 "chat_user_info_name" = "Hi, I'm %@";
 "chat_user_info_verified_with" = "Verified with: ";
 "chat_user_rating_button_title" = "Review";
+"chat_user_rating_button_tooltip" = "Review this user";
 "chat_verify_alert_message" = "We sent a verification email to %@";
 "chat_verify_alert_ok_button" = "Ok";
 "chat_verify_alert_resend_button" = "Resend";
@@ -406,6 +407,7 @@
 "product_onboarding_finger_tap_label" = "Tap to go to the next product";
 "product_onboarding_more_info_label" = "Tap to see more info";
 "product_onboarding_quick_answers_label" = "Hold to see other options";
+"product_onboarding_show_again_button_title" = "How to Browse";
 "product_open_commercial_button" = "Commercial";
 "product_popular_near_you" = "Popular near you";
 "product_post_camera_first_time_alert_subtitle" = "Take a good picture and start making cash!";

@@ -128,6 +128,7 @@
 "chat_user_info_name" = "Ciao, sono %@";
 "chat_user_info_verified_with" = "Verificato con: ";
 "chat_user_rating_button_title" = "Recensione";
+"chat_user_rating_button_tooltip" = "Recensisci questo utente";
 "chat_verify_alert_message" = "Abbiamo inviato un'email di verifica all'indirizzo %@";
 "chat_verify_alert_ok_button" = "Ok";
 "chat_verify_alert_resend_button" = "Reinvia";
@@ -406,6 +407,7 @@
 "product_onboarding_finger_tap_label" = "Tocca per passare al prodotto successivo";
 "product_onboarding_more_info_label" = "Tocca per vedere altre informazioni";
 "product_onboarding_quick_answers_label" = "Tieni premuto per visualizzare altre opzioni";
+"product_onboarding_show_again_button_title" = "How to Browse";
 "product_open_commercial_button" = "Commercial";
 "product_popular_near_you" = "Popolari nella tua zona";
 "product_post_camera_first_time_alert_subtitle" = "Scatta una bella foto e inizia a guadagnare!";
@@ -667,9 +669,9 @@
 "user_rating_message_w_name" = "La tua esperienza con %@ merita cinque stelle? Raccontaci come è andata.";
 "user_rating_message_wo_name" = "La tua esperienza con questi utente merita cinque stelle? Raccontaci come è andata.";
 "user_rating_review_button" = "Pubblica recensione";
-"user_rating_review_info" = "You can update this review whenever you want.";
-"user_rating_review_placeholder" = "Raccontaci la tua esperienza (obbligatorio)";
-"user_rating_review_placeholder_mandatory" = "Write about your experience (required)";
+"user_rating_review_info" = "Potrai aggiornare questa recensione quando lo desideri.";
+"user_rating_review_placeholder" = "Raccontaci la tua esperienza";
+"user_rating_review_placeholder_mandatory" = "Raccontaci la tua esperienza (obbligatorio)";
 "user_rating_review_placeholder_optional" = "Raccontaci la tua esperienza (facoltativo)";
 "user_rating_review_send_success" = "La tua recensione è stata pubblicata!";
 "user_rating_title" = "Valuta la tua esperienza con";

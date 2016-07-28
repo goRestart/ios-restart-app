@@ -128,6 +128,7 @@
 "chat_user_info_name" = "Xin chào, tôi là %@";
 "chat_user_info_verified_with" = "Xác nhận bằng: ";
 "chat_user_rating_button_title" = "Đánh giá";
+"chat_user_rating_button_tooltip" = "Đánh giá người dùng này";
 "chat_verify_alert_message" = "Chúng tôi đã gửi một email xác nhận tới %@";
 "chat_verify_alert_ok_button" = "Ok";
 "chat_verify_alert_resend_button" = "Gửi lại";
@@ -406,6 +407,7 @@
 "product_onboarding_finger_tap_label" = "Nhấn để tới sản phẩm tiếp theo";
 "product_onboarding_more_info_label" = "Nhấn để xem thêm thông tin";
 "product_onboarding_quick_answers_label" = "Giữ để xem các lựa chọn khác";
+"product_onboarding_show_again_button_title" = "How to Browse";
 "product_open_commercial_button" = "Commercial";
 "product_popular_near_you" = "Sản phẩm phổ biến gần bạn";
 "product_post_camera_first_time_alert_subtitle" = "Chụp một bức ảnh đẹp và bắt đầu kiếm tiền!";
@@ -668,8 +670,8 @@
 "user_rating_message_wo_name" = "Trải nghiệm của bạn với người dùng này có xứng đáng năm sao? Hãy cho chúng tôi biết.";
 "user_rating_review_button" = "Đăng đánh giá";
 "user_rating_review_info" = "Bạn có thể cập nhật đánh giá bất cứ khi nào.";
-"user_rating_review_placeholder" = "Viết về trải nghiệm của bạn (bắt buộc)";
-"user_rating_review_placeholder_mandatory" = "Write about your experience (required)";
+"user_rating_review_placeholder" = "Viết về trải nghiệm của bạn";
+"user_rating_review_placeholder_mandatory" = "Viết về trải nghiệm của bạn (bắt buộc)";
 "user_rating_review_placeholder_optional" = "Viết về trải nghiệm của bạn (không bắt buộc)";
 "user_rating_review_send_success" = "Đánh giá của bạn đã được đăng!";
 "user_rating_title" = "Đánh giá trải nghiệm của bạn với";

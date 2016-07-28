@@ -128,6 +128,7 @@
 "chat_user_info_name" = "Szia, %@ vagyok";
 "chat_user_info_verified_with" = "Jóváhagyva ezzel: ";
 "chat_user_rating_button_title" = "Értékelés";
+"chat_user_rating_button_tooltip" = "Felhasználó értékelése";
 "chat_verify_alert_message" = "Visszaigazoló e-mailt küldtünk a következő címre: %@";
 "chat_verify_alert_ok_button" = "OK";
 "chat_verify_alert_resend_button" = "Újraküldés";
@@ -201,7 +202,7 @@
 "common_time_week_ago_label" = "egy héttel ezelőtt";
 "common_time_weeks_ago_label" = "%d héttel ezelőtt";
 "common_user_not_available" = "Hoppá! A felhasználó nem található.";
-"common_user_review_not_available" = "Oops! Review not found.";
+"common_user_review_not_available" = "Hoppá! Az értékelés nem található.";
 "common_yes" = "Igen";
 "contact_body_field_hint" = "Üzenet";
 "contact_choose_subject_dialog_title" = "Válassz témát";
@@ -406,6 +407,7 @@
 "product_onboarding_finger_tap_label" = "Koppintással a következő portékára ugorhatsz";
 "product_onboarding_more_info_label" = "Koppintásra megjelennek a részletek";
 "product_onboarding_quick_answers_label" = "További lehetőségekért tartsd nyomva";
+"product_onboarding_show_again_button_title" = "How to Browse";
 "product_open_commercial_button" = "Commercial";
 "product_popular_near_you" = "Népszerű a közeledben";
 "product_post_camera_first_time_alert_subtitle" = "Készíts egy jó képet, és kezd pénzt keresni!";
@@ -664,12 +666,12 @@
 "trending_searches_Title" = "Felkapott kulcsszavak";
 "unblock_user_error_generic" = "Hiba történt a blokkolás feloldása során.";
 "unblock_user_success_message" = "A blokkolás feloldva!";
-"user_rating_message_w_name" = "Adj értékelést a csillagokkal, és meséld el, %@ milyen üzletfélnek bizonyult. Később bármikor módosíthatod.";
-"user_rating_message_wo_name" = "Adj értékelést a csillagokkal, és meséld el, ez a felhasználó milyen üzletfélnek  bizonyult. Később bármikor módosíthatod.";
+"user_rating_message_w_name" = "%@ öt csillagot érdemel? Meséld el, hogy ment!";
+"user_rating_message_wo_name" = "Ez a felhasználó öt csillagot érdemel? Meséld el, hogy ment!";
 "user_rating_review_button" = "Értékelés beküldése";
-"user_rating_review_info" = "You can update this review whenever you want.";
-"user_rating_review_placeholder" = "Write about your experience";
-"user_rating_review_placeholder_mandatory" = "Write about your experience (required)";
-"user_rating_review_placeholder_optional" = "Write about your experience (optional)";
+"user_rating_review_info" = "Értékelésedet bármikor frissítheted.";
+"user_rating_review_placeholder" = "Meséld el tapasztalataidat";
+"user_rating_review_placeholder_mandatory" = "Számolj be tapasztalataidról (kötelező)";
+"user_rating_review_placeholder_optional" = "Számolj be tapasztalataidról (nem kötelező)";
 "user_rating_review_send_success" = "Értékelésed beküldve!";
 "user_rating_title" = "Mondd el, milyen volt";

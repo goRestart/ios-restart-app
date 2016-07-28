@@ -128,6 +128,7 @@
 "chat_user_info_name" = "Hei, jeg er %@";
 "chat_user_info_verified_with" = "Verifisert med: ";
 "chat_user_rating_button_title" = "Omtale";
+"chat_user_rating_button_tooltip" = "Vurder denne brukeren";
 "chat_verify_alert_message" = "Vi har sendt e-post for verifisering til %@";
 "chat_verify_alert_ok_button" = "Ok";
 "chat_verify_alert_resend_button" = "Send på nytt";
@@ -406,6 +407,7 @@
 "product_onboarding_finger_tap_label" = "Trykk for å gå til neste produkt";
 "product_onboarding_more_info_label" = "Trykk for å se mer informasjon";
 "product_onboarding_quick_answers_label" = "Hold inne for å se andre alternativer";
+"product_onboarding_show_again_button_title" = "How to Browse";
 "product_open_commercial_button" = "Commercial";
 "product_popular_near_you" = "Populært i ditt nærområde";
 "product_post_camera_first_time_alert_subtitle" = "Knips et godt bilde og begynn å tjene penger!";
@@ -667,9 +669,9 @@
 "user_rating_message_w_name" = "Får din opplevelse med %@ fem stjerner? Fortell oss hvordan det gikk.";
 "user_rating_message_wo_name" = "Får din opplevelse med denne brukeren fem stjerner? Fortell oss hvordan det gikk.";
 "user_rating_review_button" = "Publiser omtale";
-"user_rating_review_info" = "You can update this review whenever you want.";
-"user_rating_review_placeholder" = "Skriv om din opplevelse (påkrevd)";
-"user_rating_review_placeholder_mandatory" = "Write about your experience (required)";
+"user_rating_review_info" = "Du kan oppdatere denne vurderingen når som helst.";
+"user_rating_review_placeholder" = "Skriv om din opplevelse";
+"user_rating_review_placeholder_mandatory" = "Skriv om din opplevelse (påkrevd)";
 "user_rating_review_placeholder_optional" = "Skriv om din opplevelse (valgfritt)";
 "user_rating_review_send_success" = "Din omtale er publisert!";
 "user_rating_title" = "Vurder din opplevelse med";

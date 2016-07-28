@@ -128,6 +128,7 @@
 "chat_user_info_name" = "Hei, olen %@";
 "chat_user_info_verified_with" = "Todennettu käyttäen: ";
 "chat_user_rating_button_title" = "Arvostele";
+"chat_user_rating_button_tooltip" = "Arvostele tämä käyttäjä";
 "chat_verify_alert_message" = "Lähetimme vahvistussähköpostin osoitteeseen %@";
 "chat_verify_alert_ok_button" = "Ok";
 "chat_verify_alert_resend_button" = "Lähetä uudelleen";
@@ -406,6 +407,7 @@
 "product_onboarding_finger_tap_label" = "Napauta mennäksesi seuraavaan tuotteeseen";
 "product_onboarding_more_info_label" = "Napauta katsoaksesi lisätietoja";
 "product_onboarding_quick_answers_label" = "Paina pohjassa nähdäksesi muita vaihtoehtoja";
+"product_onboarding_show_again_button_title" = "How to Browse";
 "product_open_commercial_button" = "Commercial";
 "product_popular_near_you" = "Suosittuja lähelläsi";
 "product_post_camera_first_time_alert_subtitle" = "Nappaa hyvä kuva ja ala tienata!";
@@ -667,9 +669,9 @@
 "user_rating_message_w_name" = "Onko kokemuksesi käyttäjän %@ kanssa viiden tähden arvoinen? Kerro meille, miten asiat sujuivat.";
 "user_rating_message_wo_name" = "Onko kokemuksesi tämän käyttäjän kanssa viiden tähden arvoinen? Kerro meille, miten asiat sujuivat.";
 "user_rating_review_button" = "Julkaise arvostelu";
-"user_rating_review_info" = "You can update this review whenever you want.";
-"user_rating_review_placeholder" = "Kirjoita kokemuksestasi (pakollinen)";
-"user_rating_review_placeholder_mandatory" = "Write about your experience (required)";
+"user_rating_review_info" = "Voit päivittää tämän arvostelun milloin tahansa haluat.";
+"user_rating_review_placeholder" = "Kirjoita kokemuksestasi";
+"user_rating_review_placeholder_mandatory" = "Kirjoita kokemuksestasi (pakollinen)";
 "user_rating_review_placeholder_optional" = "Kirjoita kokemuksestasi (vapaaehtoinen)";
 "user_rating_review_send_success" = "Arvostelusi on julkaistu!";
 "user_rating_title" = "Arvostele kokemuksesi seuraavan käyttäjän kanssa";

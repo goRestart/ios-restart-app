@@ -25,6 +25,7 @@ protocol ProductViewModelDelegate: class, BaseViewModelDelegate {
     func vmOpenPromoteProduct(promoteVM: PromoteProductViewModel)
     func vmOpenCommercialDisplay(displayVM: CommercialDisplayViewModel)
     func vmAskForRating()
+    func vmShowOnboarding()
 }
 
 
@@ -591,6 +592,9 @@ extension ProductViewModel {
             guard let strongSelf = self else { return }
 
             var actions = [UIAction]()
+            
+            actions.append(strongSelf.buildOnboardingButton())
+            
             if isReportable {
                 actions.append(strongSelf.buildReportButton())
             }
@@ -659,6 +663,14 @@ extension ProductViewModel {
                 cancelLabel: LGLocalizedString.productDeleteConfirmCancelButton,
                 actions: alertActions)
             })
+    }
+    
+    private func buildOnboardingButton() -> UIAction {
+        let title = LGLocalizedString.productOnboardingShowAgainButtonTitle
+        return UIAction(interface: .Text(title), action: { [weak self] in
+            KeyValueStorage.sharedInstance[.didShowProductDetailOnboarding] = false
+            self?.delegate?.vmShowOnboarding()
+        })
     }
 
     private var socialShareMessage: SocialMessage {

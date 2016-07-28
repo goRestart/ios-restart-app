@@ -128,6 +128,7 @@
 "chat_user_info_name" = "Merhaba, Ben %@";
 "chat_user_info_verified_with" = "Şununla doğrulandı: ";
 "chat_user_rating_button_title" = "Değerlendirme";
+"chat_user_rating_button_tooltip" = "Bu kullanıcıyı değerlendir";
 "chat_verify_alert_message" = "%@ adresine doğrulama e-postası gönderdik";
 "chat_verify_alert_ok_button" = "OK";
 "chat_verify_alert_resend_button" = "Tekrar Gönder";
@@ -406,6 +407,7 @@
 "product_onboarding_finger_tap_label" = "Bir sonraki ürüne gitmek için dokun";
 "product_onboarding_more_info_label" = "Daha fazla bilgi için dokun";
 "product_onboarding_quick_answers_label" = "Diğer seçenekler için parmağını basılı tut";
+"product_onboarding_show_again_button_title" = "How to Browse";
 "product_open_commercial_button" = "Commercial";
 "product_popular_near_you" = "Yakınlarında popüler olanlar";
 "product_post_camera_first_time_alert_subtitle" = "Güzel bir fotoğraf çek ve para kazanmaya başla!";
@@ -668,8 +670,8 @@
 "user_rating_message_wo_name" = "Bu kullanıcı ile deneyimin beş yıldız alır mı? Deneyiminin nasıl geçtiğini bize söyle.";
 "user_rating_review_button" = "Değerlendirme yayınla";
 "user_rating_review_info" = "Bu değerlendirmeyi istediğin zaman güncelleyebilirsin.";
-"user_rating_review_placeholder" = "Deneyimin hakkında yorum yap (zorunlu)";
-"user_rating_review_placeholder_mandatory" = "Write about your experience (required)";
+"user_rating_review_placeholder" = "Deneyimin hakkında yorum yap";
+"user_rating_review_placeholder_mandatory" = "Deneyimin hakkında yorum yap (zorunlu)";
 "user_rating_review_placeholder_optional" = "Deneyimin hakkında yorum yap (isteğe bağlı)";
 "user_rating_review_send_success" = "Değerlendirmen yayınlandı!";
 "user_rating_title" = "Bu kullanıcı ile deneyimini değerlendir";

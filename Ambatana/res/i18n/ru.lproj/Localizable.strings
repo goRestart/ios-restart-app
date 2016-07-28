@@ -128,6 +128,7 @@
 "chat_user_info_name" = "Привет, я %@";
 "chat_user_info_verified_with" = "Проверен: ";
 "chat_user_rating_button_title" = "Отзыв";
+"chat_user_rating_button_tooltip" = "Оцените этого пользователя";
 "chat_verify_alert_message" = "Вы отправили письмо-подтверждение на %@";
 "chat_verify_alert_ok_button" = "Ok";
 "chat_verify_alert_resend_button" = "Перевыслать";
@@ -406,6 +407,7 @@
 "product_onboarding_finger_tap_label" = "Коснитесь экрана, чтобы перейти к следующему товару";
 "product_onboarding_more_info_label" = "Коснитесь экрана, чтобы увидеть подробную информацию";
 "product_onboarding_quick_answers_label" = "Держите, чтобы увидеть другие опции";
+"product_onboarding_show_again_button_title" = "How to Browse";
 "product_open_commercial_button" = "Commercial";
 "product_popular_near_you" = "Популярное рядом с вами";
 "product_post_camera_first_time_alert_subtitle" = "Сделайте хорошее фото и получите деньги!";
@@ -667,9 +669,9 @@
 "user_rating_message_w_name" = "Ваша сделка с %@ прошла на 5 звезд? Расскажите нам о ней.";
 "user_rating_message_wo_name" = "Ваша сделка с этим пользователем прошла на 5 звезд? Расскажите нам о ней.";
 "user_rating_review_button" = "Опубликовать отзыв";
-"user_rating_review_info" = "You can update this review whenever you want.";
+"user_rating_review_info" = "Вы можете обновить этот отзыв в любое время.";
 "user_rating_review_placeholder" = "Опишите свой опыт (обязательно)";
-"user_rating_review_placeholder_mandatory" = "Write about your experience (required)";
+"user_rating_review_placeholder_mandatory" = "Опишите ваш опыт (обязательно)";
 "user_rating_review_placeholder_optional" = "Опишите свой опыт (опционально)";
 "user_rating_review_send_success" = "Ваш отзыв опубликован!";
 "user_rating_title" = "Оцените свое общение с";

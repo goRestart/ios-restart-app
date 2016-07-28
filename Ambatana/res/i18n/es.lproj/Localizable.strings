@@ -128,6 +128,7 @@
 "chat_user_info_name" = "Hola, soy %@";
 "chat_user_info_verified_with" = "Verificado con: ";
 "chat_user_rating_button_title" = "Valorar";
+"chat_user_rating_button_tooltip" = "Valora a este usuario";
 "chat_verify_alert_message" = "Hemos enviado un email de verificación a %@";
 "chat_verify_alert_ok_button" = "OK";
 "chat_verify_alert_resend_button" = "Reenviar";
@@ -406,6 +407,7 @@
 "product_onboarding_finger_tap_label" = "Pulsa para pasar al próximo producto";
 "product_onboarding_more_info_label" = "Pulsa para ver más información";
 "product_onboarding_quick_answers_label" = "Mantén pulsado para ver otras opciones";
+"product_onboarding_show_again_button_title" = "How to Browse";
 "product_open_commercial_button" = "Comercial";
 "product_popular_near_you" = "Popular cerca de ti";
 "product_post_camera_first_time_alert_subtitle" = "¡Haz una buena foto y empieza a ganar dinero!";
@@ -668,8 +670,8 @@
 "user_rating_message_wo_name" = "¿Le darías cinco estrellas a tu experiencia con este usuario? Cuéntanos como ha ido.";
 "user_rating_review_button" = "Publicar valoración";
 "user_rating_review_info" = "Puedes actualizar esta valoración cuando quieras.";
-"user_rating_review_placeholder" = "Comenta tu experiencia (requerido)";
-"user_rating_review_placeholder_mandatory" = "Write about your experience (required)";
+"user_rating_review_placeholder" = "Comenta tu experiencia";
+"user_rating_review_placeholder_mandatory" = "Comenta tu experiencia (requerido)";
 "user_rating_review_placeholder_optional" = "Comenta tu experiencia (opcional)";
 "user_rating_review_send_success" = "¡Tu valoración se ha publicado!";
 "user_rating_title" = "Valora tu experiencia con";

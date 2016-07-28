@@ -128,6 +128,7 @@
 "chat_user_info_name" = "Hallo, ich bin %@";
 "chat_user_info_verified_with" = "Verifiziert durch: ";
 "chat_user_rating_button_title" = "Bewertung";
+"chat_user_rating_button_tooltip" = "Bewerte diesen Nutzer";
 "chat_verify_alert_message" = "Wir haben ein Verifikations-E-Mail an %@ geschickt";
 "chat_verify_alert_ok_button" = "Ok";
 "chat_verify_alert_resend_button" = "Erneut verschicken";
@@ -406,6 +407,7 @@
 "product_onboarding_finger_tap_label" = "Drücke hier, um zum nächsten Produkt zu gelangen";
 "product_onboarding_more_info_label" = "Drücke hier für weitere Informationen";
 "product_onboarding_quick_answers_label" = "Gedrückt halten, um weitere Optionen zu sehen";
+"product_onboarding_show_again_button_title" = "How to Browse";
 "product_open_commercial_button" = "Commercial";
 "product_popular_near_you" = "Beliebt in deiner Nähe";
 "product_post_camera_first_time_alert_subtitle" = "Mach ein gutes Foto und verdiene bares Geld!";
@@ -667,9 +669,9 @@
 "user_rating_message_w_name" = "Verdient der Handel mit %@ fünf Sterne? Erzähle uns, wie es gelaufen ist.";
 "user_rating_message_wo_name" = "Verdient der Handel mit diesem Nutzer fünf Sterne? Erzähle uns, wie es gelaufen ist.";
 "user_rating_review_button" = "Bewertung veröffentlichen";
-"user_rating_review_info" = "You can update this review whenever you want.";
-"user_rating_review_placeholder" = "Schreibe einen Erfahrungsbericht (Pflichtfeld)";
-"user_rating_review_placeholder_mandatory" = "Write about your experience (required)";
+"user_rating_review_info" = "Du kannst diese Bewerbung jederzeit aktualisieren.";
+"user_rating_review_placeholder" = "Schreibe einen Erfahrungsbericht";
+"user_rating_review_placeholder_mandatory" = "Schreibe einen Erfahrungsbericht (Pflichtfeld)";
 "user_rating_review_placeholder_optional" = "Schreibe einen Erfahrungsbericht (optional)";
 "user_rating_review_send_success" = "Deine Bewertung wurde veröffentlicht!";
 "user_rating_title" = "Bewerte deine Transaktion mit";

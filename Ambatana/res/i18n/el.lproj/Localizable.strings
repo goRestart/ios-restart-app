@@ -128,6 +128,7 @@
 "chat_user_info_name" = "Γεια, είμαι ο/η %@";
 "chat_user_info_verified_with" = "Επιβεβαιωμένο με: ";
 "chat_user_rating_button_title" = "Κριτική";
+"chat_user_rating_button_tooltip" = "Κάντε κριτική αυτού του χρήστη";
 "chat_verify_alert_message" = "Στείλαμε ένα email επιβεβαίωσης στο %@";
 "chat_verify_alert_ok_button" = "ΟΚ";
 "chat_verify_alert_resend_button" = "Ξαναστείλτε το";
@@ -406,6 +407,7 @@
 "product_onboarding_finger_tap_label" = "Πατήστε για να πάτε στο επόμενο προϊόν";
 "product_onboarding_more_info_label" = "Πατήστε για να δείτε περισσότερες πληροφορίες";
 "product_onboarding_quick_answers_label" = "Πιέστε για να δείτε άλλες επιλογές";
+"product_onboarding_show_again_button_title" = "How to Browse";
 "product_open_commercial_button" = "Commercial";
 "product_popular_near_you" = "Δημοφιλή κοντά σας";
 "product_post_camera_first_time_alert_subtitle" = "Τραβήξτε μια καλή φωτογραφία και ξεκινήστε να κερδίζετε μετρητά!";
@@ -668,8 +670,8 @@
 "user_rating_message_wo_name" = "Αξίζει η εμπειρία σας με αυτό το χρήστη πέντε αστεράκια; Πείτε μας πώς πήγε.";
 "user_rating_review_button" = "Δημοσιεύστε κριτική";
 "user_rating_review_info" = "Μπορείτε να ενημερώσετε αυτήν την κριτική όποτε θέλετε.";
-"user_rating_review_placeholder" = "Γράψτε για την εμπειρία σας (απαραίτητο)";
-"user_rating_review_placeholder_mandatory" = "Write about your experience (required)";
+"user_rating_review_placeholder" = "Γράψτε για την εμπειρία σας";
+"user_rating_review_placeholder_mandatory" = "Γράψτε για την εμπειρία σας (απαραίτητο)";
 "user_rating_review_placeholder_optional" = "Γράψτε για την εμπειρία σας (προαιρετικό)";
 "user_rating_review_send_success" = "Η κριτική σας έχει δημοσιευθεί!";
 "user_rating_title" = "Αναφέρετε την εμπειρία σας με";

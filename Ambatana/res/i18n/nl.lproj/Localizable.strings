@@ -128,6 +128,7 @@
 "chat_user_info_name" = "Hoi, ik ben %@";
 "chat_user_info_verified_with" = "Geverifieerd met:";
 "chat_user_rating_button_title" = "Beoordeling";
+"chat_user_rating_button_tooltip" = "Beoordeel deze gebruiker";
 "chat_verify_alert_message" = "We hebben een verificatie e-mail verstuurd naar %@";
 "chat_verify_alert_ok_button" = "Ok";
 "chat_verify_alert_resend_button" = "Opnieuw verzenden";
@@ -406,6 +407,7 @@
 "product_onboarding_finger_tap_label" = "Tik om naar het volgende product te gaan";
 "product_onboarding_more_info_label" = "Tik om meer informatie te zien";
 "product_onboarding_quick_answers_label" = "Ingedrukt houden om andere opties te zien";
+"product_onboarding_show_again_button_title" = "How to Browse";
 "product_open_commercial_button" = "Commercial";
 "product_popular_near_you" = "Populair in jouw omgeving";
 "product_post_camera_first_time_alert_subtitle" = "Neem een goede foto en begin met het verdienen van geld!";
@@ -668,8 +670,8 @@
 "user_rating_message_wo_name" = "Krijgt jouw ervaring met deze gebruiker vijf sterren? Laat het ons weten hoe het ging.";
 "user_rating_review_button" = "Publiceer beoordeling";
 "user_rating_review_info" = "Je kunt deze beoordeling bijwerken wanneer je wilt.";
-"user_rating_review_placeholder" = "Schrijf over jouw ervaring (vereist)";
-"user_rating_review_placeholder_mandatory" = "Write about your experience (required)";
+"user_rating_review_placeholder" = "Schrijf over jouw ervaring";
+"user_rating_review_placeholder_mandatory" = "Schrijf over jouw ervaring (vereist)";
 "user_rating_review_placeholder_optional" = "Schrijf over jouw ervaring (optioneel)";
 "user_rating_review_send_success" = "Jouw beoordeling werd gepubliceerd!";
 "user_rating_title" = "Beoordeel jouw ervaring met";

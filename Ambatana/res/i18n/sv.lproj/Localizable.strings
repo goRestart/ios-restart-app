@@ -128,6 +128,7 @@
 "chat_user_info_name" = "Hej, jag heter %@";
 "chat_user_info_verified_with" = "Bekräftad med: ";
 "chat_user_rating_button_title" = "Omdöme";
+"chat_user_rating_button_tooltip" = "Ge ett omdöme om denna användare";
 "chat_verify_alert_message" = "Vi har skickat ett bekräftelsemejl till %@";
 "chat_verify_alert_ok_button" = "Ok";
 "chat_verify_alert_resend_button" = "Återsänd";
@@ -406,6 +407,7 @@
 "product_onboarding_finger_tap_label" = "Klicka för att gå till nästa produkt";
 "product_onboarding_more_info_label" = "Klicka för mer information";
 "product_onboarding_quick_answers_label" = "Tryck och håll för att se andra alternativ";
+"product_onboarding_show_again_button_title" = "How to Browse";
 "product_open_commercial_button" = "Commercial";
 "product_popular_near_you" = "Populärt nära dig";
 "product_post_camera_first_time_alert_subtitle" = "Ta en bra bild och börja tjäna pengar!";
@@ -668,8 +670,8 @@
 "user_rating_message_wo_name" = "Får din upplevelse med den här användaren fem stjärnor? Berätta hur det gick.";
 "user_rating_review_button" = "Publicera omdömet";
 "user_rating_review_info" = "Du kan uppdatera omdömet när du vill.";
-"user_rating_review_placeholder" = "Skriv om din upplevelse (obligatoriskt)";
-"user_rating_review_placeholder_mandatory" = "Write about your experience (required)";
+"user_rating_review_placeholder" = "Skriv om din upplevelse";
+"user_rating_review_placeholder_mandatory" = "Skriv om din upplevelse (obligatoriskt)";
 "user_rating_review_placeholder_optional" = "Skriv om din upplevelse (valfritt)";
 "user_rating_review_send_success" = "Ditt omdöme har publicerats!";
 "user_rating_title" = "Bedöm din upplevelse med";
