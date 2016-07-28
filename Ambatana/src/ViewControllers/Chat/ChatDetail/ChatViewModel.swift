@@ -107,6 +107,12 @@ class ChatViewModel: BaseViewModel {
     var shouldShowDirectAnswers: Bool {
         return chatEnabled.value && KeyValueStorage.sharedInstance.userLoadChatShowDirectAnswersForKey(userDefaultsSubKey)
     }
+
+    var shouldShowUserReviewTooltip: Bool {
+        // we don't want both tooltips at the same time.  !st stickers, then rating
+        return !KeyValueStorage.sharedInstance[.userRatingTooltipAlreadyShown] &&
+            KeyValueStorage.sharedInstance[.stickersTooltipAlreadyShown]
+    }
     
     // Rx Variables
     var interlocutorIsMuted = Variable<Bool>(false)
@@ -373,6 +379,7 @@ class ChatViewModel: BaseViewModel {
     }
 
     func reviewUserPressed() {
+        KeyValueStorage.sharedInstance[.userRatingTooltipAlreadyShown] = true
         guard let interlocutor = conversation.value.interlocutor, reviewData = RateUserData(interlocutor: interlocutor)
             else { return }
         delegate?.vmShowUserRating(.Chat, data: reviewData)

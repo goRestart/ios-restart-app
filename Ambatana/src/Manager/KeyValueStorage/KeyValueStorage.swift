@@ -42,6 +42,7 @@ extension DefaultsKeys {
 
     static let cameraAlreadyShown = DefaultsKey<Bool>("cameraAlreadyShown")
     static let stickersTooltipAlreadyShown = DefaultsKey<Bool>("stickersTooltipAlreadyShown")
+    static let userRatingTooltipAlreadyShown = DefaultsKey<Bool>("userRatingTooltipAlreadyShown")
 
     static let didShowCommercializer = DefaultsKey<Bool>("didShowCommercializer")
     static let isGod = DefaultsKey<Bool>("isGod")

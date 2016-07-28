@@ -358,7 +358,8 @@ extension ChatViewController {
             }.addDisposableTo(disposeBag)
 
         viewModel.userIsReviewable.asObservable().subscribeNext { [weak self] showReviewButton in
-            self?.productView.showReviewButton(showReviewButton)
+            self?.productView.showReviewButton(showReviewButton,
+                withTooltip: self?.viewModel.shouldShowUserReviewTooltip ?? false)
         }.addDisposableTo(disposeBag)
         
         viewModel.messages.changesObservable.subscribeNext { [weak self] change in

@@ -209,6 +209,12 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         }
     }
 
+    var shouldShowUserReviewTooltip: Bool {
+        // we don't want both tooltips at the same time.  !st stickers, then rating
+        return !KeyValueStorage.sharedInstance[.userRatingTooltipAlreadyShown] &&
+            KeyValueStorage.sharedInstance[.stickersTooltipAlreadyShown]
+    }
+
     // MARK: Paginable
     
     var resultsPerPage: Int = Constants.numMessagesPerPage
@@ -405,6 +411,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     }
 
     func reviewUserPressed() {
+        KeyValueStorage.sharedInstance[.userRatingTooltipAlreadyShown] = true
         guard let otherUser = otherUser, reviewData = RateUserData(user: otherUser) else { return }
         delegate?.vmShowUserRating(.Chat, data: reviewData)
     }
@@ -476,6 +483,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
 
     func stickersShown() {
         KeyValueStorage.sharedInstance[.stickersTooltipAlreadyShown] = true
+        delegate?.vmDidUpdateProduct(messageToShow: nil)
     }
     
     
@@ -620,7 +628,6 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         }
         delegate?.vmUpdateUserIsReadyToReview()
     }
-
 
     private func loadStickersTooltip() {
         guard chatEnabled && !KeyValueStorage.sharedInstance[.stickersTooltipAlreadyShown] else { return }

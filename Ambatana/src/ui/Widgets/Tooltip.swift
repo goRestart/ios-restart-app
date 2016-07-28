@@ -12,6 +12,9 @@ public enum TooltipStyle {
     case Black(closeEnabled: Bool)
     case Blue(closeEnabled: Bool)
 
+    static let minWidthWithCloseButton: CGFloat = 200
+    static let minWidthWithoutCloseButton: CGFloat = 150
+
     var closeEnabled: Bool {
         switch self {
         case let .Black(closeEnabled):
@@ -41,6 +44,10 @@ public enum TooltipStyle {
     var rightSidePeak: UIImage? {
         guard let originalImg = leftSidePeak, cgImg = originalImg.CGImage else { return nil }
         return UIImage.init(CGImage: cgImg, scale: originalImg.scale, orientation: .UpMirrored)
+    }
+
+    var minWidth: CGFloat {
+        return closeEnabled ? TooltipStyle.minWidthWithCloseButton : TooltipStyle.minWidthWithoutCloseButton
     }
 }
 
@@ -73,6 +80,7 @@ public class Tooltip: UIView {
     var superViewWidth: CGFloat {
         return superView.width
     }
+
     var peakOnTop: Bool = false
 
 
@@ -115,6 +123,7 @@ public class Tooltip: UIView {
 
     public override func layoutSubviews() {
         super.layoutSubviews()
+        targetGlobalCenter = superView.convertPoint(targetView.center, toView: nil)
         peakOffset = peakFinalOffset()
     }
 
@@ -170,10 +179,14 @@ public class Tooltip: UIView {
         let mainWidth = NSLayoutConstraint(item: self, attribute: .Width, relatedBy: .LessThanOrEqual,
                                            toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: 270)
         mainWidth.priority = 999
+        let mainMinWidth = NSLayoutConstraint(item: self, attribute: .Width, relatedBy: .GreaterThanOrEqual,
+                                           toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: style.minWidth)
+        mainMinWidth.priority = 999
+
         let mainHeight = NSLayoutConstraint(item: self, attribute: .Height, relatedBy: .GreaterThanOrEqual,
                                             toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: 70)
         mainHeight.priority = 999
-        self.addConstraints([mainWidth, mainHeight])
+        self.addConstraints([mainWidth, mainMinWidth, mainHeight])
 
         // colored view
         let coloredViewTop = NSLayoutConstraint(item: coloredView, attribute: .Top, relatedBy: .Equal,
