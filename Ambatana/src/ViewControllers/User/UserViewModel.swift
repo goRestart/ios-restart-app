@@ -307,16 +307,44 @@ extension UserViewModel {
 
     private func openPushPermissionsAlert() {
         let positive = UIAction(interface: .Button(LGLocalizedString.profilePermissionsAlertOk, .Default),
-                        action: {
+                        action: { [weak self] in
+                            self?.trackCompletePushAlert()
                             PushPermissionsManager.sharedInstance.showPushPermissionsAlert(prePermissionType: .Profile)
                         })
 
         let negative = UIAction(interface: .Button(LGLocalizedString.profilePermissionsAlertCancel,
-            .Cancel), action: {})
+            .Cancel), action: { [weak self] in
+                self?.trackCancelPushAlert()
+        })
         delegate?.vmShowAlertWithTitle(LGLocalizedString.profilePermissionsAlertTitle,
                                        text: LGLocalizedString.profilePermissionsAlertMessage,
                                        alertType: .IconAlert(icon: UIImage(named: "custom_permission_profile")),
                                        actions: [negative, positive])
+        trackStartPushAlert()
+    }
+}
+
+
+// MARK: > Push Alert Tracking
+
+extension UserViewModel {
+    
+    func trackStartPushAlert() {
+        let trackerEvent = TrackerEvent.permissionAlertStart(.Push, typePage: .Profile, alertType: .Custom,
+                                                             permissionGoToSettings: .NotAvailable)
+        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+    }
+    
+    func trackCompletePushAlert() {
+        let trackerEvent = TrackerEvent.permissionAlertComplete(.Push, typePage: .Profile, alertType: .Custom,
+                                                             permissionGoToSettings: .NotAvailable)
+        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+    }
+    
+    func trackCancelPushAlert() {
+        let trackerEvent = TrackerEvent.permissionAlertCancel(.Push, typePage: .Profile, alertType: .Custom,
+                                                             permissionGoToSettings: .NotAvailable)
+        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
 }
 
