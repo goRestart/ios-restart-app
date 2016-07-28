@@ -241,6 +241,9 @@ extension ProductPostedViewController {
         thirdCountLabel.textColor = UIColor.darkGrayText
 
         incentiveLabel.attributedText = incentiveText
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(onMainButton(_:)))
+        incentiveContainer.addGestureRecognizer(tap)
     }
 
     var incentiveText: NSAttributedString {
