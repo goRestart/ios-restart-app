@@ -475,6 +475,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("chat_user_rating_button_title", comment: "")
 	}
 
+	static var chatUserRatingButtonTooltip: String {
+		return NSLocalizedString("chat_user_rating_button_tooltip", comment: "")
+	}
+
 	static var chatSafetyTips: String {
 		return NSLocalizedString("chat_safety_tips", comment: "")
 	}
@@ -1709,6 +1713,10 @@ struct LGLocalizedString {
 
 	static var productOnboardingQuickAnswersLabel: String {
 		return NSLocalizedString("product_onboarding_quick_answers_label", comment: "")
+	}
+
+	static var productOnboardingShowAgainButtonTitle: String {
+		return NSLocalizedString("product_onboarding_show_again_button_title", comment: "")
 	}
 
 	static var productCreateCommercialButton: String {

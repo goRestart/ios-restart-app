@@ -349,6 +349,9 @@
 // Title for the review user button
 "chat_user_rating_button_title" = "Review";
 
+// Text for the review user button tooltip
+"chat_user_rating_button_tooltip" = "Review this user";
+
 // Chat safety tips.
 "chat_safety_tips" = "Safety tips";
 
@@ -1268,6 +1271,9 @@
 
 // Product onboarding, press & hold to quick answers label
 "product_onboarding_quick_answers_label" = "Hold to see other options";
+
+// Button to show again the Onboarding in the new Product Detail
+"product_onboarding_show_again_button_title" = "How to Browse";
 
 // Button to open Commercializer and create a promotional video of the product
 "product_create_commercial_button" = "Create Commercial";

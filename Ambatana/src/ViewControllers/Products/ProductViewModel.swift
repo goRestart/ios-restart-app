@@ -666,7 +666,7 @@ extension ProductViewModel {
     }
     
     private func buildOnboardingButton() -> UIAction {
-        let title = "How to browse"
+        let title = LGLocalizedString.productOnboardingShowAgainButtonTitle
         return UIAction(interface: .Text(title), action: { [weak self] in
             KeyValueStorage.sharedInstance[.didShowProductDetailOnboarding] = false
             self?.delegate?.vmShowOnboarding()
