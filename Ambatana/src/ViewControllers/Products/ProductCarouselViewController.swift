@@ -763,9 +763,8 @@ extension ProductCarouselViewController: ProductViewModelDelegate {
     }
     
     func vmShowOnboarding() {
-        if let productVM = viewModel.currentProductViewModel {
-            refreshProductOnboarding(productVM)
-        }
+        guard let productVM = viewModel.currentProductViewModel else { return }
+        refreshProductOnboarding(productVM)
     }
 }
 
