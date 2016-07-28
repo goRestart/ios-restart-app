@@ -178,6 +178,9 @@ extension AppCoordinator: PromoteProductViewControllerDelegate {
     }
 
     func promoteProductViewControllerDidCancelFromSource(promotionSource: PromotionSource) {
+        if promotionSource == .ProductSell {
+            keyValueStorage.shouldShowCommercializerAfterPosting = false
+        }
         promoteProductPostActions(promotionSource)
     }
 }
@@ -241,6 +244,7 @@ private extension AppCoordinator {
 
         // We do not promote if it's a failure or if it's a success w/o country code
         guard let productId = product.objectId, countryCode = product.postalAddress.countryCode else { return false }
+        guard keyValueStorage.shouldShowCommercializerAfterPosting else { return false }
         // We do not promote if we do not have promo themes for the given country code
         let themes = commercializerRepository.templatesForCountryCode(countryCode)
         guard let promoteVM = PromoteProductViewModel(productId: productId, themes: themes, commercializers: [],
