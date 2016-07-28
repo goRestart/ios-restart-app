@@ -147,15 +147,20 @@ class RateUserViewModel: BaseViewModel {
             description.asObservable(), resultSelector: { $0 })
             .map { (loading, rating, description) in
                 guard !loading, let rating = rating else { return false }
-                guard rating < 4 else { return true } // 4-5 stars allows rating without description
+                guard rating < Constants.userRatingMinStarsToOptionalDescr else { return true }
                 guard let description = description where !description.isEmpty &&
                     description.characters.count <= Constants.userRatingDescriptionMaxLength else { return false }
                 return true
             }.bindTo(sendEnabled).addDisposableTo(disposeBag)
 
         rating.asObservable().map {
-                ($0 ?? 0) < 4 ? LGLocalizedString.userRatingReviewPlaceholder :
-                    LGLocalizedString.userRatingReviewPlaceholderOptional
+                if let stars = $0 {
+                    return stars < Constants.userRatingMinStarsToOptionalDescr ?
+                        LGLocalizedString.userRatingReviewPlaceholderMandatory :
+                        LGLocalizedString.userRatingReviewPlaceholderOptional
+                } else {
+                    return LGLocalizedString.userRatingReviewPlaceholder
+                }
             }.bindNext { [weak self] placeholder in
                 self?.delegate?.vmUpdateDescriptionPlaceholder(placeholder)
             }.addDisposableTo(disposeBag)

@@ -128,7 +128,7 @@
 "chat_user_info_name" = "Xin chào, tôi là %@";
 "chat_user_info_verified_with" = "Xác nhận bằng: ";
 "chat_user_rating_button_title" = "Đánh giá";
-"chat_user_rating_button_tooltip" = "Review this user";
+"chat_user_rating_button_tooltip" = "Đánh giá người dùng này";
 "chat_verify_alert_message" = "Chúng tôi đã gửi một email xác nhận tới %@";
 "chat_verify_alert_ok_button" = "Ok";
 "chat_verify_alert_resend_button" = "Gửi lại";

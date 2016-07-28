@@ -128,7 +128,7 @@
 "chat_user_info_name" = "안녕하세요 저는 %@ 입니다";
 "chat_user_info_verified_with" = "다음 항목으로 확인: ";
 "chat_user_rating_button_title" = "댓글";
-"chat_user_rating_button_tooltip" = "Review this user";
+"chat_user_rating_button_tooltip" = "이 유저에게 리뷰 남기기";
 "chat_verify_alert_message" = "저희는 확인 이메일을 %@로 발송했습니다";
 "chat_verify_alert_ok_button" = "예";
 "chat_verify_alert_resend_button" = "이메일 재발송";

@@ -128,7 +128,7 @@
 "chat_user_info_name" = "Привет, я %@";
 "chat_user_info_verified_with" = "Проверен: ";
 "chat_user_rating_button_title" = "Отзыв";
-"chat_user_rating_button_tooltip" = "Review this user";
+"chat_user_rating_button_tooltip" = "Оцените этого пользователя";
 "chat_verify_alert_message" = "Вы отправили письмо-подтверждение на %@";
 "chat_verify_alert_ok_button" = "Ok";
 "chat_verify_alert_resend_button" = "Перевыслать";

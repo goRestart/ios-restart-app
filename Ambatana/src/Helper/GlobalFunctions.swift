@@ -14,3 +14,9 @@ func delay(time: Double, completion: (() -> Void)) {
         completion()
     }
 }
+
+func onMainThread(completion: (() -> Void)) {
+    dispatch_async(dispatch_get_main_queue()) {
+        completion()
+    }
+}

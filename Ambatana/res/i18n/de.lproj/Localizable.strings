@@ -128,7 +128,7 @@
 "chat_user_info_name" = "Hallo, ich bin %@";
 "chat_user_info_verified_with" = "Verifiziert durch: ";
 "chat_user_rating_button_title" = "Bewertung";
-"chat_user_rating_button_tooltip" = "Review this user";
+"chat_user_rating_button_tooltip" = "Bewerte diesen Nutzer";
 "chat_verify_alert_message" = "Wir haben ein Verifikations-E-Mail an %@ geschickt";
 "chat_verify_alert_ok_button" = "Ok";
 "chat_verify_alert_resend_button" = "Erneut verschicken";

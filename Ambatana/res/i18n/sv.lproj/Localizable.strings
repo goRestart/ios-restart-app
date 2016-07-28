@@ -128,7 +128,7 @@
 "chat_user_info_name" = "Hej, jag heter %@";
 "chat_user_info_verified_with" = "Bekräftad med: ";
 "chat_user_rating_button_title" = "Omdöme";
-"chat_user_rating_button_tooltip" = "Review this user";
+"chat_user_rating_button_tooltip" = "Ge ett omdöme om denna användare";
 "chat_verify_alert_message" = "Vi har skickat ett bekräftelsemejl till %@";
 "chat_verify_alert_ok_button" = "Ok";
 "chat_verify_alert_resend_button" = "Återsänd";

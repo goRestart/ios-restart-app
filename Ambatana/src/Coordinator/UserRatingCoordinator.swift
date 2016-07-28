@@ -26,7 +26,9 @@ final class UserRatingCoordinator: Coordinator {
     init(source: RateUserSource, data: RateUserData) {
         let userRatingVM = RateUserViewModel(source: source, data: data)
         let userRatingVC = RateUserViewController(viewModel: userRatingVM)
-        self.viewController = UINavigationController(rootViewController: userRatingVC)
+        let navC = UINavigationController(rootViewController: userRatingVC)
+        navC.modalPresentationStyle = .OverCurrentContext
+        self.viewController = navC
 
         userRatingVM.navigator = self
     }
