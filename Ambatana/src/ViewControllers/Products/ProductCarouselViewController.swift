@@ -761,6 +761,12 @@ extension ProductCarouselViewController: ProductViewModelDelegate {
         guard let tabBarCtrl = self.tabBarController as? TabBarController else { return }
         tabBarCtrl.showAppRatingViewIfNeeded(.MarkedSold)
     }
+    
+    func vmShowOnboarding() {
+        if let productVM = viewModel.currentProductViewModel {
+            refreshProductOnboarding(productVM)
+        }
+    }
 }
 
 
