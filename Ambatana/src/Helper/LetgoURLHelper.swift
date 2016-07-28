@@ -58,15 +58,22 @@ class LetgoURLHelper {
         }
         return LetgoURLHelper.defaultLang
     }
-    
-    static func buildContactUsURL(user: MyUser?) -> NSURL? {
+
+    static func buildHelpURL(user: MyUser?, installation: Installation?) -> NSURL? {
+        guard let  url = LetgoURLHelper.composeURL(Constants.helpURL) else { return nil }
+        guard let urlComponents = NSURLComponents(URL: url, resolvingAgainstBaseURL: false) else { return nil }
+        urlComponents.percentEncodedQuery = LetgoURLHelper.buildContactParameters(user, installation: installation)
+        return urlComponents.URL
+    }
+
+    static func buildContactUsURL(user: MyUser?, installation: Installation?) -> NSURL? {
         guard let  url = LetgoURLHelper.composeURL(Constants.contactUs) else { return nil }
         guard let urlComponents = NSURLComponents(URL: url, resolvingAgainstBaseURL: false) else { return nil }
-        urlComponents.percentEncodedQuery = LetgoURLHelper.buildContactParameters(user)
+        urlComponents.percentEncodedQuery = LetgoURLHelper.buildContactParameters(user, installation: installation)
         return urlComponents.URL
     }
     
-    private static func buildContactParameters(user: MyUser?) -> String? {
+    private static func buildContactParameters(user: MyUser?, installation: Installation?) -> String? {
         var param: [String: String] = [:]
         param["app_version"] = NSBundle.mainBundle().infoDictionary?["CFBundleShortVersionString"] as? String
         param["os_version"] = UIDevice.currentDevice().systemVersion
@@ -74,6 +81,7 @@ class LetgoURLHelper {
         param["user_id"] = user?.objectId
         param["user_name"] = user?.name
         param["user_email"] = user?.email
+        param["installation_id"] = installation?.objectId
         return param.map{"\($0)=\($1)"}
             .joinWithSeparator("&")
             .encodeString()
