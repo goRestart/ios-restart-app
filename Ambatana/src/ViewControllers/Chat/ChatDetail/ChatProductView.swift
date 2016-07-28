@@ -108,7 +108,7 @@ class ChatProductView: UIView {
 // MARK: - Tooltip
 
 extension ChatProductView {
-    func showUserRatingTooltip() {
+    private func showUserRatingTooltip() {
         guard userRatingTooltip == nil else { return }
         guard let superView = superview else { return }
 
