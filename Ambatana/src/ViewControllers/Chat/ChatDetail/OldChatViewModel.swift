@@ -415,6 +415,10 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         guard let otherUser = otherUser, reviewData = RateUserData(user: otherUser) else { return }
         delegate?.vmShowUserRating(.Chat, data: reviewData)
     }
+
+    func closeReviewTooltipPressed() {
+        KeyValueStorage.sharedInstance[.userRatingTooltipAlreadyShown] = true
+    }
     
     func safetyTipsDismissed() {
         KeyValueStorage.sharedInstance.userChatSafetyTipsShown = true

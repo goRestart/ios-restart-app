@@ -126,6 +126,8 @@ class ChatViewModel: BaseViewModel {
     private var myMessagesCount = Variable<Int>(0)
     private var otherMessagesCount = Variable<Int>(0)
     var userIsReviewable = Variable<Bool>(false)
+    var stickersTooltipShown = Variable<Bool>(KeyValueStorage.sharedInstance[.stickersTooltipAlreadyShown])
+    var reviewTooltipShown = Variable<Bool>(KeyValueStorage.sharedInstance[.userRatingTooltipAlreadyShown])
 
     // Private    
     private let myUserRepository: MyUserRepository
@@ -380,9 +382,15 @@ class ChatViewModel: BaseViewModel {
 
     func reviewUserPressed() {
         KeyValueStorage.sharedInstance[.userRatingTooltipAlreadyShown] = true
+        reviewTooltipShown.value = true
         guard let interlocutor = conversation.value.interlocutor, reviewData = RateUserData(interlocutor: interlocutor)
             else { return }
         delegate?.vmShowUserRating(.Chat, data: reviewData)
+    }
+
+    func closeReviewTooltipPressed() {
+        KeyValueStorage.sharedInstance[.userRatingTooltipAlreadyShown] = true
+        reviewTooltipShown.value = true
     }
 
     func safetyTipsDismissed() {
@@ -399,7 +407,7 @@ class ChatViewModel: BaseViewModel {
     }
 
     func loadStickersTooltip() {
-        guard chatEnabled.value && !KeyValueStorage.sharedInstance[.stickersTooltipAlreadyShown] else { return }
+        guard chatEnabled.value && !stickersTooltipShown.value else { return }
 
         var newTextAttributes = [String : AnyObject]()
         newTextAttributes[NSForegroundColorAttributeName] = UIColor.primaryColorHighlighted
@@ -422,6 +430,7 @@ class ChatViewModel: BaseViewModel {
 
     func stickersShown() {
         KeyValueStorage.sharedInstance[.stickersTooltipAlreadyShown] = true
+        stickersTooltipShown.value = true
     }
 }
 

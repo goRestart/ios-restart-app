@@ -656,6 +656,10 @@ extension OldChatViewController: ChatProductViewDelegate {
     func productViewDidTapUserReview() {
         viewModel.reviewUserPressed()
     }
+
+    func productViewDidCloseUserReviewTooltip() {
+        viewModel.closeReviewTooltipPressed()
+    }
 }
 
 

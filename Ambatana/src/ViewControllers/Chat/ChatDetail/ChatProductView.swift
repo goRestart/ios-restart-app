@@ -13,6 +13,7 @@ protocol ChatProductViewDelegate: class {
     func productViewDidTapUserAvatar()
     func productViewDidTapProductImage()
     func productViewDidTapUserReview()
+    func productViewDidCloseUserReviewTooltip()
 }
 
 class ChatProductView: UIView {
@@ -115,8 +116,8 @@ extension ChatProductView {
         userRatingTooltip = Tooltip(targetView: reviewButton, superView: superView, title: tooltipText(),
                                     style: .Black(closeEnabled: true), peakOnTop: true, actionBlock: { [weak self] in
                                         self?.delegate?.productViewDidTapUserReview()
-            }, closeBlock: {
-                KeyValueStorage.sharedInstance[.userRatingTooltipAlreadyShown] = true
+            }, closeBlock: { [weak self] in
+                self?.delegate?.productViewDidCloseUserReviewTooltip()
         })
 
         guard let tooltip = userRatingTooltip else { return }
