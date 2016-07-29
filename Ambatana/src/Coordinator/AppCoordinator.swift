@@ -229,7 +229,7 @@ extension AppCoordinator: SellCoordinatorDelegate {
 extension AppCoordinator: UserRatingCoordinatorDelegate {
     func userRatingCoordinatorDidCancel(coordinator: UserRatingCoordinator) {}
 
-    func userRatingCoordinatorDidFinish(coordinator: UserRatingCoordinator, withRating rating: Int) {
+    func userRatingCoordinatorDidFinish(coordinator: UserRatingCoordinator, withRating rating: Int?) {
         if rating == 5 {
             tabBarCtl.showAppRatingView(EventParameterRatingSource.Chat)
         }
