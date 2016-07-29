@@ -13,10 +13,10 @@ class ProductCellDrawer: BaseCollectionCellDrawer<ProductCell>, GridCellDrawer {
        
         //Disabling actions, price and stripe icon
         cell.setupActions(false, delegate: nil, indexPath: nil)
-        cell.priceLabel.text = ""
-        cell.priceGradientView.hidden = true
+        cell.priceGradientView.hidden = false
+        cell.setCellWidth(cell.frame.width)
+        cell.priceLabel.text = model.price
         
-        // Thumb
         if let thumbURL = model.thumbUrl {
             cell.setImageUrl(thumbURL)
         }
