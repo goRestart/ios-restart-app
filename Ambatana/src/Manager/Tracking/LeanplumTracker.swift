@@ -60,6 +60,7 @@ final class LeanplumTracker: Tracker {
         if let deviceId = AppsFlyerTracker.sharedTracker().getAppsFlyerUID() {
             Leanplum.setDeviceId(deviceId)
         }
+        ABTests.registerVariables()
         Leanplum.start()
     }
 

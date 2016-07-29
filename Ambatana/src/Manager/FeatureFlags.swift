@@ -29,7 +29,10 @@ struct FeatureFlags {
     }
     
     static var showRelatedProducts: Bool {
-        return FTSFlipTheSwitch.showRelatedProducts
+        if FTSFlipTheSwitch.overridesABTests {
+            return FTSFlipTheSwitch.showRelatedProducts
+        }
+        return ABTests.showRelatedProducts.boolValue()
     }
 }
 
