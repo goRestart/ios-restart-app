@@ -51,6 +51,8 @@ extension AppDelegate: UIApplicationDelegate {
         productRepository = Core.productRepository
         reporter = Core.reporter
         locationManager = Core.locationManager
+        
+        ABTests.registerVariables()
 
         setupAppearance()
         setupLibraries(application, launchOptions: launchOptions)
