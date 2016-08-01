@@ -114,6 +114,7 @@
 "chat_message_load_generic_error" = "Hiba történt a beszélgetésed adatainak begyűjtése során. Próbálkozz újra később.";
 "chat_product_inactive_label" = "A portéka inaktív";
 "chat_product_sold_label" = "Portéka eladva";
+"chat_related_products_title" = "YOU MIGHT BE INTERESTED IN:";
 "chat_safety_tips" = "Biztonsági tanácsaink";
 "chat_safety_tips_message" = "• Találkozzatok személyesen, készpénzt használjatok.\n\n• A letgo chaten beszéljétek meg a tranzakciót.\n\n• Túl szép, hogy igaz legyen? Vigyázz!";
 "chat_safety_tips_tip_1" = "Ha megegyeztetek, találkozzatok személyesen és készpénzt használjatok.";
@@ -407,7 +408,7 @@
 "product_onboarding_finger_tap_label" = "Koppintással a következő portékára ugorhatsz";
 "product_onboarding_more_info_label" = "Koppintásra megjelennek a részletek";
 "product_onboarding_quick_answers_label" = "További lehetőségekért tartsd nyomva";
-"product_onboarding_show_again_button_title" = "How to Browse";
+"product_onboarding_show_again_button_title" = "A böngészés menete";
 "product_open_commercial_button" = "Commercial";
 "product_popular_near_you" = "Népszerű a közeledben";
 "product_post_camera_first_time_alert_subtitle" = "Készíts egy jó képet, és kezd pénzt keresni!";

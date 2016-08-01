@@ -403,6 +403,9 @@
 // User info bubble to show information about the other user
 "chat_user_info_verified_with" = "Verified with: ";
 
+// Section inside chat that offers related products 
+"chat_related_products_title" = "YOU MIGHT BE INTERESTED IN:";
+
 // Title for the commercializer display view
 "commercializer_display_title_label" = "Here's your finished commercial!";
 

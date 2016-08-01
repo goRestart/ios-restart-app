@@ -114,6 +114,7 @@
 "chat_message_load_generic_error" = "Si è verificato un errore durante il recupero del contenuto della tua conversazione. Riprova più tardi.";
 "chat_product_inactive_label" = "Prodotto inattivo";
 "chat_product_sold_label" = "Prodotto venduto";
+"chat_related_products_title" = "YOU MIGHT BE INTERESTED IN:";
 "chat_safety_tips" = "Consigli utili";
 "chat_safety_tips_message" = "• Incontra di persona e paga in contanti.\n\n• Continua le conversazioni nella chat di letgo.\n\n• Troppo bello per essere vero? Fai attenzione!";
 "chat_safety_tips_tip_1" = "Dopo aver concluso l'affare, incontrati di persona e paga in contanti.";
@@ -407,7 +408,7 @@
 "product_onboarding_finger_tap_label" = "Tocca per passare al prodotto successivo";
 "product_onboarding_more_info_label" = "Tocca per vedere altre informazioni";
 "product_onboarding_quick_answers_label" = "Tieni premuto per visualizzare altre opzioni";
-"product_onboarding_show_again_button_title" = "How to Browse";
+"product_onboarding_show_again_button_title" = "Come navigare";
 "product_open_commercial_button" = "Commercial";
 "product_popular_near_you" = "Popolari nella tua zona";
 "product_post_camera_first_time_alert_subtitle" = "Scatta una bella foto e inizia a guadagnare!";

@@ -114,6 +114,7 @@
 "chat_message_load_generic_error" = "Er is een fout opgetreden bij het opvragen van jouw gespreksgegevens. Probeer het later nog eens.";
 "chat_product_inactive_label" = "Product inactief";
 "chat_product_sold_label" = "Product verkocht";
+"chat_related_products_title" = "YOU MIGHT BE INTERESTED IN:";
 "chat_safety_tips" = "Veiligheidstips";
 "chat_safety_tips_message" = "• Persoonlijk ontmoeten en contant betalen.\n \n• Voer gesprekken in de letgo chat.\n \n• Te mooi om waar te zijn? Pas op!";
 "chat_safety_tips_tip_1" = "Nadat je een deal hebt gesloten, ontmoet in persoon en betaal in contanten.";
