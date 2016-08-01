@@ -25,3 +25,7 @@ final class NotificationsTabCoordinator: TabCoordinator {
                   keyValueStorage: keyValueStorage, tracker: tracker, rootViewController: rootViewController)
     }
 }
+
+extension NotificationsTabCoordinator: NotificationsTabNavigator {
+
+}

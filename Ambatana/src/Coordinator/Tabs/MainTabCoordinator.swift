@@ -36,3 +36,7 @@ final class MainTabCoordinator: TabCoordinator {
         navigationController.pushViewController(vc, animated: true)
     }
 }
+
+extension MainTabCoordinator: MainTabNavigator {
+    
+}

@@ -45,6 +45,10 @@ final class ChatsTabCoordinator: TabCoordinator {
     }
 }
 
+extension ChatsTabCoordinator: ChatsTabNavigator {
+
+}
+
 private extension TabCoordinator {
     func openChatWithResult(result: ChatResult) {
         var dismissLoadingCompletion: (() -> Void)? = nil

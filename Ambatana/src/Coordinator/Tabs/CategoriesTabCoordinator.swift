@@ -25,3 +25,7 @@ final class CategoriesTabCoordinator: TabCoordinator {
                   keyValueStorage: keyValueStorage, tracker: tracker, rootViewController: rootViewController)
     }
 }
+
+extension CategoriesTabCoordinator: CategoriesTabNavigator {
+
+}

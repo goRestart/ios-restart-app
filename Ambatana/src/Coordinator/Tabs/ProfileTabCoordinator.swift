@@ -25,3 +25,7 @@ final class ProfileTabCoordinator: TabCoordinator {
                   keyValueStorage: keyValueStorage, tracker: tracker, rootViewController: rootViewController)
     }
 }
+
+extension ProfileTabCoordinator: ProfileTabNavigator {
+
+}
