@@ -7,4 +7,9 @@
 //
 
 public struct ABTests {
+    static var showRelatedProducts = LPVar.define("showRelatedProducts", withBool: false);
+    
+    static func registerVariables() {
+        let _ = showRelatedProducts.boolValue()
+    }
 }
