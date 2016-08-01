@@ -132,6 +132,10 @@
 		5007279D1B32CE660058DA76 /* UIApplication+TopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5007279C1B32CE660058DA76 /* UIApplication+TopViewController.swift */; };
 		500DC12B1BDA1C4C00B494FA /* ios-devel.json in Resources */ = {isa = PBXBuildFile; fileRef = 500DC1291BDA1C4C00B494FA /* ios-devel.json */; };
 		500DC12C1BDA1C4C00B494FA /* ios-prod.json in Resources */ = {isa = PBXBuildFile; fileRef = 500DC12A1BDA1C4C00B494FA /* ios-prod.json */; };
+		50146BBA1D4F54F300B0F635 /* TabCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50146BB91D4F54F300B0F635 /* TabCoordinator.swift */; };
+		50146BBB1D4F54F300B0F635 /* TabCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50146BB91D4F54F300B0F635 /* TabCoordinator.swift */; };
+		50146BBD1D4F565A00B0F635 /* TabNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50146BBC1D4F565900B0F635 /* TabNavigator.swift */; };
+		50146BBE1D4F565A00B0F635 /* TabNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50146BBC1D4F565900B0F635 /* TabNavigator.swift */; };
 		5015881B1C7396A8006AEFC8 /* UserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5015881A1C7396A8006AEFC8 /* UserView.swift */; };
 		5015881C1C7396A8006AEFC8 /* UserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5015881A1C7396A8006AEFC8 /* UserView.swift */; };
 		5015881E1C7396B7006AEFC8 /* UserView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5015881D1C7396B7006AEFC8 /* UserView.xib */; };
@@ -1061,6 +1065,8 @@
 		5007279C1B32CE660058DA76 /* UIApplication+TopViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIApplication+TopViewController.swift"; sourceTree = "<group>"; };
 		500DC1291BDA1C4C00B494FA /* ios-devel.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "ios-devel.json"; sourceTree = "<group>"; };
 		500DC12A1BDA1C4C00B494FA /* ios-prod.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "ios-prod.json"; sourceTree = "<group>"; };
+		50146BB91D4F54F300B0F635 /* TabCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabCoordinator.swift; sourceTree = "<group>"; };
+		50146BBC1D4F565900B0F635 /* TabNavigator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabNavigator.swift; sourceTree = "<group>"; };
 		5015881A1C7396A8006AEFC8 /* UserView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserView.swift; sourceTree = "<group>"; };
 		5015881D1C7396B7006AEFC8 /* UserView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserView.xib; sourceTree = "<group>"; };
 		5021910B1B2F1DAA00ABD31F /* RememberPasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RememberPasswordViewController.swift; sourceTree = "<group>"; };
@@ -1948,6 +1954,8 @@
 				507622871CD0EB1D004E5D0D /* Coordinator.swift */,
 				50D67B991D182EE9003AC0A5 /* SellCoordinator.swift */,
 				50D67B9C1D182F07003AC0A5 /* SellNavigator.swift */,
+				50146BB91D4F54F300B0F635 /* TabCoordinator.swift */,
+				50146BBC1D4F565900B0F635 /* TabNavigator.swift */,
 				C74931751D3526EF00E117F1 /* UserRatingCoordinator.swift */,
 				C74931781D3533DE00E117F1 /* UserRatingNavigator.swift */,
 			);
@@ -3841,6 +3849,7 @@
 				6A879D9F1C8D89A400E0C868 /* PushPrePermissionsSettingsViewController.swift in Sources */,
 				C711A1AB1CDC99E5002D30D9 /* ProductNotificationCellDrawer.swift in Sources */,
 				C7DCFEC21BFE3CFD00F7A4FB /* UITabBarController+Animations.swift in Sources */,
+				50146BBA1D4F54F300B0F635 /* TabCoordinator.swift in Sources */,
 				C7E73E8A1CD1F77E000F2591 /* NotificationData.swift in Sources */,
 				50261B1F1AFB49B6006E88E0 /* DevelopmentEnvironment.swift in Sources */,
 				2E50EBE31C8F0A9A0097CB82 /* ProcessingVideoDialogViewModel.swift in Sources */,
@@ -3961,6 +3970,7 @@
 				C7149FF41D0981300078C877 /* UnicodeScalar+LG.swift in Sources */,
 				509273361B172D5B00A346F9 /* PushManager.swift in Sources */,
 				C7B588251CE1DE1C009B3975 /* BlockedUserCell.swift in Sources */,
+				50146BBD1D4F565A00B0F635 /* TabNavigator.swift in Sources */,
 				6ACC24BA1D2A5C570064B165 /* GridCellDrawer.swift in Sources */,
 				C7F4CBA31C9181A5008E40D6 /* PostProductCameraViewModel.swift in Sources */,
 				C7B5885B1CE1DE1C009B3975 /* OldChatViewController.swift in Sources */,
@@ -4170,6 +4180,7 @@
 				C7B588601CE1DE1C009B3975 /* RelationInfoView.swift in Sources */,
 				2E2C7B381C85F82C00F46E8F /* ThemeCollectionCell.swift in Sources */,
 				C7DB41F61C5138B500400945 /* UITabBarController+Animations.swift in Sources */,
+				50146BBB1D4F54F300B0F635 /* TabCoordinator.swift in Sources */,
 				6A879DA01C8D89A400E0C868 /* PushPrePermissionsSettingsViewController.swift in Sources */,
 				C711A1AC1CDC99E5002D30D9 /* ProductNotificationCellDrawer.swift in Sources */,
 				C7DB41F71C5138B500400945 /* DevelopmentEnvironment.swift in Sources */,
@@ -4290,6 +4301,7 @@
 				C788EED81CC7847400B9E26F /* FilteredProductListRequester.swift in Sources */,
 				C7149FF51D0981300078C877 /* UnicodeScalar+LG.swift in Sources */,
 				C7DB42281C5138B500400945 /* PushManager.swift in Sources */,
+				50146BBE1D4F565A00B0F635 /* TabNavigator.swift in Sources */,
 				C7B588261CE1DE1C009B3975 /* BlockedUserCell.swift in Sources */,
 				6ACC24BB1D2A5C570064B165 /* GridCellDrawer.swift in Sources */,
 				C7F4CBA41C9181A5008E40D6 /* PostProductCameraViewModel.swift in Sources */,
