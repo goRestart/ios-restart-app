@@ -251,10 +251,6 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
 
     // MARK: - UICollectionViewDataSource
     
-    func scrollViewDidEndScrollingAnimation(scrollView: UIScrollView) {
-        collectionView.visibleCells().flatMap { $0 as? BannerCell }.forEach{$0.playVideo()}
-    }
-    
     func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         if !decelerate { startVideos() }
     }
@@ -264,13 +260,12 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     }
     
     private func startVideos() {
-        let visibleCells = collectionView.visibleCells()
+        collectionView.visibleCells()
             .flatMap { $0 as? BannerCell }
             .filter{ cell -> Bool in
                 let newFrame = collectionView.convertRect(cell.frame, toView: self)
                 return newFrame.origin.y < height/2 && newFrame.bottom > height/2
-        }
-        visibleCells.forEach{$0.playVideo()}
+            }.forEach{ $0.playVideo()}
     }
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
