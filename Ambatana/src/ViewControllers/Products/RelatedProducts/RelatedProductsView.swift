@@ -24,19 +24,15 @@ class RelatedProductsView: UIView {
 
     let title = Variable<String>("")
     let productId = Variable<String?>(nil)
-    let productsCount = PublishSubject<Int>()
 
     weak var delegate: RelatedProductsViewDelegate?
 
     private let infoLabel = UILabel()
-    private let collectionView = UICollectionView()
+    private let collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout())
     private let productsDiameter: CGFloat
 
-    private var relatedProducts: [Product] = [] {
-        didSet {
-            productsCount.onNext(relatedProducts.count)
-        }
-    }
+    private var objects: [ProductCellModel] = []
+    private let drawerManager = GridDrawerManager()
 
     private let disposeBag = DisposeBag()
 
@@ -59,10 +55,27 @@ class RelatedProductsView: UIView {
         setup()
     }
 
+    func setupOnTopOfView(sibling: UIView) {
+        translatesAutoresizingMaskIntoConstraints = false
+        guard let parentView = sibling.superview else { return }
+        parentView.addSubview(self)
+        let bottom = NSLayoutConstraint(item: self, attribute: NSLayoutAttribute.Bottom, relatedBy:
+            NSLayoutRelation.Equal, toItem: sibling, attribute: NSLayoutAttribute.Top, multiplier: 1.0, constant: 0)
+        let left = NSLayoutConstraint(item: self, attribute: NSLayoutAttribute.Left, relatedBy: NSLayoutRelation.Equal,
+                                      toItem: sibling, attribute: NSLayoutAttribute.Left, multiplier: 1.0, constant: 0)
+        let right = NSLayoutConstraint(item: self, attribute: NSLayoutAttribute.Right, relatedBy: NSLayoutRelation.Equal,
+                                       toItem: sibling, attribute: NSLayoutAttribute.Right, multiplier: 1, constant: 0)
+        parentView.addConstraints([bottom,left,right])
+    }
+
 
     // MARK: - Private
 
     private func setup() {
+        backgroundColor = UIColor.whiteColor()
+        layer.borderWidth = LGUIKitConstants.onePixelSize
+        layer.borderColor = UIColor.lineGray.CGColor
+
         infoLabel.translatesAutoresizingMaskIntoConstraints = false
         infoLabel.textColor = UIColor.grayDark
         infoLabel.font = UIFont.sectionTitleFont
@@ -78,7 +91,7 @@ class RelatedProductsView: UIView {
 
     private func setupConstraints() {
         let views = ["infoLabel": infoLabel, "collectionView": collectionView]
-        let metrics = ["margin": 15, "collectionHeight": 100]
+        let metrics = ["margin": RelatedProductsView.elementsMargin, "collectionHeight": productsDiameter]
         addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-margin-[infoLabel]-margin-|", options: [],
             metrics: metrics, views: views))
         addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[collectionView]|", options: [], metrics: nil,
@@ -95,15 +108,6 @@ class RelatedProductsView: UIView {
             self?.loadProducts(productId)
         }.addDisposableTo(disposeBag)
     }
-
-    private func loadProducts(productId: String) {
-        let requester = RelatedProductListRequester(productId: productId)
-        requester.retrieveFirstPage { [weak self] result in
-            guard let products = result.value where !products.isEmpty  else { return }
-            self?.relatedProducts = products
-            self?.collectionView.reloadData()
-        }
-    }
 }
 
 
@@ -112,12 +116,14 @@ class RelatedProductsView: UIView {
 extension RelatedProductsView: UICollectionViewDelegate, UICollectionViewDataSource {
 
     private func setupCollection() {
-        collectionView.registerClass(RelatedProductCell.self, forCellWithReuseIdentifier: RelatedProductCell.reusableID)
+        drawerManager.registerCell(inCollectionView: collectionView)
+        collectionView.backgroundColor = UIColor.clearColor()
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.scrollsToTop = false
         collectionView.showsHorizontalScrollIndicator = false
-        collectionView.contentInset = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 8)
+        collectionView.contentInset = UIEdgeInsets(top: 0, left: RelatedProductsView.elementsMargin, bottom: 0,
+                                                   right: RelatedProductsView.elementsMargin)
         if let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
             layout.scrollDirection = UICollectionViewScrollDirection.Horizontal
             layout.itemSize = CGSize(width: productsDiameter, height: productsDiameter)
@@ -125,26 +131,48 @@ extension RelatedProductsView: UICollectionViewDelegate, UICollectionViewDataSou
         }
     }
 
-    private func getProduct(index: Int) -> Product? {
-        guard 0..<relatedProducts.count ~= index else { return nil }
-        return relatedProducts[index]
+    private func itemAtIndex(index: Int) -> ProductCellModel? {
+        guard 0..<objects.count ~= index else { return nil }
+        return objects[index]
     }
 
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return relatedProducts.count
+        return objects.count
     }
 
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath)
          -> UICollectionViewCell {
-            guard let cell = collectionView.dequeueReusableCellWithReuseIdentifier(RelatedProductCell.reusableID,
-                                forIndexPath: indexPath) as? RelatedProductCell else { return UICollectionViewCell() }
-            guard let product = getProduct(indexPath.row) else { return UICollectionViewCell() }
-            cell.setupWithImageUrl(product.thumbnail?.fileURL)
+            guard let item = itemAtIndex(indexPath.row) else { return UICollectionViewCell() }
+            let cell = drawerManager.cell(item, collectionView: collectionView, atIndexPath: indexPath)
+            drawerManager.draw(item, inCell: cell)
+            cell.tag = indexPath.hash
             return cell
     }
 
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        guard let product = getProduct(indexPath.row) else { return }
-        delegate?.relatedProductsView(self, didSelectProduct: product)
+        guard let item = itemAtIndex(indexPath.row) else { return }
+        switch item {
+        case let .ProductCell(product):
+            delegate?.relatedProductsView(self, didSelectProduct: product)
+        case .BannerCell:
+            // No banners here
+            break
+        }
+    }
+}
+
+
+// Data handling
+
+private extension RelatedProductsView {
+
+    func loadProducts(productId: String) {
+        let requester = RelatedProductListRequester(productId: productId)
+        requester.retrieveFirstPage { [weak self] result in
+            guard let products = result.value where !products.isEmpty  else { return }
+            let productCellModels = products.map(ProductCellModel.init)
+            self?.objects = productCellModels
+            self?.collectionView.reloadData()
+        }
     }
 }

@@ -22,6 +22,7 @@ protocol OldChatViewModelDelegate: BaseViewModelDelegate {
     func vmDidSucceedSendingMessage()
     
     func vmDidUpdateDirectAnswers()
+    func vmShowRelatedProducts(productId: String?)
     func vmDidUpdateProduct(messageToShow message: String?)
     
     func vmShowProduct(productVC: UIViewController)
@@ -71,6 +72,9 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     weak var delegate: OldChatViewModelDelegate?
     var title: String? {
         return product.title
+    }
+    var productId: String? {
+        return product.objectId
     }
     var productName: String? {
         return product.title
@@ -350,6 +354,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     }
     
     override func didBecomeActive(firstTime: Bool) {
+        checkShowRelatedProducts()
         guard !chat.forbidden else {
             showDisclaimerMessage()
             markForbiddenAsRead()
@@ -366,6 +371,10 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     func showDisclaimerMessage() {
         loadedMessages = [userBlockedDisclaimerMessage]
         delegate?.vmDidSucceedRetrievingChatMessages()
+    }
+
+    func checkShowRelatedProducts() {
+        delegate?.vmShowRelatedProducts(product.objectId)
     }
     
     func didAppear() {

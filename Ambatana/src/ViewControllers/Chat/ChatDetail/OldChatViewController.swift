@@ -27,6 +27,7 @@ class OldChatViewController: SLKTextViewController {
     var activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
     var relationInfoView = RelationInfoView.relationInfoView()   // informs if the user is blocked, or the product sold or inactive
     var directAnswersPresenter: DirectAnswersPresenter
+    let relatedProductsView: RelatedProductsView
     let keyboardHelper: KeyboardHelper
     let disposeBag = DisposeBag()
 
@@ -46,6 +47,7 @@ class OldChatViewController: SLKTextViewController {
         self.viewModel = viewModel
         self.productView = ChatProductView.chatProductView()
         self.directAnswersPresenter = DirectAnswersPresenter()
+        self.relatedProductsView = RelatedProductsView()
         self.stickersView = ChatStickersView()
         self.stickersCloseButton = UIButton(frame: CGRect.zero)
         self.keyboardHelper = keyboardHelper
@@ -71,6 +73,7 @@ class OldChatViewController: SLKTextViewController {
         setNavBarBackButton(nil)
         setupUI()
         setupToastView()
+        setupRelatedProducts()
         setupDirectAnswers()
         setupStickersView()
         initStickersWindow()
@@ -150,7 +153,7 @@ class OldChatViewController: SLKTextViewController {
     
     override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         // Just to reserve the space for directAnswersView
-        return directAnswersPresenter.height
+        return directAnswersPresenter.height + relatedProductsView.height
     }
     
     override func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -265,9 +268,14 @@ class OldChatViewController: SLKTextViewController {
 
     private func setupDirectAnswers() {
         directAnswersPresenter.hidden = !viewModel.shouldShowDirectAnswers
-        directAnswersPresenter.setupOnTopOfView(textInputbar)
+        directAnswersPresenter.setupOnTopOfView(relatedProductsView)
         directAnswersPresenter.setDirectAnswers(viewModel.directAnswers)
         directAnswersPresenter.delegate = viewModel
+    }
+
+    private func setupRelatedProducts() {
+        relatedProductsView.setupOnTopOfView(textInputbar)
+        relatedProductsView.title.value = LGLocalizedString.chatRelatedProductsTitle
     }
     
     private func updateProductView() {
@@ -426,6 +434,12 @@ extension OldChatViewController: OldChatViewModelDelegate {
         showKeyboard(false, animated: false)
         self.navigationController?.pushViewController(productVC, animated: true)
     }
+
+    func vmShowRelatedProducts(productId: String?) {
+        relatedProductsView.productId.value = productId
+    }
+
+    // MARK: > User
     
     func vmShowUser(userVM: UserViewModel) {
         showKeyboard(false, animated: false)
@@ -433,15 +447,10 @@ extension OldChatViewController: OldChatViewModelDelegate {
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
-    
-    // MARK: > Report user
-    
     func vmShowReportUser(reportUserViewModel: ReportUsersViewModel) {
         let vc = ReportUsersViewController(viewModel: reportUserViewModel)
         self.navigationController?.pushViewController(vc, animated: true)
     }
-
-    // MARK: > Rate user
 
     func vmShowUserRating(source: RateUserSource, data: RateUserData) {
         guard let tabBarController = self.tabBarController as? TabBarController else { return }
