@@ -256,19 +256,14 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     }
     
     func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        if !decelerate {
-            let visibleCells = collectionView.visibleCells()
-                .flatMap { $0 as? BannerCell }
-                .filter{ cell -> Bool in
-                    let newFrame = collectionView.convertRect(cell.frame, toView: self)
-                    return newFrame.origin.y < height/2 && newFrame.bottom > height/2
-            }
-            visibleCells.forEach{$0.playVideo()}
-        }
+        if !decelerate { startVideos() }
     }
     
     func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
-//        print("something")
+        startVideos()
+    }
+    
+    private func startVideos() {
         let visibleCells = collectionView.visibleCells()
             .flatMap { $0 as? BannerCell }
             .filter{ cell -> Bool in
@@ -313,12 +308,9 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
 
             self?.cellsDelegate?.visibleTopCellWithIndex(topProductIndex, whileScrollingDown: scrollingDown)
             self?.cellsDelegate?.visibleBottomCell(bottomProductIndex)
-            
-//            if let cell = cell as? BannerCell {
-//                cell.playVideo()
-//            }
         }
     }
+    
     func collectionView(collectionView: UICollectionView, didEndDisplayingCell cell: UICollectionViewCell, forItemAtIndexPath indexPath: NSIndexPath) {
         if let cell = cell as? BannerCell {
             cell.stopVideo()

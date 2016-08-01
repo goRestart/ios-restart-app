@@ -14,10 +14,6 @@ class BannerCellDrawer: BaseCollectionCellDrawer<BannerCell>, GridCellDrawer {
         cell.colorView.backgroundColor = model.style.backColor
         cell.title.text = model.title
         cell.videoURL = NSURL(string: "http://devimages.apple.com/iphone/samples/bipbop/bipbopall.m3u8")!
-        cell.configure()
-//        let videoURL: NSURL = NSBundle.mainBundle().URLForResource("sample", withExtension: "mp4")!
-//        let image = UIImage(named: "sample_tb")
-//        let videoURL =
-//        cell.playVideo(videoURL, thumbnail: image!)
+        cell.stopVideo()
     }
 }

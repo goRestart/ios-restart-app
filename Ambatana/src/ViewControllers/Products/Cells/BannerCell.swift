@@ -30,19 +30,12 @@ class BannerCell: UICollectionViewCell, ReusableCell {
             title.font = UIFont.systemBoldFont(size: 19)
         }
         
-//        imageView.hidden = true
         title.hidden = true
         colorView.hidden = true
-        
-    }
-    
-    func configure() {
-        stopVideo()
     }
     
     func playVideo() {
         guard !playing else { return }
-        print("✳️ PLAYING!!!")
         playing = true
         let playerItem = AVPlayerItem(URL: videoURL!)
         player = AVPlayer(playerItem: playerItem)
@@ -64,7 +57,6 @@ class BannerCell: UICollectionViewCell, ReusableCell {
     }
 
     func stopVideo() {
-//        print("⛔️ Stopping!")
         playing = false
         player?.pause()
         playerLayer?.removeFromSuperlayer()
