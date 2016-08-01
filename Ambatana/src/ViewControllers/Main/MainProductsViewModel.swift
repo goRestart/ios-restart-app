@@ -390,12 +390,20 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate {
     }
     
     func vmProcessReceivedProductPage(products: [ProductCellModel]) -> [ProductCellModel] {
-        guard products.count > bannerCellPosition else { return products }
-        let bannerData = BannerData(title: LGLocalizedString.productListBannerCellTitle)
-        let banner = ProductCellModel.BannerCell(banner: bannerData)
-        var cellModels = products
-        cellModels.insert(banner, atIndex: bannerCellPosition)
-        return cellModels
+        return products.map {_ in
+            let bannerData = BannerData(title: LGLocalizedString.productListBannerCellTitle)
+            return ProductCellModel.BannerCell(banner: bannerData)
+        }
+//        guard products.count > bannerCellPosition else { return products }
+//        let bannerData = BannerData(title: LGLocalizedString.productListBannerCellTitle)
+//        let banner = ProductCellModel.BannerCell(banner: bannerData)
+//        var cellModels = products
+//        cellModels.insert(banner, atIndex: 4)
+//        cellModels.insert(banner, atIndex: bannerCellPosition)
+//        cellModels.insert(banner, atIndex: 12)
+//        cellModels.insert(banner, atIndex: 16)
+//        cellModels.insert(banner, atIndex: 20)
+//        return cellModels
     }
     
     func vmDidSelectSellBanner(type: String) {

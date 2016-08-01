@@ -251,6 +251,33 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
 
     // MARK: - UICollectionViewDataSource
     
+    func scrollViewDidEndScrollingAnimation(scrollView: UIScrollView) {
+        collectionView.visibleCells().flatMap { $0 as? BannerCell }.forEach{$0.playVideo()}
+    }
+    
+    func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        if !decelerate {
+            let visibleCells = collectionView.visibleCells()
+                .flatMap { $0 as? BannerCell }
+                .filter{ cell -> Bool in
+                    let newFrame = collectionView.convertRect(cell.frame, toView: self)
+                    return newFrame.origin.y < height/2 && newFrame.bottom > height/2
+            }
+            visibleCells.forEach{$0.playVideo()}
+        }
+    }
+    
+    func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
+//        print("something")
+        let visibleCells = collectionView.visibleCells()
+            .flatMap { $0 as? BannerCell }
+            .filter{ cell -> Bool in
+                let newFrame = collectionView.convertRect(cell.frame, toView: self)
+                return newFrame.origin.y < height/2 && newFrame.bottom > height/2
+        }
+        visibleCells.forEach{$0.playVideo()}
+    }
+    
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
         sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
             return viewModel.sizeForCellAtIndex(indexPath.row)
@@ -286,6 +313,15 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
 
             self?.cellsDelegate?.visibleTopCellWithIndex(topProductIndex, whileScrollingDown: scrollingDown)
             self?.cellsDelegate?.visibleBottomCell(bottomProductIndex)
+            
+//            if let cell = cell as? BannerCell {
+//                cell.playVideo()
+//            }
+        }
+    }
+    func collectionView(collectionView: UICollectionView, didEndDisplayingCell cell: UICollectionViewCell, forItemAtIndexPath indexPath: NSIndexPath) {
+        if let cell = cell as? BannerCell {
+            cell.stopVideo()
         }
     }
     
