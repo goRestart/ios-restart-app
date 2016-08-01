@@ -119,6 +119,7 @@ public enum EventName: String {
     case UserRatingStart                    = "user-rating-start"
     case UserRatingComplete                 = "user-rating-complete"
 
+    case OpenApp                            = "open-app"
 
     // Constants
     private static let eventNameDummyPrefix  = "dummy-"
@@ -196,6 +197,9 @@ public enum EventParameterName: String {
     case RatingStars          = "rating-stars"
     case RatingComments       = "rating-comments"
     case SellerUserRating     = "seller-user-rating"
+    case Campaign             = "campaign"
+    case Medium               = "medium"
+    case Source               = "source"
 }
 
 public enum EventParameterLoginSourceValue: String {
@@ -456,6 +460,7 @@ public enum EventParameterRatingSource: String {
     case ProductSellComplete = "product-sell-complete"
     case MarkedSold = "marked-sold"
 }
+
 
 public struct EventParameters {
     private var params: [EventParameterName : AnyObject] = [:]

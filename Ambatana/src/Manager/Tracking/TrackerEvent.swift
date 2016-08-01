@@ -775,7 +775,24 @@ public struct TrackerEvent {
         return TrackerEvent(name: .UserRatingComplete, params: params)
     }
 
-    
+    static func openApp(campaign: String? = nil, medium: String? = nil, source: DeepLinkSource) -> TrackerEvent {
+        var params = EventParameters()
+        params[.Campaign] = campaign
+        params[.Medium] = medium
+        switch source {
+        case .Direct:
+            params[.Source] = "direct"
+        case let .External(theSource):
+            params[.Source] = theSource
+        case .Push:
+            params[.Source] = "push"
+        case .None:
+            break
+        }
+        return TrackerEvent(name: .OpenApp, params: params)
+    }
+
+
     // MARK: - Private methods
 
     private static func eventParameterLocationTypeForLocation(location: LGLocation) -> EventParameterLocationType? {
