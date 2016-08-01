@@ -18,6 +18,10 @@ protocol RelatedProductsViewDelegate: class {
 
 class RelatedProductsView: UIView {
 
+    private static let defaultProductsDiameter: CGFloat = 100
+    private static let elementsMargin: CGFloat = 15
+    private static let itemsSpacing: CGFloat = 5
+
     let title = Variable<String>("")
     let productId = Variable<String?>(nil)
     let productsCount = PublishSubject<Int>()
@@ -26,6 +30,7 @@ class RelatedProductsView: UIView {
 
     private let infoLabel = UILabel()
     private let collectionView = UICollectionView()
+    private let productsDiameter: CGFloat
 
     private var relatedProducts: [Product] = [] {
         didSet {
@@ -38,12 +43,18 @@ class RelatedProductsView: UIView {
 
     // MARK: - Lifecycle
 
-    override init(frame: CGRect) {
+    convenience override init(frame: CGRect) {
+        self.init(productsDiameter: RelatedProductsView.defaultProductsDiameter, frame: frame)
+    }
+
+    init(productsDiameter: CGFloat, frame: CGRect) {
+        self.productsDiameter = productsDiameter
         super.init(frame: frame)
         setup()
     }
 
     required init?(coder aDecoder: NSCoder) {
+        self.productsDiameter = RelatedProductsView.defaultProductsDiameter
         super.init(coder: aDecoder)
         setup()
     }
@@ -53,6 +64,8 @@ class RelatedProductsView: UIView {
 
     private func setup() {
         infoLabel.translatesAutoresizingMaskIntoConstraints = false
+        infoLabel.textColor = UIColor.grayDark
+        infoLabel.font = UIFont.sectionTitleFont
         addSubview(infoLabel)
 
         collectionView.translatesAutoresizingMaskIntoConstraints = false
@@ -102,6 +115,14 @@ extension RelatedProductsView: UICollectionViewDelegate, UICollectionViewDataSou
         collectionView.registerClass(RelatedProductCell.self, forCellWithReuseIdentifier: RelatedProductCell.reusableID)
         collectionView.delegate = self
         collectionView.dataSource = self
+        collectionView.scrollsToTop = false
+        collectionView.showsHorizontalScrollIndicator = false
+        collectionView.contentInset = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 8)
+        if let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
+            layout.scrollDirection = UICollectionViewScrollDirection.Horizontal
+            layout.itemSize = CGSize(width: productsDiameter, height: productsDiameter)
+            layout.minimumInteritemSpacing = RelatedProductsView.itemsSpacing
+        }
     }
 
     private func getProduct(index: Int) -> Product? {
