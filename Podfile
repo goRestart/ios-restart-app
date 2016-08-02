@@ -86,6 +86,8 @@ def shared_pods
     # User defaults
     pod "SwiftyUserDefaults",   "~> 2.2.0"
 
+    # Gifs
+    pod 'FLAnimatedImage',      '~> 1.0'
 end
 
 target "LetGo" do

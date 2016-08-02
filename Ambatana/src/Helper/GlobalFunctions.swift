@@ -20,3 +20,9 @@ func onMainThread(completion: (() -> Void)) {
         completion()
     }
 }
+
+func onBackgroundThread(completion: (() -> Void)) {
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+        completion()
+    }
+}
