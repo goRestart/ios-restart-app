@@ -126,7 +126,11 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     }
     
     // Data
-    internal(set) var viewModel: ProductListViewModel
+    internal(set) var viewModel: ProductListViewModel {
+        didSet {
+            drawerManager.cellStyle = viewModel.cellStyle
+        }
+    }
     private let drawerManager = GridDrawerManager()
     
     // Delegate

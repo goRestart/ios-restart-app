@@ -54,6 +54,13 @@ class ProductListViewModel: BaseViewModel {
     var cellWidth: CGFloat {
         return (UIScreen.mainScreen().bounds.size.width - (productListFixedInset*2)) / CGFloat(numberOfColumns)
     }
+
+    var cellStyle: CellStyle {
+        if numberOfColumns > 2 {
+            return .Small
+        }
+        return .Big
+    }
     
     var productListFixedInset: CGFloat = 10.0
     

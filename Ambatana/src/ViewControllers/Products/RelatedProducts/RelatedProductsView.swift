@@ -27,6 +27,7 @@ class RelatedProductsView: UIView {
 
     weak var delegate: RelatedProductsViewDelegate?
 
+    private var topConstraint: NSLayoutConstraint?
     private let infoLabel = UILabel()
     private let collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout())
     private let productsDiameter: CGFloat
@@ -55,17 +56,21 @@ class RelatedProductsView: UIView {
         setup()
     }
 
+
+    // MARK: - Public
+
     func setupOnTopOfView(sibling: UIView) {
         translatesAutoresizingMaskIntoConstraints = false
         guard let parentView = sibling.superview else { return }
         parentView.addSubview(self)
-        let bottom = NSLayoutConstraint(item: self, attribute: NSLayoutAttribute.Bottom, relatedBy:
+        let top = NSLayoutConstraint(item: self, attribute: NSLayoutAttribute.Top, relatedBy:
             NSLayoutRelation.Equal, toItem: sibling, attribute: NSLayoutAttribute.Top, multiplier: 1.0, constant: 0)
         let left = NSLayoutConstraint(item: self, attribute: NSLayoutAttribute.Left, relatedBy: NSLayoutRelation.Equal,
                                       toItem: sibling, attribute: NSLayoutAttribute.Left, multiplier: 1.0, constant: 0)
         let right = NSLayoutConstraint(item: self, attribute: NSLayoutAttribute.Right, relatedBy: NSLayoutRelation.Equal,
                                        toItem: sibling, attribute: NSLayoutAttribute.Right, multiplier: 1, constant: 0)
-        parentView.addConstraints([bottom,left,right])
+        parentView.addConstraints([top,left,right])
+        topConstraint = top
     }
 
 
@@ -116,6 +121,7 @@ class RelatedProductsView: UIView {
 extension RelatedProductsView: UICollectionViewDelegate, UICollectionViewDataSource {
 
     private func setupCollection() {
+        drawerManager.cellStyle = .Small
         drawerManager.registerCell(inCollectionView: collectionView)
         collectionView.backgroundColor = UIColor.clearColor()
         collectionView.delegate = self
@@ -162,7 +168,7 @@ extension RelatedProductsView: UICollectionViewDelegate, UICollectionViewDataSou
 }
 
 
-// Data handling
+// MARK: - Data handling
 
 private extension RelatedProductsView {
 
@@ -173,6 +179,14 @@ private extension RelatedProductsView {
             let productCellModels = products.map(ProductCellModel.init)
             self?.objects = productCellModels
             self?.collectionView.reloadData()
+            self?.animateToVisible()
+        }
+    }
+
+    func animateToVisible() {
+        topConstraint?.constant = -height
+        UIView.animateWithDuration(0.3) { [weak self] in
+            self?.superview?.layoutIfNeeded()
         }
     }
 }
