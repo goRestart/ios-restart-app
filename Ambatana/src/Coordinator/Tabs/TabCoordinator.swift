@@ -48,12 +48,6 @@ class TabCoordinator: NSObject {
 // MARK: - TabNavigator
 
 extension TabCoordinator: TabNavigator {
-    func openUser(user user: User) {
-        let viewModel = UserViewModel(user: user, source: .TabBar)
-        let vc = UserViewController(viewModel: viewModel)
-        navigationController.pushViewController(vc, animated: true)
-    }
-
     func openUser(userId userId: String) {
         navigationController.showLoadingMessageAlert()
         userRepository.show(userId, includeAccounts: false) { [weak self] result in
@@ -76,11 +70,6 @@ extension TabCoordinator: TabNavigator {
         }
     }
 
-    func openProduct(product product: Product) {
-        guard let vc = ProductDetailFactory.productDetailFromProduct(product) else { return }
-        navigationController.pushViewController(vc, animated: true)
-    }
-
     func openProduct(productId productId: String) {
         navigationController.showLoadingMessageAlert()
         productRepository.retrieve(productId) { [weak self] result in
@@ -101,6 +90,19 @@ extension TabCoordinator: TabNavigator {
                 }
             }
         }
+    }
+}
+
+private extension TabCoordinator {
+    func openUser(user user: User) {
+        let viewModel = UserViewModel(user: user, source: .TabBar)
+        let vc = UserViewController(viewModel: viewModel)
+        navigationController.pushViewController(vc, animated: true)
+    }
+
+    func openProduct(product product: Product) {
+        guard let vc = ProductDetailFactory.productDetailFromProduct(product) else { return }
+        navigationController.pushViewController(vc, animated: true)
     }
 }
 

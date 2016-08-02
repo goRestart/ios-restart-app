@@ -17,7 +17,6 @@ protocol MainProductsViewModelDelegate: BaseViewModelDelegate {
     func vmShowTags(tags: [FilterTag])
     func vmDidFailRetrievingProducts(hasProducts hasProducts: Bool, error: String?)
     func vmDidSuceedRetrievingProducts(hasProducts hasProducts: Bool, isFirstPage: Bool)
-    func vmShowProduct(productVC: UIViewController)
     func vmOpenSell(type: String)
 }
 
@@ -78,6 +77,9 @@ class MainProductsViewModel: BaseViewModel {
     weak var delegate: MainProductsViewModelDelegate?
     weak var bubbleDelegate: InfoBubbleDelegate?
     weak var permissionsDelegate: PermissionsDelegate?
+
+    // > Navigator
+    weak var navigator: MainProductsNavigator?
 
     // List VM
     let listViewModel: ProductListViewModel
@@ -374,19 +376,8 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate {
                        thumbnailImage: UIImage?, originFrame: CGRect?) {
         
         guard let product = viewModel.productAtIndex(index) else { return }
-        let productVC: UIViewController?
-        if FeatureFlags.showRelatedProducts {
-            productVC = ProductDetailFactory.productDetailFromProduct(product,
-                                                                      thumbnailImage: thumbnailImage,
-                                                                      originFrame: originFrame)
-        } else {
-            productVC = ProductDetailFactory.productDetailFromProductList(viewModel, index: index,
-                                                                          thumbnailImage: thumbnailImage,
-                                                                          originFrame: originFrame)
-        }
-        if let productVC = productVC {
-            delegate?.vmShowProduct(productVC)
-        }
+        navigator?.openProduct(product, productListVM: viewModel, index: index,
+                               thumbnailImage: thumbnailImage, originFrame: originFrame)
     }
     
     func vmProcessReceivedProductPage(products: [ProductCellModel]) -> [ProductCellModel] {

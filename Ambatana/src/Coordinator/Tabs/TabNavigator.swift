@@ -9,8 +9,6 @@
 import LGCoreKit
 
 protocol TabNavigator: class {
-    func openUser(user user: User)
     func openUser(userId userId: String)
-    func openProduct(product product: Product)
     func openProduct(productId productId: String)
 }
