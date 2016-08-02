@@ -25,6 +25,10 @@ final class ChatsTabCoordinator: TabCoordinator {
                   keyValueStorage: keyValueStorage, tracker: tracker, rootViewController: rootViewController)
     }
 
+    override func shouldHideSellButtonAtViewController(viewController: UIViewController) -> Bool {
+        return true
+    }
+
     func openChat(conversationData conversationData: ConversationData) {
         navigationController.showLoadingMessageAlert()
 

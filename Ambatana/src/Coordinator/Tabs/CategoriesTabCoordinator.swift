@@ -24,6 +24,11 @@ final class CategoriesTabCoordinator: TabCoordinator {
                   chatRepository: chatRepository, oldChatRepository: oldChatRepository,
                   keyValueStorage: keyValueStorage, tracker: tracker, rootViewController: rootViewController)
     }
+
+    // Note: override in subclasses
+    override func shouldHideSellButtonAtViewController(viewController: UIViewController) -> Bool {
+        return super.shouldHideSellButtonAtViewController(viewController) && !(viewController is MainProductsViewController)
+    }
 }
 
 extension CategoriesTabCoordinator: CategoriesTabNavigator {

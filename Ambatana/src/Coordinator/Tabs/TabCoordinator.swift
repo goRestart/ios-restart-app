@@ -9,6 +9,10 @@
 import LGCoreKit
 import RxSwift
 
+protocol TabCoordinatorDelegate: class {
+    func tabCoordinator(tabCoordinator: TabCoordinator, setSellButtonHidden hidden: Bool, animated: Bool)
+}
+
 class TabCoordinator: NSObject {
     var child: Coordinator?
 
@@ -23,6 +27,8 @@ class TabCoordinator: NSObject {
     let tracker: Tracker
 
     let disposeBag = DisposeBag()
+
+    weak var tabCoordinatorDelegate: TabCoordinatorDelegate?
 
 
     // MARK: - Lifecycle
@@ -129,29 +135,19 @@ extension TabCoordinator: UINavigationControllerDelegate {
 
     func navigationController(navigationController: UINavigationController,
                               willShowViewController viewController: UIViewController, animated: Bool) {
-        // TODO: udpdate sell floating button
-//        updateFloatingButtonFor(navigationController, presenting: viewController, animate: false)
+        tabCoordinatorDelegate?.tabCoordinator(self,
+                                               setSellButtonHidden: shouldHideSellButtonAtViewController(viewController),
+                                               animated: false)
     }
 
     func navigationController(navigationController: UINavigationController,
                               didShowViewController viewController: UIViewController, animated: Bool) {
-//        updateFloatingButtonFor(navigationController, presenting: viewController, animate: true)
+        tabCoordinatorDelegate?.tabCoordinator(self,
+                                               setSellButtonHidden: shouldHideSellButtonAtViewController(viewController),
+                                               animated: true)
     }
 
-//    private func updateFloatingButtonFor(navigationController: UINavigationController,
-//                                         presenting viewController: UIViewController, animate: Bool) {
-//        guard let viewControllers = viewControllers else { return }
-//
-//        let vcIdx = (viewControllers as NSArray).indexOfObject(navigationController)
-//        if let tab = Tab(index: vcIdx) {
-//            switch tab {
-//            case .Home, .Categories, .Sell, .Profile:
-//                //In case of those 4 sections, show if ctrl is root, or if its the MainProductsViewController
-//                let showBtn = viewController.isRootViewController() || (viewController is MainProductsViewController)
-//                setSellFloatingButtonHidden(!showBtn, animated: animate)
-//            case .Chats, .Notifications:
-//                setSellFloatingButtonHidden(true, animated: false)
-//            }
-//        }
-//    }
+    func shouldHideSellButtonAtViewController(viewController: UIViewController) -> Bool {
+        return !viewController.isRootViewController()
+    }
 }

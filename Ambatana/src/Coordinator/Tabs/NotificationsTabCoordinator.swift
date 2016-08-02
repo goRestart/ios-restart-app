@@ -24,6 +24,10 @@ final class NotificationsTabCoordinator: TabCoordinator {
                   chatRepository: chatRepository, oldChatRepository: oldChatRepository,
                   keyValueStorage: keyValueStorage, tracker: tracker, rootViewController: rootViewController)
     }
+
+    override func shouldHideSellButtonAtViewController(viewController: UIViewController) -> Bool {
+        return true
+    }
 }
 
 extension NotificationsTabCoordinator: NotificationsTabNavigator {

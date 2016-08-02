@@ -104,12 +104,8 @@ final class AppCoordinator: NSObject {
         self.userRatingRepository = userRatingRepository
 
         super.init()
-        tabBarCtl.delegate = self
-        var viewControllers = tabCoordinators.map { $0.navigationController as UIViewController }
-        viewControllers.insert(UIViewController(), atIndex: 2)  // Sell
-        tabBarCtl.viewControllers = viewControllers
-        tabBarCtl.setupTabBarItems()
-
+        setupTabBarController()
+        setupTabCoordinators()
         setupDeepLinkingRx()
         setupNotificationCenterObservers()
     }
@@ -300,6 +296,16 @@ private extension AppCoordinator {
 }
 
 
+
+// MARK: - TabCoordinatorDelegate
+
+extension AppCoordinator: TabCoordinatorDelegate {
+    func tabCoordinator(tabCoordinator: TabCoordinator, setSellButtonHidden hidden: Bool, animated: Bool) {
+        tabBarCtl.setSellFloatingButtonHidden(hidden, animated: animated)
+    }
+}
+
+
 // MARK: - UITabBarControllerDelegate
 
 extension AppCoordinator: UITabBarControllerDelegate {
@@ -352,7 +358,22 @@ extension AppCoordinator: UITabBarControllerDelegate {
 // MARK: > Setup / tear down
 
 private extension AppCoordinator {
-    private func setupDeepLinkingRx() {
+    func setupTabBarController() {
+        tabBarCtl.delegate = self
+        var viewControllers = tabCoordinators.map { $0.navigationController as UIViewController }
+        viewControllers.insert(UIViewController(), atIndex: 2)  // Sell
+        tabBarCtl.viewControllers = viewControllers
+        tabBarCtl.setupTabBarItems()
+    }
+
+    func setupTabCoordinators() {
+        mainTabBarCoordinator.tabCoordinatorDelegate = self
+        secondTabBarCoordinator.tabCoordinatorDelegate = self
+        chatsTabBarCoordinator.tabCoordinatorDelegate = self
+        profileTabBarCoordinator.tabCoordinatorDelegate = self
+    }
+
+    func setupDeepLinkingRx() {
         deepLinksRouter.deepLinks.asObservable()
             .filter { deepLink in
                 //We only want links that open from outside the app
@@ -367,7 +388,7 @@ private extension AppCoordinator {
             }.addDisposableTo(disposeBag)
     }
 
-    private func setupNotificationCenterObservers() {
+    func setupNotificationCenterObservers() {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(logout(_:)),
                                                          name: SessionManager.Notification.Logout.rawValue, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(kickedOut(_:)),
@@ -376,7 +397,7 @@ private extension AppCoordinator {
                                                          name: LocationManager.Notification.MovedFarFromSavedManualLocation.rawValue, object: nil)
     }
 
-    private func tearDownNotificationCenterObservers() {
+    func tearDownNotificationCenterObservers() {
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
 }
@@ -385,15 +406,15 @@ private extension AppCoordinator {
 // MARK: > NSNotificationCenter
 
 private extension AppCoordinator {
-    dynamic private func logout(notification: NSNotification) {
+    dynamic func logout(notification: NSNotification) {
         openTab(.Home)
     }
 
-    dynamic private func kickedOut(notification: NSNotification) {
+    dynamic func kickedOut(notification: NSNotification) {
         tabBarCtl.showAutoFadingOutMessageAlert(LGLocalizedString.toastErrorInternal)
     }
 
-    dynamic private func askUserToUpdateLocation() {
+    dynamic func askUserToUpdateLocation() {
         guard let navCtl = selectedNavigationController() else { return }
 
         guard navCtl.isAtRootViewController else { return }
@@ -415,32 +436,32 @@ private extension AppCoordinator {
 // MARK: > Helper
 
 private extension AppCoordinator {
-    private func shouldOpenTab(tab: Tab) -> Bool {
+    func shouldOpenTab(tab: Tab) -> Bool {
         guard let vc = controllerAtTab(tab) else { return false }
         return tabBarController(tabBarCtl, shouldSelectViewController: vc)
     }
 
-    private func controllerAtTab(tab: Tab) -> UIViewController? {
+    func controllerAtTab(tab: Tab) -> UIViewController? {
         guard let vcs = tabBarCtl.viewControllers else { return nil }
         guard 0..<vcs.count ~= tab.index else { return nil }
         return vcs[tab.index]
     }
 
-    private func tabAtController(controller: UIViewController) -> Tab? {
+    func tabAtController(controller: UIViewController) -> Tab? {
         guard let vcs = tabBarCtl.viewControllers else { return nil }
         let vc = controller.navigationController ?? controller
         guard let index = vcs.indexOf(vc) else { return nil }
         return Tab(index: index)
     }
 
-    private func topViewControllerInController(controller: UIViewController) -> UIViewController {
+    func topViewControllerInController(controller: UIViewController) -> UIViewController {
         if let navCtl = controller as? UINavigationController {
             return navCtl.topViewController ?? navCtl
         }
         return controller
     }
 
-    private func selectedNavigationController() -> UINavigationController? {
+    func selectedNavigationController() -> UINavigationController? {
         return tabBarCtl.selectedViewController as? UINavigationController
     }
 }
