@@ -153,7 +153,7 @@ class OldChatViewController: SLKTextViewController {
     
     override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         // Just to reserve the space for directAnswersView
-        return directAnswersPresenter.height + relatedProductsView.height
+        return directAnswersPresenter.height + relatedProductsView.visibleHeight.value
     }
     
     override func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -250,7 +250,7 @@ class OldChatViewController: SLKTextViewController {
     }
     
     private func setupFrames() {
-        tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 128 + blockedToastOffset, right: 0)
+        tableView.contentInset.bottom = navBarHeight + blockedToastOffset
         tableView.frame = CGRectMake(0, productViewHeight + blockedToastOffset, tableView.width,
                                           tableView.height - productViewHeight - blockedToastOffset)
         
@@ -277,6 +277,9 @@ class OldChatViewController: SLKTextViewController {
         relatedProductsView.setupOnTopOfView(textInputbar)
         relatedProductsView.title.value = LGLocalizedString.chatRelatedProductsTitle
         relatedProductsView.delegate = viewModel
+        relatedProductsView.visibleHeight.asObservable().distinctUntilChanged().bindNext { [weak self] _ in
+            self?.tableView.reloadData()
+        }.addDisposableTo(disposeBag)
     }
     
     private func updateProductView() {
@@ -559,8 +562,7 @@ extension OldChatViewController {
     // It is an open issue in the Library https://github.com/slackhq/SlackTextViewController/issues/137
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        let bottomInset = keyboardShown ? navBarHeight : productViewHeight + navBarHeight
-        self.tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: bottomInset + blockedToastOffset, right: 0)
+        tableView.contentInset.bottom = navBarHeight + blockedToastOffset
     }
 }
 

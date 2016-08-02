@@ -26,9 +26,7 @@ class RelatedProductsView: UIView {
 
     let title = Variable<String>("")
     let productId = Variable<String?>(nil)
-    var visibleHeight: CGFloat {
-        return hidden ? 0 : height
-    }
+    let visibleHeight = Variable<CGFloat>(0)
 
     weak var delegate: RelatedProductsViewDelegate?
 
@@ -36,6 +34,7 @@ class RelatedProductsView: UIView {
     private let infoLabel = UILabel()
     private let collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout())
     private let productsDiameter: CGFloat
+    private let visible = Variable<Bool>(false)
 
     private var objects: [ProductCellModel] = []
     private let drawerManager = GridDrawerManager()
@@ -82,7 +81,6 @@ class RelatedProductsView: UIView {
     // MARK: - Private
 
     private func setup() {
-        hidden = true
         backgroundColor = UIColor.whiteColor()
         layer.borderWidth = LGUIKitConstants.onePixelSize
         layer.borderColor = UIColor.lineGray.CGColor
@@ -118,6 +116,8 @@ class RelatedProductsView: UIView {
              guard let productId = productId else { return }
             self?.loadProducts(productId)
         }.addDisposableTo(disposeBag)
+        visible.asObservable().map{!$0}.bindTo(self.rx_hidden).addDisposableTo(disposeBag)
+        visible.asObservable().map{ [weak self] in $0 ? self?.height ?? 0 : 0 }.bindTo(visibleHeight).addDisposableTo(disposeBag)
     }
 }
 
@@ -198,7 +198,7 @@ private extension RelatedProductsView {
     }
 
     func animateToVisible() {
-        hidden = false
+        visible.value = true
         topConstraint?.constant = -height
         UIView.animateWithDuration(0.3) { [weak self] in
             self?.superview?.layoutIfNeeded()
