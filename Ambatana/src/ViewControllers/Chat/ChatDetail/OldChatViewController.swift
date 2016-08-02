@@ -12,8 +12,7 @@ import LGCoreKit
 import RxSwift
 
 class OldChatViewController: SLKTextViewController {
-    
-    let productViewHeight: CGFloat = 80
+
     let navBarHeight: CGFloat = 64
     let inputBarHeight: CGFloat = 44
     var productView: ChatProductView
@@ -251,8 +250,7 @@ class OldChatViewController: SLKTextViewController {
     
     private func setupFrames() {
         tableView.contentInset.bottom = navBarHeight + blockedToastOffset
-        tableView.frame = CGRectMake(0, productViewHeight + blockedToastOffset, tableView.width,
-                                          tableView.height - productViewHeight - blockedToastOffset)
+        tableView.frame = CGRectMake(0, blockedToastOffset, tableView.width, tableView.height - blockedToastOffset)
         
         activityIndicator.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
         activityIndicator.center = view.center

@@ -15,7 +15,6 @@ import CollectionVariable
 
 class ChatViewController: SLKTextViewController {
 
-    let productViewHeight: CGFloat = 80
     let navBarHeight: CGFloat = 64
     let inputBarHeight: CGFloat = 44
     let productView: ChatProductView
@@ -200,9 +199,8 @@ class ChatViewController: SLKTextViewController {
     }
     
     private func setupFrames() {
-        tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 128 + blockedToastOffset, right: 0)
-        tableView.frame = CGRectMake(0, productViewHeight + blockedToastOffset, tableView.width,
-                                     tableView.height - productViewHeight - blockedToastOffset)
+        tableView.contentInset.bottom = navBarHeight + blockedToastOffset
+        tableView.frame = CGRectMake(0, blockedToastOffset, tableView.width, tableView.height - blockedToastOffset)
         
         activityIndicator.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
         activityIndicator.center = view.center
@@ -599,8 +597,7 @@ extension ChatViewController {
     // It is an open issue in the Library https://github.com/slackhq/SlackTextViewController/issues/137
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        let bottomInset = keyboardShown ? navBarHeight : productViewHeight + navBarHeight
-        self.tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: bottomInset + blockedToastOffset, right: 0)
+        self.tableView.contentInset.bottom = navBarHeight + blockedToastOffset
     }
 }
 
