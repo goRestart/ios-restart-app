@@ -240,21 +240,6 @@ final class TabBarController: UITabBarController {
         // Notify the delegate, as programmatically change doesn't do it
         delegate?.tabBarController?(self, didSelectViewController: vc)
     }
-
-    private func refreshSelectedProductsRefreshable() {
-        if let navVC = selectedViewController as? UINavigationController, topVC = navVC.topViewController,
-        refreshable = topVC as? ProductsRefreshable where topVC.isViewLoaded() {
-            refreshable.productsRefresh()
-        }
-    }
-
-    private func tabFromController(viewController: UIViewController) -> Tab? {
-        let mainController = viewController.navigationController ?? viewController
-        guard let viewControllers = viewControllers else { return nil }
-        let vcIdx = (viewControllers as NSArray).indexOfObject(mainController)
-        guard let tab = Tab(index: vcIdx) else { return nil }
-        return tab
-    }
 }
 
 
