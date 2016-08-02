@@ -10,6 +10,7 @@ import Foundation
 import AVKit
 import AVFoundation
 import FLAnimatedImage
+import FastttCamera
 
 class BannerCell: UICollectionViewCell, ReusableCell {
     @IBOutlet weak var imageView: UIImageView!
@@ -23,6 +24,7 @@ class BannerCell: UICollectionViewCell, ReusableCell {
     var animatedImageView: FLAnimatedImageView?
     
     var activateVideo = false
+    var fastCamera: FastttCamera?
     
     override func awakeFromNib() {
         contentView.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
@@ -33,6 +35,7 @@ class BannerCell: UICollectionViewCell, ReusableCell {
             title.font = UIFont.systemBoldFont(size: 19)
         }
         
+        imageView.hidden = true
         title.hidden = true
         colorView.hidden = true
         
@@ -41,8 +44,26 @@ class BannerCell: UICollectionViewCell, ReusableCell {
             animatedImageView?.frame = bounds
             animatedImageView?.autoresizingMask = [.FlexibleHeight, .FlexibleWidth]
             animatedImageView?.contentMode = .ScaleToFill
-            addSubview(animatedImageView!)
+//            addSubview(animatedImageView!)
         }
+        configureCamera()
+    }
+    
+    func configureCamera() {
+        fastCamera = FastttCamera()
+        guard let fastCamera = fastCamera else { return }
+        
+        fastCamera.scalesImage = false
+        fastCamera.normalizesImageOrientations = true
+        fastCamera.interfaceRotatesWithOrientation = false
+//        fastCamera.delegate = self
+        fastCamera.cameraFlashMode = .Off
+        fastCamera.cameraDevice = .Front
+        
+        fastCamera.beginAppearanceTransition(true, animated: false)
+        contentView.addSubview(fastCamera.view)
+        fastCamera.endAppearanceTransition()
+        fastCamera.view.frame = bounds
     }
     
     func playVideo() {
