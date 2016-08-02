@@ -314,14 +314,36 @@ extension AppCoordinator: UITabBarControllerDelegate {
         }
 
         guard let tab = tabAtController(viewController) else { return false }
-
         let shouldOpenLogin = tab.logInRequired && !sessionManager.loggedIn
-        if let source = tab.logInSource where shouldOpenLogin {
-            openLogin(.FullScreen, source: source, afterLogInSuccessful: { [weak self] in
-                self?.openTab(tab, force: true)
-            })
+        let result: Bool
+        let afterLogInSuccessful: () -> ()
+
+        switch tab {
+        case .Home, .Categories, .Notifications, .Chats, .Profile:
+            afterLogInSuccessful = { [weak self] in self?.openTab(tab, force: true) }
+            result = !shouldOpenLogin
+        case .Sell:
+            afterLogInSuccessful = { [weak self] in
+                self?.openSell(.SellButton)
+            }
+            result = false
+            if sessionManager.loggedIn {
+                openSell(.SellButton)
+            }
         }
-        return !shouldOpenLogin
+
+        if let source = tab.logInSource where shouldOpenLogin {
+            openLogin(.FullScreen, source: source, afterLogInSuccessful: afterLogInSuccessful)
+        } else {
+            switch tab {
+            case .Home, .Categories, .Notifications, .Chats, .Profile:
+                // tab is changed after returning from this method
+                break
+            case .Sell:
+                openSell(.SellButton)
+            }
+        }
+        return result
     }
 }
 
@@ -585,9 +607,9 @@ private extension AppCoordinator {
 private extension Tab {
     var logInRequired: Bool {
         switch self {
-        case .Home, .Categories, Sell:
+        case .Home, .Categories:
             return false
-        case .Notifications, .Chats, .Profile:
+        case .Notifications, .Sell, .Chats, .Profile:
             return true
         }
     }
