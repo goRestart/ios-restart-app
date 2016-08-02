@@ -113,7 +113,10 @@ class RelatedProductsView: UIView {
     private func setupRx() {
         title.asObservable().bindTo(infoLabel.rx_text).addDisposableTo(disposeBag)
         productId.asObservable().bindNext{ [weak self] productId in
-             guard let productId = productId else { return }
+             guard let productId = productId else {
+                self?.animateToVisible(false)
+                return
+            }
             self?.loadProducts(productId)
         }.addDisposableTo(disposeBag)
         visible.asObservable().map{!$0}.bindTo(self.rx_hidden).addDisposableTo(disposeBag)
@@ -193,13 +196,13 @@ private extension RelatedProductsView {
             let productCellModels = products.map(ProductCellModel.init)
             self?.objects = productCellModels
             self?.collectionView.reloadData()
-            self?.animateToVisible()
+            self?.animateToVisible(true)
         }
     }
 
-    func animateToVisible() {
-        visible.value = true
-        topConstraint?.constant = -height
+    func animateToVisible(visible: Bool) {
+        self.visible.value = visible
+        topConstraint?.constant = visible ? -height : 0
         UIView.animateWithDuration(0.3) { [weak self] in
             self?.superview?.layoutIfNeeded()
         }

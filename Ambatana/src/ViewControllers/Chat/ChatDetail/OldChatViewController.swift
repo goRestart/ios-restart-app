@@ -266,6 +266,15 @@ class OldChatViewController: SLKTextViewController {
                                               toItem: topLayoutGuide, attribute: .Bottom, multiplier: 1, constant: 0))
     }
 
+    private func setupRelatedProducts() {
+        relatedProductsView.setupOnTopOfView(textInputbar)
+        relatedProductsView.title.value = LGLocalizedString.chatRelatedProductsTitle
+        relatedProductsView.delegate = viewModel
+        relatedProductsView.visibleHeight.asObservable().distinctUntilChanged().bindNext { [weak self] _ in
+            self?.tableView.reloadData()
+            }.addDisposableTo(disposeBag)
+    }
+
     private func setupDirectAnswers() {
         directAnswersPresenter.hidden = !viewModel.shouldShowDirectAnswers
         directAnswersPresenter.setupOnTopOfView(relatedProductsView)
@@ -273,15 +282,6 @@ class OldChatViewController: SLKTextViewController {
         directAnswersPresenter.delegate = viewModel
     }
 
-    private func setupRelatedProducts() {
-        relatedProductsView.setupOnTopOfView(textInputbar)
-        relatedProductsView.title.value = LGLocalizedString.chatRelatedProductsTitle
-        relatedProductsView.delegate = viewModel
-        relatedProductsView.visibleHeight.asObservable().distinctUntilChanged().bindNext { [weak self] _ in
-            self?.tableView.reloadData()
-        }.addDisposableTo(disposeBag)
-    }
-    
     private func updateProductView() {
         productView.delegate = self
         productView.userName.text = viewModel.otherUserName

@@ -25,6 +25,7 @@ class ChatViewController: SLKTextViewController {
     var showingStickers = false
     let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
     let relationInfoView = RelationInfoView.relationInfoView()   // informs if the user is blocked, or the product sold or inactive
+    let relatedProductsView: RelatedProductsView
     let directAnswersPresenter: DirectAnswersPresenter
     let stickersView: ChatStickersView
     let stickersCloseButton: UIButton
@@ -49,6 +50,7 @@ class ChatViewController: SLKTextViewController {
     required init(viewModel: ChatViewModel, keyboardHelper: KeyboardHelper = KeyboardHelper.sharedInstance) {
         self.viewModel = viewModel
         self.productView = ChatProductView.chatProductView()
+        self.relatedProductsView = RelatedProductsView()
         self.directAnswersPresenter = DirectAnswersPresenter()
         self.stickersView = ChatStickersView()
         self.stickersCloseButton = UIButton(frame: CGRect.zero)
@@ -75,6 +77,7 @@ class ChatViewController: SLKTextViewController {
         setNavBarBackButton(nil)
         setupUI()
         setupToastView()
+        setupRelatedProducts()
         setupDirectAnswers()
         setupRxBindings()
         setupStickersView()
@@ -211,11 +214,20 @@ class ChatViewController: SLKTextViewController {
             metrics: nil, views: views))
         view.addConstraint(NSLayoutConstraint(item: relationInfoView, attribute: .Top, relatedBy: .Equal,
             toItem: topLayoutGuide, attribute: .Bottom, multiplier: 1, constant: 0))
-        }
+    }
+
+    private func setupRelatedProducts() {
+        relatedProductsView.setupOnTopOfView(textInputbar)
+        relatedProductsView.title.value = LGLocalizedString.chatRelatedProductsTitle
+        relatedProductsView.delegate = viewModel
+        relatedProductsView.visibleHeight.asObservable().distinctUntilChanged().bindNext { [weak self] _ in
+            self?.tableView.reloadData()
+            }.addDisposableTo(disposeBag)
+    }
 
     private func setupDirectAnswers() {
         directAnswersPresenter.hidden = !viewModel.shouldShowDirectAnswers
-        directAnswersPresenter.setupOnTopOfView(textInputbar)
+        directAnswersPresenter.setupOnTopOfView(relatedProductsView)
         directAnswersPresenter.setDirectAnswers(viewModel.directAnswers)
         directAnswersPresenter.delegate = viewModel
     }
@@ -479,6 +491,10 @@ extension ChatViewController: ChatViewModelDelegate {
     func vmDidUpdateDirectAnswers() {
         directAnswersPresenter.hidden = !viewModel.shouldShowDirectAnswers
         tableView.reloadData()
+    }
+
+    func vmShowRelatedProducts(productId: String?) {
+        relatedProductsView.productId.value = productId
     }
 
     func vmDidUpdateProduct(messageToShow message: String?) {
