@@ -73,9 +73,6 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     var title: String? {
         return product.title
     }
-    var productId: String? {
-        return product.objectId
-    }
     var productName: String? {
         return product.title
     }
@@ -354,12 +351,17 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     }
     
     override func didBecomeActive(firstTime: Bool) {
-        checkShowRelatedProducts()
+        if firstTime {
+            checkShowRelatedProducts()
+        }
+
         guard !chat.forbidden else {
             showDisclaimerMessage()
             markForbiddenAsRead()
             return
-        }   // only load messages if the chat is not forbidden
+        }
+
+        // only load messages if the chat is not forbidden
         retrieveFirstPage()
         retrieveUsersRelation()
         if firstTime {
@@ -374,7 +376,11 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     }
 
     func checkShowRelatedProducts() {
-        delegate?.vmShowRelatedProducts(product.objectId)
+        switch chatStatus {
+        case .Forbidden, .UserDeleted, .UserPendingDelete, .ProductDeleted:
+            delegate?.vmShowRelatedProducts(product.objectId)
+        default: break
+        }
     }
     
     func didAppear() {
@@ -1066,6 +1072,24 @@ private extension OldChatViewModel {
         delegate?.vmHideKeyboard(animated: false) // this forces SLKTextViewController to have correct keyboard info
         delegate?.ifLoggedInThen(.AskQuestion, loginStyle: .Popup(LGLocalizedString.chatLoginPopupText),
                                  loggedInAction: completion, elsePresentSignUpWithSuccessAction: completion)
+    }
+}
+
+
+// MARK: - Related products
+
+extension OldChatViewModel: RelatedProductsViewDelegate {
+
+    func relatedProductsViewDidShow(view: RelatedProductsView) {
+        //TODO: TRACKING
+    }
+
+    func relatedProductsView(view: RelatedProductsView, didSelectProduct product: Product, thumbnailImage: UIImage?,
+                             originFrame: CGRect?) {
+        //TODO: TRACKING
+        guard let productVC = ProductDetailFactory.productDetailFromProduct(product, thumbnailImage: thumbnailImage,
+                                                                            originFrame: originFrame) else { return }
+        delegate?.vmShowProduct(productVC)
     }
 }
 

@@ -276,6 +276,7 @@ class OldChatViewController: SLKTextViewController {
     private func setupRelatedProducts() {
         relatedProductsView.setupOnTopOfView(textInputbar)
         relatedProductsView.title.value = LGLocalizedString.chatRelatedProductsTitle
+        relatedProductsView.delegate = viewModel
     }
     
     private func updateProductView() {

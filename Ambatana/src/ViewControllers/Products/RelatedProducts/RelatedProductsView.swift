@@ -12,7 +12,9 @@ import RxCocoa
 
 
 protocol RelatedProductsViewDelegate: class {
-    func relatedProductsView(view: RelatedProductsView, didSelectProduct: Product)
+    func relatedProductsViewDidShow(view: RelatedProductsView)
+    func relatedProductsView(view: RelatedProductsView, didSelectProduct product: Product, thumbnailImage: UIImage?,
+                             originFrame: CGRect?)
 }
 
 
@@ -24,6 +26,9 @@ class RelatedProductsView: UIView {
 
     let title = Variable<String>("")
     let productId = Variable<String?>(nil)
+    var visibleHeight: CGFloat {
+        return hidden ? 0 : height
+    }
 
     weak var delegate: RelatedProductsViewDelegate?
 
@@ -77,6 +82,7 @@ class RelatedProductsView: UIView {
     // MARK: - Private
 
     private func setup() {
+        hidden = true
         backgroundColor = UIColor.whiteColor()
         layer.borderWidth = LGUIKitConstants.onePixelSize
         layer.borderColor = UIColor.lineGray.CGColor
@@ -159,7 +165,15 @@ extension RelatedProductsView: UICollectionViewDelegate, UICollectionViewDataSou
         guard let item = itemAtIndex(indexPath.row) else { return }
         switch item {
         case let .ProductCell(product):
-            delegate?.relatedProductsView(self, didSelectProduct: product)
+            let cell = collectionView.cellForItemAtIndexPath(indexPath) as? ProductCell
+            let thumbnailImage = cell?.thumbnailImageView.image
+
+            var newFrame: CGRect? = nil
+            if let cellFrame = cell?.frame {
+                newFrame = superview?.convertRect(cellFrame, fromView: collectionView)
+            }
+
+            delegate?.relatedProductsView(self, didSelectProduct: product, thumbnailImage: thumbnailImage, originFrame: newFrame)
         case .BannerCell:
             // No banners here
             break
@@ -184,6 +198,7 @@ private extension RelatedProductsView {
     }
 
     func animateToVisible() {
+        hidden = false
         topConstraint?.constant = -height
         UIView.animateWithDuration(0.3) { [weak self] in
             self?.superview?.layoutIfNeeded()
