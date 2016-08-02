@@ -21,7 +21,7 @@ protocol RelatedProductsViewDelegate: class {
 class RelatedProductsView: UIView {
 
     private static let defaultProductsDiameter: CGFloat = 100
-    private static let elementsMargin: CGFloat = 15
+    private static let elementsMargin: CGFloat = 10
     private static let itemsSpacing: CGFloat = 5
 
     let title = Variable<String>("")
