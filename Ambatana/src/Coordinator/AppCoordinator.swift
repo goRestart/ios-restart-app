@@ -105,6 +105,10 @@ final class AppCoordinator: NSObject {
 
         super.init()
         tabBarCtl.delegate = self
+        var viewControllers = tabCoordinators.map { $0.navigationController as UIViewController }
+        viewControllers.insert(UIViewController(), atIndex: 2)  // Sell
+        tabBarCtl.viewControllers = viewControllers
+        tabBarCtl.setupTabBarItems()
 
         setupDeepLinkingRx()
         setupNotificationCenterObservers()
@@ -300,10 +304,10 @@ private extension AppCoordinator {
 
 extension AppCoordinator: UITabBarControllerDelegate {
     func tabBarController(tabBarController: UITabBarController,
-        shouldSelectViewController viewController: UIViewController) -> Bool {
-
+                          shouldSelectViewController viewController: UIViewController) -> Bool {
         let topVC = topViewControllerInController(viewController)
         let selectedViewController = tabBarController.selectedViewController
+
 
         if let scrollableToTop = topVC as? ScrollableToTop where selectedViewController == viewController {
             scrollableToTop.scrollToTop()

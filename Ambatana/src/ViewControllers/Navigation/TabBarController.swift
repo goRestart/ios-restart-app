@@ -48,7 +48,6 @@ final class TabBarController: UITabBarController, UINavigationControllerDelegate
         super.viewDidLoad()
 
         setupAdminAccess()
-        setupControllers()
         setupSellButtons()
 
         setupCommercializerRx()
@@ -68,9 +67,10 @@ final class TabBarController: UITabBarController, UINavigationControllerDelegate
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         // Move the sell button
-        let itemWidth = self.tabBar.frame.width / CGFloat(self.tabBar.items!.count)
-        sellButton.frame = CGRect(x: itemWidth * CGFloat(Tab.Sell.index), y: 0, width: itemWidth,
-            height: tabBar.frame.height)
+        guard let tabBarItemsCount = self.tabBar.items?.count else { return }
+        let itemWidth = self.tabBar.frame.width / CGFloat(tabBarItemsCount)
+        sellButton.frame = CGRect(x: itemWidth * CGFloat(Tab.Sell.index), y: 0,
+                                  width: itemWidth, height: tabBar.frame.height)
     }
     
     
@@ -190,43 +190,27 @@ final class TabBarController: UITabBarController, UINavigationControllerDelegate
     // MARK: - Private methods
     // MARK: > Setup
 
-    private func setupControllers() {
-        let vcs = Tab.all.map{ controllerForTab($0) }
-        viewControllers = vcs
-    }
+// TODO: !!!! when creating the navigation controllers > move to coordinator
+//    let navCtl = UINavigationController(rootViewController: vc)
+//    navCtl.delegate = self
 
-    private func controllerForTab(tab: Tab) -> UIViewController {
-        let vc: UIViewController
-        switch tab {
-        case .Home:
-            vc = MainProductsViewController(viewModel: viewModel.mainProductsViewModel())
-        case .Categories:
-            vc = CategoriesViewController(viewModel: viewModel.categoriesViewModel())
-        case .Notifications:
-            vc = NotificationsViewController(viewModel: viewModel.notificationsViewModel())
-        case .Sell:
-            vc = UIViewController() //Just empty will have a button on top
-        case .Chats:
-            vc = ChatGroupedViewController(viewModel: viewModel.chatsViewModel())
-        case .Profile:
-            vc = UserViewController(viewModel: viewModel.profileViewModel())
+
+    func setupTabBarItems() {
+        guard let viewControllers = viewControllers else { return }
+        for (index, vc) in viewControllers.enumerate() {
+            guard let tab = Tab(index: index) else { continue }
+            let tabBarItem = UITabBarItem(title: nil, image: UIImage(named: tab.tabIconImageName), selectedImage: nil)
+
+            // Customize the selected appereance
+            if let imageItem = tabBarItem.selectedImage {
+                tabBarItem.image = imageItem.imageWithColor(UIColor.tabBarIconUnselectedColor)
+                    .imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
+            } else {
+                tabBarItem.image = UIImage()
+            }
+            tabBarItem.imageInsets = UIEdgeInsetsMake(5.5, 0, -5.5, 0)
+            vc.tabBarItem = tabBarItem
         }
-        let navCtl = UINavigationController(rootViewController: vc)
-        navCtl.delegate = self
-
-        let tabBarItem = UITabBarItem(title: nil, image: UIImage(named: tab.tabIconImageName), selectedImage: nil)
-
-        // Customize the selected appereance
-        if let imageItem = tabBarItem.selectedImage {
-            tabBarItem.image = imageItem.imageWithColor(UIColor.tabBarIconUnselectedColor)
-                .imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
-        } else {
-            tabBarItem.image = UIImage()
-        }
-        tabBarItem.imageInsets = UIEdgeInsetsMake(5.5, 0, -5.5, 0)
-
-        navCtl.tabBarItem = tabBarItem
-        return navCtl
     }
 
     private func setupSellButtons() {

@@ -28,26 +28,6 @@ class TabBarViewModel: BaseViewModel {
 
     // MARK: - Public methods
 
-    func mainProductsViewModel() -> MainProductsViewModel {
-        return MainProductsViewModel()
-    }
-
-    func categoriesViewModel() -> CategoriesViewModel {
-        return CategoriesViewModel()
-    }
-
-    func notificationsViewModel() -> NotificationsViewModel {
-        return NotificationsViewModel()
-    }
-
-    func chatsViewModel() -> ChatGroupedViewModel {
-        return ChatGroupedViewModel()
-    }
-
-    func profileViewModel() -> UserViewModel {
-        return UserViewModel.myUserUserViewModel(.TabBar)
-    }
-
     func sellButtonPressed() {
         navigator?.openSell(.SellButton)
     }
