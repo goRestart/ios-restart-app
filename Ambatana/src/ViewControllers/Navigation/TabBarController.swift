@@ -19,7 +19,7 @@ protocol ProductsRefreshable {
     func productsRefresh()
 }
 
-final class TabBarController: UITabBarController, UINavigationControllerDelegate {
+final class TabBarController: UITabBarController {
 
     // UI
     private var floatingSellButton = FloatingButton()
@@ -140,59 +140,9 @@ final class TabBarController: UITabBarController, UINavigationControllerDelegate
         return true
     }
 
-    // MARK: - UINavigationControllerDelegate
-    
-    func navigationController(navigationController: UINavigationController,
-                              animationControllerForOperation operation: UINavigationControllerOperation,
-                                                              fromViewController fromVC: UIViewController,
-                                                                                 toViewController toVC: UIViewController)
-        -> UIViewControllerAnimatedTransitioning? {
-            
-            if let animator = (toVC as? AnimatableTransition)?.animator where operation == .Push {
-                animator.pushing = true
-                return animator
-            } else if let animator = (fromVC as? AnimatableTransition)?.animator where operation == .Pop {
-                animator.pushing = false
-                return animator
-            } else {
-                return nil
-            }
-    }
-
-    func navigationController(navigationController: UINavigationController,
-        willShowViewController viewController: UIViewController, animated: Bool) {
-            updateFloatingButtonFor(navigationController, presenting: viewController, animate: false)
-    }
-
-    func navigationController(navigationController: UINavigationController,
-        didShowViewController viewController: UIViewController, animated: Bool) {
-            updateFloatingButtonFor(navigationController, presenting: viewController, animate: true)
-    }
-
-    private func updateFloatingButtonFor(navigationController: UINavigationController,
-        presenting viewController: UIViewController, animate: Bool) {
-            guard let viewControllers = viewControllers else { return }
-
-            let vcIdx = (viewControllers as NSArray).indexOfObject(navigationController)
-            if let tab = Tab(index: vcIdx) {
-                switch tab {
-                case .Home, .Categories, .Sell, .Profile:
-                    //In case of those 4 sections, show if ctrl is root, or if its the MainProductsViewController
-                    let showBtn = viewController.isRootViewController() || (viewController is MainProductsViewController)
-                    setSellFloatingButtonHidden(!showBtn, animated: animate)
-                case .Chats, .Notifications:
-                    setSellFloatingButtonHidden(true, animated: false)
-                }
-            }
-    }
-
 
     // MARK: - Private methods
     // MARK: > Setup
-
-// TODO: !!!! when creating the navigation controllers > move to coordinator
-//    let navCtl = UINavigationController(rootViewController: vc)
-//    navCtl.delegate = self
 
 
     func setupTabBarItems() {

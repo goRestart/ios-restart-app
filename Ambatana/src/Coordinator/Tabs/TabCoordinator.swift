@@ -9,7 +9,7 @@
 import LGCoreKit
 import RxSwift
 
-class TabCoordinator {
+class TabCoordinator: NSObject {
     var child: Coordinator?
 
     let rootViewController: UIViewController
@@ -38,6 +38,9 @@ class TabCoordinator {
         self.tracker = tracker
         self.rootViewController = rootViewController
         self.navigationController = UINavigationController(rootViewController: rootViewController)
+
+        super.init()
+        self.navigationController.delegate = self
     }
 }
 
@@ -76,7 +79,6 @@ extension TabCoordinator: TabNavigator {
     func openProduct(product product: Product) {
         guard let vc = ProductDetailFactory.productDetailFromProduct(product) else { return }
         navigationController.pushViewController(vc, animated: true)
-
     }
 
     func openProduct(productId productId: String) {
@@ -100,4 +102,54 @@ extension TabCoordinator: TabNavigator {
             }
         }
     }
+}
+
+
+// MARK: - UINavigationControllerDelegate
+
+extension TabCoordinator: UINavigationControllerDelegate {
+
+
+    func navigationController(navigationController: UINavigationController,
+                              animationControllerForOperation operation: UINavigationControllerOperation,
+                              fromViewController fromVC: UIViewController,
+                                  toViewController toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        if let animator = (toVC as? AnimatableTransition)?.animator where operation == .Push {
+            animator.pushing = true
+            return animator
+        } else if let animator = (fromVC as? AnimatableTransition)?.animator where operation == .Pop {
+            animator.pushing = false
+            return animator
+        } else {
+            return nil
+        }
+    }
+
+    func navigationController(navigationController: UINavigationController,
+                              willShowViewController viewController: UIViewController, animated: Bool) {
+        // TODO: udpdate sell floating button
+//        updateFloatingButtonFor(navigationController, presenting: viewController, animate: false)
+    }
+
+    func navigationController(navigationController: UINavigationController,
+                              didShowViewController viewController: UIViewController, animated: Bool) {
+//        updateFloatingButtonFor(navigationController, presenting: viewController, animate: true)
+    }
+
+//    private func updateFloatingButtonFor(navigationController: UINavigationController,
+//                                         presenting viewController: UIViewController, animate: Bool) {
+//        guard let viewControllers = viewControllers else { return }
+//
+//        let vcIdx = (viewControllers as NSArray).indexOfObject(navigationController)
+//        if let tab = Tab(index: vcIdx) {
+//            switch tab {
+//            case .Home, .Categories, .Sell, .Profile:
+//                //In case of those 4 sections, show if ctrl is root, or if its the MainProductsViewController
+//                let showBtn = viewController.isRootViewController() || (viewController is MainProductsViewController)
+//                setSellFloatingButtonHidden(!showBtn, animated: animate)
+//            case .Chats, .Notifications:
+//                setSellFloatingButtonHidden(true, animated: false)
+//            }
+//        }
+//    }
 }
