@@ -434,7 +434,7 @@ extension ChatViewController {
     
     override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         // Just to reserve the space for directAnswersView
-        return directAnswersPresenter.height
+        return directAnswersPresenter.height + relatedProductsView.visibleHeight.value
     }
     
     override func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {

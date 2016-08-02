@@ -114,7 +114,7 @@
 "chat_message_load_generic_error" = "При загрузке диалога произошла ошибка. Пожалуйста, попробуйте еще раз позже.";
 "chat_product_inactive_label" = "Товар неактивен";
 "chat_product_sold_label" = "Продано";
-"chat_related_products_title" = "YOU MIGHT BE INTERESTED IN:";
+"chat_related_products_title" = "ВАС МОЖЕТ ЗАИНТЕРЕСОВАТЬ:";
 "chat_safety_tips" = "Советами по безопасности";
 "chat_safety_tips_message" = "• Встречайтесь лично и платите наличными. \n\n• Общайтесь в чате letgo. \n\n• Слишком хорошее предложение, чтобы быть правдой? Будьте осторожны!";
 "chat_safety_tips_tip_1" = "После заключения сделки встретьтесь лично и платите наличными.";

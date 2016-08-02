@@ -114,7 +114,7 @@
 "chat_message_load_generic_error" = "Ett fel uppstod vid hämtning av din information. Var god försök senare.";
 "chat_product_inactive_label" = "Produkten är inaktiverad";
 "chat_product_sold_label" = "Produkt såld";
-"chat_related_products_title" = "YOU MIGHT BE INTERESTED IN:";
+"chat_related_products_title" = "DU KANSKE ÄR INTRESSERAD AV:";
 "chat_safety_tips" = "Säkerhetstips";
 "chat_safety_tips_message" = "• Möt varandra och betala kontant.\n\n• Håll samtalen i letgo-chatten.\n\n• För bra för att vara sant? Tänk dig för!";
 "chat_safety_tips_tip_1" = "När ni har kommit överens, bestäm plats och betala kontant.";

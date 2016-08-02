@@ -114,7 +114,7 @@
 "chat_message_load_generic_error" = "En feil oppstod ved å motta samtaledata. Vennligst prøv igjen senere.";
 "chat_product_inactive_label" = "Produktet er inaktivt";
 "chat_product_sold_label" = "Produkt solgt";
-"chat_related_products_title" = "YOU MIGHT BE INTERESTED IN:";
+"chat_related_products_title" = "DU KAN VÆRE INTERESSERT I:";
 "chat_safety_tips" = "Sikkerhetstips";
 "chat_safety_tips_message" = "• Møt personlig og betal med kontanter.\n\n• Gjør all kommunikasjon via letgo chat.\n\n• For godt til å være sant? Ta hensyn!";
 "chat_safety_tips_tip_1" = "Når avtalen er i boks, møt ansikt til ansikt og betal med kontanter.";
