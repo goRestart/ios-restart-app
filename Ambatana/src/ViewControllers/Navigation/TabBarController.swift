@@ -24,7 +24,6 @@ final class TabBarController: UITabBarController {
     // UI
     private var floatingSellButton = FloatingButton()
     private var floatingSellButtonMarginConstraint = NSLayoutConstraint()
-    private let sellButton = UIButton()
 
     private let viewModel: TabBarViewModel
 
@@ -64,15 +63,6 @@ final class TabBarController: UITabBarController {
         viewModel.active = false
     }
 
-    override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
-        // Move the sell button
-        guard let tabBarItemsCount = self.tabBar.items?.count else { return }
-        let itemWidth = self.tabBar.frame.width / CGFloat(tabBarItemsCount)
-        sellButton.frame = CGRect(x: itemWidth * CGFloat(Tab.Sell.index), y: 0,
-                                  width: itemWidth, height: tabBar.frame.height)
-    }
-    
     
     // MARK: - Public methods
     
@@ -164,12 +154,6 @@ final class TabBarController: UITabBarController {
     }
 
     private func setupSellButtons() {
-        // set sell button as a custom one
-        sellButton.addTarget(self, action: #selector(TabBarController.sellButtonPressed),
-                             forControlEvents: UIControlEvents.TouchUpInside)
-        sellButton.setImage(UIImage(named: Tab.Sell.tabIconImageName), forState: UIControlState.Normal)
-        tabBar.addSubview(sellButton)
-
         guard let floatingSellBtn = FloatingButton.floatingButtonWithTitle(LGLocalizedString.tabBarToolTip,
                                                                 icon: UIImage(named: "ic_sell_white")) else { return }
         floatingSellButton = floatingSellBtn
