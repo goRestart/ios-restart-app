@@ -32,15 +32,24 @@ struct PushNotification {
         let badge = getBadgeNumberFromUserInfo(userInfo)
 
         if let urlStr = userInfo["url"] as? String, url = NSURL(string: urlStr), uriScheme = UriScheme.buildFromUrl(url) {
-            return PushNotification(deepLink: DeepLink.push(uriScheme.deepLink.action, appActive: appActive), badge: badge)
+
+            return PushNotification(deepLink: DeepLink.push(uriScheme.deepLink.action, appActive: appActive,
+                campaign: uriScheme.deepLink.campaign, medium: uriScheme.deepLink.medium,
+                source: uriScheme.deepLink.source), badge: badge)
+
         } else if let conversationId = userInfo["c"] as? String {
+
             let type = DeepLinkMessageType(rawValue: userInfo["n_t"]?.integerValue ?? 0 ) ?? .Message
             return PushNotification(deepLink: DeepLink.push(.Message(messageType: type, data:
-                .Conversation(conversationId: conversationId)), appActive: appActive), badge: badge)
+                .Conversation(conversationId: conversationId)), appActive: appActive, campaign: nil, medium: nil,
+                source: .Push), badge: badge)
+
         } else if let productId = userInfo["p"] as? String, let buyerId = userInfo["u"] as? String {
+            
             let type = DeepLinkMessageType(rawValue: userInfo["n_t"]?.integerValue ?? 0 ) ?? .Message
             return PushNotification(deepLink: DeepLink.push(.Message(messageType: type, data:
-                .ProductBuyer(productId: productId, buyerId: buyerId)), appActive: appActive), badge: badge)
+                .ProductBuyer(productId: productId, buyerId: buyerId)), appActive: appActive, campaign: nil, medium: nil,
+                source: .Push), badge: badge)
         }
 
         return nil
