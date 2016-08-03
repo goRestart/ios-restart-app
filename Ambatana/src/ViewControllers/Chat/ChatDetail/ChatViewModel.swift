@@ -1089,12 +1089,12 @@ private extension ChatViewModel {
 extension ChatViewModel: RelatedProductsViewDelegate {
 
     func relatedProductsViewDidShow(view: RelatedProductsView) {
-        //TODO: TRACKING
+        tracker.trackEvent(TrackerEvent.chatRelatedItemsStart())
     }
 
     func relatedProductsView(view: RelatedProductsView, didSelectProduct product: Product, thumbnailImage: UIImage?,
-                             originFrame: CGRect?) {
-        //TODO: TRACKING
+                             originFrame: CGRect?, position: Int) {
+        tracker.trackEvent(TrackerEvent.chatRelatedItemsComplete(position))
         guard let productVC = ProductDetailFactory.productDetailFromProduct(product, thumbnailImage: thumbnailImage,
                                                                             originFrame: originFrame) else { return }
         delegate?.vmShowProduct(productVC)

@@ -14,7 +14,7 @@ import RxCocoa
 protocol RelatedProductsViewDelegate: class {
     func relatedProductsViewDidShow(view: RelatedProductsView)
     func relatedProductsView(view: RelatedProductsView, didSelectProduct product: Product, thumbnailImage: UIImage?,
-                             originFrame: CGRect?)
+                             originFrame: CGRect?, position: Int)
 }
 
 
@@ -176,7 +176,8 @@ extension RelatedProductsView: UICollectionViewDelegate, UICollectionViewDataSou
                 newFrame = superview?.convertRect(cellFrame, fromView: collectionView)
             }
 
-            delegate?.relatedProductsView(self, didSelectProduct: product, thumbnailImage: thumbnailImage, originFrame: newFrame)
+            delegate?.relatedProductsView(self, didSelectProduct: product, thumbnailImage: thumbnailImage,
+                                          originFrame: newFrame, position: indexPath.row)
         case .BannerCell:
             // No banners here
             break
