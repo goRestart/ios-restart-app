@@ -512,6 +512,16 @@ public struct TrackerEvent {
         return TrackerEvent(name: .UserMessageSent, params: params)
     }
 
+    static func chatRelatedItemsStart() -> TrackerEvent {
+        return TrackerEvent(name: .ChatRelatedItemsStart, params: EventParameters())
+    }
+
+    static func chatRelatedItemsComplete(itemPosition: Int) -> TrackerEvent {
+        var params = EventParameters()
+        params[.ItemPosition] = itemPosition
+        return TrackerEvent(name: .ChatRelatedItemsComplete, params: params)
+    }
+
     static func profileVisit(user: User, typePage: EventParameterTypePage, tab: EventParameterTab)
         -> TrackerEvent {
             var params = EventParameters()

@@ -901,24 +901,24 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         let sellerRating: Float? = isBuyer ? otherUser?.ratingAverage : myUserRepository.myUser?.ratingAverage
         let askQuestionEvent = TrackerEvent.productAskQuestion(product, messageType: type.trackingMessageType,
                                                                typePage: typePageParam, sellerRating: sellerRating)
-        TrackerProxy.sharedInstance.trackEvent(askQuestionEvent)
+        tracker.trackEvent(askQuestionEvent)
     }
     
     private func trackMessageSent(isQuickAnswer: Bool, type: MessageType) {
         let messageSentEvent = TrackerEvent.userMessageSent(product, userTo: otherUser,
                                                             messageType: type.trackingMessageType,
                                                             isQuickAnswer: isQuickAnswer ? .True : .False)
-        TrackerProxy.sharedInstance.trackEvent(messageSentEvent)
+        tracker.trackEvent(messageSentEvent)
     }
     
     private func trackBlockUsers(userIds: [String]) {
         let blockUserEvent = TrackerEvent.profileBlock(.Chat, blockedUsersIds: userIds)
-        TrackerProxy.sharedInstance.trackEvent(blockUserEvent)
+        tracker.trackEvent(blockUserEvent)
     }
     
     private func trackUnblockUsers(userIds: [String]) {
         let unblockUserEvent = TrackerEvent.profileUnblock(.Chat, unblockedUsersIds: userIds)
-        TrackerProxy.sharedInstance.trackEvent(unblockUserEvent)
+        tracker.trackEvent(unblockUserEvent)
     }
     
     // MARK: - Paginable
@@ -1094,6 +1094,7 @@ private extension OldChatViewModel {
 extension OldChatViewModel: RelatedProductsViewDelegate {
 
     func relatedProductsViewDidShow(view: RelatedProductsView) {
+
         //TODO: TRACKING
     }
 
