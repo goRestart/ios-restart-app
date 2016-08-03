@@ -86,7 +86,7 @@ final class AmplitudeTracker: Tracker {
     
     func trackEvent(event: TrackerEvent) {
         switch event.name {
-        case .LoginEmail, .LoginFB, .LoginGoogle:
+        case .LoginEmail, .LoginFB, .LoginGoogle, .SignupEmail:
             if loggedIn {
                 Amplitude.instance().logEvent(event.actualName, withEventProperties: event.params?.stringKeyParams)
                 pendingLoginEvent = nil
