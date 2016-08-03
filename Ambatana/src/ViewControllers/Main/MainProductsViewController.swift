@@ -11,10 +11,11 @@ import LGCoreKit
 import UIKit
 import CHTCollectionViewWaterfallLayout
 import RxSwift
-
+import AVFoundation
+import CoreImage
 
 class MainProductsViewController: BaseViewController, ProductListViewScrollDelegate, MainProductsViewModelDelegate,
-    FilterTagsViewControllerDelegate, InfoBubbleDelegate, PermissionsDelegate, UITextFieldDelegate, ScrollableToTop {
+    FilterTagsViewControllerDelegate, InfoBubbleDelegate, PermissionsDelegate, UITextFieldDelegate, ScrollableToTop, AVCaptureMetadataOutputObjectsDelegate {
     
     // ViewModel
     var viewModel: MainProductsViewModel!
@@ -93,6 +94,102 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
         setFiltersNavbarButton()
 
         setupRxBindings()
+        camera()
+    }
+    
+    
+    var session: AVCaptureSession!
+    var frontCameraDevice: AVCaptureDevice!
+    var videoOutput: AVCaptureVideoDataOutput!
+    var sessionQueue: dispatch_queue_t!
+    var stillCameraOutput: AVCaptureStillImageOutput!
+    func camera() {
+        session = AVCaptureSession()
+
+        let availableCameraDevices = AVCaptureDevice.devicesWithMediaType(AVMediaTypeVideo)
+        for device in availableCameraDevices as! [AVCaptureDevice] {
+            if device.position == .Front {
+                frontCameraDevice = device
+            }
+        }
+
+        let possibleCameraInput = try? AVCaptureDeviceInput(device: frontCameraDevice)
+        if let backCameraInput = possibleCameraInput {
+            if self.session.canAddInput(backCameraInput) {
+                self.session.addInput(backCameraInput)
+            }
+        }
+        
+        sessionQueue = dispatch_queue_create("com.example.camera.capture_session", DISPATCH_QUEUE_SERIAL)
+
+        // This Output will detect faces in real time, useful to add image overlays in real time
+        let metadataOutput = AVCaptureMetadataOutput()
+        //metadataOutput.setMetadataObjectsDelegate(self, queue: self.sessionQueue)
+        if session.canAddOutput(metadataOutput) {
+            session.addOutput(metadataOutput)
+        }
+        metadataOutput.metadataObjectTypes = [AVMetadataObjectTypeFace]
+
+        // This output will allow you to capture still images at will with the `captureImage()` func below
+        stillCameraOutput = AVCaptureStillImageOutput()
+        if self.session.canAddOutput(self.stillCameraOutput) {
+            self.session.addOutput(self.stillCameraOutput)
+        }
+        
+        dispatch_async(sessionQueue) { () -> Void in
+            self.session.startRunning()
+        }
+    }
+    
+    
+    // Real time face detection delegate
+    func captureOutput(captureOutput: AVCaptureOutput!, didOutputMetadataObjects metadataObjects: [AnyObject]!, fromConnection connection: AVCaptureConnection!) {
+        for metadataObject in metadataObjects as! [AVMetadataObject] {
+            if metadataObject.type == AVMetadataObjectTypeFace {
+                // This face doesn't include the eyes position
+                print("😁 Detected FACE: \(metadataObject)")
+            }
+        }
+    }
+    
+    // Capture still images and detect faces and faces elements
+    func captureImage() {
+        dispatch_async(sessionQueue) { () -> Void in
+            
+            let connection = self.stillCameraOutput.connectionWithMediaType(AVMediaTypeVideo)
+            connection.videoOrientation = AVCaptureVideoOrientation(rawValue: UIDevice.currentDevice().orientation.rawValue)!
+            
+            self.stillCameraOutput.captureStillImageAsynchronouslyFromConnection(connection) {
+                (imageDataSampleBuffer, error) -> Void in
+                if error == nil {
+                    let imageData = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(imageDataSampleBuffer)
+                    if let image = CIImage(data: imageData) {
+                        self.detectFaces(image)
+                    }
+                }
+                else {
+                    NSLog("error while capturing still image: \(error)")
+                }
+            }
+        }
+    }
+    
+    func detectFaces(image: CIImage) {
+        let context = CIContext()
+        var opts: [String: AnyObject] = [CIDetectorAccuracy : CIDetectorAccuracyHigh]
+        let detector = CIDetector(ofType: CIDetectorTypeFace, context: context, options: opts)
+        // :warning: Images are always rotated 90 degrees and that must be corrected or the face detection won't work
+        // Right now this code assumes you take the photo with the device in landscape so it appears here as portrait 🙄
+        let features = detector.featuresInImage(image, options: opts)
+        for feature in features{
+            guard let f = feature as? CIFaceFeature else { continue }
+            if (f.hasLeftEyePosition) {
+                print("Left eye at \(f.leftEyePosition)")
+            }
+            if (f.hasRightEyePosition) {
+                print("Right eye at \(f.rightEyePosition)")
+            }
+        }
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -454,6 +551,7 @@ extension MainProductsViewController: UITableViewDelegate, UITableViewDataSource
     func keyboardWillShow(notification: NSNotification) {
         let kbAnimation = KeyboardAnimation(keyboardNotification: notification)
         trendingSearchesTable.contentInset.bottom = kbAnimation.size.height
+        captureImage()
     }
 
     func keyboardWillHide(notification: NSNotification) {
