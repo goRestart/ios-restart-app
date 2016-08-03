@@ -163,6 +163,7 @@ public enum EventParameterName: String {
     case UserZipCode          = "user-zipcode"
     case SearchString         = "search-keyword"
     case SearchSuccess        = "search-success"
+    case TrendingSearch       = "trending-search"
     case Description          = "description"           // error description: why form validation failure.
     case LoginSource          = "login-type"            // the login source
     case LocationType         = "location-type"
