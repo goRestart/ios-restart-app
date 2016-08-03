@@ -547,6 +547,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("chat_user_info_verified_with", comment: "")
 	}
 
+	static var chatRelatedProductsTitle: String {
+		return NSLocalizedString("chat_related_products_title", comment: "")
+	}
+
 	static var commercializerDisplayTitleLabel: String {
 		return NSLocalizedString("commercializer_display_title_label", comment: "")
 	}

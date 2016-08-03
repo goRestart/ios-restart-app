@@ -114,6 +114,7 @@
 "chat_message_load_generic_error" = "Une erreur est survenue lors de la récupération des données de conversation. Veuillez réessayer plus tard.";
 "chat_product_inactive_label" = "Bien inactif";
 "chat_product_sold_label" = "Bien vendu";
+"chat_related_products_title" = "VOUS POURRIEZ ETRE INTERESSE PAR";
 "chat_safety_tips" = "Conseils de sécurité";
 "chat_safety_tips_message" = "• Rencontrez en personne et payez en liquide.\n\n• Chattez dans l'appli letgo\n\n• Une offre vous semble trop belle pour être vraie ? Faites attention !";
 "chat_safety_tips_tip_1" = "Après le deal convenu, rencontrez en personne et payez cash.";

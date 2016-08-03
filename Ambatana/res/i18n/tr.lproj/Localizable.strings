@@ -114,6 +114,7 @@
 "chat_message_load_generic_error" = "Sohbet bilgilerine erişirken bir hata oluştu. Lütfen tekrar dene.";
 "chat_product_inactive_label" = "Aktif değil";
 "chat_product_sold_label" = "Ürün Satıldı";
+"chat_related_products_title" = "ŞU ÜRÜNLER DE İLGİNİ ÇEKEBİLİR:";
 "chat_safety_tips" = "Güvenlik önerilerimiz";
 "chat_safety_tips_message" = "• Birebir görüş ve elden nakit öde. \n \n• Mesajlaşmayı letgo sistemi içerisinde yap.\n\n• Abartılı veya şüpheli bir durum mu var? Dikkatli ol!";
 "chat_safety_tips_tip_1" = "Anlaştıktan sonra kişi ile yüz yüze görüş ve nakit ödeme yap.";

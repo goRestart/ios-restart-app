@@ -22,6 +22,7 @@ protocol OldChatViewModelDelegate: BaseViewModelDelegate {
     func vmDidSucceedSendingMessage()
     
     func vmDidUpdateDirectAnswers()
+    func vmShowRelatedProducts(productId: String?)
     func vmDidUpdateProduct(messageToShow message: String?)
     
     func vmShowProduct(productVC: UIViewController)
@@ -111,9 +112,11 @@ public class OldChatViewModel: BaseViewModel, Paginable {
             delegate?.vmUpdateChatInteraction(chatEnabled)
         }
     }
-    
+
+
     var shouldShowDirectAnswers: Bool {
-        return chatEnabled && KeyValueStorage.sharedInstance.userLoadChatShowDirectAnswersForKey(userDefaultsSubKey)
+        return directAnswersAvailable &&
+            KeyValueStorage.sharedInstance.userLoadChatShowDirectAnswersForKey(userDefaultsSubKey)
     }
     var keyForTextCaching: String {
         return userDefaultsSubKey
@@ -150,7 +153,21 @@ public class OldChatViewModel: BaseViewModel, Paginable {
             return .Available
         }
     }
-    
+
+    var directAnswersAvailable: Bool {
+        return chatEnabled && !relatedProductsEnabled
+    }
+
+    var relatedProductsEnabled: Bool {
+        guard isBuyer else { return false }
+        switch chatStatus {
+        case .Forbidden, .UserDeleted, .UserPendingDelete, .ProductDeleted:
+            return true
+        case .Blocked, .BlockedBy, .Available, .ProductSold:
+            return false
+        }
+    }
+
     var chatEnabled: Bool {
         switch chatStatus {
         case .Forbidden, .Blocked, .BlockedBy, .UserDeleted, .UserPendingDelete:
@@ -350,11 +367,17 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     }
     
     override func didBecomeActive(firstTime: Bool) {
+        if firstTime {
+            checkShowRelatedProducts()
+        }
+
         guard !chat.forbidden else {
             showDisclaimerMessage()
             markForbiddenAsRead()
             return
-        }   // only load messages if the chat is not forbidden
+        }
+
+        // only load messages if the chat is not forbidden
         retrieveFirstPage()
         retrieveUsersRelation()
         if firstTime {
@@ -366,6 +389,11 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     func showDisclaimerMessage() {
         loadedMessages = [userBlockedDisclaimerMessage]
         delegate?.vmDidSucceedRetrievingChatMessages()
+    }
+
+    func checkShowRelatedProducts() {
+        guard relatedProductsEnabled else { return }
+        delegate?.vmShowRelatedProducts(product.objectId)
     }
     
     func didAppear() {
@@ -421,7 +449,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         actions.append({ [weak self] in self?.delegate?.vmShowSafetyTips() })
 
         //Direct answers
-        if chat.isSaved && chatEnabled {
+        if chat.isSaved && directAnswersAvailable {
             texts.append(shouldShowDirectAnswers ? LGLocalizedString.directAnswersHide :
                 LGLocalizedString.directAnswersShow)
             actions.append({ [weak self] in self?.toggleDirectAnswers() })
@@ -1057,6 +1085,21 @@ private extension OldChatViewModel {
         delegate?.vmHideKeyboard(animated: false) // this forces SLKTextViewController to have correct keyboard info
         delegate?.ifLoggedInThen(.AskQuestion, loginStyle: .Popup(LGLocalizedString.chatLoginPopupText),
                                  loggedInAction: completion, elsePresentSignUpWithSuccessAction: completion)
+    }
+}
+
+
+// MARK: - Related products
+
+extension OldChatViewModel: RelatedProductsViewDelegate {
+
+    func relatedProductsViewDidShow(view: RelatedProductsView) {
+        //TODO: TRACKING
+    }
+
+    func relatedProductsView(view: RelatedProductsView, showProduct productVC: UIViewController, index: Int) {
+        //TODO: TRACKING
+        delegate?.vmShowProduct(productVC)
     }
 }
 
