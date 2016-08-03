@@ -1097,11 +1097,8 @@ extension OldChatViewModel: RelatedProductsViewDelegate {
         //TODO: TRACKING
     }
 
-    func relatedProductsView(view: RelatedProductsView, didSelectProduct product: Product, thumbnailImage: UIImage?,
-                             originFrame: CGRect?) {
+    func relatedProductsView(view: RelatedProductsView, showProduct productVC: UIViewController, index: Int) {
         //TODO: TRACKING
-        guard let productVC = ProductDetailFactory.productDetailFromProduct(product, thumbnailImage: thumbnailImage,
-                                                                            originFrame: originFrame) else { return }
         delegate?.vmShowProduct(productVC)
     }
 }
