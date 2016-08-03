@@ -75,6 +75,8 @@ public enum EventName: String {
     case ProductDeleteComplete              = "product-delete-complete"
     
     case UserMessageSent                    = "user-sent-message"
+    case ChatRelatedItemsStart              = "chat-related-items-start"
+    case ChatRelatedItemsComplete           = "chat-related-items-complete"
 
     case ProfileVisit                       = "profile-visit"
     case ProfileEditStart                   = "profile-edit-start"
@@ -200,6 +202,7 @@ public enum EventParameterName: String {
     case Campaign             = "campaign"
     case Medium               = "medium"
     case Source               = "source"
+    case ItemPosition         = "item-position"
 }
 
 public enum EventParameterLoginSourceValue: String {

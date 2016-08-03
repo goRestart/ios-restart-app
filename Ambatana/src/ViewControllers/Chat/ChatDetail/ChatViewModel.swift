@@ -1089,11 +1089,11 @@ private extension ChatViewModel {
 extension ChatViewModel: RelatedProductsViewDelegate {
 
     func relatedProductsViewDidShow(view: RelatedProductsView) {
-        //TODO: TRACKING
+        tracker.trackEvent(TrackerEvent.chatRelatedItemsStart())
     }
 
     func relatedProductsView(view: RelatedProductsView, showProduct productVC: UIViewController, index: Int) {
-        //TODO: TRACKING
+        tracker.trackEvent(TrackerEvent.chatRelatedItemsComplete(index))
         delegate?.vmShowProduct(productVC)
     }
 }

@@ -1672,6 +1672,27 @@ class TrackerEventSpec: QuickSpec {
                 }
             }
 
+            describe("chatRelatedItemsStart") {
+                beforeEach {
+                    sut = TrackerEvent.chatRelatedItemsStart()
+                }
+                it("has its event name ") {
+                    expect(sut.name.rawValue).to(equal("chat-related-items-start"))
+                }
+            }
+
+            describe("chatRelatedItemsComplete") {
+                beforeEach {
+                    sut = TrackerEvent.chatRelatedItemsComplete(20)
+                }
+                it("has its event name ") {
+                    expect(sut.name.rawValue).to(equal("chat-related-items-complete"))
+                }
+                it("item-position parameter matches") {
+                    expect(sut.params?.stringKeyParams["item-position"] as? Int) == 20
+                }
+            }
+
             describe("profileVisit") {
                 context("profileVisit") {
                     beforeEach {
