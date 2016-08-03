@@ -134,6 +134,8 @@
 "chat_verify_alert_ok_button" = "OK";
 "chat_verify_alert_resend_button" = "Reenviar";
 "chat_verify_alert_title" = "Verifica tu email para chatear";
+"chat_with_yourself_alert_msg" = "You can't start a conversation about your own product.";
+"chat_with_yourself_alert_ok" = "Ok";
 "commercializer_create_from_settings" = "Crear comercial gratis";
 "commercializer_display_share_alert" = "Comparte esta obra maestra";
 "commercializer_display_share_label" = "Comparte tu obra maestra con el mundo, ponte cómodo y relájate mientras te llueven las ofertas";
