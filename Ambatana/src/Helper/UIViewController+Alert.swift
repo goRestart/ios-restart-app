@@ -121,7 +121,7 @@ extension UIViewController {
 
     func showActionSheet(cancelAction: UIAction, actions: [UIAction], completion: (() -> Void)? = nil) {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
-
+        alert.popoverPresentationController
         actions.forEach { uiAction in
             guard let title = uiAction.text else { return }
             let action = UIAlertAction(title: title, style: .Default, handler: { _ in
