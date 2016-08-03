@@ -138,6 +138,13 @@ extension AppCoordinator: AppNavigator {
 
             if let deepLink = strongSelf.deepLinksRouter.consumeInitialDeepLink() {
                 strongSelf.openDeepLink(deepLink, initialDeepLink: true)
+                // Tracking
+                let event = TrackerEvent.openApp(deepLink.campaign, medium: deepLink.medium, source: deepLink.source)
+                TrackerProxy.sharedInstance.trackEvent(event)
+            } else {
+                // Tracking
+                let event = TrackerEvent.openApp(source: .Direct)
+                TrackerProxy.sharedInstance.trackEvent(event)
             }
         }
 
