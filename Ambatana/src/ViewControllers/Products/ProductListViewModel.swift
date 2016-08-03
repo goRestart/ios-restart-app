@@ -56,10 +56,7 @@ class ProductListViewModel: BaseViewModel {
     }
 
     var cellStyle: CellStyle {
-        if numberOfColumns > 2 {
-            return .Small
-        }
-        return .Big
+        return numberOfColumns > 2 ? .Small : .Big
     }
     
     var productListFixedInset: CGFloat = 10.0

@@ -13,8 +13,7 @@ import RxCocoa
 
 protocol RelatedProductsViewDelegate: class {
     func relatedProductsViewDidShow(view: RelatedProductsView)
-    func relatedProductsView(view: RelatedProductsView, didSelectProduct product: Product, thumbnailImage: UIImage?,
-                             originFrame: CGRect?, position: Int)
+    func relatedProductsView(view: RelatedProductsView, showProduct productVC: UIViewController, index: Int)
 }
 
 
@@ -36,6 +35,7 @@ class RelatedProductsView: UIView {
     private let productsDiameter: CGFloat
     private let visible = Variable<Bool>(false)
 
+    private var requester: ProductListRequester?
     private var objects: [ProductCellModel] = []
     private let drawerManager = GridDrawerManager()
 
@@ -175,9 +175,11 @@ extension RelatedProductsView: UICollectionViewDelegate, UICollectionViewDataSou
             if let cellFrame = cell?.frame {
                 newFrame = superview?.convertRect(cellFrame, fromView: collectionView)
             }
+            guard let requester = requester else { return }
+            guard let productVC = ProductDetailFactory.productDetailFromProductListModels(objects, requester: requester,
+                                product: product, thumbnailImage: thumbnailImage, originFrame: newFrame) else { return }
 
-            delegate?.relatedProductsView(self, didSelectProduct: product, thumbnailImage: thumbnailImage,
-                                          originFrame: newFrame, position: indexPath.row)
+            delegate?.relatedProductsView(self, showProduct: productVC, index: indexPath.row)
         case .BannerCell:
             // No banners here
             break
@@ -191,8 +193,8 @@ extension RelatedProductsView: UICollectionViewDelegate, UICollectionViewDataSou
 private extension RelatedProductsView {
 
     func loadProducts(productId: String) {
-        let requester = RelatedProductListRequester(productId: productId)
-        requester.retrieveFirstPage { [weak self] result in
+        requester = RelatedProductListRequester(productId: productId)
+        requester?.retrieveFirstPage { [weak self] result in
             guard let products = result.value where !products.isEmpty  else { return }
             let productCellModels = products.map(ProductCellModel.init)
             self?.objects = productCellModels

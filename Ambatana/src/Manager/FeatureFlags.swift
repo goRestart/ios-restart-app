@@ -32,14 +32,14 @@ struct FeatureFlags {
         if FTSFlipTheSwitch.overridesABTests {
             return FTSFlipTheSwitch.showRelatedProducts
         }
-        return ABTests.showRelatedProducts.boolValue()
+        return ABTests.showRelatedProducts.value
     }
     
     static var showPriceOnListings: Bool {
         if FTSFlipTheSwitch.showPriceOnListings {
             return FTSFlipTheSwitch.showPriceOnListings
         }
-        return ABTests.showPriceOnListings.boolValue()
+        return ABTests.showPriceOnListings.value
     }
 }
 
