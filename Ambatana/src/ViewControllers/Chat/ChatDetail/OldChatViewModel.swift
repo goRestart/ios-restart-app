@@ -16,7 +16,7 @@ protocol OldChatViewModelDelegate: BaseViewModelDelegate {
     func vmDidStartRetrievingChatMessages(hasData hasData: Bool)
     func vmDidFailRetrievingChatMessages()
     func vmDidSucceedRetrievingChatMessages()
-    func vmUpdateAfterReceivingMessagesAtPositions(positions: [Int])
+    func vmUpdateAfterReceivingMessagesAtPositions(positions: [Int], isUpdate: Bool)
     
     func vmDidFailSendingMessage()
     func vmDidSucceedSendingMessage()
@@ -694,11 +694,12 @@ public class OldChatViewModel: BaseViewModel, Paginable {
                 let chatMessages = chat.messages.map(strongSelf.chatViewMessageAdapter.adapt)
                 let newChatMessages = strongSelf.chatViewMessageAdapter
                     .addDisclaimers(chatMessages, disclaimerMessage: strongSelf.messageSuspiciousDisclaimerMessage)
-                
+
                 let insertedMessagesInfo = OldChatViewModel.insertNewMessagesAt(strongSelf.loadedMessages,
                                                                                 newMessages: newChatMessages)
                 strongSelf.loadedMessages = insertedMessagesInfo.messages
-                strongSelf.delegate?.vmUpdateAfterReceivingMessagesAtPositions(insertedMessagesInfo.indexes)
+                strongSelf.delegate?.vmUpdateAfterReceivingMessagesAtPositions(insertedMessagesInfo.indexes,
+                                                                               isUpdate: insertedMessagesInfo.isUpdate)
                 strongSelf.afterRetrieveChatMessagesEvents()
             }
             strongSelf.isLoading = false
@@ -714,49 +715,51 @@ public class OldChatViewModel: BaseViewModel, Paginable {
      - parameter mainMessages: the array with old items
      - parameter newMessages: the array with new items
      
-     - returns: a struct with the FULL array (old + new) and the indexes of the NEW items
+     - returns: a struct with the FULL array (old + new), the indexes of the NEW items and if the insertion should be an update
+        * if there are messages without id, we consider the insertion as an update then the table is reloaded instead of inserted
      */
+
     static func insertNewMessagesAt(mainMessages: [ChatViewMessage], newMessages: [ChatViewMessage])
-        -> (messages: [ChatViewMessage], indexes: [Int]) {
-            
-            guard !newMessages.isEmpty else { return (mainMessages, []) }
-            
-            // - idxs: the positions of the table that will be inserted
-            var idxs: [Int] = []
-            
-            var firstMsgObjectId: String? = nil
-            var messagesWithId: [ChatViewMessage] = mainMessages
-            
-            // - messages sent don't have Id until the list is refreshed (push received or view appears)
-            for message in mainMessages {
-                if let objectId = message.objectId {
-                    firstMsgObjectId = objectId
+        -> (messages: [ChatViewMessage], indexes: [Int], isUpdate: Bool) {
+
+            guard !newMessages.isEmpty else { return (mainMessages, [], false) }
+
+            var isUpdate = false
+            var firstId: String? = nil
+
+            var mainMessagesWithId: [ChatViewMessage] = mainMessages
+
+            for i in 0..<mainMessages.count {
+                if mainMessages[i].objectId != nil {
+                    firstId = mainMessages[i].objectId
+                    break
+                } else {
+                    isUpdate = true
+                    mainMessagesWithId.removeFirst()
+                }
+            }
+            // double check in case the messages with no id weren't at the first positions
+            for i in 0..<min(10, mainMessagesWithId.count) {
+                if mainMessagesWithId[i].objectId == nil {
+                    isUpdate = true
                     break
                 }
-                // last "sent messages" are removed, if any
-                messagesWithId.removeFirst()
             }
-            // myMessagesWithoutIdCount : num of positions that shouldn't be updated in the table
-            let myMessagesWithoutIdCount = mainMessages.count - messagesWithId.count
-            
-            guard let firstMsgId = firstMsgObjectId,
-                indexOfFirstNewItem = newMessages.indexOf({$0.objectId == firstMsgId}) else {
-                    //If new messages count doesn't reach the ones without id, it means backend didn't process all of
-                    //them yet so let's keep the old ones
-                    guard newMessages.count-myMessagesWithoutIdCount >= 0 else { return (mainMessages, []) }
-                    //Update non-id with new ones plus the extra ones
-                    for i in 0..<newMessages.count-myMessagesWithoutIdCount { idxs.append(i) }
-                    return (newMessages + messagesWithId, idxs)
+
+            // - reallyNewMessages: the messages in newMessages that are not in mainMessages already
+            var reallyNewMessages: [ChatViewMessage] = []
+            // - idxs: the positions of the table that will be inserted
+            var idxs: [Int] = []
+            for i in 0..<newMessages.count {
+                if newMessages[i].objectId == firstId {
+                    break
+                } else {
+
+                    reallyNewMessages.append(newMessages[i])
+                    idxs.append(i)
+                }
             }
-            
-            // newMessages can be a whole page, so "reallyNewMessages" are only the ones
-            // that come as newMessages and haven't been loaded before
-            let reallyNewMessages = newMessages[0..<indexOfFirstNewItem]
-            if reallyNewMessages.count-myMessagesWithoutIdCount >= 0 {
-                for i in 0..<reallyNewMessages.count-myMessagesWithoutIdCount { idxs.append(i) }
-            }
-            
-            return (reallyNewMessages + messagesWithId, idxs)
+            return (reallyNewMessages + mainMessagesWithId, idxs, isUpdate)
     }
 
     private func markForbiddenAsRead() {

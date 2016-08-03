@@ -384,10 +384,14 @@ extension OldChatViewController: OldChatViewModelDelegate {
         tableView.reloadData()
     }
     
-    func vmUpdateAfterReceivingMessagesAtPositions(positions: [Int]) {
+    func vmUpdateAfterReceivingMessagesAtPositions(positions: [Int], isUpdate: Bool) {
         showActivityIndicator(false)
         
         guard positions.count > 0 else { return }
+        if isUpdate {
+            tableView.reloadData()
+            return
+        }
         
         let newPositions: [NSIndexPath] = positions.map({NSIndexPath(forRow: $0, inSection: 0)})
         
