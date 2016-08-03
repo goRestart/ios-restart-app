@@ -625,7 +625,7 @@ private extension AppCoordinator {
         if let categoriesString = categoriesString {
             filters.selectedCategories = ProductCategory.categoriesFromString(categoriesString)
         }
-        let viewModel = MainProductsViewModel(searchString: query, filters: filters)
+        let viewModel = MainProductsViewModel(searchData: SearchData(text: query, isTrending: false), filters: filters)
         let vc = MainProductsViewController(viewModel: viewModel)
 
         navCtl.pushViewController(vc, animated: true)
