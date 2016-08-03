@@ -1,5 +1,6 @@
+
 import CoreLocation
-import LetGo
+@testable import LetGo
 import LGCoreKit
 import Quick
 import Nimble
@@ -2051,6 +2052,49 @@ class TrackerEventSpec: QuickSpec {
                 it("contains rating-comments param") {
                     let ratingComments = sut.params!.stringKeyParams["rating-comments"] as? Bool
                     expect(ratingComments) == true
+                }
+            }
+
+            describe("open app") {
+                context("has info for all the params") {
+                    beforeEach {
+                        sut = TrackerEvent.openApp("ut_campaign", medium: "ut_medium", source: .External(source: "ut_source"))
+                    }
+                    it("has its event name") {
+                        expect(sut.name.rawValue).to(equal("open-app"))
+                    }
+                    it("contains campaign param") {
+                        let campaign = sut.params!.stringKeyParams["campaign"] as? String
+                        expect(campaign) == "ut_campaign"
+                    }
+                    it("contains medium param") {
+                        let medium = sut.params!.stringKeyParams["medium"] as? String
+                        expect(medium) == "ut_medium"
+                    }
+                    it("contains source param") {
+                        let source = sut.params!.stringKeyParams["source"] as? String
+                        expect(source) == "ut_source"
+                    }
+                }
+                context("params with no info") {
+                    beforeEach {
+                        sut = TrackerEvent.openApp(nil, medium: nil, source: .None)
+                    }
+                    it("has its event name") {
+                        expect(sut.name.rawValue).to(equal("open-app"))
+                    }
+                    it("does not contain campaign param") {
+                        let campaign = sut.params!.stringKeyParams["campaign"] as? String
+                        expect(campaign).to(beNil())
+                    }
+                    it("does not contain medium param") {
+                        let medium = sut.params!.stringKeyParams["medium"] as? String
+                        expect(medium).to(beNil())
+                    }
+                    it("does not contain source param") {
+                        let source = sut.params!.stringKeyParams["source"] as? String
+                        expect(source).to(beNil())
+                    }
                 }
             }
         }

@@ -11,17 +11,22 @@ import Foundation
 struct DeepLink {
     let action: DeepLinkAction
     let origin: DeepLinkOrigin
+    let campaign: String?
+    let medium: String?
+    let source: DeepLinkSource
 
-    static func push(action: DeepLinkAction, appActive: Bool) -> DeepLink {
-        return DeepLink(action: action, origin: .Push(appActive: appActive))
+    static func push(action: DeepLinkAction, appActive: Bool, campaign: String?, medium: String?,
+                     source: DeepLinkSource) -> DeepLink {
+        return DeepLink(action: action, origin: .Push(appActive: appActive), campaign: campaign, medium: medium,
+                        source: source)
     }
 
-    static func link(action: DeepLinkAction) -> DeepLink {
-        return DeepLink(action: action, origin: .Link)
+    static func link(action: DeepLinkAction, campaign: String?, medium: String?, source: DeepLinkSource) -> DeepLink {
+        return DeepLink(action: action, origin: .Link, campaign: campaign, medium: medium, source: source)
     }
 
     static func shortCut(action: DeepLinkAction) -> DeepLink {
-        return DeepLink(action: action, origin: .ShortCut)
+        return DeepLink(action: action, origin: .ShortCut, campaign: nil, medium: nil, source: .Direct)
     }
 }
 
@@ -47,6 +52,20 @@ enum DeepLinkOrigin {
     case ShortCut
 }
 
+enum DeepLinkSource {
+    case Direct
+    case External(source: String)
+    case Push
+    case None
+
+    init(string: String?) {
+        guard let string = string else {
+            self = .None
+            return
+        }
+        self = .External(source: string)
+    }
+}
 
 /**
  Enum to distinguish between the two methods to obtain a conversation
