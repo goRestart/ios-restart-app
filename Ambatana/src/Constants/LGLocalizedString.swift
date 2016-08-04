@@ -551,6 +551,14 @@ struct LGLocalizedString {
 		return NSLocalizedString("chat_related_products_title", comment: "")
 	}
 
+	static var chatWithYourselfAlertMsg: String {
+		return NSLocalizedString("chat_with_yourself_alert_msg", comment: "")
+	}
+
+	static var chatWithYourselfAlertOk: String {
+		return NSLocalizedString("chat_with_yourself_alert_ok", comment: "")
+	}
+
 	static var commercializerDisplayTitleLabel: String {
 		return NSLocalizedString("commercializer_display_title_label", comment: "")
 	}

@@ -134,6 +134,8 @@
 "chat_verify_alert_ok_button" = "Ok";
 "chat_verify_alert_resend_button" = "Återsänd";
 "chat_verify_alert_title" = "Bekräfta din e-postadress för att chatta";
+"chat_with_yourself_alert_msg" = "Du kan inte starta en konversation om din egen produkt.";
+"chat_with_yourself_alert_ok" = "Ok";
 "commercializer_create_from_settings" = "Create a Free Commercial";
 "commercializer_display_share_alert" = "Share this masterpiece";
 "commercializer_display_share_label" = "Share your masterpiece with the world and watch the offers come rolling in";

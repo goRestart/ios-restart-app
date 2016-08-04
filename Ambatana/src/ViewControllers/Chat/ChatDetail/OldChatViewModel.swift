@@ -263,10 +263,12 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     private var afterRetrieveMessagesBlock: (() -> Void)?
     private var autoKeyboardEnabled = true
 
+    private var isMyProduct: Bool {
+        guard let productUserId = product.user.objectId, myUserId = myUserRepository.myUser?.objectId else { return false }
+        return productUserId == myUserId
+    }
     private var isBuyer: Bool {
-        guard let buyer = buyer else { return true }
-        guard let buyerId = buyer.objectId, myUserId = myUserRepository.myUser?.objectId else { return false }
-        return buyerId == myUserId
+        return !isMyProduct
     }
     private var shouldShowSafetyTips: Bool {
         return !KeyValueStorage.sharedInstance.userChatSafetyTipsShown && didReceiveMessageFromOtherUser
@@ -1062,6 +1064,14 @@ private extension OldChatViewModel {
     func loginAndResend(text: String, isQuickAnswer: Bool, type: MessageType) {
         let completion = { [weak self] in
             guard let strongSelf = self else { return }
+            guard !strongSelf.isMyProduct else {
+                //A user cannot have a conversation with himself
+                strongSelf.delegate?.vmShowAutoFadingMessage(LGLocalizedString.chatWithYourselfAlertMsg) {
+                    [weak self] in
+                    self?.delegate?.vmClose()
+                }
+                return
+            }
             strongSelf.autoKeyboardEnabled = true
             strongSelf.chat = LocalChat(product: strongSelf.product , myUser: strongSelf.myUserRepository.myUser)
             // Setting the buyer
