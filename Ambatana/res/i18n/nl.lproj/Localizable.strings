@@ -134,7 +134,7 @@
 "chat_verify_alert_ok_button" = "Ok";
 "chat_verify_alert_resend_button" = "Opnieuw verzenden";
 "chat_verify_alert_title" = "Verifieer je e-mail om te chatten";
-"chat_with_yourself_alert_msg" = "You can't start a conversation about your own product.";
+"chat_with_yourself_alert_msg" = "Je kunt een gesprek beginnen over je eigen product.";
 "chat_with_yourself_alert_ok" = "Ok";
 "commercializer_create_from_settings" = "Create a Free Commercial";
 "commercializer_display_share_alert" = "Share this masterpiece";

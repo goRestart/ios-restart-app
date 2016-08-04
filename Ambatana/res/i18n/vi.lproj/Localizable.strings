@@ -134,7 +134,7 @@
 "chat_verify_alert_ok_button" = "Ok";
 "chat_verify_alert_resend_button" = "Gửi lại";
 "chat_verify_alert_title" = "Xác nhận email của bạn để trò chuyện";
-"chat_with_yourself_alert_msg" = "You can't start a conversation about your own product.";
+"chat_with_yourself_alert_msg" = "Bạn không thể bắt đầu cuộc trò chuyện về sản phẩm của chính mình.";
 "chat_with_yourself_alert_ok" = "Ok";
 "commercializer_create_from_settings" = "Create a Free Commercial";
 "commercializer_display_share_alert" = "Share this masterpiece";
