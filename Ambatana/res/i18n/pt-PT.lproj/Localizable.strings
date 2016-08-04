@@ -114,6 +114,7 @@
 "chat_message_load_generic_error" = "Ocorreu um erro ao recuperar os dados da conversação. Por favor tente novamente mais tarde.";
 "chat_product_inactive_label" = "Produto inativo";
 "chat_product_sold_label" = "Artigo vendido";
+"chat_related_products_title" = "PODERÁ TER INTERESSE EM:";
 "chat_safety_tips" = "Dicas de segurança";
 "chat_safety_tips_message" = "• Marque encontros pessoalmente e pague em dinheiro. \n \n• Mantenha as conversas no chat do letgo. \n \n• Bom demais para ser verdade? Tenha atenção!";
 "chat_safety_tips_tip_1" = "Depois de fechar o negócio, marque um encontro pessoal e pague em dinheiro.";
@@ -133,6 +134,8 @@
 "chat_verify_alert_ok_button" = "Ok";
 "chat_verify_alert_resend_button" = "Reenviar";
 "chat_verify_alert_title" = "Verifique o seu email para conversar";
+"chat_with_yourself_alert_msg" = "Não pode iniciar uma conversa sobre o seu próprio produto.";
+"chat_with_yourself_alert_ok" = "Ok";
 "commercializer_create_from_settings" = "Create a Free Commercial";
 "commercializer_display_share_alert" = "Share this masterpiece";
 "commercializer_display_share_label" = "Share your masterpiece with the world and watch the offers come rolling in";
@@ -407,6 +410,7 @@
 "product_onboarding_finger_tap_label" = "Toque para ver o produto seguinte";
 "product_onboarding_more_info_label" = "Toque para mais informações";
 "product_onboarding_quick_answers_label" = "Mantenha pressionado para ver outras opções";
+"product_onboarding_show_again_button_title" = "Como Navegar";
 "product_open_commercial_button" = "Commercial";
 "product_popular_near_you" = "Popular perto de si";
 "product_post_camera_first_time_alert_subtitle" = "Tire uma boa foto e comece a fazer dinheiro!";

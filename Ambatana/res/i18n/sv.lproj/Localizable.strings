@@ -114,6 +114,7 @@
 "chat_message_load_generic_error" = "Ett fel uppstod vid hämtning av din information. Var god försök senare.";
 "chat_product_inactive_label" = "Produkten är inaktiverad";
 "chat_product_sold_label" = "Produkt såld";
+"chat_related_products_title" = "DU KANSKE ÄR INTRESSERAD AV:";
 "chat_safety_tips" = "Säkerhetstips";
 "chat_safety_tips_message" = "• Möt varandra och betala kontant.\n\n• Håll samtalen i letgo-chatten.\n\n• För bra för att vara sant? Tänk dig för!";
 "chat_safety_tips_tip_1" = "När ni har kommit överens, bestäm plats och betala kontant.";
@@ -133,6 +134,8 @@
 "chat_verify_alert_ok_button" = "Ok";
 "chat_verify_alert_resend_button" = "Återsänd";
 "chat_verify_alert_title" = "Bekräfta din e-postadress för att chatta";
+"chat_with_yourself_alert_msg" = "Du kan inte starta en konversation om din egen produkt.";
+"chat_with_yourself_alert_ok" = "Ok";
 "commercializer_create_from_settings" = "Create a Free Commercial";
 "commercializer_display_share_alert" = "Share this masterpiece";
 "commercializer_display_share_label" = "Share your masterpiece with the world and watch the offers come rolling in";
@@ -407,6 +410,7 @@
 "product_onboarding_finger_tap_label" = "Klicka för att gå till nästa produkt";
 "product_onboarding_more_info_label" = "Klicka för mer information";
 "product_onboarding_quick_answers_label" = "Tryck och håll för att se andra alternativ";
+"product_onboarding_show_again_button_title" = "Hur du surfar runt";
 "product_open_commercial_button" = "Commercial";
 "product_popular_near_you" = "Populärt nära dig";
 "product_post_camera_first_time_alert_subtitle" = "Ta en bra bild och börja tjäna pengar!";

@@ -22,6 +22,7 @@ protocol OldChatViewModelDelegate: BaseViewModelDelegate {
     func vmDidSucceedSendingMessage()
     
     func vmDidUpdateDirectAnswers()
+    func vmShowRelatedProducts(productId: String?)
     func vmDidUpdateProduct(messageToShow message: String?)
     
     func vmShowProduct(productVC: UIViewController)
@@ -111,9 +112,11 @@ public class OldChatViewModel: BaseViewModel, Paginable {
             delegate?.vmUpdateChatInteraction(chatEnabled)
         }
     }
-    
+
+
     var shouldShowDirectAnswers: Bool {
-        return chatEnabled && KeyValueStorage.sharedInstance.userLoadChatShowDirectAnswersForKey(userDefaultsSubKey)
+        return directAnswersAvailable &&
+            KeyValueStorage.sharedInstance.userLoadChatShowDirectAnswersForKey(userDefaultsSubKey)
     }
     var keyForTextCaching: String {
         return userDefaultsSubKey
@@ -150,7 +153,21 @@ public class OldChatViewModel: BaseViewModel, Paginable {
             return .Available
         }
     }
-    
+
+    var directAnswersAvailable: Bool {
+        return chatEnabled && !relatedProductsEnabled
+    }
+
+    var relatedProductsEnabled: Bool {
+        guard isBuyer else { return false }
+        switch chatStatus {
+        case .Forbidden, .UserDeleted, .UserPendingDelete, .ProductDeleted:
+            return true
+        case .Blocked, .BlockedBy, .Available, .ProductSold:
+            return false
+        }
+    }
+
     var chatEnabled: Bool {
         switch chatStatus {
         case .Forbidden, .Blocked, .BlockedBy, .UserDeleted, .UserPendingDelete:
@@ -252,10 +269,12 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     private var afterRetrieveMessagesBlock: (() -> Void)?
     private var autoKeyboardEnabled = true
 
+    private var isMyProduct: Bool {
+        guard let productUserId = product.user.objectId, myUserId = myUserRepository.myUser?.objectId else { return false }
+        return productUserId == myUserId
+    }
     private var isBuyer: Bool {
-        guard let buyer = buyer else { return true }
-        guard let buyerId = buyer.objectId, myUserId = myUserRepository.myUser?.objectId else { return false }
-        return buyerId == myUserId
+        return !isMyProduct
     }
     private var shouldShowSafetyTips: Bool {
         return !KeyValueStorage.sharedInstance.userChatSafetyTipsShown && didReceiveMessageFromOtherUser
@@ -356,11 +375,17 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     }
     
     override func didBecomeActive(firstTime: Bool) {
+        if firstTime {
+            checkShowRelatedProducts()
+        }
+
         guard !chat.forbidden else {
             showDisclaimerMessage()
             markForbiddenAsRead()
             return
-        }   // only load messages if the chat is not forbidden
+        }
+
+        // only load messages if the chat is not forbidden
         retrieveFirstPage()
         retrieveUsersRelation()
         if firstTime {
@@ -372,6 +397,11 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     func showDisclaimerMessage() {
         loadedMessages = [userBlockedDisclaimerMessage]
         delegate?.vmDidSucceedRetrievingChatMessages()
+    }
+
+    func checkShowRelatedProducts() {
+        guard relatedProductsEnabled else { return }
+        delegate?.vmShowRelatedProducts(product.objectId)
     }
     
     func didAppear() {
@@ -432,7 +462,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         actions.append({ [weak self] in self?.delegate?.vmShowSafetyTips() })
 
         //Direct answers
-        if chat.isSaved && chatEnabled {
+        if chat.isSaved && directAnswersAvailable {
             texts.append(shouldShowDirectAnswers ? LGLocalizedString.directAnswersHide :
                 LGLocalizedString.directAnswersShow)
             actions.append({ [weak self] in self?.toggleDirectAnswers() })
@@ -884,24 +914,24 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         let sellerRating: Float? = isBuyer ? otherUser?.ratingAverage : myUserRepository.myUser?.ratingAverage
         let askQuestionEvent = TrackerEvent.productAskQuestion(product, messageType: type.trackingMessageType,
                                                                typePage: typePageParam, sellerRating: sellerRating)
-        TrackerProxy.sharedInstance.trackEvent(askQuestionEvent)
+        tracker.trackEvent(askQuestionEvent)
     }
     
     private func trackMessageSent(isQuickAnswer: Bool, type: MessageType) {
         let messageSentEvent = TrackerEvent.userMessageSent(product, userTo: otherUser,
                                                             messageType: type.trackingMessageType,
                                                             isQuickAnswer: isQuickAnswer ? .True : .False)
-        TrackerProxy.sharedInstance.trackEvent(messageSentEvent)
+        tracker.trackEvent(messageSentEvent)
     }
     
     private func trackBlockUsers(userIds: [String]) {
         let blockUserEvent = TrackerEvent.profileBlock(.Chat, blockedUsersIds: userIds)
-        TrackerProxy.sharedInstance.trackEvent(blockUserEvent)
+        tracker.trackEvent(blockUserEvent)
     }
     
     private func trackUnblockUsers(userIds: [String]) {
         let unblockUserEvent = TrackerEvent.profileUnblock(.Chat, unblockedUsersIds: userIds)
-        TrackerProxy.sharedInstance.trackEvent(unblockUserEvent)
+        tracker.trackEvent(unblockUserEvent)
     }
     
     // MARK: - Paginable
@@ -1045,6 +1075,14 @@ private extension OldChatViewModel {
     func loginAndResend(text: String, isQuickAnswer: Bool, type: MessageType) {
         let completion = { [weak self] in
             guard let strongSelf = self else { return }
+            guard !strongSelf.isMyProduct else {
+                //A user cannot have a conversation with himself
+                strongSelf.delegate?.vmShowAutoFadingMessage(LGLocalizedString.chatWithYourselfAlertMsg) {
+                    [weak self] in
+                    self?.delegate?.vmClose()
+                }
+                return
+            }
             strongSelf.autoKeyboardEnabled = true
             strongSelf.chat = LocalChat(product: strongSelf.product , myUser: strongSelf.myUserRepository.myUser)
             // Setting the buyer
@@ -1053,7 +1091,10 @@ private extension OldChatViewModel {
                 // Updating with real data
                 self?.initUsers()
                 // In case there were messages in the conversation, don't send the message automatically.
-                guard let messages = self?.chat.messages where messages.isEmpty else { return }
+                guard let messages = self?.chat.messages where messages.isEmpty else {
+                    strongSelf.isSendingMessage.value = false
+                    return
+                }
                 self?.sendMessage(text, isQuickAnswer: isQuickAnswer, type: type)
             }
             strongSelf.retrieveFirstPage()
@@ -1065,6 +1106,21 @@ private extension OldChatViewModel {
         delegate?.vmHideKeyboard(animated: false) // this forces SLKTextViewController to have correct keyboard info
         delegate?.ifLoggedInThen(.AskQuestion, loginStyle: .Popup(LGLocalizedString.chatLoginPopupText),
                                  loggedInAction: completion, elsePresentSignUpWithSuccessAction: completion)
+    }
+}
+
+
+// MARK: - Related products
+
+extension OldChatViewModel: RelatedProductsViewDelegate {
+
+    func relatedProductsViewDidShow(view: RelatedProductsView) {
+        tracker.trackEvent(TrackerEvent.chatRelatedItemsStart())
+    }
+
+    func relatedProductsView(view: RelatedProductsView, showProduct productVC: UIViewController, index: Int) {
+        tracker.trackEvent(TrackerEvent.chatRelatedItemsComplete(index))
+        delegate?.vmShowProduct(productVC)
     }
 }
 

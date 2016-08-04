@@ -25,6 +25,7 @@ protocol ProductViewModelDelegate: class, BaseViewModelDelegate {
     func vmOpenPromoteProduct(promoteVM: PromoteProductViewModel)
     func vmOpenCommercialDisplay(displayVM: CommercialDisplayViewModel)
     func vmAskForRating()
+    func vmShowOnboarding()
 }
 
 
@@ -269,8 +270,7 @@ class ProductViewModel: BaseViewModel {
                     let availableTemplates = strongSelf.commercializerRepository.availableTemplatesFor(value,
                                                                                                        countryCode: code)
                     strongSelf.commercializerAvailableTemplatesCount = availableTemplates.count
-                    strongSelf.status.value = strongSelf.status.value
-                        .setCommercializable(availableTemplates.count > 0 && strongSelf.commercializerIsAvailable)
+                    strongSelf.refreshStatus()
                 }
 
                 let readyCommercials = value.filter {$0.status == .Ready }
@@ -306,23 +306,12 @@ class ProductViewModel: BaseViewModel {
 
         product.asObservable().subscribeNext { [weak self] product in
             guard let strongSelf = self else { return }
+
+            strongSelf.refreshStatus()
             
             strongSelf.isFavorite.value = product.favorite
             let socialTitle = LGLocalizedString.productShareBody
             strongSelf.socialMessage.value = SocialHelper.socialMessageWithTitle(socialTitle, product: product)
-            strongSelf.navBarButtons.value = strongSelf.buildNavBarButtons()
-          
-            let status = product.viewModelStatus
-            if let templates = strongSelf.commercializerAvailableTemplatesCount {
-                strongSelf.status.value = status.setCommercializable(templates > 0 && strongSelf.commercializerIsAvailable)
-            } else {
-                strongSelf.status.value = status
-            }
-            
-            strongSelf.productStatusBackgroundColor.value = status.bgColor
-            strongSelf.productStatusLabelText.value = status.string
-            strongSelf.productStatusLabelColor.value = status.labelColor
-
             strongSelf.productImageURLs.value = product.images.flatMap { return $0.fileURL }
 
             strongSelf.productTitle.value = product.title
@@ -342,6 +331,10 @@ class ProductViewModel: BaseViewModel {
             }.subscribeNext { [weak self] visible in
                 self?.statsViewVisible.value = visible
         }.addDisposableTo(disposeBag)
+
+        myUserRepository.rx_myUser.asObservable().bindNext { [weak self] _ in
+            self?.refreshStatus()
+        }.addDisposableTo(disposeBag)
     }
     
     private func distanceString(product: Product) -> String? {
@@ -350,9 +343,16 @@ class ProductViewModel: BaseViewModel {
         let distanceString = String(format: "%0.1f %@", arguments: [distance, DistanceType.systemDistanceType().string])
         return LGLocalizedString.productDistanceXFromYou(distanceString)
     }
+
+    private func refreshStatus() {
+        let productStatus = product.value.viewModelStatus
+        if let templates = commercializerAvailableTemplatesCount {
+            status.value = productStatus.setCommercializable(templates > 0 && commercializerIsAvailable)
+        } else {
+            status.value = productStatus
+        }
+    }
 }
-
-
 
 
 // MARK: - Public actions
@@ -591,6 +591,9 @@ extension ProductViewModel {
             guard let strongSelf = self else { return }
 
             var actions = [UIAction]()
+            
+            actions.append(strongSelf.buildOnboardingButton())
+            
             if isReportable {
                 actions.append(strongSelf.buildReportButton())
             }
@@ -659,6 +662,14 @@ extension ProductViewModel {
                 cancelLabel: LGLocalizedString.productDeleteConfirmCancelButton,
                 actions: alertActions)
             })
+    }
+    
+    private func buildOnboardingButton() -> UIAction {
+        let title = LGLocalizedString.productOnboardingShowAgainButtonTitle
+        return UIAction(interface: .Text(title), action: { [weak self] in
+            KeyValueStorage.sharedInstance[.didShowProductDetailOnboarding] = false
+            self?.delegate?.vmShowOnboarding()
+        })
     }
 
     private var socialShareMessage: SocialMessage {

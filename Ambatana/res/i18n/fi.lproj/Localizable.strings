@@ -114,6 +114,7 @@
 "chat_message_load_generic_error" = "Keskustelutietojasi noudettaessa tapahtui virhe. Ole hyvä ja yritä myöhemmin uudelleen.";
 "chat_product_inactive_label" = "Tuote ei ole aktiivinen";
 "chat_product_sold_label" = "Tuote myyty";
+"chat_related_products_title" = "SINUA SAATTAISI KIINNOSTAA:";
 "chat_safety_tips" = "Turvallisuusvinkit";
 "chat_safety_tips_message" = "• Tavatkaa kasvokkain ja maksakaa käteisellä.\n\n• Käy keskusteluja vain letgon chatissä.\n\n• Kuulostaa liian hyvältä ollakseen totta? Ole varovainen!";
 "chat_safety_tips_tip_1" = "Kun sopimus on sinetöity, tavatkaa henkilökohtaisesti ja maksa käteisellä.";
@@ -133,6 +134,8 @@
 "chat_verify_alert_ok_button" = "Ok";
 "chat_verify_alert_resend_button" = "Lähetä uudelleen";
 "chat_verify_alert_title" = "Vahvista sähköpostiosoitteesi keskustellaksesi";
+"chat_with_yourself_alert_msg" = "Et voi aloittaa keskustelua omasta tuotteestasi.";
+"chat_with_yourself_alert_ok" = "Ok";
 "commercializer_create_from_settings" = "Create a Free Commercial";
 "commercializer_display_share_alert" = "Share this masterpiece";
 "commercializer_display_share_label" = "Share your masterpiece with the world and watch the offers come rolling in";
@@ -407,6 +410,7 @@
 "product_onboarding_finger_tap_label" = "Napauta mennäksesi seuraavaan tuotteeseen";
 "product_onboarding_more_info_label" = "Napauta katsoaksesi lisätietoja";
 "product_onboarding_quick_answers_label" = "Paina pohjassa nähdäksesi muita vaihtoehtoja";
+"product_onboarding_show_again_button_title" = "Ohjeet selailuun";
 "product_open_commercial_button" = "Commercial";
 "product_popular_near_you" = "Suosittuja lähelläsi";
 "product_post_camera_first_time_alert_subtitle" = "Nappaa hyvä kuva ja ala tienata!";

@@ -114,6 +114,7 @@
 "chat_message_load_generic_error" = "Lỗi xảy ra trong khi hồi phục dữ liệu trò chuyện của bạn. Xin vui lòng thử lại sau.";
 "chat_product_inactive_label" = "Sản phẩm không có";
 "chat_product_sold_label" = "Sản phẩm đã bán";
+"chat_related_products_title" = "BẠN CÓ THỂ QUAN TÂM TỚI:";
 "chat_safety_tips" = "Lời khuyên an toàn";
 "chat_safety_tips_message" = "• Gặp trực tiếp và trả bằng tiền mặt.\n\n• Lưu giữ các cuộc hội thoại trên mục trò chuyện letgo\n\n• Giá quá hời? Hãy thận trọng!";
 "chat_safety_tips_tip_1" = "Sau khi chốt đơn, hãy gặp trực tiếp và trả bằng tiền mặt.";
@@ -133,6 +134,8 @@
 "chat_verify_alert_ok_button" = "Ok";
 "chat_verify_alert_resend_button" = "Gửi lại";
 "chat_verify_alert_title" = "Xác nhận email của bạn để trò chuyện";
+"chat_with_yourself_alert_msg" = "Bạn không thể bắt đầu cuộc trò chuyện về sản phẩm của chính mình.";
+"chat_with_yourself_alert_ok" = "Ok";
 "commercializer_create_from_settings" = "Create a Free Commercial";
 "commercializer_display_share_alert" = "Share this masterpiece";
 "commercializer_display_share_label" = "Share your masterpiece with the world and watch the offers come rolling in";
@@ -407,6 +410,7 @@
 "product_onboarding_finger_tap_label" = "Nhấn để tới sản phẩm tiếp theo";
 "product_onboarding_more_info_label" = "Nhấn để xem thêm thông tin";
 "product_onboarding_quick_answers_label" = "Giữ để xem các lựa chọn khác";
+"product_onboarding_show_again_button_title" = "Cách Duyệt trang";
 "product_open_commercial_button" = "Commercial";
 "product_popular_near_you" = "Sản phẩm phổ biến gần bạn";
 "product_post_camera_first_time_alert_subtitle" = "Chụp một bức ảnh đẹp và bắt đầu kiếm tiền!";

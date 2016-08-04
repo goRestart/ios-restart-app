@@ -120,6 +120,13 @@ extension AppCoordinator: AppNavigator {
 
             if let deepLink = strongSelf.deepLinksRouter.consumeInitialDeepLink() {
                 strongSelf.openDeepLink(deepLink, initialDeepLink: true)
+                // Tracking
+                let event = TrackerEvent.openApp(deepLink.campaign, medium: deepLink.medium, source: deepLink.source)
+                TrackerProxy.sharedInstance.trackEvent(event)
+            } else {
+                // Tracking
+                let event = TrackerEvent.openApp(source: .Direct)
+                TrackerProxy.sharedInstance.trackEvent(event)
             }
         }
 
@@ -178,6 +185,9 @@ extension AppCoordinator: PromoteProductViewControllerDelegate {
     }
 
     func promoteProductViewControllerDidCancelFromSource(promotionSource: PromotionSource) {
+        if promotionSource == .ProductSell {
+            keyValueStorage.shouldShowCommercializerAfterPosting = false
+        }
         promoteProductPostActions(promotionSource)
     }
 }
@@ -226,7 +236,11 @@ extension AppCoordinator: SellCoordinatorDelegate {
 extension AppCoordinator: UserRatingCoordinatorDelegate {
     func userRatingCoordinatorDidCancel(coordinator: UserRatingCoordinator) {}
 
-    func userRatingCoordinatorDidFinish(coordinator: UserRatingCoordinator) {}
+    func userRatingCoordinatorDidFinish(coordinator: UserRatingCoordinator, withRating rating: Int?) {
+        if rating == 5 {
+            tabBarCtl.showAppRatingView(EventParameterRatingSource.Chat)
+        }
+    }
 }
 
 private extension AppCoordinator {
@@ -241,6 +255,7 @@ private extension AppCoordinator {
 
         // We do not promote if it's a failure or if it's a success w/o country code
         guard let productId = product.objectId, countryCode = product.postalAddress.countryCode else { return false }
+        guard keyValueStorage.shouldShowCommercializerAfterPosting else { return false }
         // We do not promote if we do not have promo themes for the given country code
         let themes = commercializerRepository.templatesForCountryCode(countryCode)
         guard let promoteVM = PromoteProductViewModel(productId: productId, themes: themes, commercializers: [],
@@ -610,7 +625,7 @@ private extension AppCoordinator {
         if let categoriesString = categoriesString {
             filters.selectedCategories = ProductCategory.categoriesFromString(categoriesString)
         }
-        let viewModel = MainProductsViewModel(searchString: query, filters: filters)
+        let viewModel = MainProductsViewModel(searchData: SearchData(text: query, isTrending: false), filters: filters)
         let vc = MainProductsViewController(viewModel: viewModel)
 
         navCtl.pushViewController(vc, animated: true)

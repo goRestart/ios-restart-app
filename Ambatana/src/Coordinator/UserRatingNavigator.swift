@@ -8,5 +8,5 @@
 
 protocol RateUserNavigator: class {
     func rateUserCancel()
-    func rateUserFinish()
+    func rateUserFinish(withRating rating: Int)
 }

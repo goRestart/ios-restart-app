@@ -184,7 +184,7 @@ class RateUserViewModel: BaseViewModel {
     private func finishedRating(userRating: UserRating) {
         trackComplete(userRating)
         delegate?.vmShowAutoFadingMessage(LGLocalizedString.userRatingReviewSendSuccess) { [weak self] in
-            self?.navigator?.rateUserFinish()
+            self?.navigator?.rateUserFinish(withRating: self?.rating.value ?? 0)
         }
     }
 }

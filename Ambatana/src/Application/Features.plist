@@ -37,5 +37,19 @@
 		<key>enabled</key>
 		<false/>
 	</dict>
+	<key>show_related_products</key>
+	<dict>
+		<key>description</key>
+		<string>Show related products from the main list</string>
+		<key>enabled</key>
+		<false/>
+	</dict>
+	<key>show_price_listings</key>
+	<dict>
+		<key>description</key>
+		<string>Show the price of the products in the listing cell</string>
+		<key>enabled</key>
+		<false/>
+	</dict>
 </dict>
 </plist>

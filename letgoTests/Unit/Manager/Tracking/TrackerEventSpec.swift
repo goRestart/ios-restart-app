@@ -1,5 +1,6 @@
+
 import CoreLocation
-import LetGo
+@testable import LetGo
 import LGCoreKit
 import Quick
 import Nimble
@@ -603,30 +604,34 @@ class TrackerEventSpec: QuickSpec {
             }
             
             describe("searchComplete") {
-                it("has its event name") {
-                    sut = TrackerEvent.searchComplete(nil, searchQuery: "", success: .Success)
-                    expect(sut.name.rawValue).to(equal("search-complete"))
+                context("success"){
+                    beforeEach {
+                        sut = TrackerEvent.searchComplete(nil, searchQuery: "iPhone", isTrending: false, success: .Success)
+                    }
+                    it("has its event name") {
+                        expect(sut.name.rawValue).to(equal("search-complete"))
+                    }
+                    it("contains the isTrending parameter") {
+                        let searchQuery = sut.params!.stringKeyParams["trending-search"] as? Bool
+                        expect(searchQuery) == false
+                    }
+                    it("contains the search keyword related params when passing by the search query") {
+                        let searchQuery = sut.params!.stringKeyParams["search-keyword"] as? String
+                        expect(searchQuery) == "iPhone"
+                    }
+                    it("search is success") {
+                        let searchSuccess = sut.params!.stringKeyParams["search-success"] as? String
+                        expect(searchSuccess) == "yes"
+                    }
                 }
-                it("contains the search keyword related params when passing by the search query") {
-                    sut = TrackerEvent.searchComplete(nil, searchQuery: "iPhone", success: .Success)
-                    
-                    expect(sut.params!.stringKeyParams["search-keyword"]).notTo(beNil())
-                    let searchQuery = sut.params!.stringKeyParams["search-keyword"] as? String
-                    expect(searchQuery).to(equal("iPhone"))
-                }
-                it("search had results") {
-                    sut = TrackerEvent.searchComplete(nil, searchQuery: "iPhone", success: .Success)
-
-                    expect(sut.params!.stringKeyParams["search-success"]).notTo(beNil())
-                    let searchSuccess = sut.params!.stringKeyParams["search-success"] as? String
-                    expect(searchSuccess).to(equal("yes"))
-                }
-                it("search had no results") {
-                    sut = TrackerEvent.searchComplete(nil, searchQuery: "weirdsearchterm", success: .Failed)
-
-                    expect(sut.params!.stringKeyParams["search-success"]).notTo(beNil())
-                    let searchSuccess = sut.params!.stringKeyParams["search-success"] as? String
-                    expect(searchSuccess).to(equal("no"))
+                context("failure") {
+                    beforeEach {
+                        sut = TrackerEvent.searchComplete(nil, searchQuery: "iPhone", isTrending: false, success: .Failed)
+                    }
+                    it("search si no success") {
+                        let searchSuccess = sut.params!.stringKeyParams["search-success"] as? String
+                        expect(searchSuccess) == "no"
+                    }
                 }
             }
              
@@ -1671,6 +1676,27 @@ class TrackerEventSpec: QuickSpec {
                 }
             }
 
+            describe("chatRelatedItemsStart") {
+                beforeEach {
+                    sut = TrackerEvent.chatRelatedItemsStart()
+                }
+                it("has its event name ") {
+                    expect(sut.name.rawValue).to(equal("chat-related-items-start"))
+                }
+            }
+
+            describe("chatRelatedItemsComplete") {
+                beforeEach {
+                    sut = TrackerEvent.chatRelatedItemsComplete(20)
+                }
+                it("has its event name ") {
+                    expect(sut.name.rawValue).to(equal("chat-related-items-complete"))
+                }
+                it("item-position parameter matches") {
+                    expect(sut.params?.stringKeyParams["item-position"] as? Int) == 20
+                }
+            }
+
             describe("profileVisit") {
                 context("profileVisit") {
                     beforeEach {
@@ -2051,6 +2077,49 @@ class TrackerEventSpec: QuickSpec {
                 it("contains rating-comments param") {
                     let ratingComments = sut.params!.stringKeyParams["rating-comments"] as? Bool
                     expect(ratingComments) == true
+                }
+            }
+
+            describe("open app") {
+                context("has info for all the params") {
+                    beforeEach {
+                        sut = TrackerEvent.openApp("ut_campaign", medium: "ut_medium", source: .External(source: "ut_source"))
+                    }
+                    it("has its event name") {
+                        expect(sut.name.rawValue).to(equal("open-app"))
+                    }
+                    it("contains campaign param") {
+                        let campaign = sut.params!.stringKeyParams["campaign"] as? String
+                        expect(campaign) == "ut_campaign"
+                    }
+                    it("contains medium param") {
+                        let medium = sut.params!.stringKeyParams["medium"] as? String
+                        expect(medium) == "ut_medium"
+                    }
+                    it("contains source param") {
+                        let source = sut.params!.stringKeyParams["source"] as? String
+                        expect(source) == "ut_source"
+                    }
+                }
+                context("params with no info") {
+                    beforeEach {
+                        sut = TrackerEvent.openApp(nil, medium: nil, source: .None)
+                    }
+                    it("has its event name") {
+                        expect(sut.name.rawValue).to(equal("open-app"))
+                    }
+                    it("does not contain campaign param") {
+                        let campaign = sut.params!.stringKeyParams["campaign"] as? String
+                        expect(campaign).to(beNil())
+                    }
+                    it("does not contain medium param") {
+                        let medium = sut.params!.stringKeyParams["medium"] as? String
+                        expect(medium).to(beNil())
+                    }
+                    it("does not contain source param") {
+                        let source = sut.params!.stringKeyParams["source"] as? String
+                        expect(source).to(beNil())
+                    }
                 }
             }
         }

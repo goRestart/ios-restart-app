@@ -27,6 +27,20 @@ struct FeatureFlags {
     static var userRatings: Bool {
         return FTSFlipTheSwitch.userRatings
     }
+    
+    static var showRelatedProducts: Bool {
+        if FTSFlipTheSwitch.overridesABTests {
+            return FTSFlipTheSwitch.showRelatedProducts
+        }
+        return ABTests.showRelatedProducts.value
+    }
+    
+    static var showPriceOnListings: Bool {
+        if FTSFlipTheSwitch.showPriceOnListings {
+            return FTSFlipTheSwitch.showPriceOnListings
+        }
+        return ABTests.showPriceOnListings.value
+    }
 }
 
 private extension FTSFlipTheSwitch {
@@ -48,5 +62,13 @@ private extension FTSFlipTheSwitch {
 
     static var userRatings: Bool {
         return FTSFlipTheSwitch.sharedInstance().isFeatureEnabled("user_ratings")
+    }
+    
+    static var showRelatedProducts: Bool {
+        return FTSFlipTheSwitch.sharedInstance().isFeatureEnabled("show_related_products")
+    }
+    
+    static var showPriceOnListings: Bool {
+        return FTSFlipTheSwitch.sharedInstance().isFeatureEnabled("show_price_listings")
     }
 }

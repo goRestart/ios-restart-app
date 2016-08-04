@@ -547,6 +547,18 @@ struct LGLocalizedString {
 		return NSLocalizedString("chat_user_info_verified_with", comment: "")
 	}
 
+	static var chatRelatedProductsTitle: String {
+		return NSLocalizedString("chat_related_products_title", comment: "")
+	}
+
+	static var chatWithYourselfAlertMsg: String {
+		return NSLocalizedString("chat_with_yourself_alert_msg", comment: "")
+	}
+
+	static var chatWithYourselfAlertOk: String {
+		return NSLocalizedString("chat_with_yourself_alert_ok", comment: "")
+	}
+
 	static var commercializerDisplayTitleLabel: String {
 		return NSLocalizedString("commercializer_display_title_label", comment: "")
 	}
@@ -1713,6 +1725,10 @@ struct LGLocalizedString {
 
 	static var productOnboardingQuickAnswersLabel: String {
 		return NSLocalizedString("product_onboarding_quick_answers_label", comment: "")
+	}
+
+	static var productOnboardingShowAgainButtonTitle: String {
+		return NSLocalizedString("product_onboarding_show_again_button_title", comment: "")
 	}
 
 	static var productCreateCommercialButton: String {

@@ -12,6 +12,7 @@ import CollectionVariable
 
 protocol ChatViewModelDelegate: BaseViewModelDelegate {
     func vmDidUpdateDirectAnswers()
+    func vmShowRelatedProducts(productId: String?)
 
     func vmDidFailSendingMessage()
     func vmDidFailRetrievingChatMessages()
@@ -105,7 +106,11 @@ class ChatViewModel: BaseViewModel {
     }
 
     var shouldShowDirectAnswers: Bool {
-        return chatEnabled.value && KeyValueStorage.sharedInstance.userLoadChatShowDirectAnswersForKey(userDefaultsSubKey)
+        return directAnswersAvailable && KeyValueStorage.sharedInstance.userLoadChatShowDirectAnswersForKey(userDefaultsSubKey)
+    }
+
+    private var directAnswersAvailable: Bool {
+        return chatEnabled.value && !relatedProductsEnabled.value
     }
 
     var shouldShowUserReviewTooltip: Bool {
@@ -115,12 +120,13 @@ class ChatViewModel: BaseViewModel {
     }
     
     // Rx Variables
-    var interlocutorIsMuted = Variable<Bool>(false)
-    var interlocutorHasMutedYou = Variable<Bool>(false)
-    var chatStatus = Variable<ChatInfoViewStatus>(.Available)
-    var chatEnabled = Variable<Bool>(true)
-    var interlocutorTyping = Variable<Bool>(false)
-    var messages = CollectionVariable<ChatViewMessage>([])
+    let interlocutorIsMuted = Variable<Bool>(false)
+    let interlocutorHasMutedYou = Variable<Bool>(false)
+    let chatStatus = Variable<ChatInfoViewStatus>(.Available)
+    let chatEnabled = Variable<Bool>(true)
+    let relatedProductsEnabled = Variable<Bool>(false)
+    let interlocutorTyping = Variable<Bool>(false)
+    let messages = CollectionVariable<ChatViewMessage>([])
     private var conversation: Variable<ChatConversation>
     private var interlocutor: User?
     private var myMessagesCount = Variable<Int>(0)
@@ -129,6 +135,7 @@ class ChatViewModel: BaseViewModel {
     private var reviewTooltipVisible = Variable<Bool>(!KeyValueStorage.sharedInstance[.userRatingTooltipAlreadyShown])
     var shouldShowReviewButton = Variable<Bool>(false)
     var userReviewTooltipVisible = Variable<Bool>(false)
+
 
     // Private    
     private let myUserRepository: MyUserRepository
@@ -143,7 +150,7 @@ class ChatViewModel: BaseViewModel {
     private var isDeleted = false
     private var shouldAskProductSold: Bool = false
     private var isSendingQuickAnswer = false
-    private var productId: String?
+    private var productId: String? // Only used when accessing a chat from a product
     private var preSendMessageCompletion: ((text: String, isQuickAnswer: Bool, type: ChatMessageType) -> Void)?
     private var afterRetrieveMessagesCompletion: (() -> Void)?
     
@@ -272,6 +279,7 @@ class ChatViewModel: BaseViewModel {
         conversation.asObservable().subscribeNext { [weak self] conversation in
             self?.chatStatus.value = conversation.chatStatus
             self?.chatEnabled.value = conversation.chatEnabled
+            self?.relatedProductsEnabled.value = conversation.relatedProductsEnabled
             self?.interlocutorIsMuted.value = conversation.interlocutor?.isMuted ?? false
             self?.interlocutorHasMutedYou.value = conversation.interlocutor?.hasMutedYou ?? false
             self?.title.value = conversation.product?.name ?? ""
@@ -295,6 +303,9 @@ class ChatViewModel: BaseViewModel {
             }
         }.addDisposableTo(disposeBag)
 
+        relatedProductsEnabled.asObservable().bindNext { [weak self] enabled in
+            self?.delegate?.vmShowRelatedProducts(enabled ? self?.conversation.value.product?.objectId : nil)
+        }.addDisposableTo(disposeBag)
 
         let cfgManager = configManager
         let myMessagesReviewable = myMessagesCount.asObservable()
@@ -629,7 +640,7 @@ extension ChatViewModel {
         actions.append(safetyTips)
 
         if conversation.value.isSaved {
-            if chatEnabled.value {
+            if directAnswersAvailable {
                 let directAnswersText = shouldShowDirectAnswers ? LGLocalizedString.directAnswersHide :
                     LGLocalizedString.directAnswersShow
                 let directAnswersAction = UIAction(interface: UIActionInterface.Text(directAnswersText),
@@ -902,7 +913,16 @@ private extension ChatViewModel {
         preSendMessageCompletion = { [weak self] (text: String, isQuickAnswer: Bool, type: ChatMessageType) in
             self?.delegate?.vmHideKeyboard(false)
             self?.delegate?.vmRequestLogin() { [weak self] in
-                self?.preSendMessageCompletion = nil
+                guard let strongSelf = self else { return }
+                strongSelf.preSendMessageCompletion = nil
+                guard sellerId != strongSelf.myUserRepository.myUser?.objectId else {
+                    //A user cannot have a conversation with himself
+                    strongSelf.delegate?.vmShowAutoFadingMessage(LGLocalizedString.chatWithYourselfAlertMsg) {
+                        [weak self] in
+                        self?.delegate?.vmClose()
+                    }
+                    return
+                }
                 self?.afterRetrieveMessagesCompletion = { [weak self] in
                     self?.afterRetrieveMessagesCompletion = nil
                     guard let messages = self?.messages.value where messages.isEmpty else { return }
@@ -1000,6 +1020,15 @@ private extension ChatConversation {
             return true
         }
     }
+
+    var relatedProductsEnabled: Bool {
+        switch chatStatus {
+        case .Forbidden,  .UserPendingDelete, .UserDeleted, .ProductDeleted:
+            return true
+        case .Available, .Blocked, .BlockedBy, .ProductSold:
+            return false
+        }
+    }
 }
 
 private extension ChatInfoViewStatus {
@@ -1083,6 +1112,21 @@ private extension ChatViewModel {
                 }
             }
         }.addDisposableTo(disposeBag)
+    }
+}
+
+
+// MARK: - Related products
+
+extension ChatViewModel: RelatedProductsViewDelegate {
+
+    func relatedProductsViewDidShow(view: RelatedProductsView) {
+        tracker.trackEvent(TrackerEvent.chatRelatedItemsStart())
+    }
+
+    func relatedProductsView(view: RelatedProductsView, showProduct productVC: UIViewController, index: Int) {
+        tracker.trackEvent(TrackerEvent.chatRelatedItemsComplete(index))
+        delegate?.vmShowProduct(productVC)
     }
 }
 

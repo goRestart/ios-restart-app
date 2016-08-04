@@ -114,6 +114,7 @@
 "chat_message_load_generic_error" = "Une erreur est survenue lors de la récupération des données de conversation. Veuillez réessayer plus tard.";
 "chat_product_inactive_label" = "Bien inactif";
 "chat_product_sold_label" = "Bien vendu";
+"chat_related_products_title" = "VOUS POURRIEZ ETRE INTERESSE PAR";
 "chat_safety_tips" = "Conseils de sécurité";
 "chat_safety_tips_message" = "• Rencontrez en personne et payez en liquide.\n\n• Chattez dans l'appli letgo\n\n• Une offre vous semble trop belle pour être vraie ? Faites attention !";
 "chat_safety_tips_tip_1" = "Après le deal convenu, rencontrez en personne et payez cash.";
@@ -133,6 +134,8 @@
 "chat_verify_alert_ok_button" = "Ok";
 "chat_verify_alert_resend_button" = "Renvoyer";
 "chat_verify_alert_title" = "Vérifiez votre email pour chatter";
+"chat_with_yourself_alert_msg" = "Vous ne pouvez pas démarrer une conversation sur votre propre bien.";
+"chat_with_yourself_alert_ok" = "Ok";
 "commercializer_create_from_settings" = "Create a Free Commercial";
 "commercializer_display_share_alert" = "Share this masterpiece";
 "commercializer_display_share_label" = "Share your masterpiece with the world and watch the offers come rolling in";
@@ -407,6 +410,7 @@
 "product_onboarding_finger_tap_label" = "Tapez pour voir le bien suivant";
 "product_onboarding_more_info_label" = "Tapez pour voir plus d'informations";
 "product_onboarding_quick_answers_label" = "Maintenez appuyé pour voir les autres options";
+"product_onboarding_show_again_button_title" = "Comment Naviguer";
 "product_open_commercial_button" = "Commercial";
 "product_popular_near_you" = "Populaire à proximité";
 "product_post_camera_first_time_alert_subtitle" = "Prenez une bonne photo et gagnez de l'argent !";
