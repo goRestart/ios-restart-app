@@ -23,6 +23,7 @@ class ProductCarouselCell: UICollectionViewCell {
     var product: Product?
     weak var delegate: ProductCarouselCellDelegate?
     var placeholderImage: UIImage?
+    private var currentPage = 0
     
     var disposeBag = DisposeBag()
     
@@ -133,10 +134,13 @@ extension ProductCarouselCell: UICollectionViewDelegate, UICollectionViewDataSou
 
             return imageCell
     }
-    
-    func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
+
+    func scrollViewDidScroll(scrollView: UIScrollView) {
         let pageSize = collectionView.frame.size.height;
-        let page = Int(collectionView.contentOffset.y / pageSize) % numberOfImages()
-        delegate?.didScrollToPage(page)
+        let page = Int(round(collectionView.contentOffset.y / pageSize)) % numberOfImages()
+        if page != currentPage {
+            currentPage = page
+            delegate?.didScrollToPage(page)
+        }
     }
 }
