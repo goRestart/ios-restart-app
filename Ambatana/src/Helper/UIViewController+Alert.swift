@@ -119,26 +119,34 @@ extension UIViewController {
     }
 
 
-    func showActionSheet(cancelAction: UIAction, actions: [UIAction], barButtonItem: UIBarButtonItem? = nil, completion: (() -> Void)? = nil) {
-        showActionSheet(cancelAction, actions: actions, barButtonItem: barButtonItem, sourceView: nil, sourceRect: nil, completion: completion)
+    func showActionSheet(cancelAction: UIAction, actions: [UIAction], barButtonItem: UIBarButtonItem? = nil,
+                         completion: (() -> Void)? = nil) {
+        showActionSheet(cancelAction, actions: actions, barButtonItem: barButtonItem, sourceView: nil, sourceRect: nil,
+                        completion: completion)
     }
     
-    func showActionSheet(cancelAction: UIAction, actions: [UIAction], sourceView: UIView? = nil, sourceRect: CGRect? = nil, completion: (() -> Void)? = nil) {
-        showActionSheet(cancelAction, actions: actions, barButtonItem: nil, sourceView: sourceView, sourceRect: sourceRect, completion: completion)
+    func showActionSheet(cancelAction: UIAction, actions: [UIAction], sourceView: UIView? = nil,
+                         sourceRect: CGRect? = nil, completion: (() -> Void)? = nil) {
+        showActionSheet(cancelAction, actions: actions, barButtonItem: nil, sourceView: sourceView,
+                        sourceRect: sourceRect, completion: completion)
     }
 
     func showActionSheet(cancelLabel: String, actions: [UIAction], barButtonItem: UIBarButtonItem? = nil) {
         let cancelAction = UIAction(interface: .Text(cancelLabel), action: {})
-        showActionSheet(cancelAction, actions: actions, barButtonItem: barButtonItem, sourceView: nil, sourceRect: nil, completion: nil)
+        showActionSheet(cancelAction, actions: actions, barButtonItem: barButtonItem, sourceView: nil,
+                        sourceRect: nil, completion: nil)
     }
     
-    func showActionSheet(cancelLabel: String, actions: [UIAction], sourceView: UIView? = nil, sourceRect: CGRect? = nil) {
+    func showActionSheet(cancelLabel: String, actions: [UIAction], sourceView: UIView? = nil,
+                         sourceRect: CGRect? = nil) {
         let cancelAction = UIAction(interface: .Text(cancelLabel), action: {})
-        showActionSheet(cancelAction, actions: actions, barButtonItem: nil, sourceView: sourceView, sourceRect: sourceRect, completion: nil)
+        showActionSheet(cancelAction, actions: actions, barButtonItem: nil, sourceView: sourceView,
+                        sourceRect: sourceRect, completion: nil)
     }
     
     private func showActionSheet(cancelAction: UIAction, actions: [UIAction], barButtonItem: UIBarButtonItem? = nil,
-                                 sourceView: UIView? = nil, sourceRect: CGRect? = nil, completion: (() -> Void)? = nil) {
+                                 sourceView: UIView? = nil, sourceRect: CGRect? = nil,
+                                 completion: (() -> Void)? = nil) {
         
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
         
@@ -151,7 +159,6 @@ extension UIViewController {
             showAlert(nil, message: nil, actions: actions, completion: completion)
             return
         }
-        
         
         actions.forEach { uiAction in
             guard let title = uiAction.text else { return }

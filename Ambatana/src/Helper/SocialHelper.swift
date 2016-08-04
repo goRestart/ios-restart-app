@@ -166,7 +166,8 @@ protocol NativeShareDelegate {
 
 extension UIViewController {
 
-    func presentNativeShare(socialMessage socialMessage: SocialMessage, delegate: NativeShareDelegate?, barButtonItem: UIBarButtonItem? = nil) {
+    func presentNativeShare(socialMessage socialMessage: SocialMessage, delegate: NativeShareDelegate?,
+                                          barButtonItem: UIBarButtonItem? = nil) {
 
         guard let activityItems = socialMessage.nativeShareItems else { return }
         let vc = UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
