@@ -125,9 +125,10 @@ class ChatViewModel: BaseViewModel {
     private var interlocutor: User?
     private var myMessagesCount = Variable<Int>(0)
     private var otherMessagesCount = Variable<Int>(0)
-    var userIsReviewable = Variable<Bool>(false)
-    var stickersTooltipShown = Variable<Bool>(KeyValueStorage.sharedInstance[.stickersTooltipAlreadyShown])
-    var reviewTooltipShown = Variable<Bool>(KeyValueStorage.sharedInstance[.userRatingTooltipAlreadyShown])
+    var stickersTooltipVisible = Variable<Bool>(!KeyValueStorage.sharedInstance[.stickersTooltipAlreadyShown])
+    var reviewTooltipVisible = Variable<Bool>(!KeyValueStorage.sharedInstance[.userRatingTooltipAlreadyShown])
+    var shouldShowReviewButton = Variable<Bool>(false)
+    var userReviewTooltipVisible = Variable<Bool>(false)
 
     // Private    
     private let myUserRepository: MyUserRepository
@@ -305,10 +306,15 @@ class ChatViewModel: BaseViewModel {
         let chatStatusReviewable = chatStatus.asObservable().map { $0.userReviewEnabled }.distinctUntilChanged()
 
         Observable.combineLatest(myMessagesReviewable, otherMessagesReviewable, chatStatusReviewable) { $0 && $1 && $2 }
-            .bindTo(userIsReviewable).addDisposableTo(disposeBag)
+            .bindTo(shouldShowReviewButton).addDisposableTo(disposeBag)
 
         messages.changesObservable.subscribeNext { [weak self] change in
             self?.updateMessagesCounts(change)
+        }.addDisposableTo(disposeBag)
+
+        Observable.combineLatest(stickersTooltipVisible.asObservable(), reviewTooltipVisible.asObservable()) { $0 }
+            .subscribeNext { [weak self] (stickersTooltipVisible, reviewTooltipVisible) in
+            self?.userReviewTooltipVisible.value = !stickersTooltipVisible && reviewTooltipVisible
         }.addDisposableTo(disposeBag)
 
         setupChatEventsRx()
@@ -382,7 +388,7 @@ class ChatViewModel: BaseViewModel {
 
     func reviewUserPressed() {
         KeyValueStorage.sharedInstance[.userRatingTooltipAlreadyShown] = true
-        reviewTooltipShown.value = true
+        reviewTooltipVisible.value = false
         guard let interlocutor = conversation.value.interlocutor, reviewData = RateUserData(interlocutor: interlocutor)
             else { return }
         delegate?.vmShowUserRating(.Chat, data: reviewData)
@@ -390,7 +396,7 @@ class ChatViewModel: BaseViewModel {
 
     func closeReviewTooltipPressed() {
         KeyValueStorage.sharedInstance[.userRatingTooltipAlreadyShown] = true
-        reviewTooltipShown.value = true
+        reviewTooltipVisible.value = false
     }
 
     func safetyTipsDismissed() {
@@ -407,7 +413,7 @@ class ChatViewModel: BaseViewModel {
     }
 
     func loadStickersTooltip() {
-        guard chatEnabled.value && !stickersTooltipShown.value else { return }
+        guard chatEnabled.value && stickersTooltipVisible.value else { return }
 
         var newTextAttributes = [String : AnyObject]()
         newTextAttributes[NSForegroundColorAttributeName] = UIColor.primaryColorHighlighted
@@ -430,7 +436,7 @@ class ChatViewModel: BaseViewModel {
 
     func stickersShown() {
         KeyValueStorage.sharedInstance[.stickersTooltipAlreadyShown] = true
-        stickersTooltipShown.value = true
+        stickersTooltipVisible.value = false
     }
 }
 

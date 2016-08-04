@@ -357,14 +357,8 @@ extension ChatViewController {
             }
             }.addDisposableTo(disposeBag)
 
-
-        let showUserReviewTooltip = Observable.combineLatest(viewModel.stickersTooltipShown.asObservable(),
-                                                             viewModel.reviewTooltipShown.asObservable()) {
-                                                                (stickersTooltipShown, reviewTooltipShown) in
-                                                                return !reviewTooltipShown && stickersTooltipShown
-        }
-
-        Observable.combineLatest(viewModel.userIsReviewable.asObservable(), showUserReviewTooltip) { $0 }
+        Observable.combineLatest(viewModel.shouldShowReviewButton.asObservable(),
+        viewModel.userReviewTooltipVisible.asObservable()) { $0 }
             .subscribeNext { [weak self] (showReviewButton, showReviewTooltip) in
                 self?.productView.showReviewButton(showReviewButton, withTooltip: showReviewTooltip)
             }.addDisposableTo(disposeBag)
