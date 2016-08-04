@@ -408,8 +408,8 @@ extension ProductViewModel {
             }, source: .MarkAsUnsold)
     }
     
-    func chatWithSeller() {
-        trackChatWithSeller()
+    func chatWithSeller(source: EventParameterTypePage) {
+        trackChatWithSeller(source)
         openChat()
     }
 
@@ -973,8 +973,8 @@ extension ProductViewModel {
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
 
-    private func trackChatWithSeller() {
-        let trackerEvent = TrackerEvent.productDetailChatButton(product.value)
+    private func trackChatWithSeller(source: EventParameterTypePage) {
+        let trackerEvent = TrackerEvent.productDetailChatButton(product.value, typePage: source)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
 }

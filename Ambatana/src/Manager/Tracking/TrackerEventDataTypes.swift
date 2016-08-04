@@ -384,6 +384,7 @@ public enum EventParameterTypePage: String {
     case Sell = "product-sell"
     case Edit = "product-edit"
     case ProductDetail = "product-detail"
+    case ProductDetailMoreInfo = "product-detail-more-info"
     case Settings = "settings"
     case Install = "install"
     case Profile = "profile"
