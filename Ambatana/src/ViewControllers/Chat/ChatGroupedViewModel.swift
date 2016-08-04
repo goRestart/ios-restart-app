@@ -53,6 +53,12 @@ class ChatGroupedViewModel: BaseViewModel {
     private let currentPageViewModel = Variable<ChatGroupedListViewModelType?>(nil)
 
     weak var delegate: ChatGroupedViewModelDelegate?
+    weak var tabNavigator: TabNavigator? {
+        didSet {
+            chatListViewModels.forEach { $0.tabNavigator = tabNavigator }
+            blockedUsersListViewModel.tabNavigator = tabNavigator
+        }
+    }
 
     let editButtonText = Variable<String?>(nil)
     let editButtonEnabled = Variable<Bool>(true)
@@ -87,10 +93,8 @@ class ChatGroupedViewModel: BaseViewModel {
                     secondaryButtonTitle: nil, secondaryAction: nil)
             }
         }
-
         setupRxBindings()
     }
-
 
     // MARK: - Public methods
     // MARK: > Tab
@@ -131,6 +135,10 @@ class ChatGroupedViewModel: BaseViewModel {
             string = NSAttributedString(string: LGLocalizedString.chatListBlockedUsersTitle, attributes: titleAttributes)
         }
         return string
+    }
+
+    func blockedUserPressed(user: User) {
+        tabNavigator?.openUser(user: user, source: .Chat)
     }
 
     func oldChatListViewModelForTabAtIndex(index: Int) -> OldChatListViewModel? {
@@ -179,9 +187,9 @@ class ChatGroupedViewModel: BaseViewModel {
         )
         let chatListViewModel: ChatListViewModel
         if FeatureFlags.websocketChat {
-            chatListViewModel = WSChatListViewModel(chatsType: chatsType)
+            chatListViewModel = WSChatListViewModel(chatsType: chatsType, tabNavigator: tabNavigator)
         } else {
-            chatListViewModel = OldChatListViewModel(chatsType: chatsType)
+            chatListViewModel = OldChatListViewModel(chatsType: chatsType, tabNavigator: tabNavigator)
         }
         chatListViewModel.emptyStatusViewModel = emptyVM
         return chatListViewModel
@@ -200,9 +208,9 @@ class ChatGroupedViewModel: BaseViewModel {
         )
         let chatListViewModel: ChatListViewModel
         if FeatureFlags.websocketChat {
-            chatListViewModel = WSChatListViewModel(chatsType: chatsType)
+            chatListViewModel = WSChatListViewModel(chatsType: chatsType, tabNavigator: tabNavigator)
         } else {
-            chatListViewModel = OldChatListViewModel(chatsType: chatsType)
+            chatListViewModel = OldChatListViewModel(chatsType: chatsType, tabNavigator: tabNavigator)
         }
         chatListViewModel.emptyStatusViewModel = emptyVM
         return chatListViewModel
@@ -221,9 +229,9 @@ class ChatGroupedViewModel: BaseViewModel {
         )
         let chatListViewModel: ChatListViewModel
         if FeatureFlags.websocketChat {
-            chatListViewModel = WSChatListViewModel(chatsType: chatsType)
+            chatListViewModel = WSChatListViewModel(chatsType: chatsType, tabNavigator: tabNavigator)
         } else {
-            chatListViewModel = OldChatListViewModel(chatsType: chatsType)
+            chatListViewModel = OldChatListViewModel(chatsType: chatsType, tabNavigator: tabNavigator)
         }
         chatListViewModel.emptyStatusViewModel = emptyVM
         return chatListViewModel

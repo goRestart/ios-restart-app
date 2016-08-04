@@ -23,6 +23,7 @@ class TabCoordinator: NSObject {
     let userRepository: UserRepository
     let chatRepository: ChatRepository
     let oldChatRepository: OldChatRepository
+    let myUserRepository: MyUserRepository
     let keyValueStorage: KeyValueStorage
     let tracker: Tracker
 
@@ -34,12 +35,13 @@ class TabCoordinator: NSObject {
     // MARK: - Lifecycle
 
     init(productRepository: ProductRepository, userRepository: UserRepository, chatRepository: ChatRepository,
-         oldChatRepository: OldChatRepository, keyValueStorage: KeyValueStorage, tracker: Tracker,
-         rootViewController: UIViewController) {
+         oldChatRepository: OldChatRepository, myUserRepository: MyUserRepository,
+         keyValueStorage: KeyValueStorage, tracker: Tracker, rootViewController: UIViewController) {
         self.productRepository = productRepository
         self.userRepository = userRepository
         self.chatRepository = chatRepository
         self.oldChatRepository = oldChatRepository
+        self.myUserRepository = myUserRepository
         self.keyValueStorage = keyValueStorage
         self.tracker = tracker
         self.rootViewController = rootViewController
@@ -54,12 +56,12 @@ class TabCoordinator: NSObject {
 // MARK: - TabNavigator
 
 extension TabCoordinator: TabNavigator {
-    func openUser(userId userId: String) {
+    func openUser(userId userId: String, source: UserSource) {
         navigationController.showLoadingMessageAlert()
         userRepository.show(userId, includeAccounts: false) { [weak self] result in
             if let user = result.value {
                 self?.navigationController.dismissLoadingMessageAlert {
-                    self?.openUser(user: user)
+                    self?.openUser(user: user, source: source)
                 }
             } else if let error = result.error {
                 let message: String
@@ -75,6 +77,28 @@ extension TabCoordinator: TabNavigator {
             }
         }
     }
+
+    func openUser(user user: User, source: UserSource) {
+        // If it's me do not then open the user profile
+        guard myUserRepository.myUser?.objectId != user.objectId else { return }
+
+        let vm = UserViewModel(user: user, source: source)
+        vm.tabNavigator = self
+        let hidesBottomBarWhenPushed = navigationController.viewControllers.count == 1
+        let vc = UserViewController(viewModel: vm, hidesBottomBarWhenPushed: hidesBottomBarWhenPushed)
+        navigationController.pushViewController(vc, animated: true)
+    }
+
+
+    func openUser(interlocutor: ChatInterlocutor) {
+        let vm = UserViewModel(chatInterlocutor: interlocutor, source: .Chat)
+        vm.tabNavigator = self
+
+        let hidesBottomBarWhenPushed = navigationController.viewControllers.count == 1
+        let vc = UserViewController(viewModel: vm, hidesBottomBarWhenPushed: hidesBottomBarWhenPushed)
+        navigationController.pushViewController(vc, animated: true)
+    }
+
 
     func openProduct(productId productId: String) {
         navigationController.showLoadingMessageAlert()
@@ -97,17 +121,48 @@ extension TabCoordinator: TabNavigator {
             }
         }
     }
-}
 
-private extension TabCoordinator {
-    func openUser(user user: User) {
-        let viewModel = UserViewModel(user: user, source: .TabBar)
-        let vc = UserViewController(viewModel: viewModel)
+    func openProduct(product product: Product) {
+        guard let vc = ProductDetailFactory.productDetailFromProduct(product, tabNavigator: self) else { return }
         navigationController.pushViewController(vc, animated: true)
     }
 
-    func openProduct(product product: Product) {
-        guard let vc = ProductDetailFactory.productDetailFromProduct(product) else { return }
+    func openProduct(product: Product, productListVM: ProductListViewModel, index: Int,
+                     thumbnailImage: UIImage?, originFrame: CGRect?) {
+        let vc: UIViewController?
+        if FeatureFlags.showRelatedProducts {
+            vc = ProductDetailFactory.productDetailFromProduct(product, thumbnailImage: thumbnailImage,
+                                                               originFrame: originFrame, tabNavigator: self)
+        } else {
+            vc = ProductDetailFactory.productDetailFromProductList(productListVM, index: index,
+                                                                   thumbnailImage: thumbnailImage,
+                                                                   originFrame: originFrame, tabNavigator: self)
+        }
+        if let vc = vc {
+            navigationController.pushViewController(vc, animated: true)
+        }
+    }
+
+    func openProduct(productListVM productListVM: ProductListViewModel, index: Int,
+                     thumbnailImage: UIImage?, originFrame: CGRect?) {
+        guard let vc: UIViewController = ProductDetailFactory.productDetailFromProductList(productListVM, index: index,
+                                                                                     thumbnailImage: thumbnailImage,
+                                                                                     originFrame: originFrame,
+                                                                                     tabNavigator: self) else {
+            return
+        }
+        navigationController.pushViewController(vc, animated: true)
+    }
+
+    func openProduct(chatProduct chatProduct: ChatProduct, user: ChatInterlocutor,
+                                 thumbnailImage: UIImage?, originFrame: CGRect?) {
+        guard let productId = chatProduct.objectId else { return }
+        let requester = RelatedProductListRequester(productId: productId)
+        let vm = ProductCarouselViewModel(chatProduct: chatProduct, chatInterlocutor: user,
+                                          thumbnailImage: thumbnailImage, singleProductList: true,
+                                          productListRequester: requester, tabNavigator: self)
+        let animator = ProductCarouselPushAnimator(originFrame: originFrame, originThumbnail: thumbnailImage)
+        let vc = ProductCarouselViewController(viewModel: vm, pushAnimator: animator)
         navigationController.pushViewController(vc, animated: true)
     }
 }

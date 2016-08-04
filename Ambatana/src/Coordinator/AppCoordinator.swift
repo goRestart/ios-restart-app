@@ -533,7 +533,7 @@ private extension AppCoordinator {
             }
         case let .User(userId):
             afterDelayClosure = { [weak self] in
-                self?.selectedTabCoordinator?.openUser(userId: userId)
+                self?.selectedTabCoordinator?.openUser(userId: userId, source: .Link)
             }
         case .Conversations:
             openTab(.Chats, force: false)
@@ -597,7 +597,7 @@ private extension AppCoordinator {
         guard let navCtl = selectedNavigationController() else { return }
 
         guard let myUserId = myUserRepository.myUser?.objectId else { return }
-        let viewModel = UserRatingListViewModel(userId: myUserId)
+        let viewModel = UserRatingListViewModel(userId: myUserId, tabNavigator: profileTabBarCoordinator)
 
         let viewController = UserRatingListViewController(viewModel: viewModel)
         navCtl.pushViewController(viewController, animated: true)

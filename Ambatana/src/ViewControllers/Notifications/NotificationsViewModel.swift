@@ -11,14 +11,13 @@ import RxSwift
 
 protocol NotificationsViewModelDelegate: BaseViewModelDelegate {
     func vmOpenSell()
-    func vmOpenUser(viewModel: UserViewModel)
-    func vmOpenProduct(vc: UIViewController)
 }
 
 
 class NotificationsViewModel: BaseViewModel {
 
     weak var delegate: NotificationsViewModelDelegate?
+    weak var tabNavigator: TabNavigator?
 
     let viewState = Variable<ViewState>(.Loading)
 
@@ -122,10 +121,12 @@ class NotificationsViewModel: BaseViewModel {
                 subtitle = LGLocalizedString.notificationsTypeLike
             }
             let icon = UIImage(named: "ic_favorite")
-            return buildProductNotification({ [weak self] in self?.openUser(userId) }, subtitle: subtitle,
-                                            userName: userName, icon: icon, productId: productId,
-                                            productImage: productImageUrl, userId: userId, userImage: userImageUrl,
-                                            date: notification.createdAt, isRead: notification.isRead)
+            return buildProductNotification({ [weak self] in
+                self?.tabNavigator?.openUser(userId: userId, source: .Notifications)
+            }, subtitle: subtitle, userName: userName, icon: icon, productId: productId,
+               productImage: productImageUrl, userId: userId, userImage: userImageUrl,
+               date: notification.createdAt, isRead: notification.isRead)
+
         case let .Sold(productId, productImageUrl, productTitle, userId, userImageUrl, userName):
             let subtitle: String
             if let productTitle = productTitle where !productTitle.isEmpty {
@@ -134,10 +135,11 @@ class NotificationsViewModel: BaseViewModel {
                 subtitle = LGLocalizedString.notificationsTypeSold
             }
             let icon = UIImage(named: "ic_dollar_sold")
-            return buildProductNotification({ [weak self] in self?.openProduct(productId) }, subtitle: subtitle,
-                                            userName: userName, icon: icon, productId: productId,
-                                            productImage: productImageUrl, userId: userId, userImage: userImageUrl,
-                                            date: notification.createdAt, isRead: notification.isRead)
+            return buildProductNotification({ [weak self] in
+                self?.tabNavigator?.openProduct(productId: productId)
+            }, subtitle: subtitle, userName: userName, icon: icon, productId: productId,
+               productImage: productImageUrl, userId: userId, userImage: userImageUrl,
+               date: notification.createdAt, isRead: notification.isRead)
         }
     }
 
@@ -154,8 +156,10 @@ class NotificationsViewModel: BaseViewModel {
         return NotificationData(type: .Product, title: title, subtitle: subtitle, date: date, isRead: isRead,
                                 primaryAction: primaryAction, icon: icon,
                                 leftImage: userImage, leftImagePlaceholder: userImagePlaceholder,
-                                leftImageAction: { [weak self] in self?.openUser(userId) },
-                                rightImage: productImage, rightImageAction: { [weak self] in self?.openProduct(productId) })
+                                leftImageAction: { [weak self] in
+                                    self?.tabNavigator?.openUser(userId: userId, source: .Notifications) },
+                                rightImage: productImage, rightImageAction: { [weak self] in
+                                    self?.tabNavigator?.openProduct(productId: productId) })
     }
 
     private func buildWelcomeNotification() -> NotificationData {
@@ -168,50 +172,6 @@ class NotificationsViewModel: BaseViewModel {
         }
         return NotificationData(type: .Welcome, title: title, subtitle: subtitle, date: NSDate(), isRead: true,
                                 primaryAction: { [weak self] in self?.delegate?.vmOpenSell() })
-    }
-
-    private func openUser(userId: String) {
-        //TODO: CONSIDER USING APPCOORDINATOR WHEN MERGED
-        delegate?.vmShowLoading(nil)
-        userRepository.show(userId, includeAccounts: false) { [weak self] result in
-            if let user = result.value {
-                self?.delegate?.vmHideLoading(nil) {
-                    let userVM = UserViewModel(user: user, source: .Notifications)
-                    self?.delegate?.vmOpenUser(userVM)
-                }
-            } else if let error = result.error {
-                let message: String
-                switch error {
-                case .Network:
-                    message = LGLocalizedString.commonErrorConnectionFailed
-                case .Internal, .Forbidden, .NotFound, .Unauthorized, .TooManyRequests, .UserNotVerified:
-                    message = LGLocalizedString.commonUserNotAvailable
-                }
-                self?.delegate?.vmHideLoading(message, afterMessageCompletion: nil)
-            }
-        }
-    }
-
-    private func openProduct(productId: String) {
-        //TODO: CONSIDER USING APPCOORDINATOR WHEN MERGED
-        delegate?.vmShowLoading(nil)
-        productRepository.retrieve(productId) { [weak self] result in
-            if let product = result.value {
-                self?.delegate?.vmHideLoading(nil) { [weak self] in
-                    guard let productVC = ProductDetailFactory.productDetailFromProduct(product) else { return }
-                    self?.delegate?.vmOpenProduct(productVC)
-                }
-            } else if let error = result.error {
-                let message: String
-                switch error {
-                case .Network:
-                    message = LGLocalizedString.commonErrorConnectionFailed
-                case .Internal, .Forbidden, .NotFound, .Unauthorized, .TooManyRequests, .UserNotVerified:
-                    message = LGLocalizedString.commonProductNotAvailable
-                }
-                self?.delegate?.vmHideLoading(message, afterMessageCompletion: nil)
-            }
-        }
     }
 
     private func markAsReadIfNeeded(notifications: [Notification]) {

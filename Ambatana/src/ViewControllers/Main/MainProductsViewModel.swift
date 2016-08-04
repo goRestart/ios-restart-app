@@ -79,8 +79,8 @@ class MainProductsViewModel: BaseViewModel {
     weak var permissionsDelegate: PermissionsDelegate?
 
     // > Navigator
-    weak var navigator: MainProductsNavigator?
-
+    weak var tabNavigator: TabNavigator?
+    
     // List VM
     let listViewModel: ProductListViewModel
     private var productListRequester: FilteredProductListRequester
@@ -97,13 +97,15 @@ class MainProductsViewModel: BaseViewModel {
     // MARK: - Lifecycle
     
     init(myUserRepository: MyUserRepository, trendingSearchesRepository: TrendingSearchesRepository,
-         locationManager: LocationManager, tracker: Tracker, searchString: String? = nil, filters: ProductFilters) {
+         locationManager: LocationManager, tracker: Tracker, searchString: String? = nil, filters: ProductFilters,
+         tabNavigator: TabNavigator?) {
         self.myUserRepository = myUserRepository
         self.trendingSearchesRepository = trendingSearchesRepository
         self.locationManager = locationManager
         self.tracker = tracker
         self.searchString = searchString
         self.filters = filters
+        self.tabNavigator = tabNavigator
         self.productListRequester = FilteredProductListRequester()
         let show3Columns = DeviceFamily.isWideScreen
         let columns = show3Columns ? 3 : 2
@@ -119,18 +121,19 @@ class MainProductsViewModel: BaseViewModel {
         setup()
     }
     
-    convenience init(searchString: String? = nil, filters: ProductFilters) {
+    convenience init(searchString: String? = nil, filters: ProductFilters, tabNavigator: TabNavigator?) {
         let myUserRepository = Core.myUserRepository
         let trendingSearchesRepository = Core.trendingSearchesRepository
         let locationManager = Core.locationManager
         let tracker = TrackerProxy.sharedInstance
         self.init(myUserRepository: myUserRepository, trendingSearchesRepository: trendingSearchesRepository,
-                  locationManager: locationManager, tracker: tracker, searchString: searchString, filters: filters)
+                  locationManager: locationManager, tracker: tracker, searchString: searchString, filters: filters,
+                  tabNavigator: tabNavigator)
     }
     
-    convenience init(searchString: String? = nil) {
+    convenience init(searchString: String? = nil, tabNavigator: TabNavigator?) {
         let filters = ProductFilters()
-        self.init(searchString: searchString, filters: filters)
+        self.init(searchString: searchString, filters: filters, tabNavigator: tabNavigator)
     }
 
     deinit {
@@ -168,7 +171,7 @@ class MainProductsViewModel: BaseViewModel {
     }
 
     func chatViewModelForProduct(product: Product) -> OldChatViewModel? {
-        guard let chatVM = OldChatViewModel(product: product) else { return nil }
+        guard let chatVM = OldChatViewModel(product: product, tabNavigator: tabNavigator) else { return nil }
         chatVM.askQuestion = .ProductList
         return chatVM
     }
@@ -229,7 +232,7 @@ class MainProductsViewModel: BaseViewModel {
         - returns: A view model for search.
     */
     private func viewModelForSearch(query: String) -> MainProductsViewModel {
-        return MainProductsViewModel(searchString: query, filters: filters)
+        return MainProductsViewModel(searchString: query, filters: filters, tabNavigator: tabNavigator)
     }
     
     private func updateListView() {
@@ -376,8 +379,8 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate {
                        thumbnailImage: UIImage?, originFrame: CGRect?) {
         
         guard let product = viewModel.productAtIndex(index) else { return }
-        navigator?.openProduct(product, productListVM: viewModel, index: index,
-                               thumbnailImage: thumbnailImage, originFrame: originFrame)
+        tabNavigator?.openProduct(product, productListVM: viewModel, index: index,
+                                  thumbnailImage: thumbnailImage, originFrame: originFrame)
     }
     
     func vmProcessReceivedProductPage(products: [ProductCellModel]) -> [ProductCellModel] {

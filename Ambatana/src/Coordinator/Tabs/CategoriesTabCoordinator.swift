@@ -15,14 +15,17 @@ final class CategoriesTabCoordinator: TabCoordinator {
         let userRepository = Core.userRepository
         let chatRepository = Core.chatRepository
         let oldChatRepository = Core.oldChatRepository
+        let myUserRepository = Core.myUserRepository
         let keyValueStorage = KeyValueStorage.sharedInstance
         let tracker = TrackerProxy.sharedInstance
         let viewModel = CategoriesViewModel()
         let rootViewController = CategoriesViewController(viewModel: viewModel)
-
         self.init(productRepository: productRepository, userRepository: userRepository,
                   chatRepository: chatRepository, oldChatRepository: oldChatRepository,
-                  keyValueStorage: keyValueStorage, tracker: tracker, rootViewController: rootViewController)
+                  myUserRepository: myUserRepository, keyValueStorage: keyValueStorage,
+                  tracker: tracker, rootViewController: rootViewController)
+        
+        viewModel.tabNavigator = self
     }
 
     // Note: override in subclasses

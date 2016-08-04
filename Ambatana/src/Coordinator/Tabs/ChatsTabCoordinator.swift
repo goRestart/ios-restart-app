@@ -15,14 +15,17 @@ final class ChatsTabCoordinator: TabCoordinator {
         let userRepository = Core.userRepository
         let chatRepository = Core.chatRepository
         let oldChatRepository = Core.oldChatRepository
+        let myUserRepository = Core.myUserRepository
         let keyValueStorage = KeyValueStorage.sharedInstance
         let tracker = TrackerProxy.sharedInstance
-        let viewModel = ChatGroupedViewModel()
-        let rootViewController = ChatGroupedViewController(viewModel: viewModel)
-
+        let chatGroupedVM = ChatGroupedViewModel()
+        let rootViewController = ChatGroupedViewController(viewModel: chatGroupedVM)
         self.init(productRepository: productRepository, userRepository: userRepository,
                   chatRepository: chatRepository, oldChatRepository: oldChatRepository,
-                  keyValueStorage: keyValueStorage, tracker: tracker, rootViewController: rootViewController)
+                  myUserRepository: myUserRepository, keyValueStorage: keyValueStorage, tracker: tracker,
+                  rootViewController: rootViewController)
+
+        chatGroupedVM.tabNavigator = self
     }
 
     override func shouldHideSellButtonAtViewController(viewController: UIViewController) -> Bool {
@@ -57,7 +60,7 @@ private extension TabCoordinator {
     func openChatWithResult(result: ChatResult) {
         var dismissLoadingCompletion: (() -> Void)? = nil
         if let chat = result.value {
-            guard let viewModel = OldChatViewModel(chat: chat) else { return }
+            guard let viewModel = OldChatViewModel(chat: chat, tabNavigator: self) else { return }
             let chatVC = OldChatViewController(viewModel: viewModel)
             dismissLoadingCompletion = { [weak self] in
                 self?.navigationController.pushViewController(chatVC, animated: true)

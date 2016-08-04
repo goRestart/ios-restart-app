@@ -420,20 +420,6 @@ extension OldChatViewController: OldChatViewModelDelegate {
     }
     
     
-    // MARK: > Product
-    
-    func vmShowProduct(productVC: UIViewController) {
-        showKeyboard(false, animated: false)
-        self.navigationController?.pushViewController(productVC, animated: true)
-    }
-    
-    func vmShowUser(userVM: UserViewModel) {
-        showKeyboard(false, animated: false)
-        let vc = UserViewController(viewModel: userVM)
-        self.navigationController?.pushViewController(vc, animated: true)
-    }
-    
-    
     // MARK: > Report user
     
     func vmShowReportUser(reportUserViewModel: ReportUsersViewModel) {

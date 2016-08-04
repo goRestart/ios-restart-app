@@ -23,9 +23,7 @@ protocol OldChatViewModelDelegate: BaseViewModelDelegate {
     
     func vmDidUpdateDirectAnswers()
     func vmDidUpdateProduct(messageToShow message: String?)
-    
-    func vmShowProduct(productVC: UIViewController)
-    func vmShowUser(userVM: UserViewModel)
+
     func vmShowReportUser(reportUserViewModel: ReportUsersViewModel)
     func vmShowUserRating(source: RateUserSource, data: RateUserData)
     
@@ -69,6 +67,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     // MARK: > Controller data
     
     weak var delegate: OldChatViewModelDelegate?
+    weak var  tabNavigator: TabNavigator?
     var title: String? {
         return product.title
     }
@@ -301,19 +300,22 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     
     // MARK: - Lifecycle
 
-    convenience init?(chat: Chat) {
-        self.init(chat: chat, myUserRepository: Core.myUserRepository, configManager: ConfigManager.sharedInstance)
+    convenience init?(chat: Chat, tabNavigator: TabNavigator?) {
+        self.init(chat: chat, myUserRepository: Core.myUserRepository,
+                  configManager: ConfigManager.sharedInstance, tabNavigator: tabNavigator)
     }
     
-    convenience init?(product: Product) {
+    convenience init?(product: Product, tabNavigator: TabNavigator?) {
         let myUserRepository = Core.myUserRepository
         let chat = LocalChat(product: product, myUser: myUserRepository.myUser)
         let configManager = ConfigManager.sharedInstance
 
-        self.init(chat: chat, myUserRepository: myUserRepository, configManager: configManager)
+        self.init(chat: chat, myUserRepository: myUserRepository,
+                  configManager: configManager, tabNavigator: tabNavigator)
     }
 
-    convenience init?(chat: Chat, myUserRepository: MyUserRepository, configManager: ConfigManager) {
+    convenience init?(chat: Chat, myUserRepository: MyUserRepository, configManager: ConfigManager,
+                      tabNavigator: TabNavigator?) {
         let chatRepository = Core.oldChatRepository
         let productRepository = Core.productRepository
         let userRepository = Core.userRepository
@@ -321,12 +323,13 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         let stickersRepository = Core.stickersRepository
         self.init(chat: chat, myUserRepository: myUserRepository, chatRepository: chatRepository,
                   productRepository: productRepository, userRepository: userRepository,
-                  stickersRepository: stickersRepository, tracker: tracker, configManager: configManager)
+                  stickersRepository: stickersRepository, tracker: tracker,
+                  configManager: configManager, tabNavigator: tabNavigator)
     }
 
     init?(chat: Chat, myUserRepository: MyUserRepository, chatRepository: OldChatRepository,
           productRepository: ProductRepository, userRepository: UserRepository, stickersRepository: StickersRepository,
-          tracker: Tracker, configManager: ConfigManager) {
+          tracker: Tracker, configManager: ConfigManager, tabNavigator: TabNavigator?) {
         self.chat = chat
         self.myUserRepository = myUserRepository
         self.chatRepository = chatRepository
@@ -336,6 +339,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         self.chatViewMessageAdapter = ChatViewMessageAdapter()
         self.tracker = tracker
         self.configManager = configManager
+        self.tabNavigator = tabNavigator
         self.loadedMessages = []
         self.product = chat.product
         if let myUser = myUserRepository.myUser {
@@ -388,8 +392,8 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         case .ProductDeleted, .Forbidden:
             break
         case .Available, .Blocked, .BlockedBy, .ProductSold, .UserPendingDelete, .UserDeleted:
-            guard let productVC = ProductDetailFactory.productDetailFromProduct(product) else { return }
-            delegate?.vmShowProduct(productVC)
+            delegate?.vmHideKeyboard(animated: false)
+            tabNavigator?.openProduct(product: product)
         }
     }
     
@@ -399,8 +403,8 @@ public class OldChatViewModel: BaseViewModel, Paginable {
             break
         case .Available, .Blocked, .BlockedBy, .ProductSold:
             guard let user = otherUser else { return }
-            let userVM = UserViewModel(user: user, source: .Chat)
-            delegate?.vmShowUser(userVM)
+            delegate?.vmHideKeyboard(animated: false)
+            tabNavigator?.openUser(user: user, source: .Chat)
         }
     }
 

@@ -33,6 +33,7 @@ class ProductCarouselViewModel: BaseViewModel {
     var startIndex: Int = 0
     var initialThumbnail: UIImage?
     weak var delegate: ProductCarouselViewModelDelegate?
+    weak var tabNavigator: TabNavigator?
 
     private var activeDisposeBag = DisposeBag()
 
@@ -71,28 +72,29 @@ class ProductCarouselViewModel: BaseViewModel {
     
     convenience init(chatProduct: ChatProduct, chatInterlocutor: ChatInterlocutor,
                                  thumbnailImage: UIImage?, singleProductList: Bool,
-                                 productListRequester: ProductListRequester?) {
+                                 productListRequester: ProductListRequester?, tabNavigator: TabNavigator?) {
         let myUserRepository = Core.myUserRepository
         let productRepository = Core.productRepository
         let product = productRepository.build(fromChatproduct: chatProduct, chatInterlocutor: chatInterlocutor)
         self.init(myUserRepository: myUserRepository, productRepository: productRepository,
                   productListVM: nil, initialProduct: product, thumbnailImage: thumbnailImage,
-                  singleProductList: singleProductList, productListRequester: productListRequester)
+                  singleProductList: singleProductList, productListRequester: productListRequester,
+                  tabNavigator: tabNavigator)
         syncFirstProduct()
     }
     
     convenience init(productListVM: ProductListViewModel, initialProduct: Product?, thumbnailImage: UIImage?,
-         singleProductList: Bool, productListRequester: ProductListRequester?) {
+         singleProductList: Bool, productListRequester: ProductListRequester?, tabNavigator: TabNavigator?) {
         let myUserRepository = Core.myUserRepository
         let productRepository = Core.productRepository
         self.init(myUserRepository: myUserRepository, productRepository: productRepository, productListVM: productListVM, initialProduct: initialProduct,
                   thumbnailImage: thumbnailImage, singleProductList: singleProductList,
-                  productListRequester: productListRequester)
+                  productListRequester: productListRequester, tabNavigator: tabNavigator)
     }
 
     init(myUserRepository: MyUserRepository, productRepository: ProductRepository,
          productListVM: ProductListViewModel?, initialProduct: Product?, thumbnailImage: UIImage?,
-         singleProductList: Bool, productListRequester: ProductListRequester?) {
+         singleProductList: Bool, productListRequester: ProductListRequester?, tabNavigator: TabNavigator?) {
         self.myUserRepository = myUserRepository
         self.productRepository = productRepository
         if let productListVM = productListVM {
@@ -103,6 +105,7 @@ class ProductCarouselViewModel: BaseViewModel {
         self.initialThumbnail = thumbnailImage
         self.productListRequester = productListRequester
         self.singleProductList = singleProductList
+        self.tabNavigator = tabNavigator
         super.init()
         self.startIndex = indexForProduct(initialProduct) ?? 0
         self.currentProductViewModel = viewModelAtIndex(startIndex)
@@ -178,7 +181,7 @@ class ProductCarouselViewModel: BaseViewModel {
     }
 
     func viewModelForProduct(product: Product) -> ProductViewModel {
-        return ProductViewModel(product: product, thumbnailImage: nil)
+        return ProductViewModel(product: product, thumbnailImage: nil, tabNavigator: tabNavigator)
     }
 
     func openProductOwnerProfile() {
