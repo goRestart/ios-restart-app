@@ -713,7 +713,8 @@ extension ProductCarouselViewController: UICollectionViewDataSource, UICollectio
 
 extension ProductCarouselViewController: ProductViewModelDelegate {
     func vmShowNativeShare(socialMessage: SocialMessage) {
-        presentNativeShare(socialMessage: socialMessage, delegate: self)
+        guard navigationItem.rightBarButtonItems?.count > 1 else { return }
+        presentNativeShare(socialMessage: socialMessage, delegate: self, barButtonItem: navigationItem.rightBarButtonItems?[1])
     }
     
     func vmOpenEditProduct(editProductVM: EditProductViewModel) {
@@ -765,6 +766,10 @@ extension ProductCarouselViewController: ProductViewModelDelegate {
     func vmShowOnboarding() {
         guard let productVM = viewModel.currentProductViewModel else { return }
         refreshProductOnboarding(productVM)
+    }
+    
+    func vmShowProductDelegateActionSheet(cancelLabel: String, actions: [UIAction]) {
+        showActionSheet(cancelLabel, actions: actions, barButtonItem: navigationItem.rightBarButtonItems?.first)
     }
 }
 

@@ -166,7 +166,7 @@ protocol NativeShareDelegate {
 
 extension UIViewController {
 
-    func presentNativeShare(socialMessage socialMessage: SocialMessage, delegate: NativeShareDelegate?) {
+    func presentNativeShare(socialMessage socialMessage: SocialMessage, delegate: NativeShareDelegate?, barButtonItem: UIBarButtonItem? = nil) {
 
         guard let activityItems = socialMessage.nativeShareItems else { return }
         let vc = UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
@@ -174,7 +174,11 @@ extension UIViewController {
         // src: http://stackoverflow.com/questions/25759380/launchservices-invalidationhandler-called-ios-8-share-sheet
         if vc.respondsToSelector(Selector("popoverPresentationController")) {
             let presentationController = vc.popoverPresentationController
-            presentationController?.sourceView = self.view
+            if let item = barButtonItem {
+                presentationController?.barButtonItem = item
+            } else {
+                presentationController?.sourceView = self.view
+            }
         }
 
         vc.completionWithItemsHandler = { [weak self] (activity, success, items, error) in

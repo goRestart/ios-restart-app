@@ -76,13 +76,13 @@ extension UIViewController {
             width += buttonWidth
         }
 
-        let buttonsFrame = CGRect(x: 0, y: 0, width: width, height: height)
-        let buttonsView = UIView(frame: buttonsFrame)
-
+        var items: [UIBarButtonItem] = []
         buttons.forEach { button in
-            buttonsView.addSubview(button)
+            let item = UIBarButtonItem(customView: button)
+            items.append(item)
         }
-        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: buttonsView)
+        
+        navigationItem.rightBarButtonItems = items.reverse()
     }
 }
 
