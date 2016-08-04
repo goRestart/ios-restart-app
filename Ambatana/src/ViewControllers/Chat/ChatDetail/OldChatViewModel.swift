@@ -754,7 +754,6 @@ public class OldChatViewModel: BaseViewModel, Paginable {
                 if newMessages[i].objectId == firstId {
                     break
                 } else {
-
                     reallyNewMessages.append(newMessages[i])
                     idxs.append(i)
                 }
