@@ -125,8 +125,8 @@ class ChatViewModel: BaseViewModel {
     private var interlocutor: User?
     private var myMessagesCount = Variable<Int>(0)
     private var otherMessagesCount = Variable<Int>(0)
-    var stickersTooltipVisible = Variable<Bool>(!KeyValueStorage.sharedInstance[.stickersTooltipAlreadyShown])
-    var reviewTooltipVisible = Variable<Bool>(!KeyValueStorage.sharedInstance[.userRatingTooltipAlreadyShown])
+    private var stickersTooltipVisible = Variable<Bool>(!KeyValueStorage.sharedInstance[.stickersTooltipAlreadyShown])
+    private var reviewTooltipVisible = Variable<Bool>(!KeyValueStorage.sharedInstance[.userRatingTooltipAlreadyShown])
     var shouldShowReviewButton = Variable<Bool>(false)
     var userReviewTooltipVisible = Variable<Bool>(false)
 
