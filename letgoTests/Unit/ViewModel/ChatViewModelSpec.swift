@@ -22,7 +22,7 @@ extension ChatViewMessage {
 class ChatViewModelSpec: QuickSpec {
     override func spec() {
 
-        var insertedMessagesInfo: (messages: [ChatViewMessage], indexes: [Int])?
+        var insertedMessagesInfo: (messages: [ChatViewMessage], indexes: [Int], isUpdate: Bool)?
 
         describe("insert new messages at table") {
 
@@ -42,6 +42,9 @@ class ChatViewModelSpec: QuickSpec {
                 }
                 it ("returning indexes array is empty") {
                     expect(insertedMessagesInfo?.indexes.count) == 0
+                }
+                it ("is an update") {
+                    expect(insertedMessagesInfo?.isUpdate) == false
                 }
             }
 
@@ -65,6 +68,9 @@ class ChatViewModelSpec: QuickSpec {
                     it ("returning indexes array has 2 elements") {
                         expect(insertedMessagesInfo?.indexes.count) == 2
                     }
+                    it ("is an update") {
+                        expect(insertedMessagesInfo?.isUpdate) == false
+                    }
                 }
 
                 context ("main Array has values, new array is empty") {
@@ -85,6 +91,9 @@ class ChatViewModelSpec: QuickSpec {
                     }
                     it ("returning indexes array has 0 elements") {
                         expect(insertedMessagesInfo?.indexes.count) == 0
+                    }
+                    it ("is an update") {
+                        expect(insertedMessagesInfo?.isUpdate) == false
                     }
                 }
 
@@ -109,6 +118,9 @@ class ChatViewModelSpec: QuickSpec {
                     it ("returning indexes array has 2 elements") {
                         expect(insertedMessagesInfo?.indexes.count) == 2
                     }
+                    it ("is an update") {
+                        expect(insertedMessagesInfo?.isUpdate) == false
+                    }
                 }
 
                 context ("both arrays have values, some repeated") {
@@ -130,6 +142,9 @@ class ChatViewModelSpec: QuickSpec {
                     }
                     it ("returning indexes array has 1 elements") {
                         expect(insertedMessagesInfo?.indexes.count) == 1
+                    }
+                    it ("is an update") {
+                        expect(insertedMessagesInfo?.isUpdate) == false
                     }
                 }
             }
@@ -155,6 +170,9 @@ class ChatViewModelSpec: QuickSpec {
                     it ("returning indexes array has 2 elements") {
                         expect(insertedMessagesInfo?.indexes.count) == 2
                     }
+                    it ("is an update") {
+                        expect(insertedMessagesInfo?.isUpdate) == false
+                    }
                 }
 
                 context ("main Array has values, new array is empty") {
@@ -178,6 +196,9 @@ class ChatViewModelSpec: QuickSpec {
                     }
                     it ("returning indexes array has 0 elements") {
                         expect(insertedMessagesInfo?.indexes.count) == 0
+                    }
+                    it ("is an update") {
+                        expect(insertedMessagesInfo?.isUpdate) == false
                     }
                 }
 
@@ -203,7 +224,10 @@ class ChatViewModelSpec: QuickSpec {
                         expect(insertedMessagesInfo?.messages[1].objectId) == "3"
                     }
                     it ("returning indexes array has 1 element") {
-                        expect(insertedMessagesInfo?.indexes.count) == 1
+                        expect(insertedMessagesInfo?.indexes.count) == 2
+                    }
+                    it ("is an update") {
+                        expect(insertedMessagesInfo?.isUpdate) == true
                     }
                 }
 
@@ -232,7 +256,10 @@ class ChatViewModelSpec: QuickSpec {
                         expect(insertedMessagesInfo?.messages[0].objectId) == "3"
                     }
                     it ("returning indexes array has 0 elements") {
-                        expect(insertedMessagesInfo?.indexes.count) == 0
+                        expect(insertedMessagesInfo?.indexes.count) == 1
+                    }
+                    it ("is an update") {
+                        expect(insertedMessagesInfo?.isUpdate) == true
                     }
                 }
 
@@ -250,7 +277,7 @@ class ChatViewModelSpec: QuickSpec {
 
                         insertedMessagesInfo = OldChatViewModel.insertNewMessagesAt(mainArray, newMessages: newArray)
                     }
-                    it ("returning messages array has 3 elements") {
+                    it ("returning messages array has 5 elements") {
                         expect(insertedMessagesInfo?.messages.count) == 5
                     }
                     it ("returning messages array 5th element id is '1' ") {
@@ -269,7 +296,10 @@ class ChatViewModelSpec: QuickSpec {
                         expect(insertedMessagesInfo?.messages[0].objectId) == "5"
                     }
                     it ("returning indexes array has 0 elements") {
-                        expect(insertedMessagesInfo?.indexes.count) == 0
+                        expect(insertedMessagesInfo?.indexes.count) == 3
+                    }
+                    it ("is an update") {
+                        expect(insertedMessagesInfo?.isUpdate) == true
                     }
                 }
             }

@@ -63,6 +63,8 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     private let moreInfoTooltipMargin: CGFloat = 0
     private var moreInfoTooltip: Tooltip?
 
+    private var collectionContentOffset = Variable<CGPoint>(CGPoint.zero)
+
     private var activeDisposeBag = DisposeBag()
     private var productInfoConstraintOffset: CGFloat = 0
 
@@ -258,8 +260,8 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         let width = view.bounds.width
         let midPoint = width/2
         let minMargin = midPoint * 0.15
-    
-        let alphaSignal: Observable<CGFloat> = collectionView.rx_contentOffset
+
+        let alphaSignal: Observable<CGFloat> = collectionContentOffset.asObservable()
             .map {
                 let midValue = fabs($0.x % width - midPoint)
                 if midValue <= minMargin { return 0 }
@@ -285,7 +287,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
             alphaSignal.bindTo(navBar.rx_alpha).addDisposableTo(disposeBag)
         }
         
-        var indexSignal: Observable<Int> = collectionView.rx_contentOffset.map { Int(($0.x + midPoint) / width) }
+        var indexSignal: Observable<Int> = collectionContentOffset.asObservable().map { Int(($0.x + midPoint) / width) }
         
         if viewModel.startIndex != 0 {
             indexSignal = indexSignal.skip(1)
@@ -638,10 +640,10 @@ extension ProductCarouselViewController {
         self.navigationController?.navigationBar.ignoreTouchesFor(button)
         
         let pan = UIPanGestureRecognizer(target: self, action: #selector(dragMoreInfoButton))
-        moreInfoView?.dragView.addGestureRecognizer(pan)
+        button.addGestureRecognizer(pan)
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(dragViewTapped))
-        moreInfoView?.dragView.addGestureRecognizer(tap)
+        button.addGestureRecognizer(tap)
         moreInfoView?.delegate = self
     }
     
@@ -722,6 +724,10 @@ extension ProductCarouselViewController: ProductCarouselMoreInfoDelegate {
     func shareDidFailedWith(error: String) {
         showAutoFadingOutMessageAlert(error)
     }
+    
+    func viewControllerToShowShareOptions() -> UIViewController {
+        return self
+    }
 }
 
 
@@ -759,7 +765,7 @@ extension ProductCarouselViewController {
 }
 
 
-// MARK: > CollectionView Data Source
+// MARK: > CollectionView delegates
 
 extension ProductCarouselViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -785,6 +791,10 @@ extension ProductCarouselViewController: UICollectionViewDataSource, UICollectio
         dispatch_async(dispatch_get_main_queue()) { [weak self] in
             self?.viewModel.setCurrentIndex(indexPath.row)
         }
+    }
+
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        collectionContentOffset.value = scrollView.contentOffset
     }
 }
 
@@ -840,6 +850,11 @@ extension ProductCarouselViewController: ProductViewModelDelegate {
     func vmAskForRating() {
         guard let tabBarCtrl = self.tabBarController as? TabBarController else { return }
         tabBarCtrl.showAppRatingViewIfNeeded(.MarkedSold)
+    }
+    
+    func vmShowOnboarding() {
+        guard let productVM = viewModel.currentProductViewModel else { return }
+        refreshProductOnboarding(productVM)
     }
 }
 

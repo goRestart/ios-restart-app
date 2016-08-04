@@ -53,7 +53,6 @@ extension UINavigationBar {
                 return false
             }
         }
-        
         return pointInside
     }
 }

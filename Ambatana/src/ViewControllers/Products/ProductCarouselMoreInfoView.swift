@@ -16,6 +16,7 @@ protocol ProductCarouselMoreInfoDelegate: class {
     func didScrollFromTopWith(deltaOffset: CGFloat)
     func didEndScrolling()
     func shareDidFailedWith(error: String)
+    func viewControllerToShowShareOptions() -> UIViewController
 }
 
 
@@ -48,6 +49,7 @@ class ProductCarouselMoreInfoView: UIView {
     private var locationZone: MKOverlay?
     private let bigMapMargin: CGFloat = 65.0
     private let bigMapBottomMargin: CGFloat = 210
+    private let bottomInset: CGFloat = 80 // Needed to avoid drawing content below the chat button
     private var bigMapVisible = false
     private var mapZoomBlocker: MapZoomBlocker?
     private var statsView: ProductStatsView?
@@ -59,15 +61,15 @@ class ProductCarouselMoreInfoView: UIView {
     weak var delegate: ProductCarouselMoreInfoDelegate?
 
     static func moreInfoView(viewModel: ProductViewModel) -> ProductCarouselMoreInfoView {
-        let view = NSBundle.mainBundle().loadNibNamed("ProductCarouselMoreInfoView", owner: self, options: nil).first as? ProductCarouselMoreInfoView
-        view?.viewModel = viewModel
-        view?.setupUI()
-        view?.setupContent()
-        view?.addGestures()
-        view?.configureMapView()
-        view?.configureOverlayMapView()
-        view?.setupStatsView()
-        return view!
+        let view = NSBundle.mainBundle().loadNibNamed("ProductCarouselMoreInfoView", owner: self, options: nil).first as! ProductCarouselMoreInfoView
+        view.viewModel = viewModel
+        view.setupUI()
+        view.setupContent()
+        view.addGestures()
+        view.configureMapView()
+        view.configureOverlayMapView()
+        view.setupStatsView()
+        return view
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -219,7 +221,7 @@ extension ProductCarouselMoreInfoView: UIScrollViewDelegate {
 extension ProductCarouselMoreInfoView {
     private func setupUI() {
         
-        scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 80, right: 0)
+        scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: bottomInset, right: 0)
         
         titleLabel.textColor = UIColor.whiteColor()
         titleLabel.font = UIFont.productTitleFont
@@ -364,106 +366,93 @@ extension ProductCarouselMoreInfoView {
 extension ProductCarouselMoreInfoView: SocialShareViewDelegate {
     
     func shareInEmail(){
-        guard let viewModel = viewModel else { return }
-        viewModel.shareInEmail(.Bottom)
+        viewModel?.shareInEmail(.Bottom)
     }
     
     func shareInEmailFinished(state: SocialShareState) {
-        guard let viewModel = viewModel else { return }
         switch state {
         case .Completed:
-            viewModel.shareInEmailCompleted()
+            viewModel?.shareInEmailCompleted()
         case .Cancelled:
-            viewModel.shareInEmailCancelled()
+            viewModel?.shareInEmailCancelled()
         case .Failed:
             break
         }
     }
     
     func shareInFacebook() {
-        guard let viewModel = viewModel else { return }
-        viewModel.shareInFacebook(.Bottom)
+        viewModel?.shareInFacebook(.Bottom)
     }
     
     func shareInFacebookFinished(state: SocialShareState) {
-        guard let viewModel = viewModel else { return }
         switch state {
         case .Completed:
-            viewModel.shareInFBCompleted()
+            viewModel?.shareInFBCompleted()
         case .Cancelled:
-            viewModel.shareInFBCancelled()
+            viewModel?.shareInFBCancelled()
         case .Failed:
             delegate?.shareDidFailedWith(LGLocalizedString.sellSendErrorSharingFacebook)
         }
     }
     
     func shareInFBMessenger() {
-        guard let viewModel = viewModel else { return }
-        viewModel.shareInFBMessenger()
+        viewModel?.shareInFBMessenger()
     }
     
     func shareInFBMessengerFinished(state: SocialShareState) {
-        guard let viewModel = viewModel else { return }
         switch state {
         case .Completed:
-            viewModel.shareInFBMessengerCompleted()
+            viewModel?.shareInFBMessengerCompleted()
         case .Cancelled:
-            viewModel.shareInFBMessengerCancelled()
+            viewModel?.shareInFBMessengerCancelled()
         case .Failed:
             delegate?.shareDidFailedWith(LGLocalizedString.sellSendErrorSharingFacebook)
         }
     }
     
     func shareInWhatsApp() {
-        guard let viewModel = viewModel else { return }
-        viewModel.shareInWhatsApp()
+        viewModel?.shareInWhatsApp()
     }
     
     func shareInTwitter() {
-        guard let viewModel = viewModel else { return }
-        viewModel.shareInTwitter()
+        viewModel?.shareInTwitter()
     }
     
     func shareInTwitterFinished(state: SocialShareState) {
-        guard let viewModel = viewModel else { return }
         switch state {
         case .Completed:
-            viewModel.shareInTwitterCompleted()
+            viewModel?.shareInTwitterCompleted()
         case .Cancelled:
-            viewModel.shareInTwitterCancelled()
+            viewModel?.shareInTwitterCancelled()
         case .Failed:
             break
         }
     }
     
     func shareInTelegram() {
-        guard let viewModel = viewModel else { return }
-        viewModel.shareInTelegram()
+        viewModel?.shareInTelegram()
     }
     
     func viewController() -> UIViewController? {
-        return nil
+        return delegate?.viewControllerToShowShareOptions()
     }
     
     func shareInSMS() {
-        guard let viewModel = viewModel else { return }
-        viewModel.shareInSMS()
+        viewModel?.shareInSMS()
     }
     
     func shareInSMSFinished(state: SocialShareState) {
-        guard let viewModel = viewModel else { return }
         switch state {
         case .Completed:
-            viewModel.shareInSMSCompleted()
+            viewModel?.shareInSMSCompleted()
         case .Cancelled:
-            viewModel.shareInSMSCancelled()
+            viewModel?.shareInSMSCancelled()
         case .Failed:
             delegate?.shareDidFailedWith(LGLocalizedString.productShareSmsError)
         }
     }
     
     func shareInCopyLink() {
-        guard let viewModel = viewModel else { return }
-        viewModel.shareInCopyLink()
+        viewModel?.shareInCopyLink()
     }
 }

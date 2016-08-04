@@ -12,8 +12,7 @@ import LGCoreKit
 import RxSwift
 
 class OldChatViewController: SLKTextViewController {
-    
-    let productViewHeight: CGFloat = 80
+
     let navBarHeight: CGFloat = 64
     let inputBarHeight: CGFloat = 44
     var productView: ChatProductView
@@ -27,6 +26,7 @@ class OldChatViewController: SLKTextViewController {
     var activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
     var relationInfoView = RelationInfoView.relationInfoView()   // informs if the user is blocked, or the product sold or inactive
     var directAnswersPresenter: DirectAnswersPresenter
+    let relatedProductsView: RelatedProductsView
     let keyboardHelper: KeyboardHelper
     let disposeBag = DisposeBag()
 
@@ -46,6 +46,7 @@ class OldChatViewController: SLKTextViewController {
         self.viewModel = viewModel
         self.productView = ChatProductView.chatProductView()
         self.directAnswersPresenter = DirectAnswersPresenter()
+        self.relatedProductsView = RelatedProductsView()
         self.stickersView = ChatStickersView()
         self.stickersCloseButton = UIButton(frame: CGRect.zero)
         self.keyboardHelper = keyboardHelper
@@ -71,6 +72,7 @@ class OldChatViewController: SLKTextViewController {
         setNavBarBackButton(nil)
         setupUI()
         setupToastView()
+        setupRelatedProducts()
         setupDirectAnswers()
         setupStickersView()
         initStickersWindow()
@@ -150,7 +152,7 @@ class OldChatViewController: SLKTextViewController {
     
     override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         // Just to reserve the space for directAnswersView
-        return directAnswersPresenter.height
+        return directAnswersPresenter.height + relatedProductsView.visibleHeight.value
     }
     
     override func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -247,9 +249,8 @@ class OldChatViewController: SLKTextViewController {
     }
     
     private func setupFrames() {
-        tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 128 + blockedToastOffset, right: 0)
-        tableView.frame = CGRectMake(0, productViewHeight + blockedToastOffset, tableView.width,
-                                          tableView.height - productViewHeight - blockedToastOffset)
+        tableView.contentInset.bottom = navBarHeight + blockedToastOffset
+        tableView.frame = CGRectMake(0, blockedToastOffset, tableView.width, tableView.height - blockedToastOffset)
         
         activityIndicator.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
         activityIndicator.center = view.center
@@ -263,13 +264,22 @@ class OldChatViewController: SLKTextViewController {
                                               toItem: topLayoutGuide, attribute: .Bottom, multiplier: 1, constant: 0))
     }
 
+    private func setupRelatedProducts() {
+        relatedProductsView.setupOnTopOfView(textInputbar)
+        relatedProductsView.title.value = LGLocalizedString.chatRelatedProductsTitle
+        relatedProductsView.delegate = viewModel
+        relatedProductsView.visibleHeight.asObservable().distinctUntilChanged().bindNext { [weak self] _ in
+            self?.tableView.reloadData()
+            }.addDisposableTo(disposeBag)
+    }
+
     private func setupDirectAnswers() {
         directAnswersPresenter.hidden = !viewModel.shouldShowDirectAnswers
-        directAnswersPresenter.setupOnTopOfView(textInputbar)
+        directAnswersPresenter.setupOnTopOfView(relatedProductsView)
         directAnswersPresenter.setDirectAnswers(viewModel.directAnswers)
         directAnswersPresenter.delegate = viewModel
     }
-    
+
     private func updateProductView() {
         productView.delegate = self
         productView.userName.text = viewModel.otherUserName
@@ -374,10 +384,14 @@ extension OldChatViewController: OldChatViewModelDelegate {
         tableView.reloadData()
     }
     
-    func vmUpdateAfterReceivingMessagesAtPositions(positions: [Int]) {
+    func vmUpdateAfterReceivingMessagesAtPositions(positions: [Int], isUpdate: Bool) {
         showActivityIndicator(false)
         
         guard positions.count > 0 else { return }
+        if isUpdate {
+            tableView.reloadData()
+            return
+        }
         
         let newPositions: [NSIndexPath] = positions.map({NSIndexPath(forRow: $0, inSection: 0)})
         
@@ -426,6 +440,12 @@ extension OldChatViewController: OldChatViewModelDelegate {
         showKeyboard(false, animated: false)
         self.navigationController?.pushViewController(productVC, animated: true)
     }
+
+    func vmShowRelatedProducts(productId: String?) {
+        relatedProductsView.productId.value = productId
+    }
+
+    // MARK: > User
     
     func vmShowUser(userVM: UserViewModel) {
         showKeyboard(false, animated: false)
@@ -433,15 +453,10 @@ extension OldChatViewController: OldChatViewModelDelegate {
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
-    
-    // MARK: > Report user
-    
     func vmShowReportUser(reportUserViewModel: ReportUsersViewModel) {
         let vc = ReportUsersViewController(viewModel: reportUserViewModel)
         self.navigationController?.pushViewController(vc, animated: true)
     }
-
-    // MARK: > Rate user
 
     func vmShowUserRating(source: RateUserSource, data: RateUserData) {
         guard let tabBarController = self.tabBarController as? TabBarController else { return }
@@ -549,8 +564,7 @@ extension OldChatViewController {
     // It is an open issue in the Library https://github.com/slackhq/SlackTextViewController/issues/137
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        let bottomInset = keyboardShown ? navBarHeight : productViewHeight + navBarHeight
-        self.tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: bottomInset + blockedToastOffset, right: 0)
+        tableView.contentInset.bottom = navBarHeight + blockedToastOffset
     }
 }
 

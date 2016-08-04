@@ -30,6 +30,7 @@ final class AppCoordinator: NSObject {
     private let myUserRepository: MyUserRepository
     private let chatRepository: OldChatRepository
     private let commercializerRepository: CommercializerRepository
+    private let userRatingRepository: UserRatingRepository
 
     weak var delegate: AppNavigatorDelegate?
 
@@ -50,20 +51,22 @@ final class AppCoordinator: NSObject {
         let myUserRepository = Core.myUserRepository
         let chatRepository = Core.oldChatRepository
         let commercializerRepository = Core.commercializerRepository
+        let userRatingRepository = Core.userRatingRepository
 
         self.init(tabBarController: tabBarController, configManager: configManager,
                   sessionManager: sessionManager, keyValueStorage: keyValueStorage,
                   pushPermissionsManager: pushPermissionsManager, ratingManager: ratingManager,
                   deepLinksRouter: deepLinksRouter, productRepository: productRepository, userRepository: userRepository,
                   myUserRepository: myUserRepository, chatRepository: chatRepository,
-                  commercializerRepository: commercializerRepository)
+                  commercializerRepository: commercializerRepository, userRatingRepository: userRatingRepository)
     }
 
     init(tabBarController: TabBarController, configManager: ConfigManager,
          sessionManager: SessionManager, keyValueStorage: KeyValueStorage,
          pushPermissionsManager: PushPermissionsManager, ratingManager: RatingManager, deepLinksRouter: DeepLinksRouter,
          productRepository: ProductRepository, userRepository: UserRepository, myUserRepository: MyUserRepository,
-         chatRepository: OldChatRepository, commercializerRepository: CommercializerRepository) {
+         chatRepository: OldChatRepository, commercializerRepository: CommercializerRepository,
+         userRatingRepository: UserRatingRepository) {
 
         self.tabBarCtl = tabBarController
 
@@ -80,6 +83,7 @@ final class AppCoordinator: NSObject {
         self.myUserRepository = myUserRepository
         self.chatRepository = chatRepository
         self.commercializerRepository = commercializerRepository
+        self.userRatingRepository = userRatingRepository
 
         super.init()
         tabBarCtl.delegate = self
@@ -116,6 +120,13 @@ extension AppCoordinator: AppNavigator {
 
             if let deepLink = strongSelf.deepLinksRouter.consumeInitialDeepLink() {
                 strongSelf.openDeepLink(deepLink, initialDeepLink: true)
+                // Tracking
+                let event = TrackerEvent.openApp(deepLink.campaign, medium: deepLink.medium, source: deepLink.source)
+                TrackerProxy.sharedInstance.trackEvent(event)
+            } else {
+                // Tracking
+                let event = TrackerEvent.openApp(source: .Direct)
+                TrackerProxy.sharedInstance.trackEvent(event)
             }
         }
 
@@ -174,6 +185,9 @@ extension AppCoordinator: PromoteProductViewControllerDelegate {
     }
 
     func promoteProductViewControllerDidCancelFromSource(promotionSource: PromotionSource) {
+        if promotionSource == .ProductSell {
+            keyValueStorage.shouldShowCommercializerAfterPosting = false
+        }
         promoteProductPostActions(promotionSource)
     }
 }
@@ -222,7 +236,11 @@ extension AppCoordinator: SellCoordinatorDelegate {
 extension AppCoordinator: UserRatingCoordinatorDelegate {
     func userRatingCoordinatorDidCancel(coordinator: UserRatingCoordinator) {}
 
-    func userRatingCoordinatorDidFinish(coordinator: UserRatingCoordinator) {}
+    func userRatingCoordinatorDidFinish(coordinator: UserRatingCoordinator, withRating rating: Int?) {
+        if rating == 5 {
+            tabBarCtl.showAppRatingView(EventParameterRatingSource.Chat)
+        }
+    }
 }
 
 private extension AppCoordinator {
@@ -237,6 +255,7 @@ private extension AppCoordinator {
 
         // We do not promote if it's a failure or if it's a success w/o country code
         guard let productId = product.objectId, countryCode = product.postalAddress.countryCode else { return false }
+        guard keyValueStorage.shouldShowCommercializerAfterPosting else { return false }
         // We do not promote if we do not have promo themes for the given country code
         let themes = commercializerRepository.templatesForCountryCode(countryCode)
         guard let promoteVM = PromoteProductViewModel(productId: productId, themes: themes, commercializers: [],
@@ -466,6 +485,16 @@ private extension AppCoordinator {
                 CommercializerManager.sharedInstance.commercializerReadyInitialDeepLink(productId: productId,
                                                                                         templateId: templateId)
             }
+        case .UserRatings:
+            openTab(.Profile)
+            afterDelayClosure = { [weak self] in
+                self?.openMyUserRatings()
+            }
+        case let .UserRating(ratingId):
+            openTab(.Profile)
+            afterDelayClosure = { [weak self] in
+                self?.openUserRatingForUserFromRating(ratingId)
+            }
         }
 
         if let afterDelayClosure = afterDelayClosure {
@@ -596,7 +625,7 @@ private extension AppCoordinator {
         if let categoriesString = categoriesString {
             filters.selectedCategories = ProductCategory.categoriesFromString(categoriesString)
         }
-        let viewModel = MainProductsViewModel(searchString: query, filters: filters)
+        let viewModel = MainProductsViewModel(searchData: SearchData(text: query, isTrending: false), filters: filters)
         let vc = MainProductsViewController(viewModel: viewModel)
 
         navCtl.pushViewController(vc, animated: true)
@@ -609,6 +638,42 @@ private extension AppCoordinator {
 
         // TODO: Should open a Reset Password coordinator child calling `openChild`
         tabBarCtl.presentViewController(navCtl, animated: true, completion: nil)
+    }
+
+    private func openMyUserRatings() {
+        guard FeatureFlags.userRatings else { return }
+        guard let navCtl = selectedNavigationController() else { return }
+
+        guard let myUserId = myUserRepository.myUser?.objectId else { return }
+        let viewModel = UserRatingListViewModel(userId: myUserId)
+
+        let viewController = UserRatingListViewController(viewModel: viewModel)
+        navCtl.pushViewController(viewController, animated: true)
+    }
+
+    private func openUserRatingForUserFromRating(ratingId: String) {
+        guard FeatureFlags.userRatings else { return }
+        guard let navCtl = selectedNavigationController() else { return }
+
+        navCtl.showLoadingMessageAlert()
+        userRatingRepository.show(ratingId) { [weak self] result in
+            if let rating = result.value, data = RateUserData(user: rating.userFrom) {
+                navCtl.dismissLoadingMessageAlert {
+                    self?.openUserRating(.DeepLink, data: data)
+                }
+            } else if let error = result.error {
+                let message: String
+                switch error {
+                case .Network:
+                    message = LGLocalizedString.commonErrorConnectionFailed
+                case .Internal, .NotFound, .Unauthorized, .Forbidden, .TooManyRequests, .UserNotVerified:
+                    message = LGLocalizedString.commonUserReviewNotAvailable
+                }
+                navCtl.dismissLoadingMessageAlert {
+                    navCtl.showAutoFadingOutMessageAlert(message)
+                }
+            }
+        }
     }
 }
 

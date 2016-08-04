@@ -8,7 +8,7 @@
 
 protocol UserRatingCoordinatorDelegate: CoordinatorDelegate {
     func userRatingCoordinatorDidCancel(coordinator: UserRatingCoordinator)
-    func userRatingCoordinatorDidFinish(coordinator: UserRatingCoordinator)
+    func userRatingCoordinatorDidFinish(coordinator: UserRatingCoordinator, withRating rating: Int?)
 }
 
 final class UserRatingCoordinator: Coordinator {
@@ -26,7 +26,9 @@ final class UserRatingCoordinator: Coordinator {
     init(source: RateUserSource, data: RateUserData) {
         let userRatingVM = RateUserViewModel(source: source, data: data)
         let userRatingVC = RateUserViewController(viewModel: userRatingVM)
-        self.viewController = UINavigationController(rootViewController: userRatingVC)
+        let navC = UINavigationController(rootViewController: userRatingVC)
+        navC.modalPresentationStyle = .OverCurrentContext
+        self.viewController = navC
 
         userRatingVM.navigator = self
     }
@@ -39,17 +41,18 @@ final class UserRatingCoordinator: Coordinator {
     }
 
     func close(animated animated: Bool, completion: (() -> Void)?) {
-        close(finished: false, animated: animated, completion: completion)
+        close(animated: animated, rating: nil, completion: completion)
     }
 
 
     // MARK: - Private
 
-    private func close(finished finished: Bool, animated: Bool, completion: (() -> Void)?) {
+    private func close(animated animated: Bool, rating: Int?, completion: (() -> Void)?) {
+        let finished = rating == nil
         let dismiss: () -> Void = { [weak self] in
             self?.viewController.dismissViewControllerAnimated(animated) { [weak self] in
                 guard let strongSelf = self else { return }
-                finished ? strongSelf.delegate?.userRatingCoordinatorDidFinish(strongSelf) :
+                finished ? strongSelf.delegate?.userRatingCoordinatorDidFinish(strongSelf, withRating: rating) :
                             strongSelf.delegate?.userRatingCoordinatorDidCancel(strongSelf)
                 strongSelf.delegate?.coordinatorDidClose(strongSelf)
                 completion?()
@@ -69,10 +72,10 @@ final class UserRatingCoordinator: Coordinator {
 
 extension UserRatingCoordinator: RateUserNavigator {
     func rateUserCancel() {
-        close(finished: false, animated: true, completion: nil)
+        close(animated: true, rating: nil, completion: nil)
     }
 
-    func rateUserFinish() {
-        close(finished: true, animated: true, completion: nil)
+    func rateUserFinish(withRating rating: Int) {
+        close(animated: true, rating: rating, completion: nil)
     }
 }

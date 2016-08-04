@@ -10,8 +10,14 @@ import Foundation
 import UIKit
 import LGCoreKit
 
+enum CellStyle {
+    case Small, Big
+}
+
 class GridDrawerManager {
-    
+
+    var cellStyle: CellStyle = .Small
+
     private let productDrawer = ProductCellDrawer()
     private let bannerDrawer = BannerCellDrawer()
     
@@ -34,11 +40,11 @@ class GridDrawerManager {
             
         case .BannerCell(let data) where cell is BannerCell:
             guard let cell = cell as? BannerCell else { return }
-            return bannerDrawer.draw(data, inCell: cell)
+            return bannerDrawer.draw(data, style: cellStyle, inCell: cell)
             
         case .ProductCell(let product) where cell is ProductCell:
             guard let cell = cell as? ProductCell else { return }
-            return productDrawer.draw(product.cellData, inCell: cell)
+            return productDrawer.draw(product.cellData, style: cellStyle, inCell: cell)
         
         default:
             assert(false, "⛔️ You shouldn't be here!")
@@ -49,6 +55,6 @@ class GridDrawerManager {
 
 private extension Product {
     var cellData: ProductData {
-        return ProductData(productID: objectId, thumbUrl: thumbnail?.fileURL)
+        return ProductData(productID: objectId, thumbUrl: thumbnail?.fileURL, price: priceString())
     }
 }

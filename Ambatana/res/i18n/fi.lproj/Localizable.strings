@@ -114,6 +114,7 @@
 "chat_message_load_generic_error" = "Keskustelutietojasi noudettaessa tapahtui virhe. Ole hyvä ja yritä myöhemmin uudelleen.";
 "chat_product_inactive_label" = "Tuote ei ole aktiivinen";
 "chat_product_sold_label" = "Tuote myyty";
+"chat_related_products_title" = "SINUA SAATTAISI KIINNOSTAA:";
 "chat_safety_tips" = "Turvallisuusvinkit";
 "chat_safety_tips_message" = "• Tavatkaa kasvokkain ja maksakaa käteisellä.\n\n• Käy keskusteluja vain letgon chatissä.\n\n• Kuulostaa liian hyvältä ollakseen totta? Ole varovainen!";
 "chat_safety_tips_tip_1" = "Kun sopimus on sinetöity, tavatkaa henkilökohtaisesti ja maksa käteisellä.";
@@ -128,10 +129,13 @@
 "chat_user_info_name" = "Hei, olen %@";
 "chat_user_info_verified_with" = "Todennettu käyttäen: ";
 "chat_user_rating_button_title" = "Arvostele";
+"chat_user_rating_button_tooltip" = "Arvostele tämä käyttäjä";
 "chat_verify_alert_message" = "Lähetimme vahvistussähköpostin osoitteeseen %@";
 "chat_verify_alert_ok_button" = "Ok";
 "chat_verify_alert_resend_button" = "Lähetä uudelleen";
 "chat_verify_alert_title" = "Vahvista sähköpostiosoitteesi keskustellaksesi";
+"chat_with_yourself_alert_msg" = "Et voi aloittaa keskustelua omasta tuotteestasi.";
+"chat_with_yourself_alert_ok" = "Ok";
 "commercializer_create_from_settings" = "Create a Free Commercial";
 "commercializer_display_share_alert" = "Share this masterpiece";
 "commercializer_display_share_label" = "Share your masterpiece with the world and watch the offers come rolling in";
@@ -201,7 +205,7 @@
 "common_time_week_ago_label" = "viikko sitten";
 "common_time_weeks_ago_label" = "%d viikkoa sitten";
 "common_user_not_available" = "Hups! Käyttäjää ei löytynyt.";
-"common_user_review_not_available" = "Oops! Review not found.";
+"common_user_review_not_available" = "Hups! Arvostelua ei löytynyt.";
 "common_yes" = "Kyllä";
 "contact_body_field_hint" = "Viesti";
 "contact_choose_subject_dialog_title" = "Valitse aihe";
@@ -406,6 +410,7 @@
 "product_onboarding_finger_tap_label" = "Napauta mennäksesi seuraavaan tuotteeseen";
 "product_onboarding_more_info_label" = "Napauta katsoaksesi lisätietoja";
 "product_onboarding_quick_answers_label" = "Paina pohjassa nähdäksesi muita vaihtoehtoja";
+"product_onboarding_show_again_button_title" = "Ohjeet selailuun";
 "product_open_commercial_button" = "Commercial";
 "product_popular_near_you" = "Suosittuja lähelläsi";
 "product_post_camera_first_time_alert_subtitle" = "Nappaa hyvä kuva ja ala tienata!";
@@ -543,6 +548,7 @@
 "rating_list_rating_type_buyer_text_label" = "%@ osti tuotteen";
 "rating_list_rating_type_conversation_text_label" = "%@ keskusteli tuotteesta";
 "rating_list_rating_type_seller_text_label" = "%@ myi tuotteen";
+"rating_list_title" = "Arvostelut";
 "rating_view_dont_ask_again_button" = "Älä kysy uudelleen";
 "rating_view_love_it_label" = "Rakastan sitä!";
 "rating_view_needs_improvements_label" = "Tarvitsee parannuksia";
@@ -663,10 +669,12 @@
 "trending_searches_Title" = "Nousussa olevat haut";
 "unblock_user_error_generic" = "Tämän käyttäjän estoa poistettaessa tapahtui virhe.";
 "unblock_user_success_message" = "Käyttäjän esto on poistettu!";
-"user_rating_message_w_name" = "Napauta tähtiä antaaksesi arviosi ja kertoaksesi meille sujuiko kaikki hyvin käyttäjän %@ kanssa. Voit päivittää arviota milloin haluat.";
-"user_rating_message_wo_name" = "Napauta tähtiä antaaksesi arviosi ja kertoaksesi meille sujuiko kaikki hyvin tämän käyttäjän kanssa. Voit päivittää arviota milloin haluat.";
+"user_rating_message_w_name" = "Onko kokemuksesi käyttäjän %@ kanssa viiden tähden arvoinen? Kerro meille, miten asiat sujuivat.";
+"user_rating_message_wo_name" = "Onko kokemuksesi tämän käyttäjän kanssa viiden tähden arvoinen? Kerro meille, miten asiat sujuivat.";
 "user_rating_review_button" = "Julkaise arvostelu";
-"user_rating_review_placeholder" = "Kirjoita arvostelu (pakollinen)";
-"user_rating_review_placeholder_optional" = "Kirjoita arvostelu (vapaaehtoinen)";
+"user_rating_review_info" = "Voit päivittää tämän arvostelun milloin tahansa haluat.";
+"user_rating_review_placeholder" = "Kirjoita kokemuksestasi";
+"user_rating_review_placeholder_mandatory" = "Kirjoita kokemuksestasi (pakollinen)";
+"user_rating_review_placeholder_optional" = "Kirjoita kokemuksestasi (vapaaehtoinen)";
 "user_rating_review_send_success" = "Arvostelusi on julkaistu!";
 "user_rating_title" = "Arvostele kokemuksesi seuraavan käyttäjän kanssa";

@@ -13,6 +13,6 @@ struct StagingEnvironment: Environment {
     let apiBaseURL = "http://api.stg.letgo.com"
     let bouncerBaseURL = "http://bouncer.stg.letgo.com/api"
     let commercializerBaseURL = "http://commercializer.stg.letgo.com"
-    let userRatingsBaseURL = "http://rating.stg.letgo.aws/api"
+    let userRatingsBaseURL = "http://rating.stg.letgo.com/api"
     let webSocketURL = "ws://chat.stg.letgo.com/socket"
 }

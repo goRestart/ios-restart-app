@@ -93,7 +93,7 @@ platform :ios do
 
     badge(shield: "#{version_number}-#{build_number}-blue", no_badge: true)
     # This reverts icons modified by badge method on the local copy
-    lg_revert_git(repository_path: nil, items_to_revert: "Ambatana/Icons*")
+    lg_revert_git(repository_path: nil, items_to_revert: "Ambatana/res/img/Icons*")
 
     gym(
       workspace: Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER] + "/" + ENV["XCODE_WORKSPACE"],
@@ -106,7 +106,7 @@ platform :ios do
     )
 
     # This reverts icons modified by badge method on the temp folder to avoid pushing them to repo
-    lg_revert_git(repository_path: repository_path, items_to_revert: "Ambatana/Icons*")
+    lg_revert_git(repository_path: repository_path, items_to_revert: "Ambatana/res/img/Icons*")
 
     changelog = lg_changelog(
       only_upcoming: true
@@ -114,7 +114,7 @@ platform :ios do
 
     crashlytics(
       ipa_path: Actions.lane_context[Actions::SharedValues::IPA_OUTPUT_PATH],
-      crashlytics_path: "./Crashlytics.framework",
+      crashlytics_path: "./Pods/Crashlytics/Crashlytics.framework",
       api_token: 'da82303e33e3a2dc304cdccaa4e19dba00334a34',
       build_secret: '964f1bd4540dbfa7d78d93439cf95e216ec156e046a4e46db36778084770ebbe',
       notes: "#{changelog}",
