@@ -890,7 +890,16 @@ private extension ChatViewModel {
         preSendMessageCompletion = { [weak self] (text: String, isQuickAnswer: Bool, type: ChatMessageType) in
             self?.delegate?.vmHideKeyboard(false)
             self?.delegate?.vmRequestLogin() { [weak self] in
-                self?.preSendMessageCompletion = nil
+                guard let strongSelf = self else { return }
+                strongSelf.preSendMessageCompletion = nil
+                guard sellerId != strongSelf.myUserRepository.myUser?.objectId else {
+                    //A user cannot have a conversation with himself
+                    strongSelf.delegate?.vmShowAutoFadingMessage(LGLocalizedString.chatWithYourselfAlertMsg) {
+                        [weak self] in
+                        self?.delegate?.vmClose()
+                    }
+                    return
+                }
                 self?.afterRetrieveMessagesCompletion = { [weak self] in
                     self?.afterRetrieveMessagesCompletion = nil
                     guard let messages = self?.messages.value where messages.isEmpty else { return }
