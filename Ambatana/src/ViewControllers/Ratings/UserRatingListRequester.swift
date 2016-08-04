@@ -28,6 +28,9 @@ class UserRatingListRequester {
 
     weak var delegate: UserRatingListRequesterDelegate?
 
+
+    // MARK: Lifecycle
+
     convenience init(userId: String) {
         self.init(userRatingRepository: Core.userRatingRepository, userId: userId)
     }
@@ -36,10 +39,19 @@ class UserRatingListRequester {
         self.userRatingRepository = userRatingRepository
         self.userId = userId
     }
+
+
+    // MARK: public methods
+
+    func reportRating(rating: UserRating, completion: UserRatingEmptyCompletion?) {
+        userRatingRepository.reportRating(rating, completion: completion)
+    }
 }
 
-extension UserRatingListRequester: Paginable {
 
+// MARK: Paginable
+
+extension UserRatingListRequester: Paginable {
     func retrievePage(page: Int) {
         isLoading = true
         delegate?.requesterIsLoadingUserRatings(isLoading, firstPage: nextPage == 0)

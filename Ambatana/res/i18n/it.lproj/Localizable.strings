@@ -114,6 +114,7 @@
 "chat_message_load_generic_error" = "Si è verificato un errore durante il recupero del contenuto della tua conversazione. Riprova più tardi.";
 "chat_product_inactive_label" = "Prodotto inattivo";
 "chat_product_sold_label" = "Prodotto venduto";
+"chat_related_products_title" = "POTRESTI ESSERE INTERESSATO A:";
 "chat_safety_tips" = "Consigli utili";
 "chat_safety_tips_message" = "• Incontra di persona e paga in contanti.\n\n• Continua le conversazioni nella chat di letgo.\n\n• Troppo bello per essere vero? Fai attenzione!";
 "chat_safety_tips_tip_1" = "Dopo aver concluso l'affare, incontrati di persona e paga in contanti.";
@@ -128,10 +129,13 @@
 "chat_user_info_name" = "Ciao, sono %@";
 "chat_user_info_verified_with" = "Verificato con: ";
 "chat_user_rating_button_title" = "Recensione";
+"chat_user_rating_button_tooltip" = "Recensisci questo utente";
 "chat_verify_alert_message" = "Abbiamo inviato un'email di verifica all'indirizzo %@";
 "chat_verify_alert_ok_button" = "Ok";
 "chat_verify_alert_resend_button" = "Reinvia";
 "chat_verify_alert_title" = "Verifica il tuo indirizzo email per chattare";
+"chat_with_yourself_alert_msg" = "Non puoi iniziare una conversazione riguardante il tuo prodotto.";
+"chat_with_yourself_alert_ok" = "Ok";
 "commercializer_create_from_settings" = "Create a Free Commercial";
 "commercializer_display_share_alert" = "Share this masterpiece";
 "commercializer_display_share_label" = "Share your masterpiece with the world and watch the offers come rolling in";
@@ -201,7 +205,7 @@
 "common_time_week_ago_label" = "una settimana fa";
 "common_time_weeks_ago_label" = "%d settimane fa";
 "common_user_not_available" = "Ops! Utente non trovato.";
-"common_user_review_not_available" = "Oops! Review not found.";
+"common_user_review_not_available" = "Ops! Recensione non trovata.";
 "common_yes" = "Sì";
 "contact_body_field_hint" = "Messaggio";
 "contact_choose_subject_dialog_title" = "Scegli un oggetto";
@@ -406,6 +410,7 @@
 "product_onboarding_finger_tap_label" = "Tocca per passare al prodotto successivo";
 "product_onboarding_more_info_label" = "Tocca per vedere altre informazioni";
 "product_onboarding_quick_answers_label" = "Tieni premuto per visualizzare altre opzioni";
+"product_onboarding_show_again_button_title" = "Come navigare";
 "product_open_commercial_button" = "Commercial";
 "product_popular_near_you" = "Popolari nella tua zona";
 "product_post_camera_first_time_alert_subtitle" = "Scatta una bella foto e inizia a guadagnare!";
@@ -543,6 +548,7 @@
 "rating_list_rating_type_buyer_text_label" = "%@ ha acquistato un prodotto";
 "rating_list_rating_type_conversation_text_label" = "%@ ha chattato riguardo a un prodotto";
 "rating_list_rating_type_seller_text_label" = "%@ ha venduto un prodotto";
+"rating_list_title" = "Recensioni";
 "rating_view_dont_ask_again_button" = "Non chiedermelo ancora";
 "rating_view_love_it_label" = "Lo adoro!";
 "rating_view_needs_improvements_label" = "Ha bisogno di miglioramenti";
@@ -663,10 +669,12 @@
 "trending_searches_Title" = "Ricerche di tendenza";
 "unblock_user_error_generic" = "Si è verificato un errore durante il tentativo di sbloccare questo utente.";
 "unblock_user_success_message" = "L'utente è stato sbloccato!";
-"user_rating_message_w_name" = "Tocca le stelle per dare un giudizio e farci sapere com'è andata la tua esperienza con %@. Potrai aggiornarlo quando desideri.";
-"user_rating_message_wo_name" = "Tocca le stelle per dare un giudizio e farci sapere com'è andata la tua esperienza con questo utente. Potrai aggiornarlo quando desideri.";
+"user_rating_message_w_name" = "La tua esperienza con %@ merita cinque stelle? Raccontaci come è andata.";
+"user_rating_message_wo_name" = "La tua esperienza con questi utente merita cinque stelle? Raccontaci come è andata.";
 "user_rating_review_button" = "Pubblica recensione";
-"user_rating_review_placeholder" = "Lascia una recensione (obbligatorio)";
-"user_rating_review_placeholder_optional" = "Lascia una recensione (facoltativo)";
+"user_rating_review_info" = "Potrai aggiornare questa recensione quando lo desideri.";
+"user_rating_review_placeholder" = "Raccontaci la tua esperienza";
+"user_rating_review_placeholder_mandatory" = "Raccontaci la tua esperienza (obbligatorio)";
+"user_rating_review_placeholder_optional" = "Raccontaci la tua esperienza (facoltativo)";
 "user_rating_review_send_success" = "La tua recensione è stata pubblicata!";
 "user_rating_title" = "Valuta la tua esperienza con";

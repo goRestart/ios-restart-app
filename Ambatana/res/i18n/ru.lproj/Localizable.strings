@@ -114,6 +114,7 @@
 "chat_message_load_generic_error" = "При загрузке диалога произошла ошибка. Пожалуйста, попробуйте еще раз позже.";
 "chat_product_inactive_label" = "Товар неактивен";
 "chat_product_sold_label" = "Продано";
+"chat_related_products_title" = "ВАС МОЖЕТ ЗАИНТЕРЕСОВАТЬ:";
 "chat_safety_tips" = "Советами по безопасности";
 "chat_safety_tips_message" = "• Встречайтесь лично и платите наличными. \n\n• Общайтесь в чате letgo. \n\n• Слишком хорошее предложение, чтобы быть правдой? Будьте осторожны!";
 "chat_safety_tips_tip_1" = "После заключения сделки встретьтесь лично и платите наличными.";
@@ -128,10 +129,13 @@
 "chat_user_info_name" = "Привет, я %@";
 "chat_user_info_verified_with" = "Проверен: ";
 "chat_user_rating_button_title" = "Отзыв";
+"chat_user_rating_button_tooltip" = "Оцените этого пользователя";
 "chat_verify_alert_message" = "Вы отправили письмо-подтверждение на %@";
 "chat_verify_alert_ok_button" = "Ok";
 "chat_verify_alert_resend_button" = "Перевыслать";
 "chat_verify_alert_title" = "Подтвердите ваш е-мейл для общения";
+"chat_with_yourself_alert_msg" = "You can't start a conversation about your own product.";
+"chat_with_yourself_alert_ok" = "Ok";
 "commercializer_create_from_settings" = "Create a Free Commercial";
 "commercializer_display_share_alert" = "Share this masterpiece";
 "commercializer_display_share_label" = "Share your masterpiece with the world and watch the offers come rolling in";
@@ -201,7 +205,7 @@
 "common_time_week_ago_label" = "неделю назад";
 "common_time_weeks_ago_label" = "%d недель назад";
 "common_user_not_available" = "Упс! Пользователь не найден.";
-"common_user_review_not_available" = "Oops! Review not found.";
+"common_user_review_not_available" = "Упс! Отзыв не найден.";
 "common_yes" = "Да";
 "contact_body_field_hint" = "Сообщение";
 "contact_choose_subject_dialog_title" = "Выберите тему";
@@ -406,6 +410,7 @@
 "product_onboarding_finger_tap_label" = "Коснитесь экрана, чтобы перейти к следующему товару";
 "product_onboarding_more_info_label" = "Коснитесь экрана, чтобы увидеть подробную информацию";
 "product_onboarding_quick_answers_label" = "Держите, чтобы увидеть другие опции";
+"product_onboarding_show_again_button_title" = "Как смотреть товары";
 "product_open_commercial_button" = "Commercial";
 "product_popular_near_you" = "Популярное рядом с вами";
 "product_post_camera_first_time_alert_subtitle" = "Сделайте хорошее фото и получите деньги!";
@@ -543,6 +548,7 @@
 "rating_list_rating_type_buyer_text_label" = "%@ купил товар";
 "rating_list_rating_type_conversation_text_label" = "%@ спрашивал о товаре";
 "rating_list_rating_type_seller_text_label" = "%@ продал товар";
+"rating_list_title" = "Отзывов";
 "rating_view_dont_ask_again_button" = "Не спрашивать снова";
 "rating_view_love_it_label" = "Мне нравится!";
 "rating_view_needs_improvements_label" = "Нуждается в усовершенствованиях";
@@ -663,10 +669,12 @@
 "trending_searches_Title" = "Популярные запросы";
 "unblock_user_error_generic" = "При разблокировке произошла ошибка.";
 "unblock_user_success_message" = "Пользователь разблокирован!";
-"user_rating_message_w_name" = "Нажмите на звезды для оценки и расскажите, если ваша сделка с %@ прошла хорошо. Вы можете обновить оценку в любое время.";
-"user_rating_message_wo_name" = "Нажмите на звезды для оценки и расскажите, если ваша сделка с этим пользователем прошла хорошо. Вы можете обновить оценку в любое время.";
+"user_rating_message_w_name" = "Ваша сделка с %@ прошла на 5 звезд? Расскажите нам о ней.";
+"user_rating_message_wo_name" = "Ваша сделка с этим пользователем прошла на 5 звезд? Расскажите нам о ней.";
 "user_rating_review_button" = "Опубликовать отзыв";
-"user_rating_review_placeholder" = "Оставить отзыв (обязательно)";
-"user_rating_review_placeholder_optional" = "Оставьте комментарий (опционально)";
+"user_rating_review_info" = "Вы можете обновить этот отзыв в любое время.";
+"user_rating_review_placeholder" = "Опишите свой опыт (обязательно)";
+"user_rating_review_placeholder_mandatory" = "Опишите ваш опыт (обязательно)";
+"user_rating_review_placeholder_optional" = "Опишите свой опыт (опционально)";
 "user_rating_review_send_success" = "Ваш отзыв опубликован!";
 "user_rating_title" = "Оцените свое общение с";

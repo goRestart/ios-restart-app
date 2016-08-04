@@ -475,6 +475,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("chat_user_rating_button_title", comment: "")
 	}
 
+	static var chatUserRatingButtonTooltip: String {
+		return NSLocalizedString("chat_user_rating_button_tooltip", comment: "")
+	}
+
 	static var chatSafetyTips: String {
 		return NSLocalizedString("chat_safety_tips", comment: "")
 	}
@@ -541,6 +545,18 @@ struct LGLocalizedString {
 
 	static var chatUserInfoVerifiedWith: String {
 		return NSLocalizedString("chat_user_info_verified_with", comment: "")
+	}
+
+	static var chatRelatedProductsTitle: String {
+		return NSLocalizedString("chat_related_products_title", comment: "")
+	}
+
+	static var chatWithYourselfAlertMsg: String {
+		return NSLocalizedString("chat_with_yourself_alert_msg", comment: "")
+	}
+
+	static var chatWithYourselfAlertOk: String {
+		return NSLocalizedString("chat_with_yourself_alert_ok", comment: "")
 	}
 
 	static var commercializerDisplayTitleLabel: String {
@@ -1711,6 +1727,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("product_onboarding_quick_answers_label", comment: "")
 	}
 
+	static var productOnboardingShowAgainButtonTitle: String {
+		return NSLocalizedString("product_onboarding_show_again_button_title", comment: "")
+	}
+
 	static var productCreateCommercialButton: String {
 		return NSLocalizedString("product_create_commercial_button", comment: "")
 	}
@@ -2089,6 +2109,10 @@ struct LGLocalizedString {
 
 	static func ratingListRatingTypeSellerTextLabel(var1: String) -> String {
 		return String(format: NSLocalizedString("rating_list_rating_type_seller_text_label", comment: ""), var1)
+	}
+
+	static var ratingListTitle: String {
+		return NSLocalizedString("rating_list_title", comment: "")
 	}
 
 	static var ratingViewDontAskAgainButton: String {
@@ -2583,8 +2607,16 @@ struct LGLocalizedString {
 		return NSLocalizedString("user_rating_message_wo_name", comment: "")
 	}
 
+	static var userRatingReviewInfo: String {
+		return NSLocalizedString("user_rating_review_info", comment: "")
+	}
+
 	static var userRatingReviewPlaceholder: String {
 		return NSLocalizedString("user_rating_review_placeholder", comment: "")
+	}
+
+	static var userRatingReviewPlaceholderMandatory: String {
+		return NSLocalizedString("user_rating_review_placeholder_mandatory", comment: "")
 	}
 
 	static var userRatingReviewPlaceholderOptional: String {

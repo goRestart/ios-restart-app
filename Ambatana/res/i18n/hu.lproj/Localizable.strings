@@ -114,6 +114,7 @@
 "chat_message_load_generic_error" = "Hiba történt a beszélgetésed adatainak begyűjtése során. Próbálkozz újra később.";
 "chat_product_inactive_label" = "A portéka inaktív";
 "chat_product_sold_label" = "Portéka eladva";
+"chat_related_products_title" = "TALÁN ÉRDEKEL:";
 "chat_safety_tips" = "Biztonsági tanácsaink";
 "chat_safety_tips_message" = "• Találkozzatok személyesen, készpénzt használjatok.\n\n• A letgo chaten beszéljétek meg a tranzakciót.\n\n• Túl szép, hogy igaz legyen? Vigyázz!";
 "chat_safety_tips_tip_1" = "Ha megegyeztetek, találkozzatok személyesen és készpénzt használjatok.";
@@ -128,10 +129,13 @@
 "chat_user_info_name" = "Szia, %@ vagyok";
 "chat_user_info_verified_with" = "Jóváhagyva ezzel: ";
 "chat_user_rating_button_title" = "Értékelés";
+"chat_user_rating_button_tooltip" = "Felhasználó értékelése";
 "chat_verify_alert_message" = "Visszaigazoló e-mailt küldtünk a következő címre: %@";
 "chat_verify_alert_ok_button" = "OK";
 "chat_verify_alert_resend_button" = "Újraküldés";
 "chat_verify_alert_title" = "A csevegéshez igazold vissza e-mail címedet";
+"chat_with_yourself_alert_msg" = "You can't start a conversation about your own product.";
+"chat_with_yourself_alert_ok" = "Ok";
 "commercializer_create_from_settings" = "Create a Free Commercial";
 "commercializer_display_share_alert" = "Share this masterpiece";
 "commercializer_display_share_label" = "Share your masterpiece with the world and watch the offers come rolling in";
@@ -201,7 +205,7 @@
 "common_time_week_ago_label" = "egy héttel ezelőtt";
 "common_time_weeks_ago_label" = "%d héttel ezelőtt";
 "common_user_not_available" = "Hoppá! A felhasználó nem található.";
-"common_user_review_not_available" = "Oops! Review not found.";
+"common_user_review_not_available" = "Hoppá! Az értékelés nem található.";
 "common_yes" = "Igen";
 "contact_body_field_hint" = "Üzenet";
 "contact_choose_subject_dialog_title" = "Válassz témát";
@@ -406,6 +410,7 @@
 "product_onboarding_finger_tap_label" = "Koppintással a következő portékára ugorhatsz";
 "product_onboarding_more_info_label" = "Koppintásra megjelennek a részletek";
 "product_onboarding_quick_answers_label" = "További lehetőségekért tartsd nyomva";
+"product_onboarding_show_again_button_title" = "A böngészés menete";
 "product_open_commercial_button" = "Commercial";
 "product_popular_near_you" = "Népszerű a közeledben";
 "product_post_camera_first_time_alert_subtitle" = "Készíts egy jó képet, és kezd pénzt keresni!";
@@ -543,6 +548,7 @@
 "rating_list_rating_type_buyer_text_label" = "%@ vásárolt";
 "rating_list_rating_type_conversation_text_label" = "%@ beszélgetett";
 "rating_list_rating_type_seller_text_label" = "%@ eladott";
+"rating_list_title" = "Értékelések";
 "rating_view_dont_ask_again_button" = "Ne kérdezz többet";
 "rating_view_love_it_label" = "Tetszik!";
 "rating_view_needs_improvements_label" = "Javításokra van szükség";
@@ -663,10 +669,12 @@
 "trending_searches_Title" = "Felkapott kulcsszavak";
 "unblock_user_error_generic" = "Hiba történt a blokkolás feloldása során.";
 "unblock_user_success_message" = "A blokkolás feloldva!";
-"user_rating_message_w_name" = "Adj értékelést a csillagokkal, és meséld el, %@ milyen üzletfélnek bizonyult. Később bármikor módosíthatod.";
-"user_rating_message_wo_name" = "Adj értékelést a csillagokkal, és meséld el, ez a felhasználó milyen üzletfélnek  bizonyult. Később bármikor módosíthatod.";
+"user_rating_message_w_name" = "%@ öt csillagot érdemel? Meséld el, hogy ment!";
+"user_rating_message_wo_name" = "Ez a felhasználó öt csillagot érdemel? Meséld el, hogy ment!";
 "user_rating_review_button" = "Értékelés beküldése";
-"user_rating_review_placeholder" = "Hagyj értékelést (kötelező)";
-"user_rating_review_placeholder_optional" = "Hagyj értékelést (nem kötelező)";
+"user_rating_review_info" = "Értékelésedet bármikor frissítheted.";
+"user_rating_review_placeholder" = "Meséld el tapasztalataidat";
+"user_rating_review_placeholder_mandatory" = "Számolj be tapasztalataidról (kötelező)";
+"user_rating_review_placeholder_optional" = "Számolj be tapasztalataidról (nem kötelező)";
 "user_rating_review_send_success" = "Értékelésed beküldve!";
 "user_rating_title" = "Mondd el, milyen volt";

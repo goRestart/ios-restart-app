@@ -143,11 +143,8 @@
                     <constraint firstItem="UtL-Fl-g8p" firstAttribute="leading" secondItem="gNQ-wo-Y1G" secondAttribute="leading" id="76h-uJ-UMb"/>
                     <constraint firstAttribute="trailingMargin" secondItem="4XA-8j-HPJ" secondAttribute="trailing" constant="8" id="Dd2-tq-4aI"/>
                     <constraint firstItem="gNQ-wo-Y1G" firstAttribute="top" secondItem="4XA-8j-HPJ" secondAttribute="bottom" constant="8" id="FvP-jb-ymt"/>
-                    <constraint firstItem="UtL-Fl-g8p" firstAttribute="leading" secondItem="6RB-3Q-VtW" secondAttribute="leading" id="IIs-Nn-3gQ"/>
-                    <constraint firstItem="6RB-3Q-VtW" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" id="JZ4-rw-hvw"/>
                     <constraint firstAttribute="trailingMargin" secondItem="gNQ-wo-Y1G" secondAttribute="trailing" constant="8" id="PFp-j4-R5t"/>
                     <constraint firstItem="gNQ-wo-Y1G" firstAttribute="leading" secondItem="4XA-8j-HPJ" secondAttribute="leading" id="QSa-ly-Qzn"/>
-                    <constraint firstItem="gNQ-wo-Y1G" firstAttribute="leading" secondItem="6RB-3Q-VtW" secondAttribute="leading" id="UMO-H1-JKr"/>
                     <constraint firstItem="Ti3-xc-x0Q" firstAttribute="top" secondItem="6RB-3Q-VtW" secondAttribute="bottom" constant="5" id="Uco-YJ-hZr"/>
                     <constraint firstItem="UtL-Fl-g8p" firstAttribute="trailing" secondItem="H2p-sc-9uM" secondAttribute="trailingMargin" constant="8" id="b8i-Ih-lw3"/>
                     <constraint firstItem="aJR-yk-Cb1" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" id="bbu-RL-I1I"/>
@@ -159,19 +156,13 @@
                     <constraint firstItem="Ti3-xc-x0Q" firstAttribute="centerY" secondItem="aJR-yk-Cb1" secondAttribute="centerY" id="lRg-0b-TSs"/>
                     <constraint firstItem="Ti3-xc-x0Q" firstAttribute="leading" secondItem="aJR-yk-Cb1" secondAttribute="trailing" constant="8" id="w1v-5v-1b4"/>
                 </constraints>
-                <variation key="default">
-                    <mask key="constraints">
-                        <exclude reference="JZ4-rw-hvw"/>
-                        <exclude reference="UMO-H1-JKr"/>
-                        <exclude reference="IIs-Nn-3gQ"/>
-                    </mask>
-                </variation>
             </tableViewCellContentView>
             <connections>
                 <outlet property="actionsButton" destination="9ax-8S-Slv" id="WV6-70-wQ5"/>
                 <outlet property="descriptionLabel" destination="gNQ-wo-Y1G" id="Ma9-rv-6Yh"/>
                 <outlet property="ratingTypeLabel" destination="4XA-8j-HPJ" id="JJW-gJ-B8r"/>
                 <outlet property="timeLabel" destination="UtL-Fl-g8p" id="4Bf-SJ-Efy"/>
+                <outlet property="timeLabelTopConstraint" destination="gXK-tq-0WR" id="9Zr-4T-qAw"/>
                 <outlet property="userAvatar" destination="aJR-yk-Cb1" id="Fft-Dw-xkZ"/>
                 <outlet property="userNameLabel" destination="6RB-3Q-VtW" id="C7y-ui-Y2u"/>
                 <outletCollection property="stars" destination="Jf7-9l-I0y" collectionClass="NSMutableArray" id="gKa-uD-GSk"/>

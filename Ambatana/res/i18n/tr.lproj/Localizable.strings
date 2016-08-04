@@ -114,6 +114,7 @@
 "chat_message_load_generic_error" = "Sohbet bilgilerine erişirken bir hata oluştu. Lütfen tekrar dene.";
 "chat_product_inactive_label" = "Aktif değil";
 "chat_product_sold_label" = "Ürün Satıldı";
+"chat_related_products_title" = "ŞU ÜRÜNLER DE İLGİNİ ÇEKEBİLİR:";
 "chat_safety_tips" = "Güvenlik önerilerimiz";
 "chat_safety_tips_message" = "• Birebir görüş ve elden nakit öde. \n \n• Mesajlaşmayı letgo sistemi içerisinde yap.\n\n• Abartılı veya şüpheli bir durum mu var? Dikkatli ol!";
 "chat_safety_tips_tip_1" = "Anlaştıktan sonra kişi ile yüz yüze görüş ve nakit ödeme yap.";
@@ -128,10 +129,13 @@
 "chat_user_info_name" = "Merhaba, Ben %@";
 "chat_user_info_verified_with" = "Şununla doğrulandı: ";
 "chat_user_rating_button_title" = "Değerlendirme";
+"chat_user_rating_button_tooltip" = "Bu kullanıcıyı değerlendir";
 "chat_verify_alert_message" = "%@ adresine doğrulama e-postası gönderdik";
 "chat_verify_alert_ok_button" = "OK";
 "chat_verify_alert_resend_button" = "Tekrar Gönder";
 "chat_verify_alert_title" = "Mesajlaşmak için e-postanı doğrula";
+"chat_with_yourself_alert_msg" = "You can't start a conversation about your own product.";
+"chat_with_yourself_alert_ok" = "Ok";
 "commercializer_create_from_settings" = "Create a Free Commercial";
 "commercializer_display_share_alert" = "Share this masterpiece";
 "commercializer_display_share_label" = "Share your masterpiece with the world and watch the offers come rolling in";
@@ -201,7 +205,7 @@
 "common_time_week_ago_label" = "bir hafta önce";
 "common_time_weeks_ago_label" = "%d hafta önce";
 "common_user_not_available" = "Oops! Kullanıcı bulunamadı.";
-"common_user_review_not_available" = "Oops! Review not found.";
+"common_user_review_not_available" = "Oops! Yorum bulunamadı.";
 "common_yes" = "Evet";
 "contact_body_field_hint" = "Mesaj";
 "contact_choose_subject_dialog_title" = "Konu seç";
@@ -406,6 +410,7 @@
 "product_onboarding_finger_tap_label" = "Bir sonraki ürüne gitmek için dokun";
 "product_onboarding_more_info_label" = "Daha fazla bilgi için dokun";
 "product_onboarding_quick_answers_label" = "Diğer seçenekler için parmağını basılı tut";
+"product_onboarding_show_again_button_title" = "Gezinme nasıl yapılır";
 "product_open_commercial_button" = "Commercial";
 "product_popular_near_you" = "Yakınlarında popüler olanlar";
 "product_post_camera_first_time_alert_subtitle" = "Güzel bir fotoğraf çek ve para kazanmaya başla!";
@@ -543,6 +548,7 @@
 "rating_list_rating_type_buyer_text_label" = "%@ bir ürün aldı";
 "rating_list_rating_type_conversation_text_label" = "%@ bir ürün hakkında sohbet etti";
 "rating_list_rating_type_seller_text_label" = "%@ bir ürün sattı";
+"rating_list_title" = "Yorumlar";
 "rating_view_dont_ask_again_button" = "BUNU BİR DAHA SORMA";
 "rating_view_love_it_label" = "SEVİYORUM";
 "rating_view_needs_improvements_label" = "GELİŞTİRİLMESİ GEREKİYOR";
@@ -663,10 +669,12 @@
 "trending_searches_Title" = "Popüler Aramalar";
 "unblock_user_error_generic" = "Kullanıcı engeli kaldırılırken bir hata oluştu.";
 "unblock_user_success_message" = "Kullanıcı engeli kaldırıldı!";
-"user_rating_message_w_name" = "Yıldızlara dokunup değerlendirme yaparak bize %@ ile deneyimini söyle. Ne zaman istersen güncelleyebilirsin.";
-"user_rating_message_wo_name" = "Yıldızlara dokunup değerlendirme yaparak bize bu kullanıcı ile deneyimini söyle. Ne zaman istersen güncelleyebilirsin.";
+"user_rating_message_w_name" = "%@ ile deneyimin nasıldı? 5 yıldız vermek ister misin?";
+"user_rating_message_wo_name" = "Bu kullanıcı ile deneyimin nasıldı? 5 yıldız vermek ister misin?";
 "user_rating_review_button" = "Değerlendirme yayınla";
-"user_rating_review_placeholder" = "Değerlendirme yap (gerekli)";
-"user_rating_review_placeholder_optional" = "Değerlendirme yap (isteğe bağlı)";
+"user_rating_review_info" = "Bu değerlendirmeyi istediğin zaman güncelleyebilirsin.";
+"user_rating_review_placeholder" = "Deneyimin hakkında yorum yap";
+"user_rating_review_placeholder_mandatory" = "Deneyimin hakkında yorum yap (zorunlu)";
+"user_rating_review_placeholder_optional" = "Deneyimin hakkında yorum yap (isteğe bağlı)";
 "user_rating_review_send_success" = "Değerlendirmen yayınlandı!";
 "user_rating_title" = "Bu kullanıcı ile deneyimini değerlendir";

@@ -349,6 +349,9 @@
 // Title for the review user button
 "chat_user_rating_button_title" = "Review";
 
+// Text for the review user button tooltip
+"chat_user_rating_button_tooltip" = "Review this user";
+
 // Chat safety tips.
 "chat_safety_tips" = "Safety tips";
 
@@ -399,6 +402,15 @@
 
 // User info bubble to show information about the other user
 "chat_user_info_verified_with" = "Verified with: ";
+
+// Section inside chat that offers related products 
+"chat_related_products_title" = "YOU MIGHT BE INTERESTED IN:";
+
+// Alert to show when user started chat with himself
+"chat_with_yourself_alert_msg" = "You can't start a conversation about your own product.";
+
+// Alert to show when user started chat with himself ok button
+"chat_with_yourself_alert_ok" = "Ok";
 
 // Title for the commercializer display view
 "commercializer_display_title_label" = "Here's your finished commercial!";
@@ -1269,6 +1281,9 @@
 // Product onboarding, press & hold to quick answers label
 "product_onboarding_quick_answers_label" = "Hold to see other options";
 
+// Button to show again the Onboarding in the new Product Detail
+"product_onboarding_show_again_button_title" = "How to Browse";
+
 // Button to open Commercializer and create a promotional video of the product
 "product_create_commercial_button" = "Create Commercial";
 
@@ -1551,6 +1566,9 @@
 
 // Text for rating of type "seller" ( %s will be the username)
 "rating_list_rating_type_seller_text_label" = "%@ sold a product";
+
+// Title for rating list view
+"rating_list_title" = "Reviews";
 
 // Rating view don't ask button.  Check image @ "rating_view_title_label" segment
 "rating_view_dont_ask_again_button" = "Don't ask me again";
@@ -1916,16 +1934,22 @@
 "user_rating_title" = "Review your experience with";
 
 // Information message when rating a user
-"user_rating_message_w_name" = "Tap the stars to rate and tell us if your experience with %@ went well. You can update it whenever you want.";
+"user_rating_message_w_name" = "Does your experience with %@ get five stars? Tell us how it went.";
 
 // Information message when rating a user
-"user_rating_message_wo_name" = "Tap the stars to rate and tell us if your experience with this user went well. You can update it whenever you want.";
+"user_rating_message_wo_name" = "Does your experience with this user get five stars? Tell us how it went.";
+
+// Information about review comment when rating a user
+"user_rating_review_info" = "You can update this review whenever you want.";
 
 // Review message
-"user_rating_review_placeholder" = "Leave a review (required)";
+"user_rating_review_placeholder" = "Write about your experience";
+
+// Review message mandatory (1-3 stars)
+"user_rating_review_placeholder_mandatory" = "Write about your experience (required)";
 
 // Review message optional (when user selected 4-5 stars)
-"user_rating_review_placeholder_optional" = "Leave a review (optional)";
+"user_rating_review_placeholder_optional" = "Write about your experience (optional)";
 
 // Send review button
 "user_rating_review_button" = "Publish review";

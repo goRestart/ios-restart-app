@@ -114,6 +114,7 @@
 "chat_message_load_generic_error" = "Lỗi xảy ra trong khi hồi phục dữ liệu trò chuyện của bạn. Xin vui lòng thử lại sau.";
 "chat_product_inactive_label" = "Sản phẩm không có";
 "chat_product_sold_label" = "Sản phẩm đã bán";
+"chat_related_products_title" = "BẠN CÓ THỂ QUAN TÂM TỚI:";
 "chat_safety_tips" = "Lời khuyên an toàn";
 "chat_safety_tips_message" = "• Gặp trực tiếp và trả bằng tiền mặt.\n\n• Lưu giữ các cuộc hội thoại trên mục trò chuyện letgo\n\n• Giá quá hời? Hãy thận trọng!";
 "chat_safety_tips_tip_1" = "Sau khi chốt đơn, hãy gặp trực tiếp và trả bằng tiền mặt.";
@@ -128,10 +129,13 @@
 "chat_user_info_name" = "Xin chào, tôi là %@";
 "chat_user_info_verified_with" = "Xác nhận bằng: ";
 "chat_user_rating_button_title" = "Đánh giá";
+"chat_user_rating_button_tooltip" = "Đánh giá người dùng này";
 "chat_verify_alert_message" = "Chúng tôi đã gửi một email xác nhận tới %@";
 "chat_verify_alert_ok_button" = "Ok";
 "chat_verify_alert_resend_button" = "Gửi lại";
 "chat_verify_alert_title" = "Xác nhận email của bạn để trò chuyện";
+"chat_with_yourself_alert_msg" = "Bạn không thể bắt đầu cuộc trò chuyện về sản phẩm của chính mình.";
+"chat_with_yourself_alert_ok" = "Ok";
 "commercializer_create_from_settings" = "Create a Free Commercial";
 "commercializer_display_share_alert" = "Share this masterpiece";
 "commercializer_display_share_label" = "Share your masterpiece with the world and watch the offers come rolling in";
@@ -201,7 +205,7 @@
 "common_time_week_ago_label" = "một tuần trước";
 "common_time_weeks_ago_label" = "%d tuần trước";
 "common_user_not_available" = "Ồ! Không tìm thấy người dùng.";
-"common_user_review_not_available" = "Oops! Review not found.";
+"common_user_review_not_available" = "Ồ! Không tìm thấy đánh giá.";
 "common_yes" = "Có";
 "contact_body_field_hint" = "Tin nhắn";
 "contact_choose_subject_dialog_title" = "Chọn một tiêu đề";
@@ -406,6 +410,7 @@
 "product_onboarding_finger_tap_label" = "Nhấn để tới sản phẩm tiếp theo";
 "product_onboarding_more_info_label" = "Nhấn để xem thêm thông tin";
 "product_onboarding_quick_answers_label" = "Giữ để xem các lựa chọn khác";
+"product_onboarding_show_again_button_title" = "Cách Duyệt trang";
 "product_open_commercial_button" = "Commercial";
 "product_popular_near_you" = "Sản phẩm phổ biến gần bạn";
 "product_post_camera_first_time_alert_subtitle" = "Chụp một bức ảnh đẹp và bắt đầu kiếm tiền!";
@@ -543,6 +548,7 @@
 "rating_list_rating_type_buyer_text_label" = "%@ đã mua một sản phẩm";
 "rating_list_rating_type_conversation_text_label" = "%@ đã trò chuyện về một sản phẩm";
 "rating_list_rating_type_seller_text_label" = "%@ đã bán một sản phẩm";
+"rating_list_title" = "Đánh giá";
 "rating_view_dont_ask_again_button" = "Đừng hỏi lại tôi";
 "rating_view_love_it_label" = "Tôi thích!";
 "rating_view_needs_improvements_label" = "Cần cải thiện";
@@ -663,10 +669,12 @@
 "trending_searches_Title" = "Xu hướng Tìm kiếm";
 "unblock_user_error_generic" = "Có lỗi xảy ra trong khi bỏ chặn người dùng này.";
 "unblock_user_success_message" = "Người dùng đã bị chặn!";
-"user_rating_message_w_name" = "Nhấn vào ngôi sao để đánh giá và cho chúng tôi biết trải nghiệm của bạn với %@ có tốt hay không. Bạn có thể cập nhật đánh giá bất kỳ khi nào bạn muốn.";
-"user_rating_message_wo_name" = "Nhấn vào ngôi sao để đánh giá và cho chúng tôi biết trải nghiệm của bạn với người dùng này có tốt hay không. Bạn có thể cập nhật đánh giá bất kỳ khi nào bạn muốn.";
+"user_rating_message_w_name" = "Trải nghiệm của bạn với %@ có xứng đáng năm sao? Hãy cho chúng tôi biết.";
+"user_rating_message_wo_name" = "Trải nghiệm của bạn với người dùng này có xứng đáng năm sao? Hãy cho chúng tôi biết.";
 "user_rating_review_button" = "Đăng đánh giá";
-"user_rating_review_placeholder" = "Để lại đánh giá (bắt buộc)";
-"user_rating_review_placeholder_optional" = "Để lại đánh giá (không bắt buộc)";
+"user_rating_review_info" = "Bạn có thể cập nhật đánh giá bất cứ khi nào.";
+"user_rating_review_placeholder" = "Viết về trải nghiệm của bạn";
+"user_rating_review_placeholder_mandatory" = "Viết về trải nghiệm của bạn (bắt buộc)";
+"user_rating_review_placeholder_optional" = "Viết về trải nghiệm của bạn (không bắt buộc)";
 "user_rating_review_send_success" = "Đánh giá của bạn đã được đăng!";
 "user_rating_title" = "Đánh giá trải nghiệm của bạn với";

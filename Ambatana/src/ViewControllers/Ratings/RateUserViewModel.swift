@@ -33,7 +33,7 @@ struct RateUserData {
 }
 
 enum RateUserSource {
-    case Chat
+    case Chat, DeepLink, UserRatingList
 }
 
 protocol RateUserViewModelDelegate: BaseViewModelDelegate {
@@ -147,15 +147,20 @@ class RateUserViewModel: BaseViewModel {
             description.asObservable(), resultSelector: { $0 })
             .map { (loading, rating, description) in
                 guard !loading, let rating = rating else { return false }
-                guard rating < 4 else { return true } // 4-5 stars allows rating without description
+                guard rating < Constants.userRatingMinStarsToOptionalDescr else { return true }
                 guard let description = description where !description.isEmpty &&
                     description.characters.count <= Constants.userRatingDescriptionMaxLength else { return false }
                 return true
             }.bindTo(sendEnabled).addDisposableTo(disposeBag)
 
         rating.asObservable().map {
-                ($0 ?? 0) < 4 ? LGLocalizedString.userRatingReviewPlaceholder :
-                    LGLocalizedString.userRatingReviewPlaceholderOptional
+                if let stars = $0 {
+                    return stars < Constants.userRatingMinStarsToOptionalDescr ?
+                        LGLocalizedString.userRatingReviewPlaceholderMandatory :
+                        LGLocalizedString.userRatingReviewPlaceholderOptional
+                } else {
+                    return LGLocalizedString.userRatingReviewPlaceholder
+                }
             }.bindNext { [weak self] placeholder in
                 self?.delegate?.vmUpdateDescriptionPlaceholder(placeholder)
             }.addDisposableTo(disposeBag)
@@ -179,7 +184,7 @@ class RateUserViewModel: BaseViewModel {
     private func finishedRating(userRating: UserRating) {
         trackComplete(userRating)
         delegate?.vmShowAutoFadingMessage(LGLocalizedString.userRatingReviewSendSuccess) { [weak self] in
-            self?.navigator?.rateUserFinish()
+            self?.navigator?.rateUserFinish(withRating: self?.rating.value ?? 0)
         }
     }
 }
@@ -192,6 +197,10 @@ private extension EventParameterTypePage {
         switch source {
         case .Chat:
             self = .Chat
+        case .DeepLink:
+            self = .External
+        case .UserRatingList:
+            self = .UserRatingList
         }
     }
 }

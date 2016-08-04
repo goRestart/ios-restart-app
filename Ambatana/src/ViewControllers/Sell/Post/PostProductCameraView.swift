@@ -254,6 +254,7 @@ extension PostProductCameraView {
 
         fastCamera.scalesImage = false
         fastCamera.normalizesImageOrientations = true
+        fastCamera.interfaceRotatesWithOrientation = false
         fastCamera.delegate = self
         fastCamera.cameraFlashMode = viewModel.cameraFlashMode.value.fastttCameraFlash
         fastCamera.cameraDevice = viewModel.cameraSourceMode.value.fastttCameraDevice

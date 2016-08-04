@@ -13,6 +13,7 @@ struct Constants {
     static let passwordMaxLength = 20
     static let productDescriptionMaxLength = 1500
     static let userRatingDescriptionMaxLength = 250
+    static let userRatingMinStarsToOptionalDescr = 3
 
     // Map
     static let accurateRegionRadius = 1000.0    // meters

@@ -25,6 +25,7 @@ protocol ProductViewModelDelegate: class, BaseViewModelDelegate {
     func vmOpenPromoteProduct(promoteVM: PromoteProductViewModel)
     func vmOpenCommercialDisplay(displayVM: CommercialDisplayViewModel)
     func vmAskForRating()
+    func vmShowOnboarding()
 }
 
 
@@ -269,8 +270,7 @@ class ProductViewModel: BaseViewModel {
                     let availableTemplates = strongSelf.commercializerRepository.availableTemplatesFor(value,
                                                                                                        countryCode: code)
                     strongSelf.commercializerAvailableTemplatesCount = availableTemplates.count
-                    strongSelf.status.value = strongSelf.status.value
-                        .setCommercializable(availableTemplates.count > 0 && strongSelf.commercializerIsAvailable)
+                    strongSelf.refreshStatus()
                 }
 
                 let readyCommercials = value.filter {$0.status == .Ready }
@@ -304,31 +304,14 @@ class ProductViewModel: BaseViewModel {
             strongSelf.navBarButtons.value = strongSelf.buildNavBarButtons()
         }.addDisposableTo(disposeBag)
 
-        
-        isFavorite.asObservable().subscribeNext { [weak self] _ in
-            guard let strongSelf = self else { return }
-            strongSelf.navBarButtons.value = strongSelf.buildNavBarButtons()
-        }.addDisposableTo(disposeBag)
-        
         product.asObservable().subscribeNext { [weak self] product in
             guard let strongSelf = self else { return }
+
+            strongSelf.refreshStatus()
             
             strongSelf.isFavorite.value = product.favorite
             let socialTitle = LGLocalizedString.productShareBody
             strongSelf.socialMessage.value = SocialHelper.socialMessageWithTitle(socialTitle, product: product)
-            strongSelf.navBarButtons.value = strongSelf.buildNavBarButtons()
-          
-            let status = product.viewModelStatus
-            if let templates = strongSelf.commercializerAvailableTemplatesCount {
-                strongSelf.status.value = status.setCommercializable(templates > 0 && strongSelf.commercializerIsAvailable)
-            } else {
-                strongSelf.status.value = status
-            }
-            
-            strongSelf.productStatusBackgroundColor.value = status.bgColor
-            strongSelf.productStatusLabelText.value = status.string
-            strongSelf.productStatusLabelColor.value = status.labelColor
-
             strongSelf.productImageURLs.value = product.images.flatMap { return $0.fileURL }
 
             strongSelf.productTitle.value = product.title
@@ -348,6 +331,10 @@ class ProductViewModel: BaseViewModel {
             }.subscribeNext { [weak self] visible in
                 self?.statsViewVisible.value = visible
         }.addDisposableTo(disposeBag)
+
+        myUserRepository.rx_myUser.asObservable().bindNext { [weak self] _ in
+            self?.refreshStatus()
+        }.addDisposableTo(disposeBag)
     }
     
     private func distanceString(product: Product) -> String? {
@@ -356,9 +343,16 @@ class ProductViewModel: BaseViewModel {
         let distanceString = String(format: "%0.1f %@", arguments: [distance, DistanceType.systemDistanceType().string])
         return LGLocalizedString.productDistanceXFromYou(distanceString)
     }
+
+    private func refreshStatus() {
+        let productStatus = product.value.viewModelStatus
+        if let templates = commercializerAvailableTemplatesCount {
+            status.value = productStatus.setCommercializable(templates > 0 && commercializerIsAvailable)
+        } else {
+            status.value = productStatus
+        }
+    }
 }
-
-
 
 
 // MARK: - Public actions
@@ -378,20 +372,6 @@ extension ProductViewModel {
         } else {
             delegate?.vmOpenUser(userVM)
         }
-    }
-
-    func openProductLocation() -> UIViewController? {
-        // TODO: Refactor to return a view model as soon as ProductLocationViewController is refactored to MVVM
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        guard let vc = storyboard.instantiateViewControllerWithIdentifier("ProductLocationViewController")
-            as? ProductLocationViewController else { return nil }
-
-        let location = product.value.location
-        let coordinate = CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude)
-        vc.location = coordinate
-        vc.annotationTitle = product.value.name
-        vc.annotationSubtitle = product.value.postalAddress.zipCodeCityString
-        return vc
     }
 
     func markSold() {
@@ -599,6 +579,9 @@ extension ProductViewModel {
             guard let strongSelf = self else { return }
 
             var actions = [UIAction]()
+            
+            actions.append(strongSelf.buildOnboardingButton())
+            
             if isReportable {
                 actions.append(strongSelf.buildReportButton())
             }
@@ -668,6 +651,14 @@ extension ProductViewModel {
                 actions: alertActions)
             })
     }
+    
+    private func buildOnboardingButton() -> UIAction {
+        let title = LGLocalizedString.productOnboardingShowAgainButtonTitle
+        return UIAction(interface: .Text(title), action: { [weak self] in
+            KeyValueStorage.sharedInstance[.didShowProductDetailOnboarding] = false
+            self?.delegate?.vmShowOnboarding()
+        })
+    }
 
     private var socialShareMessage: SocialMessage {
         let title = LGLocalizedString.productShareBody
@@ -696,7 +687,6 @@ extension ProductViewModel {
                 guard let strongSelf = self else { return }
                 if let product = result.value {
                     strongSelf.product.value = product
-                    strongSelf.isFavorite.value = product.favorite
                 }
                 strongSelf.favoriteButtonEnabled.value = true
             }
@@ -705,7 +695,6 @@ extension ProductViewModel {
                 guard let strongSelf = self else { return }
                 if let product = result.value {
                     strongSelf.product.value = product
-                    strongSelf.isFavorite.value = product.favorite
                     self?.trackSaveFavoriteCompleted()
 
                     if RatingManager.sharedInstance.shouldShowRating {

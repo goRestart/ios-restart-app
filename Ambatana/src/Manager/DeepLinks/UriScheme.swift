@@ -25,38 +25,56 @@ struct UriScheme {
     }
 
     static func buildFromHost(host: UriSchemeHost, components: [String], params: [String : String]) -> UriScheme? {
+
+        let campaign = params["campaign"]
+        let medium = params["medium"]
+        let source = DeepLinkSource(string: params["source"])
+
         switch host {
         case .Home:
-            return UriScheme(deepLink: DeepLink.link(.Home))
+            return UriScheme(deepLink: DeepLink.link(.Home, campaign: campaign, medium: medium, source: source))
         case .Sell:
-            return UriScheme(deepLink: DeepLink.link(.Sell))
+            return UriScheme(deepLink: DeepLink.link(.Sell, campaign: campaign, medium: medium, source: source))
         case .Product, .Products:
             guard let productId = components.first else { return nil }
-            return UriScheme(deepLink: DeepLink.link(.Product(productId: productId)))
+            return UriScheme(deepLink: DeepLink.link(.Product(productId: productId), campaign: campaign, medium: medium,
+                source: source))
         case .User:
             guard let userId = components.first else { return nil }
-            return UriScheme(deepLink: DeepLink.link(.User(userId: userId)))
+            return UriScheme(deepLink: DeepLink.link(.User(userId: userId), campaign: campaign, medium: medium,
+                source: source))
         case .Chat:
             if let conversationId = params["c"] {
                 // letgo://chat/?c=12345 where c=conversation_id
-                return UriScheme(deepLink: DeepLink.link(.Conversation(data: .Conversation(conversationId: conversationId))))
+                return UriScheme(deepLink: DeepLink.link(.Conversation(data: .Conversation(conversationId: conversationId)),
+                    campaign: campaign, medium: medium, source: source))
             } else if let productId = params["p"], buyerId = params["b"] {
                 // letgo://chat/?p=12345&b=abcde where p=product_id, b=buyer_id (user)
-                return UriScheme(deepLink: DeepLink.link(.Conversation(data: .ProductBuyer(productId: productId, buyerId: buyerId))))
+                return UriScheme(deepLink: DeepLink.link(.Conversation(data: .ProductBuyer(productId: productId,
+                    buyerId: buyerId)), campaign: campaign, medium: medium, source: source))
             } else {
                 return nil
             }
         case .Chats:
-            return UriScheme(deepLink: DeepLink.link(.Conversations))
+            return UriScheme(deepLink: DeepLink.link(.Conversations, campaign: campaign, medium: medium, source: source))
         case .Search:
             guard let query = params["query"] else { return nil }
-            return UriScheme(deepLink: DeepLink.link(.Search(query: query, categories: params["categories"])))
+            return UriScheme(deepLink: DeepLink.link(.Search(query: query, categories: params["categories"]),
+                campaign: campaign, medium: medium, source: source))
         case .ResetPassword:
             guard let token = params["token"] else { return nil }
-            return UriScheme(deepLink: DeepLink.link(.ResetPassword(token: token)))
+            return UriScheme(deepLink: DeepLink.link(.ResetPassword(token: token), campaign: campaign, medium: medium,
+                source: source))
         case .Commercializer:
             guard let productId = params["p"], templateId = params["t"] else { return nil }
-            return UriScheme(deepLink: DeepLink.link(.CommercializerReady(productId: productId, templateId: templateId)))
+            return UriScheme(deepLink: DeepLink.link(.CommercializerReady(productId: productId, templateId: templateId),
+                campaign: campaign, medium: medium, source: source))
+        case .UserRatings:
+            return UriScheme(deepLink: DeepLink.link(.UserRatings, campaign: campaign, medium: medium, source: source))
+        case .UserRating:
+            guard let ratingId = components.first else { return nil }
+            return UriScheme(deepLink: DeepLink.link(.UserRating(ratingId: ratingId), campaign: campaign, medium: medium,
+                source: source))
         }
     }
 }
@@ -72,4 +90,6 @@ enum UriSchemeHost: String {
     case Search = "search"
     case ResetPassword = "reset_password"
     case Commercializer = "commercializer"
+    case UserRatings = "userreviews"
+    case UserRating = "userreview"
 }

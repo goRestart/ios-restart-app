@@ -48,6 +48,17 @@ public class UserRatingRepository {
         }
     }
 
+    /**
+     Retrieves the rating the logged user has made to the given user
+
+     - parameter ratingId: id of the rating to retrieve
+     - parameter completion: The completion closure
+     */
+    public func show(ratingId: String, completion: UserRatingCompletion?) {
+        dataSource.show(ratingId) { result in
+            handleApiResult(result, completion: completion)
+        }
+    }
 
     /**
      Retrieves the rating the logged user has made to the given user
@@ -65,8 +76,6 @@ public class UserRatingRepository {
             handleApiResult(result, completion: completion)
         }
     }
-
-
 
     /**
      Adds a new rating to the given user
@@ -89,7 +98,6 @@ public class UserRatingRepository {
             handleApiResult(result, completion: completion)
         }
     }
-
 
     /**
      Updates the given rating
@@ -116,7 +124,6 @@ public class UserRatingRepository {
              handleApiResult(result, completion: completion)
         }
     }
-
 
     /**
      Reports a received rating
