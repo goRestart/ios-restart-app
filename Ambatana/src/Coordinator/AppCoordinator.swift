@@ -637,9 +637,9 @@ private extension AppCoordinator {
 private extension Tab {
     var logInRequired: Bool {
         switch self {
-        case .Home, .Categories:
+        case .Home, .Categories, .Sell:
             return false
-        case .Notifications, .Sell, .Chats, .Profile:
+        case .Notifications, .Chats, .Profile:
             return true
         }
     }
