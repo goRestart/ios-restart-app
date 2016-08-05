@@ -51,7 +51,7 @@ public class HelpViewController: BaseViewController, UIWebViewDelegate {
     dynamic private func showOptions() {
         let alert = UIAlertController(title: nil, message: nil,
             preferredStyle: .ActionSheet)
-
+        alert.popoverPresentationController?.barButtonItem = self.navigationItem.rightBarButtonItem
         alert.addAction(UIAlertAction(title: LGLocalizedString.mainSignUpTermsConditionsTermsPart, style: .Default,
             handler: { [weak self] action in self?.showTerms() }))
         alert.addAction(UIAlertAction(title: LGLocalizedString.mainSignUpTermsConditionsPrivacyPart, style: .Default,

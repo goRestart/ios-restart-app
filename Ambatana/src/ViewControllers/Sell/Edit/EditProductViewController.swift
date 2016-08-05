@@ -121,6 +121,8 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
         
         let alert = UIAlertController(title: LGLocalizedString.sellChooseCategoryDialogTitle, message: nil,
             preferredStyle: .ActionSheet)
+        alert.popoverPresentationController?.sourceView = categoryButton
+        alert.popoverPresentationController?.sourceRect = categoryButton.frame
 
         for i in 0..<viewModel.numberOfCategories {
             alert.addAction(UIAlertAction(title: viewModel.categoryNameAtIndex(i), style: .Default,
@@ -276,6 +278,11 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
             // remove image
             let alert = UIAlertController(title: LGLocalizedString.sellPictureSelectedTitle, message: nil,
                 preferredStyle: .ActionSheet)
+            
+            let cell = collectionView.cellForItemAtIndexPath(indexPath) as? SellProductCell
+            alert.popoverPresentationController?.sourceView = cell
+            alert.popoverPresentationController?.sourceRect = cell?.bounds ?? CGRectZero
+            
             alert.addAction(UIAlertAction(title: LGLocalizedString.sellPictureSelectedDeleteButton,
                 style: .Destructive, handler: { (deleteAction) -> Void in
                     self.deleteAlreadyUploadedImageWithIndex(indexPath.row)

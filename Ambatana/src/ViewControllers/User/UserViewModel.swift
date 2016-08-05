@@ -23,6 +23,7 @@ protocol UserViewModelDelegate: BaseViewModelDelegate {
     func vmOpenVerifyAccount(verifyVM: VerifyAccountViewModel)
     func vmOpenHome()
     func vmOpenRatingList(ratingListVM: UserRatingListViewModel)
+    func vmShowUserActionSheet(cancelLabel: String, actions: [UIAction])
 }
 
 class UserViewModel: BaseViewModel {
@@ -243,7 +244,7 @@ extension UserViewModel {
                 actions.append(strongSelf.buildBlockButton())
             }
 
-            strongSelf.delegate?.vmShowActionSheet(LGLocalizedString.commonCancel, actions: actions)
+            strongSelf.delegate?.vmShowUserActionSheet(LGLocalizedString.commonCancel, actions: actions)
         })
     }
 
