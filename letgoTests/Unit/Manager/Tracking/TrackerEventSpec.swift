@@ -2080,13 +2080,13 @@ class TrackerEventSpec: QuickSpec {
                 }
             }
 
-            describe("open app") {
+            describe("open app external") {
                 context("has info for all the params") {
                     beforeEach {
                         sut = TrackerEvent.openAppExternal("ut_campaign", medium: "ut_medium", source: .External(source: "ut_source"))
                     }
                     it("has its event name") {
-                        expect(sut.name.rawValue).to(equal("open-app"))
+                        expect(sut.name.rawValue).to(equal("open-app-external"))
                     }
                     it("contains campaign param") {
                         let campaign = sut.params!.stringKeyParams["campaign"] as? String
@@ -2106,7 +2106,7 @@ class TrackerEventSpec: QuickSpec {
                         sut = TrackerEvent.openAppExternal(nil, medium: nil, source: .None)
                     }
                     it("has its event name") {
-                        expect(sut.name.rawValue).to(equal("open-app"))
+                        expect(sut.name.rawValue).to(equal("open-app-external"))
                     }
                     it("does not contain campaign param") {
                         let campaign = sut.params!.stringKeyParams["campaign"] as? String
