@@ -133,6 +133,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         setupMoreInfo()
         setupNavigationBar()
         setupGradientView()
+        setupCollectionRx()
     }
 
     func addSubviews() {
@@ -241,6 +242,12 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         let shadowLayer2 = CAGradientLayer.gradientWithColor(UIColor.blackColor(), alphas:[0, 0.4], locations: [0, 1])
         shadowLayer.frame = gradientShadowBottomView.bounds
         gradientShadowBottomView.layer.insertSublayer(shadowLayer2, atIndex: 0)
+    }
+
+    private func setupCollectionRx() {
+        viewModel.objectChanges.bindNext { [weak self] change in
+            self?.collectionView.handleCollectionChange(change)
+        }.addDisposableTo(disposeBag)
     }
     
     private func setupAlphaRxBindings() {
@@ -625,13 +632,7 @@ extension ProductCarouselViewController: UserViewDelegate {
 // MARK: > ProductCarouselViewModelDelegate
 
 extension ProductCarouselViewController: ProductCarouselViewModelDelegate {
-    func vmReloadData() {
-        collectionView.reloadData()
-    }
-
-    func vmReloadItemAtIndex(index: Int) {
-        let indexPath = NSIndexPath(forItem: index, inSection: 0)
-        collectionView.reloadItemsAtIndexPaths([indexPath])
+    func vmRefreshCurrent() {
         refreshOverlayElements()
     }
 
