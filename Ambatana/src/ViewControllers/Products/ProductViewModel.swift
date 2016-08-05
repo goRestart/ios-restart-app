@@ -361,8 +361,8 @@ class ProductViewModel: BaseViewModel {
 extension ProductViewModel {
 
     func openProductOwnerProfile() {
-        guard let productOwnerId = product.value.user.objectId else { return }
-        tabNavigator?.openUser(user: product.value.user, source: .ProductDetail)
+        let data = UserDetailData.UserAPI(user: product.value.user, source: .ProductDetail)
+        tabNavigator?.openUser(data)
     }
 
     func markSold() {

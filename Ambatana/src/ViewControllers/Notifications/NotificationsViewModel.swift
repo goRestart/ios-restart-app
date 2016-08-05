@@ -122,7 +122,8 @@ class NotificationsViewModel: BaseViewModel {
             }
             let icon = UIImage(named: "ic_favorite")
             return buildProductNotification({ [weak self] in
-                self?.tabNavigator?.openUser(userId: userId, source: .Notifications)
+                let data = UserDetailData.Id(userId: userId, source: .Notifications)
+                self?.tabNavigator?.openUser(data)
             }, subtitle: subtitle, userName: userName, icon: icon, productId: productId,
                productImage: productImageUrl, userId: userId, userImage: userImageUrl,
                date: notification.createdAt, isRead: notification.isRead)
@@ -136,7 +137,8 @@ class NotificationsViewModel: BaseViewModel {
             }
             let icon = UIImage(named: "ic_dollar_sold")
             return buildProductNotification({ [weak self] in
-                self?.tabNavigator?.openProduct(productId: productId)
+                let data = ProductDetailData.Id(productId: productId)
+                self?.tabNavigator?.openProduct(data)
             }, subtitle: subtitle, userName: userName, icon: icon, productId: productId,
                productImage: productImageUrl, userId: userId, userImage: userImageUrl,
                date: notification.createdAt, isRead: notification.isRead)
@@ -157,9 +159,11 @@ class NotificationsViewModel: BaseViewModel {
                                 primaryAction: primaryAction, icon: icon,
                                 leftImage: userImage, leftImagePlaceholder: userImagePlaceholder,
                                 leftImageAction: { [weak self] in
-                                    self?.tabNavigator?.openUser(userId: userId, source: .Notifications) },
+                                    let data = UserDetailData.Id(userId: userId, source: .Notifications)
+                                    self?.tabNavigator?.openUser(data) },
                                 rightImage: productImage, rightImageAction: { [weak self] in
-                                    self?.tabNavigator?.openProduct(productId: productId) })
+                                    let data = ProductDetailData.Id(productId: productId)
+                                    self?.tabNavigator?.openProduct(data) })
     }
 
     private func buildWelcomeNotification() -> NotificationData {

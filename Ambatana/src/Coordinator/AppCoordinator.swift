@@ -530,11 +530,11 @@ private extension AppCoordinator {
             }
         case let .Product(productId):
             afterDelayClosure = { [weak self] in
-                self?.selectedTabCoordinator?.openProduct(productId: productId)
+                self?.selectedTabCoordinator?.openProduct(ProductDetailData.Id(productId: productId))
             }
         case let .User(userId):
             afterDelayClosure = { [weak self] in
-                self?.selectedTabCoordinator?.openUser(userId: userId, source: .Link)
+                self?.selectedTabCoordinator?.openUser(UserDetailData.Id(userId: userId, source: .Link))
             }
         case .Conversations:
             openTab(.Chats, force: false)

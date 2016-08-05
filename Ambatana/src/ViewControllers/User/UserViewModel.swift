@@ -550,8 +550,12 @@ extension UserViewModel: ProductListViewModelDataDelegate {
     func productListVM(viewModel: ProductListViewModel, didSelectItemAtIndex index: Int, thumbnailImage: UIImage?,
                        originFrame: CGRect?) {
         guard viewModel === productListViewModel.value else { return } //guarding view model is the selected one
-        tabNavigator?.openProduct(productListVM: viewModel, index: index,
-                                  thumbnailImage: thumbnailImage, originFrame: originFrame)
+        guard let product = viewModel.productAtIndex(index), requester = viewModel.productListRequester else { return }
+        let cellModels = viewModel.objects
+
+        let data = ProductDetailData.ProductList(product: product, cellModels: cellModels, requester: requester,
+                                                 thumbnailImage: thumbnailImage, originFrame: originFrame)
+        tabNavigator?.openProduct(data)
     }
 }
 

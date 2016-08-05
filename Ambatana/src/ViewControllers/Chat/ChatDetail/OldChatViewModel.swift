@@ -429,7 +429,8 @@ public class OldChatViewModel: BaseViewModel, Paginable {
             break
         case .Available, .Blocked, .BlockedBy, .ProductSold, .UserPendingDelete, .UserDeleted:
             delegate?.vmHideKeyboard(animated: false)
-            tabNavigator?.openProduct(product: product)
+            let data = ProductDetailData.ProductAPI(product: product, thumbnailImage: nil, originFrame: nil)
+            tabNavigator?.openProduct(data)
         }
     }
     
@@ -440,7 +441,8 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         case .Available, .Blocked, .BlockedBy, .ProductSold:
             guard let user = otherUser else { return }
             delegate?.vmHideKeyboard(animated: false)
-            tabNavigator?.openUser(user: user, source: .Chat)
+            let data = UserDetailData.UserAPI(user: user, source: .Chat)
+            tabNavigator?.openUser(data)
         }
     }
 
@@ -1124,9 +1126,13 @@ extension OldChatViewModel: RelatedProductsViewDelegate {
         tracker.trackEvent(TrackerEvent.chatRelatedItemsStart())
     }
 
-    func relatedProductsView(view: RelatedProductsView, showProduct productVC: UIViewController, index: Int) {
+    func relatedProductsView(view: RelatedProductsView, showProduct product: Product, atIndex index: Int,
+                             productListModels: [ProductCellModel], requester: ProductListRequester,
+                             thumbnailImage: UIImage?, originFrame: CGRect?) {
         tracker.trackEvent(TrackerEvent.chatRelatedItemsComplete(index))
-//        delegate?.vmShowProduct(productVC)  // TODO: 🌶
+        let data = ProductDetailData.ProductList(product: product, cellModels: productListModels, requester: requester,
+                                                 thumbnailImage: thumbnailImage, originFrame: originFrame)
+        tabNavigator?.openProduct(data)
     }
 }
 

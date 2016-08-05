@@ -13,7 +13,10 @@ import RxCocoa
 
 protocol RelatedProductsViewDelegate: class {
     func relatedProductsViewDidShow(view: RelatedProductsView)
-    func relatedProductsView(view: RelatedProductsView, showProduct productVC: UIViewController, index: Int)
+    func relatedProductsView(view: RelatedProductsView, showProduct product: Product, atIndex index: Int,
+                             productListModels: [ProductCellModel], requester: ProductListRequester,
+                             thumbnailImage: UIImage?, originFrame: CGRect?)
+
 }
 
 
@@ -155,8 +158,8 @@ extension RelatedProductsView: UICollectionViewDelegate, UICollectionViewDataSou
         return objects.count
     }
 
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath)
-         -> UICollectionViewCell {
+    func collectionView(collectionView: UICollectionView,
+                        cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
             guard let item = itemAtIndex(indexPath.row) else { return UICollectionViewCell() }
             let cell = drawerManager.cell(item, collectionView: collectionView, atIndexPath: indexPath)
             drawerManager.draw(item, inCell: cell)
@@ -176,15 +179,9 @@ extension RelatedProductsView: UICollectionViewDelegate, UICollectionViewDataSou
                 originFrame = superview?.convertRect(cellFrame, fromView: collectionView)
             }
             guard let requester = requester else { return }
-            guard let productVC = ProductDetailFactory.productDetailFromProductListModels(objects, requester: requester,
-                                                                                          product: product,
-                                                                                          thumbnailImage: thumbnailImage,
-                                                                                          originFrame: originFrame,
-                                                                                          tabNavigator: nil) else {
-                return
-            }
-            // TODO: 🌶
-            delegate?.relatedProductsView(self, showProduct: productVC, index: indexPath.row)
+            delegate?.relatedProductsView(self, showProduct: product, atIndex: indexPath.row,
+                                          productListModels: objects, requester: requester,
+                                          thumbnailImage: thumbnailImage, originFrame: originFrame)
         case .BannerCell:
             // No banners here
             break

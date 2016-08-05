@@ -138,7 +138,8 @@ class ChatGroupedViewModel: BaseViewModel {
     }
 
     func blockedUserPressed(user: User) {
-        tabNavigator?.openUser(user: user, source: .Chat)
+        let data = UserDetailData.UserAPI(user: user, source: .Chat)
+        tabNavigator?.openUser(data)
     }
 
     func oldChatListViewModelForTabAtIndex(index: Int) -> OldChatListViewModel? {

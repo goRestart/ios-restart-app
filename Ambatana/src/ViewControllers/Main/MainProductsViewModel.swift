@@ -388,8 +388,11 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate {
                        thumbnailImage: UIImage?, originFrame: CGRect?) {
         
         guard let product = viewModel.productAtIndex(index) else { return }
-        tabNavigator?.openProduct(product, productListVM: viewModel, index: index,
-                                  thumbnailImage: thumbnailImage, originFrame: originFrame)
+        let cellModels = viewModel.objects
+        let data = ProductDetailData.ProductList(product: product, cellModels: cellModels,
+                                                 requester: productListRequester, thumbnailImage: thumbnailImage,
+                                                 originFrame: originFrame)
+        tabNavigator?.openProduct(data)
     }
     
     func vmProcessReceivedProductPage(products: [ProductCellModel]) -> [ProductCellModel] {

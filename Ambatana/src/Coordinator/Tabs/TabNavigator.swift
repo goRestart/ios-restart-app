@@ -8,17 +8,22 @@
 
 import LGCoreKit
 
-protocol TabNavigator: class {
-    func openUser(userId userId: String, source: UserSource)
-    func openUser(user user: User, source: UserSource)
-    func openUser(interlocutor: ChatInterlocutor)
+enum UserDetailData {
+    case Id(userId: String, source: UserSource)
+    case UserAPI(user: User, source: UserSource)
+    case UserChat(user: ChatInterlocutor)
+}
 
-    func openProduct(productId productId: String)
-    func openProduct(product product: Product)
-    func openProduct(product: Product, productListVM: ProductListViewModel, index: Int,
+enum ProductDetailData {
+    case Id(productId: String)
+    case ProductAPI(product: Product, thumbnailImage: UIImage?, originFrame: CGRect?)
+    case ProductList(product: Product, cellModels: [ProductCellModel], requester: ProductListRequester,
                      thumbnailImage: UIImage?, originFrame: CGRect?)
-    func openProduct(productListVM productListVM: ProductListViewModel, index: Int,
+    case ProductChat(chatProduct: ChatProduct, user: ChatInterlocutor,
                      thumbnailImage: UIImage?, originFrame: CGRect?)
-    func openProduct(chatProduct chatProduct: ChatProduct, user: ChatInterlocutor,
-                                 thumbnailImage: UIImage?, originFrame: CGRect?)
+}
+
+protocol TabNavigator: class {
+    func openUser(data: UserDetailData)
+    func openProduct(data: ProductDetailData)
 }

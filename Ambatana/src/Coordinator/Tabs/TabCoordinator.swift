@@ -56,6 +56,92 @@ class TabCoordinator: NSObject {
 // MARK: - TabNavigator
 
 extension TabCoordinator: TabNavigator {
+    func openUser(data: UserDetailData) {
+        switch data {
+        case let .Id(userId, source):
+            openUser(userId: userId, source: source)
+        case let .UserAPI(user, source):
+            openUser(user: user, source: source)
+        case let .UserChat(user):
+            openUser(user)
+        }
+    }
+
+    func openProduct(data: ProductDetailData) {
+        switch data {
+        case let .Id(productId):
+            openProduct(productId: productId)
+        case let .ProductAPI(product, thumbnailImage, originFrame):
+            openProduct(product: product, thumbnailImage: thumbnailImage, originFrame: originFrame)
+        case let .ProductList(product, cellModels, requester, thumbnailImage, originFrame):
+            openProduct(product, cellModels: cellModels, requester: requester,
+                        thumbnailImage: thumbnailImage, originFrame: originFrame)
+        case let .ProductChat(chatProduct, user, thumbnailImage, originFrame):
+            openProduct(chatProduct: chatProduct, user: user, thumbnailImage: thumbnailImage, originFrame: originFrame)
+        }
+    }
+}
+
+private extension TabCoordinator {
+    func openProduct(productId productId: String) {
+        navigationController.showLoadingMessageAlert()
+        productRepository.retrieve(productId) { [weak self] result in
+            if let product = result.value {
+                self?.navigationController.dismissLoadingMessageAlert {
+                    self?.openProduct(product: product)
+                }
+            } else if let error = result.error {
+                let message: String
+                switch error {
+                case .Network:
+                    message = LGLocalizedString.commonErrorConnectionFailed
+                case .Internal, .NotFound, .Unauthorized, .Forbidden, .TooManyRequests, .UserNotVerified:
+                    message = LGLocalizedString.commonProductNotAvailable
+                }
+                self?.navigationController.dismissLoadingMessageAlert {
+                    self?.navigationController.showAutoFadingOutMessageAlert(message)
+                }
+            }
+        }
+    }
+
+    func openProduct(product product: Product, thumbnailImage: UIImage? = nil, originFrame: CGRect? = nil) {
+        guard let vc = ProductDetailFactory.productDetailFromProduct(product, thumbnailImage: thumbnailImage,
+                                                                     originFrame: originFrame,
+                                                                     tabNavigator: self) else { return }
+        navigationController.pushViewController(vc, animated: true)
+    }
+
+
+    func openProduct(product: Product, cellModels: [ProductCellModel], requester: ProductListRequester,
+                     thumbnailImage: UIImage?, originFrame: CGRect?) {
+        let vc: UIViewController?
+        if FeatureFlags.showRelatedProducts {
+            vc = ProductDetailFactory.productDetailFromProduct(product, thumbnailImage: thumbnailImage,
+                                                               originFrame: originFrame, tabNavigator: self)
+        } else {
+            vc = ProductDetailFactory.productDetailFromProductListModels(cellModels, requester: requester,
+                                                                         product: product,
+                                                                         thumbnailImage: thumbnailImage,
+                                                                         tabNavigator: self)
+        }
+        if let vc = vc {
+            navigationController.pushViewController(vc, animated: true)
+        }
+    }
+
+    func openProduct(chatProduct chatProduct: ChatProduct, user: ChatInterlocutor,
+                                 thumbnailImage: UIImage?, originFrame: CGRect?) {
+        guard let productId = chatProduct.objectId else { return }
+        let requester = RelatedProductListRequester(productId: productId)
+        let vm = ProductCarouselViewModel(chatProduct: chatProduct, chatInterlocutor: user,
+                                          thumbnailImage: thumbnailImage, productListRequester: requester,
+                                          tabNavigator: self)
+        let animator = ProductCarouselPushAnimator(originFrame: originFrame, originThumbnail: thumbnailImage)
+        let vc = ProductCarouselViewController(viewModel: vm, pushAnimator: animator)
+        navigationController.pushViewController(vc, animated: true)
+    }
+
     func openUser(userId userId: String, source: UserSource) {
         navigationController.showLoadingMessageAlert()
         userRepository.show(userId, includeAccounts: false) { [weak self] result in
@@ -96,71 +182,6 @@ extension TabCoordinator: TabNavigator {
 
         let hidesBottomBarWhenPushed = navigationController.viewControllers.count == 1
         let vc = UserViewController(viewModel: vm, hidesBottomBarWhenPushed: hidesBottomBarWhenPushed)
-        navigationController.pushViewController(vc, animated: true)
-    }
-
-
-    func openProduct(productId productId: String) {
-        navigationController.showLoadingMessageAlert()
-        productRepository.retrieve(productId) { [weak self] result in
-            if let product = result.value {
-                self?.navigationController.dismissLoadingMessageAlert {
-                    self?.openProduct(product: product)
-                }
-            } else if let error = result.error {
-                let message: String
-                switch error {
-                case .Network:
-                    message = LGLocalizedString.commonErrorConnectionFailed
-                case .Internal, .NotFound, .Unauthorized, .Forbidden, .TooManyRequests, .UserNotVerified:
-                    message = LGLocalizedString.commonProductNotAvailable
-                }
-                self?.navigationController.dismissLoadingMessageAlert {
-                    self?.navigationController.showAutoFadingOutMessageAlert(message)
-                }
-            }
-        }
-    }
-
-    func openProduct(product product: Product) {
-        guard let vc = ProductDetailFactory.productDetailFromProduct(product, tabNavigator: self) else { return }
-        navigationController.pushViewController(vc, animated: true)
-    }
-
-    func openProduct(product: Product, productListVM: ProductListViewModel, index: Int,
-                     thumbnailImage: UIImage?, originFrame: CGRect?) {
-        let vc: UIViewController?
-        if FeatureFlags.showRelatedProducts {
-            vc = ProductDetailFactory.productDetailFromProduct(product, thumbnailImage: thumbnailImage,
-                                                               originFrame: originFrame, tabNavigator: self)
-        } else {
-            vc = ProductDetailFactory.productDetailFromProductList(productListVM, index: index,
-                                                                   thumbnailImage: thumbnailImage,
-                                                                   originFrame: originFrame, tabNavigator: self)
-        }
-        if let vc = vc {
-            navigationController.pushViewController(vc, animated: true)
-        }
-    }
-
-    func openProduct(productListVM productListVM: ProductListViewModel, index: Int,
-                     thumbnailImage: UIImage?, originFrame: CGRect?) {
-        guard let vc = ProductDetailFactory.productDetailFromProductList(productListVM, index: index,
-                                                                         thumbnailImage: thumbnailImage,
-                                                                         originFrame: originFrame,
-                                                                         tabNavigator: self) else { return }
-        navigationController.pushViewController(vc, animated: true)
-    }
-
-    func openProduct(chatProduct chatProduct: ChatProduct, user: ChatInterlocutor,
-                     thumbnailImage: UIImage?, originFrame: CGRect?) {
-        guard let productId = chatProduct.objectId else { return }
-        let requester = RelatedProductListRequester(productId: productId)
-        let vm = ProductCarouselViewModel(chatProduct: chatProduct, chatInterlocutor: user,
-                                          thumbnailImage: thumbnailImage, productListRequester: requester,
-                                          tabNavigator: self)
-        let animator = ProductCarouselPushAnimator(originFrame: originFrame, originThumbnail: thumbnailImage)
-        let vc = ProductCarouselViewController(viewModel: vm, pushAnimator: animator)
         navigationController.pushViewController(vc, animated: true)
     }
 }

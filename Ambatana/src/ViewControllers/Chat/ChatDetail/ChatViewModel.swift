@@ -386,14 +386,17 @@ class ChatViewModel: BaseViewModel {
         case .Pending, .Approved, .Discarded, .Sold, .SoldOld:
             guard let interlocutor = conversation.value.interlocutor else { return }
             delegate?.vmHideKeyboard(false)
-            tabNavigator?.openProduct(chatProduct: product, user: interlocutor, thumbnailImage: nil, originFrame: nil)
+            let data = ProductDetailData.ProductChat(chatProduct: product, user: interlocutor,
+                                                     thumbnailImage: nil, originFrame: nil)
+            tabNavigator?.openProduct(data)
         }
     }
     
     func userInfoPressed() {
         guard let interlocutor = conversation.value.interlocutor else { return }
         delegate?.vmHideKeyboard(false)
-        tabNavigator?.openUser(interlocutor)
+        let data = UserDetailData.UserChat(user: interlocutor)
+        tabNavigator?.openUser(data)
     }
 
     func reviewUserPressed() {
@@ -1123,9 +1126,13 @@ extension ChatViewModel: RelatedProductsViewDelegate {
         tracker.trackEvent(TrackerEvent.chatRelatedItemsStart())
     }
 
-    func relatedProductsView(view: RelatedProductsView, showProduct productVC: UIViewController, index: Int) {
+    func relatedProductsView(view: RelatedProductsView, showProduct product: Product, atIndex index: Int,
+                             productListModels: [ProductCellModel], requester: ProductListRequester,
+                             thumbnailImage: UIImage?, originFrame: CGRect?) {
         tracker.trackEvent(TrackerEvent.chatRelatedItemsComplete(index))
-//        delegate?.vmShowProduct(productVC)// TODO: 🌶
+        let data = ProductDetailData.ProductList(product: product, cellModels: productListModels, requester: requester,
+                                                 thumbnailImage: thumbnailImage, originFrame: originFrame)
+        tabNavigator?.openProduct(data)
     }
 }
 
