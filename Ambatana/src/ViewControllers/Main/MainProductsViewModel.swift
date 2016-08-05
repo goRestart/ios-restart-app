@@ -391,7 +391,8 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate {
         let cellModels = viewModel.objects
         let data = ProductDetailData.ProductList(product: product, cellModels: cellModels,
                                                  requester: productListRequester, thumbnailImage: thumbnailImage,
-                                                 originFrame: originFrame)
+                                                 originFrame: originFrame,
+                                                 showRelated: FeatureFlags.showRelatedProducts)
         tabNavigator?.openProduct(data)
     }
     

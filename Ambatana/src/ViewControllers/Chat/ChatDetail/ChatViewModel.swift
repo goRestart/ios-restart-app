@@ -1131,7 +1131,8 @@ extension ChatViewModel: RelatedProductsViewDelegate {
                              thumbnailImage: UIImage?, originFrame: CGRect?) {
         tracker.trackEvent(TrackerEvent.chatRelatedItemsComplete(index))
         let data = ProductDetailData.ProductList(product: product, cellModels: productListModels, requester: requester,
-                                                 thumbnailImage: thumbnailImage, originFrame: originFrame)
+                                                 thumbnailImage: thumbnailImage, originFrame: originFrame,
+                                                 showRelated: false)
         tabNavigator?.openProduct(data)
     }
 }

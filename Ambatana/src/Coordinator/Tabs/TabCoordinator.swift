@@ -73,9 +73,9 @@ extension TabCoordinator: TabNavigator {
             openProduct(productId: productId)
         case let .ProductAPI(product, thumbnailImage, originFrame):
             openProduct(product: product, thumbnailImage: thumbnailImage, originFrame: originFrame)
-        case let .ProductList(product, cellModels, requester, thumbnailImage, originFrame):
+        case let .ProductList(product, cellModels, requester, thumbnailImage, originFrame, showRelated):
             openProduct(product, cellModels: cellModels, requester: requester,
-                        thumbnailImage: thumbnailImage, originFrame: originFrame)
+                        thumbnailImage: thumbnailImage, originFrame: originFrame, showRelated: showRelated)
         case let .ProductChat(chatProduct, user, thumbnailImage, originFrame):
             openProduct(chatProduct: chatProduct, user: user, thumbnailImage: thumbnailImage, originFrame: originFrame)
         }
@@ -114,9 +114,9 @@ private extension TabCoordinator {
 
 
     func openProduct(product: Product, cellModels: [ProductCellModel], requester: ProductListRequester,
-                     thumbnailImage: UIImage?, originFrame: CGRect?) {
+                     thumbnailImage: UIImage?, originFrame: CGRect?, showRelated: Bool) {
         let vc: UIViewController?
-        if FeatureFlags.showRelatedProducts {
+        if showRelated {
             vc = ProductDetailFactory.productDetailFromProduct(product, thumbnailImage: thumbnailImage,
                                                                originFrame: originFrame, tabNavigator: self)
         } else {
