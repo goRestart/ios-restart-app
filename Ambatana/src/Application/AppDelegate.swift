@@ -83,13 +83,15 @@ extension AppDelegate: UIApplicationDelegate {
         self.window = window
 
         window.makeKeyAndVisible()
-        appCoordinator.open()
 
         let deepLinksRouter = DeepLinksRouter.sharedInstance
         let fbApplicationDelegate = FBSDKApplicationDelegate.sharedInstance()
         let deepLinksRouterContinuation = deepLinksRouter.initWithLaunchOptions(launchOptions)
         let fbSdkContinuation = fbApplicationDelegate.application(application,
                                                                   didFinishLaunchingWithOptions: launchOptions)
+
+        appCoordinator.open()
+
         return deepLinksRouterContinuation || fbSdkContinuation
     }
 

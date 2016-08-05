@@ -137,14 +137,7 @@ extension AppCoordinator: AppNavigator {
             strongSelf.delegate?.appNavigatorDidOpenApp()
 
             if let deepLink = strongSelf.deepLinksRouter.consumeInitialDeepLink() {
-                strongSelf.openDeepLink(deepLink, initialDeepLink: true)
-                // Tracking
-                let event = TrackerEvent.openApp(deepLink.campaign, medium: deepLink.medium, source: deepLink.source)
-                TrackerProxy.sharedInstance.trackEvent(event)
-            } else {
-                // Tracking
-                let event = TrackerEvent.openApp(source: .Direct)
-                TrackerProxy.sharedInstance.trackEvent(event)
+                strongSelf.openExternalDeepLink(deepLink, initialDeepLink: true)
             }
         }
 
@@ -391,7 +384,7 @@ private extension AppCoordinator {
                     return !appActive
                 }
             }.subscribeNext { [weak self] deepLink in
-                self?.openDeepLink(deepLink)
+                self?.openExternalDeepLink(deepLink)
             }.addDisposableTo(disposeBag)
     }
 
@@ -509,15 +502,15 @@ private extension AppCoordinator {
         }
     }
 
-    private var selectedTabCoordinator: TabCoordinator? {
-        guard let navigationController = tabBarCtl.selectedViewController as? UINavigationController else { return nil }
-        for tabCoordinator in tabCoordinators {
-            if tabCoordinator.navigationController === navigationController { return tabCoordinator }
-        }
-        return nil
+    func openExternalDeepLink(deepLink: DeepLink, initialDeepLink: Bool = false) {
+        let event = TrackerEvent.openAppExternal(deepLink.campaign, medium: deepLink.medium, source: deepLink.source)
+        TrackerProxy.sharedInstance.trackEvent(event)
+
+        openDeepLink(deepLink, initialDeepLink: initialDeepLink)
     }
 
     func openDeepLink(deepLink: DeepLink, initialDeepLink: Bool = false) {
+
         var afterDelayClosure: (() -> Void)?
         switch deepLink.action {
         case .Home:
@@ -584,7 +577,15 @@ private extension AppCoordinator {
         }
     }
 
-    private func openResetPassword(token: String) {
+    var selectedTabCoordinator: TabCoordinator? {
+        guard let navigationController = tabBarCtl.selectedViewController as? UINavigationController else { return nil }
+        for tabCoordinator in tabCoordinators {
+            if tabCoordinator.navigationController === navigationController { return tabCoordinator }
+        }
+        return nil
+    }
+
+    func openResetPassword(token: String) {
         let viewModel = ChangePasswordViewModel(token: token)
         let vc = ChangePasswordViewController(viewModel: viewModel)
         let navCtl = UINavigationController(rootViewController: vc)
@@ -593,7 +594,7 @@ private extension AppCoordinator {
         tabBarCtl.presentViewController(navCtl, animated: true, completion: nil)
     }
 
-    private func openMyUserRatings() {
+    func openMyUserRatings() {
         guard FeatureFlags.userRatings else { return }
         guard let navCtl = selectedNavigationController else { return }
 
@@ -604,7 +605,7 @@ private extension AppCoordinator {
         navCtl.pushViewController(viewController, animated: true)
     }
 
-    private func openUserRatingForUserFromRating(ratingId: String) {
+    func openUserRatingForUserFromRating(ratingId: String) {
         guard FeatureFlags.userRatings else { return }
         guard let navCtl = selectedNavigationController else { return }
 
