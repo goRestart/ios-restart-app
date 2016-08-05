@@ -114,6 +114,7 @@
 "chat_message_load_generic_error" = "Παρουσιάσθηκε σφάλμα κατά την ανάκτηση των δεδομένων των συνομιλιών σου. Θα πρέπει να προσπαθήσεις ξανά αργότερα.";
 "chat_product_inactive_label" = "Ανενεργό προϊόν";
 "chat_product_sold_label" = "Το προϊόν πωλήθηκε";
+"chat_related_products_title" = "ΜΠΟΡΕΙ ΝΑ ΕΝΔΙΑΦΕΡΕΣΤΕ ΓΙΑ:";
 "chat_safety_tips" = "Συμβουλές ασφαλείας";
 "chat_safety_tips_message" = "• Συναντηθείτε πρόσωπο με πρόσωπο και πληρώστε μετρητά.\n\n• Αποθηκεύστε τις συνομιλίες σας στο chat του letgo.\n\n• Προσοχή! Πολύ καλό για να είναι αληθινό;";
 "chat_safety_tips_tip_1" = "Αφού κλείσετε τη συμφωνία, συναντηθείτε πρόσωπο με πρόσωπο και πληρώστε με μετρητά.";
@@ -133,6 +134,8 @@
 "chat_verify_alert_ok_button" = "ΟΚ";
 "chat_verify_alert_resend_button" = "Ξαναστείλτε το";
 "chat_verify_alert_title" = "Επιβεβαιώστε το email σας για να συνομιλήσετε";
+"chat_with_yourself_alert_msg" = "You can't start a conversation about your own product.";
+"chat_with_yourself_alert_ok" = "Ok";
 "commercializer_create_from_settings" = "Create a Free Commercial";
 "commercializer_display_share_alert" = "Share this masterpiece";
 "commercializer_display_share_label" = "Share your masterpiece with the world and watch the offers come rolling in";

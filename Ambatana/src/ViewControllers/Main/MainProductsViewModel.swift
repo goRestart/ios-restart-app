@@ -29,11 +29,18 @@ protocol PermissionsDelegate: class {
     func mainProductsViewModelShowPushPermissionsAlert(mainProductsViewModel: MainProductsViewModel)
 }
 
+struct SearchData {
+    let text: String
+    let isTrending: Bool
+}
+
 
 class MainProductsViewModel: BaseViewModel {
     
     // > Input
-    let searchString: String? // The initial search string
+    var searchString: String? {
+        return searchData?.text
+    }
     let bannerCellPosition: Int = 8
     var filters: ProductFilters
     
@@ -71,7 +78,9 @@ class MainProductsViewModel: BaseViewModel {
     private let myUserRepository: MyUserRepository
     private let trendingSearchesRepository: TrendingSearchesRepository
     private let locationManager: LocationManager
+
     private let tracker: Tracker
+    private let searchData: SearchData? // The initial search data
     
     // > Delegate
     weak var delegate: MainProductsViewModelDelegate?
@@ -97,13 +106,13 @@ class MainProductsViewModel: BaseViewModel {
     // MARK: - Lifecycle
     
     init(myUserRepository: MyUserRepository, trendingSearchesRepository: TrendingSearchesRepository,
-         locationManager: LocationManager, tracker: Tracker, searchString: String? = nil, filters: ProductFilters,
+         locationManager: LocationManager, tracker: Tracker, searchData: SearchData? = nil, filters: ProductFilters,
          tabNavigator: TabNavigator?) {
         self.myUserRepository = myUserRepository
         self.trendingSearchesRepository = trendingSearchesRepository
         self.locationManager = locationManager
         self.tracker = tracker
-        self.searchString = searchString
+        self.searchData = searchData
         self.filters = filters
         self.tabNavigator = tabNavigator
         self.productListRequester = FilteredProductListRequester()
@@ -113,7 +122,7 @@ class MainProductsViewModel: BaseViewModel {
                                                   numberOfColumns: columns)
         self.listViewModel.productListFixedInset = show3Columns ? 6 : 10
         
-        if let search = searchString where !search.isEmpty {
+        if let search = searchData where !search.text.isEmpty {
             self.shouldTrackSearch = true
         }
         super.init()
@@ -121,19 +130,19 @@ class MainProductsViewModel: BaseViewModel {
         setup()
     }
     
-    convenience init(searchString: String? = nil, filters: ProductFilters, tabNavigator: TabNavigator?) {
+    convenience init(searchData: SearchData? = nil, filters: ProductFilters, tabNavigator: TabNavigator?) {
         let myUserRepository = Core.myUserRepository
         let trendingSearchesRepository = Core.trendingSearchesRepository
         let locationManager = Core.locationManager
         let tracker = TrackerProxy.sharedInstance
         self.init(myUserRepository: myUserRepository, trendingSearchesRepository: trendingSearchesRepository,
-                  locationManager: locationManager, tracker: tracker, searchString: searchString, filters: filters,
+                  locationManager: locationManager, tracker: tracker, searchData: searchData, filters: filters,
                   tabNavigator: tabNavigator)
     }
     
-    convenience init(searchString: String? = nil, tabNavigator: TabNavigator?) {
+    convenience init(searchData: SearchData? = nil, tabNavigator: TabNavigator?) {
         let filters = ProductFilters()
-        self.init(searchString: searchString, filters: filters, tabNavigator: tabNavigator)
+        self.init(searchData: searchData, filters: filters, tabNavigator: tabNavigator)
     }
 
     deinit {
@@ -154,7 +163,7 @@ class MainProductsViewModel: BaseViewModel {
     */
     func search(query: String) {
         guard !query.characters.isEmpty else { return }
-        delegate?.vmDidSearch(viewModelForSearch(query))
+        delegate?.vmDidSearch(viewModelForSearch(SearchData(text: query, isTrending: false)))
     }
 
     func showFilters() {
@@ -221,7 +230,7 @@ class MainProductsViewModel: BaseViewModel {
     private func setup() {
         listViewModel.dataDelegate = self
         productListRequester.filters = filters
-        productListRequester.queryString = searchString
+        productListRequester.queryString = searchData?.text
 
         setupSessionAndLocation()
     }
@@ -231,8 +240,8 @@ class MainProductsViewModel: BaseViewModel {
     
         - returns: A view model for search.
     */
-    private func viewModelForSearch(query: String) -> MainProductsViewModel {
-        return MainProductsViewModel(searchString: query, filters: filters, tabNavigator: tabNavigator)
+    private func viewModelForSearch(searchData: SearchData) -> MainProductsViewModel {
+        return MainProductsViewModel(searchData: searchData, filters: filters, tabNavigator: tabNavigator)
     }
     
     private func updateListView() {
@@ -476,8 +485,8 @@ extension MainProductsViewModel {
     }
 
     func selectedTrendingSearchAtIndex(index: Int) {
-        guard let trendingSearch = trendingSearchAtIndex(index) else { return }
-        search(trendingSearch)
+        guard let trendingSearch = trendingSearchAtIndex(index) where !trendingSearch.isEmpty else { return }
+        delegate?.vmDidSearch(viewModelForSearch(SearchData(text: trendingSearch, isTrending: true)))
     }
 
     private func retrieveTrendingSearches() {
@@ -510,10 +519,10 @@ private extension MainProductsViewModel {
                                                     searchQuery: productListRequester.queryString)
         tracker.trackEvent(trackerEvent)
 
-        if let actualSearchString = searchString where shouldTrackSearch && filters.isDefault() {
+        if let searchData = searchData where shouldTrackSearch && filters.isDefault() {
             shouldTrackSearch = false
-            tracker.trackEvent(TrackerEvent.searchComplete(myUserRepository.myUser, searchQuery: actualSearchString,
-                success: hasProducts ? .Success : .Failed))
+            tracker.trackEvent(TrackerEvent.searchComplete(myUserRepository.myUser, searchQuery: searchData.text,
+                isTrending: searchData.isTrending, success: hasProducts ? .Success : .Failed))
         }
     }
 }

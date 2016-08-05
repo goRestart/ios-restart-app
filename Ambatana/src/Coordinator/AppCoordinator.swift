@@ -422,7 +422,7 @@ private extension AppCoordinator {
     }
 
     dynamic func askUserToUpdateLocation() {
-        guard let navCtl = selectedNavigationController() else { return }
+        guard let navCtl = selectedNavigationController else { return }
 
         guard navCtl.isAtRootViewController else { return }
 
@@ -468,8 +468,9 @@ private extension AppCoordinator {
         return controller
     }
 
-    func selectedNavigationController() -> UINavigationController? {
-        return tabBarCtl.selectedViewController as? UINavigationController
+    var selectedNavigationController: UINavigationController? {
+        guard let selectedTabCoordinator = selectedTabCoordinator else { return nil }
+        return selectedTabCoordinator.navigationController
     }
 }
 
@@ -594,7 +595,7 @@ private extension AppCoordinator {
 
     private func openMyUserRatings() {
         guard FeatureFlags.userRatings else { return }
-        guard let navCtl = selectedNavigationController() else { return }
+        guard let navCtl = selectedNavigationController else { return }
 
         guard let myUserId = myUserRepository.myUser?.objectId else { return }
         let viewModel = UserRatingListViewModel(userId: myUserId, tabNavigator: profileTabBarCoordinator)
@@ -605,7 +606,7 @@ private extension AppCoordinator {
 
     private func openUserRatingForUserFromRating(ratingId: String) {
         guard FeatureFlags.userRatings else { return }
-        guard let navCtl = selectedNavigationController() else { return }
+        guard let navCtl = selectedNavigationController else { return }
 
         navCtl.showLoadingMessageAlert()
         userRatingRepository.show(ratingId) { [weak self] result in

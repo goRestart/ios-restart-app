@@ -114,6 +114,7 @@
 "chat_message_load_generic_error" = "При загрузке диалога произошла ошибка. Пожалуйста, попробуйте еще раз позже.";
 "chat_product_inactive_label" = "Товар неактивен";
 "chat_product_sold_label" = "Продано";
+"chat_related_products_title" = "ВАС МОЖЕТ ЗАИНТЕРЕСОВАТЬ:";
 "chat_safety_tips" = "Советами по безопасности";
 "chat_safety_tips_message" = "• Встречайтесь лично и платите наличными. \n\n• Общайтесь в чате letgo. \n\n• Слишком хорошее предложение, чтобы быть правдой? Будьте осторожны!";
 "chat_safety_tips_tip_1" = "После заключения сделки встретьтесь лично и платите наличными.";
@@ -133,6 +134,8 @@
 "chat_verify_alert_ok_button" = "Ok";
 "chat_verify_alert_resend_button" = "Перевыслать";
 "chat_verify_alert_title" = "Подтвердите ваш е-мейл для общения";
+"chat_with_yourself_alert_msg" = "You can't start a conversation about your own product.";
+"chat_with_yourself_alert_ok" = "Ok";
 "commercializer_create_from_settings" = "Create a Free Commercial";
 "commercializer_display_share_alert" = "Share this masterpiece";
 "commercializer_display_share_label" = "Share your masterpiece with the world and watch the offers come rolling in";

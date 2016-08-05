@@ -403,6 +403,15 @@
 // User info bubble to show information about the other user
 "chat_user_info_verified_with" = "Verified with: ";
 
+// Section inside chat that offers related products 
+"chat_related_products_title" = "YOU MIGHT BE INTERESTED IN:";
+
+// Alert to show when user started chat with himself
+"chat_with_yourself_alert_msg" = "You can't start a conversation about your own product.";
+
+// Alert to show when user started chat with himself ok button
+"chat_with_yourself_alert_ok" = "Ok";
+
 // Title for the commercializer display view
 "commercializer_display_title_label" = "Here's your finished commercial!";
 

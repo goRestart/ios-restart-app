@@ -9,12 +9,19 @@
 import LGCoreKit
 
 class ProductCellDrawer: BaseCollectionCellDrawer<ProductCell>, GridCellDrawer {
-    func draw(model: ProductData, inCell cell: ProductCell) {
+    func draw(model: ProductData, style: CellStyle, inCell cell: ProductCell) {
        
         //Disabling actions, price and stripe icon
         cell.setupActions(false, delegate: nil, indexPath: nil)
         cell.setCellWidth(cell.frame.width)
-        
+
+        switch style {
+        case .Small:
+            cell.priceLabel.font = UIFont.systemBoldFont(size: 15)
+        case .Big:
+            cell.priceLabel.font = UIFont.systemBoldFont(size: 17)
+        }
+
         if FeatureFlags.showPriceOnListings {
             cell.priceLabel.text = model.price
             cell.priceGradientView.hidden = false

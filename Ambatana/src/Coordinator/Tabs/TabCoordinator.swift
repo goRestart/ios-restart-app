@@ -145,22 +145,20 @@ extension TabCoordinator: TabNavigator {
 
     func openProduct(productListVM productListVM: ProductListViewModel, index: Int,
                      thumbnailImage: UIImage?, originFrame: CGRect?) {
-        guard let vc: UIViewController = ProductDetailFactory.productDetailFromProductList(productListVM, index: index,
-                                                                                     thumbnailImage: thumbnailImage,
-                                                                                     originFrame: originFrame,
-                                                                                     tabNavigator: self) else {
-            return
-        }
+        guard let vc = ProductDetailFactory.productDetailFromProductList(productListVM, index: index,
+                                                                         thumbnailImage: thumbnailImage,
+                                                                         originFrame: originFrame,
+                                                                         tabNavigator: self) else { return }
         navigationController.pushViewController(vc, animated: true)
     }
 
     func openProduct(chatProduct chatProduct: ChatProduct, user: ChatInterlocutor,
-                                 thumbnailImage: UIImage?, originFrame: CGRect?) {
+                     thumbnailImage: UIImage?, originFrame: CGRect?) {
         guard let productId = chatProduct.objectId else { return }
         let requester = RelatedProductListRequester(productId: productId)
         let vm = ProductCarouselViewModel(chatProduct: chatProduct, chatInterlocutor: user,
-                                          thumbnailImage: thumbnailImage, singleProductList: true,
-                                          productListRequester: requester, tabNavigator: self)
+                                          thumbnailImage: thumbnailImage, productListRequester: requester,
+                                          tabNavigator: self)
         let animator = ProductCarouselPushAnimator(originFrame: originFrame, originThumbnail: thumbnailImage)
         let vc = ProductCarouselViewController(viewModel: vm, pushAnimator: animator)
         navigationController.pushViewController(vc, animated: true)

@@ -75,6 +75,8 @@ public enum EventName: String {
     case ProductDeleteComplete              = "product-delete-complete"
     
     case UserMessageSent                    = "user-sent-message"
+    case ChatRelatedItemsStart              = "chat-related-items-start"
+    case ChatRelatedItemsComplete           = "chat-related-items-complete"
 
     case ProfileVisit                       = "profile-visit"
     case ProfileEditStart                   = "profile-edit-start"
@@ -163,6 +165,7 @@ public enum EventParameterName: String {
     case UserZipCode          = "user-zipcode"
     case SearchString         = "search-keyword"
     case SearchSuccess        = "search-success"
+    case TrendingSearch       = "trending-search"
     case Description          = "description"           // error description: why form validation failure.
     case LoginSource          = "login-type"            // the login source
     case LocationType         = "location-type"
@@ -200,6 +203,7 @@ public enum EventParameterName: String {
     case Campaign             = "campaign"
     case Medium               = "medium"
     case Source               = "source"
+    case ItemPosition         = "item-position"
 }
 
 public enum EventParameterLoginSourceValue: String {

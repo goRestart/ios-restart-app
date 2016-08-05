@@ -9,7 +9,13 @@
 import Foundation
 
 class BannerCellDrawer: BaseCollectionCellDrawer<BannerCell>, GridCellDrawer {
-    func draw(model: BannerData, inCell cell: BannerCell) {
+    func draw(model: BannerData, style: CellStyle, inCell cell: BannerCell) {
+        switch style {
+        case .Small:
+            cell.title.font = UIFont.systemBoldFont(size: 17)
+        case .Big:
+            cell.title.font = UIFont.systemBoldFont(size: 19)
+        }
         cell.imageView.image = model.style.image
         cell.colorView.backgroundColor = model.style.backColor
         cell.title.text = model.title

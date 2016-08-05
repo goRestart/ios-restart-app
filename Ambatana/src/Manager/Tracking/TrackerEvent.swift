@@ -156,12 +156,12 @@ public struct TrackerEvent {
         return TrackerEvent(name: .SearchStart, params: params)
     }
 
-    static func searchComplete(user: User?, searchQuery: String, success: EventParameterSearchCompleteSuccess)
+    static func searchComplete(user: User?, searchQuery: String, isTrending: Bool, success: EventParameterSearchCompleteSuccess)
         -> TrackerEvent {
             var params = EventParameters()
-            // Search query
             params[.SearchString] = searchQuery
             params[.SearchSuccess] = success.rawValue
+            params[.TrendingSearch] = isTrending
             return TrackerEvent(name: .SearchComplete, params: params)
     }
 
@@ -510,6 +510,16 @@ public struct TrackerEvent {
         params[.MessageType] = messageType.rawValue
         params[.QuickAnswer] = isQuickAnswer.rawValue
         return TrackerEvent(name: .UserMessageSent, params: params)
+    }
+
+    static func chatRelatedItemsStart() -> TrackerEvent {
+        return TrackerEvent(name: .ChatRelatedItemsStart, params: EventParameters())
+    }
+
+    static func chatRelatedItemsComplete(itemPosition: Int) -> TrackerEvent {
+        var params = EventParameters()
+        params[.ItemPosition] = itemPosition
+        return TrackerEvent(name: .ChatRelatedItemsComplete, params: params)
     }
 
     static func profileVisit(user: User, typePage: EventParameterTypePage, tab: EventParameterTab)

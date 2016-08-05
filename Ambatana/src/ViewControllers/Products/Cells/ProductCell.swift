@@ -44,7 +44,13 @@ class ProductCell: UICollectionViewCell, ReusableCell {
     var likeButtonEnabled: Bool = true
     var chatButtonEnabled: Bool = true
 
-    
+    override var highlighted: Bool {
+        didSet {
+            alpha = highlighted ? 0.8 : 1.0
+        }
+    }
+
+
     // MARK: - Lifecycle
     
     override func awakeFromNib() {

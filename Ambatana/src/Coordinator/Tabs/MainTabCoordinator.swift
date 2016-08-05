@@ -18,7 +18,7 @@ final class MainTabCoordinator: TabCoordinator {
         let myUserRepository = Core.myUserRepository
         let keyValueStorage = KeyValueStorage.sharedInstance
         let tracker = TrackerProxy.sharedInstance
-        let viewModel = MainProductsViewModel(searchString: nil, tabNavigator: nil)
+        let viewModel = MainProductsViewModel(searchData: nil, tabNavigator: nil)
         let rootViewController = MainProductsViewController(viewModel: viewModel)
         self.init(productRepository: productRepository, userRepository: userRepository,
                   chatRepository: chatRepository, oldChatRepository: oldChatRepository,
@@ -33,7 +33,8 @@ final class MainTabCoordinator: TabCoordinator {
         if let categoriesString = categoriesString {
             filters.selectedCategories = ProductCategory.categoriesFromString(categoriesString)
         }
-        let viewModel = MainProductsViewModel(searchString: query, filters: filters, tabNavigator: self)
+        let searchData = SearchData(text: query, isTrending: false)
+        let viewModel = MainProductsViewModel(searchData: searchData, filters: filters, tabNavigator: self)
         let vc = MainProductsViewController(viewModel: viewModel)
 
         navigationController.pushViewController(vc, animated: true)

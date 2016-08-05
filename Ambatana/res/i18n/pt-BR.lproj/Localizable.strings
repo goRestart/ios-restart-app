@@ -114,6 +114,7 @@
 "chat_message_load_generic_error" = "An error occurred while retrieving your conversation data. Please try again later.";
 "chat_product_inactive_label" = "Product inactive";
 "chat_product_sold_label" = "Product sold";
+"chat_related_products_title" = "YOU MIGHT BE INTERESTED IN:";
 "chat_safety_tips" = "Safety tips";
 "chat_safety_tips_message" = "• Meet in person and pay in cash.\n\n• Keep conversations in the letgo chat.\n\n• Too good to be true? Beware!";
 "chat_safety_tips_tip_1" = "After you seal the deal, meet in person and pay in cash.";
@@ -133,6 +134,8 @@
 "chat_verify_alert_ok_button" = "Ok";
 "chat_verify_alert_resend_button" = "Resend";
 "chat_verify_alert_title" = "Verify your email to chat";
+"chat_with_yourself_alert_msg" = "You can't start a conversation about your own product.";
+"chat_with_yourself_alert_ok" = "Ok";
 "commercializer_create_from_settings" = "Create a Free Commercial";
 "commercializer_display_share_alert" = "Share this masterpiece";
 "commercializer_display_share_label" = "Share your masterpiece with the world and watch the offers come rolling in";

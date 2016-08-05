@@ -11,5 +11,5 @@ import Foundation
 protocol GridCellDrawer {
     associatedtype T: UICollectionViewCell
     associatedtype M
-    func draw(model: M, inCell cell: T)
+    func draw(model: M, style: CellStyle, inCell cell: T)
 }
