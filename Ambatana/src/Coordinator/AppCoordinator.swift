@@ -119,7 +119,7 @@ extension AppCoordinator: AppNavigator {
             strongSelf.delegate?.appNavigatorDidOpenApp()
 
             if let deepLink = strongSelf.deepLinksRouter.consumeInitialDeepLink() {
-                strongSelf.openDeepLink(deepLink, initialDeepLink: true)
+                strongSelf.openExternalDeepLink(deepLink, initialDeepLink: true)
             }
         }
 
@@ -319,9 +319,7 @@ private extension AppCoordinator {
                     return !appActive
                 }
             }.subscribeNext { [weak self] deepLink in
-                let event = TrackerEvent.openAppExternal(deepLink.campaign, medium: deepLink.medium, source: deepLink.source)
-                TrackerProxy.sharedInstance.trackEvent(event)
-                self?.openDeepLink(deepLink)
+                self?.openExternalDeepLink(deepLink)
             }.addDisposableTo(disposeBag)
     }
 
@@ -436,6 +434,13 @@ private extension AppCoordinator {
             vc.afterLoginAction = afterLogInSuccessful
             tabBarCtl.presentViewController(vc, animated: true, completion: nil)
         }
+    }
+
+    func openExternalDeepLink(deepLink: DeepLink, initialDeepLink: Bool = false) {
+        let event = TrackerEvent.openAppExternal(deepLink.campaign, medium: deepLink.medium, source: deepLink.source)
+        TrackerProxy.sharedInstance.trackEvent(event)
+
+        openDeepLink(deepLink, initialDeepLink: initialDeepLink)
     }
 
     func openDeepLink(deepLink: DeepLink, initialDeepLink: Bool = false) {
