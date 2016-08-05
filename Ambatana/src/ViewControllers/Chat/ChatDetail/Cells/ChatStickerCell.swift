@@ -12,5 +12,10 @@ import Foundation
 class ChatStickerCell: UITableViewCell, ReusableCell {
     
     @IBOutlet weak var leftImage: UIImageView!
-    @IBOutlet weak var rightImage: UIImageView!    
+    @IBOutlet weak var rightImage: UIImageView!
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        backgroundColor = UIColor.clearColor()
+    }
 }

@@ -181,6 +181,10 @@ extension UserViewController: UserViewModelDelegate {
         let vc = UserRatingListViewController(viewModel: ratingListVM)
         navigationController?.pushViewController(vc, animated: true)
     }
+    
+    func vmShowUserActionSheet(cancelLabel: String, actions: [UIAction]) {
+        showActionSheet(cancelLabel, actions: actions, barButtonItem: navigationItem.rightBarButtonItem)
+    }
 }
 
 

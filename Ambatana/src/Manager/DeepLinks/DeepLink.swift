@@ -26,7 +26,7 @@ struct DeepLink {
     }
 
     static func shortCut(action: DeepLinkAction) -> DeepLink {
-        return DeepLink(action: action, origin: .ShortCut, campaign: nil, medium: nil, source: .Direct)
+        return DeepLink(action: action, origin: .ShortCut, campaign: nil, medium: nil, source: .None)
     }
 }
 
@@ -53,7 +53,6 @@ enum DeepLinkOrigin {
 }
 
 enum DeepLinkSource {
-    case Direct
     case External(source: String)
     case Push
     case None

@@ -8,6 +8,10 @@
 
 struct UniversalLink {
 
+    static let utmMediumKey = "utm_medium"
+    static let utmSourceKey = "utm_source"
+    static let utmCampaignKey = "utm_campaign"
+
     let deepLink: DeepLink
 
     static func buildFromUserActivity(userActivity: NSUserActivity) -> UniversalLink? {
@@ -47,9 +51,9 @@ struct UniversalLink {
         let components = url.components
         let queryParams = url.queryParameters
 
-        let campaign = queryParams["campaign"]
-        let medium = queryParams["medium"]
-        let source = DeepLinkSource(string: queryParams["source"])
+        let campaign = queryParams[UniversalLink.utmCampaignKey]
+        let medium = queryParams[UniversalLink.utmMediumKey]
+        let source = DeepLinkSource(string: queryParams[UniversalLink.utmSourceKey])
 
         if components.count > 1 { //the ones with <language_code> part
             switch components[1] {
