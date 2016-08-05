@@ -8,6 +8,10 @@
 
 struct UriScheme {
 
+    static let utmMediumKey = "utm_medium"
+    static let utmSourceKey = "utm_source"
+    static let utmCampaignKey = "utm_campaign"
+
     var deepLink: DeepLink
 
     static func buildFromLaunchOptions(launchOptions: [NSObject: AnyObject]) -> UriScheme? {
@@ -26,9 +30,9 @@ struct UriScheme {
 
     static func buildFromHost(host: UriSchemeHost, components: [String], params: [String : String]) -> UriScheme? {
 
-        let campaign = params["campaign"]
-        let medium = params["medium"]
-        let source = DeepLinkSource(string: params["source"])
+        let campaign = params[UriScheme.utmCampaignKey]
+        let medium = params[UriScheme.utmMediumKey]
+        let source = DeepLinkSource(string: params[UriScheme.utmSourceKey])
 
         switch host {
         case .Home:
