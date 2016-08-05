@@ -235,20 +235,20 @@ for row in first_term_row..last_term_row
   end
 end
 
-# puts 'Loaded.'.cyan
+puts 'Loaded.'.cyan
 
-# puts 'Uploading valid strings to wti...'.cyan
-# wti_push(ios_path)
-# puts 'Updating translations from wti...'.cyan
-# wti_pull(ios_path)
-# puts 'Adding not-yet validated terms to base and localizables...'.cyan
-# drive_pull(ios_path)
+puts 'Uploading valid strings to wti...'.cyan
+wti_push(ios_path)
+puts 'Updating translations from wti...'.cyan
+wti_pull(ios_path)
+puts 'Adding not-yet validated terms to base and localizables...'.cyan
+drive_pull(ios_path)
 
-# puts 'Done! - Locale generation went smoothly :)'.green
+puts 'Done! - Locale generation went smoothly :)'.green
 
 if(check_unused)
   puts 'Checking unused'
-  # check_unused_ios(worksheet, first_term_row, last_term_row, ios_path, check_unused_mark)
+  check_unused_ios(worksheet, first_term_row, last_term_row, ios_path, check_unused_mark)
 end
 
 
