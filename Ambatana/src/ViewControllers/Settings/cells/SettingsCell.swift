@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SettingsCell: UITableViewCell {
+class SettingsCell: UITableViewCell, ReusableCell {
 
     @IBOutlet weak var iconImageView: UIImageView!
     @IBOutlet weak var label: UILabel!
@@ -16,19 +16,23 @@ class SettingsCell: UITableViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        self.resetUI()
+        self.setupUI()
     }
 
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        self.resetUI()
+    func setupWithSetting(setting: LetGoSetting) {
+        label.text = setting.title
+        label.textColor = setting.textColor
+        nameLabel.text = setting.textValue
+        iconImageView.image = setting.image
+        if let imageUrl = setting.imageURL {
+            iconImageView.lg_setImageWithURL(imageUrl)
+        }
+        iconImageView.contentMode = setting.imageRounded ? .ScaleAspectFill : .Center
+        iconImageView.layer.cornerRadius = setting.imageRounded ? iconImageView.frame.size.width / 2.0 : 0.0
+        accessoryType = setting.showsDisclosure ? .DisclosureIndicator : .None
     }
 
-    private func resetUI() {
-        iconImageView.image = nil
-        label.text = nil
-        nameLabel.text = nil
-        accessoryType = .DisclosureIndicator
+    private func setupUI() {
+        iconImageView.clipsToBounds = true
     }
-    
 }
