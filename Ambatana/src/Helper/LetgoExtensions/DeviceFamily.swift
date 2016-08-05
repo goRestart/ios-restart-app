@@ -33,6 +33,10 @@ enum DeviceFamily {
     static var isWideScreen: Bool {
         return UIScreen.mainScreen().bounds.width > DeviceFamily.iPhone6ScreenWidth
     }
+    
+    static var isiPad: Bool {
+        return UIDevice.currentDevice().userInterfaceIdiom == .Pad
+    }
 
     private static let iPhone6ScreenWidth: CGFloat = 375
 }

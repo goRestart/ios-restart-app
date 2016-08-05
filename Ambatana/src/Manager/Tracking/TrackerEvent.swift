@@ -785,13 +785,11 @@ public struct TrackerEvent {
         return TrackerEvent(name: .UserRatingComplete, params: params)
     }
 
-    static func openApp(campaign: String? = nil, medium: String? = nil, source: DeepLinkSource) -> TrackerEvent {
+    static func openAppExternal(campaign: String? = nil, medium: String? = nil, source: DeepLinkSource) -> TrackerEvent {
         var params = EventParameters()
         params[.Campaign] = campaign
         params[.Medium] = medium
         switch source {
-        case .Direct:
-            params[.Source] = "direct"
         case let .External(theSource):
             params[.Source] = theSource
         case .Push:

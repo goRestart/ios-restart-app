@@ -48,11 +48,11 @@ extension UIViewController: BaseViewModelDelegate {
     }
 
     func vmShowActionSheet(cancelAction: UIAction, actions: [UIAction]) {
-        showActionSheet(cancelAction, actions: actions)
+        showActionSheet(cancelAction, actions: actions, barButtonItem: nil, completion: nil)
     }
 
     func vmShowActionSheet(cancelLabel: String, actions: [UIAction]) {
-        showActionSheet(cancelLabel, actions: actions)
+        showActionSheet(cancelLabel, actions: actions, barButtonItem: nil)
     }
 
     func vmPop() {
