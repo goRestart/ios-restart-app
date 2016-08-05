@@ -512,6 +512,8 @@
 		C72794451D549342009C25AB /* HelpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C72794341D549342009C25AB /* HelpViewController.xib */; };
 		C72794461D549342009C25AB /* HelpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72794351D549342009C25AB /* HelpViewModel.swift */; };
 		C72794471D549342009C25AB /* HelpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72794351D549342009C25AB /* HelpViewModel.swift */; };
+		C72794491D54944E009C25AB /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72794481D54944E009C25AB /* SettingsViewModel.swift */; };
+		C727944A1D54944E009C25AB /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72794481D54944E009C25AB /* SettingsViewModel.swift */; };
 		C727FBBE1CCFC4ED002BC643 /* NotificationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C727FBBC1CCFC4ED002BC643 /* NotificationsViewController.swift */; };
 		C727FBBF1CCFC4ED002BC643 /* NotificationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C727FBBC1CCFC4ED002BC643 /* NotificationsViewController.swift */; };
 		C727FBC01CCFC4ED002BC643 /* NotificationsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C727FBBD1CCFC4ED002BC643 /* NotificationsViewController.xib */; };
@@ -1316,6 +1318,7 @@
 		C72794331D549342009C25AB /* HelpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HelpViewController.swift; sourceTree = "<group>"; };
 		C72794341D549342009C25AB /* HelpViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HelpViewController.xib; sourceTree = "<group>"; };
 		C72794351D549342009C25AB /* HelpViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HelpViewModel.swift; sourceTree = "<group>"; };
+		C72794481D54944E009C25AB /* SettingsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 		C727FBBC1CCFC4ED002BC643 /* NotificationsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationsViewController.swift; sourceTree = "<group>"; };
 		C727FBBD1CCFC4ED002BC643 /* NotificationsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NotificationsViewController.xib; sourceTree = "<group>"; };
 		C727FBC21CCFC545002BC643 /* NotificationsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationsViewModel.swift; sourceTree = "<group>"; };
@@ -2253,6 +2256,7 @@
 				C72794251D549334009C25AB /* cells */,
 				508010E61D4748120073F362 /* SettingsViewController.swift */,
 				508010E71D4748120073F362 /* SettingsViewController.xib */,
+				C72794481D54944E009C25AB /* SettingsViewModel.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -3802,6 +3806,7 @@
 				6A8BE8FD1CDA2C3F00D97727 /* ProductCarouselMoreInfoViewController.swift in Sources */,
 				2E6B6E411D2E8BDD00C10A20 /* Int+LG.swift in Sources */,
 				6A3C730C1CEF0DEB00A062E0 /* KeyboardHelper.swift in Sources */,
+				C72794491D54944E009C25AB /* SettingsViewModel.swift in Sources */,
 				C727FBC31CCFC545002BC643 /* NotificationsViewModel.swift in Sources */,
 				2E2C7B331C859F4E00F46E8F /* PromoteProductViewModel.swift in Sources */,
 				C749316E1D34FD0200E117F1 /* RateUserViewController.swift in Sources */,
@@ -4132,6 +4137,7 @@
 				C75B55FA1C7E12C90001F5CD /* FilterLocationCell.swift in Sources */,
 				C768CC1B1CA44B5F00E39E5F /* BranchDeepLink.swift in Sources */,
 				6AF75D0B1CF457D800EACCF0 /* ChatViewMessageAdapter.swift in Sources */,
+				C727944A1D54944E009C25AB /* SettingsViewModel.swift in Sources */,
 				2E6B6E421D2E8FDF00C10A20 /* Int+LG.swift in Sources */,
 				6A8BE8FE1CDA2C4000D97727 /* ProductCarouselMoreInfoViewController.swift in Sources */,
 				6A3C730D1CEF0DEB00A062E0 /* KeyboardHelper.swift in Sources */,

@@ -85,8 +85,7 @@ enum LetGoUserSettings: Int {
     }
 }
 
-class SettingsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource,
-UIImagePickerControllerDelegate, UINavigationControllerDelegate, FBSDKAppInviteDialogDelegate {
+class SettingsViewController: BaseViewController {
 
     // constants
     private static let cellIdentifier = "SettingsCell"
@@ -98,9 +97,12 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, FBSDKAppInviteD
     @IBOutlet weak var settingProfileImageProgressView: UIProgressView!
 
     let commercializerRepository = Core.commercializerRepository
+
+    private let viewModel: SettingsViewModel
     
-    init() {
-        super.init(nibName: "SettingsViewController", bundle: nil)
+    init(viewModel: SettingsViewModel) {
+        self.viewModel = viewModel
+        super.init(viewModel: viewModel, nibName: "SettingsViewController")
         hidesBottomBarWhenPushed = true
     }
 
@@ -141,14 +143,30 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, FBSDKAppInviteD
         return !commercializerRepository.templatesForCountryCode(countryCode).isEmpty
     }
 
-    // MARK: - UITableViewDataSource methods
+    func logoutUser() {
+        // Logout
+        Core.sessionManager.logout()
+
+        // Tracking
+        let trackerEvent = TrackerEvent.logout()
+        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+
+        TrackerProxy.sharedInstance.setUser(nil)
+    }
+}
+
+
+// MARK: - TableView
+
+extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
+
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return LetGoUserSettings.numberOfOptions(commercializerEnabled())
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCellWithIdentifier(SettingsViewController.cellIdentifier,
-            forIndexPath: indexPath) as? SettingsCell else { return UITableViewCell() }
+                                                                     forIndexPath: indexPath) as? SettingsCell else { return UITableViewCell() }
 
         let setting = LetGoUserSettings(rawValue: indexPath.row, commercializerEnabled: commercializerEnabled())!
 
@@ -166,7 +184,7 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, FBSDKAppInviteD
             let myUser = Core.myUserRepository.myUser
             let placeholder =  LetgoAvatar.avatarWithColor(UIColor.defaultAvatarColor, name: myUser?.name)
             cell.iconImageView.image = placeholder
-            
+
             if let myUser = myUser, let avatarUrl = myUser.avatar?.fileURL {
                 cell.iconImageView.lg_setImageWithURL(avatarUrl, placeholderImage: placeholder)
             }
@@ -181,7 +199,7 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, FBSDKAppInviteD
         if setting != .ChangePhoto {
             cell.iconImageView.image = setting.imageForSetting()
         }
-        
+
         cell.iconImageView.contentMode = setting == .ChangePhoto ? .ScaleAspectFill : .Center
         cell.iconImageView.layer.cornerRadius = setting == .ChangePhoto ? cell.iconImageView.frame.size.width / 2.0 : 0.0
         cell.iconImageView.clipsToBounds = true
@@ -189,7 +207,6 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, FBSDKAppInviteD
         return cell
     }
 
-    // MARK: - UITableViewDelegate methods
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
 
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
@@ -229,17 +246,13 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, FBSDKAppInviteD
             logoutUser()
         }
     }
+}
 
-    func logoutUser() {
-        // Logout
-        Core.sessionManager.logout()
 
-        // Tracking
-        let trackerEvent = TrackerEvent.logout()
-        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
 
-        TrackerProxy.sharedInstance.setUser(nil)
-    }
+// MARK: - Image Pick
+
+extension SettingsViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
     func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
         var image = info[UIImagePickerControllerEditedImage] as? UIImage
@@ -265,36 +278,39 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, FBSDKAppInviteD
         }
 
         Core.myUserRepository.updateAvatar(imageData,
-            progressBlock: { (progressAsInt) -> Void in
-                dispatch_async(dispatch_get_main_queue()) { [weak self] in
-                    self?.settingProfileImageProgressView.setProgress(Float(progressAsInt)/100.0, animated: true)
-                }
+                                           progressBlock: { (progressAsInt) -> Void in
+                                            dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                                                self?.settingProfileImageProgressView.setProgress(Float(progressAsInt)/100.0, animated: true)
+                                            }
             },
-            completion: { [weak self] updateResult in
-                guard let strongSelf = self else { return }
+                                           completion: { [weak self] updateResult in
+                                            guard let strongSelf = self else { return }
 
-                if let _ = updateResult.value {
-                    // save local user image
-                    strongSelf.tableView.reloadData()
-                    strongSelf.settingProfileImageView.hidden = true
+                                            if let _ = updateResult.value {
+                                                // save local user image
+                                                strongSelf.tableView.reloadData()
+                                                strongSelf.settingProfileImageView.hidden = true
 
-                    let trackerEvent = TrackerEvent.profileEditEditPicture()
-                    TrackerProxy.sharedInstance.trackEvent(trackerEvent)
-
-                } else { // unable save user with new avatar.
-                    strongSelf.settingProfileImageView.hidden = true
-                    strongSelf.showAutoFadingOutMessageAlert(LGLocalizedString.settingsChangeProfilePictureErrorGeneric)
-                }
+                                                let trackerEvent = TrackerEvent.profileEditEditPicture()
+                                                TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+                                                
+                                            } else { // unable save user with new avatar.
+                                                strongSelf.settingProfileImageView.hidden = true
+                                                strongSelf.showAutoFadingOutMessageAlert(LGLocalizedString.settingsChangeProfilePictureErrorGeneric)
+                                            }
             }
         )
     }
-
+    
     func imagePickerControllerDidCancel(picker: UIImagePickerController) {
         self.dismissViewControllerAnimated(true, completion: nil)
     }
+}
 
 
-    // MARK: FBSDKAppInviteDialogDelegate
+// MARK: - FBSDKAppInviteDialogDelegate
+
+extension SettingsViewController: FBSDKAppInviteDialogDelegate {
 
     func appInviteDialog(appInviteDialog: FBSDKAppInviteDialog!, didCompleteWithResults results: [NSObject : AnyObject]!) {
 
@@ -315,12 +331,11 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, FBSDKAppInviteD
 
         let trackerEvent = TrackerEvent.appInviteFriendComplete(.Facebook, typePage: .Settings)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
-        
+
         showAutoFadingOutMessageAlert(LGLocalizedString.settingsInviteFacebookFriendsOk)
     }
-    
+
     func appInviteDialog(appInviteDialog: FBSDKAppInviteDialog!, didFailWithError error: NSError!) {
         showAutoFadingOutMessageAlert(LGLocalizedString.settingsInviteFacebookFriendsError)
     }
-    
 }
