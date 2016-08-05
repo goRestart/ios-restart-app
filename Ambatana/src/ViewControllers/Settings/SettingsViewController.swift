@@ -69,7 +69,7 @@ class SettingsViewController: BaseViewController {
         }.addDisposableTo(disposeBag)
 
         viewModel.settingsChanges.bindNext { [weak self] change in
-            self?.tableView.handleCollectionChange(change, animated: false)
+            self?.tableView.reloadData()
         }.addDisposableTo(disposeBag)
     }
 }
@@ -151,29 +151,5 @@ extension SettingsViewController: FBSDKAppInviteDialogDelegate {
 
     func appInviteDialog(appInviteDialog: FBSDKAppInviteDialog!, didFailWithError error: NSError!) {
         viewModel.fbAppInviteFailed()
-    }
-}
-
-
-extension UITableView {
-    func handleCollectionChange<T>(change: CollectionChange<T>, animated: Bool = true, completion: ((Bool) -> Void)? = nil) {
-        beginUpdates()
-        handleChange(change)
-        endUpdates()
-    }
-
-    private func handleChange<T>(change: CollectionChange<T>, animated: Bool = true) {
-        switch change {
-        case .Remove(let index, _):
-            let indexPath = NSIndexPath(forRow: index, inSection: 0)
-            deleteRowsAtIndexPaths([indexPath], withRowAnimation: animated ? .Automatic : .None)
-        case .Insert(let index, _):
-            let indexPath = NSIndexPath(forRow: index, inSection: 0)
-            insertRowsAtIndexPaths([indexPath], withRowAnimation: animated ? .Automatic : .None)
-        case .Composite(let changes):
-            changes.forEach { [weak self] change in
-                self?.handleChange(change)
-            }
-        }
     }
 }
