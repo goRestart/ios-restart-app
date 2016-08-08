@@ -25,14 +25,14 @@ class OldChatListViewModel: BaseChatGroupedListViewModel<Chat>, ChatListViewMode
 
     // MARK: - Lifecycle
 
-    convenience init(chatsType: ChatsType) {
-        self.init(chatRepository: Core.oldChatRepository, chats: [], chatsType: chatsType)
+    convenience init(chatsType: ChatsType, tabNavigator: TabNavigator?) {
+        self.init(chatRepository: Core.oldChatRepository, chats: [], chatsType: chatsType, tabNavigator: tabNavigator)
     }
 
-    required init(chatRepository: OldChatRepository, chats: [Chat], chatsType: ChatsType) {
+    required init(chatRepository: OldChatRepository, chats: [Chat], chatsType: ChatsType, tabNavigator: TabNavigator?) {
         self.chatRepository = chatRepository
         self.chatsType = chatsType
-        super.init(objects: chats)
+        super.init(objects: chats, tabNavigator: tabNavigator)
     }
 
 
@@ -79,7 +79,7 @@ class OldChatListViewModel: BaseChatGroupedListViewModel<Chat>, ChatListViewMode
 
     func oldChatViewModelForIndex(index: Int) -> OldChatViewModel? {
         guard let chat = objectAtIndex(index) else { return nil }
-        return OldChatViewModel(chat: chat)
+        return OldChatViewModel(chat: chat, tabNavigator: tabNavigator)
     }
 
     func chatViewModelForIndex(index: Int) -> ChatViewModel? { return nil }

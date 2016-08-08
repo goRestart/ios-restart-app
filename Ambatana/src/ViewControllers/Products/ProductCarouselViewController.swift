@@ -732,12 +732,7 @@ extension ProductCarouselViewController: ProductViewModelDelegate {
         navCtl.view.backgroundColor = UIColor.whiteColor()
         presentViewController(navCtl, animated: true, completion: nil)
     }
-    
-    func vmOpenUser(userVM: UserViewModel) {
-        let vc = UserViewController(viewModel: userVM)
-        navigationController?.pushViewController(vc, animated: true)
-    }
-    
+      
     func vmOpenChat(chatVM: OldChatViewModel) {
         let chatVC = OldChatViewController(viewModel: chatVM, hidesBottomBar: false)
         navigationController?.pushViewController(chatVC, animated: true)

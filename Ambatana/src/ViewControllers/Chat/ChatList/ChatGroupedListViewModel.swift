@@ -45,7 +45,7 @@ class BaseChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
     var emptyStatusViewModel: LGEmptyViewModel?
 
     weak var chatGroupedDelegate : ChatGroupedListViewModelDelegate?
-
+    weak var tabNavigator: TabNavigator?
 
     // MARK: - Paginable
 
@@ -62,9 +62,10 @@ class BaseChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
 
     // MARK: - Lifecycle
 
-    required init(objects: [T]) {
+    required init(objects: [T], tabNavigator: TabNavigator?) {
         self.objects = Variable<[T]>(objects)
         self.status = .Loading
+        self.tabNavigator = tabNavigator
         super.init()
 
         setupPaginableRxBindings()

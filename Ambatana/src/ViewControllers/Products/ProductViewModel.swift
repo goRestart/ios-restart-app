@@ -18,7 +18,6 @@ protocol ProductViewModelDelegate: class, BaseViewModelDelegate {
 
     func vmOpenEditProduct(editProductVM: EditProductViewModel)
     func vmOpenMainSignUp(signUpVM: SignUpViewModel, afterLoginAction: () -> ())
-    func vmOpenUser(userVM: UserViewModel)
     func vmOpenChat(chatVM: OldChatViewModel)
     func vmOpenWebSocketChat(chatVM: ChatViewModel)
 
@@ -115,6 +114,7 @@ class ProductViewModel: BaseViewModel {
 
     // Delegate
     weak var delegate: ProductViewModelDelegate?
+    weak var tabNavigator: TabNavigator?
 
     
     // UI
@@ -160,7 +160,7 @@ class ProductViewModel: BaseViewModel {
 
     // MARK: - Lifecycle
 
-    convenience init(product: ChatProduct, user: ChatInterlocutor, thumbnailImage: UIImage?) {
+    convenience init(product: ChatProduct, user: ChatInterlocutor, thumbnailImage: UIImage?, tabNavigator: TabNavigator?) {
         let myUserRepository = Core.myUserRepository
         let productRepository = Core.productRepository
         let commercializerRepository = Core.commercializerRepository
@@ -175,12 +175,12 @@ class ProductViewModel: BaseViewModel {
         self.init(myUserRepository: myUserRepository, productRepository: productRepository,
                   commercializerRepository: commercializerRepository, chatRepository: chatRepository,
                   chatWebSocketRepository: chatWebSocketRepository, locationManager: locationManager, countryHelper: countryHelper, tracker: tracker,
-                  product: product, thumbnailImage: thumbnailImage)
+                  product: product, thumbnailImage: thumbnailImage, tabNavigator: tabNavigator)
         
         syncProduct(nil)
     }
     
-    convenience init(product: Product, thumbnailImage: UIImage?) {
+    convenience init(product: Product, thumbnailImage: UIImage?, tabNavigator: TabNavigator?) {
         let myUserRepository = Core.myUserRepository
         let productRepository = Core.productRepository
         let commercializerRepository = Core.commercializerRepository
@@ -192,13 +192,13 @@ class ProductViewModel: BaseViewModel {
         self.init(myUserRepository: myUserRepository, productRepository: productRepository,
                   commercializerRepository: commercializerRepository, chatRepository: chatRepository,
                   chatWebSocketRepository: chatWebSocketRepository, locationManager: locationManager, countryHelper: countryHelper, tracker: tracker,
-                  product: product, thumbnailImage: thumbnailImage)
+                  product: product, thumbnailImage: thumbnailImage, tabNavigator: tabNavigator)
     }
 
     init(myUserRepository: MyUserRepository, productRepository: ProductRepository,
          commercializerRepository: CommercializerRepository, chatRepository: OldChatRepository,
          chatWebSocketRepository: ChatRepository, locationManager: LocationManager, countryHelper: CountryHelper,
-         tracker: Tracker, product: Product, thumbnailImage: UIImage?) {
+         tracker: Tracker, product: Product, thumbnailImage: UIImage?, tabNavigator: TabNavigator?) {
         self.product = Variable<Product>(product)
         self.thumbnailImage = thumbnailImage
         self.myUserRepository = myUserRepository
@@ -210,6 +210,7 @@ class ProductViewModel: BaseViewModel {
         self.chatRepository = chatRepository
         self.chatWebSocketRepository = chatWebSocketRepository
         self.locationManager = locationManager
+        self.tabNavigator = tabNavigator
         
         let ownerId = product.user.objectId
         self.ownerId = ownerId
@@ -361,18 +362,8 @@ class ProductViewModel: BaseViewModel {
 extension ProductViewModel {
 
     func openProductOwnerProfile() {
-        guard let productOwnerId = product.value.user.objectId else { return }
-
-        let userVM = UserViewModel(user: product.value.user, source: .ProductDetail)
-
-        // If logged in and i'm not the product owner then open the user profile
-        if Core.sessionManager.loggedIn {
-            if myUserRepository.myUser?.objectId != productOwnerId {
-                delegate?.vmOpenUser(userVM)
-            }
-        } else {
-            delegate?.vmOpenUser(userVM)
-        }
+        let data = UserDetailData.UserAPI(user: product.value.user, source: .ProductDetail)
+        tabNavigator?.openUser(data)
     }
 
     func markSold() {
@@ -471,11 +462,11 @@ extension ProductViewModel {
 extension ProductViewModel {
     private func openChat() {
         if FeatureFlags.websocketChat {
-            guard let chatVM = ChatViewModel(product: product.value) else { return }
+            guard let chatVM = ChatViewModel(product: product.value, tabNavigator: tabNavigator) else { return }
             chatVM.askQuestion = .ProductDetail
             self.delegate?.vmOpenWebSocketChat(chatVM)
         } else {
-            guard let chatVM = OldChatViewModel(product: product.value) else { return }
+            guard let chatVM = OldChatViewModel(product: product.value, tabNavigator: tabNavigator) else { return }
             chatVM.askQuestion = .ProductDetail
             delegate?.vmOpenChat(chatVM)
         }

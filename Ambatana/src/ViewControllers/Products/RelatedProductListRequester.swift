@@ -12,17 +12,15 @@ class RelatedProductListRequester: ProductListRequester {
 
     private let productObjectId: String
     private let productRepository: ProductRepository
-    private let locationManager: LocationManager
     private var offset: Int = 0
 
     convenience init(productId: String) {
-        self.init(productId: productId, productRepository: Core.productRepository, locationManager: Core.locationManager)
+        self.init(productId: productId, productRepository: Core.productRepository)
     }
 
-    init(productId: String, productRepository: ProductRepository, locationManager: LocationManager) {
+    init(productId: String, productRepository: ProductRepository) {
         self.productObjectId = productId
         self.productRepository = productRepository
-        self.locationManager = locationManager
     }
 
     func canRetrieve() -> Bool {
