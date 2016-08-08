@@ -6,7 +6,13 @@ module Fastlane
     class LgStringsAction < Action
       def self.run(params)
         path_to_repo = params[:repository_path]
+        mark_unused_strings = params[:mark_unused_strings]
         pushChangeCommand = "ruby #{path_to_repo}Scripts/strings_update.rb -i #{path_to_repo}"
+
+        if mark_unused_strings 
+          pushChangeCommand << " -c -m"
+        end
+
         Helper.log.debug pushChangeCommand
         Actions.sh pushChangeCommand
       end
@@ -24,7 +30,12 @@ module Fastlane
         [FastlaneCore::ConfigItem.new(key: :repository_path,
                                        env_name: "RB_STRINGS_REPO_PATH",
                                        description: "Path to the repository",
-                                       optional: false)]
+                                       optional: false), 
+        FastlaneCore::ConfigItem.new(key: :mark_unused_strings,
+                                       env_name: "RB_STRINGS_MARK_UNUSED",
+                                       description: "Mark all the unused strings in Localizables",
+                                       optional: true,
+                                       is_string: false)]
       end
 
       def self.output
