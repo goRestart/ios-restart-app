@@ -15,7 +15,8 @@ protocol ChatListViewModelDelegate: class {
 }
 
 protocol ChatListViewModel: class, ChatGroupedListViewModel {
-    var delegate: ChatListViewModelDelegate? { get set }
+    weak var delegate: ChatListViewModelDelegate? { get set }
+    weak var tabNavigator: TabNavigator? { get set }
 
     var titleForDeleteButton: String { get }
 

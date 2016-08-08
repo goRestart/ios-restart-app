@@ -4,41 +4,32 @@
 // When a user Account is deactivated because is a scammer (includes user name)
 "account_deactivated_w_name" = "%@'s account was deleted";
 
-// App share dialog title
-"app_share_title" = "Invite your Friends";
-
-// App share dialog subtitle
-"app_share_subtitle" = "Share letgo with your friends and help us grow our community!";
-
-// App share facebook messenger button
-"app_share_fbmessenger_button" = "Invite via Messenger";
-
-// App share whatsapp button
-"app_share_whatsapp_button" = "Invite via Whatsapp";
+// Text of the link that will go to the appstore
+"app_share_download_text" = "Download";
 
 // App share email button
 "app_share_email_button" = "Invite via Email";
 
-// App share maybe later (close) button
-"app_share_maybe_later" = "Maybe Later";
-
-// App share subject (when sending mail)
-"app_share_subject_text" = "Check out letgo";
+// App share facebook messenger button
+"app_share_fbmessenger_button" = "Invite via Messenger";
 
 // App share message sent when sharing (above the actual share link)
 "app_share_message_text" = "I just sold something on letgo! You should check it out too and make cash from stuff you don't use anymore...";
 
-// Text of the link that will go to the appstore
-"app_share_download_text" = "Download";
+// App share subject (when sending mail)
+"app_share_subject_text" = "Check out letgo";
 
-// Text for successful user block
-"block_user_success_message" = "The user has been blocked!";
+// App share dialog subtitle
+"app_share_subtitle" = "Share letgo with your friends and help us grow our community!";
+
+// App share dialog title
+"app_share_title" = "Invite your Friends";
+
+// App share whatsapp button
+"app_share_whatsapp_button" = "Invite via Whatsapp";
 
 // Text for unsuccessful user block
 "block_user_error_generic" = "An error occurred while blocking this user.";
-
-// Text for non assigned category
-"categories_unassigned" = "Not selected";
 
 // Categories baby and child. Check attached image "categories (2).png"
 "categories_baby_and_child" = "Baby and Child";
@@ -67,20 +58,17 @@
 // Categories title. Check attached image "categories (2).png"
 "categories_title" = "Categories";
 
+// Text for non assigned category
+"categories_unassigned" = "Not selected";
+
 // Change location apply button. Check image @ "change_location_title" segment
 "change_location_apply_button" = "Set location";
 
 // Change location approximate location label. Check image @ "change_location_title" segment
 "change_location_approximate_location_label" = "Use approximate location";
 
-// Change location ask update location message. Message displayal is like the other error messages
-"change_location_ask_update_location_message" = "Find bargains near you! Do you want to update your location?";
-
-// Change location ask update location title. Message displayal is like the other error messages
-"change_location_ask_update_location_title" = "Change Location";
-
-// Change location confirm update option button.
-"change_location_confirm_update_button" = "Update";
+// Change location alert, error country alert message
+"change_location_error_country_alert_message" = "Please choose a location in the country where you're currently located.";
 
 // Change location error searching location message. Message displayal is like the other error messages
 "change_location_error_search_location_message" = "We were unable to find that location. Please try again.";
@@ -94,17 +82,11 @@
 // Change location unknown location message. Message displayal is like the other error messages
 "change_location_recommend_update_location_message" = "We recommend updating your location to see the best offers near you!";
 
-// Change location unknown location title. Message displayal is like the other error messages
-"change_location_recommend_update_location_title" = "Change Location";
-
 // Change location search field hint. Check image @ "change_location_title" segment
 "change_location_search_field_hint" = "Enter city or zip code";
 
 // Change location title. Check attached image "change_location.png"
 "change_location_title" = "Change Location";
-
-// Change location alert, error country alert message
-"change_location_error_country_alert_message" = "Please choose a location in the country where you're currently located.";
 
 // Change password confirm password field hint. Check attached image "change_password.png"
 "change_password_confirm_password_field_hint" = "Confirm password";
@@ -114,9 +96,6 @@
 
 // Change password send error generic. Check attached image "change_password_send_error.png"
 "change_password_send_error_generic" = "An error occurred while changing the password. Please try again.";
-
-// Change password send error invalid password. Check image @ "change_password_send_error_generic" segment
-"change_password_send_error_invalid_password" = "Please insert a valid password, it must have at least %d characters.";
 
 // Change password send error invalid password. Check image @ "change_password_send_error_generic" segment
 "change_password_send_error_invalid_password_with_max" = "Please insert a valid password. It must be between %d and %d characters.";
@@ -151,161 +130,23 @@
 // Change name title.  Check attached image "change_username.png"
 "change_username_title" = "Change Name";
 
-// Chat block user action
-"chat_block_user" = "Block User";
-
-// Chat unblock user action
-"chat_unblock_user" = "Unblock User";
-
-// Chat block user alert title
-"chat_block_user_alert_title" = "Block User";
-
-// Chat block user alert text
-"chat_block_user_alert_text" = "Blocking a user prevents any further interaction between you.";
-
-// Chat block user alert block button
-"chat_block_user_alert_block_button" = "Block";
-
-// Chat delete chat action
-"chat_delete_chat" = "Delete Chat";
-
-// Chat list Archive
-"chat_list_archive" = "Archive";
-
-// Chat list delete (top bar)
-"chat_list_delete" = "Delete";
-
-// Chat list delete send button (bottom)
-"chat_list_delete_send_button" = "Delete";
-
-// Chat list Unarchive
-"chat_list_unarchive" = "Unarchive";
-
-// Chat list Unblock
-"chat_list_unblock" = "Unblock";
-
-// Chat List Archive alert text
-"chat_list_archive_alert_text" = "If you archive these chats, they will move to the archived section.";
-
-// Chat List Archive alert title
-"chat_list_archive_alert_title" = "Archive Chats";
-
-// Chat List Archive empty body
-"chat_list_archive_empty_body" = "Tap \"Edit\" and select the conversation you want to archive.";
-
-// Chat List Archive empty title
-"chat_list_archive_empty_title" = "ARCHIVE CHATS";
-
-// Chat List Archive error when archiving multiple chats
-"chat_list_archive_error_multiple" = "An error occurred while archiving these conversations. Please try again.";
-
-// Chat List Archive error when archiving one chat
-"chat_list_archive_error_one" = "An error occurred while archiving the conversation. Please try again.";
-
-// Chat List Archive success when archiving one chat
-"chat_list_archive_ok_one" = "Chat successfully archived!";
-
-// Chat list delete confirmation alert text (single)
-"chat_list_delete_alert_text_one" = "You're going to delete this chat";
-
-// Chat list delete confirmation alert text (multiple)
-"chat_list_delete_alert_text_multiple" = "You're going to delete these chats";
-
-// Chat list delete confirmation alert title (single)
-"chat_list_delete_alert_title_one" = "Delete Chat";
-
-// Chat list delete confirmation alert title (multiple)
-"chat_list_delete_alert_title_multiple" = "Delete Chats";
-
-// Chat list delete confirmation alert submit button
-"chat_list_delete_alert_send" = "Delete";
-
-// Chat list delete error (single)
-"chat_list_delete_error_one" = "An error occurred while deleting this chat. Please try again.";
-
-// Chat list delete error (multiple)
-"chat_list_delete_error_multiple" = "An error occurred while deleting these chats. Please try again.";
-
-// Chat list delete success (single)
-"chat_list_delete_ok_one" = "The chat has been deleted!";
-
-// Chat list delete success (multiple)
-"chat_list_delete_ok_multiple" = "These chats have been deleted!";
-
-// Chat List Unarchive error when archiving multiple chats
-"chat_list_unarchive_error_multiple" = "An error occurred while unarchiving these conversations. Please try again.";
-
-// Chat List Unarchive error when archiving one chat
-"chat_list_unarchive_error_one" = "An error occurred while unarchiving the conversation. Please try again.";
-
-// Chat List Unarchive success when archiving one chat
-"chat_list_unarchive_ok_one" = "Chat successfully unarchived!";
-
-// Chat List Blocked Users empty body
-"chat_list_blocked_empty_body" = "Select “Block User” from the menu inside the chat.";
-
-// Chat List Blocked Users empty title
-"chat_list_blocked_empty_title" = "BLOCK USERS";
-
-// Chat list empty label. Check attached image  "chat_list (empty).png"
-"chat_list_empty_label" = "No conversations (yet!)";
-
-// Chat list start selling or buying label. Check image @ "chat_list_empty_label" segment
-"chat_list_start_selling_or_buying_label" = "Start selling or buying!";
-
-// Chat list title, Check attached image "chat_list (full).png"
-"chat_list_title" = "Chats";
-
-// Chat List all-chats title
-"chat_list_all_empty_title" = "NO CHATS (YET!)";
-
-// Chat List all-chats filter title
-"chat_list_all_title" = "ALL";
-
-// Chat List buying button
-"chat_list_buying_empty_button" = "Browse products";
-
-// Chat List buying title
-"chat_list_buying_empty_title" = "NO CHATS (YET!)";
-
-// Chat list buying filter title
-"chat_list_buying_title" = "BUYING";
-
-// Chat List selling button
-"chat_list_selling_empty_button" = "Sell Your Stuff";
-
-// Chat List selling title
-"chat_list_selling_empty_title" = "NO CHATS (YET!)";
-
-// Chat list selling filter title
-"chat_list_selling_title" = "SELLING";
-
-// Chat list archive filter title
-"chat_list_archived_title" = "ARCHIVED";
-
-// Chat list blocked user cell "blocked" label
-"chat_list_blocked_user_label" = "Blocked";
-
-// Chat list blocked users title
-"chat_list_blocked_users_title" = "BLOCKED USERS";
-
-// When a user asked to delete his account (state)
-"chat_list_account_deleted" = "Deleted account";
-
-// Text to put on the username field when user is deleted
-"chat_list_account_deleted_username" = "Inactive";
-
 // When a user asked to delete his account (short info message)
 "chat_account_deleted_w_name" = "%@'s account has been deleted";
 
 // When a user asked to delete his account (short info message)
 "chat_account_deleted_wo_name" = "This account has been deleted";
 
-// When a user asked to delete his account (disclaimer message)
-"chat_deleted_disclaimer_w_name" = "You can't continue this conversation because %@'s account is no longer active.";
+// Chat block user action
+"chat_block_user" = "Block User";
 
-// When a user asked to delete his account (disclaimer message)
-"chat_deleted_disclaimer_wo_name" = "You can't continue this conversation because this account is no longer active.";
+// Chat block user alert block button
+"chat_block_user_alert_block_button" = "Block";
+
+// Chat block user alert text
+"chat_block_user_alert_text" = "Blocking a user prevents any further interaction between you.";
+
+// Chat block user alert title
+"chat_block_user_alert_title" = "Block User";
 
 // Chat detail, you blocked this user label
 "chat_blocked_by_me_label" = "You've blocked this user";
@@ -316,11 +157,8 @@
 // Chat detail, this user blocked you label
 "chat_blocked_by_other_label" = "You've been blocked by this user";
 
-// Chat detail, conversation blocked, disclaimer on bottom when scammer (missing username)
-"chat_blocked_disclaimer_scammer_wo_name" = "For safety reasons, this account has been deleted by the letgo team and these messages have been removed.";
-
-// Chat detail, conversation blocked, disclaimer on bottom when scammer (w username)
-"chat_blocked_disclaimer_scammer_w_name" = "For safety reasons, %@'s account has been deleted by the letgo team and these messages have been removed.";
+// Chat detail, conversation blocked, disclaimer on bottom, button.
+"chat_blocked_disclaimer_safety_tips_button" = "Review our safety tips";
 
 // Chat detail, conversation blocked, disclaimer on bottom. Safety tips text is appended.
 "chat_blocked_disclaimer_scammer_append_safety_tips" = "Tap here to review our %@.";
@@ -328,14 +166,101 @@
 // Chat detail, conversation blocked, disclaimer on bottom. Safety tips keyword.
 "chat_blocked_disclaimer_scammer_append_safety_tips_keyword" = "safety tips";
 
-// Chat detail, conversation blocked, disclaimer on bottom, button.
-"chat_blocked_disclaimer_safety_tips_button" = "Review our safety tips";
+// Chat detail, conversation blocked, disclaimer on bottom when scammer (w username)
+"chat_blocked_disclaimer_scammer_w_name" = "For safety reasons, %@'s account has been deleted by the letgo team and these messages have been removed.";
 
-// Chat detail, the product is inactive
-"chat_product_inactive_label" = "Product inactive";
+// Chat detail, conversation blocked, disclaimer on bottom when scammer (missing username)
+"chat_blocked_disclaimer_scammer_wo_name" = "For safety reasons, this account has been deleted by the letgo team and these messages have been removed.";
 
-// Chat detail, the product is sold
-"chat_product_sold_label" = "Product sold";
+// When a user asked to delete his account (disclaimer message)
+"chat_deleted_disclaimer_w_name" = "You can't continue this conversation because %@'s account is no longer active.";
+
+// When a user asked to delete his account (disclaimer message)
+"chat_deleted_disclaimer_wo_name" = "You can't continue this conversation because this account is no longer active.";
+
+// When a user asked to delete his account (state)
+"chat_list_account_deleted" = "Deleted account";
+
+// Text to put on the username field when user is deleted
+"chat_list_account_deleted_username" = "Inactive";
+
+// Chat List all-chats title
+"chat_list_all_empty_title" = "NO CHATS (YET!)";
+
+// Chat List all-chats filter title
+"chat_list_all_title" = "ALL";
+
+// Chat List Archive error when archiving multiple chats
+"chat_list_archive_error_multiple" = "An error occurred while archiving these conversations. Please try again.";
+
+// Chat List Blocked Users empty body
+"chat_list_blocked_empty_body" = "Select “Block User” from the menu inside the chat.";
+
+// Chat List Blocked Users empty title
+"chat_list_blocked_empty_title" = "BLOCK USERS";
+
+// Chat list blocked user cell "blocked" label
+"chat_list_blocked_user_label" = "Blocked";
+
+// Chat list blocked users title
+"chat_list_blocked_users_title" = "BLOCKED USERS";
+
+// Chat List buying button
+"chat_list_buying_empty_button" = "Browse products";
+
+// Chat List buying title
+"chat_list_buying_empty_title" = "NO CHATS (YET!)";
+
+// Chat list buying filter title
+"chat_list_buying_title" = "BUYING";
+
+// Chat list delete (top bar)
+"chat_list_delete" = "Delete";
+
+// Chat list delete confirmation alert submit button
+"chat_list_delete_alert_send" = "Delete";
+
+// Chat list delete confirmation alert text (multiple)
+"chat_list_delete_alert_text_multiple" = "You're going to delete these chats";
+
+// Chat list delete confirmation alert text (single)
+"chat_list_delete_alert_text_one" = "You're going to delete this chat";
+
+// Chat list delete confirmation alert title (multiple)
+"chat_list_delete_alert_title_multiple" = "Delete Chats";
+
+// Chat list delete confirmation alert title (single)
+"chat_list_delete_alert_title_one" = "Delete Chat";
+
+// Chat list delete error (single)
+"chat_list_delete_error_one" = "An error occurred while deleting this chat. Please try again.";
+
+// Chat list delete success (single)
+"chat_list_delete_ok_one" = "The chat has been deleted!";
+
+// Chat List selling button
+"chat_list_selling_empty_button" = "Sell Your Stuff";
+
+// Chat List selling title
+"chat_list_selling_empty_title" = "NO CHATS (YET!)";
+
+// Chat list selling filter title
+"chat_list_selling_title" = "SELLING";
+
+// Chat list title, Check attached image "chat_list (full).png"
+"chat_list_title" = "Chats";
+
+// Chat List Unarchive error when archiving multiple chats
+"chat_list_unarchive_error_multiple" = "An error occurred while unarchiving these conversations. Please try again.";
+
+// Chat list Unblock
+"chat_list_unblock" = "Unblock";
+
+// Login info when trying to chat logged-out
+"chat_login_popup_text" = "To start chatting, you have to log in";
+
+// Disclaimer shown for each suspicious message received in chat
+"chat_message_disclaimer_scammer" = "Be extra careful when exchanging phone/email details. Fraudulent users often ask you to leave the letgo chat. Be informed! Tap here to review our %@.";
 
 // Chat message field hint. Check attached image "chat.png"
 "chat_message_field_hint" = "Type your message here";
@@ -343,29 +268,17 @@
 // Chat message load generic error. Message displayal is like the other error messages.
 "chat_message_load_generic_error" = "An error occurred while retrieving your conversation data. Please try again later.";
 
-// Disclaimer shown for each suspicious message received in chat
-"chat_message_disclaimer_scammer" = "Be extra careful when exchanging phone/email details. Fraudulent users often ask you to leave the letgo chat. Be informed! Tap here to review our %@.";
+// Chat detail, the product is sold
+"chat_product_sold_label" = "Product sold";
 
-// Title for the review user button
-"chat_user_rating_button_title" = "Review";
-
-// Text for the review user button tooltip
-"chat_user_rating_button_tooltip" = "Review this user";
+// Section inside chat that offers related products 
+"chat_related_products_title" = "YOU MIGHT BE INTERESTED IN:";
 
 // Chat safety tips.
 "chat_safety_tips" = "Safety tips";
 
 // Chat safety tips full message
 "chat_safety_tips_message" = "• Meet in person and pay in cash.\n\n• Keep conversations in the letgo chat.\n\n• Too good to be true? Beware!";
-
-// Chat safety tips tip 1. Check image @ "chat_safety_tips_title" segment
-"chat_safety_tips_tip_1" = "After you seal the deal, meet in person and pay in cash.";
-
-// Chat safety tips tip 2. Check image @ "chat_safety_tips_title" segment
-"chat_safety_tips_tip_2" = "If you decide to ship, be smart and careful!";
-
-// Chat safety tips tip 3. Check image @ "chat_safety_tips_title" segment
-"chat_safety_tips_tip_3" = "If it sounds too good to be true, it probably is!";
 
 // Chat safety tips title. Check attached image "chat_safety_tips.png"
 "chat_safety_tips_title" = "STAY SAFE";
@@ -376,26 +289,14 @@
 // Chat send error generic. Message displayal is like the other error messages
 "chat_send_error_generic" = "There was an error sending the message. Please try again later.";
 
-// Chat tooltip add stickers "NEW"
-"chat_stickers_tooltip_new" = "NEW!";
-
 // Chat tooltip add stickers text
 "chat_stickers_tooltip_add_stickers" = "Add fun stickers";
 
-// Alert when an unverified user tries to chat
-"chat_verify_alert_title" = "Verify your email to chat";
+// Chat tooltip add stickers "NEW"
+"chat_stickers_tooltip_new" = "NEW!";
 
-// Alert when an unverified user tries to chat
-"chat_verify_alert_message" = "We sent a verification email to %@";
-
-// Alert when an unverified user tries to chat
-"chat_verify_alert_resend_button" = "Resend";
-
-// Alert when an unverified user tries to chat
-"chat_verify_alert_ok_button" = "Ok";
-
-// Login info when trying to chat logged-out
-"chat_login_popup_text" = "To start chatting, you have to log in";
+// Chat unblock user action
+"chat_unblock_user" = "Unblock User";
 
 // User info bubble to show information about the other user
 "chat_user_info_name" = "Hi, I'm %@";
@@ -403,17 +304,32 @@
 // User info bubble to show information about the other user
 "chat_user_info_verified_with" = "Verified with: ";
 
-// Section inside chat that offers related products 
-"chat_related_products_title" = "YOU MIGHT BE INTERESTED IN:";
+// Title for the review user button
+"chat_user_rating_button_title" = "Review";
+
+// Text for the review user button tooltip
+"chat_user_rating_button_tooltip" = "Review this user";
+
+// Alert when an unverified user tries to chat
+"chat_verify_alert_message" = "We sent a verification email to %@";
+
+// Alert when an unverified user tries to chat
+"chat_verify_alert_ok_button" = "Ok";
+
+// Alert when an unverified user tries to chat
+"chat_verify_alert_resend_button" = "Resend";
+
+// Alert when an unverified user tries to chat
+"chat_verify_alert_title" = "Verify your email to chat";
 
 // Alert to show when user started chat with himself
 "chat_with_yourself_alert_msg" = "You can't start a conversation about your own product.";
 
-// Alert to show when user started chat with himself ok button
-"chat_with_yourself_alert_ok" = "Ok";
+// Create a commercial from the settings menu
+"commercializer_create_from_settings" = "Create a Free Commercial";
 
-// Title for the commercializer display view
-"commercializer_display_title_label" = "Here's your finished commercial!";
+// commercializer display share alert
+"commercializer_display_share_alert" = "Share this masterpiece";
 
 // commercializer display share label
 "commercializer_display_share_label" = "Share your masterpiece with the world and watch the offers come rolling in";
@@ -424,20 +340,23 @@
 // commercializer display share button for other users videos
 "commercializer_display_share_others_video_button" = "Share this masterpiece";
 
-// commercializer display share alert
-"commercializer_display_share_alert" = "Share this masterpiece";
+// Title for the commercializer display view
+"commercializer_display_title_label" = "Here's your finished commercial!";
 
 // commercializer intro title label
 "commercializer_intro_title_label" = "Create your commercial";
 
-// commercializer intro text label
-"commercializer_intro_try_feature_label" = "Try our new feature to create a free commercial and promote your product!";
+// player couldn't load the video
+"commercializer_load_video_failed_error_message" = "The commercial can’t be played.\nPlease try again.";
 
-// commercializer intro step one label
-"commercializer_intro_chose_theme_label" = "Select a style:";
+// Commercializer ready subtitle
+"commercializer_preview_subtitle" = "Share your masterpiece with the world:";
 
-// commercializer intro step two label
-"commercializer_intro_tap_to_create_label" = "Create your free commercial";
+// Commercializer ready title
+"commercializer_preview_title" = "Your commercial is ready!";
+
+// video couldn't be processed
+"commercializer_process_video_failed_error_message" = "An error occurred while\nprocessing your commercial.";
 
 // commercializer processing video title label
 "commercializer_processing_title_label" = "Shooting your commercial!";
@@ -445,65 +364,41 @@
 // commercializer processing text "video will appear..." label
 "commercializer_processing_will_appear_label" = "Your commercial is in production and it will be ready in about 10 minutes. It's time to letgo!";
 
-// commercializer processing text "create more videos..." label
-"commercializer_processing_create_more_label" = "Want to create commercials for your other products? Go to your profile, choose a product and tap \"Create Commercial\"";
-
-// commercializer main screen title label
-"commercializer_promote_title_label" = "Create your commercial";
-
-// commercializer main screen intro label (tutorial overlay)
-"commercializer_promote_intro_label" = "You can now make a Hollywood-style commercial for your listing.\n\nSimply select from one of the four commercial styles.";
-
-// Commercializer main screen intro button (tutorial overlay)
-"commercializer_promote_intro_button" = "Select commercial";
-
-// commercializer main screen theme already used
-"commercializer_promote_theme_already_used" = "Already used!";
-
-// commercializer main screen choose theme label
-"commercializer_promote_choose_theme_label" = "Select a commercial:";
-
-// commercializer main screen promote button
-"commercializer_promote_promote_button" = "Create Commercial";
-
-// Commercializer main screen navigation bar title
-"commercializer_promote_navigation_title" = "Select commercial style";
-
-// player couldn't load the video
-"commercializer_load_video_failed_error_message" = "The commercial can’t be played.\nPlease try again.";
-
-// video couldn't be processed
-"commercializer_process_video_failed_error_message" = "An error occurred while\nprocessing your commercial.";
-
-// commercializer share subject text
-"commercializer_share_subject_text" = "I made a Hollywood-style commercial!";
-
-// commercializer share message text
-"commercializer_share_message_text" = "I made a free Hollywood-style commercial with #letgocommercializer, check it out!";
-
-// Commercializer ready title
-"commercializer_preview_title" = "Your commercial is ready!";
-
-// Commercializer ready subtitle
-"commercializer_preview_subtitle" = "Share your masterpiece with the world:";
-
-// Create a commercial from the settings menu
-"commercializer_create_from_settings" = "Create a Free Commercial";
-
-// Select a product from settings to create a Commercial
-"commercializer_select_from_settings_title" = "Select one of your listings:";
-
-// Empty view shown when the list of commercializable items is empty
-"commercializer_product_list_empty_title" = "NOTHING TO PROMOTE (YET!)";
-
 // Empty view shown when the list of commercializable items is empty
 "commercializer_product_list_empty_body" = "Post a product for sale and create a free commercial";
 
 // Empty view shown when the list of commercializable items is empty
 "commercializer_product_list_empty_button" = "Sell Your Stuff";
 
-// Common activate
-"common_activate" = "Activate";
+// Empty view shown when the list of commercializable items is empty
+"commercializer_product_list_empty_title" = "NOTHING TO PROMOTE (YET!)";
+
+// commercializer main screen choose theme label
+"commercializer_promote_choose_theme_label" = "Select a commercial:";
+
+// Commercializer main screen intro button (tutorial overlay)
+"commercializer_promote_intro_button" = "Select commercial";
+
+// commercializer main screen intro label (tutorial overlay)
+"commercializer_promote_intro_label" = "You can now make a Hollywood-style commercial for your listing.\n\nSimply select from one of the four commercial styles.";
+
+// Commercializer main screen navigation bar title
+"commercializer_promote_navigation_title" = "Select commercial style";
+
+// commercializer main screen promote button
+"commercializer_promote_promote_button" = "Create Commercial";
+
+// commercializer main screen theme already used
+"commercializer_promote_theme_already_used" = "Already used!";
+
+// Select a product from settings to create a Commercial
+"commercializer_select_from_settings_title" = "Select one of your listings:";
+
+// commercializer share message text
+"commercializer_share_message_text" = "I made a free Hollywood-style commercial with #letgocommercializer, check it out!";
+
+// commercializer share subject text
+"commercializer_share_subject_text" = "I made a Hollywood-style commercial!";
 
 // Common cancel
 "common_cancel" = "Cancel";
@@ -550,9 +445,6 @@
 // Common ok
 "common_ok" = "OK";
 
-// Common product deleted.
-"common_product_deleted" = "Product removed";
-
 // Common product not available.
 "common_product_not_available" = "This product is no longer available.";
 
@@ -561,6 +453,20 @@
 
 // Common settings
 "common_settings" = "Settings";
+
+"common_short_time_day_ago_label" = "%d day";
+
+"common_short_time_days_ago_label" = "%d days";
+
+"common_short_time_hours_ago_label" = "%d h";
+
+"common_short_time_minutes_ago_label" = "%d m";
+
+"common_short_time_more_than_one_month_ago_label" = "1+ month";
+
+"common_short_time_week_ago_label" = "%d week";
+
+"common_short_time_weeks_ago_label" = "%d weeks";
 
 // Common time a minute ago label
 "common_time_a_minute_ago_label" = "a minute ago";
@@ -595,61 +501,14 @@
 // Common time weeks ago label
 "common_time_weeks_ago_label" = "%d weeks ago";
 
-"common_short_time_day_ago_label" = "%d day";
-
-"common_short_time_days_ago_label" = "%d days";
-
-"common_short_time_hours_ago_label" = "%d h";
-
-"common_short_time_minutes_ago_label" = "%d m";
-
-"common_short_time_more_than_one_month_ago_label" = "1+ month";
-
-"common_short_time_week_ago_label" = "%d week";
-
-"common_short_time_weeks_ago_label" = "%d weeks";
+// Common user not available
+"common_user_not_available" = "Oops! User not found.";
 
 // Common user review not available
 "common_user_review_not_available" = "Oops! Review not found.";
 
-// Common user not available
-"common_user_not_available" = "Oops! User not found.";
-
 // Common yes
 "common_yes" = "Yes";
-
-// Contact body field hint. Check attached image @ "contact_email_field_hint" segment
-"contact_body_field_hint" = "Message";
-
-// Contact choose subject dialog title
-"contact_choose_subject_dialog_title" = "Choose a subject";
-
-// Contact email field hint. Check attached image "contact.png"
-"contact_email_field_hint" = "Email";
-
-// Contact send button. Check attached image @ "contact_email_field_hint" segment
-"contact_send_button" = "Send";
-
-// Contact send error generic. Message displayal is like the other error messages
-"contact_send_error_generic" = "An error occurred while sending your message. Please check your connection and try again.";
-
-// Contact send error invalid body. Message displayal is like the other error messages
-"contact_send_error_invalid_body" = "Please type a message.";
-
-// Contact send error invalid email. Message displayal is like the other error messages
-"contact_send_error_invalid_email" = "Please provide a valid email address so we can get back to you.";
-
-// Contact send error invalid subject. Message displayal is like the other error messages
-"contact_send_error_invalid_subject" = "Please provide a subject.";
-
-// Contact send ok. Message displayal is like the other error messages
-"contact_send_ok" = "Your message has been sent!";
-
-// Contact subject field hint. Check attached image @ "contact_email_field_hint" segment
-"contact_subject_field_hint" = "Subject";
-
-// Contact subject option feedback. Check attached image @ "contact_email_field_hint" segment
-"contact_subject_option_feedback" = "Suggestions/feedback";
 
 // Contact subject option location. Check attached image @ "contact_email_field_hint" segment
 "contact_subject_option_location" = "Location issues";
@@ -669,71 +528,29 @@
 // Contact subject option report. Check attached image @ "contact_email_field_hint" segment
 "contact_subject_option_report" = "Report user or spam";
 
-// Contact subject options title. Check attached image
-"contact_subject_options_title" = "Subject";
-
-// Contact title. Check attached image @ "contact_email_field_hint" segment
-"contact_title" = "Contact Us";
-
-// Message for custom alert for pushes in chat
-"custom_permission_chat_message" = "Activate notifications to instantly know when someone replies.";
-
-// Title for custom alert for pushes in chat
-"custom_permission_chat_title" = "BE IN THE LOOP";
-
-// Message for custom alert for pushes in list (opt A)
-"custom_permission_list_message_A" = "Get instant notifications to buy and sell faster.";
-
-// Message for custom alert for pushes in list (opt B)
-"custom_permission_list_message_B" = "To get the full letgo experience, activate notifications.";
-
-// Title for custom alert for pushes in list (opt A)
-"custom_permission_list_title_A" = "ACTIVATE NOTIFICATIONS";
-
-// Title for custom alert for pushes in list (opt B)
-"custom_permission_list_title_B" = "BUY & SELL FASTER";
-
-// Message for custom alert for pushes in sell
-"custom_permission_sell_message" = "Activate notifications to know when someone wants to buy your product.";
-
-// Title for custom alert for pushes in sell
-"custom_permission_sell_title" = "SELL FASTER";
-
-// Chat direct answer as seller
-"direct_answer_still_for_sale" = "Yes, it's still for sale";
-
-// Chat direct answer as seller
-"direct_answer_whats_offer" = "What's your offer?";
-
-// Chat direct answer as seller
-"direct_answer_product_sold" = "Sorry, the product has been sold!";
-
-// Chat direct answer as seller
-"direct_answer_negotiable_yes" = "Yes, it's negotiable";
-
-// Chat direct answer as seller
-"direct_answer_negotiable_no" = "No, it's not negotiable";
-
 // Chat direct answer as buyer
 "direct_answer_interested" = "I'm interested!";
 
-// Chat direct answer as buyer or seller
-"direct_answer_not_interested" = "I'm not interested";
+// Chat direct answer as buyer
+"direct_answer_is_negotiable" = "Is the price negotiable?";
 
 // Chat direct answer as buyer
 "direct_answer_like_to_buy" = "Hi! I'd like to buy it";
 
 // Chat direct answer as buyer
-"direct_answer_more_photos" = "Do you have more photos?";
-
-// Chat direct answer as buyer
 "direct_answer_meet_up" = "Where should we meet up?";
 
-// Chat direct answer as buyer
-"direct_answer_is_negotiable" = "Is the price negotiable?";
+// Chat direct answer as seller
+"direct_answer_negotiable_no" = "No, it's not negotiable";
 
-// Alert to ask the user to mark the product as sold - title
-"direct_answer_sold_question_title" = "Already sold it?";
+// Chat direct answer as seller
+"direct_answer_negotiable_yes" = "Yes, it's negotiable";
+
+// Chat direct answer as buyer or seller
+"direct_answer_not_interested" = "I'm not interested";
+
+// Chat direct answer as seller
+"direct_answer_product_sold" = "Sorry, the product has been sold!";
 
 // Alert to ask the user to mark the product as sold - message
 "direct_answer_sold_question_message" = "Mark your product as sold so all letgo users know";
@@ -741,17 +558,26 @@
 // Alert to ask the user to mark the product as sold - possitive btn
 "direct_answer_sold_question_ok" = "Mark as sold";
 
-// option button to show quick answers
-"direct_answers_show" = "Show Quick Answers";
+// Alert to ask the user to mark the product as sold - title
+"direct_answer_sold_question_title" = "Already sold it?";
+
+// Chat direct answer as seller
+"direct_answer_still_for_sale" = "Yes, it's still for sale";
+
+// Chat direct answer as seller
+"direct_answer_whats_offer" = "What's your offer?";
 
 // option button to hide quick answers
 "direct_answers_hide" = "Hide Quick Answers";
 
-// Title for Edit Product Location Alert
-"edit_product_location_alert_title" = "CHANGE LOCATION";
+// option button to show quick answers
+"direct_answers_show" = "Show Quick Answers";
 
 // Text for Edit Product Location Alert
 "edit_product_location_alert_text" = "To change where your product is posted, allow access to your location";
+
+// Title for Edit Product Location Alert
+"edit_product_location_alert_title" = "CHANGE LOCATION";
 
 // Edit product send button. Check image @ "sell_send_error_invalid_category" segment
 "edit_product_send_button" = "Update";
@@ -762,11 +588,11 @@
 // Edit product send ok. Message displayal is like the other messages.
 "edit_product_send_ok" = "Congratulations! Your product was successfully updated. It will appear in our listings shortly.";
 
-// Edit product title. Check image @ "sell_send_error_invalid_category" segment
-"edit_product_title" = "Edit Product";
-
 // Text for title disclaimer when suggesting title
 "edit_product_suggesting_title" = "Suggesting title...";
+
+// Edit product title. Check image @ "sell_send_error_invalid_category" segment
+"edit_product_title" = "Edit Product";
 
 // When there's no distance filter set
 "filters_distance_not_set" = "not set";
@@ -777,14 +603,14 @@
 // Filters save button
 "filters_save_button" = "Save filters";
 
-// Filters section location
-"filters_section_location" = "Location";
-
 // Filters section categories
 "filters_section_categories" = "Categories";
 
 // Filters section distance
 "filters_section_distance" = "Distance";
+
+// Filters section location
+"filters_section_location" = "Location";
 
 // Filters section sort-by
 "filters_section_sortby" = "Sort by";
@@ -831,8 +657,17 @@
 // Help title.
 "help_title" = "Help";
 
-// Log in email field hint. Check attached image "log_in.png"
-"log_in_email_field_hint" = "Email";
+// Fake distance shown in a bubble in a fake product list in onboarding
+"location_permissions_bubble" = "0.1 mi from you";
+
+// Button to accept asking for location permission
+"location_permissions_button" = "Yes, Use my Location";
+
+// Title asking for Location permission in onboarding
+"location_permissions_title" = "Location";
+
+// Subtitle asking for Location permission in onboarding
+"location_permissons_subtitle" = "Do you want to see products near you?";
 
 // Log in error send error generic. Check attached image "log_in_error_send.png"
 "log_in_error_send_error_generic" = "An error occurred while logging in. Please try again.";
@@ -840,14 +675,8 @@
 // Log in error send error invalid email. Check image @ "log_in_error_send_error_generic" segment
 "log_in_error_send_error_invalid_email" = "Please insert a valid email address.";
 
-// Log in error send error invalid password. Check image @ "log_in_error_send_error_generic" segment
-"log_in_error_send_error_invalid_password" = "Please insert a valid password. It must be at least %d characters long.";
-
 // Log in error send error user not found or wrong password. Check image @ "log_in_error_send_error_generic" segment
 "log_in_error_send_error_user_not_found_or_wrong_password" = "Invalid email or password. Please try again.";
-
-// Log in password field hint. Check image @ "log_in_email_field_hint" segment
-"log_in_password_field_hint" = "Password";
 
 // Log in reset password button. Check image @ "log_in_email_field_hint" segment
 "log_in_reset_password_button" = "Forgot your password?";
@@ -858,14 +687,8 @@
 // Log in title. Check image @ "log_in_email_field_hint" segment
 "log_in_title" = "Sign in with email";
 
-// Main sign up already registered label. Check attached image "main_sign_up.png"
-"main_sign_up_already_registered_label" = "Already registered?";
-
 // Main sign up claim label. Check image @ "main_sign_up_already_registered_label" segment
 "main_sign_up_claim_label" = "Start to sell and buy—by chat!";
-
-// Main sign up contact us button. Check image @ "main_sign_up_already_registered_label" segment
-"main_sign_up_contact_us_button" = "Need help?";
 
 // Main sign up facebook connect button. Check image @ "main_sign_up_already_registered_label" segment
 "main_sign_up_facebook_connect_button" = "Continue with Facebook";
@@ -903,62 +726,116 @@
 // "Terms of Service" Part of the complete text
 "main_sign_up_terms_conditions_terms_part" = "Terms & Conditions";
 
-// Make an offer new offer message. Check attached image "make_an_offer.png"
-"make_an_offer_new_offer_message" = "New offer: %@";
-
-// Make an offer price field hint. Check image @ "make_an_offer_new_offer_message" segment
-"make_an_offer_price_field_hint" = "Price";
-
-// Make an offer send button. Check image @ "make_an_offer_new_offer_message" segment
-"make_an_offer_send_button" = "Send";
-
-// Make an offer send error generic. Message displayal is like the other error messages
-"make_an_offer_send_error_generic" = "An error occurred while making an offer for the product. Please try again later.";
-
-// Make an offer send error invalid price. Message displayal is like the other error messages
-"make_an_offer_send_error_invalid_price" = "Please insert a valid price for the product. It should only include numbers.";
-
-// Make an offer title. Check image @ "make_an_offer_new_offer_message" segment
-"make_an_offer_title" = "Make an Offer";
-
-// Title of notifications section
-"notifications_title" = "Notifications";
-
-// Text to show when a user has no name 
-"notifications_user_wo_name" = "A user";
-
-// User likes your product
-"notifications_type_like_w_title" = "Favorited \"%@\"";
-
-// User likes your product
-"notifications_type_like" = "Favorited your product";
-
-// User sold a product you favorited
-"notifications_type_sold_w_title" = "Has sold \"%@\"";
-
-// User sold a product you favorited
-"notifications_type_sold" = "Has sold a product you favorited";
-
-// User started following you
-"notifications_type_follow" = "Started following you";
-
-// Welcome notification title
-"notifications_type_welcome_title" = "Welcome to letgo!";
-
-// Welcome notification subtitle
-"notifications_type_welcome_subtitle_w_city" = "Get started by posting your first item for sale and browse cool stuff in %@.";
-
-// Welcome notification subtitle
-"notifications_type_welcome_subtitle" = "Get started by posting your first item for sale and browse cool stuff near you.";
+// Subtitle text for empty notifications center
+"notifications_empty_subtitle" = "Post something for sale to start seeing some activity here";
 
 // Title text for empty notifications center
 "notifications_empty_title" = "NO NOTIFICATIONS (YET!)";
 
-// Subtitle text for empty notifications center
-"notifications_empty_subtitle" = "Post something for sale to start seeing some activity here";
+// Message shown inside a fake push notification in onboarding
+"notifications_permissions_1_push" = "Isabella: I'm very interested in your phone. Can you let go of it for $100?";
+
+// Subtitle asking for Push notifications in onboarding
+"notifications_permissions_1_subtitle" = "Do you want to be notified when another user sends you a message?";
+
+// Title for asking for Push notifications in onboarding
+"notifications_permissions_1_title" = "Message notifications";
+
+// Title asking for Push notifications from product list
+"notifications_permissions_2_title" = "Buy & Sell Faster";
+
+// Message shown inside a fake push notification after writing a chat message
+"notifications_permissions_3_push" = "Jamie: Your offer sounds great. 5pm works for me, see you then!";
+
+// Subtitle asking for Push notifications after writing a chat message
+"notifications_permissions_3_subtitle" = "Do you want to be notified when a seller sends you a message?";
+
+// Title asking for Push notifications after writing a chat message
+"notifications_permissions_3_title" = "Be in the Loop";
+
+// Message shown inside a fake push notification after posting a product
+"notifications_permissions_4_push" = "Laura: I'll give you $100 for it. Can you meet up this afternoon?";
+
+// Subtitle asking for Push notifications after posting a product
+"notifications_permissions_4_subtitle" = "Do you want to be notified when a buyer sends you a message?";
+
+// Title asking for Push notifications after posting a product
+"notifications_permissions_4_title" = "Sell Faster";
+
+// Title of Cell where the user should tap (Notifications)
+"notifications_permissions_settings_cell1" = "Notifications";
+
+// Title of cell where the user can activate Push Notifications
+"notifications_permissions_settings_cell2" = "Allow Notifications";
+
+// First section title showing how to navigate to the Notifications settings
+"notifications_permissions_settings_section1" = "Tap Notifications";
+
+// Second section title showing how to activate Push notifications from settings
+"notifications_permissions_settings_section2" = "Switch on Notifications";
+
+// subtitle to ask the user to activate Push Notifications redirecting him to the system settings
+"notifications_permissions_settings_subtitle" = "Follow these steps to be notified when a user sends you a message";
+
+// Title to ask the user to activate Push Notifications redirecting him to the system settings
+"notifications_permissions_settings_title" = "Don't miss a sale!";
+
+// Title to ask the user to activate Push Notifications redirecting him to the system settings
+"notifications_permissions_settings_title_chat" = "Don't miss a reply!";
+
+// Button to activate Push notifications (redirecting the user)
+"notifications_permissions_settings_yes_button" = "Yes, Activate";
+
+// Button to accept push notifications permissions
+"notifications_permissions_yes_button" = "Yes, Notify Me";
+
+// Title of notifications section
+"notifications_title" = "Notifications";
+
+// User likes your product
+"notifications_type_like" = "Favorited your product";
+
+// User likes your product
+"notifications_type_like_w_title" = "Favorited \"%@\"";
+
+// User sold a product you favorited
+"notifications_type_sold" = "Has sold a product you favorited";
+
+// User sold a product you favorited
+"notifications_type_sold_w_title" = "Has sold \"%@\"";
+
+// Welcome notification subtitle
+"notifications_type_welcome_subtitle" = "Get started by posting your first item for sale and browse cool stuff near you.";
+
+// Welcome notification subtitle
+"notifications_type_welcome_subtitle_w_city" = "Get started by posting your first item for sale and browse cool stuff in %@.";
+
+// Welcome notification title
+"notifications_type_welcome_title" = "Welcome to letgo!";
+
+// Text to show when a user has no name 
+"notifications_user_wo_name" = "A user";
+
+// Button to skip logging in during onboarding
+"onboarding_login_skip" = "Skip";
 
 // Product ask a question button. Check attached image "product (buyer).png"
 "product_ask_a_question_button" = "Ask a Question";
+
+// Product detail auto gen title disclaimer label.
+"product_auto_generated_title_label" = "Title automatically generated by letgo";
+
+// Product detail auto gen title translated disclaimer label.
+"product_auto_generated_translated_title_label" = "(and translated by Google)";
+
+// Error shown when one user blocked the other
+"product_chat_direct_error_blocked_user_message" = "Oops! Chatting with this user is blocked.";
+
+// direct message sent to the seller fromthe product view
+"product_chat_direct_message" = "Hi %@, I'm interested";
+
+// direct message "sending", goes on a "loading" popup view
+"product_chat_direct_message_sending" = "Sending...";
 
 // product chat with the seller button title
 "product_chat_with_seller_button" = "Chat with the seller";
@@ -972,38 +849,8 @@
 // product continue chatting button title
 "product_continue_chatting_button" = "Continue chatting";
 
-// direct message sent to the seller fromthe product view
-"product_chat_direct_message" = "Hi %@, I'm interested";
-
-// direct message alert title
-"product_chat_direct_message_alert_title" = "Chat with the seller";
-
-// direct message alert message
-"product_chat_direct_message_alert_message" = "You're about to send this chat: \"Hi, I'm interested\"";
-
-// direct message "sending", goes on a "loading" popup view
-"product_chat_direct_message_sending" = "Sending...";
-
-// direct chat button I'm interested
-"product_chat_direct_option_button_interested" = "I'm interested!";
-
-// direct chat button I'd buy it
-"product_chat_direct_option_button_buy" = "I'd like to buy it";
-
-// direct chat button Is the price negotiable?
-"product_chat_direct_option_button_negotiable" = "Is the price negotiable?";
-
-// Error shown when one user blocked the other
-"product_chat_direct_error_blocked_user_message" = "Oops! Chatting with this user is blocked.";
-
-// long press on chat, go to chat option (option w direct answers)
-"product_chat_go_to_chat" = "Go to Chat";
-
-// text shown inside the chat message bubble while the message is being sent (via websocket)
-"product_chat_message_sending" = "Sending...";
-
-// Product chat error generic. Message displayal is like the other error messages
-"product_chat_error_generic" = "An error occurred while starting the chat. Please try again later.";
+// Button to open Commercializer and create a promotional video of the product
+"product_create_commercial_button" = "Create Commercial";
 
 // Product distance from you. Check image @ "product_ask_a_question_button" segment
 "product_date_more_than_X_months_ago" = "Posted more than %i months ago";
@@ -1057,19 +904,13 @@
 "product_delete_success_message" = "Your product was successfully deleted.";
 
 // Product distance from you. Check image @ "product_ask_a_question_button" segment
-"product_distance_from_you" = "from you";
-
-// Product distance from you. Check image @ "product_ask_a_question_button" segment
 "product_distance_more_than_from_you" = "More than %@ from you";
 
 // Product distance from you. Check image @ "product_ask_a_question_button" segment
 "product_distance_X_from_you" = "%@ from you";
 
-// Product gallery title
-"product_gallery_title" = "Photos";
-
-// Product list item new status label. Check attached image "product_list_item_new_status_label.png". New like "Novelty",  NOT like a non-used item
-"product_list_item_new_status_label" = "NEW";
+// Banner cell inserted in the product list to incentivize posting
+"product_list_banner_cell_title" = "SEE YOUR LISTING HERE";
 
 // Product list item sold status label. Check attached image "product_list_item_sold_status_label.png"
 "product_list_item_sold_status_label" = "SOLD";
@@ -1080,23 +921,11 @@
 // Product list item how long new item in minutes label
 "product_list_item_time_minute_label" = "%im";
 
-// Product list location disabled go to indicate location label.
-"product_list_location_disabled_go_to_indicate_location_label" = "Oops! Your location is turned off. Enable location to see the best offers nearby!";
-
 // Product list no products body.
 "product_list_no_products_body" = "You're the first explorer from your city. Welcome!";
 
 // <strong>SEE SCREENSHOT</strong> Product list no products title.
 "product_list_no_products_title" = "CITY UNLOCKED!";
-
-// Banner cell inserted in the product list to incentivize posting
-"product_list_banner_cell_title" = "SEE YOUR LISTING HERE";
-
-// Product location title. Check attached image "product_location.png"
-"product_location_title" = "Location";
-
-// Product make an offer button. Check image @ "product_ask_a_question_button" segment
-"product_make_an_offer_button" = "Make an Offer";
 
 // Product mark as sold button. Check attached image "product (seller).png"
 "product_mark_as_sold_button" = "Mark as Sold";
@@ -1119,56 +948,53 @@
 // Product mark as sold success message. Message displayal is like the other error messages
 "product_mark_as_sold_success_message" = "Congratulations, your product was successfully marked as sold!";
 
+// Tooltip to see more info on snapchat, just the "tap" text
+"product_more_info_tooltip_part_1" = "Tap";
+
+// Tooltip to see more info on snapchat, just the "to see more info" text
+"product_more_info_tooltip_part_2" = "%@ to see more info";
+
+// Button to open the More Info view tapping or dragging it
+"product_more_info_open_button" = "MORE INFO";
+
 // Text when price is 0$ 
 "product_negotiable_price" = "Negotiable";
 
+// Product onboarding, scroll to see gallery label
+"product_onboarding_finger_scroll_label" = "Scroll to see more pictures";
+
+// Product onboarding, swipe to go to next or previous product label
+"product_onboarding_finger_swipe_label" = "Swipe to go to the next product or to the previous one";
+
+// Product onboarding, tap to go to next product label
+"product_onboarding_finger_tap_label" = "Tap to go to the next product";
+
+// Button to show again the Onboarding in the new Product Detail
+"product_onboarding_show_again_button_title" = "How to Browse";
+
+// Button to open the Commercial of a product inside the product detail
+"product_open_commercial_button" = "Commercial";
+
 // Info bubble on product list when 'newest' ordering is selected
 "product_popular_near_you" = "Popular near you";
-
-// Camera tab on posting
-"product_post_camera_tab" = "PHOTO";
-
-// Gallery tab on posting
-"product_post_gallery_tab" = "GALLERY";
-
-// Message title when user didn't allow access to gallery
-"product_post_gallery_permissions_title" = "Allow access to Photos";
-
-// Message subtitle when user didn't allow access to gallery
-"product_post_gallery_permissions_subtitle" = "To select an existing photo, you must allow access to Photos";
-
-// Button text when user didn't allow access to gallery
-"product_post_gallery_permissions_button" = "Allow";
-
-// Message title when loading an image (from iCloud) fails
-"product_post_gallery_load_image_error_title" = "The photo can't be loaded";
-
-// Message subtitle when loading an image (from iCloud) fails
-"product_post_gallery_load_image_error_subtitle" = "Choose another photo and try again.";
-
-// Message title when there are no photos on gallery
-"product_post_empty_gallery_title" = "No photos found";
-
-// Message subtitle when there are no photos on gallery
-"product_post_empty_gallery_subtitle" = "Take a photo of the product you want to post";
-
-// Button text when there are no photos on gallery
-"product_post_empty_gallery_button" = "Take Photo";
-
-// Message title when user didn't allow access to camera
-"product_post_camera_permissions_title" = "Allow access to Camera";
-
-// Message subtitle when user didn't allow access to camera
-"product_post_camera_permissions_subtitle" = "To take a photo, you must allow access to Camera";
-
-// Button text when user didn't allow access to camera
-"product_post_camera_permissions_button" = "Allow";
 
 // Secondary text when the camera posting appears
 "product_post_camera_first_time_alert_subtitle" = "Take a good picture and start making cash!";
 
 // Main text when the camera posting appears
 "product_post_camera_first_time_alert_title" = "What are you selling?";
+
+// Button text when user didn't allow access to camera
+"product_post_camera_permissions_button" = "Allow";
+
+// Message subtitle when user didn't allow access to camera
+"product_post_camera_permissions_subtitle" = "To take a photo, you must allow access to Camera";
+
+// Message title when user didn't allow access to camera
+"product_post_camera_permissions_title" = "Allow access to Camera";
+
+// Camera tab on posting
+"product_post_camera_tab" = "PHOTO";
 
 // When closing without posting alert close button
 "product_post_close_alert_close_button" = "Discard";
@@ -1191,32 +1017,38 @@
 // Add more details button (max 20 chars) 
 "product_post_confirmation_edit" = "Add more details";
 
-// Share it section separator
-"product_post_confirmation_share" = "Share it";
+// Done button after setting (or not) a price
+"product_post_done" = "Done";
 
-// After posting, real confirmation subtitle
-"product_post_confirmation_subtitle" = "Your product will appear on letgo in 10 minutes. It's time to letgo!";
+// Button text when there are no photos on gallery
+"product_post_empty_gallery_button" = "Take Photo";
 
-// After posting, real confirmation
-"product_post_confirmation_title" = "Congratulations!";
+// Message subtitle when there are no photos on gallery
+"product_post_empty_gallery_subtitle" = "Take a photo of the product you want to post";
 
-// After posting, real confirmation
-"product_post_incentive_title" = "CONGRATULATIONS!";
+// Message title when there are no photos on gallery
+"product_post_empty_gallery_title" = "No photos found";
 
-// After posting, real confirmation subtitle
-"product_post_incentive_subtitle" = "Your listing has been posted.";
+// Message subtitle when loading an image (from iCloud) fails
+"product_post_gallery_load_image_error_subtitle" = "Choose another photo and try again.";
 
-// 1st part of the incentivation text
-"product_post_incentive_looking_for" = "People around you are looking for these items, %@";
+// Message title when loading an image (from iCloud) fails
+"product_post_gallery_load_image_error_title" = "The photo can't be loaded";
 
-// !!!! -> this text will go at the place of the variable %@ in "product_post_incentive_looking_for"
-"product_post_incentive_got_any" = "got any to sell?";
+// Button text when user didn't allow access to gallery
+"product_post_gallery_permissions_button" = "Allow";
 
-// product name ps4
-"product_post_incentive_ps4" = "PS4s";
+// Message subtitle when user didn't allow access to gallery
+"product_post_gallery_permissions_subtitle" = "To select an existing photo, you must allow access to Photos";
 
-// product name Tvs
-"product_post_incentive_tv" = "TVs";
+// Message title when user didn't allow access to gallery
+"product_post_gallery_permissions_title" = "Allow access to Photos";
+
+// Gallery tab on posting
+"product_post_gallery_tab" = "GALLERY";
+
+// When posting failed but it's our fault
+"product_post_generic_error" = "There was an error while posting your product.";
 
 // product name bikes
 "product_post_incentive_bike" = "Bikes";
@@ -1227,14 +1059,26 @@
 // product name dressers
 "product_post_incentive_dresser" = "Dressers";
 
+// !!!! -> this text will go at the place of the variable %@ in "product_post_incentive_looking_for"
+"product_post_incentive_got_any" = "got any to sell?";
+
+// 1st part of the incentivation text
+"product_post_incentive_looking_for" = "People around you are looking for these items, %@";
+
 // product name motorcycle
 "product_post_incentive_motorcycle" = "Motorcycles";
 
-// Done button after setting (or not) a price
-"product_post_done" = "Done";
+// product name ps4
+"product_post_incentive_ps4" = "PS4s";
 
-// When posting failed but it's our fault
-"product_post_generic_error" = "There was an error while posting your product.";
+// After posting, real confirmation subtitle
+"product_post_incentive_subtitle" = "Your listing has been posted.";
+
+// After posting, real confirmation
+"product_post_incentive_title" = "CONGRATULATIONS!";
+
+// product name Tvs
+"product_post_incentive_tv" = "TVs";
 
 // Login message when asking for login
 "product_post_login_message" = "To sell your stuff, you have to log in";
@@ -1266,38 +1110,8 @@
 // Price label above price on product
 "product_price_label" = "Price";
 
-// Product onboarding, tap to go to next product label
-"product_onboarding_finger_tap_label" = "Tap to go to the next product";
-
-// Product onboarding, swipe to go to next or previous product label
-"product_onboarding_finger_swipe_label" = "Swipe to go to the next product or to the previous one";
-
-// Product onboarding, scroll to see gallery label
-"product_onboarding_finger_scroll_label" = "Scroll to see more pictures";
-
-// Product onboarding, tap to see more info label
-"product_onboarding_more_info_label" = "Tap to see more info";
-
-// Product onboarding, press & hold to quick answers label
-"product_onboarding_quick_answers_label" = "Hold to see other options";
-
-// Button to show again the Onboarding in the new Product Detail
-"product_onboarding_show_again_button_title" = "How to Browse";
-
-// Button to open Commercializer and create a promotional video of the product
-"product_create_commercial_button" = "Create Commercial";
-
-// Button to open the Commercial of a product inside the product detail
-"product_open_commercial_button" = "Commercial";
-
-// Product report confirm cancel button. Message displayal is like the other dialog messages
-"product_report_confirm_cancel_button" = "Cancel";
-
 // Product report confirm message. Message displayal is like the other dialog messages
 "product_report_confirm_message" = "Are you sure you want to report this product?";
-
-// Product report confirm ok button. Message displayal is like the other dialog messages
-"product_report_confirm_ok_button" = "OK";
 
 // Product report confirm title. Message displayal is like the other dialog messages
 "product_report_confirm_title" = "Report Product";
@@ -1308,17 +1122,11 @@
 // Product reported fail message. Message displayal is like the other dialog messages
 "product_reported_error_generic" = "An error occurred while reporting the product. Please try again later.";
 
-// Product reported product label. Check image @ "product_report_product_button" segment
-"product_reported_product_label" = "Product reported. Thanks!";
-
 // Product reported success message. Message displayal is like the other dialog messages
 "product_reported_success_message" = "The product was reported successfully. Thanks!";
 
 // Product reporting laoding message. Message displayal is like the other dialog messages
 "product_reporting_loading_message" = "Reporting Product...";
-
-// Product reporting product label. Check image @ "product_report_product_button" segment
-"product_reporting_product_label" = "Reporting product...";
 
 // Product search no products body.
 "product_search_no_products_body" = "Try looking for something else or check again soon!";
@@ -1362,6 +1170,9 @@
 // Product share body
 "product_share_body" = "Look what I just found on letgo!";
 
+// Product share via copy_link success
+"product_share_copylink_ok" = "Your link has been copied!";
+
 // Product share email error. Message displayal is like the other error messages
 "product_share_email_error" = "Oops! You don't seem to have an account set up in the Mail app.";
 
@@ -1371,53 +1182,20 @@
 // Product share generic OK. Message displayal is like the other error messages
 "product_share_generic_ok" = "Product successfully shared!";
 
-// Product detail share title label.
-"product_share_title_label" = "SHARE THIS PRODUCT";
-
-// Product share telegram error. Message displayal is like the other error messages
-"product_share_telegram_error" = "Oops! You don't seem to have Telegram installed.";
-
-// Product share whatsapp error. Message displayal is like the other error messages
-"product_share_whatsapp_error" = "Oops! You don't seem to have WhatsApp installed.";
+// Product share via sms error message
+"product_share_sms_error" = "An error occurred while sending your message.";
 
 // Product share via sms success message
 "product_share_sms_ok" = "Sending...";
 
-// Product share via sms error message
-"product_share_sms_error" = "An error occurred while sending your message.";
+// Product share telegram error. Message displayal is like the other error messages
+"product_share_telegram_error" = "Oops! You don't seem to have Telegram installed.";
 
-// Product share via copy_link success
-"product_share_copylink_ok" = "Your link has been copied!";
+// Product detail share title label.
+"product_share_title_label" = "SHARE THIS PRODUCT";
 
-// Product detail status label, status approved. Check image @ "product_status_label_pending" segment
-"product_status_label_approved" = "PRODUCT APPROVED";
-
-// Product detail status label, status deleted. Check image @ "product_status_label_pending" segment
-"product_status_label_deleted" = "PRODUCT DELETED";
-
-// Product detail status label, status discarded. Check image @ "product_status_label_pending" segment
-"product_status_label_discarded" = "PRODUCT DISCARDED";
-
-// Product detail status label, status pending. Check attached image "item_page_sold_ios.png"
-"product_status_label_pending" = "PRODUCT PENDING";
-
-// Product detail status label, status sold. Check image @ "product_status_label_pending" segment
-"product_status_label_sold" = "PRODUCT SOLD";
-
-// Product detail auto gen title disclaimer label.
-"product_auto_generated_title_label" = "Title automatically generated by letgo";
-
-// Product detail auto gen title translated disclaimer label.
-"product_auto_generated_translated_title_label" = "(and translated by Google)";
-
-// Tooltip to see more info on snapchat, just the "tap" text
-"product_more_info_tooltip_part_1" = "Tap";
-
-// Tooltip to see more info on snapchat, just the "to see more info" text
-"product_more_info_tooltip_part_2" = "%@ to see more info";
-
-// Button to open the More Info view tapping or dragging it
-"product_more_info_open_button" = "MORE INFO";
+// Product share whatsapp error. Message displayal is like the other error messages
+"product_share_whatsapp_error" = "Oops! You don't seem to have WhatsApp installed.";
 
 // Profile, you blocked this user label (wo username)
 "profile_blocked_by_me_label" = "You've blocked this user";
@@ -1428,26 +1206,17 @@
 // Profile, this user blocked you label
 "profile_blocked_by_other_label" = "You've been blocked by this user";
 
-// Profile favourites my user no products title. Check attached image "profile (empty).png"
-"profile_favourites_my_user_no_products_label" = "NO FAVORITES (YET!)";
-
-// Profile favourites my user no products subtitle. Check attached image "profile (empty).png"
-"profile_favourites_my_user_no_products_subtitle_label" = "What's stopping you?";
-
 // Profile favourites my user no products button. Check attached image "profile (empty).png"
 "profile_favourites_my_user_no_products_button" = "Keep Browsing";
 
-// Profile favourites other user no products label. Check "profile_favourites_my_user_no_products_label" segment
-"profile_favourites_other_user_no_products_label" = "This user still hasn't published or favorited any products.";
+// Profile favourites my user no products title. Check attached image "profile (empty).png"
+"profile_favourites_my_user_no_products_label" = "NO FAVORITES (YET!)";
 
 // Profile favourites products tab. Check attached image "profile (full).png"
 "profile_favourites_products_tab" = "Favorites";
 
-// Message on profile when user has push disabled
-"profile_permissions_header_message" = "Enable message notifications";
-
 // Alert to encourage the user to enable push notifications
-"profile_permissions_alert_title" = "DON'T MISS A REPLY!";
+"profile_permissions_alert_cancel" = "Not Now";
 
 // Alert to encourage the user to enable push notifications
 "profile_permissions_alert_message" = "Would you like to enable message notifications now?";
@@ -1456,19 +1225,16 @@
 "profile_permissions_alert_ok" = "Enable";
 
 // Alert to encourage the user to enable push notifications
-"profile_permissions_alert_cancel" = "Not Now";
+"profile_permissions_alert_title" = "DON'T MISS A REPLY!";
 
-// Profile no products. Check attached image "profile_no_products.png"
-"profile_no_products" = "There are no products in this section (yet!)";
+// Message on profile when user has push disabled
+"profile_permissions_header_message" = "Enable message notifications";
 
 // Profile reviews count (appears below review count number)
 "profile_reviews_count" = "Reviews";
 
 // Profile selling tab (both my user and other user) empty title.
 "profile_selling_no_products_label" = "NO PRODUCTS (YET!)";
-
-// Profile selling tab (my user) empty title.
-"profile_selling_my_user_no_products_button" = "Sell Your Stuff";
 
 // Profile selling tab (other user) empty button.
 "profile_selling_other_user_no_products_button" = "Keep Browsing";
@@ -1478,9 +1244,6 @@
 
 // Profile sold tab (both my user and other user) empty title.
 "profile_sold_no_products_label" = "NO PRODUCTS (YET!)";
-
-// Profile sold tab (my user) empty title.
-"profile_sold_my_user_no_products_button" = "Sell Your Stuff";
 
 // Profile sold tab (other user) empty button.
 "profile_sold_other_no_products_button" = "Keep Browsing";
@@ -1494,66 +1257,54 @@
 // Profile verified accounts (other user), at least 1 account verified
 "profile_verified_accounts_other_user" = "VERIFIED WITH:";
 
-// Profile verified accounts (other user), no accounts verified
-"profile_verified_accounts_other_user_empty" = "USER NOT VERIFIED YET";
-
-// Verify popup to link with facebook
-"profile_verify_facebook_title" = "FACEBOOK";
-
-// Verify popup to link with facebook
-"profile_verify_facebook_message" = "Connect with Facebook to verify your identity";
-
-// Verify popup to link with facebook
-"profile_verify_facebook_button" = "Facebook";
-
-// Verify popup to link with google
-"profile_verify_google_title" = "GOOGLE";
-
-// Verify popup to link with google
-"profile_verify_google_message" = "Connect with Google to verify your identity";
-
-// Verify popup to link with google
-"profile_verify_google_button" = "Google";
-
 // Verify popup to link with email
-"profile_verify_email_title" = "EMAIL";
-
-// Verify popup to link with email
-"profile_verify_email_message_present" = "Tap \"Send Email\" to send a new verification link to %@";
+"profile_verify_email_button" = "Send Email";
 
 // Verify popup to link with email
 "profile_verify_email_message_not_present" = "To verify your account, enter your email address.";
 
 // Verify popup to link with email
-"profile_verify_email_placeholder" = "Email";
+"profile_verify_email_message_present" = "Tap \"Send Email\" to send a new verification link to %@";
 
 // Verify popup to link with email
-"profile_verify_email_button" = "Send Email";
+"profile_verify_email_placeholder" = "Email";
 
 // Verify popup to link with email success message
 "profile_verify_email_success" = "We've sent you a verification email. The link will expire in 48h.";
 
+// Verify popup to link with email
+"profile_verify_email_title" = "EMAIL";
+
 // Verify popup to link with email failure too many requests
 "profile_verify_email_too_many_requests" = "We've already sent you a verification email. Please check your inbox!";
 
-// Push notification message body
-"push_notification_message_body" = "%@: %@";
+// Verify popup to link with facebook
+"profile_verify_facebook_button" = "Facebook";
 
-// Push notification message body no username
-"push_notification_message_body_no_username" = "Message: %@";
+// Verify popup to link with facebook
+"profile_verify_facebook_message" = "Connect with Facebook to verify your identity";
 
-// Push notification message title
-"push_notification_message_title" = "New message - %@";
+// Verify popup to link with facebook
+"profile_verify_facebook_title" = "FACEBOOK";
 
-// action for user to review another user
-"rating_list_action_review_user" = "Review user";
+// Verify popup to link with google
+"profile_verify_google_button" = "Google";
+
+// Verify popup to link with google
+"profile_verify_google_message" = "Connect with Google to verify your identity";
+
+// Verify popup to link with google
+"profile_verify_google_title" = "GOOGLE";
 
 // action for user to report a review by another user
 "rating_list_action_report_review" = "Report review";
 
+"rating_list_action_report_review_error_message" = "An error occurred while sending your report.";
+
 "rating_list_action_report_review_success_message" = "Your report has been sent!";
 
-"rating_list_action_report_review_error_message" = "An error occurred while sending your report.";
+// action for user to review another user
+"rating_list_action_review_user" = "Review user";
 
 // Text for loading error at user ratings list
 "rating_list_loading_error_message" = "An error occurred while loading ratings.";
@@ -1573,20 +1324,11 @@
 // Rating view don't ask button.  Check image @ "rating_view_title_label" segment
 "rating_view_dont_ask_again_button" = "Don't ask me again";
 
-// Rating view love it label.  Check image @ "rating_view_title_label" segment
-"rating_view_love_it_label" = "Love it!";
-
-// Rating view needs improvements label.  Check image @ "rating_view_title_label" segment
-"rating_view_needs_improvements_label" = "Needs improvement";
-
 // Rating view rate us label.  Check image @ "rating_view_title_label" segment
 "rating_view_rate_us_label" = "Rate us:";
 
 // Rating view remind me later button.  Check image @ "rating_view_title_label" segment
 "rating_view_remind_later_button" = "Remind me later";
-
-// Rating view suggest label.  Check image @ "rating_view_title_label" segment
-"rating_view_suggest_label" = "Share your suggestions";
 
 // Rating view title label.  Check attached image "rating_view.png"
 "rating_view_title_label" = "Do you love letgo?";
@@ -1594,50 +1336,50 @@
 // Rating view title label.  Check attached image "rating_view.png" (but uppercase)
 "rating_view_title_label_uppercase" = "GIVE US 5 STARS!";
 
-// Title for report user screen
-"report_user_title" = "Report User";
+// Type Counterfeit items
+"report_user_counterfeit" = "Counterfeit items";
 
-// Type offensive behaviour
-"report_user_offensive" = "Offensive behavior";
-
-// Type scammer
-"report_user_scammer" = "Scammer";
-
-// Type Missing in 'action'
-"report_user_mia" = "MIA at meetups";
-
-// Type Suspicious behaviour
-"report_user_suspcious" = "Suspicious behavior";
+// Error reporting the user because you already reported him
+"report_user_error_already_reported" = "You already reported this user!";
 
 // Type inactive
 "report_user_inactive" = "Inactive";
 
-// Type items prohibited
-"report_user_prohibited_items" = "Selling prohibited items";
+// Type Missing in 'action'
+"report_user_mia" = "MIA at meetups";
 
-// Type spammer
-"report_user_spammer" = "Spammer";
-
-// Type Counterfeit items
-"report_user_counterfeit" = "Counterfeit items";
+// Type offensive behaviour
+"report_user_offensive" = "Offensive behavior";
 
 // Type other
 "report_user_others" = "Other";
 
-// Information comment on the text area
-"report_user_text_placeholder" = "Add a comment (optional)";
+// Type items prohibited
+"report_user_prohibited_items" = "Selling prohibited items";
+
+// Type scammer
+"report_user_scammer" = "Scammer";
 
 // Send button text
 "report_user_send_button" = "Send";
 
-// Confirmation after sending report
-"report_user_send_ok" = "Your report has been sent!";
-
 // Error sending report
 "report_user_send_failure" = "An error occurred while sending your report";
 
-// Error reporting the user because you already reported him
-"report_user_error_already_reported" = "You already reported this user!";
+// Confirmation after sending report
+"report_user_send_ok" = "Your report has been sent!";
+
+// Type spammer
+"report_user_spammer" = "Spammer";
+
+// Type Suspicious behaviour
+"report_user_suspcious" = "Suspicious behavior";
+
+// Information comment on the text area
+"report_user_text_placeholder" = "Add a comment (optional)";
+
+// Title for report user screen
+"report_user_title" = "Report User";
 
 // Reset password email field hint. Check attached image "reset_password.png"
 "reset_password_email_field_hint" = "Enter your email address";
@@ -1714,12 +1456,6 @@
 // Sell picture selected title
 "sell_picture_selected_title" = "Choose an action";
 
-// Sell price field hint. Check image @ "sell_category_selection_label" segment
-"sell_price_field_hint" = "Price";
-
-// Sell send button. Check image @ "sell_category_selection_label" segment
-"sell_send_button" = "Sell";
-
 // Sell send error invalid category. Check attached image "sell_send_error.png"
 "sell_send_error_invalid_category" = "Please choose a category for the product.";
 
@@ -1732,9 +1468,6 @@
 // Sell send error invalid image count. Check image @ "sell_send_error_invalid_category" segment
 "sell_send_error_invalid_image_count" = "At least one photo is required to sell a product.";
 
-// Sell send error invalid location. Check image @ "sell_send_error_invalid_category" segment
-"sell_send_error_invalid_location" = "We were unable to find your current location. A location is required to sell a product. Please try again later.";
-
 // Sell send error invalid price. Check image @ "sell_send_error_invalid_category" segment
 "sell_send_error_invalid_price" = "Please insert a valid price for the product. It should only include numbers.";
 
@@ -1744,38 +1477,20 @@
 // Sell send error sharing facebook. Check image @ "sell_send_error_invalid_category" segment
 "sell_send_error_sharing_facebook" = "An error occurred while sharing on Facebook. Please try again later.";
 
-// Sell send error sharing facebook cancelled. Check image @ "sell_send_error_invalid_category" segment
-"sell_send_error_sharing_facebook_cancelled" = "Canceled by user.";
-
-// Sell send error uploading picture. Check image @ "sell_send_error_invalid_category" segment
-"sell_send_error_uploading_picture" = "An error occurred while registering your product. We were unable to upload photos. Please try again.";
-
-// Sell send error uploading product. Check image @ "sell_send_error_invalid_category" segment
-"sell_send_error_uploading_product" = "An error occurred while registering your product.";
-
-// Sell send ok. Check attached image "sell_send_ok.png"
-"sell_send_ok" = "Congratulations! Your item will appear in our listings shortly. It's time to letgo!";
-
-// Sell send sharing facebook OK. Check image @ "sell_send_error_invalid_category" segment
-"sell_send_sharing_facebook_ok" = "Product successfully shared!";
-
 // Sell share fb content
 "sell_share_fb_content" = "Check out what I'm selling on letgo!";
 
 // Sell share on facebook label
 "sell_share_on_facebook_label" = "Share my product on Facebook";
 
-// Sell title. Check image @ "sell_category_selection_label" segment
-"sell_title" = "Sell";
-
-// Sell title field hint. Check image @ "sell_category_selection_label" segment
-"sell_title_field_hint" = "Title (optional)";
+// Sell edit title autogenerated & autotranslated
+"sell_title_autogen_autotrans_label" = "Title suggested by letgo and translated by Google";
 
 // Sell edit title autogenerated
 "sell_title_autogen_label" = "Title suggested by letgo";
 
-// Sell edit title autogenerated & autotranslated
-"sell_title_autogen_autotrans_label" = "Title suggested by letgo and translated by Google";
+// Sell title field hint. Check image @ "sell_category_selection_label" segment
+"sell_title_field_hint" = "Title (optional)";
 
 // Sell uploading label
 "sell_uploading_label" = "Uploading product. Please wait...";
@@ -1798,23 +1513,8 @@
 // Settings change name button. Check image @ "settings_change_password_button" segment
 "settings_change_username_button" = "Name";
 
-// Settings contact us button. Check attached image @ "settings_change_password_button" segment
-"settings_contact_us_button" = "Contact us";
-
 // Settings help button. Check attached image @ "settings_change_password_button" segment
 "settings_help_button" = "Help";
-
-// Settings image source camera button. Check attached image "settings_change_profile_picture.png"
-"settings_image_source_camera_button" = "Camera";
-
-// Settings image source camera roll button. Check image @ "settings_image_source_camera_button" segment
-"settings_image_source_camera_roll_button" = "Photo library";
-
-// Settings image source cancel button. Check image @ "settings_image_source_camera_button" segment
-"settings_image_source_cancel_button" = "Cancel";
-
-// Settings image source title. Check image @ "settings_image_source_camera_button" segment
-"settings_image_source_title" = "Choose image source";
 
 // Settings invite facebook friends. Check image @ "settings_change_password_button" segment
 "settings_invite_facebook_friends_button" = "Invite Facebook Friends";
@@ -1856,16 +1556,10 @@
 "sign_up_send_error_invalid_email" = "Please insert a valid email address.";
 
 // Sign up send error invalid password. Check image @ "sign_up_send_error_email_taken" segment
-"sign_up_send_error_invalid_password" = "Please insert a valid password. It must be at least %d characters long.";
-
-// Sign up send error invalid password. Check image @ "sign_up_send_error_email_taken" segment
 "sign_up_send_error_invalid_password_with_max" = "Please insert a valid password. It must be between %d and %d characters.";
 
 // Sign up send error invalid username. Check image @ "sign_up_send_error_email_taken" segment
 "sign_up_send_error_invalid_username" = "Please insert a valid username. It must be at least %d characters long.";
-
-// Sign up send error invalid username letgo. Check image @ "sign_up_send_error_email_taken" segment
-"sign_up_send_error_invalid_username_letgo" = "Another account is using %@, please choose another username.";
 
 // Sign up terms and conditions complete text (just turkey)
 "sign_up_terms_conditions" = "I agree to the letgo Terms & Conditions and Privacy Policy";
@@ -1888,56 +1582,26 @@
 // Toast server internal.
 "toast_error_internal" = "Oops! Something went wrong.";
 
-// Toast server error.
-"toast_error_server" = "Oops! Please try again.";
-
 // Toast no network.
 "toast_no_network" = "No Internet Connection";
 
 // Tour page 1 body.
 "tour_page_1_body" = "Buy and sell quickly, safely and locally. It’s time to letgo!";
 
-// Tour page 2 body.
-"tour_page_2_body" = "Every day, thousands of new, nearby listings are posted.";
-
-// Tour page 2 title.
-"tour_page_2_title" = "Local";
-
-// Tour page 3 body.
-"tour_page_3_body" = "Post products in a few seconds and get cash for stuff you don’t need anymore.";
-
-// Tour page 3 title.
-"tour_page_3_title" = "Snap and Post";
-
-// Tour page 4 body.
-"tour_page_4_body" = "Negotiate and chat with people nearby in private. Pay in cash, with no fees.";
-
-// Tour page 4 title.
-"tour_page_4_title" = "Chat and Sell";
-
-// Tour page ok button.
-"tour_page_ok_button" = "Start Browsing!";
-
-// Tour page skip button.
-"tour_page_skip_button" = "Skip";
-
 // Title for trending searches screen (background view when searching)
 "trending_searches_Title" = "Trending Searches";
 
-// Text for successful user unblock
-"unblock_user_success_message" = "The user has been unblocked!";
-
 // Text for unsuccessful user unblock
 "unblock_user_error_generic" = "An error occurred while unblocking this user.";
-
-// Title when you rate a user
-"user_rating_title" = "Review your experience with";
 
 // Information message when rating a user
 "user_rating_message_w_name" = "Does your experience with %@ get five stars? Tell us how it went.";
 
 // Information message when rating a user
 "user_rating_message_wo_name" = "Does your experience with this user get five stars? Tell us how it went.";
+
+// Send review button
+"user_rating_review_button" = "Publish review";
 
 // Information about review comment when rating a user
 "user_rating_review_info" = "You can update this review whenever you want.";
@@ -1951,80 +1615,8 @@
 // Review message optional (when user selected 4-5 stars)
 "user_rating_review_placeholder_optional" = "Write about your experience (optional)";
 
-// Send review button
-"user_rating_review_button" = "Publish review";
-
 // Message when review was published
 "user_rating_review_send_success" = "Your review has been published!";
 
-// Subtitle asking for Push notifications in onboarding
-"notifications_permissions_1_subtitle" = "Do you want to be notified when another user sends you a message?";
-
-// Title for asking for Push notifications in onboarding
-"notifications_permissions_1_title" = "Message notifications";
-
-// Message shown inside a fake push notification in onboarding
-"notifications_permissions_1_push" = "Isabella: I'm very interested in your phone. Can you let go of it for $100?";
-
-// Title asking for Push notifications from product list
-"notifications_permissions_2_title" = "Buy & Sell Faster";
-
-// Title asking for Push notifications after writing a chat message
-"notifications_permissions_3_title" = "Be in the Loop";
-
-// Subtitle asking for Push notifications after writing a chat message
-"notifications_permissions_3_subtitle" = "Do you want to be notified when a seller sends you a message?";
-
-// Message shown inside a fake push notification after writing a chat message
-"notifications_permissions_3_push" = "Jamie: Your offer sounds great. 5pm works for me, see you then!";
-
-// Title asking for Push notifications after posting a product
-"notifications_permissions_4_title" = "Sell Faster";
-
-// Subtitle asking for Push notifications after posting a product
-"notifications_permissions_4_subtitle" = "Do you want to be notified when a buyer sends you a message?";
-
-// Message shown inside a fake push notification after posting a product
-"notifications_permissions_4_push" = "Laura: I'll give you $100 for it. Can you meet up this afternoon?";
-
-// Title to ask the user to activate Push Notifications redirecting him to the system settings
-"notifications_permissions_settings_title" = "Don't miss a sale!";
-
-// Title to ask the user to activate Push Notifications redirecting him to the system settings
-"notifications_permissions_settings_title_chat" = "Don't miss a reply!";
-
-// subtitle to ask the user to activate Push Notifications redirecting him to the system settings
-"notifications_permissions_settings_subtitle" = "Follow these steps to be notified when a user sends you a message";
-
-// First section title showing how to navigate to the Notifications settings
-"notifications_permissions_settings_section1" = "Tap Notifications";
-
-// Second section title showing how to activate Push notifications from settings
-"notifications_permissions_settings_section2" = "Switch on Notifications";
-
-// Title of Cell where the user should tap (Notifications)
-"notifications_permissions_settings_cell1" = "Notifications";
-
-// Title of cell where the user can activate Push Notifications
-"notifications_permissions_settings_cell2" = "Allow Notifications";
-
-// Button to activate Push notifications (redirecting the user)
-"notifications_permissions_settings_yes_button" = "Yes, Activate";
-
-// Button to accept push notifications permissions
-"notifications_permissions_yes_button" = "Yes, Notify Me";
-
-// Title asking for Location permission in onboarding
-"location_permissions_title" = "Location";
-
-// Subtitle asking for Location permission in onboarding
-"location_permissons_subtitle" = "Do you want to see products near you?";
-
-// Fake distance shown in a bubble in a fake product list in onboarding
-"location_permissions_bubble" = "0.1 mi from you";
-
-// Button to accept asking for location permission
-"location_permissions_button" = "Yes, Use my Location";
-
-// Button to skip logging in during onboarding
-"onboarding_login_skip" = "Skip";
+// Title when you rate a user
+"user_rating_title" = "Review your experience with";

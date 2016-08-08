@@ -37,13 +37,10 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     private var tagsAnimating : Bool = false
 
     private let disposeBag = DisposeBag()
+
     
     // MARK: - Lifecycle
-    
-    convenience init() {
-        self.init(viewModel: MainProductsViewModel(), nibName: "MainProductsViewController")
-    }
-    
+
     convenience init(viewModel: MainProductsViewModel) {
         self.init(viewModel: viewModel, nibName: "MainProductsViewController")
     }
@@ -209,10 +206,6 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
         floatingSellButtonHidden = false
         guard floatingSellButtonHidden != previouslyHidden else { return }
         tabBarCtl.setSellFloatingButtonHidden(floatingSellButtonHidden, animated: true)
-    }
-
-    func vmShowProduct(productVC: UIViewController) {
-        navigationController?.pushViewController(productVC, animated: true)
     }
 
     func vmOpenSell(type: String) {

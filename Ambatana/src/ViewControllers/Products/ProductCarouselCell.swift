@@ -129,7 +129,7 @@ extension ProductCarouselCell: UICollectionViewDelegate, UICollectionViewDataSou
 
             return imageCell
     }
-
+    
     func scrollViewDidScroll(scrollView: UIScrollView) {
         let pageSize = collectionView.frame.size.height;
         let page = Int(round(collectionView.contentOffset.y / pageSize)) % numberOfImages()
@@ -137,15 +137,13 @@ extension ProductCarouselCell: UICollectionViewDelegate, UICollectionViewDataSou
             currentPage = page
             delegate?.didScrollToPage(page)
         }
-    }
-    
-    func scrollViewDidScroll(scrollView: UIScrollView) {
-        guard let delegate = delegate else { return }
-    
-        delegate.didPullFromTopWith(scrollView.contentOffset.y)
 
-        if !delegate.canScrollToNextPage() {
-            scrollView.contentOffset = CGPoint(x: 0, y: 0)
+        if let delegate = delegate {
+            delegate.didPullFromTopWith(scrollView.contentOffset.y)
+
+            if !delegate.canScrollToNextPage() {
+                scrollView.contentOffset = CGPoint(x: 0, y: 0)
+            }
         }
     }
     

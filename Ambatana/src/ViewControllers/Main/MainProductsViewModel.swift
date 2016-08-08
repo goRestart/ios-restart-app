@@ -17,7 +17,6 @@ protocol MainProductsViewModelDelegate: BaseViewModelDelegate {
     func vmShowTags(tags: [FilterTag])
     func vmDidFailRetrievingProducts(hasProducts hasProducts: Bool, error: String?)
     func vmDidSuceedRetrievingProducts(hasProducts hasProducts: Bool, isFirstPage: Bool)
-    func vmShowProduct(productVC: UIViewController)
     func vmOpenSell(type: String)
 }
 
@@ -88,6 +87,9 @@ class MainProductsViewModel: BaseViewModel {
     weak var bubbleDelegate: InfoBubbleDelegate?
     weak var permissionsDelegate: PermissionsDelegate?
 
+    // > Navigator
+    weak var tabNavigator: TabNavigator?
+    
     // List VM
     let listViewModel: ProductListViewModel
     private var productListRequester: FilteredProductListRequester
@@ -104,13 +106,15 @@ class MainProductsViewModel: BaseViewModel {
     // MARK: - Lifecycle
     
     init(myUserRepository: MyUserRepository, trendingSearchesRepository: TrendingSearchesRepository,
-         locationManager: LocationManager, tracker: Tracker, searchData: SearchData? = nil, filters: ProductFilters) {
+         locationManager: LocationManager, tracker: Tracker, searchData: SearchData? = nil, filters: ProductFilters,
+         tabNavigator: TabNavigator?) {
         self.myUserRepository = myUserRepository
         self.trendingSearchesRepository = trendingSearchesRepository
         self.locationManager = locationManager
         self.tracker = tracker
         self.searchData = searchData
         self.filters = filters
+        self.tabNavigator = tabNavigator
         self.productListRequester = FilteredProductListRequester()
         let show3Columns = DeviceFamily.isWideScreen
         let columns = show3Columns ? 3 : 2
@@ -126,18 +130,19 @@ class MainProductsViewModel: BaseViewModel {
         setup()
     }
     
-    convenience init(searchData: SearchData? = nil, filters: ProductFilters) {
+    convenience init(searchData: SearchData? = nil, filters: ProductFilters, tabNavigator: TabNavigator?) {
         let myUserRepository = Core.myUserRepository
         let trendingSearchesRepository = Core.trendingSearchesRepository
         let locationManager = Core.locationManager
         let tracker = TrackerProxy.sharedInstance
         self.init(myUserRepository: myUserRepository, trendingSearchesRepository: trendingSearchesRepository,
-                  locationManager: locationManager, tracker: tracker, searchData: searchData, filters: filters)
+                  locationManager: locationManager, tracker: tracker, searchData: searchData, filters: filters,
+                  tabNavigator: tabNavigator)
     }
     
-    convenience init(searchData: SearchData? = nil) {
+    convenience init(searchData: SearchData? = nil, tabNavigator: TabNavigator?) {
         let filters = ProductFilters()
-        self.init(searchData: searchData, filters: filters)
+        self.init(searchData: searchData, filters: filters, tabNavigator: tabNavigator)
     }
 
     deinit {
@@ -175,7 +180,7 @@ class MainProductsViewModel: BaseViewModel {
     }
 
     func chatViewModelForProduct(product: Product) -> OldChatViewModel? {
-        guard let chatVM = OldChatViewModel(product: product) else { return nil }
+        guard let chatVM = OldChatViewModel(product: product, tabNavigator: tabNavigator) else { return nil }
         chatVM.askQuestion = .ProductList
         return chatVM
     }
@@ -236,7 +241,7 @@ class MainProductsViewModel: BaseViewModel {
         - returns: A view model for search.
     */
     private func viewModelForSearch(searchData: SearchData) -> MainProductsViewModel {
-        return MainProductsViewModel(searchData: searchData, filters: filters)
+        return MainProductsViewModel(searchData: searchData, filters: filters, tabNavigator: tabNavigator)
     }
     
     private func updateListView() {
@@ -383,19 +388,12 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate {
                        thumbnailImage: UIImage?, originFrame: CGRect?) {
         
         guard let product = viewModel.productAtIndex(index) else { return }
-        let productVC: UIViewController?
-        if FeatureFlags.showRelatedProducts {
-            productVC = ProductDetailFactory.productDetailFromProduct(product,
-                                                                      thumbnailImage: thumbnailImage,
-                                                                      originFrame: originFrame)
-        } else {
-            productVC = ProductDetailFactory.productDetailFromProductList(viewModel, index: index,
-                                                                          thumbnailImage: thumbnailImage,
-                                                                          originFrame: originFrame)
-        }
-        if let productVC = productVC {
-            delegate?.vmShowProduct(productVC)
-        }
+        let cellModels = viewModel.objects
+        let data = ProductDetailData.ProductList(product: product, cellModels: cellModels,
+                                                 requester: productListRequester, thumbnailImage: thumbnailImage,
+                                                 originFrame: originFrame,
+                                                 showRelated: FeatureFlags.showRelatedProducts)
+        tabNavigator?.openProduct(data)
     }
     
     func vmProcessReceivedProductPage(products: [ProductCellModel]) -> [ProductCellModel] {

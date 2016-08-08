@@ -275,7 +275,10 @@ platform :ios do
 
   desc "Will update Web Translate It with the new validated strings from google drive, download all the changes from wti and generate all not-yet valid strings on base + localizables file"
   lane :strings do
-    lg_strings(repository_path: "./")
+    lg_strings(
+      repository_path: "./",
+      mark_unused_strings: false
+    )
   end
 
   after_all do |lane|

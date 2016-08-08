@@ -439,26 +439,14 @@ extension OldChatViewController: OldChatViewModelDelegate {
         showAutoFadingOutMessageAlert(message)
     }
     
-    
     // MARK: > Product
-    
-    func vmShowProduct(productVC: UIViewController) {
-        showKeyboard(false, animated: false)
-        self.navigationController?.pushViewController(productVC, animated: true)
-    }
 
     func vmShowRelatedProducts(productId: String?) {
         relatedProductsView.productId.value = productId
     }
 
     // MARK: > User
-    
-    func vmShowUser(userVM: UserViewModel) {
-        showKeyboard(false, animated: false)
-        let vc = UserViewController(viewModel: userVM)
-        self.navigationController?.pushViewController(vc, animated: true)
-    }
-    
+
     func vmShowReportUser(reportUserViewModel: ReportUsersViewModel) {
         let vc = ReportUsersViewController(viewModel: reportUserViewModel)
         self.navigationController?.pushViewController(vc, animated: true)

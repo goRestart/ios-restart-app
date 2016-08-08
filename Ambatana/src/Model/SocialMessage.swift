@@ -39,6 +39,7 @@ enum ShareSource: String {
     case Email = "email"
     case SMS = "sms"
     case CopyLink = "copy_link"
+    case Native = "native"
 }
 
 
@@ -46,7 +47,11 @@ enum ShareSource: String {
 
 struct ProductSocialMessage: SocialMessage {
 
-    private static let BRANCH_URLS = true
+    static let utmCampaignKey = "utm_campaign"
+    static let utmCampaignValue = "product-detail-share"
+    static let utmMediumKey = "utm_medium"
+    static let utmSourceKey = "utm_source"
+    static let utmSourceValue = "ios_app"
 
     private let title: String
     private let body: String
@@ -61,7 +66,7 @@ struct ProductSocialMessage: SocialMessage {
     }
 
     var nativeShareItems: [AnyObject]? {
-        guard let shareUrl = shareUrl(nil) else { return nil }
+        guard let shareUrl = shareUrl(.Native) else { return nil }
         return [shareUrl, fullMessage]
     }
 
@@ -135,12 +140,12 @@ struct ProductSocialMessage: SocialMessage {
     }
 
     private func shareUrl(source: ShareSource?) -> NSURL? {
-        return ProductSocialMessage.BRANCH_URLS ? branchUrl(source) : letgoUrl
+        return branchUrl(source)
     }
 
     private func branchUrl(source: ShareSource?) -> NSURL? {
         guard !productId.isEmpty else { return NSURL(string: Constants.websiteURL) }
-        let linkProperties = branchLinkProperties(nil)
+        let linkProperties = branchLinkProperties(source)
         guard let branchUrl = branchObject.getShortUrlWithLinkProperties(linkProperties)
             else { return NSURL(string: Constants.websiteURL) }
         return NSURL(string: branchUrl)
@@ -170,14 +175,25 @@ struct ProductSocialMessage: SocialMessage {
             linkProperties.channel = source.rawValue
         }
         linkProperties.tags = ["ios_app"]
-        linkProperties.addControlParam("$deeplink_path", withValue: "product/"+productId)
-        if let letgoUrlString = letgoUrl?.absoluteString {
+        let controlParamString = addCampaignInfoToString("product/"+productId, source: source)
+        linkProperties.addControlParam("$deeplink_path", withValue: controlParamString)
+        if var letgoUrlString = letgoUrl?.absoluteString {
+            letgoUrlString = addCampaignInfoToString(letgoUrlString, source: source)
             linkProperties.addControlParam("$fallback_url", withValue: letgoUrlString)
             linkProperties.addControlParam("$desktop_url", withValue: letgoUrlString)
             linkProperties.addControlParam("$ios_url", withValue: letgoUrlString)
             linkProperties.addControlParam("$android_url", withValue: letgoUrlString)
         }
         return linkProperties
+    }
+
+    private func addCampaignInfoToString(string: String, source: ShareSource?) -> String {
+        guard !string.isEmpty else { return "" }
+        // The share source is the medium for the deeplink
+        let mediumValue = source?.rawValue ?? ""
+        return string + "?" + ProductSocialMessage.utmCampaignKey + "=" + ProductSocialMessage.utmCampaignValue + "&" +
+            ProductSocialMessage.utmMediumKey + "=" + mediumValue + "&" +
+            ProductSocialMessage.utmSourceKey + "=" + ProductSocialMessage.utmSourceValue
     }
 }
 
