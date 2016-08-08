@@ -82,7 +82,6 @@ class SettingsViewModel: BaseViewModel {
     // MARK: - Public
 
     var settingsCount: Int {
-        settingsData.changesObservable
         return settingsData.value.count
     }
 
