@@ -296,8 +296,7 @@ extension UserViewModel {
     }
 
     private func openSettings() {
-        // TODO: Refactor settings to MVVM
-        let vc = SettingsViewController()
+        let vc = SettingsViewController(viewModel: SettingsViewModel())
         delegate?.vmOpenSettings(vc)
     }
 

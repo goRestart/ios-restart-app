@@ -198,28 +198,6 @@
 		5076228D1CD0EB1D004E5D0D /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507622871CD0EB1D004E5D0D /* Coordinator.swift */; };
 		507F1BFB1C89DDF9001F0A95 /* PostalAddress+String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507F1BFA1C89DDF9001F0A95 /* PostalAddress+String.swift */; };
 		507F1BFC1C89DDF9001F0A95 /* PostalAddress+String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507F1BFA1C89DDF9001F0A95 /* PostalAddress+String.swift */; };
-		508010E81D4748120073F362 /* ChangePasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508010DB1D4748120073F362 /* ChangePasswordViewController.swift */; };
-		508010E91D4748120073F362 /* ChangePasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508010DB1D4748120073F362 /* ChangePasswordViewController.swift */; };
-		508010EA1D4748120073F362 /* ChangePasswordViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 508010DC1D4748120073F362 /* ChangePasswordViewController.xib */; };
-		508010EB1D4748120073F362 /* ChangePasswordViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 508010DC1D4748120073F362 /* ChangePasswordViewController.xib */; };
-		508010EC1D4748120073F362 /* ChangePasswordViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508010DD1D4748120073F362 /* ChangePasswordViewModel.swift */; };
-		508010ED1D4748120073F362 /* ChangePasswordViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508010DD1D4748120073F362 /* ChangePasswordViewModel.swift */; };
-		508010EE1D4748120073F362 /* ChangeUsernameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508010DE1D4748120073F362 /* ChangeUsernameViewController.swift */; };
-		508010EF1D4748120073F362 /* ChangeUsernameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508010DE1D4748120073F362 /* ChangeUsernameViewController.swift */; };
-		508010F01D4748120073F362 /* ChangeUsernameViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 508010DF1D4748120073F362 /* ChangeUsernameViewController.xib */; };
-		508010F11D4748120073F362 /* ChangeUsernameViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 508010DF1D4748120073F362 /* ChangeUsernameViewController.xib */; };
-		508010F21D4748120073F362 /* ChangeUsernameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508010E01D4748120073F362 /* ChangeUsernameViewModel.swift */; };
-		508010F31D4748120073F362 /* ChangeUsernameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508010E01D4748120073F362 /* ChangeUsernameViewModel.swift */; };
-		508010F41D4748120073F362 /* HelpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508010E11D4748120073F362 /* HelpViewController.swift */; };
-		508010F51D4748120073F362 /* HelpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508010E11D4748120073F362 /* HelpViewController.swift */; };
-		508010F61D4748120073F362 /* HelpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 508010E21D4748120073F362 /* HelpViewController.xib */; };
-		508010F71D4748120073F362 /* HelpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 508010E21D4748120073F362 /* HelpViewController.xib */; };
-		508010F81D4748120073F362 /* HelpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508010E31D4748120073F362 /* HelpViewModel.swift */; };
-		508010F91D4748120073F362 /* HelpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508010E31D4748120073F362 /* HelpViewModel.swift */; };
-		508010FA1D4748120073F362 /* SettingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508010E41D4748120073F362 /* SettingsCell.swift */; };
-		508010FB1D4748120073F362 /* SettingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508010E41D4748120073F362 /* SettingsCell.swift */; };
-		508010FC1D4748120073F362 /* SettingsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 508010E51D4748120073F362 /* SettingsCell.xib */; };
-		508010FD1D4748120073F362 /* SettingsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 508010E51D4748120073F362 /* SettingsCell.xib */; };
 		508010FE1D4748120073F362 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508010E61D4748120073F362 /* SettingsViewController.swift */; };
 		508010FF1D4748120073F362 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508010E61D4748120073F362 /* SettingsViewController.swift */; };
 		508011001D4748120073F362 /* SettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 508010E71D4748120073F362 /* SettingsViewController.xib */; };
@@ -561,6 +539,30 @@
 		C71710031D09CACE00DDBBB0 /* UserPushPermissionsHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = C7170FFF1D09CACE00DDBBB0 /* UserPushPermissionsHeader.xib */; };
 		C7239A181C11F92B006CB5A6 /* CAGradientLayer+Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7239A171C11F92B006CB5A6 /* CAGradientLayer+Color.swift */; };
 		C7239A1A1C158139006CB5A6 /* Product+Negotiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7239A191C158139006CB5A6 /* Product+Negotiable.swift */; };
+		C72794281D549334009C25AB /* SettingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72794261D549334009C25AB /* SettingsCell.swift */; };
+		C72794291D549334009C25AB /* SettingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72794261D549334009C25AB /* SettingsCell.swift */; };
+		C727942A1D549334009C25AB /* SettingsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C72794271D549334009C25AB /* SettingsCell.xib */; };
+		C727942B1D549334009C25AB /* SettingsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C72794271D549334009C25AB /* SettingsCell.xib */; };
+		C72794361D549342009C25AB /* ChangePasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C727942D1D549342009C25AB /* ChangePasswordViewController.swift */; };
+		C72794371D549342009C25AB /* ChangePasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C727942D1D549342009C25AB /* ChangePasswordViewController.swift */; };
+		C72794381D549342009C25AB /* ChangePasswordViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C727942E1D549342009C25AB /* ChangePasswordViewController.xib */; };
+		C72794391D549342009C25AB /* ChangePasswordViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C727942E1D549342009C25AB /* ChangePasswordViewController.xib */; };
+		C727943A1D549342009C25AB /* ChangePasswordViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C727942F1D549342009C25AB /* ChangePasswordViewModel.swift */; };
+		C727943B1D549342009C25AB /* ChangePasswordViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C727942F1D549342009C25AB /* ChangePasswordViewModel.swift */; };
+		C727943C1D549342009C25AB /* ChangeUsernameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72794301D549342009C25AB /* ChangeUsernameViewController.swift */; };
+		C727943D1D549342009C25AB /* ChangeUsernameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72794301D549342009C25AB /* ChangeUsernameViewController.swift */; };
+		C727943E1D549342009C25AB /* ChangeUsernameViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C72794311D549342009C25AB /* ChangeUsernameViewController.xib */; };
+		C727943F1D549342009C25AB /* ChangeUsernameViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C72794311D549342009C25AB /* ChangeUsernameViewController.xib */; };
+		C72794401D549342009C25AB /* ChangeUsernameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72794321D549342009C25AB /* ChangeUsernameViewModel.swift */; };
+		C72794411D549342009C25AB /* ChangeUsernameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72794321D549342009C25AB /* ChangeUsernameViewModel.swift */; };
+		C72794421D549342009C25AB /* HelpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72794331D549342009C25AB /* HelpViewController.swift */; };
+		C72794431D549342009C25AB /* HelpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72794331D549342009C25AB /* HelpViewController.swift */; };
+		C72794441D549342009C25AB /* HelpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C72794341D549342009C25AB /* HelpViewController.xib */; };
+		C72794451D549342009C25AB /* HelpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C72794341D549342009C25AB /* HelpViewController.xib */; };
+		C72794461D549342009C25AB /* HelpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72794351D549342009C25AB /* HelpViewModel.swift */; };
+		C72794471D549342009C25AB /* HelpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72794351D549342009C25AB /* HelpViewModel.swift */; };
+		C72794491D54944E009C25AB /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72794481D54944E009C25AB /* SettingsViewModel.swift */; };
+		C727944A1D54944E009C25AB /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72794481D54944E009C25AB /* SettingsViewModel.swift */; };
 		C727FBBE1CCFC4ED002BC643 /* NotificationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C727FBBC1CCFC4ED002BC643 /* NotificationsViewController.swift */; };
 		C727FBBF1CCFC4ED002BC643 /* NotificationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C727FBBC1CCFC4ED002BC643 /* NotificationsViewController.swift */; };
 		C727FBC01CCFC4ED002BC643 /* NotificationsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C727FBBD1CCFC4ED002BC643 /* NotificationsViewController.xib */; };
@@ -1139,17 +1141,6 @@
 		507622861CD0EB1D004E5D0D /* AppCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 		507622871CD0EB1D004E5D0D /* Coordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		507F1BFA1C89DDF9001F0A95 /* PostalAddress+String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PostalAddress+String.swift"; sourceTree = "<group>"; };
-		508010DB1D4748120073F362 /* ChangePasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangePasswordViewController.swift; sourceTree = "<group>"; };
-		508010DC1D4748120073F362 /* ChangePasswordViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChangePasswordViewController.xib; sourceTree = "<group>"; };
-		508010DD1D4748120073F362 /* ChangePasswordViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangePasswordViewModel.swift; sourceTree = "<group>"; };
-		508010DE1D4748120073F362 /* ChangeUsernameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangeUsernameViewController.swift; sourceTree = "<group>"; };
-		508010DF1D4748120073F362 /* ChangeUsernameViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChangeUsernameViewController.xib; sourceTree = "<group>"; };
-		508010E01D4748120073F362 /* ChangeUsernameViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangeUsernameViewModel.swift; sourceTree = "<group>"; };
-		508010E11D4748120073F362 /* HelpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HelpViewController.swift; sourceTree = "<group>"; };
-		508010E21D4748120073F362 /* HelpViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HelpViewController.xib; sourceTree = "<group>"; };
-		508010E31D4748120073F362 /* HelpViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HelpViewModel.swift; sourceTree = "<group>"; };
-		508010E41D4748120073F362 /* SettingsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsCell.swift; sourceTree = "<group>"; };
-		508010E51D4748120073F362 /* SettingsCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingsCell.xib; sourceTree = "<group>"; };
 		508010E61D4748120073F362 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		508010E71D4748120073F362 /* SettingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingsViewController.xib; sourceTree = "<group>"; };
 		508011021D4749030073F362 /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
@@ -1363,6 +1354,18 @@
 		C7170FFF1D09CACE00DDBBB0 /* UserPushPermissionsHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserPushPermissionsHeader.xib; sourceTree = "<group>"; };
 		C7239A171C11F92B006CB5A6 /* CAGradientLayer+Color.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CAGradientLayer+Color.swift"; sourceTree = "<group>"; };
 		C7239A191C158139006CB5A6 /* Product+Negotiable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Product+Negotiable.swift"; sourceTree = "<group>"; };
+		C72794261D549334009C25AB /* SettingsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsCell.swift; sourceTree = "<group>"; };
+		C72794271D549334009C25AB /* SettingsCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingsCell.xib; sourceTree = "<group>"; };
+		C727942D1D549342009C25AB /* ChangePasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangePasswordViewController.swift; sourceTree = "<group>"; };
+		C727942E1D549342009C25AB /* ChangePasswordViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChangePasswordViewController.xib; sourceTree = "<group>"; };
+		C727942F1D549342009C25AB /* ChangePasswordViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangePasswordViewModel.swift; sourceTree = "<group>"; };
+		C72794301D549342009C25AB /* ChangeUsernameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangeUsernameViewController.swift; sourceTree = "<group>"; };
+		C72794311D549342009C25AB /* ChangeUsernameViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChangeUsernameViewController.xib; sourceTree = "<group>"; };
+		C72794321D549342009C25AB /* ChangeUsernameViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangeUsernameViewModel.swift; sourceTree = "<group>"; };
+		C72794331D549342009C25AB /* HelpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HelpViewController.swift; sourceTree = "<group>"; };
+		C72794341D549342009C25AB /* HelpViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HelpViewController.xib; sourceTree = "<group>"; };
+		C72794351D549342009C25AB /* HelpViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HelpViewModel.swift; sourceTree = "<group>"; };
+		C72794481D54944E009C25AB /* SettingsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 		C727FBBC1CCFC4ED002BC643 /* NotificationsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationsViewController.swift; sourceTree = "<group>"; };
 		C727FBBD1CCFC4ED002BC643 /* NotificationsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NotificationsViewController.xib; sourceTree = "<group>"; };
 		C727FBC21CCFC545002BC643 /* NotificationsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationsViewModel.swift; sourceTree = "<group>"; };
@@ -2305,19 +2308,11 @@
 		50D2CACA1BB412D800EC5C30 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
-				508010DB1D4748120073F362 /* ChangePasswordViewController.swift */,
-				508010DC1D4748120073F362 /* ChangePasswordViewController.xib */,
-				508010DD1D4748120073F362 /* ChangePasswordViewModel.swift */,
-				508010DE1D4748120073F362 /* ChangeUsernameViewController.swift */,
-				508010DF1D4748120073F362 /* ChangeUsernameViewController.xib */,
-				508010E01D4748120073F362 /* ChangeUsernameViewModel.swift */,
-				508010E11D4748120073F362 /* HelpViewController.swift */,
-				508010E21D4748120073F362 /* HelpViewController.xib */,
-				508010E31D4748120073F362 /* HelpViewModel.swift */,
-				508010E41D4748120073F362 /* SettingsCell.swift */,
-				508010E51D4748120073F362 /* SettingsCell.xib */,
+				C727942C1D549342009C25AB /* details */,
+				C72794251D549334009C25AB /* cells */,
 				508010E61D4748120073F362 /* SettingsViewController.swift */,
 				508010E71D4748120073F362 /* SettingsViewController.xib */,
+				C72794481D54944E009C25AB /* SettingsViewModel.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -2584,6 +2579,31 @@
 				C7363FB71BF9E64B00A4BF6F /* FilterTag.swift */,
 			);
 			path = Tags;
+			sourceTree = "<group>";
+		};
+		C72794251D549334009C25AB /* cells */ = {
+			isa = PBXGroup;
+			children = (
+				C72794261D549334009C25AB /* SettingsCell.swift */,
+				C72794271D549334009C25AB /* SettingsCell.xib */,
+			);
+			path = cells;
+			sourceTree = "<group>";
+		};
+		C727942C1D549342009C25AB /* details */ = {
+			isa = PBXGroup;
+			children = (
+				C727942D1D549342009C25AB /* ChangePasswordViewController.swift */,
+				C727942E1D549342009C25AB /* ChangePasswordViewController.xib */,
+				C727942F1D549342009C25AB /* ChangePasswordViewModel.swift */,
+				C72794301D549342009C25AB /* ChangeUsernameViewController.swift */,
+				C72794311D549342009C25AB /* ChangeUsernameViewController.xib */,
+				C72794321D549342009C25AB /* ChangeUsernameViewModel.swift */,
+				C72794331D549342009C25AB /* HelpViewController.swift */,
+				C72794341D549342009C25AB /* HelpViewController.xib */,
+				C72794351D549342009C25AB /* HelpViewModel.swift */,
+			);
+			path = details;
 			sourceTree = "<group>";
 		};
 		C727FBBB1CCFC4C9002BC643 /* Notifications */ = {
@@ -3259,6 +3279,7 @@
 				D40DA2891AEE291D00B64CE1 /* words_lowercase.json in Resources */,
 				C75B55FB1C7E12C90001F5CD /* FilterLocationCell.xib in Resources */,
 				6A383F7F1CB29AD700F99D79 /* CreateCommercialViewController.xib in Resources */,
+				C727943E1D549342009C25AB /* ChangeUsernameViewController.xib in Resources */,
 				5080111D1D474ED80073F362 /* Icons-Buttons.xcassets in Resources */,
 				502374571B3D3E8D00E02656 /* InfoPlist.strings in Resources */,
 				C77593EE1BF0C1FD0097D62F /* FilterDistanceCell.xib in Resources */,
@@ -3271,6 +3292,7 @@
 				2E5350441CF8A181003B06CC /* ProductStatsView.xib in Resources */,
 				508011251D474ED80073F362 /* ProductOnboarding-Images.xcassets in Resources */,
 				5015881E1C7396B7006AEFC8 /* UserView.xib in Resources */,
+				C72794441D549342009C25AB /* HelpViewController.xib in Resources */,
 				C783D97E1C64BB90000EE5CA /* ReportUsersViewController.xib in Resources */,
 				502374591B3D3EAB00E02656 /* Localizable.strings in Resources */,
 				6A12E04B1C635FA000C1BFE3 /* TourLoginViewController.xib in Resources */,
@@ -3278,6 +3300,7 @@
 				D412E0881B4F17C200683FFD /* ProductListView.xib in Resources */,
 				2E2C7B391C85F82C00F46E8F /* ThemeCollectionCell.xib in Resources */,
 				C703BE001C7F1AF900EC8EF2 /* EditLocationViewController.xib in Resources */,
+				C727942A1D549334009C25AB /* SettingsCell.xib in Resources */,
 				C71589B51C4F8E1C00E7563E /* PopupSignUpViewController.xib in Resources */,
 				2E3047E71CA1AE670099C0BC /* VideoPlayerContainerView.xib in Resources */,
 				6A38ADE51C64C4F9009E1A31 /* TourLocationViewController.xib in Resources */,
@@ -3286,6 +3309,7 @@
 				C7B588A01CE1E025009B3975 /* ChatGroupedListView.xib in Resources */,
 				50BCE92E1BF6357600C130CD /* ToastView.xib in Resources */,
 				6AF75D0D1CF4657B00EACCF0 /* ChatStickerCell.xib in Resources */,
+				C72794381D549342009C25AB /* ChangePasswordViewController.xib in Resources */,
 				6AB674F61C9704480080F4BF /* CommercialButton.xib in Resources */,
 				C7DE8AE21C88A98B005CF37E /* PostProductViewController.xib in Resources */,
 				2E3047F81CA4528B0099C0BC /* CommercialDisplayPageView.xib in Resources */,
@@ -3294,7 +3318,6 @@
 				C7B588271CE1DE1C009B3975 /* BlockedUserCell.xib in Resources */,
 				508011031D4749030073F362 /* LaunchScreen.xib in Resources */,
 				6A38ADEB1C650294009E1A31 /* TourLocationViewControllerMini.xib in Resources */,
-				508010F61D4748120073F362 /* HelpViewController.xib in Resources */,
 				6A610CBD1CB4085B00736DA0 /* CreateCommercialProductCell.xib in Resources */,
 				508011001D4748120073F362 /* SettingsViewController.xib in Resources */,
 				C77593F21BF0E48D0097D62F /* FilterHeaderCell.xib in Resources */,
@@ -3302,13 +3325,11 @@
 				C7B588611CE1DE1C009B3975 /* RelationInfoView.xib in Resources */,
 				C754E0151CB2679D006FDFD5 /* CommercialPreviewViewController.xib in Resources */,
 				6A8BE9031CDA3C6300D97727 /* ProductCarouselMoreInfoViewController.xib in Resources */,
-				508010F01D4748120073F362 /* ChangeUsernameViewController.xib in Resources */,
 				C73C163D1D06C1B500DFC67D /* TrendingSearchCell.xib in Resources */,
 				2E3760341BD914BA00A5A030 /* CategoriesViewController.xib in Resources */,
 				508C3F7C1C984BEC00CF431F /* UserViewHeader.xib in Resources */,
 				508011061D4749360073F362 /* Features.plist in Resources */,
 				C783D98B1C64C15B000EE5CA /* ReportUserCell.xib in Resources */,
-				508010EA1D4748120073F362 /* ChangePasswordViewController.xib in Resources */,
 				C7B588551CE1DE1C009B3975 /* DirectAnswersCloseCell.xib in Resources */,
 				C77593E61BF0BD310097D62F /* FilterCategoryCell.xib in Resources */,
 				508011211D474ED80073F362 /* iPhoneParts.xcassets in Resources */,
@@ -3343,7 +3364,6 @@
 				C7B5889C1CE1E025009B3975 /* ConversationCell.xib in Resources */,
 				508011231D474ED80073F362 /* ProductCellBanners.xcassets in Resources */,
 				C7DE8AC91C888761005CF37E /* EditProductViewController.xib in Resources */,
-				508010FC1D4748120073F362 /* SettingsCell.xib in Resources */,
 				6AA26D001CFDCA2000546063 /* ChatDisclaimerCell.xib in Resources */,
 				C727FBD31CD10E77002BC643 /* NotificationCell.xib in Resources */,
 				C7F18A971C89CB4C00D23319 /* PostProductGalleryView.xib in Resources */,
@@ -3374,6 +3394,7 @@
 				C75B55FC1C7E12C90001F5CD /* FilterLocationCell.xib in Resources */,
 				6A383F801CB29AD700F99D79 /* CreateCommercialViewController.xib in Resources */,
 				C7DB424B1C5138B500400945 /* words_lowercase.json in Resources */,
+				C727943F1D549342009C25AB /* ChangeUsernameViewController.xib in Resources */,
 				5080111E1D474ED80073F362 /* Icons-Buttons.xcassets in Resources */,
 				C7DB424C1C5138B500400945 /* InfoPlist.strings in Resources */,
 				C7DB424E1C5138B500400945 /* FilterDistanceCell.xib in Resources */,
@@ -3386,6 +3407,7 @@
 				2E5350451CF8A181003B06CC /* ProductStatsView.xib in Resources */,
 				508011261D474ED80073F362 /* ProductOnboarding-Images.xcassets in Resources */,
 				5015881F1C7396B7006AEFC8 /* UserView.xib in Resources */,
+				C72794451D549342009C25AB /* HelpViewController.xib in Resources */,
 				C783D97F1C64BB90000EE5CA /* ReportUsersViewController.xib in Resources */,
 				C7DB42561C5138B500400945 /* Localizable.strings in Resources */,
 				6A12E04C1C635FA000C1BFE3 /* TourLoginViewController.xib in Resources */,
@@ -3393,6 +3415,7 @@
 				C7DB42571C5138B500400945 /* ProductListView.xib in Resources */,
 				2E2C7B3A1C85F82C00F46E8F /* ThemeCollectionCell.xib in Resources */,
 				C7DB42591C5138B500400945 /* PopupSignUpViewController.xib in Resources */,
+				C727942B1D549334009C25AB /* SettingsCell.xib in Resources */,
 				C703BE011C7F1AF900EC8EF2 /* EditLocationViewController.xib in Resources */,
 				2E3047E81CA1AE670099C0BC /* VideoPlayerContainerView.xib in Resources */,
 				6A38ADE61C64C4F9009E1A31 /* TourLocationViewController.xib in Resources */,
@@ -3401,6 +3424,7 @@
 				C7DB425F1C5138B500400945 /* ToastView.xib in Resources */,
 				C7B588A11CE1E025009B3975 /* ChatGroupedListView.xib in Resources */,
 				6AF75D0E1CF4657B00EACCF0 /* ChatStickerCell.xib in Resources */,
+				C72794391D549342009C25AB /* ChangePasswordViewController.xib in Resources */,
 				6AB674F71C9704480080F4BF /* CommercialButton.xib in Resources */,
 				C7DE8AE31C88A98B005CF37E /* PostProductViewController.xib in Resources */,
 				2E3047F91CA4528B0099C0BC /* CommercialDisplayPageView.xib in Resources */,
@@ -3410,20 +3434,17 @@
 				C7B588281CE1DE1C009B3975 /* BlockedUserCell.xib in Resources */,
 				508011041D4749030073F362 /* LaunchScreen.xib in Resources */,
 				C7DB42661C5138B500400945 /* FilterHeaderCell.xib in Resources */,
-				508010F71D4748120073F362 /* HelpViewController.xib in Resources */,
 				6A610CBE1CB4085B00736DA0 /* CreateCommercialProductCell.xib in Resources */,
 				508011011D4748120073F362 /* SettingsViewController.xib in Resources */,
 				C7F6F7551CB5081F000147F9 /* CommercialShareViewController.xib in Resources */,
 				C7B588621CE1DE1C009B3975 /* RelationInfoView.xib in Resources */,
 				C754E0161CB2679D006FDFD5 /* CommercialPreviewViewController.xib in Resources */,
 				6A8BE9041CDA3C6300D97727 /* ProductCarouselMoreInfoViewController.xib in Resources */,
-				508010F11D4748120073F362 /* ChangeUsernameViewController.xib in Resources */,
 				C73C163E1D06C1B500DFC67D /* TrendingSearchCell.xib in Resources */,
 				C7DB426C1C5138B500400945 /* CategoriesViewController.xib in Resources */,
 				508C3F7D1C984BEC00CF431F /* UserViewHeader.xib in Resources */,
 				508011071D4749360073F362 /* Features.plist in Resources */,
 				C783D98C1C64C15B000EE5CA /* ReportUserCell.xib in Resources */,
-				508010EB1D4748120073F362 /* ChangePasswordViewController.xib in Resources */,
 				C7B588561CE1DE1C009B3975 /* DirectAnswersCloseCell.xib in Resources */,
 				C7DB426F1C5138B500400945 /* FilterCategoryCell.xib in Resources */,
 				508011221D474ED80073F362 /* iPhoneParts.xcassets in Resources */,
@@ -3458,7 +3479,6 @@
 				C7B5889D1CE1E025009B3975 /* ConversationCell.xib in Resources */,
 				508011241D474ED80073F362 /* ProductCellBanners.xcassets in Resources */,
 				C7DE8ACA1C888761005CF37E /* EditProductViewController.xib in Resources */,
-				508010FD1D4748120073F362 /* SettingsCell.xib in Resources */,
 				6AA26D011CFDCA2000546063 /* ChatDisclaimerCell.xib in Resources */,
 				C727FBD41CD10E77002BC643 /* NotificationCell.xib in Resources */,
 				C7F18A981C89CB4C00D23319 /* PostProductGalleryView.xib in Resources */,
@@ -3797,6 +3817,7 @@
 				C731B8721CE218C400F31D46 /* OldChatListViewModel.swift in Sources */,
 				C7B588451CE1DE1C009B3975 /* ChatProductView.swift in Sources */,
 				50D67B9A1D182EE9003AC0A5 /* SellCoordinator.swift in Sources */,
+				C72794421D549342009C25AB /* HelpViewController.swift in Sources */,
 				C7B588A21CE1E025009B3975 /* ChatGroupedListViewModel.swift in Sources */,
 				C780281D1BF0FB64002B26C5 /* FilterSection.swift in Sources */,
 				50146BD91D4F90E500B0F635 /* ChatsTabNavigator.swift in Sources */,
@@ -3818,6 +3839,7 @@
 				C7B588491CE1DE1C009B3975 /* ChatViewController.swift in Sources */,
 				C77D64681CBD250700A22510 /* Tab.swift in Sources */,
 				2E3047E11CA196F30099C0BC /* VideoPlayerContainerView.swift in Sources */,
+				C72794361D549342009C25AB /* ChangePasswordViewController.swift in Sources */,
 				6A5E19DE1D548F5400F92692 /* FBLoginHelper.swift in Sources */,
 				6A8656A81CBFD1AF0041EEFB /* ProductCarouselCell.swift in Sources */,
 				6A672C131CCFB22900AB9175 /* UIColor+LG.swift in Sources */,
@@ -3835,7 +3857,6 @@
 				6AE5F1181BFE3E7B0079E8B6 /* FBSDKSharing+LG.swift in Sources */,
 				50146BC21D4F5F5B00B0F635 /* TabCoordinator.swift in Sources */,
 				2EF4E3B21D3688AB00A09DFD /* LGConfigDAO.swift in Sources */,
-				508010FA1D4748120073F362 /* SettingsCell.swift in Sources */,
 				6AA32F3A1CA29CC4003A1677 /* AdminViewController.swift in Sources */,
 				C7DCFEC41C03625E00F7A4FB /* ProductTimeCriteria+LG.swift in Sources */,
 				6A879DA81C8DD2BD00E0C868 /* PushPrePermissionsSettingsViewModel.swift in Sources */,
@@ -3855,6 +3876,7 @@
 				6A40A3D21C0DE6B700C551B3 /* MediaPickerManager.swift in Sources */,
 				6A610CBA1CB4079500736DA0 /* CreateCommercialProductCell.swift in Sources */,
 				C7111F021CA438AC000C5C5A /* UniversalLink.swift in Sources */,
+				C72794281D549334009C25AB /* SettingsCell.swift in Sources */,
 				50F681F21C8F4586001F33A3 /* RxPaginable.swift in Sources */,
 				C783D97C1C64BB90000EE5CA /* ReportUsersViewController.swift in Sources */,
 				50BA5C061C3C093E00F34042 /* AppDelegate.swift in Sources */,
@@ -3862,10 +3884,9 @@
 				C7363FB51BF9CB8D00A4BF6F /* FilterTagCell.swift in Sources */,
 				50C9E4BF1B721FBB001E4E92 /* GoogleConversionTracker.swift in Sources */,
 				2E52CCD41CBD54F3003B7A96 /* ABTests.swift in Sources */,
-				508010F81D4748120073F362 /* HelpViewModel.swift in Sources */,
+				C72794461D549342009C25AB /* HelpViewModel.swift in Sources */,
 				6A3C730F1CF346CB00A062E0 /* ChatStickerGridCell.swift in Sources */,
 				2E3047F51CA4526E0099C0BC /* CommercialDisplayPageView.swift in Sources */,
-				508010EC1D4748120073F362 /* ChangePasswordViewModel.swift in Sources */,
 				50C9E4B91B71FBB7001E4E92 /* Tracker.swift in Sources */,
 				508E4CEA1B41A5D2007BD301 /* ProductCategory+LG.swift in Sources */,
 				6A5E19E21D548F5400F92692 /* GoogleLoginHelper.swift in Sources */,
@@ -3880,12 +3901,14 @@
 				2EDCFA311BFF8AB00000E47D /* SignUpLogInViewController.swift in Sources */,
 				6A5E19E01D548F5400F92692 /* FBSDKSharing+LG.swift in Sources */,
 				50261B231AFB4BDA006E88E0 /* EnvironmentProxy.swift in Sources */,
+				C727943A1D549342009C25AB /* ChangePasswordViewModel.swift in Sources */,
 				C7363FB81BF9E64B00A4BF6F /* FilterTag.swift in Sources */,
 				6A5E19FA1D548F5400F92692 /* KeyboardHelper.swift in Sources */,
 				C75B55F91C7E12C90001F5CD /* FilterLocationCell.swift in Sources */,
 				C768CC1A1CA44B5F00E39E5F /* BranchDeepLink.swift in Sources */,
 				6AF75D0A1CF457D800EACCF0 /* ChatViewMessageAdapter.swift in Sources */,
 				6A8BE8FD1CDA2C3F00D97727 /* ProductCarouselMoreInfoViewController.swift in Sources */,
+				C72794491D54944E009C25AB /* SettingsViewModel.swift in Sources */,
 				C727FBC31CCFC545002BC643 /* NotificationsViewModel.swift in Sources */,
 				2E2C7B331C859F4E00F46E8F /* PromoteProductViewModel.swift in Sources */,
 				6A5E1A1C1D548F5400F92692 /* UIViewController+LG.swift in Sources */,
@@ -3971,7 +3994,6 @@
 				C7DE8ABE1C888750005CF37E /* ProductPostedViewModel.swift in Sources */,
 				6A12E0491C635F6B00C1BFE3 /* TourLoginViewController.swift in Sources */,
 				50C9E4C31B723E7B001E4E92 /* AppsflyerTracker.swift in Sources */,
-				508010F41D4748120073F362 /* HelpViewController.swift in Sources */,
 				6A9C9EBE1CCF959E009D866C /* UIButton+LetgoStyles.swift in Sources */,
 				C7111F081CA4458F000C5C5A /* ShortcutItem.swift in Sources */,
 				509598871C8733B70026AE2D /* CrashlyticsLogger.swift in Sources */,
@@ -3987,6 +4009,7 @@
 				50E8A08B1B79F8D800DE49CC /* ContactSubject.swift in Sources */,
 				6A672C161CCFB76E00AB9175 /* UIFont+LG.swift in Sources */,
 				2E245C5E1C11A88B00A3969B /* PushPermissionsManager.swift in Sources */,
+				C727943C1D549342009C25AB /* ChangeUsernameViewController.swift in Sources */,
 				C7111EFC1CA43885000C5C5A /* DeepLink.swift in Sources */,
 				2EF172541CCA77AC00C18918 /* ProductDetailOnboardingView.swift in Sources */,
 				6A5E19DC1D548F5400F92692 /* ExternalServiceAuthResult.swift in Sources */,
@@ -4020,7 +4043,6 @@
 				5076228A1CD0EB1D004E5D0D /* AppCoordinator.swift in Sources */,
 				6A5E19EE1D548F5400F92692 /* NSURL+LG.swift in Sources */,
 				5007279D1B32CE660058DA76 /* UIApplication+TopViewController.swift in Sources */,
-				508010E81D4748120073F362 /* ChangePasswordViewController.swift in Sources */,
 				2EE4BD211CDA398400EAADF9 /* CrashManager.swift in Sources */,
 				50146BD31D4F5FC700B0F635 /* ProfileTabCoordinator.swift in Sources */,
 				5063BDE81CBCEE2600F56B3C /* CountryHelper+Product.swift in Sources */,
@@ -4067,6 +4089,7 @@
 				6A5E19E81D548F5400F92692 /* Int+LG.swift in Sources */,
 				6A5E19F61D548F5400F92692 /* DeviceFamily.swift in Sources */,
 				6A383F851CB29B3E00F99D79 /* CreateCommercialViewModel.swift in Sources */,
+				C72794401D549342009C25AB /* ChangeUsernameViewModel.swift in Sources */,
 				5042D6771BDA8B6F00E54064 /* LGLocalizedString.swift in Sources */,
 				6A5E1A1A1D548F5400F92692 /* UIViewController+Alert.swift in Sources */,
 				2E4436311BF389E000814624 /* LGNavBarSearchField.swift in Sources */,
@@ -4077,7 +4100,6 @@
 				C74931791D3533DE00E117F1 /* UserRatingNavigator.swift in Sources */,
 				50CA9FB01C91696800350C5F /* UserViewModel.swift in Sources */,
 				C7B89CB91C20271E00536A6C /* SocialShareView.swift in Sources */,
-				508010EE1D4748120073F362 /* ChangeUsernameViewController.swift in Sources */,
 				6A5E1A181D548F5400F92692 /* UIView+Geometry.swift in Sources */,
 				50146BD01D4F5F9F00B0F635 /* ChatsTabCoordinator.swift in Sources */,
 				6AF75D041CF3600D00EACCF0 /* ChatStickerCell.swift in Sources */,
@@ -4096,7 +4118,6 @@
 				6A9434661D2E52260053F924 /* BannerCell.swift in Sources */,
 				5076228C1CD0EB1D004E5D0D /* Coordinator.swift in Sources */,
 				C7F18A941C89CB3300D23319 /* PostProductGalleryView.swift in Sources */,
-				508010F21D4748120073F362 /* ChangeUsernameViewModel.swift in Sources */,
 				C7DE8ABA1C888750005CF37E /* ProductPostedViewController.swift in Sources */,
 				5021E8581C490C99001012B6 /* KeyboardAnimation.swift in Sources */,
 				2EF4E3B31D3688AB00A09DFD /* LGConfigRetrieveService.swift in Sources */,
@@ -4143,6 +4164,7 @@
 				C7B588461CE1DE1C009B3975 /* ChatProductView.swift in Sources */,
 				50D67B9B1D182EE9003AC0A5 /* SellCoordinator.swift in Sources */,
 				C7B588A31CE1E025009B3975 /* ChatGroupedListViewModel.swift in Sources */,
+				C72794431D549342009C25AB /* HelpViewController.swift in Sources */,
 				C7DB41921C5138B500400945 /* FilterSection.swift in Sources */,
 				C7B5886A1CE1DE1C009B3975 /* ChatGroupedViewController.swift in Sources */,
 				50146BDA1D4F90E500B0F635 /* ChatsTabNavigator.swift in Sources */,
@@ -4164,6 +4186,7 @@
 				C7B5884A1CE1DE1C009B3975 /* ChatViewController.swift in Sources */,
 				C77D64691CBD250700A22510 /* Tab.swift in Sources */,
 				2E3047E21CA196F30099C0BC /* VideoPlayerContainerView.swift in Sources */,
+				C72794371D549342009C25AB /* ChangePasswordViewController.swift in Sources */,
 				6A5E19DF1D548F5400F92692 /* FBLoginHelper.swift in Sources */,
 				6A8656A91CBFD1AF0041EEFB /* ProductCarouselCell.swift in Sources */,
 				6A672C141CCFB22900AB9175 /* UIColor+LG.swift in Sources */,
@@ -4181,7 +4204,6 @@
 				2EE4BD1F1CDA330300EAADF9 /* VersionChecker.swift in Sources */,
 				50146BC31D4F5F5B00B0F635 /* TabCoordinator.swift in Sources */,
 				2E2D53E21D369B0500348D12 /* LGConfigDAO.swift in Sources */,
-				508010FB1D4748120073F362 /* SettingsCell.swift in Sources */,
 				6AA32F3B1CA29CC4003A1677 /* AdminViewController.swift in Sources */,
 				C7DB41A91C5138B500400945 /* ProductTimeCriteria+LG.swift in Sources */,
 				6A879DA91C8DD2BD00E0C868 /* PushPrePermissionsSettingsViewModel.swift in Sources */,
@@ -4200,6 +4222,7 @@
 				C7DB41B01C5138B500400945 /* KahunaTracker.swift in Sources */,
 				C7DB41B11C5138B500400945 /* TrackerEventDataTypes.swift in Sources */,
 				2E373FAC1D3E6F3E00AC811C /* UserRatingListRequester.swift in Sources */,
+				C72794291D549334009C25AB /* SettingsCell.swift in Sources */,
 				6A610CBB1CB4079500736DA0 /* CreateCommercialProductCell.swift in Sources */,
 				C7111F031CA438AC000C5C5A /* UniversalLink.swift in Sources */,
 				C7DB41B21C5138B500400945 /* MediaPickerManager.swift in Sources */,
@@ -4208,9 +4231,8 @@
 				C7DB41B41C5138B500400945 /* AppDelegate.swift in Sources */,
 				C783D98F1C650F38000EE5CA /* ReportUserCellDrawer.swift in Sources */,
 				C7DB41B51C5138B500400945 /* FilterTagCell.swift in Sources */,
-				508010F91D4748120073F362 /* HelpViewModel.swift in Sources */,
+				C72794471D549342009C25AB /* HelpViewModel.swift in Sources */,
 				2E52CCD51CBD54F3003B7A96 /* ABTests.swift in Sources */,
-				508010ED1D4748120073F362 /* ChangePasswordViewModel.swift in Sources */,
 				6A3C73101CF346CB00A062E0 /* ChatStickerGridCell.swift in Sources */,
 				C7DB41B61C5138B500400945 /* GoogleConversionTracker.swift in Sources */,
 				6A5E19E31D548F5400F92692 /* GoogleLoginHelper.swift in Sources */,
@@ -4225,6 +4247,7 @@
 				2E2D53DE1D369AF800348D12 /* ConfigManager.swift in Sources */,
 				6A5E19E11D548F5400F92692 /* FBSDKSharing+LG.swift in Sources */,
 				C7B5882A1CE1DE1C009B3975 /* BlockedUsersListView.swift in Sources */,
+				C727943B1D549342009C25AB /* ChangePasswordViewModel.swift in Sources */,
 				C7DB41BF1C5138B500400945 /* LoadingIndicator.swift in Sources */,
 				6A5E19FB1D548F5400F92692 /* KeyboardHelper.swift in Sources */,
 				C7DB41C31C5138B500400945 /* SignUpLogInViewController.swift in Sources */,
@@ -4233,6 +4256,7 @@
 				C75B55FA1C7E12C90001F5CD /* FilterLocationCell.swift in Sources */,
 				C768CC1B1CA44B5F00E39E5F /* BranchDeepLink.swift in Sources */,
 				6AF75D0B1CF457D800EACCF0 /* ChatViewMessageAdapter.swift in Sources */,
+				C727944A1D54944E009C25AB /* SettingsViewModel.swift in Sources */,
 				6A5E1A1D1D548F5400F92692 /* UIViewController+LG.swift in Sources */,
 				6A5E1A171D548F5400F92692 /* UITextField+LG.swift in Sources */,
 				6A8BE8FE1CDA2C4000D97727 /* ProductCarouselMoreInfoViewController.swift in Sources */,
@@ -4317,7 +4341,6 @@
 				C7DB41FD1C5138B500400945 /* FilterCategoryCell.swift in Sources */,
 				C7DB41FE1C5138B500400945 /* AppsflyerTracker.swift in Sources */,
 				C7DE8ABF1C888750005CF37E /* ProductPostedViewModel.swift in Sources */,
-				508010F51D4748120073F362 /* HelpViewController.swift in Sources */,
 				6A12E04D1C635FA600C1BFE3 /* TourLoginViewController.swift in Sources */,
 				C7DB42001C5138B500400945 /* ReusableCell.swift in Sources */,
 				6A9C9EBF1CCF95A1009D866C /* UIButton+LetgoStyles.swift in Sources */,
@@ -4333,6 +4356,7 @@
 				50E0E84C1D40B11600A6397C /* UserViewHeaderContainer.swift in Sources */,
 				C7111EFA1CA43822000C5C5A /* DeepLinksRouter.swift in Sources */,
 				C7DB42051C5138B500400945 /* PushPermissionsManager.swift in Sources */,
+				C727943D1D549342009C25AB /* ChangeUsernameViewController.swift in Sources */,
 				6A672C171CCFB76E00AB9175 /* UIFont+LG.swift in Sources */,
 				507F1BFC1C89DDF9001F0A95 /* PostalAddress+String.swift in Sources */,
 				6A5E19DD1D548F5400F92692 /* ExternalServiceAuthResult.swift in Sources */,
@@ -4366,7 +4390,6 @@
 				C7B5887E1CE1DFA6009B3975 /* BaseChatCellDrawer.swift in Sources */,
 				6A5E19EF1D548F5400F92692 /* NSURL+LG.swift in Sources */,
 				C7DB42121C5138B500400945 /* UIView+Border.swift in Sources */,
-				508010E91D4748120073F362 /* ChangePasswordViewController.swift in Sources */,
 				2EE4BD221CDA398400EAADF9 /* CrashManager.swift in Sources */,
 				50146BD41D4F5FC700B0F635 /* ProfileTabCoordinator.swift in Sources */,
 				5076228B1CD0EB1D004E5D0D /* AppCoordinator.swift in Sources */,
@@ -4412,6 +4435,7 @@
 				6A5E19E91D548F5400F92692 /* Int+LG.swift in Sources */,
 				6A5E19F71D548F5400F92692 /* DeviceFamily.swift in Sources */,
 				C7DE8ACC1C888761005CF37E /* EditProductViewModel.swift in Sources */,
+				C72794411D549342009C25AB /* ChangeUsernameViewModel.swift in Sources */,
 				C7DB42201C5138B500400945 /* BaseViewModel.swift in Sources */,
 				6A5E1A1B1D548F5400F92692 /* UIViewController+Alert.swift in Sources */,
 				6A383F861CB29B3E00F99D79 /* CreateCommercialViewModel.swift in Sources */,
@@ -4422,7 +4446,6 @@
 				C7DB42241C5138B500400945 /* UIImage+Tint.swift in Sources */,
 				C71710011D09CACE00DDBBB0 /* UserPushPermissionsHeader.swift in Sources */,
 				C749317A1D3533DE00E117F1 /* UserRatingNavigator.swift in Sources */,
-				508010EF1D4748120073F362 /* ChangeUsernameViewController.swift in Sources */,
 				6A5E1A191D548F5400F92692 /* UIView+Geometry.swift in Sources */,
 				50146BD11D4F5F9F00B0F635 /* ChatsTabCoordinator.swift in Sources */,
 				50CA9FB11C91696800350C5F /* UserViewModel.swift in Sources */,
@@ -4441,7 +4464,6 @@
 				6A8656AC1CC1475B0041EEFB /* UIScrollView+LG.swift in Sources */,
 				6A9434671D2E52260053F924 /* BannerCell.swift in Sources */,
 				5076228D1CD0EB1D004E5D0D /* Coordinator.swift in Sources */,
-				508010F31D4748120073F362 /* ChangeUsernameViewModel.swift in Sources */,
 				C7F18A951C89CB3300D23319 /* PostProductGalleryView.swift in Sources */,
 				C7DE8ABB1C888750005CF37E /* ProductPostedViewController.swift in Sources */,
 				C7DB422C1C5138B500400945 /* KeyboardAnimation.swift in Sources */,
