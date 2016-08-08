@@ -503,17 +503,6 @@ extension ChatViewController: ChatViewModelDelegate {
         showAutoFadingOutMessageAlert(message)
     }
     
-    func vmShowProduct(productVC: UIViewController) {
-        showKeyboard(false, animated: false)
-        self.navigationController?.pushViewController(productVC, animated: true)
-    }
-
-    func vmShowUser(userVM: UserViewModel) {
-        showKeyboard(false, animated: false)
-        let vc = UserViewController(viewModel: userVM)
-        self.navigationController?.pushViewController(vc, animated: true)
-    }
-
     func vmClearText() {
         textView.text = ""
     }

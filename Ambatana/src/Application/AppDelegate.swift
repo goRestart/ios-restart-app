@@ -73,16 +73,13 @@ extension AppDelegate: UIApplicationDelegate {
 
         LGCoreKit.start()
 
-        let tabBarViewModel = TabBarViewModel()
-        let tabBarController = TabBarController(viewModel: tabBarViewModel)
-        let appCoordinator = AppCoordinator(tabBarController: tabBarController, configManager: ConfigManager.sharedInstance)
+        let appCoordinator = AppCoordinator(configManager: ConfigManager.sharedInstance)
         appCoordinator.delegate = self
-        tabBarViewModel.navigator = appCoordinator
 
         self.navigator = appCoordinator
 
         let window = UIWindow(frame: UIScreen.mainScreen().bounds)
-        window.rootViewController = tabBarController
+        window.rootViewController = appCoordinator.tabBarCtl
         self.window = window
 
         window.makeKeyAndVisible()

@@ -28,10 +28,6 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
 
     // MARK: - Lifecycle
 
-    convenience init() {
-        self.init(viewModel: ChatGroupedViewModel())
-    }
-
     dynamic private func edit() {
         setEditing(!editing, animated: true)
     }
@@ -173,9 +169,7 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
     // MARK: - BlockedUsersListViewDelegate
 
     func didSelectBlockedUser(user: User) {
-        let viewModel = UserViewModel(user: user, source: .Chat)
-        let vc = UserViewController(viewModel: viewModel, hidesBottomBarWhenPushed: true)
-        navigationController?.pushViewController(vc, animated: true)
+        viewModel.blockedUserPressed(user)
     }
 
     func didStartUnblocking() {

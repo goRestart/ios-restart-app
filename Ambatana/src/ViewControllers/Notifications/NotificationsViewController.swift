@@ -14,12 +14,14 @@ class NotificationsViewController: BaseViewController {
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var emptyView: LGEmptyView!
     @IBOutlet weak var tableView: UITableView!
+
+    weak var tabNavigator: TabNavigator?
+
     private let refreshControl = UIRefreshControl()
-
     private let viewModel: NotificationsViewModel
-
     private let disposeBag = DisposeBag()
 
+    
     // MARK: - Lifecycle
 
     convenience init() {
@@ -114,15 +116,6 @@ extension NotificationsViewController: NotificationsViewModelDelegate {
         if let tabBarController = tabBarController as? TabBarController {
             tabBarController.sellButtonPressed()
         }
-    }
-
-    func vmOpenUser(viewModel: UserViewModel) {
-        let userVC = UserViewController(viewModel: viewModel)
-        navigationController?.pushViewController(userVC, animated: true)
-    }
-
-    func vmOpenProduct(vc: UIViewController) {
-        navigationController?.pushViewController(vc, animated: true)
     }
 }
 
