@@ -24,14 +24,15 @@ class WSChatListViewModel: BaseChatGroupedListViewModel<ChatConversation>, ChatL
 
     // MARK: - Lifecycle
 
-    convenience init(chatsType: ChatsType) {
-        self.init(chatRepository: Core.chatRepository, chats: [], chatsType: chatsType)
+    convenience init(chatsType: ChatsType, tabNavigator: TabNavigator?) {
+        self.init(chatRepository: Core.chatRepository, chats: [], chatsType: chatsType, tabNavigator: tabNavigator)
     }
 
-    required init(chatRepository: ChatRepository, chats: [ChatConversation], chatsType: ChatsType) {
+    required init(chatRepository: ChatRepository, chats: [ChatConversation], chatsType: ChatsType,
+                  tabNavigator: TabNavigator?) {
         self.chatRepository = chatRepository
         self.chatsType = chatsType
-        super.init(objects: chats)
+        super.init(objects: chats, tabNavigator: tabNavigator)
     }
 
     override func didBecomeActive(firstTime: Bool) {
@@ -77,7 +78,7 @@ class WSChatListViewModel: BaseChatGroupedListViewModel<ChatConversation>, ChatL
 
     func chatViewModelForIndex(index: Int) -> ChatViewModel? {
         guard let conversation = objectAtIndex(index) else { return nil }
-        return ChatViewModel(conversation: conversation)
+        return ChatViewModel(conversation: conversation, tabNavigator: tabNavigator)
     }
 
 

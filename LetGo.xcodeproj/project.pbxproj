@@ -132,6 +132,30 @@
 		5007279D1B32CE660058DA76 /* UIApplication+TopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5007279C1B32CE660058DA76 /* UIApplication+TopViewController.swift */; };
 		500DC12B1BDA1C4C00B494FA /* ios-devel.json in Resources */ = {isa = PBXBuildFile; fileRef = 500DC1291BDA1C4C00B494FA /* ios-devel.json */; };
 		500DC12C1BDA1C4C00B494FA /* ios-prod.json in Resources */ = {isa = PBXBuildFile; fileRef = 500DC12A1BDA1C4C00B494FA /* ios-prod.json */; };
+		50146BC21D4F5F5B00B0F635 /* TabCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50146BC01D4F5F5B00B0F635 /* TabCoordinator.swift */; };
+		50146BC31D4F5F5B00B0F635 /* TabCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50146BC01D4F5F5B00B0F635 /* TabCoordinator.swift */; };
+		50146BC41D4F5F5B00B0F635 /* TabNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50146BC11D4F5F5B00B0F635 /* TabNavigator.swift */; };
+		50146BC51D4F5F5B00B0F635 /* TabNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50146BC11D4F5F5B00B0F635 /* TabNavigator.swift */; };
+		50146BC71D4F5F6D00B0F635 /* MainTabCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50146BC61D4F5F6D00B0F635 /* MainTabCoordinator.swift */; };
+		50146BC81D4F5F6D00B0F635 /* MainTabCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50146BC61D4F5F6D00B0F635 /* MainTabCoordinator.swift */; };
+		50146BCA1D4F5F7B00B0F635 /* CategoriesTabCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50146BC91D4F5F7B00B0F635 /* CategoriesTabCoordinator.swift */; };
+		50146BCB1D4F5F7B00B0F635 /* CategoriesTabCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50146BC91D4F5F7B00B0F635 /* CategoriesTabCoordinator.swift */; };
+		50146BCD1D4F5F9000B0F635 /* NotificationsTabCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50146BCC1D4F5F9000B0F635 /* NotificationsTabCoordinator.swift */; };
+		50146BCE1D4F5F9000B0F635 /* NotificationsTabCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50146BCC1D4F5F9000B0F635 /* NotificationsTabCoordinator.swift */; };
+		50146BD01D4F5F9F00B0F635 /* ChatsTabCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50146BCF1D4F5F9F00B0F635 /* ChatsTabCoordinator.swift */; };
+		50146BD11D4F5F9F00B0F635 /* ChatsTabCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50146BCF1D4F5F9F00B0F635 /* ChatsTabCoordinator.swift */; };
+		50146BD31D4F5FC700B0F635 /* ProfileTabCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50146BD21D4F5FC700B0F635 /* ProfileTabCoordinator.swift */; };
+		50146BD41D4F5FC700B0F635 /* ProfileTabCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50146BD21D4F5FC700B0F635 /* ProfileTabCoordinator.swift */; };
+		50146BD61D4F90DB00B0F635 /* CategoriesTabNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50146BD51D4F90DB00B0F635 /* CategoriesTabNavigator.swift */; };
+		50146BD71D4F90DB00B0F635 /* CategoriesTabNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50146BD51D4F90DB00B0F635 /* CategoriesTabNavigator.swift */; };
+		50146BD91D4F90E500B0F635 /* ChatsTabNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50146BD81D4F90E500B0F635 /* ChatsTabNavigator.swift */; };
+		50146BDA1D4F90E500B0F635 /* ChatsTabNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50146BD81D4F90E500B0F635 /* ChatsTabNavigator.swift */; };
+		50146BDC1D4F90F100B0F635 /* MainTabNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50146BDB1D4F90F100B0F635 /* MainTabNavigator.swift */; };
+		50146BDD1D4F90F100B0F635 /* MainTabNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50146BDB1D4F90F100B0F635 /* MainTabNavigator.swift */; };
+		50146BDF1D4F910000B0F635 /* NotificationsTabNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50146BDE1D4F910000B0F635 /* NotificationsTabNavigator.swift */; };
+		50146BE01D4F910000B0F635 /* NotificationsTabNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50146BDE1D4F910000B0F635 /* NotificationsTabNavigator.swift */; };
+		50146BE21D4F910B00B0F635 /* ProfileTabNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50146BE11D4F910B00B0F635 /* ProfileTabNavigator.swift */; };
+		50146BE31D4F910B00B0F635 /* ProfileTabNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50146BE11D4F910B00B0F635 /* ProfileTabNavigator.swift */; };
 		5015881B1C7396A8006AEFC8 /* UserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5015881A1C7396A8006AEFC8 /* UserView.swift */; };
 		5015881C1C7396A8006AEFC8 /* UserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5015881A1C7396A8006AEFC8 /* UserView.swift */; };
 		5015881E1C7396B7006AEFC8 /* UserView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5015881D1C7396B7006AEFC8 /* UserView.xib */; };
@@ -1065,6 +1089,18 @@
 		5007279C1B32CE660058DA76 /* UIApplication+TopViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIApplication+TopViewController.swift"; sourceTree = "<group>"; };
 		500DC1291BDA1C4C00B494FA /* ios-devel.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "ios-devel.json"; sourceTree = "<group>"; };
 		500DC12A1BDA1C4C00B494FA /* ios-prod.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "ios-prod.json"; sourceTree = "<group>"; };
+		50146BC01D4F5F5B00B0F635 /* TabCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabCoordinator.swift; sourceTree = "<group>"; };
+		50146BC11D4F5F5B00B0F635 /* TabNavigator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabNavigator.swift; sourceTree = "<group>"; };
+		50146BC61D4F5F6D00B0F635 /* MainTabCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainTabCoordinator.swift; sourceTree = "<group>"; };
+		50146BC91D4F5F7B00B0F635 /* CategoriesTabCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoriesTabCoordinator.swift; sourceTree = "<group>"; };
+		50146BCC1D4F5F9000B0F635 /* NotificationsTabCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationsTabCoordinator.swift; sourceTree = "<group>"; };
+		50146BCF1D4F5F9F00B0F635 /* ChatsTabCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatsTabCoordinator.swift; sourceTree = "<group>"; };
+		50146BD21D4F5FC700B0F635 /* ProfileTabCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileTabCoordinator.swift; sourceTree = "<group>"; };
+		50146BD51D4F90DB00B0F635 /* CategoriesTabNavigator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoriesTabNavigator.swift; sourceTree = "<group>"; };
+		50146BD81D4F90E500B0F635 /* ChatsTabNavigator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatsTabNavigator.swift; sourceTree = "<group>"; };
+		50146BDB1D4F90F100B0F635 /* MainTabNavigator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainTabNavigator.swift; sourceTree = "<group>"; };
+		50146BDE1D4F910000B0F635 /* NotificationsTabNavigator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationsTabNavigator.swift; sourceTree = "<group>"; };
+		50146BE11D4F910B00B0F635 /* ProfileTabNavigator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileTabNavigator.swift; sourceTree = "<group>"; };
 		5015881A1C7396A8006AEFC8 /* UserView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserView.swift; sourceTree = "<group>"; };
 		5015881D1C7396B7006AEFC8 /* UserView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserView.xib; sourceTree = "<group>"; };
 		5021910B1B2F1DAA00ABD31F /* RememberPasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RememberPasswordViewController.swift; sourceTree = "<group>"; };
@@ -1776,6 +1812,25 @@
 			path = config;
 			sourceTree = "<group>";
 		};
+		50146BBF1D4F5F5B00B0F635 /* Tabs */ = {
+			isa = PBXGroup;
+			children = (
+				50146BC91D4F5F7B00B0F635 /* CategoriesTabCoordinator.swift */,
+				50146BD51D4F90DB00B0F635 /* CategoriesTabNavigator.swift */,
+				50146BCF1D4F5F9F00B0F635 /* ChatsTabCoordinator.swift */,
+				50146BD81D4F90E500B0F635 /* ChatsTabNavigator.swift */,
+				50146BC61D4F5F6D00B0F635 /* MainTabCoordinator.swift */,
+				50146BDB1D4F90F100B0F635 /* MainTabNavigator.swift */,
+				50146BCC1D4F5F9000B0F635 /* NotificationsTabCoordinator.swift */,
+				50146BDE1D4F910000B0F635 /* NotificationsTabNavigator.swift */,
+				50146BD21D4F5FC700B0F635 /* ProfileTabCoordinator.swift */,
+				50146BE11D4F910B00B0F635 /* ProfileTabNavigator.swift */,
+				50146BC01D4F5F5B00B0F635 /* TabCoordinator.swift */,
+				50146BC11D4F5F5B00B0F635 /* TabNavigator.swift */,
+			);
+			path = Tabs;
+			sourceTree = "<group>";
+		};
 		502374531B3D3E8D00E02656 /* i18n */ = {
 			isa = PBXGroup;
 			children = (
@@ -1950,6 +2005,7 @@
 		507622851CD0EB1D004E5D0D /* Coordinator */ = {
 			isa = PBXGroup;
 			children = (
+				50146BBF1D4F5F5B00B0F635 /* Tabs */,
 				507622861CD0EB1D004E5D0D /* AppCoordinator.swift */,
 				506846461CD390CA00FA00C2 /* AppNavigator.swift */,
 				507622871CD0EB1D004E5D0D /* Coordinator.swift */,
@@ -3723,10 +3779,12 @@
 				C72794421D549342009C25AB /* HelpViewController.swift in Sources */,
 				C7B588A21CE1E025009B3975 /* ChatGroupedListViewModel.swift in Sources */,
 				C780281D1BF0FB64002B26C5 /* FilterSection.swift in Sources */,
+				50146BD91D4F90E500B0F635 /* ChatsTabNavigator.swift in Sources */,
 				C7B588691CE1DE1C009B3975 /* ChatGroupedViewController.swift in Sources */,
 				C7C328411C907267008078EC /* PostProductGalleryViewModel.swift in Sources */,
 				50EC64041C64B05500DC04C5 /* LGEmptyView.swift in Sources */,
 				C7B5882B1CE1DE1C009B3975 /* BlockedUsersListViewModel.swift in Sources */,
+				50146BDC1D4F90F100B0F635 /* MainTabNavigator.swift in Sources */,
 				50CBCD5F1BF0BB8F00A329BB /* CollectionViewFooter.swift in Sources */,
 				50560B971B25D18F0021D8D9 /* BaseViewController.swift in Sources */,
 				6A12E0521C63988100C1BFE3 /* TourNotificationsViewController.swift in Sources */,
@@ -3756,6 +3814,7 @@
 				C7DE8ADC1C88A8E5005CF37E /* PostProductViewModel.swift in Sources */,
 				2EE4BD1E1CDA330300EAADF9 /* VersionChecker.swift in Sources */,
 				6AE5F1181BFE3E7B0079E8B6 /* FBSDKSharing+LG.swift in Sources */,
+				50146BC21D4F5F5B00B0F635 /* TabCoordinator.swift in Sources */,
 				2EF4E3B21D3688AB00A09DFD /* LGConfigDAO.swift in Sources */,
 				6AA32F3A1CA29CC4003A1677 /* AdminViewController.swift in Sources */,
 				C7DCFEC41C03625E00F7A4FB /* ProductTimeCriteria+LG.swift in Sources */,
@@ -3770,6 +3829,7 @@
 				50261B1D1AFB48C6006E88E0 /* AppEnvironment.swift in Sources */,
 				50CA9FAB1C91695F00350C5F /* UserViewController.swift in Sources */,
 				2E2634CD1BB19D1800BBFFBC /* KahunaTracker.swift in Sources */,
+				50146BC41D4F5F5B00B0F635 /* TabNavigator.swift in Sources */,
 				50C9E4C91B735344001E4E92 /* TrackerEventDataTypes.swift in Sources */,
 				6A40A3D21C0DE6B700C551B3 /* MediaPickerManager.swift in Sources */,
 				6A610CBA1CB4079500736DA0 /* CreateCommercialProductCell.swift in Sources */,
@@ -3829,10 +3889,12 @@
 				D412E07F1B4EFF2800683FFD /* ProductListViewModel.swift in Sources */,
 				2E2AB8281C04A2EF0007B8EB /* CrashlyticsTracker.swift in Sources */,
 				5033F6CC1B5D0AE60004FECB /* BaseView.swift in Sources */,
+				50146BC71D4F5F6D00B0F635 /* MainTabCoordinator.swift in Sources */,
 				50C9E4BB1B71FBD7001E4E92 /* TrackerEvent.swift in Sources */,
 				D4443D6B1B1288B700237095 /* Constants.swift in Sources */,
 				5063949A1C8D97050091C831 /* BaseViewModelDelegate.swift in Sources */,
 				509598891C8733B70026AE2D /* Logger.swift in Sources */,
+				50146BCD1D4F5F9000B0F635 /* NotificationsTabCoordinator.swift in Sources */,
 				C7111F051CA438C2000C5C5A /* UriScheme.swift in Sources */,
 				506846471CD390CA00FA00C2 /* AppNavigator.swift in Sources */,
 				C79842011CC8E8C900C300FF /* User+LG.swift in Sources */,
@@ -3914,6 +3976,7 @@
 				508D486D1CD09E8500C52BE3 /* AlamofireImage+ImageDownloaderType.swift in Sources */,
 				6AA26CFD1CFDBA7600546063 /* ChatDisclaimerCellDrawer.swift in Sources */,
 				50A8DC821BA06BB1008296B0 /* ChatSafetyTipsView.swift in Sources */,
+				50146BD61D4F90DB00B0F635 /* CategoriesTabNavigator.swift in Sources */,
 				2EE4BD1B1CD8E71A00EAADF9 /* RatingManager.swift in Sources */,
 				6A056FDC1CE0EB9100FE3A07 /* LGLocationCoordinates2D+Distance.swift in Sources */,
 				2E5350411CF8A0C6003B06CC /* ProductStatsView.swift in Sources */,
@@ -3936,6 +3999,7 @@
 				5076228A1CD0EB1D004E5D0D /* AppCoordinator.swift in Sources */,
 				5007279D1B32CE660058DA76 /* UIApplication+TopViewController.swift in Sources */,
 				2EE4BD211CDA398400EAADF9 /* CrashManager.swift in Sources */,
+				50146BD31D4F5FC700B0F635 /* ProfileTabCoordinator.swift in Sources */,
 				5063BDE81CBCEE2600F56B3C /* CountryHelper+Product.swift in Sources */,
 				C711A1A91CDC99E5002D30D9 /* NotificationCellDrawerFactory.swift in Sources */,
 				D4912A8A1B08FFF900DACD5A /* UIView+Border.swift in Sources */,
@@ -3971,6 +4035,7 @@
 				2E3760351BD914BA00A5A030 /* CategoriesViewModel.swift in Sources */,
 				508D48651CCF4FFC00C52BE3 /* ImageDownloader.swift in Sources */,
 				2E3047EB1CA4083B0099C0BC /* CommercialDisplayViewController.swift in Sources */,
+				50146BE21D4F910B00B0F635 /* ProfileTabNavigator.swift in Sources */,
 				C7B588571CE1DE1C009B3975 /* DirectAnswersPresenter.swift in Sources */,
 				6A12E04F1C635FF900C1BFE3 /* TourLoginViewModel.swift in Sources */,
 				6A32072B1CC78F5B003DD9AF /* ProductCarouselPushAnimator.swift in Sources */,
@@ -3988,6 +4053,7 @@
 				C74931791D3533DE00E117F1 /* UserRatingNavigator.swift in Sources */,
 				50CA9FB01C91696800350C5F /* UserViewModel.swift in Sources */,
 				C7B89CB91C20271E00536A6C /* SocialShareView.swift in Sources */,
+				50146BD01D4F5F9F00B0F635 /* ChatsTabCoordinator.swift in Sources */,
 				6AF75D041CF3600D00EACCF0 /* ChatStickerCell.swift in Sources */,
 				2E373FA51D3D019600AC811C /* UserRatingListViewController.swift in Sources */,
 				50560B9B1B25D18F0021D8D9 /* TabBarController.swift in Sources */,
@@ -4000,6 +4066,7 @@
 				C7F4CBA31C9181A5008E40D6 /* PostProductCameraViewModel.swift in Sources */,
 				C7B5885B1CE1DE1C009B3975 /* OldChatViewController.swift in Sources */,
 				6A8656AB1CC1475A0041EEFB /* UIScrollView+LG.swift in Sources */,
+				50146BDF1D4F910000B0F635 /* NotificationsTabNavigator.swift in Sources */,
 				6A9434661D2E52260053F924 /* BannerCell.swift in Sources */,
 				5076228C1CD0EB1D004E5D0D /* Coordinator.swift in Sources */,
 				C7F18A941C89CB3300D23319 /* PostProductGalleryView.swift in Sources */,
@@ -4022,6 +4089,7 @@
 				50C59BD81CE0DB4400377124 /* UserDefaultsUser.swift in Sources */,
 				C79842041CC903A500C300FF /* MockAccount.swift in Sources */,
 				C708C8451CDB60B200AA87B3 /* AppRatingBannerCell.swift in Sources */,
+				50146BCA1D4F5F7B00B0F635 /* CategoriesTabCoordinator.swift in Sources */,
 				2E64D41A1D11B34F00257B69 /* Tooltip.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -4054,10 +4122,12 @@
 				C72794431D549342009C25AB /* HelpViewController.swift in Sources */,
 				C7DB41921C5138B500400945 /* FilterSection.swift in Sources */,
 				C7B5886A1CE1DE1C009B3975 /* ChatGroupedViewController.swift in Sources */,
+				50146BDA1D4F90E500B0F635 /* ChatsTabNavigator.swift in Sources */,
 				C7C328421C907267008078EC /* PostProductGalleryViewModel.swift in Sources */,
 				50EC64051C64B05500DC04C5 /* LGEmptyView.swift in Sources */,
 				C7B5882C1CE1DE1C009B3975 /* BlockedUsersListViewModel.swift in Sources */,
 				2E373FB01D3E6F5100AC811C /* UserRatingListViewModel.swift in Sources */,
+				50146BDD1D4F90F100B0F635 /* MainTabNavigator.swift in Sources */,
 				C7DB41981C5138B500400945 /* CollectionViewFooter.swift in Sources */,
 				C7DB41991C5138B500400945 /* BaseViewController.swift in Sources */,
 				6A12E0531C63988100C1BFE3 /* TourNotificationsViewController.swift in Sources */,
@@ -4087,6 +4157,7 @@
 				C7DE8ADD1C88A8E5005CF37E /* PostProductViewModel.swift in Sources */,
 				C7DB41A41C5138B500400945 /* MainProductsViewController.swift in Sources */,
 				2EE4BD1F1CDA330300EAADF9 /* VersionChecker.swift in Sources */,
+				50146BC31D4F5F5B00B0F635 /* TabCoordinator.swift in Sources */,
 				2E2D53E21D369B0500348D12 /* LGConfigDAO.swift in Sources */,
 				6AA32F3B1CA29CC4003A1677 /* AdminViewController.swift in Sources */,
 				C7DB41A71C5138B500400945 /* FBSDKSharing+LG.swift in Sources */,
@@ -4101,6 +4172,7 @@
 				C783D98A1C64C15B000EE5CA /* ReportUserCell.swift in Sources */,
 				C7DB41AC1C5138B500400945 /* TrackerProxy.swift in Sources */,
 				50CA9FAC1C91695F00350C5F /* UserViewController.swift in Sources */,
+				50146BC51D4F5F5B00B0F635 /* TabNavigator.swift in Sources */,
 				C7DB41AD1C5138B500400945 /* AppEnvironment.swift in Sources */,
 				C7DB41B01C5138B500400945 /* KahunaTracker.swift in Sources */,
 				C7DB41B11C5138B500400945 /* TrackerEventDataTypes.swift in Sources */,
@@ -4160,10 +4232,12 @@
 				C7F6F7531CB5081F000147F9 /* CommercialShareViewController.swift in Sources */,
 				C7B5889F1CE1E025009B3975 /* ChatGroupedListView.swift in Sources */,
 				6AA8278E1D2BBA400068C39B /* BannerCellDrawer.swift in Sources */,
+				50146BC81D4F5F6D00B0F635 /* MainTabCoordinator.swift in Sources */,
 				C7DB41D51C5138B500400945 /* ProductListViewModel.swift in Sources */,
 				C7DB41D61C5138B500400945 /* CrashlyticsTracker.swift in Sources */,
 				C7DB41D71C5138B500400945 /* BaseView.swift in Sources */,
 				C7DB41D81C5138B500400945 /* TrackerEvent.swift in Sources */,
+				50146BCE1D4F5F9000B0F635 /* NotificationsTabCoordinator.swift in Sources */,
 				C7DB41DA1C5138B500400945 /* Constants.swift in Sources */,
 				5095988A1C8733B70026AE2D /* Logger.swift in Sources */,
 				C7DB41DC1C5138B500400945 /* CAGradientLayer+Color.swift in Sources */,
@@ -4245,6 +4319,7 @@
 				C7DB42081C5138B500400945 /* SocialHelper.swift in Sources */,
 				C7DE8AD21C888761005CF37E /* SellProductCell.swift in Sources */,
 				508D486E1CD09E8500C52BE3 /* AlamofireImage+ImageDownloaderType.swift in Sources */,
+				50146BD71D4F90DB00B0F635 /* CategoriesTabNavigator.swift in Sources */,
 				6AA26CFE1CFDBA7600546063 /* ChatDisclaimerCellDrawer.swift in Sources */,
 				C7DB42091C5138B500400945 /* ChatSafetyTipsView.swift in Sources */,
 				2EE4BD1C1CD8E71A00EAADF9 /* RatingManager.swift in Sources */,
@@ -4267,6 +4342,7 @@
 				C7B5887E1CE1DFA6009B3975 /* BaseChatCellDrawer.swift in Sources */,
 				C7DB42121C5138B500400945 /* UIView+Border.swift in Sources */,
 				2EE4BD221CDA398400EAADF9 /* CrashManager.swift in Sources */,
+				50146BD41D4F5FC700B0F635 /* ProfileTabCoordinator.swift in Sources */,
 				5076228B1CD0EB1D004E5D0D /* AppCoordinator.swift in Sources */,
 				5063BDE91CBCEE2600F56B3C /* CountryHelper+Product.swift in Sources */,
 				C7DB42141C5138B500400945 /* CategoryCell.swift in Sources */,
@@ -4302,6 +4378,7 @@
 				C7DE8AE11C88A98B005CF37E /* PostProductViewController.swift in Sources */,
 				C7DB421F1C5138B500400945 /* CategoriesViewModel.swift in Sources */,
 				508D48661CCF4FFC00C52BE3 /* ImageDownloader.swift in Sources */,
+				50146BE31D4F910B00B0F635 /* ProfileTabNavigator.swift in Sources */,
 				2E3047EC1CA4083B0099C0BC /* CommercialDisplayViewController.swift in Sources */,
 				C7B588581CE1DE1C009B3975 /* DirectAnswersPresenter.swift in Sources */,
 				6A12E0501C635FF900C1BFE3 /* TourLoginViewModel.swift in Sources */,
@@ -4319,6 +4396,7 @@
 				C7DB42241C5138B500400945 /* UIImage+Tint.swift in Sources */,
 				C71710011D09CACE00DDBBB0 /* UserPushPermissionsHeader.swift in Sources */,
 				C749317A1D3533DE00E117F1 /* UserRatingNavigator.swift in Sources */,
+				50146BD11D4F5F9F00B0F635 /* ChatsTabCoordinator.swift in Sources */,
 				50CA9FB11C91696800350C5F /* UserViewModel.swift in Sources */,
 				C7DB42251C5138B500400945 /* SocialShareView.swift in Sources */,
 				6AF75D051CF3600D00EACCF0 /* ChatStickerCell.swift in Sources */,
@@ -4331,6 +4409,7 @@
 				6ACC24BB1D2A5C570064B165 /* GridCellDrawer.swift in Sources */,
 				C7F4CBA41C9181A5008E40D6 /* PostProductCameraViewModel.swift in Sources */,
 				C7B5885C1CE1DE1C009B3975 /* OldChatViewController.swift in Sources */,
+				50146BE01D4F910000B0F635 /* NotificationsTabNavigator.swift in Sources */,
 				6A8656AC1CC1475B0041EEFB /* UIScrollView+LG.swift in Sources */,
 				6A9434671D2E52260053F924 /* BannerCell.swift in Sources */,
 				5076228D1CD0EB1D004E5D0D /* Coordinator.swift in Sources */,
@@ -4353,6 +4432,7 @@
 				50C59BD91CE0DB4400377124 /* UserDefaultsUser.swift in Sources */,
 				C79842051CC903A500C300FF /* MockAccount.swift in Sources */,
 				C708C8461CDB60B200AA87B3 /* AppRatingBannerCell.swift in Sources */,
+				50146BCB1D4F5F7B00B0F635 /* CategoriesTabCoordinator.swift in Sources */,
 				2E64D41B1D11B34F00257B69 /* Tooltip.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -35,19 +35,23 @@ class UserRatingListViewModel: BaseViewModel {
     var myUserRepository: MyUserRepository
 
     weak var delegate: UserRatingListViewModelDelegate?
+    weak var tabNavigator: TabNavigator?
 
 
     // MARK: Lifecycle
 
-    convenience init(userId: String) {
+    convenience init(userId: String, tabNavigator: TabNavigator?) {
         let requester = UserRatingListRequester(userId: userId)
         let myUserRepository = Core.myUserRepository
-        self.init(userIdRated: userId, userRatingListRequester: requester, myUserRepository: myUserRepository)
+        self.init(userIdRated: userId, userRatingListRequester: requester, myUserRepository: myUserRepository,
+                  tabNavigator: tabNavigator)
     }
 
-    required init(userIdRated: String, userRatingListRequester: UserRatingListRequester, myUserRepository: MyUserRepository) {
+    required init(userIdRated: String, userRatingListRequester: UserRatingListRequester,
+                  myUserRepository: MyUserRepository, tabNavigator: TabNavigator?) {
         self.userRatingListRequester = userRatingListRequester
         self.myUserRepository = myUserRepository
+        self.tabNavigator = tabNavigator
         self.userIdRated = userIdRated
         self.ratings = []
         super.init()

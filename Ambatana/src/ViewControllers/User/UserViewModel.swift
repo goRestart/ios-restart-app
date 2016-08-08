@@ -14,12 +14,12 @@ enum UserSource {
     case ProductDetail
     case Chat
     case Notifications
+    case Link
 }
 
 protocol UserViewModelDelegate: BaseViewModelDelegate {
     func vmOpenSettings(settingsVC: SettingsViewController)
     func vmOpenReportUser(reportUserVM: ReportUsersViewModel)
-    func vmOpenProduct(productVC: UIViewController)
     func vmOpenVerifyAccount(verifyVM: VerifyAccountViewModel)
     func vmOpenHome()
     func vmOpenRatingList(ratingListVM: UserRatingListViewModel)
@@ -71,6 +71,7 @@ class UserViewModel: BaseViewModel {
     let productListViewModel: Variable<ProductListViewModel>
 
     weak var delegate: UserViewModelDelegate?
+    weak var tabNavigator: TabNavigator?
 
     // Rx
     let disposeBag: DisposeBag
@@ -301,7 +302,7 @@ extension UserViewModel {
 
     private func openRatings() {
         guard let userId = user.value?.objectId else { return }
-        let vm = UserRatingListViewModel(userId: userId)
+        let vm = UserRatingListViewModel(userId: userId, tabNavigator: tabNavigator)
         delegate?.vmOpenRatingList(vm)
     }
 
@@ -549,9 +550,13 @@ extension UserViewModel: ProductListViewModelDataDelegate {
     func productListVM(viewModel: ProductListViewModel, didSelectItemAtIndex index: Int, thumbnailImage: UIImage?,
                        originFrame: CGRect?) {
         guard viewModel === productListViewModel.value else { return } //guarding view model is the selected one
-        guard let productVC = ProductDetailFactory.productDetailFromProductList(viewModel, index: index,
-                                                                    thumbnailImage: thumbnailImage, originFrame: originFrame) else { return }
-        delegate?.vmOpenProduct(productVC)
+        guard let product = viewModel.productAtIndex(index), requester = viewModel.productListRequester else { return }
+        let cellModels = viewModel.objects
+
+        let data = ProductDetailData.ProductList(product: product, cellModels: cellModels, requester: requester,
+                                                 thumbnailImage: thumbnailImage, originFrame: originFrame,
+                                                 showRelated: false)
+        tabNavigator?.openProduct(data)
     }
 }
 
@@ -589,6 +594,8 @@ extension UserViewModel {
             typePage = .ProductDetail
         case .Notifications:
             typePage = .Notifications
+        case .Link:
+            typePage = .External
         }
         guard let actualTypePage = typePage else { return }
 

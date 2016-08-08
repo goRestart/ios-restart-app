@@ -17,8 +17,6 @@ protocol ChatViewModelDelegate: BaseViewModelDelegate {
     func vmDidFailSendingMessage()
     func vmDidFailRetrievingChatMessages()
     
-    func vmShowProduct(productVC: UIViewController)
-    func vmShowUser(userVM: UserViewModel)
     func vmShowReportUser(reportUserViewModel: ReportUsersViewModel)
     func vmShowUserRating(source: RateUserSource, data: RateUserData)
 
@@ -52,6 +50,7 @@ class ChatViewModel: BaseViewModel {
     
     // Protocols
     weak var delegate: ChatViewModelDelegate?
+    weak var tabNavigator: TabNavigator?
     
     // Paginable
     var resultsPerPage: Int = Constants.numMessagesPerPage
@@ -175,7 +174,7 @@ class ChatViewModel: BaseViewModel {
         }
     }
 
-    convenience init(conversation: ChatConversation) {
+    convenience init(conversation: ChatConversation, tabNavigator: TabNavigator?) {
         let myUserRepository = Core.myUserRepository
         let chatRepository = Core.chatRepository
         let productRepository = Core.productRepository
@@ -186,10 +185,11 @@ class ChatViewModel: BaseViewModel {
 
         self.init(conversation: conversation, myUserRepository: myUserRepository, chatRepository: chatRepository,
                   productRepository: productRepository, userRepository: userRepository,
-                  stickersRepository: stickersRepository, tracker: tracker, configManager: configManager)
+                  stickersRepository: stickersRepository, tracker: tracker, configManager: configManager,
+                  tabNavigator: tabNavigator)
     }
     
-    convenience init?(product: Product) {
+    convenience init?(product: Product, tabNavigator: TabNavigator?) {
         guard let _ = product.objectId, sellerId = product.user.objectId else { return nil }
 
         let myUserRepository = Core.myUserRepository
@@ -205,13 +205,14 @@ class ChatViewModel: BaseViewModel {
                                       interlocutor: nil, amISelling: amISelling)
         self.init(conversation: empty, myUserRepository: myUserRepository, chatRepository: chatRepository,
                   productRepository: productRepository, userRepository: userRepository,
-                  stickersRepository: stickersRepository ,tracker: tracker, configManager: configManager)
+                  stickersRepository: stickersRepository ,tracker: tracker, configManager: configManager,
+                  tabNavigator: tabNavigator)
         self.setupConversationFromProduct(product)
     }
     
     init(conversation: ChatConversation, myUserRepository: MyUserRepository, chatRepository: ChatRepository,
           productRepository: ProductRepository, userRepository: UserRepository, stickersRepository: StickersRepository,
-          tracker: Tracker, configManager: ConfigManager) {
+          tracker: Tracker, configManager: ConfigManager, tabNavigator: TabNavigator?) {
         self.conversation = Variable<ChatConversation>(conversation)
         self.myUserRepository = myUserRepository
         self.chatRepository = chatRepository
@@ -221,6 +222,7 @@ class ChatViewModel: BaseViewModel {
         self.configManager = configManager
         self.stickersRepository = stickersRepository
         self.chatViewMessageAdapter = ChatViewMessageAdapter()
+        self.tabNavigator = tabNavigator
         super.init()
         setupRx()
         loadStickers()
@@ -383,18 +385,18 @@ class ChatViewModel: BaseViewModel {
             break
         case .Pending, .Approved, .Discarded, .Sold, .SoldOld:
             guard let interlocutor = conversation.value.interlocutor else { return }
-            guard let productVC = ProductDetailFactory.productDetailFromChatProduct(product, user: interlocutor,
-                                                                                    thumbnailImage: nil,
-                                                                                    originFrame: nil)
-                else { return }
-            delegate?.vmShowProduct(productVC)
+            delegate?.vmHideKeyboard(false)
+            let data = ProductDetailData.ProductChat(chatProduct: product, user: interlocutor,
+                                                     thumbnailImage: nil, originFrame: nil)
+            tabNavigator?.openProduct(data)
         }
     }
     
     func userInfoPressed() {
         guard let interlocutor = conversation.value.interlocutor else { return }
-        let userVM = UserViewModel(chatInterlocutor: interlocutor, source: .Chat)
-        delegate?.vmShowUser(userVM)
+        delegate?.vmHideKeyboard(false)
+        let data = UserDetailData.UserChat(user: interlocutor)
+        tabNavigator?.openUser(data)
     }
 
     func reviewUserPressed() {
@@ -1124,9 +1126,14 @@ extension ChatViewModel: RelatedProductsViewDelegate {
         tracker.trackEvent(TrackerEvent.chatRelatedItemsStart())
     }
 
-    func relatedProductsView(view: RelatedProductsView, showProduct productVC: UIViewController, index: Int) {
+    func relatedProductsView(view: RelatedProductsView, showProduct product: Product, atIndex index: Int,
+                             productListModels: [ProductCellModel], requester: ProductListRequester,
+                             thumbnailImage: UIImage?, originFrame: CGRect?) {
         tracker.trackEvent(TrackerEvent.chatRelatedItemsComplete(index))
-        delegate?.vmShowProduct(productVC)
+        let data = ProductDetailData.ProductList(product: product, cellModels: productListModels, requester: requester,
+                                                 thumbnailImage: thumbnailImage, originFrame: originFrame,
+                                                 showRelated: false)
+        tabNavigator?.openProduct(data)
     }
 }
 

@@ -162,10 +162,6 @@ extension UserViewController: UserViewModelDelegate {
         navigationController?.pushViewController(vc, animated: true)
     }
 
-    func vmOpenProduct(productVC: UIViewController) {
-        navigationController?.pushViewController(productVC, animated: true)
-    }
-
     func vmOpenVerifyAccount(verifyVM: VerifyAccountViewModel) {
         let presenter = tabBarController ?? navigationController
         let vc = VerifyAccountViewController(viewModel: verifyVM)
