@@ -31,8 +31,10 @@ class MediaPickerManager {
             let cameraTitle = LGLocalizedString.sellPictureImageSourceCameraButton
             let galleryTitle = LGLocalizedString.sellPictureImageSourceCameraRollButton
             let cancelTitle = LGLocalizedString.sellPictureImageSourceCancelButton
-            
-            let alert = UIAlertController(title: title, message: nil, preferredStyle: .ActionSheet)
+        
+            let style: UIAlertControllerStyle = DeviceFamily.isiPad ? .Alert : .ActionSheet
+        
+            let alert = UIAlertController(title: title, message: nil, preferredStyle: style)
             alert.addAction(UIAlertAction(title: cameraTitle, style: .Default) { alertAction in
                 showCameraPickerIn(controller)
                 })

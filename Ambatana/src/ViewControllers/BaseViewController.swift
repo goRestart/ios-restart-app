@@ -19,10 +19,28 @@ private struct TostableKeys {
 private struct NavigationBarKeys {
     static var letTouchesPass = 0
     static var viewsToIgnoreTouchersFor = 0
+    static var outOfBoundsViewsToForceTouches = 0
 }
 
+
 extension UINavigationBar {
-    
+
+    var outOfBoundsViewsToForceTouches: [UIView] {
+        get {
+            let views = objc_getAssociatedObject(self, &NavigationBarKeys.outOfBoundsViewsToForceTouches) as? [UIView]
+            return views ?? []
+        }
+        set {
+            objc_setAssociatedObject(
+                self,
+                &NavigationBarKeys.outOfBoundsViewsToForceTouches,
+                newValue as [UIView]?,
+                .OBJC_ASSOCIATION_RETAIN_NONATOMIC
+            )
+        }
+    }
+
+
     var viewsToIgnoreTouchesFor: [UIView] {
         get {
             let views = objc_getAssociatedObject(self, &NavigationBarKeys.viewsToIgnoreTouchersFor) as? [UIView]
@@ -37,7 +55,13 @@ extension UINavigationBar {
             )
         }
     }
-    
+
+    func forceTouchesFor(view: UIView) {
+        var views = outOfBoundsViewsToForceTouches
+        views.append(view)
+        outOfBoundsViewsToForceTouches = views
+    }
+
     func ignoreTouchesFor(view: UIView) {
         var views = viewsToIgnoreTouchesFor
         views.append(view)
@@ -46,19 +70,27 @@ extension UINavigationBar {
     
     override public func pointInside(point: CGPoint, withEvent event: UIEvent?) -> Bool {
         let pointInside = super.pointInside(point, withEvent: event)
-        
+
         for view in viewsToIgnoreTouchesFor {
             let convertedPoint = view.convertPoint(point, fromView: self)
             if view.pointInside(convertedPoint, withEvent: event) {
                 return false
             }
         }
+
+        for view in outOfBoundsViewsToForceTouches {
+            let convertedPoint = view.convertPoint(point, fromView: self)
+            if view.pointInside(convertedPoint, withEvent: event) {
+                return true
+            }
+        }
+
         return pointInside
     }
 }
 
 extension UIViewController {
-    
+
     var toastView: ToastView? {
         get {
             var toast = objc_getAssociatedObject(self, &TostableKeys.ToastViewKey) as? ToastView

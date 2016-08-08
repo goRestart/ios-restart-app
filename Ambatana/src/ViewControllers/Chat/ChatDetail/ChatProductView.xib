@@ -16,13 +16,13 @@
                     <rect key="frame" x="0.0" y="0.0" width="600" height="97"/>
                     <subviews>
                         <button contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tXA-rl-mNl" userLabel="ProductButton">
-                            <rect key="frame" x="307.5" y="0.0" width="292.5" height="97"/>
+                            <rect key="frame" x="307" y="0.0" width="293" height="97"/>
                             <connections>
                                 <action selector="productButtonPressed:" destination="iN0-l3-epB" eventType="touchUpInside" id="7Lh-4c-Qof"/>
                             </connections>
                         </button>
                         <button contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VgI-GQ-SIV" userLabel="UserButton">
-                            <rect key="frame" x="0.0" y="0.0" width="292.5" height="97"/>
+                            <rect key="frame" x="0.0" y="0.0" width="293" height="97"/>
                             <connections>
                                 <action selector="userButtonPressed:" destination="iN0-l3-epB" eventType="touchUpInside" id="AhI-wF-UwS"/>
                             </connections>
@@ -66,7 +66,7 @@
                                 <constraint firstItem="29i-nA-Bwk" firstAttribute="leading" secondItem="if8-xz-rXM" secondAttribute="leading" priority="900" id="x7L-9V-Npg"/>
                             </constraints>
                         </view>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0ey-O1-8EX" userLabel="Review Button">
+                        <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0ey-O1-8EX" userLabel="Review Button">
                             <rect key="frame" x="95" y="34" width="78" height="30"/>
                             <color key="backgroundColor" red="1" green="0.74901960784313726" blue="0.21176470588235294" alpha="1" colorSpace="calibratedRGB"/>
                             <constraints>

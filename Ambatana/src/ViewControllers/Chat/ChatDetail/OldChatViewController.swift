@@ -306,7 +306,13 @@ class OldChatViewController: SLKTextViewController {
             break
         }
 
-        productView.showReviewButton(viewModel.userIsReviewable)
+        showReviewButton()
+    }
+
+    private func showReviewButton() {
+        productView.showReviewButton(viewModel.userIsReviewable, withTooltip: viewModel.shouldShowUserReviewTooltip)
+        guard let tooltip = productView.userRatingTooltip else { return }
+        navigationController?.navigationBar.forceTouchesFor(tooltip)
     }
     
     private func showActivityIndicator(show: Bool) {
@@ -504,7 +510,10 @@ extension OldChatViewController: OldChatViewModelDelegate {
     
     func vmShowOptionsList(options: [String], actions: [() -> Void]) {
         guard options.count == actions.count else { return }
-        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
+        var alert = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
+        
+        let pop = alert.popoverPresentationController!
+        pop.barButtonItem = self.navigationItem.rightBarButtonItem
         
         for i in 0..<options.count {
             alert.addAction(UIAlertAction(title: options[i], style: .Default, handler: { _ in actions[i]() } ))
@@ -551,7 +560,7 @@ extension OldChatViewController: OldChatViewModelDelegate {
     }
 
     func vmUpdateUserIsReadyToReview() {
-        productView.showReviewButton(viewModel.userIsReviewable)
+        showReviewButton()
     }
 }
 
@@ -663,6 +672,10 @@ extension OldChatViewController: ChatProductViewDelegate {
 
     func productViewDidTapUserReview() {
         viewModel.reviewUserPressed()
+    }
+
+    func productViewDidCloseUserReviewTooltip() {
+        viewModel.closeReviewTooltipPressed()
     }
 }
 

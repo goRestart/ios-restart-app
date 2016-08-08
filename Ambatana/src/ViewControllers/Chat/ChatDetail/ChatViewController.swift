@@ -367,10 +367,12 @@ extension ChatViewController {
             }
             }.addDisposableTo(disposeBag)
 
-        viewModel.userIsReviewable.asObservable().subscribeNext { [weak self] showReviewButton in
-            self?.productView.showReviewButton(showReviewButton)
-        }.addDisposableTo(disposeBag)
-        
+        Observable.combineLatest(viewModel.shouldShowReviewButton.asObservable(),
+        viewModel.userReviewTooltipVisible.asObservable()) { $0 }
+            .subscribeNext { [weak self] (showReviewButton, showReviewTooltip) in
+                self?.productView.showReviewButton(showReviewButton, withTooltip: showReviewTooltip)
+            }.addDisposableTo(disposeBag)
+
         viewModel.messages.changesObservable.subscribeNext { [weak self] change in
             switch change {
             case .Composite(let changes) where changes.count > 2:
@@ -694,5 +696,9 @@ extension ChatViewController: ChatProductViewDelegate {
 
     func productViewDidTapUserReview() {
         viewModel.reviewUserPressed()
+    }
+
+    func productViewDidCloseUserReviewTooltip() {
+        viewModel.closeReviewTooltipPressed()
     }
 }

@@ -12,4 +12,9 @@ class TrendingSearchCell: UITableViewCell, ReusableCell {
     @IBOutlet weak var trendingText: UILabel!
 
     static let cellHeight: CGFloat = 44
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        backgroundColor = UIColor.clearColor()
+    }
 }

@@ -26,6 +26,7 @@ protocol ProductViewModelDelegate: class, BaseViewModelDelegate {
     func vmOpenCommercialDisplay(displayVM: CommercialDisplayViewModel)
     func vmAskForRating()
     func vmShowOnboarding()
+    func vmShowProductDelegateActionSheet(cancelLabel: String, actions: [UIAction])
 }
 
 
@@ -588,7 +589,7 @@ extension ProductViewModel {
             if isDeletable {
                 actions.append(strongSelf.buildDeleteButton())
             }
-            strongSelf.delegate?.vmShowActionSheet(LGLocalizedString.commonCancel, actions: actions)
+            strongSelf.delegate?.vmShowProductDelegateActionSheet(LGLocalizedString.commonCancel, actions: actions)
             })
     }
 

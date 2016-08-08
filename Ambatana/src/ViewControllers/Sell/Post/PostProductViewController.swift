@@ -334,7 +334,8 @@ extension PostProductViewController: PostProductGalleryViewDelegate {
     }
 
     func productGalleryShowActionSheet(cancelAction: UIAction, actions: [UIAction]) {
-        vmShowActionSheet(cancelAction, actions: actions)
+        showActionSheet(cancelAction, actions: actions, sourceView: galleryView.albumButton,
+                        sourceRect: galleryView.albumButton.frame, completion: nil)
     }
 }
 
