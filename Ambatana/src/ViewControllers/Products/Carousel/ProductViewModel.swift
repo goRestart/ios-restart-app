@@ -477,7 +477,7 @@ extension ProductViewModel {
 
     func sendSticker(sticker: Sticker) {
         // Optimistic behavior
-        let message = LocalMessage(sticker: sticker)
+        let message = LocalMessage(sticker: sticker, userId: myUserRepository.myUser?.objectId)
         let messageView = chatViewMessageAdapter.adapt(message)
         directChatMessages.insert(messageView, atIndex: 0)
 

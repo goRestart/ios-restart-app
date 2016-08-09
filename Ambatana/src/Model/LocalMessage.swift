@@ -17,11 +17,11 @@ struct LocalMessage: Message {
     let isRead: Bool
     let warningStatus: MessageWarningStatus
 
-    init(sticker: Sticker) {
+    init(sticker: Sticker, userId: String?) {
         self.objectId = NSDate().description
         self.text = sticker.name
         self.type = .Sticker
-        self.userId = ""
+        self.userId = userId ?? ""
         self.createdAt = NSDate()
         self.isRead = false
         self.warningStatus = .Normal

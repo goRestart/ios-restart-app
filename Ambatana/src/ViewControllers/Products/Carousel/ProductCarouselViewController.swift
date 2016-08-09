@@ -233,7 +233,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         productStatusLabel.textColor = UIColor.soldColor
         productStatusLabel.font = UIFont.productStatusSoldFont
 
-        setupMessagesTable()
+        setupDirectMessagesAndStickers()
     }
     
     private func setupNavigationBar() {
@@ -733,12 +733,19 @@ extension ProductCarouselViewController: UICollectionViewDataSource, UICollectio
 }
 
 
-// MARK: > Messages Tableview
+// MARK: > Direct messages and stickers
 
 extension ProductCarouselViewController: UITableViewDataSource, UITableViewDelegate {
 
-    func setupMessagesTable() {
+    func setupDirectMessagesAndStickers() {
+        ChatCellDrawerFactory.registerCells(directChatTable)
         directChatTable.transform = CGAffineTransformMake(1, 0, 0, -1, 0, 0)
+        directChatTable.rowHeight = UITableViewAutomaticDimension
+        directChatTable.estimatedRowHeight = 140
+
+        stickersButton.rx_tap.bindNext { [weak self] in
+            self?.viewModel.currentProductViewModel?.stickersButton()
+        }.addDisposableTo(disposeBag)
     }
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -819,6 +826,7 @@ extension ProductCarouselViewController: ProductViewModelDelegate {
     }
 
     func vmOpenStickersSelector(stickers: [Sticker]) {
+        viewModel.currentProductViewModel?.sendSticker(stickers[0])
         //TODO: IMPLEMENT
     }
 }
