@@ -178,6 +178,24 @@
 // When a user asked to delete his account (disclaimer message)
 "chat_deleted_disclaimer_wo_name" = "You can't continue this conversation because this account is no longer active.";
 
+// Express chat, don't miss out label text
+"chat_express_dont_miss_label" = "Don't miss out on these bargains";
+
+// Express chat, contact these sellers label text
+"chat_express_contact_sellers_label" = "Contact these sellers before other buyers snatch them up!";
+
+// Express chat, i'm interested text
+"chat_express_text_field_text" = "Hi, I'm interested!";
+
+// Express chat contact 1 seller button title
+"chat_express_contact_one_button_text" = "Contact 1 seller";
+
+// Express chat contact several sellers button title
+"chat_express_contact_various_button_text" = "Contact %@ sellers";
+
+// Express chat don't ask me again button title
+"chat_express_dont_ask_again_button" = "Don't ask me again";
+
 // When a user asked to delete his account (state)
 "chat_list_account_deleted" = "Deleted account";
 
@@ -840,6 +858,9 @@
 // product chat with the seller button title
 "product_chat_with_seller_button" = "Chat with the seller";
 
+// product chat with the seller button title including seller name
+"product_chat_with_seller_name_button" = "Chat with %@";
+
 // product chat with the seller button title send ok
 "product_chat_with_seller_send_ok" = "Your chat has been sent!";
 
@@ -950,6 +971,9 @@
 
 // Tooltip to see more info on snapchat, just the "to see more info" text
 "product_more_info_tooltip_part_2" = "%@ to see more info";
+
+// Button to open the More Info view tapping or dragging it
+"product_more_info_open_button" = "MORE INFO";
 
 // Text when price is 0$ 
 "product_negotiable_price" = "Negotiable";
