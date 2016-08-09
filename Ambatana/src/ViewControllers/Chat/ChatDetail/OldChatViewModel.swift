@@ -186,6 +186,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     }
 
     let isSendingMessage = Variable<Bool>(false)
+    var relatedProducts = Variable<[Product]>([])
 
     var userBlockedDisclaimerMessage: ChatViewMessage {
         return chatViewMessageAdapter.createUserBlockedDisclaimerMessage(
@@ -380,6 +381,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     
     override func didBecomeActive(firstTime: Bool) {
         if firstTime {
+            retrieveRelatedProducts()
             checkShowRelatedProducts()
         }
 
@@ -396,6 +398,13 @@ public class OldChatViewModel: BaseViewModel, Paginable {
             retrieveInterlocutorInfo()
             loadStickersTooltip()
         }
+    }
+
+    func wentBack() {
+
+        guard !relatedProducts.value.isEmpty else { return }
+        // TODO: check haven't shown Express chat for this conversation
+        tabNavigator?.openExpressChat(relatedProducts.value)
     }
     
     func showDisclaimerMessage() {
@@ -1149,6 +1158,20 @@ extension MessageType {
             return .Offer
         case .Sticker:
             return .Sticker
+        }
+    }
+}
+
+
+// MARK: - Related products for express chat
+
+extension OldChatViewModel {
+    private func retrieveRelatedProducts() {
+        guard let productId = product.objectId else { return }
+        productRepository.index(productId: productId, params: RetrieveProductsParams()) { result in
+            if let value = result.value {
+                self.relatedProducts.value = value
+            }
         }
     }
 }

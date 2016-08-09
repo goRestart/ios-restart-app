@@ -80,6 +80,10 @@ extension TabCoordinator: TabNavigator {
             openProduct(chatProduct: chatProduct, user: user, thumbnailImage: thumbnailImage, originFrame: originFrame)
         }
     }
+
+    func openExpressChat(data: [Product]) {
+        
+    }
 }
 
 private extension TabCoordinator {

@@ -23,7 +23,12 @@ enum ProductDetailData {
                      thumbnailImage: UIImage?, originFrame: CGRect?)
 }
 
+enum BackAction {
+    case ExpressChat(products: [Product])
+}
+
 protocol TabNavigator: class {
     func openUser(data: UserDetailData)
     func openProduct(data: ProductDetailData)
+    func openExpressChat(data: [Product])
 }

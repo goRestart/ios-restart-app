@@ -104,6 +104,14 @@ class OldChatViewController: SLKTextViewController {
         viewModel.didAppear()
     }
 
+    override func didMoveToParentViewController(parent: UIViewController?) {
+        super.didMoveToParentViewController(parent)
+        if parent == nil {
+            print("This VC is 'will' be popped. i.e. the back button was pressed.")
+            viewModel.wentBack()
+        }
+    }
+
     override func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
         guard !text.hasEmojis() else { return false }
         return super.textView(textView, shouldChangeTextInRange: range, replacementText: text)
