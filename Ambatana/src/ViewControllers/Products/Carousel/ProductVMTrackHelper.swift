@@ -294,6 +294,12 @@ extension ProductVMTrackHelper {
     }
 
     func trackDirectStickerSent() {
-        //TODO: IMPLEMENT
+        let messageType = EventParameterMessageType.Sticker
+        let askQuestionEvent = TrackerEvent.productAskQuestion(product, messageType: messageType,
+                                                               typePage: .ProductDetail)
+        tracker.trackEvent(askQuestionEvent)
+        let messageSentEvent = TrackerEvent.userMessageSent(product, userTo: product.user,
+                                                            messageType: messageType, isQuickAnswer: .False)
+        tracker.trackEvent(messageSentEvent)
     }
 }
