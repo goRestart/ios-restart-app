@@ -573,6 +573,8 @@
 		C74234071D5A01440082D1CD /* LocalMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74234051D59EC680082D1CD /* LocalMessage.swift */; };
 		C74234091D5A028B0082D1CD /* ProductVMTrackHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74234081D5A028B0082D1CD /* ProductVMTrackHelper.swift */; };
 		C742340A1D5A028B0082D1CD /* ProductVMTrackHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74234081D5A028B0082D1CD /* ProductVMTrackHelper.swift */; };
+		C742340C1D5A132D0082D1CD /* UITableView+Changes.swift in Sources */ = {isa = PBXBuildFile; fileRef = C742340B1D5A132D0082D1CD /* UITableView+Changes.swift */; };
+		C742340D1D5A132D0082D1CD /* UITableView+Changes.swift in Sources */ = {isa = PBXBuildFile; fileRef = C742340B1D5A132D0082D1CD /* UITableView+Changes.swift */; };
 		C749316E1D34FD0200E117F1 /* RateUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C749316C1D34FD0200E117F1 /* RateUserViewController.swift */; };
 		C749316F1D34FD0200E117F1 /* RateUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C749316C1D34FD0200E117F1 /* RateUserViewController.swift */; };
 		C74931701D34FD0200E117F1 /* RateUserViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C749316D1D34FD0200E117F1 /* RateUserViewController.xib */; };
@@ -1378,6 +1380,7 @@
 		C73C163A1D06C1B500DFC67D /* TrendingSearchCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TrendingSearchCell.xib; sourceTree = "<group>"; };
 		C74234051D59EC680082D1CD /* LocalMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalMessage.swift; sourceTree = "<group>"; };
 		C74234081D5A028B0082D1CD /* ProductVMTrackHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductVMTrackHelper.swift; sourceTree = "<group>"; };
+		C742340B1D5A132D0082D1CD /* UITableView+Changes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITableView+Changes.swift"; sourceTree = "<group>"; };
 		C749316C1D34FD0200E117F1 /* RateUserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RateUserViewController.swift; sourceTree = "<group>"; };
 		C749316D1D34FD0200E117F1 /* RateUserViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RateUserViewController.xib; sourceTree = "<group>"; };
 		C74931721D351E8300E117F1 /* RateUserViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RateUserViewModel.swift; sourceTree = "<group>"; };
@@ -2454,6 +2457,7 @@
 				6A5E19D91D548F5400F92692 /* UIView+Geometry.swift */,
 				6A5E19DA1D548F5400F92692 /* UIViewController+Alert.swift */,
 				6A5E19DB1D548F5400F92692 /* UIViewController+LG.swift */,
+				C742340B1D5A132D0082D1CD /* UITableView+Changes.swift */,
 			);
 			path = UIkitExtensions;
 			sourceTree = "<group>";
@@ -4137,6 +4141,7 @@
 				2EF4E3B31D3688AB00A09DFD /* LGConfigRetrieveService.swift in Sources */,
 				2E6B6E3D1D2BC0A500C10A20 /* PostIncentiviserItem.swift in Sources */,
 				2E4B359C1CC90A9500B8CB64 /* RelatedProductListRequester.swift in Sources */,
+				C742340C1D5A132D0082D1CD /* UITableView+Changes.swift in Sources */,
 				C7AB4EC61CD39C67007B573D /* NotificationsManager.swift in Sources */,
 				C7F4CBA61C92CC5A008E40D6 /* LGViewPagerPage.swift in Sources */,
 				2E373FA81D3D01AE00AC811C /* UserRatingListViewModel.swift in Sources */,
@@ -4482,6 +4487,7 @@
 				C7DB422C1C5138B500400945 /* KeyboardAnimation.swift in Sources */,
 				2E2D53E31D369B0500348D12 /* LGConfigRetrieveService.swift in Sources */,
 				2E6B6E3E1D2BCC9800C10A20 /* PostIncentiviserItem.swift in Sources */,
+				C742340D1D5A132D0082D1CD /* UITableView+Changes.swift in Sources */,
 				2E4B359D1CC90A9500B8CB64 /* RelatedProductListRequester.swift in Sources */,
 				C7AB4EC71CD39C67007B573D /* NotificationsManager.swift in Sources */,
 				C7F4CBA71C92CC5A008E40D6 /* LGViewPagerPage.swift in Sources */,

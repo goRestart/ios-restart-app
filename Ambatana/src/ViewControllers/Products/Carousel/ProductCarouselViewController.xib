@@ -95,12 +95,19 @@
                     </variation>
                 </view>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ibM-CY-XRt">
-                    <rect key="frame" x="15" y="671" width="384" height="50"/>
+                    <rect key="frame" x="15" y="671" width="319" height="50"/>
                     <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="50" id="qTj-cW-IDe"/>
                     </constraints>
                     <state key="normal" title="Button BOTTOM"/>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uPU-nT-EmU" userLabel="Stickers Button">
+                    <rect key="frame" x="349" y="671" width="50" height="50"/>
+                    <color key="backgroundColor" red="1" green="0.2470588235" blue="0.33333333329999998" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="50" id="nTj-Xz-1Ca"/>
+                    </constraints>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Bn0-dg-QsD">
                     <rect key="frame" x="15" y="611" width="384" height="50"/>
@@ -150,43 +157,48 @@
                         </mask>
                     </variation>
                 </view>
+                <tableView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="nEH-Ai-mnV" userLabel="directChatTable">
+                    <rect key="frame" x="0.0" y="0.0" width="414" height="661"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </tableView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="PDg-Ea-RE5" firstAttribute="centerY" secondItem="KRQ-9w-aXE" secondAttribute="centerY" id="76L-U7-yNP"/>
                 <constraint firstItem="PDg-Ea-RE5" firstAttribute="trailing" secondItem="KRQ-9w-aXE" secondAttribute="trailing" id="8Tm-cl-jf7"/>
                 <constraint firstItem="KRQ-9w-aXE" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="IpU-G3-HED"/>
-                <constraint firstItem="cLW-LX-KUg" firstAttribute="top" secondItem="PnK-9l-N8i" secondAttribute="bottom" constant="5" id="JoU-rv-UmM"/>
                 <constraint firstAttribute="trailing" secondItem="v46-dz-RxO" secondAttribute="trailing" id="JyA-NP-pAb"/>
                 <constraint firstAttribute="bottom" secondItem="v46-dz-RxO" secondAttribute="bottom" id="Mxb-g0-Xqa"/>
                 <constraint firstAttribute="bottom" secondItem="ibM-CY-XRt" secondAttribute="bottom" constant="15" id="Myo-3r-EON"/>
+                <constraint firstAttribute="trailing" secondItem="uPU-nT-EmU" secondAttribute="trailing" constant="15" id="Nmx-a2-PG1"/>
                 <constraint firstItem="PnK-9l-N8i" firstAttribute="height" secondItem="KRQ-9w-aXE" secondAttribute="height" multiplier="1:4" id="Oi9-HP-0Ex"/>
                 <constraint firstAttribute="trailing" secondItem="Bn0-dg-QsD" secondAttribute="trailing" constant="15" id="QNg-JR-SvF"/>
                 <constraint firstItem="Bn0-dg-QsD" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="15" id="SjC-8f-ffg"/>
+                <constraint firstItem="ibM-CY-XRt" firstAttribute="top" secondItem="nEH-Ai-mnV" secondAttribute="bottom" constant="10" id="TVQ-LJ-Kbz"/>
                 <constraint firstAttribute="bottom" secondItem="KRQ-9w-aXE" secondAttribute="bottom" id="U9j-sq-BMG"/>
                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="cLW-LX-KUg" secondAttribute="trailing" constant="20" id="UOw-5F-B5z"/>
                 <constraint firstItem="PDg-Ea-RE5" firstAttribute="leading" secondItem="KRQ-9w-aXE" secondAttribute="leading" id="V4K-zp-DQQ"/>
                 <constraint firstItem="cLW-LX-KUg" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="80" id="VYu-gQ-F7J"/>
                 <constraint firstItem="v46-dz-RxO" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="Vdl-Ex-mGL"/>
                 <constraint firstItem="v46-dz-RxO" firstAttribute="height" secondItem="KRQ-9w-aXE" secondAttribute="height" multiplier="1:4" id="Z1w-E2-gHK"/>
+                <constraint firstItem="nEH-Ai-mnV" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="bGX-Mu-bQ7"/>
                 <constraint firstItem="PnK-9l-N8i" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="eCG-dd-JA4"/>
                 <constraint firstAttribute="trailing" secondItem="KRQ-9w-aXE" secondAttribute="trailing" id="ehR-ym-8FZ"/>
                 <constraint firstItem="ibM-CY-XRt" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="15" id="f81-FM-2O7"/>
                 <constraint firstItem="ibM-CY-XRt" firstAttribute="top" secondItem="Bn0-dg-QsD" secondAttribute="bottom" constant="10" id="hrM-0C-4HM"/>
                 <constraint firstItem="cLW-LX-KUg" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="iKD-DZ-mFm"/>
-                <constraint firstAttribute="trailing" secondItem="ibM-CY-XRt" secondAttribute="trailing" constant="15" id="lIi-XS-xhC"/>
+                <constraint firstItem="uPU-nT-EmU" firstAttribute="top" secondItem="ibM-CY-XRt" secondAttribute="top" id="j0C-20-hOj"/>
+                <constraint firstItem="uPU-nT-EmU" firstAttribute="leading" secondItem="ibM-CY-XRt" secondAttribute="trailing" constant="15" id="jmk-QU-sju"/>
+                <constraint firstAttribute="trailing" secondItem="nEH-Ai-mnV" secondAttribute="trailing" id="kDw-uK-k9I"/>
                 <constraint firstItem="cLW-LX-KUg" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" id="lXW-NY-m3F"/>
                 <constraint firstItem="KRQ-9w-aXE" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="mFD-eh-LD5"/>
+                <constraint firstItem="uPU-nT-EmU" firstAttribute="bottom" secondItem="ibM-CY-XRt" secondAttribute="bottom" id="pYN-MU-Aoz"/>
                 <constraint firstAttribute="trailing" secondItem="PnK-9l-N8i" secondAttribute="trailing" id="qdB-aa-b70"/>
                 <constraint firstItem="PnK-9l-N8i" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="sHR-tM-Laf"/>
+                <constraint firstItem="nEH-Ai-mnV" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="y74-dp-ujo"/>
             </constraints>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
-            <variation key="default">
-                <mask key="constraints">
-                    <exclude reference="JoU-rv-UmM"/>
-                </mask>
-            </variation>
-            <point key="canvasLocation" x="-506.5" y="518.5"/>
+            <point key="canvasLocation" x="-507" y="518"/>
         </view>
     </objects>
     <resources>

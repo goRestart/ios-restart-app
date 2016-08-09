@@ -24,9 +24,20 @@ class ProductVMTrackHelper {
 }
 
 
-// MARK: - ProductViewModel share trackings extension
+// MARK: - ProductViewModel trackings extension
 
 extension ProductViewModel {
+
+    func trackVisit(visitUserAction: ProductVisitUserAction) {
+        trackHelper.trackVisit(visitUserAction)
+    }
+
+    func trackVisitMoreInfo() {
+        trackHelper.trackVisitMoreInfo()
+    }
+
+    // MARK: Share
+
     func shareInEmail(buttonPosition: EventParameterButtonPosition) {
         trackHelper.shareInEmail(buttonPosition)
     }
