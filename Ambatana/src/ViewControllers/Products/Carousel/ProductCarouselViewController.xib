@@ -12,6 +12,7 @@
                 <outlet property="buttonBottom" destination="ibM-CY-XRt" id="VOT-6P-Mmb"/>
                 <outlet property="buttonTop" destination="Bn0-dg-QsD" id="A6s-ch-ER6"/>
                 <outlet property="collectionView" destination="KRQ-9w-aXE" id="bJ1-9F-zMz"/>
+                <outlet property="directChatTable" destination="nEH-Ai-mnV" id="EK7-p6-rfs"/>
                 <outlet property="flowLayout" destination="9ON-PJ-ZOJ" id="n97-2q-ck7"/>
                 <outlet property="gradientShadowBottomView" destination="v46-dz-RxO" id="SOd-x8-W3i"/>
                 <outlet property="gradientShadowView" destination="PnK-9l-N8i" id="Cd4-V7-udw"/>
@@ -23,6 +24,9 @@
                 <outlet property="productStatusLabel" destination="yoR-Fx-XEv" id="rdF-DT-xux"/>
                 <outlet property="productStatusView" destination="cLW-LX-KUg" id="tuY-O4-wBO"/>
                 <outlet property="productTitleLabel" destination="J2b-fe-UUV" id="ODU-ET-wtm"/>
+                <outlet property="stickersButton" destination="uPU-nT-EmU" id="wwk-6v-4qa"/>
+                <outlet property="stickersButtonTrailing" destination="Nmx-a2-PG1" id="cJG-JN-BZz"/>
+                <outlet property="stickersButtonWidth" destination="nTj-Xz-1Ca" id="7fb-bq-iJp"/>
                 <outlet property="view" destination="iN0-l3-epB" id="2pA-g3-vP2"/>
             </connections>
         </placeholder>
@@ -102,12 +106,12 @@
                     </constraints>
                     <state key="normal" title="Button BOTTOM"/>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uPU-nT-EmU" userLabel="Stickers Button">
-                    <rect key="frame" x="349" y="671" width="50" height="50"/>
-                    <color key="backgroundColor" red="1" green="0.2470588235" blue="0.33333333329999998" alpha="1" colorSpace="calibratedRGB"/>
+                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uPU-nT-EmU" userLabel="Stickers Button">
+                    <rect key="frame" x="350" y="670" width="48" height="51"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="50" id="nTj-Xz-1Ca"/>
                     </constraints>
+                    <state key="normal" image="ic_stickers_product"/>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Bn0-dg-QsD">
                     <rect key="frame" x="15" y="611" width="384" height="50"/>
@@ -203,5 +207,6 @@
     </objects>
     <resources>
         <image name="ic_dollar_sold" width="12" height="13"/>
+        <image name="ic_stickers_product" width="48" height="51"/>
     </resources>
 </document>

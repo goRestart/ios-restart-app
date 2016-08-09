@@ -374,7 +374,7 @@ class ProductViewModel: BaseViewModel {
     }
 
     private func refreshDirectChats() {
-        stickersRepository.show(typeFilter: .Product) { [weak self] result in
+        stickersRepository.show(typeFilter: .Chat) { [weak self] result in
             guard let stickers = result.value else { return }
             self?.selectableStickers = stickers
             self?.stickersButtonEnabled.value = !stickers.isEmpty

@@ -95,7 +95,9 @@ class ProductCarouselCell: UICollectionViewCell {
     
     private func startIndex() -> Int {
         let midIndex = collectionView.numberOfItemsInSection(0)/2
-        return midIndex - midIndex % numberOfImages()
+        let numImages = numberOfImages()
+        guard midIndex > 0 && numImages > 0 else { return 0 }
+        return midIndex - midIndex % numImages
     }
 }
 
@@ -137,7 +139,9 @@ extension ProductCarouselCell: UICollectionViewDelegate, UICollectionViewDataSou
 
     func scrollViewDidScroll(scrollView: UIScrollView) {
         let pageSize = collectionView.frame.size.height;
-        let page = Int(round(collectionView.contentOffset.y / pageSize)) % numberOfImages()
+        let numImages = numberOfImages()
+        guard numImages > 0 else { return }
+        let page = Int(round(collectionView.contentOffset.y / pageSize)) % numImages
         if page != currentPage {
             currentPage = page
             delegate?.didScrollToPage(page)

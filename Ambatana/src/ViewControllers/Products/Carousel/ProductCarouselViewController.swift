@@ -41,6 +41,11 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     @IBOutlet weak var moreInfoHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var productInfoCenterConstraint: NSLayoutConstraint!
     
+    @IBOutlet weak var directChatTable: UITableView!
+    @IBOutlet weak var stickersButton: UIButton!
+    @IBOutlet weak var stickersButtonWidth: NSLayoutConstraint!
+    @IBOutlet weak var stickersButtonTrailing: NSLayoutConstraint!
+
     private let userView: UserView
     private let fullScreenAvatarEffectView: UIVisualEffectView
     private let fullScreenAvatarView: UIImageView
@@ -57,9 +62,9 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     private let pageControl: UIPageControl
     private let pageControlWidth: CGFloat = 18
     private let pageControlMargin: CGFloat = 18
-    private let userViewMargin: CGFloat = 15
-    private let moreInfoDragMargin: CGFloat = 15
+    private let itemsMargin: CGFloat = 15
     private let moreInfoViewHeight: CGFloat = 50
+    private let stickersButtonVisibleWidth: CGFloat = 50
     private let moreInfoDragMinimumSeparation: CGFloat = 100
     private let moreInfoOpeningTopMargin: CGFloat = 86
     private let moreInfoTooltipMargin: CGFloat = -10
@@ -177,12 +182,12 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
 
         userView.delegate = self
         let leftMargin = NSLayoutConstraint(item: userView, attribute: .Leading, relatedBy: .Equal, toItem: view,
-                                            attribute: .Leading, multiplier: 1, constant: userViewMargin)
+                                            attribute: .Leading, multiplier: 1, constant: itemsMargin)
         let bottomMargin = NSLayoutConstraint(item: userView, attribute: .Bottom, relatedBy: .Equal, toItem: view,
-                                              attribute: .Bottom, multiplier: 1, constant: -userViewMargin)
+                                              attribute: .Bottom, multiplier: 1, constant: -itemsMargin)
         let rightMargin = NSLayoutConstraint(item: userView, attribute: .Trailing, relatedBy: .LessThanOrEqual,
                                              toItem: view, attribute: .Trailing, multiplier: 1,
-                                             constant: -userViewMargin)
+                                             constant: -itemsMargin)
         let height = NSLayoutConstraint(item: userView, attribute: .Height, relatedBy: .Equal, toItem: nil,
                                          attribute: .NotAnAttribute, multiplier: 1, constant: 50)
         view.addConstraints([leftMargin, rightMargin, bottomMargin, height])
@@ -193,7 +198,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         let topCommercial = NSLayoutConstraint(item: commercialButton, attribute: .Top, relatedBy: .Equal, toItem: view,
                                      attribute: .Top, multiplier: 1, constant: 80)
         let rightCommercial = NSLayoutConstraint(item: commercialButton, attribute: .Trailing, relatedBy: .Equal, toItem: view,
-                                       attribute: .Trailing, multiplier: 1, constant: -userViewMargin)
+                                       attribute: .Trailing, multiplier: 1, constant: -itemsMargin)
         let heightCommercial = NSLayoutConstraint(item: commercialButton, attribute: .Height, relatedBy: .Equal, toItem: nil,
                                         attribute: .NotAnAttribute, multiplier: 1, constant: 32)
         view.addConstraints([topCommercial, rightCommercial, heightCommercial])
@@ -227,6 +232,8 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         productStatusView.layer.cornerRadius = productStatusView.height/2
         productStatusLabel.textColor = UIColor.soldColor
         productStatusLabel.font = UIFont.productStatusSoldFont
+
+        setupMessagesTable()
     }
     
     private func setupNavigationBar() {
@@ -271,6 +278,8 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         alphaSignal.bindTo(moreInfoView.rx_alpha).addDisposableTo(disposeBag)
         alphaSignal.bindTo(productStatusView.rx_alpha).addDisposableTo(disposeBag)
         alphaSignal.bindTo(commercialButton.rx_alpha).addDisposableTo(disposeBag)
+        alphaSignal.bindTo(stickersButton.rx_alpha).addDisposableTo(disposeBag)
+        alphaSignal.bindTo(directChatTable.rx_alpha).addDisposableTo(disposeBag)
         alphaSignal.bindNext{ [weak self] alpha in
             self?.moreInfoTooltip?.alpha = alpha
         }.addDisposableTo(disposeBag)
@@ -417,10 +426,10 @@ extension ProductCarouselViewController {
     func moreInfoDragged(gesture: UIPanGestureRecognizer) {
         
         let topLimit = view.height/2 - max(moreInfoDragMinimumSeparation, pageControl.bottom)
-            - moreInfoView.height/2 - moreInfoDragMargin
+            - moreInfoView.height/2 - itemsMargin
         
         let bottomLimit = min(view.height-moreInfoDragMinimumSeparation, userView.top) - view.height/2
-            - moreInfoView.height/2 - moreInfoDragMargin
+            - moreInfoView.height/2 - itemsMargin
         
         guard -topLimit < bottomLimit else { return }
         
@@ -453,6 +462,7 @@ extension ProductCarouselViewController {
         refreshMoreInfoView(viewModel)
         refreshProductStatusLabel(viewModel)
         refreshCommercialVideoButton(viewModel)
+        refreshDirectChatElements(viewModel)
     }
 
     private func setupUserView(viewModel: ProductViewModel) {
@@ -506,9 +516,9 @@ extension ProductCarouselViewController {
     
     private func refreshBottomButtons(viewModel: ProductViewModel) {
         
-        let userViewMarginAboveBottomButton = view.frame.height - buttonBottom.frame.origin.y + userViewMargin
-        let userViewMarginAboveTopButton = view.frame.height - buttonTop.frame.origin.y + userViewMargin
-        let userViewMarginWithoutButtons = userViewMargin
+        let userViewMarginAboveBottomButton = view.frame.height - buttonBottom.frame.origin.y + itemsMargin
+        let userViewMarginAboveTopButton = view.frame.height - buttonTop.frame.origin.y + itemsMargin
+        let userViewMarginWithoutButtons = itemsMargin
         
         guard buttonBottom.frame.origin.y > 0 else { return }
         
@@ -584,6 +594,19 @@ extension ProductCarouselViewController {
             .innerButton
             .rx_tap.bindNext { viewModel.openVideo() }
             .addDisposableTo(activeDisposeBag)
+    }
+
+    private func refreshDirectChatElements(viewModel: ProductViewModel) {
+        viewModel.stickersButtonEnabled.asObservable().bindNext { [weak self] enabled in
+            self?.stickersButton.hidden = !enabled
+            self?.stickersButtonWidth.constant = enabled ? self?.stickersButtonVisibleWidth ?? 0 : 0
+            self?.stickersButtonTrailing.constant = enabled ? self?.itemsMargin ?? 0 : 0
+        }.addDisposableTo(activeDisposeBag)
+
+        viewModel.directChatMessages.changesObservable.bindNext { [weak self] _ in
+            self?.directChatTable.reloadData()
+        }.addDisposableTo(disposeBag)
+        directChatTable.reloadData()
     }
 }
 
@@ -706,6 +729,33 @@ extension ProductCarouselViewController: UICollectionViewDataSource, UICollectio
 
     func scrollViewDidScroll(scrollView: UIScrollView) {
         collectionContentOffset.value = scrollView.contentOffset
+    }
+}
+
+
+// MARK: > Messages Tableview
+
+extension ProductCarouselViewController: UITableViewDataSource, UITableViewDelegate {
+
+    func setupMessagesTable() {
+        directChatTable.transform = CGAffineTransformMake(1, 0, 0, -1, 0, 0)
+    }
+
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return viewModel.currentProductViewModel?.directChatMessages.value.count ?? 0
+    }
+
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        guard let messages = viewModel.currentProductViewModel?.directChatMessages.value else { return UITableViewCell() }
+        guard 0..<messages.count ~= indexPath.row else { return UITableViewCell() }
+        let message = messages[indexPath.row]
+        let drawer = ChatCellDrawerFactory.drawerForMessage(message)
+        let cell = drawer.cell(tableView, atIndexPath: indexPath)
+
+        drawer.draw(cell, message: message, delegate: self)
+        cell.transform = tableView.transform
+
+        return cell
     }
 }
 
