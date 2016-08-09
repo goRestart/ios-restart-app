@@ -11,6 +11,7 @@ import FBSDKShareKit
 import LGCoreKit
 import Result
 import RxSwift
+import CollectionVariable
 
 
 protocol ProductViewModelDelegate: class, BaseViewModelDelegate {
@@ -20,6 +21,8 @@ protocol ProductViewModelDelegate: class, BaseViewModelDelegate {
     func vmOpenMainSignUp(signUpVM: SignUpViewModel, afterLoginAction: () -> ())
     func vmOpenChat(chatVM: OldChatViewModel)
     func vmOpenWebSocketChat(chatVM: ChatViewModel)
+
+    func vmOpenStickersSelector(stickers: [Sticker])
 
     func vmOpenPromoteProduct(promoteVM: PromoteProductViewModel)
     func vmOpenCommercialDisplay(displayVM: CommercialDisplayViewModel)
@@ -102,15 +105,19 @@ class ProductViewModel: BaseViewModel {
 
     let socialMessage = Variable<SocialMessage?>(nil)
 
+    let directChatMessages = CollectionVariable<ChatViewMessage>([])
+
     // Repository, helpers & tracker
+    let trackHelper: ProductVMTrackHelper
     private let myUserRepository: MyUserRepository
     private let productRepository: ProductRepository
     private let commercializerRepository: CommercializerRepository
     private let chatRepository: OldChatRepository
     private let chatWebSocketRepository: ChatRepository
+    private let stickersRepository: StickersRepository
     private let countryHelper: CountryHelper
-    private let tracker: Tracker
     private let locationManager: LocationManager
+    private let chatViewMessageAdapter: ChatViewMessageAdapter
 
     // Delegate
     weak var delegate: ProductViewModelDelegate?
@@ -146,12 +153,14 @@ class ProductViewModel: BaseViewModel {
     let productHasReadyCommercials = Variable<Bool>(false)
     var commercializerAvailableTemplatesCount: Int? = nil
 
-    let alreadyHasChats = Variable<Bool>(false)
     let askQuestionButtonTitle = Variable<String>(LGLocalizedString.productAskAQuestionButton)
     let chatWithSellerButtonTitle = Variable<String>(LGLocalizedString.productChatWithSellerButton)
     let loadingProductChats = Variable<Bool>(false)
 
     let statsViewVisible = Variable<Bool>(false)
+
+    let stickersButtonEnabled = Variable<Bool>(false)
+    private var selectableStickers: [Sticker] = []
 
 
     // Rx
@@ -166,15 +175,16 @@ class ProductViewModel: BaseViewModel {
         let commercializerRepository = Core.commercializerRepository
         let chatRepository = Core.oldChatRepository
         let countryHelper = Core.countryHelper
-        let tracker = TrackerProxy.sharedInstance
         let chatWebSocketRepository = Core.chatRepository
+        let stickersRepository = Core.stickersRepository
         let locationManager = Core.locationManager
         
         let product = productRepository.build(fromChatproduct: product, chatInterlocutor: user)
         
         self.init(myUserRepository: myUserRepository, productRepository: productRepository,
                   commercializerRepository: commercializerRepository, chatRepository: chatRepository,
-                  chatWebSocketRepository: chatWebSocketRepository, locationManager: locationManager, countryHelper: countryHelper, tracker: tracker,
+                  chatWebSocketRepository: chatWebSocketRepository, stickersRepository: stickersRepository,
+                  locationManager: locationManager, countryHelper: countryHelper,
                   product: product, thumbnailImage: thumbnailImage, tabNavigator: tabNavigator)
         
         syncProduct(nil)
@@ -186,31 +196,34 @@ class ProductViewModel: BaseViewModel {
         let commercializerRepository = Core.commercializerRepository
         let chatRepository = Core.oldChatRepository
         let countryHelper = Core.countryHelper
-        let tracker = TrackerProxy.sharedInstance
         let chatWebSocketRepository = Core.chatRepository
+        let stickersRepository = Core.stickersRepository
         let locationManager = Core.locationManager
         self.init(myUserRepository: myUserRepository, productRepository: productRepository,
                   commercializerRepository: commercializerRepository, chatRepository: chatRepository,
-                  chatWebSocketRepository: chatWebSocketRepository, locationManager: locationManager, countryHelper: countryHelper, tracker: tracker,
+                  chatWebSocketRepository: chatWebSocketRepository, stickersRepository: stickersRepository,
+                  locationManager: locationManager, countryHelper: countryHelper,
                   product: product, thumbnailImage: thumbnailImage, tabNavigator: tabNavigator)
     }
 
     init(myUserRepository: MyUserRepository, productRepository: ProductRepository,
          commercializerRepository: CommercializerRepository, chatRepository: OldChatRepository,
-         chatWebSocketRepository: ChatRepository, locationManager: LocationManager, countryHelper: CountryHelper,
-         tracker: Tracker, product: Product, thumbnailImage: UIImage?, tabNavigator: TabNavigator?) {
+         chatWebSocketRepository: ChatRepository, stickersRepository: StickersRepository, locationManager: LocationManager,
+         countryHelper: CountryHelper, product: Product, thumbnailImage: UIImage?, tabNavigator: TabNavigator?) {
         self.product = Variable<Product>(product)
         self.thumbnailImage = thumbnailImage
         self.myUserRepository = myUserRepository
         self.productRepository = productRepository
         self.countryHelper = countryHelper
-        self.tracker = tracker
+        self.trackHelper = ProductVMTrackHelper(product: product)
         self.commercializerRepository = commercializerRepository
         self.commercializers = Variable<[Commercializer]?>(nil)
         self.chatRepository = chatRepository
         self.chatWebSocketRepository = chatWebSocketRepository
+        self.stickersRepository = stickersRepository
         self.locationManager = locationManager
         self.tabNavigator = tabNavigator
+        self.chatViewMessageAdapter = ChatViewMessageAdapter()
         
         let ownerId = product.user.objectId
         self.ownerId = ownerId
@@ -308,6 +321,7 @@ class ProductViewModel: BaseViewModel {
 
         product.asObservable().subscribeNext { [weak self] product in
             guard let strongSelf = self else { return }
+            strongSelf.trackHelper.product = product
 
             strongSelf.refreshStatus()
             
@@ -337,6 +351,10 @@ class ProductViewModel: BaseViewModel {
         myUserRepository.rx_myUser.asObservable().bindNext { [weak self] _ in
             self?.refreshStatus()
         }.addDisposableTo(disposeBag)
+
+        status.asObservable().filter{ $0 == .OtherAvailable }.bindNext { [weak self] _ in
+            self?.refreshDirectChats()
+        }.addDisposableTo(disposeBag)
     }
     
     private func distanceString(product: Product) -> String? {
@@ -352,6 +370,14 @@ class ProductViewModel: BaseViewModel {
             status.value = productStatus.setCommercializable(templates > 0 && commercializerIsAvailable)
         } else {
             status.value = productStatus
+        }
+    }
+
+    private func refreshDirectChats() {
+        stickersRepository.show(typeFilter: .Product) { [weak self] result in
+            guard let stickers = result.value else { return }
+            self?.selectableStickers = stickers
+            self?.stickersButtonEnabled.value = !stickers.isEmpty
         }
     }
 }
@@ -401,7 +427,7 @@ extension ProductViewModel {
     }
     
     func chatWithSeller() {
-        trackChatWithSeller()
+        trackHelper.trackChatWithSeller()
         openChat()
     }
 
@@ -410,17 +436,7 @@ extension ProductViewModel {
         chatRepository.sendText(message ?? LGLocalizedString.productChatDirectMessage(product.value.user.name ?? ""),
                                 product: product.value, recipient: product.value.user) { [weak self] result in
             if let _ = result.value {
-                if let product = self?.product.value {
-                    let messageType = EventParameterMessageType.Text
-                    let askQuestionEvent = TrackerEvent.productAskQuestion(product, messageType: messageType,
-                                                                           typePage: .ProductDetail)
-                    TrackerProxy.sharedInstance.trackEvent(askQuestionEvent)
-                    let messageSentEvent = TrackerEvent.userMessageSent(product, userTo: self?.product.value.user,
-                                                                        messageType: messageType, isQuickAnswer: .False)
-                    TrackerProxy.sharedInstance.trackEvent(messageSentEvent)
-                }
-                self?.alreadyHasChats.value = true
-
+                self?.trackHelper.trackDirectMessageSent()
                 self?.delegate?.vmHideLoading(LGLocalizedString.productChatWithSellerSendOk, afterMessageCompletion: nil)
             } else if let error = result.error {
                 switch error {
@@ -452,6 +468,36 @@ extension ProductViewModel {
     func reportProduct() {
         guard !product.value.isMine else { return }
         reportAction()
+    }
+
+    func stickersButton() {
+        guard !selectableStickers.isEmpty else { return }
+        delegate?.vmOpenStickersSelector(selectableStickers)
+    }
+
+    func sendSticker(sticker: Sticker) {
+        // Optimistic behavior
+        let message = LocalMessage(sticker: sticker)
+        let messageView = chatViewMessageAdapter.adapt(message)
+        directChatMessages.insert(messageView, atIndex: 0)
+
+        chatRepository.sendSticker(sticker, product: product.value, recipient: product.value.user) { [weak self] result in
+            if let _ = result.value {
+                self?.trackHelper.trackDirectStickerSent()
+            } else if let error = result.error {
+                switch error {
+                case .Forbidden:
+                    self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.productChatDirectErrorBlockedUserMessage, completion: nil)
+                case .Network, .Internal, .NotFound, .Unauthorized, .TooManyRequests, .UserNotVerified:
+                    self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.chatSendErrorGeneric, completion: nil)
+                }
+
+                //Removing in case of failure
+                if let indexToRemove = self?.directChatMessages.value.indexOf({ $0.objectId == messageView.objectId }) {
+                    self?.directChatMessages.removeAtIndex(indexToRemove)
+                }
+            }
+        }
     }
 }
 
@@ -493,10 +539,7 @@ extension ProductViewModel {
             let commercializersArr = commercializers.value ?? []
             guard let promoteProductVM = PromoteProductViewModel(productId: productId,
                                                                  themes: themes, commercializers: commercializersArr, promotionSource: .ProductDetail) else { return }
-
-            let event = TrackerEvent.commercializerStart(theProduct.objectId, typePage: .ProductDetail)
-            TrackerProxy.sharedInstance.trackEvent(event)
-
+            trackHelper.trackCommercializerStart()
             delegate?.vmOpenPromoteProduct(promoteProductVM)
         }
     }
@@ -699,7 +742,7 @@ extension ProductViewModel {
                 guard let strongSelf = self else { return }
                 if let product = result.value {
                     strongSelf.product.value = product
-                    self?.trackSaveFavoriteCompleted()
+                    self?.trackHelper.trackSaveFavoriteCompleted()
 
                     if RatingManager.sharedInstance.shouldShowRating {
                         strongSelf.delegate?.vmAskForRating()
@@ -724,7 +767,7 @@ extension ProductViewModel {
             if let _ = result.value {
                 strongSelf.isReported.value = true
                 message = LGLocalizedString.productReportedSuccessMessage
-                self?.trackReportCompleted()
+                self?.trackHelper.trackReportCompleted()
             } else if let _ = result.error {
                 message = LGLocalizedString.productReportedErrorGeneric
             }
@@ -734,7 +777,7 @@ extension ProductViewModel {
 
     private func delete() {
         delegate?.vmShowLoading(LGLocalizedString.commonLoading)
-        trackDeleteStarted()
+        trackHelper.trackDeleteStarted()
 
         productRepository.delete(product.value) { [weak self] result in
             guard let strongSelf = self else { return }
@@ -743,7 +786,7 @@ extension ProductViewModel {
             if let value = result.value {
                 strongSelf.product.value = value
                 message = LGLocalizedString.productDeleteSuccessMessage
-                self?.trackDeleteCompleted()
+                self?.trackHelper.trackDeleteCompleted()
             } else if let _ = result.error {
                 message = LGLocalizedString.productDeleteSendErrorGeneric
             }
@@ -765,7 +808,7 @@ extension ProductViewModel {
             if let value = result.value {
                 strongSelf.product.value = value
                 message = LGLocalizedString.productMarkAsSoldSuccessMessage
-                self?.trackMarkSoldCompleted(source)
+                self?.trackHelper.trackMarkSoldCompleted(source)
                 markAsSoldCompletion = {
                     if RatingManager.sharedInstance.shouldShowRating {
                         strongSelf.delegate?.vmAskForRating()
@@ -789,7 +832,7 @@ extension ProductViewModel {
             if let value = result.value {
                 strongSelf.product.value = value
                 message = LGLocalizedString.productSellAgainSuccessMessage
-                self?.trackMarkUnsoldCompleted()
+                self?.trackHelper.trackMarkUnsoldCompleted()
             } else {
                 message = LGLocalizedString.productSellAgainErrorGeneric
             }
@@ -809,177 +852,6 @@ extension ProductViewModel {
             let signUpVM = SignUpViewModel(source: source)
             delegate?.vmOpenMainSignUp(signUpVM, afterLoginAction: { action() })
         }
-    }
-}
-
-
-// MARK: - Share
-
-extension ProductViewModel {
-    func shareInEmail(buttonPosition: EventParameterButtonPosition) {
-        let trackerEvent = TrackerEvent.productShare(product.value, network: .Email,
-                                                     buttonPosition: buttonPosition, typePage: .ProductDetail)
-        tracker.trackEvent(trackerEvent)
-    }
-
-    func shareInEmailCompleted() {
-        let trackerEvent = TrackerEvent.productShareComplete(product.value, network: .Email,
-                                                             typePage: .ProductDetail)
-        tracker.trackEvent(trackerEvent)
-    }
-
-    func shareInEmailCancelled() {
-        let trackerEvent = TrackerEvent.productShareCancel(product.value, network: .Email, typePage: .ProductDetail)
-        tracker.trackEvent(trackerEvent)
-    }
-
-    func shareInFacebook(buttonPosition: EventParameterButtonPosition) {
-        let trackerEvent = TrackerEvent.productShare(product.value, network: .Facebook,
-                                                     buttonPosition: buttonPosition, typePage: .ProductDetail)
-        tracker.trackEvent(trackerEvent)
-    }
-
-    func shareInFBCompleted() {
-        let trackerEvent = TrackerEvent.productShareComplete(product.value, network: .Facebook,
-                                                             typePage: .ProductDetail)
-        tracker.trackEvent(trackerEvent)
-    }
-
-    func shareInFBCancelled() {
-        let trackerEvent = TrackerEvent.productShareCancel(product.value, network: .Facebook, typePage: .ProductDetail)
-        tracker.trackEvent(trackerEvent)
-    }
-
-    func shareInFBMessenger() {
-        let trackerEvent = TrackerEvent.productShare(product.value, network: .FBMessenger, buttonPosition: .Bottom,
-                                                     typePage: .ProductDetail)
-        tracker.trackEvent(trackerEvent)
-    }
-
-    func shareInFBMessengerCompleted() {
-        let trackerEvent = TrackerEvent.productShareComplete(product.value, network: .FBMessenger,
-                                                             typePage: .ProductDetail)
-        tracker.trackEvent(trackerEvent)
-    }
-
-    func shareInFBMessengerCancelled() {
-        let trackerEvent = TrackerEvent.productShareCancel(product.value, network: .FBMessenger,
-                                                           typePage: .ProductDetail)
-        tracker.trackEvent(trackerEvent)
-    }
-
-    func shareInWhatsApp() {
-        let trackerEvent = TrackerEvent.productShare(product.value, network: .Whatsapp, buttonPosition: .Bottom,
-                                                     typePage: .ProductDetail)
-        tracker.trackEvent(trackerEvent)
-    }
-
-    func shareInTwitter() {
-        let trackerEvent = TrackerEvent.productShare(product.value, network: .Twitter, buttonPosition: .Bottom,
-                                                     typePage: .ProductDetail)
-        tracker.trackEvent(trackerEvent)
-    }
-
-    func shareInTwitterCompleted() {
-        let trackerEvent = TrackerEvent.productShareComplete(product.value, network: .Twitter, typePage: .ProductDetail)
-        tracker.trackEvent(trackerEvent)
-    }
-
-    func shareInTwitterCancelled() {
-        let trackerEvent = TrackerEvent.productShareCancel(product.value, network: .Twitter, typePage: .ProductDetail)
-        tracker.trackEvent(trackerEvent)
-    }
-
-
-    func shareInTelegram() {
-        let trackerEvent = TrackerEvent.productShare(product.value, network: .Telegram, buttonPosition: .Bottom,
-                                                     typePage: .ProductDetail)
-        tracker.trackEvent(trackerEvent)
-    }
-
-    func shareInWhatsappActivity() {
-        let trackerEvent = TrackerEvent.productShare(product.value, network: .Whatsapp, buttonPosition: .Top,
-                                                     typePage: .ProductDetail)
-        tracker.trackEvent(trackerEvent)
-    }
-
-    func shareInTwitterActivity() {
-        let trackerEvent = TrackerEvent.productShare(product.value, network: .Twitter, buttonPosition: .Top,
-                                                     typePage: .ProductDetail)
-        tracker.trackEvent(trackerEvent)
-    }
-
-    func shareInSMS() {
-        let trackerEvent = TrackerEvent.productShare(product.value, network: .SMS, buttonPosition: .Bottom,
-                                                     typePage: .ProductDetail)
-        tracker.trackEvent(trackerEvent)
-    }
-
-    func shareInSMSCompleted() {
-        let trackerEvent = TrackerEvent.productShareComplete(product.value, network: .SMS, typePage: .ProductDetail)
-        tracker.trackEvent(trackerEvent)
-    }
-
-    func shareInSMSCancelled() {
-        let trackerEvent = TrackerEvent.productShareCancel(product.value, network: .SMS, typePage: .ProductDetail)
-        tracker.trackEvent(trackerEvent)
-    }
-
-    func shareInCopyLink() {
-        let trackerEvent = TrackerEvent.productShare(product.value, network: .CopyLink, buttonPosition: .Bottom,
-                                                     typePage: .ProductDetail)
-        tracker.trackEvent(trackerEvent)
-    }
-}
-
-
-// MARK: - Tracking
-
-extension ProductViewModel {
-    
-    func trackVisit(visitUserAction: ProductVisitUserAction) {
-        let trackerEvent = TrackerEvent.productDetailVisit(product.value, visitUserAction: visitUserAction)
-        tracker.trackEvent(trackerEvent)
-    }
-    
-    func trackVisitMoreInfo() {
-        let trackerEvent = TrackerEvent.productDetailVisitMoreInfo(product.value)
-        tracker.trackEvent(trackerEvent)
-    }
-
-    private func trackReportCompleted() {
-        let trackerEvent = TrackerEvent.productReport(product.value)
-        tracker.trackEvent(trackerEvent)
-    }
-
-    private func trackDeleteStarted() {
-        let trackerEvent = TrackerEvent.productDeleteStart(product.value)
-        tracker.trackEvent(trackerEvent)
-    }
-
-    private func trackDeleteCompleted() {
-        let trackerEvent = TrackerEvent.productDeleteComplete(product.value)
-        tracker.trackEvent(trackerEvent)
-    }
-
-    private func trackMarkSoldCompleted(source: EventParameterSellSourceValue) {
-        let trackerEvent = TrackerEvent.productMarkAsSold(source, product: product.value)
-        tracker.trackEvent(trackerEvent)
-    }
-
-    private func trackMarkUnsoldCompleted() {
-        let trackerEvent = TrackerEvent.productMarkAsUnsold(product.value)
-        tracker.trackEvent(trackerEvent)
-    }
-
-    private func trackSaveFavoriteCompleted() {
-        let trackerEvent = TrackerEvent.productFavorite(product.value, typePage: .ProductDetail)
-        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
-    }
-
-    private func trackChatWithSeller() {
-        let trackerEvent = TrackerEvent.productDetailChatButton(product.value)
-        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
 }
 

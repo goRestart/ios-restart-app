@@ -767,6 +767,10 @@ extension ProductCarouselViewController: ProductViewModelDelegate {
     func vmShowProductDelegateActionSheet(cancelLabel: String, actions: [UIAction]) {
         showActionSheet(cancelLabel, actions: actions, barButtonItem: navigationItem.rightBarButtonItems?.first)
     }
+
+    func vmOpenStickersSelector(stickers: [Sticker]) {
+        //TODO: IMPLEMENT
+    }
 }
 
 extension ProductCarouselViewController: ProductDetailOnboardingViewDelegate {
