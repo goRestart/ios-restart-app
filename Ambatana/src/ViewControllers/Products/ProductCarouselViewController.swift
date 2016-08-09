@@ -715,7 +715,8 @@ extension ProductCarouselViewController: UICollectionViewDataSource, UICollectio
 extension ProductCarouselViewController: ProductViewModelDelegate {
     func vmShowNativeShare(socialMessage: SocialMessage) {
         guard navigationItem.rightBarButtonItems?.count > 1 else { return }
-        presentNativeShare(socialMessage: socialMessage, delegate: self, barButtonItem: navigationItem.rightBarButtonItems?[1])
+        presentNativeShare(socialMessage: socialMessage, delegate: viewModel,
+                           barButtonItem: navigationItem.rightBarButtonItems?[1])
     }
     
     func vmOpenEditProduct(editProductVM: EditProductViewModel) {
@@ -745,7 +746,6 @@ extension ProductCarouselViewController: ProductViewModelDelegate {
     
     func vmOpenPromoteProduct(promoteVM: PromoteProductViewModel) {
         let promoteProductVC = PromoteProductViewController(viewModel: promoteVM)
-        promoteProductVC.delegate = self
         navigationController?.presentViewController(promoteProductVC, animated: true, completion: nil)
     }
     
@@ -768,35 +768,6 @@ extension ProductCarouselViewController: ProductViewModelDelegate {
         showActionSheet(cancelLabel, actions: actions, barButtonItem: navigationItem.rightBarButtonItems?.first)
     }
 }
-
-
-// MARK: > Native Share Delegate
-
-extension ProductCarouselViewController: NativeShareDelegate {
-    
-    func nativeShareInFacebook() {
-        viewModel.currentProductViewModel?.shareInFacebook(.Top)
-        viewModel.currentProductViewModel?.shareInFBCompleted()
-    }
-    
-    func nativeShareInTwitter() {
-        viewModel.currentProductViewModel?.shareInTwitterActivity()
-    }
-    
-    func nativeShareInEmail() {
-        viewModel.currentProductViewModel?.shareInEmail(.Top)
-    }
-    
-    func nativeShareInWhatsApp() {
-        viewModel.currentProductViewModel?.shareInWhatsappActivity()
-    }
-}
-
-extension ProductCarouselViewController: PromoteProductViewControllerDelegate {
-    func promoteProductViewControllerDidFinishFromSource(promotionSource: PromotionSource) {}
-    func promoteProductViewControllerDidCancelFromSource(promotionSource: PromotionSource) {}
-}
-
 
 extension ProductCarouselViewController: ProductDetailOnboardingViewDelegate {
     func productDetailOnboardingDidAppear() {

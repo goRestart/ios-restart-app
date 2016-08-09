@@ -280,6 +280,29 @@ extension ProductCarouselViewModel {
 }
 
 
+// MARK: > Native Share Delegate
+
+extension ProductCarouselViewModel: NativeShareDelegate {
+
+    func nativeShareInFacebook() {
+        currentProductViewModel?.shareInFacebook(.Top)
+        currentProductViewModel?.shareInFBCompleted()
+    }
+
+    func nativeShareInTwitter() {
+        currentProductViewModel?.shareInTwitterActivity()
+    }
+
+    func nativeShareInEmail() {
+        currentProductViewModel?.shareInEmail(.Top)
+    }
+
+    func nativeShareInWhatsApp() {
+        currentProductViewModel?.shareInWhatsappActivity()
+    }
+}
+
+
 // MARK: - Tracking
 
 extension CarouselMovement {
