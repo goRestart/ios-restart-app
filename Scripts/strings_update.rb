@@ -7,6 +7,7 @@ require 'fileutils'
 require 'micro-optparse'
 gem 'google_drive', '>=2.0.0'
 require 'google_drive'
+require 'byebug'
 
 require_relative 'helpers/String'
 require_relative 'helpers/Term'
@@ -64,9 +65,9 @@ def check_unused_ios(worksheet, from_row, to_row, target_directory, mark)
       term = Term.new(key)
       if term.restriction == 'i' || term.restriction == nil
         if !term.is_comment?
-          result = find_text_on_ios_files(target_directory,term.keyword_iphone_constant)
-          if(result.length == 0)
-            puts term.keyword_iphone_constant
+          result = (`grep -rnw './Ambatana/src' -e #{term.keyword_constant_swift} | wc -l`).strip() #find_text_on_ios_files(target_directory,term.keyword_iphone_constant)
+          if(result == "1")
+            puts term.keyword_constant_swift
             if(mark)
               #modifiying key on spreadsheet by prepending [u] to mark key as unused
               worksheet[row, 1] = '[u]'+key
@@ -247,12 +248,7 @@ puts 'Done! - Locale generation went smoothly :)'.green
 
 if(check_unused)
   puts 'Checking unused'
-  if(has_ios)
-    check_unused_ios(worksheet, first_term_row, last_term_row, ios_path, check_unused_mark)
-  end
-  if(has_android)
-    check_unused_android(worksheet, first_term_row, last_term_row, android_path, check_unused_mark)
-  end
+  check_unused_ios(worksheet, first_term_row, last_term_row, ios_path, check_unused_mark)
 end
 
 

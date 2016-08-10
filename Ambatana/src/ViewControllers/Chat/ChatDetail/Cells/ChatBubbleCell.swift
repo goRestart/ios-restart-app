@@ -37,6 +37,7 @@ class ChatBubbleCell: UITableViewCell {
         
         bubbleView.layer.shouldRasterize = true
         bubbleView.layer.rasterizationScale = UIScreen.mainScreen().scale
+        backgroundColor = UIColor.clearColor()
     }
     
     func menuControllerWillHide(notification: NSNotification) {

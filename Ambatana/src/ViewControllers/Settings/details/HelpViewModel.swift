@@ -13,17 +13,19 @@ import DeviceUtil
 public class HelpViewModel: BaseViewModel {
    
     let myUserRepository: MyUserRepository
+    let installationRepository: InstallationRepository
     
     convenience override init() {
-        self.init(myUserRepository: Core.myUserRepository)
+        self.init(myUserRepository: Core.myUserRepository, installationRepository: Core.installationRepository)
     }
     
-    init(myUserRepository: MyUserRepository) {
+    init(myUserRepository: MyUserRepository, installationRepository: InstallationRepository) {
         self.myUserRepository = myUserRepository
+        self.installationRepository = installationRepository
     }
     
     public var url: NSURL? {
-        return LetgoURLHelper.composeURL(Constants.helpURL)
+        return LetgoURLHelper.buildHelpURL(myUserRepository.myUser, installation: installationRepository.installation)
     }
 
     var termsAndConditionsURL: NSURL? {
@@ -32,9 +34,5 @@ public class HelpViewModel: BaseViewModel {
     
     var privacyURL: NSURL? {
         return LetgoURLHelper.composeURL(Constants.privacyURL)
-    }
-    
-    var contactUsURL: NSURL? {
-        return LetgoURLHelper.buildContactUsURL(myUserRepository.myUser)
     }
 }

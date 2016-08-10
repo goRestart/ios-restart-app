@@ -55,34 +55,30 @@ extension UIViewController {
 
             setNavigationBarRightButtons(buttons)
 
-            return buttons
+        return buttons
     }
-
+    
     func setNavigationBarRightButtons(buttons: [UIButton]) {
         let height: CGFloat = 44
         let hSpacing: CGFloat = 24
-
+        
         var x: CGFloat = 0
         var width: CGFloat = 0
-
-        buttons.forEach { button in
-            guard let icon = button.imageForState(.Normal) else { return }
-
+        
+        let items: [UIBarButtonItem] = buttons.flatMap { button in
+            guard let icon = button.imageForState(.Normal) else { return nil }
+            
             let buttonWidth = icon.size.width + hSpacing
             button.frame = CGRect(x: x, y: 0, width: buttonWidth, height: height)
             button.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Right
-
+            
             x += buttonWidth
             width += buttonWidth
+            
+            return UIBarButtonItem(customView: button)
         }
-
-        let buttonsFrame = CGRect(x: 0, y: 0, width: width, height: height)
-        let buttonsView = UIView(frame: buttonsFrame)
-
-        buttons.forEach { button in
-            buttonsView.addSubview(button)
-        }
-        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: buttonsView)
+        
+        navigationItem.rightBarButtonItems = items.reverse()
     }
 }
 

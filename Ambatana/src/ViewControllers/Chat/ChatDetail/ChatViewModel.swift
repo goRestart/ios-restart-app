@@ -12,12 +12,11 @@ import CollectionVariable
 
 protocol ChatViewModelDelegate: BaseViewModelDelegate {
     func vmDidUpdateDirectAnswers()
+    func vmShowRelatedProducts(productId: String?)
 
     func vmDidFailSendingMessage()
     func vmDidFailRetrievingChatMessages()
     
-    func vmShowProduct(productVC: UIViewController)
-    func vmShowUser(userVM: UserViewModel)
     func vmShowReportUser(reportUserViewModel: ReportUsersViewModel)
     func vmShowUserRating(source: RateUserSource, data: RateUserData)
 
@@ -51,6 +50,7 @@ class ChatViewModel: BaseViewModel {
     
     // Protocols
     weak var delegate: ChatViewModelDelegate?
+    weak var tabNavigator: TabNavigator?
     
     // Paginable
     var resultsPerPage: Int = Constants.numMessagesPerPage
@@ -105,22 +105,36 @@ class ChatViewModel: BaseViewModel {
     }
 
     var shouldShowDirectAnswers: Bool {
-        return chatEnabled.value && KeyValueStorage.sharedInstance.userLoadChatShowDirectAnswersForKey(userDefaultsSubKey)
+        return directAnswersAvailable && KeyValueStorage.sharedInstance.userLoadChatShowDirectAnswersForKey(userDefaultsSubKey)
+    }
+
+    private var directAnswersAvailable: Bool {
+        return chatEnabled.value && !relatedProductsEnabled.value
+    }
+
+    var shouldShowUserReviewTooltip: Bool {
+        // we don't want both tooltips at the same time.  !st stickers, then rating
+        return !KeyValueStorage.sharedInstance[.userRatingTooltipAlreadyShown] &&
+            KeyValueStorage.sharedInstance[.stickersTooltipAlreadyShown]
     }
     
     // Rx Variables
-    var interlocutorIsMuted = Variable<Bool>(false)
-    var interlocutorHasMutedYou = Variable<Bool>(false)
-    var chatStatus = Variable<ChatInfoViewStatus>(.Available)
-    var chatEnabled = Variable<Bool>(true)
-    var chatConnected = Variable<Bool>(false)
-    var interlocutorTyping = Variable<Bool>(false)
-    var messages = CollectionVariable<ChatViewMessage>([])
+    let interlocutorIsMuted = Variable<Bool>(false)
+    let interlocutorHasMutedYou = Variable<Bool>(false)
+    let chatStatus = Variable<ChatInfoViewStatus>(.Available)
+    let chatEnabled = Variable<Bool>(true)
+    let relatedProductsEnabled = Variable<Bool>(false)
+    let interlocutorTyping = Variable<Bool>(false)
+    let messages = CollectionVariable<ChatViewMessage>([])
     private var conversation: Variable<ChatConversation>
     private var interlocutor: User?
     private var myMessagesCount = Variable<Int>(0)
     private var otherMessagesCount = Variable<Int>(0)
-    var userIsReviewable = Variable<Bool>(false)
+    private var stickersTooltipVisible = Variable<Bool>(!KeyValueStorage.sharedInstance[.stickersTooltipAlreadyShown])
+    private var reviewTooltipVisible = Variable<Bool>(!KeyValueStorage.sharedInstance[.userRatingTooltipAlreadyShown])
+    var shouldShowReviewButton = Variable<Bool>(false)
+    var userReviewTooltipVisible = Variable<Bool>(false)
+
 
     // Private    
     private let myUserRepository: MyUserRepository
@@ -135,7 +149,7 @@ class ChatViewModel: BaseViewModel {
     private var isDeleted = false
     private var shouldAskProductSold: Bool = false
     private var isSendingQuickAnswer = false
-    private var productId: String?
+    private var productId: String? // Only used when accessing a chat from a product
     private var preSendMessageCompletion: ((text: String, isQuickAnswer: Bool, type: ChatMessageType) -> Void)?
     private var afterRetrieveMessagesCompletion: (() -> Void)?
     
@@ -160,7 +174,7 @@ class ChatViewModel: BaseViewModel {
         }
     }
 
-    convenience init(conversation: ChatConversation) {
+    convenience init(conversation: ChatConversation, tabNavigator: TabNavigator?) {
         let myUserRepository = Core.myUserRepository
         let chatRepository = Core.chatRepository
         let productRepository = Core.productRepository
@@ -171,10 +185,11 @@ class ChatViewModel: BaseViewModel {
 
         self.init(conversation: conversation, myUserRepository: myUserRepository, chatRepository: chatRepository,
                   productRepository: productRepository, userRepository: userRepository,
-                  stickersRepository: stickersRepository, tracker: tracker, configManager: configManager)
+                  stickersRepository: stickersRepository, tracker: tracker, configManager: configManager,
+                  tabNavigator: tabNavigator)
     }
     
-    convenience init?(product: Product) {
+    convenience init?(product: Product, tabNavigator: TabNavigator?) {
         guard let _ = product.objectId, sellerId = product.user.objectId else { return nil }
 
         let myUserRepository = Core.myUserRepository
@@ -190,13 +205,14 @@ class ChatViewModel: BaseViewModel {
                                       interlocutor: nil, amISelling: amISelling)
         self.init(conversation: empty, myUserRepository: myUserRepository, chatRepository: chatRepository,
                   productRepository: productRepository, userRepository: userRepository,
-                  stickersRepository: stickersRepository ,tracker: tracker, configManager: configManager)
+                  stickersRepository: stickersRepository ,tracker: tracker, configManager: configManager,
+                  tabNavigator: tabNavigator)
         self.setupConversationFromProduct(product)
     }
     
     init(conversation: ChatConversation, myUserRepository: MyUserRepository, chatRepository: ChatRepository,
           productRepository: ProductRepository, userRepository: UserRepository, stickersRepository: StickersRepository,
-          tracker: Tracker, configManager: ConfigManager) {
+          tracker: Tracker, configManager: ConfigManager, tabNavigator: TabNavigator?) {
         self.conversation = Variable<ChatConversation>(conversation)
         self.myUserRepository = myUserRepository
         self.chatRepository = chatRepository
@@ -206,6 +222,7 @@ class ChatViewModel: BaseViewModel {
         self.configManager = configManager
         self.stickersRepository = stickersRepository
         self.chatViewMessageAdapter = ChatViewMessageAdapter()
+        self.tabNavigator = tabNavigator
         super.init()
         setupRx()
         loadStickers()
@@ -264,6 +281,7 @@ class ChatViewModel: BaseViewModel {
         conversation.asObservable().subscribeNext { [weak self] conversation in
             self?.chatStatus.value = conversation.chatStatus
             self?.chatEnabled.value = conversation.chatEnabled
+            self?.relatedProductsEnabled.value = conversation.relatedProductsEnabled
             self?.interlocutorIsMuted.value = conversation.interlocutor?.isMuted ?? false
             self?.interlocutorHasMutedYou.value = conversation.interlocutor?.hasMutedYou ?? false
             self?.title.value = conversation.product?.name ?? ""
@@ -287,6 +305,9 @@ class ChatViewModel: BaseViewModel {
             }
         }.addDisposableTo(disposeBag)
 
+        relatedProductsEnabled.asObservable().bindNext { [weak self] enabled in
+            self?.delegate?.vmShowRelatedProducts(enabled ? self?.conversation.value.product?.objectId : nil)
+        }.addDisposableTo(disposeBag)
 
         let cfgManager = configManager
         let myMessagesReviewable = myMessagesCount.asObservable()
@@ -298,10 +319,15 @@ class ChatViewModel: BaseViewModel {
         let chatStatusReviewable = chatStatus.asObservable().map { $0.userReviewEnabled }.distinctUntilChanged()
 
         Observable.combineLatest(myMessagesReviewable, otherMessagesReviewable, chatStatusReviewable) { $0 && $1 && $2 }
-            .bindTo(userIsReviewable).addDisposableTo(disposeBag)
+            .bindTo(shouldShowReviewButton).addDisposableTo(disposeBag)
 
         messages.changesObservable.subscribeNext { [weak self] change in
             self?.updateMessagesCounts(change)
+        }.addDisposableTo(disposeBag)
+
+        Observable.combineLatest(stickersTooltipVisible.asObservable(), reviewTooltipVisible.asObservable()) { $0 }
+            .subscribeNext { [weak self] (stickersTooltipVisible, reviewTooltipVisible) in
+            self?.userReviewTooltipVisible.value = !stickersTooltipVisible && reviewTooltipVisible
         }.addDisposableTo(disposeBag)
 
         setupChatEventsRx()
@@ -363,24 +389,31 @@ class ChatViewModel: BaseViewModel {
             break
         case .Pending, .Approved, .Discarded, .Sold, .SoldOld:
             guard let interlocutor = conversation.value.interlocutor else { return }
-            guard let productVC = ProductDetailFactory.productDetailFromChatProduct(product, user: interlocutor,
-                                                                                    thumbnailImage: nil,
-                                                                                    originFrame: nil)
-                else { return }
-            delegate?.vmShowProduct(productVC)
+            delegate?.vmHideKeyboard(false)
+            let data = ProductDetailData.ProductChat(chatProduct: product, user: interlocutor,
+                                                     thumbnailImage: nil, originFrame: nil)
+            tabNavigator?.openProduct(data)
         }
     }
     
     func userInfoPressed() {
         guard let interlocutor = conversation.value.interlocutor else { return }
-        let userVM = UserViewModel(chatInterlocutor: interlocutor, source: .Chat)
-        delegate?.vmShowUser(userVM)
+        delegate?.vmHideKeyboard(false)
+        let data = UserDetailData.UserChat(user: interlocutor)
+        tabNavigator?.openUser(data)
     }
 
     func reviewUserPressed() {
+        KeyValueStorage.sharedInstance[.userRatingTooltipAlreadyShown] = true
+        reviewTooltipVisible.value = false
         guard let interlocutor = conversation.value.interlocutor, reviewData = RateUserData(interlocutor: interlocutor)
             else { return }
         delegate?.vmShowUserRating(.Chat, data: reviewData)
+    }
+
+    func closeReviewTooltipPressed() {
+        KeyValueStorage.sharedInstance[.userRatingTooltipAlreadyShown] = true
+        reviewTooltipVisible.value = false
     }
 
     func safetyTipsDismissed() {
@@ -397,7 +430,7 @@ class ChatViewModel: BaseViewModel {
     }
 
     func loadStickersTooltip() {
-        guard chatEnabled.value && !KeyValueStorage.sharedInstance[.stickersTooltipAlreadyShown] else { return }
+        guard chatEnabled.value && stickersTooltipVisible.value else { return }
 
         var newTextAttributes = [String : AnyObject]()
         newTextAttributes[NSForegroundColorAttributeName] = UIColor.primaryColorHighlighted
@@ -420,6 +453,7 @@ class ChatViewModel: BaseViewModel {
 
     func stickersShown() {
         KeyValueStorage.sharedInstance[.stickersTooltipAlreadyShown] = true
+        stickersTooltipVisible.value = false
     }
 }
 
@@ -612,7 +646,7 @@ extension ChatViewModel {
         actions.append(safetyTips)
 
         if conversation.value.isSaved {
-            if chatEnabled.value {
+            if directAnswersAvailable {
                 let directAnswersText = shouldShowDirectAnswers ? LGLocalizedString.directAnswersHide :
                     LGLocalizedString.directAnswersShow
                 let directAnswersAction = UIAction(interface: UIActionInterface.Text(directAnswersText),
@@ -885,7 +919,16 @@ private extension ChatViewModel {
         preSendMessageCompletion = { [weak self] (text: String, isQuickAnswer: Bool, type: ChatMessageType) in
             self?.delegate?.vmHideKeyboard(false)
             self?.delegate?.vmRequestLogin() { [weak self] in
-                self?.preSendMessageCompletion = nil
+                guard let strongSelf = self else { return }
+                strongSelf.preSendMessageCompletion = nil
+                guard sellerId != strongSelf.myUserRepository.myUser?.objectId else {
+                    //A user cannot have a conversation with himself
+                    strongSelf.delegate?.vmShowAutoFadingMessage(LGLocalizedString.chatWithYourselfAlertMsg) {
+                        [weak self] in
+                        self?.delegate?.vmClose()
+                    }
+                    return
+                }
                 self?.afterRetrieveMessagesCompletion = { [weak self] in
                     self?.afterRetrieveMessagesCompletion = nil
                     guard let messages = self?.messages.value where messages.isEmpty else { return }
@@ -983,6 +1026,15 @@ private extension ChatConversation {
             return true
         }
     }
+
+    var relatedProductsEnabled: Bool {
+        switch chatStatus {
+        case .Forbidden,  .UserPendingDelete, .UserDeleted, .ProductDeleted:
+            return true
+        case .Available, .Blocked, .BlockedBy, .ProductSold:
+            return false
+        }
+    }
 }
 
 private extension ChatInfoViewStatus {
@@ -1066,6 +1118,26 @@ private extension ChatViewModel {
                 }
             }
         }.addDisposableTo(disposeBag)
+    }
+}
+
+
+// MARK: - Related products
+
+extension ChatViewModel: RelatedProductsViewDelegate {
+
+    func relatedProductsViewDidShow(view: RelatedProductsView) {
+        tracker.trackEvent(TrackerEvent.chatRelatedItemsStart())
+    }
+
+    func relatedProductsView(view: RelatedProductsView, showProduct product: Product, atIndex index: Int,
+                             productListModels: [ProductCellModel], requester: ProductListRequester,
+                             thumbnailImage: UIImage?, originFrame: CGRect?) {
+        tracker.trackEvent(TrackerEvent.chatRelatedItemsComplete(index))
+        let data = ProductDetailData.ProductList(product: product, cellModels: productListModels, requester: requester,
+                                                 thumbnailImage: thumbnailImage, originFrame: originFrame,
+                                                 showRelated: false)
+        tabNavigator?.openProduct(data)
     }
 }
 

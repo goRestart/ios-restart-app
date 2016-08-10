@@ -162,10 +162,6 @@ extension UserViewController: UserViewModelDelegate {
         navigationController?.pushViewController(vc, animated: true)
     }
 
-    func vmOpenProduct(productVC: UIViewController) {
-        navigationController?.pushViewController(productVC, animated: true)
-    }
-
     func vmOpenVerifyAccount(verifyVM: VerifyAccountViewModel) {
         let presenter = tabBarController ?? navigationController
         let vc = VerifyAccountViewController(viewModel: verifyVM)
@@ -180,6 +176,10 @@ extension UserViewController: UserViewModelDelegate {
     func vmOpenRatingList(ratingListVM: UserRatingListViewModel) {
         let vc = UserRatingListViewController(viewModel: ratingListVM)
         navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func vmShowUserActionSheet(cancelLabel: String, actions: [UIAction]) {
+        showActionSheet(cancelLabel, actions: actions, barButtonItem: navigationItem.rightBarButtonItem)
     }
 }
 

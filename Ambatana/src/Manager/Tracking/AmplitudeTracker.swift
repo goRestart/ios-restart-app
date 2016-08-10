@@ -8,6 +8,7 @@
 
 import Amplitude_iOS
 import LGCoreKit
+import RxSwift
 
 final class AmplitudeTracker: Tracker {
     
@@ -36,12 +37,15 @@ final class AmplitudeTracker: Tracker {
     // Login required tracking
     private var loggedIn = false
     private var pendingLoginEvent: TrackerEvent?
+
+    private let disposeBag = DisposeBag()
     
     // MARK: - Tracker
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) {
         Amplitude.instance().trackingSessionEvents = false
         Amplitude.instance().initializeApiKey(EnvironmentProxy.sharedInstance.amplitudeAPIKey)
+        setupABTestsRx()
     }
     
     func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?) {
@@ -86,7 +90,7 @@ final class AmplitudeTracker: Tracker {
     
     func trackEvent(event: TrackerEvent) {
         switch event.name {
-        case .LoginEmail, .LoginFB, .LoginGoogle:
+        case .LoginEmail, .LoginFB, .LoginGoogle, .SignupEmail:
             if loggedIn {
                 Amplitude.instance().logEvent(event.actualName, withEventProperties: event.params?.stringKeyParams)
                 pendingLoginEvent = nil
@@ -115,5 +119,19 @@ final class AmplitudeTracker: Tracker {
         let identify = AMPIdentify()
         identify.set(AmplitudeTracker.userPropGpsEnabled, value: enabled ? "true" : "false")
         Amplitude.instance().identify(identify)
+    }
+
+
+    // MARK: - Private
+
+    private func setupABTestsRx() {
+        ABTests.trackingData.asObservable().bindNext { trackingData in
+            let identify = AMPIdentify()
+            for (key, value) in trackingData {
+                guard let value = value as? NSObject else { continue }
+                identify.set(key, value: value)
+            }
+            Amplitude.instance().identify(identify)
+        }.addDisposableTo(disposeBag)
     }
 }

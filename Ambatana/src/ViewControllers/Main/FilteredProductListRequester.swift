@@ -45,6 +45,7 @@ class FilteredProductListRequester: ProductListRequester {
      
         retrieve() { [weak self] result in
             guard let indexProducts = result.value, useLimbo = self?.prependLimbo where useLimbo else {
+                self?.offset = result.value?.count ?? self?.offset ?? 0
                 completion?(result)
                 return
             }

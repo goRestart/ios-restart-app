@@ -54,6 +54,8 @@ extension AppDelegate: UIApplicationDelegate {
         reporter = Core.reporter
         locationManager = Core.locationManager
         chatRepository = Core.chatRepository
+        
+        ABTests.registerVariables()
 
         setupAppearance()
         setupLibraries(application, launchOptions: launchOptions)
@@ -74,26 +76,25 @@ extension AppDelegate: UIApplicationDelegate {
 
         LGCoreKit.start()
 
-        let tabBarViewModel = TabBarViewModel()
-        let tabBarController = TabBarController(viewModel: tabBarViewModel)
-        let appCoordinator = AppCoordinator(tabBarController: tabBarController, configManager: ConfigManager.sharedInstance)
+        let appCoordinator = AppCoordinator(configManager: ConfigManager.sharedInstance)
         appCoordinator.delegate = self
-        tabBarViewModel.navigator = appCoordinator
 
         self.navigator = appCoordinator
 
         let window = UIWindow(frame: UIScreen.mainScreen().bounds)
-        window.rootViewController = tabBarController
+        window.rootViewController = appCoordinator.tabBarCtl
         self.window = window
 
         window.makeKeyAndVisible()
-        appCoordinator.open()
 
         let deepLinksRouter = DeepLinksRouter.sharedInstance
         let fbApplicationDelegate = FBSDKApplicationDelegate.sharedInstance()
         let deepLinksRouterContinuation = deepLinksRouter.initWithLaunchOptions(launchOptions)
         let fbSdkContinuation = fbApplicationDelegate.application(application,
                                                                   didFinishLaunchingWithOptions: launchOptions)
+
+        appCoordinator.open()
+
         return deepLinksRouterContinuation || fbSdkContinuation
     }
 

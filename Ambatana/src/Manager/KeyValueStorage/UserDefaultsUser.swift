@@ -22,6 +22,7 @@ struct UserDefaultsUser {
     static let postProductPostedPreviouslyDefaultValue = false
     static let commercializersPendingDefaultValue = [String:[String]]()
     static let trackingProductSellComplete24hTrackedDefaultValue = false
+    static let shouldShowCommercializerAfterPostingDefaultValue = true
 
     var appShared: Bool
     var userLocationApproximate: Bool
@@ -35,6 +36,7 @@ struct UserDefaultsUser {
     var postProductPostedPreviously: Bool
     var commercializersPending: [String:[String]] // <id>: [<value>,...]
     var trackingProductSellComplete24hTracked: Bool
+    var shouldShowCommercializerAfterPosting: Bool
 
     init() {
         let appShared = UserDefaultsUser.appSharedDefaultValue
@@ -49,6 +51,7 @@ struct UserDefaultsUser {
         let postProductPostedPreviously = UserDefaultsUser.postProductPostedPreviouslyDefaultValue
         let commercializersPending = UserDefaultsUser.commercializersPendingDefaultValue
         let trackingProductSellComplete24hTracked = UserDefaultsUser.trackingProductSellComplete24hTrackedDefaultValue
+        let shouldShowCommercializerAfterPosting = UserDefaultsUser.shouldShowCommercializerAfterPostingDefaultValue
 
         self.init(appShared: appShared, userLocationApproximate: userLocationApproximate,
                   chatSafetyTipsShown: chatSafetyTipsShown, ratingAlreadyRated: ratingAlreadyRated,
@@ -57,13 +60,15 @@ struct UserDefaultsUser {
                   postProductLastGalleryAlbumSelected: postProductLastGalleryAlbumSelected,
                   postProductLastTabSelected: postProductLastTabSelected, postProductPostedPreviously: postProductPostedPreviously,
                   commercializersPending: commercializersPending,
-                  trackingProductSellComplete24hTracked: trackingProductSellComplete24hTracked)
+                  trackingProductSellComplete24hTracked: trackingProductSellComplete24hTracked,
+                  shouldShowCommercializerAfterPosting: shouldShowCommercializerAfterPosting)
     }
 
     init(appShared: Bool, userLocationApproximate: Bool, chatSafetyTipsShown: Bool, ratingAlreadyRated: Bool,
          ratingRemindMeLaterDate: NSDate?, ratingShowProductListBanner: Bool, chatShowDirectAnswers: [String: Bool],
          postProductLastGalleryAlbumSelected: String?, postProductLastTabSelected: Int, postProductPostedPreviously: Bool,
-         commercializersPending: [String:[String]], trackingProductSellComplete24hTracked: Bool) {
+         commercializersPending: [String:[String]], trackingProductSellComplete24hTracked: Bool,
+         shouldShowCommercializerAfterPosting: Bool) {
         self.appShared = appShared
         self.userLocationApproximate = userLocationApproximate
         self.chatSafetyTipsShown = chatSafetyTipsShown
@@ -76,6 +81,7 @@ struct UserDefaultsUser {
         self.postProductPostedPreviously = postProductPostedPreviously
         self.commercializersPending = commercializersPending
         self.trackingProductSellComplete24hTracked = trackingProductSellComplete24hTracked
+        self.shouldShowCommercializerAfterPosting = shouldShowCommercializerAfterPosting
     }
 }
 
@@ -108,6 +114,9 @@ extension UserDefaultsUser: UserDefaultsDecodable {
                                                        defaultValue: UserDefaultsUser.commercializersPendingDefaultValue)
         let trackingProductSellComplete24hTracked = dictionary.decode(UserDefaultsUserKey.TrackingProductSellComplete24hTracked.rawValue,
                                                                       defaultValue: UserDefaultsUser.trackingProductSellComplete24hTrackedDefaultValue)
+        
+        let shouldShowCommercializerAfterPosting = dictionary.decode(UserDefaultsUserKey.ShouldShowCommercializerAfterPosting.rawValue,
+                                                                     defaultValue: UserDefaultsUser.shouldShowCommercializerAfterPostingDefaultValue)
 
         return UserDefaultsUser(appShared: appShared, userLocationApproximate: userLocationApproximate,
                                 chatSafetyTipsShown: chatSafetyTipsShown, ratingAlreadyRated: ratingAlreadyRated,
@@ -118,7 +127,8 @@ extension UserDefaultsUser: UserDefaultsDecodable {
                                 postProductLastTabSelected: postProductLastTabSelected,
                                 postProductPostedPreviously:  postProductPostedPreviously,
                                 commercializersPending: commercializersPending,
-                                trackingProductSellComplete24hTracked: trackingProductSellComplete24hTracked)
+                                trackingProductSellComplete24hTracked: trackingProductSellComplete24hTracked,
+                                shouldShowCommercializerAfterPosting: shouldShowCommercializerAfterPosting)
     }
 
     func encode() -> [String: AnyObject] {
@@ -140,6 +150,7 @@ extension UserDefaultsUser: UserDefaultsDecodable {
         dict.encode(UserDefaultsUserKey.PostProductPostedPreviously.rawValue, value: postProductPostedPreviously)
         dict.encode(UserDefaultsUserKey.CommercializersPending.rawValue, value: commercializersPending)
         dict.encode(UserDefaultsUserKey.TrackingProductSellComplete24hTracked.rawValue, value: trackingProductSellComplete24hTracked)
+        dict.encode(UserDefaultsUserKey.ShouldShowCommercializerAfterPosting.rawValue, value: shouldShowCommercializerAfterPosting)
         return dict
     }
 }
@@ -167,6 +178,8 @@ private enum UserDefaultsUserKey: String {
     case CommercializersPending = "pendingCommercializers"
 
     case TrackingProductSellComplete24hTracked = "trackingProductSellComplete24hTracked"
+    
+    case ShouldShowCommercializerAfterPosting = "shouldShowCommercializerAfterPosting"
 }
 
 

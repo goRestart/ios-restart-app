@@ -42,6 +42,7 @@ extension DefaultsKeys {
 
     static let cameraAlreadyShown = DefaultsKey<Bool>("cameraAlreadyShown")
     static let stickersTooltipAlreadyShown = DefaultsKey<Bool>("stickersTooltipAlreadyShown")
+    static let userRatingTooltipAlreadyShown = DefaultsKey<Bool>("userRatingTooltipAlreadyShown")
 
     static let didShowCommercializer = DefaultsKey<Bool>("didShowCommercializer")
     static let isGod = DefaultsKey<Bool>("isGod")
@@ -201,6 +202,17 @@ extension KeyValueStorage {
         set {
             guard var userProperties = currentUserProperties else { return }
             userProperties.trackingProductSellComplete24hTracked = newValue
+            currentUserProperties = userProperties
+        }
+    }
+    var shouldShowCommercializerAfterPosting: Bool {
+        get {
+            return currentUserProperties?.shouldShowCommercializerAfterPosting ??
+                UserDefaultsUser.shouldShowCommercializerAfterPostingDefaultValue
+        }
+        set {
+            guard var userProperties = currentUserProperties else { return }
+            userProperties.shouldShowCommercializerAfterPosting = newValue
             currentUserProperties = userProperties
         }
     }

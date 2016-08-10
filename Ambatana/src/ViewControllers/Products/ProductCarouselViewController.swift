@@ -133,6 +133,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         setupMoreInfo()
         setupNavigationBar()
         setupGradientView()
+        setupCollectionRx()
     }
 
     func addSubviews() {
@@ -241,6 +242,12 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         let shadowLayer2 = CAGradientLayer.gradientWithColor(UIColor.blackColor(), alphas:[0, 0.4], locations: [0, 1])
         shadowLayer.frame = gradientShadowBottomView.bounds
         gradientShadowBottomView.layer.insertSublayer(shadowLayer2, atIndex: 0)
+    }
+
+    private func setupCollectionRx() {
+        viewModel.objectChanges.bindNext { [weak self] change in
+            self?.collectionView.handleCollectionChange(change)
+        }.addDisposableTo(disposeBag)
     }
     
     private func setupAlphaRxBindings() {
@@ -625,13 +632,7 @@ extension ProductCarouselViewController: UserViewDelegate {
 // MARK: > ProductCarouselViewModelDelegate
 
 extension ProductCarouselViewController: ProductCarouselViewModelDelegate {
-    func vmReloadData() {
-        collectionView.reloadData()
-    }
-
-    func vmReloadItemAtIndex(index: Int) {
-        let indexPath = NSIndexPath(forItem: index, inSection: 0)
-        collectionView.reloadItemsAtIndexPaths([indexPath])
+    func vmRefreshCurrent() {
         refreshOverlayElements()
     }
 
@@ -713,7 +714,8 @@ extension ProductCarouselViewController: UICollectionViewDataSource, UICollectio
 
 extension ProductCarouselViewController: ProductViewModelDelegate {
     func vmShowNativeShare(socialMessage: SocialMessage) {
-        presentNativeShare(socialMessage: socialMessage, delegate: self)
+        guard navigationItem.rightBarButtonItems?.count > 1 else { return }
+        presentNativeShare(socialMessage: socialMessage, delegate: self, barButtonItem: navigationItem.rightBarButtonItems?[1])
     }
     
     func vmOpenEditProduct(editProductVM: EditProductViewModel) {
@@ -730,12 +732,7 @@ extension ProductCarouselViewController: ProductViewModelDelegate {
         navCtl.view.backgroundColor = UIColor.whiteColor()
         presentViewController(navCtl, animated: true, completion: nil)
     }
-    
-    func vmOpenUser(userVM: UserViewModel) {
-        let vc = UserViewController(viewModel: userVM)
-        navigationController?.pushViewController(vc, animated: true)
-    }
-    
+      
     func vmOpenChat(chatVM: OldChatViewModel) {
         let chatVC = OldChatViewController(viewModel: chatVM, hidesBottomBar: false)
         navigationController?.pushViewController(chatVC, animated: true)
@@ -760,6 +757,15 @@ extension ProductCarouselViewController: ProductViewModelDelegate {
     func vmAskForRating() {
         guard let tabBarCtrl = self.tabBarController as? TabBarController else { return }
         tabBarCtrl.showAppRatingViewIfNeeded(.MarkedSold)
+    }
+    
+    func vmShowOnboarding() {
+        guard let productVM = viewModel.currentProductViewModel else { return }
+        refreshProductOnboarding(productVM)
+    }
+    
+    func vmShowProductDelegateActionSheet(cancelLabel: String, actions: [UIAction]) {
+        showActionSheet(cancelLabel, actions: actions, barButtonItem: navigationItem.rightBarButtonItems?.first)
     }
 }
 

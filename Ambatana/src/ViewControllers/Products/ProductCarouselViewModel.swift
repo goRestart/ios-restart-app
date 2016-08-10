@@ -8,10 +8,10 @@
 
 import LGCoreKit
 import RxSwift
+import CollectionVariable
 
 protocol ProductCarouselViewModelDelegate: BaseViewModelDelegate {
-    func vmReloadData()
-    func vmReloadItemAtIndex(index: Int)
+    func vmRefreshCurrent()
     func vmRemoveMoreInfoTooltip()
 }
 
@@ -33,11 +33,16 @@ class ProductCarouselViewModel: BaseViewModel {
     var startIndex: Int = 0
     var initialThumbnail: UIImage?
     weak var delegate: ProductCarouselViewModelDelegate?
+    weak var tabNavigator: TabNavigator?
 
     private var activeDisposeBag = DisposeBag()
 
+    var objectChanges: Observable<CollectionChange<ProductCarouselCellModel>> {
+        return objects.changesObservable
+    }
+
     var objectCount: Int {
-        return objects.count
+        return objects.value.count
     }
 
     var shouldShowOnboarding: Bool {
@@ -64,45 +69,57 @@ class ProductCarouselViewModel: BaseViewModel {
     private var productsViewModels: [String: ProductViewModel] = [:]
     private let myUserRepository: MyUserRepository
     private let productRepository: ProductRepository
-    private var objects: [ProductCarouselCellModel] = []
+    private let objects = CollectionVariable<ProductCarouselCellModel>([])
 
 
     // MARK: - Init
     
-    convenience init(chatProduct: ChatProduct, chatInterlocutor: ChatInterlocutor,
-                                 thumbnailImage: UIImage?, singleProductList: Bool,
-                                 productListRequester: ProductListRequester?) {
+    convenience init(chatProduct: ChatProduct, chatInterlocutor: ChatInterlocutor, thumbnailImage: UIImage?,
+                     productListRequester: ProductListRequester?, tabNavigator: TabNavigator?) {
         let myUserRepository = Core.myUserRepository
         let productRepository = Core.productRepository
         let product = productRepository.build(fromChatproduct: chatProduct, chatInterlocutor: chatInterlocutor)
         self.init(myUserRepository: myUserRepository, productRepository: productRepository,
-                  productListVM: nil, initialProduct: product, thumbnailImage: thumbnailImage,
-                  singleProductList: singleProductList, productListRequester: productListRequester)
+                  productListModels: nil, initialProduct: product, thumbnailImage: thumbnailImage,
+                  singleProductList: true, productListRequester: productListRequester,
+                  tabNavigator: tabNavigator)
         syncFirstProduct()
     }
-    
-    convenience init(productListVM: ProductListViewModel, initialProduct: Product?, thumbnailImage: UIImage?,
-         singleProductList: Bool, productListRequester: ProductListRequester?) {
+
+    convenience init(product: Product, thumbnailImage: UIImage?, productListRequester: ProductListRequester?,
+                     tabNavigator: TabNavigator?) {
         let myUserRepository = Core.myUserRepository
         let productRepository = Core.productRepository
-        self.init(myUserRepository: myUserRepository, productRepository: productRepository, productListVM: productListVM, initialProduct: initialProduct,
+        self.init(myUserRepository: myUserRepository, productRepository: productRepository,
+                  productListModels: nil, initialProduct: product, thumbnailImage: thumbnailImage,
+                  singleProductList: true, productListRequester: productListRequester, tabNavigator: tabNavigator)
+        syncFirstProduct()
+    }
+
+    convenience init(productListModels: [ProductCellModel], initialProduct: Product?, thumbnailImage: UIImage?,
+         singleProductList: Bool, productListRequester: ProductListRequester?, tabNavigator: TabNavigator?) {
+        let myUserRepository = Core.myUserRepository
+        let productRepository = Core.productRepository
+        self.init(myUserRepository: myUserRepository, productRepository: productRepository,
+                  productListModels: productListModels, initialProduct: initialProduct,
                   thumbnailImage: thumbnailImage, singleProductList: singleProductList,
-                  productListRequester: productListRequester)
+                  productListRequester: productListRequester, tabNavigator: tabNavigator)
     }
 
     init(myUserRepository: MyUserRepository, productRepository: ProductRepository,
-         productListVM: ProductListViewModel?, initialProduct: Product?, thumbnailImage: UIImage?,
-         singleProductList: Bool, productListRequester: ProductListRequester?) {
+         productListModels: [ProductCellModel]?, initialProduct: Product?, thumbnailImage: UIImage?,
+         singleProductList: Bool, productListRequester: ProductListRequester?, tabNavigator: TabNavigator?) {
         self.myUserRepository = myUserRepository
         self.productRepository = productRepository
-        if let productListVM = productListVM {
-            self.objects = productListVM.objects.flatMap(ProductCarouselCellModel.adapter)
+        if let productListModels = productListModels {
+            self.objects.appendContentsOf(productListModels.flatMap(ProductCarouselCellModel.adapter))
         } else {
-            self.objects = [initialProduct].flatMap{$0}.map(ProductCarouselCellModel.init)
+            self.objects.appendContentsOf([initialProduct].flatMap{$0}.map(ProductCarouselCellModel.init))
         }
         self.initialThumbnail = thumbnailImage
         self.productListRequester = productListRequester
         self.singleProductList = singleProductList
+        self.tabNavigator = tabNavigator
         super.init()
         self.startIndex = indexForProduct(initialProduct) ?? 0
         self.currentProductViewModel = viewModelAtIndex(startIndex)
@@ -116,15 +133,15 @@ class ProductCarouselViewModel: BaseViewModel {
             let newModel = ProductCarouselCellModel(product: product)
             self.objects.removeAtIndex(self.startIndex)
             self.objects.insert(newModel, atIndex: self.startIndex)
-            self.delegate?.vmReloadItemAtIndex(self.startIndex)
+            self.delegate?.vmRefreshCurrent()
         }
     }
     
     
     func indexForProduct(product: Product?) -> Int? {
         guard let product = product else { return nil }
-        for i in 0..<objects.count {
-            switch objects[i] {
+        for i in 0..<objects.value.count {
+            switch objects.value[i] {
             case .ProductCell(let data):
                 if data.objectId == product.objectId {
                     return i
@@ -148,9 +165,9 @@ class ProductCarouselViewModel: BaseViewModel {
         activeDisposeBag = DisposeBag()
         currentProductViewModel?.product.asObservable().skip(1).bindNext { [weak self] updatedProduct in
             guard let strongSelf = self else { return }
-            guard 0..<strongSelf.objects.count ~= index else { return }
-            strongSelf.objects[index] = ProductCarouselCellModel(product: updatedProduct)
-            strongSelf.delegate?.vmReloadItemAtIndex(index)
+            guard 0..<strongSelf.objectCount ~= index else { return }
+            strongSelf.objects.replace(index..<(index+1), with: [ProductCarouselCellModel(product: updatedProduct)])
+            strongSelf.delegate?.vmRefreshCurrent()
         }.addDisposableTo(activeDisposeBag)
 
         prefetchImages(index)
@@ -159,7 +176,7 @@ class ProductCarouselViewModel: BaseViewModel {
 
     func productAtIndex(index: Int) -> Product? {
         guard 0..<objectCount ~= index else { return nil }
-        let item = objects[index]
+        let item = objects.value[index]
         switch item {
         case .ProductCell(let product):
             return product
@@ -178,7 +195,7 @@ class ProductCarouselViewModel: BaseViewModel {
     }
 
     func viewModelForProduct(product: Product) -> ProductViewModel {
-        return ProductViewModel(product: product, thumbnailImage: nil)
+        return ProductViewModel(product: product, thumbnailImage: nil, tabNavigator: tabNavigator)
     }
 
     func openProductOwnerProfile() {
@@ -214,12 +231,11 @@ extension ProductCarouselViewModel: Paginable {
             guard let strongSelf = self else { return }
             if let newProducts = result.value {
                 if isFirstPage {
-                    strongSelf.objects = newProducts.map(ProductCarouselCellModel.init)
-                } else {
-                    strongSelf.objects += newProducts.map(ProductCarouselCellModel.init)
+                    strongSelf.objects.removeAll()
                 }
+                strongSelf.objects.appendContentsOf(newProducts.map(ProductCarouselCellModel.init))
                 strongSelf.isLastPage = strongSelf.productListRequester?.isLastPage(newProducts.count) ?? true
-                self?.delegate?.vmReloadData()
+                self?.isLastPage = newProducts.count == 0
             }
             self?.isLoading = false
         }

@@ -19,12 +19,11 @@ protocol ProductsRefreshable {
     func productsRefresh()
 }
 
-final class TabBarController: UITabBarController, UINavigationControllerDelegate {
+final class TabBarController: UITabBarController {
 
     // UI
     private var floatingSellButton = FloatingButton()
     private var floatingSellButtonMarginConstraint = NSLayoutConstraint()
-    private let sellButton = UIButton()
 
     private let viewModel: TabBarViewModel
 
@@ -48,7 +47,6 @@ final class TabBarController: UITabBarController, UINavigationControllerDelegate
         super.viewDidLoad()
 
         setupAdminAccess()
-        setupControllers()
         setupSellButtons()
 
         setupCommercializerRx()
@@ -65,14 +63,6 @@ final class TabBarController: UITabBarController, UINavigationControllerDelegate
         viewModel.active = false
     }
 
-    override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
-        // Move the sell button
-        let itemWidth = self.tabBar.frame.width / CGFloat(self.tabBar.items!.count)
-        sellButton.frame = CGRect(x: itemWidth * CGFloat(Tab.Sell.index), y: 0, width: itemWidth,
-            height: tabBar.frame.height)
-    }
-    
     
     // MARK: - Public methods
     
@@ -140,102 +130,30 @@ final class TabBarController: UITabBarController, UINavigationControllerDelegate
         return true
     }
 
-    // MARK: - UINavigationControllerDelegate
-    
-    func navigationController(navigationController: UINavigationController,
-                              animationControllerForOperation operation: UINavigationControllerOperation,
-                                                              fromViewController fromVC: UIViewController,
-                                                                                 toViewController toVC: UIViewController)
-        -> UIViewControllerAnimatedTransitioning? {
-            
-            if let animator = (toVC as? AnimatableTransition)?.animator where operation == .Push {
-                animator.pushing = true
-                return animator
-            } else if let animator = (fromVC as? AnimatableTransition)?.animator where operation == .Pop {
-                animator.pushing = false
-                return animator
-            } else {
-                return nil
-            }
-    }
-
-    func navigationController(navigationController: UINavigationController,
-        willShowViewController viewController: UIViewController, animated: Bool) {
-            updateFloatingButtonFor(navigationController, presenting: viewController, animate: false)
-    }
-
-    func navigationController(navigationController: UINavigationController,
-        didShowViewController viewController: UIViewController, animated: Bool) {
-            updateFloatingButtonFor(navigationController, presenting: viewController, animate: true)
-    }
-
-    private func updateFloatingButtonFor(navigationController: UINavigationController,
-        presenting viewController: UIViewController, animate: Bool) {
-            guard let viewControllers = viewControllers else { return }
-
-            let vcIdx = (viewControllers as NSArray).indexOfObject(navigationController)
-            if let tab = Tab(index: vcIdx) {
-                switch tab {
-                case .Home, .Categories, .Sell, .Profile:
-                    //In case of those 4 sections, show if ctrl is root, or if its the MainProductsViewController
-                    let showBtn = viewController.isRootViewController() || (viewController is MainProductsViewController)
-                    setSellFloatingButtonHidden(!showBtn, animated: animate)
-                case .Chats, .Notifications:
-                    setSellFloatingButtonHidden(true, animated: false)
-                }
-            }
-    }
-
 
     // MARK: - Private methods
     // MARK: > Setup
 
-    private func setupControllers() {
-        let vcs = Tab.all.map{ controllerForTab($0) }
-        viewControllers = vcs
-    }
 
-    private func controllerForTab(tab: Tab) -> UIViewController {
-        let vc: UIViewController
-        switch tab {
-        case .Home:
-            vc = MainProductsViewController(viewModel: viewModel.mainProductsViewModel())
-        case .Categories:
-            vc = CategoriesViewController(viewModel: viewModel.categoriesViewModel())
-        case .Notifications:
-            vc = NotificationsViewController(viewModel: viewModel.notificationsViewModel())
-        case .Sell:
-            vc = UIViewController() //Just empty will have a button on top
-        case .Chats:
-            vc = ChatGroupedViewController(viewModel: viewModel.chatsViewModel())
-        case .Profile:
-            vc = UserViewController(viewModel: viewModel.profileViewModel())
+    func setupTabBarItems() {
+        guard let viewControllers = viewControllers else { return }
+        for (index, vc) in viewControllers.enumerate() {
+            guard let tab = Tab(index: index) else { continue }
+            let tabBarItem = UITabBarItem(title: nil, image: UIImage(named: tab.tabIconImageName), selectedImage: nil)
+
+            // Customize the selected appereance
+            if let imageItem = tabBarItem.selectedImage {
+                tabBarItem.image = imageItem.imageWithColor(UIColor.tabBarIconUnselectedColor)
+                    .imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
+            } else {
+                tabBarItem.image = UIImage()
+            }
+            tabBarItem.imageInsets = UIEdgeInsetsMake(5.5, 0, -5.5, 0)
+            vc.tabBarItem = tabBarItem
         }
-        let navCtl = UINavigationController(rootViewController: vc)
-        navCtl.delegate = self
-
-        let tabBarItem = UITabBarItem(title: nil, image: UIImage(named: tab.tabIconImageName), selectedImage: nil)
-
-        // Customize the selected appereance
-        if let imageItem = tabBarItem.selectedImage {
-            tabBarItem.image = imageItem.imageWithColor(UIColor.tabBarIconUnselectedColor)
-                .imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
-        } else {
-            tabBarItem.image = UIImage()
-        }
-        tabBarItem.imageInsets = UIEdgeInsetsMake(5.5, 0, -5.5, 0)
-
-        navCtl.tabBarItem = tabBarItem
-        return navCtl
     }
 
     private func setupSellButtons() {
-        // set sell button as a custom one
-        sellButton.addTarget(self, action: #selector(TabBarController.sellButtonPressed),
-                             forControlEvents: UIControlEvents.TouchUpInside)
-        sellButton.setImage(UIImage(named: Tab.Sell.tabIconImageName), forState: UIControlState.Normal)
-        tabBar.addSubview(sellButton)
-
         guard let floatingSellBtn = FloatingButton.floatingButtonWithTitle(LGLocalizedString.tabBarToolTip,
                                                                 icon: UIImage(named: "ic_sell_white")) else { return }
         floatingSellButton = floatingSellBtn
@@ -305,21 +223,6 @@ final class TabBarController: UITabBarController, UINavigationControllerDelegate
 
         // Notify the delegate, as programmatically change doesn't do it
         delegate?.tabBarController?(self, didSelectViewController: vc)
-    }
-
-    private func refreshSelectedProductsRefreshable() {
-        if let navVC = selectedViewController as? UINavigationController, topVC = navVC.topViewController,
-        refreshable = topVC as? ProductsRefreshable where topVC.isViewLoaded() {
-            refreshable.productsRefresh()
-        }
-    }
-
-    private func tabFromController(viewController: UIViewController) -> Tab? {
-        let mainController = viewController.navigationController ?? viewController
-        guard let viewControllers = viewControllers else { return nil }
-        let vcIdx = (viewControllers as NSArray).indexOfObject(mainController)
-        guard let tab = Tab(index: vcIdx) else { return nil }
-        return tab
     }
 }
 
@@ -394,7 +297,9 @@ extension TabBarController: UIGestureRecognizerDelegate {
 extension TabBarController: AppRatingViewDelegate {
     func appRatingViewDidSelectRating(rating: Int) {
         if rating <= 3 {
-            guard let url = LetgoURLHelper.buildContactUsURL(Core.myUserRepository.myUser) else { return }
+            guard let url = LetgoURLHelper
+                .buildContactUsURL(Core.myUserRepository.myUser,
+                                   installation: Core.installationRepository.installation) else { return }
             openInternalUrl(url)
         } else {
             UIApplication.sharedApplication().openURL(NSURL(string: Constants.appStoreURL)!)

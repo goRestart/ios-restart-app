@@ -18,13 +18,14 @@ protocol ProductViewModelDelegate: class, BaseViewModelDelegate {
 
     func vmOpenEditProduct(editProductVM: EditProductViewModel)
     func vmOpenMainSignUp(signUpVM: SignUpViewModel, afterLoginAction: () -> ())
-    func vmOpenUser(userVM: UserViewModel)
     func vmOpenChat(chatVM: OldChatViewModel)
     func vmOpenWebSocketChat(chatVM: ChatViewModel)
 
     func vmOpenPromoteProduct(promoteVM: PromoteProductViewModel)
     func vmOpenCommercialDisplay(displayVM: CommercialDisplayViewModel)
     func vmAskForRating()
+    func vmShowOnboarding()
+    func vmShowProductDelegateActionSheet(cancelLabel: String, actions: [UIAction])
 }
 
 
@@ -113,6 +114,7 @@ class ProductViewModel: BaseViewModel {
 
     // Delegate
     weak var delegate: ProductViewModelDelegate?
+    weak var tabNavigator: TabNavigator?
 
     
     // UI
@@ -158,7 +160,7 @@ class ProductViewModel: BaseViewModel {
 
     // MARK: - Lifecycle
 
-    convenience init(product: ChatProduct, user: ChatInterlocutor, thumbnailImage: UIImage?) {
+    convenience init(product: ChatProduct, user: ChatInterlocutor, thumbnailImage: UIImage?, tabNavigator: TabNavigator?) {
         let myUserRepository = Core.myUserRepository
         let productRepository = Core.productRepository
         let commercializerRepository = Core.commercializerRepository
@@ -173,12 +175,12 @@ class ProductViewModel: BaseViewModel {
         self.init(myUserRepository: myUserRepository, productRepository: productRepository,
                   commercializerRepository: commercializerRepository, chatRepository: chatRepository,
                   chatWebSocketRepository: chatWebSocketRepository, locationManager: locationManager, countryHelper: countryHelper, tracker: tracker,
-                  product: product, thumbnailImage: thumbnailImage)
+                  product: product, thumbnailImage: thumbnailImage, tabNavigator: tabNavigator)
         
         syncProduct(nil)
     }
     
-    convenience init(product: Product, thumbnailImage: UIImage?) {
+    convenience init(product: Product, thumbnailImage: UIImage?, tabNavigator: TabNavigator?) {
         let myUserRepository = Core.myUserRepository
         let productRepository = Core.productRepository
         let commercializerRepository = Core.commercializerRepository
@@ -190,13 +192,13 @@ class ProductViewModel: BaseViewModel {
         self.init(myUserRepository: myUserRepository, productRepository: productRepository,
                   commercializerRepository: commercializerRepository, chatRepository: chatRepository,
                   chatWebSocketRepository: chatWebSocketRepository, locationManager: locationManager, countryHelper: countryHelper, tracker: tracker,
-                  product: product, thumbnailImage: thumbnailImage)
+                  product: product, thumbnailImage: thumbnailImage, tabNavigator: tabNavigator)
     }
 
     init(myUserRepository: MyUserRepository, productRepository: ProductRepository,
          commercializerRepository: CommercializerRepository, chatRepository: OldChatRepository,
          chatWebSocketRepository: ChatRepository, locationManager: LocationManager, countryHelper: CountryHelper,
-         tracker: Tracker, product: Product, thumbnailImage: UIImage?) {
+         tracker: Tracker, product: Product, thumbnailImage: UIImage?, tabNavigator: TabNavigator?) {
         self.product = Variable<Product>(product)
         self.thumbnailImage = thumbnailImage
         self.myUserRepository = myUserRepository
@@ -208,6 +210,7 @@ class ProductViewModel: BaseViewModel {
         self.chatRepository = chatRepository
         self.chatWebSocketRepository = chatWebSocketRepository
         self.locationManager = locationManager
+        self.tabNavigator = tabNavigator
         
         let ownerId = product.user.objectId
         self.ownerId = ownerId
@@ -269,8 +272,7 @@ class ProductViewModel: BaseViewModel {
                     let availableTemplates = strongSelf.commercializerRepository.availableTemplatesFor(value,
                                                                                                        countryCode: code)
                     strongSelf.commercializerAvailableTemplatesCount = availableTemplates.count
-                    strongSelf.status.value = strongSelf.status.value
-                        .setCommercializable(availableTemplates.count > 0 && strongSelf.commercializerIsAvailable)
+                    strongSelf.refreshStatus()
                 }
 
                 let readyCommercials = value.filter {$0.status == .Ready }
@@ -306,23 +308,12 @@ class ProductViewModel: BaseViewModel {
 
         product.asObservable().subscribeNext { [weak self] product in
             guard let strongSelf = self else { return }
+
+            strongSelf.refreshStatus()
             
             strongSelf.isFavorite.value = product.favorite
             let socialTitle = LGLocalizedString.productShareBody
             strongSelf.socialMessage.value = SocialHelper.socialMessageWithTitle(socialTitle, product: product)
-            strongSelf.navBarButtons.value = strongSelf.buildNavBarButtons()
-          
-            let status = product.viewModelStatus
-            if let templates = strongSelf.commercializerAvailableTemplatesCount {
-                strongSelf.status.value = status.setCommercializable(templates > 0 && strongSelf.commercializerIsAvailable)
-            } else {
-                strongSelf.status.value = status
-            }
-            
-            strongSelf.productStatusBackgroundColor.value = status.bgColor
-            strongSelf.productStatusLabelText.value = status.string
-            strongSelf.productStatusLabelColor.value = status.labelColor
-
             strongSelf.productImageURLs.value = product.images.flatMap { return $0.fileURL }
 
             strongSelf.productTitle.value = product.title
@@ -342,6 +333,10 @@ class ProductViewModel: BaseViewModel {
             }.subscribeNext { [weak self] visible in
                 self?.statsViewVisible.value = visible
         }.addDisposableTo(disposeBag)
+
+        myUserRepository.rx_myUser.asObservable().bindNext { [weak self] _ in
+            self?.refreshStatus()
+        }.addDisposableTo(disposeBag)
     }
     
     private func distanceString(product: Product) -> String? {
@@ -350,9 +345,16 @@ class ProductViewModel: BaseViewModel {
         let distanceString = String(format: "%0.1f %@", arguments: [distance, DistanceType.systemDistanceType().string])
         return LGLocalizedString.productDistanceXFromYou(distanceString)
     }
+
+    private func refreshStatus() {
+        let productStatus = product.value.viewModelStatus
+        if let templates = commercializerAvailableTemplatesCount {
+            status.value = productStatus.setCommercializable(templates > 0 && commercializerIsAvailable)
+        } else {
+            status.value = productStatus
+        }
+    }
 }
-
-
 
 
 // MARK: - Public actions
@@ -360,18 +362,8 @@ class ProductViewModel: BaseViewModel {
 extension ProductViewModel {
 
     func openProductOwnerProfile() {
-        guard let productOwnerId = product.value.user.objectId else { return }
-
-        let userVM = UserViewModel(user: product.value.user, source: .ProductDetail)
-
-        // If logged in and i'm not the product owner then open the user profile
-        if Core.sessionManager.loggedIn {
-            if myUserRepository.myUser?.objectId != productOwnerId {
-                delegate?.vmOpenUser(userVM)
-            }
-        } else {
-            delegate?.vmOpenUser(userVM)
-        }
+        let data = UserDetailData.UserAPI(user: product.value.user, source: .ProductDetail)
+        tabNavigator?.openUser(data)
     }
 
     func markSold() {
@@ -470,11 +462,11 @@ extension ProductViewModel {
 extension ProductViewModel {
     private func openChat() {
         if FeatureFlags.websocketChat {
-            guard let chatVM = ChatViewModel(product: product.value) else { return }
+            guard let chatVM = ChatViewModel(product: product.value, tabNavigator: tabNavigator) else { return }
             chatVM.askQuestion = .ProductDetail
             self.delegate?.vmOpenWebSocketChat(chatVM)
         } else {
-            guard let chatVM = OldChatViewModel(product: product.value) else { return }
+            guard let chatVM = OldChatViewModel(product: product.value, tabNavigator: tabNavigator) else { return }
             chatVM.askQuestion = .ProductDetail
             delegate?.vmOpenChat(chatVM)
         }
@@ -591,13 +583,16 @@ extension ProductViewModel {
             guard let strongSelf = self else { return }
 
             var actions = [UIAction]()
+            
+            actions.append(strongSelf.buildOnboardingButton())
+            
             if isReportable {
                 actions.append(strongSelf.buildReportButton())
             }
             if isDeletable {
                 actions.append(strongSelf.buildDeleteButton())
             }
-            strongSelf.delegate?.vmShowActionSheet(LGLocalizedString.commonCancel, actions: actions)
+            strongSelf.delegate?.vmShowProductDelegateActionSheet(LGLocalizedString.commonCancel, actions: actions)
             })
     }
 
@@ -659,6 +654,14 @@ extension ProductViewModel {
                 cancelLabel: LGLocalizedString.productDeleteConfirmCancelButton,
                 actions: alertActions)
             })
+    }
+    
+    private func buildOnboardingButton() -> UIAction {
+        let title = LGLocalizedString.productOnboardingShowAgainButtonTitle
+        return UIAction(interface: .Text(title), action: { [weak self] in
+            KeyValueStorage.sharedInstance[.didShowProductDetailOnboarding] = false
+            self?.delegate?.vmShowOnboarding()
+        })
     }
 
     private var socialShareMessage: SocialMessage {

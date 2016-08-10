@@ -75,6 +75,8 @@ public enum EventName: String {
     case ProductDeleteComplete              = "product-delete-complete"
     
     case UserMessageSent                    = "user-sent-message"
+    case ChatRelatedItemsStart              = "chat-related-items-start"
+    case ChatRelatedItemsComplete           = "chat-related-items-complete"
 
     case ProfileVisit                       = "profile-visit"
     case ProfileEditStart                   = "profile-edit-start"
@@ -119,6 +121,7 @@ public enum EventName: String {
     case UserRatingStart                    = "user-rating-start"
     case UserRatingComplete                 = "user-rating-complete"
 
+    case OpenApp                            = "open-app-external"
 
     // Constants
     private static let eventNameDummyPrefix  = "dummy-"
@@ -162,6 +165,7 @@ public enum EventParameterName: String {
     case UserZipCode          = "user-zipcode"
     case SearchString         = "search-keyword"
     case SearchSuccess        = "search-success"
+    case TrendingSearch       = "trending-search"
     case Description          = "description"           // error description: why form validation failure.
     case LoginSource          = "login-type"            // the login source
     case LocationType         = "location-type"
@@ -196,6 +200,10 @@ public enum EventParameterName: String {
     case RatingStars          = "rating-stars"
     case RatingComments       = "rating-comments"
     case SellerUserRating     = "seller-user-rating"
+    case Campaign             = "campaign"
+    case Medium               = "medium"
+    case Source               = "source"
+    case ItemPosition         = "item-position"
 }
 
 public enum EventParameterLoginSourceValue: String {
@@ -456,6 +464,7 @@ public enum EventParameterRatingSource: String {
     case ProductSellComplete = "product-sell-complete"
     case MarkedSold = "marked-sold"
 }
+
 
 public struct EventParameters {
     private var params: [EventParameterName : AnyObject] = [:]

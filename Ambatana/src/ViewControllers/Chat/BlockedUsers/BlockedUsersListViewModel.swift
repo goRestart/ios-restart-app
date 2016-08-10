@@ -18,7 +18,7 @@ protocol BlockedUsersListViewModelDelegate: class {
 
 class BlockedUsersListViewModel: BaseChatGroupedListViewModel<User> {
 
-    var delegate: BlockedUsersListViewModelDelegate?
+    weak var delegate: BlockedUsersListViewModelDelegate?
     private var userRepository: UserRepository
 
 
@@ -30,7 +30,7 @@ class BlockedUsersListViewModel: BaseChatGroupedListViewModel<User> {
 
     required init(userRepository: UserRepository, blockedUsers: [User]) {
         self.userRepository = userRepository
-        super.init(objects: blockedUsers)
+        super.init(objects: blockedUsers, tabNavigator: nil)
     }
 
 

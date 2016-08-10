@@ -51,13 +51,11 @@ public class HelpViewController: BaseViewController, UIWebViewDelegate {
     dynamic private func showOptions() {
         let alert = UIAlertController(title: nil, message: nil,
             preferredStyle: .ActionSheet)
-
+        alert.popoverPresentationController?.barButtonItem = self.navigationItem.rightBarButtonItem
         alert.addAction(UIAlertAction(title: LGLocalizedString.mainSignUpTermsConditionsTermsPart, style: .Default,
             handler: { [weak self] action in self?.showTerms() }))
         alert.addAction(UIAlertAction(title: LGLocalizedString.mainSignUpTermsConditionsPrivacyPart, style: .Default,
             handler: { [weak self] action in self?.showPrivacy() }))
-        alert.addAction(UIAlertAction(title: LGLocalizedString.contactTitle, style: .Default,
-            handler: { [weak self] action in self?.openContact() }))
         alert.addAction(UIAlertAction(title: LGLocalizedString.commonCancel, style: .Cancel, handler: nil))
         self.presentViewController(alert, animated: true, completion: nil)
     }
@@ -71,12 +69,6 @@ public class HelpViewController: BaseViewController, UIWebViewDelegate {
     private func showPrivacy() {
         if let privacyUrl = viewModel.privacyURL {
             openInternalUrl(privacyUrl)
-        }
-    }
-
-    private func openContact() {
-        if let contactURL = viewModel.contactUsURL {
-            openInternalUrl(contactURL)
         }
     }
 }

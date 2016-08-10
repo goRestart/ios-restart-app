@@ -29,6 +29,7 @@ enum ProductCellModel {
 struct ProductData {
     var productID: String?
     var thumbUrl: NSURL?
+    var price: String?
 }
 
 
