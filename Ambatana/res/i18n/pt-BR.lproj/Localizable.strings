@@ -58,6 +58,12 @@
 "chat_blocked_disclaimer_scammer_wo_name" = "For safety reasons, this account has been deleted by the letgo team and these messages have been removed.";
 "chat_deleted_disclaimer_w_name" = "You can't continue this conversation because %@'s account is no longer active.";
 "chat_deleted_disclaimer_wo_name" = "You can't continue this conversation because this account is no longer active.";
+"chat_express_contact_one_button_text" = "Contact 1 seller";
+"chat_express_contact_sellers_label" = "Contact these sellers before other buyers snatch them up!";
+"chat_express_contact_various_button_text" = "Contact %@ sellers";
+"chat_express_dont_ask_again_button" = "Don't ask me again";
+"chat_express_dont_miss_label" = "Don't miss out on these bargains";
+"chat_express_text_field_text" = "Hi, I'm interested!";
 "chat_list_account_deleted" = "Deleted account";
 "chat_list_account_deleted_username" = "Inactive";
 "chat_list_all_empty_title" = "NO CHATS (YET!)";
@@ -281,6 +287,7 @@
 "product_chat_direct_message" = "Hi %@, I'm interested";
 "product_chat_direct_message_sending" = "Sending...";
 "product_chat_with_seller_button" = "Chat with the seller";
+"product_chat_with_seller_name_button" = "Chat with %@";
 "product_chat_with_seller_send_ok" = "Your chat has been sent!";
 "product_continue_chatting_button" = "Continue chatting";
 "product_create_commercial_button" = "Create Commercial";
@@ -316,6 +323,7 @@
 "product_mark_as_sold_confirm_title" = "Mark as Sold";
 "product_mark_as_sold_error_generic" = "An error occurred while marking your product as sold. Please try again later.";
 "product_mark_as_sold_success_message" = "Congratulations, your product was successfully marked as sold!";
+"product_more_info_open_button" = "MORE INFO";
 "product_more_info_tooltip_part_1" = "Tap";
 "product_more_info_tooltip_part_2" = "%@ to see more info";
 "product_negotiable_price" = "Negotiable";

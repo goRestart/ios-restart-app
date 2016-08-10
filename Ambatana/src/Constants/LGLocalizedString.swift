@@ -247,6 +247,30 @@ struct LGLocalizedString {
 		return NSLocalizedString("chat_deleted_disclaimer_wo_name", comment: "")
 	}
 
+	static var chatExpressDontMissLabel: String {
+		return NSLocalizedString("chat_express_dont_miss_label", comment: "")
+	}
+
+	static var chatExpressContactSellersLabel: String {
+		return NSLocalizedString("chat_express_contact_sellers_label", comment: "")
+	}
+
+	static var chatExpressTextFieldText: String {
+		return NSLocalizedString("chat_express_text_field_text", comment: "")
+	}
+
+	static var chatExpressContactOneButtonText: String {
+		return NSLocalizedString("chat_express_contact_one_button_text", comment: "")
+	}
+
+	static func chatExpressContactVariousButtonText(var1: String) -> String {
+		return String(format: NSLocalizedString("chat_express_contact_various_button_text", comment: ""), var1)
+	}
+
+	static var chatExpressDontAskAgainButton: String {
+		return NSLocalizedString("chat_express_dont_ask_again_button", comment: "")
+	}
+
 	static var chatListAccountDeleted: String {
 		return NSLocalizedString("chat_list_account_deleted", comment: "")
 	}
@@ -1139,6 +1163,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("product_chat_with_seller_button", comment: "")
 	}
 
+	static func productChatWithSellerNameButton(var1: String) -> String {
+		return String(format: NSLocalizedString("product_chat_with_seller_name_button", comment: ""), var1)
+	}
+
 	static var productChatWithSellerSendOk: String {
 		return NSLocalizedString("product_chat_with_seller_send_ok", comment: "")
 	}
@@ -1285,6 +1313,10 @@ struct LGLocalizedString {
 
 	static func productMoreInfoTooltipPart2(var1: String) -> String {
 		return String(format: NSLocalizedString("product_more_info_tooltip_part_2", comment: ""), var1)
+	}
+
+	static var productMoreInfoOpenButton: String {
+		return NSLocalizedString("product_more_info_open_button", comment: "")
 	}
 
 	static var productNegotiablePrice: String {
