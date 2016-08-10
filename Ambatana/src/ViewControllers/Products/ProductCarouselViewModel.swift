@@ -93,7 +93,6 @@ class ProductCarouselViewModel: BaseViewModel {
         self.init(myUserRepository: myUserRepository, productRepository: productRepository,
                   productListModels: nil, initialProduct: product, thumbnailImage: thumbnailImage,
                   singleProductList: true, productListRequester: productListRequester, tabNavigator: tabNavigator)
-        syncFirstProduct()
     }
 
     convenience init(productListModels: [ProductCellModel], initialProduct: Product?, thumbnailImage: UIImage?,
