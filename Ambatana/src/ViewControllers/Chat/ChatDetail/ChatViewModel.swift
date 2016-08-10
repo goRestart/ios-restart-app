@@ -123,17 +123,18 @@ class ChatViewModel: BaseViewModel {
     let interlocutorHasMutedYou = Variable<Bool>(false)
     let chatStatus = Variable<ChatInfoViewStatus>(.Available)
     let chatEnabled = Variable<Bool>(true)
+    let chatConnected = Variable<Bool>(false)
     let relatedProductsEnabled = Variable<Bool>(false)
     let interlocutorTyping = Variable<Bool>(false)
     let messages = CollectionVariable<ChatViewMessage>([])
-    private var conversation: Variable<ChatConversation>
+    private let conversation: Variable<ChatConversation>
     private var interlocutor: User?
-    private var myMessagesCount = Variable<Int>(0)
-    private var otherMessagesCount = Variable<Int>(0)
-    private var stickersTooltipVisible = Variable<Bool>(!KeyValueStorage.sharedInstance[.stickersTooltipAlreadyShown])
-    private var reviewTooltipVisible = Variable<Bool>(!KeyValueStorage.sharedInstance[.userRatingTooltipAlreadyShown])
-    var shouldShowReviewButton = Variable<Bool>(false)
-    var userReviewTooltipVisible = Variable<Bool>(false)
+    private let myMessagesCount = Variable<Int>(0)
+    private let otherMessagesCount = Variable<Int>(0)
+    private let stickersTooltipVisible = Variable<Bool>(!KeyValueStorage.sharedInstance[.stickersTooltipAlreadyShown])
+    private let reviewTooltipVisible = Variable<Bool>(!KeyValueStorage.sharedInstance[.userRatingTooltipAlreadyShown])
+    let shouldShowReviewButton = Variable<Bool>(false)
+    let userReviewTooltipVisible = Variable<Bool>(false)
 
 
     // Private    
