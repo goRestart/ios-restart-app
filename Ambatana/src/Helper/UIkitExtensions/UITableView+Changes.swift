@@ -9,24 +9,24 @@
 import CollectionVariable
 
 extension UITableView {
-    func handleCollectionChange<T>(change: CollectionChange<T>, completion: (() -> Void)? = nil) {
+    func handleCollectionChange<T>(change: CollectionChange<T>, animation: UITableViewRowAnimation = .None, completion: (() -> Void)? = nil) {
         beginUpdates()
-        handleChange(change)
+        handleChange(change, animation: animation)
         endUpdates()
         completion?()
     }
 
-    private func handleChange<T>(change: CollectionChange<T>) {
+    private func handleChange<T>(change: CollectionChange<T>, animation: UITableViewRowAnimation) {
         switch change {
         case .Remove(let index, _):
             let indexPath = NSIndexPath(forRow: index, inSection: 0)
-            deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.None)
+            deleteRowsAtIndexPaths([indexPath], withRowAnimation: animation)
         case .Insert(let index, _):
             let indexPath = NSIndexPath(forRow: index, inSection: 0)
-            insertRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.None)
+            insertRowsAtIndexPaths([indexPath], withRowAnimation: animation)
         case .Composite(let changes):
             changes.forEach { [weak self] change in
-                self?.handleChange(change)
+                self?.handleChange(change, animation: animation)
             }
         }
     }

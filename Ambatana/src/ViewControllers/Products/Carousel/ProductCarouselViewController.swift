@@ -603,9 +603,9 @@ extension ProductCarouselViewController {
             self?.stickersButtonTrailing.constant = enabled ? self?.itemsMargin ?? 0 : 0
         }.addDisposableTo(activeDisposeBag)
 
-        viewModel.directChatMessages.changesObservable.bindNext { [weak self] _ in
-            self?.directChatTable.reloadData()
-        }.addDisposableTo(disposeBag)
+        viewModel.directChatMessages.changesObservable.bindNext { [weak self] change in
+            self?.directChatTable.handleCollectionChange(change, animation: .Top)
+        }.addDisposableTo(activeDisposeBag)
         directChatTable.reloadData()
     }
 }
@@ -826,10 +826,14 @@ extension ProductCarouselViewController: ProductViewModelDelegate {
     }
 
     func vmOpenStickersSelector(stickers: [Sticker]) {
-        viewModel.currentProductViewModel?.sendSticker(stickers[0])
-        //TODO: IMPLEMENT
+        let interlocutorName = viewModel.currentProductViewModel?.ownerName
+        let vc = StickersSelectorViewController(stickers: stickers, interlocutorName: interlocutorName)
+        navigationController?.presentViewController(vc, animated: true, completion: nil)
     }
 }
+
+
+// MARK: - ProductDetailOnboardingViewDelegate
 
 extension ProductCarouselViewController: ProductDetailOnboardingViewDelegate {
     func productDetailOnboardingDidAppear() {
@@ -842,4 +846,15 @@ extension ProductCarouselViewController: ProductDetailOnboardingViewDelegate {
         navigationController?.setNavigationBarHidden(false, animated: false)
         productOnboardingView = nil
     }
+}
+
+
+// MARK: - StickersSelectorDelegate
+
+extension ProductCarouselViewController: StickersSelectorDelegate {
+    func stickersSelectorDidSelectSticker(sticker: Sticker) {
+        viewModel.currentProductViewModel?.sendSticker(sticker)
+    }
+
+    func stickersSelectorDidCancel() {}
 }
