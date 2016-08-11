@@ -307,13 +307,17 @@ extension UserViewModel {
     }
 
     private func openPushPermissionsAlert() {
+        trackPushPermissionStart()
         let positive = UIAction(interface: .Button(LGLocalizedString.profilePermissionsAlertOk, .Default),
-                        action: {
+                        action: { [weak self] in
+                            self?.trackPushPermissionComplete()
                             PushPermissionsManager.sharedInstance.showPushPermissionsAlert(prePermissionType: .Profile)
                         })
 
         let negative = UIAction(interface: .Button(LGLocalizedString.profilePermissionsAlertCancel,
-            .Cancel), action: {})
+            .Cancel), action: { [weak self] in
+                self?.trackPushPermissionCancel()
+        })
         delegate?.vmShowAlertWithTitle(LGLocalizedString.profilePermissionsAlertTitle,
                                        text: LGLocalizedString.profilePermissionsAlertMessage,
                                        alertType: .IconAlert(icon: UIImage(named: "custom_permission_profile")),
@@ -621,5 +625,29 @@ extension UserViewModel {
     private func trackUnblock(userId: String) {
         let event = TrackerEvent.profileUnblock(.Profile, unblockedUsersIds: [userId])
         TrackerProxy.sharedInstance.trackEvent(event)
+    }
+
+    private func trackPushPermissionStart() {
+        let goToSettings: EventParameterPermissionGoToSettings =
+            PushPermissionsManager.sharedInstance.pushPermissionsSettingsMode ? .True : .NotAvailable
+        let trackerEvent = TrackerEvent.permissionAlertStart(.Push, typePage: .Profile, alertType: .Custom,
+                                                             permissionGoToSettings: goToSettings)
+        tracker.trackEvent(trackerEvent)
+    }
+
+    private func trackPushPermissionComplete() {
+        let goToSettings: EventParameterPermissionGoToSettings =
+            PushPermissionsManager.sharedInstance.pushPermissionsSettingsMode ? .True : .NotAvailable
+        let trackerEvent = TrackerEvent.permissionAlertComplete(.Push, typePage: .Profile, alertType: .Custom,
+                                                                permissionGoToSettings: goToSettings)
+        tracker.trackEvent(trackerEvent)
+    }
+
+    private func trackPushPermissionCancel() {
+        let goToSettings: EventParameterPermissionGoToSettings =
+            PushPermissionsManager.sharedInstance.pushPermissionsSettingsMode ? .True : .NotAvailable
+        let trackerEvent = TrackerEvent.permissionAlertCancel(.Push, typePage: .Profile, alertType: .Custom,
+                                                              permissionGoToSettings: goToSettings)
+        tracker.trackEvent(trackerEvent)
     }
 }
