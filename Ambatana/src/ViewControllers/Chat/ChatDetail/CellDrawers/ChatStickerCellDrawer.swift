@@ -12,6 +12,7 @@ import LGCoreKit
 class ChatStickerCellDrawer: BaseChatCellDrawer<ChatStickerCell> {
 
     private static let autoHideTime: NSTimeInterval = 3
+    private static let autoHideFadeTime: NSTimeInterval = 0.3
     
     let messageIsMine: Bool
     let autoHide: Bool
@@ -46,10 +47,9 @@ class ChatStickerCellDrawer: BaseChatCellDrawer<ChatStickerCell> {
                 cell.contentView.alpha = 0
                 return
             }
-            cell.contentView.alpha = CGFloat(diffTime / ChatStickerCellDrawer.autoHideTime)
-            UIView.animateWithDuration(diffTime, animations: {
-                cell.contentView.alpha = 0
-            })
+            cell.contentView.alpha = 1
+            UIView.animateWithDuration(ChatStickerCellDrawer.autoHideFadeTime, delay: diffTime, options: .CurveEaseIn,
+                                       animations: { cell.contentView.alpha = 0 }, completion: nil)
         }
     }
 }
