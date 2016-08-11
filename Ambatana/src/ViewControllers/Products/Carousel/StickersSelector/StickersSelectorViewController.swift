@@ -87,6 +87,9 @@ class StickersSelectorViewController: BaseViewController {
         }
         blurContainer.alpha = 0
         titleLabel.alpha = 0
+
+        let closeTap = UITapGestureRecognizer(target: self, action: #selector(closeButtonPressed(_:)))
+        blurContainer.addGestureRecognizer(closeTap)
     }
 
     private func buildStickers() {
