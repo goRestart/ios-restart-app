@@ -10,11 +10,15 @@ import Foundation
 import LGCoreKit
 
 class ChatStickerCellDrawer: BaseChatCellDrawer<ChatStickerCell> {
+
+    private static let autoHideTime: NSTimeInterval = 3
     
     let messageIsMine: Bool
+    let autoHide: Bool
     
-    init(messageIsMine: Bool) {
+    init(messageIsMine: Bool, autoHide: Bool) {
         self.messageIsMine = messageIsMine
+        self.autoHide = autoHide
     }
     
     override func draw(cell: ChatStickerCell, message: ChatViewMessage, delegate: AnyObject?) {
@@ -34,6 +38,18 @@ class ChatStickerCellDrawer: BaseChatCellDrawer<ChatStickerCell> {
                 }
             }
             cell.rightImage.image = nil
+        }
+
+        if let timeInterval = message.sentAt?.timeIntervalSinceNow where autoHide {
+            let diffTime = ChatStickerCellDrawer.autoHideTime + timeInterval
+            guard 0.0..<ChatStickerCellDrawer.autoHideTime ~= diffTime else {
+                cell.contentView.alpha = 0
+                return
+            }
+            cell.contentView.alpha = CGFloat(diffTime / ChatStickerCellDrawer.autoHideTime)
+            UIView.animateWithDuration(diffTime, animations: {
+                cell.contentView.alpha = 0
+            })
         }
     }
 }

@@ -11,7 +11,7 @@ import LGCoreKit
 
 public class ChatCellDrawerFactory {
     
-    static func drawerForMessage(message: ChatViewMessage) -> ChatCellDrawer {
+    static func drawerForMessage(message: ChatViewMessage, autoHide: Bool = false) -> ChatCellDrawer {
         let myUserRepository = Core.myUserRepository
         
         let isMine = message.talkerId == myUserRepository.myUser?.objectId
@@ -19,7 +19,7 @@ public class ChatCellDrawerFactory {
         case .Offer, .Text:
             return isMine ? ChatMyMessageCellDrawer() : ChatOthersMessageCellDrawer()
         case .Sticker:
-            return ChatStickerCellDrawer(messageIsMine: isMine)
+            return ChatStickerCellDrawer(messageIsMine: isMine, autoHide: autoHide)
         case .Disclaimer:
             return ChatDisclaimerCellDrawer()
         case .UserInfo:
