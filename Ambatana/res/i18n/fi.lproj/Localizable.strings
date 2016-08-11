@@ -63,6 +63,8 @@
 "chat_express_contact_various_button_text" = "Ota yhteyttä %@ myyjään";
 "chat_express_dont_ask_again_button" = "Älä kysy uudelleen";
 "chat_express_dont_miss_label" = "Älä missaa näitä tarjouksia";
+"chat_express_one_message_sent_success_alert" = "Your message has been sent!";
+"chat_express_several_messages_sent_success_alert" = "Your messages have been sent!";
 "chat_express_text_field_text" = "Hei, olen kiinnostunut!";
 "chat_list_account_deleted" = "Tili poistettu";
 "chat_list_account_deleted_username" = "Passiivinen";
@@ -406,6 +408,8 @@
 "product_share_telegram_error" = "Hups! Vaikuttaa siltä, että et ole asentanut Telegram-sovellusta.";
 "product_share_title_label" = "JAA TÄMÄ TUOTE";
 "product_share_whatsapp_error" = "Hups! Vaikuttaa siltä että et ole asentanut WhatsApp-sovellusta.";
+"product_stickers_selection_w_name" = "Select the sticker you want to send to %@.";
+"product_stickers_selection_wo_name" = "Select the sticker you want to send to the seller.";
 "profile_blocked_by_me_label" = "Olet estänyt tämän käyttäjän";
 "profile_blocked_by_me_label_w_name" = "Olet estänyt käyttäjän %@";
 "profile_blocked_by_other_label" = "Tämä käyttäjä on estänyt sinut";
