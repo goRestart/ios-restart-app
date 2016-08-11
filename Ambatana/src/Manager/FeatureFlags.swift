@@ -19,10 +19,6 @@ struct FeatureFlags {
         }
         return false
     }
-    
-    static var indexProductsTrendingFirst24h: Bool {
-        return FTSFlipTheSwitch.indexProductsTrendingFirst24h
-    }
 
     static var userRatings: Bool {
         return FTSFlipTheSwitch.userRatings
@@ -36,10 +32,17 @@ struct FeatureFlags {
     }
     
     static var showPriceOnListings: Bool {
-        if FTSFlipTheSwitch.showPriceOnListings {
+        if FTSFlipTheSwitch.overridesABTests {
             return FTSFlipTheSwitch.showPriceOnListings
         }
         return ABTests.showPriceOnListings.value
+    }
+
+    static var directStickersOnProduct: Bool {
+        if FTSFlipTheSwitch.overridesABTests {
+            return FTSFlipTheSwitch.directStickersOnProduct
+        }
+        return ABTests.directStickersOnProduct.value
     }
 }
 
@@ -56,10 +59,6 @@ private extension FTSFlipTheSwitch {
         return FTSFlipTheSwitch.sharedInstance().isFeatureEnabled("notifications_replaces_categories")
     }
     
-    static var indexProductsTrendingFirst24h: Bool {
-        return FTSFlipTheSwitch.sharedInstance().isFeatureEnabled("index_products_trending_first_24h")
-    }
-
     static var userRatings: Bool {
         return FTSFlipTheSwitch.sharedInstance().isFeatureEnabled("user_ratings")
     }
@@ -70,5 +69,9 @@ private extension FTSFlipTheSwitch {
     
     static var showPriceOnListings: Bool {
         return FTSFlipTheSwitch.sharedInstance().isFeatureEnabled("show_price_listings")
+    }
+
+    static var directStickersOnProduct: Bool {
+        return FTSFlipTheSwitch.sharedInstance().isFeatureEnabled("direct_stickers_on_product")
     }
 }
