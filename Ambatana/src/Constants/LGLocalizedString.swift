@@ -1343,6 +1343,14 @@ struct LGLocalizedString {
 		return NSLocalizedString("product_open_commercial_button", comment: "")
 	}
 
+	static var productOptionShare: String {
+		return NSLocalizedString("product_option_share", comment: "")
+	}
+
+	static var productOptionShowCommercial: String {
+		return NSLocalizedString("product_option_show_commercial", comment: "")
+	}
+
 	static var productPopularNearYou: String {
 		return NSLocalizedString("product_popular_near_you", comment: "")
 	}
@@ -1637,6 +1645,14 @@ struct LGLocalizedString {
 
 	static var productShareWhatsappError: String {
 		return NSLocalizedString("product_share_whatsapp_error", comment: "")
+	}
+
+	static func productStickersSelectionWName(var1: String) -> String {
+		return String(format: NSLocalizedString("product_stickers_selection_w_name", comment: ""), var1)
+	}
+
+	static var productStickersSelectionWoName: String {
+		return NSLocalizedString("product_stickers_selection_wo_name", comment: "")
 	}
 
 	static var profileBlockedByMeLabel: String {

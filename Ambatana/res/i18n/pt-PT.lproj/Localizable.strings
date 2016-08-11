@@ -406,6 +406,8 @@
 "product_share_telegram_error" = "Ups! Parece que não tem o Telegram instalado.";
 "product_share_title_label" = "PARTILHE ESTE PRODUTO";
 "product_share_whatsapp_error" = "Ops! parece que não instalou a app WhatsApp.";
+"product_stickers_selection_w_name" = "Select the sticker you want to send to %@.";
+"product_stickers_selection_wo_name" = "Select the sticker you want to send to the seller.";
 "profile_blocked_by_me_label" = "Bloqueou este utilizador";
 "profile_blocked_by_me_label_w_name" = "Bloqueou %@";
 "profile_blocked_by_other_label" = "Foi bloqueado por este utilizador";

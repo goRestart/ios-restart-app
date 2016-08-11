@@ -406,6 +406,8 @@
 "product_share_telegram_error" = "Hoppá! Úgy tűnik, nincs telepítve a Telegram.";
 "product_share_title_label" = "PORTÉKA MEGOSZTÁSA";
 "product_share_whatsapp_error" = "Hoppá! Úgy tűnik, hogy még nem telepítetted a WhatsApp alkalmazást.";
+"product_stickers_selection_w_name" = "Select the sticker you want to send to %@.";
+"product_stickers_selection_wo_name" = "Select the sticker you want to send to the seller.";
 "profile_blocked_by_me_label" = "Ezt a felhasználót blokkoltad";
 "profile_blocked_by_me_label_w_name" = "%@ felhasználót blokkoltad";
 "profile_blocked_by_other_label" = "Ez a felhasználó blokkolt téged";

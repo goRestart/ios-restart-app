@@ -406,6 +406,8 @@
 "product_share_telegram_error" = "Hoppsan! Du verkar inte ha Telegram installerad.";
 "product_share_title_label" = "DELA PRODUKTEN";
 "product_share_whatsapp_error" = "Hoppsan! Det verkar som att du inte har installerat appen WhatsApp.";
+"product_stickers_selection_w_name" = "Select the sticker you want to send to %@.";
+"product_stickers_selection_wo_name" = "Select the sticker you want to send to the seller.";
 "profile_blocked_by_me_label" = "Den här användaren har blockerats av dig";
 "profile_blocked_by_me_label_w_name" = "%@ har blockerats av dig";
 "profile_blocked_by_other_label" = "Denna användare har blockerat dig";

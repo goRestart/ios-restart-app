@@ -406,6 +406,8 @@
 "product_share_telegram_error" = "Hups! Vaikuttaa siltä, että et ole asentanut Telegram-sovellusta.";
 "product_share_title_label" = "JAA TÄMÄ TUOTE";
 "product_share_whatsapp_error" = "Hups! Vaikuttaa siltä että et ole asentanut WhatsApp-sovellusta.";
+"product_stickers_selection_w_name" = "Select the sticker you want to send to %@.";
+"product_stickers_selection_wo_name" = "Select the sticker you want to send to the seller.";
 "profile_blocked_by_me_label" = "Olet estänyt tämän käyttäjän";
 "profile_blocked_by_me_label_w_name" = "Olet estänyt käyttäjän %@";
 "profile_blocked_by_other_label" = "Tämä käyttäjä on estänyt sinut";

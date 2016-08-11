@@ -58,12 +58,12 @@
 "chat_blocked_disclaimer_scammer_wo_name" = "Av sikkerhetsgrunner er denne kontoen slettet av letgo's team, samt disse meldingene.";
 "chat_deleted_disclaimer_w_name" = "Du kan ikke fortsette denne samtalen, fordi %@'s konto ikke lenger er aktiv.";
 "chat_deleted_disclaimer_wo_name" = "Du kan ikke fortsette denne samtalen, fordi denne kontoen ikke lenger er aktiv.";
-"chat_express_contact_one_button_text" = "Contact 1 seller";
-"chat_express_contact_sellers_label" = "Contact these sellers before other buyers snatch them up!";
-"chat_express_contact_various_button_text" = "Contact %@ sellers";
-"chat_express_dont_ask_again_button" = "Don't ask me again";
-"chat_express_dont_miss_label" = "Don't miss out on these bargains";
-"chat_express_text_field_text" = "Hi, I'm interested!";
+"chat_express_contact_one_button_text" = "Kontakt 1 selger";
+"chat_express_contact_sellers_label" = "Kontakt disse selgere før andre kjøpere får sjansen!";
+"chat_express_contact_various_button_text" = "Kontakt %@ selgere";
+"chat_express_dont_ask_again_button" = "Ikke spør meg igjen";
+"chat_express_dont_miss_label" = "Ikke gå glipp av disse gode dealene";
+"chat_express_text_field_text" = "Hei, jeg er interessert!";
 "chat_list_account_deleted" = "Slettet konto";
 "chat_list_account_deleted_username" = "Inaktiv";
 "chat_list_all_empty_title" = "INGEN SAMTALER (ENDA!)";
@@ -406,6 +406,8 @@
 "product_share_telegram_error" = "Oops! Det ser som om du ikke har installert Telegram.";
 "product_share_title_label" = "DEL DETTE PRODUKTET";
 "product_share_whatsapp_error" = "Oops! Det ser som om du ikke har installert WhatsApp.";
+"product_stickers_selection_w_name" = "Select the sticker you want to send to %@.";
+"product_stickers_selection_wo_name" = "Select the sticker you want to send to the seller.";
 "profile_blocked_by_me_label" = "Du har blokkert denne brukeren";
 "profile_blocked_by_me_label_w_name" = "Du har blokkert %@";
 "profile_blocked_by_other_label" = "Du har blitt blokkert av denne brukeren";

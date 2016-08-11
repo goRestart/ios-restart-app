@@ -993,6 +993,12 @@
 // Button to open the Commercial of a product inside the product detail
 "product_open_commercial_button" = "Commercial";
 
+// Option button to share product
+"product_option_share" = "Share product";
+
+// Option buton to show commercial
+"product_option_show_commercial" = "Commercial";
+
 // Info bubble on product list when 'newest' ordering is selected
 "product_popular_near_you" = "Popular near you";
 
@@ -1214,6 +1220,12 @@
 
 // Product share whatsapp error. Message displayal is like the other error messages
 "product_share_whatsapp_error" = "Oops! You don't seem to have WhatsApp installed.";
+
+// Message when you select sticker to send from a product detail
+"product_stickers_selection_w_name" = "Select the sticker you want to send to %@.";
+
+// Message when you select sticker to send from a product detail
+"product_stickers_selection_wo_name" = "Select the sticker you want to send to the seller.";
 
 // Profile, you blocked this user label (wo username)
 "profile_blocked_by_me_label" = "You've blocked this user";
