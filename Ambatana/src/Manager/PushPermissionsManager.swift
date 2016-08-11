@@ -20,6 +20,9 @@ public class PushPermissionsManager: NSObject {
 
     public static let sharedInstance: PushPermissionsManager = PushPermissionsManager()
     var shouldAskForListPermissionsOnCurrentSession: Bool = true
+    var pushPermissionsSettingsMode: Bool {
+        return KeyValueStorage.sharedInstance[.pushPermissionsDidShowNativeAlert]
+    }
     private var didShowSystemPermissions: Bool = false
     private var prePermissionType: PrePermissionType = .ProductList
     private var typePage: EventParameterTypePage {

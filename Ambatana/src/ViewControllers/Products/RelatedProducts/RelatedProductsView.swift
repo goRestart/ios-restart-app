@@ -211,5 +211,8 @@ private extension RelatedProductsView {
         UIView.animateWithDuration(0.3) { [weak self] in
             self?.superview?.layoutIfNeeded()
         }
+        if visible {
+            delegate?.relatedProductsViewDidShow(self)
+        }
     }
 }
