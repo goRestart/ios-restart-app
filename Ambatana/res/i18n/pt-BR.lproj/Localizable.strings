@@ -406,6 +406,8 @@
 "product_share_telegram_error" = "Oops! You don't seem to have Telegram installed.";
 "product_share_title_label" = "SHARE THIS PRODUCT";
 "product_share_whatsapp_error" = "Oops! You don't seem to have WhatsApp installed.";
+"product_stickers_selection_w_name" = "Select the sticker you want to send to %@.";
+"product_stickers_selection_wo_name" = "Select the sticker you want to send to the seller.";
 "profile_blocked_by_me_label" = "You've blocked this user";
 "profile_blocked_by_me_label_w_name" = "You've blocked %@";
 "profile_blocked_by_other_label" = "You've been blocked by this user";

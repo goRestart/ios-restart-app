@@ -406,6 +406,8 @@
 "product_share_telegram_error" = "Ồ! Có vẻ như bạn chưa cài đặt Telegram.";
 "product_share_title_label" = "CHIA SẺ SẢN PHẨM NÀY";
 "product_share_whatsapp_error" = "Ồ! Có vẻ như bạn chưa cài đặt ứng dụng WhatsApp.";
+"product_stickers_selection_w_name" = "Select the sticker you want to send to %@.";
+"product_stickers_selection_wo_name" = "Select the sticker you want to send to the seller.";
 "profile_blocked_by_me_label" = "Bạn đã chặn người dùng này";
 "profile_blocked_by_me_label_w_name" = "Bạn đã chặn %@";
 "profile_blocked_by_other_label" = "Bạn đã bị người dùng này chặn";

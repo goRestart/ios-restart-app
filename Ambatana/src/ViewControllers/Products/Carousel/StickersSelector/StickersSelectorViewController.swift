@@ -34,7 +34,7 @@ class StickersSelectorViewController: BaseViewController {
     init(stickers: [Sticker], interlocutorName: String?) {
         self.stickers = stickers
         self.interlocutorName = interlocutorName
-        super.init(viewModel: nil, nibName: "StickersSelectorViewController")
+        super.init(viewModel: nil, nibName: "StickersSelectorViewController", statusBarStyle: .LightContent)
         modalPresentationStyle = .OverCurrentContext
         modalTransitionStyle = .CrossDissolve
     }
@@ -53,15 +53,16 @@ class StickersSelectorViewController: BaseViewController {
     override func viewDidFirstAppear(animated: Bool) {
         super.viewDidFirstAppear(animated)
 
-        animateStickers()
+        animateShow()
     }
 
 
     // MARK: - Actions
 
     @IBAction func closeButtonPressed(sender: AnyObject) {
-        dismissViewControllerAnimated(true) { [weak self] in
+        animateDismiss() { [weak self] in
             self?.delegate?.stickersSelectorDidCancel()
+            self?.dismissViewControllerAnimated(false, completion: nil)
         }
     }
 
@@ -84,6 +85,8 @@ class StickersSelectorViewController: BaseViewController {
         } else {
             titleLabel.text = LGLocalizedString.productStickersSelectionWoName
         }
+        blurContainer.alpha = 0
+        titleLabel.alpha = 0
     }
 
     private func buildStickers() {
@@ -113,7 +116,7 @@ class StickersSelectorViewController: BaseViewController {
         return stickerImage
     }
 
-    private func animateStickers() {
+    private func animateShow() {
         let stickersViews = self.stickersViews
         let screenSpace = (closeButton.top - itemsMargin) - (titleLabel.bottom + itemsMargin)
         let stickerHeight = min(screenSpace/CGFloat(stickersViews.count), stickerMaxHeight)
@@ -126,13 +129,32 @@ class StickersSelectorViewController: BaseViewController {
 
         //Animate to final position
         let stickerTop: CGFloat = closeButton.top - itemsMargin - stickerHeight
-        UIView.animateWithDuration(0.1, animations: {
+        UIView.animateWithDuration(0.2, animations: { [weak self] in
             for i in 0..<stickersViews.count {
                 var frame = stickersViews[i].frame
                 frame.top = stickerTop - (stickerHeight * CGFloat(i))
                 stickersViews[i].frame = frame
                 stickersViews[i].alpha = 1
             }
+            self?.blurContainer.alpha = 1
+            self?.titleLabel.alpha = 1
+        })
+    }
+
+    private func animateDismiss(completion: (() -> Void)?) {
+        let stickersViews = self.stickersViews
+        let top = closeButton.top
+        UIView.animateWithDuration(0.2, animations: { [weak self] in
+            for i in 0..<stickersViews.count {
+                var frame = stickersViews[i].frame
+                frame.top = top
+                stickersViews[i].frame = frame
+                stickersViews[i].alpha = 0
+            }
+            self?.blurContainer.alpha = 0
+            self?.titleLabel.alpha = 0
+            }, completion: { _ in
+                completion?()
         })
     }
 }

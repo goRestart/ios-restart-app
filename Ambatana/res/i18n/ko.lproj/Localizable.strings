@@ -406,6 +406,8 @@
 "product_share_telegram_error" = "이런! 텔레그램이 설치되지 않은 것 같네요.";
 "product_share_title_label" = "이 상품 공유하기";
 "product_share_whatsapp_error" = "앗, WhatsApp 어플리케이션을 설치하지 않으셨네요.";
+"product_stickers_selection_w_name" = "Select the sticker you want to send to %@.";
+"product_stickers_selection_wo_name" = "Select the sticker you want to send to the seller.";
 "profile_blocked_by_me_label" = "회원님께서는 이 사용자를 차단하셨습니다";
 "profile_blocked_by_me_label_w_name" = "회원님은 %@를 차단하셨습니다";
 "profile_blocked_by_other_label" = "이 사용자에 의해 차단되셨습니다";

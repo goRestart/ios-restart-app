@@ -829,7 +829,7 @@ extension ProductCarouselViewController: ProductViewModelDelegate {
         let interlocutorName = viewModel.currentProductViewModel?.ownerName
         let vc = StickersSelectorViewController(stickers: stickers, interlocutorName: interlocutorName)
         vc.delegate = self
-        navigationController?.presentViewController(vc, animated: true, completion: nil)
+        navigationController?.presentViewController(vc, animated: false, completion: nil)
     }
 }
 

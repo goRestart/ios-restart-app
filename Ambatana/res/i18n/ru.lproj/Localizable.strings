@@ -406,6 +406,8 @@
 "product_share_telegram_error" = "Упс! Похоже, у вас не установлен Telegram.";
 "product_share_title_label" = "ПОДЕЛИТЬСЯ ТОВАРОМ";
 "product_share_whatsapp_error" = "Вы не установили приложение WhatsApp.";
+"product_stickers_selection_w_name" = "Select the sticker you want to send to %@.";
+"product_stickers_selection_wo_name" = "Select the sticker you want to send to the seller.";
 "profile_blocked_by_me_label" = "Вы заблокировали этого пользователя";
 "profile_blocked_by_me_label_w_name" = "Вы заблокировали %@";
 "profile_blocked_by_other_label" = "Вы заблокировали этого пользователя";
