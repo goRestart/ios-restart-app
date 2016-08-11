@@ -30,6 +30,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     @IBOutlet weak var buttonTop: UIButton!
     @IBOutlet weak var gradientShadowView: UIView!
     @IBOutlet weak var gradientShadowBottomView: UIView!
+    @IBOutlet weak var favoriteButton: UIButton!
     
     @IBOutlet weak var moreInfoView: UIView!
     @IBOutlet weak var productTitleLabel: UILabel!
@@ -453,6 +454,7 @@ extension ProductCarouselViewController {
         refreshMoreInfoView(viewModel)
         refreshProductStatusLabel(viewModel)
         refreshCommercialVideoButton(viewModel)
+        refreshFavoriteButton(viewModel)
     }
 
     private func setupUserView(viewModel: ProductViewModel) {
@@ -584,6 +586,27 @@ extension ProductCarouselViewController {
             .innerButton
             .rx_tap.bindNext { viewModel.openVideo() }
             .addDisposableTo(activeDisposeBag)
+    }
+
+    private func refreshFavoriteButton(viewModel: ProductViewModel) {
+        viewModel.productIsFavoriteable.asObservable()
+            .filter { _ in return FeatureFlags.bigFavoriteIcon }
+            .map{!$0}
+            .bindTo(favoriteButton.rx_hidden)
+            .addDisposableTo(activeDisposeBag)
+
+        viewModel.favoriteButtonEnabled.asObservable()
+            .bindTo(favoriteButton.rx_enabled)
+            .addDisposableTo(activeDisposeBag)
+
+        viewModel.isFavorite.asObservable()
+            .bindNext { [weak self] favorite in
+                self?.favoriteButton.setImage(UIImage(named: favorite ? "ic_favorite_big_on" : "ic_favorite_big_off"), forState: .Normal)
+            }.addDisposableTo(activeDisposeBag)
+
+        favoriteButton.rx_tap.bindNext { [weak viewModel] in
+            viewModel?.switchFavorite()
+        }.addDisposableTo(activeDisposeBag)
     }
 }
 

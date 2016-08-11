@@ -99,7 +99,7 @@ class ProductViewModel: BaseViewModel {
     let thumbnailImage: UIImage?
 
     private let isReported = Variable<Bool>(false)
-    private let isFavorite = Variable<Bool>(false)
+    let isFavorite = Variable<Bool>(false)
 
     let viewsCount = Variable<Int>(0)
     let favouritesCount = Variable<Int>(0)
@@ -124,7 +124,7 @@ class ProductViewModel: BaseViewModel {
     // UI
     let navBarButtons = Variable<[UIAction]>([])
     let productIsFavoriteable = Variable<Bool>(false)
-    let favoriteButtonEnabled = Variable<Bool>(false)
+    let favoriteButtonEnabled = Variable<Bool>(true)
     let productStatusBackgroundColor = Variable<UIColor>(UIColor.blackColor())
     let productStatusLabelText = Variable<String?>(nil)
     let productStatusLabelColor = Variable<UIColor>(UIColor.whiteColor())
@@ -314,7 +314,7 @@ class ProductViewModel: BaseViewModel {
 
             strongSelf.refreshStatus()
 
-            strongSelf.productIsFavoriteable.value = product.isMine
+            strongSelf.productIsFavoriteable.value = !product.isMine
             strongSelf.isFavorite.value = product.favorite
             let socialTitle = LGLocalizedString.productShareBody
             strongSelf.socialMessage.value = SocialHelper.socialMessageWithTitle(socialTitle, product: product)
@@ -457,6 +457,10 @@ extension ProductViewModel {
         guard !product.value.isMine else { return }
         reportAction()
     }
+
+    func switchFavorite() {
+        switchFavoriteAction()
+    }
 }
 
 
@@ -540,7 +544,7 @@ extension ProductViewModel {
             .imageWithRenderingMode(.AlwaysOriginal)
         return UIAction(interface: .Image(icon), action: { [weak self] in
             self?.ifLoggedInRunActionElseOpenMainSignUp({ [weak self] in
-                self?.switchFavourite()
+                self?.switchFavoriteAction()
                 }, source: .Favourite)
             })
     }
@@ -685,7 +689,7 @@ extension ProductViewModel {
 // MARK: - Private actions
 
 extension ProductViewModel {
-    private func switchFavourite() {
+    private func switchFavoriteAction() {
         favoriteButtonEnabled.value = false
 
         if isFavorite.value {
