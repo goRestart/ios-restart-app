@@ -49,6 +49,8 @@ protocol OldChatViewModelDelegate: BaseViewModelDelegate {
     func vmClearText()
 
     func vmUpdateUserIsReadyToReview()
+
+//    func vmShowExpressChat(relatedProducts: [Product], sourceProductId: String)
 }
 
 enum AskQuestionSource {
@@ -68,7 +70,9 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     // MARK: > Controller data
     
     weak var delegate: OldChatViewModelDelegate?
-    weak var  tabNavigator: TabNavigator?
+    weak var tabNavigator: TabNavigator?
+    weak var appNavigator: AppNavigator?
+
     var title: String? {
         return product.title
     }
@@ -186,7 +190,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     }
 
     let isSendingMessage = Variable<Bool>(false)
-    var relatedProducts = Variable<[Product]>([])
+    var relatedProducts: [Product] = []
 
     var userBlockedDisclaimerMessage: ChatViewMessage {
         return chatViewMessageAdapter.createUserBlockedDisclaimerMessage(
@@ -401,10 +405,10 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     }
 
     func wentBack() {
-
-        guard !relatedProducts.value.isEmpty else { return }
-        // TODO: check haven't shown Express chat for this conversation
-        tabNavigator?.openExpressChat(relatedProducts.value)
+        guard isBuyer else { return }
+        guard !relatedProducts.isEmpty else { return }
+        guard let productId = product.objectId else { return }
+        tabNavigator?.openExpressChat(relatedProducts, sourceProductId: productId)
     }
     
     func showDisclaimerMessage() {
@@ -1167,10 +1171,13 @@ extension MessageType {
 
 extension OldChatViewModel {
     private func retrieveRelatedProducts() {
+        guard isBuyer else { return }
         guard let productId = product.objectId else { return }
-        productRepository.index(productId: productId, params: RetrieveProductsParams()) { result in
+        var params = RetrieveProductsParams()
+        params.numProducts = 4
+        productRepository.index(productId: productId, params: params) { [weak self] result in
             if let value = result.value {
-                self.relatedProducts.value = value
+                self?.relatedProducts = value
             }
         }
     }

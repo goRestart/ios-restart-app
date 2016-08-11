@@ -80,9 +80,11 @@ extension TabCoordinator: TabNavigator {
             openProduct(chatProduct: chatProduct, user: user, thumbnailImage: thumbnailImage, originFrame: originFrame)
         }
     }
-
-    func openExpressChat(data: [Product]) {
-        
+    
+    func openExpressChat(products: [Product], sourceProductId: String) {
+        guard let expressChatCoordinator = ExpressChatCoordinator(products: products, sourceProductId: sourceProductId) else { return }
+        expressChatCoordinator.delegate = self
+        openCoordinator(coordinator: expressChatCoordinator, parent: rootViewController, animated: true, completion: nil)
     }
 }
 
@@ -188,6 +190,13 @@ private extension TabCoordinator {
         let vc = UserViewController(viewModel: vm, hidesBottomBarWhenPushed: hidesBottomBarWhenPushed)
         navigationController.pushViewController(vc, animated: true)
     }
+
+    func openCoordinator(coordinator coordinator: Coordinator, parent: UIViewController, animated: Bool,
+                                     completion: (() -> Void)?) {
+        guard child == nil else { return }
+        child = coordinator
+        coordinator.open(parent: parent, animated: animated, completion: completion)
+    }
 }
 
 
@@ -227,5 +236,25 @@ extension TabCoordinator: UINavigationControllerDelegate {
 
     func shouldHideSellButtonAtViewController(viewController: UIViewController) -> Bool {
         return !viewController.isRootViewController()
+    }
+}
+
+
+// MARK: - CoordinatorDelegate
+
+extension TabCoordinator: CoordinatorDelegate {
+    func coordinatorDidClose(coordinator: Coordinator) {
+        child = nil
+    }
+}
+
+
+// MARK: - ExpressChatCoordinatorDelegate
+
+extension TabCoordinator: ExpressChatCoordinatorDelegate {
+    func expressChatCoordinatorDidSentMessages(coordinator: ExpressChatCoordinator, count: Int) {
+        let message = count == 1 ? LGLocalizedString.chatExpressOneMessageSentSuccessAlert :
+            LGLocalizedString.chatExpressSeveralMessagesSentSuccessAlert
+        rootViewController.showAutoFadingOutMessageAlert(message)
     }
 }

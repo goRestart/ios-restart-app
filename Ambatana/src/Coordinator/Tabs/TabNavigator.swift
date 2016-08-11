@@ -30,5 +30,5 @@ enum BackAction {
 protocol TabNavigator: class {
     func openUser(data: UserDetailData)
     func openProduct(data: ProductDetailData)
-    func openExpressChat(data: [Product])
+    func openExpressChat(products: [Product], sourceProductId: String)
 }

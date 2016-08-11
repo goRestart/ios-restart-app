@@ -6,6 +6,8 @@
 //  Copyright © 2016 Ambatana. All rights reserved.
 //
 
+import LGCoreKit
+
 protocol AppNavigatorDelegate: class {
     func appNavigatorDidOpenApp()
 }

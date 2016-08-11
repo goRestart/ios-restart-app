@@ -40,6 +40,7 @@
                         </label>
                         <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="uUB-Kl-UFa">
                             <rect key="frame" x="175" y="189" width="250" height="250"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="250" id="29b-5L-Nzp"/>
                                 <constraint firstAttribute="width" constant="250" id="hOu-QH-9PS"/>
@@ -52,27 +53,40 @@
                             </collectionViewFlowLayout>
                         </collectionView>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="512-gx-lJk">
-                            <rect key="frame" x="220" y="583" width="160" height="30"/>
+                            <rect key="frame" x="220" y="599" width="160" height="30"/>
                             <state key="normal" title="_DON'T ASK ME AGAIN">
                                 <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
+                            <connections>
+                                <action selector="dontAskAgainButtonPressed:" destination="-1" eventType="touchUpInside" id="wX3-8g-2QU"/>
+                            </connections>
                         </button>
                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" clearsOnBeginEditing="YES" minimumFontSize="15" translatesAutoresizingMaskIntoConstraints="NO" id="kWR-yG-wZx">
                             <rect key="frame" x="175" y="459" width="250" height="30"/>
                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                             <textInputTraits key="textInputTraits" returnKeyType="done"/>
                         </textField>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BII-8c-slG">
-                            <rect key="frame" x="273" y="509" width="54" height="34"/>
+                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BII-8c-slG">
+                            <rect key="frame" x="176" y="509" width="250" height="50"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="50" id="fXB-AP-lvS"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <state key="normal" title="Button"/>
+                            <connections>
+                                <action selector="sendMessageButtonPressed:" destination="-1" eventType="touchUpInside" id="7k7-Gp-O2t"/>
+                            </connections>
                         </button>
                     </subviews>
                     <constraints>
                         <constraint firstItem="512-gx-lJk" firstAttribute="top" secondItem="BII-8c-slG" secondAttribute="bottom" constant="40" id="0Fc-GR-A2Q"/>
                         <constraint firstItem="2ja-pJ-I95" firstAttribute="leading" secondItem="O2k-0L-ux0" secondAttribute="leading" constant="20" id="43j-3l-sSu"/>
+                        <constraint firstItem="BII-8c-slG" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="O2k-0L-ux0" secondAttribute="leading" constant="20" id="67k-56-njz"/>
                         <constraint firstItem="kWR-yG-wZx" firstAttribute="top" secondItem="uUB-Kl-UFa" secondAttribute="bottom" constant="20" id="Ba5-Tg-F8v"/>
+                        <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="BII-8c-slG" secondAttribute="trailing" constant="20" id="Dpa-s2-3D4"/>
                         <constraint firstItem="kWR-yG-wZx" firstAttribute="width" secondItem="uUB-Kl-UFa" secondAttribute="width" id="Emu-nA-qgT"/>
                         <constraint firstItem="BII-8c-slG" firstAttribute="top" secondItem="kWR-yG-wZx" secondAttribute="bottom" constant="20" id="Eqr-Al-9ag"/>
+                        <constraint firstItem="BII-8c-slG" firstAttribute="width" relation="greaterThanOrEqual" secondItem="kWR-yG-wZx" secondAttribute="width" id="L26-Ge-U3w"/>
                         <constraint firstItem="BII-8c-slG" firstAttribute="centerX" secondItem="O2k-0L-ux0" secondAttribute="centerX" id="PBM-sf-cft"/>
                         <constraint firstItem="Nsv-Aa-WGV" firstAttribute="leading" secondItem="O2k-0L-ux0" secondAttribute="leading" constant="20" id="V7x-1y-oqY"/>
                         <constraint firstItem="uUB-Kl-UFa" firstAttribute="top" secondItem="Nsv-Aa-WGV" secondAttribute="bottom" constant="40" id="Wxv-Tb-WtJ"/>
@@ -95,6 +109,9 @@
                         <constraint firstAttribute="width" constant="40" id="IPd-Ya-I5U"/>
                     </constraints>
                     <state key="normal" image="ic_close_red"/>
+                    <connections>
+                        <action selector="closeButtonPressed:" destination="-1" eventType="touchUpInside" id="5VD-XL-Lig"/>
+                    </connections>
                 </button>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>

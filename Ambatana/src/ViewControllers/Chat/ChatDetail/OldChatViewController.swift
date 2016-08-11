@@ -107,7 +107,6 @@ class OldChatViewController: SLKTextViewController {
     override func didMoveToParentViewController(parent: UIViewController?) {
         super.didMoveToParentViewController(parent)
         if parent == nil {
-            print("This VC is 'will' be popped. i.e. the back button was pressed.")
             viewModel.wentBack()
         }
     }
