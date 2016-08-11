@@ -828,6 +828,7 @@ extension ProductCarouselViewController: ProductViewModelDelegate {
     func vmOpenStickersSelector(stickers: [Sticker]) {
         let interlocutorName = viewModel.currentProductViewModel?.ownerName
         let vc = StickersSelectorViewController(stickers: stickers, interlocutorName: interlocutorName)
+        vc.delegate = self
         navigationController?.presentViewController(vc, animated: true, completion: nil)
     }
 }

@@ -26,6 +26,7 @@ class StickersSelectorViewController: BaseViewController {
 
     private let stickers: [Sticker]
     private let interlocutorName: String?
+    private var stickersViews: [UIView] = []
 
 
     // MARK: - Lifecycle
@@ -52,7 +53,7 @@ class StickersSelectorViewController: BaseViewController {
     override func viewDidFirstAppear(animated: Bool) {
         super.viewDidFirstAppear(animated)
 
-        buildStickers()
+        animateStickers()
     }
 
 
@@ -64,6 +65,16 @@ class StickersSelectorViewController: BaseViewController {
         }
     }
 
+    dynamic private func stickerPressed(sender: UITapGestureRecognizer?) {
+        guard let index = sender?.view?.tag else { return }
+
+        //TODO: ANIMATE SELECTION
+
+        let sticker = stickers[index]
+        dismissViewControllerAnimated(true) { [weak self] in
+            self?.delegate?.stickersSelectorDidSelectSticker(sticker)
+        }
+    }
 
     // MARK: - Private
 
@@ -77,22 +88,51 @@ class StickersSelectorViewController: BaseViewController {
 
     private func buildStickers() {
         let count = stickers.count < 4 ? stickers.count : 4
-        let screenSpace = (closeButton.frame.top - itemsMargin) - (titleLabel.bottom + itemsMargin)
-        let stickerHeight = min(screenSpace/CGFloat(count), stickerMaxHeight)
-        let stickerTop: CGFloat = closeButton.frame.top - itemsMargin - stickerHeight
 
         for i in 0..<count {
-            buildSticker(stickers[i], top: stickerTop - (stickerHeight * CGFloat(i)), height: stickerHeight)
+            if let stView = buildSticker(stickers[i], top: closeButton.top, height: stickerMaxHeight, index: i) {
+                stickersViews.append(stView)
+            }
         }
     }
 
-    private func buildSticker(sticker: Sticker, top: CGFloat, height: CGFloat) {
-        guard let imageUrl = NSURL(string: sticker.url) else { return }
+    private func buildSticker(sticker: Sticker, top: CGFloat, height: CGFloat, index: Int) -> UIView? {
+        guard let imageUrl = NSURL(string: sticker.url) else { return nil }
 
-        let left = view.width - itemsMargin - height
-        let stickerImage = UIImageView(frame: CGRect(x: left, y: top, width: height, height: height))
+        let stickerImage = UIImageView(frame: CGRect(x: 0, y: top, width: height, height: height))
+        stickerImage.alpha = 0
+        stickerImage.tag = index
+        stickerImage.userInteractionEnabled = true
         view.addSubview(stickerImage)
 
+        let tap = UITapGestureRecognizer(target: self, action: #selector(stickerPressed(_:)))
+        stickerImage.addGestureRecognizer(tap)
+
         stickerImage.lg_setImageWithURL(imageUrl)
+
+        return stickerImage
+    }
+
+    private func animateStickers() {
+        let stickersViews = self.stickersViews
+        let screenSpace = (closeButton.top - itemsMargin) - (titleLabel.bottom + itemsMargin)
+        let stickerHeight = min(screenSpace/CGFloat(stickersViews.count), stickerMaxHeight)
+        let left = view.width - itemsMargin - stickerHeight
+
+        //Setting them in the correct origin
+        for i in 0..<stickersViews.count {
+            stickersViews[i].frame = CGRect(x: left, y: closeButton.top, width: stickerHeight, height: stickerHeight)
+        }
+
+        //Animate to final position
+        let stickerTop: CGFloat = closeButton.top - itemsMargin - stickerHeight
+        UIView.animateWithDuration(0.1, animations: {
+            for i in 0..<stickersViews.count {
+                var frame = stickersViews[i].frame
+                frame.top = stickerTop - (stickerHeight * CGFloat(i))
+                stickersViews[i].frame = frame
+                stickersViews[i].alpha = 1
+            }
+        })
     }
 }
