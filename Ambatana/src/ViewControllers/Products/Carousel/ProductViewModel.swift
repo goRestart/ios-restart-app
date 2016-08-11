@@ -374,10 +374,11 @@ class ProductViewModel: BaseViewModel {
     }
 
     private func refreshDirectChats() {
+        guard FeatureFlags.directStickersOnProduct else { return }
         stickersRepository.show(typeFilter: .Product) { [weak self] result in
             guard let stickers = result.value else { return }
             self?.selectableStickers = stickers
-            self?.stickersButtonEnabled.value = !stickers.isEmpty
+            self?.stickersButtonEnabled.value = !stickers.isEmpty && FeatureFlags.directStickersOnProduct
         }
     }
 }
