@@ -30,6 +30,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     @IBOutlet weak var buttonTop: UIButton!
     @IBOutlet weak var gradientShadowView: UIView!
     @IBOutlet weak var gradientShadowBottomView: UIView!
+    @IBOutlet weak var favoriteButton: UIButton!
     
     @IBOutlet weak var moreInfoView: UIView!
     @IBOutlet weak var productTitleLabel: UILabel!
@@ -271,6 +272,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         alphaSignal.bindTo(moreInfoView.rx_alpha).addDisposableTo(disposeBag)
         alphaSignal.bindTo(productStatusView.rx_alpha).addDisposableTo(disposeBag)
         alphaSignal.bindTo(commercialButton.rx_alpha).addDisposableTo(disposeBag)
+        alphaSignal.bindTo(favoriteButton.rx_alpha).addDisposableTo(disposeBag)
         alphaSignal.bindNext{ [weak self] alpha in
             self?.moreInfoTooltip?.alpha = alpha
         }.addDisposableTo(disposeBag)
@@ -453,6 +455,7 @@ extension ProductCarouselViewController {
         refreshMoreInfoView(viewModel)
         refreshProductStatusLabel(viewModel)
         refreshCommercialVideoButton(viewModel)
+        refreshFavoriteButton(viewModel)
     }
 
     private func setupUserView(viewModel: ProductViewModel) {
@@ -576,7 +579,7 @@ extension ProductCarouselViewController {
     private func refreshCommercialVideoButton(viewModel: ProductViewModel) {
         viewModel.productHasReadyCommercials
             .asObservable()
-            .map{!$0}
+            .map{ !$0 || FeatureFlags.bigFavoriteIcon }
             .bindTo(commercialButton.rx_hidden)
             .addDisposableTo(activeDisposeBag)
         
@@ -584,6 +587,27 @@ extension ProductCarouselViewController {
             .innerButton
             .rx_tap.bindNext { viewModel.openVideo() }
             .addDisposableTo(activeDisposeBag)
+    }
+
+    private func refreshFavoriteButton(viewModel: ProductViewModel) {
+        viewModel.productIsFavoriteable.asObservable()
+            .filter { _ in return FeatureFlags.bigFavoriteIcon }
+            .map{!$0}
+            .bindTo(favoriteButton.rx_hidden)
+            .addDisposableTo(activeDisposeBag)
+
+        viewModel.favoriteButtonEnabled.asObservable()
+            .bindTo(favoriteButton.rx_enabled)
+            .addDisposableTo(activeDisposeBag)
+
+        viewModel.isFavorite.asObservable()
+            .bindNext { [weak self] favorite in
+                self?.favoriteButton.setImage(UIImage(named: favorite ? "ic_favorite_big_on" : "ic_favorite_big_off"), forState: .Normal)
+            }.addDisposableTo(activeDisposeBag)
+
+        favoriteButton.rx_tap.bindNext { [weak viewModel] in
+            viewModel?.switchFavorite()
+        }.addDisposableTo(activeDisposeBag)
     }
 }
 
@@ -714,8 +738,10 @@ extension ProductCarouselViewController: UICollectionViewDataSource, UICollectio
 
 extension ProductCarouselViewController: ProductViewModelDelegate {
     func vmShowNativeShare(socialMessage: SocialMessage) {
-        guard navigationItem.rightBarButtonItems?.count > 1 else { return }
-        presentNativeShare(socialMessage: socialMessage, delegate: self, barButtonItem: navigationItem.rightBarButtonItems?[1])
+        //We have an A/B test (bigFavoriteIcon) that just leaves options button (with share inside) so we need to check this
+        let navItemsCount = navigationItem.rightBarButtonItems?.count ?? 0
+        let barButtonItem = navItemsCount > 1 ? navigationItem.rightBarButtonItems?[1] : navigationItem.rightBarButtonItems?.first
+        presentNativeShare(socialMessage: socialMessage, delegate: self, barButtonItem: barButtonItem)
     }
     
     func vmOpenEditProduct(editProductVM: EditProductViewModel) {

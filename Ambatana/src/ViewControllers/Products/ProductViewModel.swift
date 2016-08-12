@@ -87,6 +87,10 @@ enum ProductViewModelStatus {
     }
 }
 
+enum FavoriteState {
+    case Disabled, Loading, Favorited, NotFavorited
+}
+
 class ProductViewModel: BaseViewModel {
     // Data
     let product: Variable<Product>
@@ -95,7 +99,7 @@ class ProductViewModel: BaseViewModel {
     let thumbnailImage: UIImage?
 
     private let isReported = Variable<Bool>(false)
-    private let isFavorite = Variable<Bool>(false)
+    let isFavorite = Variable<Bool>(false)
 
     let viewsCount = Variable<Int>(0)
     let favouritesCount = Variable<Int>(0)
@@ -119,7 +123,8 @@ class ProductViewModel: BaseViewModel {
     
     // UI
     let navBarButtons = Variable<[UIAction]>([])
-    let favoriteButtonEnabled = Variable<Bool>(false)
+    let productIsFavoriteable = Variable<Bool>(false)
+    let favoriteButtonEnabled = Variable<Bool>(true)
     let productStatusBackgroundColor = Variable<UIColor>(UIColor.blackColor())
     let productStatusLabelText = Variable<String?>(nil)
     let productStatusLabelColor = Variable<UIColor>(UIColor.whiteColor())
@@ -153,8 +158,6 @@ class ProductViewModel: BaseViewModel {
 
     let statsViewVisible = Variable<Bool>(false)
 
-
-    // Rx
     private let disposeBag: DisposeBag
 
 
@@ -300,7 +303,7 @@ class ProductViewModel: BaseViewModel {
             strongSelf.productStatusLabelText.value = status.string
             strongSelf.productStatusLabelColor.value = status.labelColor
             }.addDisposableTo(disposeBag)
-        
+
         isFavorite.asObservable().subscribeNext { [weak self] _ in
             guard let strongSelf = self else { return }
             strongSelf.navBarButtons.value = strongSelf.buildNavBarButtons()
@@ -310,7 +313,8 @@ class ProductViewModel: BaseViewModel {
             guard let strongSelf = self else { return }
 
             strongSelf.refreshStatus()
-            
+
+            strongSelf.productIsFavoriteable.value = !product.isMine
             strongSelf.isFavorite.value = product.favorite
             let socialTitle = LGLocalizedString.productShareBody
             strongSelf.socialMessage.value = SocialHelper.socialMessageWithTitle(socialTitle, product: product)
@@ -453,6 +457,10 @@ extension ProductViewModel {
         guard !product.value.isMine else { return }
         reportAction()
     }
+
+    func switchFavorite() {
+        switchFavoriteAction()
+    }
 }
 
 
@@ -509,41 +517,25 @@ extension ProductViewModel {
     private func buildNavBarButtons() -> [UIAction] {
         var navBarButtons = [UIAction]()
 
-        let isMine = product.value.isMine
-        let isFavouritable = !isMine
         let isEditable: Bool
-        let isShareable = true
-        let isReportable = !isMine
-        let isDeletable: Bool
         switch status.value {
-        case .Pending, .PendingAndCommercializable:
-            isEditable = isMine
-            isDeletable = isMine
-        case .Available, .AvailableAndCommercializable, .OtherAvailable:
-            isEditable = isMine
-            isDeletable = isMine
-        case .NotAvailable:
+        case .Pending, .PendingAndCommercializable, .Available, .AvailableAndCommercializable, .OtherAvailable:
+            isEditable = product.value.isMine
+        case .NotAvailable, .Sold, .OtherSold:
             isEditable = false
-            isDeletable = false
-        case .Sold, .OtherSold:
-            isEditable = false
-            isDeletable = isMine
         }
 
-        if isFavouritable {
+        if productIsFavoriteable.value && !FeatureFlags.bigFavoriteIcon {
             navBarButtons.append(buildFavoriteNavBarAction())
         }
         if isEditable {
             navBarButtons.append(buildEditNavBarAction())
         }
-        if isShareable {
-            navBarButtons.append(buildShareNavBarAction())
+        if !FeatureFlags.bigFavoriteIcon {
+            navBarButtons.append(buildShareAction())
         }
 
-        let hasMoreActions = isReportable || isDeletable
-        if hasMoreActions {
-            navBarButtons.append(buildMoreNavBarAction(isReportable, isDeletable: isDeletable))
-        }
+        navBarButtons.append(buildMoreNavBarAction())
         return navBarButtons
     }
 
@@ -552,7 +544,7 @@ extension ProductViewModel {
             .imageWithRenderingMode(.AlwaysOriginal)
         return UIAction(interface: .Image(icon), action: { [weak self] in
             self?.ifLoggedInRunActionElseOpenMainSignUp({ [weak self] in
-                self?.switchFavourite()
+                self?.switchFavoriteAction()
                 }, source: .Favourite)
             })
     }
@@ -569,31 +561,45 @@ extension ProductViewModel {
         })
     }
 
-    private func buildShareNavBarAction() -> UIAction {
+    private func buildShareAction() -> UIAction {
         let icon = UIImage(named: "navbar_share")?.imageWithRenderingMode(.AlwaysOriginal)
-        return UIAction(interface: .Image(icon), action: { [weak self] in
+        let text = LGLocalizedString.productOptionShare
+        return UIAction(interface: .TextImage(text, icon), action: { [weak self] in
             guard let strongSelf = self, socialMessage = strongSelf.socialMessage.value else { return }
             strongSelf.delegate?.vmShowNativeShare(socialMessage)
             })
     }
 
-    private func buildMoreNavBarAction(isReportable: Bool, isDeletable: Bool) -> UIAction {
+    private func buildMoreNavBarAction() -> UIAction {
         let icon = UIImage(named: "navbar_more")?.imageWithRenderingMode(.AlwaysOriginal)
-        return UIAction(interface: .Image(icon), action: { [weak self] in
-            guard let strongSelf = self else { return }
+        return UIAction(interface: .Image(icon), action: { [weak self] in self?.showOptionsMenu() })
+    }
 
-            var actions = [UIAction]()
-            
-            actions.append(strongSelf.buildOnboardingButton())
-            
-            if isReportable {
-                actions.append(strongSelf.buildReportButton())
-            }
-            if isDeletable {
-                actions.append(strongSelf.buildDeleteButton())
-            }
-            strongSelf.delegate?.vmShowProductDelegateActionSheet(LGLocalizedString.commonCancel, actions: actions)
-            })
+    private func showOptionsMenu() {
+        var actions = [UIAction]()
+        let isMine = product.value.isMine
+        let isDeletable = status.value == .NotAvailable ? false : isMine
+
+        if FeatureFlags.bigFavoriteIcon {
+            actions.append(buildShareAction())
+        }
+        if productHasReadyCommercials.value && FeatureFlags.bigFavoriteIcon {
+            actions.append(buildCommercialAction())
+        }
+        actions.append(buildOnboardingButton())
+        if !isMine {
+            actions.append(buildReportButton())
+        }
+        if isDeletable {
+            actions.append(buildDeleteButton())
+        }
+        delegate?.vmShowProductDelegateActionSheet(LGLocalizedString.commonCancel, actions: actions)
+    }
+
+    private func buildCommercialAction() -> UIAction {
+        return UIAction(interface: .Text(LGLocalizedString.productOptionShowCommercial), action: { [weak self] in
+            self?.openVideo()
+        })
     }
 
     private func buildReportButton() -> UIAction {
@@ -683,7 +689,7 @@ extension ProductViewModel {
 // MARK: - Private actions
 
 extension ProductViewModel {
-    private func switchFavourite() {
+    private func switchFavoriteAction() {
         favoriteButtonEnabled.value = false
 
         if isFavorite.value {
