@@ -63,6 +63,8 @@
 "chat_express_contact_various_button_text" = "%@ 판매자들에게 연락하기";
 "chat_express_dont_ask_again_button" = "다시 묻지 말아주세요";
 "chat_express_dont_miss_label" = "이 할인을 놓치지마세요";
+"chat_express_one_message_sent_success_alert" = "Your message has been sent!";
+"chat_express_several_messages_sent_success_alert" = "Your messages have been sent!";
 "chat_express_text_field_text" = "안녕하세요, 상품에 관심이 있는데요!";
 "chat_list_account_deleted" = "계정 삭제";
 "chat_list_account_deleted_username" = "비활성화";
@@ -406,6 +408,8 @@
 "product_share_telegram_error" = "이런! 텔레그램이 설치되지 않은 것 같네요.";
 "product_share_title_label" = "이 상품 공유하기";
 "product_share_whatsapp_error" = "앗, WhatsApp 어플리케이션을 설치하지 않으셨네요.";
+"product_stickers_selection_w_name" = "Select the sticker you want to send to %@.";
+"product_stickers_selection_wo_name" = "Select the sticker you want to send to the seller.";
 "profile_blocked_by_me_label" = "회원님께서는 이 사용자를 차단하셨습니다";
 "profile_blocked_by_me_label_w_name" = "회원님은 %@를 차단하셨습니다";
 "profile_blocked_by_other_label" = "이 사용자에 의해 차단되셨습니다";
