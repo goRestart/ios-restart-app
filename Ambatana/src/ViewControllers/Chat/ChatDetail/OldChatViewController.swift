@@ -505,7 +505,6 @@ extension OldChatViewController: OldChatViewModelDelegate {
     
     func vmShowOptionsList(options: [String], actions: [() -> Void]) {
         guard options.count == actions.count else { return }
-
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
         alert.popoverPresentationController?.barButtonItem = self.navigationItem.rightBarButtonItem
 
