@@ -23,6 +23,8 @@ struct UserDefaultsUser {
     static let commercializersPendingDefaultValue = [String:[String]]()
     static let trackingProductSellComplete24hTrackedDefaultValue = false
     static let shouldShowCommercializerAfterPostingDefaultValue = true
+    static let shouldShowExpressChatDefaultValue = true
+    static let productsWithExpressChatAlreadyShownDefaultValue: [String] = []
 
     var appShared: Bool
     var userLocationApproximate: Bool
@@ -37,6 +39,8 @@ struct UserDefaultsUser {
     var commercializersPending: [String:[String]] // <id>: [<value>,...]
     var trackingProductSellComplete24hTracked: Bool
     var shouldShowCommercializerAfterPosting: Bool
+    var shouldShowExpressChat: Bool
+    var productsWithExpressChatAlreadyShown: [String]
 
     init() {
         let appShared = UserDefaultsUser.appSharedDefaultValue
@@ -52,6 +56,8 @@ struct UserDefaultsUser {
         let commercializersPending = UserDefaultsUser.commercializersPendingDefaultValue
         let trackingProductSellComplete24hTracked = UserDefaultsUser.trackingProductSellComplete24hTrackedDefaultValue
         let shouldShowCommercializerAfterPosting = UserDefaultsUser.shouldShowCommercializerAfterPostingDefaultValue
+        let shouldShowExpressChat = UserDefaultsUser.shouldShowExpressChatDefaultValue
+        let productsWithExpressChatAlreadyShown = UserDefaultsUser.productsWithExpressChatAlreadyShownDefaultValue
 
         self.init(appShared: appShared, userLocationApproximate: userLocationApproximate,
                   chatSafetyTipsShown: chatSafetyTipsShown, ratingAlreadyRated: ratingAlreadyRated,
@@ -61,14 +67,16 @@ struct UserDefaultsUser {
                   postProductLastTabSelected: postProductLastTabSelected, postProductPostedPreviously: postProductPostedPreviously,
                   commercializersPending: commercializersPending,
                   trackingProductSellComplete24hTracked: trackingProductSellComplete24hTracked,
-                  shouldShowCommercializerAfterPosting: shouldShowCommercializerAfterPosting)
+                  shouldShowCommercializerAfterPosting: shouldShowCommercializerAfterPosting,
+                  shouldShowExpressChat: shouldShowExpressChat,
+                  productsWithExpressChatAlreadyShown: productsWithExpressChatAlreadyShown)
     }
 
     init(appShared: Bool, userLocationApproximate: Bool, chatSafetyTipsShown: Bool, ratingAlreadyRated: Bool,
          ratingRemindMeLaterDate: NSDate?, ratingShowProductListBanner: Bool, chatShowDirectAnswers: [String: Bool],
          postProductLastGalleryAlbumSelected: String?, postProductLastTabSelected: Int, postProductPostedPreviously: Bool,
          commercializersPending: [String:[String]], trackingProductSellComplete24hTracked: Bool,
-         shouldShowCommercializerAfterPosting: Bool) {
+         shouldShowCommercializerAfterPosting: Bool, shouldShowExpressChat: Bool, productsWithExpressChatAlreadyShown: [String]) {
         self.appShared = appShared
         self.userLocationApproximate = userLocationApproximate
         self.chatSafetyTipsShown = chatSafetyTipsShown
@@ -82,6 +90,8 @@ struct UserDefaultsUser {
         self.commercializersPending = commercializersPending
         self.trackingProductSellComplete24hTracked = trackingProductSellComplete24hTracked
         self.shouldShowCommercializerAfterPosting = shouldShowCommercializerAfterPosting
+        self.shouldShowExpressChat = shouldShowExpressChat
+        self.productsWithExpressChatAlreadyShown = productsWithExpressChatAlreadyShown
     }
 }
 
@@ -117,7 +127,8 @@ extension UserDefaultsUser: UserDefaultsDecodable {
         
         let shouldShowCommercializerAfterPosting = dictionary.decode(UserDefaultsUserKey.ShouldShowCommercializerAfterPosting.rawValue,
                                                                      defaultValue: UserDefaultsUser.shouldShowCommercializerAfterPostingDefaultValue)
-
+        let shouldShowExpressChat = dictionary.decode(UserDefaultsUserKey.ShouldShowExpressChat.rawValue, defaultValue: UserDefaultsUser.shouldShowExpressChatDefaultValue)
+        let productsWithExpressChatAlreadyShown = dictionary.decode(UserDefaultsUserKey.ProductsWithExpressChatAlreadyShown.rawValue, defaultValue: UserDefaultsUser.productsWithExpressChatAlreadyShownDefaultValue)
         return UserDefaultsUser(appShared: appShared, userLocationApproximate: userLocationApproximate,
                                 chatSafetyTipsShown: chatSafetyTipsShown, ratingAlreadyRated: ratingAlreadyRated,
                                 ratingRemindMeLaterDate: ratingRemindMeLaterDate,
@@ -128,7 +139,9 @@ extension UserDefaultsUser: UserDefaultsDecodable {
                                 postProductPostedPreviously:  postProductPostedPreviously,
                                 commercializersPending: commercializersPending,
                                 trackingProductSellComplete24hTracked: trackingProductSellComplete24hTracked,
-                                shouldShowCommercializerAfterPosting: shouldShowCommercializerAfterPosting)
+                                shouldShowCommercializerAfterPosting: shouldShowCommercializerAfterPosting,
+                                shouldShowExpressChat: shouldShowExpressChat,
+                                productsWithExpressChatAlreadyShown: productsWithExpressChatAlreadyShown)
     }
 
     func encode() -> [String: AnyObject] {
@@ -151,6 +164,8 @@ extension UserDefaultsUser: UserDefaultsDecodable {
         dict.encode(UserDefaultsUserKey.CommercializersPending.rawValue, value: commercializersPending)
         dict.encode(UserDefaultsUserKey.TrackingProductSellComplete24hTracked.rawValue, value: trackingProductSellComplete24hTracked)
         dict.encode(UserDefaultsUserKey.ShouldShowCommercializerAfterPosting.rawValue, value: shouldShowCommercializerAfterPosting)
+        dict.encode(UserDefaultsUserKey.ShouldShowExpressChat.rawValue, value: shouldShowExpressChat)
+        dict.encode(UserDefaultsUserKey.ProductsWithExpressChatAlreadyShown.rawValue, value: productsWithExpressChatAlreadyShown)
         return dict
     }
 }
@@ -180,6 +195,9 @@ private enum UserDefaultsUserKey: String {
     case TrackingProductSellComplete24hTracked = "trackingProductSellComplete24hTracked"
     
     case ShouldShowCommercializerAfterPosting = "shouldShowCommercializerAfterPosting"
+
+    case ShouldShowExpressChat = "shouldShowExpressChat"
+    case ProductsWithExpressChatAlreadyShown = "productsWithExpressChatAlreadyShown"
 }
 
 
