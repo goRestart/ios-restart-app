@@ -18,6 +18,7 @@ class ExpressChatViewModel: BaseViewModel {
 
     private var chatRepository: ChatRepository
     private var keyValueStorage: KeyValueStorage
+    private var trackerProxy: TrackerProxy
     private var productList: [Product]
     private var sourceProductId: String
     var productListCount: Int {
@@ -43,20 +44,23 @@ class ExpressChatViewModel: BaseViewModel {
 
     convenience init(productList: [Product], sourceProductId: String) {
         self.init(productList: productList, sourceProductId: sourceProductId, chatRepository: Core.chatRepository,
-                  keyValueStorage: KeyValueStorage.sharedInstance)
+                  keyValueStorage: KeyValueStorage.sharedInstance, trackerProxy: TrackerProxy.sharedInstance)
     }
 
-    init(productList: [Product], sourceProductId: String, chatRepository: ChatRepository, keyValueStorage: KeyValueStorage) {
+    init(productList: [Product], sourceProductId: String, chatRepository: ChatRepository, keyValueStorage: KeyValueStorage,
+         trackerProxy: TrackerProxy) {
         self.productList = productList
         self.sourceProductId = sourceProductId
         self.selectedProducts.value = productList
         self.chatRepository = chatRepository
         self.keyValueStorage = keyValueStorage
+        self.trackerProxy = trackerProxy
     }
 
     override func didBecomeActive(firstTime: Bool) {
         setupRx()
         selectedItemsCount.value = productListCount
+        trackExpressChatStart()
     }
 
 
@@ -81,11 +85,16 @@ class ExpressChatViewModel: BaseViewModel {
         let wrapper = ChatWrapper()
         for product in selectedProducts.value {
             wrapper.sendMessageForProduct(product, text: messageText.value, sticker: nil, type: .Text, completion: nil)
+            singleMessageExtraTrackings(product)
         }
+        trackExpressChatComplete(selectedItemsCount.value)
         navigator?.sentMessage(sourceProductId, count: selectedItemsCount.value)
     }
 
     func closeExpressChat(showAgain: Bool) {
+        if !showAgain {
+            trackExpressChatDontAsk()
+        }
         navigator?.closeExpressChat(showAgain, forProduct: sourceProductId)
     }
 
@@ -133,5 +142,34 @@ class ExpressChatViewModel: BaseViewModel {
             .subscribeNext { [weak self] (selectedCount, messageText) in
             self?.sendButtonEnabled.value = selectedCount > 0 && !messageText.isEmpty
         }.addDisposableTo(disposeBag)
+    }
+}
+
+
+// MARK: - Tracking
+
+extension ExpressChatViewModel {
+    func trackExpressChatStart() {
+        let event = TrackerEvent.expressChatStart()
+        trackerProxy.trackEvent(event)
+    }
+
+    func singleMessageExtraTrackings(product: Product) {
+        let askQuestionEvent = TrackerEvent.productAskQuestion(product, messageType: .Text, typePage: .ExpressChat)
+        trackerProxy.trackEvent(askQuestionEvent)
+
+        let messageSentEvent = TrackerEvent.userMessageSent(product, userTo: product.user, messageType: .Text,
+                                                            isQuickAnswer: .False)
+        trackerProxy.trackEvent(messageSentEvent)
+    }
+
+    func trackExpressChatComplete(numChats: Int) {
+        let event = TrackerEvent.expressChatComplete(numChats)
+        trackerProxy.trackEvent(event)
+    }
+
+    func trackExpressChatDontAsk() {
+        let event = TrackerEvent.expressChatDontAsk()
+        trackerProxy.trackEvent(event)
     }
 }

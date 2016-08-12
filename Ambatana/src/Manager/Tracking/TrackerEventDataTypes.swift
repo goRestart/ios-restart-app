@@ -123,6 +123,10 @@ public enum EventName: String {
 
     case OpenApp                            = "open-app-external"
 
+    case ExpressChatStart                   = "express-chat-start"
+    case ExpressChatComplete                = "express-chat-complete"
+    case ExpressChatDontAsk                 = "express-chat-dont-ask"
+
     // Constants
     private static let eventNameDummyPrefix  = "dummy-"
     
@@ -204,6 +208,7 @@ public enum EventParameterName: String {
     case Medium               = "medium"
     case Source               = "source"
     case ItemPosition         = "item-position"
+    case ExpressConversations = "express-conversations"
 }
 
 public enum EventParameterLoginSourceValue: String {
@@ -397,6 +402,7 @@ public enum EventParameterTypePage: String {
     case OpenApp = "open-app"
     case IncentivizePosting = "incentivize-posting"
     case UserRatingList = "user-rating-list"
+    case ExpressChat = "express-chat"
 }
 
 public enum EventParameterPermissionType: String {
