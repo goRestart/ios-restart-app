@@ -436,9 +436,9 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     
     func userInfoPressed() {
         switch chatStatus {
-        case .ProductDeleted, .Forbidden, .UserPendingDelete, .UserDeleted:
+        case .Forbidden, .UserPendingDelete, .UserDeleted:
             break
-        case .Available, .Blocked, .BlockedBy, .ProductSold:
+        case .ProductDeleted, .Available, .Blocked, .BlockedBy, .ProductSold:
             guard let user = otherUser else { return }
             delegate?.vmHideKeyboard(animated: false)
             let data = UserDetailData.UserAPI(user: user, source: .Chat)
