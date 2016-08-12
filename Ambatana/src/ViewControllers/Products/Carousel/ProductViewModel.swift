@@ -112,8 +112,7 @@ class ProductViewModel: BaseViewModel {
     private let myUserRepository: MyUserRepository
     private let productRepository: ProductRepository
     private let commercializerRepository: CommercializerRepository
-    private let chatRepository: OldChatRepository
-    private let chatWebSocketRepository: ChatRepository
+    private let chatWrapper: ChatWrapper
     private let stickersRepository: StickersRepository
     private let countryHelper: CountryHelper
     private let locationManager: LocationManager
@@ -173,18 +172,16 @@ class ProductViewModel: BaseViewModel {
         let myUserRepository = Core.myUserRepository
         let productRepository = Core.productRepository
         let commercializerRepository = Core.commercializerRepository
-        let chatRepository = Core.oldChatRepository
         let countryHelper = Core.countryHelper
-        let chatWebSocketRepository = Core.chatRepository
+        let chatWrapper = ChatWrapper()
         let stickersRepository = Core.stickersRepository
         let locationManager = Core.locationManager
         
         let product = productRepository.build(fromChatproduct: product, chatInterlocutor: user)
         
         self.init(myUserRepository: myUserRepository, productRepository: productRepository,
-                  commercializerRepository: commercializerRepository, chatRepository: chatRepository,
-                  chatWebSocketRepository: chatWebSocketRepository, stickersRepository: stickersRepository,
-                  locationManager: locationManager, countryHelper: countryHelper,
+                  commercializerRepository: commercializerRepository, chatWrapper: chatWrapper,
+                  stickersRepository: stickersRepository, locationManager: locationManager, countryHelper: countryHelper,
                   product: product, thumbnailImage: thumbnailImage, tabNavigator: tabNavigator)
         
         syncProduct(nil)
@@ -194,22 +191,20 @@ class ProductViewModel: BaseViewModel {
         let myUserRepository = Core.myUserRepository
         let productRepository = Core.productRepository
         let commercializerRepository = Core.commercializerRepository
-        let chatRepository = Core.oldChatRepository
         let countryHelper = Core.countryHelper
-        let chatWebSocketRepository = Core.chatRepository
+        let chatWrapper = ChatWrapper()
         let stickersRepository = Core.stickersRepository
         let locationManager = Core.locationManager
         self.init(myUserRepository: myUserRepository, productRepository: productRepository,
-                  commercializerRepository: commercializerRepository, chatRepository: chatRepository,
-                  chatWebSocketRepository: chatWebSocketRepository, stickersRepository: stickersRepository,
-                  locationManager: locationManager, countryHelper: countryHelper,
+                  commercializerRepository: commercializerRepository, chatWrapper: chatWrapper,
+                  stickersRepository: stickersRepository, locationManager: locationManager, countryHelper: countryHelper,
                   product: product, thumbnailImage: thumbnailImage, tabNavigator: tabNavigator)
     }
 
     init(myUserRepository: MyUserRepository, productRepository: ProductRepository,
-         commercializerRepository: CommercializerRepository, chatRepository: OldChatRepository,
-         chatWebSocketRepository: ChatRepository, stickersRepository: StickersRepository, locationManager: LocationManager,
-         countryHelper: CountryHelper, product: Product, thumbnailImage: UIImage?, tabNavigator: TabNavigator?) {
+         commercializerRepository: CommercializerRepository, chatWrapper: ChatWrapper,
+         stickersRepository: StickersRepository, locationManager: LocationManager, countryHelper: CountryHelper,
+         product: Product, thumbnailImage: UIImage?, tabNavigator: TabNavigator?) {
         self.product = Variable<Product>(product)
         self.thumbnailImage = thumbnailImage
         self.myUserRepository = myUserRepository
@@ -218,8 +213,7 @@ class ProductViewModel: BaseViewModel {
         self.trackHelper = ProductVMTrackHelper(product: product)
         self.commercializerRepository = commercializerRepository
         self.commercializers = Variable<[Commercializer]?>(nil)
-        self.chatRepository = chatRepository
-        self.chatWebSocketRepository = chatWebSocketRepository
+        self.chatWrapper = chatWrapper
         self.stickersRepository = stickersRepository
         self.locationManager = locationManager
         self.tabNavigator = tabNavigator
@@ -434,8 +428,9 @@ extension ProductViewModel {
 
     func sendDirectMessage(message: String?) {
         delegate?.vmShowLoading(LGLocalizedString.productChatDirectMessageSending)
-        chatRepository.sendText(message ?? LGLocalizedString.productChatDirectMessage(product.value.user.name ?? ""),
-                                product: product.value, recipient: product.value.user) { [weak self] result in
+
+        let text = message ?? LGLocalizedString.productChatDirectMessage(product.value.user.name ?? "")
+        chatWrapper.sendMessageForProduct(product.value, text: text, sticker: nil, type: .Text) { [weak self] result in
             if let _ = result.value {
                 self?.trackHelper.trackDirectMessageSent()
                 self?.delegate?.vmHideLoading(LGLocalizedString.productChatWithSellerSendOk, afterMessageCompletion: nil)
@@ -482,7 +477,8 @@ extension ProductViewModel {
         let messageView = chatViewMessageAdapter.adapt(message)
         directChatMessages.insert(messageView, atIndex: 0)
 
-        chatRepository.sendSticker(sticker, product: product.value, recipient: product.value.user) { [weak self] result in
+        chatWrapper.sendMessageForProduct(product.value, text: sticker.name, sticker: sticker, type: .Sticker) {
+            [weak self] result in
             if let _ = result.value {
                 self?.trackHelper.trackDirectStickerSent()
             } else if let error = result.error {
