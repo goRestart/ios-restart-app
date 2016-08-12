@@ -1170,15 +1170,28 @@ extension MessageType {
 // MARK: - Related products for express chat
 
 extension OldChatViewModel {
+
+    static let maxRelatedProductsForExpressChat = 4
+
     private func retrieveRelatedProducts() {
         guard isBuyer else { return }
         guard let productId = product.objectId else { return }
-        var params = RetrieveProductsParams()
-        params.numProducts = 4
-        productRepository.index(productId: productId, params: params) { [weak self] result in
+        productRepository.index(productId: productId, params: RetrieveProductsParams()) { [weak self] result in
+            guard let strongSelf = self else { return }
             if let value = result.value {
-                self?.relatedProducts = value
+                strongSelf.relatedProducts = strongSelf.relatedWithoutMyProducts(value)
             }
         }
+    }
+
+    private func relatedWithoutMyProducts(products: [Product]) -> [Product] {
+        var cleanRelatedProducts: [Product] = []
+        for product in products {
+            if product.user.objectId != myUserRepository.myUser?.objectId { cleanRelatedProducts.append(product) }
+            if cleanRelatedProducts.count == OldChatViewModel.maxRelatedProductsForExpressChat {
+                return cleanRelatedProducts
+            }
+        }
+        return cleanRelatedProducts
     }
 }

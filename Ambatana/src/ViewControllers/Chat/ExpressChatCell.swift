@@ -32,9 +32,12 @@ class ExpressChatCell: UICollectionViewCell {
         priceLabel.text = price
 
         layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
+        productImageView.image = UIImage(named: "product_placeholder")
         productImageView.lg_setImageWithURL(imageUrl) { [weak self] (result, _ ) in
             if let image = result.value?.image {
                 self?.productImageView.image = image
+            } else {
+                self?.productImageView.image = UIImage(named: "product_placeholder")
             }
         }
     }

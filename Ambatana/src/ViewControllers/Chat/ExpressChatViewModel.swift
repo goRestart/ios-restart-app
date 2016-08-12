@@ -74,10 +74,6 @@ class ExpressChatViewModel: BaseViewModel {
     }
 
     func textFieldUpdatedWithText(text: String) {
-
-        print("❗️ ❗️ ❗️ ❗️ ❗️ ❗️ ❗️ ❗️ ❗️ ❗️ ❗️ ❗️")
-        print(text)
-
         messageText.value = text
     }
 

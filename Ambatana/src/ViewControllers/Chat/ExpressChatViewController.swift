@@ -12,8 +12,10 @@ import RxSwift
 class ExpressChatViewController: BaseViewController {
 
     static let collectionCellIdentifier = "ExpressChatCell"
+    static let collectionHeight: CGFloat = 250
 
     var viewModel: ExpressChatViewModel
+    var keyboardHelper: KeyboardHelper
 
     @IBOutlet weak var closeButton: UIButton!
     @IBOutlet weak var scrollView: UIScrollView!
@@ -24,10 +26,17 @@ class ExpressChatViewController: BaseViewController {
     @IBOutlet weak var sendMessageButton: UIButton!
     @IBOutlet weak var dontAskAgainButton: UIButton!
 
+    @IBOutlet weak var collectionViewHeightConstraint: NSLayoutConstraint!
+
     let disposeBag = DisposeBag()
 
-    init(viewModel: ExpressChatViewModel) {
+    convenience init(viewModel: ExpressChatViewModel) {
+        self.init(viewModel: viewModel, keyboardHelper: KeyboardHelper.sharedInstance)
+    }
+
+    init (viewModel: ExpressChatViewModel, keyboardHelper: KeyboardHelper) {
         self.viewModel = viewModel
+        self.keyboardHelper = keyboardHelper
         super.init(viewModel: viewModel, nibName: "ExpressChatViewController")
     }
     
@@ -57,6 +66,8 @@ class ExpressChatViewController: BaseViewController {
 
         collectionView.delegate = self
         collectionView.dataSource = self
+        collectionViewHeightConstraint.constant = viewModel.productListCount > 2 ?
+            ExpressChatViewController.collectionHeight : ExpressChatViewController.collectionHeight/2
         let cellNib = UINib(nibName: "ExpressChatCell", bundle: nil)
         collectionView.registerNib(cellNib, forCellWithReuseIdentifier: ExpressChatViewController.collectionCellIdentifier)
         collectionView.allowsMultipleSelection = true
@@ -69,6 +80,14 @@ class ExpressChatViewController: BaseViewController {
     func setupRX() {
         viewModel.sendMessageTitle.asObservable().bindTo(sendMessageButton.rx_title).addDisposableTo(disposeBag)
         viewModel.sendButtonEnabled.asObservable().bindTo(sendMessageButton.rx_enabled).addDisposableTo(disposeBag)
+
+        keyboardHelper.rx_keyboardOrigin.asObservable().bindNext { [weak self] origin in
+            guard let scrollView = self?.scrollView, var buttonRect = self?.sendMessageButton.frame,
+                let topHeight = self?.topBarHeight else { return }
+            scrollView.contentInset.bottom = scrollView.height - origin + topHeight
+            buttonRect.bottom = buttonRect.bottom
+            scrollView.scrollRectToVisible(buttonRect, animated: false)
+        }.addDisposableTo(disposeBag)
     }
 
     @IBAction func closeButtonPressed(sender: AnyObject) {
@@ -91,19 +110,8 @@ extension ExpressChatViewController: UITextFieldDelegate {
         viewModel.textFieldUpdatedWithText("")
     }
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
-        print(textField.text)
-        print(string)
         guard let oldText = textField.text else { return true }
         viewModel.textFieldUpdatedWithText(oldText + string)
-        return true
-    }
-    func textFieldDidEndEditing(textField: UITextField) {
-        print("DID! 🔰🔰🔰🔰🔰🔰🔰🔰🔰🔰🔰🔰🔰🔰🔰🔰🔰")
-        print(textField.text)
-    }
-    func textFieldShouldEndEditing(textField: UITextField) -> Bool {
-        print("SHOULD! 🔰🔰🔰🔰🔰🔰🔰🔰🔰🔰🔰🔰🔰🔰🔰🔰🔰")
-        print(textField.text)
         return true
     }
 }

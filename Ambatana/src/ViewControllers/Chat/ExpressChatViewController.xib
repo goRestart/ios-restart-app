@@ -9,6 +9,7 @@
             <connections>
                 <outlet property="closeButton" destination="PHV-LZ-dM9" id="5Kg-AH-3hv"/>
                 <outlet property="collectionView" destination="uUB-Kl-UFa" id="H9v-hd-QN7"/>
+                <outlet property="collectionViewHeightConstraint" destination="tm1-Ag-7je" id="i4p-5d-1zk"/>
                 <outlet property="contactSellersLabel" destination="Nsv-Aa-WGV" id="aDf-Yl-VDM"/>
                 <outlet property="dontAskAgainButton" destination="512-gx-lJk" id="IhR-Hu-qE7"/>
                 <outlet property="dontMissLabel" destination="2ja-pJ-I95" id="Qkn-7R-WGp"/>
@@ -42,8 +43,8 @@
                             <rect key="frame" x="175" y="189" width="250" height="250"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="250" id="29b-5L-Nzp"/>
                                 <constraint firstAttribute="width" constant="250" id="hOu-QH-9PS"/>
+                                <constraint firstAttribute="height" constant="250" id="tm1-Ag-7je"/>
                             </constraints>
                             <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="hzb-50-oOr">
                                 <size key="itemSize" width="120" height="120"/>
