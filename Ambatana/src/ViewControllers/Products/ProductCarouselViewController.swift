@@ -272,6 +272,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         alphaSignal.bindTo(moreInfoView.rx_alpha).addDisposableTo(disposeBag)
         alphaSignal.bindTo(productStatusView.rx_alpha).addDisposableTo(disposeBag)
         alphaSignal.bindTo(commercialButton.rx_alpha).addDisposableTo(disposeBag)
+        alphaSignal.bindTo(favoriteButton.rx_alpha).addDisposableTo(disposeBag)
         alphaSignal.bindNext{ [weak self] alpha in
             self?.moreInfoTooltip?.alpha = alpha
         }.addDisposableTo(disposeBag)
@@ -578,7 +579,7 @@ extension ProductCarouselViewController {
     private func refreshCommercialVideoButton(viewModel: ProductViewModel) {
         viewModel.productHasReadyCommercials
             .asObservable()
-            .map{!$0}
+            .map{ !$0 || FeatureFlags.bigFavoriteIcon }
             .bindTo(commercialButton.rx_hidden)
             .addDisposableTo(activeDisposeBag)
         
