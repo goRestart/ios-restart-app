@@ -475,33 +475,15 @@ extension ProductViewModel {
     }
 
     func sendSticker(sticker: Sticker) {
-        // Optimistic behavior
-        let message = LocalMessage(sticker: sticker, userId: myUserRepository.myUser?.objectId)
-        let messageView = chatViewMessageAdapter.adapt(message)
-        directChatMessages.insert(messageView, atIndex: 0)
-
-        chatWrapper.sendMessageForProduct(product.value, text: sticker.name, sticker: sticker, type: .Sticker) {
-            [weak self] result in
-            if let _ = result.value {
-                self?.trackHelper.trackDirectStickerSent()
-            } else if let error = result.error {
-                switch error {
-                case .Forbidden:
-                    self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.productChatDirectErrorBlockedUserMessage, completion: nil)
-                case .Network, .Internal, .NotFound, .Unauthorized, .TooManyRequests, .UserNotVerified:
-                    self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.chatSendErrorGeneric, completion: nil)
-                }
-
-                //Removing in case of failure
-                if let indexToRemove = self?.directChatMessages.value.indexOf({ $0.objectId == messageView.objectId }) {
-                    self?.directChatMessages.removeAtIndex(indexToRemove)
-                }
-            }
-        }
+        ifLoggedInRunActionElseOpenMainSignUp({ [weak self] in
+            self?.sendStickerToSeller(sticker)
+        }, source: .DirectSticker)
     }
 
     func switchFavorite() {
-        switchFavoriteAction()
+        ifLoggedInRunActionElseOpenMainSignUp({ [weak self] in
+            self?.switchFavoriteAction()
+        }, source: .Favourite)
     }
 }
 
@@ -839,6 +821,32 @@ extension ProductViewModel {
                 message = LGLocalizedString.productSellAgainErrorGeneric
             }
             strongSelf.delegate?.vmHideLoading(message, afterMessageCompletion: nil)
+        }
+    }
+
+    private func sendStickerToSeller(sticker: Sticker) {
+        // Optimistic behavior
+        let message = LocalMessage(sticker: sticker, userId: myUserRepository.myUser?.objectId)
+        let messageView = chatViewMessageAdapter.adapt(message)
+        directChatMessages.insert(messageView, atIndex: 0)
+
+        chatWrapper.sendMessageForProduct(product.value, text: sticker.name, sticker: sticker, type: .Sticker) {
+            [weak self] result in
+            if let _ = result.value {
+                self?.trackHelper.trackDirectStickerSent()
+            } else if let error = result.error {
+                switch error {
+                case .Forbidden:
+                    self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.productChatDirectErrorBlockedUserMessage, completion: nil)
+                case .Network, .Internal, .NotFound, .Unauthorized, .TooManyRequests, .UserNotVerified:
+                    self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.chatSendErrorGeneric, completion: nil)
+                }
+
+                //Removing in case of failure
+                if let indexToRemove = self?.directChatMessages.value.indexOf({ $0.objectId == messageView.objectId }) {
+                    self?.directChatMessages.removeAtIndex(indexToRemove)
+                }
+            }
         }
     }
 }

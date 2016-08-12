@@ -587,8 +587,7 @@ extension ProductCarouselViewController {
     }
     
     private func refreshCommercialVideoButton(viewModel: ProductViewModel) {
-        viewModel.productHasReadyCommercials
-            .asObservable()
+        viewModel.productHasReadyCommercials.asObservable()
             .map{ !$0 || FeatureFlags.bigFavoriteIcon }
             .bindTo(commercialButton.rx_hidden)
             .addDisposableTo(activeDisposeBag)
@@ -614,8 +613,7 @@ extension ProductCarouselViewController {
 
     private func refreshFavoriteButton(viewModel: ProductViewModel) {
         viewModel.productIsFavoriteable.asObservable()
-            .filter { _ in return FeatureFlags.bigFavoriteIcon }
-            .map{!$0}
+            .map{!$0 || !FeatureFlags.bigFavoriteIcon}
             .bindTo(favoriteButton.rx_hidden)
             .addDisposableTo(activeDisposeBag)
 

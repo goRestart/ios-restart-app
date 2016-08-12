@@ -218,6 +218,7 @@ public enum EventParameterLoginSourceValue: String {
     case ReportFraud = "report-fraud"
     case Delete = "delete"
     case Install = "install"
+    case DirectSticker = "direct-sticker"
 }
 
 public enum EventParameterSellSourceValue: String {
