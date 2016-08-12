@@ -334,6 +334,8 @@
 "product_onboarding_finger_tap_label" = "Πατήστε για να πάτε στο επόμενο προϊόν";
 "product_onboarding_show_again_button_title" = "Πώς να Περιηγηθείτε";
 "product_open_commercial_button" = "Commercial";
+"product_option_share" = "Share product";
+"product_option_show_commercial" = "Commercial";
 "product_popular_near_you" = "Δημοφιλή κοντά σας";
 "product_post_camera_first_time_alert_subtitle" = "Τραβήξτε μια καλή φωτογραφία και ξεκινήστε να κερδίζετε μετρητά!";
 "product_post_camera_first_time_alert_title" = "Τι πουλάς;";
