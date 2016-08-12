@@ -737,8 +737,10 @@ extension ProductCarouselViewController: UICollectionViewDataSource, UICollectio
 
 extension ProductCarouselViewController: ProductViewModelDelegate {
     func vmShowNativeShare(socialMessage: SocialMessage) {
-        guard navigationItem.rightBarButtonItems?.count > 1 else { return }
-        presentNativeShare(socialMessage: socialMessage, delegate: self, barButtonItem: navigationItem.rightBarButtonItems?[1])
+        //We have an A/B test (bigFavoriteIcon) that just leaves options button (with share inside) so we need to check this
+        let navItemsCount = navigationItem.rightBarButtonItems?.count ?? 0
+        let barButtonItem = navItemsCount > 1 ? navigationItem.rightBarButtonItems?[1] : navigationItem.rightBarButtonItems?.first
+        presentNativeShare(socialMessage: socialMessage, delegate: self, barButtonItem: barButtonItem)
     }
     
     func vmOpenEditProduct(editProductVM: EditProductViewModel) {

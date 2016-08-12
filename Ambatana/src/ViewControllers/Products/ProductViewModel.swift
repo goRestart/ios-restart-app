@@ -696,7 +696,7 @@ extension ProductViewModel {
             productRepository.deleteFavorite(product.value) { [weak self] result in
                 guard let strongSelf = self else { return }
                 if let product = result.value {
-                    strongSelf.product.value = product
+                    strongSelf.isFavorite.value = product.favorite
                 }
                 strongSelf.favoriteButtonEnabled.value = true
             }
@@ -704,7 +704,7 @@ extension ProductViewModel {
             productRepository.saveFavorite(product.value) { [weak self] result in
                 guard let strongSelf = self else { return }
                 if let product = result.value {
-                    strongSelf.product.value = product
+                    strongSelf.isFavorite.value = product.favorite
                     self?.trackSaveFavoriteCompleted()
 
                     if RatingManager.sharedInstance.shouldShowRating {
