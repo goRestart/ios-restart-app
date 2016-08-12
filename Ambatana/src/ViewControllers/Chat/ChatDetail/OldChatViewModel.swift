@@ -49,8 +49,6 @@ protocol OldChatViewModelDelegate: BaseViewModelDelegate {
     func vmClearText()
 
     func vmUpdateUserIsReadyToReview()
-
-//    func vmShowExpressChat(relatedProducts: [Product], sourceProductId: String)
 }
 
 enum AskQuestionSource {
