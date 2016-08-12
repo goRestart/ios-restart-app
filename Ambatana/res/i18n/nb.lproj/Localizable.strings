@@ -334,6 +334,8 @@
 "product_onboarding_finger_tap_label" = "Trykk for å gå til neste produkt";
 "product_onboarding_show_again_button_title" = "Hvordan bla i produkter";
 "product_open_commercial_button" = "Commercial";
+"product_option_share" = "Share product";
+"product_option_show_commercial" = "Commercial";
 "product_popular_near_you" = "Populært i ditt nærområde";
 "product_post_camera_first_time_alert_subtitle" = "Knips et godt bilde og begynn å tjene penger!";
 "product_post_camera_first_time_alert_title" = "Hva selger du?";
