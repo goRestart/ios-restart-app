@@ -334,6 +334,8 @@
 "product_onboarding_finger_tap_label" = "Napauta mennäksesi seuraavaan tuotteeseen";
 "product_onboarding_show_again_button_title" = "Ohjeet selailuun";
 "product_open_commercial_button" = "Commercial";
+"product_option_share" = "Share product";
+"product_option_show_commercial" = "Commercial";
 "product_popular_near_you" = "Suosittuja lähelläsi";
 "product_post_camera_first_time_alert_subtitle" = "Nappaa hyvä kuva ja ala tienata!";
 "product_post_camera_first_time_alert_title" = "Mitä olet myymässä?";

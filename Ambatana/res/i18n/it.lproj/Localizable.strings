@@ -334,6 +334,8 @@
 "product_onboarding_finger_tap_label" = "Tocca per passare al prodotto successivo";
 "product_onboarding_show_again_button_title" = "Come navigare";
 "product_open_commercial_button" = "Commercial";
+"product_option_share" = "Share product";
+"product_option_show_commercial" = "Commercial";
 "product_popular_near_you" = "Popolari nella tua zona";
 "product_post_camera_first_time_alert_subtitle" = "Scatta una bella foto e inizia a guadagnare!";
 "product_post_camera_first_time_alert_title" = "Che cosa stai vendendo?";

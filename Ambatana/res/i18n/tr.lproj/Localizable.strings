@@ -334,6 +334,8 @@
 "product_onboarding_finger_tap_label" = "Bir sonraki ürüne gitmek için dokun";
 "product_onboarding_show_again_button_title" = "Gezinme nasıl yapılır";
 "product_open_commercial_button" = "Commercial";
+"product_option_share" = "Share product";
+"product_option_show_commercial" = "Commercial";
 "product_popular_near_you" = "Yakınlarında popüler olanlar";
 "product_post_camera_first_time_alert_subtitle" = "Güzel bir fotoğraf çek ve para kazanmaya başla!";
 "product_post_camera_first_time_alert_title" = "Ne satıyorsun?";

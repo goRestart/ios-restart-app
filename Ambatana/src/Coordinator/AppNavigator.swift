@@ -6,6 +6,7 @@
 //  Copyright © 2016 Ambatana. All rights reserved.
 //
 
+
 protocol AppNavigatorDelegate: class {
     func appNavigatorDidOpenApp()
 }
