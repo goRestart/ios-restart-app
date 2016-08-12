@@ -475,9 +475,9 @@ extension ProductViewModel {
     }
 
     func sendSticker(sticker: Sticker) {
-        ifLoggedInRunActionElseOpenMainSignUp({ [weak self] in
+        ifLoggedInRunActionElseOpenChatSignup { [weak self] in
             self?.sendStickerToSeller(sticker)
-        }, source: .DirectSticker)
+        }
     }
 
     func switchFavorite() {
@@ -862,6 +862,11 @@ extension ProductViewModel {
             let signUpVM = SignUpViewModel(source: source)
             delegate?.vmOpenMainSignUp(signUpVM, afterLoginAction: { action() })
         }
+    }
+
+    private func ifLoggedInRunActionElseOpenChatSignup(action: () -> ()) {
+        delegate?.ifLoggedInThen(.DirectSticker, loginStyle: .Popup(LGLocalizedString.chatLoginPopupText),
+                                 loggedInAction: action, elsePresentSignUpWithSuccessAction: action)
     }
 }
 
