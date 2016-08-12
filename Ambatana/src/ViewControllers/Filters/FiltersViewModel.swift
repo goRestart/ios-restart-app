@@ -119,7 +119,12 @@ class FiltersViewModel: BaseViewModel {
             categories.append(String(category.rawValue))
         }
         
-        let trackingEvent = TrackerEvent.filterComplete(productFilter.filterCoordinates, distanceRadius: productFilter.distanceRadius, distanceUnit: productFilter.distanceType, categories: productFilter.selectedCategories, sortBy: productFilter.selectedOrdering)
+        let trackingEvent = TrackerEvent.filterComplete(productFilter.filterCoordinates,
+                                                        distanceRadius: productFilter.distanceRadius,
+                                                        distanceUnit: productFilter.distanceType,
+                                                        categories: productFilter.selectedCategories,
+                                                        sortBy: productFilter.selectedOrdering,
+                                                        postedWithin: productFilter.selectedWithin)
         TrackerProxy.sharedInstance.trackEvent(trackingEvent)
         
         dataDelegate?.viewModelDidUpdateFilters(self, filters: productFilter)
