@@ -17,12 +17,10 @@ class ExpressChatCoordinator: Coordinator {
     
     var child: Coordinator?
 
-    private var parentViewController: UIViewController?
     var viewController: UIViewController
     var presentedAlertController: UIAlertController?
     weak var delegate: ExpressChatCoordinatorDelegate?
 
-    var sourceProductId: String
     var keyValueStorage: KeyValueStorage
 
     // MARK: - Lifecycle
@@ -36,7 +34,6 @@ class ExpressChatCoordinator: Coordinator {
         let vc = ExpressChatViewController(viewModel: vm)
         self.viewController = vc
         self.keyValueStorage = keyValueStorage
-        self.sourceProductId = sourceProductId
 
         vm.navigator = self
         
@@ -46,8 +43,6 @@ class ExpressChatCoordinator: Coordinator {
 
     func open(parent parent: UIViewController, animated: Bool, completion: (() -> Void)?) {
         guard viewController.parentViewController == nil else { return }
-
-        parentViewController = parent
         parent.presentViewController(viewController, animated: animated, completion: completion)
     }
 

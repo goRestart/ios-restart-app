@@ -39,47 +39,20 @@ class ChatWrapper {
             }
             sendWebSocketChatMessage(product, text: text, type: type, completion: completion)
         } else {
-            sendOldChatMessage(product, text: text, sticker: sticker, type: type, completion: completion)
+            sendOldChatMessage(product, text: text, sticker: sticker, type: type.oldChatType, completion: completion)
         }
     }
 
-    private func sendOldChatMessage(product: Product, text: String?, sticker: Sticker?, type: ChatMessageType, completion: ChatWrapperCompletion?) {
-        switch type {
-        case .Text:
-            guard let text = text else {
-                completion?(Result(error: .Internal(message: "There's no message to send")))
-                return
-            }
-            oldChatRepository.sendText(text, product: product, recipient: product.user) { result in
-                if let _ = result.value {
-                    completion?(Result(value: Void()))
-                } else if let error = result.error {
-                    completion?(Result(error: error))
-                }
-            }
-        case .Offer:
-            guard let text = text else {
-                completion?(Result(error: .Internal(message: "There's no offer to send")))
-                return
-            }
-            oldChatRepository.sendOffer(text, product: product, recipient: product.user) { result in
-                if let _ = result.value {
-                    completion?(Result(value: Void()))
-                } else if let error = result.error {
-                    completion?(Result(error: error))
-                }
-            }
-        case .Sticker:
-            guard let sticker = sticker else {
-                completion?(Result(error: .Internal(message: "There's no sticker to send")))
-                return
-            }
-            oldChatRepository.sendSticker(sticker, product: product, recipient: product.user) { result in
-                if let _ = result.value {
-                    completion?(Result(value: Void()))
-                } else if let error = result.error {
-                    completion?(Result(error: error))
-                }
+    private func sendOldChatMessage(product: Product, text: String?, sticker: Sticker?, type: MessageType, completion: ChatWrapperCompletion?) {
+        guard let text = text else {
+            completion?(Result(error: .Internal(message: "There's no message to send")))
+            return
+        }
+        oldChatRepository.sendMessage(type, message: text, product: product, recipient: product.user) { result in
+            if let _ = result.value {
+                completion?(Result(value: Void()))
+            } else if let error = result.error {
+                completion?(Result(error: error))
             }
         }
     }
@@ -122,6 +95,20 @@ class ChatWrapper {
             } else if let error = result.error {
                 completion?(Result(error: error))
             }
+        }
+    }
+}
+
+
+private extension ChatMessageType {
+    var oldChatType: MessageType {
+        switch self {
+        case .Text:
+            return .Text
+        case .Offer:
+            return .Offer
+        case .Sticker:
+            return .Sticker
         }
     }
 }
