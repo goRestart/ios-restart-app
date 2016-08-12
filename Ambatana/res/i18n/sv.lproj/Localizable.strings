@@ -63,6 +63,8 @@
 "chat_express_contact_various_button_text" = "Kontakta %@ säljare";
 "chat_express_dont_ask_again_button" = "Fråga mig inte igen";
 "chat_express_dont_miss_label" = "Missa inte dessa fynd";
+"chat_express_one_message_sent_success_alert" = "Your message has been sent!";
+"chat_express_several_messages_sent_success_alert" = "Your messages have been sent!";
 "chat_express_text_field_text" = "Hallå, jag är intresserad!";
 "chat_list_account_deleted" = "Kontot har avslutats";
 "chat_list_account_deleted_username" = "Inaktiv";
@@ -332,6 +334,8 @@
 "product_onboarding_finger_tap_label" = "Klicka för att gå till nästa produkt";
 "product_onboarding_show_again_button_title" = "Hur du surfar runt";
 "product_open_commercial_button" = "Commercial";
+"product_option_share" = "Share product";
+"product_option_show_commercial" = "Commercial";
 "product_popular_near_you" = "Populärt nära dig";
 "product_post_camera_first_time_alert_subtitle" = "Ta en bra bild och börja tjäna pengar!";
 "product_post_camera_first_time_alert_title" = "Vad säljer du?";

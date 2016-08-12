@@ -63,6 +63,8 @@
 "chat_express_contact_various_button_text" = "Liên hệ %@ người bán";
 "chat_express_dont_ask_again_button" = "Đừng hỏi lại tôi";
 "chat_express_dont_miss_label" = "Đừng bỏ lỡ những món hàng này";
+"chat_express_one_message_sent_success_alert" = "Your message has been sent!";
+"chat_express_several_messages_sent_success_alert" = "Your messages have been sent!";
 "chat_express_text_field_text" = "Xin chào, tôi quan tâm!";
 "chat_list_account_deleted" = "Tài khoản bị xóa";
 "chat_list_account_deleted_username" = "Không hoạt động";
@@ -332,6 +334,8 @@
 "product_onboarding_finger_tap_label" = "Nhấn để tới sản phẩm tiếp theo";
 "product_onboarding_show_again_button_title" = "Cách Duyệt trang";
 "product_open_commercial_button" = "Commercial";
+"product_option_share" = "Share product";
+"product_option_show_commercial" = "Commercial";
 "product_popular_near_you" = "Sản phẩm phổ biến gần bạn";
 "product_post_camera_first_time_alert_subtitle" = "Chụp một bức ảnh đẹp và bắt đầu kiếm tiền!";
 "product_post_camera_first_time_alert_title" = "Bạn đang bán gì?";

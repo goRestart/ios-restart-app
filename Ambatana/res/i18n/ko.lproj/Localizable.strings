@@ -63,6 +63,8 @@
 "chat_express_contact_various_button_text" = "%@ 판매자들에게 연락하기";
 "chat_express_dont_ask_again_button" = "다시 묻지 말아주세요";
 "chat_express_dont_miss_label" = "이 할인을 놓치지마세요";
+"chat_express_one_message_sent_success_alert" = "Your message has been sent!";
+"chat_express_several_messages_sent_success_alert" = "Your messages have been sent!";
 "chat_express_text_field_text" = "안녕하세요, 상품에 관심이 있는데요!";
 "chat_list_account_deleted" = "계정 삭제";
 "chat_list_account_deleted_username" = "비활성화";
@@ -332,6 +334,8 @@
 "product_onboarding_finger_tap_label" = "다음 상품으로 가기 위해 누르기";
 "product_onboarding_show_again_button_title" = "검색하는 방법";
 "product_open_commercial_button" = "Commercial";
+"product_option_share" = "Share product";
+"product_option_show_commercial" = "Commercial";
 "product_popular_near_you" = "근처에 인기있는 상품";
 "product_post_camera_first_time_alert_subtitle" = "훌륭한 사진을 찍고 현금을 벌어보세요!";
 "product_post_camera_first_time_alert_title" = "무엇을 판매하세요?";
