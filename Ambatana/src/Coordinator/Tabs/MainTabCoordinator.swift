@@ -38,6 +38,11 @@ final class MainTabCoordinator: TabCoordinator {
 
         navigationController.pushViewController(vc, animated: true)
     }
+
+    // Note: override in subclasses
+    override func shouldHideSellButtonAtViewController(viewController: UIViewController) -> Bool {
+        return super.shouldHideSellButtonAtViewController(viewController) && !(viewController is MainProductsViewController)
+    }
 }
 
 extension MainTabCoordinator: MainTabNavigator {
