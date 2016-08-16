@@ -26,6 +26,7 @@ public enum EventName: String {
     case PasswordResetError                 = "password-reset-error"
 
     case ProductList                        = "product-list"
+    case ExploreCollection                  = "explore-collection"
     
     case SearchStart                        = "search-start"
     case SearchComplete                     = "search-complete"
@@ -210,6 +211,7 @@ public enum EventParameterName: String {
     case Source               = "source"
     case ItemPosition         = "item-position"
     case ExpressConversations = "express-conversations"
+    case CollectionTitle      = "collection-title"
 }
 
 public enum EventParameterLoginSourceValue: String {

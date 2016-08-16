@@ -422,6 +422,7 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate {
     }
 
     func vmDidSelectCollection(type: CollectionCellType){
+        tracker.trackEvent(TrackerEvent.exploreCollection(type.rawValue))
         delegate?.vmDidSearch(viewModelForSearch(.Collection(type: type)))
     }
 }

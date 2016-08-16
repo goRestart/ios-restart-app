@@ -150,6 +150,12 @@ public struct TrackerEvent {
             return TrackerEvent(name: .ProductList, params: params)
     }
 
+    static func exploreCollection(collectionTitle: String) -> TrackerEvent {
+        var params = EventParameters()
+        params[.CollectionTitle] = collectionTitle
+        return TrackerEvent(name: .ExploreCollection, params: params)
+    }
+
     static func searchStart(user: User?) -> TrackerEvent {
         let params = EventParameters()
 
