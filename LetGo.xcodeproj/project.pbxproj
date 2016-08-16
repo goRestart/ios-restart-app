@@ -683,8 +683,6 @@
 		C784FDFF1C21B45B00846AB7 /* LoadingIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C784FDFE1C21B45B00846AB7 /* LoadingIndicator.swift */; };
 		C788EECB1CC4E18B00B9E26F /* FeatureFlags.swift in Sources */ = {isa = PBXBuildFile; fileRef = C788EECA1CC4E18B00B9E26F /* FeatureFlags.swift */; };
 		C788EECC1CC4E18B00B9E26F /* FeatureFlags.swift in Sources */ = {isa = PBXBuildFile; fileRef = C788EECA1CC4E18B00B9E26F /* FeatureFlags.swift */; };
-		C788EED11CC4EC6700B9E26F /* ProductDetailFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = C788EED01CC4EC6700B9E26F /* ProductDetailFactory.swift */; };
-		C788EED21CC4EC6700B9E26F /* ProductDetailFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = C788EED01CC4EC6700B9E26F /* ProductDetailFactory.swift */; };
 		C788EED41CC6935600B9E26F /* UserProductListRequester.swift in Sources */ = {isa = PBXBuildFile; fileRef = C788EED31CC6935600B9E26F /* UserProductListRequester.swift */; };
 		C788EED51CC6935600B9E26F /* UserProductListRequester.swift in Sources */ = {isa = PBXBuildFile; fileRef = C788EED31CC6935600B9E26F /* UserProductListRequester.swift */; };
 		C788EED71CC7847400B9E26F /* FilteredProductListRequester.swift in Sources */ = {isa = PBXBuildFile; fileRef = C788EED61CC7847400B9E26F /* FilteredProductListRequester.swift */; };
@@ -1475,7 +1473,6 @@
 		C78448DC1BD5196E00C76199 /* LetGo.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = LetGo.entitlements; sourceTree = "<group>"; };
 		C784FDFE1C21B45B00846AB7 /* LoadingIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingIndicator.swift; sourceTree = "<group>"; };
 		C788EECA1CC4E18B00B9E26F /* FeatureFlags.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeatureFlags.swift; sourceTree = "<group>"; };
-		C788EED01CC4EC6700B9E26F /* ProductDetailFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductDetailFactory.swift; sourceTree = "<group>"; };
 		C788EED31CC6935600B9E26F /* UserProductListRequester.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProductListRequester.swift; sourceTree = "<group>"; };
 		C788EED61CC7847400B9E26F /* FilteredProductListRequester.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilteredProductListRequester.swift; sourceTree = "<group>"; };
 		C78BB5091C5A314700614096 /* AppShareViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppShareViewController.swift; sourceTree = "<group>"; };
@@ -1995,7 +1992,6 @@
 				D412E0851B4F179F00683FFD /* ProductListView.swift */,
 				D412E0871B4F17C200683FFD /* ProductListView.xib */,
 				D412E07E1B4EFF2800683FFD /* ProductListViewModel.swift */,
-				C788EED01CC4EC6700B9E26F /* ProductDetailFactory.swift */,
 				2E4B359B1CC90A9500B8CB64 /* RelatedProductListRequester.swift */,
 			);
 			path = Products;
@@ -4156,7 +4152,6 @@
 				C754E0181CB267BF006FDFD5 /* CommercialPreviewViewModel.swift in Sources */,
 				C77593ED1BF0C1FD0097D62F /* FilterDistanceCell.swift in Sources */,
 				D45838431AEE6B9300B5F181 /* UIColor+RGB.swift in Sources */,
-				C788EED11CC4EC6700B9E26F /* ProductDetailFactory.swift in Sources */,
 				C797404F1D2A95B100381A4A /* LeanplumTracker.swift in Sources */,
 				C711A1AD1CDC99E5002D30D9 /* WelcomeNotificationCellDrawer.swift in Sources */,
 				6A5E19FE1D548F5400F92692 /* LGLocationCoordinates2D+Distance.swift in Sources */,
@@ -4514,7 +4509,6 @@
 				C754E0191CB267BF006FDFD5 /* CommercialPreviewViewModel.swift in Sources */,
 				C7DB420A1C5138B500400945 /* FilterDistanceCell.swift in Sources */,
 				C7DB420C1C5138B500400945 /* UIColor+RGB.swift in Sources */,
-				C788EED21CC4EC6700B9E26F /* ProductDetailFactory.swift in Sources */,
 				6A5E19FF1D548F5400F92692 /* LGLocationCoordinates2D+Distance.swift in Sources */,
 				C79740501D2A95B100381A4A /* LeanplumTracker.swift in Sources */,
 				C711A1AE1CDC99E5002D30D9 /* WelcomeNotificationCellDrawer.swift in Sources */,

@@ -114,29 +114,27 @@ private extension TabCoordinator {
 
     func openProduct(product product: Product, thumbnailImage: UIImage? = nil, originFrame: CGRect? = nil,
                              source: EventParameterProductVisitSource) {
-        guard let vc = ProductDetailFactory.productDetailFromProduct(product, thumbnailImage: thumbnailImage,
-                                                                     originFrame: originFrame,
-                                                                     tabNavigator: self, source: source) else { return }
-        navigationController.pushViewController(vc, animated: true)
+        guard let productId = product.objectId else { return }
+        let requester = RelatedProductListRequester(productId: productId)
+        let vm = ProductCarouselViewModel(product: product, thumbnailImage: thumbnailImage,
+                                      productListRequester: requester, tabNavigator: self, source: source)
+        openProduct(vm, thumbnailImage: thumbnailImage, originFrame: originFrame, productId: product.objectId)
     }
 
 
     func openProduct(product: Product, cellModels: [ProductCellModel], requester: ProductListRequester,
                      thumbnailImage: UIImage?, originFrame: CGRect?, showRelated: Bool,
                      source: EventParameterProductVisitSource) {
-        let vc: UIViewController?
         if showRelated {
-            vc = ProductDetailFactory.productDetailFromProduct(product, thumbnailImage: thumbnailImage,
-                                                               originFrame: originFrame, tabNavigator: self, source: source)
+            //Same as single product opening
+            openProduct(product: product, thumbnailImage: thumbnailImage, originFrame: originFrame, source: source)
         } else {
-            vc = ProductDetailFactory.productDetailFromProductListModels(cellModels, requester: requester,
-                                                                         product: product,
-                                                                         thumbnailImage: thumbnailImage,
-                                                                         tabNavigator: self, source: source)
+            let vm = ProductCarouselViewModel(productListModels: cellModels, initialProduct: product,
+                                              thumbnailImage: thumbnailImage, productListRequester: requester,
+                                              tabNavigator: self, source: source)
+            openProduct(vm, thumbnailImage: thumbnailImage, originFrame: originFrame, productId: product.objectId)
         }
-        if let vc = vc {
-            navigationController.pushViewController(vc, animated: true)
-        }
+
     }
 
     func openProduct(chatProduct chatProduct: ChatProduct, user: ChatInterlocutor,
@@ -146,8 +144,15 @@ private extension TabCoordinator {
         let vm = ProductCarouselViewModel(chatProduct: chatProduct, chatInterlocutor: user,
                                           thumbnailImage: thumbnailImage, productListRequester: requester,
                                           tabNavigator: self, source: source)
-        let animator = ProductCarouselPushAnimator(originFrame: originFrame, originThumbnail: thumbnailImage)
-        let vc = ProductCarouselViewController(viewModel: vm, pushAnimator: animator)
+        openProduct(vm, thumbnailImage: thumbnailImage, originFrame: originFrame, productId: productId)
+    }
+
+    func openProduct(viewModel: ProductCarouselViewModel, thumbnailImage: UIImage?, originFrame: CGRect?,
+                     productId: String?) {
+        let color = UIColor.placeholderBackgroundColor(productId)
+        let animator = ProductCarouselPushAnimator(originFrame: originFrame, originThumbnail: thumbnailImage,
+                                                   backgroundColor: color)
+        let vc = ProductCarouselViewController(viewModel: viewModel, pushAnimator: animator)
         navigationController.pushViewController(vc, animated: true)
     }
 

@@ -65,7 +65,6 @@ class ProductCarouselViewModel: BaseViewModel {
     }
 
     private let source: EventParameterProductVisitSource
-    private let singleProductList: Bool
     private var productListRequester: ProductListRequester?
     private var productsViewModels: [String: ProductViewModel] = [:]
     private let myUserRepository: MyUserRepository
@@ -83,8 +82,7 @@ class ProductCarouselViewModel: BaseViewModel {
         let product = productRepository.build(fromChatproduct: chatProduct, chatInterlocutor: chatInterlocutor)
         self.init(myUserRepository: myUserRepository, productRepository: productRepository,
                   productListModels: nil, initialProduct: product, thumbnailImage: thumbnailImage,
-                  singleProductList: true, productListRequester: productListRequester,
-                  tabNavigator: tabNavigator, source: source)
+                  productListRequester: productListRequester, tabNavigator: tabNavigator, source: source)
         syncFirstProduct()
     }
 
@@ -94,24 +92,23 @@ class ProductCarouselViewModel: BaseViewModel {
         let productRepository = Core.productRepository
         self.init(myUserRepository: myUserRepository, productRepository: productRepository,
                   productListModels: nil, initialProduct: product, thumbnailImage: thumbnailImage,
-                  singleProductList: true, productListRequester: productListRequester, tabNavigator: tabNavigator,
-                  source: source)
+                  productListRequester: productListRequester, tabNavigator: tabNavigator, source: source)
     }
 
     convenience init(productListModels: [ProductCellModel], initialProduct: Product?, thumbnailImage: UIImage?,
-                     singleProductList: Bool, productListRequester: ProductListRequester?, tabNavigator: TabNavigator?,
+                     productListRequester: ProductListRequester?, tabNavigator: TabNavigator?,
                      source: EventParameterProductVisitSource) {
         let myUserRepository = Core.myUserRepository
         let productRepository = Core.productRepository
         self.init(myUserRepository: myUserRepository, productRepository: productRepository,
                   productListModels: productListModels, initialProduct: initialProduct,
-                  thumbnailImage: thumbnailImage, singleProductList: singleProductList,
-                  productListRequester: productListRequester, tabNavigator: tabNavigator, source: source)
+                  thumbnailImage: thumbnailImage, productListRequester: productListRequester, tabNavigator: tabNavigator,
+                  source: source)
     }
 
     init(myUserRepository: MyUserRepository, productRepository: ProductRepository,
          productListModels: [ProductCellModel]?, initialProduct: Product?, thumbnailImage: UIImage?,
-         singleProductList: Bool, productListRequester: ProductListRequester?, tabNavigator: TabNavigator?,
+         productListRequester: ProductListRequester?, tabNavigator: TabNavigator?,
          source: EventParameterProductVisitSource) {
         self.myUserRepository = myUserRepository
         self.productRepository = productRepository
@@ -122,7 +119,6 @@ class ProductCarouselViewModel: BaseViewModel {
         }
         self.initialThumbnail = thumbnailImage
         self.productListRequester = productListRequester
-        self.singleProductList = singleProductList
         self.tabNavigator = tabNavigator
         self.source = source
         super.init()
