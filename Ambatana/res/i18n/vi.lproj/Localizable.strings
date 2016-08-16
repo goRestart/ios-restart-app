@@ -58,6 +58,14 @@
 "chat_blocked_disclaimer_scammer_wo_name" = "Vì lý do an toàn, tài khoản này đã bị letgo xóa và các tin nhắn cũng được gỡ bỏ.";
 "chat_deleted_disclaimer_w_name" = "Bạn không thể tiếp tục cuộc trò chuyện này bởi tài khoản của %@ không còn hoạt động.";
 "chat_deleted_disclaimer_wo_name" = "Bạn không thể tiếp tục cuộc trò chuyện này bởi tài khoản này không còn hoạt động.";
+"chat_express_contact_one_button_text" = "Liên hệ 1 người bán";
+"chat_express_contact_sellers_label" = "Liên lạc với người bán trước khi người mua khác mua được";
+"chat_express_contact_various_button_text" = "Liên hệ %@ người bán";
+"chat_express_dont_ask_again_button" = "Đừng hỏi lại tôi";
+"chat_express_dont_miss_label" = "Đừng bỏ lỡ những món hàng này";
+"chat_express_one_message_sent_success_alert" = "Your message has been sent!";
+"chat_express_several_messages_sent_success_alert" = "Your messages have been sent!";
+"chat_express_text_field_text" = "Xin chào, tôi quan tâm!";
 "chat_list_account_deleted" = "Tài khoản bị xóa";
 "chat_list_account_deleted_username" = "Không hoạt động";
 "chat_list_all_empty_title" = "KHÔNG (CHƯA) CÓ TRÒ CHUYỆN!";
@@ -281,7 +289,7 @@
 "product_chat_direct_message" = "Xin chào %@, tôi quan tâm";
 "product_chat_direct_message_sending" = "Đang gửi...";
 "product_chat_with_seller_button" = "Trò chuyện với người bán";
-"product_chat_with_seller_name_button" = "Chat with %@";
+"product_chat_with_seller_name_button" = "Trò chuyện với %@";
 "product_chat_with_seller_send_ok" = "Trò chuyện vừa được gửi!";
 "product_continue_chatting_button" = "Tiếp tục trò chuyện";
 "product_create_commercial_button" = "Create Commercial";
@@ -317,7 +325,7 @@
 "product_mark_as_sold_confirm_title" = "Đánh dấu Đã bán";
 "product_mark_as_sold_error_generic" = "Lỗi xảy ra trong khi đánh dấu đã bán cho sản phẩm. Xin vui lòng thử lại sau.";
 "product_mark_as_sold_success_message" = "Chúc mừng, sản phẩm của bạn đã được đánh dấu đã bán!";
-"product_more_info_open_button" = "MORE INFO";
+"product_more_info_open_button" = "THÊM THÔNG TIN";
 "product_more_info_tooltip_part_1" = "Chạm";
 "product_more_info_tooltip_part_2" = "%@ để xem thêm thông tin";
 "product_negotiable_price" = "Có thể thương lượng";
@@ -326,6 +334,8 @@
 "product_onboarding_finger_tap_label" = "Nhấn để tới sản phẩm tiếp theo";
 "product_onboarding_show_again_button_title" = "Cách Duyệt trang";
 "product_open_commercial_button" = "Commercial";
+"product_option_share" = "Share product";
+"product_option_show_commercial" = "Commercial";
 "product_popular_near_you" = "Sản phẩm phổ biến gần bạn";
 "product_post_camera_first_time_alert_subtitle" = "Chụp một bức ảnh đẹp và bắt đầu kiếm tiền!";
 "product_post_camera_first_time_alert_title" = "Bạn đang bán gì?";
@@ -400,6 +410,8 @@
 "product_share_telegram_error" = "Ồ! Có vẻ như bạn chưa cài đặt Telegram.";
 "product_share_title_label" = "CHIA SẺ SẢN PHẨM NÀY";
 "product_share_whatsapp_error" = "Ồ! Có vẻ như bạn chưa cài đặt ứng dụng WhatsApp.";
+"product_stickers_selection_w_name" = "Select the sticker you want to send to %@.";
+"product_stickers_selection_wo_name" = "Select the sticker you want to send to the seller.";
 "profile_blocked_by_me_label" = "Bạn đã chặn người dùng này";
 "profile_blocked_by_me_label_w_name" = "Bạn đã chặn %@";
 "profile_blocked_by_other_label" = "Bạn đã bị người dùng này chặn";

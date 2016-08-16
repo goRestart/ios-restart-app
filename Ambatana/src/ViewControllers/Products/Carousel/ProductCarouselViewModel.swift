@@ -93,7 +93,6 @@ class ProductCarouselViewModel: BaseViewModel {
         self.init(myUserRepository: myUserRepository, productRepository: productRepository,
                   productListModels: nil, initialProduct: product, thumbnailImage: thumbnailImage,
                   singleProductList: true, productListRequester: productListRequester, tabNavigator: tabNavigator)
-        syncFirstProduct()
     }
 
     convenience init(productListModels: [ProductCellModel], initialProduct: Product?, thumbnailImage: UIImage?,
@@ -276,6 +275,29 @@ extension ProductCarouselViewModel {
         guard let product = productAtIndex(index) else { return }
         let urls = product.images.flatMap({$0.fileURL})
         ImageDownloader.sharedInstance.downloadImagesWithURLs(urls)
+    }
+}
+
+
+// MARK: > Native Share Delegate
+
+extension ProductCarouselViewModel: NativeShareDelegate {
+
+    func nativeShareInFacebook() {
+        currentProductViewModel?.shareInFacebook(.Top)
+        currentProductViewModel?.shareInFBCompleted()
+    }
+
+    func nativeShareInTwitter() {
+        currentProductViewModel?.shareInTwitterActivity()
+    }
+
+    func nativeShareInEmail() {
+        currentProductViewModel?.shareInEmail(.Top)
+    }
+
+    func nativeShareInWhatsApp() {
+        currentProductViewModel?.shareInWhatsappActivity()
     }
 }
 

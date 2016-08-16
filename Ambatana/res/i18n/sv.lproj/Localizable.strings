@@ -58,6 +58,14 @@
 "chat_blocked_disclaimer_scammer_wo_name" = "Av säkerhetsskäl har det här kontot tagits bort av letgo och dessa meddelanden har raderats.";
 "chat_deleted_disclaimer_w_name" = "Du kan inte fortsätta denna konversation, för %@s konto är inte längre aktivt.";
 "chat_deleted_disclaimer_wo_name" = "Du kan inte fortsätta den här konversationen för detta konto är inte längre aktivt.";
+"chat_express_contact_one_button_text" = "Kontakta 1 säljare";
+"chat_express_contact_sellers_label" = "Kontakta dessa säljare innan andra köpare hittar dem!";
+"chat_express_contact_various_button_text" = "Kontakta %@ säljare";
+"chat_express_dont_ask_again_button" = "Fråga mig inte igen";
+"chat_express_dont_miss_label" = "Missa inte dessa fynd";
+"chat_express_one_message_sent_success_alert" = "Your message has been sent!";
+"chat_express_several_messages_sent_success_alert" = "Your messages have been sent!";
+"chat_express_text_field_text" = "Hallå, jag är intresserad!";
 "chat_list_account_deleted" = "Kontot har avslutats";
 "chat_list_account_deleted_username" = "Inaktiv";
 "chat_list_all_empty_title" = "INGEN CHATT (ÄNNU!)";
@@ -281,7 +289,7 @@
 "product_chat_direct_message" = "Hej %@, jag är intresserad";
 "product_chat_direct_message_sending" = "Sänder...";
 "product_chat_with_seller_button" = "Chatta med säljaren";
-"product_chat_with_seller_name_button" = "Chat with %@";
+"product_chat_with_seller_name_button" = "Chatta med %@";
 "product_chat_with_seller_send_ok" = "Din chatt har sänts!";
 "product_continue_chatting_button" = "Fortsätt chatta";
 "product_create_commercial_button" = "Create Commercial";
@@ -317,7 +325,7 @@
 "product_mark_as_sold_confirm_title" = "Markera som såld";
 "product_mark_as_sold_error_generic" = "Ett fel uppstod vid markering av produkten som såld. Var god försök igen.";
 "product_mark_as_sold_success_message" = "Grattis, din produkt har markerats som såld!";
-"product_more_info_open_button" = "MORE INFO";
+"product_more_info_open_button" = "MER INFORMATION";
 "product_more_info_tooltip_part_1" = "Klicka";
 "product_more_info_tooltip_part_2" = "%@ för mer information";
 "product_negotiable_price" = "Förhandlingsbart";
@@ -326,6 +334,8 @@
 "product_onboarding_finger_tap_label" = "Klicka för att gå till nästa produkt";
 "product_onboarding_show_again_button_title" = "Hur du surfar runt";
 "product_open_commercial_button" = "Commercial";
+"product_option_share" = "Share product";
+"product_option_show_commercial" = "Commercial";
 "product_popular_near_you" = "Populärt nära dig";
 "product_post_camera_first_time_alert_subtitle" = "Ta en bra bild och börja tjäna pengar!";
 "product_post_camera_first_time_alert_title" = "Vad säljer du?";
@@ -400,6 +410,8 @@
 "product_share_telegram_error" = "Hoppsan! Du verkar inte ha Telegram installerad.";
 "product_share_title_label" = "DELA PRODUKTEN";
 "product_share_whatsapp_error" = "Hoppsan! Det verkar som att du inte har installerat appen WhatsApp.";
+"product_stickers_selection_w_name" = "Select the sticker you want to send to %@.";
+"product_stickers_selection_wo_name" = "Select the sticker you want to send to the seller.";
 "profile_blocked_by_me_label" = "Den här användaren har blockerats av dig";
 "profile_blocked_by_me_label_w_name" = "%@ har blockerats av dig";
 "profile_blocked_by_other_label" = "Denna användare har blockerat dig";

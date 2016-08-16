@@ -102,6 +102,13 @@ class ChatViewController: SLKTextViewController {
         removeStickersTooltip()
     }
 
+    override func didMoveToParentViewController(parent: UIViewController?) {
+        super.didMoveToParentViewController(parent)
+        if parent == nil {
+            viewModel.wentBack()
+        }
+    }
+
     override func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
         guard !text.hasEmojis() else { return false }
         return super.textView(textView, shouldChangeTextInRange: range, replacementText: text)
@@ -378,9 +385,7 @@ extension ChatViewController {
             case .Composite(let changes) where changes.count > 2:
                 self?.tableView.reloadData()
             case .Insert, .Remove, .Composite:
-                self?.tableView.beginUpdates()
-                self?.handleTableChange(change)
-                self?.tableView.endUpdates()
+                self?.tableView.handleCollectionChange(change)
             }
             }.addDisposableTo(disposeBag)
         
@@ -405,21 +410,6 @@ extension ChatViewController {
                     self?.productView.userAvatar.image = placeholder
                 }
             }.addDisposableTo(disposeBag)
-    }
-
-    private func handleTableChange(change: CollectionChange<ChatViewMessage>) {
-        switch change {
-        case .Remove(let index, _):
-            let indexPath = NSIndexPath(forRow: index, inSection: 0)
-            self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.None)
-        case .Insert(let index, _):
-            let indexPath = NSIndexPath(forRow: index, inSection: 0)
-            self.tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.None)
-        case .Composite(let changes):
-            changes.forEach { [weak self] change in
-                self?.handleTableChange(change)
-            }
-        }
     }
 }
 

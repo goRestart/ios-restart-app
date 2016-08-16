@@ -58,6 +58,14 @@
 "chat_blocked_disclaimer_scammer_wo_name" = "Om veiligheidsredenen werd dit account verwijderd door het letgo team en deze berichten zijn gewist.";
 "chat_deleted_disclaimer_w_name" = "Je kunt niet verdergaan met dit gesprek omdat %@'s account niet meer actief is.";
 "chat_deleted_disclaimer_wo_name" = "Je kunt niet verder gaan met dit gesprek omdat dit account niet meer actief is.";
+"chat_express_contact_one_button_text" = "Contacteer 1 verkoper";
+"chat_express_contact_sellers_label" = "Neem contact op met deze verkopers voordat andere kopers dat doen!";
+"chat_express_contact_various_button_text" = "Contacteer %@ verkopers";
+"chat_express_dont_ask_again_button" = "Vraag me niet opnieuw";
+"chat_express_dont_miss_label" = "Mis deze koopjes niet";
+"chat_express_one_message_sent_success_alert" = "Your message has been sent!";
+"chat_express_several_messages_sent_success_alert" = "Your messages have been sent!";
+"chat_express_text_field_text" = "Hoi, ik ben geïnteresseerd!";
 "chat_list_account_deleted" = "Verwijderd account";
 "chat_list_account_deleted_username" = "Inactief";
 "chat_list_all_empty_title" = "(NOG!) GEEN CHATS";
@@ -281,7 +289,7 @@
 "product_chat_direct_message" = "Hoi %@, ik ben geïnteresseerd!";
 "product_chat_direct_message_sending" = "Verzenden...";
 "product_chat_with_seller_button" = "Chat met de verkoper";
-"product_chat_with_seller_name_button" = "Chat with %@";
+"product_chat_with_seller_name_button" = "Chat met %@";
 "product_chat_with_seller_send_ok" = "Jouw chat is verstuurd!";
 "product_continue_chatting_button" = "Doorgaan met chatten";
 "product_create_commercial_button" = "Create Commercial";
@@ -317,7 +325,7 @@
 "product_mark_as_sold_confirm_title" = "Markeer als verkocht";
 "product_mark_as_sold_error_generic" = "Er is een fout opgetreden bij het markeren van het product als verkocht. Probeer het later nog eens.";
 "product_mark_as_sold_success_message" = "Gefeliciteerd, jouw product werd succesvol gemarkeerd als verkocht!";
-"product_more_info_open_button" = "MORE INFO";
+"product_more_info_open_button" = "MEER INFO";
 "product_more_info_tooltip_part_1" = "Tik";
 "product_more_info_tooltip_part_2" = "%@ om meer informatie te zien";
 "product_negotiable_price" = "Bespreekbaar";
@@ -326,6 +334,8 @@
 "product_onboarding_finger_tap_label" = "Tik om naar het volgende product te gaan";
 "product_onboarding_show_again_button_title" = "Hoe te Browsen";
 "product_open_commercial_button" = "Commercial";
+"product_option_share" = "Share product";
+"product_option_show_commercial" = "Commercial";
 "product_popular_near_you" = "Populair in jouw omgeving";
 "product_post_camera_first_time_alert_subtitle" = "Neem een goede foto en begin met het verdienen van geld!";
 "product_post_camera_first_time_alert_title" = "Wat verkoop je?";
@@ -400,6 +410,8 @@
 "product_share_telegram_error" = "Oeps! Het lijkt erop dat je Telegram niet hebt geïnstalleerd.";
 "product_share_title_label" = "DEEL DIT PRODUCT";
 "product_share_whatsapp_error" = "Oeps! Het lijkt er op dat je de WhatsApp app niet geïnstalleerd hebt.";
+"product_stickers_selection_w_name" = "Select the sticker you want to send to %@.";
+"product_stickers_selection_wo_name" = "Select the sticker you want to send to the seller.";
 "profile_blocked_by_me_label" = "Je hebt deze gebruiker geblokkeerd";
 "profile_blocked_by_me_label_w_name" = "Je hebt %@ geblokkeerd";
 "profile_blocked_by_other_label" = "Je bent geblokkeerd door deze gebruiker";

@@ -216,6 +216,30 @@ extension KeyValueStorage {
             currentUserProperties = userProperties
         }
     }
+
+    var userShouldShowExpressChat: Bool {
+        get {
+            return currentUserProperties?.shouldShowExpressChat ??
+                UserDefaultsUser.shouldShowExpressChatDefaultValue
+        }
+        set {
+            guard var userProperties = currentUserProperties else { return }
+            userProperties.shouldShowExpressChat = newValue
+            currentUserProperties = userProperties
+        }
+    }
+
+    var userProductsWithExpressChatAlreadyShown: [String] {
+        get {
+            return currentUserProperties?.productsWithExpressChatAlreadyShown ??
+                UserDefaultsUser.productsWithExpressChatAlreadyShownDefaultValue
+        }
+        set {
+            guard var userProperties = currentUserProperties else { return }
+            userProperties.productsWithExpressChatAlreadyShown = newValue
+            currentUserProperties = userProperties
+        }
+    }
 }
 
 

@@ -58,6 +58,14 @@
 "chat_blocked_disclaimer_scammer_wo_name" = "letgo-tiimi on poistanut tämän tilin turvallisuussyistä, ja nämä viestit on poistettu.";
 "chat_deleted_disclaimer_w_name" = "Et voi jatkaa tätä keskustelua, koska käyttäjän %@ tili ei ole enää aktiivinen.";
 "chat_deleted_disclaimer_wo_name" = "Et voi jatkaa tätä keskustelua, koska tämä tili ei ole enää aktiivinen.";
+"chat_express_contact_one_button_text" = "Ota yhteyttä yhteen myyjään";
+"chat_express_contact_sellers_label" = "Ota yhteyttä näihin myyjiin, ennen kuin muut ostajat nappaavat ne!";
+"chat_express_contact_various_button_text" = "Ota yhteyttä %@ myyjään";
+"chat_express_dont_ask_again_button" = "Älä kysy uudelleen";
+"chat_express_dont_miss_label" = "Älä missaa näitä tarjouksia";
+"chat_express_one_message_sent_success_alert" = "Your message has been sent!";
+"chat_express_several_messages_sent_success_alert" = "Your messages have been sent!";
+"chat_express_text_field_text" = "Hei, olen kiinnostunut!";
 "chat_list_account_deleted" = "Tili poistettu";
 "chat_list_account_deleted_username" = "Passiivinen";
 "chat_list_all_empty_title" = "EI KESKUSTELUJA (VIELÄ!)";
@@ -281,7 +289,7 @@
 "product_chat_direct_message" = "Hei %@, olen kiinnostunut";
 "product_chat_direct_message_sending" = "Lähetetään...";
 "product_chat_with_seller_button" = "Keskustele myyjän kanssa";
-"product_chat_with_seller_name_button" = "Chat with %@";
+"product_chat_with_seller_name_button" = "Keskustele käyttäjän %@ kanssa";
 "product_chat_with_seller_send_ok" = "Viestisi on lähetetty!";
 "product_continue_chatting_button" = "Jatka keskustelua";
 "product_create_commercial_button" = "Create Commercial";
@@ -317,7 +325,7 @@
 "product_mark_as_sold_confirm_title" = "Merkitse myydyksi";
 "product_mark_as_sold_error_generic" = "Merkittäessä tuotetta myydyksi tapahtui virhe. Ole hyvä ja yritä myöhemmin uudelleen.";
 "product_mark_as_sold_success_message" = "Onneksi olkoon, tuotteesi merkittiin onnistuneesti myydyksi!";
-"product_more_info_open_button" = "MORE INFO";
+"product_more_info_open_button" = "LISÄTIEDOT";
 "product_more_info_tooltip_part_1" = "Paina";
 "product_more_info_tooltip_part_2" = "%@ nähdäksesi lisätietoja";
 "product_negotiable_price" = "Neuvoteltavissa";
@@ -326,6 +334,8 @@
 "product_onboarding_finger_tap_label" = "Napauta mennäksesi seuraavaan tuotteeseen";
 "product_onboarding_show_again_button_title" = "Ohjeet selailuun";
 "product_open_commercial_button" = "Commercial";
+"product_option_share" = "Share product";
+"product_option_show_commercial" = "Commercial";
 "product_popular_near_you" = "Suosittuja lähelläsi";
 "product_post_camera_first_time_alert_subtitle" = "Nappaa hyvä kuva ja ala tienata!";
 "product_post_camera_first_time_alert_title" = "Mitä olet myymässä?";
@@ -400,6 +410,8 @@
 "product_share_telegram_error" = "Hups! Vaikuttaa siltä, että et ole asentanut Telegram-sovellusta.";
 "product_share_title_label" = "JAA TÄMÄ TUOTE";
 "product_share_whatsapp_error" = "Hups! Vaikuttaa siltä että et ole asentanut WhatsApp-sovellusta.";
+"product_stickers_selection_w_name" = "Select the sticker you want to send to %@.";
+"product_stickers_selection_wo_name" = "Select the sticker you want to send to the seller.";
 "profile_blocked_by_me_label" = "Olet estänyt tämän käyttäjän";
 "profile_blocked_by_me_label_w_name" = "Olet estänyt käyttäjän %@";
 "profile_blocked_by_other_label" = "Tämä käyttäjä on estänyt sinut";

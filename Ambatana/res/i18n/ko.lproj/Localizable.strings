@@ -58,6 +58,14 @@
 "chat_blocked_disclaimer_scammer_wo_name" = "안전상의 이유로, 이 계정 및 메세지는 letgo 팀에 의해서 삭제되었습니다.";
 "chat_deleted_disclaimer_w_name" = "%@의 계정이 비활성화 되었기 때문에 사용자께서는 이 대화를 진행하실 수 없습니다.";
 "chat_deleted_disclaimer_wo_name" = "이 계정이 비활성화 되었기 때문에 사용자께서는 이 대화를 진행하실 수 없습니다.";
+"chat_express_contact_one_button_text" = "1 판매자에게 연락하기";
+"chat_express_contact_sellers_label" = "다른 구매자가 사가기 전에, 구매자에게 연락해보세요!";
+"chat_express_contact_various_button_text" = "%@ 판매자들에게 연락하기";
+"chat_express_dont_ask_again_button" = "다시 묻지 말아주세요";
+"chat_express_dont_miss_label" = "이 할인을 놓치지마세요";
+"chat_express_one_message_sent_success_alert" = "Your message has been sent!";
+"chat_express_several_messages_sent_success_alert" = "Your messages have been sent!";
+"chat_express_text_field_text" = "안녕하세요, 상품에 관심이 있는데요!";
 "chat_list_account_deleted" = "계정 삭제";
 "chat_list_account_deleted_username" = "비활성화";
 "chat_list_all_empty_title" = "대화 없음 (아직이에요!)";
@@ -281,7 +289,7 @@
 "product_chat_direct_message" = "안녕하세요 %@님, 이 상품에 관심이 있는데요.";
 "product_chat_direct_message_sending" = "발송중...";
 "product_chat_with_seller_button" = "판매자와 채팅하기";
-"product_chat_with_seller_name_button" = "Chat with %@";
+"product_chat_with_seller_name_button" = "%@와 대화하기";
 "product_chat_with_seller_send_ok" = "당신의 채팅이 발송되었습니다!";
 "product_continue_chatting_button" = "계속 채팅하기";
 "product_create_commercial_button" = "Create Commercial";
@@ -317,7 +325,7 @@
 "product_mark_as_sold_confirm_title" = "품절로 표시하기";
 "product_mark_as_sold_error_generic" = "품절로 표시하는데 오류가 발생했습니다. 다시 시도해주세요.";
 "product_mark_as_sold_success_message" = "축하드립니다, 고객님의 제품이 품절로 표시되었습니다.";
-"product_more_info_open_button" = "MORE INFO";
+"product_more_info_open_button" = "더 많은 정보";
 "product_more_info_tooltip_part_1" = "탭";
 "product_more_info_tooltip_part_2" = "%@ 더 많은 정보 확인하기";
 "product_negotiable_price" = "흥정가능한";
@@ -326,6 +334,8 @@
 "product_onboarding_finger_tap_label" = "다음 상품으로 가기 위해 누르기";
 "product_onboarding_show_again_button_title" = "검색하는 방법";
 "product_open_commercial_button" = "Commercial";
+"product_option_share" = "Share product";
+"product_option_show_commercial" = "Commercial";
 "product_popular_near_you" = "근처에 인기있는 상품";
 "product_post_camera_first_time_alert_subtitle" = "훌륭한 사진을 찍고 현금을 벌어보세요!";
 "product_post_camera_first_time_alert_title" = "무엇을 판매하세요?";
@@ -400,6 +410,8 @@
 "product_share_telegram_error" = "이런! 텔레그램이 설치되지 않은 것 같네요.";
 "product_share_title_label" = "이 상품 공유하기";
 "product_share_whatsapp_error" = "앗, WhatsApp 어플리케이션을 설치하지 않으셨네요.";
+"product_stickers_selection_w_name" = "Select the sticker you want to send to %@.";
+"product_stickers_selection_wo_name" = "Select the sticker you want to send to the seller.";
 "profile_blocked_by_me_label" = "회원님께서는 이 사용자를 차단하셨습니다";
 "profile_blocked_by_me_label_w_name" = "회원님은 %@를 차단하셨습니다";
 "profile_blocked_by_other_label" = "이 사용자에 의해 차단되셨습니다";

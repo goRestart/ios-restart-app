@@ -68,7 +68,9 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     // MARK: > Controller data
     
     weak var delegate: OldChatViewModelDelegate?
-    weak var  tabNavigator: TabNavigator?
+    weak var tabNavigator: TabNavigator?
+    weak var appNavigator: AppNavigator?
+
     var title: String? {
         return product.title
     }
@@ -186,6 +188,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     }
 
     let isSendingMessage = Variable<Bool>(false)
+    var relatedProducts: [Product] = []
 
     var userBlockedDisclaimerMessage: ChatViewMessage {
         return chatViewMessageAdapter.createUserBlockedDisclaimerMessage(
@@ -380,6 +383,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     
     override func didBecomeActive(firstTime: Bool) {
         if firstTime {
+            retrieveRelatedProducts()
             checkShowRelatedProducts()
         }
 
@@ -396,6 +400,13 @@ public class OldChatViewModel: BaseViewModel, Paginable {
             retrieveInterlocutorInfo()
             loadStickersTooltip()
         }
+    }
+
+    func wentBack() {
+        guard isBuyer else { return }
+        guard !relatedProducts.isEmpty else { return }
+        guard let productId = product.objectId else { return }
+        tabNavigator?.openExpressChat(relatedProducts, sourceProductId: productId)
     }
     
     func showDisclaimerMessage() {
@@ -436,9 +447,9 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     
     func userInfoPressed() {
         switch chatStatus {
-        case .ProductDeleted, .Forbidden, .UserPendingDelete, .UserDeleted:
+        case .Forbidden, .UserPendingDelete, .UserDeleted:
             break
-        case .Available, .Blocked, .BlockedBy, .ProductSold:
+        case .ProductDeleted, .Available, .Blocked, .BlockedBy, .ProductSold:
             guard let user = otherUser else { return }
             delegate?.vmHideKeyboard(animated: false)
             let data = UserDetailData.UserAPI(user: user, source: .Chat)
@@ -1150,5 +1161,35 @@ extension MessageType {
         case .Sticker:
             return .Sticker
         }
+    }
+}
+
+
+// MARK: - Related products for express chat
+
+extension OldChatViewModel {
+
+    static let maxRelatedProductsForExpressChat = 4
+
+    private func retrieveRelatedProducts() {
+        guard isBuyer else { return }
+        guard let productId = product.objectId else { return }
+        productRepository.index(productId: productId, params: RetrieveProductsParams()) { [weak self] result in
+            guard let strongSelf = self else { return }
+            if let value = result.value {
+                strongSelf.relatedProducts = strongSelf.relatedWithoutMyProducts(value)
+            }
+        }
+    }
+
+    private func relatedWithoutMyProducts(products: [Product]) -> [Product] {
+        var cleanRelatedProducts: [Product] = []
+        for product in products {
+            if product.user.objectId != myUserRepository.myUser?.objectId { cleanRelatedProducts.append(product) }
+            if cleanRelatedProducts.count == OldChatViewModel.maxRelatedProductsForExpressChat {
+                return cleanRelatedProducts
+            }
+        }
+        return cleanRelatedProducts
     }
 }

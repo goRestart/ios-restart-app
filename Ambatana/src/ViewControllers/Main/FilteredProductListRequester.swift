@@ -68,14 +68,7 @@ class FilteredProductListRequester: ProductListRequester {
     }
     
     private func retrieve(completion: ProductsCompletion?) {
-        if shouldIndexProductTrending {
-            let params = IndexTrendingProductsParams(countryCode: countryCode, coordinates: queryCoordinates,
-                                                     offset: offset)
-            productRepository.indexTrending(params, completion: completion)
-            
-        } else {
-            productRepository.index(retrieveProductsParams, pageOffset: offset, completion: completion)
-        }
+        productRepository.index(retrieveProductsParams, pageOffset: offset, completion: completion)
     }
 
     func isLastPage(resultCount: Int) -> Bool {
@@ -159,12 +152,6 @@ private extension FilteredProductListRequester {
 
     private var prependLimbo: Bool {
         return isEmptyQueryAndDefaultFilters
-    }
-
-    private var shouldIndexProductTrending: Bool {
-        guard let firstOpenDate = KeyValueStorage.sharedInstance[.firstRunDate] else { return false }
-        guard isEmptyQueryAndDefaultFilters else { return false }
-        return FeatureFlags.indexProductsTrendingFirst24h && NSDate().timeIntervalSinceDate(firstOpenDate) <= 86400
     }
 
     private var isEmptyQueryAndDefaultFilters: Bool {

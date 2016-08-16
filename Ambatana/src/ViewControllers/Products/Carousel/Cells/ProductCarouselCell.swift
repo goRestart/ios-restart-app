@@ -132,7 +132,9 @@ extension ProductCarouselCell: UICollectionViewDelegate, UICollectionViewDataSou
     
     func scrollViewDidScroll(scrollView: UIScrollView) {
         let pageSize = collectionView.frame.size.height;
-        let page = Int(round(collectionView.contentOffset.y / pageSize)) % numberOfImages()
+        let numImages = numberOfImages()
+        guard numImages > 0 else { return }
+        let page = Int(round(collectionView.contentOffset.y / pageSize)) % numImages
         if page != currentPage {
             currentPage = page
             delegate?.didScrollToPage(page)

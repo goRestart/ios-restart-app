@@ -58,6 +58,14 @@
 "chat_blocked_disclaimer_scammer_wo_name" = "Güvenlik nedeniyle, bu kullanıcının hesabı letgo ekibi tarafından silinmiştir ve bu mesajlar da kaldırılmıştır.";
 "chat_deleted_disclaimer_w_name" = "%@ isimli kullanıcının hesabı artık aktif olmadığı için bu sohbete devam edemezsin.";
 "chat_deleted_disclaimer_wo_name" = "Bu hesap artık aktif olmadığı için bu sohbete devam edemezsin.";
+"chat_express_contact_one_button_text" = "1 satıcı ile iletişime geç";
+"chat_express_contact_sellers_label" = "Bu satıcılarla, diğer alıcılardan önce iletişime geçmelisin!";
+"chat_express_contact_various_button_text" = "%@ satıcı ile iletişime geç";
+"chat_express_dont_ask_again_button" = "Bir daha sorma";
+"chat_express_dont_miss_label" = "Bu teklifleri kaçırma";
+"chat_express_one_message_sent_success_alert" = "Your message has been sent!";
+"chat_express_several_messages_sent_success_alert" = "Your messages have been sent!";
+"chat_express_text_field_text" = "Merhaba, ürünü beğendim!";
 "chat_list_account_deleted" = "Bu hesap silinmiş";
 "chat_list_account_deleted_username" = "Aktif değil";
 "chat_list_all_empty_title" = "(HENÜZ!) SOHBET MESAJI YOK";
@@ -281,7 +289,7 @@
 "product_chat_direct_message" = "Merhaba %@, İlgileniyorum!";
 "product_chat_direct_message_sending" = "Gönderiliyor...";
 "product_chat_with_seller_button" = "Satıcı ile mesajlaş";
-"product_chat_with_seller_name_button" = "Chat with %@";
+"product_chat_with_seller_name_button" = "%@ ile sohbet et";
 "product_chat_with_seller_send_ok" = "Mesajın yollandı!";
 "product_continue_chatting_button" = "Mesajlaşmaya devam et";
 "product_create_commercial_button" = "Create Commercial";
@@ -317,7 +325,7 @@
 "product_mark_as_sold_confirm_title" = "Satıldı olarak işaretle";
 "product_mark_as_sold_error_generic" = "Ürün satıldı olarak işaretlenirken bir hata oluştu. Lütfen, daha sonra tekrar dene.";
 "product_mark_as_sold_success_message" = "Tebrikler, ürünün satıldı olarak işaretlendi!";
-"product_more_info_open_button" = "MORE INFO";
+"product_more_info_open_button" = "DAHA FAZLA BİLGİ";
 "product_more_info_tooltip_part_1" = "dokun";
 "product_more_info_tooltip_part_2" = "Daha fazla bilgi için %@";
 "product_negotiable_price" = "Pazarlık edilebilir";
@@ -326,6 +334,8 @@
 "product_onboarding_finger_tap_label" = "Bir sonraki ürüne gitmek için dokun";
 "product_onboarding_show_again_button_title" = "Gezinme nasıl yapılır";
 "product_open_commercial_button" = "Commercial";
+"product_option_share" = "Share product";
+"product_option_show_commercial" = "Commercial";
 "product_popular_near_you" = "Yakınlarında popüler olanlar";
 "product_post_camera_first_time_alert_subtitle" = "Güzel bir fotoğraf çek ve para kazanmaya başla!";
 "product_post_camera_first_time_alert_title" = "Ne satıyorsun?";
@@ -400,6 +410,8 @@
 "product_share_telegram_error" = "Oops! Telegram yüklü değil gibi gözüküyor.";
 "product_share_title_label" = "BU ÜRÜNÜ PAYLAŞ";
 "product_share_whatsapp_error" = "Oops! WhatsApp yüklü değil gibi görünüyor.";
+"product_stickers_selection_w_name" = "Select the sticker you want to send to %@.";
+"product_stickers_selection_wo_name" = "Select the sticker you want to send to the seller.";
 "profile_blocked_by_me_label" = "Bu kullanıcıyı engelledin";
 "profile_blocked_by_me_label_w_name" = "%@ isimli kullanıcıyı engelledin";
 "profile_blocked_by_other_label" = "Bu kullanıcı tarafından engellendin";

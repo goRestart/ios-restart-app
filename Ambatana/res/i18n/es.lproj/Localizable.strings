@@ -58,6 +58,14 @@
 "chat_blocked_disclaimer_scammer_wo_name" = "Por razones de seguridad, el equipo de letgo ha eliminado esta cuenta y estos mensajes se han borrado.";
 "chat_deleted_disclaimer_w_name" = "No puedes continuar esta conversación porque la cuenta de %@ ya no está activa.";
 "chat_deleted_disclaimer_wo_name" = "No puedes continuar esta conversación porque esta cuenta ya no está activa.";
+"chat_express_contact_one_button_text" = "Contact 1 seller";
+"chat_express_contact_sellers_label" = "Contact these sellers before other buyers snatch them up!";
+"chat_express_contact_various_button_text" = "Contact %@ sellers";
+"chat_express_dont_ask_again_button" = "Don't ask me again";
+"chat_express_dont_miss_label" = "Don't miss out on these bargains";
+"chat_express_one_message_sent_success_alert" = "Your message has been sent!";
+"chat_express_several_messages_sent_success_alert" = "Your messages have been sent!";
+"chat_express_text_field_text" = "Hi, I'm interested!";
 "chat_list_account_deleted" = "Cuenta eliminada";
 "chat_list_account_deleted_username" = "Inactivo";
 "chat_list_all_empty_title" = "NO HAY CHATS (¡TODAVÍA!)";
@@ -281,7 +289,7 @@
 "product_chat_direct_message" = "Hola %@, me interesa";
 "product_chat_direct_message_sending" = "Enviando...";
 "product_chat_with_seller_button" = "Chatea con el vendedor";
-"product_chat_with_seller_name_button" = "Chat with %@";
+"product_chat_with_seller_name_button" = "Chatea con %@";
 "product_chat_with_seller_send_ok" = "¡Tu chat ha sido enviado!";
 "product_continue_chatting_button" = "Sigue chateando";
 "product_create_commercial_button" = "Crear comercial";
@@ -317,7 +325,7 @@
 "product_mark_as_sold_confirm_title" = "Marcar como vendido";
 "product_mark_as_sold_error_generic" = "Se ha producido un error al marcar el artículo como vendido. Por favor, vuelve a intentarlo.";
 "product_mark_as_sold_success_message" = "¡Enhorabuena, tu producto ha sido marcado como vendido!";
-"product_more_info_open_button" = "MORE INFO";
+"product_more_info_open_button" = "MÁS DETALLES";
 "product_more_info_tooltip_part_1" = "Pulsa";
 "product_more_info_tooltip_part_2" = "%@ para ver más detalles";
 "product_negotiable_price" = "Negociable";
@@ -326,6 +334,8 @@
 "product_onboarding_finger_tap_label" = "Pulsa para pasar al próximo producto";
 "product_onboarding_show_again_button_title" = "Cómo navegar";
 "product_open_commercial_button" = "Comercial";
+"product_option_share" = "Share product";
+"product_option_show_commercial" = "Commercial";
 "product_popular_near_you" = "Popular cerca de ti";
 "product_post_camera_first_time_alert_subtitle" = "¡Haz una buena foto y empieza a ganar dinero!";
 "product_post_camera_first_time_alert_title" = "¿Qué quieres vender?";
@@ -400,6 +410,8 @@
 "product_share_telegram_error" = "¡Ups! Parece que no has instalado la aplicación de Telegram.";
 "product_share_title_label" = "COMPARTE ESTE PRODUCTO";
 "product_share_whatsapp_error" = "¡Ups! Parece que no has instalado la aplicación WhatsApp.";
+"product_stickers_selection_w_name" = "Select the sticker you want to send to %@.";
+"product_stickers_selection_wo_name" = "Select the sticker you want to send to the seller.";
 "profile_blocked_by_me_label" = "Has bloqueado a este usuario";
 "profile_blocked_by_me_label_w_name" = "Has bloqueado a %@";
 "profile_blocked_by_other_label" = "Has sido bloqueado por este usuario";

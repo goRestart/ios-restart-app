@@ -58,6 +58,14 @@
 "chat_blocked_disclaimer_scammer_wo_name" = "В целях безопасности этот аккаунт был удален командой letgo вместе с сообщениями.";
 "chat_deleted_disclaimer_w_name" = "Вы не можете продолжать чат, так как аккаунт %@ больше не активен.";
 "chat_deleted_disclaimer_wo_name" = "Вы не можете продолжать чат, так как этот аккаунт больше не активен.";
+"chat_express_contact_one_button_text" = "Связаться с продавцом";
+"chat_express_contact_sellers_label" = "Свяжитесь с продавцами, пока другие покупатели не перехватили товар!";
+"chat_express_contact_various_button_text" = "Связаться с продавцами %@";
+"chat_express_dont_ask_again_button" = "Не спрашивать снова";
+"chat_express_dont_miss_label" = "Не пропустите выгодные сделки";
+"chat_express_one_message_sent_success_alert" = "Ваше сообщение отправлено!";
+"chat_express_several_messages_sent_success_alert" = "Ваши сообщения отправлены!";
+"chat_express_text_field_text" = "Привет, меня это интересует!";
 "chat_list_account_deleted" = "Удаленный аккаунт";
 "chat_list_account_deleted_username" = "Неактивно";
 "chat_list_all_empty_title" = "НЕТ ЧАТОВ (ПОКА ЧТО!)";
@@ -281,7 +289,7 @@
 "product_chat_direct_message" = "Привет, %@, меня интересует товар";
 "product_chat_direct_message_sending" = "Отправка...";
 "product_chat_with_seller_button" = "Чат с продавцом";
-"product_chat_with_seller_name_button" = "Chat with %@";
+"product_chat_with_seller_name_button" = "Чат с %@";
 "product_chat_with_seller_send_ok" = "Ваш разговор отправлен!";
 "product_continue_chatting_button" = "Продолжить чат";
 "product_create_commercial_button" = "Create Commercial";
@@ -317,7 +325,7 @@
 "product_mark_as_sold_confirm_title" = "Отметить как проданный";
 "product_mark_as_sold_error_generic" = "При изменении статуса товара произошла ошибка. Пожалуйста, попробуйте еще раз позже.";
 "product_mark_as_sold_success_message" = "Поздравляем! Ваш продукт был продан!";
-"product_more_info_open_button" = "MORE INFO";
+"product_more_info_open_button" = "БОЛЬШЕ ИНФОРМАЦИИ";
 "product_more_info_tooltip_part_1" = "Нажмите";
 "product_more_info_tooltip_part_2" = "%@ просмотреть больше информации";
 "product_negotiable_price" = "Обсуждаема";
@@ -326,6 +334,8 @@
 "product_onboarding_finger_tap_label" = "Коснитесь экрана, чтобы перейти к следующему товару";
 "product_onboarding_show_again_button_title" = "Как смотреть товары";
 "product_open_commercial_button" = "Commercial";
+"product_option_share" = "Share product";
+"product_option_show_commercial" = "Commercial";
 "product_popular_near_you" = "Популярное рядом с вами";
 "product_post_camera_first_time_alert_subtitle" = "Сделайте хорошее фото и получите деньги!";
 "product_post_camera_first_time_alert_title" = "Что вы продаете?";
@@ -400,6 +410,8 @@
 "product_share_telegram_error" = "Упс! Похоже, у вас не установлен Telegram.";
 "product_share_title_label" = "ПОДЕЛИТЬСЯ ТОВАРОМ";
 "product_share_whatsapp_error" = "Вы не установили приложение WhatsApp.";
+"product_stickers_selection_w_name" = "Выберите стикер для отправки %@.";
+"product_stickers_selection_wo_name" = "Выберите стикер для отправки продавцу.";
 "profile_blocked_by_me_label" = "Вы заблокировали этого пользователя";
 "profile_blocked_by_me_label_w_name" = "Вы заблокировали %@";
 "profile_blocked_by_other_label" = "Вы заблокировали этого пользователя";

@@ -24,6 +24,8 @@ public struct LGCoreKitConstants {
     static let locationDistanceFilter: CLLocationDistance = 250
     static let locationDesiredAccuracy: CLLocationAccuracy = kCLLocationAccuracyHundredMeters
 
+    static let stickersRetrievalDebounceTime: NSTimeInterval = 3600 // Seconds (1hour)
+
     public static let defaultQuadKeyPrecision: Int = 15
 
     static let defaultShouldShowOnboarding = true

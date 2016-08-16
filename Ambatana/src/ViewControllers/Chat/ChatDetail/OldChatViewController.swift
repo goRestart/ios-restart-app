@@ -104,6 +104,13 @@ class OldChatViewController: SLKTextViewController {
         viewModel.didAppear()
     }
 
+    override func didMoveToParentViewController(parent: UIViewController?) {
+        super.didMoveToParentViewController(parent)
+        if parent == nil {
+            viewModel.wentBack()
+        }
+    }
+
     override func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
         guard !text.hasEmojis() else { return false }
         return super.textView(textView, shouldChangeTextInRange: range, replacementText: text)
@@ -498,11 +505,9 @@ extension OldChatViewController: OldChatViewModelDelegate {
     
     func vmShowOptionsList(options: [String], actions: [() -> Void]) {
         guard options.count == actions.count else { return }
-        var alert = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
-        
-        let pop = alert.popoverPresentationController!
-        pop.barButtonItem = self.navigationItem.rightBarButtonItem
-        
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
+        alert.popoverPresentationController?.barButtonItem = self.navigationItem.rightBarButtonItem
+
         for i in 0..<options.count {
             alert.addAction(UIAlertAction(title: options[i], style: .Default, handler: { _ in actions[i]() } ))
         }

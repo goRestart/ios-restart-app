@@ -36,10 +36,16 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     @IBOutlet weak var buttonTop: UIButton!
     @IBOutlet weak var gradientShadowView: UIView!
     @IBOutlet weak var gradientShadowBottomView: UIView!
+    @IBOutlet weak var favoriteButton: UIButton!
     
     @IBOutlet weak var productStatusView: UIView!
     @IBOutlet weak var productStatusLabel: UILabel!
     
+    @IBOutlet weak var directChatTable: UITableView!
+    @IBOutlet weak var stickersButton: UIButton!
+    @IBOutlet weak var stickersButtonWidth: NSLayoutConstraint!
+    @IBOutlet weak var stickersButtonTrailing: NSLayoutConstraint!
+
     private let userView: UserView
     private let fullScreenAvatarEffectView: UIVisualEffectView
     private let fullScreenAvatarView: UIImageView
@@ -61,6 +67,9 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     private var moreInfoExtraHeight: CGFloat = 64
     
     private let moreInfoTooltipMargin: CGFloat = 0
+
+    private let itemsMargin: CGFloat = 15
+    private let stickersButtonVisibleWidth: CGFloat = 50
     private var moreInfoTooltip: Tooltip?
 
     private var collectionContentOffset = Variable<CGPoint>(CGPoint.zero)
@@ -185,12 +194,12 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
 
         userView.delegate = self
         let leftMargin = NSLayoutConstraint(item: userView, attribute: .Leading, relatedBy: .Equal, toItem: view,
-                                            attribute: .Leading, multiplier: 1, constant: userViewMargin)
+                                            attribute: .Leading, multiplier: 1, constant: itemsMargin)
         let bottomMargin = NSLayoutConstraint(item: userView, attribute: .Bottom, relatedBy: .Equal, toItem: view,
-                                              attribute: .Bottom, multiplier: 1, constant: -userViewMargin)
+                                              attribute: .Bottom, multiplier: 1, constant: -itemsMargin)
         let rightMargin = NSLayoutConstraint(item: userView, attribute: .Trailing, relatedBy: .LessThanOrEqual,
                                              toItem: view, attribute: .Trailing, multiplier: 1,
-                                             constant: -userViewMargin)
+                                             constant: -itemsMargin)
         let height = NSLayoutConstraint(item: userView, attribute: .Height, relatedBy: .Equal, toItem: nil,
                                          attribute: .NotAnAttribute, multiplier: 1, constant: 50)
         view.addConstraints([leftMargin, rightMargin, bottomMargin, height])
@@ -201,7 +210,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         let topCommercial = NSLayoutConstraint(item: commercialButton, attribute: .Top, relatedBy: .Equal, toItem: view,
                                      attribute: .Top, multiplier: 1, constant: 80)
         let rightCommercial = NSLayoutConstraint(item: commercialButton, attribute: .Trailing, relatedBy: .Equal, toItem: view,
-                                       attribute: .Trailing, multiplier: 1, constant: -userViewMargin)
+                                       attribute: .Trailing, multiplier: 1, constant: -itemsMargin)
         let heightCommercial = NSLayoutConstraint(item: commercialButton, attribute: .Height, relatedBy: .Equal, toItem: nil,
                                         attribute: .NotAnAttribute, multiplier: 1, constant: 32)
         view.addConstraints([topCommercial, rightCommercial, heightCommercial])
@@ -230,6 +239,8 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         productStatusView.layer.cornerRadius = productStatusView.height/2
         productStatusLabel.textColor = UIColor.soldColor
         productStatusLabel.font = UIFont.productStatusSoldFont
+
+        setupDirectMessagesAndStickers()
     }
     
     private func setupNavigationBar() {
@@ -286,6 +297,9 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         if let moreInfoView = moreInfoView {
             alphaSignal.bindTo(moreInfoView.rx_alpha).addDisposableTo(disposeBag)
         }
+        alphaSignal.bindTo(stickersButton.rx_alpha).addDisposableTo(disposeBag)
+        alphaSignal.bindTo(directChatTable.rx_alpha).addDisposableTo(disposeBag)
+        alphaSignal.bindTo(favoriteButton.rx_alpha).addDisposableTo(disposeBag)
         alphaSignal.bindNext{ [weak self] alpha in
             self?.moreInfoTooltip?.alpha = alpha
         }.addDisposableTo(disposeBag)
@@ -374,6 +388,8 @@ extension ProductCarouselViewController {
         refreshBottomButtons(viewModel)
         refreshProductStatusLabel(viewModel)
         refreshCommercialVideoButton(viewModel)
+        refreshDirectChatElements(viewModel)
+        refreshFavoriteButton(viewModel)
         setupMoreInfo(viewModel)
     }
     
@@ -445,9 +461,9 @@ extension ProductCarouselViewController {
     
     private func refreshBottomButtons(viewModel: ProductViewModel) {
         
-        let userViewMarginAboveBottomButton = view.frame.height - buttonBottom.frame.origin.y + userViewMargin
-        let userViewMarginAboveTopButton = view.frame.height - buttonTop.frame.origin.y + userViewMargin
-        let userViewMarginWithoutButtons = userViewMargin
+        let userViewMarginAboveBottomButton = view.frame.height - buttonBottom.frame.origin.y + itemsMargin
+        let userViewMarginAboveTopButton = view.frame.height - buttonTop.frame.origin.y + itemsMargin
+        let userViewMarginWithoutButtons = itemsMargin
         
         guard buttonBottom.frame.origin.y > 0 else { return }
         
@@ -507,9 +523,8 @@ extension ProductCarouselViewController {
     }
     
     private func refreshCommercialVideoButton(viewModel: ProductViewModel) {
-        viewModel.productHasReadyCommercials
-            .asObservable()
-            .map{!$0}
+        viewModel.productHasReadyCommercials.asObservable()
+            .map{ !$0 || FeatureFlags.bigFavoriteIcon }
             .bindTo(commercialButton.rx_hidden)
             .addDisposableTo(activeDisposeBag)
         
@@ -517,6 +532,39 @@ extension ProductCarouselViewController {
             .innerButton
             .rx_tap.bindNext { viewModel.openVideo() }
             .addDisposableTo(activeDisposeBag)
+    }
+
+    private func refreshDirectChatElements(viewModel: ProductViewModel) {
+        viewModel.stickersButtonEnabled.asObservable().bindNext { [weak self] enabled in
+            self?.stickersButton.hidden = !enabled
+            self?.stickersButtonWidth.constant = enabled ? self?.stickersButtonVisibleWidth ?? 0 : 0
+            self?.stickersButtonTrailing.constant = enabled ? self?.itemsMargin ?? 0 : 0
+        }.addDisposableTo(activeDisposeBag)
+
+        viewModel.directChatMessages.changesObservable.bindNext { [weak self] change in
+            self?.directChatTable.handleCollectionChange(change, animation: .Top)
+        }.addDisposableTo(activeDisposeBag)
+        directChatTable.reloadData()
+    }
+
+    private func refreshFavoriteButton(viewModel: ProductViewModel) {
+        viewModel.productIsFavoriteable.asObservable()
+            .map{!$0 || !FeatureFlags.bigFavoriteIcon}
+            .bindTo(favoriteButton.rx_hidden)
+            .addDisposableTo(activeDisposeBag)
+
+        viewModel.favoriteButtonEnabled.asObservable()
+            .bindTo(favoriteButton.rx_enabled)
+            .addDisposableTo(activeDisposeBag)
+
+        viewModel.isFavorite.asObservable()
+            .bindNext { [weak self] favorite in
+                self?.favoriteButton.setImage(UIImage(named: favorite ? "ic_favorite_big_on" : "ic_favorite_big_off"), forState: .Normal)
+            }.addDisposableTo(activeDisposeBag)
+
+        favoriteButton.rx_tap.bindNext { [weak viewModel] in
+            viewModel?.switchFavorite()
+        }.addDisposableTo(activeDisposeBag)
     }
 }
 
@@ -800,12 +848,48 @@ extension ProductCarouselViewController: UICollectionViewDataSource, UICollectio
 }
 
 
+// MARK: > Direct messages and stickers
+
+extension ProductCarouselViewController: UITableViewDataSource, UITableViewDelegate {
+
+    func setupDirectMessagesAndStickers() {
+        ChatCellDrawerFactory.registerCells(directChatTable)
+        directChatTable.transform = CGAffineTransformMake(1, 0, 0, -1, 0, 0)
+        directChatTable.rowHeight = UITableViewAutomaticDimension
+        directChatTable.estimatedRowHeight = 140
+
+        stickersButton.rx_tap.bindNext { [weak self] in
+            self?.viewModel.currentProductViewModel?.stickersButton()
+        }.addDisposableTo(disposeBag)
+    }
+
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return viewModel.currentProductViewModel?.directChatMessages.value.count ?? 0
+    }
+
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        guard let messages = viewModel.currentProductViewModel?.directChatMessages.value else { return UITableViewCell() }
+        guard 0..<messages.count ~= indexPath.row else { return UITableViewCell() }
+        let message = messages[indexPath.row]
+        let drawer = ChatCellDrawerFactory.drawerForMessage(message, autoHide: true)
+        let cell = drawer.cell(tableView, atIndexPath: indexPath)
+
+        drawer.draw(cell, message: message, delegate: self)
+        cell.transform = tableView.transform
+
+        return cell
+    }
+}
+
+
 // MARK: > Product View Model Delegate
 
 extension ProductCarouselViewController: ProductViewModelDelegate {
     func vmShowNativeShare(socialMessage: SocialMessage) {
-        guard navigationItem.rightBarButtonItems?.count > 1 else { return }
-        presentNativeShare(socialMessage: socialMessage, delegate: self, barButtonItem: navigationItem.rightBarButtonItems?[1])
+        //We have an A/B test (bigFavoriteIcon) that just leaves options button (with share inside) so we need to check this
+        let navItemsCount = navigationItem.rightBarButtonItems?.count ?? 0
+        let barButtonItem = navItemsCount > 1 ? navigationItem.rightBarButtonItems?[1] : navigationItem.rightBarButtonItems?.first
+        presentNativeShare(socialMessage: socialMessage, delegate: viewModel, barButtonItem: barButtonItem)
     }
     
     func vmOpenEditProduct(editProductVM: EditProductViewModel) {
@@ -835,7 +919,6 @@ extension ProductCarouselViewController: ProductViewModelDelegate {
     
     func vmOpenPromoteProduct(promoteVM: PromoteProductViewModel) {
         let promoteProductVC = PromoteProductViewController(viewModel: promoteVM)
-        promoteProductVC.delegate = self
         navigationController?.presentViewController(promoteProductVC, animated: true, completion: nil)
     }
     
@@ -857,36 +940,17 @@ extension ProductCarouselViewController: ProductViewModelDelegate {
     func vmShowProductDelegateActionSheet(cancelLabel: String, actions: [UIAction]) {
         showActionSheet(cancelLabel, actions: actions, barButtonItem: navigationItem.rightBarButtonItems?.first)
     }
-}
 
-
-// MARK: > Native Share Delegate
-
-extension ProductCarouselViewController: NativeShareDelegate {
-    
-    func nativeShareInFacebook() {
-        viewModel.currentProductViewModel?.shareInFacebook(.Top)
-        viewModel.currentProductViewModel?.shareInFBCompleted()
-    }
-    
-    func nativeShareInTwitter() {
-        viewModel.currentProductViewModel?.shareInTwitterActivity()
-    }
-    
-    func nativeShareInEmail() {
-        viewModel.currentProductViewModel?.shareInEmail(.Top)
-    }
-    
-    func nativeShareInWhatsApp() {
-        viewModel.currentProductViewModel?.shareInWhatsappActivity()
+    func vmOpenStickersSelector(stickers: [Sticker]) {
+        let interlocutorName = viewModel.currentProductViewModel?.ownerName
+        let vc = StickersSelectorViewController(stickers: stickers, interlocutorName: interlocutorName)
+        vc.delegate = self
+        navigationController?.presentViewController(vc, animated: false, completion: nil)
     }
 }
 
-extension ProductCarouselViewController: PromoteProductViewControllerDelegate {
-    func promoteProductViewControllerDidFinishFromSource(promotionSource: PromotionSource) {}
-    func promoteProductViewControllerDidCancelFromSource(promotionSource: PromotionSource) {}
-}
 
+// MARK: - ProductDetailOnboardingViewDelegate
 
 extension ProductCarouselViewController: ProductDetailOnboardingViewDelegate {
     func productDetailOnboardingDidAppear() {
@@ -899,4 +963,15 @@ extension ProductCarouselViewController: ProductDetailOnboardingViewDelegate {
         navigationController?.setNavigationBarHidden(false, animated: false)
         productOnboardingView = nil
     }
+}
+
+
+// MARK: - StickersSelectorDelegate
+
+extension ProductCarouselViewController: StickersSelectorDelegate {
+    func stickersSelectorDidSelectSticker(sticker: Sticker) {
+        viewModel.currentProductViewModel?.sendSticker(sticker)
+    }
+
+    func stickersSelectorDidCancel() {}
 }

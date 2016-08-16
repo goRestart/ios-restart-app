@@ -36,7 +36,7 @@ enum UIActionInterface {
     case Text(String)
     case StyledText(String, UIActionInterfaceStyle)
     case Image(UIImage?)
-    case TextImage(String, UIImage)
+    case TextImage(String, UIImage?)
     case Button(String, UIActionInterfaceStyle)
 }
 
