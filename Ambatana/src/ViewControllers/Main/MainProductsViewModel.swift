@@ -84,6 +84,7 @@ class MainProductsViewModel: BaseViewModel {
 
     private let tracker: Tracker
     private let searchType: SearchType? // The initial search
+    private let collections: [CollectionCellType]
     
     // > Delegate
     weak var delegate: MainProductsViewModelDelegate?
@@ -118,6 +119,7 @@ class MainProductsViewModel: BaseViewModel {
         self.searchType = searchType
         self.filters = filters
         self.tabNavigator = tabNavigator
+        self.collections = CollectionCellType.allValues.shuffle()
         self.productListRequester = FilteredProductListRequester()
         let show3Columns = DeviceFamily.isWideScreen
         let columns = show3Columns ? 3 : 2
@@ -403,9 +405,8 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate {
         guard searchType == nil else { return products }
         guard products.count > bannerCellPosition else { return products }
         var cellModels = products
-        if productListRequester.countryCode == "US" {
-            let list = CollectionCellType.allValues
-            let collectionType = list[Int(page) % list.count]
+        if !collections.isEmpty && productListRequester.countryCode == "US" {
+            let collectionType = collections[Int(page) % collections.count]
             let collectionModel = ProductCellModel.CollectionCell(type: collectionType)
             cellModels.insert(collectionModel, atIndex: bannerCellPosition)
         } else {
