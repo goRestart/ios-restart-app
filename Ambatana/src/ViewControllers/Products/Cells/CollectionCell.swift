@@ -1,14 +1,15 @@
 //
-//  BannerCell.swift
+//  CollectionCell.swift
 //  LetGo
 //
-//  Created by Isaac Roldan on 7/7/16.
+//  Created by Eli Kohen on 16/08/16.
 //  Copyright © 2016 Ambatana. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
-class BannerCell: UICollectionViewCell, ReusableCell {
+class CollectionCell: UICollectionViewCell, ReusableCell {
+
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var title: UILabel!
     @IBOutlet weak var colorView: UIView!
