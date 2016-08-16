@@ -170,37 +170,41 @@ public struct TrackerEvent {
     }
 
     static func filterComplete(coordinates: LGLocationCoordinates2D?, distanceRadius: Int?,
-        distanceUnit: DistanceType, categories: [ProductCategory]?, sortBy: ProductSortCriteria?) -> TrackerEvent {
-            var params = EventParameters()
+                               distanceUnit: DistanceType, categories: [ProductCategory]?, sortBy: ProductSortCriteria?,
+                               postedWithin: ProductTimeCriteria?) -> TrackerEvent {
+        var params = EventParameters()
 
-            // Filter Coordinates
-            if let actualCoords = coordinates {
-                params[.FilterLat] = actualCoords.latitude
-                params[.FilterLng] = actualCoords.longitude
-            } else {
-                params[.FilterLat] = "default"
-                params[.FilterLng] = "default"
+        // Filter Coordinates
+        if let actualCoords = coordinates {
+            params[.FilterLat] = actualCoords.latitude
+            params[.FilterLng] = actualCoords.longitude
+        } else {
+            params[.FilterLat] = "default"
+            params[.FilterLng] = "default"
+        }
+
+        // Distance
+        params[.FilterDistanceRadius] = distanceRadius ?? "default"
+        params[.FilterDistanceUnit] = distanceUnit.string
+
+        // Categories
+        var categoryIds: [String] = []
+        if let actualCategories = categories {
+            for category in actualCategories {
+                categoryIds.append(String(category.rawValue))
             }
+        }
+        params[.CategoryId] = categoryIds.isEmpty ? "0" : categoryIds.joinWithSeparator(",")
 
-            // Distance
-            params[.FilterDistanceRadius] = distanceRadius ?? "default"
-            params[.FilterDistanceUnit] = distanceUnit.string
+        // Sorting
+        if let sortByParam = eventParameterSortByTypeForSorting(sortBy) {
+            params[.FilterSortBy] = sortByParam.rawValue
+        }
+        if let postedWithin = eventParameterPostedWithinForTime(postedWithin) {
+            params[.FilterPostedWithin] = postedWithin.rawValue
+        }
 
-            // Categories
-            var categoryIds: [String] = []
-            if let actualCategories = categories {
-                for category in actualCategories {
-                    categoryIds.append(String(category.rawValue))
-                }
-            }
-            params[.CategoryId] = categoryIds.isEmpty ? "0" : categoryIds.joinWithSeparator(",")
-
-            // Sorting
-            if let sortByParam = eventParameterSortByTypeForSorting(sortBy) {
-                params[.FilterSortBy] = sortByParam.rawValue
-            }
-
-            return TrackerEvent(name: .FilterComplete, params: params)
+        return TrackerEvent(name: .FilterComplete, params: params)
     }
 
     static func productDetailVisit(product: Product, visitUserAction: ProductVisitUserAction) -> TrackerEvent {
@@ -834,5 +838,19 @@ public struct TrackerEvent {
         }
         
         return sortBy
+    }
+
+    private static func eventParameterPostedWithinForTime(time: ProductTimeCriteria?) -> EventParameterPostedWithin? {
+        guard let time = time else { return nil }
+        switch time {
+        case .Day:
+            return .Day
+        case .Week:
+            return .Week
+        case .Month:
+            return .Month
+        case .All:
+            return .All
+        }
     }
 }

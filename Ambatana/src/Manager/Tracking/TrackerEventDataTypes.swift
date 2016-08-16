@@ -179,6 +179,7 @@ public enum EventParameterName: String {
     case FilterDistanceRadius = "distance-radius"
     case FilterDistanceUnit   = "distance-unit"
     case FilterSortBy         = "sort-by"
+    case FilterPostedWithin   = "posted-within"
     case ErrorDescription     = "error-description"
     case ErrorDetails         = "error-details"
     case PermissionType       = "permission-type"
@@ -276,6 +277,13 @@ public enum EventParameterSortBy: String {
     case CreationDate = "creation-date"
     case PriceAsc = "price-asc"
     case PriceDesc = "price-desc"
+}
+
+public enum EventParameterPostedWithin: String {
+    case Day = "day"
+    case Week = "week"
+    case Month = "month"
+    case All = ""
 }
 
 public enum EventParameterQuickAnswerValue: String {
