@@ -634,7 +634,6 @@ class TrackerEventSpec: QuickSpec {
                     }
                 }
             }
-             
 
             describe("filterStart") {
                 it("has its event name") {
@@ -644,43 +643,77 @@ class TrackerEventSpec: QuickSpec {
             }
             
             describe("filterComplete") {
-                it("has its event name") {
-                    let coords = LGLocationCoordinates2D(latitude: 41.123, longitude: 2.123)
-                    sut = TrackerEvent.filterComplete(coords, distanceRadius: 10, distanceUnit: DistanceType.Km, categories: [ProductCategory.Electronics, ProductCategory.CarsAndMotors], sortBy: ProductSortCriteria.Distance)
-                    expect(sut.name.rawValue).to(equal("filter-complete"))
+                context("receiving all params") {
+                    beforeEach {
+                        let coords = LGLocationCoordinates2D(latitude: 41.123, longitude: 2.123)
+                        sut = TrackerEvent.filterComplete(coords, distanceRadius: 10, distanceUnit: DistanceType.Km,
+                            categories: [ProductCategory.Electronics, ProductCategory.CarsAndMotors],
+                            sortBy: ProductSortCriteria.Distance, postedWithin: ProductTimeCriteria.Day)
+                    }
+                    it("has its event name") {
+                        expect(sut.name.rawValue).to(equal("filter-complete"))
+                    }
+                    it("has coords info") {
+                        expect(sut.params!.stringKeyParams["filter-lat"]).notTo(beNil())
+                        let lat = sut.params!.stringKeyParams["filter-lat"] as? Double
+                        expect(lat).to(equal(41.123))
+
+                        expect(sut.params!.stringKeyParams["filter-lng"]).notTo(beNil())
+                        let lng = sut.params!.stringKeyParams["filter-lng"] as? Double
+                        expect(lng).to(equal(2.123))
+                    }
+                    it("distance radius") {
+                        expect(sut.params!.stringKeyParams["distance-radius"] as? Int).to(equal(10))
+                    }
+                    it("distance unit") {
+                        expect(sut.params!.stringKeyParams["distance-unit"] as? String).to(equal("km"))
+                    }
+                    it("has categories") {
+                        let categories = sut.params!.stringKeyParams["category-id"] as? String
+                        expect(categories).to(equal("1,2"))
+                    }
+                    it("has sort by") {
+                        expect(sut.params!.stringKeyParams["sort-by"] as? String).to(equal("distance"))
+                    }
+                    it("has posted within") {
+                        expect(sut.params!.stringKeyParams["posted-within"] as? String).to(equal("day"))
+                    }
                 }
-                it("when receiving all params, contains the related params ") {
-                    let coords = LGLocationCoordinates2D(latitude: 41.123, longitude: 2.123)
-                    sut = TrackerEvent.filterComplete(coords, distanceRadius: 10, distanceUnit: DistanceType.Km, categories: [ProductCategory.Electronics, ProductCategory.CarsAndMotors], sortBy: ProductSortCriteria.Distance)
-                    
-                    expect(sut.params!.stringKeyParams["filter-lat"]).notTo(beNil())
-                    let lat = sut.params!.stringKeyParams["filter-lat"] as? Double
-                    expect(lat).to(equal(41.123))
+                context("not receiving all params, contains the default params") {
+                    beforeEach {
+                        sut = TrackerEvent.filterComplete(nil, distanceRadius: nil, distanceUnit: DistanceType.Km,
+                            categories: nil, sortBy: nil,
+                            postedWithin: nil)
+                    }
+                    it("has its event name") {
+                        expect(sut.name.rawValue).to(equal("filter-complete"))
+                    }
+                    it("default coords") {
+                        expect(sut.params!.stringKeyParams["filter-lat"]).notTo(beNil())
+                        let lat = sut.params!.stringKeyParams["filter-lat"] as? String
+                        expect(lat).to(equal("default"))
 
-                    expect(sut.params!.stringKeyParams["filter-lng"]).notTo(beNil())
-                    let lng = sut.params!.stringKeyParams["filter-lng"] as? Double
-                    expect(lng).to(equal(2.123))
-
-                    let categories = sut.params!.stringKeyParams["category-id"] as? String
-                    expect(categories).to(equal("1,2"))
+                        expect(sut.params!.stringKeyParams["filter-lng"]).notTo(beNil())
+                        let lng = sut.params!.stringKeyParams["filter-lat"] as? String
+                        expect(lng).to(equal("default"))
+                    }
+                    it("distance radius") {
+                        expect(sut.params!.stringKeyParams["distance-radius"] as? String).to(equal("default"))
+                    }
+                    it("distance unit") {
+                        expect(sut.params!.stringKeyParams["distance-unit"] as? String).to(equal("km"))
+                    }
+                    it("categories") {
+                        let categories = sut.params!.stringKeyParams["category-id"] as? String
+                        expect(categories).to(equal("0"))
+                    }
+                    it("doesn't have sort by") {
+                        expect(sut.params!.stringKeyParams["sort-by"] as? String).to(beNil())
+                    }
+                    it("doesn't have within") {
+                        expect(sut.params!.stringKeyParams["posted-within"] as? String).to(beNil())
+                    }
                 }
-
-                it("when not receiving all params, contains the default params ") {
-
-                    sut = TrackerEvent.filterComplete(nil, distanceRadius: nil, distanceUnit: DistanceType.Km, categories: nil, sortBy: ProductSortCriteria.Distance)
-                    
-                    expect(sut.params!.stringKeyParams["filter-lat"]).notTo(beNil())
-                    let lat = sut.params!.stringKeyParams["filter-lat"] as? String
-                    expect(lat).to(equal("default"))
-                    
-                    expect(sut.params!.stringKeyParams["filter-lng"]).notTo(beNil())
-                    let lng = sut.params!.stringKeyParams["filter-lat"] as? String
-                    expect(lng).to(equal("default"))
-                    
-                    let categories = sut.params!.stringKeyParams["category-id"] as? String
-                    expect(categories).to(equal("0"))
-                }
-
             }
             
             describe("productDetailVisit") {
@@ -2120,6 +2153,37 @@ class TrackerEventSpec: QuickSpec {
                         let source = sut.params!.stringKeyParams["source"] as? String
                         expect(source).to(beNil())
                     }
+                }
+            }
+
+            describe("express chat start") {
+                beforeEach {
+                    sut = TrackerEvent.expressChatStart()
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue) == "express-chat-start"
+                }
+            }
+
+            describe("express chat complete") {
+                beforeEach {
+                    sut = TrackerEvent.expressChatComplete(3)
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue) == "express-chat-complete"
+                }
+                it("contains type-page param") {
+                    let expressConversations = sut.params!.stringKeyParams["express-conversations"] as? Int
+                    expect(expressConversations) == 3
+                }
+            }
+
+            describe("express chat don't ask again") {
+                beforeEach {
+                    sut = TrackerEvent.expressChatDontAsk()
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue) == "express-chat-dont-ask"
                 }
             }
         }

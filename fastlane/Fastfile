@@ -114,7 +114,7 @@ platform :ios do
 
     crashlytics(
       ipa_path: Actions.lane_context[Actions::SharedValues::IPA_OUTPUT_PATH],
-      crashlytics_path: "./Pods/Crashlytics/Crashlytics.framework",
+      crashlytics_path: "./Pods/Crashlytics",
       api_token: 'da82303e33e3a2dc304cdccaa4e19dba00334a34',
       build_secret: '964f1bd4540dbfa7d78d93439cf95e216ec156e046a4e46db36778084770ebbe',
       notes: "#{changelog}",

@@ -11,6 +11,7 @@ import FBSDKShareKit
 import LGCoreKit
 import Result
 import RxSwift
+import CollectionVariable
 
 
 protocol ProductViewModelDelegate: class, BaseViewModelDelegate {
@@ -20,6 +21,8 @@ protocol ProductViewModelDelegate: class, BaseViewModelDelegate {
     func vmOpenMainSignUp(signUpVM: SignUpViewModel, afterLoginAction: () -> ())
     func vmOpenChat(chatVM: OldChatViewModel)
     func vmOpenWebSocketChat(chatVM: ChatViewModel)
+
+    func vmOpenStickersSelector(stickers: [Sticker])
 
     func vmOpenPromoteProduct(promoteVM: PromoteProductViewModel)
     func vmOpenCommercialDisplay(displayVM: CommercialDisplayViewModel)
@@ -87,6 +90,7 @@ enum ProductViewModelStatus {
     }
 }
 
+
 class ProductViewModel: BaseViewModel {
     // Data
     let product: Variable<Product>
@@ -95,22 +99,25 @@ class ProductViewModel: BaseViewModel {
     let thumbnailImage: UIImage?
 
     private let isReported = Variable<Bool>(false)
-    private let isFavorite = Variable<Bool>(false)
+    let isFavorite = Variable<Bool>(false)
 
     let viewsCount = Variable<Int>(0)
     let favouritesCount = Variable<Int>(0)
 
     let socialMessage = Variable<SocialMessage?>(nil)
 
+    let directChatMessages = CollectionVariable<ChatViewMessage>([])
+
     // Repository, helpers & tracker
+    let trackHelper: ProductVMTrackHelper
     private let myUserRepository: MyUserRepository
     private let productRepository: ProductRepository
     private let commercializerRepository: CommercializerRepository
-    private let chatRepository: OldChatRepository
-    private let chatWebSocketRepository: ChatRepository
+    private let chatWrapper: ChatWrapper
+    private let stickersRepository: StickersRepository
     private let countryHelper: CountryHelper
-    private let tracker: Tracker
     private let locationManager: LocationManager
+    private let chatViewMessageAdapter: ChatViewMessageAdapter
 
     // Delegate
     weak var delegate: ProductViewModelDelegate?
@@ -119,7 +126,8 @@ class ProductViewModel: BaseViewModel {
     
     // UI
     let navBarButtons = Variable<[UIAction]>([])
-    let favoriteButtonEnabled = Variable<Bool>(false)
+    let productIsFavoriteable = Variable<Bool>(false)
+    let favoriteButtonEnabled = Variable<Bool>(true)
     let productStatusBackgroundColor = Variable<UIColor>(UIColor.blackColor())
     let productStatusLabelText = Variable<String?>(nil)
     let productStatusLabelColor = Variable<UIColor>(UIColor.whiteColor())
@@ -146,12 +154,14 @@ class ProductViewModel: BaseViewModel {
     let productHasReadyCommercials = Variable<Bool>(false)
     var commercializerAvailableTemplatesCount: Int? = nil
 
-    let alreadyHasChats = Variable<Bool>(false)
     let askQuestionButtonTitle = Variable<String>(LGLocalizedString.productAskAQuestionButton)
     let chatWithSellerButtonTitle = Variable<String>(LGLocalizedString.productChatWithSellerButton)
     let loadingProductChats = Variable<Bool>(false)
 
     let statsViewVisible = Variable<Bool>(false)
+
+    let stickersButtonEnabled = Variable<Bool>(false)
+    private var selectableStickers: [Sticker] = []
 
 
     // Rx
@@ -164,17 +174,16 @@ class ProductViewModel: BaseViewModel {
         let myUserRepository = Core.myUserRepository
         let productRepository = Core.productRepository
         let commercializerRepository = Core.commercializerRepository
-        let chatRepository = Core.oldChatRepository
         let countryHelper = Core.countryHelper
-        let tracker = TrackerProxy.sharedInstance
-        let chatWebSocketRepository = Core.chatRepository
+        let chatWrapper = ChatWrapper()
+        let stickersRepository = Core.stickersRepository
         let locationManager = Core.locationManager
         
         let product = productRepository.build(fromChatproduct: product, chatInterlocutor: user)
         
         self.init(myUserRepository: myUserRepository, productRepository: productRepository,
-                  commercializerRepository: commercializerRepository, chatRepository: chatRepository,
-                  chatWebSocketRepository: chatWebSocketRepository, locationManager: locationManager, countryHelper: countryHelper, tracker: tracker,
+                  commercializerRepository: commercializerRepository, chatWrapper: chatWrapper,
+                  stickersRepository: stickersRepository, locationManager: locationManager, countryHelper: countryHelper,
                   product: product, thumbnailImage: thumbnailImage, tabNavigator: tabNavigator)
         
         syncProduct(nil)
@@ -184,33 +193,33 @@ class ProductViewModel: BaseViewModel {
         let myUserRepository = Core.myUserRepository
         let productRepository = Core.productRepository
         let commercializerRepository = Core.commercializerRepository
-        let chatRepository = Core.oldChatRepository
         let countryHelper = Core.countryHelper
-        let tracker = TrackerProxy.sharedInstance
-        let chatWebSocketRepository = Core.chatRepository
+        let chatWrapper = ChatWrapper()
+        let stickersRepository = Core.stickersRepository
         let locationManager = Core.locationManager
         self.init(myUserRepository: myUserRepository, productRepository: productRepository,
-                  commercializerRepository: commercializerRepository, chatRepository: chatRepository,
-                  chatWebSocketRepository: chatWebSocketRepository, locationManager: locationManager, countryHelper: countryHelper, tracker: tracker,
+                  commercializerRepository: commercializerRepository, chatWrapper: chatWrapper,
+                  stickersRepository: stickersRepository, locationManager: locationManager, countryHelper: countryHelper,
                   product: product, thumbnailImage: thumbnailImage, tabNavigator: tabNavigator)
     }
 
     init(myUserRepository: MyUserRepository, productRepository: ProductRepository,
-         commercializerRepository: CommercializerRepository, chatRepository: OldChatRepository,
-         chatWebSocketRepository: ChatRepository, locationManager: LocationManager, countryHelper: CountryHelper,
-         tracker: Tracker, product: Product, thumbnailImage: UIImage?, tabNavigator: TabNavigator?) {
+         commercializerRepository: CommercializerRepository, chatWrapper: ChatWrapper,
+         stickersRepository: StickersRepository, locationManager: LocationManager, countryHelper: CountryHelper,
+         product: Product, thumbnailImage: UIImage?, tabNavigator: TabNavigator?) {
         self.product = Variable<Product>(product)
         self.thumbnailImage = thumbnailImage
         self.myUserRepository = myUserRepository
         self.productRepository = productRepository
         self.countryHelper = countryHelper
-        self.tracker = tracker
+        self.trackHelper = ProductVMTrackHelper(product: product)
         self.commercializerRepository = commercializerRepository
         self.commercializers = Variable<[Commercializer]?>(nil)
-        self.chatRepository = chatRepository
-        self.chatWebSocketRepository = chatWebSocketRepository
+        self.chatWrapper = chatWrapper
+        self.stickersRepository = stickersRepository
         self.locationManager = locationManager
         self.tabNavigator = tabNavigator
+        self.chatViewMessageAdapter = ChatViewMessageAdapter()
         
         let ownerId = product.user.objectId
         self.ownerId = ownerId
@@ -300,7 +309,7 @@ class ProductViewModel: BaseViewModel {
             strongSelf.productStatusLabelText.value = status.string
             strongSelf.productStatusLabelColor.value = status.labelColor
             }.addDisposableTo(disposeBag)
-        
+
         isFavorite.asObservable().subscribeNext { [weak self] _ in
             guard let strongSelf = self else { return }
             strongSelf.navBarButtons.value = strongSelf.buildNavBarButtons()
@@ -308,9 +317,11 @@ class ProductViewModel: BaseViewModel {
 
         product.asObservable().subscribeNext { [weak self] product in
             guard let strongSelf = self else { return }
+            strongSelf.trackHelper.product = product
 
             strongSelf.refreshStatus()
-            
+
+            strongSelf.productIsFavoriteable.value = !product.isMine
             strongSelf.isFavorite.value = product.favorite
             let socialTitle = LGLocalizedString.productShareBody
             strongSelf.socialMessage.value = SocialHelper.socialMessageWithTitle(socialTitle, product: product)
@@ -337,6 +348,10 @@ class ProductViewModel: BaseViewModel {
         myUserRepository.rx_myUser.asObservable().bindNext { [weak self] _ in
             self?.refreshStatus()
         }.addDisposableTo(disposeBag)
+
+        status.asObservable().filter{ $0 == .OtherAvailable }.bindNext { [weak self] _ in
+            self?.refreshDirectChats()
+        }.addDisposableTo(disposeBag)
     }
     
     private func distanceString(product: Product) -> String? {
@@ -352,6 +367,15 @@ class ProductViewModel: BaseViewModel {
             status.value = productStatus.setCommercializable(templates > 0 && commercializerIsAvailable)
         } else {
             status.value = productStatus
+        }
+    }
+
+    private func refreshDirectChats() {
+        guard FeatureFlags.directStickersOnProduct else { return }
+        stickersRepository.show(typeFilter: .Product) { [weak self] result in
+            guard let stickers = result.value else { return }
+            self?.selectableStickers = stickers
+            self?.stickersButtonEnabled.value = !stickers.isEmpty && FeatureFlags.directStickersOnProduct
         }
     }
 }
@@ -401,26 +425,17 @@ extension ProductViewModel {
     }
     
     func chatWithSeller() {
-        trackChatWithSeller()
+        trackHelper.trackChatWithSeller()
         openChat()
     }
 
     func sendDirectMessage(message: String?) {
         delegate?.vmShowLoading(LGLocalizedString.productChatDirectMessageSending)
-        chatRepository.sendText(message ?? LGLocalizedString.productChatDirectMessage(product.value.user.name ?? ""),
-                                product: product.value, recipient: product.value.user) { [weak self] result in
-            if let _ = result.value {
-                if let product = self?.product.value {
-                    let messageType = EventParameterMessageType.Text
-                    let askQuestionEvent = TrackerEvent.productAskQuestion(product, messageType: messageType,
-                                                                           typePage: .ProductDetail)
-                    TrackerProxy.sharedInstance.trackEvent(askQuestionEvent)
-                    let messageSentEvent = TrackerEvent.userMessageSent(product, userTo: self?.product.value.user,
-                                                                        messageType: messageType, isQuickAnswer: .False)
-                    TrackerProxy.sharedInstance.trackEvent(messageSentEvent)
-                }
-                self?.alreadyHasChats.value = true
 
+        let text = message ?? LGLocalizedString.productChatDirectMessage(product.value.user.name ?? "")
+        chatWrapper.sendMessageForProduct(product.value, text: text, sticker: nil, type: .Text) { [weak self] result in
+            if let _ = result.value {
+                self?.trackHelper.trackDirectMessageSent()
                 self?.delegate?.vmHideLoading(LGLocalizedString.productChatWithSellerSendOk, afterMessageCompletion: nil)
             } else if let error = result.error {
                 switch error {
@@ -452,6 +467,23 @@ extension ProductViewModel {
     func reportProduct() {
         guard !product.value.isMine else { return }
         reportAction()
+    }
+
+    func stickersButton() {
+        guard !selectableStickers.isEmpty else { return }
+        delegate?.vmOpenStickersSelector(selectableStickers)
+    }
+
+    func sendSticker(sticker: Sticker) {
+        ifLoggedInRunActionElseOpenChatSignup { [weak self] in
+            self?.sendStickerToSeller(sticker)
+        }
+    }
+
+    func switchFavorite() {
+        ifLoggedInRunActionElseOpenMainSignUp({ [weak self] in
+            self?.switchFavoriteAction()
+        }, source: .Favourite)
     }
 }
 
@@ -493,10 +525,7 @@ extension ProductViewModel {
             let commercializersArr = commercializers.value ?? []
             guard let promoteProductVM = PromoteProductViewModel(productId: productId,
                                                                  themes: themes, commercializers: commercializersArr, promotionSource: .ProductDetail) else { return }
-
-            let event = TrackerEvent.commercializerStart(theProduct.objectId, typePage: .ProductDetail)
-            TrackerProxy.sharedInstance.trackEvent(event)
-
+            trackHelper.trackCommercializerStart()
             delegate?.vmOpenPromoteProduct(promoteProductVM)
         }
     }
@@ -509,41 +538,25 @@ extension ProductViewModel {
     private func buildNavBarButtons() -> [UIAction] {
         var navBarButtons = [UIAction]()
 
-        let isMine = product.value.isMine
-        let isFavouritable = !isMine
         let isEditable: Bool
-        let isShareable = true
-        let isReportable = !isMine
-        let isDeletable: Bool
         switch status.value {
-        case .Pending, .PendingAndCommercializable:
-            isEditable = isMine
-            isDeletable = isMine
-        case .Available, .AvailableAndCommercializable, .OtherAvailable:
-            isEditable = isMine
-            isDeletable = isMine
-        case .NotAvailable:
+        case .Pending, .PendingAndCommercializable, .Available, .AvailableAndCommercializable, .OtherAvailable:
+            isEditable = product.value.isMine
+        case .NotAvailable, .Sold, .OtherSold:
             isEditable = false
-            isDeletable = false
-        case .Sold, .OtherSold:
-            isEditable = false
-            isDeletable = isMine
         }
 
-        if isFavouritable {
+        if productIsFavoriteable.value && !FeatureFlags.bigFavoriteIcon {
             navBarButtons.append(buildFavoriteNavBarAction())
         }
         if isEditable {
             navBarButtons.append(buildEditNavBarAction())
         }
-        if isShareable {
-            navBarButtons.append(buildShareNavBarAction())
+        if !FeatureFlags.bigFavoriteIcon {
+            navBarButtons.append(buildShareAction())
         }
 
-        let hasMoreActions = isReportable || isDeletable
-        if hasMoreActions {
-            navBarButtons.append(buildMoreNavBarAction(isReportable, isDeletable: isDeletable))
-        }
+        navBarButtons.append(buildMoreNavBarAction())
         return navBarButtons
     }
 
@@ -552,7 +565,7 @@ extension ProductViewModel {
             .imageWithRenderingMode(.AlwaysOriginal)
         return UIAction(interface: .Image(icon), action: { [weak self] in
             self?.ifLoggedInRunActionElseOpenMainSignUp({ [weak self] in
-                self?.switchFavourite()
+                self?.switchFavoriteAction()
                 }, source: .Favourite)
             })
     }
@@ -569,31 +582,45 @@ extension ProductViewModel {
         })
     }
 
-    private func buildShareNavBarAction() -> UIAction {
+    private func buildShareAction() -> UIAction {
         let icon = UIImage(named: "navbar_share")?.imageWithRenderingMode(.AlwaysOriginal)
-        return UIAction(interface: .Image(icon), action: { [weak self] in
+        let text = LGLocalizedString.productOptionShare
+        return UIAction(interface: .TextImage(text, icon), action: { [weak self] in
             guard let strongSelf = self, socialMessage = strongSelf.socialMessage.value else { return }
             strongSelf.delegate?.vmShowNativeShare(socialMessage)
             })
     }
 
-    private func buildMoreNavBarAction(isReportable: Bool, isDeletable: Bool) -> UIAction {
+    private func buildMoreNavBarAction() -> UIAction {
         let icon = UIImage(named: "navbar_more")?.imageWithRenderingMode(.AlwaysOriginal)
-        return UIAction(interface: .Image(icon), action: { [weak self] in
-            guard let strongSelf = self else { return }
+        return UIAction(interface: .Image(icon), action: { [weak self] in self?.showOptionsMenu() })
+    }
 
-            var actions = [UIAction]()
-            
-            actions.append(strongSelf.buildOnboardingButton())
-            
-            if isReportable {
-                actions.append(strongSelf.buildReportButton())
-            }
-            if isDeletable {
-                actions.append(strongSelf.buildDeleteButton())
-            }
-            strongSelf.delegate?.vmShowProductDelegateActionSheet(LGLocalizedString.commonCancel, actions: actions)
-            })
+    private func showOptionsMenu() {
+        var actions = [UIAction]()
+        let isMine = product.value.isMine
+        let isDeletable = status.value == .NotAvailable ? false : isMine
+
+        if FeatureFlags.bigFavoriteIcon {
+            actions.append(buildShareAction())
+        }
+        if productHasReadyCommercials.value && FeatureFlags.bigFavoriteIcon {
+            actions.append(buildCommercialAction())
+        }
+        actions.append(buildOnboardingButton())
+        if !isMine {
+            actions.append(buildReportButton())
+        }
+        if isDeletable {
+            actions.append(buildDeleteButton())
+        }
+        delegate?.vmShowProductDelegateActionSheet(LGLocalizedString.commonCancel, actions: actions)
+    }
+
+    private func buildCommercialAction() -> UIAction {
+        return UIAction(interface: .Text(LGLocalizedString.productOptionShowCommercial), action: { [weak self] in
+            self?.openVideo()
+        })
     }
 
     private func buildReportButton() -> UIAction {
@@ -683,14 +710,14 @@ extension ProductViewModel {
 // MARK: - Private actions
 
 extension ProductViewModel {
-    private func switchFavourite() {
+    private func switchFavoriteAction() {
         favoriteButtonEnabled.value = false
 
         if isFavorite.value {
             productRepository.deleteFavorite(product.value) { [weak self] result in
                 guard let strongSelf = self else { return }
                 if let product = result.value {
-                    strongSelf.product.value = product
+                    strongSelf.isFavorite.value = product.favorite
                 }
                 strongSelf.favoriteButtonEnabled.value = true
             }
@@ -698,8 +725,8 @@ extension ProductViewModel {
             productRepository.saveFavorite(product.value) { [weak self] result in
                 guard let strongSelf = self else { return }
                 if let product = result.value {
-                    strongSelf.product.value = product
-                    self?.trackSaveFavoriteCompleted()
+                    strongSelf.isFavorite.value = product.favorite
+                    self?.trackHelper.trackSaveFavoriteCompleted()
 
                     if RatingManager.sharedInstance.shouldShowRating {
                         strongSelf.delegate?.vmAskForRating()
@@ -724,7 +751,7 @@ extension ProductViewModel {
             if let _ = result.value {
                 strongSelf.isReported.value = true
                 message = LGLocalizedString.productReportedSuccessMessage
-                self?.trackReportCompleted()
+                self?.trackHelper.trackReportCompleted()
             } else if let _ = result.error {
                 message = LGLocalizedString.productReportedErrorGeneric
             }
@@ -734,7 +761,7 @@ extension ProductViewModel {
 
     private func delete() {
         delegate?.vmShowLoading(LGLocalizedString.commonLoading)
-        trackDeleteStarted()
+        trackHelper.trackDeleteStarted()
 
         productRepository.delete(product.value) { [weak self] result in
             guard let strongSelf = self else { return }
@@ -743,7 +770,7 @@ extension ProductViewModel {
             if let value = result.value {
                 strongSelf.product.value = value
                 message = LGLocalizedString.productDeleteSuccessMessage
-                self?.trackDeleteCompleted()
+                self?.trackHelper.trackDeleteCompleted()
             } else if let _ = result.error {
                 message = LGLocalizedString.productDeleteSendErrorGeneric
             }
@@ -765,7 +792,7 @@ extension ProductViewModel {
             if let value = result.value {
                 strongSelf.product.value = value
                 message = LGLocalizedString.productMarkAsSoldSuccessMessage
-                self?.trackMarkSoldCompleted(source)
+                self?.trackHelper.trackMarkSoldCompleted(source)
                 markAsSoldCompletion = {
                     if RatingManager.sharedInstance.shouldShowRating {
                         strongSelf.delegate?.vmAskForRating()
@@ -789,11 +816,37 @@ extension ProductViewModel {
             if let value = result.value {
                 strongSelf.product.value = value
                 message = LGLocalizedString.productSellAgainSuccessMessage
-                self?.trackMarkUnsoldCompleted()
+                self?.trackHelper.trackMarkUnsoldCompleted()
             } else {
                 message = LGLocalizedString.productSellAgainErrorGeneric
             }
             strongSelf.delegate?.vmHideLoading(message, afterMessageCompletion: nil)
+        }
+    }
+
+    private func sendStickerToSeller(sticker: Sticker) {
+        // Optimistic behavior
+        let message = LocalMessage(sticker: sticker, userId: myUserRepository.myUser?.objectId)
+        let messageView = chatViewMessageAdapter.adapt(message)
+        directChatMessages.insert(messageView, atIndex: 0)
+
+        chatWrapper.sendMessageForProduct(product.value, text: sticker.name, sticker: sticker, type: .Sticker) {
+            [weak self] result in
+            if let _ = result.value {
+                self?.trackHelper.trackDirectStickerSent()
+            } else if let error = result.error {
+                switch error {
+                case .Forbidden:
+                    self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.productChatDirectErrorBlockedUserMessage, completion: nil)
+                case .Network, .Internal, .NotFound, .Unauthorized, .TooManyRequests, .UserNotVerified:
+                    self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.chatSendErrorGeneric, completion: nil)
+                }
+
+                //Removing in case of failure
+                if let indexToRemove = self?.directChatMessages.value.indexOf({ $0.objectId == messageView.objectId }) {
+                    self?.directChatMessages.removeAtIndex(indexToRemove)
+                }
+            }
         }
     }
 }
@@ -810,176 +863,10 @@ extension ProductViewModel {
             delegate?.vmOpenMainSignUp(signUpVM, afterLoginAction: { action() })
         }
     }
-}
 
-
-// MARK: - Share
-
-extension ProductViewModel {
-    func shareInEmail(buttonPosition: EventParameterButtonPosition) {
-        let trackerEvent = TrackerEvent.productShare(product.value, network: .Email,
-                                                     buttonPosition: buttonPosition, typePage: .ProductDetail)
-        tracker.trackEvent(trackerEvent)
-    }
-
-    func shareInEmailCompleted() {
-        let trackerEvent = TrackerEvent.productShareComplete(product.value, network: .Email,
-                                                             typePage: .ProductDetail)
-        tracker.trackEvent(trackerEvent)
-    }
-
-    func shareInEmailCancelled() {
-        let trackerEvent = TrackerEvent.productShareCancel(product.value, network: .Email, typePage: .ProductDetail)
-        tracker.trackEvent(trackerEvent)
-    }
-
-    func shareInFacebook(buttonPosition: EventParameterButtonPosition) {
-        let trackerEvent = TrackerEvent.productShare(product.value, network: .Facebook,
-                                                     buttonPosition: buttonPosition, typePage: .ProductDetail)
-        tracker.trackEvent(trackerEvent)
-    }
-
-    func shareInFBCompleted() {
-        let trackerEvent = TrackerEvent.productShareComplete(product.value, network: .Facebook,
-                                                             typePage: .ProductDetail)
-        tracker.trackEvent(trackerEvent)
-    }
-
-    func shareInFBCancelled() {
-        let trackerEvent = TrackerEvent.productShareCancel(product.value, network: .Facebook, typePage: .ProductDetail)
-        tracker.trackEvent(trackerEvent)
-    }
-
-    func shareInFBMessenger() {
-        let trackerEvent = TrackerEvent.productShare(product.value, network: .FBMessenger, buttonPosition: .Bottom,
-                                                     typePage: .ProductDetail)
-        tracker.trackEvent(trackerEvent)
-    }
-
-    func shareInFBMessengerCompleted() {
-        let trackerEvent = TrackerEvent.productShareComplete(product.value, network: .FBMessenger,
-                                                             typePage: .ProductDetail)
-        tracker.trackEvent(trackerEvent)
-    }
-
-    func shareInFBMessengerCancelled() {
-        let trackerEvent = TrackerEvent.productShareCancel(product.value, network: .FBMessenger,
-                                                           typePage: .ProductDetail)
-        tracker.trackEvent(trackerEvent)
-    }
-
-    func shareInWhatsApp() {
-        let trackerEvent = TrackerEvent.productShare(product.value, network: .Whatsapp, buttonPosition: .Bottom,
-                                                     typePage: .ProductDetail)
-        tracker.trackEvent(trackerEvent)
-    }
-
-    func shareInTwitter() {
-        let trackerEvent = TrackerEvent.productShare(product.value, network: .Twitter, buttonPosition: .Bottom,
-                                                     typePage: .ProductDetail)
-        tracker.trackEvent(trackerEvent)
-    }
-
-    func shareInTwitterCompleted() {
-        let trackerEvent = TrackerEvent.productShareComplete(product.value, network: .Twitter, typePage: .ProductDetail)
-        tracker.trackEvent(trackerEvent)
-    }
-
-    func shareInTwitterCancelled() {
-        let trackerEvent = TrackerEvent.productShareCancel(product.value, network: .Twitter, typePage: .ProductDetail)
-        tracker.trackEvent(trackerEvent)
-    }
-
-
-    func shareInTelegram() {
-        let trackerEvent = TrackerEvent.productShare(product.value, network: .Telegram, buttonPosition: .Bottom,
-                                                     typePage: .ProductDetail)
-        tracker.trackEvent(trackerEvent)
-    }
-
-    func shareInWhatsappActivity() {
-        let trackerEvent = TrackerEvent.productShare(product.value, network: .Whatsapp, buttonPosition: .Top,
-                                                     typePage: .ProductDetail)
-        tracker.trackEvent(trackerEvent)
-    }
-
-    func shareInTwitterActivity() {
-        let trackerEvent = TrackerEvent.productShare(product.value, network: .Twitter, buttonPosition: .Top,
-                                                     typePage: .ProductDetail)
-        tracker.trackEvent(trackerEvent)
-    }
-
-    func shareInSMS() {
-        let trackerEvent = TrackerEvent.productShare(product.value, network: .SMS, buttonPosition: .Bottom,
-                                                     typePage: .ProductDetail)
-        tracker.trackEvent(trackerEvent)
-    }
-
-    func shareInSMSCompleted() {
-        let trackerEvent = TrackerEvent.productShareComplete(product.value, network: .SMS, typePage: .ProductDetail)
-        tracker.trackEvent(trackerEvent)
-    }
-
-    func shareInSMSCancelled() {
-        let trackerEvent = TrackerEvent.productShareCancel(product.value, network: .SMS, typePage: .ProductDetail)
-        tracker.trackEvent(trackerEvent)
-    }
-
-    func shareInCopyLink() {
-        let trackerEvent = TrackerEvent.productShare(product.value, network: .CopyLink, buttonPosition: .Bottom,
-                                                     typePage: .ProductDetail)
-        tracker.trackEvent(trackerEvent)
-    }
-}
-
-
-// MARK: - Tracking
-
-extension ProductViewModel {
-    
-    func trackVisit(visitUserAction: ProductVisitUserAction) {
-        let trackerEvent = TrackerEvent.productDetailVisit(product.value, visitUserAction: visitUserAction)
-        tracker.trackEvent(trackerEvent)
-    }
-    
-    func trackVisitMoreInfo() {
-        let trackerEvent = TrackerEvent.productDetailVisitMoreInfo(product.value)
-        tracker.trackEvent(trackerEvent)
-    }
-
-    private func trackReportCompleted() {
-        let trackerEvent = TrackerEvent.productReport(product.value)
-        tracker.trackEvent(trackerEvent)
-    }
-
-    private func trackDeleteStarted() {
-        let trackerEvent = TrackerEvent.productDeleteStart(product.value)
-        tracker.trackEvent(trackerEvent)
-    }
-
-    private func trackDeleteCompleted() {
-        let trackerEvent = TrackerEvent.productDeleteComplete(product.value)
-        tracker.trackEvent(trackerEvent)
-    }
-
-    private func trackMarkSoldCompleted(source: EventParameterSellSourceValue) {
-        let trackerEvent = TrackerEvent.productMarkAsSold(source, product: product.value)
-        tracker.trackEvent(trackerEvent)
-    }
-
-    private func trackMarkUnsoldCompleted() {
-        let trackerEvent = TrackerEvent.productMarkAsUnsold(product.value)
-        tracker.trackEvent(trackerEvent)
-    }
-
-    private func trackSaveFavoriteCompleted() {
-        let trackerEvent = TrackerEvent.productFavorite(product.value, typePage: .ProductDetail)
-        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
-    }
-
-    private func trackChatWithSeller() {
-        let trackerEvent = TrackerEvent.productDetailChatButton(product.value)
-        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+    private func ifLoggedInRunActionElseOpenChatSignup(action: () -> ()) {
+        delegate?.ifLoggedInThen(.DirectSticker, loginStyle: .Popup(LGLocalizedString.chatLoginPopupText),
+                                 loggedInAction: action, elsePresentSignUpWithSuccessAction: action)
     }
 }
 

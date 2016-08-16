@@ -23,17 +23,17 @@
 		<key>enabled</key>
 		<false/>
 	</dict>
-	<key>index_products_trending_first_24h</key>
-	<dict>
-		<key>description</key>
-		<string>Index products calls to trending when no filters are set</string>
-		<key>enabled</key>
-		<false/>
-	</dict>
 	<key>user_ratings</key>
 	<dict>
 		<key>description</key>
 		<string>User can rate other users</string>
+		<key>enabled</key>
+		<false/>
+	</dict>
+	<key>big_favorite_icon</key>
+	<dict>
+		<key>description</key>
+		<string>Bigger favorite icon in product detail</string>
 		<key>enabled</key>
 		<false/>
 	</dict>
@@ -48,6 +48,13 @@
 	<dict>
 		<key>description</key>
 		<string>Show the price of the products in the listing cell</string>
+		<key>enabled</key>
+		<false/>
+	</dict>
+		<key>direct_stickers_on_product</key>
+	<dict>
+		<key>description</key>
+		<string>Show stickers button on product detail</string>
 		<key>enabled</key>
 		<false/>
 	</dict>

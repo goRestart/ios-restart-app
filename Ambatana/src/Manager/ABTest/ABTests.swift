@@ -12,22 +12,21 @@ public struct ABTests {
 
     static let trackingData = Variable<[(String, AnyObject)]>([])
 
+    static var bigFavoriteIcon = BoolABDynamicVar(key: "bigFavoriteIcon", defaultValue: false)
     static var showRelatedProducts = BoolABDynamicVar(key: "showRelatedProducts", defaultValue: false)
     static var showPriceOnListings = BoolABDynamicVar(key: "showPriceOnListings", defaultValue: false)
+    static var directStickersOnProduct = BoolABDynamicVar(key: "directStickersOnProduct", defaultValue: false)
 
     static func registerVariables() {
+        let _ = bigFavoriteIcon.value
         let _ = showRelatedProducts.value
         let _ = showPriceOnListings.value
+        let _ = directStickersOnProduct.value
     }
 
     static func variablesUpdated() {
-        var result: [(String, AnyObject)] = []
-        if let relatedProductsData = showRelatedProducts.trackingData {
-            result.append(relatedProductsData)
-        }
-        if let priceOnListingsData = showPriceOnListings.trackingData {
-            result.append(priceOnListingsData)
-        }
+        let allVars = [bigFavoriteIcon, showRelatedProducts, showPriceOnListings, directStickersOnProduct]
+        let result = allVars.flatMap{ $0.trackingData }
         trackingData.value = result
     }
 }

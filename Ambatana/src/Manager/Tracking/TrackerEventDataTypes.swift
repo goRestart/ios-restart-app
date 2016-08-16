@@ -123,6 +123,10 @@ public enum EventName: String {
 
     case OpenApp                            = "open-app-external"
 
+    case ExpressChatStart                   = "express-chat-start"
+    case ExpressChatComplete                = "express-chat-complete"
+    case ExpressChatDontAsk                 = "express-chat-dont-ask"
+
     // Constants
     private static let eventNameDummyPrefix  = "dummy-"
     
@@ -179,6 +183,7 @@ public enum EventParameterName: String {
     case FilterDistanceRadius = "distance-radius"
     case FilterDistanceUnit   = "distance-unit"
     case FilterSortBy         = "sort-by"
+    case FilterPostedWithin   = "posted-within"
     case ErrorDescription     = "error-description"
     case ErrorDetails         = "error-details"
     case PermissionType       = "permission-type"
@@ -204,6 +209,7 @@ public enum EventParameterName: String {
     case Medium               = "medium"
     case Source               = "source"
     case ItemPosition         = "item-position"
+    case ExpressConversations = "express-conversations"
 }
 
 public enum EventParameterLoginSourceValue: String {
@@ -218,6 +224,7 @@ public enum EventParameterLoginSourceValue: String {
     case ReportFraud = "report-fraud"
     case Delete = "delete"
     case Install = "install"
+    case DirectSticker = "direct-sticker"
 }
 
 public enum EventParameterSellSourceValue: String {
@@ -275,6 +282,13 @@ public enum EventParameterSortBy: String {
     case CreationDate = "creation-date"
     case PriceAsc = "price-asc"
     case PriceDesc = "price-desc"
+}
+
+public enum EventParameterPostedWithin: String {
+    case Day = "day"
+    case Week = "week"
+    case Month = "month"
+    case All = ""
 }
 
 public enum EventParameterQuickAnswerValue: String {
@@ -397,6 +411,7 @@ public enum EventParameterTypePage: String {
     case OpenApp = "open-app"
     case IncentivizePosting = "incentivize-posting"
     case UserRatingList = "user-rating-list"
+    case ExpressChat = "express-chat"
 }
 
 public enum EventParameterPermissionType: String {

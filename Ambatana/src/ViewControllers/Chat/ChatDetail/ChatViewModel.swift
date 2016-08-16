@@ -71,6 +71,7 @@ class ChatViewModel: BaseViewModel {
     var stickers = Variable<[Sticker]>([])
     var keyForTextCaching: String { return userDefaultsSubKey }
     var askQuestion: AskQuestionSource?
+    var relatedProducts: [Product] = []
 
     private var shouldShowSafetyTips: Bool {
         return !KeyValueStorage.sharedInstance.userChatSafetyTipsShown && didReceiveMessageFromOtherUser
@@ -238,6 +239,16 @@ class ChatViewModel: BaseViewModel {
         if conversation.value.isSaved && chatEnabled.value {
             delegate?.vmShowKeyboard()
         }
+        if firstTime {
+            retrieveRelatedProducts()
+        }
+    }
+
+    func wentBack() {
+        guard isBuyer else { return }
+        guard !relatedProducts.isEmpty else { return }
+        guard let productId = conversation.value.product?.objectId else { return }
+        tabNavigator?.openExpressChat(relatedProducts, sourceProductId: productId)
     }
 
     func setupConversationFromProduct(product: Product) {
@@ -1155,5 +1166,34 @@ extension ChatMessageType {
         case .Sticker:
             return .Sticker
         }
+    }
+}
+
+// MARK: - Related products for express chat
+
+extension ChatViewModel {
+
+    static let maxRelatedProductsForExpressChat = 4
+
+    private func retrieveRelatedProducts() {
+        guard isBuyer else { return }
+        guard let productId = conversation.value.product?.objectId else { return }
+        productRepository.index(productId: productId, params: RetrieveProductsParams()) { [weak self] result in
+            guard let strongSelf = self else { return }
+            if let value = result.value {
+                strongSelf.relatedProducts = strongSelf.relatedWithoutMyProducts(value)
+            }
+        }
+    }
+
+    private func relatedWithoutMyProducts(products: [Product]) -> [Product] {
+        var cleanRelatedProducts: [Product] = []
+        for product in products {
+            if product.user.objectId != myUserRepository.myUser?.objectId { cleanRelatedProducts.append(product) }
+            if cleanRelatedProducts.count == OldChatViewModel.maxRelatedProductsForExpressChat {
+                return cleanRelatedProducts
+            }
+        }
+        return cleanRelatedProducts
     }
 }
