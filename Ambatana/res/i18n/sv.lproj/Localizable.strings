@@ -63,8 +63,8 @@
 "chat_express_contact_various_button_text" = "Kontakta %@ säljare";
 "chat_express_dont_ask_again_button" = "Fråga mig inte igen";
 "chat_express_dont_miss_label" = "Missa inte dessa fynd";
-"chat_express_one_message_sent_success_alert" = "Your message has been sent!";
-"chat_express_several_messages_sent_success_alert" = "Your messages have been sent!";
+"chat_express_one_message_sent_success_alert" = "Ditt meddelande har skickats!";
+"chat_express_several_messages_sent_success_alert" = "Dina meddelanden har skickats!";
 "chat_express_text_field_text" = "Hallå, jag är intresserad!";
 "chat_list_account_deleted" = "Kontot har avslutats";
 "chat_list_account_deleted_username" = "Inaktiv";
@@ -115,6 +115,11 @@
 "chat_verify_alert_resend_button" = "Återsänd";
 "chat_verify_alert_title" = "Bekräfta din e-postadress för att chatta";
 "chat_with_yourself_alert_msg" = "Du kan inte starta en konversation om din egen produkt.";
+"collection_apple_title" = "An apple a day";
+"collection_explore_button" = "Explore";
+"collection_furniture_title" = "No place like home";
+"collection_gaming_title" = "The game is on";
+"collection_transport_title" = "Travel in style";
 "commercializer_create_from_settings" = "Create a Free Commercial";
 "commercializer_display_share_alert" = "Share this masterpiece";
 "commercializer_display_share_label" = "Share your masterpiece with the world and watch the offers come rolling in";
@@ -334,8 +339,8 @@
 "product_onboarding_finger_tap_label" = "Klicka för att gå till nästa produkt";
 "product_onboarding_show_again_button_title" = "Hur du surfar runt";
 "product_open_commercial_button" = "Commercial";
-"product_option_share" = "Share product";
-"product_option_show_commercial" = "Commercial";
+"product_option_share" = "Dela produkten";
+"product_option_show_commercial" = "Annons";
 "product_popular_near_you" = "Populärt nära dig";
 "product_post_camera_first_time_alert_subtitle" = "Ta en bra bild och börja tjäna pengar!";
 "product_post_camera_first_time_alert_title" = "Vad säljer du?";
@@ -410,8 +415,8 @@
 "product_share_telegram_error" = "Hoppsan! Du verkar inte ha Telegram installerad.";
 "product_share_title_label" = "DELA PRODUKTEN";
 "product_share_whatsapp_error" = "Hoppsan! Det verkar som att du inte har installerat appen WhatsApp.";
-"product_stickers_selection_w_name" = "Select the sticker you want to send to %@.";
-"product_stickers_selection_wo_name" = "Select the sticker you want to send to the seller.";
+"product_stickers_selection_w_name" = "Välj den sticker du vill skicka till %@.";
+"product_stickers_selection_wo_name" = "Välj den sticker du vill skicka till säljaren.";
 "profile_blocked_by_me_label" = "Den här användaren har blockerats av dig";
 "profile_blocked_by_me_label_w_name" = "%@ har blockerats av dig";
 "profile_blocked_by_other_label" = "Denna användare har blockerat dig";

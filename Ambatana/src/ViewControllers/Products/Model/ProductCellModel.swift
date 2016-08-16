@@ -87,3 +87,36 @@ struct BannerData {
     let title: String
     let style: BannerCellStyle = BannerCellStyle.random()
 }
+
+enum CollectionCellStyle: String {
+    case Gaming = "gaming"
+    case Apple = "apple"
+    case Transport = "transport"
+    case Furniture = "furniture"
+
+    var image: UIImage? {
+        switch self {
+        case .Gaming:
+            return UIImage(named: "collection_gaming")
+        case .Apple:
+            return UIImage(named: "collection_apple")
+        case .Transport:
+            return UIImage(named: "collection_transport")
+        case .Furniture:
+            return UIImage(named: "collection_home")
+        }
+    }
+
+    var title: String {
+        switch self {
+        case .Gaming:
+            return LGLocalizedString.collectionGamingTitle
+        case .Apple:
+            return LGLocalizedString.collectionAppleTitle
+        case .Transport:
+            return LGLocalizedString.collectionTransportTitle
+        case .Furniture:
+            return LGLocalizedString.collectionFurnitureTitle
+        }
+    }
+}

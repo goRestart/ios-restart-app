@@ -13,6 +13,7 @@ class CollectionCell: UICollectionViewCell, ReusableCell {
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var title: UILabel!
     @IBOutlet weak var colorView: UIView!
+    @IBOutlet weak var exploreButton: UIButton!
 
     override var highlighted: Bool {
         didSet {

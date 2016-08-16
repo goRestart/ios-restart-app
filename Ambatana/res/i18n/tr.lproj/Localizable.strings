@@ -115,6 +115,11 @@
 "chat_verify_alert_resend_button" = "Tekrar Gönder";
 "chat_verify_alert_title" = "Mesajlaşmak için e-postanı doğrula";
 "chat_with_yourself_alert_msg" = "Sana ait bir ürün hakkında bir sohbet başlatamazsın.";
+"collection_apple_title" = "An apple a day";
+"collection_explore_button" = "Explore";
+"collection_furniture_title" = "No place like home";
+"collection_gaming_title" = "The game is on";
+"collection_transport_title" = "Travel in style";
 "commercializer_create_from_settings" = "Create a Free Commercial";
 "commercializer_display_share_alert" = "Share this masterpiece";
 "commercializer_display_share_label" = "Share your masterpiece with the world and watch the offers come rolling in";
