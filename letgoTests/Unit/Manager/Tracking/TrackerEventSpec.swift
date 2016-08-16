@@ -2155,6 +2155,37 @@ class TrackerEventSpec: QuickSpec {
                     }
                 }
             }
+
+            describe("express chat start") {
+                beforeEach {
+                    sut = TrackerEvent.expressChatStart()
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue) == "express-chat-start"
+                }
+            }
+
+            describe("express chat complete") {
+                beforeEach {
+                    sut = TrackerEvent.expressChatComplete(3)
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue) == "express-chat-complete"
+                }
+                it("contains type-page param") {
+                    let expressConversations = sut.params!.stringKeyParams["express-conversations"] as? Int
+                    expect(expressConversations) == 3
+                }
+            }
+
+            describe("express chat don't ask again") {
+                beforeEach {
+                    sut = TrackerEvent.expressChatDontAsk()
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue) == "express-chat-dont-ask"
+                }
+            }
         }
     }
 }
