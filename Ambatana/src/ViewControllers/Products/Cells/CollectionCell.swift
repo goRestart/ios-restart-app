@@ -23,7 +23,10 @@ class CollectionCell: UICollectionViewCell, ReusableCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
+        //UI setup
         contentView.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
         contentView.clipsToBounds = true
+        exploreButton.setStyle(.Primary(fontSize: .Small))
+        exploreButton.setTitle(LGLocalizedString.collectionExploreButton, forState: .Normal)
     }
 }
