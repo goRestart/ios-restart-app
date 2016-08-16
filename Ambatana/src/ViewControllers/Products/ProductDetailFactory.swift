@@ -10,11 +10,12 @@ import LGCoreKit
 
 class ProductDetailFactory {
     static func productDetailFromProduct(product: Product, thumbnailImage: UIImage? = nil,
-                                         originFrame: CGRect? = nil, tabNavigator: TabNavigator?) -> UIViewController? {
+                                         originFrame: CGRect? = nil, tabNavigator: TabNavigator?,
+                                         source: EventParameterProductVisitSource) -> UIViewController? {
         guard let productId = product.objectId else { return nil }
         let requester = RelatedProductListRequester(productId: productId)
         let vm = ProductCarouselViewModel(product: product, thumbnailImage: thumbnailImage,
-                                          productListRequester: requester, tabNavigator: tabNavigator)
+                                          productListRequester: requester, tabNavigator: tabNavigator, source: source)
         let color = UIColor.placeholderBackgroundColor(product.objectId)
         let animator = ProductCarouselPushAnimator(originFrame: originFrame, originThumbnail: thumbnailImage,
                                                    backgroundColor: color)
@@ -23,26 +24,26 @@ class ProductDetailFactory {
     
     static func productDetailFromChatProduct(product: ChatProduct, user: ChatInterlocutor,
                                              thumbnailImage: UIImage? = nil, originFrame: CGRect? = nil,
-                                             tabNavigator: TabNavigator?) -> UIViewController? {
+                                             tabNavigator: TabNavigator?, source: EventParameterProductVisitSource) -> UIViewController? {
         
         guard let productId = product.objectId else { return nil }
         let requester = RelatedProductListRequester(productId: productId)
 
         let vm = ProductCarouselViewModel(chatProduct: product, chatInterlocutor: user, thumbnailImage: thumbnailImage,
-                                          productListRequester: requester, tabNavigator: tabNavigator)
+                                          productListRequester: requester, tabNavigator: tabNavigator, source: source)
         let animator = ProductCarouselPushAnimator(originFrame: originFrame, originThumbnail: thumbnailImage)
         return ProductCarouselViewController(viewModel: vm, pushAnimator: animator)
     }
     
     static func productDetailFromProductList(productListVM: ProductListViewModel, index: Int,
                                              thumbnailImage: UIImage?, originFrame: CGRect? = nil,
-                                             tabNavigator: TabNavigator?) -> UIViewController? {
+                                             tabNavigator: TabNavigator?, source: EventParameterProductVisitSource) -> UIViewController? {
         let newListVM = ProductListViewModel(listViewModel: productListVM)
         guard let product = productListVM.productAtIndex(index) else { return nil }
         let vm = ProductCarouselViewModel(productListModels: productListVM.objects, initialProduct: product,
                                           thumbnailImage: thumbnailImage, singleProductList: false,
                                           productListRequester: newListVM.productListRequester?.duplicate(),
-                                          tabNavigator: tabNavigator)
+                                          tabNavigator: tabNavigator, source: source)
         let color = UIColor.placeholderBackgroundColor(product.objectId)
         let animator = ProductCarouselPushAnimator(originFrame: originFrame, originThumbnail: thumbnailImage,
                                                    backgroundColor: color)
@@ -51,10 +52,10 @@ class ProductDetailFactory {
 
     static func productDetailFromProductListModels(productListModels: [ProductCellModel], requester: ProductListRequester,
                                                    product: Product, thumbnailImage: UIImage?, originFrame: CGRect? = nil,
-                                                   tabNavigator: TabNavigator?) -> UIViewController? {
+                                                   tabNavigator: TabNavigator?, source: EventParameterProductVisitSource) -> UIViewController? {
         let vm = ProductCarouselViewModel(productListModels: productListModels, initialProduct: product,
                                           thumbnailImage: thumbnailImage, singleProductList: false,
-                                          productListRequester: requester, tabNavigator: tabNavigator)
+                                          productListRequester: requester, tabNavigator: tabNavigator, source: source)
         let color = UIColor.placeholderBackgroundColor(product.objectId)
         let animator = ProductCarouselPushAnimator(originFrame: originFrame, originThumbnail: thumbnailImage,
                                                 backgroundColor: color)

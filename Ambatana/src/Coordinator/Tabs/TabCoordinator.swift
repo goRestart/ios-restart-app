@@ -67,17 +67,18 @@ extension TabCoordinator: TabNavigator {
         }
     }
 
-    func openProduct(data: ProductDetailData) {
+    func openProduct(data: ProductDetailData, source: EventParameterProductVisitSource) {
         switch data {
         case let .Id(productId):
-            openProduct(productId: productId)
+            openProduct(productId: productId, source: source)
         case let .ProductAPI(product, thumbnailImage, originFrame):
-            openProduct(product: product, thumbnailImage: thumbnailImage, originFrame: originFrame)
+            openProduct(product: product, thumbnailImage: thumbnailImage, originFrame: originFrame, source: source)
         case let .ProductList(product, cellModels, requester, thumbnailImage, originFrame, showRelated):
             openProduct(product, cellModels: cellModels, requester: requester,
-                        thumbnailImage: thumbnailImage, originFrame: originFrame, showRelated: showRelated)
+                        thumbnailImage: thumbnailImage, originFrame: originFrame, showRelated: showRelated, source: source)
         case let .ProductChat(chatProduct, user, thumbnailImage, originFrame):
-            openProduct(chatProduct: chatProduct, user: user, thumbnailImage: thumbnailImage, originFrame: originFrame)
+            openProduct(chatProduct: chatProduct, user: user, thumbnailImage: thumbnailImage, originFrame: originFrame,
+                        source: source)
         }
     }
     
@@ -89,12 +90,12 @@ extension TabCoordinator: TabNavigator {
 }
 
 private extension TabCoordinator {
-    func openProduct(productId productId: String) {
+    func openProduct(productId productId: String, source: EventParameterProductVisitSource) {
         navigationController.showLoadingMessageAlert()
         productRepository.retrieve(productId) { [weak self] result in
             if let product = result.value {
                 self?.navigationController.dismissLoadingMessageAlert {
-                    self?.openProduct(product: product)
+                    self?.openProduct(product: product, source: source)
                 }
             } else if let error = result.error {
                 let message: String
@@ -111,25 +112,27 @@ private extension TabCoordinator {
         }
     }
 
-    func openProduct(product product: Product, thumbnailImage: UIImage? = nil, originFrame: CGRect? = nil) {
+    func openProduct(product product: Product, thumbnailImage: UIImage? = nil, originFrame: CGRect? = nil,
+                             source: EventParameterProductVisitSource) {
         guard let vc = ProductDetailFactory.productDetailFromProduct(product, thumbnailImage: thumbnailImage,
                                                                      originFrame: originFrame,
-                                                                     tabNavigator: self) else { return }
+                                                                     tabNavigator: self, source: source) else { return }
         navigationController.pushViewController(vc, animated: true)
     }
 
 
     func openProduct(product: Product, cellModels: [ProductCellModel], requester: ProductListRequester,
-                     thumbnailImage: UIImage?, originFrame: CGRect?, showRelated: Bool) {
+                     thumbnailImage: UIImage?, originFrame: CGRect?, showRelated: Bool,
+                     source: EventParameterProductVisitSource) {
         let vc: UIViewController?
         if showRelated {
             vc = ProductDetailFactory.productDetailFromProduct(product, thumbnailImage: thumbnailImage,
-                                                               originFrame: originFrame, tabNavigator: self)
+                                                               originFrame: originFrame, tabNavigator: self, source: source)
         } else {
             vc = ProductDetailFactory.productDetailFromProductListModels(cellModels, requester: requester,
                                                                          product: product,
                                                                          thumbnailImage: thumbnailImage,
-                                                                         tabNavigator: self)
+                                                                         tabNavigator: self, source: source)
         }
         if let vc = vc {
             navigationController.pushViewController(vc, animated: true)
@@ -137,12 +140,12 @@ private extension TabCoordinator {
     }
 
     func openProduct(chatProduct chatProduct: ChatProduct, user: ChatInterlocutor,
-                                 thumbnailImage: UIImage?, originFrame: CGRect?) {
+                                 thumbnailImage: UIImage?, originFrame: CGRect?, source: EventParameterProductVisitSource) {
         guard let productId = chatProduct.objectId else { return }
         let requester = RelatedProductListRequester(productId: productId)
         let vm = ProductCarouselViewModel(chatProduct: chatProduct, chatInterlocutor: user,
                                           thumbnailImage: thumbnailImage, productListRequester: requester,
-                                          tabNavigator: self)
+                                          tabNavigator: self, source: source)
         let animator = ProductCarouselPushAnimator(originFrame: originFrame, originThumbnail: thumbnailImage)
         let vc = ProductCarouselViewController(viewModel: vm, pushAnimator: animator)
         navigationController.pushViewController(vc, animated: true)

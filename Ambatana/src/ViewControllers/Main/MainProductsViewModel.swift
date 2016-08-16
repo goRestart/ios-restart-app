@@ -398,7 +398,7 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate {
                                                  requester: productListRequester, thumbnailImage: thumbnailImage,
                                                  originFrame: originFrame,
                                                  showRelated: FeatureFlags.showRelatedProducts)
-        tabNavigator?.openProduct(data)
+        tabNavigator?.openProduct(data, source: productVisitSource)
     }
     
     func vmProcessReceivedProductPage(products: [ProductCellModel], page: UInt) -> [ProductCellModel] {
@@ -533,6 +533,32 @@ extension MainProductsViewModel {
 // MARK: - Tracking
 
 private extension MainProductsViewModel {
+
+    var productVisitSource: EventParameterProductVisitSource {
+        if let searchType = searchType {
+            switch searchType {
+            case .Collection:
+                return .Collection
+            case .User, .Trending:
+                if filters.isDefault() {
+                    return .Search
+                } else {
+                    return .SearchAndFilter
+                }
+            }
+        }
+
+        if !filters.isDefault() {
+            if filters.selectedCategories.isEmpty {
+                return .Filter
+            } else {
+                return .Category
+            }
+        }
+
+        return .ProductList
+    }
+
     func trackRequestSuccess(page page: UInt, hasProducts: Bool) {
         guard page == 0 else { return }
         let trackerEvent = TrackerEvent.productList(myUserRepository.myUser,
