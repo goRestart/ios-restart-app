@@ -396,17 +396,28 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate {
         tabNavigator?.openProduct(data)
     }
     
-    func vmProcessReceivedProductPage(products: [ProductCellModel]) -> [ProductCellModel] {
+    func vmProcessReceivedProductPage(products: [ProductCellModel], page: UInt) -> [ProductCellModel] {
         guard products.count > bannerCellPosition else { return products }
-        let bannerData = BannerData(title: LGLocalizedString.productListBannerCellTitle)
-        let banner = ProductCellModel.BannerCell(banner: bannerData)
         var cellModels = products
-        cellModels.insert(banner, atIndex: bannerCellPosition)
+        if productListRequester.countryCode == "US" {
+            let list = CollectionCellType.allValues
+            let collectionType = list[Int(page) % list.count]
+            let collectionModel = ProductCellModel.CollectionCell(type: collectionType)
+            cellModels.insert(collectionModel, atIndex: bannerCellPosition)
+        } else {
+            let bannerData = BannerData(title: LGLocalizedString.productListBannerCellTitle)
+            let banner = ProductCellModel.BannerCell(banner: bannerData)
+            cellModels.insert(banner, atIndex: bannerCellPosition)
+        }
         return cellModels
     }
     
     func vmDidSelectSellBanner(type: String) {
         delegate?.vmOpenSell(type)
+    }
+
+    func vmDidSelectCollection(type: CollectionCellType){
+        //TODO: OPEN SEARCH!!
     }
 }
 

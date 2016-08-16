@@ -790,6 +790,8 @@
 		C7C61DFC1D630ED500F9505D /* CollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C7C61DFA1D630ED500F9505D /* CollectionCell.xib */; };
 		C7C61DFD1D630ED800F9505D /* CollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7C61DF91D630ED500F9505D /* CollectionCell.swift */; };
 		C7C61DFE1D630EDF00F9505D /* CollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C7C61DFA1D630ED500F9505D /* CollectionCell.xib */; };
+		C7C61E001D631F3200F9505D /* ProductCollectionCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7C61DFF1D631F3200F9505D /* ProductCollectionCellDrawer.swift */; };
+		C7C61E011D631F3400F9505D /* ProductCollectionCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7C61DFF1D631F3200F9505D /* ProductCollectionCellDrawer.swift */; };
 		C7CD6D631BE7ADF800A13EC3 /* LGCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7CD6D621BE7ADF800A13EC3 /* LGCoreKit.framework */; };
 		C7DB41811C51239500400945 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 2EE47E591BBEA5B70034C19D /* Settings.bundle */; };
 		C7DB41871C5138B500400945 /* FilterSingleCheckCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77593E71BF0C0290097D62F /* FilterSingleCheckCell.swift */; };
@@ -1523,6 +1525,7 @@
 		C7C328401C907267008078EC /* PostProductGalleryViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostProductGalleryViewModel.swift; sourceTree = "<group>"; };
 		C7C61DF91D630ED500F9505D /* CollectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionCell.swift; sourceTree = "<group>"; };
 		C7C61DFA1D630ED500F9505D /* CollectionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CollectionCell.xib; sourceTree = "<group>"; };
+		C7C61DFF1D631F3200F9505D /* ProductCollectionCellDrawer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductCollectionCellDrawer.swift; sourceTree = "<group>"; };
 		C7CD6D621BE7ADF800A13EC3 /* LGCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LGCoreKit.framework; path = "Pods/../build/Debug-iphoneos/LGCoreKit.framework"; sourceTree = "<group>"; };
 		C7DB417F1C51212900400945 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		C7DB42941C5138B500400945 /* LetGoGodMode.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LetGoGodMode.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -2939,6 +2942,7 @@
 				6ACC24B91D2A5C570064B165 /* GridCellDrawer.swift */,
 				C7B76CF11C1089DF00863512 /* ProductCellDrawer.swift */,
 				6AA8278C1D2BBA400068C39B /* BannerCellDrawer.swift */,
+				C7C61DFF1D631F3200F9505D /* ProductCollectionCellDrawer.swift */,
 				6ACC24C31D2A90400064B165 /* GridDrawerManager.swift */,
 			);
 			path = CellDrawers;
@@ -3917,6 +3921,7 @@
 				6A5E1A081D548F5400F92692 /* LGCollapsibleLabel+Rx.swift in Sources */,
 				5063949C1C8D97520091C831 /* UIAction.swift in Sources */,
 				C731B8721CE218C400F31D46 /* OldChatListViewModel.swift in Sources */,
+				C7C61E001D631F3200F9505D /* ProductCollectionCellDrawer.swift in Sources */,
 				C7B588451CE1DE1C009B3975 /* ChatProductView.swift in Sources */,
 				50D67B9A1D182EE9003AC0A5 /* SellCoordinator.swift in Sources */,
 				C72794421D549342009C25AB /* HelpViewController.swift in Sources */,
@@ -4271,6 +4276,7 @@
 				C731B8731CE218C400F31D46 /* OldChatListViewModel.swift in Sources */,
 				C7B588461CE1DE1C009B3975 /* ChatProductView.swift in Sources */,
 				50D67B9B1D182EE9003AC0A5 /* SellCoordinator.swift in Sources */,
+				C7C61E011D631F3400F9505D /* ProductCollectionCellDrawer.swift in Sources */,
 				C7B588A31CE1E025009B3975 /* ChatGroupedListViewModel.swift in Sources */,
 				C72794431D549342009C25AB /* HelpViewController.swift in Sources */,
 				C7DB41921C5138B500400945 /* FilterSection.swift in Sources */,
