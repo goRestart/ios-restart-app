@@ -792,6 +792,8 @@
 		C7C61DFE1D630EDF00F9505D /* CollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C7C61DFA1D630ED500F9505D /* CollectionCell.xib */; };
 		C7C61E001D631F3200F9505D /* ProductCollectionCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7C61DFF1D631F3200F9505D /* ProductCollectionCellDrawer.swift */; };
 		C7C61E011D631F3400F9505D /* ProductCollectionCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7C61DFF1D631F3200F9505D /* ProductCollectionCellDrawer.swift */; };
+		C7C61E041D633FDB00F9505D /* SearchType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7C61E031D633FDB00F9505D /* SearchType.swift */; };
+		C7C61E051D633FDB00F9505D /* SearchType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7C61E031D633FDB00F9505D /* SearchType.swift */; };
 		C7CD6D631BE7ADF800A13EC3 /* LGCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7CD6D621BE7ADF800A13EC3 /* LGCoreKit.framework */; };
 		C7DB41811C51239500400945 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 2EE47E591BBEA5B70034C19D /* Settings.bundle */; };
 		C7DB41871C5138B500400945 /* FilterSingleCheckCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77593E71BF0C0290097D62F /* FilterSingleCheckCell.swift */; };
@@ -1526,6 +1528,7 @@
 		C7C61DF91D630ED500F9505D /* CollectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionCell.swift; sourceTree = "<group>"; };
 		C7C61DFA1D630ED500F9505D /* CollectionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CollectionCell.xib; sourceTree = "<group>"; };
 		C7C61DFF1D631F3200F9505D /* ProductCollectionCellDrawer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductCollectionCellDrawer.swift; sourceTree = "<group>"; };
+		C7C61E031D633FDB00F9505D /* SearchType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchType.swift; sourceTree = "<group>"; };
 		C7CD6D621BE7ADF800A13EC3 /* LGCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LGCoreKit.framework; path = "Pods/../build/Debug-iphoneos/LGCoreKit.framework"; sourceTree = "<group>"; };
 		C7DB417F1C51212900400945 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		C7DB42941C5138B500400945 /* LetGoGodMode.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LetGoGodMode.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -2948,6 +2951,14 @@
 			path = CellDrawers;
 			sourceTree = "<group>";
 		};
+		C7C61E021D633FCD00F9505D /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				C7C61E031D633FDB00F9505D /* SearchType.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		C7DB417E1C5120AC00400945 /* development */ = {
 			isa = PBXGroup;
 			children = (
@@ -3135,6 +3146,7 @@
 		D4BFE5AC1B640C13006A8CB6 /* Main */ = {
 			isa = PBXGroup;
 			children = (
+				C7C61E021D633FCD00F9505D /* Model */,
 				C73C16381D06C19200DFC67D /* Trending */,
 				C7132A461BF4F56D0000747A /* Tags */,
 				D4BFE5AF1B640C36006A8CB6 /* MainProductsViewController.swift */,
@@ -4117,6 +4129,7 @@
 				6A5E19FC1D548F5400F92692 /* LetgoURLHelper.swift in Sources */,
 				C7111EF91CA43822000C5C5A /* DeepLinksRouter.swift in Sources */,
 				50E0E84B1D40B11600A6397C /* UserViewHeaderContainer.swift in Sources */,
+				C7C61E041D633FDB00F9505D /* SearchType.swift in Sources */,
 				50E8A08B1B79F8D800DE49CC /* ContactSubject.swift in Sources */,
 				6A672C161CCFB76E00AB9175 /* UIFont+LG.swift in Sources */,
 				2E245C5E1C11A88B00A3969B /* PushPermissionsManager.swift in Sources */,
@@ -4472,6 +4485,7 @@
 				C7DB42031C5138B500400945 /* MainSignUpViewController.swift in Sources */,
 				C7DB42041C5138B500400945 /* ContactSubject.swift in Sources */,
 				50E0E84C1D40B11600A6397C /* UserViewHeaderContainer.swift in Sources */,
+				C7C61E051D633FDB00F9505D /* SearchType.swift in Sources */,
 				C7111EFA1CA43822000C5C5A /* DeepLinksRouter.swift in Sources */,
 				C7DB42051C5138B500400945 /* PushPermissionsManager.swift in Sources */,
 				C727943D1D549342009C25AB /* ChangeUsernameViewController.swift in Sources */,

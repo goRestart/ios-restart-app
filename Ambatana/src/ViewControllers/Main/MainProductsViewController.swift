@@ -215,8 +215,19 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     
     
     // MARK: UITextFieldDelegate Methods
+
+    func textFieldShouldClear(textField: UITextField) -> Bool {
+        if viewModel.clearTextOnSearch {
+            textField.text = viewModel.searchString
+            return false
+        }
+        return true
+    }
     
     dynamic func textFieldDidBeginEditing(textField: UITextField) {
+        if viewModel.clearTextOnSearch {
+            textField.text = nil
+        }
         beginEdit()
     }
     
