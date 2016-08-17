@@ -31,21 +31,26 @@ class PostProductDetailPriceView: BaseView {
     init(viewModel: PostProductDetailViewModel, frame: CGRect) {
         self.viewModel = viewModel
         super.init(viewModel: viewModel, frame: frame)
-        setupUI()
+        setup()
     }
 
     init?(viewModel: PostProductDetailViewModel, coder aDecoder: NSCoder) {
         self.viewModel = viewModel
         super.init(viewModel: viewModel, coder: aDecoder)
-        setupUI()
+        setup()
     }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    private func setupUI() {
+    private func setup() {
         loadNibNamed("PostProductDetailPriceView", contentView: { [weak self] in return self?.contentView })
+        setupUI()
+        setupRx()
+    }
+
+    private func setupUI() {
 
         //i18n
         infoLabel.text = LGLocalizedString.productPostPriceLabel.uppercase

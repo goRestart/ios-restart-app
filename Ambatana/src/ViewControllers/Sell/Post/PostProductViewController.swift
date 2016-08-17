@@ -8,6 +8,7 @@
 
 import UIKit
 import FastttCamera
+import RxSwift
 
 class PostProductViewController: BaseViewController, PostProductViewModelDelegate {
     @IBOutlet weak var cameraGalleryContainer: UIView!
@@ -27,6 +28,7 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
     private var viewPager: LGViewPager
     private var cameraView: PostProductCameraView
     private var galleryView: PostProductGalleryView
+    private let keyboardHelper: KeyboardHelper
     private var viewDidAppear: Bool = false
 
     private let forceCamera: Bool
@@ -34,6 +36,8 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
         if forceCamera { return 1 }
         return KeyValueStorage.sharedInstance.userPostProductLastTabSelected
     }
+
+    private let disposeBag = DisposeBag()
 
 
     // ViewModel
@@ -46,11 +50,16 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
         self.init(viewModel: PostProductViewModel(source: .SellButton), forceCamera: forceCamera)
     }
 
-    required init(viewModel: PostProductViewModel, forceCamera: Bool) {
+    convenience init(viewModel: PostProductViewModel, forceCamera: Bool) {
+        self.init(viewModel: viewModel, forceCamera: forceCamera, keyboardHelper: KeyboardHelper.sharedInstance)
+    }
+
+    required init(viewModel: PostProductViewModel, forceCamera: Bool, keyboardHelper: KeyboardHelper) {
         let viewPagerConfig = LGViewPagerConfig(tabPosition: .Hidden, tabLayout: .Fixed, tabHeight: 54)
         self.viewPager = LGViewPager(config: viewPagerConfig, frame: CGRect.zero)
         self.cameraView = PostProductCameraView()
         self.galleryView = PostProductGalleryView()
+        self.keyboardHelper = keyboardHelper
         self.viewModel = viewModel
         self.forceCamera = forceCamera
         self.productDetailView = PostProductDetailPriceView(viewModel: viewModel.postDetailViewModel)
@@ -64,20 +73,12 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
         fatalError("init(coder:) has not been implemented")
     }
     
-    deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(PostProductViewController.keyboardWillShow(_:)),
-            name: UIKeyboardWillShowNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(PostProductViewController.keyboardWillHide(_:)),
-            name: UIKeyboardWillHideNotification, object: nil)
-
         viewModel.onViewLoaded()
         setupView()
+        setupRx()
     }
 
     override func viewDidLayoutSubviews() {
@@ -137,7 +138,7 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
     // MARK: - PostProductViewModelDelegate
 
     func postProductViewModelDidRestartTakingImage(viewModel: PostProductViewModel) {
-        selectPriceContainer.hidden = true
+        setSelectImageState()
     }
 
     func postProductViewModelDidStartUploadingImage(viewModel: PostProductViewModel) {
@@ -174,16 +175,15 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
 
         setupViewPager()
 
-        //i18n
-        retryButton.setTitle(LGLocalizedString.commonErrorListRetryButton, forState: UIControlState.Normal)
-
-        //Layers
-        retryButton.setStyle(.Primary(fontSize: .Medium))
-
         setupDetailView()
+
+        setSelectImageState()
     }
 
     private func setupDetailView() {
+        retryButton.setTitle(LGLocalizedString.commonErrorListRetryButton, forState: UIControlState.Normal)
+        retryButton.setStyle(.Primary(fontSize: .Medium))
+
         productDetailView.translatesAutoresizingMaskIntoConstraints = false
         detailsContainer.addSubview(productDetailView)
         productDetailView.alpha = 0
@@ -199,14 +199,36 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
         detailsContainer.addConstraints([top, left, right, bottom])
     }
 
+    private func setupRx() {
+        keyboardHelper.rx_keyboardOrigin.asObservable().bindNext { [weak self] origin in
+            guard let scrollView = self?.detailsScroll/*, var buttonRect = self?.publishButton.frame,
+                let topHeight = self?.topBarHeight*/ else { return }
+            guard origin > 0 else { return }
+            scrollView.contentInset.bottom = scrollView.height - origin
+//            buttonRect.bottom = buttonRect.bottom + RateUserViewController.sendButtonMargin
+//            scrollView.scrollRectToVisible(buttonRect, animated: false)
+        }.addDisposableTo(disposeBag)
+    }
+
     private func updateButtonsForPagerScroll(scroll: CGFloat) {
         galleryButton.alpha = scroll
 
         let movement = (view.width/2) * (1.0 - scroll)
         photoButtonCenterX.constant = movement
     }
+}
+
+
+// MARK: - State selection
+
+extension PostProductViewController {
+    private func setSelectImageState() {
+        selectPriceContainer.hidden = true
+    }
 
     private func setSelectPriceState(loading loading: Bool, error: String?) {
+        detailsScroll.contentInset.top = (view.height / 3) - customLoadingView.height
+
         selectPriceContainer.hidden = false
         let hasError = error != nil
 
@@ -232,12 +254,12 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
             setSelectPriceBottomItems(loading, error: error)
         } else {
             UIView.animateWithDuration(0.2,
-                animations: { [weak self] in
-                    self?.postedInfoLabel.alpha = 1
+                                       animations: { [weak self] in
+                                        self?.postedInfoLabel.alpha = 1
                 },
-                completion: { [weak self] completed in
-                    self?.postedInfoLabel.alpha = 1
-                    self?.setSelectPriceBottomItems(loading, error: error)
+                                       completion: { [weak self] completed in
+                                        self?.postedInfoLabel.alpha = 1
+                                        self?.setSelectPriceBottomItems(loading, error: error)
                 }
             )
         }
@@ -257,10 +279,11 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
             strongSelf.productDetailView.alpha = okItemsAlpha
             strongSelf.postErrorLabel.alpha = wrongItemsAlpha
             strongSelf.retryButton.alpha = wrongItemsAlpha
+            strongSelf.detailsScroll.contentInset.top = 0
         }
         UIView.animateWithDuration(0.2, delay: 0.8, options: UIViewAnimationOptions(),
-            animations: { () -> Void in
-                finalAlphaBlock()
+                                   animations: { () -> Void in
+                                    finalAlphaBlock()
             }, completion: { [weak self] (completed: Bool) -> Void in
                 finalAlphaBlock()
 
@@ -399,28 +422,5 @@ extension PostProductViewController: LGViewPagerDataSource, LGViewPagerDelegate,
         titleAttributes[NSForegroundColorAttributeName] = selected ? UIColor.primaryColor : UIColor.white
         titleAttributes[NSFontAttributeName] = selected ? UIFont.activeTabFont : UIFont.inactiveTabFont
         return titleAttributes
-    }
-}
-
-
-// MARK: - Keyboard notifications
-
-extension PostProductViewController {
-    
-    func keyboardWillShow(notification: NSNotification) {
-        centerPriceContentContainer(notification)
-    }
-    
-    func keyboardWillHide(notification: NSNotification) {
-        centerPriceContentContainer(notification)
-    }
-    
-    func centerPriceContentContainer(keyboardNotification: NSNotification) {
-//        let kbAnimation = KeyboardAnimation(keyboardNotification: keyboardNotification)
-//        UIView.animateWithDuration(kbAnimation.duration, delay: 0, options: kbAnimation.options, animations: {
-//            [weak self] in
-//            self?.selectPriceContentContainerCenterY.constant = -(kbAnimation.size.height/2)
-//            self?.selectPriceContainer.layoutIfNeeded()
-//        }, completion: nil)
     }
 }
