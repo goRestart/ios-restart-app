@@ -36,7 +36,6 @@ class PostProductDetailFullView: BaseView {
 
 
     private func setupUI() {
-        loadNibNamed("PostProductDetailFullView", contentView: contentView)
-
+        loadNibNamed("PostProductDetailFullView", contentView: { [weak self] in return self?.contentView })
     }
 }

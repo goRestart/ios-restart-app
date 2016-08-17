@@ -64,8 +64,9 @@ public class BaseView: UIView {
 
     // MARK: - Helper methods
 
-    func loadNibNamed(nibName: String, contentView view: UIView) {
+    func loadNibNamed(nibName: String, contentView: () -> UIView?) {
         NSBundle.mainBundle().loadNibNamed(nibName, owner: self, options: nil)
+        guard let view = contentView() else { return }
         view.frame = bounds
         view.autoresizingMask = [.FlexibleHeight, .FlexibleWidth]
         addSubview(view)

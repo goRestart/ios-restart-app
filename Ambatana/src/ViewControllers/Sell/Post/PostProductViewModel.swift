@@ -64,6 +64,8 @@ class PostProductViewModel: BaseViewModel {
         return currencyHelper.currencyWithCountryCode(countryCode)
     }
 
+    let postDetailViewModel: PostProductDetailViewModel
+
     private let postingSource: PostingSource
     private let productRepository: ProductRepository
     private let fileRepository: FileRepository
@@ -98,7 +100,9 @@ class PostProductViewModel: BaseViewModel {
         self.commercializerRepository = commercializerRepository
         self.locationManager = locationManager
         self.currencyHelper = currencyHelper
+        self.postDetailViewModel = PostProductDetailViewModel()
         super.init()
+        self.postDetailViewModel.delegate = self
     }
 
 
@@ -197,6 +201,16 @@ private extension PostProductViewModel {
         let priceText = priceText ?? "0"
         let price = priceText.toPriceDouble()
         return productRepository.buildNewProduct(price: price)
+    }
+}
+
+
+// MARK: - PostProductDetailViewModelDelegate
+
+extension PostProductViewModel: PostProductDetailViewModelDelegate {
+    func postProductDetailDone(viewModel: PostProductDetailViewModel) {
+        //TODO IMPLEMENT more options
+        doneButtonPressed(priceText: viewModel.price.value)
     }
 }
 

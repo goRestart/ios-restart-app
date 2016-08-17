@@ -8,6 +8,11 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PostProductDetailPriceView" customModule="LetGo" customModuleProvider="target">
             <connections>
                 <outlet property="contentView" destination="iN0-l3-epB" id="IMh-1d-BKT"/>
+                <outlet property="currencyButton" destination="TeP-lm-38L" id="sJk-RP-8MS"/>
+                <outlet property="doneButton" destination="C1C-GM-OzP" id="EeF-EV-IUu"/>
+                <outlet property="infoLabel" destination="7Ir-zf-L1v" id="MVx-Uz-B06"/>
+                <outlet property="priceFieldContainer" destination="rsd-m5-22o" id="c9E-8d-n1p"/>
+                <outlet property="priceTextField" destination="Ks4-8m-Kvp" id="AyW-ug-EGC"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -15,13 +20,13 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="160"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_WANT TO ADD A PRICE?" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Ir-zf-L1v" userLabel="addPriceLabel">
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_WANT TO ADD A PRICE?" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Ir-zf-L1v" userLabel="addPriceLabel">
                     <rect key="frame" x="15" y="15" width="345" height="26"/>
                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <view clipsSubviews="YES" alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rsd-m5-22o" userLabel="priceFieldContainer">
+                <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rsd-m5-22o" userLabel="priceFieldContainer">
                     <rect key="frame" x="103" y="48" width="170" height="44"/>
                     <subviews>
                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="249" horizontalCompressionResistancePriority="751" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="_Negotiable" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Ks4-8m-Kvp">
@@ -30,6 +35,9 @@
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
+                            <connections>
+                                <outlet property="delegate" destination="-1" id="vMF-FA-kcV"/>
+                            </connections>
                         </textField>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TeP-lm-38L">
                             <rect key="frame" x="140" y="0.0" width="30" height="44"/>
@@ -52,8 +60,8 @@
                         <constraint firstItem="Ks4-8m-Kvp" firstAttribute="top" secondItem="rsd-m5-22o" secondAttribute="top" constant="4" id="yLa-db-JE5"/>
                     </constraints>
                 </view>
-                <button opaque="NO" clipsSubviews="YES" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="C1C-GM-OzP" userLabel="doneButton">
-                    <rect key="frame" x="163" y="101" width="50" height="44"/>
+                <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="C1C-GM-OzP" userLabel="doneButton">
+                    <rect key="frame" x="103" y="101" width="170" height="44"/>
                     <color key="backgroundColor" red="1" green="0.24705882370000001" blue="0.33333334329999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="44" id="66S-Eb-ZZx"/>
@@ -64,9 +72,10 @@
                     </state>
                 </button>
             </subviews>
-            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstAttribute="bottom" secondItem="C1C-GM-OzP" secondAttribute="bottom" constant="15" id="HOr-Nk-Xwi"/>
+                <constraint firstItem="C1C-GM-OzP" firstAttribute="leading" relation="lessThanOrEqual" secondItem="rsd-m5-22o" secondAttribute="leading" id="Neu-19-oue"/>
                 <constraint firstAttribute="trailing" secondItem="7Ir-zf-L1v" secondAttribute="trailing" constant="15" id="NnQ-Iw-N5Z"/>
                 <constraint firstItem="C1C-GM-OzP" firstAttribute="top" secondItem="rsd-m5-22o" secondAttribute="bottom" constant="9" id="UCd-b0-cUu"/>
                 <constraint firstItem="rsd-m5-22o" firstAttribute="top" secondItem="7Ir-zf-L1v" secondAttribute="bottom" constant="7" id="Vao-4x-Zh0"/>
@@ -74,6 +83,7 @@
                 <constraint firstItem="7Ir-zf-L1v" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="15" id="o3C-Bg-K1Q"/>
                 <constraint firstItem="7Ir-zf-L1v" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="15" id="uWg-C1-Nsx"/>
                 <constraint firstItem="C1C-GM-OzP" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="yL0-KB-oto"/>
+                <constraint firstItem="C1C-GM-OzP" firstAttribute="trailing" relation="lessThanOrEqual" secondItem="rsd-m5-22o" secondAttribute="trailing" id="zy6-5O-CpB"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>

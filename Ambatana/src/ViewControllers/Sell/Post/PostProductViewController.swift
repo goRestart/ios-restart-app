@@ -9,23 +9,20 @@
 import UIKit
 import FastttCamera
 
-class PostProductViewController: BaseViewController, PostProductViewModelDelegate, UITextFieldDelegate {
+class PostProductViewController: BaseViewController, PostProductViewModelDelegate {
     @IBOutlet weak var cameraGalleryContainer: UIView!
     @IBOutlet weak var galleryButton: UIButton!
     @IBOutlet weak var photoButton: UIButton!
     @IBOutlet weak var photoButtonCenterX: NSLayoutConstraint!
 
     @IBOutlet weak var selectPriceContainer: UIView!
-    @IBOutlet weak var selectPriceContentContainerCenterY: NSLayoutConstraint!
     @IBOutlet weak var customLoadingView: LoadingIndicator!
     @IBOutlet weak var postedInfoLabel: UILabel!
-    @IBOutlet weak var addPriceLabel: UILabel!
-    @IBOutlet weak var priceFieldContainer: UIView!
-    @IBOutlet weak var priceTextField: UITextField!
-    @IBOutlet weak var currencyButton: UIButton!
-    @IBOutlet weak var doneButton: UIButton!
+    @IBOutlet weak var detailsScroll: UIScrollView!
+    @IBOutlet weak var detailsContainer: UIView!
     @IBOutlet weak var postErrorLabel: UILabel!
     @IBOutlet weak var retryButton: UIButton!
+    private var productDetailView: UIView
 
     private var viewPager: LGViewPager
     private var cameraView: PostProductCameraView
@@ -56,6 +53,7 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
         self.galleryView = PostProductGalleryView()
         self.viewModel = viewModel
         self.forceCamera = forceCamera
+        self.productDetailView = PostProductDetailPriceView(viewModel: viewModel.postDetailViewModel)
         super.init(viewModel: viewModel, nibName: "PostProductViewController",
                    statusBarStyle: UIApplication.sharedApplication().statusBarStyle)
         modalPresentationStyle = .OverCurrentContext
@@ -114,7 +112,7 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
     // MARK: - Actions
     
     @IBAction func onCloseButton(sender: AnyObject) {
-        priceTextField.resignFirstResponder()
+        productDetailView.resignFirstResponder()
         viewModel.closeButtonPressed()
     }
 
@@ -129,16 +127,6 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
         } else {
             viewPager.selectTabAtIndex(1, animated: true)
         }
-    }
-
-    @IBAction func onCurrencyButton(sender: AnyObject) {
-        //Not implemented right now
-    }
-
-    @IBAction func onDoneButton(sender: AnyObject) {
-        priceTextField.resignFirstResponder()
-
-        viewModel.doneButtonPressed(priceText: priceTextField.text)
     }
 
     @IBAction func onRetryButton(sender: AnyObject) {
@@ -174,15 +162,6 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
     }
 
 
-    // MARK: - UITextFieldDelegate
-
-    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange,
-        replacementString string: String) -> Bool {
-            guard textField == priceTextField else { return true }
-            return textField.shouldChangePriceInRange(range, replacementString: string)
-    }
-
-
     // MARK: - Private methods
 
     private func setupView() {
@@ -196,20 +175,28 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
         setupViewPager()
 
         //i18n
-        addPriceLabel.text = LGLocalizedString.productPostPriceLabel.uppercase
-        priceTextField.attributedPlaceholder = NSAttributedString(string: LGLocalizedString.productNegotiablePrice,
-            attributes: [NSForegroundColorAttributeName: UIColor.whiteColor()])
-        doneButton.setTitle(LGLocalizedString.productPostDone, forState: UIControlState.Normal)
         retryButton.setTitle(LGLocalizedString.commonErrorListRetryButton, forState: UIControlState.Normal)
 
         //Layers
         retryButton.setStyle(.Primary(fontSize: .Medium))
-        doneButton.setStyle(.Primary(fontSize: .Medium))
-        priceFieldContainer.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
-        priceFieldContainer.layer.borderColor = UIColor.whiteColor().CGColor
-        priceFieldContainer.layer.borderWidth = 1
 
-        currencyButton.setTitle(viewModel.currency?.symbol, forState: UIControlState.Normal)
+        setupDetailView()
+    }
+
+    private func setupDetailView() {
+        productDetailView.translatesAutoresizingMaskIntoConstraints = false
+        detailsContainer.addSubview(productDetailView)
+        productDetailView.alpha = 0
+
+        let top = NSLayoutConstraint(item: productDetailView, attribute: .Top, relatedBy: .Equal,
+                                     toItem: postedInfoLabel, attribute: .Bottom, multiplier: 1.0, constant: 15)
+        let left = NSLayoutConstraint(item: productDetailView, attribute: .Left, relatedBy: .Equal,
+                                      toItem: detailsContainer, attribute: .Left, multiplier: 1.0, constant: 0)
+        let right = NSLayoutConstraint(item: productDetailView, attribute: .Right, relatedBy: .Equal,
+                                       toItem: detailsContainer, attribute: .Right, multiplier: 1.0, constant: 0)
+        let bottom = NSLayoutConstraint(item: productDetailView, attribute: .Bottom, relatedBy: .Equal,
+                                        toItem: detailsContainer, attribute: .Bottom, multiplier: 1.0, constant: 0)
+        detailsContainer.addConstraints([top, left, right, bottom])
     }
 
     private func updateButtonsForPagerScroll(scroll: CGFloat) {
@@ -257,9 +244,7 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
     }
 
     private func setSelectPriceBottomItems(loading: Bool, error: String?) {
-        addPriceLabel.alpha = 0
-        priceFieldContainer.alpha = 0
-        doneButton.alpha = 0
+        productDetailView.alpha = 0
         postErrorLabel.alpha = 0
         retryButton.alpha = 0
 
@@ -269,9 +254,7 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
         let wrongItemsAlpha: CGFloat = error == nil ? 0 : 1
         let finalAlphaBlock = { [weak self] in
             guard let strongSelf = self else { return }
-            strongSelf.addPriceLabel.alpha = okItemsAlpha
-            strongSelf.priceFieldContainer.alpha = okItemsAlpha
-            strongSelf.doneButton.alpha = okItemsAlpha
+            strongSelf.productDetailView.alpha = okItemsAlpha
             strongSelf.postErrorLabel.alpha = wrongItemsAlpha
             strongSelf.retryButton.alpha = wrongItemsAlpha
         }
@@ -282,9 +265,9 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
                 finalAlphaBlock()
 
                 if okItemsAlpha == 1 {
-                    self?.priceTextField.becomeFirstResponder()
+                    self?.productDetailView.becomeFirstResponder()
                 } else {
-                    self?.priceTextField.resignFirstResponder()
+                    self?.productDetailView.resignFirstResponder()
                 }
             }
         )
@@ -433,11 +416,11 @@ extension PostProductViewController {
     }
     
     func centerPriceContentContainer(keyboardNotification: NSNotification) {
-        let kbAnimation = KeyboardAnimation(keyboardNotification: keyboardNotification)
-        UIView.animateWithDuration(kbAnimation.duration, delay: 0, options: kbAnimation.options, animations: {
-            [weak self] in
-            self?.selectPriceContentContainerCenterY.constant = -(kbAnimation.size.height/2)
-            self?.selectPriceContainer.layoutIfNeeded()
-        }, completion: nil)
+//        let kbAnimation = KeyboardAnimation(keyboardNotification: keyboardNotification)
+//        UIView.animateWithDuration(kbAnimation.duration, delay: 0, options: kbAnimation.options, animations: {
+//            [weak self] in
+//            self?.selectPriceContentContainerCenterY.constant = -(kbAnimation.size.height/2)
+//            self?.selectPriceContainer.layoutIfNeeded()
+//        }, completion: nil)
     }
 }
