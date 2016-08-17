@@ -589,6 +589,16 @@
 		C73C163C1D06C1B500DFC67D /* TrendingSearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73C16391D06C1B500DFC67D /* TrendingSearchCell.swift */; };
 		C73C163D1D06C1B500DFC67D /* TrendingSearchCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C73C163A1D06C1B500DFC67D /* TrendingSearchCell.xib */; };
 		C73C163E1D06C1B500DFC67D /* TrendingSearchCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C73C163A1D06C1B500DFC67D /* TrendingSearchCell.xib */; };
+		C74016D91D6467C9004C1E9D /* PostProductDetailPriceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74016D81D6467C9004C1E9D /* PostProductDetailPriceView.swift */; };
+		C74016DA1D6467C9004C1E9D /* PostProductDetailPriceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74016D81D6467C9004C1E9D /* PostProductDetailPriceView.swift */; };
+		C74016DC1D6467DB004C1E9D /* PostProductDetailPriceView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C74016DB1D6467DB004C1E9D /* PostProductDetailPriceView.xib */; };
+		C74016DD1D6467DB004C1E9D /* PostProductDetailPriceView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C74016DB1D6467DB004C1E9D /* PostProductDetailPriceView.xib */; };
+		C74016DF1D6468A7004C1E9D /* PostProductDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74016DE1D6468A7004C1E9D /* PostProductDetailViewModel.swift */; };
+		C74016E01D6468A7004C1E9D /* PostProductDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74016DE1D6468A7004C1E9D /* PostProductDetailViewModel.swift */; };
+		C74016E21D64698C004C1E9D /* PostProductDetailStepsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74016E11D64698C004C1E9D /* PostProductDetailStepsView.swift */; };
+		C74016E31D64698C004C1E9D /* PostProductDetailStepsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74016E11D64698C004C1E9D /* PostProductDetailStepsView.swift */; };
+		C74016E51D6469B1004C1E9D /* PostProductDetailFullView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74016E41D6469B1004C1E9D /* PostProductDetailFullView.swift */; };
+		C74016E61D6469B1004C1E9D /* PostProductDetailFullView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74016E41D6469B1004C1E9D /* PostProductDetailFullView.swift */; };
 		C74234061D59EC680082D1CD /* LocalMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74234051D59EC680082D1CD /* LocalMessage.swift */; };
 		C74234071D5A01440082D1CD /* LocalMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74234051D59EC680082D1CD /* LocalMessage.swift */; };
 		C74234091D5A028B0082D1CD /* ProductVMTrackHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74234081D5A028B0082D1CD /* ProductVMTrackHelper.swift */; };
@@ -1408,6 +1418,11 @@
 		C739D9491CDC9A2A000F8BA9 /* WelcomeNotificationCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WelcomeNotificationCell.xib; sourceTree = "<group>"; };
 		C73C16391D06C1B500DFC67D /* TrendingSearchCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrendingSearchCell.swift; sourceTree = "<group>"; };
 		C73C163A1D06C1B500DFC67D /* TrendingSearchCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TrendingSearchCell.xib; sourceTree = "<group>"; };
+		C74016D81D6467C9004C1E9D /* PostProductDetailPriceView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostProductDetailPriceView.swift; sourceTree = "<group>"; };
+		C74016DB1D6467DB004C1E9D /* PostProductDetailPriceView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PostProductDetailPriceView.xib; sourceTree = "<group>"; };
+		C74016DE1D6468A7004C1E9D /* PostProductDetailViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostProductDetailViewModel.swift; sourceTree = "<group>"; };
+		C74016E11D64698C004C1E9D /* PostProductDetailStepsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostProductDetailStepsView.swift; sourceTree = "<group>"; };
+		C74016E41D6469B1004C1E9D /* PostProductDetailFullView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostProductDetailFullView.swift; sourceTree = "<group>"; };
 		C74234051D59EC680082D1CD /* LocalMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalMessage.swift; sourceTree = "<group>"; };
 		C74234081D5A028B0082D1CD /* ProductVMTrackHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductVMTrackHelper.swift; sourceTree = "<group>"; };
 		C742340B1D5A132D0082D1CD /* UITableView+Changes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITableView+Changes.swift"; sourceTree = "<group>"; };
@@ -2704,6 +2719,18 @@
 			path = Trending;
 			sourceTree = "<group>";
 		};
+		C74016D71D646793004C1E9D /* PostDetails */ = {
+			isa = PBXGroup;
+			children = (
+				C74016DE1D6468A7004C1E9D /* PostProductDetailViewModel.swift */,
+				C74016D81D6467C9004C1E9D /* PostProductDetailPriceView.swift */,
+				C74016DB1D6467DB004C1E9D /* PostProductDetailPriceView.xib */,
+				C74016E11D64698C004C1E9D /* PostProductDetailStepsView.swift */,
+				C74016E41D6469B1004C1E9D /* PostProductDetailFullView.swift */,
+			);
+			path = PostDetails;
+			sourceTree = "<group>";
+		};
 		C749316B1D34FCE100E117F1 /* Ratings */ = {
 			isa = PBXGroup;
 			children = (
@@ -2947,6 +2974,7 @@
 		C7DE8AA61C8886FE005CF37E /* Post */ = {
 			isa = PBXGroup;
 			children = (
+				C74016D71D646793004C1E9D /* PostDetails */,
 				C7F18A9C1C89D5FB00D23319 /* cells */,
 				C7F4CBA21C9181A5008E40D6 /* PostProductCameraViewModel.swift */,
 				C7DE8AD51C88929A005CF37E /* PostProductCameraView.swift */,
@@ -3440,6 +3468,7 @@
 				C7B588471CE1DE1C009B3975 /* ChatProductView.xib in Resources */,
 				2E97169F1D59E958009B3A32 /* ExpressChatViewController.xib in Resources */,
 				2E2C7B301C859F0C00F46E8F /* PromoteProductViewController.xib in Resources */,
+				C74016DC1D6467DB004C1E9D /* PostProductDetailPriceView.xib in Resources */,
 				5080111F1D474ED80073F362 /* Icons-Launchers.xcassets in Resources */,
 				C708C8471CDB60B200AA87B3 /* AppRatingBannerCell.xib in Resources */,
 				5080111B1D474ED80073F362 /* Errors.xcassets in Resources */,
@@ -3558,6 +3587,7 @@
 				C7DB427C1C5138B500400945 /* RememberPasswordViewController.xib in Resources */,
 				C7B588481CE1DE1C009B3975 /* ChatProductView.xib in Resources */,
 				2E2C7B311C859F0C00F46E8F /* PromoteProductViewController.xib in Resources */,
+				C74016DD1D6467DB004C1E9D /* PostProductDetailPriceView.xib in Resources */,
 				508011201D474ED80073F362 /* Icons-Launchers.xcassets in Resources */,
 				C708C8481CDB60B200AA87B3 /* AppRatingBannerCell.xib in Resources */,
 				5080111C1D474ED80073F362 /* Errors.xcassets in Resources */,
@@ -3949,6 +3979,7 @@
 				50146BC21D4F5F5B00B0F635 /* TabCoordinator.swift in Sources */,
 				2EF4E3B21D3688AB00A09DFD /* LGConfigDAO.swift in Sources */,
 				6AA32F3A1CA29CC4003A1677 /* AdminViewController.swift in Sources */,
+				C74016E51D6469B1004C1E9D /* PostProductDetailFullView.swift in Sources */,
 				C7DCFEC41C03625E00F7A4FB /* ProductTimeCriteria+LG.swift in Sources */,
 				6A879DA81C8DD2BD00E0C868 /* PushPrePermissionsSettingsViewModel.swift in Sources */,
 				2E3047F21CA408D00099C0BC /* CommercialDisplayViewModel.swift in Sources */,
@@ -3967,6 +3998,7 @@
 				6A40A3D21C0DE6B700C551B3 /* MediaPickerManager.swift in Sources */,
 				6A610CBA1CB4079500736DA0 /* CreateCommercialProductCell.swift in Sources */,
 				C7111F021CA438AC000C5C5A /* UniversalLink.swift in Sources */,
+				C74016E21D64698C004C1E9D /* PostProductDetailStepsView.swift in Sources */,
 				C72794281D549334009C25AB /* SettingsCell.swift in Sources */,
 				50F681F21C8F4586001F33A3 /* RxPaginable.swift in Sources */,
 				C75B5DBB1D59E09500112368 /* ProductCarouselMoreInfoViewController.swift in Sources */,
@@ -4103,6 +4135,7 @@
 				50E0E84B1D40B11600A6397C /* UserViewHeaderContainer.swift in Sources */,
 				50E8A08B1B79F8D800DE49CC /* ContactSubject.swift in Sources */,
 				6A672C161CCFB76E00AB9175 /* UIFont+LG.swift in Sources */,
+				C74016DF1D6468A7004C1E9D /* PostProductDetailViewModel.swift in Sources */,
 				2E245C5E1C11A88B00A3969B /* PushPermissionsManager.swift in Sources */,
 				C727943C1D549342009C25AB /* ChangeUsernameViewController.swift in Sources */,
 				C7111EFC1CA43885000C5C5A /* DeepLink.swift in Sources */,
@@ -4141,6 +4174,7 @@
 				6A5E19EE1D548F5400F92692 /* NSURL+LG.swift in Sources */,
 				5007279D1B32CE660058DA76 /* UIApplication+TopViewController.swift in Sources */,
 				2EE4BD211CDA398400EAADF9 /* CrashManager.swift in Sources */,
+				C74016D91D6467C9004C1E9D /* PostProductDetailPriceView.swift in Sources */,
 				50146BD31D4F5FC700B0F635 /* ProfileTabCoordinator.swift in Sources */,
 				C711A1A91CDC99E5002D30D9 /* NotificationCellDrawerFactory.swift in Sources */,
 				D4912A8A1B08FFF900DACD5A /* UIView+Border.swift in Sources */,
@@ -4302,6 +4336,7 @@
 				50146BC31D4F5F5B00B0F635 /* TabCoordinator.swift in Sources */,
 				2E2D53E21D369B0500348D12 /* LGConfigDAO.swift in Sources */,
 				6AA32F3B1CA29CC4003A1677 /* AdminViewController.swift in Sources */,
+				C74016E61D6469B1004C1E9D /* PostProductDetailFullView.swift in Sources */,
 				C7DB41A91C5138B500400945 /* ProductTimeCriteria+LG.swift in Sources */,
 				6A879DA91C8DD2BD00E0C868 /* PushPrePermissionsSettingsViewModel.swift in Sources */,
 				2E3047F31CA408D00099C0BC /* CommercialDisplayViewModel.swift in Sources */,
@@ -4320,6 +4355,7 @@
 				C7DB41B11C5138B500400945 /* TrackerEventDataTypes.swift in Sources */,
 				2E373FAC1D3E6F3E00AC811C /* UserRatingListRequester.swift in Sources */,
 				C72794291D549334009C25AB /* SettingsCell.swift in Sources */,
+				C74016E31D64698C004C1E9D /* PostProductDetailStepsView.swift in Sources */,
 				6A610CBB1CB4079500736DA0 /* CreateCommercialProductCell.swift in Sources */,
 				C75B5DBC1D59E09500112368 /* ProductCarouselMoreInfoViewController.swift in Sources */,
 				C7111F031CA438AC000C5C5A /* UniversalLink.swift in Sources */,
@@ -4456,6 +4492,7 @@
 				50E0E84C1D40B11600A6397C /* UserViewHeaderContainer.swift in Sources */,
 				C7111EFA1CA43822000C5C5A /* DeepLinksRouter.swift in Sources */,
 				C7DB42051C5138B500400945 /* PushPermissionsManager.swift in Sources */,
+				C74016E01D6468A7004C1E9D /* PostProductDetailViewModel.swift in Sources */,
 				C727943D1D549342009C25AB /* ChangeUsernameViewController.swift in Sources */,
 				6A672C171CCFB76E00AB9175 /* UIFont+LG.swift in Sources */,
 				507F1BFC1C89DDF9001F0A95 /* PostalAddress+String.swift in Sources */,
@@ -4494,6 +4531,7 @@
 				C7DB42121C5138B500400945 /* UIView+Border.swift in Sources */,
 				2EE4BD221CDA398400EAADF9 /* CrashManager.swift in Sources */,
 				50146BD41D4F5FC700B0F635 /* ProfileTabCoordinator.swift in Sources */,
+				C74016DA1D6467C9004C1E9D /* PostProductDetailPriceView.swift in Sources */,
 				5076228B1CD0EB1D004E5D0D /* AppCoordinator.swift in Sources */,
 				C7DB42141C5138B500400945 /* CategoryCell.swift in Sources */,
 				C711A1AA1CDC99E5002D30D9 /* NotificationCellDrawerFactory.swift in Sources */,
