@@ -50,7 +50,6 @@ final class TabBarController: UITabBarController {
         setupSellButtons()
 
         setupCommercializerRx()
-        setupBadgesRx()
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -151,6 +150,7 @@ final class TabBarController: UITabBarController {
             tabBarItem.imageInsets = UIEdgeInsetsMake(5.5, 0, -5.5, 0)
             vc.tabBarItem = tabBarItem
         }
+        setupBadgesRx()
     }
 
     private func setupSellButtons() {
