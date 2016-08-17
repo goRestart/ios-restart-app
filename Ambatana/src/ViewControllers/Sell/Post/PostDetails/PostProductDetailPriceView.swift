@@ -44,6 +44,16 @@ class PostProductDetailPriceView: BaseView {
         fatalError("init(coder:) has not been implemented")
     }
 
+    override func becomeFirstResponder() -> Bool {
+        guard let priceTextField = priceTextField else { return false }
+        return priceTextField.becomeFirstResponder()
+    }
+
+    override func resignFirstResponder() -> Bool {
+        guard let priceTextField = priceTextField else { return false }
+        return priceTextField.resignFirstResponder()
+    }
+
     private func setup() {
         loadNibNamed("PostProductDetailPriceView", contentView: { [weak self] in return self?.contentView })
         setupUI()

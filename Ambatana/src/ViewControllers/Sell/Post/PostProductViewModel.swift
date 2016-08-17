@@ -7,11 +7,9 @@
 //
 
 import LGCoreKit
+import RxSwift
 
 protocol PostProductViewModelDelegate: BaseViewModelDelegate {
-    func postProductViewModelDidStartUploadingImage(viewModel: PostProductViewModel)
-    func postProductViewModelDidFinishUploadingImage(viewModel: PostProductViewModel, error: String?)
-    func postProductviewModelShouldClose(viewModel: PostProductViewModel, animated: Bool, completion: (() -> Void)?)
     func postProductviewModel(viewModel: PostProductViewModel, shouldAskLoginWithCompletion completion: () -> Void)
 }
 
@@ -39,6 +37,13 @@ enum PostingSource {
     }
 }
 
+enum PostProductState {
+    case ImageSelection
+    case UploadingImage
+    case ErrorUpload(message: String)
+    case DetailsSelection
+}
+
 
 class PostProductViewModel: BaseViewModel {
 
@@ -59,10 +64,8 @@ class PostProductViewModel: BaseViewModel {
             return LGLocalizedString.productPostProductPostedNotLogged
         }
     }
-    var currency: Currency? {
-        guard let countryCode = locationManager.currentPostalAddress?.countryCode else { return nil }
-        return currencyHelper.currencyWithCountryCode(countryCode)
-    }
+
+    let state = Variable<PostProductState>(.ImageSelection)
 
     let postDetailViewModel: PostProductDetailViewModel
 
@@ -70,8 +73,6 @@ class PostProductViewModel: BaseViewModel {
     private let productRepository: ProductRepository
     private let fileRepository: FileRepository
     private let commercializerRepository: CommercializerRepository
-    private let locationManager: LocationManager
-    private let currencyHelper: CurrencyHelper
     private var imageSelected: UIImage?
     private var pendingToUploadImage: UIImage?
     private var uploadedImage: File?
@@ -84,22 +85,16 @@ class PostProductViewModel: BaseViewModel {
         let productRepository = Core.productRepository
         let fileRepository = Core.fileRepository
         let commercializerRepository = Core.commercializerRepository
-        let locationManager = Core.locationManager
-        let currencyHelper = Core.currencyHelper
         self.init(source: source, productRepository: productRepository, fileRepository: fileRepository,
-            commercializerRepository: commercializerRepository, locationManager: locationManager,
-            currencyHelper: currencyHelper)
+            commercializerRepository: commercializerRepository)
     }
 
     init(source: PostingSource, productRepository: ProductRepository, fileRepository: FileRepository,
-         commercializerRepository: CommercializerRepository, locationManager: LocationManager,
-         currencyHelper: CurrencyHelper) {
+         commercializerRepository: CommercializerRepository) {
         self.postingSource = source
         self.productRepository = productRepository
         self.fileRepository = fileRepository
         self.commercializerRepository = commercializerRepository
-        self.locationManager = locationManager
-        self.currencyHelper = currencyHelper
         self.postDetailViewModel = PostProductDetailViewModel()
         super.init()
         self.postDetailViewModel.delegate = self
@@ -123,11 +118,11 @@ class PostProductViewModel: BaseViewModel {
         imageSelected = image
         guard Core.sessionManager.loggedIn else {
             pendingToUploadImage = image
-            self.delegate?.postProductViewModelDidFinishUploadingImage(self, error: nil)
+            state.value = .DetailsSelection
             return
         }
 
-        delegate?.postProductViewModelDidStartUploadingImage(self)
+        state.value = .UploadingImage
 
         fileRepository.upload(image, progress: nil) { [weak self] result in
             guard let strongSelf = self else { return }
@@ -140,29 +135,11 @@ class PostProductViewModel: BaseViewModel {
                 case .Network:
                     errorString = LGLocalizedString.productPostNetworkError
                 }
-                strongSelf.delegate?.postProductViewModelDidFinishUploadingImage(strongSelf, error: errorString)
+                strongSelf.state.value = .ErrorUpload(message: errorString)
                 return
             }
             strongSelf.uploadedImage = image
-
-            strongSelf.delegate?.postProductViewModelDidFinishUploadingImage(strongSelf, error: nil)
-        }
-    }
-
-    func doneButtonPressed(priceText priceText: String?) {
-        let trackingInfo = PostProductTrackingInfo(buttonName: .Done, imageSource: uploadedImageSource,
-                                                   price: priceText)
-        if Core.sessionManager.loggedIn {
-            guard let product = buildProduct(priceText: priceText), image = uploadedImage else { return }
-            navigator?.closePostProductAndPostInBackground(product, images: [image], showConfirmation: true,
-                                                           trackingInfo: trackingInfo)
-        } else if let image = pendingToUploadImage {
-            delegate?.postProductviewModel(self, shouldAskLoginWithCompletion: { [weak self] in
-                guard let product = self?.buildProduct(priceText: priceText) else { return }
-                self?.navigator?.closePostProductAndPostLater(product, image: image, trackingInfo: trackingInfo)
-            })
-        } else {
-            navigator?.cancelPostProduct()
+            strongSelf.state.value = .DetailsSelection
         }
     }
 
@@ -170,7 +147,7 @@ class PostProductViewModel: BaseViewModel {
         if pendingToUploadImage != nil {
             openPostAbandonAlertNotLoggedIn()
         } else {
-            guard let product = buildProduct(priceText: nil), image = uploadedImage else {
+            guard let product = buildProduct(), image = uploadedImage else {
                 navigator?.cancelPostProduct()
                 return
             }
@@ -178,6 +155,15 @@ class PostProductViewModel: BaseViewModel {
             navigator?.closePostProductAndPostInBackground(product, images: [image], showConfirmation: false,
                                                            trackingInfo: trackingInfo)
         }
+    }
+}
+
+
+// MARK: - PostProductDetailViewModelDelegate
+
+extension PostProductViewModel: PostProductDetailViewModelDelegate {
+    func postProductDetailDone(viewModel: PostProductDetailViewModel) {
+        postProduct()
     }
 }
 
@@ -192,25 +178,33 @@ private extension PostProductViewModel {
             self?.navigator?.cancelPostProduct()
         }
         let postAction = UIAction(interface: .Text(LGLocalizedString.productPostCloseAlertOkButton)) { [weak self] in
-            self?.doneButtonPressed(priceText: nil)
+            self?.postProduct()
         }
         delegate?.vmShowAlert(title, message: message, actions: [cancelAction, postAction])
     }
 
-    func buildProduct(priceText priceText: String?) -> Product? {
-        let priceText = priceText ?? "0"
-        let price = priceText.toPriceDouble()
-        return productRepository.buildNewProduct(price: price)
+    func postProduct() {
+        let trackingInfo = PostProductTrackingInfo(buttonName: .Done, imageSource: uploadedImageSource,
+                                                   price: postDetailViewModel.price.value)
+        if Core.sessionManager.loggedIn {
+            guard let product = buildProduct(), image = uploadedImage else { return }
+            navigator?.closePostProductAndPostInBackground(product, images: [image], showConfirmation: true,
+                                                           trackingInfo: trackingInfo)
+        } else if let image = pendingToUploadImage {
+            delegate?.postProductviewModel(self, shouldAskLoginWithCompletion: { [weak self] in
+                guard let product = self?.buildProduct() else { return }
+                self?.navigator?.closePostProductAndPostLater(product, image: image, trackingInfo: trackingInfo)
+                })
+        } else {
+            navigator?.cancelPostProduct()
+        }
     }
-}
 
-
-// MARK: - PostProductDetailViewModelDelegate
-
-extension PostProductViewModel: PostProductDetailViewModelDelegate {
-    func postProductDetailDone(viewModel: PostProductDetailViewModel) {
-        //TODO IMPLEMENT more options
-        doneButtonPressed(priceText: viewModel.price.value)
+    func buildProduct() -> Product? {
+        let price = postDetailViewModel.productPrice
+        let title = postDetailViewModel.productTitle
+        let description = postDetailViewModel.productDescription
+        return productRepository.buildNewProduct(title, description: description, price: price)
     }
 }
 

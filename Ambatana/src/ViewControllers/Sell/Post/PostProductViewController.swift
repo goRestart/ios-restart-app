@@ -10,7 +10,7 @@ import UIKit
 import FastttCamera
 import RxSwift
 
-class PostProductViewController: BaseViewController, PostProductViewModelDelegate {
+class PostProductViewController: BaseViewController {
     @IBOutlet weak var cameraGalleryContainer: UIView!
     @IBOutlet weak var galleryButton: UIButton!
     @IBOutlet weak var photoButton: UIButton!
@@ -135,34 +135,6 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
     }
 
 
-    // MARK: - PostProductViewModelDelegate
-
-    func postProductViewModelDidRestartTakingImage(viewModel: PostProductViewModel) {
-        setSelectImageState()
-    }
-
-    func postProductViewModelDidStartUploadingImage(viewModel: PostProductViewModel) {
-        setSelectPriceState(loading: true, error: nil)
-    }
-
-    func postProductViewModelDidFinishUploadingImage(viewModel: PostProductViewModel, error: String?) {
-        setSelectPriceState(loading: false, error: error)
-    }
-
-    func postProductviewModelShouldClose(viewModel: PostProductViewModel, animated: Bool, completion: (() -> Void)?) {
-        dismissViewControllerAnimated(animated, completion: completion)
-    }
-
-    func postProductviewModel(viewModel: PostProductViewModel, shouldAskLoginWithCompletion completion: () -> Void) {
-        ifLoggedInThen(.Sell, loginStyle: .Popup(LGLocalizedString.productPostLoginMessage),
-            preDismissAction: { [weak self] in
-                self?.view.hidden = true
-            },
-            loggedInAction: completion,
-            elsePresentSignUpWithSuccessAction: completion)
-    }
-
-
     // MARK: - Private methods
 
     private func setupView() {
@@ -200,6 +172,19 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
     }
 
     private func setupRx() {
+        viewModel.state.asObservable().bindNext { [weak self] state in
+            switch state {
+            case .ImageSelection:
+                self?.setSelectImageState()
+            case .UploadingImage:
+                self?.setSelectPriceState(loading: true, error: nil)
+            case .ErrorUpload(let message):
+                self?.setSelectPriceState(loading: false, error: message)
+            case .DetailsSelection:
+                self?.setSelectPriceState(loading: false, error: nil)
+            }
+        }.addDisposableTo(disposeBag)
+
         keyboardHelper.rx_keyboardOrigin.asObservable().bindNext { [weak self] origin in
             guard let scrollView = self?.detailsScroll/*, var buttonRect = self?.publishButton.frame,
                 let topHeight = self?.topBarHeight*/ else { return }
@@ -294,6 +279,20 @@ extension PostProductViewController {
                 }
             }
         )
+    }
+}
+
+
+// MARK: - PostProductViewModelDelegate
+
+extension PostProductViewController: PostProductViewModelDelegate {
+    func postProductviewModel(viewModel: PostProductViewModel, shouldAskLoginWithCompletion completion: () -> Void) {
+        ifLoggedInThen(.Sell, loginStyle: .Popup(LGLocalizedString.productPostLoginMessage),
+                       preDismissAction: { [weak self] in
+                        self?.view.hidden = true
+            },
+                       loggedInAction: completion,
+                       elsePresentSignUpWithSuccessAction: completion)
     }
 }
 
