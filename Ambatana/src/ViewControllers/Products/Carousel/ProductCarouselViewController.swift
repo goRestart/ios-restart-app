@@ -398,6 +398,7 @@ extension ProductCarouselViewController {
             moreInfoView = ProductCarouselMoreInfoView.moreInfoView(viewModel)
             view.addSubview(self.moreInfoView!)
             view.bringSubviewToFront(buttonBottom)
+            view.bringSubviewToFront(stickersButton)
             view.bringSubviewToFront(fullScreenAvatarEffectView)
             view.bringSubviewToFront(fullScreenAvatarView)
         }
