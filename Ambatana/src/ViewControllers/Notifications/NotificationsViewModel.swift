@@ -138,7 +138,7 @@ class NotificationsViewModel: BaseViewModel {
             let icon = UIImage(named: "ic_dollar_sold")
             return buildProductNotification({ [weak self] in
                 let data = ProductDetailData.Id(productId: productId)
-                self?.tabNavigator?.openProduct(data)
+                self?.tabNavigator?.openProduct(data, source: .Notifications)
             }, subtitle: subtitle, userName: userName, icon: icon, productId: productId,
                productImage: productImageUrl, userId: userId, userImage: userImageUrl,
                date: notification.createdAt, isRead: notification.isRead)
@@ -163,7 +163,7 @@ class NotificationsViewModel: BaseViewModel {
                                     self?.tabNavigator?.openUser(data) },
                                 rightImage: productImage, rightImageAction: { [weak self] in
                                     let data = ProductDetailData.Id(productId: productId)
-                                    self?.tabNavigator?.openProduct(data) })
+                                    self?.tabNavigator?.openProduct(data, source: .Notifications) })
     }
 
     private func buildWelcomeNotification() -> NotificationData {

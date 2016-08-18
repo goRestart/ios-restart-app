@@ -466,9 +466,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
 
         // > Error View
         errorButtonHeightConstraint.constant = ProductListView.defaultErrorButtonHeight
-        errorButton.layer.cornerRadius = 4
-        errorButton.setBackgroundImage(errorButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)),
-                                       forState: .Normal)
+        errorButton.setStyle(.Primary(fontSize: .Medium))
         errorButton.addTarget(self, action: #selector(ProductListView.errorButtonPressed), forControlEvents: .TouchUpInside)
     }
     

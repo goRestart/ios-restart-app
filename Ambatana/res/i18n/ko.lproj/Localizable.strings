@@ -115,6 +115,11 @@
 "chat_verify_alert_resend_button" = "이메일 재발송";
 "chat_verify_alert_title" = "채팅을 위해 이메일 확인";
 "chat_with_yourself_alert_msg" = "사용자께서는 보유하고 계신 제품에 관한 대화를 시작하실 수 없습니다.";
+"collection_apple_title" = "An apple a day";
+"collection_explore_button" = "Explore";
+"collection_furniture_title" = "No place like home";
+"collection_gaming_title" = "The game is on";
+"collection_transport_title" = "Travel in style";
 "commercializer_create_from_settings" = "Create a Free Commercial";
 "commercializer_display_share_alert" = "Share this masterpiece";
 "commercializer_display_share_label" = "Share your masterpiece with the world and watch the offers come rolling in";

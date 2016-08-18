@@ -88,6 +88,13 @@ class FilteredProductListRequester: ProductListRequester {
 
     // MARK: - MainProductListRequester
 
+    var countryCode: String? {
+        if let countryCode = filters?.place?.postalAddress?.countryCode {
+            return countryCode
+        }
+        return queryFirstCallCountryCode ?? locationManager.currentPostalAddress?.countryCode
+    }
+
     func hasFilters() -> Bool {
         return filters?.selectedCategories != nil || filters?.selectedWithin != nil || filters?.distanceRadius != nil
     }
@@ -128,13 +135,6 @@ private extension FilteredProductListRequester {
             return LGLocationCoordinates2D(location: currentLocation)
         }
         return nil
-    }
-
-    private var countryCode: String? {
-        if let countryCode = filters?.place?.postalAddress?.countryCode {
-            return countryCode
-        }
-        return queryFirstCallCountryCode ?? locationManager.currentPostalAddress?.countryCode
     }
 
     private var retrieveProductsParams: RetrieveProductsParams {

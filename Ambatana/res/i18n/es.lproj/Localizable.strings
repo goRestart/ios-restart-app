@@ -115,6 +115,11 @@
 "chat_verify_alert_resend_button" = "Reenviar";
 "chat_verify_alert_title" = "Verifica tu email para chatear";
 "chat_with_yourself_alert_msg" = "No puedes empezar una conversación sobre tu propio producto.";
+"collection_apple_title" = "An apple a day";
+"collection_explore_button" = "Explore";
+"collection_furniture_title" = "No place like home";
+"collection_gaming_title" = "The game is on";
+"collection_transport_title" = "Travel in style";
 "commercializer_create_from_settings" = "Crear comercial gratis";
 "commercializer_display_share_alert" = "Comparte esta obra maestra";
 "commercializer_display_share_label" = "Comparte tu obra maestra con el mundo, ponte cómodo y relájate mientras te llueven las ofertas";

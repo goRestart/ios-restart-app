@@ -560,7 +560,7 @@ extension UserViewModel: ProductListViewModelDataDelegate {
         let data = ProductDetailData.ProductList(product: product, cellModels: cellModels, requester: requester,
                                                  thumbnailImage: thumbnailImage, originFrame: originFrame,
                                                  showRelated: false)
-        tabNavigator?.openProduct(data)
+        tabNavigator?.openProduct(data, source: .Profile)
     }
 }
 
