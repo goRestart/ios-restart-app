@@ -63,8 +63,8 @@
 "chat_express_contact_various_button_text" = "Επικοινωνία με %@ πωλητές";
 "chat_express_dont_ask_again_button" = "Μην ερωτηθώ ξανά";
 "chat_express_dont_miss_label" = "Μη χάσετε αυτές τις προσφορές";
-"chat_express_one_message_sent_success_alert" = "Your message has been sent!";
-"chat_express_several_messages_sent_success_alert" = "Your messages have been sent!";
+"chat_express_one_message_sent_success_alert" = "Το μήνυμά σας έχει σταλεί!";
+"chat_express_several_messages_sent_success_alert" = "Τα μηνύματά σας έχουν σταλεί!";
 "chat_express_text_field_text" = "Γεια, ενδιαφέρομαι!";
 "chat_list_account_deleted" = "Διαγραμμένος λογαριασμός";
 "chat_list_account_deleted_username" = "Ανενεργός";
@@ -115,6 +115,11 @@
 "chat_verify_alert_resend_button" = "Ξαναστείλτε το";
 "chat_verify_alert_title" = "Επιβεβαιώστε το email σας για να συνομιλήσετε";
 "chat_with_yourself_alert_msg" = "Δεν μπορείτε να ξεκινήσετε συζήτηση για ένα δικό σας προϊόν.";
+"collection_apple_title" = "Ένα μήλο την ημέρα";
+"collection_explore_button" = "Ανακαλύψτε";
+"collection_furniture_title" = "Πουθενά όπως στο σπίτι";
+"collection_gaming_title" = "Το παιχνίδι ξεκίνησε";
+"collection_transport_title" = "Ταξιδέψτε με στυλ";
 "commercializer_create_from_settings" = "Create a Free Commercial";
 "commercializer_display_share_alert" = "Share this masterpiece";
 "commercializer_display_share_label" = "Share your masterpiece with the world and watch the offers come rolling in";
@@ -334,8 +339,8 @@
 "product_onboarding_finger_tap_label" = "Πατήστε για να πάτε στο επόμενο προϊόν";
 "product_onboarding_show_again_button_title" = "Πώς να Περιηγηθείτε";
 "product_open_commercial_button" = "Commercial";
-"product_option_share" = "Share product";
-"product_option_show_commercial" = "Commercial";
+"product_option_share" = "Κοινοποίηση προϊόντος";
+"product_option_show_commercial" = "Διαφήμιση";
 "product_popular_near_you" = "Δημοφιλή κοντά σας";
 "product_post_camera_first_time_alert_subtitle" = "Τραβήξτε μια καλή φωτογραφία και ξεκινήστε να κερδίζετε μετρητά!";
 "product_post_camera_first_time_alert_title" = "Τι πουλάς;";
@@ -410,8 +415,8 @@
 "product_share_telegram_error" = "Όπα! Φαίνεται πώς δεν έχετε εγκαταστήσει το Telegram.";
 "product_share_title_label" = "ΜΟΙΡΑΣΤΕΙΤΕ ΑΥΤΟ ΤΟ ΠΡΟΪΟΝ";
 "product_share_whatsapp_error" = "Όπα! Φαίνεται πως δεν έχει γίνει εγκατάσταση της εφαρμογής WhatsApp.";
-"product_stickers_selection_w_name" = "Select the sticker you want to send to %@.";
-"product_stickers_selection_wo_name" = "Select the sticker you want to send to the seller.";
+"product_stickers_selection_w_name" = "Επιλέξτε το αυτοκόλλητο που θέλετε να στείλετε στον/στην %@.";
+"product_stickers_selection_wo_name" = "Επιλέξτε το αυτοκόλλητο που θέλετε να στείλετε στον πωλητή.";
 "profile_blocked_by_me_label" = "Έχετε μπλοκάρει αυτό το χρήστη";
 "profile_blocked_by_me_label_w_name" = "Έχετε μπλοκάρει τον %@";
 "profile_blocked_by_other_label" = "Ο χρήστης αυτός σας έχει μπλοκάρει";

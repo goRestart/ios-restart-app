@@ -63,8 +63,8 @@
 "chat_express_contact_various_button_text" = "Contacteer %@ verkopers";
 "chat_express_dont_ask_again_button" = "Vraag me niet opnieuw";
 "chat_express_dont_miss_label" = "Mis deze koopjes niet";
-"chat_express_one_message_sent_success_alert" = "Your message has been sent!";
-"chat_express_several_messages_sent_success_alert" = "Your messages have been sent!";
+"chat_express_one_message_sent_success_alert" = "Je bericht is verzonden!";
+"chat_express_several_messages_sent_success_alert" = "Je berichten zijn verzonden!";
 "chat_express_text_field_text" = "Hoi, ik ben geïnteresseerd!";
 "chat_list_account_deleted" = "Verwijderd account";
 "chat_list_account_deleted_username" = "Inactief";
@@ -115,6 +115,11 @@
 "chat_verify_alert_resend_button" = "Opnieuw verzenden";
 "chat_verify_alert_title" = "Verifieer je e-mail om te chatten";
 "chat_with_yourself_alert_msg" = "Je kunt een gesprek beginnen over je eigen product.";
+"collection_apple_title" = "Een apple per dag";
+"collection_explore_button" = "Verkennen";
+"collection_furniture_title" = "Geen plek als thuis";
+"collection_gaming_title" = "Het spel is begonnen";
+"collection_transport_title" = "Reizen in stijl";
 "commercializer_create_from_settings" = "Create a Free Commercial";
 "commercializer_display_share_alert" = "Share this masterpiece";
 "commercializer_display_share_label" = "Share your masterpiece with the world and watch the offers come rolling in";
@@ -334,8 +339,8 @@
 "product_onboarding_finger_tap_label" = "Tik om naar het volgende product te gaan";
 "product_onboarding_show_again_button_title" = "Hoe te Browsen";
 "product_open_commercial_button" = "Commercial";
-"product_option_share" = "Share product";
-"product_option_show_commercial" = "Commercial";
+"product_option_share" = "Product delen";
+"product_option_show_commercial" = "Commercieel";
 "product_popular_near_you" = "Populair in jouw omgeving";
 "product_post_camera_first_time_alert_subtitle" = "Neem een goede foto en begin met het verdienen van geld!";
 "product_post_camera_first_time_alert_title" = "Wat verkoop je?";
@@ -410,8 +415,8 @@
 "product_share_telegram_error" = "Oeps! Het lijkt erop dat je Telegram niet hebt geïnstalleerd.";
 "product_share_title_label" = "DEEL DIT PRODUCT";
 "product_share_whatsapp_error" = "Oeps! Het lijkt er op dat je de WhatsApp app niet geïnstalleerd hebt.";
-"product_stickers_selection_w_name" = "Select the sticker you want to send to %@.";
-"product_stickers_selection_wo_name" = "Select the sticker you want to send to the seller.";
+"product_stickers_selection_w_name" = "Kies de sticker die je wilt verzenden naar %@.";
+"product_stickers_selection_wo_name" = "Kies de sticker die je wilt verzenden naar de verkoper.";
 "profile_blocked_by_me_label" = "Je hebt deze gebruiker geblokkeerd";
 "profile_blocked_by_me_label_w_name" = "Je hebt %@ geblokkeerd";
 "profile_blocked_by_other_label" = "Je bent geblokkeerd door deze gebruiker";

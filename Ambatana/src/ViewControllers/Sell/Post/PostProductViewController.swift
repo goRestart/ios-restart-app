@@ -62,7 +62,8 @@ class PostProductViewController: BaseViewController {
         self.keyboardHelper = keyboardHelper
         self.viewModel = viewModel
         self.forceCamera = forceCamera
-        self.productDetailView = PostProductDetailPriceView(viewModel: viewModel.postDetailViewModel)
+//        self.productDetailView = PostProductDetailPriceView(viewModel: viewModel.postDetailViewModel)
+        self.productDetailView = PostProductDetailFullView(viewModel: viewModel.postDetailViewModel)
         super.init(viewModel: viewModel, nibName: "PostProductViewController",
                    statusBarStyle: UIApplication.sharedApplication().statusBarStyle)
         modalPresentationStyle = .OverCurrentContext
@@ -186,12 +187,11 @@ class PostProductViewController: BaseViewController {
         }.addDisposableTo(disposeBag)
 
         keyboardHelper.rx_keyboardOrigin.asObservable().bindNext { [weak self] origin in
-            guard let scrollView = self?.detailsScroll/*, var buttonRect = self?.publishButton.frame,
-                let topHeight = self?.topBarHeight*/ else { return }
             guard origin > 0 else { return }
-            scrollView.contentInset.bottom = scrollView.height - origin
-//            buttonRect.bottom = buttonRect.bottom + RateUserViewController.sendButtonMargin
-//            scrollView.scrollRectToVisible(buttonRect, animated: false)
+            guard let scrollView = self?.detailsScroll, viewHeight = self?.view.height,
+            let detailsRect = self?.productDetailView.frame else { return }
+            scrollView.contentInset.bottom = viewHeight - origin
+            scrollView.scrollRectToVisible(detailsRect, animated: false)
         }.addDisposableTo(disposeBag)
     }
 

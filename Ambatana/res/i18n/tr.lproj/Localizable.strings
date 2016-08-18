@@ -63,8 +63,8 @@
 "chat_express_contact_various_button_text" = "%@ satıcı ile iletişime geç";
 "chat_express_dont_ask_again_button" = "Bir daha sorma";
 "chat_express_dont_miss_label" = "Bu teklifleri kaçırma";
-"chat_express_one_message_sent_success_alert" = "Your message has been sent!";
-"chat_express_several_messages_sent_success_alert" = "Your messages have been sent!";
+"chat_express_one_message_sent_success_alert" = "Mesajın gönderildi!";
+"chat_express_several_messages_sent_success_alert" = "Mesajın gönderildi!";
 "chat_express_text_field_text" = "Merhaba, ürünü beğendim!";
 "chat_list_account_deleted" = "Bu hesap silinmiş";
 "chat_list_account_deleted_username" = "Aktif değil";
@@ -115,6 +115,11 @@
 "chat_verify_alert_resend_button" = "Tekrar Gönder";
 "chat_verify_alert_title" = "Mesajlaşmak için e-postanı doğrula";
 "chat_with_yourself_alert_msg" = "Sana ait bir ürün hakkında bir sohbet başlatamazsın.";
+"collection_apple_title" = "Elmanın faydaları";
+"collection_explore_button" = "Keşfet";
+"collection_furniture_title" = "Evim güzel evim";
+"collection_gaming_title" = "Oyun başlasın";
+"collection_transport_title" = "Yola devam";
 "commercializer_create_from_settings" = "Create a Free Commercial";
 "commercializer_display_share_alert" = "Share this masterpiece";
 "commercializer_display_share_label" = "Share your masterpiece with the world and watch the offers come rolling in";
@@ -334,8 +339,8 @@
 "product_onboarding_finger_tap_label" = "Bir sonraki ürüne gitmek için dokun";
 "product_onboarding_show_again_button_title" = "Gezinme nasıl yapılır";
 "product_open_commercial_button" = "Commercial";
-"product_option_share" = "Share product";
-"product_option_show_commercial" = "Commercial";
+"product_option_share" = "Ürünü paylaş";
+"product_option_show_commercial" = "Reklam";
 "product_popular_near_you" = "Yakınlarında popüler olanlar";
 "product_post_camera_first_time_alert_subtitle" = "Güzel bir fotoğraf çek ve para kazanmaya başla!";
 "product_post_camera_first_time_alert_title" = "Ne satıyorsun?";
@@ -410,8 +415,8 @@
 "product_share_telegram_error" = "Oops! Telegram yüklü değil gibi gözüküyor.";
 "product_share_title_label" = "BU ÜRÜNÜ PAYLAŞ";
 "product_share_whatsapp_error" = "Oops! WhatsApp yüklü değil gibi görünüyor.";
-"product_stickers_selection_w_name" = "Select the sticker you want to send to %@.";
-"product_stickers_selection_wo_name" = "Select the sticker you want to send to the seller.";
+"product_stickers_selection_w_name" = "%@ için göndermek istediğin etiketi seç.";
+"product_stickers_selection_wo_name" = "Satıcıya göndermek istediğin etiketi seç.";
 "profile_blocked_by_me_label" = "Bu kullanıcıyı engelledin";
 "profile_blocked_by_me_label_w_name" = "%@ isimli kullanıcıyı engelledin";
 "profile_blocked_by_other_label" = "Bu kullanıcı tarafından engellendin";

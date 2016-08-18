@@ -22,6 +22,7 @@ class PostProductDetailViewModel: BaseViewModel {
     let description = Variable<String>("")
 
     // Out variables
+    let descrCharactersLeft = Variable<Int>(Constants.productDescriptionMaxLength)
     var productPrice: Double {
         return price.value.toPriceDouble()
     }
@@ -34,6 +35,8 @@ class PostProductDetailViewModel: BaseViewModel {
 
     let currencySymbol: String?
 
+    private let disposeBag = DisposeBag()
+
     convenience override init() {
         var currencySymbol: String? = nil
         if let countryCode = Core.locationManager.currentPostalAddress?.countryCode {
@@ -45,9 +48,18 @@ class PostProductDetailViewModel: BaseViewModel {
     init(currencySymbol: String?) {
         self.currencySymbol = currencySymbol
         super.init()
+        setupRx()
     }
 
     func doneButtonPressed() {
         delegate?.postProductDetailDone(self)
+    }
+
+
+    // MARK: - Private
+
+    private func setupRx() {
+        description.asObservable().map { Constants.productDescriptionMaxLength - $0.characters.count }
+            .filter{ $0 >= 0 }.bindTo(descrCharactersLeft).addDisposableTo(disposeBag)
     }
 }

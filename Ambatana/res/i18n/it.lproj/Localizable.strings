@@ -63,8 +63,8 @@
 "chat_express_contact_various_button_text" = "Contatta %@ venditori";
 "chat_express_dont_ask_again_button" = "Non chiedermelo più";
 "chat_express_dont_miss_label" = "Non perderti queste occasioni";
-"chat_express_one_message_sent_success_alert" = "Your message has been sent!";
-"chat_express_several_messages_sent_success_alert" = "Your messages have been sent!";
+"chat_express_one_message_sent_success_alert" = "Il messaggio è stato inviato!";
+"chat_express_several_messages_sent_success_alert" = "Il messaggio è stato inviato!";
 "chat_express_text_field_text" = "Ciao, sono interessato!";
 "chat_list_account_deleted" = "Account eliminato";
 "chat_list_account_deleted_username" = "Inattivo";
@@ -115,6 +115,11 @@
 "chat_verify_alert_resend_button" = "Reinvia";
 "chat_verify_alert_title" = "Verifica il tuo indirizzo email per chattare";
 "chat_with_yourself_alert_msg" = "Non puoi iniziare una conversazione riguardante il tuo prodotto.";
+"collection_apple_title" = "Una mela al giorno";
+"collection_explore_button" = "Esplora";
+"collection_furniture_title" = "Casa dolce casa";
+"collection_gaming_title" = "Che il gioco abbia inizio";
+"collection_transport_title" = "Viaggia con stile";
 "commercializer_create_from_settings" = "Create a Free Commercial";
 "commercializer_display_share_alert" = "Share this masterpiece";
 "commercializer_display_share_label" = "Share your masterpiece with the world and watch the offers come rolling in";
@@ -334,8 +339,8 @@
 "product_onboarding_finger_tap_label" = "Tocca per passare al prodotto successivo";
 "product_onboarding_show_again_button_title" = "Come navigare";
 "product_open_commercial_button" = "Commercial";
-"product_option_share" = "Share product";
-"product_option_show_commercial" = "Commercial";
+"product_option_share" = "Condividi prodotto";
+"product_option_show_commercial" = "Pubblicità";
 "product_popular_near_you" = "Popolari nella tua zona";
 "product_post_camera_first_time_alert_subtitle" = "Scatta una bella foto e inizia a guadagnare!";
 "product_post_camera_first_time_alert_title" = "Che cosa stai vendendo?";
@@ -410,8 +415,8 @@
 "product_share_telegram_error" = "Ops! Non sembri avere Telegram installato.";
 "product_share_title_label" = "CONDIVIDI QUESTO PRODOTTO";
 "product_share_whatsapp_error" = "Ops! Sembra che tu non abbia installato l'app WhatsApp.";
-"product_stickers_selection_w_name" = "Select the sticker you want to send to %@.";
-"product_stickers_selection_wo_name" = "Select the sticker you want to send to the seller.";
+"product_stickers_selection_w_name" = "Seleziona l'adesivo da inviare a %@.";
+"product_stickers_selection_wo_name" = "Seleziona l'adesivo da inviare al venditore.";
 "profile_blocked_by_me_label" = "Hai bloccato questo utente";
 "profile_blocked_by_me_label_w_name" = "Hai bloccato %@";
 "profile_blocked_by_other_label" = "Sei stato bloccato da questo utente";

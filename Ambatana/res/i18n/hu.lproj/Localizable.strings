@@ -115,6 +115,11 @@
 "chat_verify_alert_resend_button" = "Újraküldés";
 "chat_verify_alert_title" = "A csevegéshez igazold vissza e-mail címedet";
 "chat_with_yourself_alert_msg" = "Nem indíthatsz csevegést saját portékádról.";
+"collection_apple_title" = "Alma!!";
+"collection_explore_button" = "Felfedezés";
+"collection_furniture_title" = "Az én váram...";
+"collection_gaming_title" = "Játékra fel";
+"collection_transport_title" = "Stílusos utazás";
 "commercializer_create_from_settings" = "Create a Free Commercial";
 "commercializer_display_share_alert" = "Share this masterpiece";
 "commercializer_display_share_label" = "Share your masterpiece with the world and watch the offers come rolling in";
@@ -334,8 +339,8 @@
 "product_onboarding_finger_tap_label" = "Koppintással a következő portékára ugorhatsz";
 "product_onboarding_show_again_button_title" = "A böngészés menete";
 "product_open_commercial_button" = "Commercial";
-"product_option_share" = "Share product";
-"product_option_show_commercial" = "Commercial";
+"product_option_share" = "Portéka megosztása";
+"product_option_show_commercial" = "Reklámfilm";
 "product_popular_near_you" = "Népszerű a közeledben";
 "product_post_camera_first_time_alert_subtitle" = "Készíts egy jó képet, és kezd pénzt keresni!";
 "product_post_camera_first_time_alert_title" = "Mit árulsz?";

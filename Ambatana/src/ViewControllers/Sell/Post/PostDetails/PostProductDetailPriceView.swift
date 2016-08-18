@@ -61,20 +61,16 @@ class PostProductDetailPriceView: BaseView {
     }
 
     private func setupUI() {
-
-        //i18n
         infoLabel.text = LGLocalizedString.productPostPriceLabel.uppercase
         priceTextField.attributedPlaceholder = NSAttributedString(string: LGLocalizedString.productNegotiablePrice,
                                                                   attributes: [NSForegroundColorAttributeName: UIColor.whiteColor()])
         doneButton.setTitle(LGLocalizedString.productPostDone, forState: UIControlState.Normal)
+        currencyButton.setTitle(viewModel.currencySymbol, forState: UIControlState.Normal)
 
-        //Layers
         doneButton.setStyle(.Primary(fontSize: .Medium))
         priceFieldContainer.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
         priceFieldContainer.layer.borderColor = UIColor.whiteColor().CGColor
         priceFieldContainer.layer.borderWidth = 1
-
-        currencyButton.setTitle(viewModel.currencySymbol, forState: UIControlState.Normal)
     }
 
     private func setupRx() {
