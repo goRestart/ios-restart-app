@@ -62,9 +62,14 @@ class PostProductViewController: BaseViewController {
         self.keyboardHelper = keyboardHelper
         self.viewModel = viewModel
         self.forceCamera = forceCamera
-//        self.productDetailView = PostProductDetailPriceView(viewModel: viewModel.postDetailViewModel)
-//        self.productDetailView = PostProductDetailFullView(viewModel: viewModel.postDetailViewModel)
-        self.productDetailView = PostProductDetailStepsView(viewModel: viewModel.postDetailViewModel)
+        switch FeatureFlags.postingDetailsMode {
+        case .Old:
+            self.productDetailView = PostProductDetailPriceView(viewModel: viewModel.postDetailViewModel)
+        case .Steps:
+            self.productDetailView = PostProductDetailStepsView(viewModel: viewModel.postDetailViewModel)
+        case .AllInOne:
+            self.productDetailView = PostProductDetailFullView(viewModel: viewModel.postDetailViewModel)
+        }
         super.init(viewModel: viewModel, nibName: "PostProductViewController",
                    statusBarStyle: UIApplication.sharedApplication().statusBarStyle)
         modalPresentationStyle = .OverCurrentContext

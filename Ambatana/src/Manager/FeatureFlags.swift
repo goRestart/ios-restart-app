@@ -8,6 +8,12 @@
 
 import FlipTheSwitch
 
+enum PostingDetailsMode: Int {
+    case Old = 0
+    case AllInOne = 1
+    case Steps = 2
+}
+
 struct FeatureFlags {
     static var websocketChat: Bool {
         return FTSFlipTheSwitch.websocketChat
@@ -51,6 +57,17 @@ struct FeatureFlags {
         }
         return ABTests.directStickersOnProduct.value
     }
+
+    static var postingDetailsMode: PostingDetailsMode {
+        if FTSFlipTheSwitch.overridesABTests {
+            if FTSFlipTheSwitch.newPostDetails {
+                return FTSFlipTheSwitch.newPostDetailsSteps ? .Steps : .AllInOne
+            } else {
+                return .Old
+            }
+        }
+        return PostingDetailsMode(rawValue: ABTests.postingDetailsMode.value) ?? .Old
+    }
 }
 
 private extension FTSFlipTheSwitch {
@@ -84,5 +101,13 @@ private extension FTSFlipTheSwitch {
 
     static var directStickersOnProduct: Bool {
         return FTSFlipTheSwitch.sharedInstance().isFeatureEnabled("direct_stickers_on_product")
+    }
+
+    static var newPostDetails: Bool {
+        return FTSFlipTheSwitch.sharedInstance().isFeatureEnabled("new_post_details")
+    }
+
+    static var newPostDetailsSteps: Bool {
+        return FTSFlipTheSwitch.sharedInstance().isFeatureEnabled("new_post_details_steps")
     }
 }
