@@ -488,10 +488,12 @@
 "reset_password_send_ok" = "Abbiamo inviato un'email a %@. Clicca sul link all'interno dell'email per ripristinare la tua password!";
 "reset_password_send_too_many_requests" = "Ti abbiamo già inviato una email per reimpostare la password. Controlla la tua casella di posta e segui le istruzioni.";
 "reset_password_title" = "Reimposta Password";
+"sell_back_button" = "Back";
 "sell_category_selection_label" = "Categoria";
 "sell_choose_category_dialog_cancel_button" = "Annulla";
 "sell_choose_category_dialog_title" = "Scegli una categoria";
 "sell_description_field_hint" = "Descrizione (facoltativa)";
+"sell_description_information" = "Products with descriptions sell faster";
 "sell_picture_image_source_camera_button" = "Fotocamera";
 "sell_picture_image_source_camera_roll_button" = "Libreria fotografica";
 "sell_picture_image_source_cancel_button" = "Annulla";
@@ -504,6 +506,7 @@
 "sell_picture_selected_delete_button" = "Elimina";
 "sell_picture_selected_save_into_camera_roll_button" = "Salva su disco";
 "sell_picture_selected_title" = "Scegli un'azione";
+"sell_price_field" = "Price:";
 "sell_send_error_invalid_category" = "Scegli una categoria per il prodotto.";
 "sell_send_error_invalid_description" = "Inserisci una descrizione valida per il prodotto.";
 "sell_send_error_invalid_description_too_long" = "La massima lunghezza per la descrizione del prodotto è %d caratteri.";
@@ -516,6 +519,7 @@
 "sell_title_autogen_autotrans_label" = "Titolo suggerito da letgo e tradotto da Google";
 "sell_title_autogen_label" = "Titolo suggerito da letgo";
 "sell_title_field_hint" = "Titolo (facoltativo)";
+"sell_title_information" = "Make it easy for buyers to find your product";
 "sell_uploading_label" = "Caricamento prodotto. Attendere...";
 "settings_change_location_button" = "Posizione";
 "settings_change_password_button" = "Password";

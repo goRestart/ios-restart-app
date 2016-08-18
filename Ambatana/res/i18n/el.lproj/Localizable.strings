@@ -488,10 +488,12 @@
 "reset_password_send_ok" = "Σας στείλαμε ένα μήνυμα στο %@. Κάντε κλικ στο σύνδεσμο του email για να επαναφέρετε τον κωδικό πρόσβασης.";
 "reset_password_send_too_many_requests" = "Σας έχουμε στείλει ήδη ένα email για επαναφορά κωδικού. Παρακαλώ ελέγξτε τα email σας και ακολουθήστε τις οδηγίες.";
 "reset_password_title" = "Επαναφορά κωδικού πρόσβασης";
+"sell_back_button" = "Back";
 "sell_category_selection_label" = "Κατηγορία";
 "sell_choose_category_dialog_cancel_button" = "Ακύρωση";
 "sell_choose_category_dialog_title" = "Επιλογή Κατηγορίας";
 "sell_description_field_hint" = "Περιγραφή (προαιρετικό)";
+"sell_description_information" = "Products with descriptions sell faster";
 "sell_picture_image_source_camera_button" = "Κάμερα";
 "sell_picture_image_source_camera_roll_button" = "Βιβλιοθήκη Φωτογραφιών";
 "sell_picture_image_source_cancel_button" = "Ακύρωση";
@@ -504,6 +506,7 @@
 "sell_picture_selected_delete_button" = "Διαγραφή";
 "sell_picture_selected_save_into_camera_roll_button" = "Αποθήκευση στο δίσκο";
 "sell_picture_selected_title" = "Επιλογή ενέργειας";
+"sell_price_field" = "Price:";
 "sell_send_error_invalid_category" = "Παρακαλώ επιλέξτε μία κατηγορία για το προϊόν.";
 "sell_send_error_invalid_description" = "Παρακαλώ εισάγετε μία έγκυρη περιγραφή του προϊόντος.";
 "sell_send_error_invalid_description_too_long" = "Το μέγιστο μέγεθος περιγραφής προϊόντος είναι %d χαρακτήρες.";
@@ -516,6 +519,7 @@
 "sell_title_autogen_autotrans_label" = "Προτεινόμενος τίτλος από το letgo, μεταφρασμένος από το Google";
 "sell_title_autogen_label" = "Προτεινόμενος τίτλος από το letgo";
 "sell_title_field_hint" = "Τίτλος (προαιρετικό)";
+"sell_title_information" = "Make it easy for buyers to find your product";
 "sell_uploading_label" = "Ανέβασμα προϊόντος. Παρακαλώ, περιμένετε...";
 "settings_change_location_button" = "Τοποθεσία";
 "settings_change_password_button" = "Αλλαγή Κωδικού Πρόσβασης";

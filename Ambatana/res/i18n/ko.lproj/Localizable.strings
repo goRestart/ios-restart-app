@@ -488,10 +488,12 @@
 "reset_password_send_ok" = "이메일을 %@으로 발송하였습니다. 수신함을 확인하시고 비밀번호 재설정 지시를 따라주세요!";
 "reset_password_send_too_many_requests" = "저희는 비밀번호 재설정 이메일을 발송했습니다. 이메일을 확인하시고 설명을 따라주세요.";
 "reset_password_title" = "비밀번호 재설정";
+"sell_back_button" = "Back";
 "sell_category_selection_label" = "항목";
 "sell_choose_category_dialog_cancel_button" = "취소";
 "sell_choose_category_dialog_title" = "목록 고르기";
 "sell_description_field_hint" = "설명 (선택사항)";
+"sell_description_information" = "Products with descriptions sell faster";
 "sell_picture_image_source_camera_button" = "카메라";
 "sell_picture_image_source_camera_roll_button" = "앨범에서 이미지 선택";
 "sell_picture_image_source_cancel_button" = "취소";
@@ -504,6 +506,7 @@
 "sell_picture_selected_delete_button" = "삭제";
 "sell_picture_selected_save_into_camera_roll_button" = "사진 저장";
 "sell_picture_selected_title" = "활동을 선택하세요";
+"sell_price_field" = "Price:";
 "sell_send_error_invalid_category" = "제품의 목록을 선택해 주세요.";
 "sell_send_error_invalid_description" = "제품의 가능한 정보를 입력하여주세요.";
 "sell_send_error_invalid_description_too_long" = "제품의 최대 설명길이는 %d자 입니다.";
@@ -516,6 +519,7 @@
 "sell_title_autogen_autotrans_label" = "lego에서 추천하고 Google에서 번역된 제목";
 "sell_title_autogen_label" = "letgo에서 추천하는 제목";
 "sell_title_field_hint" = "제품 이름 (선택사항)";
+"sell_title_information" = "Make it easy for buyers to find your product";
 "sell_uploading_label" = "제품을 등록중입니다. 잠시만 기다려주세요...";
 "settings_change_location_button" = "위치";
 "settings_change_password_button" = "비밀번호";

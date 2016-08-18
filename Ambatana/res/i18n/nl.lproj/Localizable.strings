@@ -488,10 +488,12 @@
 "reset_password_send_ok" = "We hebben een e-mail gestuurd naar %@. Klik op de link in de e-mail om je wachtwoord te resetten.";
 "reset_password_send_too_many_requests" = "We hebben je al een e-mail gestuurd om je wachtwoord te resetten. Controleer je e-mail en volg de instructies.";
 "reset_password_title" = "Reset wachtwoord";
+"sell_back_button" = "Back";
 "sell_category_selection_label" = "Categorie";
 "sell_choose_category_dialog_cancel_button" = "Annuleren";
 "sell_choose_category_dialog_title" = "Kies een categorie";
 "sell_description_field_hint" = "Beschrijving (optioneel)";
+"sell_description_information" = "Products with descriptions sell faster";
 "sell_picture_image_source_camera_button" = "Camera";
 "sell_picture_image_source_camera_roll_button" = "Fotobibliotheek";
 "sell_picture_image_source_cancel_button" = "Annuleren";
@@ -504,6 +506,7 @@
 "sell_picture_selected_delete_button" = "Verwijderen";
 "sell_picture_selected_save_into_camera_roll_button" = "Opslaan";
 "sell_picture_selected_title" = "Kies een handeling";
+"sell_price_field" = "Price:";
 "sell_send_error_invalid_category" = "Kies a.u.b. een categorie voor het product.";
 "sell_send_error_invalid_description" = "Voer a.u.b. een geldige beschrijving in voor het product.";
 "sell_send_error_invalid_description_too_long" = "De maximale lengte voor de beschrijving van het product is %d tekens.";
@@ -516,6 +519,7 @@
 "sell_title_autogen_autotrans_label" = "Title voorgesteld door letgo en vertaald door Google";
 "sell_title_autogen_label" = "Titel voorgesteld door letgo";
 "sell_title_field_hint" = "Titel (optioneel)";
+"sell_title_information" = "Make it easy for buyers to find your product";
 "sell_uploading_label" = "Uploaden van product. Een moment geduld a.u.b.";
 "settings_change_location_button" = "Locatie";
 "settings_change_password_button" = "Wachtwoord";

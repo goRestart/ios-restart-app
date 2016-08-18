@@ -1475,7 +1475,7 @@
 "sell_description_field_hint" = "Description (optional)";
 
 // Sell description information text
-"sell_description_information" = "Products with description sell faster";
+"sell_description_information" = "Products with descriptions sell faster";
 
 // Sell picture image source camera button. Check attached image "sell_picture_image_source.png"
 "sell_picture_image_source_camera_button" = "Camera";
@@ -1553,7 +1553,7 @@
 "sell_title_field_hint" = "Title (optional)";
 
 // Sell title information text
-"sell_title_information" = "Make it easy for buyers to find";
+"sell_title_information" = "Make it easy for buyers to find your product";
 
 // Sell uploading label
 "sell_uploading_label" = "Uploading product. Please wait...";

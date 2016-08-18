@@ -488,10 +488,12 @@
 "reset_password_send_ok" = "We've sent an email to %@. Click the link in the email to reset your password!";
 "reset_password_send_too_many_requests" = "We've already sent you a password reset email. Please check your email and follow the instructions.";
 "reset_password_title" = "Reset password";
+"sell_back_button" = "Back";
 "sell_category_selection_label" = "Category";
 "sell_choose_category_dialog_cancel_button" = "Cancel";
 "sell_choose_category_dialog_title" = "Choose a category";
 "sell_description_field_hint" = "Description (optional)";
+"sell_description_information" = "Products with descriptions sell faster";
 "sell_picture_image_source_camera_button" = "Camera";
 "sell_picture_image_source_camera_roll_button" = "Photo library";
 "sell_picture_image_source_cancel_button" = "Cancel";
@@ -504,6 +506,7 @@
 "sell_picture_selected_delete_button" = "Delete";
 "sell_picture_selected_save_into_camera_roll_button" = "Save to camera roll";
 "sell_picture_selected_title" = "Choose an action";
+"sell_price_field" = "Price:";
 "sell_send_error_invalid_category" = "Please choose a category for the product.";
 "sell_send_error_invalid_description" = "Please insert a valid description for your product.";
 "sell_send_error_invalid_description_too_long" = "Please insert a valid description for your product. It must be under %d characters.";
@@ -516,6 +519,7 @@
 "sell_title_autogen_autotrans_label" = "Title suggested by letgo and translated by Google";
 "sell_title_autogen_label" = "Title suggested by letgo";
 "sell_title_field_hint" = "Title (optional)";
+"sell_title_information" = "Make it easy for buyers to find your product";
 "sell_uploading_label" = "Uploading product. Please wait...";
 "settings_change_location_button" = "Location";
 "settings_change_password_button" = "Password";

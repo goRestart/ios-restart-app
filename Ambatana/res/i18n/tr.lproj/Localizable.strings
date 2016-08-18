@@ -488,10 +488,12 @@
 "reset_password_send_ok" = "%@ adresine bir e-posta gönderdik. Şifreni yenilemek için e-postana gönderilen bağlantıya tıkla.";
 "reset_password_send_too_many_requests" = "Şifreni yenilemen için sana bir e-posta gönderdik. Lütfen e-postanı kontrol edip açıklamaları uygula.";
 "reset_password_title" = "Şifreyi yenile";
+"sell_back_button" = "Back";
 "sell_category_selection_label" = "Kategori";
 "sell_choose_category_dialog_cancel_button" = "İptal et";
 "sell_choose_category_dialog_title" = "Bir kategori seç";
 "sell_description_field_hint" = "Açıklama (isteğe bağlı)";
+"sell_description_information" = "Products with descriptions sell faster";
 "sell_picture_image_source_camera_button" = "Kamera";
 "sell_picture_image_source_camera_roll_button" = "Fotoğraf galerisi";
 "sell_picture_image_source_cancel_button" = "İptal et";
@@ -504,6 +506,7 @@
 "sell_picture_selected_delete_button" = "Sil";
 "sell_picture_selected_save_into_camera_roll_button" = "Kaydet";
 "sell_picture_selected_title" = "Bir eylem seç";
+"sell_price_field" = "Price:";
 "sell_send_error_invalid_category" = "Lütfen, ürünün için bir kategori seç.";
 "sell_send_error_invalid_description" = "Lütfen, ürünün için geçerli bir açıklama gir.";
 "sell_send_error_invalid_description_too_long" = "Ürün açıklaması için en fazla %d karakter girebilirsin.";
@@ -516,6 +519,7 @@
 "sell_title_autogen_autotrans_label" = "letgo tarafından önerilen ve Yandex ile çevrilen başlık";
 "sell_title_autogen_label" = "letgo tarafından önerilen başlık";
 "sell_title_field_hint" = "Ürün başlığı (isteğe bağlı)";
+"sell_title_information" = "Make it easy for buyers to find your product";
 "sell_uploading_label" = "Ürün yükleniyor. Lütfen bekle...";
 "settings_change_location_button" = "Konum";
 "settings_change_password_button" = "Şifre";

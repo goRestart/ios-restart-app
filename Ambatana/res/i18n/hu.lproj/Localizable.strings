@@ -488,10 +488,12 @@
 "reset_password_send_ok" = "E-mailt küldtünk a következő címre: %@. A benne lévő linkre kattintva helyreállíthatod jelszavadat.";
 "reset_password_send_too_many_requests" = "Már küldtünk jelszó-helyreállítási e-mailt. Ellenőrizd postafiókodat, és kövesd az utasításokat!";
 "reset_password_title" = "Jelszóhelyreállítás";
+"sell_back_button" = "Back";
 "sell_category_selection_label" = "Kategória";
 "sell_choose_category_dialog_cancel_button" = "Mégse";
 "sell_choose_category_dialog_title" = "Válassz kategóriát";
 "sell_description_field_hint" = "Leírás (nem kötelező)";
+"sell_description_information" = "Products with descriptions sell faster";
 "sell_picture_image_source_camera_button" = "Kamera";
 "sell_picture_image_source_camera_roll_button" = "Fotótár";
 "sell_picture_image_source_cancel_button" = "Mégse";
@@ -504,6 +506,7 @@
 "sell_picture_selected_delete_button" = "Törlés";
 "sell_picture_selected_save_into_camera_roll_button" = "Mentés lemezre";
 "sell_picture_selected_title" = "Válassz műveletet";
+"sell_price_field" = "Price:";
 "sell_send_error_invalid_category" = "Kérjük, válassz kategóriát a termékednek!";
 "sell_send_error_invalid_description" = "Kérjük, hogy érvényes leírást adj meg a portékához.";
 "sell_send_error_invalid_description_too_long" = "A portékák leírásának maximális hossza %d karakter.";
@@ -516,6 +519,7 @@
 "sell_title_autogen_autotrans_label" = "A címet a letgo ajánlotta és a Google fordította";
 "sell_title_autogen_label" = "A letgo által ajánlott cím";
 "sell_title_field_hint" = "Cím (nem kötelező)";
+"sell_title_information" = "Make it easy for buyers to find your product";
 "sell_uploading_label" = "Portéka feltöltése. Türelmedet kérjük…";
 "settings_change_location_button" = "Tartózkodási hely";
 "settings_change_password_button" = "Jelszóváltás";
