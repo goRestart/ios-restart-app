@@ -475,6 +475,26 @@ struct LGLocalizedString {
 		return NSLocalizedString("chat_with_yourself_alert_msg", comment: "")
 	}
 
+	static var collectionGamingTitle: String {
+		return NSLocalizedString("collection_gaming_title", comment: "")
+	}
+
+	static var collectionTransportTitle: String {
+		return NSLocalizedString("collection_transport_title", comment: "")
+	}
+
+	static var collectionAppleTitle: String {
+		return NSLocalizedString("collection_apple_title", comment: "")
+	}
+
+	static var collectionFurnitureTitle: String {
+		return NSLocalizedString("collection_furniture_title", comment: "")
+	}
+
+	static var collectionExploreButton: String {
+		return NSLocalizedString("collection_explore_button", comment: "")
+	}
+
 	static var commercializerCreateFromSettings: String {
 		return NSLocalizedString("commercializer_create_from_settings", comment: "")
 	}

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="CollectionCell" customModule="LetGo" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="174" height="232"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="174" height="232"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="collection_transport" translatesAutoresizingMaskIntoConstraints="NO" id="Zla-7j-DiC">
+                        <rect key="frame" x="0.0" y="0.0" width="174" height="232"/>
+                    </imageView>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="80K-hl-JG7">
+                        <rect key="frame" x="0.0" y="0.0" width="174" height="232"/>
+                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.39766981532068962" colorSpace="calibratedRGB"/>
+                    </view>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_TRAVEL IN STYLE" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sT1-OH-QKu">
+                        <rect key="frame" x="12" y="59" width="150" height="57"/>
+                        <fontDescription key="fontDescription" type="boldSystem" pointSize="24"/>
+                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ir2-Hc-txk">
+                        <rect key="frame" x="43" y="136" width="88" height="30"/>
+                        <color key="backgroundColor" red="1" green="0.2470588235" blue="0.33333333329999998" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="30" id="k8R-kx-aFi"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
+                        <inset key="contentEdgeInsets" minX="20" minY="0.0" maxX="20" maxY="0.0"/>
+                        <state key="normal" title="Button"/>
+                    </button>
+                </subviews>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            </view>
+            <constraints>
+                <constraint firstItem="80K-hl-JG7" firstAttribute="width" secondItem="Zla-7j-DiC" secondAttribute="width" id="6KO-VK-AGp"/>
+                <constraint firstItem="sT1-OH-QKu" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="12" id="Ax8-MS-hNC"/>
+                <constraint firstItem="80K-hl-JG7" firstAttribute="centerX" secondItem="Zla-7j-DiC" secondAttribute="centerX" id="I8y-hH-W0c"/>
+                <constraint firstItem="80K-hl-JG7" firstAttribute="centerY" secondItem="Zla-7j-DiC" secondAttribute="centerY" id="O4y-hs-eXW"/>
+                <constraint firstAttribute="trailing" secondItem="Zla-7j-DiC" secondAttribute="trailing" id="SDR-Wo-n7O"/>
+                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="ir2-Hc-txk" secondAttribute="trailing" constant="12" id="TQ7-P0-Gtg"/>
+                <constraint firstItem="80K-hl-JG7" firstAttribute="height" secondItem="Zla-7j-DiC" secondAttribute="height" id="Y4X-8Y-lAA"/>
+                <constraint firstItem="Zla-7j-DiC" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="Zuy-SH-BTq"/>
+                <constraint firstItem="Zla-7j-DiC" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="a2u-FB-AUj"/>
+                <constraint firstAttribute="bottom" secondItem="Zla-7j-DiC" secondAttribute="bottom" id="b5f-iZ-ybq"/>
+                <constraint firstAttribute="trailing" secondItem="sT1-OH-QKu" secondAttribute="trailing" constant="12" id="boS-5s-pGD"/>
+                <constraint firstAttribute="centerY" secondItem="sT1-OH-QKu" secondAttribute="bottom" id="hNc-05-GRa"/>
+                <constraint firstItem="ir2-Hc-txk" firstAttribute="top" secondItem="sT1-OH-QKu" secondAttribute="bottom" constant="20" id="hjV-pK-tKm"/>
+                <constraint firstItem="ir2-Hc-txk" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="12" id="j7r-MR-yem"/>
+                <constraint firstItem="ir2-Hc-txk" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="teS-40-Yiy"/>
+            </constraints>
+            <connections>
+                <outlet property="colorView" destination="80K-hl-JG7" id="yRF-Vv-scN"/>
+                <outlet property="exploreButton" destination="ir2-Hc-txk" id="qVu-eR-rwc"/>
+                <outlet property="imageView" destination="Zla-7j-DiC" id="E3M-EV-SQb"/>
+                <outlet property="title" destination="sT1-OH-QKu" id="WGL-Kd-yZ0"/>
+            </connections>
+            <point key="canvasLocation" x="761" y="497"/>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <image name="collection_transport" width="174" height="232"/>
+    </resources>
+</document>

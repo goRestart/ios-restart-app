@@ -523,7 +523,7 @@ private extension AppCoordinator {
             }
         case let .Product(productId):
             afterDelayClosure = { [weak self] in
-                self?.selectedTabCoordinator?.openProduct(ProductDetailData.Id(productId: productId))
+                self?.selectedTabCoordinator?.openProduct(ProductDetailData.Id(productId: productId), source: .OpenApp)
             }
         case let .User(userId):
             afterDelayClosure = { [weak self] in

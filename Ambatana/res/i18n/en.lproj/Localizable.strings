@@ -349,6 +349,21 @@
 // Alert to show when user started chat with himself
 "chat_with_yourself_alert_msg" = "You can't start a conversation about your own product.";
 
+// Title of gaming collection
+"collection_gaming_title" = "The game is on";
+
+// Title of transport collection
+"collection_transport_title" = "Travel in style";
+
+// Title of apple collection
+"collection_apple_title" = "An apple a day";
+
+// Title of furniture collection
+"collection_furniture_title" = "No place like home";
+
+// Explore button on collection cell
+"collection_explore_button" = "Explore";
+
 // Create a commercial from the settings menu
 "commercializer_create_from_settings" = "Create a Free Commercial";
 

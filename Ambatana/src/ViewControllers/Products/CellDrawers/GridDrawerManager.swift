@@ -20,10 +20,12 @@ class GridDrawerManager {
 
     private let productDrawer = ProductCellDrawer()
     private let bannerDrawer = BannerCellDrawer()
+    private let collectionDrawer = ProductCollectionCellDrawer();
     
     func registerCell(inCollectionView collectionView: UICollectionView) {
         ProductCellDrawer.registerCell(collectionView)
         BannerCellDrawer.registerCell(collectionView)
+        ProductCollectionCellDrawer.registerCell(collectionView)
     }
     
     func cell(model: ProductCellModel, collectionView: UICollectionView, atIndexPath: NSIndexPath) -> UICollectionViewCell {
@@ -32,6 +34,8 @@ class GridDrawerManager {
             return bannerDrawer.cell(collectionView, atIndexPath: atIndexPath)
         case .ProductCell:
             return productDrawer.cell(collectionView, atIndexPath: atIndexPath)
+        case .CollectionCell:
+            return collectionDrawer.cell(collectionView, atIndexPath: atIndexPath)
         }
     }
     
@@ -45,6 +49,10 @@ class GridDrawerManager {
         case .ProductCell(let product) where cell is ProductCell:
             guard let cell = cell as? ProductCell else { return }
             return productDrawer.draw(product.cellData, style: cellStyle, inCell: cell)
+
+        case .CollectionCell(let style) where cell is CollectionCell:
+            guard let cell = cell as? CollectionCell else { return }
+            return collectionDrawer.draw(style, style: cellStyle, inCell: cell)
         
         default:
             assert(false, "⛔️ You shouldn't be here!")
