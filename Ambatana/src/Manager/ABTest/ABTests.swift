@@ -27,9 +27,9 @@ public struct ABTests {
     }
 
     static func variablesUpdated() {
-        let allBoolVars = [bigFavoriteIcon, showRelatedProducts, showPriceOnListings, directStickersOnProduct]
-        let allIntVars = [postingDetailsMode]
-        let result = allBoolVars.flatMap{ $0.trackingData } + allIntVars.flatMap{ $0.trackingData }
+        let allVars: [ABTrackDataVar] = [bigFavoriteIcon, showRelatedProducts, showPriceOnListings,
+                                       directStickersOnProduct, postingDetailsMode]
+        let result = allVars.flatMap{ $0.trackingData }
         trackingData.value = result
     }
 }

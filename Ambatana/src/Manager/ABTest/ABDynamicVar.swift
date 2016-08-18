@@ -23,7 +23,7 @@ protocol ABDynamicVar {
     var trackingData: (String, AnyObject)? { get }
 }
 
-struct BoolABDynamicVar: ABDynamicVar {
+struct BoolABDynamicVar: ABDynamicVar, ABTrackDataVar {
     let key: String
     let type: ABType
     let defaultValue: Bool
@@ -40,7 +40,7 @@ struct BoolABDynamicVar: ABDynamicVar {
     }
 }
 
-struct StringABDynamicVar: ABDynamicVar {
+struct StringABDynamicVar: ABDynamicVar, ABTrackDataVar {
     let key: String
     let type: ABType
     let defaultValue: String
@@ -57,7 +57,7 @@ struct StringABDynamicVar: ABDynamicVar {
     }
 }
 
-struct IntABDynamicVar: ABDynamicVar {
+struct IntABDynamicVar: ABDynamicVar, ABTrackDataVar {
     let key: String
     let type: ABType
     let defaultValue: Int
@@ -72,6 +72,10 @@ struct IntABDynamicVar: ABDynamicVar {
         self.defaultValue = defaultValue
         self.lpVar = LPVar.define(key, withLong: defaultValue)
     }
+}
+
+protocol ABTrackDataVar {
+    var trackingData: (String, AnyObject)? { get }
 }
 
 extension ABDynamicVar {
