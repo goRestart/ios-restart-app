@@ -23,7 +23,7 @@ protocol ABDynamicVar {
     var trackingData: (String, AnyObject)? { get }
 }
 
-struct BoolABDynamicVar: ABDynamicVar, ABTrackDataVar {
+struct BoolABDynamicVar: ABDynamicVar, ABVariable {
     let key: String
     let type: ABType
     let defaultValue: Bool
@@ -40,7 +40,7 @@ struct BoolABDynamicVar: ABDynamicVar, ABTrackDataVar {
     }
 }
 
-struct StringABDynamicVar: ABDynamicVar, ABTrackDataVar {
+struct StringABDynamicVar: ABDynamicVar, ABVariable {
     let key: String
     let type: ABType
     let defaultValue: String
@@ -57,7 +57,7 @@ struct StringABDynamicVar: ABDynamicVar, ABTrackDataVar {
     }
 }
 
-struct IntABDynamicVar: ABDynamicVar, ABTrackDataVar {
+struct IntABDynamicVar: ABDynamicVar, ABVariable {
     let key: String
     let type: ABType
     let defaultValue: Int
@@ -74,13 +74,17 @@ struct IntABDynamicVar: ABDynamicVar, ABTrackDataVar {
     }
 }
 
-protocol ABTrackDataVar {
+protocol ABVariable {
     var trackingData: (String, AnyObject)? { get }
+    func register()
 }
 
 extension ABDynamicVar {
     var trackingData: (String, AnyObject)? {
         guard let value = value as? AnyObject else { return nil }
         return ("[Leanplum] \(key)", value)
+    }
+    func register() {
+        let _ = self.value
     }
 }
