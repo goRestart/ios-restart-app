@@ -583,6 +583,8 @@
 		C737267E1D64C05200D348F2 /* PostProductDetailFullView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C737267C1D64C05200D348F2 /* PostProductDetailFullView.xib */; };
 		C73726801D65A4F900D348F2 /* UITextView+Placeholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C737267F1D65A4F900D348F2 /* UITextView+Placeholder.swift */; };
 		C73726811D65A4F900D348F2 /* UITextView+Placeholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C737267F1D65A4F900D348F2 /* UITextView+Placeholder.swift */; };
+		C73726831D65C11F00D348F2 /* PostProductDetailStepsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C73726821D65C11F00D348F2 /* PostProductDetailStepsView.xib */; };
+		C73726841D65C11F00D348F2 /* PostProductDetailStepsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C73726821D65C11F00D348F2 /* PostProductDetailStepsView.xib */; };
 		C739C1D81D11A2FB0014AD6A /* ChatOtherInfoCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C739C1D71D11A2FB0014AD6A /* ChatOtherInfoCellDrawer.swift */; };
 		C739C1D91D11A2FB0014AD6A /* ChatOtherInfoCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C739C1D71D11A2FB0014AD6A /* ChatOtherInfoCellDrawer.swift */; };
 		C739D94A1CDC9A2A000F8BA9 /* WelcomeNotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C739D9481CDC9A2A000F8BA9 /* WelcomeNotificationCell.swift */; };
@@ -1419,6 +1421,7 @@
 		C7363FBB1BFA449A00A4BF6F /* ProductSortCriteria+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ProductSortCriteria+LG.swift"; sourceTree = "<group>"; };
 		C737267C1D64C05200D348F2 /* PostProductDetailFullView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PostProductDetailFullView.xib; sourceTree = "<group>"; };
 		C737267F1D65A4F900D348F2 /* UITextView+Placeholder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITextView+Placeholder.swift"; sourceTree = "<group>"; };
+		C73726821D65C11F00D348F2 /* PostProductDetailStepsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PostProductDetailStepsView.xib; sourceTree = "<group>"; };
 		C739C1D71D11A2FB0014AD6A /* ChatOtherInfoCellDrawer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatOtherInfoCellDrawer.swift; sourceTree = "<group>"; };
 		C739D9481CDC9A2A000F8BA9 /* WelcomeNotificationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WelcomeNotificationCell.swift; sourceTree = "<group>"; };
 		C739D9491CDC9A2A000F8BA9 /* WelcomeNotificationCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WelcomeNotificationCell.xib; sourceTree = "<group>"; };
@@ -2733,6 +2736,7 @@
 				C74016D81D6467C9004C1E9D /* PostProductDetailPriceView.swift */,
 				C74016DB1D6467DB004C1E9D /* PostProductDetailPriceView.xib */,
 				C74016E11D64698C004C1E9D /* PostProductDetailStepsView.swift */,
+				C73726821D65C11F00D348F2 /* PostProductDetailStepsView.xib */,
 				C74016E41D6469B1004C1E9D /* PostProductDetailFullView.swift */,
 				C737267C1D64C05200D348F2 /* PostProductDetailFullView.xib */,
 			);
@@ -3408,6 +3412,7 @@
 				C708C83E1CDB590400AA87B3 /* AppRatingView.xib in Resources */,
 				50CBCD601BF0BB8F00A329BB /* CollectionViewFooter.xib in Resources */,
 				2E373FA21D3CDEF500AC811C /* UserRatingCell.xib in Resources */,
+				C73726831D65C11F00D348F2 /* PostProductDetailStepsView.xib in Resources */,
 				508011191D474ED80073F362 /* Congrats-Screen-Images.xcassets in Resources */,
 				C70EA18F1D5B6794003FFC9A /* StickersSelectorViewController.xib in Resources */,
 				500DC12C1BDA1C4C00B494FA /* ios-prod.json in Resources */,
@@ -3528,6 +3533,7 @@
 				6A94346A1D2E52330053F924 /* BannerCell.xib in Resources */,
 				C7DB42511C5138B500400945 /* CollectionViewFooter.xib in Resources */,
 				2E373FAE1D3E6F4500AC811C /* UserRatingCell.xib in Resources */,
+				C73726841D65C11F00D348F2 /* PostProductDetailStepsView.xib in Resources */,
 				5080111A1D474ED80073F362 /* Congrats-Screen-Images.xcassets in Resources */,
 				C70EA1901D5B6794003FFC9A /* StickersSelectorViewController.xib in Resources */,
 				C7DB42531C5138B500400945 /* ios-prod.json in Resources */,

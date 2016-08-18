@@ -158,6 +158,7 @@
 "common_expand" = "더보기";
 "common_loading" = "로딩중...";
 "common_max" = "최대";
+"common_next" = "Next";
 "common_no" = "아니요";
 "common_ok" = "확인";
 "common_product_not_available" = "이 제품은 더이상 존재하지 않습니다.";

@@ -63,7 +63,8 @@ class PostProductViewController: BaseViewController {
         self.viewModel = viewModel
         self.forceCamera = forceCamera
 //        self.productDetailView = PostProductDetailPriceView(viewModel: viewModel.postDetailViewModel)
-        self.productDetailView = PostProductDetailFullView(viewModel: viewModel.postDetailViewModel)
+//        self.productDetailView = PostProductDetailFullView(viewModel: viewModel.postDetailViewModel)
+        self.productDetailView = PostProductDetailStepsView(viewModel: viewModel.postDetailViewModel)
         super.init(viewModel: viewModel, nibName: "PostProductViewController",
                    statusBarStyle: UIApplication.sharedApplication().statusBarStyle)
         modalPresentationStyle = .OverCurrentContext

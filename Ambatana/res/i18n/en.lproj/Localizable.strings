@@ -481,6 +481,9 @@
 // Common no
 "common_no" = "No";
 
+// Common next
+"common_next" = "Next";
+
 // Common ok
 "common_ok" = "OK";
 

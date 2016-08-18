@@ -651,6 +651,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("common_no", comment: "")
 	}
 
+	static var commonNext: String {
+		return NSLocalizedString("common_next", comment: "")
+	}
+
 	static var commonOk: String {
 		return NSLocalizedString("common_ok", comment: "")
 	}

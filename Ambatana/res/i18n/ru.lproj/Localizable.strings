@@ -158,6 +158,7 @@
 "common_expand" = "Показать еще";
 "common_loading" = "Загрузка...";
 "common_max" = "максимум";
+"common_next" = "Next";
 "common_no" = "Нет";
 "common_ok" = "OK";
 "common_product_not_available" = "Этот товар больше не доступен.";
