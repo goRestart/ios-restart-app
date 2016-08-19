@@ -8,28 +8,27 @@
 
 import UIKit
 import FastttCamera
+import RxSwift
 
-class PostProductViewController: BaseViewController, PostProductViewModelDelegate, UITextFieldDelegate {
+class PostProductViewController: BaseViewController {
     @IBOutlet weak var cameraGalleryContainer: UIView!
     @IBOutlet weak var galleryButton: UIButton!
     @IBOutlet weak var photoButton: UIButton!
     @IBOutlet weak var photoButtonCenterX: NSLayoutConstraint!
 
     @IBOutlet weak var selectPriceContainer: UIView!
-    @IBOutlet weak var selectPriceContentContainerCenterY: NSLayoutConstraint!
     @IBOutlet weak var customLoadingView: LoadingIndicator!
     @IBOutlet weak var postedInfoLabel: UILabel!
-    @IBOutlet weak var addPriceLabel: UILabel!
-    @IBOutlet weak var priceFieldContainer: UIView!
-    @IBOutlet weak var priceTextField: UITextField!
-    @IBOutlet weak var currencyButton: UIButton!
-    @IBOutlet weak var doneButton: UIButton!
+    @IBOutlet weak var detailsScroll: UIScrollView!
+    @IBOutlet weak var detailsContainer: UIView!
     @IBOutlet weak var postErrorLabel: UILabel!
     @IBOutlet weak var retryButton: UIButton!
+    private var productDetailView: UIView
 
     private var viewPager: LGViewPager
     private var cameraView: PostProductCameraView
     private var galleryView: PostProductGalleryView
+    private let keyboardHelper: KeyboardHelper
     private var viewDidAppear: Bool = false
 
     private let forceCamera: Bool
@@ -37,6 +36,8 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
         if forceCamera { return 1 }
         return KeyValueStorage.sharedInstance.userPostProductLastTabSelected
     }
+
+    private let disposeBag = DisposeBag()
 
 
     // ViewModel
@@ -49,13 +50,26 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
         self.init(viewModel: PostProductViewModel(source: .SellButton), forceCamera: forceCamera)
     }
 
-    required init(viewModel: PostProductViewModel, forceCamera: Bool) {
+    convenience init(viewModel: PostProductViewModel, forceCamera: Bool) {
+        self.init(viewModel: viewModel, forceCamera: forceCamera, keyboardHelper: KeyboardHelper.sharedInstance)
+    }
+
+    required init(viewModel: PostProductViewModel, forceCamera: Bool, keyboardHelper: KeyboardHelper) {
         let viewPagerConfig = LGViewPagerConfig(tabPosition: .Hidden, tabLayout: .Fixed, tabHeight: 54)
         self.viewPager = LGViewPager(config: viewPagerConfig, frame: CGRect.zero)
         self.cameraView = PostProductCameraView()
         self.galleryView = PostProductGalleryView()
+        self.keyboardHelper = keyboardHelper
         self.viewModel = viewModel
         self.forceCamera = forceCamera
+        switch FeatureFlags.postingDetailsMode {
+        case .Old:
+            self.productDetailView = PostProductDetailPriceView(viewModel: viewModel.postDetailViewModel)
+        case .Steps:
+            self.productDetailView = PostProductDetailStepsView(viewModel: viewModel.postDetailViewModel)
+        case .AllInOne:
+            self.productDetailView = PostProductDetailFullView(viewModel: viewModel.postDetailViewModel)
+        }
         super.init(viewModel: viewModel, nibName: "PostProductViewController",
                    statusBarStyle: UIApplication.sharedApplication().statusBarStyle)
         modalPresentationStyle = .OverCurrentContext
@@ -66,20 +80,12 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
         fatalError("init(coder:) has not been implemented")
     }
     
-    deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(PostProductViewController.keyboardWillShow(_:)),
-            name: UIKeyboardWillShowNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(PostProductViewController.keyboardWillHide(_:)),
-            name: UIKeyboardWillHideNotification, object: nil)
-
         viewModel.onViewLoaded()
         setupView()
+        setupRx()
     }
 
     override func viewDidLayoutSubviews() {
@@ -114,7 +120,7 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
     // MARK: - Actions
     
     @IBAction func onCloseButton(sender: AnyObject) {
-        priceTextField.resignFirstResponder()
+        productDetailView.resignFirstResponder()
         viewModel.closeButtonPressed()
     }
 
@@ -131,55 +137,8 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
         }
     }
 
-    @IBAction func onCurrencyButton(sender: AnyObject) {
-        //Not implemented right now
-    }
-
-    @IBAction func onDoneButton(sender: AnyObject) {
-        priceTextField.resignFirstResponder()
-
-        viewModel.doneButtonPressed(priceText: priceTextField.text)
-    }
-
     @IBAction func onRetryButton(sender: AnyObject) {
         viewModel.retryButtonPressed()
-    }
-
-
-    // MARK: - PostProductViewModelDelegate
-
-    func postProductViewModelDidRestartTakingImage(viewModel: PostProductViewModel) {
-        selectPriceContainer.hidden = true
-    }
-
-    func postProductViewModelDidStartUploadingImage(viewModel: PostProductViewModel) {
-        setSelectPriceState(loading: true, error: nil)
-    }
-
-    func postProductViewModelDidFinishUploadingImage(viewModel: PostProductViewModel, error: String?) {
-        setSelectPriceState(loading: false, error: error)
-    }
-
-    func postProductviewModelShouldClose(viewModel: PostProductViewModel, animated: Bool, completion: (() -> Void)?) {
-        dismissViewControllerAnimated(animated, completion: completion)
-    }
-
-    func postProductviewModel(viewModel: PostProductViewModel, shouldAskLoginWithCompletion completion: () -> Void) {
-        ifLoggedInThen(.Sell, loginStyle: .Popup(LGLocalizedString.productPostLoginMessage),
-            preDismissAction: { [weak self] in
-                self?.view.hidden = true
-            },
-            loggedInAction: completion,
-            elsePresentSignUpWithSuccessAction: completion)
-    }
-
-
-    // MARK: - UITextFieldDelegate
-
-    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange,
-        replacementString string: String) -> Bool {
-            guard textField == priceTextField else { return true }
-            return textField.shouldChangePriceInRange(range, replacementString: string)
     }
 
 
@@ -195,21 +154,51 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
 
         setupViewPager()
 
-        //i18n
-        addPriceLabel.text = LGLocalizedString.productPostPriceLabel.uppercase
-        priceTextField.attributedPlaceholder = NSAttributedString(string: LGLocalizedString.productNegotiablePrice,
-            attributes: [NSForegroundColorAttributeName: UIColor.whiteColor()])
-        doneButton.setTitle(LGLocalizedString.productPostDone, forState: UIControlState.Normal)
+        setupDetailView()
+
+        setSelectImageState()
+    }
+
+    private func setupDetailView() {
         retryButton.setTitle(LGLocalizedString.commonErrorListRetryButton, forState: UIControlState.Normal)
-
-        //Layers
         retryButton.setStyle(.Primary(fontSize: .Medium))
-        doneButton.setStyle(.Primary(fontSize: .Medium))
-        priceFieldContainer.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
-        priceFieldContainer.layer.borderColor = UIColor.whiteColor().CGColor
-        priceFieldContainer.layer.borderWidth = 1
 
-        currencyButton.setTitle(viewModel.currency?.symbol, forState: UIControlState.Normal)
+        productDetailView.translatesAutoresizingMaskIntoConstraints = false
+        detailsContainer.addSubview(productDetailView)
+        productDetailView.alpha = 0
+
+        let top = NSLayoutConstraint(item: productDetailView, attribute: .Top, relatedBy: .Equal,
+                                     toItem: postedInfoLabel, attribute: .Bottom, multiplier: 1.0, constant: 15)
+        let left = NSLayoutConstraint(item: productDetailView, attribute: .Left, relatedBy: .Equal,
+                                      toItem: detailsContainer, attribute: .Left, multiplier: 1.0, constant: 0)
+        let right = NSLayoutConstraint(item: productDetailView, attribute: .Right, relatedBy: .Equal,
+                                       toItem: detailsContainer, attribute: .Right, multiplier: 1.0, constant: 0)
+        let bottom = NSLayoutConstraint(item: productDetailView, attribute: .Bottom, relatedBy: .Equal,
+                                        toItem: detailsContainer, attribute: .Bottom, multiplier: 1.0, constant: 0)
+        detailsContainer.addConstraints([top, left, right, bottom])
+    }
+
+    private func setupRx() {
+        viewModel.state.asObservable().bindNext { [weak self] state in
+            switch state {
+            case .ImageSelection:
+                self?.setSelectImageState()
+            case .UploadingImage:
+                self?.setSelectPriceState(loading: true, error: nil)
+            case .ErrorUpload(let message):
+                self?.setSelectPriceState(loading: false, error: message)
+            case .DetailsSelection:
+                self?.setSelectPriceState(loading: false, error: nil)
+            }
+        }.addDisposableTo(disposeBag)
+
+        keyboardHelper.rx_keyboardOrigin.asObservable().bindNext { [weak self] origin in
+            guard origin > 0 else { return }
+            guard let scrollView = self?.detailsScroll, viewHeight = self?.view.height,
+            let detailsRect = self?.productDetailView.frame else { return }
+            scrollView.contentInset.bottom = viewHeight - origin
+            scrollView.scrollRectToVisible(detailsRect, animated: false)
+        }.addDisposableTo(disposeBag)
     }
 
     private func updateButtonsForPagerScroll(scroll: CGFloat) {
@@ -218,8 +207,19 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
         let movement = (view.width/2) * (1.0 - scroll)
         photoButtonCenterX.constant = movement
     }
+}
+
+
+// MARK: - State selection
+
+extension PostProductViewController {
+    private func setSelectImageState() {
+        selectPriceContainer.hidden = true
+    }
 
     private func setSelectPriceState(loading loading: Bool, error: String?) {
+        detailsScroll.contentInset.top = (view.height / 3) - customLoadingView.height
+
         selectPriceContainer.hidden = false
         let hasError = error != nil
 
@@ -245,21 +245,19 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
             setSelectPriceBottomItems(loading, error: error)
         } else {
             UIView.animateWithDuration(0.2,
-                animations: { [weak self] in
-                    self?.postedInfoLabel.alpha = 1
+                                       animations: { [weak self] in
+                                        self?.postedInfoLabel.alpha = 1
                 },
-                completion: { [weak self] completed in
-                    self?.postedInfoLabel.alpha = 1
-                    self?.setSelectPriceBottomItems(loading, error: error)
+                                       completion: { [weak self] completed in
+                                        self?.postedInfoLabel.alpha = 1
+                                        self?.setSelectPriceBottomItems(loading, error: error)
                 }
             )
         }
     }
 
     private func setSelectPriceBottomItems(loading: Bool, error: String?) {
-        addPriceLabel.alpha = 0
-        priceFieldContainer.alpha = 0
-        doneButton.alpha = 0
+        productDetailView.alpha = 0
         postErrorLabel.alpha = 0
         retryButton.alpha = 0
 
@@ -269,25 +267,38 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
         let wrongItemsAlpha: CGFloat = error == nil ? 0 : 1
         let finalAlphaBlock = { [weak self] in
             guard let strongSelf = self else { return }
-            strongSelf.addPriceLabel.alpha = okItemsAlpha
-            strongSelf.priceFieldContainer.alpha = okItemsAlpha
-            strongSelf.doneButton.alpha = okItemsAlpha
+            strongSelf.productDetailView.alpha = okItemsAlpha
             strongSelf.postErrorLabel.alpha = wrongItemsAlpha
             strongSelf.retryButton.alpha = wrongItemsAlpha
+            strongSelf.detailsScroll.contentInset.top = 0
         }
         UIView.animateWithDuration(0.2, delay: 0.8, options: UIViewAnimationOptions(),
-            animations: { () -> Void in
-                finalAlphaBlock()
+                                   animations: { () -> Void in
+                                    finalAlphaBlock()
             }, completion: { [weak self] (completed: Bool) -> Void in
                 finalAlphaBlock()
 
                 if okItemsAlpha == 1 {
-                    self?.priceTextField.becomeFirstResponder()
+                    self?.productDetailView.becomeFirstResponder()
                 } else {
-                    self?.priceTextField.resignFirstResponder()
+                    self?.productDetailView.resignFirstResponder()
                 }
             }
         )
+    }
+}
+
+
+// MARK: - PostProductViewModelDelegate
+
+extension PostProductViewController: PostProductViewModelDelegate {
+    func postProductviewModel(viewModel: PostProductViewModel, shouldAskLoginWithCompletion completion: () -> Void) {
+        ifLoggedInThen(.Sell, loginStyle: .Popup(LGLocalizedString.productPostLoginMessage),
+                       preDismissAction: { [weak self] in
+                        self?.view.hidden = true
+            },
+                       loggedInAction: completion,
+                       elsePresentSignUpWithSuccessAction: completion)
     }
 }
 
@@ -416,28 +427,5 @@ extension PostProductViewController: LGViewPagerDataSource, LGViewPagerDelegate,
         titleAttributes[NSForegroundColorAttributeName] = selected ? UIColor.primaryColor : UIColor.white
         titleAttributes[NSFontAttributeName] = selected ? UIFont.activeTabFont : UIFont.inactiveTabFont
         return titleAttributes
-    }
-}
-
-
-// MARK: - Keyboard notifications
-
-extension PostProductViewController {
-    
-    func keyboardWillShow(notification: NSNotification) {
-        centerPriceContentContainer(notification)
-    }
-    
-    func keyboardWillHide(notification: NSNotification) {
-        centerPriceContentContainer(notification)
-    }
-    
-    func centerPriceContentContainer(keyboardNotification: NSNotification) {
-        let kbAnimation = KeyboardAnimation(keyboardNotification: keyboardNotification)
-        UIView.animateWithDuration(kbAnimation.duration, delay: 0, options: kbAnimation.options, animations: {
-            [weak self] in
-            self?.selectPriceContentContainerCenterY.constant = -(kbAnimation.size.height/2)
-            self?.selectPriceContainer.layoutIfNeeded()
-        }, completion: nil)
     }
 }

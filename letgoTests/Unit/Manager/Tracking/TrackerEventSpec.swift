@@ -1466,29 +1466,47 @@ class TrackerEventSpec: QuickSpec {
             }
 
             describe("productSellComplete") {
-                it("has its event name") {
-                    let product = MockProduct()
-                    sut = TrackerEvent.productSellComplete(product)
-                    expect(sut.name.rawValue).to(equal("product-sell-complete"))
-                }
-                it("contains the product related params when passing by a product") {
+                beforeEach {
                     let product = MockProduct()
                     product.objectId = "r4nd0m1D"
                     product.category = .HomeAndGarden
-                    
-                    sut = TrackerEvent.productSellComplete(product)
-                    expect(sut.params).notTo(beNil())
-                    
-                    expect(sut.params!.stringKeyParams["category-id"]).notTo(beNil())
+
+                    sut = TrackerEvent.productSellComplete(product, buttonName: .Done, negotiable: .Yes,
+                        pictureSource: .Gallery)
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("product-sell-complete"))
+                }
+                it("contains product-id") {
+                    let productId = sut.params!.stringKeyParams["product-id"] as? String
+                    expect(productId).to(equal("r4nd0m1D"))
+                }
+                it("contains category-id") {
                     let categoryId = sut.params!.stringKeyParams["category-id"] as? Int
                     expect(categoryId).to(equal(4))
-                    
-                    expect(sut.params!.stringKeyParams["product-id"]).notTo(beNil())
-                    let productId = sut.params!.stringKeyParams["product-id"] as? String
-                    expect(productId).to(equal(product.objectId))
+                }
+                it("contains product-name") {
+                    let data = sut.params!.stringKeyParams["product-name"] as? String
+                    expect(data).to(equal(""))
+                }
+                it("contains product-description") {
+                    let data = sut.params!.stringKeyParams["product-description"] as? Bool
+                    expect(data).to(equal(false))
+                }
+                it("contains button-name") {
+                    let data = sut.params!.stringKeyParams["button-name"] as? String
+                    expect(data).to(equal("done"))
+                }
+                it("contains negotiable-price") {
+                    let data = sut.params!.stringKeyParams["negotiable-price"] as? String
+                    expect(data).to(equal("yes"))
+                }
+                it("contains picture-source") {
+                    let data = sut.params!.stringKeyParams["picture-source"] as? String
+                    expect(data).to(equal("gallery"))
                 }
             }
-            
+
             describe("productEditStart") {
                 it("has its event name") {
                     let user = MockUser()

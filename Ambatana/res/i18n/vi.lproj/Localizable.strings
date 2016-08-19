@@ -158,6 +158,7 @@
 "common_expand" = "Hiện thêm";
 "common_loading" = "Đang tải...";
 "common_max" = "tối đa";
+"common_next" = "Next";
 "common_no" = "Không";
 "common_ok" = "OK";
 "common_product_not_available" = "Sản phẩm này không còn nữa.";
@@ -488,10 +489,12 @@
 "reset_password_send_ok" = "Chúng tôi vừa gửi email cho %@! Hãy nhấn vào đường dẫn trong thư để lấy lại mật khẩu.";
 "reset_password_send_too_many_requests" = "Chúng tôi vừa gửi cho bạn email khôi phục mật khẩu. Vui lòng kiểm tra email và làm theo hướng dẫn.";
 "reset_password_title" = "Lấy lại mật khẩu";
+"sell_back_button" = "Back";
 "sell_category_selection_label" = "Danh mục";
 "sell_choose_category_dialog_cancel_button" = "Hủy";
 "sell_choose_category_dialog_title" = "Chọn một danh mục";
 "sell_description_field_hint" = "Mô tả (tùy chọn)";
+"sell_description_information" = "Products with descriptions sell faster";
 "sell_picture_image_source_camera_button" = "Máy ảnh";
 "sell_picture_image_source_camera_roll_button" = "Thư viện hình ảnh";
 "sell_picture_image_source_cancel_button" = "Hủy";
@@ -504,6 +507,7 @@
 "sell_picture_selected_delete_button" = "Xóa";
 "sell_picture_selected_save_into_camera_roll_button" = "Lưu vào ổ đĩa";
 "sell_picture_selected_title" = "Hãy chọn một hành động";
+"sell_price_field" = "Price:";
 "sell_send_error_invalid_category" = "Vui lòng chọn một danh mục cho sản phẩm.";
 "sell_send_error_invalid_description" = "Vui lòng nhập một mô tả hợp lệ cho sản phẩm.";
 "sell_send_error_invalid_description_too_long" = "Mô tả sản phẩm dài tối đa %d ký tự.";
@@ -516,6 +520,7 @@
 "sell_title_autogen_autotrans_label" = "Tiêu đề do letgo đề xuất và Google dịch";
 "sell_title_autogen_label" = "Tiêu đề do letgo đề xuất";
 "sell_title_field_hint" = "Tiêu đề (tùy chọn)";
+"sell_title_information" = "Make it easy for buyers to find your product";
 "sell_uploading_label" = "Đang tải sản phẩm. Vui lòng chờ...";
 "settings_change_location_button" = "Địa điểm";
 "settings_change_password_button" = "Mật khẩu";
