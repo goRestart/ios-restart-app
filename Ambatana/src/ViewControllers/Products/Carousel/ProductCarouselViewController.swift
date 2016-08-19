@@ -323,7 +323,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
                     strongSelf.pendingMovement = nil
                 } else if index > strongSelf.currentIndex {
                     movement = .SwipeRight
-                } else if index < strongSelf.currentIndex{
+                } else if index < strongSelf.currentIndex {
                     movement = .SwipeLeft
                 } else {
                     movement = .Initial

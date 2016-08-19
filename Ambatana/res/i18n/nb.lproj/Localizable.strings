@@ -158,7 +158,7 @@
 "common_expand" = "Vis mer";
 "common_loading" = "Laster...";
 "common_max" = "maks";
-"common_next" = "Next";
+"common_next" = "Neste";
 "common_no" = "Nei";
 "common_ok" = "Ok";
 "common_product_not_available" = "Produktet er ikke tilgjengelig lenger.";
@@ -341,7 +341,7 @@
 "product_onboarding_show_again_button_title" = "Hvordan bla i produkter";
 "product_open_commercial_button" = "Commercial";
 "product_option_share" = "Del produkt";
-"product_option_show_commercial" = "Commercial";
+"product_option_show_commercial" = "Reklamefilm";
 "product_popular_near_you" = "Populært i ditt nærområde";
 "product_post_camera_first_time_alert_subtitle" = "Knips et godt bilde og begynn å tjene penger!";
 "product_post_camera_first_time_alert_title" = "Hva selger du?";
@@ -489,12 +489,12 @@
 "reset_password_send_ok" = "Vi har sendt en e-post til %@. Klikk på linken e-posten for å gjenopprette ditt passord.";
 "reset_password_send_too_many_requests" = "Vi har allerede sendt deg en e-post for tilbakestilling av passord. Vennligst sjekk din e-post og følg instruksene.";
 "reset_password_title" = "Tilbakestill passord";
-"sell_back_button" = "Back";
+"sell_back_button" = "Tilbake";
 "sell_category_selection_label" = "Kategori";
 "sell_choose_category_dialog_cancel_button" = "Avbryt";
 "sell_choose_category_dialog_title" = "Velg en kategori";
 "sell_description_field_hint" = "Beskrivelse (alternativt)";
-"sell_description_information" = "Products with descriptions sell faster";
+"sell_description_information" = "Produkter med beskrivelser som selger hurtigere";
 "sell_picture_image_source_camera_button" = "Kamera";
 "sell_picture_image_source_camera_roll_button" = "Bildegalleri";
 "sell_picture_image_source_cancel_button" = "Avbryt";
@@ -507,7 +507,7 @@
 "sell_picture_selected_delete_button" = "Slett";
 "sell_picture_selected_save_into_camera_roll_button" = "Arkiver bilde";
 "sell_picture_selected_title" = "Velg en handling";
-"sell_price_field" = "Price:";
+"sell_price_field" = "Pris:";
 "sell_send_error_invalid_category" = "Vennligst velg en kategori for produktet.";
 "sell_send_error_invalid_description" = "Vennligst legg til en produktbeskrivelse.";
 "sell_send_error_invalid_description_too_long" = "Maksimal lengde for produktbeskrivelse er på %d tegn.";
@@ -520,7 +520,7 @@
 "sell_title_autogen_autotrans_label" = "Tittel foreslått av letgo og oversatt av Google";
 "sell_title_autogen_label" = "Foreslått tittel av letgo";
 "sell_title_field_hint" = "Produktnavn (alternativt)";
-"sell_title_information" = "Make it easy for buyers to find your product";
+"sell_title_information" = "Gjør produktet enkelt å finne for kjøpere";
 "sell_uploading_label" = "Laster opp produktet. Vennligst vent...";
 "settings_change_location_button" = "Plassering";
 "settings_change_password_button" = "Passord";

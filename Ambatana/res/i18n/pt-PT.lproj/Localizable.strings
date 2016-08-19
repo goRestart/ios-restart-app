@@ -158,7 +158,7 @@
 "common_expand" = "Mostrar mais";
 "common_loading" = "A carregar...";
 "common_max" = "max";
-"common_next" = "Next";
+"common_next" = "Seguinte";
 "common_no" = "Não";
 "common_ok" = "Ok";
 "common_product_not_available" = "Artigo indisponível.";
@@ -489,12 +489,12 @@
 "reset_password_send_ok" = "Enviamos um email para %@! Clique no link do email para redefinir a sua password!";
 "reset_password_send_too_many_requests" = "Já lhe enviamos um email para redefinir a sua password. Por favor verifique o seu email e siga as instruções.";
 "reset_password_title" = "Redefinir password";
-"sell_back_button" = "Back";
+"sell_back_button" = "Anterior";
 "sell_category_selection_label" = "Categoria";
 "sell_choose_category_dialog_cancel_button" = "Cancelar";
 "sell_choose_category_dialog_title" = "Escolha uma categoria";
 "sell_description_field_hint" = "Descrição (opcional)";
-"sell_description_information" = "Products with descriptions sell faster";
+"sell_description_information" = "Produtos com descrições vendem-se mais rápido";
 "sell_picture_image_source_camera_button" = "Câmara";
 "sell_picture_image_source_camera_roll_button" = "Galeria de fotos";
 "sell_picture_image_source_cancel_button" = "Cancelar";
@@ -507,7 +507,7 @@
 "sell_picture_selected_delete_button" = "Eliminar";
 "sell_picture_selected_save_into_camera_roll_button" = "Guardar no disco";
 "sell_picture_selected_title" = "Escolha uma ação";
-"sell_price_field" = "Price:";
+"sell_price_field" = "Preço:";
 "sell_send_error_invalid_category" = "Por favor escolha uma categoria para o artigo.";
 "sell_send_error_invalid_description" = "Por favor insira uma descrição válida para o artigo.";
 "sell_send_error_invalid_description_too_long" = "O comprimento máximo para a descrição do artigo é de %d caracteres.";
@@ -520,7 +520,7 @@
 "sell_title_autogen_autotrans_label" = "Título sugerido pelo letgo e traduzido pelo Google";
 "sell_title_autogen_label" = "Título sugerido pelo letgo";
 "sell_title_field_hint" = "Título (opcional)";
-"sell_title_information" = "Make it easy for buyers to find your product";
+"sell_title_information" = "Facilite aos compradores a localização do seu produto";
 "sell_uploading_label" = "A fazer o upload do artigo. Por favor aguarde...";
 "settings_change_location_button" = "Localização";
 "settings_change_password_button" = "Password";

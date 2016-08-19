@@ -158,7 +158,7 @@
 "common_expand" = "Visa mer";
 "common_loading" = "Laddar...";
 "common_max" = "max";
-"common_next" = "Next";
+"common_next" = "Nästa";
 "common_no" = "Nej";
 "common_ok" = "Ok";
 "common_product_not_available" = "Denna produkt är inte tillgänglig.";
@@ -489,12 +489,12 @@
 "reset_password_send_ok" = "Vi har skickat ett e-mejl till %@. Klicka på länken i mejlet för att återställa ditt lösenord.";
 "reset_password_send_too_many_requests" = "Vi har redan skickat ett mejl till dig för att återställa ditt lösenord. Kolla i din inkorg och följ instruktionerna i mejlet.";
 "reset_password_title" = "Återställ lösenord";
-"sell_back_button" = "Back";
+"sell_back_button" = "Tillbaka";
 "sell_category_selection_label" = "Kategori";
 "sell_choose_category_dialog_cancel_button" = "Avbryt";
 "sell_choose_category_dialog_title" = "Välj en kategori";
 "sell_description_field_hint" = "Beskrivning (frivillig)";
-"sell_description_information" = "Products with descriptions sell faster";
+"sell_description_information" = "Saker med beskrivning säljs snabbare";
 "sell_picture_image_source_camera_button" = "Kamera";
 "sell_picture_image_source_camera_roll_button" = "Fotogalleri";
 "sell_picture_image_source_cancel_button" = "Avbryt";
@@ -507,7 +507,7 @@
 "sell_picture_selected_delete_button" = "Ta bort";
 "sell_picture_selected_save_into_camera_roll_button" = "Spara till hårddisk";
 "sell_picture_selected_title" = "Välj åtgärd";
-"sell_price_field" = "Price:";
+"sell_price_field" = "Pris:";
 "sell_send_error_invalid_category" = "Var god välj kategori för produkten.";
 "sell_send_error_invalid_description" = "Var god ange en beskrivning av produkten.";
 "sell_send_error_invalid_description_too_long" = "Maxlängd för beskrivningen är %d tecken.";
@@ -520,7 +520,7 @@
 "sell_title_autogen_autotrans_label" = "Titel föreslagen av letgo och översatt av Google";
 "sell_title_autogen_label" = "Titel föreslagen av letgo";
 "sell_title_field_hint" = "Titel (frivillig)";
-"sell_title_information" = "Make it easy for buyers to find your product";
+"sell_title_information" = "Gör det lätt för köpare att hitta din produkt";
 "sell_uploading_label" = "Laddar upp produkt. Var god vänta...";
 "settings_change_location_button" = "Plats";
 "settings_change_password_button" = "Lösenord";
