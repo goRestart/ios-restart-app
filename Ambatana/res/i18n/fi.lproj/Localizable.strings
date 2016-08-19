@@ -158,7 +158,7 @@
 "common_expand" = "Näytä enemmän";
 "common_loading" = "Ladataan...";
 "common_max" = "maks.";
-"common_next" = "Next";
+"common_next" = "Seuraava";
 "common_no" = "Ei";
 "common_ok" = "OK";
 "common_product_not_available" = "Tämä tuote ei ole enää saatavilla.";
@@ -489,12 +489,12 @@
 "reset_password_send_ok" = "Olemme lähettäneet sähköpostia osoitteeseen %@. Klikkaa sähköpostissa olevaa linkkiä vaihtaaksesi salasanasi!";
 "reset_password_send_too_many_requests" = "Olemme lähettäneet sinulle jo sähköpostin salasanan nollaamiseksi. Ole hyvä ja tarkista sähköpostisi ja seuraa siinä olevia ohjeita.";
 "reset_password_title" = "Nollaa salasana";
-"sell_back_button" = "Back";
+"sell_back_button" = "Takaisin";
 "sell_category_selection_label" = "Kategoria";
 "sell_choose_category_dialog_cancel_button" = "Peruuta";
 "sell_choose_category_dialog_title" = "Valitse kategoria";
 "sell_description_field_hint" = "Kuvaus (vapaaehtoinen)";
-"sell_description_information" = "Products with descriptions sell faster";
+"sell_description_information" = "Tuotteet, joissa on kuvaus, myydään nopeammin";
 "sell_picture_image_source_camera_button" = "Kamera";
 "sell_picture_image_source_camera_roll_button" = "Kuvakirjasto";
 "sell_picture_image_source_cancel_button" = "Peruuta";
@@ -507,7 +507,7 @@
 "sell_picture_selected_delete_button" = "Poista";
 "sell_picture_selected_save_into_camera_roll_button" = "Tallenna levylle";
 "sell_picture_selected_title" = "Valitse toiminto";
-"sell_price_field" = "Price:";
+"sell_price_field" = "Hinta:";
 "sell_send_error_invalid_category" = "Ole hyvä, ja valitse tuotteelle kategoria.";
 "sell_send_error_invalid_description" = "Ole hyvä ja syötä tuotteelle kelvollinen kuvaus.";
 "sell_send_error_invalid_description_too_long" = "Tuotteen kuvauksen maksimipituus on %d merkkiä.";
@@ -520,7 +520,7 @@
 "sell_title_autogen_autotrans_label" = "letgon ehdottama ja Googlen kääntämä otsikko";
 "sell_title_autogen_label" = "letgon ehdottama otsikko";
 "sell_title_field_hint" = "Tuotteen otsikko (vapaaehtoinen)";
-"sell_title_information" = "Make it easy for buyers to find your product";
+"sell_title_information" = "Tee tuotteestasi helposti löydettävä ostajille";
 "sell_uploading_label" = "Ladataan tuotetta. Ole hyvä ja odota...";
 "settings_change_location_button" = "Sijainti";
 "settings_change_password_button" = "Salasana";

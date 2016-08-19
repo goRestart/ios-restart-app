@@ -158,7 +158,7 @@
 "common_expand" = "Mehr anzeigen";
 "common_loading" = "Lädt...";
 "common_max" = "max.";
-"common_next" = "Next";
+"common_next" = "Weiter";
 "common_no" = "Nein";
 "common_ok" = "OK";
 "common_product_not_available" = "Das Produkt ist nicht mehr verfügbar.";
@@ -489,12 +489,12 @@
 "reset_password_send_ok" = "Wir haben eine E-Mail an %@ geschickt. Klicke bitte auf den Link in der E-Mail, um dein Kennwort zurückzusetzen.";
 "reset_password_send_too_many_requests" = "Wir haben dir bereits eine E-Mail zur Kennwortwiederherstellung geschickt. Bitte schaue in dein Postfach und folge den Anweisungen.";
 "reset_password_title" = "Kennwort zurücksetzen";
-"sell_back_button" = "Back";
+"sell_back_button" = "Zurück";
 "sell_category_selection_label" = "Kategorie";
 "sell_choose_category_dialog_cancel_button" = "Abbrechen";
 "sell_choose_category_dialog_title" = "Wähle eine Kategorie";
 "sell_description_field_hint" = "Beschreibung (optional)";
-"sell_description_information" = "Products with descriptions sell faster";
+"sell_description_information" = "Produkte mit Beschreibungen finden schneller Käufer";
 "sell_picture_image_source_camera_button" = "Kamera";
 "sell_picture_image_source_camera_roll_button" = "Fotoarchiv";
 "sell_picture_image_source_cancel_button" = "Abbrechen";
@@ -507,7 +507,7 @@
 "sell_picture_selected_delete_button" = "Löschen";
 "sell_picture_selected_save_into_camera_roll_button" = "Auf dem Gerät speichern";
 "sell_picture_selected_title" = "Wähle eine Aktion";
-"sell_price_field" = "Price:";
+"sell_price_field" = "Preis:";
 "sell_send_error_invalid_category" = "Bitte wähle eine Kategorie für das Produkt aus.";
 "sell_send_error_invalid_description" = "Bitte gib eine gültige Beschreibung für das Produkt ein.";
 "sell_send_error_invalid_description_too_long" = "Die maximale Länge der Beschreibung beträgt %d Zeichen.";
@@ -520,7 +520,7 @@
 "sell_title_autogen_autotrans_label" = "Titelvorschlag von letgo und übersetzt von Google";
 "sell_title_autogen_label" = "Titelvorschlag von letgo";
 "sell_title_field_hint" = "Produkttitel (optional)";
-"sell_title_information" = "Make it easy for buyers to find your product";
+"sell_title_information" = "Mache es Käufern leichter, dein Produkt zu finden";
 "sell_uploading_label" = "Lade Produkt hoch. Bitte warten...";
 "settings_change_location_button" = "Standort";
 "settings_change_password_button" = "Kennwort";
