@@ -150,6 +150,12 @@ public struct TrackerEvent {
             return TrackerEvent(name: .ProductList, params: params)
     }
 
+    static func exploreCollection(collectionTitle: String) -> TrackerEvent {
+        var params = EventParameters()
+        params[.CollectionTitle] = collectionTitle
+        return TrackerEvent(name: .ExploreCollection, params: params)
+    }
+
     static func searchStart(user: User?) -> TrackerEvent {
         let params = EventParameters()
 
@@ -207,10 +213,11 @@ public struct TrackerEvent {
         return TrackerEvent(name: .FilterComplete, params: params)
     }
 
-    static func productDetailVisit(product: Product, visitUserAction: ProductVisitUserAction) -> TrackerEvent {
+    static func productDetailVisit(product: Product, visitUserAction: ProductVisitUserAction, source: EventParameterProductVisitSource) -> TrackerEvent {
         var params = EventParameters()
         params.addProductParams(product)
         params[.UserAction] = visitUserAction.rawValue
+        params[.ProductVisitSource] = source.rawValue
         return TrackerEvent(name: .ProductDetailVisit, params: params)
     }
     
@@ -359,19 +366,21 @@ public struct TrackerEvent {
 
     static func productSellComplete(product: Product, buttonName: EventParameterButtonNameType?,
         negotiable: EventParameterNegotiablePrice?, pictureSource: EventParameterPictureSource?) -> TrackerEvent {
-            var params = EventParameters()
-            params[.ProductId] = product.objectId ?? ""
-            params[.CategoryId] = product.category.rawValue
-            if let buttonName = buttonName {
-                params[.ButtonName] = buttonName.rawValue
-            }
-            if let negotiable = negotiable {
-                params[.NegotiablePrice] = negotiable.rawValue
-            }
-            if let pictureSource = pictureSource {
-                params[.PictureSource] = pictureSource.rawValue
-            }
-            return TrackerEvent(name: .ProductSellComplete, params: params)
+        var params = EventParameters()
+        params[.ProductId] = product.objectId ?? ""
+        params[.CategoryId] = product.category.rawValue
+        params[.ProductName] = product.name ?? ""
+        params[.ProductDescription] = !(product.descr?.isEmpty ?? true)
+        if let buttonName = buttonName {
+            params[.ButtonName] = buttonName.rawValue
+        }
+        if let negotiable = negotiable {
+            params[.NegotiablePrice] = negotiable.rawValue
+        }
+        if let pictureSource = pictureSource {
+            params[.PictureSource] = pictureSource.rawValue
+        }
+        return TrackerEvent(name: .ProductSellComplete, params: params)
     }
     
     static func productSellComplete24h(product: Product) -> TrackerEvent {

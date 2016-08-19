@@ -28,8 +28,8 @@ class ProductVMTrackHelper {
 
 extension ProductViewModel {
 
-    func trackVisit(visitUserAction: ProductVisitUserAction) {
-        trackHelper.trackVisit(visitUserAction)
+    func trackVisit(visitUserAction: ProductVisitUserAction, source: EventParameterProductVisitSource) {
+        trackHelper.trackVisit(visitUserAction, source: source)
     }
 
     func trackVisitMoreInfo() {
@@ -244,8 +244,8 @@ extension ProductVMTrackHelper {
 
 extension ProductVMTrackHelper {
 
-    func trackVisit(visitUserAction: ProductVisitUserAction) {
-        let trackerEvent = TrackerEvent.productDetailVisit(product, visitUserAction: visitUserAction)
+    func trackVisit(visitUserAction: ProductVisitUserAction, source: EventParameterProductVisitSource) {
+        let trackerEvent = TrackerEvent.productDetailVisit(product, visitUserAction: visitUserAction, source: source)
         tracker.trackEvent(trackerEvent)
     }
 

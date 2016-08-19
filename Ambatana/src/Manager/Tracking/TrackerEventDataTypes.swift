@@ -26,6 +26,7 @@ public enum EventName: String {
     case PasswordResetError                 = "password-reset-error"
 
     case ProductList                        = "product-list"
+    case ExploreCollection                  = "explore-collection"
     
     case SearchStart                        = "search-start"
     case SearchComplete                     = "search-complete"
@@ -161,6 +162,7 @@ public enum EventParameterName: String {
     case ProductName          = "product-name"
     case ProductPrice         = "product-price"
     case ProductCurrency      = "product-currency"
+    case ProductDescription   = "product-description"
     case ProductType          = "item-type"             // real (1) / dummy (0).
     case UserToId             = "user-to-id"
     case UserEmail            = "user-email"
@@ -210,6 +212,8 @@ public enum EventParameterName: String {
     case Source               = "source"
     case ItemPosition         = "item-position"
     case ExpressConversations = "express-conversations"
+    case CollectionTitle      = "collection-title"
+    case ProductVisitSource   = "visit-source"
 }
 
 public enum EventParameterLoginSourceValue: String {
@@ -478,6 +482,19 @@ public enum EventParameterRatingSource: String {
     case Chat = "chat"
     case ProductSellComplete = "product-sell-complete"
     case MarkedSold = "marked-sold"
+}
+
+public enum EventParameterProductVisitSource: String {
+    case ProductList = "product-list"
+    case Collection = "collection"
+    case Search = "search"
+    case Filter = "filter"
+    case SearchAndFilter = "search & filter"
+    case Category = "category"
+    case Profile = "profile"
+    case Chat = "chat"
+    case OpenApp = "open-app"
+    case Notifications = "notifications"
 }
 
 

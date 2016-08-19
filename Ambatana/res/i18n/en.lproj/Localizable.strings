@@ -349,6 +349,21 @@
 // Alert to show when user started chat with himself
 "chat_with_yourself_alert_msg" = "You can't start a conversation about your own product.";
 
+// Title of gaming collection
+"collection_gaming_title" = "The game is on";
+
+// Title of transport collection
+"collection_transport_title" = "Travel in style";
+
+// Title of apple collection
+"collection_apple_title" = "An apple a day";
+
+// Title of furniture collection
+"collection_furniture_title" = "No place like home";
+
+// Explore button on collection cell
+"collection_explore_button" = "Explore";
+
 // Create a commercial from the settings menu
 "commercializer_create_from_settings" = "Create a Free Commercial";
 
@@ -465,6 +480,9 @@
 
 // Common no
 "common_no" = "No";
+
+// Common next
+"common_next" = "Next";
 
 // Common ok
 "common_ok" = "OK";
@@ -1444,6 +1462,9 @@
 // Reset password title. Check image @ "reset_password_email_field_hint" segment
 "reset_password_title" = "Reset password";
 
+// Back button on sell steps
+"sell_back_button" = "Back";
+
 // Sell category selection label. Check attached image "sell.png"
 "sell_category_selection_label" = "Category";
 
@@ -1455,6 +1476,9 @@
 
 // Sell description field hint. Check image @ "sell_category_selection_label" segment
 "sell_description_field_hint" = "Description (optional)";
+
+// Sell description information text
+"sell_description_information" = "Products with descriptions sell faster";
 
 // Sell picture image source camera button. Check attached image "sell_picture_image_source.png"
 "sell_picture_image_source_camera_button" = "Camera";
@@ -1492,6 +1516,9 @@
 // Sell picture selected title
 "sell_picture_selected_title" = "Choose an action";
 
+// Sell price field
+"sell_price_field" = "Price:";
+
 // Sell send error invalid category. Check attached image "sell_send_error.png"
 "sell_send_error_invalid_category" = "Please choose a category for the product.";
 
@@ -1527,6 +1554,9 @@
 
 // Sell title field hint. Check image @ "sell_category_selection_label" segment
 "sell_title_field_hint" = "Title (optional)";
+
+// Sell title information text
+"sell_title_information" = "Make it easy for buyers to find your product";
 
 // Sell uploading label
 "sell_uploading_label" = "Uploading product. Please wait...";

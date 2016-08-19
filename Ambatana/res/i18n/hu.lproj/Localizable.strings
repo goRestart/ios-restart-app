@@ -115,6 +115,11 @@
 "chat_verify_alert_resend_button" = "Újraküldés";
 "chat_verify_alert_title" = "A csevegéshez igazold vissza e-mail címedet";
 "chat_with_yourself_alert_msg" = "Nem indíthatsz csevegést saját portékádról.";
+"collection_apple_title" = "Alma!!";
+"collection_explore_button" = "Felfedezés";
+"collection_furniture_title" = "Az én váram...";
+"collection_gaming_title" = "Játékra fel";
+"collection_transport_title" = "Stílusos utazás";
 "commercializer_create_from_settings" = "Create a Free Commercial";
 "commercializer_display_share_alert" = "Share this masterpiece";
 "commercializer_display_share_label" = "Share your masterpiece with the world and watch the offers come rolling in";
@@ -153,6 +158,7 @@
 "common_expand" = "Többet";
 "common_loading" = "Betöltés...";
 "common_max" = "max";
+"common_next" = "Következő";
 "common_no" = "Nem";
 "common_ok" = "OK";
 "common_product_not_available" = "Ez a portéka már nem elérhető.";
@@ -334,8 +340,8 @@
 "product_onboarding_finger_tap_label" = "Koppintással a következő portékára ugorhatsz";
 "product_onboarding_show_again_button_title" = "A böngészés menete";
 "product_open_commercial_button" = "Commercial";
-"product_option_share" = "Share product";
-"product_option_show_commercial" = "Commercial";
+"product_option_share" = "Portéka megosztása";
+"product_option_show_commercial" = "Reklámfilm";
 "product_popular_near_you" = "Népszerű a közeledben";
 "product_post_camera_first_time_alert_subtitle" = "Készíts egy jó képet, és kezd pénzt keresni!";
 "product_post_camera_first_time_alert_title" = "Mit árulsz?";
@@ -483,10 +489,12 @@
 "reset_password_send_ok" = "E-mailt küldtünk a következő címre: %@. A benne lévő linkre kattintva helyreállíthatod jelszavadat.";
 "reset_password_send_too_many_requests" = "Már küldtünk jelszó-helyreállítási e-mailt. Ellenőrizd postafiókodat, és kövesd az utasításokat!";
 "reset_password_title" = "Jelszóhelyreállítás";
+"sell_back_button" = "Vissza";
 "sell_category_selection_label" = "Kategória";
 "sell_choose_category_dialog_cancel_button" = "Mégse";
 "sell_choose_category_dialog_title" = "Válassz kategóriát";
 "sell_description_field_hint" = "Leírás (nem kötelező)";
+"sell_description_information" = "A leírással is rendelkező portékák gyorsabban elkelnek";
 "sell_picture_image_source_camera_button" = "Kamera";
 "sell_picture_image_source_camera_roll_button" = "Fotótár";
 "sell_picture_image_source_cancel_button" = "Mégse";
@@ -499,6 +507,7 @@
 "sell_picture_selected_delete_button" = "Törlés";
 "sell_picture_selected_save_into_camera_roll_button" = "Mentés lemezre";
 "sell_picture_selected_title" = "Válassz műveletet";
+"sell_price_field" = "Ár:";
 "sell_send_error_invalid_category" = "Kérjük, válassz kategóriát a termékednek!";
 "sell_send_error_invalid_description" = "Kérjük, hogy érvényes leírást adj meg a portékához.";
 "sell_send_error_invalid_description_too_long" = "A portékák leírásának maximális hossza %d karakter.";
@@ -511,6 +520,7 @@
 "sell_title_autogen_autotrans_label" = "A címet a letgo ajánlotta és a Google fordította";
 "sell_title_autogen_label" = "A letgo által ajánlott cím";
 "sell_title_field_hint" = "Cím (nem kötelező)";
+"sell_title_information" = "Hogy a vásárlók könnyen megtalálhassák portékádat";
 "sell_uploading_label" = "Portéka feltöltése. Türelmedet kérjük…";
 "settings_change_location_button" = "Tartózkodási hely";
 "settings_change_password_button" = "Jelszóváltás";

@@ -86,6 +86,9 @@ def shared_pods
     # User defaults
     pod "SwiftyUserDefaults",   "~> 2.2.0"
 
+    # TextView with placeholder
+    pod "KMPlaceholderTextView", "~> 1.2.2"
+
 end
 
 target "LetGo" do

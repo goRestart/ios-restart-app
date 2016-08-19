@@ -22,13 +22,15 @@ protocol ProductListViewModelDataDelegate: class {
     func productListVM(viewModel: ProductListViewModel, didSucceedRetrievingProductsPage page: UInt, hasProducts: Bool)
     func productListVM(viewModel: ProductListViewModel, didSelectItemAtIndex index: Int, thumbnailImage: UIImage?,
                        originFrame: CGRect?)
-    func vmProcessReceivedProductPage(products: [ProductCellModel]) -> [ProductCellModel]
+    func vmProcessReceivedProductPage(products: [ProductCellModel], page: UInt) -> [ProductCellModel]
     func vmDidSelectSellBanner(type: String)
+    func vmDidSelectCollection(type: CollectionCellType)
 }
 
 extension ProductListViewModelDataDelegate {
-    func vmProcessReceivedProductPage(products: [ProductCellModel]) -> [ProductCellModel] { return products }
+    func vmProcessReceivedProductPage(products: [ProductCellModel], page: UInt) -> [ProductCellModel] { return products }
     func vmDidSelectSellBanner(type: String) {}
+    func vmDidSelectCollection(type: CollectionCellType) {}
 }
 
 protocol ProductListRequester: class {
@@ -197,7 +199,7 @@ class ProductListViewModel: BaseViewModel {
             guard let strongSelf = self else { return }
             if let newProducts = result.value {
                 let productCellModels = newProducts.map(ProductCellModel.init)
-                let cellModels = self?.dataDelegate?.vmProcessReceivedProductPage(productCellModels) ?? productCellModels
+                let cellModels = self?.dataDelegate?.vmProcessReceivedProductPage(productCellModels, page: nextPageNumber) ?? productCellModels
                 let indexes: [Int]
                 if firstPage {
                     strongSelf.objects = cellModels
@@ -244,6 +246,8 @@ class ProductListViewModel: BaseViewModel {
                                         originFrame: originFrame)
         case .BannerCell(let data):
             dataDelegate?.vmDidSelectSellBanner(data.style.rawValue)
+        case .CollectionCell(let type):
+            dataDelegate?.vmDidSelectCollection(type)
         }
     }
 
@@ -272,7 +276,7 @@ class ProductListViewModel: BaseViewModel {
         switch item {
         case .ProductCell(let product):
             return product
-        case .BannerCell:
+        case .BannerCell, .CollectionCell:
             return nil
         }
     }
@@ -295,7 +299,7 @@ class ProductListViewModel: BaseViewModel {
             let imageFinalHeight = max(ProductListViewModel.cellMinHeight, round(defaultCellSize.width * thumbFactor))
             return CGSize(width: defaultCellSize.width, height: imageFinalHeight)
 
-        case .BannerCell:
+        case .BannerCell, .CollectionCell:
             let height = defaultCellSize.width*ProductListViewModel.cellBannerAspectRatio
             return CGSize(width: defaultCellSize.width, height: height)
         }

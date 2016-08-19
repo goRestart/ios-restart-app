@@ -404,7 +404,7 @@ class ChatViewModel: BaseViewModel {
             delegate?.vmHideKeyboard(false)
             let data = ProductDetailData.ProductChat(chatProduct: product, user: interlocutor,
                                                      thumbnailImage: nil, originFrame: nil)
-            tabNavigator?.openProduct(data)
+            tabNavigator?.openProduct(data, source: .Chat)
         }
     }
     
@@ -1149,7 +1149,7 @@ extension ChatViewModel: RelatedProductsViewDelegate {
         let data = ProductDetailData.ProductList(product: product, cellModels: productListModels, requester: requester,
                                                  thumbnailImage: thumbnailImage, originFrame: originFrame,
                                                  showRelated: false)
-        tabNavigator?.openProduct(data)
+        tabNavigator?.openProduct(data, source: .Chat)
     }
 }
 

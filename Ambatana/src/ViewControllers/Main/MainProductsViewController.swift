@@ -99,6 +99,7 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
 
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
+        guard viewLoaded else { return }
         self.navigationController?.setNavigationBarHidden(false, animated: false)
         endEdit()
     }
@@ -110,7 +111,7 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     Scrolls the product list to the top
     */
     func scrollToTop() {
-        guard let productListView = productListView else { return }
+        guard viewLoaded else { return }
         productListView.scrollToTop(true)
     }
 
@@ -215,8 +216,19 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     
     
     // MARK: UITextFieldDelegate Methods
+
+    func textFieldShouldClear(textField: UITextField) -> Bool {
+        if viewModel.clearTextOnSearch {
+            textField.text = viewModel.searchString
+            return false
+        }
+        return true
+    }
     
     dynamic func textFieldDidBeginEditing(textField: UITextField) {
+        if viewModel.clearTextOnSearch {
+            textField.text = nil
+        }
         beginEdit()
     }
     
