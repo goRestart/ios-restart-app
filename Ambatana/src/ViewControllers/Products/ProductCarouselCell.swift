@@ -94,8 +94,11 @@ class ProductCarouselCell: UICollectionViewCell {
     }
     
     private func startIndex() -> Int {
-        let midIndex = collectionView.numberOfItemsInSection(0)/2
-        return midIndex - midIndex % numberOfImages()
+        let numItems = collectionView.numberOfItemsInSection(0)
+        let numImages = numberOfImages()
+        guard numItems > 1 && numImages > 0 else { return 0 }
+        let midIndex = numItems/2
+        return midIndex - midIndex % numImages
     }
 }
 
