@@ -18,16 +18,15 @@ public struct ABTests {
     static var directStickersOnProduct = BoolABDynamicVar(key: "directStickersOnProduct", defaultValue: false)
     static var postingDetailsMode = IntABDynamicVar(key: "postingDetailsMode", defaultValue: 0)
 
-    static private var allTests: [ABVariable] {
+    static private var allVariables: [ABVariable] {
         return [bigFavoriteIcon, showRelatedProducts, showPriceOnListings, directStickersOnProduct, postingDetailsMode]
     }
 
     static func registerVariables() {
-        allTests.forEach { $0.register() }
+        allVariables.forEach { $0.register() }
     }
 
     static func variablesUpdated() {
-        let result = allTests.flatMap{ $0.trackingData }
-        trackingData.value = result
+        trackingData.value = allVariables.flatMap{ $0.trackingData }
     }
 }
