@@ -475,6 +475,26 @@ struct LGLocalizedString {
 		return NSLocalizedString("chat_with_yourself_alert_msg", comment: "")
 	}
 
+	static var collectionGamingTitle: String {
+		return NSLocalizedString("collection_gaming_title", comment: "")
+	}
+
+	static var collectionTransportTitle: String {
+		return NSLocalizedString("collection_transport_title", comment: "")
+	}
+
+	static var collectionAppleTitle: String {
+		return NSLocalizedString("collection_apple_title", comment: "")
+	}
+
+	static var collectionFurnitureTitle: String {
+		return NSLocalizedString("collection_furniture_title", comment: "")
+	}
+
+	static var collectionExploreButton: String {
+		return NSLocalizedString("collection_explore_button", comment: "")
+	}
+
 	static var commercializerCreateFromSettings: String {
 		return NSLocalizedString("commercializer_create_from_settings", comment: "")
 	}
@@ -629,6 +649,10 @@ struct LGLocalizedString {
 
 	static var commonNo: String {
 		return NSLocalizedString("common_no", comment: "")
+	}
+
+	static var commonNext: String {
+		return NSLocalizedString("common_next", comment: "")
 	}
 
 	static var commonOk: String {
@@ -1947,6 +1971,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("reset_password_title", comment: "")
 	}
 
+	static var sellBackButton: String {
+		return NSLocalizedString("sell_back_button", comment: "")
+	}
+
 	static var sellCategorySelectionLabel: String {
 		return NSLocalizedString("sell_category_selection_label", comment: "")
 	}
@@ -1961,6 +1989,10 @@ struct LGLocalizedString {
 
 	static var sellDescriptionFieldHint: String {
 		return NSLocalizedString("sell_description_field_hint", comment: "")
+	}
+
+	static var sellDescriptionInformation: String {
+		return NSLocalizedString("sell_description_information", comment: "")
 	}
 
 	static var sellPictureImageSourceCameraButton: String {
@@ -2011,6 +2043,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("sell_picture_selected_title", comment: "")
 	}
 
+	static var sellPriceField: String {
+		return NSLocalizedString("sell_price_field", comment: "")
+	}
+
 	static var sellSendErrorInvalidCategory: String {
 		return NSLocalizedString("sell_send_error_invalid_category", comment: "")
 	}
@@ -2057,6 +2093,10 @@ struct LGLocalizedString {
 
 	static var sellTitleFieldHint: String {
 		return NSLocalizedString("sell_title_field_hint", comment: "")
+	}
+
+	static var sellTitleInformation: String {
+		return NSLocalizedString("sell_title_information", comment: "")
 	}
 
 	static var sellUploadingLabel: String {

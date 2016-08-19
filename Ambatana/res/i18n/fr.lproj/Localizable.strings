@@ -63,8 +63,8 @@
 "chat_express_contact_various_button_text" = "Contacter %@ vendeurs";
 "chat_express_dont_ask_again_button" = "Ne pas me redemander";
 "chat_express_dont_miss_label" = "Ne manquez pas ces bonnes affaires";
-"chat_express_one_message_sent_success_alert" = "Your message has been sent!";
-"chat_express_several_messages_sent_success_alert" = "Your messages have been sent!";
+"chat_express_one_message_sent_success_alert" = "Votre message a été envoyé !";
+"chat_express_several_messages_sent_success_alert" = "Vos messages ont été envoyés !";
 "chat_express_text_field_text" = "Bonjour, je suis intéressé !";
 "chat_list_account_deleted" = "Compte supprimé";
 "chat_list_account_deleted_username" = "Inactif";
@@ -115,6 +115,11 @@
 "chat_verify_alert_resend_button" = "Renvoyer";
 "chat_verify_alert_title" = "Vérifiez votre email pour chatter";
 "chat_with_yourself_alert_msg" = "Vous ne pouvez pas démarrer une conversation sur votre propre bien.";
+"collection_apple_title" = "Une pomme par jour";
+"collection_explore_button" = "Explorer";
+"collection_furniture_title" = "Un bon chez-soi";
+"collection_gaming_title" = "La partie est lancée";
+"collection_transport_title" = "Voyagez avec style";
 "commercializer_create_from_settings" = "Create a Free Commercial";
 "commercializer_display_share_alert" = "Share this masterpiece";
 "commercializer_display_share_label" = "Share your masterpiece with the world and watch the offers come rolling in";
@@ -153,6 +158,7 @@
 "common_expand" = "Afficher plus";
 "common_loading" = "Chargement...";
 "common_max" = "max";
+"common_next" = "Suivant";
 "common_no" = "Non";
 "common_ok" = "OK";
 "common_product_not_available" = "Ce bien n'est plus disponible.";
@@ -334,8 +340,8 @@
 "product_onboarding_finger_tap_label" = "Tapez pour voir le bien suivant";
 "product_onboarding_show_again_button_title" = "Comment Naviguer";
 "product_open_commercial_button" = "Commercial";
-"product_option_share" = "Share product";
-"product_option_show_commercial" = "Commercial";
+"product_option_share" = "Partager le bien";
+"product_option_show_commercial" = "Publicité";
 "product_popular_near_you" = "Populaire à proximité";
 "product_post_camera_first_time_alert_subtitle" = "Prenez une bonne photo et gagnez de l'argent !";
 "product_post_camera_first_time_alert_title" = "Que vendez-vous ?";
@@ -410,8 +416,8 @@
 "product_share_telegram_error" = "Oups ! Il semble que vous n'avez pas installé Telegram.";
 "product_share_title_label" = "PARTAGER CE BIEN";
 "product_share_whatsapp_error" = "Oops! Il semble que vous n'avez pas installé l'application WhatsApp.";
-"product_stickers_selection_w_name" = "Select the sticker you want to send to %@.";
-"product_stickers_selection_wo_name" = "Select the sticker you want to send to the seller.";
+"product_stickers_selection_w_name" = "Sélectionnez le sticker que vous voulez envoyer à %@.";
+"product_stickers_selection_wo_name" = "Sélectionnez le sticker que vous voulez envoyer au vendeur.";
 "profile_blocked_by_me_label" = "Vous avez bloqué cet utilisateur";
 "profile_blocked_by_me_label_w_name" = "Vous avez bloqué %@";
 "profile_blocked_by_other_label" = "Vous avez été bloqué par cet utilisateur";
@@ -483,10 +489,12 @@
 "reset_password_send_ok" = "Nous avons envoyé un email à %@. Cliquez sur le lien dans l'email pour réinitialiser votre mot de passe.";
 "reset_password_send_too_many_requests" = "Nous vous avons déjà envoyé un email de réinitialisation de mot de passe. Vérifiez vos emails et suivez les instructions.";
 "reset_password_title" = "Réinitialiser le mot de passe";
+"sell_back_button" = "Retour";
 "sell_category_selection_label" = "Catégorie";
 "sell_choose_category_dialog_cancel_button" = "Annuler";
 "sell_choose_category_dialog_title" = "Choisissez une catégorie";
 "sell_description_field_hint" = "Description (optionnel)";
+"sell_description_information" = "Les biens avec descriptions vendent plus rapidement";
 "sell_picture_image_source_camera_button" = "Appareil Photo";
 "sell_picture_image_source_camera_roll_button" = "Bibliothèque photos";
 "sell_picture_image_source_cancel_button" = "Annuler";
@@ -499,6 +507,7 @@
 "sell_picture_selected_delete_button" = "Supprimer";
 "sell_picture_selected_save_into_camera_roll_button" = "Sauvegarder";
 "sell_picture_selected_title" = "Choisir une action";
+"sell_price_field" = "Prix :";
 "sell_send_error_invalid_category" = "Veuillez choisir une catégorie pour le bien.";
 "sell_send_error_invalid_description" = "Veuillez insérer une description valide pour le bien.";
 "sell_send_error_invalid_description_too_long" = "Longueur maximum pour la description du bien est de %d caractères.";
@@ -511,6 +520,7 @@
 "sell_title_autogen_autotrans_label" = "Titre suggéré par letgo et traduit par Google";
 "sell_title_autogen_label" = "Titre suggéré par letgo";
 "sell_title_field_hint" = "Titre du bien (optionnel)";
+"sell_title_information" = "Rendez la tâche facile pour que les acheteurs trouvent votre bien";
 "sell_uploading_label" = "Upload du bien. Veuillez patienter...";
 "settings_change_location_button" = "Localisation";
 "settings_change_password_button" = "Mot de passe";
