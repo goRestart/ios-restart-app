@@ -158,6 +158,7 @@
 "common_expand" = "Показать еще";
 "common_loading" = "Загрузка...";
 "common_max" = "максимум";
+"common_next" = "Next";
 "common_no" = "Нет";
 "common_ok" = "OK";
 "common_product_not_available" = "Этот товар больше не доступен.";
@@ -488,10 +489,12 @@
 "reset_password_send_ok" = "Мы отправили письмо %@. Пройдите по ссылке в нем для сброса пароля!";
 "reset_password_send_too_many_requests" = "Мы уже отправили вам письмо для сброса пароля. Пожалуйста, проверьте ящик и следуйте инструкции.";
 "reset_password_title" = "Сбросить пароль";
+"sell_back_button" = "Back";
 "sell_category_selection_label" = "Категория";
 "sell_choose_category_dialog_cancel_button" = "Отмена";
 "sell_choose_category_dialog_title" = "Выберите категорию";
 "sell_description_field_hint" = "Описание (опционально)";
+"sell_description_information" = "Products with descriptions sell faster";
 "sell_picture_image_source_camera_button" = "Камера";
 "sell_picture_image_source_camera_roll_button" = "Библиотека фотографий";
 "sell_picture_image_source_cancel_button" = "Отмена";
@@ -504,6 +507,7 @@
 "sell_picture_selected_delete_button" = "Удалить";
 "sell_picture_selected_save_into_camera_roll_button" = "Сохранить на диск";
 "sell_picture_selected_title" = "Выберите действие";
+"sell_price_field" = "Price:";
 "sell_send_error_invalid_category" = "Пожалуйста, выберите категорию товара.";
 "sell_send_error_invalid_description" = "Пожалуйста, введите корректное описание товара.";
 "sell_send_error_invalid_description_too_long" = "Максимальный размер описания товара - %d символа.";
@@ -516,6 +520,7 @@
 "sell_title_autogen_autotrans_label" = "Заголовок предложен letgo и переведен Яндексом";
 "sell_title_autogen_label" = "Заголовок предложен letgo";
 "sell_title_field_hint" = "Название (опционально)";
+"sell_title_information" = "Make it easy for buyers to find your product";
 "sell_uploading_label" = "Загрузка товара. Пожалуйста, подождите...";
 "settings_change_location_button" = "Местоположение";
 "settings_change_password_button" = "Изменить пароль";

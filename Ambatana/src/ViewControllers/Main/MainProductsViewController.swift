@@ -99,6 +99,7 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
 
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
+        guard viewLoaded else { return }
         self.navigationController?.setNavigationBarHidden(false, animated: false)
         endEdit()
     }
@@ -110,7 +111,7 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     Scrolls the product list to the top
     */
     func scrollToTop() {
-        guard let productListView = productListView else { return }
+        guard viewLoaded else { return }
         productListView.scrollToTop(true)
     }
 

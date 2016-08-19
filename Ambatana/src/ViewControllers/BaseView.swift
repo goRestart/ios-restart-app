@@ -60,4 +60,15 @@ public class BaseView: UIView {
     internal func didBecomeInactive() {
 
     }
+
+
+    // MARK: - Helper methods
+
+    func loadNibNamed(nibName: String, contentView: () -> UIView?) {
+        NSBundle.mainBundle().loadNibNamed(nibName, owner: self, options: nil)
+        guard let view = contentView() else { return }
+        view.frame = bounds
+        view.autoresizingMask = [.FlexibleHeight, .FlexibleWidth]
+        addSubview(view)
+    }
 }

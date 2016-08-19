@@ -358,7 +358,8 @@ public class BaseViewController: UIViewController, TabBarShowable {
     // UI
     private let statusBarStyle: UIStatusBarStyle
     private let navBarBackgroundStyle: NavBarBackgroundStyle
-    public internal(set) var floatingSellButtonHidden: Bool
+    var floatingSellButtonHidden: Bool
+    private(set) var viewLoaded: Bool = false
 
 
     // MARK: Lifecycle
@@ -387,6 +388,7 @@ public class BaseViewController: UIViewController, TabBarShowable {
     
     public override func viewDidLoad() {
         super.viewDidLoad()
+        viewLoaded = true
         setNavBarBackButton(nil)
         setupToastView()
 
