@@ -123,6 +123,7 @@ private extension TabCoordinator {
             vc = ProductDetailFactory.productDetailFromProductListModels(cellModels, requester: requester,
                                                                          product: product,
                                                                          thumbnailImage: thumbnailImage,
+                                                                         originFrame: originFrame,
                                                                          tabNavigator: self)
         }
         if let vc = vc {
