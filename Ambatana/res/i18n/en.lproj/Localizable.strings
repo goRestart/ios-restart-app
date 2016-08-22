@@ -481,6 +481,9 @@
 // Common no
 "common_no" = "No";
 
+// Common next
+"common_next" = "Next";
+
 // Common ok
 "common_ok" = "OK";
 
@@ -866,6 +869,12 @@
 
 // Product detail auto gen title translated disclaimer label.
 "product_auto_generated_translated_title_label" = "(and translated by Google)";
+
+// product detail user interested bubble notification
+"product_bubble_one_user_interested" = "Another buyer is interested!";
+
+// product detail X users interested bubble notification
+"product_bubble_several_users_interested" = "%i other buyers are interested!";
 
 // Error shown when one user blocked the other
 "product_chat_direct_error_blocked_user_message" = "Oops! Chatting with this user is blocked.";
@@ -1459,6 +1468,9 @@
 // Reset password title. Check image @ "reset_password_email_field_hint" segment
 "reset_password_title" = "Reset password";
 
+// Back button on sell steps
+"sell_back_button" = "Back";
+
 // Sell category selection label. Check attached image "sell.png"
 "sell_category_selection_label" = "Category";
 
@@ -1470,6 +1482,9 @@
 
 // Sell description field hint. Check image @ "sell_category_selection_label" segment
 "sell_description_field_hint" = "Description (optional)";
+
+// Sell description information text
+"sell_description_information" = "Products with descriptions sell faster";
 
 // Sell picture image source camera button. Check attached image "sell_picture_image_source.png"
 "sell_picture_image_source_camera_button" = "Camera";
@@ -1507,6 +1522,9 @@
 // Sell picture selected title
 "sell_picture_selected_title" = "Choose an action";
 
+// Sell price field
+"sell_price_field" = "Price:";
+
 // Sell send error invalid category. Check attached image "sell_send_error.png"
 "sell_send_error_invalid_category" = "Please choose a category for the product.";
 
@@ -1542,6 +1560,9 @@
 
 // Sell title field hint. Check image @ "sell_category_selection_label" segment
 "sell_title_field_hint" = "Title (optional)";
+
+// Sell title information text
+"sell_title_information" = "Make it easy for buyers to find your product";
 
 // Sell uploading label
 "sell_uploading_label" = "Uploading product. Please wait...";

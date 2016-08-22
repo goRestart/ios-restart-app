@@ -63,8 +63,8 @@
 "chat_express_contact_various_button_text" = "Contatta %@ venditori";
 "chat_express_dont_ask_again_button" = "Non chiedermelo più";
 "chat_express_dont_miss_label" = "Non perderti queste occasioni";
-"chat_express_one_message_sent_success_alert" = "Your message has been sent!";
-"chat_express_several_messages_sent_success_alert" = "Your messages have been sent!";
+"chat_express_one_message_sent_success_alert" = "Il messaggio è stato inviato!";
+"chat_express_several_messages_sent_success_alert" = "Il messaggio è stato inviato!";
 "chat_express_text_field_text" = "Ciao, sono interessato!";
 "chat_list_account_deleted" = "Account eliminato";
 "chat_list_account_deleted_username" = "Inattivo";
@@ -115,11 +115,11 @@
 "chat_verify_alert_resend_button" = "Reinvia";
 "chat_verify_alert_title" = "Verifica il tuo indirizzo email per chattare";
 "chat_with_yourself_alert_msg" = "Non puoi iniziare una conversazione riguardante il tuo prodotto.";
-"collection_apple_title" = "An apple a day";
-"collection_explore_button" = "Explore";
-"collection_furniture_title" = "No place like home";
-"collection_gaming_title" = "The game is on";
-"collection_transport_title" = "Travel in style";
+"collection_apple_title" = "Una mela al giorno";
+"collection_explore_button" = "Esplora";
+"collection_furniture_title" = "Casa dolce casa";
+"collection_gaming_title" = "Che il gioco abbia inizio";
+"collection_transport_title" = "Viaggia con stile";
 "commercializer_create_from_settings" = "Create a Free Commercial";
 "commercializer_display_share_alert" = "Share this masterpiece";
 "commercializer_display_share_label" = "Share your masterpiece with the world and watch the offers come rolling in";
@@ -158,6 +158,7 @@
 "common_expand" = "Mostra Altro";
 "common_loading" = "Caricamento...";
 "common_max" = "max";
+"common_next" = "Successivo";
 "common_no" = "No";
 "common_ok" = "OK";
 "common_product_not_available" = "Questo prodotto non è più disponibile.";
@@ -290,6 +291,8 @@
 "product_ask_a_question_button" = "Fai una Domanda";
 "product_auto_generated_title_label" = "Titolo generato automaticamente da letgo";
 "product_auto_generated_translated_title_label" = "(e tradotto da Google)";
+"product_bubble_one_user_interested" = "Another buyer is interested!";
+"product_bubble_several_users_interested" = "%i other buyers are interested!";
 "product_chat_direct_error_blocked_user_message" = "Ops! La chat con questo utente è bloccata.";
 "product_chat_direct_message" = "Ciao %@, sono interessato";
 "product_chat_direct_message_sending" = "Invio in corso...";
@@ -339,8 +342,8 @@
 "product_onboarding_finger_tap_label" = "Tocca per passare al prodotto successivo";
 "product_onboarding_show_again_button_title" = "Come navigare";
 "product_open_commercial_button" = "Commercial";
-"product_option_share" = "Share product";
-"product_option_show_commercial" = "Commercial";
+"product_option_share" = "Condividi prodotto";
+"product_option_show_commercial" = "Pubblicità";
 "product_popular_near_you" = "Popolari nella tua zona";
 "product_post_camera_first_time_alert_subtitle" = "Scatta una bella foto e inizia a guadagnare!";
 "product_post_camera_first_time_alert_title" = "Che cosa stai vendendo?";
@@ -415,8 +418,8 @@
 "product_share_telegram_error" = "Ops! Non sembri avere Telegram installato.";
 "product_share_title_label" = "CONDIVIDI QUESTO PRODOTTO";
 "product_share_whatsapp_error" = "Ops! Sembra che tu non abbia installato l'app WhatsApp.";
-"product_stickers_selection_w_name" = "Select the sticker you want to send to %@.";
-"product_stickers_selection_wo_name" = "Select the sticker you want to send to the seller.";
+"product_stickers_selection_w_name" = "Seleziona l'adesivo da inviare a %@.";
+"product_stickers_selection_wo_name" = "Seleziona l'adesivo da inviare al venditore.";
 "profile_blocked_by_me_label" = "Hai bloccato questo utente";
 "profile_blocked_by_me_label_w_name" = "Hai bloccato %@";
 "profile_blocked_by_other_label" = "Sei stato bloccato da questo utente";
@@ -488,10 +491,12 @@
 "reset_password_send_ok" = "Abbiamo inviato un'email a %@. Clicca sul link all'interno dell'email per ripristinare la tua password!";
 "reset_password_send_too_many_requests" = "Ti abbiamo già inviato una email per reimpostare la password. Controlla la tua casella di posta e segui le istruzioni.";
 "reset_password_title" = "Reimposta Password";
+"sell_back_button" = "Indietro";
 "sell_category_selection_label" = "Categoria";
 "sell_choose_category_dialog_cancel_button" = "Annulla";
 "sell_choose_category_dialog_title" = "Scegli una categoria";
 "sell_description_field_hint" = "Descrizione (facoltativa)";
+"sell_description_information" = "I prodotti con descrizione vengono venduti più velocemente";
 "sell_picture_image_source_camera_button" = "Fotocamera";
 "sell_picture_image_source_camera_roll_button" = "Libreria fotografica";
 "sell_picture_image_source_cancel_button" = "Annulla";
@@ -504,6 +509,7 @@
 "sell_picture_selected_delete_button" = "Elimina";
 "sell_picture_selected_save_into_camera_roll_button" = "Salva su disco";
 "sell_picture_selected_title" = "Scegli un'azione";
+"sell_price_field" = "Prezzo:";
 "sell_send_error_invalid_category" = "Scegli una categoria per il prodotto.";
 "sell_send_error_invalid_description" = "Inserisci una descrizione valida per il prodotto.";
 "sell_send_error_invalid_description_too_long" = "La massima lunghezza per la descrizione del prodotto è %d caratteri.";
@@ -516,6 +522,7 @@
 "sell_title_autogen_autotrans_label" = "Titolo suggerito da letgo e tradotto da Google";
 "sell_title_autogen_label" = "Titolo suggerito da letgo";
 "sell_title_field_hint" = "Titolo (facoltativo)";
+"sell_title_information" = "Fai in modo che gli acquirenti trovino il tuo prodotto più facilmente";
 "sell_uploading_label" = "Caricamento prodotto. Attendere...";
 "settings_change_location_button" = "Posizione";
 "settings_change_password_button" = "Password";

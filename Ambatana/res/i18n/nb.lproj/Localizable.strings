@@ -115,11 +115,11 @@
 "chat_verify_alert_resend_button" = "Send på nytt";
 "chat_verify_alert_title" = "Verifiser din e-postadresse for å kunne chatte";
 "chat_with_yourself_alert_msg" = "Du kan ikke starte en samtale for ditt eget produkt.";
-"collection_apple_title" = "An apple a day";
-"collection_explore_button" = "Explore";
-"collection_furniture_title" = "No place like home";
-"collection_gaming_title" = "The game is on";
-"collection_transport_title" = "Travel in style";
+"collection_apple_title" = "Ett eple om dagen";
+"collection_explore_button" = "Utforsk";
+"collection_furniture_title" = "Hjemme best";
+"collection_gaming_title" = "Spillet er i gang";
+"collection_transport_title" = "Reis med stil";
 "commercializer_create_from_settings" = "Create a Free Commercial";
 "commercializer_display_share_alert" = "Share this masterpiece";
 "commercializer_display_share_label" = "Share your masterpiece with the world and watch the offers come rolling in";
@@ -158,6 +158,7 @@
 "common_expand" = "Vis mer";
 "common_loading" = "Laster...";
 "common_max" = "maks";
+"common_next" = "Neste";
 "common_no" = "Nei";
 "common_ok" = "Ok";
 "common_product_not_available" = "Produktet er ikke tilgjengelig lenger.";
@@ -290,6 +291,8 @@
 "product_ask_a_question_button" = "Still et spørsmål";
 "product_auto_generated_title_label" = "Automatisk generert tittel av letgo";
 "product_auto_generated_translated_title_label" = "(og oversatt av Google)";
+"product_bubble_one_user_interested" = "Another buyer is interested!";
+"product_bubble_several_users_interested" = "%i other buyers are interested!";
 "product_chat_direct_error_blocked_user_message" = "Oops! Denne brukeren er blokkert for samtaler.";
 "product_chat_direct_message" = "Hei %@, jeg er interessert";
 "product_chat_direct_message_sending" = "Sender...";
@@ -340,7 +343,7 @@
 "product_onboarding_show_again_button_title" = "Hvordan bla i produkter";
 "product_open_commercial_button" = "Commercial";
 "product_option_share" = "Del produkt";
-"product_option_show_commercial" = "Commercial";
+"product_option_show_commercial" = "Reklamefilm";
 "product_popular_near_you" = "Populært i ditt nærområde";
 "product_post_camera_first_time_alert_subtitle" = "Knips et godt bilde og begynn å tjene penger!";
 "product_post_camera_first_time_alert_title" = "Hva selger du?";
@@ -488,10 +491,12 @@
 "reset_password_send_ok" = "Vi har sendt en e-post til %@. Klikk på linken e-posten for å gjenopprette ditt passord.";
 "reset_password_send_too_many_requests" = "Vi har allerede sendt deg en e-post for tilbakestilling av passord. Vennligst sjekk din e-post og følg instruksene.";
 "reset_password_title" = "Tilbakestill passord";
+"sell_back_button" = "Tilbake";
 "sell_category_selection_label" = "Kategori";
 "sell_choose_category_dialog_cancel_button" = "Avbryt";
 "sell_choose_category_dialog_title" = "Velg en kategori";
 "sell_description_field_hint" = "Beskrivelse (alternativt)";
+"sell_description_information" = "Produkter med beskrivelser som selger hurtigere";
 "sell_picture_image_source_camera_button" = "Kamera";
 "sell_picture_image_source_camera_roll_button" = "Bildegalleri";
 "sell_picture_image_source_cancel_button" = "Avbryt";
@@ -504,6 +509,7 @@
 "sell_picture_selected_delete_button" = "Slett";
 "sell_picture_selected_save_into_camera_roll_button" = "Arkiver bilde";
 "sell_picture_selected_title" = "Velg en handling";
+"sell_price_field" = "Pris:";
 "sell_send_error_invalid_category" = "Vennligst velg en kategori for produktet.";
 "sell_send_error_invalid_description" = "Vennligst legg til en produktbeskrivelse.";
 "sell_send_error_invalid_description_too_long" = "Maksimal lengde for produktbeskrivelse er på %d tegn.";
@@ -516,6 +522,7 @@
 "sell_title_autogen_autotrans_label" = "Tittel foreslått av letgo og oversatt av Google";
 "sell_title_autogen_label" = "Foreslått tittel av letgo";
 "sell_title_field_hint" = "Produktnavn (alternativt)";
+"sell_title_information" = "Gjør produktet enkelt å finne for kjøpere";
 "sell_uploading_label" = "Laster opp produktet. Vennligst vent...";
 "settings_change_location_button" = "Plassering";
 "settings_change_password_button" = "Passord";
