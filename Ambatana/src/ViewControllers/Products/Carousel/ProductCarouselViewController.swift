@@ -81,7 +81,9 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
 
     let animator: PushAnimator?
     var pendingMovement: CarouselMovement?
-    
+
+    private var interestedBubble: BubbleNotification?
+
     // MARK: - Init
     
     init(viewModel: ProductCarouselViewModel, pushAnimator: ProductCarouselPushAnimator?) {
@@ -466,6 +468,7 @@ extension ProductCarouselViewController {
         refreshCommercialVideoButton(viewModel)
         refreshDirectChatElements(viewModel)
         refreshFavoriteButton(viewModel)
+        refreshInterestedBubble(viewModel)
     }
 
     private func setupUserView(viewModel: ProductViewModel) {
@@ -630,6 +633,13 @@ extension ProductCarouselViewController {
             viewModel?.switchFavorite()
         }.addDisposableTo(activeDisposeBag)
     }
+
+    private func refreshInterestedBubble(viewModel: ProductViewModel) {
+        hideInterestedBubble()
+        viewModel.showInterestedBubble.asObservable().filter{$0}.bindNext{ [weak self] _ in
+            self?.showInterestedBubbleForProduct(viewModel.product.value.objectId)
+        }.addDisposableTo(activeDisposeBag)
+    }
 }
 
 
@@ -788,6 +798,33 @@ extension ProductCarouselViewController: UITableViewDataSource, UITableViewDeleg
     }
 }
 
+
+// MARK: > Interested bubble
+
+extension ProductCarouselViewController {
+    func showInterestedBubbleForProduct(productId: String?){
+        guard let productId = productId where viewModel.shouldShowInterestedBubbleForProduct(productId) else { return }
+        guard let navView = navigationController?.view else { return }
+        guard let vm = viewModel.currentProductViewModel else { return }
+        interestedBubble = BubbleNotification(text: vm.interestedBubbleTitle.value, icon: vm.interestedBubbleIcon)
+        guard let interestedBubble = interestedBubble else { return }
+        interestedBubble.translatesAutoresizingMaskIntoConstraints = false
+
+        navView.addSubview(interestedBubble)
+        interestedBubble.setupOnView(navView)
+
+        interestedBubble.setNeedsUpdateConstraints()
+        navView.layoutSubviews()
+        navView.bringSubviewToFront(interestedBubble)
+        interestedBubble.showBubble()
+        viewModel.showInterestedBubbleForProduct(productId)
+    }
+
+    func hideInterestedBubble() {
+        guard let interestedBubble = interestedBubble else { return }
+        interestedBubble.removeBubble()
+    }
+}
 
 // MARK: > Product View Model Delegate
 

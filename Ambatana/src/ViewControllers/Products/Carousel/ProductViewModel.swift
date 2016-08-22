@@ -163,6 +163,9 @@ class ProductViewModel: BaseViewModel {
     let stickersButtonEnabled = Variable<Bool>(false)
     private var selectableStickers: [Sticker] = []
 
+    let showInterestedBubble = Variable<Bool>(false)
+    let interestedBubbleTitle = Variable<String?>(nil)
+    var interestedBubbleIcon: UIImage?
 
     // Rx
     private let disposeBag: DisposeBag
@@ -270,6 +273,7 @@ class ProductViewModel: BaseViewModel {
             if let stats = result.value {
                 strongSelf.viewsCount.value = stats.viewsCount
                 strongSelf.favouritesCount.value = stats.favouritesCount
+                strongSelf.refreshInterestedBubble()
             }
         }
 
@@ -352,6 +356,8 @@ class ProductViewModel: BaseViewModel {
         status.asObservable().filter{ $0 == .OtherAvailable }.bindNext { [weak self] _ in
             self?.refreshDirectChats()
         }.addDisposableTo(disposeBag)
+
+
     }
     
     private func distanceString(product: Product) -> String? {
@@ -484,6 +490,20 @@ extension ProductViewModel {
         ifLoggedInRunActionElseOpenMainSignUp({ [weak self] in
             self?.switchFavoriteAction()
         }, source: .Favourite)
+    }
+
+    func refreshInterestedBubble() {
+        // check that the bubble hasn't been shown yet for this product
+        guard !showInterestedBubble.value else { return }
+        guard product.value.viewModelStatus == .OtherAvailable else { return }
+        // we need at least 2 favorited without counting ours
+        let othersFavCount = min(isFavorite.value ? favouritesCount.value - 1 : favouritesCount.value, 5)
+        guard othersFavCount > 0 else { return }
+        let othersFavText = othersFavCount == 1 ? LGLocalizedString.productBubbleOneUserInterested :
+            String(format: LGLocalizedString.productBubbleSeveralUsersInterested, Int(othersFavCount))
+        interestedBubbleTitle.value = othersFavText
+        interestedBubbleIcon = UIImage(named: "ic_user_interested")
+        showInterestedBubble.value = true
     }
 }
 
@@ -733,6 +753,7 @@ extension ProductViewModel {
                     }
                 }
                 strongSelf.favoriteButtonEnabled.value = true
+                strongSelf.refreshInterestedBubble()
             }
         }
     }
