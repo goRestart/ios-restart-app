@@ -25,16 +25,15 @@ import Firebase
 
 @UIApplicationMain
 final class AppDelegate: UIResponder {
-    var window: UIWindow?
+    private var window: UIWindow?
 
-    var configManager: ConfigManager?
-    var crashManager: CrashManager?
-    var keyValueStorage: KeyValueStorage?
+    private var configManager: ConfigManager?
+    private var crashManager: CrashManager?
+    private var keyValueStorage: KeyValueStorage?
 
-    var productRepository: ProductRepository?
-    var reporter: ReporterProxy?
-    var locationManager: LocationManager?
-    var chatRepository: ChatRepository?
+    private var productRepository: ProductRepository?
+    private var locationManager: LocationManager?
+    private var chatRepository: ChatRepository?
 
     private var navigator: AppNavigator?
 
@@ -50,17 +49,13 @@ final class AppDelegate: UIResponder {
 extension AppDelegate: UIApplicationDelegate {
     func application(application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        productRepository = Core.productRepository
-        reporter = Core.reporter
-        locationManager = Core.locationManager
-        chatRepository = Core.chatRepository
-        
         ABTests.registerVariables()
 
         setupAppearance()
         setupLibraries(application, launchOptions: launchOptions)
-        setupRxBindings()
-
+        self.productRepository = Core.productRepository
+        self.locationManager = Core.locationManager
+        self.chatRepository = Core.chatRepository
         self.configManager = ConfigManager.sharedInstance
 
         let keyValueStorage = KeyValueStorage.sharedInstance
@@ -72,6 +67,7 @@ extension AppDelegate: UIApplicationDelegate {
         self.crashManager = crashManager
         self.keyValueStorage = keyValueStorage
 
+        setupRxBindings()
         crashCheck()
 
         LGCoreKit.start()
@@ -248,7 +244,6 @@ private extension AppDelegate {
             DDTTYLogger.sharedInstance().colorsEnabled =  true
             DDLog.addLogger(DDASLLogger.sharedInstance())       // ASL = Apple System Logs
         #endif
-        DDLog.addLogger(CrashlyticsLogger.sharedInstance)
 
         // Fabric
         Twitter.sharedInstance().startWithConsumerKey(EnvironmentProxy.sharedInstance.twitterConsumerKey,
@@ -257,11 +252,12 @@ private extension AppDelegate {
             Fabric.with([Twitter.self])
         #else
             Fabric.with([Crashlytics.self, Twitter.self])
+            Core.reporter.addReporter(CrashlyticsReporter())
+            DDLog.addLogger(CrashlyticsLogger.sharedInstance)
         #endif
 
         // LGCoreKit
         LGCoreKit.initialize(launchOptions, environmentType: environmentHelper.coreEnvironment)
-        reporter?.addReporter(CrashlyticsReporter())
 
         // Branch.io
         if let branch = Branch.getInstance() {
