@@ -68,6 +68,11 @@ class NotificationsViewController: BaseViewController {
         tableView.estimatedRowHeight = NotificationCellDrawerFactory.estimatedRowHeight
 
         NotificationCellDrawerFactory.registerCells(tableView)
+
+        refreshControl.accessibilityIdentifier = AccessibilityId.NotificationsRefresh
+        tableView.accessibilityIdentifier = AccessibilityId.NotificationsTable
+        activityIndicator.accessibilityIdentifier = AccessibilityId.NotificationsLoading
+        emptyView.accessibilityIdentifier = AccessibilityId.NotificationsEmptyView
     }
 
     private func setupRX() {
