@@ -26,7 +26,13 @@ enum AccessibilityId: String {
     // ...
 
     /** ABIOS-1557 */
-    // ...
+    // TourLogin
+    case TourLoginCloseButton
+    case TourLoginSignUpButton
+    case TourLoginLogInButton
+    case TourLoginSkipButton
+
+
 }
 
 extension UIView {
