@@ -34,12 +34,26 @@ enum AccessibilityId: String {
     case PostingCameraFlashButton
     case PostingCameraRetryPhotoButton
     case PostingCameraFirstTimeAlert
+    case PostingCameraCloseButton
     case PostingGalleryLoading
     case PostingGalleryCollection
     case PostingGalleryAlbumButton
     case PostingGalleryUsePhotoButton
     case PostingGalleryInfoScreenButton
     case PostingGalleryImageContainer
+    case PostingGalleryCloseButton
+    case PostingCloseButton
+    case PostingGalleryButton
+    case PostingPhotoButton
+    case PostingLoading
+    case PostingRetryButton
+    case PostingDoneButton
+    case PostingCurrencyButton
+    case PostingTitleField
+    case PostingPriceField
+    case PostingDescriptionField
+    case PostingBackButton
+
 
     /** ABIOS-1556 */
     // ...

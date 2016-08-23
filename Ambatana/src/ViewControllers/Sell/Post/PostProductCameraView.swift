@@ -26,6 +26,7 @@ class PostProductCameraView: BaseView, LGViewPagerPage {
     @IBOutlet weak var imagePreview: UIImageView!
     @IBOutlet weak var cornersContainer: UIView!
 
+    @IBOutlet weak var closeButton: UIButton!
     @IBOutlet weak var switchCamButton: UIButton!
     @IBOutlet weak var usePhotoButton: UIButton!
 
@@ -358,6 +359,7 @@ extension CameraSourceMode {
 
 extension PostProductCameraView {
     func setAccesibilityIds() {
+        closeButton.accessibilityId = .PostingCameraCloseButton
         imagePreview.accessibilityId = .PostingCameraImagePreview
         switchCamButton.accessibilityId = .PostingCameraSwitchCamButton
         usePhotoButton.accessibilityId = .PostingCameraUsePhotoButton

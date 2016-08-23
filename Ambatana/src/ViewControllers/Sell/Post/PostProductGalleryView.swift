@@ -34,6 +34,7 @@ class PostProductGalleryView: BaseView, LGViewPagerPage {
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var collectionGradientView: UIView!
     @IBOutlet weak var headerContainer: UIView!
+    @IBOutlet weak var closeButton: UIButton!
     @IBOutlet weak var albumButton: UIButton!
     @IBOutlet weak var postButton: UIButton!
 
@@ -426,6 +427,7 @@ extension PostProductGalleryView: UIGestureRecognizerDelegate {
 
 extension PostProductGalleryView {
     func setAccesibilityIds() {
+        closeButton.accessibilityId = .PostingGalleryCloseButton
         imageContainer.accessibilityId = .PostingGalleryImageContainer
         imageLoadActivityIndicator.accessibilityId = .PostingGalleryLoading
         collectionView.accessibilityId = .PostingGalleryCollection
