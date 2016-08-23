@@ -74,8 +74,8 @@ class NotificationCell: UITableViewCell, ReusableCell {
         primaryImage.backgroundColor = UIColor.placeholderBackgroundColor()
         iconImage.layer.cornerRadius = iconImage.height/2
 
-        primaryImage.accessibilityIdentifier = AccessibilityId.NotificationsCellPrimaryImage
-        secondaryImage.accessibilityIdentifier = AccessibilityId.NotificationsCellSecondaryImage
+        primaryImage.accessibilityId = .NotificationsCellPrimaryImage
+        secondaryImage.accessibilityId = .NotificationsCellSecondaryImage
     }
 
     private func resetUI() {

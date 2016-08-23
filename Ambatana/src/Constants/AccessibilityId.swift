@@ -8,27 +8,41 @@
 
 /**
  Defines the accessibility identifiers used for automated UI testing. The format is the following:
-    <screen><element-name> = "<element-name>"
+    case <screen><element-name>
  
  i.e:
-    static var SignUpLoginEmailButton = "EmailButton"
+    case SignUpLoginEmailButton
  */
-struct AccessibilityId {
+enum AccessibilityId: String {
+    case EraseMe
+
     /** ABIOS-1554 */
     // ...
 
     /** ABIOS-1555 */
     // ...
-    static var NotificationsRefresh = "Refresh"
-    static var NotificationsTable = "Table"
-    static var NotificationsLoading = "Loading"
-    static var NotificationsEmptyView = "EmptyView"
-    static var NotificationsCellPrimaryImage = "CellPrimaryImage"
-    static var NotificationsCellSecondaryImage = "CellSecondaryImage"
+    case NotificationsRefresh
+    case NotificationsTable
+    case NotificationsLoading
+    case NotificationsEmptyView
+    case NotificationsCellPrimaryImage
+    case NotificationsCellSecondaryImage
 
     /** ABIOS-1556 */
     // ...
 
     /** ABIOS-1557 */
     // ...
+}
+
+extension UIView {
+    var accessibilityId: AccessibilityId? {
+        get {
+            guard let accessibilityIdentifier = accessibilityIdentifier else { return nil }
+            return AccessibilityId(rawValue: accessibilityIdentifier)
+        }
+        set {
+            accessibilityIdentifier = newValue?.rawValue
+        }
+    }
 }

@@ -69,10 +69,10 @@ class NotificationsViewController: BaseViewController {
 
         NotificationCellDrawerFactory.registerCells(tableView)
 
-        refreshControl.accessibilityIdentifier = AccessibilityId.NotificationsRefresh
-        tableView.accessibilityIdentifier = AccessibilityId.NotificationsTable
-        activityIndicator.accessibilityIdentifier = AccessibilityId.NotificationsLoading
-        emptyView.accessibilityIdentifier = AccessibilityId.NotificationsEmptyView
+        refreshControl.accessibilityId = .NotificationsRefresh
+        tableView.accessibilityId = .NotificationsTable
+        activityIndicator.accessibilityId = .NotificationsLoading
+        emptyView.accessibilityId = .NotificationsEmptyView
     }
 
     private func setupRX() {
