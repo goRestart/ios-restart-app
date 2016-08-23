@@ -8,12 +8,12 @@
 
 /**
  Defines the accessibility identifiers used for automated UI testing. The format is the following:
-    <screen><element-name> = "<element-name>"
+    case <screen><element-name>
  
  i.e:
-    static var SignUpLoginEmailButton = "EmailButton"
+    case SignUpLoginEmailButton
  */
-struct AccessibilityId {
+enum AccessibilityId: String {
     /** ABIOS-1554 */
     // ...
 
@@ -25,4 +25,16 @@ struct AccessibilityId {
 
     /** ABIOS-1557 */
     // ...
+}
+
+extension UIView {
+    var accessibilityId: AccessibilityId? {
+        get {
+            guard let accessibilityIdentifier = accessibilityIdentifier else { return nil }
+            return AccessibilityId(rawValue: accessibilityIdentifier)
+        }
+        set {
+            accessibilityIdentifier = newValue?.rawValue
+        }
+    }
 }
