@@ -136,7 +136,17 @@ class ChatGroupedViewModel: BaseViewModel {
         }
         return string
     }
-
+    
+    func accessibilityIdentifierAtIndex(index: Int) -> AccessibilityId? {
+        guard let tab = Tab(rawValue: index) else { return nil }
+        switch tab {
+        case .All: return AccessibilityId.LGViewPagerTabAll
+        case .Buying: return AccessibilityId.LGViewPagerTabBuying
+        case .Selling: return AccessibilityId.LGViewPagerTabSelling
+        case .BlockedUsers: return AccessibilityId.LGViewPagerTabBlockedUsers
+        }
+    }
+    
     func blockedUserPressed(user: User) {
         let data = UserDetailData.UserAPI(user: user, source: .Chat)
         tabNavigator?.openUser(data)

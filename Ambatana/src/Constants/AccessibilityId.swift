@@ -43,6 +43,10 @@ enum AccessibilityId: String {
     case SignUpLoginCloseButton
     case SignUpLoginSendButton
     
+    case LGViewPagerTabAll
+    case LGViewPagerTabSelling
+    case LGViewPagerTabBuying
+    case LGViewPagerTabBlockedUsers
     /** ABIOS-1557 */
     // ...
 }

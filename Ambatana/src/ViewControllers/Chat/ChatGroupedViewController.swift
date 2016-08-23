@@ -208,6 +208,10 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
     func viewPager(viewPager: LGViewPager, titleForSelectedTabAtIndex index: Int) -> NSAttributedString {
         return viewModel.titleForTabAtIndex(index, selected: true)
     }
+    
+    func viewPager(viewPager: LGViewPager, accessibilityIdentifierAtIndex index: Int) -> AccessibilityId? {
+        return viewModel.accessibilityIdentifierAtIndex(index)
+    }
 
 
     // MARK: - LGViewPagerDelegate
