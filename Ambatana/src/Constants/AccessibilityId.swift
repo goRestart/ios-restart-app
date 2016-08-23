@@ -21,13 +21,18 @@ enum AccessibilityId: String {
     // ...
 
     /** ABIOS-1556 */
-    // ...
+    case MainSignUpFacebookButton
+    case MainSignUpGoogleButton
+    case MainSignUpSignupButton
+    case MainSignupLogInButton
+    case MainSignupCloseButton
+    case MainSignupHelpButton
 
     /** ABIOS-1557 */
     // ...
 }
 
-extension UIView {
+extension UIAccessibilityIdentification {
     var accessibilityId: AccessibilityId? {
         get {
             guard let accessibilityIdentifier = accessibilityIdentifier else { return nil }
