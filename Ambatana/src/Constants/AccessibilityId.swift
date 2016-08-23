@@ -43,7 +43,7 @@ enum AccessibilityId: String {
     case TourLocationCancelButton
 }
 
-extension UIView {
+extension UIAccessibilityIdentification {
     var accessibilityId: AccessibilityId? {
         get {
             guard let accessibilityIdentifier = accessibilityIdentifier else { return nil }
