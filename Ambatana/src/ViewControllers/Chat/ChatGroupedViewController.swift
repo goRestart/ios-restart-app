@@ -307,3 +307,9 @@ extension ChatGroupedViewController {
         }.addDisposableTo(disposeBag)
     }
 }
+
+extension ChatGroupedViewController {
+    func setAccessibilityIds() {
+        navigationItem.rightBarButtonItem?.accessibilityId = AccessibilityId.ChatGroupedViewRightNavBarButton
+    }
+}

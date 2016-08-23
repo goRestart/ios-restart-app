@@ -47,6 +47,8 @@ enum AccessibilityId: String {
     case LGViewPagerTabSelling
     case LGViewPagerTabBuying
     case LGViewPagerTabBlockedUsers
+    
+    case ChatGroupedViewRightNavBarButton
     /** ABIOS-1557 */
     // ...
 }
