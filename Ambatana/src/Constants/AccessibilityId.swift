@@ -32,7 +32,15 @@ enum AccessibilityId: String {
     case TourLoginLogInButton
     case TourLoginSkipButton
 
+    // TourNotifications
+    case TourNotificationsCloseButton
+    case TourNotificationsOKButton
+    case TourNotificationsCancelButton
 
+    // TourLocation
+    case TourLocationCloseButton
+    case TourLocationOKButton
+    case TourLocationCancelButton
 }
 
 extension UIView {
