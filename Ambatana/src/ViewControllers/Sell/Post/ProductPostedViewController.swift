@@ -9,6 +9,7 @@
 import UIKit
 
 class ProductPostedViewController: BaseViewController, ProductPostedViewModelDelegate {
+    @IBOutlet weak var closeButton: UIButton!
     @IBOutlet weak var shareButton: UIButton!
     @IBOutlet weak var contentContainer: UIView!
     @IBOutlet weak var loadingIndicator: LoadingIndicator!
@@ -65,6 +66,7 @@ class ProductPostedViewController: BaseViewController, ProductPostedViewModelDel
         super.viewDidLoad()
 
         setupView()
+        setAccesibilityIds()
     }
 
     override func viewWillDisappear(animated: Bool) {
@@ -258,5 +260,19 @@ extension ProductPostedViewController {
         resultText.addAttributes(gotAnyTextAttributes, range: boldRange)
 
         return resultText
+    }
+}
+
+
+// MARK: - Accesibility
+
+extension ProductPostedViewController {
+    func setAccesibilityIds() {
+        closeButton.accessibilityId = .PostingInfoCloseButton
+        shareButton.accessibilityId = .PostingInfoShareButton
+        loadingIndicator.accessibilityId = .PostingInfoLoading
+        editButton.accessibilityId = .PostingInfoEditButton
+        mainButton.accessibilityId = .PostingInfoMainButton
+        incentiveContainer.accessibilityId = .PostingInfoIncentiveContainer
     }
 }

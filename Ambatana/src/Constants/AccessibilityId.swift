@@ -53,6 +53,25 @@ enum AccessibilityId: String {
     case PostingPriceField
     case PostingDescriptionField
     case PostingBackButton
+    case PostingInfoCloseButton
+    case PostingInfoShareButton
+    case PostingInfoLoading
+    case PostingInfoEditButton
+    case PostingInfoMainButton
+    case PostingInfoIncentiveContainer
+    case EditProductCloseButton
+    case EditProductScroll
+    case EditProductTitleField
+    case EditProductAutoGenTitleButton
+    case EditProductImageCollection
+    case EditProductCurrencyButton
+    case EditProductPriceField
+    case EditProductDescriptionField
+    case EditProductLocationButton
+    case EditProductCategoryButton
+    case EditProductSendButton
+    case EditProductShareFBSwitch
+    case EditProductLoadingView
 
 
     /** ABIOS-1556 */
