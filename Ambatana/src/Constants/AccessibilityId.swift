@@ -27,6 +27,7 @@ enum AccessibilityId: String {
     case NotificationsEmptyView
     case NotificationsCellPrimaryImage
     case NotificationsCellSecondaryImage
+
     case PostingCameraImagePreview
     case PostingCameraSwitchCamButton
     case PostingCameraUsePhotoButton
@@ -59,6 +60,7 @@ enum AccessibilityId: String {
     case PostingInfoEditButton
     case PostingInfoMainButton
     case PostingInfoIncentiveContainer
+
     case EditProductCloseButton
     case EditProductScroll
     case EditProductTitleField
@@ -72,6 +74,19 @@ enum AccessibilityId: String {
     case EditProductSendButton
     case EditProductShareFBSwitch
     case EditProductLoadingView
+
+    case AlertMainButton
+    case AlertSecondaryButton
+    case AppRatingStarButton1
+    case AppRatingStarButton2
+    case AppRatingStarButton3
+    case AppRatingStarButton4
+    case AppRatingStarButton5
+    case AppRatingBgButton
+    case AppRatingDismissButton
+    case AppRatingBannerCloseButton
+    case AppRatingBannerRateButton
+    case SafetyTipsOkButton
 
 
     /** ABIOS-1556 */
