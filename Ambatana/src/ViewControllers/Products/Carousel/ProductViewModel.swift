@@ -509,6 +509,7 @@ extension ProductViewModel {
         showInterestedBubble.value = true
         // save that the bubble has just been shown for this product
         showInterestedBubbleForProduct(productId)
+        trackHelper.trackInterestedUsersBubble(othersFavCount, productId: productId)
         showInterestedBubble.value = false
     }
 }
