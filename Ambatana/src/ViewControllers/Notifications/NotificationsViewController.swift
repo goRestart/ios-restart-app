@@ -51,6 +51,7 @@ class NotificationsViewController: BaseViewController {
 
         setupUI()
         setupRX()
+        setAccesibilityIds()
     }
 
 
@@ -68,11 +69,6 @@ class NotificationsViewController: BaseViewController {
         tableView.estimatedRowHeight = NotificationCellDrawerFactory.estimatedRowHeight
 
         NotificationCellDrawerFactory.registerCells(tableView)
-
-        refreshControl.accessibilityId = .NotificationsRefresh
-        tableView.accessibilityId = .NotificationsTable
-        activityIndicator.accessibilityId = .NotificationsLoading
-        emptyView.accessibilityId = .NotificationsEmptyView
     }
 
     private func setupRX() {
@@ -146,5 +142,17 @@ extension NotificationsViewController: UITableViewDelegate, UITableViewDataSourc
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         guard let cellData = viewModel.dataAtIndex(indexPath.row) else { return }
         cellData.primaryAction()
+    }
+}
+
+
+// MARK: - Accesibility
+
+private extension NotificationsViewController {
+    func setAccesibilityIds() {
+        refreshControl.accessibilityId = .NotificationsRefresh
+        tableView.accessibilityId = .NotificationsTable
+        activityIndicator.accessibilityId = .NotificationsLoading
+        emptyView.accessibilityId = .NotificationsEmptyView
     }
 }

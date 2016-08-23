@@ -188,10 +188,12 @@ class PostProductCameraView: BaseView, LGViewPagerPage {
 
         setupInfoView()
         setupFirstTimeAlertView()
+        setAccesibilityIds()
         setupRX()
 
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(hideFirstTimeAlert))
         addGestureRecognizer(tapRecognizer)
+
     }
 
     private func adaptLayoutsToScreenSize() {
@@ -348,5 +350,20 @@ extension CameraSourceMode {
         case .Rear:
             return .Rear
         }
+    }
+}
+
+
+// MARK: - Accesibility
+
+extension PostProductCameraView {
+    func setAccesibilityIds() {
+        imagePreview.accessibilityId = .PostingCameraImagePreview
+        switchCamButton.accessibilityId = .PostingCameraSwitchCamButton
+        usePhotoButton.accessibilityId = .PostingCameraUsePhotoButton
+        infoButton.accessibilityId = .PostingCameraInfoScreenButton
+        flashButton.accessibilityId = .PostingCameraFlashButton
+        retryPhotoButton.accessibilityId = .PostingCameraRetryPhotoButton
+        firstTimeAlert.accessibilityId = .PostingCameraFirstTimeAlert
     }
 }

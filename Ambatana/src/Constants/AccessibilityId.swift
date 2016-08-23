@@ -27,6 +27,19 @@ enum AccessibilityId: String {
     case NotificationsEmptyView
     case NotificationsCellPrimaryImage
     case NotificationsCellSecondaryImage
+    case PostingCameraImagePreview
+    case PostingCameraSwitchCamButton
+    case PostingCameraUsePhotoButton
+    case PostingCameraInfoScreenButton
+    case PostingCameraFlashButton
+    case PostingCameraRetryPhotoButton
+    case PostingCameraFirstTimeAlert
+    case PostingGalleryLoading
+    case PostingGalleryCollection
+    case PostingGalleryAlbumButton
+    case PostingGalleryUsePhotoButton
+    case PostingGalleryInfoScreenButton
+    case PostingGalleryImageContainer
 
     /** ABIOS-1556 */
     // ...

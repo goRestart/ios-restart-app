@@ -160,6 +160,7 @@ class PostProductGalleryView: BaseView, LGViewPagerPage {
         loadImageErrorTitleLabel.text = LGLocalizedString.productPostGalleryLoadImageErrorTitle
         loadImageErrorSubtitleLabel.text = LGLocalizedString.productPostGalleryLoadImageErrorSubtitle
 
+        setAccesibilityIds()
         setupRX()
         setupAlbumSelection()
     }
@@ -417,5 +418,19 @@ extension PostProductGalleryView: UIGestureRecognizerDelegate {
 
     private func syncCollectionWithImage() {
         collectionView.contentInset.top = imageContainer.height + imageContainerTop.constant
+    }
+}
+
+
+// MARK: - Accesibility
+
+extension PostProductGalleryView {
+    func setAccesibilityIds() {
+        imageContainer.accessibilityId = .PostingGalleryImageContainer
+        imageLoadActivityIndicator.accessibilityId = .PostingGalleryLoading
+        collectionView.accessibilityId = .PostingGalleryCollection
+        albumButton.accessibilityId = .PostingGalleryAlbumButton
+        postButton.accessibilityId = .PostingGalleryUsePhotoButton
+        infoButton.accessibilityId = .PostingGalleryInfoScreenButton
     }
 }
