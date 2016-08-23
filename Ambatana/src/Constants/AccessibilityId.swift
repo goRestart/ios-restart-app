@@ -28,6 +28,21 @@ enum AccessibilityId: String {
     case MainSignupCloseButton
     case MainSignupHelpButton
 
+    case SignUpLoginFacebookButton
+    case SignUpLoginGoogleButton
+    case SignUpLoginEmailButton
+    case SignUpLoginEmailTextField
+    case SignUpLoginPasswordButton
+    case SignUpLoginPasswordTextField
+    case SignUpLoginUserNameButton
+    case SignUpLoginUserNameTextField
+    case SignUpLoginShowPasswordButton
+    case SignUpLoginForgotPasswordButton
+    case SignUpLoginSegmentedControl
+    case SignUpLoginHelpButton
+    case SignUpLoginCloseButton
+    case SignUpLoginSendButton
+    
     /** ABIOS-1557 */
     // ...
 }

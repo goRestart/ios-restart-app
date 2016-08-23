@@ -70,7 +70,8 @@ class MainSignUpViewController: BaseViewController, SignUpViewModelDelegate, UIT
         super.viewDidLoad()
         
         setupUI()
-
+        setAccesibilityIds()
+        
         if DeviceFamily.current == .iPhone4 {
             adaptConstraintsToiPhone4()
         }
