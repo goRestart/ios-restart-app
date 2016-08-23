@@ -88,7 +88,7 @@ class BubbleNotification: UIView {
         textlabel.text = text
         iconImageView.image = icon
 
-        let _ = NSTimer.scheduledTimerWithTimeInterval(3.0, target: self, selector: #selector(closeBubble), userInfo: nil,
+        NSTimer.scheduledTimerWithTimeInterval(3.0, target: self, selector: #selector(closeBubble), userInfo: nil,
                                                        repeats: false)
     }
 
