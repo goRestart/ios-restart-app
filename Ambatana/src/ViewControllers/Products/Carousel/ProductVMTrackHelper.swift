@@ -313,4 +313,9 @@ extension ProductVMTrackHelper {
                                                             messageType: messageType, isQuickAnswer: .False)
         tracker.trackEvent(messageSentEvent)
     }
+
+    func trackInterestedUsersBubble(number: Int, productId: String) {
+        let interestedUsersEvent = TrackerEvent.productDetailInterestedUsers(number, productId: productId)
+        tracker.trackEvent(interestedUsersEvent)
+    }
 }
