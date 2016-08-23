@@ -70,7 +70,7 @@ class ProductCarouselViewModel: BaseViewModel {
     private let myUserRepository: MyUserRepository
     private let productRepository: ProductRepository
     private let objects = CollectionVariable<ProductCarouselCellModel>([])
-    private let interestedBubbleManager: BubbleNotificationManager
+
 
     // MARK: - Init
     
@@ -82,8 +82,7 @@ class ProductCarouselViewModel: BaseViewModel {
         let product = productRepository.build(fromChatproduct: chatProduct, chatInterlocutor: chatInterlocutor)
         self.init(myUserRepository: myUserRepository, productRepository: productRepository,
                   productListModels: nil, initialProduct: product, thumbnailImage: thumbnailImage,
-                  productListRequester: productListRequester, tabNavigator: tabNavigator, source: source,
-                  interestedBubbleManager: BubbleNotificationManager.sharedInstance)
+                  productListRequester: productListRequester, tabNavigator: tabNavigator, source: source)
         syncFirstProduct()
     }
 
@@ -93,8 +92,7 @@ class ProductCarouselViewModel: BaseViewModel {
         let productRepository = Core.productRepository
         self.init(myUserRepository: myUserRepository, productRepository: productRepository,
                   productListModels: nil, initialProduct: product, thumbnailImage: thumbnailImage,
-                  productListRequester: productListRequester, tabNavigator: tabNavigator, source: source,
-                  interestedBubbleManager: BubbleNotificationManager.sharedInstance)
+                  productListRequester: productListRequester, tabNavigator: tabNavigator, source: source)
     }
 
     convenience init(productListModels: [ProductCellModel], initialProduct: Product?, thumbnailImage: UIImage?,
@@ -105,13 +103,13 @@ class ProductCarouselViewModel: BaseViewModel {
         self.init(myUserRepository: myUserRepository, productRepository: productRepository,
                   productListModels: productListModels, initialProduct: initialProduct,
                   thumbnailImage: thumbnailImage, productListRequester: productListRequester, tabNavigator: tabNavigator,
-                  source: source, interestedBubbleManager: BubbleNotificationManager.sharedInstance)
+                  source: source)
     }
 
     init(myUserRepository: MyUserRepository, productRepository: ProductRepository,
          productListModels: [ProductCellModel]?, initialProduct: Product?, thumbnailImage: UIImage?,
          productListRequester: ProductListRequester?, tabNavigator: TabNavigator?,
-         source: EventParameterProductVisitSource, interestedBubbleManager: BubbleNotificationManager) {
+         source: EventParameterProductVisitSource) {
         self.myUserRepository = myUserRepository
         self.productRepository = productRepository
         if let productListModels = productListModels {
@@ -123,7 +121,6 @@ class ProductCarouselViewModel: BaseViewModel {
         self.productListRequester = productListRequester
         self.tabNavigator = tabNavigator
         self.source = source
-        self.interestedBubbleManager = interestedBubbleManager
         super.init()
         self.startIndex = indexForProduct(initialProduct) ?? 0
         self.currentProductViewModel = viewModelAtIndex(startIndex)
@@ -321,18 +318,5 @@ extension CarouselMovement {
         case .Initial:
             return .None
         }
-    }
-}
-
-
-// MARK: - Interested Bubble logic
-
-extension ProductCarouselViewModel {
-    func showInterestedBubbleForProduct(id: String) {
-        interestedBubbleManager.showInterestedBubbleForProduct(id)
-    }
-
-    func shouldShowInterestedBubbleForProduct(id: String) -> Bool {
-        return interestedBubbleManager.shouldShowInterestedBubbleForProduct(id)
     }
 }
