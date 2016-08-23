@@ -12,6 +12,8 @@ import Foundation
 class BubbleNotification: UIView {
 
     static let iconSize: CGFloat = 24
+    static let bubbleContentMargin: CGFloat = 14
+    static let statusBarHeight = UIApplication.sharedApplication().statusBarFrame.size.height
 
     private var containerView: UIView = UIView()
     private var iconImageView: UIImageView = UIImageView()
@@ -102,14 +104,18 @@ class BubbleNotification: UIView {
         let centerXConstraint = NSLayoutConstraint(item: containerView, attribute: .CenterX, relatedBy: .Equal,
                                                    toItem: self, attribute: .CenterX, multiplier: 1, constant: 0)
         let containerTopConstraint = NSLayoutConstraint(item: containerView, attribute: .Top, relatedBy: .Equal,
-                                                        toItem: self, attribute: .Top, multiplier: 1, constant: 34)
+                                                        toItem: self, attribute: .Top, multiplier: 1,
+                                                        constant: BubbleNotification.bubbleContentMargin + BubbleNotification.statusBarHeight)
         let containerBottomConstraint = NSLayoutConstraint(item: containerView, attribute: .Bottom, relatedBy: .Equal,
-                                                           toItem: self, attribute: .Bottom, multiplier: 1, constant: -14)
+                                                           toItem: self, attribute: .Bottom, multiplier: 1,
+                                                           constant: -BubbleNotification.bubbleContentMargin)
 
         let containerLeftConstraint = NSLayoutConstraint(item: containerView, attribute: .Left, relatedBy: .GreaterThanOrEqual,
-                                                         toItem: self, attribute: .Left, multiplier: 1, constant: 14)
+                                                         toItem: self, attribute: .Left, multiplier: 1,
+                                                         constant: BubbleNotification.bubbleContentMargin)
         let containerRightConstraint = NSLayoutConstraint(item: containerView, attribute: .Right, relatedBy: .LessThanOrEqual,
-                                                          toItem: self, attribute: .Right, multiplier: 1, constant: -14)
+                                                          toItem: self, attribute: .Right, multiplier: 1,
+                                                          constant: -BubbleNotification.bubbleContentMargin)
 
         addConstraints([centerXConstraint, containerTopConstraint, containerBottomConstraint, containerLeftConstraint,
             containerRightConstraint])
