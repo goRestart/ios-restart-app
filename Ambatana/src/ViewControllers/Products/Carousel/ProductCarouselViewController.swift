@@ -406,6 +406,7 @@ extension ProductCarouselViewController {
             view.bringSubviewToFront(stickersButton)
             view.bringSubviewToFront(fullScreenAvatarEffectView)
             view.bringSubviewToFront(fullScreenAvatarView)
+            view.bringSubviewToFront(directChatTable)
         }
         moreInfoView?.update(viewModel)
         moreInfoView?.frame = view.bounds
