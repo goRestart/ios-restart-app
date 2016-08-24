@@ -80,6 +80,16 @@ enum AccessibilityId: String {
     // Help
     case HelpWebView
 
+    // EditLocation
+    case EditLocationMap
+    case EditLocationSearchButton
+    case EditLocationSearchTextField
+    case EditLocationSearchSuggestionsTable
+    case EditLocationSensorLocationButton
+    case EditLocationApproxLocationCircleView
+    case EditLocationPOIImageView
+    case EditLocationSetLocationButton
+    case EditLocationApproxLocationSwitch
 }
 
 extension UIAccessibilityIdentification {
