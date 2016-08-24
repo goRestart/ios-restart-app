@@ -41,6 +41,7 @@ class CategoriesViewController: BaseViewController, CategoriesViewModelDelegate,
         hidesBottomBarWhenPushed = false
         floatingSellButtonHidden = false
         hasTabBar = true
+        setupAccessibilityIds()
     }
     
     required init?(coder: NSCoder) {
@@ -119,5 +120,9 @@ class CategoriesViewController: BaseViewController, CategoriesViewModelDelegate,
         let categoriesVC = MainProductsViewController(viewModel: productsViewModel)
         self.navigationController?.pushViewController(categoriesVC, animated: true)
     }
-    
+
+    private func setupAccessibilityIds() {
+        collectionView.accessibilityId = .CategoriesCollectionView
+        activityIndicator.accessibilityId = .CategoriesActivityIndicator
+    }
 }

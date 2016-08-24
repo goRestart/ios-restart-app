@@ -19,6 +19,7 @@ class CategoryCell: UICollectionViewCell {
         super.awakeFromNib()
         self.setupUI()
         self.resetUI()
+        self.setupAccessibilityIds()
     }
     
     override func prepareForReuse() {
@@ -40,4 +41,9 @@ class CategoryCell: UICollectionViewCell {
         titleLabel.text = ""
     }
 
+    private func setupAccessibilityIds() {
+        self.accessibilityId = .CategoryCell
+        titleLabel.accessibilityId = .CategoryCellTitleLabel
+        imageView.accessibilityId = .CategoryCellImageView
+    }
 }

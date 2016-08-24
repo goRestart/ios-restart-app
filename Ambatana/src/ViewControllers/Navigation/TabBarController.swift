@@ -139,7 +139,7 @@ final class TabBarController: UITabBarController {
         for (index, vc) in viewControllers.enumerate() {
             guard let tab = Tab(index: index) else { continue }
             let tabBarItem = UITabBarItem(title: nil, image: UIImage(named: tab.tabIconImageName), selectedImage: nil)
-
+            
             // Customize the selected appereance
             if let imageItem = tabBarItem.selectedImage {
                 tabBarItem.image = imageItem.imageWithColor(UIColor.tabBarIconUnselectedColor)

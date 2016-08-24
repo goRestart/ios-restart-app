@@ -90,6 +90,7 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
         setFiltersNavbarButton()
 
         setupRxBindings()
+        setupAccessIbilityIds()
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -487,5 +488,17 @@ extension MainProductsViewController: UITableViewDelegate, UITableViewDataSource
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         viewModel.selectedTrendingSearchAtIndex(indexPath.row)
+    }
+}
+
+
+extension MainProductsViewController {
+    func setupAccessIbilityIds() {
+        navigationItem.rightBarButtonItem?.accessibilityIdentifier = AccessibilityId.MainProductsFilterButton.rawValue
+        productListView.accessibilityId = .MainProductsListView
+        tagsCollectionView.accessibilityId = .MainProductsTagsCollection
+        infoBubbleLabel.accessibilityId = .MainProductsInfoBubbleLabel
+        navbarSearch.accessibilityId = .MainProductsNavBarSearch
+        trendingSearchesTable.accessibilityId = .MainProductsTrendingSearchesTable
     }
 }

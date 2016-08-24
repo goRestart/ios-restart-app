@@ -56,6 +56,7 @@ class FilterTagCell: UICollectionViewCell {
         super.awakeFromNib()
         self.setupUI()
         self.resetUI()
+        self.setupAccessibilityIds()
     }
     
     override func prepareForReuse() {
@@ -102,5 +103,11 @@ class FilterTagCell: UICollectionViewCell {
         self.tagLabel.text = nil
         self.tagIcon.image = nil
         self.tagIconWidth.constant = 0
+    }
+
+    private func setupAccessibilityIds() {
+        self.accessibilityId = .FilterTagCell
+        tagIcon.accessibilityId = .FilterTagCellTagIcon
+        tagLabel.accessibilityId = .FilterTagCellTagLabel
     }
 }

@@ -159,6 +159,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         
         viewModel.delegate = self
         setupUI()
+        setupAccessibilityIds()
     }
     
     init?(viewModel: ProductListViewModel, coder aDecoder: NSCoder) {
@@ -174,6 +175,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         
         viewModel.delegate = self
         setupUI()
+        setupAccessibilityIds()
     }
     
     required convenience init?(coder aDecoder: NSCoder) {
@@ -580,5 +582,21 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         default:
             break
         }
+    }
+}
+
+
+// UI Testing + accessibility
+
+extension ProductListView {
+    func setupAccessibilityIds() {
+        firstLoadView.accessibilityId = .ProductListViewFirstLoadView
+        firstLoadActivityIndicator.accessibilityId = .ProductListViewFirstLoadActivityIndicator
+        collectionView.accessibilityId = .ProductListViewCollection
+        errorView.accessibilityId = .ProductListViewErrorView
+        errorImageView.accessibilityId =  .ProductListErrorImageView
+        errorTitleLabel.accessibilityId = .ProductListErrorTitleLabel
+        errorBodyLabel.accessibilityId = .ProductListErrorBodyLabel
+        errorButton.accessibilityId = .ProductListErrorButton
     }
 }

@@ -17,7 +17,58 @@ enum AccessibilityId: String {
     case EraseMe
 
     /** ABIOS-1554 */
-    // ...
+
+    // Main Products List
+    case MainProductsNavBarSearch
+    case MainProductsFilterButton
+    case MainProductsListView
+    case MainProductsTagsCollection
+    case MainProductsInfoBubbleLabel
+    case MainProductsTrendingSearchesTable
+
+    // Product List View
+    case ProductListViewFirstLoadView
+    case ProductListViewFirstLoadActivityIndicator
+    case ProductListViewCollection
+    case ProductListViewErrorView
+    case ProductListErrorImageView
+    case ProductListErrorTitleLabel
+    case ProductListErrorBodyLabel
+    case ProductListErrorButton
+
+    // Product Cell
+    case ProductCell
+    case ProductCellPriceLabel
+    case ProductCellThumbnailImageView
+    case ProductCellLikeButton
+    case ProductCellShareButton
+    case ProductCellChatButton
+    case ProductCellStripeImageView
+    case ProductCellStripeLabel
+    case ProductCellStripeIcon
+
+    // Collection & Banner Cells
+    case CollectionCell
+    case CollectionCellImageView
+    case CollectionCellTitle
+    case CollectionCellExploreButton
+
+    case BannerCell
+    case BannerCellImageView
+    case BannerCellTitle
+
+    // Filter Tags VC
+    case FilterTagsCollectionView
+    case FilterTagCell
+    case FilterTagCellTagIcon
+    case FilterTagCellTagLabel
+
+    // Categories
+    case CategoriesActivityIndicator
+    case CategoriesCollectionView
+    case CategoryCell
+    case CategoryCellTitleLabel
+    case CategoryCellImageView
 
     /** ABIOS-1555 */
     // ...
