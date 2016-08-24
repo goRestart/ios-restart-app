@@ -11,6 +11,9 @@ import FastttCamera
 import RxSwift
 
 class PostProductViewController: BaseViewController {
+
+    
+    @IBOutlet weak var closeButton: UIButton!
     @IBOutlet weak var cameraGalleryContainer: UIView!
     @IBOutlet weak var galleryButton: UIButton!
     @IBOutlet weak var photoButton: UIButton!
@@ -85,6 +88,7 @@ class PostProductViewController: BaseViewController {
 
         viewModel.onViewLoaded()
         setupView()
+        setAccesibilityIds()
         setupRx()
     }
 
@@ -429,5 +433,18 @@ extension PostProductViewController: LGViewPagerDataSource, LGViewPagerDelegate,
         titleAttributes[NSForegroundColorAttributeName] = selected ? UIColor.primaryColor : UIColor.white
         titleAttributes[NSFontAttributeName] = selected ? UIFont.activeTabFont : UIFont.inactiveTabFont
         return titleAttributes
+    }
+}
+
+
+// MARK: - Accesibility
+
+extension PostProductViewController {
+    func setAccesibilityIds() {
+        closeButton.accessibilityId = .PostingCloseButton
+        galleryButton.accessibilityId = .PostingGalleryButton
+        photoButton.accessibilityId = .PostingPhotoButton
+        customLoadingView.accessibilityId = .PostingLoading
+        retryButton.accessibilityId = .PostingRetryButton
     }
 }

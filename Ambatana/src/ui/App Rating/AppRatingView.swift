@@ -52,6 +52,8 @@ class AppRatingView: UIView {
         guard let source = ratingSource else { return }
         let trackerEvent = TrackerEvent.appRatingStart(source)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+
+        setAccesibilityIds()
     }
     
     
@@ -118,5 +120,22 @@ class AppRatingView: UIView {
 
         let sourceIsBanner = ratingSource == .Banner
         RatingManager.sharedInstance.userDidRemindLater(sourceIsBanner: sourceIsBanner)
+    }
+}
+
+
+// MARK: - Accesibility
+
+extension AppRatingView {
+    func setAccesibilityIds() {
+        if stars.count == 5 {
+            stars[0].accessibilityId = .AppRatingStarButton1
+            stars[1].accessibilityId = .AppRatingStarButton2
+            stars[2].accessibilityId = .AppRatingStarButton3
+            stars[3].accessibilityId = .AppRatingStarButton4
+            stars[4].accessibilityId = .AppRatingStarButton5
+        }
+        bgButton.accessibilityId = .AppRatingBgButton
+        dismissButton.accessibilityId = .AppRatingDismissButton
     }
 }
