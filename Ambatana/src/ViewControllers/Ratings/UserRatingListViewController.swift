@@ -40,6 +40,7 @@ class UserRatingListViewController: BaseViewController {
         tableView.delegate = self
         tableView.dataSource = self
         setupUI()
+        setAccesibilityIds()
     }
 
 
@@ -111,5 +112,15 @@ extension UserRatingListViewController: UITableViewDelegate, UITableViewDataSour
         cell.setupRatingCellWithData(data, indexPath: indexPath)
         cell.delegate = viewModel
         return cell
+    }
+}
+
+
+// MARK: - Accesibility
+
+extension UserRatingListViewController {
+    func setAccesibilityIds() {
+        tableView.accessibilityId = .RatingListTable
+        activityIndicator.accessibilityId = .RatingListLoading
     }
 }

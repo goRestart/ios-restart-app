@@ -74,6 +74,7 @@ class PostProductDetailFullView: BaseView {
     private func setup() {
         loadNibNamed("PostProductDetailFullView", contentView: { [weak self] in return self?.contentView })
         setupUI()
+        setAccesibilityIds()
         setupRx()
     }
 
@@ -148,5 +149,18 @@ extension PostProductDetailFullView: UITextFieldDelegate, UITextViewDelegate {
             return false
         }
         return true
+    }
+}
+
+
+// MARK: - Accesibility
+
+extension PostProductDetailFullView {
+    func setAccesibilityIds() {
+        doneButton.accessibilityId = .PostingDoneButton
+        currencyButton.accessibilityId = .PostingCurrencyButton
+        titleTextField.accessibilityId = .PostingTitleField
+        priceTextField.accessibilityId = .PostingPriceField
+        descriptionTextView.accessibilityId = .PostingDescriptionField
     }
 }

@@ -53,6 +53,7 @@ class ReportUsersViewController: BaseViewController, ReportUsersViewModelDelegat
         super.viewDidLoad()
 
         setupUI()
+        setAccesibilityIds()
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ReportUsersViewController.keyboardWillShow(_:)),
             name: UIKeyboardWillShowNotification, object: nil)
@@ -205,5 +206,16 @@ extension ReportUsersViewController {
         guard let selectedIndex = viewModel.selectedReasonIndex else { return }
         collectionView.scrollToItemAtIndexPath(NSIndexPath(forRow: selectedIndex, inSection: 0),
             atScrollPosition: UICollectionViewScrollPosition.Top, animated: true)
+    }
+}
+
+
+// MARK: - Accesibility
+
+extension ReportUsersViewController {
+    func setAccesibilityIds() {
+        collectionView.accessibilityId = .ReportUserCollection
+        commentTextView.accessibilityId = .ReportUserCommentField
+        sendButton.accessibilityId = .ReportUserSendButton
     }
 }
