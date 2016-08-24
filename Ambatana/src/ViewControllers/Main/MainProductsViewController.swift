@@ -208,11 +208,6 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
         guard floatingSellButtonHidden != previouslyHidden else { return }
         tabBarCtl.setSellFloatingButtonHidden(floatingSellButtonHidden, animated: true)
     }
-
-    func vmOpenSell(type: String) {
-        guard let tabBarController = self.tabBarController as? TabBarController else { return }
-        tabBarController.openSellFromBannerCell(type)
-    }
     
     
     // MARK: UITextFieldDelegate Methods

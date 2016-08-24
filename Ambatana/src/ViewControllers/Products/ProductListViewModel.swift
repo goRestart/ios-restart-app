@@ -244,8 +244,6 @@ class ProductListViewModel: BaseViewModel {
         case .ProductCell:
             dataDelegate?.productListVM(self, didSelectItemAtIndex: index, thumbnailImage: thumbnailImage,
                                         originFrame: originFrame)
-        case .BannerCell(let data):
-            dataDelegate?.vmDidSelectSellBanner(data.style.rawValue)
         case .CollectionCell(let type):
             dataDelegate?.vmDidSelectCollection(type)
         }
@@ -276,7 +274,7 @@ class ProductListViewModel: BaseViewModel {
         switch item {
         case .ProductCell(let product):
             return product
-        case .BannerCell, .CollectionCell:
+        case .CollectionCell:
             return nil
         }
     }
@@ -299,7 +297,7 @@ class ProductListViewModel: BaseViewModel {
             let imageFinalHeight = max(ProductListViewModel.cellMinHeight, round(defaultCellSize.width * thumbFactor))
             return CGSize(width: defaultCellSize.width, height: imageFinalHeight)
 
-        case .BannerCell, .CollectionCell:
+        case .CollectionCell:
             let height = defaultCellSize.width*ProductListViewModel.cellBannerAspectRatio
             return CGSize(width: defaultCellSize.width, height: height)
         }

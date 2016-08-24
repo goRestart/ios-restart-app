@@ -191,10 +191,6 @@ final class TabBarController: UITabBarController {
         viewModel.sellButtonPressed()
     }
 
-    func openSellFromBannerCell(designType: String) {
-        viewModel.sellFromBannerCell(designType)
-    }
-
     func openUserRating(source: RateUserSource, data: RateUserData) {
         viewModel.userRating(source, data: data)
     }

@@ -182,7 +182,7 @@ extension RelatedProductsView: UICollectionViewDelegate, UICollectionViewDataSou
             delegate?.relatedProductsView(self, showProduct: product, atIndex: indexPath.row,
                                           productListModels: objects, requester: requester,
                                           thumbnailImage: thumbnailImage, originFrame: originFrame)
-        case .BannerCell, .CollectionCell:
+        case .CollectionCell:
             // No banners or collections here
             break
         }
