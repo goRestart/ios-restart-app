@@ -75,8 +75,6 @@ enum AccessibilityId: String {
     case EditProductShareFBSwitch
     case EditProductLoadingView
 
-    case AlertMainButton
-    case AlertSecondaryButton
     case AppRatingStarButton1
     case AppRatingStarButton2
     case AppRatingStarButton3
@@ -87,6 +85,16 @@ enum AccessibilityId: String {
     case AppRatingBannerCloseButton
     case AppRatingBannerRateButton
     case SafetyTipsOkButton
+    case EmptyViewPrimaryButton
+    case EmptyViewSecondaryButton
+    case SocialShareFacebook
+    case SocialShareFBMessenger
+    case SocialShareEmail
+    case SocialShareWhatsapp
+    case SocialShareTwitter
+    case SocialShareTelegram
+    case SocialShareCopyLink
+    case SocialShareSMS
 
 
     /** ABIOS-1556 */

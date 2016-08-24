@@ -143,12 +143,14 @@ class LGEmptyView: UIView {
         actionButton.titleLabel?.font = UIFont.mediumButtonFont
         actionButton.addTarget(self, action: #selector(LGEmptyView.actionButtonPressed), forControlEvents: .TouchUpInside)
         actionButton.translatesAutoresizingMaskIntoConstraints = false
+        actionButton.accessibilityId = .EmptyViewPrimaryButton
         contentView.addSubview(actionButton)
         
         actionSecondaryButton.setStyle(.Secondary(fontSize: .Medium, withBorder: true))
         actionSecondaryButton.titleLabel?.font = UIFont.mediumButtonFont
         actionSecondaryButton.addTarget(self, action: #selector(LGEmptyView.secondaryActionButtonPressed), forControlEvents: .TouchUpInside)
         actionSecondaryButton.translatesAutoresizingMaskIntoConstraints = false
+        actionSecondaryButton.accessibilityId = .EmptyViewSecondaryButton
         contentView.addSubview(actionSecondaryButton)
     }
 

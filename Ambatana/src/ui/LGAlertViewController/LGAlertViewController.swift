@@ -116,8 +116,6 @@ class LGAlertViewController: UIViewController {
         alertTextLabel.font = UIFont.systemRegularFont(size: 15)
         
         setupButtons(alertActions)
-
-        setAccesibilityIds()
     }
 
     private func setupButtons(actions: [UIAction]?) {
@@ -151,6 +149,7 @@ class LGAlertViewController: UIViewController {
         button.titleLabel?.textAlignment = .Center
         button.titleLabel?.adjustsFontSizeToFitWidth = true
         button.setTitle(action.text, forState: .Normal)
+        button.accessibilityId = action.accessibilityId
         button.setStyle(action.buttonStyle ?? .Primary(fontSize: .Medium))
         button.rx_tap.bindNext { [weak self] _ in
             action.action()
@@ -160,15 +159,5 @@ class LGAlertViewController: UIViewController {
 
     dynamic private func closeWithFadeOut() {
         dismissViewControllerAnimated(true, completion: nil)
-    }
-}
-
-
-// MARK: - Accesibility
-
-extension LGAlertViewController {
-    func setAccesibilityIds() {
-        alertMainButton.accessibilityId = .AlertMainButton
-        alertSecondaryButton.accessibilityId = .AlertSecondaryButton
     }
 }
