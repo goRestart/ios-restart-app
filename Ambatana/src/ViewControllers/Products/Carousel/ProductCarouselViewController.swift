@@ -57,7 +57,6 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     private let disposeBag: DisposeBag = DisposeBag()
     private var currentIndex = 0
     private var userViewBottomConstraint: NSLayoutConstraint?
-    private let commercialButton = CommercialButton.commercialButton()!
 
     private let pageControl: UIPageControl
     private let pageControlWidth: CGFloat = 18
@@ -204,16 +203,6 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
                                          attribute: .NotAnAttribute, multiplier: 1, constant: 50)
         view.addConstraints([leftMargin, rightMargin, bottomMargin, height])
         userViewBottomConstraint = bottomMargin
-
-        view.addSubview(commercialButton)
-        commercialButton.translatesAutoresizingMaskIntoConstraints = false
-        let topCommercial = NSLayoutConstraint(item: commercialButton, attribute: .Top, relatedBy: .Equal, toItem: view,
-                                     attribute: .Top, multiplier: 1, constant: 80)
-        let rightCommercial = NSLayoutConstraint(item: commercialButton, attribute: .Trailing, relatedBy: .Equal, toItem: view,
-                                       attribute: .Trailing, multiplier: 1, constant: -itemsMargin)
-        let heightCommercial = NSLayoutConstraint(item: commercialButton, attribute: .Height, relatedBy: .Equal, toItem: nil,
-                                        attribute: .NotAnAttribute, multiplier: 1, constant: 32)
-        view.addConstraints([topCommercial, rightCommercial, heightCommercial])
         
         // UserView effect
         fullScreenAvatarEffectView.alpha = 0
@@ -293,7 +282,6 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         alphaSignal.bindTo(pageControl.rx_alpha).addDisposableTo(disposeBag)
         alphaSignal.bindTo(buttonTop.rx_alpha).addDisposableTo(disposeBag)
         alphaSignal.bindTo(productStatusView.rx_alpha).addDisposableTo(disposeBag)
-        alphaSignal.bindTo(commercialButton.rx_alpha).addDisposableTo(disposeBag)
         if let moreInfoView = moreInfoView {
             alphaSignal.bindTo(moreInfoView.rx_alpha).addDisposableTo(disposeBag)
         }
@@ -391,7 +379,6 @@ extension ProductCarouselViewController {
         refreshProductOnboarding(viewModel)
         refreshBottomButtons(viewModel)
         refreshProductStatusLabel(viewModel)
-        refreshCommercialVideoButton(viewModel)
         refreshDirectChatElements(viewModel)
         refreshFavoriteButton(viewModel)
         setupMoreInfo(viewModel)
@@ -528,17 +515,6 @@ extension ProductCarouselViewController {
             .asObservable()
             .map{$0 ?? ""}
             .bindTo(productStatusLabel.rx_text)
-            .addDisposableTo(activeDisposeBag)
-    }
-    
-    private func refreshCommercialVideoButton(viewModel: ProductViewModel) {
-        viewModel.playCommercialButtonState.asObservable()
-            .bindTo(commercialButton.rx_state)
-            .addDisposableTo(disposeBag)
-        
-        commercialButton
-            .innerButton
-            .rx_tap.bindNext { viewModel.openVideo() }
             .addDisposableTo(activeDisposeBag)
     }
 

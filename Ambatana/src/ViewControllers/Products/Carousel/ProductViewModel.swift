@@ -97,7 +97,6 @@ class ProductViewModel: BaseViewModel {
     
     let status = Variable<ProductViewModelStatus>(.Pending)
     private let productHasReadyCommercials = Variable<Bool>(false)
-    let playCommercialButtonState = Variable<ButtonState>(.Hidden)
     var commercializerAvailableTemplatesCount: Int? = nil
 
     let askQuestionButtonTitle = Variable<String>(LGLocalizedString.productAskAQuestionButton)
@@ -322,10 +321,6 @@ class ProductViewModel: BaseViewModel {
 
         productIsFavoriteable.asObservable().bindNext { [weak self] favoriteable in
             self?.favoriteButtonState.value = (favoriteable && FeatureFlags.bigFavoriteIcon) ? .Enabled : .Hidden
-        }.addDisposableTo(disposeBag)
-
-        productHasReadyCommercials.asObservable().bindNext { [weak self] comercializable in
-            self?.playCommercialButtonState.value = (comercializable && !FeatureFlags.bigFavoriteIcon) ? .Enabled : .Hidden
         }.addDisposableTo(disposeBag)
     }
     
