@@ -40,6 +40,7 @@ class SettingsViewController: BaseViewController {
         super.viewDidLoad()
 
         setupUI()
+        setupAccessibilityIds()
         setupRx()
     }
 
@@ -54,6 +55,10 @@ class SettingsViewController: BaseViewController {
         let cellNib = UINib(nibName: "SettingsCell", bundle: nil)
         tableView.registerNib(cellNib, forCellReuseIdentifier: SettingsCell.reusableID)
         tableView.rowHeight = 60
+    }
+
+    private func setupAccessibilityIds() {
+        tableView.accessibilityId = .SettingsList
     }
 
     private func setupRx() {

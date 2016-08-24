@@ -35,6 +35,7 @@ class ChangeUsernameViewController: BaseViewController, UITextFieldDelegate, Cha
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        setupAccessibilityIds()
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -168,5 +169,10 @@ class ChangeUsernameViewController: BaseViewController, UITextFieldDelegate, Cha
 
         saveButton.layer.cornerRadius = 4
         saveButton.enabled = false
+    }
+
+    private func setupAccessibilityIds() {
+        usernameTextfield.accessibilityId = .ChangeUsernameNameTextfield
+        saveButton.accessibilityId = .ChangeUsernameSendButton
     }
 }

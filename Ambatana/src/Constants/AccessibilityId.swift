@@ -63,6 +63,21 @@ enum AccessibilityId: String {
     case UserPushPermissionOK
     case UserPushPermissionCancel
 
+    // Settings
+    case SettingsList
+
+    // ChangeUsername
+    case ChangeUsernameNameTextfield
+    case ChangeUsernameSendButton
+
+    // ChangePassword
+    case ChangePasswordPwdTextfield
+    case ChangePasswordPwdConfirmTextfield
+    case ChangePasswordSendButton
+
+    // Help
+    case HelpWebView
+
 }
 
 extension UIAccessibilityIdentification {
