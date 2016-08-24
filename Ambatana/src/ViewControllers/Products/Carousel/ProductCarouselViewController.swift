@@ -532,10 +532,9 @@ extension ProductCarouselViewController {
     }
     
     private func refreshCommercialVideoButton(viewModel: ProductViewModel) {
-        viewModel.productHasReadyCommercials.asObservable()
-            .map{ !$0 || FeatureFlags.bigFavoriteIcon }
-            .bindTo(commercialButton.rx_hidden)
-            .addDisposableTo(activeDisposeBag)
+        viewModel.playCommercialButtonState.asObservable()
+            .bindTo(commercialButton.rx_state)
+            .addDisposableTo(disposeBag)
         
         commercialButton
             .innerButton
