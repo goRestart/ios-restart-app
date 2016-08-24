@@ -168,7 +168,7 @@ enum AccessibilityId: String {
     case SettingsCellValue
 
     // ChangeUsername
-    case ChangeUsernameNameTextfield
+    case ChangeUsernameNameField
     case ChangeUsernameSendButton
 
     // ChangePassword
