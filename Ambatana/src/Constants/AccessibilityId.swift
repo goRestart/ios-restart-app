@@ -75,6 +75,25 @@ enum AccessibilityId: String {
     case EditProductShareFBSwitch
     case EditProductLoadingView
 
+    case ReportUserCollection
+    case ReportUserCommentField
+    case ReportUserSendButton
+
+    case RateUserUserNameLabel
+    case RateUserStarButton1
+    case RateUserStarButton2
+    case RateUserStarButton3
+    case RateUserStarButton4
+    case RateUserStarButton5
+    case RateUserDescriptionField
+    case RateUserLoading
+    case RateUserPublishButton
+    case RatingListTable
+    case RatingListLoading
+    case RatingListCellUserName
+    case RatingListCellReport
+    case RatingListCellReview
+
     case AppRatingStarButton1
     case AppRatingStarButton2
     case AppRatingStarButton3
