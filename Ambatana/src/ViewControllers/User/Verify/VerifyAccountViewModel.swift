@@ -69,7 +69,7 @@ class VerifyAccountViewModel: BaseViewModel {
         case let .Email(current):
             let email = current ?? typedEmail.value
             guard let emailToVerify = email else { return }
-            emailVerification(emailToVerify)
+            emailVerification(emailToVerify.trim)
         }
     }
 

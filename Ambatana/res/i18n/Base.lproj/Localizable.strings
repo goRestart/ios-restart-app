@@ -870,6 +870,12 @@
 // Product detail auto gen title translated disclaimer label.
 "product_auto_generated_translated_title_label" = "(and translated by Google)";
 
+// product detail user interested bubble notification
+"product_bubble_one_user_interested" = "Another buyer is interested!";
+
+// product detail X users interested bubble notification
+"product_bubble_several_users_interested" = "%i other buyers are interested!";
+
 // Error shown when one user blocked the other
 "product_chat_direct_error_blocked_user_message" = "Oops! Chatting with this user is blocked.";
 
