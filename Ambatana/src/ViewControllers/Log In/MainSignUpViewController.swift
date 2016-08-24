@@ -46,8 +46,8 @@ class MainSignUpViewController: BaseViewController, SignUpViewModelDelegate, UIT
     @IBOutlet weak var facebookButtonTopMarginConstraint: NSLayoutConstraint!
     
     // Bar Buttons
-    private var closeButton: UIBarButtonItem!
-    private var helpButton: UIBarButtonItem!
+    private var closeButton: UIBarButtonItem?
+    private var helpButton: UIBarButtonItem?
     
     
     // > Helper
@@ -226,7 +226,7 @@ extension MainSignUpViewController {
         connectGoogleButton.accessibilityId = .MainSignUpGoogleButton
         signUpButton.accessibilityId = .MainSignUpSignupButton
         logInButton.accessibilityId = .MainSignupLogInButton
-        closeButton.accessibilityId = .MainSignupCloseButton
-        helpButton.accessibilityId = .MainSignupHelpButton
+        closeButton?.accessibilityId = .MainSignupCloseButton
+        helpButton?.accessibilityId = .MainSignupHelpButton
     }
 }
