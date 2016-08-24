@@ -494,7 +494,7 @@ extension MainProductsViewController: UITableViewDelegate, UITableViewDataSource
 
 extension MainProductsViewController {
     func setupAccessIbilityIds() {
-        navigationItem.rightBarButtonItem?.accessibilityIdentifier = AccessibilityId.MainProductsFilterButton.rawValue
+        navigationItem.rightBarButtonItem?.accessibilityId = .MainProductsFilterButton
         productListView.accessibilityId = .MainProductsListView
         tagsCollectionView.accessibilityId = .MainProductsTagsCollection
         infoBubbleLabel.accessibilityId = .MainProductsInfoBubbleLabel

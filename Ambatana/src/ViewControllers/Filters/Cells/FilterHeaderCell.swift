@@ -19,6 +19,7 @@ class FilterHeaderCell: UICollectionReusableView {
         super.awakeFromNib()
         self.setupUI()
         self.resetUI()
+        setupAccessibilityIds()
     }
     
     override func prepareForReuse() {
@@ -36,5 +37,9 @@ class FilterHeaderCell: UICollectionReusableView {
     private func resetUI() {
         titleLabel.text = ""
     }
-    
+
+    private func setupAccessibilityIds() {
+        self.accessibilityId = .FilterHeaderCell
+        titleLabel.accessibilityId = .FilterHeaderCellTitleLabel
+    }
 }

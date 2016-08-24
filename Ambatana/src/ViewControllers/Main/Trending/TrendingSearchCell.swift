@@ -16,5 +16,11 @@ class TrendingSearchCell: UITableViewCell, ReusableCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         backgroundColor = UIColor.clearColor()
+        setupAccessibilityIds()
+    }
+
+    private func setupAccessibilityIds() {
+        self.accessibilityId = .TrendingSearchCell
+        trendingText.accessibilityId = .TrendingSearchCellTrendingText
     }
 }

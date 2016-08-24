@@ -22,6 +22,7 @@ class FilterLocationCell: UICollectionViewCell {
         super.awakeFromNib()
         self.setupUI()
         self.resetUI()
+        setupAccessibilityIds()
     }
 
     override func prepareForReuse() {
@@ -40,5 +41,11 @@ class FilterLocationCell: UICollectionViewCell {
     // Resets the UI to the initial state
     private func resetUI() {
         locationLabel.text = nil
+    }
+
+    private func setupAccessibilityIds() {
+        self.accessibilityId = .FilterLocationCell
+        titleLabel.accessibilityId = .FilterLocationCellTitleLabel
+        locationLabel.accessibilityId = .FilterLocationCellLocationLabel
     }
 }

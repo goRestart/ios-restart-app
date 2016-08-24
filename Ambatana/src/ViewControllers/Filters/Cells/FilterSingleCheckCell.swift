@@ -22,6 +22,7 @@ class FilterSingleCheckCell: UICollectionViewCell {
         super.awakeFromNib()
         self.setupUI()
         self.resetUI()
+        setupAccessibilityIds()
     }
     
     override func prepareForReuse() {
@@ -53,4 +54,9 @@ class FilterSingleCheckCell: UICollectionViewCell {
         bottomSeparator.hidden = true
     }
 
+    private func setupAccessibilityIds() {
+        self.accessibilityId = .FilterSingleCheckCell
+        tickIcon.accessibilityId = .FilterSingleCheckCellTickIcon
+        titleLabel.accessibilityId = .FilterSingleCheckCellTitleLabel
+    }
 }

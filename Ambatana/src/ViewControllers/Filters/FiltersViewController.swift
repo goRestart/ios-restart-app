@@ -62,6 +62,7 @@ UICollectionViewDataSource, UICollectionViewDelegate {
         super.init(viewModel: viewModel, nibName: nibNameOrNil)
         self.viewModel = viewModel
         self.viewModel.delegate = self
+        setupAccessibilityIds()
     }
     
     required init?(coder: NSCoder) {
@@ -269,5 +270,12 @@ UICollectionViewDataSource, UICollectionViewDelegate {
         // Rounded save button
         saveFiltersBtn.setStyle(.Primary(fontSize: .Medium))
         saveFiltersBtn.setTitle(LGLocalizedString.filtersSaveButton, forState: UIControlState.Normal)
+    }
+
+    private func setupAccessibilityIds() {
+        collectionView.accessibilityId = .FiltersCollectionView
+        saveFiltersBtn.accessibilityId = .FiltersSaveFiltersButton
+        self.navigationItem.rightBarButtonItem?.accessibilityId = .FiltersResetButton
+        self.navigationItem.leftBarButtonItem?.accessibilityId = .FiltersCancelButton
     }
 }

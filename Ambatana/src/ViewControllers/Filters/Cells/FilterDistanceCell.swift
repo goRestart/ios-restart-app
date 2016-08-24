@@ -44,6 +44,7 @@ class FilterDistanceCell: UICollectionViewCell {
         super.awakeFromNib()
         self.setupUI()
         self.resetUI()
+        setupAccessibilityIds()
     }
     
     override func prepareForReuse() {
@@ -128,7 +129,14 @@ class FilterDistanceCell: UICollectionViewCell {
         distanceLabel.text = ""
         updateTipPosition(0)
     }
-    
+
+    private func setupAccessibilityIds() {
+        self.accessibilityId = .FilterDistanceCell
+        slider.accessibilityId = .FilterDistanceSlider
+        distanceTip.accessibilityId = .FilterDistanceTip
+        distanceLabel.accessibilityId = .FilterDistanceLabel
+    }
+
     private func setupInPosition(position: Int){
         slider.setValue(Float(position), animated: true)
         let percent = slider.value / slider.maximumValue
@@ -163,5 +171,4 @@ class FilterDistanceCell: UICollectionViewCell {
         let index = Int(slider.value + 0.5)
         return positions[index]
     }
-    
 }

@@ -18,6 +18,14 @@ enum AccessibilityId: String {
 
     /** ABIOS-1554 */
 
+    // Tab Bar
+    case TabBarFirstTab
+    case TabBarSecondTab
+    case TabBarThirdTab
+    case TabBarFourthTab
+    case TabBarFifthTab
+    case TabBarFloatingSellButton
+
     // Main Products List
     case MainProductsNavBarSearch
     case MainProductsFilterButton
@@ -63,12 +71,43 @@ enum AccessibilityId: String {
     case FilterTagCellTagIcon
     case FilterTagCellTagLabel
 
+    // TrendingSearchCell
+    case TrendingSearchCell
+    case TrendingSearchCellTrendingText
+
     // Categories
     case CategoriesActivityIndicator
     case CategoriesCollectionView
     case CategoryCell
     case CategoryCellTitleLabel
     case CategoryCellImageView
+
+    // Filters
+    case FiltersCollectionView
+    case FiltersSaveFiltersButton
+    case FiltersCancelButton
+    case FiltersResetButton
+
+    // Filters Cells
+    case FilterCategoryCell
+    case FilterCategoryCellIcon
+    case FilterCategoryCellTitleLabel
+
+    case FilterSingleCheckCell
+    case FilterSingleCheckCellTickIcon
+    case FilterSingleCheckCellTitleLabel
+
+    case FilterDistanceCell
+    case FilterDistanceSlider
+    case FilterDistanceTip
+    case FilterDistanceLabel
+
+    case FilterHeaderCell
+    case FilterHeaderCellTitleLabel
+
+    case FilterLocationCell
+    case FilterLocationCellTitleLabel
+    case FilterLocationCellLocationLabel
 
     /** ABIOS-1555 */
     // ...
