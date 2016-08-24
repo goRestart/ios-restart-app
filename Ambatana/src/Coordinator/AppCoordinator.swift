@@ -419,9 +419,9 @@ private extension AppCoordinator {
 
         guard navCtl.isAtRootViewController else { return }
 
-        let yesAction = UIAction(interface: .StyledText(LGLocalizedString.commonOk, .Default)) {
+        let yesAction = UIAction(interface: .StyledText(LGLocalizedString.commonOk, .Default), action: {
             Core.locationManager.setAutomaticLocation(nil)
-        }
+        })
         navCtl.showAlert(nil, message: LGLocalizedString.changeLocationRecommendUpdateLocationMessage,
                          cancelLabel: LGLocalizedString.commonCancel, actions: [yesAction])
 
