@@ -18,12 +18,13 @@ final class CategoriesTabCoordinator: TabCoordinator {
         let myUserRepository = Core.myUserRepository
         let keyValueStorage = KeyValueStorage.sharedInstance
         let tracker = TrackerProxy.sharedInstance
+        let sessionManager = Core.sessionManager
         let viewModel = CategoriesViewModel()
         let rootViewController = CategoriesViewController(viewModel: viewModel)
         self.init(productRepository: productRepository, userRepository: userRepository,
                   chatRepository: chatRepository, oldChatRepository: oldChatRepository,
                   myUserRepository: myUserRepository, keyValueStorage: keyValueStorage,
-                  tracker: tracker, rootViewController: rootViewController)
+                  tracker: tracker, sessionManager: sessionManager, rootViewController: rootViewController)
         
         viewModel.tabNavigator = self
     }
