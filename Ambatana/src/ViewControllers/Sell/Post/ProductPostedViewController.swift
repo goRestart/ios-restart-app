@@ -39,19 +39,15 @@ class ProductPostedViewController: BaseViewController, ProductPostedViewModelDel
 
 
     private static let contentContainerShownHeight: CGFloat = 80
-    private var viewModel: ProductPostedViewModel!
+    private let viewModel: ProductPostedViewModel
 
 
     // MARK: - View lifecycle
 
-    convenience init(viewModel: ProductPostedViewModel) {
-        self.init(viewModel: viewModel, nibName: "ProductPostedViewController")
-    }
-
-    required init(viewModel: ProductPostedViewModel, nibName nibNameOrNil: String?) {
-        super.init(viewModel: viewModel, nibName: nibNameOrNil,
-                   statusBarStyle: UIApplication.sharedApplication().statusBarStyle)
+    required init(viewModel: ProductPostedViewModel) {
         self.viewModel = viewModel
+        super.init(viewModel: viewModel, nibName: "ProductPostedViewController",
+                   statusBarStyle: UIApplication.sharedApplication().statusBarStyle)
         viewModel.delegate = self
         modalPresentationStyle = .OverCurrentContext
         modalTransitionStyle = .CrossDissolve
