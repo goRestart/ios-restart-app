@@ -137,13 +137,23 @@ class ChatGroupedViewModel: BaseViewModel {
         return string
     }
     
-    func accessibilityIdentifierAtIndex(index: Int) -> AccessibilityId? {
+    func accessibilityIdentifierForTabButtonAtIndex(index: Int) -> AccessibilityId? {
         guard let tab = Tab(rawValue: index) else { return nil }
         switch tab {
-        case .All: return AccessibilityId.LGViewPagerTabAll
-        case .Buying: return AccessibilityId.LGViewPagerTabBuying
-        case .Selling: return AccessibilityId.LGViewPagerTabSelling
-        case .BlockedUsers: return AccessibilityId.LGViewPagerTabBlockedUsers
+        case .All: return .LGViewPagerTabAll
+        case .Buying: return .LGViewPagerTabBuying
+        case .Selling: return .LGViewPagerTabSelling
+        case .BlockedUsers: return .LGViewPagerTabBlockedUsers
+        }
+    }
+    
+    func accessibilityIdentifierForTableViewAtIndex(index: Int) -> AccessibilityId? {
+        guard let tab = Tab(rawValue: index) else { return nil }
+        switch tab {
+        case .All: return .ChatListViewTabAllTableView
+        case .Buying: return .ChatListViewTabBuyingTableView
+        case .Selling: return .ChatListViewTabSellingTableView
+        case .BlockedUsers: return .ChatListViewTabBlockedUsersTableView
         }
     }
     

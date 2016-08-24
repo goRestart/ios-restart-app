@@ -244,3 +244,4 @@ class ChatGroupedListView: BaseView, ChatGroupedListViewModelDelegate, Scrollabl
         }, completion: completion)
     }
 }
+

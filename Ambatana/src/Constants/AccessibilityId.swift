@@ -49,6 +49,11 @@ enum AccessibilityId: String {
     case LGViewPagerTabBlockedUsers
     
     case ChatGroupedViewRightNavBarButton
+    
+    case ChatListViewTabAllTableView
+    case ChatListViewTabSellingTableView
+    case ChatListViewTabBuyingTableView
+    case ChatListViewTabBlockedUsersTableView
     /** ABIOS-1557 */
     // ...
 }
