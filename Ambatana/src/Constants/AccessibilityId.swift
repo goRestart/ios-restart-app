@@ -41,6 +41,28 @@ enum AccessibilityId: String {
     case TourLocationCloseButton
     case TourLocationOKButton
     case TourLocationCancelButton
+
+    // User
+    case UserNavBarSettingsButton
+    case UserNavBarMoreButton
+    case UserHeaderCollapsedNameLabel
+    case UserHeaderCollapsedLocationLabel
+    case UserHeaderExpandedNameLabel
+    case UserHeaderExpandedLocationLabel
+    case UserHeaderExpandedAvatarButton
+    case UserHeaderExpandedVerifyFacebookButton
+    case UserHeaderExpandedVerifyGoogleButton
+    case UserHeaderExpandedVerifyEmailButton
+    case UserEnableNotificationsButton
+    case UserSellingTab
+    case UserSoldTab
+    case UserFavoritesTab
+    case UserProductsFirstLoad
+    case UserProductsList
+    case UserProductsError
+    case UserPushPermissionOK
+    case UserPushPermissionCancel
+
 }
 
 extension UIAccessibilityIdentification {
