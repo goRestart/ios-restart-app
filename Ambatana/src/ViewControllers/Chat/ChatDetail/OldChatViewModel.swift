@@ -256,7 +256,8 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     private let chatViewMessageAdapter: ChatViewMessageAdapter
     private let tracker: Tracker
     private let configManager: ConfigManager
-    
+    private let sessionManager: SessionManager
+
     private var chat: Chat
     private var product: Product
     private var isDeleted = false
@@ -329,35 +330,36 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     // MARK: - Lifecycle
 
     convenience init?(chat: Chat, tabNavigator: TabNavigator?) {
-        self.init(chat: chat, myUserRepository: Core.myUserRepository,
-                  configManager: ConfigManager.sharedInstance, tabNavigator: tabNavigator)
+        self.init(chat: chat, myUserRepository: Core.myUserRepository, configManager: ConfigManager.sharedInstance,
+                  sessionManager: Core.sessionManager, tabNavigator: tabNavigator)
     }
     
     convenience init?(product: Product, tabNavigator: TabNavigator?) {
         let myUserRepository = Core.myUserRepository
         let chat = LocalChat(product: product, myUser: myUserRepository.myUser)
         let configManager = ConfigManager.sharedInstance
-
+        let sessionManager = Core.sessionManager
         self.init(chat: chat, myUserRepository: myUserRepository,
-                  configManager: configManager, tabNavigator: tabNavigator)
+                  configManager: configManager, sessionManager: sessionManager, tabNavigator: tabNavigator)
     }
 
     convenience init?(chat: Chat, myUserRepository: MyUserRepository, configManager: ConfigManager,
-                      tabNavigator: TabNavigator?) {
+                      sessionManager: SessionManager, tabNavigator: TabNavigator?) {
         let chatRepository = Core.oldChatRepository
         let productRepository = Core.productRepository
         let userRepository = Core.userRepository
         let tracker = TrackerProxy.sharedInstance
+        let sessionManager = Core.sessionManager
         let stickersRepository = Core.stickersRepository
         self.init(chat: chat, myUserRepository: myUserRepository, chatRepository: chatRepository,
                   productRepository: productRepository, userRepository: userRepository,
                   stickersRepository: stickersRepository, tracker: tracker,
-                  configManager: configManager, tabNavigator: tabNavigator)
+                  configManager: configManager, sessionManager: sessionManager, tabNavigator: tabNavigator)
     }
 
     init?(chat: Chat, myUserRepository: MyUserRepository, chatRepository: OldChatRepository,
           productRepository: ProductRepository, userRepository: UserRepository, stickersRepository: StickersRepository,
-          tracker: Tracker, configManager: ConfigManager, tabNavigator: TabNavigator?) {
+          tracker: Tracker, configManager: ConfigManager, sessionManager: SessionManager, tabNavigator: TabNavigator?) {
         self.chat = chat
         self.myUserRepository = myUserRepository
         self.chatRepository = chatRepository
@@ -367,6 +369,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         self.chatViewMessageAdapter = ChatViewMessageAdapter()
         self.tracker = tracker
         self.configManager = configManager
+        self.sessionManager = sessionManager
         self.tabNavigator = tabNavigator
         self.loadedMessages = []
         self.product = chat.product
@@ -403,6 +406,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     }
 
     func wentBack() {
+        guard sessionManager.loggedIn else { return }
         guard isBuyer else { return }
         guard !relatedProducts.isEmpty else { return }
         guard let productId = product.objectId else { return }

@@ -27,7 +27,7 @@ class ExpressChatViewModel: BaseViewModel {
 
     let selectedProducts = Variable<[Product]>([])
     let messageText = Variable<String>(LGLocalizedString.chatExpressTextFieldText)
-    let sendButtonEnabled = Variable<Bool>(true)
+    let sendButtonEnabled = Variable<Bool>(false)
 
     weak var navigator: ExpressChatNavigator?
 

@@ -13,6 +13,7 @@ class ExpressChatViewController: BaseViewController {
 
     static let collectionCellIdentifier = "ExpressChatCell"
     static let collectionHeight: CGFloat = 250
+    static let marginForButtonToKeyboard: CGFloat = 15
 
     var viewModel: ExpressChatViewModel
     var keyboardHelper: KeyboardHelper
@@ -22,6 +23,7 @@ class ExpressChatViewController: BaseViewController {
     @IBOutlet weak var dontMissLabel: UILabel!
     @IBOutlet weak var contactSellersLabel: UILabel!
     @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var textFieldContainer: UIView!
     @IBOutlet weak var messageTextField: UITextField!
     @IBOutlet weak var sendMessageButton: UIButton!
     @IBOutlet weak var dontAskAgainButton: UIButton!
@@ -46,17 +48,33 @@ class ExpressChatViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
         setupUI()
         setupRX()
     }
 
+    override func viewDidFirstLayoutSubviews() {
+        keyboardHelper.rx_keyboardOrigin.asObservable().bindNext { [weak self] origin in
+            guard let viewHeight = self?.view.height where viewHeight >= origin else { return }
+            guard let scrollView = self?.scrollView, var buttonRect = self?.sendMessageButton.frame else { return }
+            scrollView.contentInset.bottom = viewHeight - origin
+            buttonRect.bottom = buttonRect.bottom + ExpressChatViewController.marginForButtonToKeyboard
+            scrollView.scrollRectToVisible(buttonRect, animated: false)
+            }.addDisposableTo(disposeBag)
+    }
+
     func setupUI() {
+        view.backgroundColor = UIColor.grayBackground
+        scrollView.backgroundColor = UIColor.clearColor()
+        automaticallyAdjustsScrollViewInsets = false
+
         dontMissLabel.text = LGLocalizedString.chatExpressDontMissLabel
         contactSellersLabel.text = LGLocalizedString.chatExpressContactSellersLabel
 
+        textFieldContainer.layer.cornerRadius = LGUIKitConstants.tooltipCornerRadius
+        
         messageTextField.text = viewModel.messageText.value
         messageTextField.delegate = self
+        messageTextField.tintColor = UIColor.primaryColor
         
         sendMessageButton.setStyle(.Primary(fontSize: .Big))
         
@@ -80,14 +98,6 @@ class ExpressChatViewController: BaseViewController {
     func setupRX() {
         viewModel.sendMessageTitle.asObservable().bindTo(sendMessageButton.rx_title).addDisposableTo(disposeBag)
         viewModel.sendButtonEnabled.asObservable().bindTo(sendMessageButton.rx_enabled).addDisposableTo(disposeBag)
-
-        keyboardHelper.rx_keyboardOrigin.asObservable().bindNext { [weak self] origin in
-            guard let scrollView = self?.scrollView, var buttonRect = self?.sendMessageButton.frame,
-                let topHeight = self?.topBarHeight else { return }
-            scrollView.contentInset.bottom = scrollView.height - origin + topHeight
-            buttonRect.bottom = buttonRect.bottom
-            scrollView.scrollRectToVisible(buttonRect, animated: false)
-        }.addDisposableTo(disposeBag)
     }
 
     @IBAction func closeButtonPressed(sender: AnyObject) {
@@ -101,17 +111,13 @@ class ExpressChatViewController: BaseViewController {
     @IBAction func dontAskAgainButtonPressed(sender: AnyObject) {
         viewModel.closeExpressChat(false)
     }
-
 }
 
 extension ExpressChatViewController: UITextFieldDelegate {
-    func textFieldDidBeginEditing(textField: UITextField) {
-        textField.text = ""
-        viewModel.textFieldUpdatedWithText("")
-    }
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
-        guard let oldText = textField.text else { return true }
-        viewModel.textFieldUpdatedWithText(oldText + string)
+        guard let text = textField.text else { return false }
+        let updatedText =  (text as NSString).stringByReplacingCharactersInRange(range, withString: string)
+        viewModel.textFieldUpdatedWithText(updatedText)
         return true
     }
 }
