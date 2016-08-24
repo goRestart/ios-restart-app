@@ -58,6 +58,7 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
             }
             
             page.tableView.accessibilityId = viewModel.accessibilityIdentifierForTableViewAtIndex(index)
+            page.footerButton.accessibilityId = .ChatListViewFooterButton
             page.chatGroupedListViewDelegate = self
             page.delegate = self
             pages.append(page)

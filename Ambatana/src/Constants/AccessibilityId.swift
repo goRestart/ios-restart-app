@@ -50,10 +50,25 @@ enum AccessibilityId: String {
     
     case ChatGroupedViewRightNavBarButton
     
+    case ChatListViewFooterButton
     case ChatListViewTabAllTableView
     case ChatListViewTabSellingTableView
     case ChatListViewTabBuyingTableView
     case ChatListViewTabBlockedUsersTableView
+
+    case ConversationCellUserLabel
+    case ConversationCellProductLabel
+    case ConversationCellTimeLabel
+    case ConversationCellBadgeLabel
+    case ConversationCellThumbnailImageView
+    case ConversationCellAvatarImageView
+    case ConversationCellStatusImageView
+
+    case BlockedUserCellAvatarImageView
+    case BlockedUserCellUserNameLabel
+    case BlockedUserCellBlockedLabel
+    case BlockedUserCellBlockedIcon
+
     /** ABIOS-1557 */
     // ...
 }
