@@ -26,7 +26,6 @@ class TabCoordinator: NSObject {
     let myUserRepository: MyUserRepository
     let keyValueStorage: KeyValueStorage
     let tracker: Tracker
-    let sessionManager: SessionManager
 
     let disposeBag = DisposeBag()
 
@@ -37,8 +36,7 @@ class TabCoordinator: NSObject {
 
     init(productRepository: ProductRepository, userRepository: UserRepository, chatRepository: ChatRepository,
          oldChatRepository: OldChatRepository, myUserRepository: MyUserRepository,
-         keyValueStorage: KeyValueStorage, tracker: Tracker, sessionManager: SessionManager,
-         rootViewController: UIViewController) {
+         keyValueStorage: KeyValueStorage, tracker: Tracker, rootViewController: UIViewController) {
         self.productRepository = productRepository
         self.userRepository = userRepository
         self.chatRepository = chatRepository
@@ -46,7 +44,6 @@ class TabCoordinator: NSObject {
         self.myUserRepository = myUserRepository
         self.keyValueStorage = keyValueStorage
         self.tracker = tracker
-        self.sessionManager = sessionManager
         self.rootViewController = rootViewController
         self.navigationController = UINavigationController(rootViewController: rootViewController)
 
@@ -86,7 +83,6 @@ extension TabCoordinator: TabNavigator {
     }
     
     func openExpressChat(products: [Product], sourceProductId: String) {
-        guard sessionManager.loggedIn else { return }
         guard let expressChatCoordinator = ExpressChatCoordinator(products: products, sourceProductId: sourceProductId) else { return }
         expressChatCoordinator.delegate = self
         openCoordinator(coordinator: expressChatCoordinator, parent: rootViewController, animated: true, completion: nil)

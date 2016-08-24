@@ -18,13 +18,12 @@ final class ProfileTabCoordinator: TabCoordinator {
         let myUserRepository = Core.myUserRepository
         let keyValueStorage = KeyValueStorage.sharedInstance
         let tracker = TrackerProxy.sharedInstance
-        let sessionManager = Core.sessionManager
         let viewModel = UserViewModel.myUserUserViewModel(.TabBar)
         let rootViewController = UserViewController(viewModel: viewModel)
         self.init(productRepository: productRepository, userRepository: userRepository,
                   chatRepository: chatRepository, oldChatRepository: oldChatRepository,
                   myUserRepository: myUserRepository, keyValueStorage: keyValueStorage, tracker: tracker,
-                  sessionManager: sessionManager, rootViewController: rootViewController)
+                  rootViewController: rootViewController)
 
         viewModel.tabNavigator = self
     }
