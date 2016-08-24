@@ -12,6 +12,8 @@
 		2E0342F21CDB7A850074EB34 /* CrashManagerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E0342F11CDB7A850074EB34 /* CrashManagerSpec.swift */; };
 		2E119E0B1D1C37040053BA9F /* LGUIKitConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E119E0A1D1C37040053BA9F /* LGUIKitConstants.swift */; };
 		2E119E0C1D1C37040053BA9F /* LGUIKitConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E119E0A1D1C37040053BA9F /* LGUIKitConstants.swift */; };
+		2E1F0D971D65F4B80021EDBE /* BubbleNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E1F0D961D65F4B80021EDBE /* BubbleNotification.swift */; };
+		2E1F0D981D65F4B80021EDBE /* BubbleNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E1F0D961D65F4B80021EDBE /* BubbleNotification.swift */; };
 		2E245C5E1C11A88B00A3969B /* PushPermissionsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E245C5D1C11A88B00A3969B /* PushPermissionsManager.swift */; };
 		2E2634CD1BB19D1800BBFFBC /* KahunaTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2634CC1BB19D1800BBFFBC /* KahunaTracker.swift */; };
 		2E26F06A1C89998A00C8D789 /* ProcessingVideoDialogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E26F0681C89998A00C8D789 /* ProcessingVideoDialogViewController.swift */; };
@@ -55,6 +57,8 @@
 		2E3047F61CA4526E0099C0BC /* CommercialDisplayPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E3047F41CA4526E0099C0BC /* CommercialDisplayPageView.swift */; };
 		2E3047F81CA4528B0099C0BC /* CommercialDisplayPageView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E3047F71CA4528B0099C0BC /* CommercialDisplayPageView.xib */; };
 		2E3047F91CA4528B0099C0BC /* CommercialDisplayPageView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E3047F71CA4528B0099C0BC /* CommercialDisplayPageView.xib */; };
+		2E32AD151D6B0F2300AC8501 /* BubbleNotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E32AD141D6B0F2300AC8501 /* BubbleNotificationManager.swift */; };
+		2E32AD161D6B107100AC8501 /* BubbleNotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E32AD141D6B0F2300AC8501 /* BubbleNotificationManager.swift */; };
 		2E373FA11D3CDEF500AC811C /* UserRatingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E373F9F1D3CDEF400AC811C /* UserRatingCell.swift */; };
 		2E373FA21D3CDEF500AC811C /* UserRatingCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E373FA01D3CDEF400AC811C /* UserRatingCell.xib */; };
 		2E373FA51D3D019600AC811C /* UserRatingListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E373FA31D3D019600AC811C /* UserRatingListViewController.swift */; };
@@ -1061,6 +1065,7 @@
 /* Begin PBXFileReference section */
 		2E0342F11CDB7A850074EB34 /* CrashManagerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CrashManagerSpec.swift; sourceTree = "<group>"; };
 		2E119E0A1D1C37040053BA9F /* LGUIKitConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGUIKitConstants.swift; sourceTree = "<group>"; };
+		2E1F0D961D65F4B80021EDBE /* BubbleNotification.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BubbleNotification.swift; sourceTree = "<group>"; };
 		2E245C5D1C11A88B00A3969B /* PushPermissionsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PushPermissionsManager.swift; sourceTree = "<group>"; };
 		2E2634CC1BB19D1800BBFFBC /* KahunaTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KahunaTracker.swift; sourceTree = "<group>"; };
 		2E26F0681C89998A00C8D789 /* ProcessingVideoDialogViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProcessingVideoDialogViewController.swift; path = Commercializer/ProcessingVideoDialogViewController.swift; sourceTree = "<group>"; };
@@ -1082,6 +1087,7 @@
 		2E3047F11CA408D00099C0BC /* CommercialDisplayViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CommercialDisplayViewModel.swift; path = Commercializer/CommercialDisplayViewModel.swift; sourceTree = "<group>"; };
 		2E3047F41CA4526E0099C0BC /* CommercialDisplayPageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CommercialDisplayPageView.swift; path = Commercializer/CommercialDisplayPageView.swift; sourceTree = "<group>"; };
 		2E3047F71CA4528B0099C0BC /* CommercialDisplayPageView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CommercialDisplayPageView.xib; path = Commercializer/CommercialDisplayPageView.xib; sourceTree = "<group>"; };
+		2E32AD141D6B0F2300AC8501 /* BubbleNotificationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BubbleNotificationManager.swift; sourceTree = "<group>"; };
 		2E373F9F1D3CDEF400AC811C /* UserRatingCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserRatingCell.swift; path = Cells/UserRatingCell.swift; sourceTree = "<group>"; };
 		2E373FA01D3CDEF400AC811C /* UserRatingCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = UserRatingCell.xib; path = Cells/UserRatingCell.xib; sourceTree = "<group>"; };
 		2E373FA31D3D019600AC811C /* UserRatingListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserRatingListViewController.swift; sourceTree = "<group>"; };
@@ -2049,6 +2055,8 @@
 		505B06A41B15A9910049F9CD /* Widgets */ = {
 			isa = PBXGroup;
 			children = (
+				2E32AD141D6B0F2300AC8501 /* BubbleNotificationManager.swift */,
+				2E1F0D961D65F4B80021EDBE /* BubbleNotification.swift */,
 				50CBCD5D1BF0BB8F00A329BB /* CollectionViewFooter.swift */,
 				50CBCD5E1BF0BB8F00A329BB /* CollectionViewFooter.xib */,
 				2E4436301BF389E000814624 /* LGNavBarSearchField.swift */,
@@ -4001,6 +4009,7 @@
 				50CBCD5F1BF0BB8F00A329BB /* CollectionViewFooter.swift in Sources */,
 				50560B971B25D18F0021D8D9 /* BaseViewController.swift in Sources */,
 				6A12E0521C63988100C1BFE3 /* TourNotificationsViewController.swift in Sources */,
+				2E1F0D971D65F4B80021EDBE /* BubbleNotification.swift in Sources */,
 				2EF4E3B11D3688AB00A09DFD /* ConfigRetrieveService.swift in Sources */,
 				C711A1A71CDC99E5002D30D9 /* NotificationCellDrawer.swift in Sources */,
 				508D48671CCF4FFC00C52BE3 /* ImageDownloaderType.swift in Sources */,
@@ -4278,6 +4287,7 @@
 				6A5E19F01D548F5400F92692 /* String+LG.swift in Sources */,
 				D4912A831B08E12C00DACD5A /* UIImage+Tint.swift in Sources */,
 				C71710001D09CACE00DDBBB0 /* UserPushPermissionsHeader.swift in Sources */,
+				2E32AD151D6B0F2300AC8501 /* BubbleNotificationManager.swift in Sources */,
 				C74931791D3533DE00E117F1 /* UserRatingNavigator.swift in Sources */,
 				50CA9FB01C91696800350C5F /* UserViewModel.swift in Sources */,
 				C7B89CB91C20271E00536A6C /* SocialShareView.swift in Sources */,
@@ -4362,6 +4372,7 @@
 				C7DB41991C5138B500400945 /* BaseViewController.swift in Sources */,
 				6A12E0531C63988100C1BFE3 /* TourNotificationsViewController.swift in Sources */,
 				2E2D53E11D369B0500348D12 /* ConfigRetrieveService.swift in Sources */,
+				2E1F0D981D65F4B80021EDBE /* BubbleNotification.swift in Sources */,
 				C711A1A81CDC99E5002D30D9 /* NotificationCellDrawer.swift in Sources */,
 				508D48681CCF4FFC00C52BE3 /* ImageDownloaderType.swift in Sources */,
 				C7B5886C1CE1DE1C009B3975 /* ChatGroupedViewModel.swift in Sources */,
@@ -4639,6 +4650,7 @@
 				C7DB42211C5138B500400945 /* LGLocalizedString.swift in Sources */,
 				6A5E19F11D548F5400F92692 /* String+LG.swift in Sources */,
 				C7DB42221C5138B500400945 /* LGNavBarSearchField.swift in Sources */,
+				2E32AD161D6B107100AC8501 /* BubbleNotificationManager.swift in Sources */,
 				C7B588881CE1DFA6009B3975 /* ChatBubbleCell.swift in Sources */,
 				C7DB42241C5138B500400945 /* UIImage+Tint.swift in Sources */,
 				C71710011D09CACE00DDBBB0 /* UserPushPermissionsHeader.swift in Sources */,
@@ -4938,7 +4950,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "b6488ed7-614a-4857-a917-98e77a52b19e";
+				PROVISIONING_PROFILE = "3bf50f4a-9a96-4bde-9125-2e7c9a64f0ef";
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -5160,7 +5172,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PROVISIONING_PROFILE = "d70828c1-2db6-4976-9f6a-50765b0de6d9";
+				PROVISIONING_PROFILE = "9e9bd48e-13ef-43e6-a22c-90b2a85a9014";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};

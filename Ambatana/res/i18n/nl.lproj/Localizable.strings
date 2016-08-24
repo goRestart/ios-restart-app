@@ -291,6 +291,8 @@
 "product_ask_a_question_button" = "Stel een vraag";
 "product_auto_generated_title_label" = "Titel automatisch gegenereerd door letgo";
 "product_auto_generated_translated_title_label" = "(en vertaald door Google)";
+"product_bubble_one_user_interested" = "Another buyer is interested!";
+"product_bubble_several_users_interested" = "%i other buyers are interested!";
 "product_chat_direct_error_blocked_user_message" = "Oeps! Chatten met deze gebruiker is geblokkeerd.";
 "product_chat_direct_message" = "Hoi %@, ik ben geïnteresseerd!";
 "product_chat_direct_message_sending" = "Verzenden...";

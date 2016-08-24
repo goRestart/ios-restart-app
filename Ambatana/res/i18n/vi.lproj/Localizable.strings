@@ -291,6 +291,8 @@
 "product_ask_a_question_button" = "Đặt câu hỏi";
 "product_auto_generated_title_label" = "Tiêu đề do letgo tự động đặt";
 "product_auto_generated_translated_title_label" = "(và do Google dịch)";
+"product_bubble_one_user_interested" = "Another buyer is interested!";
+"product_bubble_several_users_interested" = "%i other buyers are interested!";
 "product_chat_direct_error_blocked_user_message" = "Ồ! Trò chuyện với người dùng này đã bị chặn.";
 "product_chat_direct_message" = "Xin chào %@, tôi quan tâm";
 "product_chat_direct_message_sending" = "Đang gửi...";

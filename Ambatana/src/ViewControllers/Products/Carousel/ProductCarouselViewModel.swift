@@ -25,7 +25,7 @@ class ProductCarouselViewModel: BaseViewModel {
     var nextPage: Int = 0
     var isLastPage: Bool = false
     var isLoading: Bool = false
-    
+
     private let previousImagesToPrefetch = 1
     private let nextImagesToPrefetch = 3
 

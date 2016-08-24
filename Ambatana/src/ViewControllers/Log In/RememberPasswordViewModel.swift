@@ -29,6 +29,7 @@ public class RememberPasswordViewModel: BaseViewModel {
     // Input
     var email: String {
         didSet {
+            email = email.trim
             delegate?.viewModel(self, updateSendButtonEnabledState: sendButtonShouldBeEnabled())
         }
     }

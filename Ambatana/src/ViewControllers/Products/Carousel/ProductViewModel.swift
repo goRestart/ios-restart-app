@@ -118,6 +118,7 @@ class ProductViewModel: BaseViewModel {
     private let countryHelper: CountryHelper
     private let locationManager: LocationManager
     private let chatViewMessageAdapter: ChatViewMessageAdapter
+    private let interestedBubbleManager: BubbleNotificationManager
 
     // Delegate
     weak var delegate: ProductViewModelDelegate?
@@ -163,6 +164,9 @@ class ProductViewModel: BaseViewModel {
     let stickersButtonEnabled = Variable<Bool>(false)
     private var selectableStickers: [Sticker] = []
 
+    let showInterestedBubble = Variable<Bool>(false)
+    var interestedBubbleTitle: String?
+    var interestedBubbleIcon: UIImage?
 
     // Rx
     private let disposeBag: DisposeBag
@@ -184,8 +188,8 @@ class ProductViewModel: BaseViewModel {
         self.init(myUserRepository: myUserRepository, productRepository: productRepository,
                   commercializerRepository: commercializerRepository, chatWrapper: chatWrapper,
                   stickersRepository: stickersRepository, locationManager: locationManager, countryHelper: countryHelper,
-                  product: product, thumbnailImage: thumbnailImage, tabNavigator: tabNavigator)
-        
+                  product: product, thumbnailImage: thumbnailImage, tabNavigator: tabNavigator,
+                  interestedBubbleManager: BubbleNotificationManager.sharedInstance)
         syncProduct(nil)
     }
     
@@ -200,13 +204,14 @@ class ProductViewModel: BaseViewModel {
         self.init(myUserRepository: myUserRepository, productRepository: productRepository,
                   commercializerRepository: commercializerRepository, chatWrapper: chatWrapper,
                   stickersRepository: stickersRepository, locationManager: locationManager, countryHelper: countryHelper,
-                  product: product, thumbnailImage: thumbnailImage, tabNavigator: tabNavigator)
+                  product: product, thumbnailImage: thumbnailImage, tabNavigator: tabNavigator,
+                  interestedBubbleManager: BubbleNotificationManager.sharedInstance)
     }
 
     init(myUserRepository: MyUserRepository, productRepository: ProductRepository,
          commercializerRepository: CommercializerRepository, chatWrapper: ChatWrapper,
          stickersRepository: StickersRepository, locationManager: LocationManager, countryHelper: CountryHelper,
-         product: Product, thumbnailImage: UIImage?, tabNavigator: TabNavigator?) {
+         product: Product, thumbnailImage: UIImage?, tabNavigator: TabNavigator?, interestedBubbleManager: BubbleNotificationManager) {
         self.product = Variable<Product>(product)
         self.thumbnailImage = thumbnailImage
         self.myUserRepository = myUserRepository
@@ -220,7 +225,8 @@ class ProductViewModel: BaseViewModel {
         self.locationManager = locationManager
         self.tabNavigator = tabNavigator
         self.chatViewMessageAdapter = ChatViewMessageAdapter()
-        
+        self.interestedBubbleManager = interestedBubbleManager
+
         let ownerId = product.user.objectId
         self.ownerId = ownerId
         let myUser = myUserRepository.myUser
@@ -270,6 +276,7 @@ class ProductViewModel: BaseViewModel {
             if let stats = result.value {
                 strongSelf.viewsCount.value = stats.viewsCount
                 strongSelf.favouritesCount.value = stats.favouritesCount
+                strongSelf.refreshInterestedBubble()
             }
         }
 
@@ -352,6 +359,8 @@ class ProductViewModel: BaseViewModel {
         status.asObservable().filter{ $0 == .OtherAvailable }.bindNext { [weak self] _ in
             self?.refreshDirectChats()
         }.addDisposableTo(disposeBag)
+
+
     }
     
     private func distanceString(product: Product) -> String? {
@@ -484,6 +493,24 @@ extension ProductViewModel {
         ifLoggedInRunActionElseOpenMainSignUp({ [weak self] in
             self?.switchFavoriteAction()
         }, source: .Favourite)
+    }
+
+    func refreshInterestedBubble() {
+        // check that the bubble hasn't been shown yet for this product
+        guard let productId = product.value.objectId where shouldShowInterestedBubbleForProduct(productId) else { return }
+        guard product.value.viewModelStatus == .OtherAvailable else { return }
+        // we need at least 2 favorited without counting ours
+        let othersFavCount = min(isFavorite.value ? favouritesCount.value - 1 : favouritesCount.value, 5)
+        guard othersFavCount > 0 else { return }
+        let othersFavText = othersFavCount == 1 ? LGLocalizedString.productBubbleOneUserInterested :
+            String(format: LGLocalizedString.productBubbleSeveralUsersInterested, Int(othersFavCount))
+        interestedBubbleTitle = othersFavText
+        interestedBubbleIcon = UIImage(named: "ic_user_interested")
+        showInterestedBubble.value = true
+        // save that the bubble has just been shown for this product
+        showInterestedBubbleForProduct(productId)
+        trackHelper.trackInterestedUsersBubble(othersFavCount, productId: productId)
+        showInterestedBubble.value = false
     }
 }
 
@@ -734,6 +761,7 @@ extension ProductViewModel {
                     }
                 }
                 strongSelf.favoriteButtonEnabled.value = true
+                strongSelf.refreshInterestedBubble()
             }
         }
     }
@@ -893,5 +921,17 @@ extension Product {
         let ownerId = user.objectId
         guard user.objectId != nil && myUserId != nil else { return false }
         return ownerId == myUserId
+    }
+}
+
+// MARK: - Interested Bubble logic
+
+extension ProductViewModel {
+    func showInterestedBubbleForProduct(id: String) {
+        interestedBubbleManager.showInterestedBubbleForProduct(id)
+    }
+
+    func shouldShowInterestedBubbleForProduct(id: String) -> Bool {
+        return interestedBubbleManager.shouldShowInterestedBubbleForProduct(id)
     }
 }
