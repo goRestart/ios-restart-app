@@ -57,7 +57,7 @@ def shared_pods
     pod "Google/Analytics",         "~> 3.0.3"
     pod "Google/SignIn",            "~> 3.0.3"
 
-    pod "Firebase/AppIndexing",        "~> 3.3.0"
+    pod "Firebase/AppIndexing",        "~> 3.4.0"
     pod "GoogleConversionTracking", "~> 3.4.0"
     pod "GoogleIDFASupport",        "~> 3.14.0"
 
@@ -113,12 +113,6 @@ target "letgoTests" do
 end
 
 post_install do | installer |
-    #Disable bitcode in all pods
-    installer.pods_project.targets.each do |target|
-        target.build_configurations.each do |config|
-            config.build_settings['ENABLE_BITCODE'] = 'NO'
-        end
-    end
     #Update Acknowledgements.plist
     require 'fileutils'
     FileUtils.cp_r('Pods/Target Support Files/Pods-LetGo/Pods-LetGo-acknowledgements.plist', 'Ambatana/res/Settings.bundle/Acknowledgements.plist', :remove_destination => true)

@@ -827,6 +827,12 @@ public struct TrackerEvent {
         return TrackerEvent(name: .ExpressChatDontAsk, params: EventParameters())
     }
 
+    static func productDetailInterestedUsers(number: Int, productId: String)  -> TrackerEvent {
+        var params = EventParameters()
+        params[.NumberOfUsers] = number
+        params[.ProductId] = productId
+        return TrackerEvent(name: .ProductDetailInterestedUsers, params: params)
+    }
 
     // MARK: - Private methods
 

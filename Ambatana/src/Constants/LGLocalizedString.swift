@@ -1179,6 +1179,14 @@ struct LGLocalizedString {
 		return NSLocalizedString("product_auto_generated_translated_title_label", comment: "")
 	}
 
+	static var productBubbleOneUserInterested: String {
+		return NSLocalizedString("product_bubble_one_user_interested", comment: "")
+	}
+
+	static var productBubbleSeveralUsersInterested: String {
+		return NSLocalizedString("product_bubble_several_users_interested", comment: "")
+	}
+
 	static var productChatDirectErrorBlockedUserMessage: String {
 		return NSLocalizedString("product_chat_direct_error_blocked_user_message", comment: "")
 	}

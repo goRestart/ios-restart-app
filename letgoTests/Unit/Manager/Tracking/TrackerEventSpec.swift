@@ -2161,35 +2161,53 @@ class TrackerEventSpec: QuickSpec {
                     }
                 }
             }
-
-            describe("express chat start") {
-                beforeEach {
-                    sut = TrackerEvent.expressChatStart()
+            describe("express chat") {
+                context("express chat start") {
+                    beforeEach {
+                        sut = TrackerEvent.expressChatStart()
+                    }
+                    it("has its event name") {
+                        expect(sut.name.rawValue) == "express-chat-start"
+                    }
                 }
-                it("has its event name") {
-                    expect(sut.name.rawValue) == "express-chat-start"
+
+                context("express chat complete") {
+                    beforeEach {
+                        sut = TrackerEvent.expressChatComplete(3)
+                    }
+                    it("has its event name") {
+                        expect(sut.name.rawValue) == "express-chat-complete"
+                    }
+                    it("contains type-page param") {
+                        let expressConversations = sut.params!.stringKeyParams["express-conversations"] as? Int
+                        expect(expressConversations) == 3
+                    }
+                }
+
+                context("express chat don't ask again") {
+                    beforeEach {
+                        sut = TrackerEvent.expressChatDontAsk()
+                    }
+                    it("has its event name") {
+                        expect(sut.name.rawValue) == "express-chat-dont-ask"
+                    }
                 }
             }
 
-            describe("express chat complete") {
+            describe("product detail interested users") {
                 beforeEach {
-                    sut = TrackerEvent.expressChatComplete(3)
+                    sut = TrackerEvent.productDetailInterestedUsers(3, productId: "ABCD")
                 }
                 it("has its event name") {
-                    expect(sut.name.rawValue) == "express-chat-complete"
+                    expect(sut.name.rawValue) == "product-detail-interested-users"
                 }
-                it("contains type-page param") {
-                    let expressConversations = sut.params!.stringKeyParams["express-conversations"] as? Int
-                    expect(expressConversations) == 3
+                it("contains number-of-users param") {
+                    let numUSers = sut.params!.stringKeyParams["number-of-users"] as? Int
+                    expect(numUSers) == 3
                 }
-            }
-
-            describe("express chat don't ask again") {
-                beforeEach {
-                    sut = TrackerEvent.expressChatDontAsk()
-                }
-                it("has its event name") {
-                    expect(sut.name.rawValue) == "express-chat-dont-ask"
+                it("contains product-id param") {
+                    let productId = sut.params!.stringKeyParams["product-id"] as? String
+                    expect(productId) == "ABCD"
                 }
             }
         }
