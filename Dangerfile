@@ -1,6 +1,10 @@
+
 # Set Encoding
 Encoding.default_external = Encoding.default_internal = Encoding::UTF_8
 
+declared_trivial = github.pr_title.include? "#trivial"
+
+# update to test 7
 # Make it more obvious that a PR is a work in progress and shouldn't be merged yet
 warn("PR is classed as Work in Progress") if github.pr_title.include? "[WIP]" || github.pr_labels.include?("WIP")
 
@@ -14,15 +18,16 @@ fail("fit left in tests") if `grep -r "fit letgoTests/`.length > 1
 fail("fcontext left in tests") if `grep -r "fcontext letgoTests/`.length > 1
 
 # Look for Implicit Unwrapped Optionals in the modified files
-files = git.modified_files.join(" ")
-command =  "grep '@IBOutlet\\|func' -v #{files} --include='./Ambatana/src/*' | grep -r '[a-zA-Z0-9)]\\+!'"
-iuo = `#{command}`
+files = git.modified_files
+.select{ |item| (item.include? "Ambatana/src/") }
+.select{ |item| (item.include? ".swift") }
+.join(" ")
+
+iuo = `grep '@IBOutlet\\|func' -v #{files} | grep -r '[a-zA-Z0-9)]\\+!'`
 if iuo.length > 1
 	for i in iuo.split("\n")
-		if i.include? ".swift"
-			line = i.gsub("(standard input):", "")
-    		warn("__IUO:__ #{line}")
-    	end
+		line = i.gsub("(standard input):", "")
+    	warn("__IUO:__ #{line}")
  	end 
 end
 
