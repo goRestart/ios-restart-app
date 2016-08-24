@@ -19,6 +19,8 @@ class AppRatingBannerCell: UICollectionReusableView {
 
     @IBOutlet weak var backgroundImage: UIImageView!
     @IBOutlet weak var textLabel: UILabel!
+    @IBOutlet weak var closeButton: UIButton!
+    @IBOutlet weak var rateButton: UIButton!
 
     weak var delegate: AppRatingBannerDelegate?
 
@@ -37,6 +39,7 @@ class AppRatingBannerCell: UICollectionReusableView {
         backgroundImage.backgroundColor = UIColor.ratingBannerBackgroundColor
         backgroundImage.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
         textLabel.text = LGLocalizedString.ratingViewTitleLabel
+        setAccesibilityIds()
     }
 
     // MARK: - Actions
@@ -47,5 +50,15 @@ class AppRatingBannerCell: UICollectionReusableView {
     
     @IBAction func mainActionPressed(sender: AnyObject) {
         delegate?.appRatingBannerShowRating()
+    }
+}
+
+
+// MARK: - Accesibility 
+
+extension AppRatingBannerCell {
+    func setAccesibilityIds() {
+        closeButton.accessibilityId = .AppRatingBannerCloseButton
+        rateButton.accessibilityId = .AppRatingBannerRateButton
     }
 }
