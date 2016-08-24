@@ -85,6 +85,16 @@ extension String {
                parts[1].characters.count <= Constants.maxPriceFractionalCharacters
     }
 
+    func toNameReduced(maxChars maxChars: Int) -> String {
+        guard characters.count > maxChars else { return self }
+        let substring = substringToIndex(startIndex.advancedBy(maxChars))
+        let words = substring.byWords
+        guard words.count > 1 else { return substring+"." }
+        let firstPart = words.prefix(words.count - 1).joinWithSeparator(" ")
+        guard let lastWordFirstChar = words.last?.characters.first else { return firstPart }
+        return firstPart + " " + String(lastWordFirstChar) + "."
+    }
+
     func toPriceDouble() -> Double {
         let formatter = NSNumberFormatter()
         formatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
@@ -136,5 +146,14 @@ extension String {
         URLCombinedCharacterSet.removeCharactersInString("+")
         let urlEncoded = self.stringByAddingPercentEncodingWithAllowedCharacters(URLCombinedCharacterSet)
         return urlEncoded ?? self
+    }
+
+    var byWords: [String] {
+        var result:[String] = []
+        enumerateSubstringsInRange(characters.indices, options: .ByWords) {
+            guard let substring = $0.substring else { return }
+            result.append(substring)
+        }
+        return result
     }
 }

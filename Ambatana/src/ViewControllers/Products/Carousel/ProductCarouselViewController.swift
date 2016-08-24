@@ -342,7 +342,9 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
             button.setStyle(.Primary(fontSize: .Big))
             action = viewModel.promoteProduct
         case .ChatWithSeller:
-            let string = LGLocalizedString.productChatWithSellerNameButton(viewModel.product.value.user.name ?? "")
+            let userName: String = viewModel.product.value.user.name?
+                .toNameReduced(maxChars: Constants.maxCharactersOnUserNameChatButton) ?? ""
+            let string = LGLocalizedString.productChatWithSellerNameButton(userName)
             button.setTitle(string, forState: .Normal)
             button.setStyle(.Primary(fontSize: .Big))
             action =  { [weak self] in

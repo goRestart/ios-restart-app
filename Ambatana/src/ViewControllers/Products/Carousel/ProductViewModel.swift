@@ -99,10 +99,6 @@ class ProductViewModel: BaseViewModel {
     private let productHasReadyCommercials = Variable<Bool>(false)
     var commercializerAvailableTemplatesCount: Int? = nil
 
-    let askQuestionButtonTitle = Variable<String>(LGLocalizedString.productAskAQuestionButton)
-    let chatWithSellerButtonTitle = Variable<String>(LGLocalizedString.productChatWithSellerButton)
-    let loadingProductChats = Variable<Bool>(false)
-
     let statsViewVisible = Variable<Bool>(false)
 
     let stickersButtonEnabled = Variable<Bool>(false)
