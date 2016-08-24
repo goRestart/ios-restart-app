@@ -15,7 +15,7 @@ fail("fcontext left in tests") if `grep -r "fcontext letgoTests/`.length > 1
 
 # Look for Implicit Unwrapped Optionals in the modified files
 files = git.modified_files.join(" ")
-command =  "grep '@IBOutlet\\|func' -v #{files} | grep -r '[a-zA-Z0-9)]\\+!'"
+command =  "grep '@IBOutlet\\|func' -v #{files} --include='./Ambatana/src/*' | grep -r '[a-zA-Z0-9)]\\+!'"
 iuo = `#{command}`
 if iuo.length > 1
 	for i in iuo.split("\n")
