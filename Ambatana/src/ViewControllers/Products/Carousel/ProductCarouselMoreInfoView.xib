@@ -7,14 +7,14 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view clipsSubviews="YES" contentMode="scaleToFill" id="iN0-l3-epB" customClass="ProductCarouselMoreInfoView" customModule="LetGo" customModuleProvider="target">
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="ProductCarouselMoreInfoView" customModule="LetGo" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="360" height="866"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fp4-l8-YJ2">
-                    <rect key="frame" x="0.0" y="0.0" width="360" height="802"/>
+                    <rect key="frame" x="0.0" y="-500" width="360" height="1302"/>
                     <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="28M-zo-rtJ">
-                        <rect key="frame" x="0.0" y="0.0" width="360" height="802"/>
+                        <rect key="frame" x="0.0" y="0.0" width="360" height="1302"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     </view>
                     <blurEffect style="dark"/>
@@ -22,7 +22,7 @@
                 <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Sdr-8s-uVp">
                     <rect key="frame" x="0.0" y="64" width="360" height="738"/>
                     <subviews>
-                        <view clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Mi7-4s-ycC" userLabel="Scroll View Content View">
+                        <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Mi7-4s-ycC" userLabel="Scroll View Content View">
                             <rect key="frame" x="0.0" y="0.0" width="360" height="477"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Lounge Chair" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XK0-fr-ZeE" userLabel="Name Label">
@@ -66,22 +66,22 @@
                                     <color key="textColor" red="0.17254901959999999" green="0.17254901959999999" blue="0.17254901959999999" alpha="1" colorSpace="calibratedRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Brooklyn, NY 11221" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="62m-Kf-4Em" userLabel="Address Label">
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Brooklyn, NY 11221" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="62m-Kf-4Em" userLabel="Address Label">
                                     <rect key="frame" x="31" y="157" width="113" height="16"/>
                                     <fontDescription key="fontDescription" type="system" weight="light" pointSize="13"/>
                                     <color key="textColor" red="0.17254901959999999" green="0.17254901959999999" blue="0.17254901959999999" alpha="1" colorSpace="calibratedRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="center" misplaced="YES" image="item_location_white" translatesAutoresizingMaskIntoConstraints="NO" id="02E-gh-1aO" userLabel="Address Icon">
+                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="center" image="item_location_white" translatesAutoresizingMaskIntoConstraints="NO" id="02E-gh-1aO" userLabel="Address Icon">
                                     <rect key="frame" x="15" y="157" width="11" height="16"/>
                                 </imageView>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="_SHARE" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tVU-MY-f3B">
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_SHARE" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tVU-MY-f3B">
                                     <rect key="frame" x="15" y="361" width="330" height="18"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                     <color key="textColor" red="0.45882352939999999" green="0.45882352939999999" blue="0.45882352939999999" alpha="1" colorSpace="calibratedRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <view contentMode="scaleToFill" misplaced="YES" placeholderIntrinsicWidth="330" placeholderIntrinsicHeight="75" translatesAutoresizingMaskIntoConstraints="NO" id="N8I-fW-fvF" customClass="SocialShareView" customModule="LetGo" customModuleProvider="target">
+                                <view contentMode="scaleToFill" placeholderIntrinsicWidth="330" placeholderIntrinsicHeight="75" translatesAutoresizingMaskIntoConstraints="NO" id="N8I-fW-fvF" customClass="SocialShareView" customModule="LetGo" customModuleProvider="target">
                                     <rect key="frame" x="15" y="387" width="330" height="75"/>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     <constraints>
@@ -93,7 +93,7 @@
                                         </mask>
                                     </variation>
                                 </view>
-                                <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="iLQ-Vi-Sle">
+                                <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="iLQ-Vi-Sle">
                                     <rect key="frame" x="15" y="181" width="330" height="150"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="150" id="uHl-0m-qOf"/>
@@ -184,7 +184,7 @@
                 <constraint firstItem="Sdr-8s-uVp" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="64" id="UOL-x8-r43"/>
                 <constraint firstAttribute="bottom" secondItem="fp4-l8-YJ2" secondAttribute="bottom" constant="64" id="fwt-ek-ej9"/>
                 <constraint firstAttribute="trailing" secondItem="Sdr-8s-uVp" secondAttribute="trailing" id="gO2-sc-hNL"/>
-                <constraint firstItem="fp4-l8-YJ2" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="vZX-Wn-wfR"/>
+                <constraint firstItem="fp4-l8-YJ2" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="-500" id="vZX-Wn-wfR"/>
                 <constraint firstItem="Sdr-8s-uVp" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="yVb-UW-mun"/>
                 <constraint firstItem="lq7-uR-qpI" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="zi0-r2-bKr"/>
             </constraints>

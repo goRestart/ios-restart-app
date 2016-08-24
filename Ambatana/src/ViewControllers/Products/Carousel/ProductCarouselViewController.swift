@@ -713,19 +713,20 @@ extension ProductCarouselViewController {
     @IBAction func showMoreInfo() {
         moreInfoState.value = .Shown
         viewModel.didOpenMoreInfo()
-        UIView.animateWithDuration(0.4, delay: 0, options: UIViewAnimationOptions.CurveEaseOut, animations:
-            { [weak self] in
-                self?.moreInfoView?.frame.origin.y = 0
-            }, completion: nil)
+
+        UIView.animateWithDuration(0.5, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 5, options: [],
+                                   animations: { [weak self] in
+                                    self?.moreInfoView?.frame.origin.y = 0
+                                    }, completion: nil)
     }
     
     func hideMoreInfo() {
         moreInfoState.value = .Hidden
-        UIView.animateWithDuration(0.4, delay: 0, options: UIViewAnimationOptions.CurveEaseOut, animations:
-            { [weak self] in
-                guard let `self` = self else { return }
-                self.moreInfoView?.frame.origin.y = -self.view.bounds.height
-            }, completion: nil)
+        UIView.animateWithDuration(0.5, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 5, options: [],
+                                   animations: { [weak self] in
+                                    guard let `self` = self else { return }
+                                    self.moreInfoView?.frame.origin.y = -self.view.bounds.height
+                                }, completion: nil)
     }
 }
 
