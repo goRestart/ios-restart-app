@@ -1036,9 +1036,9 @@ private extension ChatConversation {
 
     var relatedProductsEnabled: Bool {
         switch chatStatus {
-        case .Forbidden,  .UserPendingDelete, .UserDeleted, .ProductDeleted:
+        case .Forbidden,  .UserPendingDelete, .UserDeleted, .ProductDeleted, .ProductSold:
             return true
-        case .Available, .Blocked, .BlockedBy, .ProductSold:
+        case .Available, .Blocked, .BlockedBy:
             return false
         }
     }
