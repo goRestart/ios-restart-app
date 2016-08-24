@@ -394,7 +394,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 ## Fabric
 
-Fabric: Copyright 2015 Twitter, Inc. All Rights Reserved. Use of this software is subject to the terms and conditions of the Fabric Software and Services Agreement located at https://fabric.io/terms. OSS: http://get.fabric.io/terms/opensource.txt
+Fabric: Copyright 2016 Twitter, Inc. All Rights Reserved. Use of this software is subject to the terms and conditions of the Fabric Software and Services Agreement located at https://fabric.io/terms. OSS: http://get.fabric.io/terms/opensource.txt
 
 ## FastttCamera
 
@@ -421,7 +421,7 @@ THE SOFTWARE.
 
 ## Firebase
 
-Copyright 2016 Google Inc.
+Copyright 2016 Google
 
 ## FirebaseAnalytics
 
@@ -429,11 +429,11 @@ Copyright 2016 Google
 
 ## FirebaseAppIndexing
 
-Copyright 2016 Google Inc.
+Copyright 2016 Google
 
 ## FirebaseInstanceID
 
-Copyright 2016 Google Inc.
+Copyright 2016 Google
 
 ## FlipTheSwitch
 
@@ -465,7 +465,7 @@ Copyright 2016 Google Inc.
 
 ## GoogleAnalytics
 
-Copyright 2015 Google Inc.
+Copyright 2016 Google
 
 ## GoogleAppUtilities
 
@@ -758,7 +758,7 @@ THE SOFTWARE.
 
 The MIT License (MIT)
 
-Copyright (c) 2015 Radosław Pietruszewski
+Copyright (c) 2015-2016 Radosław Pietruszewski
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
