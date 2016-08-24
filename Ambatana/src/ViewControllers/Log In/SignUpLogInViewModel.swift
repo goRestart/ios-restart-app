@@ -60,6 +60,7 @@ public class SignUpLogInViewModel: BaseViewModel {
     }
     var email: String {
         didSet {
+            email = email.trim
             delegate?.viewModel(self, updateSendButtonEnabledState: sendButtonShouldBeEnabled())
         }
     }

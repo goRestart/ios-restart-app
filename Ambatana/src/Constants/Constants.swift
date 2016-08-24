@@ -96,4 +96,7 @@ struct Constants {
     // user rating from chat
     static let myMessagesCountForRating = 2
     static let otherMessagesCountForRating = 2
+
+    // interested bubble
+    static let maxInterestedBubblesPerSession = 2
 }

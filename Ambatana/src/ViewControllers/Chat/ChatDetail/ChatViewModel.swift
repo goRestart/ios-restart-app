@@ -647,9 +647,9 @@ extension ChatViewModel {
     func openOptionsMenu() {
         var actions: [UIAction] = []
         
-        let safetyTips = UIAction(interface: UIActionInterface.Text(LGLocalizedString.chatSafetyTips)) { [weak self] in
+        let safetyTips = UIAction(interface: UIActionInterface.Text(LGLocalizedString.chatSafetyTips), action: { [weak self] in
             self?.delegate?.vmShowSafetyTips()
-        }
+        })
         actions.append(safetyTips)
 
         if conversation.value.isSaved {
@@ -695,7 +695,7 @@ extension ChatViewModel {
         guard !isDeleted else { return }
         
         
-        let action = UIAction(interface: .StyledText(LGLocalizedString.chatListDeleteAlertSend, .Destructive)) {
+        let action = UIAction(interface: .StyledText(LGLocalizedString.chatListDeleteAlertSend, .Destructive), action: {
             [weak self] in
             self?.delete() { [weak self] success in
                 if success {
@@ -706,7 +706,7 @@ extension ChatViewModel {
                     self?.delegate?.vmClose()
                 }
             }
-        }
+        })
         delegate?.vmShowAlert(LGLocalizedString.chatListDeleteAlertTitleOne,
                               message: LGLocalizedString.chatListDeleteAlertTextOne,
                               cancelLabel: LGLocalizedString.commonCancel,
@@ -731,7 +731,7 @@ extension ChatViewModel {
     
     private func blockUserAction() {
         
-        let action = UIAction(interface: .StyledText(LGLocalizedString.chatBlockUserAlertBlockButton, .Destructive)) {
+        let action = UIAction(interface: .StyledText(LGLocalizedString.chatBlockUserAlertBlockButton, .Destructive), action: {
             [weak self] in
             self?.blockUser() { [weak self] success in
                 if success {
@@ -741,7 +741,7 @@ extension ChatViewModel {
                     self?.delegate?.vmShowMessage(LGLocalizedString.blockUserErrorGeneric, completion: nil)
                 }
             }
-        }
+        })
         
         delegate?.vmShowAlert(LGLocalizedString.chatBlockUserAlertTitle,
                               message: LGLocalizedString.chatBlockUserAlertText,

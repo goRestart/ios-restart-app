@@ -14,6 +14,8 @@
     case SignUpLoginEmailButton
  */
 enum AccessibilityId: String {
+    case EraseMe
+
     /** ABIOS-1554 */
     // ...
 
