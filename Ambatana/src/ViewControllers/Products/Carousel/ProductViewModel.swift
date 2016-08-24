@@ -277,8 +277,7 @@ class ProductViewModel: BaseViewModel {
             }.addDisposableTo(disposeBag)
 
         isFavorite.asObservable().subscribeNext { [weak self] _ in
-            guard let strongSelf = self else { return }
-            strongSelf.navBarButtons.value = strongSelf.buildNavBarButtons()
+            self?.refreshNavBarButtons()
         }.addDisposableTo(disposeBag)
 
         product.asObservable().subscribeNext { [weak self] product in
@@ -321,6 +320,12 @@ class ProductViewModel: BaseViewModel {
 
         productIsFavoriteable.asObservable().bindNext { [weak self] favoriteable in
             self?.favoriteButtonState.value = (favoriteable && FeatureFlags.bigFavoriteIcon) ? .Enabled : .Hidden
+        }.addDisposableTo(disposeBag)
+
+        moreInfoState.asObservable().map { (state: MoreInfoState) in
+            return state == .Shown
+        }.distinctUntilChanged().bindNext { [weak self] shown in
+            self?.refreshNavBarButtons()
         }.addDisposableTo(disposeBag)
     }
     
@@ -523,6 +528,11 @@ extension ProductViewModel {
 // MARK: - Helper Navbar
 
 extension ProductViewModel {
+
+    private func refreshNavBarButtons() {
+        navBarButtons.value = buildNavBarButtons()
+    }
+
     private func buildNavBarButtons() -> [UIAction] {
         var navBarButtons = [UIAction]()
 
