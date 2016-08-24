@@ -230,9 +230,10 @@ extension UserViewController {
 
         headerContainer?.header?.avatarButton.accessibilityId = .UserHeaderExpandedAvatarButton
         headerContainer?.header?.ratingsButton.accessibilityId = .UserHeaderExpandedRatingsButton
+        headerContainer?.header?.userRelationLabel.accessibilityId = .UserHeaderExpandedRelationLabel
         headerContainer?.header?.myUserFacebookButton.accessibilityId = .UserHeaderExpandedVerifyFacebookButton
-        headerContainer?.header?.myUserGoogleButton.accessibilityId = .UserHeaderExpandedVerifyFacebookButton
-        headerContainer?.header?.myUserEmailButton.accessibilityId = .UserHeaderExpandedVerifyFacebookButton
+        headerContainer?.header?.myUserGoogleButton.accessibilityId = .UserHeaderExpandedVerifyGoogleButton
+        headerContainer?.header?.myUserEmailButton.accessibilityId = .UserHeaderExpandedVerifyEmailButton
         headerContainer?.header?.sellingButton.accessibilityId = .UserSellingTab
         headerContainer?.header?.soldButton.accessibilityId = .UserSoldTab
         headerContainer?.header?.favoritesButton.accessibilityId = .UserFavoritesTab
