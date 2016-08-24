@@ -68,6 +68,11 @@ enum AccessibilityId: String {
     // Settings
     case SettingsList
 
+    // SettingsCell
+    case SettingsCellIcon
+    case SettingsCellTitle
+    case SettingsCellValue
+
     // ChangeUsername
     case ChangeUsernameNameTextfield
     case ChangeUsernameSendButton
