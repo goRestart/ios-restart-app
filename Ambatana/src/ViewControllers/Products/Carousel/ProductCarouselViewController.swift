@@ -81,7 +81,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     private var didSetupAfterLayout = false
     
     private var moreInfoView: ProductCarouselMoreInfoView?
-    private var moreInfoState: MoreInfoState = .Hidden
+    private let moreInfoState = Variable<MoreInfoState>(.Hidden)
 
     private var interestedBubble: BubbleNotification?
 
@@ -358,7 +358,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
             button.setTitle(string, forState: .Normal)
             button.setStyle(.Primary(fontSize: .Big))
             action =  { [weak self] in
-                let source: EventParameterTypePage = (self?.moreInfoState == .Shown) ? .ProductDetailMoreInfo : .ProductDetail
+                let source: EventParameterTypePage = (self?.moreInfoState.value == .Shown) ? .ProductDetailMoreInfo : .ProductDetail
                 viewModel.chatWithSeller(source)
             }
         case .ContinueChatting:
@@ -412,6 +412,8 @@ extension ProductCarouselViewController {
         moreInfoView?.frame = view.bounds
         moreInfoView?.height = view.height + moreInfoExtraHeight
         moreInfoView?.frame.origin.y = -view.bounds.height
+
+        moreInfoState.asObservable().bindTo(viewModel.moreInfoState).addDisposableTo(activeDisposeBag)
     }
 
     private func setupUserView(viewModel: ProductViewModel) {
@@ -555,13 +557,8 @@ extension ProductCarouselViewController {
     }
 
     private func refreshFavoriteButton(viewModel: ProductViewModel) {
-        viewModel.productIsFavoriteable.asObservable()
-            .map{!$0 || !FeatureFlags.bigFavoriteIcon}
-            .bindTo(favoriteButton.rx_hidden)
-            .addDisposableTo(activeDisposeBag)
-
-        viewModel.favoriteButtonEnabled.asObservable()
-            .bindTo(favoriteButton.rx_enabled)
+        viewModel.favoriteButtonState.asObservable()
+            .bindTo(favoriteButton.rx_state)
             .addDisposableTo(activeDisposeBag)
 
         viewModel.isFavorite.asObservable()
@@ -674,12 +671,12 @@ extension ProductCarouselViewController: ProductCarouselCellDelegate {
     }
     
     func didPullFromTopWith(offset: CGFloat) {
-        if moreInfoState == .Shown { return }
+        if moreInfoState.value == .Shown { return }
         if moreInfoView!.frame.origin.y-offset > -view.frame.height {
-            moreInfoState = .Moving
+            moreInfoState.value = .Moving
             moreInfoView?.frame.origin.y = moreInfoView!.frame.origin.y-offset
         } else {
-            moreInfoState = .Hidden
+            moreInfoState.value = .Hidden
         }
     }
     
@@ -692,7 +689,7 @@ extension ProductCarouselViewController: ProductCarouselCellDelegate {
     }
     
     func canScrollToNextPage() -> Bool {
-        return moreInfoState == .Hidden
+        return moreInfoState.value == .Hidden
     }
 }
 
@@ -737,7 +734,7 @@ extension ProductCarouselViewController {
     }
     
     @IBAction func showMoreInfo() {
-        moreInfoState = .Shown
+        moreInfoState.value = .Shown
         viewModel.didOpenMoreInfo()
         UIView.animateWithDuration(0.4, delay: 0, options: UIViewAnimationOptions.CurveEaseOut, animations:
             { [weak self] in
@@ -746,7 +743,7 @@ extension ProductCarouselViewController {
     }
     
     func hideMoreInfo() {
-        moreInfoState = .Hidden
+        moreInfoState.value = .Hidden
         UIView.animateWithDuration(0.4, delay: 0, options: UIViewAnimationOptions.CurveEaseOut, animations:
             { [weak self] in
                 guard let `self` = self else { return }
@@ -761,7 +758,7 @@ extension ProductCarouselViewController {
 extension ProductCarouselViewController: ProductCarouselMoreInfoDelegate {
     func didScrollFromBottomWith(deltaOffset: CGFloat) {
         guard let moreInfoView = moreInfoView else { return }
-        moreInfoState = .Moving
+        moreInfoState.value = .Moving
         if moreInfoView.frame.origin.y > -view.frame.height {
             moreInfoView.frame.origin.y = moreInfoView.frame.origin.y - deltaOffset
         }
@@ -783,7 +780,7 @@ extension ProductCarouselViewController: ProductCarouselMoreInfoDelegate {
     
     func didScrollFromTopWith(deltaOffset: CGFloat) {
         guard let moreInfoView = moreInfoView where deltaOffset < 0 else { return }
-        moreInfoState = .Moving
+        moreInfoState.value = .Moving
         moreInfoView.frame.origin.y = moreInfoView.frame.origin.y + abs(deltaOffset)
     }
     
