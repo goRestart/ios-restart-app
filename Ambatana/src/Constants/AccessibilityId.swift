@@ -50,6 +50,7 @@ enum AccessibilityId: String {
     case UserHeaderExpandedNameLabel
     case UserHeaderExpandedLocationLabel
     case UserHeaderExpandedAvatarButton
+    case UserHeaderExpandedRatingsButton
     case UserHeaderExpandedVerifyFacebookButton
     case UserHeaderExpandedVerifyGoogleButton
     case UserHeaderExpandedVerifyEmailButton

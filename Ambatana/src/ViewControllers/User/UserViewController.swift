@@ -229,6 +229,7 @@ extension UserViewController {
         userLocationLabel.accessibilityId = .UserHeaderExpandedLocationLabel
 
         headerContainer?.header?.avatarButton.accessibilityId = .UserHeaderExpandedAvatarButton
+        headerContainer?.header?.ratingsButton.accessibilityId = .UserHeaderExpandedRatingsButton
         headerContainer?.header?.myUserFacebookButton.accessibilityId = .UserHeaderExpandedVerifyFacebookButton
         headerContainer?.header?.myUserGoogleButton.accessibilityId = .UserHeaderExpandedVerifyFacebookButton
         headerContainer?.header?.myUserEmailButton.accessibilityId = .UserHeaderExpandedVerifyFacebookButton
