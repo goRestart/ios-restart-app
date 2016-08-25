@@ -14,6 +14,7 @@ final class TourLoginViewController: BaseViewController {
     
     let viewModel: TourLoginViewModel
     
+    @IBOutlet weak var closeButton: UIButton!
     @IBOutlet weak var signupButton: UIButton!
     @IBOutlet weak var loginButton: UIButton!
     @IBOutlet weak var skipButton: UIButton!
@@ -45,6 +46,7 @@ final class TourLoginViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        setupAccessibilityIds()
     }
 
     override func viewDidFirstAppear(animated: Bool) {
@@ -87,6 +89,13 @@ final class TourLoginViewController: BaseViewController {
         messageLabel.text = LGLocalizedString.tourPage1Body
         
         kenBurnsView.clipsToBounds = true
+    }
+
+    func setupAccessibilityIds() {
+        closeButton.accessibilityId = .TourLoginCloseButton
+        signupButton.accessibilityId = .TourLoginSignUpButton
+        loginButton.accessibilityId = .TourLoginLogInButton
+        skipButton.accessibilityId = .TourLoginSkipButton
     }
     
     

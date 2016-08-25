@@ -43,10 +43,16 @@ public class HelpViewController: BaseViewController, UIWebViewDelegate {
             let request = NSURLRequest(URL: url)
             webView.loadRequest(request)
         }
+
+        setupAccessibilityIds()
     }
     
     
     // MARK: - Private methods
+
+    private func setupAccessibilityIds() {
+        webView.accessibilityId = .HelpWebView
+    }
 
     dynamic private func showOptions() {
         let alert = UIAlertController(title: nil, message: nil,

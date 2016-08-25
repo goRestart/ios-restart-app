@@ -120,7 +120,75 @@ enum AccessibilityId: String {
     // ...
 
     /** ABIOS-1557 */
-    // ...
+    // TourLogin
+    case TourLoginCloseButton
+    case TourLoginSignUpButton
+    case TourLoginLogInButton
+    case TourLoginSkipButton
+
+    // TourNotifications
+    case TourNotificationsCloseButton
+    case TourNotificationsOKButton
+    case TourNotificationsCancelButton
+
+    // TourLocation
+    case TourLocationCloseButton
+    case TourLocationOKButton
+    case TourLocationCancelButton
+
+    // User
+    case UserNavBarSettingsButton
+    case UserNavBarMoreButton
+    case UserHeaderCollapsedNameLabel
+    case UserHeaderCollapsedLocationLabel
+    case UserHeaderExpandedNameLabel
+    case UserHeaderExpandedLocationLabel
+    case UserHeaderExpandedAvatarButton
+    case UserHeaderExpandedRatingsButton
+    case UserHeaderExpandedRelationLabel
+    case UserHeaderExpandedVerifyFacebookButton
+    case UserHeaderExpandedVerifyGoogleButton
+    case UserHeaderExpandedVerifyEmailButton
+    case UserEnableNotificationsButton
+    case UserSellingTab
+    case UserSoldTab
+    case UserFavoritesTab
+    case UserProductsFirstLoad
+    case UserProductsList
+    case UserProductsError
+    case UserPushPermissionOK
+    case UserPushPermissionCancel
+
+    // Settings
+    case SettingsList
+
+    // SettingsCell
+    case SettingsCellIcon
+    case SettingsCellTitle
+    case SettingsCellValue
+
+    // ChangeUsername
+    case ChangeUsernameNameField
+    case ChangeUsernameSendButton
+
+    // ChangePassword
+    case ChangePasswordPwdTextfield
+    case ChangePasswordPwdConfirmTextfield
+    case ChangePasswordSendButton
+
+    // Help
+    case HelpWebView
+
+    // EditLocation
+    case EditLocationMap
+    case EditLocationSearchButton
+    case EditLocationSearchTextField
+    case EditLocationSearchSuggestionsTable
+    case EditLocationSensorLocationButton
+    case EditLocationApproxLocationCircleView
+    case EditLocationPOIImageView
+    case EditLocationSetLocationButton
+    case EditLocationApproxLocationSwitch
 }
 
 extension UIAccessibilityIdentification {
