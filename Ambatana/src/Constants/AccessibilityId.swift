@@ -139,10 +139,10 @@ enum AccessibilityId: String {
     case SignUpLoginCloseButton
     case SignUpLoginSendButton
     
-    case LGViewPagerTabAll
-    case LGViewPagerTabSelling
-    case LGViewPagerTabBuying
-    case LGViewPagerTabBlockedUsers
+    case ChatListViewTabAll
+    case ChatListViewTabSelling
+    case ChatListViewTabBuying
+    case ChatListViewTabBlockedUsers
     
     case ChatGroupedViewRightNavBarButton
     
