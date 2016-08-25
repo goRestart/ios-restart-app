@@ -33,6 +33,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var buttonBottom: UIButton!
+    @IBOutlet weak var buttonBottomBottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var buttonTop: UIButton!
     @IBOutlet weak var gradientShadowView: UIView!
     @IBOutlet weak var gradientShadowBottomView: UIView!
@@ -57,11 +58,15 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     private let disposeBag: DisposeBag = DisposeBag()
     private var currentIndex = 0
     private var userViewBottomConstraint: NSLayoutConstraint?
+    private var userViewBottomMargin: CGFloat = 0 {
+        didSet{
+            userViewBottomConstraint?.constant = userViewBottomMargin
+        }
+    }
 
     private let pageControl: UIPageControl
     private let pageControlWidth: CGFloat = 18
     private let pageControlMargin: CGFloat = 18
-    private let userViewMargin: CGFloat = 15
     private var moreInfoDragMargin: CGFloat = 45
     private var moreInfoExtraHeight: CGFloat = 64
     
@@ -471,11 +476,11 @@ extension ProductCarouselViewController {
             
             self?.buttonTop.hidden = true
             self?.buttonBottom.hidden = true
-            self?.userViewBottomConstraint?.constant = -(userViewMarginAboveBottomButton)
+            self?.userViewBottomMargin = -(userViewMarginAboveBottomButton)
             
             switch status {
             case .Pending, .NotAvailable, .OtherSold:
-                self?.userViewBottomConstraint?.constant = -userViewMarginWithoutButtons
+                self?.userViewBottomMargin = -userViewMarginWithoutButtons
             case .PendingAndCommercializable:
                 self?.configureButton(strongSelf.buttonBottom, type: .CreateCommercial, viewModel: viewModel)
             case .Available:
@@ -483,7 +488,7 @@ extension ProductCarouselViewController {
             case .AvailableAndCommercializable:
                 self?.configureButton(strongSelf.buttonBottom, type: .MarkAsSold, viewModel: viewModel)
                 self?.configureButton(strongSelf.buttonTop, type: .CreateCommercial, viewModel: viewModel)
-                self?.userViewBottomConstraint?.constant = -(userViewMarginAboveTopButton)
+                self?.userViewBottomMargin = -(userViewMarginAboveTopButton)
             case .Sold:
                 self?.configureButton(strongSelf.buttonBottom, type: .SellItAgain, viewModel: viewModel)
             case .OtherAvailable:
@@ -647,14 +652,18 @@ extension ProductCarouselViewController: ProductCarouselCellDelegate {
         pageControl.currentPage = page
     }
     
-    func didPullFromTopWith(offset: CGFloat) {
-        if moreInfoState.value == .Shown { return }
-        if moreInfoView!.frame.origin.y-offset > -view.frame.height {
+    func didPullFromCellWith(offset: CGFloat, bottomLimit: CGFloat) {
+        guard let moreInfoView = moreInfoView where moreInfoState.value != .Shown else { return }
+        if moreInfoView.frame.origin.y-offset > -view.frame.height {
             moreInfoState.value = .Moving
-            moreInfoView?.frame.origin.y = moreInfoView!.frame.origin.y-offset
+            moreInfoView.frame.origin.y = moreInfoView.frame.origin.y-offset
         } else {
             moreInfoState.value = .Hidden
         }
+
+        let bottomOverScroll = max(offset-bottomLimit, 0)
+        buttonBottomBottomConstraint.constant = itemsMargin + bottomOverScroll
+        userViewBottomConstraint?.constant = userViewBottomMargin - bottomOverScroll
     }
     
     func didEndDraggingCell() {

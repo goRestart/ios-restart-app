@@ -10,6 +10,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ProductCarouselViewController" customModule="LetGo" customModuleProvider="target">
             <connections>
                 <outlet property="buttonBottom" destination="ibM-CY-XRt" id="VOT-6P-Mmb"/>
+                <outlet property="buttonBottomBottomConstraint" destination="Myo-3r-EON" id="Kvd-Rr-QxN"/>
                 <outlet property="buttonTop" destination="Bn0-dg-QsD" id="A6s-ch-ER6"/>
                 <outlet property="collectionView" destination="KRQ-9w-aXE" id="bJ1-9F-zMz"/>
                 <outlet property="directChatTable" destination="nEH-Ai-mnV" id="EK7-p6-rfs"/>
@@ -50,8 +51,8 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cLW-LX-KUg">
                     <rect key="frame" x="183" y="80" width="48" height="30"/>
                     <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Sold" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yoR-Fx-XEv">
-                            <rect key="frame" x="10" y="8" width="28" height="16"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sold" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yoR-Fx-XEv">
+                            <rect key="frame" x="10" y="7" width="28" height="16"/>
                             <fontDescription key="fontDescription" type="system" weight="medium" pointSize="13"/>
                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
@@ -109,8 +110,8 @@
                     </constraints>
                     <state key="normal" title="Button BOTTOM"/>
                 </button>
-                <button hidden="YES" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uPU-nT-EmU" userLabel="Stickers Button">
-                    <rect key="frame" x="350" y="670" width="48" height="51"/>
+                <button hidden="YES" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uPU-nT-EmU" userLabel="Stickers Button">
+                    <rect key="frame" x="414" y="671" width="0.0" height="50"/>
                     <constraints>
                         <constraint firstAttribute="width" id="nTj-Xz-1Ca"/>
                     </constraints>
