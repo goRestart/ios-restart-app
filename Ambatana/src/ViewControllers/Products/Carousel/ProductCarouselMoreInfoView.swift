@@ -1,5 +1,5 @@
 //
-//  ProductCarouselMoreInfoViewController.swift
+//  ProductCarouselMoreInfoView.swift
 //  LetGo
 //
 //  Created by Isaac Roldan on 4/5/16.
