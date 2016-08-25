@@ -425,6 +425,8 @@ extension PostProductViewController: LGViewPagerDataSource, LGViewPagerDelegate,
             return NSAttributedString(string: LGLocalizedString.productPostCameraTab, attributes: tabTextAttributes(true))
         }
     }
+    
+    func viewPager(viewPager: LGViewPager, accessibilityIdentifierAtIndex index: Int) -> AccessibilityId? { return nil }
 
     private func tabTextAttributes(selected: Bool)-> [String : AnyObject] {
         var titleAttributes = [String : AnyObject]()

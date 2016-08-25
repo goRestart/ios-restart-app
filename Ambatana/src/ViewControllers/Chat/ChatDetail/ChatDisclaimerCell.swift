@@ -33,6 +33,7 @@ class ChatDisclaimerCell: UITableViewCell, ReusableCell {
         super.awakeFromNib()
         setupUI()
         setupRxBindings()
+        setAccessibilityIds()
     }
     
     override func layoutSubviews() {
@@ -96,5 +97,12 @@ private extension ChatDisclaimerCell {
         buttonHeightConstraint?.constant = hide ? 0 : ChatDisclaimerCell.buttonVisibleHeight
         buttonBottomConstraint?.constant = hide ? 0 : ChatDisclaimerCell.buttonVisibleBottom
         button.hidden = hide
+    }
+}
+
+extension ChatDisclaimerCell {
+    func setAccessibilityIds() {
+        messageLabel.accessibilityId = .ChatDisclaimerCellMessageLabel
+        button.accessibilityId = .ChatDisclaimerCellButton
     }
 }
