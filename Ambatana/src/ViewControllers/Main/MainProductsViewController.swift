@@ -49,7 +49,6 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
         self.navbarSearch = LGNavBarSearchField.setupNavBarSearchFieldWithText(viewModel.searchString)
         self.viewModel = viewModel
         super.init(viewModel: viewModel, nibName: nibNameOrNil)
-        self.viewModel = viewModel
         viewModel.delegate = self
         viewModel.bubbleDelegate = self
         viewModel.permissionsDelegate = self
