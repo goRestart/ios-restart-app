@@ -85,7 +85,7 @@ class ProductListViewModel: BaseViewModel {
     private(set) var objects: [ProductCellModel]
 
     // UI
-    private(set) var defaultCellSize: CGSize!
+    private(set) var defaultCellSize: CGSize
     
     private(set) var isLastPage: Bool = false
     private(set) var isLoading: Bool = false
@@ -119,7 +119,7 @@ class ProductListViewModel: BaseViewModel {
         self.state = .Loading
         self.numberOfColumns = numberOfColumns
         self.productListRequester = requester
-        
+        self.defaultCellSize = CGSize.zero
         super.init()
         let cellHeight = cellWidth * ProductListViewModel.cellAspectRatio
         self.defaultCellSize = CGSizeMake(cellWidth, cellHeight)

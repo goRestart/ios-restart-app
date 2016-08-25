@@ -46,7 +46,7 @@ class GridDrawerManager {
             return collectionDrawer.draw(style, style: cellStyle, inCell: cell)
         
         default:
-            assert(false, "⛔️ You shouldn't be here!")
+            assert(false, "⛔️ You shouldn't be here")
         }
     }
 }

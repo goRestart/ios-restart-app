@@ -298,7 +298,9 @@ extension TabBarController: AppRatingViewDelegate {
                                    installation: Core.installationRepository.installation) else { return }
             openInternalUrl(url)
         } else {
-            UIApplication.sharedApplication().openURL(NSURL(string: Constants.appStoreURL)!)
+            if let url = NSURL(string: Constants.appStoreURL) {
+                UIApplication.sharedApplication().openURL(url)
+            }
         }
     }
 }
