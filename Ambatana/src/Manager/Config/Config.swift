@@ -22,23 +22,31 @@ public class Config: ResponseObjectSerializable {
     private static let myMessagesCountJSONKey = "myMessagesCountForRating"
     private static let otherMessagesCountJSONKey = "otherMessagesCountForRating"
 
-    public var buildNumber : Int
-    public var forceUpdateVersions : [Int]
-    public var configURL : String
-    public var quadKeyZoomLevel: Int
-    public var myMessagesCountForRating: Int    // # of messages I must have sent to be able to rate an user
-    public var otherMessagesCountForRating: Int // # of messages another user must have sent to me to be able to rate him
+    public private(set) var buildNumber : Int
+    public private(set) var forceUpdateVersions : [Int]
+    public private(set) var configURL : String
+    public private(set) var quadKeyZoomLevel: Int
+    public private(set) var myMessagesCountForRating: Int    // # of messages I must have sent to be able to rate an user
+    public private(set) var otherMessagesCountForRating: Int // # of messages another user must have sent to me to be able to rate him
 
 
     // MARK : - Lifecycle
 
-    public init() {
-        buildNumber = 0
-        forceUpdateVersions = []
-        configURL = ""
-        quadKeyZoomLevel = Constants.defaultQuadKeyZoomLevel
-        myMessagesCountForRating = Constants.myMessagesCountForRating
-        otherMessagesCountForRating = Constants.otherMessagesCountForRating
+    public convenience init() {
+        self.init(buildNumber: 0, forceUpdateVersions: [], configURL: "",
+                  quadKeyZoomLevel: Constants.defaultQuadKeyZoomLevel,
+                  myMessagesCountForRating: Constants.myMessagesCountForRating,
+                  otherMessagesCountForRating: Constants.otherMessagesCountForRating)
+    }
+
+    public init(buildNumber : Int, forceUpdateVersions : [Int], configURL : String, quadKeyZoomLevel: Int,
+                myMessagesCountForRating: Int, otherMessagesCountForRating: Int) {
+        self.buildNumber = buildNumber
+        self.forceUpdateVersions = forceUpdateVersions
+        self.configURL = configURL
+        self.quadKeyZoomLevel = quadKeyZoomLevel
+        self.myMessagesCountForRating = myMessagesCountForRating
+        self.otherMessagesCountForRating = otherMessagesCountForRating
     }
 
     public required convenience init?(response: NSHTTPURLResponse, representation: AnyObject) {
