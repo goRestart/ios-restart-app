@@ -26,7 +26,7 @@ public struct LGCoreKitConstants {
 
     static let stickersRetrievalDebounceTime: NSTimeInterval = 3600 // Seconds (1hour)
 
-    public static let defaultQuadKeyPrecision: Int = 15
+    public static let defaultQuadKeyPrecision: Int = 13
 
     static let defaultShouldShowOnboarding = true
 
