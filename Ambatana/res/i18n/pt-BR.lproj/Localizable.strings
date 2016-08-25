@@ -5,8 +5,10 @@
 "app_share_fbmessenger_button" = "Invite via Messenger";
 "app_share_message_text" = "I just sold something on letgo! You should check it out too and make cash from stuff you don't use anymore...";
 "app_share_subject_text" = "Check out letgo";
-"app_share_subtitle" = "Share letgo with your friends and help us grow our community!";
-"app_share_title" = "Invite your Friends";
+"app_share_subtitle" = "Invite your friends to letgo and help us grow our community!";
+"app_share_subtitle_alternative" = "Share letgo with your friends and help us grow our community!";
+"app_share_title" = "INVITE YOUR FRIENDS";
+"app_share_title_alternative" = "SHARE THE LOVE";
 "app_share_whatsapp_button" = "Invite via Whatsapp";
 "block_user_error_generic" = "An error occurred while blocking this user.";
 "categories_baby_and_child" = "Baby and Child";

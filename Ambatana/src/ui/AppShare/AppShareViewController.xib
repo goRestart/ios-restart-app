@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AppShareViewController" customModule="LetGo" customModuleProvider="target">
             <connections>
                 <outlet property="contentContainer" destination="nfv-Fs-8Sb" id="0kb-NE-5L8"/>
-                <outlet property="dontAskAgainBtn" destination="fde-88-fNS" id="jA8-M7-031"/>
+                <outlet property="headerImageView" destination="SRs-kw-rCB" id="9kb-Q1-R3q"/>
                 <outlet property="inviteEmailBtn" destination="zlF-Os-mMu" id="ahJ-xU-aOA"/>
                 <outlet property="inviteEmailHeight" destination="kac-sW-e0g" id="c1C-Qi-XGC"/>
                 <outlet property="inviteEmailIcon" destination="Alz-ma-eX6" id="uOH-Z0-Omv"/>
@@ -39,40 +40,22 @@
                     </connections>
                 </button>
                 <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nfv-Fs-8Sb" userLabel="contentContainer">
-                    <rect key="frame" x="53" y="112" width="270" height="444"/>
+                    <rect key="frame" x="53" y="166" width="270" height="336"/>
                     <subviews>
-                        <imageView userInteractionEnabled="NO" contentMode="bottom" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_dialog_share" translatesAutoresizingMaskIntoConstraints="NO" id="SRs-kw-rCB">
-                            <rect key="frame" x="0.0" y="0.0" width="270" height="136"/>
-                            <color key="backgroundColor" red="0.96862745098039216" green="0.95294117647058818" blue="0.95294117647058818" alpha="1" colorSpace="calibratedRGB"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="136" id="QFZ-Q7-0Wk"/>
-                            </constraints>
-                        </imageView>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QdV-5u-Wfi" userLabel="closeButton">
-                            <rect key="frame" x="0.0" y="0.0" width="56" height="56"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="56" id="KAP-VS-Bve"/>
-                                <constraint firstAttribute="width" constant="56" id="KCP-ph-idB"/>
-                            </constraints>
-                            <state key="normal" image="ic_close_dark"/>
-                            <connections>
-                                <action selector="onClose:" destination="-1" eventType="touchUpInside" id="OwD-OM-DGx"/>
-                            </connections>
-                        </button>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_Share the love" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4dL-Vh-zEi">
-                            <rect key="frame" x="16" y="152" width="238" height="24"/>
+                            <rect key="frame" x="16" y="80" width="238" height="24"/>
                             <fontDescription key="fontDescription" type="system" pointSize="20"/>
                             <color key="textColor" red="0.29019607843137252" green="0.29019607843137252" blue="0.29019607843137252" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_Share letgo with your friends and help us grow our community!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="r4F-5Z-OMj">
-                            <rect key="frame" x="16" y="182" width="238" height="34"/>
+                            <rect key="frame" x="16" y="110" width="238" height="34"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <color key="textColor" red="0.45882352941176469" green="0.45882352941176469" blue="0.45882352941176469" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <button clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ULX-ER-Ysf" userLabel="MessengerInviteBtn">
-                            <rect key="frame" x="16" y="244" width="238" height="44"/>
+                            <rect key="frame" x="16" y="172" width="238" height="44"/>
                             <color key="backgroundColor" red="0.0" green="0.51764705882352935" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="44" id="0sb-nO-HAT"/>
@@ -87,10 +70,10 @@
                             </connections>
                         </button>
                         <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_share_fbmessenger" translatesAutoresizingMaskIntoConstraints="NO" id="2sh-MF-fIP" userLabel="MessengerInviteIcon">
-                            <rect key="frame" x="27" y="255" width="22" height="23"/>
+                            <rect key="frame" x="27" y="183" width="22" height="23"/>
                         </imageView>
                         <button clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wu7-vj-7Uq" userLabel="WhatsappInviteBtn">
-                            <rect key="frame" x="16" y="296" width="238" height="44"/>
+                            <rect key="frame" x="16" y="224" width="238" height="44"/>
                             <color key="backgroundColor" red="0.36078431372549019" green="0.74509803921568629" blue="0.29019607843137252" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="44" id="Qm0-G1-Uab"/>
@@ -105,10 +88,10 @@
                             </connections>
                         </button>
                         <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_share_whatsapp" translatesAutoresizingMaskIntoConstraints="NO" id="7u7-s2-J0t" userLabel="WhatsappInviteIcon">
-                            <rect key="frame" x="27" y="308" width="20" height="20"/>
+                            <rect key="frame" x="27" y="236" width="20" height="20"/>
                         </imageView>
                         <button clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zlF-Os-mMu" userLabel="EmailInviteBtn">
-                            <rect key="frame" x="16" y="348" width="238" height="44"/>
+                            <rect key="frame" x="16" y="276" width="238" height="44"/>
                             <color key="backgroundColor" red="0.59999999999999998" green="0.5725490196078431" blue="0.57647058823529407" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="44" id="kac-sW-e0g"/>
@@ -123,78 +106,71 @@
                             </connections>
                         </button>
                         <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_share_email" translatesAutoresizingMaskIntoConstraints="NO" id="Alz-ma-eX6" userLabel="EmailInviteIcon">
-                            <rect key="frame" x="27" y="362" width="22" height="16"/>
+                            <rect key="frame" x="27" y="290" width="22" height="16"/>
                         </imageView>
-                        <button clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fde-88-fNS" userLabel="DontAskAgainBtn">
-                            <rect key="frame" x="16" y="396" width="238" height="44"/>
-                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            <constraints>
-                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="44" id="Irs-ay-vuX"/>
-                            </constraints>
-                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                            <state key="normal" title="_Dont ask me again">
-                                <color key="titleColor" red="0.45882352941176469" green="0.45882352941176469" blue="0.45882352941176469" alpha="1" colorSpace="calibratedRGB"/>
-                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                            </state>
-                            <connections>
-                                <action selector="onDontAskAgain:" destination="-1" eventType="touchUpInside" id="cTF-zz-Tb0"/>
-                            </connections>
-                        </button>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstItem="4dL-Vh-zEi" firstAttribute="leading" secondItem="nfv-Fs-8Sb" secondAttribute="leading" constant="16" id="27s-Ju-LgV"/>
-                        <constraint firstItem="4dL-Vh-zEi" firstAttribute="top" secondItem="SRs-kw-rCB" secondAttribute="bottom" constant="16" id="35M-lN-izp"/>
                         <constraint firstItem="Alz-ma-eX6" firstAttribute="centerY" secondItem="zlF-Os-mMu" secondAttribute="centerY" id="4La-fG-ZTC"/>
                         <constraint firstAttribute="trailing" secondItem="ULX-ER-Ysf" secondAttribute="trailing" constant="16" id="59t-5C-j66"/>
                         <constraint firstAttribute="trailing" secondItem="r4F-5Z-OMj" secondAttribute="trailing" constant="16" id="5Qo-oR-W9g"/>
                         <constraint firstItem="r4F-5Z-OMj" firstAttribute="top" secondItem="4dL-Vh-zEi" secondAttribute="bottom" constant="6" id="5T7-fm-Fhz"/>
                         <constraint firstItem="zlF-Os-mMu" firstAttribute="leading" secondItem="nfv-Fs-8Sb" secondAttribute="leading" constant="16" id="BzU-Cy-GQG"/>
                         <constraint firstItem="Wu7-vj-7Uq" firstAttribute="leading" secondItem="nfv-Fs-8Sb" secondAttribute="leading" constant="16" id="Cak-6o-qf2"/>
+                        <constraint firstAttribute="bottom" secondItem="zlF-Os-mMu" secondAttribute="bottom" constant="16" id="Hmw-zA-NxS"/>
                         <constraint firstItem="ULX-ER-Ysf" firstAttribute="top" secondItem="r4F-5Z-OMj" secondAttribute="bottom" constant="28" id="Jnb-ID-1S5"/>
-                        <constraint firstItem="fde-88-fNS" firstAttribute="leading" secondItem="nfv-Fs-8Sb" secondAttribute="leading" constant="16" id="OO5-Kk-HBt"/>
                         <constraint firstAttribute="width" constant="270" id="Q1V-cL-utA"/>
-                        <constraint firstItem="QdV-5u-Wfi" firstAttribute="leading" secondItem="nfv-Fs-8Sb" secondAttribute="leading" id="RCZ-uJ-IqQ"/>
                         <constraint firstItem="Alz-ma-eX6" firstAttribute="leading" secondItem="zlF-Os-mMu" secondAttribute="leading" constant="11" id="Rct-Vi-Ix5"/>
                         <constraint firstItem="zlF-Os-mMu" firstAttribute="top" secondItem="Wu7-vj-7Uq" secondAttribute="bottom" constant="8" id="S8y-wD-phA"/>
                         <constraint firstAttribute="trailing" secondItem="4dL-Vh-zEi" secondAttribute="trailing" constant="16" id="TXo-TW-5Sc"/>
                         <constraint firstAttribute="trailing" secondItem="zlF-Os-mMu" secondAttribute="trailing" constant="16" id="VOZ-QS-iSc"/>
+                        <constraint firstItem="4dL-Vh-zEi" firstAttribute="top" secondItem="nfv-Fs-8Sb" secondAttribute="top" constant="80" id="VjW-ZM-ORR"/>
                         <constraint firstAttribute="trailing" secondItem="Wu7-vj-7Uq" secondAttribute="trailing" constant="16" id="Y6f-Z6-YGV"/>
                         <constraint firstItem="2sh-MF-fIP" firstAttribute="leading" secondItem="ULX-ER-Ysf" secondAttribute="leading" constant="11" id="aHt-7n-Dov"/>
-                        <constraint firstItem="fde-88-fNS" firstAttribute="top" secondItem="zlF-Os-mMu" secondAttribute="bottom" constant="4" id="cPp-Zc-G8A"/>
                         <constraint firstItem="7u7-s2-J0t" firstAttribute="leading" secondItem="Wu7-vj-7Uq" secondAttribute="leading" constant="11" id="eyo-hJ-fGG"/>
-                        <constraint firstItem="SRs-kw-rCB" firstAttribute="top" secondItem="nfv-Fs-8Sb" secondAttribute="top" id="hNa-Xp-L6w"/>
                         <constraint firstItem="7u7-s2-J0t" firstAttribute="centerY" secondItem="Wu7-vj-7Uq" secondAttribute="centerY" id="iIf-2b-ENk"/>
                         <constraint firstItem="r4F-5Z-OMj" firstAttribute="leading" secondItem="nfv-Fs-8Sb" secondAttribute="leading" constant="16" id="mxP-JC-E3B"/>
                         <constraint firstItem="ULX-ER-Ysf" firstAttribute="leading" secondItem="nfv-Fs-8Sb" secondAttribute="leading" constant="16" id="odh-t9-FMq"/>
                         <constraint firstItem="2sh-MF-fIP" firstAttribute="centerY" secondItem="ULX-ER-Ysf" secondAttribute="centerY" id="quq-GG-QfU"/>
-                        <constraint firstAttribute="bottom" secondItem="fde-88-fNS" secondAttribute="bottom" constant="5" id="t9Q-Ak-h8d"/>
                         <constraint firstItem="Wu7-vj-7Uq" firstAttribute="top" secondItem="ULX-ER-Ysf" secondAttribute="bottom" constant="8" id="w0u-NF-YgS"/>
-                        <constraint firstAttribute="trailing" secondItem="fde-88-fNS" secondAttribute="trailing" constant="16" id="wSw-lp-ZJc"/>
-                        <constraint firstItem="SRs-kw-rCB" firstAttribute="leading" secondItem="nfv-Fs-8Sb" secondAttribute="leading" id="ws1-Vi-ELv"/>
-                        <constraint firstAttribute="trailing" secondItem="SRs-kw-rCB" secondAttribute="trailing" id="x3a-PU-qYS"/>
-                        <constraint firstItem="QdV-5u-Wfi" firstAttribute="top" secondItem="nfv-Fs-8Sb" secondAttribute="top" id="xue-BR-AVr"/>
                     </constraints>
                 </view>
+                <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="invite_hearth" translatesAutoresizingMaskIntoConstraints="NO" id="SRs-kw-rCB">
+                    <rect key="frame" x="133" y="116" width="110" height="110"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="110" id="QFZ-Q7-0Wk"/>
+                        <constraint firstAttribute="width" secondItem="SRs-kw-rCB" secondAttribute="height" multiplier="1:1" id="zsR-8u-oJW"/>
+                    </constraints>
+                </imageView>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstAttribute="bottom" secondItem="gi0-9f-QTK" secondAttribute="bottom" id="7XI-rc-cZ9"/>
+                <constraint firstItem="SRs-kw-rCB" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="Ctf-Zi-6ed"/>
                 <constraint firstItem="nfv-Fs-8Sb" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="HRa-nd-WHj"/>
                 <constraint firstItem="gi0-9f-QTK" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="PRy-A8-WSk"/>
                 <constraint firstItem="nfv-Fs-8Sb" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="U7U-hP-NVS"/>
+                <constraint firstItem="SRs-kw-rCB" firstAttribute="top" secondItem="nfv-Fs-8Sb" secondAttribute="bottom" constant="-136" id="VBz-PE-JMZ"/>
+                <constraint firstItem="SRs-kw-rCB" firstAttribute="top" secondItem="nfv-Fs-8Sb" secondAttribute="top" constant="-50" id="Z64-fY-aLV"/>
+                <constraint firstItem="SRs-kw-rCB" firstAttribute="baseline" secondItem="nfv-Fs-8Sb" secondAttribute="baseline" id="e6S-hF-lQh"/>
                 <constraint firstItem="gi0-9f-QTK" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="lpz-XD-uwH"/>
                 <constraint firstAttribute="trailing" secondItem="gi0-9f-QTK" secondAttribute="trailing" id="sik-zX-mdj"/>
             </constraints>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+            <variation key="default">
+                <mask key="constraints">
+                    <exclude reference="VBz-PE-JMZ"/>
+                    <exclude reference="e6S-hF-lQh"/>
+                </mask>
+            </variation>
             <point key="canvasLocation" x="722.5" y="455.5"/>
         </view>
     </objects>
     <resources>
-        <image name="ic_close_dark" width="18" height="18"/>
         <image name="ic_share_email" width="22" height="16"/>
         <image name="ic_share_fbmessenger" width="22" height="23"/>
         <image name="ic_share_whatsapp" width="20" height="20"/>
-        <image name="img_dialog_share" width="233" height="107"/>
+        <image name="invite_hearth" width="110" height="110"/>
     </resources>
 </document>

@@ -89,8 +89,12 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
         setupTagsView()
         setupSearchAndTrending()
         setFiltersNavbarButton()
-
+        setInviteNavBarButton()
         setupRxBindings()
+        
+        navigationController?.setNavBarBackgroundStyle(NavBarBackgroundStyle.Custom(background: UIImage(), shadow: UIImage()))
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: .Default)
+        navigationController?.navigationBar.shadowImage = UIImage()
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -254,6 +258,7 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     dynamic private func endEdit() {
         trendingSearchesContainer.hidden = true
         setFiltersNavbarButton()
+        setInviteNavBarButton()
         navbarSearch.endEdit()
     }
 
@@ -303,6 +308,20 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
             filtersIcon = tagsViewController.tags.isEmpty ? "ic_filters": "ic_filters_active"
         }
         setLetGoRightButtonWith(imageName: filtersIcon, renderingMode: .AlwaysOriginal, selector: "filtersButtonPressed:")
+    }
+    
+    private func setInviteNavBarButton() {
+        var button: UIBarButtonItem
+        if FeatureFlags.showInviteHearthIcon {
+            button = UIBarButtonItem(image: UIImage(named: "ic_product_like_on"), style: .Plain, target: self, action: #selector(openInvite))
+        } else {
+            button = UIBarButtonItem(title: "Invite", style: .Plain, target: self, action: #selector(openInvite))
+        }
+        navigationItem.leftBarButtonItem = button
+    }
+    
+    dynamic private func openInvite() {
+        AppShareViewController.showOnViewControllerIfNeeded(self)
     }
     
     private func showTagsView(show: Bool) {

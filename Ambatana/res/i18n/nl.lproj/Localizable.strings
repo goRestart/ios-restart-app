@@ -5,8 +5,10 @@
 "app_share_fbmessenger_button" = "Uitnodigen via Messenger";
 "app_share_message_text" = "Ik heb net iets verkocht op letgo! Bekijk het ook en verdien geld door spullen te verkopen die je niet meer nodig hebt...";
 "app_share_subject_text" = "Bekijk letgo";
-"app_share_subtitle" = "Deel letgo met je vrienden en help ons met de groei van onze community!";
-"app_share_title" = "Nodig je vrienden uit";
+"app_share_subtitle" = "Invite your friends to letgo and help us grow our community!";
+"app_share_subtitle_alternative" = "Share letgo with your friends and help us grow our community!";
+"app_share_title" = "INVITE YOUR FRIENDS";
+"app_share_title_alternative" = "SHARE THE LOVE";
 "app_share_whatsapp_button" = "Uitnodigen via Whatsapp";
 "block_user_error_generic" = "Er is een fout opgetreden tijdens het blokkeren van deze gebruiker.";
 "categories_baby_and_child" = "Baby en kind";
@@ -291,8 +293,8 @@
 "product_ask_a_question_button" = "Stel een vraag";
 "product_auto_generated_title_label" = "Titel automatisch gegenereerd door letgo";
 "product_auto_generated_translated_title_label" = "(en vertaald door Google)";
-"product_bubble_one_user_interested" = "Another buyer is interested!";
-"product_bubble_several_users_interested" = "%i other buyers are interested!";
+"product_bubble_one_user_interested" = "Een andere koper is geïnteresseerd!";
+"product_bubble_several_users_interested" = "%i andere kopers zijn geïnteresseerd!";
 "product_chat_direct_error_blocked_user_message" = "Oeps! Chatten met deze gebruiker is geblokkeerd.";
 "product_chat_direct_message" = "Hoi %@, ik ben geïnteresseerd!";
 "product_chat_direct_message_sending" = "Verzenden...";

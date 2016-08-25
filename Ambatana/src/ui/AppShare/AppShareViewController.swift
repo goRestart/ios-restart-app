@@ -12,6 +12,7 @@ import MessageUI
 
 class AppShareViewController: UIViewController {
     @IBOutlet weak var contentContainer: UIView!
+    @IBOutlet weak var headerImageView: UIImageView!
 
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var subtitleLabel: UILabel!
@@ -31,9 +32,7 @@ class AppShareViewController: UIViewController {
     @IBOutlet weak var inviteEmailHeight: NSLayoutConstraint!
     @IBOutlet weak var inviteEmailTop: NSLayoutConstraint!
 
-
-    @IBOutlet weak var dontAskAgainBtn: UIButton!
-
+    
     static func showOnViewControllerIfNeeded(viewController: UIViewController) -> Bool {
         guard !KeyValueStorage.sharedInstance.userAppShared else { return false }
         guard SocialHelper.canShareInWhatsapp() || SocialHelper.canShareInFBMessenger() ||
@@ -105,17 +104,14 @@ class AppShareViewController: UIViewController {
     private func setupUI() {
         contentContainer.layer.cornerRadius = LGUIKitConstants.alertCornerRadius
 
-//        inviteFBMessengerBtn.setCustomButtonStyle()
-//        inviteWhatsappBtn.setCustomButtonStyle()
-//        inviteEmailBtn.setCustomButtonStyle()
-
-        titleLabel.text = LGLocalizedString.appShareTitle
-        subtitleLabel.text = LGLocalizedString.appShareSubtitle
         inviteFBMessengerBtn.setTitle(LGLocalizedString.appShareFbmessengerButton, forState: UIControlState.Normal)
         inviteWhatsappBtn.setTitle(LGLocalizedString.appShareWhatsappButton, forState: UIControlState.Normal)
         inviteEmailBtn.setTitle(LGLocalizedString.appShareEmailButton, forState: UIControlState.Normal)
-        dontAskAgainBtn.setTitle(LGLocalizedString.ratingViewDontAskAgainButton, forState: UIControlState.Normal)
-
+        
+        inviteFBMessengerBtn.layer.cornerRadius = inviteFBMessengerBtn.frame.height/2
+        inviteWhatsappBtn.layer.cornerRadius = inviteWhatsappBtn.frame.height/2
+        inviteEmailBtn.layer.cornerRadius = inviteEmailBtn.frame.height/2
+        
         if !SocialHelper.canShareInFBMessenger() {
             inviteFBMessengerHeight.constant = 0
             inviteFBMessengerTop.constant = 20
@@ -136,6 +132,19 @@ class AppShareViewController: UIViewController {
             inviteEmailBtn.hidden = true
             inviteEmailIcon.hidden = true
         }
+        
+        if FeatureFlags.showInviteHearthIcon {
+            headerImageView.image = UIImage(named: "invite_hearth")
+            titleLabel.text = LGLocalizedString.appShareTitleAlternative
+            subtitleLabel.text = LGLocalizedString.appShareSubtitleAlternative
+        } else {
+            headerImageView.image = UIImage(named: "invite_letgo")
+            titleLabel.text = LGLocalizedString.appShareTitle
+            subtitleLabel.text = LGLocalizedString.appShareSubtitle
+        }
+        
+        titleLabel.font = UIFont.systemMediumFont(size: 17)
+        subtitleLabel.font = UIFont.systemRegularFont(size: 15)
     }
 
     private func trackShown() {

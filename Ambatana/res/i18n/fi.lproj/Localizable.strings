@@ -5,8 +5,10 @@
 "app_share_fbmessenger_button" = "Kutsu Messengerillä";
 "app_share_message_text" = "Myin juuri jotakin letgossa! Sinunkin pitäisi käydä tutustumassa siihen, tienaat rahaa tavaroilla, joita et käytä enää...";
 "app_share_subject_text" = "Tutustu letgohun";
-"app_share_subtitle" = "Vinkkaa letgosta ystävillesi ja auta yhteisöämme kasvamaan!";
-"app_share_title" = "Kutsu ystäväsi";
+"app_share_subtitle" = "Invite your friends to letgo and help us grow our community!";
+"app_share_subtitle_alternative" = "Share letgo with your friends and help us grow our community!";
+"app_share_title" = "INVITE YOUR FRIENDS";
+"app_share_title_alternative" = "SHARE THE LOVE";
 "app_share_whatsapp_button" = "Kutsu Whatsappilla";
 "block_user_error_generic" = "Tätä käyttäjää estettäessä tapahtui virhe.";
 "categories_baby_and_child" = "Vauvat ja lapset";
@@ -291,8 +293,8 @@
 "product_ask_a_question_button" = "Esitä kysymys";
 "product_auto_generated_title_label" = "letgon automaattisesti luoma otsikko";
 "product_auto_generated_translated_title_label" = "(ja Googlen kääntämä)";
-"product_bubble_one_user_interested" = "Another buyer is interested!";
-"product_bubble_several_users_interested" = "%i other buyers are interested!";
+"product_bubble_one_user_interested" = "Toinen ostaja on kiinnostunut!";
+"product_bubble_several_users_interested" = "%i ostajaa on kiinnostunut!";
 "product_chat_direct_error_blocked_user_message" = "Hups! Keskustelu tämän käyttäjän kanssa on estetty.";
 "product_chat_direct_message" = "Hei %@, olen kiinnostunut";
 "product_chat_direct_message_sending" = "Lähetetään...";

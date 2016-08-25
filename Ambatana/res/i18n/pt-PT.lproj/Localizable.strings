@@ -5,8 +5,10 @@
 "app_share_fbmessenger_button" = "Convide via Messenger";
 "app_share_message_text" = "Acabei de vender um artigo no letgo! Também o devias experimentar e fazeres dinheiro com as coisas que já não precisas...";
 "app_share_subject_text" = "Dê uma olhada no letgo";
-"app_share_subtitle" = "Partilhe o letgo com os seus amigos e ajude-nos a fazer crescer a nossa comunidade!";
-"app_share_title" = "Convide os seus amigos";
+"app_share_subtitle" = "Invite your friends to letgo and help us grow our community!";
+"app_share_subtitle_alternative" = "Share letgo with your friends and help us grow our community!";
+"app_share_title" = "INVITE YOUR FRIENDS";
+"app_share_title_alternative" = "SHARE THE LOVE";
 "app_share_whatsapp_button" = "Convide via Whatsapp";
 "block_user_error_generic" = "Ocorreu um erro ao bloquear este utilizador.";
 "categories_baby_and_child" = "Bebés e Crianças";
@@ -291,8 +293,8 @@
 "product_ask_a_question_button" = "Faça uma pergunta";
 "product_auto_generated_title_label" = "Título gerado automaticamente pelo letgo";
 "product_auto_generated_translated_title_label" = "(e traduzido pelo Google)";
-"product_bubble_one_user_interested" = "Another buyer is interested!";
-"product_bubble_several_users_interested" = "%i other buyers are interested!";
+"product_bubble_one_user_interested" = "Outro comprador está interessado!";
+"product_bubble_several_users_interested" = "%i outros compradores estão interessados!";
 "product_chat_direct_error_blocked_user_message" = "Ups! O chat deste utilizador está bloqueado.";
 "product_chat_direct_message" = "Olá %@, tenho interesse!";
 "product_chat_direct_message_sending" = "A enviar...";

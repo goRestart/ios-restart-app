@@ -39,8 +39,16 @@ struct LGLocalizedString {
 		return NSLocalizedString("app_share_subtitle", comment: "")
 	}
 
+	static var appShareSubtitleAlternative: String {
+		return NSLocalizedString("app_share_subtitle_alternative", comment: "")
+	}
+
 	static var appShareTitle: String {
 		return NSLocalizedString("app_share_title", comment: "")
+	}
+
+	static var appShareTitleAlternative: String {
+		return NSLocalizedString("app_share_title_alternative", comment: "")
 	}
 
 	static var appShareWhatsappButton: String {

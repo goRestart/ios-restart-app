@@ -5,8 +5,10 @@
 "app_share_fbmessenger_button" = "Mời qua Messenger";
 "app_share_message_text" = "Tôi vừa bán sản phẩm trên letgo! Bạn cũng nên ghé qua và kiếm tiền từ những món đồ không còn dùng đến...";
 "app_share_subject_text" = "Duyệt letgo";
-"app_share_subtitle" = "Chia sẻ letgo với bạn bè và giúp chúng tôi mở rộng cộng đồng!";
-"app_share_title" = "Mời bạn bè";
+"app_share_subtitle" = "Invite your friends to letgo and help us grow our community!";
+"app_share_subtitle_alternative" = "Share letgo with your friends and help us grow our community!";
+"app_share_title" = "INVITE YOUR FRIENDS";
+"app_share_title_alternative" = "SHARE THE LOVE";
 "app_share_whatsapp_button" = "Mời qua Whatsapp";
 "block_user_error_generic" = "Có lỗi xảy ra trong khi chặn người dùng này.";
 "categories_baby_and_child" = "Trẻ sơ sinh và Trẻ nhỏ";
@@ -291,8 +293,8 @@
 "product_ask_a_question_button" = "Đặt câu hỏi";
 "product_auto_generated_title_label" = "Tiêu đề do letgo tự động đặt";
 "product_auto_generated_translated_title_label" = "(và do Google dịch)";
-"product_bubble_one_user_interested" = "Another buyer is interested!";
-"product_bubble_several_users_interested" = "%i other buyers are interested!";
+"product_bubble_one_user_interested" = "Một người mua khác đang quan tâm!";
+"product_bubble_several_users_interested" = "%i người mua khác đang quan tâm!";
 "product_chat_direct_error_blocked_user_message" = "Ồ! Trò chuyện với người dùng này đã bị chặn.";
 "product_chat_direct_message" = "Xin chào %@, tôi quan tâm";
 "product_chat_direct_message_sending" = "Đang gửi...";
