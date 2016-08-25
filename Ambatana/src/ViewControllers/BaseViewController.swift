@@ -131,9 +131,12 @@ extension UIViewController {
         guard let navController = navigationController else { return 0 }
         return navController.navigationBar.frame.size.height
     }
+
+    var statusBarHeight: CGFloat {
+        return UIApplication.sharedApplication().statusBarFrame.size.height
+    }
     
     var topBarHeight: CGFloat {
-        let statusBarHeight = UIApplication.sharedApplication().statusBarFrame.size.height
         return navigationBarHeight + statusBarHeight
     }
     
@@ -144,6 +147,8 @@ extension UIViewController {
     }
     
     private var toastViewTopMarginShown: CGFloat {
+        // In case there's no navigation bar, we should add a margin to avoid showing the toast above close button
+        guard let _ = navigationController?.navigationBar else { return 44 + statusBarHeight }
         return 0
     }
     
