@@ -91,7 +91,7 @@ public struct IndexTrendingProductsParams {
 extension IndexTrendingProductsParams {
     var letgoApiParams: Dictionary<String, AnyObject> {
         var params = Dictionary<String, AnyObject>()
-        params["quadkey"] = coordinates?.coordsToQuadKey(LGCoreKitConstants.defaultQuadKeyPrecision)
+        params["quadkey"] = coordinates?.coordsToQuadKey(LGCoreKit.quadKeyZoomLevel)
         params["country_code"] = countryCode
         params["num_results"] = numProducts
         params["offset"] = offset
@@ -199,7 +199,7 @@ extension RetrieveProductsParams {
     var letgoApiParams: Dictionary<String, AnyObject> {
         var params = Dictionary<String, AnyObject>()
         params["search_term"] = queryString
-        params["quadkey"] = coordinates?.coordsToQuadKey(LGCoreKitConstants.defaultQuadKeyPrecision)
+        params["quadkey"] = coordinates?.coordsToQuadKey(LGCoreKit.quadKeyZoomLevel)
         params["country_code"] = countryCode
         let categories = categoryIds?.map { String($0) }.joinWithSeparator(",")
         if categories != "" {
