@@ -183,7 +183,7 @@ extension UIViewController {
         
         toastViewBottomMarginConstraint = NSLayoutConstraint(item: toastView, attribute: .Bottom, relatedBy: .Equal,
             toItem: topLayoutGuide, attribute: .Bottom, multiplier: 1, constant: toastViewBottomMarginHidden)
-        view.addConstraint(toastViewBottomMarginConstraint!)
+        if let bottomConstriant = toastViewBottomMarginConstraint { view.addConstraint(bottomConstriant) }
         
         let views = ["toastView": toastView]
         view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[toastView]|", options: [], metrics: nil, views: views))
