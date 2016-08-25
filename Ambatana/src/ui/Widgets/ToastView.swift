@@ -10,6 +10,8 @@ import UIKit
 
 public class ToastView: UIView {
 
+    static let standardHeight: CGFloat = 33
+
     // iVars
     // > UI
     @IBOutlet private weak var label: UILabel!

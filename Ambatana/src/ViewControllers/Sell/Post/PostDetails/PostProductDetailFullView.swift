@@ -95,7 +95,7 @@ class PostProductDetailFullView: BaseView {
         doneButton.setTitle(LGLocalizedString.productPostDone, forState: UIControlState.Normal)
         currencyButton.setTitle(viewModel.currencySymbol, forState: UIControlState.Normal)
 
-        doneButton.setStyle(.Primary(fontSize: .Medium))
+        doneButton.setStyle(.Primary(fontSize: .Big))
     }
 
     private func setupRx() {
