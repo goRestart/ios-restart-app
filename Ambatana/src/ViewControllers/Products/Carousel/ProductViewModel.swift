@@ -577,15 +577,6 @@ extension ProductViewModel {
         })
     }
 
-    private func buildShareAction() -> UIAction {
-        let icon = UIImage(named: "navbar_share")?.imageWithRenderingMode(.AlwaysOriginal)
-        let text = LGLocalizedString.productOptionShare
-        return UIAction(interface: .TextImage(text, icon), action: { [weak self] in
-            guard let strongSelf = self, socialMessage = strongSelf.socialMessage.value else { return }
-            strongSelf.delegate?.vmShowNativeShare(socialMessage)
-            })
-    }
-
     private func buildMoreNavBarAction() -> UIAction {
         let icon = UIImage(named: "navbar_more")?.imageWithRenderingMode(.AlwaysOriginal)
         return UIAction(interface: .Image(icon), action: { [weak self] in self?.showOptionsMenu() })
@@ -608,6 +599,13 @@ extension ProductViewModel {
             actions.append(buildDeleteButton())
         }
         delegate?.vmShowProductDelegateActionSheet(LGLocalizedString.commonCancel, actions: actions)
+    }
+
+    private func buildShareAction() -> UIAction {
+        return UIAction(interface: .Text(LGLocalizedString.productOptionShare), action: { [weak self] in
+            guard let strongSelf = self, socialMessage = strongSelf.socialMessage.value else { return }
+            strongSelf.delegate?.vmShowNativeShare(socialMessage)
+            })
     }
 
     private func buildCommercialAction() -> UIAction {

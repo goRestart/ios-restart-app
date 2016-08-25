@@ -903,9 +903,7 @@ extension ProductCarouselViewController {
 
 extension ProductCarouselViewController: ProductViewModelDelegate {
     func vmShowNativeShare(socialMessage: SocialMessage) {
-        //We have an A/B test (bigFavoriteIcon) that just leaves options button (with share inside) so we need to check this
-        let navItemsCount = navigationItem.rightBarButtonItems?.count ?? 0
-        let barButtonItem = navItemsCount > 1 ? navigationItem.rightBarButtonItems?[1] : navigationItem.rightBarButtonItems?.first
+        let barButtonItem = navigationItem.rightBarButtonItems?.first
         presentNativeShare(socialMessage: socialMessage, delegate: viewModel, barButtonItem: barButtonItem)
     }
     
