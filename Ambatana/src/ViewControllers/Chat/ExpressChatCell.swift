@@ -13,11 +13,13 @@ class ExpressChatCell: UICollectionViewCell {
     @IBOutlet weak var productImageView: UIImageView!
     @IBOutlet weak var priceLabel: UILabel!
     @IBOutlet weak var selectedImageView: UIImageView!
+    @IBOutlet weak var gradientView: UIView!
 
 
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        setupGradientView()
     }
 
     override var selected: Bool {
@@ -40,5 +42,11 @@ class ExpressChatCell: UICollectionViewCell {
                 self?.productImageView.image = UIImage(named: "product_placeholder")
             }
         }
+    }
+
+    private func setupGradientView() {
+        let shadowLayer = CAGradientLayer.gradientWithColor(UIColor.blackColor(), alphas:[0, 0.4], locations: [0, 1])
+        shadowLayer.frame = gradientView.bounds
+        gradientView.layer.insertSublayer(shadowLayer, atIndex: 0)
     }
 }

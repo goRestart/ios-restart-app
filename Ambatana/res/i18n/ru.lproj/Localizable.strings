@@ -115,7 +115,7 @@
 "chat_verify_alert_resend_button" = "Перевыслать";
 "chat_verify_alert_title" = "Подтвердите ваш е-мейл для общения";
 "chat_with_yourself_alert_msg" = "Вы не можете начать чат о своем товаре.";
-"collection_apple_title" = "An apple a day";
+"collection_apple_title" = "По яблоку в день";
 "collection_explore_button" = "Искать";
 "collection_furniture_title" = "Милый дом";
 "collection_gaming_title" = "Игра началась";
@@ -291,8 +291,8 @@
 "product_ask_a_question_button" = "Задать вопрос";
 "product_auto_generated_title_label" = "Заголовок автоматически задан letgo";
 "product_auto_generated_translated_title_label" = "(и переведен Яндексом)";
-"product_bubble_one_user_interested" = "Another buyer is interested!";
-"product_bubble_several_users_interested" = "%i other buyers are interested!";
+"product_bubble_one_user_interested" = "Другой покупатель интересуется товаром!";
+"product_bubble_several_users_interested" = "% других покупателей интересуются товаром!";
 "product_chat_direct_error_blocked_user_message" = "Упс! Чат с этим пользователем заблокирован.";
 "product_chat_direct_message" = "Привет, %@, меня интересует товар";
 "product_chat_direct_message_sending" = "Отправка...";
