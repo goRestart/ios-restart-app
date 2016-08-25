@@ -92,6 +92,7 @@ struct Constants {
 
     // Config
     static let defaultConfigTimeOut: Double = 3    // seconds
+    static let defaultQuadKeyZoomLevel: Int = 13
 
     // user rating from chat
     static let myMessagesCountForRating = 2

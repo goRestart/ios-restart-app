@@ -17,15 +17,17 @@ public class Config: ResponseObjectSerializable {
     private static let buildNumberJSONKey = "buildNumber"
     private static let forceUpdateVersionsJSONKey = "forceUpdateVersions"
     private static let configURLJSONKey = "configURL"
+    private static let quadKeyZoomLevelJSONKey = "quadKeyZoomLevel"
     private static let userRatingJSONKey = "userRating"
     private static let myMessagesCountJSONKey = "myMessagesCountForRating"
     private static let otherMessagesCountJSONKey = "otherMessagesCountForRating"
 
-    public var buildNumber : Int
-    public var forceUpdateVersions : [Int]
-    public var configURL : String
-    public var myMessagesCountForRating: Int    // # of messages I must have sent to be able to rate an user
-    public var otherMessagesCountForRating: Int // # of messages another user must have sent to me to be able to rate him
+    public private(set) var buildNumber : Int
+    public private(set) var forceUpdateVersions : [Int]
+    public private(set) var configURL : String
+    public private(set) var quadKeyZoomLevel: Int
+    public private(set) var myMessagesCountForRating: Int    // # of messages I must have sent to be able to rate an user
+    public private(set) var otherMessagesCountForRating: Int // # of messages another user must have sent to me to be able to rate him
 
 
     // MARK : - Lifecycle
@@ -34,6 +36,7 @@ public class Config: ResponseObjectSerializable {
         buildNumber = 0
         forceUpdateVersions = []
         configURL = ""
+        quadKeyZoomLevel = Constants.defaultQuadKeyZoomLevel
         myMessagesCountForRating = Constants.myMessagesCountForRating
         otherMessagesCountForRating = Constants.otherMessagesCountForRating
     }
@@ -67,6 +70,10 @@ public class Config: ResponseObjectSerializable {
             self.configURL = cfgURL
         }
 
+        if let quadKeyZoomLevel: Int = json.decode(Config.quadKeyZoomLevelJSONKey) {
+            self.quadKeyZoomLevel = quadKeyZoomLevel
+        }
+
         if let userRating: JSON = json.decode(Config.userRatingJSONKey) {
             if let myMessages: Int = userRating.decode(Config.myMessagesCountJSONKey) {
                 self.myMessagesCountForRating = myMessages
@@ -90,6 +97,7 @@ public class Config: ResponseObjectSerializable {
 
         tmpFinalDic[Config.currentVersionInfoJSONKey] = tmpCurrentVersionDic
         tmpFinalDic[Config.configURLJSONKey] = configURL
+        tmpFinalDic[Config.quadKeyZoomLevelJSONKey] = quadKeyZoomLevel
 
         tmpUserRatingDic[Config.myMessagesCountJSONKey] = myMessagesCountForRating
         tmpUserRatingDic[Config.otherMessagesCountJSONKey] = otherMessagesCountForRating
