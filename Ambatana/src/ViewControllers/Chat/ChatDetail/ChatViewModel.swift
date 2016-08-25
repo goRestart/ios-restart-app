@@ -509,15 +509,16 @@ extension ChatViewModel {
         guard message.characters.count > 0 else { return }
         guard let convId = conversation.value.objectId else { return }
         guard let userId = myUserRepository.myUser?.objectId else { return }
-
+        
         if !isQuickAnswer && type != .Sticker {
             delegate?.vmClearText()
         }
 
         let newMessage = chatRepository.createNewMessage(userId, text: text, type: type)
         let viewMessage = chatViewMessageAdapter.adapt(newMessage).markAsSent()
+        guard let messageId = newMessage.objectId else { return }
         messages.insert(viewMessage, atIndex: 0)
-        chatRepository.sendMessage(convId, messageId: newMessage.objectId!, type: newMessage.type, text: text) {
+        chatRepository.sendMessage(convId, messageId: messageId, type: newMessage.type, text: text) {
             [weak self] result in
             if let _ = result.value {
                 guard let id = newMessage.objectId else { return }
