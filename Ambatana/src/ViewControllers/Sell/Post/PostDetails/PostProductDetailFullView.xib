@@ -26,10 +26,10 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="429-zd-csi" userLabel="titleContainer">
-                    <rect key="frame" x="0.0" y="15" width="375" height="59"/>
+                    <rect key="frame" x="0.0" y="15" width="375" height="79"/>
                     <subviews>
                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="W4o-9q-ZZD">
-                            <rect key="frame" x="15" y="8" width="345" height="43"/>
+                            <rect key="frame" x="15" y="8" width="345" height="63"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences" returnKeyType="next"/>
@@ -47,14 +47,14 @@
                         <constraint firstAttribute="bottom" secondItem="W4o-9q-ZZD" secondAttribute="bottom" constant="8" id="nvs-pc-tZ7"/>
                     </constraints>
                 </view>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_Make it easy for buyers to find" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="022-j2-vny">
-                    <rect key="frame" x="0.0" y="84" width="375" height="16"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_Make it easy for buyers to find" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="022-j2-vny">
+                    <rect key="frame" x="0.0" y="104" width="375" height="16"/>
                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hud-D7-m7e" userLabel="priceDescContainer">
-                    <rect key="frame" x="0.0" y="120" width="375" height="171"/>
+                    <rect key="frame" x="0.0" y="140" width="375" height="151"/>
                     <subviews>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="edit_cell_top" translatesAutoresizingMaskIntoConstraints="NO" id="rki-iC-eTo" userLabel="priceBackground">
                             <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
@@ -83,23 +83,23 @@
                             <state key="normal" title="$"/>
                         </button>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="edit_cell_bottom" translatesAutoresizingMaskIntoConstraints="NO" id="77g-bw-mUN" userLabel="descBackground">
-                            <rect key="frame" x="0.0" y="51" width="375" height="120"/>
+                            <rect key="frame" x="0.0" y="51" width="375" height="100"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="120" id="Z6I-ir-JA7"/>
+                                <constraint firstAttribute="height" constant="100" id="Z6I-ir-JA7"/>
                             </constraints>
                         </imageView>
                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="ePx-Aa-Uzk" customClass="KMPlaceholderTextView" customModule="KMPlaceholderTextView">
-                            <rect key="frame" x="10" y="61" width="355" height="100"/>
+                            <rect key="frame" x="10" y="61" width="355" height="80"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             <connections>
                                 <outlet property="delegate" destination="-1" id="gMf-dd-Zch"/>
                             </connections>
                         </textView>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_1400" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ox6-lS-Iqh">
-                            <rect key="frame" x="332" y="147" width="35" height="16"/>
+                            <rect key="frame" x="332" y="127" width="35" height="16"/>
                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="highlightedColor"/>
@@ -130,7 +130,7 @@
                         <constraint firstItem="12h-Vz-HIe" firstAttribute="leading" secondItem="p03-ze-omE" secondAttribute="trailing" constant="15" id="xC5-Vx-tZA"/>
                     </constraints>
                 </view>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_Products with description sell faster" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zk3-mU-pVk">
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_Products with description sell faster" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zk3-mU-pVk">
                     <rect key="frame" x="0.0" y="301" width="375" height="16"/>
                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
@@ -147,7 +147,7 @@
                     </state>
                 </button>
             </subviews>
-            <color key="backgroundColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
+            <color key="backgroundColor" red="0.1215686275" green="0.12941176469999999" blue="0.14117647059999999" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
                 <constraint firstItem="hud-D7-m7e" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="Bhl-tX-XPu"/>
                 <constraint firstItem="Zk3-mU-pVk" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="Ea0-r8-VRJ"/>

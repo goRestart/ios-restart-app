@@ -31,11 +31,7 @@ class TabBarViewModel: BaseViewModel {
     func sellButtonPressed() {
         navigator?.openSell(.SellButton)
     }
-
-    func sellFromBannerCell(designType: String) {
-        navigator?.openSell(.BannerCell(designType: designType))
-    }
-
+    
     func userRating(source: RateUserSource, data: RateUserData) {
         navigator?.openUserRating(source, data: data)
     }

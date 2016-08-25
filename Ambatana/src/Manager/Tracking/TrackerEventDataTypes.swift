@@ -205,7 +205,6 @@ public enum EventParameterName: String {
     case UserAction           = "user-action"
     case AppRatingSource      = "app-rating-source"
     case MessageType          = "message-type"
-    case DesignType           = "design-type"
     case RatingStars          = "rating-stars"
     case RatingComments       = "rating-comments"
     case SellerUserRating     = "seller-user-rating"

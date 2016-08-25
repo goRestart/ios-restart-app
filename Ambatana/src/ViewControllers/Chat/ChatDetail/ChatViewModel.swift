@@ -146,6 +146,7 @@ class ChatViewModel: BaseViewModel {
     private let chatViewMessageAdapter: ChatViewMessageAdapter
     private let tracker: Tracker
     private let configManager: ConfigManager
+    private let sessionManager: SessionManager
     
     private var isDeleted = false
     private var shouldAskProductSold: Bool = false
@@ -183,11 +184,12 @@ class ChatViewModel: BaseViewModel {
         let tracker = TrackerProxy.sharedInstance
         let stickersRepository = Core.stickersRepository
         let configManager = ConfigManager.sharedInstance
+        let sessionManager = Core.sessionManager
 
         self.init(conversation: conversation, myUserRepository: myUserRepository, chatRepository: chatRepository,
                   productRepository: productRepository, userRepository: userRepository,
                   stickersRepository: stickersRepository, tracker: tracker, configManager: configManager,
-                  tabNavigator: tabNavigator)
+                  sessionManager: sessionManager, tabNavigator: tabNavigator)
     }
     
     convenience init?(product: Product, tabNavigator: TabNavigator?) {
@@ -200,6 +202,7 @@ class ChatViewModel: BaseViewModel {
         let stickersRepository = Core.stickersRepository
         let tracker = TrackerProxy.sharedInstance
         let configManager = ConfigManager.sharedInstance
+        let sessionManager = Core.sessionManager
 
         let amISelling = myUserRepository.myUser?.objectId == sellerId
         let empty = EmptyConversation(objectId: nil, unreadMessageCount: 0, lastMessageSentAt: nil, product: nil,
@@ -207,13 +210,13 @@ class ChatViewModel: BaseViewModel {
         self.init(conversation: empty, myUserRepository: myUserRepository, chatRepository: chatRepository,
                   productRepository: productRepository, userRepository: userRepository,
                   stickersRepository: stickersRepository ,tracker: tracker, configManager: configManager,
-                  tabNavigator: tabNavigator)
+                  sessionManager: sessionManager, tabNavigator: tabNavigator)
         self.setupConversationFromProduct(product)
     }
     
     init(conversation: ChatConversation, myUserRepository: MyUserRepository, chatRepository: ChatRepository,
           productRepository: ProductRepository, userRepository: UserRepository, stickersRepository: StickersRepository,
-          tracker: Tracker, configManager: ConfigManager, tabNavigator: TabNavigator?) {
+          tracker: Tracker, configManager: ConfigManager, sessionManager: SessionManager, tabNavigator: TabNavigator?) {
         self.conversation = Variable<ChatConversation>(conversation)
         self.myUserRepository = myUserRepository
         self.chatRepository = chatRepository
@@ -221,6 +224,7 @@ class ChatViewModel: BaseViewModel {
         self.userRepository = userRepository
         self.tracker = tracker
         self.configManager = configManager
+        self.sessionManager = sessionManager
         self.stickersRepository = stickersRepository
         self.chatViewMessageAdapter = ChatViewMessageAdapter()
         self.tabNavigator = tabNavigator
@@ -244,6 +248,7 @@ class ChatViewModel: BaseViewModel {
     }
 
     func wentBack() {
+        guard sessionManager.loggedIn else { return }
         guard isBuyer else { return }
         guard !relatedProducts.isEmpty else { return }
         guard let productId = conversation.value.product?.objectId else { return }
@@ -509,15 +514,16 @@ extension ChatViewModel {
         guard message.characters.count > 0 else { return }
         guard let convId = conversation.value.objectId else { return }
         guard let userId = myUserRepository.myUser?.objectId else { return }
-
+        
         if !isQuickAnswer && type != .Sticker {
             delegate?.vmClearText()
         }
 
         let newMessage = chatRepository.createNewMessage(userId, text: text, type: type)
         let viewMessage = chatViewMessageAdapter.adapt(newMessage).markAsSent()
+        guard let messageId = newMessage.objectId else { return }
         messages.insert(viewMessage, atIndex: 0)
-        chatRepository.sendMessage(convId, messageId: newMessage.objectId!, type: newMessage.type, text: text) {
+        chatRepository.sendMessage(convId, messageId: messageId, type: newMessage.type, text: text) {
             [weak self] result in
             if let _ = result.value {
                 guard let id = newMessage.objectId else { return }
@@ -1036,9 +1042,9 @@ private extension ChatConversation {
 
     var relatedProductsEnabled: Bool {
         switch chatStatus {
-        case .Forbidden,  .UserPendingDelete, .UserDeleted, .ProductDeleted:
+        case .Forbidden,  .UserPendingDelete, .UserDeleted, .ProductDeleted, .ProductSold:
             return true
-        case .Available, .Blocked, .BlockedBy, .ProductSold:
+        case .Available, .Blocked, .BlockedBy:
             return false
         }
     }
