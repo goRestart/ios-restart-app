@@ -25,6 +25,7 @@ protocol LGViewPagerDataSource: class {
     func viewPager(viewPager: LGViewPager, showInfoBadgeAtIndex index: Int) -> Bool
     func viewPager(viewPager: LGViewPager, titleForSelectedTabAtIndex index: Int) -> NSAttributedString
     func viewPager(viewPager: LGViewPager, titleForUnselectedTabAtIndex index: Int) -> NSAttributedString
+    func viewPager(viewPager: LGViewPager, accessibilityIdentifierAtIndex index: Int) -> AccessibilityId?
 }
 
 struct LGViewPagerConfig {
@@ -427,6 +428,7 @@ class LGViewPager: UIView, UIScrollViewDelegate {
 
             let tab = buildTabMenuItem(selectedTitle, unselectedTitle: unselectedTitle)
             tab.showInfoBadge = dataSource.viewPager(self, showInfoBadgeAtIndex: index)
+            tab.accessibilityId = dataSource.viewPager(self, accessibilityIdentifierAtIndex: index)
             tabMenuItems.append(tab)
             if index == 0 {
                 tab.selected = true

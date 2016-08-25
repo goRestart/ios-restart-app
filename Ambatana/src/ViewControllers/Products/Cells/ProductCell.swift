@@ -148,4 +148,16 @@ class ProductCell: UICollectionViewCell, ReusableCell {
         indexPath = nil
         delegate = nil
     }
+
+    private func setAccessibilityIds() {
+        self.accessibilityId = .ProductCell
+        priceLabel.accessibilityId = .ProductCellPriceLabel
+        thumbnailImageView.accessibilityId = .ProductCellThumbnailImageView
+        likeButton.accessibilityId = .ProductCellLikeButton
+        shareButton.accessibilityId = .ProductCellShareButton
+        chatButton.accessibilityId = .ProductCellChatButton
+        stripeImageView.accessibilityId = .ProductCellStripeImageView
+        stripeLabel.accessibilityId = .ProductCellStripeLabel
+        stripeIcon.accessibilityId = .ProductCellStripeIcon
+    }
 }

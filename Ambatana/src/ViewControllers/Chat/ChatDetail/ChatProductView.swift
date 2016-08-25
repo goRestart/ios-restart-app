@@ -42,6 +42,7 @@ class ChatProductView: UIView {
     static func chatProductView() -> ChatProductView {
         let view = NSBundle.mainBundle().loadNibNamed("ChatProductView", owner: self, options: nil).first as? ChatProductView
         view?.setupUI()
+        view?.setAccessibilityIds()
         return view!
     }
     
@@ -166,5 +167,17 @@ extension ChatProductView {
         } else {
             return nil
         }
+    }
+}
+
+extension ChatProductView {
+    func setAccessibilityIds() {
+        userName.accessibilityId = .ChatProductViewUserNameLabel
+        userAvatar.accessibilityId = .ChatProductViewUserAvatar
+        productName.accessibilityId = .ChatProductViewProductNameLabel
+        productPrice.accessibilityId = .ChatProductViewProductPriceLabel
+        productButton.accessibilityId = .ChatProductViewProductButton
+        userButton.accessibilityId = .ChatProductViewUserButton
+        reviewButton.accessibilityId = .ChatProductViewReviewButton
     }
 }

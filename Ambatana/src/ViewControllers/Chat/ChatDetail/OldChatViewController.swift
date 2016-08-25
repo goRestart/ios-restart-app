@@ -758,3 +758,15 @@ extension OldChatViewController {
         }.addDisposableTo(disposeBag)
     }
 }
+
+extension OldChatViewController {
+    func setAccessibilityIds() {
+        tableView.accessibilityId = .ChatViewTableView
+        navigationItem.rightBarButtonItem?.accessibilityId = .ChatViewMoreOptionsButton
+        navigationItem.backBarButtonItem?.accessibilityId = .ChatViewBackButton
+        textInputbar.leftButton.accessibilityId = .ChatViewStickersButton
+        textInputbar.rightButton.accessibilityId = .ChatViewSendButton
+        textInputbar.accessibilityId = .ChatViewTextInputBar
+        stickersCloseButton.accessibilityId = .ChatViewCloseStickersButton
+    }
+}

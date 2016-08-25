@@ -228,7 +228,7 @@ extension UserViewModel {
         let icon = UIImage(named: "navbar_settings")?.imageWithRenderingMode(.AlwaysOriginal)
         return UIAction(interface: .Image(icon), action: { [weak self] in
             self?.openSettings()
-        })
+        }, accessibilityId: .UserNavBarSettingsButton)
     }
 
     private func buildMoreNavBarAction() -> UIAction {
@@ -246,7 +246,7 @@ extension UserViewModel {
             }
 
             strongSelf.delegate?.vmShowUserActionSheet(LGLocalizedString.commonCancel, actions: actions)
-        })
+        }, accessibilityId: .UserNavBarMoreButton)
     }
 
     private func buildReportButton() -> UIAction {
@@ -309,15 +309,16 @@ extension UserViewModel {
     private func openPushPermissionsAlert() {
         trackPushPermissionStart()
         let positive = UIAction(interface: .Button(LGLocalizedString.profilePermissionsAlertOk, .Default),
-                        action: { [weak self] in
-                            self?.trackPushPermissionComplete()
-                            PushPermissionsManager.sharedInstance.showPushPermissionsAlert(prePermissionType: .Profile)
-                        })
-
-        let negative = UIAction(interface: .Button(LGLocalizedString.profilePermissionsAlertCancel,
-            .Cancel), action: { [weak self] in
-                self?.trackPushPermissionCancel()
-        })
+                                action: { [weak self] in
+                                    self?.trackPushPermissionComplete()
+                                    PushPermissionsManager.sharedInstance.showPushPermissionsAlert(prePermissionType: .Profile)
+                                },
+                                accessibilityId: .UserPushPermissionOK)
+        let negative = UIAction(interface: .Button(LGLocalizedString.profilePermissionsAlertCancel, .Cancel),
+                                action: { [weak self] in
+                                    self?.trackPushPermissionCancel()
+                                },
+                                accessibilityId: .UserPushPermissionCancel)
         delegate?.vmShowAlertWithTitle(LGLocalizedString.profilePermissionsAlertTitle,
                                        text: LGLocalizedString.profilePermissionsAlertMessage,
                                        alertType: .IconAlert(icon: UIImage(named: "custom_permission_profile")),
