@@ -598,7 +598,7 @@ extension ProductViewModel {
             self?.ifLoggedInRunActionElseOpenMainSignUp({ [weak self] in
                 self?.switchFavoriteAction()
                 }, source: .Favourite)
-            })
+            }, accessibilityId: .ProductCarouselNavBarFavoriteButton)
     }
 
     private func buildEditNavBarAction() -> UIAction {
@@ -610,7 +610,7 @@ extension ProductViewModel {
                 self?.product.value = product
             }
             strongSelf.delegate?.vmOpenEditProduct(editProductVM)
-        })
+        }, accessibilityId: .ProductCarouselNavBarEditButton)
     }
 
     private func buildShareAction() -> UIAction {
@@ -619,12 +619,13 @@ extension ProductViewModel {
         return UIAction(interface: .TextImage(text, icon), action: { [weak self] in
             guard let strongSelf = self, socialMessage = strongSelf.socialMessage.value else { return }
             strongSelf.delegate?.vmShowNativeShare(socialMessage)
-            })
+            }, accessibilityId: .ProductCarouselNavBarShareButton)
     }
 
     private func buildMoreNavBarAction() -> UIAction {
         let icon = UIImage(named: "navbar_more")?.imageWithRenderingMode(.AlwaysOriginal)
-        return UIAction(interface: .Image(icon), action: { [weak self] in self?.showOptionsMenu() })
+        return UIAction(interface: .Image(icon), action: { [weak self] in self?.showOptionsMenu() },
+                        accessibilityId: .ProductCarouselNavBarActionsButton)
     }
 
     private func showOptionsMenu() {

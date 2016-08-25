@@ -17,7 +17,136 @@ enum AccessibilityId: String {
     case EraseMe
 
     /** ABIOS-1554 */
-    // ...
+
+    // Tab Bar
+    case TabBarFirstTab
+    case TabBarSecondTab
+    case TabBarThirdTab
+    case TabBarFourthTab
+    case TabBarFifthTab
+    case TabBarFloatingSellButton
+
+    // Main Products List
+    case MainProductsNavBarSearch
+    case MainProductsFilterButton
+    case MainProductsListView
+    case MainProductsTagsCollection
+    case MainProductsInfoBubbleLabel
+    case MainProductsTrendingSearchesTable
+
+    // Product List View
+    case ProductListViewFirstLoadView
+    case ProductListViewFirstLoadActivityIndicator
+    case ProductListViewCollection
+    case ProductListViewErrorView
+    case ProductListErrorImageView
+    case ProductListErrorTitleLabel
+    case ProductListErrorBodyLabel
+    case ProductListErrorButton
+
+    // Product Cell
+    case ProductCell
+    case ProductCellPriceLabel
+    case ProductCellThumbnailImageView
+    case ProductCellLikeButton
+    case ProductCellShareButton
+    case ProductCellChatButton
+    case ProductCellStripeImageView
+    case ProductCellStripeLabel
+    case ProductCellStripeIcon
+
+    // Collection & Banner Cells
+    case CollectionCell
+    case CollectionCellImageView
+    case CollectionCellTitle
+    case CollectionCellExploreButton
+
+    case BannerCell
+    case BannerCellImageView
+    case BannerCellTitle
+
+    // Filter Tags VC
+    case FilterTagsCollectionView
+    case FilterTagCell
+    case FilterTagCellTagIcon
+    case FilterTagCellTagLabel
+
+    // TrendingSearchCell
+    case TrendingSearchCell
+    case TrendingSearchCellTrendingText
+
+    // Categories
+    case CategoriesCollectionView
+    case CategoryCell
+    case CategoryCellTitleLabel
+    case CategoryCellImageView
+
+    // Filters
+    case FiltersCollectionView
+    case FiltersSaveFiltersButton
+    case FiltersCancelButton
+    case FiltersResetButton
+
+    // Filters Cells
+    case FilterCategoryCell
+    case FilterCategoryCellIcon
+    case FilterCategoryCellTitleLabel
+
+    case FilterSingleCheckCell
+    case FilterSingleCheckCellTickIcon
+    case FilterSingleCheckCellTitleLabel
+
+    case FilterDistanceCell
+    case FilterDistanceSlider
+    case FilterDistanceTip
+    case FilterDistanceLabel
+
+    case FilterHeaderCell
+    case FilterHeaderCellTitleLabel
+
+    case FilterLocationCell
+    case FilterLocationCellTitleLabel
+    case FilterLocationCellLocationLabel
+
+    // Product Detail
+    case ProductDetailOnboarding
+
+    case ProductCarouselCollectionView
+    case ProductCarouselButtonBottom
+    case ProductCarouselButtonTop
+    case ProductCarouselFavoriteButton
+    case ProductCarouselMoreInfoView
+    case ProductCarouselProductTitleLabel
+    case ProductCarouselProductPriceLabel
+    case ProductCarouselProductStatusLabel
+    case ProductCarouselDirectChatTable
+    case ProductCarouselStickersButton
+    case ProductCarouselFullScreenAvatarView
+    case ProductCarouselPageControl
+    case ProductCarouselCommercialButton
+
+    case ProductCarouselCell
+    case ProductCarouselCellCollectionView
+    case ProductCarouselCellPlaceholderImage
+    case ProductCarouselImageCell
+    case ProductCarouselImageCellImageView
+
+    case ProductCarouselNavBarEditButton
+    case ProductCarouselNavBarShareButton
+    case ProductCarouselNavBarActionsButton
+    case ProductCarouselNavBarFavoriteButton
+
+    // more info
+    case ProductCarouselMoreInfoScrollView
+    case ProductCarouselMoreInfoCloseButton
+    case ProductCarouselMoreInfoTitleLabel
+    case ProductCarouselMoreInfoTransTitleLabel
+    case ProductCarouselMoreInfoAddressLabel
+    case ProductCarouselMoreInfoDistanceLabel
+    case ProductCarouselMoreInfoMapView
+    case ProductCarouselMoreInfoSocialShareTitleLabel
+    case ProductCarouselMoreInfoSocialShareView
+    case ProductCarouselMoreInfoDescriptionLabel
 
     /** ABIOS-1555 */
     // ...
