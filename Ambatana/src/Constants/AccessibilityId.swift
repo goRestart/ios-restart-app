@@ -14,10 +14,6 @@
     case SignUpLoginEmailButton
  */
 enum AccessibilityId: String {
-    case EraseMe
-
-    /** ABIOS-1554 */
-
     // Tab Bar
     case TabBarFirstTab
     case TabBarSecondTab
@@ -111,6 +107,7 @@ enum AccessibilityId: String {
     // Product Detail
     case ProductDetailOnboarding
 
+    // Product Carousel
     case ProductCarouselCollectionView
     case ProductCarouselButtonBottom
     case ProductCarouselButtonTop
@@ -125,18 +122,11 @@ enum AccessibilityId: String {
     case ProductCarouselPageControl
     case ProductCarouselCommercialButton
 
-    case ProductCarouselCell
-    case ProductCarouselCellCollectionView
-    case ProductCarouselCellPlaceholderImage
-    case ProductCarouselImageCell
-    case ProductCarouselImageCellImageView
-
     case ProductCarouselNavBarEditButton
     case ProductCarouselNavBarShareButton
     case ProductCarouselNavBarActionsButton
     case ProductCarouselNavBarFavoriteButton
 
-    // more info
     case ProductCarouselMoreInfoScrollView
     case ProductCarouselMoreInfoCloseButton
     case ProductCarouselMoreInfoTitleLabel
@@ -148,8 +138,14 @@ enum AccessibilityId: String {
     case ProductCarouselMoreInfoSocialShareView
     case ProductCarouselMoreInfoDescriptionLabel
 
-    /** ABIOS-1555 */
-    // ...
+    // Product Carousel Cell
+    case ProductCarouselCell
+    case ProductCarouselCellCollectionView
+    case ProductCarouselCellPlaceholderImage
+    case ProductCarouselImageCell
+    case ProductCarouselImageCellImageView
+
+    // Notifications
     case NotificationsRefresh
     case NotificationsTable
     case NotificationsLoading
@@ -157,6 +153,7 @@ enum AccessibilityId: String {
     case NotificationsCellPrimaryImage
     case NotificationsCellSecondaryImage
 
+    // Posting
     case PostingCameraImagePreview
     case PostingCameraSwitchCamButton
     case PostingCameraUsePhotoButton
@@ -190,6 +187,7 @@ enum AccessibilityId: String {
     case PostingInfoMainButton
     case PostingInfoIncentiveContainer
 
+    // EditProduct
     case EditProductCloseButton
     case EditProductScroll
     case EditProductTitleField
@@ -204,10 +202,12 @@ enum AccessibilityId: String {
     case EditProductShareFBSwitch
     case EditProductLoadingView
 
+    // ReportUser
     case ReportUserCollection
     case ReportUserCommentField
     case ReportUserSendButton
 
+    // RateUser
     case RateUserUserNameLabel
     case RateUserStarButton1
     case RateUserStarButton2
@@ -217,12 +217,15 @@ enum AccessibilityId: String {
     case RateUserDescriptionField
     case RateUserLoading
     case RateUserPublishButton
+
+    // RatingList
     case RatingListTable
     case RatingListLoading
     case RatingListCellUserName
     case RatingListCellReport
     case RatingListCellReview
 
+    // AppRating
     case AppRatingStarButton1
     case AppRatingStarButton2
     case AppRatingStarButton3
@@ -232,9 +235,15 @@ enum AccessibilityId: String {
     case AppRatingDismissButton
     case AppRatingBannerCloseButton
     case AppRatingBannerRateButton
+
+    // SafetyTips
     case SafetyTipsOkButton
+
+    // EmptyView
     case EmptyViewPrimaryButton
     case EmptyViewSecondaryButton
+
+    // SocialShare
     case SocialShareFacebook
     case SocialShareFBMessenger
     case SocialShareEmail
@@ -244,8 +253,7 @@ enum AccessibilityId: String {
     case SocialShareCopyLink
     case SocialShareSMS
 
-
-    /** ABIOS-1556 */
+    // MainSignUp
     case MainSignUpFacebookButton
     case MainSignUpGoogleButton
     case MainSignUpSignupButton
@@ -253,6 +261,7 @@ enum AccessibilityId: String {
     case MainSignupCloseButton
     case MainSignupHelpButton
 
+    // SignUpLogin
     case SignUpLoginFacebookButton
     case SignUpLoginGoogleButton
     case SignUpLoginEmailButton
@@ -267,20 +276,23 @@ enum AccessibilityId: String {
     case SignUpLoginHelpButton
     case SignUpLoginCloseButton
     case SignUpLoginSendButton
-    
+
+    // ChatGrouped
+    case ChatGroupedViewRightNavBarButton
+
+    // ChatList
     case ChatListViewTabAll
     case ChatListViewTabSelling
     case ChatListViewTabBuying
     case ChatListViewTabBlockedUsers
-    
-    case ChatGroupedViewRightNavBarButton
-    
+
     case ChatListViewFooterButton
     case ChatListViewTabAllTableView
     case ChatListViewTabSellingTableView
     case ChatListViewTabBuyingTableView
     case ChatListViewTabBlockedUsersTableView
 
+    // ConversationCell
     case ConversationCellUserLabel
     case ConversationCellProductLabel
     case ConversationCellTimeLabel
@@ -289,11 +301,13 @@ enum AccessibilityId: String {
     case ConversationCellAvatarImageView
     case ConversationCellStatusImageView
 
+    // BlockedUserCell
     case BlockedUserCellAvatarImageView
     case BlockedUserCellUserNameLabel
     case BlockedUserCellBlockedLabel
     case BlockedUserCellBlockedIcon
-    
+
+    // ChatProductView
     case ChatProductViewUserAvatar
     case ChatProductViewUserNameLabel
     case ChatProductViewProductNameLabel
@@ -301,7 +315,8 @@ enum AccessibilityId: String {
     case ChatProductViewProductButton
     case ChatProductViewUserButton
     case ChatProductViewReviewButton
-    
+
+    // Chat
     case ChatViewTableView
     case ChatViewMoreOptionsButton
     case ChatViewBackButton
@@ -309,21 +324,26 @@ enum AccessibilityId: String {
     case ChatViewSendButton
     case ChatViewCloseStickersButton
     case ChatViewTextInputBar
-    
+
+    // DirectAnswers
     case DirectAnswersPresenterCollectionView
-    
+
+    // ChatCell
     case ChatCellMessageLabel
     case ChatCellDateLabel
-    
+
+    // ChatStickerCell
     case ChatStickerCellLeftImage
     case ChatStickerCellRightImage
-    
+
+    // ChatDisclaimerCell
     case ChatDisclaimerCellMessageLabel
     case ChatDisclaimerCellButton
-    
+
+    // ChatOtherInfoCell
     case ChatOtherInfoCellNameLabel
     case ChatOtherInfoCell
-    /** ABIOS-1557 */
+
     // TourLogin
     case TourLoginCloseButton
     case TourLoginSignUpButton
