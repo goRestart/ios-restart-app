@@ -146,9 +146,9 @@ extension UIViewController {
         return tabController.tabBar.frame.size.height
     }
     
-    private var toastViewBottomMarginShown: CGFloat {
+    private var toastViewBottomMarginVisible: CGFloat {
         guard let toastView = toastView else { return 0 }
-        let toastViewHeight = toastView.height > 33 ? toastView.height : 33  //Standard height of toastview
+        let toastViewHeight = toastView.height > ToastView.standardHeight ? toastView.height : ToastView.standardHeight
         // In case there's no navigation bar, we should add a margin (tipically a standard navbar height) to avoid showing the toast above close button
         guard let _ = navigationController?.navigationBar else { return (44 + toastViewHeight) }
         return (toastViewHeight)
@@ -167,7 +167,7 @@ extension UIViewController {
     func setToastViewHidden(hidden: Bool) {
         guard let toastView = toastView else { return }
         view.bringSubviewToFront(toastView)
-        toastViewBottomMarginConstraint?.constant = hidden ? toastViewBottomMarginHidden : toastViewBottomMarginShown
+        toastViewBottomMarginConstraint?.constant = hidden ? toastViewBottomMarginHidden : toastViewBottomMarginVisible
         UIView.animateWithDuration(0.35) {
             toastView.alpha = hidden ? 0 : 1
             toastView.layoutIfNeeded()
@@ -183,7 +183,7 @@ extension UIViewController {
         
         toastViewBottomMarginConstraint = NSLayoutConstraint(item: toastView, attribute: .Bottom, relatedBy: .Equal,
             toItem: topLayoutGuide, attribute: .Bottom, multiplier: 1, constant: toastViewBottomMarginHidden)
-        if let bottomConstriant = toastViewBottomMarginConstraint { view.addConstraint(bottomConstriant) }
+        if let bottomConstraint = toastViewBottomMarginConstraint { view.addConstraint(bottomConstraint) }
         
         let views = ["toastView": toastView]
         view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[toastView]|", options: [], metrics: nil, views: views))
