@@ -940,5 +940,8 @@ extension ProductCarouselViewController {
         productStatusLabel.accessibilityId = .ProductCarouselProductStatusLabel
         directChatTable.accessibilityId = .ProductCarouselDirectChatTable
         stickersButton.accessibilityId = .ProductCarouselStickersButton
+        fullScreenAvatarView.accessibilityId = .ProductCarouselFullScreenAvatarView
+        pageControl.accessibilityId = .ProductCarouselPageControl
+        commercialButton.accessibilityId = .ProductCarouselCommercialButton
     }
 }

@@ -37,7 +37,6 @@ final class TabBarController: UITabBarController {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
         self.viewModel.delegate = self
-        setupAccessibilityIds()
     }
 
     required init?(coder aDecoder: NSCoder) {

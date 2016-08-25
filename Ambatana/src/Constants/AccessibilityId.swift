@@ -76,7 +76,6 @@ enum AccessibilityId: String {
     case TrendingSearchCellTrendingText
 
     // Categories
-    case CategoriesActivityIndicator
     case CategoriesCollectionView
     case CategoryCell
     case CategoryCellTitleLabel
@@ -122,6 +121,9 @@ enum AccessibilityId: String {
     case ProductCarouselProductStatusLabel
     case ProductCarouselDirectChatTable
     case ProductCarouselStickersButton
+    case ProductCarouselFullScreenAvatarView
+    case ProductCarouselPageControl
+    case ProductCarouselCommercialButton
 
     case ProductCarouselCell
     case ProductCarouselCellCollectionView

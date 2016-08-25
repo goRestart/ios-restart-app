@@ -14,8 +14,7 @@ class CategoriesViewController: BaseViewController, CategoriesViewModelDelegate,
 
     // outlets & buttons
     @IBOutlet weak var collectionView: UICollectionView!
-    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
-    
+
     // data
     private var cellSize: CGSize = CGSize(width: 160.0, height: 150.0)
     private var lastContentOffset: CGFloat = 0.0
@@ -41,7 +40,6 @@ class CategoriesViewController: BaseViewController, CategoriesViewModelDelegate,
         hidesBottomBarWhenPushed = false
         floatingSellButtonHidden = false
         hasTabBar = true
-        setupAccessibilityIds()
     }
     
     required init?(coder: NSCoder) {
@@ -66,7 +64,7 @@ class CategoriesViewController: BaseViewController, CategoriesViewModelDelegate,
         cellSize = CGSizeMake(cellWidth, cellHeight)
         
         viewModel.retrieveCategories()
-        
+        setupAccessibilityIds()
     }
 
 
@@ -123,6 +121,5 @@ class CategoriesViewController: BaseViewController, CategoriesViewModelDelegate,
 
     private func setupAccessibilityIds() {
         collectionView.accessibilityId = .CategoriesCollectionView
-        activityIndicator.accessibilityId = .CategoriesActivityIndicator
     }
 }

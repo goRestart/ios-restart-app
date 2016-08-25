@@ -62,7 +62,6 @@ UICollectionViewDataSource, UICollectionViewDelegate {
         super.init(viewModel: viewModel, nibName: nibNameOrNil)
         self.viewModel = viewModel
         self.viewModel.delegate = self
-        setupAccessibilityIds()
     }
     
     required init?(coder: NSCoder) {
@@ -73,6 +72,7 @@ UICollectionViewDataSource, UICollectionViewDelegate {
         super.viewDidLoad()
         
         setupUi()
+        setupAccessibilityIds()
         
         // Get categories
         viewModel.retrieveCategories()
