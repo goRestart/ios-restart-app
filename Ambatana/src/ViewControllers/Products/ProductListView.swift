@@ -159,7 +159,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         
         viewModel.delegate = self
         setupUI()
-        setupAccessibilityIds()
+        setAccessibilityIds()
     }
     
     init?(viewModel: ProductListViewModel, coder aDecoder: NSCoder) {
@@ -175,7 +175,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         
         viewModel.delegate = self
         setupUI()
-        setupAccessibilityIds()
+        setAccessibilityIds()
     }
     
     required convenience init?(coder aDecoder: NSCoder) {
@@ -589,7 +589,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
 // UI Testing + accessibility
 
 extension ProductListView {
-    func setupAccessibilityIds() {
+    func setAccessibilityIds() {
         firstLoadView.accessibilityId = .ProductListViewFirstLoadView
         firstLoadActivityIndicator.accessibilityId = .ProductListViewFirstLoadActivityIndicator
         collectionView.accessibilityId = .ProductListViewCollection

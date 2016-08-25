@@ -64,7 +64,7 @@ class CategoriesViewController: BaseViewController, CategoriesViewModelDelegate,
         cellSize = CGSizeMake(cellWidth, cellHeight)
         
         viewModel.retrieveCategories()
-        setupAccessibilityIds()
+        setAccessibilityIds()
     }
 
 
@@ -119,7 +119,7 @@ class CategoriesViewController: BaseViewController, CategoriesViewModelDelegate,
         self.navigationController?.pushViewController(categoriesVC, animated: true)
     }
 
-    private func setupAccessibilityIds() {
+    private func setAccessibilityIds() {
         collectionView.accessibilityId = .CategoriesCollectionView
     }
 }

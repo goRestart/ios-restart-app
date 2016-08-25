@@ -143,7 +143,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         setupNavigationBar()
         setupGradientView()
         setupCollectionRx()
-        setupAccessibilityIds()
+        setAccessibilityIds()
     }
 
     func addSubviews() {
@@ -929,7 +929,7 @@ extension ProductCarouselViewController: StickersSelectorDelegate {
 // MARK: - Accessibility ids
 
 extension ProductCarouselViewController {
-    private func setupAccessibilityIds() {
+    private func setAccessibilityIds() {
         collectionView.accessibilityId = .ProductCarouselCollectionView
         buttonBottom.accessibilityId = .ProductCarouselButtonBottom
         buttonTop.accessibilityId = .ProductCarouselButtonTop

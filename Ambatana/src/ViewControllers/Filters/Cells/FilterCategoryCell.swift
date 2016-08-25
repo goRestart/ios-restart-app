@@ -22,7 +22,7 @@ class FilterCategoryCell: UICollectionViewCell {
         super.awakeFromNib()
         self.setupUI()
         self.resetUI()
-        setupAccessibilityIds()
+        setAccessibilityIds()
     }
     
     override func prepareForReuse() {
@@ -44,7 +44,7 @@ class FilterCategoryCell: UICollectionViewCell {
         rightSeparator.hidden = true
     }
 
-    private func setupAccessibilityIds() {
+    private func setAccessibilityIds() {
         self.accessibilityId = .FilterCategoryCell
         categoryIcon.accessibilityId = .FiltersCollectionView
         titleLabel.accessibilityId = .FiltersSaveFiltersButton

@@ -90,7 +90,7 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
         setFiltersNavbarButton()
 
         setupRxBindings()
-        setupAccessIbilityIds()
+        setAccessibilityIds()
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -493,7 +493,7 @@ extension MainProductsViewController: UITableViewDelegate, UITableViewDataSource
 
 
 extension MainProductsViewController {
-    func setupAccessIbilityIds() {
+    func setAccessibilityIds() {
         navigationItem.rightBarButtonItem?.accessibilityId = .MainProductsFilterButton
         productListView.accessibilityId = .MainProductsListView
         tagsCollectionView.accessibilityId = .MainProductsTagsCollection

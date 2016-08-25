@@ -63,7 +63,7 @@ class ProductCarouselMoreInfoViewController: BaseViewController {
         setupContent()
         addGestures()
         configureMapView()
-        setupAccessibilityIds()
+        setAccessibilityIds()
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -418,7 +418,7 @@ extension ProductCarouselMoreInfoViewController: SocialShareViewDelegate {
 
 
 extension ProductCarouselMoreInfoViewController {
-    private func setupAccessibilityIds() {
+    private func setAccessibilityIds() {
         scrollView.accessibilityId = .ProductCarouselMoreInfoScrollView
         closeButton.accessibilityId = .ProductCarouselMoreInfoCloseButton
         titleLabel.accessibilityId = .ProductCarouselMoreInfoTitleLabel

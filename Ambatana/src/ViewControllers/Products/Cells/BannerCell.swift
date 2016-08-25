@@ -23,10 +23,10 @@ class BannerCell: UICollectionViewCell, ReusableCell {
         super.awakeFromNib()
         contentView.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
         contentView.clipsToBounds = true
-        setupAccessibilityIds()
+        setAccessibilityIds()
     }
 
-    private func setupAccessibilityIds() {
+    private func setAccessibilityIds() {
         self.accessibilityId = .BannerCell
         imageView.accessibilityId = .BannerCellImageView
         title.accessibilityId = .BannerCellTitle

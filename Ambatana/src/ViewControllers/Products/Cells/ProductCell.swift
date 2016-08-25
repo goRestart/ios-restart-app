@@ -149,7 +149,7 @@ class ProductCell: UICollectionViewCell, ReusableCell {
         delegate = nil
     }
 
-    private func setupAccessibilityIds() {
+    private func setAccessibilityIds() {
         self.accessibilityId = .ProductCell
         priceLabel.accessibilityId = .ProductCellPriceLabel
         thumbnailImageView.accessibilityId = .ProductCellThumbnailImageView

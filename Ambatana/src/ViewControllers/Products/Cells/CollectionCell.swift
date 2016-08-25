@@ -28,10 +28,10 @@ class CollectionCell: UICollectionViewCell, ReusableCell {
         contentView.clipsToBounds = true
         exploreButton.setStyle(.Primary(fontSize: .Small))
         exploreButton.setTitle(LGLocalizedString.collectionExploreButton, forState: .Normal)
-        setupAccessibilityIds()
+        setAccessibilityIds()
     }
 
-    private func setupAccessibilityIds() {
+    private func setAccessibilityIds() {
         self.accessibilityId = .CollectionCell
         imageView.accessibilityId = .CollectionCellImageView
         title.accessibilityId = .CollectionCellTitle

@@ -72,7 +72,7 @@ UICollectionViewDataSource, UICollectionViewDelegate {
         super.viewDidLoad()
         
         setupUi()
-        setupAccessibilityIds()
+        setAccessibilityIds()
         
         // Get categories
         viewModel.retrieveCategories()
@@ -272,7 +272,7 @@ UICollectionViewDataSource, UICollectionViewDelegate {
         saveFiltersBtn.setTitle(LGLocalizedString.filtersSaveButton, forState: UIControlState.Normal)
     }
 
-    private func setupAccessibilityIds() {
+    private func setAccessibilityIds() {
         collectionView.accessibilityId = .FiltersCollectionView
         saveFiltersBtn.accessibilityId = .FiltersSaveFiltersButton
         self.navigationItem.rightBarButtonItem?.accessibilityId = .FiltersResetButton

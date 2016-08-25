@@ -26,7 +26,7 @@ class ProductCarouselImageCell: UICollectionViewCell, UIScrollViewDelegate {
         self.effectsView = UIVisualEffectView(effect: effect)
         super.init(frame: frame)
         setupUI()
-        setupAccessibilityIds()
+        setAccessibilityIds()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -100,7 +100,7 @@ class ProductCarouselImageCell: UICollectionViewCell, UIScrollViewDelegate {
 
 
 extension ProductCarouselImageCell {
-    private func setupAccessibilityIds() {
+    private func setAccessibilityIds() {
         self.accessibilityId = .ProductCarouselImageCell
         imageView.accessibilityId = .ProductCarouselImageCellImageView
     }

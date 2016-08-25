@@ -24,7 +24,7 @@ class FilterTagsViewController : NSObject, UICollectionViewDelegate, UICollectio
         
         //Setup
         setup()
-        setupAccessibilityIds()
+        setAccessibilityIds()
     }
     
     // MARK: - Public methods
@@ -95,7 +95,7 @@ class FilterTagsViewController : NSObject, UICollectionViewDelegate, UICollectio
         }
     }
 
-    private func setupAccessibilityIds() {
+    private func setAccessibilityIds() {
         collectionView.accessibilityId = .FilterTagsCollectionView
     }
 }

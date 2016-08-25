@@ -54,7 +54,7 @@ public class ProductDetailOnboardingView: UIView {
         setupFingersView()
         setupViewsVisibility()
         setupTapRecognizers()
-        setupAccessibilityIds()
+        setAccessibilityIds()
     }
 
 
@@ -98,7 +98,7 @@ public class ProductDetailOnboardingView: UIView {
         scrollToSwipeConstraint.constant = 30
     }
 
-    private func setupAccessibilityIds() {
+    private func setAccessibilityIds() {
         self.accessibilityId = .ProductDetailOnboarding
     }
 }
