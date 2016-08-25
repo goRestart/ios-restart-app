@@ -267,11 +267,14 @@ extension PostProductViewController {
 
         let okItemsAlpha: CGFloat = error != nil ? 0 : 1
         let wrongItemsAlpha: CGFloat = error == nil ? 0 : 1
+        let loadingItemAlpha: CGFloat = error == nil ? PostProductViewController.detailsLoadingOkAlpha : 1
         let finalAlphaBlock = { [weak self] in
             guard let strongSelf = self else { return }
             strongSelf.productDetailView.alpha = okItemsAlpha
             strongSelf.postErrorLabel.alpha = wrongItemsAlpha
             strongSelf.retryButton.alpha = wrongItemsAlpha
+            strongSelf.customLoadingView.alpha = loadingItemAlpha
+            strongSelf.postedInfoLabel.alpha = loadingItemAlpha
             strongSelf.detailsScroll.contentInset.top = PostProductViewController.detailsContentTopInset
         }
         UIView.animateWithDuration(0.2, delay: 0.8, options: UIViewAnimationOptions(),
@@ -287,6 +290,15 @@ extension PostProductViewController {
                 }
             }
         )
+    }
+
+    private static var detailsLoadingOkAlpha: CGFloat {
+        switch FeatureFlags.postingDetailsMode {
+        case .AllInOne:
+            return 0
+        case .Steps, .Old:
+            return 1
+        }
     }
 
     private static var detailsContentTopInset: CGFloat {
