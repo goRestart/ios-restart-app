@@ -63,6 +63,7 @@ class ProductCarouselMoreInfoViewController: BaseViewController {
         setupContent()
         addGestures()
         configureMapView()
+        setupAccessibilityIds()
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -412,5 +413,21 @@ extension ProductCarouselMoreInfoViewController: SocialShareViewDelegate {
     
     func shareInCopyLink() {
         viewModel.shareInCopyLink()
+    }
+}
+
+
+extension ProductCarouselMoreInfoViewController {
+    private func setupAccessibilityIds() {
+        scrollView.accessibilityId = .ProductCarouselMoreInfoScrollView
+        closeButton.accessibilityId = .ProductCarouselMoreInfoCloseButton
+        titleLabel.accessibilityId = .ProductCarouselMoreInfoTitleLabel
+        transTitleLabel.accessibilityId = .ProductCarouselMoreInfoTransTitleLabel
+        addressLabel.accessibilityId = .ProductCarouselMoreInfoAddressLabel
+        distanceLabel.accessibilityId = .ProductCarouselMoreInfoDistanceLabel
+        mapView.accessibilityId = .ProductCarouselMoreInfoMapView
+        socialShareTitleLabel.accessibilityId = .ProductCarouselMoreInfoSocialShareTitleLabel
+        socialShareView.accessibilityId = .ProductCarouselMoreInfoSocialShareView
+        descriptionLabel.accessibilityId = .ProductCarouselMoreInfoDescriptionLabel
     }
 }

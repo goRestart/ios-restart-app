@@ -36,6 +36,7 @@ class ProductCarouselCell: UICollectionViewCell {
         self.collectionView = UICollectionView(frame: frame, collectionViewLayout: layout)
         super.init(frame: frame)
         setupUI()
+        setupAccessibilityIds()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -145,5 +146,14 @@ extension ProductCarouselCell: UICollectionViewDelegate, UICollectionViewDataSou
             currentPage = page
             delegate?.didScrollToPage(page)
         }
+    }
+}
+
+
+extension ProductCarouselCell {
+    private func setupAccessibilityIds() {
+        self.accessibilityId = .ProductCarouselCell
+        collectionView.accessibilityId = .ProductCarouselCellCollectionView
+        placeholderImage?.accessibilityId = .ProductCarouselCellPlaceholderImage
     }
 }

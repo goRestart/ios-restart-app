@@ -109,6 +109,43 @@ enum AccessibilityId: String {
     case FilterLocationCellTitleLabel
     case FilterLocationCellLocationLabel
 
+    // Product Detail
+    case ProductDetailOnboarding
+
+    case ProductCarouselCollectionView
+    case ProductCarouselButtonBottom
+    case ProductCarouselButtonTop
+    case ProductCarouselFavoriteButton
+    case ProductCarouselMoreInfoView
+    case ProductCarouselProductTitleLabel
+    case ProductCarouselProductPriceLabel
+    case ProductCarouselProductStatusLabel
+    case ProductCarouselDirectChatTable
+    case ProductCarouselStickersButton
+
+    case ProductCarouselCell
+    case ProductCarouselCellCollectionView
+    case ProductCarouselCellPlaceholderImage
+    case ProductCarouselImageCell
+    case ProductCarouselImageCellImageView
+
+    case ProductCarouselNavBarEditButton
+    case ProductCarouselNavBarShareButton
+    case ProductCarouselNavBarActionsButton
+    case ProductCarouselNavBarFavoriteButton
+
+    // more info
+    case ProductCarouselMoreInfoScrollView
+    case ProductCarouselMoreInfoCloseButton
+    case ProductCarouselMoreInfoTitleLabel
+    case ProductCarouselMoreInfoTransTitleLabel
+    case ProductCarouselMoreInfoAddressLabel
+    case ProductCarouselMoreInfoDistanceLabel
+    case ProductCarouselMoreInfoMapView
+    case ProductCarouselMoreInfoSocialShareTitleLabel
+    case ProductCarouselMoreInfoSocialShareView
+    case ProductCarouselMoreInfoDescriptionLabel
+
     /** ABIOS-1555 */
     // ...
     case NotificationsRefresh
