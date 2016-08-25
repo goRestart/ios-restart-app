@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -16,6 +17,10 @@
                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="product_placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="3qb-OZ-x8l">
                         <rect key="frame" x="0.0" y="0.0" width="120" height="120"/>
                     </imageView>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ejK-G4-nke">
+                        <rect key="frame" x="0.0" y="60" width="120" height="60"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </view>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_Negotiable" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZgD-Vs-JBi">
                         <rect key="frame" x="8" y="96" width="79" height="16"/>
                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="13"/>
@@ -38,13 +43,18 @@
                 <constraint firstItem="3qb-OZ-x8l" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="5R0-lw-Nh8"/>
                 <constraint firstAttribute="bottom" secondItem="ZgD-Vs-JBi" secondAttribute="bottom" constant="8" id="AX4-sq-3A6"/>
                 <constraint firstItem="DgB-jM-meo" firstAttribute="leading" secondItem="ZgD-Vs-JBi" secondAttribute="trailing" constant="5" id="I3S-nT-W83"/>
+                <constraint firstAttribute="trailing" secondItem="ejK-G4-nke" secondAttribute="trailing" id="ILm-qa-3OA"/>
                 <constraint firstAttribute="trailing" secondItem="DgB-jM-meo" secondAttribute="trailing" constant="8" id="JLt-0G-D6v"/>
+                <constraint firstItem="ejK-G4-nke" firstAttribute="height" secondItem="3qb-OZ-x8l" secondAttribute="height" multiplier="0.5" id="LrG-pm-Mgz"/>
                 <constraint firstItem="3qb-OZ-x8l" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="asf-UO-Bpc"/>
+                <constraint firstItem="ejK-G4-nke" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="dYz-OL-8kW"/>
                 <constraint firstItem="DgB-jM-meo" firstAttribute="baseline" secondItem="ZgD-Vs-JBi" secondAttribute="baseline" constant="1" id="nPN-Qy-9nA"/>
                 <constraint firstItem="ZgD-Vs-JBi" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="8" id="s9p-ph-VxW"/>
                 <constraint firstAttribute="trailing" secondItem="3qb-OZ-x8l" secondAttribute="trailing" id="shq-NX-JJO"/>
+                <constraint firstAttribute="bottom" secondItem="ejK-G4-nke" secondAttribute="bottom" id="zkX-Zx-4MD"/>
             </constraints>
             <connections>
+                <outlet property="gradientView" destination="ejK-G4-nke" id="t8O-vZ-wgO"/>
                 <outlet property="priceLabel" destination="ZgD-Vs-JBi" id="EEy-fU-MbW"/>
                 <outlet property="productImageView" destination="3qb-OZ-x8l" id="zbK-Iu-p9l"/>
                 <outlet property="selectedImageView" destination="DgB-jM-meo" id="zs3-1f-IFS"/>

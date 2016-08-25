@@ -113,7 +113,7 @@ class PostProductDetailStepsView: BaseView {
         descriptionInfo.text = LGLocalizedString.sellDescriptionInformation
         currencyButton.setTitle(viewModel.currencySymbol, forState: .Normal)
 
-        doneButton.setStyle(.Primary(fontSize: .Medium))
+        doneButton.setStyle(.Primary(fontSize: .Big))
         backButton.setTitle(LGLocalizedString.sellBackButton, forState: .Normal)
 
         setupInitialStep()

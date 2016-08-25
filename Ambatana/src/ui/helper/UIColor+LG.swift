@@ -309,17 +309,3 @@ extension UIColor {
         return colors[Int(asciiValue) % colors.count]
     }
 }
-
-
-// MARK: > Product List Banners
-
-extension UIColor {
-    
-    private static let cornflowerBlue = UIColor(rgb: 0x538fd1)
-    
-    static var bannerBlue: UIColor { return cornflower.colorWithAlphaComponent(0.7) }
-    static var bannerYellow: UIColor { return macaroniAndCheese.colorWithAlphaComponent(0.7) }
-    static var bannerRed: UIColor { return primaryColor.colorWithAlphaComponent(0.7) }
-    static var bannerLightBlue: UIColor { return terciaryColor.colorWithAlphaComponent(0.7) }
-    static var bannerBlack: UIColor { return UIColor.blackColor().colorWithAlphaComponent(0.4) }
-}

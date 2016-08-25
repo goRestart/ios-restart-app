@@ -291,8 +291,8 @@
 "product_ask_a_question_button" = "Stelle eine Frage";
 "product_auto_generated_title_label" = "Der Titel wurde von letgo automatisch generiert";
 "product_auto_generated_translated_title_label" = "(und mit Google übersetzt)";
-"product_bubble_one_user_interested" = "Another buyer is interested!";
-"product_bubble_several_users_interested" = "%i other buyers are interested!";
+"product_bubble_one_user_interested" = "Ein weiterer Käufer hat Interesse!";
+"product_bubble_several_users_interested" = "%i andere Käufer haben Interesse!";
 "product_chat_direct_error_blocked_user_message" = "Hoppla! Gespräche mit diesem Nutzer sind blockiert";
 "product_chat_direct_message" = "Hi %@, ich bin interessiert";
 "product_chat_direct_message_sending" = "Abschicken...";

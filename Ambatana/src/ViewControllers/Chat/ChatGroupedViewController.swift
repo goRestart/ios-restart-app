@@ -56,6 +56,9 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
                 guard let pageVM = viewModel.oldChatListViewModelForTabAtIndex(index) else { continue }
                 page = ChatListView(viewModel: pageVM)
             }
+            
+            page.tableView.accessibilityId = viewModel.accessibilityIdentifierForTableViewAtIndex(index)
+            page.footerButton.accessibilityId = .ChatListViewFooterButton
             page.chatGroupedListViewDelegate = self
             page.delegate = self
             pages.append(page)
@@ -70,6 +73,7 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
         setupRxBindings()
     }
 
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -82,6 +86,7 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
         super.viewDidLoad()
         setupUI()
         setupConstraints()
+        setAccessibilityIds()
     }
 
     override func setEditing(editing: Bool, animated: Bool) {
@@ -208,6 +213,10 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
     func viewPager(viewPager: LGViewPager, titleForSelectedTabAtIndex index: Int) -> NSAttributedString {
         return viewModel.titleForTabAtIndex(index, selected: true)
     }
+    
+    func viewPager(viewPager: LGViewPager, accessibilityIdentifierAtIndex index: Int) -> AccessibilityId? {
+        return viewModel.accessibilityIdentifierForTabButtonAtIndex(index)
+    }
 
 
     // MARK: - LGViewPagerDelegate
@@ -301,5 +310,11 @@ extension ChatGroupedViewController {
 
             strongSelf.editButton?.enabled = enabled
         }.addDisposableTo(disposeBag)
+    }
+}
+
+extension ChatGroupedViewController {
+    func setAccessibilityIds() {
+        navigationItem.rightBarButtonItem?.accessibilityId = AccessibilityId.ChatGroupedViewRightNavBarButton
     }
 }

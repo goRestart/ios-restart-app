@@ -192,10 +192,6 @@ final class TabBarController: UITabBarController {
         viewModel.sellButtonPressed()
     }
 
-    func openSellFromBannerCell(designType: String) {
-        viewModel.sellFromBannerCell(designType)
-    }
-
     func openUserRating(source: RateUserSource, data: RateUserData) {
         viewModel.userRating(source, data: data)
     }
@@ -303,7 +299,9 @@ extension TabBarController: AppRatingViewDelegate {
                                    installation: Core.installationRepository.installation) else { return }
             openInternalUrl(url)
         } else {
-            UIApplication.sharedApplication().openURL(NSURL(string: Constants.appStoreURL)!)
+            if let url = NSURL(string: Constants.appStoreURL) {
+                UIApplication.sharedApplication().openURL(url)
+            }
         }
     }
 }

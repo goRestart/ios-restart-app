@@ -12,6 +12,7 @@ import LGCoreKit
 final class TourNotificationsViewController: BaseViewController {
     let viewModel: TourNotificationsViewModel
 
+    @IBOutlet weak var closeButton: UIButton!
     @IBOutlet weak var notifyButton: UIButton!
     @IBOutlet weak var noButton: UIButton!
     @IBOutlet weak var titleLabel: UILabel!
@@ -46,6 +47,7 @@ final class TourNotificationsViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        setupAccessibilityIds()
         setupTexts()
         NSNotificationCenter.defaultCenter().addObserver(self,
             selector: #selector(TourNotificationsViewController.didRegisterUserNotificationSettings),
@@ -151,5 +153,11 @@ final class TourNotificationsViewController: BaseViewController {
             titleLabel.font = UIFont.tourNotificationsTitleFont
             subtitleLabel.font = UIFont.tourNotificationsSubtitleFont
         }
+    }
+
+    func setupAccessibilityIds() {
+        closeButton.accessibilityId = .TourNotificationsCloseButton
+        notifyButton.accessibilityId = .TourNotificationsOKButton
+        noButton.accessibilityId = .TourNotificationsCancelButton
     }
 }

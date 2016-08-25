@@ -51,6 +51,7 @@ class DirectAnswersPresenter : NSObject, UICollectionViewDelegate, UICollectionV
     func setDirectAnswers(answers: [DirectAnswer]) {
         self.answers = answers
         self.collectionView?.reloadData()
+        setAccessibilityIds()
     }
 
 
@@ -153,5 +154,11 @@ class DirectAnswersPresenter : NSObject, UICollectionViewDelegate, UICollectionV
             layout.scrollDirection = UICollectionViewScrollDirection.Horizontal
             layout.minimumInteritemSpacing = 4.0
         }
+    }
+}
+
+extension DirectAnswersPresenter {
+    func setAccessibilityIds() {
+        collectionView?.accessibilityId = .DirectAnswersPresenterCollectionView
     }
 }

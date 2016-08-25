@@ -456,10 +456,6 @@
 		6A879DA61C8DAED300E0C868 /* PushPrePermissionsSettingsViewControllerMini.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A879DA41C8DAED300E0C868 /* PushPrePermissionsSettingsViewControllerMini.xib */; };
 		6A879DA81C8DD2BD00E0C868 /* PushPrePermissionsSettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A879DA71C8DD2BD00E0C868 /* PushPrePermissionsSettingsViewModel.swift */; };
 		6A879DA91C8DD2BD00E0C868 /* PushPrePermissionsSettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A879DA71C8DD2BD00E0C868 /* PushPrePermissionsSettingsViewModel.swift */; };
-		6A9434661D2E52260053F924 /* BannerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A9434651D2E52260053F924 /* BannerCell.swift */; };
-		6A9434671D2E52260053F924 /* BannerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A9434651D2E52260053F924 /* BannerCell.swift */; };
-		6A9434691D2E52330053F924 /* BannerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A9434681D2E52330053F924 /* BannerCell.xib */; };
-		6A94346A1D2E52330053F924 /* BannerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A9434681D2E52330053F924 /* BannerCell.xib */; };
 		6A9BFE541C08B444000114DF /* FilterSingleCheckCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77593E71BF0C0290097D62F /* FilterSingleCheckCell.swift */; };
 		6A9C9EBE1CCF959E009D866C /* UIButton+LetgoStyles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A9C9EBD1CCF959E009D866C /* UIButton+LetgoStyles.swift */; };
 		6A9C9EBF1CCF95A1009D866C /* UIButton+LetgoStyles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A9C9EBD1CCF959E009D866C /* UIButton+LetgoStyles.swift */; };
@@ -469,8 +465,6 @@
 		6AA26D011CFDCA2000546063 /* ChatDisclaimerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6AA26CFF1CFDCA2000546063 /* ChatDisclaimerCell.xib */; };
 		6AA32F3A1CA29CC4003A1677 /* AdminViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AA32F391CA29CC4003A1677 /* AdminViewController.swift */; };
 		6AA32F3B1CA29CC4003A1677 /* AdminViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AA32F391CA29CC4003A1677 /* AdminViewController.swift */; };
-		6AA8278D1D2BBA400068C39B /* BannerCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AA8278C1D2BBA400068C39B /* BannerCellDrawer.swift */; };
-		6AA8278E1D2BBA400068C39B /* BannerCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AA8278C1D2BBA400068C39B /* BannerCellDrawer.swift */; };
 		6AB674F31C97042A0080F4BF /* CommercialButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AB674F21C97042A0080F4BF /* CommercialButton.swift */; };
 		6AB674F41C97042F0080F4BF /* CommercialButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AB674F21C97042A0080F4BF /* CommercialButton.swift */; };
 		6AB674F61C9704480080F4BF /* CommercialButton.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6AB674F51C9704480080F4BF /* CommercialButton.xib */; };
@@ -1357,13 +1351,10 @@
 		6A879DA11C8D89B300E0C868 /* PushPrePermissionsSettingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PushPrePermissionsSettingsViewController.xib; sourceTree = "<group>"; };
 		6A879DA41C8DAED300E0C868 /* PushPrePermissionsSettingsViewControllerMini.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PushPrePermissionsSettingsViewControllerMini.xib; sourceTree = "<group>"; };
 		6A879DA71C8DD2BD00E0C868 /* PushPrePermissionsSettingsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PushPrePermissionsSettingsViewModel.swift; sourceTree = "<group>"; };
-		6A9434651D2E52260053F924 /* BannerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BannerCell.swift; sourceTree = "<group>"; };
-		6A9434681D2E52330053F924 /* BannerCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BannerCell.xib; sourceTree = "<group>"; };
 		6A9C9EBD1CCF959E009D866C /* UIButton+LetgoStyles.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIButton+LetgoStyles.swift"; sourceTree = "<group>"; };
 		6AA26CFC1CFDBA7600546063 /* ChatDisclaimerCellDrawer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatDisclaimerCellDrawer.swift; sourceTree = "<group>"; };
 		6AA26CFF1CFDCA2000546063 /* ChatDisclaimerCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatDisclaimerCell.xib; sourceTree = "<group>"; };
 		6AA32F391CA29CC4003A1677 /* AdminViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdminViewController.swift; sourceTree = "<group>"; };
-		6AA8278C1D2BBA400068C39B /* BannerCellDrawer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BannerCellDrawer.swift; sourceTree = "<group>"; };
 		6AB674F21C97042A0080F4BF /* CommercialButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommercialButton.swift; sourceTree = "<group>"; };
 		6AB674F51C9704480080F4BF /* CommercialButton.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CommercialButton.xib; sourceTree = "<group>"; };
 		6ACC24B91D2A5C570064B165 /* GridCellDrawer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GridCellDrawer.swift; sourceTree = "<group>"; };
@@ -2782,8 +2773,6 @@
 			children = (
 				C749C7821C10813400F7118E /* ProductCell.swift */,
 				C749C7831C10813400F7118E /* ProductCell.xib */,
-				6A9434651D2E52260053F924 /* BannerCell.swift */,
-				6A9434681D2E52330053F924 /* BannerCell.xib */,
 				C7C61DF91D630ED500F9505D /* CollectionCell.swift */,
 				C7C61DFA1D630ED500F9505D /* CollectionCell.xib */,
 			);
@@ -2990,7 +2979,6 @@
 			children = (
 				6ACC24B91D2A5C570064B165 /* GridCellDrawer.swift */,
 				C7B76CF11C1089DF00863512 /* ProductCellDrawer.swift */,
-				6AA8278C1D2BBA400068C39B /* BannerCellDrawer.swift */,
 				C7C61DFF1D631F3200F9505D /* ProductCollectionCellDrawer.swift */,
 				6ACC24C31D2A90400064B165 /* GridDrawerManager.swift */,
 			);
@@ -3440,7 +3428,6 @@
 				C75B5DC91D59E09500112368 /* ProductDetailOnboardingView.xib in Resources */,
 				502374571B3D3E8D00E02656 /* InfoPlist.strings in Resources */,
 				C77593EE1BF0C1FD0097D62F /* FilterDistanceCell.xib in Resources */,
-				6A9434691D2E52330053F924 /* BannerCell.xib in Resources */,
 				C708C83E1CDB590400AA87B3 /* AppRatingView.xib in Resources */,
 				50CBCD601BF0BB8F00A329BB /* CollectionViewFooter.xib in Resources */,
 				2E373FA21D3CDEF500AC811C /* UserRatingCell.xib in Resources */,
@@ -3563,7 +3550,6 @@
 				C7DB424C1C5138B500400945 /* InfoPlist.strings in Resources */,
 				C7DB424E1C5138B500400945 /* FilterDistanceCell.xib in Resources */,
 				C708C83F1CDB590400AA87B3 /* AppRatingView.xib in Resources */,
-				6A94346A1D2E52330053F924 /* BannerCell.xib in Resources */,
 				C7DB42511C5138B500400945 /* CollectionViewFooter.xib in Resources */,
 				2E373FAE1D3E6F4500AC811C /* UserRatingCell.xib in Resources */,
 				C73726841D65C11F00D348F2 /* PostProductDetailStepsView.xib in Resources */,
@@ -4106,7 +4092,6 @@
 				C7363FBA1BFA3E6500A4BF6F /* DistanceType+LG.swift in Sources */,
 				C7F6F7521CB5081F000147F9 /* CommercialShareViewController.swift in Sources */,
 				C7B5889E1CE1E025009B3975 /* ChatGroupedListView.swift in Sources */,
-				6AA8278D1D2BBA400068C39B /* BannerCellDrawer.swift in Sources */,
 				D412E07F1B4EFF2800683FFD /* ProductListViewModel.swift in Sources */,
 				2E2AB8281C04A2EF0007B8EB /* CrashlyticsTracker.swift in Sources */,
 				5033F6CC1B5D0AE60004FECB /* BaseView.swift in Sources */,
@@ -4300,7 +4285,6 @@
 				C7B5885B1CE1DE1C009B3975 /* OldChatViewController.swift in Sources */,
 				6A5E1A021D548F5400F92692 /* SocialHelper.swift in Sources */,
 				50146BDF1D4F910000B0F635 /* NotificationsTabNavigator.swift in Sources */,
-				6A9434661D2E52260053F924 /* BannerCell.swift in Sources */,
 				5076228C1CD0EB1D004E5D0D /* Coordinator.swift in Sources */,
 				C7F18A941C89CB3300D23319 /* PostProductGalleryView.swift in Sources */,
 				C7DE8ABA1C888750005CF37E /* ProductPostedViewController.swift in Sources */,
@@ -4471,7 +4455,6 @@
 				C7DB41D01C5138B500400945 /* DistanceType+LG.swift in Sources */,
 				C7F6F7531CB5081F000147F9 /* CommercialShareViewController.swift in Sources */,
 				C7B5889F1CE1E025009B3975 /* ChatGroupedListView.swift in Sources */,
-				6AA8278E1D2BBA400068C39B /* BannerCellDrawer.swift in Sources */,
 				C75B5DD61D59E0C500112368 /* ProductCarouselImageCell.swift in Sources */,
 				50146BC81D4F5F6D00B0F635 /* MainTabCoordinator.swift in Sources */,
 				C7C61E081D63505500F9505D /* CollectionType+Shuffle.swift in Sources */,
@@ -4664,7 +4647,6 @@
 				6A5E1A031D548F5400F92692 /* SocialHelper.swift in Sources */,
 				C7B5885C1CE1DE1C009B3975 /* OldChatViewController.swift in Sources */,
 				50146BE01D4F910000B0F635 /* NotificationsTabNavigator.swift in Sources */,
-				6A9434671D2E52260053F924 /* BannerCell.swift in Sources */,
 				5076228D1CD0EB1D004E5D0D /* Coordinator.swift in Sources */,
 				C7F18A951C89CB3300D23319 /* PostProductGalleryView.swift in Sources */,
 				C7DE8ABB1C888750005CF37E /* ProductPostedViewController.swift in Sources */,
