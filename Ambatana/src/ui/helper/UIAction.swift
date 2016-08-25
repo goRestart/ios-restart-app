@@ -43,6 +43,7 @@ enum UIActionInterface {
 struct UIAction {
     let interface: UIActionInterface
     let action: () -> ()
+    var accessibilityId: AccessibilityId?
 
     var text: String? {
         switch interface {
@@ -85,5 +86,11 @@ struct UIAction {
         case let .Button(_, style):
             return style.buttonStyle
         }
+    }
+
+    init(interface: UIActionInterface, action: () -> (), accessibilityId: AccessibilityId? = nil) {
+        self.interface = interface
+        self.action = action
+        self.accessibilityId = accessibilityId
     }
 }

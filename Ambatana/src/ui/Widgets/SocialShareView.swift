@@ -141,7 +141,7 @@ class SocialShareView: UIView {
     private func createSMSButton() -> UIButton? {
         guard shareTypes.contains(ShareType.SMS) else { return nil }
         // Check if i can share via SMS (not available in iPad / iPod)
-        return createButton(UIImage(named: "item_share_sms")) { [weak self] in
+        return createButton(UIImage(named: "item_share_sms"), accesibilityId: .SocialShareSMS) { [weak self] in
             guard let strongSelf = self else { return }
             guard let socialMessage = strongSelf.socialMessage else { return }
             guard let viewController = strongSelf.delegate?.viewController() else { return }
@@ -153,7 +153,7 @@ class SocialShareView: UIView {
     private func createFacebookButton() -> UIButton? {
         guard shareTypes.contains(ShareType.Facebook) else { return nil }
         guard SocialHelper.canShareInFacebook() else { return nil }
-        return createButton(UIImage(named: "item_share_fb")) { [weak self] in
+        return createButton(UIImage(named: "item_share_fb"), accesibilityId: .SocialShareFacebook) { [weak self] in
             guard let strongSelf = self else { return }
             guard let socialMessage = strongSelf.socialMessage else { return }
             guard let viewController = strongSelf.delegate?.viewController() else { return }
@@ -165,7 +165,7 @@ class SocialShareView: UIView {
     private func createTwitterButton() -> UIButton? {
         guard shareTypes.contains(ShareType.Twitter) else { return nil }
         guard SocialHelper.canShareInTwitter() else { return nil }
-        return createButton(UIImage(named: "item_share_twitter")) { [weak self] in
+        return createButton(UIImage(named: "item_share_twitter"), accesibilityId: .SocialShareTwitter) { [weak self] in
             guard let strongSelf = self else { return }
             guard let socialMessage = strongSelf.socialMessage else { return }
             guard let viewController = strongSelf.delegate?.viewController() else { return }
@@ -177,7 +177,7 @@ class SocialShareView: UIView {
     private func createFacebookMessengerButton() -> UIButton? {
         guard shareTypes.contains(ShareType.FBMessenger) else { return nil }
         guard SocialHelper.canShareInFBMessenger() else { return nil }
-        return createButton(UIImage(named: "item_share_fb_messenger")) { [weak self] in
+        return createButton(UIImage(named: "item_share_fb_messenger"), accesibilityId: .SocialShareFBMessenger) { [weak self] in
             guard let strongSelf = self else { return }
             guard let socialMessage = strongSelf.socialMessage else { return }
             strongSelf.delegate?.shareInFBMessenger()
@@ -188,7 +188,7 @@ class SocialShareView: UIView {
     private func createWhatsappButton() -> UIButton? {
         guard shareTypes.contains(ShareType.Whatsapp) else { return nil }
         guard SocialHelper.canShareInWhatsapp() else { return nil }
-        return createButton(UIImage(named: "item_share_whatsapp")) { [weak self] in
+        return createButton(UIImage(named: "item_share_whatsapp"), accesibilityId: .SocialShareWhatsapp) { [weak self] in
             guard let strongSelf = self else { return }
             guard let socialMessage = strongSelf.socialMessage else { return }
             guard let viewController = strongSelf.delegate?.viewController() else { return }
@@ -200,7 +200,7 @@ class SocialShareView: UIView {
     private func createTelegramButton() -> UIButton? {
         guard shareTypes.contains(ShareType.Telegram) else { return nil }
         guard SocialHelper.canShareInTelegram() else { return nil }
-        return createButton(UIImage(named: "item_share_telegram")) { [weak self] in
+        return createButton(UIImage(named: "item_share_telegram"), accesibilityId: .SocialShareTelegram) { [weak self] in
             guard let strongSelf = self else { return }
             guard let socialMessage = strongSelf.socialMessage else { return }
             guard let viewController = strongSelf.delegate?.viewController() else { return }
@@ -212,7 +212,7 @@ class SocialShareView: UIView {
     private func createEmailButton() -> UIButton? {
         guard shareTypes.contains(ShareType.Email) else { return nil }
         guard SocialHelper.canShareInEmail() else { return nil }
-        return createButton(UIImage(named: "item_share_email")) { [weak self] in
+        return createButton(UIImage(named: "item_share_email"), accesibilityId: .SocialShareEmail) { [weak self] in
             guard let strongSelf = self else { return }
             guard let socialMessage = strongSelf.socialMessage else { return }
             guard let viewController = strongSelf.delegate?.viewController() else { return }
@@ -224,7 +224,7 @@ class SocialShareView: UIView {
     private func createCopyLinkButton() -> UIButton? {
         guard shareTypes.contains(ShareType.CopyLink) else { return nil }
         // Check if i can share via SMS (not available in iPad / iPod)
-        return createButton(UIImage(named: "item_share_link")) { [weak self] in
+        return createButton(UIImage(named: "item_share_link"), accesibilityId: .SocialShareCopyLink) { [weak self] in
             guard let strongSelf = self else { return }
             guard let socialMessage = strongSelf.socialMessage else { return }
             guard let viewController = strongSelf.delegate?.viewController() else { return }
@@ -233,10 +233,11 @@ class SocialShareView: UIView {
         }
     }
 
-    private func createButton(image: UIImage?, action: () -> Void) -> UIButton {
+    private func createButton(image: UIImage?, accesibilityId: AccessibilityId, action: () -> Void) -> UIButton {
         let button = UIButton(type: .Custom)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setImage(image, forState: .Normal)
+        button.accessibilityId = accessibilityId
         button.rx_tap.subscribeNext(action).addDisposableTo(disposeBag)
         let width = NSLayoutConstraint(item: button, attribute: .Width, relatedBy: .Equal, toItem: nil,
                                     attribute: .NotAnAttribute, multiplier: 1.0, constant: buttonsSide)

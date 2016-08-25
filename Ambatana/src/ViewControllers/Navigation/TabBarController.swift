@@ -139,7 +139,8 @@ final class TabBarController: UITabBarController {
         for (index, vc) in viewControllers.enumerate() {
             guard let tab = Tab(index: index) else { continue }
             let tabBarItem = UITabBarItem(title: nil, image: UIImage(named: tab.tabIconImageName), selectedImage: nil)
-
+            // UI Test accessibility Ids
+            tabBarItem.accessibilityId = tab.accessibilityId
             // Customize the selected appereance
             if let imageItem = tabBarItem.selectedImage {
                 tabBarItem.image = imageItem.imageWithColor(UIColor.tabBarIconUnselectedColor)
@@ -304,3 +305,11 @@ extension TabBarController: AppRatingViewDelegate {
         }
     }
 }
+
+
+extension TabBarController {
+    func setAccessibilityIds() {
+        floatingSellButton.accessibilityId = AccessibilityId.TabBarFloatingSellButton
+    }
+}
+

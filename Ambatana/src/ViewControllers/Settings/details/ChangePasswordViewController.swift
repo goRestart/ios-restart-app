@@ -46,6 +46,7 @@ class ChangePasswordViewController: UIViewController, UITextFieldDelegate, Chang
         setNavBarBackButton(nil)
 
         setupUI()
+        setupAccessibilityIds()
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -208,5 +209,11 @@ class ChangePasswordViewController: UIViewController, UITextFieldDelegate, Chang
         // internationalization
         passwordTextfield.placeholder = LGLocalizedString.changePasswordNewPasswordFieldHint
         confirmPasswordTextfield.placeholder = LGLocalizedString.changePasswordConfirmPasswordFieldHint
+    }
+
+    private func setupAccessibilityIds() {
+        passwordTextfield.accessibilityId = .ChangePasswordPwdTextfield
+        confirmPasswordTextfield.accessibilityId = .ChangePasswordPwdConfirmTextfield
+        sendButton.accessibilityId = .ChangePasswordSendButton
     }
 }

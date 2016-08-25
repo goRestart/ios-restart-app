@@ -16,8 +16,9 @@ class ChatBubbleCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        self.setupUI()
-        self.resetUI()
+        setupUI()
+        resetUI()
+        setAccessibilityIds()
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ChatBubbleCell.menuControllerWillHide(_:)),
             name: UIMenuControllerWillHideMenuNotification, object: nil)
     }
@@ -45,4 +46,11 @@ class ChatBubbleCell: UITableViewCell {
     }
     
     func resetUI() {}
+}
+
+extension ChatBubbleCell {
+    func setAccessibilityIds() {
+        messageLabel.accessibilityId = .ChatCellMessageLabel
+        dateLabel.accessibilityId = .ChatCellDateLabel
+    }
 }

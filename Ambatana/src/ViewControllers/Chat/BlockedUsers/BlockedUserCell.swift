@@ -25,6 +25,7 @@ class BlockedUserCell: UITableViewCell {
         // Initialization code
         setupUI()
         resetUI()
+        setAccessibilityIds()
     }
 
     override func prepareForReuse() {
@@ -92,5 +93,14 @@ class BlockedUserCell: UITableViewCell {
         }
         super.setEditing(editing, animated: animated)
         tintColor = UIColor.primaryColor
+    }
+}
+
+extension BlockedUserCell {
+    func setAccessibilityIds() {
+        avatarImageView.accessibilityId = AccessibilityId.BlockedUserCellAvatarImageView
+        userNameLabel.accessibilityId = AccessibilityId.BlockedUserCellUserNameLabel
+        blockedLabel.accessibilityId = AccessibilityId.BlockedUserCellBlockedLabel
+        blockedIcon.accessibilityId = AccessibilityId.BlockedUserCellBlockedIcon
     }
 }
