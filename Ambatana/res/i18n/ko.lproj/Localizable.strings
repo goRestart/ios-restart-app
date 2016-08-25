@@ -291,8 +291,8 @@
 "product_ask_a_question_button" = "질문하기";
 "product_auto_generated_title_label" = "제목은 letgo에서 자동적으로 생성합니다";
 "product_auto_generated_translated_title_label" = "(또한 구글에 의해서 번역됩니다)";
-"product_bubble_one_user_interested" = "Another buyer is interested!";
-"product_bubble_several_users_interested" = "%i other buyers are interested!";
+"product_bubble_one_user_interested" = "다른 구매자들이 관심있어합니다!";
+"product_bubble_several_users_interested" = "%i 다른 구매자들이 관심있어합니다!";
 "product_chat_direct_error_blocked_user_message" = "이 사용자와 채팅이 차단되어있습니다";
 "product_chat_direct_message" = "안녕하세요 %@님, 이 상품에 관심이 있는데요.";
 "product_chat_direct_message_sending" = "발송중...";

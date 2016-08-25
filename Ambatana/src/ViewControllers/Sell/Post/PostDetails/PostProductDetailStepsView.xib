@@ -50,7 +50,7 @@
                         <constraint firstAttribute="bottom" secondItem="dsf-Ed-UcV" secondAttribute="bottom" constant="8" id="pVc-rm-U96"/>
                     </constraints>
                 </view>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_Make it easy for buyers to find" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mLW-P2-gpW">
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_Make it easy for buyers to find" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mLW-P2-gpW">
                     <rect key="frame" x="0.0" y="75" width="375" height="16"/>
                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
@@ -93,20 +93,20 @@
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0YR-AY-Vlq" userLabel="descriptionContainer">
-                    <rect key="frame" x="0.0" y="15" width="375" height="121"/>
+                    <rect key="frame" x="0.0" y="15" width="375" height="100"/>
                     <subviews>
                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="yhE-ER-gSH" customClass="KMPlaceholderTextView" customModule="KMPlaceholderTextView">
-                            <rect key="frame" x="10" y="10" width="355" height="101"/>
+                            <rect key="frame" x="10" y="10" width="355" height="80"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             <connections>
                                 <outlet property="delegate" destination="-1" id="4uL-bc-e1t"/>
                             </connections>
                         </textView>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_1400" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="40X-Rb-aDW">
-                            <rect key="frame" x="332" y="97" width="35" height="16"/>
+                            <rect key="frame" x="332" y="76" width="35" height="16"/>
                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="highlightedColor"/>
@@ -115,7 +115,7 @@
                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.19679418100000001" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstItem="40X-Rb-aDW" firstAttribute="trailing" secondItem="yhE-ER-gSH" secondAttribute="trailing" constant="2" id="17T-JY-O4T"/>
-                        <constraint firstAttribute="height" constant="121" id="2dJ-Ji-aqR"/>
+                        <constraint firstAttribute="height" constant="100" id="2dJ-Ji-aqR"/>
                         <constraint firstItem="40X-Rb-aDW" firstAttribute="bottom" secondItem="yhE-ER-gSH" secondAttribute="bottom" constant="2" id="6fQ-WJ-Efb"/>
                         <constraint firstAttribute="trailing" secondItem="yhE-ER-gSH" secondAttribute="trailing" constant="10" id="8l2-qp-y9a"/>
                         <constraint firstAttribute="bottom" secondItem="yhE-ER-gSH" secondAttribute="bottom" constant="10" id="C0e-Qp-VjC"/>
@@ -123,8 +123,8 @@
                         <constraint firstItem="yhE-ER-gSH" firstAttribute="leading" secondItem="0YR-AY-Vlq" secondAttribute="leading" constant="10" id="Yt2-pu-xbq"/>
                     </constraints>
                 </view>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_Products with description sell faster" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="im1-ht-q7z">
-                    <rect key="frame" x="0.0" y="146" width="375" height="16"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_Products with description sell faster" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="im1-ht-q7z">
+                    <rect key="frame" x="0.0" y="125" width="375" height="37"/>
                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
@@ -147,7 +147,7 @@
                     <state key="normal" title="Button"/>
                 </button>
             </subviews>
-            <color key="backgroundColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
+            <color key="backgroundColor" red="0.1215686275" green="0.12941176469999999" blue="0.14117647059999999" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
                 <constraint firstItem="Mqd-6x-CAj" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="15" id="2J5-cs-2yZ"/>
                 <constraint firstAttribute="trailing" secondItem="Y1d-Nu-r1w" secondAttribute="trailing" id="Bbw-Lz-WZ6"/>
