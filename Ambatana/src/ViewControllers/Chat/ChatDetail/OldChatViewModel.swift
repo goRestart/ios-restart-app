@@ -162,9 +162,9 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     var relatedProductsEnabled: Bool {
         guard isBuyer else { return false }
         switch chatStatus {
-        case .Forbidden, .UserDeleted, .UserPendingDelete, .ProductDeleted:
+        case .Forbidden, .UserDeleted, .UserPendingDelete, .ProductDeleted, .ProductSold:
             return true
-        case .Blocked, .BlockedBy, .Available, .ProductSold:
+        case .Blocked, .BlockedBy, .Available:
             return false
         }
     }
