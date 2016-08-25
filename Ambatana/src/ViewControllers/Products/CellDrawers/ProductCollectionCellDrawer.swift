@@ -17,6 +17,6 @@ class ProductCollectionCellDrawer: BaseCollectionCellDrawer<CollectionCell>, Gri
             cell.title.font = UIFont.systemBoldFont(size: 24)
         }
         cell.imageView.image = model.image
-        cell.title.text = model.title
+        cell.title.text = model.title.uppercase
     }
 }
