@@ -31,6 +31,8 @@ class PostProductViewController: BaseViewController {
     private let keyboardHelper: KeyboardHelper
     private var viewDidAppear: Bool = false
 
+    private static let detailTopMarginPrice: CGFloat = 100
+
     private let forceCamera: Bool
     private var initialTab: Int {
         if forceCamera { return 1 }
@@ -270,7 +272,7 @@ extension PostProductViewController {
             strongSelf.productDetailView.alpha = okItemsAlpha
             strongSelf.postErrorLabel.alpha = wrongItemsAlpha
             strongSelf.retryButton.alpha = wrongItemsAlpha
-            strongSelf.detailsScroll.contentInset.top = 0
+            strongSelf.detailsScroll.contentInset.top = PostProductViewController.detailsContentTopInset
         }
         UIView.animateWithDuration(0.2, delay: 0.8, options: UIViewAnimationOptions(),
                                    animations: { () -> Void in
@@ -285,6 +287,15 @@ extension PostProductViewController {
                 }
             }
         )
+    }
+
+    private static var detailsContentTopInset: CGFloat {
+        switch FeatureFlags.postingDetailsMode {
+        case .Old:
+            return detailTopMarginPrice
+        case .Steps, .AllInOne:
+            return 0
+        }
     }
 }
 
