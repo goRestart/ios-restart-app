@@ -726,7 +726,9 @@ extension ProductCarouselViewController {
                                    animations: { [weak self] in
                                     guard let `self` = self else { return }
                                     self.moreInfoView?.frame.origin.y = -self.view.bounds.height
-                                }, completion: nil)
+            }, completion: { [weak self] _ in
+                self?.moreInfoView?.dismissed()
+        })
     }
 }
 
@@ -751,7 +753,7 @@ extension ProductCarouselViewController: ProductCarouselMoreInfoDelegate {
             } else {
                 showMoreInfo()
             }
-        } else {
+        } else if origin > 0 {
             hideMoreInfo()
         }
     }

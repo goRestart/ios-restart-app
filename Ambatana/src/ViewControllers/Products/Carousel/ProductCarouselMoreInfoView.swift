@@ -49,14 +49,19 @@ class ProductCarouselMoreInfoView: UIView {
     private var locationZone: MKOverlay?
     private let bigMapMargin: CGFloat = 65.0
     private let bigMapBottomMargin: CGFloat = 210
-    private let bottomInset: CGFloat = 80 // Needed to avoid drawing content below the chat button
     private var bigMapVisible = false
     private var mapZoomBlocker: MapZoomBlocker?
     private var statsView: ProductStatsView?
 
     private let statsContainerViewHeight: CGFloat = 24.0
     private let statsContainerViewTop: CGFloat = 30.0
-    var canDrag: Bool = true
+    private var initialDragYposition: CGFloat = 0
+    private var canDrag: Bool = true
+    private var scrollBottomInset: CGFloat {
+        guard let status = viewModel?.status.value else { return 0 }
+        // Needed to avoid drawing content below the chat button
+        return status == .OtherAvailable ? 80 : 0
+    }
 
     weak var delegate: ProductCarouselMoreInfoDelegate?
 
@@ -85,6 +90,11 @@ class ProductCarouselMoreInfoView: UIView {
         if let statsView = statsView {
             updateStatsView(statsView)
         }
+    }
+
+    func dismissed() {
+        scrollView.contentOffset = CGPoint.zero
+        descriptionLabel.collapsed = true
     }
 }
 
@@ -191,15 +201,18 @@ extension ProductCarouselMoreInfoView: MKMapViewDelegate {
 }
 
 extension ProductCarouselMoreInfoView: UIScrollViewDelegate {
-    
-    
+
+    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+        initialDragYposition = min(max(scrollView.contentOffset.y, 0), bottomScrollLimit)
+    }
+
     func scrollViewDidScroll(scrollView: UIScrollView) {
         guard canDrag else { return }
-        let border = max(0, scrollView.contentSize.height - scrollView.height + scrollView.contentInset.bottom)
-        if scrollView.contentOffset.y > border || frame.origin.y < 0 {
+        let border = bottomScrollLimit
+        if (scrollView.contentOffset.y > border || frame.origin.y < 0) && initialDragYposition == border {
             delegate?.didScrollFromBottomWith(scrollView.contentOffset.y - border)
             scrollView.contentOffset.y = border
-        } else if scrollView.contentOffset.y < 0 {
+        } else if scrollView.contentOffset.y < 0 && initialDragYposition == 0 {
             delegate?.didScrollFromTopWith(scrollView.contentOffset.y)
             scrollView.contentOffset.y = 0
         }
@@ -213,6 +226,10 @@ extension ProductCarouselMoreInfoView: UIScrollViewDelegate {
     func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
         canDrag = true
     }
+
+    var bottomScrollLimit: CGFloat {
+        return max(0, scrollView.contentSize.height - scrollView.height + scrollView.contentInset.bottom)
+    }
 }
 
 
@@ -220,8 +237,8 @@ extension ProductCarouselMoreInfoView: UIScrollViewDelegate {
 
 extension ProductCarouselMoreInfoView {
     private func setupUI() {
-        
-        scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: bottomInset, right: 0)
+
+        scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: scrollBottomInset, right: 0)
         
         titleLabel.textColor = UIColor.whiteColor()
         titleLabel.font = UIFont.productTitleFont
