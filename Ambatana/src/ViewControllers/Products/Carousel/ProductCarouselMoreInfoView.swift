@@ -12,9 +12,7 @@ import LGCollapsibleLabel
 
 
 protocol ProductCarouselMoreInfoDelegate: class {
-    func didScrollFromBottomWith(deltaOffset: CGFloat)
-    func didScrollFromTopWith(deltaOffset: CGFloat)
-    func didEndScrolling()
+    func didEndScrolling(topOverScroll: CGFloat, bottomOverScroll: CGFloat)
     func shareDidFailedWith(error: String)
     func viewControllerToShowShareOptions() -> UIViewController
 }
@@ -34,6 +32,7 @@ class ProductCarouselMoreInfoView: UIView {
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var scrollViewContent: UIView!
     @IBOutlet weak var visualEffectView: UIVisualEffectView!
+    @IBOutlet weak var visualEffectViewBottom: NSLayoutConstraint!
     @IBOutlet weak var descriptionLabel: LGCollapsibleLabel!
     @IBOutlet weak var statsContainerView: UIView!
     @IBOutlet weak var statsContainerViewHeightConstraint: NSLayoutConstraint!
@@ -56,7 +55,6 @@ class ProductCarouselMoreInfoView: UIView {
     private let statsContainerViewHeight: CGFloat = 24.0
     private let statsContainerViewTop: CGFloat = 30.0
     private var initialDragYposition: CGFloat = 0
-    private var canDrag: Bool = true
     private var scrollBottomInset: CGFloat {
         guard let status = viewModel?.status.value else { return 0 }
         // Needed to avoid drawing content below the chat button
@@ -207,24 +205,14 @@ extension ProductCarouselMoreInfoView: UIScrollViewDelegate {
     }
 
     func scrollViewDidScroll(scrollView: UIScrollView) {
-        guard canDrag else { return }
-        let border = bottomScrollLimit
-        if (scrollView.contentOffset.y > border || frame.origin.y < 0) && initialDragYposition == border {
-            delegate?.didScrollFromBottomWith(scrollView.contentOffset.y - border)
-            scrollView.contentOffset.y = border
-        } else if scrollView.contentOffset.y < 0 && initialDragYposition == 0 {
-            delegate?.didScrollFromTopWith(scrollView.contentOffset.y)
-            scrollView.contentOffset.y = 0
-        }
+        let bottomOverScroll = max(scrollView.contentOffset.y - bottomScrollLimit, 0)
+        visualEffectViewBottom.constant = -bottomOverScroll
     }
     
     func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        canDrag = !decelerate
-        delegate?.didEndScrolling()
-    }
-    
-    func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
-        canDrag = true
+        let topOverScroll = abs(min(0, scrollView.contentOffset.y))
+        let bottomOverScroll = max(scrollView.contentOffset.y - bottomScrollLimit, 0)
+        delegate?.didEndScrolling(topOverScroll, bottomOverScroll: bottomOverScroll)
     }
 
     var bottomScrollLimit: CGFloat {

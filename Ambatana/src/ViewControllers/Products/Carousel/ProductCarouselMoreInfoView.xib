@@ -146,8 +146,8 @@
                         <constraint firstAttribute="bottom" secondItem="Mi7-4s-ycC" secondAttribute="bottom" id="jZI-Ad-iNY"/>
                     </constraints>
                 </scrollView>
-                <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lq7-uR-qpI">
-                    <rect key="frame" x="136" y="829" width="90" height="30"/>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lq7-uR-qpI">
+                    <rect key="frame" x="135" y="829" width="90" height="30"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="izu-M0-9D7">
                             <rect key="frame" x="15" y="0.0" width="42" height="30"/>
@@ -178,11 +178,11 @@
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstAttribute="bottom" secondItem="Sdr-8s-uVp" secondAttribute="bottom" constant="64" id="5hP-hh-TT0"/>
+                <constraint firstItem="lq7-uR-qpI" firstAttribute="top" secondItem="fp4-l8-YJ2" secondAttribute="bottom" constant="27" id="85R-SK-QFq"/>
                 <constraint firstItem="fp4-l8-YJ2" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="Ghu-50-2r3"/>
                 <constraint firstAttribute="trailing" secondItem="fp4-l8-YJ2" secondAttribute="trailing" id="Mf5-jj-Aho"/>
-                <constraint firstAttribute="bottom" secondItem="lq7-uR-qpI" secondAttribute="bottom" constant="7" id="Ola-IP-MF8"/>
                 <constraint firstItem="Sdr-8s-uVp" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="64" id="UOL-x8-r43"/>
-                <constraint firstAttribute="bottom" secondItem="fp4-l8-YJ2" secondAttribute="bottom" constant="64" id="fwt-ek-ej9"/>
+                <constraint firstItem="fp4-l8-YJ2" firstAttribute="bottom" secondItem="Sdr-8s-uVp" secondAttribute="bottom" id="cWL-uV-D6J"/>
                 <constraint firstAttribute="trailing" secondItem="Sdr-8s-uVp" secondAttribute="trailing" id="gO2-sc-hNL"/>
                 <constraint firstItem="fp4-l8-YJ2" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="-500" id="vZX-Wn-wfR"/>
                 <constraint firstItem="Sdr-8s-uVp" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="yVb-UW-mun"/>
@@ -210,6 +210,7 @@
                 <outlet property="titleLabel" destination="XK0-fr-ZeE" id="uK7-Od-aTa"/>
                 <outlet property="transTitleLabel" destination="vAh-ln-hh6" id="IUc-hK-G0X"/>
                 <outlet property="visualEffectView" destination="fp4-l8-YJ2" id="iAQ-fi-3CH"/>
+                <outlet property="visualEffectViewBottom" destination="cWL-uV-D6J" id="5wm-TD-PRC"/>
             </connections>
             <point key="canvasLocation" x="-7" y="101"/>
         </view>

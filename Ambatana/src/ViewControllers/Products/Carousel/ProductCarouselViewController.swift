@@ -531,9 +531,11 @@ extension ProductCarouselViewController {
 
     private func refreshDirectChatElements(viewModel: ProductViewModel) {
         viewModel.stickersButtonEnabled.asObservable().bindNext { [weak self] enabled in
-            self?.stickersButton.hidden = !enabled
-            self?.stickersButtonWidth.constant = enabled ? self?.stickersButtonVisibleWidth ?? 0 : 0
-            self?.stickersButtonTrailing.constant = enabled ? self?.itemsMargin ?? 0 : self?.stickersButtonHiddenTrailing ?? 0
+            guard let strongSelf = self else { return }
+            strongSelf.stickersButton.hidden = !enabled
+            strongSelf.stickersButtonWidth.constant = enabled ? strongSelf.stickersButtonVisibleWidth : 0
+            strongSelf.stickersButtonTrailing.constant = enabled ? strongSelf.itemsMargin :
+                strongSelf.stickersButtonHiddenTrailing
         }.addDisposableTo(activeDisposeBag)
 
         viewModel.directChatMessages.changesObservable.bindNext { [weak self] change in
@@ -753,32 +755,11 @@ extension ProductCarouselViewController {
 // MARK: More Info Delegate
 
 extension ProductCarouselViewController: ProductCarouselMoreInfoDelegate {
-    func didScrollFromBottomWith(deltaOffset: CGFloat) {
-        guard let moreInfoView = moreInfoView else { return }
-        moreInfoState.value = .Moving
-        if moreInfoView.frame.origin.y > -view.frame.height {
-            moreInfoView.frame.origin.y = moreInfoView.frame.origin.y - deltaOffset
-        }
-    }
     
-    func didEndScrolling() {
-        guard let moreInfoView = moreInfoView else { return }
-        let origin = moreInfoView.frame.origin.y
-        if origin < 0 {
-            if -origin > moreInfoDragMargin {
-                hideMoreInfo()
-            } else {
-                showMoreInfo()
-            }
-        } else if origin > 0 {
+    func didEndScrolling(topOverScroll: CGFloat, bottomOverScroll: CGFloat) {
+        if topOverScroll > moreInfoDragMargin || bottomOverScroll > moreInfoDragMargin {
             hideMoreInfo()
         }
-    }
-    
-    func didScrollFromTopWith(deltaOffset: CGFloat) {
-        guard let moreInfoView = moreInfoView where deltaOffset < 0 else { return }
-        moreInfoState.value = .Moving
-        moreInfoView.frame.origin.y = moreInfoView.frame.origin.y + abs(deltaOffset)
     }
     
     func shareDidFailedWith(error: String) {
