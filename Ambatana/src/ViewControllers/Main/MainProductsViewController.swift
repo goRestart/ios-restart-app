@@ -96,7 +96,9 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        setNavBarBackgroundStyle(.Transparent)
+        let backColor = UIColor.grayBackground.imageWithSize(CGSize(width: 1, height: 1))
+        setNavBarBackgroundStyle(NavBarBackgroundStyle.Custom(background: backColor, shadow: UIImage()))
+        navigationController?.navigationBar.translucent = true
     }
     
     override func viewDidAppear(animated: Bool) {
