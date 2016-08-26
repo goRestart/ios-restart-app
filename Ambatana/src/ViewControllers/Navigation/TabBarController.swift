@@ -128,6 +128,10 @@ final class TabBarController: UITabBarController {
         view.addSubview(ratingView)
         return true
     }
+    
+    func showAppShare() {
+        AppShareViewController.showOnViewControllerIfNeeded(self)
+    }
 
 
     // MARK: - Private methods
