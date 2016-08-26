@@ -12,12 +12,14 @@ import RxSwift
 class ChatDisclaimerCell: UITableViewCell, ReusableCell {
     
     @IBOutlet weak var backgroundCellView: UIView!
+
+    @IBOutlet weak var avatarImageView: UIImageView!
+    @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var messageLabel: UILabel!
     @IBOutlet weak var button: UIButton!
     
     @IBOutlet weak var buttonHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var buttonBottomConstraint: NSLayoutConstraint!
-    
     
     private static let buttonVisibleHeight: CGFloat = 30
     private static let buttonVisibleBottom: CGFloat = 8
