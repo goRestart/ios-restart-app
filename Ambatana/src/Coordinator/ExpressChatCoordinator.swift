@@ -36,7 +36,7 @@ class ExpressChatCoordinator: Coordinator {
         self.keyValueStorage = keyValueStorage
 
         vm.navigator = self
-        
+
         guard keyValueStorage.userShouldShowExpressChat else { return nil }
         guard !expressChatAlreadyShownForProduct(sourceProductId) else { return nil }
     }

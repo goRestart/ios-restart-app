@@ -21,7 +21,6 @@ class ChatGroupedListView: BaseView, ChatGroupedListViewModelDelegate, Scrollabl
     // UI
     @IBOutlet weak private var contentView: UIView!
     @IBOutlet weak var tableView: UITableView!
-    var refreshControl: UIRefreshControl!
     @IBOutlet weak var footerView: UIView!
     @IBOutlet weak var footerViewBottom: NSLayoutConstraint!
     @IBOutlet weak var footerButton: UIButton!
@@ -30,6 +29,9 @@ class ChatGroupedListView: BaseView, ChatGroupedListViewModelDelegate, Scrollabl
 
     @IBOutlet weak var emptyView: LGEmptyView!
 
+    var refreshControl = UIRefreshControl()
+
+    
     // > Insets
     @IBOutlet weak var tableViewBottomInset: NSLayoutConstraint!
     @IBOutlet weak var activityIndicatorBottomInset: NSLayoutConstraint!
@@ -202,7 +204,6 @@ class ChatGroupedListView: BaseView, ChatGroupedListViewModelDelegate, Scrollabl
 
         // Empty view
         emptyView.backgroundColor = UIColor.listBackgroundColor
-        refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(ChatGroupedListView.refresh),
                                  forControlEvents: UIControlEvents.ValueChanged)
         tableView.addSubview(refreshControl)
@@ -244,3 +245,4 @@ class ChatGroupedListView: BaseView, ChatGroupedListViewModelDelegate, Scrollabl
         }, completion: completion)
     }
 }
+

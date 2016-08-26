@@ -14,8 +14,7 @@ class CategoriesViewController: BaseViewController, CategoriesViewModelDelegate,
 
     // outlets & buttons
     @IBOutlet weak var collectionView: UICollectionView!
-    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
-    
+
     // data
     private var cellSize: CGSize = CGSize(width: 160.0, height: 150.0)
     private var lastContentOffset: CGFloat = 0.0
@@ -65,7 +64,7 @@ class CategoriesViewController: BaseViewController, CategoriesViewModelDelegate,
         cellSize = CGSizeMake(cellWidth, cellHeight)
         
         viewModel.retrieveCategories()
-        
+        setAccessibilityIds()
     }
 
     
@@ -119,5 +118,8 @@ class CategoriesViewController: BaseViewController, CategoriesViewModelDelegate,
         let categoriesVC = MainProductsViewController(viewModel: productsViewModel)
         self.navigationController?.pushViewController(categoriesVC, animated: true)
     }
-    
+
+    private func setAccessibilityIds() {
+        collectionView.accessibilityId = .CategoriesCollectionView
+    }
 }

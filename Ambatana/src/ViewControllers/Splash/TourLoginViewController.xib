@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9532" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="TourLoginViewController" customModule="LetGo" customModuleProvider="target">
             <connections>
+                <outlet property="closeButton" destination="oDf-26-chT" id="4E0-89-okO"/>
                 <outlet property="kenBurnsView" destination="tHx-aq-sBy" id="67p-FT-0Ht"/>
                 <outlet property="loginButton" destination="WTh-IZ-CeS" id="0xt-Zr-Rop"/>
                 <outlet property="messageLabel" destination="VQi-pj-8Ve" id="K5g-gR-Ial"/>

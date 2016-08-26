@@ -102,6 +102,7 @@ class UserViewController: BaseViewController {
         }
 
         setupUI()
+        setupAccessibilityIds()
         setupRxBindings()
     }
 
@@ -219,6 +220,27 @@ extension UserViewController {
         setupHeader()
         setupNavigationBar()
         setupProductListView()
+    }
+
+    private func setupAccessibilityIds() {
+        navBarUserView?.userNameLabel.accessibilityId = .UserHeaderCollapsedNameLabel
+        navBarUserView?.subtitleLabel.accessibilityId = .UserHeaderCollapsedLocationLabel
+        userNameLabel.accessibilityId = .UserHeaderExpandedNameLabel
+        userLocationLabel.accessibilityId = .UserHeaderExpandedLocationLabel
+
+        headerContainer?.header?.avatarButton.accessibilityId = .UserHeaderExpandedAvatarButton
+        headerContainer?.header?.ratingsButton.accessibilityId = .UserHeaderExpandedRatingsButton
+        headerContainer?.header?.userRelationLabel.accessibilityId = .UserHeaderExpandedRelationLabel
+        headerContainer?.header?.myUserFacebookButton.accessibilityId = .UserHeaderExpandedVerifyFacebookButton
+        headerContainer?.header?.myUserGoogleButton.accessibilityId = .UserHeaderExpandedVerifyGoogleButton
+        headerContainer?.header?.myUserEmailButton.accessibilityId = .UserHeaderExpandedVerifyEmailButton
+        headerContainer?.header?.sellingButton.accessibilityId = .UserSellingTab
+        headerContainer?.header?.soldButton.accessibilityId = .UserSoldTab
+        headerContainer?.header?.favoritesButton.accessibilityId = .UserFavoritesTab
+
+        productListView.firstLoadView.accessibilityId = .UserProductsFirstLoad
+        productListView.collectionView.accessibilityId = .UserProductsList
+        productListView.errorView.accessibilityId = .UserProductsError
     }
 
     private func setupMainView() {
@@ -578,6 +600,7 @@ extension UserViewController: ProductListViewHeaderDelegate, UserPushPermissions
             else { return UICollectionReusableView() }
         header.delegate = self
         header.messageLabel.text = LGLocalizedString.profilePermissionsHeaderMessage
+        header.accessibilityId = .UserHeaderExpandedLocationLabel
         return header
     }
 

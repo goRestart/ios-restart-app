@@ -167,6 +167,7 @@ class ProductViewModel: BaseViewModel {
     let showInterestedBubble = Variable<Bool>(false)
     var interestedBubbleTitle: String?
     var interestedBubbleIcon: UIImage?
+    var isFirstProduct: Bool = false
 
     // Rx
     private let disposeBag: DisposeBag
@@ -276,7 +277,9 @@ class ProductViewModel: BaseViewModel {
             if let stats = result.value {
                 strongSelf.viewsCount.value = stats.viewsCount
                 strongSelf.favouritesCount.value = stats.favouritesCount
-                strongSelf.refreshInterestedBubble()
+                if strongSelf.isFirstProduct {
+                    strongSelf.refreshInterestedBubble(false)
+                }
             }
         }
 
@@ -495,12 +498,13 @@ extension ProductViewModel {
         }, source: .Favourite)
     }
 
-    func refreshInterestedBubble() {
+    func refreshInterestedBubble(fromFavoriteAction: Bool) {
         // check that the bubble hasn't been shown yet for this product
         guard let productId = product.value.objectId where shouldShowInterestedBubbleForProduct(productId) else { return }
         guard product.value.viewModelStatus == .OtherAvailable else { return }
-        // we need at least 2 favorited without counting ours
-        let othersFavCount = min(isFavorite.value ? favouritesCount.value - 1 : favouritesCount.value, 5)
+        // we need at least 1 favorited without counting ours but when coming from favorite action,
+        // favourites count is not updated, so no need to substract 1)
+        let othersFavCount = min(isFavorite.value && !fromFavoriteAction ? favouritesCount.value - 1 : favouritesCount.value, 5)
         guard othersFavCount > 0 else { return }
         let othersFavText = othersFavCount == 1 ? LGLocalizedString.productBubbleOneUserInterested :
             String(format: LGLocalizedString.productBubbleSeveralUsersInterested, Int(othersFavCount))
@@ -594,7 +598,7 @@ extension ProductViewModel {
             self?.ifLoggedInRunActionElseOpenMainSignUp({ [weak self] in
                 self?.switchFavoriteAction()
                 }, source: .Favourite)
-            })
+            }, accessibilityId: .ProductCarouselNavBarFavoriteButton)
     }
 
     private func buildEditNavBarAction() -> UIAction {
@@ -606,7 +610,7 @@ extension ProductViewModel {
                 self?.product.value = product
             }
             strongSelf.delegate?.vmOpenEditProduct(editProductVM)
-        })
+        }, accessibilityId: .ProductCarouselNavBarEditButton)
     }
 
     private func buildShareAction() -> UIAction {
@@ -615,12 +619,13 @@ extension ProductViewModel {
         return UIAction(interface: .TextImage(text, icon), action: { [weak self] in
             guard let strongSelf = self, socialMessage = strongSelf.socialMessage.value else { return }
             strongSelf.delegate?.vmShowNativeShare(socialMessage)
-            })
+            }, accessibilityId: .ProductCarouselNavBarShareButton)
     }
 
     private func buildMoreNavBarAction() -> UIAction {
         let icon = UIImage(named: "navbar_more")?.imageWithRenderingMode(.AlwaysOriginal)
-        return UIAction(interface: .Image(icon), action: { [weak self] in self?.showOptionsMenu() })
+        return UIAction(interface: .Image(icon), action: { [weak self] in self?.showOptionsMenu() },
+                        accessibilityId: .ProductCarouselNavBarActionsButton)
     }
 
     private func showOptionsMenu() {
@@ -760,7 +765,7 @@ extension ProductViewModel {
                     }
                 }
                 strongSelf.favoriteButtonEnabled.value = true
-                strongSelf.refreshInterestedBubble()
+                strongSelf.refreshInterestedBubble(true)
             }
         }
     }

@@ -146,6 +146,7 @@ class ChatViewModel: BaseViewModel {
     private let chatViewMessageAdapter: ChatViewMessageAdapter
     private let tracker: Tracker
     private let configManager: ConfigManager
+    private let sessionManager: SessionManager
     
     private var isDeleted = false
     private var shouldAskProductSold: Bool = false
@@ -183,11 +184,12 @@ class ChatViewModel: BaseViewModel {
         let tracker = TrackerProxy.sharedInstance
         let stickersRepository = Core.stickersRepository
         let configManager = ConfigManager.sharedInstance
+        let sessionManager = Core.sessionManager
 
         self.init(conversation: conversation, myUserRepository: myUserRepository, chatRepository: chatRepository,
                   productRepository: productRepository, userRepository: userRepository,
                   stickersRepository: stickersRepository, tracker: tracker, configManager: configManager,
-                  tabNavigator: tabNavigator)
+                  sessionManager: sessionManager, tabNavigator: tabNavigator)
     }
     
     convenience init?(product: Product, tabNavigator: TabNavigator?) {
@@ -200,6 +202,7 @@ class ChatViewModel: BaseViewModel {
         let stickersRepository = Core.stickersRepository
         let tracker = TrackerProxy.sharedInstance
         let configManager = ConfigManager.sharedInstance
+        let sessionManager = Core.sessionManager
 
         let amISelling = myUserRepository.myUser?.objectId == sellerId
         let empty = EmptyConversation(objectId: nil, unreadMessageCount: 0, lastMessageSentAt: nil, product: nil,
@@ -207,13 +210,13 @@ class ChatViewModel: BaseViewModel {
         self.init(conversation: empty, myUserRepository: myUserRepository, chatRepository: chatRepository,
                   productRepository: productRepository, userRepository: userRepository,
                   stickersRepository: stickersRepository ,tracker: tracker, configManager: configManager,
-                  tabNavigator: tabNavigator)
+                  sessionManager: sessionManager, tabNavigator: tabNavigator)
         self.setupConversationFromProduct(product)
     }
     
     init(conversation: ChatConversation, myUserRepository: MyUserRepository, chatRepository: ChatRepository,
           productRepository: ProductRepository, userRepository: UserRepository, stickersRepository: StickersRepository,
-          tracker: Tracker, configManager: ConfigManager, tabNavigator: TabNavigator?) {
+          tracker: Tracker, configManager: ConfigManager, sessionManager: SessionManager, tabNavigator: TabNavigator?) {
         self.conversation = Variable<ChatConversation>(conversation)
         self.myUserRepository = myUserRepository
         self.chatRepository = chatRepository
@@ -221,6 +224,7 @@ class ChatViewModel: BaseViewModel {
         self.userRepository = userRepository
         self.tracker = tracker
         self.configManager = configManager
+        self.sessionManager = sessionManager
         self.stickersRepository = stickersRepository
         self.chatViewMessageAdapter = ChatViewMessageAdapter()
         self.tabNavigator = tabNavigator
@@ -244,6 +248,7 @@ class ChatViewModel: BaseViewModel {
     }
 
     func wentBack() {
+        guard sessionManager.loggedIn else { return }
         guard isBuyer else { return }
         guard !relatedProducts.isEmpty else { return }
         guard let productId = conversation.value.product?.objectId else { return }
@@ -648,9 +653,9 @@ extension ChatViewModel {
     func openOptionsMenu() {
         var actions: [UIAction] = []
         
-        let safetyTips = UIAction(interface: UIActionInterface.Text(LGLocalizedString.chatSafetyTips)) { [weak self] in
+        let safetyTips = UIAction(interface: UIActionInterface.Text(LGLocalizedString.chatSafetyTips), action: { [weak self] in
             self?.delegate?.vmShowSafetyTips()
-        }
+        })
         actions.append(safetyTips)
 
         if conversation.value.isSaved {
@@ -696,7 +701,7 @@ extension ChatViewModel {
         guard !isDeleted else { return }
         
         
-        let action = UIAction(interface: .StyledText(LGLocalizedString.chatListDeleteAlertSend, .Destructive)) {
+        let action = UIAction(interface: .StyledText(LGLocalizedString.chatListDeleteAlertSend, .Destructive), action: {
             [weak self] in
             self?.delete() { [weak self] success in
                 if success {
@@ -707,7 +712,7 @@ extension ChatViewModel {
                     self?.delegate?.vmClose()
                 }
             }
-        }
+        })
         delegate?.vmShowAlert(LGLocalizedString.chatListDeleteAlertTitleOne,
                               message: LGLocalizedString.chatListDeleteAlertTextOne,
                               cancelLabel: LGLocalizedString.commonCancel,
@@ -732,7 +737,7 @@ extension ChatViewModel {
     
     private func blockUserAction() {
         
-        let action = UIAction(interface: .StyledText(LGLocalizedString.chatBlockUserAlertBlockButton, .Destructive)) {
+        let action = UIAction(interface: .StyledText(LGLocalizedString.chatBlockUserAlertBlockButton, .Destructive), action: {
             [weak self] in
             self?.blockUser() { [weak self] success in
                 if success {
@@ -742,7 +747,7 @@ extension ChatViewModel {
                     self?.delegate?.vmShowMessage(LGLocalizedString.blockUserErrorGeneric, completion: nil)
                 }
             }
-        }
+        })
         
         delegate?.vmShowAlert(LGLocalizedString.chatBlockUserAlertTitle,
                               message: LGLocalizedString.chatBlockUserAlertText,

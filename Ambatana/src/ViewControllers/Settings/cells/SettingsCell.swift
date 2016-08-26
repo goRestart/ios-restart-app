@@ -16,7 +16,8 @@ class SettingsCell: UITableViewCell, ReusableCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        self.setupUI()
+        setupUI()
+        setupAccessibilityIds()
     }
 
     func setupWithSetting(setting: LetGoSetting) {
@@ -34,5 +35,11 @@ class SettingsCell: UITableViewCell, ReusableCell {
 
     private func setupUI() {
         iconImageView.clipsToBounds = true
+    }
+
+    private func setupAccessibilityIds() {
+        iconImageView.accessibilityId = .SettingsCellIcon
+        label.accessibilityId = .SettingsCellTitle
+        nameLabel.accessibilityId = .SettingsCellValue
     }
 }
