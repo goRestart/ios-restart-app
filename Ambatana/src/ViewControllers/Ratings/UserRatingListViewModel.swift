@@ -114,7 +114,7 @@ extension UserRatingListViewModel:  UserRatingCellDelegate {
         let reviewAction = UIAction(interface: .Text(LGLocalizedString.ratingListActionReviewUser), action: { [weak self] in
             guard let userData = RateUserData(user: userFrom) else { return }
             self?.delegate?.vmShowUserRating(.UserRatingList, data: userData)
-        })
+        }, accessibilityId: .RatingListCellReview)
 
         actions = [reviewAction]
 
@@ -129,7 +129,7 @@ extension UserRatingListViewModel:  UserRatingCellDelegate {
                             completion: nil)
                     }
                 })
-            })
+            }, accessibilityId: .RatingListCellReport)
             actions.append(reportAction)
         }
 

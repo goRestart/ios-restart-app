@@ -7,6 +7,7 @@
 //
 
 import Result
+import LGCoreKit
 
 public class ConfigManager {
 
@@ -16,7 +17,12 @@ public class ConfigManager {
     private let dao : ConfigDAO
     private let appCurrentVersion : String
 
-    private var config: Config?
+    private var config: Config? {
+        didSet {
+            guard let quadKeyZoomLevel = config?.quadKeyZoomLevel else { return }
+            LGCoreKit.quadKeyZoomLevel = quadKeyZoomLevel
+        }
+    }
 
     public var updateTimeout: Double    // seconds
 

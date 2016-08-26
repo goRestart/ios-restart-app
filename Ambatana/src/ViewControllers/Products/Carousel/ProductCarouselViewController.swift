@@ -159,6 +159,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         setupNavigationBar()
         setupGradientView()
         setupCollectionRx()
+        setAccessibilityIds()
     }
     
     func addSubviews() {
@@ -986,4 +987,25 @@ extension ProductCarouselViewController: StickersSelectorDelegate {
     }
 
     func stickersSelectorDidCancel() {}
+}
+
+
+// MARK: - Accessibility ids
+
+extension ProductCarouselViewController {
+    private func setAccessibilityIds() {
+        collectionView.accessibilityId = .ProductCarouselCollectionView
+        buttonBottom.accessibilityId = .ProductCarouselButtonBottom
+        buttonTop.accessibilityId = .ProductCarouselButtonTop
+        favoriteButton.accessibilityId = .ProductCarouselFavoriteButton
+        moreInfoView.accessibilityId = .ProductCarouselMoreInfoView
+        productTitleLabel.accessibilityId = .ProductCarouselProductTitleLabel
+        productPriceLabel.accessibilityId = .ProductCarouselProductPriceLabel
+        productStatusLabel.accessibilityId = .ProductCarouselProductStatusLabel
+        directChatTable.accessibilityId = .ProductCarouselDirectChatTable
+        stickersButton.accessibilityId = .ProductCarouselStickersButton
+        fullScreenAvatarView.accessibilityId = .ProductCarouselFullScreenAvatarView
+        pageControl.accessibilityId = .ProductCarouselPageControl
+        commercialButton.accessibilityId = .ProductCarouselCommercialButton
+    }
 }

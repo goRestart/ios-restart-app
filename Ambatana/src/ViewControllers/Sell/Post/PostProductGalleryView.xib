@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -10,6 +10,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PostProductGalleryView" customModule="LetGo" customModuleProvider="target">
             <connections>
                 <outlet property="albumButton" destination="Igi-UE-hd4" id="xbb-FS-Enq"/>
+                <outlet property="closeButton" destination="bFH-yn-92t" id="85Y-Ki-mW7"/>
                 <outlet property="collectionGradientView" destination="bGK-ev-gOY" id="SfQ-gN-f0i"/>
                 <outlet property="collectionView" destination="M9w-br-XHH" id="pbG-Rz-o0V"/>
                 <outlet property="contentView" destination="iN0-l3-epB" id="ONs-u2-0ec"/>

@@ -52,6 +52,8 @@ SignUpLogInViewModelDelegate, GIDSignInUIDelegate {
 
     @IBOutlet weak var sendButton: UIButton!
     
+    private var helpButton: UIBarButtonItem!
+    
     // Constants & enum
 
     private static let termsConditionsShownHeight: CGFloat = 118
@@ -95,6 +97,7 @@ SignUpLogInViewModelDelegate, GIDSignInUIDelegate {
         super.viewDidLoad()
         setupStaticUI()
         setupUI()
+        setAccessibilityIds()
     }
 
     override func viewDidAppear(animated: Bool) {
@@ -449,7 +452,7 @@ SignUpLogInViewModelDelegate, GIDSignInUIDelegate {
             navigationItem.leftBarButtonItem = closeButton
         }
 
-        let helpButton = UIBarButtonItem(title: LGLocalizedString.mainSignUpHelpButton, style: .Plain, target: self,
+        helpButton = UIBarButtonItem(title: LGLocalizedString.mainSignUpHelpButton, style: .Plain, target: self,
             action: #selector(SignUpLogInViewController.helpButtonPressed))
         navigationItem.rightBarButtonItem = helpButton
     }
@@ -536,5 +539,24 @@ SignUpLogInViewModelDelegate, GIDSignInUIDelegate {
         case .Password:
             viewModel.password = text
         }
+    }
+}
+
+extension SignUpLogInViewController {
+    func setAccessibilityIds() {
+        connectFBButton.accessibilityId = .SignUpLoginFacebookButton
+        connectGoogleButton.accessibilityId = .SignUpLoginGoogleButton
+        emailButton.accessibilityId = .SignUpLoginEmailButton
+        emailTextField.accessibilityId = .SignUpLoginEmailTextField
+        passwordButton.accessibilityId = .SignUpLoginPasswordButton
+        passwordTextField.accessibilityId = .SignUpLoginEmailTextField
+        usernameButton.accessibilityId = .SignUpLoginUserNameButton
+        usernameTextField.accessibilityId = .SignUpLoginUserNameTextField
+        showPasswordButton.accessibilityId = .SignUpLoginShowPasswordButton
+        forgotPasswordButton.accessibilityId = .SignUpLoginForgotPasswordButton
+        loginSegmentedControl.accessibilityId = .SignUpLoginSegmentedControl
+        helpButton.accessibilityId = .SignUpLoginHelpButton
+        navigationItem.leftBarButtonItem?.accessibilityId = .SignUpLoginCloseButton
+        sendButton.accessibilityId = .SignUpLoginSendButton
     }
 }

@@ -8,6 +8,7 @@
         ]
     },
     "configURL": "https://letgo-images.s3.amazonaws.com/config/ios.json",
+    "quadKeyZoomLevel": 13,
     "userRating": {
         "myMessagesCountForRating": 1,
         "otherMessagesCountForRating": 1

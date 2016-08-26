@@ -90,6 +90,7 @@ class PostProductDetailStepsView: BaseView {
     private func setup() {
         loadNibNamed("PostProductDetailStepsView", contentView: { [weak self] in return self?.contentView })
         setupUI()
+        setAccesibilityIds()
         setupRx()
     }
 
@@ -241,5 +242,19 @@ extension PostProductDetailStepsView: UITextFieldDelegate, UITextViewDelegate {
             return false
         }
         return true
+    }
+}
+
+
+// MARK: - Accesibility
+
+extension PostProductDetailStepsView {
+    func setAccesibilityIds() {
+        doneButton.accessibilityId = .PostingDoneButton
+        currencyButton.accessibilityId = .PostingCurrencyButton
+        titleTextField.accessibilityId = .PostingTitleField
+        priceTextField.accessibilityId = .PostingPriceField
+        descriptionTextView.accessibilityId = .PostingDescriptionField
+        backButton.accessibilityId = .PostingBackButton
     }
 }

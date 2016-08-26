@@ -17,6 +17,7 @@ public class LGCoreKit {
 
     public static var loggingOptions = CoreLoggingOptions.None
     public static var activateWebsocket = false
+    public static var quadKeyZoomLevel = LGCoreKitConstants.defaultQuadKeyPrecision
 
     public static func initialize(launchOptions: [NSObject: AnyObject]?) {
         initialize(launchOptions, environmentType: .Production)

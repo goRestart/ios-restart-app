@@ -73,6 +73,9 @@ class NotificationCell: UITableViewCell, ReusableCell {
         timeLabel.textColor = UIColor.darkGrayText
         primaryImage.backgroundColor = UIColor.placeholderBackgroundColor()
         iconImage.layer.cornerRadius = iconImage.height/2
+
+        primaryImage.accessibilityId = .NotificationsCellPrimaryImage
+        secondaryImage.accessibilityId = .NotificationsCellSecondaryImage
     }
 
     private func resetUI() {

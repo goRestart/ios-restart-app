@@ -72,6 +72,7 @@ UICollectionViewDataSource, UICollectionViewDelegate {
         super.viewDidLoad()
         
         setupUi()
+        setAccessibilityIds()
         
         // Get categories
         viewModel.retrieveCategories()
@@ -269,5 +270,12 @@ UICollectionViewDataSource, UICollectionViewDelegate {
         // Rounded save button
         saveFiltersBtn.setStyle(.Primary(fontSize: .Medium))
         saveFiltersBtn.setTitle(LGLocalizedString.filtersSaveButton, forState: UIControlState.Normal)
+    }
+
+    private func setAccessibilityIds() {
+        collectionView.accessibilityId = .FiltersCollectionView
+        saveFiltersBtn.accessibilityId = .FiltersSaveFiltersButton
+        self.navigationItem.rightBarButtonItem?.accessibilityId = .FiltersResetButton
+        self.navigationItem.leftBarButtonItem?.accessibilityId = .FiltersCancelButton
     }
 }

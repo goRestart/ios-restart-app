@@ -67,6 +67,7 @@ class ProductCarouselMoreInfoView: UIView {
         let view = NSBundle.mainBundle().loadNibNamed("ProductCarouselMoreInfoView", owner: self, options: nil).first as! ProductCarouselMoreInfoView
         view.viewModel = viewModel
         view.setupUI()
+        view.setAccessibilityIds()
         view.setupContent()
         view.addGestures()
         view.configureMapView()
@@ -84,10 +85,6 @@ class ProductCarouselMoreInfoView: UIView {
         setupUI()
         setupContent()
         configureMapView()
-        configureOverlayMapView()
-        if let statsView = statsView {
-            updateStatsView(statsView)
-        }
     }
 
     func dismissed() {
@@ -459,5 +456,20 @@ extension ProductCarouselMoreInfoView: SocialShareViewDelegate {
     
     func shareInCopyLink() {
         viewModel?.shareInCopyLink()
+    }
+}
+
+
+extension ProductCarouselMoreInfoView {
+    private func setAccessibilityIds() {
+        scrollView.accessibilityId = .ProductCarouselMoreInfoScrollView
+        titleLabel.accessibilityId = .ProductCarouselMoreInfoTitleLabel
+        transTitleLabel.accessibilityId = .ProductCarouselMoreInfoTransTitleLabel
+        addressLabel.accessibilityId = .ProductCarouselMoreInfoAddressLabel
+        distanceLabel.accessibilityId = .ProductCarouselMoreInfoDistanceLabel
+        mapView.accessibilityId = .ProductCarouselMoreInfoMapView
+        socialShareTitleLabel.accessibilityId = .ProductCarouselMoreInfoSocialShareTitleLabel
+        socialShareView.accessibilityId = .ProductCarouselMoreInfoSocialShareView
+        descriptionLabel.accessibilityId = .ProductCarouselMoreInfoDescriptionLabel
     }
 }

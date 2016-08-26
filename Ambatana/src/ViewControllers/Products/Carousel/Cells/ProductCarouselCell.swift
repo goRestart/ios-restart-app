@@ -39,6 +39,7 @@ class ProductCarouselCell: UICollectionViewCell {
         self.collectionView = UICollectionView(frame: frame, collectionViewLayout: layout)
         super.init(frame: frame)
         setupUI()
+        setAccessibilityIds()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -159,5 +160,14 @@ extension ProductCarouselCell: UICollectionViewDelegate, UICollectionViewDataSou
 
     var bottomScrollLimit: CGFloat {
         return max(0, collectionView.contentSize.height - collectionView.height + collectionView.contentInset.bottom)
+    }
+}
+
+
+extension ProductCarouselCell {
+    private func setAccessibilityIds() {
+        self.accessibilityId = .ProductCarouselCell
+        collectionView.accessibilityId = .ProductCarouselCellCollectionView
+        placeholderImage?.accessibilityId = .ProductCarouselCellPlaceholderImage
     }
 }

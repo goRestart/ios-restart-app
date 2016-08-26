@@ -10,7 +10,7 @@ import Foundation
 import LGCoreKit
 
 final class TourLocationViewController: BaseViewController {
-    
+    @IBOutlet weak var closeButton: UIButton!
     @IBOutlet weak var yesButton: UIButton!
     @IBOutlet weak var noButton: UIButton!
     @IBOutlet weak var subtitleLabel: UILabel!
@@ -48,6 +48,7 @@ final class TourLocationViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        setupAccessibilityIds()
         setStatusBarHidden(true)
         viewModel.viewDidLoad()
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(TourLocationViewController.didAskNativeLocationPermission),
@@ -125,5 +126,11 @@ final class TourLocationViewController: BaseViewController {
             titleLabel.font = UIFont.tourNotificationsTitleFont
             subtitleLabel.font = UIFont.tourNotificationsSubtitleFont
         }
+    }
+
+    func setupAccessibilityIds() {
+        closeButton.accessibilityId = .TourLocationCloseButton
+        yesButton.accessibilityId = .TourLocationOKButton
+        noButton.accessibilityId = .TourLocationCancelButton
     }
 }

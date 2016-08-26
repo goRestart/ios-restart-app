@@ -55,6 +55,7 @@ class RateUserViewController: BaseViewController {
         super.viewDidLoad()
 
         setupUI()
+        setAccesibilityIds()
         setupRx()
     }
 
@@ -198,5 +199,24 @@ extension RateUserViewController: UITextViewDelegate {
             descriptionText.text = descrPlaceholder
             descriptionText.textColor = descrPlaceholderColor
         }
+    }
+}
+
+
+// MARK: - Accesibility
+
+extension RateUserViewController {
+    func setAccesibilityIds() {
+        userNameText.accessibilityId = .RateUserUserNameLabel
+        if stars.count == 5 {
+            stars[0].accessibilityId = .RateUserStarButton1
+            stars[1].accessibilityId = .RateUserStarButton2
+            stars[2].accessibilityId = .RateUserStarButton3
+            stars[3].accessibilityId = .RateUserStarButton4
+            stars[4].accessibilityId = .RateUserStarButton5
+        }
+        descriptionText.accessibilityId = .RateUserDescriptionField
+        activityIndicator.accessibilityId = .RateUserLoading
+        publishButton.accessibilityId = .RateUserPublishButton
     }
 }

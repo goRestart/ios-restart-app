@@ -162,12 +162,12 @@ private extension PostProductViewModel {
     func openPostAbandonAlertNotLoggedIn() {
         let title = LGLocalizedString.productPostCloseAlertTitle
         let message = LGLocalizedString.productPostCloseAlertDescription
-        let cancelAction = UIAction(interface: .Text(LGLocalizedString.productPostCloseAlertCloseButton)) { [weak self] in
+        let cancelAction = UIAction(interface: .Text(LGLocalizedString.productPostCloseAlertCloseButton), action: { [weak self] in
             self?.navigator?.cancelPostProduct()
-        }
-        let postAction = UIAction(interface: .Text(LGLocalizedString.productPostCloseAlertOkButton)) { [weak self] in
+        })
+        let postAction = UIAction(interface: .Text(LGLocalizedString.productPostCloseAlertOkButton), action: { [weak self] in
             self?.postProduct()
-        }
+        })
         delegate?.vmShowAlert(title, message: message, actions: [cancelAction, postAction])
     }
 

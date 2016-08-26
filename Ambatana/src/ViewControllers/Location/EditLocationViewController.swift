@@ -62,6 +62,7 @@ class EditLocationViewController: BaseViewController, EditLocationViewModelDeleg
         super.viewDidLoad()
         
         setupUI()
+        setupAccessibilityIds()
         setRxBindings()
     }
 
@@ -154,6 +155,18 @@ class EditLocationViewController: BaseViewController, EditLocationViewModelDeleg
         setNavBarTitle(LGLocalizedString.changeLocationTitle)
 
         registerCells()
+    }
+
+    private func setupAccessibilityIds() {
+        mapView.accessibilityId = .EditLocationMap
+        searchButton.accessibilityId = .EditLocationSearchButton
+        searchField.accessibilityId = .EditLocationSearchTextField
+        suggestionsTableView.accessibilityId = .EditLocationSearchSuggestionsTable
+        gpsLocationButton.accessibilityId = .EditLocationSensorLocationButton
+        aproxLocationArea.accessibilityId = .EditLocationApproxLocationCircleView
+        poiImage.accessibilityId = .EditLocationPOIImageView
+        setLocationButton.accessibilityId = .EditLocationSetLocationButton
+        approximateLocationSwitch.accessibilityId = .EditLocationApproxLocationSwitch
     }
 
     private func setRxBindings() {
