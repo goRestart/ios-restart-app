@@ -998,14 +998,11 @@ extension ProductCarouselViewController {
         buttonBottom.accessibilityId = .ProductCarouselButtonBottom
         buttonTop.accessibilityId = .ProductCarouselButtonTop
         favoriteButton.accessibilityId = .ProductCarouselFavoriteButton
-        moreInfoView.accessibilityId = .ProductCarouselMoreInfoView
-        productTitleLabel.accessibilityId = .ProductCarouselProductTitleLabel
-        productPriceLabel.accessibilityId = .ProductCarouselProductPriceLabel
+        moreInfoView?.accessibilityId = .ProductCarouselMoreInfoView
         productStatusLabel.accessibilityId = .ProductCarouselProductStatusLabel
         directChatTable.accessibilityId = .ProductCarouselDirectChatTable
         stickersButton.accessibilityId = .ProductCarouselStickersButton
         fullScreenAvatarView.accessibilityId = .ProductCarouselFullScreenAvatarView
         pageControl.accessibilityId = .ProductCarouselPageControl
-        commercialButton.accessibilityId = .ProductCarouselCommercialButton
     }
 }
