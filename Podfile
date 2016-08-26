@@ -12,9 +12,9 @@ def shared_pods
     pod "AlamofireImage",        "~> 2.4.0"
     pod "Argo",                 "~> 3.0.1"
 
-	pod "FBSDKLoginKit",         "~> 4.9.1"
-	pod "FBSDKCoreKit",          "~> 4.9.1"
-	pod "FBSDKShareKit",		 "~> 4.9.1"
+	pod "FBSDKLoginKit",         "~> 4.14.0"
+	pod "FBSDKCoreKit",          "~> 4.14.0"
+	pod "FBSDKShareKit",		 "~> 4.14.0"
 
     pod "RxSwift",              "~> 2.5.0"
     pod "RxCocoa",              "~> 2.5.0"

@@ -16,24 +16,26 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
 
-@protocol FBSDKWebDialogViewDelegate;
+#import <FBSDKShareKit/FBSDKSharingContent.h>
 
-@interface FBSDKWebDialogView : UIView
+/*!
+ @abstract A model for media content (photo or video) to be shared.
+ */
+@interface FBSDKShareMediaContent : NSObject <FBSDKSharingContent>
 
-@property (nonatomic, weak) id<FBSDKWebDialogViewDelegate> delegate;
+/*!
+ @abstract Media to be shared.
+ @return Array of the media (FBSDKSharePhoto or FBSDKShareVideo)
+ */
+@property (nonatomic, copy) NSArray *media;
 
-- (void)loadURL:(NSURL *)URL;
-- (void)stopLoading;
-
-@end
-
-@protocol FBSDKWebDialogViewDelegate <NSObject>
-
-- (void)webDialogView:(FBSDKWebDialogView *)webDialogView didCompleteWithResults:(NSDictionary *)results;
-- (void)webDialogView:(FBSDKWebDialogView *)webDialogView didFailWithError:(NSError *)error;
-- (void)webDialogViewDidCancel:(FBSDKWebDialogView *)webDialogView;
-- (void)webDialogViewDidFinishLoad:(FBSDKWebDialogView *)webDialogView;
+/*!
+ @abstract Compares the receiver to another media content.
+ @param content The other content
+ @return YES if the receiver's values are equal to the other content's values; otherwise NO
+ */
+- (BOOL)isEqualToShareMediaContent:(FBSDKShareMediaContent *)content;
 
 @end
