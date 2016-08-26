@@ -55,6 +55,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("app_share_whatsapp_button", comment: "")
 	}
 
+	static var appShareInviteText: String {
+		return NSLocalizedString("app_share_invite_text", comment: "")
+	}
+
 	static var blockUserErrorGeneric: String {
 		return NSLocalizedString("block_user_error_generic", comment: "")
 	}

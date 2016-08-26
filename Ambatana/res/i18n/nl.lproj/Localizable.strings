@@ -3,11 +3,12 @@
 "app_share_download_text" = "Download";
 "app_share_email_button" = "Uitnodigen via Email";
 "app_share_fbmessenger_button" = "Uitnodigen via Messenger";
+"app_share_invite_text" = "Invite";
 "app_share_message_text" = "Ik heb net iets verkocht op letgo! Bekijk het ook en verdien geld door spullen te verkopen die je niet meer nodig hebt...";
 "app_share_subject_text" = "Bekijk letgo";
-"app_share_subtitle" = "Invite your friends to letgo and help us grow our community!";
-"app_share_subtitle_alternative" = "Share letgo with your friends and help us grow our community!";
-"app_share_title" = "INVITE YOUR FRIENDS";
+"app_share_subtitle" = "Nodig je vrienden uit voor letgo en help ons om onze community te laten groeien!";
+"app_share_subtitle_alternative" = "Deel letgo met je vrienden en help ons om onze community te laten groeien!";
+"app_share_title" = "NODIG JE VRIENDEN UIT";
 "app_share_title_alternative" = "SHARE THE LOVE";
 "app_share_whatsapp_button" = "Uitnodigen via Whatsapp";
 "block_user_error_generic" = "Er is een fout opgetreden tijdens het blokkeren van deze gebruiker.";

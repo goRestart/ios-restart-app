@@ -3,11 +3,12 @@
 "app_share_download_text" = "Загрузка";
 "app_share_email_button" = "Пригласить через е-мейл";
 "app_share_fbmessenger_button" = "Пригласить через Messenger";
+"app_share_invite_text" = "Invite";
 "app_share_message_text" = "Я уже продал кое-что на letgo! Попробуй его и начни получать деньги за вещи, которые больше не нужны...";
 "app_share_subject_text" = "Попробуйте letgo";
-"app_share_subtitle" = "Invite your friends to letgo and help us grow our community!";
+"app_share_subtitle" = "Поделитесь letgo с друзьями и помогите нам увеличить количество пользователей!";
 "app_share_subtitle_alternative" = "Share letgo with your friends and help us grow our community!";
-"app_share_title" = "INVITE YOUR FRIENDS";
+"app_share_title" = "Пригласить друзей";
 "app_share_title_alternative" = "SHARE THE LOVE";
 "app_share_whatsapp_button" = "Пригласить через Whatsapp";
 "block_user_error_generic" = "При блокировке произошла ошибка.";

@@ -34,6 +34,9 @@
 // App share whatsapp button
 "app_share_whatsapp_button" = "Invite via Whatsapp";
 
+// Button in listing to open the App Share view
+"app_share_invite_text" = "Invite";
+
 // Text for unsuccessful user block
 "block_user_error_generic" = "An error occurred while blocking this user.";
 

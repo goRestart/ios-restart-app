@@ -3,12 +3,13 @@
 "app_share_download_text" = "Scarica";
 "app_share_email_button" = "Invita via Email";
 "app_share_fbmessenger_button" = "Invita via Messenger";
+"app_share_invite_text" = "Invite";
 "app_share_message_text" = "Ho appena venduto qualcosa su letgo! Dovresti dargli un'occhiata anche tu e guadagnare un po' di soldi da cose che non usi più...";
 "app_share_subject_text" = "Scopri letgo";
-"app_share_subtitle" = "Invite your friends to letgo and help us grow our community!";
-"app_share_subtitle_alternative" = "Share letgo with your friends and help us grow our community!";
-"app_share_title" = "INVITE YOUR FRIENDS";
-"app_share_title_alternative" = "SHARE THE LOVE";
+"app_share_subtitle" = "Invita i tuoi amici su letgo e contribuisci a far crescere la nostra comunità!";
+"app_share_subtitle_alternative" = "Condividi letgo con i tuoi amici e contribuisci a far crescere la nostra comunità!";
+"app_share_title" = "INVITA I TUOI AMICI";
+"app_share_title_alternative" = "CONDIVIDI LA PASSIONE";
 "app_share_whatsapp_button" = "Invita via Whatsapp";
 "block_user_error_generic" = "Si è verificato un errore durante il tentativo di bloccare questo utente.";
 "categories_baby_and_child" = "Bambino e Ragazzo";

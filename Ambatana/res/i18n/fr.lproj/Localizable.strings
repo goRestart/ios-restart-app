@@ -3,12 +3,13 @@
 "app_share_download_text" = "Télécharger";
 "app_share_email_button" = "Inviter via Email";
 "app_share_fbmessenger_button" = "Inviter via Messenger";
+"app_share_invite_text" = "Invite";
 "app_share_message_text" = "Je viens juste de vendre un bien sur letgo ! Tu devrais essayer aussi et gagner de l'argent en vendant des affaires dont tu n'as plus besoin...";
 "app_share_subject_text" = "Découvrez letgo";
-"app_share_subtitle" = "Invite your friends to letgo and help us grow our community!";
-"app_share_subtitle_alternative" = "Share letgo with your friends and help us grow our community!";
-"app_share_title" = "INVITE YOUR FRIENDS";
-"app_share_title_alternative" = "SHARE THE LOVE";
+"app_share_subtitle" = "Partagez letgo avec vos amis et aidez-nous à faire grandir notre communauté !";
+"app_share_subtitle_alternative" = "Partagez letgo avec vos amis et aidez-nous à développer notre communauté !";
+"app_share_title" = "INVITEZ VOS AMIS";
+"app_share_title_alternative" = "PARTAGEZ L'APPLI";
 "app_share_whatsapp_button" = "Inviter via Whatsapp";
 "block_user_error_generic" = "Une erreur est survenue lors du blocage de cet utilisateur.";
 "categories_baby_and_child" = "Bébé et Enfant";

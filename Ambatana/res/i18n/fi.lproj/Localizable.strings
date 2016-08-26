@@ -3,12 +3,13 @@
 "app_share_download_text" = "Lataa";
 "app_share_email_button" = "Kutsu sähköpostilla";
 "app_share_fbmessenger_button" = "Kutsu Messengerillä";
+"app_share_invite_text" = "Invite";
 "app_share_message_text" = "Myin juuri jotakin letgossa! Sinunkin pitäisi käydä tutustumassa siihen, tienaat rahaa tavaroilla, joita et käytä enää...";
 "app_share_subject_text" = "Tutustu letgohun";
-"app_share_subtitle" = "Invite your friends to letgo and help us grow our community!";
-"app_share_subtitle_alternative" = "Share letgo with your friends and help us grow our community!";
-"app_share_title" = "INVITE YOUR FRIENDS";
-"app_share_title_alternative" = "SHARE THE LOVE";
+"app_share_subtitle" = "Kutsu ystäväsi letgohun ja auta yhteisöämme kasvamaan!";
+"app_share_subtitle_alternative" = "Jaa letgo ystävillesi ja auta yhteisöämme kasvamaan!";
+"app_share_title" = "KUTSU YSTÄVÄSI";
+"app_share_title_alternative" = "JAA RAKKAUTESI";
 "app_share_whatsapp_button" = "Kutsu Whatsappilla";
 "block_user_error_generic" = "Tätä käyttäjää estettäessä tapahtui virhe.";
 "categories_baby_and_child" = "Vauvat ja lapset";

@@ -317,7 +317,7 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
         if FeatureFlags.showInviteHearthIcon {
             button = UIBarButtonItem(image: UIImage(named: "ic_invite"), style: .Plain, target: self, action: #selector(openInvite))
         } else {
-            button = UIBarButtonItem(title: "Invite", style: .Plain, target: self, action: #selector(openInvite))
+            button = UIBarButtonItem(title: LGLocalizedString.appShareInviteText, style: .Plain, target: self, action: #selector(openInvite))
         }
         navigationItem.leftBarButtonItem = button
     }
