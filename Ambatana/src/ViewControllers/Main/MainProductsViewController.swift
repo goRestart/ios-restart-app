@@ -94,13 +94,6 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
         setAccessibilityIds()
     }
     
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        let backColor = UIColor.grayBackground.imageWithSize(CGSize(width: 1, height: 1))
-        setNavBarBackgroundStyle(NavBarBackgroundStyle.Custom(background: backColor, shadow: UIImage()))
-        navigationController?.navigationBar.translucent = true
-    }
-    
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         navbarSearch.endEdit()

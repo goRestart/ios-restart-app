@@ -20,7 +20,7 @@ class CategoriesViewController: BaseViewController, CategoriesViewModelDelegate,
     private var lastContentOffset: CGFloat = 0.0
     
     // ViewModel
-    private var viewModel : CategoriesViewModel!
+    private var viewModel : CategoriesViewModel
     
     // MARK: - Lifecycle
     
@@ -33,8 +33,8 @@ class CategoriesViewController: BaseViewController, CategoriesViewModelDelegate,
     }
     
     required init(viewModel: CategoriesViewModel, nibName nibNameOrNil: String?) {
-        super.init(viewModel: viewModel, nibName: nibNameOrNil)
         self.viewModel = viewModel
+        super.init(viewModel: viewModel, nibName: nibNameOrNil)
         self.viewModel.delegate = self
         
         hidesBottomBarWhenPushed = false
