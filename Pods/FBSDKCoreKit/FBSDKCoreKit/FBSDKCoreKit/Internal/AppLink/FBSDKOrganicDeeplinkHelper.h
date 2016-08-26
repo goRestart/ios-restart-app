@@ -16,24 +16,10 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
 
-@protocol FBSDKWebDialogViewDelegate;
+#import <FBSDKCoreKit/FBSDKAppLinkUtility.h>
 
-@interface FBSDKWebDialogView : UIView
-
-@property (nonatomic, weak) id<FBSDKWebDialogViewDelegate> delegate;
-
-- (void)loadURL:(NSURL *)URL;
-- (void)stopLoading;
-
-@end
-
-@protocol FBSDKWebDialogViewDelegate <NSObject>
-
-- (void)webDialogView:(FBSDKWebDialogView *)webDialogView didCompleteWithResults:(NSDictionary *)results;
-- (void)webDialogView:(FBSDKWebDialogView *)webDialogView didFailWithError:(NSError *)error;
-- (void)webDialogViewDidCancel:(FBSDKWebDialogView *)webDialogView;
-- (void)webDialogViewDidFinishLoad:(FBSDKWebDialogView *)webDialogView;
-
+@interface FBSDKOrganicDeeplinkHelper: NSObject
+- (bool)fetchOrganicDeeplink:(FBSDKDeferredAppInviteHandler)handler;
 @end
