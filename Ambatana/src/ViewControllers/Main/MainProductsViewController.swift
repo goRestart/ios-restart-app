@@ -316,7 +316,7 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     
     private func setInviteNavBarButton() {
         var button: UIBarButtonItem
-        if FeatureFlags.showInviteHearthIcon {
+        if FeatureFlags.showInviteHeartIcon {
             button = UIBarButtonItem(image: UIImage(named: "ic_invite"), style: .Plain, target: self, action: #selector(openInvite))
         } else {
             button = UIBarButtonItem(title: LGLocalizedString.appShareInviteText, style: .Plain, target: self, action: #selector(openInvite))

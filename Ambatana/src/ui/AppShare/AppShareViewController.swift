@@ -133,8 +133,8 @@ class AppShareViewController: UIViewController {
             inviteEmailIcon.hidden = true
         }
         
-        if FeatureFlags.showInviteHearthIcon {
-            headerImageView.image = UIImage(named: "invite_hearth")
+        if FeatureFlags.showInviteHeartIcon {
+            headerImageView.image = UIImage(named: "invite_heart")
             titleLabel.text = LGLocalizedString.appShareTitleAlternative
             subtitleLabel.text = LGLocalizedString.appShareSubtitleAlternative
         } else {

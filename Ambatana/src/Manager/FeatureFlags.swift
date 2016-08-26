@@ -69,11 +69,11 @@ struct FeatureFlags {
         return PostingDetailsMode(rawValue: ABTests.postingDetailsMode.value) ?? .Old
     }
     
-    static var showInviteHearthIcon: Bool {
+    static var showInviteHeartIcon: Bool {
         if FTSFlipTheSwitch.overridesABTests {
-            return FTSFlipTheSwitch.showInviteHearthIcon
+            return FTSFlipTheSwitch.showInviteHeartIcon
         }
-        return ABTests.showInviteHearthIcon.value
+        return ABTests.showInviteHeartIcon.value
     }
 }
 
@@ -118,7 +118,7 @@ private extension FTSFlipTheSwitch {
         return FTSFlipTheSwitch.sharedInstance().isFeatureEnabled("new_post_details_steps")
     }
     
-    static var showInviteHearthIcon: Bool {
-        return FTSFlipTheSwitch.sharedInstance().isFeatureEnabled("show_invite_hearth_icon")
+    static var showInviteHeartIcon: Bool {
+        return FTSFlipTheSwitch.sharedInstance().isFeatureEnabled("show_invite_heart_icon")
     }
 }

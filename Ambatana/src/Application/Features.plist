@@ -72,10 +72,10 @@
 		<key>enabled</key>
 		<false/>
 	</dict>
-	<key>show_invite_hearth_icon</key>
+	<key>show_invite_heart_icon</key>
 	<dict>
 		<key>description</key>
-		<string>Show Text or Hearth Icon In Main product list left bar button</string>
+		<string>Show Text or Heart Icon In Main product list left bar button</string>
 		<key>enabled</key>
 		<false/>
 	</dict>
