@@ -76,6 +76,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     private let moreInfoTooltipMargin: CGFloat = 0
 
     private let itemsMargin: CGFloat = 15
+    private let stickersButtonHiddenTrailing: CGFloat = 5
     private let stickersButtonVisibleWidth: CGFloat = 50
     private var moreInfoTooltip: Tooltip?
 
@@ -532,7 +533,7 @@ extension ProductCarouselViewController {
         viewModel.stickersButtonEnabled.asObservable().bindNext { [weak self] enabled in
             self?.stickersButton.hidden = !enabled
             self?.stickersButtonWidth.constant = enabled ? self?.stickersButtonVisibleWidth ?? 0 : 0
-            self?.stickersButtonTrailing.constant = enabled ? self?.itemsMargin ?? 0 : 0
+            self?.stickersButtonTrailing.constant = enabled ? self?.itemsMargin ?? 0 : self?.stickersButtonHiddenTrailing ?? 0
         }.addDisposableTo(activeDisposeBag)
 
         viewModel.directChatMessages.changesObservable.bindNext { [weak self] change in

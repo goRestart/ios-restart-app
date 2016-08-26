@@ -116,7 +116,7 @@
                     <state key="normal" title="Button BOTTOM"/>
                 </button>
                 <button hidden="YES" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uPU-nT-EmU" userLabel="Stickers Button">
-                    <rect key="frame" x="414" y="671" width="0.0" height="50"/>
+                    <rect key="frame" x="409" y="671" width="0.0" height="50"/>
                     <constraints>
                         <constraint firstAttribute="width" id="nTj-Xz-1Ca"/>
                     </constraints>
@@ -145,7 +145,7 @@
                 <constraint firstAttribute="trailing" secondItem="v46-dz-RxO" secondAttribute="trailing" id="JyA-NP-pAb"/>
                 <constraint firstAttribute="bottom" secondItem="v46-dz-RxO" secondAttribute="bottom" id="Mxb-g0-Xqa"/>
                 <constraint firstAttribute="bottom" secondItem="ibM-CY-XRt" secondAttribute="bottom" constant="15" id="Myo-3r-EON"/>
-                <constraint firstAttribute="trailing" secondItem="uPU-nT-EmU" secondAttribute="trailing" id="Nmx-a2-PG1"/>
+                <constraint firstAttribute="trailing" secondItem="uPU-nT-EmU" secondAttribute="trailing" constant="5" id="Nmx-a2-PG1"/>
                 <constraint firstItem="PnK-9l-N8i" firstAttribute="height" secondItem="KRQ-9w-aXE" secondAttribute="height" multiplier="1:4" id="Oi9-HP-0Ex"/>
                 <constraint firstAttribute="trailing" secondItem="Bn0-dg-QsD" secondAttribute="trailing" constant="15" id="QNg-JR-SvF"/>
                 <constraint firstItem="a9q-ok-5NH" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="QVV-5q-SCh"/>
@@ -166,7 +166,7 @@
                 <constraint firstItem="ibM-CY-XRt" firstAttribute="top" secondItem="Bn0-dg-QsD" secondAttribute="bottom" constant="10" id="hrM-0C-4HM"/>
                 <constraint firstItem="cLW-LX-KUg" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="iKD-DZ-mFm"/>
                 <constraint firstItem="uPU-nT-EmU" firstAttribute="top" secondItem="ibM-CY-XRt" secondAttribute="top" id="j0C-20-hOj"/>
-                <constraint firstItem="uPU-nT-EmU" firstAttribute="leading" secondItem="ibM-CY-XRt" secondAttribute="trailing" constant="15" id="jmk-QU-sju"/>
+                <constraint firstItem="uPU-nT-EmU" firstAttribute="leading" secondItem="ibM-CY-XRt" secondAttribute="trailing" constant="10" id="jmk-QU-sju"/>
                 <constraint firstAttribute="trailing" secondItem="nEH-Ai-mnV" secondAttribute="trailing" id="kDw-uK-k9I"/>
                 <constraint firstItem="cLW-LX-KUg" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" id="lXW-NY-m3F"/>
                 <constraint firstItem="KRQ-9w-aXE" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="mFD-eh-LD5"/>

@@ -180,7 +180,7 @@ class UserView: UIView {
         subtitleLabel.textColor = style.subtitleLabelColor
 
         if let borderColor = style.avatarBorderColor {
-            userAvatarImageView.layer.borderWidth = 1
+            userAvatarImageView.layer.borderWidth = 2
             userAvatarImageView.layer.borderColor = borderColor.CGColor
         }
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(avatarPressed))
