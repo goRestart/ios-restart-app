@@ -91,10 +91,12 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
         setFiltersNavbarButton()
         setInviteNavBarButton()
         setupRxBindings()
-        
-        navigationController?.setNavBarBackgroundStyle(NavBarBackgroundStyle.Custom(background: UIImage(), shadow: UIImage()))
-        navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: .Default)
-        navigationController?.navigationBar.shadowImage = UIImage()
+        navigationController?.setNavBarBackgroundStyle(.Custom(background: UIImage(), shadow: UIImage()))
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        setNavBarBackgroundStyle(.Transparent)
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -313,7 +315,7 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     private func setInviteNavBarButton() {
         var button: UIBarButtonItem
         if FeatureFlags.showInviteHearthIcon {
-            button = UIBarButtonItem(image: UIImage(named: "ic_product_like_on"), style: .Plain, target: self, action: #selector(openInvite))
+            button = UIBarButtonItem(image: UIImage(named: "ic_invite"), style: .Plain, target: self, action: #selector(openInvite))
         } else {
             button = UIBarButtonItem(title: "Invite", style: .Plain, target: self, action: #selector(openInvite))
         }

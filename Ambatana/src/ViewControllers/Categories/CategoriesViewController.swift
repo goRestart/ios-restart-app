@@ -68,7 +68,7 @@ class CategoriesViewController: BaseViewController, CategoriesViewModelDelegate,
         
     }
 
-
+    
     // MARK: - ScrollableToTop
 
     func scrollToTop() {
