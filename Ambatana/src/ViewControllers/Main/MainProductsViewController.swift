@@ -518,5 +518,6 @@ extension MainProductsViewController {
         infoBubbleLabel.accessibilityId = .MainProductsInfoBubbleLabel
         navbarSearch.accessibilityId = .MainProductsNavBarSearch
         trendingSearchesTable.accessibilityId = .MainProductsTrendingSearchesTable
+        navigationItem.leftBarButtonItem?.accessibilityId = .MainProductsInviteButton
     }
 }
