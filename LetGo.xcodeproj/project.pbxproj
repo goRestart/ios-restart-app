@@ -710,6 +710,8 @@
 		C79842061CC903A500C300FF /* MockAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = C79842031CC903A500C300FF /* MockAccount.swift */; };
 		C7AB4EC61CD39C67007B573D /* NotificationsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AB4EC51CD39C67007B573D /* NotificationsManager.swift */; };
 		C7AB4EC71CD39C67007B573D /* NotificationsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AB4EC51CD39C67007B573D /* NotificationsManager.swift */; };
+		C7B543241D6F49CE005FBA30 /* UIView+Screenshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B543231D6F49CE005FBA30 /* UIView+Screenshot.swift */; };
+		C7B543251D6F49D1005FBA30 /* UIView+Screenshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B543231D6F49CE005FBA30 /* UIView+Screenshot.swift */; };
 		C7B588251CE1DE1C009B3975 /* BlockedUserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B587FB1CE1DE1C009B3975 /* BlockedUserCell.swift */; };
 		C7B588261CE1DE1C009B3975 /* BlockedUserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B587FB1CE1DE1C009B3975 /* BlockedUserCell.swift */; };
 		C7B588271CE1DE1C009B3975 /* BlockedUserCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C7B587FC1CE1DE1C009B3975 /* BlockedUserCell.xib */; };
@@ -1498,6 +1500,7 @@
 		C79842001CC8E8C900C300FF /* User+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "User+LG.swift"; sourceTree = "<group>"; };
 		C79842031CC903A500C300FF /* MockAccount.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockAccount.swift; sourceTree = "<group>"; };
 		C7AB4EC51CD39C67007B573D /* NotificationsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationsManager.swift; sourceTree = "<group>"; };
+		C7B543231D6F49CE005FBA30 /* UIView+Screenshot.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Screenshot.swift"; sourceTree = "<group>"; };
 		C7B587FB1CE1DE1C009B3975 /* BlockedUserCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlockedUserCell.swift; sourceTree = "<group>"; };
 		C7B587FC1CE1DE1C009B3975 /* BlockedUserCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BlockedUserCell.xib; sourceTree = "<group>"; };
 		C7B587FD1CE1DE1C009B3975 /* BlockedUsersListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlockedUsersListView.swift; sourceTree = "<group>"; };
@@ -2543,6 +2546,7 @@
 				6A5E19DA1D548F5400F92692 /* UIViewController+Alert.swift */,
 				6A5E19DB1D548F5400F92692 /* UIViewController+LG.swift */,
 				C742340B1D5A132D0082D1CD /* UITableView+Changes.swift */,
+				C7B543231D6F49CE005FBA30 /* UIView+Screenshot.swift */,
 			);
 			path = UIkitExtensions;
 			sourceTree = "<group>";
@@ -4007,6 +4011,7 @@
 				D4912A881B08FDA000DACD5A /* UIColor+UIImage.swift in Sources */,
 				C75B5DBF1D59E09500112368 /* ProductCarouselPushAnimator.swift in Sources */,
 				C7C61DFB1D630ED500F9505D /* CollectionCell.swift in Sources */,
+				C7B543241D6F49CE005FBA30 /* UIView+Screenshot.swift in Sources */,
 				2E26F06A1C89998A00C8D789 /* ProcessingVideoDialogViewController.swift in Sources */,
 				50C59BDE1CE0DBC100377124 /* KeyValueStorage.swift in Sources */,
 				D4BFE5B41B640C36006A8CB6 /* MainProductsViewController.swift in Sources */,
@@ -4367,6 +4372,7 @@
 				C75B5DC01D59E09500112368 /* ProductCarouselPushAnimator.swift in Sources */,
 				C7DB41A11C5138B500400945 /* UIColor+UIImage.swift in Sources */,
 				C7C61DFD1D630ED800F9505D /* CollectionCell.swift in Sources */,
+				C7B543251D6F49D1005FBA30 /* UIView+Screenshot.swift in Sources */,
 				2E26F06B1C89998A00C8D789 /* ProcessingVideoDialogViewController.swift in Sources */,
 				50C59BDF1CE0DBC100377124 /* KeyValueStorage.swift in Sources */,
 				C7DE8ADD1C88A8E5005CF37E /* PostProductViewModel.swift in Sources */,

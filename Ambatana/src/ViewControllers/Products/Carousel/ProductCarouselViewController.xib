@@ -18,6 +18,7 @@
                 <outlet property="flowLayout" destination="9ON-PJ-ZOJ" id="n97-2q-ck7"/>
                 <outlet property="gradientShadowBottomView" destination="v46-dz-RxO" id="SOd-x8-W3i"/>
                 <outlet property="gradientShadowView" destination="PnK-9l-N8i" id="Cd4-V7-udw"/>
+                <outlet property="imageBackground" destination="a9q-ok-5NH" id="Rng-ni-wSf"/>
                 <outlet property="productStatusLabel" destination="yoR-Fx-XEv" id="rdF-DT-xux"/>
                 <outlet property="productStatusView" destination="cLW-LX-KUg" id="tuY-O4-wBO"/>
                 <outlet property="stickersButton" destination="uPU-nT-EmU" id="wwk-6v-4qa"/>
@@ -31,8 +32,12 @@
             <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="a9q-ok-5NH">
+                    <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                </imageView>
                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" directionalLockEnabled="YES" alwaysBounceHorizontal="YES" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="KRQ-9w-aXE">
                     <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="9ON-PJ-ZOJ">
                         <size key="itemSize" width="50" height="50"/>
                         <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -134,7 +139,7 @@
                     </connections>
                 </tableView>
             </subviews>
-            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="KRQ-9w-aXE" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="IpU-G3-HED"/>
                 <constraint firstAttribute="trailing" secondItem="v46-dz-RxO" secondAttribute="trailing" id="JyA-NP-pAb"/>
@@ -143,6 +148,8 @@
                 <constraint firstAttribute="trailing" secondItem="uPU-nT-EmU" secondAttribute="trailing" id="Nmx-a2-PG1"/>
                 <constraint firstItem="PnK-9l-N8i" firstAttribute="height" secondItem="KRQ-9w-aXE" secondAttribute="height" multiplier="1:4" id="Oi9-HP-0Ex"/>
                 <constraint firstAttribute="trailing" secondItem="Bn0-dg-QsD" secondAttribute="trailing" constant="15" id="QNg-JR-SvF"/>
+                <constraint firstItem="a9q-ok-5NH" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="QVV-5q-SCh"/>
+                <constraint firstAttribute="trailing" secondItem="a9q-ok-5NH" secondAttribute="trailing" id="QcT-kq-k6o"/>
                 <constraint firstItem="Bn0-dg-QsD" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="15" id="SjC-8f-ffg"/>
                 <constraint firstItem="ibM-CY-XRt" firstAttribute="top" secondItem="nEH-Ai-mnV" secondAttribute="bottom" constant="10" id="TVQ-LJ-Kbz"/>
                 <constraint firstAttribute="bottom" secondItem="KRQ-9w-aXE" secondAttribute="bottom" id="U9j-sq-BMG"/>
@@ -166,7 +173,9 @@
                 <constraint firstItem="uPU-nT-EmU" firstAttribute="bottom" secondItem="ibM-CY-XRt" secondAttribute="bottom" id="pYN-MU-Aoz"/>
                 <constraint firstAttribute="trailing" secondItem="PnK-9l-N8i" secondAttribute="trailing" id="qdB-aa-b70"/>
                 <constraint firstItem="PnK-9l-N8i" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="sHR-tM-Laf"/>
+                <constraint firstItem="a9q-ok-5NH" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="vL5-JP-UE6"/>
                 <constraint firstItem="nEH-Ai-mnV" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="y74-dp-ujo"/>
+                <constraint firstAttribute="bottom" secondItem="a9q-ok-5NH" secondAttribute="bottom" id="yDB-1u-d6E"/>
             </constraints>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
             <point key="canvasLocation" x="-507" y="518"/>

@@ -30,6 +30,8 @@ protocol AnimatableTransition {
 
 
 class ProductCarouselViewController: BaseViewController, AnimatableTransition {
+
+    @IBOutlet weak var imageBackground: UIImageView!
     @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var buttonBottom: UIButton!
@@ -67,8 +69,9 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     private let pageControl: UIPageControl
     private let pageControlWidth: CGFloat = 18
     private let pageControlMargin: CGFloat = 18
-    private var moreInfoDragMargin: CGFloat = 45
-    private var moreInfoExtraHeight: CGFloat = 64
+    private let moreInfoDragMargin: CGFloat = 45
+    private let moreInfoExtraHeight: CGFloat = 64
+    private let bottomOverscrollDragMargin: CGFloat = 70
     
     private let moreInfoTooltipMargin: CGFloat = 0
 
@@ -127,8 +130,8 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         guard let animator = animator where animator.toViewValidatedFrame && !didSetupAfterLayout else { return }
-        
         didSetupAfterLayout = true
+        imageBackground.image = animator.fromViewSnapshot
         flowLayout.itemSize = view.bounds.size
         setupAlphaRxBindings()
         let startIndexPath = NSIndexPath(forItem: viewModel.startIndex, inSection: 0)
@@ -672,6 +675,10 @@ extension ProductCarouselViewController: ProductCarouselCellDelegate {
         } else {
             hideMoreInfo()
         }
+
+        if buttonBottomBottomConstraint.constant - itemsMargin > bottomOverscrollDragMargin {
+            close()
+        }
     }
     
     func canScrollToNextPage() -> Bool {
@@ -831,7 +838,6 @@ extension ProductCarouselViewController: UICollectionViewDataSource, UICollectio
                                                                              forIndexPath: indexPath)
             guard let carouselCell = cell as? ProductCarouselCell else { return UICollectionViewCell() }
             guard let product = viewModel.productAtIndex(indexPath.row) else { return carouselCell }
-            carouselCell.backgroundColor = UIColor.placeholderBackgroundColor(product.objectId)
             carouselCell.configureCellWithProduct(product, placeholderImage: viewModel.thumbnailAtIndex(indexPath.row),
                                                   indexPath: indexPath)
             carouselCell.delegate = self

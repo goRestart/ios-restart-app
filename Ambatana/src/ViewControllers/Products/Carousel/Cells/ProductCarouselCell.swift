@@ -46,8 +46,12 @@ class ProductCarouselCell: UICollectionViewCell {
     }
     
     func setupUI() {
+        backgroundColor = UIColor.clearColor()
+        contentView.backgroundColor = UIColor.clearColor()
         addSubview(collectionView)
+
         collectionView.frame = bounds
+        collectionView.backgroundColor = UIColor.clearColor()
         collectionView.autoresizingMask = [.FlexibleHeight, .FlexibleWidth]
         collectionView.delegate = self
         collectionView.dataSource = self
