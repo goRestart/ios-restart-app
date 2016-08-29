@@ -47,8 +47,6 @@ class ProductCarouselCell: UICollectionViewCell {
     }
     
     func setupUI() {
-        backgroundColor = UIColor.clearColor()
-        contentView.backgroundColor = UIColor.clearColor()
         addSubview(collectionView)
 
         collectionView.frame = bounds

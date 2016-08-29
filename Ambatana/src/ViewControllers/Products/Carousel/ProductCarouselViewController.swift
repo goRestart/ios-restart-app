@@ -453,7 +453,13 @@ extension ProductCarouselViewController {
         viewModel.product.asObservable().skip(1).bindNext { [weak self] _ in
             guard let strongSelf = self else { return }
             let visibleIndexPaths = strongSelf.collectionView.indexPathsForVisibleItems()
-            strongSelf.collectionView.reloadItemsAtIndexPaths(visibleIndexPaths)
+            //hiding fake list background to avoid showing it while the cell reloads
+            self?.imageBackground.hidden = true
+            strongSelf.collectionView.performBatchUpdates({ [weak self] in
+                 self?.collectionView.reloadItemsAtIndexPaths(visibleIndexPaths)
+            }, completion: { [weak self] _ in
+                self?.imageBackground.hidden = false
+            })
         }.addDisposableTo(activeDisposeBag)
     }
 
