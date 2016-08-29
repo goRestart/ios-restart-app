@@ -79,7 +79,7 @@ final class AppCoordinator: NSObject {
          userRatingRepository: UserRatingRepository) {
 
         self.tabBarCtl = tabBarController
-
+        
         self.mainTabBarCoordinator = MainTabCoordinator()
         self.secondTabBarCoordinator = FeatureFlags.notificationsSection ? NotificationsTabCoordinator() :
                                                                            CategoriesTabCoordinator()
@@ -184,6 +184,10 @@ extension AppCoordinator: AppNavigator {
         let userRatingCoordinator = UserRatingCoordinator(source: source, data: data)
         userRatingCoordinator.delegate = self
         openCoordinator(coordinator: userRatingCoordinator, parent: tabBarCtl, animated: true, completion: nil)
+    }
+    
+    func openAppInvite() {
+        AppShareViewController.showOnViewControllerIfNeeded(tabBarCtl)
     }
 }
 
@@ -303,10 +307,6 @@ extension AppCoordinator: TabCoordinatorDelegate {
     func tabCoordinator(tabCoordinator: TabCoordinator, setSellButtonHidden hidden: Bool, animated: Bool) {
         tabBarCtl.setSellFloatingButtonHidden(hidden, animated: animated)
     }
-    
-    func tabCoordinatorOpenAppInvite(tabCoordinator: TabCoordinator) {
-        tabBarCtl.showAppShare()
-    }
 }
 
 
@@ -375,6 +375,11 @@ private extension AppCoordinator {
         secondTabBarCoordinator.tabCoordinatorDelegate = self
         chatsTabBarCoordinator.tabCoordinatorDelegate = self
         profileTabBarCoordinator.tabCoordinatorDelegate = self
+        
+        mainTabBarCoordinator.appNavigator = self
+        secondTabBarCoordinator.appNavigator = self
+        chatsTabBarCoordinator.appNavigator = self
+        profileTabBarCoordinator.appNavigator = self
     }
 
     func setupDeepLinkingRx() {

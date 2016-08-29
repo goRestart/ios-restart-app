@@ -11,7 +11,6 @@ import RxSwift
 
 protocol TabCoordinatorDelegate: class {
     func tabCoordinator(tabCoordinator: TabCoordinator, setSellButtonHidden hidden: Bool, animated: Bool)
-    func tabCoordinatorOpenAppInvite(tabCoordinator: TabCoordinator)
 }
 
 class TabCoordinator: NSObject {
@@ -31,7 +30,7 @@ class TabCoordinator: NSObject {
     let disposeBag = DisposeBag()
 
     weak var tabCoordinatorDelegate: TabCoordinatorDelegate?
-
+    weak var appNavigator: AppNavigator?
 
     // MARK: - Lifecycle
 
@@ -90,7 +89,7 @@ extension TabCoordinator: TabNavigator {
     }
     
     func openAppInvite() {
-        tabCoordinatorDelegate?.tabCoordinatorOpenAppInvite(self)
+        appNavigator?.openAppInvite()
     }
 }
 
