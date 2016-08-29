@@ -20,7 +20,7 @@ public struct ABTests {
     static var showNPSSurvey = BoolABDynamicVar(key: "showNPSSurvey", defaultValue: false)
 
     static private var allVariables: [ABVariable] {
-        return [bigFavoriteIcon, showRelatedProducts, showPriceOnListings, directStickersOnProduct, postingDetailsMode]
+        return [bigFavoriteIcon, showRelatedProducts, showPriceOnListings, directStickersOnProduct, postingDetailsMode, showNPSSurvey]
     }
 
     static func registerVariables() {
