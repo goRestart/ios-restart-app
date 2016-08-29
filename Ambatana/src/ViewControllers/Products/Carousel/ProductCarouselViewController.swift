@@ -248,7 +248,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     
     dynamic private func close() {
         if moreInfoView?.frame.origin.y < 0 {
-            popViewController(animated: true, completion: nil)
+            viewModel.close()
         } else {
             hideMoreInfo()
         }
@@ -902,12 +902,6 @@ extension ProductCarouselViewController: ProductViewModelDelegate {
         presentNativeShare(socialMessage: socialMessage, delegate: viewModel, barButtonItem: barButtonItem)
     }
     
-    func vmOpenEditProduct(editProductVM: EditProductViewModel) {
-        let vc = EditProductViewController(viewModel: editProductVM)
-        let navCtl = UINavigationController(rootViewController: vc)
-        navigationController?.presentViewController(navCtl, animated: true, completion: nil)
-    }
-    
     func vmOpenMainSignUp(signUpVM: SignUpViewModel, afterLoginAction: () -> ()) {
         let mainSignUpVC = MainSignUpViewController(viewModel: signUpVM)
         mainSignUpVC.afterLoginAction = afterLoginAction
@@ -915,16 +909,6 @@ extension ProductCarouselViewController: ProductViewModelDelegate {
         let navCtl = UINavigationController(rootViewController: mainSignUpVC)
         navCtl.view.backgroundColor = UIColor.whiteColor()
         presentViewController(navCtl, animated: true, completion: nil)
-    }
-      
-    func vmOpenChat(chatVM: OldChatViewModel) {
-        let chatVC = OldChatViewController(viewModel: chatVM, hidesBottomBar: false)
-        navigationController?.pushViewController(chatVC, animated: true)
-    }
-    
-    func vmOpenWebSocketChat(chatVM: ChatViewModel) {
-        let chatVC = ChatViewController(viewModel: chatVM, hidesBottomBar: false)
-        navigationController?.pushViewController(chatVC, animated: true)
     }
     
     func vmOpenPromoteProduct(promoteVM: PromoteProductViewModel) {

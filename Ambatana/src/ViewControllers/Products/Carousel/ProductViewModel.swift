@@ -17,10 +17,7 @@ import CollectionVariable
 protocol ProductViewModelDelegate: class, BaseViewModelDelegate {
     func vmShowNativeShare(socialMessage: SocialMessage)
 
-    func vmOpenEditProduct(editProductVM: EditProductViewModel)
     func vmOpenMainSignUp(signUpVM: SignUpViewModel, afterLoginAction: () -> ())
-    func vmOpenChat(chatVM: OldChatViewModel)
-    func vmOpenWebSocketChat(chatVM: ChatViewModel)
 
     func vmOpenStickersSelector(stickers: [Sticker])
 
@@ -54,7 +51,7 @@ class ProductViewModel: BaseViewModel {
 
     // Delegate
     weak var delegate: ProductViewModelDelegate?
-    weak var tabNavigator: TabNavigator?
+    weak var navigator: ProductDetailNavigator?
 
     // Data
     let product: Variable<Product>
@@ -130,7 +127,7 @@ class ProductViewModel: BaseViewModel {
 
     // MARK: - Lifecycle
 
-    convenience init(product: ChatProduct, user: ChatInterlocutor, thumbnailImage: UIImage?, tabNavigator: TabNavigator?) {
+    convenience init(product: ChatProduct, user: ChatInterlocutor, thumbnailImage: UIImage?, navigator: ProductDetailNavigator?) {
         let myUserRepository = Core.myUserRepository
         let productRepository = Core.productRepository
         let commercializerRepository = Core.commercializerRepository
@@ -144,12 +141,12 @@ class ProductViewModel: BaseViewModel {
         self.init(myUserRepository: myUserRepository, productRepository: productRepository,
                   commercializerRepository: commercializerRepository, chatWrapper: chatWrapper,
                   stickersRepository: stickersRepository, locationManager: locationManager, countryHelper: countryHelper,
-                  product: product, thumbnailImage: thumbnailImage, tabNavigator: tabNavigator,
+                  product: product, thumbnailImage: thumbnailImage, navigator: navigator,
                   interestedBubbleManager: BubbleNotificationManager.sharedInstance)
         syncProduct(nil)
     }
     
-    convenience init(product: Product, thumbnailImage: UIImage?, tabNavigator: TabNavigator?) {
+    convenience init(product: Product, thumbnailImage: UIImage?, navigator: ProductDetailNavigator?) {
         let myUserRepository = Core.myUserRepository
         let productRepository = Core.productRepository
         let commercializerRepository = Core.commercializerRepository
@@ -160,14 +157,15 @@ class ProductViewModel: BaseViewModel {
         self.init(myUserRepository: myUserRepository, productRepository: productRepository,
                   commercializerRepository: commercializerRepository, chatWrapper: chatWrapper,
                   stickersRepository: stickersRepository, locationManager: locationManager, countryHelper: countryHelper,
-                  product: product, thumbnailImage: thumbnailImage, tabNavigator: tabNavigator,
+                  product: product, thumbnailImage: thumbnailImage, navigator: navigator,
                   interestedBubbleManager: BubbleNotificationManager.sharedInstance)
     }
 
     init(myUserRepository: MyUserRepository, productRepository: ProductRepository,
          commercializerRepository: CommercializerRepository, chatWrapper: ChatWrapper,
          stickersRepository: StickersRepository, locationManager: LocationManager, countryHelper: CountryHelper,
-         product: Product, thumbnailImage: UIImage?, tabNavigator: TabNavigator?, interestedBubbleManager: BubbleNotificationManager) {
+         product: Product, thumbnailImage: UIImage?, navigator: ProductDetailNavigator?,
+         interestedBubbleManager: BubbleNotificationManager) {
         self.product = Variable<Product>(product)
         self.thumbnailImage = thumbnailImage
         self.myUserRepository = myUserRepository
@@ -179,7 +177,7 @@ class ProductViewModel: BaseViewModel {
         self.chatWrapper = chatWrapper
         self.stickersRepository = stickersRepository
         self.locationManager = locationManager
-        self.tabNavigator = tabNavigator
+        self.navigator = navigator
         self.chatViewMessageAdapter = ChatViewMessageAdapter()
         self.interestedBubbleManager = interestedBubbleManager
 
@@ -361,7 +359,7 @@ extension ProductViewModel {
 
     func openProductOwnerProfile() {
         let data = UserDetailData.UserAPI(user: product.value.user, source: .ProductDetail)
-        tabNavigator?.openUser(data)
+        navigator?.openUser(data)
     }
 
     func markSold() {
@@ -486,15 +484,7 @@ extension ProductViewModel {
 
 extension ProductViewModel {
     private func openChat() {
-        if FeatureFlags.websocketChat {
-            guard let chatVM = ChatViewModel(product: product.value, tabNavigator: tabNavigator) else { return }
-            chatVM.askQuestion = .ProductDetail
-            self.delegate?.vmOpenWebSocketChat(chatVM)
-        } else {
-            guard let chatVM = OldChatViewModel(product: product.value, tabNavigator: tabNavigator) else { return }
-            chatVM.askQuestion = .ProductDetail
-            delegate?.vmOpenChat(chatVM)
-        }
+        navigator?.openProductChat(product.value)
     }
 }
 
@@ -569,11 +559,9 @@ extension ProductViewModel {
         let icon = UIImage(named: "navbar_edit")?.imageWithRenderingMode(.AlwaysOriginal)
         return UIAction(interface: .Image(icon), action: { [weak self] in
             guard let strongSelf = self else { return }
-            let editProductVM = EditProductViewModel(product: strongSelf.product.value)
-            editProductVM.closeCompletion = { [weak self] product in
+            strongSelf.navigator?.editProduct(strongSelf.product.value) { [weak self] product in
                 self?.product.value = product
             }
-            strongSelf.delegate?.vmOpenEditProduct(editProductVM)
         }, accessibilityId: .ProductCarouselNavBarEditButton)
     }
 

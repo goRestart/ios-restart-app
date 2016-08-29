@@ -33,7 +33,7 @@ class ProductCarouselViewModel: BaseViewModel {
     var startIndex: Int = 0
     var initialThumbnail: UIImage?
     weak var delegate: ProductCarouselViewModelDelegate?
-    weak var tabNavigator: TabNavigator?
+    weak var navigator: ProductDetailNavigator?
 
     private var activeDisposeBag = DisposeBag()
 
@@ -75,40 +75,40 @@ class ProductCarouselViewModel: BaseViewModel {
     // MARK: - Init
     
     convenience init(chatProduct: ChatProduct, chatInterlocutor: ChatInterlocutor, thumbnailImage: UIImage?,
-                     productListRequester: ProductListRequester?, tabNavigator: TabNavigator?,
+                     productListRequester: ProductListRequester?, navigator: ProductDetailNavigator?,
                      source: EventParameterProductVisitSource) {
         let myUserRepository = Core.myUserRepository
         let productRepository = Core.productRepository
         let product = productRepository.build(fromChatproduct: chatProduct, chatInterlocutor: chatInterlocutor)
         self.init(myUserRepository: myUserRepository, productRepository: productRepository,
                   productListModels: nil, initialProduct: product, thumbnailImage: thumbnailImage,
-                  productListRequester: productListRequester, tabNavigator: tabNavigator, source: source)
+                  productListRequester: productListRequester, navigator: navigator, source: source)
         syncFirstProduct()
     }
 
     convenience init(product: Product, thumbnailImage: UIImage?, productListRequester: ProductListRequester?,
-                     tabNavigator: TabNavigator?, source: EventParameterProductVisitSource) {
+                     navigator: ProductDetailNavigator?, source: EventParameterProductVisitSource) {
         let myUserRepository = Core.myUserRepository
         let productRepository = Core.productRepository
         self.init(myUserRepository: myUserRepository, productRepository: productRepository,
                   productListModels: nil, initialProduct: product, thumbnailImage: thumbnailImage,
-                  productListRequester: productListRequester, tabNavigator: tabNavigator, source: source)
+                  productListRequester: productListRequester, navigator: navigator, source: source)
     }
 
     convenience init(productListModels: [ProductCellModel], initialProduct: Product?, thumbnailImage: UIImage?,
-                     productListRequester: ProductListRequester?, tabNavigator: TabNavigator?,
+                     productListRequester: ProductListRequester?, navigator: ProductDetailNavigator?,
                      source: EventParameterProductVisitSource) {
         let myUserRepository = Core.myUserRepository
         let productRepository = Core.productRepository
         self.init(myUserRepository: myUserRepository, productRepository: productRepository,
                   productListModels: productListModels, initialProduct: initialProduct,
-                  thumbnailImage: thumbnailImage, productListRequester: productListRequester, tabNavigator: tabNavigator,
+                  thumbnailImage: thumbnailImage, productListRequester: productListRequester, navigator: navigator,
                   source: source)
     }
 
     init(myUserRepository: MyUserRepository, productRepository: ProductRepository,
          productListModels: [ProductCellModel]?, initialProduct: Product?, thumbnailImage: UIImage?,
-         productListRequester: ProductListRequester?, tabNavigator: TabNavigator?,
+         productListRequester: ProductListRequester?, navigator: ProductDetailNavigator?,
          source: EventParameterProductVisitSource) {
         self.myUserRepository = myUserRepository
         self.productRepository = productRepository
@@ -119,7 +119,7 @@ class ProductCarouselViewModel: BaseViewModel {
         }
         self.initialThumbnail = thumbnailImage
         self.productListRequester = productListRequester
-        self.tabNavigator = tabNavigator
+        self.navigator = navigator
         self.source = source
         super.init()
         self.startIndex = indexForProduct(initialProduct) ?? 0
@@ -155,6 +155,10 @@ class ProductCarouselViewModel: BaseViewModel {
 
 
     // MARK: - Public Methods
+
+    func close() {
+        navigator?.closeProductDetail()
+    }
 
     func moveToProductAtIndex(index: Int, delegate: ProductViewModelDelegate, movement: CarouselMovement) {
         guard let viewModel = viewModelAtIndex(index) else { return }
@@ -197,7 +201,7 @@ class ProductCarouselViewModel: BaseViewModel {
     }
 
     func viewModelForProduct(product: Product) -> ProductViewModel {
-        return ProductViewModel(product: product, thumbnailImage: nil, tabNavigator: tabNavigator)
+        return ProductViewModel(product: product, thumbnailImage: nil, navigator: navigator)
     }
 
     func openProductOwnerProfile() {

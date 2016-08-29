@@ -117,7 +117,7 @@ private extension TabCoordinator {
         guard let productId = product.objectId else { return }
         let requester = RelatedProductListRequester(productId: productId)
         let vm = ProductCarouselViewModel(product: product, thumbnailImage: thumbnailImage,
-                                      productListRequester: requester, tabNavigator: self, source: source)
+                                      productListRequester: requester, navigator: self, source: source)
         openProduct(vm, thumbnailImage: thumbnailImage, originFrame: originFrame, productId: product.objectId)
     }
 
@@ -131,7 +131,7 @@ private extension TabCoordinator {
         } else {
             let vm = ProductCarouselViewModel(productListModels: cellModels, initialProduct: product,
                                               thumbnailImage: thumbnailImage, productListRequester: requester,
-                                              tabNavigator: self, source: source)
+                                              navigator: self, source: source)
             openProduct(vm, thumbnailImage: thumbnailImage, originFrame: originFrame, productId: product.objectId)
         }
 
@@ -143,7 +143,7 @@ private extension TabCoordinator {
         let requester = RelatedProductListRequester(productId: productId)
         let vm = ProductCarouselViewModel(chatProduct: chatProduct, chatInterlocutor: user,
                                           thumbnailImage: thumbnailImage, productListRequester: requester,
-                                          tabNavigator: self, source: source)
+                                          navigator: self, source: source)
         openProduct(vm, thumbnailImage: thumbnailImage, originFrame: originFrame, productId: productId)
     }
 
@@ -204,6 +204,38 @@ private extension TabCoordinator {
         guard child == nil else { return }
         child = coordinator
         coordinator.open(parent: parent, animated: animated, completion: completion)
+    }
+}
+
+
+// MARK: > ProductDetailNavigator
+
+extension TabCoordinator: ProductDetailNavigator {
+    func closeProductDetail() {
+        navigationController.popViewControllerAnimated(true)
+    }
+
+    func editProduct(product: Product, closeCompletion: ((Product) -> Void)?) {
+        // TODO: Open EditProductCoordinator, refactor this completion with a EditProductCoordinatorDelegate func
+        let editProductVM = EditProductViewModel(product: product)
+        editProductVM.closeCompletion = closeCompletion
+        let editProductVC = EditProductViewController(viewModel: editProductVM)
+        let navCtl = UINavigationController(rootViewController: editProductVC)
+        navigationController.presentViewController(navCtl, animated: true, completion: nil)
+    }
+
+    func openProductChat(product: Product) {
+        if FeatureFlags.websocketChat {
+            guard let chatVM = ChatViewModel(product: product, tabNavigator: self) else { return }
+            chatVM.askQuestion = .ProductDetail
+            let chatVC = ChatViewController(viewModel: chatVM, hidesBottomBar: false)
+            navigationController.pushViewController(chatVC, animated: true)
+        } else {
+            guard let chatVM = OldChatViewModel(product: product, tabNavigator: self) else { return }
+            chatVM.askQuestion = .ProductDetail
+            let chatVC = OldChatViewController(viewModel: chatVM, hidesBottomBar: false)
+            navigationController.pushViewController(chatVC, animated: true)
+        }
     }
 }
 
