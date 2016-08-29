@@ -10,21 +10,27 @@ import RxCocoa
 import RxSwift
 
 extension UIButton {
-    public var rx_title: AnyObserver<String> {
+    var rx_title: AnyObserver<String> {
         return UIBindingObserver(UIElement: self) { button, text in
             button.setTitle(text, forState: UIControlState.Normal)
         }.asObserver()
     }
 
-    public var rx_optionalTitle: AnyObserver<String?> {
+    var rx_optionalTitle: AnyObserver<String?> {
         return UIBindingObserver(UIElement: self) { button, text in
             button.setTitle(text, forState: UIControlState.Normal)
         }.asObserver()
     }
 
-    public var rx_image: AnyObserver<UIImage?> {
+    var rx_image: AnyObserver<UIImage?> {
         return UIBindingObserver(UIElement: self) { button, image in
             button.setImage(image, forState: UIControlState.Normal)
+        }.asObserver()
+    }
+
+    var rx_state: AnyObserver<ButtonState> {
+        return UIBindingObserver(UIElement: self) { button, state in
+            button.setState(state)
         }.asObserver()
     }
 }

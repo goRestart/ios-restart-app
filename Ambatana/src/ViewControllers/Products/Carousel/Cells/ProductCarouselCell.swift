@@ -13,6 +13,9 @@ protocol ProductCarouselCellDelegate: class {
     func didTapOnCarouselCell(cell: UICollectionViewCell)
     func didChangeZoomLevel(level: CGFloat)
     func didScrollToPage(page: Int)
+    func didPullFromCellWith(offset: CGFloat, bottomLimit: CGFloat)
+    func canScrollToNextPage() -> Bool
+    func didEndDraggingCell()
 }
 
 class ProductCarouselCell: UICollectionViewCell {
@@ -45,7 +48,9 @@ class ProductCarouselCell: UICollectionViewCell {
     
     func setupUI() {
         addSubview(collectionView)
+
         collectionView.frame = bounds
+        collectionView.backgroundColor = UIColor.clearColor()
         collectionView.autoresizingMask = [.FlexibleHeight, .FlexibleWidth]
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -79,8 +84,6 @@ class ProductCarouselCell: UICollectionViewCell {
             self.placeholderImage = ImageDownloader.sharedInstance.cachedImageForUrl(firstImageUrl)
         }
         collectionView.reloadData()
-        let indexPath = NSIndexPath(forItem: startIndex(), inSection: 0)
-        collectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: .Bottom, animated: false)
     }
     
     private func numberOfImages() -> Int {
@@ -89,23 +92,14 @@ class ProductCarouselCell: UICollectionViewCell {
     
     private func imageAtIndex(index: Int) -> NSURL? {
         guard numberOfImages() > 0 else { return nil }
-        let newIndex = index % numberOfImages()
-        guard let url = product?.images[newIndex].fileURL else { return nil }
+        guard let url = product?.images[index].fileURL else { return nil }
         return url
-    }
-    
-    private func startIndex() -> Int {
-        let numItems = collectionView.numberOfItemsInSection(0)
-        let numImages = numberOfImages()
-        guard numItems > 1 && numImages > 0 else { return 0 }
-        let midIndex = numItems/2
-        return midIndex - midIndex % numImages
     }
 }
 
 extension ProductCarouselCell: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return numberOfImages() == 1 ? 1 : 10000 // Hackish infinite scroll :3
+        return numberOfImages()
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath)
@@ -119,7 +113,7 @@ extension ProductCarouselCell: UICollectionViewDelegate, UICollectionViewDataSou
             let productCarouselTag = self.tag
             cell.tag = imageCellTag
 
-            let usePlaceholder = indexPath.row % numberOfImages() == 0
+            let usePlaceholder = indexPath.row == 0
 
             if let placeholder = placeholderImage where usePlaceholder {
                 imageCell.setImage(placeholder)
@@ -138,14 +132,32 @@ extension ProductCarouselCell: UICollectionViewDelegate, UICollectionViewDataSou
 
             return imageCell
     }
-
+    
     func scrollViewDidScroll(scrollView: UIScrollView) {
         let pageSize = collectionView.frame.size.height;
-        let page = Int(round(collectionView.contentOffset.y / pageSize)) % numberOfImages()
+        let numImages = numberOfImages()
+        guard numImages > 0 else { return }
+        let page = Int(round(collectionView.contentOffset.y / pageSize)) % numImages
         if page != currentPage {
             currentPage = page
             delegate?.didScrollToPage(page)
         }
+
+        if let delegate = delegate {
+            delegate.didPullFromCellWith(scrollView.contentOffset.y, bottomLimit: bottomScrollLimit)
+
+            if !delegate.canScrollToNextPage() {
+                scrollView.contentOffset = CGPoint(x: 0, y: 0)
+            }
+        }
+    }
+    
+    func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        delegate?.didEndDraggingCell()
+    }
+
+    var bottomScrollLimit: CGFloat {
+        return max(0, collectionView.contentSize.height - collectionView.height + collectionView.contentInset.bottom)
     }
 }
 

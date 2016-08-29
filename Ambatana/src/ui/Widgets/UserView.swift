@@ -13,13 +13,16 @@ protocol UserViewDelegate: class {
 }
 
 enum UserViewStyle {
-    case CompactShadow(size: CGSize), CompactBorder(size: CGSize), Full
+    case CompactShadow(size: CGSize)
+    case CompactBorder(size: CGSize)
+    case Full
+    case WithProductInfo
 
     var bgColor: UIColor {
         switch self {
         case .Full:
             return UIColor.white.colorWithAlphaComponent(0.9)
-        case .CompactShadow, .CompactBorder:
+        case .CompactShadow, .CompactBorder, WithProductInfo:
             return UIColor.clearColor()
         }
     }
@@ -30,6 +33,8 @@ enum UserViewStyle {
             return UIFont.mediumBodyFont
         case .CompactShadow, .CompactBorder:
             return UIFont.smallBodyFont
+        case .WithProductInfo:
+            return UIFont.systemMediumFont(size: 17)
         }
     }
 
@@ -37,7 +42,7 @@ enum UserViewStyle {
         switch self {
         case .Full:
             return UIColor.black
-        case .CompactShadow, .CompactBorder:
+        case .CompactShadow, .CompactBorder, WithProductInfo:
             return UIColor.white
         }
     }
@@ -48,6 +53,8 @@ enum UserViewStyle {
             return UIFont.systemRegularFont(size: 13)
         case .CompactShadow, .CompactBorder:
             return UIFont.systemRegularFont(size: 11)
+        case .WithProductInfo:
+            return UIFont.systemBoldFont(size: 21)
         }
     }
 
@@ -55,7 +62,7 @@ enum UserViewStyle {
         switch self {
         case .Full:
             return UIColor.black
-        case .CompactShadow, .CompactBorder:
+        case .CompactShadow, .CompactBorder, .WithProductInfo:
             return UIColor.white
         }
     }
@@ -64,8 +71,17 @@ enum UserViewStyle {
         switch self {
         case .Full, .CompactShadow:
             return nil
-        case .CompactBorder:
+        case .CompactBorder, WithProductInfo:
             return UIColor.white
+        }
+    }
+    
+    var textHasShadow: Bool {
+        switch self {
+        case .Full, .CompactBorder, .CompactShadow:
+            return false
+        case .WithProductInfo:
+            return true
         }
     }
 }
@@ -110,6 +126,11 @@ class UserView: UIView {
         let placeholder = LetgoAvatar.avatarWithID(userId, name: userName)
         setupWith(userAvatar: avatar, placeholder: placeholder, userName: userName, subtitle: subtitle)
     }
+    
+    func setupWith(userAvatar avatar: NSURL?, userName: String?, productTitle: String?, productPrice: String?, userId: String?) {
+        let placeholder = LetgoAvatar.avatarWithID(userId, name: userName)
+        setupWith(userAvatar: avatar, placeholder: placeholder, userName: productTitle, subtitle: productPrice)
+    }
 
     func setupWith(userAvatar avatar: NSURL?, placeholder: UIImage?, userName: String?, subtitle: String?) {
         avatarURL = avatar
@@ -122,6 +143,15 @@ class UserView: UIView {
         }
         userNameLabel.text = userName
         subtitleLabel.text = subtitle
+        
+        if style.textHasShadow {
+            [userNameLabel, subtitleLabel].forEach { label in
+                label.layer.shadowColor = UIColor.black.CGColor
+                label.layer.shadowOffset = CGSize.zero
+                label.layer.shadowRadius = 2.0
+                label.layer.shadowOpacity = 0.5
+            }
+        }
     }
     
     func showShadow(show: Bool) {
@@ -150,7 +180,7 @@ class UserView: UIView {
         subtitleLabel.textColor = style.subtitleLabelColor
 
         if let borderColor = style.avatarBorderColor {
-            userAvatarImageView.layer.borderWidth = 1
+            userAvatarImageView.layer.borderWidth = 2
             userAvatarImageView.layer.borderColor = borderColor.CGColor
         }
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(avatarPressed))

@@ -268,23 +268,25 @@ public class Tooltip: UIView {
     private func setupPeak() {
         downTooltipPeak.hidden = peakOnTop   // target view is too up, peak goes up
         upTooltipPeak.hidden = !peakOnTop  // peak goes down
-        downTooltipPeak.tintColor = style.bgColor
-        upTooltipPeak.tintColor = style.bgColor
-
+        
         // Screen divided in 3 parts to decide what kind of peak must be shown
         if targetGlobalCenter.x < superViewWidth/3 {
             // target view is on the left
             downTooltipPeak.image = style.leftSidePeak
-            upTooltipPeak.image = style.leftSidePeak?.upsideDownImage()
+            upTooltipPeak.image = style.leftSidePeak?.rotatedImage().rotatedImage().imageWithRenderingMode(.AlwaysTemplate)
         } else if targetGlobalCenter.x > (superViewWidth/3)*2 {
             // target view is on the right
             downTooltipPeak.image = style.rightSidePeak
-            upTooltipPeak.image = style.rightSidePeak?.upsideDownImage()
+            upTooltipPeak.image = style.rightSidePeak?.rotatedImage().rotatedImage().imageWithRenderingMode(.AlwaysTemplate)
         } else {
             // target view is on the center
             downTooltipPeak.image = style.centeredPeak
-            upTooltipPeak.image = style.centeredPeak?.upsideDownImage()
+            upTooltipPeak.image = style.centeredPeak?.rotatedImage().rotatedImage().imageWithRenderingMode(.AlwaysTemplate)
         }
+        
+        downTooltipPeak.tintColor = style.bgColor
+        upTooltipPeak.tintColor = style.bgColor
+
     }
 
     dynamic func titleTapped() {

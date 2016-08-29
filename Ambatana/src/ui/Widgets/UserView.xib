@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9532" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <objects>
@@ -13,22 +13,22 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="j4c-6K-nbq">
-                    <rect key="frame" x="2" y="2" width="36" height="36"/>
+                    <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
                     <constraints>
                         <constraint firstAttribute="width" secondItem="j4c-6K-nbq" secondAttribute="height" multiplier="1:1" id="urp-qg-NdE"/>
                     </constraints>
                 </imageView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZlW-xO-9bZ">
-                    <rect key="frame" x="45" y="11" width="105" height="18"/>
+                    <rect key="frame" x="50" y="11" width="100" height="18"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Odín C." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3PK-NL-M1r">
-                            <rect key="frame" x="0.0" y="0.0" width="105" height="18"/>
+                            <rect key="frame" x="0.0" y="0.0" width="100" height="18"/>
                             <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nSf-FG-uxy" userLabel="Subtitle Label">
-                            <rect key="frame" x="0.0" y="18" width="105" height="0.0"/>
+                            <rect key="frame" x="0.0" y="18" width="100" height="0.0"/>
                             <fontDescription key="fontDescription" type="system" weight="light" pointSize="11"/>
                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
@@ -48,11 +48,13 @@
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstItem="j4c-6K-nbq" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="2" id="FdU-AC-bEm"/>
-                <constraint firstItem="ZlW-xO-9bZ" firstAttribute="leading" secondItem="j4c-6K-nbq" secondAttribute="trailing" constant="7" id="GO9-pa-Xb6"/>
+                <constraint firstItem="ZlW-xO-9bZ" firstAttribute="top" relation="greaterThanOrEqual" secondItem="iN0-l3-epB" secondAttribute="top" id="5WS-B4-oap"/>
+                <constraint firstItem="j4c-6K-nbq" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="FdU-AC-bEm"/>
+                <constraint firstItem="ZlW-xO-9bZ" firstAttribute="leading" secondItem="j4c-6K-nbq" secondAttribute="trailing" constant="10" id="GO9-pa-Xb6"/>
                 <constraint firstAttribute="trailing" secondItem="ZlW-xO-9bZ" secondAttribute="trailing" constant="10" id="Pfm-rM-5cB"/>
-                <constraint firstItem="j4c-6K-nbq" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="2" id="QOa-wF-hRO"/>
-                <constraint firstAttribute="bottom" secondItem="j4c-6K-nbq" secondAttribute="bottom" constant="2" id="pQY-Bk-hA4"/>
+                <constraint firstItem="j4c-6K-nbq" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="QOa-wF-hRO"/>
+                <constraint firstAttribute="bottom" secondItem="j4c-6K-nbq" secondAttribute="bottom" id="pQY-Bk-hA4"/>
+                <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="ZlW-xO-9bZ" secondAttribute="bottom" id="tzw-1S-hPh"/>
                 <constraint firstItem="ZlW-xO-9bZ" firstAttribute="centerY" secondItem="j4c-6K-nbq" secondAttribute="centerY" id="upr-W8-gHt"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>

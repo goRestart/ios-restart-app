@@ -284,8 +284,8 @@ extension ProductVMTrackHelper {
         tracker.trackEvent(trackerEvent)
     }
 
-    func trackChatWithSeller() {
-        let trackerEvent = TrackerEvent.productDetailChatButton(product)
+    func trackChatWithSeller(source: EventParameterTypePage) {
+        let trackerEvent = TrackerEvent.productDetailChatButton(product, typePage: source)
         tracker.trackEvent(trackerEvent)
     }
 
