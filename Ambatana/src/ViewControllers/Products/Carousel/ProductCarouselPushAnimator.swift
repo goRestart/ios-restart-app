@@ -13,6 +13,7 @@ import UIKit
 protocol PushAnimator: UIViewControllerAnimatedTransitioning {
     var pushing: Bool { get set }
     var toViewValidatedFrame: Bool { get }
+    var fromViewSnapshot: UIImage? { get }
     var completion: (() -> Void)? { get set }
 }
 
@@ -22,6 +23,7 @@ class ProductCarouselPushAnimator: NSObject, PushAnimator {
     let originThumbnail: UIImage?
     let animationDuration = 0.35
     let backgroundColor: UIColor
+    var fromViewSnapshot: UIImage?
     var pushing = true
     var toViewValidatedFrame = false
     var completion: (() -> Void)?
@@ -41,8 +43,12 @@ class ProductCarouselPushAnimator: NSObject, PushAnimator {
     }
     
     func animateTransition(transitionContext: UIViewControllerContextTransitioning) {
-        if let originFrame = originFrame where pushing {
-            pushFrameAnimation(transitionContext, originFrame: originFrame)
+        if let originFrame = originFrame {
+            if pushing {
+                pushFrameAnimation(transitionContext, originFrame: originFrame)
+            } else {
+                popFrameAnimation(transitionContext, destinationFrame: originFrame)
+            }
         } else {
             fadeAnimation(transitionContext, pushing: pushing)
         }
@@ -57,6 +63,7 @@ class ProductCarouselPushAnimator: NSObject, PushAnimator {
         
         let fromView: UIView = transitionContext.viewForKey(UITransitionContextFromViewKey) ?? fromViewController.view
         let toView: UIView = transitionContext.viewForKey(UITransitionContextToViewKey) ?? toViewController.view
+        fromViewSnapshot = fromView.takeSnapshot()
         toView.frame = fromView.frame
         toViewValidatedFrame = true
         containerView.addSubview(fromView)
@@ -131,6 +138,39 @@ class ProductCarouselPushAnimator: NSObject, PushAnimator {
         })
     }
 
+    private func popFrameAnimation(transitionContext: UIViewControllerContextTransitioning, destinationFrame: CGRect) {
+        guard let fromViewController = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey)
+            else { return }
+        guard let toViewController = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)
+            else { return }
+        guard let containerView = transitionContext.containerView() else { return }
+
+        let fromView: UIView = transitionContext.viewForKey(UITransitionContextFromViewKey) ?? fromViewController.view
+        let toView: UIView = transitionContext.viewForKey(UITransitionContextToViewKey) ?? toViewController.view
+
+        let originImage = UIImageView(image: fromView.takeSnapshot())
+        originImage.frame = fromView.frame
+
+        containerView.addSubview(toView)
+        containerView.addSubview(originImage)
+        let scaleWidth = destinationFrame.width / originImage.width
+        let scaleHeight = destinationFrame.height / originImage.height
+
+        UIView.animateWithDuration(animationDuration, delay: 0, options: [.CurveEaseIn], animations: {
+            originImage.transform = CGAffineTransformMakeScale(scaleWidth, scaleHeight)
+            originImage.center = destinationFrame.center
+            originImage.alpha = 0.0
+            },completion:{ [weak self] finished in
+                guard finished else { return }
+                if toViewController.containsTabBar() {
+                    toViewController.tabBarController?.setTabBarHidden(false, animated: true)
+                }
+                originImage.removeFromSuperview()
+                transitionContext.completeTransition(true)
+                self?.completion?()
+        })
+    }
+
     private func fadeAnimation(transitionContext: UIViewControllerContextTransitioning, pushing: Bool) {
         guard let fromViewController = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey)
             else { return }
@@ -140,6 +180,8 @@ class ProductCarouselPushAnimator: NSObject, PushAnimator {
 
         let fromView: UIView = transitionContext.viewForKey(UITransitionContextFromViewKey) ?? fromViewController.view
         let toView: UIView = transitionContext.viewForKey(UITransitionContextToViewKey) ?? toViewController.view
+
+        fromViewSnapshot = fromView.takeSnapshot()
 
         if pushing {
             toView.alpha = 0

@@ -130,6 +130,40 @@ class StringLGSpec: QuickSpec {
                     }
                 }
             }
+            context("toNameReduced") {
+                describe("less than reduction size") {
+                    beforeEach {
+                        sut = "Eli Kohen".toNameReduced(maxChars: 12)
+                    }
+                    it("remains the same") {
+                        expect(sut) == "Eli Kohen"
+                    }
+                }
+                describe("First surname exceeds reduction size") {
+                    beforeEach {
+                        sut = "Albert Hernández".toNameReduced(maxChars: 12)
+                    }
+                    it("Reduces surname to first word") {
+                        expect(sut) == "Albert H."
+                    }
+                }
+                describe("First word exceeds reduction size") {
+                    beforeEach {
+                        sut = "AlbertHernándezTojunto".toNameReduced(maxChars: 12)
+                    }
+                    it("Just crops the first word") {
+                        expect(sut) == "AlbertHernán."
+                    }
+                }
+                describe("Second surname exceeds reduction size") {
+                    beforeEach {
+                        sut = "Eli Kohen Gómez".toNameReduced(maxChars: 12)
+                    }
+                    it("Reduces second surname to first word") {
+                        expect(sut) == "Eli Kohen G."
+                    }
+                }
+            }
         }
     }
 }
