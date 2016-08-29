@@ -1,5 +1,5 @@
 //
-//  ProductCarouselMoreInfoViewController.swift
+//  ProductCarouselMoreInfoView.swift
 //  LetGo
 //
 //  Created by Isaac Roldan on 4/5/16.
@@ -10,9 +10,16 @@ import MapKit
 import RxSwift
 import LGCollapsibleLabel
 
-class ProductCarouselMoreInfoViewController: BaseViewController {
+
+protocol ProductCarouselMoreInfoDelegate: class {
+    func didEndScrolling(topOverScroll: CGFloat, bottomOverScroll: CGFloat)
+    func shareDidFailedWith(error: String)
+    func viewControllerToShowShareOptions() -> UIViewController
+}
+
+
+class ProductCarouselMoreInfoView: UIView {
     
-    @IBOutlet weak var closeButton: UIButton!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var priceLabel: UILabel!
     @IBOutlet weak var autoTitleLabel: UILabel!
@@ -25,60 +32,74 @@ class ProductCarouselMoreInfoViewController: BaseViewController {
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var scrollViewContent: UIView!
     @IBOutlet weak var visualEffectView: UIVisualEffectView!
+    @IBOutlet weak var visualEffectViewBottom: NSLayoutConstraint!
     @IBOutlet weak var descriptionLabel: LGCollapsibleLabel!
     @IBOutlet weak var statsContainerView: UIView!
     @IBOutlet weak var statsContainerViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var statsContainerViewTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak var dragView: UIView!
+    @IBOutlet weak var dragViewTitle: UILabel!
+    @IBOutlet weak var dragViewImage: UIImageView!
 
+    
     private let disposeBag = DisposeBag()
-    private let viewModel: ProductViewModel
+    private var viewModel: ProductViewModel?
     private let overlayMap = MKMapView()
     private var locationZone: MKOverlay?
     private let bigMapMargin: CGFloat = 65.0
+    private let bigMapBottomMargin: CGFloat = 210
     private var bigMapVisible = false
-    private let dismissBlock: ((viewToHide: UIView) -> ())?
     private var mapZoomBlocker: MapZoomBlocker?
-
+    private var statsView: ProductStatsView?
 
     private let statsContainerViewHeight: CGFloat = 24.0
     private let statsContainerViewTop: CGFloat = 30.0
+    private var initialDragYposition: CGFloat = 0
+    private var scrollBottomInset: CGFloat {
+        guard let status = viewModel?.status.value else { return 0 }
+        // Needed to avoid drawing content below the chat button
+        return status == .OtherAvailable ? 80 : 0
+    }
 
+    weak var delegate: ProductCarouselMoreInfoDelegate?
 
-    init(viewModel: ProductViewModel, dismissBlock: ((viewToHide: UIView) -> ())?) {
-        self.viewModel = viewModel
-        self.dismissBlock = dismissBlock
-        super.init(viewModel: viewModel, nibName: "ProductCarouselMoreInfoViewController",
-                   statusBarStyle: .LightContent)
-        modalPresentationStyle = .OverCurrentContext
-        modalTransitionStyle = .CrossDissolve
+    static func moreInfoView(viewModel: ProductViewModel) -> ProductCarouselMoreInfoView {
+        let view = NSBundle.mainBundle().loadNibNamed("ProductCarouselMoreInfoView", owner: self, options: nil).first as! ProductCarouselMoreInfoView
+        view.viewModel = viewModel
+        view.setupUI()
+        view.setAccessibilityIds()
+        view.setupContent()
+        view.addGestures()
+        view.configureMapView()
+        view.configureOverlayMapView()
+        view.setupStatsView()
+        return view
     }
     
     required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        super.init(coder: aDecoder)
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    func update(viewModel: ProductViewModel) {
+        self.viewModel = viewModel
         setupUI()
         setupContent()
-        addGestures()
         configureMapView()
-        setAccessibilityIds()
     }
-    
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        configureOverlayMapView()
+
+    func dismissed() {
+        scrollView.contentOffset = CGPoint.zero
+        descriptionLabel.collapsed = true
     }
 }
 
 
 // MARK: - Gesture Intections 
 
-extension ProductCarouselMoreInfoViewController {
+extension ProductCarouselMoreInfoView {
     func addGestures() {
-        let tap = UITapGestureRecognizer(target: self, action: #selector(closeView))
-        let tap2 = UITapGestureRecognizer(target: self, action: #selector(closeView))
+        let tap = UITapGestureRecognizer(target: self, action: #selector(hideBigMap))
+        let tap2 = UITapGestureRecognizer(target: self, action: #selector(hideBigMap))
 
         scrollView.addGestureRecognizer(tap)
         visualEffectView.addGestureRecognizer(tap2)
@@ -88,10 +109,10 @@ extension ProductCarouselMoreInfoViewController {
 
 // MARK: - MapView stuff
 
-extension ProductCarouselMoreInfoViewController: MKMapViewDelegate {
+extension ProductCarouselMoreInfoView: MKMapViewDelegate {
 
     func configureMapView() {
-        guard let coordinate = viewModel.productLocation.value else { return }
+        guard let coordinate = viewModel?.productLocation.value else { return }
         let clCoordinate = CLLocationCoordinate2D(latitude: coordinate.latitude, longitude: coordinate.longitude)
         let region = MKCoordinateRegionMakeWithDistance(clCoordinate, Constants.accurateRegionRadius*2,
                                                         Constants.accurateRegionRadius*2)
@@ -109,7 +130,7 @@ extension ProductCarouselMoreInfoViewController: MKMapViewDelegate {
         let tap = UITapGestureRecognizer(target: self, action: #selector(showBigMap))
         mapView.addGestureRecognizer(tap)
         
-        overlayMap.frame = view.convertRect(mapView.frame, fromView: scrollViewContent)
+        overlayMap.frame = convertRect(mapView.frame, fromView: scrollViewContent)
         overlayMap.layer.cornerRadius = LGUIKitConstants.mapCornerRadius
         overlayMap.clipsToBounds = true
         overlayMap.region = mapView.region
@@ -119,12 +140,12 @@ extension ProductCarouselMoreInfoViewController: MKMapViewDelegate {
 
         overlayMap.alpha = 0
 
-        if let coordinate = viewModel.productLocation.value {
+        if let coordinate = viewModel?.productLocation.value {
             locationZone = MKCircle(centerCoordinate:coordinate.coordinates2DfromLocation(),
                                   radius: Constants.accurateRegionRadius)
         }
 
-        view.addSubview(overlayMap)
+        addSubview(overlayMap)
     }
     
     func showBigMap() {
@@ -133,13 +154,13 @@ extension ProductCarouselMoreInfoViewController: MKMapViewDelegate {
         if let locationZone = locationZone {
             overlayMap.addOverlay(locationZone)
         }
-        overlayMap.frame = view.convertRect(mapView.frame, fromView: scrollViewContent)
+        overlayMap.frame = convertRect(mapView.frame, fromView: scrollViewContent)
         overlayMap.region = mapView.region
         overlayMap.alpha = 1
 
         var newFrame = overlayMap.frame
         newFrame.origin.y = bigMapMargin
-        newFrame.size.height = view.height - bigMapMargin*2
+        newFrame.size.height = height - bigMapBottomMargin
         UIView.animateWithDuration(0.3) { [weak self] in
             self?.overlayMap.frame = newFrame
         }
@@ -154,7 +175,7 @@ extension ProductCarouselMoreInfoViewController: MKMapViewDelegate {
         let span = mapView.region.span
         let newRegion = MKCoordinateRegion(center: overlayMap.region.center, span: span)
         mapView.region = newRegion
-        let newFrame = view.convertRect(mapView.frame, fromView: scrollViewContent)
+        let newFrame = convertRect(mapView.frame, fromView: scrollViewContent)
         UIView.animateWithDuration(0.3, animations: { [weak self] in
             self?.overlayMap.frame = newFrame
             }) { [weak self] completed in
@@ -174,19 +195,36 @@ extension ProductCarouselMoreInfoViewController: MKMapViewDelegate {
     }
 }
 
-extension ProductCarouselMoreInfoViewController: UIScrollViewDelegate {
+extension ProductCarouselMoreInfoView: UIScrollViewDelegate {
+
+    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+        initialDragYposition = min(max(scrollView.contentOffset.y, 0), bottomScrollLimit)
+    }
+
     func scrollViewDidScroll(scrollView: UIScrollView) {
-        if scrollView.contentOffset.y < -100 {
-            closeView()
-        }
+        let bottomOverScroll = max(scrollView.contentOffset.y - bottomScrollLimit, 0)
+        visualEffectViewBottom.constant = -bottomOverScroll
+    }
+    
+    func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        let topOverScroll = abs(min(0, scrollView.contentOffset.y))
+        let bottomOverScroll = max(scrollView.contentOffset.y - bottomScrollLimit, 0)
+        delegate?.didEndScrolling(topOverScroll, bottomOverScroll: bottomOverScroll)
+    }
+
+    var bottomScrollLimit: CGFloat {
+        return max(0, scrollView.contentSize.height - scrollView.height + scrollView.contentInset.bottom)
     }
 }
 
 
 // MARK: - UI
 
-extension ProductCarouselMoreInfoViewController {
+extension ProductCarouselMoreInfoView {
     private func setupUI() {
+
+        scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: scrollBottomInset, right: 0)
+        
         titleLabel.textColor = UIColor.whiteColor()
         titleLabel.font = UIFont.productTitleFont
         
@@ -222,12 +260,29 @@ extension ProductCarouselMoreInfoViewController {
         descriptionLabel.expandTextColor = UIColor.whiteColor()
         
         setupSocialShareView()
-        setupStatsView()
+        
+        dragView.layer.cornerRadius = dragView.height/2
+        dragView.layer.borderColor = UIColor.white.CGColor
+        dragView.layer.borderWidth = 1
+        dragView.backgroundColor = UIColor.clearColor()
+        
+        dragViewTitle.text = LGLocalizedString.productMoreInfoOpenButton
+        dragViewTitle.textColor = UIColor.white
+        dragViewTitle.font = UIFont.systemSemiBoldFont(size: 13)
+        
+        [dragView, dragViewTitle, dragViewImage].forEach { view in
+            view.layer.shadowColor = UIColor.black.CGColor
+            view.layer.shadowOpacity = 0.5
+            view.layer.shadowRadius = 1
+            view.layer.shadowOffset = CGSize.zero
+            view.layer.masksToBounds = false
+        }
         
         scrollView.delegate = self
     }
     
     private func setupContent() {
+        guard let viewModel = viewModel else { return }
         titleLabel.text = viewModel.productTitle.value
         priceLabel.text = viewModel.productPrice.value
         autoTitleLabel.text = viewModel.productTitleAutogenerated.value ?
@@ -258,12 +313,14 @@ extension ProductCarouselMoreInfoViewController {
     }
 
     private func setupStatsView() {
+        guard let viewModel = viewModel else { return }
         statsContainerViewHeightConstraint.constant = 0.0
         statsContainerViewTopConstraint.constant = 0.0
 
         guard let statsView = ProductStatsView.productStatsViewWithInfo(viewModel.viewsCount.value,
                                                     favouritesCount: viewModel.favouritesCount.value,
                                                     postedDate: viewModel.productCreationDate.value) else { return }
+        self.statsView = statsView
         statsContainerView.addSubview(statsView)
 
         statsView.translatesAutoresizingMaskIntoConstraints = false
@@ -284,6 +341,7 @@ extension ProductCarouselMoreInfoViewController {
     }
 
     private func updateStatsView(statsView: ProductStatsView) {
+        guard let viewModel = viewModel else { return }
         statsContainerViewHeightConstraint.constant = viewModel.statsViewVisible.value ? statsContainerViewHeight : 0.0
         statsContainerViewTopConstraint.constant = viewModel.statsViewVisible.value ? statsContainerViewTop : 0.0
         statsView.updateStatsWithInfo(viewModel.viewsCount.value, favouritesCount: viewModel.favouritesCount.value,
@@ -294,133 +352,117 @@ extension ProductCarouselMoreInfoViewController {
 
 // MARK: - LGCollapsibleLabel
 
-extension ProductCarouselMoreInfoViewController {
+extension ProductCarouselMoreInfoView {
     func toggleDescriptionState() {
         UIView.animateWithDuration(0.25) {
             self.descriptionLabel.toggleState()
-            self.view.layoutIfNeeded()
+            self.layoutIfNeeded()
         }
     }
 }
 
-
-// MARK: - IB Actions
-
-extension ProductCarouselMoreInfoViewController {
-    
-    @IBAction func closeView() {
-        if bigMapVisible {
-            hideBigMap()
-        } else {
-            closeButton.alpha = 0
-            dismissBlock?(viewToHide: view)
-            dismissViewControllerAnimated(true, completion: nil)
-        }
-    }
-}
 
 
 // MARK: - SocialShareViewDelegate
 
-extension ProductCarouselMoreInfoViewController: SocialShareViewDelegate {
+extension ProductCarouselMoreInfoView: SocialShareViewDelegate {
     
     func shareInEmail(){
-        viewModel.shareInEmail(.Bottom)
+        viewModel?.shareInEmail(.Bottom)
     }
     
     func shareInEmailFinished(state: SocialShareState) {
         switch state {
         case .Completed:
-            viewModel.shareInEmailCompleted()
+            viewModel?.shareInEmailCompleted()
         case .Cancelled:
-            viewModel.shareInEmailCancelled()
+            viewModel?.shareInEmailCancelled()
         case .Failed:
             break
         }
     }
     
     func shareInFacebook() {
-        viewModel.shareInFacebook(.Bottom)
+        viewModel?.shareInFacebook(.Bottom)
     }
     
     func shareInFacebookFinished(state: SocialShareState) {
         switch state {
         case .Completed:
-            viewModel.shareInFBCompleted()
+            viewModel?.shareInFBCompleted()
         case .Cancelled:
-            viewModel.shareInFBCancelled()
+            viewModel?.shareInFBCancelled()
         case .Failed:
-            showAutoFadingOutMessageAlert(LGLocalizedString.sellSendErrorSharingFacebook)
+            delegate?.shareDidFailedWith(LGLocalizedString.sellSendErrorSharingFacebook)
         }
     }
     
     func shareInFBMessenger() {
-        viewModel.shareInFBMessenger()
+        viewModel?.shareInFBMessenger()
     }
     
     func shareInFBMessengerFinished(state: SocialShareState) {
         switch state {
         case .Completed:
-            viewModel.shareInFBMessengerCompleted()
+            viewModel?.shareInFBMessengerCompleted()
         case .Cancelled:
-            viewModel.shareInFBMessengerCancelled()
+            viewModel?.shareInFBMessengerCancelled()
         case .Failed:
-            showAutoFadingOutMessageAlert(LGLocalizedString.sellSendErrorSharingFacebook)
+            delegate?.shareDidFailedWith(LGLocalizedString.sellSendErrorSharingFacebook)
         }
     }
     
     func shareInWhatsApp() {
-        viewModel.shareInWhatsApp()
+        viewModel?.shareInWhatsApp()
     }
     
     func shareInTwitter() {
-        viewModel.shareInTwitter()
+        viewModel?.shareInTwitter()
     }
     
     func shareInTwitterFinished(state: SocialShareState) {
         switch state {
         case .Completed:
-            viewModel.shareInTwitterCompleted()
+            viewModel?.shareInTwitterCompleted()
         case .Cancelled:
-            viewModel.shareInTwitterCancelled()
+            viewModel?.shareInTwitterCancelled()
         case .Failed:
             break
         }
     }
     
     func shareInTelegram() {
-        viewModel.shareInTelegram()
+        viewModel?.shareInTelegram()
     }
     
     func viewController() -> UIViewController? {
-        return self
+        return delegate?.viewControllerToShowShareOptions()
     }
     
     func shareInSMS() {
-        viewModel.shareInSMS()
+        viewModel?.shareInSMS()
     }
     
     func shareInSMSFinished(state: SocialShareState) {
         switch state {
         case .Completed:
-            viewModel.shareInSMSCompleted()
+            viewModel?.shareInSMSCompleted()
         case .Cancelled:
-            viewModel.shareInSMSCancelled()
+            viewModel?.shareInSMSCancelled()
         case .Failed:
-            showAutoFadingOutMessageAlert(LGLocalizedString.productShareSmsError)
+            delegate?.shareDidFailedWith(LGLocalizedString.productShareSmsError)
         }
     }
     
     func shareInCopyLink() {
-        viewModel.shareInCopyLink()
+        viewModel?.shareInCopyLink()
     }
 }
 
 
-extension ProductCarouselMoreInfoViewController {
+extension ProductCarouselMoreInfoView {
     private func setAccessibilityIds() {
         scrollView.accessibilityId = .ProductCarouselMoreInfoScrollView
-        closeButton.accessibilityId = .ProductCarouselMoreInfoCloseButton
         titleLabel.accessibilityId = .ProductCarouselMoreInfoTitleLabel
         transTitleLabel.accessibilityId = .ProductCarouselMoreInfoTransTitleLabel
         addressLabel.accessibilityId = .ProductCarouselMoreInfoAddressLabel
