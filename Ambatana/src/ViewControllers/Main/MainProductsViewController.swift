@@ -318,8 +318,7 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     }
     
     dynamic private func openInvite() {
-        guard let tabBarController = tabBarController as? TabBarController else { return }
-        tabBarController.showAppShare()
+        viewModel.vmUserDidTapInvite()
     }
     
     private func showTagsView(show: Bool) {

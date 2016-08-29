@@ -11,6 +11,7 @@ import RxSwift
 
 protocol TabCoordinatorDelegate: class {
     func tabCoordinator(tabCoordinator: TabCoordinator, setSellButtonHidden hidden: Bool, animated: Bool)
+    func tabCoordinatorOpenAppInvite(tabCoordinator: TabCoordinator)
 }
 
 class TabCoordinator: NSObject {
@@ -86,6 +87,10 @@ extension TabCoordinator: TabNavigator {
         guard let expressChatCoordinator = ExpressChatCoordinator(products: products, sourceProductId: sourceProductId) else { return }
         expressChatCoordinator.delegate = self
         openCoordinator(coordinator: expressChatCoordinator, parent: rootViewController, animated: true, completion: nil)
+    }
+    
+    func openAppInvite() {
+        tabCoordinatorDelegate?.tabCoordinatorOpenAppInvite(self)
     }
 }
 

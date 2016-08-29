@@ -303,6 +303,10 @@ extension AppCoordinator: TabCoordinatorDelegate {
     func tabCoordinator(tabCoordinator: TabCoordinator, setSellButtonHidden hidden: Bool, animated: Bool) {
         tabBarCtl.setSellFloatingButtonHidden(hidden, animated: animated)
     }
+    
+    func tabCoordinatorOpenAppInvite(tabCoordinator: TabCoordinator) {
+        tabBarCtl.showAppShare()
+    }
 }
 
 
