@@ -216,6 +216,8 @@ public enum EventParameterName: String {
     case CollectionTitle      = "collection-title"
     case ProductVisitSource   = "visit-source"
     case NumberOfUsers        = "number-of-users"
+    case PriceFrom            = "price-from"
+    case PriceTo              = "price-to"
 }
 
 public enum EventParameterLoginSourceValue: String {
@@ -295,6 +297,11 @@ public enum EventParameterPostedWithin: String {
     case Week = "week"
     case Month = "month"
     case All = ""
+}
+
+public enum EventParameterHasPriceFilter: String {
+    case True = "true"
+    case False = "false"
 }
 
 public enum EventParameterQuickAnswerValue: String {

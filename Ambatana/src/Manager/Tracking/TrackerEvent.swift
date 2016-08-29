@@ -177,7 +177,7 @@ public struct TrackerEvent {
 
     static func filterComplete(coordinates: LGLocationCoordinates2D?, distanceRadius: Int?,
                                distanceUnit: DistanceType, categories: [ProductCategory]?, sortBy: ProductSortCriteria?,
-                               postedWithin: ProductTimeCriteria?) -> TrackerEvent {
+                               postedWithin: ProductTimeCriteria?, priceFrom: Int?, priceTo: Int?) -> TrackerEvent {
         var params = EventParameters()
 
         // Filter Coordinates
@@ -209,6 +209,9 @@ public struct TrackerEvent {
         if let postedWithin = eventParameterPostedWithinForTime(postedWithin) {
             params[.FilterPostedWithin] = postedWithin.rawValue
         }
+
+        params[.PriceFrom] = eventParameterHasPriceFilter(priceFrom).rawValue
+        params[.PriceTo] = eventParameterHasPriceFilter(priceTo).rawValue
 
         return TrackerEvent(name: .FilterComplete, params: params)
     }
@@ -880,5 +883,9 @@ public struct TrackerEvent {
         case .All:
             return .All
         }
+    }
+
+    private static func eventParameterHasPriceFilter(price: Int?) -> EventParameterHasPriceFilter {
+        return price != nil ? .True : .False
     }
 }
