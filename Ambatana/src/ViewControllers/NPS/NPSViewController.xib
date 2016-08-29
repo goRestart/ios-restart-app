@@ -7,13 +7,24 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="NPSViewController" customModule="LetGo" customModuleProvider="target">
             <connections>
+                <outlet property="closeButton" destination="tIK-p9-z7H" id="7JY-jy-ne2"/>
                 <outlet property="extremelyLikelyImage" destination="Zp8-Ng-ndk" id="x7Z-bM-Itb"/>
                 <outlet property="extremelyLikelyLabel" destination="fWg-Pq-eST" id="Vf1-Nd-Zgt"/>
                 <outlet property="notLikelyImage" destination="5f0-pO-P5a" id="7aG-xy-qy9"/>
                 <outlet property="notLikelyLabel" destination="stB-kq-G0T" id="zfX-00-TZW"/>
                 <outlet property="subtitleLabel" destination="RYr-l2-rfR" id="LIS-zp-yOp"/>
                 <outlet property="titleLabel" destination="djs-zt-zEf" id="MDP-yU-kOe"/>
+                <outlet property="view" destination="iN0-l3-epB" id="bnu-YU-JOe"/>
                 <outletCollection property="npsButtons" destination="XDF-g6-Tb0" collectionClass="NSMutableArray" id="ZVm-0u-O6R"/>
+                <outletCollection property="npsButtons" destination="dFj-7C-qnn" collectionClass="NSMutableArray" id="yAn-Vc-uvm"/>
+                <outletCollection property="npsButtons" destination="wv7-wn-TV0" collectionClass="NSMutableArray" id="uQj-5i-vzV"/>
+                <outletCollection property="npsButtons" destination="QZe-4M-ydg" collectionClass="NSMutableArray" id="fPc-UJ-Dy1"/>
+                <outletCollection property="npsButtons" destination="R6m-JA-qAR" collectionClass="NSMutableArray" id="rOJ-lV-CUm"/>
+                <outletCollection property="npsButtons" destination="0hQ-vk-jjI" collectionClass="NSMutableArray" id="fOb-ga-x6r"/>
+                <outletCollection property="npsButtons" destination="aF0-Co-aXE" collectionClass="NSMutableArray" id="sF8-UZ-CVy"/>
+                <outletCollection property="npsButtons" destination="1Xg-ex-LJF" collectionClass="NSMutableArray" id="kUr-oC-1aH"/>
+                <outletCollection property="npsButtons" destination="Si7-Ta-Auw" collectionClass="NSMutableArray" id="9He-dR-3ET"/>
+                <outletCollection property="npsButtons" destination="VAp-sh-viA" collectionClass="NSMutableArray" id="pg6-m3-hfh"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -38,7 +49,7 @@
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="L28-Ee-qJR" userLabel="ButtonContainer">
                                     <rect key="frame" x="0.0" y="123" width="290" height="110"/>
                                     <subviews>
-                                        <button opaque="NO" tag="5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="R6m-JA-qAR">
+                                        <button opaque="NO" tag="5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="R6m-JA-qAR">
                                             <rect key="frame" x="240" y="0.0" width="50" height="50"/>
                                             <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <constraints>
@@ -46,8 +57,11 @@
                                                 <constraint firstAttribute="height" constant="50" id="oIh-gb-HFu"/>
                                             </constraints>
                                             <state key="normal" title="Button"/>
+                                            <connections>
+                                                <action selector="selectScore:" destination="-1" eventType="touchUpInside" id="Fqz-yh-7oq"/>
+                                            </connections>
                                         </button>
-                                        <button opaque="NO" tag="10" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VAp-sh-viA">
+                                        <button opaque="NO" tag="10" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VAp-sh-viA">
                                             <rect key="frame" x="240" y="60" width="50" height="50"/>
                                             <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <constraints>
@@ -56,8 +70,11 @@
                                                 <constraint firstAttribute="height" constant="50" id="mxD-Rz-chh"/>
                                             </constraints>
                                             <state key="normal" title="Button"/>
+                                            <connections>
+                                                <action selector="selectScore:" destination="-1" eventType="touchUpInside" id="cMS-At-VEr"/>
+                                            </connections>
                                         </button>
-                                        <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XDF-g6-Tb0">
+                                        <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XDF-g6-Tb0">
                                             <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                             <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <constraints>
@@ -71,8 +88,11 @@
                                                     <exclude reference="p2r-w4-cxS"/>
                                                 </mask>
                                             </variation>
+                                            <connections>
+                                                <action selector="selectScore:" destination="-1" eventType="touchUpInside" id="TjS-l6-oxn"/>
+                                            </connections>
                                         </button>
-                                        <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dFj-7C-qnn">
+                                        <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dFj-7C-qnn">
                                             <rect key="frame" x="60" y="0.0" width="50" height="50"/>
                                             <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <constraints>
@@ -80,8 +100,11 @@
                                                 <constraint firstAttribute="height" constant="50" id="i63-MQ-Nq7"/>
                                             </constraints>
                                             <state key="normal" title="Button"/>
+                                            <connections>
+                                                <action selector="selectScore:" destination="-1" eventType="touchUpInside" id="7CU-nv-dzd"/>
+                                            </connections>
                                         </button>
-                                        <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wv7-wn-TV0">
+                                        <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wv7-wn-TV0">
                                             <rect key="frame" x="120" y="0.0" width="50" height="50"/>
                                             <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <constraints>
@@ -89,8 +112,11 @@
                                                 <constraint firstAttribute="width" constant="50" id="pwS-pP-gKu"/>
                                             </constraints>
                                             <state key="normal" title="Button"/>
+                                            <connections>
+                                                <action selector="selectScore:" destination="-1" eventType="touchUpInside" id="hgT-ts-0mz"/>
+                                            </connections>
                                         </button>
-                                        <button opaque="NO" tag="6" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0hQ-vk-jjI">
+                                        <button opaque="NO" tag="6" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0hQ-vk-jjI">
                                             <rect key="frame" x="0.0" y="60" width="50" height="50"/>
                                             <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <constraints>
@@ -98,8 +124,11 @@
                                                 <constraint firstAttribute="width" constant="50" id="hiY-FV-Pju"/>
                                             </constraints>
                                             <state key="normal" title="Button"/>
+                                            <connections>
+                                                <action selector="selectScore:" destination="-1" eventType="touchUpInside" id="Aw3-ls-YL2"/>
+                                            </connections>
                                         </button>
-                                        <button opaque="NO" tag="7" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aF0-Co-aXE">
+                                        <button opaque="NO" tag="7" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aF0-Co-aXE">
                                             <rect key="frame" x="60" y="60" width="50" height="50"/>
                                             <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <constraints>
@@ -107,8 +136,11 @@
                                                 <constraint firstAttribute="height" constant="50" id="poa-HD-77x"/>
                                             </constraints>
                                             <state key="normal" title="Button"/>
+                                            <connections>
+                                                <action selector="selectScore:" destination="-1" eventType="touchUpInside" id="alt-Ee-4oc"/>
+                                            </connections>
                                         </button>
-                                        <button opaque="NO" tag="8" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1Xg-ex-LJF">
+                                        <button opaque="NO" tag="8" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1Xg-ex-LJF">
                                             <rect key="frame" x="120" y="60" width="50" height="50"/>
                                             <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <constraints>
@@ -116,8 +148,11 @@
                                                 <constraint firstAttribute="width" constant="50" id="tIV-bQ-AVs"/>
                                             </constraints>
                                             <state key="normal" title="Button"/>
+                                            <connections>
+                                                <action selector="selectScore:" destination="-1" eventType="touchUpInside" id="BCI-P4-rZT"/>
+                                            </connections>
                                         </button>
-                                        <button opaque="NO" tag="9" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Si7-Ta-Auw">
+                                        <button opaque="NO" tag="9" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Si7-Ta-Auw">
                                             <rect key="frame" x="180" y="60" width="50" height="50"/>
                                             <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <constraints>
@@ -125,8 +160,11 @@
                                                 <constraint firstAttribute="width" constant="50" id="bRo-pz-2F8"/>
                                             </constraints>
                                             <state key="normal" title="Button"/>
+                                            <connections>
+                                                <action selector="selectScore:" destination="-1" eventType="touchUpInside" id="YAn-jA-HJ6"/>
+                                            </connections>
                                         </button>
-                                        <button opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QZe-4M-ydg">
+                                        <button opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QZe-4M-ydg">
                                             <rect key="frame" x="180" y="0.0" width="50" height="50"/>
                                             <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <constraints>
@@ -134,6 +172,9 @@
                                                 <constraint firstAttribute="width" constant="50" id="q8i-xy-4DW"/>
                                             </constraints>
                                             <state key="normal" title="Button"/>
+                                            <connections>
+                                                <action selector="selectScore:" destination="-1" eventType="touchUpInside" id="5M4-LN-u3w"/>
+                                            </connections>
                                         </button>
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -180,8 +221,8 @@
                                         <constraint firstAttribute="width" constant="24" id="rbL-yS-Eu8"/>
                                     </constraints>
                                 </imageView>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="WE'D LIKE TO KNOW" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="djs-zt-zEf">
-                                    <rect key="frame" x="62" y="0.0" width="166" height="21"/>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_WE'D LIKE TO KNOW" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="djs-zt-zEf">
+                                    <rect key="frame" x="60" y="0.0" width="171" height="21"/>
                                     <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                     <nil key="highlightedColor"/>
@@ -192,14 +233,14 @@
                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Not likely" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="stB-kq-G0T">
-                                    <rect key="frame" x="29" y="93" width="56" height="16"/>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_Not likely" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="stB-kq-G0T">
+                                    <rect key="frame" x="29" y="93" width="62" height="16"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Extremely likely" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fWg-Pq-eST">
-                                    <rect key="frame" x="167" y="247" width="94" height="16"/>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_Extremely likely" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fWg-Pq-eST">
+                                    <rect key="frame" x="161" y="247" width="100" height="16"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                     <nil key="highlightedColor"/>
@@ -227,15 +268,29 @@
                                 <constraint firstItem="L28-Ee-qJR" firstAttribute="top" secondItem="RYr-l2-rfR" secondAttribute="bottom" constant="56" id="xEh-15-C3X"/>
                             </constraints>
                         </view>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tIK-p9-z7H">
+                            <rect key="frame" x="13" y="20" width="20" height="20"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="20" id="MSz-UF-Aem"/>
+                                <constraint firstAttribute="width" constant="20" id="QsX-z1-Dmu"/>
+                            </constraints>
+                            <color key="tintColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            <state key="normal" image="ic_close"/>
+                            <connections>
+                                <action selector="close:" destination="-1" eventType="touchUpInside" id="CXF-LC-Idr"/>
+                            </connections>
+                        </button>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
+                        <constraint firstItem="tIK-p9-z7H" firstAttribute="top" secondItem="zhJ-fn-RQw" secondAttribute="top" constant="20" id="Kxh-Dc-pzU"/>
                         <constraint firstItem="Fz6-Po-T8b" firstAttribute="centerY" secondItem="zhJ-fn-RQw" secondAttribute="centerY" id="SUN-qQ-XZh"/>
                         <constraint firstItem="Fz6-Po-T8b" firstAttribute="centerX" secondItem="zhJ-fn-RQw" secondAttribute="centerX" id="YOM-xC-LEt"/>
+                        <constraint firstItem="tIK-p9-z7H" firstAttribute="leading" secondItem="zhJ-fn-RQw" secondAttribute="leading" constant="13" id="sbC-JJ-mmy"/>
                     </constraints>
                 </view>
             </subviews>
-            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <color key="backgroundColor" white="1" alpha="0.50457114361702127" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="cJK-Bf-oAd" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="HG8-9V-0QS"/>
                 <constraint firstAttribute="trailing" secondItem="zhJ-fn-RQw" secondAttribute="trailing" id="IyC-Hq-2yN"/>
@@ -249,4 +304,7 @@
             <point key="canvasLocation" x="396" y="609"/>
         </view>
     </objects>
+    <resources>
+        <image name="ic_close" width="18" height="18"/>
+    </resources>
 </document>

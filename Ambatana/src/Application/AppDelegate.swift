@@ -150,6 +150,11 @@ extension AppDelegate: UIApplicationDelegate {
         appIsActive.value = true
         PushManager.sharedInstance.applicationDidBecomeActive(application)
         TrackerProxy.sharedInstance.applicationDidBecomeActive(application)
+        if FeatureFlags.showNPSSurvey {
+            delay(3) { [weak self] in
+                self?.navigator?.openNPSSurvey()
+            }
+        }
     }
 
     func applicationWillTerminate(application: UIApplication) {

@@ -9,5 +9,25 @@
 import Foundation
 
 class NPSViewModel: BaseViewModel {
+    let tracker: Tracker
     
+    convenience override init() {
+        let tracker = TrackerProxy.sharedInstance
+        self.init(tracker: tracker)
+    }
+    
+    init(tracker: Tracker) {
+        self.tracker = tracker
+    }
+    
+    override func didBecomeActive(firstTime: Bool) {
+        let event = TrackerEvent.npsStart()
+        tracker.trackEvent(event)
+    }
+    
+    func vmDidFinishSurvey(score: Int) {
+        print("tracking \(score)")
+        let event = TrackerEvent.npsComplete(score)
+        tracker.trackEvent(event)
+    }
 }

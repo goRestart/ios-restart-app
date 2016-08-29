@@ -185,6 +185,12 @@ extension AppCoordinator: AppNavigator {
         userRatingCoordinator.delegate = self
         openCoordinator(coordinator: userRatingCoordinator, parent: tabBarCtl, animated: true, completion: nil)
     }
+    
+    func openNPSSurvey() {
+        let vm = NPSViewModel()
+        let vc = NPSViewController(viewModel: vm)
+        tabBarCtl.presentViewController(vc, animated: true, completion: nil)
+    }
 }
 
 

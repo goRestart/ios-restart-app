@@ -57,6 +57,13 @@ struct FeatureFlags {
         }
         return ABTests.directStickersOnProduct.value
     }
+    
+    static var showNPSSurvey: Bool {
+        if FTSFlipTheSwitch.overridesABTests {
+            return FTSFlipTheSwitch.showNPSSurvey
+        }
+        return ABTests.showNPSSurvey.value
+    }
 
     static var postingDetailsMode: PostingDetailsMode {
         if FTSFlipTheSwitch.overridesABTests {
@@ -109,5 +116,9 @@ private extension FTSFlipTheSwitch {
 
     static var newPostDetailsSteps: Bool {
         return FTSFlipTheSwitch.sharedInstance().isFeatureEnabled("new_post_details_steps")
+    }
+    
+    static var showNPSSurvey: Bool {
+        return FTSFlipTheSwitch.sharedInstance().isFeatureEnabled("show_nps_survey")
     }
 }
