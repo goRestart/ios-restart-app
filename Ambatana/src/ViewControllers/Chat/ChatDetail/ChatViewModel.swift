@@ -313,9 +313,9 @@ class ChatViewModel: BaseViewModel {
             guard let strongSelf = self else { return }
             
             if status == .Forbidden {
-                let disclaimer = strongSelf.chatViewMessageAdapter.createUserBlockedDisclaimerMessage(
+                let disclaimer = strongSelf.chatViewMessageAdapter.createScammerDisclaimerMessage(
                     isBuyer: strongSelf.isBuyer, userName: strongSelf.conversation.value.interlocutor?.name,
-                    actionTitle:  LGLocalizedString.chatBlockedDisclaimerSafetyTipsButton, action: strongSelf.safetyTipsAction)
+                    action: strongSelf.safetyTipsAction)
                 self?.messages.removeAll()
                 self?.messages.append(disclaimer)
             }

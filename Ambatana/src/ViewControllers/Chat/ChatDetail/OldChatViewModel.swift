@@ -190,10 +190,9 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     let isSendingMessage = Variable<Bool>(false)
     var relatedProducts: [Product] = []
 
-    var userBlockedDisclaimerMessage: ChatViewMessage {
-        return chatViewMessageAdapter.createUserBlockedDisclaimerMessage(
-            isBuyer: isBuyer, userName: otherUser?.name,
-            actionTitle: LGLocalizedString.chatBlockedDisclaimerSafetyTipsButton, action: safetyTipsAction)
+    var scammerDisclaimerMessage: ChatViewMessage {
+        return chatViewMessageAdapter.createScammerDisclaimerMessage(
+            isBuyer: isBuyer, userName: otherUser?.name, action: safetyTipsAction)
     }
 
     var messageSuspiciousDisclaimerMessage: ChatViewMessage {
@@ -390,8 +389,8 @@ public class OldChatViewModel: BaseViewModel, Paginable {
             checkShowRelatedProducts()
         }
 
-        guard !chat.forbidden else {
-            showDisclaimerMessage()
+        guard chatStatus != .Forbidden else {
+            showScammerDisclaimerMessage()
             markForbiddenAsRead()
             return
         }
@@ -413,8 +412,8 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         tabNavigator?.openExpressChat(relatedProducts, sourceProductId: productId)
     }
     
-    func showDisclaimerMessage() {
-        loadedMessages = [userBlockedDisclaimerMessage]
+    func showScammerDisclaimerMessage() {
+        loadedMessages = [scammerDisclaimerMessage]
         delegate?.vmDidSucceedRetrievingChatMessages()
     }
 
@@ -960,7 +959,6 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     // MARK: - Paginable
     
     func retrievePage(page: Int) {
-        
         guard let userBuyer = buyer else { return }
         
         delegate?.vmDidStartRetrievingChatMessages(hasData: !loadedMessages.isEmpty)
@@ -991,8 +989,8 @@ public class OldChatViewModel: BaseViewModel, Paginable {
                     strongSelf.loadedMessages += [userInfoMessage]
                 }
 
-                if chat.forbidden {
-                    strongSelf.showDisclaimerMessage()
+                if strongSelf.chatStatus == .Forbidden {
+                    strongSelf.showScammerDisclaimerMessage()
                     strongSelf.delegate?.vmUpdateChatInteraction(false)
                 } else {
                     strongSelf.delegate?.vmDidSucceedRetrievingChatMessages()

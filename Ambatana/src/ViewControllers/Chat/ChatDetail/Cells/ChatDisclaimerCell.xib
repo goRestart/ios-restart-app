@@ -51,13 +51,12 @@
                 </subviews>
                 <constraints>
                     <constraint firstItem="thg-Yf-zp5" firstAttribute="top" secondItem="zEF-OF-Nuq" secondAttribute="bottom" constant="10" id="0ge-2R-ltf"/>
-                    <constraint firstItem="HaI-I9-tkA" firstAttribute="top" secondItem="1NK-Zl-EGR" secondAttribute="bottom" constant="10" id="11N-R6-YsE"/>
                     <constraint firstAttribute="bottomMargin" secondItem="xUB-tf-1nU" secondAttribute="bottom" constant="-4" id="1xE-vf-CrN"/>
                     <constraint firstAttribute="trailingMargin" secondItem="HaI-I9-tkA" secondAttribute="trailing" constant="10" id="3TO-xE-LW0"/>
                     <constraint firstItem="zEF-OF-Nuq" firstAttribute="top" secondItem="HaI-I9-tkA" secondAttribute="bottom" constant="2" id="3sp-0M-sHV"/>
                     <constraint firstItem="1NK-Zl-EGR" firstAttribute="centerX" secondItem="J1e-i2-Vki" secondAttribute="centerX" id="3tP-Da-8R6"/>
-                    <constraint firstItem="1NK-Zl-EGR" firstAttribute="top" secondItem="J1e-i2-Vki" secondAttribute="topMargin" constant="-7" id="AHH-v2-mec"/>
                     <constraint firstItem="zEF-OF-Nuq" firstAttribute="leading" secondItem="J1e-i2-Vki" secondAttribute="leadingMargin" constant="10" id="KRE-oA-AsP"/>
+                    <constraint firstItem="xUB-tf-1nU" firstAttribute="top" secondItem="J1e-i2-Vki" secondAttribute="topMargin" constant="25" id="Kei-DL-RUj"/>
                     <constraint firstItem="thg-Yf-zp5" firstAttribute="centerX" secondItem="xUB-tf-1nU" secondAttribute="centerX" id="O10-AV-BSs"/>
                     <constraint firstItem="xUB-tf-1nU" firstAttribute="leading" secondItem="J1e-i2-Vki" secondAttribute="leadingMargin" id="O4v-PE-JMy"/>
                     <constraint firstItem="HaI-I9-tkA" firstAttribute="leading" secondItem="J1e-i2-Vki" secondAttribute="leadingMargin" constant="10" id="PkG-j8-ewg"/>
@@ -65,16 +64,19 @@
                     <constraint firstAttribute="bottomMargin" secondItem="thg-Yf-zp5" secondAttribute="bottom" constant="10" id="e71-9D-jdg"/>
                     <constraint firstAttribute="trailingMargin" secondItem="xUB-tf-1nU" secondAttribute="trailing" id="fsl-RR-bew"/>
                     <constraint firstItem="xUB-tf-1nU" firstAttribute="top" secondItem="1NK-Zl-EGR" secondAttribute="centerY" id="mpP-dq-lLH"/>
+                    <constraint firstItem="HaI-I9-tkA" firstAttribute="top" secondItem="J1e-i2-Vki" secondAttribute="topMargin" constant="67" id="oDF-Eq-Ie7"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
                 <outlet property="avatarImageView" destination="1NK-Zl-EGR" id="Lnm-Bt-Gv5"/>
                 <outlet property="backgroundCellView" destination="xUB-tf-1nU" id="qlv-1Y-cLB"/>
+                <outlet property="backgroundTopConstraint" destination="Kei-DL-RUj" id="HKw-sM-Tgx"/>
                 <outlet property="button" destination="thg-Yf-zp5" id="5t9-8C-ur2"/>
                 <outlet property="buttonBottomConstraint" destination="e71-9D-jdg" id="v8M-rb-fUl"/>
                 <outlet property="buttonHeightConstraint" destination="kZ1-Z9-M4u" id="8qp-ES-JLq"/>
                 <outlet property="messageLabel" destination="zEF-OF-Nuq" id="CsS-Tv-eNg"/>
                 <outlet property="titleLabel" destination="HaI-I9-tkA" id="uU4-lq-9pG"/>
+                <outlet property="titleTopConstraint" destination="oDF-Eq-Ie7" id="Hkz-CP-Gfx"/>
             </connections>
             <point key="canvasLocation" x="1012" y="542.5"/>
         </tableViewCell>

@@ -75,18 +75,17 @@ class ChatViewMessageAdapter {
         }
     }
 
-    func createUserBlockedDisclaimerMessage(isBuyer isBuyer: Bool, userName: String?, actionTitle: String?, action: (() -> ())?) -> ChatViewMessage {
+    func createScammerDisclaimerMessage(isBuyer isBuyer: Bool, userName: String?, action: (() -> ())?) -> ChatViewMessage {
         let chatBlockedMessage =  ChatViewMessageAdapter.alertMutableAttributedString
 
-        let firstPhrase: NSAttributedString
-        if let otherUserName = userName {
-            firstPhrase = NSAttributedString(string: LGLocalizedString.chatBlockedDisclaimerScammerWName(otherUserName))
-        } else {
-            firstPhrase = NSAttributedString(string: LGLocalizedString.chatBlockedDisclaimerScammerWoName)
-        }
-        chatBlockedMessage.appendAttributedString(firstPhrase)
-
+        let message: NSAttributedString
         if isBuyer {
+            if let otherUserName = userName {
+                message = NSAttributedString(string: LGLocalizedString.chatForbiddenDisclaimerBuyerWName(otherUserName))
+            } else {
+                message = NSAttributedString(string: LGLocalizedString.chatForbiddenDisclaimerBuyerWoName)
+            }
+            chatBlockedMessage.appendAttributedString(message)
             chatBlockedMessage.appendAttributedString(NSAttributedString(string: " "))
             let keyword = LGLocalizedString.chatBlockedDisclaimerScammerAppendSafetyTipsKeyword
             let secondPhraseStr = LGLocalizedString.chatBlockedDisclaimerScammerAppendSafetyTips(keyword)
@@ -98,9 +97,16 @@ class ChatViewMessageAdapter {
                 secondPhrase.addAttribute(NSForegroundColorAttributeName, value: UIColor.primaryColor, range: range)
             }
             chatBlockedMessage.appendAttributedString(secondPhrase)
+        } else {
+            if let otherUserName = userName {
+                message = NSAttributedString(string: LGLocalizedString.chatForbiddenDisclaimerSellerWName(otherUserName))
+            } else {
+                message = NSAttributedString(string: LGLocalizedString.chatForbiddenDisclaimerSellerWoName)
+            }
+            chatBlockedMessage.appendAttributedString(message)
         }
 
-        return createDisclaimerMessage(chatBlockedMessage, actionTitle: actionTitle, action: action)
+        return createDisclaimerMessage(chatBlockedMessage, showAvatar: true, actionTitle: nil, action: action)
     }
 
     func createUserDeletedDisclaimerMessage(userName: String?) -> ChatViewMessage {
@@ -112,7 +118,7 @@ class ChatViewMessageAdapter {
             message = LGLocalizedString.chatDeletedDisclaimerWoName
         }
         chatDeletedMessage.appendAttributedString(NSAttributedString(string: message))
-        return createDisclaimerMessage(chatDeletedMessage, actionTitle: nil, action: nil)
+        return createDisclaimerMessage(chatDeletedMessage, showAvatar: true, actionTitle: nil, action: nil)
     }
 
     func createMessageSuspiciousDisclaimerMessage(action: (() -> ())?) -> ChatViewMessage {
@@ -128,7 +134,7 @@ class ChatViewMessageAdapter {
             secondPhrase.addAttribute(NSForegroundColorAttributeName, value: UIColor.primaryColor, range: range)
         }
         messageSuspiciousMessage.appendAttributedString(secondPhrase)
-        return createDisclaimerMessage(messageSuspiciousMessage, actionTitle: nil, action: action)
+        return createDisclaimerMessage(messageSuspiciousMessage, showAvatar: false, actionTitle: nil, action: action)
     }
 
     func createUserInfoMessage(user: User?) -> ChatViewMessage? {
@@ -143,8 +149,10 @@ class ChatViewMessageAdapter {
                                status: nil, warningStatus: .Normal)
     }
 
-    private func createDisclaimerMessage(disclaimerText: NSAttributedString, actionTitle: String?, action: (() -> ())?) -> ChatViewMessage {
-        let disclaimer = ChatViewMessageType.Disclaimer(text: disclaimerText, actionTitle: actionTitle, action: action)
+    private func createDisclaimerMessage(disclaimerText: NSAttributedString, showAvatar: Bool, actionTitle: String?,
+                                         action: (() -> ())?) -> ChatViewMessage {
+        let disclaimer = ChatViewMessageType.Disclaimer(showAvatar: showAvatar, text: disclaimerText,
+                                                        actionTitle: actionTitle, action: action)
         // TODO: use proper warningStatus once the chat team includes the warning info in the messages
         let disclaimerMessage = ChatViewMessage(objectId: nil, talkerId: "", sentAt: nil, receivedAt: nil, readAt: nil,
                                                 type: disclaimer, status: nil, warningStatus: .Normal)
