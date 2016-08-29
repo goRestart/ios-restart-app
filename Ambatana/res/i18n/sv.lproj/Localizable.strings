@@ -3,10 +3,13 @@
 "app_share_download_text" = "Ladda ner";
 "app_share_email_button" = "Bjud in via mejl";
 "app_share_fbmessenger_button" = "Bjud in via Messenger";
+"app_share_invite_text" = "Invite";
 "app_share_message_text" = "Jag sålde just en grej på letgo! Du borde också kolla in letgo och tjäna pengar på prylar du inte längre använder...";
 "app_share_subject_text" = "Kolla in letgo";
-"app_share_subtitle" = "Dela letgo med dina vänner och hjälp oss att få communityn att växa!";
-"app_share_title" = "Bjud in dina vänner";
+"app_share_subtitle" = "Dela letgo med dina vänner och låt oss få communityn att växa!";
+"app_share_subtitle_alternative" = "Dela letgo med dina vänner och låt oss få communityn att växa!";
+"app_share_title" = "BJUD IN DINA VÄNNER";
+"app_share_title_alternative" = "DELA KÄRLEKEN";
 "app_share_whatsapp_button" = "Bjud in via WhatsApp";
 "block_user_error_generic" = "Ett fel uppstod vid blockering av användaren.";
 "categories_baby_and_child" = "Bebis och barn";

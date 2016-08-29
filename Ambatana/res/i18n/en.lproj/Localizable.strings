@@ -20,13 +20,22 @@
 "app_share_subject_text" = "Check out letgo";
 
 // App share dialog subtitle
-"app_share_subtitle" = "Share letgo with your friends and help us grow our community!";
+"app_share_subtitle" = "Invite your friends to letgo and help us grow our community!";
+
+// App share dialog subtitle (B test)
+"app_share_subtitle_alternative" = "Share letgo with your friends and help us grow our community!";
 
 // App share dialog title
-"app_share_title" = "Invite your Friends";
+"app_share_title" = "INVITE YOUR FRIENDS";
+
+// App share dialog title (B Test)
+"app_share_title_alternative" = "SHARE THE LOVE";
 
 // App share whatsapp button
 "app_share_whatsapp_button" = "Invite via Whatsapp";
+
+// Button in listing to open the App Share view
+"app_share_invite_text" = "Invite";
 
 // Text for unsuccessful user block
 "block_user_error_generic" = "An error occurred while blocking this user.";

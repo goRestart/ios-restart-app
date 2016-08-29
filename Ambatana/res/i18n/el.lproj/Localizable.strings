@@ -3,10 +3,13 @@
 "app_share_download_text" = "Λήψη";
 "app_share_email_button" = "Προσκαλέστε μέσω Email";
 "app_share_fbmessenger_button" = "Προσκαλέστε μέσω Messenger";
+"app_share_invite_text" = "Invite";
 "app_share_message_text" = "Μόλις πούλησα κάτι στο letgo! Δείτε το και κερδίστε κι εσείς μετρητά από πράγματα που δε χρησιμοποιείτε πια...";
 "app_share_subject_text" = "Τσεκάρετε το letgo";
-"app_share_subtitle" = "Μοιραστείτε το letgo με τους φίλους σας και βοηθήστε μας να μεγαλώσουμε την κοινότητά μας!";
-"app_share_title" = "Προσκαλέστε τους Φίλους σας";
+"app_share_subtitle" = "Προσκαλέστε τους φίλους σας στο letgo και βοηθήστε μας να μεγαλώσουμε την κοινότητά μας!";
+"app_share_subtitle_alternative" = "Μοιραστείτε το letgo με τους φίλους σας και βοηθήστε μας να μεγαλώσουμε την κοινότητά μας!";
+"app_share_title" = "ΠΡΟΣΚΑΛΕΣΤΕ ΤΟΥΣ ΦΙΛΟΥΣ ΣΑΣ";
+"app_share_title_alternative" = "ΜΟΙΡΑΣΤΕ ΑΓΑΠΗ";
 "app_share_whatsapp_button" = "Προσκαλέστε μέσω Whatsapp";
 "block_user_error_generic" = "Παρουσιάστηκε σφάλμα κατά το μπλοκάρισμα του χρήστη.";
 "categories_baby_and_child" = "Βρεφικά και Παιδικά";

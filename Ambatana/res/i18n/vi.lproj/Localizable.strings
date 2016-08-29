@@ -3,10 +3,13 @@
 "app_share_download_text" = "Tải về";
 "app_share_email_button" = "Mời qua Email";
 "app_share_fbmessenger_button" = "Mời qua Messenger";
+"app_share_invite_text" = "Invite";
 "app_share_message_text" = "Tôi vừa bán sản phẩm trên letgo! Bạn cũng nên ghé qua và kiếm tiền từ những món đồ không còn dùng đến...";
 "app_share_subject_text" = "Duyệt letgo";
-"app_share_subtitle" = "Chia sẻ letgo với bạn bè và giúp chúng tôi mở rộng cộng đồng!";
-"app_share_title" = "Mời bạn bè";
+"app_share_subtitle" = "Mời bạn bè sử dụng letgo và giúp chúng tôi mở rộng cộng đồng!";
+"app_share_subtitle_alternative" = "Chia sẻ letgo với bạn bè và giúp chúng tôi mở rộng cộng đồng!";
+"app_share_title" = "MỜI BẠN BÈ";
+"app_share_title_alternative" = "CHIA SẺ BẰNG TÌNH YÊU THƯƠNG";
 "app_share_whatsapp_button" = "Mời qua Whatsapp";
 "block_user_error_generic" = "Có lỗi xảy ra trong khi chặn người dùng này.";
 "categories_baby_and_child" = "Trẻ sơ sinh và Trẻ nhỏ";

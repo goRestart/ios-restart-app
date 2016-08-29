@@ -89,7 +89,7 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
         setupTagsView()
         setupSearchAndTrending()
         setFiltersNavbarButton()
-
+        setInviteNavBarButton()
         setupRxBindings()
         setAccessibilityIds()
     }
@@ -255,6 +255,7 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     dynamic private func endEdit() {
         trendingSearchesContainer.hidden = true
         setFiltersNavbarButton()
+        setInviteNavBarButton()
         navbarSearch.endEdit()
     }
 
@@ -304,6 +305,20 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
             filtersIcon = tagsViewController.tags.isEmpty ? "ic_filters": "ic_filters_active"
         }
         setLetGoRightButtonWith(imageName: filtersIcon, renderingMode: .AlwaysOriginal, selector: "filtersButtonPressed:")
+    }
+    
+    private func setInviteNavBarButton() {
+        var button: UIBarButtonItem
+        if FeatureFlags.showInviteHeartIcon {
+            button = UIBarButtonItem(image: UIImage(named: "ic_invite"), style: .Plain, target: self, action: #selector(openInvite))
+        } else {
+            button = UIBarButtonItem(title: LGLocalizedString.appShareInviteText, style: .Plain, target: self, action: #selector(openInvite))
+        }
+        navigationItem.leftBarButtonItem = button
+    }
+    
+    dynamic private func openInvite() {
+        viewModel.vmUserDidTapInvite()
     }
     
     private func showTagsView(show: Bool) {
@@ -498,5 +513,6 @@ extension MainProductsViewController {
         infoBubbleLabel.accessibilityId = .MainProductsInfoBubbleLabel
         navbarSearch.accessibilityId = .MainProductsNavBarSearch
         trendingSearchesTable.accessibilityId = .MainProductsTrendingSearchesTable
+        navigationItem.leftBarButtonItem?.accessibilityId = .MainProductsInviteButton
     }
 }

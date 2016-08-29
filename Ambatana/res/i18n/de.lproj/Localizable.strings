@@ -3,10 +3,13 @@
 "app_share_download_text" = "Herunterladen";
 "app_share_email_button" = "Via E-Mail einladen";
 "app_share_fbmessenger_button" = "Via Messenger einladen";
+"app_share_invite_text" = "Invite";
 "app_share_message_text" = "Ich habe gerade etwas auf letgo verkauft. Schau es dir mal an und verdiene bares Geld mit Sachen, die du nicht mehr brauchst...";
 "app_share_subject_text" = "Schau dir mal letgo an";
 "app_share_subtitle" = "Teile letgo mit deinen Freunden, damit unsere Community weiter wächst!";
-"app_share_title" = "Lade Freunde ein";
+"app_share_subtitle_alternative" = "Teile letgo mit deinen Freunden, damit unsere Community weiter wächst!";
+"app_share_title" = "LADE FREUNDE EIN";
+"app_share_title_alternative" = "TEILE DAS ERLEBNIS";
 "app_share_whatsapp_button" = "Via Whatsapp einladen";
 "block_user_error_generic" = "Beim Blockieren dieses Nutzers ist ein Fehler aufgetreten.";
 "categories_baby_and_child" = "Baby und Kind";

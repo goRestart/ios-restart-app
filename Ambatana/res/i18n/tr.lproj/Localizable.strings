@@ -3,10 +3,13 @@
 "app_share_download_text" = "Yükle";
 "app_share_email_button" = "Email ile davet et";
 "app_share_fbmessenger_button" = "Messenger ile davet et";
+"app_share_invite_text" = "Invite";
 "app_share_message_text" = "Kısa süre önce letgo'da bir şeyler sattım! Kullanmadığın şeyleri nakite çevirmek için sen de göz atmalısın...";
 "app_share_subject_text" = "letgo'yu denemelisin";
 "app_share_subtitle" = "letgo'yu arkadaşlarınla paylaşarak topluluğumuzun büyümesine yardımcı ol!";
+"app_share_subtitle_alternative" = "Letgo'yu arkadaşlarınla paylaş ve büyümemize yardımcı ol!";
 "app_share_title" = "Akadaşlarını davet et";
+"app_share_title_alternative" = "MUTLULUĞU PAYLAŞ";
 "app_share_whatsapp_button" = "Whatsapp ile davet et";
 "block_user_error_generic" = "Kullanıcı engellenirken bir hata oluştu.";
 "categories_baby_and_child" = "Bebek ve Çocuk";

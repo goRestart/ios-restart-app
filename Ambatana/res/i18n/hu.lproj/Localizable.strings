@@ -3,10 +3,13 @@
 "app_share_download_text" = "Letöltés";
 "app_share_email_button" = "Meghívás e-mailben";
 "app_share_fbmessenger_button" = "Meghívás Messengeren";
+"app_share_invite_text" = "Invite";
 "app_share_message_text" = "Épp most adtam el valamit a letgo piacán! Próbáljátok ki ti is, eladhatjátok a felesleges dolgaitokat!";
 "app_share_subject_text" = "Próbáld ki a letgo piacát";
 "app_share_subtitle" = "Oszd meg a letgo alkalmazást barátaiddal, hogy együtt növelhessük a piacot!";
+"app_share_subtitle_alternative" = "Share letgo with your friends and help us grow our community!";
 "app_share_title" = "Hívd meg barátaidat";
+"app_share_title_alternative" = "SHARE THE LOVE";
 "app_share_whatsapp_button" = "Meghívás WhatsAppon";
 "block_user_error_generic" = "Hiba történt a felhasználó blokkolása során.";
 "categories_baby_and_child" = "Baba és gyerek";

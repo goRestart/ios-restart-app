@@ -3,10 +3,13 @@
 "app_share_download_text" = "다운로드";
 "app_share_email_button" = "이메일로 초대하기";
 "app_share_fbmessenger_button" = "메신저로 초대하기";
+"app_share_invite_text" = "Invite";
 "app_share_message_text" = "렛고에서 막 상품을 판매하였습니다! 확인하시고 더 이상 필요하지 않은 상품을 현금화 하여 보세요...";
 "app_share_subject_text" = "letgo에서 구매완료하기";
-"app_share_subtitle" = "친구들에게 렛고를 공유하고 렛고를 성장시켜보세요!";
+"app_share_subtitle" = "친구들에게 렛고를 공유하고 저희 커뮤니티를 성장시켜보세요!";
+"app_share_subtitle_alternative" = "친구들에게 letgo를 공유하고 저희 커뮤니티를 발전시키는데 도움을 주세요!";
 "app_share_title" = "친구 초대하기";
+"app_share_title_alternative" = "사랑을 공유하세요";
 "app_share_whatsapp_button" = "Whatsapp으로 초대하기";
 "block_user_error_generic" = "사용자를 차단하는데 오류가 발생했습니다.";
 "categories_baby_and_child" = "유아동";
