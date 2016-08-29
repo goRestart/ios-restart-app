@@ -4,7 +4,8 @@
 https://ambatana.atlassian.net/browse/ABIOS-X
 
 #### :clipboard: Developer Checklist
-- [ ] Unit Tests (if necessary)
+- [ ] Unit Tests (if needed)
+- [ ] Accessibility ids (if needed)
 - [ ] Other developer checkout & test (if needed)
 
 #### :ghost: GIF
