@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import LGSemiModalNavController
 import RxSwift
 
 class FiltersViewController: BaseViewController, FiltersViewModelDelegate, FilterDistanceCellDelegate, FilterPriceCellDelegate,
@@ -32,28 +31,6 @@ UICollectionViewDataSource, UICollectionViewDelegate {
     // Rx
     let disposeBag = DisposeBag()
 
-
-    // MARK: - Factory
-
-    static func presentAsSemimodalOnViewController(parentVC : UIViewController,
-                                                   withViewModel viewModel: FiltersViewModel = FiltersViewModel()){
-
-        let vc = FiltersViewController(viewModel: viewModel)
-
-        let semiModal = LGSemiModalNavViewController(rootViewController: vc)
-        semiModal.view.frame = CGRectMake(0, 0, parentVC.view.frame.size.width,
-                                          parentVC.view.frame.size.height)
-        //Selected customization properties, see more in the header of the LGSemiModalNavViewController
-        semiModal.backgroundShadeColor = UIColor.blackColor()
-        semiModal.animationSpeed = 0.35
-        semiModal.springDamping = 1
-        semiModal.tapDismissEnabled = true
-        semiModal.backgroundShadeAlpha = 0.4;
-        semiModal.scaleTransform = CGAffineTransformMakeScale(0.94, 0.94)
-
-        parentVC.presentViewController(semiModal, animated: true, completion: nil)
-    }
-    
     
     // MARK: - Lifecycle
 

@@ -163,7 +163,9 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     }
 
     func vmShowFilters(filtersVM: FiltersViewModel) {
-        FiltersViewController.presentAsSemimodalOnViewController(self, withViewModel: filtersVM)
+        let vc = FiltersViewController(viewModel: filtersVM)
+        let navVC = UINavigationController(rootViewController: vc)
+        presentViewController(navVC, animated: true, completion: nil)
     }
 
     func vmShowTags(tags: [FilterTag]) {
