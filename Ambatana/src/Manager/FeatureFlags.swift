@@ -75,6 +75,13 @@ struct FeatureFlags {
         }
         return PostingDetailsMode(rawValue: ABTests.postingDetailsMode.value) ?? .Old
     }
+    
+    static var showInviteHeartIcon: Bool {
+        if FTSFlipTheSwitch.overridesABTests {
+            return FTSFlipTheSwitch.showInviteHeartIcon
+        }
+        return ABTests.showInviteHeartIcon.value
+    }
 }
 
 private extension FTSFlipTheSwitch {
@@ -118,6 +125,10 @@ private extension FTSFlipTheSwitch {
         return FTSFlipTheSwitch.sharedInstance().isFeatureEnabled("new_post_details_steps")
     }
     
+    static var showInviteHeartIcon: Bool {
+        return FTSFlipTheSwitch.sharedInstance().isFeatureEnabled("show_invite_heart_icon")
+    }
+
     static var showNPSSurvey: Bool {
         return FTSFlipTheSwitch.sharedInstance().isFeatureEnabled("show_nps_survey")
     }

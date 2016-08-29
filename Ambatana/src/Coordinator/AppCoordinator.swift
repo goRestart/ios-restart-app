@@ -79,7 +79,7 @@ final class AppCoordinator: NSObject {
          userRatingRepository: UserRatingRepository) {
 
         self.tabBarCtl = tabBarController
-
+        
         self.mainTabBarCoordinator = MainTabCoordinator()
         self.secondTabBarCoordinator = FeatureFlags.notificationsSection ? NotificationsTabCoordinator() :
                                                                            CategoriesTabCoordinator()
@@ -190,6 +190,10 @@ extension AppCoordinator: AppNavigator {
         let vm = NPSViewModel()
         let vc = NPSViewController(viewModel: vm)
         tabBarCtl.presentViewController(vc, animated: true, completion: nil)
+    }
+    
+    func openAppInvite() {
+        AppShareViewController.showOnViewControllerIfNeeded(tabBarCtl)
     }
 }
 
@@ -377,6 +381,11 @@ private extension AppCoordinator {
         secondTabBarCoordinator.tabCoordinatorDelegate = self
         chatsTabBarCoordinator.tabCoordinatorDelegate = self
         profileTabBarCoordinator.tabCoordinatorDelegate = self
+        
+        mainTabBarCoordinator.appNavigator = self
+        secondTabBarCoordinator.appNavigator = self
+        chatsTabBarCoordinator.appNavigator = self
+        profileTabBarCoordinator.appNavigator = self
     }
 
     func setupDeepLinkingRx() {

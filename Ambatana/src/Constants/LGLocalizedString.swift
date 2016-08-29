@@ -279,6 +279,10 @@ struct LGLocalizedString {
 		return String(format: NSLocalizedString("chat_forbidden_disclaimer_buyer_w_name", comment: ""), var1)
 	}
 
+	static var chatConnectAccountDisblaimer: String {
+		return NSLocalizedString("chat_connect_account_disblaimer", comment: "")
+	}
+
 	static func chatDeletedDisclaimerWName(var1: String) -> String {
 		return String(format: NSLocalizedString("chat_deleted_disclaimer_w_name", comment: ""), var1)
 	}
@@ -509,6 +513,14 @@ struct LGLocalizedString {
 
 	static var chatVerifyAlertTitle: String {
 		return NSLocalizedString("chat_verify_alert_title", comment: "")
+	}
+
+	static var chatConnectAccountsTitle: String {
+		return NSLocalizedString("chat_connect_accounts_title", comment: "")
+	}
+
+	static var chatConnectAccountsMessage: String {
+		return NSLocalizedString("chat_connect_accounts_message", comment: "")
 	}
 
 	static var chatWithYourselfAlertMsg: String {
@@ -949,6 +961,10 @@ struct LGLocalizedString {
 
 	static var filtersPriceTo: String {
 		return NSLocalizedString("filters_price_to", comment: "")
+	}
+
+	static var filtersPriceWrongRangeError: String {
+		return NSLocalizedString("filters_price_wrong_range_error", comment: "")
 	}
 
 	static var filtersSortClosest: String {

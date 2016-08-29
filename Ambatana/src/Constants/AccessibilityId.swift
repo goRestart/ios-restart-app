@@ -25,6 +25,7 @@ enum AccessibilityId: String {
     // Main Products List
     case MainProductsNavBarSearch
     case MainProductsFilterButton
+    case MainProductsInviteButton
     case MainProductsListView
     case MainProductsTagsCollection
     case MainProductsInfoBubbleLabel

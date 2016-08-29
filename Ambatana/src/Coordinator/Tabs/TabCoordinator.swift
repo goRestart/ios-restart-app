@@ -30,7 +30,7 @@ class TabCoordinator: NSObject {
     let disposeBag = DisposeBag()
 
     weak var tabCoordinatorDelegate: TabCoordinatorDelegate?
-
+    weak var appNavigator: AppNavigator?
 
     // MARK: - Lifecycle
 
@@ -86,6 +86,10 @@ extension TabCoordinator: TabNavigator {
         guard let expressChatCoordinator = ExpressChatCoordinator(products: products, sourceProductId: sourceProductId) else { return }
         expressChatCoordinator.delegate = self
         openCoordinator(coordinator: expressChatCoordinator, parent: rootViewController, animated: true, completion: nil)
+    }
+    
+    func openAppInvite() {
+        appNavigator?.openAppInvite()
     }
 }
 

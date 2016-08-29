@@ -1,7 +1,7 @@
 "account_deactivated" = "Tài khoản này đã bị xoá";
 "account_deactivated_w_name" = "Tài khoản của %@ đã bị xoá";
-"account_pending_moderation" = "Account pending moderation";
-"account_pending_moderation_w_name" = "%@'s account is pending moderation";
+"account_pending_moderation" = "Tài khoản đang chờ duyệt";
+"account_pending_moderation_w_name" = "Tài khoản của %@ đang chờ duyệt";
 "app_share_download_text" = "Tải về";
 "app_share_email_button" = "Mời qua Email";
 "app_share_fbmessenger_button" = "Mời qua Messenger";
@@ -61,8 +61,12 @@
 "chat_blocked_disclaimer_scammer_append_safety_tips_keyword" = "lời khuyên an toàn";
 "chat_blocked_disclaimer_scammer_w_name" = "Vì lý do an toàn, tài khoản %@ đã bị letgo xóa và các tin nhắn cũng được gỡ bỏ.";
 "chat_blocked_disclaimer_scammer_wo_name" = "Vì lý do an toàn, tài khoản này đã bị letgo xóa và các tin nhắn cũng được gỡ bỏ.";
+"chat_connect_account_disblaimer" = "Người dùng đã được xác minh sẽ nhận được tin nhắn nhanh hơn. Hãy xác minh tài khoản của bạn ngay bây giờ!";
+"chat_connect_accounts_message" = "Kết nối với Facebook hay Google để xác minh danh tính của bạn.";
+"chat_connect_accounts_title" = "XÂY DỰNG NIỀM TIN!";
 "chat_deleted_disclaimer_w_name" = "Bạn không thể tiếp tục cuộc trò chuyện này bởi tài khoản của %@ không còn hoạt động.";
 "chat_deleted_disclaimer_wo_name" = "Bạn không thể tiếp tục cuộc trò chuyện này bởi tài khoản này không còn hoạt động.";
+"chat_disclaimer_letgo_team" = "ĐỘI NGŨ LETGO";
 "chat_express_contact_one_button_text" = "Liên hệ 1 người bán";
 "chat_express_contact_sellers_label" = "Liên lạc với người bán trước khi người mua khác mua được";
 "chat_express_contact_various_button_text" = "Liên hệ %@ người bán";
@@ -71,6 +75,10 @@
 "chat_express_one_message_sent_success_alert" = "Tin nhắn của bạn vừa được gửi!";
 "chat_express_several_messages_sent_success_alert" = "Tin nhắn của bạn vừa được gửi!";
 "chat_express_text_field_text" = "Xin chào, tôi quan tâm!";
+"chat_forbidden_disclaimer_buyer_w_name" = "Tài khoản của %@ đang được letgo xem xét.";
+"chat_forbidden_disclaimer_buyer_wo_name" = "Tài khoản này đang được letgo xem xét.";
+"chat_forbidden_disclaimer_seller_w_name" = "Có vẻ như %@ không còn quan tâm đến việc mua sản phẩm của bạn.";
+"chat_forbidden_disclaimer_seller_wo_name" = "Có vẻ như người dùng này không còn quan tâm đến việc mua sản phẩm của bạn.";
 "chat_list_account_deleted" = "Tài khoản bị xóa";
 "chat_list_account_deleted_username" = "Không hoạt động";
 "chat_list_all_empty_title" = "KHÔNG (CHƯA) CÓ TRÒ CHUYỆN!";
@@ -222,6 +230,7 @@
 "filters_navbar_reset" = "Xóa";
 "filters_price_from" = "Từ";
 "filters_price_to" = "Tới";
+"filters_price_wrong_range_error" = "Giá tối thiểu không thể cao hơn giá tối đa.";
 "filters_save_button" = "Lưu bộ lọc";
 "filters_section_categories" = "Danh mục";
 "filters_section_distance" = "Khoảng cách";
@@ -295,10 +304,10 @@
 "notifications_type_welcome_subtitle_w_city" = "Bắt đầu bằng việc đăng bán sản phẩm đầu tiên của bạn và xem những món đồ thú vị tại %@.";
 "notifications_type_welcome_title" = "Chào mừng đến với letgo!";
 "notifications_user_wo_name" = "Một người dùng";
-"nps_survey_subtitle" = "From 1 to 10, how likely are you to recommend letgo to a friend?";
-"nps_survey_title" = "WE'D LIKE TO KNOW...";
-"nps_survey_very_bad" = "Not likely";
-"nps_survey_very_good" = "Extremely likely";
+"nps_survey_subtitle" = "Bạn giới thiệu letgo với bạn bè như thế nào, theo thang điểm từ 1 đến 10?";
+"nps_survey_title" = "CHÚNG TÔI MUỐN BIẾT...";
+"nps_survey_very_bad" = "Không thích lắm";
+"nps_survey_very_good" = "Đặc biệt thích";
 "onboarding_login_skip" = "Bỏ qua";
 "product_ask_a_question_button" = "Đặt câu hỏi";
 "product_auto_generated_title_label" = "Tiêu đề do letgo tự động đặt";
