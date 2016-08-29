@@ -290,15 +290,10 @@ public struct TrackerEvent {
         return TrackerEvent(name: .ProductAskQuestion, params: params)
     }
 
-    static func productDetailContinueChatting(product: Product) -> TrackerEvent {
-        var params = EventParameters()
-        params.addProductParams(product)
-        return TrackerEvent(name: .ProductContinueChatting, params: params)
-    }
-
-    static func productDetailChatButton(product: Product) -> TrackerEvent {
+    static func productDetailChatButton(product: Product, typePage: EventParameterTypePage) -> TrackerEvent {
         var params = EventParameters()
         params[.ProductId] = product.objectId
+        params[.TypePage] = typePage.rawValue
         return TrackerEvent(name: .ProductChatButton, params: params)
     }
 

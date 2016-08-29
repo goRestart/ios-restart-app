@@ -43,7 +43,6 @@ public enum EventName: String {
     case ProductShareComplete               = "product-detail-share-complete"
     
     case ProductAskQuestion                 = "product-detail-ask-question"
-    case ProductContinueChatting            = "product-detail-continue-chatting"
     case ProductChatButton                  = "product-detail-chat-button"
     case ProductMarkAsSold                  = "product-detail-sold"
     case ProductMarkAsUnsold                = "product-detail-unsold"
@@ -408,6 +407,7 @@ public enum EventParameterTypePage: String {
     case Sell = "product-sell"
     case Edit = "product-edit"
     case ProductDetail = "product-detail"
+    case ProductDetailMoreInfo = "product-detail-more-info"
     case Settings = "settings"
     case Install = "install"
     case Profile = "profile"

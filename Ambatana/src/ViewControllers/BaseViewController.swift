@@ -22,6 +22,7 @@ private struct NavigationBarKeys {
     static var outOfBoundsViewsToForceTouches = 0
 }
 
+
 extension UINavigationBar {
 
     var outOfBoundsViewsToForceTouches: [UIView] {
@@ -38,6 +39,7 @@ extension UINavigationBar {
             )
         }
     }
+
 
     var viewsToIgnoreTouchesFor: [UIView] {
         get {
@@ -65,7 +67,7 @@ extension UINavigationBar {
         views.append(view)
         viewsToIgnoreTouchesFor = views
     }
-
+    
     override public func pointInside(point: CGPoint, withEvent event: UIEvent?) -> Bool {
         let pointInside = super.pointInside(point, withEvent: event)
 

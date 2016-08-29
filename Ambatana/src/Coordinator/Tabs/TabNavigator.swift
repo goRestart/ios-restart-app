@@ -32,3 +32,9 @@ protocol TabNavigator: class {
     func openProduct(data: ProductDetailData, source: EventParameterProductVisitSource)
     func openExpressChat(products: [Product], sourceProductId: String)
 }
+
+protocol ProductDetailNavigator: TabNavigator {
+    func closeProductDetail()
+    func editProduct(product: Product, closeCompletion: ((Product) -> Void)?)
+    func openProductChat(product: Product)
+}

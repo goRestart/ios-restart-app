@@ -124,7 +124,26 @@ enum ButtonStyle {
     }
 }
 
+enum ButtonState {
+    case Hidden
+    case Enabled
+    case Disabled
+}
+
 extension UIButton {
+
+    func setState(state: ButtonState) {
+        switch state {
+        case .Hidden:
+            hidden = true
+        case .Enabled:
+            hidden = false
+            enabled = true
+        case .Disabled:
+            hidden = false
+            enabled = false
+        }
+    }
 
     func setStyle(style: ButtonStyle) {
         guard buttonType == UIButtonType.Custom else {
