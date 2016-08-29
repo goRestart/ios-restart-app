@@ -25,6 +25,15 @@ extension User {
         guard let accounts = accounts else { return false }
         return accounts.filter { $0.verified }.count > 0
     }
+    var isSocialVerified: Bool {
+        if let facebookAccount = facebookAccount where facebookAccount.verified {
+            return true
+        }
+        if let googleAccount = googleAccount where googleAccount.verified {
+            return true
+        }
+        return false
+    }
 }
 
 extension User {

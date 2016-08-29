@@ -70,6 +70,8 @@ private extension ChatDisclaimerCell {
     func setupUI() {
         backgroundCellView.layer.cornerRadius = LGUIKitConstants.chatCellCornerRadius
         backgroundCellView.backgroundColor = UIColor.disclaimerColor
+        backgroundCellView.layer.borderWidth = 1
+        backgroundCellView.layer.borderColor = UIColor.whiteColor().CGColor
 
         messageLabel.textColor = UIColor.darkGrayText
         messageLabel.font = UIFont.bigBodyFont
