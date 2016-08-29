@@ -13,6 +13,7 @@ public enum FilterTag: Equatable{
     case Within(ProductTimeCriteria)
     case OrderBy(ProductSortCriteria)
     case Category(ProductCategory)
+    case PriceRange(from: Int?, to: Int?, currency: Currency?)
 }
 
 public func ==(a: FilterTag, b: FilterTag) -> Bool {
@@ -21,6 +22,7 @@ public func ==(a: FilterTag, b: FilterTag) -> Bool {
     case (.Within(let a),   .Within(let b))   where a == b: return true
     case (.OrderBy(let a),   .OrderBy(let b))   where a == b: return true
     case (.Category(let a), .Category(let b)) where a == b: return true
+    case (.PriceRange(let a, let b, _), .PriceRange(let c, let d, _)) where a == c && b == d: return true
     default: return false
     }
 }

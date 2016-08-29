@@ -9,9 +9,10 @@
 import UIKit
 import LGCoreKit
 
-protocol FiltersViewModelDelegate: class {
+protocol FiltersViewModelDelegate: BaseViewModelDelegate {
     func vmDidUpdate()
     func vmOpenLocation(locationViewModel: EditLocationViewModel)
+    func vmForcePriceFix()
 }
 
 protocol FiltersViewModelDataDelegate: class {
@@ -71,7 +72,17 @@ class FiltersViewModel: BaseViewModel {
         return self.sortOptions.count
     }
     private var sortOptions : [ProductSortCriteria]
-    
+
+    private var minPrice: Int? {
+        didSet {
+            validatePriceRange()
+        }
+    }
+    private var maxPrice: Int? {
+        didSet {
+            validatePriceRange()
+        }
+    }
     
     private var productFilter : ProductFilters
     
@@ -93,6 +104,8 @@ class FiltersViewModel: BaseViewModel {
         self.withinTimes = withinTimes
         self.sortOptions = sortOptions
         self.productFilter = currentFilters
+        self.minPrice = currentFilters.minPrice
+        self.maxPrice = currentFilters.maxPrice
         super.init()
     }
     
@@ -124,7 +137,9 @@ class FiltersViewModel: BaseViewModel {
                                                         distanceUnit: productFilter.distanceType,
                                                         categories: productFilter.selectedCategories,
                                                         sortBy: productFilter.selectedOrdering,
-                                                        postedWithin: productFilter.selectedWithin)
+                                                        postedWithin: productFilter.selectedWithin,
+                                                        priceFrom: productFilter.minPrice,
+                                                        priceTo: productFilter.maxPrice)
         TrackerProxy.sharedInstance.trackEvent(trackingEvent)
         
         dataDelegate?.viewModelDidUpdateFilters(self, filters: productFilter)
@@ -167,7 +182,12 @@ class FiltersViewModel: BaseViewModel {
         guard index < numOfCategories else { return UIColor.blackText }
         
         let category = categories[index]
-        return productFilter.hasSelectedCategory(category) ? category.color : UIColor.blackText
+        return productFilter.hasSelectedCategory(category) ? UIColor.redText : UIColor.blackText
+    }
+
+    func categorySelectedAtIndex(index: Int) -> Bool {
+        guard index < numOfCategories else { return false }
+        return productFilter.selectedCategories.contains(categories[index])
     }
     
     // MARK: Within
@@ -215,8 +235,51 @@ class FiltersViewModel: BaseViewModel {
         guard let selectedOrdering = productFilter.selectedOrdering else { return false }
         return sortOptions[index] == selectedOrdering
     }
-}
 
+    // MARK: Price
+
+    func setMinPrice(value: String?) {
+        guard let value = value else {
+            minPrice = nil
+            return
+        }
+        minPrice = Int(value)
+        productFilter.minPrice = minPrice
+    }
+
+    func setMaxPrice(value: String?) {
+        guard let value = value else {
+            maxPrice = nil
+            return
+        }
+        maxPrice = Int(value)
+        productFilter.maxPrice = maxPrice
+    }
+
+    func priceAtIndex(index: Int) -> String? {
+        guard index < 2 else { return nil }
+        switch index {
+        case 0:
+            guard let minPrice = minPrice else { return nil }
+            return String(minPrice)
+        case 1:
+            guard let maxPrice = maxPrice else { return nil }
+            return String(maxPrice)
+        default:
+            return nil
+        }
+    }
+
+    private func validatePriceRange() {
+        // if one is empty, is OK
+        guard let minPrice = minPrice else { return }
+        guard let maxPrice = maxPrice else { return }
+        guard minPrice > maxPrice else { return }
+        delegate?.vmShowAutoFadingMessage(LGLocalizedString.filtersPriceWrongRangeError, completion: { [weak self] in
+            self?.delegate?.vmForcePriceFix()
+        })
+    }
+}
 
 
 // MARK: - EditUserLocationDelegate

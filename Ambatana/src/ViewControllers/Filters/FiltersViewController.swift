@@ -8,8 +8,9 @@
 
 import UIKit
 import LGSemiModalNavController
+import RxSwift
 
-class FiltersViewController: BaseViewController, FiltersViewModelDelegate, FilterDistanceCellDelegate,
+class FiltersViewController: BaseViewController, FiltersViewModelDelegate, FilterDistanceCellDelegate, FilterPriceCellDelegate,
 UICollectionViewDataSource, UICollectionViewDelegate {
     
     // Outlets & buttons
@@ -19,32 +20,38 @@ UICollectionViewDataSource, UICollectionViewDelegate {
     // ViewModel
     private var viewModel : FiltersViewModel!
     
-    
+    private let keyboardHelper: KeyboardHelper
+
     //Constants
     private let sections : [FilterSection] = FilterSection.allValues()
     private var distanceCellSize = CGSize(width: 0.0, height: 0.0)
     private var categoryCellSize = CGSize(width: 0.0, height: 0.0)
     private var singleCheckCellSize = CGSize(width: 0.0, height: 0.0)
-    
-    
+    private var priceCellSize = CGSize(width: 0.0, height: 0.0)
+
+    // Rx
+    let disposeBag = DisposeBag()
+
+
     // MARK: - Factory
 
     static func presentAsSemimodalOnViewController(parentVC : UIViewController,
-        withViewModel viewModel: FiltersViewModel = FiltersViewModel()){
-        
-            let vc = FiltersViewController(viewModel: viewModel)
-            
-            let semiModal = LGSemiModalNavViewController(rootViewController: vc)
-            semiModal.view.frame = CGRectMake(0, 0, parentVC.view.frame.size.width,
-                parentVC.view.frame.size.height * 0.85)
-            //Selected customization properties, see more in the header of the LGSemiModalNavViewController
-            semiModal.backgroundShadeColor = UIColor.blackColor()
-            semiModal.animationSpeed = 0.35
-            semiModal.tapDismissEnabled = true
-            semiModal.backgroundShadeAlpha = 0.4;
-            semiModal.scaleTransform = CGAffineTransformMakeScale(0.94, 0.94)
-            
-            parentVC.presentViewController(semiModal, animated: true, completion: nil)
+                                                   withViewModel viewModel: FiltersViewModel = FiltersViewModel()){
+
+        let vc = FiltersViewController(viewModel: viewModel)
+
+        let semiModal = LGSemiModalNavViewController(rootViewController: vc)
+        semiModal.view.frame = CGRectMake(0, 0, parentVC.view.frame.size.width,
+                                          parentVC.view.frame.size.height)
+        //Selected customization properties, see more in the header of the LGSemiModalNavViewController
+        semiModal.backgroundShadeColor = UIColor.blackColor()
+        semiModal.animationSpeed = 0.35
+        semiModal.springDamping = 1
+        semiModal.tapDismissEnabled = true
+        semiModal.backgroundShadeAlpha = 0.4;
+        semiModal.scaleTransform = CGAffineTransformMakeScale(0.94, 0.94)
+
+        parentVC.presentViewController(semiModal, animated: true, completion: nil)
     }
     
     
@@ -55,10 +62,11 @@ UICollectionViewDataSource, UICollectionViewDelegate {
     }
     
     convenience init(viewModel: FiltersViewModel) {
-        self.init(viewModel: viewModel, nibName: "FiltersViewController")
+        self.init(viewModel: viewModel, nibName: "FiltersViewController", keyboardHelper: KeyboardHelper.sharedInstance)
     }
     
-    required init(viewModel: FiltersViewModel, nibName nibNameOrNil: String?) {
+    required init(viewModel: FiltersViewModel, nibName nibNameOrNil: String?, keyboardHelper: KeyboardHelper) {
+        self.keyboardHelper = keyboardHelper
         super.init(viewModel: viewModel, nibName: nibNameOrNil)
         self.viewModel = viewModel
         self.viewModel.delegate = self
@@ -111,12 +119,43 @@ UICollectionViewDataSource, UICollectionViewDelegate {
         pushViewController(ctrl, animated: true, completion: nil)
     }
 
+    func vmForcePriceFix() {
+        let indexPath = NSIndexPath(forItem: 0,inSection: FilterSection.Price.rawValue)
+        collectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: UICollectionViewScrollPosition.Bottom, animated: true)
+        guard let minPriceCell = collectionView.cellForItemAtIndexPath(indexPath) as? FilterPriceCell else { return }
+        minPriceCell.textField.becomeFirstResponder()
+    }
+
     // MARK: FilterDistanceCellDelegate
     
     func filterDistanceChanged(filterDistanceCell: FilterDistanceCell) {
         viewModel.currentDistanceRadius = filterDistanceCell.distance
     }
 
+    // MARK: FilterPriceCellDelegate
+
+    func priceTextFieldValueChanged(value: String?, tag: Int) {
+        switch tag {
+        case 0:
+            viewModel.setMinPrice(value)
+        case 1:
+            viewModel.setMaxPrice(value)
+        default:
+            break
+        }
+    }
+
+    func priceTextFieldValueActive(tag: Int) {
+        keyboardHelper.rx_keyboardOrigin.asObservable().bindNext { [weak self] origin in
+            guard let viewHeight = self?.view.height where viewHeight >= origin else { return }
+            guard let collectionView = self?.collectionView else { return }
+            collectionView.contentInset.bottom = viewHeight - origin
+            let indexPath = NSIndexPath(forItem: tag,inSection: FilterSection.Price.rawValue)
+            guard let activeCell = collectionView.cellForItemAtIndexPath(indexPath) as? FilterPriceCell else { return }
+            let activeCellFrame = activeCell.frame
+            collectionView.scrollRectToVisible(activeCellFrame, animated: true)
+        }.addDisposableTo(disposeBag)
+    }
 
     // MARK: - UICollectionViewDelegate & DataSource methods
     
@@ -129,6 +168,8 @@ UICollectionViewDataSource, UICollectionViewDelegate {
                 return categoryCellSize
             case .SortBy, .Within, .Location:
                 return singleCheckCellSize
+            case .Price:
+                return priceCellSize
             }
     }
     
@@ -148,6 +189,8 @@ UICollectionViewDataSource, UICollectionViewDelegate {
             return viewModel.numOfWithinTimes
         case .SortBy:
             return viewModel.numOfSortOptions
+        case .Price:
+            return 2
         }
     }
     
@@ -194,8 +237,7 @@ UICollectionViewDataSource, UICollectionViewDelegate {
                 let color = viewModel.categoryColorAtIndex(indexPath.row)
                 cell.categoryIcon.tintColor = color
                 cell.titleLabel.textColor = color
-                
-                cell.rightSeparator.hidden = indexPath.row % 2 == 1
+                cell.selected = viewModel.categorySelectedAtIndex(indexPath.row)
                 return cell
             case .Within:
                 guard let cell = collectionView.dequeueReusableCellWithReuseIdentifier("FilterSingleCheckCell",
@@ -211,6 +253,27 @@ UICollectionViewDataSource, UICollectionViewDelegate {
                 cell.titleLabel.text = viewModel.sortOptionTextAtIndex(indexPath.row)
                 cell.selected = viewModel.sortOptionSelectedAtIndex(indexPath.row)
                 cell.bottomSeparator.hidden = indexPath.row != (viewModel.numOfSortOptions - 1)
+                return cell
+            case .Price:
+                guard let cell = collectionView.dequeueReusableCellWithReuseIdentifier("FilterPriceCell",
+                    forIndexPath: indexPath) as? FilterPriceCell else { return UICollectionViewCell() }
+                switch indexPath.row {
+                case 0:
+                    cell.tag = 0
+                    cell.titleLabel.text = LGLocalizedString.filtersPriceFrom
+                    cell.bottomSeparator.hidden = true
+                    cell.topSeparator.hidden = false
+                case 1:
+                    cell.tag = 1
+                    cell.titleLabel.text = LGLocalizedString.filtersPriceTo
+                    cell.bottomSeparator.hidden = false
+                    cell.topSeparator.hidden = true
+                default:
+                    break
+                }
+                print(viewModel.priceAtIndex(indexPath.row))
+                cell.textField.text = viewModel.priceAtIndex(indexPath.row)
+                cell.delegate = self
                 return cell
             }
     }
@@ -230,6 +293,9 @@ UICollectionViewDataSource, UICollectionViewDelegate {
             viewModel.selectWithinTimeAtIndex(indexPath.row)
         case .SortBy:
             viewModel.selectSortOptionAtIndex(indexPath.row)
+        case .Price:
+            //Do nothing on price
+            break
         }
     }
 
@@ -238,8 +304,8 @@ UICollectionViewDataSource, UICollectionViewDelegate {
     
     private func setupUi(){
         // CollectionView cells
-        let filterNib = UINib(nibName: "FilterCategoryCell", bundle: nil)
-        self.collectionView.registerNib(filterNib, forCellWithReuseIdentifier: "FilterCategoryCell")
+        let categoryNib = UINib(nibName: "FilterCategoryCell", bundle: nil)
+        self.collectionView.registerNib(categoryNib, forCellWithReuseIdentifier: "FilterCategoryCell")
         let sortByNib = UINib(nibName: "FilterSingleCheckCell", bundle: nil)
         self.collectionView.registerNib(sortByNib, forCellWithReuseIdentifier: "FilterSingleCheckCell")
         let distanceNib = UINib(nibName: "FilterDistanceCell", bundle: nil)
@@ -249,7 +315,9 @@ UICollectionViewDataSource, UICollectionViewDelegate {
         let headerNib = UINib(nibName: "FilterHeaderCell", bundle: nil)
         self.collectionView.registerNib(headerNib, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader,
             withReuseIdentifier: "FilterHeaderCell")
-        
+        let priceNib = UINib(nibName: "FilterPriceCell", bundle: nil)
+        self.collectionView.registerNib(priceNib, forCellWithReuseIdentifier: "FilterPriceCell")
+
         // Navbar
         setNavBarTitle(LGLocalizedString.filtersTitle)
         let cancelButton = UIBarButtonItem(title: LGLocalizedString.commonCancel, style: UIBarButtonItemStyle.Plain,
@@ -264,9 +332,10 @@ UICollectionViewDataSource, UICollectionViewDelegate {
         // Cells sizes
         let screenWidth = UIScreen.mainScreen().bounds.size.width
         distanceCellSize = CGSize(width: screenWidth, height: 78.0)
-        categoryCellSize = CGSize(width: screenWidth * 0.5, height: 50.0)
+        categoryCellSize = CGSize(width: screenWidth, height: 50.0)
         singleCheckCellSize = CGSize(width: screenWidth, height: 50.0)
-        
+        priceCellSize = CGSize(width: screenWidth, height: 50.0)
+
         // Rounded save button
         saveFiltersBtn.setStyle(.Primary(fontSize: .Medium))
         saveFiltersBtn.setTitle(LGLocalizedString.filtersSaveButton, forState: UIControlState.Normal)
