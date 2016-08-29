@@ -95,9 +95,10 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
 
     let animator: PushAnimator?
     var pendingMovement: CarouselMovement?
-    
-    // MARK: - Init
-    
+
+
+    // MARK: - Lifecycle
+
     init(viewModel: ProductCarouselViewModel, pushAnimator: ProductCarouselPushAnimator?) {
         self.viewModel = viewModel
         self.userView = UserView.userView(.WithProductInfo)
@@ -121,8 +122,18 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         gradientShadowView.layer.sublayers?.forEach{ $0.frame = gradientShadowView.bounds }
         gradientShadowBottomView.layer.sublayers?.forEach{ $0.frame = gradientShadowBottomView.bounds }
     }
+
     
-    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        addSubviews()
+        setupUI()
+        setupNavigationBar()
+        setupGradientView()
+        setupCollectionRx()
+        setAccessibilityIds()
+    }
+
     /*
      We need to setup some properties after we are sure the view has the final frame, to do that
      the animator will tell us when the view has a valid frame to configure the elements.
@@ -140,27 +151,13 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         currentIndex = viewModel.startIndex
         collectionView.reloadData()
         collectionView.scrollToItemAtIndexPath(startIndexPath, atScrollPosition: .Right, animated: false)
-        
+
+        setupMoreInfoDragging()
         setupMoreInfoTooltip()
     }
-    
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        setupMoreInfoDragging()
-    }
-    
-    
-    // MARK: - Lifecycle
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        addSubviews()
-        setupUI()
-        setupNavigationBar()
-        setupGradientView()
-        setupCollectionRx()
-        setAccessibilityIds()
-    }
+
+
+    // MARK: Setup
     
     func addSubviews() {
         view.addSubview(pageControl)
@@ -249,7 +246,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         self.navigationItem.leftBarButtonItem = backButton
     }
     
-    @objc private func close() {
+    dynamic private func close() {
         if moreInfoView?.frame.origin.y < 0 {
             popViewController(animated: true, completion: nil)
         } else {
