@@ -29,6 +29,7 @@ class FilterPriceCell: UICollectionViewCell {
         super.awakeFromNib()
         setupUI()
         resetUI()
+        setAccessibilityIds()
     }
 
     override func prepareForReuse() {
@@ -48,6 +49,12 @@ class FilterPriceCell: UICollectionViewCell {
     private func resetUI() {
         textField.text = nil
         titleLabel.text = nil
+    }
+
+    private func setAccessibilityIds() {
+        self.accessibilityId =  .FilterPriceCell
+        titleLabel.accessibilityId =  .FilterPriceCellTitleLabel
+        textField.accessibilityId =  .FilterPriceCellTextField
     }
 }
 
