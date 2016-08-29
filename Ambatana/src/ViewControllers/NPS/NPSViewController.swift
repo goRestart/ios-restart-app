@@ -53,9 +53,7 @@ class NPSViewController: BaseViewController {
             $0.layer.borderWidth = 1.0
             $0.clipsToBounds = true
             $0.setTitle(String($0.tag), forState: .Normal)
-            $0.setTitle("\($0.tag)", forState: .Selected)
             $0.setTitleColor(UIColor.primaryColor, forState: .Normal)
-            $0.setTitleColor(UIColor.whiteColor(), forState: .Selected)
             $0.setTitleColor(UIColor.whiteColor(), forState: .Highlighted)
             $0.setBackgroundImage(UIColor.whiteColor().imageWithSize(CGSize(width: 1, height: 1)), forState: .Normal)
             $0.setBackgroundImage(UIColor.primaryColor.imageWithSize(CGSize(width: 1, height: 1)), forState: .Highlighted)
