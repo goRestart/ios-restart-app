@@ -132,8 +132,17 @@ public class SignUpViewModel: BaseViewModel {
         case .NotFound:
             delegate?.viewModel(self, didFailLoginIn: LGLocalizedString.mainSignUpFbConnectErrorGeneric)
             loginError = .UserNotFoundOrWrongPassword
-        case .AlreadyExists:
-            delegate?.viewModel(self, didFailLoginIn: LGLocalizedString.mainSignUpFbConnectErrorEmailTaken)
+        case .Conflict(let cause):
+            var message = ""
+            switch cause {
+            case .UserExists, .NotSpecified, .Other:
+                message = LGLocalizedString.mainSignUpFbConnectErrorEmailTaken
+            case .EmailRejected:
+                message = LGLocalizedString.mainSignUpErrorUserRejected
+            case .RequestAlreadyProcessed:
+                message = LGLocalizedString.mainSignUpErrorRequestAlreadySent
+            }
+            delegate?.viewModel(self, didFailLoginIn: message)
             loginError = .EmailTaken
         case let .Internal(description):
             delegate?.viewModel(self, didFailLoginIn: LGLocalizedString.mainSignUpFbConnectErrorGeneric)
