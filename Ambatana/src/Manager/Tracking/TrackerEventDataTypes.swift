@@ -128,6 +128,9 @@ public enum EventName: String {
     case ExpressChatDontAsk                 = "express-chat-dont-ask"
 
     case ProductDetailInterestedUsers       = "product-detail-interested-users"
+    
+    case NPSStart                           = "nps-start"
+    case NPSComplete                        = "nps-complete"
 
     // Constants
     private static let eventNameDummyPrefix  = "dummy-"
@@ -217,6 +220,7 @@ public enum EventParameterName: String {
     case NumberOfUsers        = "number-of-users"
     case PriceFrom            = "price-from"
     case PriceTo              = "price-to"
+    case NPSScore             = "nps-score"
 }
 
 public enum EventParameterLoginSourceValue: String {

@@ -2165,6 +2165,30 @@ class TrackerEventSpec: QuickSpec {
                     expect(productId) == "ABCD"
                 }
             }
+            
+            describe("NPS Survey") {
+                context("NPS Start") {
+                    beforeEach {
+                        sut = TrackerEvent.npsStart()
+                    }
+                    it("has its event name") {
+                        expect(sut.name.rawValue) == "nps-start"
+                    }
+                }
+                
+                context("NPS Complete") {
+                    beforeEach {
+                        sut = TrackerEvent.npsComplete(2)
+                    }
+                    it("has its event name") {
+                        expect(sut.name.rawValue) == "nps-complete"
+                    }
+                    it("contains score param") {
+                        let score = sut.params!.stringKeyParams["nps-score"] as? Int
+                        expect(score) == 2
+                    }
+                }
+            }
         }
     }
 }

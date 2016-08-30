@@ -22,6 +22,7 @@ enum CarouselMovement {
 class ProductCarouselViewModel: BaseViewModel {
 
     // Paginable
+    private var prefetchingIndexes: [Int] = []
     var nextPage: Int = 0
     var isLastPage: Bool = false
     var isLoading: Bool = false
@@ -125,6 +126,7 @@ class ProductCarouselViewModel: BaseViewModel {
         self.startIndex = indexForProduct(initialProduct) ?? 0
         self.currentProductViewModel = viewModelAtIndex(startIndex)
         self.currentProductViewModel?.isFirstProduct = true
+        setCurrentIndex(startIndex)
     }
     
     
@@ -176,7 +178,6 @@ class ProductCarouselViewModel: BaseViewModel {
             strongSelf.delegate?.vmRefreshCurrent()
         }.addDisposableTo(activeDisposeBag)
 
-        prefetchImages(index)
         prefetchNeighborsImages(index, movement: movement)
     }
 
@@ -240,6 +241,7 @@ extension ProductCarouselViewModel: Paginable {
                     strongSelf.objects.removeAll()
                 }
                 strongSelf.objects.appendContentsOf(newProducts.map(ProductCarouselCellModel.init))
+                
                 strongSelf.isLastPage = strongSelf.productListRequester?.isLastPage(newProducts.count) ?? true
                 self?.isLastPage = newProducts.count == 0
             }
@@ -268,20 +270,15 @@ extension ProductCarouselViewModel {
         case .SwipeLeft:
             range = (index-previousImagesToPrefetch)...(index-1)
         }
-        
         var imagesToPrefetch: [NSURL] = []
         for index in range {
+            guard !prefetchingIndexes.contains(index) else { continue }
+            prefetchingIndexes.append(index)
             if let prevProduct = productAtIndex(index), let imageUrl = prevProduct.images.first?.fileURL {
                 imagesToPrefetch.append(imageUrl)
             }
         }
         ImageDownloader.sharedInstance.downloadImagesWithURLs(imagesToPrefetch)
-    }
-
-    func prefetchImages(index: Int) {
-        guard let product = productAtIndex(index) else { return }
-        let urls = product.images.flatMap({$0.fileURL})
-        ImageDownloader.sharedInstance.downloadImagesWithURLs(urls)
     }
 }
 
