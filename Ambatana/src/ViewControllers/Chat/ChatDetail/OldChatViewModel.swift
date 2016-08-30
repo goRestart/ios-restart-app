@@ -15,7 +15,7 @@ protocol OldChatViewModelDelegate: BaseViewModelDelegate {
     
     func vmDidStartRetrievingChatMessages(hasData hasData: Bool)
     func vmDidFailRetrievingChatMessages()
-    func vmDidSucceedRetrievingChatMessages()
+    func vmDidRefreshChatMessages()
     func vmUpdateAfterReceivingMessagesAtPositions(positions: [Int], isUpdate: Bool)
     
     func vmDidFailSendingMessage()
@@ -383,6 +383,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         if otherUser == nil { return nil }
 
         setupDeepLinksRx()
+        setupMyUserRx()
     }
     
     override func didBecomeActive(firstTime: Bool) {
@@ -416,7 +417,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     
     func showScammerDisclaimerMessage() {
         loadedMessages = [scammerDisclaimerMessage]
-        delegate?.vmDidSucceedRetrievingChatMessages()
+        delegate?.vmDidRefreshChatMessages()
     }
 
     func checkShowRelatedProducts() {
@@ -582,6 +583,21 @@ public class OldChatViewModel: BaseViewModel, Paginable {
             default: break
             }
             }.addDisposableTo(disposeBag)
+    }
+
+    private func setupMyUserRx() {
+        myUserRepository.rx_myUser.asObservable().skip(1).bindNext { [weak self] myUser in
+            guard let myUser = myUser, firstMessage = self?.loadedMessages.first else { return }
+            guard myUser.isSocialVerified else { return }
+            //check and remove social advise
+            switch firstMessage.type {
+            case .Disclaimer:
+                self?.loadedMessages.removeFirst()
+                self?.delegate?.vmDidRefreshChatMessages()
+            default: break
+            }
+
+        }.addDisposableTo(disposeBag)
     }
 
     private func sendMessage(text: String, isQuickAnswer: Bool, type: MessageType) {
@@ -995,7 +1011,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
                     strongSelf.showScammerDisclaimerMessage()
                     strongSelf.delegate?.vmUpdateChatInteraction(false)
                 } else {
-                    strongSelf.delegate?.vmDidSucceedRetrievingChatMessages()
+                    strongSelf.delegate?.vmDidRefreshChatMessages()
                     strongSelf.afterRetrieveChatMessagesEvents()
                 }
             } else if let error = result.error {
@@ -1008,7 +1024,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
                         strongSelf.loadedMessages = [userInfoMessage]
                     }
 
-                    strongSelf.delegate?.vmDidSucceedRetrievingChatMessages()
+                    strongSelf.delegate?.vmDidRefreshChatMessages()
                     strongSelf.afterRetrieveChatMessagesEvents()
                 case .Network, .Unauthorized, .Internal, .Forbidden, .TooManyRequests, .UserNotVerified:
                     strongSelf.delegate?.vmDidFailRetrievingChatMessages()
@@ -1085,7 +1101,7 @@ private extension OldChatViewModel {
             strongSelf.otherUser = userWaccounts
             if let userInfoMessage = strongSelf.userInfoMessage where strongSelf.shouldShowOtherUserInfo {
                 strongSelf.loadedMessages += [userInfoMessage]
-                strongSelf.delegate?.vmDidSucceedRetrievingChatMessages()
+                strongSelf.delegate?.vmDidRefreshChatMessages()
             }
         }
     }
