@@ -72,6 +72,13 @@
 		<key>enabled</key>
 		<false/>
 	</dict>
+	<key>show_nps_survey</key>
+	<dict>
+		<key>description</key>
+		<string>Show the NPS Survey view a few seconds after opening the app</string>
+		<key>enabled</key>
+		<false/>
+	</dict>
 	<key>show_invite_heart_icon</key>
 	<dict>
 		<key>description</key>
