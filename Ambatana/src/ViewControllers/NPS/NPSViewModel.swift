@@ -9,7 +9,7 @@
 import Foundation
 
 class NPSViewModel: BaseViewModel {
-    let tracker: Tracker
+    private let tracker: Tracker
     
     convenience override init() {
         let tracker = TrackerProxy.sharedInstance

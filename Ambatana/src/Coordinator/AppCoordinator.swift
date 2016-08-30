@@ -187,9 +187,11 @@ extension AppCoordinator: AppNavigator {
     }
     
     func openNPSSurvey() {
-        let vm = NPSViewModel()
-        let vc = NPSViewController(viewModel: vm)
-        tabBarCtl.presentViewController(vc, animated: true, completion: nil)
+        guard FeatureFlags.showNPSSurvey else { return }
+        delay(3) { [weak self] in
+            let vc = NPSViewController(viewModel: NPSViewModel())
+            self?.tabBarCtl.presentViewController(vc, animated: true, completion: nil)
+        }
     }
     
     func openAppInvite() {

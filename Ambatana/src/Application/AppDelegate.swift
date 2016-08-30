@@ -147,14 +147,10 @@ extension AppDelegate: UIApplicationDelegate {
         If the application was previously in the background, optionally refresh the user interface.*/
 
         keyValueStorage?[.didEnterBackground] = false
-        appIsActive.value = true
+        appIsActive.value = true 
         PushManager.sharedInstance.applicationDidBecomeActive(application)
         TrackerProxy.sharedInstance.applicationDidBecomeActive(application)
-        if FeatureFlags.showNPSSurvey {
-            delay(3) { [weak self] in
-                self?.navigator?.openNPSSurvey()
-            }
-        }
+        navigator?.openNPSSurvey()
     }
 
     func applicationWillTerminate(application: UIApplication) {
