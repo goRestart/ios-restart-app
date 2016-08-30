@@ -26,9 +26,8 @@ final class SocialHelper {
         return ProductSocialMessage(title: title, product: product)
     }
 
-    static func socialMessageAppShare(shareUrl: String) -> SocialMessage {
-        let url = NSURL(string: shareUrl)
-        return AppShareSocialMessage(shareUrl: url)
+    static func socialMessageAppShare() -> SocialMessage {
+        return AppShareSocialMessage()
     }
 
     static func socialMessageCommercializer(shareUrl: String, thumbUrl: String?) -> SocialMessage {

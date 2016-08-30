@@ -62,7 +62,7 @@ class AppShareViewController: UIViewController {
     // MARK: - Actions
 
     @IBAction func onInviteFBMessenger(sender: AnyObject) {
-        let socialMessage = SocialHelper.socialMessageAppShare(Constants.appShareFbMessengerURL)
+        let socialMessage = SocialHelper.socialMessageAppShare()
         SocialHelper.shareOnFbMessenger(socialMessage, delegate: self)
 
         let trackerEvent = TrackerEvent.appInviteFriend(.FBMessenger, typePage: .ProductList)
@@ -70,7 +70,7 @@ class AppShareViewController: UIViewController {
     }
 
     @IBAction func onInviteWhatsapp(sender: AnyObject) {
-        let socialMessage = SocialHelper.socialMessageAppShare(Constants.appShareWhatsappURL)
+        let socialMessage = SocialHelper.socialMessageAppShare()
         SocialHelper.shareOnWhatsapp(socialMessage, viewController: self)
 
         let trackerEvent = TrackerEvent.appInviteFriend(.Whatsapp, typePage: .ProductList)
@@ -80,7 +80,7 @@ class AppShareViewController: UIViewController {
     }
 
     @IBAction func onInviteEmail(sender: AnyObject) {
-        let socialMessage = SocialHelper.socialMessageAppShare(Constants.appShareEmailURL)
+        let socialMessage = SocialHelper.socialMessageAppShare()
         SocialHelper.shareOnEmail(socialMessage, viewController: self, delegate: self)
 
         let trackerEvent = TrackerEvent.appInviteFriend(.Email, typePage: .ProductList)
