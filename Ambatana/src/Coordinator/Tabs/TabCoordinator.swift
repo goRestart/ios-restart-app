@@ -89,6 +89,7 @@ extension TabCoordinator: TabNavigator {
     }
 
     func openVerifyAccounts(withEmail email: Bool) {
+        appNavigator?.openVerifyAccounts(withEmail: email)
     }
     
     func openAppInvite() {

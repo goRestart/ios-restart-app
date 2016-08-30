@@ -185,6 +185,10 @@ extension AppCoordinator: AppNavigator {
         userRatingCoordinator.delegate = self
         openCoordinator(coordinator: userRatingCoordinator, parent: tabBarCtl, animated: true, completion: nil)
     }
+
+    func openVerifyAccounts(withEmail email: Bool) {
+
+    }
     
     func openAppInvite() {
         AppShareViewController.showOnViewControllerIfNeeded(tabBarCtl)
