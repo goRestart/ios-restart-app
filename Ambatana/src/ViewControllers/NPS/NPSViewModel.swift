@@ -26,7 +26,6 @@ class NPSViewModel: BaseViewModel {
     }
     
     func vmDidFinishSurvey(score: Int) {
-        print("tracking \(score)")
         let event = TrackerEvent.npsComplete(score)
         tracker.trackEvent(event)
     }

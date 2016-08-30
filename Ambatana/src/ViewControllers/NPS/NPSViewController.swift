@@ -34,6 +34,7 @@ class NPSViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        setAccessibilityIds()
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -83,5 +84,37 @@ class NPSViewController: BaseViewController {
     
     @IBAction func close(sender: AnyObject) {
         dismissViewControllerAnimated(true, completion: nil)
+    }
+}
+
+extension NPSViewController {
+    func setAccessibilityIds() {
+        closeButton.accessibilityId = .NPSCloseButton
+        for button in npsButtons {
+            switch button.tag {
+            case 1:
+                button.accessibilityId = .NPSScore1
+            case 2:
+                button.accessibilityId = .NPSScore2
+            case 3:
+                button.accessibilityId = .NPSScore3
+            case 4:
+                button.accessibilityId = .NPSScore4
+            case 5:
+                button.accessibilityId = .NPSScore5
+            case 6:
+                button.accessibilityId = .NPSScore6
+            case 7:
+                button.accessibilityId = .NPSScore7
+            case 8:
+                button.accessibilityId = .NPSScore8
+            case 9:
+                button.accessibilityId = .NPSScore9
+            case 10:
+                button.accessibilityId = .NPSScore10
+            default:
+                break
+            }
+        }
     }
 }
