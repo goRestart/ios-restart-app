@@ -841,7 +841,7 @@ public struct TrackerEvent {
     static func verifyAccountStart(typePage: EventParameterTypePage) -> TrackerEvent {
         var params = EventParameters()
         params[.TypePage] = typePage.rawValue
-        return TrackerEvent(name: .VerifyAccountStart, params: nil)
+        return TrackerEvent(name: .VerifyAccountStart, params: params)
     }
 
     static func verifyAccountComplete(typePage: EventParameterTypePage, network: EventParameterAccountNetwork) -> TrackerEvent {
