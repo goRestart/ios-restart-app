@@ -416,6 +416,10 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate {
         tracker.trackEvent(TrackerEvent.exploreCollection(type.rawValue))
         delegate?.vmDidSearch(viewModelForSearch(.Collection(type: type)))
     }
+    
+    func vmUserDidTapInvite() {
+        tabNavigator?.openAppInvite()
+    }
 }
 
 
@@ -428,6 +432,7 @@ extension MainProductsViewModel {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(sessionDidChange),
                                                          name: SessionManager.Notification.Logout.rawValue, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(locationDidChange),
+                                                         
                                                          name: LocationManager.Notification.LocationUpdate.rawValue, object: nil)
     }
 

@@ -30,7 +30,7 @@ class TabCoordinator: NSObject {
     let disposeBag = DisposeBag()
 
     weak var tabCoordinatorDelegate: TabCoordinatorDelegate?
-
+    weak var appNavigator: AppNavigator?
 
     // MARK: - Lifecycle
 
@@ -89,7 +89,10 @@ extension TabCoordinator: TabNavigator {
     }
 
     func openVerifyAccounts(withEmail email: Bool) {
-
+    }
+    
+    func openAppInvite() {
+        appNavigator?.openAppInvite()
     }
 }
 

@@ -32,6 +32,7 @@ protocol TabNavigator: class {
     func openProduct(data: ProductDetailData, source: EventParameterProductVisitSource)
     func openExpressChat(products: [Product], sourceProductId: String)
     func openVerifyAccounts(withEmail email: Bool)
+    func openAppInvite()
 }
 
 protocol ProductDetailNavigator: TabNavigator {
