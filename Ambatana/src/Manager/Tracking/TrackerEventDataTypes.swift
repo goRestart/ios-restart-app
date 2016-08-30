@@ -132,6 +132,9 @@ public enum EventName: String {
     case NPSStart                           = "nps-start"
     case NPSComplete                        = "nps-complete"
 
+    case VerifyAccountStart                 = "verify-account-start"
+    case VerifyAccountComplete              = "verify-account-complete"
+
     // Constants
     private static let eventNameDummyPrefix  = "dummy-"
     
@@ -219,6 +222,7 @@ public enum EventParameterName: String {
     case ProductVisitSource   = "visit-source"
     case NumberOfUsers        = "number-of-users"
     case NPSScore             = "nps-score"
+    case AccountNetwork       = "account-network"
 }
 
 public enum EventParameterLoginSourceValue: String {
@@ -501,6 +505,12 @@ public enum EventParameterProductVisitSource: String {
     case Chat = "chat"
     case OpenApp = "open-app"
     case Notifications = "notifications"
+}
+
+public enum EventParameterAccountNetwork: String {
+    case Facebook = "facebook"
+    case Google = "google"
+    case Email = "email"
 }
 
 

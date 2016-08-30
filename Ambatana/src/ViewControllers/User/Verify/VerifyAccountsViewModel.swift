@@ -22,6 +22,10 @@ enum VerifyButtonState {
     case Loading
 }
 
+enum VerifyAccountsSource {
+    case Chat
+}
+
 class VerifyAccountsViewModel: BaseViewModel {
     weak var delegate: VerifyAccountsViewModelDelegate?
 
@@ -33,21 +37,27 @@ class VerifyAccountsViewModel: BaseViewModel {
 
     private let googleHelper: GoogleLoginHelper
     private let myUserRepository: MyUserRepository
+    private let tracker: Tracker
+    private let source: VerifyAccountsSource
     private let types: [VerificationType]
 
     private let disposeBag = DisposeBag()
 
-    convenience init(verificationTypes: [VerificationType]) {
+    convenience init(verificationTypes: [VerificationType], source: VerifyAccountsSource) {
         let myUserRepository = Core.myUserRepository
-        let googleHelper = GoogleLoginHelper(loginSource: .Profile)
-        self.init(verificationTypes: verificationTypes, myUserRepository: myUserRepository, googleHelper: googleHelper)
+        let googleHelper = GoogleLoginHelper(loginSource: source.loginSource)
+        let tracker = TrackerProxy.sharedInstance
+        self.init(verificationTypes: verificationTypes, source: source, myUserRepository: myUserRepository,
+                  googleHelper: googleHelper, tracker: tracker)
     }
 
-    init(verificationTypes: [VerificationType], myUserRepository: MyUserRepository, googleHelper: GoogleLoginHelper) {
+    init(verificationTypes: [VerificationType], source: VerifyAccountsSource, myUserRepository: MyUserRepository,
+         googleHelper: GoogleLoginHelper, tracker: Tracker) {
         self.types = verificationTypes
+        self.source = source
         self.myUserRepository = myUserRepository
         self.googleHelper = googleHelper
-
+        self.tracker = tracker
         super.init()
 
         setupState()
@@ -176,5 +186,49 @@ private extension VerifyAccountsViewModel {
 
     func verificationSuccess(verificationType: VerificationType) {
         delegate?.vmDismiss(nil)
+    }
+}
+
+
+// MARK: - Trackings
+
+private extension VerifyAccountsViewModel {
+    func trackStart() {
+        let event = TrackerEvent.verifyAccountStart(source.typePage)
+        tracker.trackEvent(event)
+    }
+
+    func trackComplete(verificationType: VerificationType) {
+        let event = TrackerEvent.verifyAccountComplete(source.typePage, network: verificationType.accountNetwork)
+        tracker.trackEvent(event)
+    }
+}
+
+private extension VerifyAccountsSource {
+    var typePage: EventParameterTypePage {
+        switch self {
+        case .Chat:
+            return .Chat
+        }
+    }
+
+    var loginSource: EventParameterLoginSourceValue {
+        switch self {
+        case .Chat:
+            return .Chats
+        }
+    }
+}
+
+private extension VerificationType {
+    var accountNetwork: EventParameterAccountNetwork {
+        switch self {
+        case .Facebook:
+            return .Facebook
+        case .Google:
+            return .Google
+        case .Email:
+            return .Email
+        }
     }
 }
