@@ -234,22 +234,12 @@ UICollectionViewDataSource, UICollectionViewDelegate {
             case .Price:
                 guard let cell = collectionView.dequeueReusableCellWithReuseIdentifier("FilterPriceCell",
                     forIndexPath: indexPath) as? FilterPriceCell else { return UICollectionViewCell() }
-                switch indexPath.row {
-                case 0:
-                    cell.tag = 0
-                    cell.titleLabel.text = LGLocalizedString.filtersPriceFrom
-                    cell.bottomSeparator.hidden = true
-                    cell.topSeparator.hidden = false
-                case 1:
-                    cell.tag = 1
-                    cell.titleLabel.text = LGLocalizedString.filtersPriceTo
-                    cell.bottomSeparator.hidden = false
-                    cell.topSeparator.hidden = true
-                default:
-                    break
-                }
-                print(viewModel.priceAtIndex(indexPath.row))
-                cell.textField.text = viewModel.priceAtIndex(indexPath.row)
+                cell.tag = indexPath.row
+                cell.titleLabel.text = indexPath.row == 0 ? LGLocalizedString.filtersPriceFrom :
+                    LGLocalizedString.filtersPriceTo
+                cell.bottomSeparator.hidden =  indexPath.row == 0
+                cell.topSeparator.hidden =  indexPath.row != 0
+                cell.textField.text = indexPath.row == 0 ? viewModel.minPriceString : viewModel.maxPriceString
                 cell.delegate = self
                 return cell
             }

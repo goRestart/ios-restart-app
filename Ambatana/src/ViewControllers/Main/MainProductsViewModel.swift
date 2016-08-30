@@ -76,7 +76,6 @@ class MainProductsViewModel: BaseViewModel {
         if filters.minPrice != nil || filters.maxPrice != nil {
             var currency: Currency? = nil
             if let countryCode = Core.locationManager.currentPostalAddress?.countryCode {
-                print(countryCode)
                 currency = Core.currencyHelper.currencyWithCountryCode(countryCode)
             }
             resultTags.append(.PriceRange(from: filters.minPrice, to: filters.maxPrice, currency: currency))

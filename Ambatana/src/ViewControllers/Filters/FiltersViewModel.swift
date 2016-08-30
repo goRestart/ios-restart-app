@@ -83,7 +83,15 @@ class FiltersViewModel: BaseViewModel {
             validatePriceRange()
         }
     }
-    
+    var minPriceString: String? {
+        guard let minPrice = minPrice else { return nil }
+        return String(minPrice)
+    }
+    var maxPriceString: String? {
+        guard let maxPrice = maxPrice else { return nil }
+        return String(maxPrice)
+    }
+
     private var productFilter : ProductFilters
     
     
@@ -254,20 +262,6 @@ class FiltersViewModel: BaseViewModel {
         }
         maxPrice = Int(value)
         productFilter.maxPrice = maxPrice
-    }
-
-    func priceAtIndex(index: Int) -> String? {
-        guard index < 2 else { return nil }
-        switch index {
-        case 0:
-            guard let minPrice = minPrice else { return nil }
-            return String(minPrice)
-        case 1:
-            guard let maxPrice = maxPrice else { return nil }
-            return String(maxPrice)
-        default:
-            return nil
-        }
     }
 
     private func validatePriceRange() {
