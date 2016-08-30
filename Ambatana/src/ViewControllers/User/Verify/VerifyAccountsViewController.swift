@@ -10,9 +10,10 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class VerifyAccountsViewController: BaseViewController {
+class VerifyAccountsViewController: BaseViewController, GIDSignInUIDelegate {
 
     @IBOutlet weak var contentContainer: UIView!
+    @IBOutlet weak var backgroundButton: UIButton!
     @IBOutlet weak var closeButton: UIButton!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!
@@ -60,6 +61,13 @@ class VerifyAccountsViewController: BaseViewController {
         super.viewDidLoad()
 
         setupUI()
+        setAccesibilityIds()
+        setupRx()
+    }
+
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        GIDSignIn.sharedInstance().uiDelegate = self
     }
 
 
@@ -72,6 +80,13 @@ class VerifyAccountsViewController: BaseViewController {
         emailButton.layer.cornerRadius = emailButton.height/2
         emailContainer.layer.cornerRadius = emailContainer.height/2
         emailTextFieldButton.layer.cornerRadius = emailTextFieldButton.height/2
+
+        titleLabel.text = LGLocalizedString.chatConnectAccountsTitle
+        descriptionLabel.text = LGLocalizedString.chatConnectAccountsMessage
+
+        fbButton.setTitle(LGLocalizedString.profileVerifyFacebookButton, forState: .Normal)
+        googleButton.setTitle(LGLocalizedString.profileVerifyGoogleButton, forState: .Normal)
+        emailButton.setTitle(LGLocalizedString.profileVerifyEmailButton, forState: .Normal)
 
         if viewModel.fbButtonState.value == .Hidden {
             fbContainerHeight.constant = 0
@@ -101,16 +116,39 @@ class VerifyAccountsViewController: BaseViewController {
         } else {
             viewModel.emailButtonState.asObservable().bindTo(emailButton.rx_veryfy_state).addDisposableTo(disposeBag)
         }
+        //TODO: email setup missing as is not part of the current task, will be done as part of: https://ambatana.atlassian.net/browse/ABIOS-1545
+
+        backgroundButton.rx_tap.bindNext { [weak self] in self?.viewModel.closeButtonPressed() }.addDisposableTo(disposeBag)
+        closeButton.rx_tap.bindNext { [weak self] in self?.viewModel.closeButtonPressed() }.addDisposableTo(disposeBag)
+        fbButton.rx_tap.bindNext { [weak self] in self?.viewModel.fbButtonPressed()}.addDisposableTo(disposeBag)
+        googleButton.rx_tap.bindNext { [weak self] in self?.viewModel.googleButtonPressed() }.addDisposableTo(disposeBag)
+        emailButton.rx_tap.bindNext { [weak self] in self?.viewModel.emailButtonPressed() }.addDisposableTo(disposeBag)
+        emailTextFieldButton.rx_tap.bindNext { [weak self] in self?.viewModel.emailButtonPressed() }.addDisposableTo(disposeBag)
     }
 }
 
 
 // MARK: - VerifyAccountsViewModelDelegate
 
-extension VerifyAccountsViewController: VerifyAccountsViewModelDelegate {
+extension VerifyAccountsViewController: VerifyAccountsViewModelDelegate {}
 
+
+// MARK: - Accesibility
+
+extension VerifyAccountsViewController {
+    func setAccesibilityIds() {
+        backgroundButton.accessibilityId = .VerifyAccountsBackgroundButton
+        closeButton.accessibilityId = .VerifyAccountsCloseButton
+        fbButton.accessibilityId = .VerifyAccountsFacebookButton
+        googleButton.accessibilityId = .VerifyAccountsGoogleButton
+        emailButton.accessibilityId = .VerifyAccountsEmailButton
+        emailTextField.accessibilityId = .VerifyAccountsEmailTextField
+        emailTextFieldButton.accessibilityId = .VerifyAccountsEmailTextFieldButton
+    }
 }
 
+
+// MARK: - UIButton + VerifyButtonState
 
 extension UIButton {
     var rx_veryfy_state: AnyObserver<VerifyButtonState> {

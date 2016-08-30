@@ -209,7 +209,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         case .ProductDeleted, .Forbidden, .Available, .Blocked, .BlockedBy, .ProductSold:
             guard let myUser = myUserRepository.myUser where !myUser.isSocialVerified else { return nil }
             return chatViewMessageAdapter.createUserNotVerifiedDisclaimerMessage() { [weak self] in
-                self?.tabNavigator?.openVerifyAccounts(withEmail: false)
+                self?.tabNavigator?.openVerifyAccounts([.Facebook, .Google])
             }
         }
     }

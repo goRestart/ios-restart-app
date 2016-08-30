@@ -31,7 +31,7 @@ protocol TabNavigator: class {
     func openUser(data: UserDetailData)
     func openProduct(data: ProductDetailData, source: EventParameterProductVisitSource)
     func openExpressChat(products: [Product], sourceProductId: String)
-    func openVerifyAccounts(withEmail email: Bool)
+    func openVerifyAccounts(types: [VerificationType])
     func openAppInvite()
 }
 

@@ -23,7 +23,6 @@ enum VerifyButtonState {
 }
 
 class VerifyAccountsViewModel: BaseViewModel {
-    weak var verificationDelegate: VerifyAccountDelegate?
     weak var delegate: VerifyAccountsViewModelDelegate?
 
     let fbButtonState = Variable<VerifyButtonState>(.Hidden)
@@ -57,6 +56,10 @@ class VerifyAccountsViewModel: BaseViewModel {
 
 
     // MARK: - Public
+
+    func closeButtonPressed() {
+        delegate?.vmDismiss(nil)
+    }
 
     func googleButtonPressed() {
         connectWithGoogle()
@@ -172,6 +175,6 @@ private extension VerifyAccountsViewModel {
     }
 
     func verificationSuccess(verificationType: VerificationType) {
-        verificationDelegate?.accountVerified(verificationType)
+        delegate?.vmDismiss(nil)
     }
 }

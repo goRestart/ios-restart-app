@@ -18,6 +18,6 @@ protocol AppNavigator: class {
     func openForceUpdateAlertIfNeeded()
     func openSell(source: PostingSource)
     func openUserRating(source: RateUserSource, data: RateUserData)
-    func openVerifyAccounts(withEmail email: Bool)
+    func openVerifyAccounts(types: [VerificationType])
     func openAppInvite()
 }

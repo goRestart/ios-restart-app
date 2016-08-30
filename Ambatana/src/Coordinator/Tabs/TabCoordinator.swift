@@ -88,8 +88,8 @@ extension TabCoordinator: TabNavigator {
         openCoordinator(coordinator: expressChatCoordinator, parent: rootViewController, animated: true, completion: nil)
     }
 
-    func openVerifyAccounts(withEmail email: Bool) {
-        appNavigator?.openVerifyAccounts(withEmail: email)
+    func openVerifyAccounts(types: [VerificationType]) {
+        appNavigator?.openVerifyAccounts(types)
     }
     
     func openAppInvite() {

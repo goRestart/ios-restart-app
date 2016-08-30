@@ -380,6 +380,15 @@ enum AccessibilityId: String {
     case UserPushPermissionOK
     case UserPushPermissionCancel
 
+    // Verify Accounts popup
+    case VerifyAccountsBackgroundButton
+    case VerifyAccountsCloseButton
+    case VerifyAccountsFacebookButton
+    case VerifyAccountsGoogleButton
+    case VerifyAccountsEmailButton
+    case VerifyAccountsEmailTextField
+    case VerifyAccountsEmailTextFieldButton
+
     // Settings
     case SettingsList
 

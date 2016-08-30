@@ -9,6 +9,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="VerifyAccountsViewController" customModule="LetGo" customModuleProvider="target">
             <connections>
+                <outlet property="backgroundButton" destination="yXD-r3-wjY" id="0to-BK-Ntp"/>
                 <outlet property="closeButton" destination="kSO-DL-Nq1" id="jV5-lG-hfA"/>
                 <outlet property="contentContainer" destination="BbQ-zR-xkx" id="Wqy-VC-BbR"/>
                 <outlet property="descriptionLabel" destination="66N-uk-U3A" id="nmY-Rp-90p"/>
