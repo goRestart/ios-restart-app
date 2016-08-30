@@ -126,6 +126,7 @@ class ProductCarouselViewModel: BaseViewModel {
         self.startIndex = indexForProduct(initialProduct) ?? 0
         self.currentProductViewModel = viewModelAtIndex(startIndex)
         self.currentProductViewModel?.isFirstProduct = true
+        setCurrentIndex(startIndex)
     }
     
     
