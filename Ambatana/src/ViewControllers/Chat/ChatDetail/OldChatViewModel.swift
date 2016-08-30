@@ -69,7 +69,6 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     
     weak var delegate: OldChatViewModelDelegate?
     weak var tabNavigator: TabNavigator?
-    weak var appNavigator: AppNavigator?
 
     var title: String? {
         return product.title
@@ -203,12 +202,15 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         return chatViewMessageAdapter.createUserInfoMessage(otherUser)
     }
 
-    var userDeletedDisclaimerMessage: ChatViewMessage? {
+    var bottomDisclaimerMessage: ChatViewMessage? {
         switch chatStatus {
         case  .UserPendingDelete, .UserDeleted:
             return chatViewMessageAdapter.createUserDeletedDisclaimerMessage(otherUser?.name)
         case .ProductDeleted, .Forbidden, .Available, .Blocked, .BlockedBy, .ProductSold:
-            return nil
+            guard let myUser = myUserRepository.myUser where !myUser.isSocialVerified else { return nil }
+            return chatViewMessageAdapter.createUserNotVerifiedDisclaimerMessage() { [weak self] in
+                self?.tabNavigator?.openVerifyAccounts(withEmail: false)
+            }
         }
     }
 
@@ -976,8 +978,8 @@ public class OldChatViewModel: BaseViewModel, Paginable {
                     .addDisclaimers(mappedChatMessages, disclaimerMessage: strongSelf.messageSuspiciousDisclaimerMessage)
                 
                 if page == 0 {
-                    if let userDeletedMessage = strongSelf.userDeletedDisclaimerMessage {
-                        strongSelf.loadedMessages = [userDeletedMessage] + chatMessages
+                    if let bottomDisclaimerMessage = strongSelf.bottomDisclaimerMessage {
+                        strongSelf.loadedMessages = [bottomDisclaimerMessage] + chatMessages
                     } else {
                         strongSelf.loadedMessages = chatMessages
                     }
