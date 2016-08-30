@@ -827,6 +827,17 @@ public struct TrackerEvent {
         params[.ProductId] = productId
         return TrackerEvent(name: .ProductDetailInterestedUsers, params: params)
     }
+    
+    static func npsStart() -> TrackerEvent {
+        return TrackerEvent(name: .NPSStart, params: nil)
+    }
+    
+    static func npsComplete(score: Int) -> TrackerEvent {
+        var params = EventParameters()
+        params[.NPSScore] = score
+        return TrackerEvent(name: .NPSComplete, params: params)
+    }
+    
 
     // MARK: - Private methods
 

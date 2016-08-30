@@ -192,6 +192,14 @@ extension AppCoordinator: AppNavigator {
         tabBarCtl.presentViewController(viewController, animated: true, completion: nil)
     }
     
+    func openNPSSurvey() {
+        guard FeatureFlags.showNPSSurvey else { return }
+        delay(3) { [weak self] in
+            let vc = NPSViewController(viewModel: NPSViewModel())
+            self?.tabBarCtl.presentViewController(vc, animated: true, completion: nil)
+        }
+    }
+    
     func openAppInvite() {
         AppShareViewController.showOnViewControllerIfNeeded(tabBarCtl)
     }

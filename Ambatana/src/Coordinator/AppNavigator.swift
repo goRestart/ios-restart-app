@@ -19,5 +19,6 @@ protocol AppNavigator: class {
     func openSell(source: PostingSource)
     func openUserRating(source: RateUserSource, data: RateUserData)
     func openVerifyAccounts(types: [VerificationType])
+    func openNPSSurvey()
     func openAppInvite()
 }

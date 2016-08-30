@@ -39,6 +39,7 @@
                         <action selector="onClose:" destination="-1" eventType="touchUpInside" id="0fM-ML-Ucz"/>
                     </connections>
                 </button>
+
                 <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nfv-Fs-8Sb" userLabel="contentContainer">
                     <rect key="frame" x="53" y="166" width="270" height="336"/>
                     <subviews>
