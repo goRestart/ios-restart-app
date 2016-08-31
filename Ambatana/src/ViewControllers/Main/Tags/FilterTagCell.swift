@@ -55,21 +55,13 @@ class FilterTagCell: UICollectionViewCell {
     }
 
     private static func stringForPriceRange(min: Int?, max: Int?, withCurrency currency: Currency?) -> String {
-
-        var currencySymbol: String = ""
-        var isUS = false
-        if let currency = currency {
-            currencySymbol = currency.symbol
-            isUS = currency.code == FilterTagCell.USDollarCode
-        }
-
         var minText = ""
         var maxText = ""
         if let min = min {
-            minText = isUS ? currencySymbol + String(min) : String(min) + currencySymbol
+            minText = Core.currencyHelper.formattedAmountWithCurrencyCode(currency?.code ?? "", amount: min)
         }
         if let max = max {
-            maxText = isUS ? currencySymbol + String(max) : String(max) + currencySymbol
+            maxText = Core.currencyHelper.formattedAmountWithCurrencyCode(currency?.code ?? "", amount: max)
         }
 
         if !minText.isEmpty && !maxText.isEmpty {
