@@ -449,6 +449,8 @@
 "profile_blocked_by_me_label" = "Vous avez bloqué cet utilisateur";
 "profile_blocked_by_me_label_w_name" = "Vous avez bloqué %@";
 "profile_blocked_by_other_label" = "Vous avez été bloqué par cet utilisateur";
+"profile_build_trust_button" = "Build Trust";
+"profile_connect_accounts_message" = "You still haven't verified your account with:";
 "profile_favourites_my_user_no_products_button" = "Continuer à naviguer";
 "profile_favourites_my_user_no_products_label" = "PAS (ENCORE !) DE FAVORIS";
 "profile_favourites_products_tab" = "Favoris";

@@ -333,6 +333,8 @@ extension UserViewHeader {
         verifiedSimpleTitle.text = nil
         verifiedSimpleTitle.textColor = UIColor.grayDark
         verifiedSimpleTitle.font = UIFont.mediumBodyFontLight
+
+        buildTrustButton.setTitle(LGLocalizedString.profileBuildTrustButton, forState: .Normal)
     }
 
     private func setupButtons() {

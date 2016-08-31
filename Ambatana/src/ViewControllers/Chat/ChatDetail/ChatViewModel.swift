@@ -844,7 +844,8 @@ extension ChatViewModel {
         case .Available, .Blocked, .BlockedBy, .Forbidden, .ProductDeleted, .ProductSold:
             guard let myUser = myUserRepository.myUser where !myUser.isSocialVerified else { return nil }
             return chatViewMessageAdapter.createUserNotVerifiedDisclaimerMessage() { [weak self] in
-                self?.tabNavigator?.openVerifyAccounts([.Facebook, .Google], source: .Chat)
+                self?.tabNavigator?.openVerifyAccounts([.Facebook, .Google],
+                    source: .Chat(description: LGLocalizedString.chatConnectAccountsMessage))
             }
         }
     }

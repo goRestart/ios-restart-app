@@ -206,7 +206,8 @@ extension UserViewModel {
             verifyTypes.append(.Google)
         }
         guard !verifyTypes.isEmpty else { return }
-        tabNavigator?.openVerifyAccounts(verifyTypes, source: .Profile)
+        tabNavigator?.openVerifyAccounts(verifyTypes,
+                                         source: .Profile(description: LGLocalizedString.profileConnectAccountsMessage))
     }
 
     func pushPermissionsWarningPressed() {

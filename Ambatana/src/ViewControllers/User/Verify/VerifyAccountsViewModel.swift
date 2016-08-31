@@ -21,13 +21,17 @@ enum VerifyButtonState {
 }
 
 enum VerifyAccountsSource {
-    case Chat
-    case Profile
+    case Chat(description: String)
+    case Profile(description: String)
 }
 
 
 class VerifyAccountsViewModel: BaseViewModel {
     weak var delegate: VerifyAccountsViewModelDelegate?
+
+    var descriptionText: String {
+        return source.description
+    }
 
     let fbButtonState = Variable<VerifyButtonState>(.Hidden)
     let googleButtonState = Variable<VerifyButtonState>(.Hidden)
@@ -219,6 +223,15 @@ private extension VerifyAccountsSource {
             return .Chats
         case .Profile:
             return .Profile
+        }
+    }
+
+    var description: String {
+        switch self {
+        case let .Chat(description):
+            return description
+        case let .Profile(description):
+            return description
         }
     }
 }

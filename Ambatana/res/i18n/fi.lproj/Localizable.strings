@@ -449,6 +449,8 @@
 "profile_blocked_by_me_label" = "Olet estänyt tämän käyttäjän";
 "profile_blocked_by_me_label_w_name" = "Olet estänyt käyttäjän %@";
 "profile_blocked_by_other_label" = "Tämä käyttäjä on estänyt sinut";
+"profile_build_trust_button" = "Build Trust";
+"profile_connect_accounts_message" = "You still haven't verified your account with:";
 "profile_favourites_my_user_no_products_button" = "Jatka selaamista";
 "profile_favourites_my_user_no_products_label" = "EI SUOSIKKEJA (VIELÄ!)";
 "profile_favourites_products_tab" = "Suosikit";

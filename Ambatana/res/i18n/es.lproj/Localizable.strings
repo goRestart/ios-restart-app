@@ -6,7 +6,7 @@
 "app_share_email_button" = "Invitar por Email";
 "app_share_fbmessenger_button" = "Invitar por Messenger";
 "app_share_invite_text" = "Invitar";
-"app_share_message_text" = "¡Acabo de vender algo en letgo! Deberías echarle un vistazo para vender cosas que ya no necesitas y ganar dinero...";
+"app_share_message_text" = "¡Échale un vistazo a letgo y gana dinero vendiendo cosas que ya no usas!";
 "app_share_subject_text" = "Échale un vistazo a letgo";
 "app_share_subtitle" = "¡Invita a tus amigos a letgo y haz que crezca la comunidad!";
 "app_share_subtitle_alternative" = "¡Comparte letgo con tus amigos y haz que crezca la comunidad!";
@@ -449,6 +449,8 @@
 "profile_blocked_by_me_label" = "Has bloqueado a este usuario";
 "profile_blocked_by_me_label_w_name" = "Has bloqueado a %@";
 "profile_blocked_by_other_label" = "Has sido bloqueado por este usuario";
+"profile_build_trust_button" = "Build Trust";
+"profile_connect_accounts_message" = "You still haven't verified your account with:";
 "profile_favourites_my_user_no_products_button" = "Sigue navegando";
 "profile_favourites_my_user_no_products_label" = "NO HAY FAVORITOS (¡TODAVÍA!)";
 "profile_favourites_products_tab" = "Favoritos";

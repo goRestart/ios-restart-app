@@ -1935,6 +1935,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("profile_build_trust_button", comment: "")
 	}
 
+	static var profileConnectAccountsMessage: String {
+		return NSLocalizedString("profile_connect_accounts_message", comment: "")
+	}
+
 	static var ratingListActionReportReview: String {
 		return NSLocalizedString("rating_list_action_report_review", comment: "")
 	}

@@ -82,7 +82,7 @@ class VerifyAccountsViewController: BaseViewController, GIDSignInUIDelegate {
         emailTextFieldButton.layer.cornerRadius = emailTextFieldButton.height/2
 
         titleLabel.text = LGLocalizedString.chatConnectAccountsTitle
-        descriptionLabel.text = LGLocalizedString.chatConnectAccountsMessage
+        descriptionLabel.text = viewModel.descriptionText
 
         fbButton.setTitle(LGLocalizedString.profileVerifyFacebookButton, forState: .Normal)
         googleButton.setTitle(LGLocalizedString.profileVerifyGoogleButton, forState: .Normal)

@@ -1437,6 +1437,9 @@
 // Button to verify accounts
 "profile_build_trust_button" = "Build Trust";
 
+// Text to verify accounts
+"profile_connect_accounts_message" = "You still haven't verified your account with:";
+
 // action for user to report a review by another user
 "rating_list_action_report_review" = "Report review";
 

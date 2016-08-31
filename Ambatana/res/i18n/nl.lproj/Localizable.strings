@@ -449,6 +449,8 @@
 "profile_blocked_by_me_label" = "Je hebt deze gebruiker geblokkeerd";
 "profile_blocked_by_me_label_w_name" = "Je hebt %@ geblokkeerd";
 "profile_blocked_by_other_label" = "Je bent geblokkeerd door deze gebruiker";
+"profile_build_trust_button" = "Build Trust";
+"profile_connect_accounts_message" = "You still haven't verified your account with:";
 "profile_favourites_my_user_no_products_button" = "Blijf browsen";
 "profile_favourites_my_user_no_products_label" = "(NOG!) GEEN FAVORIETEN";
 "profile_favourites_products_tab" = "Favorieten";
