@@ -61,7 +61,8 @@
 "chat_blocked_disclaimer_scammer_append_safety_tips_keyword" = "советы по безопасности";
 "chat_blocked_disclaimer_scammer_w_name" = "В целях безопасности аккаунт %@ был удален командой letgo вместе с сообщениями.";
 "chat_blocked_disclaimer_scammer_wo_name" = "В целях безопасности этот аккаунт был удален командой letgo вместе с сообщениями.";
-"chat_connect_account_disblaimer" = "Verified users get faster replies. Verify your account now!";
+"chat_connect_account_disclaimer" = "Verified users get faster replies. Verify your account now!";
+"chat_connect_account_disclaimer_button" = "Verify now!";
 "chat_connect_accounts_message" = "Connect with Facebook or Google to verify your identity.";
 "chat_connect_accounts_title" = "BUILD TRUST!";
 "chat_deleted_disclaimer_w_name" = "Вы не можете продолжать чат, так как аккаунт %@ больше не активен.";
@@ -262,6 +263,8 @@
 "log_in_send_button" = "Войти";
 "log_in_title" = "Войти через e-mail";
 "main_sign_up_claim_label" = "Начните продавать и покупать в чате!";
+"main_sign_up_error_request_already_sent" = "Your request has already been processed. Please wait before trying again.";
+"main_sign_up_error_user_rejected" = "The email or password you entered is incorrect. Please try again.";
 "main_sign_up_facebook_connect_button" = "Вход через Facebook";
 "main_sign_up_fb_connect_error_email_taken" = "Ваш e-mail уже зарегистрирован. Пожалуйста, используйте его для входа.";
 "main_sign_up_fb_connect_error_generic" = "Вход невозможен. Пожалуйста, попробуйте еще раз.";

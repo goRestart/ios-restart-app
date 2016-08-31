@@ -61,7 +61,8 @@
 "chat_blocked_disclaimer_scammer_append_safety_tips_keyword" = "안전 정책";
 "chat_blocked_disclaimer_scammer_w_name" = "안전상의 이유로, %@의 계정 및 메세지는 letgo 팀에 의해서 삭제되었습니다.";
 "chat_blocked_disclaimer_scammer_wo_name" = "안전상의 이유로, 이 계정 및 메세지는 letgo 팀에 의해서 삭제되었습니다.";
-"chat_connect_account_disblaimer" = "확인된 사용자들은 더 빠른 답변을 받게 됩니다. 지금 계정을 인증받으세요!";
+"chat_connect_account_disclaimer" = "인증된 사용자들께서는 답변을 더 빨리 받습니다. 지금 계정을 인증받으세요!";
+"chat_connect_account_disclaimer_button" = "지금 인증하기!";
 "chat_connect_accounts_message" = "본인인증을 위해서 페이스북 혹은 구글 계정으로 연결하세요";
 "chat_connect_accounts_title" = "신뢰도를 쌓으세요!";
 "chat_deleted_disclaimer_w_name" = "%@의 계정이 비활성화 되었기 때문에 사용자께서는 이 대화를 진행하실 수 없습니다.";
@@ -262,6 +263,8 @@
 "log_in_send_button" = "로그인";
 "log_in_title" = "이메일로 로그인";
 "main_sign_up_claim_label" = "판매, 구매 그리고 -채팅을 시작하세요";
+"main_sign_up_error_request_already_sent" = "Your request has already been processed. Please wait before trying again.";
+"main_sign_up_error_user_rejected" = "The email or password you entered is incorrect. Please try again.";
 "main_sign_up_facebook_connect_button" = "페이스북과 연결하기";
 "main_sign_up_fb_connect_error_email_taken" = "로그인할 수 없습니다, 고객님의 페이스북 이메일은 이미 등록되어 있습니다. 다시 시도해주세요.";
 "main_sign_up_fb_connect_error_generic" = "로그인할 수 없습니다. 다시 시도해주세요.";

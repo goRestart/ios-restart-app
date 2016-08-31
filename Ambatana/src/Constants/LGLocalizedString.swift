@@ -279,8 +279,12 @@ struct LGLocalizedString {
 		return String(format: NSLocalizedString("chat_forbidden_disclaimer_buyer_w_name", comment: ""), var1)
 	}
 
-	static var chatConnectAccountDisblaimer: String {
-		return NSLocalizedString("chat_connect_account_disblaimer", comment: "")
+	static var chatConnectAccountDisclaimer: String {
+		return NSLocalizedString("chat_connect_account_disclaimer", comment: "")
+	}
+
+	static var chatConnectAccountDisclaimerButton: String {
+		return NSLocalizedString("chat_connect_account_disclaimer_button", comment: "")
 	}
 
 	static func chatDeletedDisclaimerWName(var1: String) -> String {
@@ -1073,6 +1077,14 @@ struct LGLocalizedString {
 
 	static var mainSignUpFbConnectErrorGeneric: String {
 		return NSLocalizedString("main_sign_up_fb_connect_error_generic", comment: "")
+	}
+
+	static var mainSignUpErrorUserRejected: String {
+		return NSLocalizedString("main_sign_up_error_user_rejected", comment: "")
+	}
+
+	static var mainSignUpErrorRequestAlreadySent: String {
+		return NSLocalizedString("main_sign_up_error_request_already_sent", comment: "")
 	}
 
 	static var mainSignUpGoogleConnectButton: String {

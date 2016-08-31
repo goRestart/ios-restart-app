@@ -61,7 +61,8 @@
 "chat_blocked_disclaimer_scammer_append_safety_tips_keyword" = "Sicherheitstipps";
 "chat_blocked_disclaimer_scammer_w_name" = "Aus Sicherheitsgründen wurden das Benutzerkonto von %@ und die dazugehörigen Nachrichten vom letgo-Team gelöscht.";
 "chat_blocked_disclaimer_scammer_wo_name" = "Aus Sicherheitsgründen wurden dieses Benutzerkonto und die dazugehörigen Nachrichten vom letgo-Team gelöscht.";
-"chat_connect_account_disblaimer" = "Verifizierte Nutzer bekommen schneller Antworten. Verifiziere jetzt dein Benutzerkonto!";
+"chat_connect_account_disclaimer" = "Verified users get faster replies. Verify your account now!";
+"chat_connect_account_disclaimer_button" = "Verify now!";
 "chat_connect_accounts_message" = "Verbinde dich mit Facebook oder Google, um deine Identität zu verifizieren.";
 "chat_connect_accounts_title" = "SCHAFFE VERTRAUEN!";
 "chat_deleted_disclaimer_w_name" = "Du kannst dieses Gespräch nicht fortführen, weil das Benutzerkonto von %@ nicht mehr aktiv ist.";
@@ -262,6 +263,8 @@
 "log_in_send_button" = "Anmelden";
 "log_in_title" = "Mit E-Mail-Adresse anmelden";
 "main_sign_up_claim_label" = "Kaufe, verkaufe und plausche!";
+"main_sign_up_error_request_already_sent" = "Your request has already been processed. Please wait before trying again.";
+"main_sign_up_error_user_rejected" = "The email or password you entered is incorrect. Please try again.";
 "main_sign_up_facebook_connect_button" = "Mit Facebook anmelden";
 "main_sign_up_fb_connect_error_email_taken" = "Deine E-Mail-Adresse ist bereits registriert. Bitte nutze sie, um dich anzumelden.";
 "main_sign_up_fb_connect_error_generic" = "Anmeldung fehlgeschlagen. Bitte versuche es erneut.";

@@ -136,7 +136,7 @@ class ConversationCell: UITableViewCell, ReusableCell {
 
         switch data.status {
         case .Forbidden:
-            setInfo(text: LGLocalizedString.accountDeactivated, icon: UIImage(named: "ic_alert_yellow_white_inside"))
+            setInfo(text: LGLocalizedString.accountPendingModeration, icon: UIImage(named: "ic_pending_moderation"))
         case .ProductSold:
             setInfo(text: LGLocalizedString.commonProductSold, icon: UIImage(named: "ic_dollar_sold"))
         case .ProductDeleted:

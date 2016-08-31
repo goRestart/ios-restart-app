@@ -10,6 +10,7 @@ import Alamofire
 import JWT
 import Result
 import RxSwift
+import Argo
 
 protocol ApiClient: class {
     weak var sessionManager: SessionManager? { get }
@@ -89,7 +90,7 @@ extension ApiClient {
                 switch error {
                 case .Unauthorized:
                     loggingType = [CoreLoggingOptions.Networking, CoreLoggingOptions.Token]
-                case .Scammer, .NotFound, .Forbidden, .AlreadyExists, .UnprocessableEntity, .InternalServerError,
+                case .Scammer, .NotFound, .Forbidden, .Conflict, .UnprocessableEntity, .InternalServerError,
                      .Network, .Internal, .NotModified, .TooManyRequests, .UserNotVerified, .Other:
                     loggingType = [CoreLoggingOptions.Networking]
                 }
@@ -115,7 +116,7 @@ extension ApiClient {
         if error.domain == NSURLErrorDomain {
             return .Network(errorCode: error.code)
         } else if let statusCode = response.response?.statusCode {
-            return ApiError.errorForCode(statusCode)
+            return ApiError.errorForCode(statusCode, apiCode: response.apiErrorCode)
         } else {
             return ApiError.Internal(description: error.description)
         }
@@ -198,14 +199,14 @@ extension ApiClient {
             case .User:
                 sessionManager?.tearDownSession(kicked: true)
             case .Installation:
-                // Erase installation and all tokens
+                // Erase installation and all tokens 
                 installationRepository?.delete()
                 tokenDAO.reset()
             }
         case .Scammer:
             // If scammer then force logout
             sessionManager?.tearDownSession(kicked: true)
-        case .NotFound, .AlreadyExists, .InternalServerError, .UnprocessableEntity, .UserNotVerified, .Other, .Network,
+        case .NotFound, .Conflict, .InternalServerError, .UnprocessableEntity, .UserNotVerified, .Other, .Network,
              .Internal, .NotModified, .Forbidden, .TooManyRequests:
             break
         }
@@ -254,5 +255,16 @@ extension ApiClient {
             return Token(value: authenticationInfo, level: .Installation)
         }
         return nil
+    }
+}
+
+
+extension Response {
+    var apiErrorCode: Int? {
+        guard let data = self.data where data.length > 0 else { return nil }
+        guard let value = try? NSJSONSerialization.JSONObjectWithData(data, options: []) else { return nil }
+        let code: LGApiErrorCode? = decode(value)
+        guard let codeString = code?.code else { return nil }
+        return Int(codeString)
     }
 }

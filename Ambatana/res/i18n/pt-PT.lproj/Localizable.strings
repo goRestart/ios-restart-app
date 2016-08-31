@@ -61,9 +61,10 @@
 "chat_blocked_disclaimer_scammer_append_safety_tips_keyword" = "dicas de segurança";
 "chat_blocked_disclaimer_scammer_w_name" = "Por questões de segurança a conta de %@ foi eliminada pela equipa letgo e estas mensagens foram removidas.";
 "chat_blocked_disclaimer_scammer_wo_name" = "Por questões de segurança esta conta foi eliminada pela equipa letgo e estas mensagens foram removidas.";
-"chat_connect_account_disblaimer" = "Verified users get faster replies. Verify your account now!";
-"chat_connect_accounts_message" = "Connect with Facebook or Google to verify your identity.";
-"chat_connect_accounts_title" = "BUILD TRUST!";
+"chat_connect_account_disclaimer" = "Verified users get faster replies. Verify your account now!";
+"chat_connect_account_disclaimer_button" = "Verify now!";
+"chat_connect_accounts_message" = "Ligue-se através do Facebook ou Google para verificar a sua identidade.";
+"chat_connect_accounts_title" = "CONSTRUA CONFIANÇA!";
 "chat_deleted_disclaimer_w_name" = "Não pode dar continuidade a esta conversa porque a conta de %@ já não se encontra ativa.";
 "chat_deleted_disclaimer_wo_name" = "Não pode dar continuidade a esta conversa porque esta conta já não se encontra ativa.";
 "chat_disclaimer_letgo_team" = "EQUIPA LETGO";
@@ -75,8 +76,8 @@
 "chat_express_one_message_sent_success_alert" = "A sua mensagem foi enviada!";
 "chat_express_several_messages_sent_success_alert" = "As suas mensagens foram enviadas!";
 "chat_express_text_field_text" = "Olá, tenho interesse!";
-"chat_forbidden_disclaimer_buyer_w_name" = "%@'s account is under review by the letgo team.";
-"chat_forbidden_disclaimer_buyer_wo_name" = "This account is under review by the letgo team.";
+"chat_forbidden_disclaimer_buyer_w_name" = "A conta de %@ está a ser revista pela equipa letgo.";
+"chat_forbidden_disclaimer_buyer_wo_name" = "Esta conta está a ser revista pela equipa letgo.";
 "chat_forbidden_disclaimer_seller_w_name" = "Parece que %@ já não tem interesse em comprar o seu produto.";
 "chat_forbidden_disclaimer_seller_wo_name" = "Parece que este utilizador já não tem interesse em comprar o seu produto.";
 "chat_list_account_deleted" = "Conta eliminada";
@@ -230,7 +231,7 @@
 "filters_navbar_reset" = "Redefinir";
 "filters_price_from" = "De";
 "filters_price_to" = "A";
-"filters_price_wrong_range_error" = "The minimum price can’t be higher than the maximum price.";
+"filters_price_wrong_range_error" = "O preço mínimo não pode ser superior ao preço máximo.";
 "filters_save_button" = "Guardar filtros";
 "filters_section_categories" = "Categorias";
 "filters_section_distance" = "Distância";
@@ -262,6 +263,8 @@
 "log_in_send_button" = "Login";
 "log_in_title" = "Registe-se com o email";
 "main_sign_up_claim_label" = "Comece a vender e a comprar - via chat!";
+"main_sign_up_error_request_already_sent" = "Your request has already been processed. Please wait before trying again.";
+"main_sign_up_error_user_rejected" = "The email or password you entered is incorrect. Please try again.";
 "main_sign_up_facebook_connect_button" = "Continuar com o Facebook";
 "main_sign_up_fb_connect_error_email_taken" = "O seu endereço de email já se encontra registado. Por favor utilize-o para efetuar o login.";
 "main_sign_up_fb_connect_error_generic" = "Não foi possível efetuar o login. Por favor tente novamente.";

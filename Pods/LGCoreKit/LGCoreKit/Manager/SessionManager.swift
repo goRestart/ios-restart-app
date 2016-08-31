@@ -18,7 +18,7 @@ public enum SessionManagerError: ErrorType {
     case NotFound
     case Forbidden
     case Unauthorized
-    case AlreadyExists
+    case Conflict(cause: ConflictCause)
     case Scammer
     case NonExistingEmail
     case TooManyRequests
@@ -34,8 +34,8 @@ public enum SessionManagerError: ErrorType {
             self = .NotFound
         case .Forbidden:
             self = .Forbidden
-        case .AlreadyExists:
-            self = .AlreadyExists
+        case .Conflict(let cause):
+            self = .Conflict(cause: cause)
         case .UnprocessableEntity:
             self = .NonExistingEmail
         case .Scammer:
@@ -355,7 +355,7 @@ public class SessionManager {
                 }
 
                 switch error {
-                case .Network, .Internal, .Unauthorized, .Forbidden, .AlreadyExists, .Scammer, .UnprocessableEntity,
+                case .Network, .Internal, .Unauthorized, .Forbidden, .Conflict, .Scammer, .UnprocessableEntity,
                      .InternalServerError, .NotModified, .TooManyRequests, .UserNotVerified, .Other:
                     completion?(Result<Installation, ApiError>(error: error))
                 case .NotFound:

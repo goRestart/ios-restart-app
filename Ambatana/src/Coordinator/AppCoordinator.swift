@@ -185,6 +185,12 @@ extension AppCoordinator: AppNavigator {
         userRatingCoordinator.delegate = self
         openCoordinator(coordinator: userRatingCoordinator, parent: tabBarCtl, animated: true, completion: nil)
     }
+
+    func openVerifyAccounts(types: [VerificationType], source: VerifyAccountsSource) {
+        let viewModel = VerifyAccountsViewModel(verificationTypes: types, source: source)
+        let viewController = VerifyAccountsViewController(viewModel: viewModel)
+        tabBarCtl.presentViewController(viewController, animated: true, completion: nil)
+    }
     
     func openNPSSurvey() {
         guard FeatureFlags.showNPSSurvey else { return }

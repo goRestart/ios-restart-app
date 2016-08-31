@@ -87,6 +87,10 @@ extension TabCoordinator: TabNavigator {
         expressChatCoordinator.delegate = self
         openCoordinator(coordinator: expressChatCoordinator, parent: rootViewController, animated: true, completion: nil)
     }
+
+    func openVerifyAccounts(types: [VerificationType], source: VerifyAccountsSource) {
+        appNavigator?.openVerifyAccounts(types, source: source)
+    }
     
     func openAppInvite() {
         appNavigator?.openAppInvite()

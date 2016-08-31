@@ -61,7 +61,8 @@
 "chat_blocked_disclaimer_scammer_append_safety_tips_keyword" = "συμβουλές ασφαλείας";
 "chat_blocked_disclaimer_scammer_w_name" = "Για λόγους ασφαλείας, ο λογαριασμός του %@ έχει σβηστεί από την ομάδα του letgo και τα μηνύματα αυτά έχουν αφαιρεθεί.";
 "chat_blocked_disclaimer_scammer_wo_name" = "Για λόγους ασφαλείας, ο λογαριασμός αυτός έχει σβηστεί από την ομάδα του letgo και τα μηνύματα αυτά έχουν αφαιρεθεί.";
-"chat_connect_account_disblaimer" = "Επιβεβαιωμένοι χρήστες λαμβάνουν γρηγορότερα απαντήσεις. Επιβεβαιώστε το λογαριασμό σας τώρα!";
+"chat_connect_account_disclaimer" = "Verified users get faster replies. Verify your account now!";
+"chat_connect_account_disclaimer_button" = "Verify now!";
 "chat_connect_accounts_message" = "Συνδεθείτε με το Facebook ή το Google για να επιβεβαιώσετε την ταυτότητά σας.";
 "chat_connect_accounts_title" = "ΚΕΡΔΙΣΤΕ ΕΜΠΙΣΤΟΣΥΝΗ!";
 "chat_deleted_disclaimer_w_name" = "Δεν μπορείτε να συνεχίσετε αυτή τη συνομιλία επειδή ο λογαριασμός του %@ δεν είναι πια ενεργός.";
@@ -262,6 +263,8 @@
 "log_in_send_button" = "Σύνδεση";
 "log_in_title" = "Σύνδεση μέσω email";
 "main_sign_up_claim_label" = "Ξεκίνα να πουλάς και να αγοράζεις - μέσω chat!";
+"main_sign_up_error_request_already_sent" = "Your request has already been processed. Please wait before trying again.";
+"main_sign_up_error_user_rejected" = "The email or password you entered is incorrect. Please try again.";
 "main_sign_up_facebook_connect_button" = "Συνέχεια με το Facebook";
 "main_sign_up_fb_connect_error_email_taken" = "Το email σας χρησιμοποιείται ήδη. Παρακαλώ, χρησιμοποιήστε το για να συνδεθείτε.";
 "main_sign_up_fb_connect_error_generic" = "Αδυναμία σύνδεσης. Θα πρέπει να προσπαθήσεις ξανά!";
