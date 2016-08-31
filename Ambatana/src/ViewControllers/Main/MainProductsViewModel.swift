@@ -73,6 +73,14 @@ class MainProductsViewModel: BaseViewModel {
         if let selectedOrdering = filters.selectedOrdering where selectedOrdering != ProductSortCriteria.defaultOption {
             resultTags.append(.OrderBy(selectedOrdering))
         }
+        if filters.minPrice != nil || filters.maxPrice != nil {
+            var currency: Currency? = nil
+            if let countryCode = Core.locationManager.currentPostalAddress?.countryCode {
+                currency = Core.currencyHelper.currencyWithCountryCode(countryCode)
+            }
+            resultTags.append(.PriceRange(from: filters.minPrice, to: filters.maxPrice, currency: currency))
+        }
+
         return resultTags
     }
     
@@ -206,7 +214,9 @@ class MainProductsViewModel: BaseViewModel {
         var categories: [ProductCategory] = []
         var orderBy = ProductSortCriteria.defaultOption
         var within = ProductTimeCriteria.defaultOption
-        
+        var minPrice: Int? = nil
+        var maxPrice: Int? = nil
+
         for filterTag in tags {
             switch filterTag {
             case .Location(let thePlace):
@@ -217,6 +227,9 @@ class MainProductsViewModel: BaseViewModel {
                 orderBy = prodSortOption
             case .Within(let prodTimeOption):
                 within = prodTimeOption
+            case .PriceRange(let minPriceOption, let maxPriceOption, _):
+                minPrice = minPriceOption
+                maxPrice = maxPriceOption
             }
         }
 
@@ -224,7 +237,9 @@ class MainProductsViewModel: BaseViewModel {
         filters.selectedCategories = categories
         filters.selectedOrdering = orderBy
         filters.selectedWithin = within
-        
+        filters.minPrice = minPrice
+        filters.maxPrice = maxPrice
+
         updateListView()
     }
 

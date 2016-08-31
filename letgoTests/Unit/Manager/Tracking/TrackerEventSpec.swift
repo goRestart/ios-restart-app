@@ -648,7 +648,7 @@ class TrackerEventSpec: QuickSpec {
                         let coords = LGLocationCoordinates2D(latitude: 41.123, longitude: 2.123)
                         sut = TrackerEvent.filterComplete(coords, distanceRadius: 10, distanceUnit: DistanceType.Km,
                             categories: [ProductCategory.Electronics, ProductCategory.CarsAndMotors],
-                            sortBy: ProductSortCriteria.Distance, postedWithin: ProductTimeCriteria.Day)
+                            sortBy: ProductSortCriteria.Distance, postedWithin: ProductTimeCriteria.Day, priceFrom: 5, priceTo: 100)
                     }
                     it("has its event name") {
                         expect(sut.name.rawValue).to(equal("filter-complete"))
@@ -678,12 +678,17 @@ class TrackerEventSpec: QuickSpec {
                     it("has posted within") {
                         expect(sut.params!.stringKeyParams["posted-within"] as? String).to(equal("day"))
                     }
+                    it("min price") {
+                        expect(sut.params!.stringKeyParams["price-from"] as? String) == "true"
+                    }
+                    it("max price") {
+                        expect(sut.params!.stringKeyParams["price-to"] as? String) == "true"
+                    }
                 }
                 context("not receiving all params, contains the default params") {
                     beforeEach {
                         sut = TrackerEvent.filterComplete(nil, distanceRadius: nil, distanceUnit: DistanceType.Km,
-                            categories: nil, sortBy: nil,
-                            postedWithin: nil)
+                            categories: nil, sortBy: nil, postedWithin: nil, priceFrom: nil, priceTo: nil)
                     }
                     it("has its event name") {
                         expect(sut.name.rawValue).to(equal("filter-complete"))
@@ -712,6 +717,12 @@ class TrackerEventSpec: QuickSpec {
                     }
                     it("doesn't have within") {
                         expect(sut.params!.stringKeyParams["posted-within"] as? String).to(beNil())
+                    }
+                    it("min price") {
+                        expect(sut.params!.stringKeyParams["price-from"] as? String) == "false"
+                    }
+                    it("max price") {
+                        expect(sut.params!.stringKeyParams["price-to"] as? String) == "false"
                     }
                 }
             }

@@ -61,8 +61,8 @@
 "chat_blocked_disclaimer_scammer_append_safety_tips_keyword" = "veiligheidstips";
 "chat_blocked_disclaimer_scammer_w_name" = "Om veiligheidsredenen werd %@'s account verwijderd door het letgo team en deze berichten zijn gewist.";
 "chat_blocked_disclaimer_scammer_wo_name" = "Om veiligheidsredenen werd dit account verwijderd door het letgo team en deze berichten zijn gewist.";
-"chat_connect_account_disclaimer" = "Verified users get faster replies. Verify your account now!";
-"chat_connect_account_disclaimer_button" = "Verify now!";
+"chat_connect_account_disclaimer" = "Geverifieerde gebruikers krijgen sneller antwoord. Verifieer nu je account!";
+"chat_connect_account_disclaimer_button" = "Verifieer nu!";
 "chat_connect_accounts_message" = "Maak contact met Facebook of Google om jouw identiteit te verifiëren.";
 "chat_connect_accounts_title" = "VERTROUWEN OPBOUWEN!";
 "chat_deleted_disclaimer_w_name" = "Je kunt niet verdergaan met dit gesprek omdat %@'s account niet meer actief is.";
@@ -263,6 +263,8 @@
 "log_in_send_button" = "Inloggen";
 "log_in_title" = "Aanmelden met e-mail";
 "main_sign_up_claim_label" = "Start met verkopen en kopen - door te chatten!";
+"main_sign_up_error_request_already_sent" = "Je aanvraag is al verwerkt. Gelieve te wachten voordat je het opnieuw probeert.";
+"main_sign_up_error_user_rejected" = "Het e-mailadres of wachtwoord is onjuist. Probeer het opnieuw.";
 "main_sign_up_facebook_connect_button" = "Doorgaan met Facebook";
 "main_sign_up_fb_connect_error_email_taken" = "Jouw e-mailadres is al geregistreerd. Gebruik het a.u.b. om in te loggen.";
 "main_sign_up_fb_connect_error_generic" = "Niet in staat om in te loggen. Gelieve het nog eens te proberen.";
@@ -435,10 +437,12 @@
 "product_share_email_error" = "Oeps! Het lijkt erop dat je geen account hebt aangemaakt in de Mail app.";
 "product_share_generic_error" = "Er is een fout opgetreden bij het delen van het product. Probeer het later nog eens.";
 "product_share_generic_ok" = "Product succesvol gedeeld!";
+"product_share_posted_by" = "posted by %@";
 "product_share_sms_error" = "Er is een fout opgetreden tijdens het verzenden van jouw bericht.";
 "product_share_sms_ok" = "Verzenden...";
 "product_share_telegram_error" = "Oeps! Het lijkt erop dat je Telegram niet hebt geïnstalleerd.";
 "product_share_title_label" = "DEEL DIT PRODUCT";
+"product_share_title_on_letgo" = "%@ on letgo!";
 "product_share_whatsapp_error" = "Oeps! Het lijkt er op dat je de WhatsApp app niet geïnstalleerd hebt.";
 "product_stickers_selection_w_name" = "Kies de sticker die je wilt verzenden naar %@.";
 "product_stickers_selection_wo_name" = "Kies de sticker die je wilt verzenden naar de verkoper.";

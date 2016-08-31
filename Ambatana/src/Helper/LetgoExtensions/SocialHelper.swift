@@ -26,9 +26,8 @@ final class SocialHelper {
         return ProductSocialMessage(title: title, product: product)
     }
 
-    static func socialMessageAppShare(shareUrl: String) -> SocialMessage {
-        let url = NSURL(string: shareUrl)
-        return AppShareSocialMessage(shareUrl: url)
+    static func socialMessageAppShare() -> SocialMessage {
+        return AppShareSocialMessage()
     }
 
     static func socialMessageCommercializer(shareUrl: String, thumbUrl: String?) -> SocialMessage {
@@ -208,7 +207,7 @@ extension UIViewController {
                 delegate?.nativeShareInTwitter()
             } else if activity == UIActivityTypeMail {
                 delegate?.nativeShareInEmail()
-            } else if activity != nil && activity!.rangeOfString("whatsapp") != nil {
+            } else if let ac = activity, let _ = ac.rangeOfString("whatsapp") {
                 delegate?.nativeShareInWhatsApp()
                 return
             } else if activity == UIActivityTypeCopyToPasteboard {

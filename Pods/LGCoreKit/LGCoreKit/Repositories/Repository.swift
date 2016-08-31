@@ -36,8 +36,8 @@ public enum RepositoryError: ErrorType {
             self = .NotFound
         case .Forbidden:
             self = .Forbidden
-        case .AlreadyExists:
-            self = .Internal(message: "Already Exists in API")
+        case .Conflict(let cause):
+            self = .Internal(message: "Conflict with cause: \(cause)")
         case .Scammer:
             self = .Unauthorized
         case .UnprocessableEntity:

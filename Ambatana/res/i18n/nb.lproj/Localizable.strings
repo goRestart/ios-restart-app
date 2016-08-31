@@ -61,8 +61,8 @@
 "chat_blocked_disclaimer_scammer_append_safety_tips_keyword" = "sikkerhetstips";
 "chat_blocked_disclaimer_scammer_w_name" = "Av sikkerhetsgrunner er %@'s konto slettet av letgo's team, samt disse meldingene.";
 "chat_blocked_disclaimer_scammer_wo_name" = "Av sikkerhetsgrunner er denne kontoen slettet av letgo's team, samt disse meldingene.";
-"chat_connect_account_disclaimer" = "Verified users get faster replies. Verify your account now!";
-"chat_connect_account_disclaimer_button" = "Verify now!";
+"chat_connect_account_disclaimer" = "Verifiserte brukere får raskere svar. Verifiser din konto nå!";
+"chat_connect_account_disclaimer_button" = "Verifiser nå!";
 "chat_connect_accounts_message" = "Koble til med Facebook eller Google for å verifisere din identitet.";
 "chat_connect_accounts_title" = "BYGG TILLIT!";
 "chat_deleted_disclaimer_w_name" = "Du kan ikke fortsette denne samtalen, fordi %@'s konto ikke lenger er aktiv.";
@@ -263,6 +263,8 @@
 "log_in_send_button" = "Logg inn";
 "log_in_title" = "Registrer deg med e-post";
 "main_sign_up_claim_label" = "Sett i gang med salg, kjøp og chat";
+"main_sign_up_error_request_already_sent" = "Din forespørsel er allerede prosessert. Vennligst vent før du prøver igjen.";
+"main_sign_up_error_user_rejected" = "Det foreligger feil ved valgt e-post eller passord. Vennligst prøv igjen.";
 "main_sign_up_facebook_connect_button" = "Fortsett med Facebook";
 "main_sign_up_fb_connect_error_email_taken" = "Din e-postadresse er allerede registrert. Vennligst bruk den til å logge inn.";
 "main_sign_up_fb_connect_error_generic" = "Feil ved innlogging. Vennligst prøv igjen.";
@@ -435,10 +437,12 @@
 "product_share_email_error" = "Oops! Det ser ut som at du ikke har satt opp en konto i din Epost app.";
 "product_share_generic_error" = "En feil oppstod ved deling av produktet. Vennligst prøv igjen senere.";
 "product_share_generic_ok" = "Deling av produkt var vellykket!";
+"product_share_posted_by" = "posted by %@";
 "product_share_sms_error" = "En feil oppstod ved sending av din melding.";
 "product_share_sms_ok" = "Sender...";
 "product_share_telegram_error" = "Oops! Det ser som om du ikke har installert Telegram.";
 "product_share_title_label" = "DEL DETTE PRODUKTET";
+"product_share_title_on_letgo" = "%@ on letgo!";
 "product_share_whatsapp_error" = "Oops! Det ser som om du ikke har installert WhatsApp.";
 "product_stickers_selection_w_name" = "Velg etiketten du å sende til %@.";
 "product_stickers_selection_wo_name" = "Velg etiketten du ønsker å sende til selgeren.";

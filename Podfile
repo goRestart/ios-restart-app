@@ -33,7 +33,7 @@ def shared_pods
     pod "Leanplum-iOS-SDK",     "~> 1.3.11"
 
 	# letgo Core
-    pod "LGCoreKit",            "0.27.9" #:path => "../lgcorekit"
+    pod "LGCoreKit",            "0.27.10" # :path => "../lgcorekit" 
 
 	# Slack Chat controller
     pod "SlackTextViewController", "1.9.1"
@@ -60,10 +60,6 @@ def shared_pods
     pod "Firebase/AppIndexing",        "~> 3.4.0"
     pod "GoogleConversionTracking", "~> 3.4.0"
     pod "GoogleIDFASupport",        "~> 3.14.0"
-
-
-	# Semi modal view controller
-	pod "LGSemiModalNavController", "~> 0.2.0"
 
 	# Custom camera
 	pod "FastttCamera",         "~> 0.3.4"

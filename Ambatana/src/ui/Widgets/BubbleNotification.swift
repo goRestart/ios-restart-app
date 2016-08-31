@@ -13,13 +13,12 @@ class BubbleNotification: UIView {
 
     static let iconSize: CGFloat = 24
     static let bubbleContentMargin: CGFloat = 14
-    static let statusBarHeight = UIApplication.sharedApplication().statusBarFrame.size.height
+    static let statusBarHeight: CGFloat = 20
 
     private var containerView: UIView = UIView()
     private var iconImageView: UIImageView = UIImageView()
     private var textlabel: UILabel = UILabel()
 
-    var heightConstraint: NSLayoutConstraint = NSLayoutConstraint()
     var bottomConstraint: NSLayoutConstraint = NSLayoutConstraint()
 
     private var text: String?

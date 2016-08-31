@@ -12,7 +12,7 @@ private let coreDomain = "com.letgo.ios.LGCoreKit"
 enum CoreReportNetworking: ReportType {
     case Unauthorized(authLevel: AuthLevel)     // 1401XX
     case NotFound                               // 140400
-    case AlreadyExists                          // 140900
+    case Conflict                               // 140900
     case Scammer                                // 141800
     case UnprocessableEntity                    // 142200
     case UserNotVerified                        // 142400
@@ -39,7 +39,7 @@ enum CoreReportNetworking: ReportType {
         }
         case .NotFound:
             return 140400
-        case .AlreadyExists:
+        case .Conflict:
             return 140900
         case .Scammer:
             return 141800
@@ -65,8 +65,8 @@ enum CoreReportNetworking: ReportType {
             self = .Scammer
         case .NotFound:
             self = .NotFound
-        case .AlreadyExists:
-            self = .AlreadyExists
+        case .Conflict:
+            self = .Conflict
         case .InternalServerError:
             self = .InternalServerError
         case .UnprocessableEntity:

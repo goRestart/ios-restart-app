@@ -105,6 +105,10 @@ enum AccessibilityId: String {
     case FilterLocationCellTitleLabel
     case FilterLocationCellLocationLabel
 
+    case FilterPriceCell
+    case FilterPriceCellTitleLabel
+    case FilterPriceCellTextField
+
     // Product Detail
     case ProductDetailOnboarding
 
