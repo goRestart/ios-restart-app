@@ -263,8 +263,8 @@
 "log_in_send_button" = "Anmelden";
 "log_in_title" = "Mit E-Mail-Adresse anmelden";
 "main_sign_up_claim_label" = "Kaufe, verkaufe und plausche!";
-"main_sign_up_error_request_already_sent" = "Your request has already been processed. Please wait before trying again.";
-"main_sign_up_error_user_rejected" = "The email or password you entered is incorrect. Please try again.";
+"main_sign_up_error_request_already_sent" = "Deine Anfrage wurde bereits bearbeitet. Bitte warte ein wenig, bevor du es erneut versuchst.";
+"main_sign_up_error_user_rejected" = "Die eingegebene E-Mail-Adresse oder das Kennwort ist falsch. Bitte versuche es erneut.";
 "main_sign_up_facebook_connect_button" = "Mit Facebook anmelden";
 "main_sign_up_fb_connect_error_email_taken" = "Deine E-Mail-Adresse ist bereits registriert. Bitte nutze sie, um dich anzumelden.";
 "main_sign_up_fb_connect_error_generic" = "Anmeldung fehlgeschlagen. Bitte versuche es erneut.";
@@ -437,12 +437,12 @@
 "product_share_email_error" = "Hoppla! Du scheinst kein Konto in der Mail-App eingerichtet zu haben.";
 "product_share_generic_error" = "Beim Teilen des Produkts ist ein Fehler aufgetreten. Bitte versuche es später noch mal.";
 "product_share_generic_ok" = "Produkt erfolgreich geteilt!";
-"product_share_posted_by" = "posted by %@";
+"product_share_posted_by" = "angeboten von %@";
 "product_share_sms_error" = "Beim Senden deiner Nachricht ist ein Fehler aufgetreten.";
 "product_share_sms_ok" = "Wird verschickt...";
 "product_share_telegram_error" = "Hoppla! Anscheinend ist Telegram nicht installiert.";
 "product_share_title_label" = "DIESES PRODUKT TEILEN";
-"product_share_title_on_letgo" = "%@ on letgo!";
+"product_share_title_on_letgo" = "%@ auf letgo!";
 "product_share_whatsapp_error" = "Hoppla! Anscheinend ist WhatsApp nicht installiert.";
 "product_stickers_selection_w_name" = "Wähle den Sticker, den du %@ schicken möchtest.";
 "product_stickers_selection_wo_name" = "Wähle den Sticker, den du dem Verkäufer schicken möchtest.";

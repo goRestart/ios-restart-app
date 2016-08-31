@@ -437,12 +437,12 @@
 "product_share_email_error" = "Oeps! Het lijkt erop dat je geen account hebt aangemaakt in de Mail app.";
 "product_share_generic_error" = "Er is een fout opgetreden bij het delen van het product. Probeer het later nog eens.";
 "product_share_generic_ok" = "Product succesvol gedeeld!";
-"product_share_posted_by" = "posted by %@";
+"product_share_posted_by" = "geplaatst door %@";
 "product_share_sms_error" = "Er is een fout opgetreden tijdens het verzenden van jouw bericht.";
 "product_share_sms_ok" = "Verzenden...";
 "product_share_telegram_error" = "Oeps! Het lijkt erop dat je Telegram niet hebt geïnstalleerd.";
 "product_share_title_label" = "DEEL DIT PRODUCT";
-"product_share_title_on_letgo" = "%@ on letgo!";
+"product_share_title_on_letgo" = "%@ op letgo!";
 "product_share_whatsapp_error" = "Oeps! Het lijkt er op dat je de WhatsApp app niet geïnstalleerd hebt.";
 "product_stickers_selection_w_name" = "Kies de sticker die je wilt verzenden naar %@.";
 "product_stickers_selection_wo_name" = "Kies de sticker die je wilt verzenden naar de verkoper.";

@@ -22,6 +22,7 @@ enum VerifyButtonState {
 
 enum VerifyAccountsSource {
     case Chat
+    case Profile
 }
 
 
@@ -207,6 +208,8 @@ private extension VerifyAccountsSource {
         switch self {
         case .Chat:
             return .Chat
+        case .Profile:
+            return .Profile
         }
     }
 
@@ -214,6 +217,8 @@ private extension VerifyAccountsSource {
         switch self {
         case .Chat:
             return .Chats
+        case .Profile:
+            return .Profile
         }
     }
 }

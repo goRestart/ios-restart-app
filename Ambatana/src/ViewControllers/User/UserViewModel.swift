@@ -194,7 +194,19 @@ extension UserViewModel {
     }
 
     func buildTrustButtonPressed() {
-        //TODO: IMPLEMENT
+        guard let userAccounts = userAccounts.value where isMyProfile else { return }
+        var verifyTypes: [VerificationType] = []
+        if !userAccounts.emailVerified {
+            verifyTypes.append(.Email(myUserRepository.myUser?.email))
+        }
+        if !userAccounts.facebookVerified {
+            verifyTypes.append(.Facebook)
+        }
+        if !userAccounts.googleVerified {
+            verifyTypes.append(.Google)
+        }
+        guard !verifyTypes.isEmpty else { return }
+        tabNavigator?.openVerifyAccounts(verifyTypes, source: .Profile)
     }
 
     func pushPermissionsWarningPressed() {
