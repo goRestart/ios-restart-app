@@ -1323,6 +1323,12 @@
 // Product share whatsapp error. Message displayal is like the other error messages
 "product_share_whatsapp_error" = "Oops! You don't seem to have WhatsApp installed.";
 
+// String to add at the end of the body when the product is from other people
+"product_share_posted_by" = "posted by %@";
+
+// Share product title including `on letgo!`
+"product_share_title_on_letgo" = "%@ on letgo!";
+
 // Message when you select sticker to send from a product detail
 "product_stickers_selection_w_name" = "Select the sticker you want to send to %@.";
 

@@ -61,8 +61,8 @@
 "chat_blocked_disclaimer_scammer_append_safety_tips_keyword" = "dicas de segurança";
 "chat_blocked_disclaimer_scammer_w_name" = "Por questões de segurança a conta de %@ foi eliminada pela equipa letgo e estas mensagens foram removidas.";
 "chat_blocked_disclaimer_scammer_wo_name" = "Por questões de segurança esta conta foi eliminada pela equipa letgo e estas mensagens foram removidas.";
-"chat_connect_account_disclaimer" = "Verified users get faster replies. Verify your account now!";
-"chat_connect_account_disclaimer_button" = "Verify now!";
+"chat_connect_account_disclaimer" = "Utilizadores verificados obtêm respostas mais rápidas. Verifique a sua conta agora!";
+"chat_connect_account_disclaimer_button" = "Verifique agora!";
 "chat_connect_accounts_message" = "Ligue-se através do Facebook ou Google para verificar a sua identidade.";
 "chat_connect_accounts_title" = "CONSTRUA CONFIANÇA!";
 "chat_deleted_disclaimer_w_name" = "Não pode dar continuidade a esta conversa porque a conta de %@ já não se encontra ativa.";
@@ -263,8 +263,8 @@
 "log_in_send_button" = "Login";
 "log_in_title" = "Registe-se com o email";
 "main_sign_up_claim_label" = "Comece a vender e a comprar - via chat!";
-"main_sign_up_error_request_already_sent" = "Your request has already been processed. Please wait before trying again.";
-"main_sign_up_error_user_rejected" = "The email or password you entered is incorrect. Please try again.";
+"main_sign_up_error_request_already_sent" = "O seu pedido já foi processado. Por favor aguarde antes de tentar novamente.";
+"main_sign_up_error_user_rejected" = "O email ou password inseridos estão incorretos. Por favor tente de novo.";
 "main_sign_up_facebook_connect_button" = "Continuar com o Facebook";
 "main_sign_up_fb_connect_error_email_taken" = "O seu endereço de email já se encontra registado. Por favor utilize-o para efetuar o login.";
 "main_sign_up_fb_connect_error_generic" = "Não foi possível efetuar o login. Por favor tente novamente.";
@@ -437,10 +437,12 @@
 "product_share_email_error" = "Ops, aparentemente não configurou uma conta na app de email.";
 "product_share_generic_error" = "Ocorreu um erro ao partilhar o produto. Por favor tente novamente mais tarde.";
 "product_share_generic_ok" = "Produto partilhado com sucesso!";
+"product_share_posted_by" = "posted by %@";
 "product_share_sms_error" = "Ocorreu um erro ao enviar a sua mensagem.";
 "product_share_sms_ok" = "A enviar...";
 "product_share_telegram_error" = "Ups! Parece que não tem o Telegram instalado.";
 "product_share_title_label" = "PARTILHE ESTE PRODUTO";
+"product_share_title_on_letgo" = "%@ on letgo!";
 "product_share_whatsapp_error" = "Ops! parece que não instalou a app WhatsApp.";
 "product_stickers_selection_w_name" = "Selecione o autocolante que quer enviar a %@";
 "product_stickers_selection_wo_name" = "Selecione o autocolante que quer enviar ao vendedor.";

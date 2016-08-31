@@ -1783,6 +1783,14 @@ struct LGLocalizedString {
 		return NSLocalizedString("product_share_whatsapp_error", comment: "")
 	}
 
+	static func productSharePostedBy(var1: String) -> String {
+		return String(format: NSLocalizedString("product_share_posted_by", comment: ""), var1)
+	}
+
+	static func productShareTitleOnLetgo(var1: String) -> String {
+		return String(format: NSLocalizedString("product_share_title_on_letgo", comment: ""), var1)
+	}
+
 	static func productStickersSelectionWName(var1: String) -> String {
 		return String(format: NSLocalizedString("product_stickers_selection_w_name", comment: ""), var1)
 	}

@@ -61,8 +61,8 @@
 "chat_blocked_disclaimer_scammer_append_safety_tips_keyword" = "συμβουλές ασφαλείας";
 "chat_blocked_disclaimer_scammer_w_name" = "Για λόγους ασφαλείας, ο λογαριασμός του %@ έχει σβηστεί από την ομάδα του letgo και τα μηνύματα αυτά έχουν αφαιρεθεί.";
 "chat_blocked_disclaimer_scammer_wo_name" = "Για λόγους ασφαλείας, ο λογαριασμός αυτός έχει σβηστεί από την ομάδα του letgo και τα μηνύματα αυτά έχουν αφαιρεθεί.";
-"chat_connect_account_disclaimer" = "Verified users get faster replies. Verify your account now!";
-"chat_connect_account_disclaimer_button" = "Verify now!";
+"chat_connect_account_disclaimer" = "Επιβεβαιωμένοι χρήστες λαμβάνουν απαντήσεις γρηγορότερα. Επιβεβαιώστε το λογαριασμό σας τώρα!";
+"chat_connect_account_disclaimer_button" = "Επιβεβαιώστε τώρα!";
 "chat_connect_accounts_message" = "Συνδεθείτε με το Facebook ή το Google για να επιβεβαιώσετε την ταυτότητά σας.";
 "chat_connect_accounts_title" = "ΚΕΡΔΙΣΤΕ ΕΜΠΙΣΤΟΣΥΝΗ!";
 "chat_deleted_disclaimer_w_name" = "Δεν μπορείτε να συνεχίσετε αυτή τη συνομιλία επειδή ο λογαριασμός του %@ δεν είναι πια ενεργός.";
@@ -263,8 +263,8 @@
 "log_in_send_button" = "Σύνδεση";
 "log_in_title" = "Σύνδεση μέσω email";
 "main_sign_up_claim_label" = "Ξεκίνα να πουλάς και να αγοράζεις - μέσω chat!";
-"main_sign_up_error_request_already_sent" = "Your request has already been processed. Please wait before trying again.";
-"main_sign_up_error_user_rejected" = "The email or password you entered is incorrect. Please try again.";
+"main_sign_up_error_request_already_sent" = "Το αίτημά σας έχει ήδη προχωρήσει. Παρακαλώ περιμένετε πριν προσπαθήσετε ξανά.";
+"main_sign_up_error_user_rejected" = "Το email ή ο κωδικός πρόσβασης που εισάγατε είναι λανθασμένος. Παρακαλώ δοκιμάστε ξανά.";
 "main_sign_up_facebook_connect_button" = "Συνέχεια με το Facebook";
 "main_sign_up_fb_connect_error_email_taken" = "Το email σας χρησιμοποιείται ήδη. Παρακαλώ, χρησιμοποιήστε το για να συνδεθείτε.";
 "main_sign_up_fb_connect_error_generic" = "Αδυναμία σύνδεσης. Θα πρέπει να προσπαθήσεις ξανά!";
@@ -437,10 +437,12 @@
 "product_share_email_error" = "Όπα! Από ότι φαίνεται, δεν έχεις κάνει λογαριασμό στην εφαρμογή Mail.";
 "product_share_generic_error" = "Παρουσιάστηκε σφάλμα κατά την κοινοποίηση του προϊόντος. Παρακαλώ, προσπαθήστε ξανά αργότερα.";
 "product_share_generic_ok" = "Επιτυχής κοινοποίηση του προϊόντος!";
+"product_share_posted_by" = "δημοσιεύτηκε από τον %@";
 "product_share_sms_error" = "Παρουσιάστηκε σφάλμα κατά την αποστολή του μηνύματος.";
 "product_share_sms_ok" = "Αποστολή...";
 "product_share_telegram_error" = "Όπα! Φαίνεται πώς δεν έχετε εγκαταστήσει το Telegram.";
 "product_share_title_label" = "ΜΟΙΡΑΣΤΕΙΤΕ ΑΥΤΟ ΤΟ ΠΡΟΪΟΝ";
+"product_share_title_on_letgo" = "%@ στο letgo!";
 "product_share_whatsapp_error" = "Όπα! Φαίνεται πως δεν έχει γίνει εγκατάσταση της εφαρμογής WhatsApp.";
 "product_stickers_selection_w_name" = "Επιλέξτε το αυτοκόλλητο που θέλετε να στείλετε στον/στην %@.";
 "product_stickers_selection_wo_name" = "Επιλέξτε το αυτοκόλλητο που θέλετε να στείλετε στον πωλητή.";
