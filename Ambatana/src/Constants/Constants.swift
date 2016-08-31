@@ -20,7 +20,7 @@ struct Constants {
     static let nonAccurateRegionRadius = 5000.0 // meters
     
     // URLs
-    static let appStoreURL = "http://itunes.apple.com/app/id986339882?mt=8"
+    static let appStoreURL = "itms-apps://itunes.apple.com/app/id986339882?mt=8"
     static let playStoreURL = "https://play.google.com/store/apps/details?id=com.abtnprojects.ambatana"
     static let appShareFbMessengerURL = "https://letgo.onelink.me/2963730415?pid=letgo_app&c=facebook-messenger-sold"
     static let appShareWhatsappURL = "https://letgo.onelink.me/2963730415?pid=letgo_app&c=whatsapp-sold"
