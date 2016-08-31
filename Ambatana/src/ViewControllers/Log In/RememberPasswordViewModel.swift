@@ -73,7 +73,7 @@ public class RememberPasswordViewModel: BaseViewModel {
                         errorMessage = LGLocalizedString.resetPasswordSendErrorUserNotFoundOrWrongPassword(
                             strongSelf.email)
                         errorDescription = .NotFound
-                    case .AlreadyExists, .TooManyRequests:
+                    case .Conflict, .TooManyRequests:
                         errorMessage = LGLocalizedString.resetPasswordSendTooManyRequests
                         errorDescription = .TooManyRequests
                     case .Scammer:

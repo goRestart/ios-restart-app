@@ -23,6 +23,30 @@ public protocol SocialMessage {
     var smsShareText: String { get }
     var copyLinkText: String { get }
     var nativeShareItems: [AnyObject]? { get }
+    
+    static var utmMediumKey: String { get }
+    static var utmMediumValue: String { get }
+    static var utmCampaignKey: String { get }
+    static var utmCampaignValue: String { get }
+    static var utmSourceKey: String { get }
+    static var utmSourceValue: String { get }
+}
+
+extension SocialMessage {
+    static var utmMediumKey: String { return "utm_medium" }
+    static var utmSourceKey: String { return "utm_source" }
+    static var utmMediumValue: String { return "letgo_app" }
+    static var utmCampaignKey: String { return "utm_campaign" }
+    static var utmSourceValue: String { return "ios_app" }
+    
+    func addCampaignInfoToString(string: String, source: ShareSource?) -> String {
+        guard !string.isEmpty else { return "" }
+        // The share source is the medium for the deeplink
+        let mediumValue = source?.rawValue ?? ""
+        return string + "?" + Self.utmCampaignKey + "=" + Self.utmCampaignValue + "&" +
+            Self.utmMediumKey + "=" + mediumValue + "&" +
+            Self.utmSourceKey + "=" + Self.utmSourceValue
+    }
 }
 
 public protocol TwitterShareDelegate: class {
@@ -47,12 +71,6 @@ enum ShareSource: String {
 
 struct ProductSocialMessage: SocialMessage {
 
-    static let utmCampaignKey = "utm_campaign"
-    static let utmCampaignValue = "product-detail-share"
-    static let utmMediumKey = "utm_medium"
-    static let utmSourceKey = "utm_source"
-    static let utmSourceValue = "ios_app"
-
     private let title: String
     private let productUserName: String
     private let productTitle: String
@@ -61,7 +79,6 @@ struct ProductSocialMessage: SocialMessage {
     private let productId: String
     private let isMine: Bool
     static var utmCampaignValue = "product-detail-share"
-
 
     init(title: String, product: Product, isMine: Bool) {
         self.title = title
@@ -202,15 +219,6 @@ struct ProductSocialMessage: SocialMessage {
         }
         return linkProperties
     }
-
-    private func addCampaignInfoToString(string: String, source: ShareSource?) -> String {
-        guard !string.isEmpty else { return "" }
-        // The share source is the medium for the deeplink
-        let mediumValue = source?.rawValue ?? ""
-        return string + "?" + ProductSocialMessage.utmCampaignKey + "=" + ProductSocialMessage.utmCampaignValue + "&" +
-            ProductSocialMessage.utmMediumKey + "=" + mediumValue + "&" +
-            ProductSocialMessage.utmSourceKey + "=" + ProductSocialMessage.utmSourceValue
-    }
 }
 
 
@@ -218,27 +226,28 @@ struct ProductSocialMessage: SocialMessage {
 
 struct AppShareSocialMessage: SocialMessage {
 
-    let shareUrl: NSURL?
+    let imageUrl: NSURL? = nil
+    static var utmCampaignValue = "app-invite-friend"
 
     var nativeShareItems: [AnyObject]? {
-        guard let shareUrl = shareUrl else { return nil }
+        guard let shareUrl = branchUrl(.Native) else { return nil }
         return [shareUrl, LGLocalizedString.appShareMessageText]
     }
 
     var whatsappShareText: String {
-        return fullMessageWUrl
+        return fullMessageWUrl(.Whatsapp)
     }
 
     var telegramShareText: String {
-        return fullMessageWUrl
+        return fullMessageWUrl(.Telegram)
     }
 
     var smsShareText: String {
-        return fullMessageWUrl
+        return fullMessageWUrl(.SMS)
     }
 
     var copyLinkText: String {
-        return shareUrl?.absoluteString ?? ""
+        return branchUrl(.CopyLink)?.absoluteString ?? ""
     }
 
     var emailShareSubject: String {
@@ -247,7 +256,7 @@ struct AppShareSocialMessage: SocialMessage {
 
     var emailShareBody: String {
         var shareBody = LGLocalizedString.appShareMessageText
-        guard let urlString = shareUrl?.absoluteString else { return shareBody }
+        guard let urlString = branchUrl(.Email)?.absoluteString else { return shareBody }
         shareBody += ":\n\n"
         return shareBody + "<a href=\"" + urlString + "\">"+LGLocalizedString.appShareDownloadText+"</a>"
     }
@@ -258,7 +267,7 @@ struct AppShareSocialMessage: SocialMessage {
         let shareContent = FBSDKShareLinkContent()
         shareContent.contentTitle = LGLocalizedString.appShareSubjectText
         shareContent.contentDescription = LGLocalizedString.appShareMessageText
-        shareContent.contentURL = shareUrl
+        shareContent.contentURL = branchUrl(.Facebook)
         shareContent.imageURL = NSURL(string: Constants.facebookAppInvitePreviewImageURL)
         return shareContent
     }
@@ -270,14 +279,53 @@ struct AppShareSocialMessage: SocialMessage {
     var twitterComposer: TWTRComposer {
         let twitterComposer = TWTRComposer()
         twitterComposer.setText(LGLocalizedString.appShareMessageText)
-        twitterComposer.setURL(shareUrl)
+        twitterComposer.setURL(branchUrl(.Twitter))
         return twitterComposer
     }
-
-    private var fullMessageWUrl: String {
+    
+    private func fullMessageWUrl(source: ShareSource) -> String {
         let fullMessage = LGLocalizedString.appShareMessageText
-        let urlString = shareUrl?.absoluteString ?? ""
+        let urlString = branchUrl(source)?.absoluteString ?? ""
         return fullMessage.isEmpty ? urlString : fullMessage + ":\n" + urlString
+    }
+    
+    private func branchUrl(source: ShareSource?) -> NSURL? {
+        let linkProperties = branchLinkProperties(source)
+        guard let branchUrl = branchObject.getShortUrlWithLinkProperties(linkProperties)
+            else { return NSURL(string: Constants.websiteURL) }
+        return NSURL(string: branchUrl)
+    }
+    
+    private var branchObject: BranchUniversalObject {
+        let branchUniversalObject: BranchUniversalObject =
+            BranchUniversalObject(canonicalIdentifier: "app_share")
+        branchUniversalObject.title = LGLocalizedString.appShareSubjectText
+        branchUniversalObject.contentDescription = LGLocalizedString.appShareMessageText
+        branchUniversalObject.canonicalUrl = Constants.appWebsiteURL
+        if let imageURL = imageUrl?.absoluteString {
+            branchUniversalObject.imageUrl = imageURL
+        }
+        return branchUniversalObject
+    }
+    
+    private func branchLinkProperties(source: ShareSource?) -> BranchLinkProperties {
+        let linkProperties = BranchLinkProperties()
+        linkProperties.feature = "app-invite-friend"
+        if let source = source {
+            linkProperties.channel = source.rawValue
+        }
+        linkProperties.tags = ["ios_app"]
+        linkProperties.addControlParam("$deeplink_path", withValue: "home")
+        
+        let letgoUrlString = addCampaignInfoToString(Constants.websiteURL, source: source)
+        let letgoUrlStringAppStore = addCampaignInfoToString(Constants.appStoreURL, source: source)
+        let letgoUrlStringPlayStore = addCampaignInfoToString(Constants.playStoreURL, source: source)
+        
+        linkProperties.addControlParam("$fallback_url", withValue: letgoUrlString)
+        linkProperties.addControlParam("$desktop_url", withValue: letgoUrlString)
+        linkProperties.addControlParam("$ios_url", withValue: letgoUrlStringAppStore)
+        linkProperties.addControlParam("$android_url", withValue: letgoUrlStringPlayStore)
+        return linkProperties
     }
 }
 
@@ -288,10 +336,7 @@ struct CommercializerSocialMessage: SocialMessage {
 
     private let shareUrl: NSURL?
     private let thumbUrl: NSURL?
-    static let utmMediumKey = "utm_medium"
-    static let utmSourceKey = "utm_source"
-    static let utmMediumValue = "letgo_app"
-
+    static var utmCampaignValue = "product-detail-share"
 
     init(shareUrl: String, thumbUrl: String?) {
         self.shareUrl = NSURL(string: shareUrl)

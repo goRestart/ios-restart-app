@@ -437,12 +437,12 @@
 "product_share_email_error" = "¡Ups! Parece que no tienes configurado tu email en este dispositivo.";
 "product_share_generic_error" = "Se ha producido un error al compartir. Por favor inténtalo más tarde.";
 "product_share_generic_ok" = "¡Producto compartido!";
-"product_share_posted_by" = "posted by %@";
+"product_share_posted_by" = "publicado por %@";
 "product_share_sms_error" = "Se ha producido un error al enviar tu mensaje.";
 "product_share_sms_ok" = "Enviando...";
 "product_share_telegram_error" = "¡Ups! Parece que no has instalado la aplicación de Telegram.";
 "product_share_title_label" = "COMPARTE ESTE PRODUCTO";
-"product_share_title_on_letgo" = "%@ on letgo!";
+"product_share_title_on_letgo" = "%@ en letgo";
 "product_share_whatsapp_error" = "¡Ups! Parece que no has instalado la aplicación WhatsApp.";
 "product_stickers_selection_w_name" = "Selecciona el sticker que le quieres enviar a %@.";
 "product_stickers_selection_wo_name" = "Selecciona el sticker que le quieres enviar al vendedor.";
