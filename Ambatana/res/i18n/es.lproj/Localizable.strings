@@ -61,8 +61,8 @@
 "chat_blocked_disclaimer_scammer_append_safety_tips_keyword" = "consejos de seguridad";
 "chat_blocked_disclaimer_scammer_w_name" = "Por razones de seguridad, el equipo de letgo ha eliminado la cuenta de %@ y estos mensajes se han borrado.";
 "chat_blocked_disclaimer_scammer_wo_name" = "Por razones de seguridad, el equipo de letgo ha eliminado esta cuenta y estos mensajes se han borrado.";
-"chat_connect_account_disclaimer" = "Verified users get faster replies. Verify your account now!";
-"chat_connect_account_disclaimer_button" = "Verify now!";
+"chat_connect_account_disclaimer" = "Los usuarios verificados reciben respuestas más rápidas. ¡Verifícate ahora!";
+"chat_connect_account_disclaimer_button" = "¡Verificar ahora!";
 "chat_connect_accounts_message" = "Conéctate con Facebook o Google para verificar tu identidad.";
 "chat_connect_accounts_title" = "¡CREA CONFIANZA!";
 "chat_deleted_disclaimer_w_name" = "No puedes continuar esta conversación porque la cuenta de %@ ya no está activa.";
@@ -263,6 +263,8 @@
 "log_in_send_button" = "Iniciar Sesión";
 "log_in_title" = "Iniciar sesión con email";
 "main_sign_up_claim_label" = "Empieza a vender y comprar por chat";
+"main_sign_up_error_request_already_sent" = "Your request has already been processed. Please wait before trying again.";
+"main_sign_up_error_user_rejected" = "The email or password you entered is incorrect. Please try again.";
 "main_sign_up_facebook_connect_button" = "Continuar con Facebook";
 "main_sign_up_fb_connect_error_email_taken" = "Este email ya está registrado. Úsalo para iniciar sesión.";
 "main_sign_up_fb_connect_error_generic" = "¡Ups! No se ha podido iniciar la sesión. Prueba otra vez.";

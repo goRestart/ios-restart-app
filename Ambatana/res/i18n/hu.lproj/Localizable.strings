@@ -263,6 +263,8 @@
 "log_in_send_button" = "Bejelentkezés";
 "log_in_title" = "Bejelentkezés e-mail címmel";
 "main_sign_up_claim_label" = "Ideje vásárolni és eladni – csevegve!";
+"main_sign_up_error_request_already_sent" = "Your request has already been processed. Please wait before trying again.";
+"main_sign_up_error_user_rejected" = "The email or password you entered is incorrect. Please try again.";
 "main_sign_up_facebook_connect_button" = "Folytatás a Facebookkal";
 "main_sign_up_fb_connect_error_email_taken" = "Már tartozik regisztráció az e-mail címedhez. Jelentkezz be vele!";
 "main_sign_up_fb_connect_error_generic" = "A bejelentkezés sikertelen, próbálkozz újra.";

@@ -1079,6 +1079,14 @@ struct LGLocalizedString {
 		return NSLocalizedString("main_sign_up_fb_connect_error_generic", comment: "")
 	}
 
+	static var mainSignUpErrorUserRejected: String {
+		return NSLocalizedString("main_sign_up_error_user_rejected", comment: "")
+	}
+
+	static var mainSignUpErrorRequestAlreadySent: String {
+		return NSLocalizedString("main_sign_up_error_request_already_sent", comment: "")
+	}
+
 	static var mainSignUpGoogleConnectButton: String {
 		return NSLocalizedString("main_sign_up_google_connect_button", comment: "")
 	}

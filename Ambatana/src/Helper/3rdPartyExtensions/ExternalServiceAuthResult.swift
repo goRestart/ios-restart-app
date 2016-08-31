@@ -15,13 +15,13 @@ enum ExternalServiceAuthResult {
     case Network
     case Forbidden
     case NotFound
-    case AlreadyExists
+    case Conflict(cause: ConflictCause)
     case Internal(description: String)
     
     init(sessionError: SessionManagerError) {
         switch sessionError {
-        case .AlreadyExists:
-            self = .AlreadyExists
+        case .Conflict(let cause):
+            self = .Conflict(cause: cause)
         case let .Internal(description):
             self = .Internal(description: description)
         case .NonExistingEmail:

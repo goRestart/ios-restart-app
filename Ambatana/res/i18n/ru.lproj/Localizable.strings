@@ -263,6 +263,8 @@
 "log_in_send_button" = "Войти";
 "log_in_title" = "Войти через e-mail";
 "main_sign_up_claim_label" = "Начните продавать и покупать в чате!";
+"main_sign_up_error_request_already_sent" = "Your request has already been processed. Please wait before trying again.";
+"main_sign_up_error_user_rejected" = "The email or password you entered is incorrect. Please try again.";
 "main_sign_up_facebook_connect_button" = "Вход через Facebook";
 "main_sign_up_fb_connect_error_email_taken" = "Ваш e-mail уже зарегистрирован. Пожалуйста, используйте его для входа.";
 "main_sign_up_fb_connect_error_generic" = "Вход невозможен. Пожалуйста, попробуйте еще раз.";

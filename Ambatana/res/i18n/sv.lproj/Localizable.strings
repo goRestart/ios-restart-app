@@ -61,8 +61,8 @@
 "chat_blocked_disclaimer_scammer_append_safety_tips_keyword" = "säkerhetstips";
 "chat_blocked_disclaimer_scammer_w_name" = "Av säkerhetsskäl har %@ konto tagits bort av letgo och dessa meddelanden har raderats.";
 "chat_blocked_disclaimer_scammer_wo_name" = "Av säkerhetsskäl har det här kontot tagits bort av letgo och dessa meddelanden har raderats.";
-"chat_connect_account_disclaimer" = "Verified users get faster replies. Verify your account now!";
-"chat_connect_account_disclaimer_button" = "Verify now!";
+"chat_connect_account_disclaimer" = "Verifierade användare får svar snabbare. Verifiera ditt konto nu!";
+"chat_connect_account_disclaimer_button" = "Verifiera nu!";
 "chat_connect_accounts_message" = "Koppla upp dig med Facebook eller Google för att verifiera din identitet.";
 "chat_connect_accounts_title" = "BYGG FÖRTROENDE!";
 "chat_deleted_disclaimer_w_name" = "Du kan inte fortsätta denna konversation, för %@s konto är inte längre aktivt.";
@@ -263,6 +263,8 @@
 "log_in_send_button" = "Logga in";
 "log_in_title" = "Logga in med e-post";
 "main_sign_up_claim_label" = "Börja sälja och köpa - via chatt!";
+"main_sign_up_error_request_already_sent" = "Your request has already been processed. Please wait before trying again.";
+"main_sign_up_error_user_rejected" = "The email or password you entered is incorrect. Please try again.";
 "main_sign_up_facebook_connect_button" = "Fortsätt med Facebook";
 "main_sign_up_fb_connect_error_email_taken" = "Din e-postadress är redan registrerad. Använd den för att logga in.";
 "main_sign_up_fb_connect_error_generic" = "Kunde inte logga in. Vänligen försök igen.";

@@ -263,6 +263,8 @@
 "log_in_send_button" = "Σύνδεση";
 "log_in_title" = "Σύνδεση μέσω email";
 "main_sign_up_claim_label" = "Ξεκίνα να πουλάς και να αγοράζεις - μέσω chat!";
+"main_sign_up_error_request_already_sent" = "Your request has already been processed. Please wait before trying again.";
+"main_sign_up_error_user_rejected" = "The email or password you entered is incorrect. Please try again.";
 "main_sign_up_facebook_connect_button" = "Συνέχεια με το Facebook";
 "main_sign_up_fb_connect_error_email_taken" = "Το email σας χρησιμοποιείται ήδη. Παρακαλώ, χρησιμοποιήστε το για να συνδεθείτε.";
 "main_sign_up_fb_connect_error_generic" = "Αδυναμία σύνδεσης. Θα πρέπει να προσπαθήσεις ξανά!";

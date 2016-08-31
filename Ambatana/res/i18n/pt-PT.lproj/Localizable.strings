@@ -263,6 +263,8 @@
 "log_in_send_button" = "Login";
 "log_in_title" = "Registe-se com o email";
 "main_sign_up_claim_label" = "Comece a vender e a comprar - via chat!";
+"main_sign_up_error_request_already_sent" = "Your request has already been processed. Please wait before trying again.";
+"main_sign_up_error_user_rejected" = "The email or password you entered is incorrect. Please try again.";
 "main_sign_up_facebook_connect_button" = "Continuar com o Facebook";
 "main_sign_up_fb_connect_error_email_taken" = "O seu endereço de email já se encontra registado. Por favor utilize-o para efetuar o login.";
 "main_sign_up_fb_connect_error_generic" = "Não foi possível efetuar o login. Por favor tente novamente.";

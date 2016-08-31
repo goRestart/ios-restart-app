@@ -93,7 +93,7 @@ PODS:
   - KMPlaceholderTextView (1.2.2)
   - Leanplum-iOS-SDK (1.3.12)
   - LGCollapsibleLabel (0.1.8)
-  - LGCoreKit (0.27.9):
+  - LGCoreKit (0.27.10):
     - Alamofire (~> 3.4.0)
     - Argo (~> 3.0.1)
     - CocoaLumberjack/Swift (~> 2.3.0)
@@ -167,7 +167,7 @@ DEPENDENCIES:
   - KMPlaceholderTextView (~> 1.2.2)
   - Leanplum-iOS-SDK (~> 1.3.11)
   - LGCollapsibleLabel (= 0.1.8)
-  - LGCoreKit (= 0.27.9)
+  - LGCoreKit (= 0.27.10)
   - LGSemiModalNavController (~> 0.2.0)
   - Nimble (~> 4.0.1)
   - OHHTTPStubs (~> 5.1.0)
@@ -249,7 +249,7 @@ SPEC CHECKSUMS:
   KMPlaceholderTextView: bbff031935d84f7eedb585e7f77120020fbae9e8
   Leanplum-iOS-SDK: eec48264556f1839684b6d65d48a8da098f2f087
   LGCollapsibleLabel: c7c43dc5932e93faf1fe858bb9f860b38d7c3f9f
-  LGCoreKit: a8cce704b80916db5aa2e0ca405be910ffd94e32
+  LGCoreKit: 06433135433c948c432ec5bd226f91f810932551
   LGSemiModalNavController: ba49f8cbc24638be981cbca8a526f66b5dd90414
   Nimble: 0f3c8b8b084cda391209c3c5efbb48bedeeb920a
   OHHTTPStubs: 592f74439d2d72615115cf99a954237a3fbe26e5
@@ -267,6 +267,6 @@ SPEC CHECKSUMS:
   TwitterCore: 817eae3e291fa4125b47789e26a4f6f024115c1f
   TwitterKit: 8a383da8d9c21b0423716381ea8bbfce20622d91
 
-PODFILE CHECKSUM: 10b78d6a2f356d81099045b55e41b363180b2c59
+PODFILE CHECKSUM: 7902c509c655c9a841fa3199ae8afa738238b16c
 
 COCOAPODS: 1.0.1

@@ -61,8 +61,8 @@
 "chat_blocked_disclaimer_scammer_append_safety_tips_keyword" = "güvenlik önerilerimiz";
 "chat_blocked_disclaimer_scammer_w_name" = "Güvenlik nedeniyle, %@ isimli kullanıcının hesabı letgo ekibi tarafından silinmiştir ve bu mesajlar da kaldırılmıştır.";
 "chat_blocked_disclaimer_scammer_wo_name" = "Güvenlik nedeniyle, bu kullanıcının hesabı letgo ekibi tarafından silinmiştir ve bu mesajlar da kaldırılmıştır.";
-"chat_connect_account_disclaimer" = "Verified users get faster replies. Verify your account now!";
-"chat_connect_account_disclaimer_button" = "Verify now!";
+"chat_connect_account_disclaimer" = "Hesabı onaylanmış kullanıcılar daha çabuk yanıt alır. Hemen hesabını onayla!";
+"chat_connect_account_disclaimer_button" = "Hemen hesabını onayla!";
 "chat_connect_accounts_message" = "Hesabını onaylamak için Facebook veya Google ile bağlan";
 "chat_connect_accounts_title" = "GÜVEN KAZAN!";
 "chat_deleted_disclaimer_w_name" = "%@ isimli kullanıcının hesabı artık aktif olmadığı için bu sohbete devam edemezsin.";
@@ -263,6 +263,8 @@
 "log_in_send_button" = "Giriş yap";
 "log_in_title" = "E-posta ile Kaydol";
 "main_sign_up_claim_label" = "Mesajlaşarak almaya ve satmaya başla!";
+"main_sign_up_error_request_already_sent" = "Your request has already been processed. Please wait before trying again.";
+"main_sign_up_error_user_rejected" = "The email or password you entered is incorrect. Please try again.";
 "main_sign_up_facebook_connect_button" = "Facebook ile devam et";
 "main_sign_up_fb_connect_error_email_taken" = "E-posta adresin zaten kayıtlı. Lütfen, bu adresi kullanarak giriş yap.";
 "main_sign_up_fb_connect_error_generic" = "Giriş yapılamıyor. Lütfen tekrar dene.";
