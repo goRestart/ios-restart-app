@@ -61,10 +61,6 @@ def shared_pods
     pod "GoogleConversionTracking", "~> 3.4.0"
     pod "GoogleIDFASupport",        "~> 3.14.0"
 
-
-	# Semi modal view controller
-	pod "LGSemiModalNavController", "~> 0.2.0"
-
 	# Custom camera
 	pod "FastttCamera",         "~> 0.3.4"
 

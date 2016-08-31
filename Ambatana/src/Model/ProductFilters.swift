@@ -19,6 +19,8 @@ public struct ProductFilters {
     var filterCoordinates: LGLocationCoordinates2D? {
         return place?.location
     }
+    var minPrice: Int?
+    var maxPrice: Int?
     
     init() {
         self.init(
@@ -27,17 +29,22 @@ public struct ProductFilters {
             distanceType: DistanceType.systemDistanceType(),
             selectedCategories: [],
             selectedWithin: ProductTimeCriteria.defaultOption,
-            selectedOrdering: ProductSortCriteria.defaultOption
+            selectedOrdering: ProductSortCriteria.defaultOption,
+            minPrice: nil,
+            maxPrice: nil
         )
     }
     
-    init(place: Place?, distanceRadius: Int, distanceType: DistanceType, selectedCategories: [ProductCategory], selectedWithin: ProductTimeCriteria, selectedOrdering: ProductSortCriteria?){
+    init(place: Place?, distanceRadius: Int, distanceType: DistanceType, selectedCategories: [ProductCategory],
+         selectedWithin: ProductTimeCriteria, selectedOrdering: ProductSortCriteria?, minPrice: Int?, maxPrice: Int?){
         self.place = place
         self.distanceRadius = distanceRadius > 0 ? distanceRadius : nil
         self.distanceType = distanceType
         self.selectedCategories = selectedCategories
         self.selectedWithin = selectedWithin
         self.selectedOrdering = selectedOrdering
+        self.minPrice = minPrice
+        self.maxPrice = maxPrice
     }
     
     mutating func toggleCategory(category: ProductCategory) {
@@ -58,6 +65,7 @@ public struct ProductFilters {
         if !selectedCategories.isEmpty { return false }
         if selectedWithin != ProductTimeCriteria.defaultOption { return false }
         if selectedOrdering != ProductSortCriteria.defaultOption { return false }
+        if let _ = minPrice, let _ = maxPrice { return false } //Default is nil
         return true
     }
     
