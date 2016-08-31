@@ -313,9 +313,9 @@ class ChatViewModel: BaseViewModel {
             guard let strongSelf = self else { return }
             
             if status == .Forbidden {
-                let disclaimer = strongSelf.chatViewMessageAdapter.createUserBlockedDisclaimerMessage(
+                let disclaimer = strongSelf.chatViewMessageAdapter.createScammerDisclaimerMessage(
                     isBuyer: strongSelf.isBuyer, userName: strongSelf.conversation.value.interlocutor?.name,
-                    actionTitle:  LGLocalizedString.chatBlockedDisclaimerSafetyTipsButton, action: strongSelf.safetyTipsAction)
+                    action: strongSelf.safetyTipsAction)
                 self?.messages.removeAll()
                 self?.messages.append(disclaimer)
             }
@@ -344,6 +344,17 @@ class ChatViewModel: BaseViewModel {
         Observable.combineLatest(stickersTooltipVisible.asObservable(), reviewTooltipVisible.asObservable()) { $0 }
             .subscribeNext { [weak self] (stickersTooltipVisible, reviewTooltipVisible) in
             self?.userReviewTooltipVisible.value = !stickersTooltipVisible && reviewTooltipVisible
+        }.addDisposableTo(disposeBag)
+
+        myUserRepository.rx_myUser.asObservable().skip(1).subscribeNext { [weak self] myUser in
+            guard let myUser = myUser, firstMessage = self?.messages.value.first else { return }
+            guard myUser.isSocialVerified else { return }
+            //check and remove social advise
+            switch firstMessage.type {
+            case .Disclaimer:
+                self?.messages.removeFirst()
+            default: break
+            }
         }.addDisposableTo(disposeBag)
 
         setupChatEventsRx()
@@ -826,12 +837,15 @@ extension ChatViewModel {
         return chatViewMessageAdapter.createUserInfoMessage(interlocutor)
     }
 
-    var userDeletedMessage: ChatViewMessage? {
+    var bottomDisclaimerMessage: ChatViewMessage? {
         switch chatStatus.value {
         case .UserDeleted, .UserPendingDelete:
             return chatViewMessageAdapter.createUserDeletedDisclaimerMessage(conversation.value.interlocutor?.name)
         case .Available, .Blocked, .BlockedBy, .Forbidden, .ProductDeleted, .ProductSold:
-            return nil
+            guard let myUser = myUserRepository.myUser where !myUser.isSocialVerified else { return nil }
+            return chatViewMessageAdapter.createUserNotVerifiedDisclaimerMessage() { [weak self] in
+                self?.tabNavigator?.openVerifyAccounts([.Facebook, .Google], source: .Chat)
+            }
         }
     }
 
@@ -846,8 +860,8 @@ extension ChatViewModel {
                 let newMessages = strongSelf.chatViewMessageAdapter
                     .addDisclaimers(messages, disclaimerMessage: strongSelf.defaultDisclaimerMessage)
                 self?.messages.removeAll()
-                if let userDeletedMessage = self?.userDeletedMessage {
-                    self?.messages.append(userDeletedMessage)
+                if let bottomDisclaimerMessage = self?.bottomDisclaimerMessage {
+                    self?.messages.append(bottomDisclaimerMessage)
                 }
                 self?.messages.appendContentsOf(newMessages)
                 if let userInfoMessage = self?.userInfoMessage where strongSelf.isLastPage {

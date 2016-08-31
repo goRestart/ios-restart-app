@@ -203,7 +203,10 @@
 "chat_forbidden_disclaimer_buyer_w_name" = "%@'s account is under review by the letgo team.";
 
 // Message to a user to encourage verifying social accounts
-"chat_connect_account_disblaimer" = "Verified users get faster replies. Verify your account now!";
+"chat_connect_account_disclaimer" = "Verified users get faster replies. Verify your account now!";
+
+// Message to a user to encourage verifying social accounts (button)
+"chat_connect_account_disclaimer_button" = "Verify now!";
 
 // When a user asked to delete his account (disclaimer message)
 "chat_deleted_disclaimer_w_name" = "You can't continue this conversation because %@'s account is no longer active.";

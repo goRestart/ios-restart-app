@@ -61,7 +61,8 @@
 "chat_blocked_disclaimer_scammer_append_safety_tips_keyword" = "turvallisuusvinkkeihimme";
 "chat_blocked_disclaimer_scammer_w_name" = "letgo-tiimi on poistanut käyttäjän %@ tilin turvallisuussyistä, ja nämä viestit on poistettu.";
 "chat_blocked_disclaimer_scammer_wo_name" = "letgo-tiimi on poistanut tämän tilin turvallisuussyistä, ja nämä viestit on poistettu.";
-"chat_connect_account_disblaimer" = "Verified users get faster replies. Verify your account now!";
+"chat_connect_account_disclaimer" = "Verified users get faster replies. Verify your account now!";
+"chat_connect_account_disclaimer_button" = "Verify now!";
 "chat_connect_accounts_message" = "Connect with Facebook or Google to verify your identity.";
 "chat_connect_accounts_title" = "BUILD TRUST!";
 "chat_deleted_disclaimer_w_name" = "Et voi jatkaa tätä keskustelua, koska käyttäjän %@ tili ei ole enää aktiivinen.";

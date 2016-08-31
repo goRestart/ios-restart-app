@@ -61,7 +61,8 @@
 "chat_blocked_disclaimer_scammer_append_safety_tips_keyword" = "советы по безопасности";
 "chat_blocked_disclaimer_scammer_w_name" = "В целях безопасности аккаунт %@ был удален командой letgo вместе с сообщениями.";
 "chat_blocked_disclaimer_scammer_wo_name" = "В целях безопасности этот аккаунт был удален командой letgo вместе с сообщениями.";
-"chat_connect_account_disblaimer" = "Verified users get faster replies. Verify your account now!";
+"chat_connect_account_disclaimer" = "Verified users get faster replies. Verify your account now!";
+"chat_connect_account_disclaimer_button" = "Verify now!";
 "chat_connect_accounts_message" = "Connect with Facebook or Google to verify your identity.";
 "chat_connect_accounts_title" = "BUILD TRUST!";
 "chat_deleted_disclaimer_w_name" = "Вы не можете продолжать чат, так как аккаунт %@ больше не активен.";

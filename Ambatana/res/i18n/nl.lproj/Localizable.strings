@@ -61,7 +61,8 @@
 "chat_blocked_disclaimer_scammer_append_safety_tips_keyword" = "veiligheidstips";
 "chat_blocked_disclaimer_scammer_w_name" = "Om veiligheidsredenen werd %@'s account verwijderd door het letgo team en deze berichten zijn gewist.";
 "chat_blocked_disclaimer_scammer_wo_name" = "Om veiligheidsredenen werd dit account verwijderd door het letgo team en deze berichten zijn gewist.";
-"chat_connect_account_disblaimer" = "Geverifieerde gebruikers krijgen sneller antwoord. Verifieer nu jouw account!";
+"chat_connect_account_disclaimer" = "Verified users get faster replies. Verify your account now!";
+"chat_connect_account_disclaimer_button" = "Verify now!";
 "chat_connect_accounts_message" = "Maak contact met Facebook of Google om jouw identiteit te verifiëren.";
 "chat_connect_accounts_title" = "VERTROUWEN OPBOUWEN!";
 "chat_deleted_disclaimer_w_name" = "Je kunt niet verdergaan met dit gesprek omdat %@'s account niet meer actief is.";

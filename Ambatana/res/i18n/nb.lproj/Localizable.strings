@@ -61,7 +61,8 @@
 "chat_blocked_disclaimer_scammer_append_safety_tips_keyword" = "sikkerhetstips";
 "chat_blocked_disclaimer_scammer_w_name" = "Av sikkerhetsgrunner er %@'s konto slettet av letgo's team, samt disse meldingene.";
 "chat_blocked_disclaimer_scammer_wo_name" = "Av sikkerhetsgrunner er denne kontoen slettet av letgo's team, samt disse meldingene.";
-"chat_connect_account_disblaimer" = "Verifiserte brukere får raskere besvarelser. Verifiser din konto nå!";
+"chat_connect_account_disclaimer" = "Verified users get faster replies. Verify your account now!";
+"chat_connect_account_disclaimer_button" = "Verify now!";
 "chat_connect_accounts_message" = "Koble til med Facebook eller Google for å verifisere din identitet.";
 "chat_connect_accounts_title" = "BYGG TILLIT!";
 "chat_deleted_disclaimer_w_name" = "Du kan ikke fortsette denne samtalen, fordi %@'s konto ikke lenger er aktiv.";
