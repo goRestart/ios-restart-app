@@ -61,8 +61,8 @@
 "chat_blocked_disclaimer_scammer_append_safety_tips_keyword" = "consigli utili";
 "chat_blocked_disclaimer_scammer_w_name" = "Per ragioni di sicurezza, l'account di %@ è stato eliminato dal team letgo e questi messaggi sono stati rimossi.";
 "chat_blocked_disclaimer_scammer_wo_name" = "Per ragioni di sicurezza, questo account è stato eliminato dal team letgo e questi messaggi sono stati rimossi.";
-"chat_connect_account_disclaimer" = "Verified users get faster replies. Verify your account now!";
-"chat_connect_account_disclaimer_button" = "Verify now!";
+"chat_connect_account_disclaimer" = "Gli utenti verificati ottengono risposte più veloci. Verifica subito il tuo account!";
+"chat_connect_account_disclaimer_button" = "Verifica subito!";
 "chat_connect_accounts_message" = "Accedi con Facebook o Google per verificare la tua identità.";
 "chat_connect_accounts_title" = "SVILUPPA FIDUCIA!";
 "chat_deleted_disclaimer_w_name" = "Non puoi continuare questa conversazione perché l'account di %@ non è più attivo.";
@@ -263,6 +263,8 @@
 "log_in_send_button" = "Accedi";
 "log_in_title" = "Accedi tramite email";
 "main_sign_up_claim_label" = "Inizia a vendere e comprare, chattando!";
+"main_sign_up_error_request_already_sent" = "La tua richiesta è già stata elaborata. Attendi prima di provare di nuovo.";
+"main_sign_up_error_user_rejected" = "L'indirizzo email o la password da te inseriti non sono corretti. Riprova.";
 "main_sign_up_facebook_connect_button" = "Continua con Facebook";
 "main_sign_up_fb_connect_error_email_taken" = "Il tuo indirizzo email è già registrato. Ti preghiamo di utilizzarlo per effettuare l'accesso.";
 "main_sign_up_fb_connect_error_generic" = "Impossibile effettuare l'accesso. Riprova.";
@@ -435,10 +437,12 @@
 "product_share_email_error" = "Ops! Sembra che tu non abbia impostato un account nella app di Mail.";
 "product_share_generic_error" = "Si è verificato un errore durante la condivisione del prodotto. Ti preghiamo di riprovare più tardi.";
 "product_share_generic_ok" = "Prodotto condiviso con successo!";
+"product_share_posted_by" = "posted by %@";
 "product_share_sms_error" = "Si è verificato un errore durante il tentativo di invio del messaggio.";
 "product_share_sms_ok" = "Invio in corso...";
 "product_share_telegram_error" = "Ops! Non sembri avere Telegram installato.";
 "product_share_title_label" = "CONDIVIDI QUESTO PRODOTTO";
+"product_share_title_on_letgo" = "%@ on letgo!";
 "product_share_whatsapp_error" = "Ops! Sembra che tu non abbia installato l'app WhatsApp.";
 "product_stickers_selection_w_name" = "Seleziona l'adesivo da inviare a %@.";
 "product_stickers_selection_wo_name" = "Seleziona l'adesivo da inviare al venditore.";

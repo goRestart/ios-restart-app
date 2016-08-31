@@ -1079,6 +1079,14 @@ struct LGLocalizedString {
 		return NSLocalizedString("main_sign_up_fb_connect_error_generic", comment: "")
 	}
 
+	static var mainSignUpErrorUserRejected: String {
+		return NSLocalizedString("main_sign_up_error_user_rejected", comment: "")
+	}
+
+	static var mainSignUpErrorRequestAlreadySent: String {
+		return NSLocalizedString("main_sign_up_error_request_already_sent", comment: "")
+	}
+
 	static var mainSignUpGoogleConnectButton: String {
 		return NSLocalizedString("main_sign_up_google_connect_button", comment: "")
 	}
@@ -1773,6 +1781,14 @@ struct LGLocalizedString {
 
 	static var productShareWhatsappError: String {
 		return NSLocalizedString("product_share_whatsapp_error", comment: "")
+	}
+
+	static func productSharePostedBy(var1: String) -> String {
+		return String(format: NSLocalizedString("product_share_posted_by", comment: ""), var1)
+	}
+
+	static func productShareTitleOnLetgo(var1: String) -> String {
+		return String(format: NSLocalizedString("product_share_title_on_letgo", comment: ""), var1)
 	}
 
 	static func productStickersSelectionWName(var1: String) -> String {

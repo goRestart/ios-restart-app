@@ -61,8 +61,8 @@
 "chat_blocked_disclaimer_scammer_append_safety_tips_keyword" = "säkerhetstips";
 "chat_blocked_disclaimer_scammer_w_name" = "Av säkerhetsskäl har %@ konto tagits bort av letgo och dessa meddelanden har raderats.";
 "chat_blocked_disclaimer_scammer_wo_name" = "Av säkerhetsskäl har det här kontot tagits bort av letgo och dessa meddelanden har raderats.";
-"chat_connect_account_disclaimer" = "Verified users get faster replies. Verify your account now!";
-"chat_connect_account_disclaimer_button" = "Verify now!";
+"chat_connect_account_disclaimer" = "Verifierade användare får svar snabbare. Verifiera ditt konto nu!";
+"chat_connect_account_disclaimer_button" = "Verifiera nu!";
 "chat_connect_accounts_message" = "Koppla upp dig med Facebook eller Google för att verifiera din identitet.";
 "chat_connect_accounts_title" = "BYGG FÖRTROENDE!";
 "chat_deleted_disclaimer_w_name" = "Du kan inte fortsätta denna konversation, för %@s konto är inte längre aktivt.";
@@ -263,6 +263,8 @@
 "log_in_send_button" = "Logga in";
 "log_in_title" = "Logga in med e-post";
 "main_sign_up_claim_label" = "Börja sälja och köpa - via chatt!";
+"main_sign_up_error_request_already_sent" = "Din begäran har redan registrerats. Vänligen vänta innan du försöker igen.";
+"main_sign_up_error_user_rejected" = "Den e-postadress eller det lösenord du skrev in är inte rätt. Vänligen försök igen.";
 "main_sign_up_facebook_connect_button" = "Fortsätt med Facebook";
 "main_sign_up_fb_connect_error_email_taken" = "Din e-postadress är redan registrerad. Använd den för att logga in.";
 "main_sign_up_fb_connect_error_generic" = "Kunde inte logga in. Vänligen försök igen.";
@@ -435,10 +437,12 @@
 "product_share_email_error" = "Hoppsan! Det verkar som att du inte har något konto i dina mailinstllningar.";
 "product_share_generic_error" = "Ett fel uppstod när produkten delades. Var vänlig försök igen senare.";
 "product_share_generic_ok" = "Produkten har delats!";
+"product_share_posted_by" = "posted by %@";
 "product_share_sms_error" = "Ett fel uppstod då ditt meddelande skulle skickas.";
 "product_share_sms_ok" = "Skickar...";
 "product_share_telegram_error" = "Hoppsan! Du verkar inte ha Telegram installerad.";
 "product_share_title_label" = "DELA PRODUKTEN";
+"product_share_title_on_letgo" = "%@ on letgo!";
 "product_share_whatsapp_error" = "Hoppsan! Det verkar som att du inte har installerat appen WhatsApp.";
 "product_stickers_selection_w_name" = "Välj den sticker du vill skicka till %@.";
 "product_stickers_selection_wo_name" = "Välj den sticker du vill skicka till säljaren.";

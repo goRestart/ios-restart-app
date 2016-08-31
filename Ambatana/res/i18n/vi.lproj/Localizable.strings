@@ -61,8 +61,8 @@
 "chat_blocked_disclaimer_scammer_append_safety_tips_keyword" = "lời khuyên an toàn";
 "chat_blocked_disclaimer_scammer_w_name" = "Vì lý do an toàn, tài khoản %@ đã bị letgo xóa và các tin nhắn cũng được gỡ bỏ.";
 "chat_blocked_disclaimer_scammer_wo_name" = "Vì lý do an toàn, tài khoản này đã bị letgo xóa và các tin nhắn cũng được gỡ bỏ.";
-"chat_connect_account_disclaimer" = "Verified users get faster replies. Verify your account now!";
-"chat_connect_account_disclaimer_button" = "Verify now!";
+"chat_connect_account_disclaimer" = "Người dùng đã được xác minh sẽ nhận tin nhắn nhanh hơn. Hãy xác minh tài khoản của bạn ngay bây giờ!";
+"chat_connect_account_disclaimer_button" = "Xác minh ngay bây giờ!";
 "chat_connect_accounts_message" = "Kết nối với Facebook hay Google để xác minh danh tính của bạn.";
 "chat_connect_accounts_title" = "XÂY DỰNG NIỀM TIN!";
 "chat_deleted_disclaimer_w_name" = "Bạn không thể tiếp tục cuộc trò chuyện này bởi tài khoản của %@ không còn hoạt động.";
@@ -263,6 +263,8 @@
 "log_in_send_button" = "Đăng nhập";
 "log_in_title" = "Đăng nhập bằng email";
 "main_sign_up_claim_label" = "Bắt đầu bán, mua—bằng cách trò chuyện!";
+"main_sign_up_error_request_already_sent" = "Yêu cầu của bạn đã được xử lý. Vui lòng chờ trước khi thử lại.";
+"main_sign_up_error_user_rejected" = "Email hoặc mật khẩu bạn nhập không đúng. Vui lòng thử lại.";
 "main_sign_up_facebook_connect_button" = "Tiếp tục với Facebook";
 "main_sign_up_fb_connect_error_email_taken" = "Địa chỉ email của bạn đã được đăng kí. Xin vui lòng đăng nhập theo địa chỉ email này.";
 "main_sign_up_fb_connect_error_generic" = "Không thể đăng nhập. Xin vui lòng thử lại.";
@@ -435,10 +437,12 @@
 "product_share_email_error" = "Ồ! Có vẻ như bạn chưa cài đặt tải khoản email trên Ứng dụng Mail.";
 "product_share_generic_error" = "Lỗi xảy ra trong khi chia sẻ sản phẩm. Xin vui lòng thử lại sau.";
 "product_share_generic_ok" = "Sản phẩm đã được chia sẻ thành công!";
+"product_share_posted_by" = "posted by %@";
 "product_share_sms_error" = "Có lỗi xảy ra trong khi gửi tin nhắn của bạn.";
 "product_share_sms_ok" = "Đang gửi...";
 "product_share_telegram_error" = "Ồ! Có vẻ như bạn chưa cài đặt Telegram.";
 "product_share_title_label" = "CHIA SẺ SẢN PHẨM NÀY";
+"product_share_title_on_letgo" = "%@ on letgo!";
 "product_share_whatsapp_error" = "Ồ! Có vẻ như bạn chưa cài đặt ứng dụng WhatsApp.";
 "product_stickers_selection_w_name" = "Chọn nhãn dán bạn muốn gửi tới %@.";
 "product_stickers_selection_wo_name" = "Chọn nhãn dán bạn muốn gửi tới người bán.";

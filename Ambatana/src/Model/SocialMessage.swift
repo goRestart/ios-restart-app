@@ -54,20 +54,28 @@ struct ProductSocialMessage: SocialMessage {
     static let utmSourceValue = "ios_app"
 
     private let title: String
-    private let body: String
+    private let productUserName: String
+    private let productTitle: String
+    private let productDescription: String
     private let imageURL: NSURL?
     private let productId: String
+    private let isMine: Bool
+    static var utmCampaignValue = "product-detail-share"
 
-    init(title: String, product: Product) {
+
+    init(title: String, product: Product, isMine: Bool) {
         self.title = title
-        self.body = [product.user.name, product.title].flatMap{$0}.joinWithSeparator(" - ")
+        self.productUserName = product.user.name ?? ""
+        self.productTitle = product.title ?? ""
         self.imageURL = product.images.first?.fileURL ?? product.thumbnail?.fileURL
         self.productId = product.objectId ?? ""
+        self.productDescription = product.description ?? ""
+        self.isMine = isMine
     }
 
     var nativeShareItems: [AnyObject]? {
         guard let shareUrl = shareUrl(.Native) else { return nil }
-        return [shareUrl, fullMessage]
+        return [shareUrl, fullMessage()]
     }
 
     var whatsappShareText: String {
@@ -87,16 +95,16 @@ struct ProductSocialMessage: SocialMessage {
     }
 
     var emailShareSubject: String {
-        return title
+        return LGLocalizedString.productShareTitleOnLetgo(productTitle)
     }
 
     var emailShareBody: String {
-        var shareContent = body
-        guard let urlString = shareUrl(.Email)?.absoluteString else { return shareContent }
-        if !shareContent.isEmpty {
-            shareContent += ":\n"
+        guard let urlString = shareUrl(.Email)?.absoluteString else { return title }
+        var message = title + " " + urlString
+        if !isMine {
+            message += " " + LGLocalizedString.productSharePostedBy(productUserName)
         }
-        return shareContent + urlString
+        return message
     }
 
     let emailShareIsHtml = false
@@ -111,8 +119,9 @@ struct ProductSocialMessage: SocialMessage {
 
     private func fbShareLinkContent(source: ShareSource) -> FBSDKShareLinkContent {
         let shareContent = FBSDKShareLinkContent()
-        shareContent.contentTitle = title
-        shareContent.contentDescription = body
+        
+        shareContent.contentTitle = title + (isMine ? "" : " " + LGLocalizedString.productSharePostedBy(productUserName))
+        shareContent.contentDescription = productTitle + (productDescription.isEmpty ? "" : ": " + productDescription)
         if let actualURL = shareUrl(source) {
             shareContent.contentURL = actualURL
         }
@@ -124,19 +133,26 @@ struct ProductSocialMessage: SocialMessage {
 
     var twitterComposer: TWTRComposer {
         let twitterComposer = TWTRComposer()
-        twitterComposer.setText(fullMessage)
+        twitterComposer.setText(fullMessage())
         twitterComposer.setURL(shareUrl(.Twitter))
         return twitterComposer
     }
 
-    private var fullMessage: String {
-        return title.isEmpty ? body : title + "\n" + body
-    }
-
     private func fullMessageWUrl(source: ShareSource) -> String {
-        let fullMessage = self.fullMessage.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
         let urlString = shareUrl(source)?.absoluteString ?? ""
-        return fullMessage.isEmpty ? urlString : fullMessage + ":\n" + urlString
+        return title + " " + urlString + " - " + body()
+    }
+    
+    private func fullMessage() -> String {
+        return title + " - " + body()
+    }
+    
+    private func body() -> String {
+        var body = productTitle
+        if !isMine {
+            body += " " + LGLocalizedString.productSharePostedBy(productUserName)
+        }
+        return body
     }
 
     private func shareUrl(source: ShareSource?) -> NSURL? {
@@ -160,7 +176,7 @@ struct ProductSocialMessage: SocialMessage {
         let branchUniversalObject: BranchUniversalObject =
             BranchUniversalObject(canonicalIdentifier: "products/"+productId)
         branchUniversalObject.title = title
-        branchUniversalObject.contentDescription = body
+        branchUniversalObject.contentDescription = body()
         branchUniversalObject.canonicalUrl = Constants.appWebsiteURL+"/products/"+productId
         if let imageURL = imageURL?.absoluteString {
             branchUniversalObject.imageUrl = imageURL
