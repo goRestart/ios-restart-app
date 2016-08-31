@@ -10,10 +10,8 @@ import Foundation
 import LGCoreKit
 import RxSwift
 
-protocol VerifyAccountsViewModelDelegate: BaseViewModelDelegate {
 
-}
-
+protocol VerifyAccountsViewModelDelegate: BaseViewModelDelegate {}
 
 enum VerifyButtonState {
     case Hidden
@@ -25,6 +23,7 @@ enum VerifyButtonState {
 enum VerifyAccountsSource {
     case Chat
 }
+
 
 class VerifyAccountsViewModel: BaseViewModel {
     weak var delegate: VerifyAccountsViewModelDelegate?
@@ -113,7 +112,6 @@ class VerifyAccountsViewModel: BaseViewModel {
         }.addDisposableTo(disposeBag)
     }
 }
-
 
 
 // MARK: - Private actions
