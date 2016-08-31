@@ -193,6 +193,10 @@ extension UserViewModel {
         delegate?.vmOpenVerifyAccount(vm)
     }
 
+    func buildTrustButtonPressed() {
+        //TODO: IMPLEMENT
+    }
+
     func pushPermissionsWarningPressed() {
         openPushPermissionsAlert()
     }

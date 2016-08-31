@@ -208,6 +208,9 @@ extension UserViewController : UserViewHeaderDelegate {
         viewModel.emailButtonPressed()
     }
 
+    func buildTrustAction() {
+        viewModel.buildTrustButtonPressed()
+    }
 }
 
 

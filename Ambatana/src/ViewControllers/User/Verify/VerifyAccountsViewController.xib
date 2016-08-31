@@ -221,7 +221,7 @@
                         <constraint firstItem="ysF-w2-FmD" firstAttribute="leading" secondItem="BbQ-zR-xkx" secondAttribute="leading" constant="20" id="rWB-qu-G6G"/>
                     </constraints>
                 </view>
-                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_build_trust" translatesAutoresizingMaskIntoConstraints="NO" id="28i-Wb-cSo">
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_build_trust_big" translatesAutoresizingMaskIntoConstraints="NO" id="28i-Wb-cSo">
                     <rect key="frame" x="132" y="121" width="110" height="110"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="110" id="CiR-wT-W2c"/>
@@ -245,7 +245,7 @@
         </view>
     </objects>
     <resources>
-        <image name="ic_build_trust" width="110" height="110"/>
+        <image name="ic_build_trust_big" width="110" height="110"/>
         <image name="ic_close_dark" width="18" height="18"/>
         <image name="ic_email_active" width="18" height="13"/>
         <image name="ic_email_rounded" width="29" height="28"/>
