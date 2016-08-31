@@ -9,6 +9,29 @@
 import Alamofire
 import Result
 
+public enum ConflictCause {
+
+    case UserExists
+    case EmailRejected
+    case RequestAlreadyProcessed
+
+    case NotSpecified
+    case Other(code: Int)
+
+    static func causeWithCode(code: Int?) -> ConflictCause {
+        guard let code = code else { return .NotSpecified }
+        switch code {
+        case 1005:
+            return .UserExists
+        case 1009:
+            return .EmailRejected
+        case 1102:
+            return .RequestAlreadyProcessed
+        default:
+            return .Other(code: code)
+        }
+    }
+}
 
 public enum ApiError: ErrorType {
     // errorCode references NSURLError codes (i.e. NSURLErrorUnknown)
@@ -18,7 +41,7 @@ public enum ApiError: ErrorType {
     case Unauthorized
     case NotFound
     case Forbidden
-    case AlreadyExists
+    case Conflict(cause: ConflictCause)
     case Scammer
     case UnprocessableEntity
     case UserNotVerified
@@ -27,7 +50,7 @@ public enum ApiError: ErrorType {
     case NotModified
     case Other(httpCode: Int)
 
-    static func errorForCode(code: Int) -> ApiError {
+    static func errorForCode(code: Int, apiCode: Int?) -> ApiError {
         switch code {
         case 304:
             return .NotModified
@@ -37,8 +60,8 @@ public enum ApiError: ErrorType {
             return .Forbidden
         case 404:
             return .NotFound
-        case 409:   // Conflict
-            return .AlreadyExists
+        case 409:
+            return .Conflict(cause: ConflictCause.causeWithCode(apiCode))
         case 418:   // I'm a teapot! 🍵
             return .Scammer
         case 422:
@@ -68,7 +91,7 @@ public enum ApiError: ErrorType {
             return 404
         case .Forbidden:
             return 403
-        case .AlreadyExists:
+        case .Conflict:
             return 409
         case .Scammer:
             return 418
