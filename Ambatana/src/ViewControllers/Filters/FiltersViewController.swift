@@ -17,7 +17,7 @@ UICollectionViewDataSource, UICollectionViewDelegate {
     @IBOutlet weak var saveFiltersBtn: UIButton!
     
     // ViewModel
-    private var viewModel : FiltersViewModel!
+    private var viewModel : FiltersViewModel
     
     private let keyboardHelper: KeyboardHelper
 
@@ -44,8 +44,8 @@ UICollectionViewDataSource, UICollectionViewDelegate {
     
     required init(viewModel: FiltersViewModel, nibName nibNameOrNil: String?, keyboardHelper: KeyboardHelper) {
         self.keyboardHelper = keyboardHelper
-        super.init(viewModel: viewModel, nibName: nibNameOrNil)
         self.viewModel = viewModel
+        super.init(viewModel: viewModel, nibName: nibNameOrNil)
         self.viewModel.delegate = self
     }
     
