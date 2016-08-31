@@ -25,6 +25,7 @@ enum AccessibilityId: String {
     // Main Products List
     case MainProductsNavBarSearch
     case MainProductsFilterButton
+    case MainProductsInviteButton
     case MainProductsListView
     case MainProductsTagsCollection
     case MainProductsInfoBubbleLabel
@@ -379,6 +380,15 @@ enum AccessibilityId: String {
     case UserPushPermissionOK
     case UserPushPermissionCancel
 
+    // Verify Accounts popup
+    case VerifyAccountsBackgroundButton
+    case VerifyAccountsCloseButton
+    case VerifyAccountsFacebookButton
+    case VerifyAccountsGoogleButton
+    case VerifyAccountsEmailButton
+    case VerifyAccountsEmailTextField
+    case VerifyAccountsEmailTextFieldButton
+
     // Settings
     case SettingsList
 
@@ -409,6 +419,19 @@ enum AccessibilityId: String {
     case EditLocationPOIImageView
     case EditLocationSetLocationButton
     case EditLocationApproxLocationSwitch
+    
+    // NPS Survey
+    case NPSCloseButton
+    case NPSScore1
+    case NPSScore2
+    case NPSScore3
+    case NPSScore4
+    case NPSScore5
+    case NPSScore6
+    case NPSScore7
+    case NPSScore8
+    case NPSScore9
+    case NPSScore10
 }
 
 extension UIAccessibilityIdentification {

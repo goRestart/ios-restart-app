@@ -2165,6 +2165,62 @@ class TrackerEventSpec: QuickSpec {
                     expect(productId) == "ABCD"
                 }
             }
+            
+            describe("NPS Survey") {
+                context("NPS Start") {
+                    beforeEach {
+                        sut = TrackerEvent.npsStart()
+                    }
+                    it("has its event name") {
+                        expect(sut.name.rawValue) == "nps-start"
+                    }
+                }
+                
+                context("NPS Complete") {
+                    beforeEach {
+                        sut = TrackerEvent.npsComplete(2)
+                    }
+                    it("has its event name") {
+                        expect(sut.name.rawValue) == "nps-complete"
+                    }
+                    it("contains score param") {
+                        let score = sut.params!.stringKeyParams["nps-score"] as? Int
+                        expect(score) == 2
+                    }
+                }
+            }
+
+            describe("Verify Account") {
+                context("Verify Account Start") {
+                    beforeEach {
+                        sut = TrackerEvent.verifyAccountStart(.Chat)
+                    }
+                    it("has its event name") {
+                        expect(sut.name.rawValue) == "verify-account-start"
+                    }
+                    it("contains type-page param") {
+                        let param = sut.params!.stringKeyParams["type-page"] as? String
+                        expect(param) == "chat"
+                    }
+                }
+
+                context("Verify Account Complete") {
+                    beforeEach {
+                        sut = TrackerEvent.verifyAccountComplete(.Chat, network: .Facebook)
+                    }
+                    it("has its event name") {
+                        expect(sut.name.rawValue) == "verify-account-complete"
+                    }
+                    it("contains type-page param") {
+                        let param = sut.params!.stringKeyParams["type-page"] as? String
+                        expect(param) == "chat"
+                    }
+                    it("contains account-network param") {
+                        let param = sut.params!.stringKeyParams["account-network"] as? String
+                        expect(param) == "facebook"
+                    }
+                }
+            }
         }
     }
 }
