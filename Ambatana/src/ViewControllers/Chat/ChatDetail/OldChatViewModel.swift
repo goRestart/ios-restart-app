@@ -1017,7 +1017,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
             } else if let error = result.error {
                 switch (error) {
                 case .NotFound:
-                    //The chat doesn't exist yet, so this must be a new conversation!! this is success
+                    //The chat doesn't exist yet, so this must be a new conversation -> this is success
                     strongSelf.isLastPage = true
 
                     if let userInfoMessage = strongSelf.userInfoMessage {
