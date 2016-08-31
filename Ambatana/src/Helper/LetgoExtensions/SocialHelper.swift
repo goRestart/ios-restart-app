@@ -207,7 +207,7 @@ extension UIViewController {
                 delegate?.nativeShareInTwitter()
             } else if activity == UIActivityTypeMail {
                 delegate?.nativeShareInEmail()
-            } else if activity != nil && activity!.rangeOfString("whatsapp") != nil {
+            } else if let ac = activity, let _ = ac.rangeOfString("whatsapp") {
                 delegate?.nativeShareInWhatsApp()
                 return
             } else if activity == UIActivityTypeCopyToPasteboard {
