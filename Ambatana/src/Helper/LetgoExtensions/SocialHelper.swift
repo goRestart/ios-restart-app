@@ -14,8 +14,6 @@ import Branch
 
 
 final class SocialHelper {
-    
-    private static let myUserRepo: MyUserRepository = Core.myUserRepository
     /**
         Returns a social message for the given product with a title.
     
@@ -24,7 +22,7 @@ final class SocialHelper {
         - returns: The social message.
     */
     static func socialMessageWithTitle(title: String, product: Product) -> SocialMessage {
-        let productIsMine = myUserRepo.myUser?.objectId == product.user.objectId
+        let productIsMine = Core.myUserRepository.myUser?.objectId == product.user.objectId
         return ProductSocialMessage(title: title, product: product, isMine: productIsMine)
     }
 
