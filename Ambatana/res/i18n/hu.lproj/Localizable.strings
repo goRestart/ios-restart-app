@@ -61,7 +61,8 @@
 "chat_blocked_disclaimer_scammer_append_safety_tips_keyword" = "biztonsági tanácsaink";
 "chat_blocked_disclaimer_scammer_w_name" = "A letgo csapata biztonsági okokból törölte %@ fiókját, és vele együtt ezeket az üzeneteket is.";
 "chat_blocked_disclaimer_scammer_wo_name" = "A letgo csapata biztonsági okokból törölte ezt a fiókot, és vele együtt ezeket az üzeneteket is.";
-"chat_connect_account_disblaimer" = "Verified users get faster replies. Verify your account now!";
+"chat_connect_account_disclaimer" = "Verified users get faster replies. Verify your account now!";
+"chat_connect_account_disclaimer_button" = "Verify now!";
 "chat_connect_accounts_message" = "Connect with Facebook or Google to verify your identity.";
 "chat_connect_accounts_title" = "BUILD TRUST!";
 "chat_deleted_disclaimer_w_name" = "Nem tudod folytatni a beszélgetést, mert %@ fiókja már nem aktív.";

@@ -15,7 +15,7 @@ protocol OldChatViewModelDelegate: BaseViewModelDelegate {
     
     func vmDidStartRetrievingChatMessages(hasData hasData: Bool)
     func vmDidFailRetrievingChatMessages()
-    func vmDidSucceedRetrievingChatMessages()
+    func vmDidRefreshChatMessages()
     func vmUpdateAfterReceivingMessagesAtPositions(positions: [Int], isUpdate: Bool)
     
     func vmDidFailSendingMessage()
@@ -69,7 +69,6 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     
     weak var delegate: OldChatViewModelDelegate?
     weak var tabNavigator: TabNavigator?
-    weak var appNavigator: AppNavigator?
 
     var title: String? {
         return product.title
@@ -190,10 +189,9 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     let isSendingMessage = Variable<Bool>(false)
     var relatedProducts: [Product] = []
 
-    var userBlockedDisclaimerMessage: ChatViewMessage {
-        return chatViewMessageAdapter.createUserBlockedDisclaimerMessage(
-            isBuyer: isBuyer, userName: otherUser?.name,
-            actionTitle: LGLocalizedString.chatBlockedDisclaimerSafetyTipsButton, action: safetyTipsAction)
+    var scammerDisclaimerMessage: ChatViewMessage {
+        return chatViewMessageAdapter.createScammerDisclaimerMessage(
+            isBuyer: isBuyer, userName: otherUser?.name, action: safetyTipsAction)
     }
 
     var messageSuspiciousDisclaimerMessage: ChatViewMessage {
@@ -204,12 +202,15 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         return chatViewMessageAdapter.createUserInfoMessage(otherUser)
     }
 
-    var userDeletedDisclaimerMessage: ChatViewMessage? {
+    var bottomDisclaimerMessage: ChatViewMessage? {
         switch chatStatus {
         case  .UserPendingDelete, .UserDeleted:
             return chatViewMessageAdapter.createUserDeletedDisclaimerMessage(otherUser?.name)
         case .ProductDeleted, .Forbidden, .Available, .Blocked, .BlockedBy, .ProductSold:
-            return nil
+            guard let myUser = myUserRepository.myUser where !myUser.isSocialVerified else { return nil }
+            return chatViewMessageAdapter.createUserNotVerifiedDisclaimerMessage() { [weak self] in
+                self?.tabNavigator?.openVerifyAccounts([.Facebook, .Google], source: .Chat)
+            }
         }
     }
 
@@ -382,6 +383,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         if otherUser == nil { return nil }
 
         setupDeepLinksRx()
+        setupMyUserRx()
     }
     
     override func didBecomeActive(firstTime: Bool) {
@@ -390,8 +392,8 @@ public class OldChatViewModel: BaseViewModel, Paginable {
             checkShowRelatedProducts()
         }
 
-        guard !chat.forbidden else {
-            showDisclaimerMessage()
+        guard chatStatus != .Forbidden else {
+            showScammerDisclaimerMessage()
             markForbiddenAsRead()
             return
         }
@@ -413,9 +415,9 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         tabNavigator?.openExpressChat(relatedProducts, sourceProductId: productId)
     }
     
-    func showDisclaimerMessage() {
-        loadedMessages = [userBlockedDisclaimerMessage]
-        delegate?.vmDidSucceedRetrievingChatMessages()
+    func showScammerDisclaimerMessage() {
+        loadedMessages = [scammerDisclaimerMessage]
+        delegate?.vmDidRefreshChatMessages()
     }
 
     func checkShowRelatedProducts() {
@@ -581,6 +583,21 @@ public class OldChatViewModel: BaseViewModel, Paginable {
             default: break
             }
             }.addDisposableTo(disposeBag)
+    }
+
+    private func setupMyUserRx() {
+        myUserRepository.rx_myUser.asObservable().skip(1).bindNext { [weak self] myUser in
+            guard let myUser = myUser, firstMessage = self?.loadedMessages.first else { return }
+            guard myUser.isSocialVerified else { return }
+            //check and remove social advise
+            switch firstMessage.type {
+            case .Disclaimer:
+                self?.loadedMessages.removeFirst()
+                self?.delegate?.vmDidRefreshChatMessages()
+            default: break
+            }
+
+        }.addDisposableTo(disposeBag)
     }
 
     private func sendMessage(text: String, isQuickAnswer: Bool, type: MessageType) {
@@ -960,7 +977,6 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     // MARK: - Paginable
     
     func retrievePage(page: Int) {
-        
         guard let userBuyer = buyer else { return }
         
         delegate?.vmDidStartRetrievingChatMessages(hasData: !loadedMessages.isEmpty)
@@ -978,8 +994,8 @@ public class OldChatViewModel: BaseViewModel, Paginable {
                     .addDisclaimers(mappedChatMessages, disclaimerMessage: strongSelf.messageSuspiciousDisclaimerMessage)
                 
                 if page == 0 {
-                    if let userDeletedMessage = strongSelf.userDeletedDisclaimerMessage {
-                        strongSelf.loadedMessages = [userDeletedMessage] + chatMessages
+                    if let bottomDisclaimerMessage = strongSelf.bottomDisclaimerMessage {
+                        strongSelf.loadedMessages = [bottomDisclaimerMessage] + chatMessages
                     } else {
                         strongSelf.loadedMessages = chatMessages
                     }
@@ -991,24 +1007,24 @@ public class OldChatViewModel: BaseViewModel, Paginable {
                     strongSelf.loadedMessages += [userInfoMessage]
                 }
 
-                if chat.forbidden {
-                    strongSelf.showDisclaimerMessage()
+                if strongSelf.chatStatus == .Forbidden {
+                    strongSelf.showScammerDisclaimerMessage()
                     strongSelf.delegate?.vmUpdateChatInteraction(false)
                 } else {
-                    strongSelf.delegate?.vmDidSucceedRetrievingChatMessages()
+                    strongSelf.delegate?.vmDidRefreshChatMessages()
                     strongSelf.afterRetrieveChatMessagesEvents()
                 }
             } else if let error = result.error {
                 switch (error) {
                 case .NotFound:
-                    //The chat doesn't exist yet, so this must be a new conversation!! this is success
+                    //The chat doesn't exist yet, so this must be a new conversation -> this is success
                     strongSelf.isLastPage = true
 
                     if let userInfoMessage = strongSelf.userInfoMessage {
                         strongSelf.loadedMessages = [userInfoMessage]
                     }
 
-                    strongSelf.delegate?.vmDidSucceedRetrievingChatMessages()
+                    strongSelf.delegate?.vmDidRefreshChatMessages()
                     strongSelf.afterRetrieveChatMessagesEvents()
                 case .Network, .Unauthorized, .Internal, .Forbidden, .TooManyRequests, .UserNotVerified:
                     strongSelf.delegate?.vmDidFailRetrievingChatMessages()
@@ -1085,7 +1101,7 @@ private extension OldChatViewModel {
             strongSelf.otherUser = userWaccounts
             if let userInfoMessage = strongSelf.userInfoMessage where strongSelf.shouldShowOtherUserInfo {
                 strongSelf.loadedMessages += [userInfoMessage]
-                strongSelf.delegate?.vmDidSucceedRetrievingChatMessages()
+                strongSelf.delegate?.vmDidRefreshChatMessages()
             }
         }
     }

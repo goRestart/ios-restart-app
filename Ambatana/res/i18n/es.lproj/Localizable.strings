@@ -61,7 +61,8 @@
 "chat_blocked_disclaimer_scammer_append_safety_tips_keyword" = "consejos de seguridad";
 "chat_blocked_disclaimer_scammer_w_name" = "Por razones de seguridad, el equipo de letgo ha eliminado la cuenta de %@ y estos mensajes se han borrado.";
 "chat_blocked_disclaimer_scammer_wo_name" = "Por razones de seguridad, el equipo de letgo ha eliminado esta cuenta y estos mensajes se han borrado.";
-"chat_connect_account_disblaimer" = "Los usuarios verificados reciben respuestas más rápidas. ¡Verifica tu cuenta ahora!";
+"chat_connect_account_disclaimer" = "Verified users get faster replies. Verify your account now!";
+"chat_connect_account_disclaimer_button" = "Verify now!";
 "chat_connect_accounts_message" = "Conéctate con Facebook o Google para verificar tu identidad.";
 "chat_connect_accounts_title" = "¡CREA CONFIANZA!";
 "chat_deleted_disclaimer_w_name" = "No puedes continuar esta conversación porque la cuenta de %@ ya no está activa.";

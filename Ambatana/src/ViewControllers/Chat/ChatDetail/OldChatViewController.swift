@@ -392,7 +392,7 @@ extension OldChatViewController: OldChatViewModelDelegate {
         }
     }
     
-    func vmDidSucceedRetrievingChatMessages() {
+    func vmDidRefreshChatMessages() {
         showActivityIndicator(false)
         tableView.reloadData()
     }

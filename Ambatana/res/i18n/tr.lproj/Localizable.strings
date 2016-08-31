@@ -61,7 +61,8 @@
 "chat_blocked_disclaimer_scammer_append_safety_tips_keyword" = "güvenlik önerilerimiz";
 "chat_blocked_disclaimer_scammer_w_name" = "Güvenlik nedeniyle, %@ isimli kullanıcının hesabı letgo ekibi tarafından silinmiştir ve bu mesajlar da kaldırılmıştır.";
 "chat_blocked_disclaimer_scammer_wo_name" = "Güvenlik nedeniyle, bu kullanıcının hesabı letgo ekibi tarafından silinmiştir ve bu mesajlar da kaldırılmıştır.";
-"chat_connect_account_disblaimer" = "Onaylı kullanıcılar daha hızlı yanıt alır. Hemen hesabını onayla!";
+"chat_connect_account_disclaimer" = "Verified users get faster replies. Verify your account now!";
+"chat_connect_account_disclaimer_button" = "Verify now!";
 "chat_connect_accounts_message" = "Hesabını onaylamak için Facebook veya Google ile bağlan";
 "chat_connect_accounts_title" = "GÜVEN KAZAN!";
 "chat_deleted_disclaimer_w_name" = "%@ isimli kullanıcının hesabı artık aktif olmadığı için bu sohbete devam edemezsin.";
