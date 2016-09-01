@@ -28,6 +28,7 @@ class CollectionCell: UICollectionViewCell, ReusableCell {
         contentView.clipsToBounds = true
         exploreButton.setStyle(.Primary(fontSize: .Small))
         exploreButton.setTitle(LGLocalizedString.collectionExploreButton, forState: .Normal)
+        exploreButton.titleLabel?.adjustsFontSizeToFitWidth = true
         setAccessibilityIds()
     }
 
