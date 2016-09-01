@@ -182,7 +182,9 @@ class SettingsViewModel: BaseViewModel {
         if commercializerEnabled {
             settings.append(.CreateCommercializer)
         }
-        settings.append(.ChangePassword)
+        if let email = myUser?.email where email.isEmail() {
+            settings.append(.ChangePassword)
+        }
         settings.append(.Help)
         settings.append(.LogOut)
 
