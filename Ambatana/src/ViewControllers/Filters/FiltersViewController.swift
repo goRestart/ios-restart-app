@@ -15,11 +15,15 @@ UICollectionViewDataSource, UICollectionViewDelegate {
     // Outlets & buttons
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var saveFiltersBtn: UIButton!
+
+    @IBOutlet weak var saveFiltersBtnContainer: UIView!
+    @IBOutlet weak var saveFiltersBtnContainerBottomConstraint: NSLayoutConstraint!
     
     // ViewModel
     private var viewModel : FiltersViewModel
     
     private let keyboardHelper: KeyboardHelper
+    private var tapRec: UITapGestureRecognizer?
 
     //Constants
     private let sections : [FilterSection] = FilterSection.allValues()
@@ -58,14 +62,14 @@ UICollectionViewDataSource, UICollectionViewDelegate {
         
         setupUi()
         setAccessibilityIds()
-        
+
         // Get categories
         viewModel.retrieveCategories()
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        view.endEditing(true)
     }
 
 
@@ -123,14 +127,16 @@ UICollectionViewDataSource, UICollectionViewDelegate {
     }
 
     func priceTextFieldValueActive(tag: Int) {
-        keyboardHelper.rx_keyboardOrigin.asObservable().bindNext { [weak self] origin in
-            guard let viewHeight = self?.view.height where viewHeight >= origin else { return }
-            guard let collectionView = self?.collectionView else { return }
-            collectionView.contentInset.bottom = viewHeight - origin
-            let indexPath = NSIndexPath(forItem: tag,inSection: FilterSection.Price.rawValue)
-            guard let activeCell = collectionView.cellForItemAtIndexPath(indexPath) as? FilterPriceCell else { return }
-            let activeCellFrame = activeCell.frame
-            collectionView.scrollRectToVisible(activeCellFrame, animated: true)
+        updateTapRecognizer(true)
+        keyboardHelper.rx_keyboardOrigin.asObservable().distinctUntilChanged().bindNext { [weak self] origin in
+
+            guard let viewHeight = self?.view.height, animationTime = self?.keyboardHelper.animationTime where
+                viewHeight >= origin else { return }
+            self?.saveFiltersBtnContainerBottomConstraint.constant = viewHeight - origin
+
+            UIView.animateWithDuration(Double(animationTime), animations: {
+                    self?.view.layoutIfNeeded()
+            })
         }.addDisposableTo(disposeBag)
     }
 
@@ -306,6 +312,23 @@ UICollectionViewDataSource, UICollectionViewDelegate {
         // Rounded save button
         saveFiltersBtn.setStyle(.Primary(fontSize: .Medium))
         saveFiltersBtn.setTitle(LGLocalizedString.filtersSaveButton, forState: UIControlState.Normal)
+
+        // hide keyboard on tap
+        tapRec = UITapGestureRecognizer(target: self, action: #selector(collectionTapped))
+    }
+
+    private dynamic func collectionTapped() {
+        view.endEditing(true)
+        updateTapRecognizer(false)
+    }
+
+    private func updateTapRecognizer(add: Bool) {
+        guard let tapRec = tapRec else { return }
+        if let recognizers = collectionView.gestureRecognizers where recognizers.contains(tapRec) {
+            collectionView.removeGestureRecognizer(tapRec)
+        }
+        guard add else { return }
+        collectionView.addGestureRecognizer(tapRec)
     }
 
     private func setAccessibilityIds() {
