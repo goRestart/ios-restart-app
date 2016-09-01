@@ -26,6 +26,10 @@ final class SocialHelper {
         return ProductSocialMessage(title: title, product: product, isMine: productIsMine)
     }
 
+    static func socialMessageUser(user: User, itsMe: Bool) -> SocialMessage {
+        return UserSocialMessage(user: user, itsMe: itsMe)
+    }
+
     static func socialMessageAppShare() -> SocialMessage {
         return AppShareSocialMessage()
     }

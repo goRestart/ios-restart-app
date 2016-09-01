@@ -330,6 +330,119 @@ struct AppShareSocialMessage: SocialMessage {
 }
 
 
+// MARK - User
+
+struct UserSocialMessage: SocialMessage {
+    let imageUrl: NSURL? = nil
+    static var utmCampaignValue = "app-invite-friend"
+
+
+    init(user: User, itsMe: Bool) {
+        
+    }
+
+    var nativeShareItems: [AnyObject]? {
+        guard let shareUrl = branchUrl(.Native) else { return nil }
+        return [shareUrl, LGLocalizedString.appShareMessageText]
+    }
+
+    var whatsappShareText: String {
+        return fullMessageWUrl(.Whatsapp)
+    }
+
+    var telegramShareText: String {
+        return fullMessageWUrl(.Telegram)
+    }
+
+    var smsShareText: String {
+        return fullMessageWUrl(.SMS)
+    }
+
+    var copyLinkText: String {
+        return branchUrl(.CopyLink)?.absoluteString ?? ""
+    }
+
+    var emailShareSubject: String {
+        return LGLocalizedString.appShareSubjectText
+    }
+
+    var emailShareBody: String {
+        var shareBody = LGLocalizedString.appShareMessageText
+        guard let urlString = branchUrl(.Email)?.absoluteString else { return shareBody }
+        shareBody += ":\n\n"
+        return shareBody + "<a href=\"" + urlString + "\">"+LGLocalizedString.appShareDownloadText+"</a>"
+    }
+
+    let emailShareIsHtml = true
+
+    var fbShareContent: FBSDKShareLinkContent {
+        let shareContent = FBSDKShareLinkContent()
+        shareContent.contentTitle = LGLocalizedString.appShareSubjectText
+        shareContent.contentDescription = LGLocalizedString.appShareMessageText
+        shareContent.contentURL = branchUrl(.Facebook)
+        shareContent.imageURL = NSURL(string: Constants.facebookAppInvitePreviewImageURL)
+        return shareContent
+    }
+
+    var fbMessengerShareContent: FBSDKShareLinkContent {
+        return fbShareContent
+    }
+
+    var twitterComposer: TWTRComposer {
+        let twitterComposer = TWTRComposer()
+        twitterComposer.setText(LGLocalizedString.appShareMessageText)
+        twitterComposer.setURL(branchUrl(.Twitter))
+        return twitterComposer
+    }
+
+    private func fullMessageWUrl(source: ShareSource) -> String {
+        let fullMessage = LGLocalizedString.appShareMessageText
+        let urlString = branchUrl(source)?.absoluteString ?? ""
+        return fullMessage.isEmpty ? urlString : fullMessage + ":\n" + urlString
+    }
+
+    private func branchUrl(source: ShareSource?) -> NSURL? {
+        let linkProperties = branchLinkProperties(source)
+        guard let branchUrl = branchObject.getShortUrlWithLinkProperties(linkProperties)
+            else { return NSURL(string: Constants.websiteURL) }
+        return NSURL(string: branchUrl)
+    }
+
+    private var branchObject: BranchUniversalObject {
+        let branchUniversalObject: BranchUniversalObject =
+            BranchUniversalObject(canonicalIdentifier: "app_share")
+        branchUniversalObject.title = LGLocalizedString.appShareSubjectText
+        branchUniversalObject.contentDescription = LGLocalizedString.appShareMessageText
+        branchUniversalObject.canonicalUrl = Constants.appWebsiteURL
+        if let imageURL = imageUrl?.absoluteString {
+            branchUniversalObject.imageUrl = imageURL
+        }
+        return branchUniversalObject
+    }
+
+    private func branchLinkProperties(source: ShareSource?) -> BranchLinkProperties {
+        let linkProperties = BranchLinkProperties()
+        linkProperties.feature = "app-invite-friend"
+        if let source = source {
+            linkProperties.channel = source.rawValue
+        }
+        linkProperties.tags = ["ios_app"]
+        linkProperties.addControlParam("$deeplink_path", withValue: "home")
+
+        let letgoUrlString = addCampaignInfoToString(Constants.websiteURL, source: source)
+        let letgoUrlStringAppStore = addCampaignInfoToString(Constants.appStoreURL, source: source)
+        let letgoUrlStringPlayStore = addCampaignInfoToString(Constants.playStoreURL, source: source)
+
+        linkProperties.addControlParam("$fallback_url", withValue: letgoUrlString)
+        linkProperties.addControlParam("$desktop_url", withValue: letgoUrlString)
+        linkProperties.addControlParam("$ios_url", withValue: letgoUrlStringAppStore)
+        linkProperties.addControlParam("$android_url", withValue: letgoUrlStringPlayStore)
+        return linkProperties
+    }
+
+}
+
+
 // MARK: - Commercializer
 
 struct CommercializerSocialMessage: SocialMessage {

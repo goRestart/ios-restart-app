@@ -182,6 +182,11 @@ extension UserViewController: UserViewModelDelegate {
     func vmShowUserActionSheet(cancelLabel: String, actions: [UIAction]) {
         showActionSheet(cancelLabel, actions: actions, barButtonItem: navigationItem.rightBarButtonItem)
     }
+
+    func vmShowNativeShare(socialMessage: SocialMessage) {
+        let barButtonItem = navigationItem.rightBarButtonItems?.first
+        presentNativeShare(socialMessage: socialMessage, delegate: viewModel, barButtonItem: barButtonItem)
+    }
 }
 
 
@@ -237,7 +242,7 @@ extension UserViewController {
         headerContainer?.header?.myUserFacebookButton.accessibilityId = .UserHeaderExpandedVerifyFacebookButton
         headerContainer?.header?.myUserGoogleButton.accessibilityId = .UserHeaderExpandedVerifyGoogleButton
         headerContainer?.header?.myUserEmailButton.accessibilityId = .UserHeaderExpandedVerifyEmailButton
-        headerContainer?.header?.buildTrustButton.accessibilityId = .UserHEaderExpandedBuildTrustButton
+        headerContainer?.header?.buildTrustButton.accessibilityId = .UserHeaderExpandedBuildTrustButton
         headerContainer?.header?.sellingButton.accessibilityId = .UserSellingTab
         headerContainer?.header?.soldButton.accessibilityId = .UserSoldTab
         headerContainer?.header?.favoritesButton.accessibilityId = .UserFavoritesTab

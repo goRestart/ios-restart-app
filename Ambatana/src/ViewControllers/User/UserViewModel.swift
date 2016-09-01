@@ -24,6 +24,7 @@ protocol UserViewModelDelegate: BaseViewModelDelegate {
     func vmOpenHome()
     func vmOpenRatingList(ratingListVM: UserRatingListViewModel)
     func vmShowUserActionSheet(cancelLabel: String, actions: [UIAction])
+    func vmShowNativeShare(socialMessage: SocialMessage)
 }
 
 class UserViewModel: BaseViewModel {
@@ -43,6 +44,7 @@ class UserViewModel: BaseViewModel {
     private let userRelationIsBlocked = Variable<Bool>(false)
     private let userRelationIsBlockedBy = Variable<Bool>(false)
     private let source: UserSource
+    private var socialMessage: SocialMessage? = nil
 
     private let sellingProductListViewModel: ProductListViewModel
     private let sellingProductListRequester: UserProductListRequester
@@ -213,6 +215,11 @@ extension UserViewModel {
     func pushPermissionsWarningPressed() {
         openPushPermissionsAlert()
     }
+
+    func shareButtonPressed() {
+        guard let socialMessage = socialMessage else { return }
+        delegate?.vmShowNativeShare(socialMessage)
+    }
 }
 
 
@@ -233,12 +240,20 @@ extension UserViewModel {
     private func buildNavBarButtons() -> [UIAction] {
         var navBarButtons = [UIAction]()
 
+        navBarButtons.append(buildShareNavBarAction())
         if isMyProfile {
             navBarButtons.append(buildSettingsNavBarAction())
         } else if sessionManager.loggedIn && !isMyUser {
             navBarButtons.append(buildMoreNavBarAction())
         }
         return navBarButtons
+    }
+
+    private func buildShareNavBarAction() -> UIAction {
+        let icon = UIImage(named: "navbar_share")?.imageWithRenderingMode(.AlwaysOriginal)
+        return UIAction(interface: .Image(icon), action: { [weak self] in
+            self?.shareButtonPressed()
+        }, accessibilityId: .UserNavBarShareButton)
     }
 
     private func buildSettingsNavBarAction() -> UIAction {
@@ -415,6 +430,7 @@ extension UserViewModel {
         setupUserRelationRxBindings()
         setupTabRxBindings()
         setupProductListViewRxBindings()
+        setupShareRxBindings()
     }
 
     private func setupUserInfoRxBindings() {
@@ -528,6 +544,16 @@ extension UserViewModel {
             self?.resetLists()
         }.addDisposableTo(disposeBag)
     }
+
+    private func setupShareRxBindings() {
+        user.asObservable().subscribeNext { [weak self] user in
+            guard let user = user, itsMe = self?.itsMe else {
+                self?.socialMessage = nil
+                return
+            }
+            self?.socialMessage = SocialHelper.socialMessageUser(user, itsMe: itsMe)
+        }.addDisposableTo(disposeBag)
+    }
 }
 
 
@@ -597,6 +623,17 @@ private extension UserViewModel {
         guard isMyProfile else { return }
         pushPermissionsDisabledWarning.value = !UIApplication.sharedApplication().isRegisteredForRemoteNotifications()
     }
+}
+
+
+// MARK: - Share delegate 
+
+extension UserViewModel: NativeShareDelegate {
+    //TODO trackings
+    func nativeShareInFacebook() {}
+    func nativeShareInTwitter() {}
+    func nativeShareInEmail() {}
+    func nativeShareInWhatsApp() {}
 }
 
 
