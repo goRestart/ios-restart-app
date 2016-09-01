@@ -102,7 +102,6 @@
                                 <constraint firstAttribute="height" constant="50" id="fXB-AP-lvS"/>
                             </constraints>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                            <inset key="contentEdgeInsets" minX="15" minY="0.0" maxX="15" maxY="0.0"/>
                             <state key="normal" title="Button"/>
                             <connections>
                                 <action selector="sendMessageButtonPressed:" destination="-1" eventType="touchUpInside" id="7k7-Gp-O2t"/>
