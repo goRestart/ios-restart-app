@@ -424,9 +424,9 @@ extension OldChatViewController: OldChatViewModelDelegate {
         showAutoFadingOutMessageAlert(LGLocalizedString.chatMessageLoadGenericError)
     }
     
-    func vmDidSucceedSendingMessage() {
+    func vmDidSucceedSendingMessage(index: Int) {
         tableView.beginUpdates()
-        let indexPath = NSIndexPath(forRow: 0, inSection: 0)
+        let indexPath = NSIndexPath(forRow: index, inSection: 0)
         tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
         tableView.endUpdates()
         tableView.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Top, animated: true)
