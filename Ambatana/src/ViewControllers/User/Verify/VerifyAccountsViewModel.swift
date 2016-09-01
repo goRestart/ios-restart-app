@@ -63,6 +63,13 @@ class VerifyAccountsViewModel: BaseViewModel {
         setupRx()
     }
 
+    override func didBecomeActive(firstTime: Bool) {
+        super.didBecomeActive(firstTime)
+        if firstTime {
+            trackStart()
+        }
+    }
+
 
     // MARK: - Public
 
@@ -183,6 +190,7 @@ private extension VerifyAccountsViewModel {
     }
 
     func verificationSuccess(verificationType: VerificationType) {
+        trackComplete(verificationType)
         delegate?.vmDismiss(nil)
     }
 }

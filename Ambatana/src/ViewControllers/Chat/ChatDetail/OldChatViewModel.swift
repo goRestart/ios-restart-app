@@ -19,7 +19,7 @@ protocol OldChatViewModelDelegate: BaseViewModelDelegate {
     func vmUpdateAfterReceivingMessagesAtPositions(positions: [Int], isUpdate: Bool)
     
     func vmDidFailSendingMessage()
-    func vmDidSucceedSendingMessage()
+    func vmDidSucceedSendingMessage(index: Int)
     
     func vmDidUpdateDirectAnswers()
     func vmShowRelatedProducts(productId: String?)
@@ -320,6 +320,15 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         }
         return false
     }
+    private var isShowingBottomDisclaimer: Bool {
+        guard let firstMessage = loadedMessages.first else { return false }
+        switch firstMessage.type {
+        case .Disclaimer:
+            return true
+        default:
+            return false
+        }
+    }
     private var shouldShowOtherUserInfo: Bool {
         guard chat.isSaved else { return true }
         return !isLoading && isLastPage
@@ -587,16 +596,10 @@ public class OldChatViewModel: BaseViewModel, Paginable {
 
     private func setupMyUserRx() {
         myUserRepository.rx_myUser.asObservable().skip(1).bindNext { [weak self] myUser in
-            guard let myUser = myUser, firstMessage = self?.loadedMessages.first else { return }
+            guard let myUser = myUser, isShowingDisclaimer = self?.isShowingBottomDisclaimer where isShowingDisclaimer else { return }
             guard myUser.isSocialVerified else { return }
-            //check and remove social advise
-            switch firstMessage.type {
-            case .Disclaimer:
-                self?.loadedMessages.removeFirst()
-                self?.delegate?.vmDidRefreshChatMessages()
-            default: break
-            }
-
+            self?.loadedMessages.removeFirst()
+            self?.delegate?.vmDidRefreshChatMessages()
         }.addDisposableTo(disposeBag)
     }
 
@@ -623,8 +626,9 @@ public class OldChatViewModel: BaseViewModel, Paginable {
                     strongSelf.trackQuestion(askQuestion, type: type)
                 }
                 let viewMessage = adapter.adapt(sentMessage)
-                strongSelf.loadedMessages.insert(viewMessage, atIndex: 0)
-                strongSelf.delegate?.vmDidSucceedSendingMessage()
+                let index = (self?.isShowingBottomDisclaimer ?? false) ? 1 : 0
+                strongSelf.loadedMessages.insert(viewMessage, atIndex: index)
+                strongSelf.delegate?.vmDidSucceedSendingMessage(index)
 
                 strongSelf.trackMessageSent(isQuickAnswer, type: type)
                 strongSelf.afterSendMessageEvents()
@@ -1020,9 +1024,14 @@ public class OldChatViewModel: BaseViewModel, Paginable {
                     //The chat doesn't exist yet, so this must be a new conversation -> this is success
                     strongSelf.isLastPage = true
 
-                    if let userInfoMessage = strongSelf.userInfoMessage {
-                        strongSelf.loadedMessages = [userInfoMessage]
+                    var initialMessages: [ChatViewMessage] = []
+                    if let bottomDisclaimerMessage = strongSelf.bottomDisclaimerMessage {
+                        initialMessages.append(bottomDisclaimerMessage)
                     }
+                    if let userInfoMessage = strongSelf.userInfoMessage {
+                        initialMessages.append(userInfoMessage)
+                    }
+                    strongSelf.loadedMessages = initialMessages
 
                     strongSelf.delegate?.vmDidRefreshChatMessages()
                     strongSelf.afterRetrieveChatMessagesEvents()
