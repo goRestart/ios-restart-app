@@ -2355,6 +2355,34 @@ struct LGLocalizedString {
 		return NSLocalizedString("unblock_user_error_generic", comment: "")
 	}
 
+	static var userShareNavbarButton: String {
+		return NSLocalizedString("user_share_navbar_button", comment: "")
+	}
+
+	static var userShareTitleTextMine: String {
+		return NSLocalizedString("user_share_title_text_mine", comment: "")
+	}
+
+	static var userShareTitleTextOther: String {
+		return NSLocalizedString("user_share_title_text_other", comment: "")
+	}
+
+	static func userShareTitleTextOtherWName(var1: String) -> String {
+		return String(format: NSLocalizedString("user_share_title_text_other_w_name", comment: ""), var1)
+	}
+
+	static var userShareMessageMine: String {
+		return NSLocalizedString("user_share_message_mine", comment: "")
+	}
+
+	static var userShareMessageOther: String {
+		return NSLocalizedString("user_share_message_other", comment: "")
+	}
+
+	static func userShareMessageOtherWName(var1: String) -> String {
+		return String(format: NSLocalizedString("user_share_message_other_w_name", comment: ""), var1)
+	}
+
 	static func userRatingMessageWName(var1: String) -> String {
 		return String(format: NSLocalizedString("user_rating_message_w_name", comment: ""), var1)
 	}

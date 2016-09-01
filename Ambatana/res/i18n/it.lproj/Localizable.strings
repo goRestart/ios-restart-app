@@ -594,3 +594,10 @@
 "user_rating_review_placeholder_optional" = "Raccontaci la tua esperienza (facoltativo)";
 "user_rating_review_send_success" = "La tua recensione è stata pubblicata!";
 "user_rating_title" = "Valuta la tua esperienza con";
+"user_share_message_mine" = "Take a look at everything I'm selling on letgo:";
+"user_share_message_other" = "Take a look at everything this seller has on letgo:";
+"user_share_message_other_w_name" = "Take a look at everything %@ is selling on letgo:";
+"user_share_navbar_button" = "Share";
+"user_share_title_text_mine" = "Check out my letgo profile!";
+"user_share_title_text_other" = "Check out this user's letgo profile!";
+"user_share_title_text_other_w_name" = "Check out %@'s letgo profile!";

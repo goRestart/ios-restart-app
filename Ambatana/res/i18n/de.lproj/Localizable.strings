@@ -6,7 +6,7 @@
 "app_share_email_button" = "Via E-Mail einladen";
 "app_share_fbmessenger_button" = "Via Messenger einladen";
 "app_share_invite_text" = "Einladen";
-"app_share_message_text" = "Ich habe gerade etwas auf letgo verkauft. Schau es dir mal an und verdiene bares Geld mit Sachen, die du nicht mehr brauchst...";
+"app_share_message_text" = "Schau dir die letgo-App an und verdiene bares Geld mit Sachen, die du nicht mehr brauchst!";
 "app_share_subject_text" = "Schau dir mal letgo an";
 "app_share_subtitle" = "Teile letgo mit deinen Freunden, damit unsere Community weiter wächst!";
 "app_share_subtitle_alternative" = "Teile letgo mit deinen Freunden, damit unsere Community weiter wächst!";
@@ -449,8 +449,8 @@
 "profile_blocked_by_me_label" = "Du hast diesen Nutzer blockiert";
 "profile_blocked_by_me_label_w_name" = "Du hast %@ blockiert";
 "profile_blocked_by_other_label" = "Du wurdest von diesem Nutzer blockiert";
-"profile_build_trust_button" = "Build Trust";
-"profile_connect_accounts_message" = "You still haven't verified your account with:";
+"profile_build_trust_button" = "Schaffe Vertrauen";
+"profile_connect_accounts_message" = "Du hast dein Benutzerkonto noch nicht verifiziert mit:";
 "profile_favourites_my_user_no_products_button" = "Mehr entdecken";
 "profile_favourites_my_user_no_products_label" = "(NOCH) KEINE FAVORITEN!";
 "profile_favourites_products_tab" = "Favoriten";
@@ -594,3 +594,10 @@
 "user_rating_review_placeholder_optional" = "Schreibe einen Erfahrungsbericht (optional)";
 "user_rating_review_send_success" = "Deine Bewertung wurde veröffentlicht!";
 "user_rating_title" = "Bewerte deine Transaktion mit";
+"user_share_message_mine" = "Take a look at everything I'm selling on letgo:";
+"user_share_message_other" = "Take a look at everything this seller has on letgo:";
+"user_share_message_other_w_name" = "Take a look at everything %@ is selling on letgo:";
+"user_share_navbar_button" = "Share";
+"user_share_title_text_mine" = "Check out my letgo profile!";
+"user_share_title_text_other" = "Check out this user's letgo profile!";
+"user_share_title_text_other_w_name" = "Check out %@'s letgo profile!";
