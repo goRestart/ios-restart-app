@@ -11,7 +11,9 @@ import LGCoreKit
 import RxSwift
 
 
-protocol VerifyAccountsViewModelDelegate: BaseViewModelDelegate {}
+protocol VerifyAccountsViewModelDelegate: BaseViewModelDelegate {
+    func vmResignResponders()
+}
 
 enum VerifyButtonState {
     case Hidden
@@ -21,24 +23,40 @@ enum VerifyButtonState {
 }
 
 enum VerifyAccountsSource {
-    case Chat
+    case Chat(description: String)
+    case Profile(description: String)
 }
 
 
 class VerifyAccountsViewModel: BaseViewModel {
     weak var delegate: VerifyAccountsViewModelDelegate?
 
+    var descriptionText: String {
+        return source.description
+    }
+
     let fbButtonState = Variable<VerifyButtonState>(.Hidden)
     let googleButtonState = Variable<VerifyButtonState>(.Hidden)
     let emailButtonState = Variable<VerifyButtonState>(.Hidden)
     private(set) var emailRequiresInput = false
-    let typedEmail = Variable<String?>(nil)
+    let typedEmail = Variable<String>("")
 
     private let googleHelper: GoogleLoginHelper
     private let myUserRepository: MyUserRepository
     private let tracker: Tracker
     private let source: VerifyAccountsSource
     private let types: [VerificationType]
+    private var userEmail: String? {
+        for type in types {
+            switch type {
+            case .Google, .Facebook:
+                continue
+            case let .Email(email):
+                return email
+            }
+        }
+        return nil
+    }
 
     private let disposeBag = DisposeBag()
 
@@ -74,20 +92,23 @@ class VerifyAccountsViewModel: BaseViewModel {
     // MARK: - Public
 
     func closeButtonPressed() {
+        delegate?.vmResignResponders()
         delegate?.vmDismiss(nil)
     }
 
     func googleButtonPressed() {
+        delegate?.vmResignResponders()
         connectWithGoogle()
     }
 
     func fbButtonPressed() {
+        delegate?.vmResignResponders()
         connectWithFacebook()
     }
 
     func emailButtonPressed() {
-        guard let email = typedEmail.value else { return }
-        emailVerification(email)
+        delegate?.vmResignResponders()
+        emailVerification()
     }
 
 
@@ -101,10 +122,7 @@ class VerifyAccountsViewModel: BaseViewModel {
             case .Facebook:
                 fbButtonState.value = .Enabled
             case let .Email(email):
-                if let email = email where !email.isEmpty {
-                    emailRequiresInput = false
-                }
-                typedEmail.value = email
+                emailRequiresInput = !(email ?? "").isEmail()
                 emailButtonState.value = .Enabled
             }
         }
@@ -112,11 +130,16 @@ class VerifyAccountsViewModel: BaseViewModel {
 
     private func setupRx() {
         guard emailRequiresInput && emailButtonState.value == .Enabled else { return }
-        typedEmail.asObservable().bindNext { [weak self] email in
-            guard let actionState = self?.emailButtonState where actionState.value != .Loading else { return }
-            let isEmail = email?.isEmail() ?? false
-            actionState.value = isEmail ? .Enabled : .Disabled
-        }.addDisposableTo(disposeBag)
+        typedEmail.asObservable()
+            .filter { [weak self] _ in
+                guard let actionState = self?.emailButtonState else { return false }
+                return actionState.value != .Loading
+            }
+            .map{ ($0 ?? "").isEmail() ? VerifyButtonState.Enabled : VerifyButtonState.Disabled }
+            .bindNext { [weak self] state in
+                guard let actionState = self?.emailButtonState else { return }
+                actionState.value = state
+            }.addDisposableTo(disposeBag)
     }
 }
 
@@ -168,7 +191,9 @@ private extension VerifyAccountsViewModel {
         }
     }
 
-    func emailVerification(email: String) {
+    func emailVerification() {
+        let email = userEmail ?? typedEmail.value
+        guard email.isEmail() else { return }
         emailButtonState.value = .Loading
         myUserRepository.linkAccount(email) { [weak self] result in
             self?.emailButtonState.value = .Enabled
@@ -215,6 +240,8 @@ private extension VerifyAccountsSource {
         switch self {
         case .Chat:
             return .Chat
+        case .Profile:
+            return .Profile
         }
     }
 
@@ -222,6 +249,17 @@ private extension VerifyAccountsSource {
         switch self {
         case .Chat:
             return .Chats
+        case .Profile:
+            return .Profile
+        }
+    }
+
+    var description: String {
+        switch self {
+        case let .Chat(description):
+            return description
+        case let .Profile(description):
+            return description
         }
     }
 }

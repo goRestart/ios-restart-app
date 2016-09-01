@@ -20,7 +20,7 @@
 "app_share_fbmessenger_button" = "Invite via Messenger";
 
 // App share message sent when sharing (above the actual share link)
-"app_share_message_text" = "I just sold something on letgo! You should check it out too and make cash from stuff you don't use anymore...";
+"app_share_message_text" = "Check out the letgo app and make cash selling stuff you don't use anymore!";
 
 // App share subject (when sending mail)
 "app_share_subject_text" = "Check out letgo";
@@ -1433,6 +1433,12 @@
 
 // Verify popup to link with google
 "profile_verify_google_title" = "GOOGLE";
+
+// Button to verify accounts
+"profile_build_trust_button" = "Build Trust";
+
+// Text to verify accounts
+"profile_connect_accounts_message" = "You still haven't verified your account with:";
 
 // action for user to report a review by another user
 "rating_list_action_report_review" = "Report review";

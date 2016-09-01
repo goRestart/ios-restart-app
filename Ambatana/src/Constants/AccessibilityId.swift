@@ -374,6 +374,7 @@ enum AccessibilityId: String {
     case UserHeaderExpandedVerifyFacebookButton
     case UserHeaderExpandedVerifyGoogleButton
     case UserHeaderExpandedVerifyEmailButton
+    case UserHEaderExpandedBuildTrustButton
     case UserEnableNotificationsButton
     case UserSellingTab
     case UserSoldTab

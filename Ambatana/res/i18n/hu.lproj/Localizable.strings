@@ -449,6 +449,8 @@
 "profile_blocked_by_me_label" = "Ezt a felhasználót blokkoltad";
 "profile_blocked_by_me_label_w_name" = "%@ felhasználót blokkoltad";
 "profile_blocked_by_other_label" = "Ez a felhasználó blokkolt téged";
+"profile_build_trust_button" = "Build Trust";
+"profile_connect_accounts_message" = "You still haven't verified your account with:";
 "profile_favourites_my_user_no_products_button" = "Tovább böngészek";
 "profile_favourites_my_user_no_products_label" = "NINCSENEK KEDVENCEK (EGYELŐRE!)";
 "profile_favourites_products_tab" = "Kedvencek";

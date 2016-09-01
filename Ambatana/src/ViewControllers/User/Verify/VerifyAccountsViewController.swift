@@ -13,6 +13,7 @@ import RxCocoa
 class VerifyAccountsViewController: BaseViewController, GIDSignInUIDelegate {
 
     @IBOutlet weak var contentContainer: UIView!
+    @IBOutlet weak var contentContainerCenterY: NSLayoutConstraint!
     @IBOutlet weak var backgroundButton: UIButton!
     @IBOutlet weak var closeButton: UIButton!
     @IBOutlet weak var titleLabel: UILabel!
@@ -41,12 +42,18 @@ class VerifyAccountsViewController: BaseViewController, GIDSignInUIDelegate {
     private let emailContainerInvisibleMargin: CGFloat = 10
 
     private let viewModel: VerifyAccountsViewModel
+    private let keyboardHelper: KeyboardHelper
 
 
     // MARK: - View Lifecycle
 
-    init(viewModel: VerifyAccountsViewModel) {
+    convenience init(viewModel: VerifyAccountsViewModel) {
+        self.init(viewModel: viewModel, keyboardHelper: KeyboardHelper.sharedInstance)
+    }
+
+    init(viewModel: VerifyAccountsViewModel, keyboardHelper: KeyboardHelper) {
         self.viewModel = viewModel
+        self.keyboardHelper = keyboardHelper
         super.init(viewModel: viewModel, nibName: "VerifyAccountsViewController", statusBarStyle: .LightContent)
         viewModel.delegate = self
         modalPresentationStyle = .OverCurrentContext
@@ -80,9 +87,10 @@ class VerifyAccountsViewController: BaseViewController, GIDSignInUIDelegate {
         emailButton.layer.cornerRadius = emailButton.height/2
         emailContainer.layer.cornerRadius = emailContainer.height/2
         emailTextFieldButton.layer.cornerRadius = emailTextFieldButton.height/2
+        emailTextField.placeholder = LGLocalizedString.profileVerifyEmailButton
 
         titleLabel.text = LGLocalizedString.chatConnectAccountsTitle
-        descriptionLabel.text = LGLocalizedString.chatConnectAccountsMessage
+        descriptionLabel.text = viewModel.descriptionText
 
         fbButton.setTitle(LGLocalizedString.profileVerifyFacebookButton, forState: .Normal)
         googleButton.setTitle(LGLocalizedString.profileVerifyGoogleButton, forState: .Normal)
@@ -116,7 +124,6 @@ class VerifyAccountsViewController: BaseViewController, GIDSignInUIDelegate {
         } else {
             viewModel.emailButtonState.asObservable().bindTo(emailButton.rx_veryfy_state).addDisposableTo(disposeBag)
         }
-        //TODO: email setup missing as is not part of the current task, will be done as part of: https://ambatana.atlassian.net/browse/ABIOS-1545
 
         backgroundButton.rx_tap.bindNext { [weak self] in self?.viewModel.closeButtonPressed() }.addDisposableTo(disposeBag)
         closeButton.rx_tap.bindNext { [weak self] in self?.viewModel.closeButtonPressed() }.addDisposableTo(disposeBag)
@@ -124,13 +131,25 @@ class VerifyAccountsViewController: BaseViewController, GIDSignInUIDelegate {
         googleButton.rx_tap.bindNext { [weak self] in self?.viewModel.googleButtonPressed() }.addDisposableTo(disposeBag)
         emailButton.rx_tap.bindNext { [weak self] in self?.viewModel.emailButtonPressed() }.addDisposableTo(disposeBag)
         emailTextFieldButton.rx_tap.bindNext { [weak self] in self?.viewModel.emailButtonPressed() }.addDisposableTo(disposeBag)
+        emailTextField.rx_text.bindTo(viewModel.typedEmail).addDisposableTo(disposeBag)
+
+        keyboardHelper.rx_keyboardOrigin.asObservable().skip(1).distinctUntilChanged().bindNext { [weak self] origin in
+            guard let viewHeight = self?.view.height, animationTime = self?.keyboardHelper.animationTime
+                where viewHeight >= origin else { return }
+            self?.contentContainerCenterY.constant = -((viewHeight - origin)/2)
+            UIView.animateWithDuration(Double(animationTime), animations: {[weak self] in self?.view.layoutIfNeeded()})
+        }.addDisposableTo(disposeBag)
     }
 }
 
 
 // MARK: - VerifyAccountsViewModelDelegate
 
-extension VerifyAccountsViewController: VerifyAccountsViewModelDelegate {}
+extension VerifyAccountsViewController: VerifyAccountsViewModelDelegate {
+    func vmResignResponders() {
+        emailTextField.resignFirstResponder()
+    }
+}
 
 
 // MARK: - Accesibility

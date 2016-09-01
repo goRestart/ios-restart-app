@@ -449,6 +449,8 @@
 "profile_blocked_by_me_label" = "Den här användaren har blockerats av dig";
 "profile_blocked_by_me_label_w_name" = "%@ har blockerats av dig";
 "profile_blocked_by_other_label" = "Denna användare har blockerat dig";
+"profile_build_trust_button" = "Build Trust";
+"profile_connect_accounts_message" = "You still haven't verified your account with:";
 "profile_favourites_my_user_no_products_button" = "Surfa vidare";
 "profile_favourites_my_user_no_products_label" = "INGA FAVORITER (ÄNNU!)";
 "profile_favourites_products_tab" = "Favoriter";

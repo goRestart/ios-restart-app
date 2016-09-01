@@ -16,6 +16,7 @@ protocol UserViewHeaderDelegate: class {
     func facebookAccountAction()
     func googleAccountAction()
     func emailAccountAction()
+    func buildTrustAction()
 }
 
 enum UserViewHeaderMode {
@@ -29,12 +30,17 @@ enum UserViewHeaderTab: Int {
 class UserViewHeader: UIView {
     private static let bgViewMaxHeight: CGFloat = 165
 
-    private static let otherAccountWidth: CGFloat = 22
-    private static let otherAccountHeight: CGFloat = 28
-    private static let otherAccountEmptyHeight: CGFloat = 20
+    private static let simpleButtonWidth: CGFloat = 22
+    private static let simpleContainerHeight: CGFloat = 28
+    private static let simpleContainerEmptyHeight: CGFloat = 20
+    private static let simpleContainerVisibleItemsWidth: CGFloat = 500
 
     private static let ratingCountContainerLeadingVisible: CGFloat = 15
     private static let ratingCountContainerTrailingVisible: CGFloat = 20
+
+    private static let buildTrustButtonSmallHeight: CGFloat = 30
+    private static let buildTrustButtonBigHeight: CGFloat = 44
+    private static let buildTrustSeparatorSpace: CGFloat = 30
 
     @IBOutlet weak var avatarRatingsContainerView: UIView!
     @IBOutlet weak var avatarImageView: UIImageView!
@@ -52,13 +58,20 @@ class UserViewHeader: UIView {
     @IBOutlet weak var userRelationView: UIView!
     @IBOutlet weak var userRelationLabel: UILabel!
 
-    @IBOutlet weak var verifiedOtherUserView: UIView!
-    @IBOutlet weak var verifiedOtherUserViewHeight: NSLayoutConstraint!
-    @IBOutlet weak var verifiedOtherUserTitle: UILabel!
+    @IBOutlet weak var verifiedSimpleContainer: UIView!
+    @IBOutlet weak var verifiedSimpleContainerHeight: NSLayoutConstraint!
+    @IBOutlet weak var verifiedSimpleContainerWidth: NSLayoutConstraint!
+    @IBOutlet weak var verifiedSimpleTitle: UILabel!
 
-    @IBOutlet weak var otherFacebookButtonWidth: NSLayoutConstraint!
-    @IBOutlet weak var otherGoogleButtonWidth: NSLayoutConstraint!
-    @IBOutlet weak var otherEmailButtonWidth: NSLayoutConstraint!
+    @IBOutlet weak var simpleFacebookButtonWidth: NSLayoutConstraint!
+    @IBOutlet weak var simpleGoogleButtonWidth: NSLayoutConstraint!
+    @IBOutlet weak var simpleEmailButtonWidth: NSLayoutConstraint!
+
+    @IBOutlet weak var buildTrustSeparator: UIView!
+    @IBOutlet var buildTrustSeparatorSpace: [NSLayoutConstraint]!
+    @IBOutlet weak var buildTrustButton: UIButton!
+    @IBOutlet weak var buildTrustButtonHeight: NSLayoutConstraint!
+    @IBOutlet weak var buildTrustButtonWidth: NSLayoutConstraint!
 
     @IBOutlet weak var verifiedMyUserView: UIView!
     @IBOutlet weak var verifiedMyUserTitle: UILabel!
@@ -67,12 +80,7 @@ class UserViewHeader: UIView {
     @IBOutlet weak var myUserEmailButton: UIButton!
 
     private var verifiedView: UIView {
-        switch mode {
-        case .MyUser:
-            return verifiedMyUserView
-        case .OtherUser:
-            return verifiedOtherUserView
-        }
+        return mode.simpleVerifyButtons ? verifiedSimpleContainer : verifiedMyUserView
     }
 
     @IBOutlet weak var sellingButton: UIButton!
@@ -89,21 +97,24 @@ class UserViewHeader: UIView {
 
     var mode: UserViewHeaderMode = .MyUser {
         didSet {
-            switch mode {
-            case .MyUser:
-                verifiedOtherUserView.hidden = true
-                verifiedMyUserView.hidden = false
-                
-                sellingButtonWidthConstraint.constant = 0
-            case .OtherUser:
-                verifiedOtherUserView.hidden = false
-                verifiedMyUserView.hidden = true
+            let simple = mode.simpleVerifyButtons
+            verifiedSimpleContainer.hidden = !simple
+            verifiedMyUserView.hidden = simple
+            if mode.showSelling {
                 let currentWidth = sellingButtonWidthConstraint.multiplier * frame.width
                 let halfWidth = 0.5 * frame.width
                 sellingButtonWidthConstraint.constant = halfWidth - currentWidth
+            } else {
+                sellingButtonWidthConstraint.constant = 0
             }
             updateInfoAndAccountsVisibility()
         }
+    }
+
+    var buildTrustButtonVisible: Bool {
+        guard mode.buildTrustMode else { return false }
+        guard let accounts = accounts else { return true }
+        return !(accounts.emailVerified && accounts.facebookVerified && accounts.googleVerified)
     }
 
     var accounts: UserViewHeaderAccounts? {
@@ -130,7 +141,7 @@ class UserViewHeader: UIView {
                 let alpha: CGFloat = strongSelf.collapsed ? 0 : 1
                 strongSelf.avatarRatingsContainerView.alpha = alpha
                 strongSelf.userRelationView.alpha = alpha
-                strongSelf.verifiedOtherUserView.alpha = alpha
+                strongSelf.verifiedSimpleContainer.alpha = alpha
                 strongSelf.verifiedMyUserView.alpha = alpha
             }, completion: nil)
 
@@ -155,13 +166,12 @@ class UserViewHeader: UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
 
-        switch mode {
-        case .MyUser:
-            sellingButtonWidthConstraint.constant = 0
-        case .OtherUser:
+        if mode.showSelling {
             let currentWidth = sellingButtonWidthConstraint.multiplier * frame.width
             let halfWidth = 0.5 * frame.width
             sellingButtonWidthConstraint.constant = halfWidth - currentWidth
+        } else {
+            sellingButtonWidthConstraint.constant = 0
         }
 
         updateUI()
@@ -220,53 +230,60 @@ extension UserViewHeader {
         userRelationView.hidden = infoViewHidden
         verifiedView.hidden = verifiedViewHidden
 
-        switch mode {
-        case .MyUser:
-            break
-        case .OtherUser:
-            let anyAccountVerified = fbV || gV || eV
-            verifiedOtherUserTitle.text = anyAccountVerified ? LGLocalizedString.profileVerifiedAccountsOtherUser : ""
-            verifiedOtherUserViewHeight.constant = anyAccountVerified ? UserViewHeader.otherAccountHeight :
-                UserViewHeader.otherAccountEmptyHeight
+        let anyAccountVerified = fbV || gV || eV
+        if mode.simpleVerifyButtons {
+            verifiedSimpleTitle.text = anyAccountVerified ? LGLocalizedString.profileVerifiedAccountsOtherUser : ""
+            verifiedSimpleContainerHeight.constant = anyAccountVerified ? UserViewHeader.simpleContainerHeight :
+                UserViewHeader.simpleContainerEmptyHeight
+            verifiedSimpleContainerWidth.constant = anyAccountVerified ? UserViewHeader.simpleContainerVisibleItemsWidth : 0
+        }
+
+        if buildTrustButtonVisible {
+            buildTrustSeparatorSpace.forEach { $0.constant = anyAccountVerified ? UserViewHeader.buildTrustSeparatorSpace : 0 }
+            buildTrustSeparator.hidden = !anyAccountVerified
+            buildTrustButtonWidth.constant = UserViewHeader.simpleContainerVisibleItemsWidth
+            updateBuildTrustButton(big: !anyAccountVerified)
+        } else {
+            buildTrustSeparator.hidden = true
+            buildTrustSeparatorSpace.forEach { $0.constant = 0 }
+            buildTrustButtonWidth.constant = 0
+            buildTrustButtonHeight.constant = 0
         }
     }
 
     private func setFacebookAccount(isLinked: Bool, isVerified: Bool) {
         let on = isLinked && isVerified
-        switch mode {
-        case .MyUser:
+        if mode.simpleVerifyButtons {
+            simpleFacebookButtonWidth.constant = on ? UserViewHeader.simpleButtonWidth : 0
+        } else {
             let image = UIImage(named: on ? "ic_user_private_fb_on" : "ic_user_private_fb_off")
             myUserFacebookButton.setImage(image, forState: .Normal)
             myUserFacebookButton.setImage(image, forState: .Disabled)
             myUserFacebookButton.enabled = !on
-        case .OtherUser:
-            otherFacebookButtonWidth.constant = on ? UserViewHeader.otherAccountWidth : 0
         }
     }
 
     private func setGoogleAccount(isLinked: Bool, isVerified: Bool) {
         let on = isLinked && isVerified
-        switch mode {
-        case .MyUser:
+        if mode.simpleVerifyButtons {
+            simpleGoogleButtonWidth.constant = on ? UserViewHeader.simpleButtonWidth : 0
+        } else {
             let image = UIImage(named: on ? "ic_user_private_google_on" : "ic_user_private_google_off")
             myUserGoogleButton.setImage(image, forState: .Normal)
             myUserGoogleButton.setImage(image, forState: .Disabled)
             myUserGoogleButton.enabled = !on
-        case .OtherUser:
-            otherGoogleButtonWidth.constant = on ? UserViewHeader.otherAccountWidth : 0
         }
     }
 
     private func setEmailAccount(isLinked: Bool, isVerified: Bool) {
         let on = isLinked && isVerified
-        switch mode {
-        case .MyUser:
+        if mode.simpleVerifyButtons {
+            simpleEmailButtonWidth.constant = on ? UserViewHeader.simpleButtonWidth : 0
+        } else {
             let image = UIImage(named: on ? "ic_user_private_email_on" : "ic_user_private_email_off")
             myUserEmailButton.setImage(image, forState: .Normal)
             myUserEmailButton.setImage(image, forState: .Disabled)
             myUserEmailButton.enabled = !on
-        case .OtherUser:
-            otherEmailButtonWidth.constant = on ? UserViewHeader.otherAccountWidth : 0
         }
     }
 }
@@ -312,10 +329,12 @@ extension UserViewHeader {
         verifiedMyUserTitle.textColor = UIColor.grayDark
         verifiedMyUserTitle.font = UIFont.mediumBodyFontLight
 
-        verifiedOtherUserView.hidden = true
-        verifiedOtherUserTitle.text = nil
-        verifiedOtherUserTitle.textColor = UIColor.grayDark
-        verifiedOtherUserTitle.font = UIFont.mediumBodyFontLight
+        verifiedSimpleContainer.hidden = true
+        verifiedSimpleTitle.text = nil
+        verifiedSimpleTitle.textColor = UIColor.grayDark
+        verifiedSimpleTitle.font = UIFont.mediumBodyFontLight
+
+        buildTrustButton.setTitle(LGLocalizedString.profileBuildTrustButton, forState: .Normal)
     }
 
     private func setupButtons() {
@@ -394,6 +413,13 @@ extension UserViewHeader {
             layoutIfNeeded()
         }
     }
+
+    private func updateBuildTrustButton(big big: Bool) {
+        buildTrustButtonHeight.constant = big ? UserViewHeader.buildTrustButtonBigHeight : UserViewHeader.buildTrustButtonSmallHeight
+        buildTrustButton.setStyle(.Secondary(fontSize: big ? .Medium : .Small, withBorder: true))
+        buildTrustButton.layer.cornerRadius = buildTrustButtonHeight.constant / 2
+        buildTrustButton.setImage(UIImage(named: big ? "ic_build_trust" : "ic_build_trust_small"), forState: .Normal)
+    }
 }
 
 
@@ -448,5 +474,39 @@ extension UserViewHeader {
         myUserEmailButton.rx_tap.subscribeNext { [weak self] in
             self?.delegate?.emailAccountAction()
         }.addDisposableTo(disposeBag)
+
+        buildTrustButton.rx_tap.bindNext { [weak self] in
+            self?.delegate?.buildTrustAction()
+        }.addDisposableTo(disposeBag)
+    }
+}
+
+
+private extension UserViewHeaderMode {
+    var simpleVerifyButtons: Bool {
+        switch self {
+        case .MyUser:
+            return FeatureFlags.profileVerifyOneButton
+        case .OtherUser:
+            return true
+        }
+    }
+
+    var showSelling: Bool {
+        switch self {
+        case .MyUser:
+            return false
+        case .OtherUser:
+            return true
+        }
+    }
+
+    var buildTrustMode: Bool {
+        switch self {
+        case .MyUser:
+            return FeatureFlags.profileVerifyOneButton
+        case .OtherUser:
+            return false
+        }
     }
 }

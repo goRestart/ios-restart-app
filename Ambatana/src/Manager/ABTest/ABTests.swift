@@ -19,10 +19,11 @@ public struct ABTests {
     static var postingDetailsMode = IntABDynamicVar(key: "postingDetailsMode", defaultValue: 0)
     static var showInviteHeartIcon = BoolABDynamicVar(key: "showInviteHeartIcon", defaultValue: false)
     static var showNPSSurvey = BoolABDynamicVar(key: "showNPSSurvey", defaultValue: false)
+    static var profileVerifyOneButton = BoolABDynamicVar(key: "profileVerifyOneButton", defaultValue: false)
     
     static private var allVariables: [ABVariable] {
-        return [bigFavoriteIcon, showRelatedProducts, showPriceOnListings, directStickersOnProduct, postingDetailsMode, showInviteHeartIcon,
-                showNPSSurvey]
+        return [bigFavoriteIcon, showRelatedProducts, showPriceOnListings, directStickersOnProduct, postingDetailsMode,
+                showInviteHeartIcon, showNPSSurvey, profileVerifyOneButton]
     }
 
     static func registerVariables() {

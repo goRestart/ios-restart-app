@@ -193,6 +193,23 @@ extension UserViewModel {
         delegate?.vmOpenVerifyAccount(vm)
     }
 
+    func buildTrustButtonPressed() {
+        guard let userAccounts = userAccounts.value where isMyProfile else { return }
+        var verifyTypes: [VerificationType] = []
+        if !userAccounts.emailVerified {
+            verifyTypes.append(.Email(myUserRepository.myUser?.email))
+        }
+        if !userAccounts.facebookVerified {
+            verifyTypes.append(.Facebook)
+        }
+        if !userAccounts.googleVerified {
+            verifyTypes.append(.Google)
+        }
+        guard !verifyTypes.isEmpty else { return }
+        tabNavigator?.openVerifyAccounts(verifyTypes,
+                                         source: .Profile(description: LGLocalizedString.profileConnectAccountsMessage))
+    }
+
     func pushPermissionsWarningPressed() {
         openPushPermissionsAlert()
     }

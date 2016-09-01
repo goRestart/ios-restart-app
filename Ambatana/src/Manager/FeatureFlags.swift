@@ -82,6 +82,13 @@ struct FeatureFlags {
         }
         return ABTests.showInviteHeartIcon.value
     }
+
+    static var profileVerifyOneButton: Bool {
+        if FTSFlipTheSwitch.overridesABTests {
+            return FTSFlipTheSwitch.profileVerifyOneButton
+        }
+        return ABTests.profileVerifyOneButton.value
+    }
 }
 
 private extension FTSFlipTheSwitch {
@@ -131,5 +138,9 @@ private extension FTSFlipTheSwitch {
 
     static var showNPSSurvey: Bool {
         return FTSFlipTheSwitch.sharedInstance().isFeatureEnabled("show_nps_survey")
+    }
+
+    static var profileVerifyOneButton: Bool {
+        return FTSFlipTheSwitch.sharedInstance().isFeatureEnabled("profile_verify_one_button")
     }
 }
