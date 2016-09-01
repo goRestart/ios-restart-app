@@ -88,6 +88,17 @@ enum ButtonStyle {
     }
     
     var titleFont: UIFont {
+        switch fontSize {
+        case .Big:
+            return UIFont.bigButtonFont
+        case .Medium:
+            return UIFont.mediumButtonFont
+        case .Small:
+            return UIFont.smallButtonFont
+        }
+    }
+
+    private var fontSize: ButtonFontSize {
         var fontSize = ButtonFontSize.Big
         switch self {
         case let .Primary(size):
@@ -103,15 +114,7 @@ enum ButtonStyle {
         case .Review:
             fontSize = .Small
         }
-        
-        switch fontSize {
-        case .Big:
-            return UIFont.bigButtonFont
-        case .Medium:
-            return UIFont.mediumButtonFont
-        case .Small:
-            return UIFont.smallButtonFont
-        }
+        return fontSize
     }
     
     var withBorder: Bool {
@@ -120,6 +123,15 @@ enum ButtonStyle {
             return false
         case let .Secondary(_, withBorder):
             return withBorder
+        }
+    }
+
+    var sidePadding: CGFloat {
+        switch fontSize {
+        case .Big:
+            return 15
+        case .Medium, .Small:
+            return 10
         }
     }
 }
@@ -163,5 +175,9 @@ extension UIButton {
         
         titleLabel?.font = style.titleFont
         setTitleColor(style.titleColor, forState: .Normal)
+        let padding = style.sidePadding
+        let left = contentEdgeInsets.left < padding ? padding : contentEdgeInsets.left
+        let right = contentEdgeInsets.right < padding ? padding : contentEdgeInsets.right
+        contentEdgeInsets = UIEdgeInsets(top: 0, left: left, bottom: 0, right: right)
     }
 }
