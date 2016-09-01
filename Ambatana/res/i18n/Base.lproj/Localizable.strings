@@ -1750,6 +1750,27 @@
 // Text for unsuccessful user unblock
 "unblock_user_error_generic" = "An error occurred while unblocking this user.";
 
+// Share button on my profile
+"user_share_navbar_button" = "Share";
+
+// Message when sharing my profile on social networks/email/etc
+"user_share_title_text_mine" = "Check out my letgo profile!";
+
+// Message when sharing a user profile on social networks/email/etc
+"user_share_title_text_other" = "Check out this user's letgo profile!";
+
+// Message when sharing a user profile on social networks/email/etc
+"user_share_title_text_other_w_name" = "Check out %@'s letgo profile!";
+
+// Message when sharing my profile on social networks/email/etc
+"user_share_message_mine" = "Take a look at everything I'm selling on letgo:";
+
+// Message when sharing a user profile on social networks/email/etc
+"user_share_message_other" = "Take a look at everything this seller has on letgo:";
+
+// Message when sharing a user profile on social networks/email/etc
+"user_share_message_other_w_name" = "Take a look at everything %@ is selling on letgo:";
+
 // Information message when rating a user
 "user_rating_message_w_name" = "Does your experience with %@ get five stars? Tell us how it went.";
 

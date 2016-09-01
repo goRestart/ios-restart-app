@@ -6,7 +6,7 @@
 "app_share_email_button" = "Προσκαλέστε μέσω Email";
 "app_share_fbmessenger_button" = "Προσκαλέστε μέσω Messenger";
 "app_share_invite_text" = "Προσκαλέστε";
-"app_share_message_text" = "Μόλις πούλησα κάτι στο letgo! Δείτε το και κερδίστε κι εσείς μετρητά από πράγματα που δε χρησιμοποιείτε πια...";
+"app_share_message_text" = "Δείτε το letgo και κερδίστε κι εσείς μετρητά πουλώντας πράγματα που δε χρησιμοποιείτε πια!";
 "app_share_subject_text" = "Τσεκάρετε το letgo";
 "app_share_subtitle" = "Προσκαλέστε τους φίλους σας στο letgo και βοηθήστε μας να μεγαλώσουμε την κοινότητά μας!";
 "app_share_subtitle_alternative" = "Μοιραστείτε το letgo με τους φίλους σας και βοηθήστε μας να μεγαλώσουμε την κοινότητά μας!";
@@ -449,8 +449,8 @@
 "profile_blocked_by_me_label" = "Έχετε μπλοκάρει αυτό το χρήστη";
 "profile_blocked_by_me_label_w_name" = "Έχετε μπλοκάρει τον %@";
 "profile_blocked_by_other_label" = "Ο χρήστης αυτός σας έχει μπλοκάρει";
-"profile_build_trust_button" = "Build Trust";
-"profile_connect_accounts_message" = "You still haven't verified your account with:";
+"profile_build_trust_button" = "Κερδίστε Εμπιστοσύνη";
+"profile_connect_accounts_message" = "Δεν έχετε επιβεβαιώσει ακόμη το λογαριασμό με:";
 "profile_favourites_my_user_no_products_button" = "Συνεχίστε την πλοήγηση";
 "profile_favourites_my_user_no_products_label" = "ΚΑΝΕΝΑ ΑΓΑΠΗΜΕΝΟ (ΑΚΟΜΗ!)";
 "profile_favourites_products_tab" = "Αγαπημένα";
@@ -594,3 +594,10 @@
 "user_rating_review_placeholder_optional" = "Γράψτε για την εμπειρία σας (προαιρετικό)";
 "user_rating_review_send_success" = "Η κριτική σας έχει δημοσιευθεί!";
 "user_rating_title" = "Αναφέρετε την εμπειρία σας με";
+"user_share_message_mine" = "Take a look at everything I'm selling on letgo:";
+"user_share_message_other" = "Take a look at everything this seller has on letgo:";
+"user_share_message_other_w_name" = "Take a look at everything %@ is selling on letgo:";
+"user_share_navbar_button" = "Share";
+"user_share_title_text_mine" = "Check out my letgo profile!";
+"user_share_title_text_other" = "Check out this user's letgo profile!";
+"user_share_title_text_other_w_name" = "Check out %@'s letgo profile!";

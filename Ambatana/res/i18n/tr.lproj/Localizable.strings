@@ -6,7 +6,7 @@
 "app_share_email_button" = "Email ile davet et";
 "app_share_fbmessenger_button" = "Messenger ile davet et";
 "app_share_invite_text" = "Davet Et";
-"app_share_message_text" = "Kısa süre önce letgo'da bir şeyler sattım! Kullanmadığın şeyleri nakite çevirmek için sen de göz atmalısın...";
+"app_share_message_text" = "Letgo uygulamasına bir göz at ve kullanmadığın şeyleri satarak para kazan!";
 "app_share_subject_text" = "letgo'yu denemelisin";
 "app_share_subtitle" = "Arkadaşlarını letgo'ya davet ederek büyümemize yardımcı olabilirisin!";
 "app_share_subtitle_alternative" = "Letgo'yu arkadaşlarınla paylaş ve büyümemize yardımcı ol!";
@@ -449,8 +449,8 @@
 "profile_blocked_by_me_label" = "Bu kullanıcıyı engelledin";
 "profile_blocked_by_me_label_w_name" = "%@ isimli kullanıcıyı engelledin";
 "profile_blocked_by_other_label" = "Bu kullanıcı tarafından engellendin";
-"profile_build_trust_button" = "Build Trust";
-"profile_connect_accounts_message" = "You still haven't verified your account with:";
+"profile_build_trust_button" = "Güven Kazan";
+"profile_connect_accounts_message" = "Hesabını henüz onaylamadın, onaylamak için tıkla:";
 "profile_favourites_my_user_no_products_button" = "Aramaya Başla";
 "profile_favourites_my_user_no_products_label" = "(HENÜZ!) FAVORİ YOK";
 "profile_favourites_products_tab" = "Favoriler";
@@ -594,3 +594,10 @@
 "user_rating_review_placeholder_optional" = "Deneyimin hakkında yorum yap (isteğe bağlı)";
 "user_rating_review_send_success" = "Değerlendirmen yayınlandı!";
 "user_rating_title" = "Bu kullanıcı ile deneyimini değerlendir";
+"user_share_message_mine" = "Take a look at everything I'm selling on letgo:";
+"user_share_message_other" = "Take a look at everything this seller has on letgo:";
+"user_share_message_other_w_name" = "Take a look at everything %@ is selling on letgo:";
+"user_share_navbar_button" = "Share";
+"user_share_title_text_mine" = "Check out my letgo profile!";
+"user_share_title_text_other" = "Check out this user's letgo profile!";
+"user_share_title_text_other_w_name" = "Check out %@'s letgo profile!";

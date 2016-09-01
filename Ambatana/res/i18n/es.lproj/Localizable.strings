@@ -449,8 +449,8 @@
 "profile_blocked_by_me_label" = "Has bloqueado a este usuario";
 "profile_blocked_by_me_label_w_name" = "Has bloqueado a %@";
 "profile_blocked_by_other_label" = "Has sido bloqueado por este usuario";
-"profile_build_trust_button" = "Build Trust";
-"profile_connect_accounts_message" = "You still haven't verified your account with:";
+"profile_build_trust_button" = "Crea confianza";
+"profile_connect_accounts_message" = "Todavía no has verificado tu cuenta con:";
 "profile_favourites_my_user_no_products_button" = "Sigue navegando";
 "profile_favourites_my_user_no_products_label" = "NO HAY FAVORITOS (¡TODAVÍA!)";
 "profile_favourites_products_tab" = "Favoritos";
@@ -594,3 +594,10 @@
 "user_rating_review_placeholder_optional" = "Comenta tu experiencia (opcional)";
 "user_rating_review_send_success" = "¡Tu valoración se ha publicado!";
 "user_rating_title" = "Valora tu experiencia con";
+"user_share_message_mine" = "Take a look at everything I'm selling on letgo:";
+"user_share_message_other" = "Take a look at everything this seller has on letgo:";
+"user_share_message_other_w_name" = "Take a look at everything %@ is selling on letgo:";
+"user_share_navbar_button" = "Share";
+"user_share_title_text_mine" = "Check out my letgo profile!";
+"user_share_title_text_other" = "Check out this user's letgo profile!";
+"user_share_title_text_other_w_name" = "Check out %@'s letgo profile!";
