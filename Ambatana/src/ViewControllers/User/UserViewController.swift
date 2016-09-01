@@ -237,6 +237,7 @@ extension UserViewController {
         headerContainer?.header?.myUserFacebookButton.accessibilityId = .UserHeaderExpandedVerifyFacebookButton
         headerContainer?.header?.myUserGoogleButton.accessibilityId = .UserHeaderExpandedVerifyGoogleButton
         headerContainer?.header?.myUserEmailButton.accessibilityId = .UserHeaderExpandedVerifyEmailButton
+        headerContainer?.header?.buildTrustButton.accessibilityId = .UserHEaderExpandedBuildTrustButton
         headerContainer?.header?.sellingButton.accessibilityId = .UserSellingTab
         headerContainer?.header?.soldButton.accessibilityId = .UserSoldTab
         headerContainer?.header?.favoritesButton.accessibilityId = .UserFavoritesTab
