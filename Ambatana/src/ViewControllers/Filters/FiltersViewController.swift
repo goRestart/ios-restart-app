@@ -128,15 +128,22 @@ UICollectionViewDataSource, UICollectionViewDelegate {
 
     func priceTextFieldValueActive(tag: Int) {
         updateTapRecognizer(true)
-        keyboardHelper.rx_keyboardOrigin.asObservable().distinctUntilChanged().bindNext { [weak self] origin in
+        var previousKbOrigin: CGFloat = CGFloat.max
+        keyboardHelper.rx_keyboardOrigin.asObservable().skip(1).distinctUntilChanged().bindNext { [weak self] origin in
 
             guard let viewHeight = self?.view.height, animationTime = self?.keyboardHelper.animationTime where
                 viewHeight >= origin else { return }
             self?.saveFiltersBtnContainerBottomConstraint.constant = viewHeight - origin
 
             UIView.animateWithDuration(Double(animationTime), animations: {
-                    self?.view.layoutIfNeeded()
+                self?.view.layoutIfNeeded()
             })
+            if origin < previousKbOrigin {
+                // keyboard is appearing
+                let indexPath = NSIndexPath(forItem: 1,inSection: FilterSection.Price.rawValue)
+                self?.collectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: .Bottom, animated: false)
+            }
+            previousKbOrigin = origin
         }.addDisposableTo(disposeBag)
     }
 
