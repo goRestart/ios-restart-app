@@ -691,15 +691,18 @@ extension ProductViewModel {
 
 extension ProductViewModel {
     private func switchFavoriteAction() {
-        favoriteButtonState.value = .Disabled
-
+        if FeatureFlags.bigFavoriteIcon {
+            favoriteButtonState.value = .Disabled
+        }
         if isFavorite.value {
             productRepository.deleteFavorite(product.value) { [weak self] result in
                 guard let strongSelf = self else { return }
                 if let product = result.value {
                     strongSelf.isFavorite.value = product.favorite
                 }
-                strongSelf.favoriteButtonState.value = .Enabled
+                if FeatureFlags.bigFavoriteIcon {
+                    strongSelf.favoriteButtonState.value = .Enabled
+                }
             }
         } else {
             productRepository.saveFavorite(product.value) { [weak self] result in
@@ -712,7 +715,9 @@ extension ProductViewModel {
                         strongSelf.delegate?.vmAskForRating()
                     }
                 }
-                strongSelf.favoriteButtonState.value = .Enabled
+                if FeatureFlags.bigFavoriteIcon {
+                    strongSelf.favoriteButtonState.value = .Enabled
+                }
                 strongSelf.refreshInterestedBubble(true)
             }
         }
