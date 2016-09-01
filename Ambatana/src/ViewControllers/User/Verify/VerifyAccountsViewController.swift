@@ -77,11 +77,6 @@ class VerifyAccountsViewController: BaseViewController, GIDSignInUIDelegate {
         GIDSignIn.sharedInstance().uiDelegate = self
     }
 
-    override func vmDismiss(completion: (() -> Void)?) {
-        emailTextField.resignFirstResponder()
-        super.vmDismiss(completion)
-    }
-
 
     // MARK: - Private
 
@@ -138,23 +133,23 @@ class VerifyAccountsViewController: BaseViewController, GIDSignInUIDelegate {
         emailTextFieldButton.rx_tap.bindNext { [weak self] in self?.viewModel.emailButtonPressed() }.addDisposableTo(disposeBag)
         emailTextField.rx_text.bindTo(viewModel.typedEmail).addDisposableTo(disposeBag)
 
-        setupKeyboardRx()
-    }
-
-    private func setupKeyboardRx() {
         keyboardHelper.rx_keyboardOrigin.asObservable().skip(1).distinctUntilChanged().bindNext { [weak self] origin in
             guard let viewHeight = self?.view.height, animationTime = self?.keyboardHelper.animationTime
                 where viewHeight >= origin else { return }
             self?.contentContainerCenterY.constant = -((viewHeight - origin)/2)
             UIView.animateWithDuration(Double(animationTime), animations: {[weak self] in self?.view.layoutIfNeeded()})
-            }.addDisposableTo(disposeBag)
+        }.addDisposableTo(disposeBag)
     }
 }
 
 
 // MARK: - VerifyAccountsViewModelDelegate
 
-extension VerifyAccountsViewController: VerifyAccountsViewModelDelegate {}
+extension VerifyAccountsViewController: VerifyAccountsViewModelDelegate {
+    func vmResignResponders() {
+        emailTextField.resignFirstResponder()
+    }
+}
 
 
 // MARK: - Accesibility

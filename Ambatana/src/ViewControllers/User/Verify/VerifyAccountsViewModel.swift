@@ -11,7 +11,9 @@ import LGCoreKit
 import RxSwift
 
 
-protocol VerifyAccountsViewModelDelegate: BaseViewModelDelegate {}
+protocol VerifyAccountsViewModelDelegate: BaseViewModelDelegate {
+    func vmResignResponders()
+}
 
 enum VerifyButtonState {
     case Hidden
@@ -44,6 +46,17 @@ class VerifyAccountsViewModel: BaseViewModel {
     private let tracker: Tracker
     private let source: VerifyAccountsSource
     private let types: [VerificationType]
+    private var userEmail: String? {
+        for type in types {
+            switch type {
+            case .Google, .Facebook:
+                continue
+            case let .Email(email):
+                return email
+            }
+        }
+        return nil
+    }
 
     private let disposeBag = DisposeBag()
 
@@ -72,20 +85,23 @@ class VerifyAccountsViewModel: BaseViewModel {
     // MARK: - Public
 
     func closeButtonPressed() {
+        delegate?.vmResignResponders()
         delegate?.vmDismiss(nil)
     }
 
     func googleButtonPressed() {
+        delegate?.vmResignResponders()
         connectWithGoogle()
     }
 
     func fbButtonPressed() {
+        delegate?.vmResignResponders()
         connectWithFacebook()
     }
 
     func emailButtonPressed() {
-        guard typedEmail.value.isEmail() else { return }
-        emailVerification(typedEmail.value)
+        delegate?.vmResignResponders()
+        emailVerification()
     }
 
 
@@ -100,7 +116,6 @@ class VerifyAccountsViewModel: BaseViewModel {
                 fbButtonState.value = .Enabled
             case let .Email(email):
                 emailRequiresInput = !(email ?? "").isEmail()
-                typedEmail.value = email ?? ""
                 emailButtonState.value = .Enabled
             }
         }
@@ -169,7 +184,9 @@ private extension VerifyAccountsViewModel {
         }
     }
 
-    func emailVerification(email: String) {
+    func emailVerification() {
+        let email = userEmail ?? typedEmail.value
+        guard email.isEmail() else { return }
         emailButtonState.value = .Loading
         myUserRepository.linkAccount(email) { [weak self] result in
             self?.emailButtonState.value = .Enabled
