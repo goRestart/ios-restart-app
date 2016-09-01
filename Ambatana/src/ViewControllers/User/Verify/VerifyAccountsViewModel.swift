@@ -37,7 +37,7 @@ class VerifyAccountsViewModel: BaseViewModel {
     let googleButtonState = Variable<VerifyButtonState>(.Hidden)
     let emailButtonState = Variable<VerifyButtonState>(.Hidden)
     private(set) var emailRequiresInput = false
-    let typedEmail = Variable<String?>(nil)
+    let typedEmail = Variable<String>("")
 
     private let googleHelper: GoogleLoginHelper
     private let myUserRepository: MyUserRepository
@@ -84,8 +84,8 @@ class VerifyAccountsViewModel: BaseViewModel {
     }
 
     func emailButtonPressed() {
-        guard let email = typedEmail.value else { return }
-        emailVerification(email)
+        guard typedEmail.value.isEmail() else { return }
+        emailVerification(typedEmail.value)
     }
 
 
@@ -99,10 +99,8 @@ class VerifyAccountsViewModel: BaseViewModel {
             case .Facebook:
                 fbButtonState.value = .Enabled
             case let .Email(email):
-                if let email = email where !email.isEmpty {
-                    emailRequiresInput = false
-                }
-                typedEmail.value = email
+                emailRequiresInput = !(email ?? "").isEmail()
+                typedEmail.value = email ?? ""
                 emailButtonState.value = .Enabled
             }
         }
@@ -110,11 +108,16 @@ class VerifyAccountsViewModel: BaseViewModel {
 
     private func setupRx() {
         guard emailRequiresInput && emailButtonState.value == .Enabled else { return }
-        typedEmail.asObservable().bindNext { [weak self] email in
-            guard let actionState = self?.emailButtonState where actionState.value != .Loading else { return }
-            let isEmail = email?.isEmail() ?? false
-            actionState.value = isEmail ? .Enabled : .Disabled
-        }.addDisposableTo(disposeBag)
+        typedEmail.asObservable()
+            .filter { [weak self] _ in
+                guard let actionState = self?.emailButtonState else { return false }
+                return actionState.value != .Loading
+            }
+            .map{ ($0 ?? "").isEmail() ? VerifyButtonState.Enabled : VerifyButtonState.Disabled }
+            .bindNext { [weak self] state in
+                guard let actionState = self?.emailButtonState else { return }
+                actionState.value = state
+            }.addDisposableTo(disposeBag)
     }
 }
 

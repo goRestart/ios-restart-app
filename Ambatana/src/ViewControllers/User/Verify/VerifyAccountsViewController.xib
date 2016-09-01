@@ -12,6 +12,7 @@
                 <outlet property="backgroundButton" destination="yXD-r3-wjY" id="0to-BK-Ntp"/>
                 <outlet property="closeButton" destination="kSO-DL-Nq1" id="jV5-lG-hfA"/>
                 <outlet property="contentContainer" destination="BbQ-zR-xkx" id="Wqy-VC-BbR"/>
+                <outlet property="contentContainerCenterY" destination="5Vy-Cd-af6" id="1o8-Z5-PFb"/>
                 <outlet property="descriptionLabel" destination="66N-uk-U3A" id="nmY-Rp-90p"/>
                 <outlet property="emailButton" destination="3WH-gv-CcY" id="3iY-ze-hqQ"/>
                 <outlet property="emailButtonLogo" destination="iMs-Qd-aKY" id="eHj-Vg-HAD"/>
