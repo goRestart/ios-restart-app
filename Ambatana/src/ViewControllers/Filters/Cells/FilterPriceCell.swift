@@ -9,7 +9,7 @@
 import UIKit
 
 protocol FilterPriceCellDelegate {
-    func priceTextFieldValueActive(tag: Int)
+    func priceTextFieldValueActive()
     func priceTextFieldValueChanged(value: String?, tag: Int)
 }
 
@@ -60,7 +60,7 @@ class FilterPriceCell: UICollectionViewCell {
 
 extension FilterPriceCell: UITextFieldDelegate {
     func textFieldDidBeginEditing(textField: UITextField) {
-        delegate?.priceTextFieldValueActive(tag)
+        delegate?.priceTextFieldValueActive()
     }
 
     func textFieldDidEndEditing(textField: UITextField) {

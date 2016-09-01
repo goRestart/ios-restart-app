@@ -61,6 +61,7 @@ UICollectionViewDataSource, UICollectionViewDelegate {
         super.viewDidLoad()
         
         setupUi()
+        setupRx()
         setAccessibilityIds()
 
         // Get categories
@@ -126,25 +127,8 @@ UICollectionViewDataSource, UICollectionViewDelegate {
         }
     }
 
-    func priceTextFieldValueActive(tag: Int) {
+    func priceTextFieldValueActive() {
         updateTapRecognizer(true)
-        var previousKbOrigin: CGFloat = CGFloat.max
-        keyboardHelper.rx_keyboardOrigin.asObservable().skip(1).distinctUntilChanged().bindNext { [weak self] origin in
-
-            guard let viewHeight = self?.view.height, animationTime = self?.keyboardHelper.animationTime where
-                viewHeight >= origin else { return }
-            self?.saveFiltersBtnContainerBottomConstraint.constant = viewHeight - origin
-
-            UIView.animateWithDuration(Double(animationTime), animations: {
-                self?.view.layoutIfNeeded()
-            })
-            if origin < previousKbOrigin {
-                // keyboard is appearing
-                let indexPath = NSIndexPath(forItem: 1,inSection: FilterSection.Price.rawValue)
-                self?.collectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: .Bottom, animated: false)
-            }
-            previousKbOrigin = origin
-        }.addDisposableTo(disposeBag)
     }
 
     // MARK: - UICollectionViewDelegate & DataSource methods
@@ -324,9 +308,30 @@ UICollectionViewDataSource, UICollectionViewDelegate {
         tapRec = UITapGestureRecognizer(target: self, action: #selector(collectionTapped))
     }
 
+    private func setupRx() {
+        updateTapRecognizer(true)
+        var previousKbOrigin: CGFloat = CGFloat.max
+        keyboardHelper.rx_keyboardOrigin.asObservable().skip(1).distinctUntilChanged().bindNext { [weak self] origin in
+            guard let viewHeight = self?.view.height, animationTime = self?.keyboardHelper.animationTime where
+                viewHeight >= origin else { return }
+            self?.saveFiltersBtnContainerBottomConstraint.constant = viewHeight - origin
+
+            UIView.animateWithDuration(Double(animationTime), animations: {
+                self?.view.layoutIfNeeded()
+            })
+            if origin < previousKbOrigin {
+                // keyboard is appearing
+                let indexPath = NSIndexPath(forItem: 1,inSection: FilterSection.Price.rawValue)
+                self?.collectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: .Bottom, animated: false)
+            } else if origin > previousKbOrigin {
+                self?.updateTapRecognizer(false)
+            }
+            previousKbOrigin = origin
+        }.addDisposableTo(disposeBag)
+    }
+
     private dynamic func collectionTapped() {
         view.endEditing(true)
-        updateTapRecognizer(false)
     }
 
     private func updateTapRecognizer(add: Bool) {

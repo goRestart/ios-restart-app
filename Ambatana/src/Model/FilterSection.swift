@@ -7,7 +7,7 @@
 //
 
 public enum FilterSection: Int {
-    case Location, Distance, Categories, Within, SortBy, Price
+    case Location, Categories, Distance, SortBy, Within, Price
 }
 
 extension FilterSection {
