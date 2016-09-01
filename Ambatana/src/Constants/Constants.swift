@@ -33,6 +33,7 @@ struct Constants {
     static let termsAndConditionsURL = "https://%@.letgo.com/%@/terms_app"
     static let privacyURL = "https://%@.letgo.com/%@/privacy_app"
     static let productURL = "\(Constants.websiteURL)/product/%@"
+    static let userURL = "\(Constants.websiteURL)/user/%@"
     static let whatsAppShareURL = "whatsapp://send?text=%@"
     static let telegramShareURL = "tg://msg?text=%@"
 
