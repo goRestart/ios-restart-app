@@ -310,6 +310,7 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     }
     
     private func setInviteNavBarButton() {
+        guard isRootViewController() else { return }
         var button: UIBarButtonItem
         if FeatureFlags.showInviteHeartIcon {
             button = UIBarButtonItem(image: UIImage(named: "ic_invite"), style: .Plain, target: self, action: #selector(openInvite))
