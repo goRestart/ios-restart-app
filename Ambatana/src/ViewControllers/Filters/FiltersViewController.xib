@@ -9,6 +9,8 @@
             <connections>
                 <outlet property="collectionView" destination="RID-ur-YMw" id="3KY-Vy-1m2"/>
                 <outlet property="saveFiltersBtn" destination="1Do-1m-Mhz" id="zpe-ZY-kMT"/>
+                <outlet property="saveFiltersBtnContainer" destination="lfV-TD-gpL" id="Vd5-oh-p1g"/>
+                <outlet property="saveFiltersBtnContainerBottomConstraint" destination="bjt-f2-ytt" id="6ff-Bn-lRO"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -17,7 +19,7 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" keyboardDismissMode="onDrag" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="RID-ur-YMw">
+                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="RID-ur-YMw">
                     <rect key="frame" x="0.0" y="0.0" width="375" height="591"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="QZV-h5-0pU">
