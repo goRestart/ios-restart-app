@@ -363,6 +363,7 @@ public class BaseViewController: UIViewController, TabBarShowable {
 
     // UI
     private let statusBarStyle: UIStatusBarStyle
+    private let previousStatusBarStyle: UIStatusBarStyle
     private let navBarBackgroundStyle: NavBarBackgroundStyle
     var floatingSellButtonHidden: Bool
     private(set) var viewLoaded: Bool = false
@@ -375,6 +376,7 @@ public class BaseViewController: UIViewController, TabBarShowable {
         self.viewModel = viewModel
         self.subviews = []
         self.statusBarStyle = statusBarStyle
+        self.previousStatusBarStyle = UIApplication.sharedApplication().statusBarStyle
         self.navBarBackgroundStyle = navBarBackgroundStyle
         self.floatingSellButtonHidden = false
         super.init(nibName: nibNameOrNil, bundle: nil)
@@ -466,6 +468,8 @@ public class BaseViewController: UIViewController, TabBarShowable {
     internal func viewWillDisappearToBackground(toBackground: Bool) {
         
         if !toBackground {
+            UIApplication.sharedApplication().setStatusBarStyle(previousStatusBarStyle, animated: true)
+
             NSNotificationCenter.defaultCenter().removeObserver(self, name: UIApplicationDidEnterBackgroundNotification, object: nil)
             NSNotificationCenter.defaultCenter().removeObserver(self, name: UIApplicationWillEnterForegroundNotification, object: nil)
         }
