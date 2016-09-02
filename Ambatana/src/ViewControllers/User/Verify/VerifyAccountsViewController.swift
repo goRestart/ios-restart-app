@@ -15,7 +15,6 @@ class VerifyAccountsViewController: BaseViewController, GIDSignInUIDelegate {
     @IBOutlet weak var contentContainer: UIView!
     @IBOutlet weak var contentContainerCenterY: NSLayoutConstraint!
     @IBOutlet weak var backgroundButton: UIButton!
-    @IBOutlet weak var closeButton: UIButton!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!
 
@@ -99,14 +98,17 @@ class VerifyAccountsViewController: BaseViewController, GIDSignInUIDelegate {
         if viewModel.fbButtonState.value == .Hidden {
             fbContainerHeight.constant = 0
             fbContainerBottom.constant = 0
+            fbButton.hidden = true
         }
         if viewModel.googleButtonState.value == .Hidden {
             googleContainerHeight.constant = 0
             googleContainerBottom.constant = 0
+            googleButton.hidden = true
         }
         if viewModel.emailButtonState.value == .Hidden {
             emailContainerHeight.constant = 0
             emailContainerBottom.constant = emailContainerInvisibleMargin
+            emailContainer.hidden = true
         } else {
             emailButton.hidden = viewModel.emailRequiresInput
             emailButtonLogo.hidden = viewModel.emailRequiresInput
@@ -126,7 +128,6 @@ class VerifyAccountsViewController: BaseViewController, GIDSignInUIDelegate {
         }
 
         backgroundButton.rx_tap.bindNext { [weak self] in self?.viewModel.closeButtonPressed() }.addDisposableTo(disposeBag)
-        closeButton.rx_tap.bindNext { [weak self] in self?.viewModel.closeButtonPressed() }.addDisposableTo(disposeBag)
         fbButton.rx_tap.bindNext { [weak self] in self?.viewModel.fbButtonPressed()}.addDisposableTo(disposeBag)
         googleButton.rx_tap.bindNext { [weak self] in self?.viewModel.googleButtonPressed() }.addDisposableTo(disposeBag)
         emailButton.rx_tap.bindNext { [weak self] in self?.viewModel.emailButtonPressed() }.addDisposableTo(disposeBag)
@@ -157,7 +158,6 @@ extension VerifyAccountsViewController: VerifyAccountsViewModelDelegate {
 extension VerifyAccountsViewController {
     func setAccesibilityIds() {
         backgroundButton.accessibilityId = .VerifyAccountsBackgroundButton
-        closeButton.accessibilityId = .VerifyAccountsCloseButton
         fbButton.accessibilityId = .VerifyAccountsFacebookButton
         googleButton.accessibilityId = .VerifyAccountsGoogleButton
         emailButton.accessibilityId = .VerifyAccountsEmailButton
