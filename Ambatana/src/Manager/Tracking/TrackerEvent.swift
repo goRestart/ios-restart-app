@@ -565,6 +565,20 @@ public struct TrackerEvent {
         return TrackerEvent(name: .ProfileEditEditPicture, params: params)
     }
 
+    static func profileShareStart(type: EventParameterProfileType)  -> TrackerEvent {
+        var params = EventParameters()
+        params[.ProfileType] = type.rawValue
+        return TrackerEvent(name: .ProfileShareStart, params: params)
+    }
+
+    static func profileShareComplete(type: EventParameterProfileType, shareNetwork: EventParameterShareNetwork)
+        -> TrackerEvent {
+        var params = EventParameters()
+        params[.ProfileType] = type.rawValue
+        params[.ShareNetwork] = shareNetwork.rawValue
+        return TrackerEvent(name: .ProfileShareComplete, params: params)
+    }
+
     static func appInviteFriendStart(typePage: EventParameterTypePage) -> TrackerEvent {
             var params = EventParameters()
             params[.TypePage] = typePage.rawValue

@@ -219,6 +219,7 @@ extension UserViewModel {
     func shareButtonPressed() {
         guard let socialMessage = socialMessage else { return }
         delegate?.vmShowNativeShare(socialMessage)
+        trackShareStart()
     }
 }
 
@@ -633,11 +634,18 @@ extension UserViewModel: NativeShareDelegate {
     var nativeShareSuccessMessage: String? { return LGLocalizedString.userShareSuccess }
     var nativeShareErrorMessage: String? { return LGLocalizedString.userShareError }
 
-    //TODO trackings
-    func nativeShareInFacebook() {}
-    func nativeShareInTwitter() {}
-    func nativeShareInEmail() {}
-    func nativeShareInWhatsApp() {}
+    func nativeShareInFacebook() {
+        trackShareComplete(.Facebook)
+    }
+    func nativeShareInTwitter() {
+        trackShareComplete(.Twitter)
+    }
+    func nativeShareInEmail() {
+        trackShareComplete(.Email)
+    }
+    func nativeShareInWhatsApp() {
+        trackShareComplete(.Whatsapp)
+    }
 }
 
 
@@ -707,6 +715,18 @@ extension UserViewModel {
             PushPermissionsManager.sharedInstance.pushPermissionsSettingsMode ? .True : .NotAvailable
         let trackerEvent = TrackerEvent.permissionAlertCancel(.Push, typePage: .Profile, alertType: .Custom,
                                                               permissionGoToSettings: goToSettings)
+        tracker.trackEvent(trackerEvent)
+    }
+
+    private func trackShareStart() {
+        let profileType: EventParameterProfileType = isMyUser ? .Private : .Public
+        let trackerEvent = TrackerEvent.profileShareStart(profileType)
+        tracker.trackEvent(trackerEvent)
+    }
+
+    private func trackShareComplete(shareNetwork: EventParameterShareNetwork) {
+        let profileType: EventParameterProfileType = isMyUser ? .Private : .Public
+        let trackerEvent = TrackerEvent.profileShareComplete(profileType, shareNetwork: shareNetwork)
         tracker.trackEvent(trackerEvent)
     }
 }

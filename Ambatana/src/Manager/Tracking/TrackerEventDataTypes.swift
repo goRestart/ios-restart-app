@@ -83,6 +83,11 @@ public enum EventName: String {
     case ProfileEditEditName                = "profile-edit-edit-name"
     case ProfileEditEditLocation            = "profile-edit-edit-location"
     case ProfileEditEditPicture             = "profile-edit-edit-picture"
+    case ProfileReport                      = "profile-report"
+    case ProfileBlock                       = "profile-block"
+    case ProfileUnblock                     = "profile-unblock"
+    case ProfileShareStart                  = "profile-share-start"
+    case ProfileShareComplete               = "profile-share-complete"
 
     case AppInviteFriendStart               = "app-invite-friend-start"
     case AppInviteFriend                    = "app-invite-friend"
@@ -104,10 +109,6 @@ public enum EventName: String {
     case PermissionSystemStart              = "permission-system-start"
     case PermissionSystemCancel             = "permission-system-cancel"
     case PermissionSystemComplete           = "permission-system-complete"
-
-    case ProfileReport                      = "profile-report"
-    case ProfileBlock                       = "profile-block"
-    case ProfileUnblock                     = "profile-unblock"
 
     case LocationMap                        = "location-map"
 
@@ -225,6 +226,7 @@ public enum EventParameterName: String {
     case PriceTo              = "price-to"
     case NPSScore             = "nps-score"
     case AccountNetwork       = "account-network"
+    case ProfileType          = "profile-type"
 }
 
 public enum EventParameterLoginSourceValue: String {
@@ -520,6 +522,10 @@ public enum EventParameterAccountNetwork: String {
     case Email = "email"
 }
 
+public enum EventParameterProfileType: String {
+    case Public = "public"
+    case Private = "private"
+}
 
 public struct EventParameters {
     private var params: [EventParameterName : AnyObject] = [:]
