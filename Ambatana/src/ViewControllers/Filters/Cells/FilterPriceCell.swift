@@ -63,7 +63,11 @@ extension FilterPriceCell: UITextFieldDelegate {
         delegate?.priceTextFieldValueActive()
     }
 
-    func textFieldDidEndEditing(textField: UITextField) {
-        delegate?.priceTextFieldValueChanged(textField.text, tag: tag)
+    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange,
+                   replacementString string: String) -> Bool {
+        guard textField.shouldChangePriceInRange(range, replacementString: string, acceptsSeparator: false) else { return false }
+        let updatedText = textField.textReplacingCharactersInRange(range, replacementString: string)
+        delegate?.priceTextFieldValueChanged(updatedText, tag: tag)
+        return true
     }
 }
