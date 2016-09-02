@@ -99,10 +99,13 @@ class StringLGSpec: QuickSpec {
             context("isValidLengthPrice") {
                 describe("correct number") {
                     beforeEach {
-                        sut = "999.7"
+                        sut = "999,7"
                     }
-                    it("accepts separator - returns true") {
-                        expect(sut.isValidLengthPrice(true)) == true
+                    it("accepts separator spanish locale (comma separator required) - returns true") {
+                        expect(sut.isValidLengthPrice(true, locale: NSLocale(localeIdentifier: "es_ES"))) == true
+                    }
+                    it("accepts separator US locale (point separator required) - returns false") {
+                        expect(sut.isValidLengthPrice(true, locale: NSLocale(localeIdentifier: "us_US"))) == false
                     }
                     it("does not accept separator - returns false") {
                         expect(sut.isValidLengthPrice(false)) == false
