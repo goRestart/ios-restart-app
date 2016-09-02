@@ -101,8 +101,14 @@ class StringLGSpec: QuickSpec {
                     beforeEach {
                         sut = "999,7"
                     }
-                    it("returns true") {
-                        expect(sut.isValidLengthPrice()) == true
+                    it("accepts separator spanish locale (comma separator required) - returns true") {
+                        expect(sut.isValidLengthPrice(true, locale: NSLocale(localeIdentifier: "es_ES"))) == true
+                    }
+                    it("accepts separator US locale (point separator required) - returns false") {
+                        expect(sut.isValidLengthPrice(true, locale: NSLocale(localeIdentifier: "us_US"))) == false
+                    }
+                    it("does not accept separator - returns false") {
+                        expect(sut.isValidLengthPrice(false)) == false
                     }
                 }
                 describe("not a number") {
@@ -110,7 +116,7 @@ class StringLGSpec: QuickSpec {
                         sut = "holaquetal"
                     }
                     it("returns false") {
-                        expect(sut.isValidLengthPrice()) == false
+                        expect(sut.isValidLengthPrice(true)) == false
                     }
                 }
                 describe("too big number") {
@@ -118,7 +124,7 @@ class StringLGSpec: QuickSpec {
                         sut = "1000000000"
                     }
                     it("returns false") {
-                        expect(sut.isValidLengthPrice()) == false
+                        expect(sut.isValidLengthPrice(true)) == false
                     }
                 }
                 describe("too much decimals") {
@@ -126,7 +132,7 @@ class StringLGSpec: QuickSpec {
                         sut = "100,888"
                     }
                     it("returns false") {
-                        expect(sut.isValidLengthPrice()) == false
+                        expect(sut.isValidLengthPrice(true)) == false
                     }
                 }
             }

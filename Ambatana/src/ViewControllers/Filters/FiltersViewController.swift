@@ -85,6 +85,7 @@ UICollectionViewDataSource, UICollectionViewDelegate {
     }
     
     @IBAction func onSaveFiltersBtn(sender: AnyObject) {
+        guard viewModel.validateFilters() else { return }
         viewModel.saveFilters()
         self.navigationController?.dismissViewControllerAnimated(true, completion: nil)
     }
@@ -102,10 +103,10 @@ UICollectionViewDataSource, UICollectionViewDelegate {
     }
 
     func vmForcePriceFix() {
-        let indexPath = NSIndexPath(forItem: 0,inSection: FilterSection.Price.rawValue)
+        let indexPath = NSIndexPath(forItem: 1,inSection: FilterSection.Price.rawValue)
         collectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: UICollectionViewScrollPosition.Bottom, animated: true)
-        guard let minPriceCell = collectionView.cellForItemAtIndexPath(indexPath) as? FilterPriceCell else { return }
-        minPriceCell.textField.becomeFirstResponder()
+        guard let maxPriceCell = collectionView.cellForItemAtIndexPath(indexPath) as? FilterPriceCell else { return }
+        maxPriceCell.textField.becomeFirstResponder()
     }
 
     // MARK: FilterDistanceCellDelegate
@@ -309,13 +310,11 @@ UICollectionViewDataSource, UICollectionViewDelegate {
     }
 
     private func setupRx() {
-        updateTapRecognizer(true)
         var previousKbOrigin: CGFloat = CGFloat.max
         keyboardHelper.rx_keyboardOrigin.asObservable().skip(1).distinctUntilChanged().bindNext { [weak self] origin in
             guard let viewHeight = self?.view.height, animationTime = self?.keyboardHelper.animationTime where
                 viewHeight >= origin else { return }
             self?.saveFiltersBtnContainerBottomConstraint.constant = viewHeight - origin
-
             UIView.animateWithDuration(Double(animationTime), animations: {
                 self?.view.layoutIfNeeded()
             })

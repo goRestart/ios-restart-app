@@ -73,16 +73,8 @@ class FiltersViewModel: BaseViewModel {
     }
     private var sortOptions : [ProductSortCriteria]
 
-    private var minPrice: Int? {
-        didSet {
-            validatePriceRange()
-        }
-    }
-    private var maxPrice: Int? {
-        didSet {
-            validatePriceRange()
-        }
-    }
+    private var minPrice: Int?
+    private var maxPrice: Int?
     var minPriceString: String? {
         guard let minPrice = minPrice else { return nil }
         return String(minPrice)
@@ -129,9 +121,19 @@ class FiltersViewModel: BaseViewModel {
         self.productFilter = ProductFilters()
         delegate?.vmDidUpdate()
     }
-    
+
+    func validateFilters() -> Bool {
+        guard validatePriceRange() else {
+            delegate?.vmShowAutoFadingMessage(LGLocalizedString.filtersPriceWrongRangeError, completion: { [weak self] in
+                self?.delegate?.vmForcePriceFix()
+                })
+            return false
+        }
+        return true
+    }
+
     func saveFilters() {
-        
+
         // Tracking
         
         var categories : [String] = []
@@ -256,7 +258,7 @@ class FiltersViewModel: BaseViewModel {
     }
 
     func setMaxPrice(value: String?) {
-        guard let value = value else {
+        guard let value = value else {1
             maxPrice = nil
             return
         }
@@ -264,14 +266,13 @@ class FiltersViewModel: BaseViewModel {
         productFilter.maxPrice = maxPrice
     }
 
-    private func validatePriceRange() {
+    private func validatePriceRange() -> Bool {
         // if one is empty, is OK
-        guard let minPrice = minPrice else { return }
-        guard let maxPrice = maxPrice else { return }
-        guard minPrice > maxPrice else { return }
-        delegate?.vmShowAutoFadingMessage(LGLocalizedString.filtersPriceWrongRangeError, completion: { [weak self] in
-            self?.delegate?.vmForcePriceFix()
-        })
+        guard let minPrice = minPrice else { return true }
+        guard let maxPrice = maxPrice else { return true }
+        guard minPrice > maxPrice else { return true }
+
+        return false
     }
 }
 

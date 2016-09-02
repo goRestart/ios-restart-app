@@ -123,7 +123,7 @@ extension PostProductDetailFullView: UITextFieldDelegate, UITextViewDelegate {
             textField.text = text
             return false
         } else if textField === priceTextField {
-            return textField.shouldChangePriceInRange(range, replacementString: string)
+            return textField.shouldChangePriceInRange(range, replacementString: string, acceptsSeparator: true)
         }
         return true
     }
