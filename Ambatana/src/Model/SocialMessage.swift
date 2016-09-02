@@ -310,7 +310,7 @@ struct AppShareSocialMessage: SocialMessage {
     
     private func branchLinkProperties(source: ShareSource?) -> BranchLinkProperties {
         let linkProperties = BranchLinkProperties()
-        linkProperties.feature = "app-invite-friend"
+        linkProperties.feature = AppShareSocialMessage.utmCampaignValue
         if let source = source {
             linkProperties.channel = source.rawValue
         }
@@ -334,16 +334,32 @@ struct AppShareSocialMessage: SocialMessage {
 
 struct UserSocialMessage: SocialMessage {
     let imageUrl: NSURL? = nil
-    static var utmCampaignValue = "app-invite-friend"
+    static var utmCampaignValue = "profile-share"
 
+    private let userName: String?
+    private let avatar: NSURL?
+    private let userId: String
+    private let titleText: String
+    private let messageText: String
 
     init(user: User, itsMe: Bool) {
-        
+        userName = user.name
+        avatar = user.avatar?.fileURL
+        userId = user.objectId ?? ""
+        if itsMe {
+            titleText = LGLocalizedString.userShareTitleTextMine
+            messageText = LGLocalizedString.userShareMessageMine
+        } else if let userName = user.name where !userName.isEmpty {
+            titleText = LGLocalizedString.userShareTitleTextOtherWName(userName)
+            messageText = LGLocalizedString.userShareMessageOtherWName(userName)
+        } else {
+            titleText = LGLocalizedString.userShareTitleTextOther
+            messageText = LGLocalizedString.userShareMessageOther
+        }
     }
 
     var nativeShareItems: [AnyObject]? {
-        guard let shareUrl = branchUrl(.Native) else { return nil }
-        return [shareUrl, LGLocalizedString.appShareMessageText]
+        return [branchUrl(.Native), messageText]
     }
 
     var whatsappShareText: String {
@@ -359,28 +375,25 @@ struct UserSocialMessage: SocialMessage {
     }
 
     var copyLinkText: String {
-        return branchUrl(.CopyLink)?.absoluteString ?? ""
+        return branchUrl(.CopyLink).absoluteString ?? ""
     }
 
     var emailShareSubject: String {
-        return LGLocalizedString.appShareSubjectText
+        return titleText
     }
 
     var emailShareBody: String {
-        var shareBody = LGLocalizedString.appShareMessageText
-        guard let urlString = branchUrl(.Email)?.absoluteString else { return shareBody }
-        shareBody += ":\n\n"
-        return shareBody + "<a href=\"" + urlString + "\">"+LGLocalizedString.appShareDownloadText+"</a>"
+        return messageText + "\n\n" + branchUrl(.Email).absoluteString
     }
 
     let emailShareIsHtml = true
 
     var fbShareContent: FBSDKShareLinkContent {
         let shareContent = FBSDKShareLinkContent()
-        shareContent.contentTitle = LGLocalizedString.appShareSubjectText
-        shareContent.contentDescription = LGLocalizedString.appShareMessageText
+        shareContent.contentTitle = titleText
+        shareContent.contentDescription = messageText
         shareContent.contentURL = branchUrl(.Facebook)
-        shareContent.imageURL = NSURL(string: Constants.facebookAppInvitePreviewImageURL)
+        shareContent.imageURL = avatar
         return shareContent
     }
 
@@ -390,30 +403,38 @@ struct UserSocialMessage: SocialMessage {
 
     var twitterComposer: TWTRComposer {
         let twitterComposer = TWTRComposer()
-        twitterComposer.setText(LGLocalizedString.appShareMessageText)
+        twitterComposer.setText(messageText)
         twitterComposer.setURL(branchUrl(.Twitter))
         return twitterComposer
     }
 
     private func fullMessageWUrl(source: ShareSource) -> String {
-        let fullMessage = LGLocalizedString.appShareMessageText
-        let urlString = branchUrl(source)?.absoluteString ?? ""
+        let fullMessage = messageText
+        let urlString = branchUrl(source).absoluteString
         return fullMessage.isEmpty ? urlString : fullMessage + ":\n" + urlString
     }
 
-    private func branchUrl(source: ShareSource?) -> NSURL? {
+    private var letgoURL: NSURL {
+        if !userId.isEmpty {
+            return NSURL(string: String(format: Constants.userURL, arguments: [userId])) ?? NSURL()
+        } else {
+            return NSURL(string: Constants.websiteURL) ?? NSURL()
+        }
+    }
+
+    private func branchUrl(source: ShareSource?) -> NSURL {
         let linkProperties = branchLinkProperties(source)
         guard let branchUrl = branchObject.getShortUrlWithLinkProperties(linkProperties)
-            else { return NSURL(string: Constants.websiteURL) }
-        return NSURL(string: branchUrl)
+            else { return letgoURL }
+        return NSURL(string: branchUrl) ?? letgoURL
     }
 
     private var branchObject: BranchUniversalObject {
         let branchUniversalObject: BranchUniversalObject =
-            BranchUniversalObject(canonicalIdentifier: "app_share")
-        branchUniversalObject.title = LGLocalizedString.appShareSubjectText
-        branchUniversalObject.contentDescription = LGLocalizedString.appShareMessageText
-        branchUniversalObject.canonicalUrl = Constants.appWebsiteURL
+            BranchUniversalObject(canonicalIdentifier: "users/\(userId)")
+        branchUniversalObject.title = titleText
+        branchUniversalObject.contentDescription = messageText
+        branchUniversalObject.canonicalUrl = Constants.appWebsiteURL+"/users/"+userId
         if let imageURL = imageUrl?.absoluteString {
             branchUniversalObject.imageUrl = imageURL
         }
@@ -422,24 +443,21 @@ struct UserSocialMessage: SocialMessage {
 
     private func branchLinkProperties(source: ShareSource?) -> BranchLinkProperties {
         let linkProperties = BranchLinkProperties()
-        linkProperties.feature = "app-invite-friend"
+        linkProperties.feature = UserSocialMessage.utmCampaignValue
         if let source = source {
             linkProperties.channel = source.rawValue
         }
         linkProperties.tags = ["ios_app"]
-        linkProperties.addControlParam("$deeplink_path", withValue: "home")
+        linkProperties.addControlParam("$deeplink_path", withValue: "users/\(userId)")
 
-        let letgoUrlString = addCampaignInfoToString(Constants.websiteURL, source: source)
-        let letgoUrlStringAppStore = addCampaignInfoToString(Constants.appStoreURL, source: source)
-        let letgoUrlStringPlayStore = addCampaignInfoToString(Constants.playStoreURL, source: source)
+        let letgoUrlString = addCampaignInfoToString(letgoURL.absoluteString, source: source)
 
         linkProperties.addControlParam("$fallback_url", withValue: letgoUrlString)
         linkProperties.addControlParam("$desktop_url", withValue: letgoUrlString)
-        linkProperties.addControlParam("$ios_url", withValue: letgoUrlStringAppStore)
-        linkProperties.addControlParam("$android_url", withValue: letgoUrlStringPlayStore)
+        linkProperties.addControlParam("$ios_url", withValue: letgoUrlString)
+        linkProperties.addControlParam("$android_url", withValue: letgoUrlString)
         return linkProperties
     }
-
 }
 
 
