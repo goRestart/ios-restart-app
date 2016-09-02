@@ -43,6 +43,12 @@
 // Button in listing to open the App Share view
 "app_share_invite_text" = "Invite";
 
+// App share success message
+"app_share_success" = "App successfully shared!";
+
+// App share error message
+"app_share_error" = "An error occurred while sharing the app. Please try again later.";
+
 // Text for unsuccessful user block
 "block_user_error_generic" = "An error occurred while blocking this user.";
 
@@ -1763,13 +1769,19 @@
 "user_share_title_text_other_w_name" = "Check out %@'s letgo profile!";
 
 // Message when sharing my profile on social networks/email/etc
-"user_share_message_mine" = "Take a look at everything I'm selling on letgo:";
+"user_share_message_mine" = "Take a look at everything I'm selling on letgo!";
 
 // Message when sharing a user profile on social networks/email/etc
-"user_share_message_other" = "Take a look at everything this seller has on letgo:";
+"user_share_message_other" = "Take a look at everything this seller has on letgo!";
 
 // Message when sharing a user profile on social networks/email/etc
-"user_share_message_other_w_name" = "Take a look at everything %@ is selling on letgo:";
+"user_share_message_other_w_name" = "Take a look at everything %@ is selling on letgo!";
+
+// Message confirmation sharing a user profile on social networks/email/etc
+"user_share_success" = "Profile successfully shared!";
+
+// Message error sharing a user profile on social networks/email/etc
+"user_share_error" = "An error occurred while sharing the profile. Please try again later.";
 
 // Information message when rating a user
 "user_rating_message_w_name" = "Does your experience with %@ get five stars? Tell us how it went.";

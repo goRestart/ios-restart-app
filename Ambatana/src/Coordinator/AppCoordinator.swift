@@ -549,8 +549,12 @@ private extension AppCoordinator {
                 self?.selectedTabCoordinator?.openProduct(ProductDetailData.Id(productId: productId), source: .OpenApp)
             }
         case let .User(userId):
-            afterDelayClosure = { [weak self] in
-                self?.selectedTabCoordinator?.openUser(UserDetailData.Id(userId: userId, source: .Link))
+            if userId == myUserRepository.myUser?.objectId {
+                openTab(.Profile, force: false)
+            } else {
+                afterDelayClosure = { [weak self] in
+                    self?.selectedTabCoordinator?.openUser(UserDetailData.Id(userId: userId, source: .Link))
+                }
             }
         case .Conversations:
             openTab(.Chats, force: false)

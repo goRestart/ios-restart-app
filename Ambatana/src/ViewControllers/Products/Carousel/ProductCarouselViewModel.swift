@@ -287,6 +287,9 @@ extension ProductCarouselViewModel {
 
 extension ProductCarouselViewModel: NativeShareDelegate {
 
+    var nativeShareSuccessMessage: String? { return LGLocalizedString.productShareGenericOk }
+    var nativeShareErrorMessage: String? { return LGLocalizedString.productShareGenericError }
+
     func nativeShareInFacebook() {
         currentProductViewModel?.shareInFacebook(.Top)
         currentProductViewModel?.shareInFBCompleted()

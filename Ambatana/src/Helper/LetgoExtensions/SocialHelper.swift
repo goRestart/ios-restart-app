@@ -161,6 +161,8 @@ final class SocialHelper {
 // MARK: - UIViewController native share extension
 
 protocol NativeShareDelegate {
+    var nativeShareSuccessMessage: String? { get }
+    var nativeShareErrorMessage: String? { get }
     func nativeShareInFacebook()
     func nativeShareInTwitter()
     func nativeShareInEmail()
@@ -201,7 +203,9 @@ extension UIViewController {
             guard success else {
                 //In case of cancellation just do nothing -> success == false && error == nil
                 guard error != nil else { return }
-                self?.showAutoFadingOutMessageAlert(LGLocalizedString.productShareGenericError)
+                if let errorMessage = delegate?.nativeShareErrorMessage {
+                    self?.showAutoFadingOutMessageAlert(errorMessage)
+                }
                 return
             }
 
@@ -218,7 +222,9 @@ extension UIViewController {
                 return
             }
 
-            self?.showAutoFadingOutMessageAlert(LGLocalizedString.productShareGenericOk)
+            if let successMessage = delegate?.nativeShareSuccessMessage {
+                self?.showAutoFadingOutMessageAlert(successMessage)
+            }
         }
         presentViewController(vc, animated: true, completion: nil)
     }

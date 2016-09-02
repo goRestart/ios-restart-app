@@ -67,6 +67,14 @@ struct LGLocalizedString {
 		return NSLocalizedString("app_share_invite_text", comment: "")
 	}
 
+	static var appShareSuccess: String {
+		return NSLocalizedString("app_share_success", comment: "")
+	}
+
+	static var appShareError: String {
+		return NSLocalizedString("app_share_error", comment: "")
+	}
+
 	static var blockUserErrorGeneric: String {
 		return NSLocalizedString("block_user_error_generic", comment: "")
 	}
@@ -2381,6 +2389,14 @@ struct LGLocalizedString {
 
 	static func userShareMessageOtherWName(var1: String) -> String {
 		return String(format: NSLocalizedString("user_share_message_other_w_name", comment: ""), var1)
+	}
+
+	static var userShareSuccess: String {
+		return NSLocalizedString("user_share_success", comment: "")
+	}
+
+	static var userShareError: String {
+		return NSLocalizedString("user_share_error", comment: "")
 	}
 
 	static func userRatingMessageWName(var1: String) -> String {

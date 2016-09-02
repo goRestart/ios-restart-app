@@ -629,6 +629,10 @@ private extension UserViewModel {
 // MARK: - Share delegate 
 
 extension UserViewModel: NativeShareDelegate {
+
+    var nativeShareSuccessMessage: String? { return LGLocalizedString.userShareSuccess }
+    var nativeShareErrorMessage: String? { return LGLocalizedString.userShareError }
+
     //TODO trackings
     func nativeShareInFacebook() {}
     func nativeShareInTwitter() {}
