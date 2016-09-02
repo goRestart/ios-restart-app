@@ -90,7 +90,7 @@ extension PostProductDetailPriceView: UITextFieldDelegate {
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange,
                    replacementString string: String) -> Bool {
         guard textField == priceTextField else { return true }
-        return textField.shouldChangePriceInRange(range, replacementString: string)
+        return textField.shouldChangePriceInRange(range, replacementString: string, acceptsSeparator: true)
     }
 }
 

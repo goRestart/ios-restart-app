@@ -14,8 +14,8 @@ extension UITextField {
         return string
     }
 
-    func shouldChangePriceInRange(range: NSRange, replacementString string: String) -> Bool {
+    func shouldChangePriceInRange(range: NSRange, replacementString string: String, acceptsSeparator: Bool) -> Bool {
         let updatedText = textReplacingCharactersInRange(range, replacementString: string)
-        return updatedText.isValidLengthPrice()
+        return updatedText.isValidLengthPrice(acceptsSeparator)
     }
 }

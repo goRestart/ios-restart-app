@@ -158,7 +158,8 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
 
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange,
                    replacementString string: String) -> Bool {
-        if textField == priceTextField && !textField.shouldChangePriceInRange(range, replacementString: string) {
+        if textField == priceTextField && !textField.shouldChangePriceInRange(range, replacementString: string,
+                                                                              acceptsSeparator: true) {
              return false
         }
 

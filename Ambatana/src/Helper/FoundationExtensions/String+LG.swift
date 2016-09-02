@@ -69,12 +69,17 @@ extension String {
         return regex?.firstMatchInString(self, options: [], range: NSMakeRange(0, self.characters.count)) != nil
     }
 
-    func isValidLengthPrice() -> Bool {
+    func isValidLengthPrice(acceptsSeparator: Bool) -> Bool {
         let separator = componentsSeparatedByCharactersInSet(NSCharacterSet.decimalDigitCharacterSet())
             .joinWithSeparator("")
+        let formatter = NSNumberFormatter()
+        formatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
+        formatter.locale = NSLocale.autoupdatingCurrentLocale()
         if separator.isEmpty {
             return characters.count <= Constants.maxPriceIntegerCharacters
-        } else if separator.characters.count > 1 {
+        } else if acceptsSeparator && separator != formatter.decimalSeparator {
+            return false
+        } else if !acceptsSeparator && !separator.isEmpty {
             return false
         }
 

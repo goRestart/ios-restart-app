@@ -99,10 +99,13 @@ class StringLGSpec: QuickSpec {
             context("isValidLengthPrice") {
                 describe("correct number") {
                     beforeEach {
-                        sut = "999,7"
+                        sut = "999.7"
                     }
-                    it("returns true") {
-                        expect(sut.isValidLengthPrice()) == true
+                    it("accepts separator - returns true") {
+                        expect(sut.isValidLengthPrice(true)) == true
+                    }
+                    it("does not accept separator - returns false") {
+                        expect(sut.isValidLengthPrice(false)) == false
                     }
                 }
                 describe("not a number") {
@@ -110,7 +113,7 @@ class StringLGSpec: QuickSpec {
                         sut = "holaquetal"
                     }
                     it("returns false") {
-                        expect(sut.isValidLengthPrice()) == false
+                        expect(sut.isValidLengthPrice(true)) == false
                     }
                 }
                 describe("too big number") {
@@ -118,7 +121,7 @@ class StringLGSpec: QuickSpec {
                         sut = "1000000000"
                     }
                     it("returns false") {
-                        expect(sut.isValidLengthPrice()) == false
+                        expect(sut.isValidLengthPrice(true)) == false
                     }
                 }
                 describe("too much decimals") {
@@ -126,7 +129,7 @@ class StringLGSpec: QuickSpec {
                         sut = "100,888"
                     }
                     it("returns false") {
-                        expect(sut.isValidLengthPrice()) == false
+                        expect(sut.isValidLengthPrice(true)) == false
                     }
                 }
             }
