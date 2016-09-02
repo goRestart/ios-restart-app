@@ -213,10 +213,10 @@ final class TabBarController: UITabBarController {
             guard shouldSelectVC else { return }
         }
 
-        selectedIndex = tab.index
-
         // Pop previous navigation to root
         navBarCtl.popToRootViewControllerAnimated(false)
+
+        selectedIndex = tab.index
 
         // Notify the delegate, as programmatically change doesn't do it
         delegate?.tabBarController?(self, didSelectViewController: vc)
