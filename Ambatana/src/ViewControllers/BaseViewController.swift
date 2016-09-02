@@ -468,7 +468,9 @@ public class BaseViewController: UIViewController, TabBarShowable {
     internal func viewWillDisappearToBackground(toBackground: Bool) {
         
         if !toBackground {
-            UIApplication.sharedApplication().setStatusBarStyle(previousStatusBarStyle, animated: true)
+            if !isRootViewController() {
+                UIApplication.sharedApplication().setStatusBarStyle(previousStatusBarStyle, animated: true)
+            }
 
             NSNotificationCenter.defaultCenter().removeObserver(self, name: UIApplicationDidEnterBackgroundNotification, object: nil)
             NSNotificationCenter.defaultCenter().removeObserver(self, name: UIApplicationWillEnterForegroundNotification, object: nil)
