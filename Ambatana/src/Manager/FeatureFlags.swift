@@ -15,16 +15,16 @@ enum PostingDetailsMode: Int {
 }
 
 struct FeatureFlags {
-    static var websocketChat: Bool {
+    static var websocketChat: Bool = {
         return FTSFlipTheSwitch.websocketChat
-    }
+    }()
     
-    static var notificationsSection: Bool {
+    static var notificationsSection: Bool = {
         if FTSFlipTheSwitch.overridesABTests {
             return FTSFlipTheSwitch.notificationsSection
         }
         return false
-    }
+    }()
 
     static var userRatings: Bool {
         return FTSFlipTheSwitch.userRatings
@@ -76,19 +76,19 @@ struct FeatureFlags {
         return PostingDetailsMode(rawValue: ABTests.postingDetailsMode.value) ?? .Old
     }
     
-    static var showInviteHeartIcon: Bool {
+    static var showInviteHeartIcon: Bool = {
         if FTSFlipTheSwitch.overridesABTests {
             return FTSFlipTheSwitch.showInviteHeartIcon
         }
         return ABTests.showInviteHeartIcon.value
-    }
+    }()
 
-    static var profileVerifyOneButton: Bool {
+    static var profileVerifyOneButton: Bool = {
         if FTSFlipTheSwitch.overridesABTests {
             return FTSFlipTheSwitch.profileVerifyOneButton
         }
         return ABTests.profileVerifyOneButton.value
-    }
+    }()
 }
 
 private extension FTSFlipTheSwitch {
