@@ -388,7 +388,6 @@ enum AccessibilityId: String {
 
     // Verify Accounts popup
     case VerifyAccountsBackgroundButton
-    case VerifyAccountsCloseButton
     case VerifyAccountsFacebookButton
     case VerifyAccountsGoogleButton
     case VerifyAccountsEmailButton

@@ -15,7 +15,6 @@ class VerifyAccountsViewController: BaseViewController, GIDSignInUIDelegate {
     @IBOutlet weak var contentContainer: UIView!
     @IBOutlet weak var contentContainerCenterY: NSLayoutConstraint!
     @IBOutlet weak var backgroundButton: UIButton!
-    @IBOutlet weak var closeButton: UIButton!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!
 
@@ -99,34 +98,39 @@ class VerifyAccountsViewController: BaseViewController, GIDSignInUIDelegate {
         if viewModel.fbButtonState.value == .Hidden {
             fbContainerHeight.constant = 0
             fbContainerBottom.constant = 0
+            fbButton.hidden = true
         }
         if viewModel.googleButtonState.value == .Hidden {
             googleContainerHeight.constant = 0
             googleContainerBottom.constant = 0
+            googleButton.hidden = true
         }
         if viewModel.emailButtonState.value == .Hidden {
             emailContainerHeight.constant = 0
             emailContainerBottom.constant = emailContainerInvisibleMargin
-        } else {
-            emailButton.hidden = viewModel.emailRequiresInput
-            emailButtonLogo.hidden = viewModel.emailRequiresInput
-            emailTextField.hidden = !viewModel.emailRequiresInput
-            emailTextFieldLogo.hidden = !viewModel.emailRequiresInput
-            emailTextFieldButton.hidden = !viewModel.emailRequiresInput
+            emailContainer.hidden = true
         }
     }
 
     private func setupRx() {
         viewModel.fbButtonState.asObservable().bindTo(fbButton.rx_veryfy_state).addDisposableTo(disposeBag)
         viewModel.googleButtonState.asObservable().bindTo(googleButton.rx_veryfy_state).addDisposableTo(disposeBag)
-        if viewModel.emailRequiresInput {
-            viewModel.emailButtonState.asObservable().bindTo(emailTextFieldButton.rx_veryfy_state).addDisposableTo(disposeBag)
-        } else {
-            viewModel.emailButtonState.asObservable().bindTo(emailButton.rx_veryfy_state).addDisposableTo(disposeBag)
-        }
+        viewModel.emailButtonState.asObservable().bindTo(emailButton.rx_veryfy_state).addDisposableTo(disposeBag)
+        viewModel.typedEmailState.asObservable().bindTo(emailTextFieldButton.rx_veryfy_state).addDisposableTo(disposeBag)
+        viewModel.typedEmailState.asObservable().map { state in
+            switch state {
+            case .Hidden:
+                return true
+            case .Loading, .Enabled, .Disabled:
+                return false
+            }
+        }.bindNext { [weak self] (hidden:Bool) in
+            self?.emailButtonLogo.hidden = !hidden
+            self?.emailTextField.hidden = hidden
+            self?.emailTextFieldLogo.hidden = hidden
+        }.addDisposableTo(disposeBag)
 
         backgroundButton.rx_tap.bindNext { [weak self] in self?.viewModel.closeButtonPressed() }.addDisposableTo(disposeBag)
-        closeButton.rx_tap.bindNext { [weak self] in self?.viewModel.closeButtonPressed() }.addDisposableTo(disposeBag)
         fbButton.rx_tap.bindNext { [weak self] in self?.viewModel.fbButtonPressed()}.addDisposableTo(disposeBag)
         googleButton.rx_tap.bindNext { [weak self] in self?.viewModel.googleButtonPressed() }.addDisposableTo(disposeBag)
         emailButton.rx_tap.bindNext { [weak self] in self?.viewModel.emailButtonPressed() }.addDisposableTo(disposeBag)
@@ -157,7 +161,6 @@ extension VerifyAccountsViewController: VerifyAccountsViewModelDelegate {
 extension VerifyAccountsViewController {
     func setAccesibilityIds() {
         backgroundButton.accessibilityId = .VerifyAccountsBackgroundButton
-        closeButton.accessibilityId = .VerifyAccountsCloseButton
         fbButton.accessibilityId = .VerifyAccountsFacebookButton
         googleButton.accessibilityId = .VerifyAccountsGoogleButton
         emailButton.accessibilityId = .VerifyAccountsEmailButton

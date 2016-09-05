@@ -33,7 +33,9 @@ class UserViewHeader: UIView {
     private static let simpleButtonWidth: CGFloat = 22
     private static let simpleContainerHeight: CGFloat = 28
     private static let simpleContainerEmptyHeight: CGFloat = 20
-    private static let simpleContainerVisibleItemsWidth: CGFloat = 500
+    private static var halfWidthScreen: CGFloat {
+        return UIScreen.mainScreen().bounds.width / 2
+    }
 
     private static let ratingCountContainerLeadingVisible: CGFloat = 15
     private static let ratingCountContainerTrailingVisible: CGFloat = 20
@@ -68,10 +70,9 @@ class UserViewHeader: UIView {
     @IBOutlet weak var simpleEmailButtonWidth: NSLayoutConstraint!
 
     @IBOutlet weak var buildTrustSeparator: UIView!
-    @IBOutlet var buildTrustSeparatorSpace: [NSLayoutConstraint]!
     @IBOutlet weak var buildTrustButton: UIButton!
     @IBOutlet weak var buildTrustButtonHeight: NSLayoutConstraint!
-    @IBOutlet weak var buildTrustButtonWidth: NSLayoutConstraint!
+    @IBOutlet weak var buildTrustContainerButtonWidth: NSLayoutConstraint!
 
     @IBOutlet weak var verifiedMyUserView: UIView!
     @IBOutlet weak var verifiedMyUserTitle: UILabel!
@@ -235,18 +236,17 @@ extension UserViewHeader {
             verifiedSimpleTitle.text = anyAccountVerified ? LGLocalizedString.profileVerifiedAccountsOtherUser : ""
             verifiedSimpleContainerHeight.constant = anyAccountVerified ? UserViewHeader.simpleContainerHeight :
                 UserViewHeader.simpleContainerEmptyHeight
-            verifiedSimpleContainerWidth.constant = anyAccountVerified ? UserViewHeader.simpleContainerVisibleItemsWidth : 0
         }
 
         if buildTrustButtonVisible {
-            buildTrustSeparatorSpace.forEach { $0.constant = anyAccountVerified ? UserViewHeader.buildTrustSeparatorSpace : 0 }
             buildTrustSeparator.hidden = !anyAccountVerified
-            buildTrustButtonWidth.constant = UserViewHeader.simpleContainerVisibleItemsWidth
+            buildTrustContainerButtonWidth.constant = anyAccountVerified ? 0 : UserViewHeader.halfWidthScreen
+            verifiedSimpleContainerWidth.constant = anyAccountVerified ? 0 : -UserViewHeader.halfWidthScreen
             updateBuildTrustButton(big: !anyAccountVerified)
         } else {
             buildTrustSeparator.hidden = true
-            buildTrustSeparatorSpace.forEach { $0.constant = 0 }
-            buildTrustButtonWidth.constant = 0
+            buildTrustContainerButtonWidth.constant = -UserViewHeader.halfWidthScreen
+            verifiedSimpleContainerWidth.constant = UserViewHeader.halfWidthScreen
             buildTrustButtonHeight.constant = 0
         }
     }
