@@ -58,7 +58,14 @@ class ProductCarouselMoreInfoView: UIView {
     private var scrollBottomInset: CGFloat {
         guard let status = viewModel?.status.value else { return 0 }
         // Needed to avoid drawing content below the chat button
-        return status == .OtherAvailable ? 80 : 0
+        switch status {
+        case .Pending, .OtherSold, .NotAvailable:
+            // No buttons in the bottom
+            return 0
+        case .PendingAndCommercializable, .Available, .Sold, .OtherAvailable, .AvailableAndCommercializable:
+            // Has a button in the bottom
+            return 80
+        }
     }
 
     weak var delegate: ProductCarouselMoreInfoDelegate?

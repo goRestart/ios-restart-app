@@ -11,6 +11,15 @@ import SafariServices
 
 extension UIViewController {
 
+    var barButtonsHoritzontalSpacing: CGFloat {
+        switch DeviceFamily.current {
+        case .iPhone4, .iPhone5:
+            return 8
+        default:
+            return 24
+        }
+    }
+
     func isRootViewController() -> Bool  {
         guard navigationController?.viewControllers.count > 0 else { return false }
         return navigationController?.viewControllers[0] == self
@@ -60,15 +69,14 @@ extension UIViewController {
     
     func setNavigationBarRightButtons(buttons: [UIButton]) {
         let height: CGFloat = 44
-        let hSpacing: CGFloat = 24
-        
+
         var x: CGFloat = 0
         var width: CGFloat = 0
         
         let items: [UIBarButtonItem] = buttons.flatMap { button in
             guard let icon = button.imageForState(.Normal) else { return nil }
             
-            let buttonWidth = icon.size.width + hSpacing
+            let buttonWidth = icon.size.width + barButtonsHoritzontalSpacing
             button.frame = CGRect(x: x, y: 0, width: buttonWidth, height: height)
             button.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Right
             
