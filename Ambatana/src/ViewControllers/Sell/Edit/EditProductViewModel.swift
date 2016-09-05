@@ -380,8 +380,7 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
 
     var fbShareContent: FBSDKShareLinkContent? {
         if let product = savedProduct {
-            let title = LGLocalizedString.sellShareFbContent
-            return SocialHelper.socialMessageWithTitle(title, product: product).fbShareContent
+            return SocialHelper.socialMessageWithProduct(product).fbShareContent
         }
         return nil
     }

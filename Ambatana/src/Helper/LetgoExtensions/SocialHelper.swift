@@ -21,9 +21,11 @@ final class SocialHelper {
         - parameter product: The product
         - returns: The social message.
     */
-    static func socialMessageWithTitle(title: String, product: Product) -> SocialMessage {
+    static func socialMessageWithProduct(product: Product) -> SocialMessage {
         let productIsMine = Core.myUserRepository.myUser?.objectId == product.user.objectId
-        return ProductSocialMessage(title: title, product: product, isMine: productIsMine)
+        let socialTitle = productIsMine ? LGLocalizedString.productIsMineShareBody :
+            LGLocalizedString.productShareBody
+        return ProductSocialMessage(title: socialTitle, product: product, isMine: productIsMine)
     }
 
     static func socialMessageAppShare() -> SocialMessage {

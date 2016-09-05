@@ -4,12 +4,14 @@
 "account_pending_moderation_w_name" = "%@'s account is pending moderation";
 "app_share_download_text" = "Download";
 "app_share_email_button" = "Invite via Email";
+"app_share_error" = "An error occurred while sharing the app. Please try again later.";
 "app_share_fbmessenger_button" = "Invite via Messenger";
 "app_share_invite_text" = "Invite";
 "app_share_message_text" = "Check out the letgo app and make cash selling stuff you don't use anymore!";
 "app_share_subject_text" = "Check out letgo";
 "app_share_subtitle" = "Invite your friends to letgo and help us grow our community!";
 "app_share_subtitle_alternative" = "Share letgo with your friends and help us grow our community!";
+"app_share_success" = "App successfully shared!";
 "app_share_title" = "INVITE YOUR FRIENDS";
 "app_share_title_alternative" = "SHARE THE LOVE";
 "app_share_whatsapp_button" = "Invite via Whatsapp";
@@ -264,7 +266,7 @@
 "log_in_title" = "Sign in with email";
 "main_sign_up_claim_label" = "Start to sell and buy—by chat!";
 "main_sign_up_error_request_already_sent" = "Your request has already been processed. Please wait before trying again.";
-"main_sign_up_error_user_rejected" = "The email or password you entered is incorrect. Please try again.";
+"main_sign_up_error_user_rejected" = "The email you entered is incorrect. Please check it and try again.";
 "main_sign_up_facebook_connect_button" = "Continue with Facebook";
 "main_sign_up_fb_connect_error_email_taken" = "Your email address is already registered. Please use it to log in.";
 "main_sign_up_fb_connect_error_generic" = "Unable to log in. Please try again.";
@@ -344,6 +346,7 @@
 "product_delete_success_message" = "Your product was successfully deleted.";
 "product_distance_X_from_you" = "%@ from you";
 "product_distance_more_than_from_you" = "More than %@ from you";
+"product_is_mine_share_body" = "Check out what I'm selling on letgo!";
 "product_list_banner_cell_title" = "SEE YOUR LISTING HERE";
 "product_list_item_sold_status_label" = "SOLD";
 "product_list_item_time_hour_label" = "%ih";
@@ -594,10 +597,12 @@
 "user_rating_review_placeholder_optional" = "Write about your experience (optional)";
 "user_rating_review_send_success" = "Your review has been published!";
 "user_rating_title" = "Review your experience with";
-"user_share_message_mine" = "Take a look at everything I'm selling on letgo:";
-"user_share_message_other" = "Take a look at everything this seller has on letgo:";
-"user_share_message_other_w_name" = "Take a look at everything %@ is selling on letgo:";
+"user_share_error" = "An error occurred while sharing the profile. Please try again later.";
+"user_share_message_mine" = "Take a look at everything I'm selling on letgo!";
+"user_share_message_other" = "Take a look at everything this seller has on letgo!";
+"user_share_message_other_w_name" = "Take a look at everything %@ is selling on letgo!";
 "user_share_navbar_button" = "Share";
+"user_share_success" = "Profile successfully shared!";
 "user_share_title_text_mine" = "Check out my letgo profile!";
 "user_share_title_text_other" = "Check out this user's letgo profile!";
 "user_share_title_text_other_w_name" = "Check out %@'s letgo profile!";
