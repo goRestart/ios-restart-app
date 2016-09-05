@@ -266,7 +266,7 @@
 "log_in_title" = "Aanmelden met e-mail";
 "main_sign_up_claim_label" = "Start met verkopen en kopen - door te chatten!";
 "main_sign_up_error_request_already_sent" = "Je aanvraag is al verwerkt. Gelieve te wachten voordat je het opnieuw probeert.";
-"main_sign_up_error_user_rejected" = "Het e-mailadres of wachtwoord is onjuist. Probeer het opnieuw.";
+"main_sign_up_error_user_rejected" = "Het e-mailadres dat je hebt ingevoerd is onjuist. Controleer het en probeer het opnieuw.";
 "main_sign_up_facebook_connect_button" = "Doorgaan met Facebook";
 "main_sign_up_fb_connect_error_email_taken" = "Jouw e-mailadres is al geregistreerd. Gebruik het a.u.b. om in te loggen.";
 "main_sign_up_fb_connect_error_generic" = "Niet in staat om in te loggen. Gelieve het nog eens te proberen.";
@@ -346,7 +346,7 @@
 "product_delete_success_message" = "Jouw product werd succesvol verwijderd.";
 "product_distance_X_from_you" = "%@ van bij jou";
 "product_distance_more_than_from_you" = "Meer dan %@ van bij jou";
-"product_is_mine_share_body" = "Check out what I'm selling on letgo!";
+"product_is_mine_share_body" = "Bekijk wat ik op letgo verkoop!";
 "product_list_banner_cell_title" = "ZIE JOUW ADVERTENTIE HIER";
 "product_list_item_sold_status_label" = "VERKOCHT";
 "product_list_item_time_hour_label" = "%iu";

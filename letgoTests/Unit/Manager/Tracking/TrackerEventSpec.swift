@@ -1784,6 +1784,36 @@ class TrackerEventSpec: QuickSpec {
                 }
             }
 
+            describe("profileShareStart") {
+                beforeEach {
+                    sut = TrackerEvent.profileShareStart(.Public)
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("profile-share-start"))
+                }
+                it("contains profile-type param") {
+                    let typePage = sut.params!.stringKeyParams["profile-type"] as? String
+                    expect(typePage).to(equal("public"))
+                }
+            }
+
+            describe("profileShareComplete") {
+                beforeEach {
+                    sut = TrackerEvent.profileShareComplete(.Public, shareNetwork: .Facebook)
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("profile-share-complete"))
+                }
+                it("contains profile-type param") {
+                    let typePage = sut.params!.stringKeyParams["profile-type"] as? String
+                    expect(typePage).to(equal("public"))
+                }
+                it("contains share-network param") {
+                    let typePage = sut.params!.stringKeyParams["share-network"] as? String
+                    expect(typePage).to(equal("facebook"))
+                }
+            }
+
             describe("appInviteFriendStart") {
                 beforeEach {
                     sut = TrackerEvent.appInviteFriendStart(.Settings)

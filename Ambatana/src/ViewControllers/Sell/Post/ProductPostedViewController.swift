@@ -185,6 +185,9 @@ class ProductPostedViewController: BaseViewController, ProductPostedViewModelDel
 
 extension ProductPostedViewController: NativeShareDelegate {
 
+    var nativeShareSuccessMessage: String? { return LGLocalizedString.productShareGenericOk }
+    var nativeShareErrorMessage: String? { return LGLocalizedString.productShareGenericError }
+
     func nativeShareInFacebook() {
         viewModel.nativeShareInFacebook()
         viewModel.nativeShareInFacebookFinished(.Completed)

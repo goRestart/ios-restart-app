@@ -266,7 +266,7 @@
 "log_in_title" = "Registrer deg med e-post";
 "main_sign_up_claim_label" = "Sett i gang med salg, kjøp og chat";
 "main_sign_up_error_request_already_sent" = "Din forespørsel er allerede prosessert. Vennligst vent før du prøver igjen.";
-"main_sign_up_error_user_rejected" = "Det foreligger feil ved valgt e-post eller passord. Vennligst prøv igjen.";
+"main_sign_up_error_user_rejected" = "E-postadressen du valgte er ugyldig. Vennligst sjekk og prøv igjen.";
 "main_sign_up_facebook_connect_button" = "Fortsett med Facebook";
 "main_sign_up_fb_connect_error_email_taken" = "Din e-postadresse er allerede registrert. Vennligst bruk den til å logge inn.";
 "main_sign_up_fb_connect_error_generic" = "Feil ved innlogging. Vennligst prøv igjen.";

@@ -24,6 +24,7 @@ protocol UserViewModelDelegate: BaseViewModelDelegate {
     func vmOpenHome()
     func vmOpenRatingList(ratingListVM: UserRatingListViewModel)
     func vmShowUserActionSheet(cancelLabel: String, actions: [UIAction])
+    func vmShowNativeShare(socialMessage: SocialMessage)
 }
 
 class UserViewModel: BaseViewModel {
@@ -43,6 +44,7 @@ class UserViewModel: BaseViewModel {
     private let userRelationIsBlocked = Variable<Bool>(false)
     private let userRelationIsBlockedBy = Variable<Bool>(false)
     private let source: UserSource
+    private var socialMessage: SocialMessage? = nil
 
     private let sellingProductListViewModel: ProductListViewModel
     private let sellingProductListRequester: UserProductListRequester
@@ -213,6 +215,12 @@ extension UserViewModel {
     func pushPermissionsWarningPressed() {
         openPushPermissionsAlert()
     }
+
+    func shareButtonPressed() {
+        guard let socialMessage = socialMessage else { return }
+        delegate?.vmShowNativeShare(socialMessage)
+        trackShareStart()
+    }
 }
 
 
@@ -233,12 +241,20 @@ extension UserViewModel {
     private func buildNavBarButtons() -> [UIAction] {
         var navBarButtons = [UIAction]()
 
+        navBarButtons.append(buildShareNavBarAction())
         if isMyProfile {
             navBarButtons.append(buildSettingsNavBarAction())
         } else if sessionManager.loggedIn && !isMyUser {
             navBarButtons.append(buildMoreNavBarAction())
         }
         return navBarButtons
+    }
+
+    private func buildShareNavBarAction() -> UIAction {
+        let icon = UIImage(named: "navbar_share")?.imageWithRenderingMode(.AlwaysOriginal)
+        return UIAction(interface: .Image(icon), action: { [weak self] in
+            self?.shareButtonPressed()
+        }, accessibilityId: .UserNavBarShareButton)
     }
 
     private func buildSettingsNavBarAction() -> UIAction {
@@ -415,6 +431,7 @@ extension UserViewModel {
         setupUserRelationRxBindings()
         setupTabRxBindings()
         setupProductListViewRxBindings()
+        setupShareRxBindings()
     }
 
     private func setupUserInfoRxBindings() {
@@ -528,6 +545,16 @@ extension UserViewModel {
             self?.resetLists()
         }.addDisposableTo(disposeBag)
     }
+
+    private func setupShareRxBindings() {
+        user.asObservable().subscribeNext { [weak self] user in
+            guard let user = user, itsMe = self?.itsMe else {
+                self?.socialMessage = nil
+                return
+            }
+            self?.socialMessage = SocialHelper.socialMessageUser(user, itsMe: itsMe)
+        }.addDisposableTo(disposeBag)
+    }
 }
 
 
@@ -600,6 +627,28 @@ private extension UserViewModel {
 }
 
 
+// MARK: - Share delegate 
+
+extension UserViewModel: NativeShareDelegate {
+
+    var nativeShareSuccessMessage: String? { return LGLocalizedString.userShareSuccess }
+    var nativeShareErrorMessage: String? { return LGLocalizedString.userShareError }
+
+    func nativeShareInFacebook() {
+        trackShareComplete(.Facebook)
+    }
+    func nativeShareInTwitter() {
+        trackShareComplete(.Twitter)
+    }
+    func nativeShareInEmail() {
+        trackShareComplete(.Email)
+    }
+    func nativeShareInWhatsApp() {
+        trackShareComplete(.Whatsapp)
+    }
+}
+
+
 // MARK: - Tracking
 
 extension UserViewModel {
@@ -666,6 +715,18 @@ extension UserViewModel {
             PushPermissionsManager.sharedInstance.pushPermissionsSettingsMode ? .True : .NotAvailable
         let trackerEvent = TrackerEvent.permissionAlertCancel(.Push, typePage: .Profile, alertType: .Custom,
                                                               permissionGoToSettings: goToSettings)
+        tracker.trackEvent(trackerEvent)
+    }
+
+    private func trackShareStart() {
+        let profileType: EventParameterProfileType = isMyUser ? .Private : .Public
+        let trackerEvent = TrackerEvent.profileShareStart(profileType)
+        tracker.trackEvent(trackerEvent)
+    }
+
+    private func trackShareComplete(shareNetwork: EventParameterShareNetwork) {
+        let profileType: EventParameterProfileType = isMyUser ? .Private : .Public
+        let trackerEvent = TrackerEvent.profileShareComplete(profileType, shareNetwork: shareNetwork)
         tracker.trackEvent(trackerEvent)
     }
 }

@@ -592,6 +592,9 @@ public class MainProductsViewModelShareDelegate: NativeShareDelegate {
 
     let sharingProduct: Product
 
+    var nativeShareSuccessMessage: String? { return LGLocalizedString.appShareSuccess }
+    var nativeShareErrorMessage: String? { return LGLocalizedString.appShareError }
+
     init(product: Product, myUser: MyUser?) {
         self.sharingProduct = product
     }

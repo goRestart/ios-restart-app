@@ -182,6 +182,11 @@ extension UserViewController: UserViewModelDelegate {
     func vmShowUserActionSheet(cancelLabel: String, actions: [UIAction]) {
         showActionSheet(cancelLabel, actions: actions, barButtonItem: navigationItem.rightBarButtonItem)
     }
+
+    func vmShowNativeShare(socialMessage: SocialMessage) {
+        let barButtonItem = navigationItem.rightBarButtonItems?.first
+        presentNativeShare(socialMessage: socialMessage, delegate: viewModel, barButtonItem: barButtonItem)
+    }
 }
 
 
