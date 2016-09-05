@@ -266,7 +266,7 @@
 "log_in_title" = "Sign in with email";
 "main_sign_up_claim_label" = "Start to sell and buy—by chat!";
 "main_sign_up_error_request_already_sent" = "Your request has already been processed. Please wait before trying again.";
-"main_sign_up_error_user_rejected" = "The email or password you entered is incorrect. Please try again.";
+"main_sign_up_error_user_rejected" = "The email you entered is incorrect. Please check it and try again.";
 "main_sign_up_facebook_connect_button" = "Continue with Facebook";
 "main_sign_up_fb_connect_error_email_taken" = "Your email address is already registered. Please use it to log in.";
 "main_sign_up_fb_connect_error_generic" = "Unable to log in. Please try again.";
@@ -346,6 +346,7 @@
 "product_delete_success_message" = "Your product was successfully deleted.";
 "product_distance_X_from_you" = "%@ from you";
 "product_distance_more_than_from_you" = "More than %@ from you";
+"product_is_mine_share_body" = "Check out what I'm selling on letgo!";
 "product_list_banner_cell_title" = "SEE YOUR LISTING HERE";
 "product_list_item_sold_status_label" = "SOLD";
 "product_list_item_time_hour_label" = "%ih";

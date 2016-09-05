@@ -285,8 +285,7 @@ class ProductViewModel: BaseViewModel {
 
             strongSelf.productIsFavoriteable.value = !product.isMine
             strongSelf.isFavorite.value = product.favorite
-            let socialTitle = LGLocalizedString.productShareBody
-            strongSelf.socialMessage.value = SocialHelper.socialMessageWithTitle(socialTitle, product: product)
+            strongSelf.socialMessage.value = SocialHelper.socialMessageWithProduct(product)
             strongSelf.productImageURLs.value = product.images.flatMap { return $0.fileURL }
 
             strongSelf.productTitle.value = product.title
@@ -672,8 +671,7 @@ extension ProductViewModel {
     }
 
     private var socialShareMessage: SocialMessage {
-        let title = LGLocalizedString.productShareBody
-        return SocialHelper.socialMessageWithTitle(title, product: product.value)
+        return SocialHelper.socialMessageWithProduct(product.value)
     }
 
     private var suggestMarkSoldWhenDeleting: Bool {

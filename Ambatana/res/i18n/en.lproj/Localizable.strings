@@ -802,7 +802,7 @@
 "main_sign_up_fb_connect_error_generic" = "Unable to log in. Please try again.";
 
 // Main sign up error email invalid. Message displayal is like the other error messages
-"main_sign_up_error_user_rejected" = "The email or password you entered is incorrect. Please try again.";
+"main_sign_up_error_user_rejected" = "The email you entered is incorrect. Please check it and try again.";
 
 // Main sign up error request already sent. Message displayal is like the other error messages
 "main_sign_up_error_request_already_sent" = "Your request has already been processed. Please wait before trying again.";
@@ -1301,6 +1301,8 @@
 
 // Product share body
 "product_share_body" = "Look what I just found on letgo!";
+
+"product_is_mine_share_body" = "Check out what I'm selling on letgo!";
 
 // Product share via copy_link success
 "product_share_copylink_ok" = "Your link has been copied!";

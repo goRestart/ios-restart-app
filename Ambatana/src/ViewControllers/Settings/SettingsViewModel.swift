@@ -194,7 +194,6 @@ class SettingsViewModel: BaseViewModel {
 
     private func logoutUser() {
         Core.sessionManager.logout()
-
         tracker.trackEvent(TrackerEvent.logout())
         tracker.setUser(nil)
     }

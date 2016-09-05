@@ -1755,6 +1755,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("product_share_body", comment: "")
 	}
 
+	static var productIsMineShareBody: String {
+		return NSLocalizedString("product_is_mine_share_body", comment: "")
+	}
+
 	static var productShareCopylinkOk: String {
 		return NSLocalizedString("product_share_copylink_ok", comment: "")
 	}
