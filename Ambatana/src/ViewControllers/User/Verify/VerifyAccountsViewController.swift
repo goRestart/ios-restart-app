@@ -109,23 +109,26 @@ class VerifyAccountsViewController: BaseViewController, GIDSignInUIDelegate {
             emailContainerHeight.constant = 0
             emailContainerBottom.constant = emailContainerInvisibleMargin
             emailContainer.hidden = true
-        } else {
-            emailButton.hidden = viewModel.emailRequiresInput
-            emailButtonLogo.hidden = viewModel.emailRequiresInput
-            emailTextField.hidden = !viewModel.emailRequiresInput
-            emailTextFieldLogo.hidden = !viewModel.emailRequiresInput
-            emailTextFieldButton.hidden = !viewModel.emailRequiresInput
         }
     }
 
     private func setupRx() {
         viewModel.fbButtonState.asObservable().bindTo(fbButton.rx_veryfy_state).addDisposableTo(disposeBag)
         viewModel.googleButtonState.asObservable().bindTo(googleButton.rx_veryfy_state).addDisposableTo(disposeBag)
-        if viewModel.emailRequiresInput {
-            viewModel.emailButtonState.asObservable().bindTo(emailTextFieldButton.rx_veryfy_state).addDisposableTo(disposeBag)
-        } else {
-            viewModel.emailButtonState.asObservable().bindTo(emailButton.rx_veryfy_state).addDisposableTo(disposeBag)
-        }
+        viewModel.emailButtonState.asObservable().bindTo(emailButton.rx_veryfy_state).addDisposableTo(disposeBag)
+        viewModel.typedEmailState.asObservable().bindTo(emailTextFieldButton.rx_veryfy_state).addDisposableTo(disposeBag)
+        viewModel.typedEmailState.asObservable().map { state in
+            switch state {
+            case .Hidden:
+                return true
+            case .Loading, .Enabled, .Disabled:
+                return false
+            }
+        }.bindNext { [weak self] (hidden:Bool) in
+            self?.emailButtonLogo.hidden = !hidden
+            self?.emailTextField.hidden = hidden
+            self?.emailTextFieldLogo.hidden = hidden
+        }.addDisposableTo(disposeBag)
 
         backgroundButton.rx_tap.bindNext { [weak self] in self?.viewModel.closeButtonPressed() }.addDisposableTo(disposeBag)
         fbButton.rx_tap.bindNext { [weak self] in self?.viewModel.fbButtonPressed()}.addDisposableTo(disposeBag)
