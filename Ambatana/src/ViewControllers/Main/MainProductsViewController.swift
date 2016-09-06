@@ -311,10 +311,13 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     
     private func setInviteNavBarButton() {
         guard isRootViewController() else { return }
-        var button: UIBarButtonItem
-        if FeatureFlags.showInviteHeartIcon {
+        var button: UIBarButtonItem?
+        switch FeatureFlags.appInviteFeedMode {
+        case .None:
+            button = nil
+        case .Emoji:
             button = UIBarButtonItem(image: UIImage(named: "ic_invite"), style: .Plain, target: self, action: #selector(openInvite))
-        } else {
+        case .Text:
             button = UIBarButtonItem(title: LGLocalizedString.appShareInviteText, style: .Plain, target: self, action: #selector(openInvite))
         }
         navigationItem.leftBarButtonItem = button
@@ -382,6 +385,10 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
         RatingManager.sharedInstance.ratingProductListBannerVisible.asObservable()
             .distinctUntilChanged().subscribeNext { [weak self] _ in
                 self?.productListView.refreshDataView()
+        }.addDisposableTo(disposeBag)
+
+        ABTests.trackingData.asObservable().bindNext { [weak self] _ in
+            self?.setInviteNavBarButton()
         }.addDisposableTo(disposeBag)
     }
 }

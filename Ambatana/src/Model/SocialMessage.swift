@@ -226,8 +226,12 @@ struct ProductSocialMessage: SocialMessage {
 
 struct AppShareSocialMessage: SocialMessage {
 
-    let imageUrl: NSURL? = nil
+    private let imageUrl: NSURL?
     static var utmCampaignValue = "app-invite-friend"
+
+    init() {
+        imageUrl = NSURL(string: Constants.facebookAppInvitePreviewImageURL)
+    }
 
     var nativeShareItems: [AnyObject]? {
         guard let shareUrl = branchUrl(.Native) else { return nil }
@@ -268,7 +272,7 @@ struct AppShareSocialMessage: SocialMessage {
         shareContent.contentTitle = LGLocalizedString.appShareSubjectText
         shareContent.contentDescription = LGLocalizedString.appShareMessageText
         shareContent.contentURL = branchUrl(.Facebook)
-        shareContent.imageURL = NSURL(string: Constants.facebookAppInvitePreviewImageURL)
+        shareContent.imageURL = imageUrl
         return shareContent
     }
 
@@ -333,7 +337,6 @@ struct AppShareSocialMessage: SocialMessage {
 // MARK - User
 
 struct UserSocialMessage: SocialMessage {
-    let imageUrl: NSURL? = nil
     static var utmCampaignValue = "profile-share"
 
     private let userName: String?
@@ -435,7 +438,7 @@ struct UserSocialMessage: SocialMessage {
         branchUniversalObject.title = titleText
         branchUniversalObject.contentDescription = messageText
         branchUniversalObject.canonicalUrl = Constants.appWebsiteURL+"/users/"+userId
-        if let imageURL = imageUrl?.absoluteString {
+        if let imageURL = avatar?.absoluteString {
             branchUniversalObject.imageUrl = imageURL
         }
         return branchUniversalObject

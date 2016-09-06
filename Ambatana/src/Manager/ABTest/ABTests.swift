@@ -17,13 +17,13 @@ public struct ABTests {
     static var showPriceOnListings = BoolABDynamicVar(key: "showPriceOnListings", defaultValue: false)
     static var directStickersOnProduct = BoolABDynamicVar(key: "directStickersOnProduct", defaultValue: false)
     static var postingDetailsMode = IntABDynamicVar(key: "postingDetailsMode", defaultValue: 0)
-    static var showInviteHeartIcon = BoolABDynamicVar(key: "showInviteHeartIcon", defaultValue: false)
+    static var appInviteFeedMode = IntABDynamicVar(key: "appInviteFeedMode", defaultValue: 0)
     static var showNPSSurvey = BoolABDynamicVar(key: "showNPSSurvey", defaultValue: false)
     static var profileVerifyOneButton = BoolABDynamicVar(key: "profileVerifyOneButton", defaultValue: false)
     
     static private var allVariables: [ABVariable] {
         return [bigFavoriteIcon, showRelatedProducts, showPriceOnListings, directStickersOnProduct, postingDetailsMode,
-                showInviteHeartIcon, showNPSSurvey, profileVerifyOneButton]
+                appInviteFeedMode, showNPSSurvey, profileVerifyOneButton]
     }
 
     static func registerVariables() {
