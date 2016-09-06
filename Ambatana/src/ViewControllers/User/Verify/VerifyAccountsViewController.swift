@@ -134,9 +134,8 @@ class VerifyAccountsViewController: BaseViewController, GIDSignInUIDelegate {
         fbButton.rx_tap.bindNext { [weak self] in self?.viewModel.fbButtonPressed()}.addDisposableTo(disposeBag)
         googleButton.rx_tap.bindNext { [weak self] in self?.viewModel.googleButtonPressed() }.addDisposableTo(disposeBag)
         emailButton.rx_tap.bindNext { [weak self] in self?.viewModel.emailButtonPressed() }.addDisposableTo(disposeBag)
-        emailTextFieldButton.rx_tap.bindNext { [weak self] in self?.viewModel.emailButtonPressed() }.addDisposableTo(disposeBag)
+        emailTextFieldButton.rx_tap.bindNext { [weak self] in self?.viewModel.typedEmailButtonPressed() }.addDisposableTo(disposeBag)
         emailTextField.rx_text.bindTo(viewModel.typedEmail).addDisposableTo(disposeBag)
-
         keyboardHelper.rx_keyboardOrigin.asObservable().skip(1).distinctUntilChanged().bindNext { [weak self] origin in
             guard let viewHeight = self?.view.height, animationTime = self?.keyboardHelper.animationTime
                 where viewHeight >= origin else { return }
