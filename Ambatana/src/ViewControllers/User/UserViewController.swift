@@ -109,6 +109,9 @@ class UserViewController: BaseViewController {
     override func viewWillAppearFromBackground(fromBackground: Bool) {
         super.viewWillAppearFromBackground(fromBackground)
 
+        let _ = FeatureFlags.profileVerifyOneButton
+        headerContainer.header?.updateABTests()
+
         // UINavigationBar's title alpha gets resetted on view appear, does not allow initial 0.0 value
         if let navBarUserView = navBarUserView {
             let currentAlpha: CGFloat = navBarUserViewAlphaOnDisappear

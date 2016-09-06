@@ -98,17 +98,7 @@ class UserViewHeader: UIView {
 
     var mode: UserViewHeaderMode = .MyUser {
         didSet {
-            let simple = mode.simpleVerifyButtons
-            verifiedSimpleContainer.hidden = !simple
-            verifiedMyUserView.hidden = simple
-            if mode.showSelling {
-                let currentWidth = sellingButtonWidthConstraint.multiplier * frame.width
-                let halfWidth = 0.5 * frame.width
-                sellingButtonWidthConstraint.constant = halfWidth - currentWidth
-            } else {
-                sellingButtonWidthConstraint.constant = 0
-            }
-            updateInfoAndAccountsVisibility()
+            modeUpdated()
         }
     }
 
@@ -183,6 +173,11 @@ class UserViewHeader: UIView {
 // MARK: - Public methods
 
 extension UserViewHeader {
+    func updateABTests() {
+        // Just to force re-calculation of containers visibility
+        modeUpdated()
+    }
+
     func setAvatar(url: NSURL?, placeholderImage: UIImage?) {
         if let url = url {
             avatarImageView.lg_setImageWithURL(url, placeholderImage: placeholderImage)
@@ -202,6 +197,20 @@ extension UserViewHeader {
 
     func setUserRelationText(userRelationText: String?) {
         userRelationLabel.text = userRelationText
+        updateInfoAndAccountsVisibility()
+    }
+
+    private func modeUpdated() {
+        let simple = mode.simpleVerifyButtons
+        verifiedSimpleContainer.hidden = !simple
+        verifiedMyUserView.hidden = simple
+        if mode.showSelling {
+            let currentWidth = sellingButtonWidthConstraint.multiplier * frame.width
+            let halfWidth = 0.5 * frame.width
+            sellingButtonWidthConstraint.constant = halfWidth - currentWidth
+        } else {
+            sellingButtonWidthConstraint.constant = 0
+        }
         updateInfoAndAccountsVisibility()
     }
 

@@ -132,12 +132,13 @@ class AppShareViewController: UIViewController {
             inviteEmailBtn.hidden = true
             inviteEmailIcon.hidden = true
         }
-        
-        if FeatureFlags.showInviteHeartIcon {
+
+        switch FeatureFlags.appInviteFeedMode {
+        case .None, .Emoji: // This scree should not be oppened on case .None, but just to avoid breaking the ui
             headerImageView.image = UIImage(named: "invite_heart")
             titleLabel.text = LGLocalizedString.appShareTitleAlternative
             subtitleLabel.text = LGLocalizedString.appShareSubtitleAlternative
-        } else {
+        case .Text:
             headerImageView.image = UIImage(named: "invite_letgo")
             titleLabel.text = LGLocalizedString.appShareTitle
             subtitleLabel.text = LGLocalizedString.appShareSubtitle

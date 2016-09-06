@@ -14,6 +14,12 @@ enum PostingDetailsMode: Int {
     case Steps = 2
 }
 
+enum AppInviteListingMode: Int {
+    case None = 0
+    case Text = 1
+    case Emoji = 2
+}
+
 struct FeatureFlags {
     static var websocketChat: Bool = {
         return FTSFlipTheSwitch.websocketChat
@@ -76,19 +82,19 @@ struct FeatureFlags {
         return PostingDetailsMode(rawValue: ABTests.postingDetailsMode.value) ?? .Old
     }
     
-    static var showInviteHeartIcon: Bool = {
+    static var appInviteFeedMode: AppInviteListingMode {
         if FTSFlipTheSwitch.overridesABTests {
-            return FTSFlipTheSwitch.showInviteHeartIcon
+            return FTSFlipTheSwitch.showInviteHeartIcon ? .Emoji : .Text
         }
-        return ABTests.showInviteHeartIcon.value
-    }()
+        return AppInviteListingMode(rawValue: ABTests.appInviteFeedMode.value) ?? .None
+    }
 
-    static var profileVerifyOneButton: Bool = {
+    static var profileVerifyOneButton: Bool {
         if FTSFlipTheSwitch.overridesABTests {
             return FTSFlipTheSwitch.profileVerifyOneButton
         }
         return ABTests.profileVerifyOneButton.value
-    }()
+    }
 }
 
 private extension FTSFlipTheSwitch {
