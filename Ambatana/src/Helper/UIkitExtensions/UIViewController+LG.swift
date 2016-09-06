@@ -16,7 +16,7 @@ extension UIViewController {
         case .iPhone4, .iPhone5:
             return 8
         default:
-            return 24
+            return 16
         }
     }
 
@@ -71,7 +71,6 @@ extension UIViewController {
         let height: CGFloat = 44
 
         var x: CGFloat = 0
-        var width: CGFloat = 0
         
         let items: [UIBarButtonItem] = buttons.flatMap { button in
             guard let icon = button.imageForState(.Normal) else { return nil }
@@ -81,7 +80,6 @@ extension UIViewController {
             button.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Right
             
             x += buttonWidth
-            width += buttonWidth
             
             return UIBarButtonItem(customView: button)
         }
