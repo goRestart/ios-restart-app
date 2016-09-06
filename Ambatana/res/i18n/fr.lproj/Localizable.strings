@@ -346,7 +346,7 @@
 "product_delete_success_message" = "Votre bien a été supprimé avec succès.";
 "product_distance_X_from_you" = "à %@";
 "product_distance_more_than_from_you" = "A plus de %@";
-"product_is_mine_share_body" = "Check out what I'm selling on letgo!";
+"product_is_mine_share_body" = "Découvrez ce que je vend sur letgo !";
 "product_list_banner_cell_title" = "VOIR VOTRE BIEN ICI";
 "product_list_item_sold_status_label" = "VENDU";
 "product_list_item_time_hour_label" = "%ih";

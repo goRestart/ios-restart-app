@@ -346,7 +346,7 @@
 "product_delete_success_message" = "Ürün başarıyla silindi.";
 "product_distance_X_from_you" = "senden %@ uzakta";
 "product_distance_more_than_from_you" = "Senden %@'den daha uzakta";
-"product_is_mine_share_body" = "Check out what I'm selling on letgo!";
+"product_is_mine_share_body" = "letgo'da ne sattığıma bak!";
 "product_list_banner_cell_title" = "İLANINI BURADA GÖR";
 "product_list_item_sold_status_label" = "Satıldı";
 "product_list_item_time_hour_label" = "%isa";

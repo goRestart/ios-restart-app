@@ -346,7 +346,7 @@
 "product_delete_success_message" = "Sản phẩm của bạn đã được xóa thành công.";
 "product_distance_X_from_you" = "%@ từ bạn";
 "product_distance_more_than_from_you" = "Hơn %@ từ bạn";
-"product_is_mine_share_body" = "Check out what I'm selling on letgo!";
+"product_is_mine_share_body" = "Hãy xem tôi đang bán gì trên letgo!";
 "product_list_banner_cell_title" = "XEM BÀI ĐĂNG CỦA BẠN TẠI ĐÂY";
 "product_list_item_sold_status_label" = "ĐÃ BÁN";
 "product_list_item_time_hour_label" = "%ih";

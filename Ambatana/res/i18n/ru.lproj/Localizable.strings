@@ -346,7 +346,7 @@
 "product_delete_success_message" = "Ваш продукт был успешно удален.";
 "product_distance_X_from_you" = "%@ от вас";
 "product_distance_more_than_from_you" = "Более %@ от вас";
-"product_is_mine_share_body" = "Check out what I'm selling on letgo!";
+"product_is_mine_share_body" = "Смотрите, что я продаю на letgo!";
 "product_list_banner_cell_title" = "СМОТРЕТЬ СВОИ ОБЪЯВЛЕНИЯ";
 "product_list_item_sold_status_label" = "ПРОДАНО";
 "product_list_item_time_hour_label" = "%iч";

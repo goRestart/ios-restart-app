@@ -346,7 +346,7 @@
 "product_delete_success_message" = "Sletting av ditt produkt var vellykket.";
 "product_distance_X_from_you" = "%@ fra deg";
 "product_distance_more_than_from_you" = "Mer enn %@ fra deg";
-"product_is_mine_share_body" = "Check out what I'm selling on letgo!";
+"product_is_mine_share_body" = "Se hva jeg selger på letgo!";
 "product_list_banner_cell_title" = "SE DIN ANNONSE HER";
 "product_list_item_sold_status_label" = "SOLGT";
 "product_list_item_time_hour_label" = "%i t";

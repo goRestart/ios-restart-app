@@ -346,7 +346,7 @@
 "product_delete_success_message" = "Tuotteesi poistettiin onnistuneesti.";
 "product_distance_X_from_you" = "%@ sinusta";
 "product_distance_more_than_from_you" = "Yli %@ sinusta";
-"product_is_mine_share_body" = "Check out what I'm selling on letgo!";
+"product_is_mine_share_body" = "Katso, mitä minulla on myynnissä letgossa!";
 "product_list_banner_cell_title" = "KATSO ILMOITUKSESI TÄÄLTÄ";
 "product_list_item_sold_status_label" = "MYYTY";
 "product_list_item_time_hour_label" = "%it";

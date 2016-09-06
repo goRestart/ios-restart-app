@@ -346,7 +346,7 @@
 "product_delete_success_message" = "고객님의 상품을 성공적으로 삭제되었습니다.";
 "product_distance_X_from_you" = "당신으로부터 %@";
 "product_distance_more_than_from_you" = "당신에게 %@ 더 많이";
-"product_is_mine_share_body" = "Check out what I'm selling on letgo!";
+"product_is_mine_share_body" = "letgo에서 무엇이 판매중인지 확인해보세요!";
 "product_list_banner_cell_title" = "회원님의 목록을 이곳에서 확인하세요";
 "product_list_item_sold_status_label" = "품절";
 "product_list_item_time_hour_label" = "%i시간";
