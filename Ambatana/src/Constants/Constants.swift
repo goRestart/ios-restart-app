@@ -84,6 +84,7 @@ struct Constants {
     // Product Detail
     static let minimumStatsCountToShow = 5
     static let maxCharactersOnUserNameChatButton = 12
+    static let imageRequestPoolCapacity = 15
     
     // User
     static let maxUserNameLength = 18

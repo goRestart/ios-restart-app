@@ -96,6 +96,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     let animator: PushAnimator?
     var pendingMovement: CarouselMovement?
 
+    private let carouselImageDownloader: ImageDownloader = ImageDownloader.externalBuildImageDownloader()
 
     // MARK: - Lifecycle
 
@@ -825,7 +826,7 @@ extension ProductCarouselViewController: UICollectionViewDataSource, UICollectio
             guard let carouselCell = cell as? ProductCarouselCell else { return UICollectionViewCell() }
             guard let product = viewModel.productAtIndex(indexPath.row) else { return carouselCell }
             carouselCell.configureCellWithProduct(product, placeholderImage: viewModel.thumbnailAtIndex(indexPath.row),
-                                                  indexPath: indexPath)
+                                                  indexPath: indexPath, imageDownloader: carouselImageDownloader)
             carouselCell.delegate = self
             return carouselCell
     }

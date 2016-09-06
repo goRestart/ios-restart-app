@@ -27,7 +27,9 @@ class ProductCarouselCell: UICollectionViewCell {
     weak var delegate: ProductCarouselCellDelegate?
     var placeholderImage: UIImage?
     private var currentPage = 0
-    
+
+    var imageDownloader: ImageDownloader?
+
     var disposeBag = DisposeBag()
     
     override init(frame: CGRect) {
@@ -75,10 +77,11 @@ class ProductCarouselCell: UICollectionViewCell {
         return collectionView.visibleCells().first as? ProductCarouselImageCell
     }
     
-    func configureCellWithProduct(product: Product, placeholderImage: UIImage?, indexPath: NSIndexPath) {
+    func configureCellWithProduct(product: Product, placeholderImage: UIImage?, indexPath: NSIndexPath,
+                                  imageDownloader: ImageDownloader) {
         self.tag = indexPath.hash
         self.product = product
-
+        self.imageDownloader = imageDownloader
         self.placeholderImage = placeholderImage
         if let firstImageUrl = product.images.first?.fileURL where placeholderImage == nil {
             self.placeholderImage = ImageDownloader.sharedInstance.cachedImageForUrl(firstImageUrl)
@@ -120,11 +123,22 @@ extension ProductCarouselCell: UICollectionViewDelegate, UICollectionViewDataSou
             } else {
                 imageCell.imageView.image = nil
             }
-            ImageDownloader.sharedInstance.downloadImageWithURL(imageURL) { [weak self] (result, url) in
-                if let value = result.value where self?.tag == productCarouselTag && cell.tag == imageCellTag {
-                    imageCell.setImage(value.image)
+
+            if let imageDownloader = imageDownloader {
+                imageDownloader.downloadImageWithURL(imageURL) { [weak self] (result, url) in
+                    if let value = result.value where self?.tag == productCarouselTag && cell.tag == imageCellTag {
+                        imageCell.setImage(value.image)
+                    }
+                }
+            } else {
+                // keeping this case to download images anyway in a worst case scenario
+                ImageDownloader.sharedInstance.downloadImageWithURL(imageURL) { [weak self] (result, url) in
+                    if let value = result.value where self?.tag == productCarouselTag && cell.tag == imageCellTag {
+                        imageCell.setImage(value.image)
+                    }
                 }
             }
+
             imageCell.backgroundColor = UIColor.placeholderBackgroundColor(product?.objectId)
             imageCell.zoomLevel.subscribeNext { [weak self] level in
                 self?.delegate?.didChangeZoomLevel(level)
