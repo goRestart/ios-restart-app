@@ -53,7 +53,8 @@ class VerifyAccountsViewModel: BaseViewModel {
             case .Google, .Facebook:
                 continue
             case let .Email(email):
-                return email
+                guard let email = email else { return nil }
+                return email.isEmail() ? email : nil
             }
         }
         return nil
