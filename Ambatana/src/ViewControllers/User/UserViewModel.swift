@@ -199,7 +199,7 @@ extension UserViewModel {
         guard let userAccounts = userAccounts.value where isMyProfile else { return }
         var verifyTypes: [VerificationType] = []
         if !userAccounts.emailVerified {
-            verifyTypes.append(.Email(nil))//myUserRepository.myUser?.email))
+            verifyTypes.append(.Email(myUserRepository.myUser?.email))
         }
         if !userAccounts.facebookVerified {
             verifyTypes.append(.Facebook)
