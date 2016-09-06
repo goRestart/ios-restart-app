@@ -204,9 +204,9 @@ private extension VerifyAccountsViewModel {
     func emailVerification() {
         let email = userEmail ?? typedEmail.value
         guard email.isEmail() else { return }
-        emailButtonState.value = .Loading
+        setEmailLoading(true)
         myUserRepository.linkAccount(email) { [weak self] result in
-            self?.emailButtonState.value = .Enabled
+            self?.setEmailLoading(false)
             if let error = result.error {
                 switch error {
                 case .TooManyRequests:
@@ -221,6 +221,15 @@ private extension VerifyAccountsViewModel {
                     self?.delegate?.vmDismiss(nil)
                 }
             }
+        }
+    }
+
+    private func setEmailLoading(loading: Bool) {
+        if emailButtonState.value != .Hidden {
+            emailButtonState.value = loading ? .Loading : .Enabled
+        }
+        if typedEmailState.value != .Hidden {
+            typedEmailState.value = loading ? .Loading : .Enabled
         }
     }
 

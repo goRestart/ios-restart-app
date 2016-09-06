@@ -133,17 +133,14 @@ class UserViewHeader: UIView {
 
     var collapsed: Bool = false {
         didSet {
-            let isCollapsed = avatarRatingsContainerView.alpha == 0
-            guard isCollapsed != collapsed else { return }
-
+            guard oldValue != collapsed else { return }
+            let alpha: CGFloat = collapsed ? 0 : 1
             UIView.animateWithDuration(0.2, delay: 0, options: [.CurveEaseIn, .BeginFromCurrentState],
                                        animations: { [weak self] in
-                guard let strongSelf = self else { return }
-                let alpha: CGFloat = strongSelf.collapsed ? 0 : 1
-                strongSelf.avatarRatingsContainerView.alpha = alpha
-                strongSelf.userRelationView.alpha = alpha
-                strongSelf.verifiedSimpleContainer.alpha = alpha
-                strongSelf.verifiedMyUserView.alpha = alpha
+                self?.avatarRatingsContainerView.alpha = alpha
+                self?.userRelationView.alpha = alpha
+                self?.verifiedSimpleContainer.alpha = alpha
+                self?.verifiedMyUserView.alpha = alpha
             }, completion: nil)
 
             avatarButton.enabled = !collapsed
