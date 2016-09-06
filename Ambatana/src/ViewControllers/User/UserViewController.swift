@@ -37,7 +37,11 @@ class UserViewController: BaseViewController {
 
 
     private var navBarUserView: UserView?
-    private var navBarUserViewAlphaOnDisappear: CGFloat = 0.0
+    private var navBarUserViewAlpha: CGFloat = 0.0 {
+        didSet {
+            navBarUserView?.alpha = navBarUserViewAlpha
+        }
+    }
 
     @IBOutlet weak var patternView: UIView!
     @IBOutlet weak var userBgView: UIView!
@@ -114,20 +118,13 @@ class UserViewController: BaseViewController {
 
         // UINavigationBar's title alpha gets resetted on view appear, does not allow initial 0.0 value
         if let navBarUserView = navBarUserView {
-            let currentAlpha: CGFloat = navBarUserViewAlphaOnDisappear
+            let currentAlpha: CGFloat = navBarUserViewAlpha
             navBarUserView.hidden = true
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.01 * Double(NSEC_PER_SEC))),
                 dispatch_get_main_queue()) {
                     navBarUserView.alpha = currentAlpha
                     navBarUserView.hidden = false
             }
-        }
-    }
-
-    override func viewWillDisappearToBackground(toBackground: Bool) {
-        super.viewWillDisappearToBackground(toBackground)
-        if let navBarUserView = navBarUserView {
-            navBarUserViewAlphaOnDisappear = navBarUserView.alpha
         }
     }
 }
@@ -269,7 +266,7 @@ extension UserViewController {
 
     private func setupNavigationBar() {
         if let navBarUserView = navBarUserView {
-            navBarUserView.alpha = 0
+            navBarUserViewAlpha = 0
             navBarUserView.frame = CGRect(origin: CGPoint.zero, size: CGSize(width: CGFloat.max, height: UserViewController.navBarUserViewHeight))
             setNavBarTitleStyle(.Custom(navBarUserView))
         }
@@ -528,7 +525,7 @@ extension UserViewController {
                 UIView.animateWithDuration(0.2, delay: 0, options: [.CurveEaseIn, .BeginFromCurrentState], animations: {
                     let topAlpha: CGFloat = collapsed ? 1 : 0
                     let bottomAlpha: CGFloat = collapsed ? 0 : 1
-                    self?.navBarUserView?.alpha = topAlpha
+                    self?.navBarUserViewAlpha = topAlpha
                     self?.userLabelsContainer.alpha = bottomAlpha
                     }, completion: nil)
         }.addDisposableTo(disposeBag)

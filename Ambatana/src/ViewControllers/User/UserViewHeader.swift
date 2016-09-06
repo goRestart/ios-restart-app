@@ -43,6 +43,9 @@ class UserViewHeader: UIView {
     private static let buildTrustButtonSmallHeight: CGFloat = 30
     private static let buildTrustButtonBigHeight: CGFloat = 44
     private static let buildTrustSeparatorSpace: CGFloat = 30
+    private static let buildTrustButtonInsetSmall: CGFloat = 10
+    private static let buildTrustButtonInsetBig: CGFloat = 15
+    private static let buildTrustButtonTitleInset: CGFloat = 10
 
     @IBOutlet weak var avatarRatingsContainerView: UIView!
     @IBOutlet weak var avatarImageView: UIImageView!
@@ -423,6 +426,11 @@ extension UserViewHeader {
     private func updateBuildTrustButton(big big: Bool) {
         buildTrustButtonHeight.constant = big ? UserViewHeader.buildTrustButtonBigHeight : UserViewHeader.buildTrustButtonSmallHeight
         buildTrustButton.setStyle(.Secondary(fontSize: big ? .Medium : .Small, withBorder: true))
+        let inset = big ? UserViewHeader.buildTrustButtonInsetBig : UserViewHeader.buildTrustButtonInsetSmall
+        buildTrustButton.contentEdgeInsets = UIEdgeInsets(top: 0, left: inset, bottom: 0,
+                                                          right: inset+UserViewHeader.buildTrustButtonTitleInset)
+        buildTrustButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: UserViewHeader.buildTrustButtonTitleInset,
+                                                        bottom: 0, right: -UserViewHeader.buildTrustButtonTitleInset)
         buildTrustButton.layer.cornerRadius = buildTrustButtonHeight.constant / 2
         buildTrustButton.setImage(UIImage(named: big ? "ic_build_trust" : "ic_build_trust_small"), forState: .Normal)
     }
