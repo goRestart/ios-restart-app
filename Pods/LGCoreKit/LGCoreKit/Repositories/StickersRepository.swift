@@ -7,12 +7,14 @@
 //
 
 import Result
+import RxSwift
 
 public typealias StickersResult = Result<[Sticker], RepositoryError>
 public typealias StickersCompletion = StickersResult -> Void
 
 public final class StickersRepository {
-    
+
+    public let stickers: Variable<[Sticker]>
     let dataSource: StickersDataSource
     let stickersDAO: StickersDAO
     let locale: NSLocale
@@ -26,6 +28,7 @@ public final class StickersRepository {
         self.dataSource = dataSource
         self.stickersDAO = stickersDAO
         self.locale = locale
+        self.stickers = Variable<[Sticker]>(stickersDAO.stickers)
     }
     
     // MARK: - Public methods
@@ -57,6 +60,7 @@ public final class StickersRepository {
         }
         dataSource.show(locale) { [weak self] result in
             if let value = result.value {
+                self?.stickers.value = value
                 self?.stickersDAO.save(value)
                 self?.lastRetrieval = currentRetrievalTime
             }
