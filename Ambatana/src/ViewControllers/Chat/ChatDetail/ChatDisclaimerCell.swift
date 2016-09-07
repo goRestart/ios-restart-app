@@ -12,13 +12,20 @@ import RxSwift
 class ChatDisclaimerCell: UITableViewCell, ReusableCell {
     
     @IBOutlet weak var backgroundCellView: UIView!
+
+    @IBOutlet weak var avatarImageView: UIImageView!
+    @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var messageLabel: UILabel!
     @IBOutlet weak var button: UIButton!
     
+    @IBOutlet weak var backgroundTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak var titleTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var buttonHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var buttonBottomConstraint: NSLayoutConstraint!
-    
-    
+
+    private static let backgroundWithImageTop: CGFloat = 25
+    private static let titleVisibleTop: CGFloat = 67
+    private static let titleInvisibleTop: CGFloat = 8
     private static let buttonVisibleHeight: CGFloat = 30
     private static let buttonVisibleBottom: CGFloat = 8
     private static let buttonHContentInset: CGFloat = 16
@@ -33,6 +40,7 @@ class ChatDisclaimerCell: UITableViewCell, ReusableCell {
         super.awakeFromNib()
         setupUI()
         setupRxBindings()
+        setAccessibilityIds()
     }
     
     override func layoutSubviews() {
@@ -45,6 +53,10 @@ class ChatDisclaimerCell: UITableViewCell, ReusableCell {
 // MARK: - Public methods
 
 extension ChatDisclaimerCell {
+    func showAvatar(show: Bool) {
+        hideImageAndTitle(!show)
+    }
+
     func setMessage(message: NSAttributedString) {
         messageLabel.attributedText = message
     }
@@ -67,6 +79,8 @@ private extension ChatDisclaimerCell {
     func setupUI() {
         backgroundCellView.layer.cornerRadius = LGUIKitConstants.chatCellCornerRadius
         backgroundCellView.backgroundColor = UIColor.disclaimerColor
+        backgroundCellView.layer.borderWidth = 1
+        backgroundCellView.layer.borderColor = UIColor.whiteColor().CGColor
 
         messageLabel.textColor = UIColor.darkGrayText
         messageLabel.font = UIFont.bigBodyFont
@@ -91,10 +105,24 @@ private extension ChatDisclaimerCell {
     dynamic func tapped() {
         buttonAction?()
     }
+
+    func hideImageAndTitle(hide: Bool) {
+        backgroundTopConstraint?.constant = hide ? 0 : ChatDisclaimerCell.backgroundWithImageTop
+        titleTopConstraint?.constant = hide ? ChatDisclaimerCell.titleInvisibleTop : ChatDisclaimerCell.titleVisibleTop
+        avatarImageView.hidden = hide
+        titleLabel.text = hide ? nil : LGLocalizedString.chatDisclaimerLetgoTeam
+    }
     
     func hideButton(hide: Bool) {
         buttonHeightConstraint?.constant = hide ? 0 : ChatDisclaimerCell.buttonVisibleHeight
         buttonBottomConstraint?.constant = hide ? 0 : ChatDisclaimerCell.buttonVisibleBottom
         button.hidden = hide
+    }
+}
+
+extension ChatDisclaimerCell {
+    func setAccessibilityIds() {
+        messageLabel.accessibilityId = .ChatDisclaimerCellMessageLabel
+        button.accessibilityId = .ChatDisclaimerCellButton
     }
 }

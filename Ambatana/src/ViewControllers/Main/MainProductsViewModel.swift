@@ -17,7 +17,6 @@ protocol MainProductsViewModelDelegate: BaseViewModelDelegate {
     func vmShowTags(tags: [FilterTag])
     func vmDidFailRetrievingProducts(hasProducts hasProducts: Bool, error: String?)
     func vmDidSuceedRetrievingProducts(hasProducts hasProducts: Bool, isFirstPage: Bool)
-    func vmOpenSell(type: String)
 }
 
 protocol InfoBubbleDelegate: class {
@@ -74,6 +73,14 @@ class MainProductsViewModel: BaseViewModel {
         if let selectedOrdering = filters.selectedOrdering where selectedOrdering != ProductSortCriteria.defaultOption {
             resultTags.append(.OrderBy(selectedOrdering))
         }
+        if filters.minPrice != nil || filters.maxPrice != nil {
+            var currency: Currency? = nil
+            if let countryCode = Core.locationManager.currentPostalAddress?.countryCode {
+                currency = Core.currencyHelper.currencyWithCountryCode(countryCode)
+            }
+            resultTags.append(.PriceRange(from: filters.minPrice, to: filters.maxPrice, currency: currency))
+        }
+
         return resultTags
     }
     
@@ -207,7 +214,9 @@ class MainProductsViewModel: BaseViewModel {
         var categories: [ProductCategory] = []
         var orderBy = ProductSortCriteria.defaultOption
         var within = ProductTimeCriteria.defaultOption
-        
+        var minPrice: Int? = nil
+        var maxPrice: Int? = nil
+
         for filterTag in tags {
             switch filterTag {
             case .Location(let thePlace):
@@ -218,6 +227,9 @@ class MainProductsViewModel: BaseViewModel {
                 orderBy = prodSortOption
             case .Within(let prodTimeOption):
                 within = prodTimeOption
+            case .PriceRange(let minPriceOption, let maxPriceOption, _):
+                minPrice = minPriceOption
+                maxPrice = maxPriceOption
             }
         }
 
@@ -225,7 +237,9 @@ class MainProductsViewModel: BaseViewModel {
         filters.selectedCategories = categories
         filters.selectedOrdering = orderBy
         filters.selectedWithin = within
-        
+        filters.minPrice = minPrice
+        filters.maxPrice = maxPrice
+
         updateListView()
     }
 
@@ -409,21 +423,17 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate {
             let collectionType = collections[Int(page) % collections.count]
             let collectionModel = ProductCellModel.CollectionCell(type: collectionType)
             cellModels.insert(collectionModel, atIndex: bannerCellPosition)
-        } else {
-            let bannerData = BannerData(title: LGLocalizedString.productListBannerCellTitle)
-            let banner = ProductCellModel.BannerCell(banner: bannerData)
-            cellModels.insert(banner, atIndex: bannerCellPosition)
         }
         return cellModels
-    }
-    
-    func vmDidSelectSellBanner(type: String) {
-        delegate?.vmOpenSell(type)
     }
 
     func vmDidSelectCollection(type: CollectionCellType){
         tracker.trackEvent(TrackerEvent.exploreCollection(type.rawValue))
         delegate?.vmDidSearch(viewModelForSearch(.Collection(type: type)))
+    }
+    
+    func vmUserDidTapInvite() {
+        tabNavigator?.openAppInvite()
     }
 }
 
@@ -437,6 +447,7 @@ extension MainProductsViewModel {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(sessionDidChange),
                                                          name: SessionManager.Notification.Logout.rawValue, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(locationDidChange),
+                                                         
                                                          name: LocationManager.Notification.LocationUpdate.rawValue, object: nil)
     }
 
@@ -580,6 +591,9 @@ private extension MainProductsViewModel {
 public class MainProductsViewModelShareDelegate: NativeShareDelegate {
 
     let sharingProduct: Product
+
+    var nativeShareSuccessMessage: String? { return LGLocalizedString.appShareSuccess }
+    var nativeShareErrorMessage: String? { return LGLocalizedString.appShareError }
 
     init(product: Product, myUser: MyUser?) {
         self.sharingProduct = product

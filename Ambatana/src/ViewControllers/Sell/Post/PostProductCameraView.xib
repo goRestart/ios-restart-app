@@ -9,6 +9,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PostProductCameraView" customModule="LetGo" customModuleProvider="target">
             <connections>
                 <outlet property="cameraContainerView" destination="lbn-gJ-Tvl" id="ObD-x3-dHI"/>
+                <outlet property="closeButton" destination="Wdu-tN-giU" id="WgD-Z2-JqI"/>
                 <outlet property="contentView" destination="iN0-l3-epB" id="Gkv-qp-e9h"/>
                 <outlet property="cornersContainer" destination="tJq-a9-ZkV" id="D4Y-Ip-x8S"/>
                 <outlet property="firstTimeAlert" destination="aBq-tW-5N0" id="nBq-0m-TqJ"/>

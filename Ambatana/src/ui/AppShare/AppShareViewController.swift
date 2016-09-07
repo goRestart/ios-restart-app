@@ -12,6 +12,7 @@ import MessageUI
 
 class AppShareViewController: UIViewController {
     @IBOutlet weak var contentContainer: UIView!
+    @IBOutlet weak var headerImageView: UIImageView!
 
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var subtitleLabel: UILabel!
@@ -31,9 +32,7 @@ class AppShareViewController: UIViewController {
     @IBOutlet weak var inviteEmailHeight: NSLayoutConstraint!
     @IBOutlet weak var inviteEmailTop: NSLayoutConstraint!
 
-
-    @IBOutlet weak var dontAskAgainBtn: UIButton!
-
+    
     static func showOnViewControllerIfNeeded(viewController: UIViewController) -> Bool {
         guard !KeyValueStorage.sharedInstance.userAppShared else { return false }
         guard SocialHelper.canShareInWhatsapp() || SocialHelper.canShareInFBMessenger() ||
@@ -63,28 +62,28 @@ class AppShareViewController: UIViewController {
     // MARK: - Actions
 
     @IBAction func onInviteFBMessenger(sender: AnyObject) {
-        let socialMessage = SocialHelper.socialMessageAppShare(Constants.appShareFbMessengerURL)
+        let socialMessage = SocialHelper.socialMessageAppShare()
         SocialHelper.shareOnFbMessenger(socialMessage, delegate: self)
 
-        let trackerEvent = TrackerEvent.appInviteFriend(.FBMessenger, typePage: .ProductDetail)
+        let trackerEvent = TrackerEvent.appInviteFriend(.FBMessenger, typePage: .ProductList)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
 
     @IBAction func onInviteWhatsapp(sender: AnyObject) {
-        let socialMessage = SocialHelper.socialMessageAppShare(Constants.appShareWhatsappURL)
+        let socialMessage = SocialHelper.socialMessageAppShare()
         SocialHelper.shareOnWhatsapp(socialMessage, viewController: self)
 
-        let trackerEvent = TrackerEvent.appInviteFriend(.Whatsapp, typePage: .ProductDetail)
+        let trackerEvent = TrackerEvent.appInviteFriend(.Whatsapp, typePage: .ProductList)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
 
         dismiss()
     }
 
     @IBAction func onInviteEmail(sender: AnyObject) {
-        let socialMessage = SocialHelper.socialMessageAppShare(Constants.appShareEmailURL)
+        let socialMessage = SocialHelper.socialMessageAppShare()
         SocialHelper.shareOnEmail(socialMessage, viewController: self, delegate: self)
 
-        let trackerEvent = TrackerEvent.appInviteFriend(.Email, typePage: .ProductDetail)
+        let trackerEvent = TrackerEvent.appInviteFriend(.Email, typePage: .ProductList)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
 
@@ -96,7 +95,7 @@ class AppShareViewController: UIViewController {
         KeyValueStorage.sharedInstance.userAppShared = true
         dismiss()
 
-        let trackerEvent = TrackerEvent.appInviteFriendDontAsk(.ProductDetail)
+        let trackerEvent = TrackerEvent.appInviteFriendDontAsk(.ProductList)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
 
@@ -105,17 +104,14 @@ class AppShareViewController: UIViewController {
     private func setupUI() {
         contentContainer.layer.cornerRadius = LGUIKitConstants.alertCornerRadius
 
-//        inviteFBMessengerBtn.setCustomButtonStyle()
-//        inviteWhatsappBtn.setCustomButtonStyle()
-//        inviteEmailBtn.setCustomButtonStyle()
-
-        titleLabel.text = LGLocalizedString.appShareTitle
-        subtitleLabel.text = LGLocalizedString.appShareSubtitle
         inviteFBMessengerBtn.setTitle(LGLocalizedString.appShareFbmessengerButton, forState: UIControlState.Normal)
         inviteWhatsappBtn.setTitle(LGLocalizedString.appShareWhatsappButton, forState: UIControlState.Normal)
         inviteEmailBtn.setTitle(LGLocalizedString.appShareEmailButton, forState: UIControlState.Normal)
-        dontAskAgainBtn.setTitle(LGLocalizedString.ratingViewDontAskAgainButton, forState: UIControlState.Normal)
-
+        
+        inviteFBMessengerBtn.layer.cornerRadius = inviteFBMessengerBtn.frame.height/2
+        inviteWhatsappBtn.layer.cornerRadius = inviteWhatsappBtn.frame.height/2
+        inviteEmailBtn.layer.cornerRadius = inviteEmailBtn.frame.height/2
+        
         if !SocialHelper.canShareInFBMessenger() {
             inviteFBMessengerHeight.constant = 0
             inviteFBMessengerTop.constant = 20
@@ -136,10 +132,24 @@ class AppShareViewController: UIViewController {
             inviteEmailBtn.hidden = true
             inviteEmailIcon.hidden = true
         }
+
+        switch FeatureFlags.appInviteFeedMode {
+        case .None, .Emoji: // This scree should not be oppened on case .None, but just to avoid breaking the ui
+            headerImageView.image = UIImage(named: "invite_heart")
+            titleLabel.text = LGLocalizedString.appShareTitleAlternative
+            subtitleLabel.text = LGLocalizedString.appShareSubtitleAlternative
+        case .Text:
+            headerImageView.image = UIImage(named: "invite_letgo")
+            titleLabel.text = LGLocalizedString.appShareTitle
+            subtitleLabel.text = LGLocalizedString.appShareSubtitle
+        }
+        
+        titleLabel.font = UIFont.systemMediumFont(size: 17)
+        subtitleLabel.font = UIFont.systemRegularFont(size: 15)
     }
 
     private func trackShown() {
-        let trackerEvent = TrackerEvent.appInviteFriendStart(.ProductDetail)
+        let trackerEvent = TrackerEvent.appInviteFriendStart(.ProductList)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
 
@@ -163,11 +173,11 @@ extension AppShareViewController: FBSDKSharingDelegate {
     func sharer(sharer: FBSDKSharing!, didCompleteWithResults results: [NSObject : AnyObject]!) {
         guard let _ = results else {
             // success and no results means app invite has been cancelled via DONE in webview
-            let trackerEvent = TrackerEvent.appInviteFriendCancel(.FBMessenger, typePage: .ProductDetail)
+            let trackerEvent = TrackerEvent.appInviteFriendCancel(.FBMessenger, typePage: .ProductList)
             TrackerProxy.sharedInstance.trackEvent(trackerEvent)
             return
         }
-        let trackerEvent = TrackerEvent.appInviteFriendComplete(.FBMessenger, typePage: .ProductDetail)
+        let trackerEvent = TrackerEvent.appInviteFriendComplete(.FBMessenger, typePage: .ProductList)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
 
         dismissShowingShareOk()
@@ -178,7 +188,7 @@ extension AppShareViewController: FBSDKSharingDelegate {
     }
 
     func sharerDidCancel(sharer: FBSDKSharing!) {
-        let trackerEvent = TrackerEvent.appInviteFriendCancel(.FBMessenger, typePage: .ProductDetail)
+        let trackerEvent = TrackerEvent.appInviteFriendCancel(.FBMessenger, typePage: .ProductList)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
 
         dismiss()
@@ -193,14 +203,14 @@ extension AppShareViewController: MFMailComposeViewControllerDelegate {
         error: NSError?) {
 
             if result == MFMailComposeResultSent {
-                let trackerEvent = TrackerEvent.appInviteFriendComplete(.Email, typePage: .ProductDetail)
+                let trackerEvent = TrackerEvent.appInviteFriendComplete(.Email, typePage: .ProductList)
                 TrackerProxy.sharedInstance.trackEvent(trackerEvent)
 
                 controller.dismissViewControllerAnimated(true) { [weak self] in
                     self?.dismissShowingShareOk()
                 }
             } else {
-                let trackerEvent = TrackerEvent.appInviteFriendCancel(.Email, typePage: .ProductDetail)
+                let trackerEvent = TrackerEvent.appInviteFriendCancel(.Email, typePage: .ProductList)
                 TrackerProxy.sharedInstance.trackEvent(trackerEvent)
 
                 controller.dismissViewControllerAnimated(true) { [weak self] in

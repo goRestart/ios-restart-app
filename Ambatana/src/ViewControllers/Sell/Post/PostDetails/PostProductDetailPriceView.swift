@@ -57,6 +57,7 @@ class PostProductDetailPriceView: BaseView {
     private func setup() {
         loadNibNamed("PostProductDetailPriceView", contentView: { [weak self] in return self?.contentView })
         setupUI()
+        setAccesibilityIds()
         setupRx()
     }
 
@@ -89,6 +90,17 @@ extension PostProductDetailPriceView: UITextFieldDelegate {
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange,
                    replacementString string: String) -> Bool {
         guard textField == priceTextField else { return true }
-        return textField.shouldChangePriceInRange(range, replacementString: string)
+        return textField.shouldChangePriceInRange(range, replacementString: string, acceptsSeparator: true)
+    }
+}
+
+
+// MARK: - Accesibility
+
+extension PostProductDetailPriceView {
+    func setAccesibilityIds() {
+        doneButton.accessibilityId = .PostingDoneButton
+        currencyButton.accessibilityId = .PostingCurrencyButton
+        priceTextField.accessibilityId = .PostingPriceField
     }
 }

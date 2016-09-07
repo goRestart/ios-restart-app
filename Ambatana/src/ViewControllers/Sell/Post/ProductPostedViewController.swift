@@ -9,6 +9,7 @@
 import UIKit
 
 class ProductPostedViewController: BaseViewController, ProductPostedViewModelDelegate {
+    @IBOutlet weak var closeButton: UIButton!
     @IBOutlet weak var shareButton: UIButton!
     @IBOutlet weak var contentContainer: UIView!
     @IBOutlet weak var loadingIndicator: LoadingIndicator!
@@ -38,19 +39,15 @@ class ProductPostedViewController: BaseViewController, ProductPostedViewModelDel
 
 
     private static let contentContainerShownHeight: CGFloat = 80
-    private var viewModel: ProductPostedViewModel!
+    private let viewModel: ProductPostedViewModel
 
 
     // MARK: - View lifecycle
 
-    convenience init(viewModel: ProductPostedViewModel) {
-        self.init(viewModel: viewModel, nibName: "ProductPostedViewController")
-    }
-
-    required init(viewModel: ProductPostedViewModel, nibName nibNameOrNil: String?) {
-        super.init(viewModel: viewModel, nibName: nibNameOrNil,
-                   statusBarStyle: UIApplication.sharedApplication().statusBarStyle)
+    required init(viewModel: ProductPostedViewModel) {
         self.viewModel = viewModel
+        super.init(viewModel: viewModel, nibName: "ProductPostedViewController",
+                   statusBarStyle: UIApplication.sharedApplication().statusBarStyle)
         viewModel.delegate = self
         modalPresentationStyle = .OverCurrentContext
         modalTransitionStyle = .CrossDissolve
@@ -65,6 +62,7 @@ class ProductPostedViewController: BaseViewController, ProductPostedViewModelDel
         super.viewDidLoad()
 
         setupView()
+        setAccesibilityIds()
     }
 
     override func viewWillDisappear(animated: Bool) {
@@ -187,6 +185,9 @@ class ProductPostedViewController: BaseViewController, ProductPostedViewModelDel
 
 extension ProductPostedViewController: NativeShareDelegate {
 
+    var nativeShareSuccessMessage: String? { return LGLocalizedString.productShareGenericOk }
+    var nativeShareErrorMessage: String? { return LGLocalizedString.productShareGenericError }
+
     func nativeShareInFacebook() {
         viewModel.nativeShareInFacebook()
         viewModel.nativeShareInFacebookFinished(.Completed)
@@ -258,5 +259,19 @@ extension ProductPostedViewController {
         resultText.addAttributes(gotAnyTextAttributes, range: boldRange)
 
         return resultText
+    }
+}
+
+
+// MARK: - Accesibility
+
+extension ProductPostedViewController {
+    func setAccesibilityIds() {
+        closeButton.accessibilityId = .PostingInfoCloseButton
+        shareButton.accessibilityId = .PostingInfoShareButton
+        loadingIndicator.accessibilityId = .PostingInfoLoading
+        editButton.accessibilityId = .PostingInfoEditButton
+        mainButton.accessibilityId = .PostingInfoMainButton
+        incentiveContainer.accessibilityId = .PostingInfoIncentiveContainer
     }
 }

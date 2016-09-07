@@ -14,14 +14,13 @@ class CategoriesViewController: BaseViewController, CategoriesViewModelDelegate,
 
     // outlets & buttons
     @IBOutlet weak var collectionView: UICollectionView!
-    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
-    
+
     // data
     private var cellSize: CGSize = CGSize(width: 160.0, height: 150.0)
     private var lastContentOffset: CGFloat = 0.0
     
     // ViewModel
-    private var viewModel : CategoriesViewModel!
+    private var viewModel : CategoriesViewModel
     
     // MARK: - Lifecycle
     
@@ -34,8 +33,8 @@ class CategoriesViewController: BaseViewController, CategoriesViewModelDelegate,
     }
     
     required init(viewModel: CategoriesViewModel, nibName nibNameOrNil: String?) {
-        super.init(viewModel: viewModel, nibName: nibNameOrNil)
         self.viewModel = viewModel
+        super.init(viewModel: viewModel, nibName: nibNameOrNil)
         self.viewModel.delegate = self
         
         hidesBottomBarWhenPushed = false
@@ -65,10 +64,10 @@ class CategoriesViewController: BaseViewController, CategoriesViewModelDelegate,
         cellSize = CGSizeMake(cellWidth, cellHeight)
         
         viewModel.retrieveCategories()
-        
+        setAccessibilityIds()
     }
 
-
+    
     // MARK: - ScrollableToTop
 
     func scrollToTop() {
@@ -119,5 +118,8 @@ class CategoriesViewController: BaseViewController, CategoriesViewModelDelegate,
         let categoriesVC = MainProductsViewController(viewModel: productsViewModel)
         self.navigationController?.pushViewController(categoriesVC, animated: true)
     }
-    
+
+    private func setAccessibilityIds() {
+        collectionView.accessibilityId = .CategoriesCollectionView
+    }
 }

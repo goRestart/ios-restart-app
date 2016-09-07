@@ -102,20 +102,12 @@ class FilteredProductListRequester: ProductListRequester {
     func distanceFromProductCoordinates(productCoords: LGLocationCoordinates2D) -> Double {
 
         var meters = 0.0
-
         if let coordinates = queryCoordinates {
             let quadKeyStr = coordinates.coordsToQuadKey(LGCoreKitConstants.defaultQuadKeyPrecision)
             let actualQueryCoords = LGLocationCoordinates2D(fromCenterOfQuadKey: quadKeyStr)
             meters = productCoords.distanceTo(actualQueryCoords)
         }
-
-        let distanceType = DistanceType.systemDistanceType()
-        switch (distanceType) {
-        case .Km:
-            return meters * 0.001
-        case .Mi:
-            return meters * 0.000621371
-        }
+        return meters
     }
 }
 
@@ -147,6 +139,8 @@ private extension FilteredProductListRequester {
         params.sortCriteria = filters?.selectedOrdering
         params.distanceRadius = filters?.distanceRadius
         params.distanceType = filters?.distanceType
+        params.minPrice = filters?.minPrice
+        params.maxPrice = filters?.maxPrice
         return params
     }
 

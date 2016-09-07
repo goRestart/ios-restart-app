@@ -22,7 +22,7 @@ private extension TrackerEvent {
                  .ProductAskQuestion, .ProductChatButton, .ProductFavorite, .ProductShareComplete,
                  .ProductMarkAsSold, .ProductDetailVisit,
                  .ProductSellComplete, .ProductSellStart,
-                 .ProfileVisit:
+                 .ProfileVisit, .NPSStart, .NPSComplete:
                 return true
             default:
                 return false

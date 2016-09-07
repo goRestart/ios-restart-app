@@ -60,6 +60,21 @@ enum Tab {
         }
     }
 
+    var accessibilityId: AccessibilityId {
+        switch self {
+        case .Home:
+            return .TabBarFirstTab
+        case .Categories, .Notifications:
+            return .TabBarSecondTab
+        case .Sell:
+            return .TabBarThirdTab
+        case .Chats:
+            return .TabBarFourthTab
+        case .Profile:
+            return .TabBarFifthTab
+        }
+    }
+
     static var all: [Tab] {
         if FeatureFlags.notificationsSection {
             return [.Home, .Notifications, .Sell, .Chats, .Profile]

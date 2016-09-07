@@ -90,6 +90,7 @@ class PostProductDetailStepsView: BaseView {
     private func setup() {
         loadNibNamed("PostProductDetailStepsView", contentView: { [weak self] in return self?.contentView })
         setupUI()
+        setAccesibilityIds()
         setupRx()
     }
 
@@ -112,7 +113,7 @@ class PostProductDetailStepsView: BaseView {
         descriptionInfo.text = LGLocalizedString.sellDescriptionInformation
         currencyButton.setTitle(viewModel.currencySymbol, forState: .Normal)
 
-        doneButton.setStyle(.Primary(fontSize: .Medium))
+        doneButton.setStyle(.Primary(fontSize: .Big))
         backButton.setTitle(LGLocalizedString.sellBackButton, forState: .Normal)
 
         setupInitialStep()
@@ -213,7 +214,7 @@ extension PostProductDetailStepsView: UITextFieldDelegate, UITextViewDelegate {
             textField.text = text
             return false
         } else if textField === priceTextField {
-            return textField.shouldChangePriceInRange(range, replacementString: string)
+            return textField.shouldChangePriceInRange(range, replacementString: string, acceptsSeparator: true)
         }
         return true
     }
@@ -241,5 +242,19 @@ extension PostProductDetailStepsView: UITextFieldDelegate, UITextViewDelegate {
             return false
         }
         return true
+    }
+}
+
+
+// MARK: - Accesibility
+
+extension PostProductDetailStepsView {
+    func setAccesibilityIds() {
+        doneButton.accessibilityId = .PostingDoneButton
+        currencyButton.accessibilityId = .PostingCurrencyButton
+        titleTextField.accessibilityId = .PostingTitleField
+        priceTextField.accessibilityId = .PostingPriceField
+        descriptionTextView.accessibilityId = .PostingDescriptionField
+        backButton.accessibilityId = .PostingBackButton
     }
 }

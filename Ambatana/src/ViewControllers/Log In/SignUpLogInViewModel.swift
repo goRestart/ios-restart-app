@@ -60,6 +60,7 @@ public class SignUpLogInViewModel: BaseViewModel {
     }
     var email: String {
         didSet {
+            email = email.trim
             delegate?.viewModel(self, updateSendButtonEnabledState: sendButtonShouldBeEnabled())
         }
     }
@@ -287,7 +288,7 @@ public class SignUpLogInViewModel: BaseViewModel {
             message = LGLocalizedString.commonErrorConnectionFailed
         case .Unauthorized:
             message = LGLocalizedString.logInErrorSendErrorUserNotFoundOrWrongPassword
-        case .Scammer, .NotFound, .Internal, .Forbidden, .NonExistingEmail, .AlreadyExists, .TooManyRequests:
+        case .Scammer, .NotFound, .Internal, .Forbidden, .NonExistingEmail, .Conflict, .TooManyRequests:
             message = LGLocalizedString.logInErrorSendErrorGeneric
         }
         delegate?.viewModelDidFailLoginIn(self, message: message)
@@ -299,8 +300,15 @@ public class SignUpLogInViewModel: BaseViewModel {
         switch (error) {
         case .Network:
             message = LGLocalizedString.commonErrorConnectionFailed
-        case .AlreadyExists:
-            message = LGLocalizedString.signUpSendErrorEmailTaken(email)
+        case .Conflict(let cause):
+            switch cause {
+            case .UserExists, .NotSpecified, .Other:
+                message = LGLocalizedString.signUpSendErrorEmailTaken(email)
+            case .EmailRejected:
+                message = LGLocalizedString.mainSignUpErrorUserRejected
+            case .RequestAlreadyProcessed:
+                message = LGLocalizedString.mainSignUpErrorRequestAlreadySent
+            }
         case .NonExistingEmail:
             message = LGLocalizedString.signUpSendErrorInvalidEmail
         case .Scammer, .NotFound, .Internal, .Forbidden, .Unauthorized, .TooManyRequests:
@@ -318,7 +326,7 @@ public class SignUpLogInViewModel: BaseViewModel {
             return .Forbidden
         case .NotFound:
             return .NotFound
-        case .AlreadyExists:
+        case .Conflict:
             return .EmailTaken
         case .Forbidden:
             return .Forbidden
@@ -349,8 +357,17 @@ public class SignUpLogInViewModel: BaseViewModel {
         case .NotFound:
             delegate?.viewModel(self, didFailAuthWithExternalService: LGLocalizedString.mainSignUpFbConnectErrorGeneric)
             loginError = .UserNotFoundOrWrongPassword
-        case .AlreadyExists:
-            delegate?.viewModel(self, didFailAuthWithExternalService: LGLocalizedString.mainSignUpFbConnectErrorEmailTaken)
+        case .Conflict(let cause):
+            var message = ""
+            switch cause {
+            case .UserExists, .NotSpecified, .Other:
+                message = LGLocalizedString.mainSignUpFbConnectErrorEmailTaken
+            case .EmailRejected:
+                message = LGLocalizedString.mainSignUpErrorUserRejected
+            case .RequestAlreadyProcessed:
+                message = LGLocalizedString.mainSignUpErrorRequestAlreadySent
+            }
+            delegate?.viewModel(self, didFailAuthWithExternalService: message)
             loginError = .EmailTaken
         case let .Internal(description):
             delegate?.viewModel(self, didFailAuthWithExternalService: LGLocalizedString.mainSignUpFbConnectErrorGeneric)

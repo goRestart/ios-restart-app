@@ -29,7 +29,7 @@ class VerifyAccountViewModel: BaseViewModel {
     let type: VerificationType
 
     let actionState = Variable<ActionState> (.Disabled)
-    let typedEmail = Variable<String?>(nil)
+    let typedEmail = Variable<String>("")
 
     private let googleHelper: GoogleLoginHelper
     private let myUserRepository: MyUserRepository
@@ -68,8 +68,8 @@ class VerifyAccountViewModel: BaseViewModel {
             connectWithGoogle()
         case let .Email(current):
             let email = current ?? typedEmail.value
-            guard let emailToVerify = email else { return }
-            emailVerification(emailToVerify)
+            guard email.isEmail() else { return }
+            emailVerification(email.trim)
         }
     }
 
@@ -93,8 +93,7 @@ class VerifyAccountViewModel: BaseViewModel {
             guard present == nil else { break }
             typedEmail.asObservable().bindNext { [weak self] email in
                 guard let actionState = self?.actionState where actionState.value != .Loading else { return }
-                let isEmail = email?.isEmail() ?? false
-                actionState.value = isEmail ? .Enabled : .Disabled
+                actionState.value = email.isEmail() ? .Enabled : .Disabled
                 }.addDisposableTo(disposeBag)
         }
     }

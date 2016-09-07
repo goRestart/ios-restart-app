@@ -177,7 +177,7 @@ public struct TrackerEvent {
 
     static func filterComplete(coordinates: LGLocationCoordinates2D?, distanceRadius: Int?,
                                distanceUnit: DistanceType, categories: [ProductCategory]?, sortBy: ProductSortCriteria?,
-                               postedWithin: ProductTimeCriteria?) -> TrackerEvent {
+                               postedWithin: ProductTimeCriteria?, priceFrom: Int?, priceTo: Int?) -> TrackerEvent {
         var params = EventParameters()
 
         // Filter Coordinates
@@ -209,6 +209,9 @@ public struct TrackerEvent {
         if let postedWithin = eventParameterPostedWithinForTime(postedWithin) {
             params[.FilterPostedWithin] = postedWithin.rawValue
         }
+
+        params[.PriceFrom] = eventParameterHasPriceFilter(priceFrom).rawValue
+        params[.PriceTo] = eventParameterHasPriceFilter(priceTo).rawValue
 
         return TrackerEvent(name: .FilterComplete, params: params)
     }
@@ -290,15 +293,10 @@ public struct TrackerEvent {
         return TrackerEvent(name: .ProductAskQuestion, params: params)
     }
 
-    static func productDetailContinueChatting(product: Product) -> TrackerEvent {
-        var params = EventParameters()
-        params.addProductParams(product)
-        return TrackerEvent(name: .ProductContinueChatting, params: params)
-    }
-
-    static func productDetailChatButton(product: Product) -> TrackerEvent {
+    static func productDetailChatButton(product: Product, typePage: EventParameterTypePage) -> TrackerEvent {
         var params = EventParameters()
         params[.ProductId] = product.objectId
+        params[.TypePage] = typePage.rawValue
         return TrackerEvent(name: .ProductChatButton, params: params)
     }
 
@@ -337,10 +335,9 @@ public struct TrackerEvent {
         return TrackerEvent(name: .ProductReport, params: params)
     }
 
-    static func productSellStart(typePage: EventParameterTypePage, designType: String? = nil) -> TrackerEvent {
+    static func productSellStart(typePage: EventParameterTypePage) -> TrackerEvent {
         var params = EventParameters()
         params[.TypePage] = typePage.rawValue
-        params[.DesignType] = designType
         return TrackerEvent(name: .ProductSellStart, params: params)
     }
 
@@ -566,6 +563,20 @@ public struct TrackerEvent {
     static func profileEditEditPicture() -> TrackerEvent {
         let params = EventParameters()
         return TrackerEvent(name: .ProfileEditEditPicture, params: params)
+    }
+
+    static func profileShareStart(type: EventParameterProfileType)  -> TrackerEvent {
+        var params = EventParameters()
+        params[.ProfileType] = type.rawValue
+        return TrackerEvent(name: .ProfileShareStart, params: params)
+    }
+
+    static func profileShareComplete(type: EventParameterProfileType, shareNetwork: EventParameterShareNetwork)
+        -> TrackerEvent {
+        var params = EventParameters()
+        params[.ProfileType] = type.rawValue
+        params[.ShareNetwork] = shareNetwork.rawValue
+        return TrackerEvent(name: .ProfileShareComplete, params: params)
     }
 
     static func appInviteFriendStart(typePage: EventParameterTypePage) -> TrackerEvent {
@@ -827,6 +838,36 @@ public struct TrackerEvent {
         return TrackerEvent(name: .ExpressChatDontAsk, params: EventParameters())
     }
 
+    static func productDetailInterestedUsers(number: Int, productId: String)  -> TrackerEvent {
+        var params = EventParameters()
+        params[.NumberOfUsers] = number
+        params[.ProductId] = productId
+        return TrackerEvent(name: .ProductDetailInterestedUsers, params: params)
+    }
+    
+    static func npsStart() -> TrackerEvent {
+        return TrackerEvent(name: .NPSStart, params: nil)
+    }
+    
+    static func npsComplete(score: Int) -> TrackerEvent {
+        var params = EventParameters()
+        params[.NPSScore] = score
+        return TrackerEvent(name: .NPSComplete, params: params)
+    }
+
+    static func verifyAccountStart(typePage: EventParameterTypePage) -> TrackerEvent {
+        var params = EventParameters()
+        params[.TypePage] = typePage.rawValue
+        return TrackerEvent(name: .VerifyAccountStart, params: params)
+    }
+
+    static func verifyAccountComplete(typePage: EventParameterTypePage, network: EventParameterAccountNetwork) -> TrackerEvent {
+        var params = EventParameters()
+        params[.TypePage] = typePage.rawValue
+        params[.AccountNetwork] = network.rawValue
+        return TrackerEvent(name: .VerifyAccountComplete, params: params)
+    }
+
 
     // MARK: - Private methods
 
@@ -875,5 +916,9 @@ public struct TrackerEvent {
         case .All:
             return .All
         }
+    }
+
+    private static func eventParameterHasPriceFilter(price: Int?) -> EventParameterHasPriceFilter {
+        return price != nil ? .True : .False
     }
 }

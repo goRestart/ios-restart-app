@@ -20,7 +20,7 @@ struct Constants {
     static let nonAccurateRegionRadius = 5000.0 // meters
     
     // URLs
-    static let appStoreURL = "http://itunes.apple.com/app/id986339882?mt=8"
+    static let appStoreURL = "itms-apps://itunes.apple.com/app/id986339882?mt=8"
     static let playStoreURL = "https://play.google.com/store/apps/details?id=com.abtnprojects.ambatana"
     static let appShareFbMessengerURL = "https://letgo.onelink.me/2963730415?pid=letgo_app&c=facebook-messenger-sold"
     static let appShareWhatsappURL = "https://letgo.onelink.me/2963730415?pid=letgo_app&c=whatsapp-sold"
@@ -33,6 +33,7 @@ struct Constants {
     static let termsAndConditionsURL = "https://%@.letgo.com/%@/terms_app"
     static let privacyURL = "https://%@.letgo.com/%@/privacy_app"
     static let productURL = "\(Constants.websiteURL)/product/%@"
+    static let userURL = "\(Constants.websiteURL)/user/%@"
     static let whatsAppShareURL = "whatsapp://send?text=%@"
     static let telegramShareURL = "tg://msg?text=%@"
 
@@ -82,6 +83,7 @@ struct Constants {
 
     // Product Detail
     static let minimumStatsCountToShow = 5
+    static let maxCharactersOnUserNameChatButton = 12
     
     // User
     static let maxUserNameLength = 18
@@ -92,8 +94,12 @@ struct Constants {
 
     // Config
     static let defaultConfigTimeOut: Double = 3    // seconds
+    static let defaultQuadKeyZoomLevel: Int = 13
 
     // user rating from chat
     static let myMessagesCountForRating = 2
     static let otherMessagesCountForRating = 2
+
+    // interested bubble
+    static let maxInterestedBubblesPerSession = 2
 }

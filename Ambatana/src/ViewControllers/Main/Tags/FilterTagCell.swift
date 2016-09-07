@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import LGCoreKit
 
 protocol FilterTagCellDelegate : class {
     func onFilterTagClosed(filterTagCell: FilterTagCell)
@@ -17,6 +18,7 @@ class FilterTagCell: UICollectionViewCell {
     private static let cellHeigh : CGFloat = 32.0
     private static let fixedWidthSpace : CGFloat = 42.0 //10.0 left margin & 32.0 close button
     private static let iconWidth : CGFloat = 28.0
+    private static let USDollarCode = "USD"
 
     @IBOutlet weak var tagIcon: UIImageView!
     @IBOutlet weak var tagIconWidth: NSLayoutConstraint!
@@ -38,6 +40,9 @@ class FilterTagCell: UICollectionViewCell {
             return FilterTagCell.sizeForText(timeOption.name)
         case .Category:
             return CGSize(width: iconWidth+fixedWidthSpace, height: FilterTagCell.cellHeigh)
+        case .PriceRange(let minPrice, let maxPrice, let currency):
+            let priceRangeString  = FilterTagCell.stringForPriceRange(minPrice, max: maxPrice, withCurrency: currency)
+            return FilterTagCell.sizeForText(priceRangeString)
         }
     }
     
@@ -49,13 +54,36 @@ class FilterTagCell: UICollectionViewCell {
         return CGSize(width: boundingBox.width+fixedWidthSpace+5, height: FilterTagCell.cellHeigh)
     }
 
-    
+    private static func stringForPriceRange(min: Int?, max: Int?, withCurrency currency: Currency?) -> String {
+        var minText = ""
+        var maxText = ""
+        if let min = min {
+            minText = Core.currencyHelper.formattedAmountWithCurrencyCode(currency?.code ?? "", amount: min)
+        }
+        if let max = max {
+            maxText = Core.currencyHelper.formattedAmountWithCurrencyCode(currency?.code ?? "", amount: max)
+        }
+
+        if !minText.isEmpty && !maxText.isEmpty {
+            return minText + " " + "-" + " " + maxText
+        } else if !minText.isEmpty {
+            return LGLocalizedString.filtersPriceFrom + " " + minText
+        } else if !maxText.isEmpty {
+            return LGLocalizedString.filtersPriceTo + " " + maxText
+        } else {
+            // should never ever happen
+            return "🤑"
+        }
+    }
+
+
     // MARK: - Lifecycle
     
     override func awakeFromNib() {
         super.awakeFromNib()
         self.setupUI()
         self.resetUI()
+        self.setAccessibilityIds()
     }
     
     override func prepareForReuse() {
@@ -85,6 +113,8 @@ class FilterTagCell: UICollectionViewCell {
         case .Category(let category):
             self.tagIconWidth.constant = FilterTagCell.iconWidth
             self.tagIcon.image = category.image
+        case .PriceRange(let minPrice, let maxPrice, let currency):
+            self.tagLabel.text = FilterTagCell.stringForPriceRange(minPrice, max: maxPrice, withCurrency: currency)
         }
     }
 
@@ -102,5 +132,11 @@ class FilterTagCell: UICollectionViewCell {
         self.tagLabel.text = nil
         self.tagIcon.image = nil
         self.tagIconWidth.constant = 0
+    }
+
+    private func setAccessibilityIds() {
+        self.accessibilityId = .FilterTagCell
+        tagIcon.accessibilityId = .FilterTagCellTagIcon
+        tagLabel.accessibilityId = .FilterTagCellTagLabel
     }
 }

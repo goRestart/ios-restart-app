@@ -74,6 +74,7 @@ class PostProductDetailFullView: BaseView {
     private func setup() {
         loadNibNamed("PostProductDetailFullView", contentView: { [weak self] in return self?.contentView })
         setupUI()
+        setAccesibilityIds()
         setupRx()
     }
 
@@ -95,7 +96,7 @@ class PostProductDetailFullView: BaseView {
         doneButton.setTitle(LGLocalizedString.productPostDone, forState: UIControlState.Normal)
         currencyButton.setTitle(viewModel.currencySymbol, forState: UIControlState.Normal)
 
-        doneButton.setStyle(.Primary(fontSize: .Medium))
+        doneButton.setStyle(.Primary(fontSize: .Big))
     }
 
     private func setupRx() {
@@ -122,7 +123,7 @@ extension PostProductDetailFullView: UITextFieldDelegate, UITextViewDelegate {
             textField.text = text
             return false
         } else if textField === priceTextField {
-            return textField.shouldChangePriceInRange(range, replacementString: string)
+            return textField.shouldChangePriceInRange(range, replacementString: string, acceptsSeparator: true)
         }
         return true
     }
@@ -148,5 +149,18 @@ extension PostProductDetailFullView: UITextFieldDelegate, UITextViewDelegate {
             return false
         }
         return true
+    }
+}
+
+
+// MARK: - Accesibility
+
+extension PostProductDetailFullView {
+    func setAccesibilityIds() {
+        doneButton.accessibilityId = .PostingDoneButton
+        currencyButton.accessibilityId = .PostingCurrencyButton
+        titleTextField.accessibilityId = .PostingTitleField
+        priceTextField.accessibilityId = .PostingPriceField
+        descriptionTextView.accessibilityId = .PostingDescriptionField
     }
 }

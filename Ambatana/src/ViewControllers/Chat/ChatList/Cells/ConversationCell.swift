@@ -52,8 +52,9 @@ class ConversationCell: UITableViewCell, ReusableCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        self.setupUI()
-        self.resetUI()
+        setupUI()
+        resetUI()
+        setAccessibilityIds()
     }
 
     override func prepareForReuse() {
@@ -135,7 +136,7 @@ class ConversationCell: UITableViewCell, ReusableCell {
 
         switch data.status {
         case .Forbidden:
-            setInfo(text: LGLocalizedString.accountDeactivated, icon: UIImage(named: "ic_alert_yellow_white_inside"))
+            setInfo(text: LGLocalizedString.accountPendingModeration, icon: UIImage(named: "ic_pending_moderation"))
         case .ProductSold:
             setInfo(text: LGLocalizedString.commonProductSold, icon: UIImage(named: "ic_dollar_sold"))
         case .ProductDeleted:
@@ -196,5 +197,17 @@ class ConversationCell: UITableViewCell, ReusableCell {
             statusImageView.hidden = true
             separationStatusImageToTimeLabel.constant = -statusImageView.frame.width
         }
+    }
+}
+
+extension ConversationCell {
+    func setAccessibilityIds() {
+        userLabel.accessibilityId = AccessibilityId.ConversationCellUserLabel
+        timeLabel.accessibilityId = AccessibilityId.ConversationCellTimeLabel
+        productLabel.accessibilityId = AccessibilityId.ConversationCellProductLabel
+        badgeLabel.accessibilityId = AccessibilityId.ConversationCellBadgeLabel
+        thumbnailImageView.accessibilityId = AccessibilityId.ConversationCellThumbnailImageView
+        avatarImageView.accessibilityId = AccessibilityId.ConversationCellAvatarImageView
+        statusImageView.accessibilityId = AccessibilityId.ConversationCellStatusImageView
     }
 }

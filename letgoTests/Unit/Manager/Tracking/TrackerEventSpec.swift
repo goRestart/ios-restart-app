@@ -648,7 +648,7 @@ class TrackerEventSpec: QuickSpec {
                         let coords = LGLocationCoordinates2D(latitude: 41.123, longitude: 2.123)
                         sut = TrackerEvent.filterComplete(coords, distanceRadius: 10, distanceUnit: DistanceType.Km,
                             categories: [ProductCategory.Electronics, ProductCategory.CarsAndMotors],
-                            sortBy: ProductSortCriteria.Distance, postedWithin: ProductTimeCriteria.Day)
+                            sortBy: ProductSortCriteria.Distance, postedWithin: ProductTimeCriteria.Day, priceFrom: 5, priceTo: 100)
                     }
                     it("has its event name") {
                         expect(sut.name.rawValue).to(equal("filter-complete"))
@@ -678,12 +678,17 @@ class TrackerEventSpec: QuickSpec {
                     it("has posted within") {
                         expect(sut.params!.stringKeyParams["posted-within"] as? String).to(equal("day"))
                     }
+                    it("min price") {
+                        expect(sut.params!.stringKeyParams["price-from"] as? String) == "true"
+                    }
+                    it("max price") {
+                        expect(sut.params!.stringKeyParams["price-to"] as? String) == "true"
+                    }
                 }
                 context("not receiving all params, contains the default params") {
                     beforeEach {
                         sut = TrackerEvent.filterComplete(nil, distanceRadius: nil, distanceUnit: DistanceType.Km,
-                            categories: nil, sortBy: nil,
-                            postedWithin: nil)
+                            categories: nil, sortBy: nil, postedWithin: nil, priceFrom: nil, priceTo: nil)
                     }
                     it("has its event name") {
                         expect(sut.name.rawValue).to(equal("filter-complete"))
@@ -712,6 +717,12 @@ class TrackerEventSpec: QuickSpec {
                     }
                     it("doesn't have within") {
                         expect(sut.params!.stringKeyParams["posted-within"] as? String).to(beNil())
+                    }
+                    it("min price") {
+                        expect(sut.params!.stringKeyParams["price-from"] as? String) == "false"
+                    }
+                    it("max price") {
+                        expect(sut.params!.stringKeyParams["price-to"] as? String) == "false"
                     }
                 }
             }
@@ -1189,70 +1200,25 @@ class TrackerEventSpec: QuickSpec {
                 }
             }
 
-            describe("productContinueChatting") {
-                it("has its event name") {
-                    let product = MockProduct()
-                    sut = TrackerEvent.productDetailContinueChatting(product)
-                    expect(sut.name.rawValue).to(equal("product-detail-continue-chatting"))
+            describe("Product Detail Chat Button") {
+                beforeEach {
+                    let mockProduct = MockProduct()
+                    mockProduct.objectId = "12345"
+                    mockProduct.price = Double(123.983)
+                    mockProduct.currency = Currency(code: "EUR", symbol: "€")
+
+                    sut = TrackerEvent.productDetailChatButton(mockProduct, typePage: .ProductDetail)
                 }
-                it("contains the product related params when passing by a product and my user") {
-                    let myUser = MockUser()
-                    myUser.objectId = "12345"
-                    myUser.postalAddress = PostalAddress(address: nil, city: "Barcelona", zipCode: "08026",
-                                                         countryCode: "ES", country: nil)
-
-                    let productUser = MockUser()
-                    productUser.objectId = "56897"
-                    productUser.postalAddress = PostalAddress(address: nil, city: "Amsterdam", zipCode: "GD 1013",
-                                                              countryCode: "NL", country: nil)
-
-                    let product = MockProduct()
-                    product.objectId = "AAAAA"
-                    product.name = "iPhone 7S"
-                    product.price = Double(123.983)
-                    product.currency = Currency(code: "EUR", symbol: "€")
-                    product.category = .HomeAndGarden
-                    product.user = productUser
-                    product.location = LGLocationCoordinates2D(latitude: 3.12354534, longitude: 7.23983292)
-                    product.postalAddress = PostalAddress(address: nil, city: "Baltimore", zipCode: "12345",
-                                                          countryCode: "US", country: nil)
-
-                    sut = TrackerEvent.productDetailContinueChatting(product)
-                    expect(sut.params).notTo(beNil())
-
-                    // Product
-
-                    expect(sut.params!.stringKeyParams["product-id"]).notTo(beNil())
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("product-detail-chat-button"))
+                }
+                it("contains product-id param") {
                     let productId = sut.params!.stringKeyParams["product-id"] as? String
-                    expect(productId).to(equal(product.objectId))
-
-                    expect(sut.params!.stringKeyParams["product-price"]).notTo(beNil())
-                    let productPrice = sut.params!.stringKeyParams["product-price"] as? Double
-                    expect(productPrice).to(equal(product.price!))
-
-                    expect(sut.params!.stringKeyParams["product-currency"]).notTo(beNil())
-                    let productCurrency = sut.params!.stringKeyParams["product-currency"] as? String
-                    expect(productCurrency).to(equal(product.currency.code))
-
-                    expect(sut.params!.stringKeyParams["category-id"]).notTo(beNil())
-                    let productCategory = sut.params!.stringKeyParams["category-id"] as? Int
-                    expect(productCategory).to(equal(product.category.rawValue))
-
-                    expect(sut.params!.stringKeyParams["product-lat"]).notTo(beNil())
-                    let productLat = sut.params!.stringKeyParams["product-lat"] as? Double
-                    expect(productLat).to(equal(product.location.latitude))
-
-                    expect(sut.params!.stringKeyParams["product-lng"]).notTo(beNil())
-                    let productLng = sut.params!.stringKeyParams["product-lng"] as? Double
-                    expect(productLng).to(equal(product.location.longitude))
-
-                    expect(sut.params!.stringKeyParams["user-to-id"]).notTo(beNil())
-                    let productUserId = sut.params!.stringKeyParams["user-to-id"] as? String
-                    expect(productUserId).to(equal(product.user.objectId))
-
-                    expect(sut.params!.stringKeyParams["item-type"]).notTo(beNil())
-                    let itemType = sut.params!.stringKeyParams["item-type"] as? String
-                    expect(itemType).to(equal("1"))
+                    expect(productId) == "12345"
+                }
+                it("contains type-page param") {
+                    let productPrice = sut.params!.stringKeyParams["type-page"] as? String
+                    expect(productPrice) == "product-detail"
                 }
             }
 
@@ -1818,6 +1784,36 @@ class TrackerEventSpec: QuickSpec {
                 }
             }
 
+            describe("profileShareStart") {
+                beforeEach {
+                    sut = TrackerEvent.profileShareStart(.Public)
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("profile-share-start"))
+                }
+                it("contains profile-type param") {
+                    let typePage = sut.params!.stringKeyParams["profile-type"] as? String
+                    expect(typePage).to(equal("public"))
+                }
+            }
+
+            describe("profileShareComplete") {
+                beforeEach {
+                    sut = TrackerEvent.profileShareComplete(.Public, shareNetwork: .Facebook)
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("profile-share-complete"))
+                }
+                it("contains profile-type param") {
+                    let typePage = sut.params!.stringKeyParams["profile-type"] as? String
+                    expect(typePage).to(equal("public"))
+                }
+                it("contains share-network param") {
+                    let typePage = sut.params!.stringKeyParams["share-network"] as? String
+                    expect(typePage).to(equal("facebook"))
+                }
+            }
+
             describe("appInviteFriendStart") {
                 beforeEach {
                     sut = TrackerEvent.appInviteFriendStart(.Settings)
@@ -2161,35 +2157,109 @@ class TrackerEventSpec: QuickSpec {
                     }
                 }
             }
-
-            describe("express chat start") {
-                beforeEach {
-                    sut = TrackerEvent.expressChatStart()
+            describe("express chat") {
+                context("express chat start") {
+                    beforeEach {
+                        sut = TrackerEvent.expressChatStart()
+                    }
+                    it("has its event name") {
+                        expect(sut.name.rawValue) == "express-chat-start"
+                    }
                 }
-                it("has its event name") {
-                    expect(sut.name.rawValue) == "express-chat-start"
+
+                context("express chat complete") {
+                    beforeEach {
+                        sut = TrackerEvent.expressChatComplete(3)
+                    }
+                    it("has its event name") {
+                        expect(sut.name.rawValue) == "express-chat-complete"
+                    }
+                    it("contains type-page param") {
+                        let expressConversations = sut.params!.stringKeyParams["express-conversations"] as? Int
+                        expect(expressConversations) == 3
+                    }
+                }
+
+                context("express chat don't ask again") {
+                    beforeEach {
+                        sut = TrackerEvent.expressChatDontAsk()
+                    }
+                    it("has its event name") {
+                        expect(sut.name.rawValue) == "express-chat-dont-ask"
+                    }
                 }
             }
 
-            describe("express chat complete") {
+            describe("product detail interested users") {
                 beforeEach {
-                    sut = TrackerEvent.expressChatComplete(3)
+                    sut = TrackerEvent.productDetailInterestedUsers(3, productId: "ABCD")
                 }
                 it("has its event name") {
-                    expect(sut.name.rawValue) == "express-chat-complete"
+                    expect(sut.name.rawValue) == "product-detail-interested-users"
                 }
-                it("contains type-page param") {
-                    let expressConversations = sut.params!.stringKeyParams["express-conversations"] as? Int
-                    expect(expressConversations) == 3
+                it("contains number-of-users param") {
+                    let numUSers = sut.params!.stringKeyParams["number-of-users"] as? Int
+                    expect(numUSers) == 3
+                }
+                it("contains product-id param") {
+                    let productId = sut.params!.stringKeyParams["product-id"] as? String
+                    expect(productId) == "ABCD"
+                }
+            }
+            
+            describe("NPS Survey") {
+                context("NPS Start") {
+                    beforeEach {
+                        sut = TrackerEvent.npsStart()
+                    }
+                    it("has its event name") {
+                        expect(sut.name.rawValue) == "nps-start"
+                    }
+                }
+                
+                context("NPS Complete") {
+                    beforeEach {
+                        sut = TrackerEvent.npsComplete(2)
+                    }
+                    it("has its event name") {
+                        expect(sut.name.rawValue) == "nps-complete"
+                    }
+                    it("contains score param") {
+                        let score = sut.params!.stringKeyParams["nps-score"] as? Int
+                        expect(score) == 2
+                    }
                 }
             }
 
-            describe("express chat don't ask again") {
-                beforeEach {
-                    sut = TrackerEvent.expressChatDontAsk()
+            describe("Verify Account") {
+                context("Verify Account Start") {
+                    beforeEach {
+                        sut = TrackerEvent.verifyAccountStart(.Chat)
+                    }
+                    it("has its event name") {
+                        expect(sut.name.rawValue) == "verify-account-start"
+                    }
+                    it("contains type-page param") {
+                        let param = sut.params!.stringKeyParams["type-page"] as? String
+                        expect(param) == "chat"
+                    }
                 }
-                it("has its event name") {
-                    expect(sut.name.rawValue) == "express-chat-dont-ask"
+
+                context("Verify Account Complete") {
+                    beforeEach {
+                        sut = TrackerEvent.verifyAccountComplete(.Chat, network: .Facebook)
+                    }
+                    it("has its event name") {
+                        expect(sut.name.rawValue) == "verify-account-complete"
+                    }
+                    it("contains type-page param") {
+                        let param = sut.params!.stringKeyParams["type-page"] as? String
+                        expect(param) == "chat"
+                    }
+                    it("contains account-network param") {
+                        let param = sut.params!.stringKeyParams["account-network"] as? String
+                        expect(param) == "facebook"
+                    }
                 }
             }
         }

@@ -14,17 +14,23 @@ enum PostingDetailsMode: Int {
     case Steps = 2
 }
 
+enum AppInviteListingMode: Int {
+    case None = 0
+    case Text = 1
+    case Emoji = 2
+}
+
 struct FeatureFlags {
-    static var websocketChat: Bool {
+    static var websocketChat: Bool = {
         return FTSFlipTheSwitch.websocketChat
-    }
+    }()
     
-    static var notificationsSection: Bool {
+    static var notificationsSection: Bool = {
         if FTSFlipTheSwitch.overridesABTests {
             return FTSFlipTheSwitch.notificationsSection
         }
         return false
-    }
+    }()
 
     static var userRatings: Bool {
         return FTSFlipTheSwitch.userRatings
@@ -57,6 +63,13 @@ struct FeatureFlags {
         }
         return ABTests.directStickersOnProduct.value
     }
+    
+    static var showNPSSurvey: Bool {
+        if FTSFlipTheSwitch.overridesABTests {
+            return FTSFlipTheSwitch.showNPSSurvey
+        }
+        return ABTests.showNPSSurvey.value
+    }
 
     static var postingDetailsMode: PostingDetailsMode {
         if FTSFlipTheSwitch.overridesABTests {
@@ -67,6 +80,20 @@ struct FeatureFlags {
             }
         }
         return PostingDetailsMode(rawValue: ABTests.postingDetailsMode.value) ?? .Old
+    }
+    
+    static var appInviteFeedMode: AppInviteListingMode {
+        if FTSFlipTheSwitch.overridesABTests {
+            return FTSFlipTheSwitch.showInviteHeartIcon ? .Emoji : .Text
+        }
+        return AppInviteListingMode(rawValue: ABTests.appInviteFeedMode.value) ?? .None
+    }
+
+    static var profileVerifyOneButton: Bool {
+        if FTSFlipTheSwitch.overridesABTests {
+            return FTSFlipTheSwitch.profileVerifyOneButton
+        }
+        return ABTests.profileVerifyOneButton.value
     }
 }
 
@@ -109,5 +136,17 @@ private extension FTSFlipTheSwitch {
 
     static var newPostDetailsSteps: Bool {
         return FTSFlipTheSwitch.sharedInstance().isFeatureEnabled("new_post_details_steps")
+    }
+    
+    static var showInviteHeartIcon: Bool {
+        return FTSFlipTheSwitch.sharedInstance().isFeatureEnabled("show_invite_heart_icon")
+    }
+
+    static var showNPSSurvey: Bool {
+        return FTSFlipTheSwitch.sharedInstance().isFeatureEnabled("show_nps_survey")
+    }
+
+    static var profileVerifyOneButton: Bool {
+        return FTSFlipTheSwitch.sharedInstance().isFeatureEnabled("profile_verify_one_button")
     }
 }

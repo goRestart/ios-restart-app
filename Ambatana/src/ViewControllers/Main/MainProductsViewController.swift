@@ -17,7 +17,7 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     FilterTagsViewControllerDelegate, InfoBubbleDelegate, PermissionsDelegate, UITextFieldDelegate, ScrollableToTop {
     
     // ViewModel
-    var viewModel: MainProductsViewModel!
+    var viewModel: MainProductsViewModel
     
     // UI
     @IBOutlet weak var productListView: ProductListView!
@@ -32,7 +32,7 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     @IBOutlet weak var trendingSearchesContainer: UIVisualEffectView!
     @IBOutlet weak var trendingSearchesTable: UITableView!
     
-    private var tagsViewController : FilterTagsViewController!
+    private var tagsViewController : FilterTagsViewController?
     private var tagsShowing : Bool = false
     private var tagsAnimating : Bool = false
 
@@ -47,9 +47,8 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     
     required init(viewModel: MainProductsViewModel, nibName nibNameOrNil: String?) {
         self.navbarSearch = LGNavBarSearchField.setupNavBarSearchFieldWithText(viewModel.searchString)
-        
-        super.init(viewModel: viewModel, nibName: nibNameOrNil)
         self.viewModel = viewModel
+        super.init(viewModel: viewModel, nibName: nibNameOrNil)
         viewModel.delegate = self
         viewModel.bubbleDelegate = self
         viewModel.permissionsDelegate = self
@@ -72,8 +71,10 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
 
         productListView.collectionViewContentInset.top = topBarHeight
         productListView.collectionViewContentInset.bottom = tabBarHeight + Constants.tabBarSellFloatingButtonHeight
-        productListView.setErrorViewStyle(bgColor: UIColor(patternImage: UIImage(named: "pattern_white")!),
-                            borderColor: UIColor.lineGray, containerColor: UIColor.white)
+        if let image =  UIImage(named: "pattern_white") {
+            productListView.setErrorViewStyle(bgColor: UIColor(patternImage: image), borderColor: UIColor.lineGray,
+                                              containerColor: UIColor.white)
+        }
         productListView.scrollDelegate = self
         productListView.headerDelegate = self
         productListView.cellsDelegate = viewModel
@@ -88,8 +89,9 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
         setupTagsView()
         setupSearchAndTrending()
         setFiltersNavbarButton()
-
+        setInviteNavBarButton()
         setupRxBindings()
+        setAccessibilityIds()
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -142,7 +144,7 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     func productListView(productListView: ProductListView, didScrollDown scrollDown: Bool) {
         guard viewModel.active else { return }
 
-        if !self.tagsViewController.tags.isEmpty {
+        if let tagsVC = self.tagsViewController where !tagsVC.tags.isEmpty {
             showTagsView(!scrollDown)
         }
         setBarsHidden(scrollDown)
@@ -161,7 +163,9 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     }
 
     func vmShowFilters(filtersVM: FiltersViewModel) {
-        FiltersViewController.presentAsSemimodalOnViewController(self, withViewModel: filtersVM)
+        let vc = FiltersViewController(viewModel: filtersVM)
+        let navVC = UINavigationController(rootViewController: vc)
+        presentViewController(navVC, animated: true, completion: nil)
     }
 
     func vmShowTags(tags: [FilterTag]) {
@@ -208,11 +212,6 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
         guard floatingSellButtonHidden != previouslyHidden else { return }
         tabBarCtl.setSellFloatingButtonHidden(floatingSellButtonHidden, animated: true)
     }
-
-    func vmOpenSell(type: String) {
-        guard let tabBarController = self.tabBarController as? TabBarController else { return }
-        tabBarController.openSellFromBannerCell(type)
-    }
     
     
     // MARK: UITextFieldDelegate Methods
@@ -258,6 +257,7 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     dynamic private func endEdit() {
         trendingSearchesContainer.hidden = true
         setFiltersNavbarButton()
+        setInviteNavBarButton()
         navbarSearch.endEdit()
     }
 
@@ -282,16 +282,18 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     private func setupTagsView() {
         tagsCollectionTopSpace = NSLayoutConstraint(item: tagsCollectionView, attribute: .Top, relatedBy: .Equal,
             toItem: topLayoutGuide, attribute: .Bottom, multiplier: 1.0, constant: -40.0)
-        view.addConstraint(tagsCollectionTopSpace!)
+        if let tagsCollectionTopSpace = tagsCollectionTopSpace {
+            view.addConstraint(tagsCollectionTopSpace)
+        }
 
         tagsViewController = FilterTagsViewController(collectionView: self.tagsCollectionView)
-        tagsViewController.delegate = self
+        tagsViewController?.delegate = self
         loadTagsViewWithTags(viewModel.tags)
     }
     
     private func loadTagsViewWithTags(tags: [FilterTag]) {
         
-        self.tagsViewController.updateTags(tags)
+        tagsViewController?.updateTags(tags)
         let showTags = tags.count > 0
         showTagsView(showTags)
         
@@ -305,6 +307,24 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
             filtersIcon = tagsViewController.tags.isEmpty ? "ic_filters": "ic_filters_active"
         }
         setLetGoRightButtonWith(imageName: filtersIcon, renderingMode: .AlwaysOriginal, selector: "filtersButtonPressed:")
+    }
+    
+    private func setInviteNavBarButton() {
+        guard isRootViewController() else { return }
+        var button: UIBarButtonItem?
+        switch FeatureFlags.appInviteFeedMode {
+        case .None:
+            button = nil
+        case .Emoji:
+            button = UIBarButtonItem(image: UIImage(named: "ic_invite"), style: .Plain, target: self, action: #selector(openInvite))
+        case .Text:
+            button = UIBarButtonItem(title: LGLocalizedString.appShareInviteText, style: .Plain, target: self, action: #selector(openInvite))
+        }
+        navigationItem.leftBarButtonItem = button
+    }
+    
+    dynamic private func openInvite() {
+        viewModel.vmUserDidTapInvite()
     }
     
     private func showTagsView(show: Bool) {
@@ -365,6 +385,10 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
         RatingManager.sharedInstance.ratingProductListBannerVisible.asObservable()
             .distinctUntilChanged().subscribeNext { [weak self] _ in
                 self?.productListView.refreshDataView()
+        }.addDisposableTo(disposeBag)
+
+        ABTests.trackingData.asObservable().bindNext { [weak self] _ in
+            self?.setInviteNavBarButton()
         }.addDisposableTo(disposeBag)
     }
 }
@@ -487,5 +511,18 @@ extension MainProductsViewController: UITableViewDelegate, UITableViewDataSource
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         viewModel.selectedTrendingSearchAtIndex(indexPath.row)
+    }
+}
+
+
+extension MainProductsViewController {
+    func setAccessibilityIds() {
+        navigationItem.rightBarButtonItem?.accessibilityId = .MainProductsFilterButton
+        productListView.accessibilityId = .MainProductsListView
+        tagsCollectionView.accessibilityId = .MainProductsTagsCollection
+        infoBubbleLabel.accessibilityId = .MainProductsInfoBubbleLabel
+        navbarSearch.accessibilityId = .MainProductsNavBarSearch
+        trendingSearchesTable.accessibilityId = .MainProductsTrendingSearchesTable
+        navigationItem.leftBarButtonItem?.accessibilityId = .MainProductsInviteButton
     }
 }

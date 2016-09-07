@@ -139,7 +139,8 @@ final class TabBarController: UITabBarController {
         for (index, vc) in viewControllers.enumerate() {
             guard let tab = Tab(index: index) else { continue }
             let tabBarItem = UITabBarItem(title: nil, image: UIImage(named: tab.tabIconImageName), selectedImage: nil)
-
+            // UI Test accessibility Ids
+            tabBarItem.accessibilityId = tab.accessibilityId
             // Customize the selected appereance
             if let imageItem = tabBarItem.selectedImage {
                 tabBarItem.image = imageItem.imageWithColor(UIColor.tabBarIconUnselectedColor)
@@ -191,10 +192,6 @@ final class TabBarController: UITabBarController {
         viewModel.sellButtonPressed()
     }
 
-    func openSellFromBannerCell(designType: String) {
-        viewModel.sellFromBannerCell(designType)
-    }
-
     func openUserRating(source: RateUserSource, data: RateUserData) {
         viewModel.userRating(source, data: data)
     }
@@ -216,10 +213,10 @@ final class TabBarController: UITabBarController {
             guard shouldSelectVC else { return }
         }
 
-        selectedIndex = tab.index
-
         // Pop previous navigation to root
         navBarCtl.popToRootViewControllerAnimated(false)
+
+        selectedIndex = tab.index
 
         // Notify the delegate, as programmatically change doesn't do it
         delegate?.tabBarController?(self, didSelectViewController: vc)
@@ -302,7 +299,17 @@ extension TabBarController: AppRatingViewDelegate {
                                    installation: Core.installationRepository.installation) else { return }
             openInternalUrl(url)
         } else {
-            UIApplication.sharedApplication().openURL(NSURL(string: Constants.appStoreURL)!)
+            if let url = NSURL(string: Constants.appStoreURL) {
+                UIApplication.sharedApplication().openURL(url)
+            }
         }
     }
 }
+
+
+extension TabBarController {
+    func setAccessibilityIds() {
+        floatingSellButton.accessibilityId = AccessibilityId.TabBarFloatingSellButton
+    }
+}
+

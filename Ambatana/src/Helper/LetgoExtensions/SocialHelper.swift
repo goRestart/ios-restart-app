@@ -14,7 +14,6 @@ import Branch
 
 
 final class SocialHelper {
-    
     /**
         Returns a social message for the given product with a title.
     
@@ -22,13 +21,19 @@ final class SocialHelper {
         - parameter product: The product
         - returns: The social message.
     */
-    static func socialMessageWithTitle(title: String, product: Product) -> SocialMessage {
-        return ProductSocialMessage(title: title, product: product)
+    static func socialMessageWithProduct(product: Product) -> SocialMessage {
+        let productIsMine = Core.myUserRepository.myUser?.objectId == product.user.objectId
+        let socialTitle = productIsMine ? LGLocalizedString.productIsMineShareBody :
+            LGLocalizedString.productShareBody
+        return ProductSocialMessage(title: socialTitle, product: product, isMine: productIsMine)
     }
 
-    static func socialMessageAppShare(shareUrl: String) -> SocialMessage {
-        let url = NSURL(string: shareUrl)
-        return AppShareSocialMessage(shareUrl: url)
+    static func socialMessageUser(user: User, itsMe: Bool) -> SocialMessage {
+        return UserSocialMessage(user: user, itsMe: itsMe)
+    }
+
+    static func socialMessageAppShare() -> SocialMessage {
+        return AppShareSocialMessage()
     }
 
     static func socialMessageCommercializer(shareUrl: String, thumbUrl: String?) -> SocialMessage {
@@ -158,6 +163,8 @@ final class SocialHelper {
 // MARK: - UIViewController native share extension
 
 protocol NativeShareDelegate {
+    var nativeShareSuccessMessage: String? { get }
+    var nativeShareErrorMessage: String? { get }
     func nativeShareInFacebook()
     func nativeShareInTwitter()
     func nativeShareInEmail()
@@ -198,7 +205,9 @@ extension UIViewController {
             guard success else {
                 //In case of cancellation just do nothing -> success == false && error == nil
                 guard error != nil else { return }
-                self?.showAutoFadingOutMessageAlert(LGLocalizedString.productShareGenericError)
+                if let errorMessage = delegate?.nativeShareErrorMessage {
+                    self?.showAutoFadingOutMessageAlert(errorMessage)
+                }
                 return
             }
 
@@ -208,14 +217,16 @@ extension UIViewController {
                 delegate?.nativeShareInTwitter()
             } else if activity == UIActivityTypeMail {
                 delegate?.nativeShareInEmail()
-            } else if activity != nil && activity!.rangeOfString("whatsapp") != nil {
+            } else if let ac = activity, let _ = ac.rangeOfString("whatsapp") {
                 delegate?.nativeShareInWhatsApp()
                 return
             } else if activity == UIActivityTypeCopyToPasteboard {
                 return
             }
 
-            self?.showAutoFadingOutMessageAlert(LGLocalizedString.productShareGenericOk)
+            if let successMessage = delegate?.nativeShareSuccessMessage {
+                self?.showAutoFadingOutMessageAlert(successMessage)
+            }
         }
         presentViewController(vc, animated: true, completion: nil)
     }

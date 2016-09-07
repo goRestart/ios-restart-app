@@ -45,6 +45,11 @@ class MainSignUpViewController: BaseViewController, SignUpViewModelDelegate, UIT
     @IBOutlet weak var googleButtonTopMarginConstraint: NSLayoutConstraint!
     @IBOutlet weak var facebookButtonTopMarginConstraint: NSLayoutConstraint!
     
+    // Bar Buttons
+    private var closeButton: UIBarButtonItem?
+    private var helpButton: UIBarButtonItem?
+    
+    
     // > Helper
     var lines: [CALayer]
     
@@ -65,7 +70,8 @@ class MainSignUpViewController: BaseViewController, SignUpViewModelDelegate, UIT
         super.viewDidLoad()
         
         setupUI()
-
+        setAccesibilityIds()
+        
         if DeviceFamily.current == .iPhone4 {
             adaptConstraintsToiPhone4()
         }
@@ -166,10 +172,10 @@ class MainSignUpViewController: BaseViewController, SignUpViewModelDelegate, UIT
         view.backgroundColor = UIColor.listBackgroundColor
 
         // Navigation bar
-        let closeButton = UIBarButtonItem(image: UIImage(named: "navbar_close"), style: .Plain, target: self,
+        closeButton = UIBarButtonItem(image: UIImage(named: "navbar_close"), style: .Plain, target: self,
             action: #selector(MainSignUpViewController.closeButtonPressed))
         navigationItem.leftBarButtonItem = closeButton
-        let helpButton = UIBarButtonItem(title: LGLocalizedString.mainSignUpHelpButton, style: .Plain, target: self,
+        helpButton = UIBarButtonItem(title: LGLocalizedString.mainSignUpHelpButton, style: .Plain, target: self,
             action: #selector(MainSignUpViewController.helpButtonPressed))
         navigationItem.rightBarButtonItem = helpButton
 
@@ -211,5 +217,16 @@ class MainSignUpViewController: BaseViewController, SignUpViewModelDelegate, UIT
         legalTextView.attributedText = viewModel.attributedLegalText
         legalTextView.textAlignment = .Center
         legalTextView.delegate = self
+    }
+}
+
+extension MainSignUpViewController {
+    func setAccesibilityIds() {
+        connectFBButton.accessibilityId = .MainSignUpFacebookButton
+        connectGoogleButton.accessibilityId = .MainSignUpGoogleButton
+        signUpButton.accessibilityId = .MainSignUpSignupButton
+        logInButton.accessibilityId = .MainSignupLogInButton
+        closeButton?.accessibilityId = .MainSignupCloseButton
+        helpButton?.accessibilityId = .MainSignupHelpButton
     }
 }

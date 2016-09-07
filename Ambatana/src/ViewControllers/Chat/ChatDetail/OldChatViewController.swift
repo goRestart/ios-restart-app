@@ -392,7 +392,7 @@ extension OldChatViewController: OldChatViewModelDelegate {
         }
     }
     
-    func vmDidSucceedRetrievingChatMessages() {
+    func vmDidRefreshChatMessages() {
         showActivityIndicator(false)
         tableView.reloadData()
     }
@@ -424,9 +424,9 @@ extension OldChatViewController: OldChatViewModelDelegate {
         showAutoFadingOutMessageAlert(LGLocalizedString.chatMessageLoadGenericError)
     }
     
-    func vmDidSucceedSendingMessage() {
+    func vmDidSucceedSendingMessage(index: Int) {
         tableView.beginUpdates()
-        let indexPath = NSIndexPath(forRow: 0, inSection: 0)
+        let indexPath = NSIndexPath(forRow: index, inSection: 0)
         tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
         tableView.endUpdates()
         tableView.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Top, animated: true)
@@ -756,5 +756,17 @@ extension OldChatViewController {
             self?.stickersView.enabled = enabled
             self?.directAnswersPresenter.enabled = enabled
         }.addDisposableTo(disposeBag)
+    }
+}
+
+extension OldChatViewController {
+    func setAccessibilityIds() {
+        tableView.accessibilityId = .ChatViewTableView
+        navigationItem.rightBarButtonItem?.accessibilityId = .ChatViewMoreOptionsButton
+        navigationItem.backBarButtonItem?.accessibilityId = .ChatViewBackButton
+        textInputbar.leftButton.accessibilityId = .ChatViewStickersButton
+        textInputbar.rightButton.accessibilityId = .ChatViewSendButton
+        textInputbar.accessibilityId = .ChatViewTextInputBar
+        stickersCloseButton.accessibilityId = .ChatViewCloseStickersButton
     }
 }

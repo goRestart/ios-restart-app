@@ -13,7 +13,7 @@ import TMReachability
 
 private struct TostableKeys {
     static var ToastViewKey = 0
-    static var ToastViewTopMarginConstraintKey = 0
+    static var ToastViewBottomMarginConstraintKey = 0
 }
 
 private struct NavigationBarKeys {
@@ -21,6 +21,7 @@ private struct NavigationBarKeys {
     static var viewsToIgnoreTouchersFor = 0
     static var outOfBoundsViewsToForceTouches = 0
 }
+
 
 extension UINavigationBar {
 
@@ -38,6 +39,7 @@ extension UINavigationBar {
             )
         }
     }
+
 
     var viewsToIgnoreTouchesFor: [UIView] {
         get {
@@ -65,7 +67,7 @@ extension UINavigationBar {
         views.append(view)
         viewsToIgnoreTouchesFor = views
     }
-
+    
     override public func pointInside(point: CGPoint, withEvent event: UIEvent?) -> Bool {
         let pointInside = super.pointInside(point, withEvent: event)
 
@@ -110,16 +112,16 @@ extension UIViewController {
         }
     }
     
-    private var toastViewTopMarginConstraint: NSLayoutConstraint? {
+    private var toastViewBottomMarginConstraint: NSLayoutConstraint? {
         get {
-            return objc_getAssociatedObject(self, &TostableKeys.ToastViewTopMarginConstraintKey) as? NSLayoutConstraint
+            return objc_getAssociatedObject(self, &TostableKeys.ToastViewBottomMarginConstraintKey) as? NSLayoutConstraint
         }
         
         set {
             if let newValue = newValue {
                 objc_setAssociatedObject(
                     self,
-                    &TostableKeys.ToastViewTopMarginConstraintKey,
+                    &TostableKeys.ToastViewBottomMarginConstraintKey,
                     newValue as NSLayoutConstraint?,
                     .OBJC_ASSOCIATION_RETAIN_NONATOMIC
                 )
@@ -131,9 +133,12 @@ extension UIViewController {
         guard let navController = navigationController else { return 0 }
         return navController.navigationBar.frame.size.height
     }
+
+    var statusBarHeight: CGFloat {
+        return UIApplication.sharedApplication().statusBarFrame.size.height
+    }
     
     var topBarHeight: CGFloat {
-        let statusBarHeight = UIApplication.sharedApplication().statusBarFrame.size.height
         return navigationBarHeight + statusBarHeight
     }
     
@@ -143,13 +148,16 @@ extension UIViewController {
         return tabController.tabBar.frame.size.height
     }
     
-    private var toastViewTopMarginShown: CGFloat {
-        return 0
+    private var toastViewBottomMarginVisible: CGFloat {
+        guard let toastView = toastView else { return 0 }
+        let toastViewHeight = toastView.height > ToastView.standardHeight ? toastView.height : ToastView.standardHeight
+        // In case there's no navigation bar, we should add a margin (tipically a standard navbar height) to avoid showing the toast above close button
+        guard let _ = navigationController?.navigationBar else { return (44 + toastViewHeight) }
+        return (toastViewHeight)
     }
     
-    private var toastViewTopMarginHidden: CGFloat {
-        guard let toastView = toastView else { return 0 }
-        return -(toastView.frame.height + topBarHeight + 100) // TODO: + 100 is too punk...
+    private var toastViewBottomMarginHidden: CGFloat {
+        return 0
     }
     
     
@@ -161,7 +169,7 @@ extension UIViewController {
     func setToastViewHidden(hidden: Bool) {
         guard let toastView = toastView else { return }
         view.bringSubviewToFront(toastView)
-        toastViewTopMarginConstraint?.constant = hidden ? toastViewTopMarginHidden : toastViewTopMarginShown
+        toastViewBottomMarginConstraint?.constant = hidden ? toastViewBottomMarginHidden : toastViewBottomMarginVisible
         UIView.animateWithDuration(0.35) {
             toastView.alpha = hidden ? 0 : 1
             toastView.layoutIfNeeded()
@@ -175,9 +183,9 @@ extension UIViewController {
         toastView.userInteractionEnabled = false
         view.addSubview(toastView)
         
-        toastViewTopMarginConstraint = NSLayoutConstraint(item: toastView, attribute: .Top, relatedBy: .Equal,
-            toItem: topLayoutGuide, attribute: .Bottom, multiplier: 1, constant: toastViewTopMarginHidden)
-        view.addConstraint(toastViewTopMarginConstraint!)
+        toastViewBottomMarginConstraint = NSLayoutConstraint(item: toastView, attribute: .Bottom, relatedBy: .Equal,
+            toItem: topLayoutGuide, attribute: .Bottom, multiplier: 1, constant: toastViewBottomMarginHidden)
+        if let bottomConstraint = toastViewBottomMarginConstraint { view.addConstraint(bottomConstraint) }
         
         let views = ["toastView": toastView]
         view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[toastView]|", options: [], metrics: nil, views: views))
@@ -355,6 +363,7 @@ public class BaseViewController: UIViewController, TabBarShowable {
 
     // UI
     private let statusBarStyle: UIStatusBarStyle
+    private let previousStatusBarStyle: UIStatusBarStyle
     private let navBarBackgroundStyle: NavBarBackgroundStyle
     var floatingSellButtonHidden: Bool
     private(set) var viewLoaded: Bool = false
@@ -367,6 +376,7 @@ public class BaseViewController: UIViewController, TabBarShowable {
         self.viewModel = viewModel
         self.subviews = []
         self.statusBarStyle = statusBarStyle
+        self.previousStatusBarStyle = UIApplication.sharedApplication().statusBarStyle
         self.navBarBackgroundStyle = navBarBackgroundStyle
         self.floatingSellButtonHidden = false
         super.init(nibName: nibNameOrNil, bundle: nil)
@@ -458,6 +468,10 @@ public class BaseViewController: UIViewController, TabBarShowable {
     internal func viewWillDisappearToBackground(toBackground: Bool) {
         
         if !toBackground {
+            if !isRootViewController() {
+                UIApplication.sharedApplication().setStatusBarStyle(previousStatusBarStyle, animated: true)
+            }
+
             NSNotificationCenter.defaultCenter().removeObserver(self, name: UIApplicationDidEnterBackgroundNotification, object: nil)
             NSNotificationCenter.defaultCenter().removeObserver(self, name: UIApplicationWillEnterForegroundNotification, object: nil)
         }

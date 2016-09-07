@@ -22,10 +22,11 @@ enum CarouselMovement {
 class ProductCarouselViewModel: BaseViewModel {
 
     // Paginable
+    private var prefetchingIndexes: [Int] = []
     var nextPage: Int = 0
     var isLastPage: Bool = false
     var isLoading: Bool = false
-    
+
     private let previousImagesToPrefetch = 1
     private let nextImagesToPrefetch = 3
 
@@ -33,7 +34,7 @@ class ProductCarouselViewModel: BaseViewModel {
     var startIndex: Int = 0
     var initialThumbnail: UIImage?
     weak var delegate: ProductCarouselViewModelDelegate?
-    weak var tabNavigator: TabNavigator?
+    weak var navigator: ProductDetailNavigator?
 
     private var activeDisposeBag = DisposeBag()
 
@@ -75,40 +76,40 @@ class ProductCarouselViewModel: BaseViewModel {
     // MARK: - Init
     
     convenience init(chatProduct: ChatProduct, chatInterlocutor: ChatInterlocutor, thumbnailImage: UIImage?,
-                     productListRequester: ProductListRequester?, tabNavigator: TabNavigator?,
+                     productListRequester: ProductListRequester?, navigator: ProductDetailNavigator?,
                      source: EventParameterProductVisitSource) {
         let myUserRepository = Core.myUserRepository
         let productRepository = Core.productRepository
         let product = productRepository.build(fromChatproduct: chatProduct, chatInterlocutor: chatInterlocutor)
         self.init(myUserRepository: myUserRepository, productRepository: productRepository,
                   productListModels: nil, initialProduct: product, thumbnailImage: thumbnailImage,
-                  productListRequester: productListRequester, tabNavigator: tabNavigator, source: source)
+                  productListRequester: productListRequester, navigator: navigator, source: source)
         syncFirstProduct()
     }
 
     convenience init(product: Product, thumbnailImage: UIImage?, productListRequester: ProductListRequester?,
-                     tabNavigator: TabNavigator?, source: EventParameterProductVisitSource) {
+                     navigator: ProductDetailNavigator?, source: EventParameterProductVisitSource) {
         let myUserRepository = Core.myUserRepository
         let productRepository = Core.productRepository
         self.init(myUserRepository: myUserRepository, productRepository: productRepository,
                   productListModels: nil, initialProduct: product, thumbnailImage: thumbnailImage,
-                  productListRequester: productListRequester, tabNavigator: tabNavigator, source: source)
+                  productListRequester: productListRequester, navigator: navigator, source: source)
     }
 
     convenience init(productListModels: [ProductCellModel], initialProduct: Product?, thumbnailImage: UIImage?,
-                     productListRequester: ProductListRequester?, tabNavigator: TabNavigator?,
+                     productListRequester: ProductListRequester?, navigator: ProductDetailNavigator?,
                      source: EventParameterProductVisitSource) {
         let myUserRepository = Core.myUserRepository
         let productRepository = Core.productRepository
         self.init(myUserRepository: myUserRepository, productRepository: productRepository,
                   productListModels: productListModels, initialProduct: initialProduct,
-                  thumbnailImage: thumbnailImage, productListRequester: productListRequester, tabNavigator: tabNavigator,
+                  thumbnailImage: thumbnailImage, productListRequester: productListRequester, navigator: navigator,
                   source: source)
     }
 
     init(myUserRepository: MyUserRepository, productRepository: ProductRepository,
          productListModels: [ProductCellModel]?, initialProduct: Product?, thumbnailImage: UIImage?,
-         productListRequester: ProductListRequester?, tabNavigator: TabNavigator?,
+         productListRequester: ProductListRequester?, navigator: ProductDetailNavigator?,
          source: EventParameterProductVisitSource) {
         self.myUserRepository = myUserRepository
         self.productRepository = productRepository
@@ -119,11 +120,13 @@ class ProductCarouselViewModel: BaseViewModel {
         }
         self.initialThumbnail = thumbnailImage
         self.productListRequester = productListRequester
-        self.tabNavigator = tabNavigator
+        self.navigator = navigator
         self.source = source
         super.init()
         self.startIndex = indexForProduct(initialProduct) ?? 0
         self.currentProductViewModel = viewModelAtIndex(startIndex)
+        self.currentProductViewModel?.isFirstProduct = true
+        setCurrentIndex(startIndex)
     }
     
     
@@ -155,6 +158,10 @@ class ProductCarouselViewModel: BaseViewModel {
 
     // MARK: - Public Methods
 
+    func close() {
+        navigator?.closeProductDetail()
+    }
+
     func moveToProductAtIndex(index: Int, delegate: ProductViewModelDelegate, movement: CarouselMovement) {
         guard let viewModel = viewModelAtIndex(index) else { return }
         currentProductViewModel?.active = false
@@ -171,7 +178,6 @@ class ProductCarouselViewModel: BaseViewModel {
             strongSelf.delegate?.vmRefreshCurrent()
         }.addDisposableTo(activeDisposeBag)
 
-        prefetchImages(index)
         prefetchNeighborsImages(index, movement: movement)
     }
 
@@ -196,14 +202,14 @@ class ProductCarouselViewModel: BaseViewModel {
     }
 
     func viewModelForProduct(product: Product) -> ProductViewModel {
-        return ProductViewModel(product: product, thumbnailImage: nil, tabNavigator: tabNavigator)
+        return ProductViewModel(product: product, thumbnailImage: nil, navigator: navigator)
     }
 
     func openProductOwnerProfile() {
         currentProductViewModel?.openProductOwnerProfile()
     }
 
-    func didTapMoreInfoBar() {
+    func didOpenMoreInfo() {
         currentProductViewModel?.trackVisitMoreInfo()
         KeyValueStorage.sharedInstance[.productMoreInfoTooltipDismissed] = true
         delegate?.vmRemoveMoreInfoTooltip()
@@ -235,6 +241,7 @@ extension ProductCarouselViewModel: Paginable {
                     strongSelf.objects.removeAll()
                 }
                 strongSelf.objects.appendContentsOf(newProducts.map(ProductCarouselCellModel.init))
+                
                 strongSelf.isLastPage = strongSelf.productListRequester?.isLastPage(newProducts.count) ?? true
                 self?.isLastPage = newProducts.count == 0
             }
@@ -263,20 +270,15 @@ extension ProductCarouselViewModel {
         case .SwipeLeft:
             range = (index-previousImagesToPrefetch)...(index-1)
         }
-        
         var imagesToPrefetch: [NSURL] = []
         for index in range {
+            guard !prefetchingIndexes.contains(index) else { continue }
+            prefetchingIndexes.append(index)
             if let prevProduct = productAtIndex(index), let imageUrl = prevProduct.images.first?.fileURL {
                 imagesToPrefetch.append(imageUrl)
             }
         }
         ImageDownloader.sharedInstance.downloadImagesWithURLs(imagesToPrefetch)
-    }
-
-    func prefetchImages(index: Int) {
-        guard let product = productAtIndex(index) else { return }
-        let urls = product.images.flatMap({$0.fileURL})
-        ImageDownloader.sharedInstance.downloadImagesWithURLs(urls)
     }
 }
 
@@ -284,6 +286,9 @@ extension ProductCarouselViewModel {
 // MARK: > Native Share Delegate
 
 extension ProductCarouselViewModel: NativeShareDelegate {
+
+    var nativeShareSuccessMessage: String? { return LGLocalizedString.productShareGenericOk }
+    var nativeShareErrorMessage: String? { return LGLocalizedString.productShareGenericError }
 
     func nativeShareInFacebook() {
         currentProductViewModel?.shareInFacebook(.Top)

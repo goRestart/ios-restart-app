@@ -72,5 +72,26 @@
 		<key>enabled</key>
 		<false/>
 	</dict>
+	<key>show_nps_survey</key>
+	<dict>
+		<key>description</key>
+		<string>Show the NPS Survey view a few seconds after opening the app</string>
+		<key>enabled</key>
+		<false/>
+	</dict>
+	<key>show_invite_heart_icon</key>
+	<dict>
+		<key>description</key>
+		<string>Show Text or Heart Icon In Main product list left bar button</string>
+		<key>enabled</key>
+		<false/>
+	</dict>
+	<key>profile_verify_one_button</key>
+	<dict>
+		<key>description</key>
+		<string>Profile: Verify accounts in just one button</string>
+		<key>enabled</key>
+		<false/>
+	</dict>
 </dict>
 </plist>

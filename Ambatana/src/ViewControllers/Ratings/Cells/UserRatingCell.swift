@@ -136,6 +136,7 @@ class UserRatingCell: UITableViewCell {
 
     private func setupUI() {
         userNameLabel.textColor = UIColor.blackText
+        userNameLabel.accessibilityId = .RatingListCellUserName
         ratingTypeLabel.textColor = UIColor.blackText
         descriptionLabel.textColor = UIColor.darkGrayText
         timeLabel.textColor = UIColor.darkGrayText

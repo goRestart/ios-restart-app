@@ -37,7 +37,11 @@ class UserViewController: BaseViewController {
 
 
     private var navBarUserView: UserView?
-    private var navBarUserViewAlphaOnDisappear: CGFloat = 0.0
+    private var navBarUserViewAlpha: CGFloat = 0.0 {
+        didSet {
+            navBarUserView?.alpha = navBarUserViewAlpha
+        }
+    }
 
     @IBOutlet weak var patternView: UIView!
     @IBOutlet weak var userBgView: UIView!
@@ -102,28 +106,25 @@ class UserViewController: BaseViewController {
         }
 
         setupUI()
+        setupAccessibilityIds()
         setupRxBindings()
     }
 
     override func viewWillAppearFromBackground(fromBackground: Bool) {
         super.viewWillAppearFromBackground(fromBackground)
 
+        let _ = FeatureFlags.profileVerifyOneButton
+        headerContainer.header?.updateABTests()
+
         // UINavigationBar's title alpha gets resetted on view appear, does not allow initial 0.0 value
         if let navBarUserView = navBarUserView {
-            let currentAlpha: CGFloat = navBarUserViewAlphaOnDisappear
+            let currentAlpha: CGFloat = navBarUserViewAlpha
             navBarUserView.hidden = true
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.01 * Double(NSEC_PER_SEC))),
                 dispatch_get_main_queue()) {
                     navBarUserView.alpha = currentAlpha
                     navBarUserView.hidden = false
             }
-        }
-    }
-
-    override func viewWillDisappearToBackground(toBackground: Bool) {
-        super.viewWillDisappearToBackground(toBackground)
-        if let navBarUserView = navBarUserView {
-            navBarUserViewAlphaOnDisappear = navBarUserView.alpha
         }
     }
 }
@@ -181,6 +182,11 @@ extension UserViewController: UserViewModelDelegate {
     func vmShowUserActionSheet(cancelLabel: String, actions: [UIAction]) {
         showActionSheet(cancelLabel, actions: actions, barButtonItem: navigationItem.rightBarButtonItem)
     }
+
+    func vmShowNativeShare(socialMessage: SocialMessage) {
+        let barButtonItem = navigationItem.rightBarButtonItems?.first
+        presentNativeShare(socialMessage: socialMessage, delegate: viewModel, barButtonItem: barButtonItem)
+    }
 }
 
 
@@ -207,6 +213,9 @@ extension UserViewController : UserViewHeaderDelegate {
         viewModel.emailButtonPressed()
     }
 
+    func buildTrustAction() {
+        viewModel.buildTrustButtonPressed()
+    }
 }
 
 
@@ -219,6 +228,28 @@ extension UserViewController {
         setupHeader()
         setupNavigationBar()
         setupProductListView()
+    }
+
+    private func setupAccessibilityIds() {
+        navBarUserView?.userNameLabel.accessibilityId = .UserHeaderCollapsedNameLabel
+        navBarUserView?.subtitleLabel.accessibilityId = .UserHeaderCollapsedLocationLabel
+        userNameLabel.accessibilityId = .UserHeaderExpandedNameLabel
+        userLocationLabel.accessibilityId = .UserHeaderExpandedLocationLabel
+
+        headerContainer?.header?.avatarButton.accessibilityId = .UserHeaderExpandedAvatarButton
+        headerContainer?.header?.ratingsButton.accessibilityId = .UserHeaderExpandedRatingsButton
+        headerContainer?.header?.userRelationLabel.accessibilityId = .UserHeaderExpandedRelationLabel
+        headerContainer?.header?.myUserFacebookButton.accessibilityId = .UserHeaderExpandedVerifyFacebookButton
+        headerContainer?.header?.myUserGoogleButton.accessibilityId = .UserHeaderExpandedVerifyGoogleButton
+        headerContainer?.header?.myUserEmailButton.accessibilityId = .UserHeaderExpandedVerifyEmailButton
+        headerContainer?.header?.buildTrustButton.accessibilityId = .UserHeaderExpandedBuildTrustButton
+        headerContainer?.header?.sellingButton.accessibilityId = .UserSellingTab
+        headerContainer?.header?.soldButton.accessibilityId = .UserSoldTab
+        headerContainer?.header?.favoritesButton.accessibilityId = .UserFavoritesTab
+
+        productListView.firstLoadView.accessibilityId = .UserProductsFirstLoad
+        productListView.collectionView.accessibilityId = .UserProductsList
+        productListView.errorView.accessibilityId = .UserProductsError
     }
 
     private func setupMainView() {
@@ -235,7 +266,7 @@ extension UserViewController {
 
     private func setupNavigationBar() {
         if let navBarUserView = navBarUserView {
-            navBarUserView.alpha = 0
+            navBarUserViewAlpha = 0
             navBarUserView.frame = CGRect(origin: CGPoint.zero, size: CGSize(width: CGFloat.max, height: UserViewController.navBarUserViewHeight))
             setNavBarTitleStyle(.Custom(navBarUserView))
         }
@@ -494,7 +525,7 @@ extension UserViewController {
                 UIView.animateWithDuration(0.2, delay: 0, options: [.CurveEaseIn, .BeginFromCurrentState], animations: {
                     let topAlpha: CGFloat = collapsed ? 1 : 0
                     let bottomAlpha: CGFloat = collapsed ? 0 : 1
-                    self?.navBarUserView?.alpha = topAlpha
+                    self?.navBarUserViewAlpha = topAlpha
                     self?.userLabelsContainer.alpha = bottomAlpha
                     }, completion: nil)
         }.addDisposableTo(disposeBag)
@@ -578,6 +609,7 @@ extension UserViewController: ProductListViewHeaderDelegate, UserPushPermissions
             else { return UICollectionReusableView() }
         header.delegate = self
         header.messageLabel.text = LGLocalizedString.profilePermissionsHeaderMessage
+        header.accessibilityId = .UserHeaderExpandedLocationLabel
         return header
     }
 

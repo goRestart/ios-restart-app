@@ -23,9 +23,9 @@ public enum ChatInfoViewStatus: Int {
         switch self {
         case .Forbidden:
             if let userName = userName {
-                return LGLocalizedString.accountDeactivatedWName(userName)
+                return LGLocalizedString.accountPendingModerationWName(userName)
             } else {
-                return LGLocalizedString.accountDeactivated
+                return LGLocalizedString.accountPendingModeration
             }
         case .Blocked:
             if let userName = userName {
@@ -70,7 +70,9 @@ public enum ChatInfoViewStatus: Int {
 
     var iconImage: UIImage {
         switch self {
-        case .Forbidden, .UserDeleted, .UserPendingDelete:
+        case .Forbidden:
+            return UIImage(named: "ic_pending_moderation") ?? UIImage()
+        case .UserDeleted, .UserPendingDelete:
             return UIImage(named: "ic_alert_yellow_white_inside") ?? UIImage()
         case .Blocked:
             return UIImage(named: "ic_blocked_white") ?? UIImage()
@@ -111,12 +113,13 @@ public class RelationInfoView: UIView {
     @IBOutlet weak var heightConstraint: NSLayoutConstraint!
 
     public static func relationInfoView() -> RelationInfoView {
-        return NSBundle.mainBundle().loadNibNamed("RelationInfoView", owner: self, options: nil).first as! RelationInfoView
+        guard let view =  NSBundle.mainBundle().loadNibNamed("RelationInfoView", owner: self, options: nil)
+            .first as? RelationInfoView else { return RelationInfoView() }
+        return view
     }
 
-    public init(status: ChatInfoViewStatus, otherUserName: String?, frame: CGRect) {
+    override init(frame: CGRect) {
         super.init(frame: frame)
-        setupUIForStatus(status, otherUserName: otherUserName)
     }
 
     public required init?(coder aDecoder: NSCoder) {

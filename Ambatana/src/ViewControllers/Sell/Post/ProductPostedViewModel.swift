@@ -112,7 +112,7 @@ class ProductPostedViewModel: BaseViewModel {
         case .Posting, .Error:
             return nil
         case let .Success(product):
-            return SocialHelper.socialMessageWithTitle(LGLocalizedString.sellShareFbContent, product: product)
+            return SocialHelper.socialMessageWithProduct(product)
         }
     }
 

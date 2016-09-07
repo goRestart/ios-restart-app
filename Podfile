@@ -12,9 +12,9 @@ def shared_pods
     pod "AlamofireImage",        "~> 2.4.0"
     pod "Argo",                 "~> 3.0.1"
 
-	pod "FBSDKLoginKit",         "~> 4.9.1"
-	pod "FBSDKCoreKit",          "~> 4.9.1"
-	pod "FBSDKShareKit",		 "~> 4.9.1"
+	pod "FBSDKLoginKit",         "~> 4.14.0"
+	pod "FBSDKCoreKit",          "~> 4.14.0"
+	pod "FBSDKShareKit",		 "~> 4.14.0"
 
     pod "RxSwift",              "~> 2.5.0"
     pod "RxCocoa",              "~> 2.5.0"
@@ -33,7 +33,7 @@ def shared_pods
     pod "Leanplum-iOS-SDK",     "~> 1.3.11"
 
 	# letgo Core
-    pod "LGCoreKit",            :path => "../lgcorekit-token" #"0.25.8" #
+    pod "LGCoreKit",            :path => "../lgcorekit-token" #"0.27.10"
 
 	# Slack Chat controller
     pod "SlackTextViewController", "1.9.1"
@@ -57,13 +57,9 @@ def shared_pods
     pod "Google/Analytics",         "~> 3.0.3"
     pod "Google/SignIn",            "~> 3.0.3"
 
-    pod "Firebase/AppIndexing",        "~> 3.3.0"
+    pod "Firebase/AppIndexing",        "~> 3.4.0"
     pod "GoogleConversionTracking", "~> 3.4.0"
     pod "GoogleIDFASupport",        "~> 3.14.0"
-
-
-	# Semi modal view controller
-	pod "LGSemiModalNavController", "~> 0.2.0"
 
 	# Custom camera
 	pod "FastttCamera",         "~> 0.3.4"
@@ -113,12 +109,6 @@ target "letgoTests" do
 end
 
 post_install do | installer |
-    #Disable bitcode in all pods
-    installer.pods_project.targets.each do |target|
-        target.build_configurations.each do |config|
-            config.build_settings['ENABLE_BITCODE'] = 'NO'
-        end
-    end
     #Update Acknowledgements.plist
     require 'fileutils'
     FileUtils.cp_r('Pods/Target Support Files/Pods-LetGo/Pods-LetGo-acknowledgements.plist', 'Ambatana/res/Settings.bundle/Acknowledgements.plist', :remove_destination => true)

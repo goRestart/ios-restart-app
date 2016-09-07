@@ -284,8 +284,8 @@ extension ProductVMTrackHelper {
         tracker.trackEvent(trackerEvent)
     }
 
-    func trackChatWithSeller() {
-        let trackerEvent = TrackerEvent.productDetailChatButton(product)
+    func trackChatWithSeller(source: EventParameterTypePage) {
+        let trackerEvent = TrackerEvent.productDetailChatButton(product, typePage: source)
         tracker.trackEvent(trackerEvent)
     }
 
@@ -312,5 +312,10 @@ extension ProductVMTrackHelper {
         let messageSentEvent = TrackerEvent.userMessageSent(product, userTo: product.user,
                                                             messageType: messageType, isQuickAnswer: .False)
         tracker.trackEvent(messageSentEvent)
+    }
+
+    func trackInterestedUsersBubble(number: Int, productId: String) {
+        let interestedUsersEvent = TrackerEvent.productDetailInterestedUsers(number, productId: productId)
+        tracker.trackEvent(interestedUsersEvent)
     }
 }

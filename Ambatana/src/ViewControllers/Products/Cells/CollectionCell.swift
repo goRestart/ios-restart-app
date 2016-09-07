@@ -28,5 +28,14 @@ class CollectionCell: UICollectionViewCell, ReusableCell {
         contentView.clipsToBounds = true
         exploreButton.setStyle(.Primary(fontSize: .Small))
         exploreButton.setTitle(LGLocalizedString.collectionExploreButton, forState: .Normal)
+        exploreButton.titleLabel?.adjustsFontSizeToFitWidth = true
+        setAccessibilityIds()
+    }
+
+    private func setAccessibilityIds() {
+        self.accessibilityId = .CollectionCell
+        imageView.accessibilityId = .CollectionCellImageView
+        title.accessibilityId = .CollectionCellTitle
+        exploreButton.accessibilityId =  .CollectionCellExploreButton
     }
 }

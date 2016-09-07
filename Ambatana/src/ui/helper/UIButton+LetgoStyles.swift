@@ -88,6 +88,17 @@ enum ButtonStyle {
     }
     
     var titleFont: UIFont {
+        switch fontSize {
+        case .Big:
+            return UIFont.bigButtonFont
+        case .Medium:
+            return UIFont.mediumButtonFont
+        case .Small:
+            return UIFont.smallButtonFont
+        }
+    }
+
+    private var fontSize: ButtonFontSize {
         var fontSize = ButtonFontSize.Big
         switch self {
         case let .Primary(size):
@@ -103,15 +114,7 @@ enum ButtonStyle {
         case .Review:
             fontSize = .Small
         }
-        
-        switch fontSize {
-        case .Big:
-            return UIFont.bigButtonFont
-        case .Medium:
-            return UIFont.mediumButtonFont
-        case .Small:
-            return UIFont.smallButtonFont
-        }
+        return fontSize
     }
     
     var withBorder: Bool {
@@ -122,9 +125,37 @@ enum ButtonStyle {
             return withBorder
         }
     }
+
+    var sidePadding: CGFloat {
+        switch fontSize {
+        case .Big:
+            return 15
+        case .Medium, .Small:
+            return 10
+        }
+    }
+}
+
+enum ButtonState {
+    case Hidden
+    case Enabled
+    case Disabled
 }
 
 extension UIButton {
+
+    func setState(state: ButtonState) {
+        switch state {
+        case .Hidden:
+            hidden = true
+        case .Enabled:
+            hidden = false
+            enabled = true
+        case .Disabled:
+            hidden = false
+            enabled = false
+        }
+    }
 
     func setStyle(style: ButtonStyle) {
         guard buttonType == UIButtonType.Custom else {
@@ -144,5 +175,9 @@ extension UIButton {
         
         titleLabel?.font = style.titleFont
         setTitleColor(style.titleColor, forState: .Normal)
+        let padding = style.sidePadding
+        let left = contentEdgeInsets.left < padding ? padding : contentEdgeInsets.left
+        let right = contentEdgeInsets.right < padding ? padding : contentEdgeInsets.right
+        contentEdgeInsets = UIEdgeInsets(top: 0, left: left, bottom: 0, right: right)
     }
 }

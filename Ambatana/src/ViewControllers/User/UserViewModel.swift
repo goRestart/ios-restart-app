@@ -24,6 +24,7 @@ protocol UserViewModelDelegate: BaseViewModelDelegate {
     func vmOpenHome()
     func vmOpenRatingList(ratingListVM: UserRatingListViewModel)
     func vmShowUserActionSheet(cancelLabel: String, actions: [UIAction])
+    func vmShowNativeShare(socialMessage: SocialMessage)
 }
 
 class UserViewModel: BaseViewModel {
@@ -43,6 +44,7 @@ class UserViewModel: BaseViewModel {
     private let userRelationIsBlocked = Variable<Bool>(false)
     private let userRelationIsBlockedBy = Variable<Bool>(false)
     private let source: UserSource
+    private var socialMessage: SocialMessage? = nil
 
     private let sellingProductListViewModel: ProductListViewModel
     private let sellingProductListRequester: UserProductListRequester
@@ -193,8 +195,31 @@ extension UserViewModel {
         delegate?.vmOpenVerifyAccount(vm)
     }
 
+    func buildTrustButtonPressed() {
+        guard let userAccounts = userAccounts.value where isMyProfile else { return }
+        var verifyTypes: [VerificationType] = []
+        if !userAccounts.emailVerified {
+            verifyTypes.append(.Email(myUserRepository.myUser?.email))
+        }
+        if !userAccounts.facebookVerified {
+            verifyTypes.append(.Facebook)
+        }
+        if !userAccounts.googleVerified {
+            verifyTypes.append(.Google)
+        }
+        guard !verifyTypes.isEmpty else { return }
+        tabNavigator?.openVerifyAccounts(verifyTypes,
+                                         source: .Profile(description: LGLocalizedString.profileConnectAccountsMessage))
+    }
+
     func pushPermissionsWarningPressed() {
         openPushPermissionsAlert()
+    }
+
+    func shareButtonPressed() {
+        guard let socialMessage = socialMessage else { return }
+        delegate?.vmShowNativeShare(socialMessage)
+        trackShareStart()
     }
 }
 
@@ -216,6 +241,7 @@ extension UserViewModel {
     private func buildNavBarButtons() -> [UIAction] {
         var navBarButtons = [UIAction]()
 
+        navBarButtons.append(buildShareNavBarAction())
         if isMyProfile {
             navBarButtons.append(buildSettingsNavBarAction())
         } else if sessionManager.loggedIn && !isMyUser {
@@ -224,11 +250,18 @@ extension UserViewModel {
         return navBarButtons
     }
 
+    private func buildShareNavBarAction() -> UIAction {
+        let icon = UIImage(named: "navbar_share")?.imageWithRenderingMode(.AlwaysOriginal)
+        return UIAction(interface: .Image(icon), action: { [weak self] in
+            self?.shareButtonPressed()
+        }, accessibilityId: .UserNavBarShareButton)
+    }
+
     private func buildSettingsNavBarAction() -> UIAction {
         let icon = UIImage(named: "navbar_settings")?.imageWithRenderingMode(.AlwaysOriginal)
         return UIAction(interface: .Image(icon), action: { [weak self] in
             self?.openSettings()
-        })
+        }, accessibilityId: .UserNavBarSettingsButton)
     }
 
     private func buildMoreNavBarAction() -> UIAction {
@@ -246,7 +279,7 @@ extension UserViewModel {
             }
 
             strongSelf.delegate?.vmShowUserActionSheet(LGLocalizedString.commonCancel, actions: actions)
-        })
+        }, accessibilityId: .UserNavBarMoreButton)
     }
 
     private func buildReportButton() -> UIAction {
@@ -309,15 +342,16 @@ extension UserViewModel {
     private func openPushPermissionsAlert() {
         trackPushPermissionStart()
         let positive = UIAction(interface: .Button(LGLocalizedString.profilePermissionsAlertOk, .Default),
-                        action: { [weak self] in
-                            self?.trackPushPermissionComplete()
-                            PushPermissionsManager.sharedInstance.showPushPermissionsAlert(prePermissionType: .Profile)
-                        })
-
-        let negative = UIAction(interface: .Button(LGLocalizedString.profilePermissionsAlertCancel,
-            .Cancel), action: { [weak self] in
-                self?.trackPushPermissionCancel()
-        })
+                                action: { [weak self] in
+                                    self?.trackPushPermissionComplete()
+                                    PushPermissionsManager.sharedInstance.showPushPermissionsAlert(prePermissionType: .Profile)
+                                },
+                                accessibilityId: .UserPushPermissionOK)
+        let negative = UIAction(interface: .Button(LGLocalizedString.profilePermissionsAlertCancel, .Cancel),
+                                action: { [weak self] in
+                                    self?.trackPushPermissionCancel()
+                                },
+                                accessibilityId: .UserPushPermissionCancel)
         delegate?.vmShowAlertWithTitle(LGLocalizedString.profilePermissionsAlertTitle,
                                        text: LGLocalizedString.profilePermissionsAlertMessage,
                                        alertType: .IconAlert(icon: UIImage(named: "custom_permission_profile")),
@@ -397,6 +431,7 @@ extension UserViewModel {
         setupUserRelationRxBindings()
         setupTabRxBindings()
         setupProductListViewRxBindings()
+        setupShareRxBindings()
     }
 
     private func setupUserInfoRxBindings() {
@@ -510,6 +545,16 @@ extension UserViewModel {
             self?.resetLists()
         }.addDisposableTo(disposeBag)
     }
+
+    private func setupShareRxBindings() {
+        user.asObservable().subscribeNext { [weak self] user in
+            guard let user = user, itsMe = self?.itsMe else {
+                self?.socialMessage = nil
+                return
+            }
+            self?.socialMessage = SocialHelper.socialMessageUser(user, itsMe: itsMe)
+        }.addDisposableTo(disposeBag)
+    }
 }
 
 
@@ -582,6 +627,28 @@ private extension UserViewModel {
 }
 
 
+// MARK: - Share delegate 
+
+extension UserViewModel: NativeShareDelegate {
+
+    var nativeShareSuccessMessage: String? { return LGLocalizedString.userShareSuccess }
+    var nativeShareErrorMessage: String? { return LGLocalizedString.userShareError }
+
+    func nativeShareInFacebook() {
+        trackShareComplete(.Facebook)
+    }
+    func nativeShareInTwitter() {
+        trackShareComplete(.Twitter)
+    }
+    func nativeShareInEmail() {
+        trackShareComplete(.Email)
+    }
+    func nativeShareInWhatsApp() {
+        trackShareComplete(.Whatsapp)
+    }
+}
+
+
 // MARK: - Tracking
 
 extension UserViewModel {
@@ -648,6 +715,18 @@ extension UserViewModel {
             PushPermissionsManager.sharedInstance.pushPermissionsSettingsMode ? .True : .NotAvailable
         let trackerEvent = TrackerEvent.permissionAlertCancel(.Push, typePage: .Profile, alertType: .Custom,
                                                               permissionGoToSettings: goToSettings)
+        tracker.trackEvent(trackerEvent)
+    }
+
+    private func trackShareStart() {
+        let profileType: EventParameterProfileType = isMyUser ? .Private : .Public
+        let trackerEvent = TrackerEvent.profileShareStart(profileType)
+        tracker.trackEvent(trackerEvent)
+    }
+
+    private func trackShareComplete(shareNetwork: EventParameterShareNetwork) {
+        let profileType: EventParameterProfileType = isMyUser ? .Private : .Public
+        let trackerEvent = TrackerEvent.profileShareComplete(profileType, shareNetwork: shareNetwork)
         tracker.trackEvent(trackerEvent)
     }
 }

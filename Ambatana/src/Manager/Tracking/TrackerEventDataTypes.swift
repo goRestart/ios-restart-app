@@ -43,7 +43,6 @@ public enum EventName: String {
     case ProductShareComplete               = "product-detail-share-complete"
     
     case ProductAskQuestion                 = "product-detail-ask-question"
-    case ProductContinueChatting            = "product-detail-continue-chatting"
     case ProductChatButton                  = "product-detail-chat-button"
     case ProductMarkAsSold                  = "product-detail-sold"
     case ProductMarkAsUnsold                = "product-detail-unsold"
@@ -84,6 +83,11 @@ public enum EventName: String {
     case ProfileEditEditName                = "profile-edit-edit-name"
     case ProfileEditEditLocation            = "profile-edit-edit-location"
     case ProfileEditEditPicture             = "profile-edit-edit-picture"
+    case ProfileReport                      = "profile-report"
+    case ProfileBlock                       = "profile-block"
+    case ProfileUnblock                     = "profile-unblock"
+    case ProfileShareStart                  = "profile-share-start"
+    case ProfileShareComplete               = "profile-share-complete"
 
     case AppInviteFriendStart               = "app-invite-friend-start"
     case AppInviteFriend                    = "app-invite-friend"
@@ -106,10 +110,6 @@ public enum EventName: String {
     case PermissionSystemCancel             = "permission-system-cancel"
     case PermissionSystemComplete           = "permission-system-complete"
 
-    case ProfileReport                      = "profile-report"
-    case ProfileBlock                       = "profile-block"
-    case ProfileUnblock                     = "profile-unblock"
-
     case LocationMap                        = "location-map"
 
     case CommercializerStart                = "commercializer-start"
@@ -127,6 +127,14 @@ public enum EventName: String {
     case ExpressChatStart                   = "express-chat-start"
     case ExpressChatComplete                = "express-chat-complete"
     case ExpressChatDontAsk                 = "express-chat-dont-ask"
+
+    case ProductDetailInterestedUsers       = "product-detail-interested-users"
+    
+    case NPSStart                           = "nps-start"
+    case NPSComplete                        = "nps-complete"
+
+    case VerifyAccountStart                 = "verify-account-start"
+    case VerifyAccountComplete              = "verify-account-complete"
 
     // Constants
     private static let eventNameDummyPrefix  = "dummy-"
@@ -203,7 +211,6 @@ public enum EventParameterName: String {
     case UserAction           = "user-action"
     case AppRatingSource      = "app-rating-source"
     case MessageType          = "message-type"
-    case DesignType           = "design-type"
     case RatingStars          = "rating-stars"
     case RatingComments       = "rating-comments"
     case SellerUserRating     = "seller-user-rating"
@@ -214,6 +221,12 @@ public enum EventParameterName: String {
     case ExpressConversations = "express-conversations"
     case CollectionTitle      = "collection-title"
     case ProductVisitSource   = "visit-source"
+    case NumberOfUsers        = "number-of-users"
+    case PriceFrom            = "price-from"
+    case PriceTo              = "price-to"
+    case NPSScore             = "nps-score"
+    case AccountNetwork       = "account-network"
+    case ProfileType          = "profile-type"
 }
 
 public enum EventParameterLoginSourceValue: String {
@@ -293,6 +306,11 @@ public enum EventParameterPostedWithin: String {
     case Week = "week"
     case Month = "month"
     case All = ""
+}
+
+public enum EventParameterHasPriceFilter: String {
+    case True = "true"
+    case False = "false"
 }
 
 public enum EventParameterQuickAnswerValue: String {
@@ -402,6 +420,7 @@ public enum EventParameterTypePage: String {
     case Sell = "product-sell"
     case Edit = "product-edit"
     case ProductDetail = "product-detail"
+    case ProductDetailMoreInfo = "product-detail-more-info"
     case Settings = "settings"
     case Install = "install"
     case Profile = "profile"
@@ -497,6 +516,16 @@ public enum EventParameterProductVisitSource: String {
     case Notifications = "notifications"
 }
 
+public enum EventParameterAccountNetwork: String {
+    case Facebook = "facebook"
+    case Google = "google"
+    case Email = "email"
+}
+
+public enum EventParameterProfileType: String {
+    case Public = "public"
+    case Private = "private"
+}
 
 public struct EventParameters {
     private var params: [EventParameterName : AnyObject] = [:]

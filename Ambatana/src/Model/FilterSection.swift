@@ -6,8 +6,8 @@
 //  Copyright © 2015 Ambatana. All rights reserved.
 //
 
-public enum FilterSection {
-    case Location, Distance, Categories, Within, SortBy
+public enum FilterSection: Int {
+    case Location, Categories, Distance, SortBy, Within, Price
 }
 
 extension FilterSection {
@@ -24,11 +24,13 @@ extension FilterSection {
             return LGLocalizedString.filtersSectionWithin.uppercase
         case .SortBy:
             return LGLocalizedString.filtersSectionSortby.uppercase
+        case .Price:
+            return LGLocalizedString.filtersSectionPrice.uppercase
         }
     }
     
     public static func allValues()  -> [FilterSection] {
-        return [.Location, .Distance, .Categories, .Within, .SortBy]
+        return [.Location, .Categories, .Distance, .SortBy, .Within, .Price]
     }
     
 }

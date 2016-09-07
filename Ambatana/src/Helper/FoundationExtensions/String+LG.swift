@@ -69,12 +69,17 @@ extension String {
         return regex?.firstMatchInString(self, options: [], range: NSMakeRange(0, self.characters.count)) != nil
     }
 
-    func isValidLengthPrice() -> Bool {
+    func isValidLengthPrice(acceptsSeparator: Bool, locale: NSLocale = NSLocale.autoupdatingCurrentLocale()) -> Bool {
         let separator = componentsSeparatedByCharactersInSet(NSCharacterSet.decimalDigitCharacterSet())
             .joinWithSeparator("")
+        let formatter = NSNumberFormatter()
+        formatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
+        formatter.locale = locale
         if separator.isEmpty {
             return characters.count <= Constants.maxPriceIntegerCharacters
-        } else if separator.characters.count > 1 {
+        } else if acceptsSeparator && separator != formatter.decimalSeparator {
+            return false
+        } else if !acceptsSeparator && !separator.isEmpty {
             return false
         }
 
@@ -83,6 +88,16 @@ extension String {
 
         return parts[0].characters.count <= Constants.maxPriceIntegerCharacters &&
                parts[1].characters.count <= Constants.maxPriceFractionalCharacters
+    }
+
+    func toNameReduced(maxChars maxChars: Int) -> String {
+        guard characters.count > maxChars else { return self }
+        let substring = substringToIndex(startIndex.advancedBy(maxChars))
+        let words = substring.byWords
+        guard words.count > 1 else { return substring+"." }
+        let firstPart = words.prefix(words.count - 1).joinWithSeparator(" ")
+        guard let lastWordFirstChar = words.last?.characters.first else { return firstPart }
+        return firstPart + " " + String(lastWordFirstChar) + "."
     }
 
     func toPriceDouble() -> Double {
@@ -136,5 +151,14 @@ extension String {
         URLCombinedCharacterSet.removeCharactersInString("+")
         let urlEncoded = self.stringByAddingPercentEncodingWithAllowedCharacters(URLCombinedCharacterSet)
         return urlEncoded ?? self
+    }
+
+    var byWords: [String] {
+        var result:[String] = []
+        enumerateSubstringsInRange(characters.indices, options: .ByWords) {
+            guard let substring = $0.substring else { return }
+            result.append(substring)
+        }
+        return result
     }
 }
