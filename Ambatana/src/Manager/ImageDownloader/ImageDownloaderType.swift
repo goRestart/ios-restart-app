@@ -19,7 +19,7 @@ protocol ImageDownloaderType {
     func downloadImageWithURL(url: NSURL, completion: ImageDownloadCompletion?) -> RequestReceipt?
     func downloadImagesWithURLs(urls: [NSURL])
     func cachedImageForUrl(url: NSURL) -> UIImage?
-    func cancelImageDownloading(receipt: RequestReceipt?)
+    func cancelImageDownloading(receipt: RequestReceipt)
 }
 
 extension ImageDownloaderType {

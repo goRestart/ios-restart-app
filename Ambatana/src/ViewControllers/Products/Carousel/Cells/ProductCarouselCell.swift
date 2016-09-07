@@ -28,7 +28,7 @@ class ProductCarouselCell: UICollectionViewCell {
     var placeholderImage: UIImage?
     private var currentPage = 0
 
-    var imageDownloader: ImageDownloader?
+    var imageDownloader: ImageDownloader =  ImageDownloader.sharedInstance
 
     var disposeBag = DisposeBag()
     
@@ -124,21 +124,12 @@ extension ProductCarouselCell: UICollectionViewDelegate, UICollectionViewDataSou
                 imageCell.imageView.image = nil
             }
 
-            if let imageDownloader = imageDownloader {
-                imageDownloader.downloadImageWithURL(imageURL) { [weak self] (result, url) in
-                    if let value = result.value where self?.tag == productCarouselTag && cell.tag == imageCellTag {
-                        imageCell.setImage(value.image)
-                    }
-                }
-            } else {
-                // keeping this case to download images anyway in a worst case scenario
-                ImageDownloader.sharedInstance.downloadImageWithURL(imageURL) { [weak self] (result, url) in
-                    if let value = result.value where self?.tag == productCarouselTag && cell.tag == imageCellTag {
-                        imageCell.setImage(value.image)
-                    }
+            imageDownloader.downloadImageWithURL(imageURL) { [weak self] (result, url) in
+                if let value = result.value where self?.tag == productCarouselTag && cell.tag == imageCellTag {
+                    imageCell.setImage(value.image)
                 }
             }
-
+            
             imageCell.backgroundColor = UIColor.placeholderBackgroundColor(product?.objectId)
             imageCell.zoomLevel.subscribeNext { [weak self] level in
                 self?.delegate?.didChangeZoomLevel(level)

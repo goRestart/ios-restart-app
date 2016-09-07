@@ -96,7 +96,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     let animator: PushAnimator?
     var pendingMovement: CarouselMovement?
 
-    private let carouselImageDownloader: ImageDownloader = ImageDownloader.externalBuildImageDownloader()
+    private let carouselImageDownloader: ImageDownloader = ImageDownloader.externalBuildImageDownloader(true)
 
     // MARK: - Lifecycle
 

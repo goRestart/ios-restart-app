@@ -51,8 +51,7 @@ extension AlamofireImage.ImageDownloader: ImageDownloaderType {
         return imageCache?.imageWithIdentifier(identifier)
     }
 
-    func cancelImageDownloading(receipt: RequestReceipt?) {
-        guard let receipt = receipt else { return }
+    func cancelImageDownloading(receipt: RequestReceipt) {
         cancelRequestForRequestReceipt(receipt)
     }
     

@@ -11,13 +11,15 @@ import Result
 
 final class ImageDownloader: ImageDownloaderType {
 
-    static let sharedInstance = ImageDownloader(imageDownloader: ImageDownloader.buildImageDownloader())
+    static let sharedInstance = ImageDownloader(imageDownloader: ImageDownloader.buildImageDownloader(), useImagePool: false)
     private let imageDownloader: ImageDownloaderType
 
     private var currentImagesPool: [RequestReceipt] = []
+    private var useImagePool: Bool
     
-    init(imageDownloader: ImageDownloaderType) {
+    init(imageDownloader: ImageDownloaderType, useImagePool: Bool) {
         self.imageDownloader = imageDownloader
+        self.useImagePool = useImagePool
     }
 
     func setImageView(imageView: UIImageView, url: NSURL, placeholderImage: UIImage?,
@@ -36,7 +38,7 @@ final class ImageDownloader: ImageDownloaderType {
         return imageDownloader.cachedImageForUrl(url)
     }
 
-    func cancelImageDownloading(receipt: RequestReceipt? = nil) {
+    func cancelImageDownloading(receipt: RequestReceipt) {
         imageDownloader.cancelImageDownloading(receipt)
     }
 
@@ -45,7 +47,8 @@ final class ImageDownloader: ImageDownloaderType {
         if currentImagesPool.count < Constants.imageRequestPoolCapacity {
             currentImagesPool.append(receipt)
         } else {
-            cancelImageDownloading(currentImagesPool.first)
+            guard let firstReceipt = currentImagesPool.first else { return }
+            cancelImageDownloading(firstReceipt)
             currentImagesPool.removeFirst()
             currentImagesPool.append(receipt)
         }
@@ -55,8 +58,8 @@ final class ImageDownloader: ImageDownloaderType {
         return AlamofireImage.ImageDownloader.defaultInstance
     }
 
-    static func externalBuildImageDownloader() -> ImageDownloader {
-        return ImageDownloader(imageDownloader: AlamofireImage.ImageDownloader())
+    static func externalBuildImageDownloader(useImagePool: Bool) -> ImageDownloader {
+        return ImageDownloader(imageDownloader: AlamofireImage.ImageDownloader(), useImagePool: useImagePool)
     }
 }
 
