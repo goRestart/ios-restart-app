@@ -67,15 +67,16 @@ extension TabCoordinator: TabNavigator {
         }
     }
 
-    func openProduct(data: ProductDetailData, source: EventParameterProductVisitSource) {
+    func openProduct(data: ProductDetailData, source: EventParameterProductVisitSource, index: Int) {
         switch data {
         case let .Id(productId):
             openProduct(productId: productId, source: source)
         case let .ProductAPI(product, thumbnailImage, originFrame):
-            openProduct(product: product, thumbnailImage: thumbnailImage, originFrame: originFrame, source: source)
+            openProduct(product: product, thumbnailImage: thumbnailImage, originFrame: originFrame, source: source, index: index)
         case let .ProductList(product, cellModels, requester, thumbnailImage, originFrame, showRelated):
             openProduct(product, cellModels: cellModels, requester: requester,
-                        thumbnailImage: thumbnailImage, originFrame: originFrame, showRelated: showRelated, source: source)
+                        thumbnailImage: thumbnailImage, originFrame: originFrame, showRelated: showRelated, source: source,
+                        index: index)
         case let .ProductChat(chatProduct, user, thumbnailImage, originFrame):
             openProduct(chatProduct: chatProduct, user: user, thumbnailImage: thumbnailImage, originFrame: originFrame,
                         source: source)
@@ -103,7 +104,7 @@ private extension TabCoordinator {
         productRepository.retrieve(productId) { [weak self] result in
             if let product = result.value {
                 self?.navigationController.dismissLoadingMessageAlert {
-                    self?.openProduct(product: product, source: source)
+                    self?.openProduct(product: product, source: source, index: 0)
                 }
             } else if let error = result.error {
                 let message: String
@@ -121,9 +122,14 @@ private extension TabCoordinator {
     }
 
     func openProduct(product product: Product, thumbnailImage: UIImage? = nil, originFrame: CGRect? = nil,
-                             source: EventParameterProductVisitSource) {
+                             source: EventParameterProductVisitSource, index: Int) {
         guard let productId = product.objectId else { return }
-        let requester = RelatedProductListRequester(productId: productId)
+
+        let relatedRequester = RelatedProductListRequester(productId: productId)
+        let listOffset = index + 1 // we need the product AFTER the current one
+        let filteredRequester = FilteredProductListRequester(offset: listOffset)
+        let requester = ProductListMultiRequester(requesters: [relatedRequester, filteredRequester])
+
         let vm = ProductCarouselViewModel(product: product, thumbnailImage: thumbnailImage,
                                       productListRequester: requester, navigator: self, source: source)
         openProduct(vm, thumbnailImage: thumbnailImage, originFrame: originFrame, productId: product.objectId)
@@ -132,10 +138,11 @@ private extension TabCoordinator {
 
     func openProduct(product: Product, cellModels: [ProductCellModel], requester: ProductListRequester,
                      thumbnailImage: UIImage?, originFrame: CGRect?, showRelated: Bool,
-                     source: EventParameterProductVisitSource) {
+                     source: EventParameterProductVisitSource, index: Int) {
         if showRelated {
             //Same as single product opening
-            openProduct(product: product, thumbnailImage: thumbnailImage, originFrame: originFrame, source: source)
+            openProduct(product: product, thumbnailImage: thumbnailImage, originFrame: originFrame,
+                        source: source, index: index)
         } else {
             let vm = ProductCarouselViewModel(productListModels: cellModels, initialProduct: product,
                                               thumbnailImage: thumbnailImage, productListRequester: requester,
@@ -148,7 +155,8 @@ private extension TabCoordinator {
     func openProduct(chatProduct chatProduct: ChatProduct, user: ChatInterlocutor,
                                  thumbnailImage: UIImage?, originFrame: CGRect?, source: EventParameterProductVisitSource) {
         guard let productId = chatProduct.objectId else { return }
-        let requester = RelatedProductListRequester(productId: productId)
+        let relatedRequester = RelatedProductListRequester(productId: productId)
+        let requester = ProductListMultiRequester(requesters: [relatedRequester])
         let vm = ProductCarouselViewModel(chatProduct: chatProduct, chatInterlocutor: user,
                                           thumbnailImage: thumbnailImage, productListRequester: requester,
                                           navigator: self, source: source)

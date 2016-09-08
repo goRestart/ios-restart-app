@@ -48,10 +48,4 @@ class RelatedProductListRequester: ProductListRequester {
     func isLastPage(resultCount: Int) -> Bool {
         return resultCount == 0
     }
-    
-    func duplicate() -> ProductListRequester {
-        let r = RelatedProductListRequester(productId: productObjectId)
-        r.offset = offset
-        return r
-    }
 }

@@ -457,7 +457,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         case .Available, .Blocked, .BlockedBy, .ProductSold, .UserPendingDelete, .UserDeleted:
             delegate?.vmHideKeyboard(animated: false)
             let data = ProductDetailData.ProductAPI(product: product, thumbnailImage: nil, originFrame: nil)
-            tabNavigator?.openProduct(data, source: .Chat)
+            tabNavigator?.openProduct(data, source: .Chat, index: 0)
         }
     }
     
@@ -1174,7 +1174,7 @@ extension OldChatViewModel: RelatedProductsViewDelegate {
         let data = ProductDetailData.ProductList(product: product, cellModels: productListModels, requester: requester,
                                                  thumbnailImage: thumbnailImage, originFrame: originFrame,
                                                  showRelated: false)
-        tabNavigator?.openProduct(data, source: .Chat)
+        tabNavigator?.openProduct(data, source: .Chat, index: 0)
     }
 }
 

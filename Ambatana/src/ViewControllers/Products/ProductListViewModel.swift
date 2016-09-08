@@ -38,7 +38,6 @@ protocol ProductListRequester: class {
     func retrieveFirstPage(completion: ProductsCompletion?)
     func retrieveNextPage(completion: ProductsCompletion?)
     func isLastPage(resultCount: Int) -> Bool
-    func duplicate() -> ProductListRequester
 }
 
 

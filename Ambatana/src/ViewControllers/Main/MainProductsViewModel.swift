@@ -412,7 +412,7 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate {
         let data = ProductDetailData.ProductList(product: product, cellModels: cellModels,
                                                  requester: productListRequester, thumbnailImage: thumbnailImage,
                                                  originFrame: originFrame, showRelated: showRelated)
-        tabNavigator?.openProduct(data, source: productVisitSource)
+        tabNavigator?.openProduct(data, source: productVisitSource, index: index)
     }
     
     func vmProcessReceivedProductPage(products: [ProductCellModel], page: UInt) -> [ProductCellModel] {

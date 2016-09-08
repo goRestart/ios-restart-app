@@ -16,18 +16,19 @@ class FilteredProductListRequester: ProductListRequester {
     private let locationManager: LocationManager
     private var queryFirstCallCoordinates: LGLocationCoordinates2D?
     private var queryFirstCallCountryCode: String?
-    private var offset: Int = 0
+    private var offset: Int
 
     var queryString: String?
     var filters: ProductFilters?
 
-    convenience init() {
-        self.init(productRepository: Core.productRepository, locationManager: Core.locationManager)
+    convenience init(offset: Int = 0) {
+        self.init(productRepository: Core.productRepository, locationManager: Core.locationManager, offset: offset)
     }
 
-    init(productRepository: ProductRepository, locationManager: LocationManager) {
+    init(productRepository: ProductRepository, locationManager: LocationManager, offset: Int) {
         self.productRepository = productRepository
         self.locationManager = locationManager
+        self.offset = offset
     }
 
 
@@ -37,7 +38,10 @@ class FilteredProductListRequester: ProductListRequester {
     
     
     func retrieveFirstPage(completion: ProductsCompletion?) {
-        offset = 0
+        guard offset == 0 else {
+            retrieveNextPage(completion)
+            return
+        }
         if let currentLocation = locationManager.currentLocation {
             queryFirstCallCoordinates = LGLocationCoordinates2D(location: currentLocation)
             queryFirstCallCountryCode = locationManager.currentPostalAddress?.countryCode
@@ -74,18 +78,8 @@ class FilteredProductListRequester: ProductListRequester {
     func isLastPage(resultCount: Int) -> Bool {
         return resultCount == 0
     }
+
     
-    func duplicate() -> ProductListRequester {
-        let requester = FilteredProductListRequester()
-        requester.offset = offset
-        requester.queryFirstCallCoordinates = queryFirstCallCoordinates
-        requester.queryFirstCallCountryCode = queryFirstCallCountryCode
-        requester.queryString = queryString
-        requester.filters = filters
-        return requester
-    }
-
-
     // MARK: - MainProductListRequester
 
     var countryCode: String? {

@@ -29,7 +29,7 @@ enum BackAction {
 
 protocol TabNavigator: class {
     func openUser(data: UserDetailData)
-    func openProduct(data: ProductDetailData, source: EventParameterProductVisitSource)
+    func openProduct(data: ProductDetailData, source: EventParameterProductVisitSource, index: Int)
     func openExpressChat(products: [Product], sourceProductId: String)
     func openVerifyAccounts(types: [VerificationType], source: VerifyAccountsSource)
     func openAppInvite()
