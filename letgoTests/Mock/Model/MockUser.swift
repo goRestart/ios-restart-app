@@ -37,7 +37,9 @@ final class MockUser: MockBaseModel, MyUser {
     
     var ratingAverage: Float?
     var ratingCount: Int?
-    
+
+    var localeIdentifier: String?
+
     // Lifecycle
     
     override init() {
