@@ -10,11 +10,16 @@ import AlamofireImage
 import Result
 
 final class ImageDownloader: ImageDownloaderType {
-    static let sharedInstance = ImageDownloader(imageDownloader: ImageDownloader.buildImageDownloader())
+
+    static let sharedInstance = ImageDownloader(imageDownloader: ImageDownloader.buildImageDownloader(), useImagePool: false)
     private let imageDownloader: ImageDownloaderType
 
-    init(imageDownloader: ImageDownloaderType) {
+    private var currentImagesPool: [RequestReceipt] = []
+    private var useImagePool: Bool
+    
+    init(imageDownloader: ImageDownloaderType, useImagePool: Bool) {
         self.imageDownloader = imageDownloader
+        self.useImagePool = useImagePool
     }
 
     func setImageView(imageView: UIImageView, url: NSURL, placeholderImage: UIImage?,
@@ -23,16 +28,36 @@ final class ImageDownloader: ImageDownloaderType {
                                      completion: completion)
     }
 
-    func downloadImageWithURL(url: NSURL, completion: ImageDownloadCompletion? = nil) {
-        imageDownloader.downloadImageWithURL(url, completion: completion)
+    func downloadImageWithURL(url: NSURL, completion: ImageDownloadCompletion? = nil) -> RequestReceipt? {
+        let receipt = imageDownloader.downloadImageWithURL(url, completion: completion)
+        addReceiptToPool(receipt)
+        return receipt
     }
 
     func cachedImageForUrl(url: NSURL) -> UIImage? {
         return imageDownloader.cachedImageForUrl(url)
     }
 
+    func cancelImageDownloading(receipt: RequestReceipt) {
+        imageDownloader.cancelImageDownloading(receipt)
+    }
+
+    private func addReceiptToPool(receipt: RequestReceipt?) {
+        guard let receipt = receipt else { return }
+        currentImagesPool.append(receipt)
+        if currentImagesPool.count >= Constants.imageRequestPoolCapacity {
+            guard let firstReceipt = currentImagesPool.first else { return }
+            cancelImageDownloading(firstReceipt)
+            currentImagesPool.removeFirst()
+        }
+    }
+
     private static func buildImageDownloader() -> ImageDownloaderType {
         return AlamofireImage.ImageDownloader.defaultInstance
+    }
+
+    static func externalBuildImageDownloader(useImagePool: Bool) -> ImageDownloader {
+        return ImageDownloader(imageDownloader: AlamofireImage.ImageDownloader(), useImagePool: useImagePool)
     }
 }
 

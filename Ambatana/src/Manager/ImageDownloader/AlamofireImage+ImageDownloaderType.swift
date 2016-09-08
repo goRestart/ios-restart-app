@@ -9,6 +9,7 @@
 import AlamofireImage
 
 extension AlamofireImage.ImageDownloader: ImageDownloaderType {
+
     func setImageView(imageView: UIImageView, url: NSURL, placeholderImage: UIImage?,
                       completion: ImageDownloadCompletion?) {
         let URLRequest = NSURLRequest(URL: url)
@@ -26,11 +27,12 @@ extension AlamofireImage.ImageDownloader: ImageDownloaderType {
             completion?(result: result, url: url)
         }
     }
-    func downloadImageWithURL(url: NSURL, completion: ImageDownloadCompletion? = nil) {
+
+    func downloadImageWithURL(url: NSURL, completion: ImageDownloadCompletion? = nil) -> RequestReceipt? {
         let URLRequest = NSURLRequest(URL: url)
         let cached = imageIsCachedForURLRequest(URLRequest)
-
-        downloadImage(URLRequest: URLRequest) { response in
+        return downloadImage(URLRequest: URLRequest) { response in
+            
             let result: ResultResult<ImageWithSource, NSError>.t
             if let image = response.result.value {
                 result = ResultResult<ImageWithSource, NSError>.t(value: (image, cached))
@@ -42,11 +44,17 @@ extension AlamofireImage.ImageDownloader: ImageDownloaderType {
             completion?(result: result, url: url)
         }
     }
+
     func cachedImageForUrl(url: NSURL) -> UIImage? {
         let URLRequest = NSURLRequest(URL: url)
         let identifier = URLRequest.URLRequest.URLString
         return imageCache?.imageWithIdentifier(identifier)
     }
+
+    func cancelImageDownloading(receipt: RequestReceipt) {
+        cancelRequestForRequestReceipt(receipt)
+    }
+    
     private func imageIsCachedForURLRequest(URLRequest: NSURLRequest) -> Bool {
         let identifier = URLRequest.URLRequest.URLString
         let cached = imageCache?.imageWithIdentifier(identifier) != nil

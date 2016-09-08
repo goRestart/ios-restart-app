@@ -7,6 +7,7 @@
 //
 
 import Result
+import AlamofireImage
 
 typealias ImageWithSource = (image: UIImage, cached: Bool)
 typealias ImageDownloadResult = Result<ImageWithSource, NSError>
@@ -15,9 +16,10 @@ typealias ImageDownloadCompletion = (result: ImageDownloadResult, url: NSURL) ->
 protocol ImageDownloaderType {
     func setImageView(imageView: UIImageView, url: NSURL, placeholderImage: UIImage?,
                       completion: ImageDownloadCompletion?)
-    func downloadImageWithURL(url: NSURL, completion: ImageDownloadCompletion?)
+    func downloadImageWithURL(url: NSURL, completion: ImageDownloadCompletion?) -> RequestReceipt?
     func downloadImagesWithURLs(urls: [NSURL])
     func cachedImageForUrl(url: NSURL) -> UIImage?
+    func cancelImageDownloading(receipt: RequestReceipt)
 }
 
 extension ImageDownloaderType {
