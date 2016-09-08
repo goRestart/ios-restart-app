@@ -643,7 +643,6 @@ extension ChatViewModel {
         let message: ChatMessage = chatRepository.createNewMessage(interlocutorId, text: text, type: type)
         let viewMessage = chatViewMessageAdapter.adapt(message).markAsSent().markAsReceived().markAsRead()
         messages.insert(viewMessage, atIndex: 0)
-        chatRepository.confirmReception(convId, messageIds: [messageId], completion: nil)
         chatRepository.confirmRead(convId, messageIds: [messageId], completion: nil)
     }
 }
