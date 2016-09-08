@@ -136,7 +136,7 @@ class NotificationsManager {
     }
 
     private func markMessageAsReceived(event: ChatEvent) {
-        guard let convId = event.conversationId else { return }
+        guard let convId = event.conversationId where sessionManager.loggedIn else { return }
         switch event.type {
         case let .InterlocutorMessageSent(messageId, _, _, _):
             chatRepository.confirmReception(convId, messageIds: [messageId], completion: nil)
