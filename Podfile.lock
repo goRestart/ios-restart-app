@@ -32,7 +32,7 @@ PODS:
     - Fabric (~> 1.6.3)
   - CryptoSwift (0.4.1)
   - Curry (2.2.0)
-  - DeviceUtil (1.3.8)
+  - DeviceUtil (1.3.7)
   - Fabric (1.6.8)
   - FastttCamera (0.3.4):
     - FastttCamera/Default (= 0.3.4)
@@ -219,7 +219,7 @@ SPEC CHECKSUMS:
   Crashlytics: 76f6beaff70acf226139582c09c78461597c2b98
   CryptoSwift: 25b5aff3f260967391f8fff2e9abe4254d2c6fd5
   Curry: c22d80fff7f5a4b1bbd531455c3e2dbb099658a3
-  DeviceUtil: 9e91dd78b14cd51715d6fada8871c71b00283023
+  DeviceUtil: faefd40ac954b37c68686c088c1d2f7dc103a3fc
   Fabric: 5755268d0171435ab167e3d0878a28a777deaf10
   FastttCamera: 51f16712cbd5bdb08bc6231b957325c6be5e478d
   FBSDKCoreKit: 6e020b5db0b5bd1e01f5fb0902131befd129a502
@@ -267,6 +267,6 @@ SPEC CHECKSUMS:
   TwitterCore: 817eae3e291fa4125b47789e26a4f6f024115c1f
   TwitterKit: 8a383da8d9c21b0423716381ea8bbfce20622d91
 
-PODFILE CHECKSUM: 12238779b16f23e741e835f4cdcff1c4a15cd901
+PODFILE CHECKSUM: 72f5afaa56b21446a6a810290ba9d741d7906cf2
 
 COCOAPODS: 1.0.1

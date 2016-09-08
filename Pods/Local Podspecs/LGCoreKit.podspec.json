@@ -1,6 +1,6 @@
 {
   "name": "LGCoreKit",
-  "version": "0.27.11",
+  "version": "0.27.10",
   "license": "Copyright",
   "summary": "letgo's CoreKit",
   "homepage": "https://github.com/letgoapp/letgo-ios-lgcorekit",
@@ -10,7 +10,7 @@
   },
   "source": {
     "git": "git@github.com:letgoapp/letgo-ios-lgcorekit.git",
-    "tag": "0.27.11"
+    "tag": "0.27.10"
   },
   "platforms": {
     "ios": "8.0"
@@ -51,9 +51,6 @@
     ],
     "RxSwift": [
       "~> 2.5.0"
-    ],
-    "ReachabilitySwift": [
-      "~> 2.3.3"
     ]
   }
 }

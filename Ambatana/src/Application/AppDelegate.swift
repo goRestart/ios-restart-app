@@ -282,6 +282,7 @@ private extension AppDelegate {
 
         CommercializerManager.sharedInstance.setup()
         NotificationsManager.sharedInstance.setup()
+        StickersManager.sharedInstance.setup()
     }
 }
 
