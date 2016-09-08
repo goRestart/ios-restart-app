@@ -44,13 +44,11 @@ final class ImageDownloader: ImageDownloaderType {
 
     private func addReceiptToPool(receipt: RequestReceipt?) {
         guard let receipt = receipt else { return }
-        if currentImagesPool.count < Constants.imageRequestPoolCapacity {
-            currentImagesPool.append(receipt)
-        } else {
+        currentImagesPool.append(receipt)
+        if currentImagesPool.count >= Constants.imageRequestPoolCapacity {
             guard let firstReceipt = currentImagesPool.first else { return }
             cancelImageDownloading(firstReceipt)
             currentImagesPool.removeFirst()
-            currentImagesPool.append(receipt)
         }
     }
 
