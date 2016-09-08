@@ -29,6 +29,7 @@ private class MockMyUser: MyUser {
     var isDummy: Bool = false
     var email: String?
     var location: LGLocation?
+    var localeIdentifier: String?
 }
 
 class RatingManagerSpec: QuickSpec {
