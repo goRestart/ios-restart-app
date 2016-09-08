@@ -22,6 +22,9 @@ public typealias ChatConversationCompletion = ChatConversationResult -> Void
 public typealias ChatCommandResult = Result<Void, RepositoryError>
 public typealias ChatCommandCompletion = ChatCommandResult -> Void
 
+public typealias ChatUnreadMessagesResult = Result<ChatUnreadMessages, RepositoryError>
+public typealias ChatUnreadMessagesCompletion = ChatUnreadMessagesResult -> Void
+
 
 public class ChatRepository {
     let dataSource: ChatDataSource
@@ -174,6 +177,19 @@ public class ChatRepository {
     func unarchiveConversations(conversationIds: [String], completion: ChatCommandCompletion?) {
         dataSource.unarchiveConversations(conversationIds) { result in
             handleWebSocketResult(result, completion: completion)
+        }
+    }
+
+
+    // MARK: - Unread counts
+
+    public func chatUnreadMessagesCount(completion: ChatUnreadMessagesCompletion?) {
+        guard let userId = myUserRepository.myUser?.objectId else {
+            completion?(ChatUnreadMessagesResult(error: .Internal(message: "Missing myUserId")))
+            return
+        }
+        dataSource.unreadMessages(userId) { result in
+            handleApiResult(result, completion: completion)
         }
     }
     

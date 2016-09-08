@@ -43,7 +43,7 @@ class ChatApiDataSource: OldChatDataSource {
         if let number = numResults {
             parameters["num_results"] = number
         }
-        let request = ChatRouter.Index(params: parameters)
+        let request = OldChatRouter.Index(params: parameters)
         apiClient.request(request, decoder: chatsDecoder, completion: completion)
     }
 
@@ -56,7 +56,7 @@ class ChatApiDataSource: OldChatDataSource {
             parameters["offset"] = offset
             parameters["num_results"] = numResults
 
-            let request = ChatRouter.Show(objectId: productId, params: parameters)
+            let request = OldChatRouter.Show(objectId: productId, params: parameters)
             apiClient.request(request, decoder: chatDecoder, completion: completion)
     }
 
@@ -67,7 +67,7 @@ class ChatApiDataSource: OldChatDataSource {
             parameters["offset"] = offset
             parameters["num_results"] = numResults
 
-            let request = ChatRouter.ShowConversation(objectId: conversationId, params: parameters)
+            let request = OldChatRouter.ShowConversation(objectId: conversationId, params: parameters)
             apiClient.request(request, decoder: chatDecoder, completion: completion)
     }
     
@@ -79,27 +79,26 @@ class ChatApiDataSource: OldChatDataSource {
             parameters["type"] = type.rawValue
             parameters["content"] = message
 
-            let request = ChatRouter.CreateMessage(objectId: productId, params: parameters)
-            // ⚠️ TODO: API should respond with the message
+            let request = OldChatRouter.CreateMessage(objectId: productId, params: parameters)
             apiClient.request(request, completion: completion)
     }
 
     func fetchUnreadCount(completion: ChatDataSourceUnreadCountCompletion?) {
-        let request = ChatRouter.UnreadCount
+        let request = OldChatRouter.UnreadCount
         apiClient.request(request, decoder: unreadCountDecoder, completion: completion)
     }
 
     func archiveChatsWithIds(chatIds: [String], completion: ChatDataSourceArchiveChatCompletion?) {
         var parameters: [String : AnyObject] = [:]
         parameters["conversationUuids"] = chatIds
-        let request = ChatRouter.Archive(params: parameters)
+        let request = OldChatRouter.Archive(params: parameters)
         apiClient.request(request, completion: completion)
     }
 
     func unarchiveChatsWithIds(chatIds: [String], completion: ChatDataSourceArchiveChatCompletion?) {
         var parameters: [String : AnyObject] = [:]
         parameters["conversationUuids"] = chatIds
-        let request = ChatRouter.Unarchive(params: parameters)
+        let request = OldChatRouter.Unarchive(params: parameters)
         apiClient.request(request, completion: completion)
     }
 

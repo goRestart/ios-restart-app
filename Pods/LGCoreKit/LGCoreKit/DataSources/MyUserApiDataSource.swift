@@ -28,25 +28,28 @@ class MyUserApiDataSource: MyUserDataSource {
     }
 
     func createWithEmail(email: String, password: String, name: String, newsletter: Bool?, location: LGLocation?,
-        postalAddress: PostalAddress?, completion: ((Result<MyUser, ApiError>) -> ())?) {
-            var data: [String: AnyObject] = [:]
+                         postalAddress: PostalAddress?, localeIdentifier: String,
+                         completion: ((Result<MyUser, ApiError>) -> ())?) {
+        let JSONKeys = LGMyUser.ApiMyUserKeys()
 
-            data[LGMyUser.JSONKeys.email] = email
-            data[LGMyUser.JSONKeys.password] = password
-            data[LGMyUser.JSONKeys.name] = name
-            data[LGMyUser.JSONKeys.latitude] = location?.coordinate.latitude
-            data[LGMyUser.JSONKeys.longitude] = location?.coordinate.longitude
-            data[LGMyUser.JSONKeys.locationType] = location?.type?.rawValue
-            data[LGMyUser.JSONKeys.zipCode] = postalAddress?.zipCode
-            data[LGMyUser.JSONKeys.address] = postalAddress?.address
-            data[LGMyUser.JSONKeys.city] = postalAddress?.city
-            data[LGMyUser.JSONKeys.countryCode] = postalAddress?.countryCode
-            if let newsletter = newsletter {
-                data[LGMyUser.JSONKeys.newsletter] = newsletter
-            }
+        var data: [String: AnyObject] = [:]
+        data[JSONKeys.email] = email
+        data[JSONKeys.password] = password
+        data[JSONKeys.name] = name
+        data[JSONKeys.latitude] = location?.coordinate.latitude
+        data[JSONKeys.longitude] = location?.coordinate.longitude
+        data[JSONKeys.locationType] = location?.type?.rawValue
+        data[JSONKeys.zipCode] = postalAddress?.zipCode
+        data[JSONKeys.address] = postalAddress?.address
+        data[JSONKeys.city] = postalAddress?.city
+        data[JSONKeys.countryCode] = postalAddress?.countryCode
+        if let newsletter = newsletter {
+            data[JSONKeys.newsletter] = newsletter
+        }
+        data[JSONKeys.localeIdentifier] = localeIdentifier
 
-            let request = MyUserRouter.Create(params: data)
-            apiClient.request(request, decoder: decoder, completion: completion)
+        let request = MyUserRouter.Create(params: data)
+        apiClient.request(request, decoder: decoder, completion: completion)
     }
 
     func update(myUserId: String, params: [String : AnyObject], completion: ((Result<MyUser, ApiError>) -> ())?) {
@@ -55,9 +58,11 @@ class MyUserApiDataSource: MyUserDataSource {
     }
 
     func uploadAvatar(avatar: NSData, myUserId: String, progressBlock: ((Int) -> ())?, completion: ((Result<MyUser, ApiError>) -> ())?) {
-        var data: [String: AnyObject] = [:]
 
-        data[LGMyUser.JSONKeys.avatar] = avatar
+        let JSONKeys = LGMyUser.ApiMyUserKeys()
+
+        var data: [String: AnyObject] = [:]
+        data[JSONKeys.avatar] = avatar
 
         let request = MyUserRouter.UpdateAvatar(myUserId: myUserId, params: data)
 
@@ -83,11 +88,6 @@ class MyUserApiDataSource: MyUserDataSource {
         apiClient.request(request, completion: completion)
     }
 
-    func retrieveCounters(completion completion: ((Result<UserCounters, ApiError>)->())?) {
-        let request = MyUserRouter.Counters
-        apiClient.request(request, decoder: countersDecoder, completion: completion)
-    }
-
     
     // MARK: - Private methods
 
@@ -99,11 +99,6 @@ class MyUserApiDataSource: MyUserDataSource {
     private func decoder(object: AnyObject) -> MyUser? {
         let apiUser: LGMyUser? = decode(object)
         return apiUser
-    }
-
-    private func countersDecoder(object: AnyObject) -> UserCounters? {
-        let counters: LGUserCounters? = decode(object)
-        return counters
     }
 }
 
