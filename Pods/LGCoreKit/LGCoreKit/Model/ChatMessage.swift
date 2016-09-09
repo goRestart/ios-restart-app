@@ -26,6 +26,8 @@ public protocol ChatMessage: BaseModel {
     var readAt: NSDate? { get }
     var type: ChatMessageType { get }
     var warnings: [ChatMessageWarning] { get }
+
+    func markReceived() -> ChatMessage
 }
 
 extension ChatMessage {

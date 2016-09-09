@@ -908,14 +908,8 @@ extension ChatViewModel {
         guard let convId = conversation.value.objectId else { return }
         guard let interlocutorId = conversation.value.interlocutor?.objectId else { return }
 
-        let receptionIds: [String] = chatMessages.filter { return $0.talkerId == interlocutorId && $0.receivedAt == nil }
-            .flatMap{ $0.objectId }
         let readIds: [String] = chatMessages.filter { return $0.talkerId == interlocutorId && $0.readAt == nil }
             .flatMap { $0.objectId }
-
-        if !receptionIds.isEmpty {
-            chatRepository.confirmReception(convId, messageIds: receptionIds, completion: nil)
-        }
         if !readIds.isEmpty {
             chatRepository.confirmRead(convId, messageIds: readIds, completion: nil)
         }

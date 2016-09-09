@@ -89,7 +89,6 @@ class NotificationsManager {
                 }
             }.bindNext{ [weak self] event in
                 self?.updateChatCounters()
-                self?.markMessageAsReceived(event)
             }.addDisposableTo(disposeBag)
         } else {
             DeepLinksRouter.sharedInstance.chatDeepLinks.bindNext { [weak self] _ in
@@ -133,15 +132,5 @@ class NotificationsManager {
     private func updateNotificationsCounters() {
         guard FeatureFlags.notificationsSection else { return }
         //TODO: IMPLEMENT WHEN USING NOTIFICATION CENTER
-    }
-
-    private func markMessageAsReceived(event: ChatEvent) {
-        guard let convId = event.conversationId where sessionManager.loggedIn else { return }
-        switch event.type {
-        case let .InterlocutorMessageSent(messageId, _, _, _):
-            chatRepository.confirmReception(convId, messageIds: [messageId], completion: nil)
-        default:
-            return
-        }
     }
 }

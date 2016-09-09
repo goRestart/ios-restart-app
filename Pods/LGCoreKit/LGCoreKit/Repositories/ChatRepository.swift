@@ -55,7 +55,18 @@ public class ChatRepository {
             default:
                 self?.chatAvailable.value = false
             }
-            }.addDisposableTo(disposeBag)
+        }.addDisposableTo(disposeBag)
+
+        // Automatically mark as received
+        chatEvents.subscribeNext { [weak self] event in
+            guard let convId = event.conversationId else { return }
+            switch event.type {
+            case let .InterlocutorMessageSent(messageId, _, _, _):
+                self?.confirmReception(convId, messageIds: [messageId], completion: nil)
+            default:
+                return
+            }
+        }.addDisposableTo(disposeBag)
     }
     
     
@@ -84,22 +95,22 @@ public class ChatRepository {
     
     public func indexMessages(conversationId: String, numResults: Int, offset: Int,
                               completion: ChatMessagesCompletion?) {
-        dataSource.indexMessages(conversationId, numResults: numResults, offset: offset) { result in
-            handleWebSocketResult(result, completion: completion)
+        dataSource.indexMessages(conversationId, numResults: numResults, offset: offset) { [weak self] result in
+            self?.handleQueryMessages(conversationId, result: result, completion: completion)
         }
     }
     
     public func indexMessagesNewerThan(messageId: String, conversationId: String, completion: ChatMessagesCompletion?) {
-        dataSource.indexMessagesNewerThan(messageId, conversationId: conversationId) { result in
-            handleWebSocketResult(result, completion: completion)
+        dataSource.indexMessagesNewerThan(messageId, conversationId: conversationId) { [weak self] result in
+            self?.handleQueryMessages(conversationId, result: result, completion: completion)
         }
     }
     
     public func indexMessagesOlderThan(messageId: String, conversationId: String, numResults: Int,
                                        completion: ChatMessagesCompletion?) {
         dataSource.indexMessagesOlderThan(messageId, conversationId: conversationId, numResults: numResults) {
-            result in
-            handleWebSocketResult(result, completion: completion)
+            [weak self] result in
+            self?.handleQueryMessages(conversationId, result: result, completion: completion)
         }
     }
     
@@ -156,12 +167,6 @@ public class ChatRepository {
         }
     }
     
-    public func confirmReception(conversationId: String, messageIds: [String], completion: ChatCommandCompletion?) {
-        dataSource.confirmReception(conversationId, messageIds: messageIds) { result in
-            handleWebSocketResult(result, completion: completion)
-        }
-    }
-    
     public func confirmRead(conversationId: String, messageIds: [String], completion: ChatCommandCompletion?) {
         dataSource.confirmRead(conversationId, messageIds: messageIds) { result in
             handleWebSocketResult(result, completion: completion)
@@ -173,7 +178,13 @@ public class ChatRepository {
             handleWebSocketResult(result, completion: completion)
         }
     }
-    
+
+    func confirmReception(conversationId: String, messageIds: [String], completion: ChatCommandCompletion?) {
+        dataSource.confirmReception(conversationId, messageIds: messageIds) { result in
+            handleWebSocketResult(result, completion: completion)
+        }
+    }
+
     func unarchiveConversations(conversationIds: [String], completion: ChatCommandCompletion?) {
         dataSource.unarchiveConversations(conversationIds) { result in
             handleWebSocketResult(result, completion: completion)
@@ -202,6 +213,20 @@ public class ChatRepository {
     
     
     // MARK: - Private
+
+    private func handleQueryMessages(conversationId: String, result: ChatWebSocketMessagesResult,
+                                     completion: ChatMessagesCompletion?) {
+        var finalResult = result
+        if let messages = result.value, myUserId = myUserRepository.myUser?.objectId {
+            let receptionIds: [String] = messages.filter { return $0.talkerId != myUserId && $0.receivedAt == nil }
+                .flatMap{ $0.objectId }
+            if !receptionIds.isEmpty {
+                confirmReception(conversationId, messageIds: receptionIds, completion: nil)
+                finalResult = ChatWebSocketMessagesResult(messages.map{ $0.markReceived() })
+            }
+        }
+        handleWebSocketResult(finalResult, completion: completion)
+    }
     
     private func configureReachability() {
         reachability?.whenReachable = { [weak self] _ in
