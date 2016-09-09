@@ -348,14 +348,9 @@ class ChatViewModel: BaseViewModel {
         }.addDisposableTo(disposeBag)
 
         myUserRepository.rx_myUser.asObservable().skip(1).subscribeNext { [weak self] myUser in
-            guard let myUser = myUser, firstMessage = self?.messages.value.first else { return }
-            guard myUser.isSocialVerified else { return }
-            //check and remove social advise
-            switch firstMessage.type {
-            case .Disclaimer:
-                self?.messages.removeFirst()
-            default: break
-            }
+            guard let myUser = myUser where myUser.isSocialVerified else { return }
+            guard let disclaimerIndex = self?.bottomDisclaimerMessageIndex else { return }
+            self?.messages.removeAtIndex(disclaimerIndex)
         }.addDisposableTo(disposeBag)
 
         setupChatEventsRx()
@@ -852,6 +847,17 @@ extension ChatViewModel {
                     source: .Chat(description: LGLocalizedString.chatConnectAccountsMessage))
             }
         }
+    }
+
+    var bottomDisclaimerMessageIndex: Int?  {
+        for (index, message) in messages.value.enumerate() {
+            switch message.type {
+            case .Disclaimer:
+                return index
+            default: break
+            }
+        }
+        return nil
     }
 
     private func downloadFirstPage(conversationId: String) {
