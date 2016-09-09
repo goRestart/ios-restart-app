@@ -122,19 +122,31 @@ private extension TabCoordinator {
     }
 
     func openProduct(product product: Product, thumbnailImage: UIImage? = nil, originFrame: CGRect? = nil,
-                             source: EventParameterProductVisitSource, index: Int) {
+                             source: EventParameterProductVisitSource, requester: ProductListRequester? = nil, index: Int) {
         guard let productId = product.objectId else { return }
 
+        var requestersArray: [ProductListRequester] = []
         let relatedRequester = RelatedProductListRequester(productId: productId)
-        let listOffset = index + 1 // we need the product AFTER the current one
-        let filteredRequester = FilteredProductListRequester(offset: listOffset)
-        let requester = ProductListMultiRequester(requesters: [relatedRequester, filteredRequester])
+        requestersArray.append(relatedRequester)
+
+        if FeatureFlags.nonStopProductDetail {
+            let listOffset = index + 1 // we need the product AFTER the current one
+            if let requester = requester {
+                let requesterCopy = requester.duplicate()
+                requesterCopy.updateInitialOffset(listOffset)
+                requestersArray.append(requesterCopy)
+            } else {
+                let filteredRequester = FilteredProductListRequester(offset: listOffset)
+                requestersArray.append(filteredRequester)
+            }
+        }
+
+        let requester = ProductListMultiRequester(requesters: requestersArray)
 
         let vm = ProductCarouselViewModel(product: product, thumbnailImage: thumbnailImage,
                                       productListRequester: requester, navigator: self, source: source)
         openProduct(vm, thumbnailImage: thumbnailImage, originFrame: originFrame, productId: product.objectId)
     }
-
 
     func openProduct(product: Product, cellModels: [ProductCellModel], requester: ProductListRequester,
                      thumbnailImage: UIImage?, originFrame: CGRect?, showRelated: Bool,
@@ -142,7 +154,7 @@ private extension TabCoordinator {
         if showRelated {
             //Same as single product opening
             openProduct(product: product, thumbnailImage: thumbnailImage, originFrame: originFrame,
-                        source: source, index: index)
+                        source: source, requester: requester, index: index)
         } else {
             let vm = ProductCarouselViewModel(productListModels: cellModels, initialProduct: product,
                                               thumbnailImage: thumbnailImage, productListRequester: requester,

@@ -95,6 +95,13 @@ struct FeatureFlags {
         }
         return ABTests.profileVerifyOneButton.value
     }
+
+    static var nonStopProductDetail: Bool {
+        if FTSFlipTheSwitch.overridesABTests {
+            return FTSFlipTheSwitch.nonStopProductDetail
+        }
+        return ABTests.nonStopProductDetail.value
+    }
 }
 
 private extension FTSFlipTheSwitch {
@@ -148,5 +155,9 @@ private extension FTSFlipTheSwitch {
 
     static var profileVerifyOneButton: Bool {
         return FTSFlipTheSwitch.sharedInstance().isFeatureEnabled("profile_verify_one_button")
+    }
+
+    static var nonStopProductDetail: Bool {
+        return FTSFlipTheSwitch.sharedInstance().isFeatureEnabled("non_stop_product_detail")
     }
 }

@@ -16,7 +16,8 @@ class FilteredProductListRequester: ProductListRequester {
     private let locationManager: LocationManager
     private var queryFirstCallCoordinates: LGLocationCoordinates2D?
     private var queryFirstCallCountryCode: String?
-    private var offset: Int
+    private var offset: Int = 0
+    private var initialOffset: Int
 
     var queryString: String?
     var filters: ProductFilters?
@@ -28,7 +29,7 @@ class FilteredProductListRequester: ProductListRequester {
     init(productRepository: ProductRepository, locationManager: LocationManager, offset: Int) {
         self.productRepository = productRepository
         self.locationManager = locationManager
-        self.offset = offset
+        self.initialOffset = offset
     }
 
 
@@ -38,10 +39,7 @@ class FilteredProductListRequester: ProductListRequester {
     
     
     func retrieveFirstPage(completion: ProductsCompletion?) {
-        guard offset == 0 else {
-            retrieveNextPage(completion)
-            return
-        }
+        offset = initialOffset
         if let currentLocation = locationManager.currentLocation {
             queryFirstCallCoordinates = LGLocationCoordinates2D(location: currentLocation)
             queryFirstCallCountryCode = locationManager.currentPostalAddress?.countryCode
@@ -79,7 +77,21 @@ class FilteredProductListRequester: ProductListRequester {
         return resultCount == 0
     }
 
-    
+    func updateInitialOffset(newOffset: Int) {
+        initialOffset = newOffset
+    }
+
+    func duplicate() -> ProductListRequester {
+        let requester = FilteredProductListRequester()
+        requester.offset = offset
+        requester.queryFirstCallCoordinates = queryFirstCallCoordinates
+        requester.queryFirstCallCountryCode = queryFirstCallCountryCode
+        requester.queryString = queryString
+        requester.filters = filters
+        return requester
+    }
+
+
     // MARK: - MainProductListRequester
 
     var countryCode: String? {

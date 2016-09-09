@@ -47,6 +47,14 @@ class UserFavoritesProductListRequester: UserProductListRequester {
     func isLastPage(resultCount: Int) -> Bool {
         return userObjectId != nil
     }
+
+    func updateInitialOffset(newOffset: Int) { }
+
+    func duplicate() -> ProductListRequester {
+        let r = UserFavoritesProductListRequester()
+        r.userObjectId = userObjectId
+        return r
+    }
 }
 
 
@@ -94,6 +102,15 @@ class UserStatusesProductListRequester: UserProductListRequester {
 
     func isLastPage(resultCount: Int) -> Bool {
         return resultCount == 0
+    }
+
+    func updateInitialOffset(newOffset: Int) { }
+
+    func duplicate() -> ProductListRequester {
+        let r = UserStatusesProductListRequester(statuses: statuses)
+        r.offset = offset
+        r.userObjectId = userObjectId
+        return r
     }
 
     private var retrieveProductsParams: RetrieveProductsParams? {

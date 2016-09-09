@@ -21,6 +21,8 @@ enum CarouselMovement {
 
 class ProductCarouselViewModel: BaseViewModel {
 
+    private var bouncesBeforeClose = 1  // how many times the carousel should bounce before closing itself
+
     // Paginable
     private var prefetchingIndexes: [Int] = []
     var nextPage: Int = 0
@@ -158,11 +160,25 @@ class ProductCarouselViewModel: BaseViewModel {
 
     // MARK: - Public Methods
 
-    func close() {
-        navigator?.closeProductDetail()
+    func close(fromCollection: Bool) {
+        guard fromCollection else {
+            // from back button
+            navigator?.closeProductDetail()
+            return
+        }
+
+        if bouncesBeforeClose <= 0 {
+            navigator?.closeProductDetail()
+        } else {
+            bouncesBeforeClose -= 1
+        }
     }
 
     func moveToProductAtIndex(index: Int, delegate: ProductViewModelDelegate, movement: CarouselMovement) {
+        guard !shouldCloseDetail(index, movement: movement) else {
+            close(true)
+            return
+        }
         guard let viewModel = viewModelAtIndex(index) else { return }
         currentProductViewModel?.active = false
         currentProductViewModel = viewModel
@@ -179,6 +195,17 @@ class ProductCarouselViewModel: BaseViewModel {
         }.addDisposableTo(activeDisposeBag)
 
         prefetchNeighborsImages(index, movement: movement)
+    }
+
+    func shouldCloseDetail(index: Int, movement: CarouselMovement) -> Bool {
+        switch movement {
+        case .Initial:
+            return false
+        case .SwipeLeft:
+            return index == 0
+        case .SwipeRight, .Tap:
+            return index >= objectCount - 1
+        }
     }
 
     func productAtIndex(index: Int) -> Product? {
