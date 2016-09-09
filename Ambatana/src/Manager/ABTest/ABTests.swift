@@ -14,7 +14,6 @@ public struct ABTests {
 
     static var bigFavoriteIcon = BoolABDynamicVar(key: "bigFavoriteIcon", defaultValue: false)
     static var showRelatedProducts = BoolABDynamicVar(key: "showRelatedProducts", defaultValue: false)
-    static var showPriceOnListings = BoolABDynamicVar(key: "showPriceOnListings", defaultValue: false)
     static var directStickersOnProduct = BoolABDynamicVar(key: "directStickersOnProduct", defaultValue: false)
     static var postingDetailsMode = IntABDynamicVar(key: "postingDetailsMode", defaultValue: 0)
     static var appInviteFeedMode = IntABDynamicVar(key: "appInviteFeedMode", defaultValue: 0)
@@ -22,7 +21,7 @@ public struct ABTests {
     static var profileVerifyOneButton = BoolABDynamicVar(key: "profileVerifyOneButton", defaultValue: false)
     
     static private var allVariables: [ABVariable] {
-        return [bigFavoriteIcon, showRelatedProducts, showPriceOnListings, directStickersOnProduct, postingDetailsMode,
+        return [bigFavoriteIcon, showRelatedProducts, directStickersOnProduct, postingDetailsMode,
                 appInviteFeedMode, showNPSSurvey, profileVerifyOneButton]
     }
 
