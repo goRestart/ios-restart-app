@@ -12,7 +12,6 @@ class ProductCellDrawer: BaseCollectionCellDrawer<ProductCell>, GridCellDrawer {
     func draw(model: ProductData, style: CellStyle, inCell cell: ProductCell) {
        
         //Disabling actions, price and stripe icon
-        cell.setupActions(false, delegate: nil, indexPath: nil)
         cell.setCellWidth(cell.frame.width)
 
         switch style {

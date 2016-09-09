@@ -8,12 +8,6 @@
 
 import UIKit
 
-protocol ProductCellDelegate: class {
-    func productCellDidChat(cell: ProductCell, indexPath: NSIndexPath)
-    func productCellDidShare(cell: ProductCell, indexPath: NSIndexPath)
-    func productCellDidLike(cell: ProductCell, indexPath: NSIndexPath)
-}
-
 class ProductCell: UICollectionViewCell, ReusableCell {
 
     static let reusableID = "ProductCell"
@@ -25,11 +19,6 @@ class ProductCell: UICollectionViewCell, ReusableCell {
     @IBOutlet weak var thumbnailBgColorView: UIView!
     @IBOutlet weak var thumbnailImageView: UIImageView!
     @IBOutlet weak var priceGradientView: UIView!
-
-    @IBOutlet weak var buttonsContainerHeight: NSLayoutConstraint!
-    @IBOutlet weak var likeButton: UIButton!
-    @IBOutlet weak var shareButton: UIButton!
-    @IBOutlet weak var chatButton: UIButton!
     
     @IBOutlet weak var stripeImageView: UIImageView!
 
@@ -39,7 +28,6 @@ class ProductCell: UICollectionViewCell, ReusableCell {
     @IBOutlet weak var stripeIconWidth: NSLayoutConstraint!
 
     private var indexPath: NSIndexPath?
-    private weak var delegate: ProductCellDelegate?
     
     var likeButtonEnabled: Bool = true
     var chatButtonEnabled: Bool = true
@@ -67,19 +55,6 @@ class ProductCell: UICollectionViewCell, ReusableCell {
 
     // MARK: - Public / internal methods
 
-    func setupActions(show: Bool, delegate: ProductCellDelegate?, indexPath: NSIndexPath?) {
-        self.indexPath = indexPath
-        self.delegate = delegate
-        if let _ = delegate, let _ = indexPath where show {
-            self.buttonsContainerHeight.constant = ProductCell.buttonsContainerShownHeight
-        } else {
-            if show {
-                print("💣 Trying to show product cell actions but no delegate was set")
-            }
-            self.buttonsContainerHeight.constant = 0
-        }
-    }
-
     func setImageUrl(imageUrl: NSURL) {
         thumbnailImageView.lg_setImageWithURL(imageUrl, placeholderImage: nil, completion: {
             [weak self] (result, url) -> Void in
@@ -97,26 +72,6 @@ class ProductCell: UICollectionViewCell, ReusableCell {
                 sublayer.frame = gradientBounds
             }
         }
-    }
-
-
-    // MARK: - Actions
-
-    @IBAction func onDirectChatBtn(sender: AnyObject) {
-        guard let indexPath = indexPath else { return }
-        guard chatButtonEnabled else { return }
-        delegate?.productCellDidChat(self, indexPath: indexPath)
-    }
-
-    @IBAction func onDirectShareBtn(sender: AnyObject) {
-        guard let indexPath = indexPath else { return }
-        delegate?.productCellDidShare(self, indexPath: indexPath)
-    }
-    
-    @IBAction func onDirectLikeBtn(sender: AnyObject) {
-        guard let indexPath = indexPath else { return }
-        guard likeButtonEnabled else { return }
-        delegate?.productCellDidLike(self, indexPath: indexPath)
     }
 
 
@@ -146,16 +101,12 @@ class ProductCell: UICollectionViewCell, ReusableCell {
         stripeLabel.text = ""
         stripeIcon.image = nil
         indexPath = nil
-        delegate = nil
     }
 
     private func setAccessibilityIds() {
         self.accessibilityId = .ProductCell
         priceLabel.accessibilityId = .ProductCellPriceLabel
         thumbnailImageView.accessibilityId = .ProductCellThumbnailImageView
-        likeButton.accessibilityId = .ProductCellLikeButton
-        shareButton.accessibilityId = .ProductCellShareButton
-        chatButton.accessibilityId = .ProductCellChatButton
         stripeImageView.accessibilityId = .ProductCellStripeImageView
         stripeLabel.accessibilityId = .ProductCellStripeLabel
         stripeIcon.accessibilityId = .ProductCellStripeIcon
