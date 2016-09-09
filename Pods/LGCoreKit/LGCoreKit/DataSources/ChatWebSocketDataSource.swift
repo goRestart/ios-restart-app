@@ -7,6 +7,7 @@
 //
 
 import Result
+import Argo
 
 
 class ChatWebSocketDataSource: ChatDataSource {
@@ -16,12 +17,15 @@ class ChatWebSocketDataSource: ChatDataSource {
     let webSocketConversationRouter = WebSocketConversationRouter(uuidGenerator: LGUUID())
     let webSocketEventRouter = WebSocketEventRouter(uuidGenerator: LGUUID())
     let webSocketCommandRouter = WebSocketCommandRouter(uuidGenerator: LGUUID())
+
+    let apiClient: ApiClient
     
     
     // MARK: - Lifecycle
     
-    init(webSocketClient: WebSocketClient) {
+    init(webSocketClient: WebSocketClient, apiClient: ApiClient) {
         self.webSocketClient = webSocketClient
+        self.apiClient = apiClient
     }
     
     
@@ -146,5 +150,26 @@ class ChatWebSocketDataSource: ChatDataSource {
     func unarchiveConversations(conversationIds: [String], completion: ChatWebSocketCommandCompletion?) {
         let request = webSocketCommandRouter.unarchiveConversations(conversationIds)
         webSocketClient.sendCommand(request, completion: completion)
+    }
+
+
+    // MARK: - Unread messages
+
+    func unreadMessages(userId: String, completion: ChatWebSocketUnreadCountCompletion?) {
+        let request = ChatRouter.UnreadCount(userId: userId)
+        apiClient.request(request, decoder: chatUnreadMessagesDecoder, completion: completion)
+    }
+
+
+    // MARK: - Private
+
+    /**
+     Decodes an object to a `ChatUnreadMessages` object.
+     - parameter object: The object.
+     - returns: A `ChatUnreadMessages` object.
+     */
+    private func chatUnreadMessagesDecoder(object: AnyObject) -> ChatUnreadMessages? {
+        let result: Decoded<LGChatUnreadMessages> = JSON(object) <| "data"
+        return result.value
     }
 }

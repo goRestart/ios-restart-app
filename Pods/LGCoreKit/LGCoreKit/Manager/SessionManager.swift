@@ -199,6 +199,7 @@ public class SessionManager {
             cleanSession()
         }
         installationRepository.updateIfChanged()
+        myUserRepository.updateIfLocaleChanged()
     }
     
     func setupRx() {
@@ -491,6 +492,7 @@ public class SessionManager {
      */
     private func setupSession(myUser: MyUser) {
         myUserRepository.save(myUser)
+        myUserRepository.updateIfLocaleChanged()
         LGCoreKit.setupAfterLoggedIn {
             NSNotificationCenter.defaultCenter().postNotificationName(Notification.Login.rawValue, object: nil)
         }

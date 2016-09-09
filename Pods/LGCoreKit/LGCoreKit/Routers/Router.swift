@@ -27,6 +27,12 @@ struct BouncerBaseURL: BaseURL {
     static let contentTypeHeader: String? = "application/vnd.letgo-api+json;version=2"
 }
 
+struct ChatBaseURL: BaseURL {
+    static var baseURL: String = EnvironmentProxy.sharedInstance.chatBaseURL
+    static let acceptHeader: String? = nil
+    static let contentTypeHeader: String? = nil
+}
+
 struct CommercializerBaseURL: BaseURL {
     static var baseURL: String = EnvironmentProxy.sharedInstance.commercializerBaseURL
     static let acceptHeader: String? = nil
@@ -103,8 +109,7 @@ enum Router<T: BaseURL>: URLRequestConvertible {
     }
 
     var URLRequest: NSMutableURLRequest {
-
-        let baseUrl = NSURL(string: T.baseURL)!
+        guard let baseUrl = NSURL(string: T.baseURL) else { return NSMutableURLRequest() }
         let mutableURLRequest = NSMutableURLRequest()
         mutableURLRequest.HTTPMethod = method.rawValue
 

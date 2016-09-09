@@ -13,19 +13,19 @@ import RxSwift
 public typealias MyUserResult = Result<MyUser, RepositoryError>
 public typealias MyUserCompletion = MyUserResult -> Void
 
-public typealias UserCountersResult = Result<UserCounters, RepositoryError>
-public typealias UserCountersCompletion = UserCountersResult -> Void
-
 public class MyUserRepository {
     let dataSource: MyUserDataSource
     let dao: MyUserDAO
 
+    let locale: NSLocale
 
-    // MARK: Lifecycle
 
-    init(dataSource: MyUserDataSource, dao: MyUserDAO) {
+    // MARK: - Lifecycle
+
+    init(dataSource: MyUserDataSource, dao: MyUserDAO, locale: NSLocale) {
         self.dataSource = dataSource
         self.dao = dao
+        self.locale = locale
     }
 
 
@@ -49,7 +49,8 @@ public class MyUserRepository {
     - parameter completion: The completion closure.
     */
     public func updateName(name: String, completion: MyUserCompletion?) {
-        let params: [String: AnyObject] = [LGMyUser.JSONKeys.name: name]
+        let JSONKeys = LGMyUser.ApiMyUserKeys()
+        let params: [String: AnyObject] = [JSONKeys.name: name]
         update(params, completion: completion)
     }
 
@@ -60,7 +61,8 @@ public class MyUserRepository {
     - parameter completion: The completion closure.
     */
     public func updatePassword(password: String, completion: MyUserCompletion?) {
-        let params: [String: AnyObject] = [LGMyUser.JSONKeys.password: password]
+        let JSONKeys = LGMyUser.ApiMyUserKeys()
+        let params: [String: AnyObject] = [JSONKeys.password: password]
         update(params, completion: completion)
     }
     
@@ -81,8 +83,9 @@ public class MyUserRepository {
             completion?(Result<MyUser, RepositoryError>(error: .Internal(message: "Invalid token")))
             return
         }
-        
-        let params: [String: AnyObject] = [LGMyUser.JSONKeys.objectId: userId, LGMyUser.JSONKeys.password: password]
+
+        let JSONKeys = LGMyUser.ApiMyUserKeys()
+        let params: [String: AnyObject] = [JSONKeys.objectId: userId, JSONKeys.password: password]
         dataSource.resetPassword(userId, params: params, token: token) { result in
             handleApiResult(result, completion: completion)
         }
@@ -95,7 +98,8 @@ public class MyUserRepository {
     - parameter completion: The completion closure.
     */
     public func updateEmail(email: String, completion: MyUserCompletion?) {
-        let params: [String: AnyObject] = [LGMyUser.JSONKeys.email: email]
+        let JSONKeys = LGMyUser.ApiMyUserKeys()
+        let params: [String: AnyObject] = [JSONKeys.email: email]
         update(params, completion: completion)
     }
 
@@ -108,17 +112,6 @@ public class MyUserRepository {
         uploadAvatar(avatar, progressBlock: progressBlock, completion: completion)
     }
 
-    /**
-     Retrieves user counters (unread messages & unread conversations)
-
-     - parameter completion: The completion closure
-     */
-    public func retrieveCounters(completion completion: UserCountersCompletion?) {
-        dataSource.retrieveCounters() { result in
-            handleApiResult(result, completion: completion)
-        }
-    }
-
 
     // MARK: - Internal methods
 
@@ -129,13 +122,15 @@ public class MyUserRepository {
     - parameter name: The name.
     - parameter newsletter: Whether or not the user accepted newsletter sending. Send to nil if user wasn't asked about it
     - parameter location: The location.
+    - parameter postalAddress: The postal address.
     - parameter completion: The completion closure. Will pass api error as the method is internal so that the caller can
                             have the complete error information
     */
     func createWithEmail(email: String, password: String, name: String, newsletter: Bool?, location: LGLocation?,
-        postalAddress: PostalAddress?, completion: ((Result<MyUser, ApiError>) -> ())?) {
+                         postalAddress: PostalAddress?, completion: ((Result<MyUser, ApiError>) -> ())?) {
             dataSource.createWithEmail(email, password: password, name: name, newsletter: newsletter,
-                location: location, postalAddress: postalAddress, completion: completion)
+                                       location: location, postalAddress: postalAddress,
+                                       localeIdentifier: locale.localeIdentifier, completion: completion)
     }
 
     /**
@@ -190,6 +185,25 @@ public class MyUserRepository {
     }
 
     /**
+     Updates the user if the locale changed.
+     - returns: If the update was performed.
+     */
+    func updateIfLocaleChanged() -> Bool {
+        guard let myUser = dao.myUser else { return false }
+
+        let JSONKeys = LGMyUser.ApiMyUserKeys()
+
+        var params: [String: AnyObject] = [:]
+        if myUser.localeIdentifier != locale.localeIdentifier {
+            params[JSONKeys.localeIdentifier] = locale.localeIdentifier
+        }
+        guard !params.isEmpty else { return false }
+
+        update(params, completion: nil)
+        return true
+    }
+
+    /**
     Updates the location of my user. If no postal address is passed-by it nullifies it.
     - parameter myUserId: My user identifier.
     - parameter location: The location.
@@ -198,15 +212,16 @@ public class MyUserRepository {
     */
     func updateLocation(location: LGLocation, postalAddress: PostalAddress,
         completion: ((Result<MyUser, RepositoryError>) -> ())?) {
-            var params = [String: AnyObject]()
-            params[LGMyUser.JSONKeys.latitude] = location.coordinate.latitude
-            params[LGMyUser.JSONKeys.longitude] = location.coordinate.longitude
-            params[LGMyUser.JSONKeys.locationType] = location.type?.rawValue
-            params[LGMyUser.JSONKeys.zipCode] = postalAddress.zipCode ?? ""
-            params[LGMyUser.JSONKeys.address] = postalAddress.address ?? ""
-            params[LGMyUser.JSONKeys.city] = postalAddress.city ?? ""
-            params[LGMyUser.JSONKeys.countryCode] = postalAddress.countryCode ?? ""
-            update(params, completion: completion)
+        let JSONKeys = LGMyUser.ApiMyUserKeys()
+        var params = [String: AnyObject]()
+        params[JSONKeys.latitude] = location.coordinate.latitude
+        params[JSONKeys.longitude] = location.coordinate.longitude
+        params[JSONKeys.locationType] = location.type?.rawValue
+        params[JSONKeys.zipCode] = postalAddress.zipCode ?? ""
+        params[JSONKeys.address] = postalAddress.address ?? ""
+        params[JSONKeys.city] = postalAddress.city ?? ""
+        params[JSONKeys.countryCode] = postalAddress.countryCode ?? ""
+        update(params, completion: completion)
     }
 
     /**
@@ -237,8 +252,9 @@ public class MyUserRepository {
             completion?(Result<MyUser, RepositoryError>(error: .Internal(message: "Missing MyUser objectId")))
             return
         }
+        let JSONKeys = LGMyUser.ApiMyUserKeys()
         var paramsWithId = params
-        paramsWithId[LGMyUser.JSONKeys.objectId] = myUserId
+        paramsWithId[JSONKeys.objectId] = myUserId
         dataSource.update(myUserId, params: paramsWithId) { [weak self] result in
             guard self?.myUser != nil else {
                 completion?(Result<MyUser, RepositoryError>(error:
