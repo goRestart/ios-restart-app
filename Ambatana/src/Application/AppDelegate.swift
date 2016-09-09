@@ -306,7 +306,8 @@ private extension AppDelegate {
                 self.chatRepository?.openAndAuthenticate(nil)
             } else {
                 self.locationManager?.stopSensorLocationUpdates()
-                self.disconnectChatTimer = NSTimer.scheduledTimerWithTimeInterval(15, target: self, selector: #selector(self.disconnectChat), userInfo: nil, repeats: false)
+                self.disconnectChatTimer = NSTimer.scheduledTimerWithTimeInterval(Constants.websocketChatDisconnectTimeout,
+                    target: self, selector: #selector(self.disconnectChat), userInfo: nil, repeats: false)
             }
         }.addDisposableTo(disposeBag)
 
