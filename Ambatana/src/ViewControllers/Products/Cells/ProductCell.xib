@@ -30,37 +30,17 @@
                                 <rect key="frame" x="0.0" y="0.0" width="153" height="194"/>
                                 <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                             </imageView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="q07-IL-PD5" userLabel="priceGradientView">
-                                <rect key="frame" x="0.0" y="124" width="153" height="70"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="70" id="TeD-Io-n7I"/>
-                                </constraints>
-                            </view>
-                            <label userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="$500" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Q3S-98-0Z1" userLabel="Price Label">
-                                <rect key="frame" x="8" y="169" width="137" height="17"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="bottom" secondItem="q07-IL-PD5" secondAttribute="bottom" id="3Lp-g3-l8J"/>
-                            <constraint firstAttribute="trailing" secondItem="q07-IL-PD5" secondAttribute="trailing" id="Dqf-VZ-eGE"/>
                             <constraint firstItem="jgH-1b-N7M" firstAttribute="trailing" secondItem="afm-Cf-H6I" secondAttribute="trailing" id="G2N-su-yx0"/>
                             <constraint firstItem="afm-Cf-H6I" firstAttribute="top" secondItem="U25-jS-eMH" secondAttribute="top" id="LIL-tR-5tN"/>
-                            <constraint firstItem="Q3S-98-0Z1" firstAttribute="bottom" secondItem="afm-Cf-H6I" secondAttribute="bottom" constant="-8" id="SWe-WU-CbZ"/>
                             <constraint firstItem="jgH-1b-N7M" firstAttribute="top" secondItem="afm-Cf-H6I" secondAttribute="top" id="Tf3-nL-xUY"/>
-                            <constraint firstItem="q07-IL-PD5" firstAttribute="leading" secondItem="U25-jS-eMH" secondAttribute="leading" id="UQa-vH-e5v"/>
                             <constraint firstItem="jgH-1b-N7M" firstAttribute="bottom" secondItem="afm-Cf-H6I" secondAttribute="bottom" id="Wcb-Z4-cFs"/>
                             <constraint firstItem="jgH-1b-N7M" firstAttribute="leading" secondItem="afm-Cf-H6I" secondAttribute="leading" id="cvz-k4-AoH"/>
                             <constraint firstItem="afm-Cf-H6I" firstAttribute="leading" secondItem="U25-jS-eMH" secondAttribute="leading" id="e5s-hZ-XYg"/>
                             <constraint firstAttribute="bottom" secondItem="afm-Cf-H6I" secondAttribute="bottom" id="fkm-Ml-b1d"/>
-                            <constraint firstItem="Q3S-98-0Z1" firstAttribute="leading" secondItem="afm-Cf-H6I" secondAttribute="leading" constant="8" id="iFR-WK-sUE"/>
                             <constraint firstAttribute="trailing" secondItem="afm-Cf-H6I" secondAttribute="trailing" id="lJS-K5-tI7"/>
-                            <constraint firstItem="Q3S-98-0Z1" firstAttribute="trailing" secondItem="afm-Cf-H6I" secondAttribute="trailing" constant="-8" id="x8D-A0-57u"/>
                         </constraints>
                     </view>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="stripe_white" translatesAutoresizingMaskIntoConstraints="NO" id="RTJ-Uh-fyf">
@@ -144,8 +124,6 @@
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <connections>
                 <outlet property="cellContent" destination="U25-jS-eMH" id="ybK-mq-hS3"/>
-                <outlet property="priceGradientView" destination="q07-IL-PD5" id="hgE-bb-EUM"/>
-                <outlet property="priceLabel" destination="Q3S-98-0Z1" id="gsi-wX-8gC"/>
                 <outlet property="shadowImage" destination="3Rs-4R-xUN" id="8vG-e6-hfF"/>
                 <outlet property="stripeIcon" destination="wEc-7h-s7X" id="sTe-Rv-dpS"/>
                 <outlet property="stripeIconWidth" destination="IFQ-gE-Ewv" id="vZh-Sd-V7R"/>

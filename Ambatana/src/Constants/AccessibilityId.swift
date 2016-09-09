@@ -43,7 +43,6 @@ enum AccessibilityId: String {
 
     // Product Cell
     case ProductCell
-    case ProductCellPriceLabel
     case ProductCellThumbnailImageView
     case ProductCellStripeImageView
     case ProductCellStripeLabel

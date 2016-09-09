@@ -15,10 +15,8 @@ class ProductCell: UICollectionViewCell, ReusableCell {
     
     @IBOutlet weak var shadowImage: UIImageView!
     @IBOutlet weak var cellContent: UIView!
-    @IBOutlet weak var priceLabel: UILabel!
     @IBOutlet weak var thumbnailBgColorView: UIView!
     @IBOutlet weak var thumbnailImageView: UIImageView!
-    @IBOutlet weak var priceGradientView: UIView!
     
     @IBOutlet weak var stripeImageView: UIImageView!
 
@@ -65,25 +63,12 @@ class ProductCell: UICollectionViewCell, ReusableCell {
         })
     }
 
-    func setCellWidth(width: CGFloat) {
-        if let sublayers = priceGradientView.layer.sublayers {
-            let gradientBounds = CGRect(x: 0, y: 0, width: width, height: priceGradientView.height)
-            for sublayer in sublayers {
-                sublayer.frame = gradientBounds
-            }
-        }
-    }
-
 
     // MARK: - Private methods
     
     // Sets up the UI
     private func setupUI() {
         cellContent.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
-        let shadowLayer = CAGradientLayer.gradientWithColor(UIColor.blackColor(), alphas:[0.0,0.4],
-            locations: [0.0,1.0])
-        shadowLayer.frame = priceGradientView.bounds
-        priceGradientView.layer.addSublayer(shadowLayer)
         let rotation = CGFloat(M_PI_4)
         stripeInfoView.transform = CGAffineTransformMakeRotation(rotation)
         
@@ -94,7 +79,6 @@ class ProductCell: UICollectionViewCell, ReusableCell {
 
     // Resets the UI to the initial state
     private func resetUI() {
-        priceLabel.text = ""
         thumbnailBgColorView.backgroundColor = UIColor.placeholderBackgroundColor()
         thumbnailImageView.image = nil
         stripeImageView.image = nil
@@ -105,7 +89,6 @@ class ProductCell: UICollectionViewCell, ReusableCell {
 
     private func setAccessibilityIds() {
         self.accessibilityId = .ProductCell
-        priceLabel.accessibilityId = .ProductCellPriceLabel
         thumbnailImageView.accessibilityId = .ProductCellThumbnailImageView
         stripeImageView.accessibilityId = .ProductCellStripeImageView
         stripeLabel.accessibilityId = .ProductCellStripeLabel
