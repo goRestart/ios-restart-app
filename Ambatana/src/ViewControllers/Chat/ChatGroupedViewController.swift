@@ -250,6 +250,13 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
     // MARK: - Private methods
 
     private func setupUI() {
+        //TODO: remove!!!!
+        #if GOD_MODE
+        let chatType = FeatureFlags.websocketChat ? "New" : "Old"
+        let leftButton = UIBarButtonItem(title: chatType, style: .Plain, target: self, action: #selector(chatInfo))
+        navigationItem.leftBarButtonItem = leftButton
+        #endif
+
         view.backgroundColor = UIColor.listBackgroundColor
         setNavBarTitle(LGLocalizedString.chatListTitle)
 
@@ -262,6 +269,11 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
         view.addSubview(viewPager)
 
         viewPager.reloadData()
+    }
+
+    private dynamic func chatInfo() {
+        let message = FeatureFlags.websocketChat ? "You're using the F*ng new chat!!" : "You're using the crappy old chat :("
+        showAutoFadingOutMessageAlert(message)
     }
 
     private func setupConstraints() {
