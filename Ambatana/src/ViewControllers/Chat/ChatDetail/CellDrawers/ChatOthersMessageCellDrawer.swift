@@ -13,6 +13,6 @@ class ChatOthersMessageCellDrawer: BaseChatCellDrawer<ChatOthersMessageCell> {
     
     override func draw(cell: ChatOthersMessageCell, message: ChatViewMessage, delegate: AnyObject?) {
         cell.messageLabel.text = message.value ?? ""
-        cell.dateLabel.text = message.sentAt?.relativeTimeString(false)
+        cell.dateLabel.text = message.sentAt?.formattedTime()
     }
 }

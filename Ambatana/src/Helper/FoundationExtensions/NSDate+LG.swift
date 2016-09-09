@@ -10,6 +10,14 @@ import Foundation
 
 extension NSDate {
 
+    func formattedTime() -> String {
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.timeStyle = .ShortStyle
+        dateFormatter.dateStyle = .NoStyle
+        dateFormatter.locale = NSLocale.autoupdatingCurrentLocale()
+        return dateFormatter.stringFromDate(self)
+    }
+
     /**
      Returns a string with the seconds, minutes, hours, days, weeks ago (or + 1 month)
      
