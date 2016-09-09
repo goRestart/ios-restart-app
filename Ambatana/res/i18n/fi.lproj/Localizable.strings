@@ -4,7 +4,7 @@
 "account_pending_moderation_w_name" = "Käyttäjän %@ tili on poistettu käytöstä moderaattorin toimesta";
 "app_share_download_text" = "Lataa";
 "app_share_email_button" = "Kutsu sähköpostilla";
-"app_share_error" = "An error occurred while sharing the app. Please try again later.";
+"app_share_error" = "Sovellusta jaettaessa tapahtui virhe. Ole hyvä ja yritä myöhemmin uudelleen.";
 "app_share_fbmessenger_button" = "Kutsu Messengerillä";
 "app_share_invite_text" = "Kutsu";
 "app_share_message_text" = "Tutustu letgo-sovellukseen ja tienaa rahaa myymällä tavaroita, joita et enää käytä!";
