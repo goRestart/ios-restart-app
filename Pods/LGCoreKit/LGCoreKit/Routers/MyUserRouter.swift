@@ -16,7 +16,6 @@ enum MyUserRouter: URLRequestAuthenticable {
     case UpdateAvatar(myUserId: String, params: [String : AnyObject])
     case ResetPassword(myUserId: String, params: [String : AnyObject], token: String)
     case LinkAccount(myUserId: String, params: [String : AnyObject])
-    case Counters
 
     private var endpoint: String {
         switch (self) {
@@ -26,8 +25,6 @@ enum MyUserRouter: URLRequestAuthenticable {
             return "/users/\(myUserId)/avatars"
         case let .LinkAccount(myUserId, params: _):
             return "/users/\(myUserId)/accounts"
-        case .Counters:
-            return "/api/users/counters"
         }
     }
 
@@ -35,7 +32,7 @@ enum MyUserRouter: URLRequestAuthenticable {
         switch self {
         case .Create:
             return .Installation
-        case .Show, .Update, .UpdateAvatar, .Counters, .LinkAccount:
+        case .Show, .Update, .UpdateAvatar, .LinkAccount:
             return .User
         case .ResetPassword:
             return .None
@@ -67,8 +64,6 @@ enum MyUserRouter: URLRequestAuthenticable {
             return req
         case let .LinkAccount(_, params):
             return Router<BouncerBaseURL>.Create(endpoint: endpoint, params: params, encoding: nil).URLRequest
-        case .Counters:
-            return Router<APIBaseURL>.Index(endpoint: endpoint, params: [:]).URLRequest
         }
     }
 }

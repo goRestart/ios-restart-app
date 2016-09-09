@@ -23,8 +23,14 @@ struct APIBaseURL: BaseURL {
 
 struct BouncerBaseURL: BaseURL {
     static var baseURL: String = EnvironmentProxy.sharedInstance.bouncerBaseURL
-    static let acceptHeader: String? = "application/vnd.letgo.v1-mobile+json"
-    static let contentTypeHeader: String? = "application/vnd.letgo.v1-mobile+json"
+    static let acceptHeader: String? = "application/vnd.letgo-api+json;version=2"
+    static let contentTypeHeader: String? = "application/vnd.letgo-api+json;version=2"
+}
+
+struct ChatBaseURL: BaseURL {
+    static var baseURL: String = EnvironmentProxy.sharedInstance.chatBaseURL
+    static let acceptHeader: String? = nil
+    static let contentTypeHeader: String? = nil
 }
 
 struct CommercializerBaseURL: BaseURL {
@@ -103,8 +109,7 @@ enum Router<T: BaseURL>: URLRequestConvertible {
     }
 
     var URLRequest: NSMutableURLRequest {
-
-        let baseUrl = NSURL(string: T.baseURL)!
+        guard let baseUrl = NSURL(string: T.baseURL) else { return NSMutableURLRequest() }
         let mutableURLRequest = NSMutableURLRequest()
         mutableURLRequest.HTTPMethod = method.rawValue
 
@@ -149,7 +154,6 @@ enum Router<T: BaseURL>: URLRequestConvertible {
             req = paramEncoding.anyObjectEncode(mutableURLRequest, parameters: params).0
         }
 
-
         // When calling `paramEncoding.encode` the Content-Type Header is setted automatically to the correct value
         // JSON is a special case. The defaul value would be `application/json` but we need to override it for some of
         // our apis
@@ -161,15 +165,11 @@ enum Router<T: BaseURL>: URLRequestConvertible {
         default:
             break
         }
-
-
         // All the responses will always be of type JSON, when calling the Bouncer API we need to set the
-        // `Accept` Header to our custom JSON format.
-        // By default, the Accept Header is `application/json`
+        // `Accept` Header to our custom JSON format. By default, the Accept Header is `application/json`
         if let accept = T.acceptHeader {
             req.setValue(accept, forHTTPHeaderField: "Accept")
         }
-
         return req
     }
 }

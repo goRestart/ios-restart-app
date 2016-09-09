@@ -600,7 +600,7 @@
 "user_share_error" = "Une erreur est survenue lors du partage de votre profil. Veuillez réessayer plus tard.";
 "user_share_message_mine" = "Jetez un oeil à tout ce que je vend sur letgo !";
 "user_share_message_other" = "Jetez un oeil à tout ce que ce vendeur vend sur letgo :";
-"user_share_message_other_w_name" = "Regardez tout ce que %@ vend sur letgo :";
+"user_share_message_other_w_name" = "Regardez tout ce que %@ vend sur letgo !";
 "user_share_navbar_button" = "Partager";
 "user_share_success" = "Profil partagé avec succès !";
 "user_share_title_text_mine" = "Découvrez mon profil letgo !";

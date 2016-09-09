@@ -266,7 +266,7 @@
 "log_in_title" = "Accedi tramite email";
 "main_sign_up_claim_label" = "Inizia a vendere e comprare, chattando!";
 "main_sign_up_error_request_already_sent" = "La tua richiesta è già stata elaborata. Attendi prima di provare di nuovo.";
-"main_sign_up_error_user_rejected" = "L'indirizzo email o la password da te inseriti non sono corretti. Riprova.";
+"main_sign_up_error_user_rejected" = "L'indirizzo email da te inserito non è corretto. Verificalo e riprova.";
 "main_sign_up_facebook_connect_button" = "Continua con Facebook";
 "main_sign_up_fb_connect_error_email_taken" = "Il tuo indirizzo email è già registrato. Ti preghiamo di utilizzarlo per effettuare l'accesso.";
 "main_sign_up_fb_connect_error_generic" = "Impossibile effettuare l'accesso. Riprova.";

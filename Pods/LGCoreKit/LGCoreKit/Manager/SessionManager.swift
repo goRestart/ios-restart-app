@@ -8,6 +8,7 @@
 
 import Argo
 import Result
+import RxSwift
 
 
 // MARK: - SessionManagerError
@@ -146,6 +147,7 @@ public class SessionManager {
 
     // Manager & repositories
     private let apiClient: ApiClient
+    private let websocketClient: WebSocketClient
     private let locationManager: LocationManager
     private let myUserRepository: MyUserRepository
     private let installationRepository: InstallationRepository
@@ -156,16 +158,19 @@ public class SessionManager {
     private let deviceLocationDAO: DeviceLocationDAO
     private let favoritesDAO: FavoritesDAO
 
+    private let disposeBag = DisposeBag()
+    
     public var loggedIn: Bool {
         return myUserRepository.myUser != nil && tokenDAO.token.level == .User
     }
     
     // MARK: - Lifecycle
 
-    init(apiClient: ApiClient, locationManager: LocationManager, myUserRepository: MyUserRepository,
+    init(apiClient: ApiClient, websocketClient: WebSocketClient, locationManager: LocationManager, myUserRepository: MyUserRepository,
         installationRepository: InstallationRepository, chatRepository: ChatRepository, tokenDAO: TokenDAO, deviceLocationDAO: DeviceLocationDAO,
         favoritesDAO: FavoritesDAO) {
             self.apiClient = apiClient
+            self.websocketClient = websocketClient
             self.locationManager = locationManager
             self.myUserRepository = myUserRepository
             self.tokenDAO = tokenDAO
@@ -173,6 +178,7 @@ public class SessionManager {
             self.installationRepository = installationRepository
             self.chatRepository = chatRepository
             self.favoritesDAO = favoritesDAO
+            setupRx()
     }
 
 
@@ -193,6 +199,17 @@ public class SessionManager {
             cleanSession()
         }
         installationRepository.updateIfChanged()
+        myUserRepository.updateIfLocaleChanged()
+    }
+    
+    func setupRx() {
+        apiClient.renewingUser.asObservable().distinctUntilChanged().skip(1).subscribeNext { [weak self] renewing in
+            if !renewing {
+                self?.authenticateWebSocket(nil)
+            } else {
+               self?.websocketClient.suspendOperations()
+            }
+        }.addDisposableTo(disposeBag)
     }
 
     /**
@@ -305,6 +322,7 @@ public class SessionManager {
         logMessage(.Info, type: CoreLoggingOptions.Session, message: "Log out")
 
         tearDownSession(kicked: false)
+        chatRepository.close(nil)
     }
 
 
@@ -316,6 +334,31 @@ public class SessionManager {
     */
     func authenticateInstallation(completion: (Result<Installation, ApiError> -> ())?) {
         authenticateInstallation(createIfNotFound: true, completion: completion)
+    }
+
+    /**
+     Renews the user token.
+     
+     Note: Should be only called by `ApiClient` and `WebSocketClient`
+
+     - parameter completion:    The completion closure.
+    */
+    func renewUserToken(completion: (Result<Authentication, ApiError> -> ())?) {
+        guard let userToken = tokenDAO.get(level: .User),
+            userTokenValue = userToken.value?.componentsSeparatedByString(" ").last else {
+            completion?(Result<Authentication, ApiError>(error: .Internal(description: "Missing user token")))
+            return
+        }
+
+        apiClient.requestRenewUserToken(userTokenValue, decoder: SessionManager.authDecoder) { [weak self] result in
+            if let auth = result.value {
+                self?.setupAfterUserAuthentication(auth)
+                completion?(Result<Authentication, ApiError>(value: auth))
+            }
+            else if let error = result.error {
+                completion?(Result<Authentication, ApiError>(error: error))
+            }
+        }
     }
 
     /**
@@ -345,7 +388,6 @@ public class SessionManager {
 
         let request = SessionRouter.CreateInstallation(installationId: installationRepository.installationId)
         apiClient.request(request, decoder: SessionManager.authDecoder) { [weak self] authResult in
-
             if let auth = authResult.value {
                 self?.setupAfterInstallationAuthentication(auth, completion: completion)
             } else if let error = authResult.error {
@@ -450,13 +492,12 @@ public class SessionManager {
      */
     private func setupSession(myUser: MyUser) {
         myUserRepository.save(myUser)
+        myUserRepository.updateIfLocaleChanged()
         LGCoreKit.setupAfterLoggedIn {
             NSNotificationCenter.defaultCenter().postNotificationName(Notification.Login.rawValue, object: nil)
         }
 
-        if LGCoreKit.activateWebsocket {
-            authenticateWebSocket(nil)
-        }
+        chatRepository.openAndAuthenticate(nil)
     }
 
     /**

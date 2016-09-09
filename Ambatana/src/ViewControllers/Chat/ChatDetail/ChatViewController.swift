@@ -361,6 +361,10 @@ extension ChatViewController {
             self?.textView.userInteractionEnabled = enabled
             }.addDisposableTo(disposeBag)
         
+        viewModel.chatConnected.asObservable().bindNext { [weak self] connected in
+            self?.setTextInputbarHidden(!connected, animated: true)
+        }.addDisposableTo(disposeBag)
+        
         viewModel.chatStatus.asObservable().bindNext { [weak self] status in
             self?.relationInfoView.setupUIForStatus(status, otherUserName: self?.viewModel.interlocutorName.value)
             switch status {

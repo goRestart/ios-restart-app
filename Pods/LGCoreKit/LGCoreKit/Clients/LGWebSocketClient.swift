@@ -9,50 +9,116 @@
 import Result
 import SwiftWebSocket
 import RxSwift
+import ReachabilitySwift
 
-enum WebSocketStatus {
+enum WebSocketStatus: Equatable {
     case Closed
-    case Open
+    case Open(authenticated: Bool)
     case Opening
     case Closing
+}
+
+func ==(a: WebSocketStatus, b: WebSocketStatus) -> Bool {
+    switch (a, b) {
+    case (.Open(let a),   .Open(let b))   where a == b: return true
+    case (.Closed, .Closed): return true
+    case (.Opening, .Opening): return true
+    case (.Closing, .Closing): return true
+    default: return false
+    }
+}
+
+struct WebSocketClientError {
+    static var ManuallyClosed = 1000
+    static var AbnormalClosure = 1006
 }
 
 class LGWebSocketClient: WebSocketClient {
     
     let ws = WebSocket()
-    private var authenticated: Bool = false
+    
     private var activeCommands: [String: (Result<Void, WebSocketError> -> Void)] = [:]
     private var activeQueries: [String: (Result<[String: AnyObject], WebSocketError> -> Void)] = [:]
+    private var activeRequests: [String: WebSocketRequestConvertible] = [:]
+    private var activeAuthRequests: [String: (Result<Void, WebSocketError> -> Void)] = [:]
+
+    private let reachability: Reachability?
+    private var openClosure: (() -> ())?
+    private var closeClosure: (() -> ())?
+    private var pingTimer: NSTimer?
+    
+    let requestQueue = NSOperationQueue()
     let eventBus = PublishSubject<ChatEvent>()
+    var socketStatus = Variable<WebSocketStatus>(.Closed)
+
     
-    var openClosure: (() -> ())?
-    var closeClosure: (() -> ())?
-    var socketStatus: WebSocketStatus = .Closed
+    init() {
+        requestQueue.maxConcurrentOperationCount = 1
+        self.reachability = try? Reachability.reachabilityForInternetConnection()
+    }
     
+    deinit {
+        pingTimer?.invalidate()
+    }
+    
+    
+    func configureReachability() {
+        reachability?.whenReachable = { reach in
+            InternalCore.sessionManager.authenticateWebSocket(nil)
+        }
+    }
     
     // MARK: - WebSocket LifeCycle
     
-    func startWebSocket(endpoint: String, completion: (() -> ())?) {
+    /*
+     Send a Ping message to the websocket every 3 minutes. ONLY if the websocket is already opened.
+     This will prevent the server to close our websocket.
+     */
+    dynamic private func ping() {
+        switch socketStatus.value {
+        case .Open:
+            let ping = WebSocketMessageRouter(uuidGenerator: LGUUID()).pingMessage()
+            sendQuery(ping, completion: nil)
+        default:
+            break
+        }
+    }
     
+    func setupTimer() {
+        pingTimer = NSTimer.scheduledTimerWithTimeInterval(LGCoreKitConstants.chatPingTimeInterval, target: self,
+                                                           selector: #selector(ping), userInfo: nil, repeats: true)
+    }
+    
+    func startWebSocket(endpoint: String, completion: (() -> ())?) {
+        
         ws.event.open = { [weak self] in
-            self?.socketStatus = .Open
+            self?.socketStatus.value = .Open(authenticated: false)
             self?.openClosure?()
             self?.openClosure = nil
             logMessage(.Debug, type: .WebSockets, message: "Opened")
+            self?.setupTimer()
         }
         
         ws.event.close = { [weak self] code, reason, clean in
             logMessage(.Debug, type: .WebSockets, message: "Closed")
             self?.closeClosure?()
             self?.closeClosure = nil
-            if code != 1000 && self?.socketStatus != .Opening {
-                self?.socketStatus = .Opening
+
+            if let socketStatus = self?.socketStatus.value where socketStatus == .Opening {
+                // Close event while opening means websocket is unreachable or connection was refused.
+                self?.socketStatus.value = .Closed
+                self?.pingTimer?.invalidate()
+                return
+            }
+
+            switch code {
+            case WebSocketClientError.ManuallyClosed, WebSocketClientError.AbnormalClosure:
+                self?.socketStatus.value = .Closed
+                self?.pingTimer?.invalidate()
+            default:
+                self?.socketStatus.value = .Opening
                 self?.ws.open()
                 InternalCore.sessionManager.authenticateWebSocket(nil)
-                //try to reconnect only if it wasn't manually closed
-//                Core.sessionManager.authenticateWebSocket(nil)
-            } else {
-                self?.socketStatus = .Closed
             }
         }
         
@@ -86,38 +152,55 @@ class LGWebSocketClient: WebSocketClient {
     }
     
     func openWebSocket(endpoint: String, completion: (() -> ())?) {
-        logMessage(LogLevel.Debug, type: .WebSockets, message: "Trying to connect to: \(endpoint)")
-        socketStatus = .Opening
-        openClosure = completion
-        ws.open(endpoint)
+        switch socketStatus.value {
+        case .Open, .Opening:
+            logMessage(LogLevel.Debug, type: .WebSockets, message: "Chat already connected to: \(endpoint)")
+            completion?()
+            return
+        case .Closed, .Closing:
+            logMessage(LogLevel.Debug, type: .WebSockets, message: "Trying to connect to: \(endpoint)")
+            socketStatus.value = .Opening
+            openClosure = completion
+            ws.open(endpoint)
+        }
     }
     
     func closeWebSocket(completion: (() -> ())?) {
-        socketStatus = .Closing
-        closeClosure = completion
-        ws.close(1000, reason: "Manual close")
+        switch socketStatus.value {
+        case .Closed, .Closing:
+            logMessage(LogLevel.Debug, type: .WebSockets, message: "Chat already closed")
+            completion?()
+            return
+        case .Open, .Opening:
+            logMessage(LogLevel.Debug, type: .WebSockets, message: "Closing Chat WebSocket")
+            socketStatus.value = .Closing
+            closeClosure = completion
+            ws.close(WebSocketClientError.ManuallyClosed, reason: "Manual close")
+        }
     }
     
-
-    // MARK: - Send
+    func suspendOperations() {
+        requestQueue.suspended = true
+    }
+    
+    func resumeOperations() {
+        requestQueue.suspended = false
+    }
+    
+    
+    // MARK: Send
     
     func sendQuery(request: WebSocketQueryRequestConvertible, completion: (Result<[String: AnyObject], WebSocketError> -> Void)?) {
-        guard authenticated else {
-            completion?(Result<[String: AnyObject], WebSocketError>(error: .NotAuthenticated))
-            return
-        }
-        
         activeQueries[request.uuid.lowercaseString] = completion
         send(request)
     }
     
     func sendCommand(request: WebSocketCommandRequestConvertible, completion: (Result<Void, WebSocketError> -> Void)?) {
-        guard authenticated || request.type == .Authenticate else {
-            completion?(Result<Void, WebSocketError>(error: .NotAuthenticated))
-            return
+        if request.type == .Authenticate {
+            activeAuthRequests[request.uuid.lowercaseString] = completion
+        } else {
+            activeCommands[request.uuid.lowercaseString] = completion
         }
-        
-        activeCommands[request.uuid.lowercaseString] = completion
         send(request)
     }
     
@@ -125,14 +208,24 @@ class LGWebSocketClient: WebSocketClient {
         send(request)
     }
     
-    
     func send(request: WebSocketRequestConvertible) {
-        logMessage(LogLevel.Debug, type: .WebSockets, message: "[WS] Send: \(request.message)")
+        let sendAction = { [weak self] in
+            // Only add the request to the array if its not an Authenticate request, those shouldn't be saved to repeat
+            if request.type != .Authenticate { self?.activeRequests[request.uuid.lowercaseString] = request }
+            logMessage(LogLevel.Debug, type: .WebSockets, message: "[WS] Send: \(request.message)")
+            self?.privateSend(request)
+        }
+        
+        // The authentication request can't enter the queue or they will get blocked
+        request.type == .Authenticate ? sendAction() : requestQueue.addOperationWithBlock(sendAction)
+    }
+    
+    func privateSend(request: WebSocketRequestConvertible) {
         ws.send(request.message)
     }
     
     
-    // MARK: - Handle Response Helpers
+    // MARK: Response handlers
     
     private func stringToJSON(text: String) -> [String: AnyObject]? {
         guard let data = text.dataUsingEncoding(NSUTF8StringEncoding) else { return nil }
@@ -144,29 +237,62 @@ class LGWebSocketClient: WebSocketClient {
     private func handleACK(dict: [String: AnyObject]) {
         guard let ack = WebSocketResponseACK(dict: dict) else { return }
         if ack.ackedType == .Authenticate {
-            self.authenticated = true
+            requestQueue.suspended = false
+            socketStatus.value = .Open(authenticated: true)
+            activeAuthRequests.values.forEach{ $0(Result<Void, WebSocketError>(value: ()))}
+            activeAuthRequests.removeAll()
+        } else {
+            let completion = activeCommands[ack.ackedId.lowercaseString]
+            activeCommands.removeValueForKey(ack.ackedId.lowercaseString)
+            activeRequests.removeValueForKey(ack.ackedId.lowercaseString)
+            completion?(Result<Void, WebSocketError>(value: ()))
         }
-        let completion = activeCommands[ack.ackedId.lowercaseString]
-        activeCommands.removeValueForKey(ack.ackedId.lowercaseString)
-        completion?(Result<Void, WebSocketError>(value: ()))
     }
     
     private func handleQueryResponse(dict: [String: AnyObject]) {
         guard let response = WebSocketResponseQuery(dict: dict) else { return }
         let completion = activeQueries[response.responseToId.lowercaseString]
         activeQueries.removeValueForKey(response.responseToId.lowercaseString)
+        activeRequests.removeValueForKey(response.responseToId.lowercaseString)
         completion?(Result<[String: AnyObject], WebSocketError>(value: response.data))
     }
     
     private func handleEvent(dict: [String: AnyObject]) {
         guard let response = WebSocketResponseEvent(dict: dict) else { return }
         guard let event = ChatModelsMapper.eventFromDict(dict, type: response.type) else { return }
-        eventBus.onNext(event)
+        switch event.type {
+        case .AuthenticationTokenExpired: // -> Don't forward this event to the App
+            reauthenticate()
+        case .InterlocutorMessageSent, .InterlocutorReadConfirmed, .InterlocutorReceptionConfirmed,
+             .InterlocutorTypingStarted, .InterlocutorTypingStopped:
+            eventBus.onNext(event)
+        }
+    }
+    
+    private func reauthenticate() {
+        requestQueue.suspended = true
+        socketStatus.value = .Open(authenticated: false)
+        InternalCore.sessionManager.renewUserToken(nil)
     }
     
     private func handleError(dict: [String: AnyObject]) {
         guard let error = WebSocketResponseError(dict: dict) else { return }
-        // TODO: Generate WebSocketErrors
+        
+        switch error.errorType {
+        case .TokenExpired, .NotAuthenticated:
+            reauthenticate()
+            if let request = activeRequests[error.erroredId.lowercaseString] {
+                send(request)
+            }
+            return
+        case .IsScammer:
+            closeWebSocket(nil)
+            InternalCore.sessionManager.logout()
+        default:
+            break
+        }
+        
+        activeRequests.removeValueForKey(error.erroredId.lowercaseString)
         
         if let completion = activeCommands[error.erroredId.lowercaseString] {
             activeCommands.removeValueForKey(error.erroredId.lowercaseString)
@@ -176,6 +302,11 @@ class LGWebSocketClient: WebSocketClient {
         if let completion = activeQueries[error.erroredId.lowercaseString] {
             activeQueries.removeValueForKey(error.erroredId.lowercaseString)
             completion(Result<[String: AnyObject], WebSocketError>(error: .Internal))
+        }
+        
+        if let completion = activeAuthRequests[error.erroredId.lowercaseString] {
+            activeAuthRequests.removeValueForKey(error.erroredId.lowercaseString)
+            completion(Result<Void, WebSocketError>(error: .Internal))
         }
     }
 }

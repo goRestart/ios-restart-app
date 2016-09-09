@@ -2,4 +2,6 @@
 
 ### [Documentation files](Documentation/)
 - [Chat](Documentation/ChatKit.md)
+- [Installation Flow 'n' Token Renew](Documentation/InstallationsFlowNTokenRenew.md)
+- [WebSocketChat Flow 'n' Token Renew](Documentation/websocket_flow.md)
 - [Unit Testing](Documentation/unitTesting.md)

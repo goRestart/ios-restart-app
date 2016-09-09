@@ -12,5 +12,6 @@ class CanaryEnvironment: Environment {
     let bouncerBaseURL = "http://bouncer.canary.letgo.com/api"
     let commercializerBaseURL = "http://commercializer.canary.letgo.com"
     let userRatingsBaseURL = "http://rating.canary.letgo.com/api"
-    let webSocketURL = "ws://chat.letgo.com/socket"
+    let chatBaseURL = "https://chat.letgo.com"
+    let webSocketURL = "wss://chat.letgo.com/socket"
 }

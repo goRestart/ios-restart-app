@@ -21,31 +21,33 @@ class NotificationsManager {
     var globalCount: Observable<Int?> {
         return Observable.combineLatest(unreadMessagesCount.asObservable(), unreadNotificationsCount.asObservable()) {
             (unreadMessages: Int?, notifications: Int?) in
-            guard let unreadMessages = unreadMessages, notifications = notifications else { return nil }
-            return unreadMessages + notifications
+            let chatCount = unreadMessages ?? 0
+            let notificationsCount = notifications ?? 0
+            return chatCount + notificationsCount
         }
     }
 
     private let disposeBag = DisposeBag()
 
     private let sessionManager: SessionManager
-    private let myUserRepository: MyUserRepository
     private let chatRepository: ChatRepository
+    private let oldChatRepository: OldChatRepository
 
-    private var requesting = false
+    private var requestingChat = false
+    private var requestingNotifications = false
 
 
     // MARK: - Lifecycle
 
     convenience init() {
-        self.init(sessionManager: Core.sessionManager, myUserRepository: Core.myUserRepository,
-                  chatRepository: Core.chatRepository)
+        self.init(sessionManager: Core.sessionManager, chatRepository: Core.chatRepository,
+                  oldChatRepository: Core.oldChatRepository)
     }
 
-    init(sessionManager: SessionManager, myUserRepository: MyUserRepository, chatRepository: ChatRepository) {
+    init(sessionManager: SessionManager, chatRepository: ChatRepository, oldChatRepository: OldChatRepository) {
         self.sessionManager = sessionManager
-        self.myUserRepository = myUserRepository
         self.chatRepository = chatRepository
+        self.oldChatRepository = oldChatRepository
     }
 
     deinit {
@@ -61,6 +63,11 @@ class NotificationsManager {
                                                          name: UIApplicationWillEnterForegroundNotification, object: nil)
         setupRxBindings()
         updateCounters()
+    }
+
+    func updateCounters() {
+        updateChatCounters()
+        updateNotificationsCounters()
     }
 
     // MARK: - Private
@@ -80,12 +87,12 @@ class NotificationsManager {
                 default:
                     return false
                 }
-            }.bindNext{ [weak self] _ in
-                self?.updateCounters()
+            }.bindNext{ [weak self] event in
+                self?.updateChatCounters()
             }.addDisposableTo(disposeBag)
         } else {
             DeepLinksRouter.sharedInstance.chatDeepLinks.bindNext { [weak self] _ in
-                self?.updateCounters()
+                self?.updateChatCounters()
             }.addDisposableTo(disposeBag)
         }
     }
@@ -103,23 +110,27 @@ class NotificationsManager {
         updateCounters()
     }
 
-    func updateCounters() {
-        guard sessionManager.loggedIn && !requesting else { return }
-        requesting = true
-        if FeatureFlags.notificationsSection {
-            myUserRepository.retrieveCounters { [weak self] result in
-                self?.requesting = false
-                guard let counters = result.value else { return }
-                self?.unreadNotificationsCount.value = counters.unreadNotifications
-                self?.unreadMessagesCount.value = counters.unreadMessages
+    private func updateChatCounters() {
+        guard sessionManager.loggedIn && !requestingChat else { return }
+        requestingChat = true
+
+        if FeatureFlags.websocketChat {
+            chatRepository.chatUnreadMessagesCount() { [weak self] result in
+                self?.requestingChat = false
+                guard let count = result.value?.totalUnreadMessages else { return }
+                self?.unreadMessagesCount.value = count
             }
         } else {
-            Core.oldChatRepository.retrieveUnreadMessageCountWithCompletion { [weak self] result in
-                self?.requesting = false
+            oldChatRepository.retrieveUnreadMessageCountWithCompletion { [weak self] result in
+                self?.requestingChat = false
                 guard let count = result.value else { return }
-                self?.unreadNotificationsCount.value = 0
                 self?.unreadMessagesCount.value = count
             }
         }
+    }
+
+    private func updateNotificationsCounters() {
+        guard FeatureFlags.notificationsSection else { return }
+        //TODO: IMPLEMENT WHEN USING NOTIFICATION CENTER
     }
 }

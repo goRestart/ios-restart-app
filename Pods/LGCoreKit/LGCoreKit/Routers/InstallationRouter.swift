@@ -32,8 +32,13 @@ enum InstallationRouter: URLRequestAuthenticable {
             return Router<BouncerBaseURL>.Create(endpoint: InstallationRouter.endpoint,
                                                  params: params, encoding: nil).URLRequest
         case let .Patch(installationId, params):
-            return Router<BouncerBaseURL>.Patch(endpoint: InstallationRouter.endpoint, objectId: installationId,
-                                                params: params, encoding: .JSON).URLRequest
+            let urlRequest = Router<BouncerBaseURL>.Patch(endpoint: InstallationRouter.endpoint, objectId: installationId,
+                                                          params: params, encoding: .JSON).URLRequest
+            if let token = InternalCore.dynamicType.tokenDAO.get(level: .Installation)?.value {
+                //Force installation token as authorization
+                urlRequest.setValue(token, forHTTPHeaderField: "Authorization")
+            }
+            return urlRequest
         }
     }
 }

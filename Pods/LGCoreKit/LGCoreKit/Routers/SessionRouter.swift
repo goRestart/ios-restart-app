@@ -15,6 +15,7 @@ enum SessionRouter: URLRequestAuthenticable {
     case RecoverPassword(email: String)
     case CreateUser(provider: UserSessionProvider)
     case CreateInstallation(installationId: String)
+    case UpdateUser(userToken: String)
     case Delete(userToken: String)
 
     private static let endpoint = "/authentication"
@@ -25,7 +26,7 @@ enum SessionRouter: URLRequestAuthenticable {
             return .None
         case .CreateUser, .RecoverPassword:
             return .Installation
-        case .Delete:
+        case .UpdateUser, .Delete:
             return .User
         }
     }
@@ -45,6 +46,7 @@ enum SessionRouter: URLRequestAuthenticable {
                 urlRequest.setValue(token, forHTTPHeaderField: "Authorization")
             }
             return urlRequest
+
         case let .CreateUser(provider):
             var params: [String: AnyObject] = [:]
             params["provider"] = provider.accountProvider.rawValue
@@ -56,13 +58,26 @@ enum SessionRouter: URLRequestAuthenticable {
                 urlRequest.setValue(token, forHTTPHeaderField: "Authorization")
             }
             return urlRequest
+
         case let .CreateInstallation(installationId):
             var params: [String: AnyObject] = [:]
             params["provider"] = "installations"
             params["credentials"] = installationId
             let urlRequest = Router<BouncerBaseURL>.Create(endpoint: SessionRouter.endpoint, params: params,
-                                                           encoding: nil).URLRequest
+                                                 encoding: nil).URLRequest
+            // create installation requires not to add Authorization header
+            urlRequest.setValue(nil, forHTTPHeaderField: "Authorization")
             return urlRequest
+        case let .UpdateUser(userToken):
+            var params: [String: AnyObject] = [:]
+            params["provider"] = "renew-letgo"
+            params["credentials"] = userToken
+            let urlRequest = Router<BouncerBaseURL>.Create(endpoint: SessionRouter.endpoint, params: params,
+                                                           encoding: nil).URLRequest
+            // renew requires not to add Authorization header
+            urlRequest.setValue(nil, forHTTPHeaderField: "Authorization")
+            return urlRequest
+
         case .Delete(let userToken):
             return Router<BouncerBaseURL>.Delete(endpoint: SessionRouter.endpoint, objectId: userToken).URLRequest
         }

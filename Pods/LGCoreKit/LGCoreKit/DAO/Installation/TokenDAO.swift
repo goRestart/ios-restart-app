@@ -13,6 +13,7 @@ protocol TokenDAO {
     func save(token: Token)
     func get(level level: AuthLevel) -> Token?
     func reset()
+    func deleteInstallationToken()
     func deleteUserToken()
 }
 
@@ -22,5 +23,10 @@ extension TokenDAO {
     }
     var value: String? {
         return token.value
+    }
+
+    func reset() {
+        deleteInstallationToken()
+        deleteUserToken()
     }
 }
