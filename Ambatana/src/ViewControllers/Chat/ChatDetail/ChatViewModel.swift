@@ -649,8 +649,13 @@ extension ChatViewModel {
     private func markProductAsSold() {
         guard conversation.value.amISelling else { return }
         guard let productId = conversation.value.product?.objectId else { return }
+        delegate?.vmShowLoading(nil)
         productRepository.markProductAsSold(productId) { [weak self] result in
-            self?.refreshConversation()
+            let errorMessage: String? = result.error != nil ? LGLocalizedString.productMarkAsSoldErrorGeneric : nil
+            self?.delegate?.vmHideLoading(errorMessage) {
+                guard let _ = result.value else { return }
+                self?.refreshConversation()
+            }
         }
     }
 }

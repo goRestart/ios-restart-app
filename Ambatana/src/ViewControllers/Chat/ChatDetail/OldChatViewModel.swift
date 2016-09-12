@@ -930,14 +930,17 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     }
     
     private func markProductAsSold() {
+        delegate?.vmShowLoading(nil)
         productRepository.markProductAsSold(product) { [weak self] result in
-            guard let strongSelf = self else { return }
-            if let value = result.value {
-                strongSelf.product = value
-                strongSelf.delegate?.vmDidUpdateProduct(messageToShow: LGLocalizedString.productMarkAsSoldSuccessMessage)
-                strongSelf.delegate?.vmUpdateRelationInfoView(strongSelf.chatStatus)
-            } else {
-                strongSelf.delegate?.vmShowMessage(LGLocalizedString.productMarkAsSoldErrorGeneric, completion: nil)
+            self?.delegate?.vmHideLoading(nil) { [weak self] in
+                guard let strongSelf = self else { return }
+                if let value = result.value {
+                    strongSelf.product = value
+                    strongSelf.delegate?.vmDidUpdateProduct(messageToShow: LGLocalizedString.productMarkAsSoldSuccessMessage)
+                    strongSelf.delegate?.vmUpdateRelationInfoView(strongSelf.chatStatus)
+                } else {
+                    strongSelf.delegate?.vmShowMessage(LGLocalizedString.productMarkAsSoldErrorGeneric, completion: nil)
+                }
             }
         }
     }
