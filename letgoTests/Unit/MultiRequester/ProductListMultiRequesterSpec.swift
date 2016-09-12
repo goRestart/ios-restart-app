@@ -16,7 +16,7 @@ class ProductListMultiRequesterSpec: QuickSpec {
     override func spec() {
         var sut: ProductListMultiRequester!
 
-        fdescribe("last page") {
+        describe("last page") {
             context("only one requester") {
                 beforeEach {
                     let requester = MockProductListRequester(canRetrieve: true, offset: 0, pageSize: 20)
