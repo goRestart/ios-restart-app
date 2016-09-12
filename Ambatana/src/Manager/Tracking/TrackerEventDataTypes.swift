@@ -57,6 +57,7 @@ public enum EventName: String {
     case ProductSellError                   = "product-sell-error"
     case ProductSellErrorClose              = "product-sell-error-close"
     case ProductSellErrorPost               = "product-sell-error-post"
+    case ProductSellErrorData               = "product-sell-error-data"
     case ProductSellConfirmation            = "product-sell-confirmation"
     case ProductSellConfirmationPost        = "product-sell-confirmation-post"
     case ProductSellConfirmationClose       = "product-sell-confirmation-close"
