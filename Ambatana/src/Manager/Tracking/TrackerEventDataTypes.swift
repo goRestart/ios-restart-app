@@ -398,7 +398,7 @@ public enum EventParameterLoginError {
 public enum EventParameterPostProductError {
     case Network
     case Internal
-    case ServerError(code: String)
+    case ServerError(code: Int)
 
     var description: String {
         switch self {
@@ -411,7 +411,7 @@ public enum EventParameterPostProductError {
         }
     }
 
-    var details: String? {
+    var details: Int? {
         switch self {
         case .Network, .Internal:
             return nil

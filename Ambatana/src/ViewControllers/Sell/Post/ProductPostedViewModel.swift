@@ -248,6 +248,18 @@ class ProductPostedViewModel: BaseViewModel {
                     let event = TrackerEvent.productSellComplete24h(postedProduct)
                     strongSelf.trackEvent(event)
                 }
+            } else if let error = result.error {
+                let sellError: EventParameterPostProductError
+                switch error {
+                case .Network:
+                    sellError = .Network
+                case let .ServerError(code):
+                    sellError = .ServerError(code: code)
+                case .NotFound, .Forbidden, .Unauthorized, .TooManyRequests, .UserNotVerified, .Internal:
+                    sellError = .Internal
+                }
+                let sellErrorDataEvent = TrackerEvent.productSellErrorData(sellError)
+                strongSelf.trackEvent(sellErrorDataEvent)
             }
 
             let status = ProductPostedStatus(result: result)

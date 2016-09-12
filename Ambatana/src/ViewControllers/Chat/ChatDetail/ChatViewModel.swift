@@ -551,7 +551,7 @@ extension ChatViewModel {
                 switch error {
                 case .UserNotVerified:
                     self?.userNotVerifiedError()
-                case .Forbidden, .Internal, .Network, .NotFound, .TooManyRequests, .Unauthorized:
+                case .Forbidden, .Internal, .Network, .NotFound, .TooManyRequests, .Unauthorized, .ServerError:
                     self?.delegate?.vmDidFailSendingMessage()
                 }
             }
@@ -599,7 +599,7 @@ extension ChatViewModel {
                     self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.profileVerifyEmailTooManyRequests, completion: nil)
                 case .Network:
                     self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.commonErrorNetworkBody, completion: nil)
-                case .Forbidden, .Internal, .NotFound, .Unauthorized, .UserNotVerified:
+                case .Forbidden, .Internal, .NotFound, .Unauthorized, .UserNotVerified, .ServerError:
                     self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.commonErrorGenericBody, completion: nil)
                 }
             } else {

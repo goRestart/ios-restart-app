@@ -11,15 +11,16 @@ import LGCoreKit
 import Result
 import RxSwift
 
-enum ProductCreateValidationError: String, ErrorType {
-    case Network = "network"
-    case Internal = "internal"
-    case NoImages = "no images present"
-    case NoTitle  = "no title"
-    case NoPrice = "invalid price"
-    case NoDescription = "no description"
-    case LongDescription = "description too long"
-    case NoCategory = "no category selected"
+enum ProductCreateValidationError: ErrorType {
+    case Network
+    case Internal
+    case NoImages
+    case NoTitle
+    case NoPrice
+    case NoDescription
+    case LongDescription
+    case NoCategory
+    case ServerError(code: Int)
     
     init(repoError: RepositoryError) {
         switch repoError {
@@ -27,8 +28,33 @@ enum ProductCreateValidationError: String, ErrorType {
             self = .Internal
         case .Network:
             self = .Network
+        case let .ServerError(code):
+            self = ServerError(code: code)
         case .NotFound, .Forbidden, .Unauthorized, .TooManyRequests, .UserNotVerified:
             self = .Internal
+        }
+    }
+
+    var description: String {
+        switch self {
+        case Network:
+            return "network"
+        case Internal:
+            return "internal"
+        case NoImages:
+            return "no images present"
+        case NoTitle:
+            return "no title"
+        case NoPrice:
+            return "invalid price"
+        case NoDescription:
+            return "no description"
+        case LongDescription:
+            return "description too long"
+        case NoCategory:
+            return "no category selected"
+        case .ServerError:
+            return "internal server error"
         }
     }
 }
@@ -279,7 +305,7 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
     internal func trackValidationFailedWithError(error: ProductCreateValidationError) {
         let myUser = myUserRepository.myUser
         let event = TrackerEvent.productEditFormValidationFailed(myUser, product: initialProduct,
-                                                                 description: error.rawValue)
+                                                                 description: error.description)
         trackEvent(event)
     }
 
@@ -478,8 +504,22 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
                 strongSelf.trackComplete(actualProduct)
                 strongSelf.delegate?.vmDidFinishSavingProductWithResult(result)
             } else if let error = result.error {
+
+                let sellError: EventParameterPostProductError
+                switch error {
+                case .Network:
+                    sellError = .Network
+                case let .ServerError(code):
+                    sellError = .ServerError(code: code)
+                case .NotFound, .Forbidden, .Unauthorized, .TooManyRequests, .UserNotVerified, .Internal:
+                    sellError = .Internal
+                }
+                let sellErrorDataEvent = TrackerEvent.productSellErrorData(sellError)
+                strongSelf.trackEvent(sellErrorDataEvent)
+
                 let newError = ProductCreateValidationError(repoError: error)
                 strongSelf.delegate?.vmDidFailWithError(newError)
+
             }
         }
         
