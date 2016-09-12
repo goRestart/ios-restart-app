@@ -154,5 +154,6 @@ final class TourLocationViewController: BaseViewController {
         closeButton.accessibilityId = .TourLocationCloseButton
         yesButton.accessibilityId = .TourLocationOKButton
         noButton.accessibilityId = .TourLocationCancelButton
+        alertContainer.accessibilityId = .TourLocationAlert
     }
 }

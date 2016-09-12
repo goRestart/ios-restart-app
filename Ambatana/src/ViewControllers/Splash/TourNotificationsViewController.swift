@@ -171,5 +171,6 @@ final class TourNotificationsViewController: BaseViewController {
         closeButton.accessibilityId = .TourNotificationsCloseButton
         notifyButton.accessibilityId = .TourNotificationsOKButton
         noButton.accessibilityId = .TourNotificationsCancelButton
+        alertContainer.accessibilityId = .TourNotificationsAlert
     }
 }
