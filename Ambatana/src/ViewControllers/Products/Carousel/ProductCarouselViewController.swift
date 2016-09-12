@@ -655,6 +655,8 @@ extension ProductCarouselViewController: ProductCarouselCellDelegate {
             self?.pageControl.alpha = shouldHide ? 0 : 1
             self?.moreInfoTooltip?.alpha = shouldHide ? 0 : 1
             self?.moreInfoView?.dragView.alpha = shouldHide ? 0 : 1
+            self?.favoriteButton.alpha = shouldHide ? 0 : 1
+            self?.stickersButton.alpha = shouldHide ? 0 : 1
             UIApplication.sharedApplication().setStatusBarHidden(shouldHide, withAnimation: .Fade)
         }
     }
