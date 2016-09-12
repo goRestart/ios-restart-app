@@ -98,6 +98,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     let animator: PushAnimator?
     var pendingMovement: CarouselMovement?
 
+    private let carouselImageDownloader: ImageDownloader = ImageDownloader.externalBuildImageDownloader(true)
 
     // MARK: - Lifecycle
 
@@ -662,6 +663,8 @@ extension ProductCarouselViewController: ProductCarouselCellDelegate {
             self?.pageControl.alpha = shouldHide ? 0 : 1
             self?.moreInfoTooltip?.alpha = shouldHide ? 0 : 1
             self?.moreInfoView?.dragView.alpha = shouldHide ? 0 : 1
+            self?.favoriteButton.alpha = shouldHide ? 0 : 1
+            self?.stickersButton.alpha = shouldHide ? 0 : 1
             UIApplication.sharedApplication().setStatusBarHidden(shouldHide, withAnimation: .Fade)
         }
     }
@@ -833,7 +836,7 @@ extension ProductCarouselViewController: UICollectionViewDataSource, UICollectio
             guard let carouselCell = cell as? ProductCarouselCell else { return UICollectionViewCell() }
             guard let product = viewModel.productAtIndex(indexPath.row) else { return carouselCell }
             carouselCell.configureCellWithProduct(product, placeholderImage: viewModel.thumbnailAtIndex(indexPath.row),
-                                                  indexPath: indexPath)
+                                                  indexPath: indexPath, imageDownloader: carouselImageDownloader)
             carouselCell.delegate = self
             return carouselCell
     }

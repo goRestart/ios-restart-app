@@ -49,13 +49,6 @@ struct FeatureFlags {
         }
         return ABTests.showRelatedProducts.value
     }
-    
-    static var showPriceOnListings: Bool {
-        if FTSFlipTheSwitch.overridesABTests {
-            return FTSFlipTheSwitch.showPriceOnListings
-        }
-        return ABTests.showPriceOnListings.value
-    }
 
     static var directStickersOnProduct: Bool {
         if FTSFlipTheSwitch.overridesABTests {
@@ -127,10 +120,6 @@ private extension FTSFlipTheSwitch {
     
     static var showRelatedProducts: Bool {
         return FTSFlipTheSwitch.sharedInstance().isFeatureEnabled("show_related_products")
-    }
-    
-    static var showPriceOnListings: Bool {
-        return FTSFlipTheSwitch.sharedInstance().isFeatureEnabled("show_price_listings")
     }
 
     static var directStickersOnProduct: Bool {

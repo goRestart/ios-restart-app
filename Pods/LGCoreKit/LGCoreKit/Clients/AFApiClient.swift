@@ -8,6 +8,7 @@
 
 import Alamofire
 import Result
+import RxSwift
 
 public enum ConflictCause {
 
@@ -32,6 +33,7 @@ public enum ConflictCause {
         }
     }
 }
+
 
 public enum ApiError: ErrorType {
     // errorCode references NSURLError codes (i.e. NSURLErrorUnknown)
@@ -129,6 +131,10 @@ class AFApiClient: ApiClient {
     var renewingInstallation: Bool
     let installationQueue: NSOperationQueue
 
+    let renewingUser = Variable<Bool>(false)
+    var userQueue: NSOperationQueue
+
+
     // MARK: - Lifecycle
     
     init(alamofireManager: Manager, tokenDAO: TokenDAO) {
@@ -136,8 +142,11 @@ class AFApiClient: ApiClient {
         self.tokenDAO = tokenDAO
         self.renewingInstallation = false
         self.installationQueue = NSOperationQueue()
+        self.renewingUser.value = false
+        self.userQueue = NSOperationQueue()
 
         installationQueue.maxConcurrentOperationCount = 1
+        userQueue.maxConcurrentOperationCount = 1
     }
 
     
@@ -146,14 +155,13 @@ class AFApiClient: ApiClient {
     func privateRequest<T>(req: URLRequestAuthenticable, decoder: AnyObject -> T?,
         completion: ((ResultResult<T, ApiError>.t) -> ())?) {
 
-            logMessage(.Verbose, type: CoreLoggingOptions.Networking, message: req.logMessage)
-
-            alamofireManager.request(req).validate(statusCode: req.acceptedStatus).responseObject(decoder) {
-                [weak self] (response: Response<T, NSError>) in
-                self?.handlePrivateApiErrorResponse(req, response: response, completion: completion)
-            }
+        logMessage(.Verbose, type: CoreLoggingOptions.Networking, message: req.logMessage)
+        alamofireManager.request(req).validate(statusCode: req.acceptedStatus).responseObject(decoder) {
+            [weak self] (response: Response<T, NSError>) in
+            self?.handlePrivateApiResponse(req, decoder: decoder, response: response, completion: completion)
+        }
     }
-    
+
     func upload<T>(request: URLRequestAuthenticable, decoder: AnyObject -> T?,
         multipart: MultipartFormData -> Void, completion: ((ResultResult<T, ApiError>.t) -> ())?,
         progress: ((written: Int64, totalWritten: Int64, totalExpectedToWrite: Int64) -> Void)?) {

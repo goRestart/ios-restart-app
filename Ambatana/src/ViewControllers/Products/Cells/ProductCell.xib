@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
-        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -16,97 +15,32 @@
                 <rect key="frame" x="0.0" y="0.0" width="153" height="193.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="ic_product_shadow" translatesAutoresizingMaskIntoConstraints="NO" id="3Rs-4R-xUN">
-                        <rect key="frame" x="1" y="1" width="151" height="192"/>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_product_shadow" translatesAutoresizingMaskIntoConstraints="NO" id="3Rs-4R-xUN">
+                        <rect key="frame" x="-4" y="-4" width="161" height="202"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </imageView>
-                    <view clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="U25-jS-eMH" userLabel="cellContent">
-                        <rect key="frame" x="5" y="5" width="143" height="184"/>
+                    <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="U25-jS-eMH" userLabel="cellContent">
+                        <rect key="frame" x="0.0" y="0.0" width="153" height="194"/>
                         <subviews>
-                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jgH-1b-N7M" userLabel="Thumbnail Bg Color View">
-                                <rect key="frame" x="0.0" y="0.0" width="143" height="150"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jgH-1b-N7M" userLabel="Thumbnail Bg Color View">
+                                <rect key="frame" x="0.0" y="0.0" width="153" height="194"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
-                            <imageView userInteractionEnabled="NO" tag="3" contentMode="scaleAspectFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="afm-Cf-H6I" userLabel="Thumbnail Image View">
-                                <rect key="frame" x="0.0" y="0.0" width="143" height="150"/>
+                            <imageView userInteractionEnabled="NO" tag="3" contentMode="scaleAspectFill" translatesAutoresizingMaskIntoConstraints="NO" id="afm-Cf-H6I" userLabel="Thumbnail Image View">
+                                <rect key="frame" x="0.0" y="0.0" width="153" height="194"/>
                                 <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                             </imageView>
-                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="q07-IL-PD5" userLabel="priceGradientView">
-                                <rect key="frame" x="0.0" y="80" width="143" height="70"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="70" id="TeD-Io-n7I"/>
-                                </constraints>
-                            </view>
-                            <label userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" misplaced="YES" text="$500" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Q3S-98-0Z1" userLabel="Price Label">
-                                <rect key="frame" x="8" y="125" width="127" height="17"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <view clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Kug-w2-pWI" userLabel="buttonsContainer">
-                                <rect key="frame" x="0.0" y="150" width="143" height="34"/>
-                                <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JFh-08-dYV" userLabel="likeBtn">
-                                        <rect key="frame" x="0.0" y="0.0" width="48" height="34"/>
-                                        <state key="normal" image="ic_product_like_off"/>
-                                        <connections>
-                                            <action selector="onDirectLikeBtn:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="IbS-KH-cIP"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="p3Q-eG-7YE" userLabel="shareBtn">
-                                        <rect key="frame" x="45" y="-2" width="47" height="34"/>
-                                        <state key="normal" image="ic_product_share"/>
-                                        <connections>
-                                            <action selector="onDirectShareBtn:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="0Dn-dc-xE1"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lo1-3n-nzY" userLabel="msgBtn">
-                                        <rect key="frame" x="98" y="0.0" width="48" height="34"/>
-                                        <state key="normal" image="ic_product_chat"/>
-                                        <connections>
-                                            <action selector="onDirectChatBtn:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="q3M-X9-XO2"/>
-                                        </connections>
-                                    </button>
-                                </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstItem="Lo1-3n-nzY" firstAttribute="centerY" secondItem="Kug-w2-pWI" secondAttribute="centerY" id="8UA-pz-s5A"/>
-                                    <constraint firstItem="JFh-08-dYV" firstAttribute="height" secondItem="Kug-w2-pWI" secondAttribute="height" id="DqW-ec-M1T"/>
-                                    <constraint firstItem="Lo1-3n-nzY" firstAttribute="height" secondItem="Kug-w2-pWI" secondAttribute="height" id="Iyq-2a-vEO"/>
-                                    <constraint firstAttribute="trailing" secondItem="Lo1-3n-nzY" secondAttribute="trailing" id="Kbp-gV-hdO"/>
-                                    <constraint firstItem="Lo1-3n-nzY" firstAttribute="width" secondItem="Kug-w2-pWI" secondAttribute="width" multiplier="0.33" id="NOX-QL-BbW"/>
-                                    <constraint firstItem="JFh-08-dYV" firstAttribute="leading" secondItem="Kug-w2-pWI" secondAttribute="leading" id="OWt-1l-uR1"/>
-                                    <constraint firstItem="JFh-08-dYV" firstAttribute="width" secondItem="Kug-w2-pWI" secondAttribute="width" multiplier="0.33" id="gaC-fO-wpP"/>
-                                    <constraint firstItem="p3Q-eG-7YE" firstAttribute="centerX" secondItem="Kug-w2-pWI" secondAttribute="centerX" id="h4U-Tf-Eon"/>
-                                    <constraint firstItem="p3Q-eG-7YE" firstAttribute="height" secondItem="Kug-w2-pWI" secondAttribute="height" id="i5L-Nc-1tu"/>
-                                    <constraint firstItem="p3Q-eG-7YE" firstAttribute="centerY" secondItem="Kug-w2-pWI" secondAttribute="centerY" constant="-2" id="opn-lJ-cf4"/>
-                                    <constraint firstAttribute="height" constant="34" id="qKP-Py-8f0"/>
-                                    <constraint firstItem="p3Q-eG-7YE" firstAttribute="width" secondItem="Kug-w2-pWI" secondAttribute="width" multiplier="0.33" id="tp1-lB-rcJ"/>
-                                    <constraint firstItem="JFh-08-dYV" firstAttribute="centerY" secondItem="Kug-w2-pWI" secondAttribute="centerY" id="wfS-Ls-M2p"/>
-                                </constraints>
-                            </view>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="Kug-w2-pWI" firstAttribute="leading" secondItem="U25-jS-eMH" secondAttribute="leading" id="0Pu-1y-4ot"/>
-                            <constraint firstAttribute="trailing" secondItem="Kug-w2-pWI" secondAttribute="trailing" id="5cJ-Xp-omB"/>
-                            <constraint firstAttribute="trailing" secondItem="q07-IL-PD5" secondAttribute="trailing" id="Dqf-VZ-eGE"/>
                             <constraint firstItem="jgH-1b-N7M" firstAttribute="trailing" secondItem="afm-Cf-H6I" secondAttribute="trailing" id="G2N-su-yx0"/>
                             <constraint firstItem="afm-Cf-H6I" firstAttribute="top" secondItem="U25-jS-eMH" secondAttribute="top" id="LIL-tR-5tN"/>
-                            <constraint firstItem="Q3S-98-0Z1" firstAttribute="bottom" secondItem="afm-Cf-H6I" secondAttribute="bottom" constant="-8" id="SWe-WU-CbZ"/>
                             <constraint firstItem="jgH-1b-N7M" firstAttribute="top" secondItem="afm-Cf-H6I" secondAttribute="top" id="Tf3-nL-xUY"/>
-                            <constraint firstItem="q07-IL-PD5" firstAttribute="leading" secondItem="U25-jS-eMH" secondAttribute="leading" id="UQa-vH-e5v"/>
-                            <constraint firstItem="Kug-w2-pWI" firstAttribute="top" secondItem="q07-IL-PD5" secondAttribute="bottom" id="Uz1-Oh-Y5O"/>
                             <constraint firstItem="jgH-1b-N7M" firstAttribute="bottom" secondItem="afm-Cf-H6I" secondAttribute="bottom" id="Wcb-Z4-cFs"/>
                             <constraint firstItem="jgH-1b-N7M" firstAttribute="leading" secondItem="afm-Cf-H6I" secondAttribute="leading" id="cvz-k4-AoH"/>
                             <constraint firstItem="afm-Cf-H6I" firstAttribute="leading" secondItem="U25-jS-eMH" secondAttribute="leading" id="e5s-hZ-XYg"/>
-                            <constraint firstItem="Q3S-98-0Z1" firstAttribute="leading" secondItem="afm-Cf-H6I" secondAttribute="leading" constant="8" id="iFR-WK-sUE"/>
+                            <constraint firstAttribute="bottom" secondItem="afm-Cf-H6I" secondAttribute="bottom" id="fkm-Ml-b1d"/>
                             <constraint firstAttribute="trailing" secondItem="afm-Cf-H6I" secondAttribute="trailing" id="lJS-K5-tI7"/>
-                            <constraint firstItem="Q3S-98-0Z1" firstAttribute="trailing" secondItem="afm-Cf-H6I" secondAttribute="trailing" constant="-8" id="x8D-A0-57u"/>
-                            <constraint firstAttribute="bottom" secondItem="Kug-w2-pWI" secondAttribute="bottom" id="xJj-Os-0Xa"/>
-                            <constraint firstItem="Kug-w2-pWI" firstAttribute="top" secondItem="afm-Cf-H6I" secondAttribute="bottom" id="zhe-yB-gka"/>
                         </constraints>
                     </view>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="stripe_white" translatesAutoresizingMaskIntoConstraints="NO" id="RTJ-Uh-fyf">
@@ -119,8 +53,8 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Kca-PV-MAN">
                         <rect key="frame" x="101" y="14" width="63" height="24"/>
                         <subviews>
-                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="riv-Mj-pVV" userLabel="Stripe Info Container View">
-                                <rect key="frame" x="15" y="0.0" width="30" height="24"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="riv-Mj-pVV" userLabel="Stripe Info Container View">
+                                <rect key="frame" x="14" y="0.0" width="31" height="24"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1h" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.59999999999999998" translatesAutoresizingMaskIntoConstraints="NO" id="h6x-Ls-H2g" userLabel="Stripe Label">
                                         <rect key="frame" x="17" y="0.0" width="14" height="24"/>
@@ -189,14 +123,8 @@
             </tableViewCellContentView>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <connections>
-                <outlet property="buttonsContainerHeight" destination="qKP-Py-8f0" id="iF9-GH-ena"/>
                 <outlet property="cellContent" destination="U25-jS-eMH" id="ybK-mq-hS3"/>
-                <outlet property="chatButton" destination="Lo1-3n-nzY" id="1pz-7M-kgz"/>
-                <outlet property="likeButton" destination="JFh-08-dYV" id="VAl-EE-ZJE"/>
-                <outlet property="priceGradientView" destination="q07-IL-PD5" id="hgE-bb-EUM"/>
-                <outlet property="priceLabel" destination="Q3S-98-0Z1" id="gsi-wX-8gC"/>
                 <outlet property="shadowImage" destination="3Rs-4R-xUN" id="8vG-e6-hfF"/>
-                <outlet property="shareButton" destination="p3Q-eG-7YE" id="NiN-3Z-cfy"/>
                 <outlet property="stripeIcon" destination="wEc-7h-s7X" id="sTe-Rv-dpS"/>
                 <outlet property="stripeIconWidth" destination="IFQ-gE-Ewv" id="vZh-Sd-V7R"/>
                 <outlet property="stripeImageView" destination="RTJ-Uh-fyf" id="hIc-JI-WFh"/>
@@ -209,10 +137,7 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="ic_product_chat" width="16" height="16"/>
-        <image name="ic_product_like_off" width="15" height="15"/>
         <image name="ic_product_shadow" width="23" height="23"/>
-        <image name="ic_product_share" width="14" height="18"/>
         <image name="stripe_white" width="70" height="70"/>
     </resources>
 </document>

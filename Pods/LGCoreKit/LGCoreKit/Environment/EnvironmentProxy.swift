@@ -48,5 +48,6 @@ class EnvironmentProxy: Environment {
     var bouncerBaseURL: String { return environment.bouncerBaseURL }
     var commercializerBaseURL: String { return environment.commercializerBaseURL }
     var userRatingsBaseURL: String { return environment.userRatingsBaseURL }
+    var chatBaseURL: String { return environment.chatBaseURL }
     var webSocketURL: String { return environment.webSocketURL }
 }

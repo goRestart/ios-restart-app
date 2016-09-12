@@ -13,7 +13,7 @@ class ChatMyMessageCellDrawer: BaseChatCellDrawer<ChatMyMessageCell> {
     
     override func draw(cell: ChatMyMessageCell, message: ChatViewMessage, delegate: AnyObject?) {
         cell.messageLabel.text = message.value ?? ""
-        cell.dateLabel.text = message.sentAt?.relativeTimeString(false)
+        cell.dateLabel.text = message.sentAt?.formattedTime()
         cell.checkImageView.image = nil
         drawCheckForMessage(cell, message: message)
     }

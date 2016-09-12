@@ -84,6 +84,7 @@ struct Constants {
     // Product Detail
     static let minimumStatsCountToShow = 5
     static let maxCharactersOnUserNameChatButton = 12
+    static let imageRequestPoolCapacity = 15
     
     // User
     static let maxUserNameLength = 18
@@ -102,4 +103,7 @@ struct Constants {
 
     // interested bubble
     static let maxInterestedBubblesPerSession = 2
+
+    // Websocket chat 
+    static let websocketChatDisconnectTimeout: NSTimeInterval = 15
 }

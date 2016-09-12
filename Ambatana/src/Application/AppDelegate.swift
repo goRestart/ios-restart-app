@@ -25,21 +25,22 @@ import Firebase
 
 @UIApplicationMain
 final class AppDelegate: UIResponder {
-    var window: UIWindow?
+    private var window: UIWindow?
 
-    var configManager: ConfigManager?
-    var crashManager: CrashManager?
-    var keyValueStorage: KeyValueStorage?
+    private var configManager: ConfigManager?
+    private var crashManager: CrashManager?
+    private var keyValueStorage: KeyValueStorage?
 
-    var productRepository: ProductRepository?
-    var reporter: ReporterProxy?
-    var locationManager: LocationManager?
+    private var productRepository: ProductRepository?
+    private var locationManager: LocationManager?
+    private var chatRepository: ChatRepository?
 
     private var navigator: AppNavigator?
 
     private let appIsActive = Variable<Bool?>(nil)
     private var didOpenApp = false
     private let disposeBag = DisposeBag()
+    private var disconnectChatTimer = NSTimer()
 }
 
 
@@ -48,16 +49,13 @@ final class AppDelegate: UIResponder {
 extension AppDelegate: UIApplicationDelegate {
     func application(application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        productRepository = Core.productRepository
-        reporter = Core.reporter
-        locationManager = Core.locationManager
-        
         ABTests.registerVariables()
 
         setupAppearance()
         setupLibraries(application, launchOptions: launchOptions)
-        setupRxBindings()
-
+        self.productRepository = Core.productRepository
+        self.locationManager = Core.locationManager
+        self.chatRepository = Core.chatRepository
         self.configManager = ConfigManager.sharedInstance
 
         let keyValueStorage = KeyValueStorage.sharedInstance
@@ -69,6 +67,7 @@ extension AppDelegate: UIApplicationDelegate {
         self.crashManager = crashManager
         self.keyValueStorage = keyValueStorage
 
+        setupRxBindings()
         crashCheck()
 
         LGCoreKit.start()
@@ -246,7 +245,6 @@ private extension AppDelegate {
             DDTTYLogger.sharedInstance().colorsEnabled =  true
             DDLog.addLogger(DDASLLogger.sharedInstance())       // ASL = Apple System Logs
         #endif
-        DDLog.addLogger(CrashlyticsLogger.sharedInstance)
 
         // Fabric
         Twitter.sharedInstance().startWithConsumerKey(EnvironmentProxy.sharedInstance.twitterConsumerKey,
@@ -255,11 +253,12 @@ private extension AppDelegate {
             Fabric.with([Twitter.self])
         #else
             Fabric.with([Crashlytics.self, Twitter.self])
+            Core.reporter.addReporter(CrashlyticsReporter())
+            DDLog.addLogger(CrashlyticsLogger.sharedInstance)
         #endif
 
         // LGCoreKit
         LGCoreKit.initialize(launchOptions, environmentType: environmentHelper.coreEnvironment)
-        reporter?.addReporter(CrashlyticsReporter())
 
         // Branch.io
         if let branch = Branch.getInstance() {
@@ -283,6 +282,7 @@ private extension AppDelegate {
 
         CommercializerManager.sharedInstance.setup()
         NotificationsManager.sharedInstance.setup()
+        StickersManager.sharedInstance.setup()
     }
 }
 
@@ -290,7 +290,6 @@ private extension AppDelegate {
 
 private extension AppDelegate {
     func setupRxBindings() {
-
         // Start location updates when app is active and indicated by sensorLocationUpdatesEnabled signal flag
         let appActive = appIsActive.asObservable().flatMap { x in
             return x.map(Observable.just) ?? Observable.empty()
@@ -300,10 +299,15 @@ private extension AppDelegate {
         appActive.asObservable().distinctUntilChanged().filter { [weak self] active in
             (self?.didOpenApp ?? false)
         }.subscribeNext { [weak self] enabled in
+            guard let `self` = self else { return }
             if enabled {
-                self?.locationManager?.startSensorLocationUpdates()
+                self.disconnectChatTimer.invalidate()
+                self.locationManager?.startSensorLocationUpdates()
+                self.chatRepository?.openAndAuthenticate(nil)
             } else {
-                self?.locationManager?.stopSensorLocationUpdates()
+                self.locationManager?.stopSensorLocationUpdates()
+                self.disconnectChatTimer = NSTimer.scheduledTimerWithTimeInterval(Constants.websocketChatDisconnectTimeout,
+                    target: self, selector: #selector(self.disconnectChat), userInfo: nil, repeats: false)
             }
         }.addDisposableTo(disposeBag)
 
@@ -313,6 +317,10 @@ private extension AppDelegate {
                 self?.navigator?.openForceUpdateAlertIfNeeded()
             }
         }.addDisposableTo(disposeBag)
+    }
+    
+    @objc func disconnectChat() {
+        self.chatRepository?.close(nil)
     }
 }
 

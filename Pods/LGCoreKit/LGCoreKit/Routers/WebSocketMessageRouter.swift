@@ -37,4 +37,10 @@ struct WebSocketMessageRouter {
         let message = WebSocketRouter.requestWith(uuid, type: .FetchMessagesOlderThan, data: data)
         return WebSocketMessageRequest(message: message, uuid: uuid, type: .FetchMessagesOlderThan)
     }
+    
+    func pingMessage() -> WebSocketMessageRequest {
+        let uuid = uuidGenerator.UUIDString
+        let message = WebSocketRouter.requestWith(uuid, type: .Ping, data: nil)
+        return WebSocketMessageRequest(message: message, uuid: uuid, type: .Ping)
+    }
 }

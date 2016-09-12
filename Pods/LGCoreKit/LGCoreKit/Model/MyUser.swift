@@ -9,6 +9,7 @@
 public protocol MyUser: User {
     var email: String? { get }
     var location: LGLocation? { get }
+    var localeIdentifier: String? { get }
 }
 
 public extension MyUser {

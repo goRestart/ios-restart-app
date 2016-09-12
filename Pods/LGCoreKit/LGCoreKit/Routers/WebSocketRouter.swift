@@ -28,6 +28,7 @@ enum WebSocketRequestType: String {
     case FetchMessages          = "fetch_messages"
     case FetchMessagesNewerThan = "fetch_messages_newer_than_id"
     case FetchMessagesOlderThan = "fetch_messages_older_than_id"
+    case Ping                   = "ping"
     
     enum RequestSuperType {
         case Command
@@ -43,17 +44,20 @@ enum WebSocketRequestType: String {
         case .TypingStarted, .TypingStopped:
             return .Event
         case .FetchConversations, .ConversationDetails, .FetchConversationID, .FetchMessages, .FetchMessagesNewerThan,
-        .FetchMessagesOlderThan:
+        .FetchMessagesOlderThan, Ping:
             return .Query
         }
     }
 }
 
 struct WebSocketRouter {
-    static func requestWith(id: String, type: WebSocketRequestType, data: [String : AnyObject]) -> String {
-        let dict = ["id" : id, "type" : type.rawValue, "data": data]
+    static func requestWith(id: String, type: WebSocketRequestType, data: [String : AnyObject]?) -> String {
+        var dict: [String : AnyObject] = [:]
+        dict["id"] = id
+        dict["type"] = type.rawValue
+        dict["data"] = data
         guard let JSONData = try? NSJSONSerialization.dataWithJSONObject(dict, options: [.PrettyPrinted]),
-            let JSONText = NSString(data: JSONData, encoding: NSASCIIStringEncoding)
+            let JSONText = NSString(data: JSONData, encoding: NSUTF8StringEncoding)
             else { return "" }
         return String(JSONText)
     }

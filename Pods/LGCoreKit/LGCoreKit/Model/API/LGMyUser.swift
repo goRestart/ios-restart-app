@@ -11,6 +11,30 @@ import CoreLocation
 import Curry
 import Foundation
 
+protocol LGMyUserKeys {
+    var objectId: String { get }
+    var name: String { get }
+    var email: String { get }
+    var latitude: String { get }
+    var longitude: String { get }
+    var locationType: String { get }
+    var avatar: String { get }
+    var address: String { get }
+    var city: String { get }
+    var zipCode: String { get }
+    var countryCode: String { get }
+    var ratingAverage: String { get }
+    var ratingCount: String { get }
+    var accounts: String { get }
+    var status: String { get }
+    var localeIdentifier: String { get }
+}
+
+protocol LGMyUserApiKeys: LGMyUserKeys {
+    var password: String { get }
+    var newsletter: String { get }
+}
+
 
 // MARK: - LGMyUser
 
@@ -30,9 +54,11 @@ struct LGMyUser: MyUser {
     // MyUser
     var email: String?
     var location: LGLocation?
+    var localeIdentifier: String?
 
     init(objectId: String?, name: String?, avatar: File?, postalAddress: PostalAddress, accounts: [LGAccount]?,
-         ratingAverage: Float?, ratingCount: Int?, status: UserStatus?, email: String?, location: LGLocation?) {
+         ratingAverage: Float?, ratingCount: Int?, status: UserStatus?, email: String?, location: LGLocation?,
+         localeIdentifier: String?) {
         self.objectId = objectId
 
         self.name = name
@@ -47,6 +73,7 @@ struct LGMyUser: MyUser {
 
         self.email = email
         self.location = location
+        self.localeIdentifier = localeIdentifier
     }
 }
 
@@ -54,24 +81,25 @@ struct LGMyUser: MyUser {
 // MARK: - Decodable
 
 extension LGMyUser: Decodable {
-    struct JSONKeys {
-        static let objectId = "id"
-        static let name = "name"
-        static let email = "email"
-        static let password = "password"
-        static let latitude = "latitude"
-        static let longitude = "longitude"
-        static let locationType = "location_type"
-        static let avatar = "avatar_url"
-        static let address = "address"
-        static let city = "city"
-        static let zipCode = "zip_code"
-        static let countryCode = "country_code"
-        static let newsletter = "newsletter"
-        static let ratingAverage = "rating_value"
-        static let ratingCount = "num_ratings"
-        static let accounts = "accounts"
-        static let status = "status"
+    struct ApiMyUserKeys: LGMyUserApiKeys {
+        let objectId = "id"
+        let name = "name"
+        let email = "email"
+        let password = "password"
+        let latitude = "latitude"
+        let longitude = "longitude"
+        let locationType = "location_type"
+        let avatar = "avatar_url"
+        let address = "address"
+        let city = "city"
+        let zipCode = "zip_code"
+        let countryCode = "country_code"
+        let newsletter = "newsletter"
+        let ratingAverage = "rating_value"
+        let ratingCount = "num_ratings"
+        let accounts = "accounts"
+        let status = "status"
+        let localeIdentifier = "locale"
     }
 
     /**
@@ -90,7 +118,7 @@ extension LGMyUser: Decodable {
     	"city": "New York",
     	"country_code": "US",
     	"is_richy": false,
-        "rating_value": "number"|null,
+        "rating_value": "number|null",
         "num_ratings": "integer",
     	"accounts": [{
     		"type": "facebook",
@@ -98,26 +126,33 @@ extension LGMyUser: Decodable {
     	}, {
     		"type": "letgo",
     		"verified": true
-    	}]
+    	}],
+        "locale": "string|null"
     }
     */
     static func decode(j: JSON) -> Decoded<LGMyUser> {
-        let init1 = curry(LGMyUser.init)
-                            <^> j <|? JSONKeys.objectId
-                            <*> j <|? JSONKeys.name
-                            <*> LGArgo.jsonToAvatarFile(j, avatarKey: JSONKeys.avatar)
-                            <*> PostalAddress.decode(j)
-        let init2 = init1   <*> j <||? JSONKeys.accounts
-                            <*> j <|? JSONKeys.ratingAverage
-                            <*> j <|? JSONKeys.ratingCount
-                            <*> j <|? JSONKeys.status
-                            <*> j <|? JSONKeys.email
-                            <*> LGArgo.jsonToLocation(j, latKey: JSONKeys.latitude, lonKey: JSONKeys.longitude,
-                                      typeKey: JSONKeys.locationType)
+        return decode(j, keys: ApiMyUserKeys())
+    }
 
-        if let error = init2.error {
+    static func decode(j: JSON, keys: LGMyUserApiKeys) -> Decoded<LGMyUser> {
+        let init1 = curry(LGMyUser.init)
+                            <^> j <|? keys.objectId
+                            <*> j <|? keys.name
+                            <*> LGArgo.jsonToAvatarFile(j, avatarKey: keys.avatar)
+                            <*> PostalAddress.decode(j)
+        let init2 = init1   <*> j <||? keys.accounts
+                            <*> j <|? keys.ratingAverage
+                            <*> j <|? keys.ratingCount
+                            <*> j <|? keys.status
+        let init3 = init2   <*> j <|? keys.email
+                            <*> LGArgo.jsonToLocation(j, latKey: keys.latitude, lonKey: keys.longitude,
+                                      typeKey: keys.locationType)
+                            <*> j <|? keys.localeIdentifier
+
+
+        if let error = init3.error {
             logMessage(.Error, type: CoreLoggingOptions.Parsing, message: "LGMyUser parse error: \(error)")
         }
-        return init2
+        return init3
     }
 }

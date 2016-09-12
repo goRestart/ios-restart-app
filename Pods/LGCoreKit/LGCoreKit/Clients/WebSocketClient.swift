@@ -31,6 +31,11 @@ enum WebSocketError: ErrorType {
 
 protocol WebSocketClient {
     var eventBus: PublishSubject<ChatEvent> { get }
+    var socketStatus: Variable<WebSocketStatus> { get }
+    
+    func suspendOperations()
+    func resumeOperations()
+
     func startWebSocket(endpoint: String, completion: (() -> ())?)
     func closeWebSocket(completion: (() -> ())?)
     func sendQuery(request: WebSocketQueryRequestConvertible, completion: (Result<[String: AnyObject], WebSocketError> -> Void)?)

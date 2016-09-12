@@ -11,7 +11,7 @@ import Curry
 
 struct LGChatEvent: ChatEvent {
     var objectId: String?
-    var conversationId: String
+    var conversationId: String?
     var type: ChatEventType
 }
 
@@ -27,7 +27,7 @@ extension LGChatEvent: Decodable {
     static func decode(j: JSON) -> Decoded<LGChatEvent> {
         let result = curry(LGChatEvent.init)
             <^> j <|? "id"
-            <*> j <| ["data", "conversation_id"]
+            <*> j <|? ["data", "conversation_id"]
             <*> ChatEventType.decode(j)
         
         if let error = result.error {
@@ -104,6 +104,10 @@ extension ChatEventType: Decodable {
             result = curry(ChatEventType.InterlocutorReadConfirmed)
                 <^> j <|| ["data", "message_ids"]
             return result
+        
+        case "authentication_token_expired":
+            return Decoded<ChatEventType>.Success(.AuthenticationTokenExpired)
+            
             
         default:
             return Decoded<NotificationType>.fromOptional(nil)

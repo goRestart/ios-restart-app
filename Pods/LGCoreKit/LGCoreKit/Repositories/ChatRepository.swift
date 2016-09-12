@@ -8,6 +8,7 @@
 
 import Result
 import RxSwift
+import ReachabilitySwift
 
 public typealias ChatMessagesResult = Result<[ChatMessage], RepositoryError>
 public typealias ChatMessagesCompletion = ChatMessagesResult -> Void
@@ -21,11 +22,17 @@ public typealias ChatConversationCompletion = ChatConversationResult -> Void
 public typealias ChatCommandResult = Result<Void, RepositoryError>
 public typealias ChatCommandCompletion = ChatCommandResult -> Void
 
+public typealias ChatUnreadMessagesResult = Result<ChatUnreadMessages, RepositoryError>
+public typealias ChatUnreadMessagesCompletion = ChatUnreadMessagesResult -> Void
+
 
 public class ChatRepository {
     let dataSource: ChatDataSource
     let myUserRepository: MyUserRepository
     let webSocketClient: WebSocketClient
+    let reachability: Reachability?
+    public var chatAvailable = Variable<Bool>(false)
+    let disposeBag = DisposeBag()
     
     public var chatEvents: Observable<ChatEvent> {
         return webSocketClient.eventBus.asObservable()
@@ -35,11 +42,50 @@ public class ChatRepository {
         self.dataSource = dataSource
         self.myUserRepository = myUserRepository
         self.webSocketClient = webSocketClient
+        self.reachability = try? Reachability.reachabilityForInternetConnection()
+        configureReachability()
+        setupRx()
+    }
+    
+    func setupRx() {
+        webSocketClient.socketStatus.asObservable().subscribeNext { [weak self] status in
+            switch status {
+            case .Open(let authenticated) where authenticated:
+                self?.chatAvailable.value = true
+            default:
+                self?.chatAvailable.value = false
+            }
+        }.addDisposableTo(disposeBag)
+
+        // Automatically mark as received
+        chatEvents.subscribeNext { [weak self] event in
+            guard let convId = event.conversationId else { return }
+            switch event.type {
+            case let .InterlocutorMessageSent(messageId, _, _, _):
+                self?.confirmReception(convId, messageIds: [messageId], completion: nil)
+            default:
+                return
+            }
+        }.addDisposableTo(disposeBag)
     }
     
     
     // MARK: > Public Methods
     // MARK: - Messages
+    
+    public func openAndAuthenticate(completion: (Result<Void, SessionManagerError> -> ())?) {
+        guard LGCoreKit.activateWebsocket && InternalCore.sessionManager.loggedIn else {
+            completion?(Result<Void, SessionManagerError>(error: .Unauthorized))
+            return
+        }
+        webSocketClient.startWebSocket(EnvironmentProxy.sharedInstance.webSocketURL) {
+            InternalCore.sessionManager.authenticateWebSocket(completion)
+        }
+    }
+    
+    public func close(completion: (() -> ())?) {
+        webSocketClient.closeWebSocket(completion)
+    }
     
     public func createNewMessage(talkerId: String, text: String, type: ChatMessageType) -> ChatMessage {
         let message = LGChatMessage(objectId: LGUUID().UUIDString, talkerId: talkerId, text: text, sentAt: nil,
@@ -49,22 +95,22 @@ public class ChatRepository {
     
     public func indexMessages(conversationId: String, numResults: Int, offset: Int,
                               completion: ChatMessagesCompletion?) {
-        dataSource.indexMessages(conversationId, numResults: numResults, offset: offset) { result in
-            handleWebSocketResult(result, completion: completion)
+        dataSource.indexMessages(conversationId, numResults: numResults, offset: offset) { [weak self] result in
+            self?.handleQueryMessages(conversationId, result: result, completion: completion)
         }
     }
     
     public func indexMessagesNewerThan(messageId: String, conversationId: String, completion: ChatMessagesCompletion?) {
-        dataSource.indexMessagesNewerThan(messageId, conversationId: conversationId) { result in
-            handleWebSocketResult(result, completion: completion)
+        dataSource.indexMessagesNewerThan(messageId, conversationId: conversationId) { [weak self] result in
+            self?.handleQueryMessages(conversationId, result: result, completion: completion)
         }
     }
     
     public func indexMessagesOlderThan(messageId: String, conversationId: String, numResults: Int,
                                        completion: ChatMessagesCompletion?) {
         dataSource.indexMessagesOlderThan(messageId, conversationId: conversationId, numResults: numResults) {
-            result in
-            handleWebSocketResult(result, completion: completion)
+            [weak self] result in
+            self?.handleQueryMessages(conversationId, result: result, completion: completion)
         }
     }
     
@@ -121,12 +167,6 @@ public class ChatRepository {
         }
     }
     
-    public func confirmReception(conversationId: String, messageIds: [String], completion: ChatCommandCompletion?) {
-        dataSource.confirmReception(conversationId, messageIds: messageIds) { result in
-            handleWebSocketResult(result, completion: completion)
-        }
-    }
-    
     public func confirmRead(conversationId: String, messageIds: [String], completion: ChatCommandCompletion?) {
         dataSource.confirmRead(conversationId, messageIds: messageIds) { result in
             handleWebSocketResult(result, completion: completion)
@@ -138,10 +178,29 @@ public class ChatRepository {
             handleWebSocketResult(result, completion: completion)
         }
     }
-    
+
+    func confirmReception(conversationId: String, messageIds: [String], completion: ChatCommandCompletion?) {
+        dataSource.confirmReception(conversationId, messageIds: messageIds) { result in
+            handleWebSocketResult(result, completion: completion)
+        }
+    }
+
     func unarchiveConversations(conversationIds: [String], completion: ChatCommandCompletion?) {
         dataSource.unarchiveConversations(conversationIds) { result in
             handleWebSocketResult(result, completion: completion)
+        }
+    }
+
+
+    // MARK: - Unread counts
+
+    public func chatUnreadMessagesCount(completion: ChatUnreadMessagesCompletion?) {
+        guard let userId = myUserRepository.myUser?.objectId else {
+            completion?(ChatUnreadMessagesResult(error: .Internal(message: "Missing myUserId")))
+            return
+        }
+        dataSource.unreadMessages(userId) { result in
+            handleApiResult(result, completion: completion)
         }
     }
     
@@ -150,5 +209,31 @@ public class ChatRepository {
     
     public func chatEventsIn(conversationId: String) -> Observable<ChatEvent> {
         return webSocketClient.eventBus.filter { $0.conversationId == conversationId }
+    }
+    
+    
+    // MARK: - Private
+
+    private func handleQueryMessages(conversationId: String, result: ChatWebSocketMessagesResult,
+                                     completion: ChatMessagesCompletion?) {
+        var finalResult = result
+        if let messages = result.value, myUserId = myUserRepository.myUser?.objectId {
+            let receptionIds: [String] = messages.filter { return $0.talkerId != myUserId && $0.receivedAt == nil }
+                .flatMap{ $0.objectId }
+            if !receptionIds.isEmpty {
+                confirmReception(conversationId, messageIds: receptionIds, completion: nil)
+                finalResult = ChatWebSocketMessagesResult(messages.map{ $0.markReceived() })
+            }
+        }
+        handleWebSocketResult(finalResult, completion: completion)
+    }
+    
+    private func configureReachability() {
+        reachability?.whenReachable = { [weak self] _ in
+            self?.openAndAuthenticate(nil)
+        }
+        do {
+            try reachability?.startNotifier()
+        } catch {}
     }
 }
