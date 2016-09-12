@@ -266,7 +266,7 @@
 "log_in_title" = "Accedi tramite email";
 "main_sign_up_claim_label" = "Inizia a vendere e comprare, chattando!";
 "main_sign_up_error_request_already_sent" = "La tua richiesta è già stata elaborata. Attendi prima di provare di nuovo.";
-"main_sign_up_error_user_rejected" = "L'indirizzo email o la password da te inseriti non sono corretti. Riprova.";
+"main_sign_up_error_user_rejected" = "L'indirizzo email da te inserito non è corretto. Verificalo e riprova.";
 "main_sign_up_facebook_connect_button" = "Continua con Facebook";
 "main_sign_up_fb_connect_error_email_taken" = "Il tuo indirizzo email è già registrato. Ti preghiamo di utilizzarlo per effettuare l'accesso.";
 "main_sign_up_fb_connect_error_generic" = "Impossibile effettuare l'accesso. Riprova.";
@@ -585,7 +585,16 @@
 "tab_bar_tool_tip" = "Vendi le tue cose";
 "toast_error_internal" = "Ops! Qualcosa è andato storto.";
 "toast_no_network" = "Nessuna Connessione Internet";
+"tour_claim_label" = "Buy and sell quickly, safely and locally. It’s time to letgo!";
+"tour_email_button" = "Email";
+"tour_facebook_button" = "Continue with Facebook";
+"tour_google_button" = "Continue with Google";
+"tour_help_button" = "Help";
+"tour_or_label" = "OR USE YOUR EMAIL";
 "tour_page_1_body" = "Compra e vendi localmente, velocemente e in tutta sicurezza.";
+"tour_terms_conditions" = "By signing up or logging in, you agree to our Terms & Conditions and Privacy Policy";
+"tour_terms_conditions_privacy_keyword" = "Privacy Policy";
+"tour_terms_conditions_terms_keyword" = "Terms & Conditions";
 "trending_searches_Title" = "Ricerche di tendenza";
 "unblock_user_error_generic" = "Si è verificato un errore durante il tentativo di sbloccare questo utente.";
 "user_rating_message_w_name" = "La tua esperienza con %@ merita cinque stelle? Raccontaci come è andata.";

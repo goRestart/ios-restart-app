@@ -585,7 +585,16 @@
 "tab_bar_tool_tip" = "Verkaufe deine Dinge";
 "toast_error_internal" = "Hoppla! Irgendwas lief schief.";
 "toast_no_network" = "Keine Internetverbindung";
+"tour_claim_label" = "Buy and sell quickly, safely and locally. It’s time to letgo!";
+"tour_email_button" = "Email";
+"tour_facebook_button" = "Continue with Facebook";
+"tour_google_button" = "Continue with Google";
+"tour_help_button" = "Help";
+"tour_or_label" = "OR USE YOUR EMAIL";
 "tour_page_1_body" = "Verkaufe schnell, sicher und lokal.";
+"tour_terms_conditions" = "By signing up or logging in, you agree to our Terms & Conditions and Privacy Policy";
+"tour_terms_conditions_privacy_keyword" = "Privacy Policy";
+"tour_terms_conditions_terms_keyword" = "Terms & Conditions";
 "trending_searches_Title" = "Beliebte Suchbegriffe";
 "unblock_user_error_generic" = "Bei der Aufhebung der Blockierung dieses Nutzers ist ein Fehler aufgetreten.";
 "user_rating_message_w_name" = "Verdient der Handel mit %@ fünf Sterne? Erzähle uns, wie es gelaufen ist.";

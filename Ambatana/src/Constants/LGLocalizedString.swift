@@ -2355,8 +2355,44 @@ struct LGLocalizedString {
 		return NSLocalizedString("toast_no_network", comment: "")
 	}
 
+	static var tourClaimLabel: String {
+		return NSLocalizedString("tour_claim_label", comment: "")
+	}
+
+	static var tourEmailButton: String {
+		return NSLocalizedString("tour_email_button", comment: "")
+	}
+
+	static var tourFacebookButton: String {
+		return NSLocalizedString("tour_facebook_button", comment: "")
+	}
+
+	static var tourGoogleButton: String {
+		return NSLocalizedString("tour_google_button", comment: "")
+	}
+
+	static var tourHelpButton: String {
+		return NSLocalizedString("tour_help_button", comment: "")
+	}
+
+	static var tourOrLabel: String {
+		return NSLocalizedString("tour_or_label", comment: "")
+	}
+
 	static var tourPage1Body: String {
 		return NSLocalizedString("tour_page_1_body", comment: "")
+	}
+
+	static var tourTermsConditions: String {
+		return NSLocalizedString("tour_terms_conditions", comment: "")
+	}
+
+	static var tourTermsConditionsPrivacyKeyword: String {
+		return NSLocalizedString("tour_terms_conditions_privacy_keyword", comment: "")
+	}
+
+	static var tourTermsConditionsTermsKeyword: String {
+		return NSLocalizedString("tour_terms_conditions_terms_keyword", comment: "")
 	}
 
 	static var trendingSearchesTitle: String {

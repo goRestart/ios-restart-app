@@ -4,7 +4,7 @@
 "account_pending_moderation_w_name" = "Käyttäjän %@ tili on poistettu käytöstä moderaattorin toimesta";
 "app_share_download_text" = "Lataa";
 "app_share_email_button" = "Kutsu sähköpostilla";
-"app_share_error" = "An error occurred while sharing the app. Please try again later.";
+"app_share_error" = "Sovellusta jaettaessa tapahtui virhe. Ole hyvä ja yritä myöhemmin uudelleen.";
 "app_share_fbmessenger_button" = "Kutsu Messengerillä";
 "app_share_invite_text" = "Kutsu";
 "app_share_message_text" = "Tutustu letgo-sovellukseen ja tienaa rahaa myymällä tavaroita, joita et enää käytä!";
@@ -585,7 +585,16 @@
 "tab_bar_tool_tip" = "Myy tavaroitasi";
 "toast_error_internal" = "Hups! Jokin meni vikaan.";
 "toast_no_network" = "Ei Internet-yhteyttä";
+"tour_claim_label" = "Buy and sell quickly, safely and locally. It’s time to letgo!";
+"tour_email_button" = "Email";
+"tour_facebook_button" = "Continue with Facebook";
+"tour_google_button" = "Continue with Google";
+"tour_help_button" = "Help";
+"tour_or_label" = "OR USE YOUR EMAIL";
 "tour_page_1_body" = "Osta ja myy nopeasti, turvallisesti ja paikallisesti.";
+"tour_terms_conditions" = "By signing up or logging in, you agree to our Terms & Conditions and Privacy Policy";
+"tour_terms_conditions_privacy_keyword" = "Privacy Policy";
+"tour_terms_conditions_terms_keyword" = "Terms & Conditions";
 "trending_searches_Title" = "Nousussa olevat haut";
 "unblock_user_error_generic" = "Tämän käyttäjän estoa poistettaessa tapahtui virhe.";
 "user_rating_message_w_name" = "Onko kokemuksesi käyttäjän %@ kanssa viiden tähden arvoinen? Kerro meille, miten asiat sujuivat.";
