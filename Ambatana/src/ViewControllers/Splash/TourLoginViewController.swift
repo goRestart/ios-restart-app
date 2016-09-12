@@ -21,6 +21,7 @@ final class TourLoginViewController: BaseViewController, GIDSignInUIDelegate {
     @IBOutlet weak var claimLabelTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var facebookButton: UIButton!
     @IBOutlet weak var googleButton: UIButton!
+    @IBOutlet var orDividerViews: [UIView]!
     @IBOutlet weak var orUseEmailLabel: UILabel!
     @IBOutlet weak var orUseEmailLabelTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var emailButton: UIButton!
@@ -28,6 +29,8 @@ final class TourLoginViewController: BaseViewController, GIDSignInUIDelegate {
     @IBOutlet weak var mainViewBottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var footerTextView: UITextView!
     @IBOutlet weak var footerTextViewBottomConstraint: NSLayoutConstraint!
+
+    private var lines: [CALayer] = []
     
     let completion: (() -> ())?
     
@@ -64,7 +67,20 @@ final class TourLoginViewController: BaseViewController, GIDSignInUIDelegate {
     override func viewDidFirstAppear(animated: Bool) {
         setupKenBurns()
     }
-    
+
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+
+        // Redraw the lines
+        for line in lines {
+            line.removeFromSuperlayer()
+        }
+        lines = []
+        for orDividerView in orDividerViews {
+            lines.append(orDividerView.addBottomBorderWithWidth(1, color: UIColor.white))
+        }
+    }
+
     
     // MARK: - UI
     
@@ -80,24 +96,24 @@ final class TourLoginViewController: BaseViewController, GIDSignInUIDelegate {
     }
     
     func setupUI() {
-        // TODO: Move localizables to tour prefix
-        
         // UI
         kenBurnsView.clipsToBounds = true
 
         facebookButton.setStyle(.Facebook)
         googleButton.setStyle(.Google)
-        orUseEmailLabel.text = LGLocalizedString.mainSignUpOrLabel
+        orUseEmailLabel.text = LGLocalizedString.tourOrLabel
         orUseEmailLabel.font = UIFont.smallBodyFont
         emailButton.layer.cornerRadius = 10
 
-        footerTextView.attributedText = viewModel.attributedLegalText
         footerTextView.textAlignment = .Center
         footerTextView.delegate = self
 
         // i18n
-        facebookButton.setTitle(LGLocalizedString.mainSignUpFacebookConnectButton, forState: .Normal)
-        googleButton.setTitle(LGLocalizedString.mainSignUpGoogleConnectButton, forState: .Normal)
+        claimLabel.text = LGLocalizedString.tourClaimLabel
+        facebookButton.setTitle(LGLocalizedString.tourFacebookButton, forState: .Normal)
+        googleButton.setTitle(LGLocalizedString.tourGoogleButton, forState: .Normal)
+        emailButton.setTitle(LGLocalizedString.tourEmailButton, forState: .Normal)
+        footerTextView.attributedText = viewModel.attributedLegalText
     }
 
     private func adaptConstraintsToiPhone4() {

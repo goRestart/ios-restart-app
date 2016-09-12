@@ -18,16 +18,19 @@ final class TourLoginViewModel: BaseViewModel {
 
     var attributedLegalText: NSAttributedString {
         guard let conditionsURL = termsAndConditionsURL, let privacyURL = privacyURL else {
-            return NSAttributedString(string: LGLocalizedString.mainSignUpTermsConditions)
+            return NSAttributedString(string: LGLocalizedString.tourTermsConditions)
         }
 
-        let links = [LGLocalizedString.mainSignUpTermsConditionsTermsPart: conditionsURL,
-                     LGLocalizedString.mainSignUpTermsConditionsPrivacyPart: privacyURL]
-        let localizedLegalText = LGLocalizedString.mainSignUpTermsConditions
+        let links = [LGLocalizedString.tourTermsConditionsTermsKeyword: conditionsURL,
+                     LGLocalizedString.tourTermsConditionsPrivacyKeyword: privacyURL]
+        let localizedLegalText = LGLocalizedString.tourTermsConditions
         let attributtedLegalText = localizedLegalText.attributedHyperlinkedStringWithURLDict(links,
                                                                                              textColor: UIColor.darkGrayText)
-        attributtedLegalText.addAttribute(NSFontAttributeName, value: UIFont.smallBodyFont,
-                                          range: NSMakeRange(0, attributtedLegalText.length))
+        let range = NSMakeRange(0, attributtedLegalText.length)
+        attributtedLegalText.addAttribute(NSFontAttributeName, value: UIFont.smallBodyFont, range: range)
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.alignment = .Center
+        attributtedLegalText.addAttribute(NSParagraphStyleAttributeName, value: paragraphStyle, range: range)
         return attributtedLegalText
     }
 
