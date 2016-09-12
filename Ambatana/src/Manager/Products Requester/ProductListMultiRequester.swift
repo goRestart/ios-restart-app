@@ -14,7 +14,7 @@ class ProductListMultiRequester {
 
     private var requestersArray: [ProductListRequester]
     private var activeRequester: ProductListRequester?
-    private var currentIndex: Int
+    var currentIndex: Int // not private for testing reasons
     private var currentCompletion: ProductsCompletion?
 
     // MARK: - Lifecycle

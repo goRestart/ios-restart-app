@@ -61,6 +61,8 @@
 		2E3047F61CA4526E0099C0BC /* CommercialDisplayPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E3047F41CA4526E0099C0BC /* CommercialDisplayPageView.swift */; };
 		2E3047F81CA4528B0099C0BC /* CommercialDisplayPageView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E3047F71CA4528B0099C0BC /* CommercialDisplayPageView.xib */; };
 		2E3047F91CA4528B0099C0BC /* CommercialDisplayPageView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E3047F71CA4528B0099C0BC /* CommercialDisplayPageView.xib */; };
+		2E3081D21D86A25300930E98 /* ProductListMultiRequesterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E3081D11D86A25300930E98 /* ProductListMultiRequesterSpec.swift */; };
+		2E3081D51D86A40400930E98 /* MockProductListRequester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E3081D41D86A40400930E98 /* MockProductListRequester.swift */; };
 		2E32AD151D6B0F2300AC8501 /* BubbleNotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E32AD141D6B0F2300AC8501 /* BubbleNotificationManager.swift */; };
 		2E32AD161D6B107100AC8501 /* BubbleNotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E32AD141D6B0F2300AC8501 /* BubbleNotificationManager.swift */; };
 		2E373FA11D3CDEF500AC811C /* UserRatingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E373F9F1D3CDEF400AC811C /* UserRatingCell.swift */; };
@@ -1101,6 +1103,8 @@
 		2E3047F11CA408D00099C0BC /* CommercialDisplayViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CommercialDisplayViewModel.swift; path = Commercializer/CommercialDisplayViewModel.swift; sourceTree = "<group>"; };
 		2E3047F41CA4526E0099C0BC /* CommercialDisplayPageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CommercialDisplayPageView.swift; path = Commercializer/CommercialDisplayPageView.swift; sourceTree = "<group>"; };
 		2E3047F71CA4528B0099C0BC /* CommercialDisplayPageView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CommercialDisplayPageView.xib; path = Commercializer/CommercialDisplayPageView.xib; sourceTree = "<group>"; };
+		2E3081D11D86A25300930E98 /* ProductListMultiRequesterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProductListMultiRequesterSpec.swift; path = letgoTests/Unit/MultiRequester/ProductListMultiRequesterSpec.swift; sourceTree = SOURCE_ROOT; };
+		2E3081D41D86A40400930E98 /* MockProductListRequester.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockProductListRequester.swift; sourceTree = "<group>"; };
 		2E32AD141D6B0F2300AC8501 /* BubbleNotificationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BubbleNotificationManager.swift; sourceTree = "<group>"; };
 		2E373F9F1D3CDEF400AC811C /* UserRatingCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserRatingCell.swift; path = Cells/UserRatingCell.swift; sourceTree = "<group>"; };
 		2E373FA01D3CDEF400AC811C /* UserRatingCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = UserRatingCell.xib; path = Cells/UserRatingCell.xib; sourceTree = "<group>"; };
@@ -1795,6 +1799,23 @@
 			name = Display;
 			sourceTree = "<group>";
 		};
+		2E3081D01D86A20B00930E98 /* MultiRequester */ = {
+			isa = PBXGroup;
+			children = (
+				2E3081D11D86A25300930E98 /* ProductListMultiRequesterSpec.swift */,
+			);
+			name = MultiRequester;
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		2E3081D31D86A3EC00930E98 /* ProductRequester */ = {
+			isa = PBXGroup;
+			children = (
+				2E3081D41D86A40400930E98 /* MockProductListRequester.swift */,
+			);
+			name = ProductRequester;
+			sourceTree = "<group>";
+		};
 		2E373F9E1D3CDED900AC811C /* Cells */ = {
 			isa = PBXGroup;
 			children = (
@@ -2322,6 +2343,7 @@
 		50C9E4CA1B7353E6001E4E92 /* Unit */ = {
 			isa = PBXGroup;
 			children = (
+				2E3081D01D86A20B00930E98 /* MultiRequester */,
 				C75018431D0EFB85007D4CE4 /* Helpers */,
 				2EF4E3BE1D3688E000A09DFD /* Model */,
 				2EF4E3BF1D3688E600A09DFD /* Services */,
@@ -2353,6 +2375,7 @@
 		50C9E4D51B739FF6001E4E92 /* Mock */ = {
 			isa = PBXGroup;
 			children = (
+				2E3081D31D86A3EC00930E98 /* ProductRequester */,
 				2EF4E3A71D3686F800A09DFD /* Config */,
 				50C9E4DF1B749DD0001E4E92 /* Manager */,
 				50C9E4D61B73A002001E4E92 /* Model */,
@@ -4753,11 +4776,13 @@
 				C75018451D0EFBDB007D4CE4 /* String+LGSpec.swift in Sources */,
 				50C9E4E21B749DE9001E4E92 /* MockTracker.swift in Sources */,
 				2EE6026A1C638EF600AF94E4 /* ChatViewModelSpec.swift in Sources */,
+				2E3081D51D86A40400930E98 /* MockProductListRequester.swift in Sources */,
 				2EF4E3C61D36891C00A09DFD /* LGConfigRetrieveServiceSpec.swift in Sources */,
 				C79842061CC903A500C300FF /* MockAccount.swift in Sources */,
 				2EF4E3C31D36891200A09DFD /* ConfigSpec.swift in Sources */,
 				5099D12D1C74C910002CD813 /* MockInstallation.swift in Sources */,
 				2E0342F21CDB7A850074EB34 /* CrashManagerSpec.swift in Sources */,
+				2E3081D21D86A25300930E98 /* ProductListMultiRequesterSpec.swift in Sources */,
 				2EF4E3BC1D3688C400A09DFD /* MockConfigFileDAO.swift in Sources */,
 				50C9E4D81B73A017001E4E92 /* MockUser.swift in Sources */,
 				50C9E4CE1B735402001E4E92 /* TrackerEventSpec.swift in Sources */,
