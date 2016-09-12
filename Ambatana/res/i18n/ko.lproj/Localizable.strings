@@ -254,9 +254,11 @@
 "forced_update_title" = "업데이트 사용가능";
 "forced_update_update_button" = "업데이트";
 "help_title" = "도움";
+"location_permissions_allow_button" = "Allow";
 "location_permissions_bubble" = "약 160m 떨어져 있음";
 "location_permissions_button" = "네, 제 위치를 사용하겠습니다";
 "location_permissions_title" = "위치";
+"location_permissions_title_v2" = "Allow Location";
 "location_permissons_subtitle" = "회원님과 가까운 상품을 확인하시길 원하시나요?";
 "log_in_error_send_error_generic" = "로그인 과정중 오류가 발생했습니다.";
 "log_in_error_send_error_invalid_email" = "회원 가입 시 사용하셨던 이메일을 입력해 주세요.";
@@ -284,6 +286,7 @@
 "notifications_permissions_1_push" = "이사벨라: 판매하시는 전화기에 관심있는데요. $100 제안해볼게요";
 "notifications_permissions_1_subtitle" = "구매자 혹은 판매자가 메세지를 보낼때, 알림을 받으시겠습니까?";
 "notifications_permissions_1_title" = "메세지 알림";
+"notifications_permissions_1_title_v2" = "Accept notifications";
 "notifications_permissions_2_title" = "빠르게 구매하고 판매하기";
 "notifications_permissions_3_push" = "제이미: 좋습니다. 오후 5시 괜찮아요, 그때 뵐게요!";
 "notifications_permissions_3_subtitle" = "판매자가 메세지를 보낼 때, 알림을 받으시겠습니까?";

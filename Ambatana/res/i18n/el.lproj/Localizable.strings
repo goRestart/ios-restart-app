@@ -254,9 +254,11 @@
 "forced_update_title" = "Διαθέσιμη ενημέρωση";
 "forced_update_update_button" = "Αναβάθμιση";
 "help_title" = "Βοήθεια";
+"location_permissions_allow_button" = "Allow";
 "location_permissions_bubble" = "15μ. από εσάς";
 "location_permissions_button" = "Χρήση της Τοποθεσίας μου";
 "location_permissions_title" = "Τοποθεσία";
+"location_permissions_title_v2" = "Allow Location";
 "location_permissons_subtitle" = "Θέλετε να δείτε προϊόντα κοντά σας;";
 "log_in_error_send_error_generic" = "Παρουσιάστηκε σφάλμα κατά τη σύνδεση. Παρακαλώ προσπαθήστε ξανά.";
 "log_in_error_send_error_invalid_email" = "Παρακαλώ εισάγετε ένα έγκυρο email στο πεδίο email χρήστη.";
@@ -284,6 +286,7 @@
 "notifications_permissions_1_push" = "Μαρία: Ενδιαφέρομαι πολύ! Θα μου το πουλήσεις για 100€;";
 "notifications_permissions_1_subtitle" = "Θέλετε να ενημερώνεστε όταν κάποιος χρήστης σας στέλνει μήνυμα;";
 "notifications_permissions_1_title" = "Ειδοποιήσεις μηνυμάτων";
+"notifications_permissions_1_title_v2" = "Accept notifications";
 "notifications_permissions_2_title" = "Γρήγορες Αγοραπωλησίες";
 "notifications_permissions_3_push" = "Κώστας: Η προσφορά ακούγεται πολύ καλή! Θα σε δω στις 17:00.";
 "notifications_permissions_3_subtitle" = "Θέλετε να ενημερώνεστε όταν κάποιος πωλητής σας στέλνει μήνυμα;";

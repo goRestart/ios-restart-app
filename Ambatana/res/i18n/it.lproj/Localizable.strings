@@ -254,9 +254,11 @@
 "forced_update_title" = "Aggiornamento disponibile";
 "forced_update_update_button" = "Aggiorna";
 "help_title" = "Aiuto";
+"location_permissions_allow_button" = "Allow";
 "location_permissions_bubble" = "0.1 km da te";
 "location_permissions_button" = "Sì, Utilizza la mia Posizione";
 "location_permissions_title" = "Posizione";
+"location_permissions_title_v2" = "Allow Location";
 "location_permissons_subtitle" = "Desideri visualizzare i prodotti nella tua zona?";
 "log_in_error_send_error_generic" = "Si è verificato un errore durante l'accesso. Riprova più tardi.";
 "log_in_error_send_error_invalid_email" = "Inserisci un indirizzo email valido nell'apposito campo.";
@@ -284,6 +286,7 @@
 "notifications_permissions_1_push" = "Francesca: il tuo telefono mi interessa molto. Me lo lasci per 100€?";
 "notifications_permissions_1_subtitle" = "Desideri ricevere una notifica quando un altro utente ti invia un messaggio?";
 "notifications_permissions_1_title" = "Notifiche messaggi";
+"notifications_permissions_1_title_v2" = "Accept notifications";
 "notifications_permissions_2_title" = "Compra e Vendi Più Velocemente";
 "notifications_permissions_3_push" = "Luca: Direi che la tua offerta è ok. Alle 17 per me va bene. Ci vediamo dopo!";
 "notifications_permissions_3_subtitle" = "Desideri ricevere una notifica quando un venditore ti invia un messaggio?";

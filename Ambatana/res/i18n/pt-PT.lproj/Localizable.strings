@@ -254,9 +254,11 @@
 "forced_update_title" = "Atualização disponível";
 "forced_update_update_button" = "Atualizar";
 "help_title" = "Ajuda";
+"location_permissions_allow_button" = "Allow";
 "location_permissions_bubble" = "1,60 km de si";
 "location_permissions_button" = "Sim, Usem a Minha Localização";
 "location_permissions_title" = "Localização";
+"location_permissions_title_v2" = "Allow Location";
 "location_permissons_subtitle" = "Quer ver produtos perto de si?";
 "log_in_error_send_error_generic" = "Ocorreu um erro ao fazer o login. Por favor tente novamente.";
 "log_in_error_send_error_invalid_email" = "Por favor insira um email válido no campo de texto email do utilizador.";
@@ -284,6 +286,7 @@
 "notifications_permissions_1_push" = "Isabel: Estou interessado no seu telemóvel. Quer deixá-lo ir por 100€?";
 "notifications_permissions_1_subtitle" = "Quer ser notificado quando outro utilizador lhe enviar uma mensagem?";
 "notifications_permissions_1_title" = "Notificações de mensagens";
+"notifications_permissions_1_title_v2" = "Accept notifications";
 "notifications_permissions_2_title" = "Compre & Venda Mais Rápido";
 "notifications_permissions_3_push" = "João: Aceito a sua oferta. Ás 17h está ótimo, até já!";
 "notifications_permissions_3_subtitle" = "Quer ser notificado quando um vendedor lhe enviar uma mensagem?";

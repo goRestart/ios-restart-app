@@ -769,7 +769,7 @@
 "location_permissions_title" = "Location";
 
 // Title asking for Location permission in onboarding (2nd version)
-"location_permissions_title_v2" = "Accept Location";
+"location_permissions_title_v2" = "Allow Location";
 
 // Subtitle asking for Location permission in onboarding
 "location_permissons_subtitle" = "Do you want to see products near you?";

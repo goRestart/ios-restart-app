@@ -254,9 +254,11 @@
 "forced_update_title" = "Neue Version verfügbar";
 "forced_update_update_button" = "Neue Version";
 "help_title" = "Hilfe";
+"location_permissions_allow_button" = "Allow";
 "location_permissions_bubble" = "0,1 km von dir entfernt";
 "location_permissions_button" = "Ja, meinen Standort benutzen";
 "location_permissions_title" = "Standort";
+"location_permissions_title_v2" = "Allow Location";
 "location_permissons_subtitle" = "Möchtest du Produkte in deiner Nähe sehen?";
 "log_in_error_send_error_generic" = "Beim Anmelden ist ein Fehler aufgetreten. Bitte versuche es erneut.";
 "log_in_error_send_error_invalid_email" = "Bitte gib eine gültige E-Mail-Adresse im E-Mail-Feld ein.";
@@ -284,6 +286,7 @@
 "notifications_permissions_1_push" = "Claudia: Ich interessiere mich für das Smartphone. Wären 100€ okay?";
 "notifications_permissions_1_subtitle" = "Möchtest du benachrichtigt werden, wenn dir ein anderer Nutzer eine Nachricht schickt?";
 "notifications_permissions_1_title" = "Mitteilungen";
+"notifications_permissions_1_title_v2" = "Accept notifications";
 "notifications_permissions_2_title" = "Schneller kaufen & verkaufen";
 "notifications_permissions_3_push" = "Michael: Dein Angebot klingt gut. Bin um 17h da. Bis dann!";
 "notifications_permissions_3_subtitle" = "Möchtest du benachrichtigt werden, wenn dir ein Verkäufer eine Nachricht schickt?";

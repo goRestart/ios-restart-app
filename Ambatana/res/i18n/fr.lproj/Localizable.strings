@@ -254,9 +254,11 @@
 "forced_update_title" = "Mise à jour disponible";
 "forced_update_update_button" = "Mettre à jour";
 "help_title" = "Aide";
+"location_permissions_allow_button" = "Allow";
 "location_permissions_bubble" = "à 0.1 km de vous";
 "location_permissions_button" = "Oui, Utiliser ma Localisation";
 "location_permissions_title" = "Localisation";
+"location_permissions_title_v2" = "Allow Location";
 "location_permissons_subtitle" = "Souhaitez-vous voir les biens près de vous ?";
 "log_in_error_send_error_generic" = "Une erreur est survenue lors de la connexion. Veuillez réessayer.";
 "log_in_error_send_error_invalid_email" = "Veuillez insérer une adresse email valide.";
@@ -284,6 +286,7 @@
 "notifications_permissions_1_push" = "Lucie : Je suis intéressée! Pouvez-vous me le laisser à 100€ ?";
 "notifications_permissions_1_subtitle" = "Souhaitez-vous être notifié lorsqu'un autre utilisateur vous envoi un message ?";
 "notifications_permissions_1_title" = "Notifications de message";
+"notifications_permissions_1_title_v2" = "Accept notifications";
 "notifications_permissions_2_title" = "Acheter & Vendre Plus Rapidement";
 "notifications_permissions_3_push" = "Jamie : Votre offre semble parfaite. 17H est ok pour moi, à tout à l'heure !";
 "notifications_permissions_3_subtitle" = "Souhaitez-vous être notifié lorsqu'un vendeur vous envoi un message ?";

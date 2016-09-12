@@ -254,9 +254,11 @@
 "forced_update_title" = "Oppdatering tilgjengelig";
 "forced_update_update_button" = "Oppdater";
 "help_title" = "Hjelp";
+"location_permissions_allow_button" = "Allow";
 "location_permissions_bubble" = "0.1 km fra deg";
 "location_permissions_button" = "Ja, Bruk min Plassering";
 "location_permissions_title" = "Plassering";
+"location_permissions_title_v2" = "Allow Location";
 "location_permissons_subtitle" = "Ønsker du å se produkter i ditt nærområde?";
 "log_in_error_send_error_generic" = "En feil oppstod ved innlogging. Vennligst prøv igjen.";
 "log_in_error_send_error_invalid_email" = "Vennligst skriv inn en gyldig e-post.";
@@ -284,6 +286,7 @@
 "notifications_permissions_1_push" = "Ida: Jeg er veldig interessert i din mobil. Kan du la den gå for 900,-?";
 "notifications_permissions_1_subtitle" = "Ønsker du å bli varslet når en annen bruker sender deg en melding?";
 "notifications_permissions_1_title" = "Meldingsvarslinger";
+"notifications_permissions_1_title_v2" = "Accept notifications";
 "notifications_permissions_2_title" = "Kjøp & selg raskere";
 "notifications_permissions_3_push" = "Jonas: Ditt bud høres bra ut. Kl. 17.00 passer meg, sees da!";
 "notifications_permissions_3_subtitle" = "Ønsker du å bli varslet når en selger sender deg en melding?";

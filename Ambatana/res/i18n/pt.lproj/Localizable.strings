@@ -254,9 +254,11 @@
 "forced_update_title" = "Update Available";
 "forced_update_update_button" = "Update";
 "help_title" = "Help";
+"location_permissions_allow_button" = "Allow";
 "location_permissions_bubble" = "0.1 mi from you";
 "location_permissions_button" = "Yes, Use my Location";
 "location_permissions_title" = "Location";
+"location_permissions_title_v2" = "Allow Location";
 "location_permissons_subtitle" = "Do you want to see products near you?";
 "log_in_error_send_error_generic" = "An error occurred while logging in. Please try again.";
 "log_in_error_send_error_invalid_email" = "Please insert a valid email address.";
@@ -284,6 +286,7 @@
 "notifications_permissions_1_push" = "Isabella: I'm very interested in your phone. Can you let go of it for $100?";
 "notifications_permissions_1_subtitle" = "Do you want to be notified when another user sends you a message?";
 "notifications_permissions_1_title" = "Message notifications";
+"notifications_permissions_1_title_v2" = "Accept notifications";
 "notifications_permissions_2_title" = "Buy & Sell Faster";
 "notifications_permissions_3_push" = "Jamie: Your offer sounds great. 5pm works for me, see you then!";
 "notifications_permissions_3_subtitle" = "Do you want to be notified when a seller sends you a message?";

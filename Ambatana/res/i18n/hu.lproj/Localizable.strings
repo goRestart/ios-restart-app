@@ -254,9 +254,11 @@
 "forced_update_title" = "Frissítés elérhető";
 "forced_update_update_button" = "Frissítés";
 "help_title" = "Segítség";
+"location_permissions_allow_button" = "Allow";
 "location_permissions_bubble" = "0,1 km-re tőled";
 "location_permissions_button" = "Igen, Használja a Helyzetemet";
 "location_permissions_title" = "Tartózkodási hely";
+"location_permissions_title_v2" = "Allow Location";
 "location_permissons_subtitle" = "Szeretnéd látni a közeli portékákat?";
 "log_in_error_send_error_generic" = "Hiba történt a belépés során. Próbálkozz újra!";
 "log_in_error_send_error_invalid_email" = "Kérjük, érvényes e-mail címet adj meg!";
@@ -284,6 +286,7 @@
 "notifications_permissions_1_push" = "Izabella: Érdekelne a telefon. Eladnád 25.000 Ft-ért?";
 "notifications_permissions_1_subtitle" = "Szeretnél értesítést kapni, ha egy felhasználó üzenetet küld?";
 "notifications_permissions_1_title" = "Üzenetértesítések";
+"notifications_permissions_1_title_v2" = "Accept notifications";
 "notifications_permissions_2_title" = "Kereskedj gyorsabban";
 "notifications_permissions_3_push" = "Dávid: Tetszik az ajánlat. Az 5 óra is megfelel, várlak!";
 "notifications_permissions_3_subtitle" = "Szeretnél értesítést kapni, ha egy eladó üzenetet küld?";

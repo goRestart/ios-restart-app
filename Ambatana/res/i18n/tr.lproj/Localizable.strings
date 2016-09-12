@@ -254,9 +254,11 @@
 "forced_update_title" = "Yeni bir güncelleme mevcut";
 "forced_update_update_button" = "Güncelle";
 "help_title" = "Yardım";
+"location_permissions_allow_button" = "Allow";
 "location_permissions_bubble" = "senden 1km uzakta";
 "location_permissions_button" = "Evet, Konumumu Kullan";
 "location_permissions_title" = "Konum";
+"location_permissions_title_v2" = "Allow Location";
 "location_permissons_subtitle" = "Yakınındaki ürünleri görmek istiyor musun?";
 "log_in_error_send_error_generic" = "Giriş esnasında bir hata oluştu. Lütfen tekrar dene.";
 "log_in_error_send_error_invalid_email" = "Lütfen kullanıcı e-posta alanına geçerli bir e-posta adresi gir.";
@@ -284,6 +286,7 @@
 "notifications_permissions_1_push" = "Ayşenur: Telefonu beğendim. 150'ye bırakır mısın?";
 "notifications_permissions_1_subtitle" = "Başka bir kullanıcı sana mesaj attığında sana bildirim gönderilmesini istiyor musun?";
 "notifications_permissions_1_title" = "Mesaj bildirimleri";
+"notifications_permissions_1_title_v2" = "Accept notifications";
 "notifications_permissions_2_title" = "Hızlıca Al veya Sat";
 "notifications_permissions_3_push" = "Alican: Anlaştık. Akşamüstü 5 bana uygun, görüşmek üzere!";
 "notifications_permissions_3_subtitle" = "Bir satıcı sana mesaj attığında sana bildirim gönderilmesini istiyor musun?";

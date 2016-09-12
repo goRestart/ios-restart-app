@@ -254,9 +254,11 @@
 "forced_update_title" = "Päivitys saatavilla";
 "forced_update_update_button" = "Päivitä";
 "help_title" = "Apua";
+"location_permissions_allow_button" = "Allow";
 "location_permissions_bubble" = "0.1 km sinusta";
 "location_permissions_button" = "Kyllä, Käytä Sijaintiani";
 "location_permissions_title" = "Sijainti";
+"location_permissions_title_v2" = "Allow Location";
 "location_permissons_subtitle" = "Haluatko nähdä sinua lähellä olevia tuotteita?";
 "log_in_error_send_error_generic" = "Kirjautumisessa tapahtui virhe. Ole hyvä ja yritä uudelleen.";
 "log_in_error_send_error_invalid_email" = "Ole hyvä ja syötä sähköpostikenttään toimiva sähköpostiosoite.";
@@ -284,6 +286,7 @@
 "notifications_permissions_1_push" = "Liisa: Olen todella kiinnostunut puhelimestasi. Myytkö sen 100 eurolla?";
 "notifications_permissions_1_subtitle" = "Haluatko saada ilmoituksen, kun toinen käyttäjä lähettää sinulle viestin?";
 "notifications_permissions_1_title" = "Viesti-ilmoitukset";
+"notifications_permissions_1_title_v2" = "Accept notifications";
 "notifications_permissions_2_title" = "Osta & myy nopeammin";
 "notifications_permissions_3_push" = "Mika: Tarjouksesi kuulostaa mahtavalta. Viideltä sopii minulle, nähdään silloin!";
 "notifications_permissions_3_subtitle" = "Haluatko saada ilmoituksen, kun myyjä lähettää sinulle viestin?";

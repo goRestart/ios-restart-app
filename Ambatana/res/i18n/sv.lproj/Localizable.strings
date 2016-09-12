@@ -254,9 +254,11 @@
 "forced_update_title" = "Uppdatering tillgänglig";
 "forced_update_update_button" = "Uppdatera";
 "help_title" = "Hjälp";
+"location_permissions_allow_button" = "Allow";
 "location_permissions_bubble" = "1 km från dig";
 "location_permissions_button" = "Ja, Använd Min Plats";
 "location_permissions_title" = "Plats";
+"location_permissions_title_v2" = "Allow Location";
 "location_permissons_subtitle" = "Vill du se produkter nära dig?";
 "log_in_error_send_error_generic" = "Ett fel uppstod vid inloggning. Var vänlig försök igen.";
 "log_in_error_send_error_invalid_email" = "Var god ange en giltig e-postadress.";
@@ -284,6 +286,7 @@
 "notifications_permissions_1_push" = "Isabella: Jag är väldigt intresserad av din mobil. let go för 800 kr?";
 "notifications_permissions_1_subtitle" = "Vill du få information när en annan användare skickar ett meddelande till dig?";
 "notifications_permissions_1_title" = "Meddelandenotiser";
+"notifications_permissions_1_title_v2" = "Accept notifications";
 "notifications_permissions_2_title" = "Köp & sälj snabbare";
 "notifications_permissions_3_push" = "Jonas: Jag går med på ditt erbjudande. 17:00 funkar för mig. Ses då?";
 "notifications_permissions_3_subtitle" = "Vill du får information när en säljare skickar ett meddelande till dig?";
