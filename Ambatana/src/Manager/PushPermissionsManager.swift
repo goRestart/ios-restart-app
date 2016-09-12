@@ -105,9 +105,11 @@ public class PushPermissionsManager: NSObject {
             viewController.presentViewController(vc, animated: true, completion: nil)
     }
     
-    private func presentSettingsPrePermissionsFrom(viewController: UIViewController, type: PrePermissionType) {
+    private func presentSettingsPrePermissionsFrom(viewController: UIViewController, type: PrePermissionType,
+                                                   completion: (() -> ())?) {
         let vm = PushPrePermissionsSettingsViewModel(source: type)
         let vc = PushPrePermissionsSettingsViewController(viewModel: vm)
+        vc.completion = completion
         viewController.presentViewController(vc, animated: true, completion: nil)
     }
     
