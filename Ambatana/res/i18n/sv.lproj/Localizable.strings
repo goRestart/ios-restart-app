@@ -585,6 +585,12 @@
 "tab_bar_tool_tip" = "Sälj dina prylar";
 "toast_error_internal" = "Hoppsan! Något blev fel.";
 "toast_no_network" = "Ingen internetanslutning";
+"tour_claim_label" = "Köp och sälj snabbt, säkert och lokalt.";
+"tour_email_button" = "E-post";
+"tour_facebook_button" = "Fortsätt med Facebook";
+"tour_google_button" = "Fortsätt med Google";
+"tour_help_button" = "Hjälp";
+"tour_or_label" = "ELLER ANVÄND DIN E-POST";
 "tour_page_1_body" = "Köp och sälj snabbt, säkert och lokalt.";
 "trending_searches_Title" = "Sökningar som trendar";
 "unblock_user_error_generic" = "Ett fel uppstod när blockeringen av användaren skulle tas bort.";

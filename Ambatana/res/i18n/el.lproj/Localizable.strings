@@ -585,6 +585,12 @@
 "tab_bar_tool_tip" = "Πούλα τα Πράγματά σου";
 "toast_error_internal" = "Όπα! Κάτι πήγε στραβά.";
 "toast_no_network" = "Καμία Σύνδεση στο Διαδίκτυο";
+"tour_claim_label" = "Κάντε αγοραπωλησίες στην περιοχή σας γρήγορα και ευκολα.";
+"tour_email_button" = "Email";
+"tour_facebook_button" = "Συνέχεια με το Facebook";
+"tour_google_button" = "Συνέχεια με το Google";
+"tour_help_button" = "Βοήθεια";
+"tour_or_label" = "Ή ΧΡΗΣΙΜΟΠΟΙΗΣΤΕ ΤΟ EMAIL ΣΑΣ";
 "tour_page_1_body" = "Κάντε αγοραπωλησίες στην περιοχή σας γρήγορα και ευκολα.";
 "trending_searches_Title" = "Δημοφιλείς Αναζητήσεις";
 "unblock_user_error_generic" = "Παρουσιάστηκε σφάλμα κατά το ξεμπλοκάρισμα του χρήστη.";

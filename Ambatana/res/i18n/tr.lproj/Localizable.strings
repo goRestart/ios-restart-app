@@ -585,6 +585,12 @@
 "tab_bar_tool_tip" = "Eşyalarını Sat";
 "toast_error_internal" = "Oops! Bir şeyler ters gitti.";
 "toast_no_network" = "İnternet bağlantısı yok";
+"tour_claim_label" = "Bulunduğun çevrede hızlı ve güvenli bir şekilde al ve sat.";
+"tour_email_button" = "e-posta";
+"tour_facebook_button" = "Facebook ile devam et";
+"tour_google_button" = "Google ile devam et";
+"tour_help_button" = "Yardım";
+"tour_or_label" = "veya e-postanı kullan";
 "tour_page_1_body" = "Bulunduğun çevrede hızlı ve güvenli bir şekilde al ve sat.";
 "trending_searches_Title" = "Popüler Aramalar";
 "unblock_user_error_generic" = "Kullanıcı engeli kaldırılırken bir hata oluştu.";

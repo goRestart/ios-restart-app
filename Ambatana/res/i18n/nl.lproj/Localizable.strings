@@ -585,6 +585,12 @@
 "tab_bar_tool_tip" = "Verkoop je spullen";
 "toast_error_internal" = "Oeps! Er ging iets mis.";
 "toast_no_network" = "Geen internetverbinding";
+"tour_claim_label" = "Koop en verkoop snel, veilig en lokaal.";
+"tour_email_button" = "EMAIL";
+"tour_facebook_button" = "Doorgaan met Facebook";
+"tour_google_button" = "Doorgaan met Google";
+"tour_help_button" = "Hulp";
+"tour_or_label" = "OF GEBRUIK JE E-MAIL";
 "tour_page_1_body" = "Koop en verkoop snel, veilig en lokaal.";
 "trending_searches_Title" = "Trending Zoekopdrachten";
 "unblock_user_error_generic" = "Er is een fout opgetreden tijdens het deblokkeren van deze gebruiker.";

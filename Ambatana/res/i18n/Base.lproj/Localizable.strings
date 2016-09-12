@@ -768,8 +768,14 @@
 // Title asking for Location permission in onboarding
 "location_permissions_title" = "Location";
 
+// Title asking for Location permission in onboarding (2nd version)
+"location_permissions_title_v2" = "Accept Location";
+
 // Subtitle asking for Location permission in onboarding
 "location_permissons_subtitle" = "Do you want to see products near you?";
+
+// Allow button on the example to allow location permissions
+"location_permissions_allow_button" = "Allow";
 
 // Log in error send error generic. Check attached image "log_in_error_send.png"
 "log_in_error_send_error_generic" = "An error occurred while logging in. Please try again.";
@@ -848,6 +854,9 @@
 
 // Title for asking for Push notifications in onboarding
 "notifications_permissions_1_title" = "Message notifications";
+
+// Title for asking for Push notifications in onboarding (2nd version)
+"notifications_permissions_1_title_v2" = "Accept notifications";
 
 // Title asking for Push notifications from product list
 "notifications_permissions_2_title" = "Buy & Sell Faster";
@@ -1748,6 +1757,24 @@
 
 // Toast no network.
 "toast_no_network" = "No Internet Connection";
+
+// Tour claim label
+"tour_claim_label" = "Buy and sell quickly, safely and locally. It’s time to letgo!";
+
+// Tour email button
+"tour_email_button" = "Email";
+
+// Tour facebook button
+"tour_facebook_button" = "Continue with Facebook";
+
+// Tour google button
+"tour_google_button" = "Continue with Google";
+
+// Tour help button
+"tour_help_button" = "Help";
+
+// Tour or label.
+"tour_or_label" = "OR USE YOUR EMAIL";
 
 // Tour page 1 body.
 "tour_page_1_body" = "Buy and sell quickly, safely and locally. It’s time to letgo!";

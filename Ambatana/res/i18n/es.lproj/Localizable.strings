@@ -585,6 +585,12 @@
 "tab_bar_tool_tip" = "Empieza a vender";
 "toast_error_internal" = "¡Ups! Se ha producido un error.";
 "toast_no_network" = "Sin Conexión a Internet";
+"tour_claim_label" = "Compra y vende rápidamente y con seguridad, cerca de ti.";
+"tour_email_button" = "Email";
+"tour_facebook_button" = "Continuar con Facebook";
+"tour_google_button" = "Continuar con Google";
+"tour_help_button" = "Ayuda";
+"tour_or_label" = "O USA TU EMAIL";
 "tour_page_1_body" = "Compra y vende rápidamente y con seguridad, cerca de ti.";
 "trending_searches_Title" = "Tendencias de búsqueda";
 "unblock_user_error_generic" = "Se ha producido un error al desbloquear a este usuario.";

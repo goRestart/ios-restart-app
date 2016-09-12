@@ -585,6 +585,12 @@
 "tab_bar_tool_tip" = "Selg tingene dine";
 "toast_error_internal" = "Oops! En feil oppstod.";
 "toast_no_network" = "Ingen internett-tilkobling";
+"tour_claim_label" = "Kjøp og selg raskt, sikkert og lokalt.";
+"tour_email_button" = "E-post";
+"tour_facebook_button" = "Fortsett med Facebook";
+"tour_google_button" = "Fortsett med Google";
+"tour_help_button" = "Hjelp";
+"tour_or_label" = "ELLER BRUK DIN E-POST";
 "tour_page_1_body" = "Kjøp og selg raskt, sikkert og lokalt.";
 "trending_searches_Title" = "Populære søk";
 "unblock_user_error_generic" = "En feil oppstod ved oppheving av blokkering for denne brukeren.";

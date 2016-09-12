@@ -585,6 +585,12 @@
 "tab_bar_tool_tip" = "Verkaufe deine Dinge";
 "toast_error_internal" = "Hoppla! Irgendwas lief schief.";
 "toast_no_network" = "Keine Internetverbindung";
+"tour_claim_label" = "Verkaufe schnell, sicher und lokal.";
+"tour_email_button" = "E-MAIL";
+"tour_facebook_button" = "Mit Facebook anmelden";
+"tour_google_button" = "Mit Google anmelden";
+"tour_help_button" = "Hilfe";
+"tour_or_label" = "ODER E-MAIL-ADRESSE";
 "tour_page_1_body" = "Verkaufe schnell, sicher und lokal.";
 "trending_searches_Title" = "Beliebte Suchbegriffe";
 "unblock_user_error_generic" = "Bei der Aufhebung der Blockierung dieses Nutzers ist ein Fehler aufgetreten.";

@@ -585,6 +585,12 @@
 "tab_bar_tool_tip" = "Bán Đồ Của Bạn";
 "toast_error_internal" = "Ồ! Có gì đó không đúng.";
 "toast_no_network" = "Không có kết nối Internet";
+"tour_claim_label" = "Mua và bán nhanh chóng, an toàn ở ngay gần bạn.";
+"tour_email_button" = "Email";
+"tour_facebook_button" = "Tiếp tục với Facebook";
+"tour_google_button" = "Tiếp tục với Google";
+"tour_help_button" = "Trợ giúp";
+"tour_or_label" = "HOẶC SỬ DỤNG EMAIL CỦA BẠN";
 "tour_page_1_body" = "Mua và bán nhanh chóng, an toàn ở ngay gần bạn.";
 "trending_searches_Title" = "Xu hướng Tìm kiếm";
 "unblock_user_error_generic" = "Có lỗi xảy ra trong khi bỏ chặn người dùng này.";

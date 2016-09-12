@@ -585,6 +585,12 @@
 "tab_bar_tool_tip" = "Venda as Suas Coisas";
 "toast_error_internal" = "Ops! Alguma coisa correu mal.";
 "toast_no_network" = "Sem ligação à internet";
+"tour_claim_label" = "Compre e venda rápido, com segurança e localmente.";
+"tour_email_button" = "Email";
+"tour_facebook_button" = "Continuar com o Facebook";
+"tour_google_button" = "Continuar com o Google";
+"tour_help_button" = "Ajuda";
+"tour_or_label" = "OU";
 "tour_page_1_body" = "Compre e venda rápido, com segurança e localmente.";
 "trending_searches_Title" = "Pesquisa por Tendências";
 "unblock_user_error_generic" = "Ocorreu um erro ao desbloquear este utilizador.";

@@ -585,6 +585,12 @@
 "tab_bar_tool_tip" = "Sell Your Stuff";
 "toast_error_internal" = "Oops! Something went wrong.";
 "toast_no_network" = "No Internet Connection";
+"tour_claim_label" = "Buy and sell quickly, safely and locally. It’s time to letgo!";
+"tour_email_button" = "Email";
+"tour_facebook_button" = "Continue with Facebook";
+"tour_google_button" = "Continue with Google";
+"tour_help_button" = "Help";
+"tour_or_label" = "OR USE YOUR EMAIL";
 "tour_page_1_body" = "Buy and sell quickly, safely and locally. It’s time to letgo!";
 "trending_searches_Title" = "Trending Searches";
 "unblock_user_error_generic" = "An error occurred while unblocking this user.";

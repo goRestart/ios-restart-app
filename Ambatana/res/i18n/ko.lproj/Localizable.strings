@@ -585,6 +585,12 @@
 "tab_bar_tool_tip" = "고객님의 물건을 판매하세요";
 "toast_error_internal" = "이런! 무언가가 잘못되었네요.";
 "toast_no_network" = "인터넷 연결 없음";
+"tour_claim_label" = "구매와 판매를 빠르고 안전하고 지역적으로 진행하세요.";
+"tour_email_button" = "이메일";
+"tour_facebook_button" = "페이스북과 연결하기";
+"tour_google_button" = "구글과 연결하기";
+"tour_help_button" = "도움";
+"tour_or_label" = "혹은 이메일 사용하기";
 "tour_page_1_body" = "구매와 판매를 빠르고 안전하고 지역적으로 진행하세요.";
 "trending_searches_Title" = "트렌드 검색";
 "unblock_user_error_generic" = "이 사용자의 차단을 해제하는데 오류가 발생했습니다.";

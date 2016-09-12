@@ -585,6 +585,12 @@
 "tab_bar_tool_tip" = "Myy tavaroitasi";
 "toast_error_internal" = "Hups! Jokin meni vikaan.";
 "toast_no_network" = "Ei Internet-yhteyttä";
+"tour_claim_label" = "Osta ja myy nopeasti, turvallisesti ja paikallisesti.";
+"tour_email_button" = "Sähköposti";
+"tour_facebook_button" = "Jatka Facebookin avulla";
+"tour_google_button" = "Jatka Googlen avulla";
+"tour_help_button" = "Apua";
+"tour_or_label" = "TAI KÄYTÄ SÄHKÖPOSTIASI";
 "tour_page_1_body" = "Osta ja myy nopeasti, turvallisesti ja paikallisesti.";
 "trending_searches_Title" = "Nousussa olevat haut";
 "unblock_user_error_generic" = "Tämän käyttäjän estoa poistettaessa tapahtui virhe.";

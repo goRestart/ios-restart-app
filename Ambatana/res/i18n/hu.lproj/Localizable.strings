@@ -585,6 +585,12 @@
 "tab_bar_tool_tip" = "Add el dolgaidat";
 "toast_error_internal" = "Hoppá! Valami nem sikerült.";
 "toast_no_network" = "Nincs internetkapcsolat";
+"tour_claim_label" = "Vásárolj és adj el gyorsan, biztonságosan – a környékeden.";
+"tour_email_button" = "EMAIL";
+"tour_facebook_button" = "Folytatás a Facebookkal";
+"tour_google_button" = "Google-csatlakozás";
+"tour_help_button" = "Segítség";
+"tour_or_label" = "VAGY E-MAIL";
 "tour_page_1_body" = "Vásárolj és adj el gyorsan, biztonságosan – a környékeden.";
 "trending_searches_Title" = "Felkapott kulcsszavak";
 "unblock_user_error_generic" = "Hiba történt a blokkolás feloldása során.";

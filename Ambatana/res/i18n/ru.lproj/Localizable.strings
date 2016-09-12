@@ -585,6 +585,12 @@
 "tab_bar_tool_tip" = "Продайте свои вещи";
 "toast_error_internal" = "Упс! Что-то пошло не так.";
 "toast_no_network" = "Нет соединения с интернет";
+"tour_claim_label" = "Покупайте и продавайте быстро, безопасно и удобно.";
+"tour_email_button" = "E-mail";
+"tour_facebook_button" = "Вход через Facebook";
+"tour_google_button" = "Вход через Google";
+"tour_help_button" = "Помощь";
+"tour_or_label" = "ИЛИ ЧЕРЕЗ E-MAIL";
 "tour_page_1_body" = "Покупайте и продавайте быстро, безопасно и удобно.";
 "trending_searches_Title" = "Популярные запросы";
 "unblock_user_error_generic" = "При разблокировке произошла ошибка.";
