@@ -2383,18 +2383,6 @@ struct LGLocalizedString {
 		return NSLocalizedString("tour_page_1_body", comment: "")
 	}
 
-	static var tourTermsConditions: String {
-		return NSLocalizedString("tour_terms_conditions", comment: "")
-	}
-
-	static var tourTermsConditionsPrivacyKeyword: String {
-		return NSLocalizedString("tour_terms_conditions_privacy_keyword", comment: "")
-	}
-
-	static var tourTermsConditionsTermsKeyword: String {
-		return NSLocalizedString("tour_terms_conditions_terms_keyword", comment: "")
-	}
-
 	static var trendingSearchesTitle: String {
 		return NSLocalizedString("trending_searches_Title", comment: "")
 	}

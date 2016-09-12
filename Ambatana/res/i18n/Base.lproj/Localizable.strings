@@ -1770,15 +1770,6 @@
 // Tour page 1 body.
 "tour_page_1_body" = "Buy and sell quickly, safely and locally. It’s time to letgo!";
 
-// Tour up terms and conditions complete text
-"tour_terms_conditions" = "By signing up or logging in, you agree to our Terms & Conditions and Privacy Policy";
-
-// "Privacy Policy" part of "tour_terms_conditions" segment
-"tour_terms_conditions_privacy_keyword" = "Privacy Policy";
-
-// "Terms of Service" part of "tour_terms_conditions" segment
-"tour_terms_conditions_terms_keyword" = "Terms & Conditions";
-
 // Title for trending searches screen (background view when searching)
 "trending_searches_Title" = "Trending Searches";
 
