@@ -57,7 +57,7 @@ struct WebSocketRouter {
         dict["type"] = type.rawValue
         dict["data"] = data
         guard let JSONData = try? NSJSONSerialization.dataWithJSONObject(dict, options: [.PrettyPrinted]),
-            let JSONText = NSString(data: JSONData, encoding: NSASCIIStringEncoding)
+            let JSONText = NSString(data: JSONData, encoding: NSUTF8StringEncoding)
             else { return "" }
         return String(JSONText)
     }
