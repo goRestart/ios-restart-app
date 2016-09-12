@@ -388,19 +388,19 @@ public struct TrackerEvent {
 
     static func productSellError(error: EventParameterPostProductError) -> TrackerEvent {
         var params = EventParameters()
-        params[.ErrorDescription] = error.rawValue
+        params[.ErrorDescription] = error.description
         return TrackerEvent(name: .ProductSellError, params: params)
     }
 
     static func productSellErrorClose(error: EventParameterPostProductError) -> TrackerEvent {
         var params = EventParameters()
-        params[.ErrorDescription] = error.rawValue
+        params[.ErrorDescription] = error.description
         return TrackerEvent(name: .ProductSellErrorClose, params: params)
     }
 
     static func productSellErrorPost(error: EventParameterPostProductError) -> TrackerEvent {
         var params = EventParameters()
-        params[.ErrorDescription] = error.rawValue
+        params[.ErrorDescription] = error.description
         return TrackerEvent(name: .ProductSellErrorPost, params: params)
     }
 

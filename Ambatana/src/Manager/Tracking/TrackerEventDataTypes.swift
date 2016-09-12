@@ -394,9 +394,30 @@ public enum EventParameterLoginError {
     }
 }
 
-public enum EventParameterPostProductError: String {
-    case Network = "product-sell-network"
-    case Internal = "product-sell-internal"
+public enum EventParameterPostProductError {
+    case Network
+    case Internal
+    case ServerError(code: String)
+
+    var description: String {
+        switch self {
+        case .Network:
+            return "product-sell-network"
+        case .Internal:
+            return "product-sell-internal"
+        case .ServerError:
+            return "product-sell-server-error"
+        }
+    }
+
+    var details: String? {
+        switch self {
+        case .Network, .Internal:
+            return nil
+        case let .ServerError(errorCode):
+            return errorCode
+        }
+    }
 }
 
 public enum EventParameterEditedFields: String {
