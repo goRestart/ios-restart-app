@@ -44,8 +44,11 @@ public class SignUpViewModel: BaseViewModel {
         let localizedLegalText = LGLocalizedString.mainSignUpTermsConditions
         let attributtedLegalText = localizedLegalText.attributedHyperlinkedStringWithURLDict(links,
             textColor: UIColor.darkGrayText)
-        attributtedLegalText.addAttribute(NSFontAttributeName, value: UIFont.smallBodyFont,
-            range: NSMakeRange(0, attributtedLegalText.length))
+        let range = NSMakeRange(0, attributtedLegalText.length)
+        attributtedLegalText.addAttribute(NSFontAttributeName, value: UIFont.smallBodyFont, range: range)
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.alignment = .Center
+        attributtedLegalText.addAttribute(NSParagraphStyleAttributeName, value: paragraphStyle, range: range)
         return attributtedLegalText
     }
 
@@ -57,6 +60,7 @@ public class SignUpViewModel: BaseViewModel {
     }
 
     private let sessionManager: SessionManager
+    private let appearance: LoginAppearance
     private let loginSource: EventParameterLoginSourceValue
     private let googleLoginHelper: GoogleLoginHelper
 
@@ -66,6 +70,7 @@ public class SignUpViewModel: BaseViewModel {
     
     public init(sessionManager: SessionManager, appearance: LoginAppearance, source: EventParameterLoginSourceValue) {
         self.sessionManager = sessionManager
+        self.appearance = appearance
         self.loginSource = source
         self.googleLoginHelper = GoogleLoginHelper(loginSource: source)
         super.init()
@@ -110,11 +115,11 @@ public class SignUpViewModel: BaseViewModel {
     }
 
     public func loginSignupViewModelForLogin() -> SignUpLogInViewModel {
-        return SignUpLogInViewModel(source: loginSource, action: .Login)
+        return SignUpLogInViewModel(appearance: appearance, source: loginSource, action: .Login)
     }
 
     public func loginSignupViewModelForSignUp() -> SignUpLogInViewModel {
-        return SignUpLogInViewModel(source: loginSource, action: .Signup)
+        return SignUpLogInViewModel(appearance: appearance, source: loginSource, action: .Signup)
     }
 
 

@@ -117,8 +117,10 @@ final class AppCoordinator: NSObject {
     private func openTourWithFinishingCompletion(tourFinishedCompletion: () -> ()) {
         // TODO: should open child coordinator using `openChild`
         // TODO: completion stuff, should be handled in here, should not come via param
+        let signUpVM = SignUpViewModel(appearance: .Dark, source: .Install)
         let tourVM = TourLoginViewModel()
-        let tourVC = TourLoginViewController(viewModel: tourVM, completion: tourFinishedCompletion)
+        let tourVC = TourLoginViewController(signUpViewModel: signUpVM, tourLoginViewModel: tourVM,
+                                             completion: tourFinishedCompletion)
         tabBarCtl.presentViewController(tourVC, animated: false, completion: nil)
     }
 
@@ -509,7 +511,7 @@ private extension AppCoordinator {
     }
 
     func openLogin(style: LoginStyle, source: EventParameterLoginSourceValue, afterLogInSuccessful: () -> ()) {
-        let viewModel = SignUpViewModel(source: source)
+        let viewModel = SignUpViewModel(appearance: .Light, source: source)
         switch style {
         case .FullScreen:
             let vc = MainSignUpViewController(viewModel: viewModel)

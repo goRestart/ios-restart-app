@@ -11,9 +11,6 @@ import JBKenBurnsView
 import LGCoreKit
 
 final class TourLoginViewController: BaseViewController, GIDSignInUIDelegate {
-    
-    let viewModel: TourLoginViewModel
-
     @IBOutlet weak var kenBurnsView: JBKenBurnsView!
 
     @IBOutlet weak var closeButton: UIButton!
@@ -31,17 +28,22 @@ final class TourLoginViewController: BaseViewController, GIDSignInUIDelegate {
     @IBOutlet weak var footerTextViewBottomConstraint: NSLayoutConstraint!
 
     private var lines: [CALayer] = []
-    
+
+    private let signUpViewModel: SignUpViewModel
+    private let tourLoginViewModel: TourLoginViewModel
     let completion: (() -> ())?
     
     
     // MARK: - Lifecycle
     
-    init(viewModel: TourLoginViewModel, completion: (() -> ())?) {
-        self.viewModel = viewModel
+    init(signUpViewModel: SignUpViewModel, tourLoginViewModel: TourLoginViewModel, completion: (() -> ())?) {
+        self.signUpViewModel = signUpViewModel
+        self.tourLoginViewModel = tourLoginViewModel
         self.completion = completion
-        super.init(viewModel: viewModel, nibName: "TourLoginViewController", statusBarStyle: .LightContent,
+        super.init(viewModel: signUpViewModel, nibName: "TourLoginViewController", statusBarStyle: .LightContent,
                    navBarBackgroundStyle: .Transparent)
+
+        self.signUpViewModel.delegate = self
         modalPresentationStyle = .OverCurrentContext
         modalTransitionStyle = .CrossDissolve
 
@@ -68,22 +70,81 @@ final class TourLoginViewController: BaseViewController, GIDSignInUIDelegate {
         setupKenBurns()
     }
 
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        GIDSignIn.sharedInstance().uiDelegate = self
+    }
+
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
+        setupLines()
+    }
 
-        // Redraw the lines
-        for line in lines {
-            line.removeFromSuperlayer()
+
+    // MARK: - IBActions
+    
+    @IBAction func closeButtonPressed(sender: AnyObject) {
+        openNextStep()
+    }
+
+    @IBAction func facebookButtonPressed(sender: AnyObject) {
+        signUpViewModel.logInWithFacebook()
+    }
+
+    @IBAction func googleButtonPressed(sender: AnyObject) {
+        signUpViewModel.logInWithGoogle()
+    }
+
+    @IBAction func emailButtonPressed(sender: AnyObject) {
+        let vm = SignUpLogInViewModel(appearance: .Dark, source: .Install, action: .Signup)
+        let vc = SignUpLogInViewController(viewModel: vm)
+        vc.afterLoginAction = { [weak self] in
+            self?.openNextStep()
         }
-        lines = []
-        for orDividerView in orDividerViews {
-            lines.append(orDividerView.addBottomBorderWithWidth(1, color: UIColor.white))
+        let nav = UINavigationController(rootViewController: vc)
+        presentViewController(nav, animated: true, completion: nil)
+    }
+}
+
+
+// MARK: - UITextViewDelegate
+
+extension TourLoginViewController: UITextViewDelegate {
+    func textView(textView: UITextView, shouldInteractWithURL url: NSURL, inRange characterRange: NSRange) -> Bool {
+        openInternalUrl(url)
+        return false
+    }
+}
+
+
+// MARK: - SignUpViewModelDelegate
+
+extension TourLoginViewController: SignUpViewModelDelegate {
+    func viewModelDidStartLoggingIn(viewModel: SignUpViewModel) {
+        showLoadingMessageAlert()
+    }
+
+    func viewModeldidFinishLoginIn(viewModel: SignUpViewModel) {
+        dismissLoadingMessageAlert() { [weak self] in
+            self?.openNextStep()
         }
     }
 
-    
-    // MARK: - UI
-    
+    func viewModeldidCancelLoginIn(viewModel: SignUpViewModel) {
+        dismissLoadingMessageAlert()
+    }
+
+    func viewModel(viewModel: SignUpViewModel, didFailLoginIn message: String) {
+        dismissLoadingMessageAlert() { [weak self] in
+            self?.showAutoFadingOutMessageAlert(message, time: 3)
+        }
+    }
+}
+
+
+// MARK: - Private UI methods
+
+private extension TourLoginViewController {
     func setupKenBurns() {
         let images: [UIImage] = [
             UIImage(named: "bg_1_new"),
@@ -94,7 +155,7 @@ final class TourLoginViewController: BaseViewController, GIDSignInUIDelegate {
         view.layoutIfNeeded()
         kenBurnsView.animateWithImages(images, transitionDuration: 10, initialDelay: 0, loop: true, isLandscape: true)
     }
-    
+
     func setupUI() {
         // UI
         kenBurnsView.clipsToBounds = true
@@ -113,7 +174,7 @@ final class TourLoginViewController: BaseViewController, GIDSignInUIDelegate {
         facebookButton.setTitle(LGLocalizedString.tourFacebookButton, forState: .Normal)
         googleButton.setTitle(LGLocalizedString.tourGoogleButton, forState: .Normal)
         emailButton.setTitle(LGLocalizedString.tourEmailButton, forState: .Normal)
-        footerTextView.attributedText = viewModel.attributedLegalText
+        footerTextView.attributedText = signUpViewModel.attributedLegalText
     }
 
     private func adaptConstraintsToiPhone4() {
@@ -130,12 +191,21 @@ final class TourLoginViewController: BaseViewController, GIDSignInUIDelegate {
         googleButton.accessibilityId = .TourGoogleButton
         emailButton.accessibilityId = .TourEmailButton
     }
-    
-    
-    // MARK: - Navigation
-    
+
+    func setupLines() {
+        // Redraw the lines
+        lines.forEach { $0.removeFromSuperlayer() }
+        lines = []
+        orDividerViews.forEach { lines.append($0.addBottomBorderWithWidth(1, color: UIColor.white)) }
+    }
+}
+
+
+// MARK: - Private Navigation methods
+
+private extension TourLoginViewController {
     func openNextStep() {
-        switch viewModel.nextStep() {
+        switch tourLoginViewModel.nextStep() {
         case .Notifications:
             openNotificationsTour()
         case .Location:
@@ -144,21 +214,17 @@ final class TourLoginViewController: BaseViewController, GIDSignInUIDelegate {
             close(true)
         }
     }
-    
-    func close(animated: Bool = false) {
-        dismissViewControllerAnimated(animated, completion: completion)
-    }
-    
+
     func openNotificationsTour() {
         PushPermissionsManager.sharedInstance.showPrePermissionsViewFrom(self, type: .Onboarding) { [weak self] in
             self?.close()
         }
-        
+
         UIView.animateWithDuration(0.3, delay: 0.1, options: UIViewAnimationOptions.CurveEaseInOut, animations: {
             self.view.alpha = 0
         }, completion: nil)
     }
-    
+
     func openLocationTour() {
         let vm = TourLocationViewModel(source: .Install)
         let vc = TourLocationViewController(viewModel: vm)
@@ -167,62 +233,15 @@ final class TourLoginViewController: BaseViewController, GIDSignInUIDelegate {
         }
         presentStep(vc)
     }
-    
+
     func presentStep(vc: UIViewController) {
         UIView.animateWithDuration(0.3, delay: 0.1, options: UIViewAnimationOptions.CurveEaseInOut, animations: {
             self.view.alpha = 0
         }, completion: nil)
         presentViewController(vc, animated: true, completion: nil)
     }
-    
-    
-    // MARK: - IBActions
-    
-    @IBAction func closeButtonPressed(sender: AnyObject) {
-        self.openNextStep()
-    }
 
-    @IBAction func facebookButtonPressed(sender: AnyObject) {
-    }
-
-    @IBAction func googleButtonPressed(sender: AnyObject) {
-    }
-
-    @IBAction func emailButtonPressed(sender: AnyObject) {
-    }
-
-
-//    @IBAction func signUpPressed(sender: AnyObject) {
-//        let vm = SignUpLogInViewModel(source: .Install, action: .Signup)
-//        let vc = SignUpLogInViewController(viewModel: vm)
-//        vc.afterLoginAction = { [weak self] in
-//            self?.openNextStep()
-//        }
-//        let nav = UINavigationController(rootViewController: vc)
-//        presentViewController(nav, animated: true, completion: nil)
-//    }
-//    
-//    @IBAction func loginPressed(sender: AnyObject) {
-//        let vm = SignUpLogInViewModel(source: .Install, action: .Login)
-//        let vc = SignUpLogInViewController(viewModel: vm)
-//        vc.afterLoginAction = { [weak self] in
-//            self?.openNextStep()
-//        }
-//        let nav = UINavigationController(rootViewController: vc)
-//        presentViewController(nav, animated: true, completion: nil)
-//    }
-//    
-//    @IBAction func skipPressed(sender: AnyObject) {
-//        openNextStep()
-//    }
-}
-
-
-// MARK: - UITextViewDelegate
-
-extension TourLoginViewController: UITextViewDelegate {
-    func textView(textView: UITextView, shouldInteractWithURL url: NSURL, inRange characterRange: NSRange) -> Bool {
-        openInternalUrl(url)
-        return false
+    func close(animated: Bool = false) {
+        dismissViewControllerAnimated(animated, completion: completion)
     }
 }

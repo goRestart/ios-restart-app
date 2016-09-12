@@ -115,8 +115,8 @@ public class SignUpLogInViewModel: BaseViewModel {
 
     // MARK: - Lifecycle
     
-    init(sessionManager: SessionManager, locationManager: LocationManager, source: EventParameterLoginSourceValue,
-        action: LoginActionType) {
+    init(sessionManager: SessionManager, locationManager: LocationManager, appearance: LoginAppearance,
+         source: EventParameterLoginSourceValue, action: LoginActionType) {
         self.sessionManager = sessionManager
         self.locationManager = locationManager
         self.loginSource = source
@@ -132,10 +132,11 @@ public class SignUpLogInViewModel: BaseViewModel {
         self.checkTermsAndConditionsEnabled()
     }
     
-    convenience init(source: EventParameterLoginSourceValue, action: LoginActionType) {
+    convenience init(appearance: LoginAppearance, source: EventParameterLoginSourceValue, action: LoginActionType) {
         let sessionManager = Core.sessionManager
         let locationManager = Core.locationManager
-        self.init(sessionManager: sessionManager, locationManager: locationManager, source: source, action: action)
+        self.init(sessionManager: sessionManager, locationManager: locationManager, appearance: appearance,
+                  source: source, action: action)
     }
     
     
