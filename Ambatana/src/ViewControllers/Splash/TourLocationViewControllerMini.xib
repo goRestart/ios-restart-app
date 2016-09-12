@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="TourLocationViewController" customModule="LetGo" customModuleProvider="target">
             <connections>
+                <outlet property="closeButton" destination="jO7-ua-tLP" id="gha-pl-Ye5"/>
                 <outlet property="distanceLabel" destination="nnu-rE-Ux7" id="O5t-Gb-UCj"/>
+                <outlet property="iphoneRightHeightConstraint" destination="4i8-F9-k5O" id="svB-Ug-9CZ"/>
                 <outlet property="labelContainer" destination="6fD-K2-LnF" id="u1Z-x1-yXM"/>
                 <outlet property="noButton" destination="YLm-Ix-GBf" id="hoX-aF-c8f"/>
                 <outlet property="subtitleLabel" destination="qtS-Fa-2SK" id="q1i-Mc-wRM"/>
