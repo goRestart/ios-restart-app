@@ -124,17 +124,18 @@ class ChatViewModel: BaseViewModel {
     let interlocutorHasMutedYou = Variable<Bool>(false)
     let chatStatus = Variable<ChatInfoViewStatus>(.Available)
     let chatEnabled = Variable<Bool>(true)
+    let chatConnected = Variable<Bool>(false)
     let relatedProductsEnabled = Variable<Bool>(false)
     let interlocutorTyping = Variable<Bool>(false)
     let messages = CollectionVariable<ChatViewMessage>([])
-    private var conversation: Variable<ChatConversation>
+    private let conversation: Variable<ChatConversation>
     private var interlocutor: User?
-    private var myMessagesCount = Variable<Int>(0)
-    private var otherMessagesCount = Variable<Int>(0)
-    private var stickersTooltipVisible = Variable<Bool>(!KeyValueStorage.sharedInstance[.stickersTooltipAlreadyShown])
-    private var reviewTooltipVisible = Variable<Bool>(!KeyValueStorage.sharedInstance[.userRatingTooltipAlreadyShown])
-    var shouldShowReviewButton = Variable<Bool>(false)
-    var userReviewTooltipVisible = Variable<Bool>(false)
+    private let myMessagesCount = Variable<Int>(0)
+    private let otherMessagesCount = Variable<Int>(0)
+    private let stickersTooltipVisible = Variable<Bool>(!KeyValueStorage.sharedInstance[.stickersTooltipAlreadyShown])
+    private let reviewTooltipVisible = Variable<Bool>(!KeyValueStorage.sharedInstance[.userRatingTooltipAlreadyShown])
+    let shouldShowReviewButton = Variable<Bool>(false)
+    let userReviewTooltipVisible = Variable<Bool>(false)
 
 
     // Private    
@@ -347,14 +348,9 @@ class ChatViewModel: BaseViewModel {
         }.addDisposableTo(disposeBag)
 
         myUserRepository.rx_myUser.asObservable().skip(1).subscribeNext { [weak self] myUser in
-            guard let myUser = myUser, firstMessage = self?.messages.value.first else { return }
-            guard myUser.isSocialVerified else { return }
-            //check and remove social advise
-            switch firstMessage.type {
-            case .Disclaimer:
-                self?.messages.removeFirst()
-            default: break
-            }
+            guard let myUser = myUser where myUser.isSocialVerified else { return }
+            guard let disclaimerIndex = self?.bottomDisclaimerMessageIndex else { return }
+            self?.messages.removeAtIndex(disclaimerIndex)
         }.addDisposableTo(disposeBag)
 
         setupChatEventsRx()
@@ -398,8 +394,12 @@ class ChatViewModel: BaseViewModel {
                 self?.interlocutorTyping.value = true
             case .InterlocutorTypingStopped:
                 self?.interlocutorTyping.value = false
+            case .AuthenticationTokenExpired:
+                break
             }
         }.addDisposableTo(disposeBag)
+        
+        chatRepository.chatAvailable.asObservable().bindTo(chatConnected).addDisposableTo(disposeBag)
     }
 
     
@@ -638,7 +638,6 @@ extension ChatViewModel {
         let message: ChatMessage = chatRepository.createNewMessage(interlocutorId, text: text, type: type)
         let viewMessage = chatViewMessageAdapter.adapt(message).markAsSent().markAsReceived().markAsRead()
         messages.insert(viewMessage, atIndex: 0)
-        chatRepository.confirmReception(convId, messageIds: [messageId], completion: nil)
         chatRepository.confirmRead(convId, messageIds: [messageId], completion: nil)
     }
 }
@@ -650,8 +649,13 @@ extension ChatViewModel {
     private func markProductAsSold() {
         guard conversation.value.amISelling else { return }
         guard let productId = conversation.value.product?.objectId else { return }
+        delegate?.vmShowLoading(nil)
         productRepository.markProductAsSold(productId) { [weak self] result in
-            self?.refreshConversation()
+            let errorMessage: String? = result.error != nil ? LGLocalizedString.productMarkAsSoldErrorGeneric : nil
+            self?.delegate?.vmHideLoading(errorMessage) {
+                guard let _ = result.value else { return }
+                self?.refreshConversation()
+            }
         }
     }
 }
@@ -850,6 +854,17 @@ extension ChatViewModel {
         }
     }
 
+    var bottomDisclaimerMessageIndex: Int?  {
+        for (index, message) in messages.value.enumerate() {
+            switch message.type {
+            case .Disclaimer:
+                return index
+            default: break
+            }
+        }
+        return nil
+    }
+
     private func downloadFirstPage(conversationId: String) {
         chatRepository.indexMessages(conversationId, numResults: resultsPerPage, offset: 0) {
             [weak self] result in
@@ -904,14 +919,8 @@ extension ChatViewModel {
         guard let convId = conversation.value.objectId else { return }
         guard let interlocutorId = conversation.value.interlocutor?.objectId else { return }
 
-        let receptionIds: [String] = chatMessages.filter { return $0.talkerId == interlocutorId && $0.receivedAt == nil }
-            .flatMap{ $0.objectId }
         let readIds: [String] = chatMessages.filter { return $0.talkerId == interlocutorId && $0.readAt == nil }
             .flatMap { $0.objectId }
-
-        if !receptionIds.isEmpty {
-            chatRepository.confirmReception(convId, messageIds: receptionIds, completion: nil)
-        }
         if !readIds.isEmpty {
             chatRepository.confirmRead(convId, messageIds: readIds, completion: nil)
         }

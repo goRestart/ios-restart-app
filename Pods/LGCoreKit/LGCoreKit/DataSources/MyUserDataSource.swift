@@ -23,10 +23,12 @@ protocol MyUserDataSource {
     - parameter name: The name.
     - parameter newsletter: Whether or not the user accepted newsletter sending. Send to nil if user wasn't asked about it
     - parameter location: The location.
+    - parameter postalAddress: The postal address.
+    - parameter localeIdentifier: The locale identifier.
     - parameter completion: The completion closure.
     */
     func createWithEmail(email: String, password: String, name: String, newsletter: Bool?, location: LGLocation?,
-        postalAddress: PostalAddress?, completion: ((Result<MyUser, ApiError>) -> ())?)
+        postalAddress: PostalAddress?, localeIdentifier: String, completion: ((Result<MyUser, ApiError>) -> ())?)
 
     /**
     Updates a my user with the given parameters.
@@ -65,11 +67,4 @@ protocol MyUserDataSource {
      - parameter completion: completion closure
      */
     func linkAccount(userId: String, provider: LinkAccountProvider, completion: ((Result<Void, ApiError>)->())?)
-
-    /**
-     Retrieves counters for the given userid
-
-     - parameter completion: Completion closure
-     */
-    func retrieveCounters(completion completion: ((Result<UserCounters, ApiError>)->())?)
 }

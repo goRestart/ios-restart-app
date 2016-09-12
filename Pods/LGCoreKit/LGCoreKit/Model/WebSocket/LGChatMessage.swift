@@ -19,6 +19,11 @@ struct LGChatMessage: ChatMessage {
     var readAt: NSDate?
     let type: ChatMessageType
     var warnings: [ChatMessageWarning]
+
+    func markReceived() -> ChatMessage {
+        return LGChatMessage(objectId: objectId, talkerId: talkerId, text: text, sentAt: sentAt,
+                             receivedAt: receivedAt ?? NSDate(), readAt: readAt, type: type, warnings: warnings)
+    }
 }
 
 extension LGChatMessage: Decodable {

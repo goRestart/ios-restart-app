@@ -31,6 +31,7 @@ final class DIProxy: InternalDI {
     */
     func setType(type: InternalDI.Type) {
         self.di = DIProxy.buildDI(type, backgroundEnabled: false)
+        DIProxy.diType = type
     }
     
     

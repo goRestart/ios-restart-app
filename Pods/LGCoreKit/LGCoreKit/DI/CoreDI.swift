@@ -38,9 +38,9 @@ final class CoreDI: InternalDI {
         
         let myUserDataSource = MyUserApiDataSource(apiClient: apiClient)
         let myUserDAO = MyUserUDDAO(userDefaults: userDefaults)
-        let myUserRepository = MyUserRepository(dataSource: myUserDataSource, dao: myUserDAO)
+        let myUserRepository = MyUserRepository(dataSource: myUserDataSource, dao: myUserDAO, locale: locale)
         
-        let chatDataSource = ChatWebSocketDataSource(webSocketClient: webSocketClient)
+        let chatDataSource = ChatWebSocketDataSource(webSocketClient: webSocketClient, apiClient: apiClient)
         let chatRepository = ChatRepository(dataSource: chatDataSource, myUserRepository: myUserRepository,
                                             webSocketClient: webSocketClient)
         self.chatRepository = chatRepository
@@ -64,7 +64,7 @@ final class CoreDI: InternalDI {
         let stickersDAO = StickersUDDAO(userDefaults: userDefaults)
         let productsLimboDAO = ProductsLimboUDDAO(userDefaults: userDefaults)
         
-        let sessionManager = SessionManager(apiClient: apiClient, locationManager: locationManager,
+        let sessionManager = SessionManager(apiClient: apiClient, websocketClient: webSocketClient, locationManager: locationManager,
             myUserRepository: myUserRepository, installationRepository: installationRepository,
             chatRepository: chatRepository, tokenDAO: tokenDAO, deviceLocationDAO: deviceLocationDAO,
             favoritesDAO: favoritesDAO)

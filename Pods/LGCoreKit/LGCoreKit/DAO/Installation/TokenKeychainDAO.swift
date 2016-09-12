@@ -56,6 +56,18 @@ class TokenKeychainDAO: TokenDAO {
         return nil
     }
 
+    func deleteInstallationToken() {
+        let deleteSucceeded = keychain.delete(TokenKeychainDAO.installationKey)
+        if deleteSucceeded {
+            logMessage(.Verbose, type: [CoreLoggingOptions.Persistence, CoreLoggingOptions.Token],
+                       message: "Succeeded deleting \(AuthLevel.Installation) token in keychain")
+        } else {
+            logMessage(.Error, type: [CoreLoggingOptions.Persistence, CoreLoggingOptions.Token],
+                       message: "Failed deleting \(AuthLevel.Installation) token in keychain")
+        }
+        token = fetch()
+    }
+
     func deleteUserToken() {
         let deleteSucceeded = keychain.delete(TokenKeychainDAO.userKey)
         if deleteSucceeded {
@@ -66,18 +78,6 @@ class TokenKeychainDAO: TokenDAO {
                 message: "Failed deleting \(AuthLevel.User) token in keychain")
         }
         token = fetch()
-    }
-
-    func reset() {
-        let deleteSucceeded = keychain.delete(TokenKeychainDAO.installationKey)
-        if deleteSucceeded {
-            logMessage(.Verbose, type: [CoreLoggingOptions.Persistence, CoreLoggingOptions.Token],
-                message: "Succeeded deleting \(AuthLevel.Installation) token in keychain")
-        } else {
-            logMessage(.Error, type: [CoreLoggingOptions.Persistence, CoreLoggingOptions.Token],
-                message: "Failed deleting \(AuthLevel.Installation) token in keychain")
-        }
-        deleteUserToken()
     }
 
     private func storeToken(token: Token) {

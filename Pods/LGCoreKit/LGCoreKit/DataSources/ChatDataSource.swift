@@ -21,6 +21,9 @@ typealias ChatWebSocketConversationCompletion = ChatWebSocketConversationResult 
 typealias ChatWebSocketCommandResult = Result<Void, WebSocketError>
 typealias ChatWebSocketCommandCompletion = ChatWebSocketCommandResult -> Void
 
+typealias ChatWebSocketUnreadCountResult = Result<ChatUnreadMessages, ApiError>
+typealias ChatWebSocketUnreadCountCompletion = ChatWebSocketUnreadCountResult -> Void
+
 protocol ChatDataSource {
     
     // Messages
@@ -44,4 +47,7 @@ protocol ChatDataSource {
     func confirmRead(conversationId: String, messageIds: [String], completion: ChatWebSocketCommandCompletion?)
     func archiveConversations(conversationIds: [String], completion: ChatWebSocketCommandCompletion?)
     func unarchiveConversations(conversationIds: [String], completion: ChatWebSocketCommandCompletion?)
+
+    // Unread messages
+    func unreadMessages(userId: String, completion: ChatWebSocketUnreadCountCompletion?)
 }
