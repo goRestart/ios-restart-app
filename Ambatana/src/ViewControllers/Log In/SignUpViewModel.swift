@@ -21,6 +21,10 @@ public enum LoginSource: String {
     case ReportFraud = "report-fraud"
 }
 
+public enum LoginAppearance {
+    case Dark, Light
+}
+
 protocol SignUpViewModelDelegate: class {
     func viewModelDidStartLoggingIn(viewModel: SignUpViewModel)
     func viewModeldidFinishLoginIn(viewModel: SignUpViewModel)
@@ -60,7 +64,7 @@ public class SignUpViewModel: BaseViewModel {
     
     // Public methods
     
-    public init(sessionManager: SessionManager, source: EventParameterLoginSourceValue) {
+    public init(sessionManager: SessionManager, appearance: LoginAppearance, source: EventParameterLoginSourceValue) {
         self.sessionManager = sessionManager
         self.loginSource = source
         self.googleLoginHelper = GoogleLoginHelper(loginSource: source)
@@ -70,9 +74,9 @@ public class SignUpViewModel: BaseViewModel {
         TrackerProxy.sharedInstance.trackEvent(TrackerEvent.loginVisit(loginSource))
     }
     
-    public convenience init(source: EventParameterLoginSourceValue) {
+    public convenience init(appearance: LoginAppearance, source: EventParameterLoginSourceValue) {
         let sessionManager = Core.sessionManager
-        self.init(sessionManager: sessionManager, source: source)
+        self.init(sessionManager: sessionManager, appearance: appearance, source: source)
     }
     
     public func logInWithFacebook() {
