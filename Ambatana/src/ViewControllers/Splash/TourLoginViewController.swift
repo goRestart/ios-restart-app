@@ -10,16 +10,24 @@ import Foundation
 import JBKenBurnsView
 import LGCoreKit
 
-final class TourLoginViewController: BaseViewController {
+final class TourLoginViewController: BaseViewController, GIDSignInUIDelegate {
     
     let viewModel: TourLoginViewModel
-    
-    @IBOutlet weak var closeButton: UIButton!
-    @IBOutlet weak var signupButton: UIButton!
-    @IBOutlet weak var loginButton: UIButton!
-    @IBOutlet weak var skipButton: UIButton!
-    @IBOutlet weak var messageLabel: UILabel!
+
     @IBOutlet weak var kenBurnsView: JBKenBurnsView!
+
+    @IBOutlet weak var closeButton: UIButton!
+    @IBOutlet weak var claimLabel: UILabel!
+    @IBOutlet weak var claimLabelTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak var facebookButton: UIButton!
+    @IBOutlet weak var googleButton: UIButton!
+    @IBOutlet weak var orUseEmailLabel: UILabel!
+    @IBOutlet weak var orUseEmailLabelTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak var emailButton: UIButton!
+    @IBOutlet weak var emailButtonTopContraint: NSLayoutConstraint!
+    @IBOutlet weak var mainViewBottomConstraint: NSLayoutConstraint!
+    @IBOutlet weak var footerTextView: UITextView!
+    @IBOutlet weak var footerTextViewBottomConstraint: NSLayoutConstraint!
     
     let completion: (() -> ())?
     
@@ -47,6 +55,10 @@ final class TourLoginViewController: BaseViewController {
         super.viewDidLoad()
         setupUI()
         setupAccessibilityIds()
+
+        if DeviceFamily.current == .iPhone4 {
+            adaptConstraintsToiPhone4()
+        }
     }
 
     override func viewDidFirstAppear(animated: Bool) {
@@ -68,34 +80,39 @@ final class TourLoginViewController: BaseViewController {
     }
     
     func setupUI() {
-        signupButton.titleLabel?.font = UIFont.tourButtonFont
-        signupButton.setTitle(LGLocalizedString.signUpSendButton, forState: .Normal)
-        signupButton.setStyle(.Primary(fontSize: .Medium))
-        signupButton.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
+        // TODO: Move localizables to tour prefix
         
-        loginButton.backgroundColor = UIColor.clearColor()
-        loginButton.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
-        loginButton.layer.borderWidth = 1
-        loginButton.layer.borderColor = UIColor.whiteColor().CGColor
-        loginButton.tintColor = UIColor.whiteColor()
-        loginButton.titleLabel?.font = UIFont.tourButtonFont
-        loginButton.setTitle(LGLocalizedString.logInSendButton, forState: .Normal)
-        
-        skipButton.backgroundColor = UIColor.clearColor()
-        skipButton.tintColor = UIColor.whiteColor()
-        skipButton.titleLabel?.font = UIFont.tourButtonFont
-        skipButton.setTitle(LGLocalizedString.onboardingLoginSkip, forState: .Normal)
-        
-        messageLabel.text = LGLocalizedString.tourPage1Body
-        
+        // UI
         kenBurnsView.clipsToBounds = true
+
+        facebookButton.setStyle(.Facebook)
+        googleButton.setStyle(.Google)
+        orUseEmailLabel.text = LGLocalizedString.mainSignUpOrLabel
+        orUseEmailLabel.font = UIFont.smallBodyFont
+        emailButton.layer.cornerRadius = 10
+
+        footerTextView.attributedText = viewModel.attributedLegalText
+        footerTextView.textAlignment = .Center
+        footerTextView.delegate = self
+
+        // i18n
+        facebookButton.setTitle(LGLocalizedString.mainSignUpFacebookConnectButton, forState: .Normal)
+        googleButton.setTitle(LGLocalizedString.mainSignUpGoogleConnectButton, forState: .Normal)
+    }
+
+    private func adaptConstraintsToiPhone4() {
+        claimLabelTopConstraint.constant = 10
+        orUseEmailLabelTopConstraint.constant = 10
+        emailButtonTopContraint.constant = 10
+        mainViewBottomConstraint.constant = 8
+        footerTextViewBottomConstraint.constant = 8
     }
 
     func setupAccessibilityIds() {
         closeButton.accessibilityId = .TourLoginCloseButton
-        signupButton.accessibilityId = .TourLoginSignUpButton
-        loginButton.accessibilityId = .TourLoginLogInButton
-        skipButton.accessibilityId = .TourLoginSkipButton
+        facebookButton.accessibilityId = .TourFacebookButton
+        googleButton.accessibilityId = .TourGoogleButton
+        emailButton.accessibilityId = .TourEmailButton
     }
     
     
@@ -149,27 +166,47 @@ final class TourLoginViewController: BaseViewController {
         self.openNextStep()
     }
 
-    @IBAction func signUpPressed(sender: AnyObject) {
-        let vm = SignUpLogInViewModel(source: .Install, action: .Signup)
-        let vc = SignUpLogInViewController(viewModel: vm)
-        vc.afterLoginAction = { [weak self] in
-            self?.openNextStep()
-        }
-        let nav = UINavigationController(rootViewController: vc)
-        presentViewController(nav, animated: true, completion: nil)
+    @IBAction func facebookButtonPressed(sender: AnyObject) {
     }
-    
-    @IBAction func loginPressed(sender: AnyObject) {
-        let vm = SignUpLogInViewModel(source: .Install, action: .Login)
-        let vc = SignUpLogInViewController(viewModel: vm)
-        vc.afterLoginAction = { [weak self] in
-            self?.openNextStep()
-        }
-        let nav = UINavigationController(rootViewController: vc)
-        presentViewController(nav, animated: true, completion: nil)
+
+    @IBAction func googleButtonPressed(sender: AnyObject) {
     }
-    
-    @IBAction func skipPressed(sender: AnyObject) {
-        openNextStep()
+
+    @IBAction func emailButtonPressed(sender: AnyObject) {
+    }
+
+
+//    @IBAction func signUpPressed(sender: AnyObject) {
+//        let vm = SignUpLogInViewModel(source: .Install, action: .Signup)
+//        let vc = SignUpLogInViewController(viewModel: vm)
+//        vc.afterLoginAction = { [weak self] in
+//            self?.openNextStep()
+//        }
+//        let nav = UINavigationController(rootViewController: vc)
+//        presentViewController(nav, animated: true, completion: nil)
+//    }
+//    
+//    @IBAction func loginPressed(sender: AnyObject) {
+//        let vm = SignUpLogInViewModel(source: .Install, action: .Login)
+//        let vc = SignUpLogInViewController(viewModel: vm)
+//        vc.afterLoginAction = { [weak self] in
+//            self?.openNextStep()
+//        }
+//        let nav = UINavigationController(rootViewController: vc)
+//        presentViewController(nav, animated: true, completion: nil)
+//    }
+//    
+//    @IBAction func skipPressed(sender: AnyObject) {
+//        openNextStep()
+//    }
+}
+
+
+// MARK: - UITextViewDelegate
+
+extension TourLoginViewController: UITextViewDelegate {
+    func textView(textView: UITextView, shouldInteractWithURL url: NSURL, inRange characterRange: NSRange) -> Bool {
+        openInternalUrl(url)
+        return false
     }
 }

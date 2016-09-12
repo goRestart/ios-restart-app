@@ -15,6 +15,28 @@ enum TourLoginNextStep {
 }
 
 final class TourLoginViewModel: BaseViewModel {
+
+    var attributedLegalText: NSAttributedString {
+        guard let conditionsURL = termsAndConditionsURL, let privacyURL = privacyURL else {
+            return NSAttributedString(string: LGLocalizedString.mainSignUpTermsConditions)
+        }
+
+        let links = [LGLocalizedString.mainSignUpTermsConditionsTermsPart: conditionsURL,
+                     LGLocalizedString.mainSignUpTermsConditionsPrivacyPart: privacyURL]
+        let localizedLegalText = LGLocalizedString.mainSignUpTermsConditions
+        let attributtedLegalText = localizedLegalText.attributedHyperlinkedStringWithURLDict(links,
+                                                                                             textColor: UIColor.darkGrayText)
+        attributtedLegalText.addAttribute(NSFontAttributeName, value: UIFont.smallBodyFont,
+                                          range: NSMakeRange(0, attributtedLegalText.length))
+        return attributtedLegalText
+    }
+
+    private var termsAndConditionsURL: NSURL? {
+        return LetgoURLHelper.composeURL(Constants.termsAndConditionsURL)
+    }
+    private var privacyURL: NSURL? {
+        return LetgoURLHelper.composeURL(Constants.privacyURL)
+    }
     
     func nextStep() -> TourLoginNextStep {
         
