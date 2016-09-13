@@ -357,6 +357,10 @@ enum AccessibilityId: String {
     case TourLocationOKButton
     case TourLocationCancelButton
 
+    // TourPosting
+    case TourPostingCloseButton
+    case TourPostingOkButton
+
     // User
     case UserNavBarShareButton
     case UserNavBarSettingsButton
