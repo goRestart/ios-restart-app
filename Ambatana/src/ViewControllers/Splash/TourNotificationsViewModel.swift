@@ -29,6 +29,7 @@ final class TourNotificationsViewModel: BaseViewModel {
     }
 
     func nextStep() -> TourNotificationNextStep {
+        return .Location
         switch source {
         case .Onboarding:
             return Core.locationManager.shouldAskForLocationPermissions() ? .Location : .None

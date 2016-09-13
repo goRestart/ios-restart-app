@@ -8,6 +8,11 @@
 
 import Foundation
 
+enum TourLocationNextStep {
+    case Posting
+    case None
+}
+
 final class TourLocationViewModel: BaseViewModel {
     
     let typePage: EventParameterTypePage
@@ -15,8 +20,13 @@ final class TourLocationViewModel: BaseViewModel {
     init(source: EventParameterTypePage) {
         self.typePage = source
     }
-    
-    
+
+    func nextStep() -> TourLocationNextStep {
+        return .Posting
+        guard FeatureFlags.incentivizePostingMode != .Original else { return .None }
+        return .Posting
+    }
+
     // MARK: - Tracking
     
     func viewDidLoad() {

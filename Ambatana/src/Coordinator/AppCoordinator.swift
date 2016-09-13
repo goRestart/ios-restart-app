@@ -141,8 +141,8 @@ extension AppCoordinator: AppNavigator {
             }
         }
 
-        if !keyValueStorage[.didShowOnboarding] {
-            keyValueStorage[.didShowOnboarding] = true
+//        if !keyValueStorage[.didShowOnboarding] {
+//            keyValueStorage[.didShowOnboarding] = true
 
             // If I have to show the onboarding, then I assume it is the first time the user opens the app:
             if keyValueStorage[.firstRunDate] == nil {
@@ -152,9 +152,9 @@ extension AppCoordinator: AppNavigator {
             pushPermissionsManager.shouldAskForListPermissionsOnCurrentSession = false
 
             openTourWithFinishingCompletion(openAppWithInitialDeepLink)
-        } else {
-            openAppWithInitialDeepLink()
-        }
+//        } else {
+//            openAppWithInitialDeepLink()
+//        }
     }
 
     func openForceUpdateAlertIfNeeded() {

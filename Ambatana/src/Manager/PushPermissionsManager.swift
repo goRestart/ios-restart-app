@@ -89,11 +89,11 @@ public class PushPermissionsManager: NSObject {
             break
         }
 
-        if showSettingsPrePermission {
-            presentSettingsPrePermissionsFrom(viewController, type: type)
-        } else {
+//        if showSettingsPrePermission {
+//            presentSettingsPrePermissionsFrom(viewController, type: type)
+//        } else {
             presentNormalPrePermissionsFrom(viewController, type: type, completion: completion)
-        }
+//        }
     }
 
     private func presentNormalPrePermissionsFrom(viewController: UIViewController, type: PrePermissionType,

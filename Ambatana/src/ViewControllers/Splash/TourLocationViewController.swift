@@ -51,7 +51,7 @@ final class TourLocationViewController: BaseViewController {
         setupAccessibilityIds()
         setStatusBarHidden(true)
         viewModel.viewDidLoad()
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(TourLocationViewController.didAskNativeLocationPermission),
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(didAskNativeLocationPermission),
             name: LocationManager.Notification.LocationDidChangeAuthorization.rawValue, object: nil)
     }
     
@@ -63,15 +63,24 @@ final class TourLocationViewController: BaseViewController {
     func didAskNativeLocationPermission() {
         let time = dispatch_time(DISPATCH_TIME_NOW, Int64(0.5 * Double(NSEC_PER_SEC)))
         dispatch_after(time, dispatch_get_main_queue()) { [weak self] in
-            self?.close()
+            self?.openNextStep()
         }
     }
-    
+
     func close() {
         viewModel.userDidTapNoButton()
-        dismissViewControllerAnimated(true, completion: completion)
+        openNextStep()
     }
-    
+
+    func openNextStep() {
+        switch viewModel.nextStep() {
+        case .Posting:
+            showTourPosting()
+        case .None:
+            dismissViewControllerAnimated(true, completion: completion)
+        }
+    }
+
     
     // MARK: - IBActions
     
@@ -89,9 +98,9 @@ final class TourLocationViewController: BaseViewController {
     }
     
     
-    // MARK: - UI
+    // MARK: - Private
     
-    func setupUI() {
+    private func setupUI() {
         titleLabel.text = LGLocalizedString.locationPermissionsTitle
         subtitleLabel.text = LGLocalizedString.locationPermissonsSubtitle
         distanceLabel.text = LGLocalizedString.locationPermissionsBubble
@@ -128,7 +137,19 @@ final class TourLocationViewController: BaseViewController {
         }
     }
 
-    func setupAccessibilityIds() {
+    func showTourPosting() {
+        let vm = TourPostingViewModel()
+        let vc = TourPostingViewController(viewModel: vm) { [weak self] in
+            self?.dismissViewControllerAnimated(false, completion: self?.completion)
+        }
+        UIView.animateWithDuration(0.3, delay: 0.1, options: UIViewAnimationOptions.CurveEaseInOut, animations: {
+            self.view.alpha = 0
+            }, completion: nil)
+
+        presentViewController(vc, animated: true, completion: nil)
+    }
+
+    private func setupAccessibilityIds() {
         closeButton.accessibilityId = .TourLocationCloseButton
         yesButton.accessibilityId = .TourLocationOKButton
         noButton.accessibilityId = .TourLocationCancelButton
