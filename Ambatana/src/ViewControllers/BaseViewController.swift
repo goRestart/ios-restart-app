@@ -285,10 +285,37 @@ extension UIViewController {
 
 // MARK: - NavigationBar
 
+enum NavBarTransparentSubStyle {
+    case Dark, Light
+}
+
 enum NavBarBackgroundStyle {
-    case Transparent
+    case Transparent(substyle: NavBarTransparentSubStyle)
     case Default
     case Custom(background: UIImage, shadow: UIImage)
+
+    var tintColor: UIColor {
+        switch self {
+        case let .Transparent(substyle):
+            switch substyle {
+            case .Dark:
+                return UIColor.clearBarButton
+            case .Light:
+                return UIColor.lightBarButton
+            }
+        case .Default, .Custom:
+            return UIColor.lightBarButton
+        }
+    }
+
+    var titleColor: UIColor {
+        switch self {
+        case .Transparent:
+            return UIColor.clearBarTitle
+        case .Default, .Custom:
+            return UIColor.lightBarTitle
+        }
+    }
 }
 
 enum NavBarTitleStyle {
@@ -335,6 +362,10 @@ extension UIViewController {
             navigationController?.navigationBar.setBackgroundImage(background, forBarMetrics: .Default)
             navigationController?.navigationBar.shadowImage = shadow
         }
+
+        navigationController?.navigationBar.tintColor = style.tintColor
+        navigationController?.navigationBar.titleTextAttributes = [NSFontAttributeName : UIFont.pageTitleFont,
+                                                                   NSForegroundColorAttributeName : style.titleColor]
     }
 }
 

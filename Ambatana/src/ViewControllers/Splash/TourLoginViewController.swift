@@ -41,7 +41,7 @@ final class TourLoginViewController: BaseViewController, GIDSignInUIDelegate {
         self.tourLoginViewModel = tourLoginViewModel
         self.completion = completion
         super.init(viewModel: signUpViewModel, nibName: "TourLoginViewController", statusBarStyle: .LightContent,
-                   navBarBackgroundStyle: .Transparent)
+                   navBarBackgroundStyle: .Transparent(substyle: .Dark))
 
         self.signUpViewModel.delegate = self
         modalPresentationStyle = .OverCurrentContext

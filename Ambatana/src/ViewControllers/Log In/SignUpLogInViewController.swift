@@ -84,7 +84,19 @@ SignUpLogInViewModelDelegate, GIDSignInUIDelegate {
         self.lines = []
         self.loginEditModeActive = false
         self.signupEditModeActive = false
-        super.init(viewModel: viewModel, nibName: "SignUpLogInViewController")
+
+        let statusBarStyle: UIStatusBarStyle
+        let navBarBackgroundStyle: NavBarBackgroundStyle
+        switch viewModel.appearance {
+        case .Dark:
+            statusBarStyle = .LightContent
+            navBarBackgroundStyle = .Transparent(substyle: .Dark)
+        case .Light:
+            statusBarStyle = .Default
+            navBarBackgroundStyle = .Default
+        }
+        super.init(viewModel: viewModel, nibName: "SignUpLogInViewController",
+                   statusBarStyle: statusBarStyle, navBarBackgroundStyle: navBarBackgroundStyle)
         self.viewModel.delegate = self
         automaticallyAdjustsScrollViewInsets = false
     }

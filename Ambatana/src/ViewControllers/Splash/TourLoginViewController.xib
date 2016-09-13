@@ -132,11 +132,8 @@
                             </constraints>
                         </imageView>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FfU-wo-Fjf" userLabel="Or Divider View">
-                            <rect key="frame" x="50" y="140" width="36" height="8"/>
+                            <rect key="frame" x="55" y="140" width="36" height="8"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            <constraints>
-                                <constraint firstAttribute="width" priority="750" constant="36" id="A9Y-ne-rCJ"/>
-                            </constraints>
                         </view>
                         <view contentMode="scaleToFill" verticalCompressionResistancePriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="pEx-Y2-CVa" userLabel="Or Container View">
                             <rect key="frame" x="95" y="140" width="131" height="16"/>
@@ -159,11 +156,8 @@
                             </constraints>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="syl-iL-OvL" userLabel="Or Divider View">
-                            <rect key="frame" x="235" y="140" width="36" height="8"/>
+                            <rect key="frame" x="230" y="140" width="35" height="8"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            <constraints>
-                                <constraint firstAttribute="width" priority="750" constant="36" id="zzF-Md-Z3o"/>
-                            </constraints>
                         </view>
                         <button clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xfu-Bb-nqT" userLabel="Sign Up Button">
                             <rect key="frame" x="15" y="186" width="290" height="50"/>
@@ -171,7 +165,7 @@
                             <constraints>
                                 <constraint firstAttribute="height" constant="50" id="ijl-9W-k4a"/>
                             </constraints>
-                            <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <inset key="contentEdgeInsets" minX="15" minY="0.0" maxX="10" maxY="0.0"/>
                             <inset key="titleEdgeInsets" minX="10" minY="0.0" maxX="0.0" maxY="0.0"/>
                             <inset key="imageEdgeInsets" minX="0.0" minY="2" maxX="0.0" maxY="0.0"/>
@@ -195,16 +189,16 @@
                         <constraint firstItem="pEx-Y2-CVa" firstAttribute="height" secondItem="FfU-wo-Fjf" secondAttribute="height" multiplier="2" id="A8D-Q5-6lw"/>
                         <constraint firstAttribute="bottom" secondItem="xfu-Bb-nqT" secondAttribute="bottom" id="BQq-uh-niR"/>
                         <constraint firstAttribute="trailing" secondItem="mEX-y8-IOU" secondAttribute="trailing" constant="15" id="CZi-CS-zI7"/>
-                        <constraint firstItem="pEx-Y2-CVa" firstAttribute="leading" secondItem="FfU-wo-Fjf" secondAttribute="trailing" constant="9" id="RIf-5k-RCH"/>
+                        <constraint firstItem="pEx-Y2-CVa" firstAttribute="leading" secondItem="FfU-wo-Fjf" secondAttribute="trailing" constant="4" id="RIf-5k-RCH"/>
                         <constraint firstItem="mEX-y8-IOU" firstAttribute="leading" secondItem="CyB-qf-8tj" secondAttribute="leading" constant="16" id="SHy-g6-U3A"/>
                         <constraint firstItem="WND-Em-Hte" firstAttribute="leading" secondItem="mEX-y8-IOU" secondAttribute="leading" constant="7" id="STa-MI-hB6"/>
-                        <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="syl-iL-OvL" secondAttribute="trailing" constant="35" id="XVu-lR-Vhf"/>
+                        <constraint firstAttribute="trailing" secondItem="syl-iL-OvL" secondAttribute="trailing" constant="55" id="XVu-lR-Vhf"/>
                         <constraint firstItem="mEX-y8-IOU" firstAttribute="top" secondItem="sYm-Go-MoG" secondAttribute="bottom" constant="10" id="Z25-KA-NSy"/>
-                        <constraint firstItem="syl-iL-OvL" firstAttribute="leading" secondItem="pEx-Y2-CVa" secondAttribute="trailing" constant="9" id="ceO-JQ-Cht"/>
+                        <constraint firstItem="syl-iL-OvL" firstAttribute="leading" secondItem="pEx-Y2-CVa" secondAttribute="trailing" constant="4" id="ceO-JQ-Cht"/>
                         <constraint firstItem="syl-iL-OvL" firstAttribute="top" secondItem="FfU-wo-Fjf" secondAttribute="top" id="fKW-02-spF"/>
                         <constraint firstItem="xfu-Bb-nqT" firstAttribute="leading" secondItem="CyB-qf-8tj" secondAttribute="leading" constant="15" id="fbW-ji-QlU"/>
                         <constraint firstAttribute="trailing" secondItem="xfu-Bb-nqT" secondAttribute="trailing" constant="15" id="gfd-BI-KBs"/>
-                        <constraint firstItem="FfU-wo-Fjf" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="CyB-qf-8tj" secondAttribute="leading" constant="35" id="hTc-FL-Zgn"/>
+                        <constraint firstItem="FfU-wo-Fjf" firstAttribute="leading" secondItem="CyB-qf-8tj" secondAttribute="leading" constant="55" id="hTc-FL-Zgn"/>
                         <constraint firstItem="syl-iL-OvL" firstAttribute="height" secondItem="FfU-wo-Fjf" secondAttribute="height" id="mVM-9J-eSn"/>
                         <constraint firstItem="WND-Em-Hte" firstAttribute="centerY" secondItem="mEX-y8-IOU" secondAttribute="centerY" id="oHl-eL-8Ij"/>
                         <constraint firstItem="sYm-Go-MoG" firstAttribute="leading" secondItem="Mc9-Nl-5Hz" secondAttribute="leading" constant="-7" id="pW7-GL-zEt"/>
