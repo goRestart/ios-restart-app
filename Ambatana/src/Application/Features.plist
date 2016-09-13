@@ -86,5 +86,26 @@
 		<key>enabled</key>
 		<false/>
 	</dict>
+	<key>incentivize_posting_a</key>
+	<dict>
+		<key>description</key>
+		<string>Incentivize posting variant A</string>
+		<key>enabled</key>
+		<false/>
+	</dict>
+		<key>incentivize_posting_b</key>
+	<dict>
+		<key>description</key>
+		<string>Incentivize posting variant B</string>
+		<key>enabled</key>
+		<false/>
+	</dict>
+		<key>incentivize_posting_c</key>
+	<dict>
+		<key>description</key>
+		<string>Incentivize posting variant C</string>
+		<key>enabled</key>
+		<false/>
+	</dict>
 </dict>
 </plist>

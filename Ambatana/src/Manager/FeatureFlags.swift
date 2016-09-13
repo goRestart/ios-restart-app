@@ -20,6 +20,13 @@ enum AppInviteListingMode: Int {
     case Emoji = 2
 }
 
+enum IncentivizePostingMode: Int {
+    case Original = 0
+    case VariantA = 1
+    case VariantB = 2
+    case VariantC = 3
+}
+
 struct FeatureFlags {
     static var websocketChat: Bool = {
         return FTSFlipTheSwitch.websocketChat
@@ -88,6 +95,13 @@ struct FeatureFlags {
         }
         return ABTests.profileVerifyOneButton.value
     }
+
+    static var incentivizePostingMode: IncentivizePostingMode {
+        if FTSFlipTheSwitch.overridesABTests {
+            return FTSFlipTheSwitch.incentivizePostingMode
+        }
+        return IncentivizePostingMode(rawValue: ABTests.incentivatePostingMode.value) ?? .Original
+    }
 }
 
 private extension FTSFlipTheSwitch {
@@ -137,5 +151,18 @@ private extension FTSFlipTheSwitch {
 
     static var profileVerifyOneButton: Bool {
         return FTSFlipTheSwitch.sharedInstance().isFeatureEnabled("profile_verify_one_button")
+    }
+
+    static var incentivizePostingMode: IncentivizePostingMode {
+        if FTSFlipTheSwitch.sharedInstance().isFeatureEnabled("incentivize_posting_a") {
+            return .VariantA
+        }
+        if FTSFlipTheSwitch.sharedInstance().isFeatureEnabled("incentivize_posting_b") {
+            return .VariantB
+        }
+        if FTSFlipTheSwitch.sharedInstance().isFeatureEnabled("incentivize_posting_c") {
+            return .VariantC
+        }
+        return .Original
     }
 }
