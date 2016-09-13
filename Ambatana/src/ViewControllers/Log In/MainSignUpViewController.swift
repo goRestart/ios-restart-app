@@ -58,7 +58,8 @@ class MainSignUpViewController: BaseViewController, SignUpViewModelDelegate, UIT
     init(viewModel: SignUpViewModel) {
         self.viewModel = viewModel
         self.lines = []
-        super.init(viewModel: viewModel, nibName: "MainSignUpViewController", navBarBackgroundStyle: .Transparent)
+        super.init(viewModel: viewModel, nibName: "MainSignUpViewController",
+                   navBarBackgroundStyle: .Transparent(substyle: .Light))
         self.viewModel.delegate = self
     }
     
