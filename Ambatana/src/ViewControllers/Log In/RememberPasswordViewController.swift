@@ -194,17 +194,15 @@ class RememberPasswordViewController: BaseViewController, RememberPasswordViewMo
     }
 
     private func setupLightAppearance() {
-        // 🌶
         darkAppereanceBgView.hidden = true
 
-        let buttonBgColor = UIColor(rgb: 0xEDE9E9)
         let textfieldTextColor = UIColor.black
         let textfieldTextPlaceholderColor = UIColor.black.colorWithAlphaComponent(0.5)
         var textfieldPlaceholderAttrs = [String: AnyObject]()
         textfieldPlaceholderAttrs[NSFontAttributeName] = UIFont.systemFontOfSize(17)
         textfieldPlaceholderAttrs[NSForegroundColorAttributeName] = textfieldTextPlaceholderColor
 
-        emailButton.backgroundColor = buttonBgColor
+        emailButton.setStyle(.LightField)
         emailIconImageView.image = UIImage(named: "ic_email")
         emailIconImageView.highlightedImage = UIImage(named: "ic_email_active")
         emailTextField.textColor = textfieldTextColor
@@ -213,7 +211,6 @@ class RememberPasswordViewController: BaseViewController, RememberPasswordViewMo
     }
 
     private func setupDarkAppearance() {
-        // 🌶
         darkAppereanceBgView.hidden = false
 
         let buttonBgColor = UIColor.white.colorWithAlphaComponent(0.3)
@@ -223,7 +220,7 @@ class RememberPasswordViewController: BaseViewController, RememberPasswordViewMo
         textfieldPlaceholderAttrs[NSFontAttributeName] = UIFont.systemFontOfSize(17)
         textfieldPlaceholderAttrs[NSForegroundColorAttributeName] = textfieldTextPlaceholderColor
 
-        emailButton.backgroundColor = buttonBgColor
+        emailButton.setStyle(.DarkField)
         emailIconImageView.image = UIImage(named: "ic_email_dark")
         emailIconImageView.highlightedImage = UIImage(named: "ic_email_active_dark")
         emailTextField.textColor = textfieldTextColor

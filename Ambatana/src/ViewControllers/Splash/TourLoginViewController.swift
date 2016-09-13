@@ -162,6 +162,7 @@ private extension TourLoginViewController {
 
         facebookButton.setStyle(.Facebook)
         googleButton.setStyle(.Google)
+        emailButton.setStyle(.DarkField)
         orUseEmailLabel.text = LGLocalizedString.tourOrLabel
         orUseEmailLabel.font = UIFont.smallBodyFont
         emailButton.layer.cornerRadius = 10

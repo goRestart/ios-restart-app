@@ -161,7 +161,7 @@
                         </view>
                         <button clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xfu-Bb-nqT" userLabel="Sign Up Button">
                             <rect key="frame" x="15" y="186" width="290" height="50"/>
-                            <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="50" id="ijl-9W-k4a"/>
                             </constraints>

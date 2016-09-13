@@ -262,9 +262,9 @@
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yuo-cM-NJ7" userLabel="TextFields View">
                             <rect key="frame" x="15" y="202" width="384" height="132"/>
                             <subviews>
-                                <button contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xbo-wA-YTn" userLabel="Email Button">
+                                <button contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xbo-wA-YTn" userLabel="Email Button">
                                     <rect key="frame" x="0.0" y="0.0" width="384" height="44"/>
-                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="44" id="QVA-5w-AaU"/>
                                     </constraints>
@@ -291,9 +291,9 @@
                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_email" highlightedImage="ic_email_active" translatesAutoresizingMaskIntoConstraints="NO" id="TP0-kh-nt6" userLabel="Email Icon Image View">
                                     <rect key="frame" x="16" y="16" width="18" height="13"/>
                                 </imageView>
-                                <button contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ot2-uD-5Xg" userLabel="Password Button">
+                                <button contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ot2-uD-5Xg" userLabel="Password Button">
                                     <rect key="frame" x="0.0" y="44" width="384" height="44"/>
-                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="44" id="e1b-Ue-u0U"/>
                                     </constraints>
@@ -331,9 +331,9 @@
                                         <action selector="showPasswordButtonPressed:" destination="-1" eventType="touchUpInside" id="cvv-34-Qln"/>
                                     </connections>
                                 </button>
-                                <button contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xbq-Jo-cLg" userLabel="Username Button">
+                                <button contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xbq-Jo-cLg" userLabel="Username Button">
                                     <rect key="frame" x="0.0" y="88" width="384" height="44"/>
-                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="44" id="oYH-OB-XMk"/>
                                     </constraints>

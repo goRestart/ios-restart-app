@@ -138,7 +138,7 @@ SignUpLogInViewModelDelegate, GIDSignInUIDelegate {
         let dividerColor: UIColor
         switch appearance {
         case .Dark:
-            textFieldLineColor = UIColor.black    // 🌶
+            textFieldLineColor = UIColor.black
             dividerColor = UIColor.white
         case .Light:
             textFieldLineColor = UIColor.white
@@ -535,29 +535,28 @@ SignUpLogInViewModelDelegate, GIDSignInUIDelegate {
         loginSegmentedControl.backgroundColor = UIColor.white
         loginSegmentedControl.layer.borderColor = UIColor.primaryColor.CGColor
 
-        let buttonBgColor = UIColor(rgb: 0xEDE9E9)
-        let textfieldTextColor = UIColor.black
-        let textfieldTextPlaceholderColor = UIColor.black.colorWithAlphaComponent(0.5)
+//        let buttonBgColor = UIColor(rgb: 0xEDE9E9)
+        let textfieldTextColor = UIColor.blackText
         var textfieldPlaceholderAttrs = [String: AnyObject]()
         textfieldPlaceholderAttrs[NSFontAttributeName] = UIFont.systemFontOfSize(17)
-        textfieldPlaceholderAttrs[NSForegroundColorAttributeName] = textfieldTextPlaceholderColor
+        textfieldPlaceholderAttrs[NSForegroundColorAttributeName] = UIColor.blackTextHighAlpha
 
         orLabel.textColor = UIColor.darkGrayText
         lines.forEach { $0.backgroundColor = UIColor.darkGrayText.CGColor }
 
-        emailButton.backgroundColor = buttonBgColor
+        emailButton.setStyle(.LightField)
         emailIconImageView.image = UIImage(named: "ic_email")
         emailIconImageView.highlightedImage = UIImage(named: "ic_email_active")
         emailTextField.textColor = textfieldTextColor
         emailTextField.attributedPlaceholder = NSAttributedString(string: LGLocalizedString.signUpEmailFieldHint,
                                                                   attributes: textfieldPlaceholderAttrs)
-        passwordButton.backgroundColor = buttonBgColor
+        passwordButton.setStyle(.LightField)
         passwordIconImageView.image = UIImage(named: "ic_password")
         passwordIconImageView.highlightedImage = UIImage(named: "ic_password_active")
         passwordTextField.textColor = textfieldTextColor
         passwordTextField.attributedPlaceholder = NSAttributedString(string: LGLocalizedString.signUpPasswordFieldHint,
                                                                      attributes: textfieldPlaceholderAttrs)
-        usernameButton.backgroundColor = buttonBgColor
+        usernameButton.setStyle(.LightField)
         usernameIconImageView.image = UIImage(named: "ic_name")
         usernameIconImageView.highlightedImage = UIImage(named: "ic_name_active")
         usernameTextField.textColor = textfieldTextColor
@@ -575,29 +574,27 @@ SignUpLogInViewModelDelegate, GIDSignInUIDelegate {
         loginSegmentedControl.backgroundColor = UIColor.clearColor()
         loginSegmentedControl.layer.borderColor = UIColor.white.CGColor
 
-        let buttonBgColor = UIColor.white.colorWithAlphaComponent(0.3)
-        let textfieldTextColor = UIColor.white
-        let textfieldTextPlaceholderColor = textfieldTextColor.colorWithAlphaComponent(0.7)
+        let textfieldTextColor = UIColor.whiteText
         var textfieldPlaceholderAttrs = [String: AnyObject]()
         textfieldPlaceholderAttrs[NSFontAttributeName] = UIFont.systemFontOfSize(17)
-        textfieldPlaceholderAttrs[NSForegroundColorAttributeName] = textfieldTextPlaceholderColor
+        textfieldPlaceholderAttrs[NSForegroundColorAttributeName] = UIColor.whiteTextHighAlpha
 
         orLabel.textColor = UIColor.white
         lines.forEach { $0.backgroundColor = UIColor.white.CGColor }
 
-        emailButton.backgroundColor = buttonBgColor
+        emailButton.setStyle(.DarkField)
         emailIconImageView.image = UIImage(named: "ic_email_dark")
         emailIconImageView.highlightedImage = UIImage(named: "ic_email_active_dark")
         emailTextField.textColor = textfieldTextColor
         emailTextField.attributedPlaceholder = NSAttributedString(string: LGLocalizedString.signUpEmailFieldHint,
                                                                   attributes: textfieldPlaceholderAttrs)
-        passwordButton.backgroundColor = buttonBgColor
+        passwordButton.setStyle(.DarkField)
         passwordIconImageView.image = UIImage(named: "ic_password_dark")
         passwordIconImageView.highlightedImage = UIImage(named: "ic_password_active_dark")
         passwordTextField.textColor = textfieldTextColor
         passwordTextField.attributedPlaceholder = NSAttributedString(string: LGLocalizedString.signUpPasswordFieldHint,
                                                                      attributes: textfieldPlaceholderAttrs)
-        usernameButton.backgroundColor = buttonBgColor
+        usernameButton.setStyle(.DarkField)
         usernameIconImageView.image = UIImage(named: "ic_name_dark")
         usernameIconImageView.highlightedImage = UIImage(named: "ic_name_active_dark")
         usernameTextField.textColor = textfieldTextColor
