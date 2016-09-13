@@ -457,7 +457,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
             break
         case .Available, .Blocked, .BlockedBy, .ProductSold, .UserPendingDelete, .UserDeleted:
             delegate?.vmHideKeyboard(animated: false)
-            let data = ProductDetailData.ProductAPI(product: product, thumbnailImage: nil, originFrame: nil, index: 0)
+            let data = ProductDetailData.ProductAPI(product: product, thumbnailImage: nil, originFrame: nil)
             tabNavigator?.openProduct(data, source: .Chat)
         }
     }

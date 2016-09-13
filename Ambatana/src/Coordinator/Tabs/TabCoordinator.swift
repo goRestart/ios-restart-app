@@ -71,8 +71,8 @@ extension TabCoordinator: TabNavigator {
         switch data {
         case let .Id(productId):
             openProduct(productId: productId, source: source)
-        case let .ProductAPI(product, thumbnailImage, originFrame, index):
-            openProduct(product: product, thumbnailImage: thumbnailImage, originFrame: originFrame, source: source, index: index)
+        case let .ProductAPI(product, thumbnailImage, originFrame):
+            openProduct(product: product, thumbnailImage: thumbnailImage, originFrame: originFrame, source: source, index: 0)
         case let .ProductList(product, cellModels, requester, thumbnailImage, originFrame, showRelated, index):
             openProduct(product, cellModels: cellModels, requester: requester, thumbnailImage: thumbnailImage,
                         originFrame: originFrame, showRelated: showRelated, source: source,
