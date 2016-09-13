@@ -58,6 +58,7 @@ final class TourNotificationsViewController: BaseViewController {
     func didRegisterUserNotificationSettings() {
         let time = dispatch_time(DISPATCH_TIME_NOW, Int64(0.5 * Double(NSEC_PER_SEC)))
         dispatch_after(time, dispatch_get_main_queue()) { [weak self] in
+            guard let viewAlpha = self?.view.alpha where viewAlpha > 0 else { return }
             self?.openNextStep()
         }
     }

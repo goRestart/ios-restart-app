@@ -24,14 +24,11 @@ class OnboardingCoordinator: Coordinator {
     private let locationManager: LocationManager
     private var presentedViewControllers: [UIViewController] = []
 
-    convenience init?() {
+    convenience init() {
         self.init(keyValueStorage: KeyValueStorage.sharedInstance, locationManager: Core.locationManager)
     }
 
-    init?(keyValueStorage: KeyValueStorage, locationManager: LocationManager) {
-//        guard !keyValueStorage[.didShowOnboarding] else { return nil }
-//        keyValueStorage[.didShowOnboarding] = true
-
+    init(keyValueStorage: KeyValueStorage, locationManager: LocationManager) {
         self.locationManager = locationManager
         let tourVM = TourLoginViewModel()
         viewController = TourLoginViewController(viewModel: tourVM, completion: nil)

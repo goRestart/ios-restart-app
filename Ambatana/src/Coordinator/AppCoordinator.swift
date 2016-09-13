@@ -115,7 +115,9 @@ final class AppCoordinator: NSObject {
     }
 
     private func openOnboarding() -> Bool {
-        guard let onboardingCoordinator = OnboardingCoordinator() else { return false }
+//        guard !keyValueStorage[.didShowOnboarding] else { return false }
+//        keyValueStorage[.didShowOnboarding] = true
+        let onboardingCoordinator = OnboardingCoordinator()
         onboardingCoordinator.delegate = self
         openCoordinator(coordinator: onboardingCoordinator, parent: tabBarCtl, animated: true, completion: nil)
         return true
