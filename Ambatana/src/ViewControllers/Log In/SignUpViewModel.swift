@@ -60,7 +60,7 @@ public class SignUpViewModel: BaseViewModel {
     }
 
     private let sessionManager: SessionManager
-    private let appearance: LoginAppearance
+    let appearance: LoginAppearance
     private let loginSource: EventParameterLoginSourceValue
     private let googleLoginHelper: GoogleLoginHelper
 

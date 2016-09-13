@@ -42,6 +42,7 @@ public class SignUpLogInViewModel: BaseViewModel {
     
     // Delegate
     weak var delegate: SignUpLogInViewModelDelegate?
+    let appearance: LoginAppearance
     let loginSource: EventParameterLoginSourceValue
     let googleLoginHelper: GoogleLoginHelper
     
@@ -119,6 +120,7 @@ public class SignUpLogInViewModel: BaseViewModel {
          source: EventParameterLoginSourceValue, action: LoginActionType) {
         self.sessionManager = sessionManager
         self.locationManager = locationManager
+        self.appearance = appearance
         self.loginSource = source
         self.googleLoginHelper = GoogleLoginHelper(loginSource: source)
         self.username = ""
