@@ -90,7 +90,7 @@ public class PushPermissionsManager: NSObject {
         }
 
         if showSettingsPrePermission {
-            presentSettingsPrePermissionsFrom(viewController, type: type)
+            presentSettingsPrePermissionsFrom(viewController, type: type, completion: completion)
         } else {
             presentNormalPrePermissionsFrom(viewController, type: type, completion: completion)
         }
