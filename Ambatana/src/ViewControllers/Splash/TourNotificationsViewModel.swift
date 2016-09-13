@@ -15,6 +15,8 @@ enum TourNotificationNextStep {
 }
 
 final class TourNotificationsViewModel: BaseViewModel {
+
+    weak var navigator: TourNotificationsNavigator?
     
     let title: String
     let subtitle: String
@@ -28,8 +30,11 @@ final class TourNotificationsViewModel: BaseViewModel {
         self.source = source
     }
 
-    func nextStep() -> TourNotificationNextStep {
-        return .Location
+    func nextStep() -> TourNotificationNextStep? {
+        guard navigator == nil else {
+            navigator?.tourNotificationsFinish()
+            return nil
+        }
         switch source {
         case .Onboarding:
             return Core.locationManager.shouldAskForLocationPermissions() ? .Location : .None

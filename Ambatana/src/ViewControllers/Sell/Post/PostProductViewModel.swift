@@ -16,10 +16,11 @@ protocol PostProductViewModelDelegate: BaseViewModelDelegate {
 enum PostingSource {
     case SellButton
     case DeepLink
+    case Onboarding
 
     var forceCamera: Bool {
         switch self {
-        case .SellButton, .DeepLink:
+        case .SellButton, .DeepLink, .Onboarding:
             return false
         }
     }
@@ -206,6 +207,8 @@ extension PostingSource {
             return .Sell
         case .DeepLink:
             return .External
+        case .Onboarding:
+            return .Onboarding
         }
     }
 }

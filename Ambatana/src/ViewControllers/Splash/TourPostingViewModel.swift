@@ -13,6 +13,7 @@ protocol TourPostingViewModelDelegate: BaseViewModelDelegate {
 }
 
 class TourPostingViewModel: BaseViewModel {
+    weak var navigator: TourPostingNavigator?
     weak var delegate: TourPostingViewModelDelegate?
 
     let titleText: String
@@ -59,11 +60,19 @@ class TourPostingViewModel: BaseViewModel {
     }
 
     func okButtonPressed() {
-        delegate?.vmClose()
+        if let navigator = navigator {
+            navigator.tourPostingPost()
+        } else {
+            delegate?.vmClose()
+        }
     }
 
     func closeButtonPressed() {
-        delegate?.vmClose()
+        if let navigator = navigator {
+            navigator.tourPostingClose()
+        } else {
+            delegate?.vmClose()
+        }
     }
 
 

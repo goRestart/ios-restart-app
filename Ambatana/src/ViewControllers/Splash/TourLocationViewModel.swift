@@ -14,6 +14,8 @@ enum TourLocationNextStep {
 }
 
 final class TourLocationViewModel: BaseViewModel {
+
+    weak var navigator: TourLocationNavigator?
     
     let typePage: EventParameterTypePage
     
@@ -21,8 +23,11 @@ final class TourLocationViewModel: BaseViewModel {
         self.typePage = source
     }
 
-    func nextStep() -> TourLocationNextStep {
-        return .Posting
+    func nextStep() -> TourLocationNextStep? {
+        guard navigator == nil else {
+            navigator?.tourLocationFinish()
+            return nil
+        }
         guard FeatureFlags.incentivizePostingMode != .Original else { return .None }
         return .Posting
     }

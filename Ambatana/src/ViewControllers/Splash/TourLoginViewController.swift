@@ -21,7 +21,7 @@ final class TourLoginViewController: BaseViewController {
     @IBOutlet weak var messageLabel: UILabel!
     @IBOutlet weak var kenBurnsView: JBKenBurnsView!
     
-    let completion: (() -> ())?
+    var completion: (() -> ())?
     
     
     // MARK: - Lifecycle
@@ -102,7 +102,8 @@ final class TourLoginViewController: BaseViewController {
     // MARK: - Navigation
     
     func openNextStep() {
-        switch viewModel.nextStep() {
+        guard let step = viewModel.nextStep() else { return }
+        switch step {
         case .Notifications:
             openNotificationsTour()
         case .Location:

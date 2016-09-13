@@ -73,7 +73,8 @@ final class TourLocationViewController: BaseViewController {
     }
 
     func openNextStep() {
-        switch viewModel.nextStep() {
+        guard let step = viewModel.nextStep() else { return }
+        switch step {
         case .Posting:
             showTourPosting()
         case .None:

@@ -77,7 +77,8 @@ final class TourNotificationsViewController: BaseViewController {
     // MARK: - Navigation
     
     func openNextStep() {
-        switch viewModel.nextStep() {
+        guard let step = viewModel.nextStep() else { return }
+        switch step {
         case .Location:
             showTourLocation()
         case .None:
