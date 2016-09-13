@@ -411,8 +411,8 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate {
         let showRelated = FeatureFlags.showRelatedProducts && searchType == nil
         let data = ProductDetailData.ProductList(product: product, cellModels: cellModels,
                                                  requester: productListRequester, thumbnailImage: thumbnailImage,
-                                                 originFrame: originFrame, showRelated: showRelated)
-        tabNavigator?.openProduct(data, source: productVisitSource, index: index)
+                                                 originFrame: originFrame, showRelated: showRelated, index: index)
+        tabNavigator?.openProduct(data, source: productVisitSource)
     }
     
     func vmProcessReceivedProductPage(products: [ProductCellModel], page: UInt) -> [ProductCellModel] {

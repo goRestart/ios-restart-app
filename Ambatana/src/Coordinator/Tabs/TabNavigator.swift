@@ -16,9 +16,9 @@ enum UserDetailData {
 
 enum ProductDetailData {
     case Id(productId: String)
-    case ProductAPI(product: Product, thumbnailImage: UIImage?, originFrame: CGRect?)
+    case ProductAPI(product: Product, thumbnailImage: UIImage?, originFrame: CGRect?, index: Int)
     case ProductList(product: Product, cellModels: [ProductCellModel], requester: ProductListRequester,
-                     thumbnailImage: UIImage?, originFrame: CGRect?, showRelated: Bool)
+                     thumbnailImage: UIImage?, originFrame: CGRect?, showRelated: Bool, index: Int)
     case ProductChat(chatProduct: ChatProduct, user: ChatInterlocutor,
                      thumbnailImage: UIImage?, originFrame: CGRect?)
 }
@@ -29,7 +29,7 @@ enum BackAction {
 
 protocol TabNavigator: class {
     func openUser(data: UserDetailData)
-    func openProduct(data: ProductDetailData, source: EventParameterProductVisitSource, index: Int)
+    func openProduct(data: ProductDetailData, source: EventParameterProductVisitSource)
     func openExpressChat(products: [Product], sourceProductId: String)
     func openVerifyAccounts(types: [VerificationType], source: VerifyAccountsSource)
     func openAppInvite()

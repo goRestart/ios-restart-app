@@ -25,7 +25,7 @@ class ProductCarouselViewModel: BaseViewModel {
 
     // Paginable
     private var prefetchingIndexes: [Int] = []
-    var nextPage: Int = 0
+    var nextPage: Int = 1
     var isLastPage: Bool = false
     var isLoading: Bool = false
 
@@ -263,16 +263,16 @@ extension ProductCarouselViewModel: Paginable {
         
         let completion: ProductsCompletion = { [weak self] result in
             guard let strongSelf = self else { return }
+            self?.isLoading = false
             if let newProducts = result.value {
-                if isFirstPage {
-                    strongSelf.objects.removeAll()
-                }
+                strongSelf.nextPage = strongSelf.nextPage + 1
                 strongSelf.objects.appendContentsOf(newProducts.map(ProductCarouselCellModel.init))
                 
                 strongSelf.isLastPage = strongSelf.productListRequester?.isLastPage(newProducts.count) ?? true
-                self?.isLastPage = newProducts.count == 0
+                if newProducts.isEmpty && !strongSelf.isLastPage {
+                    strongSelf.retrieveNextPage()
+                }
             }
-            self?.isLoading = false
         }
         
         if isFirstPage {

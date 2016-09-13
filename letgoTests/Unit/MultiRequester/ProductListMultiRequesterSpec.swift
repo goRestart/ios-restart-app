@@ -15,50 +15,103 @@ class ProductListMultiRequesterSpec: QuickSpec {
 
     override func spec() {
         var sut: ProductListMultiRequester!
+        var dataCount: Int = 0
 
         describe("last page") {
-            context("only one requester") {
+            context("only one requester, few items") {
                 beforeEach {
                     let requester = MockProductListRequester(canRetrieve: true, offset: 0, pageSize: 20)
                     requester.generateItems(5)
                     sut = ProductListMultiRequester(requesters: [requester])
+
+                    dataCount = 0
+                    sut.currentIndex = 0
+                    sut.retrieveFirstPage { result in
+                        if let data = result.value {
+                            dataCount = data.count
+                        }
+                    }
                 }
                 it("is last page") {
-                    expect(sut.isLastPage(5)) == true
+                    expect(sut.isLastPage(dataCount)).toEventually(equal(true))
+                }
+            }
+            context("only one requester, lots of items") {
+                beforeEach {
+                    let requester = MockProductListRequester(canRetrieve: true, offset: 0, pageSize: 20)
+                    requester.generateItems(50)
+                    sut = ProductListMultiRequester(requesters: [requester])
+
+                    dataCount = 0
+                    sut.currentIndex = 0
+                    sut.retrieveFirstPage { result in
+                        if let data = result.value {
+                            dataCount = data.count
+                        }
+                    }
+                }
+                it("is last page") {
+                    expect(sut.isLastPage(dataCount)).toEventually(equal(false))
+                }
+                it("we're still using the first requester") {
+                    expect(sut.currentIndex).toEventually(equal(0))
                 }
             }
             context("more than one requester") {
                 beforeEach {
                     let firstRequester = MockProductListRequester(canRetrieve: true, offset: 0, pageSize: 20)
-                    firstRequester.generateItems(5)
+                    firstRequester.generateItems(30)
                     let secondRequester = MockProductListRequester(canRetrieve: true, offset: 0, pageSize: 20)
-                    secondRequester.generateItems(5)
+                    secondRequester.generateItems(25)
                     sut = ProductListMultiRequester(requesters: [firstRequester, secondRequester])
                 }
-                context("first requester is the active requester") {
+                context("get only 1st page of the multi requester") {
                     beforeEach {
+                        dataCount = 0
                         sut.currentIndex = 0
+                        sut.retrieveFirstPage { result in
+                            if let data = result.value {
+                                dataCount = data.count
+                            }
+                        }
                     }
-                    it("we're on the 1st requester and isn't its last page") {
-                        expect(sut.isLastPage(20)) == false
+                    it("not all items are consumed") {
+                        expect(sut.isLastPage(dataCount)).toEventually(equal(false))
                     }
-                    it("we're on the 1st requester and is its last page") {
-                        expect(sut.isLastPage(5)) == false
-                    }
-                    it("index should increase after reaching a non-last requester last page") {
-                        sut.isLastPage(5)
-                        expect(sut.currentIndex) == 1
+                    it("multi requester should still be using 1st requester") {
+                        expect(sut.currentIndex).toEventually(equal(0))
                     }
                 }
-                context("last requester is the active requester") {
+                context("reach the end of the multi requester") {
                     beforeEach {
-                        sut.currentIndex = 1
+                        dataCount = 0
+                        sut.currentIndex = 0
+                        sut.retrieveFirstPage { result in
+                            if let data = result.value {
+                                dataCount = data.count
+                            }
+                        }
+                        sut.retrieveNextPage { result in
+                            if let data = result.value {
+                                dataCount += data.count
+                            }
+                        }
+                        sut.retrieveNextPage { result in
+                            if let data = result.value {
+                                dataCount += data.count
+                            }
+                        }
+                        sut.retrieveNextPage { result in
+                            if let data = result.value {
+                                dataCount += data.count
+                            }
+                        }
                     }
-                    it("we're on the last requester and isn't its last page") {
-                        expect(sut.isLastPage(20)) == false
+                    it("all items are consumed") {
+                        expect(sut.isLastPage(dataCount)).toEventually(equal(true))
                     }
-                    it("we're on the last requester and is its last page") {
-                        expect(sut.isLastPage(5)) == true
+                    it("multi requester should be using 2nd requester") {
+                        expect(sut.currentIndex).toEventually(equal(1))
                     }
                 }
             }

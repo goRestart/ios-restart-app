@@ -67,15 +67,15 @@ extension TabCoordinator: TabNavigator {
         }
     }
 
-    func openProduct(data: ProductDetailData, source: EventParameterProductVisitSource, index: Int) {
+    func openProduct(data: ProductDetailData, source: EventParameterProductVisitSource) {
         switch data {
         case let .Id(productId):
             openProduct(productId: productId, source: source)
-        case let .ProductAPI(product, thumbnailImage, originFrame):
+        case let .ProductAPI(product, thumbnailImage, originFrame, index):
             openProduct(product: product, thumbnailImage: thumbnailImage, originFrame: originFrame, source: source, index: index)
-        case let .ProductList(product, cellModels, requester, thumbnailImage, originFrame, showRelated):
-            openProduct(product, cellModels: cellModels, requester: requester,
-                        thumbnailImage: thumbnailImage, originFrame: originFrame, showRelated: showRelated, source: source,
+        case let .ProductList(product, cellModels, requester, thumbnailImage, originFrame, showRelated, index):
+            openProduct(product, cellModels: cellModels, requester: requester, thumbnailImage: thumbnailImage,
+                        originFrame: originFrame, showRelated: showRelated, source: source,
                         index: index)
         case let .ProductChat(chatProduct, user, thumbnailImage, originFrame):
             openProduct(chatProduct: chatProduct, user: user, thumbnailImage: thumbnailImage, originFrame: originFrame,
@@ -164,11 +164,12 @@ private extension TabCoordinator {
 
     }
 
-    func openProduct(chatProduct chatProduct: ChatProduct, user: ChatInterlocutor,
-                                 thumbnailImage: UIImage?, originFrame: CGRect?, source: EventParameterProductVisitSource) {
+    func openProduct(chatProduct chatProduct: ChatProduct, user: ChatInterlocutor, thumbnailImage: UIImage?,
+                                 originFrame: CGRect?, source: EventParameterProductVisitSource) {
         guard let productId = chatProduct.objectId else { return }
         let relatedRequester = RelatedProductListRequester(productId: productId)
-        let requester = ProductListMultiRequester(requesters: [relatedRequester])
+        let filteredRequester = FilteredProductListRequester(offset: 0)
+        let requester = ProductListMultiRequester(requesters: [relatedRequester, filteredRequester])
         let vm = ProductCarouselViewModel(chatProduct: chatProduct, chatInterlocutor: user,
                                           thumbnailImage: thumbnailImage, productListRequester: requester,
                                           navigator: self, source: source)

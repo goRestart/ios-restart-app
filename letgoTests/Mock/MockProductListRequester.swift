@@ -15,6 +15,7 @@ class MockProductListRequester: ProductListRequester {
 
     var offset: Int
     var canRetrieveItems: Bool
+    var requesterResult: ProductsResult?
     private var items: [Product] = []
     private var pageSize: Int
 
@@ -35,11 +36,27 @@ class MockProductListRequester: ProductListRequester {
     }
 
     func retrieveFirstPage(completion: ProductsCompletion?) {
-        completion?(Result(value: items))
+        var firstPageItems: [Product] = []
+        for i in offset..<offset+pageSize-1 {
+            if i < items.count {
+                firstPageItems.append(items[i])
+            }
+        }
+        offset = offset + pageSize
+        requesterResult = Result(value: firstPageItems)
+        performAfterDelayWithCompletion(completion)
     }
 
     func retrieveNextPage(completion: ProductsCompletion?) {
-        completion?(Result(value: items))
+        var nextPageItems: [Product] = []
+        for i in offset..<offset+pageSize-1 {
+            if i < items.count {
+                nextPageItems.append(items[i])
+            }
+        }
+        offset = offset + pageSize
+        requesterResult = Result(value: nextPageItems)
+        performAfterDelayWithCompletion(completion)
     }
 
     func isLastPage(resultCount: Int) -> Bool {
@@ -52,5 +69,12 @@ class MockProductListRequester: ProductListRequester {
 
     func duplicate() -> ProductListRequester {
         return self
+    }
+
+    private func performAfterDelayWithCompletion(completion: ProductsCompletion?) {
+        let delay = dispatch_time(DISPATCH_TIME_NOW, Int64(0.05 * Double(NSEC_PER_SEC)))
+        dispatch_after(delay, dispatch_get_main_queue()) {
+            completion?(self.requesterResult!)
+        }
     }
 }

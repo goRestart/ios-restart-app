@@ -15,7 +15,8 @@ class ProductListMultiRequester {
     private var requestersArray: [ProductListRequester]
     private var activeRequester: ProductListRequester?
     var currentIndex: Int // not private for testing reasons
-    private var currentCompletion: ProductsCompletion?
+    private var hasChangedRequester: Bool // use it to ask for 1st page of next requester
+    private var multiIsLastPage: Bool
 
     // MARK: - Lifecycle
 
@@ -27,6 +28,8 @@ class ProductListMultiRequester {
         self.requestersArray = requesters
         self.currentIndex = 0
         self.activeRequester = requesters[0]
+        self.hasChangedRequester = false
+        self.multiIsLastPage = false
     }
 }
 
@@ -37,30 +40,32 @@ extension ProductListMultiRequester: ProductListRequester {
     }
 
     func retrieveFirstPage(completion: ProductsCompletion?) {
-        currentCompletion = completion
-        activeRequester?.retrieveFirstPage(completion)
+        resetInitialData()
+        activeRequester?.retrieveFirstPage { [weak self] result in
+            defer { completion?(result) }
+            guard let strongSelf = self else { return }
+            guard let resultCount = result.value?.count else { return }
+            strongSelf.updateLastPage(resultCount)
+        }
     }
 
     func retrieveNextPage(completion: ProductsCompletion?) {
-        currentCompletion = completion
-        activeRequester?.retrieveNextPage(completion)
+        let completionBlock: ProductsCompletion = { [weak self] result in
+            defer { completion?(result) }
+            guard let strongSelf = self else { return }
+            guard let resultCount = result.value?.count else { return }
+            strongSelf.updateLastPage(resultCount)
+        }
+        if hasChangedRequester {
+            hasChangedRequester = false
+            activeRequester?.retrieveFirstPage(completionBlock)
+        } else {
+            activeRequester?.retrieveNextPage(completionBlock)
+        }
     }
 
     func isLastPage(resultCount: Int) -> Bool {
-        // no requesters mean last page
-        guard requestersArray.count > 0 else { return true }
-        // if we don't have an active requester, is last page
-        guard let activeRequester = activeRequester else { return true }
-
-        guard activeRequester.isLastPage(resultCount) else { return false }
-
-        currentIndex = currentIndex + 1
-        guard currentIndex < requestersArray.count else { return true }
-
-        self.activeRequester = requestersArray[currentIndex]
-
-        self.activeRequester?.retrieveFirstPage(currentCompletion)
-        return false
+        return multiIsLastPage
     }
 
     func updateInitialOffset(newOffset: Int) { }
@@ -68,5 +73,40 @@ extension ProductListMultiRequester: ProductListRequester {
     func duplicate() -> ProductListRequester {
         let newArray = requestersArray.map { $0.duplicate() }
         return ProductListMultiRequester(requesters: newArray)
+    }
+
+
+    // MARK: private methods
+
+    private func resetInitialData() {
+        currentIndex = 0
+        activeRequester = requestersArray[0]
+        hasChangedRequester = false
+        multiIsLastPage = false
+    }
+
+    private func updateLastPage(resultCount: Int) {
+        guard let activeRequester = activeRequester else {
+            // if we don't have an active requester, is last page
+            multiIsLastPage = true
+            return
+        }
+        guard activeRequester.isLastPage(resultCount) else { return }
+        if switchToNext() {
+            multiIsLastPage = true
+        }
+    }
+
+    private func switchToNext() -> Bool {
+        // no requesters means last page
+        guard requestersArray.count > 0 else { return true }
+
+        currentIndex = currentIndex + 1
+        guard currentIndex < requestersArray.count else { return true }
+
+        self.activeRequester = requestersArray[currentIndex]
+        hasChangedRequester = true
+
+        return false
     }
 }

@@ -415,7 +415,7 @@ class ChatViewModel: BaseViewModel {
             delegate?.vmHideKeyboard(false)
             let data = ProductDetailData.ProductChat(chatProduct: product, user: interlocutor,
                                                      thumbnailImage: nil, originFrame: nil)
-            tabNavigator?.openProduct(data, source: .Chat, index: 0)
+            tabNavigator?.openProduct(data, source: .Chat)
         }
     }
     
@@ -1173,8 +1173,8 @@ extension ChatViewModel: RelatedProductsViewDelegate {
         tracker.trackEvent(TrackerEvent.chatRelatedItemsComplete(index))
         let data = ProductDetailData.ProductList(product: product, cellModels: productListModels, requester: requester,
                                                  thumbnailImage: thumbnailImage, originFrame: originFrame,
-                                                 showRelated: false)
-        tabNavigator?.openProduct(data, source: .Chat, index: 0)
+                                                 showRelated: false, index: 0)
+        tabNavigator?.openProduct(data, source: .Chat)
     }
 }
 
