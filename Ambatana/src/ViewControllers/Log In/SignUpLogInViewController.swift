@@ -117,11 +117,7 @@ SignUpLogInViewModelDelegate, GIDSignInUIDelegate {
     override func viewWillFirstAppear(animated: Bool) {
         super.viewWillFirstAppear(animated)
         if keyboardFocus {
-            // Become first responder w/o animation
-            UIView.beginAnimations(nil, context: nil)
-            UIView.setAnimationDuration(0)
-            emailTextField.becomeFirstResponder()
-            UIView.commitAnimations()
+            UIView.performWithoutAnimation { emailTextField.becomeFirstResponder() }
         }
         switch appearance {
         case .Light:
@@ -535,7 +531,6 @@ SignUpLogInViewModelDelegate, GIDSignInUIDelegate {
         loginSegmentedControl.backgroundColor = UIColor.white
         loginSegmentedControl.layer.borderColor = UIColor.primaryColor.CGColor
 
-//        let buttonBgColor = UIColor(rgb: 0xEDE9E9)
         let textfieldTextColor = UIColor.blackText
         var textfieldPlaceholderAttrs = [String: AnyObject]()
         textfieldPlaceholderAttrs[NSFontAttributeName] = UIFont.systemFontOfSize(17)
