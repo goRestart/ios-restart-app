@@ -193,7 +193,6 @@ extension UIButton {
         layer.borderWidth = style.withBorder ? 1 : 0
         layer.borderColor = style.titleColor.CGColor
 
-        let a = backgroundColor?.imageWithSize(CGSize(width: 1, height: 1))
         setBackgroundImage(style.backgroundColor.imageWithSize(CGSize(width: 1, height: 1)), forState: .Normal)
         setBackgroundImage(style.backgroundColorHighlighted.imageWithSize(CGSize(width: 1, height: 1)),
                            forState: .Highlighted)

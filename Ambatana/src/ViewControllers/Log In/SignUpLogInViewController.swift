@@ -117,7 +117,7 @@ SignUpLogInViewModelDelegate, GIDSignInUIDelegate {
     override func viewWillFirstAppear(animated: Bool) {
         super.viewWillFirstAppear(animated)
         if keyboardFocus {
-            UIView.performWithoutAnimation { emailTextField.becomeFirstResponder() }
+            UIView.performWithoutAnimation { [weak self] in self?.emailTextField.becomeFirstResponder() }
         }
         switch appearance {
         case .Light:
