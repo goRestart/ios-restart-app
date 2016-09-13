@@ -97,7 +97,7 @@ struct FeatureFlags {
     }
 
     static var incentivizePostingMode: IncentivizePostingMode {
-        return .VariantB
+        return .VariantC
         if FTSFlipTheSwitch.overridesABTests {
             return FTSFlipTheSwitch.incentivizePostingMode
         }

@@ -8,11 +8,13 @@
 
 import UIKit
 import RxSwift
+import RxCocoa
 
 class TourPostingViewController: BaseViewController {
 
     @IBOutlet var cameraCorners: [UIImageView]!
 
+    @IBOutlet var internalMargins: [NSLayoutConstraint]!
     @IBOutlet weak var okButton: UIButton!
     @IBOutlet weak var closeButton: UIButton!
     @IBOutlet weak var titleLabel: UILabel!
@@ -22,6 +24,8 @@ class TourPostingViewController: BaseViewController {
     @IBOutlet var incentivesImages: [UIImageView]!
     @IBOutlet var incentivesLabels: [UILabel]!
     @IBOutlet var incentivesValues: [UILabel]!
+
+    private static let reducedMargins: CGFloat = 10
 
 
     let completion: (() -> ())?
@@ -75,6 +79,10 @@ class TourPostingViewController: BaseViewController {
             guard index > 0 else { continue }
             view.transform = CGAffineTransformMakeRotation(CGFloat(Double(index) * M_PI_2))
         }
+
+        if viewModel.showIncentives && (DeviceFamily.current == .iPhone4 || DeviceFamily.current == .iPhone5) {
+            internalMargins.forEach { $0.constant = TourPostingViewController.reducedMargins }
+        }
     }
 
     private func setupRx() {
@@ -100,3 +108,4 @@ private extension TourPostingViewController {
         //TODO: IMPLEMENT
     }
 }
+
