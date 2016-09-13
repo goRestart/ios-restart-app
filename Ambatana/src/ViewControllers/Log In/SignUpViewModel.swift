@@ -115,11 +115,11 @@ public class SignUpViewModel: BaseViewModel {
     }
 
     public func loginSignupViewModelForLogin() -> SignUpLogInViewModel {
-        return SignUpLogInViewModel(appearance: appearance, source: loginSource, action: .Login)
+        return SignUpLogInViewModel(source: loginSource, action: .Login)
     }
 
     public func loginSignupViewModelForSignUp() -> SignUpLogInViewModel {
-        return SignUpLogInViewModel(appearance: appearance, source: loginSource, action: .Signup)
+        return SignUpLogInViewModel(source: loginSource, action: .Signup)
     }
 
 

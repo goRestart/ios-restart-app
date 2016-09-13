@@ -69,6 +69,7 @@ SignUpLogInViewModelDelegate, GIDSignInUIDelegate {
     var preDismissAction: (() -> Void)?
     
     var viewModel : SignUpLogInViewModel
+    let appearance: LoginAppearance
     let keyboardFocus: Bool
     
     var lines: [CALayer]
@@ -76,14 +77,15 @@ SignUpLogInViewModelDelegate, GIDSignInUIDelegate {
     
     // MARK: - Lifecycle
     
-    init(viewModel: SignUpLogInViewModel, keyboardFocus: Bool = false) {
+    init(viewModel: SignUpLogInViewModel, appearance: LoginAppearance = .Light, keyboardFocus: Bool = false) {
         self.viewModel = viewModel
+        self.appearance = appearance
         self.keyboardFocus = keyboardFocus
         self.lines = []
 
         let statusBarStyle: UIStatusBarStyle
         let navBarBackgroundStyle: NavBarBackgroundStyle
-        switch viewModel.appearance {
+        switch appearance {
         case .Dark:
             statusBarStyle = .LightContent
             navBarBackgroundStyle = .Transparent(substyle: .Dark)
@@ -107,28 +109,21 @@ SignUpLogInViewModelDelegate, GIDSignInUIDelegate {
         setAccessibilityIds()
     }
 
-    override func viewWillAppearFromBackground(fromBackground: Bool) {
-        super.viewWillAppearFromBackground(fromBackground)
-        guard keyboardFocus else { return }
-
-        // Become first responder w/o animation
-        UIView.beginAnimations(nil, context: nil)
-        UIView.setAnimationDuration(0)
-        emailTextField.becomeFirstResponder()
-        UIView.commitAnimations()
-    }
-
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-    }
-
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         GIDSignIn.sharedInstance().uiDelegate = self
     }
 
-    override func viewDidFirstAppear(animated: Bool) {
-        switch viewModel.appearance {
+    override func viewWillFirstAppear(animated: Bool) {
+        super.viewWillFirstAppear(animated)
+        if keyboardFocus {
+            // Become first responder w/o animation
+            UIView.beginAnimations(nil, context: nil)
+            UIView.setAnimationDuration(0)
+            emailTextField.becomeFirstResponder()
+            UIView.commitAnimations()
+        }
+        switch appearance {
         case .Light:
             break
         case .Dark:
@@ -141,7 +136,7 @@ SignUpLogInViewModelDelegate, GIDSignInUIDelegate {
 
         let textFieldLineColor: UIColor
         let dividerColor: UIColor
-        switch viewModel.appearance {
+        switch appearance {
         case .Dark:
             textFieldLineColor = UIColor.black    // 🌶
             dividerColor = UIColor.white
@@ -254,7 +249,8 @@ SignUpLogInViewModelDelegate, GIDSignInUIDelegate {
     }
     
     @IBAction func forgotPasswordButtonPressed(sender: AnyObject) {
-        let vc = RememberPasswordViewController(source: viewModel.loginSource, email: viewModel.email)
+        let vc = RememberPasswordViewController(source: viewModel.loginSource, email: viewModel.email,
+                                                appearance: appearance)
         navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -519,7 +515,7 @@ SignUpLogInViewModelDelegate, GIDSignInUIDelegate {
         let navBarTitle = isSignup ? LGLocalizedString.signUpTitle : LGLocalizedString.logInTitle
         setNavBarTitle(navBarTitle)
 
-        switch viewModel.appearance {
+        switch appearance {
         case .Light:
             setupLightAppearance()
         case .Dark:
@@ -658,8 +654,8 @@ SignUpLogInViewModelDelegate, GIDSignInUIDelegate {
     }
 
     private func adaptConstraintsToiPhone4() {
-        orLabelTopConstraint.constant = 10
-        orLabelBottomConstraint.constant = 10
+        orLabelTopConstraint.constant = 20
+        orLabelBottomConstraint.constant = 20
     }
     
     private func updateViewModelText(text: String, fromTextFieldTag tag: Int) {

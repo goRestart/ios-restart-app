@@ -96,8 +96,8 @@ final class TourLoginViewController: BaseViewController, GIDSignInUIDelegate {
     }
 
     @IBAction func emailButtonPressed(sender: AnyObject) {
-        let vm = SignUpLogInViewModel(appearance: .Dark, source: .Install, action: .Signup)
-        let vc = SignUpLogInViewController(viewModel: vm, keyboardFocus: true)
+        let vm = SignUpLogInViewModel(source: .Install, action: .Signup)
+        let vc = SignUpLogInViewController(viewModel: vm, appearance: .Dark, keyboardFocus: true)
         vc.afterLoginAction = { [weak self] in
             self?.openNextStep()
         }
