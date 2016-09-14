@@ -343,19 +343,21 @@ enum AccessibilityId: String {
 
     // TourLogin
     case TourLoginCloseButton
-    case TourLoginSignUpButton
-    case TourLoginLogInButton
-    case TourLoginSkipButton
+    case TourFacebookButton
+    case TourGoogleButton
+    case TourEmailButton
 
     // TourNotifications
     case TourNotificationsCloseButton
     case TourNotificationsOKButton
     case TourNotificationsCancelButton
+    case TourNotificationsAlert
 
     // TourLocation
     case TourLocationCloseButton
     case TourLocationOKButton
     case TourLocationCancelButton
+    case TourLocationAlert
 
     // TourPosting
     case TourPostingCloseButton

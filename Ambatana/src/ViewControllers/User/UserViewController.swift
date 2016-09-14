@@ -83,7 +83,7 @@ class UserViewController: BaseViewController {
         self.cellDrawer = ProductCellDrawer()
         self.disposeBag = DisposeBag()
         super.init(viewModel: viewModel, nibName: "UserViewController", statusBarStyle: .LightContent,
-                   navBarBackgroundStyle: .Transparent)
+                   navBarBackgroundStyle: .Transparent(substyle: .Light))
 
         self.viewModel.delegate = self
         self.hidesBottomBarWhenPushed = hidesBottomBarWhenPushed

@@ -11,7 +11,7 @@ import Foundation
 struct StagingEnvironment: Environment {
     // API
     let apiBaseURL = "http://api.stg.letgo.com"
-    let bouncerBaseURL = "http://bouncerv2.stg.letgo.com/api"
+    let bouncerBaseURL = "http://bouncer.stg.letgo.com/api"
     let commercializerBaseURL = "http://commercializer.stg.letgo.com"
     let userRatingsBaseURL = "http://rating.stg.letgo.com/api"
     let chatBaseURL = "https://chat.stg.letgo.com"

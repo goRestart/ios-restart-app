@@ -30,8 +30,9 @@ class OnboardingCoordinator: Coordinator {
 
     init(keyValueStorage: KeyValueStorage, locationManager: LocationManager) {
         self.locationManager = locationManager
+        let signUpVM = SignUpViewModel(appearance: .Dark, source: .Install)
         let tourVM = TourLoginViewModel()
-        viewController = TourLoginViewController(viewModel: tourVM, completion: nil)
+        viewController = TourLoginViewController(signUpViewModel: signUpVM, tourLoginViewModel: tourVM, completion: nil)
 
         tourVM.navigator = self
     }

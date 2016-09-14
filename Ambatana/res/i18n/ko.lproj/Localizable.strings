@@ -604,6 +604,9 @@
 "tour_help_button" = "도움";
 "tour_or_label" = "혹은 이메일 사용하기";
 "tour_page_1_body" = "구매와 판매를 빠르고 안전하고 지역적으로 진행하세요.";
+"tour_terms_conditions" = "로그인함하여 회원님은 저희 사용 약관 및 개인보호 정책에 동의하시게 됩니다";
+"tour_terms_conditions_privacy_keyword" = "개인정보 정책";
+"tour_terms_conditions_terms_keyword" = "사용약관";
 "trending_searches_Title" = "트렌드 검색";
 "unblock_user_error_generic" = "이 사용자의 차단을 해제하는데 오류가 발생했습니다.";
 "user_rating_message_w_name" = "%@에게 별 다섯개를 주실 경험을 하셨나요? 어떠셨는지 저희에게 알려주세요.";

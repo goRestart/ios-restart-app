@@ -318,6 +318,7 @@
 "nps_survey_very_good" = "Son derece muhtemel";
 "onboarding_login_skip" = "Geç";
 "onboarding_posting_button_a" = "Eşyalarını Sat";
+<<<<<<< HEAD
 "onboarding_posting_button_b" = "Start";
 "onboarding_posting_button_c" = "Yes, I have things to sell";
 "onboarding_posting_subtitle_a" = "İlk ürününü yükleyerek yakınındakilere satış yapmaya başla";
@@ -326,6 +327,16 @@
 "onboarding_posting_title_a" = "Nakit Kazanmaya Başla!";
 "onboarding_posting_title_b" = "Post your first product";
 "onboarding_posting_title_c" = "satacak bir şeyin var mı?";
+=======
+"onboarding_posting_button_b" = "Başla";
+"onboarding_posting_button_c" = "Evet, satılık eşyalarım var";
+"onboarding_posting_subtitle_a" = "İlk ürününü yayınlayarak yakınındakilere satış yapmaya başla";
+"onboarding_posting_subtitle_b" = "İhtiyacın olmayan eşyaları sat ve para kazan";
+"onboarding_posting_subtitle_c" = "Yakın çevrendeki insanlar bu ürünleri arıyor";
+"onboarding_posting_title_a" = "Nakit Kazanmaya Başla!";
+"onboarding_posting_title_b" = "İlk ürününü yayınla";
+"onboarding_posting_title_c" = "Satılık bir şeyin var mı?";
+>>>>>>> develop
 "product_ask_a_question_button" = "Soru Sor";
 "product_auto_generated_title_label" = "Başlık letgo tarafından otomatik olarak belirlendi";
 "product_auto_generated_translated_title_label" = "(Yandex ile çevrildi)";
@@ -604,6 +615,9 @@
 "tour_help_button" = "Yardım";
 "tour_or_label" = "veya e-postanı kullan";
 "tour_page_1_body" = "Bulunduğun çevrede hızlı ve güvenli bir şekilde al ve sat.";
+"tour_terms_conditions" = "Kaydolarak veya giriş yaparak Şartlar ve Koşullar & Gizlilik Politikasını kabul etmiş olursun.";
+"tour_terms_conditions_privacy_keyword" = "Gizlilik Politikası";
+"tour_terms_conditions_terms_keyword" = "Şartlar ve Koşullar";
 "trending_searches_Title" = "Popüler Aramalar";
 "unblock_user_error_generic" = "Kullanıcı engeli kaldırılırken bir hata oluştu.";
 "user_rating_message_w_name" = "%@ ile deneyimin nasıldı? 5 yıldız vermek ister misin?";

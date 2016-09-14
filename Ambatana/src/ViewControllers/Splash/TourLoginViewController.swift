@@ -10,27 +10,40 @@ import Foundation
 import JBKenBurnsView
 import LGCoreKit
 
-final class TourLoginViewController: BaseViewController {
-    
-    let viewModel: TourLoginViewModel
-    
-    @IBOutlet weak var closeButton: UIButton!
-    @IBOutlet weak var signupButton: UIButton!
-    @IBOutlet weak var loginButton: UIButton!
-    @IBOutlet weak var skipButton: UIButton!
-    @IBOutlet weak var messageLabel: UILabel!
+final class TourLoginViewController: BaseViewController, GIDSignInUIDelegate {
     @IBOutlet weak var kenBurnsView: JBKenBurnsView!
-    
+
+    @IBOutlet weak var closeButton: UIButton!
+    @IBOutlet weak var claimLabel: UILabel!
+    @IBOutlet weak var claimLabelTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak var facebookButton: UIButton!
+    @IBOutlet weak var googleButton: UIButton!
+    @IBOutlet var orDividerViews: [UIView]!
+    @IBOutlet weak var orUseEmailLabel: UILabel!
+    @IBOutlet weak var orUseEmailLabelTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak var emailButton: UIButton!
+    @IBOutlet weak var emailButtonTopContraint: NSLayoutConstraint!
+    @IBOutlet weak var mainViewBottomConstraint: NSLayoutConstraint!
+    @IBOutlet weak var footerTextView: UITextView!
+    @IBOutlet weak var footerTextViewBottomConstraint: NSLayoutConstraint!
+
+    private var lines: [CALayer] = []
+
+    private let signUpViewModel: SignUpViewModel
+    private let tourLoginViewModel: TourLoginViewModel
     var completion: (() -> ())?
     
     
     // MARK: - Lifecycle
-    
-    init(viewModel: TourLoginViewModel, completion: (() -> ())?) {
-        self.viewModel = viewModel
+
+    init(signUpViewModel: SignUpViewModel, tourLoginViewModel: TourLoginViewModel, completion: (() -> ())?) {
+        self.signUpViewModel = signUpViewModel
+        self.tourLoginViewModel = tourLoginViewModel
         self.completion = completion
-        super.init(viewModel: viewModel, nibName: "TourLoginViewController", statusBarStyle: .LightContent,
-                   navBarBackgroundStyle: .Transparent)
+        super.init(viewModel: signUpViewModel, nibName: "TourLoginViewController", statusBarStyle: .LightContent,
+                   navBarBackgroundStyle: .Transparent(substyle: .Dark))
+
+        self.signUpViewModel.delegate = self
         modalPresentationStyle = .OverCurrentContext
         modalTransitionStyle = .CrossDissolve
 
@@ -47,15 +60,91 @@ final class TourLoginViewController: BaseViewController {
         super.viewDidLoad()
         setupUI()
         setupAccessibilityIds()
+
+        if DeviceFamily.current == .iPhone4 {
+            adaptConstraintsToiPhone4()
+        }
     }
 
     override func viewDidFirstAppear(animated: Bool) {
         setupKenBurns()
     }
+
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        GIDSignIn.sharedInstance().uiDelegate = self
+    }
+
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        setupLines()
+    }
+
+
+    // MARK: - IBActions
     
-    
-    // MARK: - UI
-    
+    @IBAction func closeButtonPressed(sender: AnyObject) {
+        openNextStep()
+    }
+
+    @IBAction func facebookButtonPressed(sender: AnyObject) {
+        signUpViewModel.logInWithFacebook()
+    }
+
+    @IBAction func googleButtonPressed(sender: AnyObject) {
+        signUpViewModel.logInWithGoogle()
+    }
+
+    @IBAction func emailButtonPressed(sender: AnyObject) {
+        let vm = SignUpLogInViewModel(source: .Install, action: .Signup)
+        let vc = SignUpLogInViewController(viewModel: vm, appearance: .Dark, keyboardFocus: true)
+        vc.afterLoginAction = { [weak self] in
+            self?.openNextStep()
+        }
+        let nav = UINavigationController(rootViewController: vc)
+        presentViewController(nav, animated: true, completion: nil)
+    }
+}
+
+
+// MARK: - UITextViewDelegate
+
+extension TourLoginViewController: UITextViewDelegate {
+    func textView(textView: UITextView, shouldInteractWithURL url: NSURL, inRange characterRange: NSRange) -> Bool {
+        openInternalUrl(url)
+        return false
+    }
+}
+
+
+// MARK: - SignUpViewModelDelegate
+
+extension TourLoginViewController: SignUpViewModelDelegate {
+    func viewModelDidStartLoggingIn(viewModel: SignUpViewModel) {
+        showLoadingMessageAlert()
+    }
+
+    func viewModeldidFinishLoginIn(viewModel: SignUpViewModel) {
+        dismissLoadingMessageAlert() { [weak self] in
+            self?.openNextStep()
+        }
+    }
+
+    func viewModeldidCancelLoginIn(viewModel: SignUpViewModel) {
+        dismissLoadingMessageAlert()
+    }
+
+    func viewModel(viewModel: SignUpViewModel, didFailLoginIn message: String) {
+        dismissLoadingMessageAlert() { [weak self] in
+            self?.showAutoFadingOutMessageAlert(message, time: 3)
+        }
+    }
+}
+
+
+// MARK: - Private UI methods
+
+private extension TourLoginViewController {
     func setupKenBurns() {
         let images: [UIImage] = [
             UIImage(named: "bg_1_new"),
@@ -66,43 +155,58 @@ final class TourLoginViewController: BaseViewController {
         view.layoutIfNeeded()
         kenBurnsView.animateWithImages(images, transitionDuration: 10, initialDelay: 0, loop: true, isLandscape: true)
     }
-    
+
     func setupUI() {
-        signupButton.titleLabel?.font = UIFont.tourButtonFont
-        signupButton.setTitle(LGLocalizedString.signUpSendButton, forState: .Normal)
-        signupButton.setStyle(.Primary(fontSize: .Medium))
-        signupButton.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
-        
-        loginButton.backgroundColor = UIColor.clearColor()
-        loginButton.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
-        loginButton.layer.borderWidth = 1
-        loginButton.layer.borderColor = UIColor.whiteColor().CGColor
-        loginButton.tintColor = UIColor.whiteColor()
-        loginButton.titleLabel?.font = UIFont.tourButtonFont
-        loginButton.setTitle(LGLocalizedString.logInSendButton, forState: .Normal)
-        
-        skipButton.backgroundColor = UIColor.clearColor()
-        skipButton.tintColor = UIColor.whiteColor()
-        skipButton.titleLabel?.font = UIFont.tourButtonFont
-        skipButton.setTitle(LGLocalizedString.onboardingLoginSkip, forState: .Normal)
-        
-        messageLabel.text = LGLocalizedString.tourPage1Body
-        
+        // UI
         kenBurnsView.clipsToBounds = true
+
+        facebookButton.setStyle(.Facebook)
+        googleButton.setStyle(.Google)
+        emailButton.setStyle(.DarkField)
+        orUseEmailLabel.text = LGLocalizedString.tourOrLabel
+        orUseEmailLabel.font = UIFont.smallBodyFont
+        emailButton.layer.cornerRadius = LGUIKitConstants.textfieldCornerRadius
+
+        footerTextView.textAlignment = .Center
+        footerTextView.delegate = self
+
+        // i18n
+        claimLabel.text = LGLocalizedString.tourClaimLabel
+        facebookButton.setTitle(LGLocalizedString.tourFacebookButton, forState: .Normal)
+        googleButton.setTitle(LGLocalizedString.tourGoogleButton, forState: .Normal)
+        emailButton.setTitle(LGLocalizedString.tourEmailButton, forState: .Normal)
+        footerTextView.attributedText = signUpViewModel.attributedLegalText
+    }
+
+    private func adaptConstraintsToiPhone4() {
+        claimLabelTopConstraint.constant = 10
+        orUseEmailLabelTopConstraint.constant = 10
+        emailButtonTopContraint.constant = 10
+        mainViewBottomConstraint.constant = 8
+        footerTextViewBottomConstraint.constant = 8
     }
 
     func setupAccessibilityIds() {
         closeButton.accessibilityId = .TourLoginCloseButton
-        signupButton.accessibilityId = .TourLoginSignUpButton
-        loginButton.accessibilityId = .TourLoginLogInButton
-        skipButton.accessibilityId = .TourLoginSkipButton
+        facebookButton.accessibilityId = .TourFacebookButton
+        googleButton.accessibilityId = .TourGoogleButton
+        emailButton.accessibilityId = .TourEmailButton
     }
-    
-    
-    // MARK: - Navigation
-    
+
+    func setupLines() {
+        // Redraw the lines
+        lines.forEach { $0.removeFromSuperlayer() }
+        lines = []
+        orDividerViews.forEach { lines.append($0.addBottomBorderWithWidth(1, color: UIColor.white)) }
+    }
+}
+
+
+// MARK: - Private Navigation methods
+
+private extension TourLoginViewController {
     func openNextStep() {
-        guard let step = viewModel.nextStep() else { return }
+        guard let step = tourLoginViewModel.nextStep() else { return }
         switch step {
         case .Notifications:
             openNotificationsTour()
@@ -112,21 +216,17 @@ final class TourLoginViewController: BaseViewController {
             close(true)
         }
     }
-    
-    func close(animated: Bool = false) {
-        dismissViewControllerAnimated(animated, completion: completion)
-    }
-    
+
     func openNotificationsTour() {
         PushPermissionsManager.sharedInstance.showPrePermissionsViewFrom(self, type: .Onboarding) { [weak self] in
             self?.close()
         }
-        
+
         UIView.animateWithDuration(0.3, delay: 0.1, options: UIViewAnimationOptions.CurveEaseInOut, animations: {
             self.view.alpha = 0
         }, completion: nil)
     }
-    
+
     func openLocationTour() {
         let vm = TourLocationViewModel(source: .Install)
         let vc = TourLocationViewController(viewModel: vm)
@@ -135,42 +235,15 @@ final class TourLoginViewController: BaseViewController {
         }
         presentStep(vc)
     }
-    
+
     func presentStep(vc: UIViewController) {
         UIView.animateWithDuration(0.3, delay: 0.1, options: UIViewAnimationOptions.CurveEaseInOut, animations: {
             self.view.alpha = 0
         }, completion: nil)
         presentViewController(vc, animated: true, completion: nil)
     }
-    
-    
-    // MARK: - IBActions
-    
-    @IBAction func closeButtonPressed(sender: AnyObject) {
-        self.openNextStep()
-    }
 
-    @IBAction func signUpPressed(sender: AnyObject) {
-        let vm = SignUpLogInViewModel(source: .Install, action: .Signup)
-        let vc = SignUpLogInViewController(viewModel: vm)
-        vc.afterLoginAction = { [weak self] in
-            self?.openNextStep()
-        }
-        let nav = UINavigationController(rootViewController: vc)
-        presentViewController(nav, animated: true, completion: nil)
-    }
-    
-    @IBAction func loginPressed(sender: AnyObject) {
-        let vm = SignUpLogInViewModel(source: .Install, action: .Login)
-        let vc = SignUpLogInViewController(viewModel: vm)
-        vc.afterLoginAction = { [weak self] in
-            self?.openNextStep()
-        }
-        let nav = UINavigationController(rootViewController: vc)
-        presentViewController(nav, animated: true, completion: nil)
-    }
-    
-    @IBAction func skipPressed(sender: AnyObject) {
-        openNextStep()
+    func close(animated: Bool = false) {
+        dismissViewControllerAnimated(animated, completion: completion)
     }
 }

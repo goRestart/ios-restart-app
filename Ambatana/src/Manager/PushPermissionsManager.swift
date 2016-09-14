@@ -90,7 +90,7 @@ public class PushPermissionsManager: NSObject {
         }
 
         if showSettingsPrePermission {
-            return presentSettingsPrePermissionsFrom(viewController, type: type)
+            return presentSettingsPrePermissionsFrom(viewController, type: type, completion: completion)
         } else {
             return presentNormalPrePermissionsFrom(viewController, type: type, completion: completion)
         }
@@ -105,10 +105,12 @@ public class PushPermissionsManager: NSObject {
             viewController.presentViewController(vc, animated: true, completion: nil)
         return vc
     }
-    
-    private func presentSettingsPrePermissionsFrom(viewController: UIViewController, type: PrePermissionType) -> UIViewController {
+
+    private func presentSettingsPrePermissionsFrom(viewController: UIViewController, type: PrePermissionType,
+                                                   completion: (() -> ())?) -> UIViewController {
         let vm = PushPrePermissionsSettingsViewModel(source: type)
         let vc = PushPrePermissionsSettingsViewController(viewModel: vm)
+        vc.completion = completion
         viewController.presentViewController(vc, animated: true, completion: nil)
         return vc
     }
@@ -216,7 +218,7 @@ extension PrePermissionType {
     public var title: String {
         switch self {
         case Onboarding:
-            return LGLocalizedString.notificationsPermissions1Title
+            return FeatureFlags.onboardinPermissionsMode.titleText
         case ProductList:
             return LGLocalizedString.notificationsPermissions2Title
         case Chat:
@@ -270,6 +272,17 @@ extension PrePermissionType {
             return .Sell
         case Profile:
             return .Profile
+        }
+    }
+}
+
+private extension OnboardingPermissionsMode {
+    var titleText: String {
+        switch self {
+        case .Original, .OneButtonOriginalImages:
+            return LGLocalizedString.notificationsPermissions1Title
+        case .OneButtonNewImages:
+            return LGLocalizedString.notificationsPermissions1TitleV2
         }
     }
 }

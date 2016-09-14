@@ -505,7 +505,7 @@ private extension AppCoordinator {
     }
 
     func openLogin(style: LoginStyle, source: EventParameterLoginSourceValue, afterLogInSuccessful: () -> ()) {
-        let viewModel = SignUpViewModel(source: source)
+        let viewModel = SignUpViewModel(appearance: .Light, source: source)
         switch style {
         case .FullScreen:
             let vc = MainSignUpViewController(viewModel: viewModel)

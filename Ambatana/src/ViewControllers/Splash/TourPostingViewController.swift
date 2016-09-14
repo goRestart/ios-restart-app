@@ -38,7 +38,7 @@ class TourPostingViewController: BaseViewController {
         self.viewModel = viewModel
         self.completion = completion
         super.init(viewModel: viewModel, nibName: "TourPostingViewController", statusBarStyle: .LightContent,
-                   navBarBackgroundStyle: .Transparent)
+                   navBarBackgroundStyle: .Transparent(substyle: .Dark))
         modalPresentationStyle = .OverCurrentContext
         modalTransitionStyle = .CrossDissolve
         viewModel.delegate = self

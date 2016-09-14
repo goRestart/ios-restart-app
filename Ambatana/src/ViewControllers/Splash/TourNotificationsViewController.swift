@@ -14,16 +14,29 @@ final class TourNotificationsViewController: BaseViewController {
 
     @IBOutlet weak var closeButton: UIButton!
     @IBOutlet weak var notifyButton: UIButton!
-    @IBOutlet weak var noButton: UIButton!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var subtitleLabel: UILabel!
     @IBOutlet weak var iphoneRightHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var iphoneBckgImage: UIImageView!
+    @IBOutlet weak var noButton: UIButton!
+    @IBOutlet weak var noButtonHeight: NSLayoutConstraint!
+    @IBOutlet weak var noButtonTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak var pushContainer: UIView!
     @IBOutlet weak var notificationTimeLabel: UILabel!
     @IBOutlet weak var notificationMessageLabel: UILabel!
-    
+    @IBOutlet weak var alertContainer: UIView!
+    @IBOutlet weak var alertOkLabel: UILabel!
+
+    private var iphone5InfoHeight: CGFloat {
+        return viewModel.showNoButton ? 165 : 210
+    }
+    private var iphone4InfoHeight: CGFloat {
+        return viewModel.showNoButton ? 156 : 200
+    }
+
     var completion: (() -> ())?
     
-    
+
     // MARK: - Lifecycle
     
     init(viewModel: TourNotificationsViewModel) {
@@ -61,17 +74,6 @@ final class TourNotificationsViewController: BaseViewController {
             guard let viewAlpha = self?.view.alpha where viewAlpha > 0 else { return }
             self?.openNextStep()
         }
-    }
-    
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        UIApplication.sharedApplication().setStatusBarStyle(UIStatusBarStyle.LightContent, animated: true)
-        setNeedsStatusBarAppearanceUpdate()
-    }
-
-    override func viewWillDisappear(animated: Bool) {
-        super.viewWillDisappear(animated)
-        UIApplication.sharedApplication().setStatusBarStyle(UIStatusBarStyle.Default, animated: true)
     }
 
     
@@ -128,38 +130,49 @@ final class TourNotificationsViewController: BaseViewController {
         noButton.setTitle(LGLocalizedString.commonNo, forState: .Normal)
         notifyButton.setTitle(LGLocalizedString.notificationsPermissionsYesButton, forState: .Normal)
         notificationTimeLabel.text = LGLocalizedString.commonTimeNowLabel
+
+        alertOkLabel.text = LGLocalizedString.commonOk
     }
     
     func setupUI() {
-        notifyButton.tintColor = UIColor.whiteColor()
-        notifyButton.titleLabel?.font = UIFont.tourButtonFont
+        iphoneBckgImage.image = viewModel.infoImage
         notifyButton.setStyle(.Primary(fontSize: .Medium))
-        notifyButton.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
-        
-        noButton.backgroundColor = UIColor.clearColor()
-        noButton.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
-        noButton.layer.borderWidth = 1
-        noButton.layer.borderColor = UIColor.whiteColor().CGColor
-        noButton.tintColor = UIColor.whiteColor()
-        noButton.titleLabel?.font = UIFont.tourButtonFont
+        if viewModel.showNoButton {
+            noButton.backgroundColor = UIColor.clearColor()
+            noButton.layer.cornerRadius = noButton.height / 2
+            noButton.layer.borderWidth = 1
+            noButton.layer.borderColor = UIColor.whiteColor().CGColor
+            noButton.tintColor = UIColor.whiteColor()
+            noButton.titleLabel?.font = UIFont.tourButtonFont
+        } else {
+            noButtonHeight.constant = 0
+            noButtonTopConstraint.constant = 0
+        }
         
         switch DeviceFamily.current {
         case .iPhone4:
             titleLabel.font = UIFont.tourNotificationsTitleMiniFont
             subtitleLabel.font = UIFont.tourNotificationsSubtitleMiniFont
+            iphoneRightHeightConstraint.constant = iphone4InfoHeight
         case .iPhone5:
             titleLabel.font = UIFont.tourNotificationsTitleMiniFont
             subtitleLabel.font = UIFont.tourNotificationsSubtitleMiniFont
-            iphoneRightHeightConstraint.constant = 165
+            iphoneRightHeightConstraint.constant = iphone5InfoHeight
         case .iPhone6, .iPhone6Plus, .unknown:
             titleLabel.font = UIFont.tourNotificationsTitleFont
             subtitleLabel.font = UIFont.tourNotificationsSubtitleFont
         }
+
+        pushContainer.hidden = !viewModel.showPushInfo
+        alertContainer.hidden = !viewModel.showAlertInfo
+        let tap = UITapGestureRecognizer(target: self, action: #selector(yesButtonPressed(_:)))
+        alertContainer.addGestureRecognizer(tap)
     }
 
     func setupAccessibilityIds() {
         closeButton.accessibilityId = .TourNotificationsCloseButton
         notifyButton.accessibilityId = .TourNotificationsOKButton
         noButton.accessibilityId = .TourNotificationsCancelButton
+        alertContainer.accessibilityId = .TourNotificationsAlert
     }
 }
