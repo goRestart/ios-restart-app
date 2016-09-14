@@ -13,6 +13,7 @@ import LGCoreKit
 final class TourLoginViewController: BaseViewController, GIDSignInUIDelegate {
     @IBOutlet weak var kenBurnsView: JBKenBurnsView!
 
+    @IBOutlet weak var topLogoImage: UIImageView!
     @IBOutlet weak var closeButton: UIButton!
     @IBOutlet weak var claimLabel: UILabel!
     @IBOutlet weak var claimLabelTopConstraint: NSLayoutConstraint!
@@ -155,6 +156,11 @@ private extension TourLoginViewController {
     }
 
     func setupUI() {
+        if AdminViewController.canOpenAdminPanel() {
+            let tap = UITapGestureRecognizer(target: self, action: #selector(openAdminPanel))
+            topLogoImage.addGestureRecognizer(tap)
+        }
+
         // UI
         kenBurnsView.clipsToBounds = true
 
@@ -196,6 +202,13 @@ private extension TourLoginViewController {
         lines.forEach { $0.removeFromSuperlayer() }
         lines = []
         orDividerViews.forEach { lines.append($0.addBottomBorderWithWidth(1, color: UIColor.white)) }
+    }
+
+    dynamic private func openAdminPanel() {
+        guard AdminViewController.canOpenAdminPanel() else { return }
+        let admin = AdminViewController()
+        let nav = UINavigationController(rootViewController: admin)
+        presentViewController(nav, animated: true, completion: nil)
     }
 }
 
