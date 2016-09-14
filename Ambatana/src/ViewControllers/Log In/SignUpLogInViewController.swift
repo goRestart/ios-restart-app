@@ -524,7 +524,6 @@ SignUpLogInViewModelDelegate, GIDSignInUIDelegate {
     }
 
     private func setupLightAppearance() {
-         // 🌶
         darkAppereanceBgView.hidden = true
 
         loginSegmentedControl.tintColor = UIColor.primaryColor
@@ -562,7 +561,6 @@ SignUpLogInViewModelDelegate, GIDSignInUIDelegate {
     }
 
     private func setupDarkAppearance() {
-         // 🌶
         darkAppereanceBgView.hidden = false
 
         loginSegmentedControl.tintColor = UIColor.white
