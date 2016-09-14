@@ -60,13 +60,8 @@ final class TourLocationViewModel: BaseViewModel {
         self.typePage = source
     }
 
-    func nextStep() -> TourLocationNextStep? {
-        guard navigator == nil else {
-            navigator?.tourLocationFinish()
-            return nil
-        }
-        guard FeatureFlags.incentivizePostingMode != .Original else { return .None }
-        return .Posting
+    func nextStep() {
+        navigator?.tourLocationFinish()
     }
 
     // MARK: - Tracking

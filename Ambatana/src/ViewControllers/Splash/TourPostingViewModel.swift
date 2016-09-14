@@ -8,13 +8,8 @@
 
 import Foundation
 
-protocol TourPostingViewModelDelegate: BaseViewModelDelegate {
-    func vmClose()
-}
-
 class TourPostingViewModel: BaseViewModel {
     weak var navigator: TourPostingNavigator?
-    weak var delegate: TourPostingViewModelDelegate?
 
     let titleText: String
     let subtitleText: String
@@ -60,19 +55,11 @@ class TourPostingViewModel: BaseViewModel {
     }
 
     func okButtonPressed() {
-        if let navigator = navigator {
-            navigator.tourPostingPost()
-        } else {
-            delegate?.vmClose()
-        }
+        navigator?.tourPostingPost()
     }
 
     func closeButtonPressed() {
-        if let navigator = navigator {
-            navigator.tourPostingClose()
-        } else {
-            delegate?.vmClose()
-        }
+        navigator?.tourPostingClose()
     }
 
 

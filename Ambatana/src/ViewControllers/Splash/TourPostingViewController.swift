@@ -27,21 +27,17 @@ class TourPostingViewController: BaseViewController {
 
     private static let reducedMargins: CGFloat = 10
 
-
-    let completion: (() -> ())?
     private let viewModel: TourPostingViewModel
     private let disposeBag = DisposeBag()
 
     // MARK: - Lifecycle
 
-    init(viewModel: TourPostingViewModel, completion: (() -> ())?) {
+    init(viewModel: TourPostingViewModel) {
         self.viewModel = viewModel
-        self.completion = completion
         super.init(viewModel: viewModel, nibName: "TourPostingViewController", statusBarStyle: .LightContent,
                    navBarBackgroundStyle: .Transparent(substyle: .Dark))
         modalPresentationStyle = .OverCurrentContext
         modalTransitionStyle = .CrossDissolve
-        viewModel.delegate = self
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -88,15 +84,6 @@ class TourPostingViewController: BaseViewController {
     private func setupRx() {
         okButton.rx_tap.bindNext { [weak self] in self?.viewModel.okButtonPressed() }.addDisposableTo(disposeBag)
         closeButton.rx_tap.bindNext { [weak self] in self?.viewModel.closeButtonPressed() }.addDisposableTo(disposeBag)
-    }
-}
-
-
-// MARK: - TourPostingViewModelDelegate
-
-extension TourPostingViewController: TourPostingViewModelDelegate {
-    func vmClose() {
-        dismissViewControllerAnimated(true, completion: completion)
     }
 }
 

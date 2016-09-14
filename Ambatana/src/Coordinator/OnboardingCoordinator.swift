@@ -32,7 +32,7 @@ class OnboardingCoordinator: Coordinator {
         self.locationManager = locationManager
         let signUpVM = SignUpViewModel(appearance: .Dark, source: .Install)
         let tourVM = TourLoginViewModel()
-        viewController = TourLoginViewController(signUpViewModel: signUpVM, tourLoginViewModel: tourVM, completion: nil)
+        viewController = TourLoginViewController(signUpViewModel: signUpVM, tourLoginViewModel: tourVM)
 
         tourVM.navigator = self
     }
@@ -101,7 +101,7 @@ class OnboardingCoordinator: Coordinator {
         let topVC = topViewController()
         let vm = TourPostingViewModel()
         vm.navigator = self
-        let vc = TourPostingViewController(viewModel: vm, completion: nil)
+        let vc = TourPostingViewController(viewModel: vm)
         hideVC(topVC)
         presentedViewControllers.append(vc)
         topVC.presentViewController(vc, animated: true, completion: nil)

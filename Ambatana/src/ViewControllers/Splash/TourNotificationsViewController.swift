@@ -109,9 +109,6 @@ final class TourNotificationsViewController: BaseViewController {
     func showTourLocation() {
         let vm = TourLocationViewModel(source: .Install)
         let vc = TourLocationViewController(viewModel: vm)
-        vc.completion = { [weak self] in
-            self?.dismissViewControllerAnimated(false, completion: self?.completion)
-        }
         UIView.animateWithDuration(0.3, delay: 0.1, options: UIViewAnimationOptions.CurveEaseInOut, animations: {
             self.view.alpha = 0
         }, completion: nil)

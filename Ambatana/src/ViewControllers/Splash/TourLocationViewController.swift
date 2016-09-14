@@ -33,8 +33,6 @@ final class TourLocationViewController: BaseViewController {
 
     let viewModel: TourLocationViewModel
     
-    var completion: (() -> ())?
-    
     
     // MARK: - Lifecycle
 
@@ -79,13 +77,7 @@ final class TourLocationViewController: BaseViewController {
     }
 
     func openNextStep() {
-        guard let step = viewModel.nextStep() else { return }
-        switch step {
-        case .Posting:
-            showTourPosting()
-        case .None:
-            dismissViewControllerAnimated(true, completion: completion)
-        }
+        viewModel.nextStep()
     }
 
     
@@ -152,18 +144,6 @@ final class TourLocationViewController: BaseViewController {
         alertContainer.hidden = !viewModel.showAlertInfo
         let tap = UITapGestureRecognizer(target: self, action: #selector(yesButtonPressed(_:)))
         alertContainer.addGestureRecognizer(tap)
-    }
-
-    func showTourPosting() {
-        let vm = TourPostingViewModel()
-        let vc = TourPostingViewController(viewModel: vm) { [weak self] in
-            self?.dismissViewControllerAnimated(false, completion: self?.completion)
-        }
-        UIView.animateWithDuration(0.3, delay: 0.1, options: UIViewAnimationOptions.CurveEaseInOut, animations: {
-            self.view.alpha = 0
-            }, completion: nil)
-
-        presentViewController(vc, animated: true, completion: nil)
     }
 
     private func setupAccessibilityIds() {

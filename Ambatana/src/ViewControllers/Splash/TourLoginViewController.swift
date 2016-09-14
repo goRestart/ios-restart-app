@@ -31,15 +31,13 @@ final class TourLoginViewController: BaseViewController, GIDSignInUIDelegate {
 
     private let signUpViewModel: SignUpViewModel
     private let tourLoginViewModel: TourLoginViewModel
-    var completion: (() -> ())?
     
     
     // MARK: - Lifecycle
 
-    init(signUpViewModel: SignUpViewModel, tourLoginViewModel: TourLoginViewModel, completion: (() -> ())?) {
+    init(signUpViewModel: SignUpViewModel, tourLoginViewModel: TourLoginViewModel) {
         self.signUpViewModel = signUpViewModel
         self.tourLoginViewModel = tourLoginViewModel
-        self.completion = completion
         super.init(viewModel: signUpViewModel, nibName: "TourLoginViewController", statusBarStyle: .LightContent,
                    navBarBackgroundStyle: .Transparent(substyle: .Dark))
 
@@ -206,44 +204,6 @@ private extension TourLoginViewController {
 
 private extension TourLoginViewController {
     func openNextStep() {
-        guard let step = tourLoginViewModel.nextStep() else { return }
-        switch step {
-        case .Notifications:
-            openNotificationsTour()
-        case .Location:
-            openLocationTour()
-        case .None:
-            close(true)
-        }
-    }
-
-    func openNotificationsTour() {
-        PushPermissionsManager.sharedInstance.showPrePermissionsViewFrom(self, type: .Onboarding) { [weak self] in
-            self?.close()
-        }
-
-        UIView.animateWithDuration(0.3, delay: 0.1, options: UIViewAnimationOptions.CurveEaseInOut, animations: {
-            self.view.alpha = 0
-        }, completion: nil)
-    }
-
-    func openLocationTour() {
-        let vm = TourLocationViewModel(source: .Install)
-        let vc = TourLocationViewController(viewModel: vm)
-        vc.completion = { [weak self] in
-            self?.close(false)
-        }
-        presentStep(vc)
-    }
-
-    func presentStep(vc: UIViewController) {
-        UIView.animateWithDuration(0.3, delay: 0.1, options: UIViewAnimationOptions.CurveEaseInOut, animations: {
-            self.view.alpha = 0
-        }, completion: nil)
-        presentViewController(vc, animated: true, completion: nil)
-    }
-
-    func close(animated: Bool = false) {
-        dismissViewControllerAnimated(animated, completion: completion)
+        tourLoginViewModel.nextStep()
     }
 }
