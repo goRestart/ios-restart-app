@@ -110,8 +110,6 @@ class OnboardingCoordinator: Coordinator {
 
 extension OnboardingCoordinator: TourLoginNavigator {
     func tourLoginFinish() {
-        openTourNotifications()
-        return
         let casnAskForPushPermissions = PushPermissionsManager.sharedInstance
             .shouldShowPushPermissionsAlertFromViewController(.Onboarding)
 
@@ -130,8 +128,6 @@ extension OnboardingCoordinator: TourLoginNavigator {
 
 extension OnboardingCoordinator: TourNotificationsNavigator {
     func tourNotificationsFinish() {
-        openTourLocation()
-        return
         if Core.locationManager.shouldAskForLocationPermissions() {
             openTourLocation()
         } else if FeatureFlags.incentivizePostingMode != .Original {
@@ -144,8 +140,6 @@ extension OnboardingCoordinator: TourNotificationsNavigator {
 
 extension OnboardingCoordinator: TourLocationNavigator {
     func tourLocationFinish() {
-        openTourPosting()
-        return
         if FeatureFlags.incentivizePostingMode != .Original {
             openTourPosting()
         } else {
