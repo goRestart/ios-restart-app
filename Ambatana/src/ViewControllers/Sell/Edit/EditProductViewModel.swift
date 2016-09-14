@@ -504,22 +504,8 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
                 strongSelf.trackComplete(actualProduct)
                 strongSelf.delegate?.vmDidFinishSavingProductWithResult(result)
             } else if let error = result.error {
-
-                let sellError: EventParameterPostProductError
-                switch error {
-                case .Network:
-                    sellError = .Network
-                case let .ServerError(code):
-                    sellError = .ServerError(code: code)
-                case .NotFound, .Forbidden, .Unauthorized, .TooManyRequests, .UserNotVerified, .Internal:
-                    sellError = .Internal
-                }
-                let sellErrorDataEvent = TrackerEvent.productSellErrorData(sellError)
-                strongSelf.trackEvent(sellErrorDataEvent)
-
                 let newError = ProductCreateValidationError(repoError: error)
                 strongSelf.delegate?.vmDidFailWithError(newError)
-
             }
         }
         

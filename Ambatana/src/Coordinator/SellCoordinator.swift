@@ -101,6 +101,18 @@ extension SellCoordinator: PostProductNavigator {
 
                 if let _ = result.value {
                     self?.keyValueStorage.userPostProductPostedPreviously = true
+                } else if let error = result.error {
+                    let sellError: EventParameterPostProductError
+                    switch error {
+                    case .Network:
+                        sellError = .Network
+                    case let .ServerError(code):
+                        sellError = .ServerError(code: code)
+                    case .NotFound, .Forbidden, .Unauthorized, .TooManyRequests, .UserNotVerified, .Internal:
+                        sellError = .Internal
+                    }
+                    let sellErrorDataEvent = TrackerEvent.productSellErrorData(sellError)
+                    TrackerProxy.sharedInstance.trackEvent(sellErrorDataEvent)
                 }
 
                 if showConfirmation {
