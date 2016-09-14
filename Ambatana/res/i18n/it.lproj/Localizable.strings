@@ -604,6 +604,9 @@
 "tour_help_button" = "Aiuto";
 "tour_or_label" = "O utilizza la tua email";
 "tour_page_1_body" = "Compra e vendi localmente, velocemente e in tutta sicurezza.";
+"tour_terms_conditions" = "Registrandoti o effettuando l'accesso, accetti i nostri Termini e Condizioni e l'Informativa sulla Privacy";
+"tour_terms_conditions_privacy_keyword" = "Informativa sulla Privacy";
+"tour_terms_conditions_terms_keyword" = "Termini e Condizioni";
 "trending_searches_Title" = "Ricerche di tendenza";
 "unblock_user_error_generic" = "Si è verificato un errore durante il tentativo di sbloccare questo utente.";
 "user_rating_message_w_name" = "La tua esperienza con %@ merita cinque stelle? Raccontaci come è andata.";

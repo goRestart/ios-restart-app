@@ -604,6 +604,9 @@
 "tour_help_button" = "Trợ giúp";
 "tour_or_label" = "HOẶC SỬ DỤNG EMAIL CỦA BẠN";
 "tour_page_1_body" = "Mua và bán nhanh chóng, an toàn ở ngay gần bạn.";
+"tour_terms_conditions" = "Đăng ký hoặc đăng nhập đồng nghĩa với việc bạn đồng ý với Các Điều khoản & Điều kiện và Chính sách Bảo mật của chúng tôi";
+"tour_terms_conditions_privacy_keyword" = "Chính sách Bảo mật";
+"tour_terms_conditions_terms_keyword" = "Các Điều khoản & Điều kiện";
 "trending_searches_Title" = "Xu hướng Tìm kiếm";
 "unblock_user_error_generic" = "Có lỗi xảy ra trong khi bỏ chặn người dùng này.";
 "user_rating_message_w_name" = "Trải nghiệm của bạn với %@ có xứng đáng năm sao? Hãy cho chúng tôi biết.";
