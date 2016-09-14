@@ -64,7 +64,9 @@ extension ProductListMultiRequester: ProductListRequester {
         return multiIsLastPage
     }
 
-    func updateInitialOffset(newOffset: Int) { }
+    func updateInitialOffset(newOffset: Int) {
+        activeRequester?.updateInitialOffset(newOffset)
+    }
 
     func duplicate() -> ProductListRequester {
         let newArray = requestersArray.map { $0.duplicate() }
