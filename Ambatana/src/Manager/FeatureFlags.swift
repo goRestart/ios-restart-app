@@ -35,13 +35,6 @@ struct FeatureFlags {
     static var userRatings: Bool {
         return FTSFlipTheSwitch.userRatings
     }
-
-    static var bigFavoriteIcon: Bool {
-        if FTSFlipTheSwitch.overridesABTests {
-            return FTSFlipTheSwitch.bigFavoriteIcon
-        }
-        return ABTests.bigFavoriteIcon.value
-    }
     
     static var showRelatedProducts: Bool {
         if FTSFlipTheSwitch.overridesABTests {
@@ -105,10 +98,6 @@ private extension FTSFlipTheSwitch {
     
     static var userRatings: Bool {
         return FTSFlipTheSwitch.sharedInstance().isFeatureEnabled("user_ratings")
-    }
-
-    static var bigFavoriteIcon: Bool {
-        return FTSFlipTheSwitch.sharedInstance().isFeatureEnabled("big_favorite_icon")
     }
     
     static var showRelatedProducts: Bool {

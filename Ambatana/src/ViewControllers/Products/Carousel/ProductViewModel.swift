@@ -315,7 +315,7 @@ class ProductViewModel: BaseViewModel {
         }.addDisposableTo(disposeBag)
 
         productIsFavoriteable.asObservable().bindNext { [weak self] favoriteable in
-            self?.favoriteButtonState.value = (favoriteable && FeatureFlags.bigFavoriteIcon) ? .Enabled : .Hidden
+            self?.favoriteButtonState.value = favoriteable ? .Enabled : .Hidden
         }.addDisposableTo(disposeBag)
 
         moreInfoState.asObservable().map { (state: MoreInfoState) in
@@ -533,7 +533,7 @@ extension ProductViewModel {
             isEditable = false
         }
 
-        if productIsFavoriteable.value && (!FeatureFlags.bigFavoriteIcon || moreInfoState.value == .Shown) {
+        if productIsFavoriteable.value && moreInfoState.value == .Shown {
             navBarButtons.append(buildFavoriteNavBarAction())
         }
         if isEditable {
@@ -576,7 +576,7 @@ extension ProductViewModel {
         let isDeletable = status.value == .NotAvailable ? false : isMine
 
         actions.append(buildShareAction())
-        if productHasReadyCommercials.value && FeatureFlags.bigFavoriteIcon {
+        if productHasReadyCommercials.value {
             actions.append(buildCommercialAction())
         }
         actions.append(buildOnboardingButton())
@@ -689,18 +689,14 @@ extension ProductViewModel {
 
 extension ProductViewModel {
     private func switchFavoriteAction() {
-        if FeatureFlags.bigFavoriteIcon {
-            favoriteButtonState.value = .Disabled
-        }
+        favoriteButtonState.value = .Disabled
         if isFavorite.value {
             productRepository.deleteFavorite(product.value) { [weak self] result in
                 guard let strongSelf = self else { return }
                 if let product = result.value {
                     strongSelf.isFavorite.value = product.favorite
                 }
-                if FeatureFlags.bigFavoriteIcon {
-                    strongSelf.favoriteButtonState.value = .Enabled
-                }
+                strongSelf.favoriteButtonState.value = .Enabled
             }
         } else {
             productRepository.saveFavorite(product.value) { [weak self] result in
@@ -713,9 +709,7 @@ extension ProductViewModel {
                         strongSelf.delegate?.vmAskForRating()
                     }
                 }
-                if FeatureFlags.bigFavoriteIcon {
-                    strongSelf.favoriteButtonState.value = .Enabled
-                }
+                strongSelf.favoriteButtonState.value = .Enabled
                 strongSelf.refreshInterestedBubble(true)
             }
         }
