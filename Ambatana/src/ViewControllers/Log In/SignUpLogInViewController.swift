@@ -186,7 +186,7 @@ SignUpLogInViewModelDelegate, GIDSignInUIDelegate {
         
         scrollView.setContentOffset(CGPointMake(0,0), animated: false)
 
-        setupUI()
+        updateUI()
     }
     
     @IBAction func onSwitchValueChanged(sender: UISwitch) {
@@ -437,6 +437,8 @@ SignUpLogInViewModelDelegate, GIDSignInUIDelegate {
     // MARK: Private Methods
 
     private func setupCommonUI() {
+        view.backgroundColor = UIColor.white
+        
         // i18n
         loginSegmentedControl.setTitle(LGLocalizedString.mainSignUpSignUpButton, forSegmentAtIndex: 0)
         loginSegmentedControl.setTitle(LGLocalizedString.mainSignUpLogInLabel, forSegmentAtIndex: 1)
@@ -484,32 +486,7 @@ SignUpLogInViewModelDelegate, GIDSignInUIDelegate {
 
     private func setupUI() {
         setupCommonUI()
-
-        view.backgroundColor = UIColor.white
-
-        // action type
-        loginSegmentedControl.selectedSegmentIndex = viewModel.currentActionType.rawValue
-
-        textFieldsView.clipsToBounds = true
-        emailButton.hidden = false
-        emailIconImageView.hidden = false
-        emailTextField.hidden = false
-
-        showPasswordButton.hidden = !(viewModel.showPasswordShouldBeVisible)
-        
-        let isSignup = viewModel.currentActionType == .Signup
-
-        if isSignup {
-            setupSignupUI()
-        } else {
-            setupLoginUI()
-        }
-
-        let sendButtonTitle = isSignup ? LGLocalizedString.signUpSendButton : LGLocalizedString.logInSendButton
-        sendButton.setTitle(sendButtonTitle, forState: .Normal)
-        
-        let navBarTitle = isSignup ? LGLocalizedString.signUpTitle : LGLocalizedString.logInTitle
-        setNavBarTitle(navBarTitle)
+        updateUI()
 
         switch appearance {
         case .Light:
@@ -521,6 +498,31 @@ SignUpLogInViewModelDelegate, GIDSignInUIDelegate {
         if DeviceFamily.current == .iPhone4 {
             adaptConstraintsToiPhone4()
         }
+
+        // action type
+        loginSegmentedControl.selectedSegmentIndex = viewModel.currentActionType.rawValue
+
+        textFieldsView.clipsToBounds = true
+        emailButton.hidden = false
+        emailIconImageView.hidden = false
+        emailTextField.hidden = false
+
+        showPasswordButton.hidden = !(viewModel.showPasswordShouldBeVisible)
+    }
+
+    private func updateUI() {
+        let isSignup = viewModel.currentActionType == .Signup
+        if isSignup {
+            setupSignupUI()
+        } else {
+            setupLoginUI()
+        }
+
+        let sendButtonTitle = isSignup ? LGLocalizedString.signUpSendButton : LGLocalizedString.logInSendButton
+        sendButton.setTitle(sendButtonTitle, forState: .Normal)
+
+        let navBarTitle = isSignup ? LGLocalizedString.signUpTitle : LGLocalizedString.logInTitle
+        setNavBarTitle(navBarTitle)
     }
 
     private func setupLightAppearance() {
