@@ -37,7 +37,7 @@ class RelatedProductListRequester: ProductListRequester {
     }
 
     func productsRetrieval(completion: ProductsCompletion?) {
-        productRepository.index(productId: productObjectId, params: RetrieveProductsParams(), pageOffset: offset) { [weak self] result in
+        productRepository.indexRelated(productId: productObjectId, params: RetrieveProductsParams(), pageOffset: offset) { [weak self] result in
             if let value = result.value {
                 self?.offset += value.count
             }
