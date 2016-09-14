@@ -317,6 +317,15 @@
 "nps_survey_very_bad" = "Маловероятно";
 "nps_survey_very_good" = "Очень вероятно";
 "onboarding_login_skip" = "Пропустить";
+"onboarding_posting_button_a" = "Продать свои вещи";
+"onboarding_posting_button_b" = "Start";
+"onboarding_posting_button_c" = "Yes, I have things to sell";
+"onboarding_posting_subtitle_a" = "Опубликуйте свой первый товар и начинайте продавать";
+"onboarding_posting_subtitle_b" = "Sell stuff you no longer need and make extra cash";
+"onboarding_posting_subtitle_c" = "People near you are looking for these items";
+"onboarding_posting_title_a" = "Начинайте получать деньги!";
+"onboarding_posting_title_b" = "Post your first product";
+"onboarding_posting_title_c" = "есть что-либо на продажу?";
 "product_ask_a_question_button" = "Задать вопрос";
 "product_auto_generated_title_label" = "Заголовок автоматически задан letgo";
 "product_auto_generated_translated_title_label" = "(и переведен Яндексом)";

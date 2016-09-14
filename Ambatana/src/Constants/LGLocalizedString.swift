@@ -1283,6 +1283,42 @@ struct LGLocalizedString {
 		return NSLocalizedString("onboarding_login_skip", comment: "")
 	}
 
+	static var onboardingPostingTitleA: String {
+		return NSLocalizedString("onboarding_posting_title_a", comment: "")
+	}
+
+	static var onboardingPostingTitleB: String {
+		return NSLocalizedString("onboarding_posting_title_b", comment: "")
+	}
+
+	static var onboardingPostingTitleC: String {
+		return NSLocalizedString("onboarding_posting_title_c", comment: "")
+	}
+
+	static var onboardingPostingSubtitleA: String {
+		return NSLocalizedString("onboarding_posting_subtitle_a", comment: "")
+	}
+
+	static var onboardingPostingSubtitleB: String {
+		return NSLocalizedString("onboarding_posting_subtitle_b", comment: "")
+	}
+
+	static var onboardingPostingSubtitleC: String {
+		return NSLocalizedString("onboarding_posting_subtitle_c", comment: "")
+	}
+
+	static var onboardingPostingButtonA: String {
+		return NSLocalizedString("onboarding_posting_button_a", comment: "")
+	}
+
+	static var onboardingPostingButtonB: String {
+		return NSLocalizedString("onboarding_posting_button_b", comment: "")
+	}
+
+	static var onboardingPostingButtonC: String {
+		return NSLocalizedString("onboarding_posting_button_c", comment: "")
+	}
+
 	static var productAskAQuestionButton: String {
 		return NSLocalizedString("product_ask_a_question_button", comment: "")
 	}

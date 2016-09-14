@@ -948,6 +948,33 @@
 // Button to skip logging in during onboarding
 "onboarding_login_skip" = "Skip";
 
+// Onboarding incentivize posting variant A title
+"onboarding_posting_title_a" = "Start Making Cash!";
+
+// Onboarding incentivize posting variant B title
+"onboarding_posting_title_b" = "Post your first product";
+
+// Onboarding incentivize posting variant C title
+"onboarding_posting_title_c" = "Got any to sell?";
+
+// Onboarding incentivize posting variant A subtitle
+"onboarding_posting_subtitle_a" = "Post your first product and start selling to people near you";
+
+// Onboarding incentivize posting variant B subtitle
+"onboarding_posting_subtitle_b" = "Sell stuff you no longer need and make extra cash";
+
+// Onboarding incentivize posting variant C subtitle
+"onboarding_posting_subtitle_c" = "People near you are looking for these items";
+
+// Onboarding incentivize posting variant A button
+"onboarding_posting_button_a" = "Sell Your Stuff";
+
+// Onboarding incentivize posting variant B button
+"onboarding_posting_button_b" = "Start";
+
+// Onboarding incentivize posting variant C button
+"onboarding_posting_button_c" = "Yes, I have things to sell";
+
 // Product ask a question button. Check attached image "product (buyer).png"
 "product_ask_a_question_button" = "Ask a Question";
 
@@ -1111,7 +1138,7 @@
 "product_open_commercial_button" = "Commercial";
 
 // Option button to share product
-"product_option_share" = "Share product";
+"product_option_share" = "Share Product";
 
 // Option buton to show commercial
 "product_option_show_commercial" = "Commercial";
