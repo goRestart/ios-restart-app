@@ -247,10 +247,10 @@ extension AppCoordinator: SellCoordinatorDelegate {
 // MARK: - OnboardingCoordinatorDelegate
 
 extension AppCoordinator: OnboardingCoordinatorDelegate {
-    func onboardingCoordinator(coordinator: OnboardingCoordinator, didFinishPosting posting: Bool) {
+    func onboardingCoordinator(coordinator: OnboardingCoordinator, didFinishPosting posting: Bool, source: PostingSource?) {
         delegate?.appNavigatorDidOpenApp()
-        if posting {
-            openSell(.Onboarding)
+        if let source = source where posting {
+            openSell(source)
         }
     }
 }

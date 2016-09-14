@@ -12,6 +12,7 @@
                 <outlet property="incentivesContainerHeight" destination="HRe-ki-i1K" id="pnu-E8-CsM"/>
                 <outlet property="incentivesContainerTop" destination="0Ff-Ln-w7d" id="Bkc-bN-xcF"/>
                 <outlet property="okButton" destination="NFS-ck-gsl" id="Nzi-je-jKB"/>
+                <outlet property="photoContainer" destination="wei-bc-Jxc" id="Msw-z3-xwk"/>
                 <outlet property="subtitleLabel" destination="CTM-HU-z6s" id="tAz-Qw-KWo"/>
                 <outlet property="titleLabel" destination="4ZJ-D6-ONb" id="BUP-Tc-VYh"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>

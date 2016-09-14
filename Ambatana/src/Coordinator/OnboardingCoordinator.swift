@@ -9,7 +9,7 @@
 import LGCoreKit
 
 protocol OnboardingCoordinatorDelegate: CoordinatorDelegate {
-    func onboardingCoordinator(coordinator: OnboardingCoordinator, didFinishPosting posting: Bool)
+    func onboardingCoordinator(coordinator: OnboardingCoordinator, didFinishPosting posting: Bool, source: PostingSource?)
 }
 
 class OnboardingCoordinator: Coordinator {
@@ -57,11 +57,11 @@ class OnboardingCoordinator: Coordinator {
         }
     }
 
-    func finish(withPosting posting: Bool) {
+    func finish(withPosting posting: Bool, source: PostingSource?) {
         close(animated: true) { [weak self] in
             guard let strongSelf = self else { return }
             strongSelf.delegate?.coordinatorDidClose(strongSelf)
-            strongSelf.delegate?.onboardingCoordinator(strongSelf, didFinishPosting: posting)
+            strongSelf.delegate?.onboardingCoordinator(strongSelf, didFinishPosting: posting, source: source)
         }
     }
 
@@ -121,7 +121,7 @@ extension OnboardingCoordinator: TourLoginNavigator {
         } else if FeatureFlags.incentivizePostingMode != .Original {
             openTourPosting()
         } else {
-            finish(withPosting: false)
+            finish(withPosting: false, source: nil)
         }
     }
 }
@@ -134,7 +134,7 @@ extension OnboardingCoordinator: TourNotificationsNavigator {
         } else if FeatureFlags.incentivizePostingMode != .Original {
             openTourPosting()
         } else {
-            finish(withPosting: false)
+            finish(withPosting: false, source: nil)
         }
     }
 }
@@ -144,7 +144,7 @@ extension OnboardingCoordinator: TourLocationNavigator {
         if FeatureFlags.incentivizePostingMode != .Original {
             openTourPosting()
         } else {
-            finish(withPosting: false)
+            finish(withPosting: false, source: nil)
         }
     }
 }
@@ -152,10 +152,10 @@ extension OnboardingCoordinator: TourLocationNavigator {
 
 extension OnboardingCoordinator: TourPostingNavigator {
     func tourPostingClose() {
-        finish(withPosting: false)
+        finish(withPosting: false, source: nil)
     }
 
-    func tourPostingPost() {
-        finish(withPosting: true)
+    func tourPostingPost(fromCamera fromCamera: Bool) {
+        finish(withPosting: true, source: fromCamera ? .OnboardingCamera : .OnboardingButton)
     }
 }

@@ -54,8 +54,12 @@ class TourPostingViewModel: BaseViewModel {
         return incentiveValues[index]
     }
 
+    func cameraButtonPressed() {
+        navigator?.tourPostingPost(fromCamera: true)
+    }
+
     func okButtonPressed() {
-        navigator?.tourPostingPost()
+        navigator?.tourPostingPost(fromCamera: false)
     }
 
     func closeButtonPressed() {

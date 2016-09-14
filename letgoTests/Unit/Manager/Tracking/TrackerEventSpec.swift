@@ -1390,12 +1390,22 @@ class TrackerEventSpec: QuickSpec {
             }
 
             describe("productSellStart") {
+                beforeEach {
+                    sut = TrackerEvent.productSellStart(.Sell, buttonName: .SellYourStuff)
+                }
                 it("has its event name") {
-                    sut = TrackerEvent.productSellStart(.Sell)
                     expect(sut.name.rawValue).to(equal("product-sell-start"))
                 }
+                it("contains the page from which the event has been sent") {
+                    let typePage = sut.params!.stringKeyParams["type-page"] as? String
+                    expect(typePage).to(equal("sell"))
+                }
+                it("contains button name from which the event has been sent") {
+                    let name = sut.params!.stringKeyParams["button-name"] as? String
+                    expect(name).to(equal("sell-your-stuff"))
+                }
             }
-            
+
             describe("productSellFormValidationFailed") {
                 it("has its event name") {
                     _ = MockUser()

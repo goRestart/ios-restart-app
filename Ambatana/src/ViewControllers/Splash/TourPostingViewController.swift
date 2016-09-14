@@ -12,6 +12,7 @@ import RxCocoa
 
 class TourPostingViewController: BaseViewController {
 
+    @IBOutlet weak var photoContainer: UIView!
     @IBOutlet var cameraCorners: [UIImageView]!
 
     @IBOutlet var internalMargins: [NSLayoutConstraint]!
@@ -71,6 +72,9 @@ class TourPostingViewController: BaseViewController {
         okButton.setStyle(.Primary(fontSize: .Medium))
         okButton.setTitle(viewModel.okButtonText, forState: .Normal)
 
+        let tap = UITapGestureRecognizer(target: self, action: #selector(cameraContainerPressed))
+        photoContainer.addGestureRecognizer(tap)
+
         for (index, view) in cameraCorners.enumerate() {
             guard index > 0 else { continue }
             view.transform = CGAffineTransformMakeRotation(CGFloat(Double(index) * M_PI_2))
@@ -84,6 +88,10 @@ class TourPostingViewController: BaseViewController {
     private func setupRx() {
         okButton.rx_tap.bindNext { [weak self] in self?.viewModel.okButtonPressed() }.addDisposableTo(disposeBag)
         closeButton.rx_tap.bindNext { [weak self] in self?.viewModel.closeButtonPressed() }.addDisposableTo(disposeBag)
+    }
+
+    dynamic private func cameraContainerPressed() {
+        
     }
 }
 
