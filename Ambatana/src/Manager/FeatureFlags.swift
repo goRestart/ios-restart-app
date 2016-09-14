@@ -20,6 +20,12 @@ enum AppInviteListingMode: Int {
     case Emoji = 2
 }
 
+enum OnboardingPermissionsMode: Int {
+    case Original = 0
+    case OneButtonOriginalImages = 1
+    case OneButtonNewImages = 2
+}
+
 struct FeatureFlags {
     static var websocketChat: Bool = {
         return FTSFlipTheSwitch.websocketChat
@@ -88,6 +94,13 @@ struct FeatureFlags {
         }
         return ABTests.profileVerifyOneButton.value
     }
+
+    static var onboardinPermissionsMode: OnboardingPermissionsMode {
+        if FTSFlipTheSwitch.overridesABTests {
+            return FTSFlipTheSwitch.onboardingPermissionsMode ? .OneButtonNewImages : .OneButtonOriginalImages
+        }
+        return OnboardingPermissionsMode(rawValue: ABTests.onboardingPermissionsMode.value) ?? .Original
+    }
 }
 
 private extension FTSFlipTheSwitch {
@@ -137,5 +150,9 @@ private extension FTSFlipTheSwitch {
 
     static var profileVerifyOneButton: Bool {
         return FTSFlipTheSwitch.sharedInstance().isFeatureEnabled("profile_verify_one_button")
+    }
+
+    static var onboardingPermissionsMode: Bool {
+        return FTSFlipTheSwitch.sharedInstance().isFeatureEnabled("onboarding_permissions_mode")
     }
 }
