@@ -436,18 +436,23 @@ extension ProductCarouselViewController {
         setNavigationBarRightButtons([])
         viewModel.navBarButtons.asObservable().subscribeNext { [weak self] navBarButtons in
             guard let strongSelf = self else { return }
-            
-            var buttons = [UIButton]()
-            navBarButtons.forEach { navBarButton in
-                let button = UIButton(type: .System)
-                button.setImage(navBarButton.image, forState: .Normal)
-                button.rx_tap.bindNext { _ in
-                    navBarButton.action()
-                    }.addDisposableTo(strongSelf.disposeBag)
-                buttons.append(button)
+
+            if navBarButtons.count == 1 {
+                strongSelf.setLetGoRightButtonWith(navBarButtons[0], disposeBag: strongSelf.disposeBag,
+                    buttonTintColor: UIColor.white)
+            } else if navBarButtons.count > 1 {
+                var buttons = [UIButton]()
+                navBarButtons.forEach { navBarButton in
+                    let button = UIButton(type: .System)
+                    button.setImage(navBarButton.image, forState: .Normal)
+                    button.rx_tap.bindNext { _ in
+                        navBarButton.action()
+                        }.addDisposableTo(strongSelf.disposeBag)
+                    buttons.append(button)
+                }
+                strongSelf.setNavigationBarRightButtons(buttons)
             }
-            strongSelf.setNavigationBarRightButtons(buttons)
-            }.addDisposableTo(activeDisposeBag)
+        }.addDisposableTo(activeDisposeBag)
     }
 
     private func setupRxProductUpdate(viewModel: ProductViewModel) {

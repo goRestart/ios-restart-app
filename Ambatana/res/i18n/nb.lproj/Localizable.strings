@@ -452,6 +452,7 @@
 "product_share_email_error" = "Oops! Det ser ut som at du ikke har satt opp en konto i din Epost app.";
 "product_share_generic_error" = "En feil oppstod ved deling av produktet. Vennligst prøv igjen senere.";
 "product_share_generic_ok" = "Deling av produkt var vellykket!";
+"product_share_navbar_button" = "Share";
 "product_share_posted_by" = "publisert av %@";
 "product_share_sms_error" = "En feil oppstod ved sending av din melding.";
 "product_share_sms_ok" = "Sender...";

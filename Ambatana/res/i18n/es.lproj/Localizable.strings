@@ -452,6 +452,7 @@
 "product_share_email_error" = "¡Ups! Parece que no tienes configurado tu email en este dispositivo.";
 "product_share_generic_error" = "Se ha producido un error al compartir. Por favor, inténtalo de nuevo más tarde.";
 "product_share_generic_ok" = "¡Producto compartido!";
+"product_share_navbar_button" = "Share";
 "product_share_posted_by" = "publicado por %@";
 "product_share_sms_error" = "Se ha producido un error al enviar tu mensaje.";
 "product_share_sms_ok" = "Enviando...";

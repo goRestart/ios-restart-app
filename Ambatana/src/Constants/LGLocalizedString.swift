@@ -1799,6 +1799,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("product_sell_photolibrary_restricted_error", comment: "")
 	}
 
+	static var productShareNavbarButton: String {
+		return NSLocalizedString("product_share_navbar_button", comment: "")
+	}
+
 	static var productShareBody: String {
 		return NSLocalizedString("product_share_body", comment: "")
 	}

@@ -525,22 +525,17 @@ extension ProductViewModel {
     private func buildNavBarButtons() -> [UIAction] {
         var navBarButtons = [UIAction]()
 
-        let isEditable: Bool
-        switch status.value {
-        case .Pending, .PendingAndCommercializable, .Available, .AvailableAndCommercializable, .OtherAvailable:
-            isEditable = product.value.isMine
-        case .NotAvailable, .Sold, .OtherSold:
-            isEditable = false
+        if (moreInfoState.value == .Shown) {
+            if productIsFavoriteable.value {
+                navBarButtons.append(buildFavoriteNavBarAction())
+            }
+            if status.value.isEditable {
+                navBarButtons.append(buildEditNavBarAction())
+            }
+            navBarButtons.append(buildMoreNavBarAction())
+        } else {
+            navBarButtons.append(buildShareNavBarAction())
         }
-
-        if productIsFavoriteable.value && moreInfoState.value == .Shown {
-            navBarButtons.append(buildFavoriteNavBarAction())
-        }
-        if isEditable {
-            navBarButtons.append(buildEditNavBarAction())
-        }
-
-        navBarButtons.append(buildMoreNavBarAction())
         return navBarButtons
     }
 
@@ -568,6 +563,13 @@ extension ProductViewModel {
         let icon = UIImage(named: "navbar_more")?.imageWithRenderingMode(.AlwaysOriginal)
         return UIAction(interface: .Image(icon), action: { [weak self] in self?.showOptionsMenu() },
                         accessibilityId: .ProductCarouselNavBarActionsButton)
+    }
+
+    private func buildShareNavBarAction() -> UIAction {
+        return UIAction(interface: .Text(LGLocalizedString.productShareNavbarButton), action: { [weak self] in
+            guard let strongSelf = self, socialMessage = strongSelf.socialMessage.value else { return }
+            strongSelf.delegate?.vmShowNativeShare(socialMessage)
+            }, accessibilityId: .ProductCarouselNavBarShareButton)
     }
 
     private func showOptionsMenu() {
@@ -886,6 +888,16 @@ extension ProductViewModel {
 }
 
 private extension ProductViewModelStatus {
+
+    var isEditable: Bool {
+        switch self {
+        case .Pending, .PendingAndCommercializable, .Available, .AvailableAndCommercializable:
+            return true
+        case .NotAvailable, .Sold, .OtherSold, .OtherAvailable:
+            return false
+        }
+    }
+
     var string: String? {
         switch self {
         case .Sold, .OtherSold:

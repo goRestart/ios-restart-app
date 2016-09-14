@@ -452,6 +452,7 @@
 "product_share_email_error" = "앗, 계정을 메일 어플리케이션에서 설정하지 않으신 것 같네요.";
 "product_share_generic_error" = "상품을 공유하는 동안 오류가 발생했습니다. 다시 시도해주세요.";
 "product_share_generic_ok" = "제품이 성공적으로 공유되었습니다!";
+"product_share_navbar_button" = "Share";
 "product_share_posted_by" = "%@에 의해 게시됨";
 "product_share_sms_error" = "메세지를 발송하는 동안 오류가 발생했습니다.";
 "product_share_sms_ok" = "발송중...";

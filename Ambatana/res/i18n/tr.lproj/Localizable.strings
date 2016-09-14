@@ -452,6 +452,7 @@
 "product_share_email_error" = "Oops! Görünüşe bakılırsa e-posta uygulamasında bir hesap oluşturmamışsın.";
 "product_share_generic_error" = "Ürün paylaşılırken hata oluştu. Lütfen daha sonra tekrar dene.";
 "product_share_generic_ok" = "Ürün başarılıyla paylaşıldı.";
+"product_share_navbar_button" = "Share";
 "product_share_posted_by" = "%@ tarafından yayınlandı";
 "product_share_sms_error" = "Mesajın gönderilirken bir hata oluştu.";
 "product_share_sms_ok" = "Gönderiliyor...";
