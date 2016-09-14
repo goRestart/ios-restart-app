@@ -50,7 +50,7 @@ class ProductListMultiRequesterSpec: QuickSpec {
                         }
                     }
                 }
-                it("is last page") {
+                it("is not last page") {
                     expect(sut.isLastPage(dataCount)).toEventually(equal(false))
                 }
                 it("we're still using the first requester") {
