@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Ambatana. All rights reserved.
 //
 
+import JBKenBurnsView
 import LGCoreKit
 import Result
 import UIKit
@@ -19,6 +20,10 @@ class RememberPasswordViewController: BaseViewController, RememberPasswordViewMo
     
     // ViewModel
     var viewModel: RememberPasswordViewModel!
+
+
+    @IBOutlet weak var darkAppereanceBgView: UIView!
+    @IBOutlet weak var kenBurnsView: JBKenBurnsView!
     
     @IBOutlet weak var emailIconImageView: UIImageView!
     @IBOutlet weak var emailButton: UIButton!
@@ -29,14 +34,26 @@ class RememberPasswordViewController: BaseViewController, RememberPasswordViewMo
     @IBOutlet weak var instructionsLabel : UILabel!
     
     // > Helper
-    var lines: [CALayer]
+    private let appearance: LoginAppearance
     
     // MARK: - Lifecycle
     
-    init(source: EventParameterLoginSourceValue, email: String) {
+    init(source: EventParameterLoginSourceValue, email: String, appearance: LoginAppearance = .Light) {
         self.viewModel = RememberPasswordViewModel(source: source, email: email)
-        self.lines = []
-        super.init(viewModel: viewModel, nibName: "RememberPasswordViewController")
+        self.appearance = appearance
+
+        let statusBarStyle: UIStatusBarStyle
+        let navBarBackgroundStyle: NavBarBackgroundStyle
+        switch appearance {
+        case .Dark:
+            statusBarStyle = .LightContent
+            navBarBackgroundStyle = .Transparent(substyle: .Dark)
+        case .Light:
+            statusBarStyle = .Default
+            navBarBackgroundStyle = .Transparent(substyle: .Light)
+        }
+        super.init(viewModel: viewModel, nibName: "RememberPasswordViewController",
+                   statusBarStyle: statusBarStyle, navBarBackgroundStyle: navBarBackgroundStyle)
         self.viewModel.delegate = self
     }
         
@@ -57,24 +74,25 @@ class RememberPasswordViewController: BaseViewController, RememberPasswordViewMo
         updateViewModelText(viewModel.email, fromTextFieldTag: emailTextField.tag)
         
     }
-    
-    override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
-        // Redraw the lines
-        for line in lines {
-            line.removeFromSuperlayer()
+
+    override func viewWillFirstAppear(animated: Bool) {
+        super.viewWillFirstAppear(animated)
+        switch appearance {
+        case .Light:
+            break
+        case .Dark:
+            setupKenBurns()
         }
-        lines = []
-        lines.append(emailButton.addTopBorderWithWidth(1, color: UIColor.lineGray))
-        lines.append(emailButton.addBottomBorderWithWidth(1, color: UIColor.lineGray))
     }
-    
+
+
     // MARK: - Actions
     
     @IBAction func resetPasswordButtonPressed(sender: AnyObject) {
         viewModel.resetPassword()
     }
     
+
     // MARK: - RememberPasswordViewModelDelegate
     
     func viewModel(viewModel: RememberPasswordViewModel, updateSendButtonEnabledState enabled: Bool) {
@@ -98,6 +116,7 @@ class RememberPasswordViewController: BaseViewController, RememberPasswordViewMo
             self?.showAutoFadingOutMessageAlert(error)
         }
     }
+
 
     // MARK: - UITextFieldDelegate
     
@@ -147,18 +166,15 @@ class RememberPasswordViewController: BaseViewController, RememberPasswordViewMo
         }
         return true
     }
-    
+
+
     // MARK: - Private methods
-    
     // MARK: > UI
     
-    func setupUI() {
+    private func setupUI() {
         // Appearance
-        resetPasswordButton.setBackgroundImage(UIColor.primaryColor.imageWithSize(CGSize(width: 1, height: 1)), forState: .Normal)
-        resetPasswordButton.setBackgroundImage(UIColor.primaryColorDisabled.imageWithSize(CGSize(width: 1, height: 1)), forState: .Disabled)
-        resetPasswordButton.setBackgroundImage(UIColor.primaryColorHighlighted.imageWithSize(CGSize(width: 1, height: 1)), forState: .Highlighted)
-
-        resetPasswordButton.layer.cornerRadius = 4
+        emailButton.layer.cornerRadius = LGUIKitConstants.textfieldCornerRadius
+        resetPasswordButton.setStyle(.Primary(fontSize: .Medium))
         
         // i18n
         setNavBarTitle(LGLocalizedString.resetPasswordTitle)
@@ -168,6 +184,59 @@ class RememberPasswordViewController: BaseViewController, RememberPasswordViewMo
         
         // Tags
         emailTextField.tag = TextFieldTag.Email.rawValue
+
+        switch appearance {
+        case .Light:
+            setupLightAppearance()
+        case .Dark:
+            setupDarkAppearance()
+        }
+    }
+
+    private func setupLightAppearance() {
+        darkAppereanceBgView.hidden = true
+
+        let textfieldTextColor = UIColor.black
+        let textfieldTextPlaceholderColor = UIColor.black.colorWithAlphaComponent(0.5)
+        var textfieldPlaceholderAttrs = [String: AnyObject]()
+        textfieldPlaceholderAttrs[NSFontAttributeName] = UIFont.systemFontOfSize(17)
+        textfieldPlaceholderAttrs[NSForegroundColorAttributeName] = textfieldTextPlaceholderColor
+
+        emailButton.setStyle(.LightField)
+        emailIconImageView.image = UIImage(named: "ic_email")
+        emailIconImageView.highlightedImage = UIImage(named: "ic_email_active")
+        emailTextField.textColor = textfieldTextColor
+        emailTextField.attributedPlaceholder = NSAttributedString(string: LGLocalizedString.signUpEmailFieldHint,
+                                                                  attributes: textfieldPlaceholderAttrs)
+    }
+
+    private func setupDarkAppearance() {
+        darkAppereanceBgView.hidden = false
+
+        let buttonBgColor = UIColor.white.colorWithAlphaComponent(0.3)
+        let textfieldTextColor = UIColor.white
+        let textfieldTextPlaceholderColor = textfieldTextColor.colorWithAlphaComponent(0.7)
+        var textfieldPlaceholderAttrs = [String: AnyObject]()
+        textfieldPlaceholderAttrs[NSFontAttributeName] = UIFont.systemFontOfSize(17)
+        textfieldPlaceholderAttrs[NSForegroundColorAttributeName] = textfieldTextPlaceholderColor
+
+        emailButton.setStyle(.DarkField)
+        emailIconImageView.image = UIImage(named: "ic_email_dark")
+        emailIconImageView.highlightedImage = UIImage(named: "ic_email_active_dark")
+        emailTextField.textColor = textfieldTextColor
+        emailTextField.attributedPlaceholder = NSAttributedString(string: LGLocalizedString.signUpEmailFieldHint,
+                                                                  attributes: textfieldPlaceholderAttrs)
+    }
+
+    func setupKenBurns() {
+        let images: [UIImage] = [
+            UIImage(named: "bg_1_new"),
+            UIImage(named: "bg_2_new"),
+            UIImage(named: "bg_3_new"),
+            UIImage(named: "bg_4_new")
+            ].flatMap { return $0}
+        view.layoutIfNeeded()
+        kenBurnsView.animateWithImages(images, transitionDuration: 10, initialDelay: 0, loop: true, isLandscape: true)
     }
     
     private func updateSendButtonEnabledState() {

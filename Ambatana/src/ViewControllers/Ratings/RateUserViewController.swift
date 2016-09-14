@@ -42,8 +42,8 @@ class RateUserViewController: BaseViewController {
     init(viewModel: RateUserViewModel, keyboardHelper: KeyboardHelper) {
         self.viewModel = viewModel
         self.keyboardHelper = keyboardHelper
-        let navbarStyle = NavBarBackgroundStyle.Transparent
-        super.init(viewModel: viewModel, nibName: "RateUserViewController", navBarBackgroundStyle: navbarStyle)
+        super.init(viewModel: viewModel, nibName: "RateUserViewController",
+                   navBarBackgroundStyle: .Transparent(substyle: .Light))
         self.viewModel.delegate = self
     }
 
