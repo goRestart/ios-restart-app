@@ -91,7 +91,7 @@ SignUpLogInViewModelDelegate, GIDSignInUIDelegate {
             navBarBackgroundStyle = .Transparent(substyle: .Dark)
         case .Light:
             statusBarStyle = .Default
-            navBarBackgroundStyle = .Default
+            navBarBackgroundStyle = .Transparent(substyle: .Light)
         }
         super.init(viewModel: viewModel, nibName: "SignUpLogInViewController",
                    statusBarStyle: statusBarStyle, navBarBackgroundStyle: navBarBackgroundStyle)
@@ -485,7 +485,7 @@ SignUpLogInViewModelDelegate, GIDSignInUIDelegate {
     private func setupUI() {
         setupCommonUI()
 
-        view.backgroundColor = UIColor.listBackgroundColor
+        view.backgroundColor = UIColor.white
 
         // action type
         loginSegmentedControl.selectedSegmentIndex = viewModel.currentActionType.rawValue

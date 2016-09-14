@@ -50,7 +50,7 @@ class RememberPasswordViewController: BaseViewController, RememberPasswordViewMo
             navBarBackgroundStyle = .Transparent(substyle: .Dark)
         case .Light:
             statusBarStyle = .Default
-            navBarBackgroundStyle = .Default
+            navBarBackgroundStyle = .Transparent(substyle: .Light)
         }
         super.init(viewModel: viewModel, nibName: "RememberPasswordViewController",
                    statusBarStyle: statusBarStyle, navBarBackgroundStyle: navBarBackgroundStyle)

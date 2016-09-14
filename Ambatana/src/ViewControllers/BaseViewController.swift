@@ -310,8 +310,13 @@ enum NavBarBackgroundStyle {
 
     var titleColor: UIColor {
         switch self {
-        case .Transparent:
-            return UIColor.clearBarTitle
+        case let .Transparent(substyle):
+            switch substyle {
+            case .Dark:
+                return UIColor.clearBarTitle
+            case .Light:
+                return UIColor.lightBarTitle
+            }
         case .Default, .Custom:
             return UIColor.lightBarTitle
         }

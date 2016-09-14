@@ -170,7 +170,7 @@ class MainSignUpViewController: BaseViewController, SignUpViewModelDelegate, UIT
     private func setupUI() {
 
         // View
-        view.backgroundColor = UIColor.listBackgroundColor
+        view.backgroundColor = UIColor.white
 
         // Navigation bar
         closeButton = UIBarButtonItem(image: UIImage(named: "navbar_close"), style: .Plain, target: self,
