@@ -1043,8 +1043,16 @@ struct LGLocalizedString {
 		return NSLocalizedString("location_permissions_title", comment: "")
 	}
 
+	static var locationPermissionsTitleV2: String {
+		return NSLocalizedString("location_permissions_title_v2", comment: "")
+	}
+
 	static var locationPermissonsSubtitle: String {
 		return NSLocalizedString("location_permissons_subtitle", comment: "")
+	}
+
+	static var locationPermissionsAllowButton: String {
+		return NSLocalizedString("location_permissions_allow_button", comment: "")
 	}
 
 	static var logInErrorSendErrorGeneric: String {
@@ -1149,6 +1157,10 @@ struct LGLocalizedString {
 
 	static var notificationsPermissions1Title: String {
 		return NSLocalizedString("notifications_permissions_1_title", comment: "")
+	}
+
+	static var notificationsPermissions1TitleV2: String {
+		return NSLocalizedString("notifications_permissions_1_title_v2", comment: "")
 	}
 
 	static var notificationsPermissions2Title: String {
@@ -1269,6 +1281,42 @@ struct LGLocalizedString {
 
 	static var onboardingLoginSkip: String {
 		return NSLocalizedString("onboarding_login_skip", comment: "")
+	}
+
+	static var onboardingPostingTitleA: String {
+		return NSLocalizedString("onboarding_posting_title_a", comment: "")
+	}
+
+	static var onboardingPostingTitleB: String {
+		return NSLocalizedString("onboarding_posting_title_b", comment: "")
+	}
+
+	static var onboardingPostingTitleC: String {
+		return NSLocalizedString("onboarding_posting_title_c", comment: "")
+	}
+
+	static var onboardingPostingSubtitleA: String {
+		return NSLocalizedString("onboarding_posting_subtitle_a", comment: "")
+	}
+
+	static var onboardingPostingSubtitleB: String {
+		return NSLocalizedString("onboarding_posting_subtitle_b", comment: "")
+	}
+
+	static var onboardingPostingSubtitleC: String {
+		return NSLocalizedString("onboarding_posting_subtitle_c", comment: "")
+	}
+
+	static var onboardingPostingButtonA: String {
+		return NSLocalizedString("onboarding_posting_button_a", comment: "")
+	}
+
+	static var onboardingPostingButtonB: String {
+		return NSLocalizedString("onboarding_posting_button_b", comment: "")
+	}
+
+	static var onboardingPostingButtonC: String {
+		return NSLocalizedString("onboarding_posting_button_c", comment: "")
 	}
 
 	static var productAskAQuestionButton: String {
@@ -2353,6 +2401,30 @@ struct LGLocalizedString {
 
 	static var toastNoNetwork: String {
 		return NSLocalizedString("toast_no_network", comment: "")
+	}
+
+	static var tourClaimLabel: String {
+		return NSLocalizedString("tour_claim_label", comment: "")
+	}
+
+	static var tourEmailButton: String {
+		return NSLocalizedString("tour_email_button", comment: "")
+	}
+
+	static var tourFacebookButton: String {
+		return NSLocalizedString("tour_facebook_button", comment: "")
+	}
+
+	static var tourGoogleButton: String {
+		return NSLocalizedString("tour_google_button", comment: "")
+	}
+
+	static var tourHelpButton: String {
+		return NSLocalizedString("tour_help_button", comment: "")
+	}
+
+	static var tourOrLabel: String {
+		return NSLocalizedString("tour_or_label", comment: "")
 	}
 
 	static var tourPage1Body: String {

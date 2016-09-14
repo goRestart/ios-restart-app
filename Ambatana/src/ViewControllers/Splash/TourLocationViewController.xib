@@ -1,17 +1,23 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="TourLocationViewController" customModule="LetGo" customModuleProvider="target">
             <connections>
+                <outlet property="alertContainer" destination="B3M-bP-BXP" id="ggz-Dy-fCx"/>
+                <outlet property="alertOkLabel" destination="OzF-CG-cFa" id="dVo-RN-UDF"/>
                 <outlet property="closeButton" destination="QeX-8c-ueg" id="cxy-SF-LCE"/>
                 <outlet property="distanceLabel" destination="cIN-nt-Tmk" id="XCX-2Q-nlD"/>
+                <outlet property="iphoneBckgImage" destination="CG9-Or-wOe" id="CXH-of-OAP"/>
                 <outlet property="iphoneRightHeightConstraint" destination="15r-ZN-tV0" id="TCg-cn-myd"/>
                 <outlet property="labelContainer" destination="7C7-6n-sMz" id="7pm-ot-af4"/>
                 <outlet property="noButton" destination="qw6-pz-A2B" id="WbN-YB-meo"/>
+                <outlet property="noButtonHeight" destination="sO4-Gs-F9r" id="62G-K6-V2E"/>
+                <outlet property="noButtonTopConstraint" destination="QT9-ph-2sr" id="Z5g-5M-Ka5"/>
                 <outlet property="subtitleLabel" destination="amp-1O-xsr" id="gtt-k8-Yz7"/>
                 <outlet property="titleLabel" destination="plb-hW-26Q" id="cL0-Z9-4rM"/>
                 <outlet property="view" destination="UaZ-9e-JXN" id="8li-CH-K6l"/>
@@ -72,14 +78,14 @@
                                     <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="39L-ei-g6y" userLabel="iPhone View">
                                         <rect key="frame" x="6" y="0.0" width="212" height="289"/>
                                         <subviews>
-                                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="iphone_top.png" translatesAutoresizingMaskIntoConstraints="NO" id="qfw-UY-vsg" userLabel="iPhone Top Image View">
+                                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="iphone_top" translatesAutoresizingMaskIntoConstraints="NO" id="qfw-UY-vsg" userLabel="iPhone Top Image View">
                                                 <rect key="frame" x="0.0" y="0.0" width="212" height="48"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="212" id="563-I8-pLB"/>
                                                     <constraint firstAttribute="height" constant="48" id="TPF-MU-mht"/>
                                                 </constraints>
                                             </imageView>
-                                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="top" image="iphone_left.png" translatesAutoresizingMaskIntoConstraints="NO" id="OWj-uY-J2z" userLabel="iPhone Left Image View">
+                                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="top" image="iphone_left" translatesAutoresizingMaskIntoConstraints="NO" id="OWj-uY-J2z" userLabel="iPhone Left Image View">
                                                 <rect key="frame" x="0.0" y="48" width="16" height="241"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="241" id="7Qc-Rg-KjB"/>
@@ -91,7 +97,7 @@
                                                     </mask>
                                                 </variation>
                                             </imageView>
-                                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="top" image="iphone_right.png" translatesAutoresizingMaskIntoConstraints="NO" id="hcn-GQ-SYM" userLabel="iPhone Right Image View">
+                                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="top" image="iphone_right" translatesAutoresizingMaskIntoConstraints="NO" id="hcn-GQ-SYM" userLabel="iPhone Right Image View">
                                                 <rect key="frame" x="196" y="48" width="16" height="241"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="241" id="15r-ZN-tV0"/>
@@ -137,7 +143,7 @@
                                             </mask>
                                         </variation>
                                     </view>
-                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="iphone_bottom.png" translatesAutoresizingMaskIntoConstraints="NO" id="1v8-3Z-uuI" userLabel="iPhone Bottom Image View">
+                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="iphone_bottom" translatesAutoresizingMaskIntoConstraints="NO" id="1v8-3Z-uuI" userLabel="iPhone Bottom Image View">
                                         <rect key="frame" x="0.0" y="284" width="224" height="5"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="224" id="d3E-aq-0qM"/>
@@ -186,7 +192,7 @@
                                     <action selector="closeButtonPressed:" destination="-1" eventType="touchUpInside" id="7ag-Nm-j0C"/>
                                 </connections>
                             </button>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7C7-6n-sMz">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7C7-6n-sMz" userLabel="Bubble Container">
                                 <rect key="frame" x="110" y="302" width="155" height="37"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0.1 mi from you" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cIN-nt-Tmk">
@@ -207,39 +213,55 @@
                                     <constraint firstAttribute="trailing" secondItem="cIN-nt-Tmk" secondAttribute="trailing" constant="19" id="O7k-RR-Kip"/>
                                 </constraints>
                             </view>
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="B3M-bP-BXP" userLabel="alert_container">
+                                <rect key="frame" x="57" y="251" width="260" height="165"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_permissions_alert" translatesAutoresizingMaskIntoConstraints="NO" id="vwZ-8T-Fgx">
+                                        <rect key="frame" x="0.0" y="0.0" width="260" height="165"/>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OzF-CG-cFa" userLabel="alertOkLabel">
+                                        <rect key="frame" x="171" y="134" width="49" height="23"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="19"/>
+                                        <color key="textColor" red="1" green="0.24705882370000001" blue="0.33333334329999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="vwZ-8T-Fgx" firstAttribute="top" secondItem="B3M-bP-BXP" secondAttribute="top" id="161-l4-dCd"/>
+                                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="OzF-CG-cFa" secondAttribute="trailing" id="ADm-5d-OpH"/>
+                                    <constraint firstAttribute="trailing" secondItem="vwZ-8T-Fgx" secondAttribute="trailing" id="Ayh-6J-Y4B"/>
+                                    <constraint firstAttribute="bottom" secondItem="OzF-CG-cFa" secondAttribute="bottom" constant="8" id="Kdn-rl-2mp"/>
+                                    <constraint firstItem="vwZ-8T-Fgx" firstAttribute="leading" secondItem="B3M-bP-BXP" secondAttribute="leading" id="MCc-4J-64b"/>
+                                    <constraint firstAttribute="height" constant="165" id="YKE-jx-WsI"/>
+                                    <constraint firstAttribute="width" constant="260" id="gFi-rr-Y0X"/>
+                                    <constraint firstItem="OzF-CG-cFa" firstAttribute="centerX" secondItem="B3M-bP-BXP" secondAttribute="centerX" multiplier="1.5" id="nZn-eu-Bot"/>
+                                    <constraint firstAttribute="bottom" secondItem="vwZ-8T-Fgx" secondAttribute="bottom" id="pVO-Or-Xgc"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="amp-1O-xsr" firstAttribute="top" secondItem="plb-hW-26Q" secondAttribute="bottom" constant="36" id="3Zu-su-4sr"/>
                             <constraint firstItem="qw6-pz-A2B" firstAttribute="leading" secondItem="tok-TJ-iIH" secondAttribute="leading" constant="15" id="49t-Gr-qy6"/>
-                            <constraint firstItem="plb-hW-26Q" firstAttribute="top" secondItem="tok-TJ-iIH" secondAttribute="top" constant="58" id="8fY-aG-0UY"/>
                             <constraint firstItem="plb-hW-26Q" firstAttribute="leading" secondItem="tok-TJ-iIH" secondAttribute="leading" constant="8" id="97g-wA-f2L"/>
                             <constraint firstItem="QeX-8c-ueg" firstAttribute="top" secondItem="tok-TJ-iIH" secondAttribute="top" constant="36" id="HMy-EH-xko"/>
+                            <constraint firstItem="B3M-bP-BXP" firstAttribute="centerX" secondItem="tok-TJ-iIH" secondAttribute="centerX" id="KE3-un-BBN"/>
+                            <constraint firstItem="B3M-bP-BXP" firstAttribute="centerY" secondItem="1TT-u3-nwZ" secondAttribute="centerY" id="LSO-sL-ajH"/>
                             <constraint firstItem="7C7-6n-sMz" firstAttribute="centerX" secondItem="tok-TJ-iIH" secondAttribute="centerX" id="NFz-G6-eCq"/>
                             <constraint firstAttribute="trailing" secondItem="qw6-pz-A2B" secondAttribute="trailing" constant="15" id="NbI-r3-I0V"/>
                             <constraint firstAttribute="trailing" secondItem="plb-hW-26Q" secondAttribute="trailing" constant="8" id="NfY-OT-aV4"/>
                             <constraint firstItem="amp-1O-xsr" firstAttribute="centerX" secondItem="tok-TJ-iIH" secondAttribute="centerX" id="PC2-ec-Log"/>
                             <constraint firstItem="qw6-pz-A2B" firstAttribute="top" secondItem="qXo-NK-5Ht" secondAttribute="bottom" constant="8" id="QT9-ph-2sr"/>
-                            <constraint firstAttribute="trailing" secondItem="amp-1O-xsr" secondAttribute="trailing" constant="8" id="WLr-oU-KFK"/>
                             <constraint firstItem="plb-hW-26Q" firstAttribute="top" secondItem="QeX-8c-ueg" secondAttribute="bottom" constant="10" id="Y10-3E-tUH"/>
                             <constraint firstItem="7C7-6n-sMz" firstAttribute="top" secondItem="qfw-UY-vsg" secondAttribute="bottom" constant="39" id="cSH-ci-ccg"/>
                             <constraint firstAttribute="bottom" secondItem="qw6-pz-A2B" secondAttribute="bottom" constant="17" id="e3A-tQ-92R"/>
                             <constraint firstItem="1TT-u3-nwZ" firstAttribute="centerX" secondItem="tok-TJ-iIH" secondAttribute="centerX" id="eUJ-nr-iPr"/>
                             <constraint firstAttribute="trailing" secondItem="qXo-NK-5Ht" secondAttribute="trailing" constant="15" id="h1n-yr-hFJ"/>
-                            <constraint firstItem="qXo-NK-5Ht" firstAttribute="top" secondItem="1TT-u3-nwZ" secondAttribute="bottom" constant="44" id="lZ3-cF-bJ8"/>
                             <constraint firstItem="qXo-NK-5Ht" firstAttribute="leading" secondItem="tok-TJ-iIH" secondAttribute="leading" constant="15" id="pLl-zc-8Zj"/>
-                            <constraint firstItem="amp-1O-xsr" firstAttribute="leading" secondItem="tok-TJ-iIH" secondAttribute="leading" constant="8" id="r71-Mp-GHs"/>
                             <constraint firstItem="QeX-8c-ueg" firstAttribute="leading" secondItem="tok-TJ-iIH" secondAttribute="leading" constant="16" id="tMe-Q6-f4T"/>
                             <constraint firstItem="1TT-u3-nwZ" firstAttribute="top" secondItem="amp-1O-xsr" secondAttribute="bottom" constant="39" id="zMF-iP-Wx6"/>
                         </constraints>
-                        <variation key="default">
-                            <mask key="constraints">
-                                <exclude reference="8fY-aG-0UY"/>
-                                <exclude reference="WLr-oU-KFK"/>
-                                <exclude reference="r71-Mp-GHs"/>
-                                <exclude reference="lZ3-cF-bJ8"/>
-                            </mask>
-                        </variation>
                     </view>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <blurEffect style="dark"/>
@@ -259,10 +281,11 @@
     </objects>
     <resources>
         <image name="ic_close" width="18" height="18"/>
-        <image name="iphone_bottom.png" width="224" height="5"/>
-        <image name="iphone_left.png" width="16" height="241"/>
-        <image name="iphone_right.png" width="16" height="241"/>
-        <image name="iphone_top.png" width="212" height="48"/>
+        <image name="img_permissions_alert" width="261" height="165"/>
+        <image name="iphone_bottom" width="224" height="5"/>
+        <image name="iphone_left" width="16" height="241"/>
+        <image name="iphone_right" width="16" height="241"/>
+        <image name="iphone_top" width="212" height="48"/>
         <image name="tour_1" width="184" height="280"/>
     </resources>
 </document>

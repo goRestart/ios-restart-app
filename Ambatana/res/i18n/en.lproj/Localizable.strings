@@ -768,8 +768,14 @@
 // Title asking for Location permission in onboarding
 "location_permissions_title" = "Location";
 
+// Title asking for Location permission in onboarding (2nd version)
+"location_permissions_title_v2" = "Allow Location";
+
 // Subtitle asking for Location permission in onboarding
 "location_permissons_subtitle" = "Do you want to see products near you?";
+
+// Allow button on the example to allow location permissions
+"location_permissions_allow_button" = "Allow";
 
 // Log in error send error generic. Check attached image "log_in_error_send.png"
 "log_in_error_send_error_generic" = "An error occurred while logging in. Please try again.";
@@ -848,6 +854,9 @@
 
 // Title for asking for Push notifications in onboarding
 "notifications_permissions_1_title" = "Message notifications";
+
+// Title for asking for Push notifications in onboarding (2nd version)
+"notifications_permissions_1_title_v2" = "Accept notifications";
 
 // Title asking for Push notifications from product list
 "notifications_permissions_2_title" = "Buy & Sell Faster";
@@ -938,6 +947,33 @@
 
 // Button to skip logging in during onboarding
 "onboarding_login_skip" = "Skip";
+
+// Onboarding incentivize posting variant A title
+"onboarding_posting_title_a" = "Start Making Cash!";
+
+// Onboarding incentivize posting variant B title
+"onboarding_posting_title_b" = "Post your first product";
+
+// Onboarding incentivize posting variant C title
+"onboarding_posting_title_c" = "Got any to sell?";
+
+// Onboarding incentivize posting variant A subtitle
+"onboarding_posting_subtitle_a" = "Post your first product and start selling to people near you";
+
+// Onboarding incentivize posting variant B subtitle
+"onboarding_posting_subtitle_b" = "Sell stuff you no longer need and make extra cash";
+
+// Onboarding incentivize posting variant C subtitle
+"onboarding_posting_subtitle_c" = "People near you are looking for these items";
+
+// Onboarding incentivize posting variant A button
+"onboarding_posting_button_a" = "Sell Your Stuff";
+
+// Onboarding incentivize posting variant B button
+"onboarding_posting_button_b" = "Start";
+
+// Onboarding incentivize posting variant C button
+"onboarding_posting_button_c" = "Yes, I have things to sell";
 
 // Product ask a question button. Check attached image "product (buyer).png"
 "product_ask_a_question_button" = "Ask a Question";
@@ -1102,7 +1138,7 @@
 "product_open_commercial_button" = "Commercial";
 
 // Option button to share product
-"product_option_share" = "Share product";
+"product_option_share" = "Share Product";
 
 // Option buton to show commercial
 "product_option_show_commercial" = "Commercial";
@@ -1748,6 +1784,24 @@
 
 // Toast no network.
 "toast_no_network" = "No Internet Connection";
+
+// Tour claim label
+"tour_claim_label" = "Buy and sell quickly, safely and locally. It’s time to letgo!";
+
+// Tour email button
+"tour_email_button" = "Email";
+
+// Tour facebook button
+"tour_facebook_button" = "Continue with Facebook";
+
+// Tour google button
+"tour_google_button" = "Continue with Google";
+
+// Tour help button
+"tour_help_button" = "Help";
+
+// Tour or label.
+"tour_or_label" = "OR USE YOUR EMAIL";
 
 // Tour page 1 body.
 "tour_page_1_body" = "Buy and sell quickly, safely and locally. It’s time to letgo!";

@@ -56,6 +56,17 @@ NSString * const BRANCH_INIT_KEY_IS_FIRST_SESSION = @"+is_first_session";
 NSString * const BRANCH_INIT_KEY_CLICKED_BRANCH_LINK = @"+clicked_branch_link";
 NSString * const BRANCH_PUSH_NOTIFICATION_PAYLOAD_KEY = @"branch";
 
+NSString * const BNCCanonicalIdList = @"$canonical_identifier_list";
+NSString * const BNCPurchaseAmount = @"$amount";
+NSString * const BNCPurchaseCurrency = @"$currency";
+NSString * const BNCRegisterViewEvent = @"View";
+NSString * const BNCAddToWishlistEvent = @"Add to Wishlist";
+NSString * const BNCAddToCartEvent = @"Add to Cart";
+NSString * const BNCPurchaseInitiatedEvent = @"Purchase Started";
+NSString * const BNCPurchasedEvent = @"Purchased";
+NSString * const BNCShareInitiatedEvent = @"Share Started";
+NSString * const BNCShareCompletedEvent = @"Share Completed";
+
 @interface Branch() <BranchDeepLinkingControllerCompletionDelegate, FABKit>
 
 
@@ -395,7 +406,7 @@ NSString * const BRANCH_PUSH_NOTIFICATION_PAYLOAD_KEY = @"branch";
         return NO;
     }
     
-    //check to see if a spotlight activity needs to be handled
+    // Check to see if a spotlight activity needs to be handled
     NSString *spotlightIdentifier = [self.contentDiscoveryManager spotlightIdentifierFromActivity:userActivity];
     
     if (spotlightIdentifier) {
@@ -407,6 +418,7 @@ NSString * const BRANCH_PUSH_NOTIFICATION_PAYLOAD_KEY = @"branch";
             self.preferenceHelper.spotlightIdentifier = nonBranchSpotlightIdentifier;
         }
     }
+    
     [self initUserSessionAndCallCallback:YES];
     self.preferenceHelper.shouldWaitForInit = NO;
     
@@ -417,9 +429,11 @@ NSString * const BRANCH_PUSH_NOTIFICATION_PAYLOAD_KEY = @"branch";
 #pragma mark - Push Notification support
 
 // handle push notification if app is already launched
-- (void)handlePushNotification:(NSDictionary *) userInfo {
+- (void)handlePushNotification:(NSDictionary *)userInfo {
+    Class UIApplicationClass = NSClassFromString(@"UIApplication");
+    
     // If app is active, then close out the session and start a new one
-    if ([[UIApplication sharedApplication] applicationState] == UIApplicationStateActive) {
+    if ([[UIApplicationClass sharedApplication] applicationState] == UIApplicationStateActive) {
         [self callClose];
     }
 
@@ -431,7 +445,7 @@ NSString * const BRANCH_PUSH_NOTIFICATION_PAYLOAD_KEY = @"branch";
     }
 
     // Again, if app is active, then close out the session and start a new one
-    if ([[UIApplication sharedApplication] applicationState] == UIApplicationStateActive) {
+    if ([[UIApplicationClass sharedApplication] applicationState] == UIApplicationStateActive) {
         [self applicationDidBecomeActive];
     }
 }
@@ -1248,6 +1262,7 @@ NSString * const BRANCH_PUSH_NOTIFICATION_PAYLOAD_KEY = @"branch";
         }
     }
     
+    Class UIApplicationClass = NSClassFromString(@"UIApplication");
     if (self.shouldAutomaticallyDeepLink) {
         // Find any matched keys, then launch any controllers that match
         // TODO which one to launch if more than one match?
@@ -1266,7 +1281,7 @@ NSString * const BRANCH_PUSH_NOTIFICATION_PAYLOAD_KEY = @"branch";
                 [self.preferenceHelper log:FILE_NAME line:LINE_NUM message:@"[Branch Warning] View controller does not implement configureControlWithData:"];
             }
             branchSharingController.deepLinkingCompletionDelegate = self;
-            self.deepLinkPresentingController = [[[UIApplication sharedApplication].delegate window] rootViewController];
+            self.deepLinkPresentingController = [[[UIApplicationClass sharedApplication].delegate window] rootViewController];
             
             if ([self.deepLinkPresentingController presentedViewController]) {
                 [self.deepLinkPresentingController dismissViewControllerAnimated:NO completion:^{
@@ -1311,7 +1326,7 @@ NSString * const BRANCH_PUSH_NOTIFICATION_PAYLOAD_KEY = @"branch";
 }
 
 + (NSString *)kitDisplayVersion {
-	return @"0.12.6";
+	return @"0.12.7";
 }
 
 @end

@@ -843,7 +843,7 @@ extension ProductViewModel {
         if Core.sessionManager.loggedIn {
             action()
         } else {
-            let signUpVM = SignUpViewModel(source: source)
+            let signUpVM = SignUpViewModel(appearance: .Light, source: source)
             delegate?.vmOpenMainSignUp(signUpVM, afterLoginAction: { action() })
         }
     }
