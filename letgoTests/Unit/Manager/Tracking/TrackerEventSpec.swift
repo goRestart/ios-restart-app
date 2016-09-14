@@ -1398,7 +1398,7 @@ class TrackerEventSpec: QuickSpec {
                 }
                 it("contains the page from which the event has been sent") {
                     let typePage = sut.params!.stringKeyParams["type-page"] as? String
-                    expect(typePage).to(equal("sell"))
+                    expect(typePage).to(equal("product-sell"))
                 }
                 it("contains button name from which the event has been sent") {
                     let name = sut.params!.stringKeyParams["button-name"] as? String
