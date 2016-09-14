@@ -165,7 +165,7 @@ private extension TourLoginViewController {
         emailButton.setStyle(.DarkField)
         orUseEmailLabel.text = LGLocalizedString.tourOrLabel
         orUseEmailLabel.font = UIFont.smallBodyFont
-        emailButton.layer.cornerRadius = 10
+        emailButton.layer.cornerRadius = LGUIKitConstants.textfieldCornerRadius
 
         footerTextView.textAlignment = .Center
         footerTextView.delegate = self

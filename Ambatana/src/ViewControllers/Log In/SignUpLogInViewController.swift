@@ -157,14 +157,17 @@ SignUpLogInViewModelDelegate, GIDSignInUIDelegate {
         }
 
         // Redraw masked rounded corners
-        emailButton.setRoundedCorners([.TopLeft, .TopRight], cornerRadius: 10)
+        emailButton.setRoundedCorners([.TopLeft, .TopRight],
+                                      cornerRadius: LGUIKitConstants.textfieldCornerRadius)
         switch viewModel.currentActionType {
         case .Signup:
             passwordButton.setRoundedCorners([], cornerRadius: 0)
         case .Login:
-            passwordButton.setRoundedCorners([.BottomLeft, .BottomRight], cornerRadius: 10)
+            passwordButton.setRoundedCorners([.BottomLeft, .BottomRight],
+                                             cornerRadius: LGUIKitConstants.textfieldCornerRadius)
         }
-        usernameButton.setRoundedCorners([.BottomLeft, .BottomRight], cornerRadius: 10)
+        usernameButton.setRoundedCorners([.BottomLeft, .BottomRight],
+                                         cornerRadius: LGUIKitConstants.textfieldCornerRadius)
     }
 
 
@@ -618,7 +621,8 @@ SignUpLogInViewModelDelegate, GIDSignInUIDelegate {
     private func setupSignupUI() {
         passwordButton.setRoundedCorners([], cornerRadius: 0)
         passwordTextField.returnKeyType = .Next
-        usernameButton.setRoundedCorners([.BottomLeft, .BottomRight], cornerRadius: 10)
+        usernameButton.setRoundedCorners([.BottomLeft, .BottomRight],
+                                         cornerRadius: LGUIKitConstants.textfieldCornerRadius)
         usernameButton.hidden = false
         usernameIconImageView.hidden = false
         usernameTextField.hidden = false
@@ -632,7 +636,8 @@ SignUpLogInViewModelDelegate, GIDSignInUIDelegate {
     }
 
     private func setupLoginUI() {
-        passwordButton.setRoundedCorners([.BottomLeft, .BottomRight], cornerRadius: 10)
+        passwordButton.setRoundedCorners([.BottomLeft, .BottomRight],
+                                         cornerRadius: LGUIKitConstants.textfieldCornerRadius)
         passwordTextField.returnKeyType = .Send
         usernameButton.hidden = true
         usernameIconImageView.hidden = true
