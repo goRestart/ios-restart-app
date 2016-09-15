@@ -1799,6 +1799,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("product_sell_photolibrary_restricted_error", comment: "")
 	}
 
+	static var productShareNavbarButton: String {
+		return NSLocalizedString("product_share_navbar_button", comment: "")
+	}
+
 	static var productShareBody: String {
 		return NSLocalizedString("product_share_body", comment: "")
 	}
@@ -2357,6 +2361,10 @@ struct LGLocalizedString {
 
 	static var signUpSendErrorGeneric: String {
 		return NSLocalizedString("sign_up_send_error_generic", comment: "")
+	}
+
+	static var signUpSendErrorInvalidDomain: String {
+		return NSLocalizedString("sign_up_send_error_invalid_domain", comment: "")
 	}
 
 	static var signUpSendErrorInvalidEmail: String {

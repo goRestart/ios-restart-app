@@ -452,6 +452,7 @@
 "product_share_email_error" = "Όπα! Από ότι φαίνεται, δεν έχεις κάνει λογαριασμό στην εφαρμογή Mail.";
 "product_share_generic_error" = "Παρουσιάστηκε σφάλμα κατά την κοινοποίηση του προϊόντος. Παρακαλώ, προσπαθήστε ξανά αργότερα.";
 "product_share_generic_ok" = "Επιτυχής κοινοποίηση του προϊόντος!";
+"product_share_navbar_button" = "Κοινοποίηση";
 "product_share_posted_by" = "δημοσιεύτηκε από τον %@";
 "product_share_sms_error" = "Παρουσιάστηκε σφάλμα κατά την αποστολή του μηνύματος.";
 "product_share_sms_ok" = "Αποστολή...";
@@ -586,6 +587,7 @@
 "sign_up_send_button" = "Εγγραφή";
 "sign_up_send_error_email_taken" = "Έχει ήδη γίνει εγγραφή με το email %@. Παρακαλώ, χρησιμοποιήστε το για να συνδεθείτε.";
 "sign_up_send_error_generic" = "Παρουσιάστηκε σφάλμα κατά τη δημιουργία λογαριασμού. Παρακαλώ προσπαθήστε ξανά.";
+"sign_up_send_error_invalid_domain" = "Invalid email address. Please change it and try again.";
 "sign_up_send_error_invalid_email" = "Παρακαλώ εισάγετε ένα έγκυρο email στο πεδίο email χρήστη.";
 "sign_up_send_error_invalid_password_with_max" = "Παρακαλώ, εισάγετε έναν έγκυρο κωδικό πρόσβασης. Θα πρέπει να αποτελείται τουλάχιστον από %d μέχρι %d χαρακτήρες.";
 "sign_up_send_error_invalid_username" = "Παρακαλώ εισάγετε έγκυρο όνομα, θα πρέπει να αποτελείται από τουλάχιστον %d χαρακτήρες.";
@@ -604,9 +606,6 @@
 "tour_help_button" = "Βοήθεια";
 "tour_or_label" = "Ή ΧΡΗΣΙΜΟΠΟΙΗΣΤΕ ΤΟ EMAIL ΣΑΣ";
 "tour_page_1_body" = "Κάντε αγοραπωλησίες στην περιοχή σας γρήγορα και ευκολα.";
-"tour_terms_conditions" = "Κάνοντας εγγραφή ή σύνδεση, συμφωνείτε με τους Όροι & Προϋποθέσεις και με την Πολιτική Απορρήτου";
-"tour_terms_conditions_privacy_keyword" = "Πολιτική Απορρήτου";
-"tour_terms_conditions_terms_keyword" = "Όροι & Προϋποθέσεις";
 "trending_searches_Title" = "Δημοφιλείς Αναζητήσεις";
 "unblock_user_error_generic" = "Παρουσιάστηκε σφάλμα κατά το ξεμπλοκάρισμα του χρήστη.";
 "user_rating_message_w_name" = "Αξίζει η εμπειρία σας με τον/ την %@ πέντε αστεράκια; Πείτε μας πώς πήγε.";
