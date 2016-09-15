@@ -72,7 +72,8 @@ extension TabCoordinator: TabNavigator {
         case let .Id(productId):
             openProduct(productId: productId, source: source)
         case let .ProductAPI(product, thumbnailImage, originFrame):
-            openProduct(product: product, thumbnailImage: thumbnailImage, originFrame: originFrame, source: source, index: 0)
+            openProduct(product: product, thumbnailImage: thumbnailImage, originFrame: originFrame, source: source,
+                        index: 0, discover: false)
         case let .ProductList(product, cellModels, requester, thumbnailImage, originFrame, showRelated, index):
             openProduct(product, cellModels: cellModels, requester: requester, thumbnailImage: thumbnailImage,
                         originFrame: originFrame, showRelated: showRelated, source: source,
@@ -104,7 +105,7 @@ private extension TabCoordinator {
         productRepository.retrieve(productId) { [weak self] result in
             if let product = result.value {
                 self?.navigationController.dismissLoadingMessageAlert {
-                    self?.openProduct(product: product, source: source, index: 0)
+                    self?.openProduct(product: product, source: source, index: 0, discover: false)
                 }
             } else if let error = result.error {
                 let message: String
@@ -122,11 +123,13 @@ private extension TabCoordinator {
     }
 
     func openProduct(product product: Product, thumbnailImage: UIImage? = nil, originFrame: CGRect? = nil,
-                             source: EventParameterProductVisitSource, requester: ProductListRequester? = nil, index: Int) {
+                             source: EventParameterProductVisitSource, requester: ProductListRequester? = nil, index: Int,
+                             discover: Bool) {
         guard let productId = product.objectId else { return }
 
         var requestersArray: [ProductListRequester] = []
-        let relatedRequester = RelatedProductListRequester(productId: productId)
+        let relatedRequester: ProductListRequester = discover ? DiscoverProductListRequester(productId: productId) :
+                                                                RelatedProductListRequester(productId: productId)
         requestersArray.append(relatedRequester)
 
         if FeatureFlags.nonStopProductDetail {
@@ -154,7 +157,7 @@ private extension TabCoordinator {
         if showRelated {
             //Same as single product opening
             openProduct(product: product, thumbnailImage: thumbnailImage, originFrame: originFrame,
-                        source: source, requester: requester, index: index)
+                        source: source, requester: requester, index: index, discover: true)
         } else {
             let vm = ProductCarouselViewModel(productListModels: cellModels, initialProduct: product,
                                               thumbnailImage: thumbnailImage, productListRequester: requester,
