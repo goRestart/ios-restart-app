@@ -91,7 +91,7 @@ class TourPostingViewController: BaseViewController {
     }
 
     dynamic private func cameraContainerPressed() {
-        
+        viewModel.cameraButtonPressed()
     }
 }
 

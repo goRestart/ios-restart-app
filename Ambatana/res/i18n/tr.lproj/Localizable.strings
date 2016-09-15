@@ -318,16 +318,6 @@
 "nps_survey_very_good" = "Son derece muhtemel";
 "onboarding_login_skip" = "Geç";
 "onboarding_posting_button_a" = "Eşyalarını Sat";
-<<<<<<< HEAD
-"onboarding_posting_button_b" = "Start";
-"onboarding_posting_button_c" = "Yes, I have things to sell";
-"onboarding_posting_subtitle_a" = "İlk ürününü yükleyerek yakınındakilere satış yapmaya başla";
-"onboarding_posting_subtitle_b" = "Sell stuff you no longer need and make extra cash";
-"onboarding_posting_subtitle_c" = "People near you are looking for these items";
-"onboarding_posting_title_a" = "Nakit Kazanmaya Başla!";
-"onboarding_posting_title_b" = "Post your first product";
-"onboarding_posting_title_c" = "satacak bir şeyin var mı?";
-=======
 "onboarding_posting_button_b" = "Başla";
 "onboarding_posting_button_c" = "Evet, satılık eşyalarım var";
 "onboarding_posting_subtitle_a" = "İlk ürününü yayınlayarak yakınındakilere satış yapmaya başla";
@@ -336,7 +326,6 @@
 "onboarding_posting_title_a" = "Nakit Kazanmaya Başla!";
 "onboarding_posting_title_b" = "İlk ürününü yayınla";
 "onboarding_posting_title_c" = "Satılık bir şeyin var mı?";
->>>>>>> develop
 "product_ask_a_question_button" = "Soru Sor";
 "product_auto_generated_title_label" = "Başlık letgo tarafından otomatik olarak belirlendi";
 "product_auto_generated_translated_title_label" = "(Yandex ile çevrildi)";

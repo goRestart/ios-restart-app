@@ -135,6 +135,12 @@ extension AppCoordinator: AppNavigator {
     private func openOnboarding() -> Bool {
         guard !keyValueStorage[.didShowOnboarding] else { return false }
         keyValueStorage[.didShowOnboarding] = true
+        // If I have to show the onboarding, then I assume it is the first time the user opens the app:
+        if keyValueStorage[.firstRunDate] == nil {
+            keyValueStorage[.firstRunDate] = NSDate()
+        }
+        pushPermissionsManager.shouldAskForListPermissionsOnCurrentSession = false
+
         let onboardingCoordinator = OnboardingCoordinator()
         onboardingCoordinator.delegate = self
         openCoordinator(coordinator: onboardingCoordinator, parent: tabBarCtl, animated: true, completion: nil)

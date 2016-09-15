@@ -116,7 +116,7 @@ extension OnboardingCoordinator: TourLoginNavigator {
 
         if casnAskForPushPermissions {
             openTourNotifications()
-        } else if Core.locationManager.shouldAskForLocationPermissions() {
+        } else if locationManager.shouldAskForLocationPermissions() {
             openTourLocation()
         } else if FeatureFlags.incentivizePostingMode != .Original {
             openTourPosting()
@@ -129,7 +129,7 @@ extension OnboardingCoordinator: TourLoginNavigator {
 
 extension OnboardingCoordinator: TourNotificationsNavigator {
     func tourNotificationsFinish() {
-        if Core.locationManager.shouldAskForLocationPermissions() {
+        if locationManager.shouldAskForLocationPermissions() {
             openTourLocation()
         } else if FeatureFlags.incentivizePostingMode != .Original {
             openTourPosting()
