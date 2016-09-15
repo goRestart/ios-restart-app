@@ -404,7 +404,9 @@ extension ProductCarouselViewController {
     private func setupMoreInfo(viewModel: ProductViewModel) {
         if moreInfoView == nil {
             moreInfoView = ProductCarouselMoreInfoView.moreInfoView(viewModel)
-            view.addSubview(self.moreInfoView!)
+            if let moreInfoView = moreInfoView {
+                view.addSubview(moreInfoView)
+            }
             view.bringSubviewToFront(buttonBottom)
             view.bringSubviewToFront(stickersButton)
             view.bringSubviewToFront(fullScreenAvatarEffectView)
