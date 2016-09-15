@@ -114,16 +114,6 @@ final class AppCoordinator: NSObject {
         tearDownNotificationCenterObservers()
     }
 
-    private func openTourWithFinishingCompletion(tourFinishedCompletion: () -> ()) {
-        // TODO: should open child coordinator using `openChild`
-        // TODO: completion stuff, should be handled in here, should not come via param
-        let signUpVM = SignUpViewModel(appearance: .Dark, source: .Install)
-        let tourVM = TourLoginViewModel()
-        let tourVC = TourLoginViewController(signUpViewModel: signUpVM, tourLoginViewModel: tourVM,
-                                             completion: tourFinishedCompletion)
-        tabBarCtl.presentViewController(tourVC, animated: false, completion: nil)
-    }
-
     func openTab(tab: Tab) {
         openTab(tab, force: false)
     }
@@ -134,29 +124,27 @@ final class AppCoordinator: NSObject {
 
 extension AppCoordinator: AppNavigator {
     func open() {
-        let openAppWithInitialDeepLink: () -> () = { [weak self] in
-            guard let strongSelf = self else { return }
-            strongSelf.delegate?.appNavigatorDidOpenApp()
+        guard !openOnboarding() else { return }
+        delegate?.appNavigatorDidOpenApp()
 
-            if let deepLink = strongSelf.deepLinksRouter.consumeInitialDeepLink() {
-                strongSelf.openExternalDeepLink(deepLink, initialDeepLink: true)
-            }
+        if let deepLink = deepLinksRouter.consumeInitialDeepLink() {
+            openExternalDeepLink(deepLink, initialDeepLink: true)
         }
+    }
 
-        if !keyValueStorage[.didShowOnboarding] {
-            keyValueStorage[.didShowOnboarding] = true
-
-            // If I have to show the onboarding, then I assume it is the first time the user opens the app:
-            if keyValueStorage[.firstRunDate] == nil {
-                keyValueStorage[.firstRunDate] = NSDate()
-            }
-
-            pushPermissionsManager.shouldAskForListPermissionsOnCurrentSession = false
-
-            openTourWithFinishingCompletion(openAppWithInitialDeepLink)
-        } else {
-            openAppWithInitialDeepLink()
+    private func openOnboarding() -> Bool {
+        guard !keyValueStorage[.didShowOnboarding] else { return false }
+        keyValueStorage[.didShowOnboarding] = true
+        // If I have to show the onboarding, then I assume it is the first time the user opens the app:
+        if keyValueStorage[.firstRunDate] == nil {
+            keyValueStorage[.firstRunDate] = NSDate()
         }
+        pushPermissionsManager.shouldAskForListPermissionsOnCurrentSession = false
+
+        let onboardingCoordinator = OnboardingCoordinator()
+        onboardingCoordinator.delegate = self
+        openCoordinator(coordinator: onboardingCoordinator, parent: tabBarCtl, animated: true, completion: nil)
+        return true
     }
 
     func openForceUpdateAlertIfNeeded() {
@@ -258,6 +246,18 @@ extension AppCoordinator: SellCoordinatorDelegate {
 
         guard !openPromoteIfNeeded(product: product) else { return }
         openAfterSellDialogIfNeeded()
+    }
+}
+
+
+// MARK: - OnboardingCoordinatorDelegate
+
+extension AppCoordinator: OnboardingCoordinatorDelegate {
+    func onboardingCoordinator(coordinator: OnboardingCoordinator, didFinishPosting posting: Bool, source: PostingSource?) {
+        delegate?.appNavigatorDidOpenApp()
+        if let source = source where posting {
+            openSell(source)
+        }
     }
 }
 

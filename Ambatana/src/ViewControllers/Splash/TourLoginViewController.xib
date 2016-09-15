@@ -21,6 +21,7 @@
                 <outlet property="mainViewBottomConstraint" destination="Rzx-8J-Z9x" id="blz-bv-WS8"/>
                 <outlet property="orUseEmailLabel" destination="sf3-FS-V46" id="JyZ-gi-49q"/>
                 <outlet property="orUseEmailLabelTopConstraint" destination="sl1-Zk-u2y" id="5W6-61-w6w"/>
+                <outlet property="topLogoImage" destination="ZP8-Fg-JQL" id="J8A-Wv-LoP"/>
                 <outlet property="view" destination="iN0-l3-epB" id="YlL-Ng-LQz"/>
                 <outletCollection property="orDividerViews" destination="FfU-wo-Fjf" collectionClass="NSMutableArray" id="7gc-C5-Unh"/>
                 <outletCollection property="orDividerViews" destination="syl-iL-OvL" collectionClass="NSMutableArray" id="4tx-Y6-8Ye"/>

@@ -70,7 +70,7 @@ class PostProductCameraView: BaseView, LGViewPagerPage {
     private var headerShown = true
 
     private let disposeBag = DisposeBag()
-
+ 
 
     // MARK: - View lifecycle
 
@@ -194,7 +194,6 @@ class PostProductCameraView: BaseView, LGViewPagerPage {
 
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(hideFirstTimeAlert))
         addGestureRecognizer(tapRecognizer)
-
     }
 
     private func adaptLayoutsToScreenSize() {
