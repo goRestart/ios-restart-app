@@ -13,7 +13,6 @@ public struct ABTests {
     static let trackingData = Variable<[(String, AnyObject)]>([])
 
     static var bigFavoriteIcon = BoolABDynamicVar(key: "bigFavoriteIcon", defaultValue: false)
-    static var showRelatedProducts = BoolABDynamicVar(key: "showRelatedProducts", defaultValue: false)
     static var directStickersOnProduct = BoolABDynamicVar(key: "directStickersOnProduct", defaultValue: false)
     static var postingDetailsMode = IntABDynamicVar(key: "postingDetailsMode", defaultValue: 0)
     static var appInviteFeedMode = IntABDynamicVar(key: "appInviteFeedMode", defaultValue: 0)
@@ -23,9 +22,8 @@ public struct ABTests {
     static var incentivatePostingMode = IntABDynamicVar(key: "incentivatePostingMode", defaultValue: 0)
 
     static private var allVariables: [ABVariable] {
-        return [bigFavoriteIcon, showRelatedProducts, directStickersOnProduct, postingDetailsMode,
-                appInviteFeedMode, showNPSSurvey, profileVerifyOneButton, onboardingPermissionsMode,
-                incentivatePostingMode]
+        return [bigFavoriteIcon, directStickersOnProduct, postingDetailsMode, appInviteFeedMode,
+                showNPSSurvey, profileVerifyOneButton, onboardingPermissionsMode, incentivatePostingMode]
     }
 
     static func registerVariables() {
