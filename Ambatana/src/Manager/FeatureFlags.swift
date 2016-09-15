@@ -55,13 +55,6 @@ struct FeatureFlags {
         }
         return ABTests.bigFavoriteIcon.value
     }
-    
-    static var showRelatedProducts: Bool {
-        if FTSFlipTheSwitch.overridesABTests {
-            return FTSFlipTheSwitch.showRelatedProducts
-        }
-        return ABTests.showRelatedProducts.value
-    }
 
     static var directStickersOnProduct: Bool {
         if FTSFlipTheSwitch.overridesABTests {
@@ -143,10 +136,6 @@ private extension FTSFlipTheSwitch {
 
     static var bigFavoriteIcon: Bool {
         return FTSFlipTheSwitch.sharedInstance().isFeatureEnabled("big_favorite_icon")
-    }
-    
-    static var showRelatedProducts: Bool {
-        return FTSFlipTheSwitch.sharedInstance().isFeatureEnabled("show_related_products")
     }
 
     static var directStickersOnProduct: Bool {
