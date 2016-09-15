@@ -13,6 +13,7 @@ import LGCoreKit
 final class TourLoginViewController: BaseViewController, GIDSignInUIDelegate {
     @IBOutlet weak var kenBurnsView: JBKenBurnsView!
 
+    @IBOutlet weak var topLogoImage: UIImageView!
     @IBOutlet weak var closeButton: UIButton!
     @IBOutlet weak var claimLabel: UILabel!
     @IBOutlet weak var claimLabelTopConstraint: NSLayoutConstraint!
@@ -31,15 +32,13 @@ final class TourLoginViewController: BaseViewController, GIDSignInUIDelegate {
 
     private let signUpViewModel: SignUpViewModel
     private let tourLoginViewModel: TourLoginViewModel
-    let completion: (() -> ())?
     
     
     // MARK: - Lifecycle
-    
-    init(signUpViewModel: SignUpViewModel, tourLoginViewModel: TourLoginViewModel, completion: (() -> ())?) {
+
+    init(signUpViewModel: SignUpViewModel, tourLoginViewModel: TourLoginViewModel) {
         self.signUpViewModel = signUpViewModel
         self.tourLoginViewModel = tourLoginViewModel
-        self.completion = completion
         super.init(viewModel: signUpViewModel, nibName: "TourLoginViewController", statusBarStyle: .LightContent,
                    navBarBackgroundStyle: .Transparent(substyle: .Dark))
 
@@ -157,6 +156,11 @@ private extension TourLoginViewController {
     }
 
     func setupUI() {
+        if AdminViewController.canOpenAdminPanel() {
+            let tap = UITapGestureRecognizer(target: self, action: #selector(openAdminPanel))
+            topLogoImage.addGestureRecognizer(tap)
+        }
+
         // UI
         kenBurnsView.clipsToBounds = true
 
@@ -199,6 +203,13 @@ private extension TourLoginViewController {
         lines = []
         orDividerViews.forEach { lines.append($0.addBottomBorderWithWidth(1, color: UIColor.white)) }
     }
+
+    dynamic private func openAdminPanel() {
+        guard AdminViewController.canOpenAdminPanel() else { return }
+        let admin = AdminViewController()
+        let nav = UINavigationController(rootViewController: admin)
+        presentViewController(nav, animated: true, completion: nil)
+    }
 }
 
 
@@ -206,43 +217,6 @@ private extension TourLoginViewController {
 
 private extension TourLoginViewController {
     func openNextStep() {
-        switch tourLoginViewModel.nextStep() {
-        case .Notifications:
-            openNotificationsTour()
-        case .Location:
-            openLocationTour()
-        case .None:
-            close(true)
-        }
-    }
-
-    func openNotificationsTour() {
-        PushPermissionsManager.sharedInstance.showPrePermissionsViewFrom(self, type: .Onboarding) { [weak self] in
-            self?.close()
-        }
-
-        UIView.animateWithDuration(0.3, delay: 0.1, options: UIViewAnimationOptions.CurveEaseInOut, animations: {
-            self.view.alpha = 0
-        }, completion: nil)
-    }
-
-    func openLocationTour() {
-        let vm = TourLocationViewModel(source: .Install)
-        let vc = TourLocationViewController(viewModel: vm)
-        vc.completion = { [weak self] in
-            self?.close(false)
-        }
-        presentStep(vc)
-    }
-
-    func presentStep(vc: UIViewController) {
-        UIView.animateWithDuration(0.3, delay: 0.1, options: UIViewAnimationOptions.CurveEaseInOut, animations: {
-            self.view.alpha = 0
-        }, completion: nil)
-        presentViewController(vc, animated: true, completion: nil)
-    }
-
-    func close(animated: Bool = false) {
-        dismissViewControllerAnimated(animated, completion: completion)
+        tourLoginViewModel.nextStep()
     }
 }

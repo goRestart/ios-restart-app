@@ -1207,7 +1207,7 @@ extension OldChatViewModel {
     private func retrieveRelatedProducts() {
         guard isBuyer else { return }
         guard let productId = product.objectId else { return }
-        productRepository.index(productId: productId, params: RetrieveProductsParams()) { [weak self] result in
+        productRepository.indexRelated(productId: productId, params: RetrieveProductsParams()) { [weak self] result in
             guard let strongSelf = self else { return }
             if let value = result.value {
                 strongSelf.relatedProducts = strongSelf.relatedWithoutMyProducts(value)

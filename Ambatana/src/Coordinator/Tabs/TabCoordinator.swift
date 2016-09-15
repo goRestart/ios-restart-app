@@ -123,7 +123,7 @@ private extension TabCoordinator {
     func openProduct(product product: Product, thumbnailImage: UIImage? = nil, originFrame: CGRect? = nil,
                              source: EventParameterProductVisitSource) {
         guard let productId = product.objectId else { return }
-        let requester = RelatedProductListRequester(productId: productId)
+        let requester = DiscoverProductListRequester(productId: productId)
         let vm = ProductCarouselViewModel(product: product, thumbnailImage: thumbnailImage,
                                       productListRequester: requester, navigator: self, source: source)
         openProduct(vm, thumbnailImage: thumbnailImage, originFrame: originFrame, productId: product.objectId)

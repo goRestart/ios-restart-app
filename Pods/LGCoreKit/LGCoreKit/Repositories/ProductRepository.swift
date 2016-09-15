@@ -115,12 +115,20 @@ public final class ProductRepository {
                                 completion: updateCompletion(completion))
     }
 
-    public func index(productId productId: String, params: RetrieveProductsParams, pageOffset: Int = 0,
-                                completion: ProductsCompletion?)  {
+    public func indexRelated(productId productId: String, params: RetrieveProductsParams, pageOffset: Int = 0,
+                             completion: ProductsCompletion?)  {
         var newParams: RetrieveProductsParams = params
         newParams.offset = pageOffset
         dataSource.indexRelatedProducts(productId, parameters: newParams.relatedProductsApiParams,
                                         completion: updateCompletion(completion))
+    }
+
+    public func indexDiscover(productId productId: String, params: RetrieveProductsParams, pageOffset: Int = 0,
+                              completion: ProductsCompletion?)  {
+        var newParams: RetrieveProductsParams = params
+        newParams.offset = pageOffset
+        dataSource.indexDiscoverProducts(productId, parameters: newParams.relatedProductsApiParams,
+                                         completion: updateCompletion(completion))
     }
     
     public func indexFavorites(userId: String, completion: ProductsCompletion?) {

@@ -8,6 +8,11 @@
 
 import Foundation
 
+enum TourLocationNextStep {
+    case Posting
+    case None
+}
+
 final class TourLocationViewModel: BaseViewModel {
 
     var title: String {
@@ -48,12 +53,17 @@ final class TourLocationViewModel: BaseViewModel {
     }
     
     let typePage: EventParameterTypePage
+
+    weak var navigator: TourLocationNavigator?
     
     init(source: EventParameterTypePage) {
         self.typePage = source
     }
-    
-    
+
+    func nextStep() {
+        navigator?.tourLocationFinish()
+    }
+
     // MARK: - Tracking
     
     func viewDidLoad() {
