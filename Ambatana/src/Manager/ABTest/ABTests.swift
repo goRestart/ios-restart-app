@@ -21,10 +21,12 @@ public struct ABTests {
     static var profileVerifyOneButton = BoolABDynamicVar(key: "profileVerifyOneButton", defaultValue: false)
     static var nonStopProductDetail = BoolABDynamicVar(key: "nonStopProductDetail", defaultValue: false)
     static var onboardingPermissionsMode = IntABDynamicVar(key: "onboardingPermissionsMode", defaultValue: 0)
+    static var incentivatePostingMode = IntABDynamicVar(key: "incentivatePostingMode", defaultValue: 0)
 
     static private var allVariables: [ABVariable] {
         return [bigFavoriteIcon, showRelatedProducts, directStickersOnProduct, postingDetailsMode,
-                appInviteFeedMode, showNPSSurvey, profileVerifyOneButton, nonStopProductDetail, onboardingPermissionsMode]
+                appInviteFeedMode, showNPSSurvey, profileVerifyOneButton, nonStopProductDetail, onboardingPermissionsMode,
+                incentivatePostingMode]
     }
 
     static func registerVariables() {

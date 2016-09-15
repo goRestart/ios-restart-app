@@ -71,6 +71,7 @@ final class TourNotificationsViewController: BaseViewController {
     func didRegisterUserNotificationSettings() {
         let time = dispatch_time(DISPATCH_TIME_NOW, Int64(0.5 * Double(NSEC_PER_SEC)))
         dispatch_after(time, dispatch_get_main_queue()) { [weak self] in
+            guard let viewAlpha = self?.view.alpha where viewAlpha > 0 else { return }
             self?.openNextStep()
         }
     }
@@ -79,7 +80,8 @@ final class TourNotificationsViewController: BaseViewController {
     // MARK: - Navigation
     
     func openNextStep() {
-        switch viewModel.nextStep() {
+        guard let step = viewModel.nextStep() else { return }
+        switch step {
         case .Location:
             showTourLocation()
         case .None:
@@ -107,9 +109,6 @@ final class TourNotificationsViewController: BaseViewController {
     func showTourLocation() {
         let vm = TourLocationViewModel(source: .Install)
         let vc = TourLocationViewController(viewModel: vm)
-        vc.completion = { [weak self] in
-            self?.dismissViewControllerAnimated(false, completion: self?.completion)
-        }
         UIView.animateWithDuration(0.3, delay: 0.1, options: UIViewAnimationOptions.CurveEaseInOut, animations: {
             self.view.alpha = 0
         }, completion: nil)

@@ -69,8 +69,8 @@ public class PushPermissionsManager: NSObject {
     }
 
     public func showPrePermissionsViewFrom(viewController: UIViewController, type: PrePermissionType,
-                                           completion: (() -> ())?) {
-        guard shouldShowPushPermissionsAlertFromViewController(type) else { return }
+                                           completion: (() -> ())?) -> UIViewController? {
+        guard shouldShowPushPermissionsAlertFromViewController(type) else { return nil }
 
         prePermissionType = type
 
@@ -90,27 +90,29 @@ public class PushPermissionsManager: NSObject {
         }
 
         if showSettingsPrePermission {
-            presentSettingsPrePermissionsFrom(viewController, type: type, completion: completion)
+            return presentSettingsPrePermissionsFrom(viewController, type: type, completion: completion)
         } else {
-            presentNormalPrePermissionsFrom(viewController, type: type, completion: completion)
+            return presentNormalPrePermissionsFrom(viewController, type: type, completion: completion)
         }
     }
 
     private func presentNormalPrePermissionsFrom(viewController: UIViewController, type: PrePermissionType,
-        completion: (() -> ())?) {
+        completion: (() -> ())?) -> UIViewController {
             let vm = TourNotificationsViewModel(title: type.title, subtitle: type.subtitle, pushText: type.pushMessage,
                 source: type)
             let vc = TourNotificationsViewController(viewModel: vm)
             vc.completion = completion
             viewController.presentViewController(vc, animated: true, completion: nil)
+        return vc
     }
-    
+
     private func presentSettingsPrePermissionsFrom(viewController: UIViewController, type: PrePermissionType,
-                                                   completion: (() -> ())?) {
+                                                   completion: (() -> ())?) -> UIViewController {
         let vm = PushPrePermissionsSettingsViewModel(source: type)
         let vc = PushPrePermissionsSettingsViewController(viewModel: vm)
         vc.completion = completion
         viewController.presentViewController(vc, animated: true, completion: nil)
+        return vc
     }
     
     
