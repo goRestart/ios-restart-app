@@ -58,7 +58,8 @@ class MainSignUpViewController: BaseViewController, SignUpViewModelDelegate, UIT
     init(viewModel: SignUpViewModel) {
         self.viewModel = viewModel
         self.lines = []
-        super.init(viewModel: viewModel, nibName: "MainSignUpViewController", navBarBackgroundStyle: .Transparent)
+        super.init(viewModel: viewModel, nibName: "MainSignUpViewController",
+                   navBarBackgroundStyle: .Transparent(substyle: .Light))
         self.viewModel.delegate = self
     }
     
@@ -169,7 +170,7 @@ class MainSignUpViewController: BaseViewController, SignUpViewModelDelegate, UIT
     private func setupUI() {
 
         // View
-        view.backgroundColor = UIColor.listBackgroundColor
+        view.backgroundColor = UIColor.white
 
         // Navigation bar
         closeButton = UIBarButtonItem(image: UIImage(named: "navbar_close"), style: .Plain, target: self,

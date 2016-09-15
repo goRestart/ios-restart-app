@@ -21,6 +21,10 @@ public enum LoginSource: String {
     case ReportFraud = "report-fraud"
 }
 
+public enum LoginAppearance {
+    case Dark, Light
+}
+
 protocol SignUpViewModelDelegate: class {
     func viewModelDidStartLoggingIn(viewModel: SignUpViewModel)
     func viewModeldidFinishLoginIn(viewModel: SignUpViewModel)
@@ -40,8 +44,11 @@ public class SignUpViewModel: BaseViewModel {
         let localizedLegalText = LGLocalizedString.mainSignUpTermsConditions
         let attributtedLegalText = localizedLegalText.attributedHyperlinkedStringWithURLDict(links,
             textColor: UIColor.darkGrayText)
-        attributtedLegalText.addAttribute(NSFontAttributeName, value: UIFont.smallBodyFont,
-            range: NSMakeRange(0, attributtedLegalText.length))
+        let range = NSMakeRange(0, attributtedLegalText.length)
+        attributtedLegalText.addAttribute(NSFontAttributeName, value: UIFont.smallBodyFont, range: range)
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.alignment = .Center
+        attributtedLegalText.addAttribute(NSParagraphStyleAttributeName, value: paragraphStyle, range: range)
         return attributtedLegalText
     }
 
@@ -53,6 +60,7 @@ public class SignUpViewModel: BaseViewModel {
     }
 
     private let sessionManager: SessionManager
+    let appearance: LoginAppearance
     private let loginSource: EventParameterLoginSourceValue
     private let googleLoginHelper: GoogleLoginHelper
 
@@ -60,8 +68,9 @@ public class SignUpViewModel: BaseViewModel {
     
     // Public methods
     
-    public init(sessionManager: SessionManager, source: EventParameterLoginSourceValue) {
+    public init(sessionManager: SessionManager, appearance: LoginAppearance, source: EventParameterLoginSourceValue) {
         self.sessionManager = sessionManager
+        self.appearance = appearance
         self.loginSource = source
         self.googleLoginHelper = GoogleLoginHelper(loginSource: source)
         super.init()
@@ -70,9 +79,9 @@ public class SignUpViewModel: BaseViewModel {
         TrackerProxy.sharedInstance.trackEvent(TrackerEvent.loginVisit(loginSource))
     }
     
-    public convenience init(source: EventParameterLoginSourceValue) {
+    public convenience init(appearance: LoginAppearance, source: EventParameterLoginSourceValue) {
         let sessionManager = Core.sessionManager
-        self.init(sessionManager: sessionManager, source: source)
+        self.init(sessionManager: sessionManager, appearance: appearance, source: source)
     }
     
     public func logInWithFacebook() {

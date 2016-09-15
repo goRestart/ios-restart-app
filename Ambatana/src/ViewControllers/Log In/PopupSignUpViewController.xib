@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -30,7 +30,7 @@
                     </connections>
                 </button>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="H6S-Ga-Yph" userLabel="contentContainer">
-                    <rect key="frame" x="52" y="147" width="270" height="374"/>
+                    <rect key="frame" x="52" y="138" width="270" height="392"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NSc-BX-RMd" userLabel="closeButton">
                             <rect key="frame" x="0.0" y="0.0" width="56" height="56"/>
@@ -50,10 +50,10 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <button clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="czH-3U-QbA" userLabel="Connect FB Button">
-                            <rect key="frame" x="16" y="113" width="238" height="44"/>
+                            <rect key="frame" x="16" y="113" width="238" height="50"/>
                             <color key="backgroundColor" red="0.2470588235" green="0.35686274509999999" blue="0.58823529409999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
-                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="44" id="DMM-Nn-rFa"/>
+                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="50" id="DMM-Nn-rFa"/>
                             </constraints>
                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                             <inset key="contentEdgeInsets" minX="36" minY="0.0" maxX="5" maxY="0.0"/>
@@ -66,17 +66,17 @@
                             </connections>
                         </button>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_facebook_rounded" translatesAutoresizingMaskIntoConstraints="NO" id="vo4-5j-pWi" userLabel="FB Logo Image View">
-                            <rect key="frame" x="24" y="121" width="28" height="28"/>
+                            <rect key="frame" x="24" y="124" width="28" height="28"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="28" id="C5u-zX-DcF"/>
                                 <constraint firstAttribute="width" constant="28" id="kZc-Zp-mMn"/>
                             </constraints>
                         </imageView>
                         <button clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VDD-5O-BL3" userLabel="Connect Google Button">
-                            <rect key="frame" x="16" y="173" width="238" height="44"/>
+                            <rect key="frame" x="16" y="179" width="238" height="50"/>
                             <color key="backgroundColor" red="0.25882352939999997" green="0.52156862749999999" blue="0.95686274510000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="44" id="jr4-Li-4EO"/>
+                                <constraint firstAttribute="height" constant="50" id="jr4-Li-4EO"/>
                             </constraints>
                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                             <inset key="contentEdgeInsets" minX="36" minY="0.0" maxX="5" maxY="0.0"/>
@@ -89,14 +89,14 @@
                             </connections>
                         </button>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_google_rounded" translatesAutoresizingMaskIntoConstraints="NO" id="Xuk-sg-2kr" userLabel="Google logo image view">
-                            <rect key="frame" x="24" y="181" width="28" height="28"/>
+                            <rect key="frame" x="24" y="190" width="28" height="28"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="28" id="9dV-Xh-ZDY"/>
                                 <constraint firstAttribute="height" constant="28" id="mqW-cB-U7O"/>
                             </constraints>
                         </imageView>
                         <button clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="avL-ty-Jz8" userLabel="Log In Button">
-                            <rect key="frame" x="143" y="233" width="111" height="44"/>
+                            <rect key="frame" x="143" y="245" width="111" height="50"/>
                             <color key="backgroundColor" red="0.93333333330000001" green="0.93333333330000001" blue="0.93333333330000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="45" id="Xdc-3Y-MqA"/>
@@ -116,10 +116,10 @@
                             </connections>
                         </button>
                         <button clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ywn-Di-wvp" userLabel="Sign Up Button">
-                            <rect key="frame" x="16" y="233" width="111" height="44"/>
+                            <rect key="frame" x="16" y="245" width="111" height="50"/>
                             <color key="backgroundColor" red="0.93333333330000001" green="0.93333333330000001" blue="0.93333333330000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="44" id="3vZ-Yi-h2s"/>
+                                <constraint firstAttribute="height" constant="50" id="3vZ-Yi-h2s"/>
                             </constraints>
                             <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
                             <state key="normal" title="_Sign up">
@@ -131,7 +131,7 @@
                             </connections>
                         </button>
                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" delaysContentTouches="NO" canCancelContentTouches="NO" bouncesZoom="NO" editable="NO" usesAttributedText="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nBM-Yh-TYH">
-                            <rect key="frame" x="16" y="295" width="238" height="63"/>
+                            <rect key="frame" x="16" y="313" width="238" height="63"/>
                             <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             <attributedString key="attributedText">
                                 <fragment content="_By singing up or loging in, you agree to our Terms of Service and Privacy Policy">

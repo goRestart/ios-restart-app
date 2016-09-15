@@ -111,7 +111,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         self.animator = pushAnimator
         self.pageControl = UIPageControl(frame: CGRect.zero)
         super.init(viewModel: viewModel, nibName: "ProductCarouselViewController", statusBarStyle: .LightContent,
-                   navBarBackgroundStyle: .Transparent)
+                   navBarBackgroundStyle: .Transparent(substyle: .Dark))
         self.viewModel.delegate = self
         hidesBottomBarWhenPushed = false
     }
