@@ -8,7 +8,7 @@
 
 import LGCoreKit
 
-class DiscoverProductListRequester: ProductListRequester {
+class DiscoverProductListRequester {
 
     private let productObjectId: String
     private let productRepository: ProductRepository
@@ -22,7 +22,12 @@ class DiscoverProductListRequester: ProductListRequester {
         self.productObjectId = productId
         self.productRepository = productRepository
     }
+}
 
+
+// MARK: - ProductListRequester
+
+extension DiscoverProductListRequester: ProductListRequester {
     func canRetrieve() -> Bool {
         return true
     }
@@ -36,15 +41,6 @@ class DiscoverProductListRequester: ProductListRequester {
         productsRetrieval(completion)
     }
 
-    func productsRetrieval(completion: ProductsCompletion?) {
-        productRepository.indexDiscover(productId: productObjectId, params: RetrieveProductsParams(), pageOffset: offset) { [weak self] result in
-            if let value = result.value {
-                self?.offset += value.count
-            }
-            completion?(result)
-        }
-    }
-
     func isLastPage(resultCount: Int) -> Bool {
         return resultCount == 0
     }
@@ -53,5 +49,19 @@ class DiscoverProductListRequester: ProductListRequester {
         let r = DiscoverProductListRequester(productId: productObjectId)
         r.offset = offset
         return r
+    }
+}
+
+
+// MARK: - DiscoverProductListRequester
+
+private extension DiscoverProductListRequester {
+    func productsRetrieval(completion: ProductsCompletion?) {
+        productRepository.indexDiscover(productId: productObjectId, params: RetrieveProductsParams(), pageOffset: offset) { [weak self] result in
+            if let value = result.value {
+                self?.offset += value.count
+            }
+            completion?(result)
+        }
     }
 }
