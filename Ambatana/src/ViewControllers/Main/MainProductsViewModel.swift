@@ -411,7 +411,7 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate {
         let showRelated = searchType == nil
         let data = ProductDetailData.ProductList(product: product, cellModels: cellModels,
                                                  requester: productListRequester, thumbnailImage: thumbnailImage,
-                                                 originFrame: originFrame, showRelated: showRelated)
+                                                 originFrame: originFrame, showRelated: showRelated, index: index)
         tabNavigator?.openProduct(data, source: productVisitSource)
     }
     

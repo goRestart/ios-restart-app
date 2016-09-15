@@ -79,6 +79,13 @@
 		<key>enabled</key>
 		<false/>
 	</dict>
+	<key>non_stop_product_detail</key>
+	<dict>
+		<key>description</key>
+		<string>Show list feed after related products in carousel</string>
+		<key>enabled</key>
+		<false/>
+	</dict>
 	<key>incentivize_posting_a</key>
 	<dict>
 		<key>description</key>
