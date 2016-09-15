@@ -159,12 +159,11 @@ private extension FTSFlipTheSwitch {
         return FTSFlipTheSwitch.sharedInstance().isFeatureEnabled("profile_verify_one_button")
     }
 
-<<<<<<< HEAD
     static var nonStopProductDetail: Bool {
         return FTSFlipTheSwitch.sharedInstance().isFeatureEnabled("non_stop_product_detail")
-=======
+    }
+
     static var onboardingPermissionsMode: Bool {
         return FTSFlipTheSwitch.sharedInstance().isFeatureEnabled("onboarding_permissions_mode")
->>>>>>> develop
     }
 }
