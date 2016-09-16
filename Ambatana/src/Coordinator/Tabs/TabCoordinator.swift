@@ -110,7 +110,8 @@ private extension TabCoordinator {
                 switch error {
                 case .Network:
                     message = LGLocalizedString.commonErrorConnectionFailed
-                case .Internal, .NotFound, .Unauthorized, .Forbidden, .TooManyRequests, .UserNotVerified, .ServerError:
+                case .Internal, .NotFound, .Unauthorized, .Forbidden, .TooManyRequests, .UserNotVerified, .Conflict,
+                     .UnprocessableEntity, .InternalServerError, .NotModified, .Other:
                     message = LGLocalizedString.commonProductNotAvailable
                 }
                 self?.navigationController.dismissLoadingMessageAlert {
@@ -176,7 +177,8 @@ private extension TabCoordinator {
                 switch error {
                 case .Network:
                     message = LGLocalizedString.commonErrorConnectionFailed
-                case .Internal, .NotFound, .Unauthorized, .Forbidden, .TooManyRequests, .UserNotVerified, .ServerError:
+                case .Internal, .NotFound, .Unauthorized, .Forbidden, .TooManyRequests, .UserNotVerified, .Conflict,
+                     .UnprocessableEntity, .InternalServerError, .NotModified, .Other:
                     message = LGLocalizedString.commonUserNotAvailable
                 }
                 self?.navigationController.dismissLoadingMessageAlert {

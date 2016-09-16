@@ -27,7 +27,8 @@ enum ChangePasswordError: ErrorType {
             self = .NotFound
         case .Unauthorized:
             self = .Unauthorized
-        case .Internal, .Forbidden, .TooManyRequests, .UserNotVerified, .ServerError:
+        case .Internal, .Forbidden, .TooManyRequests, .UserNotVerified, .Conflict,
+             .UnprocessableEntity, .InternalServerError, .NotModified, .Other:
             self = .Internal
         }
     }

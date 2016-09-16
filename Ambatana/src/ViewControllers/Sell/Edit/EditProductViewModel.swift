@@ -28,10 +28,26 @@ enum ProductCreateValidationError: ErrorType {
             self = .Internal
         case .Network:
             self = .Network
-        case let .ServerError(code):
-            self = ServerError(code: code)
-        case .NotFound, .Forbidden, .Unauthorized, .TooManyRequests, .UserNotVerified:
-            self = .Internal
+        case let .NotFound(code):
+            self = .ServerError(code: code)
+        case let .Forbidden(code):
+            self = .ServerError(code: code)
+        case let .Unauthorized(code):
+            self = .ServerError(code: code)
+        case let .TooManyRequests(code):
+            self = .ServerError(code: code)
+        case let .UserNotVerified(code):
+            self = .ServerError(code: code)
+        case let .Conflict(code, _):
+            self = .ServerError(code: code)
+        case let .UnprocessableEntity(code):
+            self = .ServerError(code: code)
+        case let .InternalServerError(code):
+            self = .ServerError(code: code)
+        case let .NotModified(code):
+            self = .ServerError(code: code)
+        case let .Other(code):
+            self = .ServerError(code: code)
         }
     }
 

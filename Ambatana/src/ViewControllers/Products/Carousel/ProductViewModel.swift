@@ -412,7 +412,8 @@ extension ProductViewModel {
                 switch error {
                 case .Forbidden:
                     self?.delegate?.vmHideLoading(LGLocalizedString.productChatDirectErrorBlockedUserMessage, afterMessageCompletion: nil)
-                case .Network, .Internal, .NotFound, .Unauthorized, .TooManyRequests, .UserNotVerified, .ServerError:
+                case .Network, .Internal, .NotFound, .Unauthorized, .TooManyRequests, .UserNotVerified, .Conflict,
+                     .UnprocessableEntity, .InternalServerError, .NotModified, .Other:
                     self?.delegate?.vmHideLoading(LGLocalizedString.chatSendErrorGeneric, afterMessageCompletion: nil)
                 }
             }
@@ -822,7 +823,8 @@ extension ProductViewModel {
                 switch error {
                 case .Forbidden:
                     self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.productChatDirectErrorBlockedUserMessage, completion: nil)
-                case .Network, .Internal, .NotFound, .Unauthorized, .TooManyRequests, .UserNotVerified, .ServerError:
+                case .Network, .Internal, .NotFound, .Unauthorized, .TooManyRequests, .UserNotVerified, .Conflict,
+                     .UnprocessableEntity, .InternalServerError, .NotModified, .Other:
                     self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.chatSendErrorGeneric, completion: nil)
                 }
 

@@ -394,7 +394,8 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate {
             switch error {
             case .Network:
                 errorString = LGLocalizedString.toastNoNetwork
-            case .Internal, .NotFound, .Forbidden, .TooManyRequests, .UserNotVerified, .ServerError:
+            case .Internal, .NotFound, .Forbidden, .TooManyRequests, .UserNotVerified, .Conflict,
+                 .UnprocessableEntity, .InternalServerError, .NotModified, .Other:
                 errorString = LGLocalizedString.toastErrorInternal
             case .Unauthorized:
                 errorString = nil

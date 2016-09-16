@@ -122,7 +122,8 @@ class RateUserViewModel: BaseViewModel {
                 switch error {
                 case .Network:
                     message = LGLocalizedString.commonErrorConnectionFailed
-                case .Internal, .NotFound, .Unauthorized, .Forbidden, .TooManyRequests, .UserNotVerified, .ServerError:
+                case .Internal, .NotFound, .Unauthorized, .Forbidden, .TooManyRequests, .UserNotVerified, .Conflict,
+                     .UnprocessableEntity, .InternalServerError, .NotModified, .Other:
                     message = LGLocalizedString.commonError
                 }
                 self?.delegate?.vmShowAutoFadingMessage(message, completion: nil)
