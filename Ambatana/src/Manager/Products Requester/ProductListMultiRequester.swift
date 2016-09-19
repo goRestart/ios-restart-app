@@ -77,6 +77,8 @@ extension ProductListMultiRequester: ProductListRequester {
     // MARK: private methods
 
     private func resetInitialData() {
+        currentIndex = 0
+        activeRequester = requestersArray[0]
         hasChangedRequester = false
         multiIsLastPage = false
     }
@@ -87,10 +89,8 @@ extension ProductListMultiRequester: ProductListRequester {
             multiIsLastPage = true
             return
         }
-
-        if let value = result.value {
-            guard activeRequester.isLastPage(value.count) else { return }
-        }
+        guard let resultCount = result.value?.count else { return }
+        guard activeRequester.isLastPage(resultCount) else { return }
         multiIsLastPage = switchToNext()
     }
 
