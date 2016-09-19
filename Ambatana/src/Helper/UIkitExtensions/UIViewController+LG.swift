@@ -44,13 +44,15 @@ extension UIViewController {
         rightItem.rx_tap.bindNext{
             action.action()
         }.addDisposableTo(disposeBag)
-        self.navigationItem.rightBarButtonItem = rightItem
+        navigationItem.rightBarButtonItems = nil
+        navigationItem.rightBarButtonItem = rightItem
         return rightItem
     }
 
     func setLetGoRightButtonWith(text text: String, selector: String) -> UIBarButtonItem {
         let rightItem = UIBarButtonItem(title: text, style: .Plain, target: self, action: Selector(selector))
-        self.navigationItem.rightBarButtonItem = rightItem
+        navigationItem.rightBarButtonItems = nil
+        navigationItem.rightBarButtonItem = rightItem
         return rightItem
     }
 
@@ -72,7 +74,8 @@ extension UIViewController {
         let rightitem = UIBarButtonItem(image:itemImage,
                                         style: UIBarButtonItemStyle.Plain, target: self, action: Selector(selector))
         rightitem.tintColor = buttonsTintColor
-        self.navigationItem.rightBarButtonItem = rightitem
+        navigationItem.rightBarButtonItems = nil
+        navigationItem.rightBarButtonItem = rightitem
         return rightitem
     }
     
@@ -118,7 +121,8 @@ extension UIViewController {
             
             return UIBarButtonItem(customView: button)
         }
-        
+
+        navigationItem.rightBarButtonItem = nil
         navigationItem.rightBarButtonItems = items.reverse()
     }
 }
