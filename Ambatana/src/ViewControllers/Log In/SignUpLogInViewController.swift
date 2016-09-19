@@ -6,27 +6,29 @@
 //  Copyright © 2015 Ambatana. All rights reserved.
 //
 
-import UIKit
+import JBKenBurnsView
 import LGCoreKit
 import Result
+import UIKit
 
 class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UITextViewDelegate,
 SignUpLogInViewModelDelegate, GIDSignInUIDelegate {
+    @IBOutlet weak var darkAppereanceBgView: UIView!
+    @IBOutlet weak var kenBurnsView: JBKenBurnsView!
     
     @IBOutlet weak var loginSegmentedControl: UISegmentedControl!
 
     @IBOutlet weak var scrollView: UIScrollView!
 
     @IBOutlet weak var textFieldsView: UIView!
-    
-    @IBOutlet weak var firstDividerView: UIView!
-    @IBOutlet weak var quicklyLabel: UILabel!
-    
+
     @IBOutlet weak var connectFBButton: UIButton!
     @IBOutlet weak var connectGoogleButton: UIButton!
     
-    @IBOutlet weak var dividerView: UIView!
+    @IBOutlet var dividerViews: [UIView]!
     @IBOutlet weak var orLabel: UILabel!
+    @IBOutlet weak var orLabelTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak var orLabelBottomConstraint: NSLayoutConstraint!
 
     @IBOutlet weak var usernameIconImageView: UIImageView!
     @IBOutlet weak var usernameTextField: LGTextField!
@@ -67,24 +69,32 @@ SignUpLogInViewModelDelegate, GIDSignInUIDelegate {
     var preDismissAction: (() -> Void)?
     
     var viewModel : SignUpLogInViewModel
+    let appearance: LoginAppearance
+    let keyboardFocus: Bool
     
     var lines: [CALayer]
-    
-    var loginEditModeActive: Bool
-    var signupEditModeActive: Bool
-    var termsConditionsActive: Bool {
-        return signupEditModeActive && viewModel.termsAndConditionsEnabled
-    }
 
     
     // MARK: - Lifecycle
     
-    init(viewModel: SignUpLogInViewModel) {
+    init(viewModel: SignUpLogInViewModel, appearance: LoginAppearance = .Light, keyboardFocus: Bool = false) {
         self.viewModel = viewModel
+        self.appearance = appearance
+        self.keyboardFocus = keyboardFocus
         self.lines = []
-        self.loginEditModeActive = false
-        self.signupEditModeActive = false
-        super.init(viewModel: viewModel, nibName: "SignUpLogInViewController")
+
+        let statusBarStyle: UIStatusBarStyle
+        let navBarBackgroundStyle: NavBarBackgroundStyle
+        switch appearance {
+        case .Dark:
+            statusBarStyle = .LightContent
+            navBarBackgroundStyle = .Transparent(substyle: .Dark)
+        case .Light:
+            statusBarStyle = .Default
+            navBarBackgroundStyle = .Transparent(substyle: .Light)
+        }
+        super.init(viewModel: viewModel, nibName: "SignUpLogInViewController",
+                   statusBarStyle: statusBarStyle, navBarBackgroundStyle: navBarBackgroundStyle)
         self.viewModel.delegate = self
         automaticallyAdjustsScrollViewInsets = false
     }
@@ -95,7 +105,6 @@ SignUpLogInViewModelDelegate, GIDSignInUIDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupStaticUI()
         setupUI()
         setAccessibilityIds()
     }
@@ -105,31 +114,60 @@ SignUpLogInViewModelDelegate, GIDSignInUIDelegate {
         GIDSignIn.sharedInstance().uiDelegate = self
     }
 
+    override func viewWillFirstAppear(animated: Bool) {
+        super.viewWillFirstAppear(animated)
+        if keyboardFocus {
+            UIView.performWithoutAnimation { [weak self] in self?.emailTextField.becomeFirstResponder() }
+        }
+        switch appearance {
+        case .Light:
+            break
+        case .Dark:
+            setupKenBurns()
+        }
+    }
+
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        
-        // Redraw the lines
-        for line in lines {
-            line.removeFromSuperlayer()
-        }
-        lines = []
-        lines.append(dividerView.addBottomBorderWithWidth(1, color: UIColor.lineGray))
-        lines.append(firstDividerView.addBottomBorderWithWidth(1, color: UIColor.lineGray))
-        
-        if viewModel.currentActionType == .Signup && signupEditModeActive {
-            lines.append(emailButton.addTopBorderWithWidth(1, color: UIColor.lineGray))
-            lines.append(passwordButton.addTopBorderWithWidth(1, color: UIColor.lineGray))
-            lines.append(usernameButton.addTopBorderWithWidth(1, color: UIColor.lineGray))
-            lines.append(usernameButton.addBottomBorderWithWidth(1, color: UIColor.lineGray))
 
-        } else if viewModel.currentActionType == .Login && loginEditModeActive {
-            lines.append(emailButton.addTopBorderWithWidth(1, color: UIColor.lineGray))
-            lines.append(passwordButton.addTopBorderWithWidth(1, color: UIColor.lineGray))
-            lines.append(passwordButton.addBottomBorderWithWidth(1, color: UIColor.lineGray))
-        } else {
-            lines.append(emailButton.addTopBorderWithWidth(1, color: UIColor.lineGray))
-            lines.append(emailButton.addBottomBorderWithWidth(1, color: UIColor.lineGray))
+        let textFieldLineColor: UIColor
+        let dividerColor: UIColor
+        switch appearance {
+        case .Dark:
+            textFieldLineColor = UIColor.black
+            dividerColor = UIColor.white
+        case .Light:
+            textFieldLineColor = UIColor.white
+            dividerColor = UIColor.black
         }
+
+        // Redraw the lines
+        lines.forEach { $0.removeFromSuperlayer() }
+        lines = []
+        dividerViews.forEach { lines.append($0.addBottomBorderWithWidth(1, color: dividerColor)) }
+
+        if viewModel.currentActionType == .Signup {
+            lines.append(passwordButton.addTopBorderWithWidth(1, color: textFieldLineColor))
+            lines.append(usernameButton.addTopBorderWithWidth(1, color: textFieldLineColor))
+        } else if viewModel.currentActionType == .Login {
+            lines.append(passwordButton.addTopBorderWithWidth(1, color: textFieldLineColor))
+        } else {
+            lines.append(emailButton.addTopBorderWithWidth(1, color: textFieldLineColor))
+            lines.append(emailButton.addBottomBorderWithWidth(1, color: textFieldLineColor))
+        }
+
+        // Redraw masked rounded corners
+        emailButton.setRoundedCorners([.TopLeft, .TopRight],
+                                      cornerRadius: LGUIKitConstants.textfieldCornerRadius)
+        switch viewModel.currentActionType {
+        case .Signup:
+            passwordButton.setRoundedCorners([], cornerRadius: 0)
+        case .Login:
+            passwordButton.setRoundedCorners([.BottomLeft, .BottomRight],
+                                             cornerRadius: LGUIKitConstants.textfieldCornerRadius)
+        }
+        usernameButton.setRoundedCorners([.BottomLeft, .BottomRight],
+                                         cornerRadius: LGUIKitConstants.textfieldCornerRadius)
     }
 
 
@@ -151,7 +189,7 @@ SignUpLogInViewModelDelegate, GIDSignInUIDelegate {
         
         scrollView.setContentOffset(CGPointMake(0,0), animated: false)
 
-        setupUI()
+        updateUI()
     }
     
     @IBAction func onSwitchValueChanged(sender: UISwitch) {
@@ -210,7 +248,8 @@ SignUpLogInViewModelDelegate, GIDSignInUIDelegate {
     }
     
     @IBAction func forgotPasswordButtonPressed(sender: AnyObject) {
-        let vc = RememberPasswordViewController(source: viewModel.loginSource, email: viewModel.email)
+        let vc = RememberPasswordViewController(source: viewModel.loginSource, email: viewModel.email,
+                                                appearance: appearance)
         navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -239,21 +278,11 @@ SignUpLogInViewModelDelegate, GIDSignInUIDelegate {
         switch (tag) {
         case .Email:
             iconImageView = emailIconImageView
-            
-            switch (viewModel.currentActionType) {
-            case .Signup:
-                signupEditModeActive = true
-            case .Login:
-                loginEditModeActive = true
-            }
-            
-            setupUI()
         case .Password:
             iconImageView = passwordIconImageView
         case .Username:
             iconImageView = usernameIconImageView
         }
-        
         iconImageView.highlighted = true
     }
     
@@ -410,16 +439,17 @@ SignUpLogInViewModelDelegate, GIDSignInUIDelegate {
 
     // MARK: Private Methods
 
-    private func setupStaticUI() {
+    private func setupCommonUI() {
+        view.backgroundColor = UIColor.white
+        
         // i18n
         loginSegmentedControl.setTitle(LGLocalizedString.mainSignUpSignUpButton, forSegmentAtIndex: 0)
         loginSegmentedControl.setTitle(LGLocalizedString.mainSignUpLogInLabel, forSegmentAtIndex: 1)
-        usernameTextField.placeholder = LGLocalizedString.signUpUsernameFieldHint
-        emailTextField.placeholder = LGLocalizedString.signUpEmailFieldHint
-        passwordTextField.placeholder = LGLocalizedString.signUpPasswordFieldHint
+        loginSegmentedControl.layer.cornerRadius = 15
+        loginSegmentedControl.layer.borderWidth = 1
+        loginSegmentedControl.layer.masksToBounds = true
+
         newsletterLabel.text = LGLocalizedString.signUpNewsleter
-        quicklyLabel.text = LGLocalizedString.mainSignUpQuicklyLabel
-        quicklyLabel.font = UIFont.smallBodyFont
         connectFBButton.setTitle(LGLocalizedString.mainSignUpFacebookConnectButton, forState: .Normal)
         connectGoogleButton.setTitle(LGLocalizedString.mainSignUpGoogleConnectButton, forState: .Normal)
         orLabel.text = LGLocalizedString.mainSignUpOrLabel
@@ -437,7 +467,7 @@ SignUpLogInViewModelDelegate, GIDSignInUIDelegate {
         passwordTextField.tag = TextFieldTag.Password.rawValue
         usernameTextField.tag = TextFieldTag.Username.rawValue
 
-        // appearance
+        // common appearance
         connectFBButton.setStyle(.Facebook)
         connectGoogleButton.setStyle(.Google)
 
@@ -458,19 +488,33 @@ SignUpLogInViewModelDelegate, GIDSignInUIDelegate {
     }
 
     private func setupUI() {
-        view.backgroundColor = UIColor.listBackgroundColor
+        setupCommonUI()
+        updateUI()
+
+        switch appearance {
+        case .Light:
+            setupLightAppearance()
+        case .Dark:
+            setupDarkAppearance()
+        }
+
+        if DeviceFamily.current == .iPhone4 {
+            adaptConstraintsToiPhone4()
+        }
 
         // action type
         loginSegmentedControl.selectedSegmentIndex = viewModel.currentActionType.rawValue
 
+        textFieldsView.clipsToBounds = true
         emailButton.hidden = false
         emailIconImageView.hidden = false
         emailTextField.hidden = false
 
         showPasswordButton.hidden = !(viewModel.showPasswordShouldBeVisible)
-        
+    }
+
+    private func updateUI() {
         let isSignup = viewModel.currentActionType == .Signup
-        
         if isSignup {
             setupSignupUI()
         } else {
@@ -479,9 +523,94 @@ SignUpLogInViewModelDelegate, GIDSignInUIDelegate {
 
         let sendButtonTitle = isSignup ? LGLocalizedString.signUpSendButton : LGLocalizedString.logInSendButton
         sendButton.setTitle(sendButtonTitle, forState: .Normal)
-        
+
         let navBarTitle = isSignup ? LGLocalizedString.signUpTitle : LGLocalizedString.logInTitle
         setNavBarTitle(navBarTitle)
+    }
+
+    private func setupLightAppearance() {
+        darkAppereanceBgView.hidden = true
+
+        loginSegmentedControl.tintColor = UIColor.primaryColor
+        loginSegmentedControl.backgroundColor = UIColor.white
+        loginSegmentedControl.layer.borderColor = UIColor.primaryColor.CGColor
+
+        let textfieldTextColor = UIColor.blackText
+        var textfieldPlaceholderAttrs = [String: AnyObject]()
+        textfieldPlaceholderAttrs[NSFontAttributeName] = UIFont.systemFontOfSize(17)
+        textfieldPlaceholderAttrs[NSForegroundColorAttributeName] = UIColor.blackTextHighAlpha
+
+        orLabel.textColor = UIColor.darkGrayText
+        lines.forEach { $0.backgroundColor = UIColor.darkGrayText.CGColor }
+
+        emailButton.setStyle(.LightField)
+        emailIconImageView.image = UIImage(named: "ic_email")
+        emailIconImageView.highlightedImage = UIImage(named: "ic_email_active")
+        emailTextField.textColor = textfieldTextColor
+        emailTextField.attributedPlaceholder = NSAttributedString(string: LGLocalizedString.signUpEmailFieldHint,
+                                                                  attributes: textfieldPlaceholderAttrs)
+        passwordButton.setStyle(.LightField)
+        passwordIconImageView.image = UIImage(named: "ic_password")
+        passwordIconImageView.highlightedImage = UIImage(named: "ic_password_active")
+        passwordTextField.textColor = textfieldTextColor
+        passwordTextField.attributedPlaceholder = NSAttributedString(string: LGLocalizedString.signUpPasswordFieldHint,
+                                                                     attributes: textfieldPlaceholderAttrs)
+        usernameButton.setStyle(.LightField)
+        usernameIconImageView.image = UIImage(named: "ic_name")
+        usernameIconImageView.highlightedImage = UIImage(named: "ic_name_active")
+        usernameTextField.textColor = textfieldTextColor
+        usernameTextField.attributedPlaceholder = NSAttributedString(string: LGLocalizedString.signUpUsernameFieldHint,
+                                                                     attributes: textfieldPlaceholderAttrs)
+
+        forgotPasswordButton.setTitleColor(UIColor.darkGrayText, forState: .Normal)
+    }
+
+    private func setupDarkAppearance() {
+        darkAppereanceBgView.hidden = false
+
+        loginSegmentedControl.tintColor = UIColor.white
+        loginSegmentedControl.backgroundColor = UIColor.clearColor()
+        loginSegmentedControl.layer.borderColor = UIColor.white.CGColor
+
+        let textfieldTextColor = UIColor.whiteText
+        var textfieldPlaceholderAttrs = [String: AnyObject]()
+        textfieldPlaceholderAttrs[NSFontAttributeName] = UIFont.systemFontOfSize(17)
+        textfieldPlaceholderAttrs[NSForegroundColorAttributeName] = UIColor.whiteTextHighAlpha
+
+        orLabel.textColor = UIColor.white
+        lines.forEach { $0.backgroundColor = UIColor.white.CGColor }
+
+        emailButton.setStyle(.DarkField)
+        emailIconImageView.image = UIImage(named: "ic_email_dark")
+        emailIconImageView.highlightedImage = UIImage(named: "ic_email_active_dark")
+        emailTextField.textColor = textfieldTextColor
+        emailTextField.attributedPlaceholder = NSAttributedString(string: LGLocalizedString.signUpEmailFieldHint,
+                                                                  attributes: textfieldPlaceholderAttrs)
+        passwordButton.setStyle(.DarkField)
+        passwordIconImageView.image = UIImage(named: "ic_password_dark")
+        passwordIconImageView.highlightedImage = UIImage(named: "ic_password_active_dark")
+        passwordTextField.textColor = textfieldTextColor
+        passwordTextField.attributedPlaceholder = NSAttributedString(string: LGLocalizedString.signUpPasswordFieldHint,
+                                                                     attributes: textfieldPlaceholderAttrs)
+        usernameButton.setStyle(.DarkField)
+        usernameIconImageView.image = UIImage(named: "ic_name_dark")
+        usernameIconImageView.highlightedImage = UIImage(named: "ic_name_active_dark")
+        usernameTextField.textColor = textfieldTextColor
+        usernameTextField.attributedPlaceholder = NSAttributedString(string: LGLocalizedString.signUpUsernameFieldHint,
+                                                                     attributes: textfieldPlaceholderAttrs)
+
+        forgotPasswordButton.setTitleColor(UIColor.white, forState: .Normal)
+    }
+
+    func setupKenBurns() {
+        let images: [UIImage] = [
+            UIImage(named: "bg_1_new"),
+            UIImage(named: "bg_2_new"),
+            UIImage(named: "bg_3_new"),
+            UIImage(named: "bg_4_new")
+        ].flatMap { return $0}
+        view.layoutIfNeeded()
+        kenBurnsView.animateWithImages(images, transitionDuration: 10, initialDelay: 0, loop: true, isLandscape: true)
     }
 
     private func setupTermsConditionsText() {
@@ -490,42 +619,41 @@ SignUpLogInViewModelDelegate, GIDSignInUIDelegate {
     }
     
     private func setupSignupUI() {
-        usernameButton.hidden = !signupEditModeActive
-        usernameIconImageView.hidden = !signupEditModeActive
-        usernameTextField.hidden = !signupEditModeActive
-
-        termsConditionsContainerHeight.constant = termsConditionsActive ?
-            SignUpLogInViewController.termsConditionsShownHeight : 0
-        termsConditionsContainer.hidden = !termsConditionsActive
-
-        forgotPasswordButton.hidden = true
-        
-        passwordButton.hidden = !signupEditModeActive
-        passwordIconImageView.hidden = !signupEditModeActive
-        passwordTextField.hidden = !signupEditModeActive
+        passwordButton.setRoundedCorners([], cornerRadius: 0)
         passwordTextField.returnKeyType = .Next
-        
-        sendButton.hidden = !signupEditModeActive
+        usernameButton.setRoundedCorners([.BottomLeft, .BottomRight],
+                                         cornerRadius: LGUIKitConstants.textfieldCornerRadius)
+        usernameButton.hidden = false
+        usernameIconImageView.hidden = false
+        usernameTextField.hidden = false
+        forgotPasswordButton.hidden = true
+
+        termsConditionsContainerHeight.constant = viewModel.termsAndConditionsEnabled ?
+            SignUpLogInViewController.termsConditionsShownHeight : 0
+        termsConditionsContainer.hidden = !viewModel.termsAndConditionsEnabled
+
+        sendButton.hidden = false
     }
 
     private func setupLoginUI() {
+        passwordButton.setRoundedCorners([.BottomLeft, .BottomRight],
+                                         cornerRadius: LGUIKitConstants.textfieldCornerRadius)
+        passwordTextField.returnKeyType = .Send
         usernameButton.hidden = true
         usernameIconImageView.hidden = true
         usernameTextField.hidden = true
+        forgotPasswordButton.hidden = false
 
         termsConditionsContainerHeight.constant = 0
         termsConditionsContainer.hidden = true
-        
-        forgotPasswordButton.hidden = !loginEditModeActive
-        
-        passwordButton.hidden = !loginEditModeActive
-        passwordIconImageView.hidden = !loginEditModeActive
-        passwordTextField.hidden = !loginEditModeActive
-        passwordTextField.returnKeyType = .Send
 
-        sendButton.hidden = !loginEditModeActive
+        sendButton.hidden = false
     }
 
+    private func adaptConstraintsToiPhone4() {
+        orLabelTopConstraint.constant = 20
+        orLabelBottomConstraint.constant = 20
+    }
     
     private func updateViewModelText(text: String, fromTextFieldTag tag: Int) {
         

@@ -93,6 +93,8 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
 
     private var interestedBubble: BubbleNotification?
 
+
+
     let animator: PushAnimator?
     var pendingMovement: CarouselMovement?
 
@@ -109,7 +111,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         self.animator = pushAnimator
         self.pageControl = UIPageControl(frame: CGRect.zero)
         super.init(viewModel: viewModel, nibName: "ProductCarouselViewController", statusBarStyle: .LightContent,
-                   navBarBackgroundStyle: .Transparent)
+                   navBarBackgroundStyle: .Transparent(substyle: .Dark))
         self.viewModel.delegate = self
         hidesBottomBarWhenPushed = false
     }
@@ -243,13 +245,17 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     private func setupNavigationBar() {
         let backIconImage = UIImage(named: "ic_close_carousel")
         let backButton = UIBarButtonItem(image: backIconImage, style: UIBarButtonItemStyle.Plain,
-                                         target: self, action: #selector(close))
+                                         target: self, action: #selector(backButtonClose))
         self.navigationItem.leftBarButtonItem = backButton
     }
     
-    dynamic private func close() {
+    dynamic private func backButtonClose() {
+        close(false)
+    }
+
+    private func close(fromCollection: Bool) {
         if moreInfoView?.frame.origin.y < 0 {
-            viewModel.close()
+            viewModel.close(fromCollection)
         } else {
             hideMoreInfo()
         }
@@ -398,7 +404,9 @@ extension ProductCarouselViewController {
     private func setupMoreInfo(viewModel: ProductViewModel) {
         if moreInfoView == nil {
             moreInfoView = ProductCarouselMoreInfoView.moreInfoView(viewModel)
-            view.addSubview(self.moreInfoView!)
+            if let moreInfoView = moreInfoView {
+                view.addSubview(moreInfoView)
+            }
             view.bringSubviewToFront(buttonBottom)
             view.bringSubviewToFront(stickersButton)
             view.bringSubviewToFront(fullScreenAvatarEffectView)
@@ -642,6 +650,8 @@ extension ProductCarouselViewController: ProductCarouselCellDelegate {
             collectionView.scrollToItemAtIndexPath(nextIndexPath, atScrollPosition: .Right, animated: false)
         } else {
             collectionView.showRubberBandEffect(.Right)
+            guard !viewModel.isLoading else { return }
+            close(true)
         }
     }
     
@@ -655,6 +665,8 @@ extension ProductCarouselViewController: ProductCarouselCellDelegate {
             self?.pageControl.alpha = shouldHide ? 0 : 1
             self?.moreInfoTooltip?.alpha = shouldHide ? 0 : 1
             self?.moreInfoView?.dragView.alpha = shouldHide ? 0 : 1
+            self?.favoriteButton.alpha = shouldHide ? 0 : 1
+            self?.stickersButton.alpha = shouldHide ? 0 : 1
             UIApplication.sharedApplication().setStatusBarHidden(shouldHide, withAnimation: .Fade)
         }
     }
@@ -685,7 +697,7 @@ extension ProductCarouselViewController: ProductCarouselCellDelegate {
         }
 
         if buttonBottomBottomConstraint.constant - itemsMargin > bottomOverscrollDragMargin {
-            close()
+            close(true)
         }
     }
     
@@ -840,6 +852,19 @@ extension ProductCarouselViewController: UICollectionViewDataSource, UICollectio
 
     func scrollViewDidScroll(scrollView: UIScrollView) {
         collectionContentOffset.value = scrollView.contentOffset
+    }
+
+    func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        if (scrollView.contentOffset.x >= (scrollView.contentSize.width - scrollView.frame.size.width)) && currentIndex >= viewModel.objectCount - 1 {
+            //reach right limit
+            close(true)
+            return
+        }
+        if (scrollView.contentOffset.x < 0) && currentIndex == 0 {
+            //reach left limit
+            close(true)
+            return
+        }
     }
 }
 

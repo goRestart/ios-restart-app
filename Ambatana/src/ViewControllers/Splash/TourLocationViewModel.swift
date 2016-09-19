@@ -8,15 +8,62 @@
 
 import Foundation
 
+enum TourLocationNextStep {
+    case Posting
+    case None
+}
+
 final class TourLocationViewModel: BaseViewModel {
+
+    var title: String {
+        switch FeatureFlags.onboardinPermissionsMode {
+        case .Original, .OneButtonOriginalImages:
+            return LGLocalizedString.locationPermissionsTitle
+        case .OneButtonNewImages:
+            return LGLocalizedString.locationPermissionsTitleV2
+
+        }
+    }
+    var showBubbleInfo: Bool {
+        switch FeatureFlags.onboardinPermissionsMode {
+        case .Original, .OneButtonOriginalImages:
+            return true
+        case .OneButtonNewImages:
+            return false
+        }
+    }
+    var showAlertInfo: Bool {
+        return !showBubbleInfo
+    }
+    var infoImage: UIImage? {
+        switch FeatureFlags.onboardinPermissionsMode {
+        case .Original, .OneButtonOriginalImages:
+            return UIImage(named: "img_notifications")
+        case .OneButtonNewImages:
+            return UIImage(named: "img_permissions_background")
+        }
+    }
+    var showNoButton: Bool {
+        switch FeatureFlags.onboardinPermissionsMode {
+        case .Original:
+            return true
+        case .OneButtonNewImages, .OneButtonOriginalImages:
+            return false
+        }
+    }
     
     let typePage: EventParameterTypePage
+
+    weak var navigator: TourLocationNavigator?
     
     init(source: EventParameterTypePage) {
         self.typePage = source
     }
-    
-    
+
+    func nextStep() {
+        navigator?.tourLocationFinish()
+    }
+
     // MARK: - Tracking
     
     func viewDidLoad() {

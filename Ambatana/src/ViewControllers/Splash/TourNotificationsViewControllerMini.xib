@@ -1,16 +1,25 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="TourNotificationsViewController" customModule="LetGo" customModuleProvider="target">
             <connections>
+                <outlet property="alertContainer" destination="ed0-sW-LvT" id="lug-Ff-LdI"/>
+                <outlet property="alertOkLabel" destination="rsA-Lz-vyx" id="BBB-x5-3yN"/>
+                <outlet property="closeButton" destination="DDd-7O-z2N" id="9BW-zq-Re8"/>
+                <outlet property="iphoneBckgImage" destination="6aI-Ql-rvu" id="d0q-IX-QLP"/>
+                <outlet property="iphoneRightHeightConstraint" destination="B2L-K3-a6q" id="F4h-mw-8Ew"/>
                 <outlet property="noButton" destination="c6U-gq-fkq" id="N9O-K8-eUH"/>
+                <outlet property="noButtonHeight" destination="eV6-qX-AOh" id="eHK-x4-H9p"/>
+                <outlet property="noButtonTopConstraint" destination="2Ug-qo-gqT" id="uug-lu-3zL"/>
                 <outlet property="notificationMessageLabel" destination="Q0P-De-4j5" id="aZB-DL-oCx"/>
                 <outlet property="notificationTimeLabel" destination="ZP3-Oj-eVF" id="XDA-ZM-KJZ"/>
                 <outlet property="notifyButton" destination="c2d-xa-4J4" id="A9n-Fl-ENH"/>
+                <outlet property="pushContainer" destination="1fb-yZ-LPM" id="zP5-TX-GOo"/>
                 <outlet property="subtitleLabel" destination="uj3-fy-ofE" id="o76-pS-2DY"/>
                 <outlet property="titleLabel" destination="gXC-0a-nJJ" id="uKp-0K-vtU"/>
                 <outlet property="view" destination="iN0-l3-epB" id="MrW-cT-TcP"/>
@@ -61,21 +70,20 @@
                                     <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YAY-xM-KwV" userLabel="iPhone View">
                                         <rect key="frame" x="6" y="0.0" width="212" height="204"/>
                                         <subviews>
-                                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="iphone_top.png" translatesAutoresizingMaskIntoConstraints="NO" id="e5E-wj-RMQ" userLabel="iPhone Top Image View">
+                                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="iphone_top" translatesAutoresizingMaskIntoConstraints="NO" id="e5E-wj-RMQ" userLabel="iPhone Top Image View">
                                                 <rect key="frame" x="0.0" y="0.0" width="212" height="48"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="48" id="4ks-yQ-E4z"/>
                                                     <constraint firstAttribute="width" constant="212" id="vfJ-GI-i02"/>
                                                 </constraints>
                                             </imageView>
-                                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="top" image="iphone_left.png" translatesAutoresizingMaskIntoConstraints="NO" id="kzD-3x-MFf" userLabel="iPhone Left Image View">
+                                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="top" image="iphone_left" translatesAutoresizingMaskIntoConstraints="NO" id="kzD-3x-MFf" userLabel="iPhone Left Image View">
                                                 <rect key="frame" x="0.0" y="48" width="16" height="156"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="156" id="1T7-rO-L9S"/>
                                                     <constraint firstAttribute="width" constant="16" id="Le5-xT-QbE"/>
                                                 </constraints>
                                             </imageView>
-                                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="top" image="iphone_right.png" translatesAutoresizingMaskIntoConstraints="NO" id="4oE-uN-rGm" userLabel="iPhone Right Image View">
+                                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="top" image="iphone_right" translatesAutoresizingMaskIntoConstraints="NO" id="4oE-uN-rGm" userLabel="iPhone Right Image View">
                                                 <rect key="frame" x="196" y="48" width="16" height="156"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="156" id="B2L-K3-a6q"/>
@@ -85,40 +93,26 @@
                                             <imageView userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_notifications" translatesAutoresizingMaskIntoConstraints="NO" id="6aI-Ql-rvu">
                                                 <rect key="frame" x="16" y="48" width="180" height="156"/>
                                                 <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="width" constant="185" id="1AX-qr-bUH"/>
-                                                    <constraint firstAttribute="height" constant="156" id="voJ-sz-s8e"/>
-                                                </constraints>
-                                                <variation key="default">
-                                                    <mask key="constraints">
-                                                        <exclude reference="1AX-qr-bUH"/>
-                                                    </mask>
-                                                </variation>
                                             </imageView>
                                         </subviews>
                                         <constraints>
                                             <constraint firstAttribute="trailing" secondItem="e5E-wj-RMQ" secondAttribute="trailing" id="1uV-Kc-ET7"/>
                                             <constraint firstItem="4oE-uN-rGm" firstAttribute="leading" secondItem="6aI-Ql-rvu" secondAttribute="trailing" id="8Jv-a2-2Sh"/>
                                             <constraint firstAttribute="trailing" secondItem="4oE-uN-rGm" secondAttribute="trailing" id="BX6-xt-bOx"/>
+                                            <constraint firstItem="kzD-3x-MFf" firstAttribute="height" secondItem="4oE-uN-rGm" secondAttribute="height" id="BwK-R3-iNf"/>
                                             <constraint firstAttribute="bottom" secondItem="kzD-3x-MFf" secondAttribute="bottom" id="CzG-hy-Pt9"/>
                                             <constraint firstAttribute="bottom" secondItem="4oE-uN-rGm" secondAttribute="bottom" id="DAf-ap-C1C"/>
                                             <constraint firstItem="6aI-Ql-rvu" firstAttribute="top" secondItem="e5E-wj-RMQ" secondAttribute="bottom" id="HtW-N4-sNN"/>
-                                            <constraint firstItem="6aI-Ql-rvu" firstAttribute="leading" secondItem="e5E-wj-RMQ" secondAttribute="trailing" constant="-198" id="Ihs-vv-LRW"/>
+                                            <constraint firstItem="6aI-Ql-rvu" firstAttribute="height" secondItem="4oE-uN-rGm" secondAttribute="height" id="LtH-FJ-ngr"/>
                                             <constraint firstItem="e5E-wj-RMQ" firstAttribute="leading" secondItem="YAY-xM-KwV" secondAttribute="leading" id="QNU-Ea-YPO"/>
                                             <constraint firstItem="kzD-3x-MFf" firstAttribute="leading" secondItem="YAY-xM-KwV" secondAttribute="leading" id="R6n-fd-cBp"/>
                                             <constraint firstItem="4oE-uN-rGm" firstAttribute="top" secondItem="e5E-wj-RMQ" secondAttribute="bottom" id="W0e-xv-zDy"/>
                                             <constraint firstItem="kzD-3x-MFf" firstAttribute="top" secondItem="e5E-wj-RMQ" secondAttribute="bottom" id="lHP-E4-hOf"/>
                                             <constraint firstItem="6aI-Ql-rvu" firstAttribute="leading" secondItem="kzD-3x-MFf" secondAttribute="trailing" id="maH-ut-GZz"/>
-                                            <constraint firstAttribute="height" relation="lessThanOrEqual" constant="204" id="pbN-hW-zd7"/>
                                             <constraint firstItem="e5E-wj-RMQ" firstAttribute="top" secondItem="YAY-xM-KwV" secondAttribute="top" id="yGE-IP-snX"/>
                                         </constraints>
-                                        <variation key="default">
-                                            <mask key="constraints">
-                                                <exclude reference="Ihs-vv-LRW"/>
-                                            </mask>
-                                        </variation>
                                     </view>
-                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="iphone_bottom.png" translatesAutoresizingMaskIntoConstraints="NO" id="xi6-UD-KE4" userLabel="iPhone Bottom Image View">
+                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="iphone_bottom" translatesAutoresizingMaskIntoConstraints="NO" id="xi6-UD-KE4" userLabel="iPhone Bottom Image View">
                                         <rect key="frame" x="0.0" y="199" width="224" height="5"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="224" id="8Lb-df-nhM"/>
@@ -222,13 +216,40 @@
                                     </mask>
                                 </variation>
                             </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ed0-sW-LvT" userLabel="alert_container">
+                                <rect key="frame" x="30" y="167" width="260" height="165"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_permissions_alert" translatesAutoresizingMaskIntoConstraints="NO" id="AiC-DB-mnX">
+                                        <rect key="frame" x="0.0" y="0.0" width="260" height="165"/>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rsA-Lz-vyx" userLabel="alertOkLabel">
+                                        <rect key="frame" x="171" y="134" width="49" height="23"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="19"/>
+                                        <color key="textColor" red="1" green="0.24705882370000001" blue="0.33333334329999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="rsA-Lz-vyx" firstAttribute="centerX" secondItem="ed0-sW-LvT" secondAttribute="centerX" multiplier="1.5" id="03a-Zi-Ffo"/>
+                                    <constraint firstAttribute="trailing" secondItem="AiC-DB-mnX" secondAttribute="trailing" id="E4f-R9-Qbb"/>
+                                    <constraint firstAttribute="width" constant="260" id="GSR-c9-gD5"/>
+                                    <constraint firstAttribute="height" constant="165" id="Q38-dL-TkD"/>
+                                    <constraint firstAttribute="bottom" secondItem="rsA-Lz-vyx" secondAttribute="bottom" constant="8" id="fj5-bp-tqs"/>
+                                    <constraint firstItem="AiC-DB-mnX" firstAttribute="top" secondItem="ed0-sW-LvT" secondAttribute="top" id="hUl-LJ-aRz"/>
+                                    <constraint firstItem="AiC-DB-mnX" firstAttribute="leading" secondItem="ed0-sW-LvT" secondAttribute="leading" id="n9n-zv-C8U"/>
+                                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="rsA-Lz-vyx" secondAttribute="trailing" id="nv7-5g-FBO"/>
+                                    <constraint firstAttribute="bottom" secondItem="AiC-DB-mnX" secondAttribute="bottom" id="rBd-9n-ogE"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="gXC-0a-nJJ" secondAttribute="trailing" constant="8" id="1Ce-8q-maY"/>
-                            <constraint firstItem="gXC-0a-nJJ" firstAttribute="top" secondItem="THg-Sc-rjD" secondAttribute="top" constant="58" id="1J7-QY-QTV"/>
                             <constraint firstItem="gXC-0a-nJJ" firstAttribute="top" secondItem="DDd-7O-z2N" secondAttribute="bottom" constant="4" id="1cx-Ix-Nbb"/>
                             <constraint firstItem="c6U-gq-fkq" firstAttribute="top" secondItem="c2d-xa-4J4" secondAttribute="bottom" constant="8" id="2Ug-qo-gqT"/>
+                            <constraint firstItem="ed0-sW-LvT" firstAttribute="centerX" secondItem="THg-Sc-rjD" secondAttribute="centerX" id="2md-CK-G0O"/>
+                            <constraint firstItem="ed0-sW-LvT" firstAttribute="centerY" secondItem="v3H-cU-ytk" secondAttribute="centerY" id="8i9-ph-OTx"/>
                             <constraint firstItem="DDd-7O-z2N" firstAttribute="leading" secondItem="THg-Sc-rjD" secondAttribute="leading" constant="16" id="9G5-TJ-s3f"/>
                             <constraint firstItem="gXC-0a-nJJ" firstAttribute="leading" secondItem="THg-Sc-rjD" secondAttribute="leading" constant="8" id="ERD-Nm-bzn"/>
                             <constraint firstItem="1fb-yZ-LPM" firstAttribute="top" secondItem="e5E-wj-RMQ" secondAttribute="bottom" id="Efo-rR-7ca"/>
@@ -244,15 +265,8 @@
                             <constraint firstAttribute="trailing" secondItem="uj3-fy-ofE" secondAttribute="trailing" constant="8" id="kwK-B1-MtZ"/>
                             <constraint firstAttribute="trailing" secondItem="c2d-xa-4J4" secondAttribute="trailing" constant="15" id="mIQ-rL-L4E"/>
                             <constraint firstItem="uj3-fy-ofE" firstAttribute="leading" secondItem="THg-Sc-rjD" secondAttribute="leading" constant="8" id="p9x-Qg-Zdj"/>
-                            <constraint firstItem="c2d-xa-4J4" firstAttribute="top" secondItem="v3H-cU-ytk" secondAttribute="bottom" constant="44" id="qz4-cr-u56"/>
                             <constraint firstAttribute="trailing" secondItem="c6U-gq-fkq" secondAttribute="trailing" constant="15" id="rLx-lB-zgZ"/>
                         </constraints>
-                        <variation key="default">
-                            <mask key="constraints">
-                                <exclude reference="1J7-QY-QTV"/>
-                                <exclude reference="qz4-cr-u56"/>
-                            </mask>
-                        </variation>
                     </view>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <blurEffect style="dark"/>
@@ -271,10 +285,11 @@
     <resources>
         <image name="ic_close" width="18" height="18"/>
         <image name="img_notifications" width="184" height="281"/>
+        <image name="img_permissions_alert" width="261" height="165"/>
         <image name="img_push" width="260" height="66"/>
-        <image name="iphone_bottom.png" width="224" height="5"/>
-        <image name="iphone_left.png" width="16" height="241"/>
-        <image name="iphone_right.png" width="16" height="241"/>
-        <image name="iphone_top.png" width="212" height="48"/>
+        <image name="iphone_bottom" width="224" height="5"/>
+        <image name="iphone_left" width="16" height="241"/>
+        <image name="iphone_right" width="16" height="241"/>
+        <image name="iphone_top" width="212" height="48"/>
     </resources>
 </document>

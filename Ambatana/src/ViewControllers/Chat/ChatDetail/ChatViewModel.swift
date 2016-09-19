@@ -348,14 +348,9 @@ class ChatViewModel: BaseViewModel {
         }.addDisposableTo(disposeBag)
 
         myUserRepository.rx_myUser.asObservable().skip(1).subscribeNext { [weak self] myUser in
-            guard let myUser = myUser, firstMessage = self?.messages.value.first else { return }
-            guard myUser.isSocialVerified else { return }
-            //check and remove social advise
-            switch firstMessage.type {
-            case .Disclaimer:
-                self?.messages.removeFirst()
-            default: break
-            }
+            guard let myUser = myUser where myUser.isSocialVerified else { return }
+            guard let disclaimerIndex = self?.bottomDisclaimerMessageIndex else { return }
+            self?.messages.removeAtIndex(disclaimerIndex)
         }.addDisposableTo(disposeBag)
 
         setupChatEventsRx()
@@ -654,8 +649,13 @@ extension ChatViewModel {
     private func markProductAsSold() {
         guard conversation.value.amISelling else { return }
         guard let productId = conversation.value.product?.objectId else { return }
+        delegate?.vmShowLoading(nil)
         productRepository.markProductAsSold(productId) { [weak self] result in
-            self?.refreshConversation()
+            let errorMessage: String? = result.error != nil ? LGLocalizedString.productMarkAsSoldErrorGeneric : nil
+            self?.delegate?.vmHideLoading(errorMessage) {
+                guard let _ = result.value else { return }
+                self?.refreshConversation()
+            }
         }
     }
 }
@@ -852,6 +852,17 @@ extension ChatViewModel {
                     source: .Chat(description: LGLocalizedString.chatConnectAccountsMessage))
             }
         }
+    }
+
+    var bottomDisclaimerMessageIndex: Int?  {
+        for (index, message) in messages.value.enumerate() {
+            switch message.type {
+            case .Disclaimer:
+                return index
+            default: break
+            }
+        }
+        return nil
     }
 
     private func downloadFirstPage(conversationId: String) {
@@ -1162,7 +1173,7 @@ extension ChatViewModel: RelatedProductsViewDelegate {
         tracker.trackEvent(TrackerEvent.chatRelatedItemsComplete(index))
         let data = ProductDetailData.ProductList(product: product, cellModels: productListModels, requester: requester,
                                                  thumbnailImage: thumbnailImage, originFrame: originFrame,
-                                                 showRelated: false)
+                                                 showRelated: false, index: 0)
         tabNavigator?.openProduct(data, source: .Chat)
     }
 }
@@ -1192,7 +1203,7 @@ extension ChatViewModel {
     private func retrieveRelatedProducts() {
         guard isBuyer else { return }
         guard let productId = conversation.value.product?.objectId else { return }
-        productRepository.index(productId: productId, params: RetrieveProductsParams()) { [weak self] result in
+        productRepository.indexRelated(productId: productId, params: RetrieveProductsParams()) { [weak self] result in
             guard let strongSelf = self else { return }
             if let value = result.value {
                 strongSelf.relatedProducts = strongSelf.relatedWithoutMyProducts(value)

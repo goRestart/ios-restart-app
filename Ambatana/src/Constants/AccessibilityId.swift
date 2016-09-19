@@ -43,11 +43,7 @@ enum AccessibilityId: String {
 
     // Product Cell
     case ProductCell
-    case ProductCellPriceLabel
     case ProductCellThumbnailImageView
-    case ProductCellLikeButton
-    case ProductCellShareButton
-    case ProductCellChatButton
     case ProductCellStripeImageView
     case ProductCellStripeLabel
     case ProductCellStripeIcon
@@ -347,19 +343,25 @@ enum AccessibilityId: String {
 
     // TourLogin
     case TourLoginCloseButton
-    case TourLoginSignUpButton
-    case TourLoginLogInButton
-    case TourLoginSkipButton
+    case TourFacebookButton
+    case TourGoogleButton
+    case TourEmailButton
 
     // TourNotifications
     case TourNotificationsCloseButton
     case TourNotificationsOKButton
     case TourNotificationsCancelButton
+    case TourNotificationsAlert
 
     // TourLocation
     case TourLocationCloseButton
     case TourLocationOKButton
     case TourLocationCancelButton
+    case TourLocationAlert
+
+    // TourPosting
+    case TourPostingCloseButton
+    case TourPostingOkButton
 
     // User
     case UserNavBarShareButton

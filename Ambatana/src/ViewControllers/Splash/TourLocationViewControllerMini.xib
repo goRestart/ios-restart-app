@@ -1,15 +1,23 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="TourLocationViewController" customModule="LetGo" customModuleProvider="target">
             <connections>
+                <outlet property="alertContainer" destination="eAj-PQ-9G8" id="zGW-6D-Lrc"/>
+                <outlet property="alertOkLabel" destination="A5m-ec-bHr" id="kdL-9r-j3D"/>
+                <outlet property="closeButton" destination="jO7-ua-tLP" id="gha-pl-Ye5"/>
                 <outlet property="distanceLabel" destination="nnu-rE-Ux7" id="O5t-Gb-UCj"/>
+                <outlet property="iphoneBckgImage" destination="AdN-dF-l5b" id="RAh-KG-T9h"/>
+                <outlet property="iphoneRightHeightConstraint" destination="4i8-F9-k5O" id="svB-Ug-9CZ"/>
                 <outlet property="labelContainer" destination="6fD-K2-LnF" id="u1Z-x1-yXM"/>
                 <outlet property="noButton" destination="YLm-Ix-GBf" id="hoX-aF-c8f"/>
+                <outlet property="noButtonHeight" destination="0BD-pm-Ejz" id="fcS-ZR-cs5"/>
+                <outlet property="noButtonTopConstraint" destination="b8h-aA-Lvt" id="AwH-iv-Ylu"/>
                 <outlet property="subtitleLabel" destination="qtS-Fa-2SK" id="q1i-Mc-wRM"/>
                 <outlet property="titleLabel" destination="FQA-rK-Rbt" id="qai-ga-rr8"/>
                 <outlet property="view" destination="iN0-l3-epB" id="PHf-pz-uym"/>
@@ -55,21 +63,20 @@
                                     <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KGg-cb-D87" userLabel="iPhone View">
                                         <rect key="frame" x="6" y="0.0" width="212" height="204"/>
                                         <subviews>
-                                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="iphone_top.png" translatesAutoresizingMaskIntoConstraints="NO" id="0Sn-6M-ouv" userLabel="iPhone Top Image View">
+                                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="iphone_top" translatesAutoresizingMaskIntoConstraints="NO" id="0Sn-6M-ouv" userLabel="iPhone Top Image View">
                                                 <rect key="frame" x="0.0" y="0.0" width="212" height="48"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="212" id="guQ-Wa-cXi"/>
                                                     <constraint firstAttribute="height" constant="48" id="rZG-uk-dVi"/>
                                                 </constraints>
                                             </imageView>
-                                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="top" image="iphone_left.png" translatesAutoresizingMaskIntoConstraints="NO" id="0eM-v4-yeg" userLabel="iPhone Left Image View">
+                                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="top" image="iphone_left" translatesAutoresizingMaskIntoConstraints="NO" id="0eM-v4-yeg" userLabel="iPhone Left Image View">
                                                 <rect key="frame" x="0.0" y="48" width="16" height="156"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="156" id="9ra-iy-gfe"/>
                                                     <constraint firstAttribute="width" constant="16" id="HJ6-b6-NZ5"/>
                                                 </constraints>
                                             </imageView>
-                                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="top" image="iphone_right.png" translatesAutoresizingMaskIntoConstraints="NO" id="2oS-nj-c4w" userLabel="iPhone Right Image View">
+                                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="top" image="iphone_right" translatesAutoresizingMaskIntoConstraints="NO" id="2oS-nj-c4w" userLabel="iPhone Right Image View">
                                                 <rect key="frame" x="196" y="48" width="16" height="156"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="16" id="0wr-wT-W0Q"/>
@@ -109,7 +116,6 @@
                                             <constraint firstAttribute="trailing" secondItem="2oS-nj-c4w" secondAttribute="trailing" id="6JI-xw-8lX"/>
                                             <constraint firstItem="SrV-Kz-IOD" firstAttribute="height" secondItem="2oS-nj-c4w" secondAttribute="height" id="88f-30-EUj"/>
                                             <constraint firstItem="SrV-Kz-IOD" firstAttribute="top" secondItem="0Sn-6M-ouv" secondAttribute="bottom" id="IyV-Rq-h8F"/>
-                                            <constraint firstAttribute="height" relation="lessThanOrEqual" constant="204" id="SmC-eK-BDK"/>
                                             <constraint firstItem="2oS-nj-c4w" firstAttribute="top" secondItem="0Sn-6M-ouv" secondAttribute="bottom" id="Yjs-2w-Iba"/>
                                             <constraint firstItem="0Sn-6M-ouv" firstAttribute="top" secondItem="KGg-cb-D87" secondAttribute="top" id="bFj-9l-ZsC"/>
                                             <constraint firstAttribute="bottom" secondItem="2oS-nj-c4w" secondAttribute="bottom" id="c3E-2i-HRX"/>
@@ -117,10 +123,11 @@
                                             <constraint firstItem="SrV-Kz-IOD" firstAttribute="leading" secondItem="0eM-v4-yeg" secondAttribute="trailing" id="l3c-ft-UJp"/>
                                             <constraint firstItem="0eM-v4-yeg" firstAttribute="top" secondItem="0Sn-6M-ouv" secondAttribute="bottom" id="oOc-Qj-7zc"/>
                                             <constraint firstItem="0eM-v4-yeg" firstAttribute="leading" secondItem="KGg-cb-D87" secondAttribute="leading" id="ofF-8X-QdH"/>
+                                            <constraint firstItem="0eM-v4-yeg" firstAttribute="height" secondItem="2oS-nj-c4w" secondAttribute="height" id="wIb-Ma-sDa"/>
                                             <constraint firstItem="0Sn-6M-ouv" firstAttribute="leading" secondItem="KGg-cb-D87" secondAttribute="leading" id="xke-UT-aOQ"/>
                                         </constraints>
                                     </view>
-                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="iphone_bottom.png" translatesAutoresizingMaskIntoConstraints="NO" id="9JF-Xe-i8b" userLabel="iPhone Bottom Image View">
+                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="iphone_bottom" translatesAutoresizingMaskIntoConstraints="NO" id="9JF-Xe-i8b" userLabel="iPhone Bottom Image View">
                                         <rect key="frame" x="0.0" y="199" width="224" height="5"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="5" id="i5Q-qQ-04d"/>
@@ -199,6 +206,32 @@
                                     <constraint firstItem="nnu-rE-Ux7" firstAttribute="leading" secondItem="6fD-K2-LnF" secondAttribute="leading" constant="19" id="dzq-Jg-7nk"/>
                                 </constraints>
                             </view>
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eAj-PQ-9G8" userLabel="alert_container">
+                                <rect key="frame" x="30" y="158" width="260" height="165"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_permissions_alert" translatesAutoresizingMaskIntoConstraints="NO" id="l50-qQ-lEg">
+                                        <rect key="frame" x="0.0" y="0.0" width="260" height="165"/>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A5m-ec-bHr" userLabel="alertOkLabel">
+                                        <rect key="frame" x="171" y="134" width="49" height="23"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="19"/>
+                                        <color key="textColor" red="1" green="0.24705882370000001" blue="0.33333334329999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="l50-qQ-lEg" secondAttribute="trailing" id="205-pU-g8z"/>
+                                    <constraint firstAttribute="height" constant="165" id="89r-wA-ZK4"/>
+                                    <constraint firstItem="A5m-ec-bHr" firstAttribute="centerX" secondItem="eAj-PQ-9G8" secondAttribute="centerX" multiplier="1.5" id="Ivy-VW-EoN"/>
+                                    <constraint firstAttribute="bottom" secondItem="l50-qQ-lEg" secondAttribute="bottom" id="SHr-yH-Oxb"/>
+                                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="A5m-ec-bHr" secondAttribute="trailing" id="WWx-S0-WN0"/>
+                                    <constraint firstItem="l50-qQ-lEg" firstAttribute="leading" secondItem="eAj-PQ-9G8" secondAttribute="leading" id="c69-r8-usQ"/>
+                                    <constraint firstAttribute="bottom" secondItem="A5m-ec-bHr" secondAttribute="bottom" constant="8" id="dHI-62-4qo"/>
+                                    <constraint firstAttribute="width" constant="260" id="div-Ct-yKi"/>
+                                    <constraint firstItem="l50-qQ-lEg" firstAttribute="top" secondItem="eAj-PQ-9G8" secondAttribute="top" id="fg3-No-T6D"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -206,34 +239,22 @@
                             <constraint firstItem="FQA-rK-Rbt" firstAttribute="top" secondItem="jO7-ua-tLP" secondAttribute="bottom" constant="4" id="FgA-Ic-2XK"/>
                             <constraint firstItem="qtS-Fa-2SK" firstAttribute="centerX" secondItem="bq4-di-d1a" secondAttribute="centerX" id="NGg-2o-pdE"/>
                             <constraint firstItem="YLm-Ix-GBf" firstAttribute="leading" secondItem="bq4-di-d1a" secondAttribute="leading" constant="15" id="Nud-N4-pbK"/>
-                            <constraint firstItem="qtS-Fa-2SK" firstAttribute="leading" secondItem="bq4-di-d1a" secondAttribute="leading" constant="8" id="QXg-kK-EhC"/>
                             <constraint firstAttribute="trailing" secondItem="GUZ-3O-0f7" secondAttribute="trailing" constant="15" id="Qfx-Ls-fhn"/>
                             <constraint firstItem="6fD-K2-LnF" firstAttribute="centerX" secondItem="bq4-di-d1a" secondAttribute="centerX" id="RwF-Ex-iMB"/>
                             <constraint firstAttribute="trailing" secondItem="YLm-Ix-GBf" secondAttribute="trailing" constant="15" id="SY9-ST-iyD"/>
                             <constraint firstItem="jO7-ua-tLP" firstAttribute="leading" secondItem="bq4-di-d1a" secondAttribute="leading" constant="16" id="UXr-kj-Gl7"/>
                             <constraint firstItem="aa0-Zo-i07" firstAttribute="top" secondItem="qtS-Fa-2SK" secondAttribute="bottom" constant="13" id="Wv6-bq-Ifd"/>
+                            <constraint firstItem="eAj-PQ-9G8" firstAttribute="centerY" secondItem="aa0-Zo-i07" secondAttribute="centerY" id="Z2e-Ap-ZdS"/>
                             <constraint firstItem="YLm-Ix-GBf" firstAttribute="top" secondItem="GUZ-3O-0f7" secondAttribute="bottom" constant="8" id="b8h-aA-Lvt"/>
-                            <constraint firstItem="FQA-rK-Rbt" firstAttribute="top" secondItem="bq4-di-d1a" secondAttribute="top" constant="58" id="eBN-f4-heX"/>
                             <constraint firstItem="GUZ-3O-0f7" firstAttribute="leading" secondItem="bq4-di-d1a" secondAttribute="leading" constant="15" id="fvF-8s-HW3"/>
                             <constraint firstItem="FQA-rK-Rbt" firstAttribute="leading" secondItem="bq4-di-d1a" secondAttribute="leading" constant="8" id="gct-QF-WAW"/>
-                            <constraint firstAttribute="trailing" secondItem="qtS-Fa-2SK" secondAttribute="trailing" constant="8" id="gmM-i4-NMG"/>
-                            <constraint firstItem="0Sn-6M-ouv" firstAttribute="top" secondItem="6fD-K2-LnF" secondAttribute="bottom" id="h5j-Wb-ZSl"/>
                             <constraint firstItem="qtS-Fa-2SK" firstAttribute="top" secondItem="FQA-rK-Rbt" secondAttribute="bottom" constant="10" id="hYe-XM-3Yh"/>
-                            <constraint firstItem="GUZ-3O-0f7" firstAttribute="top" secondItem="aa0-Zo-i07" secondAttribute="bottom" constant="44" id="np5-CE-7oI"/>
+                            <constraint firstItem="eAj-PQ-9G8" firstAttribute="centerX" secondItem="bq4-di-d1a" secondAttribute="centerX" id="mpk-iW-FNj"/>
                             <constraint firstItem="jO7-ua-tLP" firstAttribute="top" secondItem="bq4-di-d1a" secondAttribute="top" constant="26" id="pbY-vf-whI"/>
                             <constraint firstAttribute="trailing" secondItem="FQA-rK-Rbt" secondAttribute="trailing" constant="8" id="qi9-aX-T0e"/>
                             <constraint firstItem="6fD-K2-LnF" firstAttribute="top" secondItem="0Sn-6M-ouv" secondAttribute="bottom" constant="25" id="wt6-31-9dv"/>
                             <constraint firstItem="aa0-Zo-i07" firstAttribute="centerX" secondItem="bq4-di-d1a" secondAttribute="centerX" id="yzd-GF-kqe"/>
                         </constraints>
-                        <variation key="default">
-                            <mask key="constraints">
-                                <exclude reference="eBN-f4-heX"/>
-                                <exclude reference="QXg-kK-EhC"/>
-                                <exclude reference="gmM-i4-NMG"/>
-                                <exclude reference="h5j-Wb-ZSl"/>
-                                <exclude reference="np5-CE-7oI"/>
-                            </mask>
-                        </variation>
                     </view>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <blurEffect style="dark"/>
@@ -252,10 +273,11 @@
     </objects>
     <resources>
         <image name="ic_close" width="18" height="18"/>
-        <image name="iphone_bottom.png" width="224" height="5"/>
-        <image name="iphone_left.png" width="16" height="241"/>
-        <image name="iphone_right.png" width="16" height="241"/>
-        <image name="iphone_top.png" width="212" height="48"/>
+        <image name="img_permissions_alert" width="261" height="165"/>
+        <image name="iphone_bottom" width="224" height="5"/>
+        <image name="iphone_left" width="16" height="241"/>
+        <image name="iphone_right" width="16" height="241"/>
+        <image name="iphone_top" width="212" height="48"/>
         <image name="tour_1" width="184" height="280"/>
     </resources>
 </document>

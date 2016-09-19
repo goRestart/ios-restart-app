@@ -15,18 +15,9 @@ enum TourLoginNextStep {
 }
 
 final class TourLoginViewModel: BaseViewModel {
-    
-    func nextStep() -> TourLoginNextStep {
-        
-        let casnAskForPushPermissions = PushPermissionsManager.sharedInstance
-            .shouldShowPushPermissionsAlertFromViewController(.Onboarding)
-       
-        if casnAskForPushPermissions {
-            return .Notifications
-        } else if Core.locationManager.shouldAskForLocationPermissions() {
-            return .Location
-        } else {
-            return .None
-        }
+    weak var navigator: TourLoginNavigator?
+
+    func nextStep() {
+        navigator?.tourLoginFinish()
     }
 }

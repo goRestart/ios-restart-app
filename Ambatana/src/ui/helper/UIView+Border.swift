@@ -66,3 +66,17 @@ extension UIView {
         layer.shadowRadius = 8.0
     }
 }
+
+
+// MARK: - Rounded corners
+
+extension UIView {
+    func setRoundedCorners(roundingCorners: UIRectCorner, cornerRadius: CGFloat) {
+        let maskPath = UIBezierPath(roundedRect: bounds, byRoundingCorners: roundingCorners,
+                                    cornerRadii: CGSize(width: cornerRadius, height: cornerRadius))
+        let maskLayer = CAShapeLayer()
+        maskLayer.frame = bounds
+        maskLayer.path = maskPath.CGPath
+        layer.mask = maskLayer
+    }
+}

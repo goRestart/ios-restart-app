@@ -321,14 +321,15 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         }
         return false
     }
-    private var isShowingBottomDisclaimer: Bool {
-        guard let firstMessage = loadedMessages.first else { return false }
-        switch firstMessage.type {
-        case .Disclaimer:
-            return true
-        default:
-            return false
+    private var bottomDisclaimerIndex: Int? {
+        for (index, message) in loadedMessages.enumerate() {
+            switch message.type {
+            case .Disclaimer:
+                return index
+            default: break
+            }
         }
+        return nil
     }
     private var shouldShowOtherUserInfo: Bool {
         guard chat.isSaved else { return true }
@@ -597,9 +598,9 @@ public class OldChatViewModel: BaseViewModel, Paginable {
 
     private func setupMyUserRx() {
         myUserRepository.rx_myUser.asObservable().skip(1).bindNext { [weak self] myUser in
-            guard let myUser = myUser, isShowingDisclaimer = self?.isShowingBottomDisclaimer where isShowingDisclaimer else { return }
-            guard myUser.isSocialVerified else { return }
-            self?.loadedMessages.removeFirst()
+            guard let myUser = myUser where myUser.isSocialVerified else { return }
+            guard let disclaimerIndex = self?.bottomDisclaimerIndex else { return }
+            self?.loadedMessages.removeAtIndex(disclaimerIndex)
             self?.delegate?.vmDidRefreshChatMessages()
         }.addDisposableTo(disposeBag)
     }
@@ -627,9 +628,8 @@ public class OldChatViewModel: BaseViewModel, Paginable {
                     strongSelf.trackQuestion(askQuestion, type: type)
                 }
                 let viewMessage = adapter.adapt(sentMessage)
-                let index = (self?.isShowingBottomDisclaimer ?? false) ? 1 : 0
-                strongSelf.loadedMessages.insert(viewMessage, atIndex: index)
-                strongSelf.delegate?.vmDidSucceedSendingMessage(index)
+                strongSelf.loadedMessages.insert(viewMessage, atIndex: 0)
+                strongSelf.delegate?.vmDidSucceedSendingMessage(0)
 
                 strongSelf.trackMessageSent(isQuickAnswer, type: type)
                 strongSelf.afterSendMessageEvents()
@@ -930,14 +930,17 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     }
     
     private func markProductAsSold() {
+        delegate?.vmShowLoading(nil)
         productRepository.markProductAsSold(product) { [weak self] result in
-            guard let strongSelf = self else { return }
-            if let value = result.value {
-                strongSelf.product = value
-                strongSelf.delegate?.vmDidUpdateProduct(messageToShow: LGLocalizedString.productMarkAsSoldSuccessMessage)
-                strongSelf.delegate?.vmUpdateRelationInfoView(strongSelf.chatStatus)
-            } else {
-                strongSelf.delegate?.vmShowMessage(LGLocalizedString.productMarkAsSoldErrorGeneric, completion: nil)
+            self?.delegate?.vmHideLoading(nil) { [weak self] in
+                guard let strongSelf = self else { return }
+                if let value = result.value {
+                    strongSelf.product = value
+                    strongSelf.delegate?.vmDidUpdateProduct(messageToShow: LGLocalizedString.productMarkAsSoldSuccessMessage)
+                    strongSelf.delegate?.vmUpdateRelationInfoView(strongSelf.chatStatus)
+                } else {
+                    strongSelf.delegate?.vmShowMessage(LGLocalizedString.productMarkAsSoldErrorGeneric, completion: nil)
+                }
             }
         }
     }
@@ -1173,7 +1176,7 @@ extension OldChatViewModel: RelatedProductsViewDelegate {
         tracker.trackEvent(TrackerEvent.chatRelatedItemsComplete(index))
         let data = ProductDetailData.ProductList(product: product, cellModels: productListModels, requester: requester,
                                                  thumbnailImage: thumbnailImage, originFrame: originFrame,
-                                                 showRelated: false)
+                                                 showRelated: false, index: 0)
         tabNavigator?.openProduct(data, source: .Chat)
     }
 }
@@ -1204,7 +1207,7 @@ extension OldChatViewModel {
     private func retrieveRelatedProducts() {
         guard isBuyer else { return }
         guard let productId = product.objectId else { return }
-        productRepository.index(productId: productId, params: RetrieveProductsParams()) { [weak self] result in
+        productRepository.indexRelated(productId: productId, params: RetrieveProductsParams()) { [weak self] result in
             guard let strongSelf = self else { return }
             if let value = result.value {
                 strongSelf.relatedProducts = strongSelf.relatedWithoutMyProducts(value)

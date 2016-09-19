@@ -115,8 +115,7 @@ public class SignUpLogInViewModel: BaseViewModel {
 
     // MARK: - Lifecycle
     
-    init(sessionManager: SessionManager, locationManager: LocationManager, source: EventParameterLoginSourceValue,
-        action: LoginActionType) {
+    init(sessionManager: SessionManager, locationManager: LocationManager, source: EventParameterLoginSourceValue, action: LoginActionType) {
         self.sessionManager = sessionManager
         self.locationManager = locationManager
         self.loginSource = source
