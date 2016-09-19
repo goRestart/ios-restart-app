@@ -605,6 +605,9 @@
 "tour_help_button" = "Hulp";
 "tour_or_label" = "OF GEBRUIK JE E-MAIL";
 "tour_page_1_body" = "Koop en verkoop snel, veilig en lokaal.";
+"tour_terms_conditions" = "Door het aanmelden of inloggen, ga je akkoord met onze Algemene Voorwaarden en Privacy Beleid";
+"tour_terms_conditions_privacy_keyword" = "Privacy Beleid";
+"tour_terms_conditions_terms_keyword" = "Algemene Voorwaarden";
 "trending_searches_Title" = "Trending Zoekopdrachten";
 "unblock_user_error_generic" = "Er is een fout opgetreden tijdens het deblokkeren van deze gebruiker.";
 "user_rating_message_w_name" = "Krijgt jouw ervaring met %@ vijf sterren? Laat het ons weten hoe het ging.";

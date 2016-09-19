@@ -605,6 +605,9 @@
 "tour_help_button" = "Ayuda";
 "tour_or_label" = "O USA TU EMAIL";
 "tour_page_1_body" = "Compra y vende rápidamente y con seguridad, cerca de ti.";
+"tour_terms_conditions" = "Al registrarte o iniciar sesión, aceptas nuestros Términos y Condiciones y la Política de Privacidad";
+"tour_terms_conditions_privacy_keyword" = "Política de Privacidad";
+"tour_terms_conditions_terms_keyword" = "Términos y Condiciones";
 "trending_searches_Title" = "Tendencias de búsqueda";
 "unblock_user_error_generic" = "Se ha producido un error al desbloquear a este usuario.";
 "user_rating_message_w_name" = "¿Le darías cinco estrellas a tu experiencia con %@? Cuéntanos como ha ido.";

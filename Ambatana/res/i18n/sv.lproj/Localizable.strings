@@ -605,6 +605,9 @@
 "tour_help_button" = "Hjälp";
 "tour_or_label" = "ELLER ANVÄND DIN E-POST";
 "tour_page_1_body" = "Köp och sälj snabbt, säkert och lokalt.";
+"tour_terms_conditions" = "Genom att registrera dig eller logga in godkänner du våra Villkor och vår Integritetspolicy";
+"tour_terms_conditions_privacy_keyword" = "Integritetspolicy";
+"tour_terms_conditions_terms_keyword" = "Villkor";
 "trending_searches_Title" = "Sökningar som trendar";
 "unblock_user_error_generic" = "Ett fel uppstod när blockeringen av användaren skulle tas bort.";
 "user_rating_message_w_name" = "Får din upplevelse med %@ fem stjärnor? Berätta hur det gick.";

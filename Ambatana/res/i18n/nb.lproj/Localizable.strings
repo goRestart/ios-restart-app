@@ -605,6 +605,9 @@
 "tour_help_button" = "Hjelp";
 "tour_or_label" = "ELLER BRUK DIN E-POST";
 "tour_page_1_body" = "Kjøp og selg raskt, sikkert og lokalt.";
+"tour_terms_conditions" = "Ved å registrere deg eller logge deg inn, aksepterer du våre Vilkår & betingelser, samt våre Personvern";
+"tour_terms_conditions_privacy_keyword" = "Personvern";
+"tour_terms_conditions_terms_keyword" = "Vilkår & betingelser";
 "trending_searches_Title" = "Populære søk";
 "unblock_user_error_generic" = "En feil oppstod ved oppheving av blokkering for denne brukeren.";
 "user_rating_message_w_name" = "Får din opplevelse med %@ fem stjerner? Fortell oss hvordan det gikk.";

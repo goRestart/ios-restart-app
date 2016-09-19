@@ -605,6 +605,9 @@
 "tour_help_button" = "Segítség";
 "tour_or_label" = "VAGY E-MAIL";
 "tour_page_1_body" = "Vásárolj és adj el gyorsan, biztonságosan – a környékeden.";
+"tour_terms_conditions" = "A regisztrációval és a bejelentkezéssel is elfogadod Felhasználási feltételeinket és Adatkezelési irányelveinket";
+"tour_terms_conditions_privacy_keyword" = "Adatkezelési nyilatkozat";
+"tour_terms_conditions_terms_keyword" = "Felhasználási feltételeink";
 "trending_searches_Title" = "Felkapott kulcsszavak";
 "unblock_user_error_generic" = "Hiba történt a blokkolás feloldása során.";
 "user_rating_message_w_name" = "%@ öt csillagot érdemel? Meséld el, hogy ment!";

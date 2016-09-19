@@ -20,6 +20,8 @@ enum ButtonStyle {
     case Facebook
     case Dark(fontSize: ButtonFontSize)
     case Review
+    case DarkField
+    case LightField
     
     var titleColor: UIColor {
         switch self {
@@ -27,6 +29,10 @@ enum ButtonStyle {
             return UIColor.whiteColor()
         case .Secondary:
             return UIColor.primaryColor
+        case .DarkField:
+            return UIColor.white
+        case .LightField:
+            return UIColor.black
         }
     }
     
@@ -46,6 +52,10 @@ enum ButtonStyle {
             return UIColor.blackColor().colorWithAlphaComponent(0.3)
         case .Review:
             return UIColor.reviewColor
+        case .DarkField:
+            return UIColor.white.colorWithAlphaComponent(0.3)
+        case .LightField:
+            return UIColor.grayLighter
         }
     }
     
@@ -65,6 +75,8 @@ enum ButtonStyle {
             return UIColor.blackColor().colorWithAlphaComponent(0.5)
         case .Review:
             return UIColor.reviewColorHighlighted
+        case .DarkField, .LightField:
+            return backgroundColor.colorWithAlphaComponent(0.3)
         }
     }
     
@@ -84,6 +96,8 @@ enum ButtonStyle {
             return UIColor.blackColor().colorWithAlphaComponent(0.3)
         case .Review:
             return UIColor.reviewColorDisabled
+        case .DarkField, .LightField:
+            return backgroundColor.colorWithAlphaComponent(0.3)
         }
     }
     
@@ -109,7 +123,7 @@ enum ButtonStyle {
             fontSize = size
         case .Terciary:
             fontSize = .Big
-        case .Google, .Facebook:
+        case .Google, .Facebook, .DarkField, .LightField:
             fontSize = .Medium
         case .Review:
             fontSize = .Small
@@ -119,7 +133,7 @@ enum ButtonStyle {
     
     var withBorder: Bool {
         switch self {
-        case .Primary, .Terciary, .Google, .Facebook, .Dark, .Review:
+        case .Primary, .Terciary, .Google, .Facebook, .Dark, .Review, .DarkField, .LightField:
             return false
         case let .Secondary(_, withBorder):
             return withBorder
@@ -132,6 +146,15 @@ enum ButtonStyle {
             return 15
         case .Medium, .Small:
             return 10
+        }
+    }
+
+    var applyCornerRadius: Bool {
+        switch self {
+        case .Primary, .Secondary, .Terciary, .Google, .Facebook, .Dark, .Review:
+            return true
+        case .DarkField, .LightField:
+            return false
         }
     }
 }
@@ -164,10 +187,12 @@ extension UIButton {
         }
         
         clipsToBounds = true
-        layer.cornerRadius = bounds.height/2
+        if style.applyCornerRadius {
+            layer.cornerRadius = bounds.height/2
+        }
         layer.borderWidth = style.withBorder ? 1 : 0
         layer.borderColor = style.titleColor.CGColor
-        
+
         setBackgroundImage(style.backgroundColor.imageWithSize(CGSize(width: 1, height: 1)), forState: .Normal)
         setBackgroundImage(style.backgroundColorHighlighted.imageWithSize(CGSize(width: 1, height: 1)),
                            forState: .Highlighted)

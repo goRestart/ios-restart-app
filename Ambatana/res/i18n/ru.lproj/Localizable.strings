@@ -605,6 +605,9 @@
 "tour_help_button" = "Помощь";
 "tour_or_label" = "ИЛИ ЧЕРЕЗ E-MAIL";
 "tour_page_1_body" = "Покупайте и продавайте быстро, безопасно и удобно.";
+"tour_terms_conditions" = "Регистрируясь или входя в аккаунт, вы принимаете наши Правила Пользования и Политику Конфиденциальности";
+"tour_terms_conditions_privacy_keyword" = "Политика Конфиденциальности";
+"tour_terms_conditions_terms_keyword" = "Правила Пользования";
 "trending_searches_Title" = "Популярные запросы";
 "unblock_user_error_generic" = "При разблокировке произошла ошибка.";
 "user_rating_message_w_name" = "Ваша сделка с %@ прошла на 5 звезд? Расскажите нам о ней.";

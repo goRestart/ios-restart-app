@@ -17,7 +17,9 @@ final class PushPrePermissionsSettingsViewController: BaseViewController {
     @IBOutlet weak var secondSectionLabel: UILabel!
     @IBOutlet weak var allowNotificationsLabel: UILabel!
     @IBOutlet weak var yesButton: UIButton!
-    
+
+    var completion: (() -> ())?
+
     let viewModel: PushPrePermissionsSettingsViewModel
     
     // MARK: - Lifecycle
@@ -28,10 +30,10 @@ final class PushPrePermissionsSettingsViewController: BaseViewController {
         switch DeviceFamily.current {
         case .iPhone4, .iPhone5:
             super.init(viewModel: viewModel, nibName: "PushPrePermissionsSettingsViewControllerMini",
-                       statusBarStyle: UIApplication.sharedApplication().statusBarStyle)
+                       statusBarStyle: .LightContent)
         case .iPhone6, .iPhone6Plus, .unknown:
             super.init(viewModel: viewModel, nibName: "PushPrePermissionsSettingsViewController",
-                       statusBarStyle: UIApplication.sharedApplication().statusBarStyle)
+                       statusBarStyle: .LightContent)
         }
         
         modalPresentationStyle = .OverCurrentContext
@@ -47,12 +49,6 @@ final class PushPrePermissionsSettingsViewController: BaseViewController {
         viewModel.viewDidLoad()
         setupUI()
         setupStrings()
-        setStatusBarHidden(true)
-    }
-    
-    override func viewWillDisappear(animated: Bool) {
-        super.viewWillDisappear(animated)
-        setStatusBarHidden(false)
     }
     
     // MARK: - UI
@@ -120,6 +116,6 @@ final class PushPrePermissionsSettingsViewController: BaseViewController {
     }
     
     func close() {
-        dismissViewControllerAnimated(true, completion: nil)
+        dismissViewControllerAnimated(true, completion: completion)
     }
 }

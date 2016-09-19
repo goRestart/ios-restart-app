@@ -27,7 +27,7 @@ extension UIViewController {
             if Core.sessionManager.loggedIn {
                 loggedInAction()
             } else {
-                let viewModel = SignUpViewModel(source: source)
+                let viewModel = SignUpViewModel(appearance: .Light, source: source)
                 switch loginStyle {
                 case .FullScreen:
                     let vc = MainSignUpViewController(viewModel: viewModel)

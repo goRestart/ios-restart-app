@@ -408,10 +408,10 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate {
         
         guard let product = viewModel.productAtIndex(index) else { return }
         let cellModels = viewModel.objects
-        let showRelated = FeatureFlags.showRelatedProducts && searchType == nil
+        let showRelated = searchType == nil
         let data = ProductDetailData.ProductList(product: product, cellModels: cellModels,
                                                  requester: productListRequester, thumbnailImage: thumbnailImage,
-                                                 originFrame: originFrame, showRelated: showRelated)
+                                                 originFrame: originFrame, showRelated: showRelated, index: index)
         tabNavigator?.openProduct(data, source: productVisitSource)
     }
     

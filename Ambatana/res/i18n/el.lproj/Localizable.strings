@@ -605,6 +605,9 @@
 "tour_help_button" = "Βοήθεια";
 "tour_or_label" = "Ή ΧΡΗΣΙΜΟΠΟΙΗΣΤΕ ΤΟ EMAIL ΣΑΣ";
 "tour_page_1_body" = "Κάντε αγοραπωλησίες στην περιοχή σας γρήγορα και ευκολα.";
+"tour_terms_conditions" = "Κάνοντας εγγραφή ή σύνδεση, συμφωνείτε με τους Όροι & Προϋποθέσεις και με την Πολιτική Απορρήτου";
+"tour_terms_conditions_privacy_keyword" = "Πολιτική Απορρήτου";
+"tour_terms_conditions_terms_keyword" = "Όροι & Προϋποθέσεις";
 "trending_searches_Title" = "Δημοφιλείς Αναζητήσεις";
 "unblock_user_error_generic" = "Παρουσιάστηκε σφάλμα κατά το ξεμπλοκάρισμα του χρήστη.";
 "user_rating_message_w_name" = "Αξίζει η εμπειρία σας με τον/ την %@ πέντε αστεράκια; Πείτε μας πώς πήγε.";

@@ -21,9 +21,14 @@ enum CarouselMovement {
 
 class ProductCarouselViewModel: BaseViewModel {
 
+    private static var bouncesBeforeClose = 1 // how many times the carousel should bounce before closing itself
+
+    private var bouncesLeft = ProductCarouselViewModel.bouncesBeforeClose
+    private var previousMovement: CarouselMovement = .Initial
+
     // Paginable
     private var prefetchingIndexes: [Int] = []
-    var nextPage: Int = 0
+    var nextPage: Int = 1
     var isLastPage: Bool = false
     var isLoading: Bool = false
 
@@ -158,11 +163,21 @@ class ProductCarouselViewModel: BaseViewModel {
 
     // MARK: - Public Methods
 
-    func close() {
-        navigator?.closeProductDetail()
+    func close(fromCollection: Bool) {
+        guard fromCollection else {
+            // from back button
+            navigator?.closeProductDetail()
+            return
+        }
+        if bouncesLeft <= 0 {
+            navigator?.closeProductDetail()
+        } else {
+            bouncesLeft -= 1
+        }
     }
 
     func moveToProductAtIndex(index: Int, delegate: ProductViewModelDelegate, movement: CarouselMovement) {
+        bouncesLeft = ProductCarouselViewModel.bouncesBeforeClose // reset num of bounces
         guard let viewModel = viewModelAtIndex(index) else { return }
         currentProductViewModel?.active = false
         currentProductViewModel = viewModel
@@ -236,16 +251,16 @@ extension ProductCarouselViewModel: Paginable {
         
         let completion: ProductsCompletion = { [weak self] result in
             guard let strongSelf = self else { return }
+            self?.isLoading = false
             if let newProducts = result.value {
-                if isFirstPage {
-                    strongSelf.objects.removeAll()
-                }
+                strongSelf.nextPage = strongSelf.nextPage + 1
                 strongSelf.objects.appendContentsOf(newProducts.map(ProductCarouselCellModel.init))
                 
                 strongSelf.isLastPage = strongSelf.productListRequester?.isLastPage(newProducts.count) ?? true
-                self?.isLastPage = newProducts.count == 0
+                if newProducts.isEmpty && !strongSelf.isLastPage {
+                    strongSelf.retrieveNextPage()
+                }
             }
-            self?.isLoading = false
         }
         
         if isFirstPage {

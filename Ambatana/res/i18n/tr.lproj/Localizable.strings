@@ -605,6 +605,9 @@
 "tour_help_button" = "Yardım";
 "tour_or_label" = "veya e-postanı kullan";
 "tour_page_1_body" = "Bulunduğun çevrede hızlı ve güvenli bir şekilde al ve sat.";
+"tour_terms_conditions" = "Kaydolarak veya giriş yaparak Şartlar ve Koşullar & Gizlilik Politikasını kabul etmiş olursun.";
+"tour_terms_conditions_privacy_keyword" = "Gizlilik Politikası";
+"tour_terms_conditions_terms_keyword" = "Şartlar ve Koşullar";
 "trending_searches_Title" = "Popüler Aramalar";
 "unblock_user_error_generic" = "Kullanıcı engeli kaldırılırken bir hata oluştu.";
 "user_rating_message_w_name" = "%@ ile deneyimin nasıldı? 5 yıldız vermek ister misin?";
