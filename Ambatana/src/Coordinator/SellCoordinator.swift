@@ -106,27 +106,9 @@ extension SellCoordinator: PostProductNavigator {
                     switch error {
                     case .Network:
                         sellError = .Network
-                    case .NotFound(let code):
+                    case let .ServerError(code):
                         sellError = .ServerError(code: code)
-                    case .Forbidden(let code):
-                        sellError = .ServerError(code: code)
-                    case .Unauthorized(let code):
-                        sellError = .ServerError(code: code)
-                    case .TooManyRequests(let code):
-                        sellError = .ServerError(code: code)
-                    case .UserNotVerified(let code):
-                        sellError = .ServerError(code: code)
-                    case .Conflict(let code, _):
-                        sellError = .ServerError(code: code)
-                    case .UnprocessableEntity(let code):
-                        sellError = .ServerError(code: code)
-                    case .InternalServerError(let code):
-                        sellError = .ServerError(code: code)
-                    case .NotModified(let code):
-                        sellError = .ServerError(code: code)
-                    case .Other(let code):
-                        sellError = .ServerError(code: code)
-                    case .Internal:
+                    case .NotFound, .Forbidden, .Unauthorized, .TooManyRequests, .UserNotVerified, .Internal:
                         sellError = .Internal
                     }
                     let sellErrorDataEvent = TrackerEvent.productSellErrorData(sellError)

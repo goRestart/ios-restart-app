@@ -26,8 +26,7 @@ enum ChangeUsernameError: ErrorType {
             self = .NotFound
         case .Unauthorized:
             self = .Unauthorized
-        case .Internal, .Forbidden, .TooManyRequests, .UserNotVerified, .Conflict,
-             .UnprocessableEntity, .InternalServerError, .NotModified, .Other:
+        case .Internal, .Forbidden, .TooManyRequests, .UserNotVerified, .ServerError:
             self = .Internal
         }
     }
