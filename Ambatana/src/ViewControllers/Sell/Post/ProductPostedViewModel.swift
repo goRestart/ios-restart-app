@@ -253,9 +253,9 @@ class ProductPostedViewModel: BaseViewModel {
                 switch error {
                 case .Network:
                     sellError = .Network
-                case let .ServerError(code):
-                    sellError = .ServerError(code: code)
-                case .NotFound, .Forbidden, .Unauthorized, .TooManyRequests, .UserNotVerified, .Internal:
+                case .ServerError, .NotFound, .Forbidden, .Unauthorized, .TooManyRequests, .UserNotVerified:
+                    sellError = .ServerError(code: error.errorCode)
+                case .Internal:
                     sellError = .Internal
                 }
                 let sellErrorDataEvent = TrackerEvent.productSellErrorData(sellError)

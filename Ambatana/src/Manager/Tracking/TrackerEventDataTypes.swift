@@ -398,7 +398,7 @@ public enum EventParameterLoginError {
 public enum EventParameterPostProductError {
     case Network
     case Internal
-    case ServerError(code: Int)
+    case ServerError(code: Int?)
 
     var description: String {
         switch self {

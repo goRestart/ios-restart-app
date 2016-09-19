@@ -20,7 +20,7 @@ enum ProductCreateValidationError: ErrorType {
     case NoDescription
     case LongDescription
     case NoCategory
-    case ServerError(code: Int)
+    case ServerError(code: Int?)
     
     init(repoError: RepositoryError) {
         switch repoError {
@@ -28,10 +28,8 @@ enum ProductCreateValidationError: ErrorType {
             self = .Internal
         case .Network:
             self = .Network
-        case let .ServerError(code):
-            self = ServerError(code: code)
-        case .NotFound, .Forbidden, .Unauthorized, .TooManyRequests, .UserNotVerified:
-            self = .Internal
+        case .ServerError, .NotFound, .Forbidden, .Unauthorized, .TooManyRequests, .UserNotVerified:
+            self = ServerError(code: repoError.errorCode)
         }
     }
 
