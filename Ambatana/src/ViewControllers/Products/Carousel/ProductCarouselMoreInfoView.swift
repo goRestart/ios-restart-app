@@ -97,6 +97,7 @@ class ProductCarouselMoreInfoView: UIView {
     func dismissed() {
         scrollView.contentOffset = CGPoint.zero
         descriptionLabel.collapsed = true
+        hideBigMapAnimated(false)
     }
 }
 
@@ -174,6 +175,10 @@ extension ProductCarouselMoreInfoView: MKMapViewDelegate {
     }
     
     func hideBigMap() {
+        hideBigMapAnimated(true)
+    }
+
+    func hideBigMapAnimated(animated: Bool) {
         guard bigMapVisible else { return }
         bigMapVisible = false
         if let locationZone = locationZone {
@@ -183,12 +188,20 @@ extension ProductCarouselMoreInfoView: MKMapViewDelegate {
         let newRegion = MKCoordinateRegion(center: overlayMap.region.center, span: span)
         mapView.region = newRegion
         let newFrame = convertRect(mapView.frame, fromView: scrollViewContent)
-        UIView.animateWithDuration(0.3, animations: { [weak self] in
+
+        let animations: () -> () = { [weak self] in
             self?.overlayMap.frame = newFrame
-            }) { [weak self] completed in
-                self?.overlayMap.alpha = 0
-                self?.configureMapView()
-                self?.mapZoomBlocker?.stop()
+        }
+        let completion: (Bool) -> () = { [weak self] completed in
+            self?.overlayMap.alpha = 0
+            self?.configureMapView()
+            self?.mapZoomBlocker?.stop()
+        }
+        if animated {
+            UIView.animateWithDuration(0.3, animations: animations, completion: completion)
+        } else {
+            animations()
+            completion(true)
         }
     }
 
