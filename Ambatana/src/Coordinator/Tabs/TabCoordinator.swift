@@ -128,8 +128,7 @@ private extension TabCoordinator {
         guard let productId = product.objectId else { return }
 
         var requestersArray: [ProductListRequester] = []
-        let relatedRequester: ProductListRequester = discover ? DiscoverProductListRequester(productId: productId) :
-                                                                RelatedProductListRequester(productId: productId)
+        let relatedRequester: ProductListRequester = discover ? DiscoverProductListRequester(productId: productId) : RelatedProductListRequester(productId: productId)
         requestersArray.append(relatedRequester)
 
         if FeatureFlags.nonStopProductDetail {

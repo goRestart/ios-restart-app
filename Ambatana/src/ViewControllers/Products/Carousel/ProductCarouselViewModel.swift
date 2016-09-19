@@ -260,6 +260,8 @@ extension ProductCarouselViewModel: Paginable {
                 if newProducts.isEmpty && !strongSelf.isLastPage {
                     strongSelf.retrieveNextPage()
                 }
+            } else {
+                strongSelf.retrieveNextPage()
             }
         }
         
