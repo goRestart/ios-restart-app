@@ -80,7 +80,8 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     private let stickersButtonVisibleWidth: CGFloat = 50
     private var moreInfoTooltip: Tooltip?
 
-    private var collectionContentOffset = Variable<CGPoint>(CGPoint.zero)
+    private let collectionContentOffset = Variable<CGPoint>(CGPoint.zero)
+    private let cellZooming = Variable<Bool>(false)
 
     private var activeDisposeBag = DisposeBag()
     private var productInfoConstraintOffset: CGFloat = 0
@@ -134,6 +135,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         setupNavigationBar()
         setupGradientView()
         setupCollectionRx()
+        setupZoomRx()
         setAccessibilityIds()
     }
 
@@ -274,6 +276,23 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     private func setupCollectionRx() {
         viewModel.objectChanges.bindNext { [weak self] change in
             self?.collectionView.handleCollectionChange(change)
+        }.addDisposableTo(disposeBag)
+    }
+
+    private func setupZoomRx() {
+        cellZooming.asObservable().distinctUntilChanged().bindNext { [weak self] zooming in
+            UIApplication.sharedApplication().setStatusBarHidden(zooming, withAnimation: .Fade)
+            UIView.animateWithDuration(0.3) {
+                self?.navigationController?.navigationBar.alpha = zooming ? 0 : 1
+                self?.buttonBottom.alpha = zooming ? 0 : 1
+                self?.buttonTop.alpha = zooming ? 0 : 1
+                self?.userView.alpha = zooming ? 0 : 1
+                self?.pageControl.alpha = zooming ? 0 : 1
+                self?.moreInfoTooltip?.alpha = zooming ? 0 : 1
+                self?.moreInfoView?.dragView.alpha = zooming ? 0 : 1
+                self?.favoriteButton.alpha = zooming ? 0 : 1
+                self?.stickersButton.alpha = zooming ? 0 : 1
+            }
         }.addDisposableTo(disposeBag)
     }
     
@@ -654,23 +673,11 @@ extension ProductCarouselViewController: ProductCarouselCellDelegate {
             close(true)
         }
     }
-    
-    func didChangeZoomLevel(level: CGFloat) {
-        let shouldHide = level > 1
-        UIView.animateWithDuration(0.3) { [weak self] in
-            self?.navigationController?.navigationBar.alpha = shouldHide ? 0 : 1
-            self?.buttonBottom.alpha = shouldHide ? 0 : 1
-            self?.buttonTop.alpha = shouldHide ? 0 : 1
-            self?.userView.alpha = shouldHide ? 0 : 1
-            self?.pageControl.alpha = shouldHide ? 0 : 1
-            self?.moreInfoTooltip?.alpha = shouldHide ? 0 : 1
-            self?.moreInfoView?.dragView.alpha = shouldHide ? 0 : 1
-            self?.favoriteButton.alpha = shouldHide ? 0 : 1
-            self?.stickersButton.alpha = shouldHide ? 0 : 1
-            UIApplication.sharedApplication().setStatusBarHidden(shouldHide, withAnimation: .Fade)
-        }
+
+    func isZooming(zooming: Bool) {
+        cellZooming.value = zooming
     }
-    
+
     func didScrollToPage(page: Int) {
         pageControl.currentPage = page
     }

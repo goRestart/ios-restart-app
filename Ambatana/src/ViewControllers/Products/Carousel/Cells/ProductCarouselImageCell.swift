@@ -15,7 +15,7 @@ class ProductCarouselImageCell: UICollectionViewCell, UIScrollViewDelegate {
     var imageView: UIImageView
     var backgroundImage: UIImageView
     var effectsView: UIVisualEffectView
-    var zoomLevel = PublishSubject<CGFloat>()
+    var zooming = PublishSubject<Bool>()
     var referenceZoomLevel: CGFloat = 1.0
     
     override init(frame: CGRect) {
@@ -39,7 +39,11 @@ class ProductCarouselImageCell: UICollectionViewCell, UIScrollViewDelegate {
         let screenAspectRatio = UIScreen.mainScreen().bounds.width / UIScreen.mainScreen().bounds.height
         let zoomLevel = screenAspectRatio / aspectRatio
         scrollView.minimumZoomScale = min(1, zoomLevel)
+
         if aspectRatio >= LGUIKitConstants.horizontalImageMinAspectRatio {
+            imageView.bounds = CGRect(x: 0, y: 0, width: bounds.width/zoomLevel, height: bounds.height)
+            scrollView.contentSize = imageView.bounds.size
+            imageView.center = scrollView.center
             referenceZoomLevel = zoomLevel
             scrollView.setZoomScale(zoomLevel, animated: false)
         } else {
@@ -48,8 +52,10 @@ class ProductCarouselImageCell: UICollectionViewCell, UIScrollViewDelegate {
         }
         imageView.image = img
         backgroundImage.image = img
+
+        zooming.onNext(false)
     }
-    
+
     func setupUI() {
         addSubview(backgroundImage)
         backgroundImage.contentMode = .ScaleAspectFill
@@ -80,10 +86,10 @@ class ProductCarouselImageCell: UICollectionViewCell, UIScrollViewDelegate {
     func viewForZoomingInScrollView(scrollView: UIScrollView) -> UIView? {
         return imageView
     }
-    
+
     override func prepareForReuse() {
-        zoomLevel.onCompleted()
-        zoomLevel = PublishSubject<CGFloat>()
+        zooming.onCompleted()
+        zooming = PublishSubject<Bool>()
     }
     
     func scrollViewDidZoom(scrollView: UIScrollView) {
@@ -92,9 +98,8 @@ class ProductCarouselImageCell: UICollectionViewCell, UIScrollViewDelegate {
         
         imageView.center = CGPointMake(scrollView.contentSize.width * 0.5 + offsetX,
                                        scrollView.contentSize.height * 0.5 + offsetY)
-        
-        let level = round((scrollView.zoomScale/referenceZoomLevel) * 10) / 10
-        zoomLevel.onNext(level)
+
+        zooming.onNext(scrollView.zoomScale > referenceZoomLevel)
     }
 }
 

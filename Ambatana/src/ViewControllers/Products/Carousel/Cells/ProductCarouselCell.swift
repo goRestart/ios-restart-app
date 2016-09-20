@@ -11,7 +11,7 @@ import RxSwift
 
 protocol ProductCarouselCellDelegate: class {
     func didTapOnCarouselCell(cell: UICollectionViewCell)
-    func didChangeZoomLevel(level: CGFloat)
+    func isZooming(zooming: Bool)
     func didScrollToPage(page: Int)
     func didPullFromCellWith(offset: CGFloat, bottomLimit: CGFloat)
     func canScrollToNextPage() -> Bool
@@ -131,8 +131,8 @@ extension ProductCarouselCell: UICollectionViewDelegate, UICollectionViewDataSou
             }
             
             imageCell.backgroundColor = UIColor.placeholderBackgroundColor(product?.objectId)
-            imageCell.zoomLevel.subscribeNext { [weak self] level in
-                self?.delegate?.didChangeZoomLevel(level)
+            imageCell.zooming.distinctUntilChanged().subscribeNext { [weak self] zooming in
+                self?.delegate?.isZooming(zooming)
             }.addDisposableTo(disposeBag)
 
             return imageCell
