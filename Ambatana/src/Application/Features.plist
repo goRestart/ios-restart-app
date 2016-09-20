@@ -30,13 +30,6 @@
 		<key>enabled</key>
 		<false/>
 	</dict>
-	<key>big_favorite_icon</key>
-	<dict>
-		<key>description</key>
-		<string>Bigger favorite icon in product detail</string>
-		<key>enabled</key>
-		<false/>
-	</dict>
 	<key>direct_stickers_on_product</key>
 	<dict>
 		<key>description</key>

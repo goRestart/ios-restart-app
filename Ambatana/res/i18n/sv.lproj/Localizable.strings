@@ -452,6 +452,7 @@
 "product_share_email_error" = "Hoppsan! Det verkar som att du inte har något konto i dina mailinstllningar.";
 "product_share_generic_error" = "Ett fel uppstod när produkten delades. Var vänlig försök igen senare.";
 "product_share_generic_ok" = "Produkten har delats!";
+"product_share_navbar_button" = "Share";
 "product_share_posted_by" = "upplagd av %@";
 "product_share_sms_error" = "Ett fel uppstod då ditt meddelande skulle skickas.";
 "product_share_sms_ok" = "Skickar...";

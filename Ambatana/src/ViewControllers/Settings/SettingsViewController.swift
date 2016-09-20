@@ -44,6 +44,14 @@ class SettingsViewController: BaseViewController {
         setupRx()
     }
 
+    deinit {
+        /* @ahl: This is because of a crash in iOS8; logout+login, check: https://ambatana.atlassian.net/browse/ABIOS-1639
+           Explanation here:
+           http://stackoverflow.com/questions/5499913/pop-to-root-view-controller-without-animation-crash-for-the-table-view */
+        tableView.delegate = nil
+        tableView.dataSource = nil
+    }
+
 
     // MARK: - Private
 
