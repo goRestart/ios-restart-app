@@ -266,6 +266,8 @@ public enum EventParameterButtonNameType: String {
     case Close = "close"
     case Skip = "skip"
     case Done = "done"
+    case SellYourStuff = "sell-your-stuff"
+    case StartMakingCash = "start-making-cash"
 }
 
 public enum EventParameterButtonPosition: String {

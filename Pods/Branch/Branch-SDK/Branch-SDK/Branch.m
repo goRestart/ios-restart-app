@@ -33,6 +33,7 @@
 #import "BranchInstallRequest.h"
 #import "BranchSpotlightUrlRequest.h"
 #import "BranchRegisterViewRequest.h"
+#import "BranchContentDiscoverer.h"
 
 //Fabric
 #import "../Fabric/FABKitProtocol.h"
@@ -243,6 +244,34 @@ NSString * const BNCShareCompletedEvent = @"Share Completed";
     [self.preferenceHelper setRequestMetadataKey:key value:value];
 }
 
+- (void)enableDelayedInit {
+    self.preferenceHelper.shouldWaitForInit = YES;
+    
+    self.useCookieBasedMatching = NO; // Developers delaying init should implement their own SFSafariViewController
+}
+
+- (void)disableDelayedInit {
+    self.preferenceHelper.shouldWaitForInit = NO;
+}
+
+- (NSURL *)getUrlForOnboardingWithRedirectUrl:(NSString *)redirectUrl {
+    return [BNCStrongMatchHelper getUrlForCookieBasedMatchingWithBranchKey:self.branchKey redirectUrl:redirectUrl];
+}
+
+- (void)resumeInit {
+    self.preferenceHelper.shouldWaitForInit = NO;
+    if (self.isInitialized) {
+        NSLog(@"[Branch Error] User session has already been initialized, so resumeInit is aborting.");
+    }
+    else if (![self.requestQueue containsInstallOrOpen]) {
+        NSLog(@"[Branch Error] No install or open request, so resumeInit is aborting.");
+    }
+    else {
+        [self processNextQueueItem];
+    }
+}
+
+
 #pragma mark - InitSession Permutation methods
 
 - (void)initSessionWithLaunchOptions:(NSDictionary *)options {
@@ -381,8 +410,8 @@ NSString * const BNCShareCompletedEvent = @"Share Completed";
     //check to see if a browser activity needs to be handled
     if ([userActivity.activityType isEqualToString:NSUserActivityTypeBrowsingWeb]) {
         self.preferenceHelper.universalLinkUrl = [userActivity.webpageURL absoluteString];
-        [self initUserSessionAndCallCallback:YES];
         self.preferenceHelper.shouldWaitForInit = NO;
+        [self initUserSessionAndCallCallback:YES];
         
         id branchUniversalLinkDomains = [self.preferenceHelper getBranchUniversalLinkDomains];
         if ([branchUniversalLinkDomains isKindOfClass:[NSString class]] && [[userActivity.webpageURL absoluteString] containsString:branchUniversalLinkDomains]) {
@@ -419,8 +448,8 @@ NSString * const BNCShareCompletedEvent = @"Share Completed";
         }
     }
     
-    [self initUserSessionAndCallCallback:YES];
     self.preferenceHelper.shouldWaitForInit = NO;
+    [self initUserSessionAndCallCallback:YES];
     
     return spotlightIdentifier != nil;
 }
@@ -1066,6 +1095,7 @@ NSString * const BNCShareCompletedEvent = @"Share Completed";
 #pragma mark - Application State Change methods
 
 - (void)applicationDidBecomeActive {
+    [self clearTimer];
     if (!self.isInitialized && !self.preferenceHelper.shouldWaitForInit && ![self.requestQueue containsInstallOrOpen]) {
         [self initUserSessionAndCallCallback:YES];
     }
@@ -1084,6 +1114,11 @@ NSString * const BNCShareCompletedEvent = @"Share Completed";
 - (void)callClose {
     if (self.isInitialized) {
         self.isInitialized = NO;
+        
+        BranchContentDiscoverer *contentDiscoverer = [BranchContentDiscoverer getInstance];
+        if (contentDiscoverer) {
+            [contentDiscoverer stopContentDiscoveryTask];
+        }
         
         if (self.preferenceHelper.sessionID && ![self.requestQueue containsClose]) {
             BranchCloseRequest *req = [[BranchCloseRequest alloc] init];
@@ -1109,7 +1144,7 @@ NSString * const BNCShareCompletedEvent = @"Share Completed";
 - (void)processNextQueueItem {
     dispatch_semaphore_wait(self.processing_sema, DISPATCH_TIME_FOREVER);
     
-    if (self.networkCount == 0 && self.requestQueue.size > 0) {
+    if (self.networkCount == 0 && self.requestQueue.size > 0 && !self.preferenceHelper.shouldWaitForInit) {
         self.networkCount = 1;
         dispatch_semaphore_signal(self.processing_sema);
         
@@ -1130,7 +1165,10 @@ NSString * const BNCShareCompletedEvent = @"Share Completed";
                     // First, gather all the requests to fail
                     NSMutableArray *requestsToFail = [[NSMutableArray alloc] init];
                     for (int i = 0; i < self.requestQueue.size; i++) {
-                        [requestsToFail addObject:[self.requestQueue peekAt:i]];
+                        BNCServerRequest *request = [self.requestQueue peekAt:i];
+                        if (request) {
+                            [requestsToFail addObject:request];
+                        }                        
                     }
                     
                     // Next, remove all the requests that should not be replayed. Note, we do this before calling callbacks, in case any
@@ -1326,7 +1364,7 @@ NSString * const BNCShareCompletedEvent = @"Share Completed";
 }
 
 + (NSString *)kitDisplayVersion {
-	return @"0.12.7";
+	return @"0.12.10";
 }
 
 @end

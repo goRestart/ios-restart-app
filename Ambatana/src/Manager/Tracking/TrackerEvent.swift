@@ -335,9 +335,10 @@ public struct TrackerEvent {
         return TrackerEvent(name: .ProductReport, params: params)
     }
 
-    static func productSellStart(typePage: EventParameterTypePage) -> TrackerEvent {
+    static func productSellStart(typePage: EventParameterTypePage, buttonName: EventParameterButtonNameType?) -> TrackerEvent {
         var params = EventParameters()
         params[.TypePage] = typePage.rawValue
+        params[.ButtonName] = buttonName?.rawValue
         return TrackerEvent(name: .ProductSellStart, params: params)
     }
 

@@ -11,11 +11,11 @@ PODS:
   - Bolts/AppLinks (1.8.4):
     - Bolts/Tasks
   - Bolts/Tasks (1.8.4)
-  - Branch (0.12.7):
-    - Branch/Core (= 0.12.7)
-    - Branch/without-IDFA (= 0.12.7)
-  - Branch/Core (0.12.7)
-  - Branch/without-IDFA (0.12.7)
+  - Branch (0.12.10):
+    - Branch/Core (= 0.12.10)
+    - Branch/without-IDFA (= 0.12.10)
+  - Branch/Core (0.12.10)
+  - Branch/without-IDFA (0.12.10)
   - CHTCollectionViewWaterfallLayout (0.9.5):
     - CHTCollectionViewWaterfallLayout/ObjC (= 0.9.5)
   - CHTCollectionViewWaterfallLayout/ObjC (0.9.5)
@@ -48,7 +48,7 @@ PODS:
   - Firebase/AppIndexing (3.4.0):
     - Firebase/Analytics
     - FirebaseAppIndexing (= 1.0.4)
-  - FirebaseAnalytics (3.3.1):
+  - FirebaseAnalytics (3.4.2):
     - FirebaseInstanceID (~> 1.0)
     - GoogleInterchangeUtilities (~> 1.2)
     - GoogleSymbolUtilities (~> 1.1)
@@ -212,7 +212,7 @@ SPEC CHECKSUMS:
   AppsFlyerFramework: f23ebf0fc8f99b2d239fa8d6f36c286ad91f7735
   Argo: dd46f5df9faf4bbc5f21ee1e470315cd921d2cfc
   Bolts: 8a7995239dbe724f9cba2248b766d48b7ebdd322
-  Branch: bfc655822a18034e4f1a9f41f5573af5b1be66b0
+  Branch: 371ebad8c506e7a808db8d7840108d3de3007c1e
   CHTCollectionViewWaterfallLayout: 775ff73f48cfc13859b62d8bceb96e772e4a0318
   CocoaLumberjack: 97fab7ee5f507fe54445cca7ea80f926729cfd15
   CollectionVariable: 2c0b7ded33c06baf7e5f75bc852e3b5112132b3d
@@ -226,7 +226,7 @@ SPEC CHECKSUMS:
   FBSDKLoginKit: da563567a108050ef83739c8c8c001ee9e25fa13
   FBSDKShareKit: e8e5d4ccef69b41132fe33acda26db1e33143e33
   Firebase: 754562547af419cc2f4b15247fee419081924bc2
-  FirebaseAnalytics: d968d4d5f6aeb795cd64144337bcd233e530efc6
+  FirebaseAnalytics: 3f5358d9104adf159cc8d99b7b501e50099a39ad
   FirebaseAppIndexing: 5eb2d921b6750c8521ff5bdd069ec6d4bf24db9a
   FirebaseInstanceID: ba1e640935235e5fac39dfa816fe7660e72e1a8a
   FLEX: ba80ea13d2c784e85e616137fd4eff164781e364

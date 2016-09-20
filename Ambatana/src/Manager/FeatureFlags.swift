@@ -26,6 +26,13 @@ enum OnboardingPermissionsMode: Int {
     case OneButtonNewImages = 2
 }
 
+enum IncentivizePostingMode: Int {
+    case Original = 0
+    case VariantA = 1
+    case VariantB = 2
+    case VariantC = 3
+}
+
 struct FeatureFlags {
     static var websocketChat: Bool = {
         return FTSFlipTheSwitch.websocketChat
@@ -47,13 +54,6 @@ struct FeatureFlags {
             return FTSFlipTheSwitch.bigFavoriteIcon
         }
         return ABTests.bigFavoriteIcon.value
-    }
-    
-    static var showRelatedProducts: Bool {
-        if FTSFlipTheSwitch.overridesABTests {
-            return FTSFlipTheSwitch.showRelatedProducts
-        }
-        return ABTests.showRelatedProducts.value
     }
 
     static var directStickersOnProduct: Bool {
@@ -95,11 +95,25 @@ struct FeatureFlags {
         return ABTests.profileVerifyOneButton.value
     }
 
+    static var nonStopProductDetail: Bool {
+        if FTSFlipTheSwitch.overridesABTests {
+            return FTSFlipTheSwitch.nonStopProductDetail
+        }
+        return ABTests.nonStopProductDetail.value
+    }
+
     static var onboardinPermissionsMode: OnboardingPermissionsMode {
         if FTSFlipTheSwitch.overridesABTests {
             return FTSFlipTheSwitch.onboardingPermissionsMode ? .OneButtonNewImages : .OneButtonOriginalImages
         }
         return OnboardingPermissionsMode(rawValue: ABTests.onboardingPermissionsMode.value) ?? .Original
+    }
+
+    static var incentivizePostingMode: IncentivizePostingMode {
+        if FTSFlipTheSwitch.overridesABTests {
+            return FTSFlipTheSwitch.incentivizePostingMode
+        }
+        return IncentivizePostingMode(rawValue: ABTests.incentivatePostingMode.value) ?? .Original
     }
 }
 
@@ -122,10 +136,6 @@ private extension FTSFlipTheSwitch {
 
     static var bigFavoriteIcon: Bool {
         return FTSFlipTheSwitch.sharedInstance().isFeatureEnabled("big_favorite_icon")
-    }
-    
-    static var showRelatedProducts: Bool {
-        return FTSFlipTheSwitch.sharedInstance().isFeatureEnabled("show_related_products")
     }
 
     static var directStickersOnProduct: Bool {
@@ -152,7 +162,24 @@ private extension FTSFlipTheSwitch {
         return FTSFlipTheSwitch.sharedInstance().isFeatureEnabled("profile_verify_one_button")
     }
 
+    static var nonStopProductDetail: Bool {
+        return FTSFlipTheSwitch.sharedInstance().isFeatureEnabled("non_stop_product_detail")
+    }
+
     static var onboardingPermissionsMode: Bool {
         return FTSFlipTheSwitch.sharedInstance().isFeatureEnabled("onboarding_permissions_mode")
+    }
+
+    static var incentivizePostingMode: IncentivizePostingMode {
+        if FTSFlipTheSwitch.sharedInstance().isFeatureEnabled("incentivize_posting_a") {
+            return .VariantA
+        }
+        if FTSFlipTheSwitch.sharedInstance().isFeatureEnabled("incentivize_posting_b") {
+            return .VariantB
+        }
+        if FTSFlipTheSwitch.sharedInstance().isFeatureEnabled("incentivize_posting_c") {
+            return .VariantC
+        }
+        return .Original
     }
 }

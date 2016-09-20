@@ -16,10 +16,12 @@ protocol PostProductViewModelDelegate: BaseViewModelDelegate {
 enum PostingSource {
     case SellButton
     case DeepLink
+    case OnboardingButton
+    case OnboardingCamera
 
     var forceCamera: Bool {
         switch self {
-        case .SellButton, .DeepLink:
+        case .SellButton, .DeepLink, .OnboardingButton, .OnboardingCamera:
             return false
         }
     }
@@ -92,7 +94,7 @@ class PostProductViewModel: BaseViewModel {
     // MARK: - Public methods
 
     func onViewLoaded() {
-        let event = TrackerEvent.productSellStart(postingSource.typePage)
+        let event = TrackerEvent.productSellStart(postingSource.typePage, buttonName: postingSource.buttonName)
         TrackerProxy.sharedInstance.trackEvent(event)
     }
 
@@ -206,6 +208,19 @@ extension PostingSource {
             return .Sell
         case .DeepLink:
             return .External
+        case .OnboardingButton, .OnboardingCamera:
+            return .Onboarding
+        }
+    }
+
+    var buttonName: EventParameterButtonNameType? {
+        switch self {
+        case .SellButton, .DeepLink:
+            return nil
+        case .OnboardingButton:
+            return .SellYourStuff
+        case .OnboardingCamera:
+            return .StartMakingCash
         }
     }
 }

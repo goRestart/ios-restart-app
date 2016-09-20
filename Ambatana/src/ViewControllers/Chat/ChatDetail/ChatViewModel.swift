@@ -1173,7 +1173,7 @@ extension ChatViewModel: RelatedProductsViewDelegate {
         tracker.trackEvent(TrackerEvent.chatRelatedItemsComplete(index))
         let data = ProductDetailData.ProductList(product: product, cellModels: productListModels, requester: requester,
                                                  thumbnailImage: thumbnailImage, originFrame: originFrame,
-                                                 showRelated: false)
+                                                 showRelated: false, index: 0)
         tabNavigator?.openProduct(data, source: .Chat)
     }
 }
