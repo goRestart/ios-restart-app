@@ -452,6 +452,7 @@
 "product_share_email_error" = "Hups! Näyttää siltä, että et ole asettanut tiliä sähköpostisovellukseen.";
 "product_share_generic_error" = "Tuotetta jaettaessa tapahtui virhe. Ole hyvä ja yritä myöhemmin uudelleen.";
 "product_share_generic_ok" = "Tuote jaettiin onnistuneesti!";
+"product_share_navbar_button" = "Jaa";
 "product_share_posted_by" = "ilmoittaja: %@";
 "product_share_sms_error" = "Viestiäsi lähetettäessä tapahtui virhe.";
 "product_share_sms_ok" = "Lähetetään...";
@@ -586,6 +587,7 @@
 "sign_up_send_button" = "Rekisteröidy";
 "sign_up_send_error_email_taken" = "Sähköpostiosoite %@ on jo rekisteröity. Ole hyvä ja käytä sitä sisäänkirjautumiseen.";
 "sign_up_send_error_generic" = "Tiliä luotaessa tapahtui virhe. Ole hyvä ja yritä uudelleen.";
+"sign_up_send_error_invalid_domain" = "Invalid email address. Please change it and try again.";
 "sign_up_send_error_invalid_email" = "Ole hyvä ja syötä sähköpostikenttään toimiva sähköpostiosoite.";
 "sign_up_send_error_invalid_password_with_max" = "Ole hyvä ja syötä kelvollinen salasana. Siinä pitää olla %d-%d merkkiä.";
 "sign_up_send_error_invalid_username" = "Ole hyvä ja syötä kelvollinen nimi, jossa on vähintään %d merkkiä.";
@@ -604,9 +606,6 @@
 "tour_help_button" = "Apua";
 "tour_or_label" = "TAI KÄYTÄ SÄHKÖPOSTIASI";
 "tour_page_1_body" = "Osta ja myy nopeasti, turvallisesti ja paikallisesti.";
-"tour_terms_conditions" = "Rekisteröitymällä tai kirjautumalla sisään hyväksyt Käyttöehtomme ja Yksityisyyskäytäntömme";
-"tour_terms_conditions_privacy_keyword" = "Yksityisyyskäytäntö";
-"tour_terms_conditions_terms_keyword" = "Käyttöehtomme";
 "trending_searches_Title" = "Nousussa olevat haut";
 "unblock_user_error_generic" = "Tämän käyttäjän estoa poistettaessa tapahtui virhe.";
 "user_rating_message_w_name" = "Onko kokemuksesi käyttäjän %@ kanssa viiden tähden arvoinen? Kerro meille, miten asiat sujuivat.";

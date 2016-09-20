@@ -22,6 +22,8 @@ enum ExternalServiceAuthResult {
         switch sessionError {
         case .Conflict(let cause):
             self = .Conflict(cause: cause)
+        case .BadRequest:
+            self = .Internal(description: "BadRequest")
         case let .Internal(description):
             self = .Internal(description: description)
         case .NonExistingEmail:
