@@ -333,7 +333,7 @@ public class SignUpLogInViewModel: BaseViewModel {
             case .NonAcceptableParams:
                 return .BlacklistedDomain
             case .NotSpecified, .Other:
-                return .Internal(description: "BadRequest")
+                return .BadRequest
             }
         case .Scammer:
             return .Forbidden
@@ -370,6 +370,9 @@ public class SignUpLogInViewModel: BaseViewModel {
         case .NotFound:
             delegate?.viewModel(self, didFailAuthWithExternalService: LGLocalizedString.mainSignUpFbConnectErrorGeneric)
             loginError = .UserNotFoundOrWrongPassword
+        case .BadRequest:
+            delegate?.viewModel(self, didFailAuthWithExternalService: LGLocalizedString.mainSignUpFbConnectErrorGeneric)
+            loginError = .BadRequest
         case .Conflict(let cause):
             var message = ""
             switch cause {

@@ -16,6 +16,7 @@ enum ExternalServiceAuthResult {
     case Forbidden
     case NotFound
     case Conflict(cause: ConflictCause)
+    case BadRequest
     case Internal(description: String)
     
     init(sessionError: SessionManagerError) {
@@ -23,7 +24,7 @@ enum ExternalServiceAuthResult {
         case .Conflict(let cause):
             self = .Conflict(cause: cause)
         case .BadRequest:
-            self = .Internal(description: "BadRequest")
+            self = .BadRequest
         case let .Internal(description):
             self = .Internal(description: description)
         case .NonExistingEmail:

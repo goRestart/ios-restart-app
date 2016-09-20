@@ -347,6 +347,7 @@ public enum EventParameterLoginError {
     case TooManyRequests
     case Scammer
     case BlacklistedDomain
+    case BadRequest
 
     public var description: String {
         switch self {
@@ -384,6 +385,8 @@ public enum EventParameterLoginError {
             return "Scammer"
         case .BlacklistedDomain:
             return "BlacklistedDomain"
+        case .BadRequest:
+            return "BadRequest"
         }
 
     }
@@ -394,7 +397,7 @@ public enum EventParameterLoginError {
             return description
         case .Network, .Unauthorized, .NotFound, .Forbidden, .InvalidEmail, .NonExistingEmail, .InvalidPassword,
              .InvalidUsername, .UserNotFoundOrWrongPassword, .EmailTaken, .PasswordMismatch, .UsernameTaken,
-             .TermsNotAccepted, .TooManyRequests, .Scammer, BlacklistedDomain:
+             .TermsNotAccepted, .TooManyRequests, .Scammer, BlacklistedDomain, .BadRequest:
             return nil
         }
     }
