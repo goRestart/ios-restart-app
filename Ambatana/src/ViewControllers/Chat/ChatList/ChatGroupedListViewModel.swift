@@ -267,7 +267,7 @@ class BaseChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
         switch error {
         case .Network:
             emptyVM = LGEmptyViewModel.networkErrorWithRetry(retryAction)
-        case .Internal, .NotFound, .Forbidden, .Unauthorized, .TooManyRequests, .UserNotVerified:
+        case .Internal, .NotFound, .Forbidden, .Unauthorized, .TooManyRequests, .UserNotVerified, .ServerError:
             emptyVM = LGEmptyViewModel.genericErrorWithRetry(retryAction)
         }
         return emptyVM

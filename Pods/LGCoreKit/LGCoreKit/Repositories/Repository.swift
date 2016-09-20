@@ -17,10 +17,12 @@ public enum RepositoryError: ErrorType {
     
     case Network
     case NotFound
-    case Unauthorized
+    case Unauthorized(code: Int?)
     case Forbidden
     case TooManyRequests
     case UserNotVerified
+
+    case ServerError(code: Int?)
     
     private static let NotModifiedMessage = "Not modified in API"
 
@@ -30,37 +32,50 @@ public enum RepositoryError: ErrorType {
             self = .Network
         case let .Internal(description):
             self = .Internal(message: description)
+        case .BadRequest(let cause):
+            self = .Internal(message: "Bad request with cause: \(cause)")
         case .Unauthorized:
-            self = .Unauthorized
+            self = .Unauthorized(code: apiError.httpStatusCode)
         case .NotFound:
             self = .NotFound
         case .Forbidden:
             self = .Forbidden
-        case .Conflict(let cause):
-            self = .Internal(message: "Conflict with cause: \(cause)")
         case .Scammer:
-            self = .Unauthorized
-        case .UnprocessableEntity:
-            self = .Internal(message: "Unprocessable Entity")
+            self = .Unauthorized(code: apiError.httpStatusCode)
         case .TooManyRequests:
             self = .TooManyRequests
         case .UserNotVerified:
             self = .UserNotVerified
-        case .InternalServerError:
-            self = .Internal(message: "Internal Server Error")
-        case .NotModified:
-            self = .Internal(message: RepositoryError.NotModifiedMessage)
-        case let .Other(httpCode):
-            self = .Internal(message: "Unhandled \(httpCode) status code")
+        case .Conflict, .UnprocessableEntity, .InternalServerError, .NotModified, .Other:
+            self = .ServerError(code: apiError.httpStatusCode)
         }
     }
     
     init(webSocketError: WebSocketError) {
         switch webSocketError {
         case .NotAuthenticated:
-            self = .Unauthorized
+            self = .Unauthorized(code: nil)
         case .Internal:
             self = .Internal(message: "")
+        }
+    }
+
+    public var errorCode: Int? {
+        switch self {
+        case .Network, .Internal:
+            return nil
+        case let .Unauthorized(code):
+            return code
+        case .NotFound:
+            return 404
+        case .Forbidden:
+            return 403
+        case .UserNotVerified:
+            return 424
+        case .TooManyRequests:
+            return 429
+        case let .ServerError(code):
+            return code
         }
     }
 }

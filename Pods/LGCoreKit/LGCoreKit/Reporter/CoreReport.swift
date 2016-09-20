@@ -10,6 +10,7 @@ private let coreDomain = "com.letgo.ios.LGCoreKit"
 
 // 100000..<300000
 enum CoreReportNetworking: ReportType {
+    case BadRequest                             // 140000
     case Unauthorized(authLevel: AuthLevel)     // 1401XX
     case NotFound                               // 140400
     case Conflict                               // 140900
@@ -27,6 +28,8 @@ enum CoreReportNetworking: ReportType {
     }
     var code: Int {
         switch self {
+        case .BadRequest:
+            return 140000
         case let .Unauthorized(authLevel):
             let baseCode = 140100
             switch authLevel {
@@ -58,6 +61,8 @@ enum CoreReportNetworking: ReportType {
 
     init?(apiError: ApiError, currentAuthLevel: AuthLevel? = nil) {
         switch apiError {
+        case .BadRequest:
+            self = .BadRequest
         case .Unauthorized where currentAuthLevel != nil:
             guard let authLevel = currentAuthLevel else { return nil }
             self = .Unauthorized(authLevel: authLevel)

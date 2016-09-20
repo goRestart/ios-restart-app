@@ -34,12 +34,31 @@ public enum ConflictCause {
     }
 }
 
+public enum BadRequestCause {
+
+    case NonAcceptableParams
+
+    case NotSpecified
+    case Other(code: Int)
+
+    static func causeWithCode(code: Int?) -> BadRequestCause {
+        guard let code = code else { return .NotSpecified }
+        switch code {
+        case 2007:
+            return .NonAcceptableParams
+        default:
+            return .Other(code: code)
+        }
+    }
+}
+
 
 public enum ApiError: ErrorType {
     // errorCode references NSURLError codes (i.e. NSURLErrorUnknown)
     case Network(errorCode: Int)
     case Internal(description: String)
 
+    case BadRequest(cause: BadRequestCause)
     case Unauthorized
     case NotFound
     case Forbidden
@@ -56,6 +75,8 @@ public enum ApiError: ErrorType {
         switch code {
         case 304:
             return .NotModified
+        case 400:
+            return .BadRequest(cause: BadRequestCause.causeWithCode(apiCode))
         case 401:   // Wrong credentials
             return .Unauthorized
         case 403:
@@ -87,6 +108,8 @@ public enum ApiError: ErrorType {
             return httpCode
         case .NotModified:
             return 304
+        case .BadRequest:
+            return 400
         case .Unauthorized:
             return 401
         case .NotFound:
