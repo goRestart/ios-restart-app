@@ -48,7 +48,7 @@ class ProductCarouselMoreInfoView: UIView {
     private var locationZone: MKOverlay?
     private let bigMapMargin: CGFloat = 65.0
     private let bigMapBottomMargin: CGFloat = 210
-    private var bigMapVisible = false
+    private(set) var bigMapVisible = false
     private var mapZoomBlocker: MapZoomBlocker?
     private var statsView: ProductStatsView?
 
@@ -97,7 +97,6 @@ class ProductCarouselMoreInfoView: UIView {
     func dismissed() {
         scrollView.contentOffset = CGPoint.zero
         descriptionLabel.collapsed = true
-        hideBigMapAnimated(false)
     }
 }
 

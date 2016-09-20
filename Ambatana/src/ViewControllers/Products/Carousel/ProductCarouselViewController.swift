@@ -257,7 +257,11 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         if moreInfoView?.frame.origin.y < 0 {
             viewModel.close(fromCollection)
         } else {
-            hideMoreInfo()
+            if let moreInfoView = moreInfoView where moreInfoView.bigMapVisible {
+                hideBigMap()
+            } else {
+                hideMoreInfo()
+            }
         }
     }
     
@@ -747,6 +751,8 @@ extension ProductCarouselViewController {
     }
     
     @IBAction func showMoreInfo() {
+        guard moreInfoState.value == .Hidden else { return }
+
         moreInfoState.value = .Shown
         viewModel.didOpenMoreInfo()
 
@@ -755,16 +761,23 @@ extension ProductCarouselViewController {
                                     self?.moreInfoView?.frame.origin.y = 0
                                     }, completion: nil)
     }
-    
+
     func hideMoreInfo() {
+        guard moreInfoState.value == .Shown else { return }
+
         moreInfoState.value = .Hidden
         UIView.animateWithDuration(0.5, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 5, options: [],
                                    animations: { [weak self] in
-                                    guard let `self` = self else { return }
-                                    self.moreInfoView?.frame.origin.y = -self.view.bounds.height
-            }, completion: { [weak self] _ in
-                self?.moreInfoView?.dismissed()
+            guard let `self` = self else { return }
+            self.moreInfoView?.frame.origin.y = -self.view.bounds.height
+        }, completion: { [weak self] _ in
+            self?.moreInfoView?.dismissed()
         })
+    }
+
+    func hideBigMap() {
+        guard let moreInfoView = moreInfoView where moreInfoView.bigMapVisible else { return }
+        moreInfoView.hideBigMap()
     }
 }
 
