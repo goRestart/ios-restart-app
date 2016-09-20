@@ -19,6 +19,7 @@ enum ProductRouter: URLRequestAuthenticable {
     case Index(params: [String : AnyObject])
 
     case IndexRelatedProducts(productId: String, params: [String : AnyObject])
+    case IndexDiscoverProducts(productId: String, params: [String : AnyObject])
     case IndexForUser(userId: String, params: [String : AnyObject])
     case IndexFavorites(userId: String)
     case IndexLimbo(params: [String : AnyObject])
@@ -41,6 +42,8 @@ enum ProductRouter: URLRequestAuthenticable {
             return ProductRouter.productBaseUrl
         case let .IndexRelatedProducts(productId, _):
             return ProductRouter.productBaseUrl + "/\(productId)/related"
+        case let .IndexDiscoverProducts(productId, _):
+            return ProductRouter.productBaseUrl + "/\(productId)/discover"
         case let .DeleteFavorite(userId, _):
             return UserRouter.userBaseUrl       + "/\(userId)/favorites/products/"
         case let .SaveFavorite(userId, _):
@@ -69,7 +72,8 @@ enum ProductRouter: URLRequestAuthenticable {
         case .Delete, .Update, .Patch, .Create, .DeleteFavorite, .SaveFavorite, .UserRelation, .SaveReport,
              .IndexLimbo:
             return .User
-        case .Show, .Index, .IndexForUser, .IndexFavorites, .IndexRelatedProducts, .IndexTrending, ShowStats, UpdateStats:
+        case .Show, .Index, .IndexForUser, .IndexFavorites, .IndexRelatedProducts, .IndexDiscoverProducts,
+             .IndexTrending, ShowStats, UpdateStats:
             return .Installation
         }
     }
@@ -96,6 +100,8 @@ enum ProductRouter: URLRequestAuthenticable {
         case let .Create(params):
             return Router<APIBaseURL>.Create(endpoint: endpoint, params: params, encoding: .URL).URLRequest
         case let .IndexRelatedProducts(_, params):
+            return Router<APIBaseURL>.Index(endpoint: endpoint, params: params).URLRequest
+        case let .IndexDiscoverProducts(_, params):
             return Router<APIBaseURL>.Index(endpoint: endpoint, params: params).URLRequest
         case .UserRelation(_, _):
             return Router<APIBaseURL>.Read(endpoint: endpoint, params: [:]).URLRequest

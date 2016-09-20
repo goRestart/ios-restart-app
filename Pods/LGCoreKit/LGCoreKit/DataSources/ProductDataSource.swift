@@ -25,6 +25,7 @@ protocol ProductDataSource {
     func indexForUser(userId: String, parameters: [String: AnyObject], completion: ProductsDataSourceCompletion?)
     func indexFavorites(userId: String, completion: ProductsDataSourceCompletion?)
     func indexRelatedProducts(productId: String, parameters: [String: AnyObject], completion: ProductsDataSourceCompletion?)
+    func indexDiscoverProducts(productId: String, parameters: [String: AnyObject], completion: ProductsDataSourceCompletion?)
     func retrieve(productId: String, completion: ProductDataSourceCompletion?)
     func create(product: [String: AnyObject], completion: ProductDataSourceCompletion?)
     func update(productId: String, product: [String: AnyObject], completion: ProductDataSourceCompletion?)

@@ -16,6 +16,7 @@ import RxSwift
 public enum SessionManagerError: ErrorType {
 
     case Network
+    case BadRequest(cause: BadRequestCause)
     case NotFound
     case Forbidden
     case Unauthorized
@@ -29,6 +30,8 @@ public enum SessionManagerError: ErrorType {
         switch apiError {
         case .Network:
             self = .Network
+        case .BadRequest(let cause):
+            self = .BadRequest(cause: cause)
         case .Unauthorized:
             self = .Unauthorized
         case .NotFound:
@@ -68,6 +71,8 @@ public enum SessionManagerError: ErrorType {
             self = .TooManyRequests
         case let .Internal(message):
             self = .Internal(message: message)
+        case .ServerError:
+            self = .Internal(message: "Internal Server Error")
         case .UserNotVerified:
             self = .Internal(message: "UserNotVerified")
         }
@@ -397,7 +402,7 @@ public class SessionManager {
                 }
 
                 switch error {
-                case .Network, .Internal, .Unauthorized, .Forbidden, .Conflict, .Scammer, .UnprocessableEntity,
+                case .Network, .Internal, .BadRequest, .Unauthorized, .Forbidden, .Conflict, .Scammer, .UnprocessableEntity,
                      .InternalServerError, .NotModified, .TooManyRequests, .UserNotVerified, .Other:
                     completion?(Result<Installation, ApiError>(error: error))
                 case .NotFound:
