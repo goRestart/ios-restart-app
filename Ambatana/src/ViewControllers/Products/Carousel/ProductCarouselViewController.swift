@@ -36,18 +36,18 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var buttonBottom: UIButton!
     @IBOutlet weak var buttonBottomBottomConstraint: NSLayoutConstraint!
+    @IBOutlet weak var buttonBottomTrailingConstraint: NSLayoutConstraint!
     @IBOutlet weak var buttonTop: UIButton!
     @IBOutlet weak var gradientShadowView: UIView!
     @IBOutlet weak var gradientShadowBottomView: UIView!
     @IBOutlet weak var favoriteButton: UIButton!
+    @IBOutlet weak var editButton: UIButton!
     
     @IBOutlet weak var productStatusView: UIView!
     @IBOutlet weak var productStatusLabel: UILabel!
     
     @IBOutlet weak var directChatTable: UITableView!
     @IBOutlet weak var stickersButton: UIButton!
-    @IBOutlet weak var stickersButtonWidth: NSLayoutConstraint!
-    @IBOutlet weak var stickersButtonTrailing: NSLayoutConstraint!
 
     private let userView: UserView
     private let fullScreenAvatarEffectView: UIVisualEffectView
@@ -76,8 +76,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     private let moreInfoTooltipMargin: CGFloat = 0
 
     private let itemsMargin: CGFloat = 15
-    private let stickersButtonHiddenTrailing: CGFloat = 5
-    private let stickersButtonVisibleWidth: CGFloat = 50
+    private let buttonTrailingWithIcon: CGFloat = 75
     private var moreInfoTooltip: Tooltip?
 
     private var collectionContentOffset = Variable<CGPoint>(CGPoint.zero)
@@ -239,6 +238,8 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         productStatusLabel.textColor = UIColor.soldColor
         productStatusLabel.font = UIFont.productStatusSoldFont
 
+        editButton.layer.cornerRadius = editButton.height / 2
+
         setupDirectMessagesAndStickers()
     }
     
@@ -304,6 +305,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
             alphaSignal.bindTo(moreInfoView.rx_alpha).addDisposableTo(disposeBag)
         }
         alphaSignal.bindTo(stickersButton.rx_alpha).addDisposableTo(disposeBag)
+        alphaSignal.bindTo(editButton.rx_alpha).addDisposableTo(disposeBag)
         alphaSignal.bindTo(directChatTable.rx_alpha).addDisposableTo(disposeBag)
         alphaSignal.bindTo(favoriteButton.rx_alpha).addDisposableTo(disposeBag)
         alphaSignal.bindNext{ [weak self] alpha in
@@ -413,6 +415,7 @@ extension ProductCarouselViewController {
             }
             view.bringSubviewToFront(buttonBottom)
             view.bringSubviewToFront(stickersButton)
+            view.bringSubviewToFront(editButton)
             view.bringSubviewToFront(fullScreenAvatarEffectView)
             view.bringSubviewToFront(fullScreenAvatarView)
             view.bringSubviewToFront(directChatTable)
@@ -448,18 +451,23 @@ extension ProductCarouselViewController {
         setNavigationBarRightButtons([])
         viewModel.navBarButtons.asObservable().subscribeNext { [weak self] navBarButtons in
             guard let strongSelf = self else { return }
-            
-            var buttons = [UIButton]()
-            navBarButtons.forEach { navBarButton in
-                let button = UIButton(type: .System)
-                button.setImage(navBarButton.image, forState: .Normal)
-                button.rx_tap.bindNext { _ in
-                    navBarButton.action()
-                    }.addDisposableTo(strongSelf.disposeBag)
-                buttons.append(button)
+
+            if navBarButtons.count == 1 {
+                strongSelf.setLetGoRightButtonWith(navBarButtons[0], disposeBag: strongSelf.disposeBag,
+                    buttonTintColor: UIColor.white)
+            } else if navBarButtons.count > 1 {
+                var buttons = [UIButton]()
+                navBarButtons.forEach { navBarButton in
+                    let button = UIButton(type: .System)
+                    button.setImage(navBarButton.image, forState: .Normal)
+                    button.rx_tap.bindNext { _ in
+                        navBarButton.action()
+                        }.addDisposableTo(strongSelf.disposeBag)
+                    buttons.append(button)
+                }
+                strongSelf.setNavigationBarRightButtons(buttons)
             }
-            strongSelf.setNavigationBarRightButtons(buttons)
-            }.addDisposableTo(activeDisposeBag)
+        }.addDisposableTo(activeDisposeBag)
     }
 
     private func setupRxProductUpdate(viewModel: ProductViewModel) {
@@ -516,6 +524,19 @@ extension ProductCarouselViewController {
                 self?.configureButton(strongSelf.buttonBottom, type: .ChatWithSeller, viewModel: viewModel)
             }
         }.addDisposableTo(activeDisposeBag)
+
+        viewModel.editButtonState.asObservable().bindTo(editButton.rx_state).addDisposableTo(disposeBag)
+        editButton.rx_tap.bindNext { [weak self, weak viewModel] in
+            self?.hideMoreInfo()
+            viewModel?.editProduct()
+        }.addDisposableTo(disposeBag)
+
+        let editButtonEnabled = viewModel.editButtonState.asObservable().map { return $0 != .Hidden }
+        let bottomButtonCollapsed = Observable.combineLatest(viewModel.stickersButtonEnabled.asObservable(),
+                                    editButtonEnabled, resultSelector: { (stickers, edit) in return stickers || edit })
+        bottomButtonCollapsed.bindNext { [weak self] collapsed in
+            self?.buttonBottomTrailingConstraint.constant = (collapsed ? self?.buttonTrailingWithIcon : self?.itemsMargin) ?? 0
+        }.addDisposableTo(activeDisposeBag)
     }
 
     private func refreshProductOnboarding(viewModel: ProductViewModel) {
@@ -550,9 +571,6 @@ extension ProductCarouselViewController {
         viewModel.stickersButtonEnabled.asObservable().bindNext { [weak self] enabled in
             guard let strongSelf = self else { return }
             strongSelf.stickersButton.hidden = !enabled
-            strongSelf.stickersButtonWidth.constant = enabled ? strongSelf.stickersButtonVisibleWidth : 0
-            strongSelf.stickersButtonTrailing.constant = enabled ? strongSelf.itemsMargin :
-                strongSelf.stickersButtonHiddenTrailing
         }.addDisposableTo(activeDisposeBag)
 
         viewModel.directChatMessages.changesObservable.bindNext { [weak self] change in
@@ -671,6 +689,7 @@ extension ProductCarouselViewController: ProductCarouselCellDelegate {
             self?.moreInfoView?.dragView.alpha = shouldHide ? 0 : 1
             self?.favoriteButton.alpha = shouldHide ? 0 : 1
             self?.stickersButton.alpha = shouldHide ? 0 : 1
+            self?.editButton.alpha = shouldHide ? 0 : 1
             UIApplication.sharedApplication().setStatusBarHidden(shouldHide, withAnimation: .Fade)
         }
     }
@@ -1028,6 +1047,7 @@ extension ProductCarouselViewController {
         productStatusLabel.accessibilityId = .ProductCarouselProductStatusLabel
         directChatTable.accessibilityId = .ProductCarouselDirectChatTable
         stickersButton.accessibilityId = .ProductCarouselStickersButton
+        editButton.accessibilityId = .ProductCarouselEditButton
         fullScreenAvatarView.accessibilityId = .ProductCarouselFullScreenAvatarView
         pageControl.accessibilityId = .ProductCarouselPageControl
     }

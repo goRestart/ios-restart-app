@@ -452,6 +452,7 @@
 "product_share_email_error" = "Hoppla! Du scheinst kein Konto in der Mail-App eingerichtet zu haben.";
 "product_share_generic_error" = "Beim Teilen des Produkts ist ein Fehler aufgetreten. Bitte versuche es später noch mal.";
 "product_share_generic_ok" = "Produkt erfolgreich geteilt!";
+"product_share_navbar_button" = "Share";
 "product_share_posted_by" = "angeboten von %@";
 "product_share_sms_error" = "Beim Senden deiner Nachricht ist ein Fehler aufgetreten.";
 "product_share_sms_ok" = "Wird verschickt...";

@@ -452,6 +452,7 @@
 "product_share_email_error" = "Ops, aparentemente não configurou uma conta na app de email.";
 "product_share_generic_error" = "Ocorreu um erro ao partilhar o produto. Por favor tente novamente mais tarde.";
 "product_share_generic_ok" = "Produto partilhado com sucesso!";
+"product_share_navbar_button" = "Share";
 "product_share_posted_by" = "publicado por %@";
 "product_share_sms_error" = "Ocorreu um erro ao enviar a sua mensagem.";
 "product_share_sms_ok" = "A enviar...";
