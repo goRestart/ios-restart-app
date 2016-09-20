@@ -452,7 +452,7 @@
 "product_share_email_error" = "Упс, похоже, вы не создали аккаунт в почтовом приложении.";
 "product_share_generic_error" = "При размещении товара произошла ошибка. Пожалуйста, попробуйте еще раз позже.";
 "product_share_generic_ok" = "Товар успешно размещен!";
-"product_share_navbar_button" = "Поделиться";
+"product_share_navbar_button" = "Share";
 "product_share_posted_by" = "размещено %@";
 "product_share_sms_error" = "При отправке сообщения произошла ошибка.";
 "product_share_sms_ok" = "Отправка...";
@@ -587,7 +587,6 @@
 "sign_up_send_button" = "Регистрация";
 "sign_up_send_error_email_taken" = "Адрес %@ уже зарегистрирован. Пожалуйста, используйте его для входа.";
 "sign_up_send_error_generic" = "При создании аккаунта произошла ошибка. Пожалуйста, попробуйте еще раз.";
-"sign_up_send_error_invalid_domain" = "Invalid email address. Please change it and try again.";
 "sign_up_send_error_invalid_email" = "Пожалуйста, укажите действующий E-mail.";
 "sign_up_send_error_invalid_password_with_max" = "Пожалуйста, введите корректный пароль. Он должен содержать от %d до %d символов.";
 "sign_up_send_error_invalid_username" = "Пожалуйста, введите настоящее имя, оно должно содержать как минимум %d символа.";
@@ -606,6 +605,9 @@
 "tour_help_button" = "Помощь";
 "tour_or_label" = "ИЛИ ЧЕРЕЗ E-MAIL";
 "tour_page_1_body" = "Покупайте и продавайте быстро, безопасно и удобно.";
+"tour_terms_conditions" = "Регистрируясь или входя в аккаунт, вы принимаете наши Правила Пользования и Политику Конфиденциальности";
+"tour_terms_conditions_privacy_keyword" = "Политика Конфиденциальности";
+"tour_terms_conditions_terms_keyword" = "Правила Пользования";
 "trending_searches_Title" = "Популярные запросы";
 "unblock_user_error_generic" = "При разблокировке произошла ошибка.";
 "user_rating_message_w_name" = "Ваша сделка с %@ прошла на 5 звезд? Расскажите нам о ней.";

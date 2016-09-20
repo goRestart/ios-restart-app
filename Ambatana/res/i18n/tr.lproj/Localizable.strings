@@ -452,7 +452,7 @@
 "product_share_email_error" = "Oops! Görünüşe bakılırsa e-posta uygulamasında bir hesap oluşturmamışsın.";
 "product_share_generic_error" = "Ürün paylaşılırken hata oluştu. Lütfen daha sonra tekrar dene.";
 "product_share_generic_ok" = "Ürün başarılıyla paylaşıldı.";
-"product_share_navbar_button" = "Paylaş";
+"product_share_navbar_button" = "Share";
 "product_share_posted_by" = "%@ tarafından yayınlandı";
 "product_share_sms_error" = "Mesajın gönderilirken bir hata oluştu.";
 "product_share_sms_ok" = "Gönderiliyor...";
@@ -587,7 +587,6 @@
 "sign_up_send_button" = "Kaydol";
 "sign_up_send_error_email_taken" = "%@ e-posta adresi zaten kayıtlı. Lütfen, bu adresi kullanarak giriş yap.";
 "sign_up_send_error_generic" = "Hesap oluşturulurken bir hata oluştu. Lütfen tekrar dene.";
-"sign_up_send_error_invalid_domain" = "Invalid email address. Please change it and try again.";
 "sign_up_send_error_invalid_email" = "Lütfen kullanıcı e-posta alanına geçerli bir e-posta adresi gir.";
 "sign_up_send_error_invalid_password_with_max" = "Lütfen geçerli bir şifre gir. Şifre en az %d, en fazla %d karakterden oluşmalıdır.";
 "sign_up_send_error_invalid_username" = "Lütfen, en az %d karakterden oluşan geçerli bir kullanıcı adı gir.";
@@ -606,6 +605,9 @@
 "tour_help_button" = "Yardım";
 "tour_or_label" = "veya e-postanı kullan";
 "tour_page_1_body" = "Bulunduğun çevrede hızlı ve güvenli bir şekilde al ve sat.";
+"tour_terms_conditions" = "Kaydolarak veya giriş yaparak Şartlar ve Koşullar & Gizlilik Politikasını kabul etmiş olursun.";
+"tour_terms_conditions_privacy_keyword" = "Gizlilik Politikası";
+"tour_terms_conditions_terms_keyword" = "Şartlar ve Koşullar";
 "trending_searches_Title" = "Popüler Aramalar";
 "unblock_user_error_generic" = "Kullanıcı engeli kaldırılırken bir hata oluştu.";
 "user_rating_message_w_name" = "%@ ile deneyimin nasıldı? 5 yıldız vermek ister misin?";
