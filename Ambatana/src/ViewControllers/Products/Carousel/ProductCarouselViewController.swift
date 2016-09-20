@@ -90,6 +90,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     private var didSetupAfterLayout = false
     
     private var moreInfoView: ProductCarouselMoreInfoView?
+    private let moreInfoAlpha = Variable<CGFloat>(1)
     private let moreInfoState = Variable<MoreInfoState>(.Hidden)
 
     private var interestedBubble: BubbleNotification?
@@ -315,9 +316,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         alphaSignal.bindTo(pageControl.rx_alpha).addDisposableTo(disposeBag)
         alphaSignal.bindTo(buttonTop.rx_alpha).addDisposableTo(disposeBag)
         alphaSignal.bindTo(productStatusView.rx_alpha).addDisposableTo(disposeBag)
-        if let moreInfoView = moreInfoView {
-            alphaSignal.bindTo(moreInfoView.rx_alpha).addDisposableTo(disposeBag)
-        }
+        alphaSignal.bindTo(moreInfoAlpha).addDisposableTo(disposeBag)
         alphaSignal.bindTo(stickersButton.rx_alpha).addDisposableTo(disposeBag)
         alphaSignal.bindTo(directChatTable.rx_alpha).addDisposableTo(disposeBag)
         alphaSignal.bindTo(favoriteButton.rx_alpha).addDisposableTo(disposeBag)
@@ -425,6 +424,8 @@ extension ProductCarouselViewController {
             moreInfoView = ProductCarouselMoreInfoView.moreInfoView(viewModel)
             if let moreInfoView = moreInfoView {
                 view.addSubview(moreInfoView)
+                moreInfoAlpha.asObservable().bindTo(moreInfoView.rx_alpha).addDisposableTo(disposeBag)
+                moreInfoAlpha.asObservable().bindTo(moreInfoView.dragView.rx_alpha).addDisposableTo(disposeBag)
             }
             view.bringSubviewToFront(buttonBottom)
             view.bringSubviewToFront(stickersButton)
@@ -683,7 +684,7 @@ extension ProductCarouselViewController: ProductCarouselCellDelegate {
     }
     
     func didPullFromCellWith(offset: CGFloat, bottomLimit: CGFloat) {
-        guard let moreInfoView = moreInfoView where moreInfoState.value != .Shown else { return }
+        guard let moreInfoView = moreInfoView where moreInfoState.value != .Shown && !cellZooming.value else { return }
         if moreInfoView.frame.origin.y-offset > -view.frame.height {
             moreInfoState.value = .Moving
             moreInfoView.frame.origin.y = moreInfoView.frame.origin.y-offset
