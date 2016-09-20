@@ -31,6 +31,7 @@ class OldChatViewController: SLKTextViewController {
     let disposeBag = DisposeBag()
 
     var stickersTooltip: Tooltip?
+    var chatSafetyTipsView: ChatSafetyTipsView?
 
     var blockedToastOffset: CGFloat {
         return relationInfoView.hidden ? 0 : RelationInfoView.defaultHeight
@@ -97,6 +98,7 @@ class OldChatViewController: SLKTextViewController {
         super.viewWillDisappear(animated)
         viewModel.active = false
         removeStickersTooltip()
+        removeSafetyTips()
     }
 
     override func viewDidAppear(animated: Bool) {
@@ -634,7 +636,8 @@ extension OldChatViewController {
     
     private func showSafetyTips() {
         guard let navCtlView = navigationController?.view else { return }
-        guard let chatSafetyTipsView = ChatSafetyTipsView.chatSafetyTipsView() else { return }
+        chatSafetyTipsView = ChatSafetyTipsView.chatSafetyTipsView()
+        guard let chatSafetyTipsView = chatSafetyTipsView else { return }
         
         // Delay is needed in order not to mess with the kb show/hide animation
         delay(0.5) { [weak self] in
@@ -647,6 +650,14 @@ extension OldChatViewController {
             chatSafetyTipsView.frame = navCtlView.frame
             navCtlView.addSubview(chatSafetyTipsView)
             chatSafetyTipsView.show()
+        }
+    }
+
+    private func removeSafetyTips() {
+        guard let navCtlView = navigationController?.view else { return }
+        guard let chatSafetyTipsView = chatSafetyTipsView else { return }
+        if navCtlView.subviews.contains(chatSafetyTipsView) {
+            chatSafetyTipsView.removeFromSuperview()
         }
     }
 }
