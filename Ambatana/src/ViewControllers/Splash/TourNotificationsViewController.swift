@@ -84,7 +84,7 @@ final class TourNotificationsViewController: BaseViewController {
         switch step {
         case .Location:
             showTourLocation()
-        case .None:
+        case .NoStep:
             dismissViewControllerAnimated(true, completion: completion)
         }
     }

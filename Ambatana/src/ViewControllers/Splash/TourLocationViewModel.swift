@@ -6,13 +6,6 @@
 //  Copyright © 2016 Ambatana. All rights reserved.
 //
 
-import Foundation
-
-enum TourLocationNextStep {
-    case Posting
-    case None
-}
-
 final class TourLocationViewModel: BaseViewModel {
 
     var title: String {
