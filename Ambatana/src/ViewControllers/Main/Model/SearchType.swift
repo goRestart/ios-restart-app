@@ -41,4 +41,13 @@ enum SearchType {
             return true
         }
     }
+
+    var isCollection: Bool {
+        switch self {
+        case .User, .Trending:
+            return false
+        case .Collection:
+            return true
+        }
+    }
 }
