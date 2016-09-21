@@ -141,6 +141,9 @@ public class SignUpViewModel: BaseViewModel {
         case .NotFound:
             delegate?.viewModel(self, didFailLoginIn: LGLocalizedString.mainSignUpFbConnectErrorGeneric)
             loginError = .UserNotFoundOrWrongPassword
+        case .BadRequest:
+            delegate?.viewModel(self, didFailLoginIn: LGLocalizedString.mainSignUpFbConnectErrorGeneric)
+            loginError = .BadRequest
         case .Conflict(let cause):
             var message = ""
             switch cause {

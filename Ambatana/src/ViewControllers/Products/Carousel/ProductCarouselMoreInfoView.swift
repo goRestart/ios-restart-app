@@ -43,12 +43,13 @@ class ProductCarouselMoreInfoView: UIView {
 
     
     private let disposeBag = DisposeBag()
+    private var currentVmDisposeBag = DisposeBag()
     private var viewModel: ProductViewModel?
     private let overlayMap = MKMapView()
     private var locationZone: MKOverlay?
     private let bigMapMargin: CGFloat = 65.0
     private let bigMapBottomMargin: CGFloat = 210
-    private var bigMapVisible = false
+    private(set) var bigMapVisible = false
     private var mapZoomBlocker: MapZoomBlocker?
     private var statsView: ProductStatsView?
 
@@ -89,9 +90,11 @@ class ProductCarouselMoreInfoView: UIView {
     
     func update(viewModel: ProductViewModel) {
         self.viewModel = viewModel
+        currentVmDisposeBag = DisposeBag()
         setupUI()
         setupContent()
         configureMapView()
+        setupStatsRx()
     }
 
     func dismissed() {
@@ -174,6 +177,10 @@ extension ProductCarouselMoreInfoView: MKMapViewDelegate {
     }
     
     func hideBigMap() {
+        hideBigMapAnimated(true)
+    }
+
+    func hideBigMapAnimated(animated: Bool) {
         guard bigMapVisible else { return }
         bigMapVisible = false
         if let locationZone = locationZone {
@@ -183,12 +190,20 @@ extension ProductCarouselMoreInfoView: MKMapViewDelegate {
         let newRegion = MKCoordinateRegion(center: overlayMap.region.center, span: span)
         mapView.region = newRegion
         let newFrame = convertRect(mapView.frame, fromView: scrollViewContent)
-        UIView.animateWithDuration(0.3, animations: { [weak self] in
+
+        let animations: () -> () = { [weak self] in
             self?.overlayMap.frame = newFrame
-            }) { [weak self] completed in
-                self?.overlayMap.alpha = 0
-                self?.configureMapView()
-                self?.mapZoomBlocker?.stop()
+        }
+        let completion: (Bool) -> () = { [weak self] completed in
+            self?.overlayMap.alpha = 0
+            self?.configureMapView()
+            self?.mapZoomBlocker?.stop()
+        }
+        if animated {
+            UIView.animateWithDuration(0.3, animations: animations, completion: completion)
+        } else {
+            animations()
+            completion(true)
         }
     }
 
@@ -341,18 +356,23 @@ extension ProductCarouselMoreInfoView {
                                      attribute: .Bottom, multiplier: 1, constant: 0)
         statsContainerView.addConstraints([top, right, left, bottom])
 
-
-        viewModel.statsViewVisible.asObservable().subscribeNext { [weak self] statsViewVisible in
-            if statsViewVisible { self?.updateStatsView(statsView) }
-        }.addDisposableTo(disposeBag)
+        setupStatsRx()
     }
 
-    private func updateStatsView(statsView: ProductStatsView) {
+    private func setupStatsRx() {
         guard let viewModel = viewModel else { return }
-        statsContainerViewHeightConstraint.constant = viewModel.statsViewVisible.value ? statsContainerViewHeight : 0.0
-        statsContainerViewTopConstraint.constant = viewModel.statsViewVisible.value ? statsContainerViewTop : 0.0
-        statsView.updateStatsWithInfo(viewModel.viewsCount.value, favouritesCount: viewModel.favouritesCount.value,
-                                      postedDate: viewModel.productCreationDate.value)
+        viewModel.statsViewVisible.asObservable().distinctUntilChanged().bindNext { [weak self] visible in
+            self?.statsContainerViewHeightConstraint.constant = visible ? self?.statsContainerViewHeight ?? 0 : 0
+            self?.statsContainerViewTopConstraint.constant = visible ? self?.statsContainerViewTop ?? 0 : 0
+        }.addDisposableTo(currentVmDisposeBag)
+
+        let infos = Observable.combineLatest(viewModel.viewsCount.asObservable(), viewModel.favouritesCount.asObservable(),
+                                             viewModel.productCreationDate.asObservable()) { $0 }
+        infos.subscribeNext { [weak self] (views, favorites, date) in
+                guard let statsView = self?.statsView else { return }
+                statsView.updateStatsWithInfo(views, favouritesCount: favorites, postedDate: date)
+        }.addDisposableTo(currentVmDisposeBag)
+                                 
     }
 }
 

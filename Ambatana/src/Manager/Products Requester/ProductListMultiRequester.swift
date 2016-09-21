@@ -84,16 +84,14 @@ extension ProductListMultiRequester: ProductListRequester {
     }
 
     private func updateLastPage(result: ProductsResult) {
-        guard let resultCount = result.value?.count else { return }
         guard let activeRequester = activeRequester else {
             // if we don't have an active requester, is last page
             multiIsLastPage = true
             return
         }
+        guard let resultCount = result.value?.count else { return }
         guard activeRequester.isLastPage(resultCount) else { return }
-        if switchToNext() {
-            multiIsLastPage = true
-        }
+        multiIsLastPage = switchToNext()
     }
 
     private func switchToNext() -> Bool {

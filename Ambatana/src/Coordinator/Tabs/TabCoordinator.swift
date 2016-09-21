@@ -112,7 +112,7 @@ private extension TabCoordinator {
                 switch error {
                 case .Network:
                     message = LGLocalizedString.commonErrorConnectionFailed
-                case .Internal, .NotFound, .Unauthorized, .Forbidden, .TooManyRequests, .UserNotVerified:
+                case .Internal, .NotFound, .Unauthorized, .Forbidden, .TooManyRequests, .UserNotVerified, .ServerError:
                     message = LGLocalizedString.commonProductNotAvailable
                 }
                 self?.navigationController.dismissLoadingMessageAlert {
@@ -128,8 +128,7 @@ private extension TabCoordinator {
         guard let productId = product.objectId else { return }
 
         var requestersArray: [ProductListRequester] = []
-        let relatedRequester: ProductListRequester = discover ? DiscoverProductListRequester(productId: productId) :
-                                                                RelatedProductListRequester(productId: productId)
+        let relatedRequester: ProductListRequester = discover ? DiscoverProductListRequester(productId: productId) : RelatedProductListRequester(productId: productId)
         requestersArray.append(relatedRequester)
 
         if FeatureFlags.nonStopProductDetail {
@@ -200,7 +199,7 @@ private extension TabCoordinator {
                 switch error {
                 case .Network:
                     message = LGLocalizedString.commonErrorConnectionFailed
-                case .Internal, .NotFound, .Unauthorized, .Forbidden, .TooManyRequests, .UserNotVerified:
+                case .Internal, .NotFound, .Unauthorized, .Forbidden, .TooManyRequests, .UserNotVerified, .ServerError:
                     message = LGLocalizedString.commonUserNotAvailable
                 }
                 self?.navigationController.dismissLoadingMessageAlert {

@@ -37,7 +37,7 @@ class MockProductListRequester: ProductListRequester {
 
     func retrieveFirstPage(completion: ProductsCompletion?) {
         var firstPageItems: [Product] = []
-        for i in offset..<offset+pageSize-1 {
+        for i in offset..<offset+pageSize {
             if i < items.count {
                 firstPageItems.append(items[i])
             }
@@ -49,7 +49,7 @@ class MockProductListRequester: ProductListRequester {
 
     func retrieveNextPage(completion: ProductsCompletion?) {
         var nextPageItems: [Product] = []
-        for i in offset..<offset+pageSize-1 {
+        for i in offset..<offset+pageSize {
             if i < items.count {
                 nextPageItems.append(items[i])
             }

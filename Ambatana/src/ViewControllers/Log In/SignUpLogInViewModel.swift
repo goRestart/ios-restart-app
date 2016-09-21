@@ -287,7 +287,7 @@ public class SignUpLogInViewModel: BaseViewModel {
             message = LGLocalizedString.commonErrorConnectionFailed
         case .Unauthorized:
             message = LGLocalizedString.logInErrorSendErrorUserNotFoundOrWrongPassword
-        case .Scammer, .NotFound, .Internal, .Forbidden, .NonExistingEmail, .Conflict, .TooManyRequests:
+        case .Scammer, .NotFound, .Internal, .Forbidden, .NonExistingEmail, .Conflict, .TooManyRequests, .BadRequest:
             message = LGLocalizedString.logInErrorSendErrorGeneric
         }
         delegate?.viewModelDidFailLoginIn(self, message: message)
@@ -299,6 +299,13 @@ public class SignUpLogInViewModel: BaseViewModel {
         switch (error) {
         case .Network:
             message = LGLocalizedString.commonErrorConnectionFailed
+        case .BadRequest(let cause):
+            switch cause {
+            case .NotSpecified, .Other:
+                message = LGLocalizedString.signUpSendErrorGeneric
+            case .NonAcceptableParams:
+                message = LGLocalizedString.signUpSendErrorInvalidDomain
+            }
         case .Conflict(let cause):
             switch cause {
             case .UserExists, .NotSpecified, .Other:
@@ -321,6 +328,13 @@ public class SignUpLogInViewModel: BaseViewModel {
         switch (error) {
         case .Network:
             return .Network
+        case .BadRequest(let cause):
+            switch cause {
+            case .NonAcceptableParams:
+                return .BlacklistedDomain
+            case .NotSpecified, .Other:
+                return .BadRequest
+            }
         case .Scammer:
             return .Forbidden
         case .NotFound:
@@ -356,6 +370,9 @@ public class SignUpLogInViewModel: BaseViewModel {
         case .NotFound:
             delegate?.viewModel(self, didFailAuthWithExternalService: LGLocalizedString.mainSignUpFbConnectErrorGeneric)
             loginError = .UserNotFoundOrWrongPassword
+        case .BadRequest:
+            delegate?.viewModel(self, didFailAuthWithExternalService: LGLocalizedString.mainSignUpFbConnectErrorGeneric)
+            loginError = .BadRequest
         case .Conflict(let cause):
             var message = ""
             switch cause {

@@ -133,8 +133,8 @@ class MainProductsViewModel: BaseViewModel {
         self.listViewModel = ProductListViewModel(requester: self.productListRequester, products: nil,
                                                   numberOfColumns: columns)
         self.listViewModel.productListFixedInset = show3Columns ? 6 : 10
-        
-        if let search = searchType where !search.query.isEmpty {
+
+        if let search = searchType where !search.isCollection && !search.query.isEmpty {
             self.shouldTrackSearch = true
         }
         super.init()
@@ -394,7 +394,7 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate {
             switch error {
             case .Network:
                 errorString = LGLocalizedString.toastNoNetwork
-            case .Internal, .NotFound, .Forbidden, .TooManyRequests, .UserNotVerified:
+            case .Internal, .NotFound, .Forbidden, .TooManyRequests, .UserNotVerified, .ServerError:
                 errorString = LGLocalizedString.toastErrorInternal
             case .Unauthorized:
                 errorString = nil

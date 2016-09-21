@@ -30,19 +30,16 @@ def shared_pods
 	# Tracking
 	pod "Amplitude-iOS",        "~> 3.5.0"
     pod "AppsFlyerFramework",   "~> 4.3.9"
-    pod "Leanplum-iOS-SDK",     "~> 1.3.11"
+    pod "Leanplum-iOS-SDK",     "~> 1.4.0"
 
 	# letgo Core
-    pod "LGCoreKit",            "1.0.5" #:path => "../lgcorekit" 
+    pod "LGCoreKit",            "1.0.6" # :path => "../lgcorekit"
 
 	# Slack Chat controller
     pod "SlackTextViewController", "1.9.1"
 
 	# letgo Collapsible label
     pod "LGCollapsibleLabel",   "0.1.8" #:path => "../collapsiblelabel"
-
-	# Animation
-	pod "pop",                  "~> 1.0.8"
 
 	# Collection View Custom Layout
 	pod "CHTCollectionViewWaterfallLayout", "~> 0.9.1"

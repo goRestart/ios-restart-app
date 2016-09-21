@@ -6,6 +6,7 @@
 
 import UIKit
 import SafariServices
+import RxSwift
 
 // MARK: - UINavigationBar helpers
 
@@ -25,6 +26,36 @@ extension UIViewController {
         return navigationController?.viewControllers[0] == self
     }
 
+    func setLetGoRightButtonWith(action: UIAction, disposeBag: DisposeBag, buttonTintColor: UIColor? = nil) -> UIBarButtonItem? {
+        let rightItem = UIBarButtonItem()
+        rightItem.tintColor = buttonTintColor
+        rightItem.style = .Plain
+        if let image = action.image {
+            if let _ = buttonTintColor {
+                rightItem.image = image.imageWithRenderingMode(.AlwaysTemplate)
+            } else {
+                rightItem.image = image
+            }
+        } else if let text = action.text {
+            rightItem.title = text
+        } else {
+            return nil
+        }
+        rightItem.rx_tap.bindNext{
+            action.action()
+        }.addDisposableTo(disposeBag)
+        navigationItem.rightBarButtonItems = nil
+        navigationItem.rightBarButtonItem = rightItem
+        return rightItem
+    }
+
+    func setLetGoRightButtonWith(text text: String, selector: String) -> UIBarButtonItem {
+        let rightItem = UIBarButtonItem(title: text, style: .Plain, target: self, action: Selector(selector))
+        navigationItem.rightBarButtonItems = nil
+        navigationItem.rightBarButtonItem = rightItem
+        return rightItem
+    }
+
     func setLetGoRightButtonWith(imageName image: String, selector: String,
         buttonsTintColor: UIColor? = nil) -> UIBarButtonItem {
             return setLetGoRightButtonWith(imageName: image, renderingMode: .AlwaysTemplate, selector: selector,
@@ -33,12 +64,19 @@ extension UIViewController {
     
     func setLetGoRightButtonWith(imageName image: String, renderingMode: UIImageRenderingMode,
         selector: String, buttonsTintColor: UIColor? = nil) -> UIBarButtonItem {
-            let itemImage = UIImage(named: image)?.imageWithRenderingMode(renderingMode)
-            let rightitem = UIBarButtonItem(image:itemImage,
-                style: UIBarButtonItemStyle.Plain, target: self, action: Selector(selector))
-            rightitem.tintColor = buttonsTintColor
-            self.navigationItem.rightBarButtonItem = rightitem
-            return rightitem
+        return setLetGoRightButtonWith(image: UIImage(named: image), renderingMode: renderingMode, selector: selector,
+                                       buttonsTintColor: buttonsTintColor)
+    }
+
+    func setLetGoRightButtonWith(image image: UIImage?, renderingMode: UIImageRenderingMode,
+                                           selector: String, buttonsTintColor: UIColor? = nil) -> UIBarButtonItem {
+        let itemImage = image?.imageWithRenderingMode(renderingMode)
+        let rightitem = UIBarButtonItem(image:itemImage,
+                                        style: UIBarButtonItemStyle.Plain, target: self, action: Selector(selector))
+        rightitem.tintColor = buttonsTintColor
+        navigationItem.rightBarButtonItems = nil
+        navigationItem.rightBarButtonItem = rightitem
+        return rightitem
     }
     
     // Used to set right buttons in the LetGo style and link them with proper actions.
@@ -83,7 +121,8 @@ extension UIViewController {
             
             return UIBarButtonItem(customView: button)
         }
-        
+
+        navigationItem.rightBarButtonItem = nil
         navigationItem.rightBarButtonItems = items.reverse()
     }
 }

@@ -389,20 +389,27 @@ public struct TrackerEvent {
 
     static func productSellError(error: EventParameterPostProductError) -> TrackerEvent {
         var params = EventParameters()
-        params[.ErrorDescription] = error.rawValue
+        params[.ErrorDescription] = error.description
         return TrackerEvent(name: .ProductSellError, params: params)
     }
 
     static func productSellErrorClose(error: EventParameterPostProductError) -> TrackerEvent {
         var params = EventParameters()
-        params[.ErrorDescription] = error.rawValue
+        params[.ErrorDescription] = error.description
         return TrackerEvent(name: .ProductSellErrorClose, params: params)
     }
 
     static func productSellErrorPost(error: EventParameterPostProductError) -> TrackerEvent {
         var params = EventParameters()
-        params[.ErrorDescription] = error.rawValue
+        params[.ErrorDescription] = error.description
         return TrackerEvent(name: .ProductSellErrorPost, params: params)
+    }
+
+    static func productSellErrorData(error: EventParameterPostProductError) -> TrackerEvent {
+        var params = EventParameters()
+        params[.ErrorDescription] = error.description
+        params[.ErrorDetails] = error.details
+        return TrackerEvent(name: .ProductSellErrorData, params: params)
     }
 
     static func productSellConfirmation(product: Product) -> TrackerEvent {

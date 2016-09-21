@@ -452,6 +452,7 @@
 "product_share_email_error" = "Упс, похоже, вы не создали аккаунт в почтовом приложении.";
 "product_share_generic_error" = "При размещении товара произошла ошибка. Пожалуйста, попробуйте еще раз позже.";
 "product_share_generic_ok" = "Товар успешно размещен!";
+"product_share_navbar_button" = "Share";
 "product_share_posted_by" = "размещено %@";
 "product_share_sms_error" = "При отправке сообщения произошла ошибка.";
 "product_share_sms_ok" = "Отправка...";

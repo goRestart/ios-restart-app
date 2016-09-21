@@ -117,6 +117,7 @@ enum AccessibilityId: String {
     case ProductCarouselProductStatusLabel
     case ProductCarouselDirectChatTable
     case ProductCarouselStickersButton
+    case ProductCarouselEditButton
     case ProductCarouselFullScreenAvatarView
     case ProductCarouselPageControl
 

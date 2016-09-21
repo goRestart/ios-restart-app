@@ -1335,6 +1335,9 @@
 // Error shown when the photo library access is restricted in the Device
 "product_sell_photolibrary_restricted_error" = "Access to your Photo Library is restricted. Please check your settings and try again.";
 
+// Share on product detail 
+"product_share_navbar_button" = "Share";
+
 // Product share body
 "product_share_body" = "Look what I just found on letgo!";
 
@@ -1751,6 +1754,9 @@
 
 // Sign up send error generic. Check image @ "sign_up_send_error_email_taken" segment
 "sign_up_send_error_generic" = "An error occurred while creating the account. Please try again.";
+
+// Sign up send error invalid Domain. Check image @ "sign_up_send_error_email_taken" segment
+"sign_up_send_error_invalid_domain" = "Invalid email address. Please change it and try again.";
 
 // Sign up send error invalid email. Check image @ "sign_up_send_error_email_taken" segment
 "sign_up_send_error_invalid_email" = "Please insert a valid email address.";
