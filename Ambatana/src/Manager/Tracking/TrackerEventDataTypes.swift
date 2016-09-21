@@ -57,6 +57,7 @@ public enum EventName: String {
     case ProductSellError                   = "product-sell-error"
     case ProductSellErrorClose              = "product-sell-error-close"
     case ProductSellErrorPost               = "product-sell-error-post"
+    case ProductSellErrorData               = "product-sell-error-data"
     case ProductSellConfirmation            = "product-sell-confirmation"
     case ProductSellConfirmationPost        = "product-sell-confirmation-post"
     case ProductSellConfirmationClose       = "product-sell-confirmation-close"
@@ -345,6 +346,8 @@ public enum EventParameterLoginError {
     case TermsNotAccepted
     case TooManyRequests
     case Scammer
+    case BlacklistedDomain
+    case BadRequest
 
     public var description: String {
         switch self {
@@ -380,6 +383,10 @@ public enum EventParameterLoginError {
             return "TooManyRequests"
         case .Scammer:
             return "Scammer"
+        case .BlacklistedDomain:
+            return "BlacklistedDomain"
+        case .BadRequest:
+            return "BadRequest"
         }
 
     }
@@ -390,15 +397,36 @@ public enum EventParameterLoginError {
             return description
         case .Network, .Unauthorized, .NotFound, .Forbidden, .InvalidEmail, .NonExistingEmail, .InvalidPassword,
              .InvalidUsername, .UserNotFoundOrWrongPassword, .EmailTaken, .PasswordMismatch, .UsernameTaken,
-             .TermsNotAccepted, .TooManyRequests, .Scammer:
+             .TermsNotAccepted, .TooManyRequests, .Scammer, BlacklistedDomain, .BadRequest:
             return nil
         }
     }
 }
 
-public enum EventParameterPostProductError: String {
-    case Network = "product-sell-network"
-    case Internal = "product-sell-internal"
+public enum EventParameterPostProductError {
+    case Network
+    case Internal
+    case ServerError(code: Int?)
+
+    var description: String {
+        switch self {
+        case .Network:
+            return "product-sell-network"
+        case .Internal:
+            return "product-sell-internal"
+        case .ServerError:
+            return "product-sell-server-error"
+        }
+    }
+
+    var details: Int? {
+        switch self {
+        case .Network, .Internal:
+            return nil
+        case let .ServerError(errorCode):
+            return errorCode
+        }
+    }
 }
 
 public enum EventParameterEditedFields: String {

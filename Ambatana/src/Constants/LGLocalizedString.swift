@@ -2363,6 +2363,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("sign_up_send_error_generic", comment: "")
 	}
 
+	static var signUpSendErrorInvalidDomain: String {
+		return NSLocalizedString("sign_up_send_error_invalid_domain", comment: "")
+	}
+
 	static var signUpSendErrorInvalidEmail: String {
 		return NSLocalizedString("sign_up_send_error_invalid_email", comment: "")
 	}
