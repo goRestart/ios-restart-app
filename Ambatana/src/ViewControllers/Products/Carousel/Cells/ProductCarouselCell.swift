@@ -114,11 +114,10 @@ extension ProductCarouselCell: UICollectionViewDelegate, UICollectionViewDataSou
             //Required to avoid missmatching when downloading images
             let imageCellTag = indexPath.hash
             let productCarouselTag = self.tag
-            cell.tag = imageCellTag
+            imageCell.tag = imageCellTag
+            imageCell.position = indexPath.row
 
-            let usePlaceholder = indexPath.row == 0
-
-            if let placeholder = placeholderImage where usePlaceholder {
+            if let placeholder = placeholderImage where indexPath.row == 0 {
                 imageCell.setImage(placeholder)
             } else {
                 imageCell.imageView.image = nil
@@ -131,7 +130,8 @@ extension ProductCarouselCell: UICollectionViewDelegate, UICollectionViewDataSou
             }
             
             imageCell.backgroundColor = UIColor.placeholderBackgroundColor(product?.objectId)
-            imageCell.zooming.distinctUntilChanged().subscribeNext { [weak self] zooming in
+            imageCell.zooming.subscribeNext { [weak self] (zooming, position) in
+                guard let currentPage = self?.currentPage where position == currentPage else { return }
                 self?.delegate?.isZooming(zooming)
             }.addDisposableTo(disposeBag)
 
@@ -145,6 +145,7 @@ extension ProductCarouselCell: UICollectionViewDelegate, UICollectionViewDataSou
         let page = Int(round(collectionView.contentOffset.y / pageSize)) % numImages
         if page != currentPage {
             currentPage = page
+            delegate?.isZooming(false)
             delegate?.didScrollToPage(page)
         }
 

@@ -777,7 +777,7 @@ extension ProductCarouselViewController {
     }
     
     @IBAction func showMoreInfo() {
-        guard moreInfoState.value == .Hidden else { return }
+        guard moreInfoState.value == .Hidden || moreInfoState.value == .Moving else { return }
 
         moreInfoState.value = .Shown
         viewModel.didOpenMoreInfo()
@@ -789,7 +789,7 @@ extension ProductCarouselViewController {
     }
 
     func hideMoreInfo() {
-        guard moreInfoState.value == .Shown else { return }
+        guard moreInfoState.value == .Shown || moreInfoState.value == .Moving else { return }
 
         moreInfoState.value = .Hidden
         UIView.animateWithDuration(0.5, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 5, options: [],

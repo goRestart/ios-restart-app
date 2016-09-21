@@ -11,12 +11,14 @@ import RxSwift
 class ProductCarouselImageCell: UICollectionViewCell, UIScrollViewDelegate {
     
     static let identifier = "ProductCarouselImageCell"
-    var scrollView: UIScrollView
+
+    var zooming = PublishSubject<(Bool, Int)>()
+    var position: Int = 0
     var imageView: UIImageView
-    var backgroundImage: UIImageView
-    var effectsView: UIVisualEffectView
-    var zooming = PublishSubject<Bool>()
-    var referenceZoomLevel: CGFloat = 1.0
+    private var scrollView: UIScrollView
+    private var backgroundImage: UIImageView
+    private var effectsView: UIVisualEffectView
+    private var referenceZoomLevel: CGFloat = 1.0
     
     override init(frame: CGRect) {
         self.scrollView = UIScrollView()
@@ -53,7 +55,7 @@ class ProductCarouselImageCell: UICollectionViewCell, UIScrollViewDelegate {
         imageView.image = img
         backgroundImage.image = img
 
-        zooming.onNext(false)
+        zooming.onNext((false, position))
     }
 
     func setupUI() {
@@ -89,7 +91,7 @@ class ProductCarouselImageCell: UICollectionViewCell, UIScrollViewDelegate {
 
     override func prepareForReuse() {
         zooming.onCompleted()
-        zooming = PublishSubject<Bool>()
+        zooming = PublishSubject<(Bool, Int)>()
     }
     
     func scrollViewDidZoom(scrollView: UIScrollView) {
@@ -99,7 +101,7 @@ class ProductCarouselImageCell: UICollectionViewCell, UIScrollViewDelegate {
         imageView.center = CGPointMake(scrollView.contentSize.width * 0.5 + offsetX,
                                        scrollView.contentSize.height * 0.5 + offsetY)
 
-        zooming.onNext(scrollView.zoomScale > referenceZoomLevel)
+        zooming.onNext((scrollView.zoomScale > referenceZoomLevel, position))
     }
 }
 
