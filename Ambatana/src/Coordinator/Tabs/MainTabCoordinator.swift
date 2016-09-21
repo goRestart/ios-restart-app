@@ -28,12 +28,13 @@ final class MainTabCoordinator: TabCoordinator {
         viewModel.tabNavigator = self
     }
 
-    func openSearch(query: String, categoriesString: String?) {
+    func openSearch(query: String, categoriesString: String?, canInvite: Bool) {
         var filters = ProductFilters()
         if let categoriesString = categoriesString {
             filters.selectedCategories = ProductCategory.categoriesFromString(categoriesString)
         }
-        let viewModel = MainProductsViewModel(searchType: .User(query: query), filters: filters, tabNavigator: self)
+        let viewModel = MainProductsViewModel(searchType: .User(query: query), filters: filters, tabNavigator: self,
+                                              canInvite: canInvite)
         let vc = MainProductsViewController(viewModel: viewModel)
 
         navigationController.pushViewController(vc, animated: true)

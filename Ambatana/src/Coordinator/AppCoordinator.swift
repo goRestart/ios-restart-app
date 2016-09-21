@@ -577,7 +577,8 @@ private extension AppCoordinator {
         case .Search(let query, let categories):
             afterDelayClosure = { [weak self] in
                 self?.openTab(.Home, force: false)
-                self?.mainTabBarCoordinator.openSearch(query, categoriesString: categories)
+                self?.mainTabBarCoordinator.openSearch(query, categoriesString: categories,
+                                                       canInvite: AppCoordinator.canOpenAppInvite())
             }
         case .ResetPassword(let token):
             afterDelayClosure = { [weak self] in
