@@ -83,7 +83,9 @@ class MainProductsViewModel: BaseViewModel {
 
         return resultTags
     }
-    
+
+    var shouldShowInviteButton: Bool = false
+
     // Manager & repositories
     private let myUserRepository: MyUserRepository
     private let trendingSearchesRepository: TrendingSearchesRepository
@@ -118,7 +120,7 @@ class MainProductsViewModel: BaseViewModel {
     
     init(myUserRepository: MyUserRepository, trendingSearchesRepository: TrendingSearchesRepository,
          locationManager: LocationManager, tracker: Tracker, searchType: SearchType? = nil, filters: ProductFilters,
-         tabNavigator: TabNavigator?) {
+         tabNavigator: TabNavigator?, canInvite: Bool = false) {
         self.myUserRepository = myUserRepository
         self.trendingSearchesRepository = trendingSearchesRepository
         self.locationManager = locationManager
@@ -126,6 +128,7 @@ class MainProductsViewModel: BaseViewModel {
         self.searchType = searchType
         self.filters = filters
         self.tabNavigator = tabNavigator
+        self.shouldShowInviteButton = canInvite
         self.collections = CollectionCellType.allValues.shuffle()
         self.productListRequester = FilteredProductListRequester()
         let show3Columns = DeviceFamily.isWideScreen
@@ -142,19 +145,20 @@ class MainProductsViewModel: BaseViewModel {
         setup()
     }
     
-    convenience init(searchType: SearchType? = nil, filters: ProductFilters, tabNavigator: TabNavigator?) {
+    convenience init(searchType: SearchType? = nil, filters: ProductFilters, tabNavigator: TabNavigator?,
+                     canInvite: Bool = false) {
         let myUserRepository = Core.myUserRepository
         let trendingSearchesRepository = Core.trendingSearchesRepository
         let locationManager = Core.locationManager
         let tracker = TrackerProxy.sharedInstance
         self.init(myUserRepository: myUserRepository, trendingSearchesRepository: trendingSearchesRepository,
                   locationManager: locationManager, tracker: tracker, searchType: searchType, filters: filters,
-                  tabNavigator: tabNavigator)
+                  tabNavigator: tabNavigator, canInvite: canInvite)
     }
     
-    convenience init(searchType: SearchType? = nil, tabNavigator: TabNavigator?) {
+    convenience init(searchType: SearchType? = nil, tabNavigator: TabNavigator?, canInvite: Bool = false) {
         let filters = ProductFilters()
-        self.init(searchType: searchType, filters: filters, tabNavigator: tabNavigator)
+        self.init(searchType: searchType, filters: filters, tabNavigator: tabNavigator, canInvite: canInvite)
     }
 
     deinit {

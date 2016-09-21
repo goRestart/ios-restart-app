@@ -10,7 +10,7 @@ import LGCoreKit
 
 final class MainTabCoordinator: TabCoordinator {
 
-    convenience init() {
+    convenience init(canInvite: Bool) {
         let productRepository = Core.productRepository
         let userRepository = Core.userRepository
         let chatRepository = Core.chatRepository
@@ -18,7 +18,7 @@ final class MainTabCoordinator: TabCoordinator {
         let myUserRepository = Core.myUserRepository
         let keyValueStorage = KeyValueStorage.sharedInstance
         let tracker = TrackerProxy.sharedInstance
-        let viewModel = MainProductsViewModel(searchType: nil, tabNavigator: nil)
+        let viewModel = MainProductsViewModel(searchType: nil, tabNavigator: nil, canInvite: canInvite)
         let rootViewController = MainProductsViewController(viewModel: viewModel)
         self.init(productRepository: productRepository, userRepository: userRepository,
                   chatRepository: chatRepository, oldChatRepository: oldChatRepository,

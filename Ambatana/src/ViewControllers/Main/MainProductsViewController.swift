@@ -311,6 +311,8 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     
     private func setInviteNavBarButton() {
         guard isRootViewController() else { return }
+        guard viewModel.shouldShowInviteButton else { return }
+        
         var button: UIBarButtonItem?
         switch FeatureFlags.appInviteFeedMode {
         case .None:

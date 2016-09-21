@@ -80,7 +80,7 @@ final class AppCoordinator: NSObject {
 
         self.tabBarCtl = tabBarController
         
-        self.mainTabBarCoordinator = MainTabCoordinator()
+        self.mainTabBarCoordinator = MainTabCoordinator(canInvite: AppCoordinator.canOpenAppInvite())
         self.secondTabBarCoordinator = FeatureFlags.notificationsSection ? NotificationsTabCoordinator() :
                                                                            CategoriesTabCoordinator()
         self.chatsTabBarCoordinator = ChatsTabCoordinator()
@@ -189,9 +189,13 @@ extension AppCoordinator: AppNavigator {
             self?.tabBarCtl.presentViewController(vc, animated: true, completion: nil)
         }
     }
-    
+
     func openAppInvite() {
         AppShareViewController.showOnViewControllerIfNeeded(tabBarCtl)
+    }
+
+    static func canOpenAppInvite() -> Bool {
+        return AppShareViewController.canBeShown()
     }
 }
 
