@@ -11,7 +11,7 @@ import RxSwift
 
 protocol ProductCarouselCellDelegate: class {
     func didTapOnCarouselCell(cell: UICollectionViewCell)
-    func didChangeZoomLevel(level: CGFloat)
+    func isZooming(zooming: Bool)
     func didScrollToPage(page: Int)
     func didPullFromCellWith(offset: CGFloat, bottomLimit: CGFloat)
     func canScrollToNextPage() -> Bool
@@ -114,11 +114,10 @@ extension ProductCarouselCell: UICollectionViewDelegate, UICollectionViewDataSou
             //Required to avoid missmatching when downloading images
             let imageCellTag = indexPath.hash
             let productCarouselTag = self.tag
-            cell.tag = imageCellTag
+            imageCell.tag = imageCellTag
+            imageCell.position = indexPath.row
 
-            let usePlaceholder = indexPath.row == 0
-
-            if let placeholder = placeholderImage where usePlaceholder {
+            if let placeholder = placeholderImage where indexPath.row == 0 {
                 imageCell.setImage(placeholder)
             } else {
                 imageCell.imageView.image = nil
@@ -131,8 +130,9 @@ extension ProductCarouselCell: UICollectionViewDelegate, UICollectionViewDataSou
             }
             
             imageCell.backgroundColor = UIColor.placeholderBackgroundColor(product?.objectId)
-            imageCell.zoomLevel.subscribeNext { [weak self] level in
-                self?.delegate?.didChangeZoomLevel(level)
+            imageCell.zooming.subscribeNext { [weak self] (zooming, position) in
+                guard let currentPage = self?.currentPage where position == currentPage else { return }
+                self?.delegate?.isZooming(zooming)
             }.addDisposableTo(disposeBag)
 
             return imageCell
@@ -145,6 +145,7 @@ extension ProductCarouselCell: UICollectionViewDelegate, UICollectionViewDataSou
         let page = Int(round(collectionView.contentOffset.y / pageSize)) % numImages
         if page != currentPage {
             currentPage = page
+            delegate?.isZooming(false)
             delegate?.didScrollToPage(page)
         }
 
