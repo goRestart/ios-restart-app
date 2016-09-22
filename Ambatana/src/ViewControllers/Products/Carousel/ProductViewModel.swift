@@ -707,6 +707,9 @@ extension ProductViewModel {
                 strongSelf.favoriteButtonState.value = .Enabled
                 strongSelf.refreshInterestedBubble(true)
             }
+
+            // TODO: check tests and send sticker "love it!" (just once for this product and this user!)
+            sendFavoriteSticker()
         }
     }
 
@@ -929,6 +932,27 @@ private extension ProductViewModelStatus {
             return active ? .AvailableAndCommercializable : .Available
         case .Sold, .OtherSold, .NotAvailable, .OtherAvailable:
             return self
+        }
+    }
+}
+
+
+private extension ProductViewModel {
+
+    static let favouriteStickerName = ":love_it:"
+
+    private func sendFavoriteSticker() {
+
+        // CHECK AB TEST
+
+        stickersRepository.show(typeFilter: .Chat) { [weak self] result in
+            guard let stickers = result.value else { return }
+            for sticker in stickers {
+                if sticker.name == ProductViewModel.favouriteStickerName {
+                    self?.sendStickerToSeller(sticker)
+                    break
+                }
+            }
         }
     }
 }
