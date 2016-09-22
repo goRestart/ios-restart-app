@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Ignacio Nieto Carvajal. All rights reserved.
 //
 
-import AppsFlyer
+import AppsFlyerTracker
 import Branch
 import Crashlytics
 import CocoaLumberjack
