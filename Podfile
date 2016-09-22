@@ -42,13 +42,10 @@ def shared_pods
     pod "LGCollapsibleLabel",    :path => "../collapsiblelabel" #"0.1.8"
 
 	# Collection View Custom Layout
-	pod "CHTCollectionViewWaterfallLayout", "~> 0.9.1"
+	pod "CHTCollectionViewWaterfallLayout", "~> 0.9.5"  # Swift 3.0: -
 
 	# Device info helper
-	pod "DeviceUtil",         "~> 1.3.5"
-
-	# Push Notifications
-	pod "Kahuna",               "2.3.1"
+	pod "DeviceUtil",         "~> 1.3.8"  # Swift 3.0: -
 
 	# Google -> we have to ask for the Google/"subpod" so it imports Google/Core too
     pod "Google/Analytics",         "~> 3.0.3"
