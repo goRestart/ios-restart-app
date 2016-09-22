@@ -11,6 +11,7 @@ import FBSDKShareKit
 import MessageUI
 
 class AppShareViewController: UIViewController {
+
     @IBOutlet weak var contentContainer: UIView!
     @IBOutlet weak var headerImageView: UIImageView!
 
@@ -32,7 +33,11 @@ class AppShareViewController: UIViewController {
     @IBOutlet weak var inviteEmailHeight: NSLayoutConstraint!
     @IBOutlet weak var inviteEmailTop: NSLayoutConstraint!
 
-    
+
+    static func canBeShown() -> Bool {
+        return SocialHelper.canShareInFBMessenger() || SocialHelper.canShareInWhatsapp() || SocialHelper.canShareInEmail()
+    }
+
     static func showOnViewControllerIfNeeded(viewController: UIViewController) -> Bool {
         guard !KeyValueStorage.sharedInstance.userAppShared else { return false }
         guard SocialHelper.canShareInWhatsapp() || SocialHelper.canShareInFBMessenger() ||

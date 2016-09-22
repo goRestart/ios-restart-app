@@ -602,7 +602,7 @@ extension EditProductViewController: EditProductViewModelDelegate {
 
         let message: String
         switch (error) {
-        case .Network, .Internal:
+        case .Network, .Internal, .ServerError:
             self.viewModel.shouldDisableTracking()
             message = LGLocalizedString.editProductSendErrorUploadingProduct
             completion = {

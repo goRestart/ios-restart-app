@@ -83,7 +83,11 @@ class MainProductsViewModel: BaseViewModel {
 
         return resultTags
     }
-    
+
+    var shouldShowInviteButton: Bool {
+        return tabNavigator?.canOpenAppInvite() ?? false
+    }
+
     // Manager & repositories
     private let myUserRepository: MyUserRepository
     private let trendingSearchesRepository: TrendingSearchesRepository
@@ -394,7 +398,7 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate {
             switch error {
             case .Network:
                 errorString = LGLocalizedString.toastNoNetwork
-            case .Internal, .NotFound, .Forbidden, .TooManyRequests, .UserNotVerified:
+            case .Internal, .NotFound, .Forbidden, .TooManyRequests, .UserNotVerified, .ServerError:
                 errorString = LGLocalizedString.toastErrorInternal
             case .Unauthorized:
                 errorString = nil

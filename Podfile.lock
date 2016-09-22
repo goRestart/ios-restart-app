@@ -93,7 +93,7 @@ PODS:
   - KMPlaceholderTextView (1.2.2)
   - Leanplum-iOS-SDK (1.4.0.1)
   - LGCollapsibleLabel (0.1.8)
-  - LGCoreKit (1.0.5):
+  - LGCoreKit (1.0.7):
     - Alamofire (~> 3.4.0)
     - Argo (~> 3.0.1)
     - CocoaLumberjack/Swift (~> 2.3.0)
@@ -131,7 +131,7 @@ PODS:
   - RxTests (2.5.0):
     - RxSwift (~> 2.5)
   - SlackTextViewController (1.9.1)
-  - SwiftWebSocket (2.6.3)
+  - SwiftWebSocket (2.6.4)
   - SwiftyUserDefaults (2.2.1)
   - TMReachability (3.2)
   - TwitterCore (2.3.0):
@@ -167,7 +167,7 @@ DEPENDENCIES:
   - KMPlaceholderTextView (~> 1.2.2)
   - Leanplum-iOS-SDK (~> 1.4.0)
   - LGCollapsibleLabel (= 0.1.8)
-  - LGCoreKit (= 1.0.5)
+  - LGCoreKit (= 1.0.7)
   - Nimble (~> 4.0.1)
   - OHHTTPStubs (~> 5.1.0)
   - OHHTTPStubs/Swift
@@ -247,7 +247,7 @@ SPEC CHECKSUMS:
   KMPlaceholderTextView: bbff031935d84f7eedb585e7f77120020fbae9e8
   Leanplum-iOS-SDK: 220755449d8f39270591fe75f49e8abe6f29d934
   LGCollapsibleLabel: c7c43dc5932e93faf1fe858bb9f860b38d7c3f9f
-  LGCoreKit: afce69780d7fe02670933977c91e13e8723b7c70
+  LGCoreKit: a869408a4a34b64ed415201d923401ace5447d68
   Nimble: 0f3c8b8b084cda391209c3c5efbb48bedeeb920a
   OHHTTPStubs: 592f74439d2d72615115cf99a954237a3fbe26e5
   Quick: 13a2a2b19a5d8e3ed4fd0c36ee46597fd77ebf71
@@ -258,12 +258,12 @@ SPEC CHECKSUMS:
   RxSwift: 402b41a50e922a0368fc14cb3bc9f4427920e8ae
   RxTests: 1b13bea0a138552b52aeead549ef08d578bcda9e
   SlackTextViewController: 6b0d1030c53937226fc5358f217af2a34fc211cf
-  SwiftWebSocket: 76e3ade5d716a80440dbf859b39b05d842f80d03
+  SwiftWebSocket: fdb5b4393cede304d44befbaeb0c8ef14c28d3bb
   SwiftyUserDefaults: 7abdba50a50ea0c18ee8903af3c88e4c1cb8448d
   TMReachability: 48c99d728a8b0ad4493800592484b8cbb65c896c
   TwitterCore: 817eae3e291fa4125b47789e26a4f6f024115c1f
   TwitterKit: 8a383da8d9c21b0423716381ea8bbfce20622d91
 
-PODFILE CHECKSUM: 9d94a058ed0ae41934881f104cbf525945e54675
+PODFILE CHECKSUM: 77edf57eff079d9f7ae13cfb4dd3aefa166145c4
 
 COCOAPODS: 1.0.1
