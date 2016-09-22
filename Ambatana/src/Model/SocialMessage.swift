@@ -386,7 +386,10 @@ struct UserSocialMessage: SocialMessage {
     }
 
     var emailShareBody: String {
-        return messageText + "\n\n" + branchUrl(.Email).absoluteString!
+        guard let urlStr = branchUrl(.Email).absoluteString else {
+            return messageText
+        }
+        return messageText + "\n\n" + urlStr
     }
 
     let emailShareIsHtml = true
@@ -412,9 +415,10 @@ struct UserSocialMessage: SocialMessage {
     }
 
     private func fullMessageWUrl(source: ShareSource) -> String {
-        let fullMessage = messageText
-        let urlString = branchUrl(source).absoluteString
-        return fullMessage.isEmpty ? urlString! : fullMessage + ":\n" + urlString!
+        guard let urlString = branchUrl(source).absoluteString else {
+            return messageText
+        }
+        return messageText.isEmpty ? urlString : messageText + ":\n" + urlString
     }
 
     private var letgoURL: NSURL {
@@ -453,8 +457,9 @@ struct UserSocialMessage: SocialMessage {
         linkProperties.tags = ["ios_app"]
         linkProperties.addControlParam("$deeplink_path", withValue: "users/\(userId)")
 
-        let letgoUrlString = addCampaignInfoToString(letgoURL.absoluteString!, source: source)
+        guard let urlStr = letgoURL.absoluteString else { return linkProperties }
 
+        let letgoUrlString = addCampaignInfoToString(urlStr, source: source)
         linkProperties.addControlParam("$fallback_url", withValue: letgoUrlString)
         linkProperties.addControlParam("$desktop_url", withValue: letgoUrlString)
         linkProperties.addControlParam("$ios_url", withValue: letgoUrlString)
