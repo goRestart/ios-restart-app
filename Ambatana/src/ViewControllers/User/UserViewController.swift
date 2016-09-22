@@ -415,13 +415,13 @@ extension UserViewController {
         // Pattern overlay is hidden if there's no avatarand user background view is shown if so
         let userAvatar = viewModel.userAvatarURL.asObservable()
         userAvatar.map { url in
-            guard let url = url else { return false }
-            return !url.absoluteString.isEmpty
+            guard let url = url, urlString = url.absoluteString else { return false }
+            return !urlString.isEmpty
         }.bindTo(patternView.rx_hidden).addDisposableTo(disposeBag)
 
         userAvatar.map { url in
-            guard let url = url else { return true }
-            return url.absoluteString.isEmpty
+            guard let url = url, urlString = url.absoluteString else { return false }
+            return !urlString.isEmpty
         }.bindTo(userBgView.rx_hidden).addDisposableTo(disposeBag)
 
         // Load avatar image
