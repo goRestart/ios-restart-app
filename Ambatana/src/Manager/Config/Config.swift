@@ -33,7 +33,7 @@ public class Config: ResponseObjectSerializable {
     // MARK : - Lifecycle
 
     public convenience init() {
-        self.dynamicType.init(buildNumber: 0, forceUpdateVersions: [], configURL: "",
+        self.init(buildNumber: 0, forceUpdateVersions: [], configURL: "",
                   quadKeyZoomLevel: Constants.defaultQuadKeyZoomLevel,
                   myMessagesCountForRating: Constants.myMessagesCountForRating,
                   otherMessagesCountForRating: Constants.otherMessagesCountForRating)
