@@ -88,7 +88,7 @@ class FiltersViewModel: BaseViewModel {
     
     
     override convenience init() {
-        self.dynamicType.init(currentFilters: ProductFilters())
+        self.init(currentFilters: ProductFilters())
     }
     
     convenience init(currentFilters: ProductFilters) {
