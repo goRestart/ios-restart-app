@@ -127,7 +127,7 @@ class ProductListViewModel: BaseViewModel {
     }
     
     convenience init(listViewModel: ProductListViewModel) {
-        self.init(requester: listViewModel.productListRequester)
+        self.dynamicType.init(requester: listViewModel.productListRequester)
         self.pageNumber = listViewModel.pageNumber
         self.state = listViewModel.state
         self.objects = listViewModel.objects

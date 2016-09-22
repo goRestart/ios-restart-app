@@ -15,16 +15,16 @@ extension UIImage {
         UIGraphicsBeginImageContextWithOptions(self.size, false, self.scale)
         
         let context = UIGraphicsGetCurrentContext()
-        CGContextTranslateCTM(context, 0, self.size.height)
-        CGContextScaleCTM(context, 1.0, -1.0);
-        CGContextSetBlendMode(context, CGBlendMode.Normal)
+        CGContextTranslateCTM(context!, 0, self.size.height)
+        CGContextScaleCTM(context!, 1.0, -1.0);
+        CGContextSetBlendMode(context!, CGBlendMode.Normal)
         
         let rect = CGRectMake(0, 0, self.size.width, self.size.height) as CGRect
-        CGContextClipToMask(context, rect, self.CGImage)
+        CGContextClipToMask(context!, rect, self.CGImage!)
         color.setFill()
-        CGContextFillRect(context, rect)
+        CGContextFillRect(context!, rect)
         
-        let newImage = UIGraphicsGetImageFromCurrentImageContext() as UIImage
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()! as UIImage
         UIGraphicsEndImageContext()
         
         return newImage

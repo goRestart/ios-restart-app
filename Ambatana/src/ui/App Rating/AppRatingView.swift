@@ -27,7 +27,7 @@ class AppRatingView: UIView {
     var ratingSource: EventParameterRatingSource?
     
     static func ratingView(source: EventParameterRatingSource) -> AppRatingView? {
-        guard let view = NSBundle.mainBundle().loadNibNamed("AppRatingView", owner: self, options: nil).first
+        guard let view = NSBundle.mainBundle().loadNibNamed("AppRatingView", owner: self, options: nil)!.first
             as? AppRatingView else { return nil }
         view.ratingSource = source
         return view

@@ -14,7 +14,7 @@ extension UIImage {
     
     // Returns a copy of this image, cropped to certain bounds.
     func croppedImage(bounds: CGRect) -> UIImage? {
-        if let imageRef = CGImageCreateWithImageInRect(self.CGImage, bounds) {
+        if let imageRef = CGImageCreateWithImageInRect(self.CGImage!, bounds) {
             let croppedImage = UIImage(CGImage: imageRef, scale: 1.0, orientation: self.imageOrientation)
             return croppedImage
         }
@@ -102,20 +102,20 @@ extension UIImage {
         let imageRef = self.CGImage
         
         // Generate a context for the new size
-        let context = CGBitmapContextCreate(nil, Int(newFrame.size.width), Int(newFrame.size.height), CGImageGetBitsPerComponent(imageRef),
-            0, CGImageGetColorSpace(imageRef), CGImageGetBitmapInfo(imageRef).rawValue)
+        let context = CGBitmapContextCreate(nil, Int(newFrame.size.width), Int(newFrame.size.height), CGImageGetBitsPerComponent(imageRef!),
+            0, CGImageGetColorSpace(imageRef!)!, CGImageGetBitmapInfo(imageRef!).rawValue)
         
         // Apply transform to context.
-        CGContextConcatCTM(context, transform);
+        CGContextConcatCTM(context!, transform);
         
         // Use quality level for interpolation.
-        CGContextSetInterpolationQuality(context, interpolationQuality);
+        CGContextSetInterpolationQuality(context!, interpolationQuality);
         
         // Scale the image by drawing it in the resized context.
-        CGContextDrawImage(context, needsToBeTransposed ? CGRectMake(0, 0, newFrame.size.height, newFrame.size.width) : newFrame, imageRef);
+        CGContextDrawImage(context!, needsToBeTransposed ? CGRectMake(0, 0, newFrame.size.height, newFrame.size.width) : newFrame, imageRef!);
         
         // Return the resized image from the context.
-        if let resultCGImage = CGBitmapContextCreateImage(context) {
+        if let resultCGImage = CGBitmapContextCreateImage(context!) {
             return UIImage(CGImage: resultCGImage)
         }
         return self
@@ -163,7 +163,7 @@ extension UIImage {
         if image == nil { return nil }
         // Create a context
         let cgImage = image.CGImage
-        if let context = CGBitmapContextCreate(nil, Int(image.size.width), Int(image.size.height), CGImageGetBitsPerComponent(cgImage), 0, CGImageGetColorSpace(cgImage), CGImageGetBitmapInfo(cgImage).rawValue) {
+        if let context = CGBitmapContextCreate(nil, Int(image.size.width), Int(image.size.height), CGImageGetBitsPerComponent(cgImage!), 0, CGImageGetColorSpace(cgImage!)!, CGImageGetBitmapInfo(cgImage!).rawValue) {
             // Create a clipping path with the rounded corners
             CGContextBeginPath(context)
             self.addRoundedRectToPath(CGRectMake(CGFloat(borderSize), CGFloat(borderSize), image.size.width - CGFloat(borderSize)*2, image.size.height - CGFloat(borderSize)*2), context: context, ovalWidth: size, ovalHeight: size)
@@ -171,7 +171,7 @@ extension UIImage {
             CGContextClip(context)
             
             // draw the image in the clipped context
-            CGContextDrawImage(context, CGRectMake(0, 0, image.size.width, image.size.height), cgImage)
+            CGContextDrawImage(context, CGRectMake(0, 0, image.size.width, image.size.height), cgImage!)
             
             // create the image and return it
             if let clippedImage = CGBitmapContextCreateImage(context) {
@@ -206,7 +206,7 @@ extension UIImage {
     
     // Returns true if the image has an alpha layer.
     internal func hasAlpha() -> Bool {
-        let alpha = CGImageGetAlphaInfo(self.CGImage)
+        let alpha = CGImageGetAlphaInfo(self.CGImage!)
         return (alpha == .First || alpha == .Last || alpha == .PremultipliedFirst || alpha == .PremultipliedLast)
     }
     
@@ -215,16 +215,16 @@ extension UIImage {
         if self.hasAlpha() { return nil }
         
         let cgImage = self.CGImage
-        let width = CGImageGetWidth(cgImage)
-        let height = CGImageGetHeight(cgImage)
+        let width = CGImageGetWidth(cgImage!)
+        let height = CGImageGetHeight(cgImage!)
         
         // bitsPerComponent and bitmapInfo hardcoded for avoiding an "unsupported parameter combination" error message
         let alphaInfoAsBitmapInfo = CGBitmapInfo(rawValue: CGImageAlphaInfo.PremultipliedFirst.rawValue)
-        let context = CGBitmapContextCreate(nil, width, height, 8, 0, CGImageGetColorSpace(cgImage), CGBitmapInfo.ByteOrderDefault.union(alphaInfoAsBitmapInfo).rawValue)
+        let context = CGBitmapContextCreate(nil, width, height, 8, 0, CGImageGetColorSpace(cgImage!)!, CGBitmapInfo.ByteOrderDefault.union(alphaInfoAsBitmapInfo).rawValue)
         
         // draw the image in the context and return it
-        CGContextDrawImage(context, CGRectMake(0, 0, CGFloat(width), CGFloat(height)), cgImage)
-        if let cgAlphaImage = CGBitmapContextCreateImage(context) {
+        CGContextDrawImage(context!, CGRectMake(0, 0, CGFloat(width), CGFloat(height)), cgImage!)
+        if let cgAlphaImage = CGBitmapContextCreateImage(context!) {
             return UIImage(CGImage: cgAlphaImage, scale: 1.0, orientation: self.imageOrientation)
         }
         return self
@@ -237,15 +237,15 @@ extension UIImage {
         let newFrame = CGRectMake(0, 0, image!.size.width + CGFloat(borderSize)*2, image!.size.height + CGFloat(borderSize)*2)
         // generate the context for drawing the image
         let cgImage = image!.CGImage
-        let context = CGBitmapContextCreate(nil, Int(newFrame.size.width), Int(newFrame.size.height), CGImageGetBitsPerComponent(cgImage), 0, CGImageGetColorSpace(cgImage), CGImageGetBitmapInfo(cgImage).rawValue)
+        let context = CGBitmapContextCreate(nil, Int(newFrame.size.width), Int(newFrame.size.height), CGImageGetBitsPerComponent(cgImage!), 0, CGImageGetColorSpace(cgImage!)!, CGImageGetBitmapInfo(cgImage!).rawValue)
         // we'll draw the image at the center, with a space for the borders.
         let centerLocation = CGRectMake(CGFloat(borderSize), CGFloat(borderSize), image!.size.width, image!.size.height)
-        CGContextDrawImage(context, centerLocation, cgImage)
-        let borderImage = CGBitmapContextCreateImage(context)
+        CGContextDrawImage(context!, centerLocation, cgImage!)
+        let borderImage = CGBitmapContextCreateImage(context!)
         
         // create the transparent border image mask
         let maskImage = self.newBorderMask(borderSize, size: newFrame.size)
-        if let transparentBorderImage = CGImageCreateWithMask(borderImage, maskImage) {
+        if let transparentBorderImage = CGImageCreateWithMask(borderImage!, maskImage!) {
             return UIImage(CGImage: transparentBorderImage, scale: 1.0, orientation: self.imageOrientation)
         }
         return self
@@ -260,15 +260,15 @@ extension UIImage {
         let context = CGBitmapContextCreate(nil, Int(size.width), Int(size.height), 8, 0, colorSpace, CGBitmapInfo.ByteOrderDefault.union(alphaInfoAsBitmapInfo).rawValue)
         
         // we'll fill it initially with a transparent layer.
-        CGContextSetFillColorWithColor(context, UIColor.blackColor().CGColor)
-        CGContextFillRect(context, CGRectMake(0, 0, size.width, size.height))
+        CGContextSetFillColorWithColor(context!, UIColor.blackColor().CGColor)
+        CGContextFillRect(context!, CGRectMake(0, 0, size.width, size.height))
         
         // now the inner opaque part.
-        CGContextSetFillColorWithColor(context, UIColor.whiteColor().CGColor)
-        CGContextFillRect(context, CGRectMake(CGFloat(borderSize), CGFloat(borderSize), size.width - CGFloat(borderSize) * 2, size.height - CGFloat(borderSize) * 2))
+        CGContextSetFillColorWithColor(context!, UIColor.whiteColor().CGColor)
+        CGContextFillRect(context!, CGRectMake(CGFloat(borderSize), CGFloat(borderSize), size.width - CGFloat(borderSize) * 2, size.height - CGFloat(borderSize) * 2))
         
         // return the image from the context
-        return CGBitmapContextCreateImage(context)
+        return CGBitmapContextCreateImage(context!)
     }
 
 }

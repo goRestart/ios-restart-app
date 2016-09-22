@@ -113,7 +113,7 @@ public class RelationInfoView: UIView {
     @IBOutlet weak var heightConstraint: NSLayoutConstraint!
 
     public static func relationInfoView() -> RelationInfoView {
-        guard let view =  NSBundle.mainBundle().loadNibNamed("RelationInfoView", owner: self, options: nil)
+        guard let view =  NSBundle.mainBundle().loadNibNamed("RelationInfoView", owner: self, options: nil)!
             .first as? RelationInfoView else { return RelationInfoView() }
         return view
     }

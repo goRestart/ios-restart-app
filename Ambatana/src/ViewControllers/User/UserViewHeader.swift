@@ -148,7 +148,7 @@ class UserViewHeader: UIView {
 
     static func userViewHeader() -> UserViewHeader? {
         guard let view = NSBundle.mainBundle().loadNibNamed("UserViewHeader", owner: self,
-            options: nil).first as? UserViewHeader else { return nil }
+            options: nil)!.first as? UserViewHeader else { return nil }
         view.setupUI()
         view.setupRxBindings()
         return view

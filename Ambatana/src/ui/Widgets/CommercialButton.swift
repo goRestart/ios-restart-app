@@ -15,7 +15,7 @@ class CommercialButton: UIButton {
     
     static func commercialButton() -> CommercialButton? {
         
-        let view = NSBundle.mainBundle().loadNibNamed("CommercialButton", owner: self, options: nil).first as? CommercialButton
+        let view = NSBundle.mainBundle().loadNibNamed("CommercialButton", owner: self, options: nil)!.first as? CommercialButton
         if let actualView = view {
             actualView.setupUI()
         }

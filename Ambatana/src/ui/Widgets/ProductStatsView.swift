@@ -35,7 +35,7 @@ class ProductStatsView: UIView {
 
     static func productStatsViewWithInfo(viewsCount: Int, favouritesCount: Int, postedDate: NSDate?) -> ProductStatsView? {
 
-        let view = NSBundle.mainBundle().loadNibNamed("ProductStatsView", owner: self, options: nil).first as? ProductStatsView
+        let view = NSBundle.mainBundle().loadNibNamed("ProductStatsView", owner: self, options: nil)!.first as? ProductStatsView
         if let actualView = view {
             actualView.setupUI(viewsCount, favouritesCount: favouritesCount, postedDate: postedDate)
         }

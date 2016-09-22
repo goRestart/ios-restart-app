@@ -179,7 +179,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     }
     
     required convenience init?(coder aDecoder: NSCoder) {
-        self.init(viewModel: ProductListViewModel(requester: nil), coder: aDecoder)
+        self.init(viewModel: ProductListViewModel(listViewModel: nil), coder: aDecoder)
     }
 
     internal override func didBecomeActive(firstTime: Bool) {

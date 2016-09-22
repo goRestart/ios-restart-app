@@ -75,7 +75,7 @@ public class ChangePasswordViewModel: BaseViewModel {
     }
     
     convenience init(token: String) {
-        self.init()
+        self.dynamicType.init()
         self.token = token
     }
     

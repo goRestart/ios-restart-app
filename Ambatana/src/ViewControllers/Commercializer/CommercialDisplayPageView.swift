@@ -27,8 +27,7 @@ public class CommercialDisplayPageView: UIView {
     // MARK: - Lifecycle
 
     public static func instanceFromNib() -> CommercialDisplayPageView {
-        let view = NSBundle.mainBundle().loadNibNamed("CommercialDisplayPageView", owner: self, options: nil).first as! CommercialDisplayPageView
-        return view
+        return NSBundle.mainBundle().loadNibNamed("CommercialDisplayPageView", owner: self, options: nil)!.first as! CommercialDisplayPageView
     }
 
     public override init(frame: CGRect) {
