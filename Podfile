@@ -51,36 +51,36 @@ def shared_pods
     pod "Kahuna",               "2.3.1"   # Swift 3.0: ? (doesn't matter as it will be deleted soon 🔥)
 
 	# Google -> we have to ask for the Google/"subpod" so it imports Google/Core too
-    pod "Google/Analytics",         "~> 3.0.3"
-    pod "Google/SignIn",            "~> 3.0.3"
+    pod "Google/Analytics",         "~> 3.0.3"     # Swift 3.0: -
+    pod "Google/SignIn",            "~> 3.0.3"     # Swift 3.0: -
 
-    pod "Firebase/AppIndexing",        "~> 3.4.0"
-    pod "GoogleConversionTracking", "~> 3.4.0"
-    pod "GoogleIDFASupport",        "~> 3.14.0"
+    pod "Firebase/AppIndexing",        "~> 3.4.0"  # Swift 3.0: -
+    pod "GoogleConversionTracking", "~> 3.4.0"     # Swift 3.0: -
+    pod "GoogleIDFASupport",        "~> 3.14.0"    # Swift 3.0: -
 
 	# Custom camera
-	pod "FastttCamera",         "~> 0.3.4"
+	pod "FastttCamera",         "~> 0.3.4"         # Swift 3.0: -
 
 	# Ken Burns effect
-	pod "JBKenBurnsView",        :git => 'https://github.com/letgoapp/JBKenBurns', :commit => '56419f79cb763f8d2ee3a75e4eca51ebc1deab6a'
+	pod "JBKenBurnsView",        :git => 'https://github.com/letgoapp/JBKenBurns', :commit => '56419f79cb763f8d2ee3a75e4eca51ebc1deab6a'   # Swift 3.0: -
 
 	# Reachability, done like this cos' of https://github.com/tonymillion/Reachability/issues/95
-	pod "TMReachability",        :git => 'https://github.com/albertbori/Reachability', :commit => 'e34782b386307e386348b481c02c176d58ba45e6'
+	pod "TMReachability",        :git => 'https://github.com/albertbori/Reachability', :commit => 'e34782b386307e386348b481c02c176d58ba45e6'   # Swift 3.0: -
 
     # Logging
     pod "CocoaLumberjack/Swift", "~> 2.4.0" # Swift 3.0: N/A
 
     # FlipTheSwitch
-    pod "FlipTheSwitch"
+    pod "FlipTheSwitch"                     # Swift 3.0: -
 
     # FLEX debugging tool
-    pod "FLEX",                 "~> 2.0"
+    pod "FLEX",                 "~> 2.0"    # Swift 3.0: -
 
     # User defaults
-    pod "SwiftyUserDefaults",   "~> 2.2.0"
+    pod "SwiftyUserDefaults",   "~> 2.2.1"  # Swift 3.0: 3.x
 
     # TextView with placeholder
-    pod "KMPlaceholderTextView", "~> 1.2.2"
+    pod "KMPlaceholderTextView", "~> 1.2.2" # Swift 3.0: 1.3.x
 
 end
 
@@ -96,12 +96,12 @@ target "letgoTests" do
 	shared_pods
 
     ## Testing
-    pod "Quick",            "~> 0.9.2"
-    pod "Nimble",           "~> 4.0.1"
-    pod "RxTests",          "~> 2.5.0"
+    pod "Quick",            "~> 0.9.3"      # Swift 3.0: N/A
+    pod "Nimble",           "~> 4.1.0"      # Swift 3.0: 5.x
+    pod "RxTests",          "~> 2.6.0"      # Swift 3.0: 3.x
 
     # Mocking
-    pod "OHHTTPStubs",      "~> 5.1.0"
+    pod "OHHTTPStubs",      "~> 5.2.1"      # Swift 3.0: 5.2.1 (compatible w 2.2, 2.3 & 3.0)
     pod "OHHTTPStubs/Swift"
 end
 

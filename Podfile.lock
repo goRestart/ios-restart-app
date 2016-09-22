@@ -104,21 +104,21 @@ PODS:
     - Result (~> 2.1.2)
     - RxSwift (~> 2.6.0)
     - SwiftWebSocket (~> 2.6.0)
-  - Nimble (4.0.1)
-  - OHHTTPStubs (5.1.0):
-    - OHHTTPStubs/Default (= 5.1.0)
-  - OHHTTPStubs/Core (5.1.0)
-  - OHHTTPStubs/Default (5.1.0):
+  - Nimble (4.1.0)
+  - OHHTTPStubs (5.2.1):
+    - OHHTTPStubs/Default (= 5.2.1)
+  - OHHTTPStubs/Core (5.2.1)
+  - OHHTTPStubs/Default (5.2.1):
     - OHHTTPStubs/Core
     - OHHTTPStubs/JSON
     - OHHTTPStubs/NSURLSession
     - OHHTTPStubs/OHPathHelpers
-  - OHHTTPStubs/JSON (5.1.0):
+  - OHHTTPStubs/JSON (5.2.1):
     - OHHTTPStubs/Core
-  - OHHTTPStubs/NSURLSession (5.1.0):
+  - OHHTTPStubs/NSURLSession (5.2.1):
     - OHHTTPStubs/Core
-  - OHHTTPStubs/OHPathHelpers (5.1.0)
-  - OHHTTPStubs/Swift (5.1.0):
+  - OHHTTPStubs/OHPathHelpers (5.2.1)
+  - OHHTTPStubs/Swift (5.2.1):
     - OHHTTPStubs/Core
   - Quick (0.9.3)
   - ReachabilitySwift (2.4)
@@ -128,7 +128,7 @@ PODS:
   - RxCocoa (2.6.0):
     - RxSwift (~> 2.5)
   - RxSwift (2.6.0)
-  - RxTests (2.5.0):
+  - RxTests (2.6.0):
     - RxSwift (~> 2.5)
   - SlackTextViewController (1.9.4)
   - SwiftWebSocket (2.6.4)
@@ -168,16 +168,16 @@ DEPENDENCIES:
   - Leanplum-iOS-SDK (~> 1.4.0)
   - LGCollapsibleLabel (from `../collapsiblelabel`)
   - LGCoreKit (from `../lgcorekit`)
-  - Nimble (~> 4.0.1)
-  - OHHTTPStubs (~> 5.1.0)
+  - Nimble (~> 4.1.0)
+  - OHHTTPStubs (~> 5.2.1)
   - OHHTTPStubs/Swift
-  - Quick (~> 0.9.2)
+  - Quick (~> 0.9.3)
   - RxBlocking (~> 2.6.0)
   - RxCocoa (~> 2.6.0)
   - RxSwift (~> 2.6.0)
-  - RxTests (~> 2.5.0)
+  - RxTests (~> 2.6.0)
   - SlackTextViewController (= 1.9.4)
-  - SwiftyUserDefaults (~> 2.2.0)
+  - SwiftyUserDefaults (~> 2.2.1)
   - TMReachability (from `https://github.com/albertbori/Reachability`, commit `e34782b386307e386348b481c02c176d58ba45e6`)
   - TwitterKit (~> 2.3.0)
 
@@ -252,15 +252,15 @@ SPEC CHECKSUMS:
   Leanplum-iOS-SDK: 220755449d8f39270591fe75f49e8abe6f29d934
   LGCollapsibleLabel: d182173746819a7ac43a33d2e24e7e2142e940c7
   LGCoreKit: 95143898d4c46049a8cd4961d6fdbb4cb6aac352
-  Nimble: 0f3c8b8b084cda391209c3c5efbb48bedeeb920a
-  OHHTTPStubs: 592f74439d2d72615115cf99a954237a3fbe26e5
+  Nimble: 97a0a4cae5124c117115634b2d055d8c97d0af19
+  OHHTTPStubs: 3a42f25c00563b71355ac73112ba2324e9e6cef4
   Quick: 13a2a2b19a5d8e3ed4fd0c36ee46597fd77ebf71
   ReachabilitySwift: dc7452dab85ff881904215e1a113326ad8d07beb
   Result: 18e1a7597fbcca5923c565b40a25a98afafdee02
   RxBlocking: f2e0a7e74d5e9d3029d2b1118e2af01f583fbdd8
   RxCocoa: 89ab00d5753502520227940e3a0e0a0413683c6b
   RxSwift: 77f3a0b15324baa7a1c9bfa9f199648a82424e26
-  RxTests: 1b13bea0a138552b52aeead549ef08d578bcda9e
+  RxTests: cdcc379c70e80089a8bc2c99515223339d1c3b81
   SlackTextViewController: d490f354dba963bc469a6b9ce3213978eaed67a5
   SwiftWebSocket: fdb5b4393cede304d44befbaeb0c8ef14c28d3bb
   SwiftyUserDefaults: 7abdba50a50ea0c18ee8903af3c88e4c1cb8448d
@@ -268,6 +268,6 @@ SPEC CHECKSUMS:
   TwitterCore: 817eae3e291fa4125b47789e26a4f6f024115c1f
   TwitterKit: 8a383da8d9c21b0423716381ea8bbfce20622d91
 
-PODFILE CHECKSUM: 0e306234ebfbf8f9b5c8cee222487ef830079060
+PODFILE CHECKSUM: 34875ae85d37e9acafc0358c1ec2689bca5b425a
 
 COCOAPODS: 1.0.1
