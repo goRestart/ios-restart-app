@@ -360,23 +360,26 @@ extension SocialShareView: FBSDKSharingDelegate {
 // MARK: - MFMailComposeViewControllerDelegate
 
 extension SocialShareView: MFMailComposeViewControllerDelegate {
-    func mailComposeController(controller: MFMailComposeViewController, didFinishWithResult
-        result: MFMailComposeResult, error: NSError?) {
-            var message: String? = nil
-            if result.rawValue == MFMailComposeResultFailed.rawValue {
-                message = LGLocalizedString.productShareEmailError
-                delegate?.shareInEmailFinished(.Failed)
-            } else if result.rawValue == MFMailComposeResultSent.rawValue {
-                message = LGLocalizedString.productShareGenericOk
-                delegate?.shareInEmailFinished(.Completed)
-            } else if result.rawValue == MFMailComposeResultCancelled.rawValue {
-                delegate?.shareInEmailFinished(.Cancelled)
-            }
+    func mailComposeController(controller: MFMailComposeViewController, didFinishWithResult result: MFMailComposeResult,
+                               error: NSError?) {
+        var message: String? = nil
+        switch result {
+        case .Failed:
+            message = LGLocalizedString.productShareEmailError
+            delegate?.shareInEmailFinished(.Failed)
+        case .Sent:
+            message = LGLocalizedString.productShareGenericOk
+            delegate?.shareInEmailFinished(.Completed)
+        case .Cancelled:
+            delegate?.shareInEmailFinished(.Cancelled)
+        case .Saved:
+            break
+        }
 
-            controller.dismissViewControllerAnimated(true, completion: { [weak self] in
-                guard let message = message else { return }
-                self?.delegate?.viewController()?.showAutoFadingOutMessageAlert(message)
-            })
+        controller.dismissViewControllerAnimated(true, completion: { [weak self] in
+            guard let message = message else { return }
+            self?.delegate?.viewController()?.showAutoFadingOutMessageAlert(message)
+        })
     }
 }
 
@@ -386,18 +389,17 @@ extension SocialShareView: MFMailComposeViewControllerDelegate {
 extension SocialShareView: MFMessageComposeViewControllerDelegate {
     func messageComposeViewController(controller: MFMessageComposeViewController,
                                       didFinishWithResult result: MessageComposeResult) {
-        
         var message: String? = nil
-        if result.rawValue == MessageComposeResultFailed.rawValue {
+        switch result {
+        case .Failed:
             message = LGLocalizedString.productShareSmsError
             delegate?.shareInSMSFinished(.Failed)
-        } else if result.rawValue == MessageComposeResultSent.rawValue {
+        case .Sent:
             message = LGLocalizedString.productShareSmsOk
             delegate?.shareInSMSFinished(.Completed)
-        } else if result.rawValue == MessageComposeResultCancelled.rawValue {
+        case .Cancelled:
             delegate?.shareInSMSFinished(.Cancelled)
         }
-        
         controller.dismissViewControllerAnimated(true, completion: { [weak self] in
             guard let message = message else { return }
             self?.delegate?.viewController()?.showAutoFadingOutMessageAlert(message)
