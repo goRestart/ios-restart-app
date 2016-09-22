@@ -9,16 +9,16 @@ workspace "LetGo.xcworkspace"
 project "LetGo.xcodeproj"
 
 def shared_pods
-    pod "AlamofireImage",        "~> 2.4.0"
-    pod "Argo",                 "~> 3.0.1"
+    pod "AlamofireImage",       "~> 2.5.0"  # Swift 3.0: 3.x
+    pod "Argo",                 "~> 3.1.0"  # Swift 3.0: N/A
 
-	pod "FBSDKLoginKit",         "~> 4.14.0"
-	pod "FBSDKCoreKit",          "~> 4.14.0"
-	pod "FBSDKShareKit",		 "~> 4.14.0"
+	pod "FBSDKLoginKit",        "~> 4.14.0"
+	pod "FBSDKCoreKit",         "~> 4.14.0"
+	pod "FBSDKShareKit",		"~> 4.14.0"
 
-    pod "RxSwift",              "~> 2.5.0"
-    pod "RxCocoa",              "~> 2.5.0"
-    pod "RxBlocking",           "~> 2.5.0"
+    pod "RxSwift",              "~> 2.6.0"  # Swift 3.0: 3.x
+    pod "RxCocoa",              "~> 2.6.0"  # Swift 3.0: 3.x
+    pod "RxBlocking",           "~> 2.6.0"  # Swift 3.0: 3.x
     pod "CollectionVariable",   :git => 'https://github.com/gitdoapp/CollectionVariable', :commit => 'd99e7a8dfaad32823c207e40fca7c2f2c3894ead'
 
     #Fabric
@@ -33,7 +33,7 @@ def shared_pods
     pod "Leanplum-iOS-SDK",     "~> 1.4.0"
 
 	# letgo Core
-    pod "LGCoreKit",            "1.0.6" # :path => "../lgcorekit"
+    pod "LGCoreKit",            :path => "../lgcorekit"
 
 	# Slack Chat controller
     pod "SlackTextViewController", "1.9.1"
@@ -68,7 +68,7 @@ def shared_pods
 	pod "TMReachability",        :git => 'https://github.com/albertbori/Reachability', :commit => 'e34782b386307e386348b481c02c176d58ba45e6'
 
     # Logging
-    pod "CocoaLumberjack/Swift", "~> 2.3.0"
+    pod "CocoaLumberjack/Swift", "~> 2.4.0" # Swift 3.0: N/A
 
     # FlipTheSwitch
     pod "FlipTheSwitch"
