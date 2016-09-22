@@ -12,9 +12,9 @@ def shared_pods
     pod "AlamofireImage",       "~> 2.5.0"  # Swift 3.0: 3.x
     pod "Argo",                 "~> 3.1.0"  # Swift 3.0: N/A
 
-	pod "FBSDKLoginKit",        "~> 4.15.1" # Swift 3.0: N/A
-	pod "FBSDKCoreKit",         "~> 4.15.1" # Swift 3.0: N/A
-	pod "FBSDKShareKit",		"~> 4.15.1" # Swift 3.0: N/A
+	pod "FBSDKLoginKit",        "~> 4.15.1" # Swift 3.0: -
+	pod "FBSDKCoreKit",         "~> 4.15.1" # Swift 3.0: -
+	pod "FBSDKShareKit",		"~> 4.15.1" # Swift 3.0: -
 
     pod "RxSwift",              "~> 2.6.0"  # Swift 3.0: 3.x
     pod "RxCocoa",              "~> 2.6.0"  # Swift 3.0: 3.x
@@ -22,13 +22,13 @@ def shared_pods
     pod "CollectionVariable",   :git => 'https://github.com/gitdoapp/CollectionVariable', :commit => 'd99e7a8dfaad32823c207e40fca7c2f2c3894ead'
 
     #Fabric
-    pod "Fabric",               "~> 1.6.3"
-    pod "Crashlytics",          "~> 3.7.2"
-    pod "TwitterKit",           "~> 2.3.0"
-    pod "Branch",               "~> 0.12.10"
+    pod "Fabric",               "~> 1.6.8"   # Swift 3.0: -
+    pod "Crashlytics",          "~> 3.8.2"   # Swift 3.0: -
+    pod "TwitterKit",           "~> 2.3.0"   # Swift 3.0: -
+    pod "Branch",               "~> 0.12.11" # Swift 3.0: -
 
 	# Tracking
-	pod "Amplitude-iOS",        "~> 3.5.0"
+	pod "Amplitude-iOS",        "~> 3.8.5"   # Swift 3.0: -
     pod "AppsFlyerFramework",   "~> 4.3.9"
     pod "Leanplum-iOS-SDK",     "~> 1.4.0"
 
