@@ -41,6 +41,9 @@ def shared_pods
 	# letgo Collapsible label
     pod "LGCollapsibleLabel",   "0.1.8" #:path => "../collapsiblelabel"
 
+    # letgo bumper (feature flags)
+    pod "bumper", "0.1.0" #:path => "../bumper"
+
 	# Collection View Custom Layout
 	pod "CHTCollectionViewWaterfallLayout", "~> 0.9.1"
 
