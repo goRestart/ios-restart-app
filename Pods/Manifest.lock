@@ -3,7 +3,7 @@ PODS:
   - AlamofireImage (2.5.0):
     - Alamofire (~> 3.5)
   - Amplitude-iOS (3.8.5)
-  - AppsFlyerFramework (4.3.9)
+  - AppsFlyerFramework (4.5.6)
   - Argo (3.1.0)
   - Bolts (1.8.4):
     - Bolts/AppLinks (= 1.8.4)
@@ -142,7 +142,7 @@ PODS:
 DEPENDENCIES:
   - AlamofireImage (~> 2.5.0)
   - Amplitude-iOS (~> 3.8.5)
-  - AppsFlyerFramework (~> 4.3.9)
+  - AppsFlyerFramework (~> 4.5.6)
   - Argo (~> 3.1.0)
   - Branch (~> 0.12.11)
   - CHTCollectionViewWaterfallLayout (~> 0.9.1)
@@ -211,7 +211,7 @@ SPEC CHECKSUMS:
   Alamofire: b70a7352335f8ea5babd0a923eb7e8eacc67b877
   AlamofireImage: 2d34936e5201270bb17a316a786e90e83b4a249d
   Amplitude-iOS: de7cfde0c791d05fb0e0f82bd34cbd3585ccd63f
-  AppsFlyerFramework: f23ebf0fc8f99b2d239fa8d6f36c286ad91f7735
+  AppsFlyerFramework: 8f8f719d338c04800f61f4e24fc7dc554f00ccff
   Argo: bb0e94e309d6ceb8fa58910205c8968be101e429
   Bolts: 8a7995239dbe724f9cba2248b766d48b7ebdd322
   Branch: a620b19dc96fffabb7873a86c80c77c75395a664
@@ -268,6 +268,6 @@ SPEC CHECKSUMS:
   TwitterCore: 817eae3e291fa4125b47789e26a4f6f024115c1f
   TwitterKit: 8a383da8d9c21b0423716381ea8bbfce20622d91
 
-PODFILE CHECKSUM: 1a323ff89f26545f22304e9d6e164bbbcbc408fc
+PODFILE CHECKSUM: e50c60c48001e2ae052b17188fefc8a64f84a777
 
 COCOAPODS: 1.0.1

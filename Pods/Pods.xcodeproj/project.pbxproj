@@ -2827,6 +2827,7 @@
 		3775475DADD9D3B05BA0EA6138D0870E /* Pods-LetGoGodMode-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-LetGoGodMode-acknowledgements.plist"; sourceTree = "<group>"; };
 		379871003526C2BC170E2545E5158315 /* LGIPLookupLocationService.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = LGIPLookupLocationService.swift; sourceTree = "<group>"; };
 		379BDE58EF7B62F3C76732C4449F48BA /* Multicast.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Multicast.swift; path = RxSwift/Observables/Implementations/Multicast.swift; sourceTree = "<group>"; };
+		37A7043CFE70271A3B6916F1B3D5908C /* AppsFlyerTracker.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AppsFlyerTracker.framework; sourceTree = "<group>"; };
 		37EAC3AB3D9732DA7FE7FAFB9AAB6E42 /* UIScrollView+SLKAdditions.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "UIScrollView+SLKAdditions.h"; path = "Source/UIScrollView+SLKAdditions.h"; sourceTree = "<group>"; };
 		38157008804D1D5E798B5EF2AE90B359 /* FBSDKApplicationDelegate.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = FBSDKApplicationDelegate.m; path = FBSDKCoreKit/FBSDKCoreKit/FBSDKApplicationDelegate.m; sourceTree = "<group>"; };
 		3819C699CE31A96A5EC0CDE86CC38469 /* BehaviorSubject.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = BehaviorSubject.swift; path = RxSwift/Subjects/BehaviorSubject.swift; sourceTree = "<group>"; };
@@ -2930,7 +2931,6 @@
 		4657BE103223F3C611E2E2E7DD79481B /* FastttCamera.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = FastttCamera.xcconfig; sourceTree = "<group>"; };
 		469103EED6BAAA1CEEBB0BDDFE486EC7 /* BooleanDisposable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = BooleanDisposable.swift; path = RxSwift/Disposables/BooleanDisposable.swift; sourceTree = "<group>"; };
 		46A590B90169C91E9EB49779ABEB765E /* ChatWebSocketDataSource.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ChatWebSocketDataSource.swift; sourceTree = "<group>"; };
-		46ECE45E09A0FF12E297CC9219165500 /* AppsFlyer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AppsFlyer.framework; sourceTree = "<group>"; };
 		473F0E39BE272B96F8402E747CF90B45 /* RxImagePickerDelegateProxy.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = RxImagePickerDelegateProxy.swift; path = RxCocoa/iOS/Proxies/RxImagePickerDelegateProxy.swift; sourceTree = "<group>"; };
 		475AD3D3B4AF081619AA2AF84AAC098E /* FLEXKeyboardShortcutManager.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FLEXKeyboardShortcutManager.h; path = Classes/Utility/FLEXKeyboardShortcutManager.h; sourceTree = "<group>"; };
 		4764916EE14FCD9B8026AE812040ED32 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -5470,7 +5470,7 @@
 		4456F235F0DDF537FBB52B8BB45D40A2 /* AppsFlyerFramework */ = {
 			isa = PBXGroup;
 			children = (
-				D1DAB9D79BB4004449BE1C67687A3633 /* Frameworks */,
+				B3BA5C2499DF4C98C58DAF554103FC3C /* Frameworks */,
 			);
 			path = AppsFlyerFramework;
 			sourceTree = "<group>";
@@ -6793,6 +6793,14 @@
 			path = Fabric;
 			sourceTree = "<group>";
 		};
+		B3BA5C2499DF4C98C58DAF554103FC3C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				37A7043CFE70271A3B6916F1B3D5908C /* AppsFlyerTracker.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		B4A96B83D300CA3606D378B9A79E0690 /* LGCoreKitBundle */ = {
 			isa = PBXGroup;
 			children = (
@@ -7212,14 +7220,6 @@
 				D094900596134D22559084B26E5B1133 /* Firebase.h */,
 			);
 			name = Analytics;
-			sourceTree = "<group>";
-		};
-		D1DAB9D79BB4004449BE1C67687A3633 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				46ECE45E09A0FF12E297CC9219165500 /* AppsFlyer.framework */,
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		D241008EFE5C4BCF9DB5BF3D8BF8A912 /* Helper */ = {
