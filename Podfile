@@ -12,9 +12,9 @@ def shared_pods
     pod "AlamofireImage",       "~> 2.5.0"  # Swift 3.0: 3.x
     pod "Argo",                 "~> 3.1.0"  # Swift 3.0: N/A
 
-	pod "FBSDKLoginKit",        "~> 4.14.0"
-	pod "FBSDKCoreKit",         "~> 4.14.0"
-	pod "FBSDKShareKit",		"~> 4.14.0"
+	pod "FBSDKLoginKit",        "~> 4.15.1" # Swift 3.0: N/A
+	pod "FBSDKCoreKit",         "~> 4.15.1" # Swift 3.0: N/A
+	pod "FBSDKShareKit",		"~> 4.15.1" # Swift 3.0: N/A
 
     pod "RxSwift",              "~> 2.6.0"  # Swift 3.0: 3.x
     pod "RxCocoa",              "~> 2.6.0"  # Swift 3.0: 3.x

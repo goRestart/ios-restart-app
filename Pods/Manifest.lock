@@ -37,11 +37,11 @@ PODS:
   - FastttCamera (0.3.4):
     - FastttCamera/Default (= 0.3.4)
   - FastttCamera/Default (0.3.4)
-  - FBSDKCoreKit (4.14.0):
+  - FBSDKCoreKit (4.15.1):
     - Bolts (~> 1.7)
-  - FBSDKLoginKit (4.14.0):
+  - FBSDKLoginKit (4.15.1):
     - FBSDKCoreKit
-  - FBSDKShareKit (4.14.0):
+  - FBSDKShareKit (4.15.1):
     - FBSDKCoreKit
   - Firebase/Analytics (3.4.0):
     - FirebaseAnalytics (~> 3.3)
@@ -152,9 +152,9 @@ DEPENDENCIES:
   - DeviceUtil (~> 1.3.5)
   - Fabric (~> 1.6.3)
   - FastttCamera (~> 0.3.4)
-  - FBSDKCoreKit (~> 4.14.0)
-  - FBSDKLoginKit (~> 4.14.0)
-  - FBSDKShareKit (~> 4.14.0)
+  - FBSDKCoreKit (~> 4.15.1)
+  - FBSDKLoginKit (~> 4.15.1)
+  - FBSDKShareKit (~> 4.15.1)
   - Firebase/AppIndexing (~> 3.4.0)
   - FLEX (~> 2.0)
   - FlipTheSwitch
@@ -224,9 +224,9 @@ SPEC CHECKSUMS:
   DeviceUtil: faefd40ac954b37c68686c088c1d2f7dc103a3fc
   Fabric: 5755268d0171435ab167e3d0878a28a777deaf10
   FastttCamera: 51f16712cbd5bdb08bc6231b957325c6be5e478d
-  FBSDKCoreKit: 6e020b5db0b5bd1e01f5fb0902131befd129a502
-  FBSDKLoginKit: da563567a108050ef83739c8c8c001ee9e25fa13
-  FBSDKShareKit: e8e5d4ccef69b41132fe33acda26db1e33143e33
+  FBSDKCoreKit: fc7fa53d16b095ee3fd53f0cd59f1df8bcbb634d
+  FBSDKLoginKit: 073f79b3b2e762fc6f54a283fe15f45372d59f5f
+  FBSDKShareKit: 11cbb5a4d7b5fda8143cc95b76188147e6725736
   Firebase: 754562547af419cc2f4b15247fee419081924bc2
   FirebaseAnalytics: d968d4d5f6aeb795cd64144337bcd233e530efc6
   FirebaseAppIndexing: 5eb2d921b6750c8521ff5bdd069ec6d4bf24db9a
@@ -268,6 +268,6 @@ SPEC CHECKSUMS:
   TwitterCore: 817eae3e291fa4125b47789e26a4f6f024115c1f
   TwitterKit: 8a383da8d9c21b0423716381ea8bbfce20622d91
 
-PODFILE CHECKSUM: 39488d42f9997af7b865c9991b190f7ab5cf3f35
+PODFILE CHECKSUM: c217dffedad8d226c9175075147d6b314085194e
 
 COCOAPODS: 1.0.1
