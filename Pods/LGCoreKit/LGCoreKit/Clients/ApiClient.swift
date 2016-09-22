@@ -250,7 +250,7 @@ private extension ApiClient {
         case .Scammer:
             // If scammer then force logout
             sessionManager?.tearDownSession(kicked: true)
-        case .Unauthorized, .NotFound, .Conflict, .InternalServerError, .UnprocessableEntity, .UserNotVerified, .Other, .Network,
+        case .BadRequest, .Unauthorized, .NotFound, .Conflict, .InternalServerError, .UnprocessableEntity, .UserNotVerified, .Other, .Network,
              .Internal, .NotModified, .Forbidden, .TooManyRequests:
             break
         }
