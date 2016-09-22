@@ -224,7 +224,8 @@ extension RetrieveProductsParams {
         
         params["num_results"] = numProducts
         params["offset"] = offset
-        
+        params["country_code"] = countryCode
+
         // TODO: Think twice about this :-P
         if self.statuses == [.Sold, .SoldOld] {
             params["status"] = UserProductStatus.Sold.rawValue

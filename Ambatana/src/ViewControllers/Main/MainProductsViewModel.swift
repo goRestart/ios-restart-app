@@ -83,7 +83,11 @@ class MainProductsViewModel: BaseViewModel {
 
         return resultTags
     }
-    
+
+    var shouldShowInviteButton: Bool {
+        return tabNavigator?.canOpenAppInvite() ?? false
+    }
+
     // Manager & repositories
     private let myUserRepository: MyUserRepository
     private let trendingSearchesRepository: TrendingSearchesRepository

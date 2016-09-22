@@ -21,4 +21,5 @@ protocol AppNavigator: class {
     func openVerifyAccounts(types: [VerificationType], source: VerifyAccountsSource)
     func openNPSSurvey()
     func openAppInvite()
+    func canOpenAppInvite() -> Bool
 }

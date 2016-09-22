@@ -656,8 +656,11 @@ extension ChatViewController {
         guard let navCtlView = navigationController?.view else { return }
         guard let chatSafetyTipsView = ChatSafetyTipsView.chatSafetyTipsView() else { return }
 
+        navCtlView.userInteractionEnabled = false
+
         // Delay is needed in order not to mess with the kb show/hide animation
         delay(0.5) { [weak self] in
+            navCtlView.userInteractionEnabled = true
             self?.showKeyboard(false, animated: true)
             chatSafetyTipsView.dismissBlock = { [weak self] in
                 self?.viewModel.safetyTipsDismissed()

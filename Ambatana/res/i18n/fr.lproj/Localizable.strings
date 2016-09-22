@@ -452,7 +452,7 @@
 "product_share_email_error" = "Oops, il semble que vous n'avez pas paramétré de compte dans l'application Mail.";
 "product_share_generic_error" = "Une erreur est survenue lors du partage du bien. Veuillez réessayer plus tard.";
 "product_share_generic_ok" = "Bien partagé avec succès !";
-"product_share_navbar_button" = "Share";
+"product_share_navbar_button" = "Partager";
 "product_share_posted_by" = "posté par %@";
 "product_share_sms_error" = "Une erreur est survenue lors de l'envoi du message.";
 "product_share_sms_ok" = "Envoi...";
@@ -587,6 +587,7 @@
 "sign_up_send_button" = "S'inscrire";
 "sign_up_send_error_email_taken" = "L'adresse email %@ est déjà enregistrée. Veuillez l'utiliser pour vous connecter.";
 "sign_up_send_error_generic" = "Une erreur est survenue lors de la création du compte. Veuillez réessayer.";
+"sign_up_send_error_invalid_domain" = "Adresse email invalide. Changez la et réessayer.";
 "sign_up_send_error_invalid_email" = "Veuillez insérer une adresse email valide.";
 "sign_up_send_error_invalid_password_with_max" = "Veuillez entrer un mot de passe valide. Il doit contenir entre %d et %d caractères.";
 "sign_up_send_error_invalid_username" = "Veuillez entrer un nom valide, d'au moins %d caractères.";
@@ -605,9 +606,6 @@
 "tour_help_button" = "Aide";
 "tour_or_label" = "OU UTILISEZ VOTRE EMAIL";
 "tour_page_1_body" = "Achetez et vendez rapidement, de manière sûre et localement.";
-"tour_terms_conditions" = "En vous inscrivant ou vous connectant, vous acceptez nos Conditions d'Utilisation et Politique de Confidentialité";
-"tour_terms_conditions_privacy_keyword" = "Politique de Confidentialité";
-"tour_terms_conditions_terms_keyword" = "Conditions d'Utilisation";
 "trending_searches_Title" = "Tendance des recherches";
 "unblock_user_error_generic" = "Une erreur est survenue lors du déblocage de cet utilisateur.";
 "user_rating_message_w_name" = "Votre expérience avec %@ vaut-elle 5 étoiles ? Dites-nous comment ça s'est passé.";
