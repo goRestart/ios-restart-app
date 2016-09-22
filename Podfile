@@ -39,7 +39,7 @@ def shared_pods
     pod "SlackTextViewController", "1.9.1"
 
 	# letgo Collapsible label
-    pod "LGCollapsibleLabel",   "0.1.8" #:path => "../collapsiblelabel"
+    pod "LGCollapsibleLabel",    :path => "../collapsiblelabel" #"0.1.8"
 
 	# Collection View Custom Layout
 	pod "CHTCollectionViewWaterfallLayout", "~> 0.9.1"
