@@ -60,7 +60,7 @@ class ChatViewController: SLKTextViewController {
         hidesBottomBarWhenPushed = true
     }
     
-    required init!(coder decoder: NSCoder!) {
+    required init(coder decoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -72,7 +72,9 @@ class ChatViewController: SLKTextViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        ChatCellDrawerFactory.registerCells(tableView)
+        if let tableView = tableView {
+            ChatCellDrawerFactory.registerCells(tableView)
+        }
         setNavBarBackButton(nil)
         setupUI()
         setupToastView()
@@ -146,7 +148,7 @@ class ChatViewController: SLKTextViewController {
      
      - returns: Cache key String
      */
-    override func keyForTextCaching() -> String! {
+    override func keyForTextCaching() -> String? {
         return viewModel.keyForTextCaching
     }
     
@@ -160,12 +162,12 @@ class ChatViewController: SLKTextViewController {
 
         setupNavigationBar()
 
-        tableView.clipsToBounds = true
-        tableView.estimatedRowHeight = 120
-        tableView.rowHeight = UITableViewAutomaticDimension
-        tableView.separatorStyle = .None
-        tableView.backgroundColor = UIColor.grayBackground
-        tableView.allowsSelection = false
+        tableView?.clipsToBounds = true
+        tableView?.estimatedRowHeight = 120
+        tableView?.rowHeight = UITableViewAutomaticDimension
+        tableView?.separatorStyle = .None
+        tableView?.backgroundColor = UIColor.grayBackground
+        tableView?.allowsSelection = false
         textView.placeholder = LGLocalizedString.chatMessageFieldHint
         textView.backgroundColor = UIColor.whiteColor()
         textInputbar.backgroundColor = UIColor.whiteColor()
@@ -184,7 +186,7 @@ class ChatViewController: SLKTextViewController {
         keyboardPanningEnabled = false
         
         if let patternBackground = UIColor.emptyViewBackgroundColor {
-            tableView.backgroundColor = UIColor.clearColor()
+            tableView?.backgroundColor = UIColor.clearColor()
             view.backgroundColor = patternBackground
         }
         
@@ -206,8 +208,11 @@ class ChatViewController: SLKTextViewController {
     }
     
     private func setupFrames() {
-        tableView.contentInset.bottom = navBarHeight + blockedToastOffset
-        tableView.frame = CGRectMake(0, blockedToastOffset, tableView.width, tableView.height - blockedToastOffset)
+        if let tableView = tableView {
+            tableView.contentInset.bottom = navBarHeight + blockedToastOffset
+            tableView.frame = CGRectMake(0, blockedToastOffset, tableView.width,
+                                         tableView.height - blockedToastOffset)
+        }
         
         activityIndicator.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
         activityIndicator.center = view.center
@@ -226,7 +231,7 @@ class ChatViewController: SLKTextViewController {
         relatedProductsView.title.value = LGLocalizedString.chatRelatedProductsTitle
         relatedProductsView.delegate = viewModel
         relatedProductsView.visibleHeight.asObservable().distinctUntilChanged().bindNext { [weak self] _ in
-            self?.tableView.reloadData()
+            self?.tableView?.reloadData()
             }.addDisposableTo(disposeBag)
     }
 
@@ -387,9 +392,9 @@ extension ChatViewController {
         viewModel.messages.changesObservable.subscribeNext { [weak self] change in
             switch change {
             case .Composite(let changes) where changes.count > 2:
-                self?.tableView.reloadData()
+                self?.tableView?.reloadData()
             case .Insert, .Remove, .Composite:
-                self?.tableView.handleCollectionChange(change)
+                self?.tableView?.handleCollectionChange(change)
             }
             }.addDisposableTo(disposeBag)
         
@@ -484,7 +489,7 @@ extension ChatViewController: ChatViewModelDelegate {
     
     func vmDidUpdateDirectAnswers() {
         directAnswersPresenter.hidden = !viewModel.shouldShowDirectAnswers
-        tableView.reloadData()
+        tableView?.reloadData()
     }
 
     func vmShowRelatedProducts(productId: String?) {
@@ -582,7 +587,7 @@ extension ChatViewController {
     // It is an open issue in the Library https://github.com/slackhq/SlackTextViewController/issues/137
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        self.tableView.contentInset.bottom = navBarHeight + blockedToastOffset
+        self.tableView?.contentInset.bottom = navBarHeight + blockedToastOffset
     }
 }
 
@@ -598,6 +603,7 @@ extension ChatViewController {
      - parameter notification: NSNotification received
      */
     func menuControllerWillShow(notification: NSNotification) {
+        guard let tableView = tableView else { return }
         guard let indexPath = selectedCellIndexPath else { return }
         guard let cell = tableView.cellForRowAtIndexPath(indexPath) as? ChatBubbleCell else { return }
         selectedCellIndexPath = nil
@@ -689,7 +695,7 @@ extension ChatViewController: ChatProductViewDelegate {
 
 extension ChatViewController {
     func setAccessibilityIds() {
-        tableView.accessibilityId = .ChatViewTableView
+        tableView?.accessibilityId = .ChatViewTableView
         navigationItem.rightBarButtonItem?.accessibilityId = .ChatViewMoreOptionsButton
         navigationItem.backBarButtonItem?.accessibilityId = .ChatViewBackButton
         textInputbar.leftButton.accessibilityId = .ChatViewStickersButton
