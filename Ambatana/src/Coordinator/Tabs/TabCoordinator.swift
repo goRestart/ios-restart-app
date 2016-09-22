@@ -97,6 +97,10 @@ extension TabCoordinator: TabNavigator {
     func openAppInvite() {
         appNavigator?.openAppInvite()
     }
+
+    func canOpenAppInvite() -> Bool {
+        return appNavigator?.canOpenAppInvite() ?? false
+    }
 }
 
 private extension TabCoordinator {

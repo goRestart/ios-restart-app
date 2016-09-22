@@ -33,6 +33,7 @@ protocol TabNavigator: class {
     func openExpressChat(products: [Product], sourceProductId: String)
     func openVerifyAccounts(types: [VerificationType], source: VerifyAccountsSource)
     func openAppInvite()
+    func canOpenAppInvite() -> Bool
 }
 
 protocol ProductDetailNavigator: TabNavigator {
