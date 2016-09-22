@@ -11,20 +11,21 @@ import UIKit
 // http://stackoverflow.com/questions/19274789/how-can-i-change-image-tintcolor-in-ios-and-watchkit
 
 extension UIImage {
-    func imageWithColor(color: UIColor) -> UIImage {
-        UIGraphicsBeginImageContextWithOptions(self.size, false, self.scale)
+    func imageWithColor(color: UIColor) -> UIImage? {
+        UIGraphicsBeginImageContextWithOptions(size, false, scale)
         
-        let context = UIGraphicsGetCurrentContext()
-        CGContextTranslateCTM(context!, 0, self.size.height)
-        CGContextScaleCTM(context!, 1.0, -1.0);
-        CGContextSetBlendMode(context!, CGBlendMode.Normal)
+        guard let context = UIGraphicsGetCurrentContext() else { return nil }
+        CGContextTranslateCTM(context, 0, self.size.height)
+        CGContextScaleCTM(context, 1.0, -1.0);
+        CGContextSetBlendMode(context, CGBlendMode.Normal)
         
-        let rect = CGRectMake(0, 0, self.size.width, self.size.height) as CGRect
-        CGContextClipToMask(context!, rect, self.CGImage!)
+        let rect = CGRectMake(0, 0, size.width, size.height) as CGRect
+        guard let CGImage = CGImage else { return nil }
+        CGContextClipToMask(context, rect, CGImage)
         color.setFill()
-        CGContextFillRect(context!, rect)
+        CGContextFillRect(context, rect)
         
-        let newImage = UIGraphicsGetImageFromCurrentImageContext()! as UIImage
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         
         return newImage
