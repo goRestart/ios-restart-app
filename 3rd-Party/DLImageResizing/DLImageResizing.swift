@@ -214,7 +214,7 @@ extension UIImage {
     
     // Returns a copy of the image after adding an alpha channel if needed
     var imageWithAlpha: UIImage? {
-        if hasAlphaChannel { return self }
+        if hasAlphaChannel { return nil }
         
         guard let CGImage = CGImage else { return nil }
         let width = CGImageGetWidth(CGImage)
