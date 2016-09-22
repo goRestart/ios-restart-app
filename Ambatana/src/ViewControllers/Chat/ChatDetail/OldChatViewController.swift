@@ -611,7 +611,7 @@ extension OldChatViewController {
     
     override func tableView(tableView: UITableView, canPerformAction action: Selector, forRowAtIndexPath
         indexPath: NSIndexPath, withSender sender: AnyObject?) -> Bool {
-        if action == #selector(NSObject.copy(_:)) {
+        if action == #selector(copy(_:)) {
             guard let cell = tableView.cellForRowAtIndexPath(indexPath) else { return false }
             cell.setSelected(true, animated: true)
             return true
@@ -621,7 +621,7 @@ extension OldChatViewController {
     
     override  func tableView(tableView: UITableView, performAction action: Selector, forRowAtIndexPath
         indexPath: NSIndexPath, withSender sender: AnyObject?) {
-        if action == #selector(NSObject.copy(_:)) {
+        if action == #selector(copy(_:)) {
             UIPasteboard.generalPasteboard().string =  viewModel.textOfMessageAtIndex(indexPath.row)
         }
     }
