@@ -49,6 +49,9 @@ class ProductCarouselImageCell: UICollectionViewCell, UIScrollViewDelegate {
             referenceZoomLevel = zoomLevel
             scrollView.setZoomScale(zoomLevel, animated: false)
         } else {
+            imageView.bounds = bounds
+            scrollView.contentSize = bounds.size
+            imageView.center = scrollView.center
             referenceZoomLevel = 1.0
             scrollView.setZoomScale(1.0, animated: false)
         }
