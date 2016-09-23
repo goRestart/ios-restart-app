@@ -329,6 +329,8 @@
 "product_ask_a_question_button" = "Ställ en fråga";
 "product_auto_generated_title_label" = "Titeln har genererats automatiskt av letgo";
 "product_auto_generated_translated_title_label" = "(och översatts av Google)";
+"product_bubble_favorite_button" = "Let the seller know!";
+"product_bubble_favorite_text" = "This product has been added to your favorites!";
 "product_bubble_one_user_interested" = "En till köpare är intresserad!";
 "product_bubble_several_users_interested" = "%i andra köpare är intresserade!";
 "product_chat_direct_error_blocked_user_message" = "Hoppsan! Chatt med den här användaren är blockad.";
@@ -452,7 +454,7 @@
 "product_share_email_error" = "Hoppsan! Det verkar som att du inte har något konto i dina mailinstllningar.";
 "product_share_generic_error" = "Ett fel uppstod när produkten delades. Var vänlig försök igen senare.";
 "product_share_generic_ok" = "Produkten har delats!";
-"product_share_navbar_button" = "Share";
+"product_share_navbar_button" = "Dela";
 "product_share_posted_by" = "upplagd av %@";
 "product_share_sms_error" = "Ett fel uppstod då ditt meddelande skulle skickas.";
 "product_share_sms_ok" = "Skickar...";
@@ -587,6 +589,7 @@
 "sign_up_send_button" = "Registrera dig";
 "sign_up_send_error_email_taken" = "E-postadressen %@ är redan registrerad. Använd den för att logga in.";
 "sign_up_send_error_generic" = "Ett fel uppstod när kontot skulle skapas. Var vänlig försök igen.";
+"sign_up_send_error_invalid_domain" = "Ogiltig e-postadress. Vänligen ändra den och försök igen.";
 "sign_up_send_error_invalid_email" = "Var vänlig ange en giltig e-postadress.";
 "sign_up_send_error_invalid_password_with_max" = "Var god ange ett giltigt lösenord. Det måste vara mellan %d och %d tecken.";
 "sign_up_send_error_invalid_username" = "Ange ett giltigt användarnamn. Det måste vara minst %d tecken.";
@@ -605,9 +608,6 @@
 "tour_help_button" = "Hjälp";
 "tour_or_label" = "ELLER ANVÄND DIN E-POST";
 "tour_page_1_body" = "Köp och sälj snabbt, säkert och lokalt.";
-"tour_terms_conditions" = "Genom att registrera dig eller logga in godkänner du våra Villkor och vår Integritetspolicy";
-"tour_terms_conditions_privacy_keyword" = "Integritetspolicy";
-"tour_terms_conditions_terms_keyword" = "Villkor";
 "trending_searches_Title" = "Sökningar som trendar";
 "unblock_user_error_generic" = "Ett fel uppstod när blockeringen av användaren skulle tas bort.";
 "user_rating_message_w_name" = "Får din upplevelse med %@ fem stjärnor? Berätta hur det gick.";

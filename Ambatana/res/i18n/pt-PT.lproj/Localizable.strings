@@ -329,6 +329,8 @@
 "product_ask_a_question_button" = "Faça uma pergunta";
 "product_auto_generated_title_label" = "Título gerado automaticamente pelo letgo";
 "product_auto_generated_translated_title_label" = "(e traduzido pelo Google)";
+"product_bubble_favorite_button" = "Let the seller know!";
+"product_bubble_favorite_text" = "This product has been added to your favorites!";
 "product_bubble_one_user_interested" = "Outro comprador está interessado!";
 "product_bubble_several_users_interested" = "%i outros compradores estão interessados!";
 "product_chat_direct_error_blocked_user_message" = "Ups! O chat deste utilizador está bloqueado.";
@@ -452,7 +454,7 @@
 "product_share_email_error" = "Ops, aparentemente não configurou uma conta na app de email.";
 "product_share_generic_error" = "Ocorreu um erro ao partilhar o produto. Por favor tente novamente mais tarde.";
 "product_share_generic_ok" = "Produto partilhado com sucesso!";
-"product_share_navbar_button" = "Share";
+"product_share_navbar_button" = "Partilhar";
 "product_share_posted_by" = "publicado por %@";
 "product_share_sms_error" = "Ocorreu um erro ao enviar a sua mensagem.";
 "product_share_sms_ok" = "A enviar...";
@@ -587,6 +589,7 @@
 "sign_up_send_button" = "Registar";
 "sign_up_send_error_email_taken" = "O endereço de email %@ já se encontra registado. Por favor utilize-o para efetuar o login.";
 "sign_up_send_error_generic" = "Ocorreu um erro ao criar a conta. Por favor tente novamente.";
+"sign_up_send_error_invalid_domain" = "Endereço de email inválido. Por favor altere-o e tente de novo.";
 "sign_up_send_error_invalid_email" = "Por favor insira um email válido no campo de texto email do utilizador.";
 "sign_up_send_error_invalid_password_with_max" = "Por favor insira uma password válida que deverá conter entre %d e %d caracteres.";
 "sign_up_send_error_invalid_username" = "Por favor insira um nome válido que deve ter no mínimo %d caracteres.";
@@ -605,9 +608,6 @@
 "tour_help_button" = "Ajuda";
 "tour_or_label" = "OU";
 "tour_page_1_body" = "Compre e venda rápido, com segurança e localmente.";
-"tour_terms_conditions" = "Ao se inscrever ou efetuar o login concorda com os nossos Termos & Condições e Política de Privacidade";
-"tour_terms_conditions_privacy_keyword" = "Política de Privacidade";
-"tour_terms_conditions_terms_keyword" = "Termos & Condições";
 "trending_searches_Title" = "Pesquisa por Tendências";
 "unblock_user_error_generic" = "Ocorreu um erro ao desbloquear este utilizador.";
 "user_rating_message_w_name" = "Será que a sua experiência com %@ merece cinco estrelas? Conte-nos como correu.";

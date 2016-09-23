@@ -329,6 +329,8 @@
 "product_ask_a_question_button" = "Haz una pregunta";
 "product_auto_generated_title_label" = "Título generado automáticamente por letgo";
 "product_auto_generated_translated_title_label" = "(y traducido por Google)";
+"product_bubble_favorite_button" = "Let the seller know!";
+"product_bubble_favorite_text" = "This product has been added to your favorites!";
 "product_bubble_one_user_interested" = "¡Hay otro comprador interesado!";
 "product_bubble_several_users_interested" = "¡Hay %i compradores interesados!";
 "product_chat_direct_error_blocked_user_message" = "¡Ups! El chat con este usuario está bloqueado.";
@@ -452,7 +454,7 @@
 "product_share_email_error" = "¡Ups! Parece que no tienes configurado tu email en este dispositivo.";
 "product_share_generic_error" = "Se ha producido un error al compartir. Por favor, inténtalo de nuevo más tarde.";
 "product_share_generic_ok" = "¡Producto compartido!";
-"product_share_navbar_button" = "Share";
+"product_share_navbar_button" = "Compartir";
 "product_share_posted_by" = "publicado por %@";
 "product_share_sms_error" = "Se ha producido un error al enviar tu mensaje.";
 "product_share_sms_ok" = "Enviando...";
@@ -587,6 +589,7 @@
 "sign_up_send_button" = "Regístrate";
 "sign_up_send_error_email_taken" = "El email %@ ya está registrado. Por favor, úsalo para iniciar sesión.";
 "sign_up_send_error_generic" = "Se ha producido un error al crear tu cuenta. Por favor, inténtalo de nuevo.";
+"sign_up_send_error_invalid_domain" = "Dirección de email inválida. Por favor, cambiála y vuelve a intentarlo.";
 "sign_up_send_error_invalid_email" = "¡Ups! Introduce un email válido para continuar.";
 "sign_up_send_error_invalid_password_with_max" = "Por favor, introduce una contraseña válida. Debe tener entre %d y %d caracteres.";
 "sign_up_send_error_invalid_username" = "¡Ups! Introduce un nombre válido, debe tener al menos %d caracteres.";
@@ -605,9 +608,6 @@
 "tour_help_button" = "Ayuda";
 "tour_or_label" = "O USA TU EMAIL";
 "tour_page_1_body" = "Compra y vende rápidamente y con seguridad, cerca de ti.";
-"tour_terms_conditions" = "Al registrarte o iniciar sesión, aceptas nuestros Términos y Condiciones y la Política de Privacidad";
-"tour_terms_conditions_privacy_keyword" = "Política de Privacidad";
-"tour_terms_conditions_terms_keyword" = "Términos y Condiciones";
 "trending_searches_Title" = "Tendencias de búsqueda";
 "unblock_user_error_generic" = "Se ha producido un error al desbloquear a este usuario.";
 "user_rating_message_w_name" = "¿Le darías cinco estrellas a tu experiencia con %@? Cuéntanos como ha ido.";

@@ -329,6 +329,8 @@
 "product_ask_a_question_button" = "Đặt câu hỏi";
 "product_auto_generated_title_label" = "Tiêu đề do letgo tự động đặt";
 "product_auto_generated_translated_title_label" = "(và do Google dịch)";
+"product_bubble_favorite_button" = "Let the seller know!";
+"product_bubble_favorite_text" = "This product has been added to your favorites!";
 "product_bubble_one_user_interested" = "Một người mua khác đang quan tâm!";
 "product_bubble_several_users_interested" = "%i người mua khác đang quan tâm!";
 "product_chat_direct_error_blocked_user_message" = "Ồ! Trò chuyện với người dùng này đã bị chặn.";
@@ -452,7 +454,7 @@
 "product_share_email_error" = "Ồ! Có vẻ như bạn chưa cài đặt tải khoản email trên Ứng dụng Mail.";
 "product_share_generic_error" = "Lỗi xảy ra trong khi chia sẻ sản phẩm. Xin vui lòng thử lại sau.";
 "product_share_generic_ok" = "Sản phẩm đã được chia sẻ thành công!";
-"product_share_navbar_button" = "Share";
+"product_share_navbar_button" = "Chia sẻ";
 "product_share_posted_by" = "đăng bởi %@";
 "product_share_sms_error" = "Có lỗi xảy ra trong khi gửi tin nhắn của bạn.";
 "product_share_sms_ok" = "Đang gửi...";
@@ -587,6 +589,7 @@
 "sign_up_send_button" = "Đăng ký";
 "sign_up_send_error_email_taken" = "Địa chỉ email %@ đã được đăng ký. Xin vui lòng đăng nhập theo địa chỉ này.";
 "sign_up_send_error_generic" = "Lỗi xảy ra trong khi tạo tài khoản. Xin vui lòng thử lại.";
+"sign_up_send_error_invalid_domain" = "Địa chỉ email không đúng. Vui lòng thay đổi và thử lại.";
 "sign_up_send_error_invalid_email" = "Vui lòng nhập một địa chỉ email hợp lệ vào trường email người dùng.";
 "sign_up_send_error_invalid_password_with_max" = "Vui lòng nhập mật khẩu hợp lệ. Mật khẩu cần có từ %d đến %d ký tự.";
 "sign_up_send_error_invalid_username" = "Vui lòng nhập tên hợp lệ có ít nhất %d ký tự.";
@@ -605,9 +608,6 @@
 "tour_help_button" = "Trợ giúp";
 "tour_or_label" = "HOẶC SỬ DỤNG EMAIL CỦA BẠN";
 "tour_page_1_body" = "Mua và bán nhanh chóng, an toàn ở ngay gần bạn.";
-"tour_terms_conditions" = "Đăng ký hoặc đăng nhập đồng nghĩa với việc bạn đồng ý với Các Điều khoản & Điều kiện và Chính sách Bảo mật của chúng tôi";
-"tour_terms_conditions_privacy_keyword" = "Chính sách Bảo mật";
-"tour_terms_conditions_terms_keyword" = "Các Điều khoản & Điều kiện";
 "trending_searches_Title" = "Xu hướng Tìm kiếm";
 "unblock_user_error_generic" = "Có lỗi xảy ra trong khi bỏ chặn người dùng này.";
 "user_rating_message_w_name" = "Trải nghiệm của bạn với %@ có xứng đáng năm sao? Hãy cho chúng tôi biết.";

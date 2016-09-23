@@ -86,6 +86,7 @@ class BubbleNotification: UIView {
 
     func showBubble() {
         // delay to let the setup build the view properly
+
         delay(0.1) { [weak self] in
             self?.bottomConstraint.constant = self?.height ?? 0
             UIView.animateWithDuration(0.3, animations: {
