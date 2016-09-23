@@ -57,7 +57,6 @@ PODS:
   - FirebaseAppIndexing (1.0.4)
   - FirebaseInstanceID (1.0.8)
   - FLEX (2.3.0)
-  - FlipTheSwitch (1.0.2)
   - Google/Analytics (3.0.3):
     - Google/Core
     - GoogleAnalytics (~> 3.12)
@@ -159,7 +158,6 @@ DEPENDENCIES:
   - FBSDKShareKit (~> 4.14.0)
   - Firebase/AppIndexing (~> 3.4.0)
   - FLEX (~> 2.0)
-  - FlipTheSwitch
   - Google/Analytics (~> 3.0.3)
   - Google/SignIn (~> 3.0.3)
   - GoogleConversionTracking (~> 3.4.0)
@@ -231,7 +229,6 @@ SPEC CHECKSUMS:
   FirebaseAppIndexing: 5eb2d921b6750c8521ff5bdd069ec6d4bf24db9a
   FirebaseInstanceID: ba1e640935235e5fac39dfa816fe7660e72e1a8a
   FLEX: ba80ea13d2c784e85e616137fd4eff164781e364
-  FlipTheSwitch: 46176a723accc5e7ccc46b0173fcd58653a54c3f
   Google: 813c467362eabc11385f5a5cc9ad0cb651a58f4e
   GoogleAnalytics: f42cc53a87a51fe94334821868d9c8481ff47a7b
   GoogleAppUtilities: f1730f91f67767b453c289577040dd3f425ffdc7
@@ -267,6 +264,6 @@ SPEC CHECKSUMS:
   TwitterCore: 817eae3e291fa4125b47789e26a4f6f024115c1f
   TwitterKit: 8a383da8d9c21b0423716381ea8bbfce20622d91
 
-PODFILE CHECKSUM: d47779842dadb4e3f14a6b624a4aa6a350ef021c
+PODFILE CHECKSUM: 17ca03d9afe14871aa785a6b4f3f424c1a86497b
 
 COCOAPODS: 1.0.1

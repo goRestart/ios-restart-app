@@ -73,9 +73,6 @@ def shared_pods
     # Logging
     pod "CocoaLumberjack/Swift", "~> 2.3.0"
 
-    # FlipTheSwitch
-    pod "FlipTheSwitch"
-
     # FLEX debugging tool
     pod "FLEX",                 "~> 2.0"
 

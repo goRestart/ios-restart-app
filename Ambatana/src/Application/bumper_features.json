@@ -1,33 +1,57 @@
 [
 	{
-		"name": "XcodeRealTest",
-		"values": ["First", "Second", "Third"],
-		"description": "Ajan Gramenawer"
+		"name": "WebsocketChat",
+		"values": ["No", "Yes"],
+		"description": "New Websocket Chat"
 	},
 	{
-		"name": "PacoTest",
-		"values": ["First", "Second", "Third"],
-		"description": "Hola que tal paco "
+		"name": "NotificationsSection",
+		"values": ["No", "Yes"],
+		"description": "Notifications Section"
 	},
 	{
-		"name": "JuanTest",
-		"values": ["First", "Second", "Third"],
-		"default": "Third",
-		"description": "Hola que tal juan"
+		"name": "UserRatings",
+		"values": ["No", "Yes"],
+		"description": "User Ratings"
 	},
 	{
-		"name": "ABoolTest",
+		"name": "DirectStickersOnProduct",
 		"values": ["Yes", "No"],
-		"description": "Hola que tal juan modo bool"
+		"description": "Product Direct Stickers"
 	},
-		{
-		"name": "ABoolTest2",
-		"values": ["Yes", "false"],
-		"description": "Hola que tal juan modo bool"
+    {
+		"name": "AppInviteListingMode",
+		"values": ["None", "Text", "Emoji"],
+		"description": "Share on main feed"
 	},
-		{
-		"name": "ABoolTest3",
-		"values": ["no", "true"],
-		"description": "Hola que tal juan modo bool"
+	{
+		"name": "PostingDetailsMode",
+		"values": ["Old", "AllInOne", "Steps"],
+		"description": "Posting Details Type"
+	},
+    {
+		"name": "ShowNPSSurvey",
+		"values": ["No", "Yes"],
+		"description": "Show nps survey"
+	},
+    {
+        "name": "ProfileBuildTrustButton",
+        "values": ["Yes", "No"],
+        "description": "Profile Build trust"
+	},
+    {
+        "name": "NonStopProductDetail",
+        "values": ["Yes", "No"],
+        "description": "Non stop prod detail"
+	},
+    {
+        "name": "OnboardingPermissionsMode",
+        "values": ["Original", "OneButtonOriginalImages", "OneButtonNewImages"],
+        "description": "Onboarding permissions"
+	},
+    {
+        "name": "IncentivizePostingMode",
+        "values": ["Original", "VariantA", "VariantB", "VariantC"],
+        "description": "Onboarding Posting"
 	}
 ]
