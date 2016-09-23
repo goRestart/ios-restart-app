@@ -981,8 +981,9 @@ private extension ProductViewModel {
     }
 
     private func buildNotificationButtonAction() -> UIAction {
+        
         return UIAction(interface: .Button(LGLocalizedString.productBubbleFavoriteButton, .Cancel), action: { [weak self] in
             self?.sendFavoriteSticker()
-        })
+        }, accessibilityId: .ProductCarouselFavoriteMessageNotificationButton)
     }
 }
