@@ -25,7 +25,7 @@ import Firebase
 
 @UIApplicationMain
 final class AppDelegate: UIResponder {
-    private var window: UIWindow?
+    var window: UIWindow?
 
     private var configManager: ConfigManager?
     private var crashManager: CrashManager?

@@ -106,6 +106,9 @@ class ProductViewModel: BaseViewModel {
     var interestedBubbleIcon: UIImage?
     var isFirstProduct: Bool = false
 
+    private var favoriteMessageBubbleShown: Bool = false
+    private var favoriteMessageSent: Bool = false
+
     // UI - Input
     let moreInfoState = Variable<MoreInfoState>(.Hidden)
 
@@ -119,7 +122,7 @@ class ProductViewModel: BaseViewModel {
     private let countryHelper: CountryHelper
     private let locationManager: LocationManager
     private let chatViewMessageAdapter: ChatViewMessageAdapter
-    private let interestedBubbleManager: BubbleNotificationManager
+    private let bubbleManager: BubbleNotificationManager
 
     // Rx
     private let disposeBag: DisposeBag
@@ -142,7 +145,7 @@ class ProductViewModel: BaseViewModel {
                   commercializerRepository: commercializerRepository, chatWrapper: chatWrapper,
                   stickersRepository: stickersRepository, locationManager: locationManager, countryHelper: countryHelper,
                   product: product, thumbnailImage: thumbnailImage, navigator: navigator,
-                  interestedBubbleManager: BubbleNotificationManager.sharedInstance)
+                  bubbleManager: BubbleNotificationManager.sharedInstance)
         syncProduct(nil)
     }
     
@@ -158,14 +161,14 @@ class ProductViewModel: BaseViewModel {
                   commercializerRepository: commercializerRepository, chatWrapper: chatWrapper,
                   stickersRepository: stickersRepository, locationManager: locationManager, countryHelper: countryHelper,
                   product: product, thumbnailImage: thumbnailImage, navigator: navigator,
-                  interestedBubbleManager: BubbleNotificationManager.sharedInstance)
+                  bubbleManager: BubbleNotificationManager.sharedInstance)
     }
 
     init(myUserRepository: MyUserRepository, productRepository: ProductRepository,
          commercializerRepository: CommercializerRepository, chatWrapper: ChatWrapper,
          stickersRepository: StickersRepository, locationManager: LocationManager, countryHelper: CountryHelper,
          product: Product, thumbnailImage: UIImage?, navigator: ProductDetailNavigator?,
-         interestedBubbleManager: BubbleNotificationManager) {
+         bubbleManager: BubbleNotificationManager) {
         self.product = Variable<Product>(product)
         self.thumbnailImage = thumbnailImage
         self.myUserRepository = myUserRepository
@@ -179,7 +182,7 @@ class ProductViewModel: BaseViewModel {
         self.locationManager = locationManager
         self.navigator = navigator
         self.chatViewMessageAdapter = ChatViewMessageAdapter()
-        self.interestedBubbleManager = interestedBubbleManager
+        self.bubbleManager = bubbleManager
 
         let ownerId = product.user.objectId
         self.ownerId = ownerId
@@ -453,7 +456,7 @@ extension ProductViewModel {
 
     func sendSticker(sticker: Sticker) {
         ifLoggedInRunActionElseOpenChatSignup { [weak self] in
-            self?.sendStickerToSeller(sticker)
+            self?.sendStickerToSeller(sticker, favorite: false)
         }
     }
 
@@ -480,6 +483,15 @@ extension ProductViewModel {
         showInterestedBubbleForProduct(productId)
         trackHelper.trackInterestedUsersBubble(othersFavCount, productId: productId)
         showInterestedBubble.value = false
+    }
+
+    func refreshInterestedBubble() {
+        bubbleManager.hideBubble()
+        showInterestedBubble.asObservable().filter{$0}.bindNext{ [weak self] _ in
+            let text = self?.interestedBubbleTitle
+            let icon = self?.interestedBubbleIcon
+            self?.bubbleManager.showBubble(.Interested, text: text, icon: icon, action: nil, duration: 3)
+        }.addDisposableTo(disposeBag)
     }
 }
 
@@ -707,9 +719,7 @@ extension ProductViewModel {
                 strongSelf.favoriteButtonState.value = .Enabled
                 strongSelf.refreshInterestedBubble(true)
             }
-
-            // TODO: check tests and send sticker "love it!" (just once for this product and this user!)
-            sendFavoriteSticker()
+            checkSendFavoriteSticker()
         }
     }
 
@@ -800,7 +810,7 @@ extension ProductViewModel {
         }
     }
 
-    private func sendStickerToSeller(sticker: Sticker) {
+    private func sendStickerToSeller(sticker: Sticker, favorite: Bool) {
         // Optimistic behavior
         let message = LocalMessage(sticker: sticker, userId: myUserRepository.myUser?.objectId)
         let messageView = chatViewMessageAdapter.adapt(message)
@@ -809,7 +819,7 @@ extension ProductViewModel {
         chatWrapper.sendMessageForProduct(product.value, text: sticker.name, sticker: sticker, type: .Sticker) {
             [weak self] result in
             if let _ = result.value {
-                self?.trackHelper.trackDirectStickerSent()
+                self?.trackHelper.trackDirectStickerSent(favorite)
             } else if let error = result.error {
                 switch error {
                 case .Forbidden:
@@ -875,11 +885,11 @@ extension Product {
 
 extension ProductViewModel {
     func showInterestedBubbleForProduct(id: String) {
-        interestedBubbleManager.showInterestedBubbleForProduct(id)
+        bubbleManager.showInterestedBubbleForProduct(id)
     }
 
     func shouldShowInterestedBubbleForProduct(id: String) -> Bool {
-        return interestedBubbleManager.shouldShowInterestedBubbleForProduct(id)
+        return bubbleManager.shouldShowInterestedBubbleForProduct(id) && !favoriteMessageBubbleShown
     }
 }
 
@@ -941,18 +951,38 @@ private extension ProductViewModel {
 
     static let favouriteStickerName = ":love_it:"
 
+    private func checkSendFavoriteSticker() {
+        guard !favoriteMessageSent else { return }
+
+        switch FeatureFlags.messageOnFavorite {
+        case .NoMessage:
+            return
+        case .NotificationPreMessage:
+            guard !favoriteMessageBubbleShown else { return }
+            favoriteMessageBubbleShown = true
+            bubbleManager.showBubble(.Action, text: LGLocalizedString.productBubbleFavoriteText, icon: nil,
+                                               action: buildNotificationButtonAction(), duration: 3)
+        case .DirectMessage:
+            sendFavoriteSticker()
+        }
+    }
+
     private func sendFavoriteSticker() {
-
-        // CHECK AB TEST
-
         stickersRepository.show(typeFilter: .Chat) { [weak self] result in
             guard let stickers = result.value else { return }
             for sticker in stickers {
                 if sticker.name == ProductViewModel.favouriteStickerName {
-                    self?.sendStickerToSeller(sticker)
+                    self?.favoriteMessageSent = true
+                    self?.sendStickerToSeller(sticker, favorite: true)
                     break
                 }
             }
         }
+    }
+
+    private func buildNotificationButtonAction() -> UIAction {
+        return UIAction(interface: .Button(LGLocalizedString.productBubbleFavoriteButton, .Cancel), action: { [weak self] in
+            self?.sendFavoriteSticker()
+        })
     }
 }
