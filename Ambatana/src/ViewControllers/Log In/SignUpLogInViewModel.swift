@@ -79,8 +79,8 @@ public class SignUpLogInViewModel: BaseViewModel {
 
     var termsAndConditionsEnabled: Bool
 
-    var attributedLegalText: NSAttributedString {
-        guard let conditionsURL = termsAndConditionsURL, let privacyURL = privacyURL else {
+    func attributedLegalText(linkColor: UIColor) -> NSAttributedString {
+        guard let conditionsURL = termsAndConditionsURL, privacyURL = privacyURL else {
             return NSAttributedString(string: LGLocalizedString.signUpTermsConditions)
         }
 
@@ -88,7 +88,7 @@ public class SignUpLogInViewModel: BaseViewModel {
             LGLocalizedString.signUpTermsConditionsPrivacyPart: privacyURL]
         let localizedLegalText = LGLocalizedString.signUpTermsConditions
         let attributtedLegalText = localizedLegalText.attributedHyperlinkedStringWithURLDict(links,
-            textColor: UIColor.darkGrayColor())
+            textColor: linkColor)
         attributtedLegalText.addAttribute(NSFontAttributeName, value: UIFont.mediumBodyFont,
             range: NSMakeRange(0, attributtedLegalText.length))
         return attributtedLegalText
