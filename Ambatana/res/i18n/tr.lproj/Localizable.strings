@@ -93,7 +93,7 @@
 "chat_list_blocked_users_title" = "ENGELLENMİŞ KULLANICILAR";
 "chat_list_buying_empty_button" = "Ürün ara";
 "chat_list_buying_empty_title" = "(HENÜZ!) SOHBET MESAJI YOK";
-"chat_list_buying_title" = "ALIM";
+"chat_list_buying_title" = "ALIŞ";
 "chat_list_delete" = "Sil";
 "chat_list_delete_alert_send" = "Sil";
 "chat_list_delete_alert_text_multiple" = "Bu sohbetleri sileceksin";
@@ -104,7 +104,7 @@
 "chat_list_delete_ok_one" = "Bu sohbet silinmiştir!";
 "chat_list_selling_empty_button" = "Eşyalarını Sat";
 "chat_list_selling_empty_title" = "(HENÜZ!) SOHBET MESAJI YOK";
-"chat_list_selling_title" = "SATIM";
+"chat_list_selling_title" = "SATIŞ";
 "chat_list_title" = "Sohbet";
 "chat_list_unarchive_error_multiple" = "Konuşmalar arşivden çıkarılırken bir hata oluştu. Lütfen tekrar dene.";
 "chat_list_unblock" = "Engeli Kaldir";
@@ -240,7 +240,7 @@
 "filters_section_location" = "Konum";
 "filters_section_price" = "Fiyat";
 "filters_section_sortby" = "Sırala";
-"filters_section_within" = "İÇERİSİNDE İLAN EDİLEN";
+"filters_section_within" = "YAYINLANMA ZAMANI";
 "filters_sort_closest" = "İlk önce en yakını";
 "filters_sort_newest" = "İlk önce en yenisi";
 "filters_sort_price_asc" = "Düşük fiyattan yüksek fiyata";
@@ -383,7 +383,7 @@
 "product_open_commercial_button" = "Commercial";
 "product_option_share" = "Ürünü paylaş";
 "product_option_show_commercial" = "Reklam";
-"product_popular_near_you" = "Yakınlarında popüler olanlar";
+"product_popular_near_you" = "Çevrende en çok beğenilenler";
 "product_post_camera_first_time_alert_subtitle" = "Güzel bir fotoğraf çek ve para kazanmaya başla!";
 "product_post_camera_first_time_alert_title" = "Ne satıyorsun?";
 "product_post_camera_permissions_button" = "İzin Ver";
@@ -397,7 +397,7 @@
 "product_post_confirmation_another" = "veya";
 "product_post_confirmation_another_button" = "Başka bir ürün listele";
 "product_post_confirmation_edit" = "Daha fazla bilgi gir";
-"product_post_done" = "Tamamlandı";
+"product_post_done" = "Onayla";
 "product_post_empty_gallery_button" = "Fotoğraf Çek";
 "product_post_empty_gallery_subtitle" = "Yüklemek istediğin ürünün fotoğrafını çek";
 "product_post_empty_gallery_title" = "Fotoğraf bulunamadı";
@@ -452,7 +452,7 @@
 "product_share_email_error" = "Oops! Görünüşe bakılırsa e-posta uygulamasında bir hesap oluşturmamışsın.";
 "product_share_generic_error" = "Ürün paylaşılırken hata oluştu. Lütfen daha sonra tekrar dene.";
 "product_share_generic_ok" = "Ürün başarılıyla paylaşıldı.";
-"product_share_navbar_button" = "Share";
+"product_share_navbar_button" = "Paylaş";
 "product_share_posted_by" = "%@ tarafından yayınlandı";
 "product_share_sms_error" = "Mesajın gönderilirken bir hata oluştu.";
 "product_share_sms_ok" = "Gönderiliyor...";
@@ -509,7 +509,7 @@
 "rating_view_dont_ask_again_button" = "BUNU BİR DAHA SORMA";
 "rating_view_rate_us_label" = "Bize puan ver:";
 "rating_view_remind_later_button" = "Daha sonra hatırlat";
-"rating_view_title_label" = "letgo'yu seviyor musun?";
+"rating_view_title_label" = "Bizi seviyor musun?";
 "rating_view_title_label_uppercase" = "BİZE 5 YILDIZ VER!";
 "report_user_counterfeit" = "Sahte ürünler";
 "report_user_error_already_reported" = "Bu kullanıcıyı daha önce şikayet etmiştin!";
@@ -587,6 +587,7 @@
 "sign_up_send_button" = "Kaydol";
 "sign_up_send_error_email_taken" = "%@ e-posta adresi zaten kayıtlı. Lütfen, bu adresi kullanarak giriş yap.";
 "sign_up_send_error_generic" = "Hesap oluşturulurken bir hata oluştu. Lütfen tekrar dene.";
+"sign_up_send_error_invalid_domain" = "Geçersiz e-posta adresi. Lütfen değiştirip tekrar dene.";
 "sign_up_send_error_invalid_email" = "Lütfen kullanıcı e-posta alanına geçerli bir e-posta adresi gir.";
 "sign_up_send_error_invalid_password_with_max" = "Lütfen geçerli bir şifre gir. Şifre en az %d, en fazla %d karakterden oluşmalıdır.";
 "sign_up_send_error_invalid_username" = "Lütfen, en az %d karakterden oluşan geçerli bir kullanıcı adı gir.";
@@ -605,9 +606,6 @@
 "tour_help_button" = "Yardım";
 "tour_or_label" = "veya e-postanı kullan";
 "tour_page_1_body" = "Bulunduğun çevrede hızlı ve güvenli bir şekilde al ve sat.";
-"tour_terms_conditions" = "Kaydolarak veya giriş yaparak Şartlar ve Koşullar & Gizlilik Politikasını kabul etmiş olursun.";
-"tour_terms_conditions_privacy_keyword" = "Gizlilik Politikası";
-"tour_terms_conditions_terms_keyword" = "Şartlar ve Koşullar";
 "trending_searches_Title" = "Popüler Aramalar";
 "unblock_user_error_generic" = "Kullanıcı engeli kaldırılırken bir hata oluştu.";
 "user_rating_message_w_name" = "%@ ile deneyimin nasıldı? 5 yıldız vermek ister misin?";

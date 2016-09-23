@@ -452,7 +452,7 @@
 "product_share_email_error" = "Ops! Sembra che tu non abbia impostato un account nella app di Mail.";
 "product_share_generic_error" = "Si è verificato un errore durante la condivisione del prodotto. Ti preghiamo di riprovare più tardi.";
 "product_share_generic_ok" = "Prodotto condiviso con successo!";
-"product_share_navbar_button" = "Share";
+"product_share_navbar_button" = "Condividi";
 "product_share_posted_by" = "pubblicato da %@";
 "product_share_sms_error" = "Si è verificato un errore durante il tentativo di invio del messaggio.";
 "product_share_sms_ok" = "Invio in corso...";
@@ -587,6 +587,7 @@
 "sign_up_send_button" = "Registrati";
 "sign_up_send_error_email_taken" = "L'indirizzo email %@ risulta già registrato. Ti preghiamo di utilizzarlo per effettuare l'accesso.";
 "sign_up_send_error_generic" = "Si è verificato un errore durante la creazione dell'account. Riprova più tardi.";
+"sign_up_send_error_invalid_domain" = "Indirizzo email non valido. Modificalo e riprova.";
 "sign_up_send_error_invalid_email" = "Inserisci un indirizzo email valido nell'apposito campo.";
 "sign_up_send_error_invalid_password_with_max" = "Inserisci una password valida. Deve contenere tra i %d e i %d caratteri.";
 "sign_up_send_error_invalid_username" = "Inserisci un nome utente valido, deve contenere almeno %d caratteri.";
@@ -605,9 +606,6 @@
 "tour_help_button" = "Aiuto";
 "tour_or_label" = "O utilizza la tua email";
 "tour_page_1_body" = "Compra e vendi localmente, velocemente e in tutta sicurezza.";
-"tour_terms_conditions" = "Registrandoti o effettuando l'accesso, accetti i nostri Termini e Condizioni e l'Informativa sulla Privacy";
-"tour_terms_conditions_privacy_keyword" = "Informativa sulla Privacy";
-"tour_terms_conditions_terms_keyword" = "Termini e Condizioni";
 "trending_searches_Title" = "Ricerche di tendenza";
 "unblock_user_error_generic" = "Si è verificato un errore durante il tentativo di sbloccare questo utente.";
 "user_rating_message_w_name" = "La tua esperienza con %@ merita cinque stelle? Raccontaci come è andata.";

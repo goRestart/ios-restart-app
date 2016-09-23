@@ -11,11 +11,11 @@ PODS:
   - Bolts/AppLinks (1.8.4):
     - Bolts/Tasks
   - Bolts/Tasks (1.8.4)
-  - Branch (0.12.10):
-    - Branch/Core (= 0.12.10)
-    - Branch/without-IDFA (= 0.12.10)
-  - Branch/Core (0.12.10)
-  - Branch/without-IDFA (0.12.10)
+  - Branch (0.12.11):
+    - Branch/Core (= 0.12.11)
+    - Branch/without-IDFA (= 0.12.11)
+  - Branch/Core (0.12.11)
+  - Branch/without-IDFA (0.12.11)
   - bumper (0.1.1)
   - CHTCollectionViewWaterfallLayout (0.9.5):
     - CHTCollectionViewWaterfallLayout/ObjC (= 0.9.5)
@@ -94,7 +94,7 @@ PODS:
   - KMPlaceholderTextView (1.2.2)
   - Leanplum-iOS-SDK (1.4.0.1)
   - LGCollapsibleLabel (0.1.8)
-  - LGCoreKit (1.0.6):
+  - LGCoreKit (1.0.7):
     - Alamofire (~> 3.4.0)
     - Argo (~> 3.0.1)
     - CocoaLumberjack/Swift (~> 2.3.0)
@@ -145,7 +145,7 @@ DEPENDENCIES:
   - Amplitude-iOS (~> 3.5.0)
   - AppsFlyerFramework (~> 4.3.9)
   - Argo (~> 3.0.1)
-  - Branch (~> 0.12.2)
+  - Branch (~> 0.12.10)
   - bumper (= 0.1.1)
   - CHTCollectionViewWaterfallLayout (~> 0.9.1)
   - CocoaLumberjack/Swift (~> 2.3.0)
@@ -169,7 +169,7 @@ DEPENDENCIES:
   - KMPlaceholderTextView (~> 1.2.2)
   - Leanplum-iOS-SDK (~> 1.4.0)
   - LGCollapsibleLabel (= 0.1.8)
-  - LGCoreKit (= 1.0.6)
+  - LGCoreKit (= 1.0.7)
   - Nimble (~> 4.0.1)
   - OHHTTPStubs (~> 5.1.0)
   - OHHTTPStubs/Swift
@@ -212,7 +212,7 @@ SPEC CHECKSUMS:
   AppsFlyerFramework: f23ebf0fc8f99b2d239fa8d6f36c286ad91f7735
   Argo: dd46f5df9faf4bbc5f21ee1e470315cd921d2cfc
   Bolts: 8a7995239dbe724f9cba2248b766d48b7ebdd322
-  Branch: 371ebad8c506e7a808db8d7840108d3de3007c1e
+  Branch: a620b19dc96fffabb7873a86c80c77c75395a664
   bumper: add8e52dd18624d19ec59c032032c677e831e048
   CHTCollectionViewWaterfallLayout: 775ff73f48cfc13859b62d8bceb96e772e4a0318
   CocoaLumberjack: 97fab7ee5f507fe54445cca7ea80f926729cfd15
@@ -250,7 +250,7 @@ SPEC CHECKSUMS:
   KMPlaceholderTextView: bbff031935d84f7eedb585e7f77120020fbae9e8
   Leanplum-iOS-SDK: 220755449d8f39270591fe75f49e8abe6f29d934
   LGCollapsibleLabel: c7c43dc5932e93faf1fe858bb9f860b38d7c3f9f
-  LGCoreKit: 234a0e06545d7bb1d92e16f528775f3fdc703a7a
+  LGCoreKit: a869408a4a34b64ed415201d923401ace5447d68
   Nimble: 0f3c8b8b084cda391209c3c5efbb48bedeeb920a
   OHHTTPStubs: 592f74439d2d72615115cf99a954237a3fbe26e5
   Quick: 13a2a2b19a5d8e3ed4fd0c36ee46597fd77ebf71
@@ -267,6 +267,6 @@ SPEC CHECKSUMS:
   TwitterCore: 817eae3e291fa4125b47789e26a4f6f024115c1f
   TwitterKit: 8a383da8d9c21b0423716381ea8bbfce20622d91
 
-PODFILE CHECKSUM: 695114c07a63f7a20183d1374059c576534a9342
+PODFILE CHECKSUM: d47779842dadb4e3f14a6b624a4aa6a350ef021c
 
 COCOAPODS: 1.0.1
