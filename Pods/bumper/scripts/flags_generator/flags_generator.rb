@@ -18,12 +18,12 @@ end
 
 def generate_flags(destination_folder)
 	puts "Writing on: #{destination_folder}".cyan
-	input_file = File.open("#{File.dirname(__FILE__)}/templates/bumper_flags.erb", "rb")
+	input_file = File.open("#{File.dirname(__FILE__)}/templates/bumper_features.erb", "rb")
 	template = input_file.read
 	input_file.close
 	renderer = ERB.new(template)
 	output = renderer.result()
-	output_file = File.new(destination_folder+"BumperFlags.swift", "w")
+	output_file = File.new(destination_folder+"BumperFeatures.swift", "w")
 	output_file.write(output)
 	output_file.close
 end

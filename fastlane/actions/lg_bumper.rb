@@ -19,7 +19,7 @@ module Fastlane
       #####################################################
 
       def self.description
-        "Updates Web Translate It with the new validated strings from google drive, download all the changes from wti and generate all not-yet valid strings on base + localizables file"
+        "Bumper pod fastlane action: Generates BumperFeatures.swift file"
       end
 
       def self.available_options

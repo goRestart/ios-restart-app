@@ -13,5 +13,4 @@ protocol BumperDAO {
     func boolForKey(defaultName: String) -> Bool
     func stringForKey(defaultName: String) -> String?
     func setObject(value: AnyObject?, forKey defaultName: String)
-    func synchronize() -> Bool
 }

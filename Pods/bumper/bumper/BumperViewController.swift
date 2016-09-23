@@ -44,6 +44,12 @@ public class BumperViewController: UIViewController {
 
 private extension BumperViewController {
     private func setupUI() {
+        if let viewControllers = navigationController?.viewControllers where viewControllers.count == 1 {
+            let leftItem = UIBarButtonItem(title: "Close", style: .Plain, target: self, action: #selector(dismiss))
+            navigationItem.leftBarButtonItem = leftItem
+        }
+        title = "Bumper"
+        view.backgroundColor = UIColor.whiteColor()
         setupEnableHeader()
         setupTableView()
     }
@@ -93,16 +99,20 @@ private extension BumperViewController {
             options: [], metrics: metrics, views: views))
         view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[table]|",
             options: [], metrics: metrics, views: views))
-
     }
 
     private func initSwitch() {
+        enableBumperSwitch.onTintColor = UIColor.darkGrayColor()
         enableBumperSwitch.setOn(viewModel.enabled, animated: false)
         enableBumperSwitch.addTarget(self, action: #selector(switchValueChanged), forControlEvents: .ValueChanged)
     }
 
     private dynamic func switchValueChanged() {
         viewModel.setEnabled(enableBumperSwitch.on)
+    }
+
+    private dynamic func dismiss() {
+        dismissViewControllerAnimated(true, completion: nil)
     }
 }
 
@@ -135,7 +145,6 @@ extension BumperViewController: UITableViewDelegate, UITableViewDataSource {
 
     public func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
-        
         viewModel.featureSelectedAtIndex(indexPath.row)
     }
 }

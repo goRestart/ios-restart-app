@@ -16,8 +16,8 @@ public class Bumper {
         return Bumper.sharedInstance.enabled
     }
 
-    public static func initialize(bumperFlags: [BumperFlag.Type]) {
-        Bumper.sharedInstance.initialize(bumperFlags)
+    public static func initialize(bumperFeatures: [BumperFeature.Type]) {
+        Bumper.sharedInstance.initialize(bumperFeatures)
     }
 
     public static func valueForKey(key: String) -> String? {
@@ -34,16 +34,15 @@ public class Bumper {
     var enabled: Bool = false {
         didSet {
             bumperDAO.setBool(enabled, forKey: Bumper.bumperEnabledKey)
-            bumperDAO.synchronize()
         }
     }
     private var cache = [String: String]()
-    private var flags: [BumperFlag.Type] = []
+    private var features: [BumperFeature.Type] = []
 
     var bumperViewData: [BumperViewData] {
-        return flags.flatMap { flagType in
-            let value = valueForKey(flagType.key) ?? flagType.defaultValue
-            return BumperViewData(key: flagType.key, description: flagType.description, value: value, options: flagType.values)
+        return features.flatMap { featureType in
+            let value = valueForKey(featureType.key) ?? featureType.defaultValue
+            return BumperViewData(key: featureType.key, description: featureType.description, value: value, options: featureType.values)
         }
     }
 
@@ -53,12 +52,12 @@ public class Bumper {
         self.bumperDAO = bumperDAO
     }
 
-    func initialize(bumperFlags: [BumperFlag.Type]) {
+    func initialize(bumperFeatures: [BumperFeature.Type]) {
         enabled = bumperDAO.boolForKey(Bumper.bumperEnabledKey)
 
         cache.removeAll()
-        flags = bumperFlags
-        flags.forEach({
+        features = bumperFeatures
+        features.forEach({
             guard let value = bumperDAO.stringForKey(Bumper.bumperPrefix + $0.key) else { return }
             cache[$0.key] = value
         })
@@ -71,7 +70,6 @@ public class Bumper {
     func setValueForKey(key: String, value: String) {
         cache[key] = value
         bumperDAO.setObject(value, forKey: Bumper.bumperPrefix + key)
-        bumperDAO.synchronize()
     }
 }
 
