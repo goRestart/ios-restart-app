@@ -450,6 +450,7 @@ SignUpLogInViewModelDelegate, GIDSignInUIDelegate {
         loginSegmentedControl.layer.masksToBounds = true
 
         newsletterLabel.text = LGLocalizedString.signUpNewsleter
+        newsletterLabel.textColor = UIColor.grayText
         connectFBButton.setTitle(LGLocalizedString.mainSignUpFacebookConnectButton, forState: .Normal)
         connectGoogleButton.setTitle(LGLocalizedString.mainSignUpGoogleConnectButton, forState: .Normal)
         orLabel.text = LGLocalizedString.mainSignUpOrLabel
@@ -460,7 +461,8 @@ SignUpLogInViewModelDelegate, GIDSignInUIDelegate {
         passwordTextField.clearButtonOffset = 0
         usernameTextField.clearButtonOffset = 0
 
-        setupTermsConditionsText()
+        termsConditionsText.attributedText = viewModel.attributedLegalText(UIColor.grayText)
+        termsConditionsText.delegate = self
 
         // tags
         emailTextField.tag = TextFieldTag.Email.rawValue
@@ -561,6 +563,7 @@ SignUpLogInViewModelDelegate, GIDSignInUIDelegate {
         usernameTextField.textColor = textfieldTextColor
         usernameTextField.attributedPlaceholder = NSAttributedString(string: LGLocalizedString.signUpUsernameFieldHint,
                                                                      attributes: textfieldPlaceholderAttrs)
+        termsConditionsText.tintColor = UIColor.primaryColor
 
         forgotPasswordButton.setTitleColor(UIColor.darkGrayText, forState: .Normal)
     }
@@ -598,6 +601,7 @@ SignUpLogInViewModelDelegate, GIDSignInUIDelegate {
         usernameTextField.textColor = textfieldTextColor
         usernameTextField.attributedPlaceholder = NSAttributedString(string: LGLocalizedString.signUpUsernameFieldHint,
                                                                      attributes: textfieldPlaceholderAttrs)
+        termsConditionsText.tintColor = UIColor.white
 
         forgotPasswordButton.setTitleColor(UIColor.white, forState: .Normal)
     }
@@ -613,11 +617,6 @@ SignUpLogInViewModelDelegate, GIDSignInUIDelegate {
         kenBurnsView.animateWithImages(images, transitionDuration: 10, initialDelay: 0, loop: true, isLandscape: true)
     }
 
-    private func setupTermsConditionsText() {
-        termsConditionsText.attributedText = viewModel.attributedLegalText
-        termsConditionsText.delegate = self
-    }
-    
     private func setupSignupUI() {
         passwordButton.setRoundedCorners([], cornerRadius: 0)
         passwordTextField.returnKeyType = .Next
