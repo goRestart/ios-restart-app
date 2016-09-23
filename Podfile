@@ -25,7 +25,7 @@ def shared_pods
     pod "Fabric",               "~> 1.6.3"
     pod "Crashlytics",          "~> 3.7.2"
     pod "TwitterKit",           "~> 2.3.0"
-    pod "Branch",               "~> 0.12.2"
+    pod "Branch",               "~> 0.12.10"
 
 	# Tracking
 	pod "Amplitude-iOS",        "~> 3.5.0"

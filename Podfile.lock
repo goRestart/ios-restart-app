@@ -32,7 +32,7 @@ PODS:
     - Fabric (~> 1.6.3)
   - CryptoSwift (0.4.1)
   - Curry (2.2.0)
-  - DeviceUtil (1.3.8)
+  - DeviceUtil (1.3.7)
   - Fabric (1.6.8)
   - FastttCamera (0.3.4):
     - FastttCamera/Default (= 0.3.4)
@@ -48,7 +48,7 @@ PODS:
   - Firebase/AppIndexing (3.4.0):
     - Firebase/Analytics
     - FirebaseAppIndexing (= 1.0.4)
-  - FirebaseAnalytics (3.4.2):
+  - FirebaseAnalytics (3.3.1):
     - FirebaseInstanceID (~> 1.0)
     - GoogleInterchangeUtilities (~> 1.2)
     - GoogleSymbolUtilities (~> 1.1)
@@ -65,7 +65,7 @@ PODS:
   - Google/SignIn (3.0.3):
     - Google/Core
     - GoogleSignIn (~> 4.0)
-  - GoogleAnalytics (3.17.0)
+  - GoogleAnalytics (3.16.0)
   - GoogleAppUtilities (1.1.1):
     - GoogleSymbolUtilities (~> 1.0)
   - GoogleAuthUtilities (2.0.1):
@@ -144,7 +144,7 @@ DEPENDENCIES:
   - Amplitude-iOS (~> 3.5.0)
   - AppsFlyerFramework (~> 4.3.9)
   - Argo (~> 3.0.1)
-  - Branch (~> 0.12.2)
+  - Branch (~> 0.12.10)
   - CHTCollectionViewWaterfallLayout (~> 0.9.1)
   - CocoaLumberjack/Swift (~> 2.3.0)
   - CollectionVariable (from `https://github.com/gitdoapp/CollectionVariable`, commit `d99e7a8dfaad32823c207e40fca7c2f2c3894ead`)
@@ -217,20 +217,20 @@ SPEC CHECKSUMS:
   Crashlytics: 76f6beaff70acf226139582c09c78461597c2b98
   CryptoSwift: 25b5aff3f260967391f8fff2e9abe4254d2c6fd5
   Curry: c22d80fff7f5a4b1bbd531455c3e2dbb099658a3
-  DeviceUtil: 9e91dd78b14cd51715d6fada8871c71b00283023
+  DeviceUtil: faefd40ac954b37c68686c088c1d2f7dc103a3fc
   Fabric: 5755268d0171435ab167e3d0878a28a777deaf10
   FastttCamera: 51f16712cbd5bdb08bc6231b957325c6be5e478d
   FBSDKCoreKit: 6e020b5db0b5bd1e01f5fb0902131befd129a502
   FBSDKLoginKit: da563567a108050ef83739c8c8c001ee9e25fa13
   FBSDKShareKit: e8e5d4ccef69b41132fe33acda26db1e33143e33
   Firebase: 754562547af419cc2f4b15247fee419081924bc2
-  FirebaseAnalytics: 3f5358d9104adf159cc8d99b7b501e50099a39ad
+  FirebaseAnalytics: d968d4d5f6aeb795cd64144337bcd233e530efc6
   FirebaseAppIndexing: 5eb2d921b6750c8521ff5bdd069ec6d4bf24db9a
   FirebaseInstanceID: ba1e640935235e5fac39dfa816fe7660e72e1a8a
   FLEX: ba80ea13d2c784e85e616137fd4eff164781e364
   FlipTheSwitch: 46176a723accc5e7ccc46b0173fcd58653a54c3f
   Google: 813c467362eabc11385f5a5cc9ad0cb651a58f4e
-  GoogleAnalytics: f42cc53a87a51fe94334821868d9c8481ff47a7b
+  GoogleAnalytics: 3de986b2fa29012c69fa415566006a9c9cf25320
   GoogleAppUtilities: f1730f91f67767b453c289577040dd3f425ffdc7
   GoogleAuthUtilities: d7a19615cd7627688afcf181737f1011ee8b5a23
   GoogleConversionTracking: ca8c89abda2bd28bb6472b316eeb4ece9264e279
@@ -264,6 +264,6 @@ SPEC CHECKSUMS:
   TwitterCore: 817eae3e291fa4125b47789e26a4f6f024115c1f
   TwitterKit: 8a383da8d9c21b0423716381ea8bbfce20622d91
 
-PODFILE CHECKSUM: 1d477a9086bd126f29cbdca88f091cab4d98c2dc
+PODFILE CHECKSUM: 77edf57eff079d9f7ae13cfb4dd3aefa166145c4
 
 COCOAPODS: 1.0.1
