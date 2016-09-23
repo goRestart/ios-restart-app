@@ -230,8 +230,6 @@
 		508011011D4748120073F362 /* SettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 508010E71D4748120073F362 /* SettingsViewController.xib */; };
 		508011031D4749030073F362 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 508011021D4749030073F362 /* LaunchScreen.xib */; };
 		508011041D4749030073F362 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 508011021D4749030073F362 /* LaunchScreen.xib */; };
-		508011061D4749360073F362 /* Features.plist in Resources */ = {isa = PBXBuildFile; fileRef = 508011051D4749360073F362 /* Features.plist */; };
-		508011071D4749360073F362 /* Features.plist in Resources */ = {isa = PBXBuildFile; fileRef = 508011051D4749360073F362 /* Features.plist */; };
 		508011131D474ED80073F362 /* Backgrounds-and-Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 508011091D474ED80073F362 /* Backgrounds-and-Images.xcassets */; };
 		508011141D474ED80073F362 /* Backgrounds-and-Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 508011091D474ED80073F362 /* Backgrounds-and-Images.xcassets */; };
 		508011151D474ED80073F362 /* Chat.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5080110A1D474ED80073F362 /* Chat.xcassets */; };
@@ -1244,7 +1242,6 @@
 		508010E61D4748120073F362 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		508010E71D4748120073F362 /* SettingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingsViewController.xib; sourceTree = "<group>"; };
 		508011021D4749030073F362 /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
-		508011051D4749360073F362 /* Features.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Features.plist; sourceTree = "<group>"; };
 		508011091D474ED80073F362 /* Backgrounds-and-Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Backgrounds-and-Images.xcassets"; sourceTree = "<group>"; };
 		5080110A1D474ED80073F362 /* Chat.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Chat.xcassets; sourceTree = "<group>"; };
 		5080110B1D474ED80073F362 /* Commercializer.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Commercializer.xcassets; sourceTree = "<group>"; };
@@ -2479,7 +2476,6 @@
 			children = (
 				C735101A1D94246C00D67040 /* bumper_features.json */,
 				50BA5C041C3C093E00F34042 /* AppDelegate.swift */,
-				508011051D4749360073F362 /* Features.plist */,
 				508011021D4749030073F362 /* LaunchScreen.xib */,
 				50CD8F5C1BC27DE30031DCD3 /* Info.plist */,
 				50BA5C051C3C093E00F34042 /* letgo-Bridging-Header.h */,
@@ -3600,7 +3596,6 @@
 				2E3760341BD914BA00A5A030 /* CategoriesViewController.xib in Resources */,
 				508C3F7C1C984BEC00CF431F /* UserViewHeader.xib in Resources */,
 				C75B5DC31D59E09500112368 /* ProductCarouselViewController.xib in Resources */,
-				508011061D4749360073F362 /* Features.plist in Resources */,
 				2E9716A41D5A0535009B3A32 /* ExpressChatCell.xib in Resources */,
 				C783D98B1C64C15B000EE5CA /* ReportUserCell.xib in Resources */,
 				C7B588551CE1DE1C009B3975 /* DirectAnswersCloseCell.xib in Resources */,
@@ -3726,7 +3721,6 @@
 				C7DB426C1C5138B500400945 /* CategoriesViewController.xib in Resources */,
 				508C3F7D1C984BEC00CF431F /* UserViewHeader.xib in Resources */,
 				C75B5DC41D59E09500112368 /* ProductCarouselViewController.xib in Resources */,
-				508011071D4749360073F362 /* Features.plist in Resources */,
 				C783D98C1C64C15B000EE5CA /* ReportUserCell.xib in Resources */,
 				C7B588561CE1DE1C009B3975 /* DirectAnswersCloseCell.xib in Resources */,
 				C7DB426F1C5138B500400945 /* FilterCategoryCell.xib in Resources */,
