@@ -225,6 +225,8 @@ private extension AppDelegate {
     }
 
     private func setupLibraries(application: UIApplication, launchOptions: [NSObject: AnyObject]?) {
+        FeatureFlags.setup()
+        
         let environmentHelper = EnvironmentsHelper()
         EnvironmentProxy.sharedInstance.setEnvironmentType(environmentHelper.appEnvironment)
 

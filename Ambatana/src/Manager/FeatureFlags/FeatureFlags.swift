@@ -7,6 +7,7 @@
 //
 
 import FlipTheSwitch
+import bumper
 
 enum PostingDetailsMode: Int {
     case Old = 0
@@ -34,6 +35,10 @@ enum IncentivizePostingMode: Int {
 }
 
 struct FeatureFlags {
+    static func setup() {
+        Bumper.initialize()
+    }
+
     static var websocketChat: Bool = {
         return FTSFlipTheSwitch.websocketChat
     }()

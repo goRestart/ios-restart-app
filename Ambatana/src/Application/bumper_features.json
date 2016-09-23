@@ -1,0 +1,33 @@
+[
+	{
+		"name": "XcodeRealTest",
+		"values": ["First", "Second", "Third"],
+		"description": "Ajan Gramenawer"
+	},
+	{
+		"name": "PacoTest",
+		"values": ["First", "Second", "Third"],
+		"description": "Hola que tal paco "
+	},
+	{
+		"name": "JuanTest",
+		"values": ["First", "Second", "Third"],
+		"default": "Third",
+		"description": "Hola que tal juan"
+	},
+	{
+		"name": "ABoolTest",
+		"values": ["Yes", "No"],
+		"description": "Hola que tal juan modo bool"
+	},
+		{
+		"name": "ABoolTest2",
+		"values": ["Yes", "false"],
+		"description": "Hola que tal juan modo bool"
+	},
+		{
+		"name": "ABoolTest3",
+		"values": ["no", "true"],
+		"description": "Hola que tal juan modo bool"
+	}
+]

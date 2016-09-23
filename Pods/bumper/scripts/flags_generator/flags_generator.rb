@@ -18,7 +18,7 @@ end
 
 def generate_flags(destination_folder)
 	puts "Writing on: #{destination_folder}".cyan
-	input_file = File.open("templates/bumper_flags.erb", "rb")
+	input_file = File.open("#{File.dirname(__FILE__)}/templates/bumper_flags.erb", "rb")
 	template = input_file.read
 	input_file.close
 	renderer = ERB.new(template)
