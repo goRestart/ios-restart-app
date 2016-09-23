@@ -19,12 +19,21 @@ class BubbleNotificationManager {
 
     // Showing Methods
 
-    func showBubble(style: BubbleStyle, text: String?, icon: UIImage?, action: UIAction?, duration: NSTimeInterval?) {
+    /**
+     Adds bubble to the view and shows it
+     
+     - text: text of the notification
+     - action: the action associated with the notification button
+     - duration: for how long the notification should be shown
+ 
+     */
+
+    func showBubble(text: String?, action: UIAction?, duration: NSTimeInterval?) {
 
         guard let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate else { return }
         guard let window = appDelegate.window else { return }
 
-        bubble = BubbleNotification(style: style, text: text, icon: icon, action: action)
+        bubble = BubbleNotification(text: text, action: action)
 
         guard let bubble = bubble else { return }
         bubble.translatesAutoresizingMaskIntoConstraints = false
@@ -33,18 +42,15 @@ class BubbleNotificationManager {
         bubble.setupOnView(window)
         bubble.showBubble()
 
-        if let duration = duration where duration > 0 {
+        guard let duration = duration else {
+            // if no duration is defined, we set the default for bubbles with no buttons
+            NSTimer.scheduledTimerWithTimeInterval(BubbleNotificationManager.defaultDuration, target: self,
+                                                   selector: #selector(hideBubble), userInfo: nil, repeats: false)
+            return
+        }
+        if duration > 0 {
             NSTimer.scheduledTimerWithTimeInterval(duration ?? BubbleNotificationManager.defaultDuration, target: self,
                                                    selector: #selector(hideBubble), userInfo: nil, repeats: false)
-        } else {
-            // if no duration is defined, we set the default for bubbles with no buttons
-            switch style {
-            case .Interested:
-                NSTimer.scheduledTimerWithTimeInterval(BubbleNotificationManager.defaultDuration, target: self,
-                                                       selector: #selector(hideBubble), userInfo: nil, repeats: false)
-            case .Action:
-                break
-            }
         }
     }
 
@@ -52,23 +58,5 @@ class BubbleNotificationManager {
         guard let bubble = bubble else { return }
         bubble.closeBubble()
         self.bubble = nil
-    }
-
-
-    // Interested bubble logic methods
-
-    private var interestedBubbleShownForProducts: [String] = []
-
-    func showInterestedBubbleForProduct(id: String) {
-        interestedBubbleShownForProducts.append(id)
-    }
-
-    func shouldShowInterestedBubbleForProduct(id: String) -> Bool {
-        return interestedBubbleShownForProducts.count < Constants.maxInterestedBubblesPerSession &&
-            !interestedBubbleAlreadyShownForProduct(id)
-    }
-
-    private func interestedBubbleAlreadyShownForProduct(id: String) -> Bool {
-        return interestedBubbleShownForProducts.contains(id)
     }
 }

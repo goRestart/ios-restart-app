@@ -122,6 +122,7 @@ class ProductViewModel: BaseViewModel {
     private let countryHelper: CountryHelper
     private let locationManager: LocationManager
     private let chatViewMessageAdapter: ChatViewMessageAdapter
+    private let interestedBubbleManager: InterestedBubbleManager
     private let bubbleManager: BubbleNotificationManager
 
     // Rx
@@ -145,7 +146,8 @@ class ProductViewModel: BaseViewModel {
                   commercializerRepository: commercializerRepository, chatWrapper: chatWrapper,
                   stickersRepository: stickersRepository, locationManager: locationManager, countryHelper: countryHelper,
                   product: product, thumbnailImage: thumbnailImage, navigator: navigator,
-                  bubbleManager: BubbleNotificationManager.sharedInstance)
+                  bubbleManager: BubbleNotificationManager.sharedInstance,
+                  interestedBubbleManager: InterestedBubbleManager.sharedInstance)
         syncProduct(nil)
     }
     
@@ -161,14 +163,15 @@ class ProductViewModel: BaseViewModel {
                   commercializerRepository: commercializerRepository, chatWrapper: chatWrapper,
                   stickersRepository: stickersRepository, locationManager: locationManager, countryHelper: countryHelper,
                   product: product, thumbnailImage: thumbnailImage, navigator: navigator,
-                  bubbleManager: BubbleNotificationManager.sharedInstance)
+                  bubbleManager: BubbleNotificationManager.sharedInstance,
+                  interestedBubbleManager: InterestedBubbleManager.sharedInstance)
     }
 
     init(myUserRepository: MyUserRepository, productRepository: ProductRepository,
          commercializerRepository: CommercializerRepository, chatWrapper: ChatWrapper,
          stickersRepository: StickersRepository, locationManager: LocationManager, countryHelper: CountryHelper,
          product: Product, thumbnailImage: UIImage?, navigator: ProductDetailNavigator?,
-         bubbleManager: BubbleNotificationManager) {
+         bubbleManager: BubbleNotificationManager, interestedBubbleManager: InterestedBubbleManager) {
         self.product = Variable<Product>(product)
         self.thumbnailImage = thumbnailImage
         self.myUserRepository = myUserRepository
@@ -183,6 +186,7 @@ class ProductViewModel: BaseViewModel {
         self.navigator = navigator
         self.chatViewMessageAdapter = ChatViewMessageAdapter()
         self.bubbleManager = bubbleManager
+        self.interestedBubbleManager = interestedBubbleManager
 
         let ownerId = product.user.objectId
         self.ownerId = ownerId
@@ -483,15 +487,6 @@ extension ProductViewModel {
         showInterestedBubbleForProduct(productId)
         trackHelper.trackInterestedUsersBubble(othersFavCount, productId: productId)
         showInterestedBubble.value = false
-    }
-
-    func refreshInterestedBubble() {
-        bubbleManager.hideBubble()
-        showInterestedBubble.asObservable().filter{$0}.bindNext{ [weak self] _ in
-            let text = self?.interestedBubbleTitle
-            let icon = self?.interestedBubbleIcon
-            self?.bubbleManager.showBubble(.Interested, text: text, icon: icon, action: nil, duration: 3)
-        }.addDisposableTo(disposeBag)
     }
 }
 
@@ -885,11 +880,11 @@ extension Product {
 
 extension ProductViewModel {
     func showInterestedBubbleForProduct(id: String) {
-        bubbleManager.showInterestedBubbleForProduct(id)
+        interestedBubbleManager.showInterestedBubbleForProduct(id)
     }
 
     func shouldShowInterestedBubbleForProduct(id: String) -> Bool {
-        return bubbleManager.shouldShowInterestedBubbleForProduct(id) && !favoriteMessageBubbleShown
+        return interestedBubbleManager.shouldShowInterestedBubbleForProduct(id) && !favoriteMessageBubbleShown
     }
 }
 
@@ -960,7 +955,7 @@ private extension ProductViewModel {
         case .NotificationPreMessage:
             guard !favoriteMessageBubbleShown else { return }
             favoriteMessageBubbleShown = true
-            bubbleManager.showBubble(.Action, text: LGLocalizedString.productBubbleFavoriteText, icon: nil,
+            bubbleManager.showBubble(LGLocalizedString.productBubbleFavoriteText,
                                                action: buildNotificationButtonAction(), duration: 3)
         case .DirectMessage:
             sendFavoriteSticker()

@@ -90,9 +90,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     private var moreInfoView: ProductCarouselMoreInfoView?
     private let moreInfoState = Variable<MoreInfoState>(.Hidden)
 
-    private var interestedBubble: BubbleNotification?
-
-
+    private var interestedBubble: InterestedBubble?
 
     let animator: PushAnimator?
     var pendingMovement: CarouselMovement?
@@ -595,7 +593,15 @@ extension ProductCarouselViewController {
     }
 
     private func refreshInterestedBubble(viewModel: ProductViewModel) {
-        viewModel.refreshInterestedBubble()
+        hideInterestedBubble()
+        viewModel.showInterestedBubble.asObservable().filter{$0}.bindNext{ [weak self, weak viewModel] _ in
+            let productId = viewModel?.product.value.objectId
+            let text = viewModel?.interestedBubbleTitle
+            let icon = viewModel?.interestedBubbleIcon
+            self?.showInterestedBubbleForProduct(productId, text: text, icon: icon)
+            }.addDisposableTo(activeDisposeBag)
+
+//        viewModel.refreshInterestedBubble()
     }
 }
 
@@ -925,6 +931,30 @@ extension ProductCarouselViewController: UITableViewDataSource, UITableViewDeleg
         cell.transform = tableView.transform
 
         return cell
+    }
+}
+
+
+// MARK: > Interested bubble
+
+extension ProductCarouselViewController {
+    func showInterestedBubbleForProduct(productId: String?, text: String?, icon: UIImage?){
+        guard let navView = navigationController?.view else { return }
+        interestedBubble = InterestedBubble(text: text, icon: icon)
+        guard let interestedBubble = interestedBubble else { return }
+        interestedBubble.translatesAutoresizingMaskIntoConstraints = false
+
+        navView.addSubview(interestedBubble)
+        interestedBubble.setupOnView(navView)
+
+        navView.bringSubviewToFront(interestedBubble)
+        interestedBubble.showBubble()
+    }
+
+    func hideInterestedBubble() {
+        guard let interestedBubble = interestedBubble else { return }
+        interestedBubble.removeBubble()
+        self.interestedBubble = nil
     }
 }
 
