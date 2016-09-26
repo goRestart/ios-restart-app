@@ -104,7 +104,7 @@ class ProductCarouselImageCell: UICollectionViewCell, UIScrollViewDelegate {
         imageView.center = CGPointMake(scrollView.contentSize.width * 0.5 + offsetX,
                                        scrollView.contentSize.height * 0.5 + offsetY)
 
-        zooming.onNext((scrollView.zoomScale > referenceZoomLevel, position))
+        zooming.onNext((scrollView.zoomScale.roundNearest(0.000001) > referenceZoomLevel.roundNearest(0.000001), position))
     }
 }
 
