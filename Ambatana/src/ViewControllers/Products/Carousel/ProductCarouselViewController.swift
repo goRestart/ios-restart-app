@@ -254,12 +254,12 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     }
     
     dynamic private func backButtonClose() {
-        close(false)
+        close()
     }
 
-    private func close(fromCollection: Bool) {
+    private func close() {
         if moreInfoView?.frame.origin.y < 0 {
-            viewModel.close(fromCollection)
+            viewModel.close()
         } else {
             if let moreInfoView = moreInfoView where moreInfoView.bigMapVisible {
                 hideBigMap()
@@ -692,8 +692,6 @@ extension ProductCarouselViewController: ProductCarouselCellDelegate {
             collectionView.scrollToItemAtIndexPath(nextIndexPath, atScrollPosition: .Right, animated: false)
         } else {
             collectionView.showRubberBandEffect(.Right)
-            guard !viewModel.isLoading else { return }
-            close(true)
         }
     }
 
@@ -724,10 +722,6 @@ extension ProductCarouselViewController: ProductCarouselCellDelegate {
             showMoreInfo()
         } else {
             hideMoreInfo()
-        }
-
-        if buttonBottomBottomConstraint.constant - itemsMargin > bottomOverscrollDragMargin {
-            close(true)
         }
     }
     
@@ -891,19 +885,6 @@ extension ProductCarouselViewController: UICollectionViewDataSource, UICollectio
 
     func scrollViewDidScroll(scrollView: UIScrollView) {
         collectionContentOffset.value = scrollView.contentOffset
-    }
-
-    func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        if (scrollView.contentOffset.x >= (scrollView.contentSize.width - scrollView.frame.size.width)) && currentIndex >= viewModel.objectCount - 1 {
-            //reach right limit
-            close(true)
-            return
-        }
-        if (scrollView.contentOffset.x < 0) && currentIndex == 0 {
-            //reach left limit
-            close(true)
-            return
-        }
     }
 }
 
