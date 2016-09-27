@@ -25,7 +25,8 @@ class BubbleNotificationManager {
      - text: text of the notification
      - action: the action associated with the notification button
      - duration: for how long the notification should be shown
- 
+        . no duration: default duration
+        . duration <= 0 : notification stays there until the user interacts with it.
      */
 
     func showBubble(text: String?, action: UIAction?, duration: NSTimeInterval?) {
@@ -48,9 +49,12 @@ class BubbleNotificationManager {
                                                    selector: #selector(hideBubble), userInfo: nil, repeats: false)
             return
         }
-        if duration > 0 {
-            NSTimer.scheduledTimerWithTimeInterval(duration ?? BubbleNotificationManager.defaultDuration, target: self,
-                                                   selector: #selector(hideBubble), userInfo: nil, repeats: false)
+
+        let finalDuration = (action == nil && duration <= 0) ? BubbleNotificationManager.defaultDuration : duration
+
+        if finalDuration > 0 {
+            NSTimer.scheduledTimerWithTimeInterval(finalDuration, target: self, selector: #selector(hideBubble),
+                                                   userInfo: nil, repeats: false)
         }
     }
 
