@@ -48,13 +48,6 @@ struct FeatureFlags {
     static var userRatings: Bool {
         return FTSFlipTheSwitch.userRatings
     }
-
-    static var directStickersOnProduct: Bool {
-        if FTSFlipTheSwitch.overridesABTests {
-            return FTSFlipTheSwitch.directStickersOnProduct
-        }
-        return ABTests.directStickersOnProduct.value
-    }
     
     static var showNPSSurvey: Bool {
         if FTSFlipTheSwitch.overridesABTests {
@@ -125,10 +118,6 @@ private extension FTSFlipTheSwitch {
     
     static var userRatings: Bool {
         return FTSFlipTheSwitch.sharedInstance().isFeatureEnabled("user_ratings")
-    }
-
-    static var directStickersOnProduct: Bool {
-        return FTSFlipTheSwitch.sharedInstance().isFeatureEnabled("direct_stickers_on_product")
     }
 
     static var newPostDetails: Bool {
