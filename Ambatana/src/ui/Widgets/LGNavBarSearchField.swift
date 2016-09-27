@@ -88,9 +88,7 @@ public class LGNavBarSearchField: UIView {
         
         searchTextField.borderStyle = UITextBorderStyle.None
         searchTextField.layer.cornerRadius = searchTextField.frame.height/2
-        searchTextField.layer.borderWidth = LGUIKitConstants.onePixelSize
-        searchTextField.layer.borderColor = UIColor.gray.CGColor
-        searchTextField.backgroundColor = UIColor.white
+        searchTextField.backgroundColor = UIColor.black.colorWithAlphaComponent(0.07)
         
         
         if let actualText = text {
