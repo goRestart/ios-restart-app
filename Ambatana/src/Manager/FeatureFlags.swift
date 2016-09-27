@@ -27,6 +27,12 @@ enum IncentivizePostingMode: Int {
     case VariantC = 3
 }
 
+enum ExpressChatMode: Int {
+    case NoChat
+    case ContactXSellers
+    case AskAvailable
+}
+
 struct FeatureFlags {
     static var websocketChat: Bool = {
         return FTSFlipTheSwitch.websocketChat
@@ -77,6 +83,13 @@ struct FeatureFlags {
         }
         return IncentivizePostingMode(rawValue: ABTests.incentivatePostingMode.value) ?? .Original
     }
+
+    static var expressChatMode: ExpressChatMode {
+        if FTSFlipTheSwitch.overridesABTests {
+            return FTSFlipTheSwitch.expressChatMode
+        }
+        return ExpressChatMode(rawValue: ABTests.expressChatMode.value) ?? .NoChat
+    }
 }
 
 private extension FTSFlipTheSwitch {
@@ -123,5 +136,18 @@ private extension FTSFlipTheSwitch {
             return .VariantC
         }
         return .Original
+    }
+
+    static var expressChatMode: ExpressChatMode {
+        if FTSFlipTheSwitch.sharedInstance().isFeatureEnabled("no_express_chat") {
+            return .NoChat
+        }
+        if FTSFlipTheSwitch.sharedInstance().isFeatureEnabled("contact_x_sellers_express_chat") {
+            return .ContactXSellers
+        }
+        if FTSFlipTheSwitch.sharedInstance().isFeatureEnabled("ask_available_express_chat") {
+            return .AskAvailable
+        }
+        return .NoChat
     }
 }
