@@ -16,15 +16,12 @@ class ExpressChatViewController: BaseViewController {
     static let marginForButtonToKeyboard: CGFloat = 15
 
     var viewModel: ExpressChatViewModel
-    var keyboardHelper: KeyboardHelper
 
     @IBOutlet weak var closeButton: UIButton!
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var dontMissLabel: UILabel!
     @IBOutlet weak var contactSellersLabel: UILabel!
     @IBOutlet weak var collectionView: UICollectionView!
-    @IBOutlet weak var textFieldContainer: UIView!
-    @IBOutlet weak var messageTextField: UITextField!
     @IBOutlet weak var sendMessageButton: UIButton!
     @IBOutlet weak var dontAskAgainButton: UIButton!
 
@@ -38,7 +35,6 @@ class ExpressChatViewController: BaseViewController {
 
     init (viewModel: ExpressChatViewModel, keyboardHelper: KeyboardHelper) {
         self.viewModel = viewModel
-        self.keyboardHelper = keyboardHelper
         super.init(viewModel: viewModel, nibName: "ExpressChatViewController")
     }
     
@@ -52,16 +48,6 @@ class ExpressChatViewController: BaseViewController {
         setupRX()
     }
 
-    override func viewDidFirstLayoutSubviews() {
-        keyboardHelper.rx_keyboardOrigin.asObservable().bindNext { [weak self] origin in
-            guard let viewHeight = self?.view.height where viewHeight >= origin else { return }
-            guard let scrollView = self?.scrollView, var buttonRect = self?.sendMessageButton.frame else { return }
-            scrollView.contentInset.bottom = viewHeight - origin
-            buttonRect.bottom = buttonRect.bottom + ExpressChatViewController.marginForButtonToKeyboard
-            scrollView.scrollRectToVisible(buttonRect, animated: false)
-            }.addDisposableTo(disposeBag)
-    }
-
     func setupUI() {
         view.backgroundColor = UIColor.grayBackground
         scrollView.backgroundColor = UIColor.clearColor()
@@ -70,12 +56,6 @@ class ExpressChatViewController: BaseViewController {
         dontMissLabel.text = LGLocalizedString.chatExpressDontMissLabel
         contactSellersLabel.text = LGLocalizedString.chatExpressContactSellersLabel
 
-        textFieldContainer.layer.cornerRadius = LGUIKitConstants.tooltipCornerRadius
-        
-        messageTextField.text = viewModel.messageText.value
-        messageTextField.delegate = self
-        messageTextField.tintColor = UIColor.primaryColor
-        
         sendMessageButton.setStyle(.Primary(fontSize: .Big))
         
         dontAskAgainButton.setTitle(LGLocalizedString.chatExpressDontAskAgainButton, forState: .Normal)

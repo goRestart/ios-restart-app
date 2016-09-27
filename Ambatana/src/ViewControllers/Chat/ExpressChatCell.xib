@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -19,16 +19,27 @@
                     </imageView>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ejK-G4-nke">
                         <rect key="frame" x="0.0" y="60" width="120" height="60"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="_Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CJc-qt-rxf">
+                                <rect key="frame" x="8" y="36" width="20" height="16"/>
+                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="CJc-qt-rxf" firstAttribute="leading" secondItem="ejK-G4-nke" secondAttribute="leading" constant="8" id="8oX-TO-qNf"/>
+                        </constraints>
                     </view>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_Negotiable" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZgD-Vs-JBi">
-                        <rect key="frame" x="8" y="96" width="79" height="16"/>
-                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="13"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" misplaced="YES" text="_Negotiable" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZgD-Vs-JBi">
+                        <rect key="frame" x="36" y="96" width="76" height="16"/>
+                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="checkbox_selected" translatesAutoresizingMaskIntoConstraints="NO" id="DgB-jM-meo">
-                        <rect key="frame" x="92" y="90" width="20" height="20"/>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="checkbox_selected_round" translatesAutoresizingMaskIntoConstraints="NO" id="DgB-jM-meo">
+                        <rect key="frame" x="8" y="8" width="20" height="20"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="20" id="5jz-tv-aEq"/>
@@ -39,17 +50,18 @@
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             </view>
             <constraints>
+                <constraint firstItem="DgB-jM-meo" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="8" id="15i-n7-i0I"/>
                 <constraint firstAttribute="bottom" secondItem="3qb-OZ-x8l" secondAttribute="bottom" id="3ag-sw-AF2"/>
                 <constraint firstItem="3qb-OZ-x8l" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="5R0-lw-Nh8"/>
                 <constraint firstAttribute="bottom" secondItem="ZgD-Vs-JBi" secondAttribute="bottom" constant="8" id="AX4-sq-3A6"/>
-                <constraint firstItem="DgB-jM-meo" firstAttribute="leading" secondItem="ZgD-Vs-JBi" secondAttribute="trailing" constant="5" id="I3S-nT-W83"/>
+                <constraint firstItem="DgB-jM-meo" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="8" id="AuX-De-Cbi"/>
                 <constraint firstAttribute="trailing" secondItem="ejK-G4-nke" secondAttribute="trailing" id="ILm-qa-3OA"/>
-                <constraint firstAttribute="trailing" secondItem="DgB-jM-meo" secondAttribute="trailing" constant="8" id="JLt-0G-D6v"/>
                 <constraint firstItem="ejK-G4-nke" firstAttribute="height" secondItem="3qb-OZ-x8l" secondAttribute="height" multiplier="0.5" id="LrG-pm-Mgz"/>
+                <constraint firstItem="ZgD-Vs-JBi" firstAttribute="leading" secondItem="CJc-qt-rxf" secondAttribute="trailing" constant="8" id="R2d-ei-Kbd"/>
+                <constraint firstItem="CJc-qt-rxf" firstAttribute="centerY" secondItem="ZgD-Vs-JBi" secondAttribute="centerY" id="Y9w-Ma-Jjq"/>
                 <constraint firstItem="3qb-OZ-x8l" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="asf-UO-Bpc"/>
                 <constraint firstItem="ejK-G4-nke" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="dYz-OL-8kW"/>
-                <constraint firstItem="DgB-jM-meo" firstAttribute="baseline" secondItem="ZgD-Vs-JBi" secondAttribute="baseline" constant="1" id="nPN-Qy-9nA"/>
-                <constraint firstItem="ZgD-Vs-JBi" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="8" id="s9p-ph-VxW"/>
+                <constraint firstAttribute="trailing" secondItem="ZgD-Vs-JBi" secondAttribute="trailing" constant="8" id="mBw-3H-Swe"/>
                 <constraint firstAttribute="trailing" secondItem="3qb-OZ-x8l" secondAttribute="trailing" id="shq-NX-JJO"/>
                 <constraint firstAttribute="bottom" secondItem="ejK-G4-nke" secondAttribute="bottom" id="zkX-Zx-4MD"/>
             </constraints>
@@ -62,7 +74,7 @@
         </collectionViewCell>
     </objects>
     <resources>
-        <image name="checkbox_selected" width="18" height="18"/>
+        <image name="checkbox_selected_round" width="22" height="22"/>
         <image name="product_placeholder" width="60" height="60"/>
     </resources>
 </document>

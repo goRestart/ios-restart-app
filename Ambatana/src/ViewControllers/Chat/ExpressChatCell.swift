@@ -12,6 +12,7 @@ class ExpressChatCell: UICollectionViewCell {
 
     @IBOutlet weak var productImageView: UIImageView!
     @IBOutlet weak var priceLabel: UILabel!
+    @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var selectedImageView: UIImageView!
     @IBOutlet weak var gradientView: UIView!
 
@@ -32,6 +33,7 @@ class ExpressChatCell: UICollectionViewCell {
     func configureCellWithImage(imageUrl: NSURL, price: String) {
         selectedImageView.layer.borderColor = UIColor.whiteColor().CGColor
         priceLabel.text = price
+        titleLabel.text = "_Test Product Title"
 
         layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
         productImageView.image = UIImage(named: "product_placeholder")
