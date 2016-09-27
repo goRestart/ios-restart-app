@@ -24,6 +24,10 @@
 		2E26F06B1C89998A00C8D789 /* ProcessingVideoDialogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E26F0681C89998A00C8D789 /* ProcessingVideoDialogViewController.swift */; };
 		2E26F06C1C89998A00C8D789 /* ProcessingVideoDialogViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E26F0691C89998A00C8D789 /* ProcessingVideoDialogViewController.xib */; };
 		2E26F06D1C89998A00C8D789 /* ProcessingVideoDialogViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E26F0691C89998A00C8D789 /* ProcessingVideoDialogViewController.xib */; };
+		2E28B1291D99129D001BF8E4 /* CGFloat+rounding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E28B1281D99129D001BF8E4 /* CGFloat+rounding.swift */; };
+		2E28B12B1D9912B2001BF8E4 /* Double+Rounding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E28B12A1D9912B2001BF8E4 /* Double+Rounding.swift */; };
+		2E28B12C1D99132D001BF8E4 /* Double+Rounding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E28B12A1D9912B2001BF8E4 /* Double+Rounding.swift */; };
+		2E28B12D1D991330001BF8E4 /* CGFloat+rounding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E28B1281D99129D001BF8E4 /* CGFloat+rounding.swift */; };
 		2E29C17D1C1ED73A008FCD87 /* GANTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E29C17C1C1ED73A008FCD87 /* GANTracker.swift */; };
 		2E2A5E121D5C784B0047ED45 /* ExpressChatCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2A5E111D5C784B0047ED45 /* ExpressChatCoordinator.swift */; };
 		2E2A5E141D5C78600047ED45 /* ExpressChatNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2A5E131D5C78600047ED45 /* ExpressChatNavigator.swift */; };
@@ -1092,6 +1096,8 @@
 		2E2634CC1BB19D1800BBFFBC /* KahunaTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KahunaTracker.swift; sourceTree = "<group>"; };
 		2E26F0681C89998A00C8D789 /* ProcessingVideoDialogViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProcessingVideoDialogViewController.swift; path = Commercializer/ProcessingVideoDialogViewController.swift; sourceTree = "<group>"; };
 		2E26F0691C89998A00C8D789 /* ProcessingVideoDialogViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ProcessingVideoDialogViewController.xib; path = Commercializer/ProcessingVideoDialogViewController.xib; sourceTree = "<group>"; };
+		2E28B1281D99129D001BF8E4 /* CGFloat+rounding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGFloat+rounding.swift"; sourceTree = "<group>"; };
+		2E28B12A1D9912B2001BF8E4 /* Double+Rounding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Double+Rounding.swift"; sourceTree = "<group>"; };
 		2E29C17C1C1ED73A008FCD87 /* GANTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GANTracker.swift; sourceTree = "<group>"; };
 		2E2A5E111D5C784B0047ED45 /* ExpressChatCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExpressChatCoordinator.swift; sourceTree = "<group>"; };
 		2E2A5E131D5C78600047ED45 /* ExpressChatNavigator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExpressChatNavigator.swift; sourceTree = "<group>"; };
@@ -2574,6 +2580,8 @@
 			isa = PBXGroup;
 			children = (
 				6A5E19BC1D548F5400F92692 /* CGAffineTransform+LG.swift */,
+				2E28B1281D99129D001BF8E4 /* CGFloat+rounding.swift */,
+				2E28B12A1D9912B2001BF8E4 /* Double+Rounding.swift */,
 				6A5E19BD1D548F5400F92692 /* Float+Rounding.swift */,
 				6A5E19BE1D548F5400F92692 /* Int+LG.swift */,
 				6A5E19BF1D548F5400F92692 /* NSDate+LG.swift */,
@@ -4206,6 +4214,7 @@
 				C7B588531CE1DE1C009B3975 /* DirectAnswersCloseCell.swift in Sources */,
 				6A5E1A0A1D548F5400F92692 /* UIBarItem+Rx.swift in Sources */,
 				C7798EA21D2EB6AB00C81DD4 /* UICollectionView+Helper.swift in Sources */,
+				2E28B1291D99129D001BF8E4 /* CGFloat+rounding.swift in Sources */,
 				C7F1EE791CFDD29000B027E2 /* VerifyAccountViewController.swift in Sources */,
 				50D67B9D1D182F07003AC0A5 /* SellNavigator.swift in Sources */,
 				6A38ADE21C64C4EA009E1A31 /* TourLocationViewController.swift in Sources */,
@@ -4271,6 +4280,7 @@
 				50EC640A1C64F99E00DC04C5 /* LGEmptyViewModel.swift in Sources */,
 				50F0BAA91B28938D00E50A68 /* MainSignUpViewController.swift in Sources */,
 				6A5E19FC1D548F5400F92692 /* LetgoURLHelper.swift in Sources */,
+				2E28B12B1D9912B2001BF8E4 /* Double+Rounding.swift in Sources */,
 				C7111EF91CA43822000C5C5A /* DeepLinksRouter.swift in Sources */,
 				50E0E84B1D40B11600A6397C /* UserViewHeaderContainer.swift in Sources */,
 				2E4A9DBA1D8054DE00F99026 /* ProductListMultiRequester.swift in Sources */,
@@ -4636,6 +4646,7 @@
 				6A12E04D1C635FA600C1BFE3 /* TourLoginViewController.swift in Sources */,
 				C75B5DD21D59E0C500112368 /* ProductCarouselCell.swift in Sources */,
 				C7DB42001C5138B500400945 /* ReusableCell.swift in Sources */,
+				2E28B12C1D99132D001BF8E4 /* Double+Rounding.swift in Sources */,
 				6A9C9EBF1CCF95A1009D866C /* UIButton+LetgoStyles.swift in Sources */,
 				C7111F091CA4458F000C5C5A /* ShortcutItem.swift in Sources */,
 				509598881C8733B70026AE2D /* CrashlyticsLogger.swift in Sources */,
@@ -4768,6 +4779,7 @@
 				C7F18A951C89CB3300D23319 /* PostProductGalleryView.swift in Sources */,
 				C7DE8ABB1C888750005CF37E /* ProductPostedViewController.swift in Sources */,
 				C7DB422C1C5138B500400945 /* KeyboardAnimation.swift in Sources */,
+				2E28B12D1D991330001BF8E4 /* CGFloat+rounding.swift in Sources */,
 				2E2D53E31D369B0500348D12 /* LGConfigRetrieveService.swift in Sources */,
 				2E6B6E3E1D2BCC9800C10A20 /* PostIncentiviserItem.swift in Sources */,
 				C742340D1D5A132D0082D1CD /* UITableView+Changes.swift in Sources */,

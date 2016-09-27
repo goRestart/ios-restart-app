@@ -990,6 +990,12 @@
 // product detail X users interested bubble notification
 "product_bubble_several_users_interested" = "%i other buyers are interested!";
 
+// product detail added to favorites notification description
+"product_bubble_favorite_text" = "This product has been added to your favorites!";
+
+// product detail added to favorites notification action button text
+"product_bubble_favorite_button" = "Let the seller know!";
+
 // Error shown when one user blocked the other
 "product_chat_direct_error_blocked_user_message" = "Oops! Chatting with this user is blocked.";
 

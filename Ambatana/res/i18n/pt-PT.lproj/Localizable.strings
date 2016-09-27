@@ -329,6 +329,8 @@
 "product_ask_a_question_button" = "Faça uma pergunta";
 "product_auto_generated_title_label" = "Título gerado automaticamente pelo letgo";
 "product_auto_generated_translated_title_label" = "(e traduzido pelo Google)";
+"product_bubble_favorite_button" = "Let the seller know!";
+"product_bubble_favorite_text" = "This product has been added to your favorites!";
 "product_bubble_one_user_interested" = "Outro comprador está interessado!";
 "product_bubble_several_users_interested" = "%i outros compradores estão interessados!";
 "product_chat_direct_error_blocked_user_message" = "Ups! O chat deste utilizador está bloqueado.";

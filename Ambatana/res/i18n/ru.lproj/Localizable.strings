@@ -329,6 +329,8 @@
 "product_ask_a_question_button" = "Задать вопрос";
 "product_auto_generated_title_label" = "Заголовок автоматически задан letgo";
 "product_auto_generated_translated_title_label" = "(и переведен Яндексом)";
+"product_bubble_favorite_button" = "Let the seller know!";
+"product_bubble_favorite_text" = "This product has been added to your favorites!";
 "product_bubble_one_user_interested" = "Другой покупатель интересуется товаром!";
 "product_bubble_several_users_interested" = "% других покупателей интересуются товаром!";
 "product_chat_direct_error_blocked_user_message" = "Упс! Чат с этим пользователем заблокирован.";
