@@ -409,6 +409,9 @@
 // Title of furniture collection
 "collection_furniture_title" = "No place like home";
 
+// Title of halloween collection
+"collection_halloween_title" = "Trick or treat";
+
 // Explore button on collection cell
 "collection_explore_button" = "Explore";
 
