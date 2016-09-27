@@ -717,11 +717,10 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     }
 
     private func addDisclaimerAfterSend() {
-        if let bottomDisclaimerMessage = bottomDisclaimerMessage where !bottomDisclaimerShown {
-            loadedMessages.insert(bottomDisclaimerMessage, atIndex: 0)
-            delegate?.vmDidSucceedSendingMessage(0)
-            bottomDisclaimerShown = true
-        }
+        guard let bottomDisclaimerMessage = bottomDisclaimerMessage where !bottomDisclaimerShown else { return }
+        loadedMessages.insert(bottomDisclaimerMessage, atIndex: 0)
+        delegate?.vmDidSucceedSendingMessage(0)
+        bottomDisclaimerShown = true
     }
 
     private func loadStickersTooltip() {
