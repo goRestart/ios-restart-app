@@ -39,7 +39,7 @@ enum CollectionCellType: String {
     case Furniture = "furniture"
     case Halloween = "halloween"
 
-    private static let halloweenStartDate   = "2016-10-15"
+    private static let halloweenStartDate   = "2016-10-01"
     private static let halloweenEndDate     = "2016-11-07"
 
     static var allValues: [CollectionCellType] {
