@@ -12,7 +12,6 @@ public struct ABTests {
 
     static let trackingData = Variable<[(String, AnyObject)]>([])
 
-    static var appInviteFeedMode = IntABDynamicVar(key: "appInviteFeedMode", defaultValue: 0)
     static var showNPSSurvey = BoolABDynamicVar(key: "showNPSSurvey", defaultValue: false)
     static var profileVerifyOneButton = BoolABDynamicVar(key: "profileVerifyOneButton", defaultValue: false)
     static var nonStopProductDetail = BoolABDynamicVar(key: "nonStopProductDetail", defaultValue: false)
@@ -20,8 +19,8 @@ public struct ABTests {
     static var incentivatePostingMode = IntABDynamicVar(key: "incentivatePostingMode", defaultValue: 0)
 
     static private var allVariables: [ABVariable] {
-        return [appInviteFeedMode, showNPSSurvey, profileVerifyOneButton, nonStopProductDetail,
-                onboardingPermissionsMode, incentivatePostingMode]
+        return [showNPSSurvey, profileVerifyOneButton, nonStopProductDetail, onboardingPermissionsMode,
+                incentivatePostingMode]
     }
 
     static func registerVariables() {

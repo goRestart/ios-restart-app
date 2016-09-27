@@ -313,16 +313,8 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
         guard isRootViewController() else { return }
         guard viewModel.shouldShowInviteButton else { return }
         
-        var button: UIBarButtonItem?
-        switch FeatureFlags.appInviteFeedMode {
-        case .None:
-            button = nil
-        case .Emoji:
-            button = UIBarButtonItem(image: UIImage(named: "ic_invite"), style: .Plain, target: self, action: #selector(openInvite))
-        case .Text:
-            button = UIBarButtonItem(title: LGLocalizedString.appShareInviteText, style: .Plain, target: self, action: #selector(openInvite))
-        }
-        navigationItem.leftBarButtonItem = button
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: LGLocalizedString.appShareInviteText, style: .Plain,
+                                                           target: self, action: #selector(openInvite))
     }
     
     dynamic private func openInvite() {
@@ -387,10 +379,6 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
         RatingManager.sharedInstance.ratingProductListBannerVisible.asObservable()
             .distinctUntilChanged().subscribeNext { [weak self] _ in
                 self?.productListView.refreshDataView()
-        }.addDisposableTo(disposeBag)
-
-        ABTests.trackingData.asObservable().bindNext { [weak self] _ in
-            self?.setInviteNavBarButton()
         }.addDisposableTo(disposeBag)
     }
 }

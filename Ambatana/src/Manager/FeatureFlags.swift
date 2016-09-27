@@ -49,13 +49,6 @@ struct FeatureFlags {
         }
         return ABTests.showNPSSurvey.value
     }
-   
-    static var appInviteFeedMode: AppInviteListingMode {
-        if FTSFlipTheSwitch.overridesABTests {
-            return FTSFlipTheSwitch.showInviteHeartIcon ? .Emoji : .Text
-        }
-        return AppInviteListingMode(rawValue: ABTests.appInviteFeedMode.value) ?? .None
-    }
 
     static var profileVerifyOneButton: Bool {
         if FTSFlipTheSwitch.overridesABTests {
@@ -101,10 +94,6 @@ private extension FTSFlipTheSwitch {
     
     static var userRatings: Bool {
         return FTSFlipTheSwitch.sharedInstance().isFeatureEnabled("user_ratings")
-    }
-    
-    static var showInviteHeartIcon: Bool {
-        return FTSFlipTheSwitch.sharedInstance().isFeatureEnabled("show_invite_heart_icon")
     }
 
     static var showNPSSurvey: Bool {

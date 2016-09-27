@@ -30,31 +30,10 @@
 		<key>enabled</key>
 		<false/>
 	</dict>
-	<key>new_post_details</key>
-	<dict>
-		<key>description</key>
-		<string>Whether to use or not the new posting details</string>
-		<key>enabled</key>
-		<false/>
-	</dict>
-	<key>new_post_details_steps</key>
-	<dict>
-		<key>description</key>
-		<string>When using posting details whether to use steps or All in one</string>
-		<key>enabled</key>
-		<false/>
-	</dict>
 	<key>show_nps_survey</key>
 	<dict>
 		<key>description</key>
 		<string>Show the NPS Survey view a few seconds after opening the app</string>
-		<key>enabled</key>
-		<false/>
-	</dict>
-	<key>show_invite_heart_icon</key>
-	<dict>
-		<key>description</key>
-		<string>Show Text or Heart Icon In Main product list left bar button</string>
 		<key>enabled</key>
 		<false/>
 	</dict>
