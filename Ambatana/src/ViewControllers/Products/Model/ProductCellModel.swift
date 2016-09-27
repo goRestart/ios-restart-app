@@ -40,7 +40,7 @@ enum CollectionCellType: String {
     case Halloween = "halloween"
 
     private static let halloweenStartDate   = "2016-10-15"
-    private static let halloweenEndDate     = "2016-11-01"
+    private static let halloweenEndDate     = "2016-11-07"
 
     static var allValues: [CollectionCellType] {
         let dateFormatter = NSDateFormatter()
