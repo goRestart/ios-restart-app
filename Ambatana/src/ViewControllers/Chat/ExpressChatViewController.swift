@@ -47,6 +47,7 @@ class ExpressChatViewController: BaseViewController {
         super.viewDidLoad()
         setupUI()
         setupRX()
+        setupAccessibilityIds()
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -145,4 +146,14 @@ extension ExpressChatViewController: ExpressChatViewModelDelegate {
     func sendMessageSuccess() {
 
     }
+}
+
+
+extension ExpressChatViewController {
+    func setupAccessibilityIds() {
+        self.closeButton.accessibilityId = .ExpressChatCloseButton
+        self.collectionView.accessibilityId = .ExpressChatCollection
+        self.sendMessageButton.accessibilityId = .ExpressChatSendButton
+        self.dontAskAgainButton.accessibilityId = .ExpressChatDontAskButton
+   }
 }

@@ -45,6 +45,9 @@ class ExpressChatCell: UICollectionViewCell {
                 self?.productImageView.image = UIImage(named: "product_placeholder")
             }
         }
+
+        setupAccessibilityIds()
+
         setNeedsLayout()
         layoutIfNeeded()
     }
@@ -58,5 +61,12 @@ class ExpressChatCell: UICollectionViewCell {
             shadowLayer.frame = gradientView.bounds
             gradientView.layer.insertSublayer(shadowLayer, atIndex: 0)
         }
+    }
+
+    func setupAccessibilityIds() {
+        self.accessibilityId = .ExpressChatCell
+        self.titleLabel.accessibilityId = .ExpressChatCellProductTitle
+        self.priceLabel.accessibilityId = .ExpressChatCellProductPrice
+        self.selectedImageView.accessibilityId = .ExpressChatCellTickSelected
     }
 }
