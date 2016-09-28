@@ -135,6 +135,7 @@
 "collection_explore_button" = "Entdecken";
 "collection_furniture_title" = "Zuhause ist's doch am schönsten";
 "collection_gaming_title" = "Spiel mit mir";
+"collection_halloween_title" = "Trick or treat";
 "collection_transport_title" = "Reisen mit Stil";
 "commercializer_create_from_settings" = "Create a Free Commercial";
 "commercializer_display_share_alert" = "Share this masterpiece";
@@ -329,8 +330,8 @@
 "product_ask_a_question_button" = "Stelle eine Frage";
 "product_auto_generated_title_label" = "Der Titel wurde von letgo automatisch generiert";
 "product_auto_generated_translated_title_label" = "(und mit Google übersetzt)";
-"product_bubble_favorite_button" = "Let the seller know!";
-"product_bubble_favorite_text" = "This product has been added to your favorites!";
+"product_bubble_favorite_button" = "Sag dem Verkäufer Bescheid!";
+"product_bubble_favorite_text" = "Dieses Produkt wurde zu deiner Fundgrube hinzugefügt!";
 "product_bubble_one_user_interested" = "Ein weiterer Käufer hat Interesse!";
 "product_bubble_several_users_interested" = "%i andere Käufer haben Interesse!";
 "product_chat_direct_error_blocked_user_message" = "Hoppla! Gespräche mit diesem Nutzer sind blockiert";

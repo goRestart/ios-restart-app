@@ -135,6 +135,7 @@
 "collection_explore_button" = "Искать";
 "collection_furniture_title" = "Милый дом";
 "collection_gaming_title" = "Игра началась";
+"collection_halloween_title" = "Trick or treat";
 "collection_transport_title" = "Стильные путешествия";
 "commercializer_create_from_settings" = "Create a Free Commercial";
 "commercializer_display_share_alert" = "Share this masterpiece";
@@ -329,8 +330,8 @@
 "product_ask_a_question_button" = "Задать вопрос";
 "product_auto_generated_title_label" = "Заголовок автоматически задан letgo";
 "product_auto_generated_translated_title_label" = "(и переведен Яндексом)";
-"product_bubble_favorite_button" = "Let the seller know!";
-"product_bubble_favorite_text" = "This product has been added to your favorites!";
+"product_bubble_favorite_button" = "Дайте знать продавцу!";
+"product_bubble_favorite_text" = "Этот товар добавлен в ваше избранное!";
 "product_bubble_one_user_interested" = "Другой покупатель интересуется товаром!";
 "product_bubble_several_users_interested" = "% других покупателей интересуются товаром!";
 "product_chat_direct_error_blocked_user_message" = "Упс! Чат с этим пользователем заблокирован.";
