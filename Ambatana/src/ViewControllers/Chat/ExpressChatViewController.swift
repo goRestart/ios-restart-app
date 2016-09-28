@@ -49,8 +49,17 @@ class ExpressChatViewController: BaseViewController {
         setupRX()
     }
 
-    func setupUI() {
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
         setStatusBarHidden(true)
+    }
+
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        setStatusBarHidden(false)
+    }
+
+    func setupUI() {
         view.backgroundColor = UIColor.grayBackground
         scrollView.backgroundColor = UIColor.clearColor()
         automaticallyAdjustsScrollViewInsets = false

@@ -15,16 +15,11 @@ class ExpressChatCell: UICollectionViewCell {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var selectedImageView: UIImageView!
     @IBOutlet weak var gradientView: UIView!
+    var shadowLayer: CALayer?
 
 
-//    override func awakeFromNib() {
-//        super.awakeFromNib()
-//        // Initialization code
-//        setupGradientView()
-//    }
-
-    override func prepareForReuse() {
-        super.prepareForReuse()
+    override func layoutSubviews() {
+        super.layoutSubviews()
         setupGradientView()
     }
 
@@ -50,11 +45,18 @@ class ExpressChatCell: UICollectionViewCell {
                 self?.productImageView.image = UIImage(named: "product_placeholder")
             }
         }
+        setNeedsLayout()
+        layoutIfNeeded()
     }
 
     private func setupGradientView() {
-        let shadowLayer = CAGradientLayer.gradientWithColor(UIColor.blackColor(), alphas:[0, 0.4], locations: [0, 1])
-        shadowLayer.frame = gradientView.bounds
-        gradientView.layer.insertSublayer(shadowLayer, atIndex: 0)
+        if let shadowLayer = shadowLayer {
+            shadowLayer.removeFromSuperlayer()
+        }
+        shadowLayer = CAGradientLayer.gradientWithColor(UIColor.blackColor(), alphas:[0, 0.4], locations: [0, 1])
+        if let shadowLayer = shadowLayer {
+            shadowLayer.frame = gradientView.bounds
+            gradientView.layer.insertSublayer(shadowLayer, atIndex: 0)
+        }
     }
 }
