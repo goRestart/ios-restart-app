@@ -76,6 +76,7 @@
 "chat_express_dont_ask_again_button" = "Не спрашивать снова";
 "chat_express_dont_miss_label" = "Не пропустите выгодные сделки";
 "chat_express_one_message_sent_success_alert" = "Ваше сообщение отправлено!";
+"chat_express_send_question_text" = "Send: %@";
 "chat_express_several_messages_sent_success_alert" = "Ваши сообщения отправлены!";
 "chat_express_text_field_text" = "Привет, меня это интересует!";
 "chat_forbidden_disclaimer_buyer_w_name" = "Аккаунт %@ проверяется командой letgo.";
@@ -135,6 +136,7 @@
 "collection_explore_button" = "Искать";
 "collection_furniture_title" = "Милый дом";
 "collection_gaming_title" = "Игра началась";
+"collection_halloween_title" = "Trick or treat";
 "collection_transport_title" = "Стильные путешествия";
 "commercializer_create_from_settings" = "Create a Free Commercial";
 "commercializer_display_share_alert" = "Share this masterpiece";
