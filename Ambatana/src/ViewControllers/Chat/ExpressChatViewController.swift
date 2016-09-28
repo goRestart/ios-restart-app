@@ -12,6 +12,7 @@ import RxSwift
 class ExpressChatViewController: BaseViewController {
 
     static let collectionCellIdentifier = "ExpressChatCell"
+    static let cellSeparation: CGFloat = 10
     static let collectionHeight: CGFloat = 250
     static let marginForButtonToKeyboard: CGFloat = 15
 
@@ -49,16 +50,17 @@ class ExpressChatViewController: BaseViewController {
     }
 
     func setupUI() {
+        setStatusBarHidden(true)
         view.backgroundColor = UIColor.grayBackground
         scrollView.backgroundColor = UIColor.clearColor()
         automaticallyAdjustsScrollViewInsets = false
 
-        dontMissLabel.text = LGLocalizedString.chatExpressDontMissLabel
+        dontMissLabel.text = LGLocalizedString.chatExpressDontMissLabel.uppercaseString
         contactSellersLabel.text = LGLocalizedString.chatExpressContactSellersLabel
 
         sendMessageButton.setStyle(.Primary(fontSize: .Big))
         
-        dontAskAgainButton.setTitle(LGLocalizedString.chatExpressDontAskAgainButton, forState: .Normal)
+        dontAskAgainButton.setTitle(LGLocalizedString.chatExpressDontAskAgainButton.uppercaseString, forState: .Normal)
         dontAskAgainButton.setTitleColor(UIColor.grayText, forState: .Normal)
         dontAskAgainButton.titleLabel?.font = UIFont.mediumBodyFont
 
@@ -93,16 +95,14 @@ class ExpressChatViewController: BaseViewController {
     }
 }
 
-extension ExpressChatViewController: UITextFieldDelegate {
-    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
-        guard let text = textField.text else { return false }
-        let updatedText =  (text as NSString).stringByReplacingCharactersInRange(range, withString: string)
-        viewModel.textFieldUpdatedWithText(updatedText)
-        return true
-    }
-}
 
-extension ExpressChatViewController: UICollectionViewDataSource, UICollectionViewDelegate {
+extension ExpressChatViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+        let cellSize = (UIScreen.mainScreen().bounds.width - (ExpressChatViewController.cellSeparation*3))/2
+        return CGSize(width: cellSize, height: cellSize)
+    }
 
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return viewModel.productListCount
@@ -115,10 +115,10 @@ extension ExpressChatViewController: UICollectionViewDataSource, UICollectionVie
                                                     forIndexPath: indexPath) as? ExpressChatCell else {
                                                         return UICollectionViewCell()
         }
+        let title = viewModel.titleForItemAtIndex(indexPath.item)
         let imageURL = viewModel.imageURLForItemAtIndex(indexPath.item)
         let price = viewModel.priceForItemAtIndex(indexPath.item)
-        cell.configureCellWithImage(imageURL, price: price)
-
+        cell.configureCellWithTitle(title, imageUrl: imageURL, price: price)
         return cell
     }
 

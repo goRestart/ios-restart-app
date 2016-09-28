@@ -37,8 +37,8 @@ class ExpressChatCoordinator: Coordinator {
 
         vm.navigator = self
 
-        guard keyValueStorage.userShouldShowExpressChat else { return nil }
-        guard !expressChatAlreadyShownForProduct(sourceProductId) else { return nil }
+//        guard keyValueStorage.userShouldShowExpressChat else { return nil }
+//        guard !expressChatAlreadyShownForProduct(sourceProductId) else { return nil }
     }
 
     func open(parent parent: UIViewController, animated: Bool, completion: (() -> Void)?) {

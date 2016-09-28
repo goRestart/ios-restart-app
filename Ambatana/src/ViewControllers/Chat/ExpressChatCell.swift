@@ -17,23 +17,29 @@ class ExpressChatCell: UICollectionViewCell {
     @IBOutlet weak var gradientView: UIView!
 
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
+//    override func awakeFromNib() {
+//        super.awakeFromNib()
+//        // Initialization code
+//        setupGradientView()
+//    }
+
+    override func prepareForReuse() {
+        super.prepareForReuse()
         setupGradientView()
     }
 
     override var selected: Bool {
         didSet {
-            selectedImageView.image = selected ? UIImage(named: "checkbox_selected") : nil
+            selectedImageView.image = selected ? UIImage(named: "checkbox_selected_round") : nil
             selectedImageView.layer.borderWidth = selected ? 0 : 2
         }
     }
 
-    func configureCellWithImage(imageUrl: NSURL, price: String) {
+    func configureCellWithTitle(title: String, imageUrl: NSURL, price: String) {
         selectedImageView.layer.borderColor = UIColor.whiteColor().CGColor
+        selectedImageView.layer.cornerRadius = selectedImageView.height/2
         priceLabel.text = price
-        titleLabel.text = "_Test Product Title"
+        titleLabel.text = title
 
         layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
         productImageView.image = UIImage(named: "product_placeholder")
