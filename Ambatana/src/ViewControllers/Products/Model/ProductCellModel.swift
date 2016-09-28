@@ -47,19 +47,21 @@ enum CollectionCellType: String {
         dateFormatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
         dateFormatter.dateFormat = "yyyy-MM-dd"
 
-        let halloweenEnabled: Bool
-        if let startDate = dateFormatter.dateFromString(halloweenStartDate)?.timeIntervalSinceNow,
-            endDate = dateFormatter.dateFromString(halloweenEndDate)?.timeIntervalSinceNow {
-            halloweenEnabled = startDate..<endDate ~= 0
-        } else {
-            halloweenEnabled = false
-        }
-
         if halloweenEnabled {
             return [.Gaming, .Apple, .Transport, .Furniture, .Halloween]
         } else {
             return [.Gaming, .Apple, .Transport, .Furniture]
         }
+    }
+
+    static var allValuesShuffled: [CollectionCellType] {
+        var values = allValues.shuffle()
+        guard let index = values.indexOf(.Halloween) else {
+            return values
+        }
+        values.removeAtIndex(index)
+        values.insert(.Halloween, atIndex: 0)
+        return values
     }
 
     var image: UIImage? {
@@ -105,5 +107,17 @@ enum CollectionCellType: String {
         case .Halloween:
             return "scary, halloween, costume, spooky, pumpkin, skeleton, zombie, fake blood, vampire, werewolf, ghost, terrifying, witch, ghoul, mummy"
         }
+    }
+
+    private static var halloweenEnabled: Bool {
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+
+        guard let startDate = dateFormatter.dateFromString(halloweenStartDate)?.timeIntervalSinceNow,
+            endDate = dateFormatter.dateFromString(halloweenEndDate)?.timeIntervalSinceNow else {
+                return false
+        }
+        return startDate..<endDate ~= 0
     }
 }
