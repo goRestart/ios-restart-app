@@ -87,6 +87,8 @@ class ChatViewController: SLKTextViewController {
                                                          name: UIMenuControllerWillShowMenuNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ChatViewController.menuControllerWillHide(_:)),
                                                          name: UIMenuControllerWillHideMenuNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(applicationWillEnterForeground(_:)),
+                                                         name: UIApplicationWillEnterForegroundNotification, object: nil)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -109,6 +111,10 @@ class ChatViewController: SLKTextViewController {
         if parent == nil {
             viewModel.wentBack()
         }
+    }
+
+    dynamic private func applicationWillEnterForeground(notification: NSNotification) {
+        viewModel.applicationWillEnterForeground()
     }
 
     override func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {

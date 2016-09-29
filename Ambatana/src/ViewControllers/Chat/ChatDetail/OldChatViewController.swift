@@ -83,8 +83,14 @@ class OldChatViewController: SLKTextViewController {
                                                          name: UIMenuControllerWillShowMenuNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(menuControllerWillHide(_:)),
                                                          name: UIMenuControllerWillHideMenuNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(applicationWillEnterForeground(_:)),
+                                                         name: UIApplicationWillEnterForegroundNotification, object: nil)
     }
-    
+
+    dynamic private func applicationWillEnterForeground(notification: NSNotification) {
+        viewModel.applicationWillEnterForeground()
+    }
+
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
