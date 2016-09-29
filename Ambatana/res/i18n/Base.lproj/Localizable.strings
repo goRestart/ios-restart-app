@@ -226,14 +226,17 @@
 // Express chat, contact these sellers label text
 "chat_express_contact_sellers_label" = "Contact these sellers before other buyers snatch them up!";
 
-// Express chat, i'm interested text
-"chat_express_text_field_text" = "Hi, I'm interested!";
+// Express chat, "still available?" text
+"chat_express_text_field_text" = "Hi! Is it still available?";
 
 // Express chat contact 1 seller button title
 "chat_express_contact_one_button_text" = "Contact 1 seller";
 
 // Express chat contact several sellers button title
 "chat_express_contact_various_button_text" = "Contact %@ sellers";
+
+// Express chat send question button tittle
+"chat_express_send_question_text" = "Send: %@";
 
 // Express chat don't ask me again button title
 "chat_express_dont_ask_again_button" = "Don't ask me again";

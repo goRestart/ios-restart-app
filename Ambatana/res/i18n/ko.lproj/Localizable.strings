@@ -76,6 +76,7 @@
 "chat_express_dont_ask_again_button" = "다시 묻지 말아주세요";
 "chat_express_dont_miss_label" = "이 할인을 놓치지마세요";
 "chat_express_one_message_sent_success_alert" = "메세지가 성공적으로 발송되었습니다!";
+"chat_express_send_question_text" = "Send: %@";
 "chat_express_several_messages_sent_success_alert" = "메세지가 성공적으로 발송되었습니다!";
 "chat_express_text_field_text" = "안녕하세요, 상품에 관심이 있는데요!";
 "chat_forbidden_disclaimer_buyer_w_name" = "letgo팀은 %@의 계정을 검토하고 있습니다.";

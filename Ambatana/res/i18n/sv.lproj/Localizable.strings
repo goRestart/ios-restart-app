@@ -76,6 +76,7 @@
 "chat_express_dont_ask_again_button" = "Fråga mig inte igen";
 "chat_express_dont_miss_label" = "Missa inte dessa fynd";
 "chat_express_one_message_sent_success_alert" = "Ditt meddelande har skickats!";
+"chat_express_send_question_text" = "Send: %@";
 "chat_express_several_messages_sent_success_alert" = "Dina meddelanden har skickats!";
 "chat_express_text_field_text" = "Hallå, jag är intresserad!";
 "chat_forbidden_disclaimer_buyer_w_name" = "%@s konto är under granskning av letgo.";
