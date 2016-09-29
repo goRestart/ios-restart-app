@@ -176,7 +176,7 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
 
     // Delegate
     weak var delegate: EditProductViewModelDelegate?
-    var closeCompletion: ((Product) -> Void)?
+    var closeCompletion: ((Product?) -> Void)?
 
     // Rx
     let disposeBag = DisposeBag()
@@ -276,11 +276,7 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
     }
 
     func didClose() {
-        if let savedProduct = savedProduct {
-            closeCompletion?(savedProduct)
-        } else {
-            closeCompletion?(initialProduct)
-        }
+        closeCompletion?(savedProduct)
     }
 
 
