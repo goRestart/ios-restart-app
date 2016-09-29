@@ -100,5 +100,26 @@
         <key>enabled</key>
         <false/>
     </dict>
+	<key>no_express_chat</key>
+	<dict>
+		<key>description</key>
+		<string>Don&apos;t show express chat</string>
+		<key>enabled</key>
+		<false/>
+	</dict>
+	<key>contact_x_sellers_express_chat</key>
+	<dict>
+		<key>description</key>
+		<string>Express chat button text &quot;conatct x sellers&quot;</string>
+		<key>enabled</key>
+		<false/>
+	</dict>
+	<key>ask_available_express_chat</key>
+	<dict>
+		<key>description</key>
+		<string>Express chat button text &quot;is still available?&quot;</string>
+		<key>enabled</key>
+		<false/>
+	</dict>
 </dict>
 </plist>

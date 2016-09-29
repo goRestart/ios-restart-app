@@ -30,6 +30,7 @@ class ExpressChatCoordinator: Coordinator {
     }
 
     init?(products: [Product], sourceProductId: String, keyValueStorage: KeyValueStorage) {
+        guard FeatureFlags.expressChatMode != .NoChat else { return nil }
         let vm = ExpressChatViewModel(productList: products, sourceProductId: sourceProductId)
         let vc = ExpressChatViewController(viewModel: vm)
         self.viewController = vc

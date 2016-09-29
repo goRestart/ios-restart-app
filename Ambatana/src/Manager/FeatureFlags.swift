@@ -33,6 +33,12 @@ enum MessageOnFavoriteMode: Int {
     case DirectMessage = 2
 }
 
+enum ExpressChatMode: Int {
+    case NoChat
+    case ContactXSellers
+    case AskAvailable
+}
+
 struct FeatureFlags {
     static var websocketChat: Bool = {
         return FTSFlipTheSwitch.websocketChat
@@ -89,6 +95,13 @@ struct FeatureFlags {
             return FTSFlipTheSwitch.messageOnFavorite
         }
         return MessageOnFavoriteMode(rawValue: ABTests.messageOnFavorite.value) ?? .NoMessage
+    }
+
+    static var expressChatMode: ExpressChatMode {
+        if FTSFlipTheSwitch.overridesABTests {
+            return FTSFlipTheSwitch.expressChatMode
+        }
+        return ExpressChatMode(rawValue: ABTests.expressChatMode.value) ?? .NoChat
     }
 }
 
@@ -149,5 +162,18 @@ private extension FTSFlipTheSwitch {
             return .DirectMessage
         }
         return .NoMessage
+    }
+
+    static var expressChatMode: ExpressChatMode {
+        if FTSFlipTheSwitch.sharedInstance().isFeatureEnabled("no_express_chat") {
+            return .NoChat
+        }
+        if FTSFlipTheSwitch.sharedInstance().isFeatureEnabled("contact_x_sellers_express_chat") {
+            return .ContactXSellers
+        }
+        if FTSFlipTheSwitch.sharedInstance().isFeatureEnabled("ask_available_express_chat") {
+            return .AskAvailable
+        }
+        return .NoChat
     }
 }
