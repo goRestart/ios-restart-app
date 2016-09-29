@@ -489,7 +489,7 @@ extension ProductCarouselViewController {
     }
 
     private func setupRxProductUpdate(viewModel: ProductViewModel) {
-        viewModel.product.asObservable().skip(1).bindNext { [weak self] _ in
+        viewModel.product.asObservable().bindNext { [weak self] _ in
             guard let strongSelf = self else { return }
             let visibleIndexPaths = strongSelf.collectionView.indexPathsForVisibleItems()
             //hiding fake list background to avoid showing it while the cell reloads
