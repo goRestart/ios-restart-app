@@ -39,6 +39,12 @@ enum ExpressChatMode: Int {
     case AskAvailable
 }
 
+enum InterestedUsersMode: Int {
+    case NoNotification
+    case Original
+    case LimitedPrints
+}
+
 struct FeatureFlags {
     static var websocketChat: Bool = {
         return FTSFlipTheSwitch.websocketChat
@@ -103,6 +109,14 @@ struct FeatureFlags {
         }
         return ExpressChatMode(rawValue: ABTests.expressChatMode.value) ?? .NoChat
     }
+
+    static var interestedUsersMode: InterestedUsersMode {
+        if FTSFlipTheSwitch.overridesABTests {
+            return FTSFlipTheSwitch.interestedUsersMode
+        }
+        return InterestedUsersMode(rawValue: ABTests.interestedUsersMode.value) ?? .NoNotification
+    }
+
 }
 
 private extension FTSFlipTheSwitch {
@@ -175,5 +189,18 @@ private extension FTSFlipTheSwitch {
             return .AskAvailable
         }
         return .NoChat
+    }
+
+    static var interestedUsersMode: InterestedUsersMode {
+        if FTSFlipTheSwitch.sharedInstance().isFeatureEnabled("interested_no_notification") {
+            return .NoNotification
+        }
+        if FTSFlipTheSwitch.sharedInstance().isFeatureEnabled("interested_original") {
+            return .Original
+        }
+        if FTSFlipTheSwitch.sharedInstance().isFeatureEnabled("interested_limited_prints") {
+            return .LimitedPrints
+        }
+        return .NoNotification
     }
 }

@@ -117,9 +117,30 @@
 	<key>ask_available_express_chat</key>
 	<dict>
 		<key>description</key>
-		<string>Express chat button text &quot;is still available?&quot;</string>
-		<key>enabled</key>
-		<false/>
-	</dict>
+        <string>Express chat button text &quot;is still available?&quot;</string>
+        <key>enabled</key>
+        <false/>
+    </dict>
+    <key>interested_no_notification</key>
+    <dict>
+        <key>description</key>
+        <string>No notifications for interested users</string>
+        <key>enabled</key>
+        <false/>
+    </dict>
+    <key>interested_original</key>
+    <dict>
+        <key>description</key>
+        <string>First iteration logic</string>
+        <key>enabled</key>
+        <false/>
+    </dict>
+    <key>interested_limited_prints</key>
+    <dict>
+        <key>description</key>
+        <string>New logic, limited to 3 prints x session</string>
+        <key>enabled</key>
+        <false/>
+    </dict>
 </dict>
 </plist>
