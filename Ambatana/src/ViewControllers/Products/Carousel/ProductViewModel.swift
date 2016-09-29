@@ -480,7 +480,7 @@ extension ProductViewModel {
         let othersFavText = othersFavCount == 1 ? LGLocalizedString.productBubbleOneUserInterested :
             String(format: LGLocalizedString.productBubbleSeveralUsersInterested, Int(othersFavCount))
         interestedBubbleTitle = othersFavText
-        interestedBubbleIcon = UIImage(named: "ic_user_interested")
+        interestedBubbleIcon = UIImage(named: "ic_user_interested_red")
         showInterestedBubble.value = true
         // save that the bubble has just been shown for this product
         showInterestedBubbleForProduct(productId)

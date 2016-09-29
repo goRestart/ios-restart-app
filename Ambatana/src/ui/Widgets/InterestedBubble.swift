@@ -19,7 +19,7 @@ class InterestedBubble: UIView {
     private var iconImageView: UIImageView = UIImageView()
     private var textlabel: UILabel = UILabel()
 
-    var bottomConstraint: NSLayoutConstraint = NSLayoutConstraint()
+    var topConstraint: NSLayoutConstraint = NSLayoutConstraint()
 
     private var text: String?
     private var icon: UIImage?
@@ -49,15 +49,15 @@ class InterestedBubble: UIView {
                                                       toItem: parentView, attribute: .Left, multiplier: 1, constant: 0)
         let bubbleRightConstraint = NSLayoutConstraint(item: self, attribute: .Right, relatedBy: .Equal,
                                                        toItem: parentView, attribute: .Right, multiplier: 1, constant: 0)
-        bottomConstraint = NSLayoutConstraint(item: self, attribute: .Bottom, relatedBy: .Equal,
-                                              toItem: parentView, attribute: .Top, multiplier: 1, constant: 0)
-        parentView.addConstraints([bubbleLeftConstraint, bubbleRightConstraint, bottomConstraint])
+        topConstraint = NSLayoutConstraint(item: self, attribute: .Top, relatedBy: .Equal,
+                                              toItem: parentView, attribute: .Bottom, multiplier: 1, constant: 0)
+        parentView.addConstraints([bubbleLeftConstraint, bubbleRightConstraint, topConstraint])
     }
 
     func showBubble() {
         // delay to let the setup build the view properly
         delay(0.1) { [weak self] in
-            self?.bottomConstraint.constant = self?.height ?? 0
+            self?.topConstraint.constant = self?.height ?? 0
             UIView.animateWithDuration(0.3, animations: {
                 self?.layoutIfNeeded()
             })
@@ -69,7 +69,7 @@ class InterestedBubble: UIView {
     }
 
     dynamic private func closeBubble() {
-        self.bottomConstraint.constant = 0
+        self.topConstraint.constant = 0
         UIView.animateWithDuration(0.5, animations: { [weak self] in
             self?.layoutIfNeeded()
         }) { [weak self ] _ in
@@ -80,9 +80,9 @@ class InterestedBubble: UIView {
     // - Private Methods
 
     private func setupUI() {
-        backgroundColor = UIColor.black
+        backgroundColor = UIColor.white
         textlabel.numberOfLines = 0
-        textlabel.textColor = UIColor.whiteText
+        textlabel.textColor = UIColor.redText
         textlabel.font = UIFont.mediumBodyFont
         textlabel.text = text
         iconImageView.image = icon
