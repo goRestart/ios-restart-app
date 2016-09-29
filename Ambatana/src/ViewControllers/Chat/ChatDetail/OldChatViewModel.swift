@@ -412,19 +412,27 @@ public class OldChatViewModel: BaseViewModel, Paginable {
             checkShowRelatedProducts()
         }
 
+       refreshChatInfo()
+
+        if firstTime {
+            retrieveInterlocutorInfo()
+            loadStickersTooltip()
+        }
+    }
+
+    func applicationWillEnterForeground() {
+        refreshChatInfo()
+    }
+
+    private func refreshChatInfo() {
         guard chatStatus != .Forbidden else {
             showScammerDisclaimerMessage()
             markForbiddenAsRead()
             return
         }
-
         // only load messages if the chat is not forbidden
         retrieveFirstPage()
         retrieveUsersRelation()
-        if firstTime {
-            retrieveInterlocutorInfo()
-            loadStickersTooltip()
-        }
     }
 
     func wentBack() {
