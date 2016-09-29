@@ -549,7 +549,7 @@ extension ProductCarouselViewController {
         editButton.rx_tap.bindNext { [weak self, weak viewModel] in
             self?.hideMoreInfo()
             viewModel?.editProduct()
-        }.addDisposableTo(disposeBag)
+        }.addDisposableTo(activeDisposeBag)
 
         let editButtonEnabled = viewModel.editButtonState.asObservable().map { return $0 != .Hidden }
         let bottomButtonCollapsed = Observable.combineLatest(viewModel.stickersButtonEnabled.asObservable(),
