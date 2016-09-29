@@ -237,6 +237,17 @@ class ChatViewModel: BaseViewModel {
     }
     
     override func didBecomeActive(firstTime: Bool) {
+        refreshChatInfo()
+        if firstTime {
+            retrieveRelatedProducts()
+        }
+    }
+
+    func applicationWillEnterForeground() {
+        refreshChatInfo()
+    }
+
+    private func refreshChatInfo() {
         // only load messages if the interlocutor is not blocked
         guard let interlocutor = conversation.value.interlocutor else { return }
         guard !interlocutor.isBanned else { return }
@@ -244,9 +255,6 @@ class ChatViewModel: BaseViewModel {
         loadStickersTooltip()
         if conversation.value.isSaved && chatEnabled.value {
             delegate?.vmShowKeyboard()
-        }
-        if firstTime {
-            retrieveRelatedProducts()
         }
     }
 
