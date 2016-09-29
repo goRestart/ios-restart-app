@@ -189,9 +189,13 @@ extension AppCoordinator: AppNavigator {
             self?.tabBarCtl.presentViewController(vc, animated: true, completion: nil)
         }
     }
-    
+
     func openAppInvite() {
         AppShareViewController.showOnViewControllerIfNeeded(tabBarCtl)
+    }
+
+    func canOpenAppInvite() -> Bool {
+        return AppShareViewController.canBeShown()
     }
 }
 

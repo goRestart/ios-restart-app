@@ -11,12 +11,14 @@ import RxSwift
 class ProductCarouselImageCell: UICollectionViewCell, UIScrollViewDelegate {
     
     static let identifier = "ProductCarouselImageCell"
-    var scrollView: UIScrollView
+
+    var zooming = PublishSubject<(Bool, Int)>()
+    var position: Int = 0
     var imageView: UIImageView
-    var backgroundImage: UIImageView
-    var effectsView: UIVisualEffectView
-    var zoomLevel = PublishSubject<CGFloat>()
-    var referenceZoomLevel: CGFloat = 1.0
+    private var scrollView: UIScrollView
+    private var backgroundImage: UIImageView
+    private var effectsView: UIVisualEffectView
+    private var referenceZoomLevel: CGFloat = 1.0
     
     override init(frame: CGRect) {
         self.scrollView = UIScrollView()
@@ -37,19 +39,21 @@ class ProductCarouselImageCell: UICollectionViewCell, UIScrollViewDelegate {
         guard let img = image else { return }
         let aspectRatio = img.size.width / img.size.height
         let screenAspectRatio = UIScreen.mainScreen().bounds.width / UIScreen.mainScreen().bounds.height
-        let zoomLevel = screenAspectRatio / aspectRatio
+        let zoomLevel = (screenAspectRatio / aspectRatio).roundNearest(0.000001)
         scrollView.minimumZoomScale = min(1, zoomLevel)
-        if aspectRatio >= LGUIKitConstants.horizontalImageMinAspectRatio {
-            referenceZoomLevel = zoomLevel
-            scrollView.setZoomScale(zoomLevel, animated: false)
-        } else {
-            referenceZoomLevel = 1.0
-            scrollView.setZoomScale(1.0, animated: false)
-        }
+
+        imageView.bounds = CGRect(x: 0, y: 0, width: bounds.width/zoomLevel, height: bounds.height)
+        scrollView.contentSize = imageView.bounds.size
+        imageView.center = scrollView.center
+        referenceZoomLevel = zoomLevel
+        scrollView.setZoomScale(zoomLevel, animated: false)
+
         imageView.image = img
         backgroundImage.image = img
+
+        zooming.onNext((false, position))
     }
-    
+
     func setupUI() {
         addSubview(backgroundImage)
         backgroundImage.contentMode = .ScaleAspectFill
@@ -80,10 +84,10 @@ class ProductCarouselImageCell: UICollectionViewCell, UIScrollViewDelegate {
     func viewForZoomingInScrollView(scrollView: UIScrollView) -> UIView? {
         return imageView
     }
-    
+
     override func prepareForReuse() {
-        zoomLevel.onCompleted()
-        zoomLevel = PublishSubject<CGFloat>()
+        zooming.onCompleted()
+        zooming = PublishSubject<(Bool, Int)>()
     }
     
     func scrollViewDidZoom(scrollView: UIScrollView) {
@@ -92,9 +96,8 @@ class ProductCarouselImageCell: UICollectionViewCell, UIScrollViewDelegate {
         
         imageView.center = CGPointMake(scrollView.contentSize.width * 0.5 + offsetX,
                                        scrollView.contentSize.height * 0.5 + offsetY)
-        
-        let level = round((scrollView.zoomScale/referenceZoomLevel) * 10) / 10
-        zoomLevel.onNext(level)
+
+        zooming.onNext((scrollView.zoomScale.roundNearest(0.000001) > referenceZoomLevel.roundNearest(0.000001), position))
     }
 }
 

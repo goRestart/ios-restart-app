@@ -79,7 +79,8 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     private let buttonTrailingWithIcon: CGFloat = 75
     private var moreInfoTooltip: Tooltip?
 
-    private var collectionContentOffset = Variable<CGPoint>(CGPoint.zero)
+    private let collectionContentOffset = Variable<CGPoint>(CGPoint.zero)
+    private let cellZooming = Variable<Bool>(false)
 
     private var activeDisposeBag = DisposeBag()
     private var productInfoConstraintOffset: CGFloat = 0
@@ -88,6 +89,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     private var didSetupAfterLayout = false
     
     private var moreInfoView: ProductCarouselMoreInfoView?
+    private let moreInfoAlpha = Variable<CGFloat>(1)
     private let moreInfoState = Variable<MoreInfoState>(.Hidden)
 
     private var interestedBubble: InterestedBubble?
@@ -131,6 +133,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         setupNavigationBar()
         setupGradientView()
         setupCollectionRx()
+        setupZoomRx()
         setAccessibilityIds()
     }
 
@@ -249,12 +252,12 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     }
     
     dynamic private func backButtonClose() {
-        close(false)
+        close()
     }
 
-    private func close(fromCollection: Bool) {
+    private func close() {
         if moreInfoView?.frame.origin.y < 0 {
-            viewModel.close(fromCollection)
+            viewModel.close()
         } else {
             if let moreInfoView = moreInfoView where moreInfoView.bigMapVisible {
                 hideBigMap()
@@ -279,6 +282,23 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
             self?.collectionView.handleCollectionChange(change)
         }.addDisposableTo(disposeBag)
     }
+
+    private func setupZoomRx() {
+        cellZooming.asObservable().distinctUntilChanged().bindNext { [weak self] zooming in
+            UIApplication.sharedApplication().setStatusBarHidden(zooming, withAnimation: .Fade)
+            UIView.animateWithDuration(0.3) {
+                self?.navigationController?.navigationBar.alpha = zooming ? 0 : 1
+                self?.buttonBottom.alpha = zooming ? 0 : 1
+                self?.buttonTop.alpha = zooming ? 0 : 1
+                self?.userView.alpha = zooming ? 0 : 1
+                self?.pageControl.alpha = zooming ? 0 : 1
+                self?.moreInfoTooltip?.alpha = zooming ? 0 : 1
+                self?.moreInfoView?.dragView.alpha = zooming ? 0 : 1
+                self?.favoriteButton.alpha = zooming ? 0 : 1
+                self?.stickersButton.alpha = zooming ? 0 : 1
+            }
+        }.addDisposableTo(disposeBag)
+    }
     
     private func setupAlphaRxBindings() {
         let width = view.bounds.width
@@ -299,9 +319,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         alphaSignal.bindTo(pageControl.rx_alpha).addDisposableTo(disposeBag)
         alphaSignal.bindTo(buttonTop.rx_alpha).addDisposableTo(disposeBag)
         alphaSignal.bindTo(productStatusView.rx_alpha).addDisposableTo(disposeBag)
-        if let moreInfoView = moreInfoView {
-            alphaSignal.bindTo(moreInfoView.rx_alpha).addDisposableTo(disposeBag)
-        }
+        alphaSignal.bindTo(moreInfoAlpha).addDisposableTo(disposeBag)
         alphaSignal.bindTo(stickersButton.rx_alpha).addDisposableTo(disposeBag)
         alphaSignal.bindTo(editButton.rx_alpha).addDisposableTo(disposeBag)
         alphaSignal.bindTo(directChatTable.rx_alpha).addDisposableTo(disposeBag)
@@ -410,6 +428,8 @@ extension ProductCarouselViewController {
             moreInfoView = ProductCarouselMoreInfoView.moreInfoView(viewModel)
             if let moreInfoView = moreInfoView {
                 view.addSubview(moreInfoView)
+                moreInfoAlpha.asObservable().bindTo(moreInfoView.rx_alpha).addDisposableTo(disposeBag)
+                moreInfoAlpha.asObservable().bindTo(moreInfoView.dragView.rx_alpha).addDisposableTo(disposeBag)
             }
             view.bringSubviewToFront(buttonBottom)
             view.bringSubviewToFront(stickersButton)
@@ -669,34 +689,19 @@ extension ProductCarouselViewController: ProductCarouselCellDelegate {
             collectionView.scrollToItemAtIndexPath(nextIndexPath, atScrollPosition: .Right, animated: false)
         } else {
             collectionView.showRubberBandEffect(.Right)
-            guard !viewModel.isLoading else { return }
-            close(true)
         }
     }
-    
-    func didChangeZoomLevel(level: CGFloat) {
-        let shouldHide = level > 1
-        UIView.animateWithDuration(0.3) { [weak self] in
-            self?.navigationController?.navigationBar.alpha = shouldHide ? 0 : 1
-            self?.buttonBottom.alpha = shouldHide ? 0 : 1
-            self?.buttonTop.alpha = shouldHide ? 0 : 1
-            self?.userView.alpha = shouldHide ? 0 : 1
-            self?.pageControl.alpha = shouldHide ? 0 : 1
-            self?.moreInfoTooltip?.alpha = shouldHide ? 0 : 1
-            self?.moreInfoView?.dragView.alpha = shouldHide ? 0 : 1
-            self?.favoriteButton.alpha = shouldHide ? 0 : 1
-            self?.stickersButton.alpha = shouldHide ? 0 : 1
-            self?.editButton.alpha = shouldHide ? 0 : 1
-            UIApplication.sharedApplication().setStatusBarHidden(shouldHide, withAnimation: .Fade)
-        }
+
+    func isZooming(zooming: Bool) {
+        cellZooming.value = zooming
     }
-    
+
     func didScrollToPage(page: Int) {
         pageControl.currentPage = page
     }
     
     func didPullFromCellWith(offset: CGFloat, bottomLimit: CGFloat) {
-        guard let moreInfoView = moreInfoView where moreInfoState.value != .Shown else { return }
+        guard let moreInfoView = moreInfoView where moreInfoState.value != .Shown && !cellZooming.value else { return }
         if moreInfoView.frame.origin.y-offset > -view.frame.height {
             moreInfoState.value = .Moving
             moreInfoView.frame.origin.y = moreInfoView.frame.origin.y-offset
@@ -714,10 +719,6 @@ extension ProductCarouselViewController: ProductCarouselCellDelegate {
             showMoreInfo()
         } else {
             hideMoreInfo()
-        }
-
-        if buttonBottomBottomConstraint.constant - itemsMargin > bottomOverscrollDragMargin {
-            close(true)
         }
     }
     
@@ -767,7 +768,7 @@ extension ProductCarouselViewController {
     }
     
     @IBAction func showMoreInfo() {
-        guard moreInfoState.value == .Hidden else { return }
+        guard moreInfoState.value == .Hidden || moreInfoState.value == .Moving else { return }
 
         moreInfoState.value = .Shown
         viewModel.didOpenMoreInfo()
@@ -779,7 +780,7 @@ extension ProductCarouselViewController {
     }
 
     func hideMoreInfo() {
-        guard moreInfoState.value == .Shown else { return }
+        guard moreInfoState.value == .Shown || moreInfoState.value == .Moving else { return }
 
         moreInfoState.value = .Hidden
         UIView.animateWithDuration(0.5, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 5, options: [],
@@ -881,19 +882,6 @@ extension ProductCarouselViewController: UICollectionViewDataSource, UICollectio
 
     func scrollViewDidScroll(scrollView: UIScrollView) {
         collectionContentOffset.value = scrollView.contentOffset
-    }
-
-    func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        if (scrollView.contentOffset.x >= (scrollView.contentSize.width - scrollView.frame.size.width)) && currentIndex >= viewModel.objectCount - 1 {
-            //reach right limit
-            close(true)
-            return
-        }
-        if (scrollView.contentOffset.x < 0) && currentIndex == 0 {
-            //reach left limit
-            close(true)
-            return
-        }
     }
 }
 

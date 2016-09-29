@@ -83,7 +83,11 @@ class MainProductsViewModel: BaseViewModel {
 
         return resultTags
     }
-    
+
+    var shouldShowInviteButton: Bool {
+        return tabNavigator?.canOpenAppInvite() ?? false
+    }
+
     // Manager & repositories
     private let myUserRepository: MyUserRepository
     private let trendingSearchesRepository: TrendingSearchesRepository
@@ -126,7 +130,7 @@ class MainProductsViewModel: BaseViewModel {
         self.searchType = searchType
         self.filters = filters
         self.tabNavigator = tabNavigator
-        self.collections = CollectionCellType.allValues.shuffle()
+        self.collections = CollectionCellType.allValuesShuffled
         self.productListRequester = FilteredProductListRequester()
         let show3Columns = DeviceFamily.isWideScreen
         let columns = show3Columns ? 3 : 2
