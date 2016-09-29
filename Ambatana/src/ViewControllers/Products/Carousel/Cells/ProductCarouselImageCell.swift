@@ -39,22 +39,15 @@ class ProductCarouselImageCell: UICollectionViewCell, UIScrollViewDelegate {
         guard let img = image else { return }
         let aspectRatio = img.size.width / img.size.height
         let screenAspectRatio = UIScreen.mainScreen().bounds.width / UIScreen.mainScreen().bounds.height
-        let zoomLevel = screenAspectRatio / aspectRatio
+        let zoomLevel = (screenAspectRatio / aspectRatio).roundNearest(0.000001)
         scrollView.minimumZoomScale = min(1, zoomLevel)
 
-        if aspectRatio >= LGUIKitConstants.horizontalImageMinAspectRatio {
-            imageView.bounds = CGRect(x: 0, y: 0, width: bounds.width/zoomLevel, height: bounds.height)
-            scrollView.contentSize = imageView.bounds.size
-            imageView.center = scrollView.center
-            referenceZoomLevel = zoomLevel
-            scrollView.setZoomScale(zoomLevel, animated: false)
-        } else {
-            imageView.bounds = bounds
-            scrollView.contentSize = bounds.size
-            imageView.center = scrollView.center
-            referenceZoomLevel = 1.0
-            scrollView.setZoomScale(1.0, animated: false)
-        }
+        imageView.bounds = CGRect(x: 0, y: 0, width: bounds.width/zoomLevel, height: bounds.height)
+        scrollView.contentSize = imageView.bounds.size
+        imageView.center = scrollView.center
+        referenceZoomLevel = zoomLevel
+        scrollView.setZoomScale(zoomLevel, animated: false)
+
         imageView.image = img
         backgroundImage.image = img
 
@@ -104,7 +97,7 @@ class ProductCarouselImageCell: UICollectionViewCell, UIScrollViewDelegate {
         imageView.center = CGPointMake(scrollView.contentSize.width * 0.5 + offsetX,
                                        scrollView.contentSize.height * 0.5 + offsetY)
 
-        zooming.onNext((scrollView.zoomScale > referenceZoomLevel, position))
+        zooming.onNext((scrollView.zoomScale.roundNearest(0.000001) > referenceZoomLevel.roundNearest(0.000001), position))
     }
 }
 

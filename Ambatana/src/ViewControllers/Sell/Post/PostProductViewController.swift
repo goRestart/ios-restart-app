@@ -67,14 +67,7 @@ class PostProductViewController: BaseViewController {
         self.keyboardHelper = keyboardHelper
         self.viewModel = viewModel
         self.forceCamera = forceCamera
-        switch FeatureFlags.postingDetailsMode {
-        case .Old:
-            self.productDetailView = PostProductDetailPriceView(viewModel: viewModel.postDetailViewModel)
-        case .Steps:
-            self.productDetailView = PostProductDetailStepsView(viewModel: viewModel.postDetailViewModel)
-        case .AllInOne:
-            self.productDetailView = PostProductDetailFullView(viewModel: viewModel.postDetailViewModel)
-        }
+        self.productDetailView = PostProductDetailPriceView(viewModel: viewModel.postDetailViewModel)
         super.init(viewModel: viewModel, nibName: "PostProductViewController",
                    statusBarStyle: UIApplication.sharedApplication().statusBarStyle)
         modalPresentationStyle = .OverCurrentContext
@@ -271,7 +264,7 @@ extension PostProductViewController {
 
         let okItemsAlpha: CGFloat = error != nil ? 0 : 1
         let wrongItemsAlpha: CGFloat = error == nil ? 0 : 1
-        let loadingItemAlpha: CGFloat = error == nil ? PostProductViewController.detailsLoadingOkAlpha : 1
+        let loadingItemAlpha: CGFloat = 1
         let finalAlphaBlock = { [weak self] in
             guard let strongSelf = self else { return }
             strongSelf.productDetailView.alpha = okItemsAlpha
@@ -279,7 +272,7 @@ extension PostProductViewController {
             strongSelf.retryButton.alpha = wrongItemsAlpha
             strongSelf.customLoadingView.alpha = loadingItemAlpha
             strongSelf.postedInfoLabel.alpha = loadingItemAlpha
-            strongSelf.detailsScroll.contentInset.top = PostProductViewController.detailsContentTopInset
+            strongSelf.detailsScroll.contentInset.top = PostProductViewController.detailTopMarginPrice
         }
         UIView.animateWithDuration(0.2, delay: 0.8, options: UIViewAnimationOptions(),
                                    animations: { () -> Void in
@@ -294,24 +287,6 @@ extension PostProductViewController {
                 }
             }
         )
-    }
-
-    private static var detailsLoadingOkAlpha: CGFloat {
-        switch FeatureFlags.postingDetailsMode {
-        case .AllInOne:
-            return 0
-        case .Steps, .Old:
-            return 1
-        }
-    }
-
-    private static var detailsContentTopInset: CGFloat {
-        switch FeatureFlags.postingDetailsMode {
-        case .Old:
-            return detailTopMarginPrice
-        case .Steps, .AllInOne:
-            return 0
-        }
     }
 }
 
