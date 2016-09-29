@@ -92,9 +92,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     private let moreInfoAlpha = Variable<CGFloat>(1)
     private let moreInfoState = Variable<MoreInfoState>(.Hidden)
 
-    private var interestedBubble: BubbleNotification?
-
-
+    private var interestedBubble: InterestedBubble?
 
     let animator: PushAnimator?
     var pendingMovement: CarouselMovement?
@@ -617,11 +615,10 @@ extension ProductCarouselViewController {
     private func refreshInterestedBubble(viewModel: ProductViewModel) {
         hideInterestedBubble()
         viewModel.showInterestedBubble.asObservable().filter{$0}.bindNext{ [weak self, weak viewModel] _ in
-            let productId = viewModel?.product.value.objectId
             let text = viewModel?.interestedBubbleTitle
             let icon = viewModel?.interestedBubbleIcon
-            self?.showInterestedBubbleForProduct(productId, text: text, icon: icon)
-        }.addDisposableTo(activeDisposeBag)
+            self?.showInterestedBubble(text, icon: icon)
+            }.addDisposableTo(activeDisposeBag)
     }
 }
 
@@ -926,9 +923,9 @@ extension ProductCarouselViewController: UITableViewDataSource, UITableViewDeleg
 // MARK: > Interested bubble
 
 extension ProductCarouselViewController {
-    func showInterestedBubbleForProduct(productId: String?, text: String?, icon: UIImage?){
+    func showInterestedBubble(text: String?, icon: UIImage?){
         guard let navView = navigationController?.view else { return }
-        interestedBubble = BubbleNotification(text: text, icon: icon)
+        interestedBubble = InterestedBubble(text: text, icon: icon)
         guard let interestedBubble = interestedBubble else { return }
         interestedBubble.translatesAutoresizingMaskIntoConstraints = false
 
@@ -945,6 +942,7 @@ extension ProductCarouselViewController {
         self.interestedBubble = nil
     }
 }
+
 
 // MARK: > Product View Model Delegate
 

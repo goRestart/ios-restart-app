@@ -79,6 +79,27 @@
 		<key>enabled</key>
 		<false/>
 	</dict>
+    <key>fav_no_message</key>
+    <dict>
+        <key>description</key>
+        <string>No message at favorite</string>
+        <key>enabled</key>
+        <false/>
+    </dict>
+    <key>fav_notification_pre_message</key>
+    <dict>
+        <key>description</key>
+        <string>Message at favorite with previous notification</string>
+        <key>enabled</key>
+        <false/>
+    </dict>
+    <key>fav_direct_message</key>
+    <dict>
+        <key>description</key>
+        <string>Direct message at favorite</string>
+        <key>enabled</key>
+        <false/>
+    </dict>
 	<key>no_express_chat</key>
 	<dict>
 		<key>description</key>

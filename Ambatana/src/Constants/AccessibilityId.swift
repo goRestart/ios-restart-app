@@ -120,6 +120,7 @@ enum AccessibilityId: String {
     case ProductCarouselEditButton
     case ProductCarouselFullScreenAvatarView
     case ProductCarouselPageControl
+    case ProductCarouselFavoriteMessageNotificationButton
 
     case ProductCarouselNavBarEditButton
     case ProductCarouselNavBarShareButton
