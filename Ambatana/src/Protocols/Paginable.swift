@@ -23,10 +23,6 @@ protocol Paginable {
 
 extension Paginable {
     
-    var firstPage: Int {
-        return 1
-    }
-    
     var resultsPerPage: Int {
         return 20
     }

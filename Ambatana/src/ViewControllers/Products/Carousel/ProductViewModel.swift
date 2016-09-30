@@ -884,7 +884,7 @@ extension ProductViewModel {
     }
 
     func shouldShowInterestedBubbleForProduct(id: String) -> Bool {
-        return interestedBubbleManager.shouldShowInterestedBubbleForProduct(id) && !favoriteMessageBubbleShown
+        return interestedBubbleManager.shouldShowInterestedBubbleForProduct(id) && !favoriteMessageBubbleShown && active
     }
 }
 
