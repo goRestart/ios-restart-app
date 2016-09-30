@@ -93,7 +93,7 @@ PODS:
   - KMPlaceholderTextView (1.2.2)
   - Leanplum-iOS-SDK (1.4.0.1)
   - LGCollapsibleLabel (0.1.8)
-  - LGCoreKit (1.0.6):
+  - LGCoreKit (1.0.7):
     - Alamofire (~> 3.5.0)
     - Argo (~> 3.1.0)
     - CocoaLumberjack/Swift (~> 2.4.0)
@@ -251,7 +251,7 @@ SPEC CHECKSUMS:
   KMPlaceholderTextView: bbff031935d84f7eedb585e7f77120020fbae9e8
   Leanplum-iOS-SDK: 220755449d8f39270591fe75f49e8abe6f29d934
   LGCollapsibleLabel: d182173746819a7ac43a33d2e24e7e2142e940c7
-  LGCoreKit: 95143898d4c46049a8cd4961d6fdbb4cb6aac352
+  LGCoreKit: 58e73780f3b75ce7d6576628313e25d940329f69
   Nimble: 97a0a4cae5124c117115634b2d055d8c97d0af19
   OHHTTPStubs: 3a42f25c00563b71355ac73112ba2324e9e6cef4
   Quick: 13a2a2b19a5d8e3ed4fd0c36ee46597fd77ebf71
