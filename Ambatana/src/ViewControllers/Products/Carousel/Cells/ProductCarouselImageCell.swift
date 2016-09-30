@@ -42,11 +42,11 @@ class ProductCarouselImageCell: UICollectionViewCell, UIScrollViewDelegate {
         let zoomLevel = (screenAspectRatio / aspectRatio).roundNearest(0.000001)
         scrollView.minimumZoomScale = min(1, zoomLevel)
 
-        imageView.bounds = CGRect(x: 0, y: 0, width: bounds.width/zoomLevel, height: bounds.height)
+        let actualZoomLevel = aspectRatio >= LGUIKitConstants.horizontalImageMinAspectRatio ? zoomLevel : 1.0
+        imageView.bounds = CGRect(x: 0, y: 0, width: bounds.width/actualZoomLevel, height: bounds.height)
         scrollView.contentSize = imageView.bounds.size
-        imageView.center = scrollView.center
-        referenceZoomLevel = zoomLevel
-        scrollView.setZoomScale(zoomLevel, animated: false)
+        referenceZoomLevel = actualZoomLevel
+        scrollView.setZoomScale(actualZoomLevel, animated: false)
 
         imageView.image = img
         backgroundImage.image = img
@@ -55,6 +55,8 @@ class ProductCarouselImageCell: UICollectionViewCell, UIScrollViewDelegate {
     }
 
     func setupUI() {
+        clipsToBounds = true
+
         addSubview(backgroundImage)
         backgroundImage.contentMode = .ScaleAspectFill
         backgroundImage.frame = bounds
@@ -63,7 +65,7 @@ class ProductCarouselImageCell: UICollectionViewCell, UIScrollViewDelegate {
         addSubview(effectsView)
         effectsView.frame = bounds
         effectsView.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
-        
+
         addSubview(scrollView)
         scrollView.frame = bounds
         scrollView.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
@@ -74,7 +76,7 @@ class ProductCarouselImageCell: UICollectionViewCell, UIScrollViewDelegate {
         imageView.contentMode = .ScaleAspectFill
         imageView.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
         imageView.userInteractionEnabled = true
-        
+
         scrollView.contentSize = imageView.frame.size
         scrollView.minimumZoomScale = 0.5
         scrollView.maximumZoomScale = 2.0
