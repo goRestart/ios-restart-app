@@ -99,11 +99,11 @@
                         </mask>
                     </variation>
                 </view>
-                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IPt-yE-B8T">
-                    <rect key="frame" x="362" y="80" width="37" height="37"/>
+                <button hidden="YES" opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IPt-yE-B8T">
+                    <rect key="frame" x="347" y="65" width="67" height="67"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="37" id="Qg4-Bo-0iy"/>
-                        <constraint firstAttribute="height" constant="37" id="XKO-Hk-S6V"/>
+                        <constraint firstAttribute="width" constant="67" id="Qg4-Bo-0iy"/>
+                        <constraint firstAttribute="height" constant="67" id="XKO-Hk-S6V"/>
                     </constraints>
                     <state key="normal" image="ic_favorite_big_off"/>
                 </button>
@@ -165,9 +165,9 @@
                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="cLW-LX-KUg" secondAttribute="trailing" constant="20" id="UOw-5F-B5z"/>
                 <constraint firstItem="cLW-LX-KUg" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="80" id="VYu-gQ-F7J"/>
                 <constraint firstItem="v46-dz-RxO" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="Vdl-Ex-mGL"/>
-                <constraint firstItem="IPt-yE-B8T" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="80" id="WbY-7w-9VA"/>
+                <constraint firstItem="IPt-yE-B8T" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="65" id="WbY-7w-9VA"/>
                 <constraint firstItem="v46-dz-RxO" firstAttribute="height" secondItem="KRQ-9w-aXE" secondAttribute="height" multiplier="1:4" id="Z1w-E2-gHK"/>
-                <constraint firstAttribute="trailing" secondItem="IPt-yE-B8T" secondAttribute="trailing" constant="15" id="aLA-du-DUK"/>
+                <constraint firstAttribute="trailing" secondItem="IPt-yE-B8T" secondAttribute="trailing" id="aLA-du-DUK"/>
                 <constraint firstItem="nEH-Ai-mnV" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="bGX-Mu-bQ7"/>
                 <constraint firstItem="PnK-9l-N8i" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="eCG-dd-JA4"/>
                 <constraint firstAttribute="trailing" secondItem="KRQ-9w-aXE" secondAttribute="trailing" id="ehR-ym-8FZ"/>
