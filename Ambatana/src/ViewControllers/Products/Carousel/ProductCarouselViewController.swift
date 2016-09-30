@@ -65,6 +65,12 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
             userViewBottomConstraint?.constant = userViewBottomMargin
         }
     }
+    private var userViewRightConstraint: NSLayoutConstraint?
+    private var userViewRightMargin: CGFloat = 0 {
+        didSet{
+            userViewRightConstraint?.constant = userViewRightMargin
+        }
+    }
 
     private let pageControl: UIPageControl
     private let pageControlWidth: CGFloat = 18
@@ -135,6 +141,11 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         setupCollectionRx()
         setupZoomRx()
         setAccessibilityIds()
+    }
+
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        hideInterestedBubble()
     }
 
     /*
@@ -213,6 +224,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
                                          attribute: .NotAnAttribute, multiplier: 1, constant: 50)
         view.addConstraints([leftMargin, rightMargin, bottomMargin, height])
         userViewBottomConstraint = bottomMargin
+        userViewRightConstraint = rightMargin
         
         // UserView effect
         fullScreenAvatarEffectView.alpha = 0
@@ -296,6 +308,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
                 self?.moreInfoView?.dragView.alpha = zooming ? 0 : 1
                 self?.favoriteButton.alpha = zooming ? 0 : 1
                 self?.stickersButton.alpha = zooming ? 0 : 1
+                self?.editButton.alpha = zooming ? 0 : 1
             }
         }.addDisposableTo(disposeBag)
     }
@@ -489,7 +502,7 @@ extension ProductCarouselViewController {
     }
 
     private func setupRxProductUpdate(viewModel: ProductViewModel) {
-        viewModel.product.asObservable().skip(1).bindNext { [weak self] _ in
+        viewModel.product.asObservable().bindNext { [weak self] _ in
             guard let strongSelf = self else { return }
             let visibleIndexPaths = strongSelf.collectionView.indexPathsForVisibleItems()
             //hiding fake list background to avoid showing it while the cell reloads
@@ -521,25 +534,27 @@ extension ProductCarouselViewController {
             
             guard let strongSelf = self else { return }
             
-            self?.buttonTop.hidden = true
-            self?.buttonBottom.hidden = true
-            self?.userViewBottomMargin = -(userViewMarginAboveBottomButton)
-            
+            strongSelf.buttonTop.hidden = true
+            strongSelf.buttonBottom.hidden = true
+            strongSelf.userViewBottomMargin = -(userViewMarginAboveBottomButton)
+            strongSelf.userViewRightMargin = -strongSelf.itemsMargin
+
             switch status {
             case .Pending, .NotAvailable, .OtherSold:
-                self?.userViewBottomMargin = -userViewMarginWithoutButtons
+                strongSelf.userViewBottomMargin = -userViewMarginWithoutButtons
+                strongSelf.userViewRightMargin = strongSelf.userViewRightMargin - strongSelf.editButton.width
             case .PendingAndCommercializable:
-                self?.configureButton(strongSelf.buttonBottom, type: .CreateCommercial, viewModel: viewModel)
+                strongSelf.configureButton(strongSelf.buttonBottom, type: .CreateCommercial, viewModel: viewModel)
             case .Available:
-                self?.configureButton(strongSelf.buttonBottom, type: .MarkAsSold, viewModel: viewModel)
+                strongSelf.configureButton(strongSelf.buttonBottom, type: .MarkAsSold, viewModel: viewModel)
             case .AvailableAndCommercializable:
-                self?.configureButton(strongSelf.buttonBottom, type: .MarkAsSold, viewModel: viewModel)
-                self?.configureButton(strongSelf.buttonTop, type: .CreateCommercial, viewModel: viewModel)
-                self?.userViewBottomMargin = -(userViewMarginAboveTopButton)
+                strongSelf.configureButton(strongSelf.buttonBottom, type: .MarkAsSold, viewModel: viewModel)
+                strongSelf.configureButton(strongSelf.buttonTop, type: .CreateCommercial, viewModel: viewModel)
+                strongSelf.userViewBottomMargin = -(userViewMarginAboveTopButton)
             case .Sold:
-                self?.configureButton(strongSelf.buttonBottom, type: .SellItAgain, viewModel: viewModel)
+                strongSelf.configureButton(strongSelf.buttonBottom, type: .SellItAgain, viewModel: viewModel)
             case .OtherAvailable:
-                self?.configureButton(strongSelf.buttonBottom, type: .ChatWithSeller, viewModel: viewModel)
+                strongSelf.configureButton(strongSelf.buttonBottom, type: .ChatWithSeller, viewModel: viewModel)
             }
         }.addDisposableTo(activeDisposeBag)
 
@@ -547,7 +562,7 @@ extension ProductCarouselViewController {
         editButton.rx_tap.bindNext { [weak self, weak viewModel] in
             self?.hideMoreInfo()
             viewModel?.editProduct()
-        }.addDisposableTo(disposeBag)
+        }.addDisposableTo(activeDisposeBag)
 
         let editButtonEnabled = viewModel.editButtonState.asObservable().map { return $0 != .Hidden }
         let bottomButtonCollapsed = Observable.combineLatest(viewModel.stickersButtonEnabled.asObservable(),

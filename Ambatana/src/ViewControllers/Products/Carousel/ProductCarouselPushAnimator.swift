@@ -108,7 +108,15 @@ class ProductCarouselPushAnimator: NSObject, PushAnimator {
         effectsView.frame = effectViewContainer.bounds
         backgroundColorView.frame = effectViewContainer.bounds
         
-        let scale = UIScreen.mainScreen().bounds.width / originFrame.width
+        let scale: CGFloat
+        let aspectRatio = originFrame.width / originFrame.height
+        
+        if aspectRatio >= LGUIKitConstants.horizontalImageMinAspectRatio {
+            scale = UIScreen.mainScreen().bounds.width / originFrame.width
+        } else {
+            scale = UIScreen.mainScreen().bounds.height / originFrame.height
+        }
+        
         UIView.animateWithDuration(animationDuration, animations: {
             snapshot.transform = CGAffineTransformMakeScale(scale, scale)
             snapshot.center = toView.center

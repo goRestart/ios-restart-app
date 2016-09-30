@@ -385,8 +385,9 @@ extension ProductViewModel {
     }
 
     func editProduct() {
-        navigator?.editProduct(product.value) { [weak self] product in
-            self?.product.value = product
+        navigator?.editProduct(product.value) { [weak self] editedProduct in
+            guard let editedProduct = editedProduct else { return }
+            self?.product.value = editedProduct
         }
     }
 
@@ -883,7 +884,7 @@ extension ProductViewModel {
     }
 
     func shouldShowInterestedBubbleForProduct(id: String) -> Bool {
-        return interestedBubbleManager.shouldShowInterestedBubbleForProduct(id) && !favoriteMessageBubbleShown
+        return interestedBubbleManager.shouldShowInterestedBubbleForProduct(id) && !favoriteMessageBubbleShown && active
     }
 }
 
