@@ -45,7 +45,8 @@ class UserFavoritesProductListRequester: UserProductListRequester {
     }
 
     func isLastPage(resultCount: Int) -> Bool {
-        return userObjectId != nil
+        // favorites has no pagination
+        return true
     }
 
     func updateInitialOffset(newOffset: Int) { }

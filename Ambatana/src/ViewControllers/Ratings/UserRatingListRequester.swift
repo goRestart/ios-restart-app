@@ -18,6 +18,7 @@ protocol UserRatingListRequesterDelegate: class {
 class UserRatingListRequester {
 
     // Paginable
+    let firstPage: Int = 0
     var nextPage: Int = 0
     var isLastPage: Bool = false
     var isLoading: Bool = false
@@ -54,7 +55,7 @@ class UserRatingListRequester {
 extension UserRatingListRequester: Paginable {
     func retrievePage(page: Int) {
         isLoading = true
-        delegate?.requesterIsLoadingUserRatings(isLoading, firstPage: nextPage == 0)
+        delegate?.requesterIsLoadingUserRatings(isLoading, firstPage: nextPage == firstPage)
         userRatingRepository.index(userId, offset: objectCount, limit: resultsPerPage) { [weak self] result in
             if let value = result.value {
                 self?.delegate?.requesterDidLoadUserRatings(value)
