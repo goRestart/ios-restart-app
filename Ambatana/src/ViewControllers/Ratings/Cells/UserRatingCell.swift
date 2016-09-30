@@ -37,7 +37,7 @@ extension UserRatingType {
 struct UserRatingCellData {
     var userName: String
     var userAvatar: NSURL?
-    var userAvatarPlaceholder: UIImage
+    var userAvatarPlaceholder: UIImage?
     var ratingType: UserRatingType
     var ratingValue: Int
     var ratingDescription: String?

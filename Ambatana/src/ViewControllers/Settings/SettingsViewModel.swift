@@ -14,7 +14,7 @@ import FBSDKShareKit
 
 enum LetGoSetting {
     case InviteFbFriends
-    case ChangePhoto(placeholder: UIImage, avatarUrl: NSURL?)
+    case ChangePhoto(placeholder: UIImage?, avatarUrl: NSURL?)
     case ChangeUsername(name: String)
     case ChangeLocation(location: String)
     case CreateCommercializer

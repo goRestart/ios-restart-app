@@ -414,7 +414,7 @@ extension ChatViewController {
         
         let placeHolder = Observable.combineLatest(viewModel.interlocutorId.asObservable(),
                                                    viewModel.interlocutorName.asObservable()) {
-                                                    (id, name) -> UIImage in
+                                                    (id, name) -> UIImage? in
                                                     return LetgoAvatar.avatarWithID(id, name: name)
         }
         Observable.combineLatest(placeHolder, viewModel.interlocutorAvatarURL.asObservable()) { $0 }
