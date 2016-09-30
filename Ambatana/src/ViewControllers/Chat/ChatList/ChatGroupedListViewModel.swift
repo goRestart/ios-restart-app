@@ -49,6 +49,7 @@ class BaseChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
 
     // MARK: - Paginable
 
+    let firstPage: Int = 1
     var nextPage: Int = 1
     var isLastPage: Bool = false
     var isLoading: Bool = false

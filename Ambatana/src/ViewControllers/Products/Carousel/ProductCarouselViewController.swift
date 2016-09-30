@@ -143,6 +143,11 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         setAccessibilityIds()
     }
 
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        hideInterestedBubble()
+    }
+
     /*
      We need to setup some properties after we are sure the view has the final frame, to do that
      the animator will tell us when the view has a valid frame to configure the elements.
@@ -303,6 +308,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
                 self?.moreInfoView?.dragView.alpha = zooming ? 0 : 1
                 self?.favoriteButton.alpha = zooming ? 0 : 1
                 self?.stickersButton.alpha = zooming ? 0 : 1
+                self?.editButton.alpha = zooming ? 0 : 1
             }
         }.addDisposableTo(disposeBag)
     }

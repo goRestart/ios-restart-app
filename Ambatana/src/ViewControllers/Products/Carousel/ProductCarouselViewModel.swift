@@ -23,8 +23,9 @@ class ProductCarouselViewModel: BaseViewModel {
 
     // Paginable
     private var prefetchingIndexes: [Int] = []
+    let firstPage: Int = 0
     var nextPage: Int = 1
-    var isLastPage: Bool = false
+    var isLastPage: Bool
     var isLoading: Bool = false
 
     private let previousImagesToPrefetch = 1
@@ -122,6 +123,7 @@ class ProductCarouselViewModel: BaseViewModel {
         self.productListRequester = productListRequester
         self.navigator = navigator
         self.source = source
+        self.isLastPage = productListRequester?.isLastPage(productListModels?.count ?? 0) ?? true
         super.init()
         self.startIndex = indexForProduct(initialProduct) ?? 0
         self.currentProductViewModel = viewModelAtIndex(startIndex)
