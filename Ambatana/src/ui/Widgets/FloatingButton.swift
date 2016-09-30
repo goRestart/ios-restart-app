@@ -23,7 +23,7 @@ public class FloatingButton: UIButton {
     // MARK: - Lifecycle
     
     public static func floatingButtonWithTitle(title: String?, icon: UIImage?) -> FloatingButton? {
-        let view = NSBundle.mainBundle().loadNibNamed("FloatingButton", owner: self, options: nil)!.first as? FloatingButton
+        let view = NSBundle.mainBundle().loadNibNamed("FloatingButton", owner: self, options: nil)?.first as? FloatingButton
         if let actualView = view {
             actualView.setupUIWithTitle(title, icon: icon)
         }

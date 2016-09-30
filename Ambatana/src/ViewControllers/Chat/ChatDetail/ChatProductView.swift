@@ -40,7 +40,7 @@ class ChatProductView: UIView {
 
 
     static func chatProductView() -> ChatProductView {
-        let view = NSBundle.mainBundle().loadNibNamed("ChatProductView", owner: self, options: nil)!.first as? ChatProductView
+        let view = NSBundle.mainBundle().loadNibNamed("ChatProductView", owner: self, options: nil)?.first as? ChatProductView
         view?.setupUI()
         view?.setAccessibilityIds()
         return view!
