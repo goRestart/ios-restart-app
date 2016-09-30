@@ -877,7 +877,7 @@ extension ProductViewModel {
     }
 
     func shouldShowInterestedBubbleForProduct(id: String) -> Bool {
-        return interestedBubbleManager.shouldShowInterestedBubbleForProduct(id)
+        return interestedBubbleManager.shouldShowInterestedBubbleForProduct(id) && active
     }
 }
 
