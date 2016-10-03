@@ -31,13 +31,23 @@ class AdminViewController: UIViewController, UITableViewDataSource, UITableViewD
         tableView.tableFooterView = UIView(frame: CGRect.zero)
         tableView.backgroundColor = UIColor(white: 0.9, alpha: 1)
         view.addSubview(tableView)
-        title = "🙏God Panel🙏"
+        title = "🙏 God Panel 🙏"
         
         let closeButton = UIBarButtonItem(image: UIImage(named: "navbar_close"), style: UIBarButtonItemStyle.Plain,
             target: self, action: #selector(AdminViewController.closeButtonPressed))
         self.navigationItem.leftBarButtonItem = closeButton;
     }
-    
+
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        title = "🙏 God Panel 🙏"
+    }
+
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        title = "God Panel"
+    }
+
     func closeButtonPressed() {
         dismissViewControllerAnimated(true, completion: nil)
     }
