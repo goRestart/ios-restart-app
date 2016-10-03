@@ -226,14 +226,17 @@
 // Express chat, contact these sellers label text
 "chat_express_contact_sellers_label" = "Contact these sellers before other buyers snatch them up!";
 
-// Express chat, i'm interested text
-"chat_express_text_field_text" = "Hi, I'm interested!";
+// Express chat, "still available?" text
+"chat_express_text_field_text" = "Hi! Is it still available?";
 
 // Express chat contact 1 seller button title
 "chat_express_contact_one_button_text" = "Contact 1 seller";
 
 // Express chat contact several sellers button title
 "chat_express_contact_various_button_text" = "Contact %@ sellers";
+
+// Express chat send question button tittle
+"chat_express_send_question_text" = "Send: %@";
 
 // Express chat don't ask me again button title
 "chat_express_dont_ask_again_button" = "Don't ask me again";
@@ -408,6 +411,9 @@
 
 // Title of furniture collection
 "collection_furniture_title" = "No place like home";
+
+// Title of halloween collection
+"collection_halloween_title" = "Trick or treat";
 
 // Explore button on collection cell
 "collection_explore_button" = "Explore";
@@ -989,6 +995,12 @@
 
 // product detail X users interested bubble notification
 "product_bubble_several_users_interested" = "%i other buyers are interested!";
+
+// product detail added to favorites notification description
+"product_bubble_favorite_text" = "This product has been added to your favorites!";
+
+// product detail added to favorites notification action button text
+"product_bubble_favorite_button" = "Let the seller know!";
 
 // Error shown when one user blocked the other
 "product_chat_direct_error_blocked_user_message" = "Oops! Chatting with this user is blocked.";

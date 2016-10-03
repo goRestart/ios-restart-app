@@ -12,7 +12,7 @@ import bumper
 
 extension Bumper  {
     static func initialize() {
-        Bumper.initialize([WebsocketChat.self, NotificationsSection.self, UserRatings.self, DirectStickersOnProduct.self, AppInviteListingMode.self, PostingDetailsMode.self, ShowNPSSurvey.self, ProfileBuildTrustButton.self, NonStopProductDetail.self, OnboardingPermissionsMode.self, IncentivizePostingMode.self])
+        Bumper.initialize([WebsocketChat.self, NotificationsSection.self, UserRatings.self, ShowNPSSurvey.self, ProfileBuildTrustButton.self, NonStopProductDetail.self, OnboardingPermissionsMode.self, IncentivizePostingMode.self, MessageOnFavoriteMode.self, ExpressChatMode.self])
     } 
 
     static var websocketChat: Bool {
@@ -28,21 +28,6 @@ extension Bumper  {
     static var userRatings: Bool {
         guard let value = Bumper.valueForKey(UserRatings.key) else { return false }
         return UserRatings(rawValue: value)?.asBool ?? false
-    }
-
-    static var directStickersOnProduct: Bool {
-        guard let value = Bumper.valueForKey(DirectStickersOnProduct.key) else { return true }
-        return DirectStickersOnProduct(rawValue: value)?.asBool ?? true
-    }
-
-    static var appInviteListingMode: AppInviteListingMode {
-        guard let value = Bumper.valueForKey(AppInviteListingMode.key) else { return .None }
-        return AppInviteListingMode(rawValue: value) ?? .None 
-    }
-
-    static var postingDetailsMode: PostingDetailsMode {
-        guard let value = Bumper.valueForKey(PostingDetailsMode.key) else { return .Old }
-        return PostingDetailsMode(rawValue: value) ?? .Old 
     }
 
     static var showNPSSurvey: Bool {
@@ -68,6 +53,16 @@ extension Bumper  {
     static var incentivizePostingMode: IncentivizePostingMode {
         guard let value = Bumper.valueForKey(IncentivizePostingMode.key) else { return .Original }
         return IncentivizePostingMode(rawValue: value) ?? .Original 
+    }
+
+    static var messageOnFavoriteMode: MessageOnFavoriteMode {
+        guard let value = Bumper.valueForKey(MessageOnFavoriteMode.key) else { return .NoMessage }
+        return MessageOnFavoriteMode(rawValue: value) ?? .NoMessage 
+    }
+
+    static var expressChatMode: ExpressChatMode {
+        guard let value = Bumper.valueForKey(ExpressChatMode.key) else { return .NoChat }
+        return ExpressChatMode(rawValue: value) ?? .NoChat 
     } 
 }
 
@@ -97,47 +92,6 @@ enum UserRatings: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "User Ratings" } 
     var asBool: Bool { return self == .Yes }
-}
-
-enum DirectStickersOnProduct: String, BumperFeature  {
-    case Yes, No
-    static var defaultValue: String { return DirectStickersOnProduct.Yes.rawValue }
-    static var enumValues: [DirectStickersOnProduct] { return [.Yes, .No]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Product Direct Stickers" } 
-    var asBool: Bool { return self == .Yes }
-}
-
-enum AppInviteListingMode: String, BumperFeature  {
-    case None, Text, Emoji
-    static var defaultValue: String { return AppInviteListingMode.None.rawValue }
-    static var enumValues: [AppInviteListingMode] { return [.None, .Text, .Emoji]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Share on main feed" } 
-    static func fromPosition(position: Int) -> AppInviteListingMode {
-        switch position { 
-            case 0: return .None
-            case 1: return .Text
-            case 2: return .Emoji
-            default: return .None
-        }
-    }
-}
-
-enum PostingDetailsMode: String, BumperFeature  {
-    case Old, AllInOne, Steps
-    static var defaultValue: String { return PostingDetailsMode.Old.rawValue }
-    static var enumValues: [PostingDetailsMode] { return [.Old, .AllInOne, .Steps]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Posting Details Type" } 
-    static func fromPosition(position: Int) -> PostingDetailsMode {
-        switch position { 
-            case 0: return .Old
-            case 1: return .AllInOne
-            case 2: return .Steps
-            default: return .Old
-        }
-    }
 }
 
 enum ShowNPSSurvey: String, BumperFeature  {
@@ -196,6 +150,38 @@ enum IncentivizePostingMode: String, BumperFeature  {
             case 2: return .VariantB
             case 3: return .VariantC
             default: return .Original
+        }
+    }
+}
+
+enum MessageOnFavoriteMode: String, BumperFeature  {
+    case NoMessage, NotificationPreMessage, DirectMessage
+    static var defaultValue: String { return MessageOnFavoriteMode.NoMessage.rawValue }
+    static var enumValues: [MessageOnFavoriteMode] { return [.NoMessage, .NotificationPreMessage, .DirectMessage]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Message after favorite" } 
+    static func fromPosition(position: Int) -> MessageOnFavoriteMode {
+        switch position { 
+            case 0: return .NoMessage
+            case 1: return .NotificationPreMessage
+            case 2: return .DirectMessage
+            default: return .NoMessage
+        }
+    }
+}
+
+enum ExpressChatMode: String, BumperFeature  {
+    case NoChat, ContactXSellers, AskAvailable
+    static var defaultValue: String { return ExpressChatMode.NoChat.rawValue }
+    static var enumValues: [ExpressChatMode] { return [.NoChat, .ContactXSellers, .AskAvailable]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Express Chat Message" } 
+    static func fromPosition(position: Int) -> ExpressChatMode {
+        switch position { 
+            case 0: return .NoChat
+            case 1: return .ContactXSellers
+            case 2: return .AskAvailable
+            default: return .NoChat
         }
     }
 }

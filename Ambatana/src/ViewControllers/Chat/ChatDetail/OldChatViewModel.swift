@@ -202,12 +202,21 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         return chatViewMessageAdapter.createUserInfoMessage(otherUser)
     }
 
+    var bottomDisclaimerShown: Bool = false
+
+    var shouldAddBottomDisclaimer: Bool {
+        // objectCount > 1 bc the welcome message also counts
+        guard objectCount > 1 else { return false }
+        guard let myUser = myUserRepository.myUser where !myUser.isSocialVerified else { return false }
+        return true
+    }
+
     var bottomDisclaimerMessage: ChatViewMessage? {
         switch chatStatus {
         case  .UserPendingDelete, .UserDeleted:
             return chatViewMessageAdapter.createUserDeletedDisclaimerMessage(otherUser?.name)
         case .ProductDeleted, .Forbidden, .Available, .Blocked, .BlockedBy, .ProductSold:
-            guard let myUser = myUserRepository.myUser where !myUser.isSocialVerified else { return nil }
+            guard shouldAddBottomDisclaimer else { return nil }
             return chatViewMessageAdapter.createUserNotVerifiedDisclaimerMessage() { [weak self] in
                 self?.tabNavigator?.openVerifyAccounts([.Facebook, .Google],
                     source: .Chat(description: LGLocalizedString.chatConnectAccountsMessage))
@@ -403,19 +412,27 @@ public class OldChatViewModel: BaseViewModel, Paginable {
             checkShowRelatedProducts()
         }
 
+       refreshChatInfo()
+
+        if firstTime {
+            retrieveInterlocutorInfo()
+            loadStickersTooltip()
+        }
+    }
+
+    func applicationWillEnterForeground() {
+        refreshChatInfo()
+    }
+
+    private func refreshChatInfo() {
         guard chatStatus != .Forbidden else {
             showScammerDisclaimerMessage()
             markForbiddenAsRead()
             return
         }
-
         // only load messages if the chat is not forbidden
         retrieveFirstPage()
         retrieveUsersRelation()
-        if firstTime {
-            retrieveInterlocutorInfo()
-            loadStickersTooltip()
-        }
     }
 
     func wentBack() {
@@ -704,6 +721,14 @@ public class OldChatViewModel: BaseViewModel, Paginable {
             delegate?.vmAskForRating()
         }
         delegate?.vmUpdateUserIsReadyToReview()
+        addDisclaimerAfterSend()
+    }
+
+    private func addDisclaimerAfterSend() {
+        guard let bottomDisclaimerMessage = bottomDisclaimerMessage where !bottomDisclaimerShown else { return }
+        loadedMessages.insert(bottomDisclaimerMessage, atIndex: 0)
+        delegate?.vmDidSucceedSendingMessage(0)
+        bottomDisclaimerShown = true
     }
 
     private func loadStickersTooltip() {
@@ -1000,16 +1025,8 @@ public class OldChatViewModel: BaseViewModel, Paginable {
                 let mappedChatMessages = chat.messages.map(strongSelf.chatViewMessageAdapter.adapt)
                 let chatMessages: [ChatViewMessage] = strongSelf.chatViewMessageAdapter
                     .addDisclaimers(mappedChatMessages, disclaimerMessage: strongSelf.messageSuspiciousDisclaimerMessage)
-                
-                if page == 0 {
-                    if let bottomDisclaimerMessage = strongSelf.bottomDisclaimerMessage {
-                        strongSelf.loadedMessages = [bottomDisclaimerMessage] + chatMessages
-                    } else {
-                        strongSelf.loadedMessages = chatMessages
-                    }
-                } else {
-                    strongSelf.loadedMessages += chatMessages
-                }
+
+                strongSelf.loadedMessages = chatMessages
 
                 if let userInfoMessage = strongSelf.userInfoMessage where strongSelf.isLastPage {
                     strongSelf.loadedMessages += [userInfoMessage]
@@ -1029,9 +1046,6 @@ public class OldChatViewModel: BaseViewModel, Paginable {
                     strongSelf.isLastPage = true
 
                     var initialMessages: [ChatViewMessage] = []
-                    if let bottomDisclaimerMessage = strongSelf.bottomDisclaimerMessage {
-                        initialMessages.append(bottomDisclaimerMessage)
-                    }
                     if let userInfoMessage = strongSelf.userInfoMessage {
                         initialMessages.append(userInfoMessage)
                     }

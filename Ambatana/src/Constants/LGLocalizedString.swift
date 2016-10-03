@@ -323,6 +323,10 @@ struct LGLocalizedString {
 		return String(format: NSLocalizedString("chat_express_contact_various_button_text", comment: ""), var1)
 	}
 
+	static func chatExpressSendQuestionText(var1: String) -> String {
+		return String(format: NSLocalizedString("chat_express_send_question_text", comment: ""), var1)
+	}
+
 	static var chatExpressDontAskAgainButton: String {
 		return NSLocalizedString("chat_express_dont_ask_again_button", comment: "")
 	}
@@ -553,6 +557,10 @@ struct LGLocalizedString {
 
 	static var collectionFurnitureTitle: String {
 		return NSLocalizedString("collection_furniture_title", comment: "")
+	}
+
+	static var collectionHalloweenTitle: String {
+		return NSLocalizedString("collection_halloween_title", comment: "")
 	}
 
 	static var collectionExploreButton: String {
@@ -1337,6 +1345,14 @@ struct LGLocalizedString {
 
 	static var productBubbleSeveralUsersInterested: String {
 		return NSLocalizedString("product_bubble_several_users_interested", comment: "")
+	}
+
+	static var productBubbleFavoriteText: String {
+		return NSLocalizedString("product_bubble_favorite_text", comment: "")
+	}
+
+	static var productBubbleFavoriteButton: String {
+		return NSLocalizedString("product_bubble_favorite_button", comment: "")
 	}
 
 	static var productChatDirectErrorBlockedUserMessage: String {

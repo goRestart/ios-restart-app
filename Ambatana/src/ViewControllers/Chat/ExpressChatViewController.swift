@@ -12,19 +12,17 @@ import RxSwift
 class ExpressChatViewController: BaseViewController {
 
     static let collectionCellIdentifier = "ExpressChatCell"
+    static let cellSeparation: CGFloat = 10
     static let collectionHeight: CGFloat = 250
     static let marginForButtonToKeyboard: CGFloat = 15
 
     var viewModel: ExpressChatViewModel
-    var keyboardHelper: KeyboardHelper
 
     @IBOutlet weak var closeButton: UIButton!
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var dontMissLabel: UILabel!
     @IBOutlet weak var contactSellersLabel: UILabel!
     @IBOutlet weak var collectionView: UICollectionView!
-    @IBOutlet weak var textFieldContainer: UIView!
-    @IBOutlet weak var messageTextField: UITextField!
     @IBOutlet weak var sendMessageButton: UIButton!
     @IBOutlet weak var dontAskAgainButton: UIButton!
 
@@ -38,7 +36,6 @@ class ExpressChatViewController: BaseViewController {
 
     init (viewModel: ExpressChatViewModel, keyboardHelper: KeyboardHelper) {
         self.viewModel = viewModel
-        self.keyboardHelper = keyboardHelper
         super.init(viewModel: viewModel, nibName: "ExpressChatViewController")
     }
     
@@ -50,16 +47,17 @@ class ExpressChatViewController: BaseViewController {
         super.viewDidLoad()
         setupUI()
         setupRX()
+        setupAccessibilityIds()
     }
 
-    override func viewDidFirstLayoutSubviews() {
-        keyboardHelper.rx_keyboardOrigin.asObservable().bindNext { [weak self] origin in
-            guard let viewHeight = self?.view.height where viewHeight >= origin else { return }
-            guard let scrollView = self?.scrollView, var buttonRect = self?.sendMessageButton.frame else { return }
-            scrollView.contentInset.bottom = viewHeight - origin
-            buttonRect.bottom = buttonRect.bottom + ExpressChatViewController.marginForButtonToKeyboard
-            scrollView.scrollRectToVisible(buttonRect, animated: false)
-            }.addDisposableTo(disposeBag)
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        setStatusBarHidden(true)
+    }
+
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        setStatusBarHidden(false)
     }
 
     func setupUI() {
@@ -67,18 +65,12 @@ class ExpressChatViewController: BaseViewController {
         scrollView.backgroundColor = UIColor.clearColor()
         automaticallyAdjustsScrollViewInsets = false
 
-        dontMissLabel.text = LGLocalizedString.chatExpressDontMissLabel
+        dontMissLabel.text = LGLocalizedString.chatExpressDontMissLabel.uppercaseString
         contactSellersLabel.text = LGLocalizedString.chatExpressContactSellersLabel
 
-        textFieldContainer.layer.cornerRadius = LGUIKitConstants.tooltipCornerRadius
-        
-        messageTextField.text = viewModel.messageText.value
-        messageTextField.delegate = self
-        messageTextField.tintColor = UIColor.primaryColor
-        
         sendMessageButton.setStyle(.Primary(fontSize: .Big))
         
-        dontAskAgainButton.setTitle(LGLocalizedString.chatExpressDontAskAgainButton, forState: .Normal)
+        dontAskAgainButton.setTitle(LGLocalizedString.chatExpressDontAskAgainButton.uppercaseString, forState: .Normal)
         dontAskAgainButton.setTitleColor(UIColor.grayText, forState: .Normal)
         dontAskAgainButton.titleLabel?.font = UIFont.mediumBodyFont
 
@@ -113,16 +105,14 @@ class ExpressChatViewController: BaseViewController {
     }
 }
 
-extension ExpressChatViewController: UITextFieldDelegate {
-    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
-        guard let text = textField.text else { return false }
-        let updatedText =  (text as NSString).stringByReplacingCharactersInRange(range, withString: string)
-        viewModel.textFieldUpdatedWithText(updatedText)
-        return true
-    }
-}
 
-extension ExpressChatViewController: UICollectionViewDataSource, UICollectionViewDelegate {
+extension ExpressChatViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+        let cellSize = (UIScreen.mainScreen().bounds.width - (ExpressChatViewController.cellSeparation*3))/2
+        return CGSize(width: cellSize, height: cellSize)
+    }
 
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return viewModel.productListCount
@@ -135,10 +125,10 @@ extension ExpressChatViewController: UICollectionViewDataSource, UICollectionVie
                                                     forIndexPath: indexPath) as? ExpressChatCell else {
                                                         return UICollectionViewCell()
         }
+        let title = viewModel.titleForItemAtIndex(indexPath.item)
         let imageURL = viewModel.imageURLForItemAtIndex(indexPath.item)
         let price = viewModel.priceForItemAtIndex(indexPath.item)
-        cell.configureCellWithImage(imageURL, price: price)
-
+        cell.configureCellWithTitle(title, imageUrl: imageURL, price: price)
         return cell
     }
 
@@ -156,4 +146,14 @@ extension ExpressChatViewController: ExpressChatViewModelDelegate {
     func sendMessageSuccess() {
 
     }
+}
+
+
+extension ExpressChatViewController {
+    func setupAccessibilityIds() {
+        self.closeButton.accessibilityId = .ExpressChatCloseButton
+        self.collectionView.accessibilityId = .ExpressChatCollection
+        self.sendMessageButton.accessibilityId = .ExpressChatSendButton
+        self.dontAskAgainButton.accessibilityId = .ExpressChatDontAskButton
+   }
 }

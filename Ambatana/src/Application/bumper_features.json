@@ -14,21 +14,6 @@
 		"values": ["No", "Yes"],
 		"description": "User Ratings"
 	},
-	{
-		"name": "DirectStickersOnProduct",
-		"values": ["Yes", "No"],
-		"description": "Product Direct Stickers"
-	},
-    {
-		"name": "AppInviteListingMode",
-		"values": ["None", "Text", "Emoji"],
-		"description": "Share on main feed"
-	},
-	{
-		"name": "PostingDetailsMode",
-		"values": ["Old", "AllInOne", "Steps"],
-		"description": "Posting Details Type"
-	},
     {
 		"name": "ShowNPSSurvey",
 		"values": ["No", "Yes"],
@@ -53,5 +38,15 @@
         "name": "IncentivizePostingMode",
         "values": ["Original", "VariantA", "VariantB", "VariantC"],
         "description": "Onboarding Posting"
+	},
+	{
+        "name": "MessageOnFavoriteMode",
+        "values": ["NoMessage", "NotificationPreMessage", "DirectMessage"],
+        "description": "Message after favorite"
+	},
+	{
+        "name": "ExpressChatMode",
+        "values": ["NoChat", "ContactXSellers", "AskAvailable"],
+        "description": "Express Chat Message"
 	}
 ]

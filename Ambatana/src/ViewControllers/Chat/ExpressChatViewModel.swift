@@ -66,6 +66,11 @@ class ExpressChatViewModel: BaseViewModel {
 
     // MARK: - Public methods
 
+    func titleForItemAtIndex(index: Int) -> String {
+        guard index < productListCount else { return "" }
+        return productList[index].title ?? ""
+    }
+
     func imageURLForItemAtIndex(index: Int) -> NSURL {
         guard index < productListCount else { return NSURL() }
         guard let imageUrl = productList[index].thumbnail?.fileURL else { return NSURL() }
@@ -75,10 +80,6 @@ class ExpressChatViewModel: BaseViewModel {
     func priceForItemAtIndex(index: Int) -> String {
         guard index < productListCount else { return "" }
         return productList[index].priceString()
-    }
-
-    func textFieldUpdatedWithText(text: String) {
-        messageText.value = text
     }
 
     func sendMessage() {
@@ -133,14 +134,17 @@ class ExpressChatViewModel: BaseViewModel {
         }.addDisposableTo(disposeBag)
 
         selectedItemsCount.asObservable().subscribeNext { [weak self] numSelected in
-            self?.sendMessageTitle.value = numSelected > 1 ?
-                LGLocalizedString.chatExpressContactVariousButtonText(String(numSelected)) :
-                LGLocalizedString.chatExpressContactOneButtonText
+            if let message = self?.messageText.value where FeatureFlags.expressChatMode == .AskAvailable {
+                self?.sendMessageTitle.value = LGLocalizedString.chatExpressSendQuestionText(message)
+            }else {
+                self?.sendMessageTitle.value = numSelected > 1 ?
+                    LGLocalizedString.chatExpressContactVariousButtonText(String(numSelected)) :
+                    LGLocalizedString.chatExpressContactOneButtonText
+            }
         }.addDisposableTo(disposeBag)
 
-        Observable.combineLatest(selectedItemsCount.asObservable(), messageText.asObservable()) { $0 }
-            .subscribeNext { [weak self] (selectedCount, messageText) in
-            self?.sendButtonEnabled.value = selectedCount > 0 && !messageText.isEmpty
+        selectedItemsCount.asObservable().subscribeNext { [weak self] selectedCount in
+            self?.sendButtonEnabled.value = selectedCount > 0
         }.addDisposableTo(disposeBag)
     }
 }

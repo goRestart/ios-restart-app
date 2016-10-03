@@ -60,6 +60,8 @@ class ChatViewModel: BaseViewModel {
         return messages.value.count
     }
 
+    var bottomDisclaimerShown: Bool = false
+
     // Public Model info
     var title = Variable<String>("")
     var productName = Variable<String>("")
@@ -235,6 +237,17 @@ class ChatViewModel: BaseViewModel {
     }
     
     override func didBecomeActive(firstTime: Bool) {
+        refreshChatInfo()
+        if firstTime {
+            retrieveRelatedProducts()
+        }
+    }
+
+    func applicationWillEnterForeground() {
+        refreshChatInfo()
+    }
+
+    private func refreshChatInfo() {
         // only load messages if the interlocutor is not blocked
         guard let interlocutor = conversation.value.interlocutor else { return }
         guard !interlocutor.isBanned else { return }
@@ -242,9 +255,6 @@ class ChatViewModel: BaseViewModel {
         loadStickersTooltip()
         if conversation.value.isSaved && chatEnabled.value {
             delegate?.vmShowKeyboard()
-        }
-        if firstTime {
-            retrieveRelatedProducts()
         }
     }
 
@@ -589,6 +599,14 @@ extension ChatViewModel {
         } else if RatingManager.sharedInstance.shouldShowRating {
             delegate?.vmAskForRating()
         }
+        addDisclaimerAfterSend()
+    }
+
+    private func addDisclaimerAfterSend() {
+        if let bottomDisclaimerMessage = bottomDisclaimerMessage where !bottomDisclaimerShown {
+            messages.insert(bottomDisclaimerMessage, atIndex: 0)
+            bottomDisclaimerShown = true
+        }
     }
 
     private func resendEmailVerification(email: String) {
@@ -841,12 +859,19 @@ extension ChatViewModel {
         return chatViewMessageAdapter.createUserInfoMessage(interlocutor)
     }
 
+    var shouldAddBottomDisclaimer: Bool {
+        // objectCount > 1 bc the welcome message also counts
+        guard objectCount > 1 else { return false }
+        guard let myUser = myUserRepository.myUser where !myUser.isSocialVerified else { return false }
+        return true
+    }
+
     var bottomDisclaimerMessage: ChatViewMessage? {
         switch chatStatus.value {
         case .UserDeleted, .UserPendingDelete:
             return chatViewMessageAdapter.createUserDeletedDisclaimerMessage(conversation.value.interlocutor?.name)
         case .Available, .Blocked, .BlockedBy, .Forbidden, .ProductDeleted, .ProductSold:
-            guard let myUser = myUserRepository.myUser where !myUser.isSocialVerified else { return nil }
+            guard shouldAddBottomDisclaimer else { return nil }
             return chatViewMessageAdapter.createUserNotVerifiedDisclaimerMessage() { [weak self] in
                 self?.tabNavigator?.openVerifyAccounts([.Facebook, .Google],
                     source: .Chat(description: LGLocalizedString.chatConnectAccountsMessage))
@@ -876,9 +901,6 @@ extension ChatViewModel {
                 let newMessages = strongSelf.chatViewMessageAdapter
                     .addDisclaimers(messages, disclaimerMessage: strongSelf.defaultDisclaimerMessage)
                 self?.messages.removeAll()
-                if let bottomDisclaimerMessage = self?.bottomDisclaimerMessage {
-                    self?.messages.append(bottomDisclaimerMessage)
-                }
                 self?.messages.appendContentsOf(newMessages)
                 if let userInfoMessage = self?.userInfoMessage where strongSelf.isLastPage {
                     self?.messages.append(userInfoMessage)
