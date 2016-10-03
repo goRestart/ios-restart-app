@@ -1,0 +1,57 @@
+[
+	{
+		"name": "WebsocketChat",
+		"values": ["No", "Yes"],
+		"description": "New Websocket Chat"
+	},
+	{
+		"name": "NotificationsSection",
+		"values": ["No", "Yes"],
+		"description": "Notifications Section"
+	},
+	{
+		"name": "UserRatings",
+		"values": ["No", "Yes"],
+		"description": "User Ratings"
+	},
+    {
+		"name": "ShowNPSSurvey",
+		"values": ["No", "Yes"],
+		"description": "Show nps survey"
+	},
+    {
+        "name": "ProfileBuildTrustButton",
+        "values": ["Yes", "No"],
+        "description": "Profile Build trust"
+	},
+    {
+        "name": "NonStopProductDetail",
+        "values": ["Yes", "No"],
+        "description": "Non stop prod detail"
+	},
+    {
+        "name": "OnboardingPermissionsMode",
+        "values": ["Original", "OneButtonOriginalImages", "OneButtonNewImages"],
+        "description": "Onboarding permissions"
+	},
+    {
+        "name": "IncentivizePostingMode",
+        "values": ["Original", "VariantA", "VariantB", "VariantC"],
+        "description": "Onboarding Posting"
+	},
+	{
+        "name": "MessageOnFavoriteMode",
+        "values": ["NoMessage", "NotificationPreMessage", "DirectMessage"],
+        "description": "Message after favorite"
+	},
+	{
+        "name": "ExpressChatMode",
+        "values": ["NoChat", "ContactXSellers", "AskAvailable"],
+        "description": "Express Chat Message"
+	},
+    {
+        "name": "InterestedUsersMode",
+        "values": ["NoNotification", "Original", "LimitedPrints"],
+        "description": "Interested users bubble mode"
+	}
+]

@@ -31,6 +31,11 @@ Deploys a new version to App Store
 fastlane ios strings
 ```
 Will update Web Translate It with the new validated strings from google drive, download all the changes from wti and generate all not-yet valid strings on base + localizables file
+### ios bumper
+```
+fastlane ios bumper
+```
+Will generate BumperFlags.switf based on the sources json
 
 ----
 
