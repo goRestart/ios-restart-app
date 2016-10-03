@@ -41,6 +41,9 @@ def shared_pods
 	# letgo Collapsible label
     pod "LGCollapsibleLabel",   "0.1.8" #:path => "../collapsiblelabel"
 
+    # letgo bumper (feature flags)
+    pod "bumper",               "0.1.1" #:path => "../bumper"
+
 	# Collection View Custom Layout
 	pod "CHTCollectionViewWaterfallLayout", "~> 0.9.1"
 
@@ -69,9 +72,6 @@ def shared_pods
 
     # Logging
     pod "CocoaLumberjack/Swift", "~> 2.3.0"
-
-    # FlipTheSwitch
-    pod "FlipTheSwitch"
 
     # FLEX debugging tool
     pod "FLEX",                 "~> 2.0"

@@ -11,11 +11,12 @@ PODS:
   - Bolts/AppLinks (1.8.4):
     - Bolts/Tasks
   - Bolts/Tasks (1.8.4)
-  - Branch (0.12.10):
-    - Branch/Core (= 0.12.10)
-    - Branch/without-IDFA (= 0.12.10)
-  - Branch/Core (0.12.10)
-  - Branch/without-IDFA (0.12.10)
+  - Branch (0.12.11):
+    - Branch/Core (= 0.12.11)
+    - Branch/without-IDFA (= 0.12.11)
+  - Branch/Core (0.12.11)
+  - Branch/without-IDFA (0.12.11)
+  - bumper (0.1.1)
   - CHTCollectionViewWaterfallLayout (0.9.5):
     - CHTCollectionViewWaterfallLayout/ObjC (= 0.9.5)
   - CHTCollectionViewWaterfallLayout/ObjC (0.9.5)
@@ -32,7 +33,7 @@ PODS:
     - Fabric (~> 1.6.3)
   - CryptoSwift (0.4.1)
   - Curry (2.2.0)
-  - DeviceUtil (1.3.7)
+  - DeviceUtil (1.3.8)
   - Fabric (1.6.8)
   - FastttCamera (0.3.4):
     - FastttCamera/Default (= 0.3.4)
@@ -48,7 +49,7 @@ PODS:
   - Firebase/AppIndexing (3.4.0):
     - Firebase/Analytics
     - FirebaseAppIndexing (= 1.0.4)
-  - FirebaseAnalytics (3.3.1):
+  - FirebaseAnalytics (3.4.2):
     - FirebaseInstanceID (~> 1.0)
     - GoogleInterchangeUtilities (~> 1.2)
     - GoogleSymbolUtilities (~> 1.1)
@@ -56,7 +57,6 @@ PODS:
   - FirebaseAppIndexing (1.0.4)
   - FirebaseInstanceID (1.0.8)
   - FLEX (2.3.0)
-  - FlipTheSwitch (1.0.2)
   - Google/Analytics (3.0.3):
     - Google/Core
     - GoogleAnalytics (~> 3.12)
@@ -65,7 +65,7 @@ PODS:
   - Google/SignIn (3.0.3):
     - Google/Core
     - GoogleSignIn (~> 4.0)
-  - GoogleAnalytics (3.16.0)
+  - GoogleAnalytics (3.17.0)
   - GoogleAppUtilities (1.1.1):
     - GoogleSymbolUtilities (~> 1.0)
   - GoogleAuthUtilities (2.0.1):
@@ -145,6 +145,7 @@ DEPENDENCIES:
   - AppsFlyerFramework (~> 4.3.9)
   - Argo (~> 3.0.1)
   - Branch (~> 0.12.10)
+  - bumper (= 0.1.1)
   - CHTCollectionViewWaterfallLayout (~> 0.9.1)
   - CocoaLumberjack/Swift (~> 2.3.0)
   - CollectionVariable (from `https://github.com/gitdoapp/CollectionVariable`, commit `d99e7a8dfaad32823c207e40fca7c2f2c3894ead`)
@@ -157,7 +158,6 @@ DEPENDENCIES:
   - FBSDKShareKit (~> 4.14.0)
   - Firebase/AppIndexing (~> 3.4.0)
   - FLEX (~> 2.0)
-  - FlipTheSwitch
   - Google/Analytics (~> 3.0.3)
   - Google/SignIn (~> 3.0.3)
   - GoogleConversionTracking (~> 3.4.0)
@@ -210,27 +210,27 @@ SPEC CHECKSUMS:
   AppsFlyerFramework: f23ebf0fc8f99b2d239fa8d6f36c286ad91f7735
   Argo: dd46f5df9faf4bbc5f21ee1e470315cd921d2cfc
   Bolts: 8a7995239dbe724f9cba2248b766d48b7ebdd322
-  Branch: 371ebad8c506e7a808db8d7840108d3de3007c1e
+  Branch: a620b19dc96fffabb7873a86c80c77c75395a664
+  bumper: add8e52dd18624d19ec59c032032c677e831e048
   CHTCollectionViewWaterfallLayout: 775ff73f48cfc13859b62d8bceb96e772e4a0318
   CocoaLumberjack: 97fab7ee5f507fe54445cca7ea80f926729cfd15
   CollectionVariable: 2c0b7ded33c06baf7e5f75bc852e3b5112132b3d
   Crashlytics: 76f6beaff70acf226139582c09c78461597c2b98
   CryptoSwift: 25b5aff3f260967391f8fff2e9abe4254d2c6fd5
   Curry: c22d80fff7f5a4b1bbd531455c3e2dbb099658a3
-  DeviceUtil: faefd40ac954b37c68686c088c1d2f7dc103a3fc
+  DeviceUtil: 9e91dd78b14cd51715d6fada8871c71b00283023
   Fabric: 5755268d0171435ab167e3d0878a28a777deaf10
   FastttCamera: 51f16712cbd5bdb08bc6231b957325c6be5e478d
   FBSDKCoreKit: 6e020b5db0b5bd1e01f5fb0902131befd129a502
   FBSDKLoginKit: da563567a108050ef83739c8c8c001ee9e25fa13
   FBSDKShareKit: e8e5d4ccef69b41132fe33acda26db1e33143e33
   Firebase: 754562547af419cc2f4b15247fee419081924bc2
-  FirebaseAnalytics: d968d4d5f6aeb795cd64144337bcd233e530efc6
+  FirebaseAnalytics: 3f5358d9104adf159cc8d99b7b501e50099a39ad
   FirebaseAppIndexing: 5eb2d921b6750c8521ff5bdd069ec6d4bf24db9a
   FirebaseInstanceID: ba1e640935235e5fac39dfa816fe7660e72e1a8a
   FLEX: ba80ea13d2c784e85e616137fd4eff164781e364
-  FlipTheSwitch: 46176a723accc5e7ccc46b0173fcd58653a54c3f
   Google: 813c467362eabc11385f5a5cc9ad0cb651a58f4e
-  GoogleAnalytics: 3de986b2fa29012c69fa415566006a9c9cf25320
+  GoogleAnalytics: f42cc53a87a51fe94334821868d9c8481ff47a7b
   GoogleAppUtilities: f1730f91f67767b453c289577040dd3f425ffdc7
   GoogleAuthUtilities: d7a19615cd7627688afcf181737f1011ee8b5a23
   GoogleConversionTracking: ca8c89abda2bd28bb6472b316eeb4ece9264e279
@@ -264,6 +264,6 @@ SPEC CHECKSUMS:
   TwitterCore: 817eae3e291fa4125b47789e26a4f6f024115c1f
   TwitterKit: 8a383da8d9c21b0423716381ea8bbfce20622d91
 
-PODFILE CHECKSUM: 77edf57eff079d9f7ae13cfb4dd3aefa166145c4
+PODFILE CHECKSUM: 17ca03d9afe14871aa785a6b4f3f424c1a86497b
 
 COCOAPODS: 1.0.1
