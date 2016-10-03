@@ -103,7 +103,6 @@ class ProductViewModel: BaseViewModel {
 
     let showInterestedBubble = Variable<Bool>(false)
     var interestedBubbleTitle: String?
-    var interestedBubbleIcon: UIImage?
     var isFirstProduct: Bool = false
 
     private var favoriteMessageBubbleShown: Bool = false
@@ -479,7 +478,6 @@ extension ProductViewModel {
         let othersFavText = othersFavCount == 1 ? LGLocalizedString.productBubbleOneUserInterested :
             String(format: LGLocalizedString.productBubbleSeveralUsersInterested, Int(othersFavCount))
         interestedBubbleTitle = othersFavText
-        interestedBubbleIcon = UIImage(named: "ic_user_interested_red")
         showInterestedBubble.value = true
         // save that the bubble has just been shown for this product
         showInterestedBubbleForProduct(productId)

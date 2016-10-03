@@ -8,9 +8,6 @@
 
 import Foundation
 
-protocol InterestedBubbleDelegate {
-    func closeInterestedBubble()
-}
 
 class InterestedBubble: UIView {
 
@@ -21,18 +18,13 @@ class InterestedBubble: UIView {
     private var iconImageView: UIImageView = UIImageView()
     private var textlabel: UILabel = UILabel()
 
-    var delegate: InterestedBubbleDelegate?
-
     private var text: String?
-    private var icon: UIImage?
-
 
     // - Lifecycle
 
-    convenience init(text: String?, icon: UIImage?) {
+    convenience init(text: String?) {
         self.init()
         self.text = text
-        self.icon = icon
         setupUI()
         setupConstraints()
     }
@@ -46,6 +38,10 @@ class InterestedBubble: UIView {
     }
 
 
+    func updateInfo(text: String?) {
+        textlabel.text = text
+    }
+
     // - Private Methods
 
     private func setupUI() {
@@ -54,14 +50,7 @@ class InterestedBubble: UIView {
         textlabel.textColor = UIColor.redText
         textlabel.font = UIFont.mediumBodyFont
         textlabel.text = text
-        iconImageView.image = icon
-
-        NSTimer.scheduledTimerWithTimeInterval(3.0, target: self, selector: #selector(closeBubble), userInfo: nil,
-                                               repeats: false)
-    }
-
-    dynamic private func closeBubble() {
-        delegate?.closeInterestedBubble()
+        iconImageView.image = UIImage(named: "ic_user_interested_red")
     }
 
     private func setupConstraints() {
@@ -94,12 +83,9 @@ class InterestedBubble: UIView {
         containerView.addSubview(textlabel)
         containerView.addSubview(iconImageView)
 
-        // icon view
-        let iconWidth = icon != nil ? InterestedBubble.iconSize : 0
-
         let iconWidthConstraint = NSLayoutConstraint(item: iconImageView, attribute: .Width, relatedBy: .Equal,
                                                      toItem: nil, attribute: .NotAnAttribute, multiplier: 1,
-                                                     constant: iconWidth)
+                                                     constant: InterestedBubble.iconSize)
         let iconHeightConstraint = NSLayoutConstraint(item: iconImageView, attribute: .Height, relatedBy: .Equal,
                                                       toItem: nil, attribute: .NotAnAttribute, multiplier: 1,
                                                       constant: InterestedBubble.iconSize)
