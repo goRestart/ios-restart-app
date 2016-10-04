@@ -48,5 +48,10 @@
         "name": "ExpressChatMode",
         "values": ["NoChat", "ContactXSellers", "AskAvailable"],
         "description": "Express Chat Message"
+	},
+    {
+        "name": "InterestedUsersMode",
+        "values": ["NoNotification", "Original", "LimitedPrints"],
+        "description": "Interested users bubble mode"
 	}
 ]

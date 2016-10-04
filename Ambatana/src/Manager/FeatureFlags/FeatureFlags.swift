@@ -82,4 +82,11 @@ struct FeatureFlags {
         }
         return ExpressChatMode.fromPosition(ABTests.expressChatMode.value)
     }
+
+    static var interestedUsersMode: InterestedUsersMode {
+        if Bumper.enabled {
+            return Bumper.interestedUsersMode
+        }
+        return InterestedUsersMode.fromPosition(ABTests.interestedUsersMode.value)
+    }
 }

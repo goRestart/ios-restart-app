@@ -12,7 +12,7 @@ import bumper
 
 extension Bumper  {
     static func initialize() {
-        Bumper.initialize([WebsocketChat.self, NotificationsSection.self, UserRatings.self, ShowNPSSurvey.self, ProfileBuildTrustButton.self, NonStopProductDetail.self, OnboardingPermissionsMode.self, IncentivizePostingMode.self, MessageOnFavoriteMode.self, ExpressChatMode.self])
+        Bumper.initialize([WebsocketChat.self, NotificationsSection.self, UserRatings.self, ShowNPSSurvey.self, ProfileBuildTrustButton.self, NonStopProductDetail.self, OnboardingPermissionsMode.self, IncentivizePostingMode.self, MessageOnFavoriteMode.self, ExpressChatMode.self, InterestedUsersMode.self])
     } 
 
     static var websocketChat: Bool {
@@ -63,6 +63,11 @@ extension Bumper  {
     static var expressChatMode: ExpressChatMode {
         guard let value = Bumper.valueForKey(ExpressChatMode.key) else { return .NoChat }
         return ExpressChatMode(rawValue: value) ?? .NoChat 
+    }
+
+    static var interestedUsersMode: InterestedUsersMode {
+        guard let value = Bumper.valueForKey(InterestedUsersMode.key) else { return .NoNotification }
+        return InterestedUsersMode(rawValue: value) ?? .NoNotification 
     } 
 }
 
@@ -182,6 +187,22 @@ enum ExpressChatMode: String, BumperFeature  {
             case 1: return .ContactXSellers
             case 2: return .AskAvailable
             default: return .NoChat
+        }
+    }
+}
+
+enum InterestedUsersMode: String, BumperFeature  {
+    case NoNotification, Original, LimitedPrints
+    static var defaultValue: String { return InterestedUsersMode.NoNotification.rawValue }
+    static var enumValues: [InterestedUsersMode] { return [.NoNotification, .Original, .LimitedPrints]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Interested users bubble mode" } 
+    static func fromPosition(position: Int) -> InterestedUsersMode {
+        switch position { 
+            case 0: return .NoNotification
+            case 1: return .Original
+            case 2: return .LimitedPrints
+            default: return .NoNotification
         }
     }
 }

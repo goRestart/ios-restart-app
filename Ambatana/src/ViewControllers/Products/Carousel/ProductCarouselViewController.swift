@@ -31,6 +31,8 @@ protocol AnimatableTransition {
 
 class ProductCarouselViewController: BaseViewController, AnimatableTransition {
 
+    static let interestedBubbleHeight: CGFloat = 50
+
     @IBOutlet weak var imageBackground: UIImageView!
     @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
     @IBOutlet weak var collectionView: UICollectionView!
@@ -48,6 +50,9 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     
     @IBOutlet weak var directChatTable: UITableView!
     @IBOutlet weak var stickersButton: UIButton!
+
+    @IBOutlet weak var interestedBubbleContainer: UIView!
+    @IBOutlet weak var interestedBubbleContainerBottomConstraint: NSLayoutConstraint!
 
     private let userView: UserView
     private let fullScreenAvatarEffectView: UIVisualEffectView
@@ -99,6 +104,8 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     private let moreInfoState = Variable<MoreInfoState>(.Hidden)
 
     private var interestedBubble: InterestedBubble?
+    private var interestedBubbleIsVisible: Bool = false
+    private var interestedBubbleTimer: NSTimer = NSTimer()
 
     let animator: PushAnimator?
     var pendingMovement: CarouselMovement?
@@ -145,7 +152,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
 
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
-        hideInterestedBubble()
+        forceCloseInterestedBubble()
     }
 
     /*
@@ -254,6 +261,31 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         editButton.layer.cornerRadius = editButton.height / 2
 
         setupDirectMessagesAndStickers()
+        setupInterestedBubble()
+    }
+
+    func setupInterestedBubble() {
+        interestedBubble = InterestedBubble(text: viewModel.currentProductViewModel?.interestedBubbleTitle)
+        guard let interestedBubble = interestedBubble else { return }
+        interestedBubble.translatesAutoresizingMaskIntoConstraints = false
+
+        interestedBubbleContainer.addSubview(interestedBubble)
+
+        let bubbleLeftConstraint = NSLayoutConstraint(item: interestedBubble, attribute: .Left, relatedBy: .Equal,
+                                                      toItem: interestedBubbleContainer, attribute: .Left, multiplier: 1,
+                                                      constant: 0)
+        let bubbleRightConstraint = NSLayoutConstraint(item: interestedBubble, attribute: .Right, relatedBy: .Equal,
+                                                       toItem: interestedBubbleContainer, attribute: .Right, multiplier: 1,
+                                                       constant: 0)
+        let bubbleTopConstraint = NSLayoutConstraint(item: interestedBubble, attribute: .Top, relatedBy: .Equal,
+                                                     toItem: interestedBubbleContainer, attribute: .Top, multiplier: 1,
+                                                     constant: 0)
+        let bubbleBottomConstraint = NSLayoutConstraint(item: interestedBubble, attribute: .Bottom, relatedBy: .Equal,
+                                                        toItem: interestedBubbleContainer, attribute: .Bottom, multiplier: 1,
+                                                        constant: 0)
+        interestedBubbleContainer.addConstraints([bubbleLeftConstraint, bubbleRightConstraint, bubbleTopConstraint,
+            bubbleBottomConstraint])
+
     }
     
     private func setupNavigationBar() {
@@ -628,11 +660,10 @@ extension ProductCarouselViewController {
     }
 
     private func refreshInterestedBubble(viewModel: ProductViewModel) {
-        hideInterestedBubble()
+        forceCloseInterestedBubble()
         viewModel.showInterestedBubble.asObservable().filter{$0}.bindNext{ [weak self, weak viewModel] _ in
             let text = viewModel?.interestedBubbleTitle
-            let icon = viewModel?.interestedBubbleIcon
-            self?.showInterestedBubble(text, icon: icon)
+            self?.showInterestedBubble(text)
             }.addDisposableTo(activeDisposeBag)
     }
 }
@@ -938,23 +969,40 @@ extension ProductCarouselViewController: UITableViewDataSource, UITableViewDeleg
 // MARK: > Interested bubble
 
 extension ProductCarouselViewController {
-    func showInterestedBubble(text: String?, icon: UIImage?){
-        guard let navView = navigationController?.view else { return }
-        interestedBubble = InterestedBubble(text: text, icon: icon)
-        guard let interestedBubble = interestedBubble else { return }
-        interestedBubble.translatesAutoresizingMaskIntoConstraints = false
-
-        navView.addSubview(interestedBubble)
-        interestedBubble.setupOnView(navView)
-
-        navView.bringSubviewToFront(interestedBubble)
-        interestedBubble.showBubble()
+    func showInterestedBubble(text: String?){
+        guard !interestedBubbleIsVisible else { return }
+        interestedBubbleTimer = NSTimer.scheduledTimerWithTimeInterval(3.0, target: self, selector: #selector(timerCloseInterestedBubble),
+                                                                       userInfo: nil, repeats: false)
+        interestedBubbleIsVisible = true
+        interestedBubble?.updateInfo(text)
+        delay(0.1) { [weak self] in
+            guard let strongSelf = self else { return }
+            strongSelf.userViewBottomMargin = strongSelf.userViewBottomMargin - ProductCarouselViewController.interestedBubbleHeight
+            self?.interestedBubbleContainerBottomConstraint.constant = 0
+            UIView.animateWithDuration(0.3, animations: {
+                self?.view.layoutIfNeeded()
+            })
+        }
     }
 
-    func hideInterestedBubble() {
-        guard let interestedBubble = interestedBubble else { return }
-        interestedBubble.removeBubble()
-        self.interestedBubble = nil
+    func timerCloseInterestedBubble() {
+        removeBubble(0.5)
+    }
+
+    func forceCloseInterestedBubble() {
+        removeBubble(0.01)
+    }
+
+    func removeBubble(duration: NSTimeInterval) {
+        guard interestedBubbleIsVisible else { return }
+        interestedBubbleTimer.invalidate()
+        interestedBubbleIsVisible = false
+        interestedBubbleContainerBottomConstraint.constant = -ProductCarouselViewController.interestedBubbleHeight
+        userViewBottomMargin = userViewBottomMargin + ProductCarouselViewController.interestedBubbleHeight
+
+        UIView.animateWithDuration(duration, animations: { [weak self] in
+            self?.view.layoutIfNeeded()
+        }, completion: nil)
     }
 }
 

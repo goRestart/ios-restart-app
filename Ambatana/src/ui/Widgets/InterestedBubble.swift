@@ -13,24 +13,18 @@ class InterestedBubble: UIView {
 
     static let iconSize: CGFloat = 24
     static let bubbleContentMargin: CGFloat = 14
-    static let statusBarHeight: CGFloat = 20
 
     private var containerView: UIView = UIView()
     private var iconImageView: UIImageView = UIImageView()
     private var textlabel: UILabel = UILabel()
 
-    var bottomConstraint: NSLayoutConstraint = NSLayoutConstraint()
-
     private var text: String?
-    private var icon: UIImage?
-
 
     // - Lifecycle
 
-    convenience init(text: String?, icon: UIImage?) {
+    convenience init(text: String?) {
         self.init()
         self.text = text
-        self.icon = icon
         setupUI()
         setupConstraints()
     }
@@ -43,56 +37,23 @@ class InterestedBubble: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func setupOnView(parentView: UIView) {
-        // bubble constraints
-        let bubbleLeftConstraint = NSLayoutConstraint(item: self, attribute: .Left, relatedBy: .Equal,
-                                                      toItem: parentView, attribute: .Left, multiplier: 1, constant: 0)
-        let bubbleRightConstraint = NSLayoutConstraint(item: self, attribute: .Right, relatedBy: .Equal,
-                                                       toItem: parentView, attribute: .Right, multiplier: 1, constant: 0)
-        bottomConstraint = NSLayoutConstraint(item: self, attribute: .Bottom, relatedBy: .Equal,
-                                              toItem: parentView, attribute: .Top, multiplier: 1, constant: 0)
-        parentView.addConstraints([bubbleLeftConstraint, bubbleRightConstraint, bottomConstraint])
-    }
 
-    func showBubble() {
-        // delay to let the setup build the view properly
-        delay(0.1) { [weak self] in
-            self?.bottomConstraint.constant = self?.height ?? 0
-            UIView.animateWithDuration(0.3, animations: {
-                self?.layoutIfNeeded()
-            })
-        }
-    }
-
-    func removeBubble() {
-        self.removeFromSuperview()
-    }
-
-    dynamic private func closeBubble() {
-        self.bottomConstraint.constant = 0
-        UIView.animateWithDuration(0.5, animations: { [weak self] in
-            self?.layoutIfNeeded()
-        }) { [weak self ] _ in
-            self?.removeBubble()
-        }
+    func updateInfo(text: String?) {
+        textlabel.text = text
     }
 
     // - Private Methods
 
     private func setupUI() {
-        backgroundColor = UIColor.black
+        backgroundColor = UIColor.white
         textlabel.numberOfLines = 0
-        textlabel.textColor = UIColor.whiteText
+        textlabel.textColor = UIColor.redText
         textlabel.font = UIFont.mediumBodyFont
         textlabel.text = text
-        iconImageView.image = icon
-
-        NSTimer.scheduledTimerWithTimeInterval(3.0, target: self, selector: #selector(closeBubble), userInfo: nil,
-                                               repeats: false)
+        iconImageView.image = UIImage(named: "ic_user_interested_red")
     }
 
     private func setupConstraints() {
-
         containerView.translatesAutoresizingMaskIntoConstraints = false
         iconImageView.translatesAutoresizingMaskIntoConstraints = false
         textlabel.translatesAutoresizingMaskIntoConstraints = false
@@ -104,7 +65,7 @@ class InterestedBubble: UIView {
                                                    toItem: self, attribute: .CenterX, multiplier: 1, constant: 0)
         let containerTopConstraint = NSLayoutConstraint(item: containerView, attribute: .Top, relatedBy: .Equal,
                                                         toItem: self, attribute: .Top, multiplier: 1,
-                                                        constant: BubbleNotification.bubbleContentMargin + BubbleNotification.statusBarHeight)
+                                                        constant: BubbleNotification.bubbleContentMargin)
         let containerBottomConstraint = NSLayoutConstraint(item: containerView, attribute: .Bottom, relatedBy: .Equal,
                                                            toItem: self, attribute: .Bottom, multiplier: 1,
                                                            constant: -BubbleNotification.bubbleContentMargin)
@@ -122,12 +83,9 @@ class InterestedBubble: UIView {
         containerView.addSubview(textlabel)
         containerView.addSubview(iconImageView)
 
-        // icon view
-        let iconWidth = icon != nil ? InterestedBubble.iconSize : 0
-
         let iconWidthConstraint = NSLayoutConstraint(item: iconImageView, attribute: .Width, relatedBy: .Equal,
                                                      toItem: nil, attribute: .NotAnAttribute, multiplier: 1,
-                                                     constant: iconWidth)
+                                                     constant: InterestedBubble.iconSize)
         let iconHeightConstraint = NSLayoutConstraint(item: iconImageView, attribute: .Height, relatedBy: .Equal,
                                                       toItem: nil, attribute: .NotAnAttribute, multiplier: 1,
                                                       constant: InterestedBubble.iconSize)
@@ -155,4 +113,3 @@ class InterestedBubble: UIView {
             labelRightConstraint, iconLeftConstraint])
     }
 }
-
