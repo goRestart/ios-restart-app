@@ -89,4 +89,11 @@ struct FeatureFlags {
         }
         return InterestedUsersMode.fromPosition(ABTests.interestedUsersMode.value)
     }
+
+    static var filtersReorder: Bool {
+        if Bumper.enabled {
+            return Bumper.filtersReorder
+        }
+        return ABTests.filtersReorder.value
+    }
 }
