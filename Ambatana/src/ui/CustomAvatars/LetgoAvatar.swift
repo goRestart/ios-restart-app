@@ -9,12 +9,12 @@
 import Foundation
 
 class LetgoAvatar {
-    static func avatarWithID(id: String?, name: String?) -> UIImage {
+    static func avatarWithID(id: String?, name: String?) -> UIImage? {
         let color = UIColor.avatarColorForString(id)
         return LetgoAvatar.avatarWithColor(color, name: name)
     }
 
-    static func avatarWithColor(color: UIColor, name: String?) -> UIImage {
+    static func avatarWithColor(color: UIColor, name: String?) -> UIImage? {
         let view = UIView(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
         view.backgroundColor = color
 

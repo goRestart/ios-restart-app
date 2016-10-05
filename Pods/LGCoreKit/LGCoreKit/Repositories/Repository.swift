@@ -24,7 +24,7 @@ public enum RepositoryError: ErrorType {
 
     case ServerError(code: Int?)
     
-    private static let NotModifiedCode = 304
+    private static let NotModifiedMessage = "Not modified in API"
 
     public init(apiError: ApiError) {
         switch apiError {
@@ -84,8 +84,8 @@ public enum RepositoryError: ErrorType {
 extension RepositoryError {
     public func isNotModified() -> Bool {
         switch self {
-        case .ServerError(let code):
-            return code == RepositoryError.NotModifiedCode
+        case .Internal(let message):
+            return message == RepositoryError.NotModifiedMessage
         default:
             return false
         }

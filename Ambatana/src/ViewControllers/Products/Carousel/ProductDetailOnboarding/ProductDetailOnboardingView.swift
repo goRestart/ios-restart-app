@@ -34,7 +34,7 @@ public class ProductDetailOnboardingView: UIView {
     // MARK: - Lifecycle
 
     public static func instanceFromNibWithState() -> ProductDetailOnboardingView {
-        let view = NSBundle.mainBundle().loadNibNamed("ProductDetailOnboardingView", owner: self, options: nil)
+        let view = NSBundle.mainBundle().loadNibNamed("ProductDetailOnboardingView", owner: self, options: nil)!
             .first as! ProductDetailOnboardingView
         return view
     }
