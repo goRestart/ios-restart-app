@@ -34,7 +34,8 @@ class BubbleNotificationManager {
         guard let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate else { return }
         guard let window = appDelegate.window else { return }
 
-        bubble = BubbleNotification(text: text, action: action)
+        let frame = CGRect(x: 0, y: 0, width: window.frame.width, height: BubbleNotification.initialHeight)
+        bubble = BubbleNotification(frame: frame, text: text, action: action)
 
         guard let bubble = bubble else { return }
         bubble.translatesAutoresizingMaskIntoConstraints = false

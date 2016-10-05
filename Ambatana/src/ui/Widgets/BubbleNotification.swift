@@ -10,6 +10,8 @@ import Foundation
 
 class BubbleNotification: UIView {
 
+    static let initialHeight: CGFloat = 80
+
     static let buttonHeight: CGFloat = 30
     static let buttonMaxWidth: CGFloat = 150
     static let bubbleContentMargin: CGFloat = 14
@@ -29,8 +31,8 @@ class BubbleNotification: UIView {
 
     // - Lifecycle
 
-    convenience init(text: String?, action: UIAction?) {
-        self.init()
+    convenience init(frame: CGRect, text: String?, action: UIAction?) {
+        self.init(frame: frame)
         self.text = text
         self.action = action
         setupConstraints()
