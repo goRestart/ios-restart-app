@@ -281,6 +281,14 @@ platform :ios do
     )
   end
 
+  desc "Will generate BumperFlags.switf based on the sources json"
+  lane :bumper do
+    lg_bumper(
+      source_json: "./Ambatana/src/Application/bumper_features.json",
+      destination_dir: "./Ambatana/src/Manager/FeatureFlags/"
+    )
+  end
+
   after_all do |lane|
     notify "Fastlane finished '#{lane}' successfully" # Mac OS X Notification
   end

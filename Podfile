@@ -10,7 +10,7 @@ project "LetGo.xcodeproj"
 
 def shared_pods
     pod "AlamofireImage",       "~> 2.5.0"  # Swift 3.0: 3.x
-    pod "Argo",                 "~> 3.1.0"  # Swift 3.0: N/A
+    pod "Argo",                 "3.0.2"     # Swift 3.0: N/A
 
 	pod "FBSDKLoginKit",        "~> 4.15.1" # Swift 3.0: -
 	pod "FBSDKCoreKit",         "~> 4.15.1" # Swift 3.0: -
@@ -33,13 +33,16 @@ def shared_pods
     pod "Leanplum-iOS-SDK",     "~> 1.4.0"  # Swift 3.0: -
 
 	# letgo Core
-    pod "LGCoreKit",            :path => "../lgcorekit" #"1.0.7"
+    pod "LGCoreKit",            "1.1.1" # :path => "../lgcorekit"
 
 	# Slack Chat controller
     pod "SlackTextViewController", "1.9.4"  # Swift 3.0: -
 
 	# letgo Collapsible label
     pod "LGCollapsibleLabel",    :path => "../collapsiblelabel" #"0.1.8"
+
+    # letgo bumper (feature flags)
+    pod "bumper",               "0.1.1" #:path => "../bumper"
 
 	# Collection View Custom Layout
 	pod "CHTCollectionViewWaterfallLayout", "~> 0.9.5"  # Swift 3.0: -
@@ -69,9 +72,6 @@ def shared_pods
 
     # Logging
     pod "CocoaLumberjack/Swift", "~> 2.4.0" # Swift 3.0: N/A
-
-    # FlipTheSwitch
-    pod "FlipTheSwitch"                     # Swift 3.0: -
 
     # FLEX debugging tool
     pod "FLEX",                 "~> 2.0"    # Swift 3.0: -

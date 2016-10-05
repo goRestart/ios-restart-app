@@ -4,7 +4,7 @@ PODS:
     - Alamofire (~> 3.5)
   - Amplitude-iOS (3.8.5)
   - AppsFlyerFramework (4.5.6)
-  - Argo (3.1.0)
+  - Argo (3.0.2)
   - Bolts (1.8.4):
     - Bolts/AppLinks (= 1.8.4)
     - Bolts/Tasks (= 1.8.4)
@@ -16,6 +16,7 @@ PODS:
     - Branch/without-IDFA (= 0.12.11)
   - Branch/Core (0.12.11)
   - Branch/without-IDFA (0.12.11)
+  - bumper (0.1.1)
   - CHTCollectionViewWaterfallLayout (0.9.5):
     - CHTCollectionViewWaterfallLayout/ObjC (= 0.9.5)
   - CHTCollectionViewWaterfallLayout/ObjC (0.9.5)
@@ -56,7 +57,6 @@ PODS:
   - FirebaseAppIndexing (1.0.4)
   - FirebaseInstanceID (1.0.8)
   - FLEX (2.3.0)
-  - FlipTheSwitch (1.0.2)
   - Google/Analytics (3.0.3):
     - Google/Core
     - GoogleAnalytics (~> 3.12)
@@ -93,9 +93,9 @@ PODS:
   - KMPlaceholderTextView (1.2.2)
   - Leanplum-iOS-SDK (1.4.0.1)
   - LGCollapsibleLabel (0.1.8)
-  - LGCoreKit (1.0.7):
+  - LGCoreKit (1.1.1):
     - Alamofire (~> 3.5.0)
-    - Argo (~> 3.1.0)
+    - Argo (= 3.0.2)
     - CocoaLumberjack/Swift (~> 2.4.0)
     - Curry (~> 2.3.3)
     - JSONWebToken (~> 1.5.0)
@@ -143,8 +143,9 @@ DEPENDENCIES:
   - AlamofireImage (~> 2.5.0)
   - Amplitude-iOS (~> 3.8.5)
   - AppsFlyerFramework (~> 4.5.6)
-  - Argo (~> 3.1.0)
+  - Argo (= 3.0.2)
   - Branch (~> 0.12.11)
+  - bumper (= 0.1.1)
   - CHTCollectionViewWaterfallLayout (~> 0.9.5)
   - CocoaLumberjack/Swift (~> 2.4.0)
   - CollectionVariable (from `https://github.com/gitdoapp/CollectionVariable`, commit `d99e7a8dfaad32823c207e40fca7c2f2c3894ead`)
@@ -157,7 +158,6 @@ DEPENDENCIES:
   - FBSDKShareKit (~> 4.15.1)
   - Firebase/AppIndexing (~> 3.4.0)
   - FLEX (~> 2.0)
-  - FlipTheSwitch
   - Google/Analytics (~> 3.0.3)
   - Google/SignIn (~> 3.0.3)
   - GoogleConversionTracking (~> 3.4.0)
@@ -167,7 +167,7 @@ DEPENDENCIES:
   - KMPlaceholderTextView (~> 1.2.2)
   - Leanplum-iOS-SDK (~> 1.4.0)
   - LGCollapsibleLabel (from `../collapsiblelabel`)
-  - LGCoreKit (from `../lgcorekit`)
+  - LGCoreKit (= 1.1.1)
   - Nimble (~> 4.1.0)
   - OHHTTPStubs (~> 5.2.1)
   - OHHTTPStubs/Swift
@@ -190,8 +190,6 @@ EXTERNAL SOURCES:
     :git: https://github.com/letgoapp/JBKenBurns
   LGCollapsibleLabel:
     :path: ../collapsiblelabel
-  LGCoreKit:
-    :path: ../lgcorekit
   TMReachability:
     :commit: e34782b386307e386348b481c02c176d58ba45e6
     :git: https://github.com/albertbori/Reachability
@@ -212,9 +210,10 @@ SPEC CHECKSUMS:
   AlamofireImage: 2d34936e5201270bb17a316a786e90e83b4a249d
   Amplitude-iOS: de7cfde0c791d05fb0e0f82bd34cbd3585ccd63f
   AppsFlyerFramework: 8f8f719d338c04800f61f4e24fc7dc554f00ccff
-  Argo: bb0e94e309d6ceb8fa58910205c8968be101e429
+  Argo: 41018b96f2cda032f6eaa6bb8fdf2f3074baa1d9
   Bolts: 8a7995239dbe724f9cba2248b766d48b7ebdd322
   Branch: a620b19dc96fffabb7873a86c80c77c75395a664
+  bumper: add8e52dd18624d19ec59c032032c677e831e048
   CHTCollectionViewWaterfallLayout: 775ff73f48cfc13859b62d8bceb96e772e4a0318
   CocoaLumberjack: aa9dcab71bdf9eaf2a63bbd9ddc87863efe45457
   CollectionVariable: 2c0b7ded33c06baf7e5f75bc852e3b5112132b3d
@@ -232,7 +231,6 @@ SPEC CHECKSUMS:
   FirebaseAppIndexing: 5eb2d921b6750c8521ff5bdd069ec6d4bf24db9a
   FirebaseInstanceID: ba1e640935235e5fac39dfa816fe7660e72e1a8a
   FLEX: ba80ea13d2c784e85e616137fd4eff164781e364
-  FlipTheSwitch: 46176a723accc5e7ccc46b0173fcd58653a54c3f
   Google: 813c467362eabc11385f5a5cc9ad0cb651a58f4e
   GoogleAnalytics: 3de986b2fa29012c69fa415566006a9c9cf25320
   GoogleAppUtilities: f1730f91f67767b453c289577040dd3f425ffdc7
@@ -251,7 +249,7 @@ SPEC CHECKSUMS:
   KMPlaceholderTextView: bbff031935d84f7eedb585e7f77120020fbae9e8
   Leanplum-iOS-SDK: 220755449d8f39270591fe75f49e8abe6f29d934
   LGCollapsibleLabel: d182173746819a7ac43a33d2e24e7e2142e940c7
-  LGCoreKit: 58e73780f3b75ce7d6576628313e25d940329f69
+  LGCoreKit: 48808e1796d45c8107f7b999536cc909680ac1ae
   Nimble: 97a0a4cae5124c117115634b2d055d8c97d0af19
   OHHTTPStubs: 3a42f25c00563b71355ac73112ba2324e9e6cef4
   Quick: 13a2a2b19a5d8e3ed4fd0c36ee46597fd77ebf71
@@ -268,6 +266,6 @@ SPEC CHECKSUMS:
   TwitterCore: 817eae3e291fa4125b47789e26a4f6f024115c1f
   TwitterKit: 8a383da8d9c21b0423716381ea8bbfce20622d91
 
-PODFILE CHECKSUM: b3e03ce1405e38daa9f86e312b86ff593bfa4215
+PODFILE CHECKSUM: d65e20db539eee4302f569802fce2bd7df16f317
 
-COCOAPODS: 1.0.1
+COCOAPODS: 1.1.0.rc.2

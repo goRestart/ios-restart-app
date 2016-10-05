@@ -103,7 +103,6 @@ class ProductViewModel: BaseViewModel {
 
     let showInterestedBubble = Variable<Bool>(false)
     var interestedBubbleTitle: String?
-    var interestedBubbleIcon: UIImage?
     var isFirstProduct: Bool = false
 
     private var favoriteMessageBubbleShown: Bool = false
@@ -237,9 +236,7 @@ class ProductViewModel: BaseViewModel {
             if let stats = result.value {
                 strongSelf.viewsCount.value = stats.viewsCount
                 strongSelf.favouritesCount.value = stats.favouritesCount
-                if strongSelf.isFirstProduct {
-                    strongSelf.refreshInterestedBubble(false)
-                }
+                strongSelf.refreshInterestedBubble(false, forFirstProduct: strongSelf.isFirstProduct)
             }
         }
 
@@ -470,9 +467,9 @@ extension ProductViewModel {
         }, source: .Favourite)
     }
 
-    func refreshInterestedBubble(fromFavoriteAction: Bool) {
+    func refreshInterestedBubble(fromFavoriteAction: Bool, forFirstProduct isFirstProduct: Bool) {
         // check that the bubble hasn't been shown yet for this product
-        guard let productId = product.value.objectId where shouldShowInterestedBubbleForProduct(productId) else { return }
+        guard let productId = product.value.objectId where shouldShowInterestedBubbleForProduct(productId, fromFavoriteAction: fromFavoriteAction, forFirstProduct: isFirstProduct) else { return }
         guard product.value.viewModelStatus == .OtherAvailable else { return }
         // we need at least 1 favorited without counting ours but when coming from favorite action,
         // favourites count is not updated, so no need to substract 1)
@@ -481,7 +478,6 @@ extension ProductViewModel {
         let othersFavText = othersFavCount == 1 ? LGLocalizedString.productBubbleOneUserInterested :
             String(format: LGLocalizedString.productBubbleSeveralUsersInterested, Int(othersFavCount))
         interestedBubbleTitle = othersFavText
-        interestedBubbleIcon = UIImage(named: "ic_user_interested")
         showInterestedBubble.value = true
         // save that the bubble has just been shown for this product
         showInterestedBubbleForProduct(productId)
@@ -712,7 +708,7 @@ extension ProductViewModel {
                     }
                 }
                 strongSelf.favoriteButtonState.value = .Enabled
-                strongSelf.refreshInterestedBubble(true)
+                strongSelf.refreshInterestedBubble(true, forFirstProduct: strongSelf.isFirstProduct)
             }
             checkSendFavoriteSticker()
         }
@@ -883,8 +879,8 @@ extension ProductViewModel {
         interestedBubbleManager.showInterestedBubbleForProduct(id)
     }
 
-    func shouldShowInterestedBubbleForProduct(id: String) -> Bool {
-        return interestedBubbleManager.shouldShowInterestedBubbleForProduct(id) && !favoriteMessageBubbleShown && active
+    func shouldShowInterestedBubbleForProduct(id: String, fromFavoriteAction: Bool, forFirstProduct isFirstProduct: Bool) -> Bool {
+        return interestedBubbleManager.shouldShowInterestedBubbleForProduct(id, fromFavoriteAction: fromFavoriteAction, forFirstProduct: isFirstProduct) && !favoriteMessageBubbleShown && active
     }
 }
 

@@ -102,7 +102,6 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "$BUILT_PRODUCTS_DIR/FBSDKShareKit/FBSDKShareKit.framework"
   install_framework "$BUILT_PRODUCTS_DIR/FLEX/FLEX.framework"
   install_framework "$BUILT_PRODUCTS_DIR/FastttCamera/FastttCamera.framework"
-  install_framework "$BUILT_PRODUCTS_DIR/FlipTheSwitch/FlipTheSwitch.framework"
   install_framework "$BUILT_PRODUCTS_DIR/JBKenBurnsView/JBKenBurnsView.framework"
   install_framework "$BUILT_PRODUCTS_DIR/JSONWebToken/JWT.framework"
   install_framework "$BUILT_PRODUCTS_DIR/KMPlaceholderTextView/KMPlaceholderTextView.framework"
@@ -119,6 +118,7 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "$BUILT_PRODUCTS_DIR/SwiftWebSocket/SwiftWebSocket.framework"
   install_framework "$BUILT_PRODUCTS_DIR/SwiftyUserDefaults/SwiftyUserDefaults.framework"
   install_framework "$BUILT_PRODUCTS_DIR/TMReachability/TMReachability.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/bumper/bumper.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "$BUILT_PRODUCTS_DIR/Alamofire/Alamofire.framework"
@@ -139,7 +139,6 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "$BUILT_PRODUCTS_DIR/FBSDKShareKit/FBSDKShareKit.framework"
   install_framework "$BUILT_PRODUCTS_DIR/FLEX/FLEX.framework"
   install_framework "$BUILT_PRODUCTS_DIR/FastttCamera/FastttCamera.framework"
-  install_framework "$BUILT_PRODUCTS_DIR/FlipTheSwitch/FlipTheSwitch.framework"
   install_framework "$BUILT_PRODUCTS_DIR/JBKenBurnsView/JBKenBurnsView.framework"
   install_framework "$BUILT_PRODUCTS_DIR/JSONWebToken/JWT.framework"
   install_framework "$BUILT_PRODUCTS_DIR/KMPlaceholderTextView/KMPlaceholderTextView.framework"
@@ -156,6 +155,7 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "$BUILT_PRODUCTS_DIR/SwiftWebSocket/SwiftWebSocket.framework"
   install_framework "$BUILT_PRODUCTS_DIR/SwiftyUserDefaults/SwiftyUserDefaults.framework"
   install_framework "$BUILT_PRODUCTS_DIR/TMReachability/TMReachability.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/bumper/bumper.framework"
 fi
 if [[ "$CONFIGURATION" == "Adhoc" ]]; then
   install_framework "$BUILT_PRODUCTS_DIR/Alamofire/Alamofire.framework"
@@ -176,7 +176,6 @@ if [[ "$CONFIGURATION" == "Adhoc" ]]; then
   install_framework "$BUILT_PRODUCTS_DIR/FBSDKShareKit/FBSDKShareKit.framework"
   install_framework "$BUILT_PRODUCTS_DIR/FLEX/FLEX.framework"
   install_framework "$BUILT_PRODUCTS_DIR/FastttCamera/FastttCamera.framework"
-  install_framework "$BUILT_PRODUCTS_DIR/FlipTheSwitch/FlipTheSwitch.framework"
   install_framework "$BUILT_PRODUCTS_DIR/JBKenBurnsView/JBKenBurnsView.framework"
   install_framework "$BUILT_PRODUCTS_DIR/JSONWebToken/JWT.framework"
   install_framework "$BUILT_PRODUCTS_DIR/KMPlaceholderTextView/KMPlaceholderTextView.framework"
@@ -193,4 +192,5 @@ if [[ "$CONFIGURATION" == "Adhoc" ]]; then
   install_framework "$BUILT_PRODUCTS_DIR/SwiftWebSocket/SwiftWebSocket.framework"
   install_framework "$BUILT_PRODUCTS_DIR/SwiftyUserDefaults/SwiftyUserDefaults.framework"
   install_framework "$BUILT_PRODUCTS_DIR/TMReachability/TMReachability.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/bumper/bumper.framework"
 fi

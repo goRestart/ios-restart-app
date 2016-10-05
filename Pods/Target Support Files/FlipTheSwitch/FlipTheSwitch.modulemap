@@ -1,6 +1,0 @@
-framework module FlipTheSwitch {
-  umbrella header "FlipTheSwitch-umbrella.h"
-
-  export *
-  module * { export * }
-}

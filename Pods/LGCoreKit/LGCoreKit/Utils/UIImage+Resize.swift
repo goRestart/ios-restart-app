@@ -59,14 +59,14 @@ extension UIImage {
     // Returns a copy of the image transformed by means of an affine transform and scaled to the new size.
     // Also, it sets the orientation to UIImageOrientation.Up.
     func resizedImageToSize(size: CGSize, transform: CGAffineTransform, needsToBeTransposed: Bool, interpolationQuality: CGInterpolationQuality) -> UIImage? {
-        // calculate frames and get initial CGImage
+        // Calculate frame
         let newFrame = CGRectIntegral(CGRectMake(0, 0, size.width, size.height))
-        let imageRef = self.CGImage
 
         // Generate a context for the new size
-        let context = CGBitmapContextCreate(nil, Int(newFrame.size.width), Int(newFrame.size.height), CGImageGetBitsPerComponent(imageRef),
-            0, CGImageGetColorSpace(imageRef), CGImageGetBitmapInfo(imageRef).rawValue)
-
+        guard let imageRef = self.CGImage, colorSpace = CGImageGetColorSpace(imageRef) else { return nil }
+        guard let context = CGBitmapContextCreate(nil, Int(newFrame.size.width), Int(newFrame.size.height),
+                                                  CGImageGetBitsPerComponent(imageRef), 0, colorSpace,
+                                                  CGImageGetBitmapInfo(imageRef).rawValue) else { return nil }
         // Apply transform to context.
         CGContextConcatCTM(context, transform)
 
@@ -77,8 +77,8 @@ extension UIImage {
         CGContextDrawImage(context, needsToBeTransposed ? CGRectMake(0, 0, newFrame.size.height, newFrame.size.width) : newFrame, imageRef)
 
         // Return the resized image from the context.
-        let resultCGImage = CGBitmapContextCreateImage(context)
-        return UIImage(CGImage: resultCGImage!)
+        guard let resultCGImage = CGBitmapContextCreateImage(context) else { return nil }
+        return UIImage(CGImage: resultCGImage)
     }
 
     // Returns a transform for correctly displaying the image given its orientation.

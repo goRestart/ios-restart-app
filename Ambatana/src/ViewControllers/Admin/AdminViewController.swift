@@ -8,7 +8,7 @@
 
 import Foundation
 import FLEX
-import FlipTheSwitch
+import bumper
 
 class AdminViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     var tableView: UITableView = UITableView()
@@ -37,7 +37,17 @@ class AdminViewController: UIViewController, UITableViewDataSource, UITableViewD
             target: self, action: #selector(AdminViewController.closeButtonPressed))
         self.navigationItem.leftBarButtonItem = closeButton;
     }
-    
+
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        title = "🙏 God Panel 🙏"
+    }
+
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        title = "God Panel"
+    }
+
     func closeButtonPressed() {
         dismissViewControllerAnimated(true, completion: nil)
     }
@@ -74,11 +84,7 @@ class AdminViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     private func openFeatureToggle() {
-        let bundle = NSBundle(path: NSBundle(forClass: FTSFeatureConfigurationViewController.classForCoder())
-            .pathForResource("FlipTheSwitch", ofType: "bundle")!)
-        let storyboard = UIStoryboard(name: "FlipTheSwitch", bundle: bundle)
-        let view = storyboard.instantiateInitialViewController() as! UINavigationController
-        let vc = view.viewControllers.first!
+        let vc = BumperViewController()
         navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -87,7 +93,7 @@ class AdminViewController: UIViewController, UITableViewDataSource, UITableViewD
         case 0:
             return "👾 FLEX"
         case 1:
-            return "🎪 Feature Toggle"
+            return "🎪 Bumper Features"
         default:
             return "Not implemented"
         }
