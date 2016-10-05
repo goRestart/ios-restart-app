@@ -27,11 +27,6 @@ extension UITabBarController {
         let duration: NSTimeInterval = (animated ? NSTimeInterval(UINavigationControllerHideShowBarDuration) : 0.0)
 
         //  animate the tabBar
-        UIView.animateWithDuration(duration) { [weak self] in
-            self?.tabBar.frame = CGRectOffset(frame, 0, offsetY)
-            self?.view.layoutIfNeeded()
-        }
-
         UIView.animateWithDuration(duration, animations: { [weak self] in
             self?.tabBar.frame = CGRectOffset(frame, 0, offsetY)
             self?.view.layoutIfNeeded()
