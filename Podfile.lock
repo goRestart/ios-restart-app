@@ -16,7 +16,7 @@ PODS:
     - Branch/without-IDFA (= 0.12.11)
   - Branch/Core (0.12.11)
   - Branch/without-IDFA (0.12.11)
-  - bumper (0.1.1)
+  - bumper (0.2.0)
   - CHTCollectionViewWaterfallLayout (0.9.5):
     - CHTCollectionViewWaterfallLayout/ObjC (= 0.9.5)
   - CHTCollectionViewWaterfallLayout/ObjC (0.9.5)
@@ -145,7 +145,7 @@ DEPENDENCIES:
   - AppsFlyerFramework (~> 4.5.6)
   - Argo (= 3.0.2)
   - Branch (~> 0.12.11)
-  - bumper (= 0.1.1)
+  - bumper (= 0.2.0)
   - CHTCollectionViewWaterfallLayout (~> 0.9.5)
   - CocoaLumberjack/Swift (~> 2.4.0)
   - CollectionVariable (from `https://github.com/gitdoapp/CollectionVariable`, commit `d99e7a8dfaad32823c207e40fca7c2f2c3894ead`)
@@ -213,7 +213,7 @@ SPEC CHECKSUMS:
   Argo: 41018b96f2cda032f6eaa6bb8fdf2f3074baa1d9
   Bolts: 8a7995239dbe724f9cba2248b766d48b7ebdd322
   Branch: a620b19dc96fffabb7873a86c80c77c75395a664
-  bumper: add8e52dd18624d19ec59c032032c677e831e048
+  bumper: bea4ea20dfc0591a9821796b4b28d0bfe53b0488
   CHTCollectionViewWaterfallLayout: 775ff73f48cfc13859b62d8bceb96e772e4a0318
   CocoaLumberjack: aa9dcab71bdf9eaf2a63bbd9ddc87863efe45457
   CollectionVariable: 2c0b7ded33c06baf7e5f75bc852e3b5112132b3d
@@ -266,6 +266,6 @@ SPEC CHECKSUMS:
   TwitterCore: 817eae3e291fa4125b47789e26a4f6f024115c1f
   TwitterKit: 8a383da8d9c21b0423716381ea8bbfce20622d91
 
-PODFILE CHECKSUM: d65e20db539eee4302f569802fce2bd7df16f317
+PODFILE CHECKSUM: e46567534a6ec5e39fd3bd187aa3d8eaa249032f
 
 COCOAPODS: 1.1.0.rc.2
