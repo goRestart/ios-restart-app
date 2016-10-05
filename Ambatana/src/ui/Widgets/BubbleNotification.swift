@@ -15,11 +15,12 @@ class BubbleNotification: UIView {
     static let bubbleContentMargin: CGFloat = 14
     static let statusBarHeight: CGFloat = 20
 
-    private var containerView: UIView = UIView()
-    private var textlabel: UILabel = UILabel()
-    private var actionButton: UIButton = UIButton(type: .Custom)
+    private var containerView = UIView()
+    private var textlabel = UILabel()
+    private var infoTextLabel = UILabel()
+    private var actionButton = UIButton(type: .Custom)
 
-    var bottomConstraint: NSLayoutConstraint = NSLayoutConstraint()
+    var bottomConstraint = NSLayoutConstraint()
 
     private var text: String?
     private var action: UIAction?
@@ -56,12 +57,9 @@ class BubbleNotification: UIView {
 
     func showBubble() {
         // delay to let the setup build the view properly
-
         delay(0.1) { [weak self] in
             self?.bottomConstraint.constant = self?.height ?? 0
-            UIView.animateWithDuration(0.3, animations: {
-                self?.layoutIfNeeded()
-            })
+            UIView.animateWithDuration(0.3) { self?.layoutIfNeeded() }
         }
     }
 
@@ -90,6 +88,7 @@ class BubbleNotification: UIView {
         if let action = action {
             actionButton.setStyle(.Secondary(fontSize: .Small, withBorder: true))
             actionButton.titleLabel?.adjustsFontSizeToFitWidth = true
+            actionButton.titleLabel?.minimumScaleFactor = 0.8
             actionButton.setTitle(action.text, forState: .Normal)
             actionButton.addTarget(self, action: #selector(buttonTapped), forControlEvents: .TouchUpInside)
             actionButton.accessibilityId =  action.accessibilityId
@@ -109,64 +108,34 @@ class BubbleNotification: UIView {
         actionButton.translatesAutoresizingMaskIntoConstraints = false
 
         addSubview(containerView)
-
-        // container view
-        let centerXConstraint = NSLayoutConstraint(item: containerView, attribute: .CenterX, relatedBy: .Equal,
-                                                   toItem: self, attribute: .CenterX, multiplier: 1, constant: 0)
-        let containerTopConstraint = NSLayoutConstraint(item: containerView, attribute: .Top, relatedBy: .Equal,
-                                                        toItem: self, attribute: .Top, multiplier: 1,
-                                                        constant: BubbleNotification.bubbleContentMargin + BubbleNotification.statusBarHeight)
-        let containerBottomConstraint = NSLayoutConstraint(item: containerView, attribute: .Bottom, relatedBy: .Equal,
-                                                           toItem: self, attribute: .Bottom, multiplier: 1,
-                                                           constant: -BubbleNotification.bubbleContentMargin)
-
-        let containerLeftConstraint = NSLayoutConstraint(item: containerView, attribute: .Left, relatedBy: .GreaterThanOrEqual,
-                                                         toItem: self, attribute: .Left, multiplier: 1,
-                                                         constant: BubbleNotification.bubbleContentMargin)
-        let containerRightConstraint = NSLayoutConstraint(item: containerView, attribute: .Right, relatedBy: .LessThanOrEqual,
-                                                          toItem: self, attribute: .Right, multiplier: 1,
-                                                          constant: -BubbleNotification.bubbleContentMargin)
-
-        addConstraints([centerXConstraint, containerTopConstraint, containerBottomConstraint, containerLeftConstraint,
-            containerRightConstraint])
-
-        // text and button
         containerView.addSubview(textlabel)
         containerView.addSubview(actionButton)
 
-        // text label
-        let buttonCenterY = NSLayoutConstraint(item: actionButton, attribute: .CenterY, relatedBy: .Equal,
-                                               toItem: containerView, attribute: .CenterY, multiplier: 1, constant: 0)
+        var views = [String: AnyObject]()
+        views["container"] = containerView
+        views["label"] = textlabel
+        views["infoLabel"] = infoTextLabel
+        views["button"] = actionButton
 
-        let labelToButtonTrailing = NSLayoutConstraint(item: textlabel, attribute: .Right, relatedBy: .Equal,
-                                                       toItem: actionButton, attribute: .Left, multiplier: 1, constant: -10)
+        var metrics = [String: AnyObject]()
+        metrics["margin"] = BubbleNotification.bubbleContentMargin
+        metrics["marginWStatus"] = BubbleNotification.bubbleContentMargin + BubbleNotification.statusBarHeight
+        metrics["buttonWidth"] = CGFloat(action != nil ? BubbleNotification.buttonMaxWidth : 0)
 
-        let labelTopConstraint = NSLayoutConstraint(item: textlabel, attribute: .Top, relatedBy: .Equal,
-                                                    toItem: containerView, attribute: .Top, multiplier: 1, constant: 0)
-        let labelBottomConstraint = NSLayoutConstraint(item: textlabel, attribute: .Bottom, relatedBy: .Equal,
-                                                       toItem: containerView, attribute: .Bottom, multiplier: 1, constant: 0)
+        // container view
+        addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-marginWStatus-[container]-margin-|",
+            options: [], metrics: metrics, views: views))
+        addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-margin-[container]-margin-|",
+            options: [], metrics: metrics, views: views))
 
-        let buttonRightConstraint = NSLayoutConstraint(item: actionButton, attribute: .Right, relatedBy: .Equal,
-                                                       toItem: containerView, attribute: .Right, multiplier: 1, constant: 0)
-
-        let labelLeftConstraint = NSLayoutConstraint(item: textlabel, attribute: .Left, relatedBy: .Equal,
-                                                     toItem: containerView, attribute: .Left, multiplier: 1, constant: 0)
-
-
-        containerView.addConstraints([buttonCenterY, labelToButtonTrailing, labelTopConstraint, labelBottomConstraint,
-            buttonRightConstraint, labelLeftConstraint])
-
-
-        // button view
-        let buttonWidth: CGFloat = action != nil ? BubbleNotification.buttonMaxWidth : 0
-
-        let buttonWidthConstraint = NSLayoutConstraint(item: actionButton, attribute: .Width, relatedBy: .LessThanOrEqual,
-                                                       toItem: nil, attribute: .NotAnAttribute, multiplier: 1,
-                                                       constant: buttonWidth)
-        let buttonHeightConstraint = NSLayoutConstraint(item: actionButton, attribute: .Height, relatedBy: .Equal,
-                                                        toItem: nil, attribute: .NotAnAttribute, multiplier: 1,
-                                                        constant: BubbleNotification.buttonHeight)
-        actionButton.addConstraints([buttonWidthConstraint, buttonHeightConstraint])
+        // text label and button
+        actionButton.setContentCompressionResistancePriority(UILayoutPriorityRequired, forAxis: .Horizontal)
+        containerView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[label]|",
+            options: [], metrics: metrics, views: views))
+        containerView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[label]-[button(<=buttonWidth)]-|",
+            options: [.AlignAllCenterY], metrics: metrics, views: views))
+        actionButton.addConstraint(NSLayoutConstraint(item: actionButton, attribute: .Height, relatedBy: .Equal,
+            toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: BubbleNotification.buttonHeight))
 
         layoutIfNeeded()
     }
