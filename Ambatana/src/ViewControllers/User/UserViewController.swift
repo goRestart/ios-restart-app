@@ -35,8 +35,8 @@ class UserViewController: BaseViewController {
 
     private static let ratingAverageContainerHeightVisible: CGFloat = 30
     
-    private static let userLabelsContainerMarginLonger: CGFloat = 90
-    private static let userLabelsContainerMarginShorter: CGFloat = 50
+    private static let userLabelsContainerMarginLong: CGFloat = 90
+    private static let userLabelsContainerMarginShort: CGFloat = 50
 
     private var navBarUserView: UserView?
     private var navBarUserViewAlpha: CGFloat = 0.0 {
@@ -567,12 +567,8 @@ extension UserViewController {
     
     private func setupUserLabelsContainerRx() {
         viewModel.navBarButtons.asObservable().bindNext { [weak self] buttons in
-            if  (buttons.count > 1) {
-                self?.userLabelsSideMargin.forEach { $0.constant = UserViewController.userLabelsContainerMarginLonger }
-            }
-            else {
-                self?.userLabelsSideMargin.forEach { $0.constant = UserViewController.userLabelsContainerMarginShorter }
-            }
+            let margin = buttons.count > 1 ? UserViewController.userLabelsContainerMarginLong : UserViewController.userLabelsContainerMarginShort
+            self?.userLabelsSideMargin.forEach { $0.constant = margin }
             }.addDisposableTo(disposeBag)
     }
 
