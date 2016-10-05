@@ -46,8 +46,23 @@ class WSChatListViewModel: BaseChatGroupedListViewModel<ChatConversation>, ChatL
 
     override func index(page: Int, completion: (Result<[ChatConversation], RepositoryError> -> ())?) {
         let offset = max(0, page - 1) * resultsPerPage
-        chatRepository.indexConversations(resultsPerPage, offset: offset, filter: chatsType.conversationFilter,
-                                          completion: completion)
+        
+//        chatRepository.indexConversations(resultsPerPage, offset: offset, filter: chatsType.conversationFilter,
+//                                          completion: completion)
+
+        chatRepository.indexConversations(resultsPerPage, offset: offset, filter: chatsType.conversationFilter) { result in
+            if let _ = result.value {
+                completion?(result)
+            } else if let error = result.error {
+                switch error {
+                case .UserNotVerified:
+                    // 👾
+                    print("NOT VERIFIED")
+                case .Internal, .Network, .NotFound, .Unauthorized, .Forbidden, .TooManyRequests, .ServerError:
+                    completion?(result)
+                }
+            }
+        }
     }
 
     override func didFinishLoading() {

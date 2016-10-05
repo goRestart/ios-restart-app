@@ -367,8 +367,17 @@ extension ChatViewController {
             self?.textView.userInteractionEnabled = enabled
             }.addDisposableTo(disposeBag)
         
-        viewModel.chatConnected.asObservable().bindNext { [weak self] connected in
-            self?.setTextInputbarHidden(!connected, animated: true)
+        viewModel.chatConnectionStatus.asObservable().bindNext { [weak self] connectionStatus in
+            switch connectionStatus {
+            case .Available:
+                self?.setTextInputbarHidden(false, animated: true)
+            case .NotAvailable:
+                self?.setTextInputbarHidden(true, animated: true)
+            case .PendingVerification:
+                self?.setTextInputbarHidden(true, animated: true)
+                // 👾
+                print("EMPTY STATE!!!")
+            }
         }.addDisposableTo(disposeBag)
         
         viewModel.chatStatus.asObservable().bindNext { [weak self] status in

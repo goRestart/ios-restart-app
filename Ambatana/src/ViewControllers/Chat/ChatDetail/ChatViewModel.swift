@@ -128,7 +128,7 @@ class ChatViewModel: BaseViewModel {
     let interlocutorHasMutedYou = Variable<Bool>(false)
     let chatStatus = Variable<ChatInfoViewStatus>(.Available)
     let chatEnabled = Variable<Bool>(true)
-    let chatConnected = Variable<Bool>(false)
+    let chatConnectionStatus = Variable<ChatRepositoryStatus>(.NotAvailable)
     let relatedProductsEnabled = Variable<Bool>(false)
     let interlocutorTyping = Variable<Bool>(false)
     let messages = CollectionVariable<ChatViewMessage>([])
@@ -411,8 +411,9 @@ class ChatViewModel: BaseViewModel {
                 break
             }
         }.addDisposableTo(disposeBag)
-        
-        chatRepository.chatAvailable.asObservable().bindTo(chatConnected).addDisposableTo(disposeBag)
+
+        // 👾 adapt chat connected to use new enum status!!!
+        chatRepository.chatAvailable.asObservable().bindTo(chatConnectionStatus).addDisposableTo(disposeBag)
     }
 
     
