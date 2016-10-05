@@ -12,7 +12,7 @@ import bumper
 
 extension Bumper  {
     static func initialize() {
-        Bumper.initialize([WebsocketChat.self, NotificationsSection.self, UserRatings.self, ShowNPSSurvey.self, ProfileBuildTrustButton.self, NonStopProductDetail.self, OnboardingPermissionsMode.self, IncentivizePostingMode.self, MessageOnFavoriteMode.self, ExpressChatMode.self, InterestedUsersMode.self])
+        Bumper.initialize([WebsocketChat.self, NotificationsSection.self, UserRatings.self, ShowNPSSurvey.self, ProfileBuildTrustButton.self, NonStopProductDetail.self, OnboardingPermissionsMode.self, IncentivizePostingMode.self, MessageOnFavoriteMode.self, ExpressChatMode.self, InterestedUsersMode.self, FiltersReorder.self])
     } 
 
     static var websocketChat: Bool {
@@ -68,6 +68,11 @@ extension Bumper  {
     static var interestedUsersMode: InterestedUsersMode {
         guard let value = Bumper.valueForKey(InterestedUsersMode.key) else { return .NoNotification }
         return InterestedUsersMode(rawValue: value) ?? .NoNotification 
+    }
+
+    static var filtersReorder: Bool {
+        guard let value = Bumper.valueForKey(FiltersReorder.key) else { return false }
+        return FiltersReorder(rawValue: value)?.asBool ?? false
     } 
 }
 
@@ -205,5 +210,14 @@ enum InterestedUsersMode: String, BumperFeature  {
             default: return .NoNotification
         }
     }
+}
+
+enum FiltersReorder: String, BumperFeature  {
+    case No, Yes
+    static var defaultValue: String { return FiltersReorder.No.rawValue }
+    static var enumValues: [FiltersReorder] { return [.No, .Yes]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Product filters reorder" } 
+    var asBool: Bool { return self == .Yes }
 }
 
