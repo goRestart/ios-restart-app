@@ -34,7 +34,9 @@ class UserViewController: BaseViewController {
     private static let userEffectViewHeaderCollapsedAlpha: CGFloat = 1.0
 
     private static let ratingAverageContainerHeightVisible: CGFloat = 30
-
+    
+    private static let userLabelsContainerMarginLong: CGFloat = 90
+    private static let userLabelsContainerMarginShort: CGFloat = 50
 
     private var navBarUserView: UserView?
     private var navBarUserViewAlpha: CGFloat = 0.0 {
@@ -60,6 +62,7 @@ class UserViewController: BaseViewController {
     @IBOutlet weak var userNameLabel: UILabel!
     @IBOutlet weak var averageRatingContainerViewHeight: NSLayoutConstraint!
     @IBOutlet weak var averageRatingView: UIView!
+    @IBOutlet var userLabelsSideMargin: [NSLayoutConstraint]!
     @IBOutlet var averageRatingImageViews: [UIImageView]!
     @IBOutlet weak var userLocationLabel: UILabel!
     @IBOutlet weak var userBgImageView: UIImageView!
@@ -399,6 +402,7 @@ extension UserViewController {
         setupHeaderRxBindings()
         setupProductListViewRxBindings()
         setupPermissionsRx()
+        setupUserLabelsContainerRx()
     }
 
     private func setupBackgroundRxBindings() {
@@ -559,6 +563,13 @@ extension UserViewController {
 
         // Tab switch
         headerContainer.header?.tab.asObservable().bindTo(viewModel.tab).addDisposableTo(disposeBag)
+    }
+    
+    private func setupUserLabelsContainerRx() {
+        viewModel.navBarButtons.asObservable().bindNext { [weak self] buttons in
+            let margin = buttons.count > 1 ? UserViewController.userLabelsContainerMarginLong : UserViewController.userLabelsContainerMarginShort
+            self?.userLabelsSideMargin.forEach { $0.constant = margin }
+            }.addDisposableTo(disposeBag)
     }
 
     private func setupProductListViewRxBindings() {

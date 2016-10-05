@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -29,6 +29,8 @@
                 <outletCollection property="averageRatingImageViews" destination="omf-dl-pXI" collectionClass="NSMutableArray" id="gQd-5X-1aB"/>
                 <outletCollection property="averageRatingImageViews" destination="4Xv-hz-pIY" collectionClass="NSMutableArray" id="1z3-Qc-Rmq"/>
                 <outletCollection property="averageRatingImageViews" destination="j9f-X1-VAR" collectionClass="NSMutableArray" id="yln-62-p88"/>
+                <outletCollection property="userLabelsSideMargin" destination="mCh-JL-coW" collectionClass="NSMutableArray" id="Qql-zW-aYw"/>
+                <outletCollection property="userLabelsSideMargin" destination="n8n-dh-X6g" collectionClass="NSMutableArray" id="T7m-4d-XzM"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -209,6 +211,7 @@
                 <constraint firstAttribute="trailing" secondItem="3Kp-we-Xh1" secondAttribute="trailing" id="rnX-MV-Ybq"/>
                 <constraint firstItem="3Kp-we-Xh1" firstAttribute="top" secondItem="Hy6-gu-q5k" secondAttribute="bottom" id="vGs-Yt-waN"/>
             </constraints>
+            <point key="canvasLocation" x="384" y="293"/>
         </view>
     </objects>
     <resources>
