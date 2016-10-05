@@ -113,9 +113,6 @@ class UserViewController: BaseViewController {
     override func viewWillAppearFromBackground(fromBackground: Bool) {
         super.viewWillAppearFromBackground(fromBackground)
 
-        let _ = FeatureFlags.profileVerifyOneButton
-        headerContainer.header?.updateABTests()
-
         // UINavigationBar's title alpha gets resetted on view appear, does not allow initial 0.0 value
         if let navBarUserView = navBarUserView {
             let currentAlpha: CGFloat = navBarUserViewAlpha
@@ -239,9 +236,6 @@ extension UserViewController {
         headerContainer?.header?.avatarButton.accessibilityId = .UserHeaderExpandedAvatarButton
         headerContainer?.header?.ratingsButton.accessibilityId = .UserHeaderExpandedRatingsButton
         headerContainer?.header?.userRelationLabel.accessibilityId = .UserHeaderExpandedRelationLabel
-        headerContainer?.header?.myUserFacebookButton.accessibilityId = .UserHeaderExpandedVerifyFacebookButton
-        headerContainer?.header?.myUserGoogleButton.accessibilityId = .UserHeaderExpandedVerifyGoogleButton
-        headerContainer?.header?.myUserEmailButton.accessibilityId = .UserHeaderExpandedVerifyEmailButton
         headerContainer?.header?.buildTrustButton.accessibilityId = .UserHeaderExpandedBuildTrustButton
         headerContainer?.header?.sellingButton.accessibilityId = .UserSellingTab
         headerContainer?.header?.soldButton.accessibilityId = .UserSoldTab
