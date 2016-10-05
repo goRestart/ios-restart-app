@@ -76,9 +76,9 @@
 "chat_express_dont_ask_again_button" = "No preguntar de nuevo";
 "chat_express_dont_miss_label" = "No te pierdas estos chollos";
 "chat_express_one_message_sent_success_alert" = "¡Tu mensaje ha sido enviado!";
-"chat_express_send_question_text" = "Send: %@";
+"chat_express_send_question_text" = "Enviar: %@";
 "chat_express_several_messages_sent_success_alert" = "¡Tus mensajes han sido enviados!";
-"chat_express_text_field_text" = "Hola, ¡me interesa!";
+"chat_express_text_field_text" = "Hola, ¿todavía está disponible?";
 "chat_forbidden_disclaimer_buyer_w_name" = "La cuenta de %@ está siendo revisada por el equipo de letgo.";
 "chat_forbidden_disclaimer_buyer_wo_name" = "Esta cuenta está siendo revisada por el equipo de letgo.";
 "chat_forbidden_disclaimer_seller_w_name" = "Parece que %@ ya no está interesado en comprar tu producto.";
@@ -136,7 +136,7 @@
 "collection_explore_button" = "Descubrir";
 "collection_furniture_title" = "Hogar, dulce hogar";
 "collection_gaming_title" = "¡A jugar!";
-"collection_halloween_title" = "Trick or treat";
+"collection_halloween_title" = "Truco o trato";
 "collection_transport_title" = "Viaja con estilo";
 "commercializer_create_from_settings" = "Crear comercial gratis";
 "commercializer_display_share_alert" = "Comparte esta obra maestra";
@@ -331,8 +331,8 @@
 "product_ask_a_question_button" = "Haz una pregunta";
 "product_auto_generated_title_label" = "Título generado automáticamente por letgo";
 "product_auto_generated_translated_title_label" = "(y traducido por Google)";
-"product_bubble_favorite_button" = "Let the seller know!";
-"product_bubble_favorite_text" = "This product has been added to your favorites!";
+"product_bubble_favorite_button" = "¡Avisa al vendedor!";
+"product_bubble_favorite_text" = "¡Has añadido este artículo a tus favoritos!";
 "product_bubble_one_user_interested" = "¡Hay otro comprador interesado!";
 "product_bubble_several_users_interested" = "¡Hay %i compradores interesados!";
 "product_chat_direct_error_blocked_user_message" = "¡Ups! El chat con este usuario está bloqueado.";
