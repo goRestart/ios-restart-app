@@ -19,9 +19,8 @@ class LetgoAvatar {
         view.backgroundColor = color
 
         let label = UILabel(frame: view.bounds)
-
-        if let c = name?.characters.first {
-            label.text = String(c).capitalizedString
+        if let c = name?.specialCharactersRemoved.characters.first {
+                label.text = String(c).capitalizedString
         }
         label.font = UIFont.avatarFont
         label.textColor = UIColor.whiteColor()
