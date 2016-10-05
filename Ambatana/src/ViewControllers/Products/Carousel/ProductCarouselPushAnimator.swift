@@ -60,7 +60,11 @@ class ProductCarouselPushAnimator: NSObject, PushAnimator {
         guard let toViewController = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)
             else { return }
         guard let containerView = transitionContext.containerView() else { return }
-        
+
+        if fromViewController.containsTabBar() {
+            fromViewController.tabBarController?.setTabBarHidden(true, animated: true)
+        }
+
         let fromView: UIView = transitionContext.viewForKey(UITransitionContextFromViewKey) ?? fromViewController.view
         let toView: UIView = transitionContext.viewForKey(UITransitionContextToViewKey) ?? toViewController.view
         fromViewSnapshot = fromView.takeSnapshot()
@@ -68,10 +72,6 @@ class ProductCarouselPushAnimator: NSObject, PushAnimator {
         toViewValidatedFrame = true
         containerView.addSubview(fromView)
 
-        if fromViewController.containsTabBar() {
-            fromViewController.tabBarController?.setTabBarHidden(true, animated: true)
-        }
-        
         toView.alpha = 0
         
         let snapshot = UIImageView(image: originThumbnail)
