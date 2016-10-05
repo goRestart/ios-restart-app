@@ -341,6 +341,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
                 self?.favoriteButton.alpha = zooming ? 0 : 1
                 self?.stickersButton.alpha = zooming ? 0 : 1
                 self?.editButton.alpha = zooming ? 0 : 1
+                self?.productStatusView.alpha = zooming ? 0 : 1
             }
         }.addDisposableTo(disposeBag)
     }
