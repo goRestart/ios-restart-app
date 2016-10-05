@@ -28,6 +28,7 @@ final class AppCoordinator: NSObject {
     private let keyValueStorage: KeyValueStorage
     private let pushPermissionsManager: PushPermissionsManager
     private let ratingManager: RatingManager
+    private let bubbleNotifManager: BubbleNotificationManager
 
     private let deepLinksRouter: DeepLinksRouter
 
@@ -54,6 +55,7 @@ final class AppCoordinator: NSObject {
         let pushPermissionsManager = PushPermissionsManager.sharedInstance
         let ratingManager = RatingManager.sharedInstance
         let deepLinksRouter = DeepLinksRouter.sharedInstance
+        let bubbleManager = BubbleNotificationManager.sharedInstance
 
         let productRepository = Core.productRepository
         let userRepository = Core.userRepository
@@ -65,8 +67,8 @@ final class AppCoordinator: NSObject {
         self.init(tabBarController: tabBarController, configManager: configManager,
                   sessionManager: sessionManager, keyValueStorage: keyValueStorage,
                   pushPermissionsManager: pushPermissionsManager, ratingManager: ratingManager,
-                  deepLinksRouter: deepLinksRouter, productRepository: productRepository, userRepository: userRepository,
-                  myUserRepository: myUserRepository, chatRepository: chatRepository,
+                  deepLinksRouter: deepLinksRouter, bubbleManager: bubbleManager, productRepository: productRepository,
+                  userRepository: userRepository, myUserRepository: myUserRepository, chatRepository: chatRepository,
                   commercializerRepository: commercializerRepository, userRatingRepository: userRatingRepository)
         tabBarViewModel.navigator = self
     }
@@ -74,9 +76,9 @@ final class AppCoordinator: NSObject {
     init(tabBarController: TabBarController, configManager: ConfigManager,
          sessionManager: SessionManager, keyValueStorage: KeyValueStorage,
          pushPermissionsManager: PushPermissionsManager, ratingManager: RatingManager, deepLinksRouter: DeepLinksRouter,
-         productRepository: ProductRepository, userRepository: UserRepository, myUserRepository: MyUserRepository,
-         chatRepository: OldChatRepository, commercializerRepository: CommercializerRepository,
-         userRatingRepository: UserRatingRepository) {
+         bubbleManager: BubbleNotificationManager, productRepository: ProductRepository, userRepository: UserRepository,
+         myUserRepository: MyUserRepository, chatRepository: OldChatRepository,
+         commercializerRepository: CommercializerRepository, userRatingRepository: UserRatingRepository) {
 
         self.tabBarCtl = tabBarController
         
@@ -93,6 +95,7 @@ final class AppCoordinator: NSObject {
         self.keyValueStorage = keyValueStorage
         self.pushPermissionsManager = pushPermissionsManager
         self.ratingManager = ratingManager
+        self.bubbleNotifManager = bubbleManager
 
         self.deepLinksRouter = deepLinksRouter
 
@@ -130,6 +133,10 @@ extension AppCoordinator: AppNavigator {
         if let deepLink = deepLinksRouter.consumeInitialDeepLink() {
             openExternalDeepLink(deepLink, initialDeepLink: true)
         }
+
+        //TODO: REMOVE, JUST TO TEST
+        let action = UIAction(interface: .Text("action mu larga mu laaarga"), action: {})
+        bubbleNotifManager.showBubble("Test buble molongui que teoricamente ocupa dos lineas", action: action, duration: 0)
     }
 
     private func openOnboarding() -> Bool {
