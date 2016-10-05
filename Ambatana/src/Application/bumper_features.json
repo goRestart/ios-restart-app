@@ -53,5 +53,10 @@
         "name": "InterestedUsersMode",
         "values": ["NoNotification", "Original", "LimitedPrints"],
         "description": "Interested users bubble mode"
+	},
+    {
+        "name": "FiltersReorder",
+        "values": ["No", "Yes"],
+        "description": "Product filters reorder"
 	}
 ]

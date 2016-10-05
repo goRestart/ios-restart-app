@@ -212,6 +212,7 @@ UICollectionViewDataSource, UICollectionViewDelegate {
                 let color = viewModel.categoryColorAtIndex(indexPath.row)
                 cell.categoryIcon.tintColor = color
                 cell.titleLabel.textColor = color
+                cell.rightSeparator.hidden = indexPath.row % 2 == 1
                 cell.selected = viewModel.categorySelectedAtIndex(indexPath.row)
                 return cell
             case .Within:
@@ -297,7 +298,7 @@ UICollectionViewDataSource, UICollectionViewDelegate {
         // Cells sizes
         let screenWidth = UIScreen.mainScreen().bounds.size.width
         distanceCellSize = CGSize(width: screenWidth, height: 78.0)
-        categoryCellSize = CGSize(width: screenWidth, height: 50.0)
+        categoryCellSize = CGSize(width: screenWidth * 0.5, height: 50.0)
         singleCheckCellSize = CGSize(width: screenWidth, height: 50.0)
         priceCellSize = CGSize(width: screenWidth, height: 50.0)
 
