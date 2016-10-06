@@ -21,7 +21,7 @@ public struct ABTests {
     static var expressChatMode = IntABDynamicVar(key: "expressChatMode", defaultValue: 0)
     static var interestedUsersMode = IntABDynamicVar(key: "interestedUsersMode", defaultValue: 0)
     static var filtersReorder = BoolABDynamicVar(key: "filtersReorder", defaultValue: false)
-    static var halfCameraButton = BoolABDynamicVar(key: "halfCameraButton", defaultValue: false)
+    static var halfCameraButton = BoolABDynamicVar(key: "halfCameraButton", defaultValue: true)
 
     static private var allVariables: [ABVariable] {
         return [showNPSSurvey, profileVerifyOneButton, nonStopProductDetail, onboardingPermissionsMode,

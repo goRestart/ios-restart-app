@@ -76,8 +76,8 @@ extension Bumper  {
     }
 
     static var halfCameraButton: Bool {
-        guard let value = Bumper.valueForKey(HalfCameraButton.key) else { return false }
-        return HalfCameraButton(rawValue: value)?.asBool ?? false
+        guard let value = Bumper.valueForKey(HalfCameraButton.key) else { return true }
+        return HalfCameraButton(rawValue: value)?.asBool ?? true
     } 
 }
 
@@ -227,9 +227,9 @@ enum FiltersReorder: String, BumperFeature  {
 }
 
 enum HalfCameraButton: String, BumperFeature  {
-    case No, Yes
-    static var defaultValue: String { return HalfCameraButton.No.rawValue }
-    static var enumValues: [HalfCameraButton] { return [.No, .Yes]}
+    case Yes, No
+    static var defaultValue: String { return HalfCameraButton.Yes.rawValue }
+    static var enumValues: [HalfCameraButton] { return [.Yes, .No]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Camera button cut in gallery" } 
     var asBool: Bool { return self == .Yes }

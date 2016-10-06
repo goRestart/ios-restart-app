@@ -61,7 +61,7 @@
 	},
     {
         "name": "HalfCameraButton",
-        "values": ["No", "Yes"],
+        "values": ["Yes", "No"],
         "description": "Camera button cut in gallery"
 	}
 ]
