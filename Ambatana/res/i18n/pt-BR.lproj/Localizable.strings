@@ -492,7 +492,7 @@
 "profile_verify_email_message_not_present" = "To verify your account, enter your email address.";
 "profile_verify_email_message_present" = "Tap \"Send Email\" to send a new verification link to %@";
 "profile_verify_email_placeholder" = "Email";
-"profile_verify_email_success" = "We've sent you a verification email. The link will expire in 48h.";
+"profile_verify_email_success" = "Check your email inbox to verify your account. The link will expire in 48 hours.";
 "profile_verify_email_title" = "EMAIL";
 "profile_verify_email_too_many_requests" = "We've already sent you a verification email. Please check your inbox!";
 "profile_verify_facebook_button" = "Facebook";

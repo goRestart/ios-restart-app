@@ -75,6 +75,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("app_share_error", comment: "")
 	}
 
+	static var appNotificationReply: String {
+		return NSLocalizedString("app_notification_reply", comment: "")
+	}
+
 	static var blockUserErrorGeneric: String {
 		return NSLocalizedString("block_user_error_generic", comment: "")
 	}

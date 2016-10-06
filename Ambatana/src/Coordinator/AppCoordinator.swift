@@ -35,7 +35,8 @@ final class AppCoordinator: NSObject {
     private let productRepository: ProductRepository
     private let userRepository: UserRepository
     private let myUserRepository: MyUserRepository
-    private let chatRepository: OldChatRepository
+    private let oldChatRepository: OldChatRepository
+    private let chatRepository: ChatRepository
     private let commercializerRepository: CommercializerRepository
     private let userRatingRepository: UserRatingRepository
 
@@ -60,7 +61,8 @@ final class AppCoordinator: NSObject {
         let productRepository = Core.productRepository
         let userRepository = Core.userRepository
         let myUserRepository = Core.myUserRepository
-        let chatRepository = Core.oldChatRepository
+        let oldChatRepository = Core.oldChatRepository
+        let chatRepository = Core.chatRepository
         let commercializerRepository = Core.commercializerRepository
         let userRatingRepository = Core.userRatingRepository
 
@@ -68,8 +70,9 @@ final class AppCoordinator: NSObject {
                   sessionManager: sessionManager, keyValueStorage: keyValueStorage,
                   pushPermissionsManager: pushPermissionsManager, ratingManager: ratingManager,
                   deepLinksRouter: deepLinksRouter, bubbleManager: bubbleManager, productRepository: productRepository,
-                  userRepository: userRepository, myUserRepository: myUserRepository, chatRepository: chatRepository,
-                  commercializerRepository: commercializerRepository, userRatingRepository: userRatingRepository)
+                  userRepository: userRepository, myUserRepository: myUserRepository, oldChatRepository: oldChatRepository,
+                  chatRepository: chatRepository, commercializerRepository: commercializerRepository,
+                  userRatingRepository: userRatingRepository)
         tabBarViewModel.navigator = self
     }
 
@@ -77,7 +80,7 @@ final class AppCoordinator: NSObject {
          sessionManager: SessionManager, keyValueStorage: KeyValueStorage,
          pushPermissionsManager: PushPermissionsManager, ratingManager: RatingManager, deepLinksRouter: DeepLinksRouter,
          bubbleManager: BubbleNotificationManager, productRepository: ProductRepository, userRepository: UserRepository,
-         myUserRepository: MyUserRepository, chatRepository: OldChatRepository,
+         myUserRepository: MyUserRepository, oldChatRepository: OldChatRepository, chatRepository: ChatRepository,
          commercializerRepository: CommercializerRepository, userRatingRepository: UserRatingRepository) {
 
         self.tabBarCtl = tabBarController
@@ -102,6 +105,7 @@ final class AppCoordinator: NSObject {
         self.productRepository = productRepository
         self.userRepository = userRepository
         self.myUserRepository = myUserRepository
+        self.oldChatRepository = oldChatRepository
         self.chatRepository = chatRepository
         self.commercializerRepository = commercializerRepository
         self.userRatingRepository = userRatingRepository
@@ -623,6 +627,9 @@ private extension AppCoordinator {
      We must NOT navigate but show an inapp notification.
      */
     func openInternalDeepLink(deepLink: DeepLink, initialDeepLink: Bool = false) {
+        //Avoid showing inapp notification when selling
+        if let child = child where child is SellCoordinator { return }
+
         switch deepLink.action {
         case .Home, .Sell, .Product, .User, .Conversations, .Search, .ResetPassword, .Commercializer,
              .CommercializerReady, .UserRatings, .UserRating:
@@ -689,8 +696,50 @@ private extension AppCoordinator {
 
     func showInappChatNotification(data: ConversationData) {
         guard sessionManager.loggedIn else { return }
-        if let child = child where child is SellCoordinator { return }
+        //Avoid showing notification if user is already in that conversation.
+        guard let selectedTabCoordinator = selectedTabCoordinator
+            where !selectedTabCoordinator.isShowingConversation(data) else { return }
 
+        let conversationId: String
+        switch data {
+        case let .Conversation(id):
+            conversationId = id
+        default: return
+        }
+
+        if FeatureFlags.websocketChat {
+            chatRepository.showConversation(conversationId) { [weak self] result in
+                guard let conversation = result.value else { return }
+                self?.chatRepository.indexMessages(conversationId, numResults: 1, offset: 0) { [weak self] result in
+                    guard let message = result.value?.first else { return }
+                    let action = UIAction(interface: .Text(LGLocalizedString.appNotificationReply), action: { [weak self] in
+                        self?.openTab(.Chats, force: false)
+                        self?.selectedTabCoordinator?.openChat(.Conversation(conversation: conversation))
+                    })
+                    let data = BubbleNotificationData(text: conversation.interlocutor?.name ?? "-",
+                                                      infoText: message.text,
+                                                      action: action,
+                                                      iconURL: conversation.interlocutor?.avatar?.fileURL,
+                                                      iconImage: UIImage(named: "user_placeholder"))
+                    self?.bubbleNotifManager.showBubble(data, duration: 0)
+                }
+            }
+        } else {
+            oldChatRepository.retrieveMessagesWithConversationId(conversationId, numResults: 1) { [weak self] result in
+                guard let myUser = self?.myUserRepository.myUser, chat = result.value,
+                    message = chat.messages.first else { return }
+                let action = UIAction(interface: .Text(LGLocalizedString.appNotificationReply), action: { [weak self] in
+                    self?.openTab(.Chats, force: false)
+                    self?.selectedTabCoordinator?.openChat(.ChatAPI(chat: chat))
+                })
+                let data = BubbleNotificationData(text: chat.otherUser(myUser: myUser).name ?? "-",
+                                                  infoText: message.text,
+                                                  action: action,
+                                                  iconURL: chat.otherUser(myUser: myUser).avatar?.fileURL,
+                                                  iconImage: UIImage(named: "user_placeholder"))
+                self?.bubbleNotifManager.showBubble(data, duration: 0)
+            }
+        }
     }
 }
 

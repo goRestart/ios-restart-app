@@ -49,6 +49,9 @@
 // App share error message
 "app_share_error" = "An error occurred while sharing the app. Please try again later.";
 
+// In app notification reply button
+"app_notification_reply" = "Reply";
+
 // Text for unsuccessful user block
 "block_user_error_generic" = "An error occurred while blocking this user.";
 
@@ -1467,7 +1470,7 @@
 "profile_verify_email_placeholder" = "Email";
 
 // Verify popup to link with email success message
-"profile_verify_email_success" = "We've sent you a verification email. The link will expire in 48h.";
+"profile_verify_email_success" = "Check your email inbox to verify your account. The link will expire in 48 hours.";
 
 // Verify popup to link with email
 "profile_verify_email_title" = "EMAIL";
