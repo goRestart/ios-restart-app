@@ -2,6 +2,7 @@
 "account_deactivated_w_name" = "Ο λογαριασμός του %@ έχει διαγραφεί";
 "account_pending_moderation" = "Αναμονή ελέγχου λογαριασμού";
 "account_pending_moderation_w_name" = "Ο λογοριασμός του %@ βρίσκεται σε αναμονή ελέγχου";
+"app_notification_reply" = "Reply";
 "app_share_download_text" = "Λήψη";
 "app_share_email_button" = "Προσκαλέστε μέσω Email";
 "app_share_error" = "Παρουσιάστηκε σφάλμα κατά την κοινοποίηση της εφαρμογής. Παρακαλώ ξαναδοκιμάστε αργότερα.";

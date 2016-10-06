@@ -146,11 +146,19 @@ class BubbleNotification: UIView {
             actionButton.addTarget(self, action: #selector(buttonTapped), forControlEvents: .TouchUpInside)
             actionButton.accessibilityId =  action.accessibilityId
         }
+
+        let swipeGesture = UISwipeGestureRecognizer(target: self, action: #selector(swiped))
+        swipeGesture.direction = .Up
+        self.addGestureRecognizer(swipeGesture)
     }
 
     dynamic private func buttonTapped() {
         guard let action = data.action else { return }
         action.action()
+        closeBubble()
+    }
+
+    dynamic private func swiped() {
         closeBubble()
     }
 

@@ -49,7 +49,7 @@
 // App share error message
 "app_share_error" = "An error occurred while sharing the app. Please try again later.";
 
-// In app notification reply button
+// In app notification reply button (reception of message of another user)
 "app_notification_reply" = "Reply";
 
 // Text for unsuccessful user block

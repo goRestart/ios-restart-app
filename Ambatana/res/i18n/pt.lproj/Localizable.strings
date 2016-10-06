@@ -2,6 +2,7 @@
 "account_deactivated_w_name" = "%@'s account was deleted";
 "account_pending_moderation" = "Account pending moderation";
 "account_pending_moderation_w_name" = "%@'s account is pending moderation";
+"app_notification_reply" = "Reply";
 "app_share_download_text" = "Download";
 "app_share_email_button" = "Invite via Email";
 "app_share_error" = "An error occurred while sharing the app. Please try again later.";

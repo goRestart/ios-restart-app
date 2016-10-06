@@ -137,14 +137,6 @@ extension AppCoordinator: AppNavigator {
         if let deepLink = deepLinksRouter.consumeInitialDeepLink() {
             openExternalDeepLink(deepLink, initialDeepLink: true)
         }
-
-        //TODO: REMOVE, JUST TO TEST
-        let action = UIAction(interface: .Text("Reply"), action: {})
-        let data = BubbleNotificationData(text: "Anthony Scott",
-                                          infoText: "Yes, the price is negotiable, I can let you go for $450...",
-                                          action: action,
-                                          iconImage: UIImage(named: "user_placeholder"))
-        bubbleNotifManager.showBubble(data, duration: 0)
     }
 
     private func openOnboarding() -> Bool {
@@ -721,7 +713,7 @@ private extension AppCoordinator {
                                                       action: action,
                                                       iconURL: conversation.interlocutor?.avatar?.fileURL,
                                                       iconImage: UIImage(named: "user_placeholder"))
-                    self?.bubbleNotifManager.showBubble(data, duration: 0)
+                    self?.bubbleNotifManager.showBubble(data, duration: 3)
                 }
             }
         } else {
@@ -737,7 +729,7 @@ private extension AppCoordinator {
                                                   action: action,
                                                   iconURL: chat.otherUser(myUser: myUser).avatar?.fileURL,
                                                   iconImage: UIImage(named: "user_placeholder"))
-                self?.bubbleNotifManager.showBubble(data, duration: 0)
+                self?.bubbleNotifManager.showBubble(data, duration: 3)
             }
         }
     }
