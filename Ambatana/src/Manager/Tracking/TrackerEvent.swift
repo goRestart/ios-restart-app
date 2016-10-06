@@ -876,6 +876,14 @@ public struct TrackerEvent {
         return TrackerEvent(name: .VerifyAccountComplete, params: params)
     }
 
+    static func InappChatNotificationStart() -> TrackerEvent {
+        return TrackerEvent(name: .InappChatNotificationStart, params: EventParameters())
+    }
+
+    static func InappChatNotificationComplete() -> TrackerEvent {
+        return TrackerEvent(name: .InappChatNotificationComplete, params: EventParameters())
+    }
+
 
     // MARK: - Private methods
 

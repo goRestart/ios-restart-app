@@ -29,6 +29,7 @@ final class AppCoordinator: NSObject {
     private let pushPermissionsManager: PushPermissionsManager
     private let ratingManager: RatingManager
     private let bubbleNotifManager: BubbleNotificationManager
+    private let tracker: Tracker
 
     private let deepLinksRouter: DeepLinksRouter
 
@@ -57,6 +58,7 @@ final class AppCoordinator: NSObject {
         let ratingManager = RatingManager.sharedInstance
         let deepLinksRouter = DeepLinksRouter.sharedInstance
         let bubbleManager = BubbleNotificationManager.sharedInstance
+        let tracker = TrackerProxy.sharedInstance
 
         let productRepository = Core.productRepository
         let userRepository = Core.userRepository
@@ -69,19 +71,20 @@ final class AppCoordinator: NSObject {
         self.init(tabBarController: tabBarController, configManager: configManager,
                   sessionManager: sessionManager, keyValueStorage: keyValueStorage,
                   pushPermissionsManager: pushPermissionsManager, ratingManager: ratingManager,
-                  deepLinksRouter: deepLinksRouter, bubbleManager: bubbleManager, productRepository: productRepository,
-                  userRepository: userRepository, myUserRepository: myUserRepository, oldChatRepository: oldChatRepository,
-                  chatRepository: chatRepository, commercializerRepository: commercializerRepository,
-                  userRatingRepository: userRatingRepository)
+                  deepLinksRouter: deepLinksRouter, bubbleManager: bubbleManager, tracker: tracker,
+                  productRepository: productRepository, userRepository: userRepository, myUserRepository: myUserRepository,
+                  oldChatRepository: oldChatRepository, chatRepository: chatRepository,
+                  commercializerRepository: commercializerRepository, userRatingRepository: userRatingRepository)
         tabBarViewModel.navigator = self
     }
 
     init(tabBarController: TabBarController, configManager: ConfigManager,
          sessionManager: SessionManager, keyValueStorage: KeyValueStorage,
          pushPermissionsManager: PushPermissionsManager, ratingManager: RatingManager, deepLinksRouter: DeepLinksRouter,
-         bubbleManager: BubbleNotificationManager, productRepository: ProductRepository, userRepository: UserRepository,
-         myUserRepository: MyUserRepository, oldChatRepository: OldChatRepository, chatRepository: ChatRepository,
-         commercializerRepository: CommercializerRepository, userRatingRepository: UserRatingRepository) {
+         bubbleManager: BubbleNotificationManager, tracker: Tracker, productRepository: ProductRepository,
+         userRepository: UserRepository, myUserRepository: MyUserRepository, oldChatRepository: OldChatRepository,
+         chatRepository: ChatRepository, commercializerRepository: CommercializerRepository,
+         userRatingRepository: UserRatingRepository) {
 
         self.tabBarCtl = tabBarController
         
@@ -99,6 +102,7 @@ final class AppCoordinator: NSObject {
         self.pushPermissionsManager = pushPermissionsManager
         self.ratingManager = ratingManager
         self.bubbleNotifManager = bubbleManager
+        self.tracker = tracker
 
         self.deepLinksRouter = deepLinksRouter
 
@@ -307,8 +311,7 @@ private extension AppCoordinator {
         tabBarCtl.presentViewController(promoteVC, animated: true, completion: nil)
 
         // Tracking
-        let event = TrackerEvent.commercializerStart(productId, typePage: .Sell)
-        TrackerProxy.sharedInstance.trackEvent(event)
+        tracker.trackEvent(TrackerEvent.commercializerStart(productId, typePage: .Sell))
 
         return true
     }
@@ -541,7 +544,7 @@ private extension AppCoordinator {
      */
     func openExternalDeepLink(deepLink: DeepLink, initialDeepLink: Bool = false) {
         let event = TrackerEvent.openAppExternal(deepLink.campaign, medium: deepLink.medium, source: deepLink.source)
-        TrackerProxy.sharedInstance.trackEvent(event)
+        tracker.trackEvent(event)
 
         var afterDelayClosure: (() -> Void)?
         switch deepLink.action {
@@ -699,12 +702,14 @@ private extension AppCoordinator {
         default: return
         }
 
+        tracker.trackEvent(TrackerEvent.InappChatNotificationStart())
         if FeatureFlags.websocketChat {
             chatRepository.showConversation(conversationId) { [weak self] result in
                 guard let conversation = result.value else { return }
                 self?.chatRepository.indexMessages(conversationId, numResults: 1, offset: 0) { [weak self] result in
                     guard let message = result.value?.first else { return }
                     let action = UIAction(interface: .Text(LGLocalizedString.appNotificationReply), action: { [weak self] in
+                        self?.tracker.trackEvent(TrackerEvent.InappChatNotificationComplete())
                         self?.openTab(.Chats, force: false)
                         self?.selectedTabCoordinator?.openChat(.Conversation(conversation: conversation))
                     })
