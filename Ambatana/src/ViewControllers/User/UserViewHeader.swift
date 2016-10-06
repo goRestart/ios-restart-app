@@ -13,9 +13,6 @@ import UIKit
 protocol UserViewHeaderDelegate: class {
     func headerAvatarAction()
     func ratingsAvatarAction()
-    func facebookAccountAction()
-    func googleAccountAction()
-    func emailAccountAction()
     func buildTrustAction()
 }
 
@@ -217,7 +214,7 @@ extension UserViewHeader {
             infoViewHidden = true
         }
         userRelationView.hidden = infoViewHidden
-
+        
         let anyAccountVerified = fbV || gV || eV
         verifiedSimpleTitle.text = anyAccountVerified ? LGLocalizedString.profileVerifiedAccountsOtherUser : ""
         verifiedSimpleContainerHeight.constant = anyAccountVerified ? UserViewHeader.simpleContainerHeight : UserViewHeader.simpleContainerEmptyHeight

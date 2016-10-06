@@ -198,18 +198,6 @@ extension UserViewController : UserViewHeaderDelegate {
         viewModel.ratingsButtonPressed()
     }
 
-    func facebookAccountAction() {
-        viewModel.facebookButtonPressed()
-    }
-
-    func googleAccountAction() {
-        viewModel.googleButtonPressed()
-    }
-
-    func emailAccountAction() {
-        viewModel.emailButtonPressed()
-    }
-
     func buildTrustAction() {
         viewModel.buildTrustButtonPressed()
     }
