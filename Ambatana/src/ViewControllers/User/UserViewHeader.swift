@@ -215,7 +215,7 @@ extension UserViewHeader {
             verifiedViewHidden = false
         } else {
             infoViewHidden = true
-            verifiedViewHidden = false
+            verifiedViewHidden = true
         }
         userRelationView.hidden = infoViewHidden
         verifiedSimpleContainer.hidden = verifiedViewHidden
