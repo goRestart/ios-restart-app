@@ -76,9 +76,9 @@
 "chat_express_dont_ask_again_button" = "Đừng hỏi lại tôi";
 "chat_express_dont_miss_label" = "Đừng bỏ lỡ những món hàng này";
 "chat_express_one_message_sent_success_alert" = "Tin nhắn của bạn vừa được gửi!";
-"chat_express_send_question_text" = "Send: %@";
+"chat_express_send_question_text" = "Gửi:%@";
 "chat_express_several_messages_sent_success_alert" = "Tin nhắn của bạn vừa được gửi!";
-"chat_express_text_field_text" = "Xin chào, tôi quan tâm!";
+"chat_express_text_field_text" = "Xin chào! Sản phẩm này vẫn còn chứ?";
 "chat_forbidden_disclaimer_buyer_w_name" = "Tài khoản của %@ đang được letgo xem xét.";
 "chat_forbidden_disclaimer_buyer_wo_name" = "Tài khoản này đang được letgo xem xét.";
 "chat_forbidden_disclaimer_seller_w_name" = "Có vẻ như %@ không còn quan tâm đến việc mua sản phẩm của bạn.";
@@ -331,8 +331,8 @@
 "product_ask_a_question_button" = "Đặt câu hỏi";
 "product_auto_generated_title_label" = "Tiêu đề do letgo tự động đặt";
 "product_auto_generated_translated_title_label" = "(và do Google dịch)";
-"product_bubble_favorite_button" = "Let the seller know!";
-"product_bubble_favorite_text" = "This product has been added to your favorites!";
+"product_bubble_favorite_button" = "Cho người bán biết!";
+"product_bubble_favorite_text" = "Sản phẩm này đã được thêm vào mục yêu thích của bạn!";
 "product_bubble_one_user_interested" = "Một người mua khác đang quan tâm!";
 "product_bubble_several_users_interested" = "%i người mua khác đang quan tâm!";
 "product_chat_direct_error_blocked_user_message" = "Ồ! Trò chuyện với người dùng này đã bị chặn.";
