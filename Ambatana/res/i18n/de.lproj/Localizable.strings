@@ -76,9 +76,9 @@
 "chat_express_dont_ask_again_button" = "Nicht erneut fragen";
 "chat_express_dont_miss_label" = "Verpasse keines dieser Schnäppchen";
 "chat_express_one_message_sent_success_alert" = "Deine Nachricht wurde verschickt!";
-"chat_express_send_question_text" = "Send: %@";
+"chat_express_send_question_text" = "Sende: %@";
 "chat_express_several_messages_sent_success_alert" = "Deine Nachrichten wurden verschickt!";
-"chat_express_text_field_text" = "Hi, ich bin interessiert!";
+"chat_express_text_field_text" = "Hallo! Ist dieser Artikel noch verfügbar?";
 "chat_forbidden_disclaimer_buyer_w_name" = "Das Benutzerkonto von %@ wird vom letgo-Team überprüft.";
 "chat_forbidden_disclaimer_buyer_wo_name" = "Dieses Benutzerkonto wird vom letgo-Team überprüft.";
 "chat_forbidden_disclaimer_seller_w_name" = "Sieht so aus, als sei %@ nicht länger an deinem Produkt interessiert.";
@@ -136,7 +136,7 @@
 "collection_explore_button" = "Entdecken";
 "collection_furniture_title" = "Zuhause ist's doch am schönsten";
 "collection_gaming_title" = "Spiel mit mir";
-"collection_halloween_title" = "Trick or treat";
+"collection_halloween_title" = "Süßes sonst gibt's Saures";
 "collection_transport_title" = "Reisen mit Stil";
 "commercializer_create_from_settings" = "Create a Free Commercial";
 "commercializer_display_share_alert" = "Share this masterpiece";

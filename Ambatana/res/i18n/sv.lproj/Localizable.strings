@@ -76,9 +76,9 @@
 "chat_express_dont_ask_again_button" = "Fråga mig inte igen";
 "chat_express_dont_miss_label" = "Missa inte dessa fynd";
 "chat_express_one_message_sent_success_alert" = "Ditt meddelande har skickats!";
-"chat_express_send_question_text" = "Send: %@";
+"chat_express_send_question_text" = "Skicka: %@";
 "chat_express_several_messages_sent_success_alert" = "Dina meddelanden har skickats!";
-"chat_express_text_field_text" = "Hallå, jag är intresserad!";
+"chat_express_text_field_text" = "Hej! Är den kvar?";
 "chat_forbidden_disclaimer_buyer_w_name" = "%@s konto är under granskning av letgo.";
 "chat_forbidden_disclaimer_buyer_wo_name" = "Det här kontot är under granskning av letgo.";
 "chat_forbidden_disclaimer_seller_w_name" = "Det verkar som att %@ inte längre är intresserad av att köpa din produkt.";
@@ -136,7 +136,7 @@
 "collection_explore_button" = "Utforska";
 "collection_furniture_title" = "Borta bra, hemma bäst";
 "collection_gaming_title" = "Nu kör vi";
-"collection_halloween_title" = "Trick or treat";
+"collection_halloween_title" = "Bus eller godis";
 "collection_transport_title" = "Res med stil";
 "commercializer_create_from_settings" = "Create a Free Commercial";
 "commercializer_display_share_alert" = "Share this masterpiece";
@@ -331,8 +331,8 @@
 "product_ask_a_question_button" = "Ställ en fråga";
 "product_auto_generated_title_label" = "Titeln har genererats automatiskt av letgo";
 "product_auto_generated_translated_title_label" = "(och översatts av Google)";
-"product_bubble_favorite_button" = "Let the seller know!";
-"product_bubble_favorite_text" = "This product has been added to your favorites!";
+"product_bubble_favorite_button" = "Låt säljaren veta!";
+"product_bubble_favorite_text" = "Denna produkt har lagts till i dina favoriter!";
 "product_bubble_one_user_interested" = "En till köpare är intresserad!";
 "product_bubble_several_users_interested" = "%i andra köpare är intresserade!";
 "product_chat_direct_error_blocked_user_message" = "Hoppsan! Chatt med den här användaren är blockad.";
