@@ -35,6 +35,7 @@ class PostProductViewController: BaseViewController {
     private var viewDidAppear: Bool = false
 
     private static let detailTopMarginPrice: CGFloat = 100
+    private let rightMarginCameraIcon:CGFloat = 15.0
 
     private let forceCamera: Bool
     private var initialTab: Int {
@@ -202,7 +203,7 @@ class PostProductViewController: BaseViewController {
 
     private func updateButtonsForPagerScroll(scroll: CGFloat) {
         galleryButton.alpha = scroll
-        let rightOffset = FeatureFlags.halfCameraButton ? (photoButton.frame.width/2 + 10) : 0
+        let rightOffset = FeatureFlags.halfCameraButton ? (photoButton.frame.width/2 + rightMarginCameraIcon) : 0
         let movement = view.width/2 - rightOffset
         photoButtonCenterX.constant = movement * (1.0 - scroll)
     }
