@@ -951,8 +951,9 @@ private extension ProductViewModel {
         case .NotificationPreMessage:
             guard !favoriteMessageBubbleShown else { return }
             favoriteMessageBubbleShown = true
-            bubbleManager.showBubble(LGLocalizedString.productBubbleFavoriteText,
-                                               action: buildNotificationButtonAction(), duration: 3)
+            let data = BubbleNotificationData(text: LGLocalizedString.productBubbleFavoriteText,
+                                              action: buildNotificationButtonAction())
+            bubbleManager.showBubble(data, duration: 3)
         case .DirectMessage:
             sendFavoriteSticker()
         }

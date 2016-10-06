@@ -29,13 +29,13 @@ class BubbleNotificationManager {
         . duration <= 0 : notification stays there until the user interacts with it.
      */
 
-    func showBubble(text: String?, action: UIAction?, duration: NSTimeInterval?) {
+    func showBubble(data: BubbleNotificationData, duration: NSTimeInterval?) {
 
         guard let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate else { return }
         guard let window = appDelegate.window else { return }
 
         let frame = CGRect(x: 0, y: 0, width: window.frame.width, height: BubbleNotification.initialHeight)
-        bubble = BubbleNotification(frame: frame, text: text, action: action)
+        bubble = BubbleNotification(frame: frame, data: data)
 
         guard let bubble = bubble else { return }
         bubble.translatesAutoresizingMaskIntoConstraints = false
@@ -51,7 +51,7 @@ class BubbleNotificationManager {
             return
         }
 
-        let finalDuration = (action == nil && duration <= 0) ? BubbleNotificationManager.defaultDuration : duration
+        let finalDuration = (data.action == nil && duration <= 0) ? BubbleNotificationManager.defaultDuration : duration
 
         if finalDuration > 0 {
             NSTimer.scheduledTimerWithTimeInterval(finalDuration, target: self, selector: #selector(hideBubble),
