@@ -134,6 +134,9 @@ extension ProductCarouselMoreInfoView: MKMapViewDelegate {
         mapZoomBlocker = MapZoomBlocker(mapView: overlayMap, minLatDelta: region.span.latitudeDelta,
                                         minLonDelta: region.span.longitudeDelta)
         mapZoomBlocker?.delegate = self
+
+        locationZone = MKCircle(centerCoordinate:coordinate.coordinates2DfromLocation(),
+                                radius: Constants.accurateRegionRadius)
     }
 
     func configureOverlayMapView() {
@@ -149,11 +152,6 @@ extension ProductCarouselMoreInfoView: MKMapViewDelegate {
         overlayMap.addGestureRecognizer(tapHide)
 
         overlayMap.alpha = 0
-
-        if let coordinate = viewModel?.productLocation.value {
-            locationZone = MKCircle(centerCoordinate:coordinate.coordinates2DfromLocation(),
-                                  radius: Constants.accurateRegionRadius)
-        }
 
         addSubview(overlayMap)
     }
