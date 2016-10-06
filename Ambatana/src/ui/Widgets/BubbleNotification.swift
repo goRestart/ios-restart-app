@@ -124,13 +124,15 @@ class BubbleNotification: UIView {
             leftIcon.lg_setImageWithURL(iconURL)
         }
 
-        textlabel.numberOfLines = 0
+        textlabel.numberOfLines = 2
+        textlabel.lineBreakMode = .ByTruncatingTail
         textlabel.textColor = UIColor.blackText
         textlabel.font = UIFont.mediumBodyFont
         textlabel.text = data.text
 
         if let infoText = data.infoText {
-            infoTextLabel.numberOfLines = 0
+            infoTextLabel.numberOfLines = 2
+            infoTextLabel.lineBreakMode = .ByTruncatingTail
             infoTextLabel.textColor = UIColor.darkGrayText
             infoTextLabel.font = UIFont.smallBodyFont
             infoTextLabel.text = infoText
@@ -181,7 +183,7 @@ class BubbleNotification: UIView {
         metrics["margin"] = BubbleNotification.bubbleContentMargin
         metrics["marginWStatus"] = BubbleNotification.bubbleContentMargin + BubbleNotification.statusBarHeight
         metrics["buttonWidth"] = CGFloat(data.action != nil ? BubbleNotification.buttonMaxWidth : 0)
-        metrics["iconWidth"] = CGFloat(data.hasIcon ? BubbleNotification.iconDiameter : 0)
+        metrics["iconDiameter"] = CGFloat(data.hasIcon ? BubbleNotification.iconDiameter : 0)
         metrics["iconMargin"] = CGFloat(data.hasIcon ? BubbleNotification.bubbleInternalMargins : 0)
         metrics["infoLabelMargin"] = CGFloat(data.hasInfo ? 2 : 0)
 
@@ -193,12 +195,14 @@ class BubbleNotification: UIView {
 
         // image text label and button
         actionButton.setContentCompressionResistancePriority(UILayoutPriorityRequired, forAxis: .Horizontal)
-        containerView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[textsContainer]|",
+        containerView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|->=0-[textsContainer]->=0-|",
             options: [], metrics: metrics, views: views))
         leftIcon.addConstraint(NSLayoutConstraint(item: leftIcon, attribute: .Height, relatedBy: .Equal,
             toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: BubbleNotification.iconDiameter))
-        containerView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-0-[icon(iconWidth)]-iconMargin-[textsContainer]-[button(<=buttonWidth)]-0-|",
+        containerView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-0-[icon(iconDiameter)]-iconMargin-[textsContainer]-[button(<=buttonWidth)]-0-|",
             options: [.AlignAllCenterY], metrics: metrics, views: views))
+        containerView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|->=0-[icon(iconDiameter)]->=0-|",
+            options: [], metrics: metrics, views: views))
         actionButton.addConstraint(NSLayoutConstraint(item: actionButton, attribute: .Height, relatedBy: .Equal,
             toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: BubbleNotification.buttonHeight))
         textsContainer.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[label]-infoLabelMargin-[infoLabel]|",
