@@ -20,11 +20,6 @@
 		"description": "Show nps survey"
 	},
     {
-        "name": "ProfileBuildTrustButton",
-        "values": ["Yes", "No"],
-        "description": "Profile Build trust"
-	},
-    {
         "name": "NonStopProductDetail",
         "values": ["Yes", "No"],
         "description": "Non stop prod detail"
