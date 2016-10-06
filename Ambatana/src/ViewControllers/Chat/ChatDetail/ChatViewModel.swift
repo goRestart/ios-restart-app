@@ -50,7 +50,7 @@ class ChatViewModel: BaseViewModel {
     
     // Protocols
     weak var delegate: ChatViewModelDelegate?
-    weak var tabNavigator: TabNavigator?
+    weak var navigator: ChatDetailNavigator?
     
     // Paginable
     var resultsPerPage: Int = Constants.numMessagesPerPage
@@ -181,7 +181,7 @@ class ChatViewModel: BaseViewModel {
         }
     }
 
-    convenience init(conversation: ChatConversation, tabNavigator: TabNavigator?) {
+    convenience init(conversation: ChatConversation, navigator: ChatDetailNavigator?) {
         let myUserRepository = Core.myUserRepository
         let chatRepository = Core.chatRepository
         let productRepository = Core.productRepository
@@ -194,10 +194,10 @@ class ChatViewModel: BaseViewModel {
         self.init(conversation: conversation, myUserRepository: myUserRepository, chatRepository: chatRepository,
                   productRepository: productRepository, userRepository: userRepository,
                   stickersRepository: stickersRepository, tracker: tracker, configManager: configManager,
-                  sessionManager: sessionManager, tabNavigator: tabNavigator)
+                  sessionManager: sessionManager, navigator: navigator)
     }
     
-    convenience init?(product: Product, tabNavigator: TabNavigator?) {
+    convenience init?(product: Product, navigator: ChatDetailNavigator?) {
         guard let _ = product.objectId, sellerId = product.user.objectId else { return nil }
 
         let myUserRepository = Core.myUserRepository
@@ -215,13 +215,13 @@ class ChatViewModel: BaseViewModel {
         self.init(conversation: empty, myUserRepository: myUserRepository, chatRepository: chatRepository,
                   productRepository: productRepository, userRepository: userRepository,
                   stickersRepository: stickersRepository ,tracker: tracker, configManager: configManager,
-                  sessionManager: sessionManager, tabNavigator: tabNavigator)
+                  sessionManager: sessionManager, navigator: navigator)
         self.setupConversationFromProduct(product)
     }
     
     init(conversation: ChatConversation, myUserRepository: MyUserRepository, chatRepository: ChatRepository,
           productRepository: ProductRepository, userRepository: UserRepository, stickersRepository: StickersRepository,
-          tracker: Tracker, configManager: ConfigManager, sessionManager: SessionManager, tabNavigator: TabNavigator?) {
+          tracker: Tracker, configManager: ConfigManager, sessionManager: SessionManager, navigator: ChatDetailNavigator?) {
         self.conversation = Variable<ChatConversation>(conversation)
         self.myUserRepository = myUserRepository
         self.chatRepository = chatRepository
@@ -232,7 +232,7 @@ class ChatViewModel: BaseViewModel {
         self.sessionManager = sessionManager
         self.stickersRepository = stickersRepository
         self.chatViewMessageAdapter = ChatViewMessageAdapter()
-        self.tabNavigator = tabNavigator
+        self.navigator = navigator
         super.init()
         setupRx()
         loadStickers()
@@ -266,7 +266,7 @@ class ChatViewModel: BaseViewModel {
         guard !relatedProducts.isEmpty else { return }
         guard let productId = conversation.value.product?.objectId else { return }
         guard isNewChat else { return }
-        tabNavigator?.openExpressChat(relatedProducts, sourceProductId: productId)
+        navigator?.openExpressChat(relatedProducts, sourceProductId: productId)
     }
 
     func setupConversationFromProduct(product: Product) {
@@ -428,7 +428,7 @@ class ChatViewModel: BaseViewModel {
             delegate?.vmHideKeyboard(false)
             let data = ProductDetailData.ProductChat(chatProduct: product, user: interlocutor,
                                                      thumbnailImage: nil, originFrame: nil)
-            tabNavigator?.openProduct(data, source: .Chat)
+            navigator?.openProduct(data, source: .Chat)
         }
     }
     
@@ -436,7 +436,7 @@ class ChatViewModel: BaseViewModel {
         guard let interlocutor = conversation.value.interlocutor else { return }
         delegate?.vmHideKeyboard(false)
         let data = UserDetailData.UserChat(user: interlocutor)
-        tabNavigator?.openUser(data)
+        navigator?.openUser(data)
     }
 
     func reviewUserPressed() {
@@ -876,7 +876,7 @@ extension ChatViewModel {
         case .Available, .Blocked, .BlockedBy, .Forbidden, .ProductDeleted, .ProductSold:
             guard shouldAddBottomDisclaimer else { return nil }
             return chatViewMessageAdapter.createUserNotVerifiedDisclaimerMessage() { [weak self] in
-                self?.tabNavigator?.openVerifyAccounts([.Facebook, .Google],
+                self?.navigator?.openVerifyAccounts([.Facebook, .Google],
                     source: .Chat(description: LGLocalizedString.chatConnectAccountsMessage))
             }
         }
@@ -1203,7 +1203,7 @@ extension ChatViewModel: RelatedProductsViewDelegate {
         let data = ProductDetailData.ProductList(product: product, cellModels: productListModels, requester: requester,
                                                  thumbnailImage: thumbnailImage, originFrame: originFrame,
                                                  showRelated: false, index: 0)
-        tabNavigator?.openProduct(data, source: .Chat)
+        navigator?.openProduct(data, source: .Chat)
     }
 }
 

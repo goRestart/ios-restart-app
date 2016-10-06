@@ -58,6 +58,11 @@ class OldChatListViewModel: BaseChatGroupedListViewModel<Chat>, ChatListViewMode
         }
     }
 
+    func conversationSelectedAtIndex(index: Int) {
+        guard let chat = objectAtIndex(index) else { return }
+        tabNavigator?.openChat(.ChatAPI(chat: chat))
+    }
+
     func conversationDataAtIndex(index: Int) -> ConversationCellData? {
         guard let chat = objectAtIndex(index) else { return nil }
         guard let myUser = Core.myUserRepository.myUser else { return nil }
@@ -76,13 +81,6 @@ class OldChatListViewModel: BaseChatGroupedListViewModel<Chat>, ChatListViewMode
                                     unreadCount: chat.msgUnreadCount,
                                     messageDate: chat.updatedAt)
     }
-
-    func oldChatViewModelForIndex(index: Int) -> OldChatViewModel? {
-        guard let chat = objectAtIndex(index) else { return nil }
-        return OldChatViewModel(chat: chat, tabNavigator: tabNavigator)
-    }
-
-    func chatViewModelForIndex(index: Int) -> ChatViewModel? { return nil }
 
 
     // MARK: >  Unread

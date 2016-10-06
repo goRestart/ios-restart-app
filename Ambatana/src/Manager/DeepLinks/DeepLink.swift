@@ -50,6 +50,15 @@ enum DeepLinkOrigin {
     case Push(appActive: Bool)
     case Link
     case ShortCut
+
+    var appActive: Bool {
+        switch self {
+        case .Link, .ShortCut:
+            return false
+        case let .Push(appActive):
+            return appActive
+        }
+    }
 }
 
 enum DeepLinkSource {

@@ -135,8 +135,12 @@ extension AppCoordinator: AppNavigator {
         }
 
         //TODO: REMOVE, JUST TO TEST
-        let action = UIAction(interface: .Text("action mu larga mu laaarga"), action: {})
-        bubbleNotifManager.showBubble("Test buble molongui que teoricamente ocupa dos lineas", action: action, duration: 0)
+        let action = UIAction(interface: .Text("Reply"), action: {})
+        let data = BubbleNotificationData(text: "Anthony Scott",
+                                          infoText: "Yes, the price is negotiable, I can let you go for $450...",
+                                          action: action,
+                                          iconImage: UIImage(named: "user_placeholder"))
+        bubbleNotifManager.showBubble(data, duration: 0)
     }
 
     private func openOnboarding() -> Bool {
@@ -411,16 +415,12 @@ private extension AppCoordinator {
 
     func setupDeepLinkingRx() {
         deepLinksRouter.deepLinks.asObservable()
-            .filter { deepLink in
-                //We only want links that open from outside the app
-                switch deepLink.origin {
-                case .Link, .ShortCut:
-                    return true
-                case .Push(let appActive):
-                    return !appActive
+            .subscribeNext { [weak self] deepLink in
+                if deepLink.origin.appActive {
+                    self?.openInternalDeepLink(deepLink)
+                } else {
+                    self?.openExternalDeepLink(deepLink)
                 }
-            }.subscribeNext { [weak self] deepLink in
-                self?.openExternalDeepLink(deepLink)
             }.addDisposableTo(disposeBag)
     }
 
@@ -538,14 +538,14 @@ private extension AppCoordinator {
         }
     }
 
+    /**
+     Those links will always come from an inactive state of the app. So it means the user clicked a push, a link or a 
+     shortcut. 
+     As it was a user action we must perform navigation
+     */
     func openExternalDeepLink(deepLink: DeepLink, initialDeepLink: Bool = false) {
         let event = TrackerEvent.openAppExternal(deepLink.campaign, medium: deepLink.medium, source: deepLink.source)
         TrackerProxy.sharedInstance.trackEvent(event)
-
-        openDeepLink(deepLink, initialDeepLink: initialDeepLink)
-    }
-
-    func openDeepLink(deepLink: DeepLink, initialDeepLink: Bool = false) {
 
         var afterDelayClosure: (() -> Void)?
         switch deepLink.action {
@@ -617,6 +617,23 @@ private extension AppCoordinator {
         }
     }
 
+    /**
+     A deeplink has been received while the app is active. It means the user was already inside the app and the deeplink
+     was generated.
+     We must NOT navigate but show an inapp notification.
+     */
+    func openInternalDeepLink(deepLink: DeepLink, initialDeepLink: Bool = false) {
+        switch deepLink.action {
+        case .Home, .Sell, .Product, .User, .Conversations, .Search, .ResetPassword, .Commercializer,
+             .CommercializerReady, .UserRatings, .UserRating:
+            return // Do nothing
+        case let .Conversation(data):
+            showInappChatNotification(data)
+        case .Message(_, let data):
+            showInappChatNotification(data)
+        }
+    }
+
     var selectedTabCoordinator: TabCoordinator? {
         guard let navigationController = tabBarCtl.selectedViewController as? UINavigationController else { return nil }
         for tabCoordinator in tabCoordinators {
@@ -668,6 +685,12 @@ private extension AppCoordinator {
                 }
             }
         }
+    }
+
+    func showInappChatNotification(data: ConversationData) {
+        guard sessionManager.loggedIn else { return }
+        if let child = child where child is SellCoordinator { return }
+
     }
 }
 

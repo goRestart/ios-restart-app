@@ -58,6 +58,11 @@ class WSChatListViewModel: BaseChatGroupedListViewModel<ChatConversation>, ChatL
         }
     }
 
+    func conversationSelectedAtIndex(index: Int) {
+        guard let conversation = objectAtIndex(index) else { return }
+        tabNavigator?.openChat(.Conversation(conversation: conversation))
+    }
+
     func conversationDataAtIndex(index: Int) -> ConversationCellData? {
         guard let conversation = objectAtIndex(index) else { return nil }
 
@@ -70,15 +75,6 @@ class WSChatListViewModel: BaseChatGroupedListViewModel<ChatConversation>, ChatL
                                     productImageUrl: conversation.product?.image?.fileURL,
                                     unreadCount: conversation.unreadMessageCount,
                                     messageDate: conversation.lastMessageSentAt)
-    }
-
-    func oldChatViewModelForIndex(index: Int) -> OldChatViewModel? {
-        return nil
-    }
-
-    func chatViewModelForIndex(index: Int) -> ChatViewModel? {
-        guard let conversation = objectAtIndex(index) else { return nil }
-        return ChatViewModel(conversation: conversation, tabNavigator: tabNavigator)
     }
 
 
