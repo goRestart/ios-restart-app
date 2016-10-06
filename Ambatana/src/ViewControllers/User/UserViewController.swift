@@ -160,12 +160,6 @@ extension UserViewController: UserViewModelDelegate {
         navigationController?.pushViewController(vc, animated: true)
     }
 
-    func vmOpenVerifyAccount(verifyVM: VerifyAccountViewModel) {
-        let presenter = tabBarController ?? navigationController
-        let vc = VerifyAccountViewController(viewModel: verifyVM)
-        presenter?.presentViewController(vc, animated: true, completion: nil)
-    }
-
     func vmOpenHome() {
         guard let tabBarCtl = tabBarController as? TabBarController else { return }
         tabBarCtl.switchToTab(.Home)

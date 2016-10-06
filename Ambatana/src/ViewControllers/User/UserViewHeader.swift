@@ -206,15 +206,19 @@ extension UserViewHeader {
         setEmailAccount(eL, isVerified: eV)
 
         var infoViewHidden: Bool
+        var verifiedViewHidden: Bool
         if let userRelationText = userRelationLabel.text {
             infoViewHidden = userRelationText.isEmpty
+            verifiedViewHidden = !userRelationText.isEmpty
         } else if let _ = accounts {
             infoViewHidden = true
+            verifiedViewHidden = false
         } else {
             infoViewHidden = true
+            verifiedViewHidden = false
         }
         userRelationView.hidden = infoViewHidden
-        
+        verifiedSimpleContainer.hidden = verifiedViewHidden
         let anyAccountVerified = fbV || gV || eV
         verifiedSimpleTitle.text = anyAccountVerified ? LGLocalizedString.profileVerifiedAccountsOtherUser : ""
         verifiedSimpleContainerHeight.constant = anyAccountVerified ? UserViewHeader.simpleContainerHeight : UserViewHeader.simpleContainerEmptyHeight
