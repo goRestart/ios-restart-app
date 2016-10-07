@@ -1,3 +1,5 @@
 "NSLocationWhenInUseUsageDescription" = "letgo necesita acceder a tu ubicación para mostrarte artículos cerca de ti";
 "sell_shortcut_title" = "Empieza a vender";
 "start_browsing_shortcut_title" = "Empieza a comprar";
+"NSCameraUsageDescription" = "To start selling, give letgo access to your camera";
+"NSPhotoLibraryUsageDescription" = "To start selling, give letgo access to your library";

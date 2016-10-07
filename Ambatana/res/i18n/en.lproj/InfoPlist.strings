@@ -6,3 +6,8 @@
 // Should have the same style as sell_shortcut_title
 "start_browsing_shortcut_title" = "Start Browsing";
 
+// Message shown when the application asks you to access your camera while you use the app
+"NSCameraUsageDescription" = "To start selling, give letgo access to your camera";
+
+// Message shown when the application asks you to access your library while you use the app
+"NSPhotoLibraryUsageDescription" = "To start selling, give letgo access to your library";

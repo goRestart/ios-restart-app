@@ -138,8 +138,6 @@
 			</dict>
 		</dict>
 	</dict>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>letgo needs to access your location to be able to show you products close to you.</string>
 	<key>UIApplicationShortcutItems</key>
 	<array>
 		<dict>
