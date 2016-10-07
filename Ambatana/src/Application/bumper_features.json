@@ -20,11 +20,6 @@
 		"description": "Show nps survey"
 	},
     {
-        "name": "ProfileBuildTrustButton",
-        "values": ["Yes", "No"],
-        "description": "Profile Build trust"
-	},
-    {
         "name": "NonStopProductDetail",
         "values": ["Yes", "No"],
         "description": "Non stop prod detail"
@@ -58,5 +53,10 @@
         "name": "FiltersReorder",
         "values": ["No", "Yes"],
         "description": "Product filters reorder"
+	},
+    {
+        "name": "HalfCameraButton",
+        "values": ["Yes", "No"],
+        "description": "Camera button cut in gallery"
 	}
 ]

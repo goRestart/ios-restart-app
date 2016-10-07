@@ -32,7 +32,7 @@ public class ToastView: UIView {
     // MARK: - Lifecycle
     
     public static func toastView() -> ToastView? {
-        return NSBundle.mainBundle().loadNibNamed("ToastView", owner: self, options: nil).first as? ToastView
+        return NSBundle.mainBundle().loadNibNamed("ToastView", owner: self, options: nil)?.first as? ToastView
     }
     
     public override func intrinsicContentSize() -> CGSize {

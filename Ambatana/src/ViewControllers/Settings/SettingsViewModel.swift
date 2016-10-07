@@ -14,7 +14,7 @@ import FBSDKShareKit
 
 enum LetGoSetting {
     case InviteFbFriends
-    case ChangePhoto(placeholder: UIImage, avatarUrl: NSURL?)
+    case ChangePhoto(placeholder: UIImage?, avatarUrl: NSURL?)
     case ChangeUsername(name: String)
     case ChangeLocation(location: String)
     case CreateCommercializer
@@ -124,15 +124,12 @@ class SettingsViewModel: BaseViewModel {
 
     func imageSelected(image: UIImage) {
         avatarLoadingProgress.value = 0.0
+
         let size = CGSizeMake(kLetGoUserImageSquareSize, kLetGoUserImageSquareSize)
-        guard let resizedImage = image.resizedImageWithContentMode( .ScaleAspectFill, size: size,
-            interpolationQuality: .Medium), croppedImage = resizedImage.croppedCenteredImage(),
-            imageData = UIImageJPEGRepresentation(croppedImage, 0.9) else {
-                avatarLoadingProgress.value = nil
-                delegate?.vmShowAutoFadingMessage(LGLocalizedString.settingsChangeProfilePictureErrorGeneric,
-                                                  completion: nil)
-                return
-        }
+        let resizedImage = image.resizedImageWithContentMode( .ScaleAspectFill, size: size,
+            interpolationQuality: .Medium) ?? image
+        let croppedImage = resizedImage.croppedCenteredImage() ?? resizedImage
+        guard let imageData = UIImageJPEGRepresentation(croppedImage, 0.9) else { return }
 
         Core.myUserRepository.updateAvatar(imageData,
             progressBlock: { [weak self] progressAsInt in

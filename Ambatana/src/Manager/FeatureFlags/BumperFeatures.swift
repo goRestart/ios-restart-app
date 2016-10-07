@@ -12,7 +12,7 @@ import bumper
 
 extension Bumper  {
     static func initialize() {
-        Bumper.initialize([WebsocketChat.self, NotificationsSection.self, UserRatings.self, ShowNPSSurvey.self, ProfileBuildTrustButton.self, NonStopProductDetail.self, OnboardingPermissionsMode.self, IncentivizePostingMode.self, MessageOnFavoriteMode.self, ExpressChatMode.self, InterestedUsersMode.self, FiltersReorder.self])
+        Bumper.initialize([WebsocketChat.self, NotificationsSection.self, UserRatings.self, ShowNPSSurvey.self, NonStopProductDetail.self, OnboardingPermissionsMode.self, IncentivizePostingMode.self, MessageOnFavoriteMode.self, ExpressChatMode.self, InterestedUsersMode.self, FiltersReorder.self, HalfCameraButton.self])
     } 
 
     static var websocketChat: Bool {
@@ -33,11 +33,6 @@ extension Bumper  {
     static var showNPSSurvey: Bool {
         guard let value = Bumper.valueForKey(ShowNPSSurvey.key) else { return false }
         return ShowNPSSurvey(rawValue: value)?.asBool ?? false
-    }
-
-    static var profileBuildTrustButton: Bool {
-        guard let value = Bumper.valueForKey(ProfileBuildTrustButton.key) else { return true }
-        return ProfileBuildTrustButton(rawValue: value)?.asBool ?? true
     }
 
     static var nonStopProductDetail: Bool {
@@ -73,6 +68,11 @@ extension Bumper  {
     static var filtersReorder: Bool {
         guard let value = Bumper.valueForKey(FiltersReorder.key) else { return false }
         return FiltersReorder(rawValue: value)?.asBool ?? false
+    }
+
+    static var halfCameraButton: Bool {
+        guard let value = Bumper.valueForKey(HalfCameraButton.key) else { return true }
+        return HalfCameraButton(rawValue: value)?.asBool ?? true
     } 
 }
 
@@ -110,15 +110,6 @@ enum ShowNPSSurvey: String, BumperFeature  {
     static var enumValues: [ShowNPSSurvey] { return [.No, .Yes]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Show nps survey" } 
-    var asBool: Bool { return self == .Yes }
-}
-
-enum ProfileBuildTrustButton: String, BumperFeature  {
-    case Yes, No
-    static var defaultValue: String { return ProfileBuildTrustButton.Yes.rawValue }
-    static var enumValues: [ProfileBuildTrustButton] { return [.Yes, .No]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Profile Build trust" } 
     var asBool: Bool { return self == .Yes }
 }
 
@@ -218,6 +209,15 @@ enum FiltersReorder: String, BumperFeature  {
     static var enumValues: [FiltersReorder] { return [.No, .Yes]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Product filters reorder" } 
+    var asBool: Bool { return self == .Yes }
+}
+
+enum HalfCameraButton: String, BumperFeature  {
+    case Yes, No
+    static var defaultValue: String { return HalfCameraButton.Yes.rawValue }
+    static var enumValues: [HalfCameraButton] { return [.Yes, .No]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Camera button cut in gallery" } 
     var asBool: Bool { return self == .Yes }
 }
 

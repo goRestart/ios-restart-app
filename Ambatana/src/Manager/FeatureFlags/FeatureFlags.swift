@@ -41,13 +41,6 @@ struct FeatureFlags {
         return ABTests.showNPSSurvey.value
     }
 
-    static var profileVerifyOneButton: Bool {
-        if Bumper.enabled {
-            return Bumper.profileBuildTrustButton
-        }
-        return ABTests.profileVerifyOneButton.value
-    }
-
     static var nonStopProductDetail: Bool {
         if Bumper.enabled {
             return Bumper.nonStopProductDetail
@@ -95,5 +88,12 @@ struct FeatureFlags {
             return Bumper.filtersReorder
         }
         return ABTests.filtersReorder.value
+    }
+    
+    static var halfCameraButton: Bool {
+        if Bumper.enabled {
+            return Bumper.halfCameraButton
+        }
+        return ABTests.halfCameraButton.value
     }
 }
