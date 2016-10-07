@@ -176,8 +176,8 @@ extension AppCoordinator: AppNavigator {
         openCoordinator(coordinator: userRatingCoordinator, parent: tabBarCtl, animated: true, completion: nil)
     }
 
-    func openVerifyAccounts(types: [VerificationType], source: VerifyAccountsSource) {
-        let viewModel = VerifyAccountsViewModel(verificationTypes: types, source: source)
+    func openVerifyAccounts(types: [VerificationType], source: VerifyAccountsSource, completionBlock: (() -> Void)?) {
+        let viewModel = VerifyAccountsViewModel(verificationTypes: types, source: source, completionBlock: completionBlock)
         let viewController = VerifyAccountsViewController(viewModel: viewModel)
         tabBarCtl.presentViewController(viewController, animated: true, completion: nil)
     }

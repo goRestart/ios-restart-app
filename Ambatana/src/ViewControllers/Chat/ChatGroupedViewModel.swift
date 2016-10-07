@@ -52,6 +52,9 @@ class ChatGroupedViewModel: BaseViewModel {
     private(set) var blockedUsersListViewModel: BlockedUsersListViewModel
     private let currentPageViewModel = Variable<ChatGroupedListViewModelType?>(nil)
 
+    private var myUserRepository: MyUserRepository
+    private var chatRepository: ChatRepository
+
     weak var delegate: ChatGroupedViewModelDelegate?
     weak var tabNavigator: TabNavigator? {
         didSet {
@@ -59,15 +62,25 @@ class ChatGroupedViewModel: BaseViewModel {
             blockedUsersListViewModel.tabNavigator = tabNavigator
         }
     }
+    var emptyViewModel: LGEmptyViewModel?
 
     let editButtonText = Variable<String?>(nil)
     let editButtonEnabled = Variable<Bool>(true)
+
+    let verificationPending = Variable<Bool>(false)
+
     private let disposeBag: DisposeBag
 
 
     // MARK: - Lifecycle
 
-    override init() {
+    override convenience init() {
+        self.init(myUserRepository: Core.myUserRepository, chatRepository: Core.chatRepository)
+    }
+
+    init(myUserRepository: MyUserRepository, chatRepository: ChatRepository) {
+        self.myUserRepository = myUserRepository
+        self.chatRepository = chatRepository
         self.chatListViewModels = []
         self.blockedUsersListViewModel = BlockedUsersListViewModel()
         self.disposeBag = DisposeBag()
@@ -94,6 +107,23 @@ class ChatGroupedViewModel: BaseViewModel {
             }
         }
         setupRxBindings()
+        setupEmptyViewModel()
+    }
+
+    func setupEmptyViewModel() {
+        emptyViewModel = LGEmptyViewModel(icon: UIImage(named: "ic_build_trust_big"), title: "_ARE YOU VERIFIED?",
+                                                body: "_Check if you're verified in order to start chatting", buttonTitle: "_Check",
+                                                action: { [weak self] in
+                                                    guard let myUser = self?.myUserRepository.myUser, userId = myUser.objectId else {
+                                                        self?.verificationPending.value = false
+                                                        return
+                                                    }
+                                                    guard !myUser.isVerified else {
+                                                        self?.verificationPending.value = false
+                                                        return
+                                                    }
+                                                    self?.refreshUserAccountsInfo(userId)
+            }, secondaryButtonTitle: nil, secondaryAction: nil)
     }
 
     // MARK: - Public methods
@@ -291,5 +321,29 @@ extension ChatGroupedViewModel {
                 .addDisposableTo(strongSelf.disposeBag)
 
         }.addDisposableTo(disposeBag)
+
+        chatRepository.wsChatStatus.asObservable().map { wsChatStatus in
+            switch wsChatStatus {
+            case .Closed, .Closing, .Opening, .OpenAuthenticated, .OpenNotAuthenticated:
+                return false
+            case .OpenNotVerified:
+                return true
+            }
+        }.bindTo(verificationPending).addDisposableTo(disposeBag)
+
+        // 👾 might be redundant, 0 items disables the button already.  Check whith real data
+        verificationPending.asObservable().filter { !$0 }.bindTo(editButtonEnabled).addDisposableTo(disposeBag)
+    }
+
+    func refreshUserAccountsInfo(userId: String) {
+        myUserRepository.refresh { [weak self] result in
+            if let myUser = result.value where myUser.isVerified {
+                self?.verificationPending.value = false
+            } else {
+                self?.tabNavigator?.openVerifyAccounts([.Facebook, .Google, .Email(self?.myUserRepository.myUser?.email)],
+                    source: .Chat(title: "_BE TRUSTED!", description: "_Connect with Facebook, Google or Email to verify your identity."),
+                    completionBlock: nil)
+            }
+        }
     }
 }

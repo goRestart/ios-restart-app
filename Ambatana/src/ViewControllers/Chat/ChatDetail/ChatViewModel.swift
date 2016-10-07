@@ -32,6 +32,8 @@ protocol ChatViewModelDelegate: BaseViewModelDelegate {
     func vmRequestLogin(loggedInAction: () -> Void)
     func vmLoadStickersTooltipWithText(text: NSAttributedString)
     func vmClose()
+
+    func vmDidLaunchVerification()
 }
 
 struct EmptyConversation: ChatConversation {
@@ -128,7 +130,6 @@ class ChatViewModel: BaseViewModel {
     let interlocutorHasMutedYou = Variable<Bool>(false)
     let chatStatus = Variable<ChatInfoViewStatus>(.Available)
     let chatEnabled = Variable<Bool>(true)
-    let chatConnectionStatus = Variable<ChatRepositoryStatus>(.NotAvailable)
     let relatedProductsEnabled = Variable<Bool>(false)
     let interlocutorTyping = Variable<Bool>(false)
     let messages = CollectionVariable<ChatViewMessage>([])
@@ -374,8 +375,7 @@ class ChatViewModel: BaseViewModel {
         guard let otherUserId = conversation.value.interlocutor?.objectId else { return }
 
         switch changeInMessages {
-        case let .Remove(_, message):
-            if message.talkerId == myUserId {
+        case let .Remove(_, message):            if message.talkerId == myUserId {
                 myMessagesCount.value = max(0, myMessagesCount.value-1)
             } else if message.talkerId == otherUserId {
                 otherMessagesCount.value = max(0, otherMessagesCount.value-1)
@@ -394,6 +394,15 @@ class ChatViewModel: BaseViewModel {
     }
 
     func setupChatEventsRx() {
+        chatRepository.wsChatStatus.asObservable().bindNext { [weak self] wsChatStatus in
+            switch wsChatStatus {
+            case .Closed, .Closing, .Opening, .OpenAuthenticated, .OpenNotAuthenticated:
+                break
+            case .OpenNotVerified:
+                self?.showUserNotVerifiedAlert()
+            }
+        }.addDisposableTo(disposeBag)
+
         guard let convId = conversation.value.objectId else { return }
         chatRepository.chatEventsIn(convId).subscribeNext { [weak self] event in
             switch event.type {
@@ -411,9 +420,6 @@ class ChatViewModel: BaseViewModel {
                 break
             }
         }.addDisposableTo(disposeBag)
-
-        // 👾 adapt chat connected to use new enum status!!!
-        chatRepository.chatAvailable.asObservable().bindTo(chatConnectionStatus).addDisposableTo(disposeBag)
     }
 
     
@@ -510,6 +516,14 @@ extension ChatViewModel {
             return productId == conversation.value.product?.objectId && buyerId == currentBuyer
         }
     }
+
+    private func showUserNotVerifiedAlert() {
+        tabNavigator?.openVerifyAccounts([.Facebook, .Google, .Email(myUserRepository.myUser?.email)],
+                                         source: .Chat(title: "_BE TRUSTED!", description: "_Connect with Facebook, Google or Email to verify your identity."),
+                                         completionBlock: { [weak self] in
+                                            self?.delegate?.vmDidLaunchVerification()
+        })
+    }
 }
 
 
@@ -576,17 +590,11 @@ extension ChatViewModel {
     }
 
     private func userNotVerifiedError() {
-        guard let myUserEmail = myUserRepository.myUser?.email else {
-            delegate?.vmDidFailSendingMessage()
-            return
-        }
-        let okAction = UIAction(interface: .Button(LGLocalizedString.chatVerifyAlertOkButton,
-            .Cancel), action: {})
-        let resendAction = UIAction(interface: .Button(LGLocalizedString.chatVerifyAlertResendButton, .Default),
-                                    action: { [weak self] in self?.resendEmailVerification(myUserEmail) })
-        delegate?.vmShowAlertWithTitle(LGLocalizedString.chatVerifyAlertTitle,
-                                       text: LGLocalizedString.chatVerifyAlertMessage(myUserEmail),
-                                       alertType: .PlainAlert, actions: [resendAction, okAction])
+        tabNavigator?.openVerifyAccounts([.Facebook, .Google, .Email(myUserRepository.myUser?.email)],
+                                         source: .Chat(title: "_BE TRUSTED!", description: "_Connect with Facebook, Google or Email to verify your identity."),
+                                         completionBlock: { [weak self] in
+                                            self?.delegate?.vmDidLaunchVerification()
+        })
     }
 
     private func afterSendMessageEvents() {
@@ -878,7 +886,9 @@ extension ChatViewModel {
             guard shouldAddBottomDisclaimer else { return nil }
             return chatViewMessageAdapter.createUserNotVerifiedDisclaimerMessage() { [weak self] in
                 self?.tabNavigator?.openVerifyAccounts([.Facebook, .Google],
-                    source: .Chat(description: LGLocalizedString.chatConnectAccountsMessage))
+                    source: .Chat(title: LGLocalizedString.chatConnectAccountsTitle, description: LGLocalizedString.chatConnectAccountsMessage), completionBlock: {
+                        self?.delegate?.vmDidLaunchVerification()
+                })
             }
         }
     }

@@ -209,7 +209,8 @@ extension UserViewModel {
         }
         guard !verifyTypes.isEmpty else { return }
         tabNavigator?.openVerifyAccounts(verifyTypes,
-                                         source: .Profile(description: LGLocalizedString.profileConnectAccountsMessage))
+                                         source: .Profile(title: LGLocalizedString.chatConnectAccountsTitle,
+                                            description: LGLocalizedString.profileConnectAccountsMessage), completionBlock: nil)
     }
 
     func pushPermissionsWarningPressed() {

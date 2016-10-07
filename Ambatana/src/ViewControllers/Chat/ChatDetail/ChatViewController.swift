@@ -366,20 +366,7 @@ extension ChatViewController {
             })
             self?.textView.userInteractionEnabled = enabled
             }.addDisposableTo(disposeBag)
-        
-        viewModel.chatConnectionStatus.asObservable().bindNext { [weak self] connectionStatus in
-            switch connectionStatus {
-            case .Available:
-                self?.setTextInputbarHidden(false, animated: true)
-            case .NotAvailable:
-                self?.setTextInputbarHidden(true, animated: true)
-            case .PendingVerification:
-                self?.setTextInputbarHidden(true, animated: true)
-                // 👾
-                print("EMPTY STATE!!!")
-            }
-        }.addDisposableTo(disposeBag)
-        
+
         viewModel.chatStatus.asObservable().bindNext { [weak self] status in
             self?.relationInfoView.setupUIForStatus(status, otherUserName: self?.viewModel.interlocutorName.value)
             switch status {
@@ -585,6 +572,10 @@ extension ChatViewController: ChatViewModelDelegate {
         setupExternalConstraintsForTooltip(tooltip, targetView: leftButton, containerView: view)
 
         view.layoutIfNeeded()
+    }
+
+    func vmDidLaunchVerification() {
+        navigationController?.popViewControllerAnimated(true)
     }
 }
 

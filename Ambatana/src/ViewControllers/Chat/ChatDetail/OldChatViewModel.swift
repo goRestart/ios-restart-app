@@ -49,6 +49,8 @@ protocol OldChatViewModelDelegate: BaseViewModelDelegate {
     func vmClearText()
 
     func vmUpdateUserIsReadyToReview()
+
+    func vmDidLaunchVerification()
 }
 
 enum AskQuestionSource {
@@ -219,7 +221,10 @@ public class OldChatViewModel: BaseViewModel, Paginable {
             guard shouldAddBottomDisclaimer else { return nil }
             return chatViewMessageAdapter.createUserNotVerifiedDisclaimerMessage() { [weak self] in
                 self?.tabNavigator?.openVerifyAccounts([.Facebook, .Google],
-                    source: .Chat(description: LGLocalizedString.chatConnectAccountsMessage))
+                    source: .Chat(title: LGLocalizedString.chatConnectAccountsTitle,
+                        description: LGLocalizedString.chatConnectAccountsMessage), completionBlock: {
+                            self?.delegate?.vmDidLaunchVerification()
+                })
             }
         }
     }
@@ -676,17 +681,12 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     }
 
     private func userNotVerifiedError() {
-        guard let myUserEmail = myUserRepository.myUser?.email else {
-            delegate?.vmDidFailSendingMessage()
-            return
-        }
-        let okAction = UIAction(interface: .Button(LGLocalizedString.chatVerifyAlertOkButton,
-            .Cancel), action: {})
-        let resendAction = UIAction(interface: .Button(LGLocalizedString.chatVerifyAlertResendButton, .Default),
-                                    action: { [weak self] in self?.resendEmailVerification(myUserEmail) })
-        delegate?.vmShowAlertWithTitle(LGLocalizedString.chatVerifyAlertTitle,
-                                       text: LGLocalizedString.chatVerifyAlertMessage(myUserEmail),
-                                       alertType: .PlainAlert, actions: [resendAction, okAction])
+        tabNavigator?.openVerifyAccounts([.Facebook, .Google, .Email(myUserRepository.myUser?.email)],
+                                         source: .Chat(title: "_BE TRUSTED!",
+                                            description: "_Connect with Facebook, Google or Email to verify your identity."),
+                                         completionBlock: { [weak self] in
+                                            self?.delegate?.vmDidLaunchVerification()
+        })
     }
 
     private func resendEmailVerification(email: String) {
