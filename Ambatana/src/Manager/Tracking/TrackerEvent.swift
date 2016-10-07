@@ -308,9 +308,7 @@ public struct TrackerEvent {
             if let productId = product.objectId {
                 params[.ProductId] = productId
             }
-            if let productPrice = product.price {
-                params[.ProductPrice] = productPrice
-            }
+            params[.ProductPrice] = product.price.value
             params[.ProductCurrency] = product.currency.code
             params[.CategoryId] = product.category.rawValue
             return TrackerEvent(name: .ProductMarkAsSold, params: params)
@@ -321,9 +319,7 @@ public struct TrackerEvent {
         if let productId = product.objectId {
             params[.ProductId] = productId
         }
-        if let productPrice = product.price {
-            params[.ProductPrice] = productPrice
-        }
+        params[.ProductPrice] = product.price.value
         params[.ProductCurrency] = product.currency.code
         params[.CategoryId] = product.category.rawValue
         return TrackerEvent(name: .ProductMarkAsUnsold, params: params)
