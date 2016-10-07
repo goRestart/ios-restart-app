@@ -12,7 +12,7 @@ import bumper
 
 extension Bumper  {
     static func initialize() {
-        Bumper.initialize([WebsocketChat.self, NotificationsSection.self, UserRatings.self, ShowNPSSurvey.self, NonStopProductDetail.self, OnboardingPermissionsMode.self, IncentivizePostingMode.self, MessageOnFavoriteMode.self, ExpressChatMode.self, InterestedUsersMode.self, FiltersReorder.self, HalfCameraButton.self])
+        Bumper.initialize([WebsocketChat.self, NotificationsSection.self, UserRatings.self, ShowNPSSurvey.self, NonStopProductDetail.self, OnboardingPermissionsMode.self, IncentivizePostingMode.self, MessageOnFavoriteMode.self, ExpressChatMode.self, InterestedUsersMode.self, FiltersReorder.self, HalfCameraButton.self, FreePostingMode.self])
     } 
 
     static var websocketChat: Bool {
@@ -73,6 +73,11 @@ extension Bumper  {
     static var halfCameraButton: Bool {
         guard let value = Bumper.valueForKey(HalfCameraButton.key) else { return true }
         return HalfCameraButton(rawValue: value)?.asBool ?? true
+    }
+
+    static var freePostingMode: FreePostingMode {
+        guard let value = Bumper.valueForKey(FreePostingMode.key) else { return .Disabled }
+        return FreePostingMode(rawValue: value) ?? .Disabled 
     } 
 }
 
@@ -219,5 +224,21 @@ enum HalfCameraButton: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Camera button cut in gallery" } 
     var asBool: Bool { return self == .Yes }
+}
+
+enum FreePostingMode: String, BumperFeature  {
+    case Disabled, SplitButton, OneButton
+    static var defaultValue: String { return FreePostingMode.Disabled.rawValue }
+    static var enumValues: [FreePostingMode] { return [.Disabled, .SplitButton, .OneButton]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Free Posting Mode" } 
+    static func fromPosition(position: Int) -> FreePostingMode {
+        switch position { 
+            case 0: return .Disabled
+            case 1: return .SplitButton
+            case 2: return .OneButton
+            default: return .Disabled
+        }
+    }
 }
 

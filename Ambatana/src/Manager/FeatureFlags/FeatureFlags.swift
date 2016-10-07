@@ -96,4 +96,11 @@ struct FeatureFlags {
         }
         return ABTests.halfCameraButton.value
     }
+
+    static var freePostingMode: FreePostingMode {
+        if Bumper.enabled {
+            return Bumper.freePostingMode
+        }
+        return FreePostingMode.fromPosition(ABTests.freePostingMode.value)
+    }
 }
