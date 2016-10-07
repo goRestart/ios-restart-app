@@ -59,7 +59,8 @@ class ProductCarouselPushAnimator: NSObject, PushAnimator {
             else { return }
         guard let toViewController = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)
             else { return }
-        guard let containerView = transitionContext.containerView() else { return }
+
+        let containerView = transitionContext.containerView()
 
         if fromViewController.containsTabBar() {
             fromViewController.tabBarController?.setTabBarHidden(true, animated: true)
@@ -143,7 +144,7 @@ class ProductCarouselPushAnimator: NSObject, PushAnimator {
             else { return }
         guard let toViewController = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)
             else { return }
-        guard let containerView = transitionContext.containerView() else { return }
+        let containerView = transitionContext.containerView()
 
         let fromView: UIView = transitionContext.viewForKey(UITransitionContextFromViewKey) ?? fromViewController.view
         let toView: UIView = transitionContext.viewForKey(UITransitionContextToViewKey) ?? toViewController.view
@@ -176,7 +177,7 @@ class ProductCarouselPushAnimator: NSObject, PushAnimator {
             else { return }
         guard let toViewController = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)
             else { return }
-        guard let containerView = transitionContext.containerView() else { return }
+        let containerView = transitionContext.containerView()
 
         let fromView: UIView = transitionContext.viewForKey(UITransitionContextFromViewKey) ?? fromViewController.view
         let toView: UIView = transitionContext.viewForKey(UITransitionContextToViewKey) ?? toViewController.view

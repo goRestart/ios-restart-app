@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Ambatana. All rights reserved.
 //
 
-import AppsFlyer
+import AppsFlyerTracker
 import LGCoreKit
 
 private extension TrackerEvent {

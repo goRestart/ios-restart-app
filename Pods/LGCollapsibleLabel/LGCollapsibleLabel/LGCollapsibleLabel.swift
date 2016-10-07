@@ -177,10 +177,10 @@ public class LGCollapsibleLabel: UIView {
     func loadViewFromNib() -> UIView {
         let bundle = NSBundle(forClass: LGCollapsibleLabel.self)
         if let url = bundle.URLForResource("LGCollapsibleLabelBundle", withExtension: "bundle") {
-            return NSBundle(URL: url)!.loadNibNamed("LGCollapsibleLabel", owner: self, options: nil).first as! UIView
+            return NSBundle(URL: url)!.loadNibNamed("LGCollapsibleLabel", owner: self, options: nil)!.first as! UIView
         }
         else{
-            return bundle.loadNibNamed("LGCollapsibleLabel", owner: self, options: nil).first as! UIView
+            return bundle.loadNibNamed("LGCollapsibleLabel", owner: self, options: nil)!.first as! UIView
         }
     }
 
