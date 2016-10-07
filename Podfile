@@ -39,7 +39,7 @@ def shared_pods
     pod "SlackTextViewController", "1.9.4"  # Swift 3.0: -
 
 	# letgo Collapsible label
-    pod "LGCollapsibleLabel",    :path => "../collapsiblelabel" #"0.1.8"
+    pod "LGCollapsibleLabel",   "0.2.0" # :path => "../collapsiblelabel"
 
     # letgo bumper (feature flags)
     pod "bumper",               "0.2.0" #:path => "../bumper"

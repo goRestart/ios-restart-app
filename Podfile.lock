@@ -92,7 +92,7 @@ PODS:
   - KeychainSwift (3.0.16)
   - KMPlaceholderTextView (1.2.2)
   - Leanplum-iOS-SDK (1.4.0.1)
-  - LGCollapsibleLabel (0.1.8)
+  - LGCollapsibleLabel (0.2.0)
   - LGCoreKit (1.2.0):
     - Alamofire (~> 3.5.0)
     - Argo (= 3.0.2)
@@ -166,7 +166,7 @@ DEPENDENCIES:
   - Kahuna (= 2.3.1)
   - KMPlaceholderTextView (~> 1.2.2)
   - Leanplum-iOS-SDK (~> 1.4.0)
-  - LGCollapsibleLabel (from `../collapsiblelabel`)
+  - LGCollapsibleLabel (= 0.2.0)
   - LGCoreKit (= 1.2.0)
   - Nimble (~> 4.1.0)
   - OHHTTPStubs (~> 5.2.1)
@@ -188,8 +188,6 @@ EXTERNAL SOURCES:
   JBKenBurnsView:
     :commit: 56419f79cb763f8d2ee3a75e4eca51ebc1deab6a
     :git: https://github.com/letgoapp/JBKenBurns
-  LGCollapsibleLabel:
-    :path: ../collapsiblelabel
   TMReachability:
     :commit: e34782b386307e386348b481c02c176d58ba45e6
     :git: https://github.com/albertbori/Reachability
@@ -248,7 +246,7 @@ SPEC CHECKSUMS:
   KeychainSwift: a5bb85cd498ce2217b55e055ec59e9268d83384c
   KMPlaceholderTextView: bbff031935d84f7eedb585e7f77120020fbae9e8
   Leanplum-iOS-SDK: 220755449d8f39270591fe75f49e8abe6f29d934
-  LGCollapsibleLabel: d182173746819a7ac43a33d2e24e7e2142e940c7
+  LGCollapsibleLabel: f1631ac1274b268731e3f6a74b121e97a97626da
   LGCoreKit: 59ef716e9ab2bd098d7b3a436f94168037df8444
   Nimble: 97a0a4cae5124c117115634b2d055d8c97d0af19
   OHHTTPStubs: 3a42f25c00563b71355ac73112ba2324e9e6cef4
@@ -266,6 +264,6 @@ SPEC CHECKSUMS:
   TwitterCore: 817eae3e291fa4125b47789e26a4f6f024115c1f
   TwitterKit: 8a383da8d9c21b0423716381ea8bbfce20622d91
 
-PODFILE CHECKSUM: a144dedd8e4733b9563e0a62c4a5a31a56f7c1cd
+PODFILE CHECKSUM: 95a1d0f5acc3208f4cd1eb813c218ac70c3e6002
 
 COCOAPODS: 1.1.0.rc.2
