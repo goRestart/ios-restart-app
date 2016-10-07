@@ -53,5 +53,10 @@
         "name": "FiltersReorder",
         "values": ["No", "Yes"],
         "description": "Product filters reorder"
+	},
+    {
+        "name": "HalfCameraButton",
+        "values": ["Yes", "No"],
+        "description": "Camera button cut in gallery"
 	}
 ]

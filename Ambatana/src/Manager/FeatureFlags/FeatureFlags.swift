@@ -89,4 +89,11 @@ struct FeatureFlags {
         }
         return ABTests.filtersReorder.value
     }
+    
+    static var halfCameraButton: Bool {
+        if Bumper.enabled {
+            return Bumper.halfCameraButton
+        }
+        return ABTests.halfCameraButton.value
+    }
 }
