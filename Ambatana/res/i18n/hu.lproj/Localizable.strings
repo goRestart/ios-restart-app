@@ -76,9 +76,9 @@
 "chat_express_dont_ask_again_button" = "Ne szóljon többet";
 "chat_express_dont_miss_label" = "Ne hagyd ki ezeket az alkalmi vételeket";
 "chat_express_one_message_sent_success_alert" = "Üzeneted elküldve!";
-"chat_express_send_question_text" = "Send: %@";
+"chat_express_send_question_text" = "Küldés: %@";
 "chat_express_several_messages_sent_success_alert" = "Üzeneteid elküldve!";
-"chat_express_text_field_text" = "Szia, érdekel!";
+"chat_express_text_field_text" = "Szia! Elérhető még?";
 "chat_forbidden_disclaimer_buyer_w_name" = "%@ fiókját a letgo csapata éppen ellenőrzi.";
 "chat_forbidden_disclaimer_buyer_wo_name" = "Ezt a fiókot a letgo csapata éppen ellenőrzi.";
 "chat_forbidden_disclaimer_seller_w_name" = "Úgy tűnik, %@ már nem érdeklődik a portékád iránt.";
@@ -136,7 +136,7 @@
 "collection_explore_button" = "Felfedezés";
 "collection_furniture_title" = "Az én váram...";
 "collection_gaming_title" = "Játékra fel";
-"collection_halloween_title" = "Trick or treat";
+"collection_halloween_title" = "Csokit vagy csínyt";
 "collection_transport_title" = "Stílusos utazás";
 "commercializer_create_from_settings" = "Create a Free Commercial";
 "commercializer_display_share_alert" = "Share this masterpiece";
@@ -331,8 +331,8 @@
 "product_ask_a_question_button" = "Kérdezek valamit";
 "product_auto_generated_title_label" = "A címet a letgo hozta létre automatikusan";
 "product_auto_generated_translated_title_label" = "(és a Google fordította)";
-"product_bubble_favorite_button" = "Let the seller know!";
-"product_bubble_favorite_text" = "This product has been added to your favorites!";
+"product_bubble_favorite_button" = "Tudasd az eladóval!";
+"product_bubble_favorite_text" = "Portéka hozzáadva a kedvencekhez!";
 "product_bubble_one_user_interested" = "Egy újabb érdeklődő!";
 "product_bubble_several_users_interested" = "%i további érdeklődőd van!";
 "product_chat_direct_error_blocked_user_message" = "Hoppá! Ezzel a felhasználóval blokkolás miatt nem cseveghetsz.";

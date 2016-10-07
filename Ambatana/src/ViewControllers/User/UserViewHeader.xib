@@ -16,79 +16,6 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Tuz-bh-YPQ" userLabel="Info View">
                     <rect key="frame" x="0.0" y="40" width="600" height="66"/>
                     <subviews>
-                        <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Gbf-Bl-7xI" userLabel="Verified My User">
-                            <rect key="frame" x="208" y="15" width="183" height="36"/>
-                            <subviews>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_VERIFIED:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xEY-A5-saW" userLabel="My User Verified Title">
-                                    <rect key="frame" x="0.0" y="0.0" width="72" height="36"/>
-                                    <fontDescription key="fontDescription" type="system" weight="light" pointSize="15"/>
-                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                    <nil key="highlightedColor"/>
-                                </label>
-                                <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qji-ub-hyv" userLabel="My User Facebook Button">
-                                    <rect key="frame" x="75" y="0.0" width="36" height="36"/>
-                                    <constraints>
-                                        <constraint firstAttribute="height" constant="36" id="0gB-tj-QI8"/>
-                                        <constraint firstAttribute="width" constant="36" id="G9f-SY-2os"/>
-                                    </constraints>
-                                    <inset key="contentEdgeInsets" minX="3" minY="3" maxX="3" maxY="3"/>
-                                    <state key="normal" image="ic_user_private_fb_off"/>
-                                    <state key="highlighted" image="ic_user_private_fb_on"/>
-                                </button>
-                                <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3jh-mt-dEd" userLabel="My User Google Button">
-                                    <rect key="frame" x="111" y="0.0" width="36" height="36"/>
-                                    <constraints>
-                                        <constraint firstAttribute="height" constant="36" id="9Kr-jy-6Dp"/>
-                                        <constraint firstAttribute="width" constant="36" id="TiL-cf-q4K"/>
-                                    </constraints>
-                                    <inset key="contentEdgeInsets" minX="3" minY="3" maxX="3" maxY="3"/>
-                                    <state key="normal" image="ic_user_private_google_off"/>
-                                    <state key="highlighted" image="ic_user_private_google_on"/>
-                                </button>
-                                <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="I2V-N2-hMC" userLabel="My User Email Button">
-                                    <rect key="frame" x="147" y="0.0" width="36" height="36"/>
-                                    <constraints>
-                                        <constraint firstAttribute="height" constant="36" id="PnK-NL-vDM"/>
-                                        <constraint firstAttribute="width" constant="36" id="coS-TE-4ou"/>
-                                    </constraints>
-                                    <inset key="contentEdgeInsets" minX="3" minY="3" maxX="3" maxY="3"/>
-                                    <state key="normal" image="ic_user_private_email_off"/>
-                                    <state key="highlighted" image="ic_user_private_email_on"/>
-                                </button>
-                            </subviews>
-                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            <constraints>
-                                <constraint firstAttribute="trailing" secondItem="I2V-N2-hMC" secondAttribute="trailing" id="70a-L7-q5N"/>
-                                <constraint firstAttribute="bottom" secondItem="xEY-A5-saW" secondAttribute="bottom" id="AfP-pw-KP4"/>
-                                <constraint firstItem="xEY-A5-saW" firstAttribute="top" secondItem="Gbf-Bl-7xI" secondAttribute="top" id="Bmp-Ao-qTU"/>
-                                <constraint firstItem="qji-ub-hyv" firstAttribute="centerY" secondItem="3jh-mt-dEd" secondAttribute="centerY" id="DTP-aB-seB"/>
-                                <constraint firstItem="3jh-mt-dEd" firstAttribute="leading" secondItem="qji-ub-hyv" secondAttribute="trailing" id="Fzm-Ap-5QW"/>
-                                <constraint firstAttribute="bottom" secondItem="3jh-mt-dEd" secondAttribute="bottom" id="Gwb-VD-HpI"/>
-                                <constraint firstItem="3jh-mt-dEd" firstAttribute="centerX" secondItem="Gbf-Bl-7xI" secondAttribute="centerX" id="Hq9-2k-FTq"/>
-                                <constraint firstAttribute="bottom" secondItem="qji-ub-hyv" secondAttribute="bottom" id="KQS-br-36v"/>
-                                <constraint firstAttribute="trailing" secondItem="xEY-A5-saW" secondAttribute="trailing" id="N0M-SM-f59"/>
-                                <constraint firstItem="3jh-mt-dEd" firstAttribute="top" secondItem="Gbf-Bl-7xI" secondAttribute="top" id="Pyf-7w-E7i"/>
-                                <constraint firstItem="I2V-N2-hMC" firstAttribute="leading" secondItem="3jh-mt-dEd" secondAttribute="trailing" id="Tot-yo-8Uf"/>
-                                <constraint firstItem="qji-ub-hyv" firstAttribute="top" secondItem="Gbf-Bl-7xI" secondAttribute="top" id="UpU-3t-yRt"/>
-                                <constraint firstItem="I2V-N2-hMC" firstAttribute="centerY" secondItem="3jh-mt-dEd" secondAttribute="centerY" id="UuW-Xe-SZK"/>
-                                <constraint firstAttribute="bottom" secondItem="I2V-N2-hMC" secondAttribute="bottom" id="gh8-mS-Fa6"/>
-                                <constraint firstItem="I2V-N2-hMC" firstAttribute="top" secondItem="Gbf-Bl-7xI" secondAttribute="top" id="l6x-p6-xWc"/>
-                                <constraint firstItem="xEY-A5-saW" firstAttribute="leading" secondItem="Gbf-Bl-7xI" secondAttribute="leading" id="mcT-1T-WIK"/>
-                                <constraint firstItem="xEY-A5-saW" firstAttribute="leading" secondItem="Gbf-Bl-7xI" secondAttribute="leading" id="yD9-b0-Vd4"/>
-                                <constraint firstItem="qji-ub-hyv" firstAttribute="leading" secondItem="xEY-A5-saW" secondAttribute="trailing" constant="3" id="yfV-8r-bo1"/>
-                                <constraint firstItem="3jh-mt-dEd" firstAttribute="top" secondItem="xEY-A5-saW" secondAttribute="bottom" constant="7" id="zGh-li-iwq"/>
-                            </constraints>
-                            <variation key="default">
-                                <mask key="constraints">
-                                    <exclude reference="N0M-SM-f59"/>
-                                    <exclude reference="yD9-b0-Vd4"/>
-                                    <exclude reference="DTP-aB-seB"/>
-                                    <exclude reference="Hq9-2k-FTq"/>
-                                    <exclude reference="zGh-li-iwq"/>
-                                    <exclude reference="UuW-Xe-SZK"/>
-                                </mask>
-                            </variation>
-                        </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JFe-aV-WZg" userLabel="Verified Simple container">
                             <rect key="frame" x="0.0" y="14" width="601" height="46"/>
                             <subviews>
@@ -236,10 +163,8 @@
                         </view>
                     </subviews>
                     <constraints>
-                        <constraint firstItem="Gbf-Bl-7xI" firstAttribute="centerY" secondItem="Tuz-bh-YPQ" secondAttribute="centerY" id="654-ym-XSJ"/>
                         <constraint firstItem="JFe-aV-WZg" firstAttribute="centerY" secondItem="Tuz-bh-YPQ" secondAttribute="centerY" constant="4" id="DHX-8b-3ZM"/>
                         <constraint firstItem="YZ9-F8-6xl" firstAttribute="centerY" secondItem="Tuz-bh-YPQ" secondAttribute="centerY" id="Hhe-5M-8TO"/>
-                        <constraint firstItem="Gbf-Bl-7xI" firstAttribute="centerX" secondItem="Tuz-bh-YPQ" secondAttribute="centerX" id="LrF-WD-yqN"/>
                         <constraint firstItem="JFe-aV-WZg" firstAttribute="centerX" secondItem="Tuz-bh-YPQ" secondAttribute="centerX" id="Mmh-g0-sTO"/>
                         <constraint firstItem="JFe-aV-WZg" firstAttribute="leading" secondItem="Tuz-bh-YPQ" secondAttribute="leading" id="O8d-a2-fsB"/>
                         <constraint firstItem="YZ9-F8-6xl" firstAttribute="centerX" secondItem="Tuz-bh-YPQ" secondAttribute="centerX" id="xic-HV-ef0"/>
@@ -402,9 +327,6 @@
                 <outlet property="indicatorView" destination="mQP-bS-pyz" id="GeM-my-Azp"/>
                 <outlet property="indicatorViewLeadingConstraint" destination="xH2-SK-2Zd" id="wsZ-Cd-PXH"/>
                 <outlet property="infoView" destination="Tuz-bh-YPQ" id="ksv-Yy-FkN"/>
-                <outlet property="myUserEmailButton" destination="I2V-N2-hMC" id="bYF-ko-Wdh"/>
-                <outlet property="myUserFacebookButton" destination="qji-ub-hyv" id="QYg-A5-fle"/>
-                <outlet property="myUserGoogleButton" destination="3jh-mt-dEd" id="psC-Lz-sbF"/>
                 <outlet property="ratingCountContainerLeading" destination="Kb3-8E-ES6" id="wFh-F3-ymH"/>
                 <outlet property="ratingCountContainerTrailing" destination="6r5-GU-xjZ" id="wVg-Tc-KvE"/>
                 <outlet property="ratingCountLabel" destination="80u-WE-Qym" id="6Zw-cz-Xe3"/>
@@ -418,8 +340,6 @@
                 <outlet property="soldButton" destination="t8v-cE-HJj" id="SfP-kV-XJs"/>
                 <outlet property="userRelationLabel" destination="jml-Uz-eQG" id="Q4j-GJ-D8j"/>
                 <outlet property="userRelationView" destination="YZ9-F8-6xl" id="RYq-Gv-OO2"/>
-                <outlet property="verifiedMyUserTitle" destination="xEY-A5-saW" id="Q8k-Ve-B8a"/>
-                <outlet property="verifiedMyUserView" destination="Gbf-Bl-7xI" id="s7w-fV-21g"/>
                 <outlet property="verifiedSimpleContainer" destination="JFe-aV-WZg" id="Nm7-qs-BCk"/>
                 <outlet property="verifiedSimpleContainerHeight" destination="71a-CC-kdW" id="fnt-hS-ebj"/>
                 <outlet property="verifiedSimpleContainerWidth" destination="1nf-4a-mjQ" id="53v-9H-qC4"/>
@@ -430,12 +350,6 @@
     <resources>
         <image name="ic_blocked" width="12" height="12"/>
         <image name="ic_build_trust_small" width="12" height="14"/>
-        <image name="ic_user_private_email_off" width="28" height="28"/>
-        <image name="ic_user_private_email_on" width="28" height="28"/>
-        <image name="ic_user_private_fb_off" width="28" height="28"/>
-        <image name="ic_user_private_fb_on" width="28" height="28"/>
-        <image name="ic_user_private_google_off" width="28" height="28"/>
-        <image name="ic_user_private_google_on" width="28" height="28"/>
         <image name="ic_user_public_email" width="16" height="16"/>
         <image name="ic_user_public_fb" width="16" height="16"/>
         <image name="ic_user_public_google" width="16" height="16"/>
