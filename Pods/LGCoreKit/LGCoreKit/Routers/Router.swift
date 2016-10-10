@@ -126,7 +126,7 @@ enum Router<T: BaseURL>: URLRequestConvertible {
             mutableURLRequest.URL = baseUrl.URLByAppendingPathComponent(endpoint)
             req = paramEncoding.encode(mutableURLRequest, parameters: params).0
         case let .Show(endpoint, objectId):
-            mutableURLRequest.URL = baseUrl.URLByAppendingPathComponent(endpoint).URLByAppendingPathComponent(objectId)
+            mutableURLRequest.URL = baseUrl.URLByAppendingPathComponent(endpoint)?.URLByAppendingPathComponent(objectId)
             req = mutableURLRequest
         case let .Create(endpoint, params, _):
             mutableURLRequest.URL = baseUrl.URLByAppendingPathComponent(endpoint)
@@ -135,19 +135,19 @@ enum Router<T: BaseURL>: URLRequestConvertible {
             mutableURLRequest.URL = baseUrl.URLByAppendingPathComponent(endpoint)
             req = paramEncoding.anyObjectEncode(mutableURLRequest, parameters: params).0
         case let .Update(endpoint, objectId, params, _):
-            mutableURLRequest.URL = baseUrl.URLByAppendingPathComponent(endpoint).URLByAppendingPathComponent(objectId)
+            mutableURLRequest.URL = baseUrl.URLByAppendingPathComponent(endpoint)?.URLByAppendingPathComponent(objectId)
             req = paramEncoding.encode(mutableURLRequest, parameters: params).0
         case let .BatchUpdate(endpoint, params, _):
             mutableURLRequest.URL = baseUrl.URLByAppendingPathComponent(endpoint)
             req = paramEncoding.encode(mutableURLRequest, parameters: params).0
         case let .Patch(endpoint, objectId, params, _):
-            mutableURLRequest.URL = baseUrl.URLByAppendingPathComponent(endpoint).URLByAppendingPathComponent(objectId)
+            mutableURLRequest.URL = baseUrl.URLByAppendingPathComponent(endpoint)?.URLByAppendingPathComponent(objectId)
             req = paramEncoding.encode(mutableURLRequest, parameters: params).0
         case let .BatchPatch(endpoint, params, _):
             mutableURLRequest.URL = baseUrl.URLByAppendingPathComponent(endpoint)
             req = paramEncoding.encode(mutableURLRequest, parameters: params).0
         case let .Delete(endpoint, objectId):
-            mutableURLRequest.URL = baseUrl.URLByAppendingPathComponent(endpoint).URLByAppendingPathComponent(objectId)
+            mutableURLRequest.URL = baseUrl.URLByAppendingPathComponent(endpoint)?.URLByAppendingPathComponent(objectId)
             req = mutableURLRequest
         case let .BatchDelete(endpoint, params, _):
             mutableURLRequest.URL = baseUrl.URLByAppendingPathComponent(endpoint)

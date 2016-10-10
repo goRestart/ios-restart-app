@@ -23,13 +23,14 @@
 #import "AMPARCMacros.h"
 #import "AMPDatabaseHelper.h"
 #import "AMPARCMacros.h"
+#import "AMPUtils.h"
+#import "AMPConstants.h"
 
 @interface AMPDatabaseHelper()
 @end
 
 @implementation AMPDatabaseHelper
 {
-    NSString *_databasePath;
     BOOL _databaseCreated;
     sqlite3 *_database;
     dispatch_queue_t _queue;
@@ -71,23 +72,57 @@ static NSString *const GET_VALUE = @"SELECT %@, %@ FROM %@ WHERE %@ = ?;";
 
 + (AMPDatabaseHelper*)getDatabaseHelper
 {
-    static AMPDatabaseHelper *instance = nil;
+    return [AMPDatabaseHelper getDatabaseHelper:nil];
+}
+
++ (AMPDatabaseHelper*)getDatabaseHelper:(NSString*) instanceName
+{
+    static NSMutableDictionary *_instances = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        instance = [[AMPDatabaseHelper alloc] init];
+        _instances = [[NSMutableDictionary alloc] init];
     });
-    return instance;
+
+    if (instanceName == nil || [AMPUtils isEmptyString:instanceName]) {
+        instanceName = kAMPDefaultInstance;
+    }
+    instanceName = [instanceName lowercaseString];
+
+    AMPDatabaseHelper *dbHelper = nil;
+    @synchronized(_instances) {
+        dbHelper = [_instances objectForKey:instanceName];
+        if (dbHelper == nil) {
+            dbHelper = [[AMPDatabaseHelper alloc] initWithInstanceName:instanceName];
+            [_instances setObject:dbHelper forKey:instanceName];
+            SAFE_ARC_RELEASE(dbHelper);
+        }
+    }
+    return dbHelper;
 }
 
 - (id)init
 {
-    if (self = [super init]) {
+    return [self initWithInstanceName:nil];
+}
+
+- (id)initWithInstanceName:(NSString*) instanceName
+{
+    if ([AMPUtils isEmptyString:instanceName]) {
+        instanceName = kAMPDefaultInstance;
+    }
+    instanceName = [instanceName lowercaseString];
+
+    if ((self = [super init])) {
         NSString *databaseDirectory = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) objectAtIndex: 0];
-        _databasePath = SAFE_ARC_RETAIN([databaseDirectory stringByAppendingPathComponent:@"com.amplitude.database"]);
+        NSString *databasePath = [databaseDirectory stringByAppendingPathComponent:@"com.amplitude.database"];
+        if (![instanceName isEqualToString:kAMPDefaultInstance]) {
+            databasePath = [NSString stringWithFormat:@"%@_%@", databasePath, instanceName];
+        }
+        _databasePath = SAFE_ARC_RETAIN(databasePath);
         _queue = dispatch_queue_create([QUEUE_NAME UTF8String], NULL);
         dispatch_queue_set_specific(_queue, kDispatchQueueKey, (__bridge void *)self, NULL);
         if (![[NSFileManager defaultManager] fileExistsAtPath:_databasePath]) {
-            [self createTables];
+            (void)[self createTables];
         }
     }
     return self;
@@ -97,7 +132,7 @@ static NSString *const GET_VALUE = @"SELECT %@, %@ FROM %@ WHERE %@ = ?;";
 {
     SAFE_ARC_RELEASE(_databasePath);
     if (_queue) {
-        SAFE_ARC_DISPATCH_RELEASE(_queue);
+        (void) SAFE_ARC_DISPATCH_RELEASE(_queue);
         _queue = NULL;
     }
     SAFE_ARC_SUPER_DEALLOC();
@@ -343,12 +378,24 @@ static NSString *const GET_VALUE = @"SELECT %@, %@ FROM %@ WHERE %@ = ?;";
     [self inDatabaseWithStatement:querySQL block:^(sqlite3_stmt *stmt) {
         while (sqlite3_step(stmt) == SQLITE_ROW) {
             long long eventId = sqlite3_column_int64(stmt, 0);
-            NSString *eventString = [NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, 1)];
-            NSData *eventData = [eventString dataUsingEncoding:NSUTF8StringEncoding];
 
-            id eventImmutable = [NSJSONSerialization JSONObjectWithData:eventData options:0 error:NULL];
-            if (eventImmutable == nil) {
-                NSLog(@"Error JSON deserialization of event id %lld from table %@", eventId, table);
+            // need to handle null events saved to database
+            const char *rawEventString = (const char*)sqlite3_column_text(stmt, 1);
+            if (rawEventString == NULL) {
+                AMPLITUDE_LOG(@"Ignoring NULL event string for event id %lld from table %@", eventId, table);
+                continue;
+            }
+            NSString *eventString = [NSString stringWithUTF8String:rawEventString];
+            if ([AMPUtils isEmptyString:eventString]) {
+                AMPLITUDE_LOG(@"Ignoring empty event string for event id %lld from table %@", eventId, table);
+                continue;
+            }
+
+            NSData *eventData = [eventString dataUsingEncoding:NSUTF8StringEncoding];
+            NSError *error = nil;
+            id eventImmutable = [NSJSONSerialization JSONObjectWithData:eventData options:0 error:&error];
+            if (error != nil) {
+                AMPLITUDE_LOG(@"Error JSON deserialization of event id %lld from table %@: %@", eventId, table, error);
                 continue;
             }
 
@@ -384,7 +431,7 @@ static NSString *const GET_VALUE = @"SELECT %@, %@ FROM %@ WHERE %@ = ?;";
         if ([table isEqualToString:STORE_TABLE_NAME]) {
             success &= sqlite3_bind_text(stmt, 2, [(NSString *)value UTF8String], -1, SQLITE_STATIC) == SQLITE_OK;
         } else {
-            success &= sqlite3_bind_int64(stmt, 2, [(NSNumber*)value integerValue]) == SQLITE_OK;
+            success &= sqlite3_bind_int64(stmt, 2, [(NSNumber*)value longLongValue]) == SQLITE_OK;
         }
 
         if (!success) {
@@ -399,7 +446,7 @@ static NSString *const GET_VALUE = @"SELECT %@, %@ FROM %@ WHERE %@ = ?;";
     }];
 
     if (!success) {
-        [self resetDB:NO]; // not much we can do, just start fresh
+        (void) [self resetDB:NO]; // not much we can do, just start fresh
     }
     return success;
 }
@@ -423,7 +470,7 @@ static NSString *const GET_VALUE = @"SELECT %@, %@ FROM %@ WHERE %@ = ?;";
     }];
 
     if (!success) {
-        [self resetDB:NO]; // not much we can do, just start fresh
+        (void) [self resetDB:NO]; // not much we can do, just start fresh
     }
     return success;
 }
@@ -454,7 +501,8 @@ static NSString *const GET_VALUE = @"SELECT %@, %@ FROM %@ WHERE %@ = ?;";
                 if ([table isEqualToString:STORE_TABLE_NAME]) {
                     value = [[NSString alloc] initWithUTF8String:(char*)sqlite3_column_text(stmt, 1)];
                 } else {
-                    value = [[NSNumber alloc] initWithLongLong:sqlite3_column_int64(stmt, 1)];
+                    long long longlongValue = sqlite3_column_int64(stmt, 1);
+                    value = [[NSNumber alloc] initWithLongLong:longlongValue];
                 }
             }
         } else {

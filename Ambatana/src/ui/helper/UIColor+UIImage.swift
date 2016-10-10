@@ -9,14 +9,14 @@
 import UIKit
 
 extension UIColor {
-    func imageWithSize(size: CGSize) -> UIImage {
+    func imageWithSize(size: CGSize) -> UIImage? {
         let rect = CGRect(x: 0, y: 0, width: size.width, height: size.height)
-        UIGraphicsBeginImageContextWithOptions(rect.size, false, UIScreen.mainScreen().scale);
-        let context = UIGraphicsGetCurrentContext();
-        CGContextSetFillColorWithColor(context, self.CGColor);
-        CGContextFillRect(context, rect);
-        let image = UIGraphicsGetImageFromCurrentImageContext();
-        UIGraphicsEndImageContext();
-        return image;
+        UIGraphicsBeginImageContextWithOptions(rect.size, false, UIScreen.mainScreen().scale)
+        guard let context = UIGraphicsGetCurrentContext() else { return nil }
+        CGContextSetFillColorWithColor(context, CGColor)
+        CGContextFillRect(context, rect)
+        let image = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return image
     }
 }

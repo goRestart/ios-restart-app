@@ -34,7 +34,9 @@ class UserViewController: BaseViewController {
     private static let userEffectViewHeaderCollapsedAlpha: CGFloat = 1.0
 
     private static let ratingAverageContainerHeightVisible: CGFloat = 30
-
+    
+    private static let userLabelsContainerMarginLong: CGFloat = 90
+    private static let userLabelsContainerMarginShort: CGFloat = 50
 
     private var navBarUserView: UserView?
     private var navBarUserViewAlpha: CGFloat = 0.0 {
@@ -60,6 +62,7 @@ class UserViewController: BaseViewController {
     @IBOutlet weak var userNameLabel: UILabel!
     @IBOutlet weak var averageRatingContainerViewHeight: NSLayoutConstraint!
     @IBOutlet weak var averageRatingView: UIView!
+    @IBOutlet var userLabelsSideMargin: [NSLayoutConstraint]!
     @IBOutlet var averageRatingImageViews: [UIImageView]!
     @IBOutlet weak var userLocationLabel: UILabel!
     @IBOutlet weak var userBgImageView: UIImageView!
@@ -113,9 +116,6 @@ class UserViewController: BaseViewController {
     override func viewWillAppearFromBackground(fromBackground: Bool) {
         super.viewWillAppearFromBackground(fromBackground)
 
-        let _ = FeatureFlags.profileVerifyOneButton
-        headerContainer.header?.updateABTests()
-
         // UINavigationBar's title alpha gets resetted on view appear, does not allow initial 0.0 value
         if let navBarUserView = navBarUserView {
             let currentAlpha: CGFloat = navBarUserViewAlpha
@@ -163,12 +163,6 @@ extension UserViewController: UserViewModelDelegate {
         navigationController?.pushViewController(vc, animated: true)
     }
 
-    func vmOpenVerifyAccount(verifyVM: VerifyAccountViewModel) {
-        let presenter = tabBarController ?? navigationController
-        let vc = VerifyAccountViewController(viewModel: verifyVM)
-        presenter?.presentViewController(vc, animated: true, completion: nil)
-    }
-
     func vmOpenHome() {
         guard let tabBarCtl = tabBarController as? TabBarController else { return }
         tabBarCtl.switchToTab(.Home)
@@ -201,18 +195,6 @@ extension UserViewController : UserViewHeaderDelegate {
         viewModel.ratingsButtonPressed()
     }
 
-    func facebookAccountAction() {
-        viewModel.facebookButtonPressed()
-    }
-
-    func googleAccountAction() {
-        viewModel.googleButtonPressed()
-    }
-
-    func emailAccountAction() {
-        viewModel.emailButtonPressed()
-    }
-
     func buildTrustAction() {
         viewModel.buildTrustButtonPressed()
     }
@@ -239,9 +221,6 @@ extension UserViewController {
         headerContainer?.header?.avatarButton.accessibilityId = .UserHeaderExpandedAvatarButton
         headerContainer?.header?.ratingsButton.accessibilityId = .UserHeaderExpandedRatingsButton
         headerContainer?.header?.userRelationLabel.accessibilityId = .UserHeaderExpandedRelationLabel
-        headerContainer?.header?.myUserFacebookButton.accessibilityId = .UserHeaderExpandedVerifyFacebookButton
-        headerContainer?.header?.myUserGoogleButton.accessibilityId = .UserHeaderExpandedVerifyGoogleButton
-        headerContainer?.header?.myUserEmailButton.accessibilityId = .UserHeaderExpandedVerifyEmailButton
         headerContainer?.header?.buildTrustButton.accessibilityId = .UserHeaderExpandedBuildTrustButton
         headerContainer?.header?.sellingButton.accessibilityId = .UserSellingTab
         headerContainer?.header?.soldButton.accessibilityId = .UserSoldTab
@@ -399,6 +378,7 @@ extension UserViewController {
         setupHeaderRxBindings()
         setupProductListViewRxBindings()
         setupPermissionsRx()
+        setupUserLabelsContainerRx()
     }
 
     private func setupBackgroundRxBindings() {
@@ -415,13 +395,13 @@ extension UserViewController {
         // Pattern overlay is hidden if there's no avatarand user background view is shown if so
         let userAvatar = viewModel.userAvatarURL.asObservable()
         userAvatar.map { url in
-            guard let url = url else { return false }
-            return !url.absoluteString.isEmpty
+            guard let url = url, urlString = url.absoluteString else { return false }
+            return !urlString.isEmpty
         }.bindTo(patternView.rx_hidden).addDisposableTo(disposeBag)
 
         userAvatar.map { url in
-            guard let url = url else { return true }
-            return url.absoluteString.isEmpty
+            guard let url = url, urlString = url.absoluteString else { return false }
+            return !urlString.isEmpty
         }.bindTo(userBgView.rx_hidden).addDisposableTo(disposeBag)
 
         // Load avatar image
@@ -559,6 +539,13 @@ extension UserViewController {
 
         // Tab switch
         headerContainer.header?.tab.asObservable().bindTo(viewModel.tab).addDisposableTo(disposeBag)
+    }
+    
+    private func setupUserLabelsContainerRx() {
+        viewModel.navBarButtons.asObservable().bindNext { [weak self] buttons in
+            let margin = buttons.count > 1 ? UserViewController.userLabelsContainerMarginLong : UserViewController.userLabelsContainerMarginShort
+            self?.userLabelsSideMargin.forEach { $0.constant = margin }
+            }.addDisposableTo(disposeBag)
     }
 
     private func setupProductListViewRxBindings() {

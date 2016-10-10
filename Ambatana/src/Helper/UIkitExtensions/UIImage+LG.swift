@@ -11,7 +11,7 @@ extension UIImage {
     func rotatedImage(clockWise: Bool = true) -> UIImage {
         
         UIGraphicsBeginImageContext(CGSize(width: size.height, height: size.width))
-        let context = UIGraphicsGetCurrentContext()
+        guard let context = UIGraphicsGetCurrentContext() else { return self }
         
         CGContextTranslateCTM(context, 0.5 * size.height, 0.5 * size.width)
         if clockWise {
@@ -25,7 +25,6 @@ extension UIImage {
         
         let image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
-        
-        return image
+        return image ?? self
     }
 }

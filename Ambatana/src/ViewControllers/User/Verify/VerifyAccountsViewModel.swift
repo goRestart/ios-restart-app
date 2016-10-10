@@ -27,6 +27,10 @@ enum VerifyAccountsSource {
     case Profile(title: String, description: String)
 }
 
+enum VerificationType {
+    case Facebook, Google, Email(String?)
+}
+
 
 class VerifyAccountsViewModel: BaseViewModel {
     weak var delegate: VerifyAccountsViewModelDelegate?

@@ -7,7 +7,7 @@
 //
 
 extension UIView {
-    func takeSnapshot() -> UIImage {
+    func takeSnapshot() -> UIImage? {
         UIGraphicsBeginImageContextWithOptions(bounds.size, false, UIScreen.mainScreen().scale)
         drawViewHierarchyInRect(self.bounds, afterScreenUpdates: true)
         let image = UIGraphicsGetImageFromCurrentImageContext()
