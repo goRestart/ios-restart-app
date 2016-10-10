@@ -114,6 +114,7 @@ class ChatGroupedViewModel: BaseViewModel {
         emptyViewModel = LGEmptyViewModel(icon: UIImage(named: "ic_build_trust_big"), title: "_ARE YOU VERIFIED?",
                                                 body: "_Check if you're verified in order to start chatting", buttonTitle: "_Check",
                                                 action: { [weak self] in
+                                                    // TODO: CHECK CODE , Shouldn't it call refresh accounts on chatrepo in all cases?
                                                     guard let myUser = self?.myUserRepository.myUser, userId = myUser.objectId else {
                                                         self?.verificationPending.value = false
                                                         return
@@ -331,11 +332,12 @@ extension ChatGroupedViewModel {
             }
         }.bindTo(verificationPending).addDisposableTo(disposeBag)
 
-        // 👾 might be redundant, 0 items disables the button already.  Check whith real data
+        // TODO: 👾 might be redundant, 0 items disables the button already.  Check whith real data
         verificationPending.asObservable().filter { !$0 }.bindTo(editButtonEnabled).addDisposableTo(disposeBag)
     }
 
     func refreshUserAccountsInfo(userId: String) {
+        //TODO: CHANGE BY RECONNECT ON CHATREPO
         myUserRepository.refresh { [weak self] result in
             if let myUser = result.value where myUser.isVerified {
                 self?.verificationPending.value = false
