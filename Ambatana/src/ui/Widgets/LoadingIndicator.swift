@@ -8,7 +8,6 @@
 
 import UIKit
 
-
 public class LoadingIndicator: UIView {
 
     public var color: UIColor = UIColor.whiteColor() {
@@ -53,23 +52,6 @@ public class LoadingIndicator: UIView {
         finishLoadingAnimation()
     }
 
-
-    // MARK: - CAAnimation Delegate (Just an extension of NSObject)
-
-    public dynamic override func animationDidStop(anim: CAAnimation, finished flag: Bool) {
-        if let propAnim = anim as? CAPropertyAnimation, let keyPath = propAnim.keyPath {
-            if keyPath == "strokeEnd" {
-                loadingShape.removeAnimationForKey("rotation")
-                if let finalState = pendingFinalState {
-                    showImageAnimation(finalState)
-                } else if let completion = endAnimationsCompletion {
-                    completion()
-                    endAnimationsCompletion = nil
-                }
-            }
-        }
-    }
-    
 
     // MARK: - Private methods
 
@@ -162,5 +144,22 @@ public class LoadingIndicator: UIView {
             relatedBy: NSLayoutRelation.Equal, toItem: self, attribute: NSLayoutAttribute.Right, multiplier: 1,
             constant: 0)
         addConstraints([top, bottom, left, right])
+    }
+}
+
+
+// MARK: - CAAnimationDelegate
+
+extension LoadingIndicator: CAAnimationDelegate {
+    public func animationDidStop(anim: CAAnimation, finished flag: Bool) {
+        if let propAnim = anim as? CAPropertyAnimation, keyPath = propAnim.keyPath where keyPath == "strokeEnd" {
+            loadingShape.removeAnimationForKey("rotation")
+            if let finalState = pendingFinalState {
+                showImageAnimation(finalState)
+            } else if let completion = endAnimationsCompletion {
+                completion()
+                endAnimationsCompletion = nil
+            }
+        }
     }
 }

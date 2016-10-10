@@ -13,9 +13,17 @@ extension NSDate {
     func formattedTime() -> String {
         let dateFormatter = NSDateFormatter()
         dateFormatter.timeStyle = .ShortStyle
-        dateFormatter.dateStyle = .NoStyle
+        if isToday {
+            dateFormatter.dateStyle = .NoStyle
+        } else {
+            dateFormatter.dateStyle = .ShortStyle
+        }
         dateFormatter.locale = NSLocale.autoupdatingCurrentLocale()
         return dateFormatter.stringFromDate(self)
+    }
+
+    var isToday: Bool {
+        return NSCalendar.currentCalendar().isDateInToday(self)
     }
 
     /**

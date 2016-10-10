@@ -107,6 +107,10 @@
 		2E5350421CF8A0C6003B06CC /* ProductStatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E5350401CF8A0C6003B06CC /* ProductStatsView.swift */; };
 		2E5350441CF8A181003B06CC /* ProductStatsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E5350431CF8A181003B06CC /* ProductStatsView.xib */; };
 		2E5350451CF8A181003B06CC /* ProductStatsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E5350431CF8A181003B06CC /* ProductStatsView.xib */; };
+		2E5B95581D9579C500318A40 /* InterestedBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E5B95571D9579C500318A40 /* InterestedBubble.swift */; };
+		2E5B955A1D9579FF00318A40 /* InterestedBubbleManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E5B95591D9579FF00318A40 /* InterestedBubbleManager.swift */; };
+		2E5B955B1D957A7700318A40 /* InterestedBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E5B95571D9579C500318A40 /* InterestedBubble.swift */; };
+		2E5B955C1D957A7700318A40 /* InterestedBubbleManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E5B95591D9579FF00318A40 /* InterestedBubbleManager.swift */; };
 		2E6009B61B5CE5E500FC9CAC /* LGTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E6009B51B5CE5E500FC9CAC /* LGTextField.swift */; };
 		2E64D41A1D11B34F00257B69 /* Tooltip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E64D4191D11B34F00257B69 /* Tooltip.swift */; };
 		2E64D41B1D11B34F00257B69 /* Tooltip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E64D4191D11B34F00257B69 /* Tooltip.swift */; };
@@ -234,8 +238,6 @@
 		508011011D4748120073F362 /* SettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 508010E71D4748120073F362 /* SettingsViewController.xib */; };
 		508011031D4749030073F362 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 508011021D4749030073F362 /* LaunchScreen.xib */; };
 		508011041D4749030073F362 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 508011021D4749030073F362 /* LaunchScreen.xib */; };
-		508011061D4749360073F362 /* Features.plist in Resources */ = {isa = PBXBuildFile; fileRef = 508011051D4749360073F362 /* Features.plist */; };
-		508011071D4749360073F362 /* Features.plist in Resources */ = {isa = PBXBuildFile; fileRef = 508011051D4749360073F362 /* Features.plist */; };
 		508011131D474ED80073F362 /* Backgrounds-and-Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 508011091D474ED80073F362 /* Backgrounds-and-Images.xcassets */; };
 		508011141D474ED80073F362 /* Backgrounds-and-Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 508011091D474ED80073F362 /* Backgrounds-and-Images.xcassets */; };
 		508011151D474ED80073F362 /* Chat.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5080110A1D474ED80073F362 /* Chat.xcassets */; };
@@ -553,6 +555,8 @@
 		C71710011D09CACE00DDBBB0 /* UserPushPermissionsHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7170FFE1D09CACE00DDBBB0 /* UserPushPermissionsHeader.swift */; };
 		C71710021D09CACE00DDBBB0 /* UserPushPermissionsHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = C7170FFF1D09CACE00DDBBB0 /* UserPushPermissionsHeader.xib */; };
 		C71710031D09CACE00DDBBB0 /* UserPushPermissionsHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = C7170FFF1D09CACE00DDBBB0 /* UserPushPermissionsHeader.xib */; };
+		C71C5D5E1D958974006EB3CE /* BumperFeatures.swift in Sources */ = {isa = PBXBuildFile; fileRef = C71C5D5D1D958974006EB3CE /* BumperFeatures.swift */; };
+		C71C5D5F1D95897F006EB3CE /* BumperFeatures.swift in Sources */ = {isa = PBXBuildFile; fileRef = C71C5D5D1D958974006EB3CE /* BumperFeatures.swift */; };
 		C7239A181C11F92B006CB5A6 /* CAGradientLayer+Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7239A171C11F92B006CB5A6 /* CAGradientLayer+Color.swift */; };
 		C7239A1A1C158139006CB5A6 /* Product+Negotiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7239A191C158139006CB5A6 /* Product+Negotiable.swift */; };
 		C72794281D549334009C25AB /* SettingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72794261D549334009C25AB /* SettingsCell.swift */; };
@@ -593,6 +597,8 @@
 		C731B8731CE218C400F31D46 /* OldChatListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C731B8711CE218C400F31D46 /* OldChatListViewModel.swift */; };
 		C731B8781CE22BBE00F31D46 /* WSChatListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C731B8771CE22BBE00F31D46 /* WSChatListViewModel.swift */; };
 		C731B8791CE22BBE00F31D46 /* WSChatListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C731B8771CE22BBE00F31D46 /* WSChatListViewModel.swift */; };
+		C735101E1D942B5000D67040 /* FeatureFlags.swift in Sources */ = {isa = PBXBuildFile; fileRef = C735101D1D942B5000D67040 /* FeatureFlags.swift */; };
+		C735101F1D942B5000D67040 /* FeatureFlags.swift in Sources */ = {isa = PBXBuildFile; fileRef = C735101D1D942B5000D67040 /* FeatureFlags.swift */; };
 		C7363FB21BF9CB5B00A4BF6F /* FilterTagsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7363FB11BF9CB5B00A4BF6F /* FilterTagsViewController.swift */; };
 		C7363FB51BF9CB8D00A4BF6F /* FilterTagCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7363FB31BF9CB8D00A4BF6F /* FilterTagCell.swift */; };
 		C7363FB61BF9CB8D00A4BF6F /* FilterTagCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C7363FB41BF9CB8D00A4BF6F /* FilterTagCell.xib */; };
@@ -715,8 +721,6 @@
 		C783D98F1C650F38000EE5CA /* ReportUserCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C783D98D1C650F38000EE5CA /* ReportUserCellDrawer.swift */; };
 		C78448DD1BD5196E00C76199 /* LetGo.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = C78448DC1BD5196E00C76199 /* LetGo.entitlements */; };
 		C784FDFF1C21B45B00846AB7 /* LoadingIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C784FDFE1C21B45B00846AB7 /* LoadingIndicator.swift */; };
-		C788EECB1CC4E18B00B9E26F /* FeatureFlags.swift in Sources */ = {isa = PBXBuildFile; fileRef = C788EECA1CC4E18B00B9E26F /* FeatureFlags.swift */; };
-		C788EECC1CC4E18B00B9E26F /* FeatureFlags.swift in Sources */ = {isa = PBXBuildFile; fileRef = C788EECA1CC4E18B00B9E26F /* FeatureFlags.swift */; };
 		C788EED41CC6935600B9E26F /* UserProductListRequester.swift in Sources */ = {isa = PBXBuildFile; fileRef = C788EED31CC6935600B9E26F /* UserProductListRequester.swift */; };
 		C788EED51CC6935600B9E26F /* UserProductListRequester.swift in Sources */ = {isa = PBXBuildFile; fileRef = C788EED31CC6935600B9E26F /* UserProductListRequester.swift */; };
 		C788EED71CC7847400B9E26F /* FilteredProductListRequester.swift in Sources */ = {isa = PBXBuildFile; fileRef = C788EED61CC7847400B9E26F /* FilteredProductListRequester.swift */; };
@@ -1008,12 +1012,6 @@
 		C7F18AA01C89D62600D23319 /* GalleryImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F18A9D1C89D62600D23319 /* GalleryImageCell.swift */; };
 		C7F18AA11C89D62600D23319 /* GalleryImageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C7F18A9E1C89D62600D23319 /* GalleryImageCell.xib */; };
 		C7F18AA21C89D62600D23319 /* GalleryImageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C7F18A9E1C89D62600D23319 /* GalleryImageCell.xib */; };
-		C7F1EE791CFDD29000B027E2 /* VerifyAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F1EE771CFDD29000B027E2 /* VerifyAccountViewController.swift */; };
-		C7F1EE7A1CFDD29000B027E2 /* VerifyAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F1EE771CFDD29000B027E2 /* VerifyAccountViewController.swift */; };
-		C7F1EE7B1CFDD29000B027E2 /* VerifyAccountViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C7F1EE781CFDD29000B027E2 /* VerifyAccountViewController.xib */; };
-		C7F1EE7C1CFDD29000B027E2 /* VerifyAccountViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C7F1EE781CFDD29000B027E2 /* VerifyAccountViewController.xib */; };
-		C7F1EE7E1CFDD29C00B027E2 /* VerifyAccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F1EE7D1CFDD29C00B027E2 /* VerifyAccountViewModel.swift */; };
-		C7F1EE7F1CFDD29C00B027E2 /* VerifyAccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F1EE7D1CFDD29C00B027E2 /* VerifyAccountViewModel.swift */; };
 		C7F2E1F21CBFF53F00744D7B /* AppsFlyerDeepLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F2E1F11CBFF53F00744D7B /* AppsFlyerDeepLink.swift */; };
 		C7F2E1F31CBFF53F00744D7B /* AppsFlyerDeepLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F2E1F11CBFF53F00744D7B /* AppsFlyerDeepLink.swift */; };
 		C7F4CBA31C9181A5008E40D6 /* PostProductCameraViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F4CBA21C9181A5008E40D6 /* PostProductCameraViewModel.swift */; };
@@ -1141,6 +1139,8 @@
 		2E52CCD31CBD54F3003B7A96 /* ABTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ABTests.swift; path = ABTest/ABTests.swift; sourceTree = "<group>"; };
 		2E5350401CF8A0C6003B06CC /* ProductStatsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductStatsView.swift; sourceTree = "<group>"; };
 		2E5350431CF8A181003B06CC /* ProductStatsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProductStatsView.xib; sourceTree = "<group>"; };
+		2E5B95571D9579C500318A40 /* InterestedBubble.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InterestedBubble.swift; sourceTree = "<group>"; };
+		2E5B95591D9579FF00318A40 /* InterestedBubbleManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InterestedBubbleManager.swift; sourceTree = "<group>"; };
 		2E6009B51B5CE5E500FC9CAC /* LGTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGTextField.swift; sourceTree = "<group>"; };
 		2E64D4191D11B34F00257B69 /* Tooltip.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tooltip.swift; sourceTree = "<group>"; };
 		2E6B6E3C1D2BC0A500C10A20 /* PostIncentiviserItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostIncentiviserItem.swift; sourceTree = "<group>"; };
@@ -1240,7 +1240,6 @@
 		508010E61D4748120073F362 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		508010E71D4748120073F362 /* SettingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingsViewController.xib; sourceTree = "<group>"; };
 		508011021D4749030073F362 /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
-		508011051D4749360073F362 /* Features.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Features.plist; sourceTree = "<group>"; };
 		508011091D474ED80073F362 /* Backgrounds-and-Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Backgrounds-and-Images.xcassets"; sourceTree = "<group>"; };
 		5080110A1D474ED80073F362 /* Chat.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Chat.xcassets; sourceTree = "<group>"; };
 		5080110B1D474ED80073F362 /* Commercializer.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Commercializer.xcassets; sourceTree = "<group>"; };
@@ -1441,6 +1440,7 @@
 		C71589B31C4F8E1C00E7563E /* PopupSignUpViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PopupSignUpViewController.xib; sourceTree = "<group>"; };
 		C7170FFE1D09CACE00DDBBB0 /* UserPushPermissionsHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserPushPermissionsHeader.swift; sourceTree = "<group>"; };
 		C7170FFF1D09CACE00DDBBB0 /* UserPushPermissionsHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserPushPermissionsHeader.xib; sourceTree = "<group>"; };
+		C71C5D5D1D958974006EB3CE /* BumperFeatures.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BumperFeatures.swift; sourceTree = "<group>"; };
 		C7239A171C11F92B006CB5A6 /* CAGradientLayer+Color.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CAGradientLayer+Color.swift"; sourceTree = "<group>"; };
 		C7239A191C158139006CB5A6 /* Product+Negotiable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Product+Negotiable.swift"; sourceTree = "<group>"; };
 		C72794261D549334009C25AB /* SettingsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsCell.swift; sourceTree = "<group>"; };
@@ -1462,6 +1462,8 @@
 		C727FBD01CD10E77002BC643 /* NotificationCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NotificationCell.xib; sourceTree = "<group>"; };
 		C731B8711CE218C400F31D46 /* OldChatListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OldChatListViewModel.swift; sourceTree = "<group>"; };
 		C731B8771CE22BBE00F31D46 /* WSChatListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WSChatListViewModel.swift; sourceTree = "<group>"; };
+		C735101A1D94246C00D67040 /* bumper_features.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = bumper_features.json; sourceTree = "<group>"; };
+		C735101D1D942B5000D67040 /* FeatureFlags.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeatureFlags.swift; sourceTree = "<group>"; };
 		C7363FB11BF9CB5B00A4BF6F /* FilterTagsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterTagsViewController.swift; sourceTree = "<group>"; };
 		C7363FB31BF9CB8D00A4BF6F /* FilterTagCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterTagCell.swift; sourceTree = "<group>"; };
 		C7363FB41BF9CB8D00A4BF6F /* FilterTagCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FilterTagCell.xib; sourceTree = "<group>"; };
@@ -1536,7 +1538,6 @@
 		C783D98D1C650F38000EE5CA /* ReportUserCellDrawer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReportUserCellDrawer.swift; sourceTree = "<group>"; };
 		C78448DC1BD5196E00C76199 /* LetGo.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = LetGo.entitlements; sourceTree = "<group>"; };
 		C784FDFE1C21B45B00846AB7 /* LoadingIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingIndicator.swift; sourceTree = "<group>"; };
-		C788EECA1CC4E18B00B9E26F /* FeatureFlags.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeatureFlags.swift; sourceTree = "<group>"; };
 		C788EED31CC6935600B9E26F /* UserProductListRequester.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProductListRequester.swift; sourceTree = "<group>"; };
 		C788EED61CC7847400B9E26F /* FilteredProductListRequester.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilteredProductListRequester.swift; sourceTree = "<group>"; };
 		C78BB5091C5A314700614096 /* AppShareViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppShareViewController.swift; sourceTree = "<group>"; };
@@ -1625,9 +1626,6 @@
 		C7F18A961C89CB4C00D23319 /* PostProductGalleryView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PostProductGalleryView.xib; sourceTree = "<group>"; };
 		C7F18A9D1C89D62600D23319 /* GalleryImageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GalleryImageCell.swift; sourceTree = "<group>"; };
 		C7F18A9E1C89D62600D23319 /* GalleryImageCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GalleryImageCell.xib; sourceTree = "<group>"; };
-		C7F1EE771CFDD29000B027E2 /* VerifyAccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerifyAccountViewController.swift; sourceTree = "<group>"; };
-		C7F1EE781CFDD29000B027E2 /* VerifyAccountViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VerifyAccountViewController.xib; sourceTree = "<group>"; };
-		C7F1EE7D1CFDD29C00B027E2 /* VerifyAccountViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerifyAccountViewModel.swift; sourceTree = "<group>"; };
 		C7F2E1F11CBFF53F00744D7B /* AppsFlyerDeepLink.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppsFlyerDeepLink.swift; sourceTree = "<group>"; };
 		C7F4CBA21C9181A5008E40D6 /* PostProductCameraViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostProductCameraViewModel.swift; sourceTree = "<group>"; };
 		C7F4CBA51C92CC5A008E40D6 /* LGViewPagerPage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGViewPagerPage.swift; sourceTree = "<group>"; };
@@ -2124,6 +2122,8 @@
 			children = (
 				2E32AD141D6B0F2300AC8501 /* BubbleNotificationManager.swift */,
 				2E1F0D961D65F4B80021EDBE /* BubbleNotification.swift */,
+				2E5B95571D9579C500318A40 /* InterestedBubble.swift */,
+				2E5B95591D9579FF00318A40 /* InterestedBubbleManager.swift */,
 				50CBCD5D1BF0BB8F00A329BB /* CollectionViewFooter.swift */,
 				50CBCD5E1BF0BB8F00A329BB /* CollectionViewFooter.xib */,
 				2E4436301BF389E000814624 /* LGNavBarSearchField.swift */,
@@ -2266,6 +2266,7 @@
 		509273341B172D2100A346F9 /* Manager */ = {
 			isa = PBXGroup;
 			children = (
+				C735101C1D942B5000D67040 /* FeatureFlags */,
 				2E4A9DB81D8054B700F99026 /* Products Requester */,
 				2E9716B01D5B2C61009B3A32 /* ChatWrapper */,
 				2EF4E3A61D36861000A09DFD /* Config */,
@@ -2283,7 +2284,6 @@
 				509273351B172D5B00A346F9 /* PushManager.swift */,
 				2E245C5D1C11A88B00A3969B /* PushPermissionsManager.swift */,
 				2EE4BD1A1CD8E71A00EAADF9 /* RatingManager.swift */,
-				C788EECA1CC4E18B00B9E26F /* FeatureFlags.swift */,
 				C74BDB401D7F121600B59482 /* StickersManager.swift */,
 			);
 			path = Manager;
@@ -2467,8 +2467,8 @@
 		50CD8F5B1BC27D960031DCD3 /* Application */ = {
 			isa = PBXGroup;
 			children = (
+				C735101A1D94246C00D67040 /* bumper_features.json */,
 				50BA5C041C3C093E00F34042 /* AppDelegate.swift */,
-				508011051D4749360073F362 /* Features.plist */,
 				508011021D4749030073F362 /* LaunchScreen.xib */,
 				50CD8F5C1BC27DE30031DCD3 /* Info.plist */,
 				50BA5C051C3C093E00F34042 /* letgo-Bridging-Header.h */,
@@ -2828,6 +2828,15 @@
 			path = Cells;
 			sourceTree = "<group>";
 		};
+		C735101C1D942B5000D67040 /* FeatureFlags */ = {
+			isa = PBXGroup;
+			children = (
+				C71C5D5D1D958974006EB3CE /* BumperFeatures.swift */,
+				C735101D1D942B5000D67040 /* FeatureFlags.swift */,
+			);
+			path = FeatureFlags;
+			sourceTree = "<group>";
+		};
 		C73C16381D06C19200DFC67D /* Trending */ = {
 			isa = PBXGroup;
 			children = (
@@ -3144,9 +3153,6 @@
 		C7F1EE761CFDD15100B027E2 /* Verify */ = {
 			isa = PBXGroup;
 			children = (
-				C7F1EE771CFDD29000B027E2 /* VerifyAccountViewController.swift */,
-				C7F1EE781CFDD29000B027E2 /* VerifyAccountViewController.xib */,
-				C7F1EE7D1CFDD29C00B027E2 /* VerifyAccountViewModel.swift */,
 				C7B543261D758BA7005FBA30 /* VerifyAccountsViewController.swift */,
 				C7B543271D758BA7005FBA30 /* VerifyAccountsViewController.xib */,
 				C7B5432C1D758BF9005FBA30 /* VerifyAccountsViewModel.swift */,
@@ -3419,7 +3425,7 @@
 			attributes = {
 				LastSwiftMigration = 0700;
 				LastSwiftUpdateCheck = 0700;
-				LastUpgradeCheck = 0700;
+				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = Ambatana;
 				TargetAttributes = {
 					5067BAAA1C08C3B0007DA73B = {
@@ -3432,6 +3438,7 @@
 					6608E0351A820FBD005895ED = {
 						CreatedOnToolsVersion = 6.1.1;
 						DevelopmentTeam = 3MAE68NKQE;
+						LastSwiftMigration = 0800;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 0;
@@ -3446,10 +3453,12 @@
 					};
 					C7DB41831C5138B500400945 = {
 						DevelopmentTeam = 3MAE68NKQE;
+						LastSwiftMigration = 0800;
 					};
 					D4B5462E1AEFDD920062D183 = {
 						CreatedOnToolsVersion = 6.3;
 						DevelopmentTeam = 3MAE68NKQE;
+						LastSwiftMigration = 0800;
 						TestTargetID = 6608E0351A820FBD005895ED;
 					};
 				};
@@ -3576,7 +3585,6 @@
 				2E3760341BD914BA00A5A030 /* CategoriesViewController.xib in Resources */,
 				508C3F7C1C984BEC00CF431F /* UserViewHeader.xib in Resources */,
 				C75B5DC31D59E09500112368 /* ProductCarouselViewController.xib in Resources */,
-				508011061D4749360073F362 /* Features.plist in Resources */,
 				2E9716A41D5A0535009B3A32 /* ExpressChatCell.xib in Resources */,
 				C783D98B1C64C15B000EE5CA /* ReportUserCell.xib in Resources */,
 				C7B588551CE1DE1C009B3975 /* DirectAnswersCloseCell.xib in Resources */,
@@ -3621,7 +3629,6 @@
 				2E06EAEE1D7051BA00A40704 /* FilterPriceCell.xib in Resources */,
 				500DC12B1BDA1C4C00B494FA /* ios-devel.json in Resources */,
 				2EDCFA321BFF8AB00000E47D /* SignUpLogInViewController.xib in Resources */,
-				C7F1EE7B1CFDD29000B027E2 /* VerifyAccountViewController.xib in Resources */,
 				50CA9FAD1C91695F00350C5F /* UserViewController.xib in Resources */,
 				2E26F06C1C89998A00C8D789 /* ProcessingVideoDialogViewController.xib in Resources */,
 				C7DB41811C51239500400945 /* Settings.bundle in Resources */,
@@ -3700,7 +3707,6 @@
 				C7DB426C1C5138B500400945 /* CategoriesViewController.xib in Resources */,
 				508C3F7D1C984BEC00CF431F /* UserViewHeader.xib in Resources */,
 				C75B5DC41D59E09500112368 /* ProductCarouselViewController.xib in Resources */,
-				508011071D4749360073F362 /* Features.plist in Resources */,
 				C783D98C1C64C15B000EE5CA /* ReportUserCell.xib in Resources */,
 				C7B588561CE1DE1C009B3975 /* DirectAnswersCloseCell.xib in Resources */,
 				C7DB426F1C5138B500400945 /* FilterCategoryCell.xib in Resources */,
@@ -3744,7 +3750,6 @@
 				2E06EAF01D70595E00A40704 /* FilterPriceCell.xib in Resources */,
 				C7DB42851C5138B500400945 /* ios-devel.json in Resources */,
 				C7DB42861C5138B500400945 /* SignUpLogInViewController.xib in Resources */,
-				C7F1EE7C1CFDD29000B027E2 /* VerifyAccountViewController.xib in Resources */,
 				50CA9FAE1C91695F00350C5F /* UserViewController.xib in Resources */,
 				2E26F06D1C89998A00C8D789 /* ProcessingVideoDialogViewController.xib in Resources */,
 				C7DB42961C513BB900400945 /* Settings.bundle in Resources */,
@@ -3810,7 +3815,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		5026B0A61B05E2F3006858BB /* Fabric Script */ = {
@@ -3881,7 +3886,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		70DE5D6FDA5C0F204209AE2A /* [CP] Copy Pods Resources */ = {
@@ -3911,7 +3916,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		88284312F9B132A3A5CF53C2 /* [CP] Embed Pods Frameworks */ = {
@@ -4068,7 +4073,6 @@
 				504652F21CC0F0B3003F5070 /* Product+Title.swift in Sources */,
 				C7F18A9F1C89D62600D23319 /* GalleryImageCell.swift in Sources */,
 				C75B5DC71D59E09500112368 /* ProductDetailOnboardingView.swift in Sources */,
-				C788EECB1CC4E18B00B9E26F /* FeatureFlags.swift in Sources */,
 				2E373FA11D3CDEF500AC811C /* UserRatingCell.swift in Sources */,
 				C703BDFE1C7F1AF900EC8EF2 /* EditLocationViewController.swift in Sources */,
 				C739C1D81D11A2FB0014AD6A /* ChatOtherInfoCellDrawer.swift in Sources */,
@@ -4092,6 +4096,7 @@
 				50146BDC1D4F90F100B0F635 /* MainTabNavigator.swift in Sources */,
 				50CBCD5F1BF0BB8F00A329BB /* CollectionViewFooter.swift in Sources */,
 				50560B971B25D18F0021D8D9 /* BaseViewController.swift in Sources */,
+				C71C5D5E1D958974006EB3CE /* BumperFeatures.swift in Sources */,
 				6ADF0AE41D744DBB009AEC4A /* NPSViewModel.swift in Sources */,
 				6A12E0521C63988100C1BFE3 /* TourNotificationsViewController.swift in Sources */,
 				2E1F0D971D65F4B80021EDBE /* BubbleNotification.swift in Sources */,
@@ -4215,7 +4220,6 @@
 				6A5E1A0A1D548F5400F92692 /* UIBarItem+Rx.swift in Sources */,
 				C7798EA21D2EB6AB00C81DD4 /* UICollectionView+Helper.swift in Sources */,
 				2E28B1291D99129D001BF8E4 /* CGFloat+rounding.swift in Sources */,
-				C7F1EE791CFDD29000B027E2 /* VerifyAccountViewController.swift in Sources */,
 				50D67B9D1D182F07003AC0A5 /* SellNavigator.swift in Sources */,
 				6A38ADE21C64C4EA009E1A31 /* TourLocationViewController.swift in Sources */,
 				C7239A181C11F92B006CB5A6 /* CAGradientLayer+Color.swift in Sources */,
@@ -4228,7 +4232,6 @@
 				6A5E1A121D548F5400F92692 /* UINavigationController+LG.swift in Sources */,
 				C71589B41C4F8E1C00E7563E /* PopupSignUpViewController.swift in Sources */,
 				2E29C17D1C1ED73A008FCD87 /* GANTracker.swift in Sources */,
-				C7F1EE7E1CFDD29C00B027E2 /* VerifyAccountViewModel.swift in Sources */,
 				6A5E19F21D548F5400F92692 /* UnicodeScalar+LG.swift in Sources */,
 				C7363FB21BF9CB5B00A4BF6F /* FilterTagsViewController.swift in Sources */,
 				50C9E4C11B723E6B001E4E92 /* AmplitudeTracker.swift in Sources */,
@@ -4267,6 +4270,7 @@
 				C7B543281D758BA7005FBA30 /* VerifyAccountsViewController.swift in Sources */,
 				C77593E51BF0BD310097D62F /* FilterCategoryCell.swift in Sources */,
 				C74234091D5A028B0082D1CD /* ProductVMTrackHelper.swift in Sources */,
+				2E5B955A1D9579FF00318A40 /* InterestedBubbleManager.swift in Sources */,
 				C7DE8ABE1C888750005CF37E /* ProductPostedViewModel.swift in Sources */,
 				6A12E0491C635F6B00C1BFE3 /* TourLoginViewController.swift in Sources */,
 				50C9E4C31B723E7B001E4E92 /* AppsflyerTracker.swift in Sources */,
@@ -4394,6 +4398,7 @@
 				509273361B172D5B00A346F9 /* PushManager.swift in Sources */,
 				2E2A5E141D5C78600047ED45 /* ExpressChatNavigator.swift in Sources */,
 				C74BDB411D7F121600B59482 /* StickersManager.swift in Sources */,
+				2E5B95581D9579C500318A40 /* InterestedBubble.swift in Sources */,
 				C7B588251CE1DE1C009B3975 /* BlockedUserCell.swift in Sources */,
 				6ACC24BA1D2A5C570064B165 /* GridCellDrawer.swift in Sources */,
 				C7F4CBA31C9181A5008E40D6 /* PostProductCameraViewModel.swift in Sources */,
@@ -4412,6 +4417,7 @@
 				C7AB4EC61CD39C67007B573D /* NotificationsManager.swift in Sources */,
 				C7F4CBA61C92CC5A008E40D6 /* LGViewPagerPage.swift in Sources */,
 				2E373FA81D3D01AE00AC811C /* UserRatingListViewModel.swift in Sources */,
+				C735101E1D942B5000D67040 /* FeatureFlags.swift in Sources */,
 				C7B6FA8A1D182F4200DAA19D /* LocalChat.swift in Sources */,
 				6ACC24C41D2A90400064B165 /* GridDrawerManager.swift in Sources */,
 				C703BE021C7F1AF900EC8EF2 /* EditLocationViewModel.swift in Sources */,
@@ -4441,7 +4447,6 @@
 				6ADF0ADF1D705043009AEC4A /* NPSViewController.swift in Sources */,
 				C7F18AA01C89D62600D23319 /* GalleryImageCell.swift in Sources */,
 				C75B5DC81D59E09500112368 /* ProductDetailOnboardingView.swift in Sources */,
-				C788EECC1CC4E18B00B9E26F /* FeatureFlags.swift in Sources */,
 				C703BDFF1C7F1AF900EC8EF2 /* EditLocationViewController.swift in Sources */,
 				C739C1D91D11A2FB0014AD6A /* ChatOtherInfoCellDrawer.swift in Sources */,
 				C7DB418D1C5138B500400945 /* DLImageResizing.swift in Sources */,
@@ -4454,6 +4459,7 @@
 				C7C61E011D631F3400F9505D /* ProductCollectionCellDrawer.swift in Sources */,
 				C7B588A31CE1E025009B3975 /* ChatGroupedListViewModel.swift in Sources */,
 				C72794431D549342009C25AB /* HelpViewController.swift in Sources */,
+				C71C5D5F1D95897F006EB3CE /* BumperFeatures.swift in Sources */,
 				C7DB41921C5138B500400945 /* FilterSection.swift in Sources */,
 				C7B5886A1CE1DE1C009B3975 /* ChatGroupedViewController.swift in Sources */,
 				50146BDA1D4F90E500B0F635 /* ChatsTabNavigator.swift in Sources */,
@@ -4591,7 +4597,6 @@
 				C79842021CC8E8C900C300FF /* User+LG.swift in Sources */,
 				C7B588541CE1DE1C009B3975 /* DirectAnswersCloseCell.swift in Sources */,
 				C7798EA31D2EB6AB00C81DD4 /* UICollectionView+Helper.swift in Sources */,
-				C7F1EE7A1CFDD29000B027E2 /* VerifyAccountViewController.swift in Sources */,
 				50D67B9E1D182F07003AC0A5 /* SellNavigator.swift in Sources */,
 				6A38ADE31C64C4EA009E1A31 /* TourLocationViewController.swift in Sources */,
 				2E9716A81D5A284F009B3A32 /* ExpressChatCell.swift in Sources */,
@@ -4605,7 +4610,6 @@
 				6A5E19F31D548F5400F92692 /* UnicodeScalar+LG.swift in Sources */,
 				C7DB41E31C5138B500400945 /* GANTracker.swift in Sources */,
 				C7DB41E51C5138B500400945 /* FilterTagsViewController.swift in Sources */,
-				C7F1EE7F1CFDD29C00B027E2 /* VerifyAccountViewModel.swift in Sources */,
 				C7DB41E71C5138B500400945 /* AmplitudeTracker.swift in Sources */,
 				2E2D53DF1D369AFF00348D12 /* Config.swift in Sources */,
 				C7DB42991C521DC900400945 /* EnvironmentsHelper.swift in Sources */,
@@ -4640,6 +4644,7 @@
 				2E50E9A81D057E92002DC4C1 /* LGAlertViewController.swift in Sources */,
 				C7B543291D758BA7005FBA30 /* VerifyAccountsViewController.swift in Sources */,
 				C742340A1D5A028B0082D1CD /* ProductVMTrackHelper.swift in Sources */,
+				2E5B955C1D957A7700318A40 /* InterestedBubbleManager.swift in Sources */,
 				C7DB41FD1C5138B500400945 /* FilterCategoryCell.swift in Sources */,
 				C7DB41FE1C5138B500400945 /* AppsflyerTracker.swift in Sources */,
 				C7DE8ABF1C888750005CF37E /* ProductPostedViewModel.swift in Sources */,
@@ -4767,6 +4772,7 @@
 				C7DB42261C5138B500400945 /* TabBarController.swift in Sources */,
 				C788EED81CC7847400B9E26F /* FilteredProductListRequester.swift in Sources */,
 				C74BDB421D7F121600B59482 /* StickersManager.swift in Sources */,
+				2E5B955B1D957A7700318A40 /* InterestedBubble.swift in Sources */,
 				C7DB42281C5138B500400945 /* PushManager.swift in Sources */,
 				C7B588261CE1DE1C009B3975 /* BlockedUserCell.swift in Sources */,
 				6ACC24BB1D2A5C570064B165 /* GridCellDrawer.swift in Sources */,
@@ -4786,6 +4792,7 @@
 				2E4B359D1CC90A9500B8CB64 /* RelatedProductListRequester.swift in Sources */,
 				C7AB4EC71CD39C67007B573D /* NotificationsManager.swift in Sources */,
 				C7F4CBA71C92CC5A008E40D6 /* LGViewPagerPage.swift in Sources */,
+				C735101F1D942B5000D67040 /* FeatureFlags.swift in Sources */,
 				C7B6FA8B1D182F4200DAA19D /* LocalChat.swift in Sources */,
 				6ACC24C51D2A90400064B165 /* GridDrawerManager.swift in Sources */,
 				C703BE031C7F1AF900EC8EF2 /* EditLocationViewModel.swift in Sources */,
@@ -5019,8 +5026,10 @@
 		6608E0531A820FBD005895ED /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -5029,18 +5038,20 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_ENTITLEMENTS = Ambatana/res/LetGo.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Albert Hernández López (XE377RV2K5)";
 				COPY_PHASE_STRIP = NO;
-				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -5056,7 +5067,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "63da3a7d-a2e6-4768-a9b8-4cf6857c42a7";
+				PROVISIONING_PROFILE = "75763f23-9873-4593-845f-2603738e4459";
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -5065,8 +5076,10 @@
 		6608E0541A820FBD005895ED /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -5075,17 +5088,19 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_ENTITLEMENTS = Ambatana/res/LetGo.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Ambatana INC (3MAE68NKQE)";
 				COPY_PHASE_STRIP = YES;
-				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -5096,6 +5111,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PROVISIONING_PROFILE = "e71b459e-d9cb-443d-823b-f95c5f414bc4";
 				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -5104,6 +5120,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 9DF506523FC9C0A89601A8E3 /* Pods-LetGo.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CURRENT_PROJECT_VERSION = 29;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -5124,6 +5141,7 @@
 				PRODUCT_NAME = LetGo;
 				SWIFT_OBJC_BRIDGING_HEADER = "Ambatana/src/Application/letgo-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 2.3;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -5133,6 +5151,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7ED714BB7ABD1804F5E818D4 /* Pods-LetGo.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CURRENT_PROJECT_VERSION = 29;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -5152,6 +5171,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.letgo.ios;
 				PRODUCT_NAME = LetGo;
 				SWIFT_OBJC_BRIDGING_HEADER = "Ambatana/src/Application/letgo-Bridging-Header.h";
+				SWIFT_VERSION = 2.3;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -5161,6 +5181,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 4B0A305B22EED8C967344DB3 /* Pods-LetGoGodMode.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CURRENT_PROJECT_VERSION = 29;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -5181,6 +5202,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Ambatana/src/Application/letgo-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 2.3;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -5190,6 +5212,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7B2FD4C296937E707B24D7EB /* Pods-LetGoGodMode.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CURRENT_PROJECT_VERSION = 29;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -5209,6 +5232,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.letgo.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Ambatana/src/Application/letgo-Bridging-Header.h";
+				SWIFT_VERSION = 2.3;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -5218,6 +5242,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 97046DEB81A876CB375E76E9 /* Pods-LetGoGodMode.adhoc.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CURRENT_PROJECT_VERSION = 29;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -5237,6 +5262,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.letgo.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Ambatana/src/Application/letgo-Bridging-Header.h";
+				SWIFT_VERSION = 2.3;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -5245,8 +5271,10 @@
 		D44E065D1AE6D27400A7D3CA /* Adhoc */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -5255,17 +5283,19 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_ENTITLEMENTS = Ambatana/res/LetGo.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Ambatana INC (3MAE68NKQE)";
 				COPY_PHASE_STRIP = YES;
-				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -5274,7 +5304,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PROVISIONING_PROFILE = "c93732c7-9573-4075-8437-4e01d7f79eef";
+				PROVISIONING_PROFILE = "a6d1bb46-7bf6-447c-a64b-a2d91c61ee92";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -5284,6 +5314,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 44786E34D54C91974EA860A2 /* Pods-LetGo.adhoc.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CURRENT_PROJECT_VERSION = 29;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -5303,6 +5334,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.letgo.ios;
 				PRODUCT_NAME = LetGo;
 				SWIFT_OBJC_BRIDGING_HEADER = "Ambatana/src/Application/letgo-Bridging-Header.h";
+				SWIFT_VERSION = 2.3;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -5312,6 +5344,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = F8BAE033B6A5FFD49CE90E7C /* Pods-letgoTests.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ENABLE_MODULES = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -5338,6 +5371,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "letgoTests/letgoTests-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 2.3;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LetGo.app/LetGo";
 			};
 			name = Debug;
@@ -5346,6 +5380,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = B7604A34937163380AC2D30A /* Pods-letgoTests.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ENABLE_MODULES = YES;
 				COPY_PHASE_STRIP = NO;
@@ -5368,6 +5403,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.letgo.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "letgoTests/letgoTests-Bridging-Header.h";
+				SWIFT_VERSION = 2.3;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LetGo.app/LetGo";
 			};
 			name = Release;
@@ -5376,6 +5412,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 621A022FD11014184694D7E6 /* Pods-letgoTests.adhoc.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ENABLE_MODULES = YES;
 				COPY_PHASE_STRIP = NO;
@@ -5398,6 +5435,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.letgo.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "letgoTests/letgoTests-Bridging-Header.h";
+				SWIFT_VERSION = 2.3;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LetGo.app/LetGo";
 			};
 			name = Adhoc;

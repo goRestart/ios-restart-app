@@ -31,6 +31,8 @@ protocol AnimatableTransition {
 
 class ProductCarouselViewController: BaseViewController, AnimatableTransition {
 
+    static let interestedBubbleHeight: CGFloat = 50
+
     @IBOutlet weak var imageBackground: UIImageView!
     @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
     @IBOutlet weak var collectionView: UICollectionView!
@@ -49,6 +51,9 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     @IBOutlet weak var directChatTable: UITableView!
     @IBOutlet weak var stickersButton: UIButton!
 
+    @IBOutlet weak var interestedBubbleContainer: UIView!
+    @IBOutlet weak var interestedBubbleContainerBottomConstraint: NSLayoutConstraint!
+
     private let userView: UserView
     private let fullScreenAvatarEffectView: UIVisualEffectView
     private let fullScreenAvatarView: UIImageView
@@ -63,6 +68,12 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     private var userViewBottomMargin: CGFloat = 0 {
         didSet{
             userViewBottomConstraint?.constant = userViewBottomMargin
+        }
+    }
+    private var userViewRightConstraint: NSLayoutConstraint?
+    private var userViewRightMargin: CGFloat = 0 {
+        didSet{
+            userViewRightConstraint?.constant = userViewRightMargin
         }
     }
 
@@ -92,9 +103,9 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     private let moreInfoAlpha = Variable<CGFloat>(1)
     private let moreInfoState = Variable<MoreInfoState>(.Hidden)
 
-    private var interestedBubble: BubbleNotification?
-
-
+    private var interestedBubble: InterestedBubble?
+    private var interestedBubbleIsVisible: Bool = false
+    private var interestedBubbleTimer: NSTimer = NSTimer()
 
     let animator: PushAnimator?
     var pendingMovement: CarouselMovement?
@@ -137,6 +148,11 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         setupCollectionRx()
         setupZoomRx()
         setAccessibilityIds()
+    }
+
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        forceCloseInterestedBubble()
     }
 
     /*
@@ -215,6 +231,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
                                          attribute: .NotAnAttribute, multiplier: 1, constant: 50)
         view.addConstraints([leftMargin, rightMargin, bottomMargin, height])
         userViewBottomConstraint = bottomMargin
+        userViewRightConstraint = rightMargin
         
         // UserView effect
         fullScreenAvatarEffectView.alpha = 0
@@ -244,6 +261,31 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         editButton.layer.cornerRadius = editButton.height / 2
 
         setupDirectMessagesAndStickers()
+        setupInterestedBubble()
+    }
+
+    func setupInterestedBubble() {
+        interestedBubble = InterestedBubble(text: viewModel.currentProductViewModel?.interestedBubbleTitle)
+        guard let interestedBubble = interestedBubble else { return }
+        interestedBubble.translatesAutoresizingMaskIntoConstraints = false
+
+        interestedBubbleContainer.addSubview(interestedBubble)
+
+        let bubbleLeftConstraint = NSLayoutConstraint(item: interestedBubble, attribute: .Left, relatedBy: .Equal,
+                                                      toItem: interestedBubbleContainer, attribute: .Left, multiplier: 1,
+                                                      constant: 0)
+        let bubbleRightConstraint = NSLayoutConstraint(item: interestedBubble, attribute: .Right, relatedBy: .Equal,
+                                                       toItem: interestedBubbleContainer, attribute: .Right, multiplier: 1,
+                                                       constant: 0)
+        let bubbleTopConstraint = NSLayoutConstraint(item: interestedBubble, attribute: .Top, relatedBy: .Equal,
+                                                     toItem: interestedBubbleContainer, attribute: .Top, multiplier: 1,
+                                                     constant: 0)
+        let bubbleBottomConstraint = NSLayoutConstraint(item: interestedBubble, attribute: .Bottom, relatedBy: .Equal,
+                                                        toItem: interestedBubbleContainer, attribute: .Bottom, multiplier: 1,
+                                                        constant: 0)
+        interestedBubbleContainer.addConstraints([bubbleLeftConstraint, bubbleRightConstraint, bubbleTopConstraint,
+            bubbleBottomConstraint])
+
     }
     
     private func setupNavigationBar() {
@@ -298,6 +340,8 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
                 self?.moreInfoView?.dragView.alpha = zooming ? 0 : 1
                 self?.favoriteButton.alpha = zooming ? 0 : 1
                 self?.stickersButton.alpha = zooming ? 0 : 1
+                self?.editButton.alpha = zooming ? 0 : 1
+                self?.productStatusView.alpha = zooming ? 0 : 1
             }
         }.addDisposableTo(disposeBag)
     }
@@ -491,7 +535,7 @@ extension ProductCarouselViewController {
     }
 
     private func setupRxProductUpdate(viewModel: ProductViewModel) {
-        viewModel.product.asObservable().skip(1).bindNext { [weak self] _ in
+        viewModel.product.asObservable().bindNext { [weak self] _ in
             guard let strongSelf = self else { return }
             let visibleIndexPaths = strongSelf.collectionView.indexPathsForVisibleItems()
             //hiding fake list background to avoid showing it while the cell reloads
@@ -523,25 +567,27 @@ extension ProductCarouselViewController {
             
             guard let strongSelf = self else { return }
             
-            self?.buttonTop.hidden = true
-            self?.buttonBottom.hidden = true
-            self?.userViewBottomMargin = -(userViewMarginAboveBottomButton)
-            
+            strongSelf.buttonTop.hidden = true
+            strongSelf.buttonBottom.hidden = true
+            strongSelf.userViewBottomMargin = -(userViewMarginAboveBottomButton)
+            strongSelf.userViewRightMargin = -strongSelf.itemsMargin
+
             switch status {
             case .Pending, .NotAvailable, .OtherSold:
-                self?.userViewBottomMargin = -userViewMarginWithoutButtons
+                strongSelf.userViewBottomMargin = -userViewMarginWithoutButtons
+                strongSelf.userViewRightMargin = strongSelf.userViewRightMargin - strongSelf.editButton.width
             case .PendingAndCommercializable:
-                self?.configureButton(strongSelf.buttonBottom, type: .CreateCommercial, viewModel: viewModel)
+                strongSelf.configureButton(strongSelf.buttonBottom, type: .CreateCommercial, viewModel: viewModel)
             case .Available:
-                self?.configureButton(strongSelf.buttonBottom, type: .MarkAsSold, viewModel: viewModel)
+                strongSelf.configureButton(strongSelf.buttonBottom, type: .MarkAsSold, viewModel: viewModel)
             case .AvailableAndCommercializable:
-                self?.configureButton(strongSelf.buttonBottom, type: .MarkAsSold, viewModel: viewModel)
-                self?.configureButton(strongSelf.buttonTop, type: .CreateCommercial, viewModel: viewModel)
-                self?.userViewBottomMargin = -(userViewMarginAboveTopButton)
+                strongSelf.configureButton(strongSelf.buttonBottom, type: .MarkAsSold, viewModel: viewModel)
+                strongSelf.configureButton(strongSelf.buttonTop, type: .CreateCommercial, viewModel: viewModel)
+                strongSelf.userViewBottomMargin = -(userViewMarginAboveTopButton)
             case .Sold:
-                self?.configureButton(strongSelf.buttonBottom, type: .SellItAgain, viewModel: viewModel)
+                strongSelf.configureButton(strongSelf.buttonBottom, type: .SellItAgain, viewModel: viewModel)
             case .OtherAvailable:
-                self?.configureButton(strongSelf.buttonBottom, type: .ChatWithSeller, viewModel: viewModel)
+                strongSelf.configureButton(strongSelf.buttonBottom, type: .ChatWithSeller, viewModel: viewModel)
             }
         }.addDisposableTo(activeDisposeBag)
 
@@ -549,7 +595,7 @@ extension ProductCarouselViewController {
         editButton.rx_tap.bindNext { [weak self, weak viewModel] in
             self?.hideMoreInfo()
             viewModel?.editProduct()
-        }.addDisposableTo(disposeBag)
+        }.addDisposableTo(activeDisposeBag)
 
         let editButtonEnabled = viewModel.editButtonState.asObservable().map { return $0 != .Hidden }
         let bottomButtonCollapsed = Observable.combineLatest(viewModel.stickersButtonEnabled.asObservable(),
@@ -615,13 +661,11 @@ extension ProductCarouselViewController {
     }
 
     private func refreshInterestedBubble(viewModel: ProductViewModel) {
-        hideInterestedBubble()
+        forceCloseInterestedBubble()
         viewModel.showInterestedBubble.asObservable().filter{$0}.bindNext{ [weak self, weak viewModel] _ in
-            let productId = viewModel?.product.value.objectId
             let text = viewModel?.interestedBubbleTitle
-            let icon = viewModel?.interestedBubbleIcon
-            self?.showInterestedBubbleForProduct(productId, text: text, icon: icon)
-        }.addDisposableTo(activeDisposeBag)
+            self?.showInterestedBubble(text)
+            }.addDisposableTo(activeDisposeBag)
     }
 }
 
@@ -926,25 +970,43 @@ extension ProductCarouselViewController: UITableViewDataSource, UITableViewDeleg
 // MARK: > Interested bubble
 
 extension ProductCarouselViewController {
-    func showInterestedBubbleForProduct(productId: String?, text: String?, icon: UIImage?){
-        guard let navView = navigationController?.view else { return }
-        interestedBubble = BubbleNotification(text: text, icon: icon)
-        guard let interestedBubble = interestedBubble else { return }
-        interestedBubble.translatesAutoresizingMaskIntoConstraints = false
-
-        navView.addSubview(interestedBubble)
-        interestedBubble.setupOnView(navView)
-
-        navView.bringSubviewToFront(interestedBubble)
-        interestedBubble.showBubble()
+    func showInterestedBubble(text: String?){
+        guard !interestedBubbleIsVisible else { return }
+        interestedBubbleTimer = NSTimer.scheduledTimerWithTimeInterval(3.0, target: self, selector: #selector(timerCloseInterestedBubble),
+                                                                       userInfo: nil, repeats: false)
+        interestedBubbleIsVisible = true
+        interestedBubble?.updateInfo(text)
+        delay(0.1) { [weak self] in
+            guard let strongSelf = self else { return }
+            strongSelf.userViewBottomMargin = strongSelf.userViewBottomMargin - ProductCarouselViewController.interestedBubbleHeight
+            self?.interestedBubbleContainerBottomConstraint.constant = 0
+            UIView.animateWithDuration(0.3, animations: {
+                self?.view.layoutIfNeeded()
+            })
+        }
     }
 
-    func hideInterestedBubble() {
-        guard let interestedBubble = interestedBubble else { return }
-        interestedBubble.removeBubble()
-        self.interestedBubble = nil
+    func timerCloseInterestedBubble() {
+        removeBubble(0.5)
+    }
+
+    func forceCloseInterestedBubble() {
+        removeBubble(0.01)
+    }
+
+    func removeBubble(duration: NSTimeInterval) {
+        guard interestedBubbleIsVisible else { return }
+        interestedBubbleTimer.invalidate()
+        interestedBubbleIsVisible = false
+        interestedBubbleContainerBottomConstraint.constant = -ProductCarouselViewController.interestedBubbleHeight
+        userViewBottomMargin = userViewBottomMargin + ProductCarouselViewController.interestedBubbleHeight
+
+        UIView.animateWithDuration(duration, animations: { [weak self] in
+            self?.view.layoutIfNeeded()
+        }, completion: nil)
     }
 }
+
 
 // MARK: > Product View Model Delegate
 

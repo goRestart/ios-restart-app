@@ -21,7 +21,7 @@ struct ConversationCellData {
     let status: ConversationCellStatus
     let userName: String
     let userImageUrl: NSURL?
-    let userImagePlaceholder: UIImage
+    let userImagePlaceholder: UIImage?
     let productName: String
     let productImageUrl: NSURL?
     let unreadCount: Int

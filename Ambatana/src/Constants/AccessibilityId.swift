@@ -120,6 +120,7 @@ enum AccessibilityId: String {
     case ProductCarouselEditButton
     case ProductCarouselFullScreenAvatarView
     case ProductCarouselPageControl
+    case ProductCarouselFavoriteMessageNotificationButton
 
     case ProductCarouselNavBarEditButton
     case ProductCarouselNavBarShareButton
@@ -440,6 +441,18 @@ enum AccessibilityId: String {
     case NPSScore8
     case NPSScore9
     case NPSScore10
+
+    // Express chat
+    case ExpressChatCloseButton
+    case ExpressChatCollection
+    case ExpressChatSendButton
+    case ExpressChatDontAskButton
+
+    // Express chat cell
+    case ExpressChatCell
+    case ExpressChatCellProductTitle
+    case ExpressChatCellProductPrice
+    case ExpressChatCellTickSelected
 }
 
 extension UIAccessibilityIdentification {

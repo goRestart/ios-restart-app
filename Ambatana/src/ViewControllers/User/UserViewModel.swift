@@ -20,7 +20,6 @@ enum UserSource {
 protocol UserViewModelDelegate: BaseViewModelDelegate {
     func vmOpenSettings(settingsVC: SettingsViewController)
     func vmOpenReportUser(reportUserVM: ReportUsersViewModel)
-    func vmOpenVerifyAccount(verifyVM: VerifyAccountViewModel)
     func vmOpenHome()
     func vmOpenRatingList(ratingListVM: UserRatingListViewModel)
     func vmShowUserActionSheet(cancelLabel: String, actions: [UIAction])
@@ -178,21 +177,6 @@ extension UserViewModel {
     func ratingsButtonPressed() {
         guard FeatureFlags.userRatings else { return }
         openRatings()
-    }
-
-    func facebookButtonPressed() {
-        let vm = VerifyAccountViewModel(verificationType: .Facebook)
-        delegate?.vmOpenVerifyAccount(vm)
-    }
-
-    func googleButtonPressed() {
-        let vm = VerifyAccountViewModel(verificationType: .Google)
-        delegate?.vmOpenVerifyAccount(vm)
-    }
-
-    func emailButtonPressed() {
-        let vm = VerifyAccountViewModel(verificationType: .Email(myUserRepository.myUser?.email))
-        delegate?.vmOpenVerifyAccount(vm)
     }
 
     func buildTrustButtonPressed() {

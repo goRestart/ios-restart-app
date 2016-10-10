@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Ignacio Nieto Carvajal. All rights reserved.
 //
 
-import AppsFlyer
+import AppsFlyerTracker
 import Branch
 import Crashlytics
 import CocoaLumberjack
@@ -25,7 +25,7 @@ import Firebase
 
 @UIApplicationMain
 final class AppDelegate: UIResponder {
-    private var window: UIWindow?
+    var window: UIWindow?
 
     private var configManager: ConfigManager?
     private var crashManager: CrashManager?
@@ -225,6 +225,8 @@ private extension AppDelegate {
     }
 
     private func setupLibraries(application: UIApplication, launchOptions: [NSObject: AnyObject]?) {
+        FeatureFlags.setup()
+        
         let environmentHelper = EnvironmentsHelper()
         EnvironmentProxy.sharedInstance.setEnvironmentType(environmentHelper.appEnvironment)
 

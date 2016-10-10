@@ -45,6 +45,11 @@ extension String {
         result.replaceRange(result.startIndex...result.startIndex, with: String(result[result.startIndex]).capitalizedString)
         return result
     }
+    
+    var specialCharactersRemoved: String {
+        let charactersToRemove = NSCharacterSet.alphanumericCharacterSet().invertedSet
+        return componentsSeparatedByCharactersInSet(charactersToRemove).joinWithSeparator("")
+    }
 
     func attributedHyperlinkedStringWithURLDict(urlDict: [String : NSURL], textColor: UIColor)
         -> NSMutableAttributedString {

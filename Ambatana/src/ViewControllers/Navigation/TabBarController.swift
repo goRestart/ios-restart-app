@@ -142,9 +142,8 @@ final class TabBarController: UITabBarController {
             // UI Test accessibility Ids
             tabBarItem.accessibilityId = tab.accessibilityId
             // Customize the selected appereance
-            if let imageItem = tabBarItem.selectedImage {
-                tabBarItem.image = imageItem.imageWithColor(UIColor.tabBarIconUnselectedColor)
-                    .imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
+            if let imgWColor = tabBarItem.selectedImage?.imageWithColor(UIColor.tabBarIconUnselectedColor) {
+                tabBarItem.image = imgWColor.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
             } else {
                 tabBarItem.image = UIImage()
             }

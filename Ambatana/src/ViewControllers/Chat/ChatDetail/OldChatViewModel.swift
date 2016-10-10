@@ -272,6 +272,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     private var chat: Chat
     private var product: Product
     private var isDeleted = false
+    private var isNewChat = false
     private var shouldAskProductSold: Bool = false
     private var userDefaultsSubKey: String {
         return "\(product.objectId) + \(buyer?.objectId ?? "offline")"
@@ -412,19 +413,27 @@ public class OldChatViewModel: BaseViewModel, Paginable {
             checkShowRelatedProducts()
         }
 
+       refreshChatInfo()
+
+        if firstTime {
+            retrieveInterlocutorInfo()
+            loadStickersTooltip()
+        }
+    }
+
+    func applicationWillEnterForeground() {
+        refreshChatInfo()
+    }
+
+    private func refreshChatInfo() {
         guard chatStatus != .Forbidden else {
             showScammerDisclaimerMessage()
             markForbiddenAsRead()
             return
         }
-
         // only load messages if the chat is not forbidden
         retrieveFirstPage()
         retrieveUsersRelation()
-        if firstTime {
-            retrieveInterlocutorInfo()
-            loadStickersTooltip()
-        }
     }
 
     func wentBack() {
@@ -432,6 +441,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         guard isBuyer else { return }
         guard !relatedProducts.isEmpty else { return }
         guard let productId = product.objectId else { return }
+        guard isNewChat else { return }
         tabNavigator?.openExpressChat(relatedProducts, sourceProductId: productId)
     }
     
@@ -1045,6 +1055,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
 
                     strongSelf.delegate?.vmDidRefreshChatMessages()
                     strongSelf.afterRetrieveChatMessagesEvents()
+                    strongSelf.isNewChat = true
                 case .Network, .Unauthorized, .Internal, .Forbidden, .TooManyRequests, .UserNotVerified, .ServerError:
                     strongSelf.delegate?.vmDidFailRetrievingChatMessages()
                 }
