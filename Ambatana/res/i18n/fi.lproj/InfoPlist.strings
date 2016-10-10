@@ -1,3 +1,6 @@
 "NSLocationWhenInUseUsageDescription" = "letgo tarvitsee pääsyn paikkatietoosi voidakseen näyttää sinulle lähellä olevia tuotteita";
 "sell_shortcut_title" = "Myy tavarasi";
 "start_browsing_shortcut_title" = "Aloita selaaminen";
+"NSCameraUsageDescription" = "To start selling, give letgo access to your camera";
+"NSPhotoLibraryUsageDescription" = "To start selling, give letgo access to your library";
+"NSPhotoLibraryUsageDescription" = "To start selling, give letgo access to your library";
