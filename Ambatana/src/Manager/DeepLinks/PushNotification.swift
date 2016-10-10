@@ -30,10 +30,12 @@ struct PushNotification {
     static func buildFromUserInfo(userInfo: [NSObject : AnyObject], appActive: Bool) -> PushNotification? {
 
         let badge = getBadgeNumberFromUserInfo(userInfo)
+        let alert = getAlertFromUserInfo(userInfo) ?? ""
+        let origin = DeepLinkOrigin.Push(appActive: appActive, alert: alert)
 
         if let urlStr = userInfo["url"] as? String, url = NSURL(string: urlStr), uriScheme = UriScheme.buildFromUrl(url) {
 
-            return PushNotification(deepLink: DeepLink.push(uriScheme.deepLink.action, appActive: appActive,
+            return PushNotification(deepLink: DeepLink.push(uriScheme.deepLink.action, origin: origin,
                 campaign: uriScheme.deepLink.campaign, medium: uriScheme.deepLink.medium,
                 source: uriScheme.deepLink.source), badge: badge)
 
@@ -41,14 +43,14 @@ struct PushNotification {
 
             let type = DeepLinkMessageType(rawValue: userInfo["n_t"]?.integerValue ?? 0 ) ?? .Message
             return PushNotification(deepLink: DeepLink.push(.Message(messageType: type, data:
-                .Conversation(conversationId: conversationId)), appActive: appActive, campaign: nil, medium: nil,
+                .Conversation(conversationId: conversationId)), origin: origin, campaign: nil, medium: nil,
                 source: .Push), badge: badge)
 
         } else if let productId = userInfo["p"] as? String, let buyerId = userInfo["u"] as? String {
             
             let type = DeepLinkMessageType(rawValue: userInfo["n_t"]?.integerValue ?? 0 ) ?? .Message
             return PushNotification(deepLink: DeepLink.push(.Message(messageType: type, data:
-                .ProductBuyer(productId: productId, buyerId: buyerId)), appActive: appActive, campaign: nil, medium: nil,
+                .ProductBuyer(productId: productId, buyerId: buyerId)), origin: origin, campaign: nil, medium: nil,
                 source: .Push), badge: badge)
         }
 
@@ -60,6 +62,16 @@ struct PushNotification {
             return newBadge
         } else if let aps = userInfo["aps"] as? [NSObject: AnyObject] {
             return self.getBadgeNumberFromUserInfo(aps)
+        } else {
+            return nil
+        }
+    }
+
+    private static func getAlertFromUserInfo(userInfo: [NSObject: AnyObject]) -> String? {
+        if let alert = userInfo["alert"] as? String {
+            return alert
+        } else if let aps = userInfo["aps"] as? [NSObject: AnyObject] {
+            return self.getAlertFromUserInfo(aps)
         } else {
             return nil
         }

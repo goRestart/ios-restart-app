@@ -416,7 +416,7 @@ private extension AppCoordinator {
         deepLinksRouter.deepLinks.asObservable()
             .subscribeNext { [weak self] deepLink in
                 if deepLink.origin.appActive {
-                    self?.openInternalDeepLink(deepLink)
+                    self?.showInappDeepLink(deepLink)
                 } else {
                     self?.openExternalDeepLink(deepLink)
                 }
@@ -621,7 +621,7 @@ private extension AppCoordinator {
      was generated.
      We must NOT navigate but show an inapp notification.
      */
-    func openInternalDeepLink(deepLink: DeepLink, initialDeepLink: Bool = false) {
+    func showInappDeepLink(deepLink: DeepLink) {
         //Avoid showing inapp notification when selling
         if let child = child where child is SellCoordinator { return }
 
@@ -630,9 +630,9 @@ private extension AppCoordinator {
              .CommercializerReady, .UserRatings, .UserRating:
             return // Do nothing
         case let .Conversation(data):
-            showInappChatNotification(data)
+            showInappChatNotification(data, message: deepLink.origin.message)
         case .Message(_, let data):
-            showInappChatNotification(data)
+            showInappChatNotification(data, message: deepLink.origin.message)
         }
     }
 
@@ -689,7 +689,7 @@ private extension AppCoordinator {
         }
     }
 
-    func showInappChatNotification(data: ConversationData) {
+    func showInappChatNotification(data: ConversationData, message: String) {
         guard sessionManager.loggedIn else { return }
         //Avoid showing notification if user is already in that conversation.
         guard let selectedTabCoordinator = selectedTabCoordinator
@@ -706,31 +706,31 @@ private extension AppCoordinator {
         if FeatureFlags.websocketChat {
             chatRepository.showConversation(conversationId) { [weak self] result in
                 guard let conversation = result.value else { return }
-                self?.chatRepository.indexMessages(conversationId, numResults: 1, offset: 0) { [weak self] result in
-                    guard let message = result.value?.first else { return }
-                    let action = UIAction(interface: .Text(LGLocalizedString.appNotificationReply), action: { [weak self] in
-                        self?.tracker.trackEvent(TrackerEvent.InappChatNotificationComplete())
-                        self?.openTab(.Chats, force: false)
-                        self?.selectedTabCoordinator?.openChat(.Conversation(conversation: conversation))
+                let action = UIAction(interface: .Text(LGLocalizedString.appNotificationReply), action: { [weak self] in
+                    self?.tracker.trackEvent(TrackerEvent.InappChatNotificationComplete())
+                    self?.openTab(.Chats, force: false)
+                    self?.selectedTabCoordinator?.openChat(.Conversation(conversation: conversation))
                     })
-                    let data = BubbleNotificationData(text: conversation.interlocutor?.name ?? "-",
-                                                      infoText: message.text,
-                                                      action: action,
-                                                      iconURL: conversation.interlocutor?.avatar?.fileURL,
-                                                      iconImage: UIImage(named: "user_placeholder"))
-                    self?.bubbleNotifManager.showBubble(data, duration: 3)
-                }
+                let userName = conversation.interlocutor?.name ?? ""
+                let justMessage = message.stringByReplacingOccurrencesOfString(userName, withString: "")
+                let data = BubbleNotificationData(text: userName,
+                                                  infoText: justMessage,
+                                                  action: action,
+                                                  iconURL: conversation.interlocutor?.avatar?.fileURL,
+                                                  iconImage: UIImage(named: "user_placeholder"))
+                self?.bubbleNotifManager.showBubble(data, duration: 3)
             }
         } else {
             oldChatRepository.retrieveMessagesWithConversationId(conversationId, numResults: 1) { [weak self] result in
-                guard let myUser = self?.myUserRepository.myUser, chat = result.value,
-                    message = chat.messages.first else { return }
+                guard let myUser = self?.myUserRepository.myUser, chat = result.value else { return }
                 let action = UIAction(interface: .Text(LGLocalizedString.appNotificationReply), action: { [weak self] in
                     self?.openTab(.Chats, force: false)
                     self?.selectedTabCoordinator?.openChat(.ChatAPI(chat: chat))
                 })
-                let data = BubbleNotificationData(text: chat.otherUser(myUser: myUser).name ?? "-",
-                                                  infoText: message.text,
+                let userName = chat.otherUser(myUser: myUser).name ?? ""
+                let justMessage = message.stringByReplacingOccurrencesOfString(userName, withString: "")
+                let data = BubbleNotificationData(text: userName,
+                                                  infoText: justMessage,
                                                   action: action,
                                                   iconURL: chat.otherUser(myUser: myUser).avatar?.fileURL,
                                                   iconImage: UIImage(named: "user_placeholder"))

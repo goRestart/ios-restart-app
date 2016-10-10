@@ -52,10 +52,8 @@ class TabCoordinator: NSObject {
     }
 
     func isShowingConversation(data: ConversationData) -> Bool {
-        if let oldChat = navigationController.viewControllers.last as? OldChatViewController {
-            return oldChat.isMatchingConversationData(data)
-        } else if let chat = navigationController.viewControllers.last as? ChatViewController {
-            return chat.isMatchingConversationData(data)
+        if let convDataDisplayer = navigationController.viewControllers.last as? ConversationDataDisplayer {
+            return convDataDisplayer.isDisplayingConversationData(data)
         }
         return false
     }

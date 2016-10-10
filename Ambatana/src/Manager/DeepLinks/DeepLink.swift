@@ -15,9 +15,9 @@ struct DeepLink {
     let medium: String?
     let source: DeepLinkSource
 
-    static func push(action: DeepLinkAction, appActive: Bool, campaign: String?, medium: String?,
+    static func push(action: DeepLinkAction, origin: DeepLinkOrigin, campaign: String?, medium: String?,
                      source: DeepLinkSource) -> DeepLink {
-        return DeepLink(action: action, origin: .Push(appActive: appActive), campaign: campaign, medium: medium,
+        return DeepLink(action: action, origin: origin, campaign: campaign, medium: medium,
                         source: source)
     }
 
@@ -47,7 +47,7 @@ enum DeepLinkAction {
 }
 
 enum DeepLinkOrigin {
-    case Push(appActive: Bool)
+    case Push(appActive: Bool, alert: String)
     case Link
     case ShortCut
 
@@ -55,8 +55,17 @@ enum DeepLinkOrigin {
         switch self {
         case .Link, .ShortCut:
             return false
-        case let .Push(appActive):
+        case let .Push(appActive, _):
             return appActive
+        }
+    }
+
+    var message: String {
+        switch self {
+        case .Link, .ShortCut:
+            return ""
+        case let .Push(_, message):
+            return message
         }
     }
 }
@@ -86,6 +95,9 @@ enum ConversationData {
     case ProductBuyer(productId: String, buyerId: String)
 }
 
+protocol ConversationDataDisplayer {
+    func isDisplayingConversationData(data: ConversationData) -> Bool
+}
 
 /**
  Message type enum
