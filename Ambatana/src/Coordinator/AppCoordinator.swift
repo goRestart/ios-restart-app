@@ -699,7 +699,8 @@ private extension AppCoordinator {
         switch data {
         case let .Conversation(id):
             conversationId = id
-        default: return
+        default:
+            return
         }
 
         tracker.trackEvent(TrackerEvent.InappChatNotificationStart())
