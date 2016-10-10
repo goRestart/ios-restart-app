@@ -713,7 +713,7 @@ private extension AppCoordinator {
                     self?.selectedTabCoordinator?.openChat(.Conversation(conversation: conversation))
                     })
                 let userName = conversation.interlocutor?.name ?? ""
-                let justMessage = message.stringByReplacingOccurrencesOfString(userName, withString: "")
+                let justMessage = message.stringByReplacingOccurrencesOfString(userName, withString: "").trim
                 let data = BubbleNotificationData(text: userName,
                                                   infoText: justMessage,
                                                   action: action,
@@ -722,14 +722,14 @@ private extension AppCoordinator {
                 self?.bubbleNotifManager.showBubble(data, duration: 3)
             }
         } else {
-            oldChatRepository.retrieveMessagesWithConversationId(conversationId, numResults: 1) { [weak self] result in
+            oldChatRepository.retrieveMessagesWithConversationId(conversationId, numResults: 0) { [weak self] result in
                 guard let myUser = self?.myUserRepository.myUser, chat = result.value else { return }
                 let action = UIAction(interface: .Text(LGLocalizedString.appNotificationReply), action: { [weak self] in
                     self?.openTab(.Chats, force: false)
                     self?.selectedTabCoordinator?.openChat(.ChatAPI(chat: chat))
                 })
                 let userName = chat.otherUser(myUser: myUser).name ?? ""
-                let justMessage = message.stringByReplacingOccurrencesOfString(userName, withString: "")
+                let justMessage = message.stringByReplacingOccurrencesOfString(userName, withString: "").trim
                 let data = BubbleNotificationData(text: userName,
                                                   infoText: justMessage,
                                                   action: action,
