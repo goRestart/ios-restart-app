@@ -2,6 +2,7 @@
 "account_deactivated_w_name" = "Das Benutzerkonto von %@ wurde gelöscht";
 "account_pending_moderation" = "Benutzerkonto wird überprüft";
 "account_pending_moderation_w_name" = "Das Benutzerkonto von %@ wird überprüft";
+"app_notification_reply" = "Reply";
 "app_share_download_text" = "Herunterladen";
 "app_share_email_button" = "Via E-Mail einladen";
 "app_share_error" = "Beim Teilen der App ist ein Fehler aufgetreten. Bitte versuche es später noch einmal.";

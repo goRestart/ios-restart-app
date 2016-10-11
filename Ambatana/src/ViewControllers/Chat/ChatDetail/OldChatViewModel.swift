@@ -68,7 +68,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     // MARK: > Controller data
     
     weak var delegate: OldChatViewModelDelegate?
-    weak var tabNavigator: TabNavigator?
+    weak var navigator: ChatDetailNavigator?
 
     var title: String? {
         return product.title
@@ -218,7 +218,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         case .ProductDeleted, .Forbidden, .Available, .Blocked, .BlockedBy, .ProductSold:
             guard shouldAddBottomDisclaimer else { return nil }
             return chatViewMessageAdapter.createUserNotVerifiedDisclaimerMessage() { [weak self] in
-                self?.tabNavigator?.openVerifyAccounts([.Facebook, .Google],
+                self?.navigator?.openVerifyAccounts([.Facebook, .Google],
                     source: .Chat(description: LGLocalizedString.chatConnectAccountsMessage))
             }
         }
@@ -351,22 +351,22 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     
     // MARK: - Lifecycle
 
-    convenience init?(chat: Chat, tabNavigator: TabNavigator?) {
+    convenience init?(chat: Chat, navigator: ChatDetailNavigator?) {
         self.init(chat: chat, myUserRepository: Core.myUserRepository, configManager: ConfigManager.sharedInstance,
-                  sessionManager: Core.sessionManager, tabNavigator: tabNavigator)
+                  sessionManager: Core.sessionManager, navigator: navigator)
     }
     
-    convenience init?(product: Product, tabNavigator: TabNavigator?) {
+    convenience init?(product: Product, navigator: ChatDetailNavigator?) {
         let myUserRepository = Core.myUserRepository
         let chat = LocalChat(product: product, myUser: myUserRepository.myUser)
         let configManager = ConfigManager.sharedInstance
         let sessionManager = Core.sessionManager
         self.init(chat: chat, myUserRepository: myUserRepository,
-                  configManager: configManager, sessionManager: sessionManager, tabNavigator: tabNavigator)
+                  configManager: configManager, sessionManager: sessionManager, navigator: navigator)
     }
 
     convenience init?(chat: Chat, myUserRepository: MyUserRepository, configManager: ConfigManager,
-                      sessionManager: SessionManager, tabNavigator: TabNavigator?) {
+                      sessionManager: SessionManager, navigator: ChatDetailNavigator?) {
         let chatRepository = Core.oldChatRepository
         let productRepository = Core.productRepository
         let userRepository = Core.userRepository
@@ -376,12 +376,12 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         self.init(chat: chat, myUserRepository: myUserRepository, chatRepository: chatRepository,
                   productRepository: productRepository, userRepository: userRepository,
                   stickersRepository: stickersRepository, tracker: tracker,
-                  configManager: configManager, sessionManager: sessionManager, tabNavigator: tabNavigator)
+                  configManager: configManager, sessionManager: sessionManager, navigator: navigator)
     }
 
     init?(chat: Chat, myUserRepository: MyUserRepository, chatRepository: OldChatRepository,
           productRepository: ProductRepository, userRepository: UserRepository, stickersRepository: StickersRepository,
-          tracker: Tracker, configManager: ConfigManager, sessionManager: SessionManager, tabNavigator: TabNavigator?) {
+          tracker: Tracker, configManager: ConfigManager, sessionManager: SessionManager, navigator: ChatDetailNavigator?) {
         self.chat = chat
         self.myUserRepository = myUserRepository
         self.chatRepository = chatRepository
@@ -392,7 +392,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         self.tracker = tracker
         self.configManager = configManager
         self.sessionManager = sessionManager
-        self.tabNavigator = tabNavigator
+        self.navigator = navigator
         self.loadedMessages = []
         self.product = chat.product
         if let myUser = myUserRepository.myUser {
@@ -442,7 +442,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         guard !relatedProducts.isEmpty else { return }
         guard let productId = product.objectId else { return }
         guard isNewChat else { return }
-        tabNavigator?.openExpressChat(relatedProducts, sourceProductId: productId)
+        navigator?.openExpressChat(relatedProducts, sourceProductId: productId)
     }
     
     func showScammerDisclaimerMessage() {
@@ -477,7 +477,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         case .Available, .Blocked, .BlockedBy, .ProductSold, .UserPendingDelete, .UserDeleted:
             delegate?.vmHideKeyboard(animated: false)
             let data = ProductDetailData.ProductAPI(product: product, thumbnailImage: nil, originFrame: nil)
-            tabNavigator?.openProduct(data, source: .Chat)
+            navigator?.openProduct(data, source: .Chat)
         }
     }
     
@@ -489,7 +489,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
             guard let user = otherUser else { return }
             delegate?.vmHideKeyboard(animated: false)
             let data = UserDetailData.UserAPI(user: user, source: .Chat)
-            tabNavigator?.openUser(data)
+            navigator?.openUser(data)
         }
     }
 
@@ -1194,7 +1194,7 @@ extension OldChatViewModel: RelatedProductsViewDelegate {
         let data = ProductDetailData.ProductList(product: product, cellModels: productListModels, requester: requester,
                                                  thumbnailImage: thumbnailImage, originFrame: originFrame,
                                                  showRelated: false, index: 0)
-        tabNavigator?.openProduct(data, source: .Chat)
+        navigator?.openProduct(data, source: .Chat)
     }
 }
 

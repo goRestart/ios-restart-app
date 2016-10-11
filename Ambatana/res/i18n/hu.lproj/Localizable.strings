@@ -2,6 +2,7 @@
 "account_deactivated_w_name" = "%@ fiókját töröltük";
 "account_pending_moderation" = "Moderálásra váró fiók";
 "account_pending_moderation_w_name" = "%@ fiókja moderálásra vár";
+"app_notification_reply" = "Reply";
 "app_share_download_text" = "Letöltés";
 "app_share_email_button" = "Meghívás e-mailben";
 "app_share_error" = "Hiba történt az alkalmazás megosztása során. Próbálkozz később.";

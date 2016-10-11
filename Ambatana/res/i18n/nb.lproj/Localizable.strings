@@ -2,6 +2,7 @@
 "account_deactivated_w_name" = "Kontoen til %@ ble slettet";
 "account_pending_moderation" = "Konto avventer gjennomgang";
 "account_pending_moderation_w_name" = "%@'s konto avventer gjennomgang";
+"app_notification_reply" = "Reply";
 "app_share_download_text" = "Last ned";
 "app_share_email_button" = "Inviter via e-post";
 "app_share_error" = "En feil oppstod ved deling av appen. Vennligst prøv igjen senere.";

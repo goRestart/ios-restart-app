@@ -2,6 +2,7 @@
 "account_deactivated_w_name" = "%@'s account is verwijderd";
 "account_pending_moderation" = "Account in afwachting van matiging";
 "account_pending_moderation_w_name" = "%@'s account in afwachting van matiging";
+"app_notification_reply" = "Reply";
 "app_share_download_text" = "Download";
 "app_share_email_button" = "Uitnodigen via Email";
 "app_share_error" = "Er is een fout opgetreden tijdens het delen van de app. Probeer het later nog eens.";

@@ -2,6 +2,7 @@
 "account_deactivated_w_name" = "Käyttäjän %@ tili on poistettu";
 "account_pending_moderation" = "Tili on poistettu käytöstä moderaattorin toimesta";
 "account_pending_moderation_w_name" = "Käyttäjän %@ tili on poistettu käytöstä moderaattorin toimesta";
+"app_notification_reply" = "Reply";
 "app_share_download_text" = "Lataa";
 "app_share_email_button" = "Kutsu sähköpostilla";
 "app_share_error" = "Sovellusta jaettaessa tapahtui virhe. Ole hyvä ja yritä myöhemmin uudelleen.";

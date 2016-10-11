@@ -2,6 +2,7 @@
 "account_deactivated_w_name" = "Аккаунт пользователя %@ был удален";
 "account_pending_moderation" = "Аккаунт на модерации";
 "account_pending_moderation_w_name" = "Аккаунт %@ на модерации";
+"app_notification_reply" = "Reply";
 "app_share_download_text" = "Загрузка";
 "app_share_email_button" = "Пригласить через е-мейл";
 "app_share_error" = "При отправке приложения произошла ошибка. Пожалуйста, попробуйте еще раз позже.";

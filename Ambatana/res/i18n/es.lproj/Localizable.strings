@@ -2,6 +2,7 @@
 "account_deactivated_w_name" = "La cuenta de %@ ha sido eliminada";
 "account_pending_moderation" = "Cuenta pendiente de moderación";
 "account_pending_moderation_w_name" = "La cuenta de %@ está pendiente de moderación";
+"app_notification_reply" = "Reply";
 "app_share_download_text" = "Descargar";
 "app_share_email_button" = "Invitar por Email";
 "app_share_error" = "Se ha producido un error al compartir la app. Por favor, inténtalo de nuevo.";
