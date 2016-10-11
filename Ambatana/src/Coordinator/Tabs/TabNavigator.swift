@@ -23,6 +23,12 @@ enum ProductDetailData {
                      thumbnailImage: UIImage?, originFrame: CGRect?)
 }
 
+enum ChatDetailData {
+    case ChatAPI(chat: Chat)
+    case Conversation(conversation: ChatConversation)
+    case ProductAPI(product: Product)
+}
+
 enum BackAction {
     case ExpressChat(products: [Product])
 }
@@ -30,7 +36,7 @@ enum BackAction {
 protocol TabNavigator: class {
     func openUser(data: UserDetailData)
     func openProduct(data: ProductDetailData, source: EventParameterProductVisitSource)
-    func openExpressChat(products: [Product], sourceProductId: String)
+    func openChat(data: ChatDetailData)
     func openVerifyAccounts(types: [VerificationType], source: VerifyAccountsSource, completionBlock: (() -> Void)?)
     func openAppInvite()
     func canOpenAppInvite() -> Bool
@@ -41,4 +47,8 @@ protocol ProductDetailNavigator: TabNavigator {
      // closeCompletion's Product is nil if edit is cancelled
     func editProduct(product: Product, closeCompletion: ((Product?) -> Void)?)
     func openProductChat(product: Product)
+}
+
+protocol ChatDetailNavigator: TabNavigator {
+    func openExpressChat(products: [Product], sourceProductId: String)
 }

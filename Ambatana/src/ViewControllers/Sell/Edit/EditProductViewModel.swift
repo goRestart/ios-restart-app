@@ -216,9 +216,8 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
         self.proposedTitle.value = product.nameAuto ?? ""
         self.userIsEditingTitle = false
 
-        if let price = product.price {
-            self.price = String.fromPriceDouble(price)
-        }
+        self.price = String.fromPriceDouble(product.price.value)
+
         currency = product.currency
         if let descr = product.description {
             self.descr = descr
@@ -266,7 +265,7 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
         }
         let name = title ?? ""
         let description = (descr ?? "").stringByRemovingEmoji()
-        let priceAmount = (price ?? "0").toPriceDouble()
+        let priceAmount = ProductPrice.Normal((price ?? "0").toPriceDouble())
         let currency = initialProduct.currency
 
         let editedProduct = productRepository.updateProduct(initialProduct, name: name, description: description,

@@ -50,6 +50,13 @@ class TabCoordinator: NSObject {
         super.init()
         self.navigationController.delegate = self
     }
+
+    func isShowingConversation(data: ConversationData) -> Bool {
+        if let convDataDisplayer = navigationController.viewControllers.last as? ConversationDataDisplayer {
+            return convDataDisplayer.isDisplayingConversationData(data)
+        }
+        return false
+    }
 }
 
 
@@ -83,11 +90,16 @@ extension TabCoordinator: TabNavigator {
                         source: source)
         }
     }
-    
-    func openExpressChat(products: [Product], sourceProductId: String) {
-        guard let expressChatCoordinator = ExpressChatCoordinator(products: products, sourceProductId: sourceProductId) else { return }
-        expressChatCoordinator.delegate = self
-        openCoordinator(coordinator: expressChatCoordinator, parent: rootViewController, animated: true, completion: nil)
+
+    func openChat(data: ChatDetailData) {
+        switch data {
+        case let .ChatAPI(chat):
+            openChat(chat)
+        case let .Conversation(conversation):
+            openConversation(conversation)
+        case let .ProductAPI(product):
+            openProductChat(product)
+        }
     }
 
     func openVerifyAccounts(types: [VerificationType], source: VerifyAccountsSource, completionBlock: (() -> Void)?) {
@@ -234,6 +246,32 @@ private extension TabCoordinator {
         navigationController.pushViewController(vc, animated: true)
     }
 
+    func openChat(chat: Chat) {
+        guard let vm = OldChatViewModel(chat: chat, navigator: self) else { return }
+        let vc = OldChatViewController(viewModel: vm)
+        navigationController.pushViewController(vc, animated: true)
+    }
+
+    func openConversation(conversation: ChatConversation) {
+        let vm = ChatViewModel(conversation: conversation, navigator: self)
+        let vc = ChatViewController(viewModel: vm)
+        navigationController.pushViewController(vc, animated: true)
+    }
+
+    func openChatFromProduct(product: Product) {
+        if FeatureFlags.websocketChat {
+            guard let chatVM = ChatViewModel(product: product, navigator: self) else { return }
+            chatVM.askQuestion = .ProductDetail
+            let chatVC = ChatViewController(viewModel: chatVM, hidesBottomBar: false)
+            navigationController.pushViewController(chatVC, animated: true)
+        } else {
+            guard let chatVM = OldChatViewModel(product: product, navigator: self) else { return }
+            chatVM.askQuestion = .ProductDetail
+            let chatVC = OldChatViewController(viewModel: chatVM, hidesBottomBar: false)
+            navigationController.pushViewController(chatVC, animated: true)
+        }
+    }
+
     func openCoordinator(coordinator coordinator: Coordinator, parent: UIViewController, animated: Bool,
                                      completion: (() -> Void)?) {
         guard child == nil else { return }
@@ -260,17 +298,18 @@ extension TabCoordinator: ProductDetailNavigator {
     }
 
     func openProductChat(product: Product) {
-        if FeatureFlags.websocketChat {
-            guard let chatVM = ChatViewModel(product: product, tabNavigator: self) else { return }
-            chatVM.askQuestion = .ProductDetail
-            let chatVC = ChatViewController(viewModel: chatVM, hidesBottomBar: false)
-            navigationController.pushViewController(chatVC, animated: true)
-        } else {
-            guard let chatVM = OldChatViewModel(product: product, tabNavigator: self) else { return }
-            chatVM.askQuestion = .ProductDetail
-            let chatVC = OldChatViewController(viewModel: chatVM, hidesBottomBar: false)
-            navigationController.pushViewController(chatVC, animated: true)
-        }
+        openChatFromProduct(product)
+    }
+}
+
+
+// MARK: > ChatDetailNavigator
+
+extension TabCoordinator: ChatDetailNavigator {
+    func openExpressChat(products: [Product], sourceProductId: String) {
+        guard let expressChatCoordinator = ExpressChatCoordinator(products: products, sourceProductId: sourceProductId) else { return }
+        expressChatCoordinator.delegate = self
+        openCoordinator(coordinator: expressChatCoordinator, parent: rootViewController, animated: true, completion: nil)
     }
 }
 

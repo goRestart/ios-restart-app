@@ -127,15 +127,6 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
 
     // MARK: - ChatListViewDelegate
 
-    func chatListView(chatListView: ChatListView, didSelectChatWithOldViewModel viewModel: OldChatViewModel) {
-        let vc = OldChatViewController(viewModel: viewModel)
-        navigationController?.pushViewController(vc, animated: true)
-    }
-
-    func chatListView(chatListView: ChatListView, didSelectChatWithViewModel viewModel: ChatViewModel) {
-        navigationController?.pushViewController(ChatViewController(viewModel: viewModel), animated: true)
-    }
-
     func chatListView(chatListView: ChatListView, showDeleteConfirmationWithTitle title: String, message: String,
         cancelText: String, actionText: String, action: () -> ()) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .Alert)

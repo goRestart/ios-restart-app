@@ -2,6 +2,7 @@
 "account_deactivated_w_name" = "Tài khoản của %@ đã bị xoá";
 "account_pending_moderation" = "Tài khoản đang chờ duyệt";
 "account_pending_moderation_w_name" = "Tài khoản của %@ đang chờ duyệt";
+"app_notification_reply" = "Reply";
 "app_share_download_text" = "Tải về";
 "app_share_email_button" = "Mời qua Email";
 "app_share_error" = "Có lỗi xảy ra trong khi chia sẻ ứng dụng. Vui lòng thử lại sau.";

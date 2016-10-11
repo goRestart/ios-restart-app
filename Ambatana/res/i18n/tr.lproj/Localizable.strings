@@ -2,6 +2,7 @@
 "account_deactivated_w_name" = "%@ isimli kullanıcının hesabı silindi";
 "account_pending_moderation" = "Hesap inceleme altındadır";
 "account_pending_moderation_w_name" = "%@ adlı kullanıcının hesabı inceleme altındadır";
+"app_notification_reply" = "Reply";
 "app_share_download_text" = "Yükle";
 "app_share_email_button" = "Email ile davet et";
 "app_share_error" = "Uygulama paylaşılırken bir hata oluştu. Lütfen daha sonra tekrar dene.";

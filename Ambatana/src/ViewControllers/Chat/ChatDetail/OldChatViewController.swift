@@ -131,13 +131,6 @@ class OldChatViewController: SLKTextViewController {
     }
     
     
-    // MARK: - Public methods
-    
-    func isMatchingConversationData(data: ConversationData) -> Bool {
-        return viewModel.isMatchingConversationData(data)
-    }
-    
-    
     // MARK: > Slack methods
     
     override func didPressRightButton(sender: AnyObject!) {
@@ -381,6 +374,15 @@ class OldChatViewController: SLKTextViewController {
             guard let tabBarCtrl = self?.tabBarController as? TabBarController else { return }
             tabBarCtrl.showAppRatingViewIfNeeded(.Chat)
         }
+    }
+}
+
+
+// MARK: ConversationDataDisplayer
+
+extension OldChatViewController: ConversationDataDisplayer {
+    func isDisplayingConversationData(data: ConversationData) -> Bool {
+        return viewModel.isMatchingConversationData(data)
     }
 }
 

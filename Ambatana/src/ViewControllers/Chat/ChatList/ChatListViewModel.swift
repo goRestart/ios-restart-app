@@ -33,7 +33,5 @@ protocol ChatListViewModel: class, ChatGroupedListViewModel {
     func deleteButtonPressed()
 
     func conversationDataAtIndex(index: Int) -> ConversationCellData?
-
-    func oldChatViewModelForIndex(index: Int) -> OldChatViewModel?
-    func chatViewModelForIndex(index: Int) -> ChatViewModel?
+    func conversationSelectedAtIndex(index: Int)
 }

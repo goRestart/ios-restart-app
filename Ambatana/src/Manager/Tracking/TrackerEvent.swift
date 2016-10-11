@@ -308,9 +308,7 @@ public struct TrackerEvent {
             if let productId = product.objectId {
                 params[.ProductId] = productId
             }
-            if let productPrice = product.price {
-                params[.ProductPrice] = productPrice
-            }
+            params[.ProductPrice] = product.price.value
             params[.ProductCurrency] = product.currency.code
             params[.CategoryId] = product.category.rawValue
             return TrackerEvent(name: .ProductMarkAsSold, params: params)
@@ -321,9 +319,7 @@ public struct TrackerEvent {
         if let productId = product.objectId {
             params[.ProductId] = productId
         }
-        if let productPrice = product.price {
-            params[.ProductPrice] = productPrice
-        }
+        params[.ProductPrice] = product.price.value
         params[.ProductCurrency] = product.currency.code
         params[.CategoryId] = product.category.rawValue
         return TrackerEvent(name: .ProductMarkAsUnsold, params: params)
@@ -874,6 +870,14 @@ public struct TrackerEvent {
         params[.TypePage] = typePage.rawValue
         params[.AccountNetwork] = network.rawValue
         return TrackerEvent(name: .VerifyAccountComplete, params: params)
+    }
+
+    static func InappChatNotificationStart() -> TrackerEvent {
+        return TrackerEvent(name: .InappChatNotificationStart, params: EventParameters())
+    }
+
+    static func InappChatNotificationComplete() -> TrackerEvent {
+        return TrackerEvent(name: .InappChatNotificationComplete, params: EventParameters())
     }
 
 

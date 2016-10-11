@@ -28,13 +28,16 @@ final class AppCoordinator: NSObject {
     private let keyValueStorage: KeyValueStorage
     private let pushPermissionsManager: PushPermissionsManager
     private let ratingManager: RatingManager
+    private let bubbleNotifManager: BubbleNotificationManager
+    private let tracker: Tracker
 
     private let deepLinksRouter: DeepLinksRouter
 
     private let productRepository: ProductRepository
     private let userRepository: UserRepository
     private let myUserRepository: MyUserRepository
-    private let chatRepository: OldChatRepository
+    private let oldChatRepository: OldChatRepository
+    private let chatRepository: ChatRepository
     private let commercializerRepository: CommercializerRepository
     private let userRatingRepository: UserRatingRepository
 
@@ -54,19 +57,23 @@ final class AppCoordinator: NSObject {
         let pushPermissionsManager = PushPermissionsManager.sharedInstance
         let ratingManager = RatingManager.sharedInstance
         let deepLinksRouter = DeepLinksRouter.sharedInstance
+        let bubbleManager = BubbleNotificationManager.sharedInstance
+        let tracker = TrackerProxy.sharedInstance
 
         let productRepository = Core.productRepository
         let userRepository = Core.userRepository
         let myUserRepository = Core.myUserRepository
-        let chatRepository = Core.oldChatRepository
+        let oldChatRepository = Core.oldChatRepository
+        let chatRepository = Core.chatRepository
         let commercializerRepository = Core.commercializerRepository
         let userRatingRepository = Core.userRatingRepository
 
         self.init(tabBarController: tabBarController, configManager: configManager,
                   sessionManager: sessionManager, keyValueStorage: keyValueStorage,
                   pushPermissionsManager: pushPermissionsManager, ratingManager: ratingManager,
-                  deepLinksRouter: deepLinksRouter, productRepository: productRepository, userRepository: userRepository,
-                  myUserRepository: myUserRepository, chatRepository: chatRepository,
+                  deepLinksRouter: deepLinksRouter, bubbleManager: bubbleManager, tracker: tracker,
+                  productRepository: productRepository, userRepository: userRepository, myUserRepository: myUserRepository,
+                  oldChatRepository: oldChatRepository, chatRepository: chatRepository,
                   commercializerRepository: commercializerRepository, userRatingRepository: userRatingRepository)
         tabBarViewModel.navigator = self
     }
@@ -74,8 +81,9 @@ final class AppCoordinator: NSObject {
     init(tabBarController: TabBarController, configManager: ConfigManager,
          sessionManager: SessionManager, keyValueStorage: KeyValueStorage,
          pushPermissionsManager: PushPermissionsManager, ratingManager: RatingManager, deepLinksRouter: DeepLinksRouter,
-         productRepository: ProductRepository, userRepository: UserRepository, myUserRepository: MyUserRepository,
-         chatRepository: OldChatRepository, commercializerRepository: CommercializerRepository,
+         bubbleManager: BubbleNotificationManager, tracker: Tracker, productRepository: ProductRepository,
+         userRepository: UserRepository, myUserRepository: MyUserRepository, oldChatRepository: OldChatRepository,
+         chatRepository: ChatRepository, commercializerRepository: CommercializerRepository,
          userRatingRepository: UserRatingRepository) {
 
         self.tabBarCtl = tabBarController
@@ -93,12 +101,15 @@ final class AppCoordinator: NSObject {
         self.keyValueStorage = keyValueStorage
         self.pushPermissionsManager = pushPermissionsManager
         self.ratingManager = ratingManager
+        self.bubbleNotifManager = bubbleManager
+        self.tracker = tracker
 
         self.deepLinksRouter = deepLinksRouter
 
         self.productRepository = productRepository
         self.userRepository = userRepository
         self.myUserRepository = myUserRepository
+        self.oldChatRepository = oldChatRepository
         self.chatRepository = chatRepository
         self.commercializerRepository = commercializerRepository
         self.userRatingRepository = userRatingRepository
@@ -300,8 +311,7 @@ private extension AppCoordinator {
         tabBarCtl.presentViewController(promoteVC, animated: true, completion: nil)
 
         // Tracking
-        let event = TrackerEvent.commercializerStart(productId, typePage: .Sell)
-        TrackerProxy.sharedInstance.trackEvent(event)
+        tracker.trackEvent(TrackerEvent.commercializerStart(productId, typePage: .Sell))
 
         return true
     }
@@ -404,16 +414,12 @@ private extension AppCoordinator {
 
     func setupDeepLinkingRx() {
         deepLinksRouter.deepLinks.asObservable()
-            .filter { deepLink in
-                //We only want links that open from outside the app
-                switch deepLink.origin {
-                case .Link, .ShortCut:
-                    return true
-                case .Push(let appActive):
-                    return !appActive
+            .subscribeNext { [weak self] deepLink in
+                if deepLink.origin.appActive {
+                    self?.showInappDeepLink(deepLink)
+                } else {
+                    self?.openExternalDeepLink(deepLink)
                 }
-            }.subscribeNext { [weak self] deepLink in
-                self?.openExternalDeepLink(deepLink)
             }.addDisposableTo(disposeBag)
     }
 
@@ -531,14 +537,14 @@ private extension AppCoordinator {
         }
     }
 
+    /**
+     Those links will always come from an inactive state of the app. So it means the user clicked a push, a link or a 
+     shortcut. 
+     As it was a user action we must perform navigation
+     */
     func openExternalDeepLink(deepLink: DeepLink, initialDeepLink: Bool = false) {
         let event = TrackerEvent.openAppExternal(deepLink.campaign, medium: deepLink.medium, source: deepLink.source)
-        TrackerProxy.sharedInstance.trackEvent(event)
-
-        openDeepLink(deepLink, initialDeepLink: initialDeepLink)
-    }
-
-    func openDeepLink(deepLink: DeepLink, initialDeepLink: Bool = false) {
+        tracker.trackEvent(event)
 
         var afterDelayClosure: (() -> Void)?
         switch deepLink.action {
@@ -610,6 +616,26 @@ private extension AppCoordinator {
         }
     }
 
+    /**
+     A deeplink has been received while the app is active. It means the user was already inside the app and the deeplink
+     was generated.
+     We must NOT navigate but show an inapp notification.
+     */
+    func showInappDeepLink(deepLink: DeepLink) {
+        //Avoid showing inapp notification when selling
+        if let child = child where child is SellCoordinator { return }
+
+        switch deepLink.action {
+        case .Home, .Sell, .Product, .User, .Conversations, .Search, .ResetPassword, .Commercializer,
+             .CommercializerReady, .UserRatings, .UserRating:
+            return // Do nothing
+        case let .Conversation(data):
+            showInappChatNotification(data, message: deepLink.origin.message)
+        case .Message(_, let data):
+            showInappChatNotification(data, message: deepLink.origin.message)
+        }
+    }
+
     var selectedTabCoordinator: TabCoordinator? {
         guard let navigationController = tabBarCtl.selectedViewController as? UINavigationController else { return nil }
         for tabCoordinator in tabCoordinators {
@@ -659,6 +685,57 @@ private extension AppCoordinator {
                 navCtl.dismissLoadingMessageAlert {
                     navCtl.showAutoFadingOutMessageAlert(message)
                 }
+            }
+        }
+    }
+
+    func showInappChatNotification(data: ConversationData, message: String) {
+        guard sessionManager.loggedIn else { return }
+        //Avoid showing notification if user is already in that conversation.
+        guard let selectedTabCoordinator = selectedTabCoordinator
+            where !selectedTabCoordinator.isShowingConversation(data) else { return }
+
+        let conversationId: String
+        switch data {
+        case let .Conversation(id):
+            conversationId = id
+        default:
+            return
+        }
+
+        tracker.trackEvent(TrackerEvent.InappChatNotificationStart())
+        if FeatureFlags.websocketChat {
+            chatRepository.showConversation(conversationId) { [weak self] result in
+                guard let conversation = result.value else { return }
+                let action = UIAction(interface: .Text(LGLocalizedString.appNotificationReply), action: { [weak self] in
+                    self?.tracker.trackEvent(TrackerEvent.InappChatNotificationComplete())
+                    self?.openTab(.Chats, force: false)
+                    self?.selectedTabCoordinator?.openChat(.Conversation(conversation: conversation))
+                    })
+                let userName = conversation.interlocutor?.name ?? ""
+                let justMessage = message.stringByReplacingOccurrencesOfString(userName, withString: "").trim
+                let data = BubbleNotificationData(text: userName,
+                                                  infoText: justMessage,
+                                                  action: action,
+                                                  iconURL: conversation.interlocutor?.avatar?.fileURL,
+                                                  iconImage: UIImage(named: "user_placeholder"))
+                self?.bubbleNotifManager.showBubble(data, duration: 3)
+            }
+        } else {
+            oldChatRepository.retrieveMessagesWithConversationId(conversationId, numResults: 0) { [weak self] result in
+                guard let myUser = self?.myUserRepository.myUser, chat = result.value else { return }
+                let action = UIAction(interface: .Text(LGLocalizedString.appNotificationReply), action: { [weak self] in
+                    self?.openTab(.Chats, force: false)
+                    self?.selectedTabCoordinator?.openChat(.ChatAPI(chat: chat))
+                })
+                let userName = chat.otherUser(myUser: myUser).name ?? ""
+                let justMessage = message.stringByReplacingOccurrencesOfString(userName, withString: "").trim
+                let data = BubbleNotificationData(text: userName,
+                                                  infoText: justMessage,
+                                                  action: action,
+                                                  iconURL: chat.otherUser(myUser: myUser).avatar?.fileURL,
+                                                  iconImage: UIImage(named: "user_placeholder"))
+                self?.bubbleNotifManager.showBubble(data, duration: 3)
             }
         }
     }

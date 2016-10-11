@@ -2,6 +2,7 @@
 "account_deactivated_w_name" = "%@ konto har tagits bort";
 "account_pending_moderation" = "Konto väntar på att modereras";
 "account_pending_moderation_w_name" = "%@s konto väntar på att modereras";
+"app_notification_reply" = "Reply";
 "app_share_download_text" = "Ladda ner";
 "app_share_email_button" = "Bjud in via mejl";
 "app_share_error" = "Ett fel inträffade när appen skulle delas. Vänligen försök igen senare.";

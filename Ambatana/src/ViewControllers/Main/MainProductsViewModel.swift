@@ -195,12 +195,6 @@ class MainProductsViewModel: BaseViewModel {
         return MainProductsViewModelShareDelegate(product: product, myUser: myUserRepository.myUser)
     }
 
-    func chatViewModelForProduct(product: Product) -> OldChatViewModel? {
-        guard let chatVM = OldChatViewModel(product: product, tabNavigator: tabNavigator) else { return nil }
-        chatVM.askQuestion = .ProductList
-        return chatVM
-    }
-    
     /**
         Called when search button is pressed.
     */
