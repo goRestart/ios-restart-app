@@ -296,9 +296,9 @@ platform :ios do
 
   desc "Will test"
   lane :ci do
-    ENV["GITHUB_REPO_URL"] = 'https://github.com/letgoapp/letgo-ios.git'
-    ENV["GITHUB_PULL_REQUEST_ID"] = '754'
-    ENV["GITHUB_REPO_SLUG"] = 'letgoapp/letgo-ios'
+    ENV['GITHUB_REPO_URL'] = 'https://github.com/letgoapp/letgo-ios.git'
+    ENV['GITHUB_PULL_REQUEST_ID'] = '754'
+    ENV['GITHUB_REPO_SLUG'] = 'letgoapp/letgo-ios'
 
     danger(github_api_token: '7d076b068979573b076de8866f9e46ab9845113a', verbose: true)
     test
