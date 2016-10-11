@@ -52,7 +52,7 @@ public final class ProductRepository {
         self.viewedProductIds = []
     }
 
-    public func buildNewProduct(name: String? = nil, description: String? = nil, price: Double? = nil,
+    public func buildNewProduct(name: String? = nil, description: String? = nil, price: ProductPrice,
                                 category: ProductCategory = .Unassigned) -> Product? {
         guard let myUser = myUserRepository.myUser, lgLocation = locationManager.currentLocation else { return nil }
 
@@ -77,7 +77,7 @@ public final class ProductRepository {
         return LGProduct(chatProduct: chatProduct, chatInterlocutor: chatInterlocutor)
     }
 
-    public func updateProduct(product: Product, name: String?, description: String?, price: Double?,
+    public func updateProduct(product: Product, name: String?, description: String?, price: ProductPrice,
                               currency: Currency, location: LGLocationCoordinates2D?, postalAddress: PostalAddress?,
                               category: ProductCategory) -> Product {
         var product = LGProduct(product: product)
