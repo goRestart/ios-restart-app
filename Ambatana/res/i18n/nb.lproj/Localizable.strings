@@ -2,7 +2,7 @@
 "account_deactivated_w_name" = "Kontoen til %@ ble slettet";
 "account_pending_moderation" = "Konto avventer gjennomgang";
 "account_pending_moderation_w_name" = "%@'s konto avventer gjennomgang";
-"app_notification_reply" = "Reply";
+"app_notification_reply" = "Svar";
 "app_share_download_text" = "Last ned";
 "app_share_email_button" = "Inviter via e-post";
 "app_share_error" = "En feil oppstod ved deling av appen. Vennligst prøv igjen senere.";
@@ -114,6 +114,10 @@
 "chat_message_disclaimer_scammer" = "Vær ekstra forsiktig når du veksler telefonnummer eller e-postadresse med andre. Falske bruker vil ofte be deg om å fortsette kommunikasjonen utenfor letgo. Pass på! Trykk her for å se våre %@.";
 "chat_message_field_hint" = "Skriv din melding her";
 "chat_message_load_generic_error" = "En feil oppstod ved å motta samtaledata. Vennligst prøv igjen senere.";
+"chat_not_verified_alert_message" = "Connect with Facebook, Google or Email to verify your identity.";
+"chat_not_verified_state_check_button" = "Check";
+"chat_not_verified_state_message" = "Check if you're verified in order to start chatting.";
+"chat_not_verified_state_title" = "ARE YOU VERIFIED?";
 "chat_product_sold_label" = "Produkt solgt";
 "chat_related_products_title" = "DU KAN VÆRE INTERESSERT I:";
 "chat_safety_tips" = "Sikkerhetstips";
@@ -493,7 +497,7 @@
 "profile_verify_email_message_not_present" = "Legg inn din e-postadresse for å verifisere din konto";
 "profile_verify_email_message_present" = "Trykk \"Send e-post\" for å sende en ny verifiseringslenke til %@";
 "profile_verify_email_placeholder" = "E-post";
-"profile_verify_email_success" = "Vi har sendt deg en e-post for verifisering. Lenken vil utløpe om 48 timer.";
+"profile_verify_email_success" = "Sjekk din e-post innboks for å verifisere din konto. Lenken vil utløpe om 48 timer.";
 "profile_verify_email_title" = "E-POST";
 "profile_verify_email_too_many_requests" = "Vi har allerede sendt deg en e-post for verifisering. Vennligst sjekk din e-post innboks!";
 "profile_verify_facebook_button" = "Facebook";

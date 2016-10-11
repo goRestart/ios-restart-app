@@ -1,5 +1,5 @@
+"NSCameraUsageDescription" = "Gi letgo tilgang til ditt kamera, for å kunne sette i gang salget";
 "NSLocationWhenInUseUsageDescription" = "letgo trenger tilgang til din plassering for å kunne vise deg produkter i nærheten";
+"NSPhotoLibraryUsageDescription" = "Gi letgo tilgang til ditt bildegalleri, for å kunne sette i gang salget";
 "sell_shortcut_title" = "Selg Dine Ting";
 "start_browsing_shortcut_title" = "Begynn å bla gjennom";
-"NSCameraUsageDescription" = "To start selling, give letgo access to your camera";
-"NSPhotoLibraryUsageDescription" = "To start selling, give letgo access to your library";

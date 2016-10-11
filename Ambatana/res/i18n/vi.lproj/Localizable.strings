@@ -2,7 +2,7 @@
 "account_deactivated_w_name" = "Tài khoản của %@ đã bị xoá";
 "account_pending_moderation" = "Tài khoản đang chờ duyệt";
 "account_pending_moderation_w_name" = "Tài khoản của %@ đang chờ duyệt";
-"app_notification_reply" = "Reply";
+"app_notification_reply" = "Trả lời";
 "app_share_download_text" = "Tải về";
 "app_share_email_button" = "Mời qua Email";
 "app_share_error" = "Có lỗi xảy ra trong khi chia sẻ ứng dụng. Vui lòng thử lại sau.";
@@ -114,6 +114,10 @@
 "chat_message_disclaimer_scammer" = "Hãy đặc biệt cẩn thận khi trao đổi thông tin số điện thoại/email. Người dùng lừa đảo thường muốn bạn rời khỏi trò chuyện trong letgo. Hãy lưu ý! Nhấn váo đây để xem %@ của chúng tôi.";
 "chat_message_field_hint" = "Nhập tin nhắn của bạn tại đây";
 "chat_message_load_generic_error" = "Lỗi xảy ra trong khi hồi phục dữ liệu trò chuyện của bạn. Xin vui lòng thử lại sau.";
+"chat_not_verified_alert_message" = "Connect with Facebook, Google or Email to verify your identity.";
+"chat_not_verified_state_check_button" = "Check";
+"chat_not_verified_state_message" = "Check if you're verified in order to start chatting.";
+"chat_not_verified_state_title" = "ARE YOU VERIFIED?";
 "chat_product_sold_label" = "Sản phẩm đã bán";
 "chat_related_products_title" = "BẠN CÓ THỂ QUAN TÂM TỚI:";
 "chat_safety_tips" = "Lời khuyên an toàn";
@@ -493,7 +497,7 @@
 "profile_verify_email_message_not_present" = "Để xác nhận tài khoản, hãy nhập địa chỉ email của bạn";
 "profile_verify_email_message_present" = "Chạm \"Gửi Email\" để gửi một đường dẫn xác nhận mới tới %@";
 "profile_verify_email_placeholder" = "Email";
-"profile_verify_email_success" = "Chúng tôi vừa gửi bạn một email xác nhận. Đường dẫn sẽ hết hạn trong 48h.";
+"profile_verify_email_success" = "Hãy kiểm tra email của bạn để xác nhận tài khoản. Đường dẫn sẽ hết hạn trong 48 giờ.";
 "profile_verify_email_title" = "EMAIL";
 "profile_verify_email_too_many_requests" = "Chúng tôi vừa gửi bạn email xác nhận. Vui lòng kiểm tra hộp thư của bạn!";
 "profile_verify_facebook_button" = "Facebook";

@@ -2,7 +2,7 @@
 "account_deactivated_w_name" = "La cuenta de %@ ha sido eliminada";
 "account_pending_moderation" = "Cuenta pendiente de moderación";
 "account_pending_moderation_w_name" = "La cuenta de %@ está pendiente de moderación";
-"app_notification_reply" = "Reply";
+"app_notification_reply" = "Responder";
 "app_share_download_text" = "Descargar";
 "app_share_email_button" = "Invitar por Email";
 "app_share_error" = "Se ha producido un error al compartir la app. Por favor, inténtalo de nuevo.";
@@ -79,7 +79,7 @@
 "chat_express_one_message_sent_success_alert" = "¡Tu mensaje ha sido enviado!";
 "chat_express_send_question_text" = "Enviar: %@";
 "chat_express_several_messages_sent_success_alert" = "¡Tus mensajes han sido enviados!";
-"chat_express_text_field_text" = "Hola, ¿todavía está disponible?";
+"chat_express_text_field_text" = "Hola, ¿está disponible?";
 "chat_forbidden_disclaimer_buyer_w_name" = "La cuenta de %@ está siendo revisada por el equipo de letgo.";
 "chat_forbidden_disclaimer_buyer_wo_name" = "Esta cuenta está siendo revisada por el equipo de letgo.";
 "chat_forbidden_disclaimer_seller_w_name" = "Parece que %@ ya no está interesado en comprar tu producto.";
@@ -114,6 +114,10 @@
 "chat_message_disclaimer_scammer" = "Ten mucho cuidado al intercambiar números de teléfono/emails. Los usuarios fraudulentos suelen pedir que abandones el chat de letgo. ¡Infórmate! Pulsa aquí para revisar nuestros %@.";
 "chat_message_field_hint" = "Escribe tu mensaje";
 "chat_message_load_generic_error" = "Se ha producido un error al acceder a los datos de tu conversación. Por favor, inténtalo de nuevo.";
+"chat_not_verified_alert_message" = "Connect with Facebook, Google or Email to verify your identity.";
+"chat_not_verified_state_check_button" = "Check";
+"chat_not_verified_state_message" = "Check if you're verified in order to start chatting.";
+"chat_not_verified_state_title" = "ARE YOU VERIFIED?";
 "chat_product_sold_label" = "Artículo vendido";
 "chat_related_products_title" = "TAMBIÉN TE PODRÍA INTERESAR:";
 "chat_safety_tips" = "Consejos de seguridad";
@@ -493,7 +497,7 @@
 "profile_verify_email_message_not_present" = "Para verificar tu cuenta, introduce tu dirección de email.";
 "profile_verify_email_message_present" = "Pulsa \"Enviar Email\" para enviar un nuevo enlace de verificación a %@";
 "profile_verify_email_placeholder" = "Email";
-"profile_verify_email_success" = "Te hemos enviado un email de verificación. El enlace caducará en 48h.";
+"profile_verify_email_success" = "Revisa la bandeja de entrada de tu email para verificar tu cuenta. El enlace caducará en 48h.";
 "profile_verify_email_title" = "EMAIL";
 "profile_verify_email_too_many_requests" = "Ya te hemos enviado un email de verificación. Por favor, ¡revisa tu bandeja de entrada!";
 "profile_verify_facebook_button" = "Facebook";

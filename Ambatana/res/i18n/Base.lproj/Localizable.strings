@@ -400,6 +400,18 @@
 // Alert encouraging users to connect facebook & google
 "chat_connect_accounts_message" = "Connect with Facebook or Google to verify your identity.";
 
+// Background text on chat list when user is not verified
+"chat_not_verified_state_title" = "ARE YOU VERIFIED?";
+
+// Background text on chat list when user is not verified
+"chat_not_verified_state_message" = "Check if you're verified in order to start chatting.";
+
+// Background text on chat list when user is not verified
+"chat_not_verified_state_check_button" = "Check";
+
+// Alert to encourage user to verify
+"chat_not_verified_alert_message" = "Connect with Facebook, Google or Email to verify your identity.";
+
 // Alert to show when user started chat with himself
 "chat_with_yourself_alert_msg" = "You can't start a conversation about your own product.";
 
