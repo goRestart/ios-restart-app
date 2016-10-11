@@ -289,6 +289,11 @@ platform :ios do
     )
   end
 
+  desc "Will test"
+  lane :test do
+    scan(scheme: "LetGo")
+  end
+
   after_all do |lane|
     notify "Fastlane finished '#{lane}' successfully" # Mac OS X Notification
   end

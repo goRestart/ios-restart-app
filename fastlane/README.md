@@ -36,6 +36,16 @@ Will update Web Translate It with the new validated strings from google drive, d
 fastlane ios bumper
 ```
 Will generate BumperFlags.switf based on the sources json
+### ios test
+```
+fastlane ios test
+```
+Will test
+### ios ci
+```
+fastlane ios ci
+```
+Will test
 
 ----
 
