@@ -2,7 +2,7 @@
 "account_deactivated_w_name" = "Kontoen til %@ ble slettet";
 "account_pending_moderation" = "Konto avventer gjennomgang";
 "account_pending_moderation_w_name" = "%@'s konto avventer gjennomgang";
-"app_notification_reply" = "Reply";
+"app_notification_reply" = "Svar";
 "app_share_download_text" = "Last ned";
 "app_share_email_button" = "Inviter via e-post";
 "app_share_error" = "En feil oppstod ved deling av appen. Vennligst prøv igjen senere.";
@@ -493,7 +493,7 @@
 "profile_verify_email_message_not_present" = "Legg inn din e-postadresse for å verifisere din konto";
 "profile_verify_email_message_present" = "Trykk \"Send e-post\" for å sende en ny verifiseringslenke til %@";
 "profile_verify_email_placeholder" = "E-post";
-"profile_verify_email_success" = "Vi har sendt deg en e-post for verifisering. Lenken vil utløpe om 48 timer.";
+"profile_verify_email_success" = "Sjekk din e-post innboks for å verifisere din konto. Lenken vil utløpe om 48 timer.";
 "profile_verify_email_title" = "E-POST";
 "profile_verify_email_too_many_requests" = "Vi har allerede sendt deg en e-post for verifisering. Vennligst sjekk din e-post innboks!";
 "profile_verify_facebook_button" = "Facebook";

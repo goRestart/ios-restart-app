@@ -2,7 +2,7 @@
 "account_deactivated_w_name" = "%@ isimli kullanıcının hesabı silindi";
 "account_pending_moderation" = "Hesap inceleme altındadır";
 "account_pending_moderation_w_name" = "%@ adlı kullanıcının hesabı inceleme altındadır";
-"app_notification_reply" = "Reply";
+"app_notification_reply" = "Yanıtla";
 "app_share_download_text" = "Yükle";
 "app_share_email_button" = "Email ile davet et";
 "app_share_error" = "Uygulama paylaşılırken bir hata oluştu. Lütfen daha sonra tekrar dene.";
@@ -493,7 +493,7 @@
 "profile_verify_email_message_not_present" = "Hesabını doğrulamak için e-posta adresini gir.";
 "profile_verify_email_message_present" = "%@ adresine yeni bir bağlantı göndermek için \"E-posta Gönder\"e bas";
 "profile_verify_email_placeholder" = "E-posta";
-"profile_verify_email_success" = "Sana bir doğrulama e-postası gönderdik. Bağlantı, 48 saat içinde geçersiz olur.";
+"profile_verify_email_success" = "Lütfen e-postanın gelen kutusunu kontrol et. Bağlantı, 48 saat sonra geçersiz olacaktır.";
 "profile_verify_email_title" = "E-POSTA";
 "profile_verify_email_too_many_requests" = "Hesap doğrulama e-postası gönderilmiştir. Lütfen gelen kutunu kontrol et!";
 "profile_verify_facebook_button" = "Facebook";

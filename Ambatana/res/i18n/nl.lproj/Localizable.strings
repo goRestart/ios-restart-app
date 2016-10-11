@@ -2,7 +2,7 @@
 "account_deactivated_w_name" = "%@'s account is verwijderd";
 "account_pending_moderation" = "Account in afwachting van matiging";
 "account_pending_moderation_w_name" = "%@'s account in afwachting van matiging";
-"app_notification_reply" = "Reply";
+"app_notification_reply" = "Antwoord";
 "app_share_download_text" = "Download";
 "app_share_email_button" = "Uitnodigen via Email";
 "app_share_error" = "Er is een fout opgetreden tijdens het delen van de app. Probeer het later nog eens.";
@@ -493,7 +493,7 @@
 "profile_verify_email_message_not_present" = "Om je account te verifiëren, vul je e-mailadres in.  ";
 "profile_verify_email_message_present" = "Tik op \"E-mail Verzenden\" om een nieuwe verificatie-link te verzenden naar %@";
 "profile_verify_email_placeholder" = "E-mail";
-"profile_verify_email_success" = "We hebben je een verificatie e-mail gestuurd. De link zal over 48 uur verlopen.";
+"profile_verify_email_success" = "Controleer je e-mail inbox om je account te verifiëren. De link zal over 48 uur verlopen.";
 "profile_verify_email_title" = "EMAIL";
 "profile_verify_email_too_many_requests" = "We hebben je al een verificatie e-mail gestuurd. Gelieve je inbox te checken!";
 "profile_verify_facebook_button" = "Facebook";

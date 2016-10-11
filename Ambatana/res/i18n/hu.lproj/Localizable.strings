@@ -2,7 +2,7 @@
 "account_deactivated_w_name" = "%@ fiókját töröltük";
 "account_pending_moderation" = "Moderálásra váró fiók";
 "account_pending_moderation_w_name" = "%@ fiókja moderálásra vár";
-"app_notification_reply" = "Reply";
+"app_notification_reply" = "Válasz";
 "app_share_download_text" = "Letöltés";
 "app_share_email_button" = "Meghívás e-mailben";
 "app_share_error" = "Hiba történt az alkalmazás megosztása során. Próbálkozz később.";
@@ -493,7 +493,7 @@
 "profile_verify_email_message_not_present" = "Fiókod megerősítéséhez add meg e-mail címedet.";
 "profile_verify_email_message_present" = "Koppints az „E-mail küldése” gombra, hogy megerősítő e-mailt küldess a következő címre: %@";
 "profile_verify_email_placeholder" = "E-mail";
-"profile_verify_email_success" = "Visszaigazoló e-mailt küldtünk e-mail címedre. A hivatkozás 48 óra múlva lejár.";
+"profile_verify_email_success" = "Fiókod visszaigazolásához e-mailt küldtünk. A hivatkozás 48 óra múlva lejár.";
 "profile_verify_email_title" = "EMAIL";
 "profile_verify_email_too_many_requests" = "Már küldünk egy megerősítési e-mailt. Ellenőrizd a bejövő e-maileket!";
 "profile_verify_facebook_button" = "Facebook";

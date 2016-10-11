@@ -2,7 +2,7 @@
 "account_deactivated_w_name" = "%@의 계정이 삭제되었습니다";
 "account_pending_moderation" = "조정중인 계정";
 "account_pending_moderation_w_name" = "%@의 계정은 현재 조정중입니다";
-"app_notification_reply" = "Reply";
+"app_notification_reply" = "답변";
 "app_share_download_text" = "다운로드";
 "app_share_email_button" = "이메일로 초대하기";
 "app_share_error" = "앱을 공유하는 동안 오류가 발생했습니다. 다시 시도해주세요.";
@@ -493,7 +493,7 @@
 "profile_verify_email_message_not_present" = "계정 확인을 위해, 이메일 주소를 입력하여 주십시오.";
 "profile_verify_email_message_present" = "\"이메일 보내기\"를 클릭하면 새 본인인증 링크가%@로 발송됩니다";
 "profile_verify_email_placeholder" = "이메일";
-"profile_verify_email_success" = "확인 이메일을 발송하였습니다. 링크는 48시간 이내에 만료됩니다.";
+"profile_verify_email_success" = "계정을 인증하기 위해 수신함을 확인해주세요. 이 링크는 48시간 이내에 만료됩니다.";
 "profile_verify_email_title" = "이메일";
 "profile_verify_email_too_many_requests" = "저희는 이미 회원님께 확인 이메일을 발송하였습니다. 수신함을 확인해주세요!";
 "profile_verify_facebook_button" = "페이스북";
