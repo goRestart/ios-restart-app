@@ -289,9 +289,15 @@ platform :ios do
     )
   end
 
-  desc "Will test" 
+  desc "Will test"
   lane :test do
     scan(scheme: "LetGo")
+  end
+
+  desc "Will test"
+  lane :ci do
+    danger(github_api_token: "7d076b068979573b076de8866f9e46ab9845113a", verbose: true)
+    test
   end
 
   after_all do |lane|
