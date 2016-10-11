@@ -289,7 +289,7 @@ platform :ios do
     )
   end
 
-  desc "Will test"
+  desc "Will test" 
   lane :test do
     scan(scheme: "LetGo")
   end
