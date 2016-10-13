@@ -52,6 +52,7 @@ class ChatGroupedViewModel: BaseViewModel {
     private(set) var blockedUsersListViewModel: BlockedUsersListViewModel
     private let currentPageViewModel = Variable<ChatGroupedListViewModelType?>(nil)
 
+    private var sessionManager: SessionManager
     private var myUserRepository: MyUserRepository
     private var chatRepository: ChatRepository
 
@@ -62,7 +63,7 @@ class ChatGroupedViewModel: BaseViewModel {
             blockedUsersListViewModel.tabNavigator = tabNavigator
         }
     }
-    var emptyViewModel: LGEmptyViewModel?
+    var verificationPendingEmptyVM: LGEmptyViewModel?
 
     let editButtonText = Variable<String?>(nil)
     let editButtonEnabled = Variable<Bool>(true)
@@ -75,10 +76,12 @@ class ChatGroupedViewModel: BaseViewModel {
     // MARK: - Lifecycle
 
     override convenience init() {
-        self.init(myUserRepository: Core.myUserRepository, chatRepository: Core.chatRepository)
+        self.init(myUserRepository: Core.myUserRepository, chatRepository: Core.chatRepository,
+                  sessionManager: Core.sessionManager)
     }
 
-    init(myUserRepository: MyUserRepository, chatRepository: ChatRepository) {
+    init(myUserRepository: MyUserRepository, chatRepository: ChatRepository, sessionManager: SessionManager) {
+        self.sessionManager = sessionManager
         self.myUserRepository = myUserRepository
         self.chatRepository = chatRepository
         self.chatListViewModels = []
@@ -107,24 +110,16 @@ class ChatGroupedViewModel: BaseViewModel {
             }
         }
         setupRxBindings()
-        setupEmptyViewModel()
+        setupVerificationPendingEmptyVM()
     }
 
-    func setupEmptyViewModel() {
-        emptyViewModel = LGEmptyViewModel(icon: UIImage(named: "ic_build_trust_big"), title: LGLocalizedString.chatNotVerifiedStateTitle,
-                                                body: LGLocalizedString.chatNotVerifiedStateMessage, buttonTitle: LGLocalizedString.chatNotVerifiedStateCheckButton,
-                                                action: { [weak self] in
-                                                    // TODO: CHECK CODE , Shouldn't it call refresh accounts on chatrepo in all cases?
-                                                    guard let myUser = self?.myUserRepository.myUser, userId = myUser.objectId else {
-                                                        self?.verificationPending.value = false
-                                                        return
-                                                    }
-                                                    guard !myUser.isVerified else {
-                                                        self?.verificationPending.value = false
-                                                        return
-                                                    }
-                                                    self?.refreshUserAccountsInfo(userId)
-            }, secondaryButtonTitle: nil, secondaryAction: nil)
+    func setupVerificationPendingEmptyVM() {
+        verificationPendingEmptyVM = LGEmptyViewModel(icon: UIImage(named: "ic_build_trust_big"),
+                                          title: LGLocalizedString.chatNotVerifiedStateTitle,
+                                          body: LGLocalizedString.chatNotVerifiedStateMessage,
+                                          buttonTitle: LGLocalizedString.chatNotVerifiedStateCheckButton,
+                                          action: { [weak self] in self?.tryToReconnectChat() },
+                                          secondaryButtonTitle: nil, secondaryAction: nil)
     }
 
     // MARK: - Public methods
@@ -332,14 +327,12 @@ extension ChatGroupedViewModel {
             }
         }.bindTo(verificationPending).addDisposableTo(disposeBag)
 
-        // TODO: 👾 might be redundant, 0 items disables the button already.  Check whith real data
         verificationPending.asObservable().filter { !$0 }.bindTo(editButtonEnabled).addDisposableTo(disposeBag)
     }
 
-    func refreshUserAccountsInfo(userId: String) {
-        //TODO: CHANGE BY RECONNECT ON CHATREPO
-        myUserRepository.refresh { [weak self] result in
-            if let myUser = result.value where myUser.isVerified {
+    func tryToReconnectChat() {
+        sessionManager.connectChat { [weak self] result in
+            if let _ = result.value {
                 self?.verificationPending.value = false
             } else {
                 self?.tabNavigator?.openVerifyAccounts([.Facebook, .Google, .Email(self?.myUserRepository.myUser?.email)],

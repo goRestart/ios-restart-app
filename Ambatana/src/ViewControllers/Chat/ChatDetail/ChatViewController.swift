@@ -553,10 +553,6 @@ extension ChatViewController: ChatViewModelDelegate {
     func vmShowMessage(message: String, completion: (() -> ())?) {
         showAutoFadingOutMessageAlert(message, completion: completion)
     }
-    
-    func vmClose() {
-        navigationController?.popViewControllerAnimated(true)
-    }
 
     func vmRequestLogin(loggedInAction: () -> Void) {
         dismissKeyboard(false)

@@ -250,7 +250,7 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
         navigationItem.leftBarButtonItem = leftButton
         #endif
 
-        setupValidationAlert()
+        setupValidationEmptyState()
 
         view.backgroundColor = UIColor.listBackgroundColor
         setNavBarTitle(LGLocalizedString.chatListTitle)
@@ -266,9 +266,8 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
         viewPager.reloadData()
     }
 
-    private func setupValidationAlert() {
-        // 👾
-        guard let emptyVM = viewModel.emptyViewModel else { return }
+    private func setupValidationEmptyState() {
+        guard let emptyVM = viewModel.verificationPendingEmptyVM else { return }
         validationPendingEmptyView.setupWithModel(emptyVM)
         validationPendingEmptyView.frame = view.frame
         view.addSubview(validationPendingEmptyView)
@@ -329,9 +328,9 @@ extension ChatGroupedViewController {
     }
 
     private func setupRxVerificationViewBindings() {
-        // 👾
         viewModel.verificationPending.asObservable().bindTo(viewPager.rx_hidden).addDisposableTo(disposeBag)
-        viewModel.verificationPending.asObservable().map { !$0 }.bindTo(validationPendingEmptyView.rx_hidden).addDisposableTo(disposeBag)
+        viewModel.verificationPending.asObservable().map { !$0 }.bindTo(validationPendingEmptyView.rx_hidden)
+            .addDisposableTo(disposeBag)
     }
 }
 

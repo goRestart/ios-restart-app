@@ -31,7 +31,6 @@ protocol ChatViewModelDelegate: BaseViewModelDelegate {
     func vmShowMessage(message: String, completion: (() -> ())?)
     func vmRequestLogin(loggedInAction: () -> Void)
     func vmLoadStickersTooltipWithText(text: NSAttributedString)
-    func vmClose()
 }
 
 struct EmptyConversation: ChatConversation {
@@ -578,7 +577,6 @@ extension ChatViewModel {
                 switch error {
                 case .UserNotVerified:
                     self?.showUserNotVerifiedAlert()
-                    self?.userNotVerifiedError()
                 case .Forbidden, .Internal, .Network, .NotFound, .TooManyRequests, .Unauthorized, .ServerError:
                     self?.delegate?.vmDidFailSendingMessage()
                 }
@@ -746,7 +744,7 @@ extension ChatViewModel {
                 }
                 let message = success ? LGLocalizedString.chatListDeleteOkOne : LGLocalizedString.chatListDeleteErrorOne
                 self?.delegate?.vmShowMessage(message) { [weak self] in
-                    self?.delegate?.vmClose()
+                    self?.navigator?.closeChatDetail()
                 }
             }
         })
@@ -994,7 +992,7 @@ private extension ChatViewModel {
                     //A user cannot have a conversation with himself
                     strongSelf.delegate?.vmShowAutoFadingMessage(LGLocalizedString.chatWithYourselfAlertMsg) {
                         [weak self] in
-                        self?.delegate?.vmClose()
+                        self?.navigator?.closeChatDetail()
                     }
                     return
                 }
