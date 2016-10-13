@@ -543,6 +543,22 @@ struct LGLocalizedString {
 		return NSLocalizedString("chat_connect_accounts_message", comment: "")
 	}
 
+	static var chatNotVerifiedStateTitle: String {
+		return NSLocalizedString("chat_not_verified_state_title", comment: "")
+	}
+
+	static var chatNotVerifiedStateMessage: String {
+		return NSLocalizedString("chat_not_verified_state_message", comment: "")
+	}
+
+	static var chatNotVerifiedStateCheckButton: String {
+		return NSLocalizedString("chat_not_verified_state_check_button", comment: "")
+	}
+
+	static var chatNotVerifiedAlertMessage: String {
+		return NSLocalizedString("chat_not_verified_alert_message", comment: "")
+	}
+
 	static var chatWithYourselfAlertMsg: String {
 		return NSLocalizedString("chat_with_yourself_alert_msg", comment: "")
 	}
@@ -1465,6 +1481,10 @@ struct LGLocalizedString {
 
 	static func productDistanceXFromYou(var1: String) -> String {
 		return String(format: NSLocalizedString("product_distance_X_from_you", comment: ""), var1)
+	}
+
+	static var productFreePrice: String {
+		return NSLocalizedString("product_free_price", comment: "")
 	}
 
 	static var productListBannerCellTitle: String {

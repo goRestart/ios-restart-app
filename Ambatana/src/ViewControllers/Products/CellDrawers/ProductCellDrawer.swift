@@ -13,5 +13,8 @@ class ProductCellDrawer: BaseCollectionCellDrawer<ProductCell>, GridCellDrawer {
         if let thumbURL = model.thumbUrl {
             cell.setImageUrl(thumbURL)
         }
+        if (!(FeatureFlags.freePostingMode == .Disabled) && model.isFree) {
+            cell.setFreeStripe()
+        }
     }
 }

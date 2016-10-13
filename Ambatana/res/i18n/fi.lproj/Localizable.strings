@@ -2,7 +2,7 @@
 "account_deactivated_w_name" = "Käyttäjän %@ tili on poistettu";
 "account_pending_moderation" = "Tili on poistettu käytöstä moderaattorin toimesta";
 "account_pending_moderation_w_name" = "Käyttäjän %@ tili on poistettu käytöstä moderaattorin toimesta";
-"app_notification_reply" = "Reply";
+"app_notification_reply" = "Vastaa";
 "app_share_download_text" = "Lataa";
 "app_share_email_button" = "Kutsu sähköpostilla";
 "app_share_error" = "Sovellusta jaettaessa tapahtui virhe. Ole hyvä ja yritä myöhemmin uudelleen.";
@@ -79,7 +79,7 @@
 "chat_express_one_message_sent_success_alert" = "Viestisi on lähetetty!";
 "chat_express_send_question_text" = "Lähetä: %@";
 "chat_express_several_messages_sent_success_alert" = "Viestisi on lähetetty!";
-"chat_express_text_field_text" = "Hei! Onko tuote edelleen myynnissä?";
+"chat_express_text_field_text" = "Onko tuote edelleen myynnissä?";
 "chat_forbidden_disclaimer_buyer_w_name" = "letgo-tiimi suorittaa tällä hetkellä tarkastusta käyttäjän %@ tilille.";
 "chat_forbidden_disclaimer_buyer_wo_name" = "letgo-tiimi suorittaa tälle tilille tällä hetkellä tarkastusta.";
 "chat_forbidden_disclaimer_seller_w_name" = "Näyttää siltä, että %@ ei ole enää kiinnostunut tuotteesi ostamisesta.";
@@ -114,6 +114,10 @@
 "chat_message_disclaimer_scammer" = "Ole erityisen varovainen, kun vaihdatte puhelinnumeroita/sähköpostiosoitteita. Vilpillisillä aikeilla liikkeellä olevat käyttäjät pyytävät usein poistumaan letgon keskustelusta. Ole varuillasi! Paina tästä käydäksesi läpi %@";
 "chat_message_field_hint" = "Kirjoita viestisi tähän";
 "chat_message_load_generic_error" = "Keskustelutietojasi noudettaessa tapahtui virhe. Ole hyvä ja yritä myöhemmin uudelleen.";
+"chat_not_verified_alert_message" = "Vahvista henkilöllisyytesi Facebookin, Googlen tai sähköpostin avulla.";
+"chat_not_verified_state_check_button" = "Tarkista";
+"chat_not_verified_state_message" = "Tarkista, oletko vahvistanut henkilöllisyytesi voidaksesi aloittaa keskustelun.";
+"chat_not_verified_state_title" = "OLETKO VAHVISTANUT HENKILÖLLISYYTESI?";
 "chat_product_sold_label" = "Tuote myyty";
 "chat_related_products_title" = "SINUA SAATTAISI KIINNOSTAA:";
 "chat_safety_tips" = "Turvallisuusvinkit";
@@ -363,6 +367,7 @@
 "product_delete_success_message" = "Tuotteesi poistettiin onnistuneesti.";
 "product_distance_X_from_you" = "%@ sinusta";
 "product_distance_more_than_from_you" = "Yli %@ sinusta";
+"product_free_price" = "Free";
 "product_is_mine_share_body" = "Katso, mitä minulla on myynnissä letgossa!";
 "product_list_banner_cell_title" = "KATSO ILMOITUKSESI TÄÄLTÄ";
 "product_list_item_sold_status_label" = "MYYTY";
@@ -493,7 +498,7 @@
 "profile_verify_email_message_not_present" = "Syötä sähköpostiosoitteesi tilisi vahvistamiseksi.";
 "profile_verify_email_message_present" = "Paina \"Lähetä sähköposti\" lähettääksesi uuden vahvistuslinkin osoitteeseen %@";
 "profile_verify_email_placeholder" = "Sähköposti";
-"profile_verify_email_success" = "Olemme lähettäneet sinulle vahvistussähköpostin. Linkki vanhenee 48 tunnin aikana.";
+"profile_verify_email_success" = "Tarkista saapuneet sähköpostisi vahvistaaksesi tilisi. Linkki vanhenee 48 tunnin aikana.";
 "profile_verify_email_title" = "SÄHKÖPOSTI";
 "profile_verify_email_too_many_requests" = "Olemme jo lähettäneet sinulle vahvistussähköpostin. Ole hyvä ja tarkista saapuneet viestisi!";
 "profile_verify_facebook_button" = "Facebook";

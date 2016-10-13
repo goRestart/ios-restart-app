@@ -1,5 +1,5 @@
+"NSCameraUsageDescription" = "Để bắt đầu bán hàng, hãy để letgo truy cập vào camera của bạn";
 "NSLocationWhenInUseUsageDescription" = "letgo cần truy cập địa điểm của bạn để hiển thị các sản phẩm ở khu vực quanh bạn";
+"NSPhotoLibraryUsageDescription" = "Để bắt đầu bán, hãy để letgo truy cập vào thư viện của bạn";
 "sell_shortcut_title" = "Bán đồ của bạn";
 "start_browsing_shortcut_title" = "Bắt đầu duyệt";
-"NSCameraUsageDescription" = "To start selling, give letgo access to your camera";
-"NSPhotoLibraryUsageDescription" = "To start selling, give letgo access to your library";

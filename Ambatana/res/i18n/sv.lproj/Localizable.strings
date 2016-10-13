@@ -2,7 +2,7 @@
 "account_deactivated_w_name" = "%@ konto har tagits bort";
 "account_pending_moderation" = "Konto väntar på att modereras";
 "account_pending_moderation_w_name" = "%@s konto väntar på att modereras";
-"app_notification_reply" = "Reply";
+"app_notification_reply" = "Svara";
 "app_share_download_text" = "Ladda ner";
 "app_share_email_button" = "Bjud in via mejl";
 "app_share_error" = "Ett fel inträffade när appen skulle delas. Vänligen försök igen senare.";
@@ -114,6 +114,10 @@
 "chat_message_disclaimer_scammer" = "Var extra försiktig när du delar med dig av telefonnummer/e-postadress. Bedragare ber ofta om att lämna letgo-chatten. Klicka här för att läsa våra %@.";
 "chat_message_field_hint" = "Skriv ditt meddelande här";
 "chat_message_load_generic_error" = "Ett fel uppstod vid hämtning av din information. Var god försök senare.";
+"chat_not_verified_alert_message" = "Anslut med Facebook, Google eller din e-postadress för att verifiera din identitet.";
+"chat_not_verified_state_check_button" = "Kolla";
+"chat_not_verified_state_message" = "Kolla om du är verifierad för att kunna börja chatta.";
+"chat_not_verified_state_title" = "ÄR DU VERIFIERAD?";
 "chat_product_sold_label" = "Produkt såld";
 "chat_related_products_title" = "DU KANSKE ÄR INTRESSERAD AV:";
 "chat_safety_tips" = "Säkerhetstips";
@@ -363,6 +367,7 @@
 "product_delete_success_message" = "Din produkt har tagits bort.";
 "product_distance_X_from_you" = "%@ från dig";
 "product_distance_more_than_from_you" = "Mer än %@ från dig";
+"product_free_price" = "Free";
 "product_is_mine_share_body" = "Kolla vad jag säljer på letgo!";
 "product_list_banner_cell_title" = "SE DINA PRODUKTER HÄR";
 "product_list_item_sold_status_label" = "SÅLD";
@@ -493,7 +498,7 @@
 "profile_verify_email_message_not_present" = "För att bekräfta ditt konto, skriv in din e-postadress.";
 "profile_verify_email_message_present" = "Klicka \"Skicka mejl\" för att skicka en ny verifieringslänk till %@";
 "profile_verify_email_placeholder" = "E-post";
-"profile_verify_email_success" = "Vi har skickat ett bekräftelsemejl till dig. Länken är giltig i 48h.";
+"profile_verify_email_success" = "Kolla vårt mejl i din inkorg för att verifiera ditt konto. Länken är giltig i 48h.";
 "profile_verify_email_title" = "E-POST";
 "profile_verify_email_too_many_requests" = "Vi har redan skickat dig ett verifieringsmejl. Vänligen kolla din inkorg!";
 "profile_verify_facebook_button" = "Facebook";

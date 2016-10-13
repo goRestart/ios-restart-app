@@ -2,7 +2,7 @@
 "account_deactivated_w_name" = "%@ isimli kullanıcının hesabı silindi";
 "account_pending_moderation" = "Hesap inceleme altındadır";
 "account_pending_moderation_w_name" = "%@ adlı kullanıcının hesabı inceleme altındadır";
-"app_notification_reply" = "Reply";
+"app_notification_reply" = "Yanıtla";
 "app_share_download_text" = "Yükle";
 "app_share_email_button" = "Email ile davet et";
 "app_share_error" = "Uygulama paylaşılırken bir hata oluştu. Lütfen daha sonra tekrar dene.";
@@ -114,6 +114,10 @@
 "chat_message_disclaimer_scammer" = "Telefon numarası ve e-posta bilgilerini paylaşırken çok temkinli ol. Dolandırıcı kullanıcılar görüşmeyi genelde letgo sohbet sisteminden dışarıya taşımayı teklif ederler. Dikkatli ol ve %@ kısmını okumak için buraya dokun.";
 "chat_message_field_hint" = "Mesajını buraya yaz";
 "chat_message_load_generic_error" = "Sohbet bilgilerine erişirken bir hata oluştu. Lütfen tekrar dene.";
+"chat_not_verified_alert_message" = "Kimliğini doğrulamak için Facebook, Google veya Eposta ile bağlan.";
+"chat_not_verified_state_check_button" = "Kontrol et";
+"chat_not_verified_state_message" = "Sohbete başlayabilmek için hesabının doğrulanmış olduğundan emin ol";
+"chat_not_verified_state_title" = "HESABINI DOĞRULADIN MI?";
 "chat_product_sold_label" = "Ürün Satıldı";
 "chat_related_products_title" = "ŞU ÜRÜNLER DE İLGİNİ ÇEKEBİLİR:";
 "chat_safety_tips" = "Güvenlik önerilerimiz";
@@ -363,6 +367,7 @@
 "product_delete_success_message" = "Ürün başarıyla silindi.";
 "product_distance_X_from_you" = "senden %@ uzakta";
 "product_distance_more_than_from_you" = "Senden %@'den daha uzakta";
+"product_free_price" = "Free";
 "product_is_mine_share_body" = "letgo'da ne sattığıma bak!";
 "product_list_banner_cell_title" = "İLANINI BURADA GÖR";
 "product_list_item_sold_status_label" = "Satıldı";
@@ -493,7 +498,7 @@
 "profile_verify_email_message_not_present" = "Hesabını doğrulamak için e-posta adresini gir.";
 "profile_verify_email_message_present" = "%@ adresine yeni bir bağlantı göndermek için \"E-posta Gönder\"e bas";
 "profile_verify_email_placeholder" = "E-posta";
-"profile_verify_email_success" = "Sana bir doğrulama e-postası gönderdik. Bağlantı, 48 saat içinde geçersiz olur.";
+"profile_verify_email_success" = "Lütfen e-postanın gelen kutusunu kontrol et. Bağlantı, 48 saat sonra geçersiz olacaktır.";
 "profile_verify_email_title" = "E-POSTA";
 "profile_verify_email_too_many_requests" = "Hesap doğrulama e-postası gönderilmiştir. Lütfen gelen kutunu kontrol et!";
 "profile_verify_facebook_button" = "Facebook";
