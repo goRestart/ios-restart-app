@@ -62,6 +62,15 @@ class ProductCell: UICollectionViewCell, ReusableCell {
             }
         })
     }
+    
+    func setFreeStripe() {
+            stripeImageView.image = UIImage(named: "stripe_white")
+            stripeIcon.image = UIImage(named: "ic_new_stripe") // FIXME: change to the correct one.
+            stripeLabel.text = "FREE" // FIXME: create literal.
+            stripeImageView.hidden = false
+            stripeInfoView.hidden = false
+            stripeImageView.hidden = false
+    }
 
 
     // MARK: - Private methods

@@ -54,6 +54,6 @@ class GridDrawerManager {
 
 private extension Product {
     var cellData: ProductData {
-        return ProductData(productID: objectId, thumbUrl: thumbnail?.fileURL, price: priceString())
+        return ProductData(productID: objectId, thumbUrl: thumbnail?.fileURL, isFree: price.free)
     }
 }

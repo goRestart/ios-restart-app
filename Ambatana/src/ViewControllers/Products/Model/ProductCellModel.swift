@@ -29,7 +29,7 @@ enum ProductCellModel {
 struct ProductData {
     var productID: String?
     var thumbUrl: NSURL?
-    var price: String?
+    var isFree: Bool
 }
 
 enum CollectionCellType: String {
@@ -108,7 +108,7 @@ enum CollectionCellType: String {
             return "scary, halloween, costume, spooky, pumpkin, skeleton, zombie, fake blood, vampire, werewolf, ghost, terrifying, witch, ghoul, mummy"
         }
     }
-
+    
     private static var halloweenEnabled: Bool {
         let dateFormatter = NSDateFormatter()
         dateFormatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
