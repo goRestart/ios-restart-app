@@ -291,7 +291,7 @@ platform :ios do
 
   desc "Will test"
   lane :test do
-    scan(scheme: "LetGo")
+    scan(scheme: "LetGo", device: "iPhone 6,OS=9.3")
   end
 
   desc "Will CI"
