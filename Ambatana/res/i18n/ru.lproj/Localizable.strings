@@ -114,6 +114,10 @@
 "chat_message_disclaimer_scammer" = "Будьте особенно осторожны, когда обмениваетесь телефонами или е-мейлами. Мошенники часто просят пообщаться вне чата letgo. Будьте в курсе! Нажмите здесь, чтобы посмотреть наши %@.";
 "chat_message_field_hint" = "Введите сообщение";
 "chat_message_load_generic_error" = "При загрузке диалога произошла ошибка. Пожалуйста, попробуйте еще раз позже.";
+"chat_not_verified_alert_message" = "Connect with Facebook, Google or Email to verify your identity.";
+"chat_not_verified_state_check_button" = "Check";
+"chat_not_verified_state_message" = "Check if you're verified in order to start chatting.";
+"chat_not_verified_state_title" = "ARE YOU VERIFIED?";
 "chat_product_sold_label" = "Продано";
 "chat_related_products_title" = "ВАС МОЖЕТ ЗАИНТЕРЕСОВАТЬ:";
 "chat_safety_tips" = "Советами по безопасности";
@@ -256,6 +260,7 @@
 "forced_update_message" = "Доступна новая версия letgo. Пожалуйста, обновите приложение.";
 "forced_update_title" = "Доступно обновление";
 "forced_update_update_button" = "Обновить";
+"free_posting_stripe" = "Free";
 "help_title" = "Помощь";
 "location_permissions_allow_button" = "Разрешить";
 "location_permissions_bubble" = "500 м от вас";

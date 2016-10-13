@@ -2,7 +2,7 @@
 "account_deactivated_w_name" = "Das Benutzerkonto von %@ wurde gelöscht";
 "account_pending_moderation" = "Benutzerkonto wird überprüft";
 "account_pending_moderation_w_name" = "Das Benutzerkonto von %@ wird überprüft";
-"app_notification_reply" = "Reply";
+"app_notification_reply" = "Antwort";
 "app_share_download_text" = "Herunterladen";
 "app_share_email_button" = "Via E-Mail einladen";
 "app_share_error" = "Beim Teilen der App ist ein Fehler aufgetreten. Bitte versuche es später noch einmal.";
@@ -79,7 +79,7 @@
 "chat_express_one_message_sent_success_alert" = "Deine Nachricht wurde verschickt!";
 "chat_express_send_question_text" = "Sende: %@";
 "chat_express_several_messages_sent_success_alert" = "Deine Nachrichten wurden verschickt!";
-"chat_express_text_field_text" = "Hallo! Ist dieser Artikel noch verfügbar?";
+"chat_express_text_field_text" = "Ist das noch zu haben?";
 "chat_forbidden_disclaimer_buyer_w_name" = "Das Benutzerkonto von %@ wird vom letgo-Team überprüft.";
 "chat_forbidden_disclaimer_buyer_wo_name" = "Dieses Benutzerkonto wird vom letgo-Team überprüft.";
 "chat_forbidden_disclaimer_seller_w_name" = "Sieht so aus, als sei %@ nicht länger an deinem Produkt interessiert.";
@@ -114,6 +114,10 @@
 "chat_message_disclaimer_scammer" = "Sei besonders vorsichtig, wenn du Kontaktinformationen wie Telefonnummern oder E-Mail-Adressen austauschst. Betrügerische Nutzer wollen häufig außerhalb des letgo-Systems kommunizieren. Sei informiert! Drücke hier, um unsere %@ anzuschauen.";
 "chat_message_field_hint" = "Gib hier deine Nachricht ein";
 "chat_message_load_generic_error" = "Beim Abrufen deiner Gesprächsdaten ist ein Fehler aufgetreten. Versuche es bitte später noch einmal.";
+"chat_not_verified_alert_message" = "Verbinde dich mit Facebook, Google oder via E-Mail, um deine Identität zu bestätigen.";
+"chat_not_verified_state_check_button" = "Überprüfen";
+"chat_not_verified_state_message" = "Überprüfe, ob du verifiziert bist, um ein Gespräch zu beginnen.";
+"chat_not_verified_state_title" = "BIST DU VERIFIZIERT?";
 "chat_product_sold_label" = "Produkt verkauft";
 "chat_related_products_title" = "VIELLEICHT GEFÄLLT DIR AUCH:";
 "chat_safety_tips" = "Sicherheitstipps";
@@ -256,6 +260,7 @@
 "forced_update_message" = "Eine neue Version von letgo ist verfügbar. Bitte aktualisiere sie jetzt.";
 "forced_update_title" = "Neue Version verfügbar";
 "forced_update_update_button" = "Neue Version";
+"free_posting_stripe" = "Free";
 "help_title" = "Hilfe";
 "location_permissions_allow_button" = "Erlauben";
 "location_permissions_bubble" = "0,1 km von dir entfernt";
@@ -493,7 +498,7 @@
 "profile_verify_email_message_not_present" = "Gib deine E-Mail-Adresse ein, um dein Benutzerkonto zu verifizieren";
 "profile_verify_email_message_present" = "Drücke \"E-Mail schicken\", um einen neuen Verifizierungslink an %@ zu schicken";
 "profile_verify_email_placeholder" = "E-Mail";
-"profile_verify_email_success" = "Wir haben dir eine Verifikations-E-Mail geschickt. Der Link ist 48 Stunden gültig.";
+"profile_verify_email_success" = "Schaue in dein E-Mail-Postfach, um dein Benutzerkonto zu verifizieren. Der Link ist 48 Stunden gültig.";
 "profile_verify_email_title" = "E-MAIL";
 "profile_verify_email_too_many_requests" = "Wir haben dir bereits eine Verifikations-E-Mail geschickt. Schau bitte in dein E-Mail-Postfach!";
 "profile_verify_facebook_button" = "Facebook";

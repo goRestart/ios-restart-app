@@ -2,7 +2,7 @@
 "account_deactivated_w_name" = "A conta de %@ foi eliminada";
 "account_pending_moderation" = "Conta pendente de moderação";
 "account_pending_moderation_w_name" = "A conta de %@ está pendente de moderação";
-"app_notification_reply" = "Reply";
+"app_notification_reply" = "Responder";
 "app_share_download_text" = "Download";
 "app_share_email_button" = "Convide via email";
 "app_share_error" = "Ocorreu um erro ao partilhar a app. Por favor tente de novo mais tarde.";
@@ -114,6 +114,10 @@
 "chat_message_disclaimer_scammer" = "Seja extremamente cuidadoso ao trocar contactos de telefone/email. Os utilizadores fraudulentos pedem com frequência para abandonar o chat do letgo. Mantenha-se informado! Toque aqui para rever as nossas %@.";
 "chat_message_field_hint" = "Escreva a sua mensagem aqui";
 "chat_message_load_generic_error" = "Ocorreu um erro ao recuperar os dados da conversação. Por favor tente novamente mais tarde.";
+"chat_not_verified_alert_message" = "Entre com o Facebook, Google ou Email para verificar a sua identidade.";
+"chat_not_verified_state_check_button" = "Verifique";
+"chat_not_verified_state_message" = "Confirme se está verificado para poder começar a conversar.";
+"chat_not_verified_state_title" = "ESTÁ VERIFICADO?";
 "chat_product_sold_label" = "Artigo vendido";
 "chat_related_products_title" = "PODERÁ TER INTERESSE EM:";
 "chat_safety_tips" = "Dicas de segurança";
@@ -256,6 +260,7 @@
 "forced_update_message" = "Está disponível uma nova versão do letgo. Por favor atualize agora.";
 "forced_update_title" = "Atualização disponível";
 "forced_update_update_button" = "Atualizar";
+"free_posting_stripe" = "Free";
 "help_title" = "Ajuda";
 "location_permissions_allow_button" = "Permitir";
 "location_permissions_bubble" = "1,60 km de si";
@@ -493,7 +498,7 @@
 "profile_verify_email_message_not_present" = "Para verificar a sua conta insira o seu endereço de email.";
 "profile_verify_email_message_present" = "Toque em \"Enviar Email\" para enviar um novo link de verificação para %@";
 "profile_verify_email_placeholder" = "Email";
-"profile_verify_email_success" = "Enviamos-lhe um email de verificação. O link expira em 48h.";
+"profile_verify_email_success" = "Vá até à caixa de entrada do seu email para verificar a sua conta. O link irá expirar dentro de 48h.";
 "profile_verify_email_title" = "EMAIL";
 "profile_verify_email_too_many_requests" = "Já lhe enviamos um email de verificação. Por favor verifique a sua caixa de entrada!";
 "profile_verify_facebook_button" = "Facebook";

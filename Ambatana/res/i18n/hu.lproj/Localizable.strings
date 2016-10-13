@@ -2,7 +2,7 @@
 "account_deactivated_w_name" = "%@ fiókját töröltük";
 "account_pending_moderation" = "Moderálásra váró fiók";
 "account_pending_moderation_w_name" = "%@ fiókja moderálásra vár";
-"app_notification_reply" = "Reply";
+"app_notification_reply" = "Válasz";
 "app_share_download_text" = "Letöltés";
 "app_share_email_button" = "Meghívás e-mailben";
 "app_share_error" = "Hiba történt az alkalmazás megosztása során. Próbálkozz később.";
@@ -114,6 +114,10 @@
 "chat_message_disclaimer_scammer" = "Légy extra óvatos, ha megosztod telefonszámodat/e-mail címedet. A csalók gyakran megpróbálnak rávenni, hogy leváltsátok a letgo csevegést. Tájékozódj! Ide koppintva olvasd át %@ oldalát.";
 "chat_message_field_hint" = "Ide írd az üzeneted…";
 "chat_message_load_generic_error" = "Hiba történt a beszélgetésed adatainak begyűjtése során. Próbálkozz újra később.";
+"chat_not_verified_alert_message" = "Connect with Facebook, Google or Email to verify your identity.";
+"chat_not_verified_state_check_button" = "Check";
+"chat_not_verified_state_message" = "Check if you're verified in order to start chatting.";
+"chat_not_verified_state_title" = "ARE YOU VERIFIED?";
 "chat_product_sold_label" = "Portéka eladva";
 "chat_related_products_title" = "TALÁN ÉRDEKEL:";
 "chat_safety_tips" = "Biztonsági tanácsaink";
@@ -256,6 +260,7 @@
 "forced_update_message" = "Elérhető a letgo új verziója. Kérjük, frissíts!";
 "forced_update_title" = "Frissítés elérhető";
 "forced_update_update_button" = "Frissítés";
+"free_posting_stripe" = "Free";
 "help_title" = "Segítség";
 "location_permissions_allow_button" = "Engedélyezés";
 "location_permissions_bubble" = "0,1 km-re tőled";
@@ -493,7 +498,7 @@
 "profile_verify_email_message_not_present" = "Fiókod megerősítéséhez add meg e-mail címedet.";
 "profile_verify_email_message_present" = "Koppints az „E-mail küldése” gombra, hogy megerősítő e-mailt küldess a következő címre: %@";
 "profile_verify_email_placeholder" = "E-mail";
-"profile_verify_email_success" = "Visszaigazoló e-mailt küldtünk e-mail címedre. A hivatkozás 48 óra múlva lejár.";
+"profile_verify_email_success" = "Fiókod visszaigazolásához e-mailt küldtünk. A hivatkozás 48 óra múlva lejár.";
 "profile_verify_email_title" = "EMAIL";
 "profile_verify_email_too_many_requests" = "Már küldünk egy megerősítési e-mailt. Ellenőrizd a bejövő e-maileket!";
 "profile_verify_facebook_button" = "Facebook";
