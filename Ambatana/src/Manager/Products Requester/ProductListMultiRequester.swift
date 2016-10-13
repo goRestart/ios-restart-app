@@ -98,8 +98,9 @@ extension ProductListMultiRequester: ProductListRequester {
         // no requesters means last page
         guard requestersArray.count > 0 else { return true }
 
-        currentIndex = currentIndex + 1
-        guard currentIndex < requestersArray.count else { return true }
+        let newIndex = currentIndex + 1
+        guard newIndex < requestersArray.count else { return true }
+        currentIndex = newIndex
 
         self.activeRequester = requestersArray[currentIndex]
         hasChangedRequester = true
