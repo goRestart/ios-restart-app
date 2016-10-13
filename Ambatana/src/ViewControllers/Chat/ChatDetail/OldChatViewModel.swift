@@ -49,8 +49,6 @@ protocol OldChatViewModelDelegate: BaseViewModelDelegate {
     func vmClearText()
 
     func vmUpdateUserIsReadyToReview()
-
-    func vmDidLaunchVerification()
 }
 
 enum AskQuestionSource {
@@ -223,7 +221,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
                 self?.navigator?.openVerifyAccounts([.Facebook, .Google],
                     source: .Chat(title: LGLocalizedString.chatConnectAccountsTitle,
                         description: LGLocalizedString.chatConnectAccountsMessage), completionBlock: {
-                            self?.delegate?.vmDidLaunchVerification()
+                            self?.navigator?.closeChatDetail()
                 })
             }
         }
@@ -682,10 +680,10 @@ public class OldChatViewModel: BaseViewModel, Paginable {
 
     private func userNotVerifiedError() {
         navigator?.openVerifyAccounts([.Facebook, .Google, .Email(myUserRepository.myUser?.email)],
-                                         source: .Chat(title: "_BE TRUSTED!",
-                                            description: "_Connect with Facebook, Google or Email to verify your identity."),
+                                         source: .Chat(title: LGLocalizedString.chatConnectAccountsTitle,
+                                            description: LGLocalizedString.chatNotVerifiedAlertMessage),
                                          completionBlock: { [weak self] in
-                                            self?.delegate?.vmDidLaunchVerification()
+                                            self?.navigator?.closeChatDetail()
         })
     }
 

@@ -568,10 +568,6 @@ extension OldChatViewController: OldChatViewModelDelegate {
     func vmUpdateUserIsReadyToReview() {
         showReviewButton()
     }
-
-    func vmDidLaunchVerification() {
-        navigationController?.popViewControllerAnimated(true)
-    }
 }
 
 

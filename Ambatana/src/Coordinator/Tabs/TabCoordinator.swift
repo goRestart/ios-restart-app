@@ -306,6 +306,10 @@ extension TabCoordinator: ProductDetailNavigator {
 // MARK: > ChatDetailNavigator
 
 extension TabCoordinator: ChatDetailNavigator {
+    func closeChatDetail() {
+        navigationController.popViewControllerAnimated(true)
+    }
+
     func openExpressChat(products: [Product], sourceProductId: String) {
         guard let expressChatCoordinator = ExpressChatCoordinator(products: products, sourceProductId: sourceProductId) else { return }
         expressChatCoordinator.delegate = self

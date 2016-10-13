@@ -580,10 +580,6 @@ extension ChatViewController: ChatViewModelDelegate {
 
         view.layoutIfNeeded()
     }
-
-    func vmDidLaunchVerification() {
-        navigationController?.popViewControllerAnimated(true)
-    }
 }
 
 

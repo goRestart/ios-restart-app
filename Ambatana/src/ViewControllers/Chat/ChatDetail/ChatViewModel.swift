@@ -32,8 +32,6 @@ protocol ChatViewModelDelegate: BaseViewModelDelegate {
     func vmRequestLogin(loggedInAction: () -> Void)
     func vmLoadStickersTooltipWithText(text: NSAttributedString)
     func vmClose()
-
-    func vmDidLaunchVerification()
 }
 
 struct EmptyConversation: ChatConversation {
@@ -519,9 +517,10 @@ extension ChatViewModel {
 
     private func showUserNotVerifiedAlert() {
         navigator?.openVerifyAccounts([.Facebook, .Google, .Email(myUserRepository.myUser?.email)],
-                                         source: .Chat(title: "_BE TRUSTED!", description: "_Connect with Facebook, Google or Email to verify your identity."),
+                                         source: .Chat(title: LGLocalizedString.chatConnectAccountsTitle,
+                                         description: LGLocalizedString.chatNotVerifiedAlertMessage),
                                          completionBlock: { [weak self] in
-                                            self?.delegate?.vmDidLaunchVerification()
+                                            self?.navigator?.closeChatDetail()
         })
     }
 }
@@ -578,6 +577,7 @@ extension ChatViewModel {
                 // TODO: 🎪 Create an "errored" state for Chat Message so we can retry
                 switch error {
                 case .UserNotVerified:
+                    self?.showUserNotVerifiedAlert()
                     self?.userNotVerifiedError()
                 case .Forbidden, .Internal, .Network, .NotFound, .TooManyRequests, .Unauthorized, .ServerError:
                     self?.delegate?.vmDidFailSendingMessage()
@@ -587,14 +587,6 @@ extension ChatViewModel {
                 self?.isSendingQuickAnswer = false
             }
         }
-    }
-
-    private func userNotVerifiedError() {
-        navigator?.openVerifyAccounts([.Facebook, .Google, .Email(myUserRepository.myUser?.email)],
-                                         source: .Chat(title: "_BE TRUSTED!", description: "_Connect with Facebook, Google or Email to verify your identity."),
-                                         completionBlock: { [weak self] in
-                                            self?.delegate?.vmDidLaunchVerification()
-        })
     }
 
     private func afterSendMessageEvents() {
@@ -887,7 +879,7 @@ extension ChatViewModel {
             return chatViewMessageAdapter.createUserNotVerifiedDisclaimerMessage() { [weak self] in
                 self?.navigator?.openVerifyAccounts([.Facebook, .Google],
                     source: .Chat(title: LGLocalizedString.chatConnectAccountsTitle, description: LGLocalizedString.chatConnectAccountsMessage), completionBlock: {
-                        self?.delegate?.vmDidLaunchVerification()
+                        self?.navigator?.closeChatDetail()
                 })
             }
         }

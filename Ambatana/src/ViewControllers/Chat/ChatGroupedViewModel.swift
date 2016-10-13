@@ -111,8 +111,8 @@ class ChatGroupedViewModel: BaseViewModel {
     }
 
     func setupEmptyViewModel() {
-        emptyViewModel = LGEmptyViewModel(icon: UIImage(named: "ic_build_trust_big"), title: "_ARE YOU VERIFIED?",
-                                                body: "_Check if you're verified in order to start chatting", buttonTitle: "_Check",
+        emptyViewModel = LGEmptyViewModel(icon: UIImage(named: "ic_build_trust_big"), title: LGLocalizedString.chatNotVerifiedStateTitle,
+                                                body: LGLocalizedString.chatNotVerifiedStateMessage, buttonTitle: LGLocalizedString.chatNotVerifiedStateCheckButton,
                                                 action: { [weak self] in
                                                     // TODO: CHECK CODE , Shouldn't it call refresh accounts on chatrepo in all cases?
                                                     guard let myUser = self?.myUserRepository.myUser, userId = myUser.objectId else {
@@ -343,7 +343,8 @@ extension ChatGroupedViewModel {
                 self?.verificationPending.value = false
             } else {
                 self?.tabNavigator?.openVerifyAccounts([.Facebook, .Google, .Email(self?.myUserRepository.myUser?.email)],
-                    source: .Chat(title: "_BE TRUSTED!", description: "_Connect with Facebook, Google or Email to verify your identity."),
+                    source: .Chat(title: LGLocalizedString.chatConnectAccountsTitle,
+                        description: LGLocalizedString.chatNotVerifiedAlertMessage),
                     completionBlock: nil)
             }
         }

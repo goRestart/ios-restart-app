@@ -50,5 +50,6 @@ protocol ProductDetailNavigator: TabNavigator {
 }
 
 protocol ChatDetailNavigator: TabNavigator {
+    func closeChatDetail()
     func openExpressChat(products: [Product], sourceProductId: String)
 }
