@@ -296,7 +296,7 @@ platform :ios do
 
   desc "Will CI"
   lane :ci do
-    danger(github_api_token: '7d076b068979573b076de8866f9e46ab9845113a', verbose: true)
+    #danger(github_api_token: '7d076b068979573b076de8866f9e46ab9845113a', verbose: true)
     test
   end
 
