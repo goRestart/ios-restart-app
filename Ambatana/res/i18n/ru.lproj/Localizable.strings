@@ -260,7 +260,6 @@
 "forced_update_message" = "Доступна новая версия letgo. Пожалуйста, обновите приложение.";
 "forced_update_title" = "Доступно обновление";
 "forced_update_update_button" = "Обновить";
-"free_posting_stripe" = "Free";
 "help_title" = "Помощь";
 "location_permissions_allow_button" = "Разрешить";
 "location_permissions_bubble" = "500 м от вас";
@@ -368,6 +367,7 @@
 "product_delete_success_message" = "Ваш продукт был успешно удален.";
 "product_distance_X_from_you" = "%@ от вас";
 "product_distance_more_than_from_you" = "Более %@ от вас";
+"product_free_price" = "Free";
 "product_is_mine_share_body" = "Смотрите, что я продаю на letgo!";
 "product_list_banner_cell_title" = "СМОТРЕТЬ СВОИ ОБЪЯВЛЕНИЯ";
 "product_list_item_sold_status_label" = "ПРОДАНО";

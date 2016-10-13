@@ -260,7 +260,6 @@
 "forced_update_message" = "Está disponível uma nova versão do letgo. Por favor atualize agora.";
 "forced_update_title" = "Atualização disponível";
 "forced_update_update_button" = "Atualizar";
-"free_posting_stripe" = "Free";
 "help_title" = "Ajuda";
 "location_permissions_allow_button" = "Permitir";
 "location_permissions_bubble" = "1,60 km de si";
@@ -368,6 +367,7 @@
 "product_delete_success_message" = "O seu artigo foi eliminado com sucesso.";
 "product_distance_X_from_you" = "%@ de si";
 "product_distance_more_than_from_you" = "Mais de %@ de si";
+"product_free_price" = "Free";
 "product_is_mine_share_body" = "Dá uma olhada no que estou a vender no letgo!";
 "product_list_banner_cell_title" = "VEJA A SUA LISTAGEM AQUI";
 "product_list_item_sold_status_label" = "VENDIDO";

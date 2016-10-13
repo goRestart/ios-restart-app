@@ -777,9 +777,6 @@
 // Forced update appstore button.
 "forced_update_update_button" = "Update";
 
-// Message to show on Free product
-"free_posting_stripe" = "Free";
-
 // Help title.
 "help_title" = "Help";
 
@@ -1100,6 +1097,9 @@
 
 // Product distance from you. Check image @ "product_ask_a_question_button" segment
 "product_distance_X_from_you" = "%@ from you";
+
+// Message to show on Free product
+"product_free_price" = "Free";
 
 // Banner cell inserted in the product list to incentivize posting
 "product_list_banner_cell_title" = "SEE YOUR LISTING HERE";

@@ -260,7 +260,6 @@
 "forced_update_message" = "En ny versjon av letgo er tilgjengelig. Vennligst oppdater nå.";
 "forced_update_title" = "Oppdatering tilgjengelig";
 "forced_update_update_button" = "Oppdater";
-"free_posting_stripe" = "Free";
 "help_title" = "Hjelp";
 "location_permissions_allow_button" = "Tillat";
 "location_permissions_bubble" = "0.1 km fra deg";
@@ -368,6 +367,7 @@
 "product_delete_success_message" = "Sletting av ditt produkt var vellykket.";
 "product_distance_X_from_you" = "%@ fra deg";
 "product_distance_more_than_from_you" = "Mer enn %@ fra deg";
+"product_free_price" = "Free";
 "product_is_mine_share_body" = "Se hva jeg selger på letgo!";
 "product_list_banner_cell_title" = "SE DIN ANNONSE HER";
 "product_list_item_sold_status_label" = "SOLGT";

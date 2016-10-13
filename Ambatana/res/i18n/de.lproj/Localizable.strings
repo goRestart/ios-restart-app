@@ -260,7 +260,6 @@
 "forced_update_message" = "Eine neue Version von letgo ist verfügbar. Bitte aktualisiere sie jetzt.";
 "forced_update_title" = "Neue Version verfügbar";
 "forced_update_update_button" = "Neue Version";
-"free_posting_stripe" = "Free";
 "help_title" = "Hilfe";
 "location_permissions_allow_button" = "Erlauben";
 "location_permissions_bubble" = "0,1 km von dir entfernt";
@@ -368,6 +367,7 @@
 "product_delete_success_message" = "Dein Produkt wurde erfolgreich gelöscht.";
 "product_distance_X_from_you" = "%@ von dir";
 "product_distance_more_than_from_you" = "Mehr als %@ von dir";
+"product_free_price" = "Free";
 "product_is_mine_share_body" = "Schau dir an, was ich auf letgo verkaufe!";
 "product_list_banner_cell_title" = "HIER KÖNNTE DEIN ANGEBOT STEHEN";
 "product_list_item_sold_status_label" = "VERKAUFT";

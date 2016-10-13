@@ -260,7 +260,6 @@
 "forced_update_message" = "letgon uusi versio on saatavilla. Ole hyvä ja päivitä nyt.";
 "forced_update_title" = "Päivitys saatavilla";
 "forced_update_update_button" = "Päivitä";
-"free_posting_stripe" = "Free";
 "help_title" = "Apua";
 "location_permissions_allow_button" = "Salli";
 "location_permissions_bubble" = "0.1 km sinusta";
@@ -368,6 +367,7 @@
 "product_delete_success_message" = "Tuotteesi poistettiin onnistuneesti.";
 "product_distance_X_from_you" = "%@ sinusta";
 "product_distance_more_than_from_you" = "Yli %@ sinusta";
+"product_free_price" = "Free";
 "product_is_mine_share_body" = "Katso, mitä minulla on myynnissä letgossa!";
 "product_list_banner_cell_title" = "KATSO ILMOITUKSESI TÄÄLTÄ";
 "product_list_item_sold_status_label" = "MYYTY";

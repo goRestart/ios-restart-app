@@ -1055,10 +1055,6 @@ struct LGLocalizedString {
 		return NSLocalizedString("forced_update_update_button", comment: "")
 	}
 
-	static var freePostingStripe: String {
-		return NSLocalizedString("free_posting_stripe", comment: "")
-	}
-
 	static var helpTitle: String {
 		return NSLocalizedString("help_title", comment: "")
 	}
@@ -1485,6 +1481,10 @@ struct LGLocalizedString {
 
 	static func productDistanceXFromYou(var1: String) -> String {
 		return String(format: NSLocalizedString("product_distance_X_from_you", comment: ""), var1)
+	}
+
+	static var productFreePrice: String {
+		return NSLocalizedString("product_free_price", comment: "")
 	}
 
 	static var productListBannerCellTitle: String {

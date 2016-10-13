@@ -260,7 +260,6 @@
 "forced_update_message" = "Een nieuwe versie van letgo is beschikbaar. Gelieve het nu te updaten.";
 "forced_update_title" = "Update beschikbaar";
 "forced_update_update_button" = "Bijwerken";
-"free_posting_stripe" = "Free";
 "help_title" = "Hulp";
 "location_permissions_allow_button" = "Toestaan";
 "location_permissions_bubble" = "1km van bij jou";
@@ -368,6 +367,7 @@
 "product_delete_success_message" = "Jouw product werd succesvol verwijderd.";
 "product_distance_X_from_you" = "%@ van bij jou";
 "product_distance_more_than_from_you" = "Meer dan %@ van bij jou";
+"product_free_price" = "Free";
 "product_is_mine_share_body" = "Bekijk wat ik op letgo verkoop!";
 "product_list_banner_cell_title" = "ZIE JOUW ADVERTENTIE HIER";
 "product_list_item_sold_status_label" = "VERKOCHT";

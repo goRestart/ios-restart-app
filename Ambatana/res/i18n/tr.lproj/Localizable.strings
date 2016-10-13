@@ -260,7 +260,6 @@
 "forced_update_message" = "Yeni bir letgo sürümü mevcut. Lütfen şimdi güncelle.";
 "forced_update_title" = "Yeni bir güncelleme mevcut";
 "forced_update_update_button" = "Güncelle";
-"free_posting_stripe" = "Free";
 "help_title" = "Yardım";
 "location_permissions_allow_button" = "İzin Ver";
 "location_permissions_bubble" = "senden 1km uzakta";
@@ -368,6 +367,7 @@
 "product_delete_success_message" = "Ürün başarıyla silindi.";
 "product_distance_X_from_you" = "senden %@ uzakta";
 "product_distance_more_than_from_you" = "Senden %@'den daha uzakta";
+"product_free_price" = "Free";
 "product_is_mine_share_body" = "letgo'da ne sattığıma bak!";
 "product_list_banner_cell_title" = "İLANINI BURADA GÖR";
 "product_list_item_sold_status_label" = "Satıldı";
