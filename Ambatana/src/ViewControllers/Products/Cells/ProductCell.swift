@@ -64,12 +64,12 @@ class ProductCell: UICollectionViewCell, ReusableCell {
     }
     
     func setFreeStripe() {
-            stripeImageView.image = UIImage(named: "stripe_white")
-            stripeIcon.image = UIImage(named: "ic_heart")
-            stripeLabel.text = LGLocalizedString.productFreePrice
-            stripeImageView.hidden = false
-            stripeInfoView.hidden = false
-            stripeImageView.hidden = false
+        stripeImageView.image = UIImage(named: "stripe_white")
+        stripeIcon.image = UIImage(named: "ic_heart")
+        stripeLabel.text = LGLocalizedString.productFreePrice
+        stripeImageView.hidden = false
+        stripeInfoView.hidden = false
+        stripeImageView.hidden = false
     }
 
 
