@@ -191,7 +191,7 @@ private extension PostProductViewModel {
     }
 
     func buildProduct() -> Product? {
-        let price = postDetailViewModel.productPrice
+        let price = ProductPrice.Normal(postDetailViewModel.productPrice)
         let title = postDetailViewModel.productTitle
         let description = postDetailViewModel.productDescription
         return productRepository.buildNewProduct(title, description: description, price: price)
