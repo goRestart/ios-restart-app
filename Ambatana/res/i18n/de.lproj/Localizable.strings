@@ -79,7 +79,7 @@
 "chat_express_one_message_sent_success_alert" = "Deine Nachricht wurde verschickt!";
 "chat_express_send_question_text" = "Sende: %@";
 "chat_express_several_messages_sent_success_alert" = "Deine Nachrichten wurden verschickt!";
-"chat_express_text_field_text" = "Hallo! Ist dieser Artikel noch verfügbar?";
+"chat_express_text_field_text" = "Ist das noch zu haben?";
 "chat_forbidden_disclaimer_buyer_w_name" = "Das Benutzerkonto von %@ wird vom letgo-Team überprüft.";
 "chat_forbidden_disclaimer_buyer_wo_name" = "Dieses Benutzerkonto wird vom letgo-Team überprüft.";
 "chat_forbidden_disclaimer_seller_w_name" = "Sieht so aus, als sei %@ nicht länger an deinem Produkt interessiert.";
@@ -114,10 +114,10 @@
 "chat_message_disclaimer_scammer" = "Sei besonders vorsichtig, wenn du Kontaktinformationen wie Telefonnummern oder E-Mail-Adressen austauschst. Betrügerische Nutzer wollen häufig außerhalb des letgo-Systems kommunizieren. Sei informiert! Drücke hier, um unsere %@ anzuschauen.";
 "chat_message_field_hint" = "Gib hier deine Nachricht ein";
 "chat_message_load_generic_error" = "Beim Abrufen deiner Gesprächsdaten ist ein Fehler aufgetreten. Versuche es bitte später noch einmal.";
-"chat_not_verified_alert_message" = "Connect with Facebook, Google or Email to verify your identity.";
-"chat_not_verified_state_check_button" = "Check";
-"chat_not_verified_state_message" = "Check if you're verified in order to start chatting.";
-"chat_not_verified_state_title" = "ARE YOU VERIFIED?";
+"chat_not_verified_alert_message" = "Verbinde dich mit Facebook, Google oder via E-Mail, um deine Identität zu bestätigen.";
+"chat_not_verified_state_check_button" = "Überprüfen";
+"chat_not_verified_state_message" = "Überprüfe, ob du verifiziert bist, um ein Gespräch zu beginnen.";
+"chat_not_verified_state_title" = "BIST DU VERIFIZIERT?";
 "chat_product_sold_label" = "Produkt verkauft";
 "chat_related_products_title" = "VIELLEICHT GEFÄLLT DIR AUCH:";
 "chat_safety_tips" = "Sicherheitstipps";
@@ -367,6 +367,7 @@
 "product_delete_success_message" = "Dein Produkt wurde erfolgreich gelöscht.";
 "product_distance_X_from_you" = "%@ von dir";
 "product_distance_more_than_from_you" = "Mehr als %@ von dir";
+"product_free_price" = "Free";
 "product_is_mine_share_body" = "Schau dir an, was ich auf letgo verkaufe!";
 "product_list_banner_cell_title" = "HIER KÖNNTE DEIN ANGEBOT STEHEN";
 "product_list_item_sold_status_label" = "VERKAUFT";

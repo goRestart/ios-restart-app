@@ -114,10 +114,10 @@
 "chat_message_disclaimer_scammer" = "Var extra försiktig när du delar med dig av telefonnummer/e-postadress. Bedragare ber ofta om att lämna letgo-chatten. Klicka här för att läsa våra %@.";
 "chat_message_field_hint" = "Skriv ditt meddelande här";
 "chat_message_load_generic_error" = "Ett fel uppstod vid hämtning av din information. Var god försök senare.";
-"chat_not_verified_alert_message" = "Connect with Facebook, Google or Email to verify your identity.";
-"chat_not_verified_state_check_button" = "Check";
-"chat_not_verified_state_message" = "Check if you're verified in order to start chatting.";
-"chat_not_verified_state_title" = "ARE YOU VERIFIED?";
+"chat_not_verified_alert_message" = "Anslut med Facebook, Google eller din e-postadress för att verifiera din identitet.";
+"chat_not_verified_state_check_button" = "Kolla";
+"chat_not_verified_state_message" = "Kolla om du är verifierad för att kunna börja chatta.";
+"chat_not_verified_state_title" = "ÄR DU VERIFIERAD?";
 "chat_product_sold_label" = "Produkt såld";
 "chat_related_products_title" = "DU KANSKE ÄR INTRESSERAD AV:";
 "chat_safety_tips" = "Säkerhetstips";
@@ -367,6 +367,7 @@
 "product_delete_success_message" = "Din produkt har tagits bort.";
 "product_distance_X_from_you" = "%@ från dig";
 "product_distance_more_than_from_you" = "Mer än %@ från dig";
+"product_free_price" = "Free";
 "product_is_mine_share_body" = "Kolla vad jag säljer på letgo!";
 "product_list_banner_cell_title" = "SE DINA PRODUKTER HÄR";
 "product_list_item_sold_status_label" = "SÅLD";

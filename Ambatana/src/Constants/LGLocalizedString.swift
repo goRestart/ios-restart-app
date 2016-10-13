@@ -1483,6 +1483,10 @@ struct LGLocalizedString {
 		return String(format: NSLocalizedString("product_distance_X_from_you", comment: ""), var1)
 	}
 
+	static var productFreePrice: String {
+		return NSLocalizedString("product_free_price", comment: "")
+	}
+
 	static var productListBannerCellTitle: String {
 		return NSLocalizedString("product_list_banner_cell_title", comment: "")
 	}

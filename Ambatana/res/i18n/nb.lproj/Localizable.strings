@@ -114,10 +114,10 @@
 "chat_message_disclaimer_scammer" = "Vær ekstra forsiktig når du veksler telefonnummer eller e-postadresse med andre. Falske bruker vil ofte be deg om å fortsette kommunikasjonen utenfor letgo. Pass på! Trykk her for å se våre %@.";
 "chat_message_field_hint" = "Skriv din melding her";
 "chat_message_load_generic_error" = "En feil oppstod ved å motta samtaledata. Vennligst prøv igjen senere.";
-"chat_not_verified_alert_message" = "Connect with Facebook, Google or Email to verify your identity.";
-"chat_not_verified_state_check_button" = "Check";
-"chat_not_verified_state_message" = "Check if you're verified in order to start chatting.";
-"chat_not_verified_state_title" = "ARE YOU VERIFIED?";
+"chat_not_verified_alert_message" = "Koble til med Facebook, Google eller e-post for å verifisere din identitet.";
+"chat_not_verified_state_check_button" = "Sjekk";
+"chat_not_verified_state_message" = "Sjekk om du er verifisert før du kan starte en samtale.";
+"chat_not_verified_state_title" = "ER DU VERIFISERT?";
 "chat_product_sold_label" = "Produkt solgt";
 "chat_related_products_title" = "DU KAN VÆRE INTERESSERT I:";
 "chat_safety_tips" = "Sikkerhetstips";
@@ -367,6 +367,7 @@
 "product_delete_success_message" = "Sletting av ditt produkt var vellykket.";
 "product_distance_X_from_you" = "%@ fra deg";
 "product_distance_more_than_from_you" = "Mer enn %@ fra deg";
+"product_free_price" = "Free";
 "product_is_mine_share_body" = "Se hva jeg selger på letgo!";
 "product_list_banner_cell_title" = "SE DIN ANNONSE HER";
 "product_list_item_sold_status_label" = "SOLGT";

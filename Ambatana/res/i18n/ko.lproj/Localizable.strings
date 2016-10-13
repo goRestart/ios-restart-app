@@ -79,7 +79,7 @@
 "chat_express_one_message_sent_success_alert" = "메세지가 성공적으로 발송되었습니다!";
 "chat_express_send_question_text" = "발송: %@";
 "chat_express_several_messages_sent_success_alert" = "메세지가 성공적으로 발송되었습니다!";
-"chat_express_text_field_text" = "안녕하세요! 아직 이 상품을 판매하고 계신가요?";
+"chat_express_text_field_text" = "안녕하세요! 판매하고 계신가요?";
 "chat_forbidden_disclaimer_buyer_w_name" = "letgo팀은 %@의 계정을 검토하고 있습니다.";
 "chat_forbidden_disclaimer_buyer_wo_name" = "letgo팀은 이 계정을 검토하고 있습니다.";
 "chat_forbidden_disclaimer_seller_w_name" = "%@는 더 이상 사용자의 상품을 구매하는데 관심이 없습니다.";
@@ -114,10 +114,10 @@
 "chat_message_disclaimer_scammer" = "휴대전화 정보/이메일 정보를 교환할 때는 조심하여 주십시오. 사기를 계획하는 사용자가 letgo 채팅으로 물어볼 수도 있습니다. 이 경우 저희에게 알려주세요!여기를 눌러 저희 %@를 확인하세요";
 "chat_message_field_hint" = "메세지를 이곳에 입력하세요";
 "chat_message_load_generic_error" = "대화창을 불러오는데 오류가 발생했습니다. 다시 시도해주세요.";
-"chat_not_verified_alert_message" = "Connect with Facebook, Google or Email to verify your identity.";
-"chat_not_verified_state_check_button" = "Check";
-"chat_not_verified_state_message" = "Check if you're verified in order to start chatting.";
-"chat_not_verified_state_title" = "ARE YOU VERIFIED?";
+"chat_not_verified_alert_message" = "본인인증을 하기 위해 페이스북, 구글 혹은 이메일로 연결하세요.";
+"chat_not_verified_state_check_button" = "확인";
+"chat_not_verified_state_message" = "채팅을 시작하기 위해서 인증하셨는지 확인해주세요.";
+"chat_not_verified_state_title" = "인증하셨나요?";
 "chat_product_sold_label" = "상품 판매완료";
 "chat_related_products_title" = "사용자께서는 다음 항목들에 관심이 가실지도 모릅니다:";
 "chat_safety_tips" = "안전 정책";
@@ -367,6 +367,7 @@
 "product_delete_success_message" = "고객님의 상품을 성공적으로 삭제되었습니다.";
 "product_distance_X_from_you" = "당신으로부터 %@";
 "product_distance_more_than_from_you" = "당신에게 %@ 더 많이";
+"product_free_price" = "Free";
 "product_is_mine_share_body" = "letgo에서 무엇이 판매중인지 확인해보세요!";
 "product_list_banner_cell_title" = "회원님의 목록을 이곳에서 확인하세요";
 "product_list_item_sold_status_label" = "품절";

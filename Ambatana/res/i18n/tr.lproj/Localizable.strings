@@ -114,10 +114,10 @@
 "chat_message_disclaimer_scammer" = "Telefon numarası ve e-posta bilgilerini paylaşırken çok temkinli ol. Dolandırıcı kullanıcılar görüşmeyi genelde letgo sohbet sisteminden dışarıya taşımayı teklif ederler. Dikkatli ol ve %@ kısmını okumak için buraya dokun.";
 "chat_message_field_hint" = "Mesajını buraya yaz";
 "chat_message_load_generic_error" = "Sohbet bilgilerine erişirken bir hata oluştu. Lütfen tekrar dene.";
-"chat_not_verified_alert_message" = "Connect with Facebook, Google or Email to verify your identity.";
-"chat_not_verified_state_check_button" = "Check";
-"chat_not_verified_state_message" = "Check if you're verified in order to start chatting.";
-"chat_not_verified_state_title" = "ARE YOU VERIFIED?";
+"chat_not_verified_alert_message" = "Kimliğini doğrulamak için Facebook, Google veya Eposta ile bağlan.";
+"chat_not_verified_state_check_button" = "Kontrol et";
+"chat_not_verified_state_message" = "Sohbete başlayabilmek için hesabının doğrulanmış olduğundan emin ol";
+"chat_not_verified_state_title" = "HESABINI DOĞRULADIN MI?";
 "chat_product_sold_label" = "Ürün Satıldı";
 "chat_related_products_title" = "ŞU ÜRÜNLER DE İLGİNİ ÇEKEBİLİR:";
 "chat_safety_tips" = "Güvenlik önerilerimiz";
@@ -367,6 +367,7 @@
 "product_delete_success_message" = "Ürün başarıyla silindi.";
 "product_distance_X_from_you" = "senden %@ uzakta";
 "product_distance_more_than_from_you" = "Senden %@'den daha uzakta";
+"product_free_price" = "Free";
 "product_is_mine_share_body" = "letgo'da ne sattığıma bak!";
 "product_list_banner_cell_title" = "İLANINI BURADA GÖR";
 "product_list_item_sold_status_label" = "Satıldı";

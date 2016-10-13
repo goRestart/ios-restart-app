@@ -114,10 +114,10 @@
 "chat_message_disclaimer_scammer" = "Fai particolare attenzione quando scambi dettagli telefonici o email. Utenti disonesti chiedono spesso di lasciare la chat di letgo. Informati bene! Tocca qui per consultare i nostri %@.";
 "chat_message_field_hint" = "Digita qui il tuo messaggio";
 "chat_message_load_generic_error" = "Si è verificato un errore durante il recupero del contenuto della tua conversazione. Riprova più tardi.";
-"chat_not_verified_alert_message" = "Connect with Facebook, Google or Email to verify your identity.";
-"chat_not_verified_state_check_button" = "Check";
-"chat_not_verified_state_message" = "Check if you're verified in order to start chatting.";
-"chat_not_verified_state_title" = "ARE YOU VERIFIED?";
+"chat_not_verified_alert_message" = "Accedi con Facebook, Google o tramite email per verificare la tua identità.";
+"chat_not_verified_state_check_button" = "Controlla";
+"chat_not_verified_state_message" = "Controlla di essere un utente verificato per iniziare a chattare.";
+"chat_not_verified_state_title" = "SEI UN UTENTE VERIFICATO?";
 "chat_product_sold_label" = "Prodotto venduto";
 "chat_related_products_title" = "POTRESTI ESSERE INTERESSATO A:";
 "chat_safety_tips" = "Consigli utili";
@@ -367,6 +367,7 @@
 "product_delete_success_message" = "Il tuo prodotto è stato eliminato con successo.";
 "product_distance_X_from_you" = "%@ da te";
 "product_distance_more_than_from_you" = "Più di %@ da te";
+"product_free_price" = "Free";
 "product_is_mine_share_body" = "Guarda cosa sto vendendo su letgo!";
 "product_list_banner_cell_title" = "GUARDA QUI LA TUA INSERZIONE";
 "product_list_item_sold_status_label" = "VENDUTO";

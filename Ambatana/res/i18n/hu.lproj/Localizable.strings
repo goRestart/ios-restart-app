@@ -367,6 +367,7 @@
 "product_delete_success_message" = "Portékád törlése sikeres.";
 "product_distance_X_from_you" = "%@-re tőled";
 "product_distance_more_than_from_you" = "Több, mint %@-re tőled";
+"product_free_price" = "Free";
 "product_is_mine_share_body" = "Nézzétek, mit árulok a letgo piacán!";
 "product_list_banner_cell_title" = "TEKINTSD MEG HIRDETÉSED";
 "product_list_item_sold_status_label" = "ELADVA";

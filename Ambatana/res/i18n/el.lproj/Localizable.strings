@@ -114,10 +114,10 @@
 "chat_message_disclaimer_scammer" = "Να είστε ιδαίτερα προσεκτικοί όταν ανταλλάζετε πληροφορίες τηλεφώνων/email. Οι χρήστες που θέλουν να σας εξαπατήσουν, ενδέχεται να σας ζητήσουν να αποχωρήσετε από τη συνομιλία στο letgo. Να είστε ενημερωμένοι! Πατήστε εδώ για να ελέγξετε τις %@ μας.";
 "chat_message_field_hint" = "Γράψε το μήνυμά σου εδώ";
 "chat_message_load_generic_error" = "Παρουσιάσθηκε σφάλμα κατά την ανάκτηση των δεδομένων των συνομιλιών σου. Θα πρέπει να προσπαθήσεις ξανά αργότερα.";
-"chat_not_verified_alert_message" = "Connect with Facebook, Google or Email to verify your identity.";
-"chat_not_verified_state_check_button" = "Check";
-"chat_not_verified_state_message" = "Check if you're verified in order to start chatting.";
-"chat_not_verified_state_title" = "ARE YOU VERIFIED?";
+"chat_not_verified_alert_message" = "Συνδεθείτε με Facebook, Google ή Email για να επιβεβαιώσετε την ταυτότητά σας.";
+"chat_not_verified_state_check_button" = "Έλεγχος";
+"chat_not_verified_state_message" = "Ελέγξτε αν έχετε κάνει επιβεβαίωση για να ξεκινήσετε να συνομιλείτε.";
+"chat_not_verified_state_title" = "΄ΕΧΕΤΕ ΚΑΝΕΙ ΕΠΙΒΕΒΑΙΩΣΗ;";
 "chat_product_sold_label" = "Το προϊόν πωλήθηκε";
 "chat_related_products_title" = "ΜΠΟΡΕΙ ΝΑ ΕΝΔΙΑΦΕΡΕΣΤΕ ΓΙΑ:";
 "chat_safety_tips" = "Συμβουλές ασφαλείας";
@@ -367,6 +367,7 @@
 "product_delete_success_message" = "Το προϊόν σας διαγράφηκε επιτυχώς.";
 "product_distance_X_from_you" = "%@ από εσάς";
 "product_distance_more_than_from_you" = "Περισσότερο από %@ από εσάς";
+"product_free_price" = "Free";
 "product_is_mine_share_body" = "Δείτε τι πουλάω στο letgo!";
 "product_list_banner_cell_title" = "ΔΕΙΤΕ ΤΗΝ ΚΑΤΑΧΩΡΗΣΗ ΣΑΣ ΕΔΩ";
 "product_list_item_sold_status_label" = "ΠΩΛΗΘΗΚΕ";

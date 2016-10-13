@@ -62,6 +62,15 @@ class ProductCell: UICollectionViewCell, ReusableCell {
             }
         })
     }
+    
+    func setFreeStripe() {
+        stripeImageView.image = UIImage(named: "stripe_white")
+        stripeIcon.image = UIImage(named: "ic_heart")
+        stripeLabel.text = LGLocalizedString.productFreePrice
+        stripeImageView.hidden = false
+        stripeInfoView.hidden = false
+        stripeImageView.hidden = false
+    }
 
 
     // MARK: - Private methods
@@ -71,7 +80,7 @@ class ProductCell: UICollectionViewCell, ReusableCell {
         cellContent.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
         let rotation = CGFloat(M_PI_4)
         stripeInfoView.transform = CGAffineTransformMakeRotation(rotation)
-        
+        stripeLabel.textColor = UIColor.redText
         // HIDDEN for the moment while we experiment with 3 columns
         stripeInfoView.hidden = true
         stripeImageView.hidden = true
