@@ -54,11 +54,9 @@ def shared_pods
     pod "Kahuna",               "2.3.1"   # Swift 3.0: ? (doesn't matter as it will be deleted soon 🔥)
 
 	# Google -> we have to ask for the Google/"subpod" so it imports Google/Core too
-    pod "Google/Analytics",         "~> 3.0.3"     # Swift 3.0: -
     pod "Google/SignIn",            "~> 3.0.3"     # Swift 3.0: -
 
-    pod "Firebase/AppIndexing",        "~> 3.4.0"  # Swift 3.0: -
-    pod "GoogleConversionTracking", "~> 3.4.0"     # Swift 3.0: -
+    pod "Firebase/AppIndexing",     "~> 3.7.1"     # Swift 3.0: -
     pod "GoogleIDFASupport",        "~> 3.14.0"    # Swift 3.0: -
 
 	# Custom camera
