@@ -385,18 +385,18 @@ extension ProductViewModel {
             }, source: .MarkAsSold)
     }
     
-    func markFreeSold() {
+    func markSoldFree() {
         ifLoggedInRunActionElseOpenMainSignUp({ [weak self] in
             
             var alertActions: [UIAction] = []
-            let markAsSoldAction = UIAction(interface: .Text(LGLocalizedString.productMarkAsGivenAwayConfirmOkButton),
+            let markAsSoldAction = UIAction(interface: .Text(LGLocalizedString.productMarkAsSoldFreeConfirmOkButton),
                 action: { [weak self] in
                     self?.markSold(.MarkAsSold)
                 })
             alertActions.append(markAsSoldAction)
-            self?.delegate?.vmShowAlert(LGLocalizedString.productGiveAwayAgainConfirmTitle,
-                message: LGLocalizedString.productGiveAwayAgainConfirmMessage,
-                cancelLabel: LGLocalizedString.productGiveAwayAgainConfirmCancelButton,
+            self?.delegate?.vmShowAlert(LGLocalizedString.productMarkAsSoldFreeConfirmTitle,
+                message: LGLocalizedString.productMarkAsSoldFreeConfirmMessage,
+                cancelLabel: LGLocalizedString.productMarkAsSoldFreeConfirmCancelButton,
                 actions: alertActions)
             
             }, source: .MarkAsSold)
@@ -426,18 +426,18 @@ extension ProductViewModel {
             }, source: .MarkAsUnsold)
     }
 
-    func GiveAwayItAgain() {
+    func resellFree() {
         ifLoggedInRunActionElseOpenMainSignUp({ [weak self] in
             
             var alertActions: [UIAction] = []
-            let sellAgainAction = UIAction(interface: .Text(LGLocalizedString.productGiveAwayAgainConfirmOkButton),
+            let sellAgainAction = UIAction(interface: .Text(LGLocalizedString.productSellAgainFreeConfirmOkButton),
                 action: { [weak self] in
                     self?.markUnsold()
                 })
             alertActions.append(sellAgainAction)
-            self?.delegate?.vmShowAlert(LGLocalizedString.productGiveAwayAgainConfirmTitle,
-                message: LGLocalizedString.productGiveAwayAgainConfirmMessage,
-                cancelLabel: LGLocalizedString.productGiveAwayAgainConfirmCancelButton,
+            self?.delegate?.vmShowAlert(LGLocalizedString.productSellAgainFreeConfirmTitle,
+                message: LGLocalizedString.productSellAgainFreeConfirmMessage,
+                cancelLabel: LGLocalizedString.productSellAgainFreeConfirmCancelButton,
                 actions: alertActions)
             
             }, source: .MarkAsUnsold)         
@@ -806,7 +806,7 @@ extension ProductViewModel {
             let message: String
             if let value = result.value {
                 strongSelf.product.value = value
-                message = strongSelf.product.value.price.free ? LGLocalizedString.productMarkAsGivenAwaySuccessMessage : LGLocalizedString.productMarkAsSoldSuccessMessage
+                message = strongSelf.product.value.price.free ? LGLocalizedString.productMarkAsSoldSuccessMessage : LGLocalizedString.productMarkAsSoldSuccessMessage
                 self?.trackHelper.trackMarkSoldCompleted(source)
                 markAsSoldCompletion = {
                     if RatingManager.sharedInstance.shouldShowRating {
@@ -829,7 +829,7 @@ extension ProductViewModel {
             let message: String
             if let value = result.value {
                 strongSelf.product.value = value
-                message = strongSelf.product.value.price.free ? LGLocalizedString.productGiveAwayAgainSuccessMessage : LGLocalizedString.productSellAgainSuccessMessage
+                message = strongSelf.product.value.price.free ? LGLocalizedString.productSellAgainFreeSuccessMessage : LGLocalizedString.productSellAgainSuccessMessage
                 self?.trackHelper.trackMarkUnsoldCompleted()
             } else {
                 message = LGLocalizedString.productSellAgainErrorGeneric
@@ -898,25 +898,23 @@ extension Product {
             switch FeatureFlags.freePostingMode {
             case .Disabled:
                 return isMine ? .Available : .OtherAvailable
-            case .OneButton where price.free,
-                 .SplitButton where price.free:
+            case .OneButton, .SplitButton:
+                if (price.free) {
                     return isMine ? .AvailableFree : .OtherAvailableFree
-            case .OneButton where !price.free,
-                 .SplitButton where !price.free:
+                } else {
                     return isMine ? .Available : .OtherAvailable
-            default: return .NotAvailable // It must not happen. When we use where option is not sure that we are covering all posibilities, so default is needed.
+                }
             }
         case .Sold, .SoldOld:
             switch FeatureFlags.freePostingMode {
             case .Disabled:
                 return isMine ? .Sold : .OtherSold
-            case .OneButton where !price.free,
-                 .SplitButton where !price.free:
-                return isMine ? .Sold : .OtherSold
-            case .OneButton where price.free,
-                 .SplitButton where price.free:
-                return isMine ? .SoldFree : .OtherSoldFree
-            default: return .NotAvailable // It must not happen. When we use where swift is not sure that we are covering all posibilities, so default is needed.
+            case .OneButton, .SplitButton:
+                if (price.free) {
+                    return isMine ? .SoldFree : .OtherSoldFree
+                } else {
+                    return isMine ? .Sold : .OtherSold
+                }
             }
         }
     }

@@ -1487,28 +1487,28 @@ struct LGLocalizedString {
 		return NSLocalizedString("product_free_price", comment: "")
 	}
 
-	static var productGiveAwayAgainButton: String {
-		return NSLocalizedString("product_give_away_again_button", comment: "")
+	static var productSellAgainFreeButton: String {
+		return NSLocalizedString("product_sell_again_free_button", comment: "")
 	}
 
-	static var productGiveAwayAgainConfirmCancelButton: String {
-		return NSLocalizedString("product_give_away_again_confirm_cancel_button", comment: "")
+	static var productSellAgainFreeConfirmCancelButton: String {
+		return NSLocalizedString("product_sell_again_free_confirm_cancel_button", comment: "")
 	}
 
-	static var productGiveAwayAgainConfirmMessage: String {
-		return NSLocalizedString("product_give_away_again_confirm_message", comment: "")
+	static var productSellAgainFreeConfirmMessage: String {
+		return NSLocalizedString("product_sell_again_free_confirm_message", comment: "")
 	}
 
-	static var productGiveAwayAgainConfirmOkButton: String {
-		return NSLocalizedString("product_give_away_again_confirm_ok_button", comment: "")
+	static var productSellAgainFreeConfirmOkButton: String {
+		return NSLocalizedString("product_sell_again_free_confirm_ok_button", comment: "")
 	}
 
-	static var productGiveAwayAgainSuccessMessage: String {
-		return NSLocalizedString("product_give_away_again_success_message", comment: "")
+	static var productSellAgainFreeSuccessMessage: String {
+		return NSLocalizedString("product_sell_again_free_success_message", comment: "")
 	}
 
-	static var productGiveAwayAgainConfirmTitle: String {
-		return NSLocalizedString("product_give_away_again_confirm_title", comment: "")
+	static var productSellAgainFreeConfirmTitle: String {
+		return NSLocalizedString("product_sell_again_free_confirm_title", comment: "")
 	}
 
 	static var productListBannerCellTitle: String {
@@ -1539,28 +1539,28 @@ struct LGLocalizedString {
 		return NSLocalizedString("product_list_no_products_title", comment: "")
 	}
 
-	static var productMarkAsGivenAwayConfirmCancelButton: String {
-		return NSLocalizedString("product_mark_as_given_away_confirm_cancel_button", comment: "")
+	static var productMarkAsSoldFreeConfirmCancelButton: String {
+		return NSLocalizedString("product_mark_as_sold_free_confirm_cancel_button", comment: "")
 	}
 
-	static var productMarkAsGivenAwayButton: String {
-		return NSLocalizedString("product_mark_as_given_away_button", comment: "")
+	static var productMarkAsSoldFreeButton: String {
+		return NSLocalizedString("product_mark_as_sold_free_button", comment: "")
 	}
 
-	static var productMarkAsGivenAwayConfirmMessage: String {
-		return NSLocalizedString("product_mark_as_given_away_confirm_message", comment: "")
+	static var productMarkAsSoldFreeConfirmMessage: String {
+		return NSLocalizedString("product_mark_as_sold_free_confirm_message", comment: "")
 	}
 
-	static var productMarkAsGivenAwayConfirmOkButton: String {
-		return NSLocalizedString("product_mark_as_given_away_confirm_ok_button", comment: "")
+	static var productMarkAsSoldFreeConfirmOkButton: String {
+		return NSLocalizedString("product_mark_as_sold_free_confirm_ok_button", comment: "")
 	}
 
-	static var productMarkAsGivenAwayConfirmTitle: String {
-		return NSLocalizedString("product_mark_as_given_away_confirm_title", comment: "")
+	static var productMarkAsSoldFreeConfirmTitle: String {
+		return NSLocalizedString("product_mark_as_sold_free_confirm_title", comment: "")
 	}
 
-	static var productMarkAsGivenAwaySuccessMessage: String {
-		return NSLocalizedString("product_mark_as_given_away_success_message", comment: "")
+	static var productMarkAsSoldFreeSuccessMessage: String {
+		return NSLocalizedString("product_mark_as_sold_free_success_message", comment: "")
 	}
 
 	static var productMarkAsSoldButton: String {

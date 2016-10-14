@@ -12,8 +12,8 @@ import RxSwift
 enum ProductDetailButtonType {
     case MarkAsSold
     case MarkAsSoldFree
-    case GiveItAwayAgain
     case SellItAgain
+    case SellItAgainFree
     case CreateCommercial
     case ChatWithSeller
     case ContinueChatting
@@ -418,13 +418,13 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
             button.setStyle(.Terciary)
             action = viewModel.markSold
         case .MarkAsSoldFree:
-            button.setTitle(LGLocalizedString.productMarkAsGivenAwayButton, forState: .Normal)
+            button.setTitle(LGLocalizedString.productMarkAsSoldFreeButton, forState: .Normal)
             button.setStyle(.Terciary)
-            action = viewModel.markFreeSold
-        case .GiveItAwayAgain:
-            button.setTitle(LGLocalizedString.productGiveAwayAgainButton, forState: .Normal)
+            action = viewModel.markSoldFree
+        case .SellItAgainFree:
+            button.setTitle(LGLocalizedString.productSellAgainFreeButton, forState: .Normal)
             button.setStyle(.Secondary(fontSize: .Big, withBorder: false))
-            action = viewModel.GiveAwayItAgain
+            action = viewModel.resellFree
         case .SellItAgain:
             button.setTitle(LGLocalizedString.productSellAgainButton, forState: .Normal)
             button.setStyle(.Secondary(fontSize: .Big, withBorder: false))
@@ -601,7 +601,7 @@ extension ProductCarouselViewController {
             case .AvailableFree:
                 strongSelf.configureButton(strongSelf.buttonBottom, type: .MarkAsSoldFree , viewModel: viewModel)
             case .SoldFree:
-                strongSelf.configureButton(strongSelf.buttonBottom, type: .GiveItAwayAgain, viewModel: viewModel)
+                strongSelf.configureButton(strongSelf.buttonBottom, type: .SellItAgainFree, viewModel: viewModel)
             }
         }.addDisposableTo(activeDisposeBag)
 

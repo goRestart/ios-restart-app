@@ -1102,22 +1102,22 @@
 "product_free_price" = "Free";
 
 // Product mark as ready to give away button
-"product_give_away_again_button" = "Mark it as available again";
+"product_sell_again_free_button" = "Mark it as available again";
 
 // Cancel
-"product_give_away_again_confirm_cancel_button" = "Cancel";
+"product_sell_again_free_confirm_cancel_button" = "Cancel";
 
 // Alert message when product is mark as ready to give away (mark as available)
-"product_give_away_again_confirm_message" = "Mark your product as available so all letgo users know";
+"product_sell_again_free_confirm_message" = "Mark your product as available so all letgo users know";
 
 // Product ready to give away again ok button. (mark as available)
-"product_give_away_again_confirm_ok_button" = "Give Away";
+"product_sell_again_free_confirm_ok_button" = "Give Away";
 
 // Confirmation message when product is again available to give away
-"product_give_away_again_success_message" = "Congratulations! Your product is available again to give away";
+"product_sell_again_free_success_message" = "Congratulations! Your product is available to give away again";
 
 // Alert title when product is mark as ready to give away (mark as available)
-"product_give_away_again_confirm_title" = "Mark as available";
+"product_sell_again_free_confirm_title" = "Mark as available";
 
 // Banner cell inserted in the product list to incentivize posting
 "product_list_banner_cell_title" = "SEE YOUR LISTING HERE";
@@ -1141,22 +1141,22 @@
 "product_list_no_products_title" = "CITY UNLOCKED!";
 
 // Cancel button on alert when Product is mark as Given away 
-"product_mark_as_given_away_confirm_cancel_button" = "Cancel";
+"product_mark_as_sold_free_confirm_cancel_button" = "Cancel";
 
 // Product mark as given away button.
-"product_mark_as_given_away_button" = "I've given it away";
+"product_mark_as_sold_free_button" = "I've given it away";
 
 // Alert message when product is mark as given away
-"product_mark_as_given_away_confirm_message" = "Mark your product as already given away";
+"product_mark_as_sold_free_confirm_message" = "Mark your product as already given away";
 
 // Product marked as given away ok button 
-"product_mark_as_given_away_confirm_ok_button" = "Mark";
+"product_mark_as_sold_free_confirm_ok_button" = "Mark";
 
 // Alert title when product is mark as given away
-"product_mark_as_given_away_confirm_title" = "Mark it as given away";
+"product_mark_as_sold_free_confirm_title" = "Mark it as given away";
 
 // Confirmation message when product has been set as given away again
-"product_mark_as_given_away_success_message" = "Congratulations! Your product has been successfully marked as given away";
+"product_mark_as_sold_free_success_message" = "Congratulations! Your product has been successfully marked as given away";
 
 // Product mark as sold button. Check attached image "product (seller).png"
 "product_mark_as_sold_button" = "Mark as Sold";
