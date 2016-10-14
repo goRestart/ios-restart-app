@@ -71,7 +71,7 @@ class ProductCarouselMoreInfoView: UIView {
 
     weak var delegate: ProductCarouselMoreInfoDelegate?
 
-    static func moreInfoView(viewModel: ProductViewModel) -> ProductCarouselMoreInfoView {
+    static func moreInfoView(viewModel: ProductViewModel?) -> ProductCarouselMoreInfoView {
         let view = NSBundle.mainBundle().loadNibNamed("ProductCarouselMoreInfoView", owner: self, options: nil)!.first as! ProductCarouselMoreInfoView
         view.viewModel = viewModel
         view.setupUI()
