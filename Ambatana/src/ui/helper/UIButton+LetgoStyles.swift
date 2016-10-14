@@ -199,6 +199,7 @@ extension UIButton {
         setBackgroundImage(style.backgroundColorDisabled.imageWithSize(CGSize(width: 1, height: 1)), forState: .Disabled)
         
         titleLabel?.font = style.titleFont
+        titleLabel?.lineBreakMode = .ByTruncatingTail
         setTitleColor(style.titleColor, forState: .Normal)
         let padding = style.sidePadding
         let left = contentEdgeInsets.left < padding ? padding : contentEdgeInsets.left

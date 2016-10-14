@@ -60,10 +60,8 @@ private extension TabCoordinator {
     func openChatWithResult(result: ChatResult) {
         var dismissLoadingCompletion: (() -> Void)? = nil
         if let chat = result.value {
-            guard let viewModel = OldChatViewModel(chat: chat, tabNavigator: self) else { return }
-            let chatVC = OldChatViewController(viewModel: viewModel)
             dismissLoadingCompletion = { [weak self] in
-                self?.navigationController.pushViewController(chatVC, animated: true)
+                self?.openChat(.ChatAPI(chat: chat))
             }
 
         } else if let error = result.error {

@@ -1,3 +1,5 @@
+"NSCameraUsageDescription" = "Az árusításhoz adj a letgo alkalmazásnak hozzáférést a kamerádhoz";
 "NSLocationWhenInUseUsageDescription" = "A letgo hozzáférést igényel a tartózkodási helyedhez, hogy meg tudja jeleníteni a közeli portékákat";
+"NSPhotoLibraryUsageDescription" = "Az árusításhoz adj a letgo alkalmazásnak hozzáférést a fotótáradhoz";
 "sell_shortcut_title" = "Add el dolgaidat";
 "start_browsing_shortcut_title" = "Kezdj böngészni";

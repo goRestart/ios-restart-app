@@ -2272,6 +2272,22 @@ class TrackerEventSpec: QuickSpec {
                     }
                 }
             }
+            describe("In app chat notification start") {
+                beforeEach {
+                    sut = TrackerEvent.InappChatNotificationStart()
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("in-app-chat-notification-start"))
+                }
+            }
+            describe("In app chat notification complete") {
+                beforeEach {
+                    sut = TrackerEvent.InappChatNotificationComplete()
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("in-app-chat-notification-complete"))
+                }
+            }
         }
     }
 }

@@ -37,7 +37,7 @@ public class PushPermissionsManager: NSObject {
     */
     public func shouldShowPushPermissionsAlertFromViewController(prePermissionType: PrePermissionType) -> Bool {
         // If the user is already registered for notifications, we shouldn't ask anything.
-        guard !UIApplication.sharedApplication().isRegisteredForRemoteNotifications() else {
+        guard !UIApplication.sharedApplication().areRemoteNotificationsEnabled else {
             return false
         }
         switch (prePermissionType) {

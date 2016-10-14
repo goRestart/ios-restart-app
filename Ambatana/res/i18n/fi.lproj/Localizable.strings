@@ -2,6 +2,7 @@
 "account_deactivated_w_name" = "Käyttäjän %@ tili on poistettu";
 "account_pending_moderation" = "Tili on poistettu käytöstä moderaattorin toimesta";
 "account_pending_moderation_w_name" = "Käyttäjän %@ tili on poistettu käytöstä moderaattorin toimesta";
+"app_notification_reply" = "Vastaa";
 "app_share_download_text" = "Lataa";
 "app_share_email_button" = "Kutsu sähköpostilla";
 "app_share_error" = "Sovellusta jaettaessa tapahtui virhe. Ole hyvä ja yritä myöhemmin uudelleen.";
@@ -492,7 +493,7 @@
 "profile_verify_email_message_not_present" = "Syötä sähköpostiosoitteesi tilisi vahvistamiseksi.";
 "profile_verify_email_message_present" = "Paina \"Lähetä sähköposti\" lähettääksesi uuden vahvistuslinkin osoitteeseen %@";
 "profile_verify_email_placeholder" = "Sähköposti";
-"profile_verify_email_success" = "Olemme lähettäneet sinulle vahvistussähköpostin. Linkki vanhenee 48 tunnin aikana.";
+"profile_verify_email_success" = "Tarkista saapuneet sähköpostisi vahvistaaksesi tilisi. Linkki vanhenee 48 tunnin aikana.";
 "profile_verify_email_title" = "SÄHKÖPOSTI";
 "profile_verify_email_too_many_requests" = "Olemme jo lähettäneet sinulle vahvistussähköpostin. Ole hyvä ja tarkista saapuneet viestisi!";
 "profile_verify_facebook_button" = "Facebook";

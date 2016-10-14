@@ -6,3 +6,7 @@
 // Should have the same style as sell_shortcut_title
 "start_browsing_shortcut_title" = "Start Browsing";
 
+"NSCameraUsageDescription" = "To start selling, give letgo access to your camera";
+
+"NSPhotoLibraryUsageDescription" = "To start selling, give letgo access to your library";
+

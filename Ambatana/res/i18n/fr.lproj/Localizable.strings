@@ -2,6 +2,7 @@
 "account_deactivated_w_name" = "Le compte de %@ a été supprimé";
 "account_pending_moderation" = "Compte en attente de modération";
 "account_pending_moderation_w_name" = "Le compte de %@ est en attente de modération";
+"app_notification_reply" = "Répondre";
 "app_share_download_text" = "Télécharger";
 "app_share_email_button" = "Inviter via Email";
 "app_share_error" = "Une erreur est survenue lors du partage de l'appli. Veuillez réessayer plus tard.";
@@ -492,7 +493,7 @@
 "profile_verify_email_message_not_present" = "Pour vérifier votre compte, entrez votre adresse email.";
 "profile_verify_email_message_present" = "Tapez \"Envoyer Email\" pour envoyer un nouveau lien de vérification à %@";
 "profile_verify_email_placeholder" = "Email";
-"profile_verify_email_success" = "Nous vous avons envoyé un email de vérification. Le lien expirera sous 48 heures.";
+"profile_verify_email_success" = "Vérifiez vos emails pour vérifier votre compte. Ce lien va expirer dans 48 heures.";
 "profile_verify_email_title" = "EMAIL";
 "profile_verify_email_too_many_requests" = "Nous vous avons déjà envoyé un email de vérification. Veuillez vérifier votre boite de réception !";
 "profile_verify_facebook_button" = "Facebook";

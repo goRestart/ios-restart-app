@@ -2,6 +2,7 @@
 "account_deactivated_w_name" = "Tài khoản của %@ đã bị xoá";
 "account_pending_moderation" = "Tài khoản đang chờ duyệt";
 "account_pending_moderation_w_name" = "Tài khoản của %@ đang chờ duyệt";
+"app_notification_reply" = "Trả lời";
 "app_share_download_text" = "Tải về";
 "app_share_email_button" = "Mời qua Email";
 "app_share_error" = "Có lỗi xảy ra trong khi chia sẻ ứng dụng. Vui lòng thử lại sau.";
@@ -492,7 +493,7 @@
 "profile_verify_email_message_not_present" = "Để xác nhận tài khoản, hãy nhập địa chỉ email của bạn";
 "profile_verify_email_message_present" = "Chạm \"Gửi Email\" để gửi một đường dẫn xác nhận mới tới %@";
 "profile_verify_email_placeholder" = "Email";
-"profile_verify_email_success" = "Chúng tôi vừa gửi bạn một email xác nhận. Đường dẫn sẽ hết hạn trong 48h.";
+"profile_verify_email_success" = "Hãy kiểm tra email của bạn để xác nhận tài khoản. Đường dẫn sẽ hết hạn trong 48 giờ.";
 "profile_verify_email_title" = "EMAIL";
 "profile_verify_email_too_many_requests" = "Chúng tôi vừa gửi bạn email xác nhận. Vui lòng kiểm tra hộp thư của bạn!";
 "profile_verify_facebook_button" = "Facebook";

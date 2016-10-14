@@ -1,3 +1,5 @@
+"NSCameraUsageDescription" = "Anna letgolle lupa käyttää kameraasi aloittaaksesi myymisen";
 "NSLocationWhenInUseUsageDescription" = "letgo tarvitsee pääsyn paikkatietoosi voidakseen näyttää sinulle lähellä olevia tuotteita";
+"NSPhotoLibraryUsageDescription" = "Anna letgolle lupa käyttää kirjastoasi aloittaaksesi myymisen";
 "sell_shortcut_title" = "Myy tavarasi";
 "start_browsing_shortcut_title" = "Aloita selaaminen";

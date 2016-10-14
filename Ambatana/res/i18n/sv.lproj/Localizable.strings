@@ -2,6 +2,7 @@
 "account_deactivated_w_name" = "%@ konto har tagits bort";
 "account_pending_moderation" = "Konto väntar på att modereras";
 "account_pending_moderation_w_name" = "%@s konto väntar på att modereras";
+"app_notification_reply" = "Svara";
 "app_share_download_text" = "Ladda ner";
 "app_share_email_button" = "Bjud in via mejl";
 "app_share_error" = "Ett fel inträffade när appen skulle delas. Vänligen försök igen senare.";
@@ -492,7 +493,7 @@
 "profile_verify_email_message_not_present" = "För att bekräfta ditt konto, skriv in din e-postadress.";
 "profile_verify_email_message_present" = "Klicka \"Skicka mejl\" för att skicka en ny verifieringslänk till %@";
 "profile_verify_email_placeholder" = "E-post";
-"profile_verify_email_success" = "Vi har skickat ett bekräftelsemejl till dig. Länken är giltig i 48h.";
+"profile_verify_email_success" = "Kolla vårt mejl i din inkorg för att verifiera ditt konto. Länken är giltig i 48h.";
 "profile_verify_email_title" = "E-POST";
 "profile_verify_email_too_many_requests" = "Vi har redan skickat dig ett verifieringsmejl. Vänligen kolla din inkorg!";
 "profile_verify_facebook_button" = "Facebook";
