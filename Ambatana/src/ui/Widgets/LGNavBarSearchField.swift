@@ -39,6 +39,7 @@ public class LGNavBarSearchField: UIView {
     public override func layoutSubviews() {
         super.layoutSubviews()
         
+        setupContentView()
         if correctLayout && pendingLayout {
             if editMode {
                 setupTextFieldEditMode(false)
@@ -79,26 +80,25 @@ public class LGNavBarSearchField: UIView {
     
     private func setupTextFieldWithText(text: String?) {
         
-        backgroundColor = UIColor.clearColor()
-        
+        searchTextField.borderStyle = UITextBorderStyle.None
         searchTextField.textColor = UIColor.lightBarTitle
         searchTextField.clearButtonMode = UITextFieldViewMode.Always
         searchTextField.clearButtonOffset = 5
         searchTextField.insetX = 30
-        
-        searchTextField.borderStyle = UITextBorderStyle.None
-        searchTextField.layer.cornerRadius = searchTextField.frame.height/2
-        searchTextField.layer.borderWidth = LGUIKitConstants.onePixelSize
-        searchTextField.layer.borderColor = UIColor.gray.CGColor
-        searchTextField.backgroundColor = UIColor.white
-        
+        searchTextField.backgroundColor = UIColor.clearColor()
         
         if let actualText = text {
             initialSearchValue = actualText
         }
-        
         searchTextField.text = initialSearchValue
         
+    }
+    
+    private func setupContentView() {
+        backgroundColor = UIColor.white
+        layer.cornerRadius = searchTextField.frame.height/2
+        layer.borderWidth = LGUIKitConstants.onePixelSize
+        layer.borderColor = UIColor.gray.CGColor
     }
     
     /**
