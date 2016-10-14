@@ -86,6 +86,7 @@ class ProductCarouselCell: UICollectionViewCell {
         if let firstImageUrl = product.images.first?.fileURL where placeholderImage == nil {
             self.placeholderImage = ImageDownloader.sharedInstance.cachedImageForUrl(firstImageUrl)
         }
+        collectionView.setContentOffset(CGPoint.zero, animated: false) //Resetting images
         collectionView.reloadData()
     }
     
