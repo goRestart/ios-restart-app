@@ -36,12 +36,16 @@ enum ProductViewModelStatus {
     case PendingAndCommercializable
     case Available
     case AvailableAndCommercializable
+    case AvailableFree
     case Sold
-    
+    case SoldFree
+
     // Other Selling:
     case OtherAvailable
+    case OtherAvailableFree
     case OtherSold
-    
+    case OtherSoldFree
+
     // Common:
     case NotAvailable
 }
@@ -380,6 +384,23 @@ extension ProductViewModel {
 
             }, source: .MarkAsSold)
     }
+    
+    func markFreeSold() {
+        ifLoggedInRunActionElseOpenMainSignUp({ [weak self] in
+            
+            var alertActions: [UIAction] = []
+            let markAsSoldAction = UIAction(interface: .Text(LGLocalizedString.productMarkAsGivenAwayConfirmOkButton),
+                action: { [weak self] in
+                    self?.markSold(.MarkAsSold)
+                })
+            alertActions.append(markAsSoldAction)
+            self?.delegate?.vmShowAlert(LGLocalizedString.productGiveAwayAgainConfirmTitle,
+                message: LGLocalizedString.productGiveAwayAgainConfirmMessage,
+                cancelLabel: LGLocalizedString.productGiveAwayAgainConfirmCancelButton,
+                actions: alertActions)
+            
+            }, source: .MarkAsSold)
+    }
 
     func editProduct() {
         navigator?.editProduct(product.value) { [weak self] editedProduct in
@@ -405,6 +426,23 @@ extension ProductViewModel {
             }, source: .MarkAsUnsold)
     }
 
+    func GiveAwayItAgain() {
+        ifLoggedInRunActionElseOpenMainSignUp({ [weak self] in
+            
+            var alertActions: [UIAction] = []
+            let sellAgainAction = UIAction(interface: .Text(LGLocalizedString.productGiveAwayAgainConfirmOkButton),
+                action: { [weak self] in
+                    self?.markUnsold()
+                })
+            alertActions.append(sellAgainAction)
+            self?.delegate?.vmShowAlert(LGLocalizedString.productGiveAwayAgainConfirmTitle,
+                message: LGLocalizedString.productGiveAwayAgainConfirmMessage,
+                cancelLabel: LGLocalizedString.productGiveAwayAgainConfirmCancelButton,
+                actions: alertActions)
+            
+            }, source: .MarkAsUnsold)         
+    }
+    
     func chatWithSeller(source: EventParameterTypePage) {
         trackHelper.trackChatWithSeller(source)
         openChat()
@@ -768,14 +806,13 @@ extension ProductViewModel {
             let message: String
             if let value = result.value {
                 strongSelf.product.value = value
-                message = LGLocalizedString.productMarkAsSoldSuccessMessage
+                message = strongSelf.product.value.price.free ? LGLocalizedString.productMarkAsGivenAwaySuccessMessage : LGLocalizedString.productMarkAsSoldSuccessMessage
                 self?.trackHelper.trackMarkSoldCompleted(source)
                 markAsSoldCompletion = {
                     if RatingManager.sharedInstance.shouldShowRating {
                         strongSelf.delegate?.vmAskForRating()
                     }
                 }
-
             } else {
                 message = LGLocalizedString.productMarkAsSoldErrorGeneric
             }
@@ -792,7 +829,7 @@ extension ProductViewModel {
             let message: String
             if let value = result.value {
                 strongSelf.product.value = value
-                message = LGLocalizedString.productSellAgainSuccessMessage
+                message = strongSelf.product.value.price.free ? LGLocalizedString.productGiveAwayAgainSuccessMessage : LGLocalizedString.productSellAgainSuccessMessage
                 self?.trackHelper.trackMarkUnsoldCompleted()
             } else {
                 message = LGLocalizedString.productSellAgainErrorGeneric
@@ -858,9 +895,29 @@ extension Product {
         case .Discarded, .Deleted:
             return .NotAvailable
         case .Approved:
-            return isMine ? .Available : .OtherAvailable
+            switch FeatureFlags.freePostingMode {
+            case .Disabled:
+                return isMine ? .Available : .OtherAvailable
+            case .OneButton where price.free,
+                 .SplitButton where price.free:
+                    return isMine ? .AvailableFree : .OtherAvailableFree
+            case .OneButton where !price.free,
+                 .SplitButton where !price.free:
+                    return isMine ? .Available : .OtherAvailable
+            default: return .NotAvailable // It must not happen. When we use where option is not sure that we are covering all posibilities, so default is needed.
+            }
         case .Sold, .SoldOld:
-            return isMine ? .Sold : .OtherSold
+            switch FeatureFlags.freePostingMode {
+            case .Disabled:
+                return isMine ? .Sold : .OtherSold
+            case .OneButton where !price.free,
+                 .SplitButton where !price.free:
+                return isMine ? .Sold : .OtherSold
+            case .OneButton where price.free,
+                 .SplitButton where price.free:
+                return isMine ? .SoldFree : .OtherSoldFree
+            default: return .NotAvailable // It must not happen. When we use where swift is not sure that we are covering all posibilities, so default is needed.
+            }
         }
     }
 
@@ -888,9 +945,9 @@ private extension ProductViewModelStatus {
 
     var isEditable: Bool {
         switch self {
-        case .Pending, .PendingAndCommercializable, .Available, .AvailableAndCommercializable:
+        case .Pending, .PendingAndCommercializable, .Available, .AvailableAndCommercializable, .AvailableFree:
             return true
-        case .NotAvailable, .Sold, .OtherSold, .OtherAvailable:
+        case .NotAvailable, .Sold, .OtherSold, .OtherAvailable, .OtherSoldFree, .SoldFree, .OtherAvailableFree:
             return false
         }
     }
@@ -899,7 +956,9 @@ private extension ProductViewModelStatus {
         switch self {
         case .Sold, .OtherSold:
             return LGLocalizedString.productListItemSoldStatusLabel
-        case .Pending, .PendingAndCommercializable, .Available, .AvailableAndCommercializable, .OtherAvailable,
+        case .SoldFree, .OtherSoldFree:
+            return LGLocalizedString.productListItemGivenAwayStatusLabel
+        case .Pending, .PendingAndCommercializable, .Available, .AvailableAndCommercializable, .OtherAvailable, .AvailableFree, .OtherAvailableFree,
              .NotAvailable:
             return nil
         }
@@ -907,10 +966,10 @@ private extension ProductViewModelStatus {
 
     var labelColor: UIColor {
         switch self {
-        case .Sold, .OtherSold:
+        case .Sold, .OtherSold, .SoldFree, .OtherSoldFree:
             return UIColor.whiteColor()
         case .Pending, .PendingAndCommercializable, .Available, .AvailableAndCommercializable, .OtherAvailable,
-             .NotAvailable:
+             .NotAvailable, .AvailableFree, .OtherAvailableFree:
             return UIColor.clearColor()
         }
     }
@@ -919,8 +978,10 @@ private extension ProductViewModelStatus {
         switch self {
         case .Sold, .OtherSold:
             return UIColor.soldColor
+        case .SoldFree, .OtherSoldFree:
+            return UIColor.givenAwayColor
         case .Pending, .PendingAndCommercializable, .Available, .AvailableAndCommercializable, .OtherAvailable,
-             .NotAvailable:
+             .NotAvailable, .AvailableFree, .OtherAvailableFree:
             return UIColor.clearColor()
         }
     }
@@ -931,7 +992,7 @@ private extension ProductViewModelStatus {
             return active ? .PendingAndCommercializable : .Pending
         case .Available, .AvailableAndCommercializable:
             return active ? .AvailableAndCommercializable : .Available
-        case .Sold, .OtherSold, .NotAvailable, .OtherAvailable:
+        case .Sold, .OtherSold, .NotAvailable, .OtherAvailable, .OtherSoldFree, .OtherAvailableFree, .SoldFree, .AvailableFree:
             return self
         }
     }

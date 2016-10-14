@@ -1,5 +1,5 @@
+"NSCameraUsageDescription" = "To start selling, give letgo access to your camera";
 "NSLocationWhenInUseUsageDescription" = "letgo требуется доступ к вашему местоположению, чтобы отображать товары рядом с вами";
+"NSPhotoLibraryUsageDescription" = "To start selling, give letgo access to your library";
 "sell_shortcut_title" = "Продать свои вещи";
 "start_browsing_shortcut_title" = "Начать поиск";
-"NSCameraUsageDescription" = "To start selling, give letgo access to your camera";
-"NSPhotoLibraryUsageDescription" = "To start selling, give letgo access to your library";
