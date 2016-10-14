@@ -16,7 +16,7 @@ final class TrackerProxy: Tracker {
     private var trackers: [Tracker] = []
 
     private var notificationsPermissionEnabled: Bool {
-        return UIApplication.sharedApplication().isRegisteredForRemoteNotifications()
+        return UIApplication.sharedApplication().areRemoteNotificationsEnabled
     }
 
     private var gpsPermissionEnabled: Bool {
