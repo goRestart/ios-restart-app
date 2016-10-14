@@ -38,7 +38,8 @@ class MainSignUpViewController: BaseViewController, SignUpViewModelDelegate, UIT
     
     @IBOutlet weak var legalTextView: UITextView!
     
-    // Constraints to adapt for iPhone4
+    // Constraints to adapt for iPhone 4/5
+    @IBOutlet weak var mainViewHeightProportion: NSLayoutConstraint!
     @IBOutlet weak var loginButtonBottomMarginConstraint: NSLayoutConstraint!
     @IBOutlet weak var signUpButtonTopMarginConstraint: NSLayoutConstraint!
     @IBOutlet weak var orDividerTopMarginConstraint: NSLayoutConstraint!
@@ -72,9 +73,14 @@ class MainSignUpViewController: BaseViewController, SignUpViewModelDelegate, UIT
         
         setupUI()
         setAccesibilityIds()
-        
-        if DeviceFamily.current == .iPhone4 {
+
+        switch DeviceFamily.current {
+        case .iPhone4:
             adaptConstraintsToiPhone4()
+        case .iPhone5:
+            adaptConstraintsToiPhone5()
+        default:
+            break
         }
     }
 
@@ -106,7 +112,7 @@ class MainSignUpViewController: BaseViewController, SignUpViewModelDelegate, UIT
         let vc = HelpViewController()
         navigationController?.pushViewController(vc, animated: true)
     }
-    
+     
     @IBAction func connectFBButtonPressed(sender: AnyObject) {
         viewModel.logInWithFacebook()
     }
@@ -207,6 +213,7 @@ class MainSignUpViewController: BaseViewController, SignUpViewModelDelegate, UIT
     }
     
     private func adaptConstraintsToiPhone4() {
+        mainViewHeightProportion.constant = 100
         loginButtonBottomMarginConstraint.constant = 0
         signUpButtonTopMarginConstraint.constant = 10
         orDividerTopMarginConstraint.constant = 15
@@ -214,8 +221,13 @@ class MainSignUpViewController: BaseViewController, SignUpViewModelDelegate, UIT
         facebookButtonTopMarginConstraint.constant = 8
     }
 
+    private func adaptConstraintsToiPhone5() {
+        mainViewHeightProportion.constant = 70
+    }
+
     private func setupTermsAndConditions() {
         legalTextView.attributedText = viewModel.attributedLegalText
+        legalTextView.textContainer.maximumNumberOfLines = 3
         legalTextView.textAlignment = .Center
         legalTextView.delegate = self
     }
