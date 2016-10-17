@@ -12,7 +12,7 @@ import Foundation
 
 extension UIColor {
     static var soldColor: UIColor { return tealBlue }
-    static var givenAwayColor: UIColor { return tealBlue }
+    static var soldFreeColor: UIColor { return tealBlue }
     static var reviewColor: UIColor { return macaroniAndCheese }
 }
 

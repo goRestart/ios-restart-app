@@ -977,7 +977,7 @@ private extension ProductViewModelStatus {
         case .Sold, .OtherSold:
             return UIColor.soldColor
         case .SoldFree, .OtherSoldFree:
-            return UIColor.givenAwayColor
+            return UIColor.soldFreeColor
         case .Pending, .PendingAndCommercializable, .Available, .AvailableAndCommercializable, .OtherAvailable,
              .NotAvailable, .AvailableFree, .OtherAvailableFree:
             return UIColor.clearColor()
