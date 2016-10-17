@@ -79,7 +79,6 @@ class ProductCarouselMoreInfoView: UIView {
         view.addGestures()
         view.configureMapView()
         view.configureOverlayMapView()
-        view.setupStatsView()
         return view
     }
     
@@ -93,7 +92,7 @@ class ProductCarouselMoreInfoView: UIView {
         setupUI()
         setupContent()
         configureMapView()
-        setupStatsRx()
+        setupStatsView()
     }
 
     func dismissed() {
@@ -340,6 +339,7 @@ extension ProductCarouselMoreInfoView {
                                                     favouritesCount: viewModel.favouritesCount.value,
                                                     postedDate: viewModel.productCreationDate.value) else { return }
         self.statsView = statsView
+        statsContainerView.subviews.forEach({ $0.removeFromSuperview() })
         statsContainerView.addSubview(statsView)
 
         statsView.translatesAutoresizingMaskIntoConstraints = false
