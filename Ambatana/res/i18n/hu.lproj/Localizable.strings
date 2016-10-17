@@ -377,7 +377,7 @@
 "product_list_no_products_body" = "Te vagy az első felfedező ebből a városból. Üdv!";
 "product_list_no_products_title" = "VÁROS FELOLDVA!";
 "product_mark_as_sold_button" = "Megjelölés eladottként";
-"product_mark_as_sold_confirm_cancel_button" = "Cancel";
+"product_mark_as_sold_confirm_cancel_button" = "Mégse";
 "product_mark_as_sold_confirm_message" = "Gratulálunk, sikerült! Biztosan meg szeretnéd jelölni eladottként?";
 "product_mark_as_sold_confirm_ok_button" = "Megjelölés eladottként";
 "product_mark_as_sold_confirm_title" = "Megjelölés eladottként";

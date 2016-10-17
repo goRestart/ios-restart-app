@@ -71,9 +71,8 @@ class ProductCarouselMoreInfoView: UIView {
 
     weak var delegate: ProductCarouselMoreInfoDelegate?
 
-    static func moreInfoView(viewModel: ProductViewModel) -> ProductCarouselMoreInfoView {
+    static func moreInfoView() -> ProductCarouselMoreInfoView {
         let view = NSBundle.mainBundle().loadNibNamed("ProductCarouselMoreInfoView", owner: self, options: nil)!.first as! ProductCarouselMoreInfoView
-        view.viewModel = viewModel
         view.setupUI()
         view.setAccessibilityIds()
         view.setupContent()
@@ -88,7 +87,7 @@ class ProductCarouselMoreInfoView: UIView {
         super.init(coder: aDecoder)
     }
     
-    func update(viewModel: ProductViewModel) {
+    func setupWith(viewModel viewModel: ProductViewModel) {
         self.viewModel = viewModel
         currentVmDisposeBag = DisposeBag()
         setupUI()

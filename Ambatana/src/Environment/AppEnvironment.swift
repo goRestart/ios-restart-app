@@ -16,8 +16,6 @@ protocol AppEnvironment {
     // Tracking
     var appsFlyerAPIKey: String { get }
     var amplitudeAPIKey: String { get }
-    var gcPrimaryTrackingId: String { get }
-    var gcSecondaryTrackingId: String { get }
     
     // Push notifications
     var kahunaAPIKey: String { get }

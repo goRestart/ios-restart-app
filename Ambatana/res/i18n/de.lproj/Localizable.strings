@@ -377,7 +377,7 @@
 "product_list_no_products_body" = "Du bist der erste Entdecker aus deiner Stadt. Willkommen!";
 "product_list_no_products_title" = "STADT FREIGESCHALTET!";
 "product_mark_as_sold_button" = "Als verkauft markieren";
-"product_mark_as_sold_confirm_cancel_button" = "Cancel";
+"product_mark_as_sold_confirm_cancel_button" = "Abbrechen";
 "product_mark_as_sold_confirm_message" = "Glückwunsch, du hast es geschafft! Bist du sicher, dass du es als verkauft markieren möchtest?";
 "product_mark_as_sold_confirm_ok_button" = "Als verkauft markieren";
 "product_mark_as_sold_confirm_title" = "Als verkauft markieren";
