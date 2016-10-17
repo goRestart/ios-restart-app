@@ -60,10 +60,10 @@ class ProductCarouselMoreInfoView: UIView {
         guard let status = viewModel?.status.value else { return 0 }
         // Needed to avoid drawing content below the chat button
         switch status {
-        case .Pending, .OtherSold, .NotAvailable:
+        case .Pending, .OtherSold, .NotAvailable, .OtherSoldFree:
             // No buttons in the bottom
             return 0
-        case .PendingAndCommercializable, .Available, .Sold, .OtherAvailable, .AvailableAndCommercializable:
+        case .PendingAndCommercializable, .Available, .Sold, .OtherAvailable, .AvailableAndCommercializable, .AvailableFree, .OtherAvailableFree, .SoldFree:
             // Has a button in the bottom
             return 80
         }

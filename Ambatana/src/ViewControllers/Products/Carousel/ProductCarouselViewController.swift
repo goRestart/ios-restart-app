@@ -11,7 +11,9 @@ import RxSwift
 
 enum ProductDetailButtonType {
     case MarkAsSold
+    case MarkAsSoldFree
     case SellItAgain
+    case SellItAgainFree
     case CreateCommercial
     case ChatWithSeller
     case ContinueChatting
@@ -428,6 +430,14 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
             button.setTitle(LGLocalizedString.productMarkAsSoldButton, forState: .Normal)
             button.setStyle(.Terciary)
             action = viewModel.markSold
+        case .MarkAsSoldFree:
+            button.setTitle(LGLocalizedString.productMarkAsSoldFreeButton, forState: .Normal)
+            button.setStyle(.Terciary)
+            action = viewModel.markSoldFree
+        case .SellItAgainFree:
+            button.setTitle(LGLocalizedString.productSellAgainFreeButton, forState: .Normal)
+            button.setStyle(.Secondary(fontSize: .Big, withBorder: false))
+            action = viewModel.resellFree
         case .SellItAgain:
             button.setTitle(LGLocalizedString.productSellAgainButton, forState: .Normal)
             button.setStyle(.Secondary(fontSize: .Big, withBorder: false))
@@ -593,7 +603,7 @@ extension ProductCarouselViewController {
             strongSelf.userViewRightMargin = -strongSelf.itemsMargin
 
             switch status {
-            case .Pending, .NotAvailable, .OtherSold:
+            case .Pending, .NotAvailable, .OtherSold, .OtherSoldFree:
                 strongSelf.userViewBottomMargin = -userViewMarginWithoutButtons
                 strongSelf.userViewRightMargin = strongSelf.userViewRightMargin - strongSelf.editButton.width
             case .PendingAndCommercializable:
@@ -606,8 +616,12 @@ extension ProductCarouselViewController {
                 strongSelf.userViewBottomMargin = -(userViewMarginAboveTopButton)
             case .Sold:
                 strongSelf.configureButton(strongSelf.buttonBottom, type: .SellItAgain, viewModel: viewModel)
-            case .OtherAvailable:
+            case .OtherAvailable, .OtherAvailableFree:
                 strongSelf.configureButton(strongSelf.buttonBottom, type: .ChatWithSeller, viewModel: viewModel)
+            case .AvailableFree:
+                strongSelf.configureButton(strongSelf.buttonBottom, type: .MarkAsSoldFree , viewModel: viewModel)
+            case .SoldFree:
+                strongSelf.configureButton(strongSelf.buttonBottom, type: .SellItAgainFree, viewModel: viewModel)
             }
         }.addDisposableTo(activeDisposeBag)
 
