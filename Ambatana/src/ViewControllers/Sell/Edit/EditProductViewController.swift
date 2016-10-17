@@ -33,6 +33,7 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
     let sellProductCellReuseIdentifier = "SellProductCell"
     
     @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet weak var containerEditOptionsView: UIView!
     @IBOutlet weak var titleContainerView: UIView!
     @IBOutlet weak var titleTextField: LGTextField!
     @IBOutlet weak var titleDisclaimer: UILabel!
@@ -40,6 +41,10 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
     @IBOutlet weak var titleDisclaimerLeadingConstraint: NSLayoutConstraint!
     @IBOutlet weak var titleDisclaimerHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var titleDisclaimerBottomConstraint: NSLayoutConstraint!
+    
+    // Price container IBOutlets:
+    @IBOutlet weak var priceContainerHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var freePostingSwitch: UISwitch!
 
     @IBOutlet weak var imageCollectionView: UICollectionView!
     @IBOutlet weak var currencyButton: UIButton!
@@ -105,7 +110,6 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
         // Redraw the lines
         lines.forEach { $0.removeFromSuperlayer() }
         lines = []
-        lines.append(titleContainerView.addTopBorderWithWidth(1, color: UIColor.grayLighter))
         lines.append(titleContainerView.addBottomBorderWithWidth(1, color: UIColor.grayLighter))
         lines.append(descriptionTextView.addTopBorderWithWidth(1, color: UIColor.grayLighter))
         lines.append(setLocationButton.addTopBorderWithWidth(1, color: UIColor.grayLighter))
@@ -141,11 +145,16 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
     @IBAction func sendButtonPressed(sender: AnyObject) {
         viewModel.checkProductFields()
     }
+    @IBAction func freePostingChanged(sender: AnyObject) {
+        UIView.animateWithDuration(1.0, animations: {
+            self.priceContainerHeightConstraint.constant = self.freePostingSwitch.on ? 88 : 44
+        })
+        
+    }
     
     @IBAction func shareFBSwitchChanged(sender: AnyObject) {
         viewModel.shouldShareInFB = shareFBSwitch.on
     }
-
 
     // MARK: - TextField Delegate Methods
 
@@ -371,6 +380,11 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
         let closeButton = UIBarButtonItem(image: UIImage(named: "navbar_close"), style: UIBarButtonItemStyle.Plain,
                                           target: self, action: #selector(EditProductViewController.closeButtonPressed))
         self.navigationItem.leftBarButtonItem = closeButton;
+        
+        containerEditOptionsView.backgroundColor = UIColor.white
+        containerEditOptionsView.layer.cornerRadius = 10
+        containerEditOptionsView.layer.borderWidth = 1
+        containerEditOptionsView.layer.borderColor = UIColor.clearColor().CGColor
         
         titleTextField.placeholder = LGLocalizedString.sellTitleFieldHint
         titleTextField.text = viewModel.title

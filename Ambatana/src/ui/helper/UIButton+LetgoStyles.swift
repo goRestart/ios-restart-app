@@ -185,6 +185,8 @@ extension UIButton {
             print("💣 => Styles can only be applied to customStyle Buttons")
             return
         }
+        // XCode8 bug ->  http://stackoverflow.com/questions/39380128/ios-10-gm-with-xcode-8-gm-causes-views-to-disappear-due-to-roundedcorners-clip/39380129#39380129
+        layoutIfNeeded()
         
         clipsToBounds = true
         if style.applyCornerRadius {
