@@ -20,7 +20,7 @@ class LGEmptyView: UIView {
     static let titleBodyVSpacing: CGFloat = 10
     static let bodyButtonVSpacing: CGFloat = 44
     static let bodyButtonVSpacingBodyHidden: CGFloat = 20
-    static let buttonHeight: CGFloat = 44
+    static let buttonHeight: CGFloat = 50
     static let contentBottomMargin: CGFloat = 16
 
     private let contentView: UIView = UIView()
@@ -140,7 +140,7 @@ class LGEmptyView: UIView {
         contentView.addSubview(bodyLabel)
 
         // initial frame so it can calculate the button corner radius
-        actionButton.frame = CGRect(x: 0, y: 0, width: 10, height: 44)
+        actionButton.frame = CGRect(x: 0, y: 0, width: 10, height: LGEmptyView.buttonHeight)
         actionButton.setStyle(.Primary(fontSize: .Medium))
         actionButton.titleLabel?.font = UIFont.mediumButtonFont
         actionButton.addTarget(self, action: #selector(LGEmptyView.actionButtonPressed), forControlEvents: .TouchUpInside)
@@ -149,7 +149,7 @@ class LGEmptyView: UIView {
         contentView.addSubview(actionButton)
         
         // initial frame so it can calculate the button corner radius
-        actionSecondaryButton.frame = CGRect(x: 0, y: 0, width: 10, height: 44)
+        actionSecondaryButton.frame = CGRect(x: 0, y: 0, width: 10, height: LGEmptyView.buttonHeight)
         actionSecondaryButton.setStyle(.Secondary(fontSize: .Medium, withBorder: true))
         actionSecondaryButton.titleLabel?.font = UIFont.mediumButtonFont
         actionSecondaryButton.addTarget(self, action: #selector(LGEmptyView.secondaryActionButtonPressed), forControlEvents: .TouchUpInside)

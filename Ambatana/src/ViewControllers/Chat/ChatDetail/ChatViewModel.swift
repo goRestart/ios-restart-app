@@ -372,7 +372,8 @@ class ChatViewModel: BaseViewModel {
         guard let otherUserId = conversation.value.interlocutor?.objectId else { return }
 
         switch changeInMessages {
-        case let .Remove(_, message):            if message.talkerId == myUserId {
+        case let .Remove(_, message):
+            if message.talkerId == myUserId {
                 myMessagesCount.value = max(0, myMessagesCount.value-1)
             } else if message.talkerId == otherUserId {
                 otherMessagesCount.value = max(0, otherMessagesCount.value-1)
