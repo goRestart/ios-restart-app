@@ -225,8 +225,8 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         userView.delegate = self
         let leftMargin = NSLayoutConstraint(item: userView, attribute: .Leading, relatedBy: .Equal, toItem: view,
                                             attribute: .Leading, multiplier: 1, constant: itemsMargin)
-        let bottomMargin = NSLayoutConstraint(item: userView, attribute: .Bottom, relatedBy: .Equal, toItem: view,
-                                              attribute: .Bottom, multiplier: 1, constant: -itemsMargin)
+        let bottomMargin = NSLayoutConstraint(item: userView, attribute: .Bottom, relatedBy: .Equal, toItem: interestedBubbleContainer,
+                                              attribute: .Top, multiplier: 1, constant: -itemsMargin)
         let rightMargin = NSLayoutConstraint(item: userView, attribute: .Trailing, relatedBy: .LessThanOrEqual,
                                              toItem: view, attribute: .Trailing, multiplier: 1,
                                              constant: -itemsMargin)
@@ -577,8 +577,8 @@ extension ProductCarouselViewController {
     
     private func refreshBottomButtons(viewModel: ProductViewModel) {
         
-        let userViewMarginAboveBottomButton = view.frame.height - buttonBottom.frame.origin.y + itemsMargin
-        let userViewMarginAboveTopButton = view.frame.height - buttonTop.frame.origin.y + itemsMargin
+        let userViewMarginAboveBottomButton = itemsMargin + buttonBottom.height + itemsMargin
+        let userViewMarginAboveTopButton = userViewMarginAboveBottomButton + buttonTop.height + itemsMargin
         let userViewMarginWithoutButtons = itemsMargin
         
         guard buttonBottom.frame.origin.y > 0 else { return }
@@ -1003,8 +1003,6 @@ extension ProductCarouselViewController {
         interestedBubbleIsVisible = true
         interestedBubble?.updateInfo(text)
         delay(0.1) { [weak self] in
-            guard let strongSelf = self else { return }
-            strongSelf.userViewBottomMargin = strongSelf.userViewBottomMargin - ProductCarouselViewController.interestedBubbleHeight
             self?.interestedBubbleContainerBottomConstraint.constant = 0
             UIView.animateWithDuration(0.3, animations: {
                 self?.view.layoutIfNeeded()
@@ -1025,8 +1023,6 @@ extension ProductCarouselViewController {
         interestedBubbleTimer.invalidate()
         interestedBubbleIsVisible = false
         interestedBubbleContainerBottomConstraint.constant = -ProductCarouselViewController.interestedBubbleHeight
-        userViewBottomMargin = userViewBottomMargin + ProductCarouselViewController.interestedBubbleHeight
-
         UIView.animateWithDuration(duration, animations: { [weak self] in
             self?.view.layoutIfNeeded()
         }, completion: nil)
