@@ -400,6 +400,18 @@
 // Alert encouraging users to connect facebook & google
 "chat_connect_accounts_message" = "Connect with Facebook or Google to verify your identity.";
 
+// Background text on chat list when user is not verified
+"chat_not_verified_state_title" = "ARE YOU VERIFIED?";
+
+// Background text on chat list when user is not verified
+"chat_not_verified_state_message" = "Check if you're verified in order to start chatting.";
+
+// Background text on chat list when user is not verified
+"chat_not_verified_state_check_button" = "Check";
+
+// Alert to encourage user to verify
+"chat_not_verified_alert_message" = "Connect with Facebook, Google or Email to verify your identity.";
+
 // Alert to show when user started chat with himself
 "chat_with_yourself_alert_msg" = "You can't start a conversation about your own product.";
 
@@ -1086,8 +1098,32 @@
 // Product distance from you. Check image @ "product_ask_a_question_button" segment
 "product_distance_X_from_you" = "%@ from you";
 
+// Message to show on Free product
+"product_free_price" = "Free";
+
+// Product mark as ready to give away button
+"product_sell_again_free_button" = "Mark it as available again";
+
+// Cancel
+"product_sell_again_free_confirm_cancel_button" = "Cancel";
+
+// Alert message when product is mark as ready to give away (mark as available)
+"product_sell_again_free_confirm_message" = "Mark your product as available so all letgo users know";
+
+// Product ready to give away again ok button. (mark as available)
+"product_sell_again_free_confirm_ok_button" = "Give Away";
+
+// Confirmation message when product is again available to give away
+"product_sell_again_free_success_message" = "Congratulations! Your product is available to give away again";
+
+// Alert title when product is mark as ready to give away (mark as available)
+"product_sell_again_free_confirm_title" = "Mark as available";
+
 // Banner cell inserted in the product list to incentivize posting
 "product_list_banner_cell_title" = "SEE YOUR LISTING HERE";
+
+// Product shown already as given away. 
+"product_list_item_given_away_status_label" = "Already given away";
 
 // Product list item sold status label. Check attached image "product_list_item_sold_status_label.png"
 "product_list_item_sold_status_label" = "SOLD";
@@ -1103,6 +1139,24 @@
 
 // <strong>SEE SCREENSHOT</strong> Product list no products title.
 "product_list_no_products_title" = "CITY UNLOCKED!";
+
+// Cancel button on alert when Product is mark as Given away 
+"product_mark_as_sold_free_confirm_cancel_button" = "Cancel";
+
+// Product mark as given away button.
+"product_mark_as_sold_free_button" = "I've given it away";
+
+// Alert message when product is mark as given away
+"product_mark_as_sold_free_confirm_message" = "Mark your product as already given away";
+
+// Product marked as given away ok button 
+"product_mark_as_sold_free_confirm_ok_button" = "Mark";
+
+// Alert title when product is mark as given away
+"product_mark_as_sold_free_confirm_title" = "Mark it as given away";
+
+// Confirmation message when product has been set as given away again
+"product_mark_as_sold_free_success_message" = "Congratulations! Your product has been successfully marked as given away";
 
 // Product mark as sold button. Check attached image "product (seller).png"
 "product_mark_as_sold_button" = "Mark as Sold";
@@ -1476,7 +1530,7 @@
 "profile_verify_email_title" = "EMAIL";
 
 // Verify popup to link with email failure too many requests
-"profile_verify_email_too_many_requests" = "We've already sent you a verification email. Please check your inbox!";
+"profile_verify_email_too_many_requests" = "We've already sent you a verification email. Please check your email inbox!";
 
 // Verify popup to link with facebook
 "profile_verify_facebook_button" = "Facebook";

@@ -114,6 +114,10 @@
 "chat_message_disclaimer_scammer" = "Var extra försiktig när du delar med dig av telefonnummer/e-postadress. Bedragare ber ofta om att lämna letgo-chatten. Klicka här för att läsa våra %@.";
 "chat_message_field_hint" = "Skriv ditt meddelande här";
 "chat_message_load_generic_error" = "Ett fel uppstod vid hämtning av din information. Var god försök senare.";
+"chat_not_verified_alert_message" = "Anslut med Facebook, Google eller din e-postadress för att verifiera din identitet.";
+"chat_not_verified_state_check_button" = "Kolla";
+"chat_not_verified_state_message" = "Kolla om du är verifierad för att kunna börja chatta.";
+"chat_not_verified_state_title" = "ÄR DU VERIFIERAD?";
 "chat_product_sold_label" = "Produkt såld";
 "chat_related_products_title" = "DU KANSKE ÄR INTRESSERAD AV:";
 "chat_safety_tips" = "Säkerhetstips";
@@ -363,8 +367,10 @@
 "product_delete_success_message" = "Din produkt har tagits bort.";
 "product_distance_X_from_you" = "%@ från dig";
 "product_distance_more_than_from_you" = "Mer än %@ från dig";
+"product_free_price" = "Gratis";
 "product_is_mine_share_body" = "Kolla vad jag säljer på letgo!";
 "product_list_banner_cell_title" = "SE DINA PRODUKTER HÄR";
+"product_list_item_given_away_status_label" = "Redan bortskänkt";
 "product_list_item_sold_status_label" = "SÅLD";
 "product_list_item_time_hour_label" = "%ih";
 "product_list_item_time_minute_label" = "%imin";
@@ -376,6 +382,12 @@
 "product_mark_as_sold_confirm_ok_button" = "Markera som såld";
 "product_mark_as_sold_confirm_title" = "Markera som såld";
 "product_mark_as_sold_error_generic" = "Ett fel uppstod vid markering av produkten som såld. Var god försök igen.";
+"product_mark_as_sold_free_button" = "Jag har skänkt bort den";
+"product_mark_as_sold_free_confirm_cancel_button" = "Avbryt";
+"product_mark_as_sold_free_confirm_message" = "Markera din vara som redan bortskänkt";
+"product_mark_as_sold_free_confirm_ok_button" = "Markera";
+"product_mark_as_sold_free_confirm_title" = "Markera den som bortskänkt";
+"product_mark_as_sold_free_success_message" = "Grattis! Din produkt har märkts som bortskänkt";
 "product_mark_as_sold_success_message" = "Grattis, din produkt har markerats som såld!";
 "product_more_info_open_button" = "MER INFORMATION";
 "product_more_info_tooltip_part_1" = "Klicka";
@@ -447,6 +459,12 @@
 "product_sell_again_confirm_ok_button" = "Sälj den igen";
 "product_sell_again_confirm_title" = "Sälj den igen";
 "product_sell_again_error_generic" = "Ett fel uppstod vid markering av produkten som tillgänglig. Var god försök igen senare.";
+"product_sell_again_free_button" = "Markera den som tillgänglig igen";
+"product_sell_again_free_confirm_cancel_button" = "Avbryt";
+"product_sell_again_free_confirm_message" = "Markera din produkt som tillgänglig så att alla letgo-användare vet";
+"product_sell_again_free_confirm_ok_button" = "Skänk bort";
+"product_sell_again_free_confirm_title" = "Markera som tillgänglig";
+"product_sell_again_free_success_message" = "Grattis! Din produkt är tillgänglig för att skänka bort igen";
 "product_sell_again_success_message" = "Grattis! Din produkt har markerats som tillgänglig!";
 "product_sell_camera_permissions_error" = "För att ta en bild, ändra inställningarna så att letgo får tillgång till din kamera.";
 "product_sell_camera_restricted_error" = "Din kamera är inte tillgänglig. Var vänlig kontrollera dina inställningar och försök igen.";

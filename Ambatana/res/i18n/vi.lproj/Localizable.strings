@@ -79,7 +79,7 @@
 "chat_express_one_message_sent_success_alert" = "Tin nhắn của bạn vừa được gửi!";
 "chat_express_send_question_text" = "Gửi:%@";
 "chat_express_several_messages_sent_success_alert" = "Tin nhắn của bạn vừa được gửi!";
-"chat_express_text_field_text" = "Xin chào! Sản phẩm này vẫn còn chứ?";
+"chat_express_text_field_text" = "Sản phẩm này còn chứ?";
 "chat_forbidden_disclaimer_buyer_w_name" = "Tài khoản của %@ đang được letgo xem xét.";
 "chat_forbidden_disclaimer_buyer_wo_name" = "Tài khoản này đang được letgo xem xét.";
 "chat_forbidden_disclaimer_seller_w_name" = "Có vẻ như %@ không còn quan tâm đến việc mua sản phẩm của bạn.";
@@ -114,6 +114,10 @@
 "chat_message_disclaimer_scammer" = "Hãy đặc biệt cẩn thận khi trao đổi thông tin số điện thoại/email. Người dùng lừa đảo thường muốn bạn rời khỏi trò chuyện trong letgo. Hãy lưu ý! Nhấn váo đây để xem %@ của chúng tôi.";
 "chat_message_field_hint" = "Nhập tin nhắn của bạn tại đây";
 "chat_message_load_generic_error" = "Lỗi xảy ra trong khi hồi phục dữ liệu trò chuyện của bạn. Xin vui lòng thử lại sau.";
+"chat_not_verified_alert_message" = "Kết nối với Facebook, Google hoặc Email để xác minh danh tính của bạn.";
+"chat_not_verified_state_check_button" = "Kiểm tra";
+"chat_not_verified_state_message" = "Kiểm tra xem bạn đã được xác minh chưa để bắt đầu trò chuyện.";
+"chat_not_verified_state_title" = "BẠN  ĐÃ ĐƯỢC XÁC MINH?";
 "chat_product_sold_label" = "Sản phẩm đã bán";
 "chat_related_products_title" = "BẠN CÓ THỂ QUAN TÂM TỚI:";
 "chat_safety_tips" = "Lời khuyên an toàn";
@@ -363,8 +367,10 @@
 "product_delete_success_message" = "Sản phẩm của bạn đã được xóa thành công.";
 "product_distance_X_from_you" = "%@ từ bạn";
 "product_distance_more_than_from_you" = "Hơn %@ từ bạn";
+"product_free_price" = "Miễn phí";
 "product_is_mine_share_body" = "Hãy xem tôi đang bán gì trên letgo!";
 "product_list_banner_cell_title" = "XEM BÀI ĐĂNG CỦA BẠN TẠI ĐÂY";
+"product_list_item_given_away_status_label" = "Đã tặng";
 "product_list_item_sold_status_label" = "ĐÃ BÁN";
 "product_list_item_time_hour_label" = "%ih";
 "product_list_item_time_minute_label" = "%ip";
@@ -376,6 +382,12 @@
 "product_mark_as_sold_confirm_ok_button" = "Đánh dấu Đã bán";
 "product_mark_as_sold_confirm_title" = "Đánh dấu Đã bán";
 "product_mark_as_sold_error_generic" = "Lỗi xảy ra trong khi đánh dấu đã bán cho sản phẩm. Xin vui lòng thử lại sau.";
+"product_mark_as_sold_free_button" = "Tôi vừa tặng rồi";
+"product_mark_as_sold_free_confirm_cancel_button" = "Hủy";
+"product_mark_as_sold_free_confirm_message" = "Đánh dấu đã tặng cho sản phẩm của bạn";
+"product_mark_as_sold_free_confirm_ok_button" = "Đánh dấu";
+"product_mark_as_sold_free_confirm_title" = "Đánh dấu đã tặng";
+"product_mark_as_sold_free_success_message" = "Chúc mừng! Sản phẩm đã được đánh dấu đã tặng thành công";
 "product_mark_as_sold_success_message" = "Chúc mừng, sản phẩm của bạn đã được đánh dấu đã bán!";
 "product_more_info_open_button" = "THÊM THÔNG TIN";
 "product_more_info_tooltip_part_1" = "Chạm";
@@ -447,6 +459,12 @@
 "product_sell_again_confirm_ok_button" = "Bán lại";
 "product_sell_again_confirm_title" = "Bán lại";
 "product_sell_again_error_generic" = "Lỗi xảy ra trong khi đánh dấu sẵn có cho sản phẩm. Xin vui lòng thử lại sau.";
+"product_sell_again_free_button" = "Đánh dấu có sẵn lại";
+"product_sell_again_free_confirm_cancel_button" = "Hủy";
+"product_sell_again_free_confirm_message" = "Đánh dấu có sẵn cho sản phẩm để mọi người letgo được biết";
+"product_sell_again_free_confirm_ok_button" = "Đồ tặng";
+"product_sell_again_free_confirm_title" = "Đánh dấu có sẵn";
+"product_sell_again_free_success_message" = "Chúc mừng! Sản phẩm của bạn lại có sẵn để đem tặng";
 "product_sell_again_success_message" = "Xin chúc mừng, sản phẩm của bạn đã được đánh dấu sẵn có thành công!";
 "product_sell_camera_permissions_error" = "Để chụp ảnh, hãy thiết lập quyền được truy cập vào Camera của bạn cho letgo.";
 "product_sell_camera_restricted_error" = "Không thể truy cập vào Camera của bạn. Vui lòng kiểm tra các cài đặt và thử lại.";
@@ -495,7 +513,7 @@
 "profile_verify_email_placeholder" = "Email";
 "profile_verify_email_success" = "Hãy kiểm tra email của bạn để xác nhận tài khoản. Đường dẫn sẽ hết hạn trong 48 giờ.";
 "profile_verify_email_title" = "EMAIL";
-"profile_verify_email_too_many_requests" = "Chúng tôi vừa gửi bạn email xác nhận. Vui lòng kiểm tra hộp thư của bạn!";
+"profile_verify_email_too_many_requests" = "Chúng tôi vừa gửi bạn email xác nhận. Vui lòng kiểm tra email của bạn!";
 "profile_verify_facebook_button" = "Facebook";
 "profile_verify_facebook_message" = "Kết nối với Facebook để xác nhận danh tính của bạn";
 "profile_verify_facebook_title" = "FACEBOOK";

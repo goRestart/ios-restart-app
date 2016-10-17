@@ -114,6 +114,10 @@
 "chat_message_disclaimer_scammer" = "Να είστε ιδαίτερα προσεκτικοί όταν ανταλλάζετε πληροφορίες τηλεφώνων/email. Οι χρήστες που θέλουν να σας εξαπατήσουν, ενδέχεται να σας ζητήσουν να αποχωρήσετε από τη συνομιλία στο letgo. Να είστε ενημερωμένοι! Πατήστε εδώ για να ελέγξετε τις %@ μας.";
 "chat_message_field_hint" = "Γράψε το μήνυμά σου εδώ";
 "chat_message_load_generic_error" = "Παρουσιάσθηκε σφάλμα κατά την ανάκτηση των δεδομένων των συνομιλιών σου. Θα πρέπει να προσπαθήσεις ξανά αργότερα.";
+"chat_not_verified_alert_message" = "Συνδεθείτε με Facebook, Google ή Email για να επιβεβαιώσετε την ταυτότητά σας.";
+"chat_not_verified_state_check_button" = "Έλεγχος";
+"chat_not_verified_state_message" = "Ελέγξτε αν έχετε κάνει επιβεβαίωση για να ξεκινήσετε να συνομιλείτε.";
+"chat_not_verified_state_title" = "΄ΕΧΕΤΕ ΚΑΝΕΙ ΕΠΙΒΕΒΑΙΩΣΗ;";
 "chat_product_sold_label" = "Το προϊόν πωλήθηκε";
 "chat_related_products_title" = "ΜΠΟΡΕΙ ΝΑ ΕΝΔΙΑΦΕΡΕΣΤΕ ΓΙΑ:";
 "chat_safety_tips" = "Συμβουλές ασφαλείας";
@@ -363,8 +367,10 @@
 "product_delete_success_message" = "Το προϊόν σας διαγράφηκε επιτυχώς.";
 "product_distance_X_from_you" = "%@ από εσάς";
 "product_distance_more_than_from_you" = "Περισσότερο από %@ από εσάς";
+"product_free_price" = "Δωρεάν";
 "product_is_mine_share_body" = "Δείτε τι πουλάω στο letgo!";
 "product_list_banner_cell_title" = "ΔΕΙΤΕ ΤΗΝ ΚΑΤΑΧΩΡΗΣΗ ΣΑΣ ΕΔΩ";
+"product_list_item_given_away_status_label" = "Έχει ήδη δοθεί";
 "product_list_item_sold_status_label" = "ΠΩΛΗΘΗΚΕ";
 "product_list_item_time_hour_label" = "%iώρ.";
 "product_list_item_time_minute_label" = "%iλεπ.";
@@ -376,6 +382,12 @@
 "product_mark_as_sold_confirm_ok_button" = "Μάρκαρε ότι πωλήθηκε";
 "product_mark_as_sold_confirm_title" = "Μάρκαρε ότι πωλήθηκε";
 "product_mark_as_sold_error_generic" = "Παρουσιάσθηκε σφάλμα κατά το μαρκάρισμα του προϊόντος πως έχει πωληθεί! Θα πρέπει να προσπαθήσεις ξανά αργότερα.";
+"product_mark_as_sold_free_button" = "Το έχω δώσει";
+"product_mark_as_sold_free_confirm_cancel_button" = "Ακύρωση";
+"product_mark_as_sold_free_confirm_message" = "Μαρκάρετε το προϊόν σας ως χαρισμένο";
+"product_mark_as_sold_free_confirm_ok_button" = "Μαρκάρισμα";
+"product_mark_as_sold_free_confirm_title" = "Μαρκάρετέ το ως χαρισμένο";
+"product_mark_as_sold_free_success_message" = "Συγχαρητήρια! Το προϊόν σας έχει μαρκαριστεί επιτυχώς ως χαρισμένο";
 "product_mark_as_sold_success_message" = "Συγχαρητήρια, το προϊόν σας έχει πωληθεί επιτυχώς!";
 "product_more_info_open_button" = "ΠΕΡΙΣΣΟΤΕΡΕΣ ΠΛΗΡΟΦΟΡΙΕΣ";
 "product_more_info_tooltip_part_1" = "Πατήστε";
@@ -447,6 +459,12 @@
 "product_sell_again_confirm_ok_button" = "Πουλήστε το Ξανά";
 "product_sell_again_confirm_title" = "Πουλήστε το Ξανά";
 "product_sell_again_error_generic" = "Παρουσιάστηκε σφάλμα κατά το χαρακτηρισμό του προϊόντος ως διαθέσιμο. Παρακαλώ, προσπαθήστε ξανά αργότερα.";
+"product_sell_again_free_button" = "Μαρκάρετε το ως διαθέσιμο ξανά";
+"product_sell_again_free_confirm_cancel_button" = "Ακύρωση";
+"product_sell_again_free_confirm_message" = "Μαρκάρετε το προϊόν σας ως διαθέσιμο ώστε να το ξέρουν όλοι οι χρήστες του letgo";
+"product_sell_again_free_confirm_ok_button" = "Δώστε Το";
+"product_sell_again_free_confirm_title" = "Μαρκάρισμα ως διαθέσιμο";
+"product_sell_again_free_success_message" = "Συγχαρητήρια! Το προϊόν σας είναι ξανά διαθέσιμο για χάρισμα";
 "product_sell_again_success_message" = "Συγχαρητήρια, το προϊόν σας χαρακτηρίστηκε διαθέσιμο με επιτυχία!";
 "product_sell_camera_permissions_error" = "Για να τραβήξετε μία φωτογραφία, επιτρέψτε στο letgo να χρησιμοποιεί την Κάμερά σας από τις ρυθμίσεις.";
 "product_sell_camera_restricted_error" = "Περιορισμένη πρόσβαση στην Κάμερα της συσκευής. Παρακαλώ, ελέγξτε τις ρυθμίσεις σας και δοκιμάστε ξανά.";
@@ -495,7 +513,7 @@
 "profile_verify_email_placeholder" = "Email";
 "profile_verify_email_success" = "Ελέγξτε τα εισερχόμενα του email σας για να επιβεβαιώσετε το λογαριασμό σας. Ο σύνδεσμος θα λήξει σε 48 ώρες.";
 "profile_verify_email_title" = "EMAIL";
-"profile_verify_email_too_many_requests" = "Σας στείλαμε ήδη ένα email επιβεβαίωσεις. Παρακαλώ, ελέγξτε τα εισερχόμενά σας!";
+"profile_verify_email_too_many_requests" = "Σας στείλαμε ήδη ένα email επιβεβαίωσης. Παρακαλώ, ελέγξτε τα εισερχόμενά στο email σας!";
 "profile_verify_facebook_button" = "Facebook";
 "profile_verify_facebook_message" = "Συνδεθείτε με το Facebook για να επιβεβαιώσουμε την ταυτότητά σας";
 "profile_verify_facebook_title" = "FACEBOOK";

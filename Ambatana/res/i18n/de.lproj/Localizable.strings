@@ -79,7 +79,7 @@
 "chat_express_one_message_sent_success_alert" = "Deine Nachricht wurde verschickt!";
 "chat_express_send_question_text" = "Sende: %@";
 "chat_express_several_messages_sent_success_alert" = "Deine Nachrichten wurden verschickt!";
-"chat_express_text_field_text" = "Hallo! Ist dieser Artikel noch verfügbar?";
+"chat_express_text_field_text" = "Ist das noch zu haben?";
 "chat_forbidden_disclaimer_buyer_w_name" = "Das Benutzerkonto von %@ wird vom letgo-Team überprüft.";
 "chat_forbidden_disclaimer_buyer_wo_name" = "Dieses Benutzerkonto wird vom letgo-Team überprüft.";
 "chat_forbidden_disclaimer_seller_w_name" = "Sieht so aus, als sei %@ nicht länger an deinem Produkt interessiert.";
@@ -114,6 +114,10 @@
 "chat_message_disclaimer_scammer" = "Sei besonders vorsichtig, wenn du Kontaktinformationen wie Telefonnummern oder E-Mail-Adressen austauschst. Betrügerische Nutzer wollen häufig außerhalb des letgo-Systems kommunizieren. Sei informiert! Drücke hier, um unsere %@ anzuschauen.";
 "chat_message_field_hint" = "Gib hier deine Nachricht ein";
 "chat_message_load_generic_error" = "Beim Abrufen deiner Gesprächsdaten ist ein Fehler aufgetreten. Versuche es bitte später noch einmal.";
+"chat_not_verified_alert_message" = "Verbinde dich mit Facebook, Google oder via E-Mail, um deine Identität zu bestätigen.";
+"chat_not_verified_state_check_button" = "Überprüfen";
+"chat_not_verified_state_message" = "Überprüfe, ob du verifiziert bist, um ein Gespräch zu beginnen.";
+"chat_not_verified_state_title" = "BIST DU VERIFIZIERT?";
 "chat_product_sold_label" = "Produkt verkauft";
 "chat_related_products_title" = "VIELLEICHT GEFÄLLT DIR AUCH:";
 "chat_safety_tips" = "Sicherheitstipps";
@@ -363,8 +367,10 @@
 "product_delete_success_message" = "Dein Produkt wurde erfolgreich gelöscht.";
 "product_distance_X_from_you" = "%@ von dir";
 "product_distance_more_than_from_you" = "Mehr als %@ von dir";
+"product_free_price" = "Free";
 "product_is_mine_share_body" = "Schau dir an, was ich auf letgo verkaufe!";
 "product_list_banner_cell_title" = "HIER KÖNNTE DEIN ANGEBOT STEHEN";
+"product_list_item_given_away_status_label" = "Already given away";
 "product_list_item_sold_status_label" = "VERKAUFT";
 "product_list_item_time_hour_label" = "%i h";
 "product_list_item_time_minute_label" = "%i min";
@@ -376,6 +382,12 @@
 "product_mark_as_sold_confirm_ok_button" = "Als verkauft markieren";
 "product_mark_as_sold_confirm_title" = "Als verkauft markieren";
 "product_mark_as_sold_error_generic" = "Beim als verkauft Markieren ist ein Fehler aufgetreten. Bitte versuche es später noch mal.";
+"product_mark_as_sold_free_button" = "I've given it away";
+"product_mark_as_sold_free_confirm_cancel_button" = "Cancel";
+"product_mark_as_sold_free_confirm_message" = "Mark your product as already given away";
+"product_mark_as_sold_free_confirm_ok_button" = "Mark";
+"product_mark_as_sold_free_confirm_title" = "Mark it as given away";
+"product_mark_as_sold_free_success_message" = "Congratulations! Your product has been successfully marked as given away";
 "product_mark_as_sold_success_message" = "Glückwunsch, dein Produkt wurde erfolgreich als verkauft markiert!";
 "product_more_info_open_button" = "WEITERE INFOS";
 "product_more_info_tooltip_part_1" = "Drücke";
@@ -447,6 +459,12 @@
 "product_sell_again_confirm_ok_button" = "Erneut verkaufen";
 "product_sell_again_confirm_title" = "Erneut verkaufen";
 "product_sell_again_error_generic" = "Dein Produkt konnte nicht als verfügbar markiert werden. Bitte versuche es später noch mal.";
+"product_sell_again_free_button" = "Mark it as available again";
+"product_sell_again_free_confirm_cancel_button" = "Cancel";
+"product_sell_again_free_confirm_message" = "Mark your product as available so all letgo users know";
+"product_sell_again_free_confirm_ok_button" = "Give Away";
+"product_sell_again_free_confirm_title" = "Mark as available";
+"product_sell_again_free_success_message" = "Congratulations! Your product is available to give away again";
 "product_sell_again_success_message" = "Glückwunsch, dein Produkt wurde erfolgreich als verfügbar markiert!";
 "product_sell_camera_permissions_error" = "Erlaube letgo in deinen Einstellungen den Zugriff auf deine Kamera, um Bilder zu machen.";
 "product_sell_camera_restricted_error" = "Zugriff auf deine Kamera nicht möglich. Bitte überprüfe deine Einstellungen und versuche es erneut.";

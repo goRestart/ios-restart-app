@@ -543,6 +543,22 @@ struct LGLocalizedString {
 		return NSLocalizedString("chat_connect_accounts_message", comment: "")
 	}
 
+	static var chatNotVerifiedStateTitle: String {
+		return NSLocalizedString("chat_not_verified_state_title", comment: "")
+	}
+
+	static var chatNotVerifiedStateMessage: String {
+		return NSLocalizedString("chat_not_verified_state_message", comment: "")
+	}
+
+	static var chatNotVerifiedStateCheckButton: String {
+		return NSLocalizedString("chat_not_verified_state_check_button", comment: "")
+	}
+
+	static var chatNotVerifiedAlertMessage: String {
+		return NSLocalizedString("chat_not_verified_alert_message", comment: "")
+	}
+
 	static var chatWithYourselfAlertMsg: String {
 		return NSLocalizedString("chat_with_yourself_alert_msg", comment: "")
 	}
@@ -1467,8 +1483,40 @@ struct LGLocalizedString {
 		return String(format: NSLocalizedString("product_distance_X_from_you", comment: ""), var1)
 	}
 
+	static var productFreePrice: String {
+		return NSLocalizedString("product_free_price", comment: "")
+	}
+
+	static var productSellAgainFreeButton: String {
+		return NSLocalizedString("product_sell_again_free_button", comment: "")
+	}
+
+	static var productSellAgainFreeConfirmCancelButton: String {
+		return NSLocalizedString("product_sell_again_free_confirm_cancel_button", comment: "")
+	}
+
+	static var productSellAgainFreeConfirmMessage: String {
+		return NSLocalizedString("product_sell_again_free_confirm_message", comment: "")
+	}
+
+	static var productSellAgainFreeConfirmOkButton: String {
+		return NSLocalizedString("product_sell_again_free_confirm_ok_button", comment: "")
+	}
+
+	static var productSellAgainFreeSuccessMessage: String {
+		return NSLocalizedString("product_sell_again_free_success_message", comment: "")
+	}
+
+	static var productSellAgainFreeConfirmTitle: String {
+		return NSLocalizedString("product_sell_again_free_confirm_title", comment: "")
+	}
+
 	static var productListBannerCellTitle: String {
 		return NSLocalizedString("product_list_banner_cell_title", comment: "")
+	}
+
+	static var productListItemGivenAwayStatusLabel: String {
+		return NSLocalizedString("product_list_item_given_away_status_label", comment: "")
 	}
 
 	static var productListItemSoldStatusLabel: String {
@@ -1489,6 +1537,30 @@ struct LGLocalizedString {
 
 	static var productListNoProductsTitle: String {
 		return NSLocalizedString("product_list_no_products_title", comment: "")
+	}
+
+	static var productMarkAsSoldFreeConfirmCancelButton: String {
+		return NSLocalizedString("product_mark_as_sold_free_confirm_cancel_button", comment: "")
+	}
+
+	static var productMarkAsSoldFreeButton: String {
+		return NSLocalizedString("product_mark_as_sold_free_button", comment: "")
+	}
+
+	static var productMarkAsSoldFreeConfirmMessage: String {
+		return NSLocalizedString("product_mark_as_sold_free_confirm_message", comment: "")
+	}
+
+	static var productMarkAsSoldFreeConfirmOkButton: String {
+		return NSLocalizedString("product_mark_as_sold_free_confirm_ok_button", comment: "")
+	}
+
+	static var productMarkAsSoldFreeConfirmTitle: String {
+		return NSLocalizedString("product_mark_as_sold_free_confirm_title", comment: "")
+	}
+
+	static var productMarkAsSoldFreeSuccessMessage: String {
+		return NSLocalizedString("product_mark_as_sold_free_success_message", comment: "")
 	}
 
 	static var productMarkAsSoldButton: String {

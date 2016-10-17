@@ -79,7 +79,7 @@
 "chat_express_one_message_sent_success_alert" = "Votre message a été envoyé !";
 "chat_express_send_question_text" = "Envoyer : %@";
 "chat_express_several_messages_sent_success_alert" = "Vos messages ont été envoyés !";
-"chat_express_text_field_text" = "Bonjour, votre bien est-il toujours disponible ?";
+"chat_express_text_field_text" = "Toujours disponible ?";
 "chat_forbidden_disclaimer_buyer_w_name" = "Le compte de %@ est en cours de vérification par l'équipe letgo.";
 "chat_forbidden_disclaimer_buyer_wo_name" = "Ce compte est en cours de vérification par l'équipe letgo.";
 "chat_forbidden_disclaimer_seller_w_name" = "Il semble que %@ n'est plus intéressé par votre bien.";
@@ -114,6 +114,10 @@
 "chat_message_disclaimer_scammer" = "Prenez vos précautions lorsque vous donnez votre email/téléphone. Les utilisateurs frauduleux demandent souvent de chatter en dehors de letgo. Informez-vous ! Tapez ici pour lire nos %@.";
 "chat_message_field_hint" = "Entrez votre message ici";
 "chat_message_load_generic_error" = "Une erreur est survenue lors de la récupération des données de conversation. Veuillez réessayer plus tard.";
+"chat_not_verified_alert_message" = "Connectez-vous avec Facebook, Google ou par Email pour vérifier votre identité.";
+"chat_not_verified_state_check_button" = "Vérifier";
+"chat_not_verified_state_message" = "Assurez-vous d'être vérifié pour commencer à chatter.";
+"chat_not_verified_state_title" = "AVEZ-VOUS ÉTÉ VÉRIFIÉ ?";
 "chat_product_sold_label" = "Bien vendu";
 "chat_related_products_title" = "VOUS POURRIEZ ETRE INTERESSE PAR";
 "chat_safety_tips" = "Conseils de sécurité";
@@ -363,8 +367,10 @@
 "product_delete_success_message" = "Votre bien a été supprimé avec succès.";
 "product_distance_X_from_you" = "à %@";
 "product_distance_more_than_from_you" = "A plus de %@";
+"product_free_price" = "Gratuit";
 "product_is_mine_share_body" = "Découvrez ce que je vend sur letgo !";
 "product_list_banner_cell_title" = "VOIR VOTRE BIEN ICI";
+"product_list_item_given_away_status_label" = "Déjà donné";
 "product_list_item_sold_status_label" = "VENDU";
 "product_list_item_time_hour_label" = "%ih";
 "product_list_item_time_minute_label" = "%im";
@@ -376,6 +382,12 @@
 "product_mark_as_sold_confirm_ok_button" = "Marquer comme vendu";
 "product_mark_as_sold_confirm_title" = "Marquer comme vendu";
 "product_mark_as_sold_error_generic" = "Il y a eu une erreur lors du passage du bien au statut 'vendu'. Veuillez réessayer plus tard.";
+"product_mark_as_sold_free_button" = "Je l'ai donné";
+"product_mark_as_sold_free_confirm_cancel_button" = "Annuler";
+"product_mark_as_sold_free_confirm_message" = "Marquez votre bien comme déjà donné";
+"product_mark_as_sold_free_confirm_ok_button" = "Marquer";
+"product_mark_as_sold_free_confirm_title" = "Le marquer comme donné";
+"product_mark_as_sold_free_success_message" = "Félicitations ! Votre bien a été marqué comme donné";
 "product_mark_as_sold_success_message" = "Félicitations, votre bien a été marqué comme vendu !";
 "product_more_info_open_button" = "PLUS d'INFO";
 "product_more_info_tooltip_part_1" = "Tapez";
@@ -447,6 +459,12 @@
 "product_sell_again_confirm_ok_button" = "Le vendre à nouveau";
 "product_sell_again_confirm_title" = "Le vendre à nouveau";
 "product_sell_again_error_generic" = "Une erreur est survenue. Veuillez réessayer.";
+"product_sell_again_free_button" = "Le marquer comme disponible";
+"product_sell_again_free_confirm_cancel_button" = "Annuler";
+"product_sell_again_free_confirm_message" = "Marquez votre bien comme disponible pour que les utilisateurs letgo le sachent";
+"product_sell_again_free_confirm_ok_button" = "Donner";
+"product_sell_again_free_confirm_title" = "Marquez comme disponible";
+"product_sell_again_free_success_message" = "Félicitations ! Votre bien est de nouveau disponible pour être donné";
 "product_sell_again_success_message" = "Félicitations, votre bien est bien en vente !";
 "product_sell_camera_permissions_error" = "Pour prendre une photo, donner accès à votre appareil photo à letgo dans les réglages.";
 "product_sell_camera_restricted_error" = "L'accès à votre appareil photo est restreint. Veuillez vérifier vos réglages et réessayer.";

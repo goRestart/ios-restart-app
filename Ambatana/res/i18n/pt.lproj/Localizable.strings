@@ -114,6 +114,10 @@
 "chat_message_disclaimer_scammer" = "Be extra careful when exchanging phone/email details. Fraudulent users often ask you to leave the letgo chat. Be informed! Tap here to review our %@.";
 "chat_message_field_hint" = "Type your message here";
 "chat_message_load_generic_error" = "An error occurred while retrieving your conversation data. Please try again later.";
+"chat_not_verified_alert_message" = "Connect with Facebook, Google or Email to verify your identity.";
+"chat_not_verified_state_check_button" = "Check";
+"chat_not_verified_state_message" = "Check if you're verified in order to start chatting.";
+"chat_not_verified_state_title" = "ARE YOU VERIFIED?";
 "chat_product_sold_label" = "Product sold";
 "chat_related_products_title" = "YOU MIGHT BE INTERESTED IN:";
 "chat_safety_tips" = "Safety tips";
@@ -363,8 +367,10 @@
 "product_delete_success_message" = "Your product was successfully deleted.";
 "product_distance_X_from_you" = "%@ from you";
 "product_distance_more_than_from_you" = "More than %@ from you";
+"product_free_price" = "Free";
 "product_is_mine_share_body" = "Check out what I'm selling on letgo!";
 "product_list_banner_cell_title" = "SEE YOUR LISTING HERE";
+"product_list_item_given_away_status_label" = "Already given away";
 "product_list_item_sold_status_label" = "SOLD";
 "product_list_item_time_hour_label" = "%ih";
 "product_list_item_time_minute_label" = "%im";
@@ -376,6 +382,12 @@
 "product_mark_as_sold_confirm_ok_button" = "Mark as Sold";
 "product_mark_as_sold_confirm_title" = "Mark as Sold";
 "product_mark_as_sold_error_generic" = "An error occurred while marking your product as sold. Please try again later.";
+"product_mark_as_sold_free_button" = "I've given it away";
+"product_mark_as_sold_free_confirm_cancel_button" = "Cancel";
+"product_mark_as_sold_free_confirm_message" = "Mark your product as already given away";
+"product_mark_as_sold_free_confirm_ok_button" = "Mark";
+"product_mark_as_sold_free_confirm_title" = "Mark it as given away";
+"product_mark_as_sold_free_success_message" = "Congratulations! Your product has been successfully marked as given away";
 "product_mark_as_sold_success_message" = "Congratulations, your product was successfully marked as sold!";
 "product_more_info_open_button" = "MORE INFO";
 "product_more_info_tooltip_part_1" = "Tap";
@@ -447,6 +459,12 @@
 "product_sell_again_confirm_ok_button" = "Sell It Again";
 "product_sell_again_confirm_title" = "Sell It Again";
 "product_sell_again_error_generic" = "An error occurred while marking your product as available. Please try again later.";
+"product_sell_again_free_button" = "Mark it as available again";
+"product_sell_again_free_confirm_cancel_button" = "Cancel";
+"product_sell_again_free_confirm_message" = "Mark your product as available so all letgo users know";
+"product_sell_again_free_confirm_ok_button" = "Give Away";
+"product_sell_again_free_confirm_title" = "Mark as available";
+"product_sell_again_free_success_message" = "Congratulations! Your product is available to give away again";
 "product_sell_again_success_message" = "Congratulations, your product was successfully marked as available!";
 "product_sell_camera_permissions_error" = "To snap a picture, give letgo access to your Camera in your settings.";
 "product_sell_camera_restricted_error" = "Access to your Camera is restricted. Please check your settings and try again.";
@@ -495,7 +513,7 @@
 "profile_verify_email_placeholder" = "Email";
 "profile_verify_email_success" = "Check your email inbox to verify your account. The link will expire in 48 hours.";
 "profile_verify_email_title" = "EMAIL";
-"profile_verify_email_too_many_requests" = "We've already sent you a verification email. Please check your inbox!";
+"profile_verify_email_too_many_requests" = "We've already sent you a verification email. Please check your email inbox!";
 "profile_verify_facebook_button" = "Facebook";
 "profile_verify_facebook_message" = "Connect with Facebook to verify your identity";
 "profile_verify_facebook_title" = "FACEBOOK";
