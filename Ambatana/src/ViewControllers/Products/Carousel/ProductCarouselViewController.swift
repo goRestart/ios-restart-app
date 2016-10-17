@@ -489,7 +489,7 @@ extension ProductCarouselViewController {
     
     private func setupMoreInfo() {
         if moreInfoView == nil {
-            moreInfoView = ProductCarouselMoreInfoView.moreInfoView(nil)
+            moreInfoView = ProductCarouselMoreInfoView.moreInfoView()
             if let moreInfoView = moreInfoView {
                 view.addSubview(moreInfoView)
                 moreInfoAlpha.asObservable().bindTo(moreInfoView.rx_alpha).addDisposableTo(disposeBag)
@@ -508,7 +508,7 @@ extension ProductCarouselViewController {
     }
 
     private func updateMoreInfo(viewModel: ProductViewModel) {
-        moreInfoView?.update(viewModel)
+        moreInfoView?.setupWith(viewModel: viewModel)
         moreInfoState.asObservable().bindTo(viewModel.moreInfoState).addDisposableTo(activeDisposeBag)
     }
 
