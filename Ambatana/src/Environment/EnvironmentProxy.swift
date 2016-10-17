@@ -55,14 +55,6 @@ public class EnvironmentProxy: AppEnvironment {
         return environment.amplitudeAPIKey
     }
 
-    var gcPrimaryTrackingId: String {
-        return environment.gcPrimaryTrackingId
-    }
-
-    var gcSecondaryTrackingId: String {
-        return environment.gcSecondaryTrackingId
-    }
-
     var kahunaAPIKey: String {
         return environment.kahunaAPIKey
     }
