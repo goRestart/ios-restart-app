@@ -174,7 +174,6 @@ DEPENDENCIES:
   - RxSwift (~> 2.6.0)
   - RxTests (~> 2.6.0)
   - SlackTextViewController (= 1.9.4)
-  - SwiftWebSocket (= 2.6.4)
   - SwiftyUserDefaults (~> 2.2.1)
   - TMReachability (from `https://github.com/albertbori/Reachability`, commit `e34782b386307e386348b481c02c176d58ba45e6`)
   - TwitterKit (~> 2.3.0)
@@ -261,6 +260,6 @@ SPEC CHECKSUMS:
   TwitterCore: 817eae3e291fa4125b47789e26a4f6f024115c1f
   TwitterKit: 8a383da8d9c21b0423716381ea8bbfce20622d91
 
-PODFILE CHECKSUM: 6afede78974508cda556b1d98048c0257148472e
+PODFILE CHECKSUM: 51c2f5a2bf358b03d1c8813c6fbe8f41826f6aa5
 
 COCOAPODS: 1.1.0.rc.2

@@ -9,11 +9,6 @@ workspace "LetGo.xcworkspace"
 project "LetGo.xcodeproj"
 
 def shared_pods
-    ########
-    # TODO #
-    ########
-    pod "SwiftWebSocket", "2.6.4" # Should be fixed in next LGCoreKit version
-
     pod "AlamofireImage",       "~> 2.5.0"  # Swift 3.0: 3.x
     pod "Argo",                 "3.1.0"     # Swift 3.0: N/A
 
