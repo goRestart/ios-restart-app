@@ -367,9 +367,10 @@
 "product_delete_success_message" = "Il tuo prodotto è stato eliminato con successo.";
 "product_distance_X_from_you" = "%@ da te";
 "product_distance_more_than_from_you" = "Più di %@ da te";
-"product_free_price" = "Free";
+"product_free_price" = "Gratis";
 "product_is_mine_share_body" = "Guarda cosa sto vendendo su letgo!";
 "product_list_banner_cell_title" = "GUARDA QUI LA TUA INSERZIONE";
+"product_list_item_given_away_status_label" = "Già regalato";
 "product_list_item_sold_status_label" = "VENDUTO";
 "product_list_item_time_hour_label" = "%ih";
 "product_list_item_time_minute_label" = "%imin";
@@ -381,6 +382,12 @@
 "product_mark_as_sold_confirm_ok_button" = "Segna come venduto";
 "product_mark_as_sold_confirm_title" = "Segna come venduto";
 "product_mark_as_sold_error_generic" = "Si è verificato un errore durante il tentativo di segnare il prodotto come venduto. Riprova più tardi.";
+"product_mark_as_sold_free_button" = "L'ho regalato";
+"product_mark_as_sold_free_confirm_cancel_button" = "Annulla";
+"product_mark_as_sold_free_confirm_message" = "Segna il tuo prodotto come già regalato";
+"product_mark_as_sold_free_confirm_ok_button" = "Contrassegna";
+"product_mark_as_sold_free_confirm_title" = "Segna come già regalato";
+"product_mark_as_sold_free_success_message" = "Congratulazioni! Il tuo prodotto è stato correttamente contrassegnato come regalato";
 "product_mark_as_sold_success_message" = "Complimenti, Il tuo prodotto è stato correttamente contrassegnato come venduto.";
 "product_more_info_open_button" = "ALTRE INFORMAZIONI";
 "product_more_info_tooltip_part_1" = "Tocca";
@@ -452,6 +459,12 @@
 "product_sell_again_confirm_ok_button" = "Vendilo di Nuovo";
 "product_sell_again_confirm_title" = "Vendilo di Nuovo";
 "product_sell_again_error_generic" = "Si è verificato un errore durante il tentativo di contrassegnare il prodotto come disponibile. Riprova più tardi.";
+"product_sell_again_free_button" = "Segna come nuovamente disponibile";
+"product_sell_again_free_confirm_cancel_button" = "Annulla";
+"product_sell_again_free_confirm_message" = "Segna il tuo prodotto come disponibile per farlo sapere agli altri utenti letgo";
+"product_sell_again_free_confirm_ok_button" = "Regala";
+"product_sell_again_free_confirm_title" = "Segna come disponibile";
+"product_sell_again_free_success_message" = "Congratulazioni! Il tuo prodotto è nuovamente disponibile per essere regalato";
 "product_sell_again_success_message" = "Complimenti, il tuo prodotto è stato correttamente contrassegnato come disponibile.";
 "product_sell_camera_permissions_error" = "Per scattare una foto, consenti a letgo di accedere alla Fotocamera nelle impostazioni.";
 "product_sell_camera_restricted_error" = "L'accesso alla tua Fotocamera è riservato. Controlla le tue impostazioni e riprova.";
@@ -500,7 +513,7 @@
 "profile_verify_email_placeholder" = "Email";
 "profile_verify_email_success" = "Controlla la posta in arrivo per verificare il tuo account. Il link scadrà tra 48 ore.";
 "profile_verify_email_title" = "EMAIL";
-"profile_verify_email_too_many_requests" = "Ti abbiamo già inviato un'email di verifica. Controlla la tua casella di posta!";
+"profile_verify_email_too_many_requests" = "Ti abbiamo già inviato un'email di verifica. Controlla la tua casella di posta in arrivo!";
 "profile_verify_facebook_button" = "Facebook";
 "profile_verify_facebook_message" = "Accedi tramite Facebook per verificare la tua identità";
 "profile_verify_facebook_title" = "FACEBOOK";

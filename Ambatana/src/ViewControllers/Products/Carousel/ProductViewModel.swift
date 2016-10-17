@@ -124,6 +124,13 @@ class ProductViewModel: BaseViewModel {
     private let interestedBubbleManager: InterestedBubbleManager
     private let bubbleManager: BubbleNotificationManager
 
+    // Retrieval status
+    private var relationRetrieved = false
+    private var statsRetrieved = false
+    private var commercialsRetrieved: Bool {
+        return commercializers.value != nil
+    }
+
     // Rx
     private let disposeBag: DisposeBag
 
@@ -218,29 +225,30 @@ class ProductViewModel: BaseViewModel {
     }
     
     internal override func didBecomeActive(firstTime: Bool) {
-
         guard let productId = product.value.objectId else { return }
-
-        productRepository.retrieveUserProductRelation(productId) { [weak self] result in
-            guard let strongSelf = self else { return }
-            if let favorited = result.value?.isFavorited, let reported = result.value?.isReported {
-                strongSelf.isFavorite.value = favorited
-                strongSelf.isReported.value = reported
-            }
-        }
 
         productRepository.incrementViews(product.value, completion: nil)
 
-        productRepository.retrieveStats(product.value) { [weak self] result in
-            guard let strongSelf = self else { return }
-            if let stats = result.value {
+        if !relationRetrieved {
+            productRepository.retrieveUserProductRelation(productId) { [weak self] result in
+                guard let value = result.value  else { return }
+                self?.relationRetrieved = true
+                self?.isFavorite.value = value.isFavorited
+                self?.isReported.value = value.isReported
+            }
+        }
+
+        if !statsRetrieved {
+            productRepository.retrieveStats(product.value) { [weak self] result in
+                guard let strongSelf = self, stats = result.value else { return }
+                strongSelf.statsRetrieved = true
                 strongSelf.viewsCount.value = stats.viewsCount
                 strongSelf.favouritesCount.value = stats.favouritesCount
                 strongSelf.refreshInterestedBubble(false, forFirstProduct: strongSelf.isFirstProduct)
             }
         }
 
-        if commercializerIsAvailable {
+        if commercializerIsAvailable && !commercialsRetrieved {
             commercializerRepository.index(productId) { [weak self] result in
                 guard let value = result.value, let strongSelf = self else { return }
 

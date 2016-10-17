@@ -14,6 +14,7 @@ class ProductCarouselImageCell: UICollectionViewCell, UIScrollViewDelegate {
 
     var zooming = PublishSubject<(Bool, Int)>()
     var position: Int = 0
+    var imageURL: NSURL?
     var imageView: UIImageView
     private var scrollView: UIScrollView
     private var backgroundImage: UIImageView

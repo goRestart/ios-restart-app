@@ -367,9 +367,10 @@
 "product_delete_success_message" = "Sletting av ditt produkt var vellykket.";
 "product_distance_X_from_you" = "%@ fra deg";
 "product_distance_more_than_from_you" = "Mer enn %@ fra deg";
-"product_free_price" = "Free";
+"product_free_price" = "Gis bort";
 "product_is_mine_share_body" = "Se hva jeg selger på letgo!";
 "product_list_banner_cell_title" = "SE DIN ANNONSE HER";
+"product_list_item_given_away_status_label" = "Gitt bort allerede";
 "product_list_item_sold_status_label" = "SOLGT";
 "product_list_item_time_hour_label" = "%i t";
 "product_list_item_time_minute_label" = "%i m";
@@ -381,6 +382,12 @@
 "product_mark_as_sold_confirm_ok_button" = "Merk som solgt";
 "product_mark_as_sold_confirm_title" = "Merk som solgt";
 "product_mark_as_sold_error_generic" = "En geil oppstod ved å merke produktet som solgt. Vennligst prøv igjen senere.";
+"product_mark_as_sold_free_button" = "Jeg har gitt det bort";
+"product_mark_as_sold_free_confirm_cancel_button" = "Avbryt";
+"product_mark_as_sold_free_confirm_message" = "Marker ditt produkt som gitt bort allerede.";
+"product_mark_as_sold_free_confirm_ok_button" = "Marker";
+"product_mark_as_sold_free_confirm_title" = "Marker det som gitt bort";
+"product_mark_as_sold_free_success_message" = "Gratulerer! Ditt produkt har blitt markert som gitt bort";
 "product_mark_as_sold_success_message" = "Gratulerer, ditt produkt ble merket som solgt!";
 "product_more_info_open_button" = "MER INFO";
 "product_more_info_tooltip_part_1" = "Trykk";
@@ -452,6 +459,12 @@
 "product_sell_again_confirm_ok_button" = "Selg på nytt";
 "product_sell_again_confirm_title" = "Selg på nytt";
 "product_sell_again_error_generic" = "En feil oppstod ved å markere produktet ditt som tilgjengelig. Vennligst prøv igjen senere.";
+"product_sell_again_free_button" = "Marker det som tilgjengelig igjen";
+"product_sell_again_free_confirm_cancel_button" = "Avbryt";
+"product_sell_again_free_confirm_message" = "Maker ditt produkt som tilgjengelig slik at alle letgo bruker vet det";
+"product_sell_again_free_confirm_ok_button" = "Gis bort";
+"product_sell_again_free_confirm_title" = "Marker som tilgjengelig";
+"product_sell_again_free_success_message" = "Gratulerer! Ditt produkt er tilgjengelig for å gi bort igjen";
 "product_sell_again_success_message" = "Gratulerer, ditt produkt ble markert som tilgjengelig!";
 "product_sell_camera_permissions_error" = "Gi letgo tilgang til ditt kamera i dine innstillinger, for å kunne ta et bilde.";
 "product_sell_camera_restricted_error" = "Din kamera-tilgang er begrenset. Vennligst sjekk innstillingene dine og prøv igjen.";

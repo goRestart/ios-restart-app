@@ -367,9 +367,10 @@
 "product_delete_success_message" = "Ürün başarıyla silindi.";
 "product_distance_X_from_you" = "senden %@ uzakta";
 "product_distance_more_than_from_you" = "Senden %@'den daha uzakta";
-"product_free_price" = "Free";
+"product_free_price" = "Bedava";
 "product_is_mine_share_body" = "letgo'da ne sattığıma bak!";
 "product_list_banner_cell_title" = "İLANINI BURADA GÖR";
+"product_list_item_given_away_status_label" = "Çoktan ücretsiz olarak verildi";
 "product_list_item_sold_status_label" = "Satıldı";
 "product_list_item_time_hour_label" = "%isa";
 "product_list_item_time_minute_label" = "%idk";
@@ -381,6 +382,12 @@
 "product_mark_as_sold_confirm_ok_button" = "Satıldı olarak işaretle";
 "product_mark_as_sold_confirm_title" = "Satıldı olarak işaretle";
 "product_mark_as_sold_error_generic" = "Ürün satıldı olarak işaretlenirken bir hata oluştu. Lütfen, daha sonra tekrar dene.";
+"product_mark_as_sold_free_button" = "Ürünü ücretsiz verdim";
+"product_mark_as_sold_free_confirm_cancel_button" = "İptal";
+"product_mark_as_sold_free_confirm_message" = "Ürününü ücretsiz verildi olarak işaretle";
+"product_mark_as_sold_free_confirm_ok_button" = "İşaretle";
+"product_mark_as_sold_free_confirm_title" = "Ücretsiz verildi olarak işaretle";
+"product_mark_as_sold_free_success_message" = "Tebrikler! Ürünün başarıyla ücretsiz verildi olarak işaretlendi";
 "product_mark_as_sold_success_message" = "Tebrikler, ürünün satıldı olarak işaretlendi!";
 "product_more_info_open_button" = "DAHA FAZLA BİLGİ";
 "product_more_info_tooltip_part_1" = "dokun";
@@ -452,6 +459,12 @@
 "product_sell_again_confirm_ok_button" = "Tekrar Sat";
 "product_sell_again_confirm_title" = "Tekrar Sat";
 "product_sell_again_error_generic" = "Ürünün mevcut olarak işaretlenirken bir hata oluştu. Lütfen tekrar dene.";
+"product_sell_again_free_button" = "Tekrar mevcut olarak işaretle";
+"product_sell_again_free_confirm_cancel_button" = "İptal";
+"product_sell_again_free_confirm_message" = "Ürününü mevcut olarak işaretle ki tüm letgo kullanıcıları haberdar olsun";
+"product_sell_again_free_confirm_ok_button" = "Ücretsiz Ver";
+"product_sell_again_free_confirm_title" = "Mevcut olarak işaretle";
+"product_sell_again_free_success_message" = "Tebrikler! Ürünün tekrar ücretsiz verilmeye uygun";
 "product_sell_again_success_message" = "Tebrikler, ürünün başarıyla mevcut olarak işaretlendi!";
 "product_sell_camera_permissions_error" = "Resim çekebilmek için, ayarlara giderek letgo'nun kamerana erişmesine izin ver.";
 "product_sell_camera_restricted_error" = "Kamerana erişim yok. Lütfen ayarlarını kontrol et ve tekrar dene.";
@@ -500,7 +513,7 @@
 "profile_verify_email_placeholder" = "E-posta";
 "profile_verify_email_success" = "Lütfen e-postanın gelen kutusunu kontrol et. Bağlantı, 48 saat sonra geçersiz olacaktır.";
 "profile_verify_email_title" = "E-POSTA";
-"profile_verify_email_too_many_requests" = "Hesap doğrulama e-postası gönderilmiştir. Lütfen gelen kutunu kontrol et!";
+"profile_verify_email_too_many_requests" = "Hesap doğrulama e-postası gönderilmiştir. Lütfen e-postandaki gelen kutunu kontrol et!";
 "profile_verify_facebook_button" = "Facebook";
 "profile_verify_facebook_message" = "Kimliğini doğrulamak için Facebook ile bağlan";
 "profile_verify_facebook_title" = "FACEBOOK";
