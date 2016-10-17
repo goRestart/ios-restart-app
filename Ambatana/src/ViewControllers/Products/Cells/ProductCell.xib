@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
-        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -13,22 +12,26 @@
             <rect key="frame" x="0.0" y="0.0" width="153" height="194"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <frame key="frameInset" width="153" height="193"/>
+                <rect key="frame" x="0.0" y="0.0" width="153" height="194"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_product_shadow" translatesAutoresizingMaskIntoConstraints="NO" id="3Rs-4R-xUN">
-                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                        <rect key="frame" x="-4" y="-4" width="161" height="202"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </imageView>
                     <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="U25-jS-eMH" userLabel="cellContent">
+                        <rect key="frame" x="0.0" y="0.0" width="153" height="194"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jgH-1b-N7M" userLabel="Thumbnail Bg Color View">
-                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <rect key="frame" x="0.0" y="0.0" width="153" height="194"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                             <imageView userInteractionEnabled="NO" tag="3" contentMode="scaleAspectFill" translatesAutoresizingMaskIntoConstraints="NO" id="afm-Cf-H6I" userLabel="Thumbnail Image View">
-                                <color key="tintColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <rect key="frame" x="0.0" y="0.0" width="153" height="194"/>
+                                <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                             </imageView>
                         </subviews>
-                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="jgH-1b-N7M" firstAttribute="trailing" secondItem="afm-Cf-H6I" secondAttribute="trailing" id="G2N-su-yx0"/>
                             <constraint firstItem="afm-Cf-H6I" firstAttribute="top" secondItem="U25-jS-eMH" secondAttribute="top" id="LIL-tR-5tN"/>
@@ -41,16 +44,20 @@
                         </constraints>
                     </view>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="stripe_white" translatesAutoresizingMaskIntoConstraints="NO" id="RTJ-Uh-fyf">
+                        <rect key="frame" x="85" y="-2" width="70" height="70"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="70" id="pNB-M9-nug"/>
                             <constraint firstAttribute="width" constant="70" id="rov-j5-UCc"/>
                         </constraints>
                     </imageView>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Kca-PV-MAN">
+                        <rect key="frame" x="101" y="14" width="63" height="24"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="riv-Mj-pVV" userLabel="Stripe Info Container View">
+                                <rect key="frame" x="14" y="0.0" width="31" height="24"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1h" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.59999999999999998" translatesAutoresizingMaskIntoConstraints="NO" id="h6x-Ls-H2g" userLabel="Stripe Label">
+                                        <rect key="frame" x="17" y="0.0" width="14" height="24"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="24" id="dtp-dr-EH5"/>
                                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="25" id="hEb-5m-SzQ"/>
@@ -64,6 +71,7 @@
                                         </variation>
                                     </label>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="wEc-7h-s7X">
+                                        <rect key="frame" x="0.0" y="5" width="14" height="14"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="14" id="IFQ-gE-Ewv"/>
                                         </constraints>
@@ -97,7 +105,7 @@
                         </constraints>
                     </view>
                 </subviews>
-                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 <constraints>
                     <constraint firstItem="Kca-PV-MAN" firstAttribute="centerY" secondItem="RTJ-Uh-fyf" secondAttribute="centerY" constant="-7" id="4vo-YH-EYJ"/>
                     <constraint firstItem="3Rs-4R-xUN" firstAttribute="bottom" secondItem="U25-jS-eMH" secondAttribute="bottom" constant="4" id="63M-gG-Zc5"/>
@@ -113,7 +121,7 @@
                     <constraint firstItem="U25-jS-eMH" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="-8" id="sjt-vN-9yk"/>
                 </constraints>
             </tableViewCellContentView>
-            <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <connections>
                 <outlet property="cellContent" destination="U25-jS-eMH" id="ybK-mq-hS3"/>
                 <outlet property="shadowImage" destination="3Rs-4R-xUN" id="8vG-e6-hfF"/>
@@ -129,7 +137,7 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="ic_product_shadow" width="22" height="22"/>
+        <image name="ic_product_shadow" width="23" height="23"/>
         <image name="stripe_white" width="70" height="70"/>
     </resources>
 </document>

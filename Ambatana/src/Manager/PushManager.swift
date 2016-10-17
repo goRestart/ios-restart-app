@@ -58,7 +58,7 @@ final class PushManager: NSObject, KahunaDelegate {
         /* If push notification alert was already shown, then call `registerForRemoteNotifications` again
          so the app delegate method will be called back again and update `Installation` (if needed) in:
          `application(application:didRegisterForRemoteNotificationsWithDeviceToken:) */
-        if application.isRegisteredForRemoteNotifications() {
+        if application.areRemoteNotificationsEnabled {
             application.registerForRemoteNotifications()
         } else {
             installationRepository.updatePushToken("", completion: nil)

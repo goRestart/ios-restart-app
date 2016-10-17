@@ -57,6 +57,8 @@ public enum RepositoryError: ErrorType {
             self = .Unauthorized(code: nil)
         case .Internal:
             self = .Internal(message: "")
+        case .UserNotVerified:
+            self = .UserNotVerified
         }
     }
 

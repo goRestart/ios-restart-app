@@ -9,6 +9,11 @@ workspace "LetGo.xcworkspace"
 project "LetGo.xcodeproj"
 
 def shared_pods
+    ########
+    # TODO #
+    ########
+    pod "SwiftWebSocket", "2.6.4" # Should be fixed in next LGCoreKit version
+
     pod "AlamofireImage",       "~> 2.5.0"  # Swift 3.0: 3.x
     pod "Argo",                 "3.1.0"     # Swift 3.0: N/A
 
@@ -22,18 +27,18 @@ def shared_pods
     pod "CollectionVariable",   :git => 'https://github.com/gitdoapp/CollectionVariable', :commit => 'd99e7a8dfaad32823c207e40fca7c2f2c3894ead'
 
     #Fabric
-    pod "Fabric",               "~> 1.6.8"  # Swift 3.0: -
+    pod "Fabric",               "~> 1.6.10" # Swift 3.0: -
     pod "Crashlytics",          "~> 3.8.2"  # Swift 3.0: -
     pod "TwitterKit",           "~> 2.3.0"  # Swift 3.0: -
-    pod "Branch",               "~> 0.12.11"# Swift 3.0: -
+    pod "Branch",               "~> 0.12.12"# Swift 3.0: -
 
 	# Tracking
 	pod "Amplitude-iOS",        "~> 3.8.5"  # Swift 3.0: -
-    pod "AppsFlyerFramework",   "~> 4.5.6"  # Swift 3.0: -
+    pod "AppsFlyerFramework",   "~> 4.5.8"  # Swift 3.0: -
     pod "Leanplum-iOS-SDK",     "~> 1.4.0"  # Swift 3.0: -
 
 	# letgo Core
-    pod "LGCoreKit",            :path => "../lgcorekit" # "1.2.4"
+    pod "LGCoreKit",            "1.2.5"     #:path => "../lgcorekit"
 
 	# Slack Chat controller
     pod "SlackTextViewController", "1.9.4"  # Swift 3.0: -
@@ -54,11 +59,9 @@ def shared_pods
     pod "Kahuna",               "2.3.1"   # Swift 3.0: ? (doesn't matter as it will be deleted soon 🔥)
 
 	# Google -> we have to ask for the Google/"subpod" so it imports Google/Core too
-    pod "Google/Analytics",         "~> 3.0.3"     # Swift 3.0: -
     pod "Google/SignIn",            "~> 3.0.3"     # Swift 3.0: -
 
-    pod "Firebase/AppIndexing",        "~> 3.4.0"  # Swift 3.0: -
-    pod "GoogleConversionTracking", "~> 3.4.0"     # Swift 3.0: -
+    pod "Firebase/AppIndexing",     "~> 3.7.1"     # Swift 3.0: -
     pod "GoogleIDFASupport",        "~> 3.14.0"    # Swift 3.0: -
 
 	# Custom camera
@@ -74,7 +77,7 @@ def shared_pods
     pod "CocoaLumberjack/Swift", "~> 2.4.0" # Swift 3.0: N/A
 
     # FLEX debugging tool
-    pod "FLEX",                 "~> 2.0"    # Swift 3.0: -
+    pod "FLEX",                 "~> 2.4.0"  # Swift 3.0: -
 
     # User defaults
     pod "SwiftyUserDefaults",   "~> 2.2.1"  # Swift 3.0: 3.x

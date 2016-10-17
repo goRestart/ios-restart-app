@@ -431,6 +431,10 @@ Copyright 2016 Google
 
 Copyright 2016 Google
 
+## FirebaseCore
+
+Copyright 2016 Google
+
 ## FirebaseInstanceID
 
 Copyright 2016 Google
@@ -439,21 +443,13 @@ Copyright 2016 Google
 
 Copyright 2016 Google Inc.
 
-## GoogleAnalytics
+## GoogleAppUtilities
 
 Copyright 2016 Google
 
-## GoogleAppUtilities
-
-Copyright 2015 Google Inc.
-
 ## GoogleAuthUtilities
 
-Copyright 2015 Google Inc.
-
-## GoogleConversionTracking
-
-Copyright 2011 Google Inc. All Rights Reserved.
+Copyright 2016 Google
 
 ## GoogleIDFASupport
 
@@ -461,11 +457,11 @@ Copyright 2015 Google Inc.
 
 ## GoogleInterchangeUtilities
 
-Copyright 2015 Google Inc.
+Copyright 2016 Google
 
 ## GoogleNetworkingUtilities
 
-Copyright 2015 Google Inc.
+Copyright 2016 Google
 
 ## GoogleSignIn
 
@@ -473,11 +469,11 @@ Copyright 2015 Google Inc. All Rights Reserved.
 
 ## GoogleSymbolUtilities
 
-Copyright 2015 Google Inc.
+Copyright 2016 Google
 
 ## GoogleUtilities
 
-Copyright 2015 Google Inc.
+Copyright 2016 Google
 
 ## JBKenBurnsView
 

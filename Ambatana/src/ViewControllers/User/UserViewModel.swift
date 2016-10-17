@@ -607,7 +607,7 @@ private extension UserViewModel {
 
     dynamic func updatePermissionsWarning() {
         guard isMyProfile else { return }
-        pushPermissionsDisabledWarning.value = !UIApplication.sharedApplication().isRegisteredForRemoteNotifications()
+        pushPermissionsDisabledWarning.value = !UIApplication.sharedApplication().areRemoteNotificationsEnabled
     }
 }
 

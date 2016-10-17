@@ -367,9 +367,10 @@
 "product_delete_success_message" = "Jouw product werd succesvol verwijderd.";
 "product_distance_X_from_you" = "%@ van bij jou";
 "product_distance_more_than_from_you" = "Meer dan %@ van bij jou";
-"product_free_price" = "Free";
+"product_free_price" = "Gratis";
 "product_is_mine_share_body" = "Bekijk wat ik op letgo verkoop!";
 "product_list_banner_cell_title" = "ZIE JOUW ADVERTENTIE HIER";
+"product_list_item_given_away_status_label" = "Al weggegeven";
 "product_list_item_sold_status_label" = "VERKOCHT";
 "product_list_item_time_hour_label" = "%iu";
 "product_list_item_time_minute_label" = "%im";
@@ -381,6 +382,12 @@
 "product_mark_as_sold_confirm_ok_button" = "Markeer als verkocht";
 "product_mark_as_sold_confirm_title" = "Markeer als verkocht";
 "product_mark_as_sold_error_generic" = "Er is een fout opgetreden bij het markeren van het product als verkocht. Probeer het later nog eens.";
+"product_mark_as_sold_free_button" = "Ik heb het weggegeven";
+"product_mark_as_sold_free_confirm_cancel_button" = "Annuleren";
+"product_mark_as_sold_free_confirm_message" = "Markeer je product als al weggegeven";
+"product_mark_as_sold_free_confirm_ok_button" = "Markeer";
+"product_mark_as_sold_free_confirm_title" = "Markeer het als weggegeven";
+"product_mark_as_sold_free_success_message" = "Gefeliciteerd! Je product is succesvol gemarkeerd als weggegeven";
 "product_mark_as_sold_success_message" = "Gefeliciteerd, jouw product werd succesvol gemarkeerd als verkocht!";
 "product_more_info_open_button" = "MEER INFO";
 "product_more_info_tooltip_part_1" = "Tik";
@@ -452,6 +459,12 @@
 "product_sell_again_confirm_ok_button" = "Verkoop het opnieuw";
 "product_sell_again_confirm_title" = "Verkoop het opnieuw";
 "product_sell_again_error_generic" = "Er is een fout opgetreden bij het markeren van de beschikbaarheid van je product. Probeer het later nog eens.";
+"product_sell_again_free_button" = "Markeer het als weer beschikbaar";
+"product_sell_again_free_confirm_cancel_button" = "Annuleren";
+"product_sell_again_free_confirm_message" = "Markeer je product als beschikbaar zodat alle letgo gebruikers het weten";
+"product_sell_again_free_confirm_ok_button" = "Weggeven";
+"product_sell_again_free_confirm_title" = "Markeer als beschikbaar";
+"product_sell_again_free_success_message" = "Gefeliciteerd! Je product is weer beschikbaar om weg te geven";
 "product_sell_again_success_message" = "Gefeliciteerd, je product werd succesvol gemarkeerd als beschikbaar!";
 "product_sell_camera_permissions_error" = "Om een foto te maken, geef letgo toegang tot je Camera in je instellingen.";
 "product_sell_camera_restricted_error" = "De toegang tot je Camera is beperkt. Controleer je instellingen en probeer het opnieuw.";

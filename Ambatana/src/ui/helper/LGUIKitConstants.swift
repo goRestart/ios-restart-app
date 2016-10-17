@@ -42,6 +42,7 @@ struct LGUIKitConstants {
 
     // MARK: - Corner radius
     static let defaultCornerRadius: CGFloat = 4
+    static let productCellCornerRadius: CGFloat = 10
     static let tooltipCornerRadius: CGFloat = 10
     static let chatCellCornerRadius: CGFloat = 10
     static let textfieldCornerRadius: CGFloat = 10
