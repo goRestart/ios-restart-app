@@ -86,6 +86,7 @@ class ProductCarouselCell: UICollectionViewCell {
         if let firstImageUrl = product.images.first?.fileURL where placeholderImage == nil {
             self.placeholderImage = ImageDownloader.sharedInstance.cachedImageForUrl(firstImageUrl)
         }
+        collectionView.setContentOffset(CGPoint.zero, animated: false) //Resetting images
         collectionView.reloadData()
     }
     
@@ -117,15 +118,19 @@ extension ProductCarouselCell: UICollectionViewDelegate, UICollectionViewDataSou
             imageCell.tag = imageCellTag
             imageCell.position = indexPath.row
 
-            if let placeholder = placeholderImage where indexPath.row == 0 {
-                imageCell.setImage(placeholder)
-            } else {
-                imageCell.imageView.image = nil
-            }
+            if imageCell.imageURL != imageURL { //Avoid reloading same image in the cell
+                if let placeholder = placeholderImage where indexPath.row == 0 {
+                    imageCell.setImage(placeholder)
+                } else {
+                    imageCell.imageView.image = nil
+                }
 
-            imageDownloader.downloadImageWithURL(imageURL) { [weak self] (result, url) in
-                if let value = result.value where self?.tag == productCarouselTag && cell.tag == imageCellTag {
-                    imageCell.setImage(value.image)
+
+                imageDownloader.downloadImageWithURL(imageURL) { [weak self] (result, url) in
+                    if let value = result.value where self?.tag == productCarouselTag && cell.tag == imageCellTag {
+                        imageCell.imageURL = imageURL
+                        imageCell.setImage(value.image)
+                    }
                 }
             }
             
