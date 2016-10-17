@@ -154,8 +154,7 @@ final class TabBarController: UITabBarController {
     }
 
     private func setupSellButtons() {
-        guard let floatingSellBtn = FloatingButton.floatingButtonWithTitle(LGLocalizedString.tabBarToolTip,
-                                                                icon: UIImage(named: "ic_sell_white")) else { return }
+        guard let floatingSellBtn = FloatingButton.floatingButton() else { return }
         floatingSellButton = floatingSellBtn
         floatingSellButton.addTarget(self, action: #selector(TabBarController.sellButtonPressed),
                                      forControlEvents: UIControlEvents.TouchUpInside)

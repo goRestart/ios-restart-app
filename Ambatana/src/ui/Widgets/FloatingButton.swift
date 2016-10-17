@@ -21,15 +21,13 @@ public class FloatingButton: UIButton {
 
 
     // MARK: - Lifecycle
-    
-    public static func floatingButtonWithTitle(title: String?, icon: UIImage?) -> FloatingButton? {
-        let view = NSBundle.mainBundle().loadNibNamed("FloatingButton", owner: self, options: nil)?.first as? FloatingButton
-        if let actualView = view {
-            actualView.setupUIWithTitle(title, icon: icon)
-        }
+
+    public static func floatingButton() -> FloatingButton? {
+        guard let view = NSBundle.mainBundle().loadNibNamed("FloatingButton", owner: self, options: nil)?.first as? FloatingButton else { return nil }
+        view.setupUIWithTitle(LGLocalizedString.tabBarToolTip, icon: UIImage(named: "ic_sell_white"))
         return view
     }
-    
+   
     override public func intrinsicContentSize() -> CGSize {
         let innerButtonRightMargin:CGFloat = 15
         let innerButtonWidth = innerButton.intrinsicContentSize().width
