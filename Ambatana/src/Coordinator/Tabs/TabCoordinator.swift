@@ -99,6 +99,8 @@ extension TabCoordinator: TabNavigator {
             openConversation(conversation)
         case let .ProductAPI(product):
             openProductChat(product)
+        case let .DataIds(data):
+            openChatFromConversationData(data)
         }
     }
 
@@ -270,6 +272,57 @@ private extension TabCoordinator {
             let chatVC = OldChatViewController(viewModel: chatVM, hidesBottomBar: false)
             navigationController.pushViewController(chatVC, animated: true)
         }
+    }
+
+    func openChatFromConversationData(data: ConversationData) {
+        navigationController.showLoadingMessageAlert()
+
+        if FeatureFlags.websocketChat {
+            let completion: ChatConversationCompletion = { [weak self] result in
+                self?.navigationController.dismissLoadingMessageAlert { [weak self] in
+                    if let conversation = result.value {
+                        self?.openConversation(conversation)
+                    } else if let error = result.error {
+                        self?.showChatRetrieveError(error)
+                    }
+                }
+            }
+            switch data {
+            case let .Conversation(conversationId):
+                chatRepository.showConversation(conversationId, completion: completion)
+            case .ProductBuyer:
+                return //Those are the legacy pushes and new chat doesn't work with Product + buyer
+            }
+        } else {
+            let completion: ChatCompletion = { [weak self] result in
+                self?.navigationController.dismissLoadingMessageAlert { [weak self] in
+                    if let chat = result.value {
+                        self?.openChat(chat)
+                    } else if let error = result.error {
+                        self?.showChatRetrieveError(error)
+                    }
+                }
+            }
+            switch data {
+            case let .Conversation(conversationId):
+                oldChatRepository.retrieveMessagesWithConversationId(conversationId,
+                                                    numResults: Constants.numMessagesPerPage, completion: completion)
+            case let .ProductBuyer(productId, buyerId):
+                oldChatRepository.retrieveMessagesWithProductId(productId, buyerId: buyerId,
+                                                    numResults: Constants.numMessagesPerPage, completion: completion)
+            }
+        }
+    }
+
+    func showChatRetrieveError(error: RepositoryError) {
+        let message: String
+        switch error {
+        case .Network:
+            message = LGLocalizedString.commonErrorConnectionFailed
+        case .Internal, .NotFound, .Unauthorized, .Forbidden, .TooManyRequests, .UserNotVerified, .ServerError:
+            message = LGLocalizedString.commonChatNotAvailable
+        }
+        navigationController.showAutoFadingOutMessageAlert(message)
     }
 
     func openCoordinator(coordinator coordinator: Coordinator, parent: UIViewController, animated: Bool,

@@ -24,6 +24,7 @@ enum ProductDetailData {
 }
 
 enum ChatDetailData {
+    case DataIds(data: ConversationData)
     case ChatAPI(chat: Chat)
     case Conversation(conversation: ChatConversation)
     case ProductAPI(product: Product)
