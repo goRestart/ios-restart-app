@@ -1725,6 +1725,9 @@
 // Sell price field
 "sell_price_field" = "Price:";
 
+// Sell edit product price as "give it away"
+"sell_post_free_label" = "Give it away";
+
 // Sell send error invalid category. Check attached image "sell_send_error.png"
 "sell_send_error_invalid_category" = "Please choose a category for the product.";
 

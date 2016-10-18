@@ -67,6 +67,10 @@ public class EnvironmentProxy: AppEnvironment {
         return environment.googleServerClientID
     }
 
+    var googleClientID: String {
+        return environment.googleClientID
+    }
+
     var configFileName: String {
         return environment.configFileName
     }

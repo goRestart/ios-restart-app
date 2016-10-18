@@ -576,6 +576,7 @@
 "sell_picture_selected_delete_button" = "Poista";
 "sell_picture_selected_save_into_camera_roll_button" = "Tallenna levylle";
 "sell_picture_selected_title" = "Valitse toiminto";
+"sell_post_free_label" = "Give it away";
 "sell_price_field" = "Hinta:";
 "sell_send_error_invalid_category" = "Ole hyvä, ja valitse tuotteelle kategoria.";
 "sell_send_error_invalid_description" = "Ole hyvä ja syötä tuotteelle kelvollinen kuvaus.";

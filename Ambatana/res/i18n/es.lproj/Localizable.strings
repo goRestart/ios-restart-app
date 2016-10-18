@@ -389,7 +389,7 @@
 "product_mark_as_sold_free_confirm_title" = "Marcar como regalado";
 "product_mark_as_sold_free_success_message" = "¡Enhorabuena! Tu artículo ha sido marcado como regalado";
 "product_mark_as_sold_success_message" = "¡Enhorabuena, tu producto ha sido marcado como vendido!";
-"product_more_info_open_button" = "MÁS DETALLES";
+"product_more_info_open_button" = "MÁS INFO";
 "product_more_info_tooltip_part_1" = "Pulsa";
 "product_more_info_tooltip_part_2" = "%@ para ver más detalles";
 "product_negotiable_price" = "Negociable";
@@ -576,6 +576,7 @@
 "sell_picture_selected_delete_button" = "Borrar";
 "sell_picture_selected_save_into_camera_roll_button" = "Guardar";
 "sell_picture_selected_title" = "Elige una acción";
+"sell_post_free_label" = "Give it away";
 "sell_price_field" = "Precio:";
 "sell_send_error_invalid_category" = "¡Ups! Por favor, elige una categoría para tu artículo.";
 "sell_send_error_invalid_description" = "¡Ups! Por favor, introduce una descripción válida para tu artículo.";
