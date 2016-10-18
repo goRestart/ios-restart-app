@@ -102,10 +102,11 @@ extension ProductCategory {
         }
     }
 
-    static func categoriesFromString(categories: String) -> [ProductCategory] {
+    static func categoriesFromString(categories: String) -> [FilterCategoryItem] {
         return categories.characters.split(",").flatMap {
             guard let intValue = Int(String($0)) else { return nil }
-            return ProductCategory(rawValue: intValue)
+            guard let category = ProductCategory(rawValue: intValue) else { return nil }
+            return FilterCategoryItem(category: category)
         }
     }
 }

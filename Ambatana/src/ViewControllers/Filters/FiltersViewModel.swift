@@ -55,12 +55,21 @@ class FiltersViewModel: BaseViewModel {
       
     //Category vars
     private var categoryRepository: CategoryRepository
-    private var categories: [ProductCategory]
+    private var categories: [FilterCategoryItem]
     
     var numOfCategories : Int {
         return self.categories.count
     }
-    
+
+    var freeEnabled: Bool {
+        switch FeatureFlags.freePostingMode {
+        case .Disabled:
+            return false
+        case .OneButton, .SplitButton:
+            return true
+        }
+    }
+
     //Within vars
     var numOfWithinTimes : Int {
         return self.withinTimes.count
@@ -97,7 +106,7 @@ class FiltersViewModel: BaseViewModel {
             currentFilters: currentFilters)
     }
     
-    required init(categoryRepository: CategoryRepository, categories: [ProductCategory],
+    required init(categoryRepository: CategoryRepository, categories: [FilterCategoryItem],
                   withinTimes: [ProductTimeCriteria], sortOptions: [ProductSortCriteria], currentFilters: ProductFilters) {
         self.categoryRepository = categoryRepository
         self.categories = categories
@@ -139,13 +148,18 @@ class FiltersViewModel: BaseViewModel {
         var categories : [String] = []
         
         for category in productFilter.selectedCategories {
-            categories.append(String(category.rawValue))
+            switch category {
+            case let .Category(category: cat):
+                categories.append(String(cat.rawValue))
+            case .Free:
+                break
+            }
         }
         
         let trackingEvent = TrackerEvent.filterComplete(productFilter.filterCoordinates,
                                                         distanceRadius: productFilter.distanceRadius,
                                                         distanceUnit: productFilter.distanceType,
-                                                        categories: productFilter.selectedCategories,
+                                                        categories: categories,
                                                         sortBy: productFilter.selectedOrdering,
                                                         postedWithin: productFilter.selectedWithin,
                                                         priceFrom: productFilter.minPrice,
@@ -162,12 +176,19 @@ class FiltersViewModel: BaseViewModel {
     */
     func retrieveCategories() {
         categoryRepository.index(filterVisible: true) { [weak self] result in
+            guard let strongSelf = self else { return }
             guard let categories = result.value else { return }
-            self?.categories = categories
-            self?.delegate?.vmDidUpdate()
+            strongSelf.categories = strongSelf.buildFilterCategoryItemsWithCategories(categories)
+            strongSelf.delegate?.vmDidUpdate()
         }
     }
-    
+
+    private func buildFilterCategoryItemsWithCategories(categories: [ProductCategory]) -> [FilterCategoryItem] {
+        let filterCatItems: [FilterCategoryItem] = freeEnabled ? [.Free] : []
+        let builtCategories = categories.map { FilterCategoryItem(category: $0) }
+        return filterCatItems + builtCategories
+    }
+
     func selectCategoryAtIndex(index: Int) {
         guard index < numOfCategories else { return }
         
@@ -185,7 +206,7 @@ class FiltersViewModel: BaseViewModel {
         guard index < numOfCategories else { return nil }
         
         let category = categories[index]
-        return category.imageSmallInactive?.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
+        return category.icon?.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
     }
     
     func categoryColorAtIndex(index: Int) -> UIColor {

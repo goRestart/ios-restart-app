@@ -131,17 +131,13 @@ public struct TrackerEvent {
         return TrackerEvent(name: .PasswordResetError, params: params)
     }
 
-    static func productList(user: User?, categories: [ProductCategory]?, searchQuery: String?) -> TrackerEvent {
+    static func productList(user: User?, categories: [String], searchQuery: String?) -> TrackerEvent {
             var params = EventParameters()
 
             // Categories
-            var categoryIds: [String] = []
-            if let actualCategories = categories {
-                for category in actualCategories {
-                    categoryIds.append(String(category.rawValue))
-                }
-            }
+            let categoryIds: [String] = categories ?? []
             params[.CategoryId] = categoryIds.isEmpty ? "0" : categoryIds.joinWithSeparator(",")
+
             // Search query
             if let actualSearchQuery = searchQuery {
                 params[.SearchString] = actualSearchQuery
@@ -176,7 +172,7 @@ public struct TrackerEvent {
     }
 
     static func filterComplete(coordinates: LGLocationCoordinates2D?, distanceRadius: Int?,
-                               distanceUnit: DistanceType, categories: [ProductCategory]?, sortBy: ProductSortCriteria?,
+                               distanceUnit: DistanceType, categories: [String], sortBy: ProductSortCriteria?,
                                postedWithin: ProductTimeCriteria?, priceFrom: Int?, priceTo: Int?) -> TrackerEvent {
         var params = EventParameters()
 
@@ -194,13 +190,7 @@ public struct TrackerEvent {
         params[.FilterDistanceUnit] = distanceUnit.string
 
         // Categories
-        var categoryIds: [String] = []
-        if let actualCategories = categories {
-            for category in actualCategories {
-                categoryIds.append(String(category.rawValue))
-            }
-        }
-        params[.CategoryId] = categoryIds.isEmpty ? "0" : categoryIds.joinWithSeparator(",")
+        params[.CategoryId] = categories.isEmpty ? "0" : categories.joinWithSeparator(",")
 
         // Sorting
         if let sortByParam = eventParameterSortByTypeForSorting(sortBy) {

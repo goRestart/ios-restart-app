@@ -12,7 +12,7 @@ public enum FilterTag: Equatable{
     case Location(Place)
     case Within(ProductTimeCriteria)
     case OrderBy(ProductSortCriteria)
-    case Category(ProductCategory)
+    case Category(FilterCategoryItem)
     case PriceRange(from: Int?, to: Int?, currency: Currency?)
 }
 

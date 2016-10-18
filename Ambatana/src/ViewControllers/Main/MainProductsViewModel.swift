@@ -209,7 +209,7 @@ class MainProductsViewModel: BaseViewModel {
     func updateFiltersFromTags(tags: [FilterTag]) {
 
         var place: Place? = nil
-        var categories: [ProductCategory] = []
+        var categories: [FilterCategoryItem] = []
         var orderBy = ProductSortCriteria.defaultOption
         var within = ProductTimeCriteria.defaultOption
         var minPrice: Int? = nil
@@ -570,8 +570,12 @@ private extension MainProductsViewModel {
 
     func trackRequestSuccess(page page: UInt, hasProducts: Bool) {
         guard page == 0 else { return }
+
+        var selectedCategories: [String] = []
+        selectedCategories.appendContentsOf(productListRequester.filters?.selectedCategories.flatMap { String($0.filterCategoryId) } ?? [])
+
         let trackerEvent = TrackerEvent.productList(myUserRepository.myUser,
-                                                    categories: productListRequester.filters?.selectedCategories,
+                                                    categories: selectedCategories,
                                                     searchQuery: productListRequester.queryString)
         tracker.trackEvent(trackerEvent)
 

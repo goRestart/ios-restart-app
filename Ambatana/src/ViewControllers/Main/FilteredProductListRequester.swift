@@ -140,7 +140,7 @@ private extension FilteredProductListRequester {
         params.coordinates = queryCoordinates
         params.queryString = queryString
         params.countryCode = countryCode
-        params.categoryIds = filters?.selectedCategories.map{ $0.rawValue }
+        params.categoryIds = filters?.selectedCategories.flatMap{ $0.filterCategoryId }
         params.timeCriteria = filters?.selectedWithin
         params.sortCriteria = filters?.selectedOrdering
         params.distanceRadius = filters?.distanceRadius

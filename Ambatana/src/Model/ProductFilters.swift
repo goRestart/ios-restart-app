@@ -8,12 +8,65 @@
 
 import LGCoreKit
 
+public enum FilterCategoryItem: Equatable {
+    case Category(category: ProductCategory)
+    case Free
+
+    init(category: ProductCategory) {
+        self = .Category(category: category)
+    }
+
+    var name: String {
+        switch self {
+        case let .Category(category: category):
+            return category.name
+        case .Free:
+            return "_Free Stuff"
+        }
+    }
+
+    var icon: UIImage? {
+        switch self {
+        case let .Category(category: category):
+            return category.imageSmallInactive
+        case .Free:
+            return UIImage(named: "categories_free")
+        }
+    }
+
+    var image: UIImage? {
+        switch self {
+        case let .Category(category: category):
+            return category.image
+        case .Free:
+            return UIImage(named: "categories_free")
+        }
+    }
+
+    var filterCategoryId: Int? {
+        switch self {
+        case let .Category(category: category):
+            return category.rawValue
+        case .Free:
+            return nil
+        }
+    }
+}
+
+public func ==(a: FilterCategoryItem, b: FilterCategoryItem) -> Bool {
+    switch (a, b) {
+    case (.Category(let catA), .Category(let catB)) where catA.rawValue == catB.rawValue: return true
+    case (.Free,   .Free): return true
+    default: return false
+    }
+}
+
 public struct ProductFilters {
     
     var place: Place?
     var distanceRadius: Int?
     var distanceType: DistanceType
-    var selectedCategories: [ProductCategory]
+    var selectedCategories: [FilterCategoryItem]
     var selectedWithin: ProductTimeCriteria
     var selectedOrdering: ProductSortCriteria?
     var filterCoordinates: LGLocationCoordinates2D? {
@@ -21,7 +74,8 @@ public struct ProductFilters {
     }
     var minPrice: Int?
     var maxPrice: Int?
-    
+    var selectedFree: Bool
+
     init() {
         self.init(
             place: nil,
@@ -31,12 +85,14 @@ public struct ProductFilters {
             selectedWithin: ProductTimeCriteria.defaultOption,
             selectedOrdering: ProductSortCriteria.defaultOption,
             minPrice: nil,
-            maxPrice: nil
+            maxPrice: nil,
+            selectedFree: false
         )
     }
     
-    init(place: Place?, distanceRadius: Int, distanceType: DistanceType, selectedCategories: [ProductCategory],
-         selectedWithin: ProductTimeCriteria, selectedOrdering: ProductSortCriteria?, minPrice: Int?, maxPrice: Int?){
+    init(place: Place?, distanceRadius: Int, distanceType: DistanceType, selectedCategories: [FilterCategoryItem],
+         selectedWithin: ProductTimeCriteria, selectedOrdering: ProductSortCriteria?, minPrice: Int?, maxPrice: Int?,
+         selectedFree: Bool){
         self.place = place
         self.distanceRadius = distanceRadius > 0 ? distanceRadius : nil
         self.distanceType = distanceType
@@ -45,9 +101,10 @@ public struct ProductFilters {
         self.selectedOrdering = selectedOrdering
         self.minPrice = minPrice
         self.maxPrice = maxPrice
+        self.selectedFree = selectedFree
     }
     
-    mutating func toggleCategory(category: ProductCategory) {
+    mutating func toggleCategory(category: FilterCategoryItem) {
         if let categoryIndex = indexForCategory(category) {
             selectedCategories.removeAtIndex(categoryIndex)
         } else {
@@ -55,7 +112,7 @@ public struct ProductFilters {
         }
     }
     
-    func hasSelectedCategory(category: ProductCategory) -> Bool {
+    func hasSelectedCategory(category: FilterCategoryItem) -> Bool {
         return indexForCategory(category) != nil
     }
 
@@ -66,10 +123,11 @@ public struct ProductFilters {
         if selectedWithin != ProductTimeCriteria.defaultOption { return false }
         if selectedOrdering != ProductSortCriteria.defaultOption { return false }
         if let _ = minPrice, let _ = maxPrice { return false } //Default is nil
+        if selectedFree { return false }
         return true
     }
     
-    private func indexForCategory(category: ProductCategory) -> Int? {
+    private func indexForCategory(category: FilterCategoryItem) -> Int? {
         for i in 0..<selectedCategories.count {
             if(selectedCategories[i] == category){
                 return i
