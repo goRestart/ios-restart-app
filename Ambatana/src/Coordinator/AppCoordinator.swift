@@ -573,12 +573,12 @@ private extension AppCoordinator {
         case let .Conversation(data):
             afterDelayClosure = { [weak self] in
                 self?.openTab(.Chats, force: false)
-                self?.chatsTabBarCoordinator.openChat(conversationData: data)
+                self?.chatsTabBarCoordinator.openChat(.DataIds(data: data))
             }
         case .Message(_, let data):
             afterDelayClosure = { [weak self] in
                 self?.openTab(.Chats, force: false)
-                self?.chatsTabBarCoordinator.openChat(conversationData: data)
+                self?.chatsTabBarCoordinator.openChat(.DataIds(data: data))
             }
         case .Search(let query, let categories):
             afterDelayClosure = { [weak self] in
@@ -722,21 +722,14 @@ private extension AppCoordinator {
                 self?.bubbleNotifManager.showBubble(data, duration: 3)
             }
         } else {
-            oldChatRepository.retrieveMessagesWithConversationId(conversationId, numResults: 0) { [weak self] result in
-                guard let myUser = self?.myUserRepository.myUser, chat = result.value else { return }
-                let action = UIAction(interface: .Text(LGLocalizedString.appNotificationReply), action: { [weak self] in
-                    self?.openTab(.Chats, force: false)
-                    self?.selectedTabCoordinator?.openChat(.ChatAPI(chat: chat))
+            // Old chat cannot retrieve chat because it would mark messages as read.
+            let action = UIAction(interface: .Text(LGLocalizedString.appNotificationReply), action: { [weak self] in
+                self?.openTab(.Chats, force: false)
+                self?.selectedTabCoordinator?.openChat(.DataIds(data: data))
                 })
-                let userName = chat.otherUser(myUser: myUser).name ?? ""
-                let justMessage = message.stringByReplacingOccurrencesOfString(userName, withString: "").trim
-                let data = BubbleNotificationData(text: userName,
-                                                  infoText: justMessage,
-                                                  action: action,
-                                                  iconURL: chat.otherUser(myUser: myUser).avatar?.fileURL,
-                                                  iconImage: UIImage(named: "user_placeholder"))
-                self?.bubbleNotifManager.showBubble(data, duration: 3)
-            }
+            let data = BubbleNotificationData(text: message,
+                                              action: action)
+            bubbleNotifManager.showBubble(data, duration: 3)
         }
     }
 }

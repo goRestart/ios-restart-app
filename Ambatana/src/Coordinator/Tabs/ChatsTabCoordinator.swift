@@ -31,51 +31,8 @@ final class ChatsTabCoordinator: TabCoordinator {
     override func shouldHideSellButtonAtViewController(viewController: UIViewController) -> Bool {
         return true
     }
-
-    func openChat(conversationData conversationData: ConversationData) {
-        navigationController.showLoadingMessageAlert()
-
-        let completion: (ChatResult) -> () = { [weak self] result in
-            self?.openChatWithResult(result)
-        }
-
-        switch conversationData {
-        case let .Conversation(conversationId):
-            oldChatRepository.retrieveMessagesWithConversationId(conversationId, page: 0,
-                                                                 numResults: Constants.numMessagesPerPage,
-                                                                 completion: completion)
-        case let .ProductBuyer(productId, buyerId):
-            oldChatRepository.retrieveMessagesWithProductId(productId, buyerId: buyerId, page: 0,
-                                                            numResults: Constants.numMessagesPerPage,
-                                                            completion: completion)
-        }
-    }
 }
 
 extension ChatsTabCoordinator: ChatsTabNavigator {
 
-}
-
-private extension TabCoordinator {
-    func openChatWithResult(result: ChatResult) {
-        var dismissLoadingCompletion: (() -> Void)? = nil
-        if let chat = result.value {
-            dismissLoadingCompletion = { [weak self] in
-                self?.openChat(.ChatAPI(chat: chat))
-            }
-
-        } else if let error = result.error {
-            let message: String
-            switch error {
-            case .Network:
-                message = LGLocalizedString.commonErrorConnectionFailed
-            case .Internal, .NotFound, .Unauthorized, .Forbidden, .TooManyRequests, .UserNotVerified, .ServerError:
-                message = LGLocalizedString.commonChatNotAvailable
-            }
-            dismissLoadingCompletion = { [weak self] in
-                self?.navigationController.showAutoFadingOutMessageAlert(message)
-            }
-        }
-        navigationController.dismissLoadingMessageAlert(dismissLoadingCompletion)
-    }
 }
