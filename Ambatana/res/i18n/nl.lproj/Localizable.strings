@@ -576,6 +576,7 @@
 "sell_picture_selected_delete_button" = "Verwijderen";
 "sell_picture_selected_save_into_camera_roll_button" = "Opslaan";
 "sell_picture_selected_title" = "Kies een handeling";
+"sell_post_free_label" = "Give it away";
 "sell_price_field" = "Prijs:";
 "sell_send_error_invalid_category" = "Kies a.u.b. een categorie voor het product.";
 "sell_send_error_invalid_description" = "Voer a.u.b. een geldige beschrijving in voor het product.";

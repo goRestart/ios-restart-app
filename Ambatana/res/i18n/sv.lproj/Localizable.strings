@@ -389,7 +389,7 @@
 "product_mark_as_sold_free_confirm_title" = "Markera den som bortskänkt";
 "product_mark_as_sold_free_success_message" = "Grattis! Din produkt har märkts som bortskänkt";
 "product_mark_as_sold_success_message" = "Grattis, din produkt har markerats som såld!";
-"product_more_info_open_button" = "MER INFORMATION";
+"product_more_info_open_button" = "MER INFO";
 "product_more_info_tooltip_part_1" = "Klicka";
 "product_more_info_tooltip_part_2" = "%@ för mer information";
 "product_negotiable_price" = "Förhandlingsbart";
@@ -576,6 +576,7 @@
 "sell_picture_selected_delete_button" = "Ta bort";
 "sell_picture_selected_save_into_camera_roll_button" = "Spara till hårddisk";
 "sell_picture_selected_title" = "Välj åtgärd";
+"sell_post_free_label" = "Give it away";
 "sell_price_field" = "Pris:";
 "sell_send_error_invalid_category" = "Var god välj kategori för produkten.";
 "sell_send_error_invalid_description" = "Var god ange en beskrivning av produkten.";

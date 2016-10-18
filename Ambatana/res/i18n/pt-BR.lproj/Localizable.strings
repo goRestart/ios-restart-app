@@ -576,6 +576,7 @@
 "sell_picture_selected_delete_button" = "Delete";
 "sell_picture_selected_save_into_camera_roll_button" = "Save to camera roll";
 "sell_picture_selected_title" = "Choose an action";
+"sell_post_free_label" = "Give it away";
 "sell_price_field" = "Price:";
 "sell_send_error_invalid_category" = "Please choose a category for the product.";
 "sell_send_error_invalid_description" = "Please insert a valid description for your product.";

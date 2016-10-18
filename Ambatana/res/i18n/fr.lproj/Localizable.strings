@@ -389,7 +389,7 @@
 "product_mark_as_sold_free_confirm_title" = "Le marquer comme donné";
 "product_mark_as_sold_free_success_message" = "Félicitations ! Votre bien a été marqué comme donné";
 "product_mark_as_sold_success_message" = "Félicitations, votre bien a été marqué comme vendu !";
-"product_more_info_open_button" = "PLUS d'INFO";
+"product_more_info_open_button" = "PLUS D'INFOS";
 "product_more_info_tooltip_part_1" = "Tapez";
 "product_more_info_tooltip_part_2" = "%@ pour plus d'infos";
 "product_negotiable_price" = "Negociable";
@@ -576,6 +576,7 @@
 "sell_picture_selected_delete_button" = "Supprimer";
 "sell_picture_selected_save_into_camera_roll_button" = "Sauvegarder";
 "sell_picture_selected_title" = "Choisir une action";
+"sell_post_free_label" = "Give it away";
 "sell_price_field" = "Prix :";
 "sell_send_error_invalid_category" = "Veuillez choisir une catégorie pour le bien.";
 "sell_send_error_invalid_description" = "Veuillez insérer une description valide pour le bien.";

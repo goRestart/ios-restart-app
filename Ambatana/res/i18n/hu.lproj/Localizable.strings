@@ -576,6 +576,7 @@
 "sell_picture_selected_delete_button" = "Törlés";
 "sell_picture_selected_save_into_camera_roll_button" = "Mentés lemezre";
 "sell_picture_selected_title" = "Válassz műveletet";
+"sell_post_free_label" = "Give it away";
 "sell_price_field" = "Ár:";
 "sell_send_error_invalid_category" = "Kérjük, válassz kategóriát a termékednek!";
 "sell_send_error_invalid_description" = "Kérjük, hogy érvényes leírást adj meg a portékához.";
