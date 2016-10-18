@@ -31,7 +31,6 @@ protocol ChatViewModelDelegate: BaseViewModelDelegate {
     func vmShowMessage(message: String, completion: (() -> ())?)
     func vmRequestLogin(loggedInAction: () -> Void)
     func vmLoadStickersTooltipWithText(text: NSAttributedString)
-    func vmClose()
 }
 
 struct EmptyConversation: ChatConversation {
@@ -128,7 +127,6 @@ class ChatViewModel: BaseViewModel {
     let interlocutorHasMutedYou = Variable<Bool>(false)
     let chatStatus = Variable<ChatInfoViewStatus>(.Available)
     let chatEnabled = Variable<Bool>(true)
-    let chatConnected = Variable<Bool>(false)
     let relatedProductsEnabled = Variable<Bool>(false)
     let interlocutorTyping = Variable<Bool>(false)
     let messages = CollectionVariable<ChatViewMessage>([])
@@ -394,6 +392,15 @@ class ChatViewModel: BaseViewModel {
     }
 
     func setupChatEventsRx() {
+        chatRepository.wsChatStatus.asObservable().bindNext { [weak self] wsChatStatus in
+            switch wsChatStatus {
+            case .Closed, .Closing, .Opening, .OpenAuthenticated, .OpenNotAuthenticated:
+                break
+            case .OpenNotVerified:
+                self?.showUserNotVerifiedAlert()
+            }
+        }.addDisposableTo(disposeBag)
+
         guard let convId = conversation.value.objectId else { return }
         chatRepository.chatEventsIn(convId).subscribeNext { [weak self] event in
             switch event.type {
@@ -411,8 +418,6 @@ class ChatViewModel: BaseViewModel {
                 break
             }
         }.addDisposableTo(disposeBag)
-        
-        chatRepository.chatAvailable.asObservable().bindTo(chatConnected).addDisposableTo(disposeBag)
     }
 
     
@@ -509,6 +514,15 @@ extension ChatViewModel {
             return productId == conversation.value.product?.objectId && buyerId == currentBuyer
         }
     }
+
+    private func showUserNotVerifiedAlert() {
+        navigator?.openVerifyAccounts([.Facebook, .Google, .Email(myUserRepository.myUser?.email)],
+                                         source: .Chat(title: LGLocalizedString.chatConnectAccountsTitle,
+                                         description: LGLocalizedString.chatNotVerifiedAlertMessage),
+                                         completionBlock: { [weak self] in
+                                            self?.navigator?.closeChatDetail()
+        })
+    }
 }
 
 
@@ -563,7 +577,7 @@ extension ChatViewModel {
                 // TODO: 🎪 Create an "errored" state for Chat Message so we can retry
                 switch error {
                 case .UserNotVerified:
-                    self?.userNotVerifiedError()
+                    self?.showUserNotVerifiedAlert()
                 case .Forbidden, .Internal, .Network, .NotFound, .TooManyRequests, .Unauthorized, .ServerError:
                     self?.delegate?.vmDidFailSendingMessage()
                 }
@@ -572,20 +586,6 @@ extension ChatViewModel {
                 self?.isSendingQuickAnswer = false
             }
         }
-    }
-
-    private func userNotVerifiedError() {
-        guard let myUserEmail = myUserRepository.myUser?.email else {
-            delegate?.vmDidFailSendingMessage()
-            return
-        }
-        let okAction = UIAction(interface: .Button(LGLocalizedString.chatVerifyAlertOkButton,
-            .Cancel), action: {})
-        let resendAction = UIAction(interface: .Button(LGLocalizedString.chatVerifyAlertResendButton, .Default),
-                                    action: { [weak self] in self?.resendEmailVerification(myUserEmail) })
-        delegate?.vmShowAlertWithTitle(LGLocalizedString.chatVerifyAlertTitle,
-                                       text: LGLocalizedString.chatVerifyAlertMessage(myUserEmail),
-                                       alertType: .PlainAlert, actions: [resendAction, okAction])
     }
 
     private func afterSendMessageEvents() {
@@ -745,7 +745,7 @@ extension ChatViewModel {
                 }
                 let message = success ? LGLocalizedString.chatListDeleteOkOne : LGLocalizedString.chatListDeleteErrorOne
                 self?.delegate?.vmShowMessage(message) { [weak self] in
-                    self?.delegate?.vmClose()
+                    self?.navigator?.closeChatDetail()
                 }
             }
         })
@@ -877,7 +877,9 @@ extension ChatViewModel {
             guard shouldAddBottomDisclaimer else { return nil }
             return chatViewMessageAdapter.createUserNotVerifiedDisclaimerMessage() { [weak self] in
                 self?.navigator?.openVerifyAccounts([.Facebook, .Google],
-                    source: .Chat(description: LGLocalizedString.chatConnectAccountsMessage))
+                    source: .Chat(title: LGLocalizedString.chatConnectAccountsTitle, description: LGLocalizedString.chatConnectAccountsMessage), completionBlock: {
+                        self?.navigator?.closeChatDetail()
+                })
             }
         }
     }
@@ -991,7 +993,7 @@ private extension ChatViewModel {
                     //A user cannot have a conversation with himself
                     strongSelf.delegate?.vmShowAutoFadingMessage(LGLocalizedString.chatWithYourselfAlertMsg) {
                         [weak self] in
-                        self?.delegate?.vmClose()
+                        self?.navigator?.closeChatDetail()
                     }
                     return
                 }

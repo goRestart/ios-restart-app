@@ -36,12 +36,16 @@ enum ProductViewModelStatus {
     case PendingAndCommercializable
     case Available
     case AvailableAndCommercializable
+    case AvailableFree
     case Sold
-    
+    case SoldFree
+
     // Other Selling:
     case OtherAvailable
+    case OtherAvailableFree
     case OtherSold
-    
+    case OtherSoldFree
+
     // Common:
     case NotAvailable
 }
@@ -123,6 +127,13 @@ class ProductViewModel: BaseViewModel {
     private let chatViewMessageAdapter: ChatViewMessageAdapter
     private let interestedBubbleManager: InterestedBubbleManager
     private let bubbleManager: BubbleNotificationManager
+
+    // Retrieval status
+    private var relationRetrieved = false
+    private var statsRetrieved = false
+    private var commercialsRetrieved: Bool {
+        return commercializers.value != nil
+    }
 
     // Rx
     private let disposeBag: DisposeBag
@@ -218,29 +229,30 @@ class ProductViewModel: BaseViewModel {
     }
     
     internal override func didBecomeActive(firstTime: Bool) {
-
         guard let productId = product.value.objectId else { return }
-
-        productRepository.retrieveUserProductRelation(productId) { [weak self] result in
-            guard let strongSelf = self else { return }
-            if let favorited = result.value?.isFavorited, let reported = result.value?.isReported {
-                strongSelf.isFavorite.value = favorited
-                strongSelf.isReported.value = reported
-            }
-        }
 
         productRepository.incrementViews(product.value, completion: nil)
 
-        productRepository.retrieveStats(product.value) { [weak self] result in
-            guard let strongSelf = self else { return }
-            if let stats = result.value {
+        if !relationRetrieved {
+            productRepository.retrieveUserProductRelation(productId) { [weak self] result in
+                guard let value = result.value  else { return }
+                self?.relationRetrieved = true
+                self?.isFavorite.value = value.isFavorited
+                self?.isReported.value = value.isReported
+            }
+        }
+
+        if !statsRetrieved {
+            productRepository.retrieveStats(product.value) { [weak self] result in
+                guard let strongSelf = self, stats = result.value else { return }
+                strongSelf.statsRetrieved = true
                 strongSelf.viewsCount.value = stats.viewsCount
                 strongSelf.favouritesCount.value = stats.favouritesCount
                 strongSelf.refreshInterestedBubble(false, forFirstProduct: strongSelf.isFirstProduct)
             }
         }
 
-        if commercializerIsAvailable {
+        if commercializerIsAvailable && !commercialsRetrieved {
             commercializerRepository.index(productId) { [weak self] result in
                 guard let value = result.value, let strongSelf = self else { return }
 
@@ -380,6 +392,23 @@ extension ProductViewModel {
 
             }, source: .MarkAsSold)
     }
+    
+    func markSoldFree() {
+        ifLoggedInRunActionElseOpenMainSignUp({ [weak self] in
+            
+            var alertActions: [UIAction] = []
+            let markAsSoldAction = UIAction(interface: .Text(LGLocalizedString.productMarkAsSoldFreeConfirmOkButton),
+                action: { [weak self] in
+                    self?.markSold(.MarkAsSold)
+                })
+            alertActions.append(markAsSoldAction)
+            self?.delegate?.vmShowAlert(LGLocalizedString.productMarkAsSoldFreeConfirmTitle,
+                message: LGLocalizedString.productMarkAsSoldFreeConfirmMessage,
+                cancelLabel: LGLocalizedString.productMarkAsSoldFreeConfirmCancelButton,
+                actions: alertActions)
+            
+            }, source: .MarkAsSold)
+    }
 
     func editProduct() {
         navigator?.editProduct(product.value) { [weak self] editedProduct in
@@ -405,6 +434,23 @@ extension ProductViewModel {
             }, source: .MarkAsUnsold)
     }
 
+    func resellFree() {
+        ifLoggedInRunActionElseOpenMainSignUp({ [weak self] in
+            
+            var alertActions: [UIAction] = []
+            let sellAgainAction = UIAction(interface: .Text(LGLocalizedString.productSellAgainFreeConfirmOkButton),
+                action: { [weak self] in
+                    self?.markUnsold()
+                })
+            alertActions.append(sellAgainAction)
+            self?.delegate?.vmShowAlert(LGLocalizedString.productSellAgainFreeConfirmTitle,
+                message: LGLocalizedString.productSellAgainFreeConfirmMessage,
+                cancelLabel: LGLocalizedString.productSellAgainFreeConfirmCancelButton,
+                actions: alertActions)
+            
+            }, source: .MarkAsUnsold)         
+    }
+    
     func chatWithSeller(source: EventParameterTypePage) {
         trackHelper.trackChatWithSeller(source)
         openChat()
@@ -768,14 +814,13 @@ extension ProductViewModel {
             let message: String
             if let value = result.value {
                 strongSelf.product.value = value
-                message = LGLocalizedString.productMarkAsSoldSuccessMessage
+                message = strongSelf.product.value.price.free ? LGLocalizedString.productMarkAsSoldSuccessMessage : LGLocalizedString.productMarkAsSoldSuccessMessage
                 self?.trackHelper.trackMarkSoldCompleted(source)
                 markAsSoldCompletion = {
                     if RatingManager.sharedInstance.shouldShowRating {
                         strongSelf.delegate?.vmAskForRating()
                     }
                 }
-
             } else {
                 message = LGLocalizedString.productMarkAsSoldErrorGeneric
             }
@@ -792,7 +837,7 @@ extension ProductViewModel {
             let message: String
             if let value = result.value {
                 strongSelf.product.value = value
-                message = LGLocalizedString.productSellAgainSuccessMessage
+                message = strongSelf.product.value.price.free ? LGLocalizedString.productSellAgainFreeSuccessMessage : LGLocalizedString.productSellAgainSuccessMessage
                 self?.trackHelper.trackMarkUnsoldCompleted()
             } else {
                 message = LGLocalizedString.productSellAgainErrorGeneric
@@ -858,9 +903,27 @@ extension Product {
         case .Discarded, .Deleted:
             return .NotAvailable
         case .Approved:
-            return isMine ? .Available : .OtherAvailable
+            switch FeatureFlags.freePostingMode {
+            case .Disabled:
+                return isMine ? .Available : .OtherAvailable
+            case .OneButton, .SplitButton:
+                if (price.free) {
+                    return isMine ? .AvailableFree : .OtherAvailableFree
+                } else {
+                    return isMine ? .Available : .OtherAvailable
+                }
+            }
         case .Sold, .SoldOld:
-            return isMine ? .Sold : .OtherSold
+            switch FeatureFlags.freePostingMode {
+            case .Disabled:
+                return isMine ? .Sold : .OtherSold
+            case .OneButton, .SplitButton:
+                if (price.free) {
+                    return isMine ? .SoldFree : .OtherSoldFree
+                } else {
+                    return isMine ? .Sold : .OtherSold
+                }
+            }
         }
     }
 
@@ -888,9 +951,9 @@ private extension ProductViewModelStatus {
 
     var isEditable: Bool {
         switch self {
-        case .Pending, .PendingAndCommercializable, .Available, .AvailableAndCommercializable:
+        case .Pending, .PendingAndCommercializable, .Available, .AvailableAndCommercializable, .AvailableFree:
             return true
-        case .NotAvailable, .Sold, .OtherSold, .OtherAvailable:
+        case .NotAvailable, .Sold, .OtherSold, .OtherAvailable, .OtherSoldFree, .SoldFree, .OtherAvailableFree:
             return false
         }
     }
@@ -899,7 +962,9 @@ private extension ProductViewModelStatus {
         switch self {
         case .Sold, .OtherSold:
             return LGLocalizedString.productListItemSoldStatusLabel
-        case .Pending, .PendingAndCommercializable, .Available, .AvailableAndCommercializable, .OtherAvailable,
+        case .SoldFree, .OtherSoldFree:
+            return LGLocalizedString.productListItemGivenAwayStatusLabel
+        case .Pending, .PendingAndCommercializable, .Available, .AvailableAndCommercializable, .OtherAvailable, .AvailableFree, .OtherAvailableFree,
              .NotAvailable:
             return nil
         }
@@ -907,10 +972,10 @@ private extension ProductViewModelStatus {
 
     var labelColor: UIColor {
         switch self {
-        case .Sold, .OtherSold:
+        case .Sold, .OtherSold, .SoldFree, .OtherSoldFree:
             return UIColor.whiteColor()
         case .Pending, .PendingAndCommercializable, .Available, .AvailableAndCommercializable, .OtherAvailable,
-             .NotAvailable:
+             .NotAvailable, .AvailableFree, .OtherAvailableFree:
             return UIColor.clearColor()
         }
     }
@@ -919,8 +984,10 @@ private extension ProductViewModelStatus {
         switch self {
         case .Sold, .OtherSold:
             return UIColor.soldColor
+        case .SoldFree, .OtherSoldFree:
+            return UIColor.soldFreeColor
         case .Pending, .PendingAndCommercializable, .Available, .AvailableAndCommercializable, .OtherAvailable,
-             .NotAvailable:
+             .NotAvailable, .AvailableFree, .OtherAvailableFree:
             return UIColor.clearColor()
         }
     }
@@ -931,7 +998,7 @@ private extension ProductViewModelStatus {
             return active ? .PendingAndCommercializable : .Pending
         case .Available, .AvailableAndCommercializable:
             return active ? .AvailableAndCommercializable : .Available
-        case .Sold, .OtherSold, .NotAvailable, .OtherAvailable:
+        case .Sold, .OtherSold, .NotAvailable, .OtherAvailable, .OtherSoldFree, .OtherAvailableFree, .SoldFree, .AvailableFree:
             return self
         }
     }

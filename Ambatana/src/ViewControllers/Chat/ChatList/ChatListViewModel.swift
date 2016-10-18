@@ -6,6 +6,8 @@
 //  Copyright © 2015 Ambatana. All rights reserved.
 //
 
+import LGCoreKit
+
 protocol ChatListViewModelDelegate: class {
     func vmDeleteSelectedChats()
     func chatListViewModelDidFailArchivingChats(viewModel: ChatListViewModel)

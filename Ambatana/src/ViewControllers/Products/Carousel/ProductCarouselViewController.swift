@@ -11,7 +11,9 @@ import RxSwift
 
 enum ProductDetailButtonType {
     case MarkAsSold
+    case MarkAsSoldFree
     case SellItAgain
+    case SellItAgainFree
     case CreateCommercial
     case ChatWithSeller
     case ContinueChatting
@@ -196,8 +198,11 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         
         collectionView.dataSource = self
         collectionView.delegate = self
+        //Duplicating registered cells to avoid reuse of colindant cells
         collectionView.registerClass(ProductCarouselCell.self,
-                                     forCellWithReuseIdentifier: ProductCarouselCell.identifier)
+                                     forCellWithReuseIdentifier: cellIdentifierForIndex(0))
+        collectionView.registerClass(ProductCarouselCell.self,
+                                     forCellWithReuseIdentifier: cellIdentifierForIndex(1))
         collectionView.directionalLockEnabled = true
         collectionView.alwaysBounceVertical = false
         automaticallyAdjustsScrollViewInsets = false
@@ -222,8 +227,8 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         userView.delegate = self
         let leftMargin = NSLayoutConstraint(item: userView, attribute: .Leading, relatedBy: .Equal, toItem: view,
                                             attribute: .Leading, multiplier: 1, constant: itemsMargin)
-        let bottomMargin = NSLayoutConstraint(item: userView, attribute: .Bottom, relatedBy: .Equal, toItem: view,
-                                              attribute: .Bottom, multiplier: 1, constant: -itemsMargin)
+        let bottomMargin = NSLayoutConstraint(item: userView, attribute: .Bottom, relatedBy: .Equal, toItem: interestedBubbleContainer,
+                                              attribute: .Top, multiplier: 1, constant: -itemsMargin)
         let rightMargin = NSLayoutConstraint(item: userView, attribute: .Trailing, relatedBy: .LessThanOrEqual,
                                              toItem: view, attribute: .Trailing, multiplier: 1,
                                              constant: -itemsMargin)
@@ -402,9 +407,19 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
                     self?.viewModel.moveToProductAtIndex(index, delegate: strongSelf, movement: movement)
                 }
                 self?.refreshOverlayElements()
+                if movement == .Tap {
+                    self?.finishedTransition()
+                }
                 strongSelf.currentIndex = index
             }
             .addDisposableTo(disposeBag)
+
+        //Event when scroll reaches one entire page (alpha == 1) so that we can delay some tasks until then.
+        alphaSignal.map { $0 == 1 }.distinctUntilChanged().filter { $0 }
+            .debounce(0.5, scheduler: MainScheduler.instance)
+            .bindNext { [weak self] _ in
+            self?.finishedTransition()
+        }.addDisposableTo(disposeBag)
     }
     
     private func configureButton(button: UIButton, type: ProductDetailButtonType, viewModel: ProductViewModel) {
@@ -415,6 +430,14 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
             button.setTitle(LGLocalizedString.productMarkAsSoldButton, forState: .Normal)
             button.setStyle(.Terciary)
             action = viewModel.markSold
+        case .MarkAsSoldFree:
+            button.setTitle(LGLocalizedString.productMarkAsSoldFreeButton, forState: .Normal)
+            button.setStyle(.Terciary)
+            action = viewModel.markSoldFree
+        case .SellItAgainFree:
+            button.setTitle(LGLocalizedString.productSellAgainFreeButton, forState: .Normal)
+            button.setStyle(.Secondary(fontSize: .Big, withBorder: false))
+            action = viewModel.resellFree
         case .SellItAgain:
             button.setTitle(LGLocalizedString.productSellAgainButton, forState: .Normal)
             button.setStyle(.Secondary(fontSize: .Big, withBorder: false))
@@ -465,13 +488,18 @@ extension ProductCarouselViewController {
         refreshProductStatusLabel(viewModel)
         refreshDirectChatElements(viewModel)
         refreshFavoriteButton(viewModel)
-        setupMoreInfo(viewModel)
+        setupMoreInfo()
         refreshInterestedBubble(viewModel)
     }
+
+    private func finishedTransition() {
+        guard let currentPVM = viewModel.currentProductViewModel else { return }
+        updateMoreInfo(currentPVM)
+    }
     
-    private func setupMoreInfo(viewModel: ProductViewModel) {
+    private func setupMoreInfo() {
         if moreInfoView == nil {
-            moreInfoView = ProductCarouselMoreInfoView.moreInfoView(viewModel)
+            moreInfoView = ProductCarouselMoreInfoView.moreInfoView()
             if let moreInfoView = moreInfoView {
                 view.addSubview(moreInfoView)
                 moreInfoAlpha.asObservable().bindTo(moreInfoView.rx_alpha).addDisposableTo(disposeBag)
@@ -484,11 +512,13 @@ extension ProductCarouselViewController {
             view.bringSubviewToFront(fullScreenAvatarView)
             view.bringSubviewToFront(directChatTable)
         }
-        moreInfoView?.update(viewModel)
         moreInfoView?.frame = view.bounds
         moreInfoView?.height = view.height + moreInfoExtraHeight
         moreInfoView?.frame.origin.y = -view.bounds.height
+    }
 
+    private func updateMoreInfo(viewModel: ProductViewModel) {
+        moreInfoView?.setupWith(viewModel: viewModel)
         moreInfoState.asObservable().bindTo(viewModel.moreInfoState).addDisposableTo(activeDisposeBag)
     }
 
@@ -557,8 +587,8 @@ extension ProductCarouselViewController {
     
     private func refreshBottomButtons(viewModel: ProductViewModel) {
         
-        let userViewMarginAboveBottomButton = view.frame.height - buttonBottom.frame.origin.y + itemsMargin
-        let userViewMarginAboveTopButton = view.frame.height - buttonTop.frame.origin.y + itemsMargin
+        let userViewMarginAboveBottomButton = itemsMargin + buttonBottom.height + itemsMargin
+        let userViewMarginAboveTopButton = userViewMarginAboveBottomButton + buttonTop.height + itemsMargin
         let userViewMarginWithoutButtons = itemsMargin
         
         guard buttonBottom.frame.origin.y > 0 else { return }
@@ -573,7 +603,7 @@ extension ProductCarouselViewController {
             strongSelf.userViewRightMargin = -strongSelf.itemsMargin
 
             switch status {
-            case .Pending, .NotAvailable, .OtherSold:
+            case .Pending, .NotAvailable, .OtherSold, .OtherSoldFree:
                 strongSelf.userViewBottomMargin = -userViewMarginWithoutButtons
                 strongSelf.userViewRightMargin = strongSelf.userViewRightMargin - strongSelf.editButton.width
             case .PendingAndCommercializable:
@@ -586,8 +616,12 @@ extension ProductCarouselViewController {
                 strongSelf.userViewBottomMargin = -(userViewMarginAboveTopButton)
             case .Sold:
                 strongSelf.configureButton(strongSelf.buttonBottom, type: .SellItAgain, viewModel: viewModel)
-            case .OtherAvailable:
+            case .OtherAvailable, .OtherAvailableFree:
                 strongSelf.configureButton(strongSelf.buttonBottom, type: .ChatWithSeller, viewModel: viewModel)
+            case .AvailableFree:
+                strongSelf.configureButton(strongSelf.buttonBottom, type: .MarkAsSoldFree , viewModel: viewModel)
+            case .SoldFree:
+                strongSelf.configureButton(strongSelf.buttonBottom, type: .SellItAgainFree, viewModel: viewModel)
             }
         }.addDisposableTo(activeDisposeBag)
 
@@ -903,6 +937,12 @@ extension ProductCarouselViewController {
 // MARK: > CollectionView delegates
 
 extension ProductCarouselViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+
+    func cellIdentifierForIndex(index: Int) -> String {
+        let extra: String = (index % 2) == 0 ? "0" : "1"
+        return ProductCarouselCell.identifier+extra
+    }
+
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         guard didSetupAfterLayout else { return 0 }
         return viewModel.objectCount
@@ -910,7 +950,7 @@ extension ProductCarouselViewController: UICollectionViewDataSource, UICollectio
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath)
         -> UICollectionViewCell {
-            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(ProductCarouselCell.identifier,
+            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(cellIdentifierForIndex(indexPath.row),
                                                                              forIndexPath: indexPath)
             guard let carouselCell = cell as? ProductCarouselCell else { return UICollectionViewCell() }
             guard let product = viewModel.productAtIndex(indexPath.row) else { return carouselCell }
@@ -977,8 +1017,6 @@ extension ProductCarouselViewController {
         interestedBubbleIsVisible = true
         interestedBubble?.updateInfo(text)
         delay(0.1) { [weak self] in
-            guard let strongSelf = self else { return }
-            strongSelf.userViewBottomMargin = strongSelf.userViewBottomMargin - ProductCarouselViewController.interestedBubbleHeight
             self?.interestedBubbleContainerBottomConstraint.constant = 0
             UIView.animateWithDuration(0.3, animations: {
                 self?.view.layoutIfNeeded()
@@ -999,8 +1037,6 @@ extension ProductCarouselViewController {
         interestedBubbleTimer.invalidate()
         interestedBubbleIsVisible = false
         interestedBubbleContainerBottomConstraint.constant = -ProductCarouselViewController.interestedBubbleHeight
-        userViewBottomMargin = userViewBottomMargin + ProductCarouselViewController.interestedBubbleHeight
-
         UIView.animateWithDuration(duration, animations: { [weak self] in
             self?.view.layoutIfNeeded()
         }, completion: nil)

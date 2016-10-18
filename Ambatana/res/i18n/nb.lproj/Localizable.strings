@@ -576,6 +576,7 @@
 "sell_picture_selected_delete_button" = "Slett";
 "sell_picture_selected_save_into_camera_roll_button" = "Arkiver bilde";
 "sell_picture_selected_title" = "Velg en handling";
+"sell_post_free_label" = "Give it away";
 "sell_price_field" = "Pris:";
 "sell_send_error_invalid_category" = "Vennligst velg en kategori for produktet.";
 "sell_send_error_invalid_description" = "Vennligst legg til en produktbeskrivelse.";

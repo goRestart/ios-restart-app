@@ -8,7 +8,35 @@
 
 import Result
 import RxSwift
-import ReachabilitySwift
+
+public enum WSChatStatus {
+    case Closed
+    case Closing
+    case Opening
+    case OpenAuthenticated
+    case OpenNotAuthenticated
+    case OpenNotVerified
+
+    init(wsStatus: WebSocketStatus) {
+        switch wsStatus {
+        case .Closed:
+            self = .Closed
+        case .Closing:
+            self = .Closing
+        case .Opening:
+            self = .Opening
+        case .Open(let authStatus):
+            switch authStatus {
+            case .NotAuthenticated:
+                self = .OpenNotAuthenticated
+            case .Authenticated:
+                self = .OpenAuthenticated
+            case .NotVerified:
+                self = .OpenNotVerified
+            }
+        }
+    }
+}
 
 public typealias ChatMessagesResult = Result<[ChatMessage], RepositoryError>
 public typealias ChatMessagesCompletion = ChatMessagesResult -> Void
@@ -29,32 +57,22 @@ public typealias ChatUnreadMessagesCompletion = ChatUnreadMessagesResult -> Void
 public class ChatRepository {
     let dataSource: ChatDataSource
     let myUserRepository: MyUserRepository
-    let webSocketClient: WebSocketClient
-    let reachability: Reachability?
-    public var chatAvailable = Variable<Bool>(false)
+    public var wsChatStatus = Variable<WSChatStatus>(.Closed)
     let disposeBag = DisposeBag()
     
     public var chatEvents: Observable<ChatEvent> {
-        return webSocketClient.eventBus.asObservable()
+        return dataSource.eventBus.asObservable()
     }
     
-    init(dataSource: ChatDataSource, myUserRepository: MyUserRepository, webSocketClient: WebSocketClient) {
+    init(dataSource: ChatDataSource, myUserRepository: MyUserRepository) {
         self.dataSource = dataSource
         self.myUserRepository = myUserRepository
-        self.webSocketClient = webSocketClient
-        self.reachability = try? Reachability.reachabilityForInternetConnection()
-        configureReachability()
         setupRx()
     }
     
     func setupRx() {
-        webSocketClient.socketStatus.asObservable().subscribeNext { [weak self] status in
-            switch status {
-            case .Open(let authenticated) where authenticated:
-                self?.chatAvailable.value = true
-            default:
-                self?.chatAvailable.value = false
-            }
+        dataSource.socketStatus.asObservable().subscribeNext { [weak self] status in
+            self?.wsChatStatus.value = WSChatStatus(wsStatus: status)
         }.addDisposableTo(disposeBag)
 
         // Automatically mark as received
@@ -72,20 +90,6 @@ public class ChatRepository {
     
     // MARK: > Public Methods
     // MARK: - Messages
-    
-    public func openAndAuthenticate(completion: (Result<Void, SessionManagerError> -> ())?) {
-        guard LGCoreKit.activateWebsocket && InternalCore.sessionManager.loggedIn else {
-            completion?(Result<Void, SessionManagerError>(error: .Unauthorized))
-            return
-        }
-        webSocketClient.startWebSocket(EnvironmentProxy.sharedInstance.webSocketURL) {
-            InternalCore.sessionManager.authenticateWebSocket(completion)
-        }
-    }
-    
-    public func close(completion: (() -> ())?) {
-        webSocketClient.closeWebSocket(completion)
-    }
     
     public func createNewMessage(talkerId: String, text: String, type: ChatMessageType) -> ChatMessage {
         let message = LGChatMessage(objectId: LGUUID().UUIDString, talkerId: talkerId, text: text, sentAt: nil,
@@ -149,17 +153,7 @@ public class ChatRepository {
     
     
     // MARK: - Commands
-    
-    internal func authenticate(authToken: String, completion: ChatCommandCompletion?) {
-        guard let userId = myUserRepository.myUser?.objectId else {
-            completion?(Result<Void, RepositoryError>(error: .Internal(message: "Missing myUserId")))
-            return
-        }
-        dataSource.authenticate(userId, authToken: authToken) { result in
-            handleWebSocketResult(result, completion: completion)
-        }
-    }
-    
+
     public func sendMessage(conversationId: String, messageId: String, type: ChatMessageType, text: String,
                             completion: ChatCommandCompletion?) {
         dataSource.sendMessage(conversationId, messageId: messageId, type: type.rawValue, text: text) { result in
@@ -208,7 +202,7 @@ public class ChatRepository {
     // MARK: - Server events
     
     public func chatEventsIn(conversationId: String) -> Observable<ChatEvent> {
-        return webSocketClient.eventBus.filter { $0.conversationId == conversationId }
+        return dataSource.eventBus.filter { $0.conversationId == conversationId }
     }
     
     
@@ -226,14 +220,5 @@ public class ChatRepository {
             }
         }
         handleWebSocketResult(finalResult, completion: completion)
-    }
-    
-    private func configureReachability() {
-        reachability?.whenReachable = { [weak self] _ in
-            self?.openAndAuthenticate(nil)
-        }
-        do {
-            try reachability?.startNotifier()
-        } catch {}
     }
 }
