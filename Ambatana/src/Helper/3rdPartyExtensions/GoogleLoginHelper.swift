@@ -43,6 +43,7 @@ class GoogleLoginHelper: NSObject, GIDSignInDelegate {
         GIDSignIn.sharedInstance().scopes =
             ["https://www.googleapis.com/auth/userinfo.email", "https://www.googleapis.com/auth/userinfo.profile"]
         GIDSignIn.sharedInstance().serverClientID = EnvironmentProxy.sharedInstance.googleServerClientID
+        GIDSignIn.sharedInstance().clientID = EnvironmentProxy.sharedInstance.googleClientID
         GIDSignIn.sharedInstance().signIn()
     }
 
