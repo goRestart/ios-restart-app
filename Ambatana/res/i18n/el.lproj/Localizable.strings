@@ -389,7 +389,7 @@
 "product_mark_as_sold_free_confirm_title" = "Μαρκάρετέ το ως χαρισμένο";
 "product_mark_as_sold_free_success_message" = "Συγχαρητήρια! Το προϊόν σας έχει μαρκαριστεί επιτυχώς ως χαρισμένο";
 "product_mark_as_sold_success_message" = "Συγχαρητήρια, το προϊόν σας έχει πωληθεί επιτυχώς!";
-"product_more_info_open_button" = "ΠΕΡΙΣΣΟΤΕΡΕΣ ΠΛΗΡΟΦΟΡΙΕΣ";
+"product_more_info_open_button" = "ΠΛΗΡΟΦΟΡΙΕΣ";
 "product_more_info_tooltip_part_1" = "Πατήστε";
 "product_more_info_tooltip_part_2" = "%@ για πληροφορίες";
 "product_negotiable_price" = "Συζητήσιμη";
@@ -576,6 +576,7 @@
 "sell_picture_selected_delete_button" = "Διαγραφή";
 "sell_picture_selected_save_into_camera_roll_button" = "Αποθήκευση στο δίσκο";
 "sell_picture_selected_title" = "Επιλογή ενέργειας";
+"sell_post_free_label" = "Give it away";
 "sell_price_field" = "Τιμή:";
 "sell_send_error_invalid_category" = "Παρακαλώ επιλέξτε μία κατηγορία για το προϊόν.";
 "sell_send_error_invalid_description" = "Παρακαλώ εισάγετε μία έγκυρη περιγραφή του προϊόντος.";
