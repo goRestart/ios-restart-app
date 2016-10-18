@@ -40,6 +40,7 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
     
     @IBOutlet var separatorContainerViewsConstraints: [NSLayoutConstraint]!
     @IBOutlet weak var priceViewSeparatorTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak var freePostViewSeparatorTopConstraint: NSLayoutConstraint!
 
     @IBOutlet weak var titleContainerView: UIView!
     @IBOutlet weak var titleTextField: LGTextField!
@@ -52,7 +53,10 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
     @IBOutlet weak var postFreeView: UIView!
     @IBOutlet weak var priceView: UIView!
     @IBOutlet weak var priceContainerHeightConstraint: NSLayoutConstraint!
+    
+    @IBOutlet weak var postFreeViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var freePostingSwitch: UISwitch!
+    
     @IBOutlet weak var postFreeLabel: UILabel!
     @IBOutlet weak var currencyLabel: UILabel!
     @IBOutlet weak var priceTextField: LGTextField!
@@ -104,7 +108,6 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.layoutIfNeeded()
         setupUI()
         setAccesibilityIds()
         setupRxBindings()
@@ -144,16 +147,7 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
         viewModel.checkProductFields()
     }
     @IBAction func freePostingChanged(sender: AnyObject) {
-        if self.freePostingSwitch.on {
-            self.priceContainerHeightConstraint.constant = 0
-            priceViewSeparatorTopConstraint.constant = 0
-        } else {
-            self.priceContainerHeightConstraint.constant = EditProductViewController.viewOptionGenericHeight
-            priceViewSeparatorTopConstraint.constant = EditProductViewController.separatorOptionsViewDistance
-        }
-        UIView.animateWithDuration(0.3, animations: {
-            self.view.layoutIfNeeded()
-        })
+       updateFreePostViews()
     }
     
     @IBAction func shareFBSwitchChanged(sender: AnyObject) {
@@ -433,7 +427,16 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
         shareFBSwitch.on = viewModel.shouldShareInFB
         shareFBLabel.text = LGLocalizedString.sellShareOnFacebookLabel
         
-        freePostingSwitch.on = viewModel.isFreePosting
+        if FeatureFlags.freePostingMode.enabled {
+            postFreeViewHeightConstraint.constant = EditProductViewController.viewOptionGenericHeight
+            freePostViewSeparatorTopConstraint.constant = EditProductViewController.separatorOptionsViewDistance
+            freePostingSwitch.on = viewModel.isFreePosting
+            checkFreePostSwitch()
+        } else {
+            postFreeViewHeightConstraint.constant = 0
+            freePostViewSeparatorTopConstraint.constant = 0
+        }
+        
         
         // CollectionView
         imageCollectionView.delegate = self
@@ -527,7 +530,24 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
             self?.dismiss(nil)
         }
     }
-
+    
+    private func updateFreePostViews() {
+        checkFreePostSwitch()
+        UIView.animateWithDuration(0.3, animations: {
+            self.view.layoutIfNeeded()
+        })
+        viewModel.isFreePosting = freePostingSwitch.on
+    }
+    
+    private func checkFreePostSwitch() {
+        if freePostingSwitch.on {
+            priceContainerHeightConstraint.constant = 0
+            priceViewSeparatorTopConstraint.constant = 0
+        } else {
+            priceContainerHeightConstraint.constant = EditProductViewController.viewOptionGenericHeight
+            priceViewSeparatorTopConstraint.constant = EditProductViewController.separatorOptionsViewDistance
+        }
+    }
     // MARK: - Private methods
 
 

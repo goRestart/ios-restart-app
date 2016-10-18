@@ -17,6 +17,7 @@
                 <outlet property="descriptionCharCountLabel" destination="iVa-Cz-EFe" id="Ma8-RM-1CH"/>
                 <outlet property="descriptionTextView" destination="1dU-tr-UB3" id="N1P-Rq-Ie4"/>
                 <outlet property="descriptionView" destination="OmK-fS-TPd" id="Cx9-rN-yC7"/>
+                <outlet property="freePostViewSeparatorTopConstraint" destination="d5i-8h-8UU" id="hJt-nU-H3J"/>
                 <outlet property="freePostingSwitch" destination="hDo-sY-b8B" id="a3B-sW-cf9"/>
                 <outlet property="imageCollectionView" destination="YDb-eR-n02" id="aCg-Jh-XIx"/>
                 <outlet property="loadingLabel" destination="DIJ-41-73M" id="hi4-iG-Esf"/>
@@ -24,10 +25,11 @@
                 <outlet property="loadingView" destination="0ZP-zJ-OwV" id="5bP-zo-5nJ"/>
                 <outlet property="postFreeLabel" destination="KS3-nC-5kF" id="pxw-UM-Kqc"/>
                 <outlet property="postFreeView" destination="Emx-A9-HZ6" id="WRl-76-CIY"/>
+                <outlet property="postFreeViewHeightConstraint" destination="gRv-Ec-BLx" id="u0z-hQ-CTX"/>
                 <outlet property="priceContainerHeightConstraint" destination="lgf-q8-7Fi" id="iZh-Ig-xQk"/>
                 <outlet property="priceTextField" destination="toV-Ym-Hah" id="Oqr-Id-M30"/>
                 <outlet property="priceView" destination="l4Q-8i-j8o" id="rlZ-9k-z9X"/>
-                <outlet property="priceViewSeparatorTopConstraint" destination="EFv-qm-TLS" id="ndf-Id-pIJ"/>
+                <outlet property="priceViewSeparatorTopConstraint" destination="EFv-qm-TLS" id="Hpq-HD-9ga"/>
                 <outlet property="scrollView" destination="eiL-oq-GEV" id="z8N-fc-MOp"/>
                 <outlet property="sendButton" destination="hgl-q6-NPc" id="9Zb-L5-cVr"/>
                 <outlet property="setLocationButton" destination="qik-S1-pbF" id="0z0-r1-KNy"/>
@@ -56,27 +58,6 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0ZP-zJ-OwV" userLabel="Loading View">
-                    <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_Uploading product, please wait..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="DIJ-41-73M" userLabel="Loading Label">
-                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                            <color key="textColor" red="0.50196081400000003" green="0.50196081400000003" blue="0.50196081400000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                        <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="U7G-g9-Rhv" userLabel="Loading Progress View">
-                            <color key="progressTintColor" red="0.0" green="0.57647058819999997" blue="0.81960784310000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        </progressView>
-                    </subviews>
-                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    <constraints>
-                        <constraint firstAttribute="trailing" secondItem="U7G-g9-Rhv" secondAttribute="trailing" constant="16" id="0kk-8q-F9B"/>
-                        <constraint firstItem="U7G-g9-Rhv" firstAttribute="top" secondItem="DIJ-41-73M" secondAttribute="bottom" constant="8" id="DuP-q0-EWY"/>
-                        <constraint firstItem="DIJ-41-73M" firstAttribute="leading" secondItem="0ZP-zJ-OwV" secondAttribute="leading" constant="8" id="EZP-DV-Bwo"/>
-                        <constraint firstAttribute="centerY" secondItem="DIJ-41-73M" secondAttribute="centerY" constant="32" id="N0v-dn-kGK"/>
-                        <constraint firstItem="U7G-g9-Rhv" firstAttribute="leading" secondItem="0ZP-zJ-OwV" secondAttribute="leading" constant="16" id="hx9-vV-ixj"/>
-                        <constraint firstAttribute="trailing" secondItem="DIJ-41-73M" secondAttribute="trailing" constant="8" id="tTb-kD-vK7"/>
-                    </constraints>
-                </view>
                 <scrollView multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" keyboardDismissMode="onDrag" translatesAutoresizingMaskIntoConstraints="NO" id="eiL-oq-GEV">
                     <subviews>
                         <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="YDb-eR-n02" userLabel="Image Collection View">
@@ -191,11 +172,11 @@
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <constraints>
                                         <constraint firstAttribute="bottom" secondItem="toV-Ym-Hah" secondAttribute="bottom" id="9sG-EH-bci"/>
-                                        <constraint firstAttribute="trailing" secondItem="toV-Ym-Hah" secondAttribute="trailing" id="PwH-XN-sXA"/>
-                                        <constraint firstItem="toV-Ym-Hah" firstAttribute="leading" secondItem="5TH-TX-VOx" secondAttribute="trailing" constant="32" id="Vvx-w7-Td4"/>
+                                        <constraint firstAttribute="trailing" secondItem="toV-Ym-Hah" secondAttribute="trailing" constant="8" id="PwH-XN-sXA"/>
+                                        <constraint firstItem="toV-Ym-Hah" firstAttribute="leading" secondItem="5TH-TX-VOx" secondAttribute="trailing" constant="24" id="Vvx-w7-Td4"/>
                                         <constraint firstAttribute="bottom" secondItem="5TH-TX-VOx" secondAttribute="bottom" id="WSz-TC-xsP"/>
                                         <constraint firstItem="5TH-TX-VOx" firstAttribute="leading" secondItem="l4Q-8i-j8o" secondAttribute="leading" constant="15" id="ZE3-uM-0Hc"/>
-                                        <constraint firstItem="toV-Ym-Hah" firstAttribute="top" secondItem="l4Q-8i-j8o" secondAttribute="top" id="h9p-fm-Pf3"/>
+                                        <constraint firstItem="toV-Ym-Hah" firstAttribute="top" secondItem="l4Q-8i-j8o" secondAttribute="top" constant="1" id="h9p-fm-Pf3"/>
                                         <constraint firstItem="5TH-TX-VOx" firstAttribute="top" secondItem="l4Q-8i-j8o" secondAttribute="top" id="jF8-YW-8gT"/>
                                         <constraint firstAttribute="height" constant="50" id="lgf-q8-7Fi"/>
                                     </constraints>
@@ -224,11 +205,11 @@
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <constraints>
                                         <constraint firstItem="1dU-tr-UB3" firstAttribute="top" secondItem="OmK-fS-TPd" secondAttribute="top" id="0VP-ud-u44"/>
-                                        <constraint firstAttribute="trailing" secondItem="1dU-tr-UB3" secondAttribute="trailing" constant="16" id="DHL-Ht-ctG"/>
+                                        <constraint firstAttribute="trailing" secondItem="1dU-tr-UB3" secondAttribute="trailing" id="DHL-Ht-ctG"/>
                                         <constraint firstAttribute="height" constant="100" id="L1b-Go-hca"/>
                                         <constraint firstAttribute="bottom" secondItem="1dU-tr-UB3" secondAttribute="bottom" id="ObZ-KH-e1b"/>
                                         <constraint firstAttribute="trailing" secondItem="iVa-Cz-EFe" secondAttribute="trailing" constant="15" id="RPI-EU-PUO"/>
-                                        <constraint firstItem="1dU-tr-UB3" firstAttribute="leading" secondItem="OmK-fS-TPd" secondAttribute="leading" constant="16" id="r9V-1I-77D"/>
+                                        <constraint firstItem="1dU-tr-UB3" firstAttribute="leading" secondItem="OmK-fS-TPd" secondAttribute="leading" id="r9V-1I-77D"/>
                                         <constraint firstAttribute="bottom" secondItem="iVa-Cz-EFe" secondAttribute="bottom" constant="15" id="u82-0Y-JfZ"/>
                                     </constraints>
                                 </view>
@@ -428,6 +409,27 @@
                         <constraint firstItem="hgl-q6-NPc" firstAttribute="leading" secondItem="RHn-Oh-ilJ" secondAttribute="leading" constant="16" id="oFs-LM-6XL"/>
                         <constraint firstAttribute="trailing" secondItem="hgl-q6-NPc" secondAttribute="trailing" constant="16" id="q1o-g3-4yF"/>
                         <constraint firstAttribute="bottom" secondItem="hgl-q6-NPc" secondAttribute="bottom" constant="15" id="wuQ-H1-GVD"/>
+                    </constraints>
+                </view>
+                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0ZP-zJ-OwV" userLabel="Loading View">
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_Uploading product, please wait..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="DIJ-41-73M" userLabel="Loading Label">
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <color key="textColor" red="0.50196081400000003" green="0.50196081400000003" blue="0.50196081400000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="U7G-g9-Rhv" userLabel="Loading Progress View">
+                            <color key="progressTintColor" red="0.0" green="0.57647058819999997" blue="0.81960784310000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        </progressView>
+                    </subviews>
+                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="trailing" secondItem="U7G-g9-Rhv" secondAttribute="trailing" constant="16" id="0kk-8q-F9B"/>
+                        <constraint firstItem="U7G-g9-Rhv" firstAttribute="top" secondItem="DIJ-41-73M" secondAttribute="bottom" constant="8" id="DuP-q0-EWY"/>
+                        <constraint firstItem="DIJ-41-73M" firstAttribute="leading" secondItem="0ZP-zJ-OwV" secondAttribute="leading" constant="8" id="EZP-DV-Bwo"/>
+                        <constraint firstAttribute="centerY" secondItem="DIJ-41-73M" secondAttribute="centerY" constant="32" id="N0v-dn-kGK"/>
+                        <constraint firstItem="U7G-g9-Rhv" firstAttribute="leading" secondItem="0ZP-zJ-OwV" secondAttribute="leading" constant="16" id="hx9-vV-ixj"/>
+                        <constraint firstAttribute="trailing" secondItem="DIJ-41-73M" secondAttribute="trailing" constant="8" id="tTb-kD-vK7"/>
                     </constraints>
                 </view>
             </subviews>

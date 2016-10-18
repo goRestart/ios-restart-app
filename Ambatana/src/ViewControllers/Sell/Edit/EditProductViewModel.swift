@@ -234,7 +234,7 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
         for file in product.images { productImages.append(file) }
 
         self.shouldShareInFB = myUserRepository.myUser?.facebookAccount != nil
-        self.isFreePosting = FeatureFlags.freePostingMode == .Disabled && product.price.free
+        self.isFreePosting = product.price.free
         super.init()
 
         setupCategories()
@@ -265,7 +265,7 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
         }
         let name = title ?? ""
         let description = (descr ?? "").stringByRemovingEmoji()
-        let priceAmount = ProductPrice.Normal((price ?? "0").toPriceDouble())
+        let priceAmount = isFreePosting ? ProductPrice.Free : ProductPrice.Normal((price ?? "0").toPriceDouble())
         let currency = initialProduct.currency
 
         let editedProduct = productRepository.updateProduct(initialProduct, name: name, description: description,
