@@ -33,17 +33,22 @@ class ProductStatsView: UIView {
 
     // MARK: -Lifecycle
 
-    static func productStatsViewWithInfo(viewsCount: Int, favouritesCount: Int, postedDate: NSDate?) -> ProductStatsView? {
+    static func productStatsView() -> ProductStatsView? {
         let view = NSBundle.mainBundle().loadNibNamed("ProductStatsView", owner: self, options: nil)?.first as? ProductStatsView
-        view?.setupUI(viewsCount, favouritesCount: favouritesCount, postedDate: postedDate)
+        view?.setupUI()
         return view
     }
 
-    func setupUI(viewsCount: Int, favouritesCount: Int, postedDate: NSDate?) {
+    func setupUI() {
         favouriteStatsView.layer.cornerRadius = 12
         viewsStatsView.layer.cornerRadius = 12
         timePostedView.layer.cornerRadius = 12
-        updateStatsWithInfo(viewsCount, favouritesCount: favouritesCount, postedDate: postedDate)
+        
+        favouriteStatsWidthConstraint.constant = 0
+        statsSeparationConstraint.constant = 0
+        viewsStatsWidthConstraint.constant = 0
+        
+        timePostedWidthConstraint.constant = 0
     }
 
     func updateStatsWithInfo(viewsCount: Int, favouritesCount: Int, postedDate: NSDate?) {

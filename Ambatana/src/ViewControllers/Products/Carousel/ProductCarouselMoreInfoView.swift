@@ -74,12 +74,12 @@ class ProductCarouselMoreInfoView: UIView {
     static func moreInfoView() -> ProductCarouselMoreInfoView {
         let view = NSBundle.mainBundle().loadNibNamed("ProductCarouselMoreInfoView", owner: self, options: nil)!.first as! ProductCarouselMoreInfoView
         view.setupUI()
+        view.setupStatsView()
         view.setAccessibilityIds()
         view.setupContent()
         view.addGestures()
         view.configureMapView()
         view.configureOverlayMapView()
-        view.setupStatsView()
         return view
     }
     
@@ -332,13 +332,10 @@ extension ProductCarouselMoreInfoView {
     }
 
     private func setupStatsView() {
-        guard let viewModel = viewModel else { return }
         statsContainerViewHeightConstraint.constant = 0.0
         statsContainerViewTopConstraint.constant = 0.0
 
-        guard let statsView = ProductStatsView.productStatsViewWithInfo(viewModel.viewsCount.value,
-                                                    favouritesCount: viewModel.favouritesCount.value,
-                                                    postedDate: viewModel.productCreationDate.value) else { return }
+        guard let statsView = ProductStatsView.productStatsView() else { return }
         self.statsView = statsView
         statsContainerView.addSubview(statsView)
 
@@ -352,8 +349,6 @@ extension ProductCarouselMoreInfoView {
         let bottom = NSLayoutConstraint(item: statsView, attribute: .Bottom, relatedBy: .Equal, toItem: statsContainerView,
                                      attribute: .Bottom, multiplier: 1, constant: 0)
         statsContainerView.addConstraints([top, right, left, bottom])
-
-        setupStatsRx()
     }
 
     private func setupStatsRx() {
