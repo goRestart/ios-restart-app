@@ -149,6 +149,7 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
     var category: ProductCategory?
     var shouldShareInFB: Bool
     var isFreePosting: Bool
+    
     var descr: String? {
         didSet {
             delegate?.vmShouldUpdateDescriptionWithCount(descriptionCharCount)
@@ -265,7 +266,7 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
         }
         let name = title ?? ""
         let description = (descr ?? "").stringByRemovingEmoji()
-        let priceAmount = isFreePosting ? ProductPrice.Free : ProductPrice.Normal((price ?? "0").toPriceDouble())
+        let priceAmount = isFreePosting && FeatureFlags.freePostingMode.enabled ? ProductPrice.Free : ProductPrice.Normal((price ?? "0").toPriceDouble())
         let currency = initialProduct.currency
 
         let editedProduct = productRepository.updateProduct(initialProduct, name: name, description: description,
