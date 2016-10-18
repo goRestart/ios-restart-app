@@ -287,7 +287,8 @@ public class SignUpLogInViewModel: BaseViewModel {
             message = LGLocalizedString.commonErrorConnectionFailed
         case .Unauthorized:
             message = LGLocalizedString.logInErrorSendErrorUserNotFoundOrWrongPassword
-        case .Scammer, .NotFound, .Internal, .Forbidden, .NonExistingEmail, .Conflict, .TooManyRequests, .BadRequest:
+        case .Scammer, .NotFound, .Internal, .Forbidden, .NonExistingEmail, .Conflict, .TooManyRequests, .BadRequest,
+             .UserNotVerified:
             message = LGLocalizedString.logInErrorSendErrorGeneric
         }
         delegate?.viewModelDidFailLoginIn(self, message: message)
@@ -317,7 +318,7 @@ public class SignUpLogInViewModel: BaseViewModel {
             }
         case .NonExistingEmail:
             message = LGLocalizedString.signUpSendErrorInvalidEmail
-        case .Scammer, .NotFound, .Internal, .Forbidden, .Unauthorized, .TooManyRequests:
+        case .Scammer, .NotFound, .Internal, .Forbidden, .Unauthorized, .TooManyRequests, .UserNotVerified:
             message = LGLocalizedString.signUpSendErrorGeneric
         }
         delegate?.viewModelDidFailSigningUp(self, message: message)
@@ -351,6 +352,8 @@ public class SignUpLogInViewModel: BaseViewModel {
             return .Unauthorized
         case .TooManyRequests:
             return .TooManyRequests
+        case .UserNotVerified:
+            return .Internal(description: "UserNotVerified")
         }
     }
 

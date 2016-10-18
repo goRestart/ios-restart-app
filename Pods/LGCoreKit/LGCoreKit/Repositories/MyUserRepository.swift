@@ -174,7 +174,7 @@ public class MyUserRepository {
         }
     }
 
-    func refresh(completion: ((Result<MyUser, RepositoryError>) -> ())?) {
+    public func refresh(completion: ((Result<MyUser, RepositoryError>) -> ())?) {
         guard let myUserId = myUser?.objectId else {
             completion?(Result<MyUser, RepositoryError>(error: .Internal(message: "Missing MyUser objectId")))
             return

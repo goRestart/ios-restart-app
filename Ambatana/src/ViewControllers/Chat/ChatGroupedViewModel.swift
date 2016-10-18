@@ -52,6 +52,10 @@ class ChatGroupedViewModel: BaseViewModel {
     private(set) var blockedUsersListViewModel: BlockedUsersListViewModel
     private let currentPageViewModel = Variable<ChatGroupedListViewModelType?>(nil)
 
+    private var sessionManager: SessionManager
+    private var myUserRepository: MyUserRepository
+    private var chatRepository: ChatRepository
+
     weak var delegate: ChatGroupedViewModelDelegate?
     weak var tabNavigator: TabNavigator? {
         didSet {
@@ -59,15 +63,27 @@ class ChatGroupedViewModel: BaseViewModel {
             blockedUsersListViewModel.tabNavigator = tabNavigator
         }
     }
+    var verificationPendingEmptyVM: LGEmptyViewModel?
 
     let editButtonText = Variable<String?>(nil)
     let editButtonEnabled = Variable<Bool>(true)
+
+    let verificationPending = Variable<Bool>(false)
+
     private let disposeBag: DisposeBag
 
 
     // MARK: - Lifecycle
 
-    override init() {
+    override convenience init() {
+        self.init(myUserRepository: Core.myUserRepository, chatRepository: Core.chatRepository,
+                  sessionManager: Core.sessionManager)
+    }
+
+    init(myUserRepository: MyUserRepository, chatRepository: ChatRepository, sessionManager: SessionManager) {
+        self.sessionManager = sessionManager
+        self.myUserRepository = myUserRepository
+        self.chatRepository = chatRepository
         self.chatListViewModels = []
         self.blockedUsersListViewModel = BlockedUsersListViewModel()
         self.disposeBag = DisposeBag()
@@ -94,6 +110,16 @@ class ChatGroupedViewModel: BaseViewModel {
             }
         }
         setupRxBindings()
+        setupVerificationPendingEmptyVM()
+    }
+
+    func setupVerificationPendingEmptyVM() {
+        verificationPendingEmptyVM = LGEmptyViewModel(icon: UIImage(named: "ic_build_trust_big"),
+                                          title: LGLocalizedString.chatNotVerifiedStateTitle,
+                                          body: LGLocalizedString.chatNotVerifiedStateMessage,
+                                          buttonTitle: LGLocalizedString.chatNotVerifiedStateCheckButton,
+                                          action: { [weak self] in self?.tryToReconnectChat() },
+                                          secondaryButtonTitle: nil, secondaryAction: nil)
     }
 
     // MARK: - Public methods
@@ -291,5 +317,29 @@ extension ChatGroupedViewModel {
                 .addDisposableTo(strongSelf.disposeBag)
 
         }.addDisposableTo(disposeBag)
+
+        chatRepository.wsChatStatus.asObservable().map { wsChatStatus in
+            switch wsChatStatus {
+            case .Closed, .Closing, .Opening, .OpenAuthenticated, .OpenNotAuthenticated:
+                return false
+            case .OpenNotVerified:
+                return true
+            }
+        }.bindTo(verificationPending).addDisposableTo(disposeBag)
+
+        verificationPending.asObservable().filter { !$0 }.bindTo(editButtonEnabled).addDisposableTo(disposeBag)
+    }
+
+    func tryToReconnectChat() {
+        sessionManager.connectChat { [weak self] result in
+            if let _ = result.value {
+                self?.verificationPending.value = false
+            } else {
+                self?.tabNavigator?.openVerifyAccounts([.Facebook, .Google, .Email(self?.myUserRepository.myUser?.email)],
+                    source: .Chat(title: LGLocalizedString.chatConnectAccountsTitle,
+                        description: LGLocalizedString.chatNotVerifiedAlertMessage),
+                    completionBlock: nil)
+            }
+        }
     }
 }

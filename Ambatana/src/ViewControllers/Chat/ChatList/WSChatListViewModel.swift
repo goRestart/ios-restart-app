@@ -46,6 +46,7 @@ class WSChatListViewModel: BaseChatGroupedListViewModel<ChatConversation>, ChatL
 
     override func index(page: Int, completion: (Result<[ChatConversation], RepositoryError> -> ())?) {
         let offset = max(0, page - 1) * resultsPerPage
+        
         chatRepository.indexConversations(resultsPerPage, offset: offset, filter: chatsType.conversationFilter,
                                           completion: completion)
     }

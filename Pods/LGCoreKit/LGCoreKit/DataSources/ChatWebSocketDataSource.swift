@@ -8,10 +8,19 @@
 
 import Result
 import Argo
+import RxSwift
 
 
 class ChatWebSocketDataSource: ChatDataSource {
-    
+
+    var eventBus: PublishSubject<ChatEvent> {
+        return webSocketClient.eventBus
+    }
+
+    var socketStatus: Variable<WebSocketStatus> {
+        return webSocketClient.socketStatus
+    }
+
     let webSocketClient: WebSocketClient
     let webSocketMessageRouter = WebSocketMessageRouter(uuidGenerator: LGUUID())
     let webSocketConversationRouter = WebSocketConversationRouter(uuidGenerator: LGUUID())
@@ -119,12 +128,7 @@ class ChatWebSocketDataSource: ChatDataSource {
     
     
     // MARK: - Commands
-    
-    func authenticate(userId: String, authToken: String, completion: ChatWebSocketCommandCompletion?) {
-        let request = webSocketCommandRouter.authenticate(userId, authToken: authToken)
-        webSocketClient.sendCommand(request, completion: completion)
-    }
-    
+
     func sendMessage(conversationId: String, messageId: String, type: String, text: String,
         completion: ChatWebSocketCommandCompletion?) {
             let request = webSocketCommandRouter.sendMessage(conversationId, messageId: messageId, type: type,
