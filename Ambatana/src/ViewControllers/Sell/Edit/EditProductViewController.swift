@@ -22,7 +22,8 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
     private static let titleDisclaimerHeightConstraint: CGFloat = 16
     private static let titleDisclaimerBottomConstraintVisible: CGFloat = 24
     private static let titleDisclaimerBottomConstraintHidden: CGFloat = 8
-
+    private static let separatorOptionsViewDistance = LGUIKitConstants.onePixelSize
+    private static let viewOptionGenericHeight: CGFloat = 50
 
     enum TextFieldTag: Int {
         case ProductTitle = 1000, ProductPrice, ProductDescription
@@ -33,7 +34,13 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
     let sellProductCellReuseIdentifier = "SellProductCell"
     
     @IBOutlet weak var scrollView: UIScrollView!
+    
+    @IBOutlet weak var imageCollectionView: UICollectionView!
     @IBOutlet weak var containerEditOptionsView: UIView!
+    
+    @IBOutlet var separatorContainerViewsConstraints: [NSLayoutConstraint]!
+    @IBOutlet weak var priceViewSeparatorTopConstraint: NSLayoutConstraint!
+
     @IBOutlet weak var titleContainerView: UIView!
     @IBOutlet weak var titleTextField: LGTextField!
     @IBOutlet weak var titleDisclaimer: UILabel!
@@ -42,13 +49,15 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
     @IBOutlet weak var titleDisclaimerHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var titleDisclaimerBottomConstraint: NSLayoutConstraint!
     
-    // Price container IBOutlets:
+    @IBOutlet weak var postFreeView: UIView!
+    @IBOutlet weak var priceView: UIView!
     @IBOutlet weak var priceContainerHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var freePostingSwitch: UISwitch!
-
-    @IBOutlet weak var imageCollectionView: UICollectionView!
-    @IBOutlet weak var currencyButton: UIButton!
+    @IBOutlet weak var postFreeLabel: UILabel!
+    @IBOutlet weak var currencyLabel: UILabel!
     @IBOutlet weak var priceTextField: LGTextField!
+    
+    @IBOutlet weak var descriptionView: UIView!
     @IBOutlet weak var descriptionTextView: UITextView!
     @IBOutlet weak var descriptionCharCountLabel: UILabel!
     @IBOutlet weak var titleDisclaimerActivityIndicator: UIActivityIndicatorView!
@@ -95,28 +104,17 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.layoutIfNeeded()
         setupUI()
         setAccesibilityIds()
         setupRxBindings()
+        
     }
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         descriptionTextView.scrollRectToVisible(CGRectMake(0, 0, 1, 1), animated: false)
     }
-
-    override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
-        // Redraw the lines
-        lines.forEach { $0.removeFromSuperlayer() }
-        lines = []
-        lines.append(titleContainerView.addBottomBorderWithWidth(1, color: UIColor.grayLighter))
-        lines.append(descriptionTextView.addTopBorderWithWidth(1, color: UIColor.grayLighter))
-        lines.append(setLocationButton.addTopBorderWithWidth(1, color: UIColor.grayLighter))
-        lines.append(categoryButton.addTopBorderWithWidth(1, color: UIColor.grayLighter))
-        lines.append(categoryButton.addBottomBorderWithWidth(1, color: UIColor.grayLighter))
-    }
-
     
     // MARK: - Public methods
     
@@ -146,10 +144,16 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
         viewModel.checkProductFields()
     }
     @IBAction func freePostingChanged(sender: AnyObject) {
-        UIView.animateWithDuration(1.0, animations: {
-            self.priceContainerHeightConstraint.constant = self.freePostingSwitch.on ? 88 : 44
+        if self.freePostingSwitch.on {
+            self.priceContainerHeightConstraint.constant = 0
+            priceViewSeparatorTopConstraint.constant = 0
+        } else {
+            self.priceContainerHeightConstraint.constant = EditProductViewController.viewOptionGenericHeight
+            priceViewSeparatorTopConstraint.constant = EditProductViewController.separatorOptionsViewDistance
+        }
+        UIView.animateWithDuration(0.3, animations: {
+            self.view.layoutIfNeeded()
         })
-        
     }
     
     @IBAction func shareFBSwitchChanged(sender: AnyObject) {
@@ -381,8 +385,10 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
                                           target: self, action: #selector(EditProductViewController.closeButtonPressed))
         self.navigationItem.leftBarButtonItem = closeButton;
         
-        containerEditOptionsView.backgroundColor = UIColor.white
-        containerEditOptionsView.layer.cornerRadius = 10
+        separatorContainerViewsConstraints.forEach { $0.constant = EditProductViewController.separatorOptionsViewDistance }
+        
+        containerEditOptionsView.backgroundColor = UIColor.grayLight
+        containerEditOptionsView.layer.cornerRadius = 15
         containerEditOptionsView.layer.borderWidth = 1
         containerEditOptionsView.layer.borderColor = UIColor.clearColor().CGColor
         
@@ -395,7 +401,9 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
         autoGeneratedTitleButton.layer.cornerRadius = autoGeneratedTitleButton.frame.height/2
         titleDisclaimerActivityIndicator.transform = CGAffineTransformScale(titleDisclaimerActivityIndicator.transform, 0.8, 0.8)
 
-        currencyButton.setTitle(viewModel.currency?.symbol, forState: .Normal)
+        postFreeLabel.text = LGLocalizedString.sellPostFreeLabel
+        
+        currencyLabel.text = viewModel.currency?.code
 
         priceTextField.placeholder = LGLocalizedString.productNegotiablePrice
         priceTextField.text = viewModel.price
@@ -424,6 +432,8 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
         
         shareFBSwitch.on = viewModel.shouldShareInFB
         shareFBLabel.text = LGLocalizedString.sellShareOnFacebookLabel
+        
+        freePostingSwitch.on = viewModel.isFreePosting
         
         // CollectionView
         imageCollectionView.delegate = self
@@ -662,7 +672,7 @@ extension EditProductViewController {
         titleTextField.accessibilityId = .EditProductTitleField
         autoGeneratedTitleButton.accessibilityId = .EditProductAutoGenTitleButton
         imageCollectionView.accessibilityId = .EditProductImageCollection
-        currencyButton.accessibilityId = .EditProductCurrencyButton
+        currencyLabel.accessibilityId = .EditProductCurrencyButton
         priceTextField.accessibilityId = .EditProductPriceField
         descriptionTextView.accessibilityId = .EditProductDescriptionField
         setLocationButton.accessibilityId = .EditProductLocationButton

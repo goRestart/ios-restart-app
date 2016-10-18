@@ -367,9 +367,10 @@
 "product_delete_success_message" = "Dein Produkt wurde erfolgreich gelöscht.";
 "product_distance_X_from_you" = "%@ von dir";
 "product_distance_more_than_from_you" = "Mehr als %@ von dir";
-"product_free_price" = "Free";
+"product_free_price" = "Kostenlos";
 "product_is_mine_share_body" = "Schau dir an, was ich auf letgo verkaufe!";
 "product_list_banner_cell_title" = "HIER KÖNNTE DEIN ANGEBOT STEHEN";
+"product_list_item_given_away_status_label" = "Bereits verschenkt";
 "product_list_item_sold_status_label" = "VERKAUFT";
 "product_list_item_time_hour_label" = "%i h";
 "product_list_item_time_minute_label" = "%i min";
@@ -381,6 +382,12 @@
 "product_mark_as_sold_confirm_ok_button" = "Als verkauft markieren";
 "product_mark_as_sold_confirm_title" = "Als verkauft markieren";
 "product_mark_as_sold_error_generic" = "Beim als verkauft Markieren ist ein Fehler aufgetreten. Bitte versuche es später noch mal.";
+"product_mark_as_sold_free_button" = "Ich habe es bereits verschenkt";
+"product_mark_as_sold_free_confirm_cancel_button" = "Abbrechen";
+"product_mark_as_sold_free_confirm_message" = "Markiere dein Produkt als bereits verschenkt";
+"product_mark_as_sold_free_confirm_ok_button" = "Markieren";
+"product_mark_as_sold_free_confirm_title" = "Als verschenkt markieren";
+"product_mark_as_sold_free_success_message" = "Glückwunsch! Dein Produkt wurde erfolgreich als verschenkt markiert";
 "product_mark_as_sold_success_message" = "Glückwunsch, dein Produkt wurde erfolgreich als verkauft markiert!";
 "product_more_info_open_button" = "WEITERE INFOS";
 "product_more_info_tooltip_part_1" = "Drücke";
@@ -452,6 +459,12 @@
 "product_sell_again_confirm_ok_button" = "Erneut verkaufen";
 "product_sell_again_confirm_title" = "Erneut verkaufen";
 "product_sell_again_error_generic" = "Dein Produkt konnte nicht als verfügbar markiert werden. Bitte versuche es später noch mal.";
+"product_sell_again_free_button" = "Markiere es als wieder verfügbar";
+"product_sell_again_free_confirm_cancel_button" = "Abbrechen";
+"product_sell_again_free_confirm_message" = "Markiere dein Produkt als verfügbar, um andere letgo-Nutzer zu informieren";
+"product_sell_again_free_confirm_ok_button" = "Verschenken";
+"product_sell_again_free_confirm_title" = "Als verfügbar markieren";
+"product_sell_again_free_success_message" = "Glückwunsch! Dein Produkt ist jetzt wieder als zum Verschenken verfügbar";
 "product_sell_again_success_message" = "Glückwunsch, dein Produkt wurde erfolgreich als verfügbar markiert!";
 "product_sell_camera_permissions_error" = "Erlaube letgo in deinen Einstellungen den Zugriff auf deine Kamera, um Bilder zu machen.";
 "product_sell_camera_restricted_error" = "Zugriff auf deine Kamera nicht möglich. Bitte überprüfe deine Einstellungen und versuche es erneut.";

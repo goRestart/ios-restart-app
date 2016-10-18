@@ -148,7 +148,7 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
     var locationInfo = Variable<String>("")
     var category: ProductCategory?
     var shouldShareInFB: Bool
-
+    var isFreePosting: Bool
     var descr: String? {
         didSet {
             delegate?.vmShouldUpdateDescriptionWithCount(descriptionCharCount)
@@ -234,7 +234,7 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
         for file in product.images { productImages.append(file) }
 
         self.shouldShareInFB = myUserRepository.myUser?.facebookAccount != nil
-
+        self.isFreePosting = FeatureFlags.freePostingMode == .Disabled && product.price.free
         super.init()
 
         setupCategories()
