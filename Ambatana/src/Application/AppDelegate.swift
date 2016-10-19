@@ -33,7 +33,7 @@ final class AppDelegate: UIResponder {
 
     private var productRepository: ProductRepository?
     private var locationManager: LocationManager?
-    private var chatRepository: ChatRepository?
+    private var sessionManager: SessionManager?
 
     private var navigator: AppNavigator?
 
@@ -55,7 +55,7 @@ extension AppDelegate: UIApplicationDelegate {
         setupLibraries(application, launchOptions: launchOptions)
         self.productRepository = Core.productRepository
         self.locationManager = Core.locationManager
-        self.chatRepository = Core.chatRepository
+        self.sessionManager = Core.sessionManager
         self.configManager = ConfigManager.sharedInstance
 
         let keyValueStorage = KeyValueStorage.sharedInstance
@@ -305,7 +305,7 @@ private extension AppDelegate {
             if enabled {
                 self.disconnectChatTimer.invalidate()
                 self.locationManager?.startSensorLocationUpdates()
-                self.chatRepository?.openAndAuthenticate(nil)
+                self.sessionManager?.connectChat(nil)
             } else {
                 self.locationManager?.stopSensorLocationUpdates()
                 self.disconnectChatTimer = NSTimer.scheduledTimerWithTimeInterval(Constants.websocketChatDisconnectTimeout,
@@ -322,7 +322,7 @@ private extension AppDelegate {
     }
     
     @objc func disconnectChat() {
-        self.chatRepository?.close(nil)
+        self.sessionManager?.disconnectChat()
     }
 }
 

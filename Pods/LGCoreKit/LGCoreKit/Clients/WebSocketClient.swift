@@ -27,6 +27,16 @@ protocol WebSocketQueryRequestConvertible: WebSocketRequestConvertible {}
 enum WebSocketError: ErrorType {
     case NotAuthenticated
     case Internal
+    case UserNotVerified
+
+    init(wsErrorType: WebSocketErrorType) {
+        switch wsErrorType {
+        case .UserNotVerified:
+            self = .UserNotVerified
+        default:
+            self = .Internal
+        }
+    }
 }
 
 protocol WebSocketClient {
@@ -34,7 +44,6 @@ protocol WebSocketClient {
     var socketStatus: Variable<WebSocketStatus> { get }
     
     func suspendOperations()
-    func resumeOperations()
 
     func startWebSocket(endpoint: String, completion: (() -> ())?)
     func closeWebSocket(completion: (() -> ())?)

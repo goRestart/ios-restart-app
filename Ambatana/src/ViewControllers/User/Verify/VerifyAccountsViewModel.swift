@@ -23,8 +23,8 @@ enum VerifyButtonState {
 }
 
 enum VerifyAccountsSource {
-    case Chat(description: String)
-    case Profile(description: String)
+    case Chat(title: String, description: String)
+    case Profile(title: String, description: String)
 }
 
 enum VerificationType {
@@ -35,9 +35,14 @@ enum VerificationType {
 class VerifyAccountsViewModel: BaseViewModel {
     weak var delegate: VerifyAccountsViewModelDelegate?
 
+    var titleText: String {
+        return source.title
+    }
     var descriptionText: String {
         return source.description
     }
+
+    var completionBlock: (() -> Void)?
 
     let fbButtonState = Variable<VerifyButtonState>(.Hidden)
     let googleButtonState = Variable<VerifyButtonState>(.Hidden)
@@ -66,21 +71,22 @@ class VerifyAccountsViewModel: BaseViewModel {
 
     private let disposeBag = DisposeBag()
 
-    convenience init(verificationTypes: [VerificationType], source: VerifyAccountsSource) {
+    convenience init(verificationTypes: [VerificationType], source: VerifyAccountsSource, completionBlock: (() -> Void)?) {
         let myUserRepository = Core.myUserRepository
         let googleHelper = GoogleLoginHelper(loginSource: source.loginSource)
         let tracker = TrackerProxy.sharedInstance
         self.init(verificationTypes: verificationTypes, source: source, myUserRepository: myUserRepository,
-                  googleHelper: googleHelper, tracker: tracker)
+                  googleHelper: googleHelper, tracker: tracker, completionBlock: completionBlock)
     }
 
     init(verificationTypes: [VerificationType], source: VerifyAccountsSource, myUserRepository: MyUserRepository,
-         googleHelper: GoogleLoginHelper, tracker: Tracker) {
+         googleHelper: GoogleLoginHelper, tracker: Tracker, completionBlock: (() -> Void)?) {
         self.types = verificationTypes
         self.source = source
         self.myUserRepository = myUserRepository
         self.googleHelper = googleHelper
         self.tracker = tracker
+        self.completionBlock = completionBlock
         super.init()
 
         setupState()
@@ -99,7 +105,7 @@ class VerifyAccountsViewModel: BaseViewModel {
 
     func closeButtonPressed() {
         delegate?.vmResignResponders()
-        delegate?.vmDismiss(nil)
+        delegate?.vmDismiss(completionBlock)
     }
 
     func googleButtonPressed() {
@@ -171,15 +177,14 @@ private extension VerifyAccountsViewModel {
                 self?.myUserRepository.linkAccountFacebook(token) { result in
                     if let _ = result.value {
                         self?.verificationSuccess(.Facebook)
-                        self?.delegate?.vmDismiss(nil)
                     } else {
-                        self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.mainSignUpFbConnectErrorGeneric, completion: nil)
+                        self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.mainSignUpFbConnectErrorGeneric, completion: { self?.verificationFailed() })
                     }
                 }
             case .Cancelled:
                 break
             case .Error:
-                self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.mainSignUpFbConnectErrorGeneric, completion: nil)
+                self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.mainSignUpFbConnectErrorGeneric, completion: { self?.verificationFailed() })
             }
         }
     }
@@ -193,15 +198,14 @@ private extension VerifyAccountsViewModel {
                 self?.myUserRepository.linkAccountGoogle(serverAuthToken) { result in
                     if let _ = result.value {
                         self?.verificationSuccess(.Google)
-                        self?.delegate?.vmDismiss(nil)
                     } else {
-                        self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.mainSignUpFbConnectErrorGeneric, completion: nil)
+                        self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.mainSignUpFbConnectErrorGeneric, completion: { self?.verificationFailed() })
                     }
                 }
             case .Cancelled:
                 break
             case .Error:
-                self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.mainSignUpFbConnectErrorGeneric, completion: nil)
+                self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.mainSignUpFbConnectErrorGeneric, completion: { self?.verificationFailed() })
             }
         }
     }
@@ -215,15 +219,15 @@ private extension VerifyAccountsViewModel {
             if let error = result.error {
                 switch error {
                 case .TooManyRequests:
-                    self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.profileVerifyEmailTooManyRequests, completion: nil)
+                    self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.profileVerifyEmailTooManyRequests, completion: { self?.verificationFailed() })
                 case .Network:
-                    self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.commonErrorNetworkBody, completion: nil)
+                    self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.commonErrorNetworkBody, completion: { self?.verificationFailed() })
                 case .Forbidden, .Internal, .NotFound, .Unauthorized, .UserNotVerified, .ServerError:
-                    self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.commonErrorGenericBody, completion: nil)
+                    self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.commonErrorGenericBody, completion: { self?.verificationFailed() })
                 }
             } else {
                 self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.profileVerifyEmailSuccess) {
-                    self?.delegate?.vmDismiss(nil)
+                    self?.verificationSuccess(.Email(email))
                 }
             }
         }
@@ -240,7 +244,11 @@ private extension VerifyAccountsViewModel {
 
     func verificationSuccess(verificationType: VerificationType) {
         trackComplete(verificationType)
-        delegate?.vmDismiss(nil)
+        delegate?.vmDismiss(completionBlock)
+    }
+
+    func verificationFailed() {
+        delegate?.vmDismiss(completionBlock)
     }
 }
 
@@ -278,11 +286,20 @@ private extension VerifyAccountsSource {
         }
     }
 
+    var title: String {
+        switch self {
+        case let .Chat(title, _):
+            return title
+        case let .Profile(title, _):
+            return title
+        }
+    }
+
     var description: String {
         switch self {
-        case let .Chat(description):
+        case let .Chat(_, description):
             return description
-        case let .Profile(description):
+        case let .Profile(_, description):
             return description
         }
     }

@@ -510,6 +510,8 @@
 		6AF75D0B1CF457D800EACCF0 /* ChatViewMessageAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AF75D091CF457D800EACCF0 /* ChatViewMessageAdapter.swift */; };
 		6AF75D0D1CF4657B00EACCF0 /* ChatStickerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6AF75D0C1CF4657B00EACCF0 /* ChatStickerCell.xib */; };
 		6AF75D0E1CF4657B00EACCF0 /* ChatStickerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6AF75D0C1CF4657B00EACCF0 /* ChatStickerCell.xib */; };
+		7265BE5D1DB4CA9700DF1752 /* FreePostingMode+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7265BE5C1DB4CA9700DF1752 /* FreePostingMode+LG.swift */; };
+		7265BE5E1DB4CA9700DF1752 /* FreePostingMode+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7265BE5C1DB4CA9700DF1752 /* FreePostingMode+LG.swift */; };
 		B1BE6075C99CFB3D2FFD15B5 /* Pods_letgoTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2D3A9CDDF543002435A50F7 /* Pods_letgoTests.framework */; };
 		C703BDFE1C7F1AF900EC8EF2 /* EditLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C703BDFB1C7F1AF900EC8EF2 /* EditLocationViewController.swift */; };
 		C703BDFF1C7F1AF900EC8EF2 /* EditLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C703BDFB1C7F1AF900EC8EF2 /* EditLocationViewController.swift */; };
@@ -1231,6 +1233,8 @@
 		506846461CD390CA00FA00C2 /* AppNavigator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppNavigator.swift; sourceTree = "<group>"; };
 		506DC19B1BBE7D8A00E59D27 /* levelup.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = levelup.caf; sourceTree = "<group>"; };
 		50731FE01DB6490C00EDE04B /* UIButton+ImageRight.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIButton+ImageRight.swift"; sourceTree = "<group>"; };
+		50731FDE1DB6236C00EDE04B /* fr-CA */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "fr-CA"; path = "fr-CA.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		50731FDF1DB6236C00EDE04B /* fr-CA */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "fr-CA"; path = "fr-CA.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		507622861CD0EB1D004E5D0D /* AppCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 		507622871CD0EB1D004E5D0D /* Coordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		507F1BFA1C89DDF9001F0A95 /* PostalAddress+String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PostalAddress+String.swift"; sourceTree = "<group>"; };
@@ -1406,6 +1410,7 @@
 		6AF75D091CF457D800EACCF0 /* ChatViewMessageAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatViewMessageAdapter.swift; sourceTree = "<group>"; };
 		6AF75D0C1CF4657B00EACCF0 /* ChatStickerCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatStickerCell.xib; sourceTree = "<group>"; };
 		7166AA5BA494F5827085F946 /* Pods_LetGoGodMode.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LetGoGodMode.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7265BE5C1DB4CA9700DF1752 /* FreePostingMode+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "FreePostingMode+LG.swift"; path = "Ambatana/src/Helper/LetgoExtensions/FreePostingMode+LG.swift"; sourceTree = SOURCE_ROOT; };
 		7B2FD4C296937E707B24D7EB /* Pods-LetGoGodMode.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetGoGodMode.release.xcconfig"; path = "Pods/Target Support Files/Pods-LetGoGodMode/Pods-LetGoGodMode.release.xcconfig"; sourceTree = "<group>"; };
 		7ED714BB7ABD1804F5E818D4 /* Pods-LetGo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetGo.release.xcconfig"; path = "Pods/Target Support Files/Pods-LetGo/Pods-LetGo.release.xcconfig"; sourceTree = "<group>"; };
 		7FF25262DBFA224AC937A467 /* Pods_LetGo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LetGo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -2597,6 +2602,7 @@
 				6A5E19C81D548F5400F92692 /* KeyboardHelper.swift */,
 				6A5E19C91D548F5400F92692 /* LetgoURLHelper.swift */,
 				6A5E19CA1D548F5400F92692 /* LGLocationCoordinates2D+Distance.swift */,
+				7265BE5C1DB4CA9700DF1752 /* FreePostingMode+LG.swift */,
 				6A5E19CB1D548F5400F92692 /* MapZoomBlocker.swift */,
 				6A5E19CC1D548F5400F92692 /* SocialHelper.swift */,
 				6A5E19CD1D548F5400F92692 /* TypeAliases.swift */,
@@ -3483,6 +3489,7 @@
 				ru,
 				pt,
 				ko,
+				"fr-CA",
 			);
 			mainGroup = 6608E02D1A820FBD005895ED;
 			productRefGroup = 6608E0371A820FBD005895ED /* Products */;
@@ -4159,6 +4166,7 @@
 				6A5E19E21D548F5400F92692 /* GoogleLoginHelper.swift in Sources */,
 				6AEF66B31C5A155C0025D43C /* Paginable.swift in Sources */,
 				6A5E1A001D548F5400F92692 /* MapZoomBlocker.swift in Sources */,
+				7265BE5D1DB4CA9700DF1752 /* FreePostingMode+LG.swift in Sources */,
 				2EF4E3B01D3688AB00A09DFD /* ConfigDAO.swift in Sources */,
 				C7132A3F1BF246D40000747A /* ProductFilters.swift in Sources */,
 				C708C83C1CDB590400AA87B3 /* AppRatingView.swift in Sources */,
@@ -4534,6 +4542,7 @@
 				6A5E1A011D548F5400F92692 /* MapZoomBlocker.swift in Sources */,
 				C7DB41B81C5138B500400945 /* Tracker.swift in Sources */,
 				2E2D53E01D369B0500348D12 /* ConfigDAO.swift in Sources */,
+				7265BE5E1DB4CA9700DF1752 /* FreePostingMode+LG.swift in Sources */,
 				C7DB41BB1C5138B500400945 /* ProductCategory+LG.swift in Sources */,
 				6AEF66B41C5A155C0025D43C /* Paginable.swift in Sources */,
 				C7DB41BC1C5138B500400945 /* ProductFilters.swift in Sources */,
@@ -4874,6 +4883,7 @@
 				D4219F801B3F7DE3008A9EEA /* ru */,
 				5063B7D11B4676ED00039D05 /* pt */,
 				5033F6D51B5E7CD40004FECB /* ko */,
+				50731FDE1DB6236C00EDE04B /* fr-CA */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -4900,6 +4910,7 @@
 				D4219F811B3F7DE3008A9EEA /* ru */,
 				5063B7D21B4676ED00039D05 /* pt */,
 				5033F6D61B5E7CD40004FECB /* ko */,
+				50731FDF1DB6236C00EDE04B /* fr-CA */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -5061,7 +5072,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "75763f23-9873-4593-845f-2603738e4459";
+				PROVISIONING_PROFILE = "63da3a7d-a2e6-4768-a9b8-4cf6857c42a7";
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -5114,7 +5125,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 9DF506523FC9C0A89601A8E3 /* Pods-LetGo.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CURRENT_PROJECT_VERSION = 29;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -5145,7 +5155,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7ED714BB7ABD1804F5E818D4 /* Pods-LetGo.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CURRENT_PROJECT_VERSION = 29;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -5175,7 +5184,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 4B0A305B22EED8C967344DB3 /* Pods-LetGoGodMode.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CURRENT_PROJECT_VERSION = 29;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -5206,7 +5214,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7B2FD4C296937E707B24D7EB /* Pods-LetGoGodMode.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CURRENT_PROJECT_VERSION = 29;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -5236,7 +5243,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 97046DEB81A876CB375E76E9 /* Pods-LetGoGodMode.adhoc.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CURRENT_PROJECT_VERSION = 29;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -5298,7 +5304,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PROVISIONING_PROFILE = "a6d1bb46-7bf6-447c-a64b-a2d91c61ee92";
+				PROVISIONING_PROFILE = "c93732c7-9573-4075-8437-4e01d7f79eef";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -5308,7 +5314,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 44786E34D54C91974EA860A2 /* Pods-LetGo.adhoc.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CURRENT_PROJECT_VERSION = 29;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -5338,7 +5343,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = F8BAE033B6A5FFD49CE90E7C /* Pods-letgoTests.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ENABLE_MODULES = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -5374,7 +5378,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = B7604A34937163380AC2D30A /* Pods-letgoTests.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ENABLE_MODULES = YES;
 				COPY_PHASE_STRIP = NO;
@@ -5406,7 +5409,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 621A022FD11014184694D7E6 /* Pods-letgoTests.adhoc.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ENABLE_MODULES = YES;
 				COPY_PHASE_STRIP = NO;

@@ -24,6 +24,7 @@ enum WebSocketErrorType: Int {
     case TokenExpired = 6003
     case InvalidToken = 6004
     case UserNotLoggedIn = 6005
+    case UserNotVerified = 6013
     
     case UnknownError = 0
     
@@ -146,7 +147,8 @@ struct WebSocketResponseError: WebSocketResponse {
         guard let typeString = dict["type"] as? String else { return nil }
         guard let type = WebSocketResponseType(rawValue: typeString) else { return nil }
         guard let erroredId = dict["errored_id"] as? String else { return nil }
-        guard let data = dict["data"] as? [String: AnyObject] else { return nil }
+        guard let dataArray = dict["data"] as? [AnyObject] else { return nil }
+        guard let data = dataArray[0] as? [String: AnyObject] else { return nil }
         guard let errorCode = data["code"] as? Int else { return nil }
         self.id = id
         self.type = type

@@ -23,6 +23,7 @@ class ProductionEnvironment: AppEnvironment {
 
     // Google login
     let googleServerClientID = "914431496661-7s28hvdioe432kpco4lvh53frmkqlllv.apps.googleusercontent.com"
+    let googleClientID = "914431496661-h1lf5kd3g9g743sec3emns7qj9ei0hcp.apps.googleusercontent.com"
 
     // Config
     let configFileName = "ios-prod"

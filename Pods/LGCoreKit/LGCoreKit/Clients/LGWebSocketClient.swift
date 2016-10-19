@@ -9,13 +9,27 @@
 import Result
 import SwiftWebSocket
 import RxSwift
-import ReachabilitySwift
+
+enum WSAuthenticationStatus: Equatable {
+    case NotAuthenticated // will try to reauthenticate
+    case NotVerified // will NOT try to reauthenticate until the user tries to manually verify
+    case Authenticated
+}
 
 enum WebSocketStatus: Equatable {
     case Closed
-    case Open(authenticated: Bool)
+    case Open(authenticated: WSAuthenticationStatus)
     case Opening
     case Closing
+
+    var authenticated: Bool {
+        switch self {
+        case .Closed, .Opening, .Closing:
+            return false
+        case let .Open(authenticated):
+            return authenticated == .Authenticated
+        }
+    }
 }
 
 func ==(a: WebSocketStatus, b: WebSocketStatus) -> Bool {
@@ -42,10 +56,11 @@ class LGWebSocketClient: WebSocketClient {
     private var activeRequests: [String: WebSocketRequestConvertible] = [:]
     private var activeAuthRequests: [String: (Result<Void, WebSocketError> -> Void)] = [:]
 
-    private let reachability: Reachability?
     private var openClosure: (() -> ())?
     private var closeClosure: (() -> ())?
     private var pingTimer: NSTimer?
+
+    weak var sessionManager: SessionManager?
     
     let requestQueue = NSOperationQueue()
     let eventBus = PublishSubject<ChatEvent>()
@@ -54,20 +69,12 @@ class LGWebSocketClient: WebSocketClient {
     
     init() {
         requestQueue.maxConcurrentOperationCount = 1
-        self.reachability = try? Reachability.reachabilityForInternetConnection()
     }
     
     deinit {
         pingTimer?.invalidate()
     }
-    
-    
-    func configureReachability() {
-        reachability?.whenReachable = { reach in
-            InternalCore.sessionManager.authenticateWebSocket(nil)
-        }
-    }
-    
+
     // MARK: - WebSocket LifeCycle
     
     /*
@@ -92,7 +99,7 @@ class LGWebSocketClient: WebSocketClient {
     func startWebSocket(endpoint: String, completion: (() -> ())?) {
         
         ws.event.open = { [weak self] in
-            self?.socketStatus.value = .Open(authenticated: false)
+            self?.socketStatus.value = .Open(authenticated: .NotAuthenticated)
             self?.openClosure?()
             self?.openClosure = nil
             logMessage(.Debug, type: .WebSockets, message: "Opened")
@@ -118,7 +125,7 @@ class LGWebSocketClient: WebSocketClient {
             default:
                 self?.socketStatus.value = .Opening
                 self?.ws.open()
-                InternalCore.sessionManager.authenticateWebSocket(nil)
+                self?.sessionManager?.authenticateWebSocket(nil)
             }
         }
         
@@ -131,7 +138,7 @@ class LGWebSocketClient: WebSocketClient {
             guard let text = message as? String, let dict = self?.stringToJSON(text) else { return }
             guard let typeString = dict["type"] as? String else { return }
             guard let type = WebSocketResponseType(rawValue: typeString) else { return }
-            
+
             switch type.superType {
             case .ACK:
                 logMessage(LogLevel.Debug, type: .WebSockets, message: "Received ACK: \(text)")
@@ -182,11 +189,11 @@ class LGWebSocketClient: WebSocketClient {
     func suspendOperations() {
         requestQueue.suspended = true
     }
-    
-    func resumeOperations() {
+
+    private func resumeOperations() {
         requestQueue.suspended = false
     }
-    
+
     
     // MARK: Send
     
@@ -209,6 +216,7 @@ class LGWebSocketClient: WebSocketClient {
     }
     
     func send(request: WebSocketRequestConvertible) {
+        
         let sendAction = { [weak self] in
             // Only add the request to the array if its not an Authenticate request, those shouldn't be saved to repeat
             if request.type != .Authenticate { self?.activeRequests[request.uuid.lowercaseString] = request }
@@ -237,8 +245,8 @@ class LGWebSocketClient: WebSocketClient {
     private func handleACK(dict: [String: AnyObject]) {
         guard let ack = WebSocketResponseACK(dict: dict) else { return }
         if ack.ackedType == .Authenticate {
-            requestQueue.suspended = false
-            socketStatus.value = .Open(authenticated: true)
+            resumeOperations()
+            socketStatus.value = .Open(authenticated: .Authenticated)
             activeAuthRequests.values.forEach{ $0(Result<Void, WebSocketError>(value: ()))}
             activeAuthRequests.removeAll()
         } else {
@@ -268,16 +276,16 @@ class LGWebSocketClient: WebSocketClient {
             eventBus.onNext(event)
         }
     }
-    
+
     private func reauthenticate() {
-        requestQueue.suspended = true
-        socketStatus.value = .Open(authenticated: false)
-        InternalCore.sessionManager.renewUserToken(nil)
+        suspendOperations()
+        socketStatus.value = .Open(authenticated: .NotAuthenticated)
+        sessionManager?.renewUserToken(nil)
     }
     
     private func handleError(dict: [String: AnyObject]) {
         guard let error = WebSocketResponseError(dict: dict) else { return }
-        
+
         switch error.errorType {
         case .TokenExpired, .NotAuthenticated:
             reauthenticate()
@@ -287,7 +295,9 @@ class LGWebSocketClient: WebSocketClient {
             return
         case .IsScammer:
             closeWebSocket(nil)
-            InternalCore.sessionManager.logout()
+            sessionManager?.logout()
+        case .UserNotVerified:
+            socketStatus.value = .Open(authenticated: .NotVerified)
         default:
             break
         }
@@ -296,17 +306,17 @@ class LGWebSocketClient: WebSocketClient {
         
         if let completion = activeCommands[error.erroredId.lowercaseString] {
             activeCommands.removeValueForKey(error.erroredId.lowercaseString)
-            completion(Result<Void, WebSocketError>(error: .Internal))
+            completion(Result<Void, WebSocketError>(error: WebSocketError(wsErrorType: error.errorType)))
         }
         
         if let completion = activeQueries[error.erroredId.lowercaseString] {
             activeQueries.removeValueForKey(error.erroredId.lowercaseString)
-            completion(Result<[String: AnyObject], WebSocketError>(error: .Internal))
+            completion(Result<[String: AnyObject], WebSocketError>(error: WebSocketError(wsErrorType: error.errorType)))
         }
         
         if let completion = activeAuthRequests[error.erroredId.lowercaseString] {
             activeAuthRequests.removeValueForKey(error.erroredId.lowercaseString)
-            completion(Result<Void, WebSocketError>(error: .Internal))
+            completion(Result<Void, WebSocketError>(error: WebSocketError(wsErrorType: error.errorType)))
         }
     }
 }

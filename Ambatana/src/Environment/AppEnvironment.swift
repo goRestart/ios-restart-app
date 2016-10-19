@@ -25,6 +25,7 @@ protocol AppEnvironment {
 
     // Google login
     var googleServerClientID: String { get }
+    var googleClientID: String { get }
 
     // Config
     var configFileName: String { get }

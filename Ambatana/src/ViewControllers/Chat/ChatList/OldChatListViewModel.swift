@@ -15,7 +15,7 @@ class OldChatListViewModel: BaseChatGroupedListViewModel<Chat>, ChatListViewMode
 
     private(set) var chatsType: ChatsType
     weak var delegate: ChatListViewModelDelegate?
-
+    
     var titleForDeleteButton: String {
         return LGLocalizedString.chatListDelete
     }

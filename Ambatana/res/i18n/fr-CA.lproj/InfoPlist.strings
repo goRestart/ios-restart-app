@@ -1,0 +1,5 @@
+"NSCameraUsageDescription" = "Pour commencer à vendre, donnez à letgo un accès à votre caméra";
+"NSLocationWhenInUseUsageDescription" = "letgo a besoin de connaître votre localisation pour vous indiquer des produits près de chez vous";
+"NSPhotoLibraryUsageDescription" = "Pour commencer à vendre, donnez à letgo un accès à votre album photo";
+"sell_shortcut_title" = "Vendez Vos Objets";
+"start_browsing_shortcut_title" = "Découvrez des Aubaines";

@@ -576,6 +576,7 @@
 "sell_picture_selected_delete_button" = "삭제";
 "sell_picture_selected_save_into_camera_roll_button" = "사진 저장";
 "sell_picture_selected_title" = "활동을 선택하세요";
+"sell_post_free_label" = "Give it away";
 "sell_price_field" = "가격:";
 "sell_send_error_invalid_category" = "제품의 목록을 선택해 주세요.";
 "sell_send_error_invalid_description" = "제품의 가능한 정보를 입력하여주세요.";

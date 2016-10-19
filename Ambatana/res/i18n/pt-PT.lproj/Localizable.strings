@@ -79,7 +79,7 @@
 "chat_express_one_message_sent_success_alert" = "A sua mensagem foi enviada!";
 "chat_express_send_question_text" = "Enviar: %@";
 "chat_express_several_messages_sent_success_alert" = "As suas mensagens foram enviadas!";
-"chat_express_text_field_text" = "Olá! Ainda está disponível?";
+"chat_express_text_field_text" = "Ainda está disponível?";
 "chat_forbidden_disclaimer_buyer_w_name" = "A conta de %@ está a ser revista pela equipa letgo.";
 "chat_forbidden_disclaimer_buyer_wo_name" = "Esta conta está a ser revista pela equipa letgo.";
 "chat_forbidden_disclaimer_seller_w_name" = "Parece que %@ já não tem interesse em comprar o seu produto.";
@@ -576,6 +576,7 @@
 "sell_picture_selected_delete_button" = "Eliminar";
 "sell_picture_selected_save_into_camera_roll_button" = "Guardar no disco";
 "sell_picture_selected_title" = "Escolha uma ação";
+"sell_post_free_label" = "Give it away";
 "sell_price_field" = "Preço:";
 "sell_send_error_invalid_category" = "Por favor escolha uma categoria para o artigo.";
 "sell_send_error_invalid_description" = "Por favor insira uma descrição válida para o artigo.";

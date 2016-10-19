@@ -2323,6 +2323,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("sell_price_field", comment: "")
 	}
 
+	static var sellPostFreeLabel: String {
+		return NSLocalizedString("sell_post_free_label", comment: "")
+	}
+
 	static var sellSendErrorInvalidCategory: String {
 		return NSLocalizedString("sell_send_error_invalid_category", comment: "")
 	}

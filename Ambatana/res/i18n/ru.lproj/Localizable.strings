@@ -79,7 +79,7 @@
 "chat_express_one_message_sent_success_alert" = "Ваше сообщение отправлено!";
 "chat_express_send_question_text" = "Отправить: %@";
 "chat_express_several_messages_sent_success_alert" = "Ваши сообщения отправлены!";
-"chat_express_text_field_text" = "Привет! Товар еще продается?";
+"chat_express_text_field_text" = "Товар еще продается?";
 "chat_forbidden_disclaimer_buyer_w_name" = "Аккаунт %@ проверяется командой letgo.";
 "chat_forbidden_disclaimer_buyer_wo_name" = "Этот аккаунт проверяется командой letgo.";
 "chat_forbidden_disclaimer_seller_w_name" = "Похоже, %@ больше не заинтересован в покупке вашего товара.";
@@ -576,6 +576,7 @@
 "sell_picture_selected_delete_button" = "Удалить";
 "sell_picture_selected_save_into_camera_roll_button" = "Сохранить на диск";
 "sell_picture_selected_title" = "Выберите действие";
+"sell_post_free_label" = "Give it away";
 "sell_price_field" = "Цена:";
 "sell_send_error_invalid_category" = "Пожалуйста, выберите категорию товара.";
 "sell_send_error_invalid_description" = "Пожалуйста, введите корректное описание товара.";
