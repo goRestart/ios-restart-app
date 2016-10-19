@@ -66,6 +66,7 @@ class ChatViewModel: BaseViewModel {
     var productName = Variable<String>("")
     var productImageUrl = Variable<NSURL?>(nil)
     var productPrice = Variable<String>("")
+    var productIsFree = Variable<Bool>(false)
     var interlocutorAvatarURL = Variable<NSURL?>(nil)
     var interlocutorName = Variable<String>("")
     var interlocutorId = Variable<String?>(nil)
@@ -316,6 +317,7 @@ class ChatViewModel: BaseViewModel {
             self?.productName.value = conversation.product?.name ?? ""
             self?.productImageUrl.value = conversation.product?.image?.fileURL
             self?.productPrice.value = conversation.product?.priceString() ?? ""
+            self?.productIsFree.value = conversation.product?.price.free ?? false
             self?.interlocutorAvatarURL.value = conversation.interlocutor?.avatar?.fileURL
             self?.interlocutorName.value = conversation.interlocutor?.name ?? ""
             self?.interlocutorId.value = conversation.interlocutor?.objectId
@@ -1124,21 +1126,35 @@ extension ChatViewModel: DirectAnswersPresenterDelegate {
         let emptyAction: () -> Void = { [weak self] in
             self?.clearProductSoldDirectAnswer()
         }
-        if !conversation.value.amISelling {
-            return [DirectAnswer(text: LGLocalizedString.directAnswerInterested, action: emptyAction),
-                    DirectAnswer(text: LGLocalizedString.directAnswerIsNegotiable, action: emptyAction),
-                    DirectAnswer(text: LGLocalizedString.directAnswerLikeToBuy, action: emptyAction),
-                    DirectAnswer(text: LGLocalizedString.directAnswerMeetUp, action: emptyAction),
-                    DirectAnswer(text: LGLocalizedString.directAnswerNotInterested, action: emptyAction)]
+        if FeatureFlags.freePostingMode.enabled && productIsFree.value {
+            if !conversation.value.amISelling {
+                return [DirectAnswer(text: LGLocalizedString.directAnswerInterested, action: emptyAction),
+                        DirectAnswer(text: LGLocalizedString.directAnswerFreeStillHave, action: emptyAction),
+                        DirectAnswer(text: LGLocalizedString.directAnswerMeetUp, action: emptyAction),
+                        DirectAnswer(text: LGLocalizedString.directAnswerNotInterested, action: emptyAction)]
+            } else {
+                return [DirectAnswer(text: LGLocalizedString.directAnswerFreeYours, action: emptyAction),
+                        DirectAnswer(text: LGLocalizedString.directAnswerFreeAvailable, action: emptyAction),
+                        DirectAnswer(text: LGLocalizedString.directAnswerMeetUp, action: emptyAction),
+                        DirectAnswer(text: LGLocalizedString.directAnswerFreeNoAvailable, action: emptyAction)]
+            }
         } else {
-            return [DirectAnswer(text: LGLocalizedString.directAnswerStillForSale, action: emptyAction),
-                    DirectAnswer(text: LGLocalizedString.directAnswerWhatsOffer, action: emptyAction),
-                    DirectAnswer(text: LGLocalizedString.directAnswerNegotiableYes, action: emptyAction),
-                    DirectAnswer(text: LGLocalizedString.directAnswerNegotiableNo, action: emptyAction),
-                    DirectAnswer(text: LGLocalizedString.directAnswerNotInterested, action: emptyAction),
-                    DirectAnswer(text: LGLocalizedString.directAnswerProductSold, action: { [weak self] in
-                        self?.onProductSoldDirectAnswer()
-                    })]
+            if !conversation.value.amISelling {
+                return [DirectAnswer(text: LGLocalizedString.directAnswerInterested, action: emptyAction),
+                        DirectAnswer(text: LGLocalizedString.directAnswerIsNegotiable, action: emptyAction),
+                        DirectAnswer(text: LGLocalizedString.directAnswerLikeToBuy, action: emptyAction),
+                        DirectAnswer(text: LGLocalizedString.directAnswerMeetUp, action: emptyAction),
+                        DirectAnswer(text: LGLocalizedString.directAnswerNotInterested, action: emptyAction)]
+            } else {
+                return [DirectAnswer(text: LGLocalizedString.directAnswerStillForSale, action: emptyAction),
+                        DirectAnswer(text: LGLocalizedString.directAnswerWhatsOffer, action: emptyAction),
+                        DirectAnswer(text: LGLocalizedString.directAnswerNegotiableYes, action: emptyAction),
+                        DirectAnswer(text: LGLocalizedString.directAnswerNegotiableNo, action: emptyAction),
+                        DirectAnswer(text: LGLocalizedString.directAnswerNotInterested, action: emptyAction),
+                        DirectAnswer(text: LGLocalizedString.directAnswerProductSold, action: { [weak self] in
+                            self?.onProductSoldDirectAnswer()
+                            })]
+            }
         }
     }
     
