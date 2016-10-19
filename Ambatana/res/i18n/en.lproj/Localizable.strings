@@ -241,6 +241,9 @@
 // Express chat contact several sellers button title
 "chat_express_contact_various_button_text" = "Contact %@ sellers";
 
+// Express chat send question button tittle
+"chat_express_send_question_text" = "Send: %@";
+
 // Express chat don't ask me again button title
 "chat_express_dont_ask_again_button" = "Don't ask me again";
 
@@ -638,6 +641,18 @@
 
 // Contact subject option report. Check attached image @ "contact_email_field_hint" segment
 "contact_subject_option_report" = "Report user or spam";
+
+// Chat direct answer as a seller - free listing. yours
+"direct_answer_free_yours" = "It's yours!";
+
+// Chat direct answer as a seller - free listing- still available
+"direct_answer_free_available" = "Yes, It's still available";
+
+// Chat direct answer as a seller - free listing- no available
+"direct_answer_free_no_available" = "Sorry, I've already give it away!";
+
+// Chat direct answer as buyer - still have it
+"direct_answer_free_still_have" = "Still have it?";
 
 // Chat direct answer as buyer
 "direct_answer_interested" = "I'm interested!";

@@ -331,6 +331,10 @@ struct LGLocalizedString {
 		return String(format: NSLocalizedString("chat_express_contact_various_button_text", comment: ""), var1)
 	}
 
+	static func chatExpressSendQuestionText(var1: String) -> String {
+		return String(format: NSLocalizedString("chat_express_send_question_text", comment: ""), var1)
+	}
+
 	static var chatExpressDontAskAgainButton: String {
 		return NSLocalizedString("chat_express_dont_ask_again_button", comment: "")
 	}
@@ -869,6 +873,22 @@ struct LGLocalizedString {
 
 	static var contactSubjectOptionReport: String {
 		return NSLocalizedString("contact_subject_option_report", comment: "")
+	}
+
+	static var directAnswerFreeYours: String {
+		return NSLocalizedString("direct_answer_free_yours", comment: "")
+	}
+
+	static var directAnswerFreeAvailable: String {
+		return NSLocalizedString("direct_answer_free_available", comment: "")
+	}
+
+	static var directAnswerFreeNoAvailable: String {
+		return NSLocalizedString("direct_answer_free_no_available", comment: "")
+	}
+
+	static var directAnswerFreeStillHave: String {
+		return NSLocalizedString("direct_answer_free_still_have", comment: "")
 	}
 
 	static var directAnswerInterested: String {
