@@ -576,7 +576,7 @@
 "sell_picture_selected_delete_button" = "Borrar";
 "sell_picture_selected_save_into_camera_roll_button" = "Guardar";
 "sell_picture_selected_title" = "Elige una acción";
-"sell_post_free_label" = "Give it away";
+"sell_post_free_label" = "Regalar";
 "sell_price_field" = "Precio:";
 "sell_send_error_invalid_category" = "¡Ups! Por favor, elige una categoría para tu artículo.";
 "sell_send_error_invalid_description" = "¡Ups! Por favor, introduce una descripción válida para tu artículo.";
