@@ -21,6 +21,7 @@
 "categories_cars_and_motors" = "Αυτοκίνητα και Μηχανές";
 "categories_electronics" = "Ηλεκτρονικά";
 "categories_fashion_and_accessories" = "Μόδα και Αξεσουάρ";
+"categories_free" = "Free Stuff";
 "categories_home_and_garden" = "Σπίτι και Κήπος";
 "categories_movies_books_and_music" = "Ταινίες, Βιβλία και Μουσική";
 "categories_other" = "Άλλα";
@@ -576,7 +577,7 @@
 "sell_picture_selected_delete_button" = "Διαγραφή";
 "sell_picture_selected_save_into_camera_roll_button" = "Αποθήκευση στο δίσκο";
 "sell_picture_selected_title" = "Επιλογή ενέργειας";
-"sell_post_free_label" = "Give it away";
+"sell_post_free_label" = "Χάρισέ το";
 "sell_price_field" = "Τιμή:";
 "sell_send_error_invalid_category" = "Παρακαλώ επιλέξτε μία κατηγορία για το προϊόν.";
 "sell_send_error_invalid_description" = "Παρακαλώ εισάγετε μία έγκυρη περιγραφή του προϊόντος.";

@@ -21,6 +21,7 @@
 "categories_cars_and_motors" = "Voitures et Motos";
 "categories_electronics" = "Electroniques";
 "categories_fashion_and_accessories" = "Mode et Accessoires";
+"categories_free" = "Free Stuff";
 "categories_home_and_garden" = "Maison et Jardin";
 "categories_movies_books_and_music" = "Films, Livres et Musique";
 "categories_other" = "Autre";
@@ -576,7 +577,7 @@
 "sell_picture_selected_delete_button" = "Supprimer";
 "sell_picture_selected_save_into_camera_roll_button" = "Sauvegarder";
 "sell_picture_selected_title" = "Choisir une action";
-"sell_post_free_label" = "Give it away";
+"sell_post_free_label" = "Donner";
 "sell_price_field" = "Prix :";
 "sell_send_error_invalid_category" = "Veuillez choisir une catégorie pour le bien.";
 "sell_send_error_invalid_description" = "Veuillez insérer une description valide pour le bien.";
