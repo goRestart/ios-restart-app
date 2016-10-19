@@ -134,7 +134,7 @@ public class PushPermissionsManager: NSObject {
         check if was shown or not */
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(PushPermissionsManager.didShowSystemPermissions(_:)),
             name:UIApplicationWillResignActiveNotification, object: nil)
-        askSystemForPushPermissions()
+        UIApplication.sharedApplication().registerPushNotifications()
 
         /* Appart from listening 'resignActive' event, we need to add a timer for the case when the alert is NOT
         shown */
@@ -176,15 +176,6 @@ public class PushPermissionsManager: NSObject {
     func openPushNotificationSettings() {
         guard let settingsURL = NSURL(string:UIApplicationOpenSettingsURLString) else { return }
         UIApplication.sharedApplication().openURL(settingsURL)
-    }
-
-    private func askSystemForPushPermissions() {
-        let application = UIApplication.sharedApplication()
-        let userNotificationTypes: UIUserNotificationType = ([UIUserNotificationType.Alert,
-            UIUserNotificationType.Badge, UIUserNotificationType.Sound])
-        let settings = UIUserNotificationSettings(forTypes: userNotificationTypes, categories: nil)
-        application.registerUserNotificationSettings(settings)
-        application.registerForRemoteNotifications()
     }
 
 

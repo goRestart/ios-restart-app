@@ -34,7 +34,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" verticalCompressionResistancePriority="751" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kur-NS-MNi" userLabel="Header View">
-                    <rect key="frame" x="0.0" y="20" width="375" height="265.5"/>
+                    <rect key="frame" x="0.0" y="20" width="375" height="266"/>
                     <subviews>
                         <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kW9-f4-l6d" userLabel="Logo and Claim View">
                             <rect key="frame" x="0.0" y="88" width="375" height="89"/>
@@ -73,10 +73,10 @@
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MMP-3C-Gae" userLabel="Main View">
-                    <rect key="frame" x="0.0" y="285.5" width="375" height="315.5"/>
+                    <rect key="frame" x="0.0" y="286" width="375" height="315"/>
                     <subviews>
                         <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IWB-RR-HxV" userLabel="Quickly Connect Divider View">
-                            <rect key="frame" x="57" y="0.0" width="262.5" height="8"/>
+                            <rect key="frame" x="57" y="0.0" width="263" height="8"/>
                             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="calibratedRGB"/>
                         </view>
                         <view contentMode="scaleToFill" verticalCompressionResistancePriority="751" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MB7-df-h1o" userLabel="Quickly Connect Container View">
@@ -146,7 +146,7 @@
                             </constraints>
                         </imageView>
                         <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wq5-H6-G0r" userLabel="Or Divider View">
-                            <rect key="frame" x="57" y="176" width="262.5" height="8"/>
+                            <rect key="frame" x="57" y="176" width="263" height="8"/>
                             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="calibratedRGB"/>
                         </view>
                         <view contentMode="scaleToFill" verticalCompressionResistancePriority="751" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="L6w-ma-IXA" userLabel="Or Container View">
@@ -170,7 +170,7 @@
                             </constraints>
                         </view>
                         <button clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="19L-e5-VDY" userLabel="Sign Up Button">
-                            <rect key="frame" x="15" y="213" width="167.5" height="50"/>
+                            <rect key="frame" x="15" y="213" width="168" height="50"/>
                             <color key="backgroundColor" red="0.9166492223739624" green="0.91662180423736572" blue="0.91663730144500732" alpha="1" colorSpace="calibratedRGB"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="50" id="sBE-TG-uaT"/>
@@ -185,7 +185,7 @@
                             </connections>
                         </button>
                         <button clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pdp-VZ-cZN" userLabel="Log In Button">
-                            <rect key="frame" x="192.5" y="213" width="167.5" height="50"/>
+                            <rect key="frame" x="193" y="213" width="167" height="50"/>
                             <color key="backgroundColor" red="0.9166492223739624" green="0.91662180423736572" blue="0.91663730144500732" alpha="1" colorSpace="calibratedRGB"/>
                             <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
                             <state key="normal" title="_Log In">
