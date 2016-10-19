@@ -78,7 +78,7 @@
 "chat_express_dont_ask_again_button" = "Ne pas me redemander";
 "chat_express_dont_miss_label" = "Ne manquez pas ces bonnes affaires";
 "chat_express_one_message_sent_success_alert" = "Votre message a été envoyé !";
-"chat_express_send_question_text" = "Envoyer : %@";
+"chat_express_send_question_text" = "Send: %@";
 "chat_express_several_messages_sent_success_alert" = "Vos messages ont été envoyés !";
 "chat_express_text_field_text" = "Toujours disponible ?";
 "chat_forbidden_disclaimer_buyer_w_name" = "Le compte de %@ est en cours de vérification par l'équipe letgo.";

@@ -134,13 +134,9 @@ class ExpressChatViewModel: BaseViewModel {
         }.addDisposableTo(disposeBag)
 
         selectedItemsCount.asObservable().subscribeNext { [weak self] numSelected in
-            if let message = self?.messageText.value where FeatureFlags.expressChatMode == .AskAvailable {
-                self?.sendMessageTitle.value = LGLocalizedString.chatExpressSendQuestionText(message)
-            }else {
-                self?.sendMessageTitle.value = numSelected > 1 ?
-                    LGLocalizedString.chatExpressContactVariousButtonText(String(numSelected)) :
-                    LGLocalizedString.chatExpressContactOneButtonText
-            }
+            self?.sendMessageTitle.value = numSelected > 1 ?
+                LGLocalizedString.chatExpressContactVariousButtonText(String(numSelected)) :
+                LGLocalizedString.chatExpressContactOneButtonText
         }.addDisposableTo(disposeBag)
 
         selectedItemsCount.asObservable().subscribeNext { [weak self] selectedCount in
