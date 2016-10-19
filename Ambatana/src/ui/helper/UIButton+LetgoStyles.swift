@@ -185,7 +185,7 @@ extension UIButton {
             print("💣 => Styles can only be applied to customStyle Buttons")
             return
         }
-        
+        layoutIfNeeded()
         clipsToBounds = true
         if style.applyCornerRadius {
             layer.cornerRadius = bounds.height/2

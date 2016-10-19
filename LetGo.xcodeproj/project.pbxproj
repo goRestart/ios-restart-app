@@ -210,6 +210,8 @@
 		5042D6771BDA8B6F00E54064 /* LGLocalizedString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5042D6761BDA8B6F00E54064 /* LGLocalizedString.swift */; };
 		504652F21CC0F0B3003F5070 /* Product+Title.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504652F11CC0F0B3003F5070 /* Product+Title.swift */; };
 		504652F31CC0F398003F5070 /* Product+Title.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504652F11CC0F0B3003F5070 /* Product+Title.swift */; };
+		504ADFBF1DB7564E00CCAEAA /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 504ADFBE1DB7564E00CCAEAA /* UserNotifications.framework */; };
+		504ADFC01DB7565600CCAEAA /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 504ADFBE1DB7564E00CCAEAA /* UserNotifications.framework */; };
 		504E61FB1C872E2400EBF38F /* Debug.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504E61FA1C872E2400EBF38F /* Debug.swift */; };
 		504E61FC1C872E2400EBF38F /* Debug.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504E61FA1C872E2400EBF38F /* Debug.swift */; };
 		50560B971B25D18F0021D8D9 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50560B881B25D18F0021D8D9 /* BaseViewController.swift */; };
@@ -1219,6 +1221,7 @@
 		503D4BF01CCE53AE0039FE14 /* UserViewHeaderAccounts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserViewHeaderAccounts.swift; sourceTree = "<group>"; };
 		5042D6761BDA8B6F00E54064 /* LGLocalizedString.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGLocalizedString.swift; sourceTree = "<group>"; };
 		504652F11CC0F0B3003F5070 /* Product+Title.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Product+Title.swift"; sourceTree = "<group>"; };
+		504ADFBE1DB7564E00CCAEAA /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		504E61FA1C872E2400EBF38F /* Debug.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Debug.swift; sourceTree = "<group>"; };
 		50560B881B25D18F0021D8D9 /* BaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		50560B891B25D18F0021D8D9 /* BaseViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseViewModel.swift; sourceTree = "<group>"; };
@@ -1698,6 +1701,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				504ADFBF1DB7564E00CCAEAA /* UserNotifications.framework in Frameworks */,
 				6640F0401AE13EBE00004556 /* AdSupport.framework in Frameworks */,
 				2E4562161BE0F76D00C485D7 /* Accelerate.framework in Frameworks */,
 				C7CD6D631BE7ADF800A13EC3 /* LGCoreKit.framework in Frameworks */,
@@ -1720,6 +1724,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				504ADFC01DB7565600CCAEAA /* UserNotifications.framework in Frameworks */,
 				C7DB42321C5138B500400945 /* AdSupport.framework in Frameworks */,
 				C7DB42331C5138B500400945 /* Accelerate.framework in Frameworks */,
 				C7DB42341C5138B500400945 /* LGCoreKit.framework in Frameworks */,
@@ -2702,6 +2707,7 @@
 		ABA47C14BB52140048297810 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				504ADFBE1DB7564E00CCAEAA /* UserNotifications.framework */,
 				2E4562151BE0F76D00C485D7 /* Accelerate.framework */,
 				C7CD6D621BE7ADF800A13EC3 /* LGCoreKit.framework */,
 				66A0CFC51A83612500FAADF0 /* AudioToolbox.framework */,
@@ -3447,6 +3453,9 @@
 							};
 							com.apple.InAppPurchase = {
 								enabled = 0;
+							};
+							com.apple.Push = {
+								enabled = 1;
 							};
 							com.apple.SafariKeychain = {
 								enabled = 1;
@@ -5072,7 +5081,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "63da3a7d-a2e6-4768-a9b8-4cf6857c42a7";
+				PROVISIONING_PROFILE = "5578ab53-465f-47c6-b735-890e0febb17b";
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -5304,7 +5313,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PROVISIONING_PROFILE = "c93732c7-9573-4075-8437-4e01d7f79eef";
+				PROVISIONING_PROFILE = "0b7f7c90-3ccd-4fc8-bd52-4fa8893215d3";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
