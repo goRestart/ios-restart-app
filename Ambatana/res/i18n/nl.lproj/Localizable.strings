@@ -21,6 +21,7 @@
 "categories_cars_and_motors" = "Auto's en motoren";
 "categories_electronics" = "Elektronica";
 "categories_fashion_and_accessories" = "Mode en accessoires";
+"categories_free" = "Free Stuff";
 "categories_home_and_garden" = "Huis en tuin";
 "categories_movies_books_and_music" = "Films, boeken en muziek";
 "categories_other" = "Overige";
@@ -77,7 +78,7 @@
 "chat_express_dont_ask_again_button" = "Vraag me niet opnieuw";
 "chat_express_dont_miss_label" = "Mis deze koopjes niet";
 "chat_express_one_message_sent_success_alert" = "Je bericht is verzonden!";
-"chat_express_send_question_text" = "Versturen: %@";
+"chat_express_send_question_text" = "Send: %@";
 "chat_express_several_messages_sent_success_alert" = "Je berichten zijn verzonden!";
 "chat_express_text_field_text" = "Is het nog beschikbaar?";
 "chat_forbidden_disclaimer_buyer_w_name" = "%@'s account wordt onderzocht door het letgo team.";
@@ -513,7 +514,7 @@
 "profile_verify_email_placeholder" = "E-mail";
 "profile_verify_email_success" = "Controleer je e-mail inbox om je account te verifiëren. De link zal over 48 uur verlopen.";
 "profile_verify_email_title" = "EMAIL";
-"profile_verify_email_too_many_requests" = "We hebben je al een verificatie e-mail gestuurd. Gelieve je inbox te checken!";
+"profile_verify_email_too_many_requests" = "We hebben je al een verificatie e-mail gestuurd. Gelieve je e-mail inbox te checken!";
 "profile_verify_facebook_button" = "Facebook";
 "profile_verify_facebook_message" = "Verbind met Facebook om je identiteit te verifiëren";
 "profile_verify_facebook_title" = "FACEBOOK";
@@ -576,7 +577,7 @@
 "sell_picture_selected_delete_button" = "Verwijderen";
 "sell_picture_selected_save_into_camera_roll_button" = "Opslaan";
 "sell_picture_selected_title" = "Kies een handeling";
-"sell_post_free_label" = "Give it away";
+"sell_post_free_label" = "Weggeven";
 "sell_price_field" = "Prijs:";
 "sell_send_error_invalid_category" = "Kies a.u.b. een categorie voor het product.";
 "sell_send_error_invalid_description" = "Voer a.u.b. een geldige beschrijving in voor het product.";
