@@ -59,6 +59,10 @@ class LetgoURLHelper {
         return LetgoURLHelper.defaultLang
     }
 
+    static func buildRecaptchaURL() -> NSURL? {
+        return LetgoURLHelper.composeURL(Constants.recaptchaURL)
+    }
+
     static func buildHelpURL(user: MyUser?, installation: Installation?) -> NSURL? {
         guard let  url = LetgoURLHelper.composeURL(Constants.helpURL) else { return nil }
         guard let urlComponents = NSURLComponents(URL: url, resolvingAgainstBaseURL: false) else { return nil }
