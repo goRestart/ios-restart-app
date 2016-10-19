@@ -2288,6 +2288,14 @@ class TrackerEventSpec: QuickSpec {
                     expect(sut.name.rawValue).to(equal("in-app-chat-notification-complete"))
                 }
             }
+            describe("Signup captcha") {
+                beforeEach {
+                    sut = TrackerEvent.SignupCaptcha()
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("signup-captcha"))
+                }
+            }
         }
     }
 }

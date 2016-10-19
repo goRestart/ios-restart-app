@@ -140,6 +140,8 @@ public enum EventName: String {
     case InappChatNotificationStart         = "in-app-chat-notification-start"
     case InappChatNotificationComplete      = "in-app-chat-notification-complete"
 
+    case SignupCaptcha                      = "signup-captcha"
+
     // Constants
     private static let eventNameDummyPrefix  = "dummy-"
     

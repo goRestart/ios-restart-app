@@ -16,6 +16,22 @@ protocol RecaptchaNavigator: class {
 class RecaptchaViewModel: BaseViewModel {
 
     weak var navigator: RecaptchaNavigator?
+    private let tracker: Tracker
+
+    convenience override init() {
+        self.init(tracker: TrackerProxy.sharedInstance)
+    }
+
+    init(tracker: Tracker) {
+        self.tracker = tracker
+    }
+
+    override func didBecomeActive(firstTime: Bool) {
+        super.didBecomeActive(firstTime)
+        if firstTime {
+            trackVisit()
+        }
+    }
 
     var url: NSURL? {
         return LetgoURLHelper.buildRecaptchaURL()
@@ -39,5 +55,10 @@ class RecaptchaViewModel: BaseViewModel {
     private func tokenFromURL(url: NSURL) -> String? {
         let queryParams = url.queryParameters
         return queryParams["token"]
+    }
+
+    private func trackVisit() {
+        let event = TrackerEvent.SignupCaptcha()
+        tracker.trackEvent(event)
     }
 }

@@ -90,6 +90,9 @@ public class RememberPasswordViewModel: BaseViewModel {
                     case let .Internal(description):
                         errorMessage = LGLocalizedString.resetPasswordSendErrorGeneric
                         errorDescription = .Internal(description: description)
+                    case .UserNotVerified:
+                        errorMessage = LGLocalizedString.resetPasswordSendErrorGeneric
+                        errorDescription = .Internal(description: "UserNotVerified")
                     case .Forbidden:
                         errorMessage = LGLocalizedString.resetPasswordSendErrorGeneric
                         errorDescription = .Forbidden
