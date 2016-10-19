@@ -30,6 +30,7 @@ class RecaptchaViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        setAccesibilityIds()
         webView.delegate = self
 
         if let url = viewModel.url {
@@ -71,5 +72,16 @@ extension RecaptchaViewController: UIWebViewDelegate {
         if let url = currentURL {
             viewModel.urlLoaded(url)
         }
+    }
+}
+
+
+// MARK: - Accesibility ids
+
+extension RecaptchaViewController {
+    private func setAccesibilityIds() {
+        closeButton.accessibilityId = .RecaptchaCloseButton
+        activityIndicator.accessibilityId = .RecaptchaLoading
+        webView.accessibilityId = .RecaptchaWebView
     }
 }

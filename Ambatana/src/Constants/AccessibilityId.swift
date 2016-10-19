@@ -276,6 +276,11 @@ enum AccessibilityId: String {
     case SignUpLoginCloseButton
     case SignUpLoginSendButton
 
+    // Recaptcha
+    case RecaptchaCloseButton
+    case RecaptchaLoading
+    case RecaptchaWebView
+
     // ChatGrouped
     case ChatGroupedViewRightNavBarButton
 
