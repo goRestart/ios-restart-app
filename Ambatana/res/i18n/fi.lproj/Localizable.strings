@@ -21,6 +21,7 @@
 "categories_cars_and_motors" = "Autot ja muut ajoneuvot";
 "categories_electronics" = "Elektroniikka";
 "categories_fashion_and_accessories" = "Muoti ja asusteet";
+"categories_free" = "Free Stuff";
 "categories_home_and_garden" = "Koti ja puutarha";
 "categories_movies_books_and_music" = "Elokuvat, kirjat ja musiikki";
 "categories_other" = "Muut";
@@ -576,7 +577,7 @@
 "sell_picture_selected_delete_button" = "Poista";
 "sell_picture_selected_save_into_camera_roll_button" = "Tallenna levylle";
 "sell_picture_selected_title" = "Valitse toiminto";
-"sell_post_free_label" = "Give it away";
+"sell_post_free_label" = "Anna pois tavaroita";
 "sell_price_field" = "Hinta:";
 "sell_send_error_invalid_category" = "Ole hyvä, ja valitse tuotteelle kategoria.";
 "sell_send_error_invalid_description" = "Ole hyvä ja syötä tuotteelle kelvollinen kuvaus.";

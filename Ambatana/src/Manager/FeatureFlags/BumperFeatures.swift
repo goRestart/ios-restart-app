@@ -12,7 +12,9 @@ import bumper
 
 extension Bumper  {
     static func initialize() {
-        Bumper.initialize([WebsocketChat.self, NotificationsSection.self, UserRatings.self, ShowNPSSurvey.self, NonStopProductDetail.self, OnboardingPermissionsMode.self, IncentivizePostingMode.self, MessageOnFavoriteMode.self, ExpressChatMode.self, InterestedUsersMode.self, FiltersReorder.self, HalfCameraButton.self])
+        Bumper.initialize([WebsocketChat.self, NotificationsSection.self, UserRatings.self, ShowNPSSurvey.self,
+            NonStopProductDetail.self, OnboardingPermissionsMode.self, IncentivizePostingMode.self,
+            MessageOnFavoriteMode.self, InterestedUsersMode.self, FiltersReorder.self, HalfCameraButton.self])
     } 
 
     static var websocketChat: Bool {
@@ -53,11 +55,6 @@ extension Bumper  {
     static var messageOnFavoriteMode: MessageOnFavoriteMode {
         guard let value = Bumper.valueForKey(MessageOnFavoriteMode.key) else { return .NoMessage }
         return MessageOnFavoriteMode(rawValue: value) ?? .NoMessage 
-    }
-
-    static var expressChatMode: ExpressChatMode {
-        guard let value = Bumper.valueForKey(ExpressChatMode.key) else { return .NoChat }
-        return ExpressChatMode(rawValue: value) ?? .NoChat 
     }
 
     static var interestedUsersMode: InterestedUsersMode {
@@ -167,22 +164,6 @@ enum MessageOnFavoriteMode: String, BumperFeature  {
             case 1: return .NotificationPreMessage
             case 2: return .DirectMessage
             default: return .NoMessage
-        }
-    }
-}
-
-enum ExpressChatMode: String, BumperFeature  {
-    case NoChat, ContactXSellers, AskAvailable
-    static var defaultValue: String { return ExpressChatMode.NoChat.rawValue }
-    static var enumValues: [ExpressChatMode] { return [.NoChat, .ContactXSellers, .AskAvailable]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Express Chat Message" } 
-    static func fromPosition(position: Int) -> ExpressChatMode {
-        switch position { 
-            case 0: return .NoChat
-            case 1: return .ContactXSellers
-            case 2: return .AskAvailable
-            default: return .NoChat
         }
     }
 }

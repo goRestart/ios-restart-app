@@ -99,6 +99,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("categories_fashion_and_accessories", comment: "")
 	}
 
+	static var categoriesFree: String {
+		return NSLocalizedString("categories_free", comment: "")
+	}
+
 	static var categoriesHomeAndGarden: String {
 		return NSLocalizedString("categories_home_and_garden", comment: "")
 	}
@@ -325,10 +329,6 @@ struct LGLocalizedString {
 
 	static func chatExpressContactVariousButtonText(var1: String) -> String {
 		return String(format: NSLocalizedString("chat_express_contact_various_button_text", comment: ""), var1)
-	}
-
-	static func chatExpressSendQuestionText(var1: String) -> String {
-		return String(format: NSLocalizedString("chat_express_send_question_text", comment: ""), var1)
 	}
 
 	static var chatExpressDontAskAgainButton: String {
