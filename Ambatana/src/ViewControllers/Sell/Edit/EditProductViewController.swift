@@ -437,7 +437,6 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
             freePostViewSeparatorTopConstraint.constant = 0
         }
         
-        
         // CollectionView
         imageCollectionView.delegate = self
         imageCollectionView.dataSource = self
