@@ -724,6 +724,7 @@ private extension AppCoordinator {
         } else {
             // Old chat cannot retrieve chat because it would mark messages as read.
             let action = UIAction(interface: .Text(LGLocalizedString.appNotificationReply), action: { [weak self] in
+                self?.tracker.trackEvent(TrackerEvent.InappChatNotificationComplete())
                 self?.openTab(.Chats, force: false)
                 self?.selectedTabCoordinator?.openChat(.DataIds(data: data))
                 })
