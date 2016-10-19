@@ -381,7 +381,7 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
         
         separatorContainerViewsConstraints.forEach { $0.constant = EditProductViewController.separatorOptionsViewDistance }
         
-        containerEditOptionsView.layer.cornerRadius = 15
+        containerEditOptionsView.layer.cornerRadius = LGUIKitConstants.containerCornerRadius
         containerEditOptionsView.layer.borderWidth = 1
         containerEditOptionsView.layer.borderColor = UIColor.clearColor().CGColor
         
