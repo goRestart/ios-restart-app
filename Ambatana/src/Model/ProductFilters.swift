@@ -56,7 +56,7 @@ public enum FilterCategoryItem: Equatable {
 public func ==(a: FilterCategoryItem, b: FilterCategoryItem) -> Bool {
     switch (a, b) {
     case (.Category(let catA), .Category(let catB)) where catA.rawValue == catB.rawValue: return true
-    case (.Free,   .Free): return true
+    case (.Free, .Free): return true
     default: return false
     }
 }

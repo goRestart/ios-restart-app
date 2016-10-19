@@ -22,15 +22,6 @@ class CategoriesViewModel: BaseViewModel {
         return self.categories.count
     }
 
-    var freeEnabled: Bool {
-        switch FeatureFlags.freePostingMode {
-        case .Disabled:
-            return false
-        case .OneButton, .SplitButton:
-            return true
-        }
-    }
-
     weak var delegate: CategoriesViewModelDelegate?
     weak var tabNavigator: TabNavigator?
 
@@ -59,7 +50,7 @@ class CategoriesViewModel: BaseViewModel {
     }
 
     private func buildFullCategoryItemsWithCategories(categories: [ProductCategory]) -> [FilterCategoryItem] {
-        let filterCatItems: [FilterCategoryItem] = freeEnabled ? [.Free] : []
+        let filterCatItems: [FilterCategoryItem] = FeatureFlags.freePostingMode.enabled ? [.Free] : []
         let builtCategories = categories.map { FilterCategoryItem(category: $0) }
         return filterCatItems + builtCategories
     }
