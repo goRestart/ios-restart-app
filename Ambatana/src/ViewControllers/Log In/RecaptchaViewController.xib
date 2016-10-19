@@ -19,31 +19,33 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <webView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="v4Y-NG-pbW">
-                    <frame key="frameInset" width="375" height="667"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="v4Y-NG-pbW">
                     <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                 </webView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="i7k-KB-U2I" userLabel="closeButton">
                     <constraints>
                         <constraint firstAttribute="width" constant="56" id="08B-sH-gr8"/>
-                        <constraint firstAttribute="height" constant="56" id="xJM-Qq-Jc1"/>
+                        <constraint firstAttribute="height" constant="44" id="xJM-Qq-Jc1"/>
                     </constraints>
                     <state key="normal" image="ic_close_red"/>
                     <connections>
                         <action selector="closeButtonPressed:" destination="-1" eventType="touchUpInside" id="YvD-fA-r8O"/>
                     </connections>
                 </button>
-                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="BWv-ys-egW">
-                    <frame key="frameInset" minX="169" minY="315" width="37" height="37"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="BWv-ys-egW">
                     <color key="color" red="1" green="0.24705882370000001" blue="0.33333334329999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                 </activityIndicatorView>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
+                <constraint firstItem="v4Y-NG-pbW" firstAttribute="top" secondItem="i7k-KB-U2I" secondAttribute="bottom" id="7uj-Co-pN6"/>
                 <constraint firstItem="i7k-KB-U2I" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="KYT-Ub-cuA"/>
+                <constraint firstItem="BWv-ys-egW" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="SjQ-dD-NKJ"/>
+                <constraint firstItem="BWv-ys-egW" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="iKY-Ek-K9k"/>
                 <constraint firstItem="i7k-KB-U2I" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="20" id="oRw-4B-24v"/>
+                <constraint firstAttribute="trailing" secondItem="v4Y-NG-pbW" secondAttribute="trailing" id="qMi-gz-dyl"/>
+                <constraint firstAttribute="bottom" secondItem="v4Y-NG-pbW" secondAttribute="bottom" id="vfb-9f-u6E"/>
+                <constraint firstItem="v4Y-NG-pbW" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="znp-dq-NVK"/>
             </constraints>
             <point key="canvasLocation" x="33.5" y="53.5"/>
         </view>
