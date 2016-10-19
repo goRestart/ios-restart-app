@@ -700,5 +700,6 @@ extension EditProductViewController {
         sendButton.accessibilityId = .EditProductSendButton
         shareFBSwitch.accessibilityId = .EditProductShareFBSwitch
         loadingView.accessibilityId = .EditProductLoadingView
+        freePostingSwitch.accessibilityId = .EditProductPostFreeSwitch
     }
 }

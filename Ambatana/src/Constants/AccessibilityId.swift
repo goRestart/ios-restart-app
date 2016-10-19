@@ -200,6 +200,7 @@ enum AccessibilityId: String {
     case EditProductSendButton
     case EditProductShareFBSwitch
     case EditProductLoadingView
+    case EditProductPostFreeSwitch
 
     // ReportUser
     case ReportUserCollection
