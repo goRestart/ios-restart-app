@@ -22,7 +22,7 @@ protocol ProductsRefreshable {
 final class TabBarController: UITabBarController {
 
     // UI
-    private var floatingSellButton = FloatingButton()
+    private var floatingSellButton: FloatingButton
     private var floatingSellButtonMarginConstraint = NSLayoutConstraint()
 
     private let viewModel: TabBarViewModel
@@ -34,6 +34,7 @@ final class TabBarController: UITabBarController {
     // MARK: - Lifecycle
 
     init(viewModel: TabBarViewModel) {
+        self.floatingSellButton = FloatingButton()
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
         self.viewModel.delegate = self
@@ -154,10 +155,7 @@ final class TabBarController: UITabBarController {
     }
 
     private func setupSellButtons() {
-        guard let floatingSellBtn = FloatingButton.floatingButton() else { return }
-        floatingSellButton = floatingSellBtn
-        floatingSellButton.addTarget(self, action: #selector(TabBarController.sellButtonPressed),
-                                     forControlEvents: UIControlEvents.TouchUpInside)
+        floatingSellButton.sellCompletion = { [weak self] in self?.sellButtonPressed() }
         floatingSellButton.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(floatingSellButton)
 
