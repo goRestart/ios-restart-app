@@ -30,7 +30,7 @@ public enum FilterCategoryItem: Equatable {
         case let .Category(category: category):
             return category.imageSmallInactive
         case .Free:
-            return UIImage(named: "categories_free")
+            return UIImage(named: "categories_free_inactive")
         }
     }
 
@@ -105,6 +105,12 @@ public struct ProductFilters {
     }
     
     mutating func toggleCategory(category: FilterCategoryItem) {
+        switch category {
+        case .Free:
+            selectedFree = !selectedFree
+        case .Category:
+            break
+        }
         if let categoryIndex = indexForCategory(category) {
             selectedCategories.removeAtIndex(categoryIndex)
         } else {

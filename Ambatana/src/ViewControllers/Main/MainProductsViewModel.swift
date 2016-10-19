@@ -214,12 +214,19 @@ class MainProductsViewModel: BaseViewModel {
         var within = ProductTimeCriteria.defaultOption
         var minPrice: Int? = nil
         var maxPrice: Int? = nil
+        var free: Bool = false
 
         for filterTag in tags {
             switch filterTag {
             case .Location(let thePlace):
                 place = thePlace
             case .Category(let prodCategory):
+                switch prodCategory {
+                case .Free:
+                    free = true
+                case .Category:
+                    break
+                }
                 categories.append(prodCategory)
             case .OrderBy(let prodSortOption):
                 orderBy = prodSortOption
@@ -237,6 +244,7 @@ class MainProductsViewModel: BaseViewModel {
         filters.selectedWithin = within
         filters.minPrice = minPrice
         filters.maxPrice = maxPrice
+        filters.selectedFree = free
 
         updateListView()
     }

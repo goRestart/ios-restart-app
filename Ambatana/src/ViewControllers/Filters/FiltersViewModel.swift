@@ -58,7 +58,12 @@ class FiltersViewModel: BaseViewModel {
     private var categories: [FilterCategoryItem]
     
     var numOfCategories : Int {
-        return self.categories.count
+        // we add an extra empty cell if the num of categories is odds
+        return isOddNumCategories ? self.categories.count+1 : self.categories.count
+    }
+
+    var isOddNumCategories: Bool {
+        return self.categories.count%2 == 1
     }
 
     var freeEnabled: Bool {

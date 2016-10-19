@@ -147,6 +147,7 @@ private extension FilteredProductListRequester {
         params.distanceType = filters?.distanceType
         params.minPrice = filters?.minPrice
         params.maxPrice = filters?.maxPrice
+        params.freePrice = filters?.selectedFree
         return params
     }
 
