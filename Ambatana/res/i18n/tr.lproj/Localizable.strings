@@ -21,6 +21,7 @@
 "categories_cars_and_motors" = "Araba ve Motosikletler";
 "categories_electronics" = "Elektronik";
 "categories_fashion_and_accessories" = "Giyim ve Aksesuar";
+"categories_free" = "Free Stuff";
 "categories_home_and_garden" = "Ev ve Bahçe";
 "categories_movies_books_and_music" = "Film, Kitap ve Müzik";
 "categories_other" = "Diğer";
@@ -576,7 +577,7 @@
 "sell_picture_selected_delete_button" = "Sil";
 "sell_picture_selected_save_into_camera_roll_button" = "Kaydet";
 "sell_picture_selected_title" = "Bir eylem seç";
-"sell_post_free_label" = "Give it away";
+"sell_post_free_label" = "Ücretsiz ver";
 "sell_price_field" = "Fiyat:";
 "sell_send_error_invalid_category" = "Lütfen, ürünün için bir kategori seç.";
 "sell_send_error_invalid_description" = "Lütfen, ürünün için geçerli bir açıklama gir.";

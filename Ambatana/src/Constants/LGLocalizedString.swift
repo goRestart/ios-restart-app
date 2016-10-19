@@ -99,6 +99,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("categories_fashion_and_accessories", comment: "")
 	}
 
+	static var categoriesFree: String {
+		return NSLocalizedString("categories_free", comment: "")
+	}
+
 	static var categoriesHomeAndGarden: String {
 		return NSLocalizedString("categories_home_and_garden", comment: "")
 	}

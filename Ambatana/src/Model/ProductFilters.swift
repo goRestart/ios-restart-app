@@ -21,7 +21,7 @@ public enum FilterCategoryItem: Equatable {
         case let .Category(category: category):
             return category.name
         case .Free:
-            return "_Free Stuff"
+            return LGLocalizedString.categoriesFree
         }
     }
 
