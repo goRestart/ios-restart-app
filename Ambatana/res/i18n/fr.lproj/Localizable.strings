@@ -21,7 +21,7 @@
 "categories_cars_and_motors" = "Voitures et Motos";
 "categories_electronics" = "Electroniques";
 "categories_fashion_and_accessories" = "Mode et Accessoires";
-"categories_free" = "Free Stuff";
+"categories_free" = "Gratuit";
 "categories_home_and_garden" = "Maison et Jardin";
 "categories_movies_books_and_music" = "Films, Livres et Musique";
 "categories_other" = "Autre";
@@ -78,7 +78,7 @@
 "chat_express_dont_ask_again_button" = "Ne pas me redemander";
 "chat_express_dont_miss_label" = "Ne manquez pas ces bonnes affaires";
 "chat_express_one_message_sent_success_alert" = "Votre message a été envoyé !";
-"chat_express_send_question_text" = "Send: %@";
+"chat_express_send_question_text" = "Envoyer : %@";
 "chat_express_several_messages_sent_success_alert" = "Vos messages ont été envoyés !";
 "chat_express_text_field_text" = "Toujours disponible ?";
 "chat_forbidden_disclaimer_buyer_w_name" = "Le compte de %@ est en cours de vérification par l'équipe letgo.";
@@ -215,6 +215,10 @@
 "contact_subject_option_product_edit" = "Modifier/supprimer le bien";
 "contact_subject_option_profile_edit" = "Modifier/supprimer le profil";
 "contact_subject_option_report" = "Signaler utilisateur/spam";
+"direct_answer_free_available" = "Yes, it's still available";
+"direct_answer_free_no_available" = "Sorry, I've already given it away!";
+"direct_answer_free_still_have" = "Still have it?";
+"direct_answer_free_yours" = "It's yours!";
 "direct_answer_interested" = "Je suis intéressé !";
 "direct_answer_is_negotiable" = "Le prix est-il négociable ?";
 "direct_answer_like_to_buy" = "Bonjour ! J'aimerais acheter votre bien";
@@ -587,7 +591,7 @@
 "sell_send_error_invalid_title" = "Veuillez insérer un titre valide pour le bien.";
 "sell_send_error_sharing_facebook" = "Une erreur est survenue lors du partage via Facebook. Veuillez réessayer plus tard.";
 "sell_share_fb_content" = "Découvrez ce que je vend sur letgo !";
-"sell_share_on_facebook_label" = "Partager mon bien sur Facebook";
+"sell_share_on_facebook_label" = "Partager sur Facebook";
 "sell_title_autogen_autotrans_label" = "Titre suggéré par letgo et traduit par Google";
 "sell_title_autogen_label" = "Titre suggéré par letgo";
 "sell_title_field_hint" = "Titre du bien (optionnel)";

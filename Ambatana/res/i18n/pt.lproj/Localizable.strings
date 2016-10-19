@@ -215,6 +215,10 @@
 "contact_subject_option_product_edit" = "Edit or delete product";
 "contact_subject_option_profile_edit" = "Edit or delete profile";
 "contact_subject_option_report" = "Report user or spam";
+"direct_answer_free_available" = "Yes, it's still available";
+"direct_answer_free_no_available" = "Sorry, I've already given it away!";
+"direct_answer_free_still_have" = "Still have it?";
+"direct_answer_free_yours" = "It's yours!";
 "direct_answer_interested" = "I'm interested!";
 "direct_answer_is_negotiable" = "Is the price negotiable?";
 "direct_answer_like_to_buy" = "Hi! I'd like to buy it";

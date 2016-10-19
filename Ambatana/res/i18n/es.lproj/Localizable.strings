@@ -78,7 +78,7 @@
 "chat_express_dont_ask_again_button" = "No preguntar de nuevo";
 "chat_express_dont_miss_label" = "No te pierdas estos chollos";
 "chat_express_one_message_sent_success_alert" = "¡Tu mensaje ha sido enviado!";
-"chat_express_send_question_text" = "Send: %@";
+"chat_express_send_question_text" = "Enviar: %@";
 "chat_express_several_messages_sent_success_alert" = "¡Tus mensajes han sido enviados!";
 "chat_express_text_field_text" = "¿Está disponible?";
 "chat_forbidden_disclaimer_buyer_w_name" = "La cuenta de %@ está siendo revisada por el equipo de letgo.";
@@ -215,6 +215,10 @@
 "contact_subject_option_product_edit" = "Editar/borrar artículo";
 "contact_subject_option_profile_edit" = "Editar/borrar perfil";
 "contact_subject_option_report" = "Denunciar usuario/spam";
+"direct_answer_free_available" = "Yes, it's still available";
+"direct_answer_free_no_available" = "Sorry, I've already given it away!";
+"direct_answer_free_still_have" = "Still have it?";
+"direct_answer_free_yours" = "It's yours!";
 "direct_answer_interested" = "¡Me interesa!";
 "direct_answer_is_negotiable" = "¿El precio es negociable?";
 "direct_answer_like_to_buy" = "¡Hola! Quiero comprarlo";

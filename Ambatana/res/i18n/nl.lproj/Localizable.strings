@@ -21,7 +21,7 @@
 "categories_cars_and_motors" = "Auto's en motoren";
 "categories_electronics" = "Elektronica";
 "categories_fashion_and_accessories" = "Mode en accessoires";
-"categories_free" = "Free Stuff";
+"categories_free" = "Gratis Spullen";
 "categories_home_and_garden" = "Huis en tuin";
 "categories_movies_books_and_music" = "Films, boeken en muziek";
 "categories_other" = "Overige";
@@ -78,7 +78,7 @@
 "chat_express_dont_ask_again_button" = "Vraag me niet opnieuw";
 "chat_express_dont_miss_label" = "Mis deze koopjes niet";
 "chat_express_one_message_sent_success_alert" = "Je bericht is verzonden!";
-"chat_express_send_question_text" = "Send: %@";
+"chat_express_send_question_text" = "Versturen: %@";
 "chat_express_several_messages_sent_success_alert" = "Je berichten zijn verzonden!";
 "chat_express_text_field_text" = "Is het nog beschikbaar?";
 "chat_forbidden_disclaimer_buyer_w_name" = "%@'s account wordt onderzocht door het letgo team.";
@@ -215,6 +215,10 @@
 "contact_subject_option_product_edit" = "Bewerk/Verwijder product";
 "contact_subject_option_profile_edit" = "Bewerken/verwijderen profiel";
 "contact_subject_option_report" = "Rapporteren gebruiker/spam";
+"direct_answer_free_available" = "Yes, it's still available";
+"direct_answer_free_no_available" = "Sorry, I've already given it away!";
+"direct_answer_free_still_have" = "Still have it?";
+"direct_answer_free_yours" = "It's yours!";
 "direct_answer_interested" = "Ik ben geïnteresseerd!";
 "direct_answer_is_negotiable" = "Is de prijs bespreekbaar?";
 "direct_answer_like_to_buy" = "Hoi! Ik wil het graag kopen";

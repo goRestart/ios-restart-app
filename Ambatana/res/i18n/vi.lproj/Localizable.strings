@@ -78,7 +78,7 @@
 "chat_express_dont_ask_again_button" = "Đừng hỏi lại tôi";
 "chat_express_dont_miss_label" = "Đừng bỏ lỡ những món hàng này";
 "chat_express_one_message_sent_success_alert" = "Tin nhắn của bạn vừa được gửi!";
-"chat_express_send_question_text" = "Send: %@";
+"chat_express_send_question_text" = "Gửi:%@";
 "chat_express_several_messages_sent_success_alert" = "Tin nhắn của bạn vừa được gửi!";
 "chat_express_text_field_text" = "Sản phẩm này còn chứ?";
 "chat_forbidden_disclaimer_buyer_w_name" = "Tài khoản của %@ đang được letgo xem xét.";
@@ -215,6 +215,10 @@
 "contact_subject_option_product_edit" = "Chỉnh sửa/Xóa sản phẩm";
 "contact_subject_option_profile_edit" = "Chỉnh sửa/Xóa hồ sơ";
 "contact_subject_option_report" = "Báo cáo người dùng/spam";
+"direct_answer_free_available" = "Yes, it's still available";
+"direct_answer_free_no_available" = "Sorry, I've already given it away!";
+"direct_answer_free_still_have" = "Still have it?";
+"direct_answer_free_yours" = "It's yours!";
 "direct_answer_interested" = "Tôi quan tâm!";
 "direct_answer_is_negotiable" = "Giá có thương lượng được không?";
 "direct_answer_like_to_buy" = "Xin chào! Tôi muốn mua sản phẩm";

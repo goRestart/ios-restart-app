@@ -646,10 +646,10 @@
 "direct_answer_free_yours" = "It's yours!";
 
 // Chat direct answer as a seller - free listing- still available
-"direct_answer_free_available" = "Yes, It's still available";
+"direct_answer_free_available" = "Yes, it's still available";
 
 // Chat direct answer as a seller - free listing- no available
-"direct_answer_free_no_available" = "Sorry, I've already give it away!";
+"direct_answer_free_no_available" = "Sorry, I've already given it away!";
 
 // Chat direct answer as buyer - still have it
 "direct_answer_free_still_have" = "Still have it?";
