@@ -50,4 +50,5 @@ class EnvironmentProxy: Environment {
     var userRatingsBaseURL: String { return environment.userRatingsBaseURL }
     var chatBaseURL: String { return environment.chatBaseURL }
     var webSocketURL: String { return environment.webSocketURL }
+    var notificationsBaseURL: String { return environment.notificationsBaseURL }
 }

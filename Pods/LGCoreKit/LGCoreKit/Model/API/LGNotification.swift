@@ -15,7 +15,7 @@ struct LGNotification: Notification {
     let isRead: Bool
     let type: NotificationType
 
-    init(objectId: String, createdAt: NSDate, isRead: Bool, type: NotificationType) {
+    init(objectId: String?, createdAt: NSDate, isRead: Bool, type: NotificationType) {
         self.objectId = objectId
         self.createdAt = createdAt
         self.isRead = isRead
@@ -28,17 +28,16 @@ extension LGNotification : Decodable {
     /**
      Expects a json in the form:
      {
-     "type": "Like/Follow/Sold",
-     "uuid": "73aedba9-11db-3207-bb47-26812bfe8e71",
-     "created_at": 1461569433,
-     "is_read": false,
-
-     ... type concrete data ...
+         "type": "Like/Follow/Sold",
+         "uuid": "73aedba9-11db-3207-bb47-26812bfe8e71",
+         "created_at": 1461569433,
+         "is_read": false,
+         "data" : {... type concrete data ...}
      }
      */
     static func decode(j: JSON) -> Decoded<LGNotification> {
         let result = curry(LGNotification.init)
-            <^> j <| "uuid"
+            <^> j <|? "uuid"
             <*> j <| "created_at"
             <*> j <| "is_read"
             <*> NotificationType.decode(j)
@@ -53,64 +52,91 @@ extension LGNotification : Decodable {
 
 
 extension NotificationType: Decodable {
+
+    struct JSONKeys {
+        static let productId = ["data" , "product_id"]
+        static let productTitle = ["data", "product_title"]
+        static let productImage = ["data", "product_image"]
+        static let userId = ["data" , "user_id"]
+        static let userName = ["data" , "username"]
+        static let userImage = ["data" , "user_image"]
+        static let ratingValue = ["data" , "rating_value"]
+        static let comments = ["data" , "comments"]
+    }
+
     public static func decode(j: JSON) -> Decoded<NotificationType> {
         guard let type: String = j.decode("type") else { return Decoded<NotificationType>.fromOptional(nil) }
 
         let result: Decoded<NotificationType>
         switch type {
-        case "Like":
+        case "like":
             /**
-             {
-             ...
-             "product_id": "a569527f-17e2-3d22-a513-2fc0c6477ac8",
-             "product_image": "Ms.",
-             "product_title": "Miss",
-             "user_id": "3ba8869d-4d19-3b24-922f-5e2d61095bf3",
-             "user_image": "Miss",
-             "username": "Prof."
+             "data" : {
+                 "product_id": "a569527f-17e2-3d22-a513-2fc0c6477ac8",
+                 "product_image": "Ms.",
+                 "product_title": "Miss",
+                 "user_id": "3ba8869d-4d19-3b24-922f-5e2d61095bf3",
+                 "user_image": "Miss",
+                 "username": "Prof."
              }
              */
             result = curry(NotificationType.Like)
-                <^> j <| "product_id"
-                <*> j <|? "product_image"
-                <*> j <|? "product_title"
-                <*> j <| "user_id"
-                <*> j <|? "user_image"
-                <*> j <|? "username"
-        case "Follow":
+                <^> j <| JSONKeys.productId
+                <*> j <|? JSONKeys.productImage
+                <*> j <|? JSONKeys.productTitle
+                <*> j <| JSONKeys.userId
+                <*> j <|? JSONKeys.userImage
+                <*> j <|? JSONKeys.userName
+        case "sold":
             /**
-             {
-             ...
-             "user_follower_id": "3b93c7b4-ef5b-3b3c-a72c-5cc5539265ae",
-             "user_follower_image": "Prof.",
-             "user_follower_username": "Prof.",
-             "user_follower_relationship": true
-             }
-             */
-            result = curry(NotificationType.Follow)
-                <^> j <| "user_follower_id"
-                <*> j <|? "user_follower_image"
-                <*> j <|? "user_follower_username"
-                <*> j <| "user_follower_relationship"
-        case "Sold":
-            /**
-             {
-             ...
-             "product_id": "a569527f-17e2-3d22-a513-2fc0c6477ac8",
-             "product_image": "Ms.",
-             "product_title": "Miss",
-             "user_id": "3ba8869d-4d19-3b24-922f-5e2d61095bf3",
-             "user_image": "Miss",
-             "username": "Prof."
+             "data" : {
+                 "product_id": "a569527f-17e2-3d22-a513-2fc0c6477ac8",
+                 "product_image": "Ms.",
+                 "product_title": "Miss",
+                 "user_id": "3ba8869d-4d19-3b24-922f-5e2d61095bf3",
+                 "user_image": "Miss",
+                 "username": "Prof."
              }
              */
             result = curry(NotificationType.Sold)
-                <^> j <| "product_id"
-                <*> j <|? "product_image"
-                <*> j <|? "product_title"
-                <*> j <| "user_id"
-                <*> j <|? "user_image"
-                <*> j <|? "username"
+                <^> j <| JSONKeys.productId
+                <*> j <|? JSONKeys.productImage
+                <*> j <|? JSONKeys.productTitle
+                <*> j <| JSONKeys.userId
+                <*> j <|? JSONKeys.userImage
+                <*> j <|? JSONKeys.userName
+        case "review":
+            /**
+             "data" : {
+                 "user_id": "3ba8869d-4d19-3b24-922f-5e2d61095bf3",
+                 "user_image": "Miss",
+                 "username": "Prof.",
+                 "rating_value" : 4,
+                 "comments": "Super!"
+             }
+             */
+            result = curry(NotificationType.Rating)
+                <^> j <| JSONKeys.userId
+                <*> j <|? JSONKeys.userImage
+                <*> j <|? JSONKeys.userName
+                <*> j <| JSONKeys.ratingValue
+                <*> j <|? JSONKeys.comments
+        case "review_updated":
+            /**
+             "data" : {
+                 "user_id": "3ba8869d-4d19-3b24-922f-5e2d61095bf3",
+                 "user_image": "Miss",
+                 "username": "Prof.",
+                 "rating_value" : 4,
+                 "comments": "Super!"
+             }
+             */
+            result = curry(NotificationType.RatingUpdated)
+                <^> j <| JSONKeys.userId
+                <*> j <|? JSONKeys.userImage
+                <*> j <|? JSONKeys.userName
+                <*> j <| JSONKeys.ratingValue
+                <*> j <|? JSONKeys.comments
         default:
             return Decoded<NotificationType>.fromOptional(nil)
         }

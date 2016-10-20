@@ -96,7 +96,6 @@ class NotificationsViewModel: BaseViewModel {
                     strongSelf.viewState.value = .Empty(emptyViewModel)
                 } else {
                     strongSelf.viewState.value = .Data
-                    strongSelf.markAsReadIfNeeded(notifications)
                 }
             } else if let error = result.error {
                 let emptyViewModel = LGEmptyViewModel.respositoryErrorWithRetry(error,
@@ -111,7 +110,7 @@ class NotificationsViewModel: BaseViewModel {
 
     private func buildNotification(notification: Notification) -> NotificationData? {
         switch notification.type {
-        case .Follow: //Follow notifications not implemented yet
+        case .Rating, .RatingUpdated: // Rating notifications not implemented yet
             return nil
         case let .Like(productId, productImageUrl, productTitle, userId, userImageUrl, userName):
             let subtitle: String
@@ -176,16 +175,5 @@ class NotificationsViewModel: BaseViewModel {
         }
         return NotificationData(type: .Welcome, title: title, subtitle: subtitle, date: NSDate(), isRead: true,
                                 primaryAction: { [weak self] in self?.delegate?.vmOpenSell() })
-    }
-
-    private func markAsReadIfNeeded(notifications: [Notification]) {
-        let ids: [String] = notifications.flatMap{
-            $0.isRead ? nil : $0.objectId
-        }
-        guard !ids.isEmpty else { return }
-        notificationsRepository.markAsRead(ids) { [weak self] result in
-            guard let strongSelf = self, let _ = result.value where !strongSelf.pendingCountersUpdate else { return }
-            strongSelf.pendingCountersUpdate = true
-        }
     }
 }

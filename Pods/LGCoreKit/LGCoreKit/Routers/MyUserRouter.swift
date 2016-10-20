@@ -35,7 +35,7 @@ enum MyUserRouter: URLRequestAuthenticable {
         case .Show, .Update, .UpdateAvatar, .LinkAccount:
             return .User
         case .ResetPassword:
-            return .None
+            return .Nonexistent
         }
     }
 

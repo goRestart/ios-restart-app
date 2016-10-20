@@ -21,6 +21,7 @@
 "categories_cars_and_motors" = "Bil og motor";
 "categories_electronics" = "Elektronikk";
 "categories_fashion_and_accessories" = "Mote og tilbehør";
+"categories_free" = "Gis bort";
 "categories_home_and_garden" = "Hus og hage";
 "categories_movies_books_and_music" = "Film, bøker og musikk";
 "categories_other" = "Annet";
@@ -214,6 +215,10 @@
 "contact_subject_option_product_edit" = "Endre/slett produktet";
 "contact_subject_option_profile_edit" = "Endre/slett profil";
 "contact_subject_option_report" = "Rapporter bruker/spam";
+"direct_answer_free_available" = "Ja, produktet er fortsatt tilgjengelig";
+"direct_answer_free_no_available" = "Beklager, det er allerede gitt bort!";
+"direct_answer_free_still_have" = "Har du fortsatt produktet?";
+"direct_answer_free_yours" = "Produktet er ditt!";
 "direct_answer_interested" = "Jeg er interessert!";
 "direct_answer_is_negotiable" = "Kan prisen diskuteres?";
 "direct_answer_like_to_buy" = "Hei! Jeg vil gjerne kjøpe produktet";
@@ -586,7 +591,7 @@
 "sell_send_error_invalid_title" = "Vennligst legg inn et gyldig produktnavn.";
 "sell_send_error_sharing_facebook" = "En feil oppstod ved Facebook-deling. Vennligst prøv igjen senere.";
 "sell_share_fb_content" = "Se hva jeg selger på letgo!";
-"sell_share_on_facebook_label" = "Del mitt produkt på Facebook";
+"sell_share_on_facebook_label" = "Del på Facebook";
 "sell_title_autogen_autotrans_label" = "Tittel foreslått av letgo og oversatt av Google";
 "sell_title_autogen_label" = "Foreslått tittel av letgo";
 "sell_title_field_hint" = "Produktnavn (alternativt)";

@@ -21,6 +21,7 @@
 "categories_cars_and_motors" = "Araba ve Motosikletler";
 "categories_electronics" = "Elektronik";
 "categories_fashion_and_accessories" = "Giyim ve Aksesuar";
+"categories_free" = "Ücretsiz Ürün";
 "categories_home_and_garden" = "Ev ve Bahçe";
 "categories_movies_books_and_music" = "Film, Kitap ve Müzik";
 "categories_other" = "Diğer";
@@ -121,7 +122,7 @@
 "chat_product_sold_label" = "Ürün Satıldı";
 "chat_related_products_title" = "ŞU ÜRÜNLER DE İLGİNİ ÇEKEBİLİR:";
 "chat_safety_tips" = "Güvenlik önerilerimiz";
-"chat_safety_tips_message" = "• Birebir görüş ve elden nakit öde. \n \n• Mesajlaşmayı letgo sistemi içerisinde yap.\n\n• Abartılı veya şüpheli bir durum mu var? Dikkatli ol!";
+"chat_safety_tips_message" = "• Birebir görüş ve elden nakit öde.\n\n• Mesajlaşmayı letgo sistemi içerisinde yap.\n\n• Abartılı veya şüpheli bir durum mu var? Dikkatli ol!";
 "chat_safety_tips_title" = "TAVSİYELER";
 "chat_send_button" = "Gönder";
 "chat_send_error_generic" = "Mesaj gönderilirken bir hata oluştu. Lütfen tekrar dene.";
@@ -214,6 +215,10 @@
 "contact_subject_option_product_edit" = "Ürünü düzenle/sil";
 "contact_subject_option_profile_edit" = "Profili düzenle/sil";
 "contact_subject_option_report" = "Kullanıcı/spam bildir";
+"direct_answer_free_available" = "Evet, hala mevcut";
+"direct_answer_free_no_available" = "Üzgünüm, ürünü çoktan başkasına verdim!";
+"direct_answer_free_still_have" = "Ürün hala mevcut mu?";
+"direct_answer_free_yours" = "Senin oldu!";
 "direct_answer_interested" = "İlgileniyorum!";
 "direct_answer_is_negotiable" = "Fiyatta pazarlık payı var mı?";
 "direct_answer_like_to_buy" = "Merhaba! Almak istiyorum";
@@ -586,7 +591,7 @@
 "sell_send_error_invalid_title" = "Lütfen, ürün için geçerli bir başlık gir.";
 "sell_send_error_sharing_facebook" = "Facebook'ta paylaşırken bir hata oluştu. Lütfen, daha sonra tekrar dene.";
 "sell_share_fb_content" = "letgo'da ne sattığıma bak!";
-"sell_share_on_facebook_label" = "Ürünümü Facebook'ta paylaş";
+"sell_share_on_facebook_label" = "Facebook'ta paylaş";
 "sell_title_autogen_autotrans_label" = "letgo tarafından önerilen ve Yandex ile çevrilen başlık";
 "sell_title_autogen_label" = "letgo tarafından önerilen başlık";
 "sell_title_field_hint" = "Ürün başlığı (isteğe bağlı)";

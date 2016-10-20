@@ -11,8 +11,8 @@ import Result
 public typealias NotificationsResult = Result<[Notification], RepositoryError>
 public typealias NotificationsCompletion = NotificationsResult -> Void
 
-public typealias NotificationsEmptyResult = Result<Void, RepositoryError>
-public typealias NotificationsEmptyCompletion = NotificationsEmptyResult -> Void
+public typealias NotificationsUnreadCountResult = Result<Int, RepositoryError>
+public typealias NotificationsUnreadCountCompletion = NotificationsUnreadCountResult -> Void
 
 public final class NotificationsRepository {
 
@@ -38,28 +38,12 @@ public final class NotificationsRepository {
     }
 
     /**
-     Marks all notifications from the loged-in user as read
+     Retrieves the unread notifications count.
 
-     - parameter completion: The completion closure
+     - parameter completion: The completion closure.
      */
-    public func markAllAsRead(completion: NotificationsEmptyCompletion?) {
-        dataSource.markAllAsRead { result in
-            handleApiResult(result, completion: completion)
-        }
-    }
-
-    /**
-     Marks as read some notifications from the loged-in user
-
-     - parameter notificationIds: Array of the notifications willing to be marked as read
-     - parameter completion:      The completion closure
-     */
-    public func markAsRead(notificationIds: [String], completion: NotificationsEmptyCompletion?) {
-        guard !notificationIds.isEmpty else {
-            completion?(NotificationsEmptyResult(error: .Internal(message:"NotificationIds array is empty")))
-            return
-        }
-        dataSource.markAsRead(notificationIds) { result in
+    public func unreadNotificationsCount(completion: NotificationsUnreadCountCompletion?) {
+        dataSource.unreadCount { result in
             handleApiResult(result, completion: completion)
         }
     }

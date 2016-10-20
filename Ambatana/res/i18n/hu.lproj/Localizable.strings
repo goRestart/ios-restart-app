@@ -21,6 +21,7 @@
 "categories_cars_and_motors" = "Autók és motorok";
 "categories_electronics" = "Elektronika";
 "categories_fashion_and_accessories" = "Divat és kiegészítők";
+"categories_free" = "Free Stuff";
 "categories_home_and_garden" = "Otthon és kert";
 "categories_movies_books_and_music" = "Filmek, könyvek, zenék";
 "categories_other" = "Egyéb";
@@ -214,6 +215,10 @@
 "contact_subject_option_product_edit" = "Portéka szerkesztése/törlése";
 "contact_subject_option_profile_edit" = "Profil szerkesztése/törlése";
 "contact_subject_option_report" = "Felhasználó/spam jelentése";
+"direct_answer_free_available" = "Yes, it's still available";
+"direct_answer_free_no_available" = "Sorry, I've already given it away!";
+"direct_answer_free_still_have" = "Still have it?";
+"direct_answer_free_yours" = "It's yours!";
 "direct_answer_interested" = "Érdekel!";
 "direct_answer_is_negotiable" = "Alkudható az ár?";
 "direct_answer_like_to_buy" = "Szia! Megvenném!";

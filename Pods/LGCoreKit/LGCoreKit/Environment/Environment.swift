@@ -16,4 +16,5 @@ protocol Environment {
     var userRatingsBaseURL: String { get }
     var chatBaseURL: String { get }
     var webSocketURL: String { get }
+    var notificationsBaseURL: String { get }
 }

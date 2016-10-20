@@ -21,6 +21,7 @@
 "categories_cars_and_motors" = "Автомобили и Запчасти";
 "categories_electronics" = "Электроника";
 "categories_fashion_and_accessories" = "Мода и Аксессуары";
+"categories_free" = "Free Stuff";
 "categories_home_and_garden" = "Для дома и дачи";
 "categories_movies_books_and_music" = "Фильмы, Книги и Музыка";
 "categories_other" = "Другое";
@@ -121,7 +122,7 @@
 "chat_product_sold_label" = "Продано";
 "chat_related_products_title" = "ВАС МОЖЕТ ЗАИНТЕРЕСОВАТЬ:";
 "chat_safety_tips" = "Советами по безопасности";
-"chat_safety_tips_message" = "• Встречайтесь лично и платите наличными. \n\n• Общайтесь в чате letgo. \n\n• Слишком хорошее предложение, чтобы быть правдой? Будьте осторожны!";
+"chat_safety_tips_message" = "• Встречайтесь лично и платите наличными.\n\n• Общайтесь в чате letgo.\n\n• Слишком хорошее предложение, чтобы быть правдой? Будьте осторожны!";
 "chat_safety_tips_title" = "СОВЕТАМИ ПО БЕЗОПАСНОСТИ";
 "chat_send_button" = "Отправить";
 "chat_send_error_generic" = "При отправке сообщения произошла ошибка. Пожалуйста, попробуйте еще раз позже.";
@@ -214,6 +215,10 @@
 "contact_subject_option_product_edit" = "Редактирование/удаление товара";
 "contact_subject_option_profile_edit" = "Редактирование/удаление профиля";
 "contact_subject_option_report" = "Жалоба на пользователя/спам";
+"direct_answer_free_available" = "Yes, it's still available";
+"direct_answer_free_no_available" = "Sorry, I've already given it away!";
+"direct_answer_free_still_have" = "Still have it?";
+"direct_answer_free_yours" = "It's yours!";
 "direct_answer_interested" = "Я заинтересован!";
 "direct_answer_is_negotiable" = "Торг возможен?";
 "direct_answer_like_to_buy" = "Привет! Готов купить";
