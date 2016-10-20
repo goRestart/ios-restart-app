@@ -68,10 +68,11 @@ class SellProductCell: UICollectionViewCell {
     func setupAddPictureCell() {
         self.label.hidden = false
         label.text = LGLocalizedString.sellPictureLabel.uppercase
+        label.textColor = UIColor.redColor()
         self.activity.hidden = true
-        iconImageView.image = UIImage(named: "ic_add_white")
+        iconImageView.image = UIImage(named: "ic_add_white")?.imageWithColor(UIColor.redColor())?.imageWithRenderingMode(.AlwaysOriginal)
         imageView.image = UIImage()
-        self.backgroundColor = UIColor.black
+        self.backgroundColor = UIColor.whiteColor()
     }
 }
 

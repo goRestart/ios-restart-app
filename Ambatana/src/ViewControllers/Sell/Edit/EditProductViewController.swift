@@ -380,10 +380,7 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
         self.navigationItem.leftBarButtonItem = closeButton;
         
         separatorContainerViewsConstraints.forEach { $0.constant = EditProductViewController.separatorOptionsViewDistance }
-        
         containerEditOptionsView.layer.cornerRadius = LGUIKitConstants.containerCornerRadius
-        containerEditOptionsView.layer.borderWidth = 1
-        containerEditOptionsView.layer.borderColor = UIColor.clearColor().CGColor
         
         titleTextField.placeholder = LGLocalizedString.sellTitleFieldHint
         titleTextField.text = viewModel.title
