@@ -80,7 +80,7 @@ class MyUserApiDataSource: MyUserDataSource {
             apiClient.request(request, decoder: decoder, completion: completion)
     }
 
-    func linkAccount(userId: String, provider: LinkAccountProvider, completion: ((Result<Void, ApiError>)->())?) {
+    func linkAccount(userId: String, provider: LinkAccountProvider, completion: ((Result<Void, ApiError>) -> ())?) {
         var params: [String: AnyObject] = [:]
         params["provider"] = provider.accountProvider.rawValue
         params["credentials"] = provider.credentials

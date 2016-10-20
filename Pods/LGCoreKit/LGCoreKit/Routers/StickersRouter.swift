@@ -19,7 +19,7 @@ enum StickersRouter: URLRequestAuthenticable {
     }
     
     var requiredAuthLevel: AuthLevel {
-        return .None
+        return .Nonexistent
     }
 
     var reportingBlacklistedApiError: Array<ApiError> { return [.Scammer] }

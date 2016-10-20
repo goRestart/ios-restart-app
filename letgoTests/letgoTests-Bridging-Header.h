@@ -11,7 +11,4 @@
 // Crypto functions
 #import <CommonCrypto/CommonCrypto.h>
 
-// Tracking
-#import "ACTReporter.h"
-
 #endif

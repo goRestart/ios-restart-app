@@ -15,7 +15,7 @@ enum LocationRouter: URLRequestAuthenticable {
     static let endpoint = "/api/iplookup.json"
 
     var requiredAuthLevel: AuthLevel {
-        return .None
+        return .Nonexistent
     }
 
     var reportingBlacklistedApiError: Array<ApiError> { return [.Scammer] }

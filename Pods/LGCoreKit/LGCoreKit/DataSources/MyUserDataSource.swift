@@ -66,5 +66,5 @@ protocol MyUserDataSource {
      - parameter provider:   new account provider
      - parameter completion: completion closure
      */
-    func linkAccount(userId: String, provider: LinkAccountProvider, completion: ((Result<Void, ApiError>)->())?)
+    func linkAccount(userId: String, provider: LinkAccountProvider, completion: ((Result<Void, ApiError>) -> ())?)
 }

@@ -11,8 +11,7 @@ import LGCoreKit
 import Result
 import UIKit
 
-class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UITextViewDelegate,
-SignUpLogInViewModelDelegate, GIDSignInUIDelegate {
+class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UITextViewDelegate, GIDSignInUIDelegate {
     @IBOutlet weak var darkAppereanceBgView: UIView!
     @IBOutlet weak var kenBurnsView: JBKenBurnsView!
     
@@ -347,94 +346,6 @@ SignUpLogInViewModelDelegate, GIDSignInUIDelegate {
         openInternalUrl(url)
         return false
     }
-    
-    
-    // MARK: - SignUpLogInViewModelDelegate
-
-    func viewModel(viewModel: SignUpLogInViewModel, updateSendButtonEnabledState enabled: Bool) {
-        sendButton.enabled = enabled
-    }
-    
-    func viewModel(viewModel: SignUpLogInViewModel, updateShowPasswordVisible visible: Bool) {
-        showPasswordButton.hidden = !visible
-    }
-
-    func viewModelDidStartSigningUp(viewModel: SignUpLogInViewModel) {
-        showLoadingMessageAlert()
-    }
-
-    func viewModelDidSignUp(viewModel: SignUpLogInViewModel) {
-        dismissLoadingMessageAlert() { [weak self] in
-            self?.preDismissAction?()
-            self?.dismissViewControllerAnimated(true, completion: self?.afterLoginAction)
-        }
-    }
-
-    func viewModelDidFailSigningUp(viewModel: SignUpLogInViewModel, message: String) {
-        dismissLoadingMessageAlert() { [weak self] in
-            self?.showAutoFadingOutMessageAlert(message)
-        }
-    }
-    
-    func viewModelDidStartLoginIn(viewModel: SignUpLogInViewModel) {
-        showLoadingMessageAlert()
-    }
-
-    func viewModelDidLogIn(viewModel: SignUpLogInViewModel) {
-        dismissLoadingMessageAlert() { [weak self] in
-            self?.preDismissAction?()
-            self?.dismissViewControllerAnimated(true, completion: self?.afterLoginAction)
-        }
-    }
-
-    func viewModelDidFailLoginIn(viewModel: SignUpLogInViewModel, message: String) {
-        dismissLoadingMessageAlert() { [weak self] in
-            self?.showAutoFadingOutMessageAlert(message)
-        }
-    }
-    
-    
-    func viewModelShowHiddenPasswordAlert(viewModel: SignUpLogInViewModel) {
-        let alertController = UIAlertController(title: "🔑", message: "Speak friend and enter", preferredStyle: .Alert)
-        alertController.addTextFieldWithConfigurationHandler { (textField) in
-            textField.placeholder = "Password"
-            textField.secureTextEntry = true
-        }
-        let loginAction = UIAlertAction(title: "Login", style: .Default) { (_) in
-            let passwordTextField = alertController.textFields![0] as UITextField
-            viewModel.godLogIn(passwordTextField.text ?? "")
-        }
-        alertController.addAction(loginAction)
-        presentViewController(alertController, animated: true, completion: nil)
-    }
-    
-    func viewModelShowGodModeError(viewModel: SignUpLogInViewModel) {
-        showAutoFadingOutMessageAlert("You are not worthy")
-    }
-    
-    
-    // Facebook / Google
-    
-    func viewModelDidAuthWithExternalService(viewModel: SignUpLogInViewModel) {
-        dismissLoadingMessageAlert() { [weak self] in
-            self?.preDismissAction?()
-            self?.dismissViewControllerAnimated(true, completion: self?.afterLoginAction)
-        }
-    }
-    
-    func viewModelDidStartAuthWithExternalService(viewModel: SignUpLogInViewModel) {
-        showLoadingMessageAlert()
-    }
-    
-    func viewModelDidCancelAuthWithExternalService(viewModel: SignUpLogInViewModel) {
-        dismissLoadingMessageAlert()
-    }
-
-    func viewModel(viewModel: SignUpLogInViewModel, didFailAuthWithExternalService message: String) {
-        dismissLoadingMessageAlert() { [weak self] in
-            self?.showAutoFadingOutMessageAlert(message)
-        }
-    }
 
 
     // MARK: Private Methods
@@ -668,6 +579,123 @@ SignUpLogInViewModelDelegate, GIDSignInUIDelegate {
         }
     }
 }
+
+
+// MARK: - SignUpLogInViewModelDelegate
+
+extension SignUpLogInViewController: SignUpLogInViewModelDelegate {
+
+
+    func viewModel(viewModel: SignUpLogInViewModel, updateSendButtonEnabledState enabled: Bool) {
+        sendButton.enabled = enabled
+    }
+
+    func viewModel(viewModel: SignUpLogInViewModel, updateShowPasswordVisible visible: Bool) {
+        showPasswordButton.hidden = !visible
+    }
+
+    func viewModelDidStartSigningUp(viewModel: SignUpLogInViewModel) {
+        showLoadingMessageAlert()
+    }
+
+    func viewModelDidSignUp(viewModel: SignUpLogInViewModel) {
+        dismissLoadingMessageAlert() { [weak self] in
+            self?.preDismissAction?()
+            self?.dismissViewControllerAnimated(true, completion: self?.afterLoginAction)
+        }
+    }
+
+    func viewModelDidFailSigningUp(viewModel: SignUpLogInViewModel, message: String) {
+        dismissLoadingMessageAlert() { [weak self] in
+            self?.showAutoFadingOutMessageAlert(message)
+        }
+    }
+
+    func viewModelShowRecaptcha(viewModel: RecaptchaViewModel) {
+        viewModel.navigator = self
+        let vc = RecaptchaViewController(viewModel: viewModel)
+        dismissLoadingMessageAlert() { [weak self] in
+            self?.presentViewController(vc, animated: true, completion: nil)
+        }
+    }
+
+    func viewModelDidStartLoginIn(viewModel: SignUpLogInViewModel) {
+        showLoadingMessageAlert()
+    }
+
+    func viewModelDidLogIn(viewModel: SignUpLogInViewModel) {
+        dismissLoadingMessageAlert() { [weak self] in
+            self?.preDismissAction?()
+            self?.dismissViewControllerAnimated(true, completion: self?.afterLoginAction)
+        }
+    }
+
+    func viewModelDidFailLoginIn(viewModel: SignUpLogInViewModel, message: String) {
+        dismissLoadingMessageAlert() { [weak self] in
+            self?.showAutoFadingOutMessageAlert(message)
+        }
+    }
+
+
+    func viewModelShowHiddenPasswordAlert(viewModel: SignUpLogInViewModel) {
+        let alertController = UIAlertController(title: "🔑", message: "Speak friend and enter", preferredStyle: .Alert)
+        alertController.addTextFieldWithConfigurationHandler { (textField) in
+            textField.placeholder = "Password"
+            textField.secureTextEntry = true
+        }
+        let loginAction = UIAlertAction(title: "Login", style: .Default) { (_) in
+            let passwordTextField = alertController.textFields![0] as UITextField
+            viewModel.godLogIn(passwordTextField.text ?? "")
+        }
+        alertController.addAction(loginAction)
+        presentViewController(alertController, animated: true, completion: nil)
+    }
+
+    func viewModelShowGodModeError(viewModel: SignUpLogInViewModel) {
+        showAutoFadingOutMessageAlert("You are not worthy")
+    }
+
+
+    // Facebook / Google
+
+    func viewModelDidAuthWithExternalService(viewModel: SignUpLogInViewModel) {
+        dismissLoadingMessageAlert() { [weak self] in
+            self?.preDismissAction?()
+            self?.dismissViewControllerAnimated(true, completion: self?.afterLoginAction)
+        }
+    }
+
+    func viewModelDidStartAuthWithExternalService(viewModel: SignUpLogInViewModel) {
+        showLoadingMessageAlert()
+    }
+
+    func viewModelDidCancelAuthWithExternalService(viewModel: SignUpLogInViewModel) {
+        dismissLoadingMessageAlert()
+    }
+
+    func viewModel(viewModel: SignUpLogInViewModel, didFailAuthWithExternalService message: String) {
+        dismissLoadingMessageAlert() { [weak self] in
+            self?.showAutoFadingOutMessageAlert(message)
+        }
+    }
+}
+
+
+// MARK: - Recaptcha navigator
+
+extension SignUpLogInViewController: RecaptchaNavigator {
+    func recaptchaClose() {
+        presentedViewController?.dismissViewControllerAnimated(true, completion: nil)
+    }
+
+    func recaptchaFinishedWithToken(token: String) {
+        presentedViewController?.dismissViewControllerAnimated(true, completion: nil)
+        viewModel.recaptchaTokenObtained(token)
+    }
+}
+
+
+// MARK: - Accesibility ids
 
 extension SignUpLogInViewController {
     func setAccessibilityIds() {

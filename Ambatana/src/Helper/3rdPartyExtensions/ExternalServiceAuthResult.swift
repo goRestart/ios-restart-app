@@ -35,6 +35,8 @@ enum ExternalServiceAuthResult {
             self = .Internal(description: "Forbidden")
         case .TooManyRequests:
             self = .Internal(description: "TooManyRequests")
+        case .UserNotVerified:
+            self = .Internal(description: "UserNotVerified")
         case .Network:
             self = .Network
         case .NotFound:
