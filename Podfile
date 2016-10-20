@@ -10,8 +10,6 @@ project "LetGo.xcodeproj"
 
 def shared_pods
 
-    pod "SwiftWebSocket",       "2.6.4"     # FORCE TO AVOID SWITCHING TO SWIFT 3.0 
-
     pod "AlamofireImage",       "~> 2.5.0"  # Swift 3.0: 3.x
     pod "Argo",                 "3.0.2"     # Swift 3.0: N/A
 
@@ -36,7 +34,7 @@ def shared_pods
     pod "Leanplum-iOS-SDK",     "~> 1.4.0"  # Swift 3.0: -
 
 	# letgo Core
-    pod "LGCoreKit",            :path => "../lgcorekit" #"1.2.0"
+    pod "LGCoreKit",            "1.3.0"    #:path => "../lgcorekit"
 
 	# Slack Chat controller
     pod "SlackTextViewController", "1.9.4"  # Swift 3.0: -
