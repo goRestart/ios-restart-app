@@ -212,9 +212,6 @@ UICollectionViewDataSource, UICollectionViewDelegate {
             case .Categories:
                 guard let cell = collectionView.dequeueReusableCellWithReuseIdentifier("FilterCategoryCell",
                     forIndexPath: indexPath) as? FilterCategoryCell else { return UICollectionViewCell() }
-                guard !(viewModel.isOddNumCategories && indexPath.row == viewModel.numOfCategories-1) else {
-                    return cell
-                }
                 cell.titleLabel.text = viewModel.categoryTextAtIndex(indexPath.row)
                 cell.categoryIcon.image = viewModel.categoryIconAtIndex(indexPath.row)
                 let color = viewModel.categoryColorAtIndex(indexPath.row)
@@ -264,8 +261,6 @@ UICollectionViewDataSource, UICollectionViewDelegate {
             //Do nothing on distance
             break
         case .Categories:
-            // avoid the extra blank cell in case num categories is odd
-            guard !(viewModel.isOddNumCategories && indexPath.row == viewModel.numOfCategories-1) else { break }
             viewModel.selectCategoryAtIndex(indexPath.row)
         case .Within:
             viewModel.selectWithinTimeAtIndex(indexPath.row)

@@ -244,7 +244,7 @@ class FiltersViewModel: BaseViewModel {
     }
 
     func selectCategoryAtIndex(index: Int) {
-        guard index < numOfCategories else { return }
+        guard isValidCategory(index) else { return }
         let category = categories[index]
         switch category {
         case .Free:
@@ -262,21 +262,19 @@ class FiltersViewModel: BaseViewModel {
     }
     
     func categoryTextAtIndex(index: Int) -> String? {
-        guard index < numOfCategories else { return nil }
-        
+        guard isValidCategory(index) else { return nil }
         return categories[index].name
     }
     
     func categoryIconAtIndex(index: Int) -> UIImage? {
-        guard index < numOfCategories else { return nil }
-        
+        guard isValidCategory(index) else { return nil }
+
         let category = categories[index]
         return category.icon?.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
     }
     
     func categoryColorAtIndex(index: Int) -> UIColor {
-        guard index < numOfCategories else { return UIColor.blackText }
-        
+        guard isValidCategory(index) else { return UIColor.blackText }
         let category = categories[index]
         switch category {
         case .Free:
@@ -287,7 +285,7 @@ class FiltersViewModel: BaseViewModel {
     }
 
     func categorySelectedAtIndex(index: Int) -> Bool {
-        guard index < numOfCategories else { return false }
+        guard isValidCategory(index) else { return false }
         let category = categories[index]
         switch category {
         case .Free:
@@ -362,6 +360,11 @@ class FiltersViewModel: BaseViewModel {
         guard minPrice > maxPrice else { return true }
 
         return false
+    }
+
+    private func isValidCategory(index: Int) -> Bool {
+        // index is in range and avoid the extra blank cell in case num categories is odd
+        return index < numOfCategories && !(isOddNumCategories && index == numOfCategories-1)
     }
 }
 
