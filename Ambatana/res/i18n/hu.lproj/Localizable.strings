@@ -78,7 +78,7 @@
 "chat_express_dont_ask_again_button" = "Ne szóljon többet";
 "chat_express_dont_miss_label" = "Ne hagyd ki ezeket az alkalmi vételeket";
 "chat_express_one_message_sent_success_alert" = "Üzeneted elküldve!";
-"chat_express_send_question_text" = "Send: %@";
+"chat_express_send_question_text" = "Küldés: %@";
 "chat_express_several_messages_sent_success_alert" = "Üzeneteid elküldve!";
 "chat_express_text_field_text" = "Szia! Elérhető még?";
 "chat_forbidden_disclaimer_buyer_w_name" = "%@ fiókját a letgo csapata éppen ellenőrzi.";
@@ -215,6 +215,10 @@
 "contact_subject_option_product_edit" = "Portéka szerkesztése/törlése";
 "contact_subject_option_profile_edit" = "Profil szerkesztése/törlése";
 "contact_subject_option_report" = "Felhasználó/spam jelentése";
+"direct_answer_free_available" = "Yes, it's still available";
+"direct_answer_free_no_available" = "Sorry, I've already given it away!";
+"direct_answer_free_still_have" = "Still have it?";
+"direct_answer_free_yours" = "It's yours!";
 "direct_answer_interested" = "Érdekel!";
 "direct_answer_is_negotiable" = "Alkudható az ár?";
 "direct_answer_like_to_buy" = "Szia! Megvenném!";

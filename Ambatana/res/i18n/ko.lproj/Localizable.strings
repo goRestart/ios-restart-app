@@ -21,7 +21,7 @@
 "categories_cars_and_motors" = "자동차 및 모터";
 "categories_electronics" = "가전제품";
 "categories_fashion_and_accessories" = "패션 및 액세서리";
-"categories_free" = "Free Stuff";
+"categories_free" = "무료제품";
 "categories_home_and_garden" = "가정 및 정원용품";
 "categories_movies_books_and_music" = "영화, 도서 및 음악";
 "categories_other" = "기타";
@@ -78,7 +78,7 @@
 "chat_express_dont_ask_again_button" = "다시 묻지 말아주세요";
 "chat_express_dont_miss_label" = "이 할인을 놓치지마세요";
 "chat_express_one_message_sent_success_alert" = "메세지가 성공적으로 발송되었습니다!";
-"chat_express_send_question_text" = "Send: %@";
+"chat_express_send_question_text" = "발송: %@";
 "chat_express_several_messages_sent_success_alert" = "메세지가 성공적으로 발송되었습니다!";
 "chat_express_text_field_text" = "안녕하세요! 판매하고 계신가요?";
 "chat_forbidden_disclaimer_buyer_w_name" = "letgo팀은 %@의 계정을 검토하고 있습니다.";
@@ -215,6 +215,10 @@
 "contact_subject_option_product_edit" = "상품 수정 / 삭제";
 "contact_subject_option_profile_edit" = "프로필 수정 / 삭제";
 "contact_subject_option_report" = "유저/스팸 신고";
+"direct_answer_free_available" = "네, 아직 있습니다";
+"direct_answer_free_no_available" = "죄송합니다. 이미 상품을 증정했습니다!";
+"direct_answer_free_still_have" = "아직 가지고 계신가요?";
+"direct_answer_free_yours" = "당신것이에요!";
 "direct_answer_interested" = "관심있어요!";
 "direct_answer_is_negotiable" = "가격이 흥정 가능한가요?";
 "direct_answer_like_to_buy" = "안녕하세요! 구매하기를 원하는데요";
@@ -587,7 +591,7 @@
 "sell_send_error_invalid_title" = "제품명을 입력해 주세요.";
 "sell_send_error_sharing_facebook" = "페이스북에 공유하는데 문제가 발생했습니다. 다시 시도해주세요.";
 "sell_share_fb_content" = "letgo에서 무엇이 판매중인지 확인해보세요!";
-"sell_share_on_facebook_label" = "판매제품을 페이스북에 공유하기";
+"sell_share_on_facebook_label" = "페이스북에 공유하기";
 "sell_title_autogen_autotrans_label" = "lego에서 추천하고 Google에서 번역된 제목";
 "sell_title_autogen_label" = "letgo에서 추천하는 제목";
 "sell_title_field_hint" = "제품 이름 (선택사항)";

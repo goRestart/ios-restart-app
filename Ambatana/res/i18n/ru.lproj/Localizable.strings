@@ -78,7 +78,7 @@
 "chat_express_dont_ask_again_button" = "Не спрашивать снова";
 "chat_express_dont_miss_label" = "Не пропустите выгодные сделки";
 "chat_express_one_message_sent_success_alert" = "Ваше сообщение отправлено!";
-"chat_express_send_question_text" = "Send: %@";
+"chat_express_send_question_text" = "Отправить: %@";
 "chat_express_several_messages_sent_success_alert" = "Ваши сообщения отправлены!";
 "chat_express_text_field_text" = "Товар еще продается?";
 "chat_forbidden_disclaimer_buyer_w_name" = "Аккаунт %@ проверяется командой letgo.";
@@ -122,7 +122,7 @@
 "chat_product_sold_label" = "Продано";
 "chat_related_products_title" = "ВАС МОЖЕТ ЗАИНТЕРЕСОВАТЬ:";
 "chat_safety_tips" = "Советами по безопасности";
-"chat_safety_tips_message" = "• Встречайтесь лично и платите наличными. \n\n• Общайтесь в чате letgo. \n\n• Слишком хорошее предложение, чтобы быть правдой? Будьте осторожны!";
+"chat_safety_tips_message" = "• Встречайтесь лично и платите наличными.\n\n• Общайтесь в чате letgo.\n\n• Слишком хорошее предложение, чтобы быть правдой? Будьте осторожны!";
 "chat_safety_tips_title" = "СОВЕТАМИ ПО БЕЗОПАСНОСТИ";
 "chat_send_button" = "Отправить";
 "chat_send_error_generic" = "При отправке сообщения произошла ошибка. Пожалуйста, попробуйте еще раз позже.";
@@ -215,6 +215,10 @@
 "contact_subject_option_product_edit" = "Редактирование/удаление товара";
 "contact_subject_option_profile_edit" = "Редактирование/удаление профиля";
 "contact_subject_option_report" = "Жалоба на пользователя/спам";
+"direct_answer_free_available" = "Yes, it's still available";
+"direct_answer_free_no_available" = "Sorry, I've already given it away!";
+"direct_answer_free_still_have" = "Still have it?";
+"direct_answer_free_yours" = "It's yours!";
 "direct_answer_interested" = "Я заинтересован!";
 "direct_answer_is_negotiable" = "Торг возможен?";
 "direct_answer_like_to_buy" = "Привет! Готов купить";
