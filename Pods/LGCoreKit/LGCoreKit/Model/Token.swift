@@ -8,7 +8,7 @@
 
 
 enum AuthLevel: Int {
-    case None
+    case Nonexistent
     case Installation
     case User
 }

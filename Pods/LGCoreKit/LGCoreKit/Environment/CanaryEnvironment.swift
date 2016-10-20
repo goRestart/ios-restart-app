@@ -14,4 +14,5 @@ class CanaryEnvironment: Environment {
     let userRatingsBaseURL = "http://rating.canary.letgo.com/api"
     let chatBaseURL = "https://chat.letgo.com"
     let webSocketURL = "wss://chat.letgo.com/socket"
+    let notificationsBaseURL = "http://notifications.canary.letgo.com/api"
 }

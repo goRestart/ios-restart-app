@@ -115,7 +115,7 @@ extension ApiClient {
                 request(req, decoder: decoder, completion: completion)
             case .User:
                 renewUserTokenOrEnqueueRequest(req, decoder: decoder, completion: completion)
-            case .None:
+            case .Nonexistent:
                 // Should never happen
                 logMessage(.Error, type: [CoreLoggingOptions.Networking], message: response.logMessage)
             }
@@ -296,7 +296,7 @@ private extension ApiClient {
                 dispatch_async(dispatch_get_main_queue()) {
                     guard let strongSelf = self else { return }
 
-                    if strongSelf.tokenDAO.level > .None {
+                    if strongSelf.tokenDAO.level > .Nonexistent {
                         succeeded?()
                     } else {
                         failed?(.Unauthorized)
@@ -383,21 +383,13 @@ private extension ApiClient {
             return nil
         }
         guard let token = authenticationInfo.componentsSeparatedByString(" ").last,
-            payload = try? JWT.decode(token, algorithm: .HS256(""), verify: false),
-            data = payload["data"] as? [String: AnyObject],
-            roles = data["roles"] as? [String] else {
+            authLevel = token.tokenAuthLevel else {
                 logMessage(.Error, type: [CoreLoggingOptions.Networking, CoreLoggingOptions.Token],
                            message: "Invalid JWT; authentication-info: \(authenticationInfo)")
                 report(CoreReportNetworking.InvalidJWT, message: "authentication-info: \(authenticationInfo)")
                 return nil
         }
-
-        if roles.contains("user") {
-            return Token(value: authenticationInfo, level: .User)
-        } else if roles.contains("app") {
-            return Token(value: authenticationInfo, level: .Installation)
-        }
-        return nil
+        return Token(value: authenticationInfo, level: authLevel)
     }
 }
 

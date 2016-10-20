@@ -45,6 +45,12 @@ struct UserRatingsBaseURL: BaseURL {
     static let contentTypeHeader: String? = nil
 }
 
+struct NotificationsBaseURL: BaseURL {
+    static var baseURL: String = EnvironmentProxy.sharedInstance.notificationsBaseURL
+    static let acceptHeader: String? = nil
+    static let contentTypeHeader: String? = nil
+}
+
 enum Encoding {
     case JSON, URL
 

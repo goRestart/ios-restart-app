@@ -33,7 +33,7 @@ enum CoreReportNetworking: ReportType {
         case let .Unauthorized(authLevel):
             let baseCode = 140100
             switch authLevel {
-            case .None:
+            case .Nonexistent:
                 return baseCode
             case .Installation:
                 return baseCode + 1

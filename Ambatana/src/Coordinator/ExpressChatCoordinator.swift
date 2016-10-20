@@ -30,7 +30,6 @@ class ExpressChatCoordinator: Coordinator {
     }
 
     init?(products: [Product], sourceProductId: String, keyValueStorage: KeyValueStorage) {
-        guard FeatureFlags.expressChatMode != .NoChat else { return nil }
         let vm = ExpressChatViewModel(productList: products, sourceProductId: sourceProductId)
         let vc = ExpressChatViewController(viewModel: vm)
         self.viewController = vc
@@ -38,7 +37,9 @@ class ExpressChatCoordinator: Coordinator {
 
         vm.navigator = self
 
+        // user didn't pressed "Don't show again"
         guard keyValueStorage.userShouldShowExpressChat else { return nil }
+        // express chat hasn't been shown for this product
         guard !expressChatAlreadyShownForProduct(sourceProductId) else { return nil }
     }
 

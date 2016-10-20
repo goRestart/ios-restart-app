@@ -21,6 +21,7 @@
 "categories_cars_and_motors" = "Bil och motor";
 "categories_electronics" = "Elektronik";
 "categories_fashion_and_accessories" = "Mode och accessoarer";
+"categories_free" = "Free Stuff";
 "categories_home_and_garden" = "Hem och trädgård";
 "categories_movies_books_and_music" = "Filmer, böcker och musik";
 "categories_other" = "Övrigt";
@@ -77,7 +78,7 @@
 "chat_express_dont_ask_again_button" = "Fråga mig inte igen";
 "chat_express_dont_miss_label" = "Missa inte dessa fynd";
 "chat_express_one_message_sent_success_alert" = "Ditt meddelande har skickats!";
-"chat_express_send_question_text" = "Skicka: %@";
+"chat_express_send_question_text" = "Send: %@";
 "chat_express_several_messages_sent_success_alert" = "Dina meddelanden har skickats!";
 "chat_express_text_field_text" = "Hej! Är den kvar?";
 "chat_forbidden_disclaimer_buyer_w_name" = "%@s konto är under granskning av letgo.";
@@ -576,7 +577,7 @@
 "sell_picture_selected_delete_button" = "Ta bort";
 "sell_picture_selected_save_into_camera_roll_button" = "Spara till hårddisk";
 "sell_picture_selected_title" = "Välj åtgärd";
-"sell_post_free_label" = "Give it away";
+"sell_post_free_label" = "Skänk bort den";
 "sell_price_field" = "Pris:";
 "sell_send_error_invalid_category" = "Var god välj kategori för produkten.";
 "sell_send_error_invalid_description" = "Var god ange en beskrivning av produkten.";

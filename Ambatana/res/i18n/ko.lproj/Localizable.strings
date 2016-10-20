@@ -21,6 +21,7 @@
 "categories_cars_and_motors" = "자동차 및 모터";
 "categories_electronics" = "가전제품";
 "categories_fashion_and_accessories" = "패션 및 액세서리";
+"categories_free" = "Free Stuff";
 "categories_home_and_garden" = "가정 및 정원용품";
 "categories_movies_books_and_music" = "영화, 도서 및 음악";
 "categories_other" = "기타";
@@ -77,7 +78,7 @@
 "chat_express_dont_ask_again_button" = "다시 묻지 말아주세요";
 "chat_express_dont_miss_label" = "이 할인을 놓치지마세요";
 "chat_express_one_message_sent_success_alert" = "메세지가 성공적으로 발송되었습니다!";
-"chat_express_send_question_text" = "발송: %@";
+"chat_express_send_question_text" = "Send: %@";
 "chat_express_several_messages_sent_success_alert" = "메세지가 성공적으로 발송되었습니다!";
 "chat_express_text_field_text" = "안녕하세요! 판매하고 계신가요?";
 "chat_forbidden_disclaimer_buyer_w_name" = "letgo팀은 %@의 계정을 검토하고 있습니다.";
@@ -576,7 +577,7 @@
 "sell_picture_selected_delete_button" = "삭제";
 "sell_picture_selected_save_into_camera_roll_button" = "사진 저장";
 "sell_picture_selected_title" = "활동을 선택하세요";
-"sell_post_free_label" = "Give it away";
+"sell_post_free_label" = "무료로 드릴게요";
 "sell_price_field" = "가격:";
 "sell_send_error_invalid_category" = "제품의 목록을 선택해 주세요.";
 "sell_send_error_invalid_description" = "제품의 가능한 정보를 입력하여주세요.";
