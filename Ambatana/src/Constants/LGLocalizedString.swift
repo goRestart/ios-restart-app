@@ -751,6 +751,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("common_next", comment: "")
 	}
 
+	static var commonNew: String {
+		return NSLocalizedString("common_new", comment: "")
+	}
+
 	static var commonOk: String {
 		return NSLocalizedString("common_ok", comment: "")
 	}
@@ -873,6 +877,22 @@ struct LGLocalizedString {
 
 	static var contactSubjectOptionReport: String {
 		return NSLocalizedString("contact_subject_option_report", comment: "")
+	}
+
+	static var directAnswerFreeYours: String {
+		return NSLocalizedString("direct_answer_free_yours", comment: "")
+	}
+
+	static var directAnswerFreeAvailable: String {
+		return NSLocalizedString("direct_answer_free_available", comment: "")
+	}
+
+	static var directAnswerFreeNoAvailable: String {
+		return NSLocalizedString("direct_answer_free_no_available", comment: "")
+	}
+
+	static var directAnswerFreeStillHave: String {
+		return NSLocalizedString("direct_answer_free_still_have", comment: "")
 	}
 
 	static var directAnswerInterested: String {
@@ -1263,12 +1283,12 @@ struct LGLocalizedString {
 		return NSLocalizedString("notifications_title", comment: "")
 	}
 
-	static var notificationsTypeLike: String {
-		return NSLocalizedString("notifications_type_like", comment: "")
+	static func notificationsTypeLike(var1: String) -> String {
+		return String(format: NSLocalizedString("notifications_type_like", comment: ""), var1)
 	}
 
-	static func notificationsTypeLikeWTitle(var1: String) -> String {
-		return String(format: NSLocalizedString("notifications_type_like_w_title", comment: ""), var1)
+	static func notificationsTypeLikeWTitle(var1: String, _ var2: String) -> String {
+		return String(format: NSLocalizedString("notifications_type_like_w_title", comment: ""), var1, var2)
 	}
 
 	static var notificationsTypeSold: String {
@@ -1289,6 +1309,10 @@ struct LGLocalizedString {
 
 	static var notificationsTypeWelcomeTitle: String {
 		return NSLocalizedString("notifications_type_welcome_title", comment: "")
+	}
+
+	static var notificationsTypeWelcomeButton: String {
+		return NSLocalizedString("notifications_type_welcome_button", comment: "")
 	}
 
 	static var notificationsUserWoName: String {
@@ -1709,6 +1733,14 @@ struct LGLocalizedString {
 
 	static var productPostEmptyGalleryTitle: String {
 		return NSLocalizedString("product_post_empty_gallery_title", comment: "")
+	}
+
+	static var productPostFreeCameraFirstTimeAlertTitle: String {
+		return NSLocalizedString("product_post_free_camera_first_time_alert_title", comment: "")
+	}
+
+	static var productPostFreeCameraFirstTimeAlertSubtitle: String {
+		return NSLocalizedString("product_post_free_camera_first_time_alert_subtitle", comment: "")
 	}
 
 	static var productPostGalleryLoadImageErrorSubtitle: String {
@@ -2501,6 +2533,18 @@ struct LGLocalizedString {
 
 	static var tabBarToolTip: String {
 		return NSLocalizedString("tab_bar_tool_tip", comment: "")
+	}
+
+	static var tabBarSellStuffButton: String {
+		return NSLocalizedString("tab_bar_sell_stuff_button", comment: "")
+	}
+
+	static var tabBarGiveAwayButton: String {
+		return NSLocalizedString("tab_bar_give_away_button", comment: "")
+	}
+
+	static var tabBarGiveAwayTooltip: String {
+		return NSLocalizedString("tab_bar_give_away_tooltip", comment: "")
 	}
 
 	static var toastErrorInternal: String {

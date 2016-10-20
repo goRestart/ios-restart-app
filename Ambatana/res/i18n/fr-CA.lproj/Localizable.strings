@@ -21,7 +21,7 @@
 "categories_cars_and_motors" = "Voitures et Motos";
 "categories_electronics" = "Équipement électronique";
 "categories_fashion_and_accessories" = "Mode et Accessoires";
-"categories_free" = "Free Stuff";
+"categories_free" = "Objets Gratuits";
 "categories_home_and_garden" = "Maison et Jardin";
 "categories_movies_books_and_music" = "Films, Livres et Musique";
 "categories_other" = "Autre";
@@ -182,6 +182,7 @@
 "common_expand" = "Afficher Plus";
 "common_loading" = "Chargement...";
 "common_max" = "max";
+"common_new" = "NOUVEAU !";
 "common_next" = "Suivant";
 "common_no" = "Non";
 "common_ok" = "OK";
@@ -215,6 +216,10 @@
 "contact_subject_option_product_edit" = "Modifier ou supprimer le produit";
 "contact_subject_option_profile_edit" = "Modifier ou supprimer le profil";
 "contact_subject_option_report" = "Signaler utilisateur ou pourriel";
+"direct_answer_free_available" = "Oui, c'est toujours disponible";
+"direct_answer_free_no_available" = "Désolé, je l'ai déjà donné !";
+"direct_answer_free_still_have" = "L'avez-vous toujours ?";
+"direct_answer_free_yours" = "Il est à vous !";
 "direct_answer_interested" = "Je suis intéressé !";
 "direct_answer_is_negotiable" = "Le prix est-il négociable ?";
 "direct_answer_like_to_buy" = "Bonjour ! J'aimerais l'acheter";
@@ -419,6 +424,8 @@
 "product_post_empty_gallery_button" = "Prendre une Photo";
 "product_post_empty_gallery_subtitle" = "Prenez une photo du produit que vous souhaitez proposer";
 "product_post_empty_gallery_title" = "Aucune photo trouvée";
+"product_post_free_camera_first_time_alert_subtitle" = "Prenez une bonne photo et offrez une nouvelle vie à votre objet !";
+"product_post_free_camera_first_time_alert_title" = "Que donnez-vous ?";
 "product_post_gallery_load_image_error_subtitle" = "Choisissez une autre photo et réessayez.";
 "product_post_gallery_load_image_error_title" = "La photo ne peut pas être chargée";
 "product_post_gallery_permissions_button" = "Autoriser";
@@ -621,6 +628,9 @@
 "sign_up_terms_conditions_terms_part" = "Terms & Conditions";
 "sign_up_title" = "Créer un nouveau compte";
 "sign_up_username_field_hint" = "Nom complet";
+"tab_bar_give_away_button" = "Donnez des Objets";
+"tab_bar_give_away_tooltip" = "Vous pouvez maintenant donner des objets";
+"tab_bar_sell_stuff_button" = "Vendez des Objets";
 "tab_bar_tool_tip" = "Vendez Vos Objets";
 "toast_error_internal" = "Oups ! Ça n'a pas fonctionné.";
 "toast_no_network" = "Pas de Connexion Internet";

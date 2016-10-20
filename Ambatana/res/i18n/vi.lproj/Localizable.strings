@@ -21,7 +21,7 @@
 "categories_cars_and_motors" = "Ô tô và Xe máy";
 "categories_electronics" = "Đồ điện tử";
 "categories_fashion_and_accessories" = "Thời trang và Phụ kiện";
-"categories_free" = "Free Stuff";
+"categories_free" = "Đồ Miễn phí";
 "categories_home_and_garden" = "Nhà cửa và Vườn tược";
 "categories_movies_books_and_music" = "Phim, Sách và Âm nhạc";
 "categories_other" = "Khác";
@@ -76,7 +76,7 @@
 "chat_express_contact_sellers_label" = "Liên lạc với người bán trước khi người mua khác mua được";
 "chat_express_contact_various_button_text" = "Liên hệ %@ người bán";
 "chat_express_dont_ask_again_button" = "Đừng hỏi lại tôi";
-"chat_express_dont_miss_label" = "Đừng bỏ lỡ những món hàng này";
+"chat_express_dont_miss_label" = "Đừng bỏ lỡ những món hời này";
 "chat_express_one_message_sent_success_alert" = "Tin nhắn của bạn vừa được gửi!";
 "chat_express_send_question_text" = "Gửi:%@";
 "chat_express_several_messages_sent_success_alert" = "Tin nhắn của bạn vừa được gửi!";
@@ -122,7 +122,7 @@
 "chat_product_sold_label" = "Sản phẩm đã bán";
 "chat_related_products_title" = "BẠN CÓ THỂ QUAN TÂM TỚI:";
 "chat_safety_tips" = "Lời khuyên an toàn";
-"chat_safety_tips_message" = "• Gặp trực tiếp và trả bằng tiền mặt.\n\n• Lưu giữ các cuộc hội thoại trên mục trò chuyện letgo\n\n• Giá quá hời? Hãy thận trọng!";
+"chat_safety_tips_message" = "• Gặp trực tiếp và trả bằng tiền mặt.\n\n• Lưu giữ các cuộc hội thoại trên mục trò chuyện letgo.\n\n• Có vẻ quá hời? Hãy tìm người mua/người bán khác.";
 "chat_safety_tips_title" = "LỜI KHUYÊN AN TOÀN";
 "chat_send_button" = "Gửi";
 "chat_send_error_generic" = "Lỗi xảy ra trong khi gửi tin nhắn. Xin vui lòng thử lại sau.";
@@ -182,6 +182,7 @@
 "common_expand" = "Hiện thêm";
 "common_loading" = "Đang tải...";
 "common_max" = "tối đa";
+"common_new" = "MỚI!";
 "common_next" = "Tiếp theo";
 "common_no" = "Không";
 "common_ok" = "OK";
@@ -215,6 +216,10 @@
 "contact_subject_option_product_edit" = "Chỉnh sửa/Xóa sản phẩm";
 "contact_subject_option_profile_edit" = "Chỉnh sửa/Xóa hồ sơ";
 "contact_subject_option_report" = "Báo cáo người dùng/spam";
+"direct_answer_free_available" = "Có, sản phẩm vẫn còn";
+"direct_answer_free_no_available" = "Xin lỗi, tôi đã tặng rồi!";
+"direct_answer_free_still_have" = "Vẫn còn chứ?";
+"direct_answer_free_yours" = "Đó là của bạn!";
 "direct_answer_interested" = "Tôi quan tâm!";
 "direct_answer_is_negotiable" = "Giá có thương lượng được không?";
 "direct_answer_like_to_buy" = "Xin chào! Tôi muốn mua sản phẩm";
@@ -383,7 +388,7 @@
 "product_mark_as_sold_confirm_ok_button" = "Đánh dấu Đã bán";
 "product_mark_as_sold_confirm_title" = "Đánh dấu Đã bán";
 "product_mark_as_sold_error_generic" = "Lỗi xảy ra trong khi đánh dấu đã bán cho sản phẩm. Xin vui lòng thử lại sau.";
-"product_mark_as_sold_free_button" = "Tôi vừa tặng rồi";
+"product_mark_as_sold_free_button" = "Đánh dấu đã tặng";
 "product_mark_as_sold_free_confirm_cancel_button" = "Hủy";
 "product_mark_as_sold_free_confirm_message" = "Đánh dấu đã tặng cho sản phẩm của bạn";
 "product_mark_as_sold_free_confirm_ok_button" = "Đánh dấu";
@@ -419,6 +424,8 @@
 "product_post_empty_gallery_button" = "Chụp Ảnh";
 "product_post_empty_gallery_subtitle" = "Hãy chụp ảnh sản phẩm bạn muốn đăng";
 "product_post_empty_gallery_title" = "Không có ảnh nào";
+"product_post_free_camera_first_time_alert_subtitle" = "Chụp ảnh đẹp và tìm chủ mới cho món đồ của bạn!";
+"product_post_free_camera_first_time_alert_title" = "Bạn đang tặng gì?";
 "product_post_gallery_load_image_error_subtitle" = "Hãy chọn ảnh khác và thử lại.";
 "product_post_gallery_load_image_error_title" = "Không thể tải ảnh.";
 "product_post_gallery_permissions_button" = "Cho phép";
@@ -587,7 +594,7 @@
 "sell_send_error_invalid_title" = "Vui lòng nhập tên sản phẩm.";
 "sell_send_error_sharing_facebook" = "Lỗi xảy ra khi chia sẻ trên Facebook. Xin vui lòng thử lại sau.";
 "sell_share_fb_content" = "Hãy xem tôi đang bán gì trên letgo!";
-"sell_share_on_facebook_label" = "Chia sẻ sản phẩm lên Facebook";
+"sell_share_on_facebook_label" = "Chia sẻ trên Facebook";
 "sell_title_autogen_autotrans_label" = "Tiêu đề do letgo đề xuất và Google dịch";
 "sell_title_autogen_label" = "Tiêu đề do letgo đề xuất";
 "sell_title_field_hint" = "Tiêu đề (tùy chọn)";
@@ -621,6 +628,9 @@
 "sign_up_terms_conditions_terms_part" = "Terms & Conditions";
 "sign_up_title" = "Tạo tài khoản mới";
 "sign_up_username_field_hint" = "Họ tên";
+"tab_bar_give_away_button" = "Tặng";
+"tab_bar_give_away_tooltip" = "Giờ đây bạn có thể đem tặng";
+"tab_bar_sell_stuff_button" = "Bán Đồ";
 "tab_bar_tool_tip" = "Bán Đồ Của Bạn";
 "toast_error_internal" = "Ồ! Có gì đó không đúng.";
 "toast_no_network" = "Không có kết nối Internet";

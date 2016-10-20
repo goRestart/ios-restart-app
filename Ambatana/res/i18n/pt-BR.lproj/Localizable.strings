@@ -76,7 +76,7 @@
 "chat_express_contact_sellers_label" = "Contact these sellers before other buyers snatch them up!";
 "chat_express_contact_various_button_text" = "Contact %@ sellers";
 "chat_express_dont_ask_again_button" = "Don't ask me again";
-"chat_express_dont_miss_label" = "Don't miss out on these bargains";
+"chat_express_dont_miss_label" = "Don't miss out on these deals";
 "chat_express_one_message_sent_success_alert" = "Your message has been sent!";
 "chat_express_send_question_text" = "Send: %@";
 "chat_express_several_messages_sent_success_alert" = "Your messages have been sent!";
@@ -122,7 +122,7 @@
 "chat_product_sold_label" = "Product sold";
 "chat_related_products_title" = "YOU MIGHT BE INTERESTED IN:";
 "chat_safety_tips" = "Safety tips";
-"chat_safety_tips_message" = "• Meet in person and pay in cash.\n\n• Keep conversations in the letgo chat.\n\n• Too good to be true? Beware!";
+"chat_safety_tips_message" = "• Meet in person and pay in cash.\n\n• Keep conversations in the letgo chat.\n\n• Too good to be true? Find another buyer/seller!";
 "chat_safety_tips_title" = "STAY SAFE";
 "chat_send_button" = "Send";
 "chat_send_error_generic" = "There was an error sending the message. Please try again later.";
@@ -182,6 +182,7 @@
 "common_expand" = "Show More";
 "common_loading" = "Loading...";
 "common_max" = "max";
+"common_new" = "NEW!";
 "common_next" = "Next";
 "common_no" = "No";
 "common_ok" = "OK";
@@ -215,6 +216,10 @@
 "contact_subject_option_product_edit" = "Edit or delete product";
 "contact_subject_option_profile_edit" = "Edit or delete profile";
 "contact_subject_option_report" = "Report user or spam";
+"direct_answer_free_available" = "Yes, it's still available";
+"direct_answer_free_no_available" = "Sorry, I've already given it away!";
+"direct_answer_free_still_have" = "Still have it?";
+"direct_answer_free_yours" = "It's yours!";
 "direct_answer_interested" = "I'm interested!";
 "direct_answer_is_negotiable" = "Is the price negotiable?";
 "direct_answer_like_to_buy" = "Hi! I'd like to buy it";
@@ -312,10 +317,6 @@
 "notifications_permissions_settings_yes_button" = "Yes, Activate";
 "notifications_permissions_yes_button" = "Yes, Notify Me";
 "notifications_title" = "Notifications";
-"notifications_type_like" = "Favorited your product";
-"notifications_type_like_w_title" = "Favorited \"%@\"";
-"notifications_type_sold" = "Has sold a product you favorited";
-"notifications_type_sold_w_title" = "Has sold \"%@\"";
 "notifications_type_welcome_subtitle" = "Get started by posting your first item for sale and browse cool stuff near you.";
 "notifications_type_welcome_subtitle_w_city" = "Get started by posting your first item for sale and browse cool stuff in %@.";
 "notifications_type_welcome_title" = "Welcome to letgo!";
@@ -383,7 +384,7 @@
 "product_mark_as_sold_confirm_ok_button" = "Mark as Sold";
 "product_mark_as_sold_confirm_title" = "Mark as Sold";
 "product_mark_as_sold_error_generic" = "An error occurred while marking your product as sold. Please try again later.";
-"product_mark_as_sold_free_button" = "I've given it away";
+"product_mark_as_sold_free_button" = "Mark as given away";
 "product_mark_as_sold_free_confirm_cancel_button" = "Cancel";
 "product_mark_as_sold_free_confirm_message" = "Mark your product as already given away";
 "product_mark_as_sold_free_confirm_ok_button" = "Mark";
@@ -419,6 +420,8 @@
 "product_post_empty_gallery_button" = "Take Photo";
 "product_post_empty_gallery_subtitle" = "Take a photo of the product you want to post";
 "product_post_empty_gallery_title" = "No photos found";
+"product_post_free_camera_first_time_alert_subtitle" = "Take a good picture and find your item a new home!";
+"product_post_free_camera_first_time_alert_title" = "What are you giving away?";
 "product_post_gallery_load_image_error_subtitle" = "Choose another photo and try again.";
 "product_post_gallery_load_image_error_title" = "The photo can't be loaded";
 "product_post_gallery_permissions_button" = "Allow";
@@ -621,6 +624,9 @@
 "sign_up_terms_conditions_terms_part" = "Terms & Conditions";
 "sign_up_title" = "Create new account";
 "sign_up_username_field_hint" = "Full name";
+"tab_bar_give_away_button" = "Give It Away";
+"tab_bar_give_away_tooltip" = "Now you can give items away";
+"tab_bar_sell_stuff_button" = "Sell Stuff";
 "tab_bar_tool_tip" = "Sell Your Stuff";
 "toast_error_internal" = "Oops! Something went wrong.";
 "toast_no_network" = "No Internet Connection";
