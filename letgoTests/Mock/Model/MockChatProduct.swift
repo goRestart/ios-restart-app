@@ -13,14 +13,14 @@ struct MockChatProduct: ChatProduct {
     var name: String?
     var status: ProductStatus
     var image: File?
-    var price: Double?
+    var price: ProductPrice
     var currency: Currency
-
 
     // MARK: - Lifecycle
 
     init() {
         self.status = .Pending
+        self.price = .Negotiable(100)
         self.currency = Currency(code: "EUR", symbol: "€")
     }
 }

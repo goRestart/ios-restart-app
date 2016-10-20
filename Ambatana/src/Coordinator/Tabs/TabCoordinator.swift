@@ -104,8 +104,8 @@ extension TabCoordinator: TabNavigator {
         }
     }
 
-    func openVerifyAccounts(types: [VerificationType], source: VerifyAccountsSource) {
-        appNavigator?.openVerifyAccounts(types, source: source)
+    func openVerifyAccounts(types: [VerificationType], source: VerifyAccountsSource, completionBlock: (() -> Void)?) {
+        appNavigator?.openVerifyAccounts(types, source: source, completionBlock: completionBlock)
     }
     
     func openAppInvite() {
@@ -359,6 +359,10 @@ extension TabCoordinator: ProductDetailNavigator {
 // MARK: > ChatDetailNavigator
 
 extension TabCoordinator: ChatDetailNavigator {
+    func closeChatDetail() {
+        navigationController.popViewControllerAnimated(true)
+    }
+
     func openExpressChat(products: [Product], sourceProductId: String) {
         guard let expressChatCoordinator = ExpressChatCoordinator(products: products, sourceProductId: sourceProductId) else { return }
         expressChatCoordinator.delegate = self

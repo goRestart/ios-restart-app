@@ -9,6 +9,7 @@
 import Alamofire
 import CoreLocation
 import KeychainSwift
+import ReachabilitySwift
 
 
 final class CoreDI: InternalDI {
@@ -41,8 +42,7 @@ final class CoreDI: InternalDI {
         let myUserRepository = MyUserRepository(dataSource: myUserDataSource, dao: myUserDAO, locale: locale)
         
         let chatDataSource = ChatWebSocketDataSource(webSocketClient: webSocketClient, apiClient: apiClient)
-        let chatRepository = ChatRepository(dataSource: chatDataSource, myUserRepository: myUserRepository,
-                                            webSocketClient: webSocketClient)
+        let chatRepository = ChatRepository(dataSource: chatDataSource, myUserRepository: myUserRepository)
         self.chatRepository = chatRepository
         
         let sensorLocationService = CLLocationManager()
@@ -63,14 +63,15 @@ final class CoreDI: InternalDI {
         let favoritesDAO = FavoritesUDDAO(userDefaults: userDefaults)
         let stickersDAO = StickersUDDAO(userDefaults: userDefaults)
         let productsLimboDAO = ProductsLimboUDDAO(userDefaults: userDefaults)
-        
+        let reachability = try? Reachability.reachabilityForInternetConnection()
+
         let sessionManager = SessionManager(apiClient: apiClient, websocketClient: webSocketClient, locationManager: locationManager,
-            myUserRepository: myUserRepository, installationRepository: installationRepository,
-            chatRepository: chatRepository, tokenDAO: tokenDAO, deviceLocationDAO: deviceLocationDAO,
-            favoritesDAO: favoritesDAO)
+            myUserRepository: myUserRepository, installationRepository: installationRepository, tokenDAO: tokenDAO,
+            deviceLocationDAO: deviceLocationDAO, favoritesDAO: favoritesDAO, reachability: reachability)
 
         apiClient.installationRepository = installationRepository
         apiClient.sessionManager = sessionManager
+        webSocketClient.sessionManager = sessionManager
         self.apiClient = apiClient
         self.webSocketClient = webSocketClient
         self.sessionManager = sessionManager

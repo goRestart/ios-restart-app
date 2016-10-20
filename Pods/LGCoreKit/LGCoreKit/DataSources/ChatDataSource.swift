@@ -8,6 +8,7 @@
 
 
 import Result
+import RxSwift
 
 typealias ChatWebSocketMessagesResult = Result<[ChatMessage], WebSocketError>
 typealias ChatWebSocketMessagesCompletion = ChatWebSocketMessagesResult -> Void
@@ -25,7 +26,11 @@ typealias ChatWebSocketUnreadCountResult = Result<ChatUnreadMessages, ApiError>
 typealias ChatWebSocketUnreadCountCompletion = ChatWebSocketUnreadCountResult -> Void
 
 protocol ChatDataSource {
-    
+
+    // Event bus reception
+    var eventBus: PublishSubject<ChatEvent> { get }
+    var socketStatus: Variable<WebSocketStatus> { get }
+
     // Messages
     func indexMessages(conversationId: String, numResults: Int, offset: Int, completion: ChatWebSocketMessagesCompletion?)
     func indexMessagesNewerThan(messageId: String, conversationId: String, completion: ChatWebSocketMessagesCompletion?)
@@ -41,7 +46,6 @@ protocol ChatDataSource {
     func typingStopped(conversationId: String)
     
     // Commands
-    func authenticate(userId: String, authToken: String, completion: ChatWebSocketCommandCompletion?)
     func sendMessage(conversationId: String, messageId: String, type: String, text: String, completion: ChatWebSocketCommandCompletion?)
     func confirmReception(conversationId: String, messageIds: [String], completion: ChatWebSocketCommandCompletion?)
     func confirmRead(conversationId: String, messageIds: [String], completion: ChatWebSocketCommandCompletion?)

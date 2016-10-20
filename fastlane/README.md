@@ -36,9 +36,19 @@ Will update Web Translate It with the new validated strings from google drive, d
 fastlane ios bumper
 ```
 Will generate BumperFlags.switf based on the sources json
+### ios test
+```
+fastlane ios test
+```
+Will test
+### ios ci
+```
+fastlane ios ci
+```
+Will CI
 
 ----
 
-This README.md is auto-generated and will be re-generated every time to run [fastlane](https://fastlane.tools).
+This README.md is auto-generated and will be re-generated every time [fastlane](https://fastlane.tools) is run.
 More information about fastlane can be found on [https://fastlane.tools](https://fastlane.tools).
 The documentation of fastlane can be found on [GitHub](https://github.com/fastlane/fastlane/tree/master/fastlane).

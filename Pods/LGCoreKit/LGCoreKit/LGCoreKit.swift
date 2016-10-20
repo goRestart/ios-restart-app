@@ -36,11 +36,6 @@ public class LGCoreKit {
         guard let userId = InternalCore.myUserRepository.myUser?.objectId else { return }
         InternalCore.productRepository.indexFavorites(userId, completion: nil)
         InternalCore.stickersRepository.show(nil) // Sync stickers to NSUserDefaults
-        if activateWebsocket {
-            InternalCore.webSocketClient.startWebSocket(EnvironmentProxy.sharedInstance.webSocketURL) {
-                InternalCore.sessionManager.authenticateWebSocket(nil)
-            }
-        }
     }
     
     public static func refreshData() {

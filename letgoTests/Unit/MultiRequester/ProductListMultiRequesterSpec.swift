@@ -112,7 +112,7 @@ class ProductListMultiRequesterSpec: QuickSpec {
                         expect(sut.isLastPage(dataCount)).toEventually(equal(true))
                     }
                     it("multi requester should be using 2nd requester") {
-                        expect(sut.currentIndex).toEventually(equal(2))
+                        expect(sut.currentIndex).toEventually(equal(1))
                     }
                 }
             }

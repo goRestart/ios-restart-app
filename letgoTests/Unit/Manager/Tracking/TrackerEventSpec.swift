@@ -742,7 +742,7 @@ class TrackerEventSpec: QuickSpec {
                     let product = MockProduct()
                     product.objectId = "AAAAA"
                     product.name = "iPhone 7S"
-                    product.price = Double(123.2)
+                    product.price = .Negotiable(123.2)
                     product.currency = Currency(code: "EUR", symbol: "€")
                     product.category = .HomeAndGarden
                     product.user = productUser
@@ -810,7 +810,7 @@ class TrackerEventSpec: QuickSpec {
                     let product = MockProduct()
                     product.objectId = "AAAAA"
                     product.name = "iPhone 7S"
-                    product.price = Double(123.2)
+                    product.price = .Negotiable(123.2)
                     product.currency = Currency(code: "EUR", symbol: "€")
                     product.category = .HomeAndGarden
                     product.user = productUser
@@ -877,7 +877,7 @@ class TrackerEventSpec: QuickSpec {
                     let product = MockProduct()
                     product.objectId = "AAAAA"
                     product.name = "iPhone 7S"
-                    product.price = Double(123.983)
+                    product.price = .Negotiable(123.983)
                     product.currency = Currency(code: "EUR", symbol: "€")
                     product.category = .HomeAndGarden
                     product.user = productUser
@@ -900,7 +900,7 @@ class TrackerEventSpec: QuickSpec {
                     
                     expect(sut.params!.stringKeyParams["product-price"]).notTo(beNil())
                     let productPrice = sut.params!.stringKeyParams["product-price"] as? Double
-                    expect(productPrice).to(equal(product.price!))
+                    expect(productPrice).to(equal(product.price.value))
                     
                     expect(sut.params!.stringKeyParams["product-currency"]).notTo(beNil())
                     let productCurrency = sut.params!.stringKeyParams["product-currency"] as? String
@@ -945,7 +945,7 @@ class TrackerEventSpec: QuickSpec {
                     let product = MockProduct()
                     product.objectId = "AAAAA"
                     product.name = "iPhone 7S"
-                    product.price = Double(123.983)
+                    product.price = .Negotiable(123.983)
                     product.currency = Currency(code: "EUR", symbol: "€")
                     product.category = .HomeAndGarden
                     product.user = productUser
@@ -969,7 +969,7 @@ class TrackerEventSpec: QuickSpec {
                     
                     expect(sut.params!.stringKeyParams["product-price"]).notTo(beNil())
                     let productPrice = sut.params!.stringKeyParams["product-price"] as? Double
-                    expect(productPrice).to(equal(product.price!))
+                    expect(productPrice).to(equal(product.price.value))
                     
                     expect(sut.params!.stringKeyParams["product-currency"]).notTo(beNil())
                     let productCurrency = sut.params!.stringKeyParams["product-currency"] as? String
@@ -1089,7 +1089,7 @@ class TrackerEventSpec: QuickSpec {
                 beforeEach {
                     let mockProduct = MockProduct()
                     mockProduct.objectId = "12345"
-                    mockProduct.price = Double(123.983)
+                    mockProduct.price = .Negotiable(123.983)
                     mockProduct.currency = Currency(code: "EUR", symbol: "€")
                     mockProduct.category = .HomeAndGarden
 
@@ -1111,7 +1111,7 @@ class TrackerEventSpec: QuickSpec {
                 }
                 it("contains product-price param") {
                     let productPrice = sut.params!.stringKeyParams["product-price"] as? Double
-                    expect(productPrice) == product.price
+                    expect(productPrice) == product.price.value
                 }
                 it("contains product-currency param") {
                     let productCurrency = sut.params!.stringKeyParams["product-currency"] as? String
@@ -1156,7 +1156,7 @@ class TrackerEventSpec: QuickSpec {
                 beforeEach {
                     var mockProduct = MockChatProduct()
                     mockProduct.objectId = "12345"
-                    mockProduct.price = Double(123.983)
+                    mockProduct.price = .Negotiable(123.983)
                     mockProduct.currency = Currency(code: "EUR", symbol: "€")
 
                     product = mockProduct
@@ -1172,7 +1172,7 @@ class TrackerEventSpec: QuickSpec {
                 }
                 it("contains product-price param") {
                     let productPrice = sut.params!.stringKeyParams["product-price"] as? Double
-                    expect(productPrice) == product.price
+                    expect(productPrice) == product.price.value
                 }
                 it("contains product-currency param") {
                     let productCurrency = sut.params!.stringKeyParams["product-currency"] as? String
@@ -1204,7 +1204,7 @@ class TrackerEventSpec: QuickSpec {
                 beforeEach {
                     let mockProduct = MockProduct()
                     mockProduct.objectId = "12345"
-                    mockProduct.price = Double(123.983)
+                    mockProduct.price = .Negotiable(123.983)
                     mockProduct.currency = Currency(code: "EUR", symbol: "€")
 
                     sut = TrackerEvent.productDetailChatButton(mockProduct, typePage: .ProductDetail)
@@ -1242,7 +1242,7 @@ class TrackerEventSpec: QuickSpec {
                     let product = MockProduct()
                     product.objectId = "AAAAA"
                     product.name = "iPhone 7S"
-                    product.price = Double(123.983)
+                    product.price = .Negotiable(123.983)
                     product.currency = Currency(code: "EUR", symbol: "€")
                     product.category = .HomeAndGarden
                     product.user = productUser
@@ -1261,7 +1261,7 @@ class TrackerEventSpec: QuickSpec {
                     
                     expect(sut.params!.stringKeyParams["product-price"]).notTo(beNil())
                     let productPrice = sut.params!.stringKeyParams["product-price"] as? Double
-                    expect(productPrice).to(equal(product.price))
+                    expect(productPrice).to(equal(product.price.value))
                     
                     expect(sut.params!.stringKeyParams["product-currency"]).notTo(beNil())
                     let productCurrency = sut.params!.stringKeyParams["product-currency"] as? String
@@ -1289,7 +1289,7 @@ class TrackerEventSpec: QuickSpec {
                     let product = MockProduct()
                     product.objectId = "AAAAA"
                     product.name = "iPhone 7S"
-                    product.price = 123.983
+                    product.price = .Negotiable(123.983)
                     product.currency = Currency(code: "EUR", symbol: "€")
                     product.category = ProductCategory(rawValue: 4)!
                     product.user = myUser
@@ -1309,7 +1309,7 @@ class TrackerEventSpec: QuickSpec {
                     
                     expect(sut.params!.stringKeyParams["product-price"]).notTo(beNil())
                     let productPrice = sut.params!.stringKeyParams["product-price"] as? Double
-                    expect(productPrice).to(equal(product.price))
+                    expect(productPrice).to(equal(product.price.value))
                     
                     expect(sut.params!.stringKeyParams["product-currency"]).notTo(beNil())
                     let productCurrency = sut.params!.stringKeyParams["product-currency"] as? String
@@ -1341,7 +1341,7 @@ class TrackerEventSpec: QuickSpec {
                     let product = MockProduct()
                     product.objectId = "AAAAA"
                     product.name = "iPhone 7S"
-                    product.price = Double(123.983)
+                    product.price = .Negotiable(123.983)
                     product.currency = Currency(code: "EUR", symbol: "€")
                     product.category = .HomeAndGarden
                     product.user = productUser
@@ -1360,7 +1360,7 @@ class TrackerEventSpec: QuickSpec {
                     
                     expect(sut.params!.stringKeyParams["product-price"]).notTo(beNil())
                     let productPrice = sut.params!.stringKeyParams["product-price"] as? Double
-                    expect(productPrice).to(equal(product.price!))
+                    expect(productPrice).to(equal(product.price.value))
                     
                     expect(sut.params!.stringKeyParams["product-currency"]).notTo(beNil())
                     let productCurrency = sut.params!.stringKeyParams["product-currency"] as? String
@@ -1630,7 +1630,7 @@ class TrackerEventSpec: QuickSpec {
                     let product = MockProduct()
                     product.objectId = "AAAAA"
                     product.name = "iPhone 7S"
-                    product.price = Double(123.983)
+                    product.price = .Negotiable(123.983)
                     product.currency = Currency(code: "EUR", symbol: "€")
                     product.category = .HomeAndGarden
                     product.user = productUser
@@ -1650,7 +1650,7 @@ class TrackerEventSpec: QuickSpec {
                     
                     expect(sut.params!.stringKeyParams["product-price"]).notTo(beNil())
                     let productPrice = sut.params!.stringKeyParams["product-price"] as? Double
-                    expect(productPrice).to(equal(product.price!))
+                    expect(productPrice).to(equal(product.price.value))
                     
                     expect(sut.params!.stringKeyParams["product-currency"]).notTo(beNil())
                     let productCurrency = sut.params!.stringKeyParams["product-currency"] as? String

@@ -27,7 +27,7 @@ public enum SessionManagerError: ErrorType {
     case UserNotVerified
     case Internal(message: String)
 
-    public init(apiError: ApiError) {
+    init(apiError: ApiError) {
         switch apiError {
         case .Network:
             self = .Network
@@ -47,20 +47,20 @@ public enum SessionManagerError: ErrorType {
             self = .Scammer
         case .TooManyRequests:
             self = .TooManyRequests
+        case .UserNotVerified:
+            self = .UserNotVerified
         case .InternalServerError:
             self = .Internal(message: "Internal Server Error")
         case let .Internal(description):
             self = .Internal(message: description)
         case let .Other(httpCode):
             self = .Internal(message: "\(httpCode) HTTP code is not handled")
-        case .UserNotVerified:
-            self = .UserNotVerified
         case .NotModified:
             self = .Internal(message: "Internal API Error")
         }
     }
 
-    public init(repositoryError: RepositoryError) {
+    init(repositoryError: RepositoryError) {
         switch repositoryError {
         case .Network:
             self = .Network
@@ -72,10 +72,21 @@ public enum SessionManagerError: ErrorType {
             self = .Forbidden
         case .TooManyRequests:
             self = .TooManyRequests
+        case .UserNotVerified:
+            self = .UserNotVerified
         case let .Internal(message):
             self = .Internal(message: message)
         case .ServerError:
             self = .Internal(message: "Internal Server Error")
+        }
+    }
+
+    init(webSocketError: WebSocketError) {
+        switch webSocketError {
+        case .NotAuthenticated:
+            self = .Unauthorized
+        case .Internal:
+            self = .Internal(message: "")
         case .UserNotVerified:
             self = .UserNotVerified
         }
@@ -159,12 +170,16 @@ public class SessionManager {
     private let locationManager: LocationManager
     private let myUserRepository: MyUserRepository
     private let installationRepository: InstallationRepository
-    private let chatRepository: ChatRepository
-    
+
     // DAOs
     private let tokenDAO: TokenDAO
     private let deviceLocationDAO: DeviceLocationDAO
     private let favoritesDAO: FavoritesDAO
+
+    // Router
+    let webSocketCommandRouter = WebSocketCommandRouter(uuidGenerator: LGUUID())
+
+    var reachability: ReachableNotifier?
 
     private let disposeBag = DisposeBag()
     
@@ -175,8 +190,8 @@ public class SessionManager {
     // MARK: - Lifecycle
 
     init(apiClient: ApiClient, websocketClient: WebSocketClient, locationManager: LocationManager, myUserRepository: MyUserRepository,
-        installationRepository: InstallationRepository, chatRepository: ChatRepository, tokenDAO: TokenDAO, deviceLocationDAO: DeviceLocationDAO,
-        favoritesDAO: FavoritesDAO) {
+        installationRepository: InstallationRepository, tokenDAO: TokenDAO, deviceLocationDAO: DeviceLocationDAO,
+        favoritesDAO: FavoritesDAO, reachability: ReachableNotifier?) {
             self.apiClient = apiClient
             self.websocketClient = websocketClient
             self.locationManager = locationManager
@@ -184,8 +199,9 @@ public class SessionManager {
             self.tokenDAO = tokenDAO
             self.deviceLocationDAO = deviceLocationDAO
             self.installationRepository = installationRepository
-            self.chatRepository = chatRepository
             self.favoritesDAO = favoritesDAO
+            self.reachability = reachability
+            configureReachability()
             setupRx()
     }
 
@@ -256,19 +272,6 @@ public class SessionManager {
                         completion?(Result<MyUser, SessionManagerError>(error: SessionManagerError(apiError: error)))
                     }
             }
-    }
-    
-    public func authenticateWebSocket(completion: (Result<Void, SessionManagerError> -> ())?) {
-        let tokenString = tokenDAO.token.value?.componentsSeparatedByString(" ").last
-        guard let token = tokenString where tokenDAO.level >= .User else { return }
-        chatRepository.authenticate(token) { result in
-            if let _ = result.value {
-                completion?(Result<Void, SessionManagerError>(value: ()))
-            } else {
-                // TODO: Better error handling from WebSocketError
-                completion?(Result<Void, SessionManagerError>(error: .Unauthorized))
-            }
-        }
     }
 
     /**
@@ -351,7 +354,27 @@ public class SessionManager {
         logMessage(.Info, type: CoreLoggingOptions.Session, message: "Log out")
 
         tearDownSession(kicked: false)
-        chatRepository.close(nil)
+        disconnectChat()
+    }
+
+
+    /**
+    Connects the chat (will be done automatically too after login, startup)
+    */
+    public func connectChat(completion: (Result<Void, SessionManagerError> -> ())?) {
+        guard LGCoreKit.activateWebsocket else { return }
+
+        // WebsocketClient will call directly to completion if already connected
+        websocketClient.startWebSocket(EnvironmentProxy.sharedInstance.webSocketURL) { [weak self] in
+            self?.authenticateWebSocket(completion)
+        }
+    }
+
+    /*
+    Disconnects the chat
+    */
+    public func disconnectChat() {
+        websocketClient.closeWebSocket(nil)
     }
 
 
@@ -401,8 +424,38 @@ public class SessionManager {
         }
     }
 
+    func authenticateWebSocket(completion: (Result<Void, SessionManagerError> -> ())?) {
+        let tokenString = tokenDAO.token.value?.componentsSeparatedByString(" ").last
+        guard let token = tokenString where tokenDAO.level >= .User else {
+            completion?(Result<Void, SessionManagerError>(error: .Unauthorized))
+            return
+        }
+        guard let userId = myUserRepository.myUser?.objectId else {
+            completion?(Result<Void, SessionManagerError>(error: .Unauthorized))
+            return
+        }
+
+        let request = webSocketCommandRouter.authenticate(userId, authToken: token)
+        websocketClient.sendCommand(request) { result in
+            if let error = result.error {
+                completion?(Result<Void, SessionManagerError>(error: SessionManagerError(webSocketError: error)))
+            } else {
+                completion?(Result<Void, SessionManagerError>(value: ()))
+            }
+        }
+    }
+
 
     // MARK: - Private methods
+
+    private func configureReachability() {
+        guard let _ = reachability else { return }
+        reachability?.onReachable = { [weak self] in
+            self?.connectChat(nil)
+        }
+        reachability?.start()
+    }
+
     // MARK: > Installation authentication
 
     /**
@@ -526,7 +579,7 @@ public class SessionManager {
             NSNotificationCenter.defaultCenter().postNotificationName(Notification.Login.rawValue, object: nil)
         }
 
-        chatRepository.openAndAuthenticate(nil)
+        connectChat(nil)
     }
 
     /**

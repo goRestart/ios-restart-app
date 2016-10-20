@@ -11,11 +11,11 @@ import Result
 typealias NotificationsDataSourceResult = Result<[Notification], ApiError>
 typealias NotificationsDataSourceCompletion = NotificationsDataSourceResult -> Void
 
-typealias NotificationsDataSourceEmptyResult = Result<Void, ApiError>
-typealias NotificationsDataSourceEmptyCompletion = NotificationsDataSourceEmptyResult -> Void
+typealias NotificationsDataSourceUnreadCountResult = Result<Int, ApiError>
+typealias NotificationsDataSourceUnreadCountCompletion = NotificationsDataSourceUnreadCountResult -> Void
+
 
 protocol NotificationsDataSource {
     func index(completion: NotificationsDataSourceCompletion?)
-    func markAllAsRead(completion: NotificationsDataSourceEmptyCompletion?)
-    func markAsRead(notificationIds: [String], completion: NotificationsDataSourceEmptyCompletion?)
+    func unreadCount(completion: NotificationsDataSourceUnreadCountCompletion?)
 }

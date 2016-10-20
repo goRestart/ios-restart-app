@@ -49,6 +49,7 @@ public struct RetrieveProductsParams: CustomStringConvertible, Equatable {
     public var statuses: [ProductStatus]?   // Default 1,3
     public var maxPrice: Int?
     public var minPrice: Int?
+    public var freePrice: Bool?
     public var distanceRadius: Int?
     public var distanceType: DistanceType?
 
@@ -204,6 +205,9 @@ extension RetrieveProductsParams {
         let categories = categoryIds?.map { String($0) }.joinWithSeparator(",")
         if categories != "" {
             params["categories"] = categories
+        }
+        if let freePrice = freePrice where freePrice {
+            params["price_flag"] = ProductPriceFlag.Free.rawValue
         }
         params["max_price"] = maxPrice
         params["min_price"] = minPrice

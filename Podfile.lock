@@ -4,7 +4,7 @@ PODS:
     - Alamofire (~> 3.5)
   - Amplitude-iOS (3.8.5)
   - AppsFlyerFramework (4.5.8)
-  - Argo (3.0.2)
+  - Argo (3.1.0)
   - Bolts (1.8.4):
     - Bolts/AppLinks (= 1.8.4)
     - Bolts/Tasks (= 1.8.4)
@@ -92,9 +92,9 @@ PODS:
   - KMPlaceholderTextView (1.2.2)
   - Leanplum-iOS-SDK (1.4.0.2)
   - LGCollapsibleLabel (0.2.0)
-  - LGCoreKit (1.3.0):
+  - LGCoreKit (1.4.0):
     - Alamofire (~> 3.5.0)
-    - Argo (= 3.0.2)
+    - Argo (= 3.1.0)
     - CocoaLumberjack/Swift (~> 2.4.0)
     - Curry (~> 2.3.3)
     - JSONWebToken (~> 1.5.0)
@@ -141,22 +141,22 @@ PODS:
 DEPENDENCIES:
   - AlamofireImage (~> 2.5.0)
   - Amplitude-iOS (~> 3.8.5)
-  - AppsFlyerFramework (~> 4.5.6)
-  - Argo (= 3.0.2)
-  - Branch (~> 0.12.11)
+  - AppsFlyerFramework (~> 4.5.8)
+  - Argo (= 3.1.0)
+  - Branch (~> 0.12.12)
   - bumper (= 0.2.0)
   - CHTCollectionViewWaterfallLayout (~> 0.9.5)
   - CocoaLumberjack/Swift (~> 2.4.0)
   - CollectionVariable (from `https://github.com/gitdoapp/CollectionVariable`, commit `d99e7a8dfaad32823c207e40fca7c2f2c3894ead`)
   - Crashlytics (~> 3.8.2)
   - DeviceUtil (~> 1.3.8)
-  - Fabric (~> 1.6.8)
+  - Fabric (~> 1.6.10)
   - FastttCamera (~> 0.3.4)
   - FBSDKCoreKit (~> 4.15.1)
   - FBSDKLoginKit (~> 4.15.1)
   - FBSDKShareKit (~> 4.15.1)
   - Firebase/AppIndexing (~> 3.7.1)
-  - FLEX (~> 2.0)
+  - FLEX (~> 2.4.0)
   - Google/SignIn (~> 3.0.3)
   - GoogleIDFASupport (~> 3.14.0)
   - JBKenBurnsView (from `https://github.com/letgoapp/JBKenBurns`, commit `56419f79cb763f8d2ee3a75e4eca51ebc1deab6a`)
@@ -164,7 +164,7 @@ DEPENDENCIES:
   - KMPlaceholderTextView (~> 1.2.2)
   - Leanplum-iOS-SDK (~> 1.4.0)
   - LGCollapsibleLabel (= 0.2.0)
-  - LGCoreKit (= 1.3.0)
+  - LGCoreKit (= 1.4.0)
   - Nimble (~> 4.1.0)
   - OHHTTPStubs (~> 5.2.1)
   - OHHTTPStubs/Swift
@@ -205,7 +205,7 @@ SPEC CHECKSUMS:
   AlamofireImage: 2d34936e5201270bb17a316a786e90e83b4a249d
   Amplitude-iOS: de7cfde0c791d05fb0e0f82bd34cbd3585ccd63f
   AppsFlyerFramework: 2124bd17691b8c5f5ac489b52e8618b8db021428
-  Argo: 41018b96f2cda032f6eaa6bb8fdf2f3074baa1d9
+  Argo: bb0e94e309d6ceb8fa58910205c8968be101e429
   Bolts: 8a7995239dbe724f9cba2248b766d48b7ebdd322
   Branch: 714cc02afc4676902f14f949157cdbf8c73f64f4
   bumper: bea4ea20dfc0591a9821796b4b28d0bfe53b0488
@@ -243,7 +243,7 @@ SPEC CHECKSUMS:
   KMPlaceholderTextView: bbff031935d84f7eedb585e7f77120020fbae9e8
   Leanplum-iOS-SDK: acd1b67d17b4ce09a8be363300910542aeeec5ef
   LGCollapsibleLabel: f1631ac1274b268731e3f6a74b121e97a97626da
-  LGCoreKit: c93f967be686273b56bbed3033db14f7d3c9e25d
+  LGCoreKit: 3ab605a5c6578ac44de6a69f5be104db9ad5e148
   Nimble: 97a0a4cae5124c117115634b2d055d8c97d0af19
   OHHTTPStubs: 3a42f25c00563b71355ac73112ba2324e9e6cef4
   Quick: 13a2a2b19a5d8e3ed4fd0c36ee46597fd77ebf71
@@ -260,6 +260,6 @@ SPEC CHECKSUMS:
   TwitterCore: 817eae3e291fa4125b47789e26a4f6f024115c1f
   TwitterKit: 8a383da8d9c21b0423716381ea8bbfce20622d91
 
-PODFILE CHECKSUM: 20b26ad0851b3ea104a76122b80aa3dae08cb71f
+PODFILE CHECKSUM: fa36458a37532757215704d0399960d074557c12
 
 COCOAPODS: 1.1.0.rc.3

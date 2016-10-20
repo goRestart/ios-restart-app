@@ -14,15 +14,16 @@ struct LGChatProduct: ChatProduct {
     let name: String?
     let status: ProductStatus
     let image: File?
-    let price: Double?
+    let price: ProductPrice
     let currency: Currency
     
-    init(objectId: String?, name: String?, status: Int, image: File?, price: Double?, currency: Currency) {
+    init(objectId: String?, name: String?, status: Int, image: File?, price: Double?, priceFlag: ProductPriceFlag?,
+         currency: Currency) {
         self.objectId = objectId
         self.name = name
         self.status = ProductStatus(rawValue: status) ?? .Pending
         self.image = image
-        self.price = price
+        self.price = ProductPrice.fromPrice(price, andFlag: priceFlag)
         self.currency = currency
     }
 }
@@ -35,6 +36,7 @@ extension LGChatProduct: Decodable {
         static let status = "status"
         static let image = "image"
         static let price = ["price", "amount"]
+        static let priceFlag = [ "price", "flag" ]
         static let currency = ["price", "currency"]
     }
     
@@ -45,6 +47,7 @@ extension LGChatProduct: Decodable {
             <*> j <| JSONKeys.status
             <*> LGArgo.jsonToAvatarFile(j, avatarKey: JSONKeys.image)
             <*> j <|? JSONKeys.price
+            <*> j <|? JSONKeys.priceFlag
             <*> LGArgo.jsonToCurrency(j, currencyKey: JSONKeys.currency)
         
         return init1

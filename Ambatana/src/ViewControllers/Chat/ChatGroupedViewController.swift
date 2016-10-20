@@ -18,6 +18,8 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
     var viewPager: LGViewPager
     var editButton: UIBarButtonItem?
 
+    var validationPendingEmptyView: LGEmptyView = LGEmptyView()
+
     // Data
     private let viewModel: ChatGroupedViewModel
     private var pages: [BaseView]
@@ -248,6 +250,8 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
         navigationItem.leftBarButtonItem = leftButton
         #endif
 
+        setupValidationEmptyState()
+
         view.backgroundColor = UIColor.listBackgroundColor
         setNavBarTitle(LGLocalizedString.chatListTitle)
 
@@ -260,6 +264,13 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
         view.addSubview(viewPager)
 
         viewPager.reloadData()
+    }
+
+    private func setupValidationEmptyState() {
+        guard let emptyVM = viewModel.verificationPendingEmptyVM else { return }
+        validationPendingEmptyView.setupWithModel(emptyVM)
+        validationPendingEmptyView.frame = view.frame
+        view.addSubview(validationPendingEmptyView)
     }
 
     private dynamic func chatInfo() {
@@ -289,6 +300,7 @@ extension ChatGroupedViewController {
 
     private func setupRxBindings() {
         setupRxNavBarBindings()
+        setupRxVerificationViewBindings()
     }
 
     private func setupRxNavBarBindings() {
@@ -313,6 +325,12 @@ extension ChatGroupedViewController {
 
             strongSelf.editButton?.enabled = enabled
         }.addDisposableTo(disposeBag)
+    }
+
+    private func setupRxVerificationViewBindings() {
+        viewModel.verificationPending.asObservable().bindTo(viewPager.rx_hidden).addDisposableTo(disposeBag)
+        viewModel.verificationPending.asObservable().map { !$0 }.bindTo(validationPendingEmptyView.rx_hidden)
+            .addDisposableTo(disposeBag)
     }
 }
 

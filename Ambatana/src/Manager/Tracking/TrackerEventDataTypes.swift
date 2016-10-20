@@ -585,7 +585,7 @@ public struct EventParameters {
         params[.ProductId] = product.objectId
         params[.ProductLatitude] = product.location.latitude
         params[.ProductLongitude] = product.location.longitude
-        params[.ProductPrice] = product.price
+        params[.ProductPrice] = product.price.value
         params[.ProductCurrency] = product.currency.code
         params[.CategoryId] = product.category.rawValue
         params[.ProductType] = product.user.isDummy ?
@@ -595,7 +595,7 @@ public struct EventParameters {
     
     internal mutating func addChatProductParams(product: ChatProduct) {
         params[.ProductId] = product.objectId
-        params[.ProductPrice] = product.price
+        params[.ProductPrice] = product.price.value
         params[.ProductCurrency] = product.currency.code
         params[.ProductType] = EventParameterProductItemType.Real.rawValue
     }

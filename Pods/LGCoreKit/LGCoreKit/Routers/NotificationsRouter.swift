@@ -9,21 +9,23 @@
 
 enum NotificationsRouter: URLRequestAuthenticable {
 
-    static let notificationsEndpoint = "/api/notifications"
+    static let notificationsEndpoint = "/notifications"
 
     case Index
-    case Patch(params: [String : AnyObject])
+    case UnreadCount
 
     var endpoint: String {
         switch self {
-        case .Index, .Patch:
+        case .Index:
             return NotificationsRouter.notificationsEndpoint
+        case .UnreadCount:
+            return NotificationsRouter.notificationsEndpoint + "/unread-count"
         }
     }
 
     var requiredAuthLevel: AuthLevel {
         switch self {
-        case .Index, .Patch:
+        case .Index, .UnreadCount:
             return .User
         }
     }
@@ -33,9 +35,9 @@ enum NotificationsRouter: URLRequestAuthenticable {
     var URLRequest: NSMutableURLRequest {
         switch self {
         case .Index:
-            return Router<APIBaseURL>.Index(endpoint: endpoint, params: [:]).URLRequest
-        case .Patch(let params):
-            return Router<APIBaseURL>.BatchPatch(endpoint: endpoint, params: params, encoding: .URL).URLRequest
+            return Router<NotificationsBaseURL>.Index(endpoint: endpoint, params: [:]).URLRequest
+        case .UnreadCount:
+            return Router<NotificationsBaseURL>.Read(endpoint: endpoint, params: [:]).URLRequest
         }
     }
 }

@@ -20,7 +20,7 @@ struct LGProduct: Product {
     var name: String?
     var nameAuto: String?
     var descr: String?
-    var price: Double?
+    var price: ProductPrice
     var currency: Currency
 
     var location: LGLocationCoordinates2D
@@ -36,13 +36,13 @@ struct LGProduct: Product {
     var images: [File]
 
     var user: User
-    
+
     // This parameters is not included in the API, we set a default value that must be changed if needed once 
     // the object is created after the decoding.
     var favorite: Bool = false
 
     init(objectId: String?, updatedAt: NSDate?, createdAt: NSDate?, name: String?, nameAuto: String?, descr: String?,
-         price: Double?, currency: Currency, location: LGLocationCoordinates2D, postalAddress: PostalAddress,
+         price: ProductPrice, currency: Currency, location: LGLocationCoordinates2D, postalAddress: PostalAddress,
          languageCode: String?, category: ProductCategory, status: ProductStatus, thumbnail: File?,
          thumbnailSize: LGSize?, images: [File], user: User) {
         self.objectId = objectId
@@ -80,7 +80,7 @@ struct LGProduct: Product {
     }
     
     static func productWithId(objectId: String?, updatedAt: NSDate?, createdAt: NSDate?, name: String?,
-                              nameAuto: String?, descr: String?, price: Double?, currency: String,
+                              nameAuto: String?, descr: String?, price: Double?, priceFlag: ProductPriceFlag?, currency: String,
                               location: LGLocationCoordinates2D, postalAddress: PostalAddress, languageCode: String?,
                               category: Int, status: Int, thumbnail: String?, thumbnailSize: LGSize?, images: [LGFile],
                               user: LGUser) -> LGProduct {
@@ -89,9 +89,10 @@ struct LGProduct: Product {
         let actualStatus = ProductStatus(rawValue: status) ?? .Pending
         let actualThumbnail = LGFile(id: nil, urlString: thumbnail)
         let actualImages = images.flatMap { $0 as File }
+        let productPrice = ProductPrice.fromPrice(price, andFlag: priceFlag)
         
         return self.init(objectId: objectId, updatedAt: updatedAt, createdAt: createdAt, name: name,
-                         nameAuto: nameAuto, descr: descr, price: price, currency: actualCurrency, location: location,
+                         nameAuto: nameAuto, descr: descr, price: productPrice, currency: actualCurrency, location: location,
                          postalAddress: postalAddress, languageCode: languageCode, category: actualCategory,
                          status: actualStatus, thumbnail: actualThumbnail, thumbnailSize: thumbnailSize,
                          images: actualImages, user: user)
@@ -119,6 +120,8 @@ extension LGProduct: CustomStringConvertible {
     }
 }
 
+extension ProductPriceFlag: Decodable {}
+
 extension LGProduct : Decodable {
     /**
     Expects a json in the form:
@@ -130,6 +133,7 @@ extension LGProduct : Decodable {
 			"language_code": "US",
 			"description": "Selling a brand new, never opened FitBit, I'm asking for $75 negotiable.",
 			"price": 75,
+			"price_flag": 1,   // Can be 0 (normal), 1 (free), 2 (Negotiable), 3 (Firm price)
 			"currency": "USD",
 			"status": 1,
 			"geo": {
@@ -174,6 +178,7 @@ extension LGProduct : Decodable {
         let init2 = init1   <*> j <|? "image_information"                           // nameAuto : String?
                             <*> j <|? "description"                                 // descr : String?
                             <*> j <|? "price"                                       // price : Float?
+                            <*> j <|? "price_flag"
                             <*> j <| "currency"                                    // currency : String?
         let init3 = init2   <*> LGArgo.jsonToCoordinates(geo, latKey: "lat", lonKey: "lng") // location : LGLocationCoordinates2D?
                             <*> j <| "geo"                                          // postalAddress : PostalAddress

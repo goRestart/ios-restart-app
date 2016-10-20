@@ -10,8 +10,12 @@ import LGCoreKit
 
 extension Priceable {
     func priceString() -> String {
-        let price = self.price ?? 0
-
-        return price > 0 ? formattedPrice() :  LGLocalizedString.productNegotiablePrice
+        let priceValue = price.value ?? 0
+        
+        if FeatureFlags.freePostingMode.enabled && price.free {
+            return LGLocalizedString.productFreePrice
+        } else {
+            return priceValue > 0 ? formattedPrice() :  LGLocalizedString.productNegotiablePrice
+        }
     }
 }

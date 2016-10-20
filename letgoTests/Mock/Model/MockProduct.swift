@@ -14,7 +14,7 @@ class MockProduct: MockBaseModel, Product {
     var name: String?
     var nameAuto: String?
     var descr: String?
-    var price: Double?
+    var price: ProductPrice
     var currency: Currency
     
     var location: LGLocationCoordinates2D
@@ -46,6 +46,7 @@ class MockProduct: MockBaseModel, Product {
         self.category = .Electronics
         self.user = MockUser()
         self.favorite = false
+        self.price = .Negotiable(100)
         self.currency = Currency(code: "USD", symbol: "$")
         super.init()
     }
