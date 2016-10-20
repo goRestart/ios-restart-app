@@ -14,7 +14,7 @@ public class NotificationCellDrawerFactory {
 
     static func drawerForNotificationData(notification: NotificationData) -> NotificationCellDrawer {
         switch notification.type {
-        case .Product:
+        case .ProductFavorite, .ProductSold:
             return ProductNotificationCellDrawer()
         case .Welcome:
             return WelcomeNotificationCellDrawer()

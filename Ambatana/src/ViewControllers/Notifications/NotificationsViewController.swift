@@ -140,8 +140,7 @@ extension NotificationsViewController: UITableViewDelegate, UITableViewDataSourc
 
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
-        guard let cellData = viewModel.dataAtIndex(indexPath.row) else { return }
-        cellData.primaryAction()
+        viewModel.selectedItemAtIndex(indexPath.row)
     }
 }
 

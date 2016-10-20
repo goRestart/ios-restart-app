@@ -28,6 +28,7 @@ class NotificationsViewModel: BaseViewModel {
     private let userRepository: UserRepository
     private let notificationsManager: NotificationsManager
     private let locationManager: LocationManager
+    private let tracker: Tracker
 
     private var pendingCountersUpdate = false
 
@@ -36,16 +37,19 @@ class NotificationsViewModel: BaseViewModel {
                   productRepository: Core.productRepository,
                   userRepository: Core.userRepository,
                   notificationsManager: NotificationsManager.sharedInstance,
-                  locationManager: Core.locationManager)
+                  locationManager: Core.locationManager,
+                  tracker: TrackerProxy.sharedInstance)
     }
 
     init(notificationsRepository: NotificationsRepository, productRepository: ProductRepository,
-         userRepository: UserRepository, notificationsManager: NotificationsManager, locationManager: LocationManager) {
+         userRepository: UserRepository, notificationsManager: NotificationsManager, locationManager: LocationManager,
+         tracker: Tracker) {
         self.notificationsRepository = notificationsRepository
         self.productRepository = productRepository
         self.userRepository = userRepository
         self.notificationsManager = notificationsManager
         self.locationManager = locationManager
+        self.tracker = tracker
 
         super.init()
     }
@@ -53,6 +57,7 @@ class NotificationsViewModel: BaseViewModel {
     override func didBecomeActive(firstTime: Bool) {
         super.didBecomeActive(firstTime)
 
+        trackVisit()
         reloadNotifications()
     }
 
@@ -76,6 +81,12 @@ class NotificationsViewModel: BaseViewModel {
 
     func refresh() {
         reloadNotifications()
+    }
+
+    func selectedItemAtIndex(index: Int) {
+        guard let data = dataAtIndex(index) else { return }
+        trackItemPressed(data.type.eventType)
+        data.primaryAction()
     }
 
 
@@ -120,7 +131,7 @@ class NotificationsViewModel: BaseViewModel {
                 subtitle = LGLocalizedString.notificationsTypeLike
             }
             let icon = UIImage(named: "ic_favorite")
-            return buildProductNotification({ [weak self] in
+            return buildProductNotification(.ProductFavorite, primaryAction: { [weak self] in
                 let data = UserDetailData.Id(userId: userId, source: .Notifications)
                 self?.tabNavigator?.openUser(data)
             }, subtitle: subtitle, userName: userName, icon: icon, productId: productId,
@@ -135,7 +146,7 @@ class NotificationsViewModel: BaseViewModel {
                 subtitle = LGLocalizedString.notificationsTypeSold
             }
             let icon = UIImage(named: "ic_dollar_sold")
-            return buildProductNotification({ [weak self] in
+            return buildProductNotification(.ProductSold, primaryAction: { [weak self] in
                 let data = ProductDetailData.Id(productId: productId)
                 self?.tabNavigator?.openProduct(data, source: .Notifications)
             }, subtitle: subtitle, userName: userName, icon: icon, productId: productId,
@@ -144,7 +155,7 @@ class NotificationsViewModel: BaseViewModel {
         }
     }
 
-    private func buildProductNotification(primaryAction: () -> Void, subtitle: String, userName: String?, icon: UIImage?,
+    private func buildProductNotification(type: NotificationDataType, primaryAction: () -> Void, subtitle: String, userName: String?, icon: UIImage?,
                                           productId: String, productImage: String?, userId: String, userImage: String?,
                                           date: NSDate, isRead: Bool) -> NotificationData {
         let title: String
@@ -154,7 +165,7 @@ class NotificationsViewModel: BaseViewModel {
             title = LGLocalizedString.notificationsUserWoName
         }
         let userImagePlaceholder = LetgoAvatar.avatarWithID(userId, name: userName)
-        return NotificationData(type: .Product, title: title, subtitle: subtitle, date: date, isRead: isRead,
+        return NotificationData(type: type, title: title, subtitle: subtitle, date: date, isRead: isRead,
                                 primaryAction: primaryAction, icon: icon,
                                 leftImage: userImage, leftImagePlaceholder: userImagePlaceholder,
                                 leftImageAction: { [weak self] in
@@ -175,5 +186,33 @@ class NotificationsViewModel: BaseViewModel {
         }
         return NotificationData(type: .Welcome, title: title, subtitle: subtitle, date: NSDate(), isRead: true,
                                 primaryAction: { [weak self] in self?.delegate?.vmOpenSell() })
+    }
+}
+
+
+// MARK: - Trackings
+
+private extension NotificationsViewModel {
+    func trackVisit() {
+        let event = TrackerEvent.NotificationCenterStart()
+        tracker.trackEvent(event)
+    }
+
+    func trackItemPressed(type: EventParameterNotificationType) {
+        let event = TrackerEvent.NotificationCenterComplete(type)
+        tracker.trackEvent(event)
+    }
+}
+
+private extension NotificationDataType {
+    var eventType: EventParameterNotificationType {
+        switch self {
+        case .ProductSold:
+            return .ProductSold
+        case .ProductFavorite:
+            return .Favorite
+        case .Welcome:
+            return .Welcome
+        }
     }
 }
