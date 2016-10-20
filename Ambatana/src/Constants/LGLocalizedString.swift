@@ -99,6 +99,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("categories_fashion_and_accessories", comment: "")
 	}
 
+	static var categoriesFree: String {
+		return NSLocalizedString("categories_free", comment: "")
+	}
+
 	static var categoriesHomeAndGarden: String {
 		return NSLocalizedString("categories_home_and_garden", comment: "")
 	}
@@ -747,6 +751,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("common_next", comment: "")
 	}
 
+	static var commonNew: String {
+		return NSLocalizedString("common_new", comment: "")
+	}
+
 	static var commonOk: String {
 		return NSLocalizedString("common_ok", comment: "")
 	}
@@ -869,6 +877,22 @@ struct LGLocalizedString {
 
 	static var contactSubjectOptionReport: String {
 		return NSLocalizedString("contact_subject_option_report", comment: "")
+	}
+
+	static var directAnswerFreeYours: String {
+		return NSLocalizedString("direct_answer_free_yours", comment: "")
+	}
+
+	static var directAnswerFreeAvailable: String {
+		return NSLocalizedString("direct_answer_free_available", comment: "")
+	}
+
+	static var directAnswerFreeNoAvailable: String {
+		return NSLocalizedString("direct_answer_free_no_available", comment: "")
+	}
+
+	static var directAnswerFreeStillHave: String {
+		return NSLocalizedString("direct_answer_free_still_have", comment: "")
 	}
 
 	static var directAnswerInterested: String {
@@ -2497,6 +2521,18 @@ struct LGLocalizedString {
 
 	static var tabBarToolTip: String {
 		return NSLocalizedString("tab_bar_tool_tip", comment: "")
+	}
+
+	static var tabBarSellStuffButton: String {
+		return NSLocalizedString("tab_bar_sell_stuff_button", comment: "")
+	}
+
+	static var tabBarGiveAwayButton: String {
+		return NSLocalizedString("tab_bar_give_away_button", comment: "")
+	}
+
+	static var tabBarGiveAwayTooltip: String {
+		return NSLocalizedString("tab_bar_give_away_tooltip", comment: "")
 	}
 
 	static var toastErrorInternal: String {
