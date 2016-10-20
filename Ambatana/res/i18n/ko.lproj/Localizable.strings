@@ -122,7 +122,7 @@
 "chat_product_sold_label" = "상품 판매완료";
 "chat_related_products_title" = "사용자께서는 다음 항목들에 관심이 가실지도 모릅니다:";
 "chat_safety_tips" = "안전 정책";
-"chat_safety_tips_message" = "•직접 만나고 현금 결제하기.\n\n•letgo 채팅으로 대화 진행하기.\n\n•너무 좋은 가격인가요? 한번 의심해보세요!";
+"chat_safety_tips_message" = "•직접 만나고 현금 결제하기.\n\n•letgo 채팅으로 대화 진행하기.\n\n•믿기에 너무 좋은 가격인가요? 다른 구매자/판매자를 찾아보세요.";
 "chat_safety_tips_title" = "안전 정책";
 "chat_send_button" = "발송";
 "chat_send_error_generic" = "메세지를 보내는데 오류가 발생했습니다. 다시 시도해주세요.";

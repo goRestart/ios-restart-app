@@ -387,7 +387,7 @@
 "product_mark_as_sold_confirm_ok_button" = "Mark as Sold";
 "product_mark_as_sold_confirm_title" = "Mark as Sold";
 "product_mark_as_sold_error_generic" = "An error occurred while marking your product as sold. Please try again later.";
-"product_mark_as_sold_free_button" = "I've given it away";
+"product_mark_as_sold_free_button" = "Mark as given away";
 "product_mark_as_sold_free_confirm_cancel_button" = "Cancel";
 "product_mark_as_sold_free_confirm_message" = "Mark your product as already given away";
 "product_mark_as_sold_free_confirm_ok_button" = "Mark";

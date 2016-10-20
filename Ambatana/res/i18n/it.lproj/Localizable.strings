@@ -122,7 +122,7 @@
 "chat_product_sold_label" = "Prodotto venduto";
 "chat_related_products_title" = "POTRESTI ESSERE INTERESSATO A:";
 "chat_safety_tips" = "Consigli utili";
-"chat_safety_tips_message" = "• Incontra di persona e paga in contanti.\n\n• Continua le conversazioni nella chat di letgo.\n\n• Troppo bello per essere vero? Fai attenzione!";
+"chat_safety_tips_message" = "• Incontra di persona e paga in contanti.\n\n• Continua le conversazioni nella chat di letgo.\n\n• Troppo bello per essere vero? Trova un altro venditore/acquirente,";
 "chat_safety_tips_title" = "CONSIGLI UTILI";
 "chat_send_button" = "Invia";
 "chat_send_error_generic" = "Si è verificato un errore durante l'invio del messaggio. Riprova più tardi.";

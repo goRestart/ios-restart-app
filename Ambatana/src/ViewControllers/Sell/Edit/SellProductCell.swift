@@ -81,11 +81,11 @@ class SellProductCell: UICollectionViewCell {
 
 extension SellProductCell {
     func highlight() {
-        self.backgroundColor = UIColor.grayDark
+        self.backgroundColor = UIColor.secondaryColorHighlighted
         performSelector(#selector(resetBgColor), withObject: nil, afterDelay: 0.2)
     }
 
     dynamic private func resetBgColor() {
-        self.backgroundColor = UIColor.black
+        self.backgroundColor = UIColor.white
     }
 }

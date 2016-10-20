@@ -1159,7 +1159,7 @@
 "product_mark_as_sold_free_confirm_cancel_button" = "Cancel";
 
 // Product mark as given away button.
-"product_mark_as_sold_free_button" = "I've given it away";
+"product_mark_as_sold_free_button" = "Mark as given away";
 
 // Alert message when product is mark as given away
 "product_mark_as_sold_free_confirm_message" = "Mark your product as already given away";
