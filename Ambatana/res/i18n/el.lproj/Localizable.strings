@@ -122,7 +122,7 @@
 "chat_product_sold_label" = "Το προϊόν πωλήθηκε";
 "chat_related_products_title" = "ΜΠΟΡΕΙ ΝΑ ΕΝΔΙΑΦΕΡΕΣΤΕ ΓΙΑ:";
 "chat_safety_tips" = "Συμβουλές ασφαλείας";
-"chat_safety_tips_message" = "• Συναντηθείτε πρόσωπο με πρόσωπο και πληρώστε μετρητά.\n\n• Αποθηκεύστε τις συνομιλίες σας στο chat του letgo.\n\n• Προσοχή! Πολύ καλό για να είναι αληθινό;";
+"chat_safety_tips_message" = "• Συναντηθείτε πρόσωπο με πρόσωπο και πληρώστε μετρητά.\n\n• Αποθηκεύστε τις συνομιλίες σας στο chat του letgo.\n\n• Πολύ καλό για να είναι αληθινό; Βρείτε κάποιον άλλο αγοραστή/πωλητή!";
 "chat_safety_tips_title" = "ΣΥΜΒΟΥΛΈΣ ΑΣΦΑΛΕΊΑΣ";
 "chat_send_button" = "Αποστολή";
 "chat_send_error_generic" = "Παρουσιάσθηκε σφάλμα κατά την αποστολή του μηνύματος. Θα πρέπει να προσπαθήσεις ξανά αργότερα.";
@@ -182,6 +182,7 @@
 "common_expand" = "Δείτε Περισσότερα";
 "common_loading" = "Φόρτωση…";
 "common_max" = "max";
+"common_new" = "NEW!";
 "common_next" = "Επόμενο";
 "common_no" = "Όχι";
 "common_ok" = "ΟΚ";
@@ -387,7 +388,7 @@
 "product_mark_as_sold_confirm_ok_button" = "Μάρκαρε ότι πωλήθηκε";
 "product_mark_as_sold_confirm_title" = "Μάρκαρε ότι πωλήθηκε";
 "product_mark_as_sold_error_generic" = "Παρουσιάσθηκε σφάλμα κατά το μαρκάρισμα του προϊόντος πως έχει πωληθεί! Θα πρέπει να προσπαθήσεις ξανά αργότερα.";
-"product_mark_as_sold_free_button" = "Το έχω δώσει";
+"product_mark_as_sold_free_button" = "Μαρκάρισμα ως χαρισμένο";
 "product_mark_as_sold_free_confirm_cancel_button" = "Ακύρωση";
 "product_mark_as_sold_free_confirm_message" = "Μαρκάρετε το προϊόν σας ως χαρισμένο";
 "product_mark_as_sold_free_confirm_ok_button" = "Μαρκάρισμα";
@@ -423,6 +424,8 @@
 "product_post_empty_gallery_button" = "Τραβήξτε Φωτογραφία";
 "product_post_empty_gallery_subtitle" = "Τραβήξτε φωτογραφία του προϊόντος που θέλετε να δημοσιεύσετε";
 "product_post_empty_gallery_title" = "Δε βρέθηκαν φωτογραφίες";
+"product_post_free_camera_first_time_alert_subtitle" = "Take a good picture and find your item a new home!";
+"product_post_free_camera_first_time_alert_title" = "What are you giving away?";
 "product_post_gallery_load_image_error_subtitle" = "Διαλέξτε μια άλλη φωτογραφία και προσπαθήστε ξανά.";
 "product_post_gallery_load_image_error_title" = "Η φωτογραφία δεν μπορεί να φορτώσει";
 "product_post_gallery_permissions_button" = "Πρόσβαση";
@@ -625,6 +628,9 @@
 "sign_up_terms_conditions_terms_part" = "Terms & Conditions";
 "sign_up_title" = "Δημιουργία νέου λογαριασμού";
 "sign_up_username_field_hint" = "Ονοματεπώνυμο";
+"tab_bar_give_away_button" = "Give It Away";
+"tab_bar_give_away_tooltip" = "Now you can give it away";
+"tab_bar_sell_stuff_button" = "Sell Stuff";
 "tab_bar_tool_tip" = "Πούλα τα Πράγματά σου";
 "toast_error_internal" = "Όπα! Κάτι πήγε στραβά.";
 "toast_no_network" = "Καμία Σύνδεση στο Διαδίκτυο";

@@ -122,7 +122,7 @@
 "chat_product_sold_label" = "Sản phẩm đã bán";
 "chat_related_products_title" = "BẠN CÓ THỂ QUAN TÂM TỚI:";
 "chat_safety_tips" = "Lời khuyên an toàn";
-"chat_safety_tips_message" = "• Gặp trực tiếp và trả bằng tiền mặt.\n\n• Lưu giữ các cuộc hội thoại trên mục trò chuyện letgo.\n\n• Giá quá hời? Hãy thận trọng!";
+"chat_safety_tips_message" = "• Gặp trực tiếp và trả bằng tiền mặt.\n\n• Lưu giữ các cuộc hội thoại trên mục trò chuyện letgo.\n\n• Có vẻ quá hời? Hãy tìm người mua/người bán khác.";
 "chat_safety_tips_title" = "LỜI KHUYÊN AN TOÀN";
 "chat_send_button" = "Gửi";
 "chat_send_error_generic" = "Lỗi xảy ra trong khi gửi tin nhắn. Xin vui lòng thử lại sau.";
@@ -182,6 +182,7 @@
 "common_expand" = "Hiện thêm";
 "common_loading" = "Đang tải...";
 "common_max" = "tối đa";
+"common_new" = "NEW!";
 "common_next" = "Tiếp theo";
 "common_no" = "Không";
 "common_ok" = "OK";
@@ -423,6 +424,8 @@
 "product_post_empty_gallery_button" = "Chụp Ảnh";
 "product_post_empty_gallery_subtitle" = "Hãy chụp ảnh sản phẩm bạn muốn đăng";
 "product_post_empty_gallery_title" = "Không có ảnh nào";
+"product_post_free_camera_first_time_alert_subtitle" = "Take a good picture and find your item a new home!";
+"product_post_free_camera_first_time_alert_title" = "What are you giving away?";
 "product_post_gallery_load_image_error_subtitle" = "Hãy chọn ảnh khác và thử lại.";
 "product_post_gallery_load_image_error_title" = "Không thể tải ảnh.";
 "product_post_gallery_permissions_button" = "Cho phép";
@@ -625,6 +628,9 @@
 "sign_up_terms_conditions_terms_part" = "Terms & Conditions";
 "sign_up_title" = "Tạo tài khoản mới";
 "sign_up_username_field_hint" = "Họ tên";
+"tab_bar_give_away_button" = "Give It Away";
+"tab_bar_give_away_tooltip" = "Now you can give it away";
+"tab_bar_sell_stuff_button" = "Sell Stuff";
 "tab_bar_tool_tip" = "Bán Đồ Của Bạn";
 "toast_error_internal" = "Ồ! Có gì đó không đúng.";
 "toast_no_network" = "Không có kết nối Internet";

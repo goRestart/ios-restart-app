@@ -122,7 +122,7 @@
 "chat_product_sold_label" = "Artigo vendido";
 "chat_related_products_title" = "PODERÁ TER INTERESSE EM:";
 "chat_safety_tips" = "Dicas de segurança";
-"chat_safety_tips_message" = "• Marque encontros pessoalmente e pague em dinheiro. \n \n• Mantenha as conversas no chat do letgo. \n \n• Bom demais para ser verdade? Tenha atenção!";
+"chat_safety_tips_message" = "• Marque encontros pessoalmente e pague em dinheiro.\n\n• Mantenha as conversas no chat do letgo.\n\n• Bom demais para ser verdade? Encontre outro vendedor/comprador.";
 "chat_safety_tips_title" = "DICAS DE SEGURANÇA";
 "chat_send_button" = "Enviar";
 "chat_send_error_generic" = "Ocorreu um erro no envio da mensagem. Por favor tente novamente mais tarde.";
@@ -182,6 +182,7 @@
 "common_expand" = "Mostrar mais";
 "common_loading" = "A carregar...";
 "common_max" = "max";
+"common_new" = "NEW!";
 "common_next" = "Seguinte";
 "common_no" = "Não";
 "common_ok" = "Ok";
@@ -423,6 +424,8 @@
 "product_post_empty_gallery_button" = "Tire uma Foto";
 "product_post_empty_gallery_subtitle" = "Tire uma foto do produto que quer publicar";
 "product_post_empty_gallery_title" = "Nenhuma foto encontrada";
+"product_post_free_camera_first_time_alert_subtitle" = "Take a good picture and find your item a new home!";
+"product_post_free_camera_first_time_alert_title" = "What are you giving away?";
 "product_post_gallery_load_image_error_subtitle" = "Escolha outra foto e tente novamente.";
 "product_post_gallery_load_image_error_title" = "Não foi possível carregar a foto";
 "product_post_gallery_permissions_button" = "Permitir";
@@ -625,6 +628,9 @@
 "sign_up_terms_conditions_terms_part" = "Terms & Conditions";
 "sign_up_title" = "Criar uma nova conta";
 "sign_up_username_field_hint" = "Nome completo";
+"tab_bar_give_away_button" = "Give It Away";
+"tab_bar_give_away_tooltip" = "Now you can give it away";
+"tab_bar_sell_stuff_button" = "Sell Stuff";
 "tab_bar_tool_tip" = "Venda as Suas Coisas";
 "toast_error_internal" = "Ops! Alguma coisa correu mal.";
 "toast_no_network" = "Sem ligação à internet";

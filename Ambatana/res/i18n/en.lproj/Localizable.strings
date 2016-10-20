@@ -556,6 +556,9 @@
 // Common next
 "common_next" = "Next";
 
+// Common new
+"common_new" = "NEW!";
+
 // Common ok
 "common_ok" = "OK";
 
@@ -966,6 +969,9 @@
 // Welcome notification title
 "notifications_type_welcome_title" = "Welcome to letgo!";
 
+// Welcome notification button
+"notifications_type_welcome_button" = "Start selling";
+
 // Text to show when a user has no name 
 "notifications_user_wo_name" = "A user";
 
@@ -1159,7 +1165,7 @@
 "product_mark_as_sold_free_confirm_cancel_button" = "Cancel";
 
 // Product mark as given away button.
-"product_mark_as_sold_free_button" = "I've given it away";
+"product_mark_as_sold_free_button" = "Mark as given away";
 
 // Alert message when product is mark as given away
 "product_mark_as_sold_free_confirm_message" = "Mark your product as already given away";
@@ -1280,6 +1286,12 @@
 
 // Message title when there are no photos on gallery
 "product_post_empty_gallery_title" = "No photos found";
+
+// Main text when the camera posting appears (free posting)
+"product_post_free_camera_first_time_alert_title" = "What are you giving away?";
+
+// Message subtitle when camera appears on free posting. 
+"product_post_free_camera_first_time_alert_subtitle" = "Take a good picture and find your item a new home!";
 
 // Message subtitle when loading an image (from iCloud) fails
 "product_post_gallery_load_image_error_subtitle" = "Choose another photo and try again.";
@@ -1871,6 +1883,15 @@
 
 // Tab bar tool tip. Check attached image "tab_bar.png"
 "tab_bar_tool_tip" = "Sell Your Stuff";
+
+// Tab bar "Sell Stuff" button.
+"tab_bar_sell_stuff_button" = "Sell Stuff";
+
+// Tab bar "Give It Away" button.
+"tab_bar_give_away_button" = "Give It Away";
+
+// Tab bar tooltip explaining tooltip new feature.
+"tab_bar_give_away_tooltip" = "Now you can give it away";
 
 // Toast server internal.
 "toast_error_internal" = "Oops! Something went wrong.";

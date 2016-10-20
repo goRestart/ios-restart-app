@@ -122,7 +122,7 @@
 "chat_product_sold_label" = "Prodotto venduto";
 "chat_related_products_title" = "POTRESTI ESSERE INTERESSATO A:";
 "chat_safety_tips" = "Consigli utili";
-"chat_safety_tips_message" = "• Incontra di persona e paga in contanti.\n\n• Continua le conversazioni nella chat di letgo.\n\n• Troppo bello per essere vero? Fai attenzione!";
+"chat_safety_tips_message" = "• Incontra di persona e paga in contanti.\n\n• Continua le conversazioni nella chat di letgo.\n\n• Troppo bello per essere vero? Trova un altro venditore/acquirente,";
 "chat_safety_tips_title" = "CONSIGLI UTILI";
 "chat_send_button" = "Invia";
 "chat_send_error_generic" = "Si è verificato un errore durante l'invio del messaggio. Riprova più tardi.";
@@ -182,6 +182,7 @@
 "common_expand" = "Mostra Altro";
 "common_loading" = "Caricamento...";
 "common_max" = "max";
+"common_new" = "NEW!";
 "common_next" = "Successivo";
 "common_no" = "No";
 "common_ok" = "OK";
@@ -423,6 +424,8 @@
 "product_post_empty_gallery_button" = "Scatta Foto";
 "product_post_empty_gallery_subtitle" = "Scatta una foto del prodotto che vuoi pubblicare";
 "product_post_empty_gallery_title" = "Nessuna foto trovata";
+"product_post_free_camera_first_time_alert_subtitle" = "Take a good picture and find your item a new home!";
+"product_post_free_camera_first_time_alert_title" = "What are you giving away?";
 "product_post_gallery_load_image_error_subtitle" = "Scegli un'altra foto e riprova.";
 "product_post_gallery_load_image_error_title" = "Impossibile caricare la foto";
 "product_post_gallery_permissions_button" = "Consenti";
@@ -625,6 +628,9 @@
 "sign_up_terms_conditions_terms_part" = "Terms & Conditions";
 "sign_up_title" = "Crea nuovo account";
 "sign_up_username_field_hint" = "Nome e Cognome";
+"tab_bar_give_away_button" = "Give It Away";
+"tab_bar_give_away_tooltip" = "Now you can give it away";
+"tab_bar_sell_stuff_button" = "Sell Stuff";
 "tab_bar_tool_tip" = "Vendi le tue cose";
 "toast_error_internal" = "Ops! Qualcosa è andato storto.";
 "toast_no_network" = "Nessuna Connessione Internet";

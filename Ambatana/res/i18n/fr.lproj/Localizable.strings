@@ -122,7 +122,7 @@
 "chat_product_sold_label" = "Bien vendu";
 "chat_related_products_title" = "VOUS POURRIEZ ETRE INTERESSE PAR";
 "chat_safety_tips" = "Conseils de sécurité";
-"chat_safety_tips_message" = "• Rencontrez en personne et payez en liquide.\n\n• Chattez dans l'appli letgo.\n\n• Une offre vous semble trop belle pour être vraie ? Faites attention !";
+"chat_safety_tips_message" = "• Rencontrez en personne et payez en liquide.\n\n• Chattez dans l'appli letgo.\n\n• Si cela semble trop beau pour être vrai, méfiez-vous !";
 "chat_safety_tips_title" = "CONSEILS DE SECURITÉ";
 "chat_send_button" = "Envoyer";
 "chat_send_error_generic" = "Il y a eu une erreur lors de l'envoi du message. Veuillez réessayer plus tard.";
@@ -182,6 +182,7 @@
 "common_expand" = "Afficher plus";
 "common_loading" = "Chargement...";
 "common_max" = "max";
+"common_new" = "NEW!";
 "common_next" = "Suivant";
 "common_no" = "Non";
 "common_ok" = "OK";
@@ -387,7 +388,7 @@
 "product_mark_as_sold_confirm_ok_button" = "Marquer comme vendu";
 "product_mark_as_sold_confirm_title" = "Marquer comme vendu";
 "product_mark_as_sold_error_generic" = "Il y a eu une erreur lors du passage du bien au statut 'vendu'. Veuillez réessayer plus tard.";
-"product_mark_as_sold_free_button" = "Je l'ai donné";
+"product_mark_as_sold_free_button" = "Marquer comme donné";
 "product_mark_as_sold_free_confirm_cancel_button" = "Annuler";
 "product_mark_as_sold_free_confirm_message" = "Marquez votre bien comme déjà donné";
 "product_mark_as_sold_free_confirm_ok_button" = "Marquer";
@@ -423,6 +424,8 @@
 "product_post_empty_gallery_button" = "Prendre une Photo";
 "product_post_empty_gallery_subtitle" = "Prenez une photo du bien que vous souhaitez vendre";
 "product_post_empty_gallery_title" = "Aucune photo trouvée";
+"product_post_free_camera_first_time_alert_subtitle" = "Take a good picture and find your item a new home!";
+"product_post_free_camera_first_time_alert_title" = "What are you giving away?";
 "product_post_gallery_load_image_error_subtitle" = "Choisissez une autre photo et réessayez.";
 "product_post_gallery_load_image_error_title" = "La photo ne peux pas être chargée";
 "product_post_gallery_permissions_button" = "Autoriser";
@@ -625,6 +628,9 @@
 "sign_up_terms_conditions_terms_part" = "Terms & Conditions";
 "sign_up_title" = "Créer un nouveau compte";
 "sign_up_username_field_hint" = "Nom complet";
+"tab_bar_give_away_button" = "Give It Away";
+"tab_bar_give_away_tooltip" = "Now you can give it away";
+"tab_bar_sell_stuff_button" = "Sell Stuff";
 "tab_bar_tool_tip" = "Vendez Vos Biens";
 "toast_error_internal" = "Oops ! Quelque chose s'est produit.";
 "toast_no_network" = "Pas de connection Internet";

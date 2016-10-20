@@ -93,30 +93,32 @@ class NotificationsViewModel: BaseViewModel {
     // MARK: - Private methods
 
     private func reloadNotifications() {
-        notificationsRepository.index { [weak self] result in
-            guard let strongSelf = self else { return }
-            if let notifications = result.value {
-                let remoteNotifications = notifications.flatMap{ strongSelf.buildNotification($0) }
-                strongSelf.notificationsData = remoteNotifications + [strongSelf.buildWelcomeNotification()]
-                if strongSelf.notificationsData.isEmpty {
-                    let emptyViewModel = LGEmptyViewModel(icon: UIImage(named: "ic_notifications_empty" ),
-                        title:  LGLocalizedString.notificationsEmptyTitle,
-                        body: LGLocalizedString.notificationsEmptySubtitle, buttonTitle: LGLocalizedString.tabBarToolTip,
-                        action: { [weak self] in self?.delegate?.vmOpenSell() }, secondaryButtonTitle: nil, secondaryAction: nil)
-
-                    strongSelf.viewState.value = .Empty(emptyViewModel)
-                } else {
-                    strongSelf.viewState.value = .Data
-                }
-            } else if let error = result.error {
-                let emptyViewModel = LGEmptyViewModel.respositoryErrorWithRetry(error,
-                    action: { [weak self] in
-                        self?.viewState.value = .Loading
-                        self?.reloadNotifications()
-                    })
-                strongSelf.viewState.value = .Error(emptyViewModel)
-            }
-        }
+        notificationsData = [buildWelcomeNotification(), buildWelcomeNotification(), buildWelcomeNotification(), buildWelcomeNotification()]
+        viewState.value = .Data
+//        notificationsRepository.index { [weak self] result in
+//            guard let strongSelf = self else { return }
+//            if let notifications = result.value {
+//                let remoteNotifications = notifications.flatMap{ strongSelf.buildNotification($0) }
+//                strongSelf.notificationsData = remoteNotifications + [strongSelf.buildWelcomeNotification()]
+//                if strongSelf.notificationsData.isEmpty {
+//                    let emptyViewModel = LGEmptyViewModel(icon: UIImage(named: "ic_notifications_empty" ),
+//                        title:  LGLocalizedString.notificationsEmptyTitle,
+//                        body: LGLocalizedString.notificationsEmptySubtitle, buttonTitle: LGLocalizedString.tabBarToolTip,
+//                        action: { [weak self] in self?.delegate?.vmOpenSell() }, secondaryButtonTitle: nil, secondaryAction: nil)
+//
+//                    strongSelf.viewState.value = .Empty(emptyViewModel)
+//                } else {
+//                    strongSelf.viewState.value = .Data
+//                }
+//            } else if let error = result.error {
+//                let emptyViewModel = LGEmptyViewModel.respositoryErrorWithRetry(error,
+//                    action: { [weak self] in
+//                        self?.viewState.value = .Loading
+//                        self?.reloadNotifications()
+//                    })
+//                strongSelf.viewState.value = .Error(emptyViewModel)
+//            }
+//        }
     }
 
     private func buildNotification(notification: Notification) -> NotificationData? {
