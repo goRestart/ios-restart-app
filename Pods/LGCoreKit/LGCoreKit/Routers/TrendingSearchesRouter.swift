@@ -15,7 +15,7 @@ enum TrendingSearchesRouter: URLRequestAuthenticable {
     case Index(params: [String: AnyObject])
 
     var requiredAuthLevel: AuthLevel {
-        return .None
+        return .Nonexistent
     }
 
     var reportingBlacklistedApiError: Array<ApiError> { return [.Scammer] }

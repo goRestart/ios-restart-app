@@ -42,8 +42,8 @@ class TokenKeychainDAO: TokenDAO {
 
     func get(level level: AuthLevel) -> Token? {
         switch level {
-        case .None:
-            return Token(value: nil, level: .None)
+        case .Nonexistent:
+            return Token(value: nil, level: .Nonexistent)
         case .Installation:
             if let installationToken = keychain.get(TokenKeychainDAO.installationKey) {
                 return Token(value: installationToken, level: .Installation)
@@ -89,7 +89,7 @@ class TokenKeychainDAO: TokenDAO {
 
         let key: String
         switch token.level {
-        case .None:
+        case .Nonexistent:
             return
         case .Installation:
             key = TokenKeychainDAO.installationKey
@@ -121,6 +121,6 @@ class TokenKeychainDAO: TokenDAO {
         }
         logMessage(.Verbose, type: [CoreLoggingOptions.Persistence, CoreLoggingOptions.Token],
             message: "No fetched token")
-        return Token(value: nil, level: .None)
+        return Token(value: nil, level: .Nonexistent)
     }
 }

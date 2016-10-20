@@ -9,9 +9,10 @@
 public enum NotificationType {
     case Like(productId: String, productImageUrl: String?, productTitle: String?, userId: String, userImageUrl: String?,
         userName: String?)
-    case Follow(followerId: String, followerImageUrl: String?, followerUsername: String?, followerRelationship: Bool)
     case Sold(productId: String, productImageUrl: String?, productTitle: String?, userId: String, userImageUrl: String?,
         userName: String?)
+    case Rating(userId: String, userImageUrl: String?, userName: String?, value: Int, comments: String?)
+    case RatingUpdated(userId: String, userImageUrl: String?, userName: String?, value: Int, comments: String?)
 }
 
 public protocol Notification: BaseModel {
