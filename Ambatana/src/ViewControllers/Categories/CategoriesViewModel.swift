@@ -79,7 +79,13 @@ class CategoriesViewModel: BaseViewModel {
         if index < numOfCategories {
             //Access from categories should be the exact same behavior as access filters and select that category
             var productFilters = ProductFilters()
-            productFilters.toggleCategory(categories[index])
+            let category = categories[index]
+            switch category {
+            case .Free:
+                productFilters.selectedFree = !productFilters.selectedFree
+            case .Category(let cat):
+                productFilters.toggleCategory(cat)
+            }
             return MainProductsViewModel(filters: productFilters, tabNavigator: tabNavigator)
         }
         return nil

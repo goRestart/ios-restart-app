@@ -8,6 +8,51 @@
 
 import UIKit
 import LGCoreKit
+import RxSwift
+
+public enum FilterCategoryItem: Equatable {
+    case Category(category: ProductCategory)
+    case Free
+
+    init(category: ProductCategory) {
+        self = .Category(category: category)
+    }
+
+    var name: String {
+        switch self {
+        case let .Category(category: category):
+            return category.name
+        case .Free:
+            return LGLocalizedString.categoriesFree
+        }
+    }
+
+    var icon: UIImage? {
+        switch self {
+        case let .Category(category: category):
+            return category.imageSmallInactive
+        case .Free:
+            return UIImage(named: "categories_free_inactive")
+        }
+    }
+
+    var image: UIImage? {
+        switch self {
+        case let .Category(category: category):
+            return category.image
+        case .Free:
+            return UIImage(named: "categories_free")
+        }
+    }
+}
+
+public func ==(a: FilterCategoryItem, b: FilterCategoryItem) -> Bool {
+    switch (a, b) {
+    case (.Category(let catA), .Category(let catB)) where catA.rawValue == catB.rawValue: return true
+    case (.Free, .Free): return true
+    default: return false
+    }
+}
 
 protocol FiltersViewModelDelegate: BaseViewModelDelegate {
     func vmDidUpdate()
@@ -28,6 +73,9 @@ class FiltersViewModel: BaseViewModel {
     
     //DataDelegate
     weak var dataDelegate : FiltersViewModelDataDelegate?
+
+    // Sections
+    var sections: [FilterSection]
 
     //Location vars
     var place: Place? {
@@ -56,7 +104,7 @@ class FiltersViewModel: BaseViewModel {
     //Category vars
     private var categoryRepository: CategoryRepository
     private var categories: [FilterCategoryItem]
-    
+
     var numOfCategories : Int {
         // we add an extra empty cell if the num of categories is odds
         return isOddNumCategories ? self.categories.count+1 : self.categories.count
@@ -64,6 +112,10 @@ class FiltersViewModel: BaseViewModel {
 
     var isOddNumCategories: Bool {
         return self.categories.count%2 == 1
+    }
+
+    var priceCellsDisabled: Bool {
+        return self.productFilter.selectedFree
     }
 
     //Within vars
@@ -78,8 +130,16 @@ class FiltersViewModel: BaseViewModel {
     }
     private var sortOptions : [ProductSortCriteria]
 
-    private var minPrice: Int?
-    private var maxPrice: Int?
+    private var minPrice: Int? {
+        didSet {
+            productFilter.minPrice = minPrice
+        }
+    }
+    private var maxPrice: Int? {
+        didSet {
+            productFilter.maxPrice = maxPrice
+        }
+    }
     var minPriceString: String? {
         guard let minPrice = minPrice else { return nil }
         return String(minPrice)
@@ -111,10 +171,19 @@ class FiltersViewModel: BaseViewModel {
         self.productFilter = currentFilters
         self.minPrice = currentFilters.minPrice
         self.maxPrice = currentFilters.maxPrice
+        self.sections = []
         super.init()
+        self.sections = generateSections()
     }
-    
+
     // MARK: - Actions
+
+    private func generateSections() -> [FilterSection] {
+        var updatedSections = FilterSection.allValues()
+        guard let idx = updatedSections.indexOf(FilterSection.Price) where priceCellsDisabled else { return updatedSections }
+        updatedSections.removeAtIndex(idx)
+        return updatedSections
+    }
 
     func locationButtonPressed() {
         let locationVM = EditLocationViewModel(mode: .SelectLocation, initialPlace: place)
@@ -144,12 +213,7 @@ class FiltersViewModel: BaseViewModel {
         var categories : [String] = []
         
         for category in productFilter.selectedCategories {
-            switch category {
-            case let .Category(category: cat):
-                categories.append(String(cat.rawValue))
-            case .Free:
-                break
-            }
+            categories.append(String(category.rawValue))
         }
         
         let trackingEvent = TrackerEvent.filterComplete(productFilter.filterCoordinates,
@@ -187,8 +251,16 @@ class FiltersViewModel: BaseViewModel {
 
     func selectCategoryAtIndex(index: Int) {
         guard index < numOfCategories else { return }
-        
-        productFilter.toggleCategory(categories[index])
+        let category = categories[index]
+        switch category {
+        case .Free:
+            productFilter.selectedFree = !productFilter.selectedFree
+            sections = generateSections()
+            minPrice = nil
+            maxPrice = nil
+        case .Category(let cat):
+            productFilter.toggleCategory(cat)
+        }
         self.delegate?.vmDidUpdate()
     }
     
@@ -209,12 +281,23 @@ class FiltersViewModel: BaseViewModel {
         guard index < numOfCategories else { return UIColor.blackText }
         
         let category = categories[index]
-        return productFilter.hasSelectedCategory(category) ? UIColor.redText : UIColor.blackText
+        switch category {
+        case .Free:
+            return productFilter.selectedFree ? UIColor.redText : UIColor.blackText
+        case .Category(let cat):
+            return productFilter.hasSelectedCategory(cat) ? UIColor.redText : UIColor.blackText
+        }
     }
 
     func categorySelectedAtIndex(index: Int) -> Bool {
         guard index < numOfCategories else { return false }
-        return productFilter.selectedCategories.contains(categories[index])
+        let category = categories[index]
+        switch category {
+        case .Free:
+            return productFilter.selectedFree
+        case .Category(let cat):
+            return productFilter.selectedCategories.contains(cat)
+        }
     }
     
     // MARK: Within
@@ -266,21 +349,21 @@ class FiltersViewModel: BaseViewModel {
     // MARK: Price
 
     func setMinPrice(value: String?) {
-        guard let value = value else {
+        guard let value = value where !productFilter.selectedFree else {
             minPrice = nil
             return
         }
         minPrice = Int(value)
-        productFilter.minPrice = minPrice
+        //productFilter.minPrice = minPrice
     }
 
     func setMaxPrice(value: String?) {
-        guard let value = value else {1
+        guard let value = value where !productFilter.selectedFree else {
             maxPrice = nil
             return
         }
         maxPrice = Int(value)
-        productFilter.maxPrice = maxPrice
+        //productFilter.maxPrice = maxPrice
     }
 
     private func validatePriceRange() -> Bool {

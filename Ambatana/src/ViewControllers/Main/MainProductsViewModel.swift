@@ -80,6 +80,9 @@ class MainProductsViewModel: BaseViewModel {
             }
             resultTags.append(.PriceRange(from: filters.minPrice, to: filters.maxPrice, currency: currency))
         }
+        if filters.selectedFree {
+            resultTags.append(.FreeStuff)
+        }
 
         return resultTags
     }
@@ -221,13 +224,7 @@ class MainProductsViewModel: BaseViewModel {
             case .Location(let thePlace):
                 place = thePlace
             case .Category(let prodCategory):
-                switch prodCategory {
-                case .Free:
-                    free = true
-                case .Category:
-                    break
-                }
-                categories.append(prodCategory)
+                categories.append(FilterCategoryItem(category: prodCategory))
             case .OrderBy(let prodSortOption):
                 orderBy = prodSortOption
             case .Within(let prodTimeOption):
@@ -235,11 +232,20 @@ class MainProductsViewModel: BaseViewModel {
             case .PriceRange(let minPriceOption, let maxPriceOption, _):
                 minPrice = minPriceOption
                 maxPrice = maxPriceOption
+            case .FreeStuff:
+                free = true
             }
         }
 
         filters.place = place
-        filters.selectedCategories = categories
+        filters.selectedCategories = categories.flatMap{ filterCategoryItem in
+            switch filterCategoryItem {
+            case .Free:
+                return nil
+            case .Category(let cat):
+                return cat
+            }
+        }
         filters.selectedOrdering = orderBy
         filters.selectedWithin = within
         filters.minPrice = minPrice
@@ -580,7 +586,7 @@ private extension MainProductsViewModel {
         guard page == 0 else { return }
 
         var selectedCategories: [String] = []
-        selectedCategories.appendContentsOf(productListRequester.filters?.selectedCategories.flatMap { String($0.filterCategoryId) } ?? [])
+        selectedCategories.appendContentsOf(productListRequester.filters?.selectedCategories.map { String($0.rawValue) } ?? [])
 
         let trackerEvent = TrackerEvent.productList(myUserRepository.myUser,
                                                     categories: selectedCategories,
