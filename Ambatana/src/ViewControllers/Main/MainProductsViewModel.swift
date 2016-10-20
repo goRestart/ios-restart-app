@@ -73,17 +73,20 @@ class MainProductsViewModel: BaseViewModel {
         if let selectedOrdering = filters.selectedOrdering where selectedOrdering != ProductSortCriteria.defaultOption {
             resultTags.append(.OrderBy(selectedOrdering))
         }
-        if filters.minPrice != nil || filters.maxPrice != nil {
-            var currency: Currency? = nil
-            if let countryCode = Core.locationManager.currentPostalAddress?.countryCode {
-                currency = Core.currencyHelper.currencyWithCountryCode(countryCode)
-            }
-            resultTags.append(.PriceRange(from: filters.minPrice, to: filters.maxPrice, currency: currency))
-        }
-        if filters.selectedFree {
-            resultTags.append(.FreeStuff)
-        }
 
+        switch filters.priceRange {
+        case .FreePrice:
+            resultTags.append(.FreeStuff)
+        case let .PriceRange(min, max):
+            if min != nil || max != nil {
+                var currency: Currency? = nil
+                if let countryCode = Core.locationManager.currentPostalAddress?.countryCode {
+                    currency = Core.currencyHelper.currencyWithCountryCode(countryCode)
+                }
+                resultTags.append(.PriceRange(from: filters.priceRange.min, to: filters.priceRange.max, currency: currency))
+            }
+        }
+        
         return resultTags
     }
 
@@ -248,9 +251,11 @@ class MainProductsViewModel: BaseViewModel {
         }
         filters.selectedOrdering = orderBy
         filters.selectedWithin = within
-        filters.minPrice = minPrice
-        filters.maxPrice = maxPrice
-        filters.selectedFree = free
+        if free {
+            filters.priceRange = .FreePrice
+        } else {
+            filters.priceRange = .PriceRange(min: minPrice, max: maxPrice)
+        }
 
         updateListView()
     }

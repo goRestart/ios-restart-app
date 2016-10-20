@@ -8,6 +8,45 @@
 
 import LGCoreKit
 
+public enum FilterPriceRange: Equatable {
+    case FreePrice
+    case PriceRange(min: Int?, max: Int?)
+
+    var min: Int? {
+        switch self {
+        case .FreePrice:
+            return nil
+        case let .PriceRange(min: minPrice, max: _):
+            return minPrice
+        }
+    }
+
+    var max: Int? {
+        switch self {
+        case .FreePrice:
+            return nil
+        case let .PriceRange(min: _, max: maxPrice):
+            return maxPrice
+        }
+    }
+
+    var free: Bool {
+        switch self {
+        case .FreePrice:
+            return true
+        case .PriceRange:
+            return false
+        }
+    }
+}
+
+public func ==(a: FilterPriceRange, b: FilterPriceRange) -> Bool {
+    switch (a, b) {
+    case (let .PriceRange(minA, maxA), let .PriceRange(minB, maxB)) where minA == minB && maxA == maxB : return true
+    case (.FreePrice, .FreePrice): return true
+    default: return false
+    }
+}
 
 public struct ProductFilters {
     
@@ -20,18 +59,7 @@ public struct ProductFilters {
     var filterCoordinates: LGLocationCoordinates2D? {
         return place?.location
     }
-    var minPrice: Int?
-    var maxPrice: Int?
-    var selectedFree: Bool
-        /*
-        {
-        didSet {
-            if selectedFree {
-                maxPrice = nil
-                minPrice = nil
-            }
-        }
-    }*/
+    var priceRange: FilterPriceRange
 
     init() {
         self.init(
@@ -41,24 +69,19 @@ public struct ProductFilters {
             selectedCategories: [],
             selectedWithin: ProductTimeCriteria.defaultOption,
             selectedOrdering: ProductSortCriteria.defaultOption,
-            minPrice: nil,
-            maxPrice: nil,
-            selectedFree: false
+            priceRange: .PriceRange(min: nil, max: nil)
         )
     }
     
     init(place: Place?, distanceRadius: Int, distanceType: DistanceType, selectedCategories: [ProductCategory],
-         selectedWithin: ProductTimeCriteria, selectedOrdering: ProductSortCriteria?, minPrice: Int?, maxPrice: Int?,
-         selectedFree: Bool){
+         selectedWithin: ProductTimeCriteria, selectedOrdering: ProductSortCriteria?, priceRange: FilterPriceRange){
         self.place = place
         self.distanceRadius = distanceRadius > 0 ? distanceRadius : nil
         self.distanceType = distanceType
         self.selectedCategories = selectedCategories
         self.selectedWithin = selectedWithin
         self.selectedOrdering = selectedOrdering
-        self.minPrice = minPrice
-        self.maxPrice = maxPrice
-        self.selectedFree = selectedFree
+        self.priceRange = priceRange
     }
     
     mutating func toggleCategory(category: ProductCategory) {
@@ -79,8 +102,7 @@ public struct ProductFilters {
         if !selectedCategories.isEmpty { return false }
         if selectedWithin != ProductTimeCriteria.defaultOption { return false }
         if selectedOrdering != ProductSortCriteria.defaultOption { return false }
-        if let _ = minPrice, let _ = maxPrice { return false } //Default is nil
-        if selectedFree { return false }
+        if priceRange != .PriceRange(min: nil, max: nil) { return false }
         return true
     }
     

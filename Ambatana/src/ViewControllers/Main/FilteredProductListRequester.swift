@@ -145,9 +145,15 @@ private extension FilteredProductListRequester {
         params.sortCriteria = filters?.selectedOrdering
         params.distanceRadius = filters?.distanceRadius
         params.distanceType = filters?.distanceType
-        params.minPrice = filters?.minPrice
-        params.maxPrice = filters?.maxPrice
-        params.freePrice = filters?.selectedFree
+        if let priceRange = filters?.priceRange {
+            switch priceRange {
+            case .FreePrice:
+                params.freePrice = true
+            case let .PriceRange(min, max):
+                params.minPrice = min
+                params.maxPrice = max
+            }
+        }
         return params
     }
 

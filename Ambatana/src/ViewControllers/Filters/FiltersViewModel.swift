@@ -115,7 +115,7 @@ class FiltersViewModel: BaseViewModel {
     }
 
     var priceCellsDisabled: Bool {
-        return self.productFilter.selectedFree
+        return self.productFilter.priceRange.free
     }
 
     //Within vars
@@ -131,15 +131,12 @@ class FiltersViewModel: BaseViewModel {
     private var sortOptions : [ProductSortCriteria]
 
     private var minPrice: Int? {
-        didSet {
-            productFilter.minPrice = minPrice
-        }
+        return productFilter.priceRange.min
     }
     private var maxPrice: Int? {
-        didSet {
-            productFilter.maxPrice = maxPrice
-        }
+        return productFilter.priceRange.max
     }
+
     var minPriceString: String? {
         guard let minPrice = minPrice else { return nil }
         return String(minPrice)
@@ -169,8 +166,6 @@ class FiltersViewModel: BaseViewModel {
         self.withinTimes = withinTimes
         self.sortOptions = sortOptions
         self.productFilter = currentFilters
-        self.minPrice = currentFilters.minPrice
-        self.maxPrice = currentFilters.maxPrice
         self.sections = []
         super.init()
         self.sections = generateSections()
@@ -222,8 +217,7 @@ class FiltersViewModel: BaseViewModel {
                                                         categories: categories,
                                                         sortBy: productFilter.selectedOrdering,
                                                         postedWithin: productFilter.selectedWithin,
-                                                        priceFrom: productFilter.minPrice,
-                                                        priceTo: productFilter.maxPrice)
+                                                        priceRange: productFilter.priceRange)
         TrackerProxy.sharedInstance.trackEvent(trackingEvent)
         
         dataDelegate?.viewModelDidUpdateFilters(self, filters: productFilter)
@@ -254,10 +248,13 @@ class FiltersViewModel: BaseViewModel {
         let category = categories[index]
         switch category {
         case .Free:
-            productFilter.selectedFree = !productFilter.selectedFree
+            switch productFilter.priceRange {
+            case .FreePrice:
+                productFilter.priceRange = .PriceRange(min: nil, max: nil)
+            case .PriceRange:
+                productFilter.priceRange = .FreePrice
+            }
             sections = generateSections()
-            minPrice = nil
-            maxPrice = nil
         case .Category(let cat):
             productFilter.toggleCategory(cat)
         }
@@ -283,7 +280,7 @@ class FiltersViewModel: BaseViewModel {
         let category = categories[index]
         switch category {
         case .Free:
-            return productFilter.selectedFree ? UIColor.redText : UIColor.blackText
+            return productFilter.priceRange.free ? UIColor.redText : UIColor.blackText
         case .Category(let cat):
             return productFilter.hasSelectedCategory(cat) ? UIColor.redText : UIColor.blackText
         }
@@ -294,7 +291,7 @@ class FiltersViewModel: BaseViewModel {
         let category = categories[index]
         switch category {
         case .Free:
-            return productFilter.selectedFree
+            return productFilter.priceRange.free
         case .Category(let cat):
             return productFilter.selectedCategories.contains(cat)
         }
@@ -349,21 +346,13 @@ class FiltersViewModel: BaseViewModel {
     // MARK: Price
 
     func setMinPrice(value: String?) {
-        guard let value = value where !productFilter.selectedFree else {
-            minPrice = nil
-            return
-        }
-        minPrice = Int(value)
-        //productFilter.minPrice = minPrice
+        guard let value = value where !productFilter.priceRange.free else { return }
+        productFilter.priceRange = .PriceRange(min: Int(value), max: maxPrice)
     }
 
     func setMaxPrice(value: String?) {
-        guard let value = value where !productFilter.selectedFree else {
-            maxPrice = nil
-            return
-        }
-        maxPrice = Int(value)
-        //productFilter.maxPrice = maxPrice
+        guard let value = value where !productFilter.priceRange.free else { return }
+        productFilter.priceRange = .PriceRange(min: minPrice, max: Int(value))
     }
 
     private func validatePriceRange() -> Bool {
