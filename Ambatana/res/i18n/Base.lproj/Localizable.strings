@@ -227,7 +227,7 @@
 "chat_deleted_disclaimer_wo_name" = "You can't continue this conversation because this account is no longer active.";
 
 // Express chat, don't miss out label text
-"chat_express_dont_miss_label" = "Don't miss out on these bargains";
+"chat_express_dont_miss_label" = "Don't miss out on these deals";
 
 // Express chat, contact these sellers label text
 "chat_express_contact_sellers_label" = "Contact these sellers before other buyers snatch them up!";
@@ -353,7 +353,7 @@
 "chat_safety_tips" = "Safety tips";
 
 // Chat safety tips full message
-"chat_safety_tips_message" = "• Meet in person and pay in cash.\n\n• Keep conversations in the letgo chat.\n\n• Too good to be true? Beware!";
+"chat_safety_tips_message" = "• Meet in person and pay in cash.\n\n• Keep conversations in the letgo chat.\n\n• Too good to be true? Find another buyer/seller!";
 
 // Chat safety tips title. Check attached image "chat_safety_tips.png"
 "chat_safety_tips_title" = "STAY SAFE";
@@ -646,10 +646,10 @@
 "direct_answer_free_yours" = "It's yours!";
 
 // Chat direct answer as a seller - free listing- still available
-"direct_answer_free_available" = "Yes, It's still available";
+"direct_answer_free_available" = "Yes, it's still available";
 
 // Chat direct answer as a seller - free listing- no available
-"direct_answer_free_no_available" = "Sorry, I've already give it away!";
+"direct_answer_free_no_available" = "Sorry, I've already given it away!";
 
 // Chat direct answer as buyer - still have it
 "direct_answer_free_still_have" = "Still have it?";

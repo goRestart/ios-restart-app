@@ -21,7 +21,7 @@
 "categories_cars_and_motors" = "Autot ja muut ajoneuvot";
 "categories_electronics" = "Elektroniikka";
 "categories_fashion_and_accessories" = "Muoti ja asusteet";
-"categories_free" = "Free Stuff";
+"categories_free" = "Ilmaiset";
 "categories_home_and_garden" = "Koti ja puutarha";
 "categories_movies_books_and_music" = "Elokuvat, kirjat ja musiikki";
 "categories_other" = "Muut";
@@ -78,7 +78,7 @@
 "chat_express_dont_ask_again_button" = "Älä kysy uudelleen";
 "chat_express_dont_miss_label" = "Älä missaa näitä tarjouksia";
 "chat_express_one_message_sent_success_alert" = "Viestisi on lähetetty!";
-"chat_express_send_question_text" = "Send: %@";
+"chat_express_send_question_text" = "Lähetä: %@";
 "chat_express_several_messages_sent_success_alert" = "Viestisi on lähetetty!";
 "chat_express_text_field_text" = "Onko tuote edelleen myynnissä?";
 "chat_forbidden_disclaimer_buyer_w_name" = "letgo-tiimi suorittaa tällä hetkellä tarkastusta käyttäjän %@ tilille.";
@@ -215,6 +215,10 @@
 "contact_subject_option_product_edit" = "Muokkaa/poista tuote";
 "contact_subject_option_profile_edit" = "Muokkaa/poista profiili";
 "contact_subject_option_report" = "Ilmianna käyttäjä/roskaposti";
+"direct_answer_free_available" = "Kyllä, se on edelleen saatavilla";
+"direct_answer_free_no_available" = "Ikävä kyllä olen jo antanut sen pois!";
+"direct_answer_free_still_have" = "Onko sinulla vielä se?";
+"direct_answer_free_yours" = "Saat tuotteen!";
 "direct_answer_interested" = "Olen kiinnostunut!";
 "direct_answer_is_negotiable" = "Onko hinta neuvoteltavissa?";
 "direct_answer_like_to_buy" = "Hei! Haluaisin ostaa sen";
@@ -587,7 +591,7 @@
 "sell_send_error_invalid_title" = "Ole hyvä ja syötä tuotteelle kelvollinen otsikko.";
 "sell_send_error_sharing_facebook" = "Jaettaessa Facebookiin tapahtui virhe. Ole hyvä, ja yritä myöhemmin uudelleen.";
 "sell_share_fb_content" = "Katso, mitä minulla on myynnissä letgossa!";
-"sell_share_on_facebook_label" = "Jaa tuotteeni Facebookissa";
+"sell_share_on_facebook_label" = "Jaa Facebookissa";
 "sell_title_autogen_autotrans_label" = "letgon ehdottama ja Googlen kääntämä otsikko";
 "sell_title_autogen_label" = "letgon ehdottama otsikko";
 "sell_title_field_hint" = "Tuotteen otsikko (vapaaehtoinen)";
