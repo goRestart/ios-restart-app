@@ -69,13 +69,6 @@ struct FeatureFlags {
         return MessageOnFavoriteMode.fromPosition(ABTests.messageOnFavorite.value)
     }
 
-    static var expressChatMode: ExpressChatMode {
-        if Bumper.enabled {
-            return Bumper.expressChatMode
-        }
-        return ExpressChatMode.fromPosition(ABTests.expressChatMode.value)
-    }
-
     static var interestedUsersMode: InterestedUsersMode {
         if Bumper.enabled {
             return Bumper.interestedUsersMode

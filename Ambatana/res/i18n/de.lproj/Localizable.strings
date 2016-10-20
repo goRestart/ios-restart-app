@@ -21,6 +21,7 @@
 "categories_cars_and_motors" = "Autos und Fahrzeuge";
 "categories_electronics" = "Elektronik";
 "categories_fashion_and_accessories" = "Mode und Accessoires";
+"categories_free" = "Kostenlos";
 "categories_home_and_garden" = "Haus und Garten";
 "categories_movies_books_and_music" = "Filme, Bücher und Musik";
 "categories_other" = "Sonstige";
@@ -214,6 +215,10 @@
 "contact_subject_option_product_edit" = "Produkt bearbeiten/löschen";
 "contact_subject_option_profile_edit" = "Profil bearbeiten/löschen";
 "contact_subject_option_report" = "Benutzer/Spam melden";
+"direct_answer_free_available" = "Ja, es ist noch verfügbar";
+"direct_answer_free_no_available" = "Tut mir leid, ich hab's schon verschenkt.";
+"direct_answer_free_still_have" = "Hast du's noch?";
+"direct_answer_free_yours" = "Du kannst es haben!";
 "direct_answer_interested" = "Ich bin interessiert!";
 "direct_answer_is_negotiable" = "Ist der Preis verhandelbar?";
 "direct_answer_like_to_buy" = "Hallo! Ich möchte es kaufen";
@@ -576,7 +581,7 @@
 "sell_picture_selected_delete_button" = "Löschen";
 "sell_picture_selected_save_into_camera_roll_button" = "Auf dem Gerät speichern";
 "sell_picture_selected_title" = "Wähle eine Aktion";
-"sell_post_free_label" = "Give it away";
+"sell_post_free_label" = "Verschenken";
 "sell_price_field" = "Preis:";
 "sell_send_error_invalid_category" = "Bitte wähle eine Kategorie für das Produkt aus.";
 "sell_send_error_invalid_description" = "Bitte gib eine gültige Beschreibung für das Produkt ein.";
@@ -586,7 +591,7 @@
 "sell_send_error_invalid_title" = "Bitte gib einen gültigen Titel für das Produkt ein.";
 "sell_send_error_sharing_facebook" = "Beim Teilen auf Facebook ist eine Fehler aufgetreten. Versuche es bitte später noch einmal.";
 "sell_share_fb_content" = "Schau dir an, was ich auf letgo verkaufe!";
-"sell_share_on_facebook_label" = "Mein Produkt auf Facebook teilen";
+"sell_share_on_facebook_label" = "Auf Facebook teilen";
 "sell_title_autogen_autotrans_label" = "Titelvorschlag von letgo und übersetzt von Google";
 "sell_title_autogen_label" = "Titelvorschlag von letgo";
 "sell_title_field_hint" = "Produkttitel (optional)";

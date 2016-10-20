@@ -110,7 +110,7 @@ class NotificationsViewModel: BaseViewModel {
 
     private func buildNotification(notification: Notification) -> NotificationData? {
         switch notification.type {
-        case .Rating, .RatingUpdated: //Rating notifications not implemented yet
+        case .Rating, .RatingUpdated: // Rating notifications not implemented yet
             return nil
         case let .Like(productId, productImageUrl, productTitle, userId, userImageUrl, userName):
             let subtitle: String

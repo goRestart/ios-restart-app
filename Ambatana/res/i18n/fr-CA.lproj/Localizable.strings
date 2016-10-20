@@ -21,6 +21,7 @@
 "categories_cars_and_motors" = "Voitures et Motos";
 "categories_electronics" = "Équipement électronique";
 "categories_fashion_and_accessories" = "Mode et Accessoires";
+"categories_free" = "Objets Gratuits";
 "categories_home_and_garden" = "Maison et Jardin";
 "categories_movies_books_and_music" = "Films, Livres et Musique";
 "categories_other" = "Autre";
@@ -214,6 +215,10 @@
 "contact_subject_option_product_edit" = "Modifier ou supprimer le produit";
 "contact_subject_option_profile_edit" = "Modifier ou supprimer le profil";
 "contact_subject_option_report" = "Signaler utilisateur ou pourriel";
+"direct_answer_free_available" = "Oui, c'est toujours disponible";
+"direct_answer_free_no_available" = "Désolé, je l'ai déjà donné !";
+"direct_answer_free_still_have" = "L'avez-vous toujours ?";
+"direct_answer_free_yours" = "Il est à vous !";
 "direct_answer_interested" = "Je suis intéressé !";
 "direct_answer_is_negotiable" = "Le prix est-il négociable ?";
 "direct_answer_like_to_buy" = "Bonjour ! J'aimerais l'acheter";
@@ -576,7 +581,7 @@
 "sell_picture_selected_delete_button" = "Supprimer";
 "sell_picture_selected_save_into_camera_roll_button" = "Sauvegarder l'image sur la pellicule";
 "sell_picture_selected_title" = "Choisir une action";
-"sell_post_free_label" = "Give it away";
+"sell_post_free_label" = "Donnez Vos Objets";
 "sell_price_field" = "Prix :";
 "sell_send_error_invalid_category" = "Veuillez choisir une catégorie pour le produit.";
 "sell_send_error_invalid_description" = "Veuillez indiquer une description valide pour votre produit.";

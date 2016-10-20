@@ -99,6 +99,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("categories_fashion_and_accessories", comment: "")
 	}
 
+	static var categoriesFree: String {
+		return NSLocalizedString("categories_free", comment: "")
+	}
+
 	static var categoriesHomeAndGarden: String {
 		return NSLocalizedString("categories_home_and_garden", comment: "")
 	}
@@ -869,6 +873,22 @@ struct LGLocalizedString {
 
 	static var contactSubjectOptionReport: String {
 		return NSLocalizedString("contact_subject_option_report", comment: "")
+	}
+
+	static var directAnswerFreeYours: String {
+		return NSLocalizedString("direct_answer_free_yours", comment: "")
+	}
+
+	static var directAnswerFreeAvailable: String {
+		return NSLocalizedString("direct_answer_free_available", comment: "")
+	}
+
+	static var directAnswerFreeNoAvailable: String {
+		return NSLocalizedString("direct_answer_free_no_available", comment: "")
+	}
+
+	static var directAnswerFreeStillHave: String {
+		return NSLocalizedString("direct_answer_free_still_have", comment: "")
 	}
 
 	static var directAnswerInterested: String {

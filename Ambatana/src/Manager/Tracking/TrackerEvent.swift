@@ -880,6 +880,10 @@ public struct TrackerEvent {
         return TrackerEvent(name: .InappChatNotificationComplete, params: EventParameters())
     }
 
+    static func SignupCaptcha() -> TrackerEvent {
+        return TrackerEvent(name: .SignupCaptcha, params: EventParameters())
+    }
+
 
     // MARK: - Private methods
 
