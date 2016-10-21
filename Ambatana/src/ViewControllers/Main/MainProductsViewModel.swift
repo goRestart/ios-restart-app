@@ -80,8 +80,8 @@ class MainProductsViewModel: BaseViewModel {
         case let .PriceRange(min, max):
             if min != nil || max != nil {
                 var currency: Currency? = nil
-                if let countryCode = Core.locationManager.currentPostalAddress?.countryCode {
-                    currency = Core.currencyHelper.currencyWithCountryCode(countryCode)
+                if let countryCode = locationManager.currentPostalAddress?.countryCode {
+                    currency = currencyHelper.currencyWithCountryCode(countryCode)
                 }
                 resultTags.append(.PriceRange(from: filters.priceRange.min, to: filters.priceRange.max, currency: currency))
             }
@@ -98,6 +98,7 @@ class MainProductsViewModel: BaseViewModel {
     private let myUserRepository: MyUserRepository
     private let trendingSearchesRepository: TrendingSearchesRepository
     private let locationManager: LocationManager
+    private let currencyHelper: CurrencyHelper
 
     private let tracker: Tracker
     private let searchType: SearchType? // The initial search
@@ -127,11 +128,12 @@ class MainProductsViewModel: BaseViewModel {
     // MARK: - Lifecycle
     
     init(myUserRepository: MyUserRepository, trendingSearchesRepository: TrendingSearchesRepository,
-         locationManager: LocationManager, tracker: Tracker, searchType: SearchType? = nil, filters: ProductFilters,
-         tabNavigator: TabNavigator?) {
+         locationManager: LocationManager, currencyHelper: CurrencyHelper, tracker: Tracker, searchType: SearchType? = nil,
+         filters: ProductFilters, tabNavigator: TabNavigator?) {
         self.myUserRepository = myUserRepository
         self.trendingSearchesRepository = trendingSearchesRepository
         self.locationManager = locationManager
+        self.currencyHelper = currencyHelper
         self.tracker = tracker
         self.searchType = searchType
         self.filters = filters
@@ -156,10 +158,11 @@ class MainProductsViewModel: BaseViewModel {
         let myUserRepository = Core.myUserRepository
         let trendingSearchesRepository = Core.trendingSearchesRepository
         let locationManager = Core.locationManager
+        let currencyHelper = Core.currencyHelper
         let tracker = TrackerProxy.sharedInstance
         self.init(myUserRepository: myUserRepository, trendingSearchesRepository: trendingSearchesRepository,
-                  locationManager: locationManager, tracker: tracker, searchType: searchType, filters: filters,
-                  tabNavigator: tabNavigator)
+                  locationManager: locationManager, currencyHelper: currencyHelper, tracker: tracker, searchType: searchType,
+                  filters: filters, tabNavigator: tabNavigator)
     }
     
     convenience init(searchType: SearchType? = nil, tabNavigator: TabNavigator?) {
