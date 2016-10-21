@@ -93,36 +93,37 @@ class NotificationsViewModel: BaseViewModel {
     // MARK: - Private methods
 
     private func reloadNotifications() {
-        notificationsData = [buildLikeNotification("asdf", userName: "Juan palomo", userImage: nil, productTitle: "Hola", date: NSDate(), isRead: true),
-                             buildSoldNotification("asdf", productImage: nil, date: NSDate(), isRead: true),
-                             buildWelcomeNotification(),
-                             buildWelcomeNotification()]
-        viewState.value = .Data
-//        notificationsRepository.index { [weak self] result in
-//            guard let strongSelf = self else { return }
-//            if let notifications = result.value {
-//                let remoteNotifications = notifications.flatMap{ strongSelf.buildNotification($0) }
-//                strongSelf.notificationsData = remoteNotifications + [strongSelf.buildWelcomeNotification()]
-//                if strongSelf.notificationsData.isEmpty {
-//                    let emptyViewModel = LGEmptyViewModel(icon: UIImage(named: "ic_notifications_empty" ),
-//                        title:  LGLocalizedString.notificationsEmptyTitle,
-//                        body: LGLocalizedString.notificationsEmptySubtitle, buttonTitle: LGLocalizedString.tabBarToolTip,
-//                        action: { [weak self] in self?.delegate?.vmOpenSell() }, secondaryButtonTitle: nil, secondaryAction: nil)
-//
-//                    strongSelf.viewState.value = .Empty(emptyViewModel)
-//                } else {
-//                    strongSelf.viewState.value = .Data
-//                }
-//            } else if let error = result.error {
-//                let emptyViewModel = LGEmptyViewModel.respositoryErrorWithRetry(error,
-//                    action: { [weak self] in
-//                        self?.viewState.value = .Loading
-//                        self?.reloadNotifications()
-//                    })
-//                strongSelf.viewState.value = .Error(emptyViewModel)
-//            }
-//        }
+        notificationsRepository.index { [weak self] result in
+            guard let strongSelf = self else { return }
+            if let notifications = result.value {
+                let remoteNotifications = notifications.flatMap{ strongSelf.buildNotification($0) }
+                strongSelf.notificationsData = remoteNotifications + [strongSelf.buildWelcomeNotification()]
+                if strongSelf.notificationsData.isEmpty {
+                    let emptyViewModel = LGEmptyViewModel(icon: UIImage(named: "ic_notifications_empty" ),
+                        title:  LGLocalizedString.notificationsEmptyTitle,
+                        body: LGLocalizedString.notificationsEmptySubtitle, buttonTitle: LGLocalizedString.tabBarToolTip,
+                        action: { [weak self] in self?.delegate?.vmOpenSell() }, secondaryButtonTitle: nil, secondaryAction: nil)
+
+                    strongSelf.viewState.value = .Empty(emptyViewModel)
+                } else {
+                    strongSelf.viewState.value = .Data
+                }
+            } else if let error = result.error {
+                let emptyViewModel = LGEmptyViewModel.respositoryErrorWithRetry(error,
+                    action: { [weak self] in
+                        self?.viewState.value = .Loading
+                        self?.reloadNotifications()
+                    })
+                strongSelf.viewState.value = .Error(emptyViewModel)
+            }
+        }
     }
+}
+
+
+// MARK: - Notifications builder
+
+private extension NotificationsViewModel {
 
     private func buildNotification(notification: Notification) -> NotificationData? {
         switch notification.type {
@@ -133,65 +134,12 @@ class NotificationsViewModel: BaseViewModel {
             return buildLikeNotification(userId, userName: userName, userImage: userImageUrl, productTitle: productTitle,
                                          date: notification.createdAt, isRead: notification.isRead)
 
-//            let subtitle: String
-//            if let productTitle = productTitle where !productTitle.isEmpty {
-//                subtitle = LGLocalizedString.notificationsTypeLikeWTitle(productTitle)
-//            } else {
-//                subtitle = LGLocalizedString.notificationsTypeLike
-//            }
-//            let icon = UIImage(named: "ic_favorite")
-//            return buildProductNotification(.ProductFavorite, primaryAction: { [weak self] in
-//                let data = UserDetailData.Id(userId: userId, source: .Notifications)
-//                self?.tabNavigator?.openUser(data)
-//            }, subtitle: subtitle, userName: userName, icon: icon, productId: productId,
-//               productImage: productImageUrl, userId: userId, userImage: userImageUrl,
-//               date: notification.createdAt, isRead: notification.isRead)
-
         case let .Sold(productId, productImageUrl, _, _, _, _):
             return buildSoldNotification(productId, productImage: productImageUrl, date: notification.createdAt,
                                          isRead: notification.isRead)
-//            let subtitle: String
-//            if let productTitle = productTitle where !productTitle.isEmpty {
-//                subtitle = LGLocalizedString.notificationsTypeSoldWTitle(productTitle)
-//            } else {
-//                subtitle = LGLocalizedString.notificationsTypeSold
-//            }
-//            let icon = UIImage(named: "ic_dollar_sold")
-//            return buildProductNotification(.ProductSold, primaryAction: { [weak self] in
-//                let data = ProductDetailData.Id(productId: productId)
-//                self?.tabNavigator?.openProduct(data, source: .Notifications)
-//            }, subtitle: subtitle, userName: userName, icon: icon, productId: productId,
-//               productImage: productImageUrl, userId: userId, userImage: userImageUrl,
-//               date: notification.createdAt, isRead: notification.isRead)
         }
     }
 
-//    private func buildProductNotification(type: NotificationDataType, primaryAction: () -> Void, subtitle: String, userName: String?, icon: UIImage?,
-//                                          productId: String, productImage: String?, userId: String, userImage: String?,
-//                                          date: NSDate, isRead: Bool) -> NotificationData {
-//        let title: String
-//        if let userName = userName where !userName.isEmpty {
-//            title = userName
-//        } else {
-//            title = LGLocalizedString.notificationsUserWoName
-//        }
-//        let userImagePlaceholder = LetgoAvatar.avatarWithID(userId, name: userName)
-//        return NotificationData(type: type, title: title, subtitle: subtitle, date: date, isRead: isRead,
-//                                primaryAction: primaryAction, icon: icon,
-//                                leftImage: userImage, leftImagePlaceholder: userImagePlaceholder,
-//                                leftImageAction: { [weak self] in
-//                                    let data = UserDetailData.Id(userId: userId, source: .Notifications)
-//                                    self?.tabNavigator?.openUser(data)
-//            })
-//    }
-
-
-}
-
-
-// MARK: - Notifications builder
-
-private extension NotificationsViewModel {
     private func buildLikeNotification(userId: String?, userName: String?, userImage: String?, productTitle: String?, date: NSDate, isRead: Bool ) -> NotificationData {
         let message: String
         if let productTitle = productTitle where !productTitle.isEmpty {
