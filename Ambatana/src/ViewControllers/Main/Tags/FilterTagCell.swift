@@ -43,6 +43,8 @@ class FilterTagCell: UICollectionViewCell {
         case .PriceRange(let minPrice, let maxPrice, let currency):
             let priceRangeString  = FilterTagCell.stringForPriceRange(minPrice, max: maxPrice, withCurrency: currency)
             return FilterTagCell.sizeForText(priceRangeString)
+        case .FreeStuff:
+            return CGSize(width: iconWidth+fixedWidthSpace, height: FilterTagCell.cellHeigh)
         }
     }
     
@@ -115,6 +117,9 @@ class FilterTagCell: UICollectionViewCell {
             self.tagIcon.image = category.image
         case .PriceRange(let minPrice, let maxPrice, let currency):
             self.tagLabel.text = FilterTagCell.stringForPriceRange(minPrice, max: maxPrice, withCurrency: currency)
+        case .FreeStuff:
+            self.tagIconWidth.constant = FilterTagCell.iconWidth
+            self.tagIcon.image = UIImage(named: "categories_free")
         }
     }
 

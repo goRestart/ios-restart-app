@@ -397,7 +397,7 @@
 "product_mark_as_sold_free_confirm_title" = "Отметить как отданный";
 "product_mark_as_sold_free_success_message" = "Поздравляем! Ваш товар отмечен как отданный";
 "product_mark_as_sold_success_message" = "Поздравляем! Ваш продукт был продан!";
-"product_more_info_open_button" = "БОЛЬШЕ ИНФОРМАЦИИ";
+"product_more_info_open_button" = "ЕЩЕ";
 "product_more_info_tooltip_part_1" = "Нажмите";
 "product_more_info_tooltip_part_2" = "%@ просмотреть больше информации";
 "product_negotiable_price" = "Обсуждаема";
