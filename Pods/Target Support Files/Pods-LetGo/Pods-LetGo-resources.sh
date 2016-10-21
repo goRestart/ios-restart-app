@@ -76,28 +76,16 @@ EOM
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_resource "GoogleAuthUtilities/Frameworks/frameworks/GoogleAuthUtilities.framework/Resources/GTMOAuth2ViewTouch.xib"
   install_resource "GoogleSignIn/Resources/GoogleSignIn.bundle"
-  install_resource "Kahuna/KahunaInAppMessageView.h"
-  install_resource "Kahuna/KahunaInAppMessageView.m"
-  install_resource "Kahuna/README"
-  install_resource "Kahuna/CHANGELOG"
   install_resource "TwitterKit/TwitterKit.framework/Versions/A/Resources/TwitterKitResources.bundle"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_resource "GoogleAuthUtilities/Frameworks/frameworks/GoogleAuthUtilities.framework/Resources/GTMOAuth2ViewTouch.xib"
   install_resource "GoogleSignIn/Resources/GoogleSignIn.bundle"
-  install_resource "Kahuna/KahunaInAppMessageView.h"
-  install_resource "Kahuna/KahunaInAppMessageView.m"
-  install_resource "Kahuna/README"
-  install_resource "Kahuna/CHANGELOG"
   install_resource "TwitterKit/TwitterKit.framework/Versions/A/Resources/TwitterKitResources.bundle"
 fi
 if [[ "$CONFIGURATION" == "Adhoc" ]]; then
   install_resource "GoogleAuthUtilities/Frameworks/frameworks/GoogleAuthUtilities.framework/Resources/GTMOAuth2ViewTouch.xib"
   install_resource "GoogleSignIn/Resources/GoogleSignIn.bundle"
-  install_resource "Kahuna/KahunaInAppMessageView.h"
-  install_resource "Kahuna/KahunaInAppMessageView.m"
-  install_resource "Kahuna/README"
-  install_resource "Kahuna/CHANGELOG"
   install_resource "TwitterKit/TwitterKit.framework/Versions/A/Resources/TwitterKitResources.bundle"
 fi
 

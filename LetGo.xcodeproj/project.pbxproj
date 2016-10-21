@@ -19,7 +19,6 @@
 		2E1F0D971D65F4B80021EDBE /* BubbleNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E1F0D961D65F4B80021EDBE /* BubbleNotification.swift */; };
 		2E1F0D981D65F4B80021EDBE /* BubbleNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E1F0D961D65F4B80021EDBE /* BubbleNotification.swift */; };
 		2E245C5E1C11A88B00A3969B /* PushPermissionsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E245C5D1C11A88B00A3969B /* PushPermissionsManager.swift */; };
-		2E2634CD1BB19D1800BBFFBC /* KahunaTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2634CC1BB19D1800BBFFBC /* KahunaTracker.swift */; };
 		2E26F06A1C89998A00C8D789 /* ProcessingVideoDialogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E26F0681C89998A00C8D789 /* ProcessingVideoDialogViewController.swift */; };
 		2E26F06B1C89998A00C8D789 /* ProcessingVideoDialogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E26F0681C89998A00C8D789 /* ProcessingVideoDialogViewController.swift */; };
 		2E26F06C1C89998A00C8D789 /* ProcessingVideoDialogViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E26F0691C89998A00C8D789 /* ProcessingVideoDialogViewController.xib */; };
@@ -865,7 +864,6 @@
 		C7DB41AA1C5138B500400945 /* MainProductsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BFE5B11B640C36006A8CB6 /* MainProductsViewModel.swift */; };
 		C7DB41AC1C5138B500400945 /* TrackerProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C9E4BC1B721F6B001E4E92 /* TrackerProxy.swift */; };
 		C7DB41AD1C5138B500400945 /* AppEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50261B1C1AFB48C6006E88E0 /* AppEnvironment.swift */; };
-		C7DB41B01C5138B500400945 /* KahunaTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2634CC1BB19D1800BBFFBC /* KahunaTracker.swift */; };
 		C7DB41B11C5138B500400945 /* TrackerEventDataTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C9E4C81B735344001E4E92 /* TrackerEventDataTypes.swift */; };
 		C7DB41B21C5138B500400945 /* MediaPickerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A40A3D11C0DE6B700C551B3 /* MediaPickerManager.swift */; };
 		C7DB41B41C5138B500400945 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BA5C041C3C093E00F34042 /* AppDelegate.swift */; };
@@ -1099,7 +1097,6 @@
 		2E119E0A1D1C37040053BA9F /* LGUIKitConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGUIKitConstants.swift; sourceTree = "<group>"; };
 		2E1F0D961D65F4B80021EDBE /* BubbleNotification.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BubbleNotification.swift; sourceTree = "<group>"; };
 		2E245C5D1C11A88B00A3969B /* PushPermissionsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PushPermissionsManager.swift; sourceTree = "<group>"; };
-		2E2634CC1BB19D1800BBFFBC /* KahunaTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KahunaTracker.swift; sourceTree = "<group>"; };
 		2E26F0681C89998A00C8D789 /* ProcessingVideoDialogViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProcessingVideoDialogViewController.swift; path = Commercializer/ProcessingVideoDialogViewController.swift; sourceTree = "<group>"; };
 		2E26F0691C89998A00C8D789 /* ProcessingVideoDialogViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ProcessingVideoDialogViewController.xib; path = Commercializer/ProcessingVideoDialogViewController.xib; sourceTree = "<group>"; };
 		2E28B1281D99129D001BF8E4 /* CGFloat+rounding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGFloat+rounding.swift"; sourceTree = "<group>"; };
@@ -2369,7 +2366,6 @@
 				50C9E4C21B723E7B001E4E92 /* AppsflyerTracker.swift */,
 				2E2AB8271C04A2EF0007B8EB /* CrashlyticsTracker.swift */,
 				50C9E4C41B723E87001E4E92 /* FacebookTracker.swift */,
-				2E2634CC1BB19D1800BBFFBC /* KahunaTracker.swift */,
 				C797404E1D2A95B100381A4A /* LeanplumTracker.swift */,
 				50C9E4B81B71FBB7001E4E92 /* Tracker.swift */,
 				50C9E4BC1B721F6B001E4E92 /* TrackerProxy.swift */,
@@ -4169,7 +4165,6 @@
 				50261B1D1AFB48C6006E88E0 /* AppEnvironment.swift in Sources */,
 				6A5E19F41D548F5400F92692 /* CountryHelper+Product.swift in Sources */,
 				50CA9FAB1C91695F00350C5F /* UserViewController.swift in Sources */,
-				2E2634CD1BB19D1800BBFFBC /* KahunaTracker.swift in Sources */,
 				50146BC41D4F5F5B00B0F635 /* TabNavigator.swift in Sources */,
 				50C9E4C91B735344001E4E92 /* TrackerEventDataTypes.swift in Sources */,
 				6A40A3D21C0DE6B700C551B3 /* MediaPickerManager.swift in Sources */,
@@ -4548,7 +4543,6 @@
 				50CA9FAC1C91695F00350C5F /* UserViewController.swift in Sources */,
 				50146BC51D4F5F5B00B0F635 /* TabNavigator.swift in Sources */,
 				C7DB41AD1C5138B500400945 /* AppEnvironment.swift in Sources */,
-				C7DB41B01C5138B500400945 /* KahunaTracker.swift in Sources */,
 				C7DB41B11C5138B500400945 /* TrackerEventDataTypes.swift in Sources */,
 				2E373FAC1D3E6F3E00AC811C /* UserRatingListRequester.swift in Sources */,
 				C72794291D549334009C25AB /* SettingsCell.swift in Sources */,
