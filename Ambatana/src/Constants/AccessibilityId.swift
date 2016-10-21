@@ -145,7 +145,7 @@ enum AccessibilityId: String {
     case ProductCarouselImageCell
     case ProductCarouselImageCellImageView
 
-    // User View (currently only on ProductCarousel)
+    // User View
     case UserViewNameLabel
     case UserViewSubtitleLabel
 
