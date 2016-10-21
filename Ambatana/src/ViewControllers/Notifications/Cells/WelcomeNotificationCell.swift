@@ -20,7 +20,7 @@ class WelcomeNotificationCell: UITableViewCell, ReusableCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        self.setupUI()
+        setupUI()
     }
     
 

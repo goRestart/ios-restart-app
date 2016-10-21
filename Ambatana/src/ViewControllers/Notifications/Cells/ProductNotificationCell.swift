@@ -23,13 +23,13 @@ class ProductNotificationCell: UITableViewCell, ReusableCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        self.setupUI()
-        self.resetUI()
+        setupUI()
+        resetUI()
     }
 
     override func prepareForReuse() {
         super.prepareForReuse()
-        self.resetUI()
+        resetUI()
     }
 
     override func setHighlighted(highlighted: Bool, animated: Bool) {
