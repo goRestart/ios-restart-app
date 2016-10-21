@@ -647,8 +647,9 @@ class TrackerEventSpec: QuickSpec {
                     beforeEach {
                         let coords = LGLocationCoordinates2D(latitude: 41.123, longitude: 2.123)
                         sut = TrackerEvent.filterComplete(coords, distanceRadius: 10, distanceUnit: DistanceType.Km,
-                            categories: [ProductCategory.Electronics, ProductCategory.CarsAndMotors],
-                            sortBy: ProductSortCriteria.Distance, postedWithin: ProductTimeCriteria.Day, priceFrom: 5, priceTo: 100)
+                            categories: [.Electronics, .CarsAndMotors],
+                            sortBy: ProductSortCriteria.Distance, postedWithin: ProductTimeCriteria.Day,
+                            priceRange: .PriceRange(min: 5, max: 100))
                     }
                     it("has its event name") {
                         expect(sut.name.rawValue).to(equal("filter-complete"))
@@ -669,7 +670,7 @@ class TrackerEventSpec: QuickSpec {
                         expect(sut.params!.stringKeyParams["distance-unit"] as? String).to(equal("km"))
                     }
                     it("has categories") {
-                        let categories = sut.params!.stringKeyParams["category-id"] as? String
+                        let categories = sut.params!.stringKeyParams["category-id"] as? String 
                         expect(categories).to(equal("1,2"))
                     }
                     it("has sort by") {
@@ -688,7 +689,7 @@ class TrackerEventSpec: QuickSpec {
                 context("not receiving all params, contains the default params") {
                     beforeEach {
                         sut = TrackerEvent.filterComplete(nil, distanceRadius: nil, distanceUnit: DistanceType.Km,
-                            categories: nil, sortBy: nil, postedWithin: nil, priceFrom: nil, priceTo: nil)
+                            categories: nil, sortBy: nil, postedWithin: nil, priceRange: .PriceRange(min: nil, max: nil))
                     }
                     it("has its event name") {
                         expect(sut.name.rawValue).to(equal("filter-complete"))
@@ -2294,6 +2295,26 @@ class TrackerEventSpec: QuickSpec {
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("signup-captcha"))
+                }
+            }
+            describe("Notification center start") {
+                beforeEach {
+                    sut = TrackerEvent.NotificationCenterStart()
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("notification-center-start"))
+                }
+            }
+            describe("Notification center complete") {
+                beforeEach {
+                    sut = TrackerEvent.NotificationCenterComplete(.Welcome)
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("notification-center-complete"))
+                }
+                it("contains notification-type param") {
+                    let param = sut.params!.stringKeyParams["notification-type"] as? String
+                    expect(param) == "welcome"
                 }
             }
         }

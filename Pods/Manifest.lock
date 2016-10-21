@@ -3,7 +3,7 @@ PODS:
   - AlamofireImage (2.5.0):
     - Alamofire (~> 3.5)
   - Amplitude-iOS (3.8.5)
-  - AppsFlyerFramework (4.5.8)
+  - AppsFlyerFramework (4.5.9)
   - Argo (3.1.0)
   - Bolts (1.8.4):
     - Bolts/AppLinks (= 1.8.4)
@@ -204,7 +204,7 @@ SPEC CHECKSUMS:
   Alamofire: 0dfba1184a543e2aa160f4e39cac4e8aba48d223
   AlamofireImage: 2d34936e5201270bb17a316a786e90e83b4a249d
   Amplitude-iOS: de7cfde0c791d05fb0e0f82bd34cbd3585ccd63f
-  AppsFlyerFramework: 2124bd17691b8c5f5ac489b52e8618b8db021428
+  AppsFlyerFramework: 93c3eda4d73b8477641fabe6952260ee70ee1077
   Argo: bb0e94e309d6ceb8fa58910205c8968be101e429
   Bolts: 8a7995239dbe724f9cba2248b766d48b7ebdd322
   Branch: 714cc02afc4676902f14f949157cdbf8c73f64f4

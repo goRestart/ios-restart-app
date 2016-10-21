@@ -26,11 +26,13 @@ UICollectionViewDataSource, UICollectionViewDelegate {
     private var tapRec: UITapGestureRecognizer?
 
     //Constants
-    private let sections : [FilterSection] = FilterSection.allValues()
     private var distanceCellSize = CGSize(width: 0.0, height: 0.0)
     private var categoryCellSize = CGSize(width: 0.0, height: 0.0)
     private var singleCheckCellSize = CGSize(width: 0.0, height: 0.0)
     private var priceCellSize = CGSize(width: 0.0, height: 0.0)
+
+    // Price kb scroll
+    private var priceToCellFrame: CGRect = CGRectZero
 
     // Rx
     let disposeBag = DisposeBag()
@@ -103,10 +105,14 @@ UICollectionViewDataSource, UICollectionViewDelegate {
     }
 
     func vmForcePriceFix() {
-        let indexPath = NSIndexPath(forItem: 1,inSection: FilterSection.Price.rawValue)
-        collectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: UICollectionViewScrollPosition.Bottom, animated: true)
+        // make sure the "to price" cell exists
+        guard let priceSectionIndex = viewModel.sections.indexOf(.Price) else { return }
+        let indexPath = NSIndexPath(forItem: 1,inSection: priceSectionIndex)
         guard let maxPriceCell = collectionView.cellForItemAtIndexPath(indexPath) as? FilterPriceCell else { return }
         maxPriceCell.textField.becomeFirstResponder()
+
+        // move to "to price" cell
+        collectionView.scrollRectToVisible(priceToCellFrame, animated: false)
     }
 
     // MARK: FilterDistanceCellDelegate
@@ -136,7 +142,7 @@ UICollectionViewDataSource, UICollectionViewDelegate {
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
         sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-            switch sections[indexPath.section] {
+            switch viewModel.sections[indexPath.section] {
             case .Distance:
                 return distanceCellSize
             case .Categories:
@@ -149,11 +155,11 @@ UICollectionViewDataSource, UICollectionViewDelegate {
     }
     
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
-        return sections.count
+        return viewModel.sections.count
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        switch sections[section] {
+        switch viewModel.sections[section] {
         case .Location:
             return 1
         case .Distance:
@@ -165,7 +171,7 @@ UICollectionViewDataSource, UICollectionViewDelegate {
         case .SortBy:
             return viewModel.numOfSortOptions
         case .Price:
-            return 2
+            return  2
         }
     }
     
@@ -177,7 +183,7 @@ UICollectionViewDataSource, UICollectionViewDelegate {
                     withReuseIdentifier: "FilterHeaderCell", forIndexPath: indexPath)
                 guard let headerCell = cell as? FilterHeaderCell else { return UICollectionReusableView() }
                 
-                let section = sections[indexPath.section]
+                let section = viewModel.sections[indexPath.section]
                 headerCell.separator.hidden = indexPath.section == 0
                 headerCell.titleLabel.text = section.name
                 
@@ -189,9 +195,8 @@ UICollectionViewDataSource, UICollectionViewDelegate {
 
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath)
         -> UICollectionViewCell {
-
             // TODO: Refactor cells into CellDrawer pattern
-            switch sections[indexPath.section] {
+            switch viewModel.sections[indexPath.section] {
             case .Location:
                 guard let cell = collectionView.dequeueReusableCellWithReuseIdentifier("FilterLocationCell",
                     forIndexPath: indexPath) as? FilterLocationCell else { return UICollectionViewCell() }
@@ -240,14 +245,16 @@ UICollectionViewDataSource, UICollectionViewDelegate {
                 cell.topSeparator.hidden =  indexPath.row != 0
                 cell.textField.text = indexPath.row == 0 ? viewModel.minPriceString : viewModel.maxPriceString
                 cell.delegate = self
+                if indexPath.row == 1 {
+                    priceToCellFrame = cell.frame
+                }
                 return cell
             }
     }
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         collectionView.deselectItemAtIndexPath(indexPath, animated: false)
-        
-        switch sections[indexPath.section] {
+        switch viewModel.sections[indexPath.section] {
         case .Location:
             viewModel.locationButtonPressed()
         case .Distance:
@@ -264,7 +271,7 @@ UICollectionViewDataSource, UICollectionViewDelegate {
             break
         }
     }
-
+    
 
     // MARK: Private methods
     
@@ -313,16 +320,17 @@ UICollectionViewDataSource, UICollectionViewDelegate {
     private func setupRx() {
         var previousKbOrigin: CGFloat = CGFloat.max
         keyboardHelper.rx_keyboardOrigin.asObservable().skip(1).distinctUntilChanged().bindNext { [weak self] origin in
-            guard let viewHeight = self?.view.height, animationTime = self?.keyboardHelper.animationTime where
-                viewHeight >= origin else { return }
+            guard let strongSelf = self else { return }
+            let viewHeight = strongSelf.view.height
+            let animationTime = strongSelf.keyboardHelper.animationTime
+            guard viewHeight >= origin else { return }
             self?.saveFiltersBtnContainerBottomConstraint.constant = viewHeight - origin
             UIView.animateWithDuration(Double(animationTime), animations: {
-                self?.view.layoutIfNeeded()
+                strongSelf.view.layoutIfNeeded()
             })
             if origin < previousKbOrigin {
                 // keyboard is appearing
-                let indexPath = NSIndexPath(forItem: 1,inSection: FilterSection.Price.rawValue)
-                self?.collectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: .Bottom, animated: false)
+                strongSelf.collectionView.scrollRectToVisible(strongSelf.priceToCellFrame, animated: false)
             } else if origin > previousKbOrigin {
                 self?.updateTapRecognizer(false)
             }
