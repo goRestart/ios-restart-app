@@ -32,10 +32,13 @@ class PostProductCameraViewModel: BaseViewModel {
     let cameraFlashMode = Variable<CameraFlashMode>(.Auto)
     let cameraSourceMode = Variable<CameraSourceMode>(.Rear)
     let imageSelected = Variable<UIImage?>(nil)
+    let sourcePosting = Variable<PostingSource>(.SellButton)
 
     let infoShown = Variable<Bool>(false)
     let infoTitle = Variable<String>("")
     let infoSubtitle = Variable<String>("")
+    let firstTimeTitle = Variable<String>("")
+    let firstTimeSubtitle = Variable<String>("")
     let infoButton = Variable<String>("")
     let shouldShowFirstTimeAlert = Variable<Bool>(false)
 
@@ -140,7 +143,18 @@ class PostProductCameraViewModel: BaseViewModel {
                 self?.infoShown.value = false
             }
         }.addDisposableTo(disposeBag)
-
+        
+        sourcePosting.asObservable().subscribeNext{ [weak self] source in
+            switch source {
+            case .SellButton, .DeepLink, .OnboardingButton, .OnboardingCamera:
+                self?.firstTimeTitle.value = LGLocalizedString.productPostCameraFirstTimeAlertTitle
+                self?.firstTimeSubtitle.value = LGLocalizedString.productPostCameraFirstTimeAlertSubtitle
+            case .SellFreeButton:
+                self?.firstTimeTitle.value = LGLocalizedString.productPostFreeCameraFirstTimeAlertTitle
+                self?.firstTimeSubtitle.value = LGLocalizedString.productPostFreeCameraFirstTimeAlertSubtitle
+            }
+        }.addDisposableTo(disposeBag)
+        
         cameraState.asObservable().map{ $0.previewMode }.subscribeNext{ [weak self] previewMode in
             self?.cameraDelegate?.productCameraRequestHideTabs(previewMode)
         }.addDisposableTo(disposeBag)
@@ -154,7 +168,7 @@ class PostProductCameraViewModel: BaseViewModel {
             .addDisposableTo(disposeBag)
 
         shouldShowFirstTimeAlert.asObservable().subscribeNext { [weak self] shouldShowAlert in
-            if shouldShowAlert {
+          if shouldShowAlert {
                 self?.showFirstTimeAlert()
             }
         }.addDisposableTo(disposeBag)

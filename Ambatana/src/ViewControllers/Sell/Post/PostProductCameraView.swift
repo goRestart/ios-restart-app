@@ -74,10 +74,11 @@ class PostProductCameraView: BaseView, LGViewPagerPage {
 
     // MARK: - View lifecycle
 
-    convenience init() {
+    convenience init(source: PostingSource) {
         self.init(viewModel: PostProductCameraViewModel(), frame: CGRect.zero)
+        viewModel.sourcePosting.value = source
     }
-
+    
     init(viewModel: PostProductCameraViewModel, frame: CGRect) {
         self.viewModel = viewModel
         super.init(viewModel: viewModel, frame: frame)
@@ -130,8 +131,7 @@ class PostProductCameraView: BaseView, LGViewPagerPage {
         viewModel.takePhotoButtonPressed()
         fastCamera.takePicture()
     }
-
-
+    
     // MARK: - Actions
     @IBAction func onCloseButton(sender: AnyObject) {
         hideFirstTimeAlert()
@@ -303,8 +303,8 @@ extension PostProductCameraView {
 extension PostProductCameraView{
     func setupFirstTimeAlertView() {
         firstTimeAlert.layer.cornerRadius = LGUIKitConstants.alertCornerRadius
-        firstTimeAlertTitle.text = LGLocalizedString.productPostCameraFirstTimeAlertTitle
-        firstTimeAlertSubtitle.text = LGLocalizedString.productPostCameraFirstTimeAlertSubtitle
+        viewModel.firstTimeTitle.asObservable().bindTo(firstTimeAlertTitle.rx_text).addDisposableTo(disposeBag)
+        viewModel.firstTimeSubtitle.asObservable().bindTo(firstTimeAlertSubtitle.rx_text).addDisposableTo(disposeBag)
     }
 }
 

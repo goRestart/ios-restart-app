@@ -76,7 +76,7 @@
 "chat_express_contact_sellers_label" = "Neem contact op met deze verkopers voordat andere kopers dat doen!";
 "chat_express_contact_various_button_text" = "Contacteer %@ verkopers";
 "chat_express_dont_ask_again_button" = "Vraag me niet opnieuw";
-"chat_express_dont_miss_label" = "Mis deze koopjes niet";
+"chat_express_dont_miss_label" = "Mis deze deals niet";
 "chat_express_one_message_sent_success_alert" = "Je bericht is verzonden!";
 "chat_express_send_question_text" = "Versturen: %@";
 "chat_express_several_messages_sent_success_alert" = "Je berichten zijn verzonden!";
@@ -122,7 +122,7 @@
 "chat_product_sold_label" = "Product verkocht";
 "chat_related_products_title" = "MISSCHIEN HEB JE INTERESSE IN:";
 "chat_safety_tips" = "Veiligheidstips";
-"chat_safety_tips_message" = "• Persoonlijk ontmoeten en contant betalen.\n \n• Voer gesprekken in de letgo chat.\n \n• Te mooi om waar te zijn? Pas op!";
+"chat_safety_tips_message" = "• Persoonlijk ontmoeten en contant betalen.\n \n• Voer gesprekken in de letgo chat.\n \n• Klinkt het te mooi om waar te zijn? Vind een andere koper/verkoper.";
 "chat_safety_tips_title" = "VEILIGHEIDSTIPS";
 "chat_send_button" = "Versturen";
 "chat_send_error_generic" = "Er is een fout opgetreden bij het versturen van het bericht. Probeer het later nog eens.";
@@ -182,6 +182,7 @@
 "common_expand" = "Toon meer";
 "common_loading" = "Laden...";
 "common_max" = "max.";
+"common_new" = "NIEUW!";
 "common_next" = "Volgende";
 "common_no" = "Nee";
 "common_ok" = "OK";
@@ -387,7 +388,7 @@
 "product_mark_as_sold_confirm_ok_button" = "Markeer als verkocht";
 "product_mark_as_sold_confirm_title" = "Markeer als verkocht";
 "product_mark_as_sold_error_generic" = "Er is een fout opgetreden bij het markeren van het product als verkocht. Probeer het later nog eens.";
-"product_mark_as_sold_free_button" = "Ik heb het weggegeven";
+"product_mark_as_sold_free_button" = "Markeer als weggegeven";
 "product_mark_as_sold_free_confirm_cancel_button" = "Annuleren";
 "product_mark_as_sold_free_confirm_message" = "Markeer je product als al weggegeven";
 "product_mark_as_sold_free_confirm_ok_button" = "Markeer";
@@ -423,6 +424,8 @@
 "product_post_empty_gallery_button" = "Foto maken";
 "product_post_empty_gallery_subtitle" = "Maak een foto van het product dat je wilt plaatsen";
 "product_post_empty_gallery_title" = "Geen foto's gevonden";
+"product_post_free_camera_first_time_alert_subtitle" = "Take a good picture and find your item a new home!";
+"product_post_free_camera_first_time_alert_title" = "What are you giving away?";
 "product_post_gallery_load_image_error_subtitle" = "Kies een andere foto en probeer het nog eens";
 "product_post_gallery_load_image_error_title" = "De foto kan niet worden geladen";
 "product_post_gallery_permissions_button" = "Toestaan";
@@ -625,6 +628,9 @@
 "sign_up_terms_conditions_terms_part" = "Terms & Conditions";
 "sign_up_title" = "Nieuw account aanmaken";
 "sign_up_username_field_hint" = "Volledige naam";
+"tab_bar_give_away_button" = "Weggeven";
+"tab_bar_give_away_tooltip" = "Now you can give items away";
+"tab_bar_sell_stuff_button" = "Spullen Verkopen";
 "tab_bar_tool_tip" = "Verkoop je spullen";
 "toast_error_internal" = "Oeps! Er ging iets mis.";
 "toast_no_network" = "Geen internetverbinding";

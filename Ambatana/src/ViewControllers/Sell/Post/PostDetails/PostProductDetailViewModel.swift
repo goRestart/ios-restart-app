@@ -33,19 +33,30 @@ class PostProductDetailViewModel: BaseViewModel {
     }
 
     let currencySymbol: String?
+    let postingSource: PostingSource
+    
+    var freeOptionAvailable: Bool {
+        switch FeatureFlags.freePostingMode {
+        case .Disabled:
+            return false
+        case .SplitButton, .OneButton:
+            return true
+        }
+    }
 
     private let disposeBag = DisposeBag()
 
-    convenience override init() {
+    convenience  init(source: PostingSource) {
         var currencySymbol: String? = nil
         if let countryCode = Core.locationManager.currentPostalAddress?.countryCode {
             currencySymbol = Core.currencyHelper.currencyWithCountryCode(countryCode).symbol
         }
-        self.init(currencySymbol: currencySymbol)
+        self.init(currencySymbol: currencySymbol, source: source)
     }
 
-    init(currencySymbol: String?) {
+    init(currencySymbol: String?, source: PostingSource) {
         self.currencySymbol = currencySymbol
+        self.postingSource = source
         super.init()
     }
 

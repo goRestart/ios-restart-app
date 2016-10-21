@@ -76,7 +76,7 @@
 "chat_express_contact_sellers_label" = "Liên lạc với người bán trước khi người mua khác mua được";
 "chat_express_contact_various_button_text" = "Liên hệ %@ người bán";
 "chat_express_dont_ask_again_button" = "Đừng hỏi lại tôi";
-"chat_express_dont_miss_label" = "Đừng bỏ lỡ những món hàng này";
+"chat_express_dont_miss_label" = "Đừng bỏ lỡ những món hời này";
 "chat_express_one_message_sent_success_alert" = "Tin nhắn của bạn vừa được gửi!";
 "chat_express_send_question_text" = "Gửi:%@";
 "chat_express_several_messages_sent_success_alert" = "Tin nhắn của bạn vừa được gửi!";
@@ -122,7 +122,7 @@
 "chat_product_sold_label" = "Sản phẩm đã bán";
 "chat_related_products_title" = "BẠN CÓ THỂ QUAN TÂM TỚI:";
 "chat_safety_tips" = "Lời khuyên an toàn";
-"chat_safety_tips_message" = "• Gặp trực tiếp và trả bằng tiền mặt.\n\n• Lưu giữ các cuộc hội thoại trên mục trò chuyện letgo.\n\n• Giá quá hời? Hãy thận trọng!";
+"chat_safety_tips_message" = "• Gặp trực tiếp và trả bằng tiền mặt.\n\n• Lưu giữ các cuộc hội thoại trên mục trò chuyện letgo.\n\n• Có vẻ quá hời? Hãy tìm người mua/người bán khác.";
 "chat_safety_tips_title" = "LỜI KHUYÊN AN TOÀN";
 "chat_send_button" = "Gửi";
 "chat_send_error_generic" = "Lỗi xảy ra trong khi gửi tin nhắn. Xin vui lòng thử lại sau.";
@@ -182,6 +182,7 @@
 "common_expand" = "Hiện thêm";
 "common_loading" = "Đang tải...";
 "common_max" = "tối đa";
+"common_new" = "MỚI!";
 "common_next" = "Tiếp theo";
 "common_no" = "Không";
 "common_ok" = "OK";
@@ -387,7 +388,7 @@
 "product_mark_as_sold_confirm_ok_button" = "Đánh dấu Đã bán";
 "product_mark_as_sold_confirm_title" = "Đánh dấu Đã bán";
 "product_mark_as_sold_error_generic" = "Lỗi xảy ra trong khi đánh dấu đã bán cho sản phẩm. Xin vui lòng thử lại sau.";
-"product_mark_as_sold_free_button" = "Tôi vừa tặng rồi";
+"product_mark_as_sold_free_button" = "Đánh dấu đã tặng";
 "product_mark_as_sold_free_confirm_cancel_button" = "Hủy";
 "product_mark_as_sold_free_confirm_message" = "Đánh dấu đã tặng cho sản phẩm của bạn";
 "product_mark_as_sold_free_confirm_ok_button" = "Đánh dấu";
@@ -423,6 +424,8 @@
 "product_post_empty_gallery_button" = "Chụp Ảnh";
 "product_post_empty_gallery_subtitle" = "Hãy chụp ảnh sản phẩm bạn muốn đăng";
 "product_post_empty_gallery_title" = "Không có ảnh nào";
+"product_post_free_camera_first_time_alert_subtitle" = "Chụp ảnh đẹp và tìm chủ mới cho món đồ của bạn!";
+"product_post_free_camera_first_time_alert_title" = "Bạn đang tặng gì?";
 "product_post_gallery_load_image_error_subtitle" = "Hãy chọn ảnh khác và thử lại.";
 "product_post_gallery_load_image_error_title" = "Không thể tải ảnh.";
 "product_post_gallery_permissions_button" = "Cho phép";
@@ -625,6 +628,9 @@
 "sign_up_terms_conditions_terms_part" = "Terms & Conditions";
 "sign_up_title" = "Tạo tài khoản mới";
 "sign_up_username_field_hint" = "Họ tên";
+"tab_bar_give_away_button" = "Tặng";
+"tab_bar_give_away_tooltip" = "Giờ đây bạn có thể đem tặng";
+"tab_bar_sell_stuff_button" = "Bán Đồ";
 "tab_bar_tool_tip" = "Bán Đồ Của Bạn";
 "toast_error_internal" = "Ồ! Có gì đó không đúng.";
 "toast_no_network" = "Không có kết nối Internet";
