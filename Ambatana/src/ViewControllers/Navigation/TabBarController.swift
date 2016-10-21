@@ -34,10 +34,9 @@ final class TabBarController: UITabBarController {
     // MARK: - Lifecycle
 
     init(viewModel: TabBarViewModel) {
-        self.floatingSellButton = FloatingButton()
+        self.floatingSellButton = FloatingButton(frame: CGRect(x: 50, y: 50, width: 200, height: 50))
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
-        self.viewModel.delegate = self
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -46,6 +45,7 @@ final class TabBarController: UITabBarController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.viewModel.delegate = self
 
         setupAdminAccess()
         setupSellButtons()
@@ -61,6 +61,11 @@ final class TabBarController: UITabBarController {
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         viewModel.active = false
+    }
+
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        viewModel.didAppear()
     }
 
     
@@ -156,6 +161,7 @@ final class TabBarController: UITabBarController {
 
     private func setupSellButtons() {
         floatingSellButton.sellCompletion = { [weak self] in self?.sellButtonPressed() }
+        floatingSellButton.giveAwayCompletion = { [weak self] in self?.viewModel.giveAwayButtonPressed() }
         floatingSellButton.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(floatingSellButton)
 
@@ -230,6 +236,29 @@ final class TabBarController: UITabBarController {
 extension TabBarController: TabBarViewModelDelegate {
     func vmSwitchToTab(tab: Tab, force: Bool) {
         switchToTab(tab, checkIfShouldSwitch: !force)
+    }
+
+    func vmShowTooltipAtSellButtonWithText(text: NSAttributedString) {
+        let targetView: UIView
+        switch FeatureFlags.freePostingMode {
+        case .Disabled, .OneButton:
+            targetView = floatingSellButton
+        case .SplitButton:
+            targetView = floatingSellButton.giveAwayButton
+        }
+
+        let tooltip = Tooltip(targetView: targetView, superView: view, title: text, style: .Black(closeEnabled: true),
+                              peakOnTop: false, actionBlock: { [weak self] in
+            self?.viewModel.giveAwayButtonPressed()
+            self?.viewModel.tooltipDismissed()
+        }, closeBlock: { [weak self] in
+            self?.viewModel.tooltipDismissed()
+        })
+
+        view.addSubview(tooltip)
+        setupExternalConstraintsForTooltip(tooltip, targetView: floatingSellButton, containerView: view)
+
+        view.layoutIfNeeded()
     }
 }
 

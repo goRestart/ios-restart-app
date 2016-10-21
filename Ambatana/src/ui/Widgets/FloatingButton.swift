@@ -11,7 +11,7 @@ import UIKit
 class FloatingButton: UIView {
     private let containerView: UIView
     private let sellButton: UIButton
-    private let giveAwayButton: UIButton
+    let giveAwayButton: UIButton
 
     var sellCompletion: (() -> ())?
     var giveAwayCompletion: (() -> ())?
@@ -23,12 +23,20 @@ class FloatingButton: UIView {
         self.init(freePostingMode: FeatureFlags.freePostingMode)
     }
 
-    init(freePostingMode: FreePostingMode) {
+    override convenience init(frame: CGRect) {
+        self.init(frame: CGRect.zero, freePostingMode: FeatureFlags.freePostingMode)
+    }
+
+    convenience init(freePostingMode: FreePostingMode) {
+        self.init(frame: CGRect.zero, freePostingMode: freePostingMode)
+    }
+
+    init(frame: CGRect, freePostingMode: FreePostingMode) {
         self.containerView = UIView()
         self.sellButton = UIButton(type: .Custom)
         self.giveAwayButton = UIButton(type: .Custom)
 
-        super.init(frame: CGRect.zero)
+        super.init(frame: frame)
 
         setupConstraints(freePostingMode)
         setupUI(freePostingMode)
