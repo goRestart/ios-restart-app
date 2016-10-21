@@ -340,7 +340,7 @@ extension TabBarController: AppRatingViewDelegate {
 extension TabBarController {
     func setAccessibilityIds() {
         floatingSellButton.sellButton.accessibilityId = AccessibilityId.TabBarFloatingSellButton
-        floatingSellButton.giveAwayButton.accessibilityId = AccessibilityId.TabBarFloatingSellButton
+        floatingSellButton.giveAwayButton.accessibilityId = AccessibilityId.TabBarFloatingGiveAwayButton
     }
 }
 
