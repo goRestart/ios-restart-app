@@ -55,11 +55,11 @@ enum PostIncentiviserItem: Int {
         case .Car:
             return UIImage(named: "cars")
         case .KidsClothes:
-            return UIImage(named: "cars")
+            return UIImage(named: "kids_clothes")
         case .Furniture:
-            return UIImage(named: "cars")
+            return UIImage(named: "furniture")
         case .Toys:
-            return UIImage(named: "cars")
+            return UIImage(named: "toys")
         }
     }
 
