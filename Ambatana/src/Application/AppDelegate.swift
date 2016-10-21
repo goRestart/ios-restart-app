@@ -96,14 +96,14 @@ extension AppDelegate: UIApplicationDelegate {
 
     func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?,
                      annotation: AnyObject) -> Bool {
-        return app(application, openURL: url, sourceApplication: sourceApplication, annotation: annotation)
+        return app(application, openURL: url, sourceApplication: sourceApplication, annotation: annotation, options: nil)
     }
 
     @available(iOS 9.0, *)
     func application(application: UIApplication, openURL url: NSURL, options: [String : AnyObject]) -> Bool {
         let sourceApplication: String? = options[UIApplicationOpenURLOptionsSourceApplicationKey] as? String
         let annotation: AnyObject? = options[UIApplicationOpenURLOptionsAnnotationKey]
-        return app(application, openURL: url, sourceApplication: sourceApplication, annotation: annotation)
+        return app(application, openURL: url, sourceApplication: sourceApplication, annotation: annotation, options: options)
     }
 
     @available(iOS 9.0, *)
@@ -330,7 +330,7 @@ private extension AppDelegate {
 // MARK: > Deep linking
 
 private extension AppDelegate {
-    func app(app: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?) -> Bool {
+    func app(app: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?, options: [String : AnyObject]?) -> Bool {
 
         TrackerProxy.sharedInstance.application(app, openURL: url, sourceApplication: sourceApplication,
                                                 annotation: annotation)
@@ -342,8 +342,13 @@ private extension AppDelegate {
                                                                                      sourceApplication: sourceApplication, annotation: annotation)
         let googleHandling = GIDSignIn.sharedInstance().handleURL(url, sourceApplication: sourceApplication,
                                                                   annotation: annotation)
-        AppsFlyerTracker.sharedTracker().handleOpenURL(url, sourceApplication: sourceApplication,
+        if let options = options {
+            AppsFlyerTracker.sharedTracker().handleOpenUrl(url, options: options)
+        } else {
+            //We must keep it (even though it's deprecated) until we drop iOS8
+            AppsFlyerTracker.sharedTracker().handleOpenURL(url, sourceApplication: sourceApplication,
                                                        withAnnotation: annotation)
+        }
         
         return routerHandling || facebookHandling || googleHandling
     }
