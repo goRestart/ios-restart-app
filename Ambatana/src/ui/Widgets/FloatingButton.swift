@@ -48,7 +48,7 @@ class FloatingButton: UIView {
 
     override func layoutSubviews() {
         super.layoutSubviews()
-        containerView.layer.cornerRadius = CGRectGetHeight(frame) / 2
+        containerView.layer.cornerRadius = height / 2
     }
 
 
