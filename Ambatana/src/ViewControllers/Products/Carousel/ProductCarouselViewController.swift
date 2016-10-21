@@ -1136,5 +1136,6 @@ extension ProductCarouselViewController {
         editButton.accessibilityId = .ProductCarouselEditButton
         fullScreenAvatarView.accessibilityId = .ProductCarouselFullScreenAvatarView
         pageControl.accessibilityId = .ProductCarouselPageControl
+        userView.accessibilityId = .ProductCarouselUserView
     }
 }
