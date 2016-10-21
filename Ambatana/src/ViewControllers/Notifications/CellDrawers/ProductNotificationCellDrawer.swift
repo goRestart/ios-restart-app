@@ -8,16 +8,9 @@
 
 import LGCoreKit
 
-class ProductNotificationCellDrawer: BaseTableCellDrawer<NotificationCell>, NotificationCellDrawer {
+class ProductNotificationCellDrawer: BaseNotificationCellDrawer<ProductNotificationCell> {
     
-    func draw(tableViewCell: UITableViewCell, data: NotificationData) {
-        guard let cell = tableViewCell as? NotificationCell else { return }
-
-        cell.titleLabel.font = data.isRead ? UIFont.notificationTitleFont : UIFont.notificationTitleUnreadFont
-        cell.actionLabel.font = data.isRead ? UIFont.notificationSubtitleFont : UIFont.notificationSubtitleUnreadFont
-        cell.timeLabel.font = data.isRead ? UIFont.notificationTimeFont : UIFont.notificationTimeUnreadFont
-
-        cell.titleLabel.text = data.title
+    override func draw(cell: ProductNotificationCell, data: NotificationData) {
         cell.actionLabel.text = data.subtitle
         cell.iconImage.image = data.icon
         if let urlStr = data.letfImage, leftUrl = NSURL(string: urlStr) {
@@ -25,15 +18,8 @@ class ProductNotificationCellDrawer: BaseTableCellDrawer<NotificationCell>, Noti
         } else {
             cell.primaryImage.image = data.leftImagePlaceholder
         }
-        if let urlStr = data.rightImage, rightUrl = NSURL(string: urlStr) {
-            cell.secondaryImage.lg_setImageWithURL(rightUrl)
-        } else {
-            cell.secondaryImage.image = nil
-        }
-
         cell.primaryImageAction = data.leftImageAction
-        cell.secondaryImageAction = data.rightImageAction
-
         cell.timeLabel.text = data.date.relativeTimeString(false)
+        cell.actionButton.setTitle(data.primaryActionText, forState: .Normal)
     }
 }

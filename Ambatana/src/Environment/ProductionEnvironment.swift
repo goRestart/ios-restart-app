@@ -14,9 +14,6 @@ class ProductionEnvironment: AppEnvironment {
     // Tracking
     let appsFlyerAPIKey = "5EKnCjmwmNKjE2e7gYBo6T"
     let amplitudeAPIKey = "6d37fbd6c25243c57676e6d4ce7948bf"
-
-    // Push notifications
-    let kahunaAPIKey = "9188e3c6b7cf47acb94a10ab027a08f3"
     
     // App indexing
     let googleAppIndexingId: UInt = 986339882

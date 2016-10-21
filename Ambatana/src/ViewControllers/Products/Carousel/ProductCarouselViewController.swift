@@ -105,7 +105,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     private let moreInfoAlpha = Variable<CGFloat>(1)
     private let moreInfoState = Variable<MoreInfoState>(.Hidden)
 
-    private var interestedBubble: InterestedBubble?
+    private var interestedBubble = InterestedBubble()
     private var interestedBubbleIsVisible: Bool = false
     private var interestedBubbleTimer: NSTimer = NSTimer()
 
@@ -270,8 +270,6 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     }
 
     func setupInterestedBubble() {
-        interestedBubble = InterestedBubble(text: viewModel.currentProductViewModel?.interestedBubbleTitle)
-        guard let interestedBubble = interestedBubble else { return }
         interestedBubble.translatesAutoresizingMaskIntoConstraints = false
 
         interestedBubbleContainer.addSubview(interestedBubble)
@@ -508,6 +506,7 @@ extension ProductCarouselViewController {
             view.bringSubviewToFront(buttonBottom)
             view.bringSubviewToFront(stickersButton)
             view.bringSubviewToFront(editButton)
+            view.bringSubviewToFront(interestedBubbleContainer)
             view.bringSubviewToFront(fullScreenAvatarEffectView)
             view.bringSubviewToFront(fullScreenAvatarView)
             view.bringSubviewToFront(directChatTable)
@@ -1015,7 +1014,7 @@ extension ProductCarouselViewController {
         interestedBubbleTimer = NSTimer.scheduledTimerWithTimeInterval(3.0, target: self, selector: #selector(timerCloseInterestedBubble),
                                                                        userInfo: nil, repeats: false)
         interestedBubbleIsVisible = true
-        interestedBubble?.updateInfo(text)
+        interestedBubble.updateInfo(text)
         delay(0.1) { [weak self] in
             self?.interestedBubbleContainerBottomConstraint.constant = 0
             UIView.animateWithDuration(0.3, animations: {

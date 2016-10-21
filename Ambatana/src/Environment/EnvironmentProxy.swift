@@ -55,10 +55,6 @@ public class EnvironmentProxy: AppEnvironment {
         return environment.amplitudeAPIKey
     }
 
-    var kahunaAPIKey: String {
-        return environment.kahunaAPIKey
-    }
-
     var googleAppIndexingId: UInt {
         return environment.googleAppIndexingId
     }
