@@ -164,7 +164,12 @@ final class TabBarController: UITabBarController {
         floatingSellButtonMarginConstraint = NSLayoutConstraint(item: floatingSellButton, attribute: .Bottom,
                                                 relatedBy: .Equal, toItem: view, attribute: .Bottom, multiplier: 1,
                                                 constant: -(tabBar.frame.height + 15)) // 15 above tabBar
-        view.addConstraints([sellCenterXConstraint,floatingSellButtonMarginConstraint])
+        view.addConstraints([sellCenterXConstraint, floatingSellButtonMarginConstraint])
+
+        let views: [String: AnyObject] = ["fsb" : floatingSellButton]
+        let hConstraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|-(>=15)-[fsb]-(>=15)-|",
+                                                                          options: [], metrics: nil, views: views)
+        view.addConstraints(hConstraints)
     }
 
     private func setupBadgesRx() {
