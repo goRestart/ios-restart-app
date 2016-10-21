@@ -21,6 +21,7 @@ enum AccessibilityId: String {
     case TabBarFourthTab
     case TabBarFifthTab
     case TabBarFloatingSellButton
+    case TabBarFloatingGiveAwayButton
 
     // Main Products List
     case MainProductsNavBarSearch

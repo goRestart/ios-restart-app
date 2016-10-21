@@ -10,7 +10,7 @@ import UIKit
 
 class FloatingButton: UIView {
     private let containerView: UIView
-    private let sellButton: UIButton
+    let sellButton: UIButton
     let giveAwayButton: UIButton
 
     var sellCompletion: (() -> ())?
