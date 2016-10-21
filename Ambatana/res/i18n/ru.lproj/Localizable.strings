@@ -318,9 +318,12 @@
 "notifications_permissions_yes_button" = "Да, уведомлять меня";
 "notifications_title" = "Уведомления";
 "notifications_type_like" = "Ваш товар добавили в избранное";
+"notifications_type_like_button" = "Check out their profile";
 "notifications_type_like_w_title" = "Добавил в избранное \"%@\"";
 "notifications_type_sold" = "Продал товар, который вы добавляли в избранное";
+"notifications_type_sold_button" = "See related";
 "notifications_type_sold_w_title" = "Продал \"%@\"";
+"notifications_type_welcome_button" = "Start selling";
 "notifications_type_welcome_subtitle" = "Начните с публикации первого товара на продажу и ищите отличные товары неподалеку.";
 "notifications_type_welcome_subtitle_w_city" = "Начните с публикации первого товара на продажу и ищите отличные товары в %@.";
 "notifications_type_welcome_title" = "Добро пожаловать на letgo!";

@@ -182,7 +182,7 @@
 "common_expand" = "Visa mer";
 "common_loading" = "Laddar...";
 "common_max" = "max";
-"common_new" = "NEW!";
+"common_new" = "Ny!";
 "common_next" = "Nästa";
 "common_no" = "Nej";
 "common_ok" = "Ok";
@@ -318,9 +318,12 @@
 "notifications_permissions_yes_button" = "Ja, Informera Mig";
 "notifications_title" = "Meddelanden";
 "notifications_type_like" = "Favoritmarkerat din produkt";
+"notifications_type_like_button" = "Check out their profile";
 "notifications_type_like_w_title" = "Favoritmarkerade \"%@\"";
 "notifications_type_sold" = "Har sålt en produkt du favoritmarkerat";
+"notifications_type_sold_button" = "See related";
 "notifications_type_sold_w_title" = "Har sålt \"%@\"";
+"notifications_type_welcome_button" = "Start selling";
 "notifications_type_welcome_subtitle" = "Kom igång genom att lägga upp din första vara till försäljning och surfa runt bland coola grejer nära dig.";
 "notifications_type_welcome_subtitle_w_city" = "Kom igång genom att lägga upp din första vara till försäljning och surfa runt bland coola grejer i %@.";
 "notifications_type_welcome_title" = "Välkommen till letgo!";
@@ -388,7 +391,7 @@
 "product_mark_as_sold_confirm_ok_button" = "Markera som såld";
 "product_mark_as_sold_confirm_title" = "Markera som såld";
 "product_mark_as_sold_error_generic" = "Ett fel uppstod vid markering av produkten som såld. Var god försök igen.";
-"product_mark_as_sold_free_button" = "Jag har skänkt bort den";
+"product_mark_as_sold_free_button" = "Markera som bortskänkt";
 "product_mark_as_sold_free_confirm_cancel_button" = "Avbryt";
 "product_mark_as_sold_free_confirm_message" = "Markera din vara som redan bortskänkt";
 "product_mark_as_sold_free_confirm_ok_button" = "Markera";
@@ -424,8 +427,8 @@
 "product_post_empty_gallery_button" = "Ta bild";
 "product_post_empty_gallery_subtitle" = "Ta en bild på den produkt du vill lägga upp";
 "product_post_empty_gallery_title" = "Inga bilder hittades";
-"product_post_free_camera_first_time_alert_subtitle" = "Take a good picture and find your item a new home!";
-"product_post_free_camera_first_time_alert_title" = "What are you giving away?";
+"product_post_free_camera_first_time_alert_subtitle" = "Ta en bra bild och hitta ett nytt hem till dina saker!";
+"product_post_free_camera_first_time_alert_title" = "Vad vill du ge bort?";
 "product_post_gallery_load_image_error_subtitle" = "Välj en annan bild och försök igen.";
 "product_post_gallery_load_image_error_title" = "Bilden kan inte laddas upp";
 "product_post_gallery_permissions_button" = "Tillåt";
@@ -628,9 +631,9 @@
 "sign_up_terms_conditions_terms_part" = "Terms & Conditions";
 "sign_up_title" = "Skapa nytt konto";
 "sign_up_username_field_hint" = "Fullständigt namn";
-"tab_bar_give_away_button" = "Give It Away";
-"tab_bar_give_away_tooltip" = "Now you can give items away";
-"tab_bar_sell_stuff_button" = "Sell Stuff";
+"tab_bar_give_away_button" = "Ge bort den";
+"tab_bar_give_away_tooltip" = "Nu kan du skänka bort saker";
+"tab_bar_sell_stuff_button" = "Sälj prylar";
 "tab_bar_tool_tip" = "Sälj dina prylar";
 "toast_error_internal" = "Hoppsan! Något blev fel.";
 "toast_no_network" = "Ingen internetanslutning";

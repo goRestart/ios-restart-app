@@ -21,7 +21,7 @@
 "categories_cars_and_motors" = "Autók és motorok";
 "categories_electronics" = "Elektronika";
 "categories_fashion_and_accessories" = "Divat és kiegészítők";
-"categories_free" = "Free Stuff";
+"categories_free" = "Ingyenes dolgok";
 "categories_home_and_garden" = "Otthon és kert";
 "categories_movies_books_and_music" = "Filmek, könyvek, zenék";
 "categories_other" = "Egyéb";
@@ -122,7 +122,7 @@
 "chat_product_sold_label" = "Portéka eladva";
 "chat_related_products_title" = "TALÁN ÉRDEKEL:";
 "chat_safety_tips" = "Biztonsági tanácsaink";
-"chat_safety_tips_message" = "• Találkozzatok személyesen, készpénzt használjatok.\n\n• A letgo chaten beszéljétek meg a tranzakciót.\n\n• Túl szép, hogy igaz legyen? Vigyázz!";
+"chat_safety_tips_message" = "• Találkozzatok személyesen, készpénzt használjatok.\n\n• A letgo chaten beszéljétek meg a tranzakciót.\n\n• Túl szép, hogy igaz legyen? Keress valaki mást!";
 "chat_safety_tips_title" = "BIZTONSÁGI TANÁCSAINK";
 "chat_send_button" = "Küldés";
 "chat_send_error_generic" = "Hiba történt az üzenet elküldése során. Próbálkozz újra később.";
@@ -182,6 +182,7 @@
 "common_expand" = "Többet";
 "common_loading" = "Betöltés...";
 "common_max" = "max";
+"common_new" = "ÚJ!";
 "common_next" = "Következő";
 "common_no" = "Nem";
 "common_ok" = "OK";
@@ -215,10 +216,10 @@
 "contact_subject_option_product_edit" = "Portéka szerkesztése/törlése";
 "contact_subject_option_profile_edit" = "Profil szerkesztése/törlése";
 "contact_subject_option_report" = "Felhasználó/spam jelentése";
-"direct_answer_free_available" = "Yes, it's still available";
-"direct_answer_free_no_available" = "Sorry, I've already given it away!";
-"direct_answer_free_still_have" = "Still have it?";
-"direct_answer_free_yours" = "It's yours!";
+"direct_answer_free_available" = "Igen, még elérhető";
+"direct_answer_free_no_available" = "Bocsi, már elajándékoztam!";
+"direct_answer_free_still_have" = "Még megvan?";
+"direct_answer_free_yours" = "A tiéd!";
 "direct_answer_interested" = "Érdekel!";
 "direct_answer_is_negotiable" = "Alkudható az ár?";
 "direct_answer_like_to_buy" = "Szia! Megvenném!";
@@ -317,9 +318,12 @@
 "notifications_permissions_yes_button" = "Igen, értesítsen";
 "notifications_title" = "Értesítések";
 "notifications_type_like" = "Kedvencként jelölte portékádat";
+"notifications_type_like_button" = "Check out their profile";
 "notifications_type_like_w_title" = "Kedvencként jelölte ezt: „%@”";
 "notifications_type_sold" = "Eladott egy portékát, amit kedvencként jelöltél";
+"notifications_type_sold_button" = "See related";
 "notifications_type_sold_w_title" = "Eladta ezt: „%@”";
+"notifications_type_welcome_button" = "Start selling";
 "notifications_type_welcome_subtitle" = "Kezdj kereskedni első portékád meghirdetésével és a környékbeli különlegességek átböngészésével.";
 "notifications_type_welcome_subtitle_w_city" = "Kezdj kereskedni első portékád meghirdetésével és „%@” környékének különlegességeinek átböngészésével.";
 "notifications_type_welcome_title" = "Üdvözlet a letgo piacán!";
@@ -387,7 +391,7 @@
 "product_mark_as_sold_confirm_ok_button" = "Megjelölés eladottként";
 "product_mark_as_sold_confirm_title" = "Megjelölés eladottként";
 "product_mark_as_sold_error_generic" = "Hiba történt a megjelölés során. Kérjük, próbálkozz később.";
-"product_mark_as_sold_free_button" = "Elajándékoztam";
+"product_mark_as_sold_free_button" = "Megjelölés elajándékozottként";
 "product_mark_as_sold_free_confirm_cancel_button" = "Mégse";
 "product_mark_as_sold_free_confirm_message" = "Portéka megjelölése elajándékozottként";
 "product_mark_as_sold_free_confirm_ok_button" = "Megjelölés";
@@ -423,6 +427,8 @@
 "product_post_empty_gallery_button" = "Fotó készítése";
 "product_post_empty_gallery_subtitle" = "Készítsd fotót a meghirdetni kívánt portékáról";
 "product_post_empty_gallery_title" = "Nem található fotó";
+"product_post_free_camera_first_time_alert_subtitle" = "Egy jó fotó, és már kereshetsz is neki új otthont!";
+"product_post_free_camera_first_time_alert_title" = "Mit fogsz elajándékozni?";
 "product_post_gallery_load_image_error_subtitle" = "Válassz másik fotót, vagy próbálkozz újra.";
 "product_post_gallery_load_image_error_title" = "A fotó betöltése sikertelen";
 "product_post_gallery_permissions_button" = "Engedélyezés";
@@ -467,7 +473,7 @@
 "product_sell_again_free_button" = "Megjelölés elérhetőként";
 "product_sell_again_free_confirm_cancel_button" = "Mégse";
 "product_sell_again_free_confirm_message" = "Jelöld a portékát elérhetőnek, hogy a többi felhasználó is tudjon róla";
-"product_sell_again_free_confirm_ok_button" = "Elajándékozás";
+"product_sell_again_free_confirm_ok_button" = "Ajándékozok";
 "product_sell_again_free_confirm_title" = "Megjelölés elérhetőként";
 "product_sell_again_free_success_message" = "Gratulálunk! Portékád újra elérhetővé vált";
 "product_sell_again_success_message" = "Gratulálunk, a portékát sikeresen elérhetővé tetted!";
@@ -591,7 +597,7 @@
 "sell_send_error_invalid_title" = "Kérjük, érvényes címet adj a portékának.";
 "sell_send_error_sharing_facebook" = "Hiba történt a Facebook-megosztás során. Kérjük, próbálkozz újra később.";
 "sell_share_fb_content" = "Nézzétek, mit árulok a letgo piacán!";
-"sell_share_on_facebook_label" = "Portékám megosztása a Facebookon";
+"sell_share_on_facebook_label" = "Megosztás a Facebookon";
 "sell_title_autogen_autotrans_label" = "A címet a letgo ajánlotta és a Google fordította";
 "sell_title_autogen_label" = "A letgo által ajánlott cím";
 "sell_title_field_hint" = "Cím (nem kötelező)";
@@ -625,6 +631,9 @@
 "sign_up_terms_conditions_terms_part" = "Terms & Conditions";
 "sign_up_title" = "Új fiók létrehozása";
 "sign_up_username_field_hint" = "Teljes név";
+"tab_bar_give_away_button" = "Give It Away";
+"tab_bar_give_away_tooltip" = "Mostantól el is ajándékozhatod dolgaidat.";
+"tab_bar_sell_stuff_button" = "Árusítok";
 "tab_bar_tool_tip" = "Add el dolgaidat";
 "toast_error_internal" = "Hoppá! Valami nem sikerült.";
 "toast_no_network" = "Nincs internetkapcsolat";

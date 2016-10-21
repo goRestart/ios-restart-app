@@ -318,9 +318,12 @@
 "notifications_permissions_yes_button" = "네, 알려주세요";
 "notifications_title" = "알림";
 "notifications_type_like" = "당신의 상품에 관심이 표시됨";
+"notifications_type_like_button" = "Check out their profile";
 "notifications_type_like_w_title" = "관심 \"%@\"";
 "notifications_type_sold" = "당신이 관심갖고 있던 상품이 판매되었습니다";
+"notifications_type_sold_button" = "See related";
 "notifications_type_sold_w_title" = "판매됨 \"%@\"";
+"notifications_type_welcome_button" = "Start selling";
 "notifications_type_welcome_subtitle" = "첫 상품을 게시하여 판매를 시작하시고 훌륭한 상품을 검색하여보세요.";
 "notifications_type_welcome_subtitle_w_city" = "첫번째 상품 판매를 위해서 게시를 하고 훌륭한 상품을 %@에서 검색해보세요.";
 "notifications_type_welcome_title" = "letgo에 오신 것을 환영합니다!";

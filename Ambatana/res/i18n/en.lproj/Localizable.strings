@@ -949,16 +949,22 @@
 "notifications_title" = "Notifications";
 
 // User likes your product
-"notifications_type_like" = "%@ favorited your product";
+"notifications_type_like" = "favorited your product";
 
 // User likes your product
-"notifications_type_like_w_title" = "%@ favorited your product: \"%@\"";
+"notifications_type_like_w_title" = "favorited your product: \"%@\"";
+
+// User likes your product
+"notifications_type_like_button" = "Check out their profile";
 
 // User sold a product you favorited
-"notifications_type_sold" = "A product you favorited ";
+"notifications_type_sold" = "A product you favorited has been sold";
 
 // User sold a product you favorited
 "notifications_type_sold_w_title" = "Has sold \"%@\"";
+
+// User sold a product you favorited
+"notifications_type_sold_button" = "See related";
 
 // Welcome notification subtitle
 "notifications_type_welcome_subtitle" = "Get started by posting your first item for sale and browse cool stuff near you.";

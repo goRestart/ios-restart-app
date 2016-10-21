@@ -1283,12 +1283,16 @@ struct LGLocalizedString {
 		return NSLocalizedString("notifications_title", comment: "")
 	}
 
-	static func notificationsTypeLike(var1: String) -> String {
-		return String(format: NSLocalizedString("notifications_type_like", comment: ""), var1)
+	static var notificationsTypeLike: String {
+		return NSLocalizedString("notifications_type_like", comment: "")
 	}
 
-	static func notificationsTypeLikeWTitle(var1: String, _ var2: String) -> String {
-		return String(format: NSLocalizedString("notifications_type_like_w_title", comment: ""), var1, var2)
+	static func notificationsTypeLikeWTitle(var1: String) -> String {
+		return String(format: NSLocalizedString("notifications_type_like_w_title", comment: ""), var1)
+	}
+
+	static var notificationsTypeLikeButton: String {
+		return NSLocalizedString("notifications_type_like_button", comment: "")
 	}
 
 	static var notificationsTypeSold: String {
@@ -1297,6 +1301,10 @@ struct LGLocalizedString {
 
 	static func notificationsTypeSoldWTitle(var1: String) -> String {
 		return String(format: NSLocalizedString("notifications_type_sold_w_title", comment: ""), var1)
+	}
+
+	static var notificationsTypeSoldButton: String {
+		return NSLocalizedString("notifications_type_sold_button", comment: "")
 	}
 
 	static var notificationsTypeWelcomeSubtitle: String {

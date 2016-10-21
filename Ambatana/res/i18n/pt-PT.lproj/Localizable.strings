@@ -76,7 +76,7 @@
 "chat_express_contact_sellers_label" = "Contacte estes vendedores antes que outros compradores os arrebatam!";
 "chat_express_contact_various_button_text" = "Contacte %@ vendedores";
 "chat_express_dont_ask_again_button" = "Não perguntar de novo";
-"chat_express_dont_miss_label" = "Não perca estas pechinchas";
+"chat_express_dont_miss_label" = "Não perca estes negócios";
 "chat_express_one_message_sent_success_alert" = "A sua mensagem foi enviada!";
 "chat_express_send_question_text" = "Enviar: %@";
 "chat_express_several_messages_sent_success_alert" = "As suas mensagens foram enviadas!";
@@ -182,7 +182,7 @@
 "common_expand" = "Mostrar mais";
 "common_loading" = "A carregar...";
 "common_max" = "max";
-"common_new" = "NEW!";
+"common_new" = "NOVO!";
 "common_next" = "Seguinte";
 "common_no" = "Não";
 "common_ok" = "Ok";
@@ -318,9 +318,12 @@
 "notifications_permissions_yes_button" = "Sim, Notifiquem-me";
 "notifications_title" = "Notificações";
 "notifications_type_like" = "Marcou o seu produto como favorito";
+"notifications_type_like_button" = "Check out their profile";
 "notifications_type_like_w_title" = "Marcou como favorito \"%@\"";
 "notifications_type_sold" = "Vendeu um produto marcado por si como favorito";
+"notifications_type_sold_button" = "See related";
 "notifications_type_sold_w_title" = "Vendeu \"%@\"";
+"notifications_type_welcome_button" = "Start selling";
 "notifications_type_welcome_subtitle" = "Comece por colocar o seu primeiro item à venda e procure coisas fantásticas perto de si.";
 "notifications_type_welcome_subtitle_w_city" = "Comece por colocar o seu primeiro item à venda e procure coisas fantásticas em %@";
 "notifications_type_welcome_title" = "Bem-vindo ao letgo!";
@@ -388,7 +391,7 @@
 "product_mark_as_sold_confirm_ok_button" = "Marcar como vendido";
 "product_mark_as_sold_confirm_title" = "Marcar como vendido";
 "product_mark_as_sold_error_generic" = "Ocorreu um erro ao marcar o artigo como vendido. Por favor tente novamente mais tarde.";
-"product_mark_as_sold_free_button" = "Já o dei";
+"product_mark_as_sold_free_button" = "Marque como dado";
 "product_mark_as_sold_free_confirm_cancel_button" = "Cancelar";
 "product_mark_as_sold_free_confirm_message" = "Marque o seu produto como já dado";
 "product_mark_as_sold_free_confirm_ok_button" = "Marcar";
@@ -424,8 +427,8 @@
 "product_post_empty_gallery_button" = "Tire uma Foto";
 "product_post_empty_gallery_subtitle" = "Tire uma foto do produto que quer publicar";
 "product_post_empty_gallery_title" = "Nenhuma foto encontrada";
-"product_post_free_camera_first_time_alert_subtitle" = "Take a good picture and find your item a new home!";
-"product_post_free_camera_first_time_alert_title" = "What are you giving away?";
+"product_post_free_camera_first_time_alert_subtitle" = "Tire uma boa fotografia e encontre um novo lar para o seu item!";
+"product_post_free_camera_first_time_alert_title" = "O que está a dar?";
 "product_post_gallery_load_image_error_subtitle" = "Escolha outra foto e tente novamente.";
 "product_post_gallery_load_image_error_title" = "Não foi possível carregar a foto";
 "product_post_gallery_permissions_button" = "Permitir";
@@ -628,9 +631,9 @@
 "sign_up_terms_conditions_terms_part" = "Terms & Conditions";
 "sign_up_title" = "Criar uma nova conta";
 "sign_up_username_field_hint" = "Nome completo";
-"tab_bar_give_away_button" = "Give It Away";
-"tab_bar_give_away_tooltip" = "Now you can give items away";
-"tab_bar_sell_stuff_button" = "Sell Stuff";
+"tab_bar_give_away_button" = "Dê";
+"tab_bar_give_away_tooltip" = "Agora pode dar as suas coisas";
+"tab_bar_sell_stuff_button" = "Venda";
 "tab_bar_tool_tip" = "Venda as Suas Coisas";
 "toast_error_internal" = "Ops! Alguma coisa correu mal.";
 "toast_no_network" = "Sem ligação à internet";

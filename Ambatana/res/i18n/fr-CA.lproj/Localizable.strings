@@ -318,9 +318,12 @@
 "notifications_permissions_yes_button" = "Oui, Me Notifier";
 "notifications_title" = "Notifications";
 "notifications_type_like" = "A mis votre produit dans ses favoris";
+"notifications_type_like_button" = "Check out their profile";
 "notifications_type_like_w_title" = "A mis \"%@\" en favori";
 "notifications_type_sold" = "A vendu un produit que vous aviez mis en favori";
+"notifications_type_sold_button" = "See related";
 "notifications_type_sold_w_title" = "A vendu \"%@\"";
+"notifications_type_welcome_button" = "Start selling";
 "notifications_type_welcome_subtitle" = "Démarrez en publiant votre premier produit à vendre et découvrez des objets intéressants près de chez vous.";
 "notifications_type_welcome_subtitle_w_city" = "Démarrez en publiant votre premier produit à vendre et découvrez des objets intéressants dans %@.";
 "notifications_type_welcome_title" = "Bienvenue sur letgo !";
