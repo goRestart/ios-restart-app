@@ -76,7 +76,7 @@
 "chat_express_contact_sellers_label" = "Bu satıcılarla, diğer alıcılardan önce iletişime geçmelisin!";
 "chat_express_contact_various_button_text" = "%@ satıcı ile iletişime geç";
 "chat_express_dont_ask_again_button" = "Bir daha sorma";
-"chat_express_dont_miss_label" = "Bu teklifleri kaçırma";
+"chat_express_dont_miss_label" = "Bu fırsatları kaçırma";
 "chat_express_one_message_sent_success_alert" = "Mesajın gönderildi!";
 "chat_express_send_question_text" = "Gönder: %@";
 "chat_express_several_messages_sent_success_alert" = "Mesajın gönderildi!";
@@ -122,7 +122,7 @@
 "chat_product_sold_label" = "Ürün Satıldı";
 "chat_related_products_title" = "ŞU ÜRÜNLER DE İLGİNİ ÇEKEBİLİR:";
 "chat_safety_tips" = "Güvenlik önerilerimiz";
-"chat_safety_tips_message" = "• Birebir görüş ve elden nakit öde.\n\n• Mesajlaşmayı letgo sistemi içerisinde yap.\n\n• Abartılı veya şüpheli bir durum mu var? Dikkatli ol!";
+"chat_safety_tips_message" = "• Birebir görüş ve elden nakit öde.\n\n• Mesajlaşmayı letgo sistemi içerisinde yap.\n\n• Kulağa gerçek olamayacak kadar hoş geliyorsa, başka bir alıcı/satıcı bul.";
 "chat_safety_tips_title" = "TAVSİYELER";
 "chat_send_button" = "Gönder";
 "chat_send_error_generic" = "Mesaj gönderilirken bir hata oluştu. Lütfen tekrar dene.";
@@ -182,6 +182,7 @@
 "common_expand" = "Daha fazla göster";
 "common_loading" = "Yükleniyor...";
 "common_max" = "max";
+"common_new" = "YENİ!";
 "common_next" = "İleri";
 "common_no" = "Hayır";
 "common_ok" = "Tamam";
@@ -316,10 +317,12 @@
 "notifications_permissions_settings_yes_button" = "Evet, Etkinleştir";
 "notifications_permissions_yes_button" = "Evet, Haberdar Et";
 "notifications_title" = "Bildirimler";
-"notifications_type_like" = "Ürününü favorilerine ekledi";
-"notifications_type_like_w_title" = "\"%@\" ürününü favorilerine ekledi";
-"notifications_type_sold" = "Favorilerine eklenmiş bir ürün satıldı";
-"notifications_type_sold_w_title" = "\"%@\" ürününü sattı";
+"notifications_type_like_button" = "Profillerine bak";
+"notifications_type_like_w_name" = "%@ ürününü favorilerine ekledi";
+"notifications_type_like_w_name_w_title" = "%@ şu ürününü favorilerine ekledi: \"%@\"";
+"notifications_type_sold" = "Favorilerine eklenmiş olduğun bir ürün satıldı";
+"notifications_type_sold_button" = "Benzer ürünleri gör";
+"notifications_type_welcome_button" = "Satış yapmaya başla";
 "notifications_type_welcome_subtitle" = "İlk ürününü satışa çıkarmakla başla ve bulunduğun çevredeki harika ürünleri keşfet.";
 "notifications_type_welcome_subtitle_w_city" = "İlk ürününü satışa çıkarmakla başla ve %@ içinde harika ürünler keşfet.";
 "notifications_type_welcome_title" = "letgo'ya hoşgeldin!";
@@ -387,7 +390,7 @@
 "product_mark_as_sold_confirm_ok_button" = "Satıldı olarak işaretle";
 "product_mark_as_sold_confirm_title" = "Satıldı olarak işaretle";
 "product_mark_as_sold_error_generic" = "Ürün satıldı olarak işaretlenirken bir hata oluştu. Lütfen, daha sonra tekrar dene.";
-"product_mark_as_sold_free_button" = "Ürünü ücretsiz verdim";
+"product_mark_as_sold_free_button" = "Ürünü ücretsiz verildi olarak işaretle";
 "product_mark_as_sold_free_confirm_cancel_button" = "İptal";
 "product_mark_as_sold_free_confirm_message" = "Ürününü ücretsiz verildi olarak işaretle";
 "product_mark_as_sold_free_confirm_ok_button" = "İşaretle";
@@ -423,6 +426,8 @@
 "product_post_empty_gallery_button" = "Fotoğraf Çek";
 "product_post_empty_gallery_subtitle" = "Yüklemek istediğin ürünün fotoğrafını çek";
 "product_post_empty_gallery_title" = "Fotoğraf bulunamadı";
+"product_post_free_camera_first_time_alert_subtitle" = "Güzel bir fotoğraf çek ve eşyana yeni bir yuva bul!";
+"product_post_free_camera_first_time_alert_title" = "Hangi eşyanı ücretsiz veriyorsun?";
 "product_post_gallery_load_image_error_subtitle" = "Başka bir fotoğraf seç ve tekrar dene.";
 "product_post_gallery_load_image_error_title" = "Fotoğraf yüklenemedi";
 "product_post_gallery_permissions_button" = "İzin Ver";
@@ -625,6 +630,9 @@
 "sign_up_terms_conditions_terms_part" = "Şartlar ve Koşullarını";
 "sign_up_title" = "Yeni hesap oluştur";
 "sign_up_username_field_hint" = "İsim";
+"tab_bar_give_away_button" = "Ücretsiz Ver";
+"tab_bar_give_away_tooltip" = "Şimdi eşyalarını ücretsiz olarak verebilirsin";
+"tab_bar_sell_stuff_button" = "Eşyanı Sat";
 "tab_bar_tool_tip" = "Eşyalarını Sat";
 "toast_error_internal" = "Oops! Bir şeyler ters gitti.";
 "toast_no_network" = "İnternet bağlantısı yok";
