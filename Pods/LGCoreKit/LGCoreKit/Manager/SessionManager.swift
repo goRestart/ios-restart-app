@@ -275,6 +275,27 @@ public class SessionManager {
     }
 
     /**
+     Signs up with the given credentials and public user name, if recaptcha verification is ok.
+     - parameter email: The email.
+     - parameter password: The password.
+     - parameter name: The name.
+     - parameter newsletter: Whether or not the user accepted newsletter sending. Send to nil if user wasn't asked about it
+     - parameter recaptchaToken: Recaptcha token.
+     - parameter completion: The completion closure.
+     */
+    public func signUp(email: String, password: String, name: String, newsletter: Bool?, recaptchaToken: String,
+                       completion: ((Result<MyUser, SessionManagerError>) -> ())?) {
+        verifyWithRecaptcha(recaptchaToken) { [weak self] result in
+            if let _ = result.value {
+                self?.signUp(email, password: password, name: name, newsletter: newsletter, completion: completion)
+            } else if let apiError = result.error {
+                let error = SessionManagerError(apiError: apiError)
+                completion?(Result<MyUser, SessionManagerError>(error: error))
+            }
+        }
+    }
+
+    /**
     Logs the user in via email.
     - parameter email: The email.
     - parameter password: The password.
@@ -570,6 +591,31 @@ public class SessionManager {
         let value = "Bearer " + auth.token
         let userToken = Token(value: value, level: .User)
         tokenDAO.save(userToken)
+    }
+
+
+    // MARK: > Verify
+
+    private func verifyWithRecaptcha(recaptchaToken: String, completion: (Result<Void, ApiError> -> ())?) {
+        logMessage(.Info, type: CoreLoggingOptions.Session, message: "Verify with recaptcha")
+
+        let request = SessionRouter.Verify(recaptchaToken: recaptchaToken)
+        apiClient.request(request, decoder: SessionManager.authDecoder) { [weak self] result in
+            if let auth = result.value, authLevel = auth.token.tokenAuthLevel {
+                switch authLevel {
+                case .Installation:
+                    self?.setupAfterInstallationAuthentication(auth, completion: nil)
+                     completion?(Result<Void, ApiError>(value: Void()))
+                case .User:
+                    self?.setupAfterUserAuthentication(auth)
+                     completion?(Result<Void, ApiError>(value: Void()))
+                case .Nonexistent:
+                    completion?(Result<Void, ApiError>(error: .Internal(description: "Received token w/o roles")))
+                }
+            } else if let error = result.error {
+                completion?(Result<Void, ApiError>(error: error))
+            }
+        }
     }
 
 

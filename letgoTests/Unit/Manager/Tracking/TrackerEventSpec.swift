@@ -2288,6 +2288,34 @@ class TrackerEventSpec: QuickSpec {
                     expect(sut.name.rawValue).to(equal("in-app-chat-notification-complete"))
                 }
             }
+            describe("Signup captcha") {
+                beforeEach {
+                    sut = TrackerEvent.SignupCaptcha()
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("signup-captcha"))
+                }
+            }
+            describe("Notification center start") {
+                beforeEach {
+                    sut = TrackerEvent.NotificationCenterStart()
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("notification-center-start"))
+                }
+            }
+            describe("Notification center complete") {
+                beforeEach {
+                    sut = TrackerEvent.NotificationCenterComplete(.Welcome)
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("notification-center-complete"))
+                }
+                it("contains notification-type param") {
+                    let param = sut.params!.stringKeyParams["notification-type"] as? String
+                    expect(param) == "welcome"
+                }
+            }
         }
     }
 }

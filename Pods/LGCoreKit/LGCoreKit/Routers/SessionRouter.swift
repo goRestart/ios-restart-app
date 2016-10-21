@@ -17,14 +17,15 @@ enum SessionRouter: URLRequestAuthenticable {
     case CreateInstallation(installationId: String)
     case UpdateUser(userToken: String)
     case Delete(userToken: String)
+    case Verify(recaptchaToken: String)
 
     private static let endpoint = "/authentication"
 
     var requiredAuthLevel: AuthLevel {
         switch self {
         case .CreateInstallation:
-            return .None
-        case .CreateUser, .RecoverPassword:
+            return .Nonexistent
+        case .CreateUser, .RecoverPassword, .Verify:
             return .Installation
         case .UpdateUser, .Delete:
             return .User
@@ -80,6 +81,19 @@ enum SessionRouter: URLRequestAuthenticable {
 
         case .Delete(let userToken):
             return Router<BouncerBaseURL>.Delete(endpoint: SessionRouter.endpoint, objectId: userToken).URLRequest
+
+        case .Verify(let recaptchaToken):
+            var params: [String: AnyObject] = [:]
+            params["provider"] = "recaptcha"
+            params["credentials"] = recaptchaToken
+            let urlRequest = Router<BouncerBaseURL>.Create(endpoint: SessionRouter.endpoint, params: params,
+                                                           encoding: nil).URLRequest
+            if let token = InternalCore.dynamicType.tokenDAO.get(level: .Installation)?.value {
+                //Force installation token as authorization
+                urlRequest.setValue(token, forHTTPHeaderField: "Authorization")
+            }
+            return urlRequest
+
         }
     }
 }

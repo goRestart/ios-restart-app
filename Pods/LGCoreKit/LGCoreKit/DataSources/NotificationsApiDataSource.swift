@@ -27,15 +27,11 @@ class NotificationsApiDataSource: NotificationsDataSource {
         apiClient.request(request, decoder: NotificationsApiDataSource.decoderArray, completion: completion)
     }
 
-    func markAllAsRead(completion: NotificationsDataSourceEmptyCompletion?) {
-        let request = NotificationsRouter.Patch(params: ["action":"mark-all-as-read"])
-        apiClient.request(request, completion: completion)
+    func unreadCount(completion: NotificationsDataSourceUnreadCountCompletion?) {
+        let request = NotificationsRouter.UnreadCount
+        apiClient.request(request, decoder: NotificationsApiDataSource.unreadCountDecoder, completion: completion)
     }
 
-    func markAsRead(notificationIds: [String], completion: NotificationsDataSourceEmptyCompletion?) {
-        let request = NotificationsRouter.Patch(params: ["action":"mark-as-read", "ids" : notificationIds])
-        apiClient.request(request, completion: completion)
-    }
 
 
     // MARK: - Decoders
@@ -44,5 +40,10 @@ class NotificationsApiDataSource: NotificationsDataSource {
         //If any notification object fails we don't want the entire list fail -> filteredDecode
         guard let notifications = Array<LGNotification>.filteredDecode(JSON(object)).value else { return nil }
         return notifications.map{ $0 }
+    }
+
+    private static func unreadCountDecoder(object: AnyObject) -> Int? {
+        let count: Decoded<Int> = JSON(object) <| "count"
+        return count.value
     }
 }

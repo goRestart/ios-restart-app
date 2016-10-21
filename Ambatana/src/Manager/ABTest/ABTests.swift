@@ -17,7 +17,6 @@ public struct ABTests {
     static var onboardingPermissionsMode = IntABDynamicVar(key: "onboardingPermissionsMode", defaultValue: 0)
     static var incentivatePostingMode = IntABDynamicVar(key: "incentivatePostingMode", defaultValue: 0)
     static var messageOnFavorite = IntABDynamicVar(key: "messageOnFavorite", defaultValue: 0)
-    static var expressChatMode = IntABDynamicVar(key: "expressChatMode", defaultValue: 0)
     static var interestedUsersMode = IntABDynamicVar(key: "interestedUsersMode", defaultValue: 0)
     static var filtersReorder = BoolABDynamicVar(key: "filtersReorder", defaultValue: false)
     static var halfCameraButton = BoolABDynamicVar(key: "halfCameraButton", defaultValue: true)
@@ -25,8 +24,7 @@ public struct ABTests {
 
     static private var allVariables: [ABVariable] {
         return [showNPSSurvey, nonStopProductDetail, onboardingPermissionsMode, incentivatePostingMode,
-                messageOnFavorite, expressChatMode, interestedUsersMode, filtersReorder, halfCameraButton,
-                freePostingMode]
+                messageOnFavorite, interestedUsersMode, filtersReorder, halfCameraButton, freePostingMode]
     }
 
     static func registerVariables() {
