@@ -438,12 +438,17 @@
 "product_post_incentive_bike" = "Fietsen";
 "product_post_incentive_car" = "Auto's";
 "product_post_incentive_dresser" = "Dressoirs";
+"product_post_incentive_furniture" = "Furniture";
 "product_post_incentive_got_any" = "heb jij er te koop staan?";
+"product_post_incentive_got_any_free" = "got any to give away?";
+"product_post_incentive_kids_clothes" = "Kid's clothes";
 "product_post_incentive_looking_for" = "Mensen in jouw buurt zijn op zoek naar deze items, %@";
 "product_post_incentive_motorcycle" = "Motorfietsen";
 "product_post_incentive_ps4" = "PS4's";
 "product_post_incentive_subtitle" = "Jouw advertentie is geplaatst.";
+"product_post_incentive_subtitle_free" = "You're on your way to making someone happier.";
 "product_post_incentive_title" = "GEFELICITEERD!";
+"product_post_incentive_toys" = "Toys";
 "product_post_incentive_tv" = "TV's";
 "product_post_login_message" = "Om je spullen te verkopen, moet je inloggen";
 "product_post_network_error" = "Je product werd niet geplaatst.\nGelieve je netwerkinstellingen te controleren.";

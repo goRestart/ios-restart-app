@@ -438,12 +438,17 @@
 "product_post_incentive_bike" = "Ποδήλατα";
 "product_post_incentive_car" = "Αυτοκίνητα";
 "product_post_incentive_dresser" = "Φορέματα";
+"product_post_incentive_furniture" = "Furniture";
 "product_post_incentive_got_any" = "έχετε τίποτα να πουλήσετε;";
+"product_post_incentive_got_any_free" = "got any to give away?";
+"product_post_incentive_kids_clothes" = "Kid's clothes";
 "product_post_incentive_looking_for" = "Άνθρωποι γύρω σας ψάχνουν γι' αυτά τα αντικείμενα, %@";
 "product_post_incentive_motorcycle" = "Μηχανές";
 "product_post_incentive_ps4" = "PS4";
 "product_post_incentive_subtitle" = "Η καταχώρησή σας έχει δημοσιευθεί.";
+"product_post_incentive_subtitle_free" = "You're on your way to making someone happier.";
 "product_post_incentive_title" = "ΣΥΓΧΑΡΗΤΗΡΙΑ!";
+"product_post_incentive_toys" = "Toys";
 "product_post_incentive_tv" = "TV";
 "product_post_login_message" = "Για να πουλήσετε τα πράγματά σας, θα πρέπει να συνδεθείτε";
 "product_post_network_error" = "Το αντικείμενό σας δεν έχει δημοσιευτεί.\nΠαρακαλώ, ελέγξτε τις ρυθμίσεις δικτύου.";

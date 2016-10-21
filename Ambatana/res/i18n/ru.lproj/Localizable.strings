@@ -438,12 +438,17 @@
 "product_post_incentive_bike" = "Велосипеды";
 "product_post_incentive_car" = "Автомобили";
 "product_post_incentive_dresser" = "Комоды";
+"product_post_incentive_furniture" = "Furniture";
 "product_post_incentive_got_any" = "есть что-либо на продажу?";
+"product_post_incentive_got_any_free" = "got any to give away?";
+"product_post_incentive_kids_clothes" = "Kid's clothes";
 "product_post_incentive_looking_for" = "Люди вокруг вас ищут эти товары, %@";
 "product_post_incentive_motorcycle" = "Мотоциклы";
 "product_post_incentive_ps4" = "PS4";
 "product_post_incentive_subtitle" = "Ваше объявление размещено.";
+"product_post_incentive_subtitle_free" = "You're on your way to making someone happier.";
 "product_post_incentive_title" = "ПОЗДРАВЛЯЕМ!";
+"product_post_incentive_toys" = "Toys";
 "product_post_incentive_tv" = "Телевизоры";
 "product_post_login_message" = "Чтобы продавать товары, вам необходимо войти";
 "product_post_network_error" = "Ваш товар не был размещен.\nПожалуйста, проверьте сетевые настройки.";

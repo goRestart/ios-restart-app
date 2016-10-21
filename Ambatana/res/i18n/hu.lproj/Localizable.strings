@@ -438,12 +438,17 @@
 "product_post_incentive_bike" = "Kerékpárok";
 "product_post_incentive_car" = "Autók";
 "product_post_incentive_dresser" = "Szekrények";
+"product_post_incentive_furniture" = "Furniture";
 "product_post_incentive_got_any" = "neked van felesleges?";
+"product_post_incentive_got_any_free" = "got any to give away?";
+"product_post_incentive_kids_clothes" = "Kid's clothes";
 "product_post_incentive_looking_for" = "A környéked lakói ezeket keresik, %@";
 "product_post_incentive_motorcycle" = "Motorkerékpárok";
 "product_post_incentive_ps4" = "PS4-ek";
 "product_post_incentive_subtitle" = "Hirdetésed felkerült a többi közé.";
+"product_post_incentive_subtitle_free" = "You're on your way to making someone happier.";
 "product_post_incentive_title" = "GRATULÁLUNK";
+"product_post_incentive_toys" = "Toys";
 "product_post_incentive_tv" = "TV-k";
 "product_post_login_message" = "Dolgaid eladásához be kell jelentkezned";
 "product_post_network_error" = "Portékád meghirdetése sikertelen.\nEllenőrizd a hálózati beállításokat.";

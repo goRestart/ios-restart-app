@@ -438,12 +438,17 @@
 "product_post_incentive_bike" = "Bisikletler";
 "product_post_incentive_car" = "Arabalar";
 "product_post_incentive_dresser" = "Şifonyerler";
+"product_post_incentive_furniture" = "Furniture";
 "product_post_incentive_got_any" = "satacak bir şeyin var mı?";
+"product_post_incentive_got_any_free" = "got any to give away?";
+"product_post_incentive_kids_clothes" = "Kid's clothes";
 "product_post_incentive_looking_for" = "Çevrendekiler şu ürünleri arıyor, %@";
 "product_post_incentive_motorcycle" = "Motosikletler";
 "product_post_incentive_ps4" = "PS4'ler";
 "product_post_incentive_subtitle" = "Ürünün yayınlandı.";
+"product_post_incentive_subtitle_free" = "You're on your way to making someone happier.";
 "product_post_incentive_title" = "TEBRİKLER!";
+"product_post_incentive_toys" = "Toys";
 "product_post_incentive_tv" = "TV'ler";
 "product_post_login_message" = "Bir şeyler satmak için, önce giriş yapmalısın";
 "product_post_network_error" = "Ürünün yayınlanmadı.\nLütfen internete bağlı olduğundan emin ol.";

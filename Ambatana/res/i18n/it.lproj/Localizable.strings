@@ -438,12 +438,17 @@
 "product_post_incentive_bike" = "Biciclette";
 "product_post_incentive_car" = "Auto";
 "product_post_incentive_dresser" = "Comò";
+"product_post_incentive_furniture" = "Furniture";
 "product_post_incentive_got_any" = "hai niente da vendere?";
+"product_post_incentive_got_any_free" = "got any to give away?";
+"product_post_incentive_kids_clothes" = "Kid's clothes";
 "product_post_incentive_looking_for" = "Le persone vicino a te stanno cercando questi oggetti, %@";
 "product_post_incentive_motorcycle" = "Moto";
 "product_post_incentive_ps4" = "PS4";
 "product_post_incentive_subtitle" = "Il tuo annuncio è stato pubblicato.";
+"product_post_incentive_subtitle_free" = "You're on your way to making someone happier.";
 "product_post_incentive_title" = "CONGRATULAZIONI!";
+"product_post_incentive_toys" = "Toys";
 "product_post_incentive_tv" = "TV";
 "product_post_login_message" = "Per vendere le tue cose, devi effettuare l'accesso";
 "product_post_network_error" = "Il tuo prodotto non è stato pubblicato.\nControlla le impostazioni di rete.";

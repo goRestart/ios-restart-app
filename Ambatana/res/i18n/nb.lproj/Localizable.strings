@@ -438,12 +438,17 @@
 "product_post_incentive_bike" = "Sykler";
 "product_post_incentive_car" = "Biler";
 "product_post_incentive_dresser" = "Kommoder";
+"product_post_incentive_furniture" = "Furniture";
 "product_post_incentive_got_any" = "har du noe å selge?";
+"product_post_incentive_got_any_free" = "got any to give away?";
+"product_post_incentive_kids_clothes" = "Kid's clothes";
 "product_post_incentive_looking_for" = "Personer i ditt område ser etter disse produktene, %@";
 "product_post_incentive_motorcycle" = "Motorsykler";
 "product_post_incentive_ps4" = "PS4";
 "product_post_incentive_subtitle" = "Din annonse er publisert.";
+"product_post_incentive_subtitle_free" = "You're on your way to making someone happier.";
 "product_post_incentive_title" = "GRATULERER!";
+"product_post_incentive_toys" = "Toys";
 "product_post_incentive_tv" = "TV'er";
 "product_post_login_message" = "Du må være innlogget for å kunne selge dine ting";
 "product_post_network_error" = "Ditt produkt er ikke publisert.\nVennligst sjekk dine nettverksinnstillinger.";

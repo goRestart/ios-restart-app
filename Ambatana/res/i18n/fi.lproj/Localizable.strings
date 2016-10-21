@@ -438,12 +438,17 @@
 "product_post_incentive_bike" = "Pyöriä";
 "product_post_incentive_car" = "Autoja";
 "product_post_incentive_dresser" = "Lipastoja";
+"product_post_incentive_furniture" = "Furniture";
 "product_post_incentive_got_any" = "olisiko sinulla myydä?";
+"product_post_incentive_got_any_free" = "got any to give away?";
+"product_post_incentive_kids_clothes" = "Kid's clothes";
 "product_post_incentive_looking_for" = "Lähelläsi olevat ihmiset etsivät näitä tuotteita, %@";
 "product_post_incentive_motorcycle" = "Moottoripyöriä";
 "product_post_incentive_ps4" = "PS4-koneita";
 "product_post_incentive_subtitle" = "Ilmoituksesi on julkaistu.";
+"product_post_incentive_subtitle_free" = "You're on your way to making someone happier.";
 "product_post_incentive_title" = "ONNEKSI OLKOON!";
+"product_post_incentive_toys" = "Toys";
 "product_post_incentive_tv" = "TV:itä";
 "product_post_login_message" = "Sinun on kirjauduttava sisään myydäksesi tavaroita";
 "product_post_network_error" = "Tuotettasi ei ole julkaistu.\nOle hyvä ja tarkista verkkoasetuksesi.";
