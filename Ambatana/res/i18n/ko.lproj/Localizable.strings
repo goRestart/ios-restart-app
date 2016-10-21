@@ -317,10 +317,12 @@
 "notifications_permissions_settings_yes_button" = "네, 설정합니다";
 "notifications_permissions_yes_button" = "네, 알려주세요";
 "notifications_title" = "알림";
-"notifications_type_like" = "당신의 상품에 관심이 표시됨";
-"notifications_type_like_w_title" = "관심 \"%@\"";
+"notifications_type_like_button" = "Check out their profile";
+"notifications_type_like_w_name" = "%@ favorited your product";
+"notifications_type_like_w_name_w_title" = "%@ favorited your product: \"%@\"";
 "notifications_type_sold" = "당신이 관심갖고 있던 상품이 판매되었습니다";
-"notifications_type_sold_w_title" = "판매됨 \"%@\"";
+"notifications_type_sold_button" = "See related";
+"notifications_type_welcome_button" = "Start selling";
 "notifications_type_welcome_subtitle" = "첫 상품을 게시하여 판매를 시작하시고 훌륭한 상품을 검색하여보세요.";
 "notifications_type_welcome_subtitle_w_city" = "첫번째 상품 판매를 위해서 게시를 하고 훌륭한 상품을 %@에서 검색해보세요.";
 "notifications_type_welcome_title" = "letgo에 오신 것을 환영합니다!";
@@ -629,7 +631,7 @@
 "sign_up_title" = "새 계정 만들기";
 "sign_up_username_field_hint" = "이름";
 "tab_bar_give_away_button" = "Give It Away";
-"tab_bar_give_away_tooltip" = "Now you can give it away";
+"tab_bar_give_away_tooltip" = "Now you can give items away";
 "tab_bar_sell_stuff_button" = "Sell Stuff";
 "tab_bar_tool_tip" = "고객님의 물건을 판매하세요";
 "toast_error_internal" = "이런! 무언가가 잘못되었네요.";

@@ -7,12 +7,11 @@
 //
 
 
-class WelcomeNotificationCellDrawer: BaseTableCellDrawer<WelcomeNotificationCell>, NotificationCellDrawer {
+class WelcomeNotificationCellDrawer: BaseNotificationCellDrawer<WelcomeNotificationCell> {
 
-    func draw(tableViewCell: UITableViewCell, data: NotificationData) {
-        guard let cell = tableViewCell as? WelcomeNotificationCell else { return }
-
+    override func draw(cell: WelcomeNotificationCell, data: NotificationData) {
         cell.titleLabel.text = data.title
         cell.subtitleLabel.text = data.subtitle
+        cell.actionButton.setTitle(data.primaryActionText, forState: .Normal)
     }
 }

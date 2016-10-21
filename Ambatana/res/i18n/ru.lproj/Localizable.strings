@@ -317,10 +317,12 @@
 "notifications_permissions_settings_yes_button" = "Да, активировать";
 "notifications_permissions_yes_button" = "Да, уведомлять меня";
 "notifications_title" = "Уведомления";
-"notifications_type_like" = "Ваш товар добавили в избранное";
-"notifications_type_like_w_title" = "Добавил в избранное \"%@\"";
+"notifications_type_like_button" = "Check out their profile";
+"notifications_type_like_w_name" = "%@ favorited your product";
+"notifications_type_like_w_name_w_title" = "%@ favorited your product: \"%@\"";
 "notifications_type_sold" = "Продал товар, который вы добавляли в избранное";
-"notifications_type_sold_w_title" = "Продал \"%@\"";
+"notifications_type_sold_button" = "See related";
+"notifications_type_welcome_button" = "Start selling";
 "notifications_type_welcome_subtitle" = "Начните с публикации первого товара на продажу и ищите отличные товары неподалеку.";
 "notifications_type_welcome_subtitle_w_city" = "Начните с публикации первого товара на продажу и ищите отличные товары в %@.";
 "notifications_type_welcome_title" = "Добро пожаловать на letgo!";
@@ -629,7 +631,7 @@
 "sign_up_title" = "Создать новый аккаунт";
 "sign_up_username_field_hint" = "Полное имя";
 "tab_bar_give_away_button" = "Give It Away";
-"tab_bar_give_away_tooltip" = "Now you can give it away";
+"tab_bar_give_away_tooltip" = "Now you can give items away";
 "tab_bar_sell_stuff_button" = "Sell Stuff";
 "tab_bar_tool_tip" = "Продайте свои вещи";
 "toast_error_internal" = "Упс! Что-то пошло не так.";

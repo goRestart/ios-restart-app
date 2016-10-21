@@ -39,12 +39,11 @@ class WelcomeNotificationCell: UITableViewCell, ReusableCell {
         titleLabel.font = UIFont.notificationTitleFont
         subtitleLabel.font = UIFont.notificationSubtitleFont
 
-        titleLabel.textColor = UIColor.blackText
-        subtitleLabel.textColor = UIColor.darkGrayText
+        titleLabel.textColor = UIColor.black
+        subtitleLabel.textColor = UIColor.black
 
         actionButton.setStyle(.Primary(fontSize: .Small))
         actionButton.userInteractionEnabled = false
-        actionButton.setTitle(LGLocalizedString.notificationsTypeWelcomeButton, forState: .Normal)
     }
 
     private func refreshState() {

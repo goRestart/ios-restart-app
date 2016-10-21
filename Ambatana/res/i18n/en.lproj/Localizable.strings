@@ -949,16 +949,28 @@
 "notifications_title" = "Notifications";
 
 // User likes your product
-"notifications_type_like" = "Favorited your product";
+"notifications_type_like" = "favorited your product";
 
 // User likes your product
-"notifications_type_like_w_title" = "Favorited \"%@\"";
+"notifications_type_like_w_name" = "%@ favorited your product";
+
+// User likes your product
+"notifications_type_like_w_title" = "favorited your product: \"%@\"";
+
+// User likes your product
+"notifications_type_like_w_name_w_title" = "%@ favorited your product: \"%@\"";
+
+// User likes your product
+"notifications_type_like_button" = "Check out their profile";
 
 // User sold a product you favorited
-"notifications_type_sold" = "Has sold a product you favorited";
+"notifications_type_sold" = "A product you favorited has been sold";
 
 // User sold a product you favorited
 "notifications_type_sold_w_title" = "Has sold \"%@\"";
+
+// User sold a product you favorited
+"notifications_type_sold_button" = "See related";
 
 // Welcome notification subtitle
 "notifications_type_welcome_subtitle" = "Get started by posting your first item for sale and browse cool stuff near you.";
@@ -1891,7 +1903,7 @@
 "tab_bar_give_away_button" = "Give It Away";
 
 // Tab bar tooltip explaining tooltip new feature.
-"tab_bar_give_away_tooltip" = "Now you can give it away";
+"tab_bar_give_away_tooltip" = "Now you can give items away";
 
 // Toast server internal.
 "toast_error_internal" = "Oops! Something went wrong.";
