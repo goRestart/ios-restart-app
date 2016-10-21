@@ -178,5 +178,11 @@
 	<false/>
 	<key>branch_key</key>
 	<string>key_live_aglXbsSWpZr2cg83NWyStefeqFbMMU8q</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>letgo needs to access your location to show you products nearby</string>
+	<key>NSCameraUsageDescription</key>
+	<string>To start selling, give letgo access to your camera</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>To start selling, give letgo access to your library</string>
 </dict>
 </plist>
