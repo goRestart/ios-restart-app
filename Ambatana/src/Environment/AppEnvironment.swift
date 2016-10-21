@@ -17,9 +17,6 @@ protocol AppEnvironment {
     var appsFlyerAPIKey: String { get }
     var amplitudeAPIKey: String { get }
     
-    // Push notifications
-    var kahunaAPIKey: String { get }
-    
     // App indexing
     var googleAppIndexingId: UInt { get }
 
