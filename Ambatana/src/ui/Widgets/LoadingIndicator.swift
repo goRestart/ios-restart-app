@@ -56,6 +56,7 @@ public class LoadingIndicator: UIView {
     // MARK: - Private methods
 
     private func setupView() {
+        layoutIfNeeded()
         // Circle that we will animate
         let rectShape = CAShapeLayer()
         rectShape.bounds = bounds
