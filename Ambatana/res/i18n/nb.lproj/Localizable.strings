@@ -377,6 +377,7 @@
 "product_distance_more_than_from_you" = "Mer enn %@ fra deg";
 "product_free_price" = "Gis bort";
 "product_is_mine_share_body" = "Se hva jeg selger på letgo!";
+"product_is_mine_share_body_free" = "Check out what I'm giving away on letgo!";
 "product_list_banner_cell_title" = "SE DIN ANNONSE HER";
 "product_list_item_given_away_status_label" = "Gitt bort allerede";
 "product_list_item_sold_status_label" = "SOLGT";

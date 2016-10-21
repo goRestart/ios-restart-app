@@ -377,6 +377,7 @@
 "product_distance_more_than_from_you" = "More than %@ from you";
 "product_free_price" = "Free";
 "product_is_mine_share_body" = "Check out what I'm selling on letgo!";
+"product_is_mine_share_body_free" = "Check out what I'm giving away on letgo!";
 "product_list_banner_cell_title" = "SEE YOUR LISTING HERE";
 "product_list_item_given_away_status_label" = "Already given away";
 "product_list_item_sold_status_label" = "SOLD";

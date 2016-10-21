@@ -377,6 +377,7 @@
 "product_distance_more_than_from_you" = "Meer dan %@ van bij jou";
 "product_free_price" = "Gratis";
 "product_is_mine_share_body" = "Bekijk wat ik op letgo verkoop!";
+"product_is_mine_share_body_free" = "Check out what I'm giving away on letgo!";
 "product_list_banner_cell_title" = "ZIE JOUW ADVERTENTIE HIER";
 "product_list_item_given_away_status_label" = "Al weggegeven";
 "product_list_item_sold_status_label" = "VERKOCHT";

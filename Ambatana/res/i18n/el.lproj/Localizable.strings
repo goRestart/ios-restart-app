@@ -377,6 +377,7 @@
 "product_distance_more_than_from_you" = "Περισσότερο από %@ από εσάς";
 "product_free_price" = "Δωρεάν";
 "product_is_mine_share_body" = "Δείτε τι πουλάω στο letgo!";
+"product_is_mine_share_body_free" = "Check out what I'm giving away on letgo!";
 "product_list_banner_cell_title" = "ΔΕΙΤΕ ΤΗΝ ΚΑΤΑΧΩΡΗΣΗ ΣΑΣ ΕΔΩ";
 "product_list_item_given_away_status_label" = "Έχει ήδη δοθεί";
 "product_list_item_sold_status_label" = "ΠΩΛΗΘΗΚΕ";
