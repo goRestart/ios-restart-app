@@ -9,6 +9,7 @@
 import UIKit
 
 class FloatingButton: UIView {
+    private static let height: CGFloat = 50
     private let containerView: UIView
     let sellButton: UIButton
     let giveAwayButton: UIButton
@@ -66,9 +67,10 @@ class FloatingButton: UIView {
         addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-0-[c]-0-|", options: [],
                                                                       metrics: nil, views: containerViews))
 
+        let metrics: [String: AnyObject] = ["h": FloatingButton.height]
         let views: [String: AnyObject] = ["sb": sellButton, "gab": giveAwayButton]
-        containerView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-0-[sb(50)]-0-|", options: [],
-                                                                                    metrics: nil, views: views))
+        containerView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-0-[sb(h)]-0-|", options: [],
+                                                                                    metrics: metrics, views: views))
 
         let hConstraintsVF: String
         switch freePostingMode {
