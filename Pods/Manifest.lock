@@ -87,7 +87,6 @@ PODS:
   - JBKenBurnsView (1.0)
   - JSONWebToken (1.5.0):
     - CryptoSwift (~> 0.4.0)
-  - Kahuna (2.3.1)
   - KeychainSwift (3.0.16)
   - KMPlaceholderTextView (1.2.2)
   - Leanplum-iOS-SDK (1.4.0.2)
@@ -160,7 +159,6 @@ DEPENDENCIES:
   - Google/SignIn (~> 3.0.3)
   - GoogleIDFASupport (~> 3.14.0)
   - JBKenBurnsView (from `https://github.com/letgoapp/JBKenBurns`, commit `56419f79cb763f8d2ee3a75e4eca51ebc1deab6a`)
-  - Kahuna (= 2.3.1)
   - KMPlaceholderTextView (~> 1.2.2)
   - Leanplum-iOS-SDK (~> 1.4.0)
   - LGCollapsibleLabel (= 0.2.0)
@@ -238,7 +236,6 @@ SPEC CHECKSUMS:
   GoogleUtilities: 8bbc733218aad26306f9d4a253823986110e3358
   JBKenBurnsView: e40d10fcd4fbeb652c29fa431d4748780a4672ff
   JSONWebToken: 6c8968ace6b60b2e6156a7bbe5019fd9b5ff9b5a
-  Kahuna: 29a9496ca2271aebf0771b6e2232078944d3729e
   KeychainSwift: a5bb85cd498ce2217b55e055ec59e9268d83384c
   KMPlaceholderTextView: bbff031935d84f7eedb585e7f77120020fbae9e8
   Leanplum-iOS-SDK: acd1b67d17b4ce09a8be363300910542aeeec5ef
@@ -260,6 +257,6 @@ SPEC CHECKSUMS:
   TwitterCore: 817eae3e291fa4125b47789e26a4f6f024115c1f
   TwitterKit: 8a383da8d9c21b0423716381ea8bbfce20622d91
 
-PODFILE CHECKSUM: 46a6cdfb37fc794b07ae5bb9ffd3be5f69ee7fb3
+PODFILE CHECKSUM: cbabd3d98a5c41b279f4b4ed0b55eab5f13c4b1e
 
 COCOAPODS: 1.1.0.rc.3
