@@ -33,7 +33,6 @@ final class AppsflyerTracker: Tracker {
     }
     
     func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?) {
-        AppsFlyerTracker.sharedTracker().handleOpenURL(url, sourceApplication: sourceApplication, withAnnotation: annotation)
     }
     
     func applicationDidEnterBackground(application: UIApplication) {

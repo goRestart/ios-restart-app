@@ -1335,8 +1335,17 @@
 // product name dressers
 "product_post_incentive_dresser" = "Dressers";
 
+// product name furniture
+"product_post_incentive_furniture" = "Furniture";
+
 // !!!! -> this text will go at the place of the variable %@ in "product_post_incentive_looking_for"
 "product_post_incentive_got_any" = "got any to sell?";
+
+// !!!! -> this text will go at the place of the variable %@ in "product_post_incentive_looking_for"
+"product_post_incentive_got_any_free" = "got any to give away?";
+
+// product name kid's clothes
+"product_post_incentive_kids_clothes" = "Kid's clothes";
 
 // 1st part of the incentivation text
 "product_post_incentive_looking_for" = "People around you are looking for these items, %@";
@@ -1350,8 +1359,14 @@
 // After posting, real confirmation subtitle
 "product_post_incentive_subtitle" = "Your listing has been posted.";
 
+// After posting, real confirmation subtitle
+"product_post_incentive_subtitle_free" = "You're on your way to making someone happier.";
+
 // After posting, real confirmation
 "product_post_incentive_title" = "CONGRATULATIONS!";
+
+// product name toys
+"product_post_incentive_toys" = "Toys";
 
 // product name Tvs
 "product_post_incentive_tv" = "TVs";

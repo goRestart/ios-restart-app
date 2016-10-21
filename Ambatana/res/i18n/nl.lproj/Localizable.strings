@@ -318,11 +318,11 @@
 "notifications_permissions_yes_button" = "Ja, Stuur me Notificaties";
 "notifications_title" = "Notificaties";
 "notifications_type_like_button" = "Bekijk hun profiel";
-"notifications_type_like_w_name" = "%@ favorited your product";
-"notifications_type_like_w_name_w_title" = "%@ favorited your product: \"%@\"";
-"notifications_type_sold" = "Heeft een product verkocht dat jij favoriseerde";
+"notifications_type_like_w_name" = "%@ heeft jouw product gefavoriseerd";
+"notifications_type_like_w_name_w_title" = "%@ heeft jouw product gefavoriseerd: \"%@\"";
+"notifications_type_sold" = "Een product dat jij favoriseerde is verkocht";
 "notifications_type_sold_button" = "Zie gerelateerd";
-"notifications_type_welcome_button" = "Start selling";
+"notifications_type_welcome_button" = "Begin met verkopen";
 "notifications_type_welcome_subtitle" = "Ga aan de slag door het plaatsen van je eerste verkoopobject en blader door coole spullen in jouw buurt.";
 "notifications_type_welcome_subtitle_w_city" = "Ga aan de slag door het plaatsen van je eerste verkoopobject en blader door  coole spullen in %@.";
 "notifications_type_welcome_title" = "Welkom bij letgo!";

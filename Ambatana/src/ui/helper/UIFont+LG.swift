@@ -122,12 +122,9 @@ extension UIFont {
 // MARK: > Notification fonts
 
 extension UIFont {
-    static var notificationTitleUnreadFont: UIFont { return systemBoldFont(size: 17) }
-    static var notificationSubtitleUnreadFont: UIFont { return systemBoldFont(size: 14) }
-    static var notificationTimeUnreadFont: UIFont { return systemBoldFont(size: 13) }
-    static var notificationTitleFont: UIFont { return systemLightFont(size: 17) }
-    static var notificationSubtitleFont: UIFont { return systemLightFont(size: 14) }
-    static var notificationTimeFont: UIFont { return systemLightFont(size: 13) }
+    static var notificationTitleFont: UIFont { return systemRegularFont(size: 17) }
+    static var notificationSubtitleFont: UIFont { return systemLightFont(size: 15) }
+    static var notificationTimeFont: UIFont { return systemLightFont(size: 15) }
 }
 
 
