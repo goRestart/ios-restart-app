@@ -8,9 +8,10 @@
 
 
 enum PostIncentiviserItem: Int {
-    case PS4 = 1, TV, Bike, Motorcycle, Dresser, Car
+    case PS4 = 1, TV, Bike, Motorcycle, Dresser, Car, KidsClothes, Furniture, Toys
 
-    static func incentiviserPack() -> [PostIncentiviserItem] {
+    static func incentiviserPack(freePosting: Bool) -> [PostIncentiviserItem] {
+        guard !freePosting else { return [.KidsClothes, .Furniture, .Toys] }
         let pack = Int.random(0, 1)
         guard pack == 0 else { return [.Motorcycle, .Dresser, .Car] }
         return [.PS4, .TV, .Bike]
@@ -30,6 +31,12 @@ enum PostIncentiviserItem: Int {
             return LGLocalizedString.productPostIncentiveDresser
         case .Car:
             return LGLocalizedString.productPostIncentiveCar
+        case .KidsClothes:
+            return LGLocalizedString.productPostIncentiveKidsClothes
+        case .Furniture:
+            return LGLocalizedString.productPostIncentiveFurniture
+        case .Toys:
+            return LGLocalizedString.productPostIncentiveToys
         }
     }
 
@@ -46,6 +53,12 @@ enum PostIncentiviserItem: Int {
         case .Dresser:
             return UIImage(named: "dresser")
         case .Car:
+            return UIImage(named: "cars")
+        case .KidsClothes:
+            return UIImage(named: "cars")
+        case .Furniture:
+            return UIImage(named: "cars")
+        case .Toys:
             return UIImage(named: "cars")
         }
     }
@@ -64,6 +77,12 @@ enum PostIncentiviserItem: Int {
             return 50559
         case .Car:
             return 77296
+        case .KidsClothes:
+            return 74111
+        case .Furniture:
+            return 50297
+        case .Toys:
+            return 76985
         }
     }
 
