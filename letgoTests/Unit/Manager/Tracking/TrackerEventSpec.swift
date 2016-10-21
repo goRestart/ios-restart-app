@@ -564,11 +564,11 @@ class TrackerEventSpec: QuickSpec {
             
             describe("productList") {
                 it("has its event name") {
-                    sut = TrackerEvent.productList(nil, categories: [], searchQuery: nil)
+                    sut = TrackerEvent.productList(nil, categories: nil, searchQuery: nil)
                     expect(sut.name.rawValue).to(equal("product-list"))
                 }
                 it("contains the category related params when passing by a category") {
-                    let categories: [String] = ["4"]
+                    let categories: [ProductCategory] = [.HomeAndGarden]
                     sut = TrackerEvent.productList(nil, categories: categories, searchQuery: nil)
                     expect(sut.params).notTo(beNil())
                     
@@ -577,7 +577,7 @@ class TrackerEventSpec: QuickSpec {
                     expect(categoryId).to(equal("4"))
                 }
                 it("contains the category related params when passing by several categories") {
-                    let categories: [String] = ["4", "6"]
+                    let categories: [ProductCategory] = [.HomeAndGarden, .FashionAndAccesories]
                     sut = TrackerEvent.productList(nil, categories: categories, searchQuery: nil)
                     expect(sut.params).notTo(beNil())
                     
@@ -587,7 +587,7 @@ class TrackerEventSpec: QuickSpec {
                 }
                 it("contains the search query related params when passing by a search query") {
                     let searchQuery = "iPhone"
-                    sut = TrackerEvent.productList(nil, categories: [], searchQuery: searchQuery)
+                    sut = TrackerEvent.productList(nil, categories: nil, searchQuery: searchQuery)
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["search-keyword"]).notTo(beNil())
@@ -647,8 +647,9 @@ class TrackerEventSpec: QuickSpec {
                     beforeEach {
                         let coords = LGLocationCoordinates2D(latitude: 41.123, longitude: 2.123)
                         sut = TrackerEvent.filterComplete(coords, distanceRadius: 10, distanceUnit: DistanceType.Km,
-                            categories: ["1", "2"], sortBy: ProductSortCriteria.Distance,
-                            postedWithin: ProductTimeCriteria.Day, priceRange: .PriceRange(min: 5, max: 100))
+                            categories: [.Electronics, .CarsAndMotors],
+                            sortBy: ProductSortCriteria.Distance, postedWithin: ProductTimeCriteria.Day,
+                            priceRange: .PriceRange(min: 5, max: 100))
                     }
                     it("has its event name") {
                         expect(sut.name.rawValue).to(equal("filter-complete"))
@@ -669,7 +670,7 @@ class TrackerEventSpec: QuickSpec {
                         expect(sut.params!.stringKeyParams["distance-unit"] as? String).to(equal("km"))
                     }
                     it("has categories") {
-                        let categories = sut.params!.stringKeyParams["category-id"] as? String
+                        let categories = sut.params!.stringKeyParams["category-id"] as? String 
                         expect(categories).to(equal("1,2"))
                     }
                     it("has sort by") {
@@ -688,7 +689,7 @@ class TrackerEventSpec: QuickSpec {
                 context("not receiving all params, contains the default params") {
                     beforeEach {
                         sut = TrackerEvent.filterComplete(nil, distanceRadius: nil, distanceUnit: DistanceType.Km,
-                            categories: [], sortBy: nil, postedWithin: nil, priceRange: .PriceRange(min: nil, max: nil))
+                            categories: nil, sortBy: nil, postedWithin: nil, priceRange: .PriceRange(min: nil, max: nil))
                     }
                     it("has its event name") {
                         expect(sut.name.rawValue).to(equal("filter-complete"))

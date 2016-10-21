@@ -131,19 +131,24 @@ public struct TrackerEvent {
         return TrackerEvent(name: .PasswordResetError, params: params)
     }
 
-    static func productList(user: User?, categories: [String], searchQuery: String?) -> TrackerEvent {
-            var params = EventParameters()
+    static func productList(user: User?, categories: [ProductCategory]?, searchQuery: String?) -> TrackerEvent {
+        var params = EventParameters()
 
-            // Categories
-            let categoryIds: [String] = categories ?? []
-            params[.CategoryId] = categoryIds.isEmpty ? "0" : categoryIds.joinWithSeparator(",")
-
-            // Search query
-            if let actualSearchQuery = searchQuery {
-                params[.SearchString] = actualSearchQuery
+        // Categories
+        var categoryIds: [String] = []
+        if let actualCategories = categories {
+            for category in actualCategories {
+                categoryIds.append(String(category.rawValue))
             }
+        }
+        params[.CategoryId] = categoryIds.isEmpty ? "0" : categoryIds.joinWithSeparator(",")
 
-            return TrackerEvent(name: .ProductList, params: params)
+        // Search query
+        if let actualSearchQuery = searchQuery {
+            params[.SearchString] = actualSearchQuery
+        }
+
+        return TrackerEvent(name: .ProductList, params: params)
     }
 
     static func exploreCollection(collectionTitle: String) -> TrackerEvent {
@@ -172,7 +177,7 @@ public struct TrackerEvent {
     }
 
     static func filterComplete(coordinates: LGLocationCoordinates2D?, distanceRadius: Int?,
-                               distanceUnit: DistanceType, categories: [String], sortBy: ProductSortCriteria?,
+                               distanceUnit: DistanceType, categories: [ProductCategory]?, sortBy: ProductSortCriteria?,
                                postedWithin: ProductTimeCriteria?, priceRange: FilterPriceRange) -> TrackerEvent {
         var params = EventParameters()
 
@@ -190,7 +195,13 @@ public struct TrackerEvent {
         params[.FilterDistanceUnit] = distanceUnit.string
 
         // Categories
-        params[.CategoryId] = categories.isEmpty ? "0" : categories.joinWithSeparator(",")
+        var categoryIds: [String] = []
+        if let actualCategories = categories {
+            for category in actualCategories {
+                categoryIds.append(String(category.rawValue))
+            }
+        }
+        params[.CategoryId] = categoryIds.isEmpty ? "0" : categoryIds.joinWithSeparator(",")
 
         // Sorting
         if let sortByParam = eventParameterSortByTypeForSorting(sortBy) {

@@ -590,11 +590,8 @@ private extension MainProductsViewModel {
     func trackRequestSuccess(page page: UInt, hasProducts: Bool) {
         guard page == 0 else { return }
 
-        var selectedCategories: [String] = []
-        selectedCategories.appendContentsOf(productListRequester.filters?.selectedCategories.map { String($0.rawValue) } ?? [])
-
         let trackerEvent = TrackerEvent.productList(myUserRepository.myUser,
-                                                    categories: selectedCategories,
+                                                    categories: productListRequester.filters?.selectedCategories,
                                                     searchQuery: productListRequester.queryString)
         tracker.trackEvent(trackerEvent)
 

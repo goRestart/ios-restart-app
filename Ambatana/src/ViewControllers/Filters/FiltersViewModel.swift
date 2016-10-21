@@ -204,17 +204,10 @@ class FiltersViewModel: BaseViewModel {
     func saveFilters() {
 
         // Tracking
-        
-        var categories : [String] = []
-        
-        for category in productFilter.selectedCategories {
-            categories.append(String(category.rawValue))
-        }
-        
         let trackingEvent = TrackerEvent.filterComplete(productFilter.filterCoordinates,
                                                         distanceRadius: productFilter.distanceRadius,
                                                         distanceUnit: productFilter.distanceType,
-                                                        categories: categories,
+                                                        categories: productFilter.selectedCategories,
                                                         sortBy: productFilter.selectedOrdering,
                                                         postedWithin: productFilter.selectedWithin,
                                                         priceRange: productFilter.priceRange)
