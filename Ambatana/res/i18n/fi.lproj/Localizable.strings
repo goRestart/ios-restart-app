@@ -21,7 +21,7 @@
 "categories_cars_and_motors" = "Autot ja muut ajoneuvot";
 "categories_electronics" = "Elektroniikka";
 "categories_fashion_and_accessories" = "Muoti ja asusteet";
-"categories_free" = "Free Stuff";
+"categories_free" = "Ilmaiset";
 "categories_home_and_garden" = "Koti ja puutarha";
 "categories_movies_books_and_music" = "Elokuvat, kirjat ja musiikki";
 "categories_other" = "Muut";
@@ -122,7 +122,7 @@
 "chat_product_sold_label" = "Tuote myyty";
 "chat_related_products_title" = "SINUA SAATTAISI KIINNOSTAA:";
 "chat_safety_tips" = "Turvallisuusvinkit";
-"chat_safety_tips_message" = "• Tavatkaa kasvokkain ja maksakaa käteisellä.\n\n• Käy keskusteluja vain letgon chatissä.\n\n• Kuulostaa liian hyvältä ollakseen totta? Ole varovainen!";
+"chat_safety_tips_message" = "• Tavatkaa kasvokkain ja maksakaa käteisellä.\n\n• Käy keskusteluja vain letgon chatissä.\n\n• Kuulostaako liian hyvältä ollakseen totta? Etsi toinen ostaja/myyjä.";
 "chat_safety_tips_title" = "TURVALLISUUSVINKIT";
 "chat_send_button" = "Lähetä";
 "chat_send_error_generic" = "Viestiä lähetettäessä tapahtui virhe. Ole hyvä ja yritä myöhemmin uudelleen.";
@@ -182,6 +182,7 @@
 "common_expand" = "Näytä enemmän";
 "common_loading" = "Ladataan...";
 "common_max" = "maks.";
+"common_new" = "UUSI!";
 "common_next" = "Seuraava";
 "common_no" = "Ei";
 "common_ok" = "OK";
@@ -215,10 +216,10 @@
 "contact_subject_option_product_edit" = "Muokkaa/poista tuote";
 "contact_subject_option_profile_edit" = "Muokkaa/poista profiili";
 "contact_subject_option_report" = "Ilmianna käyttäjä/roskaposti";
-"direct_answer_free_available" = "Yes, it's still available";
-"direct_answer_free_no_available" = "Sorry, I've already given it away!";
-"direct_answer_free_still_have" = "Still have it?";
-"direct_answer_free_yours" = "It's yours!";
+"direct_answer_free_available" = "Kyllä, se on edelleen saatavilla";
+"direct_answer_free_no_available" = "Ikävä kyllä olen jo antanut sen pois!";
+"direct_answer_free_still_have" = "Onko sinulla vielä se?";
+"direct_answer_free_yours" = "Saat tuotteen!";
 "direct_answer_interested" = "Olen kiinnostunut!";
 "direct_answer_is_negotiable" = "Onko hinta neuvoteltavissa?";
 "direct_answer_like_to_buy" = "Hei! Haluaisin ostaa sen";
@@ -316,10 +317,12 @@
 "notifications_permissions_settings_yes_button" = "Kyllä, aktivoi";
 "notifications_permissions_yes_button" = "Kyllä, lähetä ilmoituksia";
 "notifications_title" = "Ilmoitukset";
-"notifications_type_like" = "Merkitsi tuotteesi suosikkeihinsa";
-"notifications_type_like_w_title" = "Merkitsi \"%@\" -tuotteen suosikiksi";
+"notifications_type_like_button" = "Check out their profile";
+"notifications_type_like_w_name" = "%@ favorited your product";
+"notifications_type_like_w_name_w_title" = "%@ favorited your product: \"%@\"";
 "notifications_type_sold" = "On myynyt tuotteen, jonka merkitsit suosikiksi";
-"notifications_type_sold_w_title" = "On myynyt tuotteen \"%@\"";
+"notifications_type_sold_button" = "See related";
+"notifications_type_welcome_button" = "Start selling";
 "notifications_type_welcome_subtitle" = "Aloita julkaisemalla ensimmäinen tuotteesi myytäväksi ja selaa lähelläsi olevia siistejä tavaroita.";
 "notifications_type_welcome_subtitle_w_city" = "Aloita julkaisemalla ensimmäinen tuotteesi myytäväksi ja selaa siistejä tavaroita kaupungissa %@.";
 "notifications_type_welcome_title" = "Tervetuloa letgohun!";
@@ -387,7 +390,7 @@
 "product_mark_as_sold_confirm_ok_button" = "Merkitse myydyksi";
 "product_mark_as_sold_confirm_title" = "Merkitse myydyksi";
 "product_mark_as_sold_error_generic" = "Merkittäessä tuotetta myydyksi tapahtui virhe. Ole hyvä ja yritä myöhemmin uudelleen.";
-"product_mark_as_sold_free_button" = "Olen antanut sen pois";
+"product_mark_as_sold_free_button" = "Merkitse pois annetuksi";
 "product_mark_as_sold_free_confirm_cancel_button" = "Peruuta";
 "product_mark_as_sold_free_confirm_message" = "Merkitse tuotteeksi jo pois annetuksi";
 "product_mark_as_sold_free_confirm_ok_button" = "Merkitse";
@@ -423,6 +426,8 @@
 "product_post_empty_gallery_button" = "Ota kuva";
 "product_post_empty_gallery_subtitle" = "Ota kuva tuotteesta, jonka haluat julkaista";
 "product_post_empty_gallery_title" = "Kuvia ei löytynyt";
+"product_post_free_camera_first_time_alert_subtitle" = "Ota hyvä kuva ja etsi tuotteellesi uusi koti!";
+"product_post_free_camera_first_time_alert_title" = "Mitä olet antamassa pois?";
 "product_post_gallery_load_image_error_subtitle" = "Valitse toinen kuva ja yritä uudelleen.";
 "product_post_gallery_load_image_error_title" = "Kuvan lataaminen ei onnistu";
 "product_post_gallery_permissions_button" = "Salli";
@@ -591,7 +596,7 @@
 "sell_send_error_invalid_title" = "Ole hyvä ja syötä tuotteelle kelvollinen otsikko.";
 "sell_send_error_sharing_facebook" = "Jaettaessa Facebookiin tapahtui virhe. Ole hyvä, ja yritä myöhemmin uudelleen.";
 "sell_share_fb_content" = "Katso, mitä minulla on myynnissä letgossa!";
-"sell_share_on_facebook_label" = "Jaa tuotteeni Facebookissa";
+"sell_share_on_facebook_label" = "Jaa Facebookissa";
 "sell_title_autogen_autotrans_label" = "letgon ehdottama ja Googlen kääntämä otsikko";
 "sell_title_autogen_label" = "letgon ehdottama otsikko";
 "sell_title_field_hint" = "Tuotteen otsikko (vapaaehtoinen)";
@@ -625,6 +630,9 @@
 "sign_up_terms_conditions_terms_part" = "Terms & Conditions";
 "sign_up_title" = "Luo uusi tili";
 "sign_up_username_field_hint" = "Koko nimi";
+"tab_bar_give_away_button" = "Anna pois";
+"tab_bar_give_away_tooltip" = "Voit nyt antaa tavaroita pois";
+"tab_bar_sell_stuff_button" = "Myy tavaroita";
 "tab_bar_tool_tip" = "Myy tavaroitasi";
 "toast_error_internal" = "Hups! Jokin meni vikaan.";
 "toast_no_network" = "Ei Internet-yhteyttä";

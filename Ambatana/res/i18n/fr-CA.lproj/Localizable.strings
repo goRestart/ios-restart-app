@@ -182,6 +182,7 @@
 "common_expand" = "Afficher Plus";
 "common_loading" = "Chargement...";
 "common_max" = "max";
+"common_new" = "NOUVEAU !";
 "common_next" = "Suivant";
 "common_no" = "Non";
 "common_ok" = "OK";
@@ -215,10 +216,10 @@
 "contact_subject_option_product_edit" = "Modifier ou supprimer le produit";
 "contact_subject_option_profile_edit" = "Modifier ou supprimer le profil";
 "contact_subject_option_report" = "Signaler utilisateur ou pourriel";
-"direct_answer_free_available" = "Yes, it's still available";
-"direct_answer_free_no_available" = "Sorry, I've already given it away!";
-"direct_answer_free_still_have" = "Still have it?";
-"direct_answer_free_yours" = "It's yours!";
+"direct_answer_free_available" = "Oui, c'est toujours disponible";
+"direct_answer_free_no_available" = "Désolé, je l'ai déjà donné !";
+"direct_answer_free_still_have" = "L'avez-vous toujours ?";
+"direct_answer_free_yours" = "Il est à vous !";
 "direct_answer_interested" = "Je suis intéressé !";
 "direct_answer_is_negotiable" = "Le prix est-il négociable ?";
 "direct_answer_like_to_buy" = "Bonjour ! J'aimerais l'acheter";
@@ -316,10 +317,12 @@
 "notifications_permissions_settings_yes_button" = "Oui, Activer";
 "notifications_permissions_yes_button" = "Oui, Me Notifier";
 "notifications_title" = "Notifications";
-"notifications_type_like" = "A mis votre produit dans ses favoris";
-"notifications_type_like_w_title" = "A mis \"%@\" en favori";
+"notifications_type_like_button" = "Check out their profile";
+"notifications_type_like_w_name" = "%@ favorited your product";
+"notifications_type_like_w_name_w_title" = "%@ favorited your product: \"%@\"";
 "notifications_type_sold" = "A vendu un produit que vous aviez mis en favori";
-"notifications_type_sold_w_title" = "A vendu \"%@\"";
+"notifications_type_sold_button" = "See related";
+"notifications_type_welcome_button" = "Start selling";
 "notifications_type_welcome_subtitle" = "Démarrez en publiant votre premier produit à vendre et découvrez des objets intéressants près de chez vous.";
 "notifications_type_welcome_subtitle_w_city" = "Démarrez en publiant votre premier produit à vendre et découvrez des objets intéressants dans %@.";
 "notifications_type_welcome_title" = "Bienvenue sur letgo !";
@@ -423,6 +426,8 @@
 "product_post_empty_gallery_button" = "Prendre une Photo";
 "product_post_empty_gallery_subtitle" = "Prenez une photo du produit que vous souhaitez proposer";
 "product_post_empty_gallery_title" = "Aucune photo trouvée";
+"product_post_free_camera_first_time_alert_subtitle" = "Prenez une bonne photo et offrez une nouvelle vie à votre objet !";
+"product_post_free_camera_first_time_alert_title" = "Que donnez-vous ?";
 "product_post_gallery_load_image_error_subtitle" = "Choisissez une autre photo et réessayez.";
 "product_post_gallery_load_image_error_title" = "La photo ne peut pas être chargée";
 "product_post_gallery_permissions_button" = "Autoriser";
@@ -625,6 +630,9 @@
 "sign_up_terms_conditions_terms_part" = "Terms & Conditions";
 "sign_up_title" = "Créer un nouveau compte";
 "sign_up_username_field_hint" = "Nom complet";
+"tab_bar_give_away_button" = "Donnez des Objets";
+"tab_bar_give_away_tooltip" = "Vous pouvez maintenant donner des objets";
+"tab_bar_sell_stuff_button" = "Vendez des Objets";
 "tab_bar_tool_tip" = "Vendez Vos Objets";
 "toast_error_internal" = "Oups ! Ça n'a pas fonctionné.";
 "toast_no_network" = "Pas de Connexion Internet";

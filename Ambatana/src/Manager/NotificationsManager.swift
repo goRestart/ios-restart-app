@@ -32,6 +32,7 @@ class NotificationsManager {
     private let sessionManager: SessionManager
     private let chatRepository: ChatRepository
     private let oldChatRepository: OldChatRepository
+    private let notificationsRepository: NotificationsRepository
 
     private var requestingChat = false
     private var requestingNotifications = false
@@ -41,13 +42,15 @@ class NotificationsManager {
 
     convenience init() {
         self.init(sessionManager: Core.sessionManager, chatRepository: Core.chatRepository,
-                  oldChatRepository: Core.oldChatRepository)
+                  oldChatRepository: Core.oldChatRepository, notificationsRepository: Core.notificationsRepository)
     }
 
-    init(sessionManager: SessionManager, chatRepository: ChatRepository, oldChatRepository: OldChatRepository) {
+    init(sessionManager: SessionManager, chatRepository: ChatRepository, oldChatRepository: OldChatRepository,
+         notificationsRepository: NotificationsRepository) {
         self.sessionManager = sessionManager
         self.chatRepository = chatRepository
         self.oldChatRepository = oldChatRepository
+        self.notificationsRepository = notificationsRepository
     }
 
     deinit {
@@ -130,7 +133,12 @@ class NotificationsManager {
     }
 
     private func updateNotificationsCounters() {
-        guard FeatureFlags.notificationsSection else { return }
-        //TODO: IMPLEMENT WHEN USING NOTIFICATION CENTER
+        guard FeatureFlags.notificationsSection && sessionManager.loggedIn && !requestingNotifications else { return }
+        requestingNotifications = true
+        notificationsRepository.unreadNotificationsCount() { [weak self] result in
+            self?.requestingNotifications = false
+            guard let count = result.value else { return }
+            self?.unreadNotificationsCount.value = count
+        }
     }
 }

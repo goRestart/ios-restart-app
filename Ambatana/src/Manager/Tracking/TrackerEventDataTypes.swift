@@ -140,6 +140,12 @@ public enum EventName: String {
     case InappChatNotificationStart         = "in-app-chat-notification-start"
     case InappChatNotificationComplete      = "in-app-chat-notification-complete"
 
+    case SignupCaptcha                      = "signup-captcha"
+
+    case NotificationCenterStart            = "notification-center-start"
+    case NotificationCenterComplete         = "notification-center-complete"
+    
+
     // Constants
     private static let eventNameDummyPrefix  = "dummy-"
     
@@ -231,6 +237,7 @@ public enum EventParameterName: String {
     case NPSScore             = "nps-score"
     case AccountNetwork       = "account-network"
     case ProfileType          = "profile-type"
+    case NotificationType     = "notification-type"
 }
 
 public enum EventParameterLoginSourceValue: String {
@@ -559,6 +566,14 @@ public enum EventParameterAccountNetwork: String {
 public enum EventParameterProfileType: String {
     case Public = "public"
     case Private = "private"
+}
+
+public enum EventParameterNotificationType: String {
+    case Welcome = "welcome"
+    case Favorite = "favorite"
+    case ProductSold = "favorite-sold"
+    case Rating = "rating"
+    case RatingUpdated = "rating-updated"
 }
 
 public struct EventParameters {

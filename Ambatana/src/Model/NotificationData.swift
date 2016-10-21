@@ -9,7 +9,7 @@
 import Foundation
 
 enum NotificationDataType {
-    case Product, Welcome
+    case ProductFavorite, ProductSold, Welcome
 }
 
 struct NotificationData {

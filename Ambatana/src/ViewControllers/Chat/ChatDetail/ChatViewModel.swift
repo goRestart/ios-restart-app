@@ -75,8 +75,6 @@ class ChatViewModel: BaseViewModel {
     var askQuestion: AskQuestionSource?
     var relatedProducts: [Product] = []
 
-    private var isNewChat: Bool = false
-
     private var shouldShowSafetyTips: Bool {
         return !KeyValueStorage.sharedInstance.userChatSafetyTipsShown && didReceiveMessageFromOtherUser
     }
@@ -264,7 +262,6 @@ class ChatViewModel: BaseViewModel {
         guard isBuyer else { return }
         guard !relatedProducts.isEmpty else { return }
         guard let productId = conversation.value.product?.objectId else { return }
-        guard isNewChat else { return }
         navigator?.openExpressChat(relatedProducts, sourceProductId: productId)
     }
 
@@ -904,10 +901,6 @@ extension ChatViewModel {
             self?.isLoading = false
             if let value = result.value, let adapter = self?.chatViewMessageAdapter {
                 self?.isLastPage = value.count == 0
-                if value.count == 0 {
-                    // don't want it to be back to false if eventually i get more than 0 messages
-                    self?.isNewChat = true
-                }
                 let messages: [ChatViewMessage] = value.map(adapter.adapt)
                 let newMessages = strongSelf.chatViewMessageAdapter
                     .addDisclaimers(messages, disclaimerMessage: strongSelf.defaultDisclaimerMessage)
