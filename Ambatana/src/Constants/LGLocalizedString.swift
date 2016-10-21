@@ -1287,8 +1287,16 @@ struct LGLocalizedString {
 		return NSLocalizedString("notifications_type_like", comment: "")
 	}
 
+	static func notificationsTypeLikeWName(var1: String) -> String {
+		return String(format: NSLocalizedString("notifications_type_like_w_name", comment: ""), var1)
+	}
+
 	static func notificationsTypeLikeWTitle(var1: String) -> String {
 		return String(format: NSLocalizedString("notifications_type_like_w_title", comment: ""), var1)
+	}
+
+	static func notificationsTypeLikeWNameWTitle(var1: String, _ var2: String) -> String {
+		return String(format: NSLocalizedString("notifications_type_like_w_name_w_title", comment: ""), var1, var2)
 	}
 
 	static var notificationsTypeLikeButton: String {
@@ -1791,8 +1799,20 @@ struct LGLocalizedString {
 		return NSLocalizedString("product_post_incentive_dresser", comment: "")
 	}
 
+	static var productPostIncentiveFurniture: String {
+		return NSLocalizedString("product_post_incentive_furniture", comment: "")
+	}
+
 	static var productPostIncentiveGotAny: String {
 		return NSLocalizedString("product_post_incentive_got_any", comment: "")
+	}
+
+	static var productPostIncentiveGotAnyFree: String {
+		return NSLocalizedString("product_post_incentive_got_any_free", comment: "")
+	}
+
+	static var productPostIncentiveKidsClothes: String {
+		return NSLocalizedString("product_post_incentive_kids_clothes", comment: "")
 	}
 
 	static func productPostIncentiveLookingFor(var1: String) -> String {
@@ -1811,8 +1831,16 @@ struct LGLocalizedString {
 		return NSLocalizedString("product_post_incentive_subtitle", comment: "")
 	}
 
+	static var productPostIncentiveSubtitleFree: String {
+		return NSLocalizedString("product_post_incentive_subtitle_free", comment: "")
+	}
+
 	static var productPostIncentiveTitle: String {
 		return NSLocalizedString("product_post_incentive_title", comment: "")
+	}
+
+	static var productPostIncentiveToys: String {
+		return NSLocalizedString("product_post_incentive_toys", comment: "")
 	}
 
 	static var productPostIncentiveTv: String {

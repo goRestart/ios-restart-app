@@ -317,12 +317,11 @@
 "notifications_permissions_settings_yes_button" = "Да, активировать";
 "notifications_permissions_yes_button" = "Да, уведомлять меня";
 "notifications_title" = "Уведомления";
-"notifications_type_like" = "Ваш товар добавили в избранное";
 "notifications_type_like_button" = "Check out their profile";
-"notifications_type_like_w_title" = "Добавил в избранное \"%@\"";
+"notifications_type_like_w_name" = "%@ favorited your product";
+"notifications_type_like_w_name_w_title" = "%@ favorited your product: \"%@\"";
 "notifications_type_sold" = "Продал товар, который вы добавляли в избранное";
 "notifications_type_sold_button" = "See related";
-"notifications_type_sold_w_title" = "Продал \"%@\"";
 "notifications_type_welcome_button" = "Start selling";
 "notifications_type_welcome_subtitle" = "Начните с публикации первого товара на продажу и ищите отличные товары неподалеку.";
 "notifications_type_welcome_subtitle_w_city" = "Начните с публикации первого товара на продажу и ищите отличные товары в %@.";
@@ -398,7 +397,7 @@
 "product_mark_as_sold_free_confirm_title" = "Отметить как отданный";
 "product_mark_as_sold_free_success_message" = "Поздравляем! Ваш товар отмечен как отданный";
 "product_mark_as_sold_success_message" = "Поздравляем! Ваш продукт был продан!";
-"product_more_info_open_button" = "БОЛЬШЕ ИНФОРМАЦИИ";
+"product_more_info_open_button" = "ЕЩЕ";
 "product_more_info_tooltip_part_1" = "Нажмите";
 "product_more_info_tooltip_part_2" = "%@ просмотреть больше информации";
 "product_negotiable_price" = "Обсуждаема";

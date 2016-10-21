@@ -317,12 +317,11 @@
 "notifications_permissions_settings_yes_button" = "Sim, ativar";
 "notifications_permissions_yes_button" = "Sim, Notifiquem-me";
 "notifications_title" = "Notificações";
-"notifications_type_like" = "Marcou o seu produto como favorito";
 "notifications_type_like_button" = "Check out their profile";
-"notifications_type_like_w_title" = "Marcou como favorito \"%@\"";
+"notifications_type_like_w_name" = "%@ favorited your product";
+"notifications_type_like_w_name_w_title" = "%@ favorited your product: \"%@\"";
 "notifications_type_sold" = "Vendeu um produto marcado por si como favorito";
 "notifications_type_sold_button" = "See related";
-"notifications_type_sold_w_title" = "Vendeu \"%@\"";
 "notifications_type_welcome_button" = "Start selling";
 "notifications_type_welcome_subtitle" = "Comece por colocar o seu primeiro item à venda e procure coisas fantásticas perto de si.";
 "notifications_type_welcome_subtitle_w_city" = "Comece por colocar o seu primeiro item à venda e procure coisas fantásticas em %@";

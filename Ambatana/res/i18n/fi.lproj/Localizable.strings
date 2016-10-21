@@ -317,12 +317,11 @@
 "notifications_permissions_settings_yes_button" = "Kyllä, aktivoi";
 "notifications_permissions_yes_button" = "Kyllä, lähetä ilmoituksia";
 "notifications_title" = "Ilmoitukset";
-"notifications_type_like" = "Merkitsi tuotteesi suosikkeihinsa";
 "notifications_type_like_button" = "Check out their profile";
-"notifications_type_like_w_title" = "Merkitsi \"%@\" -tuotteen suosikiksi";
+"notifications_type_like_w_name" = "%@ favorited your product";
+"notifications_type_like_w_name_w_title" = "%@ favorited your product: \"%@\"";
 "notifications_type_sold" = "On myynyt tuotteen, jonka merkitsit suosikiksi";
 "notifications_type_sold_button" = "See related";
-"notifications_type_sold_w_title" = "On myynyt tuotteen \"%@\"";
 "notifications_type_welcome_button" = "Start selling";
 "notifications_type_welcome_subtitle" = "Aloita julkaisemalla ensimmäinen tuotteesi myytäväksi ja selaa lähelläsi olevia siistejä tavaroita.";
 "notifications_type_welcome_subtitle_w_city" = "Aloita julkaisemalla ensimmäinen tuotteesi myytäväksi ja selaa siistejä tavaroita kaupungissa %@.";

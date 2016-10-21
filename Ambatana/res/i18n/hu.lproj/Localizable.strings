@@ -317,12 +317,11 @@
 "notifications_permissions_settings_yes_button" = "Igen, aktiválom";
 "notifications_permissions_yes_button" = "Igen, értesítsen";
 "notifications_title" = "Értesítések";
-"notifications_type_like" = "Kedvencként jelölte portékádat";
 "notifications_type_like_button" = "Check out their profile";
-"notifications_type_like_w_title" = "Kedvencként jelölte ezt: „%@”";
+"notifications_type_like_w_name" = "%@ favorited your product";
+"notifications_type_like_w_name_w_title" = "%@ favorited your product: \"%@\"";
 "notifications_type_sold" = "Eladott egy portékát, amit kedvencként jelöltél";
 "notifications_type_sold_button" = "See related";
-"notifications_type_sold_w_title" = "Eladta ezt: „%@”";
 "notifications_type_welcome_button" = "Start selling";
 "notifications_type_welcome_subtitle" = "Kezdj kereskedni első portékád meghirdetésével és a környékbeli különlegességek átböngészésével.";
 "notifications_type_welcome_subtitle_w_city" = "Kezdj kereskedni első portékád meghirdetésével és „%@” környékének különlegességeinek átböngészésével.";
