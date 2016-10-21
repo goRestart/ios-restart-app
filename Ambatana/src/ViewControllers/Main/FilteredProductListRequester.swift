@@ -140,13 +140,20 @@ private extension FilteredProductListRequester {
         params.coordinates = queryCoordinates
         params.queryString = queryString
         params.countryCode = countryCode
-        params.categoryIds = filters?.selectedCategories.map{ $0.rawValue }
+        params.categoryIds = filters?.selectedCategories.flatMap{ $0.rawValue }
         params.timeCriteria = filters?.selectedWithin
         params.sortCriteria = filters?.selectedOrdering
         params.distanceRadius = filters?.distanceRadius
         params.distanceType = filters?.distanceType
-        params.minPrice = filters?.minPrice
-        params.maxPrice = filters?.maxPrice
+        if let priceRange = filters?.priceRange {
+            switch priceRange {
+            case .FreePrice:
+                params.freePrice = true
+            case let .PriceRange(min, max):
+                params.minPrice = min
+                params.maxPrice = max
+            }
+        }
         return params
     }
 

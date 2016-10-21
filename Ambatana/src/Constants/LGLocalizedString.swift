@@ -1799,8 +1799,20 @@ struct LGLocalizedString {
 		return NSLocalizedString("product_post_incentive_dresser", comment: "")
 	}
 
+	static var productPostIncentiveFurniture: String {
+		return NSLocalizedString("product_post_incentive_furniture", comment: "")
+	}
+
 	static var productPostIncentiveGotAny: String {
 		return NSLocalizedString("product_post_incentive_got_any", comment: "")
+	}
+
+	static var productPostIncentiveGotAnyFree: String {
+		return NSLocalizedString("product_post_incentive_got_any_free", comment: "")
+	}
+
+	static var productPostIncentiveKidsClothes: String {
+		return NSLocalizedString("product_post_incentive_kids_clothes", comment: "")
 	}
 
 	static func productPostIncentiveLookingFor(var1: String) -> String {
@@ -1819,8 +1831,16 @@ struct LGLocalizedString {
 		return NSLocalizedString("product_post_incentive_subtitle", comment: "")
 	}
 
+	static var productPostIncentiveSubtitleFree: String {
+		return NSLocalizedString("product_post_incentive_subtitle_free", comment: "")
+	}
+
 	static var productPostIncentiveTitle: String {
 		return NSLocalizedString("product_post_incentive_title", comment: "")
+	}
+
+	static var productPostIncentiveToys: String {
+		return NSLocalizedString("product_post_incentive_toys", comment: "")
 	}
 
 	static var productPostIncentiveTv: String {
