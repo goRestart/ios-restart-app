@@ -18,7 +18,7 @@ enum InstallationRouter: URLRequestAuthenticable {
     var requiredAuthLevel: AuthLevel {
         switch self {
         case .Create:
-            return .None
+            return .Nonexistent
         case .Patch:
             return .Installation
         }

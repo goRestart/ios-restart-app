@@ -64,5 +64,5 @@ public enum ProductPrice {
 }
 
 enum ProductPriceFlag: Int {
-    case Free = 0, Normal = 1, Negotiable = 2, FirmPrice = 3
+    case Normal = 0, Free = 1, Negotiable = 2, FirmPrice = 3
 }

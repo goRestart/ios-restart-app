@@ -132,22 +132,23 @@ public struct TrackerEvent {
     }
 
     static func productList(user: User?, categories: [ProductCategory]?, searchQuery: String?) -> TrackerEvent {
-            var params = EventParameters()
+        var params = EventParameters()
 
-            // Categories
-            var categoryIds: [String] = []
-            if let actualCategories = categories {
-                for category in actualCategories {
-                    categoryIds.append(String(category.rawValue))
-                }
+        // Categories
+        var categoryIds: [String] = []
+        if let actualCategories = categories {
+            for category in actualCategories {
+                categoryIds.append(String(category.rawValue))
             }
-            params[.CategoryId] = categoryIds.isEmpty ? "0" : categoryIds.joinWithSeparator(",")
-            // Search query
-            if let actualSearchQuery = searchQuery {
-                params[.SearchString] = actualSearchQuery
-            }
+        }
+        params[.CategoryId] = categoryIds.isEmpty ? "0" : categoryIds.joinWithSeparator(",")
 
-            return TrackerEvent(name: .ProductList, params: params)
+        // Search query
+        if let actualSearchQuery = searchQuery {
+            params[.SearchString] = actualSearchQuery
+        }
+
+        return TrackerEvent(name: .ProductList, params: params)
     }
 
     static func exploreCollection(collectionTitle: String) -> TrackerEvent {
@@ -177,7 +178,7 @@ public struct TrackerEvent {
 
     static func filterComplete(coordinates: LGLocationCoordinates2D?, distanceRadius: Int?,
                                distanceUnit: DistanceType, categories: [ProductCategory]?, sortBy: ProductSortCriteria?,
-                               postedWithin: ProductTimeCriteria?, priceFrom: Int?, priceTo: Int?) -> TrackerEvent {
+                               postedWithin: ProductTimeCriteria?, priceRange: FilterPriceRange) -> TrackerEvent {
         var params = EventParameters()
 
         // Filter Coordinates
@@ -210,8 +211,8 @@ public struct TrackerEvent {
             params[.FilterPostedWithin] = postedWithin.rawValue
         }
 
-        params[.PriceFrom] = eventParameterHasPriceFilter(priceFrom).rawValue
-        params[.PriceTo] = eventParameterHasPriceFilter(priceTo).rawValue
+        params[.PriceFrom] = eventParameterHasPriceFilter(priceRange.min).rawValue
+        params[.PriceTo] = eventParameterHasPriceFilter(priceRange.max).rawValue
 
         return TrackerEvent(name: .FilterComplete, params: params)
     }
@@ -880,6 +881,19 @@ public struct TrackerEvent {
         return TrackerEvent(name: .InappChatNotificationComplete, params: EventParameters())
     }
 
+    static func SignupCaptcha() -> TrackerEvent {
+        return TrackerEvent(name: .SignupCaptcha, params: EventParameters())
+    }
+
+    static func NotificationCenterStart() -> TrackerEvent {
+        return TrackerEvent(name: .NotificationCenterStart, params: EventParameters())
+    }
+
+    static func NotificationCenterComplete(type: EventParameterNotificationType) -> TrackerEvent {
+        var params = EventParameters()
+        params[.NotificationType] = type.rawValue
+        return TrackerEvent(name: .NotificationCenterComplete, params: params)
+    }
 
     // MARK: - Private methods
 

@@ -8,6 +8,7 @@
 
 import Foundation
 import LGCoreKit
+import Result
 
 public enum LoginActionType: Int{
     case Signup, Login
@@ -25,6 +26,7 @@ protocol SignUpLogInViewModelDelegate: class {
     func viewModelDidStartSigningUp(viewModel: SignUpLogInViewModel)
     func viewModelDidSignUp(viewModel: SignUpLogInViewModel)
     func viewModelDidFailSigningUp(viewModel: SignUpLogInViewModel, message: String)
+    func viewModelShowRecaptcha(viewModel: RecaptchaViewModel)
 
     // login
     func viewModelDidStartLoginIn(viewModel: SignUpLogInViewModel)
@@ -143,8 +145,12 @@ public class SignUpLogInViewModel: BaseViewModel {
     public func erasePassword() {
         password = ""
     }
-    
+
     public func signUp() {
+        signUp(nil)
+    }
+    
+    public func signUp(recaptchaToken: String?) {
         delegate?.viewModelDidStartSigningUp(self)
 
         let fullName = username.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
@@ -166,9 +172,7 @@ public class SignUpLogInViewModel: BaseViewModel {
             delegate?.viewModelDidFailSigningUp(self, message: LGLocalizedString.signUpAcceptanceError)
             trackSignupEmailFailedWithError(.TermsNotAccepted)
         } else {
-            let newsletter: Bool? = termsAndConditionsEnabled ? self.newsletterAccepted : nil
-            sessionManager.signUp(email.lowercaseString, password: password, name: fullName, newsletter: newsletter) {
-                [weak self] signUpResult in
+            let completion: (Result<MyUser, SessionManagerError>) -> () = { [weak self] signUpResult in
                 guard let strongSelf = self else { return }
 
                 if let _ = signUpResult.value {
@@ -180,7 +184,20 @@ public class SignUpLogInViewModel: BaseViewModel {
                     strongSelf.processSignUpSessionError(sessionManagerError)
                 }
             }
+
+            let newsletter: Bool? = termsAndConditionsEnabled ? self.newsletterAccepted : nil
+            if let recaptchaToken = recaptchaToken  {
+                sessionManager.signUp(email.lowercaseString, password: password, name: fullName, newsletter: newsletter,
+                                      recaptchaToken: recaptchaToken, completion: completion)
+            } else {
+                sessionManager.signUp(email.lowercaseString, password: password, name: fullName,
+                                      newsletter: newsletter, completion: completion)
+            }
         }
+    }
+
+    public func recaptchaTokenObtained(token: String) {
+        signUp(token)
     }
     
     public func logIn() {
@@ -318,7 +335,12 @@ public class SignUpLogInViewModel: BaseViewModel {
             }
         case .NonExistingEmail:
             message = LGLocalizedString.signUpSendErrorInvalidEmail
-        case .Scammer, .NotFound, .Internal, .Forbidden, .Unauthorized, .TooManyRequests, .UserNotVerified:
+        case .UserNotVerified:
+            // In this case we don't want
+            let vm = RecaptchaViewModel()
+            delegate?.viewModelShowRecaptcha(vm)
+            return
+        case .Scammer, .NotFound, .Internal, .Forbidden, .Unauthorized, .TooManyRequests:
             message = LGLocalizedString.signUpSendErrorGeneric
         }
         delegate?.viewModelDidFailSigningUp(self, message: message)

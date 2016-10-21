@@ -16,4 +16,5 @@ struct ProductionEnvironment: Environment {
     let userRatingsBaseURL = "https://rating.letgo.com/api"
     let chatBaseURL = "https://chat.letgo.com"
     let webSocketURL = "wss://chat.letgo.com/socket"
+    let notificationsBaseURL = "https://notifications.letgo.com/api"
 }
