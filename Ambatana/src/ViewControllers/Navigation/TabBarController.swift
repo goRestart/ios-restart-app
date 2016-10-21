@@ -34,7 +34,7 @@ final class TabBarController: UITabBarController {
     // MARK: - Lifecycle
 
     init(viewModel: TabBarViewModel) {
-        self.floatingSellButton = FloatingButton(frame: CGRect(x: 50, y: 50, width: 200, height: 50))
+        self.floatingSellButton = FloatingButton()
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
