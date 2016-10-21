@@ -28,6 +28,9 @@ class ProductPostedViewModel: BaseViewModel {
     private var productRepository: ProductRepository?
     private var trackingInfo: PostProductTrackingInfo
 
+    private var wasFreePosting: Bool {
+        return self.status.product?.price.free ?? false
+    }
 
     // MARK: - Lifecycle
 
