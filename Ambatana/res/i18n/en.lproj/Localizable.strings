@@ -556,6 +556,9 @@
 // Common next
 "common_next" = "Next";
 
+// Common new
+"common_new" = "NEW!";
+
 // Common ok
 "common_ok" = "OK";
 
@@ -946,16 +949,28 @@
 "notifications_title" = "Notifications";
 
 // User likes your product
-"notifications_type_like" = "Favorited your product";
+"notifications_type_like" = "favorited your product";
 
 // User likes your product
-"notifications_type_like_w_title" = "Favorited \"%@\"";
+"notifications_type_like_w_name" = "%@ favorited your product";
+
+// User likes your product
+"notifications_type_like_w_title" = "favorited your product: \"%@\"";
+
+// User likes your product
+"notifications_type_like_w_name_w_title" = "%@ favorited your product: \"%@\"";
+
+// User likes your product
+"notifications_type_like_button" = "Check out their profile";
 
 // User sold a product you favorited
-"notifications_type_sold" = "Has sold a product you favorited";
+"notifications_type_sold" = "A product you favorited has been sold";
 
 // User sold a product you favorited
 "notifications_type_sold_w_title" = "Has sold \"%@\"";
+
+// User sold a product you favorited
+"notifications_type_sold_button" = "See related";
 
 // Welcome notification subtitle
 "notifications_type_welcome_subtitle" = "Get started by posting your first item for sale and browse cool stuff near you.";
@@ -965,6 +980,9 @@
 
 // Welcome notification title
 "notifications_type_welcome_title" = "Welcome to letgo!";
+
+// Welcome notification button
+"notifications_type_welcome_button" = "Start selling";
 
 // Text to show when a user has no name 
 "notifications_user_wo_name" = "A user";
@@ -1159,7 +1177,7 @@
 "product_mark_as_sold_free_confirm_cancel_button" = "Cancel";
 
 // Product mark as given away button.
-"product_mark_as_sold_free_button" = "I've given it away";
+"product_mark_as_sold_free_button" = "Mark as given away";
 
 // Alert message when product is mark as given away
 "product_mark_as_sold_free_confirm_message" = "Mark your product as already given away";
@@ -1281,6 +1299,12 @@
 // Message title when there are no photos on gallery
 "product_post_empty_gallery_title" = "No photos found";
 
+// Main text when the camera posting appears (free posting)
+"product_post_free_camera_first_time_alert_title" = "What are you giving away?";
+
+// Message subtitle when camera appears on free posting. 
+"product_post_free_camera_first_time_alert_subtitle" = "Take a good picture and find your item a new home!";
+
 // Message subtitle when loading an image (from iCloud) fails
 "product_post_gallery_load_image_error_subtitle" = "Choose another photo and try again.";
 
@@ -1311,8 +1335,17 @@
 // product name dressers
 "product_post_incentive_dresser" = "Dressers";
 
+// product name furniture
+"product_post_incentive_furniture" = "Furniture";
+
 // !!!! -> this text will go at the place of the variable %@ in "product_post_incentive_looking_for"
 "product_post_incentive_got_any" = "got any to sell?";
+
+// !!!! -> this text will go at the place of the variable %@ in "product_post_incentive_looking_for"
+"product_post_incentive_got_any_free" = "got any to give away?";
+
+// product name kid's clothes
+"product_post_incentive_kids_clothes" = "Kid's clothes";
 
 // 1st part of the incentivation text
 "product_post_incentive_looking_for" = "People around you are looking for these items, %@";
@@ -1326,8 +1359,14 @@
 // After posting, real confirmation subtitle
 "product_post_incentive_subtitle" = "Your listing has been posted.";
 
+// After posting, real confirmation subtitle
+"product_post_incentive_subtitle_free" = "You're on your way to making someone happier.";
+
 // After posting, real confirmation
 "product_post_incentive_title" = "CONGRATULATIONS!";
+
+// product name toys
+"product_post_incentive_toys" = "Toys";
 
 // product name Tvs
 "product_post_incentive_tv" = "TVs";
@@ -1871,6 +1910,15 @@
 
 // Tab bar tool tip. Check attached image "tab_bar.png"
 "tab_bar_tool_tip" = "Sell Your Stuff";
+
+// Tab bar "Sell Stuff" button.
+"tab_bar_sell_stuff_button" = "Sell Stuff";
+
+// Tab bar "Give It Away" button.
+"tab_bar_give_away_button" = "Give It Away";
+
+// Tab bar tooltip explaining tooltip new feature.
+"tab_bar_give_away_tooltip" = "Now you can give items away";
 
 // Toast server internal.
 "toast_error_internal" = "Oops! Something went wrong.";

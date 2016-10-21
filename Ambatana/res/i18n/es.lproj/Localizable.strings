@@ -122,7 +122,7 @@
 "chat_product_sold_label" = "Artículo vendido";
 "chat_related_products_title" = "TAMBIÉN TE PODRÍA INTERESAR:";
 "chat_safety_tips" = "Consejos de seguridad";
-"chat_safety_tips_message" = "• Queda en persona y paga en efectivo.\n\n• Mantén las conversaciones dentro del chat de letgo.\n\n• ¿Demasiado bueno para ser cierto? ¡Ten cuidado!";
+"chat_safety_tips_message" = "• Queda en persona y paga en efectivo.\n\n• Mantén las conversaciones dentro del chat de letgo.\n\n• ¿Demasiado bueno para ser cierto? Encuentra otro comprador o vendedor.";
 "chat_safety_tips_title" = "CONSEJOS DE SEGURIDAD";
 "chat_send_button" = "Enviar";
 "chat_send_error_generic" = "¡Ups! No se ha podido enviar tu mensaje. Por favor, inténtalo de nuevo.";
@@ -182,6 +182,7 @@
 "common_expand" = "Ver Más";
 "common_loading" = "Cargando...";
 "common_max" = "máx.";
+"common_new" = "¡NUEVO!";
 "common_next" = "Siguiente";
 "common_no" = "No";
 "common_ok" = "Aceptar";
@@ -316,10 +317,12 @@
 "notifications_permissions_settings_yes_button" = "Sí, activar";
 "notifications_permissions_yes_button" = "Sí, Notificadme";
 "notifications_title" = "Notificaciones";
-"notifications_type_like" = "Ha marcado tu producto como favorito";
-"notifications_type_like_w_title" = "Ha marcado \"%@\"como favorito";
-"notifications_type_sold" = "Ha vendido un producto que marcaste como favorito";
-"notifications_type_sold_w_title" = "Ha vendido \"%@\"";
+"notifications_type_like_button" = "Visitar su perfil";
+"notifications_type_like_w_name" = "%@ ha marcado tu producto como favorito";
+"notifications_type_like_w_name_w_title" = "%@ ha marcado tu producto como favorito: \"%@\"";
+"notifications_type_sold" = "Un producto que marcaste como favorito se ha vendido";
+"notifications_type_sold_button" = "Ver relacionados";
+"notifications_type_welcome_button" = "Empezar a vender";
 "notifications_type_welcome_subtitle" = "Empieza publicando tu primer artículo a la venta o navega productos interesantes cerca de ti.";
 "notifications_type_welcome_subtitle_w_city" = "Empieza publicando tu primer artículo a la venta o navega productos interesantes en %@.";
 "notifications_type_welcome_title" = "¡Bienvenido a letgo!";
@@ -387,7 +390,7 @@
 "product_mark_as_sold_confirm_ok_button" = "Marcar como vendido";
 "product_mark_as_sold_confirm_title" = "Marcar como vendido";
 "product_mark_as_sold_error_generic" = "Se ha producido un error al marcar el artículo como vendido. Por favor, inténtalo de nuevo.";
-"product_mark_as_sold_free_button" = "Lo he regalado";
+"product_mark_as_sold_free_button" = "Marcar como regalado";
 "product_mark_as_sold_free_confirm_cancel_button" = "Cancelar";
 "product_mark_as_sold_free_confirm_message" = "Marca tu producto como regalado";
 "product_mark_as_sold_free_confirm_ok_button" = "Marcar";
@@ -423,6 +426,8 @@
 "product_post_empty_gallery_button" = "Hacer foto";
 "product_post_empty_gallery_subtitle" = "Haz una foto del producto que quieres publicar";
 "product_post_empty_gallery_title" = "No se han encontrado fotos";
+"product_post_free_camera_first_time_alert_subtitle" = "¡Haz una buena foto y encuentra un nuevo hogar para tu artículo!";
+"product_post_free_camera_first_time_alert_title" = "¿Qué quieres regalar?";
 "product_post_gallery_load_image_error_subtitle" = "Selecciona otra foto o inténtalo de nuevo.";
 "product_post_gallery_load_image_error_title" = "No se ha podido cargar la foto";
 "product_post_gallery_permissions_button" = "Permitir";
@@ -625,6 +630,9 @@
 "sign_up_terms_conditions_terms_part" = "Terms & Conditions";
 "sign_up_title" = "Crear nueva cuenta";
 "sign_up_username_field_hint" = "Nombre y apellido";
+"tab_bar_give_away_button" = "Regalar";
+"tab_bar_give_away_tooltip" = "Ahora puedes regalar artículos";
+"tab_bar_sell_stuff_button" = "Vender";
 "tab_bar_tool_tip" = "Empieza a vender";
 "toast_error_internal" = "¡Ups! Se ha producido un error.";
 "toast_no_network" = "Sin Conexión a Internet";
