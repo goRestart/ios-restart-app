@@ -331,6 +331,8 @@
 "nps_survey_title" = "VI ØNSKER Å VITE...";
 "nps_survey_very_bad" = "Ikke sannsynlig";
 "nps_survey_very_good" = "Ekstremt sannsynlig";
+"onboarding_direct_camera_alert_subtitle" = "Post your first product and start selling to people near you";
+"onboarding_direct_camera_alert_title" = "Start Making Cash!";
 "onboarding_login_skip" = "Hopp over";
 "onboarding_posting_button_a" = "Selg dine ting";
 "onboarding_posting_button_b" = "Kom i gang";
