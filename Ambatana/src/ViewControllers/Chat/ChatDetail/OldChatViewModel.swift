@@ -986,7 +986,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
                 strongSelf.chat = chat
                 strongSelf.nextPage = page + 1
 
-                strongSelf.updateLoadedMessages(messages: chat.messages, page: page)
+                strongSelf.updateLoadedMessages(newMessages: chat.messages, page: page)
 
                 if strongSelf.chatStatus == .Forbidden {
                     strongSelf.showScammerDisclaimerMessage()
@@ -1001,7 +1001,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
                     //The chat doesn't exist yet, so this must be a new conversation -> this is success
                     strongSelf.isLastPage = true
 
-                    strongSelf.updateLoadedMessages(messages: [], page: page)
+                    strongSelf.updateLoadedMessages(newMessages: [], page: page)
 
                     strongSelf.delegate?.vmDidRefreshChatMessages()
                     strongSelf.afterRetrieveChatMessagesEvents()
@@ -1013,14 +1013,16 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         }
     }
 
-    private func updateLoadedMessages(messages messages: [Message], page: Int) {
-        let mappedChatMessages = messages.map(chatViewMessageAdapter.adapt)
+    private func updateLoadedMessages(newMessages newMessages: [Message], page: Int) {
+        // Add message disclaimer (message flagged)
+        let mappedChatMessages = newMessages.map(chatViewMessageAdapter.adapt)
         var chatMessages = chatViewMessageAdapter.addDisclaimers(mappedChatMessages,
                                                                  disclaimerMessage: messageSuspiciousDisclaimerMessage)
-
+        // Add user info as 1st message
         if let userInfoMessage = userInfoMessage where isLastPage {
             chatMessages += [userInfoMessage]
         }
+        // Add disclaimer at the bottom of the first page
         if let bottomDisclaimerMessage = bottomDisclaimerMessage where page == 0 {
             chatMessages = [bottomDisclaimerMessage] + loadedMessages
         }

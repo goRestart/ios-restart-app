@@ -864,7 +864,7 @@ extension ChatViewModel {
                 let messages: [ChatViewMessage] = value.map(strongSelf.chatViewMessageAdapter.adapt)
 
                 strongSelf.messages.removeAll()
-                strongSelf.updateMessages(messages: value, isFirstPage: true)
+                strongSelf.updateMessages(newMessages: value, isFirstPage: true)
                 strongSelf.afterRetrieveChatMessagesEvents()
                 strongSelf.markAsReadMessages(messages)
             } else if let _ = result.error {
@@ -886,7 +886,7 @@ extension ChatViewModel {
                     let messages = value.map(strongSelf.chatViewMessageAdapter.adapt)
                     strongSelf.markAsReadMessages(messages)
                 }
-                strongSelf.updateMessages(messages: value, isFirstPage: false)
+                strongSelf.updateMessages(newMessages: value, isFirstPage: false)
             } else if let _ = result.error {
                 strongSelf.delegate?.vmDidFailRetrievingChatMessages()
             }
@@ -904,14 +904,16 @@ extension ChatViewModel {
         }
     }
 
-    private func updateMessages(messages msgs: [ChatMessage], isFirstPage: Bool) {
-        let mappedChatMessages = msgs.map(chatViewMessageAdapter.adapt)
+    private func updateMessages(newMessages newMessages: [ChatMessage], isFirstPage: Bool) {
+        // Add message disclaimer (message flagged)
+        let mappedChatMessages = newMessages.map(chatViewMessageAdapter.adapt)
         var chatMessages = chatViewMessageAdapter.addDisclaimers(mappedChatMessages,
                                                                  disclaimerMessage: defaultDisclaimerMessage)
-
+        // Add user info as 1st message
         if let userInfoMessage = userInfoMessage where isLastPage {
             chatMessages.append(userInfoMessage)
         }
+        // Add disclaimer at the bottom of the first page
         if let bottomDisclaimerMessage = bottomDisclaimerMessage where isFirstPage {
             chatMessages.insert(bottomDisclaimerMessage, atIndex: 0)
         }
