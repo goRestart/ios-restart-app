@@ -22,15 +22,10 @@ class InterestedBubble: UIView {
 
     // - Lifecycle
 
-    convenience init(text: String?) {
-        self.init()
-        self.text = text
-        setupUI()
-        setupConstraints()
-    }
-
     override init(frame: CGRect) {
         super.init(frame: frame)
+        setupUI()
+        setupConstraints()
     }
 
     required init?(coder aDecoder: NSCoder) {

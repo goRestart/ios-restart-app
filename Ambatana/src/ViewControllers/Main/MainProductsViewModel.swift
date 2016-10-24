@@ -73,14 +73,20 @@ class MainProductsViewModel: BaseViewModel {
         if let selectedOrdering = filters.selectedOrdering where selectedOrdering != ProductSortCriteria.defaultOption {
             resultTags.append(.OrderBy(selectedOrdering))
         }
-        if filters.minPrice != nil || filters.maxPrice != nil {
-            var currency: Currency? = nil
-            if let countryCode = Core.locationManager.currentPostalAddress?.countryCode {
-                currency = Core.currencyHelper.currencyWithCountryCode(countryCode)
-            }
-            resultTags.append(.PriceRange(from: filters.minPrice, to: filters.maxPrice, currency: currency))
-        }
 
+        switch filters.priceRange {
+        case .FreePrice:
+            resultTags.append(.FreeStuff)
+        case let .PriceRange(min, max):
+            if min != nil || max != nil {
+                var currency: Currency? = nil
+                if let countryCode = locationManager.currentPostalAddress?.countryCode {
+                    currency = currencyHelper.currencyWithCountryCode(countryCode)
+                }
+                resultTags.append(.PriceRange(from: filters.priceRange.min, to: filters.priceRange.max, currency: currency))
+            }
+        }
+        
         return resultTags
     }
 
@@ -92,6 +98,7 @@ class MainProductsViewModel: BaseViewModel {
     private let myUserRepository: MyUserRepository
     private let trendingSearchesRepository: TrendingSearchesRepository
     private let locationManager: LocationManager
+    private let currencyHelper: CurrencyHelper
 
     private let tracker: Tracker
     private let searchType: SearchType? // The initial search
@@ -121,11 +128,12 @@ class MainProductsViewModel: BaseViewModel {
     // MARK: - Lifecycle
     
     init(myUserRepository: MyUserRepository, trendingSearchesRepository: TrendingSearchesRepository,
-         locationManager: LocationManager, tracker: Tracker, searchType: SearchType? = nil, filters: ProductFilters,
-         tabNavigator: TabNavigator?) {
+         locationManager: LocationManager, currencyHelper: CurrencyHelper, tracker: Tracker, searchType: SearchType? = nil,
+         filters: ProductFilters, tabNavigator: TabNavigator?) {
         self.myUserRepository = myUserRepository
         self.trendingSearchesRepository = trendingSearchesRepository
         self.locationManager = locationManager
+        self.currencyHelper = currencyHelper
         self.tracker = tracker
         self.searchType = searchType
         self.filters = filters
@@ -150,10 +158,11 @@ class MainProductsViewModel: BaseViewModel {
         let myUserRepository = Core.myUserRepository
         let trendingSearchesRepository = Core.trendingSearchesRepository
         let locationManager = Core.locationManager
+        let currencyHelper = Core.currencyHelper
         let tracker = TrackerProxy.sharedInstance
         self.init(myUserRepository: myUserRepository, trendingSearchesRepository: trendingSearchesRepository,
-                  locationManager: locationManager, tracker: tracker, searchType: searchType, filters: filters,
-                  tabNavigator: tabNavigator)
+                  locationManager: locationManager, currencyHelper: currencyHelper, tracker: tracker, searchType: searchType,
+                  filters: filters, tabNavigator: tabNavigator)
     }
     
     convenience init(searchType: SearchType? = nil, tabNavigator: TabNavigator?) {
@@ -209,18 +218,19 @@ class MainProductsViewModel: BaseViewModel {
     func updateFiltersFromTags(tags: [FilterTag]) {
 
         var place: Place? = nil
-        var categories: [ProductCategory] = []
+        var categories: [FilterCategoryItem] = []
         var orderBy = ProductSortCriteria.defaultOption
         var within = ProductTimeCriteria.defaultOption
         var minPrice: Int? = nil
         var maxPrice: Int? = nil
+        var free: Bool = false
 
         for filterTag in tags {
             switch filterTag {
             case .Location(let thePlace):
                 place = thePlace
             case .Category(let prodCategory):
-                categories.append(prodCategory)
+                categories.append(FilterCategoryItem(category: prodCategory))
             case .OrderBy(let prodSortOption):
                 orderBy = prodSortOption
             case .Within(let prodTimeOption):
@@ -228,15 +238,27 @@ class MainProductsViewModel: BaseViewModel {
             case .PriceRange(let minPriceOption, let maxPriceOption, _):
                 minPrice = minPriceOption
                 maxPrice = maxPriceOption
+            case .FreeStuff:
+                free = true
             }
         }
 
         filters.place = place
-        filters.selectedCategories = categories
+        filters.selectedCategories = categories.flatMap{ filterCategoryItem in
+            switch filterCategoryItem {
+            case .Free:
+                return nil
+            case .Category(let cat):
+                return cat
+            }
+        }
         filters.selectedOrdering = orderBy
         filters.selectedWithin = within
-        filters.minPrice = minPrice
-        filters.maxPrice = maxPrice
+        if free {
+            filters.priceRange = .FreePrice
+        } else {
+            filters.priceRange = .PriceRange(min: minPrice, max: maxPrice)
+        }
 
         updateListView()
     }
@@ -570,6 +592,7 @@ private extension MainProductsViewModel {
 
     func trackRequestSuccess(page page: UInt, hasProducts: Bool) {
         guard page == 0 else { return }
+
         let trackerEvent = TrackerEvent.productList(myUserRepository.myUser,
                                                     categories: productListRequester.filters?.selectedCategories,
                                                     searchQuery: productListRequester.queryString)

@@ -12,35 +12,42 @@ class WelcomeNotificationCell: UITableViewCell, ReusableCell {
 
     static var reusableID = "WelcomeNotificationCell"
 
+    @IBOutlet weak var cellContainer: UIView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var subtitleLabel: UILabel!
-
-    private var lines: [CALayer] = []
+    @IBOutlet weak var actionButton: UIButton!
 
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        self.setupUI()
+        setupUI()
     }
+    
 
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        // Redraw the lines
-        for line in lines {
-            line.removeFromSuperlayer()
-        }
-        lines = []
-        lines.append(contentView.addBottomBorderWithWidth(1, color: UIColor.lineGray))
+    override func setHighlighted(highlighted: Bool, animated: Bool) {
+        super.setHighlighted(highlighted, animated: animated)
+        refreshState()
     }
 
 
     // MARK: - Private methods
 
     private func setupUI() {
+        cellContainer.clipsToBounds = true
+        cellContainer.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
+
         titleLabel.font = UIFont.notificationTitleFont
         subtitleLabel.font = UIFont.notificationSubtitleFont
 
-        titleLabel.textColor = UIColor.blackText
-        subtitleLabel.textColor = UIColor.darkGrayText
+        titleLabel.textColor = UIColor.black
+        subtitleLabel.textColor = UIColor.black
+
+        actionButton.setStyle(.Primary(fontSize: .Small))
+        actionButton.userInteractionEnabled = false
+    }
+
+    private func refreshState() {
+        let highlighedState = self.highlighted || self.selected
+        cellContainer.backgroundColor = highlighedState ? UIColor.grayLighter : UIColor.white
     }
 }

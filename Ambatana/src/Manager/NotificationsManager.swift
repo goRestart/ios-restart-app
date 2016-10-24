@@ -8,7 +8,6 @@
 
 import LGCoreKit
 import RxSwift
-import Kahuna
 
 class NotificationsManager {
 
@@ -78,7 +77,6 @@ class NotificationsManager {
     private func setupRxBindings() {
         globalCount.bindNext { count in
             guard let count = count else { return }
-            Kahuna.sharedInstance().badgeNumber = count
             UIApplication.sharedApplication().applicationIconBadgeNumber = count
         }.addDisposableTo(disposeBag)
 
