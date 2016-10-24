@@ -92,7 +92,9 @@ class PostProductDetailPriceView: BaseView {
 
     private func setupRx() {
         priceTextField.rx_text.bindTo(viewModel.price).addDisposableTo(disposeBag)
-        freePostSwitch.rx_value.bindNext{[weak self] active in
+        viewModel.isFree.asObservable().bindTo(freePostSwitch.rx_value).addDisposableTo(disposeBag)
+        freePostSwitch.rx_value.bindTo(viewModel.isFree).addDisposableTo(disposeBag)
+        viewModel.isFree.asObservable().bindNext{[weak self] active in
             self?.showPriceTextContainer(!active)
             }.addDisposableTo(disposeBag)
         doneButton.rx_tap.bindNext { [weak self] in

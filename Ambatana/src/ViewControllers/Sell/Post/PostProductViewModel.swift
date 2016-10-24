@@ -212,7 +212,7 @@ private extension PostProductViewModel {
     }
 
     func buildProduct(isFreePosting: Bool) -> Product? {
-        let price = isFreePosting ? ProductPrice.Free : ProductPrice.Normal(postDetailViewModel.productPrice)
+        let price = isFreePosting ? ProductPrice.Free : postDetailViewModel.productPrice
         let title = postDetailViewModel.productTitle
         let description = postDetailViewModel.productDescription
         return productRepository.buildNewProduct(title, description: description, price: price)

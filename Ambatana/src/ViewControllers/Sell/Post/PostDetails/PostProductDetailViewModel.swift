@@ -18,12 +18,13 @@ class PostProductDetailViewModel: BaseViewModel {
 
     // In variables
     let price = Variable<String>("")
+    let isFree = Variable<Bool>(false)
     let title = Variable<String>("")
     let description = Variable<String>("")
 
     // Out variables
-    var productPrice: Double {
-        return price.value.toPriceDouble()
+    var productPrice: ProductPrice {
+        return isFree.value ? .Free : .Normal(price.value.toPriceDouble())
     }
     var productTitle: String? {
         return title.value.isEmpty ? nil : title.value
