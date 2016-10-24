@@ -59,8 +59,6 @@ class ChatViewModel: BaseViewModel {
         return messages.value.count
     }
 
-    var bottomDisclaimerShown: Bool = false
-
     // Public Model info
     var title = Variable<String>("")
     var productName = Variable<String>("")
@@ -357,12 +355,6 @@ class ChatViewModel: BaseViewModel {
             self?.userReviewTooltipVisible.value = !stickersTooltipVisible && reviewTooltipVisible
         }.addDisposableTo(disposeBag)
 
-        myUserRepository.rx_myUser.asObservable().skip(1).subscribeNext { [weak self] myUser in
-            guard let myUser = myUser where myUser.isSocialVerified else { return }
-            guard let disclaimerIndex = self?.bottomDisclaimerMessageIndex else { return }
-            self?.messages.removeAtIndex(disclaimerIndex)
-        }.addDisposableTo(disposeBag)
-
         setupChatEventsRx()
     }
 
@@ -600,14 +592,6 @@ extension ChatViewModel {
             delegate?.vmShowPrePermissions(.Chat(buyer: isBuyer))
         } else if RatingManager.sharedInstance.shouldShowRating {
             delegate?.vmAskForRating()
-        }
-        addDisclaimerAfterSend()
-    }
-
-    private func addDisclaimerAfterSend() {
-        if let bottomDisclaimerMessage = bottomDisclaimerMessage where !bottomDisclaimerShown {
-            messages.insert(bottomDisclaimerMessage, atIndex: 0)
-            bottomDisclaimerShown = true
         }
     }
 
@@ -861,58 +845,30 @@ extension ChatViewModel {
         return chatViewMessageAdapter.createUserInfoMessage(interlocutor)
     }
 
-    var shouldAddBottomDisclaimer: Bool {
-        // objectCount > 1 bc the welcome message also counts
-        guard objectCount > 1 else { return false }
-        guard let myUser = myUserRepository.myUser where !myUser.isSocialVerified else { return false }
-        return true
-    }
-
-    var bottomDisclaimerMessage: ChatViewMessage? {
+    private var bottomDisclaimerMessage: ChatViewMessage? {
         switch chatStatus.value {
         case .UserDeleted, .UserPendingDelete:
             return chatViewMessageAdapter.createUserDeletedDisclaimerMessage(conversation.value.interlocutor?.name)
         case .Available, .Blocked, .BlockedBy, .Forbidden, .ProductDeleted, .ProductSold:
-            guard shouldAddBottomDisclaimer else { return nil }
-            return chatViewMessageAdapter.createUserNotVerifiedDisclaimerMessage() { [weak self] in
-                self?.navigator?.openVerifyAccounts([.Facebook, .Google],
-                    source: .Chat(title: LGLocalizedString.chatConnectAccountsTitle, description: LGLocalizedString.chatConnectAccountsMessage), completionBlock: {
-                        self?.navigator?.closeChatDetail()
-                })
-            }
+            return nil
         }
-    }
-
-    var bottomDisclaimerMessageIndex: Int?  {
-        for (index, message) in messages.value.enumerate() {
-            switch message.type {
-            case .Disclaimer:
-                return index
-            default: break
-            }
-        }
-        return nil
     }
 
     private func downloadFirstPage(conversationId: String) {
-        chatRepository.indexMessages(conversationId, numResults: resultsPerPage, offset: 0) {
-            [weak self] result in
+        chatRepository.indexMessages(conversationId, numResults: resultsPerPage, offset: 0) { [weak self] result in
             guard let strongSelf = self else { return }
-            self?.isLoading = false
-            if let value = result.value, let adapter = self?.chatViewMessageAdapter {
+
+            strongSelf.isLoading = false
+            if let value = result.value {
                 self?.isLastPage = value.count == 0
-                let messages: [ChatViewMessage] = value.map(adapter.adapt)
-                let newMessages = strongSelf.chatViewMessageAdapter
-                    .addDisclaimers(messages, disclaimerMessage: strongSelf.defaultDisclaimerMessage)
-                self?.messages.removeAll()
-                self?.messages.appendContentsOf(newMessages)
-                if let userInfoMessage = self?.userInfoMessage where strongSelf.isLastPage {
-                    self?.messages.append(userInfoMessage)
-                }
-                self?.afterRetrieveChatMessagesEvents()
-                self?.markAsReadMessages(messages)
+                let messages: [ChatViewMessage] = value.map(strongSelf.chatViewMessageAdapter.adapt)
+
+                strongSelf.messages.removeAll()
+                strongSelf.updateMessages(messages: value, isFirstPage: true)
+                strongSelf.afterRetrieveChatMessagesEvents()
+                strongSelf.markAsReadMessages(messages)
             } else if let _ = result.error {
-                self?.delegate?.vmDidFailRetrievingChatMessages()
+                strongSelf.delegate?.vmDidFailRetrievingChatMessages()
             }
         }
     }
@@ -921,22 +877,23 @@ extension ChatViewModel {
         chatRepository.indexMessagesOlderThan(fromMessageId, conversationId: convId, numResults: resultsPerPage) {
             [weak self] result in
             guard let strongSelf = self else { return }
-            self?.isLoading = false
-            if let value = result.value, let adapter = self?.chatViewMessageAdapter {
-                let messages = value.map(adapter.adapt)
+
+            strongSelf.isLoading = false
+            if let value = result.value {
+                let messages = value.map(strongSelf.chatViewMessageAdapter.adapt)
                 if messages.count == 0 {
-                    self?.isLastPage = true
-                    if let userInfoMessage = self?.userInfoMessage {
-                        self?.messages.append(userInfoMessage)
+                    strongSelf.isLastPage = true
+                    if let userInfoMessage = strongSelf.userInfoMessage {
+                        strongSelf.messages.append(userInfoMessage)
                     }
                 } else {
                     let newMessages = strongSelf.chatViewMessageAdapter
                         .addDisclaimers(messages, disclaimerMessage: strongSelf.defaultDisclaimerMessage)
-                    self?.messages.appendContentsOf(newMessages)
-                    self?.markAsReadMessages(messages)
+                    strongSelf.messages.appendContentsOf(newMessages)
+                    strongSelf.markAsReadMessages(messages)
                 }
             } else if let _ = result.error {
-                self?.delegate?.vmDidFailRetrievingChatMessages()
+                strongSelf.delegate?.vmDidFailRetrievingChatMessages()
             }
         }
     }
@@ -950,6 +907,20 @@ extension ChatViewModel {
         if !readIds.isEmpty {
             chatRepository.confirmRead(convId, messageIds: readIds, completion: nil)
         }
+    }
+
+    private func updateMessages(messages msgs: [ChatMessage], isFirstPage: Bool) {
+        let mappedChatMessages = msgs.map(chatViewMessageAdapter.adapt)
+        var chatMessages = chatViewMessageAdapter.addDisclaimers(mappedChatMessages,
+                                                                 disclaimerMessage: defaultDisclaimerMessage)
+
+        if let userInfoMessage = userInfoMessage where isLastPage {
+            chatMessages.append(userInfoMessage)
+        }
+        if let bottomDisclaimerMessage = bottomDisclaimerMessage where isFirstPage {
+            chatMessages.insert(bottomDisclaimerMessage, atIndex: 0)
+        }
+        messages.appendContentsOf(chatMessages)
     }
 
     private func afterRetrieveChatMessagesEvents() {
