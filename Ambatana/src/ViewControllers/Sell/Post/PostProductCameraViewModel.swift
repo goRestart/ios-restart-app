@@ -158,12 +158,6 @@ class PostProductCameraViewModel: BaseViewModel {
         visible.asObservable().distinctUntilChanged().filter{ $0 }
             .subscribeNext{ [weak self] _ in self?.didBecomeVisible() }
             .addDisposableTo(disposeBag)
-
-        shouldShowFirstTimeAlert.asObservable().subscribeNext { [weak self] shouldShowAlert in
-          if shouldShowAlert {
-                self?.showFirstTimeAlert()
-            }
-        }.addDisposableTo(disposeBag)
         
         shouldShowFirstTimeAlert.asObservable().filter {$0}.bindNext { [weak self] _ in
             self?.showFirstTimeAlert()
