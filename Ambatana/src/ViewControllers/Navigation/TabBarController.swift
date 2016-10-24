@@ -22,7 +22,7 @@ protocol ProductsRefreshable {
 final class TabBarController: UITabBarController {
 
     // UI
-    private var floatingSellButton = FloatingButton()
+    private var floatingSellButton: FloatingButton
     private var floatingSellButtonMarginConstraint = NSLayoutConstraint()
 
     private let viewModel: TabBarViewModel
@@ -34,9 +34,9 @@ final class TabBarController: UITabBarController {
     // MARK: - Lifecycle
 
     init(viewModel: TabBarViewModel) {
+        self.floatingSellButton = FloatingButton()
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
-        self.viewModel.delegate = self
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -45,6 +45,7 @@ final class TabBarController: UITabBarController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.viewModel.delegate = self
 
         setupAdminAccess()
         setupSellButtons()
@@ -60,6 +61,11 @@ final class TabBarController: UITabBarController {
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         viewModel.active = false
+    }
+
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        viewModel.didAppear()
     }
 
     
@@ -154,11 +160,8 @@ final class TabBarController: UITabBarController {
     }
 
     private func setupSellButtons() {
-        guard let floatingSellBtn = FloatingButton.floatingButtonWithTitle(LGLocalizedString.tabBarToolTip,
-                                                                icon: UIImage(named: "ic_sell_white")) else { return }
-        floatingSellButton = floatingSellBtn
-        floatingSellButton.addTarget(self, action: #selector(TabBarController.sellButtonPressed),
-                                     forControlEvents: UIControlEvents.TouchUpInside)
+        floatingSellButton.sellCompletion = { [weak self] in self?.sellButtonPressed() }
+        floatingSellButton.giveAwayCompletion = { [weak self] in self?.viewModel.giveAwayButtonPressed() }
         floatingSellButton.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(floatingSellButton)
 
@@ -167,7 +170,12 @@ final class TabBarController: UITabBarController {
         floatingSellButtonMarginConstraint = NSLayoutConstraint(item: floatingSellButton, attribute: .Bottom,
                                                 relatedBy: .Equal, toItem: view, attribute: .Bottom, multiplier: 1,
                                                 constant: -(tabBar.frame.height + 15)) // 15 above tabBar
-        view.addConstraints([sellCenterXConstraint,floatingSellButtonMarginConstraint])
+        view.addConstraints([sellCenterXConstraint, floatingSellButtonMarginConstraint])
+
+        let views: [String: AnyObject] = ["fsb" : floatingSellButton]
+        let hConstraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|-(>=15)-[fsb]-(>=15)-|",
+                                                                          options: [], metrics: nil, views: views)
+        view.addConstraints(hConstraints)
     }
 
     private func setupBadgesRx() {
@@ -228,6 +236,29 @@ final class TabBarController: UITabBarController {
 extension TabBarController: TabBarViewModelDelegate {
     func vmSwitchToTab(tab: Tab, force: Bool) {
         switchToTab(tab, checkIfShouldSwitch: !force)
+    }
+
+    func vmShowTooltipAtSellButtonWithText(text: NSAttributedString) {
+        let targetView: UIView
+        switch FeatureFlags.freePostingMode {
+        case .Disabled, .OneButton:
+            targetView = floatingSellButton
+        case .SplitButton:
+            targetView = floatingSellButton.giveAwayButton
+        }
+
+        let tooltip = Tooltip(targetView: targetView, superView: view, title: text, style: .Black(closeEnabled: true),
+                              peakOnTop: false, actionBlock: { [weak self] in
+            self?.viewModel.giveAwayButtonPressed()
+            self?.viewModel.tooltipDismissed()
+        }, closeBlock: { [weak self] in
+            self?.viewModel.tooltipDismissed()
+        })
+
+        view.addSubview(tooltip)
+        setupExternalConstraintsForTooltip(tooltip, targetView: floatingSellButton, containerView: view)
+
+        view.layoutIfNeeded()
     }
 }
 
@@ -308,7 +339,8 @@ extension TabBarController: AppRatingViewDelegate {
 
 extension TabBarController {
     func setAccessibilityIds() {
-        floatingSellButton.accessibilityId = AccessibilityId.TabBarFloatingSellButton
+        floatingSellButton.sellButton.accessibilityId = AccessibilityId.TabBarFloatingSellButton
+        floatingSellButton.giveAwayButton.accessibilityId = AccessibilityId.TabBarFloatingGiveAwayButton
     }
 }
 

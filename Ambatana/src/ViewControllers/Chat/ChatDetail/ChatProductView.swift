@@ -133,7 +133,7 @@ extension ChatProductView {
         newTextAttributes[NSForegroundColorAttributeName] = UIColor.primaryColorHighlighted
         newTextAttributes[NSFontAttributeName] = UIFont.systemSemiBoldFont(size: 17)
 
-        let newText = NSAttributedString(string: LGLocalizedString.chatStickersTooltipNew, attributes: newTextAttributes)
+        let newText = NSAttributedString(string: LGLocalizedString.commonNew, attributes: newTextAttributes)
 
         var titleTextAttributes = [String : AnyObject]()
         titleTextAttributes[NSForegroundColorAttributeName] = UIColor.whiteColor()

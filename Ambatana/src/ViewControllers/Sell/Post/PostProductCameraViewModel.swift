@@ -149,7 +149,7 @@ class PostProductCameraViewModel: BaseViewModel {
             case .SellButton, .DeepLink, .OnboardingButton, .OnboardingCamera:
                 self?.firstTimeTitle.value = LGLocalizedString.productPostCameraFirstTimeAlertTitle
                 self?.firstTimeSubtitle.value = LGLocalizedString.productPostCameraFirstTimeAlertSubtitle
-            case .SellFreeButton:
+            case .GiveAwayButton:
                 self?.firstTimeTitle.value = LGLocalizedString.productPostFreeCameraFirstTimeAlertTitle
                 self?.firstTimeSubtitle.value = LGLocalizedString.productPostFreeCameraFirstTimeAlertSubtitle
             }

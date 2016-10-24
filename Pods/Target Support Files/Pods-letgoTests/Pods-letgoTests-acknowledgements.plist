@@ -774,21 +774,6 @@ SOFTWARE.</string>
 		</dict>
 		<dict>
 			<key>FooterText</key>
-			<string>All text and design is copyright &#169; 2012-2015 Kahuna, Inc.
-
-All rights reserved.
-
-http://www.kahuna.com/privacy/
-</string>
-			<key>License</key>
-			<string>Commercial</string>
-			<key>Title</key>
-			<string>Kahuna</string>
-			<key>Type</key>
-			<string>PSGroupSpecifier</string>
-		</dict>
-		<dict>
-			<key>FooterText</key>
 			<string>The MIT License
 
 Copyright (c) 2015 Marketplacer

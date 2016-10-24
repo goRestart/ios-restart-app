@@ -51,9 +51,6 @@ def shared_pods
 	# Device info helper
 	pod "DeviceUtil",         "~> 1.3.8"  # Swift 3.0: -
 
-    # Push Notifications
-    pod "Kahuna",               "2.3.1"   # Swift 3.0: ? (doesn't matter as it will be deleted soon 🔥)
-
 	# Google -> we have to ask for the Google/"subpod" so it imports Google/Core too
     pod "Google/SignIn",            "~> 3.0.3"     # Swift 3.0: -
 

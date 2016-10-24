@@ -188,6 +188,8 @@ class UserView: UIView {
 
         let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(avatarLongPressed(_:)))
         addGestureRecognizer(longPressGesture)
+
+        setAccesibilityIds()
     }
 
     dynamic private func avatarPressed() {
@@ -203,5 +205,10 @@ class UserView: UIView {
         default:
             break
         }
+    }
+
+    private func setAccesibilityIds() {
+        userNameLabel.accessibilityId = .UserViewNameLabel
+        subtitleLabel.accessibilityId = .UserViewSubtitleLabel
     }
 }

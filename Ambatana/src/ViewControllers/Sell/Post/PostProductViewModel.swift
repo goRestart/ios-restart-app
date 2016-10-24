@@ -15,14 +15,14 @@ protocol PostProductViewModelDelegate: BaseViewModelDelegate {
 
 enum PostingSource {
     case SellButton
-    case SellFreeButton
+    case GiveAwayButton
     case DeepLink
     case OnboardingButton
     case OnboardingCamera
 
     var forceCamera: Bool {
         switch self {
-        case .SellButton, .SellFreeButton, .DeepLink, .OnboardingButton, .OnboardingCamera:
+        case .SellButton, .GiveAwayButton, .DeepLink, .OnboardingButton, .OnboardingCamera:
             return false
         }
     }
@@ -107,7 +107,7 @@ class PostProductViewModel: BaseViewModel {
     func imageSelected(image: UIImage, source: EventParameterPictureSource) {
         uploadedImageSource = source
         imageSelected = image
-        if (FeatureFlags.freePostingMode == .SplitButton && postingSource == .SellFreeButton) {
+        if (FeatureFlags.freePostingMode == .SplitButton && postingSource == .GiveAwayButton) {
             postFreeProduct()
             return
         }
@@ -225,7 +225,7 @@ private extension PostProductViewModel {
 extension PostingSource {
     var typePage: EventParameterTypePage {
         switch self {
-        case .SellButton, .SellFreeButton:
+        case .SellButton, .GiveAwayButton:  // TODO: Update tracking for give away
             return .Sell
         case .DeepLink:
             return .External
@@ -236,7 +236,7 @@ extension PostingSource {
 
     var buttonName: EventParameterButtonNameType? {
         switch self {
-        case .SellButton, .SellFreeButton, .DeepLink:
+        case .SellButton, .GiveAwayButton, .DeepLink: // TODO: Update tracking for give away
             return nil
         case .OnboardingButton:
             return .SellYourStuff

@@ -71,7 +71,7 @@ class TourPostingViewModel: BaseViewModel {
 
     func setupIncentiveData() {
         guard FeatureFlags.incentivizePostingMode == .VariantC else { return }
-        let itemPack = PostIncentiviserItem.incentiviserPack()
+        let itemPack = PostIncentiviserItem.incentiviserPack(false)
         guard itemPack.count == 3 else { return }
 
         for pack in itemPack {

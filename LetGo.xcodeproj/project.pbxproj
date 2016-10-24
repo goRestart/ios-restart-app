@@ -19,7 +19,6 @@
 		2E1F0D971D65F4B80021EDBE /* BubbleNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E1F0D961D65F4B80021EDBE /* BubbleNotification.swift */; };
 		2E1F0D981D65F4B80021EDBE /* BubbleNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E1F0D961D65F4B80021EDBE /* BubbleNotification.swift */; };
 		2E245C5E1C11A88B00A3969B /* PushPermissionsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E245C5D1C11A88B00A3969B /* PushPermissionsManager.swift */; };
-		2E2634CD1BB19D1800BBFFBC /* KahunaTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2634CC1BB19D1800BBFFBC /* KahunaTracker.swift */; };
 		2E26F06A1C89998A00C8D789 /* ProcessingVideoDialogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E26F0681C89998A00C8D789 /* ProcessingVideoDialogViewController.swift */; };
 		2E26F06B1C89998A00C8D789 /* ProcessingVideoDialogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E26F0681C89998A00C8D789 /* ProcessingVideoDialogViewController.swift */; };
 		2E26F06C1C89998A00C8D789 /* ProcessingVideoDialogViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E26F0691C89998A00C8D789 /* ProcessingVideoDialogViewController.xib */; };
@@ -199,7 +198,6 @@
 		50261B211AFB49C0006E88E0 /* ProductionEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50261B201AFB49C0006E88E0 /* ProductionEnvironment.swift */; };
 		50261B231AFB4BDA006E88E0 /* EnvironmentProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50261B221AFB4BDA006E88E0 /* EnvironmentProxy.swift */; };
 		502B705B1BAAC3AE00C5D465 /* FloatingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502B705A1BAAC3AE00C5D465 /* FloatingButton.swift */; };
-		502B705D1BAAC3B500C5D465 /* FloatingButton.xib in Resources */ = {isa = PBXBuildFile; fileRef = 502B705C1BAAC3B500C5D465 /* FloatingButton.xib */; };
 		5033F6CC1B5D0AE60004FECB /* BaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5033F6CB1B5D0AE60004FECB /* BaseView.swift */; };
 		503996D61C60C258004D2E09 /* LGViewPager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503996D41C60C258004D2E09 /* LGViewPager.swift */; };
 		503996D71C60C258004D2E09 /* LGViewPagerTabItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503996D51C60C258004D2E09 /* LGViewPagerTabItem.swift */; };
@@ -869,7 +867,6 @@
 		C7DB41AA1C5138B500400945 /* MainProductsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BFE5B11B640C36006A8CB6 /* MainProductsViewModel.swift */; };
 		C7DB41AC1C5138B500400945 /* TrackerProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C9E4BC1B721F6B001E4E92 /* TrackerProxy.swift */; };
 		C7DB41AD1C5138B500400945 /* AppEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50261B1C1AFB48C6006E88E0 /* AppEnvironment.swift */; };
-		C7DB41B01C5138B500400945 /* KahunaTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2634CC1BB19D1800BBFFBC /* KahunaTracker.swift */; };
 		C7DB41B11C5138B500400945 /* TrackerEventDataTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C9E4C81B735344001E4E92 /* TrackerEventDataTypes.swift */; };
 		C7DB41B21C5138B500400945 /* MediaPickerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A40A3D11C0DE6B700C551B3 /* MediaPickerManager.swift */; };
 		C7DB41B41C5138B500400945 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BA5C041C3C093E00F34042 /* AppDelegate.swift */; };
@@ -969,7 +966,6 @@
 		C7DB427B1C5138B500400945 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 50BA5C071C3C096D00F34042 /* GoogleService-Info.plist */; };
 		C7DB427C1C5138B500400945 /* RememberPasswordViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5021910C1B2F1DAA00ABD31F /* RememberPasswordViewController.xib */; };
 		C7DB427F1C5138B500400945 /* ChatSafetyTipsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50A8DC7F1BA06B92008296B0 /* ChatSafetyTipsView.xib */; };
-		C7DB42821C5138B500400945 /* FloatingButton.xib in Resources */ = {isa = PBXBuildFile; fileRef = 502B705C1BAAC3B500C5D465 /* FloatingButton.xib */; };
 		C7DB42851C5138B500400945 /* ios-devel.json in Resources */ = {isa = PBXBuildFile; fileRef = 500DC1291BDA1C4C00B494FA /* ios-devel.json */; };
 		C7DB42861C5138B500400945 /* SignUpLogInViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2EDCFA2F1BFF8AB00000E47D /* SignUpLogInViewController.xib */; };
 		C7DB42881C5138B500400945 /* MainProductsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D4BFE5B01B640C36006A8CB6 /* MainProductsViewController.xib */; };
@@ -1103,7 +1099,6 @@
 		2E119E0A1D1C37040053BA9F /* LGUIKitConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGUIKitConstants.swift; sourceTree = "<group>"; };
 		2E1F0D961D65F4B80021EDBE /* BubbleNotification.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BubbleNotification.swift; sourceTree = "<group>"; };
 		2E245C5D1C11A88B00A3969B /* PushPermissionsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PushPermissionsManager.swift; sourceTree = "<group>"; };
-		2E2634CC1BB19D1800BBFFBC /* KahunaTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KahunaTracker.swift; sourceTree = "<group>"; };
 		2E26F0681C89998A00C8D789 /* ProcessingVideoDialogViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProcessingVideoDialogViewController.swift; path = Commercializer/ProcessingVideoDialogViewController.swift; sourceTree = "<group>"; };
 		2E26F0691C89998A00C8D789 /* ProcessingVideoDialogViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ProcessingVideoDialogViewController.xib; path = Commercializer/ProcessingVideoDialogViewController.xib; sourceTree = "<group>"; };
 		2E28B1281D99129D001BF8E4 /* CGFloat+rounding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGFloat+rounding.swift"; sourceTree = "<group>"; };
@@ -1222,7 +1217,6 @@
 		50261B201AFB49C0006E88E0 /* ProductionEnvironment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductionEnvironment.swift; sourceTree = "<group>"; };
 		50261B221AFB4BDA006E88E0 /* EnvironmentProxy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnvironmentProxy.swift; sourceTree = "<group>"; };
 		502B705A1BAAC3AE00C5D465 /* FloatingButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FloatingButton.swift; sourceTree = "<group>"; };
-		502B705C1BAAC3B500C5D465 /* FloatingButton.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FloatingButton.xib; sourceTree = "<group>"; };
 		5033F6CB1B5D0AE60004FECB /* BaseView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseView.swift; sourceTree = "<group>"; };
 		5033F6D51B5E7CD40004FECB /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		5033F6D61B5E7CD40004FECB /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -2155,7 +2149,6 @@
 				2E4436321BF389EE00814624 /* LGNavBarSearchField.xib */,
 				2E6009B51B5CE5E500FC9CAC /* LGTextField.swift */,
 				502B705A1BAAC3AE00C5D465 /* FloatingButton.swift */,
-				502B705C1BAAC3B500C5D465 /* FloatingButton.xib */,
 				50BCE92B1BF6356B00C130CD /* ToastView.swift */,
 				50BCE92D1BF6357600C130CD /* ToastView.xib */,
 				C7B89CB81C20271E00536A6C /* SocialShareView.swift */,
@@ -2375,7 +2368,6 @@
 				50C9E4C21B723E7B001E4E92 /* AppsflyerTracker.swift */,
 				2E2AB8271C04A2EF0007B8EB /* CrashlyticsTracker.swift */,
 				50C9E4C41B723E87001E4E92 /* FacebookTracker.swift */,
-				2E2634CC1BB19D1800BBFFBC /* KahunaTracker.swift */,
 				C797404E1D2A95B100381A4A /* LeanplumTracker.swift */,
 				50C9E4B81B71FBB7001E4E92 /* Tracker.swift */,
 				50C9E4BC1B721F6B001E4E92 /* TrackerProxy.swift */,
@@ -3652,7 +3644,6 @@
 				C78BB50D1C5A314700614096 /* AppShareViewController.xib in Resources */,
 				50A8DC801BA06B92008296B0 /* ChatSafetyTipsView.xib in Resources */,
 				C7B588511CE1DE1C009B3975 /* DirectAnswerCell.xib in Resources */,
-				502B705D1BAAC3B500C5D465 /* FloatingButton.xib in Resources */,
 				C7B5889C1CE1E025009B3975 /* ConversationCell.xib in Resources */,
 				508011231D474ED80073F362 /* ProductCellBanners.xcassets in Resources */,
 				C7DE8AC91C888761005CF37E /* EditProductViewController.xib in Resources */,
@@ -3774,7 +3765,6 @@
 				C78BB50E1C5A314700614096 /* AppShareViewController.xib in Resources */,
 				C7DB427F1C5138B500400945 /* ChatSafetyTipsView.xib in Resources */,
 				C7B588521CE1DE1C009B3975 /* DirectAnswerCell.xib in Resources */,
-				C7DB42821C5138B500400945 /* FloatingButton.xib in Resources */,
 				C7B5889D1CE1E025009B3975 /* ConversationCell.xib in Resources */,
 				508011241D474ED80073F362 /* ProductCellBanners.xcassets in Resources */,
 				C7DE8ACA1C888761005CF37E /* EditProductViewController.xib in Resources */,
@@ -4178,7 +4168,6 @@
 				50261B1D1AFB48C6006E88E0 /* AppEnvironment.swift in Sources */,
 				6A5E19F41D548F5400F92692 /* CountryHelper+Product.swift in Sources */,
 				50CA9FAB1C91695F00350C5F /* UserViewController.swift in Sources */,
-				2E2634CD1BB19D1800BBFFBC /* KahunaTracker.swift in Sources */,
 				50146BC41D4F5F5B00B0F635 /* TabNavigator.swift in Sources */,
 				50C9E4C91B735344001E4E92 /* TrackerEventDataTypes.swift in Sources */,
 				6A40A3D21C0DE6B700C551B3 /* MediaPickerManager.swift in Sources */,
@@ -4559,7 +4548,6 @@
 				50CA9FAC1C91695F00350C5F /* UserViewController.swift in Sources */,
 				50146BC51D4F5F5B00B0F635 /* TabNavigator.swift in Sources */,
 				C7DB41AD1C5138B500400945 /* AppEnvironment.swift in Sources */,
-				C7DB41B01C5138B500400945 /* KahunaTracker.swift in Sources */,
 				C7DB41B11C5138B500400945 /* TrackerEventDataTypes.swift in Sources */,
 				2E373FAC1D3E6F3E00AC811C /* UserRatingListRequester.swift in Sources */,
 				C72794291D549334009C25AB /* SettingsCell.swift in Sources */,
