@@ -146,9 +146,6 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
     @IBAction func sendButtonPressed(sender: AnyObject) {
         viewModel.checkProductFields()
     }
-    @IBAction func freePostingChanged(sender: AnyObject) {
-       updateFreePostViews()
-    }
     
     @IBAction func shareFBSwitchChanged(sender: AnyObject) {
         viewModel.shouldShareInFB = shareFBSwitch.on
@@ -426,8 +423,6 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
         if FeatureFlags.freePostingMode.enabled {
             postFreeViewHeightConstraint.constant = EditProductViewController.viewOptionGenericHeight
             freePostViewSeparatorTopConstraint.constant = EditProductViewController.separatorOptionsViewDistance
-            freePostingSwitch.on = viewModel.isFreePosting
-            checkFreePostSwitch()
         } else {
             postFreeViewHeightConstraint.constant = 0
             freePostViewSeparatorTopConstraint.constant = 0
@@ -514,6 +509,12 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
         setLocationButton.rx_tap.bindNext { [weak self] in
             self?.viewModel.openMap()
         }.addDisposableTo(disposeBag)
+        
+        viewModel.isFreePosting.asObservable().bindTo(freePostingSwitch.rx_value).addDisposableTo(disposeBag)
+        freePostingSwitch.rx_value.bindTo(viewModel.isFreePosting).addDisposableTo(disposeBag)
+        viewModel.isFreePosting.asObservable().bindNext{[weak self] active in
+            self?.updateFreePostViews(active)
+            }.addDisposableTo(disposeBag)
     }
     
     override func popBackViewController() {
@@ -526,25 +527,20 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
         }
     }
     
-    private func updateFreePostViews() {
-        checkFreePostSwitch()
-        UIView.animateWithDuration(0.3, animations: {
-            self.view.layoutIfNeeded()
-        })
-        viewModel.isFreePosting = freePostingSwitch.on
-    }
+    // MARK: - Private methods
     
-    private func checkFreePostSwitch() {
-        if freePostingSwitch.on {
+    private func updateFreePostViews(active: Bool) {
+        if active {
             priceContainerHeightConstraint.constant = 0
             priceViewSeparatorTopConstraint.constant = 0
         } else {
             priceContainerHeightConstraint.constant = EditProductViewController.viewOptionGenericHeight
             priceViewSeparatorTopConstraint.constant = EditProductViewController.separatorOptionsViewDistance
         }
+        UIView.animateWithDuration(0.3, animations: {
+            self.view.layoutIfNeeded()
+        })
     }
-    // MARK: - Private methods
-
 
     dynamic func closeButtonPressed() {
         dismiss()
