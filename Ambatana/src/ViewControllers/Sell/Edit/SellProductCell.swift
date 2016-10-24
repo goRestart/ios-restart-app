@@ -68,10 +68,11 @@ class SellProductCell: UICollectionViewCell {
     func setupAddPictureCell() {
         self.label.hidden = false
         label.text = LGLocalizedString.sellPictureLabel.uppercase
+        label.textColor = UIColor.redColor()
         self.activity.hidden = true
-        iconImageView.image = UIImage(named: "ic_add_white")
+        iconImageView.image = UIImage(named: "ic_add_white")?.imageWithColor(UIColor.redColor())?.imageWithRenderingMode(.AlwaysOriginal)
         imageView.image = UIImage()
-        self.backgroundColor = UIColor.black
+        self.backgroundColor = UIColor.whiteColor()
     }
 }
 
@@ -80,11 +81,11 @@ class SellProductCell: UICollectionViewCell {
 
 extension SellProductCell {
     func highlight() {
-        self.backgroundColor = UIColor.grayDark
+        self.backgroundColor = UIColor.secondaryColorHighlighted
         performSelector(#selector(resetBgColor), withObject: nil, afterDelay: 0.2)
     }
 
     dynamic private func resetBgColor() {
-        self.backgroundColor = UIColor.black
+        self.backgroundColor = UIColor.white
     }
 }

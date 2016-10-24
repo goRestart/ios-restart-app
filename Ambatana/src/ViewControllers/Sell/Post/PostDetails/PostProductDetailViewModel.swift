@@ -21,9 +21,12 @@ class PostProductDetailViewModel: BaseViewModel {
     let title = Variable<String>("")
     let description = Variable<String>("")
 
+    // In&Out variables
+    let isFree = Variable<Bool>(false)
+    
     // Out variables
-    var productPrice: Double {
-        return price.value.toPriceDouble()
+    var productPrice: ProductPrice {
+        return isFree.value ? .Free : .Normal(price.value.toPriceDouble())
     }
     var productTitle: String? {
         return title.value.isEmpty ? nil : title.value
@@ -33,10 +36,14 @@ class PostProductDetailViewModel: BaseViewModel {
     }
 
     let currencySymbol: String?
+    
+    var freeOptionAvailable: Bool {
+        return FeatureFlags.freePostingMode.enabled
+    }
 
     private let disposeBag = DisposeBag()
 
-    convenience override init() {
+    override convenience  init() {
         var currencySymbol: String? = nil
         if let countryCode = Core.locationManager.currentPostalAddress?.countryCode {
             currencySymbol = Core.currencyHelper.currencyWithCountryCode(countryCode).symbol
