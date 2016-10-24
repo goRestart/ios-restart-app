@@ -63,7 +63,6 @@ class TabBarViewModel: BaseViewModel {
     }
 
     func sellButtonPressed() {
-        // TODO: Here we have to check AB test and send diferent source in case two buttons. // ABIOS-1725
         navigator?.openSell(.SellButton)
     }
 
