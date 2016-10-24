@@ -48,7 +48,8 @@ struct LGUIKitConstants {
     static let textfieldCornerRadius: CGFloat = 10
     static let alertCornerRadius: CGFloat = 15
     static let mapCornerRadius: CGFloat = 15
-
+    static let containerCornerRadius: CGFloat = 15
+    
     // MARK: - Button Heights
     static let bigButtonHeight = 50
     static let mediumButtonHeight = 44
