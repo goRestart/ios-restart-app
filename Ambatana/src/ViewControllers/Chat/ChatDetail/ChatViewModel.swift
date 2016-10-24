@@ -861,12 +861,10 @@ extension ChatViewModel {
             strongSelf.isLoading = false
             if let value = result.value {
                 self?.isLastPage = value.count == 0
-                let messages: [ChatViewMessage] = value.map(strongSelf.chatViewMessageAdapter.adapt)
 
                 strongSelf.messages.removeAll()
                 strongSelf.updateMessages(newMessages: value, isFirstPage: true)
                 strongSelf.afterRetrieveChatMessagesEvents()
-                strongSelf.markAsReadMessages(messages)
             } else if let _ = result.error {
                 strongSelf.delegate?.vmDidFailRetrievingChatMessages()
             }
@@ -882,9 +880,6 @@ extension ChatViewModel {
             if let value = result.value {
                 if value.count == 0 {
                     strongSelf.isLastPage = true
-                } else {
-                    let messages = value.map(strongSelf.chatViewMessageAdapter.adapt)
-                    strongSelf.markAsReadMessages(messages)
                 }
                 strongSelf.updateMessages(newMessages: value, isFirstPage: false)
             } else if let _ = result.error {
@@ -893,7 +888,7 @@ extension ChatViewModel {
         }
     }
 
-    private func markAsReadMessages(chatMessages: [ChatViewMessage] ) {
+    private func markAsReadMessages(chatMessages: [ChatMessage] ) {
         guard let convId = conversation.value.objectId else { return }
         guard let interlocutorId = conversation.value.interlocutor?.objectId else { return }
 
@@ -905,6 +900,9 @@ extension ChatViewModel {
     }
 
     private func updateMessages(newMessages newMessages: [ChatMessage], isFirstPage: Bool) {
+        // Mark as read
+        markAsReadMessages(newMessages)
+
         // Add message disclaimer (message flagged)
         let mappedChatMessages = newMessages.map(chatViewMessageAdapter.adapt)
         var chatMessages = chatViewMessageAdapter.addDisclaimers(mappedChatMessages,
