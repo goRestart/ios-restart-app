@@ -28,6 +28,9 @@ class ProductPostedViewModel: BaseViewModel {
     private var productRepository: ProductRepository?
     private var trackingInfo: PostProductTrackingInfo
 
+    var wasFreePosting: Bool {
+        return self.status.product?.price.free ?? false
+    }
 
     // MARK: - Lifecycle
 
@@ -96,7 +99,7 @@ class ProductPostedViewModel: BaseViewModel {
         case .Posting:
             return nil
         case .Success:
-            return LGLocalizedString.productPostIncentiveSubtitle
+            return wasFreePosting ? LGLocalizedString.productPostIncentiveSubtitleFree : LGLocalizedString.productPostIncentiveSubtitle
         case let .Error(error):
             switch error {
             case .Network:
