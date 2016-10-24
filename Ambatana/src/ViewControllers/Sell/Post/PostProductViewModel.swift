@@ -59,6 +59,7 @@ class PostProductViewModel: BaseViewModel {
     let state = Variable<PostProductState>(.ImageSelection)
 
     let postDetailViewModel: PostProductDetailViewModel
+    let postProductCameraViewModel: PostProductCameraViewModel
     let postingSource: PostingSource
     
     private let productRepository: ProductRepository
@@ -68,7 +69,7 @@ class PostProductViewModel: BaseViewModel {
     private var pendingToUploadImage: UIImage?
     private var uploadedImage: File?
     private var uploadedImageSource: EventParameterPictureSource?
-
+    
 
     // MARK: - Lifecycle
 
@@ -86,7 +87,8 @@ class PostProductViewModel: BaseViewModel {
         self.productRepository = productRepository
         self.fileRepository = fileRepository
         self.commercializerRepository = commercializerRepository
-        self.postDetailViewModel = PostProductDetailViewModel(source: source)
+        self.postDetailViewModel = PostProductDetailViewModel()
+        self.postProductCameraViewModel = PostProductCameraViewModel(postingSource: source)
         super.init()
         self.postDetailViewModel.delegate = self
     }

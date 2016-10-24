@@ -28,7 +28,7 @@ class PostProductDetailPriceView: BaseView {
     
     @IBOutlet weak var priceContainerHeightConstraint: NSLayoutConstraint!
     
-    static let separatorContainerDistance: CGFloat = 2
+    static let separatorContainerDistance: CGFloat = 1
     static let containerHeight: CGFloat = 55
     
     @IBOutlet weak var freePostLabel: UILabel!

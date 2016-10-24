@@ -63,7 +63,7 @@ class PostProductViewController: BaseViewController {
     required init(viewModel: PostProductViewModel, forceCamera: Bool, keyboardHelper: KeyboardHelper) {
         let viewPagerConfig = LGViewPagerConfig(tabPosition: .Hidden, tabLayout: .Fixed, tabHeight: 54)
         self.viewPager = LGViewPager(config: viewPagerConfig, frame: CGRect.zero)
-        self.cameraView = PostProductCameraView(source: viewModel.postingSource)
+        self.cameraView = PostProductCameraView(viewModel: viewModel.postProductCameraViewModel)
         self.galleryView = PostProductGalleryView()
         self.keyboardHelper = keyboardHelper
         self.viewModel = viewModel
