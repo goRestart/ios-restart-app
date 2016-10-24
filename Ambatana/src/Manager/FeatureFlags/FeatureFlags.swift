@@ -7,6 +7,7 @@
 //
 
 import bumper
+import LGCoreKit
 
 struct FeatureFlags {
     static func setup() {
@@ -91,9 +92,22 @@ struct FeatureFlags {
     }
 
     static var freePostingMode: FreePostingMode {
+        let locale = NSLocale.currentLocale()
+        let locationManager = Core.locationManager
+        guard freePostingModeAllowed(locale, locationManager: locationManager) else { return .Disabled }
+
         if Bumper.enabled {
             return Bumper.freePostingMode
         }
         return FreePostingMode.fromPosition(ABTests.freePostingMode.value)
+    }
+
+    private static func freePostingModeAllowed(locale: NSLocale, locationManager: LocationManager) -> Bool {
+        // Free posting is not allowed in Turkey. Check location & phone region.
+        let turkey = "tr"
+        let systemCountryCode = (locale.objectForKey(NSLocaleCountryCode) as? String ?? "").lowercaseString
+        let countryCode = (locationManager.currentPostalAddress?.countryCode ?? systemCountryCode).lowercaseString
+
+        return systemCountryCode != turkey && countryCode != turkey
     }
 }
