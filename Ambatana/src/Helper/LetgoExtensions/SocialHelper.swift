@@ -23,8 +23,9 @@ final class SocialHelper {
     */
     static func socialMessageWithProduct(product: Product) -> SocialMessage {
         let productIsMine = Core.myUserRepository.myUser?.objectId == product.user.objectId
-        let socialTitle = productIsMine ? LGLocalizedString.productIsMineShareBody :
-            LGLocalizedString.productShareBody
+        let socialTitleMyProduct = product.price.free ? LGLocalizedString.productIsMineShareBodyFree :
+                                                        LGLocalizedString.productIsMineShareBody
+        let socialTitle = productIsMine ? socialTitleMyProduct : LGLocalizedString.productShareBody
         return ProductSocialMessage(title: socialTitle, product: product, isMine: productIsMine)
     }
 

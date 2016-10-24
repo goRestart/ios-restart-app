@@ -212,7 +212,7 @@ extension ProductPostedViewController {
 
     func setupIncentiviseView() {
 
-        let itemPack = PostIncentiviserItem.incentiviserPack()
+        let itemPack = PostIncentiviserItem.incentiviserPack(viewModel.wasFreePosting)
 
         guard itemPack.count == 3 else {
             incentiveContainer.hidden = true
@@ -252,10 +252,11 @@ extension ProductPostedViewController {
                                                        NSFontAttributeName : UIFont.systemBoldFont(size: 15)]
         let lookingForTextAttributes: [String : AnyObject] = [ NSForegroundColorAttributeName : UIColor.darkGrayText,
                                                          NSFontAttributeName : UIFont.mediumBodyFont]
-        let plainText = LGLocalizedString.productPostIncentiveLookingFor(LGLocalizedString.productPostIncentiveGotAny)
+        let secondPartString = viewModel.wasFreePosting ? LGLocalizedString.productPostIncentiveGotAnyFree :
+                                                          LGLocalizedString.productPostIncentiveGotAny
+        let plainText = LGLocalizedString.productPostIncentiveLookingFor(secondPartString)
         let resultText = NSMutableAttributedString(string: plainText, attributes: lookingForTextAttributes)
-        let boldRange = NSString(string: plainText).rangeOfString(LGLocalizedString.productPostIncentiveGotAny,
-                                                                  options: .CaseInsensitiveSearch)
+        let boldRange = NSString(string: plainText).rangeOfString(secondPartString, options: .CaseInsensitiveSearch)
         resultText.addAttributes(gotAnyTextAttributes, range: boldRange)
 
         return resultText

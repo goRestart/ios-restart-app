@@ -41,6 +41,7 @@ extension DefaultsKeys {
     static let pushPermissionsDidShowNativeAlert = DefaultsKey<Bool>("didShowNativePushPermissionsDialog")
 
     static let cameraAlreadyShown = DefaultsKey<Bool>("cameraAlreadyShown")
+    static let giveAwayTooltipAlreadyShown = DefaultsKey<Bool>("giveAwayTooltipAlreadyShown")
     static let stickersTooltipAlreadyShown = DefaultsKey<Bool>("stickersTooltipAlreadyShown")
     static let userRatingTooltipAlreadyShown = DefaultsKey<Bool>("userRatingTooltipAlreadyShown")
 

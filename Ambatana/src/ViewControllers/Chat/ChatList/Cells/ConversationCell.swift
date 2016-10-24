@@ -202,6 +202,7 @@ class ConversationCell: UITableViewCell, ReusableCell {
 
 extension ConversationCell {
     func setAccessibilityIds() {
+        contentView.accessibilityId = AccessibilityId.ConversationCellContainer
         userLabel.accessibilityId = AccessibilityId.ConversationCellUserLabel
         timeLabel.accessibilityId = AccessibilityId.ConversationCellTimeLabel
         productLabel.accessibilityId = AccessibilityId.ConversationCellProductLabel

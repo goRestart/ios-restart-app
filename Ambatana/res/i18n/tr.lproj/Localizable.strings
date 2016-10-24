@@ -377,6 +377,7 @@
 "product_distance_more_than_from_you" = "Senden %@'den daha uzakta";
 "product_free_price" = "Bedava";
 "product_is_mine_share_body" = "letgo'da ne sattığıma bak!";
+"product_is_mine_share_body_free" = "letgo'da hangi eşyaları ücretsiz verdiğime bak!";
 "product_list_banner_cell_title" = "İLANINI BURADA GÖR";
 "product_list_item_given_away_status_label" = "Çoktan ücretsiz olarak verildi";
 "product_list_item_sold_status_label" = "Satıldı";
@@ -438,12 +439,17 @@
 "product_post_incentive_bike" = "Bisikletler";
 "product_post_incentive_car" = "Arabalar";
 "product_post_incentive_dresser" = "Şifonyerler";
+"product_post_incentive_furniture" = "Mobilya";
 "product_post_incentive_got_any" = "satacak bir şeyin var mı?";
+"product_post_incentive_got_any_free" = "ücretsiz vereceğin bir eşyan var mı?";
+"product_post_incentive_kids_clothes" = "Çocuk kıyafetleri";
 "product_post_incentive_looking_for" = "Çevrendekiler şu ürünleri arıyor, %@";
 "product_post_incentive_motorcycle" = "Motosikletler";
 "product_post_incentive_ps4" = "PS4'ler";
 "product_post_incentive_subtitle" = "Ürünün yayınlandı.";
+"product_post_incentive_subtitle_free" = "Birini mutlu etmek üzeresin.";
 "product_post_incentive_title" = "TEBRİKLER!";
+"product_post_incentive_toys" = "Oyuncaklar";
 "product_post_incentive_tv" = "TV'ler";
 "product_post_login_message" = "Bir şeyler satmak için, önce giriş yapmalısın";
 "product_post_network_error" = "Ürünün yayınlanmadı.\nLütfen internete bağlı olduğundan emin ol.";

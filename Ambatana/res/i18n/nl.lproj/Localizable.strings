@@ -377,6 +377,7 @@
 "product_distance_more_than_from_you" = "Meer dan %@ van bij jou";
 "product_free_price" = "Gratis";
 "product_is_mine_share_body" = "Bekijk wat ik op letgo verkoop!";
+"product_is_mine_share_body_free" = "Check wat ik weggeef op letgo!";
 "product_list_banner_cell_title" = "ZIE JOUW ADVERTENTIE HIER";
 "product_list_item_given_away_status_label" = "Al weggegeven";
 "product_list_item_sold_status_label" = "VERKOCHT";
@@ -438,12 +439,17 @@
 "product_post_incentive_bike" = "Fietsen";
 "product_post_incentive_car" = "Auto's";
 "product_post_incentive_dresser" = "Dressoirs";
+"product_post_incentive_furniture" = "Meubels";
 "product_post_incentive_got_any" = "heb jij er te koop staan?";
+"product_post_incentive_got_any_free" = "Iets om weg te geven?";
+"product_post_incentive_kids_clothes" = "Kinderkleding";
 "product_post_incentive_looking_for" = "Mensen in jouw buurt zijn op zoek naar deze items, %@";
 "product_post_incentive_motorcycle" = "Motorfietsen";
 "product_post_incentive_ps4" = "PS4's";
 "product_post_incentive_subtitle" = "Jouw advertentie is geplaatst.";
+"product_post_incentive_subtitle_free" = "Je bent op weg om iemand gelukkiger te maken.";
 "product_post_incentive_title" = "GEFELICITEERD!";
+"product_post_incentive_toys" = "Speelgoed";
 "product_post_incentive_tv" = "TV's";
 "product_post_login_message" = "Om je spullen te verkopen, moet je inloggen";
 "product_post_network_error" = "Je product werd niet geplaatst.\nGelieve je netwerkinstellingen te controleren.";
