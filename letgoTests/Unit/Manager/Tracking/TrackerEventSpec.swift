@@ -1718,7 +1718,7 @@ class TrackerEventSpec: QuickSpec {
                     beforeEach {
                         let user = MockUser()
                         user.objectId = "12345"
-                        sut = TrackerEvent.profileVisit(user, typePage: .ProductDetail, tab: .Selling)
+                        sut = TrackerEvent.profileVisit(user, profileType: .Public , typePage: .ProductDetail, tab: .Selling)
                     }
                     it("has its event name ") {
                         expect(sut.name.rawValue).to(equal("profile-visit"))
@@ -1731,6 +1731,9 @@ class TrackerEventSpec: QuickSpec {
                     }
                     it("tab parameter matches") {
                         expect(sut.params?.stringKeyParams["tab"] as? String) == "selling"
+                    }
+                    it("profile-type parameter matches") {
+                        expect(sut.params?.stringKeyParams["profile-type"] as? String) == "public"
                     }
                 }
             }
