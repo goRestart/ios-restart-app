@@ -575,25 +575,14 @@ extension UserViewController: ProductListViewHeaderDelegate, UserPushPermissions
         }.addDisposableTo(disposeBag)
     }
 
-    func registerHeader(collectionView: UICollectionView) {
-        let headerNib = UINib(nibName: UserPushPermissionsHeader.reusableID, bundle: nil)
-        collectionView.registerNib(headerNib, forSupplementaryViewOfKind: CHTCollectionElementKindSectionHeader,
-                                   withReuseIdentifier: UserPushPermissionsHeader.reusableID)
-    }
-
-    func heightForHeader() -> CGFloat {
+    func totalHeaderHeight() -> CGFloat {
         guard let showWarning = viewModel.pushPermissionsDisabledWarning.value where showWarning else { return 0 }
         return UserPushPermissionsHeader.viewHeight
     }
 
-    func viewForHeader(collectionView: UICollectionView, kind: String, indexPath: NSIndexPath) -> UICollectionReusableView {
-        guard let showWarning = viewModel.pushPermissionsDisabledWarning.value where showWarning else { return UICollectionReusableView() }
-        guard let header = collectionView.dequeueReusableSupplementaryViewOfKind(kind,                                                                                                      withReuseIdentifier: UserPushPermissionsHeader.reusableID, forIndexPath: indexPath) as? UserPushPermissionsHeader
-            else { return UICollectionReusableView() }
-        header.delegate = self
-        header.messageLabel.text = LGLocalizedString.profilePermissionsHeaderMessage
-        header.accessibilityId = .UserHeaderExpandedLocationLabel
-        return header
+    func setupViewsInHeader(containerView: UIView) {
+        let pushHeader = UserPushPermissionsHeader.setupOnContainer(containerView)
+        pushHeader.delegate = self
     }
 
     func pushPermissionHeaderPressed() {

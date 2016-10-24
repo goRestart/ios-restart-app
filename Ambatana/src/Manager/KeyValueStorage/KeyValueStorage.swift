@@ -140,17 +140,6 @@ extension KeyValueStorage {
             currentUserProperties = userProperties
         }
     }
-    var userRatingShowProductListBanner: Bool {
-        get {
-            return currentUserProperties?.ratingShowProductListBanner ??
-                UserDefaultsUser.ratingShowProductListBannerDefaultValue
-        }
-        set {
-            guard var userProperties = currentUserProperties else { return }
-            userProperties.ratingShowProductListBanner = newValue
-            currentUserProperties = userProperties
-        }
-    }
     var userPostProductLastGalleryAlbumSelected: String? {
         get {
             return currentUserProperties?.postProductLastGalleryAlbumSelected ??

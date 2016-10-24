@@ -28,6 +28,14 @@ protocol PermissionsDelegate: class {
     func mainProductsViewModelShowPushPermissionsAlert(mainProductsViewModel: MainProductsViewModel)
 }
 
+struct MainProductsHeader: OptionSetType {
+    let rawValue : Int
+    init(rawValue:Int){ self.rawValue = rawValue}
+
+    static let PushPermissions  = MainProductsHeader(rawValue:1)
+    static let SellButton = MainProductsHeader(rawValue:2)
+}
+
 class MainProductsViewModel: BaseViewModel {
     
     // > Input
@@ -93,6 +101,8 @@ class MainProductsViewModel: BaseViewModel {
     var shouldShowInviteButton: Bool {
         return tabNavigator?.canOpenAppInvite() ?? false
     }
+
+    let mainProductsHeader = Variable<MainProductsHeader>([])
 
     // Manager & repositories
     private let myUserRepository: MyUserRepository
@@ -547,16 +557,6 @@ extension MainProductsViewModel {
         trendingSearchesRepository.index(currentCountryCode) { [weak self] result in
             self?.trendingSearches.value = result.value
         }
-    }
-}
-
-
-// MARK: - Rating Banner
-
-extension MainProductsViewModel {
-    func appRatingBannerClose() {
-        RatingManager.sharedInstance.userDidCloseProductListBanner()        
-        listViewModel.reloadData()
     }
 }
 

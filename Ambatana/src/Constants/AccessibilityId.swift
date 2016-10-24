@@ -238,8 +238,6 @@ enum AccessibilityId: String {
     case AppRatingStarButton5
     case AppRatingBgButton
     case AppRatingDismissButton
-    case AppRatingBannerCloseButton
-    case AppRatingBannerRateButton
 
     // SafetyTips
     case SafetyTipsOkButton

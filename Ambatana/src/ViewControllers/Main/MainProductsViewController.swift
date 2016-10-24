@@ -376,48 +376,26 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     }
 
     private func setupRxBindings() {
-        RatingManager.sharedInstance.ratingProductListBannerVisible.asObservable()
-            .distinctUntilChanged().subscribeNext { [weak self] _ in
-                self?.productListView.refreshDataView()
-        }.addDisposableTo(disposeBag)
+        //TODO: Connect with header
     }
 }
 
 
 // MARK: - ProductListViewHeaderDelegate
 
-extension MainProductsViewController: ProductListViewHeaderDelegate, AppRatingBannerDelegate {
+extension MainProductsViewController: ProductListViewHeaderDelegate {
+
+    func totalHeaderHeight() -> CGFloat {
+        return 0
+//        return shouldShowBanner ? AppRatingBannerCell.height : 0
+    }
+
+    func setupViewsInHeader(containerView: UIView) {
+
+    }
+
     private var shouldShowBanner: Bool {
-        return RatingManager.sharedInstance.shouldShowRatingProductListBanner
-    }
-
-    func registerHeader(collectionView: UICollectionView) {
-        let headerNib = UINib(nibName: "AppRatingBannerCell", bundle: nil)
-        collectionView.registerNib(headerNib, forSupplementaryViewOfKind: CHTCollectionElementKindSectionHeader,
-                                        withReuseIdentifier: "AppRatingBannerCell")
-    }
-
-    func heightForHeader() -> CGFloat {
-        return shouldShowBanner ? AppRatingBannerCell.height : 0
-    }
-
-    func viewForHeader(collectionView: UICollectionView, kind: String, indexPath: NSIndexPath) -> UICollectionReusableView {
-        guard shouldShowBanner else { return UICollectionReusableView() }
-        guard let footer: AppRatingBannerCell = collectionView.dequeueReusableSupplementaryViewOfKind(kind,
-                        withReuseIdentifier: "AppRatingBannerCell", forIndexPath: indexPath) as? AppRatingBannerCell
-            else { return UICollectionReusableView() }
-        footer.setupUI()
-        footer.delegate = self
-        return footer
-    }
-
-    func appRatingBannerClose() {
-        viewModel.appRatingBannerClose()
-    }
-
-    func appRatingBannerShowRating() {
-        guard let tabBarController = tabBarController as? TabBarController else { return }
-        tabBarController.showAppRatingView(.Banner)
+        return !viewModel.mainProductsHeader.value.isEmpty
     }
 }
 

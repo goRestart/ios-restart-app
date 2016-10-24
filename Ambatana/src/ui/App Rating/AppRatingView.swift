@@ -118,8 +118,7 @@ class AppRatingView: UIView {
         let event = TrackerEvent.appRatingRemindMeLater()
         TrackerProxy.sharedInstance.trackEvent(event)
 
-        let sourceIsBanner = ratingSource == .Banner
-        RatingManager.sharedInstance.userDidRemindLater(sourceIsBanner: sourceIsBanner)
+        RatingManager.sharedInstance.userDidRemindLater()
     }
 }
 

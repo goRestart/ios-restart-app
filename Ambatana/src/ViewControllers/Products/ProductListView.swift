@@ -21,9 +21,8 @@ protocol ProductListViewCellsDelegate: class {
 }
 
 protocol ProductListViewHeaderDelegate: class {
-    func registerHeader(collectionView: UICollectionView)
-    func heightForHeader() -> CGFloat
-    func viewForHeader(collectionView: UICollectionView, kind: String, indexPath: NSIndexPath) -> UICollectionReusableView
+    func totalHeaderHeight() -> CGFloat
+    func setupViewsInHeader(containerView: UIView)
 }
 
 class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout, ProductListViewModelDelegate,
@@ -139,7 +138,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     weak var headerDelegate: ProductListViewHeaderDelegate? {
         didSet {
             guard let collectionView = collectionView else { return }
-            headerDelegate?.registerHeader(collectionView)
+            collectionView.reloadData()
         }
     }
     
@@ -240,7 +239,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
 
     func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!,
                         heightForHeaderInSection section: Int) -> CGFloat {
-        return headerDelegate?.heightForHeader() ?? 0
+        return headerDelegate?.totalHeaderHeight() ?? 0
     }
     
     func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!,
@@ -300,7 +299,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         switch kind {
         case CHTCollectionElementKindSectionFooter, UICollectionElementKindSectionFooter:
             guard let footer: CollectionViewFooter = collectionView.dequeueReusableSupplementaryViewOfKind(kind,
-                    withReuseIdentifier: "CollectionViewFooter", forIndexPath: indexPath) as? CollectionViewFooter
+                    withReuseIdentifier: CollectionViewFooter.reusableID, forIndexPath: indexPath) as? CollectionViewFooter
                     else { return UICollectionReusableView() }
             if viewModel.isOnErrorState {
                 footer.status = .Error
@@ -317,7 +316,12 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
             }
             return footer
         case CHTCollectionElementKindSectionHeader, UICollectionElementKindSectionHeader:
-            return headerDelegate?.viewForHeader(collectionView, kind: kind, indexPath: indexPath) ?? UICollectionReusableView()
+            guard let header = collectionView.dequeueReusableSupplementaryViewOfKind(kind,
+                    withReuseIdentifier: ListHeaderContainer.reusableID, forIndexPath: indexPath) as? ListHeaderContainer
+                    else { return UICollectionReusableView() }
+            header.clear()
+            headerDelegate?.setupViewsInHeader(header.containerView)
+            return header
         default:
             return UICollectionReusableView()
         }
@@ -444,27 +448,31 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     private func setupUI() {
         // Load the view, and add it as Subview
         NSBundle.mainBundle().loadNibNamed("ProductListView", owner: self, options: nil)
-        contentView.frame = self.bounds
+        contentView.frame = bounds
         contentView.autoresizingMask = [.FlexibleHeight, .FlexibleWidth]
-        self.addSubview(contentView)
+        addSubview(contentView)
 
         // Setup UI
         // > Data
         updateLayoutWithSeparation(10)
 
-        self.collectionView.autoresizingMask = UIViewAutoresizing.FlexibleHeight // | UIViewAutoresizing.FlexibleWidth
+        collectionView.autoresizingMask = UIViewAutoresizing.FlexibleHeight // | UIViewAutoresizing.FlexibleWidth
         collectionView.alwaysBounceVertical = true
         collectionView.contentInset = collectionViewContentInset
 
         drawerManager.registerCell(inCollectionView: collectionView)
-        let footerNib = UINib(nibName: "CollectionViewFooter", bundle: nil)
-        self.collectionView.registerNib(footerNib, forSupplementaryViewOfKind: CHTCollectionElementKindSectionFooter,
-                                        withReuseIdentifier: "CollectionViewFooter")
+        let footerNib = UINib(nibName: CollectionViewFooter.reusableID, bundle: nil)
+        collectionView.registerNib(footerNib, forSupplementaryViewOfKind: CHTCollectionElementKindSectionFooter,
+                                        withReuseIdentifier: CollectionViewFooter.reusableID)
+        let headerNib = UINib(nibName: ListHeaderContainer.reusableID, bundle: nil)
+        collectionView.registerNib(headerNib, forSupplementaryViewOfKind: CHTCollectionElementKindSectionHeader,
+                                   withReuseIdentifier: ListHeaderContainer.reusableID)
+
 
         // >> Pull to refresh
         refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(refreshControlTriggered), forControlEvents: UIControlEvents.ValueChanged)
-        self.collectionView.addSubview(refreshControl)
+        collectionView.addSubview(refreshControl)
 
         // > Error View
         errorButtonHeightConstraint.constant = ProductListView.defaultErrorButtonHeight
