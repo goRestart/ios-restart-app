@@ -53,5 +53,10 @@
         "name": "FreePostingMode",
         "values": ["Disabled", "SplitButton", "OneButton"],
         "description": "Free Posting Mode"
+	},
+    {
+        "name": "DirectPostInOnboarding",
+        "values": ["No", "Yes"],
+        "description": "Last Onboarding step opens the camera"
 	}
 ]

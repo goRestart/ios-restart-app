@@ -89,4 +89,11 @@ struct FeatureFlags {
         }
         return FreePostingMode.fromPosition(ABTests.freePostingMode.value)
     }
+
+    static var directPostInOnboarding: Bool {
+        if Bumper.enabled {
+            return Bumper.directPostInOnboarding
+        }
+        return ABTests.directPostInOnboarding.value
+    }
 }

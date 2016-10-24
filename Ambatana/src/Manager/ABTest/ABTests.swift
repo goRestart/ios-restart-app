@@ -20,10 +20,11 @@ public struct ABTests {
     static var filtersReorder = BoolABDynamicVar(key: "filtersReorder", defaultValue: false)
     static var halfCameraButton = BoolABDynamicVar(key: "halfCameraButton", defaultValue: true)
     static var freePostingMode = IntABDynamicVar(key: "freePostingMode", defaultValue: 0)
+    static var directPostInOnboarding = BoolABDynamicVar(key: "directPostInOnboarding", defaultValue: false)
 
     static private var allVariables: [ABVariable] {
         return [showNPSSurvey, nonStopProductDetail, onboardingPermissionsMode, messageOnFavorite,
-                interestedUsersMode, filtersReorder, halfCameraButton, freePostingMode]
+                interestedUsersMode, filtersReorder, halfCameraButton, freePostingMode, directPostInOnboarding]
     }
 
     static func registerVariables() {
