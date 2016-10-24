@@ -999,6 +999,12 @@
 // NPS Survey best option possible
 "nps_survey_very_good" = "Extremely likely";
 
+// Onboarding direct camera title
+"onboarding_direct_camera_alert_title" = "Start Making Cash!";
+
+// Onboarding direct camera subtitle
+"onboarding_direct_camera_alert_subtitle" = "Post your first product and start selling to people near you";
+
 // Button to skip logging in during onboarding
 "onboarding_login_skip" = "Skip";
 

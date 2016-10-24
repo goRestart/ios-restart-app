@@ -55,13 +55,6 @@ struct FeatureFlags {
         return OnboardingPermissionsMode.fromPosition(ABTests.onboardingPermissionsMode.value)
     }
 
-    static var incentivizePostingMode: IncentivizePostingMode {
-        if Bumper.enabled {
-            return Bumper.incentivizePostingMode
-        }
-        return IncentivizePostingMode.fromPosition(ABTests.incentivatePostingMode.value)
-    }
-
     static var messageOnFavorite: MessageOnFavoriteMode {
         if Bumper.enabled {
             return Bumper.messageOnFavoriteMode
@@ -95,5 +88,12 @@ struct FeatureFlags {
             return Bumper.freePostingMode
         }
         return FreePostingMode.fromPosition(ABTests.freePostingMode.value)
+    }
+
+    static var directPostInOnboarding: Bool {
+        if Bumper.enabled {
+            return Bumper.directPostInOnboarding
+        }
+        return ABTests.directPostInOnboarding.value
     }
 }

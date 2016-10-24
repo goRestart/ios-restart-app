@@ -331,6 +331,8 @@
 "nps_survey_title" = "VI SKULLE VILJA VETA...";
 "nps_survey_very_bad" = "Inte troligt";
 "nps_survey_very_good" = "Mycket troligt";
+"onboarding_direct_camera_alert_subtitle" = "Post your first product and start selling to people near you";
+"onboarding_direct_camera_alert_title" = "Start Making Cash!";
 "onboarding_login_skip" = "Hoppa över";
 "onboarding_posting_button_a" = "Sälj dina prylar";
 "onboarding_posting_button_b" = "Starta";
