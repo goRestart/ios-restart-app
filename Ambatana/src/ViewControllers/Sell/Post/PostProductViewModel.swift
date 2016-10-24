@@ -144,7 +144,7 @@ class PostProductViewModel: BaseViewModel {
         if pendingToUploadImage != nil {
             openPostAbandonAlertNotLoggedIn()
         } else {
-            guard let product = buildProduct(false), image = uploadedImage else {
+            guard let product = buildProduct(isFreePosting: false), image = uploadedImage else {
                 navigator?.cancelPostProduct()
                 return
             }
@@ -188,12 +188,12 @@ private extension PostProductViewModel {
         let trackingInfo = PostProductTrackingInfo(buttonName: .Done, imageSource: uploadedImageSource,
                                                    price: postDetailViewModel.price.value)
         if Core.sessionManager.loggedIn {
-            guard let product = buildProduct(false), image = uploadedImage else { return }
+            guard let product = buildProduct(isFreePosting: false), image = uploadedImage else { return }
             navigator?.closePostProductAndPostInBackground(product, images: [image], showConfirmation: true,
                                                            trackingInfo: trackingInfo)
         } else if let image = pendingToUploadImage {
             delegate?.postProductviewModel(self, shouldAskLoginWithCompletion: { [weak self] in
-                guard let product = self?.buildProduct(false) else { return }
+                guard let product = self?.buildProduct(isFreePosting:false) else { return }
                 self?.navigator?.closePostProductAndPostLater(product, image: image, trackingInfo: trackingInfo)
                 })
         } else {
@@ -207,13 +207,13 @@ private extension PostProductViewModel {
                                                    price: postDetailViewModel.price.value)
         if let image = imageSelected {
         delegate?.postProductviewModel(self, shouldAskLoginWithCompletion: { [weak self] in
-            guard let product = self?.buildProduct(true) else { return }
+            guard let product = self?.buildProduct(isFreePosting:true) else { return }
             self?.navigator?.closePostProductAndPostLater(product, image: image, trackingInfo: trackingInfo)
             })
         }
     }
 
-    func buildProduct(isFreePosting: Bool) -> Product? {
+    func buildProduct(isFreePosting isFreePosting: Bool) -> Product? {
         let price = isFreePosting ? ProductPrice.Free : postDetailViewModel.productPrice
         let title = postDetailViewModel.productTitle
         let description = postDetailViewModel.productDescription

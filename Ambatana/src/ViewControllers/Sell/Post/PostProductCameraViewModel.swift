@@ -164,7 +164,10 @@ class PostProductCameraViewModel: BaseViewModel {
                 self?.showFirstTimeAlert()
             }
         }.addDisposableTo(disposeBag)
-
+        
+        shouldShowFirstTimeAlert.asObservable().filter {$0}.bindNext { [weak self] _ in
+            self?.showFirstTimeAlert()
+            }.addDisposableTo(disposeBag)
     }
     
     private func setupFirstShownLiterals() {
