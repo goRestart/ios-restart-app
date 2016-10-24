@@ -59,8 +59,9 @@ class PostProductViewModel: BaseViewModel {
     let state = Variable<PostProductState>(.ImageSelection)
 
     let postDetailViewModel: PostProductDetailViewModel
-
-    private let postingSource: PostingSource
+    let postProductCameraViewModel: PostProductCameraViewModel
+    let postingSource: PostingSource
+    
     private let productRepository: ProductRepository
     private let fileRepository: FileRepository
     private let commercializerRepository: CommercializerRepository
@@ -68,7 +69,7 @@ class PostProductViewModel: BaseViewModel {
     private var pendingToUploadImage: UIImage?
     private var uploadedImage: File?
     private var uploadedImageSource: EventParameterPictureSource?
-
+    
 
     // MARK: - Lifecycle
 
@@ -87,6 +88,7 @@ class PostProductViewModel: BaseViewModel {
         self.fileRepository = fileRepository
         self.commercializerRepository = commercializerRepository
         self.postDetailViewModel = PostProductDetailViewModel()
+        self.postProductCameraViewModel = PostProductCameraViewModel(postingSource: source)
         super.init()
         self.postDetailViewModel.delegate = self
     }
@@ -107,6 +109,10 @@ class PostProductViewModel: BaseViewModel {
     func imageSelected(image: UIImage, source: EventParameterPictureSource) {
         uploadedImageSource = source
         imageSelected = image
+        if (FeatureFlags.freePostingMode == .SplitButton && postingSource == .GiveAwayButton) {
+            postFreeProduct()
+            return
+        }
         guard Core.sessionManager.loggedIn else {
             pendingToUploadImage = image
             state.value = .DetailsSelection
@@ -138,7 +144,7 @@ class PostProductViewModel: BaseViewModel {
         if pendingToUploadImage != nil {
             openPostAbandonAlertNotLoggedIn()
         } else {
-            guard let product = buildProduct(), image = uploadedImage else {
+            guard let product = buildProduct(isFreePosting: false), image = uploadedImage else {
                 navigator?.cancelPostProduct()
                 return
             }
@@ -146,6 +152,10 @@ class PostProductViewModel: BaseViewModel {
             navigator?.closePostProductAndPostInBackground(product, images: [image], showConfirmation: false,
                                                            trackingInfo: trackingInfo)
         }
+    }
+    
+    func postFreeProduct() {
+        directPostFreeProduct()
     }
 }
 
@@ -178,21 +188,33 @@ private extension PostProductViewModel {
         let trackingInfo = PostProductTrackingInfo(buttonName: .Done, imageSource: uploadedImageSource,
                                                    price: postDetailViewModel.price.value)
         if Core.sessionManager.loggedIn {
-            guard let product = buildProduct(), image = uploadedImage else { return }
+            guard let product = buildProduct(isFreePosting: false), image = uploadedImage else { return }
             navigator?.closePostProductAndPostInBackground(product, images: [image], showConfirmation: true,
                                                            trackingInfo: trackingInfo)
         } else if let image = pendingToUploadImage {
             delegate?.postProductviewModel(self, shouldAskLoginWithCompletion: { [weak self] in
-                guard let product = self?.buildProduct() else { return }
+                guard let product = self?.buildProduct(isFreePosting:false) else { return }
                 self?.navigator?.closePostProductAndPostLater(product, image: image, trackingInfo: trackingInfo)
                 })
         } else {
             navigator?.cancelPostProduct()
         }
     }
+    
+    func directPostFreeProduct() {
+        // TODO: Update trakingInfo in case free product.
+        let trackingInfo = PostProductTrackingInfo(buttonName: .Done, imageSource: uploadedImageSource,
+                                                   price: postDetailViewModel.price.value)
+        if let image = imageSelected {
+        delegate?.postProductviewModel(self, shouldAskLoginWithCompletion: { [weak self] in
+            guard let product = self?.buildProduct(isFreePosting:true) else { return }
+            self?.navigator?.closePostProductAndPostLater(product, image: image, trackingInfo: trackingInfo)
+            })
+        }
+    }
 
-    func buildProduct() -> Product? {
-        let price = ProductPrice.Normal(postDetailViewModel.productPrice)
+    func buildProduct(isFreePosting isFreePosting: Bool) -> Product? {
+        let price = isFreePosting ? ProductPrice.Free : postDetailViewModel.productPrice
         let title = postDetailViewModel.productTitle
         let description = postDetailViewModel.productDescription
         return productRepository.buildNewProduct(title, description: description, price: price)
