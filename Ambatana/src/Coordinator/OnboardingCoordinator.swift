@@ -98,13 +98,17 @@ class OnboardingCoordinator: Coordinator {
     }
 
     private func openTourPosting() {
-        let topVC = topViewController()
-        let vm = TourPostingViewModel()
-        vm.navigator = self
-        let vc = TourPostingViewController(viewModel: vm)
-        hideVC(topVC)
-        presentedViewControllers.append(vc)
-        topVC.presentViewController(vc, animated: true, completion: nil)
+        if FeatureFlags.directPostInOnboarding {
+            tourPostingPost(fromCamera: true)
+        } else {
+            let topVC = topViewController()
+            let vm = TourPostingViewModel()
+            vm.navigator = self
+            let vc = TourPostingViewController(viewModel: vm)
+            hideVC(topVC)
+            presentedViewControllers.append(vc)
+            topVC.presentViewController(vc, animated: true, completion: nil)
+        }
     }
 }
 

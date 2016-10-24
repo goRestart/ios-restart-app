@@ -303,8 +303,10 @@ extension PostProductCameraView {
 extension PostProductCameraView{
     func setupFirstTimeAlertView() {
         firstTimeAlert.layer.cornerRadius = LGUIKitConstants.alertCornerRadius
-        firstTimeAlertTitle.text = LGLocalizedString.productPostCameraFirstTimeAlertTitle
-        firstTimeAlertSubtitle.text = LGLocalizedString.productPostCameraFirstTimeAlertSubtitle
+        firstTimeAlertTitle.text = FeatureFlags.directPostInOnboarding ? LGLocalizedString.onboardingDirectCameraAlertTitle :
+                                                                         LGLocalizedString.productPostCameraFirstTimeAlertTitle
+        firstTimeAlertSubtitle.text = FeatureFlags.directPostInOnboarding ? LGLocalizedString.onboardingDirectCameraAlertSubtitle :
+                                                                            LGLocalizedString.productPostCameraFirstTimeAlertSubtitle
     }
 }
 
