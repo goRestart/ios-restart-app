@@ -202,28 +202,12 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         return chatViewMessageAdapter.createUserInfoMessage(otherUser)
     }
 
-    var bottomDisclaimerShown: Bool = false
-
-    var shouldAddBottomDisclaimer: Bool {
-        // objectCount > 1 bc the welcome message also counts
-        guard objectCount > 1 else { return false }
-        guard let myUser = myUserRepository.myUser where !myUser.isSocialVerified else { return false }
-        return true
-    }
-
-    var bottomDisclaimerMessage: ChatViewMessage? {
+    private var bottomDisclaimerMessage: ChatViewMessage? {
         switch chatStatus {
         case  .UserPendingDelete, .UserDeleted:
             return chatViewMessageAdapter.createUserDeletedDisclaimerMessage(otherUser?.name)
         case .ProductDeleted, .Forbidden, .Available, .Blocked, .BlockedBy, .ProductSold:
-            guard shouldAddBottomDisclaimer else { return nil }
-            return chatViewMessageAdapter.createUserNotVerifiedDisclaimerMessage() { [weak self] in
-                self?.navigator?.openVerifyAccounts([.Facebook, .Google],
-                    source: .Chat(title: LGLocalizedString.chatConnectAccountsTitle,
-                        description: LGLocalizedString.chatConnectAccountsMessage), completionBlock: {
-                            self?.navigator?.closeChatDetail()
-                })
-            }
+            return nil
         }
     }
 
@@ -406,7 +390,6 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         if otherUser == nil { return nil }
 
         setupDeepLinksRx()
-        setupMyUserRx()
     }
     
     override func didBecomeActive(firstTime: Bool) {
@@ -616,15 +599,6 @@ public class OldChatViewModel: BaseViewModel, Paginable {
             }.addDisposableTo(disposeBag)
     }
 
-    private func setupMyUserRx() {
-        myUserRepository.rx_myUser.asObservable().skip(1).bindNext { [weak self] myUser in
-            guard let myUser = myUser where myUser.isSocialVerified else { return }
-            guard let disclaimerIndex = self?.bottomDisclaimerIndex else { return }
-            self?.loadedMessages.removeAtIndex(disclaimerIndex)
-            self?.delegate?.vmDidRefreshChatMessages()
-        }.addDisposableTo(disposeBag)
-    }
-
     private func sendMessage(text: String, isQuickAnswer: Bool, type: MessageType) {
         guard myUserRepository.myUser != nil else {
             loginAndResend(text, isQuickAnswer: isQuickAnswer, type: type)
@@ -719,14 +693,6 @@ public class OldChatViewModel: BaseViewModel, Paginable {
             delegate?.vmAskForRating()
         }
         delegate?.vmUpdateUserIsReadyToReview()
-        addDisclaimerAfterSend()
-    }
-
-    private func addDisclaimerAfterSend() {
-        guard let bottomDisclaimerMessage = bottomDisclaimerMessage where !bottomDisclaimerShown else { return }
-        loadedMessages.insert(bottomDisclaimerMessage, atIndex: 0)
-        delegate?.vmDidSucceedSendingMessage(0)
-        bottomDisclaimerShown = true
     }
 
     private func loadStickersTooltip() {
@@ -1020,15 +986,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
                 strongSelf.chat = chat
                 strongSelf.nextPage = page + 1
 
-                let mappedChatMessages = chat.messages.map(strongSelf.chatViewMessageAdapter.adapt)
-                let chatMessages: [ChatViewMessage] = strongSelf.chatViewMessageAdapter
-                    .addDisclaimers(mappedChatMessages, disclaimerMessage: strongSelf.messageSuspiciousDisclaimerMessage)
-
-                strongSelf.loadedMessages = chatMessages
-
-                if let userInfoMessage = strongSelf.userInfoMessage where strongSelf.isLastPage {
-                    strongSelf.loadedMessages += [userInfoMessage]
-                }
+                strongSelf.updateLoadedMessages(newMessages: chat.messages, page: page)
 
                 if strongSelf.chatStatus == .Forbidden {
                     strongSelf.showScammerDisclaimerMessage()
@@ -1043,11 +1001,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
                     //The chat doesn't exist yet, so this must be a new conversation -> this is success
                     strongSelf.isLastPage = true
 
-                    var initialMessages: [ChatViewMessage] = []
-                    if let userInfoMessage = strongSelf.userInfoMessage {
-                        initialMessages.append(userInfoMessage)
-                    }
-                    strongSelf.loadedMessages = initialMessages
+                    strongSelf.updateLoadedMessages(newMessages: [], page: page)
 
                     strongSelf.delegate?.vmDidRefreshChatMessages()
                     strongSelf.afterRetrieveChatMessagesEvents()
@@ -1058,7 +1012,23 @@ public class OldChatViewModel: BaseViewModel, Paginable {
             strongSelf.isLoading = false
         }
     }
-    
+
+    private func updateLoadedMessages(newMessages newMessages: [Message], page: Int) {
+        // Add message disclaimer (message flagged)
+        let mappedChatMessages = newMessages.map(chatViewMessageAdapter.adapt)
+        var chatMessages = chatViewMessageAdapter.addDisclaimers(mappedChatMessages,
+                                                                 disclaimerMessage: messageSuspiciousDisclaimerMessage)
+        // Add user info as 1st message
+        if let userInfoMessage = userInfoMessage where isLastPage {
+            chatMessages += [userInfoMessage]
+        }
+        // Add disclaimer at the bottom of the first page
+        if let bottomDisclaimerMessage = bottomDisclaimerMessage where page == 0 {
+            chatMessages = [bottomDisclaimerMessage] + loadedMessages
+        }
+        loadedMessages = chatMessages
+    }
+
     private func afterRetrieveChatMessagesEvents() {
         afterRetrieveMessagesBlock?()
         afterRetrieveMessagesBlock = nil
