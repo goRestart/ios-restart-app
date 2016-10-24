@@ -12,7 +12,7 @@ import bumper
 
 extension Bumper  {
     static func initialize() {
-        Bumper.initialize([WebsocketChat.self, NotificationsSection.self, UserRatings.self, ShowNPSSurvey.self, NonStopProductDetail.self, OnboardingPermissionsMode.self, IncentivizePostingMode.self, MessageOnFavoriteMode.self, InterestedUsersMode.self, FiltersReorder.self, HalfCameraButton.self, FreePostingMode.self])
+        Bumper.initialize([WebsocketChat.self, NotificationsSection.self, UserRatings.self, ShowNPSSurvey.self, NonStopProductDetail.self, OnboardingPermissionsMode.self, MessageOnFavoriteMode.self, InterestedUsersMode.self, FiltersReorder.self, HalfCameraButton.self, FreePostingMode.self])
     } 
 
     static var websocketChat: Bool {
@@ -43,11 +43,6 @@ extension Bumper  {
     static var onboardingPermissionsMode: OnboardingPermissionsMode {
         guard let value = Bumper.valueForKey(OnboardingPermissionsMode.key) else { return .Original }
         return OnboardingPermissionsMode(rawValue: value) ?? .Original 
-    }
-
-    static var incentivizePostingMode: IncentivizePostingMode {
-        guard let value = Bumper.valueForKey(IncentivizePostingMode.key) else { return .Original }
-        return IncentivizePostingMode(rawValue: value) ?? .Original 
     }
 
     static var messageOnFavoriteMode: MessageOnFavoriteMode {
@@ -133,23 +128,6 @@ enum OnboardingPermissionsMode: String, BumperFeature  {
             case 0: return .Original
             case 1: return .OneButtonOriginalImages
             case 2: return .OneButtonNewImages
-            default: return .Original
-        }
-    }
-}
-
-enum IncentivizePostingMode: String, BumperFeature  {
-    case Original, VariantA, VariantB, VariantC
-    static var defaultValue: String { return IncentivizePostingMode.Original.rawValue }
-    static var enumValues: [IncentivizePostingMode] { return [.Original, .VariantA, .VariantB, .VariantC]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Onboarding Posting" } 
-    static func fromPosition(position: Int) -> IncentivizePostingMode {
-        switch position { 
-            case 0: return .Original
-            case 1: return .VariantA
-            case 2: return .VariantB
-            case 3: return .VariantC
             default: return .Original
         }
     }

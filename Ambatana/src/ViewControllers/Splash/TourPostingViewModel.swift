@@ -23,23 +23,10 @@ class TourPostingViewModel: BaseViewModel {
     private var incentiveValues: [String] = []
 
     override init() {
-        switch FeatureFlags.incentivizePostingMode {
-        case .Original, .VariantA:
-            titleText = LGLocalizedString.onboardingPostingTitleA
-            subtitleText = LGLocalizedString.onboardingPostingSubtitleA
-            okButtonText = LGLocalizedString.onboardingPostingButtonA
-        case .VariantB:
-            titleText = LGLocalizedString.onboardingPostingTitleB
-            subtitleText = LGLocalizedString.onboardingPostingSubtitleB
-            okButtonText = LGLocalizedString.onboardingPostingButtonB
-        case .VariantC:
-            titleText = LGLocalizedString.onboardingPostingTitleC
-            subtitleText = LGLocalizedString.onboardingPostingSubtitleC
-            okButtonText = LGLocalizedString.onboardingPostingButtonC
-        }
+        titleText = LGLocalizedString.onboardingPostingTitleB
+        subtitleText = LGLocalizedString.onboardingPostingSubtitleB
+        okButtonText = LGLocalizedString.onboardingPostingButtonB
         super.init()
-
-        setupIncentiveData()
     }
 
     func incentiveImageAt(index: Int) -> UIImage? {
@@ -65,20 +52,4 @@ class TourPostingViewModel: BaseViewModel {
     func closeButtonPressed() {
         navigator?.tourPostingClose()
     }
-
-
-    // MARK: - Private
-
-    func setupIncentiveData() {
-        guard FeatureFlags.incentivizePostingMode == .VariantC else { return }
-        let itemPack = PostIncentiviserItem.incentiviserPack(false)
-        guard itemPack.count == 3 else { return }
-
-        for pack in itemPack {
-            incentiveImages.append(pack.image ?? UIImage())
-            incentiveLabels.append(pack.name)
-            incentiveValues.append(pack.searchCount ?? "")
-        }
-    }
 }
-

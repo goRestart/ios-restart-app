@@ -118,10 +118,8 @@ extension OnboardingCoordinator: TourLoginNavigator {
             openTourNotifications()
         } else if locationManager.shouldAskForLocationPermissions() {
             openTourLocation()
-        } else if FeatureFlags.incentivizePostingMode != .Original {
-            openTourPosting()
         } else {
-            finish(withPosting: false, source: nil)
+            openTourPosting()
         }
     }
 }
@@ -131,21 +129,15 @@ extension OnboardingCoordinator: TourNotificationsNavigator {
     func tourNotificationsFinish() {
         if locationManager.shouldAskForLocationPermissions() {
             openTourLocation()
-        } else if FeatureFlags.incentivizePostingMode != .Original {
-            openTourPosting()
         } else {
-            finish(withPosting: false, source: nil)
+            openTourPosting()
         }
     }
 }
 
 extension OnboardingCoordinator: TourLocationNavigator {
     func tourLocationFinish() {
-        if FeatureFlags.incentivizePostingMode != .Original {
-            openTourPosting()
-        } else {
-            finish(withPosting: false, source: nil)
-        }
+        openTourPosting()
     }
 }
 
