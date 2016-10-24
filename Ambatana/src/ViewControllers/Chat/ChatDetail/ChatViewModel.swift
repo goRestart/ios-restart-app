@@ -880,18 +880,13 @@ extension ChatViewModel {
 
             strongSelf.isLoading = false
             if let value = result.value {
-                let messages = value.map(strongSelf.chatViewMessageAdapter.adapt)
-                if messages.count == 0 {
+                if value.count == 0 {
                     strongSelf.isLastPage = true
-                    if let userInfoMessage = strongSelf.userInfoMessage {
-                        strongSelf.messages.append(userInfoMessage)
-                    }
                 } else {
-                    let newMessages = strongSelf.chatViewMessageAdapter
-                        .addDisclaimers(messages, disclaimerMessage: strongSelf.defaultDisclaimerMessage)
-                    strongSelf.messages.appendContentsOf(newMessages)
+                    let messages = value.map(strongSelf.chatViewMessageAdapter.adapt)
                     strongSelf.markAsReadMessages(messages)
                 }
+                strongSelf.updateMessages(messages: value, isFirstPage: false)
             } else if let _ = result.error {
                 strongSelf.delegate?.vmDidFailRetrievingChatMessages()
             }
