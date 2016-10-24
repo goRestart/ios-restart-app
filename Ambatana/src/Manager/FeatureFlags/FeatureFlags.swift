@@ -92,9 +92,7 @@ struct FeatureFlags {
     }
 
     static var freePostingMode: FreePostingMode {
-        let locale = NSLocale.currentLocale()
-        let locationManager = Core.locationManager
-        guard freePostingModeAllowed(locale, locationManager: locationManager) else { return .Disabled }
+        guard freePostingModeAllowed else { return .Disabled }
 
         if Bumper.enabled {
             return Bumper.freePostingMode
@@ -102,7 +100,10 @@ struct FeatureFlags {
         return FreePostingMode.fromPosition(ABTests.freePostingMode.value)
     }
 
-    private static func freePostingModeAllowed(locale: NSLocale, locationManager: LocationManager) -> Bool {
+    private static var freePostingModeAllowed: Bool {
+        let locale = NSLocale.currentLocale()
+        let locationManager = Core.locationManager
+
         // Free posting is not allowed in Turkey. Check location & phone region.
         let turkey = "tr"
         let systemCountryCode = (locale.objectForKey(NSLocaleCountryCode) as? String ?? "").lowercaseString
