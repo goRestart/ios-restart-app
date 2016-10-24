@@ -640,10 +640,10 @@ extension UserViewModel {
     private func trackVisit() {
         guard let user = user.value else { return }
 
-        let typePage: EventParameterTypePage?
+        let typePage: EventParameterTypePage
         switch source {
         case .TabBar:
-            typePage = nil
+            typePage = .TabBar
         case .Chat:
             typePage = .Chat
         case .ProductDetail:
@@ -653,7 +653,6 @@ extension UserViewModel {
         case .Link:
             typePage = .External
         }
-        guard let actualTypePage = typePage else { return }
 
         let eventTab: EventParameterTab
         switch tab.value {
@@ -664,8 +663,9 @@ extension UserViewModel {
         case .Favorites:
             eventTab = .Favorites
         }
-
-        let event = TrackerEvent.profileVisit(user, typePage: actualTypePage, tab: eventTab)
+        let profileType: EventParameterProfileType = isMyUser ? .Private : .Public
+        
+        let event = TrackerEvent.profileVisit(user, profileType: profileType, typePage: typePage, tab: eventTab)
         tracker.trackEvent(event)
     }
 
