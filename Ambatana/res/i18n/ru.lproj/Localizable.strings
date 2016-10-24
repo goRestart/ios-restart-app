@@ -122,7 +122,7 @@
 "chat_product_sold_label" = "Продано";
 "chat_related_products_title" = "ВАС МОЖЕТ ЗАИНТЕРЕСОВАТЬ:";
 "chat_safety_tips" = "Советами по безопасности";
-"chat_safety_tips_message" = "• Встречайтесь лично и платите наличными.\n\n• Общайтесь в чате letgo.\n\n• Слишком хорошее предложение, чтобы быть правдой? Будьте осторожны!";
+"chat_safety_tips_message" = "• Встречайтесь лично и платите наличными.\n\n• Общайтесь в чате letgo.\n\n• Есть подозрения? Найди другого продавца/покупателя.";
 "chat_safety_tips_title" = "СОВЕТАМИ ПО БЕЗОПАСНОСТИ";
 "chat_send_button" = "Отправить";
 "chat_send_error_generic" = "При отправке сообщения произошла ошибка. Пожалуйста, попробуйте еще раз позже.";
@@ -377,6 +377,7 @@
 "product_distance_more_than_from_you" = "Более %@ от вас";
 "product_free_price" = "Бесплатно";
 "product_is_mine_share_body" = "Смотрите, что я продаю на letgo!";
+"product_is_mine_share_body_free" = "Check out what I'm giving away on letgo!";
 "product_list_banner_cell_title" = "СМОТРЕТЬ СВОИ ОБЪЯВЛЕНИЯ";
 "product_list_item_given_away_status_label" = "Уже отдан";
 "product_list_item_sold_status_label" = "ПРОДАНО";
@@ -438,12 +439,17 @@
 "product_post_incentive_bike" = "Велосипеды";
 "product_post_incentive_car" = "Автомобили";
 "product_post_incentive_dresser" = "Комоды";
+"product_post_incentive_furniture" = "Furniture";
 "product_post_incentive_got_any" = "есть что-либо на продажу?";
+"product_post_incentive_got_any_free" = "got any to give away?";
+"product_post_incentive_kids_clothes" = "Kid's clothes";
 "product_post_incentive_looking_for" = "Люди вокруг вас ищут эти товары, %@";
 "product_post_incentive_motorcycle" = "Мотоциклы";
 "product_post_incentive_ps4" = "PS4";
 "product_post_incentive_subtitle" = "Ваше объявление размещено.";
+"product_post_incentive_subtitle_free" = "You're on your way to making someone happier.";
 "product_post_incentive_title" = "ПОЗДРАВЛЯЕМ!";
+"product_post_incentive_toys" = "Toys";
 "product_post_incentive_tv" = "Телевизоры";
 "product_post_login_message" = "Чтобы продавать товары, вам необходимо войти";
 "product_post_network_error" = "Ваш товар не был размещен.\nПожалуйста, проверьте сетевые настройки.";

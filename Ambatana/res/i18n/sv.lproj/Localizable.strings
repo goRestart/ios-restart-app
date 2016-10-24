@@ -377,6 +377,7 @@
 "product_distance_more_than_from_you" = "Mer än %@ från dig";
 "product_free_price" = "Gratis";
 "product_is_mine_share_body" = "Kolla vad jag säljer på letgo!";
+"product_is_mine_share_body_free" = "Check out what I'm giving away on letgo!";
 "product_list_banner_cell_title" = "SE DINA PRODUKTER HÄR";
 "product_list_item_given_away_status_label" = "Redan bortskänkt";
 "product_list_item_sold_status_label" = "SÅLD";
@@ -438,12 +439,17 @@
 "product_post_incentive_bike" = "Cyklar";
 "product_post_incentive_car" = "Bilar";
 "product_post_incentive_dresser" = "Byråer";
+"product_post_incentive_furniture" = "Furniture";
 "product_post_incentive_got_any" = "har du någon att sälja?";
+"product_post_incentive_got_any_free" = "got any to give away?";
+"product_post_incentive_kids_clothes" = "Kid's clothes";
 "product_post_incentive_looking_for" = "Folk nära dig söker efter dessa saker, %@";
 "product_post_incentive_motorcycle" = "Motorcyklar";
 "product_post_incentive_ps4" = "PS4";
 "product_post_incentive_subtitle" = "Din produkt har lagts upp.";
+"product_post_incentive_subtitle_free" = "You're on your way to making someone happier.";
 "product_post_incentive_title" = "GRATTIS!";
+"product_post_incentive_toys" = "Toys";
 "product_post_incentive_tv" = "TV-apparater";
 "product_post_login_message" = "Du måste logga in för att sälja dina saker";
 "product_post_network_error" = "Din produkt har inte lagts upp.\nVänligen kolla dina nätverksinställningar.";

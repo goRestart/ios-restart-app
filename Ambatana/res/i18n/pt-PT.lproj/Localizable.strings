@@ -377,6 +377,7 @@
 "product_distance_more_than_from_you" = "Mais de %@ de si";
 "product_free_price" = "Grátis";
 "product_is_mine_share_body" = "Dá uma olhada no que estou a vender no letgo!";
+"product_is_mine_share_body_free" = "Check out what I'm giving away on letgo!";
 "product_list_banner_cell_title" = "VEJA A SUA LISTAGEM AQUI";
 "product_list_item_given_away_status_label" = "Já dado";
 "product_list_item_sold_status_label" = "VENDIDO";
@@ -438,12 +439,17 @@
 "product_post_incentive_bike" = "Bicicletas";
 "product_post_incentive_car" = "Veículos";
 "product_post_incentive_dresser" = "Cómoda";
+"product_post_incentive_furniture" = "Furniture";
 "product_post_incentive_got_any" = "tem para vender?";
+"product_post_incentive_got_any_free" = "got any to give away?";
+"product_post_incentive_kids_clothes" = "Kid's clothes";
 "product_post_incentive_looking_for" = "Pessoas à sua volta procuram estes itens, %@";
 "product_post_incentive_motorcycle" = "Motos";
 "product_post_incentive_ps4" = "PS4s";
 "product_post_incentive_subtitle" = "A sua listagem foi publicada.";
+"product_post_incentive_subtitle_free" = "You're on your way to making someone happier.";
 "product_post_incentive_title" = "PARABÉNS!";
+"product_post_incentive_toys" = "Toys";
 "product_post_incentive_tv" = "TVs";
 "product_post_login_message" = "Para vender as suas coisas deve fazer login";
 "product_post_network_error" = "O seu produto não foi publicado.\nPor favor verifique a configuração da sua rede.";
