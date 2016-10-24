@@ -1464,7 +1464,11 @@
 // Product share body
 "product_share_body" = "Look what I just found on letgo!";
 
+// Product share body, for MY products
 "product_is_mine_share_body" = "Check out what I'm selling on letgo!";
+
+// Product share body, for MY free products
+"product_is_mine_share_body_free" = "Check out what I'm giving away on letgo!";
 
 // Product share via copy_link success
 "product_share_copylink_ok" = "Your link has been copied!";

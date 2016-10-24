@@ -15,13 +15,14 @@ protocol PostProductViewModelDelegate: BaseViewModelDelegate {
 
 enum PostingSource {
     case SellButton
+    case GiveAwayButton
     case DeepLink
     case OnboardingButton
     case OnboardingCamera
 
     var forceCamera: Bool {
         switch self {
-        case .SellButton, .DeepLink, .OnboardingButton, .OnboardingCamera:
+        case .SellButton, .GiveAwayButton, .DeepLink, .OnboardingButton, .OnboardingCamera:
             return false
         }
     }
@@ -204,7 +205,7 @@ private extension PostProductViewModel {
 extension PostingSource {
     var typePage: EventParameterTypePage {
         switch self {
-        case .SellButton:
+        case .SellButton, .GiveAwayButton:  // TODO: Update tracking for give away
             return .Sell
         case .DeepLink:
             return .External
@@ -215,7 +216,7 @@ extension PostingSource {
 
     var buttonName: EventParameterButtonNameType? {
         switch self {
-        case .SellButton, .DeepLink:
+        case .SellButton, .GiveAwayButton, .DeepLink: // TODO: Update tracking for give away
             return nil
         case .OnboardingButton:
             return .SellYourStuff

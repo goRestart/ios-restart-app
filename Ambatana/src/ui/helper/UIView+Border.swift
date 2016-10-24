@@ -51,6 +51,13 @@ extension UIView {
 // MARK: - Shadows
 
 extension UIView {
+    func applyFloatingButtonShadow() {
+        layer.shadowColor = UIColor.blackColor().CGColor
+        layer.shadowOffset = CGSize(width: 0.0, height: 8.0)
+        layer.shadowOpacity = 0.24
+        layer.shadowRadius = 8.0
+    }
+    
     func applyDefaultShadow() {
         layer.shadowColor = UIColor.blackColor().CGColor
         layer.shadowOffset = CGSize(width: 0, height: 0)
