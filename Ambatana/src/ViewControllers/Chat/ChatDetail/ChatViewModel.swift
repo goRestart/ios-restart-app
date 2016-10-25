@@ -306,7 +306,6 @@ class ChatViewModel: BaseViewModel {
         conversation.asObservable().subscribeNext { [weak self] conversation in
             self?.chatStatus.value = conversation.chatStatus
             self?.chatEnabled.value = conversation.chatEnabled
-            self?.relatedProductsEnabled.value = conversation.relatedProductsEnabled
             self?.interlocutorIsMuted.value = conversation.interlocutor?.isMuted ?? false
             self?.interlocutorHasMutedYou.value = conversation.interlocutor?.hasMutedYou ?? false
             self?.title.value = conversation.product?.name ?? ""
