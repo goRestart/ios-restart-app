@@ -366,7 +366,7 @@ public struct TrackerEvent {
     static func productSellComplete(product: Product, buttonName: EventParameterButtonNameType?,
                                     negotiable: EventParameterNegotiablePrice?, pictureSource: EventParameterPictureSource?, freePostingMode: FreePostingMode) -> TrackerEvent {
         var params = EventParameters()
-        params[.FreePosting] = eventParameterFreePostingWithPrice(FeatureFlags.freePostingMode, price: product.price).rawValue
+        params[.FreePosting] = eventParameterFreePostingWithPrice(freePostingMode, price: product.price).rawValue
         params[.ProductId] = product.objectId ?? ""
         params[.CategoryId] = product.category.rawValue
         params[.ProductName] = product.name ?? ""
