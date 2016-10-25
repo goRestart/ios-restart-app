@@ -333,12 +333,13 @@ class ChatViewModel: BaseViewModel {
             }
         }.addDisposableTo(disposeBag)
 
-        let combinedRelated = Observable.combineLatest(relatedProductsEnabled.asObservable(), sellerDidntAnswer.asObservable()){ $0 }
-        combinedRelated.asObservable().bindNext { [weak self] (enabled, noRecentAnswer)  in
-            guard let strongSelf = self else { return }
-            guard strongSelf.isBuyer else { return }
-            strongSelf.delegate?.vmShowRelatedProducts((enabled || noRecentAnswer) ? strongSelf.conversation.value.product?.objectId : nil)
+        relatedProductsEnabled.asObservable().bindNext { [weak self] enabled in
+            self?.delegate?.vmShowRelatedProducts(enabled ? self?.conversation.value.product?.objectId : nil)
         }.addDisposableTo(disposeBag)
+
+        let relatedProductsConversation = conversation.asObservable().map { $0.relatedProductsEnabled }
+        Observable.combineLatest(relatedProductsConversation, sellerDidntAnswer.asObservable()) { $0 || $1 }
+            .bindTo(relatedProductsEnabled).addDisposableTo(disposeBag)
 
         let cfgManager = configManager
         let myMessagesReviewable = myMessagesCount.asObservable()
@@ -916,7 +917,7 @@ extension ChatViewModel {
                 }
                 self?.afterRetrieveChatMessagesEvents()
                 self?.markAsReadMessages(messages)
-                self?.checkSellerDidntAnswer(messages)
+                self?.checkSellerDidntAnswer(value)
             } else if let _ = result.error {
                 self?.delegate?.vmDidFailRetrievingChatMessages()
             }
@@ -966,7 +967,7 @@ extension ChatViewModel {
         afterRetrieveMessagesCompletion?()
     }
 
-    private func checkSellerDidntAnswer(messages: [ChatViewMessage]) {
+    private func checkSellerDidntAnswer(messages: [ChatMessage]) {
         guard isBuyer else { return }
 
         guard let myUserId = myUserRepository.myUser?.objectId else { return }
@@ -1123,7 +1124,7 @@ private extension ChatConversation {
     var relatedProductsEnabled: Bool {
         switch chatStatus {
         case .Forbidden,  .UserPendingDelete, .UserDeleted, .ProductDeleted, .ProductSold:
-            return true
+            return !amISelling
         case .Available, .Blocked, .BlockedBy:
             return false
         }
@@ -1234,13 +1235,15 @@ private extension ChatViewModel {
 extension ChatViewModel: RelatedProductsViewDelegate {
 
     func relatedProductsViewDidShow(view: RelatedProductsView) {
-        tracker.trackEvent(TrackerEvent.chatRelatedItemsStart())
+        let relatedShownReason = EventParameterRelatedShownReason(chatInfoStatus: chatStatus.value)
+        tracker.trackEvent(TrackerEvent.chatRelatedItemsStart(relatedShownReason))
     }
 
     func relatedProductsView(view: RelatedProductsView, showProduct product: Product, atIndex index: Int,
                              productListModels: [ProductCellModel], requester: ProductListRequester,
                              thumbnailImage: UIImage?, originFrame: CGRect?) {
-        tracker.trackEvent(TrackerEvent.chatRelatedItemsComplete(index))
+        let relatedShownReason = EventParameterRelatedShownReason(chatInfoStatus: chatStatus.value)
+        tracker.trackEvent(TrackerEvent.chatRelatedItemsComplete(index, shownReason: relatedShownReason))
         let data = ProductDetailData.ProductList(product: product, cellModels: productListModels, requester: requester,
                                                  thumbnailImage: thumbnailImage, originFrame: originFrame,
                                                  showRelated: false, index: 0)

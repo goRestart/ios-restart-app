@@ -1084,7 +1084,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
 
         let calendar = NSCalendar.currentCalendar()
 
-        guard let twoDaysAgo = calendar.dateByAddingUnit(.Day, value: -2, toDate: NSDate(), options: []) else { return }
+        guard let twoDaysAgo = calendar.dateByAddingUnit(.Minute, value: -2, toDate: NSDate(), options: []) else { return }
         let recentSellerMessages = messages.filter { $0.userId != myUserId && $0.createdAt?.compare(twoDaysAgo) == .OrderedDescending }
 
         /*
@@ -1227,13 +1227,15 @@ private extension OldChatViewModel {
 extension OldChatViewModel: RelatedProductsViewDelegate {
 
     func relatedProductsViewDidShow(view: RelatedProductsView) {
-        tracker.trackEvent(TrackerEvent.chatRelatedItemsStart())
+        let relatedShownReason = EventParameterRelatedShownReason(chatInfoStatus: chatStatus)
+        tracker.trackEvent(TrackerEvent.chatRelatedItemsStart(relatedShownReason))
     }
 
     func relatedProductsView(view: RelatedProductsView, showProduct product: Product, atIndex index: Int,
                              productListModels: [ProductCellModel], requester: ProductListRequester,
                              thumbnailImage: UIImage?, originFrame: CGRect?) {
-        tracker.trackEvent(TrackerEvent.chatRelatedItemsComplete(index))
+        let relatedShownReason = EventParameterRelatedShownReason(chatInfoStatus: chatStatus)
+        tracker.trackEvent(TrackerEvent.chatRelatedItemsComplete(index, shownReason: relatedShownReason))
         let data = ProductDetailData.ProductList(product: product, cellModels: productListModels, requester: requester,
                                                  thumbnailImage: thumbnailImage, originFrame: originFrame,
                                                  showRelated: false, index: 0)
