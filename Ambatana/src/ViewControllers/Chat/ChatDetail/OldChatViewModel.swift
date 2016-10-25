@@ -163,10 +163,14 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         switch chatStatus {
         case .Forbidden, .UserDeleted, .UserPendingDelete, .ProductDeleted, .ProductSold:
             return true
-        case .Blocked, .BlockedBy, .Available:
+        case  .Available:
+            return sellerDidntAnswer
+        case .Blocked, .BlockedBy:
             return false
         }
     }
+
+    var sellerDidntAnswer: Bool = false
 
     var chatEnabled: Bool {
         switch chatStatus {
@@ -780,6 +784,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
                 strongSelf.delegate?.vmUpdateAfterReceivingMessagesAtPositions(insertedMessagesInfo.indexes,
                                                                                isUpdate: insertedMessagesInfo.isUpdate)
                 strongSelf.afterRetrieveChatMessagesEvents()
+                strongSelf.checkSellerDidntAnswer(chat.messages, page: strongSelf.firstPage)
             }
             strongSelf.isLoading = false
         }
@@ -1034,6 +1039,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
                     strongSelf.showScammerDisclaimerMessage()
                     strongSelf.delegate?.vmUpdateChatInteraction(false)
                 } else {
+                    strongSelf.checkSellerDidntAnswer(chat.messages, page: page)
                     strongSelf.delegate?.vmDidRefreshChatMessages()
                     strongSelf.afterRetrieveChatMessagesEvents()
                 }
@@ -1067,6 +1073,33 @@ public class OldChatViewModel: BaseViewModel, Paginable {
             delegate?.vmShowSafetyTips()
         }
         delegate?.vmUpdateUserIsReadyToReview()
+    }
+
+    private func checkSellerDidntAnswer(messages: [Message], page: Int) {
+        guard page == firstPage else { return }
+        guard !isMyProduct else { return }
+
+        guard let myUserId = myUserRepository.myUser?.objectId else { return }
+        guard let oldestMessageDate = messages.last?.createdAt else { return }
+
+        let calendar = NSCalendar.currentCalendar()
+
+        guard let twoDaysAgo = calendar.dateByAddingUnit(.Day, value: -2, toDate: NSDate(), options: []) else { return }
+        let recentSellerMessages = messages.filter { $0.userId != myUserId && $0.createdAt?.compare(twoDaysAgo) == .OrderedDescending }
+
+        /*
+         Cases when we consider the seller didn't answer:
+         - Seller didn't answer in the last 48h (recentSellerMessages is empty)
+         AND either:
+            - the oldest message in the first page is also from more than 48h ago (oldestMessageDate > twoDaysAgo)
+            OR:
+            - the first page is full (this case covers the super eager buyer who sent 20 messages in less than 48h and
+              didn't got any answer. We show him the related items too)
+         */
+        sellerDidntAnswer = recentSellerMessages.isEmpty &&
+            (oldestMessageDate.compare(twoDaysAgo) == .OrderedAscending || messages.count == Constants.numMessagesPerPage)
+
+        checkShowRelatedProducts()
     }
 }
 

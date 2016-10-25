@@ -127,6 +127,7 @@ class ChatViewModel: BaseViewModel {
     let chatStatus = Variable<ChatInfoViewStatus>(.Available)
     let chatEnabled = Variable<Bool>(true)
     let relatedProductsEnabled = Variable<Bool>(false)
+    let sellerDidntAnswer = Variable<Bool>(false)
     let interlocutorTyping = Variable<Bool>(false)
     let messages = CollectionVariable<ChatViewMessage>([])
     private let conversation: Variable<ChatConversation>
@@ -156,7 +157,7 @@ class ChatViewModel: BaseViewModel {
     private var productId: String? // Only used when accessing a chat from a product
     private var preSendMessageCompletion: ((text: String, isQuickAnswer: Bool, type: ChatMessageType) -> Void)?
     private var afterRetrieveMessagesCompletion: (() -> Void)?
-    
+
     private let disposeBag = DisposeBag()
     
     private var userDefaultsSubKey: String {
@@ -332,8 +333,11 @@ class ChatViewModel: BaseViewModel {
             }
         }.addDisposableTo(disposeBag)
 
-        relatedProductsEnabled.asObservable().bindNext { [weak self] enabled in
-            self?.delegate?.vmShowRelatedProducts(enabled ? self?.conversation.value.product?.objectId : nil)
+        let combinedRelated = Observable.combineLatest(relatedProductsEnabled.asObservable(), sellerDidntAnswer.asObservable()){ $0 }
+        combinedRelated.asObservable().bindNext { [weak self] (enabled, noRecentAnswer)  in
+            guard let strongSelf = self else { return }
+            guard strongSelf.isBuyer else { return }
+            strongSelf.delegate?.vmShowRelatedProducts((enabled || noRecentAnswer) ? strongSelf.conversation.value.product?.objectId : nil)
         }.addDisposableTo(disposeBag)
 
         let cfgManager = configManager
@@ -659,6 +663,7 @@ extension ChatViewModel {
         let viewMessage = chatViewMessageAdapter.adapt(message).markAsSent().markAsReceived().markAsRead()
         messages.insert(viewMessage, atIndex: 0)
         chatRepository.confirmRead(convId, messageIds: [messageId], completion: nil)
+        sellerDidntAnswer.value = false
     }
 }
 
@@ -911,6 +916,7 @@ extension ChatViewModel {
                 }
                 self?.afterRetrieveChatMessagesEvents()
                 self?.markAsReadMessages(messages)
+                self?.checkSellerDidntAnswer(messages)
             } else if let _ = result.error {
                 self?.delegate?.vmDidFailRetrievingChatMessages()
             }
@@ -958,6 +964,30 @@ extension ChatViewModel {
         }
 
         afterRetrieveMessagesCompletion?()
+    }
+
+    private func checkSellerDidntAnswer(messages: [ChatViewMessage]) {
+        guard isBuyer else { return }
+
+        guard let myUserId = myUserRepository.myUser?.objectId else { return }
+        guard let oldestMessageDate = messages.last?.sentAt else { return }
+
+        let calendar = NSCalendar.currentCalendar()
+
+        guard let twoDaysAgo = calendar.dateByAddingUnit(.Day, value: -2, toDate: NSDate(), options: []) else { return }
+        let recentSellerMessages = messages.filter { $0.talkerId != myUserId && $0.sentAt?.compare(twoDaysAgo) == .OrderedDescending }
+
+        /*
+         Cases when we consider the seller didn't answer:
+         - Seller didn't answer in the last 48h (recentSellerMessages is empty)
+         AND either:
+            - the oldest message in the first page is also from more than 48h ago (oldestMessageDate > twoDaysAgo)
+            OR:
+            - the first page is full (this case covers the super eager buyer who sent 20 messages in less than 48h and
+            didn't got any answer. We show him the related items too)
+         */
+        sellerDidntAnswer.value = recentSellerMessages.isEmpty &&
+            (oldestMessageDate.compare(twoDaysAgo) == .OrderedAscending || messages.count == Constants.numMessagesPerPage)
     }
 }
 
