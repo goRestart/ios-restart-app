@@ -376,26 +376,37 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     }
 
     private func setupRxBindings() {
-        //TODO: Connect with header
+        viewModel.mainProductsHeader.asObservable().bindNext { [weak self] header in
+            self?.productListView.refreshDataView()
+        }.addDisposableTo(disposeBag)
     }
 }
 
 
 // MARK: - ProductListViewHeaderDelegate
 
-extension MainProductsViewController: ProductListViewHeaderDelegate {
+extension MainProductsViewController: ProductListViewHeaderDelegate, UserPushPermissionsHeaderDelegate {
 
     func totalHeaderHeight() -> CGFloat {
-        return 0
-//        return shouldShowBanner ? AppRatingBannerCell.height : 0
+        return shouldShowPermissionsBanner ? UserPushPermissionsHeader.viewHeight : 0
     }
 
-    func setupViewsInHeader(containerView: UIView) {
-
+    func setupViewsInHeader(header: ListHeaderContainer) {
+        if shouldShowPermissionsBanner {
+            let pushHeader = UserPushPermissionsHeader()
+            pushHeader.delegate = self
+            header.addHeader(pushHeader, height: UserPushPermissionsHeader.viewHeight)
+        } else {
+            header.clear()
+        }
     }
 
-    private var shouldShowBanner: Bool {
-        return !viewModel.mainProductsHeader.value.isEmpty
+    private var shouldShowPermissionsBanner: Bool {
+        return viewModel.mainProductsHeader.value.contains(MainProductsHeader.PushPermissions)
+    }
+
+    func pushPermissionHeaderPressed() {
+        viewModel.pushPermissionsHeaderPressed()
     }
 }
 

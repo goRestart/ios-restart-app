@@ -708,6 +708,8 @@
 		C7798EA31D2EB6AB00C81DD4 /* UICollectionView+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7798EA11D2EB6AB00C81DD4 /* UICollectionView+Helper.swift */; };
 		C77B7DB31DBE3C290043C624 /* ListHeaderContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73189C71DBE3847005A93EE /* ListHeaderContainer.swift */; };
 		C77B7DB41DBE3C3E0043C624 /* ListHeaderContainer.xib in Resources */ = {isa = PBXBuildFile; fileRef = C73189C81DBE3847005A93EE /* ListHeaderContainer.xib */; };
+		C77B7DB71DBE59F40043C624 /* CameraHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77B7DB61DBE59F40043C624 /* CameraHeaderView.swift */; };
+		C77B7DB81DBE59F40043C624 /* CameraHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77B7DB61DBE59F40043C624 /* CameraHeaderView.swift */; };
 		C77D64681CBD250700A22510 /* Tab.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77D64671CBD250700A22510 /* Tab.swift */; };
 		C77D64691CBD250700A22510 /* Tab.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77D64671CBD250700A22510 /* Tab.swift */; };
 		C780281D1BF0FB64002B26C5 /* FilterSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = C780281C1BF0FB64002B26C5 /* FilterSection.swift */; };
@@ -1536,6 +1538,7 @@
 		C77593EF1BF0E48D0097D62F /* FilterHeaderCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterHeaderCell.swift; sourceTree = "<group>"; };
 		C77593F01BF0E48D0097D62F /* FilterHeaderCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FilterHeaderCell.xib; sourceTree = "<group>"; };
 		C7798EA11D2EB6AB00C81DD4 /* UICollectionView+Helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UICollectionView+Helper.swift"; sourceTree = "<group>"; };
+		C77B7DB61DBE59F40043C624 /* CameraHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraHeaderView.swift; sourceTree = "<group>"; };
 		C77D64671CBD250700A22510 /* Tab.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tab.swift; sourceTree = "<group>"; };
 		C780281C1BF0FB64002B26C5 /* FilterSection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterSection.swift; sourceTree = "<group>"; };
 		C783D97A1C64BB90000EE5CA /* ReportUsersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReportUsersViewController.swift; sourceTree = "<group>"; };
@@ -2955,6 +2958,14 @@
 			path = Cells;
 			sourceTree = "<group>";
 		};
+		C77B7DB51DBE59C80043C624 /* Header */ = {
+			isa = PBXGroup;
+			children = (
+				C77B7DB61DBE59F40043C624 /* CameraHeaderView.swift */,
+			);
+			path = Header;
+			sourceTree = "<group>";
+		};
 		C783D9791C64BB5D000EE5CA /* ReportUsers */ = {
 			isa = PBXGroup;
 			children = (
@@ -3303,6 +3314,7 @@
 		D4BFE5AC1B640C13006A8CB6 /* Main */ = {
 			isa = PBXGroup;
 			children = (
+				C77B7DB51DBE59C80043C624 /* Header */,
 				C7C61E021D633FCD00F9505D /* Model */,
 				C73C16381D06C19200DFC67D /* Trending */,
 				C7132A461BF4F56D0000747A /* Tags */,
@@ -4263,6 +4275,7 @@
 				50F0BAA61B28937800E50A68 /* SignUpViewModel.swift in Sources */,
 				C7732F721D883C7700EAD5B7 /* OnboardingCoordinator.swift in Sources */,
 				C739D94A1CDC9A2A000F8BA9 /* WelcomeNotificationCell.swift in Sources */,
+				C77B7DB71DBE59F40043C624 /* CameraHeaderView.swift in Sources */,
 				C7732F6F1D87FA4600EAD5B7 /* TourPostingViewModel.swift in Sources */,
 				2E2A5E121D5C784B0047ED45 /* ExpressChatCoordinator.swift in Sources */,
 				2E2C7B2E1C859F0C00F46E8F /* PromoteProductViewController.swift in Sources */,
@@ -4641,6 +4654,7 @@
 				C7DB41EB1C5138B500400945 /* SignUpViewModel.swift in Sources */,
 				C7732F731D883C7700EAD5B7 /* OnboardingCoordinator.swift in Sources */,
 				C7B588841CE1DFA6009B3975 /* ChatMyMessageCellDrawer.swift in Sources */,
+				C77B7DB81DBE59F40043C624 /* CameraHeaderView.swift in Sources */,
 				C7732F701D87FA4600EAD5B7 /* TourPostingViewModel.swift in Sources */,
 				2E2C7B2F1C859F0C00F46E8F /* PromoteProductViewController.swift in Sources */,
 				C739D94B1CDC9A2A000F8BA9 /* WelcomeNotificationCell.swift in Sources */,

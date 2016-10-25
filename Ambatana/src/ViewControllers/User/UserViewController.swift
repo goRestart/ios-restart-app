@@ -576,16 +576,25 @@ extension UserViewController: ProductListViewHeaderDelegate, UserPushPermissions
     }
 
     func totalHeaderHeight() -> CGFloat {
-        guard let showWarning = viewModel.pushPermissionsDisabledWarning.value where showWarning else { return 0 }
+        guard showHeader else { return 0 }
         return UserPushPermissionsHeader.viewHeight
     }
 
-    func setupViewsInHeader(containerView: UIView) {
-        let pushHeader = UserPushPermissionsHeader.setupOnContainer(containerView)
-        pushHeader.delegate = self
+    func setupViewsInHeader(header: ListHeaderContainer) {
+        if showHeader {
+            let pushHeader = UserPushPermissionsHeader()
+            pushHeader.delegate = self
+            header.addHeader(pushHeader, height: UserPushPermissionsHeader.viewHeight)
+        } else {
+            header.clear()
+        }
     }
 
     func pushPermissionHeaderPressed() {
         viewModel.pushPermissionsWarningPressed()
+    }
+
+    private var showHeader: Bool {
+        return viewModel.pushPermissionsDisabledWarning.value ?? false
     }
 }

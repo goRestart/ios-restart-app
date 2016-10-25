@@ -11,7 +11,36 @@ import UIKit
 class ListHeaderContainer: UICollectionReusableView, ReusableCell {
     @IBOutlet weak var containerView: UIView!
 
+    var totalHeight: CGFloat = 0
+
+    func getHeader(tag: Int) -> UIView? {
+        for view in containerView.subviews {
+            if view.tag == tag {
+                return view
+            }
+        }
+        return nil
+    }
+
+    func addHeader(view: UIView, height: CGFloat) {
+        guard getHeader(view.tag) == nil else { return }
+        view.translatesAutoresizingMaskIntoConstraints = false
+        containerView.addSubview(view)
+
+        var views = [String: AnyObject]()
+        views["header"] = view
+        var metrics = [String: AnyObject]()
+        metrics["height"] = height
+        containerView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-0-[header]-0-|",
+            options: [], metrics: nil, views: views))
+        containerView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-0-[header(height)]-0-|",
+            options: [], metrics: metrics, views: views))
+
+        totalHeight += height
+    }
+
     func clear() {
         containerView.subviews.forEach { $0.removeFromSuperview() }
+        totalHeight = 0
     }
 }
