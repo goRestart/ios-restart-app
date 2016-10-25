@@ -52,8 +52,8 @@ class PostProductViewController: BaseViewController {
 
     // MARK: - Lifecycle
 
-    convenience init(forceCamera: Bool) {
-        self.init(viewModel: PostProductViewModel(source: .SellButton), forceCamera: forceCamera)
+    convenience init(forceCamera: Bool, source: PostingSource) {
+        self.init(viewModel: PostProductViewModel(source: source), forceCamera: forceCamera)
     }
 
     convenience init(viewModel: PostProductViewModel, forceCamera: Bool) {
@@ -63,7 +63,7 @@ class PostProductViewController: BaseViewController {
     required init(viewModel: PostProductViewModel, forceCamera: Bool, keyboardHelper: KeyboardHelper) {
         let viewPagerConfig = LGViewPagerConfig(tabPosition: .Hidden, tabLayout: .Fixed, tabHeight: 54)
         self.viewPager = LGViewPager(config: viewPagerConfig, frame: CGRect.zero)
-        self.cameraView = PostProductCameraView()
+        self.cameraView = PostProductCameraView(viewModel: viewModel.postProductCameraViewModel)
         self.galleryView = PostProductGalleryView()
         self.keyboardHelper = keyboardHelper
         self.viewModel = viewModel
@@ -188,7 +188,7 @@ class PostProductViewController: BaseViewController {
             case .ErrorUpload(let message):
                 self?.setSelectPriceState(loading: false, error: message)
             case .DetailsSelection:
-                self?.setSelectPriceState(loading: false, error: nil)
+               self?.setSelectPriceState(loading: false, error: nil)
             }
         }.addDisposableTo(disposeBag)
 

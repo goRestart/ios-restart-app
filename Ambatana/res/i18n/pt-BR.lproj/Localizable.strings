@@ -331,6 +331,8 @@
 "nps_survey_title" = "WE'D LIKE TO KNOW...";
 "nps_survey_very_bad" = "Not likely";
 "nps_survey_very_good" = "Extremely likely";
+"onboarding_direct_camera_alert_subtitle" = "Post your first product and start selling to people near you";
+"onboarding_direct_camera_alert_title" = "Start Making Cash!";
 "onboarding_login_skip" = "Skip";
 "onboarding_posting_button_a" = "Sell Your Stuff";
 "onboarding_posting_button_b" = "Start";

@@ -331,6 +331,8 @@
 "nps_survey_title" = "CI PIACEREBBE SAPERE...";
 "nps_survey_very_bad" = "Poco probabilmente";
 "nps_survey_very_good" = "Molto probabilmente";
+"onboarding_direct_camera_alert_subtitle" = "Post your first product and start selling to people near you";
+"onboarding_direct_camera_alert_title" = "Start Making Cash!";
 "onboarding_login_skip" = "Salta";
 "onboarding_posting_button_a" = "Vendi le tue cose";
 "onboarding_posting_button_b" = "Inizia";
@@ -377,7 +379,7 @@
 "product_distance_more_than_from_you" = "Più di %@ da te";
 "product_free_price" = "Gratis";
 "product_is_mine_share_body" = "Guarda cosa sto vendendo su letgo!";
-"product_is_mine_share_body_free" = "Check out what I'm giving away on letgo!";
+"product_is_mine_share_body_free" = "Scopri quello che sto regalando su letgo!";
 "product_list_banner_cell_title" = "GUARDA QUI LA TUA INSERZIONE";
 "product_list_item_given_away_status_label" = "Già regalato";
 "product_list_item_sold_status_label" = "VENDUTO";
@@ -442,14 +444,14 @@
 "product_post_incentive_furniture" = "Mobilia";
 "product_post_incentive_got_any" = "hai niente da vendere?";
 "product_post_incentive_got_any_free" = "ne hai qualcuno da regalare?";
-"product_post_incentive_kids_clothes" = "Kid's clothes";
+"product_post_incentive_kids_clothes" = "Abiti da bambino";
 "product_post_incentive_looking_for" = "Le persone vicino a te stanno cercando questi oggetti, %@";
 "product_post_incentive_motorcycle" = "Moto";
 "product_post_incentive_ps4" = "PS4";
 "product_post_incentive_subtitle" = "Il tuo annuncio è stato pubblicato.";
-"product_post_incentive_subtitle_free" = "You're on your way to making someone happier.";
+"product_post_incentive_subtitle_free" = "Stai per far felice qualcuno.";
 "product_post_incentive_title" = "CONGRATULAZIONI!";
-"product_post_incentive_toys" = "Toys";
+"product_post_incentive_toys" = "Giochi";
 "product_post_incentive_tv" = "TV";
 "product_post_login_message" = "Per vendere le tue cose, devi effettuare l'accesso";
 "product_post_network_error" = "Il tuo prodotto non è stato pubblicato.\nControlla le impostazioni di rete.";

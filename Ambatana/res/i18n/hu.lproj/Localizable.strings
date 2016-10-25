@@ -331,6 +331,8 @@
 "nps_survey_title" = "TUDNI SZERETNÉNK...";
 "nps_survey_very_bad" = "Nem szívesen";
 "nps_survey_very_good" = "Nagyon szívesen";
+"onboarding_direct_camera_alert_subtitle" = "Post your first product and start selling to people near you";
+"onboarding_direct_camera_alert_title" = "Start Making Cash!";
 "onboarding_login_skip" = "Kihagy";
 "onboarding_posting_button_a" = "Add el a dolgaid";
 "onboarding_posting_button_b" = "Kezdés";

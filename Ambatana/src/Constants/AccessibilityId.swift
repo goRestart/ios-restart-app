@@ -180,7 +180,7 @@ enum AccessibilityId: String {
     case PostingLoading
     case PostingRetryButton
     case PostingDoneButton
-    case PostingCurrencyButton
+    case PostingCurrencyLabel
     case PostingTitleField
     case PostingPriceField
     case PostingDescriptionField
@@ -198,7 +198,7 @@ enum AccessibilityId: String {
     case EditProductTitleField
     case EditProductAutoGenTitleButton
     case EditProductImageCollection
-    case EditProductCurrencyButton
+    case EditProductCurrencyLabel
     case EditProductPriceField
     case EditProductDescriptionField
     case EditProductLocationButton

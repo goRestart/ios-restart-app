@@ -12,7 +12,7 @@ import bumper
 
 extension Bumper  {
     static func initialize() {
-        Bumper.initialize([WebsocketChat.self, NotificationsSection.self, UserRatings.self, ShowNPSSurvey.self, NonStopProductDetail.self, OnboardingPermissionsMode.self, IncentivizePostingMode.self, MessageOnFavoriteMode.self, InterestedUsersMode.self, FiltersReorder.self, HalfCameraButton.self, FreePostingMode.self])
+        Bumper.initialize([WebsocketChat.self, NotificationsSection.self, UserRatings.self, ShowNPSSurvey.self, NonStopProductDetail.self, OnboardingPermissionsMode.self, MessageOnFavoriteMode.self, InterestedUsersMode.self, FiltersReorder.self, HalfCameraButton.self, FreePostingMode.self, DirectPostInOnboarding.self])
     } 
 
     static var websocketChat: Bool {
@@ -45,11 +45,6 @@ extension Bumper  {
         return OnboardingPermissionsMode(rawValue: value) ?? .Original 
     }
 
-    static var incentivizePostingMode: IncentivizePostingMode {
-        guard let value = Bumper.valueForKey(IncentivizePostingMode.key) else { return .Original }
-        return IncentivizePostingMode(rawValue: value) ?? .Original 
-    }
-
     static var messageOnFavoriteMode: MessageOnFavoriteMode {
         guard let value = Bumper.valueForKey(MessageOnFavoriteMode.key) else { return .NoMessage }
         return MessageOnFavoriteMode(rawValue: value) ?? .NoMessage 
@@ -73,6 +68,11 @@ extension Bumper  {
     static var freePostingMode: FreePostingMode {
         guard let value = Bumper.valueForKey(FreePostingMode.key) else { return .Disabled }
         return FreePostingMode(rawValue: value) ?? .Disabled 
+    }
+
+    static var directPostInOnboarding: Bool {
+        guard let value = Bumper.valueForKey(DirectPostInOnboarding.key) else { return false }
+        return DirectPostInOnboarding(rawValue: value)?.asBool ?? false
     } 
 }
 
@@ -133,23 +133,6 @@ enum OnboardingPermissionsMode: String, BumperFeature  {
             case 0: return .Original
             case 1: return .OneButtonOriginalImages
             case 2: return .OneButtonNewImages
-            default: return .Original
-        }
-    }
-}
-
-enum IncentivizePostingMode: String, BumperFeature  {
-    case Original, VariantA, VariantB, VariantC
-    static var defaultValue: String { return IncentivizePostingMode.Original.rawValue }
-    static var enumValues: [IncentivizePostingMode] { return [.Original, .VariantA, .VariantB, .VariantC]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Onboarding Posting" } 
-    static func fromPosition(position: Int) -> IncentivizePostingMode {
-        switch position { 
-            case 0: return .Original
-            case 1: return .VariantA
-            case 2: return .VariantB
-            case 3: return .VariantC
             default: return .Original
         }
     }
@@ -219,5 +202,14 @@ enum FreePostingMode: String, BumperFeature  {
             default: return .Disabled
         }
     }
+}
+
+enum DirectPostInOnboarding: String, BumperFeature  {
+    case No, Yes
+    static var defaultValue: String { return DirectPostInOnboarding.No.rawValue }
+    static var enumValues: [DirectPostInOnboarding] { return [.No, .Yes]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Last Onboarding step opens the camera" } 
+    var asBool: Bool { return self == .Yes }
 }
 

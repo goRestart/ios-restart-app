@@ -29,11 +29,6 @@
         "values": ["Original", "OneButtonOriginalImages", "OneButtonNewImages"],
         "description": "Onboarding permissions"
 	},
-    {
-        "name": "IncentivizePostingMode",
-        "values": ["Original", "VariantA", "VariantB", "VariantC"],
-        "description": "Onboarding Posting"
-	},
 	{
         "name": "MessageOnFavoriteMode",
         "values": ["NoMessage", "NotificationPreMessage", "DirectMessage"],
@@ -58,5 +53,10 @@
         "name": "FreePostingMode",
         "values": ["Disabled", "SplitButton", "OneButton"],
         "description": "Free Posting Mode"
+	},
+    {
+        "name": "DirectPostInOnboarding",
+        "values": ["No", "Yes"],
+        "description": "Last Onboarding step opens the camera"
 	}
 ]

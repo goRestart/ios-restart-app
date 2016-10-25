@@ -14,12 +14,24 @@ import RxCocoa
 class PostProductDetailPriceView: BaseView {
 
     @IBOutlet var contentView: UIView!
-    @IBOutlet weak var infoLabel: UILabel!
-    @IBOutlet weak var priceFieldContainer: UIView!
     @IBOutlet weak var priceTextField: UITextField!
-    @IBOutlet weak var currencyButton: UIButton!
+    @IBOutlet weak var currencyLabel: UILabel!
+    @IBOutlet weak var infoLabel: UILabel!
+    @IBOutlet weak var priceViewContainer: UIView!
+    @IBOutlet weak var priceFieldContainer: UIView!
+    @IBOutlet weak var postFreeViewContainer: UIView!
     @IBOutlet weak var doneButton: UIButton!
-
+    
+    @IBOutlet weak var freePostSwitch: UISwitch!
+    @IBOutlet weak var giveAwayContainerHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var separatorContainerDistanceConstraint: NSLayoutConstraint!
+    
+    @IBOutlet weak var priceContainerHeightConstraint: NSLayoutConstraint!
+    
+    static let separatorContainerDistance: CGFloat = 1
+    static let containerHeight: CGFloat = 55
+    
+    @IBOutlet weak var freePostLabel: UILabel!
     private let viewModel: PostProductDetailViewModel
 
     private let disposeBag = DisposeBag()
@@ -63,23 +75,54 @@ class PostProductDetailPriceView: BaseView {
 
     private func setupUI() {
         infoLabel.text = LGLocalizedString.productPostPriceLabel.uppercase
+        priceViewContainer.layer.cornerRadius = 15.0
+        postFreeViewContainer.backgroundColor = UIColor(white: 0.9, alpha: 0.3)
+        priceFieldContainer.backgroundColor = UIColor(white: 0.9, alpha: 0.3)
+        freePostLabel.text = LGLocalizedString.sellPostFreeLabel
+        freePostLabel.textColor = UIColor.white
         priceTextField.attributedPlaceholder = NSAttributedString(string: LGLocalizedString.productNegotiablePrice,
                                                                   attributes: [NSForegroundColorAttributeName: UIColor.whiteColor()])
         doneButton.setTitle(LGLocalizedString.productPostDone, forState: UIControlState.Normal)
-        currencyButton.setTitle(viewModel.currencySymbol, forState: UIControlState.Normal)
-
+        currencyLabel.text = viewModel.currencySymbol
+        currencyLabel.textColor = UIColor.white
         doneButton.setStyle(.Primary(fontSize: .Medium))
-        priceFieldContainer.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
-        priceFieldContainer.layer.borderColor = UIColor.whiteColor().CGColor
-        priceFieldContainer.layer.borderWidth = 1
+        showFreeOption(viewModel.freeOptionAvailable)
     }
 
     private func setupRx() {
         priceTextField.rx_text.bindTo(viewModel.price).addDisposableTo(disposeBag)
+        viewModel.isFree.asObservable().bindTo(freePostSwitch.rx_value).addDisposableTo(disposeBag)
+        freePostSwitch.rx_value.bindTo(viewModel.isFree).addDisposableTo(disposeBag)
+        viewModel.isFree.asObservable().bindNext{[weak self] active in
+            self?.showPriceTextContainer(!active)
+            }.addDisposableTo(disposeBag)
         doneButton.rx_tap.bindNext { [weak self] in
             self?.priceTextField.resignFirstResponder()
             self?.viewModel.doneButtonPressed()
         }.addDisposableTo(disposeBag)
+    }
+    
+    private func showFreeOption(show: Bool) {
+        if show {
+            giveAwayContainerHeightConstraint.constant = PostProductDetailPriceView.containerHeight
+            separatorContainerDistanceConstraint.constant = PostProductDetailPriceView.separatorContainerDistance
+        } else {
+            giveAwayContainerHeightConstraint.constant = 0
+            separatorContainerDistanceConstraint.constant = 0
+        }
+    }
+    private func showPriceTextContainer(show: Bool) {
+        if show {
+            priceContainerHeightConstraint.constant = PostProductDetailPriceView.containerHeight
+            separatorContainerDistanceConstraint.constant = PostProductDetailPriceView.separatorContainerDistance
+        } else {
+            priceContainerHeightConstraint.constant = 0
+            separatorContainerDistanceConstraint.constant = 0
+            priceTextField.resignFirstResponder()
+        }
+        UIView.animateWithDuration(0.3, animations: {
+            self.layoutIfNeeded()
+        } )
     }
 }
 
@@ -100,7 +143,7 @@ extension PostProductDetailPriceView: UITextFieldDelegate {
 extension PostProductDetailPriceView {
     func setAccesibilityIds() {
         doneButton.accessibilityId = .PostingDoneButton
-        currencyButton.accessibilityId = .PostingCurrencyButton
+        currencyLabel.accessibilityId = .PostingCurrencyLabel
         priceTextField.accessibilityId = .PostingPriceField
     }
 }

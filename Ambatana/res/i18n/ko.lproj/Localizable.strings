@@ -331,6 +331,8 @@
 "nps_survey_title" = "저희는 알고자 합니다...";
 "nps_survey_very_bad" = "그렇지 않음";
 "nps_survey_very_good" = "전혀 그렇지 않음";
+"onboarding_direct_camera_alert_subtitle" = "Post your first product and start selling to people near you";
+"onboarding_direct_camera_alert_title" = "Start Making Cash!";
 "onboarding_login_skip" = "넘기기";
 "onboarding_posting_button_a" = "고객님의 물건을 판매하세요";
 "onboarding_posting_button_b" = "시작";
