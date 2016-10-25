@@ -212,7 +212,7 @@ extension SellCoordinator: ProductPostedNavigator {
 private extension SellCoordinator {
     func trackPost(result: ProductResult, trackingInfo: PostProductTrackingInfo) {
         guard let product = result.value else { return }
-        let eventParameterFreePosting = FeatureFlags.freePostingMode.getEventParameterFreePostingComplete(product.price)
+        let eventParameterFreePosting = FeatureFlags.freePostingMode.eventParameterFreePostingWithPrice(product.price)
         let event = TrackerEvent.productSellComplete(eventParameterFreePosting, product: product, buttonName: trackingInfo.buttonName,
                                                      negotiable: trackingInfo.negotiablePrice,
                                                      pictureSource: trackingInfo.imageSource)
