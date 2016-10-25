@@ -127,9 +127,9 @@ class ChatViewModel: BaseViewModel {
     let chatStatus = Variable<ChatInfoViewStatus>(.Available)
     let chatEnabled = Variable<Bool>(true)
     let relatedProductsEnabled = Variable<Bool>(false)
-    let sellerDidntAnswer = Variable<Bool>(false)
     let interlocutorTyping = Variable<Bool>(false)
     let messages = CollectionVariable<ChatViewMessage>([])
+    private let sellerDidntAnswer = Variable<Bool>(false)
     private let conversation: Variable<ChatConversation>
     private var interlocutor: User?
     private let myMessagesCount = Variable<Int>(0)
