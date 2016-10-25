@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import LGCoreKit
 
 extension FreePostingMode {
     
@@ -16,6 +17,15 @@ extension FreePostingMode {
             return false
         case .SplitButton, .OneButton:
             return true
+        }
+    }
+    
+    func getEventParameterFreePostingComplete(price: ProductPrice) -> EventParameterFreePosting {
+        switch self {
+        case .Disabled:
+            return .Unset
+        case .OneButton, .SplitButton:
+            return price.free ? .True : .False
         }
     }
 }

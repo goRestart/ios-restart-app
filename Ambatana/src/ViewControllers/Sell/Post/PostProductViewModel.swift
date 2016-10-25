@@ -97,8 +97,18 @@ class PostProductViewModel: BaseViewModel {
     // MARK: - Public methods
 
     func onViewLoaded() {
-        let event = TrackerEvent.productSellStart(postingSource.typePage, buttonName: postingSource.buttonName)
-        TrackerProxy.sharedInstance.trackEvent(event)
+        var event: TrackerEvent
+        switch FeatureFlags.freePostingMode {
+        case .Disabled, .OneButton:
+            event = TrackerEvent.productSellStart(.Unset ,typePage: postingSource.typePage, buttonName: postingSource.buttonName)
+        case .SplitButton:
+            if postingSource == .SellButton {
+                 event = TrackerEvent.productSellStart(.True ,typePage: postingSource.typePage, buttonName: postingSource.buttonName)
+            } else {
+                 event = TrackerEvent.productSellStart(.False ,typePage: postingSource.typePage, buttonName: postingSource.buttonName)
+            }
+        }
+       TrackerProxy.sharedInstance.trackEvent(event)
     }
 
     func retryButtonPressed() {

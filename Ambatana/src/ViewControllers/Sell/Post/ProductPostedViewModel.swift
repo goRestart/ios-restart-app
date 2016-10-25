@@ -238,8 +238,8 @@ class ProductPostedViewModel: BaseViewModel {
                 let buttonName = strongSelf.trackingInfo.buttonName
                 let negotiable = strongSelf.trackingInfo.negotiablePrice
                 let pictureSource = strongSelf.trackingInfo.imageSource
-
-                let event = TrackerEvent.productSellComplete(postedProduct,
+                let eventParameterFreePosting = FeatureFlags.freePostingMode.getEventParameterFreePostingComplete(product.price)
+                let event = TrackerEvent.productSellComplete(eventParameterFreePosting, product: postedProduct,
                     buttonName: buttonName, negotiable: negotiable, pictureSource: pictureSource)
                 strongSelf.trackEvent(event)
 

@@ -238,6 +238,7 @@ public enum EventParameterName: String {
     case AccountNetwork       = "account-network"
     case ProfileType          = "profile-type"
     case NotificationType     = "notification-type"
+    case FreePosting          = "free-posting"
 }
 
 public enum EventParameterLoginSourceValue: String {
@@ -441,14 +442,15 @@ public enum EventParameterPostProductError {
 }
 
 public enum EventParameterEditedFields: String {
-    case Picture
-    case Title
-    case Price
-    case Description
-    case Category
-    case Location
-    case Share
-
+    case Picture = "picture"
+    case Title = "title"
+    case Price = "price"
+    case Description = "description"
+    case Category = "category"
+    case Location = "location"
+    case Share = "share"
+    case FreePosting = "free-posting"
+    
     public var value: String {
         return self.rawValue.lowercaseString
     }
@@ -574,6 +576,12 @@ public enum EventParameterNotificationType: String {
     case ProductSold = "favorite-sold"
     case Rating = "rating"
     case RatingUpdated = "rating-updated"
+}
+
+public enum EventParameterFreePosting: String {
+    case True = "true"
+    case False = "false"
+    case Unset = "N/A"
 }
 
 public struct EventParameters {

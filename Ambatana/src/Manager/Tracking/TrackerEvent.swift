@@ -178,7 +178,7 @@ public struct TrackerEvent {
 
     static func filterComplete(coordinates: LGLocationCoordinates2D?, distanceRadius: Int?,
                                distanceUnit: DistanceType, categories: [ProductCategory]?, sortBy: ProductSortCriteria?,
-                               postedWithin: ProductTimeCriteria?, priceRange: FilterPriceRange) -> TrackerEvent {
+                               postedWithin: ProductTimeCriteria?, priceRange: FilterPriceRange, freePosting: Bool) -> TrackerEvent {
         var params = EventParameters()
 
         // Filter Coordinates
@@ -213,6 +213,8 @@ public struct TrackerEvent {
 
         params[.PriceFrom] = eventParameterHasPriceFilter(priceRange.min).rawValue
         params[.PriceTo] = eventParameterHasPriceFilter(priceRange.max).rawValue
+        
+        params[.FreePosting] = eventParameterFreePosting(freePosting).rawValue
 
         return TrackerEvent(name: .FilterComplete, params: params)
     }
@@ -312,6 +314,7 @@ public struct TrackerEvent {
             params[.ProductPrice] = product.price.value
             params[.ProductCurrency] = product.currency.code
             params[.CategoryId] = product.category.rawValue
+            params[.FreePosting] = product.price.free
             return TrackerEvent(name: .ProductMarkAsSold, params: params)
     }
 
@@ -332,10 +335,11 @@ public struct TrackerEvent {
         return TrackerEvent(name: .ProductReport, params: params)
     }
 
-    static func productSellStart(typePage: EventParameterTypePage, buttonName: EventParameterButtonNameType?) -> TrackerEvent {
+    static func productSellStart(freePosting: EventParameterFreePosting, typePage: EventParameterTypePage, buttonName: EventParameterButtonNameType?) -> TrackerEvent {
         var params = EventParameters()
         params[.TypePage] = typePage.rawValue
         params[.ButtonName] = buttonName?.rawValue
+        params[.FreePosting] = freePosting.rawValue
         return TrackerEvent(name: .ProductSellStart, params: params)
     }
 
@@ -355,13 +359,14 @@ public struct TrackerEvent {
         return TrackerEvent(name: .ProductSellSharedFB, params: params)
     }
 
-    static func productSellComplete(product: Product) -> TrackerEvent {
-        return productSellComplete(product, buttonName: nil, negotiable: nil, pictureSource: nil)
+    static func productSellComplete(freePosting freePosting: EventParameterFreePosting, product: Product) -> TrackerEvent {
+        return productSellComplete(freePosting, product: product, buttonName: nil, negotiable: nil, pictureSource: nil)
     }
 
-    static func productSellComplete(product: Product, buttonName: EventParameterButtonNameType?,
+    static func productSellComplete(freePosting:EventParameterFreePosting, product: Product, buttonName: EventParameterButtonNameType?,
         negotiable: EventParameterNegotiablePrice?, pictureSource: EventParameterPictureSource?) -> TrackerEvent {
         var params = EventParameters()
+        params[.FreePosting] = freePosting.rawValue
         params[.ProductId] = product.objectId ?? ""
         params[.CategoryId] = product.category.rawValue
         params[.ProductName] = product.name ?? ""
@@ -946,5 +951,9 @@ public struct TrackerEvent {
 
     private static func eventParameterHasPriceFilter(price: Int?) -> EventParameterHasPriceFilter {
         return price != nil ? .True : .False
+    }
+    
+    private static func eventParameterFreePosting(freePosting: Bool) -> EventParameterFreePosting {
+        return freePosting == true ? .True : .False
     }
 }
