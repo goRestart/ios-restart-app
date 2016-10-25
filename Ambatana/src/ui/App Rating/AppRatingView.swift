@@ -44,7 +44,7 @@ class AppRatingView: UIView {
         
         self.frame = frame
         mainView.layer.cornerRadius = LGUIKitConstants.alertCornerRadius
-        headerImageView.backgroundColor = UIColor.ratingBannerBackgroundColor
+        headerImageView.backgroundColor = UIColor.ratingViewBackgroundColor
         mainTextLabel.text = LGLocalizedString.ratingViewTitleLabelUppercase
         ratUslabel.text = LGLocalizedString.ratingViewRateUsLabel
         dismissButton.setTitle(LGLocalizedString.ratingViewRemindLaterButton.uppercase, forState: .Normal)
