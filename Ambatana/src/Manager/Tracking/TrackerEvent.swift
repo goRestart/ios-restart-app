@@ -537,12 +537,13 @@ public struct TrackerEvent {
         return TrackerEvent(name: .ChatRelatedItemsComplete, params: params)
     }
 
-    static func profileVisit(user: User, typePage: EventParameterTypePage, tab: EventParameterTab)
+    static func profileVisit(user: User, profileType: EventParameterProfileType, typePage: EventParameterTypePage, tab: EventParameterTab)
         -> TrackerEvent {
             var params = EventParameters()
             params[.TypePage] = typePage.rawValue
             params[.UserToId] = user.objectId
             params[.Tab] = tab.rawValue
+            params[.ProfileType] = profileType.rawValue
             return TrackerEvent(name: .ProfileVisit, params: params)
     }
 

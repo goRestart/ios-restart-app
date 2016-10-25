@@ -166,11 +166,13 @@ class PostProductCameraViewModel: BaseViewModel {
     
     private func setupFirstShownLiterals() {
         if sourcePosting.isFreePosting {
-            firstTimeTitle = LGLocalizedString.productPostCameraFirstTimeAlertTitle
-            firstTimeSubtitle = LGLocalizedString.productPostCameraFirstTimeAlertSubtitle
-        } else {
             firstTimeTitle = LGLocalizedString.productPostFreeCameraFirstTimeAlertTitle
             firstTimeSubtitle = LGLocalizedString.productPostFreeCameraFirstTimeAlertSubtitle
+        } else {
+            firstTimeTitle = FeatureFlags.directPostInOnboarding ? LGLocalizedString.onboardingDirectCameraAlertTitle :
+                LGLocalizedString.productPostCameraFirstTimeAlertTitle
+            firstTimeSubtitle = FeatureFlags.directPostInOnboarding ? LGLocalizedString.onboardingDirectCameraAlertSubtitle :
+                LGLocalizedString.productPostCameraFirstTimeAlertSubtitle
         }
     }
 

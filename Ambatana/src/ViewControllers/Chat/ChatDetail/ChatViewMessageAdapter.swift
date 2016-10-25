@@ -121,13 +121,6 @@ class ChatViewMessageAdapter {
         return createDisclaimerMessage(chatDeletedMessage, showAvatar: true, actionTitle: nil, action: nil)
     }
 
-    func createUserNotVerifiedDisclaimerMessage(action: () -> Void) -> ChatViewMessage {
-        return createDisclaimerMessage(NSAttributedString(string: LGLocalizedString.chatConnectAccountDisclaimer),
-                                       showAvatar: true,
-                                       actionTitle: LGLocalizedString.chatConnectAccountDisclaimerButton,
-                                       action: action)
-    }
-
     func createMessageSuspiciousDisclaimerMessage(action: (() -> ())?) -> ChatViewMessage {
         let messageSuspiciousMessage = ChatViewMessageAdapter.alertMutableAttributedString
 

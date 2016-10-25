@@ -1351,6 +1351,14 @@ struct LGLocalizedString {
 		return NSLocalizedString("nps_survey_very_good", comment: "")
 	}
 
+	static var onboardingDirectCameraAlertTitle: String {
+		return NSLocalizedString("onboarding_direct_camera_alert_title", comment: "")
+	}
+
+	static var onboardingDirectCameraAlertSubtitle: String {
+		return NSLocalizedString("onboarding_direct_camera_alert_subtitle", comment: "")
+	}
+
 	static var onboardingLoginSkip: String {
 		return NSLocalizedString("onboarding_login_skip", comment: "")
 	}
