@@ -210,8 +210,7 @@ class FiltersViewModel: BaseViewModel {
                                                         categories: productFilter.selectedCategories,
                                                         sortBy: productFilter.selectedOrdering,
                                                         postedWithin: productFilter.selectedWithin,
-                                                        priceRange: productFilter.priceRange,
-                                                        freePosting: FeatureFlags.freePostingMode.eventParameterFreePostingWithPriceRange(productFilter.priceRange))
+                                                        priceRange: productFilter.priceRange)
         TrackerProxy.sharedInstance.trackEvent(trackingEvent)
         
         dataDelegate?.viewModelDidUpdateFilters(self, filters: productFilter)

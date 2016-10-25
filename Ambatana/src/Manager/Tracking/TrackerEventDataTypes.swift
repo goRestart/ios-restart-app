@@ -325,6 +325,7 @@ public enum EventParameterPostedWithin: String {
 public enum EventParameterHasPriceFilter: String {
     case True = "true"
     case False = "false"
+    case Unset = "N/A"
 }
 
 public enum EventParameterQuickAnswerValue: String {

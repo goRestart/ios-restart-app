@@ -19,22 +19,4 @@ extension FreePostingMode {
             return true
         }
     }
-    
-    func eventParameterFreePostingWithPrice(price: ProductPrice) -> EventParameterFreePosting {
-        switch self {
-        case .Disabled:
-            return .Unset
-        case .OneButton, .SplitButton:
-            return price.free ? .True : .False
-        }
-    }
-    
-    func eventParameterFreePostingWithPriceRange(priceRange: FilterPriceRange) -> EventParameterFreePosting {
-        switch self {
-        case .Disabled:
-            return .Unset
-        case .OneButton, .SplitButton:
-            return priceRange.free ? .True : .False
-        }
-    }
 }

@@ -649,7 +649,7 @@ class TrackerEventSpec: QuickSpec {
                         sut = TrackerEvent.filterComplete(coords, distanceRadius: 10, distanceUnit: DistanceType.Km,
                             categories: [.Electronics, .CarsAndMotors],
                             sortBy: ProductSortCriteria.Distance, postedWithin: ProductTimeCriteria.Day,
-                            priceRange: .PriceRange(min: 5, max: 100), freePosting: .False)
+                            priceRange: .PriceRange(min: 5, max: 100))
                     }
                     it("has its event name") {
                         expect(sut.name.rawValue).to(equal("filter-complete"))
@@ -692,7 +692,7 @@ class TrackerEventSpec: QuickSpec {
                 context("not receiving all params, contains the default params") {
                     beforeEach {
                         sut = TrackerEvent.filterComplete(nil, distanceRadius: nil, distanceUnit: DistanceType.Km,
-                            categories: nil, sortBy: nil, postedWithin: nil, priceRange: .PriceRange(min: nil, max: nil), freePosting: .Unset)
+                            categories: nil, sortBy: nil, postedWithin: nil, priceRange: .PriceRange(min: nil, max: nil))
                     }
                     it("has its event name") {
                         expect(sut.name.rawValue).to(equal("filter-complete"))
@@ -729,7 +729,7 @@ class TrackerEventSpec: QuickSpec {
                         expect(sut.params!.stringKeyParams["price-to"] as? String) == "false"
                     }
                     it("free posting") {
-                        expect(sut.params!.stringKeyParams["free-posting"] as? String) == "N/A"
+                        expect(sut.params!.stringKeyParams["free-posting"] as? String) == "false"
                     }
                 }
             }
@@ -1457,8 +1457,8 @@ class TrackerEventSpec: QuickSpec {
                     let product = MockProduct()
                     product.objectId = "r4nd0m1D"
                     product.category = .HomeAndGarden
-
-                    sut = TrackerEvent.productSellComplete(.True, product: product, buttonName: .Done, negotiable: .Yes,
+                    product.price = .Free
+                    sut = TrackerEvent.productSellComplete(product, buttonName: .Done, negotiable: .Yes,
                         pictureSource: .Gallery)
                 }
                 it("has its event name") {
