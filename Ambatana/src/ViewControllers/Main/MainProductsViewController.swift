@@ -14,7 +14,7 @@ import RxSwift
 
 
 class MainProductsViewController: BaseViewController, ProductListViewScrollDelegate, MainProductsViewModelDelegate,
-    FilterTagsViewControllerDelegate, InfoBubbleDelegate, PermissionsDelegate, UITextFieldDelegate, ScrollableToTop {
+    FilterTagsViewControllerDelegate, PermissionsDelegate, UITextFieldDelegate, ScrollableToTop {
     
     // ViewModel
     var viewModel: MainProductsViewModel
@@ -24,9 +24,11 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     
     @IBOutlet weak var tagsCollectionView: UICollectionView!
     var tagsCollectionTopSpace: NSLayoutConstraint?
-    
+
+    private let infoBubbleTopMargin: CGFloat = 8
     @IBOutlet weak var infoBubbleLabel: UILabel!
     @IBOutlet weak var infoBubbleShadow: UIView!
+    @IBOutlet weak var infoBubbleTopConstraint: NSLayoutConstraint!
     
     private let navbarSearch: LGNavBarSearchField
     @IBOutlet weak var trendingSearchesContainer: UIVisualEffectView!
@@ -35,6 +37,8 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     private var tagsViewController : FilterTagsViewController?
     private var tagsShowing : Bool = false
     private var tagsAnimating : Bool = false
+
+    private let topInset = Variable<CGFloat> (0)
 
     private let disposeBag = DisposeBag()
 
@@ -50,7 +54,6 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
         self.viewModel = viewModel
         super.init(viewModel: viewModel, nibName: nibNameOrNil)
         viewModel.delegate = self
-        viewModel.bubbleDelegate = self
         viewModel.permissionsDelegate = self
 
         hidesBottomBarWhenPushed = false
@@ -69,6 +72,7 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        topInset.value = topBarHeight
         productListView.collectionViewContentInset.top = topBarHeight
         productListView.collectionViewContentInset.bottom = tabBarHeight + Constants.tabBarSellFloatingButtonHeight
         if let image =  UIImage(named: "pattern_white") {
@@ -118,19 +122,6 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     }
 
 
-    // MARK: - InfoBubbleDelegate
-    
-    func mainProductsViewModel(mainProductsViewModel: MainProductsViewModel, updatedBubbleInfoString: String) {
-        infoBubbleLabel.text = updatedBubbleInfoString
-    }
-
-    func mainProductsViewModel(mainProductsViewModel: MainProductsViewModel, shouldHideBubble hidden: Bool) {
-        UIView.animateWithDuration(0.35, animations: { () -> Void in
-            self.infoBubbleShadow.alpha = hidden ? 0:1
-        })
-    }
-
-
     // MARK: - PermissionsDelegate
 
     func mainProductsViewModelShowPushPermissionsAlert(mainProductsViewModel: MainProductsViewModel) {
@@ -151,6 +142,16 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     }
 
     func productListView(productListView: ProductListView, didScrollWithContentOffsetY contentOffsetY: CGFloat) {
+        updateBubbleTopConstraint()
+    }
+
+    private func updateBubbleTopConstraint() {
+        let delta = productListView.headerBottom - topInset.value
+        if delta > 0 {
+            infoBubbleTopConstraint.constant = infoBubbleTopMargin + delta
+        } else {
+            infoBubbleTopConstraint.constant = infoBubbleTopMargin
+        }
     }
     
     
@@ -334,10 +335,8 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
         }
 
         let tagsHeight = tagsCollectionView.frame.size.height
-        if let tagsTopSpace = tagsCollectionTopSpace {
-            tagsTopSpace.constant = show ? 0.0 : -tagsHeight
-        }
-        productListView.collectionViewContentInset.top = show ? topBarHeight + tagsHeight : topBarHeight
+        tagsCollectionTopSpace?.constant = show ? 0.0 : -tagsHeight
+        topInset.value = show ? topBarHeight + tagsHeight : topBarHeight
 
         UIView.animateWithDuration(
             0.2,
@@ -354,7 +353,7 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     }
     
     private func setupInfoBubble() {
-        infoBubbleLabel.text = viewModel.infoBubbleDefaultText
+        infoBubbleLabel.text = viewModel.infoBubbleText.value
         infoBubbleShadow.applyInfoBubbleShadow()
 
         showInfoBubble(false, alpha: 0.0)
@@ -376,6 +375,12 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     }
 
     private func setupRxBindings() {
+        viewModel.infoBubbleText.asObservable().bindTo(infoBubbleLabel.rx_text).addDisposableTo(disposeBag)
+
+        topInset.asObservable().skip(1).bindNext { [weak self] topInset in
+                self?.productListView.collectionViewContentInset.top = topInset
+        }.addDisposableTo(disposeBag)
+
         viewModel.mainProductsHeader.asObservable().bindNext { [weak self] header in
             self?.productListView.refreshDataView()
         }.addDisposableTo(disposeBag)

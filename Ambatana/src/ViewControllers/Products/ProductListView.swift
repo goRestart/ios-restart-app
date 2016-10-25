@@ -17,7 +17,6 @@ protocol ProductListViewScrollDelegate: class {
 protocol ProductListViewCellsDelegate: class {
     func visibleTopCellWithIndex(index: Int, whileScrollingDown scrollingDown: Bool)
     func visibleBottomCell(index: Int)
-    func pullingToRefresh(refreshing: Bool)
 }
 
 protocol ProductListViewHeaderDelegate: class {
@@ -118,6 +117,15 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         set {
             collectionView.contentInset = newValue
         }
+    }
+
+    var headerBottom: CGFloat {
+        guard viewModel.numberOfProducts > 0 else { return 0 }
+        let layoutAttrs = collectionView.layoutAttributesForSupplementaryElementOfKind(
+            CHTCollectionElementKindSectionHeader, atIndexPath: NSIndexPath(forItem: 0, inSection: 0))
+        guard let headerRect = layoutAttrs?.frame else { return 0 }
+        let convertedRect = convertRect(headerRect, fromView: collectionView)
+        return convertedRect.bottom
     }
 
     var defaultCellSize: CGSize {
@@ -233,8 +241,8 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         
         super.switchViewModel(vm)
     }
-    
-    
+
+
     // MARK: - CHTCollectionViewDelegateWaterfallLayout
 
     func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!,
@@ -345,8 +353,6 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     
     func scrollViewDidScroll(scrollView: UIScrollView) {
         
-        checkPullToRefresh(scrollView)
-        
         // while going down, increase distance in label, when going up, decrease
         if lastContentOffset >= scrollView.contentOffset.y {
             scrollingDown = false
@@ -439,6 +445,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
 
     private func reloadData() {
         collectionView.reloadData()
+        informScrollDelegate(collectionView)
     }
 
     /**
@@ -528,17 +535,6 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
 
     dynamic private func refreshControlTriggered() {
         viewModel.refreshControlTriggered()
-    }
-
-    private func checkPullToRefresh(scrollView: UIScrollView) {
-        
-        if lastContentOffset >= -collectionViewContentInset.top &&
-                                                        scrollView.contentOffset.y < -collectionViewContentInset.top {
-            cellsDelegate?.pullingToRefresh(true)
-        } else if lastContentOffset < -collectionViewContentInset.top &&
-                                                        scrollView.contentOffset.y >= -collectionViewContentInset.top {
-            cellsDelegate?.pullingToRefresh(false)
-        }
     }
 
     /**

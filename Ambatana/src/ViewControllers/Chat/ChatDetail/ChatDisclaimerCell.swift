@@ -100,6 +100,8 @@ private extension ChatDisclaimerCell {
         button.rx_tap.asObservable().subscribeNext { [weak self] _ in
             self?.buttonAction?()
         }.addDisposableTo(disposeBag)
+
+        
     }
     
     dynamic func tapped() {

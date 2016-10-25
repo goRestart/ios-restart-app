@@ -19,11 +19,6 @@ protocol MainProductsViewModelDelegate: BaseViewModelDelegate {
     func vmDidSuceedRetrievingProducts(hasProducts hasProducts: Bool, isFirstPage: Bool)
 }
 
-protocol InfoBubbleDelegate: class {
-    func mainProductsViewModel(mainProductsViewModel: MainProductsViewModel, updatedBubbleInfoString: String)
-    func mainProductsViewModel(mainProductsViewModel: MainProductsViewModel, shouldHideBubble hidden: Bool)
-}
-
 protocol PermissionsDelegate: class {
     func mainProductsViewModelShowPushPermissionsAlert(mainProductsViewModel: MainProductsViewModel)
 }
@@ -63,9 +58,8 @@ class MainProductsViewModel: BaseViewModel {
             return false
         }
     }
+    let infoBubbleText = Variable<String>(LGLocalizedString.productPopularNearYou)
 
-    let infoBubbleDefaultText =  LGLocalizedString.productPopularNearYou
-    
     var tags: [FilterTag] {
         
         var resultTags : [FilterTag] = []
@@ -116,7 +110,6 @@ class MainProductsViewModel: BaseViewModel {
     
     // > Delegate
     weak var delegate: MainProductsViewModelDelegate?
-    weak var bubbleDelegate: InfoBubbleDelegate?
     weak var permissionsDelegate: PermissionsDelegate?
 
     // > Navigator
@@ -298,7 +291,7 @@ class MainProductsViewModel: BaseViewModel {
     
     private func updateListView() {
         if filters.selectedOrdering == ProductSortCriteria.defaultOption {
-            bubbleDelegate?.mainProductsViewModel(self, updatedBubbleInfoString: LGLocalizedString.productPopularNearYou)
+            infoBubbleText.value = LGLocalizedString.productPopularNearYou
         }
 
         productListRequester.filters = filters
@@ -347,9 +340,9 @@ extension MainProductsViewModel: ProductListViewCellsDelegate {
             }
             let distanceString = bubbleInfoTextForDistance(max(1,Int(round(bubbleDistance))),
                                                            type: DistanceType.systemDistanceType())
-            bubbleDelegate?.mainProductsViewModel(self, updatedBubbleInfoString: distanceString)
+            infoBubbleText.value = distanceString
         case .Creation:
-            bubbleDelegate?.mainProductsViewModel(self, updatedBubbleInfoString: LGLocalizedString.productPopularNearYou)
+            infoBubbleText.value = LGLocalizedString.productPopularNearYou
         case .PriceAsc, .PriceDesc:
             break
         }
@@ -358,10 +351,6 @@ extension MainProductsViewModel: ProductListViewCellsDelegate {
     func visibleBottomCell(index: Int) {
         guard index == Constants.itemIndexPushPermissionsTrigger else { return }
         permissionsDelegate?.mainProductsViewModelShowPushPermissionsAlert(self)
-    }
-
-    func pullingToRefresh(refreshing: Bool) {
-        bubbleDelegate?.mainProductsViewModel(self, shouldHideBubble: refreshing)
     }
 }
 
@@ -655,7 +644,7 @@ private extension MainProductsViewModel {
     private func trackPushPermissionStart() {
         let goToSettings: EventParameterPermissionGoToSettings =
             PushPermissionsManager.sharedInstance.pushPermissionsSettingsMode ? .True : .NotAvailable
-        let trackerEvent = TrackerEvent.permissionAlertStart(.Push, typePage: .Profile, alertType: .Custom,
+        let trackerEvent = TrackerEvent.permissionAlertStart(.Push, typePage: .ProductList, alertType: .Custom,
                                                              permissionGoToSettings: goToSettings)
         tracker.trackEvent(trackerEvent)
     }
@@ -663,7 +652,7 @@ private extension MainProductsViewModel {
     private func trackPushPermissionComplete() {
         let goToSettings: EventParameterPermissionGoToSettings =
             PushPermissionsManager.sharedInstance.pushPermissionsSettingsMode ? .True : .NotAvailable
-        let trackerEvent = TrackerEvent.permissionAlertComplete(.Push, typePage: .Profile, alertType: .Custom,
+        let trackerEvent = TrackerEvent.permissionAlertComplete(.Push, typePage: .ProductList, alertType: .Custom,
                                                                 permissionGoToSettings: goToSettings)
         tracker.trackEvent(trackerEvent)
     }
@@ -671,7 +660,7 @@ private extension MainProductsViewModel {
     private func trackPushPermissionCancel() {
         let goToSettings: EventParameterPermissionGoToSettings =
             PushPermissionsManager.sharedInstance.pushPermissionsSettingsMode ? .True : .NotAvailable
-        let trackerEvent = TrackerEvent.permissionAlertCancel(.Push, typePage: .Profile, alertType: .Custom,
+        let trackerEvent = TrackerEvent.permissionAlertCancel(.Push, typePage: .ProductList, alertType: .Custom,
                                                               permissionGoToSettings: goToSettings)
         tracker.trackEvent(trackerEvent)
     }
