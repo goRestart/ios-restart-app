@@ -955,10 +955,12 @@ public struct TrackerEvent {
     }
     
     private static func eventParameterFreePostingWithPrice(freePostingMode: FreePostingMode, price: ProductPrice) -> EventParameterFreePosting {
-        return freePostingMode.enabled ? (price.free ? .True : .False) : .Unset
+        guard freePostingMode.enabled else {return .Unset}
+        return price.free ? .True : .False
     }
     
     private static func eventParameterFreePostingWithPriceRange(freePostingMode: FreePostingMode, priceRange: FilterPriceRange) -> EventParameterFreePosting {
-        return freePostingMode.enabled ? (priceRange.free ? .True : .False) : .Unset
+        guard freePostingMode.enabled else {return .Unset}
+        return priceRange.free ? .True : .False
     }
 }
