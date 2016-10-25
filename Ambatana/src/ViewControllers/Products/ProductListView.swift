@@ -120,10 +120,8 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     }
 
     var headerBottom: CGFloat {
-        guard viewModel.numberOfProducts > 0 else { return 0 }
-        let layoutAttrs = collectionView.layoutAttributesForSupplementaryElementOfKind(
-            CHTCollectionElementKindSectionHeader, atIndexPath: NSIndexPath(forItem: 0, inSection: 0))
-        guard let headerRect = layoutAttrs?.frame else { return 0 }
+        let headerSize = headerDelegate?.totalHeaderHeight() ?? 0
+        let headerRect = CGRect(x: 0, y: 0, width: 0, height: headerSize)
         let convertedRect = convertRect(headerRect, fromView: collectionView)
         return convertedRect.bottom
     }
