@@ -8,11 +8,11 @@
 
 import UIKit
 
-protocol UserPushPermissionsHeaderDelegate: class {
+protocol PushPermissionsHeaderDelegate: class {
     func pushPermissionHeaderPressed()
 }
 
-class UserPushPermissionsHeader: UIView {
+class PushPermissionsHeader: UIView {
 
     static let viewHeight: CGFloat = 50
 
@@ -20,27 +20,12 @@ class UserPushPermissionsHeader: UIView {
     private static let disclosureWidth: CGFloat = 27
     private static let messageMargin: CGFloat = 8
 
-    weak var delegate: UserPushPermissionsHeaderDelegate?
+    weak var delegate: PushPermissionsHeaderDelegate?
 
     // MARK: - Lifecycle
 
-    static func setupOnContainer(container: UIView) -> UserPushPermissionsHeader {
-        let header = UserPushPermissionsHeader()
-        header.translatesAutoresizingMaskIntoConstraints = false
-        container.addSubview(header)
-        var views = [String: AnyObject]()
-        views["header"] = header
-        var metrics = [String: AnyObject]()
-        metrics["height"] = UserPushPermissionsHeader.viewHeight
-        container.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-0-[header]-0-|",
-            options: [], metrics: nil, views: views))
-        container.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-0-[header(height)]-0-|",
-            options: [], metrics: metrics, views: views))
-        return header
-    }
-
     convenience init() {
-        self.init(frame: CGRect(x: 0, y: 0, width: 200, height: UserPushPermissionsHeader.viewHeight))
+        self.init(frame: CGRect(x: 0, y: 0, width: 200, height: PushPermissionsHeader.viewHeight))
     }
 
     override init(frame: CGRect) {
@@ -82,9 +67,9 @@ class UserPushPermissionsHeader: UIView {
         views["disclosure"] = disclosure
 
         var metrics = [String: AnyObject]()
-        metrics["iconWidth"] = UserPushPermissionsHeader.iconWidth
-        metrics["disclosureWidth"] = UserPushPermissionsHeader.disclosureWidth
-        metrics["messageMargin"] = UserPushPermissionsHeader.messageMargin
+        metrics["iconWidth"] = PushPermissionsHeader.iconWidth
+        metrics["disclosureWidth"] = PushPermissionsHeader.disclosureWidth
+        metrics["messageMargin"] = PushPermissionsHeader.messageMargin
 
         addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-0-[icon(iconWidth)]-0-[label]-messageMargin-[disclosure(disclosureWidth)]-0-|",
             options: [.AlignAllCenterY], metrics: metrics, views: views))

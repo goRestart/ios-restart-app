@@ -567,7 +567,7 @@ extension UserViewController: ScrollableToTop {
 
 // MARK: - ProductListViewHeaderDelegate
 
-extension UserViewController: ProductListViewHeaderDelegate, UserPushPermissionsHeaderDelegate {
+extension UserViewController: ProductListViewHeaderDelegate, PushPermissionsHeaderDelegate {
 
     func setupPermissionsRx() {
         viewModel.pushPermissionsDisabledWarning.asObservable().filter {$0 != nil} .bindNext { [weak self] _ in
@@ -577,14 +577,14 @@ extension UserViewController: ProductListViewHeaderDelegate, UserPushPermissions
 
     func totalHeaderHeight() -> CGFloat {
         guard showHeader else { return 0 }
-        return UserPushPermissionsHeader.viewHeight
+        return PushPermissionsHeader.viewHeight
     }
 
     func setupViewsInHeader(header: ListHeaderContainer) {
         if showHeader {
-            let pushHeader = UserPushPermissionsHeader()
+            let pushHeader = PushPermissionsHeader()
             pushHeader.delegate = self
-            header.addHeader(pushHeader, height: UserPushPermissionsHeader.viewHeight)
+            header.addHeader(pushHeader, height: PushPermissionsHeader.viewHeight)
         } else {
             header.clear()
         }

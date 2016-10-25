@@ -390,17 +390,17 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
 
 // MARK: - ProductListViewHeaderDelegate
 
-extension MainProductsViewController: ProductListViewHeaderDelegate, UserPushPermissionsHeaderDelegate {
+extension MainProductsViewController: ProductListViewHeaderDelegate, PushPermissionsHeaderDelegate {
 
     func totalHeaderHeight() -> CGFloat {
-        return shouldShowPermissionsBanner ? UserPushPermissionsHeader.viewHeight : 0
+        return shouldShowPermissionsBanner ? PushPermissionsHeader.viewHeight : 0
     }
 
     func setupViewsInHeader(header: ListHeaderContainer) {
         if shouldShowPermissionsBanner {
-            let pushHeader = UserPushPermissionsHeader()
+            let pushHeader = PushPermissionsHeader()
             pushHeader.delegate = self
-            header.addHeader(pushHeader, height: UserPushPermissionsHeader.viewHeight)
+            header.addHeader(pushHeader, height: PushPermissionsHeader.viewHeight)
         } else {
             header.clear()
         }

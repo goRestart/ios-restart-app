@@ -460,7 +460,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         // > Data
         updateLayoutWithSeparation(10)
 
-        collectionView.autoresizingMask = UIViewAutoresizing.FlexibleHeight // | UIViewAutoresizing.FlexibleWidth
+        collectionView.autoresizingMask = UIViewAutoresizing.FlexibleHeight
         collectionView.alwaysBounceVertical = true
         collectionView.contentInset = collectionViewContentInset
 
