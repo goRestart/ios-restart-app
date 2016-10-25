@@ -100,7 +100,14 @@ struct FeatureFlags {
         return ABTests.directPostInOnboarding.value
     }
 
+    static var productDetailShareMode: ProductDetailShareMode {
+        if Bumper.enabled {
+            return Bumper.productDetailShareMode
+        }
+        return ProductDetailShareMode.fromPosition(ABTests.productDetailShareMode.value)
+    }
 
+    
     // MARK: - Private
 
     private static var freePostingModeAllowed: Bool {
