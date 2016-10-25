@@ -649,7 +649,7 @@ class TrackerEventSpec: QuickSpec {
                         sut = TrackerEvent.filterComplete(coords, distanceRadius: 10, distanceUnit: DistanceType.Km,
                             categories: [.Electronics, .CarsAndMotors],
                             sortBy: ProductSortCriteria.Distance, postedWithin: ProductTimeCriteria.Day,
-                            priceRange: .PriceRange(min: 5, max: 100))
+                            priceRange: .PriceRange(min: 5, max: 100), freePostingMode: .OneButton)
                     }
                     it("has its event name") {
                         expect(sut.name.rawValue).to(equal("filter-complete"))
@@ -692,7 +692,7 @@ class TrackerEventSpec: QuickSpec {
                 context("not receiving all params, contains the default params") {
                     beforeEach {
                         sut = TrackerEvent.filterComplete(nil, distanceRadius: nil, distanceUnit: DistanceType.Km,
-                            categories: nil, sortBy: nil, postedWithin: nil, priceRange: .PriceRange(min: nil, max: nil))
+                            categories: nil, sortBy: nil, postedWithin: nil, priceRange: .PriceRange(min: nil, max: nil), freePostingMode: .Disabled)
                     }
                     it("has its event name") {
                         expect(sut.name.rawValue).to(equal("filter-complete"))
@@ -729,7 +729,7 @@ class TrackerEventSpec: QuickSpec {
                         expect(sut.params!.stringKeyParams["price-to"] as? String) == "false"
                     }
                     it("free posting") {
-                        expect(sut.params!.stringKeyParams["free-posting"] as? String) == "false"
+                        expect(sut.params!.stringKeyParams["free-posting"] as? String) == "N/A"
                     }
                 }
             }
@@ -1232,7 +1232,7 @@ class TrackerEventSpec: QuickSpec {
             describe("productMarkAsSold") {
                 it("has its event name") {
                     let product = MockProduct()
-                    sut = TrackerEvent.productMarkAsSold(.MarkAsSold, product: product)
+                    sut = TrackerEvent.productMarkAsSold(.MarkAsSold, product: product, freePostingMode: .OneButton)
                     expect(sut.name.rawValue).to(equal("product-detail-sold"))
                 }
                 it("contains the product related params when passing by a product and my user") {
@@ -1257,7 +1257,7 @@ class TrackerEventSpec: QuickSpec {
                     product.postalAddress = PostalAddress(address: nil, city: "Baltimore", zipCode: "12345",
                         countryCode: "US", country: nil)
                     
-                    sut = TrackerEvent.productMarkAsSold(.MarkAsSold, product: product)
+                    sut = TrackerEvent.productMarkAsSold(.MarkAsSold, product: product, freePostingMode: .OneButton)
                     expect(sut.params).notTo(beNil())
                     
                     // Product
@@ -1459,7 +1459,7 @@ class TrackerEventSpec: QuickSpec {
                     product.category = .HomeAndGarden
                     product.price = .Free
                     sut = TrackerEvent.productSellComplete(product, buttonName: .Done, negotiable: .Yes,
-                        pictureSource: .Gallery)
+                        pictureSource: .Gallery, freePostingMode: .OneButton)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("product-sell-complete"))

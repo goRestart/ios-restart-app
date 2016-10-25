@@ -214,7 +214,7 @@ private extension SellCoordinator {
         guard let product = result.value else { return }
         let event = TrackerEvent.productSellComplete(product, buttonName: trackingInfo.buttonName,
                                                      negotiable: trackingInfo.negotiablePrice,
-                                                     pictureSource: trackingInfo.imageSource)
+                                                     pictureSource: trackingInfo.imageSource, freePostingMode: FeatureFlags.freePostingMode)
         tracker.trackEvent(event)
 
         // Track product was sold in the first 24h (and not tracked before)
