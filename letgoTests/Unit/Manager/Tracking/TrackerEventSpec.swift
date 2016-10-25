@@ -1463,16 +1463,16 @@ class TrackerEventSpec: QuickSpec {
                     let product = MockProduct()
                     product.objectId = "r4nd0m1D"
                     product.category = .HomeAndGarden
-                    product.price = .Free
+                    product.price = .Negotiable(20)
                     sut = TrackerEvent.productSellComplete(product, buttonName: .Done, negotiable: .Yes,
                         pictureSource: .Gallery, freePostingMode: .OneButton)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("product-sell-complete"))
                 }
-                it("has free posting parameter") {
+                it("contains free-posting") {
                     let freePostingParameter = sut.params!.stringKeyParams["free-posting"] as? String
-                    expect(freePostingParameter).to(equal("true"))
+                    expect(freePostingParameter).to(equal("false"))
                 }
                 it("contains product-id") {
                     let productId = sut.params!.stringKeyParams["product-id"] as? String
