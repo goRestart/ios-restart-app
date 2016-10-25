@@ -64,6 +64,7 @@ class PostProductViewModel: BaseViewModel {
     
     private let productRepository: ProductRepository
     private let fileRepository: FileRepository
+    private let tracker: Tracker
     private let commercializerRepository: CommercializerRepository
     private var imageSelected: UIImage?
     private var pendingToUploadImage: UIImage?
@@ -77,40 +78,34 @@ class PostProductViewModel: BaseViewModel {
         let productRepository = Core.productRepository
         let fileRepository = Core.fileRepository
         let commercializerRepository = Core.commercializerRepository
+        let tracker = TrackerProxy.sharedInstance
         self.init(source: source, productRepository: productRepository, fileRepository: fileRepository,
-            commercializerRepository: commercializerRepository)
+                  commercializerRepository: commercializerRepository, tracker: tracker)
     }
 
     init(source: PostingSource, productRepository: ProductRepository, fileRepository: FileRepository,
-         commercializerRepository: CommercializerRepository) {
+         commercializerRepository: CommercializerRepository, tracker: Tracker) {
         self.postingSource = source
         self.productRepository = productRepository
         self.fileRepository = fileRepository
         self.commercializerRepository = commercializerRepository
         self.postDetailViewModel = PostProductDetailViewModel()
         self.postProductCameraViewModel = PostProductCameraViewModel(postingSource: source)
+        self.tracker = tracker
         super.init()
         self.postDetailViewModel.delegate = self
     }
-
+    
+    override func didBecomeActive(firstTime: Bool) {
+        super.didBecomeActive(firstTime)
+        if firstTime {
+            trackVisit()
+        }
+    }
+    
 
     // MARK: - Public methods
-
-    func onViewLoaded() {
-        var event: TrackerEvent
-        switch FeatureFlags.freePostingMode {
-        case .Disabled, .OneButton:
-            event = TrackerEvent.productSellStart(.Unset ,typePage: postingSource.typePage, buttonName: postingSource.buttonName)
-        case .SplitButton:
-            if postingSource == .SellButton {
-                 event = TrackerEvent.productSellStart(.True ,typePage: postingSource.typePage, buttonName: postingSource.buttonName)
-            } else {
-                 event = TrackerEvent.productSellStart(.False ,typePage: postingSource.typePage, buttonName: postingSource.buttonName)
-            }
-        }
-       TrackerProxy.sharedInstance.trackEvent(event)
-    }
-
+   
     func retryButtonPressed() {
         guard let image = imageSelected, source = uploadedImageSource else { return }
         imageSelected(image, source: source)
@@ -232,7 +227,22 @@ private extension PostProductViewModel {
 }
 
 
-// MARK: - PostingSource Tracking
+// MARK: - Tracking
+
+private extension PostProductViewModel {
+    func trackVisit() {
+        let eventParameterFreePosting: EventParameterFreePosting
+        switch FeatureFlags.freePostingMode {
+        case .Disabled, .OneButton:
+            eventParameterFreePosting = .Unset
+        case .SplitButton:
+            eventParameterFreePosting = postingSource == .SellButton ? .True : .False
+        }
+        let event = TrackerEvent.productSellStart(eventParameterFreePosting ,typePage: postingSource.typePage, buttonName: postingSource.buttonName)
+
+        tracker.trackEvent(event)
+    }
+}
 
 extension PostingSource {
     var typePage: EventParameterTypePage {
