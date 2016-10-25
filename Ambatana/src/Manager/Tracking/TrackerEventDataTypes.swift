@@ -450,10 +450,6 @@ public enum EventParameterEditedFields: String {
     case Location = "location"
     case Share = "share"
     case FreePosting = "free-posting"
-    
-    public var value: String {
-        return self.rawValue.lowercaseString
-    }
 }
 
 public enum EventParameterTypePage: String {

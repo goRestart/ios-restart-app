@@ -494,7 +494,7 @@ public struct TrackerEvent {
             // Product
             params[.ProductId] = product.objectId
             params[.CategoryId] = category?.rawValue ?? 0
-            params[.EditedFields] = editedFields.map({$0.value}).joinWithSeparator(",")
+            params[.EditedFields] = editedFields.map({$0.rawValue}).joinWithSeparator(",")
 
             return TrackerEvent(name: .ProductEditComplete, params: params)
     }

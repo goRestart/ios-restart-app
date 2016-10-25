@@ -98,9 +98,8 @@ class PostProductViewModel: BaseViewModel {
     
     override func didBecomeActive(firstTime: Bool) {
         super.didBecomeActive(firstTime)
-        if firstTime {
-            trackVisit()
-        }
+        guard firstTime else { return }
+        trackVisit()
     }
     
 

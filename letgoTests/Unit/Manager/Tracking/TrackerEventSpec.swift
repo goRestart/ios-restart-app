@@ -1235,6 +1235,12 @@ class TrackerEventSpec: QuickSpec {
                     sut = TrackerEvent.productMarkAsSold(.MarkAsSold, product: product, freePostingMode: .OneButton)
                     expect(sut.name.rawValue).to(equal("product-detail-sold"))
                 }
+                it("free-posting param is included as Free") {
+                    let product = MockProduct()
+                    product.price = .Free
+                    sut = TrackerEvent.productMarkAsSold(.MarkAsSold, product: product, freePostingMode: .OneButton)
+                    expect(sut.params!.stringKeyParams["free-posting"] as? String).to(equal("true"))
+                }
                 it("contains the product related params when passing by a product and my user") {
                     let myUser = MockUser()
                     myUser.objectId = "12345"
