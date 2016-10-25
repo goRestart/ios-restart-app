@@ -649,7 +649,7 @@ class TrackerEventSpec: QuickSpec {
                         sut = TrackerEvent.filterComplete(coords, distanceRadius: 10, distanceUnit: DistanceType.Km,
                             categories: [.Electronics, .CarsAndMotors],
                             sortBy: ProductSortCriteria.Distance, postedWithin: ProductTimeCriteria.Day,
-                            priceRange: .PriceRange(min: 5, max: 100))
+                            priceRange: .PriceRange(min: 5, max: 100), freePostingMode: .OneButton)
                     }
                     it("has its event name") {
                         expect(sut.name.rawValue).to(equal("filter-complete"))
@@ -685,11 +685,14 @@ class TrackerEventSpec: QuickSpec {
                     it("max price") {
                         expect(sut.params!.stringKeyParams["price-to"] as? String) == "true"
                     }
+                    it ("free-posting") {
+                        expect(sut.params!.stringKeyParams["free-posting"] as? String) == "false"
+                    }
                 }
                 context("not receiving all params, contains the default params") {
                     beforeEach {
                         sut = TrackerEvent.filterComplete(nil, distanceRadius: nil, distanceUnit: DistanceType.Km,
-                            categories: nil, sortBy: nil, postedWithin: nil, priceRange: .PriceRange(min: nil, max: nil))
+                            categories: nil, sortBy: nil, postedWithin: nil, priceRange: .PriceRange(min: nil, max: nil), freePostingMode: .Disabled)
                     }
                     it("has its event name") {
                         expect(sut.name.rawValue).to(equal("filter-complete"))
@@ -724,6 +727,9 @@ class TrackerEventSpec: QuickSpec {
                     }
                     it("max price") {
                         expect(sut.params!.stringKeyParams["price-to"] as? String) == "false"
+                    }
+                    it("free posting") {
+                        expect(sut.params!.stringKeyParams["free-posting"] as? String) == "N/A"
                     }
                 }
             }
@@ -1226,8 +1232,14 @@ class TrackerEventSpec: QuickSpec {
             describe("productMarkAsSold") {
                 it("has its event name") {
                     let product = MockProduct()
-                    sut = TrackerEvent.productMarkAsSold(.MarkAsSold, product: product)
+                    sut = TrackerEvent.productMarkAsSold(.MarkAsSold, product: product, freePostingMode: .OneButton)
                     expect(sut.name.rawValue).to(equal("product-detail-sold"))
+                }
+                it("free-posting param is included as Free") {
+                    let product = MockProduct()
+                    product.price = .Free
+                    sut = TrackerEvent.productMarkAsSold(.MarkAsSold, product: product, freePostingMode: .OneButton)
+                    expect(sut.params!.stringKeyParams["free-posting"] as? String).to(equal("true"))
                 }
                 it("contains the product related params when passing by a product and my user") {
                     let myUser = MockUser()
@@ -1251,7 +1263,7 @@ class TrackerEventSpec: QuickSpec {
                     product.postalAddress = PostalAddress(address: nil, city: "Baltimore", zipCode: "12345",
                         countryCode: "US", country: nil)
                     
-                    sut = TrackerEvent.productMarkAsSold(.MarkAsSold, product: product)
+                    sut = TrackerEvent.productMarkAsSold(.MarkAsSold, product: product, freePostingMode: .OneButton)
                     expect(sut.params).notTo(beNil())
                     
                     // Product
@@ -1392,7 +1404,7 @@ class TrackerEventSpec: QuickSpec {
 
             describe("productSellStart") {
                 beforeEach {
-                    sut = TrackerEvent.productSellStart(.Sell, buttonName: .SellYourStuff)
+                    sut = TrackerEvent.productSellStart(.Unset, typePage: .Sell, buttonName: .SellYourStuff)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("product-sell-start"))
@@ -1404,6 +1416,10 @@ class TrackerEventSpec: QuickSpec {
                 it("contains button name from which the event has been sent") {
                     let name = sut.params!.stringKeyParams["button-name"] as? String
                     expect(name).to(equal("sell-your-stuff"))
+                }
+                it("contains unset as EventParameterFreePosting") {
+                    let freePosting = sut.params!.stringKeyParams["free-posting"] as? String
+                    expect(freePosting).to(equal("N/A"))
                 }
             }
 
@@ -1447,12 +1463,16 @@ class TrackerEventSpec: QuickSpec {
                     let product = MockProduct()
                     product.objectId = "r4nd0m1D"
                     product.category = .HomeAndGarden
-
+                    product.price = .Negotiable(20)
                     sut = TrackerEvent.productSellComplete(product, buttonName: .Done, negotiable: .Yes,
-                        pictureSource: .Gallery)
+                        pictureSource: .Gallery, freePostingMode: .OneButton)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("product-sell-complete"))
+                }
+                it("contains free-posting") {
+                    let freePostingParameter = sut.params!.stringKeyParams["free-posting"] as? String
+                    expect(freePostingParameter).to(equal("false"))
                 }
                 it("contains product-id") {
                     let productId = sut.params!.stringKeyParams["product-id"] as? String

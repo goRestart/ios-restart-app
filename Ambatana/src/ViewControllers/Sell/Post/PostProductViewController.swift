@@ -81,8 +81,7 @@ class PostProductViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        viewModel.onViewLoaded()
+        
         setupView()
         setAccesibilityIds()
         setupRx()
