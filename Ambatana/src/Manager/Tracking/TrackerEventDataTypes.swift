@@ -454,6 +454,7 @@ public enum EventParameterEditedFields: String {
 
 public enum EventParameterTypePage: String {
     case ProductList = "product-list"
+    case ProductListBanner = "product-list-banner"
     case Chat = "chat"
     case TabBar = "tab-bar"
     case ChatList = "chat-list"
