@@ -563,10 +563,9 @@ extension ChatViewModel {
                 self?.markMessageAsSent(id)
                 self?.afterSendMessageEvents()
                 self?.trackMessageSent(isQuickAnswer, type: type)
-
-                if let askQuestion = self?.askQuestion {
-                    self?.askQuestion = nil
-                    self?.trackQuestion(askQuestion, type: type)
+                let shouldSendAskQuestionTrack = self?.objectCount == 1
+                if shouldSendAskQuestionTrack {
+                    self?.trackQuestion(type)
                 }
             } else if let error = result.error {
                 // TODO: 🎪 Create an "errored" state for Chat Message so we can retry
@@ -1004,7 +1003,7 @@ private extension ChatViewModel {
 
 private extension ChatViewModel {
     
-    private func trackQuestion(source: AskQuestionSource, type: ChatMessageType) {
+    private func trackQuestion(type: ChatMessageType) {
         // only track ask question if I didn't send any message previously
         guard !didSendMessage else { return }
         guard let product = conversation.value.product else { return }

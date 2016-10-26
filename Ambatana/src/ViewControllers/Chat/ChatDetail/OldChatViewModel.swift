@@ -621,14 +621,12 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         chatRepository.sendMessage(type, message: message, product: product, recipient: toUser) { [weak self] result in
             guard let strongSelf = self else { return }
             if let sentMessage = result.value, let adapter = self?.chatViewMessageAdapter {
-                if let askQuestion = strongSelf.askQuestion {
-                    strongSelf.askQuestion = nil
-                    strongSelf.trackQuestion(askQuestion, type: type)
-                }
                 let viewMessage = adapter.adapt(sentMessage)
                 strongSelf.loadedMessages.insert(viewMessage, atIndex: 0)
                 strongSelf.delegate?.vmDidSucceedSendingMessage(0)
-
+                if strongSelf.loadedMessages.count == 1 {
+                    strongSelf.trackQuestion(type)
+                }
                 strongSelf.trackMessageSent(isQuickAnswer, type: type)
                 strongSelf.afterSendMessageEvents()
             } else if let error = result.error {
@@ -942,7 +940,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     
     // MARK: Tracking
     
-    private func trackQuestion(source: AskQuestionSource, type: MessageType) {
+    private func trackQuestion(type: MessageType) {
         // only track ask question if I didn't send any previous message
         guard !didSendMessage else { return }
         let sellerRating: Float? = isBuyer ? otherUser?.ratingAverage : myUserRepository.myUser?.ratingAverage
