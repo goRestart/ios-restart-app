@@ -296,17 +296,28 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     private func setupExpandableButtonsViewIfNeeded() {
         guard FeatureFlags.productDetailShareMode == .InPlace else { return }
 
-        let expandableButtons = ExpandableButtonsView(buttonSide: 40, buttonSpacing: 5)
+        let expandableButtons = ExpandableButtonsView(buttonSide: 36, buttonSpacing: 7)
         expandableButtonsView = expandableButtons
 
-        expandableButtons.addButton(image: UIImage(named: "ic_user_private_fb_on"), bgColor: nil, action: {})
+        expandableButtons.addButton(image: UIImage(named: "item_share_fb"), bgColor: nil, action: {
+            print("facebook")
+        })
+        expandableButtons.addButton(image: UIImage(named: "item_share_fb_messenger"), bgColor: nil, action: {
+            print("facebook msgr")
+        })
+        expandableButtons.addButton(image: UIImage(named: "item_share_link"), bgColor: nil, action: {
+            print("link")
+        })
+        expandableButtons.addButton(image: UIImage(named: "item_share_twitter"), bgColor: nil, action: {
+            print("twitter")
+        })
         expandableButtons.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(expandableButtons)
 
         view.addConstraint(NSLayoutConstraint(item: expandableButtons, attribute: .Trailing, relatedBy: .Equal,
-                                              toItem: view, attribute: .Trailing, multiplier: 1, constant: -50))
+                                              toItem: view, attribute: .Trailing, multiplier: 1, constant: -15))
         view.addConstraint(NSLayoutConstraint(item: expandableButtons, attribute: .Top, relatedBy: .Equal,
-                                              toItem: view, attribute: .Top, multiplier: 1, constant: 50))
+                                              toItem: view, attribute: .Top, multiplier: 1, constant: 64))
     }
 
     private func setupNavigationBar() {
@@ -1070,7 +1081,11 @@ extension ProductCarouselViewController: ProductViewModelDelegate {
             let barButtonItem = navigationItem.rightBarButtonItems?.first
             presentNativeShare(socialMessage: socialMessage, delegate: viewModel, barButtonItem: barButtonItem)
         case .InPlace:
-            expandableButtonsView?.switchExpanded()
+            guard let expandableButtonsView = expandableButtonsView else { return }
+            expandableButtonsView.switchExpanded()
+            UIView.animateWithDuration(0.25, animations: { [weak self] in
+                self?.favoriteButton.alpha = expandableButtonsView.expanded.value ? 0 : 1
+            })
         case .FullScreen:
             // TODO
             break
