@@ -25,7 +25,7 @@ struct FeatureFlags {
         if Bumper.enabled {
             return Bumper.notificationsSection
         }
-        return ABTests.notificationCenterEnabled
+        return ABTests.notificationCenterEnabled.value
     }()
 
     static var userRatings: Bool {
