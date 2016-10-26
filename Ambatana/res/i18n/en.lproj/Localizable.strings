@@ -970,7 +970,7 @@
 "notifications_type_sold_w_title" = "Has sold \"%@\"";
 
 // User sold a product you favorited
-"notifications_type_sold_button" = "See related";
+"notifications_type_sold_button" = "Check out the product";
 
 // Welcome notification subtitle
 "notifications_type_welcome_subtitle" = "Get started by posting your first item for sale and browse cool stuff near you.";

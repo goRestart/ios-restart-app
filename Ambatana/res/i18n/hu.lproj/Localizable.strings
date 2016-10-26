@@ -321,7 +321,7 @@
 "notifications_type_like_w_name" = "%@ favorited your product";
 "notifications_type_like_w_name_w_title" = "%@ favorited your product: \"%@\"";
 "notifications_type_sold" = "Eladott egy portékát, amit kedvencként jelöltél";
-"notifications_type_sold_button" = "See related";
+"notifications_type_sold_button" = "Check out the product";
 "notifications_type_welcome_button" = "Start selling";
 "notifications_type_welcome_subtitle" = "Kezdj kereskedni első portékád meghirdetésével és a környékbeli különlegességek átböngészésével.";
 "notifications_type_welcome_subtitle_w_city" = "Kezdj kereskedni első portékád meghirdetésével és „%@” környékének különlegességeinek átböngészésével.";
@@ -331,8 +331,8 @@
 "nps_survey_title" = "TUDNI SZERETNÉNK...";
 "nps_survey_very_bad" = "Nem szívesen";
 "nps_survey_very_good" = "Nagyon szívesen";
-"onboarding_direct_camera_alert_subtitle" = "Post your first product and start selling to people near you";
-"onboarding_direct_camera_alert_title" = "Start Making Cash!";
+"onboarding_direct_camera_alert_subtitle" = "Tedd közzé első portékádat, és már kereskedhetsz is a környékbeliekkel";
+"onboarding_direct_camera_alert_title" = "Kezdj pénzt keresni!";
 "onboarding_login_skip" = "Kihagy";
 "onboarding_posting_button_a" = "Add el a dolgaid";
 "onboarding_posting_button_b" = "Kezdés";

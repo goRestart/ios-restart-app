@@ -331,8 +331,8 @@
 "nps_survey_title" = "МЫ БЫ ХОТЕЛИ ЗНАТЬ ...";
 "nps_survey_very_bad" = "Маловероятно";
 "nps_survey_very_good" = "Очень вероятно";
-"onboarding_direct_camera_alert_subtitle" = "Post your first product and start selling to people near you";
-"onboarding_direct_camera_alert_title" = "Start Making Cash!";
+"onboarding_direct_camera_alert_subtitle" = "Опубликуйте свой первый товар и начинайте продавать";
+"onboarding_direct_camera_alert_title" = "Начинайте получать деньги!";
 "onboarding_login_skip" = "Пропустить";
 "onboarding_posting_button_a" = "Продать свои вещи";
 "onboarding_posting_button_b" = "Старт";
