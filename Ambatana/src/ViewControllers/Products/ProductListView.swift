@@ -28,7 +28,7 @@ class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout, Produ
 UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
 
     // Constants
-    private static let defaultErrorButtonHeight: CGFloat = 44
+    private static let defaultErrorButtonHeight: CGFloat = 50
     
     // UI
     @IBOutlet weak private var contentView: UIView!
@@ -458,7 +458,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
 
         // Setup UI
         // > Data
-        updateLayoutWithSeparation(10)
+        updateLayoutWithSeparation(8)
 
         collectionView.autoresizingMask = UIViewAutoresizing.FlexibleHeight
         collectionView.alwaysBounceVertical = true
