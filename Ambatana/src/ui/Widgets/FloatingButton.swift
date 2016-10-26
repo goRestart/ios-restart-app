@@ -106,6 +106,7 @@ class FloatingButton: UIView {
             let sellButtonImage = UIImage(named: "ic_sell_white")
             sellButton.setImage(sellButtonImage, forState: .Normal)
             sellButton.setImage(sellButtonImage, forState: .Highlighted)
+            sellButton.setStyle(.Primary(fontSize: .Big))
             sellButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: titleIconSpacing, bottom: 0, right: -titleIconSpacing)
             sellButton.contentEdgeInsets = UIEdgeInsets(top: 0, left: 2*extraPadding, bottom: 0, right: 2*extraPadding+titleIconSpacing)
         case .SplitButton:
@@ -113,6 +114,7 @@ class FloatingButton: UIView {
             let sellButtonImage = UIImage(named: "ic_main_sell")
             sellButton.setImage(sellButtonImage, forState: .Normal)
             sellButton.setImage(sellButtonImage, forState: .Highlighted)
+            sellButton.titleLabel?.font = UIFont.bigButtonFont
             sellButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: titleIconSpacing, bottom: 0, right: -titleIconSpacing)
             sellButton.contentEdgeInsets = UIEdgeInsets(top: 0, left: extraPadding, bottom: 0, right: 2*titleIconSpacing)
         }
@@ -126,6 +128,7 @@ class FloatingButton: UIView {
         sellButton.addTarget(self, action: #selector(runSellCompletion), forControlEvents: .TouchUpInside)
 
         giveAwayButton.setTitle(LGLocalizedString.tabBarGiveAwayButton, forState: .Normal)
+        giveAwayButton.titleLabel?.font = UIFont.bigButtonFont
         giveAwayButton.setTitleColor(UIColor.primaryColor, forState: .Normal)
         let giveAwayButtonImage = UIImage(named: "ic_main_give_away")
         giveAwayButton.setImage(giveAwayButtonImage, forState: .Normal)
