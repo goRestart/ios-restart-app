@@ -159,7 +159,7 @@ extension ExpressChatViewModel {
         trackerProxy.trackEvent(askQuestionEvent)
 
         let messageSentEvent = TrackerEvent.userMessageSent(product, userTo: product.user, messageType: .Text,
-                                                            isQuickAnswer: .False)
+                                                            isQuickAnswer: .False, typePage: .ExpressChat)
         trackerProxy.trackEvent(messageSentEvent)
     }
 

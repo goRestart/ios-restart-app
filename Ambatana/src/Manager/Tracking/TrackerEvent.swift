@@ -512,23 +512,25 @@ public struct TrackerEvent {
     }
 
     static func userMessageSent(product: Product, userTo: User?, messageType: EventParameterMessageType,
-                                       isQuickAnswer: EventParameterQuickAnswerValue) -> TrackerEvent {
+                                isQuickAnswer: EventParameterQuickAnswerValue, typePage: EventParameterTypePage) -> TrackerEvent {
         var params = EventParameters()
         params.addProductParams(product)
         params.addUserParams(userTo)
         params[.MessageType] = messageType.rawValue
         params[.QuickAnswer] = isQuickAnswer.rawValue
+        params[.TypePage] = typePage.rawValue
         return TrackerEvent(name: .UserMessageSent, params: params)
     }
     
     // Duplicated method from the one above to support tracking using ChatProduct model
     static func userMessageSent(product: ChatProduct, userToId: String?, messageType: EventParameterMessageType,
-                                       isQuickAnswer: EventParameterQuickAnswerValue) -> TrackerEvent {
+                                       isQuickAnswer: EventParameterQuickAnswerValue, typePage: EventParameterTypePage) -> TrackerEvent {
         var params = EventParameters()
         params.addChatProductParams(product)
         params[.UserToId] = userToId
         params[.MessageType] = messageType.rawValue
         params[.QuickAnswer] = isQuickAnswer.rawValue
+        params[.TypePage] = typePage.rawValue
         return TrackerEvent(name: .UserMessageSent, params: params)
     }
 

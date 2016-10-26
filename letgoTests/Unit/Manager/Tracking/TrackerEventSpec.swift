@@ -1639,7 +1639,7 @@ class TrackerEventSpec: QuickSpec {
             describe("userMessageSent") {
                 it("has its event name") {
                     let product = MockProduct()
-                    sut = TrackerEvent.userMessageSent(product, userTo: nil, messageType: .Text, isQuickAnswer: .False)
+                    sut = TrackerEvent.userMessageSent(product, userTo: nil, messageType: .Text, isQuickAnswer: .False, typePage: .Chat)
                     expect(sut.name.rawValue).to(equal("user-sent-message"))
                 }
                 it("contains the product related params when passing by a product and my user") {
@@ -1660,7 +1660,7 @@ class TrackerEventSpec: QuickSpec {
                         countryCode: "US", country: nil)
                     
                     sut = TrackerEvent.userMessageSent(product, userTo: productUser, messageType: .Text,
-                                                       isQuickAnswer: .False)
+                                                       isQuickAnswer: .False, typePage: .Chat)
                     expect(sut.params).notTo(beNil())
                     
                     // Product
@@ -1709,6 +1709,12 @@ class TrackerEventSpec: QuickSpec {
                     expect(sut.params!.stringKeyParams["message-type"]).notTo(beNil())
                     let messageType = sut.params!.stringKeyParams["message-type"] as? String
                     expect(messageType).to(equal("text"))
+                }
+                it("contains pageType param") {
+                    let product = MockProduct()
+                    sut = TrackerEvent.userMessageSent(product, userTo: nil, messageType: .Text, isQuickAnswer: .False, typePage: .Chat)
+                    let pageType = sut.params!.stringKeyParams["type-page"] as? String
+                    expect(pageType).to(equal("chat"))
                 }
             }
 

@@ -300,7 +300,7 @@ extension ProductVMTrackHelper {
                                                                typePage: .ProductDetail)
         tracker.trackEvent(askQuestionEvent)
         let messageSentEvent = TrackerEvent.userMessageSent(product, userTo: product.user,
-                                                            messageType: messageType, isQuickAnswer: .False)
+                                                            messageType: messageType, isQuickAnswer: .False, typePage: .ProductDetail)
         tracker.trackEvent(messageSentEvent)
     }
 
@@ -310,7 +310,7 @@ extension ProductVMTrackHelper {
                                                                typePage: .ProductDetail)
         tracker.trackEvent(askQuestionEvent)
         let messageSentEvent = TrackerEvent.userMessageSent(product, userTo: product.user,
-                                                            messageType: messageType, isQuickAnswer: .False)
+                                                            messageType: messageType, isQuickAnswer: .False, typePage: .ProductDetail)
         tracker.trackEvent(messageSentEvent)
     }
 

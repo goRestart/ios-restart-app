@@ -940,24 +940,16 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     private func trackQuestion(source: AskQuestionSource, type: MessageType) {
         // only track ask question if I didn't send any previous message
         guard !didSendMessage else { return }
-        let typePageParam: EventParameterTypePage
-        switch source {
-        case .ProductDetail:
-            typePageParam = .ProductDetail
-        case .ProductList:
-            typePageParam = .ProductList
-        }
-
         let sellerRating: Float? = isBuyer ? otherUser?.ratingAverage : myUserRepository.myUser?.ratingAverage
         let askQuestionEvent = TrackerEvent.productAskQuestion(product, messageType: type.trackingMessageType,
-                                                               typePage: typePageParam, sellerRating: sellerRating)
+                                                               typePage: .Chat, sellerRating: sellerRating)
         tracker.trackEvent(askQuestionEvent)
     }
     
     private func trackMessageSent(isQuickAnswer: Bool, type: MessageType) {
         let messageSentEvent = TrackerEvent.userMessageSent(product, userTo: otherUser,
                                                             messageType: type.trackingMessageType,
-                                                            isQuickAnswer: isQuickAnswer ? .True : .False)
+                                                            isQuickAnswer: isQuickAnswer ? .True : .False, typePage: .Chat)
         tracker.trackEvent(messageSentEvent)
     }
     

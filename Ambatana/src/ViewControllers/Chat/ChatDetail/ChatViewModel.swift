@@ -977,20 +977,13 @@ private extension ChatViewModel {
     private func trackQuestion(source: AskQuestionSource, type: ChatMessageType) {
         // only track ask question if I didn't send any message previously
         guard !didSendMessage else { return }
-        let typePageParam: EventParameterTypePage
-        switch source {
-        case .ProductDetail:
-            typePageParam = .ProductDetail
-        case .ProductList:
-            typePageParam = .ProductList
-        }
         guard let product = conversation.value.product else { return }
         guard let userId = conversation.value.interlocutor?.objectId else { return }
 
         let sellerRating = conversation.value.amISelling ?
             myUserRepository.myUser?.ratingAverage : interlocutor?.ratingAverage
         let askQuestionEvent = TrackerEvent.productAskQuestion(product, messageType: type.trackingMessageType,
-                                                               interlocutorId: userId, typePage: typePageParam,
+                                                               interlocutorId: userId, typePage: .Chat,
                                                                sellerRating: sellerRating)
         TrackerProxy.sharedInstance.trackEvent(askQuestionEvent)
     }
@@ -1000,7 +993,7 @@ private extension ChatViewModel {
         guard let userId = conversation.value.interlocutor?.objectId else { return }
         let messageSentEvent = TrackerEvent.userMessageSent(product, userToId: userId,
                                                             messageType: type.trackingMessageType,
-                                                            isQuickAnswer: isQuickAnswer ? .True : .False)
+                                                            isQuickAnswer: isQuickAnswer ? .True : .False, typePage: .Chat)
         TrackerProxy.sharedInstance.trackEvent(messageSentEvent)
     }
     
