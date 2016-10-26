@@ -1,3 +1,7 @@
 source 'https://rubygems.org'
 gem 'danger', '3.5.3' 
 gem 'byebug'
+gem 'micro-optparse'
+gem 'google_drive'
+gem 'colorize'
+gem 'web_translate_it'
