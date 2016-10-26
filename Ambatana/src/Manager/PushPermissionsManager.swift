@@ -10,6 +10,7 @@ import LGCoreKit
 
 public enum PrePermissionType {
     case ProductList
+    case ProductListBanner
     case Sell
     case Chat(buyer: Bool)
     case Onboarding
@@ -45,7 +46,7 @@ public class PushPermissionsManager: NSObject {
             return shouldAskForListPermissions()
         case .Chat:
             return shouldAskForDailyPermissions()
-        case .Sell, .Onboarding, .Profile:
+        case .Sell, .Onboarding, .Profile, .ProductListBanner:
             return true
         }
     }
@@ -85,7 +86,7 @@ public class PushPermissionsManager: NSObject {
             keyValueStorage[.pushPermissionsDidAskAtList] = true
         case .Chat, .Sell:
             keyValueStorage[.pushPermissionsDailyDate] = pushRepeateDate
-        case .Profile, .Onboarding:
+        case .Profile, .Onboarding, .ProductListBanner:
             break
         }
 
@@ -208,61 +209,63 @@ public class PushPermissionsManager: NSObject {
 extension PrePermissionType {
     public var title: String {
         switch self {
-        case Onboarding:
+        case .Onboarding:
             return FeatureFlags.onboardinPermissionsMode.titleText
-        case ProductList:
+        case .ProductList:
             return LGLocalizedString.notificationsPermissions2Title
-        case Chat:
+        case .Chat:
             return LGLocalizedString.notificationsPermissions3Title
-        case Sell:
+        case .Sell:
             return LGLocalizedString.notificationsPermissions4Title
-        case .Profile:
+        case .Profile, .ProductListBanner:
             return LGLocalizedString.profilePermissionsAlertTitle
         }
     }
 
     public var subtitle: String {
         switch self {
-        case Onboarding:
+        case .Onboarding:
             return LGLocalizedString.notificationsPermissions1Subtitle
-        case ProductList:
+        case .ProductList:
             return LGLocalizedString.notificationsPermissions1Subtitle
-        case Chat:
+        case .Chat:
             return LGLocalizedString.notificationsPermissions3Subtitle
-        case Sell:
+        case .Sell:
             return LGLocalizedString.notificationsPermissions4Subtitle
-        case Profile:
+        case .Profile, .ProductListBanner:
             return LGLocalizedString.profilePermissionsAlertMessage
         }
     }
 
     public var pushMessage: String {
         switch self {
-        case Onboarding:
+        case .Onboarding:
             return LGLocalizedString.notificationsPermissions1Push
-        case ProductList:
+        case .ProductList:
             return LGLocalizedString.notificationsPermissions1Push
-        case Chat:
+        case .Chat:
             return LGLocalizedString.notificationsPermissions3Push
-        case Sell:
+        case .Sell:
             return LGLocalizedString.notificationsPermissions4Push
-        case Profile:
+        case .Profile, .ProductListBanner:
             return ""
         }
     }
     
     public var trackingParam: EventParameterTypePage {
         switch self {
-        case Onboarding:
+        case .Onboarding:
             return .Install
-        case ProductList:
+        case .ProductList:
             return .ProductList
-        case Chat:
+        case .Chat:
             return .Chat
-        case Sell:
+        case .Sell:
             return .Sell
-        case Profile:
+        case .Profile:
             return .Profile
+        case .ProductListBanner:
+            return .ProductListBanner
         }
     }
 }

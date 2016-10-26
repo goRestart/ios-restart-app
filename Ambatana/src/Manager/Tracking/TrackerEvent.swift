@@ -653,17 +653,6 @@ public struct TrackerEvent {
         return TrackerEvent(name: .AppRatingRemindMeLater, params: params)
     }
 
-    static func appRatingBannerOpen() -> TrackerEvent {
-        let params = EventParameters()
-        return TrackerEvent(name: .AppRatingBannerOpen, params: params)
-    }
-
-    static func appRatingBannerClose() -> TrackerEvent {
-        let params = EventParameters()
-        return TrackerEvent(name: .AppRatingBannerClose, params: params)
-    }
-
-
     static func permissionAlertStart(permissionType: EventParameterPermissionType,
         typePage: EventParameterTypePage, alertType: EventParameterPermissionAlertType,
         permissionGoToSettings: EventParameterPermissionGoToSettings) -> TrackerEvent {

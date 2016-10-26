@@ -101,8 +101,6 @@ public enum EventName: String {
     case AppRatingSuggest                   = "app-rating-suggest"
     case AppRatingDontAsk                   = "app-rating-dont-ask"
     case AppRatingRemindMeLater             = "app-rating-remind-later"
-    case AppRatingBannerOpen                = "app-rating-banner-open"
-    case AppRatingBannerClose               = "app-rating-banner-close"
 
     case PermissionAlertStart               = "permission-alert-start"
     case PermissionAlertCancel              = "permission-alert-cancel"
@@ -454,6 +452,7 @@ public enum EventParameterEditedFields: String {
 
 public enum EventParameterTypePage: String {
     case ProductList = "product-list"
+    case ProductListBanner = "product-list-banner"
     case Chat = "chat"
     case TabBar = "tab-bar"
     case ChatList = "chat-list"
@@ -537,7 +536,6 @@ public enum ProductVisitUserAction: String {
 }
 
 public enum EventParameterRatingSource: String {
-    case Banner = "banner-rating"
     case Chat = "chat"
     case ProductSellComplete = "product-sell-complete"
     case MarkedSold = "marked-sold"
