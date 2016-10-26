@@ -10,6 +10,7 @@ import UIKit
 
 class CollectionCell: UICollectionViewCell, ReusableCell {
 
+    @IBOutlet weak var contentCell: UIView!
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var title: UILabel!
     @IBOutlet weak var colorView: UIView!
@@ -24,8 +25,8 @@ class CollectionCell: UICollectionViewCell, ReusableCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         //UI setup
-        contentView.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
-        contentView.clipsToBounds = true
+        contentCell.layer.cornerRadius = LGUIKitConstants.productCellCornerRadius
+        contentCell.clipsToBounds = true
         exploreButton.setStyle(.Primary(fontSize: .Small))
         exploreButton.setTitle(LGLocalizedString.collectionExploreButton, forState: .Normal)
         exploreButton.titleLabel?.adjustsFontSizeToFitWidth = true
