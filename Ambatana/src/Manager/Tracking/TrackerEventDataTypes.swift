@@ -236,6 +236,7 @@ public enum EventParameterName: String {
     case AccountNetwork       = "account-network"
     case ProfileType          = "profile-type"
     case NotificationType     = "notification-type"
+    case ShownReason          = "shown-reason"
     case FreePosting          = "free-posting"
 }
 
@@ -571,6 +572,31 @@ public enum EventParameterNotificationType: String {
     case ProductSold = "favorite-sold"
     case Rating = "rating"
     case RatingUpdated = "rating-updated"
+}
+
+public enum EventParameterRelatedShownReason: String {
+    case ProductSold = "product-sold"
+    case ProductDeleted = "product-deleted"
+    case UserDeleted = "user-deleted"
+    case Unanswered48h = "unanswered-48h"
+    case Forbidden = "forbidden"
+
+    init(chatInfoStatus: ChatInfoViewStatus) {
+        switch chatInfoStatus {
+        case .Forbidden:
+            self = .Forbidden
+        case .Blocked, .BlockedBy:
+            self = .Unanswered48h
+        case .ProductDeleted:
+            self = .ProductDeleted
+        case .ProductSold:
+            self = .ProductSold
+        case .UserPendingDelete, .UserDeleted:
+            self = .UserDeleted
+        case .Available:
+            self = .Unanswered48h
+        }
+    }
 }
 
 public enum EventParameterFreePosting: String {

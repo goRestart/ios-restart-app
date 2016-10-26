@@ -127,6 +127,7 @@ class ChatViewModel: BaseViewModel {
     let relatedProductsEnabled = Variable<Bool>(false)
     let interlocutorTyping = Variable<Bool>(false)
     let messages = CollectionVariable<ChatViewMessage>([])
+    private let sellerDidntAnswer = Variable<Bool>(false)
     private let conversation: Variable<ChatConversation>
     private var interlocutor: User?
     private let myMessagesCount = Variable<Int>(0)
@@ -154,7 +155,7 @@ class ChatViewModel: BaseViewModel {
     private var productId: String? // Only used when accessing a chat from a product
     private var preSendMessageCompletion: ((text: String, isQuickAnswer: Bool, type: ChatMessageType) -> Void)?
     private var afterRetrieveMessagesCompletion: (() -> Void)?
-    
+
     private let disposeBag = DisposeBag()
     
     private var userDefaultsSubKey: String {
@@ -305,7 +306,6 @@ class ChatViewModel: BaseViewModel {
         conversation.asObservable().subscribeNext { [weak self] conversation in
             self?.chatStatus.value = conversation.chatStatus
             self?.chatEnabled.value = conversation.chatEnabled
-            self?.relatedProductsEnabled.value = conversation.relatedProductsEnabled
             self?.interlocutorIsMuted.value = conversation.interlocutor?.isMuted ?? false
             self?.interlocutorHasMutedYou.value = conversation.interlocutor?.hasMutedYou ?? false
             self?.title.value = conversation.product?.name ?? ""
@@ -333,6 +333,10 @@ class ChatViewModel: BaseViewModel {
         relatedProductsEnabled.asObservable().bindNext { [weak self] enabled in
             self?.delegate?.vmShowRelatedProducts(enabled ? self?.conversation.value.product?.objectId : nil)
         }.addDisposableTo(disposeBag)
+
+        let relatedProductsConversation = conversation.asObservable().map { $0.relatedProductsEnabled }
+        Observable.combineLatest(relatedProductsConversation, sellerDidntAnswer.asObservable()) { $0 || $1 }
+            .bindTo(relatedProductsEnabled).addDisposableTo(disposeBag)
 
         let cfgManager = configManager
         let myMessagesReviewable = myMessagesCount.asObservable()
@@ -643,6 +647,8 @@ extension ChatViewModel {
         let viewMessage = chatViewMessageAdapter.adapt(message).markAsSent().markAsReceived().markAsRead()
         messages.insert(viewMessage, atIndex: 0)
         chatRepository.confirmRead(convId, messageIds: [messageId], completion: nil)
+        guard isBuyer else { return }
+        sellerDidntAnswer.value = false
     }
 }
 
@@ -861,10 +867,10 @@ extension ChatViewModel {
             strongSelf.isLoading = false
             if let value = result.value {
                 self?.isLastPage = value.count == 0
-
                 strongSelf.messages.removeAll()
                 strongSelf.updateMessages(newMessages: value, isFirstPage: true)
                 strongSelf.afterRetrieveChatMessagesEvents()
+                strongSelf.checkSellerDidntAnswer(value)
             } else if let _ = result.error {
                 strongSelf.delegate?.vmDidFailRetrievingChatMessages()
             }
@@ -924,6 +930,30 @@ extension ChatViewModel {
         }
 
         afterRetrieveMessagesCompletion?()
+    }
+
+    private func checkSellerDidntAnswer(messages: [ChatMessage]) {
+        guard isBuyer else { return }
+
+        guard let myUserId = myUserRepository.myUser?.objectId else { return }
+        guard let oldestMessageDate = messages.last?.sentAt else { return }
+
+        let calendar = NSCalendar.currentCalendar()
+
+        guard let twoDaysAgo = calendar.dateByAddingUnit(.Day, value: -2, toDate: NSDate(), options: []) else { return }
+        let recentSellerMessages = messages.filter { $0.talkerId != myUserId && $0.sentAt?.compare(twoDaysAgo) == .OrderedDescending }
+
+        /*
+         Cases when we consider the seller didn't answer:
+         - Seller didn't answer in the last 48h (recentSellerMessages is empty)
+         AND either:
+            - the oldest message in the first page is also from more than 48h ago (oldestMessageDate > twoDaysAgo)
+            OR:
+            - the first page is full (this case covers the super eager buyer who sent 20 messages in less than 48h and
+            didn't got any answer. We show him the related items too)
+         */
+        sellerDidntAnswer.value = recentSellerMessages.isEmpty &&
+            (oldestMessageDate.compare(twoDaysAgo) == .OrderedAscending || messages.count == Constants.numMessagesPerPage)
     }
 }
 
@@ -1059,7 +1089,7 @@ private extension ChatConversation {
     var relatedProductsEnabled: Bool {
         switch chatStatus {
         case .Forbidden,  .UserPendingDelete, .UserDeleted, .ProductDeleted, .ProductSold:
-            return true
+            return !amISelling
         case .Available, .Blocked, .BlockedBy:
             return false
         }
@@ -1170,13 +1200,15 @@ private extension ChatViewModel {
 extension ChatViewModel: RelatedProductsViewDelegate {
 
     func relatedProductsViewDidShow(view: RelatedProductsView) {
-        tracker.trackEvent(TrackerEvent.chatRelatedItemsStart())
+        let relatedShownReason = EventParameterRelatedShownReason(chatInfoStatus: chatStatus.value)
+        tracker.trackEvent(TrackerEvent.chatRelatedItemsStart(relatedShownReason))
     }
 
     func relatedProductsView(view: RelatedProductsView, showProduct product: Product, atIndex index: Int,
                              productListModels: [ProductCellModel], requester: ProductListRequester,
                              thumbnailImage: UIImage?, originFrame: CGRect?) {
-        tracker.trackEvent(TrackerEvent.chatRelatedItemsComplete(index))
+        let relatedShownReason = EventParameterRelatedShownReason(chatInfoStatus: chatStatus.value)
+        tracker.trackEvent(TrackerEvent.chatRelatedItemsComplete(index, shownReason: relatedShownReason))
         let data = ProductDetailData.ProductList(product: product, cellModels: productListModels, requester: requester,
                                                  thumbnailImage: thumbnailImage, originFrame: originFrame,
                                                  showRelated: false, index: 0)
