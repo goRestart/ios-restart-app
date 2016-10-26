@@ -15,7 +15,8 @@ import CollectionVariable
 
 
 protocol ProductViewModelDelegate: class, BaseViewModelDelegate {
-    func vmShowNativeShare(socialMessage: SocialMessage)
+    func vmShowShareFromMain(socialMessage: SocialMessage)
+    func vmShowShareFromMoreInfo(socialMessage: SocialMessage)
 
     func vmOpenMainSignUp(signUpVM: SignUpViewModel, afterLoginAction: () -> ())
 
@@ -610,8 +611,8 @@ extension ProductViewModel {
     private func buildShareNavBarAction() -> UIAction {
         return UIAction(interface: .Text(LGLocalizedString.productShareNavbarButton), action: { [weak self] in
             guard let strongSelf = self, socialMessage = strongSelf.socialMessage.value else { return }
-            strongSelf.delegate?.vmShowNativeShare(socialMessage)
-            }, accessibilityId: .ProductCarouselNavBarShareButton)
+            strongSelf.delegate?.vmShowShareFromMain(socialMessage)
+        }, accessibilityId: .ProductCarouselNavBarShareButton)
     }
 
     private func showOptionsMenu() {
@@ -636,8 +637,8 @@ extension ProductViewModel {
     private func buildShareAction() -> UIAction {
         return UIAction(interface: .Text(LGLocalizedString.productOptionShare), action: { [weak self] in
             guard let strongSelf = self, socialMessage = strongSelf.socialMessage.value else { return }
-            strongSelf.delegate?.vmShowNativeShare(socialMessage)
-            }, accessibilityId: .ProductCarouselNavBarShareButton)
+            strongSelf.delegate?.vmShowShareFromMoreInfo(socialMessage)
+        }, accessibilityId: .ProductCarouselNavBarShareButton)
     }
 
     private func buildCommercialAction() -> UIAction {

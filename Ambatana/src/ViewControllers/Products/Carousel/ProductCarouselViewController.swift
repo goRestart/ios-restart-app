@@ -109,6 +109,8 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     private var interestedBubbleIsVisible: Bool = false
     private var interestedBubbleTimer: NSTimer = NSTimer()
 
+    private var expandableButtonsView: ExpandableButtonsView?
+
     let animator: PushAnimator?
     var pendingMovement: CarouselMovement?
 
@@ -267,6 +269,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
 
         setupDirectMessagesAndStickers()
         setupInterestedBubble()
+        setupExpandableButtonsViewIfNeeded()
     }
 
     func setupInterestedBubble() {
@@ -288,9 +291,24 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
                                                         constant: 0)
         interestedBubbleContainer.addConstraints([bubbleLeftConstraint, bubbleRightConstraint, bubbleTopConstraint,
             bubbleBottomConstraint])
-
     }
-    
+
+    private func setupExpandableButtonsViewIfNeeded() {
+        guard FeatureFlags.productDetailShareMode == .InPlace else { return }
+
+        let expandableButtons = ExpandableButtonsView(buttonSide: 40, buttonSpacing: 5)
+        expandableButtonsView = expandableButtons
+
+        expandableButtons.addButton(image: UIImage(named: "ic_user_private_fb_on"), bgColor: nil, action: {})
+        expandableButtons.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(expandableButtons)
+
+        view.addConstraint(NSLayoutConstraint(item: expandableButtons, attribute: .Trailing, relatedBy: .Equal,
+                                              toItem: view, attribute: .Trailing, multiplier: 1, constant: -50))
+        view.addConstraint(NSLayoutConstraint(item: expandableButtons, attribute: .Top, relatedBy: .Equal,
+                                              toItem: view, attribute: .Top, multiplier: 1, constant: 50))
+    }
+
     private func setupNavigationBar() {
         let backIconImage = UIImage(named: "ic_close_carousel")
         let backButton = UIBarButtonItem(image: backIconImage, style: UIBarButtonItemStyle.Plain,
@@ -1046,7 +1064,20 @@ extension ProductCarouselViewController {
 // MARK: > Product View Model Delegate
 
 extension ProductCarouselViewController: ProductViewModelDelegate {
-    func vmShowNativeShare(socialMessage: SocialMessage) {
+    func vmShowShareFromMain(socialMessage: SocialMessage) {
+        switch FeatureFlags.productDetailShareMode {
+        case .Native:
+            let barButtonItem = navigationItem.rightBarButtonItems?.first
+            presentNativeShare(socialMessage: socialMessage, delegate: viewModel, barButtonItem: barButtonItem)
+        case .InPlace:
+            expandableButtonsView?.switchExpanded()
+        case .FullScreen:
+            // TODO
+            break
+        }
+    }
+
+    func vmShowShareFromMoreInfo(socialMessage: SocialMessage) {
         let barButtonItem = navigationItem.rightBarButtonItems?.first
         presentNativeShare(socialMessage: socialMessage, delegate: viewModel, barButtonItem: barButtonItem)
     }
