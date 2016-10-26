@@ -106,7 +106,7 @@ class FloatingButton: UIView {
             let sellButtonImage = UIImage(named: "ic_sell_white")
             sellButton.setImage(sellButtonImage, forState: .Normal)
             sellButton.setImage(sellButtonImage, forState: .Highlighted)
-            sellButton.setStyle(.Primary(fontSize: .Big))
+            sellButton.titleLabel?.font = UIFont.bigButtonFont
             sellButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: titleIconSpacing, bottom: 0, right: -titleIconSpacing)
             sellButton.contentEdgeInsets = UIEdgeInsets(top: 0, left: 2*extraPadding, bottom: 0, right: 2*extraPadding+titleIconSpacing)
         case .SplitButton:
