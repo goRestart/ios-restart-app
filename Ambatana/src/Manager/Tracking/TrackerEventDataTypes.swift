@@ -101,8 +101,6 @@ public enum EventName: String {
     case AppRatingSuggest                   = "app-rating-suggest"
     case AppRatingDontAsk                   = "app-rating-dont-ask"
     case AppRatingRemindMeLater             = "app-rating-remind-later"
-    case AppRatingBannerOpen                = "app-rating-banner-open"
-    case AppRatingBannerClose               = "app-rating-banner-close"
 
     case PermissionAlertStart               = "permission-alert-start"
     case PermissionAlertCancel              = "permission-alert-cancel"
@@ -238,6 +236,7 @@ public enum EventParameterName: String {
     case AccountNetwork       = "account-network"
     case ProfileType          = "profile-type"
     case NotificationType     = "notification-type"
+    case ShownReason          = "shown-reason"
     case FreePosting          = "free-posting"
 }
 
@@ -454,6 +453,7 @@ public enum EventParameterEditedFields: String {
 
 public enum EventParameterTypePage: String {
     case ProductList = "product-list"
+    case ProductListBanner = "product-list-banner"
     case Chat = "chat"
     case TabBar = "tab-bar"
     case ChatList = "chat-list"
@@ -537,7 +537,6 @@ public enum ProductVisitUserAction: String {
 }
 
 public enum EventParameterRatingSource: String {
-    case Banner = "banner-rating"
     case Chat = "chat"
     case ProductSellComplete = "product-sell-complete"
     case MarkedSold = "marked-sold"
@@ -573,6 +572,31 @@ public enum EventParameterNotificationType: String {
     case ProductSold = "favorite-sold"
     case Rating = "rating"
     case RatingUpdated = "rating-updated"
+}
+
+public enum EventParameterRelatedShownReason: String {
+    case ProductSold = "product-sold"
+    case ProductDeleted = "product-deleted"
+    case UserDeleted = "user-deleted"
+    case Unanswered48h = "unanswered-48h"
+    case Forbidden = "forbidden"
+
+    init(chatInfoStatus: ChatInfoViewStatus) {
+        switch chatInfoStatus {
+        case .Forbidden:
+            self = .Forbidden
+        case .Blocked, .BlockedBy:
+            self = .Unanswered48h
+        case .ProductDeleted:
+            self = .ProductDeleted
+        case .ProductSold:
+            self = .ProductSold
+        case .UserPendingDelete, .UserDeleted:
+            self = .UserDeleted
+        case .Available:
+            self = .Unanswered48h
+        }
+    }
 }
 
 public enum EventParameterFreePosting: String {

@@ -1720,22 +1720,28 @@ class TrackerEventSpec: QuickSpec {
 
             describe("chatRelatedItemsStart") {
                 beforeEach {
-                    sut = TrackerEvent.chatRelatedItemsStart()
+                    sut = TrackerEvent.chatRelatedItemsStart(.Unanswered48h)
                 }
                 it("has its event name ") {
                     expect(sut.name.rawValue).to(equal("chat-related-items-start"))
+                }
+                it("shownReason parameter matches") {
+                    expect(sut.params?.stringKeyParams["shown-reason"] as? String) == "unanswered-48h"
                 }
             }
 
             describe("chatRelatedItemsComplete") {
                 beforeEach {
-                    sut = TrackerEvent.chatRelatedItemsComplete(20)
+                    sut = TrackerEvent.chatRelatedItemsComplete(20, shownReason: .ProductSold)
                 }
                 it("has its event name ") {
                     expect(sut.name.rawValue).to(equal("chat-related-items-complete"))
                 }
                 it("item-position parameter matches") {
                     expect(sut.params?.stringKeyParams["item-position"] as? Int) == 20
+                }
+                it("shownReason parameter matches") {
+                    expect(sut.params?.stringKeyParams["shown-reason"] as? String) == "product-sold"
                 }
             }
 

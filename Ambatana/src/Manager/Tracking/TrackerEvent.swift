@@ -534,13 +534,16 @@ public struct TrackerEvent {
         return TrackerEvent(name: .UserMessageSent, params: params)
     }
 
-    static func chatRelatedItemsStart() -> TrackerEvent {
-        return TrackerEvent(name: .ChatRelatedItemsStart, params: EventParameters())
+    static func chatRelatedItemsStart(shownReason: EventParameterRelatedShownReason) -> TrackerEvent {
+        var params = EventParameters()
+        params[.ShownReason] = shownReason.rawValue
+        return TrackerEvent(name: .ChatRelatedItemsStart, params: params)
     }
 
-    static func chatRelatedItemsComplete(itemPosition: Int) -> TrackerEvent {
+    static func chatRelatedItemsComplete(itemPosition: Int, shownReason: EventParameterRelatedShownReason) -> TrackerEvent {
         var params = EventParameters()
         params[.ItemPosition] = itemPosition
+        params[.ShownReason] = shownReason.rawValue
         return TrackerEvent(name: .ChatRelatedItemsComplete, params: params)
     }
 
@@ -654,17 +657,6 @@ public struct TrackerEvent {
         let params = EventParameters()
         return TrackerEvent(name: .AppRatingRemindMeLater, params: params)
     }
-
-    static func appRatingBannerOpen() -> TrackerEvent {
-        let params = EventParameters()
-        return TrackerEvent(name: .AppRatingBannerOpen, params: params)
-    }
-
-    static func appRatingBannerClose() -> TrackerEvent {
-        let params = EventParameters()
-        return TrackerEvent(name: .AppRatingBannerClose, params: params)
-    }
-
 
     static func permissionAlertStart(permissionType: EventParameterPermissionType,
         typePage: EventParameterTypePage, alertType: EventParameterPermissionAlertType,
