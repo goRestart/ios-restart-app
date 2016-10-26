@@ -15,8 +15,6 @@ class RatingManager {
     private let keyValueStorage: KeyValueStorage
     private let crashManager: CrashManager
 
-    let ratingProductListBannerVisible = PublishSubject<Bool>()
-
     
     // MARK: - Lifecycle
 
@@ -36,7 +34,6 @@ class RatingManager {
         case .NewInstall, .Major, .Minor:
             keyValueStorage.userRatingAlreadyRated = false
             keyValueStorage.userRatingRemindMeLaterDate = nil
-            keyValueStorage.userRatingShowProductListBanner = false
         case .Patch:
             keyValueStorage.userRatingRemindMeLaterDate = nil
         case .None:
@@ -55,21 +52,12 @@ extension RatingManager {
         guard let remindMeLaterDate = keyValueStorage.userRatingRemindMeLaterDate else { return true }
         return remindMeLaterDate.timeIntervalSinceNow <= 0
     }
-    var shouldShowRatingProductListBanner: Bool {
-        guard !crashManager.appCrashed else { return false }
-        guard !keyValueStorage.userRatingAlreadyRated else { return false }
-        return keyValueStorage.userRatingShowProductListBanner
-    }
 
     func userDidRate() {
         keyValueStorage.userRatingAlreadyRated = true
-        keyValueStorage.userRatingShowProductListBanner = false
-        updateUserRatingShowProductListBanner(false)
     }
 
-    func userDidRemindLater(sourceIsBanner sourceIsBanner: Bool) {
-        guard !sourceIsBanner else { return }
-
+    func userDidRemindLater() {
         if keyValueStorage.userRatingRemindMeLaterDate == nil {
             // If we don't have a remind later date then set it up
             let remindDate = NSDate().dateByAddingTimeInterval(Constants.ratingRepeatTime)
@@ -78,26 +66,6 @@ extension RatingManager {
             // Otherwise, we set it in a distant future... (might be overriden when updating)
             keyValueStorage.userRatingRemindMeLaterDate = NSDate.distantFuture()
         }
-        updateUserRatingShowProductListBanner(true)
-    }
-
-    func userDidCloseProductListBanner() {
-        updateUserRatingShowProductListBanner(false)
-        let event = TrackerEvent.appRatingBannerClose()
-        TrackerProxy.sharedInstance.trackEvent(event)
     }
 }
 
-
-// MARK: - Private methods
-
-private extension RatingManager {
-    func updateUserRatingShowProductListBanner(show: Bool) {
-        if show {
-            let event = TrackerEvent.appRatingBannerOpen()
-            TrackerProxy.sharedInstance.trackEvent(event)
-        }
-        keyValueStorage.userRatingShowProductListBanner = show
-        ratingProductListBannerVisible.onNext(shouldShowRatingProductListBanner)
-    }
-}

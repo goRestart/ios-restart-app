@@ -522,10 +522,6 @@
 		C708C83D1CDB590400AA87B3 /* AppRatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C708C83A1CDB590400AA87B3 /* AppRatingView.swift */; };
 		C708C83E1CDB590400AA87B3 /* AppRatingView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C708C83B1CDB590400AA87B3 /* AppRatingView.xib */; };
 		C708C83F1CDB590400AA87B3 /* AppRatingView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C708C83B1CDB590400AA87B3 /* AppRatingView.xib */; };
-		C708C8451CDB60B200AA87B3 /* AppRatingBannerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C708C8431CDB60B200AA87B3 /* AppRatingBannerCell.swift */; };
-		C708C8461CDB60B200AA87B3 /* AppRatingBannerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C708C8431CDB60B200AA87B3 /* AppRatingBannerCell.swift */; };
-		C708C8471CDB60B200AA87B3 /* AppRatingBannerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C708C8441CDB60B200AA87B3 /* AppRatingBannerCell.xib */; };
-		C708C8481CDB60B200AA87B3 /* AppRatingBannerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C708C8441CDB60B200AA87B3 /* AppRatingBannerCell.xib */; };
 		C70EA18D1D5B6794003FFC9A /* StickersSelectorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70EA18B1D5B6794003FFC9A /* StickersSelectorViewController.swift */; };
 		C70EA18E1D5B6794003FFC9A /* StickersSelectorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70EA18B1D5B6794003FFC9A /* StickersSelectorViewController.swift */; };
 		C70EA18F1D5B6794003FFC9A /* StickersSelectorViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C70EA18C1D5B6794003FFC9A /* StickersSelectorViewController.xib */; };
@@ -553,10 +549,6 @@
 		C7132A3F1BF246D40000747A /* ProductFilters.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7132A3E1BF246D40000747A /* ProductFilters.swift */; };
 		C71589B41C4F8E1C00E7563E /* PopupSignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C71589B21C4F8E1C00E7563E /* PopupSignUpViewController.swift */; };
 		C71589B51C4F8E1C00E7563E /* PopupSignUpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C71589B31C4F8E1C00E7563E /* PopupSignUpViewController.xib */; };
-		C71710001D09CACE00DDBBB0 /* UserPushPermissionsHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7170FFE1D09CACE00DDBBB0 /* UserPushPermissionsHeader.swift */; };
-		C71710011D09CACE00DDBBB0 /* UserPushPermissionsHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7170FFE1D09CACE00DDBBB0 /* UserPushPermissionsHeader.swift */; };
-		C71710021D09CACE00DDBBB0 /* UserPushPermissionsHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = C7170FFF1D09CACE00DDBBB0 /* UserPushPermissionsHeader.xib */; };
-		C71710031D09CACE00DDBBB0 /* UserPushPermissionsHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = C7170FFF1D09CACE00DDBBB0 /* UserPushPermissionsHeader.xib */; };
 		C71C5D5E1D958974006EB3CE /* BumperFeatures.swift in Sources */ = {isa = PBXBuildFile; fileRef = C71C5D5D1D958974006EB3CE /* BumperFeatures.swift */; };
 		C71C5D5F1D95897F006EB3CE /* BumperFeatures.swift in Sources */ = {isa = PBXBuildFile; fileRef = C71C5D5D1D958974006EB3CE /* BumperFeatures.swift */; };
 		C7239A181C11F92B006CB5A6 /* CAGradientLayer+Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7239A171C11F92B006CB5A6 /* CAGradientLayer+Color.swift */; };
@@ -599,6 +591,8 @@
 		C73189C31DB92493005A93EE /* BaseNotificationCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73189C11DB9248F005A93EE /* BaseNotificationCellDrawer.swift */; };
 		C73189C51DBA208C005A93EE /* UIImageView+Corners.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73189C41DBA208C005A93EE /* UIImageView+Corners.swift */; };
 		C73189C61DBA208C005A93EE /* UIImageView+Corners.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73189C41DBA208C005A93EE /* UIImageView+Corners.swift */; };
+		C73189C91DBE3847005A93EE /* ListHeaderContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73189C71DBE3847005A93EE /* ListHeaderContainer.swift */; };
+		C73189CA1DBE3847005A93EE /* ListHeaderContainer.xib in Resources */ = {isa = PBXBuildFile; fileRef = C73189C81DBE3847005A93EE /* ListHeaderContainer.xib */; };
 		C731B8721CE218C400F31D46 /* OldChatListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C731B8711CE218C400F31D46 /* OldChatListViewModel.swift */; };
 		C731B8731CE218C400F31D46 /* OldChatListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C731B8711CE218C400F31D46 /* OldChatListViewModel.swift */; };
 		C731B8781CE22BBE00F31D46 /* WSChatListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C731B8771CE22BBE00F31D46 /* WSChatListViewModel.swift */; };
@@ -710,6 +704,10 @@
 		C77593F21BF0E48D0097D62F /* FilterHeaderCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C77593F01BF0E48D0097D62F /* FilterHeaderCell.xib */; };
 		C7798EA21D2EB6AB00C81DD4 /* UICollectionView+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7798EA11D2EB6AB00C81DD4 /* UICollectionView+Helper.swift */; };
 		C7798EA31D2EB6AB00C81DD4 /* UICollectionView+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7798EA11D2EB6AB00C81DD4 /* UICollectionView+Helper.swift */; };
+		C77B7DB31DBE3C290043C624 /* ListHeaderContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73189C71DBE3847005A93EE /* ListHeaderContainer.swift */; };
+		C77B7DB41DBE3C3E0043C624 /* ListHeaderContainer.xib in Resources */ = {isa = PBXBuildFile; fileRef = C73189C81DBE3847005A93EE /* ListHeaderContainer.xib */; };
+		C77B7DBA1DBF9D150043C624 /* PushPermissionsHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77B7DB91DBF9D150043C624 /* PushPermissionsHeader.swift */; };
+		C77B7DBB1DBF9D150043C624 /* PushPermissionsHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77B7DB91DBF9D150043C624 /* PushPermissionsHeader.swift */; };
 		C77D64681CBD250700A22510 /* Tab.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77D64671CBD250700A22510 /* Tab.swift */; };
 		C77D64691CBD250700A22510 /* Tab.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77D64671CBD250700A22510 /* Tab.swift */; };
 		C780281D1BF0FB64002B26C5 /* FilterSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = C780281C1BF0FB64002B26C5 /* FilterSection.swift */; };
@@ -1430,8 +1428,6 @@
 		C703BDFD1C7F1AF900EC8EF2 /* EditLocationViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditLocationViewModel.swift; sourceTree = "<group>"; };
 		C708C83A1CDB590400AA87B3 /* AppRatingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppRatingView.swift; sourceTree = "<group>"; };
 		C708C83B1CDB590400AA87B3 /* AppRatingView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AppRatingView.xib; sourceTree = "<group>"; };
-		C708C8431CDB60B200AA87B3 /* AppRatingBannerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppRatingBannerCell.swift; sourceTree = "<group>"; };
-		C708C8441CDB60B200AA87B3 /* AppRatingBannerCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AppRatingBannerCell.xib; sourceTree = "<group>"; };
 		C70EA18B1D5B6794003FFC9A /* StickersSelectorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StickersSelectorViewController.swift; sourceTree = "<group>"; };
 		C70EA18C1D5B6794003FFC9A /* StickersSelectorViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StickersSelectorViewController.xib; sourceTree = "<group>"; };
 		C7111EF81CA43822000C5C5A /* DeepLinksRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeepLinksRouter.swift; sourceTree = "<group>"; };
@@ -1447,8 +1443,6 @@
 		C7132A3E1BF246D40000747A /* ProductFilters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductFilters.swift; sourceTree = "<group>"; };
 		C71589B21C4F8E1C00E7563E /* PopupSignUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopupSignUpViewController.swift; sourceTree = "<group>"; };
 		C71589B31C4F8E1C00E7563E /* PopupSignUpViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PopupSignUpViewController.xib; sourceTree = "<group>"; };
-		C7170FFE1D09CACE00DDBBB0 /* UserPushPermissionsHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserPushPermissionsHeader.swift; sourceTree = "<group>"; };
-		C7170FFF1D09CACE00DDBBB0 /* UserPushPermissionsHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserPushPermissionsHeader.xib; sourceTree = "<group>"; };
 		C71C5D5D1D958974006EB3CE /* BumperFeatures.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BumperFeatures.swift; sourceTree = "<group>"; };
 		C7239A171C11F92B006CB5A6 /* CAGradientLayer+Color.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CAGradientLayer+Color.swift"; sourceTree = "<group>"; };
 		C7239A191C158139006CB5A6 /* Product+Negotiable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Product+Negotiable.swift"; sourceTree = "<group>"; };
@@ -1471,6 +1465,8 @@
 		C727FBD01CD10E77002BC643 /* ProductNotificationCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProductNotificationCell.xib; sourceTree = "<group>"; };
 		C73189C11DB9248F005A93EE /* BaseNotificationCellDrawer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseNotificationCellDrawer.swift; sourceTree = "<group>"; };
 		C73189C41DBA208C005A93EE /* UIImageView+Corners.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImageView+Corners.swift"; sourceTree = "<group>"; };
+		C73189C71DBE3847005A93EE /* ListHeaderContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListHeaderContainer.swift; sourceTree = "<group>"; };
+		C73189C81DBE3847005A93EE /* ListHeaderContainer.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ListHeaderContainer.xib; sourceTree = "<group>"; };
 		C731B8711CE218C400F31D46 /* OldChatListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OldChatListViewModel.swift; sourceTree = "<group>"; };
 		C731B8771CE22BBE00F31D46 /* WSChatListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WSChatListViewModel.swift; sourceTree = "<group>"; };
 		C735101A1D94246C00D67040 /* bumper_features.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = bumper_features.json; sourceTree = "<group>"; };
@@ -1539,6 +1535,7 @@
 		C77593EF1BF0E48D0097D62F /* FilterHeaderCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterHeaderCell.swift; sourceTree = "<group>"; };
 		C77593F01BF0E48D0097D62F /* FilterHeaderCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FilterHeaderCell.xib; sourceTree = "<group>"; };
 		C7798EA11D2EB6AB00C81DD4 /* UICollectionView+Helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UICollectionView+Helper.swift"; sourceTree = "<group>"; };
+		C77B7DB91DBF9D150043C624 /* PushPermissionsHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PushPermissionsHeader.swift; sourceTree = "<group>"; };
 		C77D64671CBD250700A22510 /* Tab.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tab.swift; sourceTree = "<group>"; };
 		C780281C1BF0FB64002B26C5 /* FilterSection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterSection.swift; sourceTree = "<group>"; };
 		C783D97A1C64BB90000EE5CA /* ReportUsersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReportUsersViewController.swift; sourceTree = "<group>"; };
@@ -1916,8 +1913,6 @@
 			children = (
 				C708C83A1CDB590400AA87B3 /* AppRatingView.swift */,
 				C708C83B1CDB590400AA87B3 /* AppRatingView.xib */,
-				C708C8431CDB60B200AA87B3 /* AppRatingBannerCell.swift */,
-				C708C8441CDB60B200AA87B3 /* AppRatingBannerCell.xib */,
 			);
 			path = "App Rating";
 			sourceTree = "<group>";
@@ -2159,6 +2154,7 @@
 				6AB674F51C9704480080F4BF /* CommercialButton.xib */,
 				2E5350401CF8A0C6003B06CC /* ProductStatsView.swift */,
 				2E5350431CF8A181003B06CC /* ProductStatsView.xib */,
+				C77B7DB91DBF9D150043C624 /* PushPermissionsHeader.swift */,
 				2E64D4191D11B34F00257B69 /* Tooltip.swift */,
 			);
 			path = Widgets;
@@ -2473,8 +2469,6 @@
 				50E0E84A1D40B11600A6397C /* UserViewHeaderContainer.swift */,
 				503D4BF01CCE53AE0039FE14 /* UserViewHeaderAccounts.swift */,
 				50CA9FAF1C91696800350C5F /* UserViewModel.swift */,
-				C7170FFE1D09CACE00DDBBB0 /* UserPushPermissionsHeader.swift */,
-				C7170FFF1D09CACE00DDBBB0 /* UserPushPermissionsHeader.xib */,
 			);
 			path = User;
 			sourceTree = "<group>";
@@ -2897,6 +2891,8 @@
 				C749C7831C10813400F7118E /* ProductCell.xib */,
 				C7C61DF91D630ED500F9505D /* CollectionCell.swift */,
 				C7C61DFA1D630ED500F9505D /* CollectionCell.xib */,
+				C73189C71DBE3847005A93EE /* ListHeaderContainer.swift */,
+				C73189C81DBE3847005A93EE /* ListHeaderContainer.xib */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -3620,7 +3616,6 @@
 				C7B5888B1CE1DFA6009B3975 /* ChatMyMessageCell.xib in Resources */,
 				6A879DA21C8D89B300E0C868 /* PushPrePermissionsSettingsViewController.xib in Resources */,
 				C739D94C1CDC9A2A000F8BA9 /* WelcomeNotificationCell.xib in Resources */,
-				C71710021D09CACE00DDBBB0 /* UserPushPermissionsHeader.xib in Resources */,
 				6ADF0AE11D70507C009AEC4A /* NPSViewController.xib in Resources */,
 				C7B5888F1CE1DFA6009B3975 /* ChatOthersMessageCell.xib in Resources */,
 				50F0BAAA1B28938D00E50A68 /* MainSignUpViewController.xib in Resources */,
@@ -3629,6 +3624,7 @@
 				C7363FB61BF9CB8D00A4BF6F /* FilterTagCell.xib in Resources */,
 				C7DE8AD91C8892C9005CF37E /* PostProductCameraView.xib in Resources */,
 				2E373FA61D3D019600AC811C /* UserRatingListViewController.xib in Resources */,
+				C73189CA1DBE3847005A93EE /* ListHeaderContainer.xib in Resources */,
 				508011171D474ED80073F362 /* Commercializer.xcassets in Resources */,
 				50BA5C081C3C096D00F34042 /* GoogleService-Info.plist in Resources */,
 				5021910E1B2F1DAA00ABD31F /* RememberPasswordViewController.xib in Resources */,
@@ -3637,7 +3633,6 @@
 				2E2C7B301C859F0C00F46E8F /* PromoteProductViewController.xib in Resources */,
 				C74016DC1D6467DB004C1E9D /* PostProductDetailPriceView.xib in Resources */,
 				5080111F1D474ED80073F362 /* Icons-Launchers.xcassets in Resources */,
-				C708C8471CDB60B200AA87B3 /* AppRatingBannerCell.xib in Resources */,
 				5080111B1D474ED80073F362 /* Errors.xcassets in Resources */,
 				C7F18AA11C89D62600D23319 /* GalleryImageCell.xib in Resources */,
 				C727FBC01CCFC4ED002BC643 /* NotificationsViewController.xib in Resources */,
@@ -3742,7 +3737,6 @@
 				6A879DA31C8D89B300E0C868 /* PushPrePermissionsSettingsViewController.xib in Resources */,
 				C739D94D1CDC9A2A000F8BA9 /* WelcomeNotificationCell.xib in Resources */,
 				6ADF0AE21D70507C009AEC4A /* NPSViewController.xib in Resources */,
-				C71710031D09CACE00DDBBB0 /* UserPushPermissionsHeader.xib in Resources */,
 				C7B588901CE1DFA6009B3975 /* ChatOthersMessageCell.xib in Resources */,
 				C7DB42741C5138B500400945 /* MainSignUpViewController.xib in Resources */,
 				6A12E0591C6398BE00C1BFE3 /* TourNotificationsViewController.xib in Resources */,
@@ -3750,6 +3744,7 @@
 				C7DB42771C5138B500400945 /* FilterTagCell.xib in Resources */,
 				C7DE8ADA1C8892C9005CF37E /* PostProductCameraView.xib in Resources */,
 				2E373FAF1D3E6F4E00AC811C /* UserRatingListViewController.xib in Resources */,
+				C77B7DB41DBE3C3E0043C624 /* ListHeaderContainer.xib in Resources */,
 				508011181D474ED80073F362 /* Commercializer.xcassets in Resources */,
 				C7DB427B1C5138B500400945 /* GoogleService-Info.plist in Resources */,
 				C7DB427C1C5138B500400945 /* RememberPasswordViewController.xib in Resources */,
@@ -3757,7 +3752,6 @@
 				2E2C7B311C859F0C00F46E8F /* PromoteProductViewController.xib in Resources */,
 				C74016DD1D6467DB004C1E9D /* PostProductDetailPriceView.xib in Resources */,
 				508011201D474ED80073F362 /* Icons-Launchers.xcassets in Resources */,
-				C708C8481CDB60B200AA87B3 /* AppRatingBannerCell.xib in Resources */,
 				5080111C1D474ED80073F362 /* Errors.xcassets in Resources */,
 				C7F18AA21C89D62600D23319 /* GalleryImageCell.xib in Resources */,
 				C7C61DF81D63035400F9505D /* ProductCarouselMoreInfoView.xib in Resources */,
@@ -4398,11 +4392,13 @@
 				C7732F6A1D87FA3400EAD5B7 /* TourPostingViewController.swift in Sources */,
 				2E06EAED1D7051BA00A40704 /* FilterPriceCell.swift in Sources */,
 				6A12E04F1C635FF900C1BFE3 /* TourLoginViewModel.swift in Sources */,
+				C77B7DBA1DBF9D150043C624 /* PushPermissionsHeader.swift in Sources */,
 				C727FBD11CD10E77002BC643 /* ProductNotificationCell.swift in Sources */,
 				C7DE8ACB1C888761005CF37E /* EditProductViewModel.swift in Sources */,
 				50560B981B25D18F0021D8D9 /* BaseViewModel.swift in Sources */,
 				6A5E19E81D548F5400F92692 /* Int+LG.swift in Sources */,
 				6A5E19F61D548F5400F92692 /* DeviceFamily.swift in Sources */,
+				C73189C91DBE3847005A93EE /* ListHeaderContainer.swift in Sources */,
 				6A383F851CB29B3E00F99D79 /* CreateCommercialViewModel.swift in Sources */,
 				C72794401D549342009C25AB /* ChangeUsernameViewModel.swift in Sources */,
 				5042D6771BDA8B6F00E54064 /* LGLocalizedString.swift in Sources */,
@@ -4411,7 +4407,6 @@
 				C7B588871CE1DFA6009B3975 /* ChatBubbleCell.swift in Sources */,
 				6A5E19F01D548F5400F92692 /* String+LG.swift in Sources */,
 				D4912A831B08E12C00DACD5A /* UIImage+Tint.swift in Sources */,
-				C71710001D09CACE00DDBBB0 /* UserPushPermissionsHeader.swift in Sources */,
 				2E32AD151D6B0F2300AC8501 /* BubbleNotificationManager.swift in Sources */,
 				C74931791D3533DE00E117F1 /* UserRatingNavigator.swift in Sources */,
 				50CA9FB01C91696800350C5F /* UserViewModel.swift in Sources */,
@@ -4451,7 +4446,6 @@
 				C7B588891CE1DFA6009B3975 /* ChatMyMessageCell.swift in Sources */,
 				50C59BD81CE0DB4400377124 /* UserDefaultsUser.swift in Sources */,
 				C79842041CC903A500C300FF /* MockAccount.swift in Sources */,
-				C708C8451CDB60B200AA87B3 /* AppRatingBannerCell.swift in Sources */,
 				50146BCA1D4F5F7B00B0F635 /* CategoriesTabCoordinator.swift in Sources */,
 				2E64D41A1D11B34F00257B69 /* Tooltip.swift in Sources */,
 			);
@@ -4776,11 +4770,13 @@
 				2E06EAEF1D70595900A40704 /* FilterPriceCell.swift in Sources */,
 				2E3047EC1CA4083B0099C0BC /* CommercialDisplayViewController.swift in Sources */,
 				C7B588581CE1DE1C009B3975 /* DirectAnswersPresenter.swift in Sources */,
+				C77B7DBB1DBF9D150043C624 /* PushPermissionsHeader.swift in Sources */,
 				6A12E0501C635FF900C1BFE3 /* TourLoginViewModel.swift in Sources */,
 				503996D91C60C3F0004D2E09 /* LGViewPagerTabItem.swift in Sources */,
 				C727FBD21CD10E77002BC643 /* ProductNotificationCell.swift in Sources */,
 				6A5E19E91D548F5400F92692 /* Int+LG.swift in Sources */,
 				6A5E19F71D548F5400F92692 /* DeviceFamily.swift in Sources */,
+				C77B7DB31DBE3C290043C624 /* ListHeaderContainer.swift in Sources */,
 				C7DE8ACC1C888761005CF37E /* EditProductViewModel.swift in Sources */,
 				C72794411D549342009C25AB /* ChangeUsernameViewModel.swift in Sources */,
 				C7DB42201C5138B500400945 /* BaseViewModel.swift in Sources */,
@@ -4792,7 +4788,6 @@
 				2E32AD161D6B107100AC8501 /* BubbleNotificationManager.swift in Sources */,
 				C7B588881CE1DFA6009B3975 /* ChatBubbleCell.swift in Sources */,
 				C7DB42241C5138B500400945 /* UIImage+Tint.swift in Sources */,
-				C71710011D09CACE00DDBBB0 /* UserPushPermissionsHeader.swift in Sources */,
 				C749317A1D3533DE00E117F1 /* UserRatingNavigator.swift in Sources */,
 				6A5E1A191D548F5400F92692 /* UIView+Geometry.swift in Sources */,
 				50146BD11D4F5F9F00B0F635 /* ChatsTabCoordinator.swift in Sources */,
@@ -4829,7 +4824,6 @@
 				C7B5888A1CE1DFA6009B3975 /* ChatMyMessageCell.swift in Sources */,
 				50C59BD91CE0DB4400377124 /* UserDefaultsUser.swift in Sources */,
 				C79842051CC903A500C300FF /* MockAccount.swift in Sources */,
-				C708C8461CDB60B200AA87B3 /* AppRatingBannerCell.swift in Sources */,
 				50146BCB1D4F5F7B00B0F635 /* CategoriesTabCoordinator.swift in Sources */,
 				2E64D41B1D11B34F00257B69 /* Tooltip.swift in Sources */,
 			);

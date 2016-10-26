@@ -44,7 +44,7 @@ class AppRatingView: UIView {
         
         self.frame = frame
         mainView.layer.cornerRadius = LGUIKitConstants.alertCornerRadius
-        headerImageView.backgroundColor = UIColor.ratingBannerBackgroundColor
+        headerImageView.backgroundColor = UIColor.ratingViewBackgroundColor
         mainTextLabel.text = LGLocalizedString.ratingViewTitleLabelUppercase
         ratUslabel.text = LGLocalizedString.ratingViewRateUsLabel
         dismissButton.setTitle(LGLocalizedString.ratingViewRemindLaterButton.uppercase, forState: .Normal)
@@ -118,8 +118,7 @@ class AppRatingView: UIView {
         let event = TrackerEvent.appRatingRemindMeLater()
         TrackerProxy.sharedInstance.trackEvent(event)
 
-        let sourceIsBanner = ratingSource == .Banner
-        RatingManager.sharedInstance.userDidRemindLater(sourceIsBanner: sourceIsBanner)
+        RatingManager.sharedInstance.userDidRemindLater()
     }
 }
 

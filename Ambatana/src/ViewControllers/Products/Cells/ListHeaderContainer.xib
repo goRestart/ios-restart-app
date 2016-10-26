@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionReusableView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="U6b-Vx-4bR" customClass="ListHeaderContainer" customModule="LetGo" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bT0-Sc-6uo" userLabel="containerView">
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </view>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="bT0-Sc-6uo" firstAttribute="leading" secondItem="U6b-Vx-4bR" secondAttribute="leading" id="S06-pj-PZY"/>
+                <constraint firstAttribute="trailing" secondItem="bT0-Sc-6uo" secondAttribute="trailing" id="oFn-zy-Px2"/>
+                <constraint firstItem="bT0-Sc-6uo" firstAttribute="top" secondItem="U6b-Vx-4bR" secondAttribute="top" id="ug8-fn-nhK"/>
+                <constraint firstAttribute="bottom" secondItem="bT0-Sc-6uo" secondAttribute="bottom" id="z1W-7s-17O"/>
+            </constraints>
+            <connections>
+                <outlet property="containerView" destination="bT0-Sc-6uo" id="dLK-w5-ASM"/>
+            </connections>
+        </collectionReusableView>
+    </objects>
+</document>

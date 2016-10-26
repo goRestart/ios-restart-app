@@ -8,7 +8,7 @@
 
 import Foundation
 
-public protocol ReusableCell {
+protocol ReusableCell {
     static var reusableID: String { get }
 }
 
