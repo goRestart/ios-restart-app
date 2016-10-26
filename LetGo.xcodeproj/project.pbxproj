@@ -201,6 +201,8 @@
 		50261B231AFB4BDA006E88E0 /* EnvironmentProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50261B221AFB4BDA006E88E0 /* EnvironmentProxy.swift */; };
 		502B705B1BAAC3AE00C5D465 /* FloatingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502B705A1BAAC3AE00C5D465 /* FloatingButton.swift */; };
 		5033F6CC1B5D0AE60004FECB /* BaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5033F6CB1B5D0AE60004FECB /* BaseView.swift */; };
+		5036847B1DBF57C100669066 /* ExpandableButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5036847A1DBF57C100669066 /* ExpandableButtonsView.swift */; };
+		5036847C1DBF57C100669066 /* ExpandableButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5036847A1DBF57C100669066 /* ExpandableButtonsView.swift */; };
 		503996D61C60C258004D2E09 /* LGViewPager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503996D41C60C258004D2E09 /* LGViewPager.swift */; };
 		503996D71C60C258004D2E09 /* LGViewPagerTabItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503996D51C60C258004D2E09 /* LGViewPagerTabItem.swift */; };
 		503996D81C60C3EE004D2E09 /* LGViewPager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503996D41C60C258004D2E09 /* LGViewPager.swift */; };
@@ -1224,6 +1226,7 @@
 		5033F6CB1B5D0AE60004FECB /* BaseView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseView.swift; sourceTree = "<group>"; };
 		5033F6D51B5E7CD40004FECB /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		5033F6D61B5E7CD40004FECB /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
+		5036847A1DBF57C100669066 /* ExpandableButtonsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExpandableButtonsView.swift; sourceTree = "<group>"; };
 		503996D41C60C258004D2E09 /* LGViewPager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGViewPager.swift; sourceTree = "<group>"; };
 		503996D51C60C258004D2E09 /* LGViewPagerTabItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGViewPagerTabItem.swift; sourceTree = "<group>"; };
 		503D4BF01CCE53AE0039FE14 /* UserViewHeaderAccounts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserViewHeaderAccounts.swift; sourceTree = "<group>"; };
@@ -2034,6 +2037,14 @@
 				C7DB42971C521DC900400945 /* EnvironmentsHelper.swift */,
 			);
 			path = Environment;
+			sourceTree = "<group>";
+		};
+		503684791DBF57C100669066 /* ExpandableButtonsView */ = {
+			isa = PBXGroup;
+			children = (
+				5036847A1DBF57C100669066 /* ExpandableButtonsView.swift */,
+			);
+			path = ExpandableButtonsView;
 			sourceTree = "<group>";
 		};
 		503996D31C60C258004D2E09 /* LGViewPagerTab */ = {
@@ -3255,6 +3266,7 @@
 				C78BB5081C5A310D00614096 /* AppShare */,
 				508E4CEB1B4281F1007BD301 /* Cells */,
 				50A8DC7C1BA06B5A008296B0 /* Chat Safety Tips */,
+				503684791DBF57C100669066 /* ExpandableButtonsView */,
 				D458383D1AEE6A9100B5F181 /* helper */,
 				50EC64021C64B04700DC04C5 /* LGEmptyView */,
 				503996D31C60C258004D2E09 /* LGViewPagerTab */,
@@ -4201,6 +4213,7 @@
 				2E3047F51CA4526E0099C0BC /* CommercialDisplayPageView.swift in Sources */,
 				50C9E4B91B71FBB7001E4E92 /* Tracker.swift in Sources */,
 				508E4CEA1B41A5D2007BD301 /* ProductCategory+LG.swift in Sources */,
+				5036847B1DBF57C100669066 /* ExpandableButtonsView.swift in Sources */,
 				6A5E19E21D548F5400F92692 /* GoogleLoginHelper.swift in Sources */,
 				6AEF66B31C5A155C0025D43C /* Paginable.swift in Sources */,
 				6A5E1A001D548F5400F92692 /* MapZoomBlocker.swift in Sources */,
@@ -4580,6 +4593,7 @@
 				6A3C73101CF346CB00A062E0 /* ChatStickerGridCell.swift in Sources */,
 				6A5E19E31D548F5400F92692 /* GoogleLoginHelper.swift in Sources */,
 				2E3047F61CA4526E0099C0BC /* CommercialDisplayPageView.swift in Sources */,
+				5036847C1DBF57C100669066 /* ExpandableButtonsView.swift in Sources */,
 				6A5E1A011D548F5400F92692 /* MapZoomBlocker.swift in Sources */,
 				C7DB41B81C5138B500400945 /* Tracker.swift in Sources */,
 				2E2D53E01D369B0500348D12 /* ConfigDAO.swift in Sources */,
