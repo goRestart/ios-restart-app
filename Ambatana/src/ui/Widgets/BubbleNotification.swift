@@ -9,12 +9,12 @@
 import Foundation
 
 struct BubbleNotificationData {
+    let tagGroup: String?
     let text: String
     let infoText: String?
     let action: UIAction?
     let iconURL: NSURL?
     let iconImage: UIImage?
-    var tagGroup: String?
 
     var hasIcon: Bool {
         return iconURL != nil || iconImage != nil
@@ -24,7 +24,9 @@ struct BubbleNotificationData {
         return !infoText.isEmpty
     }
 
-    init(text: String, infoText: String? = nil, action: UIAction?, iconURL: NSURL? = nil, iconImage: UIImage? = nil) {
+    init(tagGroup: String? = nil, text: String, infoText: String? = nil, action: UIAction?,
+         iconURL: NSURL? = nil, iconImage: UIImage? = nil) {
+        self.tagGroup = tagGroup
         self.text = text
         self.infoText = infoText
         self.action = action

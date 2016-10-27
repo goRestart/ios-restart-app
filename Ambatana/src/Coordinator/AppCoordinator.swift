@@ -714,12 +714,12 @@ private extension AppCoordinator {
                     })
                 let userName = conversation.interlocutor?.name ?? ""
                 let justMessage = message.stringByReplacingOccurrencesOfString(userName, withString: "").trim
-                var data = BubbleNotificationData(text: userName,
+                let data = BubbleNotificationData(tagGroup: conversationId,
+                                                  text: userName,
                                                   infoText: justMessage,
                                                   action: action,
                                                   iconURL: conversation.interlocutor?.avatar?.fileURL,
                                                   iconImage: UIImage(named: "user_placeholder"))
-                data.tagGroup = conversationId
                 self?.bubbleNotifManager.showBubble(data, duration: 3)
             }
         } else {
@@ -729,9 +729,9 @@ private extension AppCoordinator {
                 self?.openTab(.Chats, force: false)
                 self?.selectedTabCoordinator?.openChat(.DataIds(data: data))
                 })
-            var data = BubbleNotificationData(text: message,
+            let data = BubbleNotificationData(tagGroup: conversationId,
+                                              text: message,
                                               action: action)
-            data.tagGroup = conversationId
             bubbleNotifManager.showBubble(data, duration: 3)
         }
     }
