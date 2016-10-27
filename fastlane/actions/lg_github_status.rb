@@ -15,19 +15,19 @@ module Fastlane
         resultsUrl = params[:scan_results_url]
 
         if username.nil?          
-            UI.error "Gihub username not provided!"
+            UI.error "Github username not provided!"
             exit 1
         end
         if password.nil?          
-            UI.error "Gihub password not provided!"
+            UI.error "Github password not provided!"
             exit 1
         end
         if repo.nil?
-            UI.error "Gihub repo not provided!"
+            UI.error "Github repo not provided!"
             exit 1
         end
         if pullRequest.nil?
-            UI.error "Gihub pull request not provided!"
+            UI.error "Github pull request not provided!"
             exit 1
         end
 
