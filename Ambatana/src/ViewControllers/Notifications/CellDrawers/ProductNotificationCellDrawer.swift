@@ -19,7 +19,7 @@ class ProductNotificationCellDrawer: BaseNotificationCellDrawer<ProductNotificat
             cell.primaryImage.image = data.leftImagePlaceholder
         }
         cell.primaryImageAction = data.leftImageAction
-        cell.timeLabel.text = data.date.relativeTimeString(false)
+        cell.timeLabel.text = data.date.relativeTimeString(true)
         cell.actionButton.setTitle(data.primaryActionText, forState: .Normal)
     }
 }
