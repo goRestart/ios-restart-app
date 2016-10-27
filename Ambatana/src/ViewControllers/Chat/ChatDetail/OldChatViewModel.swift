@@ -259,7 +259,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     private let tracker: Tracker
     private let configManager: ConfigManager
     private let sessionManager: SessionManager
-
+    private var shouldSendFirstMessageEvent: Bool = false
     private var chat: Chat
     private var product: Product
     private var isDeleted = false
@@ -624,7 +624,8 @@ public class OldChatViewModel: BaseViewModel, Paginable {
                 let viewMessage = adapter.adapt(sentMessage)
                 strongSelf.loadedMessages.insert(viewMessage, atIndex: 0)
                 strongSelf.delegate?.vmDidSucceedSendingMessage(0)
-                if strongSelf.loadedMessages.count == 1 {
+                if strongSelf.shouldSendFirstMessageEvent {
+                    strongSelf.shouldSendFirstMessageEvent = false
                     strongSelf.trakFirstMessage(type)
                 }
                 strongSelf.trackMessageSent(isQuickAnswer, type: type)
@@ -737,7 +738,6 @@ public class OldChatViewModel: BaseViewModel, Paginable {
             guard let strongSelf = self else { return }
             if let chat = result.value {
                 strongSelf.chat = chat
-                
                 let chatMessages = chat.messages.map(strongSelf.chatViewMessageAdapter.adapt)
                 let newChatMessages = strongSelf.chatViewMessageAdapter
                     .addDisclaimers(chatMessages, disclaimerMessage: strongSelf.messageSuspiciousDisclaimerMessage)
@@ -749,6 +749,9 @@ public class OldChatViewModel: BaseViewModel, Paginable {
                                                                                isUpdate: insertedMessagesInfo.isUpdate)
                 strongSelf.afterRetrieveChatMessagesEvents()
                 strongSelf.checkSellerDidntAnswer(chat.messages, page: strongSelf.firstPage)
+            }
+            else {
+                strongSelf.shouldSendFirstMessageEvent = true
             }
             strongSelf.isLoading = false
         }
@@ -980,7 +983,6 @@ public class OldChatViewModel: BaseViewModel, Paginable {
                 strongSelf.isLastPage = chat.messages.count < strongSelf.resultsPerPage
                 strongSelf.chat = chat
                 strongSelf.nextPage = page + 1
-
                 strongSelf.updateLoadedMessages(newMessages: chat.messages, page: page)
 
                 if strongSelf.chatStatus == .Forbidden {
@@ -996,7 +998,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
                 case .NotFound:
                     //The chat doesn't exist yet, so this must be a new conversation -> this is success
                     strongSelf.isLastPage = true
-
+                    strongSelf.shouldSendFirstMessageEvent = true
                     strongSelf.updateLoadedMessages(newMessages: [], page: page)
 
                     strongSelf.delegate?.vmDidRefreshChatMessages()

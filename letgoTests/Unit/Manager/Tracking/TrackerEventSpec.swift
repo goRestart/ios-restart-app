@@ -1106,7 +1106,7 @@ class TrackerEventSpec: QuickSpec {
                     mockProduct.location = LGLocationCoordinates2D(latitude: 3.12354534, longitude: 7.23983292)
 
                     product = mockProduct
-                    sut = TrackerEvent.productAskQuestion(product, messageType: .Text,
+                    sut = TrackerEvent.firstMessage(product, messageType: .Text,
                                                           typePage: .ProductDetail, sellerRating: 4)
                 }
                 it("has its event name") {
@@ -1167,7 +1167,7 @@ class TrackerEventSpec: QuickSpec {
                     mockProduct.currency = Currency(code: "EUR", symbol: "€")
 
                     product = mockProduct
-                    sut = TrackerEvent.productAskQuestion(product, messageType: .Text, interlocutorId: "67890",
+                    sut = TrackerEvent.firstMessage(product, messageType: .Text, interlocutorId: "67890",
                                                           typePage: .ProductDetail, sellerRating: 4)
                 }
                 it("has its event name") {
