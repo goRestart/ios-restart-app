@@ -1054,7 +1054,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
 
         let calendar = NSCalendar.currentCalendar()
 
-        guard let twoDaysAgo = calendar.dateByAddingUnit(.Minute, value: -2, toDate: NSDate(), options: []) else { return }
+        guard let twoDaysAgo = calendar.dateByAddingUnit(.Day, value: -2, toDate: NSDate(), options: []) else { return }
         let recentSellerMessages = messages.filter { $0.userId != myUserId && $0.createdAt?.compare(twoDaysAgo) == .OrderedDescending }
 
         /*
