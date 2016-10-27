@@ -14,6 +14,7 @@ struct BubbleNotificationData {
     let action: UIAction?
     let iconURL: NSURL?
     let iconImage: UIImage?
+    var tagGroup: String?
 
     var hasIcon: Bool {
         return iconURL != nil || iconImage != nil
@@ -32,6 +33,12 @@ struct BubbleNotificationData {
     }
 }
 
+protocol BubbleNotificationDelegate: class {
+    func bubbleNotificationSwiped(notification: BubbleNotification)
+    func bubbleNotificationTimedOut(notification: BubbleNotification)
+    func bubbleNotificationActionPressed(notification: BubbleNotification)
+}
+
 class BubbleNotification: UIView {
 
     static let initialHeight: CGFloat = 80
@@ -43,6 +50,11 @@ class BubbleNotification: UIView {
     static let statusBarHeight: CGFloat = 20
     static let iconDiameter: CGFloat = 46
 
+    static let showAnimationTime: NSTimeInterval = 0.3
+    static let closeAnimationTime: NSTimeInterval = 0.5
+
+    weak var delegate: BubbleNotificationDelegate?
+
     private var containerView = UIView()
     private var leftIcon = UIImageView()
     private var textlabel = UILabel()
@@ -51,9 +63,11 @@ class BubbleNotification: UIView {
 
     private var bottomSeparator = CALayer()
 
+    private var autoDismissTimer: NSTimer?
+
     var bottomConstraint = NSLayoutConstraint()
 
-    private let data: BubbleNotificationData
+    let data: BubbleNotificationData
 
 
     // - Lifecycle
@@ -86,20 +100,26 @@ class BubbleNotification: UIView {
     }
 
     func showBubble() {
+        self.showBubble(autoDismissTime: nil)
+    }
+    func showBubble(autoDismissTime time: NSTimeInterval?) {
         // delay to let the setup build the view properly
         delay(0.1) { [weak self] in
             self?.bottomConstraint.constant = self?.height ?? 0
-            UIView.animateWithDuration(0.3) { self?.layoutIfNeeded() }
+            UIView.animateWithDuration(BubbleNotification.showAnimationTime) { self?.layoutIfNeeded() }
+        }
+
+        if let dismissTime = time where dismissTime > 0 {
+            let totalTime = BubbleNotification.showAnimationTime + dismissTime
+            autoDismissTimer = NSTimer.scheduledTimerWithTimeInterval(totalTime, target: self,
+                                                   selector: #selector(autoDismiss), userInfo: nil, repeats: false)
         }
     }
 
-    func removeBubble() {
-        self.removeFromSuperview()
-    }
-
     func closeBubble() {
+        guard superview != nil else { return } // Already closed
         self.bottomConstraint.constant = 0
-        UIView.animateWithDuration(0.5, animations: { [weak self] in
+        UIView.animateWithDuration(BubbleNotification.closeAnimationTime, animations: { [weak self] in
             self?.layoutIfNeeded()
         }) { [weak self ] _ in
             self?.removeBubble()
@@ -150,16 +170,6 @@ class BubbleNotification: UIView {
         let swipeGesture = UISwipeGestureRecognizer(target: self, action: #selector(swiped))
         swipeGesture.direction = .Up
         self.addGestureRecognizer(swipeGesture)
-    }
-
-    dynamic private func buttonTapped() {
-        guard let action = data.action else { return }
-        action.action()
-        closeBubble()
-    }
-
-    dynamic private func swiped() {
-        closeBubble()
     }
 
     private func setupConstraints() {
@@ -221,5 +231,23 @@ class BubbleNotification: UIView {
             options: [], metrics: metrics, views: views))
 
         layoutIfNeeded()
+    }
+
+    dynamic private func buttonTapped() {
+        autoDismissTimer?.invalidate()
+        delegate?.bubbleNotificationSwiped(self)
+    }
+
+    dynamic private func swiped() {
+        autoDismissTimer?.invalidate()
+        delegate?.bubbleNotificationSwiped(self)
+    }
+
+    dynamic private func autoDismiss() {
+        delegate?.bubbleNotificationTimedOut(self)
+    }
+
+    private func removeBubble() {
+        self.removeFromSuperview()
     }
 }
