@@ -16,7 +16,6 @@ class ExpandableButtonsView: UIView {
     private let buttonSide: CGFloat
     private let buttonSpacing: CGFloat
     let expanded = Variable<Bool>(false)
-    var animate = true
 
     private var topConstraints: [NSLayoutConstraint] = []
     private let disposeBag: DisposeBag = DisposeBag()
@@ -29,7 +28,6 @@ class ExpandableButtonsView: UIView {
         self.buttonSpacing = buttonSpacing
         super.init(frame: CGRect.zero)
         setupUI()
-        setupRx()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -80,8 +78,20 @@ extension ExpandableButtonsView {
         addConstraints([top, bottom, left, right, width, height])
     }
 
-    func switchExpanded() {
-        expanded.value = !expanded.value
+    func expand(animated animated: Bool) {
+        updateExpanded(true, animated: animated)
+    }
+
+    func shrink(animated animated: Bool) {
+        updateExpanded(false, animated: animated)
+    }
+
+    func switchExpanded(animated animated: Bool) {
+        if expanded.value {
+            shrink(animated: animated)
+        } else {
+            expand(animated: animated)
+        }
     }
 }
 
@@ -90,36 +100,36 @@ extension ExpandableButtonsView {
 
 private extension ExpandableButtonsView {
     func setupUI() {
+        alpha = 0
         clipsToBounds = true
         layer.cornerRadius = (buttonSide + buttonSpacing * 2) / 2
         backgroundColor = UIColor.white.colorWithAlphaComponent(0.3)
     }
 
-    func setupRx() {
-        expanded.asObservable().subscribeNext { [weak self] expanded in
-            guard let strongSelf = self else { return }
+    private func updateExpanded(expanded: Bool, animated: Bool) {
+        self.expanded.value = expanded
 
-            (0..<strongSelf.buttons.count).forEach {
-                let idx = $0
-                let margin = strongSelf.marginForButtonAtIndex(idx, expanded: expanded)
-                strongSelf.topConstraints[idx].constant = margin
-            }
+        (0..<buttons.count).forEach {
+            let idx = $0
+            let margin = marginForButtonAtIndex(idx, expanded: expanded)
+            topConstraints[idx].constant = margin
+        }
 
-            let animations = {
-                self?.superview?.layoutIfNeeded()
-                self?.alpha = expanded ? 1.0 : 0.0
-            }
-            if strongSelf.animate {
-                if expanded {
-                    UIView.animateWithDuration(0.4, delay: 0, usingSpringWithDamping: 0.6, initialSpringVelocity: 5,
-                        options: [], animations: animations, completion: nil)
-                } else {
-                    UIView.animateWithDuration(0.25, animations: animations)
-                }
+        let animations = { [weak self] in
+            self?.alpha = expanded ? 1.0 : 0.0
+            self?.superview?.layoutIfNeeded()
+        }
+        if animated {
+            if expanded {
+                UIView.animateWithDuration(0.4, delay: 0, usingSpringWithDamping: 0.6, initialSpringVelocity: 5,
+                                           options: [], animations: animations, completion: nil)
             } else {
-                animations()
+                UIView.animateWithDuration(0.25, animations: animations, completion: nil)
+                UIView.animateWithDuration(0.25, animations: animations)
             }
-        }.addDisposableTo(disposeBag)
+        } else {
+            animations()
+        }
     }
 
     func marginForButtonAtIndex(index: Int, expanded: Bool) -> CGFloat {
