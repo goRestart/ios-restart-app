@@ -297,7 +297,7 @@ extension ProductVMTrackHelper {
     func trackDirectMessageSent(shouldTrackAskQuestion: Bool) {
         let messageType = EventParameterMessageType.Text
         if shouldTrackAskQuestion {
-            let askQuestionEvent = TrackerEvent.productAskQuestion(product, messageType: messageType,
+            let askQuestionEvent = TrackerEvent.firstMessage(product, messageType: messageType,
                                                                    typePage: .ProductDetail)
             tracker.trackEvent(askQuestionEvent)
         }
@@ -308,7 +308,7 @@ extension ProductVMTrackHelper {
 
     func trackDirectStickerSent(shouldSendAskQuestion: Bool, favorite: Bool) {
         let messageType = favorite ? EventParameterMessageType.Favorite : EventParameterMessageType.Sticker
-        let askQuestionEvent = TrackerEvent.productAskQuestion(product, messageType: messageType,
+        let askQuestionEvent = TrackerEvent.firstMessage(product, messageType: messageType,
                                                                typePage: .ProductDetail)
         if shouldSendAskQuestion {
             tracker.trackEvent(askQuestionEvent)

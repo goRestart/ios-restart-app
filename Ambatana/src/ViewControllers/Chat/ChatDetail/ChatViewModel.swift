@@ -70,9 +70,9 @@ class ChatViewModel: BaseViewModel {
     var interlocutorId = Variable<String?>(nil)
     var stickers = Variable<[Sticker]>([])
     var keyForTextCaching: String { return userDefaultsSubKey }
-    var askQuestion: AskQuestionSource?
     var relatedProducts: [Product] = []
-
+    var shouldTrackFirstMessage: Bool = false
+    
     private var shouldShowSafetyTips: Bool {
         return !KeyValueStorage.sharedInstance.userChatSafetyTipsShown && didReceiveMessageFromOtherUser
     }
@@ -358,6 +358,10 @@ class ChatViewModel: BaseViewModel {
             .subscribeNext { [weak self] (stickersTooltipVisible, reviewTooltipVisible) in
             self?.userReviewTooltipVisible.value = !stickersTooltipVisible && reviewTooltipVisible
         }.addDisposableTo(disposeBag)
+        
+        conversation.asObservable().map{$0.lastMessageSentAt == nil}.bindNext{ [weak self] result in
+            self?.shouldTrackFirstMessage = result
+            }.addDisposableTo(disposeBag)
 
         setupChatEventsRx()
     }
@@ -558,15 +562,17 @@ extension ChatViewModel {
         messages.insert(viewMessage, atIndex: 0)
         chatRepository.sendMessage(convId, messageId: messageId, type: newMessage.type, text: text) {
             [weak self] result in
+            guard let strongSelf = self else { return }
             if let _ = result.value {
                 guard let id = newMessage.objectId else { return }
-                self?.markMessageAsSent(id)
-                self?.afterSendMessageEvents()
-                self?.trackMessageSent(isQuickAnswer, type: type)
-                let shouldSendAskQuestionTrack = self?.objectCount == 1
-                if shouldSendAskQuestionTrack {
-                    self?.trackQuestion(type)
+                strongSelf.markMessageAsSent(id)
+                strongSelf.afterSendMessageEvents()
+                if strongSelf.shouldTrackFirstMessage {
+                        strongSelf.trackFirstMessage(type)
+                        strongSelf.shouldTrackFirstMessage = false
                 }
+                strongSelf.trackMessageSent(isQuickAnswer, type: type)
+                
             } else if let error = result.error {
                 // TODO: 🎪 Create an "errored" state for Chat Message so we can retry
                 switch error {
@@ -1003,7 +1009,7 @@ private extension ChatViewModel {
 
 private extension ChatViewModel {
     
-    private func trackQuestion(type: ChatMessageType) {
+    private func trackFirstMessage(type: ChatMessageType) {
         // only track ask question if I didn't send any message previously
         guard !didSendMessage else { return }
         guard let product = conversation.value.product else { return }
@@ -1011,10 +1017,10 @@ private extension ChatViewModel {
 
         let sellerRating = conversation.value.amISelling ?
             myUserRepository.myUser?.ratingAverage : interlocutor?.ratingAverage
-        let askQuestionEvent = TrackerEvent.productAskQuestion(product, messageType: type.trackingMessageType,
+        let firstMessageEvent = TrackerEvent.firstMessage(product, messageType: type.trackingMessageType,
                                                                interlocutorId: userId, typePage: .Chat,
                                                                sellerRating: sellerRating)
-        TrackerProxy.sharedInstance.trackEvent(askQuestionEvent)
+        TrackerProxy.sharedInstance.trackEvent(firstMessageEvent)
     }
 
     private func trackMessageSent(isQuickAnswer: Bool, type: ChatMessageType) {

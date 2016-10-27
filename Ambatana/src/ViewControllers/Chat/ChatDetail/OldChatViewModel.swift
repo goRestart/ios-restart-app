@@ -63,7 +63,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     // MARK: > Public data
     
     var fromMakeOffer = false
-    var askQuestion: AskQuestionSource?
+    
     
     // MARK: > Controller data
     
@@ -625,7 +625,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
                 strongSelf.loadedMessages.insert(viewMessage, atIndex: 0)
                 strongSelf.delegate?.vmDidSucceedSendingMessage(0)
                 if strongSelf.loadedMessages.count == 1 {
-                    strongSelf.trackQuestion(type)
+                    strongSelf.trakFirstMessage(type)
                 }
                 strongSelf.trackMessageSent(isQuickAnswer, type: type)
                 strongSelf.afterSendMessageEvents()
@@ -940,13 +940,13 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     
     // MARK: Tracking
     
-    private func trackQuestion(type: MessageType) {
+    private func trakFirstMessage(type: MessageType) {
         // only track ask question if I didn't send any previous message
         guard !didSendMessage else { return }
         let sellerRating: Float? = isBuyer ? otherUser?.ratingAverage : myUserRepository.myUser?.ratingAverage
-        let askQuestionEvent = TrackerEvent.productAskQuestion(product, messageType: type.trackingMessageType,
+        let firstMessageEvent = TrackerEvent.firstMessage(product, messageType: type.trackingMessageType,
                                                                typePage: .Chat, sellerRating: sellerRating)
-        tracker.trackEvent(askQuestionEvent)
+        tracker.trackEvent(firstMessageEvent)
     }
     
     private func trackMessageSent(isQuickAnswer: Bool, type: MessageType) {
@@ -1044,7 +1044,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
 
         let calendar = NSCalendar.currentCalendar()
 
-        guard let twoDaysAgo = calendar.dateByAddingUnit(.Minute, value: -2, toDate: NSDate(), options: []) else { return }
+        guard let twoDaysAgo = calendar.dateByAddingUnit(.Day, value: -2, toDate: NSDate(), options: []) else { return }
         let recentSellerMessages = messages.filter { $0.userId != myUserId && $0.createdAt?.compare(twoDaysAgo) == .OrderedDescending }
 
         /*

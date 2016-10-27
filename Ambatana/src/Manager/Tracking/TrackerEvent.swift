@@ -272,18 +272,18 @@ public struct TrackerEvent {
             return TrackerEvent(name: .ProductShareComplete, params: params)
     }
 
-    static func productAskQuestion(product: Product, messageType: EventParameterMessageType,
+    static func firstMessage(product: Product, messageType: EventParameterMessageType,
                                           typePage: EventParameterTypePage, sellerRating: Float? = nil) -> TrackerEvent {
         var params = EventParameters()
         params.addProductParams(product)
         params[.MessageType] = messageType.rawValue
         params[.TypePage] = typePage.rawValue
         params[.SellerUserRating] = sellerRating
-        return TrackerEvent(name: .ProductAskQuestion, params: params)
+        return TrackerEvent(name: .FirstMessage, params: params)
     }
     
     // Duplicated method from the one above to support tracking using ChatProduct model
-    static func productAskQuestion(product: ChatProduct, messageType: EventParameterMessageType,
+    static func firstMessage(product: ChatProduct, messageType: EventParameterMessageType,
                                           interlocutorId: String?, typePage: EventParameterTypePage,
                                           sellerRating: Float? = nil) -> TrackerEvent {
         // Note: does not have: category-id, product-lat, product-lng
@@ -293,7 +293,7 @@ public struct TrackerEvent {
         params[.TypePage] = typePage.rawValue
         params[.UserToId] = interlocutorId
         params[.SellerUserRating] = sellerRating
-        return TrackerEvent(name: .ProductAskQuestion, params: params)
+        return TrackerEvent(name: .FirstMessage, params: params)
     }
 
     static func productDetailChatButton(product: Product, typePage: EventParameterTypePage) -> TrackerEvent {
