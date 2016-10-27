@@ -27,6 +27,9 @@ protocol ProductViewModelDelegate: class, BaseViewModelDelegate {
     func vmAskForRating()
     func vmShowOnboarding()
     func vmShowProductDelegateActionSheet(cancelLabel: String, actions: [UIAction])
+
+    func vmShareDidFailedWith(error: String)
+    func vmViewControllerToShowShareOptions() -> UIViewController
 }
 
 

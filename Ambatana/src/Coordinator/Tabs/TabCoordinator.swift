@@ -353,6 +353,12 @@ extension TabCoordinator: ProductDetailNavigator {
     func openProductChat(product: Product) {
         openChatFromProduct(product)
     }
+
+    func openFullScreenShare(productVM: ProductViewModel) {
+        let shareProductVM = ShareProductViewModel(productVM: productVM)
+        let shareProductVC = ShareProductViewController(viewModel: shareProductVM)
+        navigationController.presentViewController(shareProductVC, animated: true, completion: nil)
+    }
 }
 
 

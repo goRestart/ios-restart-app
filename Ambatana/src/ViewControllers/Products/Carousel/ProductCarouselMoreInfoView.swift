@@ -13,7 +13,6 @@ import LGCollapsibleLabel
 
 protocol ProductCarouselMoreInfoDelegate: class {
     func didEndScrolling(topOverScroll: CGFloat, bottomOverScroll: CGFloat)
-    func shareDidFailedWith(error: String)
     func viewControllerToShowShareOptions() -> UIViewController
 }
 
@@ -390,8 +389,8 @@ extension ProductCarouselMoreInfoView: SocialShareViewDelegate {
     }
 }
 
-// MARK: - Accessibility ids
 
+// MARK: - Accessibility ids
 
 extension ProductCarouselMoreInfoView {
     private func setAccessibilityIds() {

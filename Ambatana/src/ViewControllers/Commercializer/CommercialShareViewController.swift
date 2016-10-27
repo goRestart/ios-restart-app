@@ -125,7 +125,7 @@ extension CommercialShareViewController: SocialShareViewDelegate {
     func viewController() -> UIViewController? {
         return self
     }
-    
+
 //    func shareInSMS() {
 //        shareDelegate?.shareInSMS()
 //    }

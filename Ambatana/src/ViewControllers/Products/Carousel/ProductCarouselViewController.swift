@@ -946,11 +946,7 @@ extension ProductCarouselViewController: ProductCarouselMoreInfoDelegate {
             hideMoreInfo()
         }
     }
-    
-    func shareDidFailedWith(error: String) {
-        showAutoFadingOutMessageAlert(error)
-    }
-    
+
     func viewControllerToShowShareOptions() -> UIViewController {
         return self
     }
@@ -1107,19 +1103,20 @@ extension ProductCarouselViewController: ProductViewModelDelegate {
     func vmShowShareFromMain(socialMessage: SocialMessage) {
         switch FeatureFlags.productDetailShareMode {
         case .Native:
-            let barButtonItem = navigationItem.rightBarButtonItems?.first
-            presentNativeShare(socialMessage: socialMessage, delegate: viewModel, barButtonItem: barButtonItem)
+            break
+//            let barButtonItem = navigationItem.rightBarButtonItems?.first
+//            presentNativeShare(socialMessage: socialMessage, delegate: viewModel.currentProductViewModel, barButtonItem: barButtonItem)
         case .InPlace:
             switchExpandableButtonsView()
         case .FullScreen:
-            // TODO
+            viewModel.openFullScreenShare()
             break
         }
     }
 
     func vmShowShareFromMoreInfo(socialMessage: SocialMessage) {
-        let barButtonItem = navigationItem.rightBarButtonItems?.first
-        presentNativeShare(socialMessage: socialMessage, delegate: viewModel, barButtonItem: barButtonItem)
+//        let barButtonItem = navigationItem.rightBarButtonItems?.first
+//        presentNativeShare(socialMessage: socialMessage, delegate: viewModel.currentProductViewModel, barButtonItem: barButtonItem)
     }
     
     func vmOpenMainSignUp(signUpVM: SignUpViewModel, afterLoginAction: () -> ()) {
@@ -1160,6 +1157,14 @@ extension ProductCarouselViewController: ProductViewModelDelegate {
         let vc = StickersSelectorViewController(stickers: stickers, interlocutorName: interlocutorName)
         vc.delegate = self
         navigationController?.presentViewController(vc, animated: false, completion: nil)
+    }
+
+    func vmShareDidFailedWith(error: String) {
+        showAutoFadingOutMessageAlert(error)
+    }
+
+    func vmViewControllerToShowShareOptions() -> UIViewController {
+        return self
     }
 }
 

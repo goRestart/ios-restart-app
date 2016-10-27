@@ -176,4 +176,6 @@ extension CommercialPreviewViewController: SocialShareViewDelegate {
     func shareInCopyLink() {
         viewModel.didShareInCopyLink()
     }
+
+    func openNativeShare() {}
 }

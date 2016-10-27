@@ -22,29 +22,36 @@ class SocialShareFacade: NSObject {
 
 extension SocialShareFacade {
     func share(socialMessage: SocialMessage, shareType: ShareType, viewController: UIViewController) {
-//        guard shareType.canShare else { delegate?.shareIn(shareType, finishedWithState: .Failed)
-//        switch shareType {
-//        case .Email:
-//            SocialHelper.shareOnEmail(socialMessage, viewController: viewController, delegate: self)
-//        case .Facebook:
-//            SocialHelper.shareOnFacebook(socialMessage, viewController: viewController, delegate: self)
-//        case .FBMessenger:
-//            SocialHelper.shareOnFbMessenger(socialMessage, delegate: self)
-//        case .Whatsapp:
-//            SocialHelper.shareOnWhatsapp(socialMessage, viewController: viewController)
-//            delegate?.shareIn(shareType, finishedWithState: .Completed)
-//        case .Twitter:
-//            SocialHelper.shareOnTwitter(socialMessage, viewController: viewController, delegate: self)
-//        case .Telegram:
-//            SocialHelper.shareOnTelegram(socialMessage, viewController: viewController)
-//            delegate?.shareIn(shareType, finishedWithState: .Completed)
-//        case .CopyLink:
-//            SocialHelper.shareOnCopyLink(socialMessage, viewController: viewController)
-//            delegate?.shareIn(shareType, finishedWithState: .Completed)
-//        case .SMS:
-//            SocialHelper.shareOnSMS(socialMessage, viewController: viewController, delegate: self)
-//        }
+        guard shareType.canShare else {
+            delegate?.shareIn(shareType, finishedWithState: .Failed)
+            return
+        }
         delegate?.shareIn(shareType)
+
+        switch shareType {
+        case .Email:
+            SocialHelper.shareOnEmail(socialMessage, viewController: viewController, delegate: self)
+        case .Facebook:
+            SocialHelper.shareOnFacebook(socialMessage, viewController: viewController, delegate: self)
+        case .FBMessenger:
+            SocialHelper.shareOnFbMessenger(socialMessage, delegate: self)
+        case .Whatsapp:
+            SocialHelper.shareOnWhatsapp(socialMessage, viewController: viewController)
+            delegate?.shareIn(shareType, finishedWithState: .Completed)
+        case .Twitter:
+            SocialHelper.shareOnTwitter(socialMessage, viewController: viewController, delegate: self)
+        case .Telegram:
+            SocialHelper.shareOnTelegram(socialMessage, viewController: viewController)
+            delegate?.shareIn(shareType, finishedWithState: .Completed)
+        case .CopyLink:
+            SocialHelper.shareOnCopyLink(socialMessage, viewController: viewController)
+            delegate?.shareIn(shareType, finishedWithState: .Completed)
+        case .SMS:
+            SocialHelper.shareOnSMS(socialMessage, viewController: viewController, delegate: self)
+        case .Native:
+            // TODO: !!
+            break
+        }
     }
 }
 

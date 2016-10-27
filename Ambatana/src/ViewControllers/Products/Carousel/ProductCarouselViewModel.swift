@@ -217,6 +217,10 @@ class ProductCarouselViewModel: BaseViewModel {
         delegate?.vmRemoveMoreInfoTooltip()
     }
 
+    func openFullScreenShare() {
+        guard let productVM = currentProductViewModel else { return }
+        navigator?.openFullScreenShare(productVM)
+    }
     
     // MARK: - Private Methods
     
@@ -281,32 +285,6 @@ extension ProductCarouselViewModel {
             }
         }
         ImageDownloader.sharedInstance.downloadImagesWithURLs(imagesToPrefetch)
-    }
-}
-
-
-// MARK: > Native Share Delegate
-
-extension ProductCarouselViewModel: NativeShareDelegate {
-
-    var nativeShareSuccessMessage: String? { return LGLocalizedString.productShareGenericOk }
-    var nativeShareErrorMessage: String? { return LGLocalizedString.productShareGenericError }
-
-    func nativeShareInFacebook() {
-        currentProductViewModel?.shareInFacebook(.Top)
-        currentProductViewModel?.shareInFBCompleted()
-    }
-
-    func nativeShareInTwitter() {
-        currentProductViewModel?.shareInTwitterActivity()
-    }
-
-    func nativeShareInEmail() {
-        currentProductViewModel?.shareInEmail(.Top)
-    }
-
-    func nativeShareInWhatsApp() {
-        currentProductViewModel?.shareInWhatsappActivity()
     }
 }
 
