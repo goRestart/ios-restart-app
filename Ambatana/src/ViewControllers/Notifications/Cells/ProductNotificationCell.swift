@@ -48,7 +48,7 @@ class ProductNotificationCell: UITableViewCell, ReusableCell {
 
     private func setupUI() {
         cellContainer.clipsToBounds = true
-        cellContainer.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
+        cellContainer.layer.cornerRadius = LGUIKitConstants.notificationCellCornerRadius
 
         primaryImage.rounded = true
         timeLabel.font = UIFont.notificationTimeFont
@@ -62,6 +62,7 @@ class ProductNotificationCell: UITableViewCell, ReusableCell {
 
         actionButton.userInteractionEnabled = false
         actionButton.setStyle(.Secondary(fontSize: .Small, withBorder: false))
+        actionButton.contentEdgeInsets = UIEdgeInsets() //Resetting edge insets to align left
     }
 
     private func resetUI() {
@@ -74,6 +75,6 @@ class ProductNotificationCell: UITableViewCell, ReusableCell {
 
     private func refreshState() {
         let highlighedState = self.highlighted || self.selected
-        cellContainer.backgroundColor = highlighedState ? UIColor.grayLighter : UIColor.white
+        cellContainer.alpha = highlighedState ? 0.6 : 1.0
     }
 }
