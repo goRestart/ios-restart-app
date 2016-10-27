@@ -258,6 +258,7 @@ enum AccessibilityId: String {
     case SocialShareTelegram
     case SocialShareCopyLink
     case SocialShareSMS
+    case SocialShareMore
 
     // MainSignUp
     case MainSignUpFacebookButton

@@ -906,14 +906,6 @@ extension ProductCarouselViewController: ProductCarouselMoreInfoDelegate {
             hideMoreInfo()
         }
     }
-    
-    func shareDidFailedWith(error: String) {
-        showAutoFadingOutMessageAlert(error)
-    }
-    
-    func viewControllerToShowShareOptions() -> UIViewController {
-        return self
-    }
 }
 
 
@@ -1120,6 +1112,14 @@ extension ProductCarouselViewController: ProductViewModelDelegate {
         let vc = StickersSelectorViewController(stickers: stickers, interlocutorName: interlocutorName)
         vc.delegate = self
         navigationController?.presentViewController(vc, animated: false, completion: nil)
+    }
+
+    func vmShareDidFailedWith(error: String) {
+        showAutoFadingOutMessageAlert(error)
+    }
+
+    func vmViewControllerToShowShareOptions() -> UIViewController {
+        return self
     }
 }
 

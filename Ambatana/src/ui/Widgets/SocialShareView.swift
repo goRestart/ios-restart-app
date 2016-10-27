@@ -24,6 +24,7 @@ public struct ShareType: OptionSetType {
     static let Telegram = ShareType(rawValue:32)
     static let CopyLink = ShareType(rawValue:64)
     static let SMS = ShareType(rawValue:128)
+    static let Native = ShareType(rawValue:256)
 }
 
 enum SocialShareState {
@@ -46,6 +47,7 @@ protocol SocialShareViewDelegate: class {
     func shareInSMS()
     func shareInSMSFinished(state: SocialShareState)
     func shareInCopyLink()
+    func openNativeShare()
     func viewController() -> UIViewController?
 }
 
@@ -127,7 +129,7 @@ class SocialShareView: UIView {
         containerView.subviews.forEach { $0.removeFromSuperview() }
 
         let buttons = [createSMSButton(), createFacebookButton(), createTwitterButton(), createFacebookMessengerButton(),
-            createWhatsappButton(), createEmailButton(), createCopyLinkButton()].flatMap{$0}
+            createWhatsappButton(), createEmailButton(), createCopyLinkButton(), createNativeShareButton()].flatMap{$0}
         guard !buttons.isEmpty else { return }
         switch style {
         case .Line:
@@ -230,6 +232,17 @@ class SocialShareView: UIView {
             guard let viewController = strongSelf.delegate?.viewController() else { return }
             strongSelf.delegate?.shareInCopyLink()
             SocialHelper.shareOnCopyLink(socialMessage, viewController: viewController)
+        }
+    }
+
+    private func createNativeShareButton() -> UIButton? {
+        // 👾
+        guard shareTypes.contains(ShareType.Native) else { return nil }
+        return createButton(UIImage(named: "item_share_more"), accesibilityId: .SocialShareMore) { [weak self] in
+            guard let strongSelf = self else { return }
+            guard let socialMessage = strongSelf.socialMessage else { return }
+            guard let viewController = strongSelf.delegate?.viewController() else { return }
+            strongSelf.delegate?.openNativeShare() 
         }
     }
 

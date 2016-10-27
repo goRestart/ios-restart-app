@@ -310,4 +310,6 @@ extension CommercialDisplayViewController: SocialShareViewDelegate {
     func shareInCopyLink() {
         viewModel.didShareInCopyLink()
     }
+
+    func openNativeShare() {}
 }

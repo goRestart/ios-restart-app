@@ -293,20 +293,21 @@ extension ProductCarouselViewModel: NativeShareDelegate {
     var nativeShareErrorMessage: String? { return LGLocalizedString.productShareGenericError }
 
     func nativeShareInFacebook() {
-        currentProductViewModel?.shareInFacebook(.Top)
-        currentProductViewModel?.shareInFBCompleted()
+        currentProductViewModel?.trackShareInFacebook(.Top)
+        currentProductViewModel?.trackShareInFBCompleted()
     }
 
     func nativeShareInTwitter() {
-        currentProductViewModel?.shareInTwitterActivity()
+        currentProductViewModel?.shareInTwitter()
+        currentProductViewModel?.trackShareInTwitterActivity()
     }
 
     func nativeShareInEmail() {
-        currentProductViewModel?.shareInEmail(.Top)
+        currentProductViewModel?.trackShareInEmail(.Top)
     }
 
     func nativeShareInWhatsApp() {
-        currentProductViewModel?.shareInWhatsappActivity()
+        currentProductViewModel?.trackShareInWhatsappActivity()
     }
 }
 

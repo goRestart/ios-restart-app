@@ -38,83 +38,83 @@ extension ProductViewModel {
 
     // MARK: Share
 
-    func shareInEmail(buttonPosition: EventParameterButtonPosition) {
+    func trackShareInEmail(buttonPosition: EventParameterButtonPosition) {
         trackHelper.shareInEmail(buttonPosition)
     }
 
-    func shareInEmailCompleted() {
+    func trackShareInEmailCompleted() {
         trackHelper.shareInEmailCompleted()
     }
 
-    func shareInEmailCancelled() {
+    func trackShareInEmailCancelled() {
         trackHelper.shareInEmailCancelled()
     }
 
-    func shareInFacebook(buttonPosition: EventParameterButtonPosition) {
+    func trackShareInFacebook(buttonPosition: EventParameterButtonPosition) {
         trackHelper.shareInFacebook(buttonPosition)
     }
 
-    func shareInFBCompleted() {
+    func trackShareInFBCompleted() {
         trackHelper.shareInFBCompleted()
     }
 
-    func shareInFBCancelled() {
+    func trackShareInFBCancelled() {
         trackHelper.shareInFBCancelled()
     }
 
-    func shareInFBMessenger() {
+    func trackShareInFBMessenger() {
         trackHelper.shareInFBMessenger()
     }
 
-    func shareInFBMessengerCompleted() {
+    func trackShareInFBMessengerCompleted() {
         trackHelper.shareInFBMessengerCompleted()
     }
 
-    func shareInFBMessengerCancelled() {
+    func trackShareInFBMessengerCancelled() {
         trackHelper.shareInFBMessengerCancelled()
     }
 
-    func shareInWhatsApp() {
+    func trackShareInWhatsApp() {
         trackHelper.shareInWhatsApp()
     }
 
-    func shareInTwitter() {
+    func trackShareInTwitter() {
         trackHelper.shareInTwitter()
     }
 
-    func shareInTwitterCompleted() {
+    func trackShareInTwitterCompleted() {
         trackHelper.shareInTwitterCompleted()
     }
 
-    func shareInTwitterCancelled() {
+    func trackShareInTwitterCancelled() {
         trackHelper.shareInTwitterCancelled()
     }
 
-    func shareInTelegram() {
+    func trackShareInTelegram() {
         trackHelper.shareInTelegram()
     }
 
-    func shareInWhatsappActivity() {
+    func trackShareInWhatsappActivity() {
         trackHelper.shareInWhatsappActivity()
     }
 
-    func shareInTwitterActivity() {
+    func trackShareInTwitterActivity() {
         trackHelper.shareInTwitterActivity()
     }
 
-    func shareInSMS() {
+    func trackShareInSMS() {
         trackHelper.shareInSMS()
     }
 
-    func shareInSMSCompleted() {
+    func trackShareInSMSCompleted() {
         trackHelper.shareInSMSCompleted()
     }
 
-    func shareInSMSCancelled() {
+    func trackShareInSMSCancelled() {
         trackHelper.shareInSMSCancelled()
     }
 
-    func shareInCopyLink() {
+    func trackShareInCopyLink() {
         trackHelper.shareInCopyLink()
     }
 }

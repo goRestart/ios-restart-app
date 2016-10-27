@@ -27,6 +27,9 @@ protocol ProductViewModelDelegate: class, BaseViewModelDelegate {
     func vmAskForRating()
     func vmShowOnboarding()
     func vmShowProductDelegateActionSheet(cancelLabel: String, actions: [UIAction])
+
+    func vmShareDidFailedWith(error: String)
+    func vmViewControllerToShowShareOptions() -> UIViewController
 }
 
 
@@ -1046,4 +1049,102 @@ private extension ProductViewModel {
             self?.sendFavoriteSticker()
         }, accessibilityId: .ProductCarouselFavoriteMessageNotificationButton)
     }
+}
+
+// MARK: - SocialShareViewDelegate
+
+extension ProductViewModel: SocialShareViewDelegate {
+
+    func shareInEmail(){
+        trackShareInEmail(.Bottom)
+    }
+
+    func shareInEmailFinished(state: SocialShareState) {
+        switch state {
+        case .Completed:
+            trackShareInEmailCompleted()
+        case .Cancelled:
+            trackShareInEmailCancelled()
+        case .Failed:
+            break
+        }
+    }
+
+    func shareInFacebook() {
+        trackShareInFacebook(.Bottom)
+    }
+
+    func shareInFacebookFinished(state: SocialShareState) {
+        switch state {
+        case .Completed:
+            trackShareInFBCompleted()
+        case .Cancelled:
+            trackShareInFBCancelled()
+        case .Failed:
+            delegate?.vmShareDidFailedWith(LGLocalizedString.sellSendErrorSharingFacebook)
+        }
+    }
+
+    func shareInFBMessenger() {
+        shareInFBMessenger()
+    }
+
+    func shareInFBMessengerFinished(state: SocialShareState) {
+        switch state {
+        case .Completed:
+            trackShareInFBMessengerCompleted()
+        case .Cancelled:
+            trackShareInFBMessengerCancelled()
+        case .Failed:
+            delegate?.vmShareDidFailedWith(LGLocalizedString.sellSendErrorSharingFacebook)
+        }
+    }
+
+    func shareInWhatsApp() {
+        trackShareInWhatsApp()
+    }
+
+    func shareInTwitter() {
+        trackShareInTwitter()
+    }
+
+    func shareInTwitterFinished(state: SocialShareState) {
+        switch state {
+        case .Completed:
+            trackShareInTwitterCompleted()
+        case .Cancelled:
+            trackShareInTwitterCancelled()
+        case .Failed:
+            break
+        }
+    }
+
+    func shareInTelegram() {
+        trackShareInTelegram()
+    }
+
+    func viewController() -> UIViewController? {
+        return delegate?.vmViewControllerToShowShareOptions()
+    }
+
+    func shareInSMS() {
+        trackShareInSMS()
+    }
+
+    func shareInSMSFinished(state: SocialShareState) {
+        switch state {
+        case .Completed:
+            trackShareInSMSCompleted()
+        case .Cancelled:
+            trackShareInSMSCancelled()
+        case .Failed:
+            delegate?.vmShareDidFailedWith(LGLocalizedString.productShareSmsError)
+        }
+    }
+
+    func shareInCopyLink() {
+        trackShareInCopyLink()
+    }
+
+    func openNativeShare() {}
 }

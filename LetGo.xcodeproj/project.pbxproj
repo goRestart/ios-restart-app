@@ -42,6 +42,10 @@
 		2E2C7B381C85F82C00F46E8F /* ThemeCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2C7B351C85F82C00F46E8F /* ThemeCollectionCell.swift */; };
 		2E2C7B391C85F82C00F46E8F /* ThemeCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E2C7B361C85F82C00F46E8F /* ThemeCollectionCell.xib */; };
 		2E2C7B3A1C85F82C00F46E8F /* ThemeCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E2C7B361C85F82C00F46E8F /* ThemeCollectionCell.xib */; };
+		2E2CE4531DC0FD26006D3E7E /* ShareProductViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2CE4521DC0FD26006D3E7E /* ShareProductViewModel.swift */; };
+		2E2CE4541DC0FD2B006D3E7E /* ShareProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ED27AAB1DC0B5680061545D /* ShareProductViewController.swift */; };
+		2E2CE4551DC0FD2B006D3E7E /* ShareProductViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2ED27AAC1DC0B5680061545D /* ShareProductViewController.xib */; };
+		2E2CE4561DC0FD2B006D3E7E /* ShareProductViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2CE4521DC0FD26006D3E7E /* ShareProductViewModel.swift */; };
 		2E2D53DE1D369AF800348D12 /* ConfigManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF4E3A81D3688AB00A09DFD /* ConfigManager.swift */; };
 		2E2D53DF1D369AFF00348D12 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF4E3A91D3688AB00A09DFD /* Config.swift */; };
 		2E2D53E01D369B0500348D12 /* ConfigDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF4E3AA1D3688AB00A09DFD /* ConfigDAO.swift */; };
@@ -1115,6 +1119,7 @@
 		2E2C7B321C859F4E00F46E8F /* PromoteProductViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PromoteProductViewModel.swift; path = Commercializer/PromoteProductViewModel.swift; sourceTree = "<group>"; };
 		2E2C7B351C85F82C00F46E8F /* ThemeCollectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ThemeCollectionCell.swift; path = Commercializer/ThemeCollectionCell.swift; sourceTree = "<group>"; };
 		2E2C7B361C85F82C00F46E8F /* ThemeCollectionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ThemeCollectionCell.xib; path = Commercializer/ThemeCollectionCell.xib; sourceTree = "<group>"; };
+		2E2CE4521DC0FD26006D3E7E /* ShareProductViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShareProductViewModel.swift; path = ShareProduct/ShareProductViewModel.swift; sourceTree = "<group>"; };
 		2E2D53E61D37E67800348D12 /* No_JSON.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = No_JSON.txt; path = Config/No_JSON.txt; sourceTree = "<group>"; };
 		2E3047E01CA196F30099C0BC /* VideoPlayerContainerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = VideoPlayerContainerView.swift; path = Commercializer/VideoPlayer/VideoPlayerContainerView.swift; sourceTree = "<group>"; };
 		2E3047E61CA1AE670099C0BC /* VideoPlayerContainerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = VideoPlayerContainerView.xib; path = Commercializer/VideoPlayer/VideoPlayerContainerView.xib; sourceTree = "<group>"; };
@@ -1934,6 +1939,7 @@
 			children = (
 				2ED27AAB1DC0B5680061545D /* ShareProductViewController.swift */,
 				2ED27AAC1DC0B5680061545D /* ShareProductViewController.xib */,
+				2E2CE4521DC0FD26006D3E7E /* ShareProductViewModel.swift */,
 			);
 			name = ShareProduct;
 			sourceTree = "<group>";
@@ -3751,6 +3757,7 @@
 				508011041D4749030073F362 /* LaunchScreen.xib in Resources */,
 				C7DB42661C5138B500400945 /* FilterHeaderCell.xib in Resources */,
 				6A610CBE1CB4085B00736DA0 /* CreateCommercialProductCell.xib in Resources */,
+				2E2CE4551DC0FD2B006D3E7E /* ShareProductViewController.xib in Resources */,
 				508011011D4748120073F362 /* SettingsViewController.xib in Resources */,
 				C7F6F7551CB5081F000147F9 /* CommercialShareViewController.xib in Resources */,
 				C7B588621CE1DE1C009B3975 /* RelationInfoView.xib in Resources */,
@@ -4326,6 +4333,7 @@
 				2E5B955A1D9579FF00318A40 /* InterestedBubbleManager.swift in Sources */,
 				C7DE8ABE1C888750005CF37E /* ProductPostedViewModel.swift in Sources */,
 				6A12E0491C635F6B00C1BFE3 /* TourLoginViewController.swift in Sources */,
+				2E2CE4531DC0FD26006D3E7E /* ShareProductViewModel.swift in Sources */,
 				50C9E4C31B723E7B001E4E92 /* AppsflyerTracker.swift in Sources */,
 				6A9C9EBE1CCF959E009D866C /* UIButton+LetgoStyles.swift in Sources */,
 				C75B5DD11D59E0C500112368 /* ProductCarouselCell.swift in Sources */,
@@ -4706,6 +4714,7 @@
 				C7DB41FD1C5138B500400945 /* FilterCategoryCell.swift in Sources */,
 				C7DB41FE1C5138B500400945 /* AppsflyerTracker.swift in Sources */,
 				C7DE8ABF1C888750005CF37E /* ProductPostedViewModel.swift in Sources */,
+				2E2CE4561DC0FD2B006D3E7E /* ShareProductViewModel.swift in Sources */,
 				6A12E04D1C635FA600C1BFE3 /* TourLoginViewController.swift in Sources */,
 				C75B5DD21D59E0C500112368 /* ProductCarouselCell.swift in Sources */,
 				C7DB42001C5138B500400945 /* ReusableCell.swift in Sources */,
@@ -4803,6 +4812,7 @@
 				50146BE31D4F910B00B0F635 /* ProfileTabNavigator.swift in Sources */,
 				2E2A5E151D5C81200047ED45 /* ExpressChatNavigator.swift in Sources */,
 				C7732F6B1D87FA3400EAD5B7 /* TourPostingViewController.swift in Sources */,
+				2E2CE4541DC0FD2B006D3E7E /* ShareProductViewController.swift in Sources */,
 				2E06EAEF1D70595900A40704 /* FilterPriceCell.swift in Sources */,
 				2E3047EC1CA4083B0099C0BC /* CommercialDisplayViewController.swift in Sources */,
 				C7B588581CE1DE1C009B3975 /* DirectAnswersPresenter.swift in Sources */,

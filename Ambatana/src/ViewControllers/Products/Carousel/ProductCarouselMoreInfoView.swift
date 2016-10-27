@@ -13,8 +13,6 @@ import LGCollapsibleLabel
 
 protocol ProductCarouselMoreInfoDelegate: class {
     func didEndScrolling(topOverScroll: CGFloat, bottomOverScroll: CGFloat)
-    func shareDidFailedWith(error: String)
-    func viewControllerToShowShareOptions() -> UIViewController
 }
 
 
@@ -321,7 +319,7 @@ extension ProductCarouselMoreInfoView {
     }
     
     private func setupSocialShareView() {
-        socialShareView.delegate = self
+        socialShareView.delegate = viewModel
         socialShareView.style = .Grid
         socialShareView.gridColumns = 5
         switch DeviceFamily.current {
@@ -377,104 +375,6 @@ extension ProductCarouselMoreInfoView {
             self.descriptionLabel.toggleState()
             self.layoutIfNeeded()
         }
-    }
-}
-
-
-
-// MARK: - SocialShareViewDelegate
-
-extension ProductCarouselMoreInfoView: SocialShareViewDelegate {
-    
-    func shareInEmail(){
-        viewModel?.shareInEmail(.Bottom)
-    }
-    
-    func shareInEmailFinished(state: SocialShareState) {
-        switch state {
-        case .Completed:
-            viewModel?.shareInEmailCompleted()
-        case .Cancelled:
-            viewModel?.shareInEmailCancelled()
-        case .Failed:
-            break
-        }
-    }
-    
-    func shareInFacebook() {
-        viewModel?.shareInFacebook(.Bottom)
-    }
-    
-    func shareInFacebookFinished(state: SocialShareState) {
-        switch state {
-        case .Completed:
-            viewModel?.shareInFBCompleted()
-        case .Cancelled:
-            viewModel?.shareInFBCancelled()
-        case .Failed:
-            delegate?.shareDidFailedWith(LGLocalizedString.sellSendErrorSharingFacebook)
-        }
-    }
-    
-    func shareInFBMessenger() {
-        viewModel?.shareInFBMessenger()
-    }
-    
-    func shareInFBMessengerFinished(state: SocialShareState) {
-        switch state {
-        case .Completed:
-            viewModel?.shareInFBMessengerCompleted()
-        case .Cancelled:
-            viewModel?.shareInFBMessengerCancelled()
-        case .Failed:
-            delegate?.shareDidFailedWith(LGLocalizedString.sellSendErrorSharingFacebook)
-        }
-    }
-    
-    func shareInWhatsApp() {
-        viewModel?.shareInWhatsApp()
-    }
-    
-    func shareInTwitter() {
-        viewModel?.shareInTwitter()
-    }
-    
-    func shareInTwitterFinished(state: SocialShareState) {
-        switch state {
-        case .Completed:
-            viewModel?.shareInTwitterCompleted()
-        case .Cancelled:
-            viewModel?.shareInTwitterCancelled()
-        case .Failed:
-            break
-        }
-    }
-    
-    func shareInTelegram() {
-        viewModel?.shareInTelegram()
-    }
-    
-    func viewController() -> UIViewController? {
-        return delegate?.viewControllerToShowShareOptions()
-    }
-    
-    func shareInSMS() {
-        viewModel?.shareInSMS()
-    }
-    
-    func shareInSMSFinished(state: SocialShareState) {
-        switch state {
-        case .Completed:
-            viewModel?.shareInSMSCompleted()
-        case .Cancelled:
-            viewModel?.shareInSMSCancelled()
-        case .Failed:
-            delegate?.shareDidFailedWith(LGLocalizedString.productShareSmsError)
-        }
-    }
-    
-    func shareInCopyLink() {
-        viewModel?.shareInCopyLink()
     }
 }
 
