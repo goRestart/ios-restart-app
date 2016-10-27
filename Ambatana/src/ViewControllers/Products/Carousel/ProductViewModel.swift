@@ -1148,3 +1148,26 @@ extension ProductViewModel: SocialShareViewDelegate {
 
     func openNativeShare() {}
 }
+
+extension ProductViewModel: NativeShareDelegate {
+
+    var nativeShareSuccessMessage: String? { return LGLocalizedString.productShareGenericOk }
+    var nativeShareErrorMessage: String? { return LGLocalizedString.productShareGenericError }
+
+    func nativeShareInFacebook() {
+        trackShareInFacebook(.Top)
+        trackShareInFBCompleted()
+    }
+
+    func nativeShareInTwitter() {
+        trackShareInTwitterActivity()
+    }
+
+    func nativeShareInEmail() {
+        trackShareInEmail(.Top)
+    }
+
+    func nativeShareInWhatsApp() {
+        trackShareInWhatsappActivity()
+    }
+}

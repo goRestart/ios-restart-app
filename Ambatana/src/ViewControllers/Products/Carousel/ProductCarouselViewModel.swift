@@ -285,33 +285,6 @@ extension ProductCarouselViewModel {
 }
 
 
-// MARK: > Native Share Delegate
-
-extension ProductCarouselViewModel: NativeShareDelegate {
-
-    var nativeShareSuccessMessage: String? { return LGLocalizedString.productShareGenericOk }
-    var nativeShareErrorMessage: String? { return LGLocalizedString.productShareGenericError }
-
-    func nativeShareInFacebook() {
-        currentProductViewModel?.trackShareInFacebook(.Top)
-        currentProductViewModel?.trackShareInFBCompleted()
-    }
-
-    func nativeShareInTwitter() {
-        currentProductViewModel?.shareInTwitter()
-        currentProductViewModel?.trackShareInTwitterActivity()
-    }
-
-    func nativeShareInEmail() {
-        currentProductViewModel?.trackShareInEmail(.Top)
-    }
-
-    func nativeShareInWhatsApp() {
-        currentProductViewModel?.trackShareInWhatsappActivity()
-    }
-}
-
-
 // MARK: - Tracking
 
 extension CarouselMovement {
