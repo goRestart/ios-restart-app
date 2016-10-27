@@ -215,7 +215,7 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
             textView.text = nil
             textView.textColor = UIColor.blackColor()
         }
-        scrollView.setContentOffset(CGPointMake(0,textView.frame.origin.y-64), animated: true)
+        scrollView.setContentOffset(CGPointMake(0,textView.frame.origin.y+64), animated: true)
 
     }
     
