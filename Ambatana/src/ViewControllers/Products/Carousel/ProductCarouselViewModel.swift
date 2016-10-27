@@ -217,6 +217,10 @@ class ProductCarouselViewModel: BaseViewModel {
         delegate?.vmRemoveMoreInfoTooltip()
     }
 
+    func openFullScreenShare() {
+        guard let productVM = currentProductViewModel else { return }
+        navigator?.openFullScreenShare(productVM)
+    }
     
     // MARK: - Private Methods
     

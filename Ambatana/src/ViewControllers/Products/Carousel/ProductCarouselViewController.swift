@@ -1079,7 +1079,7 @@ extension ProductCarouselViewController: ProductViewModelDelegate {
                 self?.favoriteButton.alpha = expandableButtonsView.expanded.value ? 0 : 1
             })
         case .FullScreen:
-            // TODO
+            viewModel.openFullScreenShare()
             break
         }
     }

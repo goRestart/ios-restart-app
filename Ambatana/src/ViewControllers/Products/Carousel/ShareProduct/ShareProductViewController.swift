@@ -51,9 +51,12 @@ class ShareProductViewController: BaseViewController {
     // MARK: - Public Methods
 
     @IBAction func closeButtonPressed(sender: AnyObject) {
+        dismissViewControllerAnimated(true, completion: nil)
     }
 
     @IBAction func copyButtonPressed(sender: AnyObject) {
+        guard let socialMessage = viewModel.socialMessage else { return }
+        SocialHelper.shareOnCopyLink(socialMessage, viewController: self)
     }
 
 
@@ -61,14 +64,17 @@ class ShareProductViewController: BaseViewController {
 
     private func setupUI() {
 
-        titleLabel.text = ""
-        subtitleLabel.text = ""
+        titleLabel.text = viewModel.title
+        subtitleLabel.text = viewModel.subTitle
         orLabel.text = "_ OR"
 
+        linkLabel.text = viewModel.link
         copyLabel.text = "_Copy"
 
         setupShareView()
         setupGradientView()
+        // 👾
+        shareButtonsContainerWidth.constant = CGFloat(viewModel.shareTypes.count*60)
     }
 
     private func setupShareView() {

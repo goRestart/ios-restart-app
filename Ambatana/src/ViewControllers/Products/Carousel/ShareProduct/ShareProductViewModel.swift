@@ -15,26 +15,21 @@ protocol ShareProductViewModelDelegate {
 
 class ShareProductViewModel: BaseViewModel {
 
-    var shareTypes: ShareType
+    var shareTypes: [ShareType]
     var delegate: ShareProductViewModelDelegate?
     var shareDelegate: SocialShareViewDelegate?
     weak var navigator: ProductDetailNavigator?
 
     var socialMessage: SocialMessage?
-    var link: String = "_uuuu"
+    var link: String {
+        return socialMessage?.copyLinkText ?? Constants.websiteURL
+    }
 
-    static func shareTypeForCountry(countryCode: String?) -> ShareType {
-        let turkey = "tr"
-        let defaultShareType: ShareType = [ShareType.SMS, ShareType.Email, ShareType.Facebook ,ShareType.FBMessenger, ShareType.Twitter,
-                                ShareType.Whatsapp, ShareType.CopyLink]
-        guard let countryCode = countryCode else { return defaultShareType }
-        switch countryCode {
-        case turkey:
-            return [ShareType.Whatsapp, ShareType.Facebook, ShareType.Email ,ShareType.FBMessenger, ShareType.Twitter,
-                    ShareType.SMS, ShareType.CopyLink]
-        default:
-            return defaultShareType
-        }
+    var title: String {
+        return "_SHARING IS WINNING!"
+    }
+    var subTitle: String {
+        return "_Did you know that those who share their products are 100% more likely to be awesome?"
     }
 
     convenience init(productVM: ProductViewModel) {
@@ -48,11 +43,17 @@ class ShareProductViewModel: BaseViewModel {
         self.init(productVM: productVM, countryCode: countryCode)
     }
 
+    // init w vm, locale & core.locationM
+
     init(productVM: ProductViewModel, countryCode: String) {
         self.shareDelegate = productVM
         self.socialMessage = productVM.socialMessage.value
-        self.shareTypes = ShareProductViewModel.shareTypeForCountry(countryCode)
+        self.shareTypes = ShareType.shareTypesForCountry(countryCode, maxButtons: 4, includeNative: true)
         super.init()
     }
+
+
+    // MARK: - Public Methods
+
 
 }

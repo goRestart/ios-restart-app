@@ -13,6 +13,68 @@ import MessageUI
 import Branch
 
 
+enum ShareType {
+    case Email, Facebook, FBMessenger, Whatsapp, Twitter, Telegram, CopyLink, SMS, Native
+
+    private static var otherCountriesTypes: [ShareType] { return [.SMS, .Email, .Facebook, .FBMessenger, .Twitter, .Whatsapp, .Telegram] }
+    private static var turkeyTypes: [ShareType] { return [.Whatsapp, .Facebook, .Email ,.FBMessenger, .Twitter, .SMS, .Telegram] }
+
+    var moreInfoTypes: [ShareType] {
+        return ShareType.shareTypesForCountry("", maxButtons: nil, includeNative: false)
+    }
+
+    static func shareTypesForCountry(countryCode: String, maxButtons: Int?, includeNative: Bool) -> [ShareType] {
+        let turkey = "tr"
+
+        let countryTypes: [ShareType]
+        switch countryCode {
+        case turkey:
+            countryTypes = turkeyTypes
+        default:
+            countryTypes = otherCountriesTypes
+        }
+
+        var resultShareTypes = countryTypes.filter { $0.canShare }
+
+        if var maxButtons = maxButtons where maxButtons > 0 {
+            maxButtons = includeNative ? maxButtons-1 : maxButtons
+            if resultShareTypes.count > maxButtons {
+                resultShareTypes = Array(resultShareTypes[0..<maxButtons])
+            }
+        }
+
+        if includeNative {
+            resultShareTypes.append(.Native)
+        }
+
+        return resultShareTypes
+    }
+
+    var canShare: Bool {
+        switch  self {
+        case .Email:
+            return MFMailComposeViewController.canSendMail()
+        case Facebook, .Twitter, .Native, .CopyLink:
+            return true
+        case .FBMessenger:
+            guard let url = NSURL(string: "fb-messenger-api://") else { return false }
+            let application = UIApplication.sharedApplication()
+            return application.canOpenURL(url)
+        case .Whatsapp:
+            guard let url = NSURL(string: "whatsapp://") else { return false }
+            let application = UIApplication.sharedApplication()
+            return application.canOpenURL(url)
+        case .Telegram:
+            guard let url = NSURL(string: "tg://") else { return false }
+            let application = UIApplication.sharedApplication()
+            return application.canOpenURL(url)
+        case .SMS:
+            return MFMessageComposeViewController.canSendText()
+        }
+
+    }
+}
+
 final class SocialHelper {
     /**
         Returns a social message for the given product with a title.
@@ -40,7 +102,7 @@ final class SocialHelper {
     static func socialMessageCommercializer(shareUrl: String, thumbUrl: String?) -> SocialMessage {
         return CommercializerSocialMessage(shareUrl: shareUrl, thumbUrl: thumbUrl)
     }
-    
+
     static func shareOnSMS(socialMessage: SocialMessage, viewController: UIViewController,
                            delegate: MFMessageComposeViewControllerDelegate) {
         if MFMessageComposeViewController.canSendText() {
@@ -150,7 +212,7 @@ final class SocialHelper {
     }
 
     static func canShareInEmail() -> Bool {
-        return MFMailComposeViewController.canSendMail()
+        return ShareType.Email.canShare
     }
 
     static func canShareInTelegram() -> Bool {
