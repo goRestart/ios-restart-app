@@ -295,7 +295,7 @@ platform :ios do
       scheme: "LetGo", 
       device: "iPhone 6 (9.3)",
       output_style: "rspec",
-      output_directory: "/scanresults",
+      output_directory: "./scanresults",
       output_types: "junit,html",
       skip_slack: true,
       code_coverage: true
