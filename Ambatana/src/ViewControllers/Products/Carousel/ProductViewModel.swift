@@ -1047,3 +1047,228 @@ private extension ProductViewModel {
         }, accessibilityId: .ProductCarouselFavoriteMessageNotificationButton)
     }
 }
+
+
+// MARK: - SocialShareFacadeDelegate
+
+extension ProductViewModel: SocialShareFacadeDelegate {
+    func shareIn(shareType: ShareType) {
+//        switch shareType {
+//        case .Email:
+//
+//        case .Facebook:
+//
+//        case .FBMessenger:
+//
+//        case .Whatsapp:
+//
+//        case .Twitter:
+//
+//        case .Telegram:
+//
+//        case .CopyLink:
+//
+//        case .SMS:
+//
+//        }
+    }
+
+    func shareIn(shareType: ShareType, finishedWithState state: SocialShareState) {
+//        switch shareType {
+//        case .Email:
+//            trackHelper.shareInEmailCompleted()
+//        case .Facebook:
+//          
+//        case .FBMessenger:
+//
+//        case .Whatsapp:
+//
+//        case .Twitter:
+//
+//        case .Telegram:
+//
+//        case .CopyLink:
+//
+//        case .SMS:
+//
+//        }
+
+
+//        func shareInEmail(buttonPosition: EventParameterButtonPosition) {
+//            trackHelper.shareInEmail(buttonPosition)
+//        }
+//
+//        func shareInEmailCompleted() {
+//            trackHelper.shareInEmailCompleted()
+//        }
+//
+//        func shareInEmailCancelled() {
+//            trackHelper.shareInEmailCancelled()
+//        }
+//
+//        func shareInFacebook(buttonPosition: EventParameterButtonPosition) {
+//            trackHelper.shareInFacebook(buttonPosition)
+//        }
+//
+//        func shareInFBCompleted() {
+//            trackHelper.shareInFBCompleted()
+//        }
+//
+//        func shareInFBCancelled() {
+//            trackHelper.shareInFBCancelled()
+//        }
+//
+//        func shareInFBMessenger() {
+//            trackHelper.shareInFBMessenger()
+//        }
+//
+//        func shareInFBMessengerCompleted() {
+//            trackHelper.shareInFBMessengerCompleted()
+//        }
+//
+//        func shareInFBMessengerCancelled() {
+//            trackHelper.shareInFBMessengerCancelled()
+//        }
+//
+//        func shareInWhatsApp() {
+//            trackHelper.shareInWhatsApp()
+//        }
+//
+//        func shareInTwitter() {
+//            trackHelper.shareInTwitter()
+//        }
+//
+//        func shareInTwitterCompleted() {
+//            trackHelper.shareInTwitterCompleted()
+//        }
+//
+//        func shareInTwitterCancelled() {
+//            trackHelper.shareInTwitterCancelled()
+//        }
+//
+//        func shareInTelegram() {
+//            trackHelper.shareInTelegram()
+//        }
+//
+//        func shareInWhatsappActivity() {
+//            trackHelper.shareInWhatsappActivity()
+//        }
+//
+//        func shareInTwitterActivity() {
+//            trackHelper.shareInTwitterActivity()
+//        }
+//        
+//        func shareInSMS() {
+//            trackHelper.shareInSMS()
+//        }
+//        
+//        func shareInSMSCompleted() {
+//            trackHelper.shareInSMSCompleted()
+//        }
+//        
+//        func shareInSMSCancelled() {
+//            trackHelper.shareInSMSCancelled()
+//        }
+//        
+//        func shareInCopyLink() {
+//            trackHelper.shareInCopyLink()
+//        }
+    }
+}
+
+
+//// MARK: - SocialShareViewDelegate
+//
+//extension ProductCarouselMoreInfoView: SocialShareViewDelegate {
+//
+//    func shareInEmail(){
+//        viewModel?.shareInEmail(.Bottom)
+//    }
+//
+//    func shareInEmailFinished(state: SocialShareState) {
+//        switch state {
+//        case .Completed:
+//            viewModel?.shareInEmailCompleted()
+//        case .Cancelled:
+//            viewModel?.shareInEmailCancelled()
+//        case .Failed:
+//            break
+//        }
+//    }
+//
+//    func shareInFacebook() {
+//        viewModel?.shareInFacebook(.Bottom)
+//    }
+//
+//    func shareInFacebookFinished(state: SocialShareState) {
+//        switch state {
+//        case .Completed:
+//            viewModel?.shareInFBCompleted()
+//        case .Cancelled:
+//            viewModel?.shareInFBCancelled()
+//        case .Failed:
+//            delegate?.shareDidFailedWith(LGLocalizedString.sellSendErrorSharingFacebook)
+//        }
+//    }
+//
+//    func shareInFBMessenger() {
+//        viewModel?.shareInFBMessenger()
+//    }
+//
+//    func shareInFBMessengerFinished(state: SocialShareState) {
+//        switch state {
+//        case .Completed:
+//            viewModel?.shareInFBMessengerCompleted()
+//        case .Cancelled:
+//            viewModel?.shareInFBMessengerCancelled()
+//        case .Failed:
+//            delegate?.shareDidFailedWith(LGLocalizedString.sellSendErrorSharingFacebook)
+//        }
+//    }
+//
+//    func shareInWhatsApp() {
+//        viewModel?.shareInWhatsApp()
+//    }
+//
+//    func shareInTwitter() {
+//        viewModel?.shareInTwitter()
+//    }
+//
+//    func shareInTwitterFinished(state: SocialShareState) {
+//        switch state {
+//        case .Completed:
+//            viewModel?.shareInTwitterCompleted()
+//        case .Cancelled:
+//            viewModel?.shareInTwitterCancelled()
+//        case .Failed:
+//            break
+//        }
+//    }
+//
+//    func shareInTelegram() {
+//        viewModel?.shareInTelegram()
+//    }
+//
+//    func viewController() -> UIViewController? {
+//        return delegate?.viewControllerToShowShareOptions()
+//    }
+//
+//    func shareInSMS() {
+//        viewModel?.shareInSMS()
+//    }
+//
+//    func shareInSMSFinished(state: SocialShareState) {
+//        switch state {
+//        case .Completed:
+//            viewModel?.shareInSMSCompleted()
+//        case .Cancelled:
+//            viewModel?.shareInSMSCancelled()
+//        case .Failed:
+//            delegate?.shareDidFailedWith(LGLocalizedString.productShareSmsError)
+//        }
+//    }
+//
+//    func shareInCopyLink() {
+//        viewModel?.shareInCopyLink()
+//    }
+//}
