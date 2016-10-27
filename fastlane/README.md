@@ -45,7 +45,7 @@ Will test
 ```
 fastlane ios ci
 ```
-Will CI
+Will run CI
 
 ----
 
