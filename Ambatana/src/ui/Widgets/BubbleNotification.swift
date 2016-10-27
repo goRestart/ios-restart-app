@@ -235,7 +235,7 @@ class BubbleNotification: UIView {
 
     dynamic private func buttonTapped() {
         autoDismissTimer?.invalidate()
-        delegate?.bubbleNotificationSwiped(self)
+        delegate?.bubbleNotificationActionPressed(self)
     }
 
     dynamic private func swiped() {
