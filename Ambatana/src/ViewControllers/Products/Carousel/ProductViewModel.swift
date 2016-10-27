@@ -814,7 +814,7 @@ extension ProductViewModel {
             let message: String
             if let value = result.value {
                 strongSelf.product.value = value
-                message = strongSelf.product.value.price.free ? LGLocalizedString.productMarkAsSoldSuccessMessage : LGLocalizedString.productMarkAsSoldSuccessMessage
+                message = strongSelf.product.value.price.free ? LGLocalizedString.productMarkAsSoldFreeSuccessMessage : LGLocalizedString.productMarkAsSoldSuccessMessage
                 self?.trackHelper.trackMarkSoldCompleted(source)
                 markAsSoldCompletion = {
                     if RatingManager.sharedInstance.shouldShowRating {
