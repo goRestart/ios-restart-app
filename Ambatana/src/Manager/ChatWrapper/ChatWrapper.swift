@@ -86,10 +86,10 @@ class ChatWrapper {
                     completion?(Result(error: .Internal(message: "There's no message info")))
                     return
                 }
-                let shouldAskQuestionTracker = value.lastMessageSentAt == nil
+                let shouldSendFirstMessageEvent = value.lastMessageSentAt == nil
                 self?.chatRepository.sendMessage(conversationId, messageId: messageId, type: type, text: text) { result in
                     if let _ = result.value {
-                        completion?(Result(value: shouldAskQuestionTracker))
+                        completion?(Result(value: shouldSendFirstMessageEvent))
                     } else if let error = result.error {
                         completion?(Result(error: error))
                     }
