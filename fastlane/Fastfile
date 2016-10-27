@@ -295,15 +295,46 @@ platform :ios do
       scheme: "LetGo", 
       device: "iPhone 6 (9.3)",
       output_style: "rspec",
+      output_directory: "/scanresults",
+      output_types: "junit,html",
       skip_slack: true,
       code_coverage: true
       )
   end
 
-  desc "Will CI"
+  desc "Will run CI"
   lane :ci do
     #danger(github_api_token: '7d076b068979573b076de8866f9e46ab9845113a', verbose: true)
-    test
+
+    ENV["LG_GITHUB_USER"] = "letbot"
+    ENV["LG_GITHUB_PASSWORD"] = "letgo2015"
+    ENV["LG_GITHUB_REPOSITORY"] = "letgoapp/letgo-ios"
+    pullRequest = nil
+    if !ENV["TEAMCITY_BRANCH"].nil?
+      pullRequest = ENV["TEAMCITY_BRANCH"].sub('/merge', '')
+    end
+
+    lg_github_status(
+      gh_pull_request: pullRequest,
+      gh_status_finished: false
+      )
+
+    testException = nil
+    begin
+      test 
+    rescue => ex
+      testException = ex
+    end
+
+    lg_github_status(
+      gh_pull_request: pullRequest,
+      gh_status_finished: true, 
+      scan_results_junit: "./scanresults/report.junit",
+      scan_results_url: ENV["GITHUB_STATUS_DETAIL"]
+      )
+    if testException 
+      raise testException
+    end
   end
 
   after_all do |lane|

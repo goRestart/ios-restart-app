@@ -1,5 +1,7 @@
 source 'https://rubygems.org'
 gem 'danger', '3.5.3' 
+gem 'octokit'
+gem 'crack'
 gem 'byebug'
 gem 'micro-optparse'
 gem 'google_drive'
