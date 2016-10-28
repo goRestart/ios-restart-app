@@ -231,14 +231,14 @@ private extension AppDelegate {
         EnvironmentProxy.sharedInstance.setEnvironmentType(environmentHelper.appEnvironment)
 
         // Debug
-        Debug.loggingOptions = [AppLoggingOptions.Navigation]
-        
-        #if GOD_MODE
-            Debug.loggingOptions = [AppLoggingOptions.Navigation, AppLoggingOptions.Tracking, AppLoggingOptions.DeepLink]
-        #endif
-        
-        LGCoreKit.loggingOptions = [CoreLoggingOptions.Networking, CoreLoggingOptions.Persistence,
-                                    CoreLoggingOptions.Token, CoreLoggingOptions.Session, CoreLoggingOptions.WebSockets]
+//        Debug.loggingOptions = [AppLoggingOptions.Navigation]
+        Debug.loggingOptions = [.Tracking]
+
+//        #if GOD_MODE
+//            Debug.loggingOptions = [.Navigation, .Tracking, .DeepLink]
+//        #endif
+//        
+//        LGCoreKit.loggingOptions = [.Networking, .Persistence, .Token, .Session, .WebSockets]
         LGCoreKit.activateWebsocket = FeatureFlags.websocketChat
 
         // Logging
