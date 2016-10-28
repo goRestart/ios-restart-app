@@ -172,6 +172,7 @@
 "common_cancel" = "Annuler";
 "common_chat_not_available" = "Oops ! Chat non trouvé.";
 "common_collapse" = "Afficher moins";
+"common_copy" = "Copy";
 "common_error" = "Erreur";
 "common_error_connection_failed" = "Une erreur est survenue. Veuillez vérifier votre connexion Internet.";
 "common_error_generic_body" = "Une erreur est survenue.";
@@ -186,6 +187,7 @@
 "common_next" = "Suivant";
 "common_no" = "Non";
 "common_ok" = "OK";
+"common_or" = "OR";
 "common_product_not_available" = "Ce bien n'est plus disponible.";
 "common_product_sold" = "Ce bien a été vendu.";
 "common_settings" = "Réglages";
@@ -494,6 +496,8 @@
 "product_share_body" = "Regarde ce que j'ai trouvé sur letgo !";
 "product_share_copylink_ok" = "Votre lien a été copié !";
 "product_share_email_error" = "Oops, il semble que vous n'avez pas paramétré de compte dans l'application Mail.";
+"product_share_fullscreen_subtitle" = "Did you know that those who share their products are 100% more likely to be awesome?";
+"product_share_fullscreen_title" = "SHARING IS WINNING!";
 "product_share_generic_error" = "Une erreur est survenue lors du partage du bien. Veuillez réessayer plus tard.";
 "product_share_generic_ok" = "Bien partagé avec succès !";
 "product_share_navbar_button" = "Partager";

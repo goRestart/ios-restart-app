@@ -172,6 +172,7 @@
 "common_cancel" = "취소";
 "common_chat_not_available" = "이런! 대화를 찾을 수 없습니다";
 "common_collapse" = "줄이기";
+"common_copy" = "Copy";
 "common_error" = "오류";
 "common_error_connection_failed" = "오류가 발생했습니다. 인터넷 연결상태를 확인해주세요.";
 "common_error_generic_body" = "오류가 발생했습니다";
@@ -186,6 +187,7 @@
 "common_next" = "다음";
 "common_no" = "아니요";
 "common_ok" = "확인";
+"common_or" = "OR";
 "common_product_not_available" = "이 제품은 더이상 존재하지 않습니다.";
 "common_product_sold" = "제품이 이미 판매되었습니다.";
 "common_settings" = "설정";
@@ -494,6 +496,8 @@
 "product_share_body" = "제가 렛고에서 무엇을 발견했는지 보세요!";
 "product_share_copylink_ok" = "회원님의 링크는 복사되었습니다!";
 "product_share_email_error" = "앗, 계정을 메일 어플리케이션에서 설정하지 않으신 것 같네요.";
+"product_share_fullscreen_subtitle" = "Did you know that those who share their products are 100% more likely to be awesome?";
+"product_share_fullscreen_title" = "SHARING IS WINNING!";
 "product_share_generic_error" = "상품을 공유하는 동안 오류가 발생했습니다. 다시 시도해주세요.";
 "product_share_generic_ok" = "제품이 성공적으로 공유되었습니다!";
 "product_share_navbar_button" = "공유하기";

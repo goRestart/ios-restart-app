@@ -172,6 +172,7 @@
 "common_cancel" = "Peruuta";
 "common_chat_not_available" = "Hups! Keskustelu ei saatavilla.";
 "common_collapse" = "Näytä vähemmän";
+"common_copy" = "Copy";
 "common_error" = "Virhe";
 "common_error_connection_failed" = "Tapahtui virhe. Ole hyvä ja tarkista Internet-yhteytesi.";
 "common_error_generic_body" = "Tapahtui virhe.";
@@ -186,6 +187,7 @@
 "common_next" = "Seuraava";
 "common_no" = "Ei";
 "common_ok" = "OK";
+"common_or" = "OR";
 "common_product_not_available" = "Tämä tuote ei ole enää saatavilla.";
 "common_product_sold" = "Tämä tuote on myyty.";
 "common_settings" = "Asetukset";
@@ -494,6 +496,8 @@
 "product_share_body" = "Katso mitä juuri löysin letgosta!";
 "product_share_copylink_ok" = "Linkki kopioitu!";
 "product_share_email_error" = "Hups! Näyttää siltä, että et ole asettanut tiliä sähköpostisovellukseen.";
+"product_share_fullscreen_subtitle" = "Did you know that those who share their products are 100% more likely to be awesome?";
+"product_share_fullscreen_title" = "SHARING IS WINNING!";
 "product_share_generic_error" = "Tuotetta jaettaessa tapahtui virhe. Ole hyvä ja yritä myöhemmin uudelleen.";
 "product_share_generic_ok" = "Tuote jaettiin onnistuneesti!";
 "product_share_navbar_button" = "Jaa";

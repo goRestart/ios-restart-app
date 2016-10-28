@@ -172,6 +172,7 @@
 "common_cancel" = "Hủy";
 "common_chat_not_available" = "Ồ! Không tìm thấy trò chuyện.";
 "common_collapse" = "Rút gọn";
+"common_copy" = "Sao chép";
 "common_error" = "Lỗi";
 "common_error_connection_failed" = "Đã có lỗi xảy ra. Xin vui lòng kiểm tra kết nối Internet của bạn.";
 "common_error_generic_body" = "Có lỗi xảy ra.";
@@ -186,6 +187,7 @@
 "common_next" = "Tiếp theo";
 "common_no" = "Không";
 "common_ok" = "OK";
+"common_or" = "HOẶC";
 "common_product_not_available" = "Sản phẩm này không còn nữa.";
 "common_product_sold" = "Sản phẩm này đã được bán.";
 "common_settings" = "Cài đặt";
@@ -320,9 +322,9 @@
 "notifications_type_like_button" = "Xem hồ sơ của họ";
 "notifications_type_like_w_name" = "%@ đã thích món đồ của bạn";
 "notifications_type_like_w_name_w_title" = "%@ đã thích món đồ của bạn: \"%@\"";
-"notifications_type_rating" = "%@ has reviewed you";
-"notifications_type_rating_button" = "See your reviews";
-"notifications_type_rating_updated" = "%@ has updated your review";
+"notifications_type_rating" = "%@ vừa đánh giá bạn";
+"notifications_type_rating_button" = "Xem đánh giá về bạn";
+"notifications_type_rating_updated" = "%@ vừa cập nhật đánh giá về bạn";
 "notifications_type_sold" = "Một sản phẩm bạn yêu thích vừa được bán";
 "notifications_type_sold_button" = "Xem sản phẩm";
 "notifications_type_welcome_button" = "Bắt đầu bán";
@@ -494,6 +496,8 @@
 "product_share_body" = "Hãy xem tôi tìm thấy gì trên letgo này!";
 "product_share_copylink_ok" = "Liên kết của bạn đã được sao chép!";
 "product_share_email_error" = "Ồ! Có vẻ như bạn chưa cài đặt tải khoản email trên Ứng dụng Mail.";
+"product_share_fullscreen_subtitle" = "Bạn có biết những người chia sẻ sản phẩm của họ 100% đều là những người tuyệt vời?";
+"product_share_fullscreen_title" = "CHIA SẺ LÀ CHIẾN THẮNG";
 "product_share_generic_error" = "Lỗi xảy ra trong khi chia sẻ sản phẩm. Xin vui lòng thử lại sau.";
 "product_share_generic_ok" = "Sản phẩm đã được chia sẻ thành công!";
 "product_share_navbar_button" = "Chia sẻ";

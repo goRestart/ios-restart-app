@@ -172,6 +172,7 @@
 "common_cancel" = "Mégse";
 "common_chat_not_available" = "Hoppá! A csevegés nem található.";
 "common_collapse" = "Kevesebbet";
+"common_copy" = "Copy";
 "common_error" = "Hiba";
 "common_error_connection_failed" = "Hiba történt. Kérjük, ellenőrizd az internetkapcsolatot.";
 "common_error_generic_body" = "Hiba történt.";
@@ -186,6 +187,7 @@
 "common_next" = "Következő";
 "common_no" = "Nem";
 "common_ok" = "OK";
+"common_or" = "OR";
 "common_product_not_available" = "Ez a portéka már nem elérhető.";
 "common_product_sold" = "Ez a portéka eladásra került.";
 "common_settings" = "Beállítások";
@@ -494,6 +496,8 @@
 "product_share_body" = "Nézzétek, mit találtam a letgo-n!";
 "product_share_copylink_ok" = "Hivatkozás kimásolva!";
 "product_share_email_error" = "Hoppá! Úgy tűnik, hogy nem állítottál be fiókot a Mail appban.";
+"product_share_fullscreen_subtitle" = "Did you know that those who share their products are 100% more likely to be awesome?";
+"product_share_fullscreen_title" = "SHARING IS WINNING!";
 "product_share_generic_error" = "Hiba történt a portéka megosztása során. Próbálkozz újra később.";
 "product_share_generic_ok" = "Sikeresen megosztottad a portékát!";
 "product_share_navbar_button" = "Megosztás";

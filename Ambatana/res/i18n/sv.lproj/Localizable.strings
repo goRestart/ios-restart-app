@@ -172,6 +172,7 @@
 "common_cancel" = "Avbryt";
 "common_chat_not_available" = "Hoppsan! Chatten kunder inte hittas.";
 "common_collapse" = "Visa mindre";
+"common_copy" = "Copy";
 "common_error" = "Fel";
 "common_error_connection_failed" = "Ett fel uppstod. Var god kontrollera din internetanslutning.";
 "common_error_generic_body" = "Ett fel uppstod.";
@@ -186,6 +187,7 @@
 "common_next" = "Nästa";
 "common_no" = "Nej";
 "common_ok" = "Ok";
+"common_or" = "OR";
 "common_product_not_available" = "Denna produkt är inte tillgänglig.";
 "common_product_sold" = "Denna produkt är redan såld.";
 "common_settings" = "Inställningar";
@@ -494,6 +496,8 @@
 "product_share_body" = "Kolla vad jag hittade på letgo!";
 "product_share_copylink_ok" = "Din länk har kopierats!";
 "product_share_email_error" = "Hoppsan! Det verkar som att du inte har något konto i dina mailinstllningar.";
+"product_share_fullscreen_subtitle" = "Did you know that those who share their products are 100% more likely to be awesome?";
+"product_share_fullscreen_title" = "SHARING IS WINNING!";
 "product_share_generic_error" = "Ett fel uppstod när produkten delades. Var vänlig försök igen senare.";
 "product_share_generic_ok" = "Produkten har delats!";
 "product_share_navbar_button" = "Dela";

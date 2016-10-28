@@ -172,6 +172,7 @@
 "common_cancel" = "Avbryt";
 "common_chat_not_available" = "Oops! Kunne ikke finne chat.";
 "common_collapse" = "Vis mindre";
+"common_copy" = "Copy";
 "common_error" = "Feil";
 "common_error_connection_failed" = "En feil har oppstått. Vennligst sjekk din internett-tilkobling.";
 "common_error_generic_body" = "En feil oppstod.";
@@ -186,6 +187,7 @@
 "common_next" = "Neste";
 "common_no" = "Nei";
 "common_ok" = "Ok";
+"common_or" = "OR";
 "common_product_not_available" = "Produktet er ikke tilgjengelig lenger.";
 "common_product_sold" = "Dette produktet er solgt.";
 "common_settings" = "Innstillinger";
@@ -494,6 +496,8 @@
 "product_share_body" = "Se hva jeg fant på letgo!";
 "product_share_copylink_ok" = "Din lenke er kopiert!";
 "product_share_email_error" = "Oops! Det ser ut som at du ikke har satt opp en konto i din Epost app.";
+"product_share_fullscreen_subtitle" = "Did you know that those who share their products are 100% more likely to be awesome?";
+"product_share_fullscreen_title" = "SHARING IS WINNING!";
 "product_share_generic_error" = "En feil oppstod ved deling av produktet. Vennligst prøv igjen senere.";
 "product_share_generic_ok" = "Deling av produkt var vellykket!";
 "product_share_navbar_button" = "Del";
