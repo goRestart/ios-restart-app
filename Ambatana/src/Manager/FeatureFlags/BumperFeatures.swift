@@ -12,7 +12,7 @@ import bumper
 
 extension Bumper  {
     static func initialize() {
-        Bumper.initialize([WebsocketChat.self, NotificationsSection.self, UserRatings.self, ShowNPSSurvey.self, NonStopProductDetail.self, OnboardingPermissionsMode.self, MessageOnFavoriteMode.self, InterestedUsersMode.self, FiltersReorder.self, HalfCameraButton.self, FreePostingMode.self, DirectPostInOnboarding.self, ProductDetailShareMode.self])
+        Bumper.initialize([WebsocketChat.self, NotificationsSection.self, ShowNPSSurvey.self, NonStopProductDetail.self, OnboardingPermissionsMode.self, MessageOnFavoriteMode.self, InterestedUsersMode.self, FiltersReorder.self, HalfCameraButton.self, FreePostingMode.self, DirectPostInOnboarding.self, ProductDetailShareMode.self])
     } 
 
     static var websocketChat: Bool {
@@ -23,11 +23,6 @@ extension Bumper  {
     static var notificationsSection: Bool {
         guard let value = Bumper.valueForKey(NotificationsSection.key) else { return false }
         return NotificationsSection(rawValue: value)?.asBool ?? false
-    }
-
-    static var userRatings: Bool {
-        guard let value = Bumper.valueForKey(UserRatings.key) else { return false }
-        return UserRatings(rawValue: value)?.asBool ?? false
     }
 
     static var showNPSSurvey: Bool {
@@ -97,15 +92,6 @@ enum NotificationsSection: String, BumperFeature  {
     static var enumValues: [NotificationsSection] { return [.No, .Yes]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Notifications Section" } 
-    var asBool: Bool { return self == .Yes }
-}
-
-enum UserRatings: String, BumperFeature  {
-    case No, Yes
-    static var defaultValue: String { return UserRatings.No.rawValue }
-    static var enumValues: [UserRatings] { return [.No, .Yes]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "User Ratings" } 
     var asBool: Bool { return self == .Yes }
 }
 

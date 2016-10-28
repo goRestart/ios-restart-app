@@ -19,7 +19,7 @@ private extension TrackerEvent {
                  .UserMessageSent,
                  .LoginEmail, .LoginFB, .LoginGoogle, .SignupEmail,
                  .SearchComplete, .FilterComplete,
-                 .ProductAskQuestion, .ProductChatButton, .ProductFavorite, .ProductShareComplete,
+                 .FirstMessage, .ProductChatButton, .ProductFavorite, .ProductShareComplete,
                  .ProductMarkAsSold, .ProductDetailVisit,
                  .ProductSellComplete, .ProductSellStart,
                  .ProfileVisit, .NPSStart, .NPSComplete:

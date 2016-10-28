@@ -703,6 +703,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("common_collapse", comment: "")
 	}
 
+	static var commonCopy: String {
+		return NSLocalizedString("common_copy", comment: "")
+	}
+
 	static var commonError: String {
 		return NSLocalizedString("common_error", comment: "")
 	}
@@ -757,6 +761,10 @@ struct LGLocalizedString {
 
 	static var commonOk: String {
 		return NSLocalizedString("common_ok", comment: "")
+	}
+
+	static var commonOr: String {
+		return NSLocalizedString("common_or", comment: "")
 	}
 
 	static var commonProductNotAvailable: String {
@@ -1283,16 +1291,8 @@ struct LGLocalizedString {
 		return NSLocalizedString("notifications_title", comment: "")
 	}
 
-	static var notificationsTypeLike: String {
-		return NSLocalizedString("notifications_type_like", comment: "")
-	}
-
 	static func notificationsTypeLikeWName(var1: String) -> String {
 		return String(format: NSLocalizedString("notifications_type_like_w_name", comment: ""), var1)
-	}
-
-	static func notificationsTypeLikeWTitle(var1: String) -> String {
-		return String(format: NSLocalizedString("notifications_type_like_w_title", comment: ""), var1)
 	}
 
 	static func notificationsTypeLikeWNameWTitle(var1: String, _ var2: String) -> String {
@@ -1307,12 +1307,20 @@ struct LGLocalizedString {
 		return NSLocalizedString("notifications_type_sold", comment: "")
 	}
 
-	static func notificationsTypeSoldWTitle(var1: String) -> String {
-		return String(format: NSLocalizedString("notifications_type_sold_w_title", comment: ""), var1)
-	}
-
 	static var notificationsTypeSoldButton: String {
 		return NSLocalizedString("notifications_type_sold_button", comment: "")
+	}
+
+	static func notificationsTypeRating(var1: String) -> String {
+		return String(format: NSLocalizedString("notifications_type_rating", comment: ""), var1)
+	}
+
+	static var notificationsTypeRatingButton: String {
+		return NSLocalizedString("notifications_type_rating_button", comment: "")
+	}
+
+	static func notificationsTypeRatingUpdated(var1: String) -> String {
+		return String(format: NSLocalizedString("notifications_type_rating_updated", comment: ""), var1)
 	}
 
 	static var notificationsTypeWelcomeSubtitle: String {
@@ -1969,6 +1977,14 @@ struct LGLocalizedString {
 
 	static var productSellPhotolibraryRestrictedError: String {
 		return NSLocalizedString("product_sell_photolibrary_restricted_error", comment: "")
+	}
+
+	static var productShareFullscreenTitle: String {
+		return NSLocalizedString("product_share_fullscreen_title", comment: "")
+	}
+
+	static var productShareFullscreenSubtitle: String {
+		return NSLocalizedString("product_share_fullscreen_subtitle", comment: "")
 	}
 
 	static var productShareNavbarButton: String {

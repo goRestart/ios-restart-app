@@ -60,16 +60,12 @@ class RatingManagerSpec: QuickSpec {
                 it("should not show rating") {
                     expect(sut.shouldShowRating) == false
                 }
-                it("should not show rating banner at product list") {
-                    expect(sut.shouldShowRatingProductListBanner) == false
-                }
             }
 
             describe("previously not rated, no remind later") {
                 beforeEach {
                     keyValueStorage.userRatingAlreadyRated = false
                     keyValueStorage.userRatingRemindMeLaterDate = nil
-                    keyValueStorage.userRatingShowProductListBanner = true
                 }
 
                 context("new install") {
@@ -87,9 +83,6 @@ class RatingManagerSpec: QuickSpec {
                     }
                     it("should show rating") {
                         expect(sut.shouldShowRating) == true
-                    }
-                    it("should not show rating banner at product list") {
-                        expect(sut.shouldShowRatingProductListBanner) == false
                     }
                 }
                 context("new session") {
@@ -108,9 +101,6 @@ class RatingManagerSpec: QuickSpec {
                     it("should show rating") {
                         expect(sut.shouldShowRating) == true
                     }
-                    it("should show rating banner at product list") {
-                        expect(sut.shouldShowRatingProductListBanner) == true
-                    }
                 }
                 context("major update") {
                     beforeEach {
@@ -127,9 +117,6 @@ class RatingManagerSpec: QuickSpec {
                     }
                     it("should show rating") {
                         expect(sut.shouldShowRating) == true
-                    }
-                    it("should not show rating banner at product list") {
-                        expect(sut.shouldShowRatingProductListBanner) == false
                     }
                 }
                 context("minor update") {
@@ -148,9 +135,6 @@ class RatingManagerSpec: QuickSpec {
                     it("should show rating") {
                         expect(sut.shouldShowRating) == true
                     }
-                    it("should not show rating banner at product list") {
-                        expect(sut.shouldShowRatingProductListBanner) == false
-                    }
                 }
                 context("patch update") {
                     beforeEach {
@@ -168,9 +152,6 @@ class RatingManagerSpec: QuickSpec {
                     it("should show rating") {
                         expect(sut.shouldShowRating) == true
                     }
-                    it("should show rating banner at product list") {
-                        expect(sut.shouldShowRatingProductListBanner) == true
-                    }
                 }
             }
 
@@ -178,7 +159,6 @@ class RatingManagerSpec: QuickSpec {
                 beforeEach {
                     keyValueStorage.userRatingAlreadyRated = false
                     keyValueStorage.userRatingRemindMeLaterDate = NSDate.distantPast()
-                    keyValueStorage.userRatingShowProductListBanner = true
                 }
 
                 context("new install") {
@@ -196,9 +176,6 @@ class RatingManagerSpec: QuickSpec {
                     }
                     it("should show rating") {
                         expect(sut.shouldShowRating) == true
-                    }
-                    it("should not show rating banner at product list") {
-                        expect(sut.shouldShowRatingProductListBanner) == false
                     }
                 }
                 context("new session") {
@@ -217,9 +194,6 @@ class RatingManagerSpec: QuickSpec {
                     it("should show rating") {
                         expect(sut.shouldShowRating) == true
                     }
-                    it("should show rating banner at product list") {
-                        expect(sut.shouldShowRatingProductListBanner) == true
-                    }
                 }
                 context("major update") {
                     beforeEach {
@@ -236,9 +210,6 @@ class RatingManagerSpec: QuickSpec {
                     }
                     it("should show rating") {
                         expect(sut.shouldShowRating) == true
-                    }
-                    it("should not show rating banner at product list") {
-                        expect(sut.shouldShowRatingProductListBanner) == false
                     }
                 }
                 context("minor update") {
@@ -257,9 +228,6 @@ class RatingManagerSpec: QuickSpec {
                     it("should show rating") {
                         expect(sut.shouldShowRating) == true
                     }
-                    it("should not show rating banner at product list") {
-                        expect(sut.shouldShowRatingProductListBanner) == false
-                    }
                 }
                 context("patch update") {
                     beforeEach {
@@ -277,9 +245,6 @@ class RatingManagerSpec: QuickSpec {
                     it("should show rating") {
                         expect(sut.shouldShowRating) == true
                     }
-                    it("should show rating banner at product list") {
-                        expect(sut.shouldShowRatingProductListBanner) == true
-                    }
                 }
             }
 
@@ -287,7 +252,6 @@ class RatingManagerSpec: QuickSpec {
                 beforeEach {
                     keyValueStorage.userRatingAlreadyRated = true
                     keyValueStorage.userRatingRemindMeLaterDate = nil
-                    keyValueStorage.userRatingShowProductListBanner = false
                 }
 
                 context("new install") {
@@ -306,9 +270,6 @@ class RatingManagerSpec: QuickSpec {
                     it("should show rating") {
                         expect(sut.shouldShowRating) == true
                     }
-                    it("should not show rating banner at product list") {
-                        expect(sut.shouldShowRatingProductListBanner) == false
-                    }
                 }
                 context("new session") {
                     beforeEach {
@@ -325,9 +286,6 @@ class RatingManagerSpec: QuickSpec {
                     }
                     it("should not show rating") {
                         expect(sut.shouldShowRating) == false
-                    }
-                    it("should not show rating banner at product list") {
-                        expect(sut.shouldShowRatingProductListBanner) == false
                     }
                 }
                 context("major update") {
@@ -346,9 +304,6 @@ class RatingManagerSpec: QuickSpec {
                     it("should show rating") {
                         expect(sut.shouldShowRating) == true
                     }
-                    it("should not show rating banner at product list") {
-                        expect(sut.shouldShowRatingProductListBanner) == false
-                    }
                 }
                 context("minor update") {
                     beforeEach {
@@ -365,9 +320,6 @@ class RatingManagerSpec: QuickSpec {
                     }
                     it("should show rating") {
                         expect(sut.shouldShowRating) == true
-                    }
-                    it("should not show rating banner at product list") {
-                        expect(sut.shouldShowRatingProductListBanner) == false
                     }
                 }
                 context("patch update") {
@@ -386,9 +338,6 @@ class RatingManagerSpec: QuickSpec {
                     it("should show not rating") {
                         expect(sut.shouldShowRating) == false
                     }
-                    it("should not show rating banner at product list") {
-                        expect(sut.shouldShowRatingProductListBanner) == false
-                    }
                 }
             }
 
@@ -405,15 +354,9 @@ class RatingManagerSpec: QuickSpec {
                 it("updates already rated in storage") {
                     expect(keyValueStorage.userRatingAlreadyRated) == true
                 }
-                it("should not show rating banner at product list") {
-                    expect(sut.shouldShowRatingProductListBanner) == false
-                }
-                it("should not show rating banner at product list") {
-                    expect(sut.shouldShowRatingProductListBanner) == false
-                }
             }
 
-            describe("user did remind later, source is not the banner") {
+            describe("user did remind later") {
                 beforeEach {
                     keyValueStorage.userRatingRemindMeLaterDate = nil
 
@@ -421,32 +364,10 @@ class RatingManagerSpec: QuickSpec {
                     crashManager = CrashManager(appCrashed: false, versionChange: versionChange)
                     sut = RatingManager(keyValueStorage: keyValueStorage, crashManager: crashManager,
                         versionChange: versionChange)
-                    sut.userDidRemindLater(sourceIsBanner: false)
+                    sut.userDidRemindLater()
                 }
                 it("updates remind me later in storage") {
                     expect(keyValueStorage.userRatingRemindMeLaterDate).notTo(beNil())
-                }
-                it("should show rating banner at product list") {
-                    expect(sut.shouldShowRatingProductListBanner) == true
-                }
-            }
-
-            describe("user did remind later, source is not the banner") {
-                var date: NSDate!
-
-                beforeEach {
-                    date = NSDate.distantFuture()
-
-                    keyValueStorage.userRatingRemindMeLaterDate = date
-
-                    let versionChange = VersionChange.None
-                    crashManager = CrashManager(appCrashed: false, versionChange: versionChange)
-                    sut = RatingManager(keyValueStorage: keyValueStorage, crashManager: crashManager,
-                        versionChange: versionChange)
-                    sut.userDidRemindLater(sourceIsBanner: true)
-                }
-                it("does not update remind me later date in storage") {
-                    expect(keyValueStorage.userRatingRemindMeLaterDate) == date
                 }
             }
         }

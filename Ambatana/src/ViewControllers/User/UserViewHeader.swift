@@ -142,7 +142,6 @@ class UserViewHeader: UIView {
 
     override func layoutSubviews() {
         super.layoutSubviews()
-
         if mode.showSelling {
             let currentWidth = sellingButtonWidthConstraint.multiplier * frame.width
             let halfWidth = 0.5 * frame.width
@@ -150,7 +149,6 @@ class UserViewHeader: UIView {
         } else {
             sellingButtonWidthConstraint.constant = 0
         }
-
         updateUI()
     }
 }
@@ -327,6 +325,7 @@ extension UserViewHeader {
     }
 
     private func updateUserAvatarView() {
+        layoutIfNeeded()
         let width = min(avatarImageView.bounds.width, avatarImageView.bounds.height)
         let path = UIBezierPath(arcCenter: CGPointMake(avatarImageView.bounds.midX, avatarImageView.bounds.midY),
                                 radius: width / 2, startAngle: CGFloat(0.0), endAngle: CGFloat(M_PI * 2.0),

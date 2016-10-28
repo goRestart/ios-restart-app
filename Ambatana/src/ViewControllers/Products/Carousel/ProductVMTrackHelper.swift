@@ -106,7 +106,7 @@ extension ProductVMTrackHelper {
     }
 
     func trackMarkSoldCompleted(source: EventParameterSellSourceValue) {
-        let trackerEvent = TrackerEvent.productMarkAsSold(source, product: product)
+        let trackerEvent = TrackerEvent.productMarkAsSold(source, product: product, freePostingMode: FeatureFlags.freePostingMode)
         tracker.trackEvent(trackerEvent)
     }
 
@@ -130,23 +130,27 @@ extension ProductVMTrackHelper {
         tracker.trackEvent(trackerEvent)
     }
 
-    func trackDirectMessageSent() {
+    func trackDirectMessageSent(shouldSendFirstMessageEvent: Bool) {
         let messageType = EventParameterMessageType.Text
-        let askQuestionEvent = TrackerEvent.productAskQuestion(product, messageType: messageType,
-                                                               typePage: .ProductDetail)
-        tracker.trackEvent(askQuestionEvent)
+        if shouldSendFirstMessageEvent {
+            let firstMessageEvent = TrackerEvent.firstMessage(product, messageType: messageType,
+                                                                   typePage: .ProductDetail)
+            tracker.trackEvent(firstMessageEvent)
+        }
         let messageSentEvent = TrackerEvent.userMessageSent(product, userTo: product.user,
-                                                            messageType: messageType, isQuickAnswer: .False)
+                                                            messageType: messageType, isQuickAnswer: .False, typePage: .ProductDetail)
         tracker.trackEvent(messageSentEvent)
     }
 
-    func trackDirectStickerSent(favorite: Bool) {
+    func trackDirectStickerSent(shouldSendFirstMessageEvent: Bool, favorite: Bool) {
         let messageType = favorite ? EventParameterMessageType.Favorite : EventParameterMessageType.Sticker
-        let askQuestionEvent = TrackerEvent.productAskQuestion(product, messageType: messageType,
-                                                               typePage: .ProductDetail)
-        tracker.trackEvent(askQuestionEvent)
+        if shouldSendFirstMessageEvent {
+            let firstMessageEvent = TrackerEvent.firstMessage(product, messageType: messageType,
+                                                             typePage: .ProductDetail)
+            tracker.trackEvent(firstMessageEvent)
+        }
         let messageSentEvent = TrackerEvent.userMessageSent(product, userTo: product.user,
-                                                            messageType: messageType, isQuickAnswer: .False)
+                                                            messageType: messageType, isQuickAnswer: .False, typePage: .ProductDetail)
         tracker.trackEvent(messageSentEvent)
     }
 

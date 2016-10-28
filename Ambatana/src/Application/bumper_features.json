@@ -9,11 +9,6 @@
 		"values": ["No", "Yes"],
 		"description": "Notifications Section"
 	},
-	{
-		"name": "UserRatings",
-		"values": ["No", "Yes"],
-		"description": "User Ratings"
-	},
     {
 		"name": "ShowNPSSurvey",
 		"values": ["No", "Yes"],

@@ -63,7 +63,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     // MARK: > Public data
     
     var fromMakeOffer = false
-    var askQuestion: AskQuestionSource?
+    
     
     // MARK: > Controller data
     
@@ -163,10 +163,14 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         switch chatStatus {
         case .Forbidden, .UserDeleted, .UserPendingDelete, .ProductDeleted, .ProductSold:
             return true
-        case .Blocked, .BlockedBy, .Available:
+        case  .Available:
+            return sellerDidntAnswer
+        case .Blocked, .BlockedBy:
             return false
         }
     }
+
+    var sellerDidntAnswer: Bool = false
 
     var chatEnabled: Bool {
         switch chatStatus {
@@ -255,7 +259,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     private let tracker: Tracker
     private let configManager: ConfigManager
     private let sessionManager: SessionManager
-
+    private var shouldSendFirstMessageEvent: Bool = false
     private var chat: Chat
     private var product: Product
     private var isDeleted = false
@@ -617,14 +621,13 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         chatRepository.sendMessage(type, message: message, product: product, recipient: toUser) { [weak self] result in
             guard let strongSelf = self else { return }
             if let sentMessage = result.value, let adapter = self?.chatViewMessageAdapter {
-                if let askQuestion = strongSelf.askQuestion {
-                    strongSelf.askQuestion = nil
-                    strongSelf.trackQuestion(askQuestion, type: type)
-                }
                 let viewMessage = adapter.adapt(sentMessage)
                 strongSelf.loadedMessages.insert(viewMessage, atIndex: 0)
                 strongSelf.delegate?.vmDidSucceedSendingMessage(0)
-
+                if strongSelf.shouldSendFirstMessageEvent {
+                    strongSelf.shouldSendFirstMessageEvent = false
+                    strongSelf.trackFirstMessage(type)
+                }
                 strongSelf.trackMessageSent(isQuickAnswer, type: type)
                 strongSelf.afterSendMessageEvents()
             } else if let error = result.error {
@@ -735,7 +738,6 @@ public class OldChatViewModel: BaseViewModel, Paginable {
             guard let strongSelf = self else { return }
             if let chat = result.value {
                 strongSelf.chat = chat
-                
                 let chatMessages = chat.messages.map(strongSelf.chatViewMessageAdapter.adapt)
                 let newChatMessages = strongSelf.chatViewMessageAdapter
                     .addDisclaimers(chatMessages, disclaimerMessage: strongSelf.messageSuspiciousDisclaimerMessage)
@@ -746,6 +748,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
                 strongSelf.delegate?.vmUpdateAfterReceivingMessagesAtPositions(insertedMessagesInfo.indexes,
                                                                                isUpdate: insertedMessagesInfo.isUpdate)
                 strongSelf.afterRetrieveChatMessagesEvents()
+                strongSelf.checkSellerDidntAnswer(chat.messages, page: strongSelf.firstPage)
             }
             strongSelf.isLoading = false
         }
@@ -937,27 +940,19 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     
     // MARK: Tracking
     
-    private func trackQuestion(source: AskQuestionSource, type: MessageType) {
+    private func trackFirstMessage(type: MessageType) {
         // only track ask question if I didn't send any previous message
         guard !didSendMessage else { return }
-        let typePageParam: EventParameterTypePage
-        switch source {
-        case .ProductDetail:
-            typePageParam = .ProductDetail
-        case .ProductList:
-            typePageParam = .ProductList
-        }
-
         let sellerRating: Float? = isBuyer ? otherUser?.ratingAverage : myUserRepository.myUser?.ratingAverage
-        let askQuestionEvent = TrackerEvent.productAskQuestion(product, messageType: type.trackingMessageType,
-                                                               typePage: typePageParam, sellerRating: sellerRating)
-        tracker.trackEvent(askQuestionEvent)
+        let firstMessageEvent = TrackerEvent.firstMessage(product, messageType: type.trackingMessageType,
+                                                               typePage: .Chat, sellerRating: sellerRating)
+        tracker.trackEvent(firstMessageEvent)
     }
     
     private func trackMessageSent(isQuickAnswer: Bool, type: MessageType) {
         let messageSentEvent = TrackerEvent.userMessageSent(product, userTo: otherUser,
                                                             messageType: type.trackingMessageType,
-                                                            isQuickAnswer: isQuickAnswer ? .True : .False)
+                                                            isQuickAnswer: isQuickAnswer ? .True : .False, typePage: .Chat)
         tracker.trackEvent(messageSentEvent)
     }
     
@@ -985,13 +980,13 @@ public class OldChatViewModel: BaseViewModel, Paginable {
                 strongSelf.isLastPage = chat.messages.count < strongSelf.resultsPerPage
                 strongSelf.chat = chat
                 strongSelf.nextPage = page + 1
-
                 strongSelf.updateLoadedMessages(newMessages: chat.messages, page: page)
 
                 if strongSelf.chatStatus == .Forbidden {
                     strongSelf.showScammerDisclaimerMessage()
                     strongSelf.delegate?.vmUpdateChatInteraction(false)
                 } else {
+                    strongSelf.checkSellerDidntAnswer(chat.messages, page: page)
                     strongSelf.delegate?.vmDidRefreshChatMessages()
                     strongSelf.afterRetrieveChatMessagesEvents()
                 }
@@ -1000,7 +995,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
                 case .NotFound:
                     //The chat doesn't exist yet, so this must be a new conversation -> this is success
                     strongSelf.isLastPage = true
-
+                    strongSelf.shouldSendFirstMessageEvent = true
                     strongSelf.updateLoadedMessages(newMessages: [], page: page)
 
                     strongSelf.delegate?.vmDidRefreshChatMessages()
@@ -1037,6 +1032,33 @@ public class OldChatViewModel: BaseViewModel, Paginable {
             delegate?.vmShowSafetyTips()
         }
         delegate?.vmUpdateUserIsReadyToReview()
+    }
+
+    private func checkSellerDidntAnswer(messages: [Message], page: Int) {
+        guard page == firstPage else { return }
+        guard !isMyProduct else { return }
+
+        guard let myUserId = myUserRepository.myUser?.objectId else { return }
+        guard let oldestMessageDate = messages.last?.createdAt else { return }
+
+        let calendar = NSCalendar.currentCalendar()
+
+        guard let twoDaysAgo = calendar.dateByAddingUnit(.Day, value: -2, toDate: NSDate(), options: []) else { return }
+        let recentSellerMessages = messages.filter { $0.userId != myUserId && $0.createdAt?.compare(twoDaysAgo) == .OrderedDescending }
+
+        /*
+         Cases when we consider the seller didn't answer:
+         - Seller didn't answer in the last 48h (recentSellerMessages is empty)
+         AND either:
+            - the oldest message in the first page is also from more than 48h ago (oldestMessageDate > twoDaysAgo)
+            OR:
+            - the first page is full (this case covers the super eager buyer who sent 20 messages in less than 48h and
+              didn't got any answer. We show him the related items too)
+         */
+        sellerDidntAnswer = recentSellerMessages.isEmpty &&
+            (oldestMessageDate.compare(twoDaysAgo) == .OrderedAscending || messages.count == Constants.numMessagesPerPage)
+
+        checkShowRelatedProducts()
     }
 }
 
@@ -1164,13 +1186,15 @@ private extension OldChatViewModel {
 extension OldChatViewModel: RelatedProductsViewDelegate {
 
     func relatedProductsViewDidShow(view: RelatedProductsView) {
-        tracker.trackEvent(TrackerEvent.chatRelatedItemsStart())
+        let relatedShownReason = EventParameterRelatedShownReason(chatInfoStatus: chatStatus)
+        tracker.trackEvent(TrackerEvent.chatRelatedItemsStart(relatedShownReason))
     }
 
     func relatedProductsView(view: RelatedProductsView, showProduct product: Product, atIndex index: Int,
                              productListModels: [ProductCellModel], requester: ProductListRequester,
                              thumbnailImage: UIImage?, originFrame: CGRect?) {
-        tracker.trackEvent(TrackerEvent.chatRelatedItemsComplete(index))
+        let relatedShownReason = EventParameterRelatedShownReason(chatInfoStatus: chatStatus)
+        tracker.trackEvent(TrackerEvent.chatRelatedItemsComplete(index, shownReason: relatedShownReason))
         let data = ProductDetailData.ProductList(product: product, cellModels: productListModels, requester: requester,
                                                  thumbnailImage: thumbnailImage, originFrame: originFrame,
                                                  showRelated: false, index: 0)

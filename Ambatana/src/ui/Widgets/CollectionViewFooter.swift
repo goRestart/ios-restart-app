@@ -12,7 +12,7 @@ public enum CollectionViewFooterStatus {
     case Loading, Error, LastPage
 }
 
-public class CollectionViewFooter: UICollectionReusableView {
+public class CollectionViewFooter: UICollectionReusableView, ReusableCell {
 
     // iVars
     // > UI

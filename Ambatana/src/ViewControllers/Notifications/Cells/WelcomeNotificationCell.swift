@@ -34,7 +34,7 @@ class WelcomeNotificationCell: UITableViewCell, ReusableCell {
 
     private func setupUI() {
         cellContainer.clipsToBounds = true
-        cellContainer.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
+        cellContainer.layer.cornerRadius = LGUIKitConstants.notificationCellCornerRadius
 
         titleLabel.font = UIFont.notificationTitleFont
         subtitleLabel.font = UIFont.notificationSubtitleFont
@@ -48,6 +48,6 @@ class WelcomeNotificationCell: UITableViewCell, ReusableCell {
 
     private func refreshState() {
         let highlighedState = self.highlighted || self.selected
-        cellContainer.backgroundColor = highlighedState ? UIColor.grayLighter : UIColor.white
+        cellContainer.alpha = highlighedState ? 0.6 : 1.0
     }
 }

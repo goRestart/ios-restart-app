@@ -70,9 +70,9 @@ class ChatViewModel: BaseViewModel {
     var interlocutorId = Variable<String?>(nil)
     var stickers = Variable<[Sticker]>([])
     var keyForTextCaching: String { return userDefaultsSubKey }
-    var askQuestion: AskQuestionSource?
     var relatedProducts: [Product] = []
-
+    var shouldTrackFirstMessage: Bool = false
+    
     private var shouldShowSafetyTips: Bool {
         return !KeyValueStorage.sharedInstance.userChatSafetyTipsShown && didReceiveMessageFromOtherUser
     }
@@ -127,6 +127,7 @@ class ChatViewModel: BaseViewModel {
     let relatedProductsEnabled = Variable<Bool>(false)
     let interlocutorTyping = Variable<Bool>(false)
     let messages = CollectionVariable<ChatViewMessage>([])
+    private let sellerDidntAnswer = Variable<Bool>(false)
     private let conversation: Variable<ChatConversation>
     private var interlocutor: User?
     private let myMessagesCount = Variable<Int>(0)
@@ -154,7 +155,7 @@ class ChatViewModel: BaseViewModel {
     private var productId: String? // Only used when accessing a chat from a product
     private var preSendMessageCompletion: ((text: String, isQuickAnswer: Bool, type: ChatMessageType) -> Void)?
     private var afterRetrieveMessagesCompletion: (() -> Void)?
-    
+
     private let disposeBag = DisposeBag()
     
     private var userDefaultsSubKey: String {
@@ -305,7 +306,6 @@ class ChatViewModel: BaseViewModel {
         conversation.asObservable().subscribeNext { [weak self] conversation in
             self?.chatStatus.value = conversation.chatStatus
             self?.chatEnabled.value = conversation.chatEnabled
-            self?.relatedProductsEnabled.value = conversation.relatedProductsEnabled
             self?.interlocutorIsMuted.value = conversation.interlocutor?.isMuted ?? false
             self?.interlocutorHasMutedYou.value = conversation.interlocutor?.hasMutedYou ?? false
             self?.title.value = conversation.product?.name ?? ""
@@ -334,6 +334,10 @@ class ChatViewModel: BaseViewModel {
             self?.delegate?.vmShowRelatedProducts(enabled ? self?.conversation.value.product?.objectId : nil)
         }.addDisposableTo(disposeBag)
 
+        let relatedProductsConversation = conversation.asObservable().map { $0.relatedProductsEnabled }
+        Observable.combineLatest(relatedProductsConversation, sellerDidntAnswer.asObservable()) { $0 || $1 }
+            .bindTo(relatedProductsEnabled).addDisposableTo(disposeBag)
+
         let cfgManager = configManager
         let myMessagesReviewable = myMessagesCount.asObservable()
             .map { $0 >= cfgManager.myMessagesCountForRating }
@@ -354,6 +358,10 @@ class ChatViewModel: BaseViewModel {
             .subscribeNext { [weak self] (stickersTooltipVisible, reviewTooltipVisible) in
             self?.userReviewTooltipVisible.value = !stickersTooltipVisible && reviewTooltipVisible
         }.addDisposableTo(disposeBag)
+        
+        conversation.asObservable().map{$0.lastMessageSentAt == nil}.bindNext{ [weak self] result in
+            self?.shouldTrackFirstMessage = result
+            }.addDisposableTo(disposeBag)
 
         setupChatEventsRx()
     }
@@ -554,16 +562,17 @@ extension ChatViewModel {
         messages.insert(viewMessage, atIndex: 0)
         chatRepository.sendMessage(convId, messageId: messageId, type: newMessage.type, text: text) {
             [weak self] result in
+            guard let strongSelf = self else { return }
             if let _ = result.value {
                 guard let id = newMessage.objectId else { return }
-                self?.markMessageAsSent(id)
-                self?.afterSendMessageEvents()
-                self?.trackMessageSent(isQuickAnswer, type: type)
-
-                if let askQuestion = self?.askQuestion {
-                    self?.askQuestion = nil
-                    self?.trackQuestion(askQuestion, type: type)
+                strongSelf.markMessageAsSent(id)
+                strongSelf.afterSendMessageEvents()
+                if strongSelf.shouldTrackFirstMessage {
+                        strongSelf.trackFirstMessage(type)
+                        strongSelf.shouldTrackFirstMessage = false
                 }
+                strongSelf.trackMessageSent(isQuickAnswer, type: type)
+                
             } else if let error = result.error {
                 // TODO: 🎪 Create an "errored" state for Chat Message so we can retry
                 switch error {
@@ -643,6 +652,8 @@ extension ChatViewModel {
         let viewMessage = chatViewMessageAdapter.adapt(message).markAsSent().markAsReceived().markAsRead()
         messages.insert(viewMessage, atIndex: 0)
         chatRepository.confirmRead(convId, messageIds: [messageId], completion: nil)
+        guard isBuyer else { return }
+        sellerDidntAnswer.value = false
     }
 }
 
@@ -861,10 +872,10 @@ extension ChatViewModel {
             strongSelf.isLoading = false
             if let value = result.value {
                 self?.isLastPage = value.count == 0
-
                 strongSelf.messages.removeAll()
                 strongSelf.updateMessages(newMessages: value, isFirstPage: true)
                 strongSelf.afterRetrieveChatMessagesEvents()
+                strongSelf.checkSellerDidntAnswer(value)
             } else if let _ = result.error {
                 strongSelf.delegate?.vmDidFailRetrievingChatMessages()
             }
@@ -925,6 +936,30 @@ extension ChatViewModel {
 
         afterRetrieveMessagesCompletion?()
     }
+
+    private func checkSellerDidntAnswer(messages: [ChatMessage]) {
+        guard isBuyer else { return }
+
+        guard let myUserId = myUserRepository.myUser?.objectId else { return }
+        guard let oldestMessageDate = messages.last?.sentAt else { return }
+
+        let calendar = NSCalendar.currentCalendar()
+
+        guard let twoDaysAgo = calendar.dateByAddingUnit(.Day, value: -2, toDate: NSDate(), options: []) else { return }
+        let recentSellerMessages = messages.filter { $0.talkerId != myUserId && $0.sentAt?.compare(twoDaysAgo) == .OrderedDescending }
+
+        /*
+         Cases when we consider the seller didn't answer:
+         - Seller didn't answer in the last 48h (recentSellerMessages is empty)
+         AND either:
+            - the oldest message in the first page is also from more than 48h ago (oldestMessageDate > twoDaysAgo)
+            OR:
+            - the first page is full (this case covers the super eager buyer who sent 20 messages in less than 48h and
+            didn't got any answer. We show him the related items too)
+         */
+        sellerDidntAnswer.value = recentSellerMessages.isEmpty &&
+            (oldestMessageDate.compare(twoDaysAgo) == .OrderedAscending || messages.count == Constants.numMessagesPerPage)
+    }
 }
 
 
@@ -974,25 +1009,18 @@ private extension ChatViewModel {
 
 private extension ChatViewModel {
     
-    private func trackQuestion(source: AskQuestionSource, type: ChatMessageType) {
+    private func trackFirstMessage(type: ChatMessageType) {
         // only track ask question if I didn't send any message previously
         guard !didSendMessage else { return }
-        let typePageParam: EventParameterTypePage
-        switch source {
-        case .ProductDetail:
-            typePageParam = .ProductDetail
-        case .ProductList:
-            typePageParam = .ProductList
-        }
         guard let product = conversation.value.product else { return }
         guard let userId = conversation.value.interlocutor?.objectId else { return }
 
         let sellerRating = conversation.value.amISelling ?
             myUserRepository.myUser?.ratingAverage : interlocutor?.ratingAverage
-        let askQuestionEvent = TrackerEvent.productAskQuestion(product, messageType: type.trackingMessageType,
-                                                               interlocutorId: userId, typePage: typePageParam,
+        let firstMessageEvent = TrackerEvent.firstMessage(product, messageType: type.trackingMessageType,
+                                                               interlocutorId: userId, typePage: .Chat,
                                                                sellerRating: sellerRating)
-        TrackerProxy.sharedInstance.trackEvent(askQuestionEvent)
+        TrackerProxy.sharedInstance.trackEvent(firstMessageEvent)
     }
 
     private func trackMessageSent(isQuickAnswer: Bool, type: ChatMessageType) {
@@ -1000,7 +1028,7 @@ private extension ChatViewModel {
         guard let userId = conversation.value.interlocutor?.objectId else { return }
         let messageSentEvent = TrackerEvent.userMessageSent(product, userToId: userId,
                                                             messageType: type.trackingMessageType,
-                                                            isQuickAnswer: isQuickAnswer ? .True : .False)
+                                                            isQuickAnswer: isQuickAnswer ? .True : .False, typePage: .Chat)
         TrackerProxy.sharedInstance.trackEvent(messageSentEvent)
     }
     
@@ -1059,7 +1087,7 @@ private extension ChatConversation {
     var relatedProductsEnabled: Bool {
         switch chatStatus {
         case .Forbidden,  .UserPendingDelete, .UserDeleted, .ProductDeleted, .ProductSold:
-            return true
+            return !amISelling
         case .Available, .Blocked, .BlockedBy:
             return false
         }
@@ -1170,13 +1198,15 @@ private extension ChatViewModel {
 extension ChatViewModel: RelatedProductsViewDelegate {
 
     func relatedProductsViewDidShow(view: RelatedProductsView) {
-        tracker.trackEvent(TrackerEvent.chatRelatedItemsStart())
+        let relatedShownReason = EventParameterRelatedShownReason(chatInfoStatus: chatStatus.value)
+        tracker.trackEvent(TrackerEvent.chatRelatedItemsStart(relatedShownReason))
     }
 
     func relatedProductsView(view: RelatedProductsView, showProduct product: Product, atIndex index: Int,
                              productListModels: [ProductCellModel], requester: ProductListRequester,
                              thumbnailImage: UIImage?, originFrame: CGRect?) {
-        tracker.trackEvent(TrackerEvent.chatRelatedItemsComplete(index))
+        let relatedShownReason = EventParameterRelatedShownReason(chatInfoStatus: chatStatus.value)
+        tracker.trackEvent(TrackerEvent.chatRelatedItemsComplete(index, shownReason: relatedShownReason))
         let data = ProductDetailData.ProductList(product: product, cellModels: productListModels, requester: requester,
                                                  thumbnailImage: thumbnailImage, originFrame: originFrame,
                                                  showRelated: false, index: 0)

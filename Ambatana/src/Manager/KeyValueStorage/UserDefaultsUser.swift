@@ -16,7 +16,6 @@ struct UserDefaultsUser {
     static let chatShowDirectAnswersDefaultValue = [String:Bool]()
     static let ratingAlreadyRatedDefaultValue = false
     static let ratingRemindMeLaterDateDefaultValue: NSDate? = nil
-    static let ratingShowProductListBannerDefaultValue = false
     static let postProductLastGalleryAlbumSelectedDefaultValue: String? = nil
     static let postProductLastTabSelectedDefaultValue = 1
     static let postProductPostedPreviouslyDefaultValue = false
@@ -32,7 +31,6 @@ struct UserDefaultsUser {
     var chatShowDirectAnswers: [String:Bool] // <id>: <value>
     var ratingAlreadyRated: Bool
     var ratingRemindMeLaterDate: NSDate?
-    var ratingShowProductListBanner: Bool
     var postProductLastGalleryAlbumSelected: String?
     var postProductLastTabSelected: Int
     var postProductPostedPreviously: Bool
@@ -48,7 +46,6 @@ struct UserDefaultsUser {
         let chatSafetyTipsShown = UserDefaultsUser.chatSafetyTipsShownDefaultValue
         let ratingAlreadyRated = UserDefaultsUser.ratingAlreadyRatedDefaultValue
         let ratingRemindMeLaterDate = UserDefaultsUser.ratingRemindMeLaterDateDefaultValue
-        let ratingShowProductListBanner = UserDefaultsUser.ratingShowProductListBannerDefaultValue
         let chatShowDirectAnswers = UserDefaultsUser.chatShowDirectAnswersDefaultValue
         let postProductLastGalleryAlbumSelected = UserDefaultsUser.postProductLastGalleryAlbumSelectedDefaultValue
         let postProductLastTabSelected = UserDefaultsUser.postProductLastTabSelectedDefaultValue
@@ -61,8 +58,7 @@ struct UserDefaultsUser {
 
         self.init(appShared: appShared, userLocationApproximate: userLocationApproximate,
                   chatSafetyTipsShown: chatSafetyTipsShown, ratingAlreadyRated: ratingAlreadyRated,
-                  ratingRemindMeLaterDate: ratingRemindMeLaterDate,
-                  ratingShowProductListBanner: ratingShowProductListBanner, chatShowDirectAnswers: chatShowDirectAnswers,
+                  ratingRemindMeLaterDate: ratingRemindMeLaterDate, chatShowDirectAnswers: chatShowDirectAnswers,
                   postProductLastGalleryAlbumSelected: postProductLastGalleryAlbumSelected,
                   postProductLastTabSelected: postProductLastTabSelected, postProductPostedPreviously: postProductPostedPreviously,
                   commercializersPending: commercializersPending,
@@ -73,7 +69,7 @@ struct UserDefaultsUser {
     }
 
     init(appShared: Bool, userLocationApproximate: Bool, chatSafetyTipsShown: Bool, ratingAlreadyRated: Bool,
-         ratingRemindMeLaterDate: NSDate?, ratingShowProductListBanner: Bool, chatShowDirectAnswers: [String: Bool],
+         ratingRemindMeLaterDate: NSDate?, chatShowDirectAnswers: [String: Bool],
          postProductLastGalleryAlbumSelected: String?, postProductLastTabSelected: Int, postProductPostedPreviously: Bool,
          commercializersPending: [String:[String]], trackingProductSellComplete24hTracked: Bool,
          shouldShowCommercializerAfterPosting: Bool, shouldShowExpressChat: Bool, productsWithExpressChatAlreadyShown: [String]) {
@@ -82,7 +78,6 @@ struct UserDefaultsUser {
         self.chatSafetyTipsShown = chatSafetyTipsShown
         self.ratingAlreadyRated = ratingAlreadyRated
         self.ratingRemindMeLaterDate = ratingRemindMeLaterDate
-        self.ratingShowProductListBanner = ratingShowProductListBanner
         self.chatShowDirectAnswers = chatShowDirectAnswers
         self.postProductLastGalleryAlbumSelected = postProductLastGalleryAlbumSelected
         self.postProductLastTabSelected = postProductLastTabSelected
@@ -112,8 +107,6 @@ extension UserDefaultsUser: UserDefaultsDecodable {
                                                    defaultValue: UserDefaultsUser.ratingAlreadyRatedDefaultValue)
         let ratingRemindMeLaterDate: NSDate? = dictionary.decode(UserDefaultsUserKey.RatingRemindMeLaterDate.rawValue,
                                                                  defaultValue: UserDefaultsUser.ratingRemindMeLaterDateDefaultValue)
-        let ratingShowProductListBanner = dictionary.decode(UserDefaultsUserKey.RatingShowProductListBanner.rawValue,
-                                                            defaultValue: UserDefaultsUser.ratingShowProductListBannerDefaultValue)
         let postProductLastGalleryAlbumSelected: String? = dictionary.decode(UserDefaultsUserKey.PostProductLastGalleryAlbumSelected.rawValue,
                                                                              defaultValue: UserDefaultsUser.postProductLastGalleryAlbumSelectedDefaultValue)
         let postProductLastTabSelected = dictionary.decode(UserDefaultsUserKey.PostProductLastTabSelected.rawValue,
@@ -132,7 +125,6 @@ extension UserDefaultsUser: UserDefaultsDecodable {
         return UserDefaultsUser(appShared: appShared, userLocationApproximate: userLocationApproximate,
                                 chatSafetyTipsShown: chatSafetyTipsShown, ratingAlreadyRated: ratingAlreadyRated,
                                 ratingRemindMeLaterDate: ratingRemindMeLaterDate,
-                                ratingShowProductListBanner: ratingShowProductListBanner,
                                 chatShowDirectAnswers: chatShowDirectAnswers,
                                 postProductLastGalleryAlbumSelected: postProductLastGalleryAlbumSelected,
                                 postProductLastTabSelected: postProductLastTabSelected,
@@ -155,7 +147,6 @@ extension UserDefaultsUser: UserDefaultsDecodable {
             dict.encode(UserDefaultsUserKey.RatingRemindMeLaterDate.rawValue, value: ratingRemindMeLaterDate)
         }
         dict.encode(UserDefaultsUserKey.RatingAlreadyRated.rawValue, value: ratingAlreadyRated)
-        dict.encode(UserDefaultsUserKey.RatingShowProductListBanner.rawValue, value: ratingShowProductListBanner)
         if let postProductLastGalleryAlbumSelected = postProductLastGalleryAlbumSelected {
             dict.encode(UserDefaultsUserKey.PostProductLastGalleryAlbumSelected.rawValue, value: postProductLastGalleryAlbumSelected)
         }
@@ -184,7 +175,6 @@ private enum UserDefaultsUserKey: String {
 
     case RatingAlreadyRated = "alreadyRated"
     case RatingRemindMeLaterDate = "remindMeLater"
-    case RatingShowProductListBanner = "ratingShowProductListBanner"
 
     case PostProductLastGalleryAlbumSelected = "lastGalleryAlbumSelected"
     case PostProductLastTabSelected = "lastPostProductTabSelected"

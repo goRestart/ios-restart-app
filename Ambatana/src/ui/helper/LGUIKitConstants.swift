@@ -37,12 +37,13 @@ struct LGUIKitConstants {
 
     // Max Widths
     static let alertWidth = 270
-    static let tooltipWidth = 270
+    static let tooltipWidth: CGFloat = 270
 
 
     // MARK: - Corner radius
     static let defaultCornerRadius: CGFloat = 4
     static let productCellCornerRadius: CGFloat = 10
+    static let notificationCellCornerRadius: CGFloat = 10
     static let tooltipCornerRadius: CGFloat = 10
     static let chatCellCornerRadius: CGFloat = 10
     static let textfieldCornerRadius: CGFloat = 10

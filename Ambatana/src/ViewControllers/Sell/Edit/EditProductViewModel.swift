@@ -353,7 +353,9 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
         if shareInFbChanged() {
             editedFields.append(.Share)
         }
-
+        if initialProduct.price.free != product.price.free {
+            editedFields.append(.FreePosting)
+        }
         return editedFields
     }
 

@@ -520,6 +520,9 @@
 // Common collapse
 "common_collapse" = "Show Less";
 
+// Common copy
+"common_copy" = "Copy";
+
 // Common error
 "common_error" = "Error";
 
@@ -561,6 +564,9 @@
 
 // Common ok
 "common_ok" = "OK";
+
+// Common or
+"common_or" = "OR";
 
 // Common product not available.
 "common_product_not_available" = "This product is no longer available.";
@@ -949,13 +955,7 @@
 "notifications_title" = "Notifications";
 
 // User likes your product
-"notifications_type_like" = "favorited your product";
-
-// User likes your product
 "notifications_type_like_w_name" = "%@ favorited your product";
-
-// User likes your product
-"notifications_type_like_w_title" = "favorited your product: \"%@\"";
 
 // User likes your product
 "notifications_type_like_w_name_w_title" = "%@ favorited your product: \"%@\"";
@@ -967,16 +967,22 @@
 "notifications_type_sold" = "A product you favorited has been sold";
 
 // User sold a product you favorited
-"notifications_type_sold_w_title" = "Has sold \"%@\"";
+"notifications_type_sold_button" = "Check out the product";
 
-// User sold a product you favorited
-"notifications_type_sold_button" = "See related";
+// User has rated you
+"notifications_type_rating" = "%@ has reviewed you";
+
+// User has rated you
+"notifications_type_rating_button" = "See your reviews";
+
+// User has updated your rating
+"notifications_type_rating_updated" = "%@ has updated your review";
 
 // Welcome notification subtitle
-"notifications_type_welcome_subtitle" = "Get started by posting your first item for sale and browse cool stuff near you.";
+"notifications_type_welcome_subtitle" = "Make money selling what you don't need and find great deals nearby.";
 
 // Welcome notification subtitle
-"notifications_type_welcome_subtitle_w_city" = "Get started by posting your first item for sale and browse cool stuff in %@.";
+"notifications_type_welcome_subtitle_w_city" = "Make money selling what you don't need and find great deals in %@.";
 
 // Welcome notification title
 "notifications_type_welcome_title" = "Welcome to letgo!";
@@ -1141,7 +1147,7 @@
 "product_free_price" = "Free";
 
 // Product mark as ready to give away button
-"product_sell_again_free_button" = "Mark it as available again";
+"product_sell_again_free_button" = "Mark as available";
 
 // Cancel
 "product_sell_again_free_confirm_cancel_button" = "Cancel";
@@ -1463,6 +1469,12 @@
 
 // Error shown when the photo library access is restricted in the Device
 "product_sell_photolibrary_restricted_error" = "Access to your Photo Library is restricted. Please check your settings and try again.";
+
+// Title for fullscreen share view
+"product_share_fullscreen_title" = "SHARING IS WINNING!";
+
+// Subtitle for fullscreen share view
+"product_share_fullscreen_subtitle" = "Did you know that those who share their products are 100% more likely to be awesome?";
 
 // Share on product detail 
 "product_share_navbar_button" = "Share";

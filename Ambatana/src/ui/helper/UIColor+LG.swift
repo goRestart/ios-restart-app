@@ -209,7 +209,7 @@ extension UIColor {
 // MARK: > pattern colors
 
 extension UIColor {
-    static var ratingBannerBackgroundColor: UIColor? {
+    static var ratingViewBackgroundColor: UIColor? {
         guard let patternImage = UIImage(named: "pattern_red") else { return nil }
         return UIColor(patternImage: patternImage)
     }

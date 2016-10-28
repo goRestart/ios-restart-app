@@ -41,6 +41,7 @@ protocol TabNavigator: class {
     func openVerifyAccounts(types: [VerificationType], source: VerifyAccountsSource, completionBlock: (() -> Void)?)
     func openAppInvite()
     func canOpenAppInvite() -> Bool
+    func openRatingList(userId: String)
 }
 
 protocol ProductDetailNavigator: TabNavigator {
