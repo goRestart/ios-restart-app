@@ -104,7 +104,6 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
         self.viewModel = viewModel
         super.init(viewModel: viewModel, nibName: "EditProductViewController")
         self.viewModel.delegate = self
-        automaticallyAdjustsScrollViewInsets = false
     }
     
     required init?(coder: NSCoder) {
@@ -544,12 +543,10 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
             self?.updateButtonBottomConstraint.constant = viewHeight - origin
             UIView.animateWithDuration(Double(animationTime)) {
                 strongSelf.view.layoutIfNeeded()
-                if origin < previousKbOrigin {
-                    if let active = strongSelf.activeField {
-                        var frame = active.frame
-                        frame.top = frame.top + strongSelf.containerEditOptionsView.top
-                        strongSelf.scrollView.scrollRectToVisible(frame, animated: false)
-                    }
+                if let active = strongSelf.activeField where origin < previousKbOrigin {
+                    var frame = active.frame
+                    frame.top = frame.top + strongSelf.containerEditOptionsView.top
+                    strongSelf.scrollView.scrollRectToVisible(frame, animated: false)
                 }
                 previousKbOrigin = origin
                 }
