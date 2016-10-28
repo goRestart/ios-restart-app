@@ -174,7 +174,6 @@ extension UserViewModel {
     }
 
     func ratingsButtonPressed() {
-        guard FeatureFlags.userRatings else { return }
         openRatings()
     }
 
@@ -438,10 +437,8 @@ extension UserViewModel {
             }
             strongSelf.userAvatarURL.value = user?.avatar?.fileURL
 
-            if FeatureFlags.userRatings {
-                strongSelf.userRatingAverage.value = user?.ratingAverage?.roundNearest(0.5)
-                strongSelf.userRatingCount.value = user?.ratingCount
-            }
+            strongSelf.userRatingAverage.value = user?.ratingAverage?.roundNearest(0.5)
+            strongSelf.userRatingCount.value = user?.ratingCount
 
             strongSelf.userName.value = user?.name
             strongSelf.userLocation.value = user?.postalAddress.cityCountryString
