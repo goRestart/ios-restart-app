@@ -750,9 +750,6 @@ public class OldChatViewModel: BaseViewModel, Paginable {
                 strongSelf.afterRetrieveChatMessagesEvents()
                 strongSelf.checkSellerDidntAnswer(chat.messages, page: strongSelf.firstPage)
             }
-            else {
-                strongSelf.shouldSendFirstMessageEvent = true
-            }
             strongSelf.isLoading = false
         }
     }
