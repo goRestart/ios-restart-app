@@ -172,6 +172,7 @@
 "common_cancel" = "Abbrechen";
 "common_chat_not_available" = "Hoppla! Gespräch nicht gefunden.";
 "common_collapse" = "Weniger anzeigen";
+"common_copy" = "Copy";
 "common_error" = "Fehler";
 "common_error_connection_failed" = "Ein Fehler ist aufgetreten. Bitte überprüfe deine Internetverbindung.";
 "common_error_generic_body" = "Ein Fehler ist aufgetreten.";
@@ -186,6 +187,7 @@
 "common_next" = "Weiter";
 "common_no" = "Nein";
 "common_ok" = "OK";
+"common_or" = "OR";
 "common_product_not_available" = "Das Produkt ist nicht mehr verfügbar.";
 "common_product_sold" = "Dieses Produkt wurde verkauft.";
 "common_settings" = "Einstellungen";
@@ -320,8 +322,11 @@
 "notifications_type_like_button" = "Schau dir das Profil an";
 "notifications_type_like_w_name" = "%@ hat dein Produkt als Favorit markiert";
 "notifications_type_like_w_name_w_title" = "%@ hat dein Produkt als Favorit markiert: \"%@\"";
+"notifications_type_rating" = "%@ has reviewed you";
+"notifications_type_rating_button" = "See your reviews";
+"notifications_type_rating_updated" = "%@ has updated your review";
 "notifications_type_sold" = "Ein Produkt aus deinen Favoriten wurde verkauft";
-"notifications_type_sold_button" = "Ähnliche Produkte anschauen";
+"notifications_type_sold_button" = "Ähnliches Produkt anschauen";
 "notifications_type_welcome_button" = "Fange an zu verkaufen!";
 "notifications_type_welcome_subtitle" = "Leg los und stelle dein erstes Produkt ein oder schau dir tolle Sachen in deiner Nähe an.";
 "notifications_type_welcome_subtitle_w_city" = "Leg los und stelle dein erstes Produkt ein oder schau dir tolle Sachen in %@ an.";
@@ -331,8 +336,8 @@
 "nps_survey_title" = "WIR MÖCHTEN GERNE WISSEN...";
 "nps_survey_very_bad" = "Unwahrscheinlich";
 "nps_survey_very_good" = "Sehr wahrscheinlich";
-"onboarding_direct_camera_alert_subtitle" = "Post your first product and start selling to people near you";
-"onboarding_direct_camera_alert_title" = "Start Making Cash!";
+"onboarding_direct_camera_alert_subtitle" = "Stelle dein erstes Produkt ein und verkaufe es an Leute aus deiner Gegend";
+"onboarding_direct_camera_alert_title" = "Verdiene bares Geld!";
 "onboarding_login_skip" = "Überspringen";
 "onboarding_posting_button_a" = "Verkaufe deine Dinge";
 "onboarding_posting_button_b" = "Leg los";
@@ -491,6 +496,8 @@
 "product_share_body" = "Schau mal, was ich gerade auf letgo gefunden habe!";
 "product_share_copylink_ok" = "Der Link wurde kopiert!";
 "product_share_email_error" = "Hoppla! Du scheinst kein Konto in der Mail-App eingerichtet zu haben.";
+"product_share_fullscreen_subtitle" = "Did you know that those who share their products are 100% more likely to be awesome?";
+"product_share_fullscreen_title" = "SHARING IS WINNING!";
 "product_share_generic_error" = "Beim Teilen des Produkts ist ein Fehler aufgetreten. Bitte versuche es später noch mal.";
 "product_share_generic_ok" = "Produkt erfolgreich geteilt!";
 "product_share_navbar_button" = "Teilen";

@@ -172,6 +172,7 @@
 "common_cancel" = "Отмена";
 "common_chat_not_available" = "Упс! Чат не найден.";
 "common_collapse" = "Скрыть";
+"common_copy" = "Copy";
 "common_error" = "Ошибка";
 "common_error_connection_failed" = "Произошла ошибка. Проверьте ваше соединение с Интернет.";
 "common_error_generic_body" = "Произошла ошибка.";
@@ -186,6 +187,7 @@
 "common_next" = "Далее";
 "common_no" = "Нет";
 "common_ok" = "OK";
+"common_or" = "OR";
 "common_product_not_available" = "Этот товар больше не доступен.";
 "common_product_sold" = "Это товар уже продан.";
 "common_settings" = "Настройки";
@@ -320,6 +322,9 @@
 "notifications_type_like_button" = "Проверить профиль";
 "notifications_type_like_w_name" = "%@ добавил ваш товар в избранное";
 "notifications_type_like_w_name_w_title" = "%@ добавил ваш товар в избранное: \"%@\"";
+"notifications_type_rating" = "%@ has reviewed you";
+"notifications_type_rating_button" = "See your reviews";
+"notifications_type_rating_updated" = "%@ has updated your review";
 "notifications_type_sold" = "Товар из вашего избранного продан";
 "notifications_type_sold_button" = "Посмотреть похожее";
 "notifications_type_welcome_button" = "Начинайте продавать";
@@ -331,8 +336,8 @@
 "nps_survey_title" = "МЫ БЫ ХОТЕЛИ ЗНАТЬ ...";
 "nps_survey_very_bad" = "Маловероятно";
 "nps_survey_very_good" = "Очень вероятно";
-"onboarding_direct_camera_alert_subtitle" = "Post your first product and start selling to people near you";
-"onboarding_direct_camera_alert_title" = "Start Making Cash!";
+"onboarding_direct_camera_alert_subtitle" = "Опубликуйте свой первый товар и начинайте продавать";
+"onboarding_direct_camera_alert_title" = "Начинайте получать деньги!";
 "onboarding_login_skip" = "Пропустить";
 "onboarding_posting_button_a" = "Продать свои вещи";
 "onboarding_posting_button_b" = "Старт";
@@ -491,6 +496,8 @@
 "product_share_body" = "Посмотрите, что я нашел на letgo!";
 "product_share_copylink_ok" = "Ссылка скопирована!";
 "product_share_email_error" = "Упс, похоже, вы не создали аккаунт в почтовом приложении.";
+"product_share_fullscreen_subtitle" = "Did you know that those who share their products are 100% more likely to be awesome?";
+"product_share_fullscreen_title" = "SHARING IS WINNING!";
 "product_share_generic_error" = "При размещении товара произошла ошибка. Пожалуйста, попробуйте еще раз позже.";
 "product_share_generic_ok" = "Товар успешно размещен!";
 "product_share_navbar_button" = "Поделиться";

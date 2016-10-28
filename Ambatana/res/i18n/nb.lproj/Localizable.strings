@@ -172,6 +172,7 @@
 "common_cancel" = "Avbryt";
 "common_chat_not_available" = "Oops! Kunne ikke finne chat.";
 "common_collapse" = "Vis mindre";
+"common_copy" = "Copy";
 "common_error" = "Feil";
 "common_error_connection_failed" = "En feil har oppstått. Vennligst sjekk din internett-tilkobling.";
 "common_error_generic_body" = "En feil oppstod.";
@@ -186,6 +187,7 @@
 "common_next" = "Neste";
 "common_no" = "Nei";
 "common_ok" = "Ok";
+"common_or" = "OR";
 "common_product_not_available" = "Produktet er ikke tilgjengelig lenger.";
 "common_product_sold" = "Dette produktet er solgt.";
 "common_settings" = "Innstillinger";
@@ -320,8 +322,11 @@
 "notifications_type_like_button" = "Se profilen deres";
 "notifications_type_like_w_name" = "%@ favoriserte ditt produkt";
 "notifications_type_like_w_name_w_title" = "%@ favoriserte ditt produkt: \"%@\"";
+"notifications_type_rating" = "%@ has reviewed you";
+"notifications_type_rating_button" = "See your reviews";
+"notifications_type_rating_updated" = "%@ has updated your review";
 "notifications_type_sold" = "Et produkt du favoriserte ble solgt";
-"notifications_type_sold_button" = "Se ting som relaterer";
+"notifications_type_sold_button" = "Se produktet";
 "notifications_type_welcome_button" = "Start salget";
 "notifications_type_welcome_subtitle" = "Kom i gang ved å publisere ditt første produkt for salg og bla gjennom flotte produkter i ditt nærområde.";
 "notifications_type_welcome_subtitle_w_city" = "Kom i gang ved å publisere ditt første produkt for salg og bla gjennom flotte produkter i %@.";
@@ -331,8 +336,8 @@
 "nps_survey_title" = "VI ØNSKER Å VITE...";
 "nps_survey_very_bad" = "Ikke sannsynlig";
 "nps_survey_very_good" = "Ekstremt sannsynlig";
-"onboarding_direct_camera_alert_subtitle" = "Post your first product and start selling to people near you";
-"onboarding_direct_camera_alert_title" = "Start Making Cash!";
+"onboarding_direct_camera_alert_subtitle" = "Publiser ditt første produkt og sett i gang å selge til personer i ditt nærområde";
+"onboarding_direct_camera_alert_title" = "Begynn inntjeningen!";
 "onboarding_login_skip" = "Hopp over";
 "onboarding_posting_button_a" = "Selg dine ting";
 "onboarding_posting_button_b" = "Kom i gang";
@@ -491,6 +496,8 @@
 "product_share_body" = "Se hva jeg fant på letgo!";
 "product_share_copylink_ok" = "Din lenke er kopiert!";
 "product_share_email_error" = "Oops! Det ser ut som at du ikke har satt opp en konto i din Epost app.";
+"product_share_fullscreen_subtitle" = "Did you know that those who share their products are 100% more likely to be awesome?";
+"product_share_fullscreen_title" = "SHARING IS WINNING!";
 "product_share_generic_error" = "En feil oppstod ved deling av produktet. Vennligst prøv igjen senere.";
 "product_share_generic_ok" = "Deling av produkt var vellykket!";
 "product_share_navbar_button" = "Del";

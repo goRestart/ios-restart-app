@@ -172,6 +172,7 @@
 "common_cancel" = "Peruuta";
 "common_chat_not_available" = "Hups! Keskustelu ei saatavilla.";
 "common_collapse" = "Näytä vähemmän";
+"common_copy" = "Copy";
 "common_error" = "Virhe";
 "common_error_connection_failed" = "Tapahtui virhe. Ole hyvä ja tarkista Internet-yhteytesi.";
 "common_error_generic_body" = "Tapahtui virhe.";
@@ -186,6 +187,7 @@
 "common_next" = "Seuraava";
 "common_no" = "Ei";
 "common_ok" = "OK";
+"common_or" = "OR";
 "common_product_not_available" = "Tämä tuote ei ole enää saatavilla.";
 "common_product_sold" = "Tämä tuote on myyty.";
 "common_settings" = "Asetukset";
@@ -320,8 +322,11 @@
 "notifications_type_like_button" = "Käy katsomassa käyttäjän profiili";
 "notifications_type_like_w_name" = "%@ merkitsi tuotteesi suosikikseen";
 "notifications_type_like_w_name_w_title" = "%@ merkitsi tuotteesi \"%@\" suosikikseen";
+"notifications_type_rating" = "%@ has reviewed you";
+"notifications_type_rating_button" = "See your reviews";
+"notifications_type_rating_updated" = "%@ has updated your review";
 "notifications_type_sold" = "Suosikiksesi merkitsemäsi tuote on myyty";
-"notifications_type_sold_button" = "Katso vastaavat";
+"notifications_type_sold_button" = "Katso tuote";
 "notifications_type_welcome_button" = "Aloita myyminen";
 "notifications_type_welcome_subtitle" = "Aloita julkaisemalla ensimmäinen tuotteesi myytäväksi ja selaa lähelläsi olevia siistejä tavaroita.";
 "notifications_type_welcome_subtitle_w_city" = "Aloita julkaisemalla ensimmäinen tuotteesi myytäväksi ja selaa siistejä tavaroita kaupungissa %@.";
@@ -331,8 +336,8 @@
 "nps_survey_title" = "HALUAISIMME TIETÄÄ...";
 "nps_survey_very_bad" = "En kovin todennäköisesti";
 "nps_survey_very_good" = "Erittäin todennäköisesti";
-"onboarding_direct_camera_alert_subtitle" = "Post your first product and start selling to people near you";
-"onboarding_direct_camera_alert_title" = "Start Making Cash!";
+"onboarding_direct_camera_alert_subtitle" = "Julkaise ensimmäinen tuotteesi ja aloita lähistöllä oleville ihmisille myyminen";
+"onboarding_direct_camera_alert_title" = "Aloita tienaaminen!";
 "onboarding_login_skip" = "Ohita";
 "onboarding_posting_button_a" = "Myy tavarasi";
 "onboarding_posting_button_b" = "Aloita";
@@ -491,6 +496,8 @@
 "product_share_body" = "Katso mitä juuri löysin letgosta!";
 "product_share_copylink_ok" = "Linkki kopioitu!";
 "product_share_email_error" = "Hups! Näyttää siltä, että et ole asettanut tiliä sähköpostisovellukseen.";
+"product_share_fullscreen_subtitle" = "Did you know that those who share their products are 100% more likely to be awesome?";
+"product_share_fullscreen_title" = "SHARING IS WINNING!";
 "product_share_generic_error" = "Tuotetta jaettaessa tapahtui virhe. Ole hyvä ja yritä myöhemmin uudelleen.";
 "product_share_generic_ok" = "Tuote jaettiin onnistuneesti!";
 "product_share_navbar_button" = "Jaa";

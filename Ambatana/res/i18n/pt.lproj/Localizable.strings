@@ -172,6 +172,7 @@
 "common_cancel" = "Cancel";
 "common_chat_not_available" = "Oops! Chat not found.";
 "common_collapse" = "Show Less";
+"common_copy" = "Copy";
 "common_error" = "Error";
 "common_error_connection_failed" = "An error has occurred. Please check your Internet connection.";
 "common_error_generic_body" = "An error occurred.";
@@ -186,6 +187,7 @@
 "common_next" = "Next";
 "common_no" = "No";
 "common_ok" = "OK";
+"common_or" = "OR";
 "common_product_not_available" = "This product is no longer available.";
 "common_product_sold" = "This product has been sold.";
 "common_settings" = "Settings";
@@ -320,11 +322,14 @@
 "notifications_type_like_button" = "Check out their profile";
 "notifications_type_like_w_name" = "%@ favorited your product";
 "notifications_type_like_w_name_w_title" = "%@ favorited your product: \"%@\"";
+"notifications_type_rating" = "%@ has reviewed you";
+"notifications_type_rating_button" = "See your reviews";
+"notifications_type_rating_updated" = "%@ has updated your review";
 "notifications_type_sold" = "A product you favorited has been sold";
-"notifications_type_sold_button" = "See related";
+"notifications_type_sold_button" = "Check out the product";
 "notifications_type_welcome_button" = "Start selling";
-"notifications_type_welcome_subtitle" = "Get started by posting your first item for sale and browse cool stuff near you.";
-"notifications_type_welcome_subtitle_w_city" = "Get started by posting your first item for sale and browse cool stuff in %@.";
+"notifications_type_welcome_subtitle" = "Make money selling what you don't need and find great deals nearby.";
+"notifications_type_welcome_subtitle_w_city" = "Make money selling what you don't need and find great deals in %@.";
 "notifications_type_welcome_title" = "Welcome to letgo!";
 "notifications_user_wo_name" = "A user";
 "nps_survey_subtitle" = "From 1 to 10, how likely are you to recommend letgo to a friend?";
@@ -477,7 +482,7 @@
 "product_sell_again_confirm_ok_button" = "Sell It Again";
 "product_sell_again_confirm_title" = "Sell It Again";
 "product_sell_again_error_generic" = "An error occurred while marking your product as available. Please try again later.";
-"product_sell_again_free_button" = "Mark it as available again";
+"product_sell_again_free_button" = "Mark as available";
 "product_sell_again_free_confirm_cancel_button" = "Cancel";
 "product_sell_again_free_confirm_message" = "Mark your product as available so all letgo users know";
 "product_sell_again_free_confirm_ok_button" = "Give Away";
@@ -491,6 +496,8 @@
 "product_share_body" = "Look what I just found on letgo!";
 "product_share_copylink_ok" = "Your link has been copied!";
 "product_share_email_error" = "Oops! You don't seem to have an account set up in the Mail app.";
+"product_share_fullscreen_subtitle" = "Did you know that those who share their products are 100% more likely to be awesome?";
+"product_share_fullscreen_title" = "SHARING IS WINNING!";
 "product_share_generic_error" = "An error occurred while sharing the product. Please try again later.";
 "product_share_generic_ok" = "Product successfully shared!";
 "product_share_navbar_button" = "Share";
