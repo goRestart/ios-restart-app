@@ -70,9 +70,9 @@ class ChatProductView: UIView {
     }
 
     func showReviewButton(showButton: Bool, withTooltip: Bool) {
-        userName.hidden = showButton && FeatureFlags.userRatings
-        reviewButton.hidden = !showButton || !FeatureFlags.userRatings
-        if showButton && withTooltip && FeatureFlags.userRatings {
+        userName.hidden = showButton
+        reviewButton.hidden = !showButton
+        if showButton && withTooltip {
             showUserRatingTooltip()
         }
     }
