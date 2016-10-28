@@ -68,8 +68,16 @@ class NotificationsManager {
     }
 
     func updateCounters() {
-        updateChatCounters()
-        updateNotificationsCounters()
+        requestChatCounters()
+        requestNotificationCounters()
+    }
+
+    func updateChatCounters() {
+        requestChatCounters()
+    }
+
+    func updateNotificationCounters() {
+        requestNotificationCounters()
     }
 
     // MARK: - Private
@@ -89,11 +97,11 @@ class NotificationsManager {
                     return false
                 }
             }.bindNext{ [weak self] event in
-                self?.updateChatCounters()
+                self?.requestChatCounters()
             }.addDisposableTo(disposeBag)
         } else {
             DeepLinksRouter.sharedInstance.chatDeepLinks.bindNext { [weak self] _ in
-                self?.updateChatCounters()
+                self?.requestChatCounters()
             }.addDisposableTo(disposeBag)
         }
     }
@@ -111,7 +119,7 @@ class NotificationsManager {
         updateCounters()
     }
 
-    private func updateChatCounters() {
+    private func requestChatCounters() {
         guard sessionManager.loggedIn && !requestingChat else { return }
         requestingChat = true
 
@@ -130,7 +138,7 @@ class NotificationsManager {
         }
     }
 
-    private func updateNotificationsCounters() {
+    private func requestNotificationCounters() {
         guard FeatureFlags.notificationsSection && sessionManager.loggedIn && !requestingNotifications else { return }
         requestingNotifications = true
         notificationsRepository.unreadNotificationsCount() { [weak self] result in
