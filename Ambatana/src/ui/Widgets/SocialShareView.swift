@@ -57,15 +57,7 @@ class SocialShareView: UIView {
     var socialMessage: SocialMessage?
     var shareTypes = SocialShareView.defaultShareTypes
 
-    private let facade = SocialShareFacade()
-    weak var facadeDelegate: SocialShareFacadeDelegate? {
-        get {
-            return facade.delegate
-        }
-        set {
-            facade.delegate = newValue
-        }
-    }
+    var facade: SocialShareFacade?
 
     private let containerView = UIView()
     private let disposeBag = DisposeBag()
@@ -169,7 +161,7 @@ class SocialShareView: UIView {
             guard let socialMessage = strongSelf.socialMessage else { return }
             guard let viewController = strongSelf.delegate?.viewController() else { return }
 
-            strongSelf.facade.share(socialMessage, shareType: .SMS, viewController: viewController)
+            strongSelf.facade?.share(socialMessage, shareType: .SMS, viewController: viewController)
         }
     }
     
@@ -179,7 +171,7 @@ class SocialShareView: UIView {
             guard let socialMessage = strongSelf.socialMessage else { return }
             guard let viewController = strongSelf.delegate?.viewController() else { return }
 
-            strongSelf.facade.share(socialMessage, shareType: .Facebook, viewController: viewController)
+            strongSelf.facade?.share(socialMessage, shareType: .Facebook, viewController: viewController)
         }
     }
 
@@ -189,7 +181,7 @@ class SocialShareView: UIView {
             guard let socialMessage = strongSelf.socialMessage else { return }
             guard let viewController = strongSelf.delegate?.viewController() else { return }
 
-            strongSelf.facade.share(socialMessage, shareType: .Twitter, viewController: viewController)
+            strongSelf.facade?.share(socialMessage, shareType: .Twitter, viewController: viewController)
         }
     }
 
@@ -199,7 +191,7 @@ class SocialShareView: UIView {
             guard let socialMessage = strongSelf.socialMessage else { return }
             guard let viewController = strongSelf.delegate?.viewController() else { return }
 
-            strongSelf.facade.share(socialMessage, shareType: .FBMessenger, viewController: viewController)
+            strongSelf.facade?.share(socialMessage, shareType: .FBMessenger, viewController: viewController)
         }
     }
 
@@ -209,7 +201,7 @@ class SocialShareView: UIView {
             guard let socialMessage = strongSelf.socialMessage else { return }
             guard let viewController = strongSelf.delegate?.viewController() else { return }
 
-            strongSelf.facade.share(socialMessage, shareType: .Whatsapp, viewController: viewController)
+            strongSelf.facade?.share(socialMessage, shareType: .Whatsapp, viewController: viewController)
         }
     }
 
@@ -219,7 +211,7 @@ class SocialShareView: UIView {
             guard let socialMessage = strongSelf.socialMessage else { return }
             guard let viewController = strongSelf.delegate?.viewController() else { return }
 
-            strongSelf.facade.share(socialMessage, shareType: .Telegram, viewController: viewController)
+            strongSelf.facade?.share(socialMessage, shareType: .Telegram, viewController: viewController)
         }
     }
 
@@ -229,7 +221,7 @@ class SocialShareView: UIView {
             guard let socialMessage = strongSelf.socialMessage else { return }
             guard let viewController = strongSelf.delegate?.viewController() else { return }
 
-            strongSelf.facade.share(socialMessage, shareType: .Email, viewController: viewController)
+            strongSelf.facade?.share(socialMessage, shareType: .Email, viewController: viewController)
         }
     }
     
@@ -239,7 +231,7 @@ class SocialShareView: UIView {
             guard let socialMessage = strongSelf.socialMessage else { return }
             guard let viewController = strongSelf.delegate?.viewController() else { return }
 
-            strongSelf.facade.share(socialMessage, shareType: .CopyLink, viewController: viewController)
+            strongSelf.facade?.share(socialMessage, shareType: .CopyLink, viewController: viewController)
         }
     }
 
@@ -250,7 +242,7 @@ class SocialShareView: UIView {
             guard let socialMessage = strongSelf.socialMessage else { return }
             guard let viewController = strongSelf.delegate?.viewController() else { return }
 
-            strongSelf.facade.share(socialMessage, shareType: .Native, viewController: viewController)
+            strongSelf.facade?.share(socialMessage, shareType: .Native, viewController: viewController)
         }
     }
 
@@ -330,126 +322,3 @@ class SocialShareView: UIView {
         }
     }
 }
-
-
-//// MARK: - FBSDKSharingDelegate
-//
-//extension SocialShareView: FBSDKSharingDelegate {
-//
-//    func sharer(sharer: FBSDKSharing!, didCompleteWithResults results: [NSObject : AnyObject]!) {
-//
-//        switch (sharer.type) {
-//        case .Facebook:
-//            delegate?.shareInFacebookFinished(.Completed)
-//        case .FBMessenger:
-//            // Messenger always calls didCompleteWithResults, if it works,
-//            // will include the key "completionGesture" in the results dict
-//            if let _ = results["completionGesture"] {
-//                delegate?.shareInFBMessengerFinished(.Completed)
-//            } else {
-//                delegate?.shareInFBMessengerFinished(.Cancelled)
-//            }
-//        case .Unknown:
-//            break
-//        }
-//    }
-//
-//    func sharer(sharer: FBSDKSharing!, didFailWithError error: NSError!) {
-//        switch (sharer.type) {
-//        case .Facebook:
-//            delegate?.shareInFacebookFinished(.Failed)
-//        case .FBMessenger:
-//            delegate?.shareInFBMessengerFinished(.Failed)
-//        case .Unknown:
-//            break
-//        }
-//    }
-//
-//    func sharerDidCancel(sharer: FBSDKSharing!) {
-//        switch (sharer.type) {
-//        case .Facebook:
-//            delegate?.shareInFacebookFinished(.Cancelled)
-//        case .FBMessenger:
-//            delegate?.shareInFBMessengerFinished(.Cancelled)
-//        case .Unknown:
-//            break
-//        }
-//    }
-//}
-//
-//
-//// MARK: - MFMailComposeViewControllerDelegate
-//
-//extension SocialShareView: MFMailComposeViewControllerDelegate {
-//    func mailComposeController(controller: MFMailComposeViewController, didFinishWithResult result: MFMailComposeResult,
-//                               error: NSError?) {
-//        var message: String? = nil
-//        switch result {
-//        case .Failed:
-//            message = LGLocalizedString.productShareEmailError
-//            delegate?.shareInEmailFinished(.Failed)
-//        case .Sent:
-//            message = LGLocalizedString.productShareGenericOk
-//            delegate?.shareInEmailFinished(.Completed)
-//        case .Cancelled:
-//            delegate?.shareInEmailFinished(.Cancelled)
-//        case .Saved:
-//            break
-//        }
-//
-//        controller.dismissViewControllerAnimated(true, completion: { [weak self] in
-//            guard let message = message else { return }
-//            self?.delegate?.viewController()?.showAutoFadingOutMessageAlert(message)
-//        })
-//    }
-//}
-//
-//
-//// MARK: - MFMessageComposeViewControllerDelegate
-//
-//extension SocialShareView: MFMessageComposeViewControllerDelegate {
-//    func messageComposeViewController(controller: MFMessageComposeViewController,
-//                                      didFinishWithResult result: MessageComposeResult) {
-//        var message: String? = nil
-//        switch result {
-//        case .Failed:
-//            message = LGLocalizedString.productShareSmsError
-//            delegate?.shareInSMSFinished(.Failed)
-//        case .Sent:
-//            message = LGLocalizedString.productShareSmsOk
-//            delegate?.shareInSMSFinished(.Completed)
-//        case .Cancelled:
-//            delegate?.shareInSMSFinished(.Cancelled)
-//        }
-//        controller.dismissViewControllerAnimated(true, completion: { [weak self] in
-//            guard let message = message else { return }
-//            self?.delegate?.viewController()?.showAutoFadingOutMessageAlert(message)
-//            })
-//    }
-//}
-//
-//
-//// MARK: - TwitterShareDelegate
-//
-//extension SocialShareView: TwitterShareDelegate {
-//    
-//    func twitterShareCancelled() {
-//        delegate?.shareInTwitterFinished(.Cancelled)
-//    }
-//
-//    func twitterShareSuccess() {
-//        delegate?.shareInTwitterFinished(.Completed)
-//    }
-//}
-
-
-
-
-//// MARK: - SocialShareFacadeDelegate
-//
-//
-//extension SocialShareView: SocialShareFacadeDelegate {
-//    func shareIn(shareType: ShareType, finishedWithState state: SocialShareState) {
-//
-//    }
-//}

@@ -69,6 +69,7 @@ class ProductViewModel: BaseViewModel {
     let viewsCount = Variable<Int>(0)
     let favouritesCount = Variable<Int>(0)
     let socialMessage = Variable<SocialMessage?>(nil)
+    let facade: SocialShareFacade
 
     // UI - Output
     let thumbnailImage: UIImage?
@@ -187,6 +188,7 @@ class ProductViewModel: BaseViewModel {
          product: Product, thumbnailImage: UIImage?, navigator: ProductDetailNavigator?,
          bubbleManager: BubbleNotificationManager, interestedBubbleManager: InterestedBubbleManager) {
         self.product = Variable<Product>(product)
+        self.facade = SocialShareFacade()
         self.thumbnailImage = thumbnailImage
         self.myUserRepository = myUserRepository
         self.productRepository = productRepository
@@ -229,6 +231,7 @@ class ProductViewModel: BaseViewModel {
 
         super.init()
 
+        facade.delegate = self
         setupRxBindings()
     }
     
@@ -533,6 +536,11 @@ extension ProductViewModel {
         showInterestedBubbleForProduct(productId)
         trackHelper.trackInterestedUsersBubble(othersFavCount, productId: productId)
         showInterestedBubble.value = false
+    }
+
+    func openShare(shareType: ShareType, fromViewController: UIViewController, barButtonItem: UIBarButtonItem? = nil) {
+        guard let socialMessage = socialMessage.value else { return }
+        facade.share(socialMessage, shareType: shareType, viewController: fromViewController, barButtonItem: barButtonItem)
     }
 }
 

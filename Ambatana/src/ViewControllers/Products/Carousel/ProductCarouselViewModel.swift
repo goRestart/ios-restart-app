@@ -222,10 +222,14 @@ class ProductCarouselViewModel: BaseViewModel {
         guard let socialMessage = currentProductViewModel?.socialMessage.value else { return }
         navigator?.openFullScreenShare(shareFacadeDelegate, socialMessage: socialMessage)
     }
-    
+
+    func openShare(shareType: ShareType, fromViewController: UIViewController, barButtonItem: UIBarButtonItem? = nil) {
+        currentProductViewModel?.openShare(shareType, fromViewController: fromViewController)
+    }
+
     // MARK: - Private Methods
     
-    func getOrCreateViewModel(product: Product) -> ProductViewModel? {
+    private func getOrCreateViewModel(product: Product) -> ProductViewModel? {
         guard let productId = product.objectId else { return nil }
         if let vm = productsViewModels[productId] {
             return vm

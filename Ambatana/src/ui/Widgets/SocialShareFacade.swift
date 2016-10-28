@@ -21,7 +21,8 @@ class SocialShareFacade: NSObject {
 // MARK: - Public methods
 
 extension SocialShareFacade {
-    func share(socialMessage: SocialMessage, shareType: ShareType, viewController: UIViewController) {
+    func share(socialMessage: SocialMessage, shareType: ShareType,
+               viewController: UIViewController, barButtonItem: UIBarButtonItem? = nil) {
         guard shareType.canShare else {
             delegate?.shareFinishedIn(shareType, withState: .Failed)
             return
@@ -49,8 +50,7 @@ extension SocialShareFacade {
         case .SMS:
             SocialHelper.shareOnSMS(socialMessage, viewController: viewController, delegate: self)
         case .Native:
-            // TODO: !!
-            break
+            shareNative(socialMessage, viewController: viewController, barButtonItem: barButtonItem)
         }
     }
 }
@@ -155,5 +155,71 @@ extension SocialShareFacade: TwitterShareDelegate {
 
     func twitterShareSuccess() {
         delegate?.shareFinishedIn(.Twitter, withState: .Completed)
+    }
+}
+
+
+// MARK: - Private methods
+
+private extension SocialShareFacade {
+    func shareNative(socialMessage: SocialMessage, viewController: UIViewController, barButtonItem: UIBarButtonItem? = nil) {
+        guard let activityItems = socialMessage.nativeShareItems else { return }
+        let shareVC = UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
+        // hack for eluding the iOS8 "LaunchServices: invalidationHandler called" bug from Apple.
+        // src: http://stackoverflow.com/questions/25759380/launchservices-invalidationhandler-called-ios-8-share-sheet
+        if shareVC.respondsToSelector(Selector("popoverPresentationController")) {
+            let presentationController = shareVC.popoverPresentationController
+            if let item = barButtonItem {
+                presentationController?.barButtonItem = item
+            } else {
+                presentationController?.sourceView = viewController.view
+            }
+        }
+
+        shareVC.completionWithItemsHandler = { [weak self] (activity, success, items, error) in
+            guard let strongSelf = self else { return }
+            let shareType: ShareType
+            if let activity = activity {
+                switch activity {
+                case UIActivityTypePostToFacebook:
+                    shareType = .Facebook
+                case UIActivityTypePostToTwitter:
+                    shareType = .Twitter
+                case UIActivityTypeMail:
+                    shareType = .Email
+                case UIActivityTypeCopyToPasteboard:
+                    shareType = .CopyLink
+                default:
+                    if let _ = activity.rangeOfString("whatsapp") {
+                        shareType = .Whatsapp
+                    } else {
+                        shareType = .Native
+                    }
+                }
+            } else {
+                shareType = .Native
+            }
+
+            // Comment left here as a clue to manage future activities
+            /*   SAMPLES OF SHARING RESULTS VIA ACTIVITY VC
+
+             println("Activity: \(activity) Success: \(success) Items: \(items) Error: \(error)")
+
+             Activity: com.apple.UIKit.activity.PostToFacebook Success: true Items: nil Error: nil
+             Activity: net.whatsapp.WhatsApp.ShareExtension Success: true Items: nil Error: nil
+             Activity: com.apple.UIKit.activity.Mail Success: true Items: nil Error: nil
+             Activity: com.apple.UIKit.activity.PostToTwitter Success: true Items: nil Error: nil
+             */
+            if success {
+                strongSelf.delegate?.shareFinishedIn(shareType, withState: .Completed)
+            } else if let _  = error {
+                strongSelf.delegate?.shareFinishedIn(shareType, withState: .Failed)
+            } else {
+                strongSelf.delegate?.shareFinishedIn(shareType, withState: .Cancelled)
+            }
+        }
+        viewController.presentViewController(shareVC, animated: true) { [weak self] in
+            self?.delegate?.shareStartedIn(.Native)
+        }
     }
 }

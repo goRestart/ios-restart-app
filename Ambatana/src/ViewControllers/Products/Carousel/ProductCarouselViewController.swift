@@ -1103,20 +1103,16 @@ extension ProductCarouselViewController: ProductViewModelDelegate {
     func vmShowShareFromMain(socialMessage: SocialMessage) {
         switch FeatureFlags.productDetailShareMode {
         case .Native:
-            break
-//            let barButtonItem = navigationItem.rightBarButtonItems?.first
-//            presentNativeShare(socialMessage: socialMessage, delegate: viewModel.currentProductViewModel, barButtonItem: barButtonItem)
+            viewModel.openShare(.Native, fromViewController: self, barButtonItem: navigationItem.rightBarButtonItems?.first)
         case .InPlace:
             switchExpandableButtonsView()
         case .FullScreen:
             viewModel.openFullScreenShare()
-            break
         }
     }
 
     func vmShowShareFromMoreInfo(socialMessage: SocialMessage) {
-//        let barButtonItem = navigationItem.rightBarButtonItems?.first
-//        presentNativeShare(socialMessage: socialMessage, delegate: viewModel.currentProductViewModel, barButtonItem: barButtonItem)
+        viewModel.openShare(.Native, fromViewController: self, barButtonItem: navigationItem.rightBarButtonItems?.first)
     }
     
     func vmOpenMainSignUp(signUpVM: SignUpViewModel, afterLoginAction: () -> ()) {
