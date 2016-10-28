@@ -461,8 +461,8 @@ extension ProductViewModel {
 
         let text = message ?? LGLocalizedString.productChatDirectMessage(product.value.user.name ?? "")
         chatWrapper.sendMessageForProduct(product.value, text: text, sticker: nil, type: .Text) { [weak self] result in
-            if let _ = result.value {
-                self?.trackHelper.trackDirectMessageSent()
+            if let value = result.value {
+                self?.trackHelper.trackDirectMessageSent(value)
                 self?.delegate?.vmHideLoading(LGLocalizedString.productChatWithSellerSendOk, afterMessageCompletion: nil)
             } else if let error = result.error {
                 switch error {
@@ -854,8 +854,8 @@ extension ProductViewModel {
 
         chatWrapper.sendMessageForProduct(product.value, text: sticker.name, sticker: sticker, type: .Sticker) {
             [weak self] result in
-            if let _ = result.value {
-                self?.trackHelper.trackDirectStickerSent(favorite)
+            if let value = result.value {
+                self?.trackHelper.trackDirectStickerSent(value, favorite: favorite)
             } else if let error = result.error {
                 switch error {
                 case .Forbidden:

@@ -10,7 +10,7 @@ import Foundation
 import LGCoreKit
 import Result
 
-public typealias ChatWrapperResult = Result<Void, RepositoryError>
+public typealias ChatWrapperResult = Result<Bool, RepositoryError>
 public typealias ChatWrapperCompletion = ChatWrapperResult -> Void
 
 class ChatWrapper {
@@ -50,7 +50,8 @@ class ChatWrapper {
         }
         oldChatRepository.sendMessage(type, message: text, product: product, recipient: product.user) { result in
             if let _ = result.value {
-                completion?(Result(value: Void()))
+                // Value is true as we can't know (old chat)  if it is first contact or not. (always track)
+                completion?(Result(value: true))
             } else if let error = result.error {
                 completion?(Result(error: error))
             }
@@ -85,9 +86,10 @@ class ChatWrapper {
                     completion?(Result(error: .Internal(message: "There's no message info")))
                     return
                 }
+                let shouldSendFirstMessageEvent = value.lastMessageSentAt == nil
                 self?.chatRepository.sendMessage(conversationId, messageId: messageId, type: type, text: text) { result in
                     if let _ = result.value {
-                        completion?(Result(value: Void()))
+                        completion?(Result(value: shouldSendFirstMessageEvent))
                     } else if let error = result.error {
                         completion?(Result(error: error))
                     }

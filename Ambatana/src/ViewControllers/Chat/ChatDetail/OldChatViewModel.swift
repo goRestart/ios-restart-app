@@ -63,7 +63,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     // MARK: > Public data
     
     var fromMakeOffer = false
-    var askQuestion: AskQuestionSource?
+    
     
     // MARK: > Controller data
     
@@ -259,7 +259,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     private let tracker: Tracker
     private let configManager: ConfigManager
     private let sessionManager: SessionManager
-
+    private var shouldSendFirstMessageEvent: Bool = false
     private var chat: Chat
     private var product: Product
     private var isDeleted = false
@@ -621,14 +621,13 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         chatRepository.sendMessage(type, message: message, product: product, recipient: toUser) { [weak self] result in
             guard let strongSelf = self else { return }
             if let sentMessage = result.value, let adapter = self?.chatViewMessageAdapter {
-                if let askQuestion = strongSelf.askQuestion {
-                    strongSelf.askQuestion = nil
-                    strongSelf.trackQuestion(askQuestion, type: type)
-                }
                 let viewMessage = adapter.adapt(sentMessage)
                 strongSelf.loadedMessages.insert(viewMessage, atIndex: 0)
                 strongSelf.delegate?.vmDidSucceedSendingMessage(0)
-
+                if strongSelf.shouldSendFirstMessageEvent {
+                    strongSelf.shouldSendFirstMessageEvent = false
+                    strongSelf.trackFirstMessage(type)
+                }
                 strongSelf.trackMessageSent(isQuickAnswer, type: type)
                 strongSelf.afterSendMessageEvents()
             } else if let error = result.error {
@@ -739,7 +738,6 @@ public class OldChatViewModel: BaseViewModel, Paginable {
             guard let strongSelf = self else { return }
             if let chat = result.value {
                 strongSelf.chat = chat
-                
                 let chatMessages = chat.messages.map(strongSelf.chatViewMessageAdapter.adapt)
                 let newChatMessages = strongSelf.chatViewMessageAdapter
                     .addDisclaimers(chatMessages, disclaimerMessage: strongSelf.messageSuspiciousDisclaimerMessage)
@@ -942,27 +940,19 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     
     // MARK: Tracking
     
-    private func trackQuestion(source: AskQuestionSource, type: MessageType) {
+    private func trackFirstMessage(type: MessageType) {
         // only track ask question if I didn't send any previous message
         guard !didSendMessage else { return }
-        let typePageParam: EventParameterTypePage
-        switch source {
-        case .ProductDetail:
-            typePageParam = .ProductDetail
-        case .ProductList:
-            typePageParam = .ProductList
-        }
-
         let sellerRating: Float? = isBuyer ? otherUser?.ratingAverage : myUserRepository.myUser?.ratingAverage
-        let askQuestionEvent = TrackerEvent.productAskQuestion(product, messageType: type.trackingMessageType,
-                                                               typePage: typePageParam, sellerRating: sellerRating)
-        tracker.trackEvent(askQuestionEvent)
+        let firstMessageEvent = TrackerEvent.firstMessage(product, messageType: type.trackingMessageType,
+                                                               typePage: .Chat, sellerRating: sellerRating)
+        tracker.trackEvent(firstMessageEvent)
     }
     
     private func trackMessageSent(isQuickAnswer: Bool, type: MessageType) {
         let messageSentEvent = TrackerEvent.userMessageSent(product, userTo: otherUser,
                                                             messageType: type.trackingMessageType,
-                                                            isQuickAnswer: isQuickAnswer ? .True : .False)
+                                                            isQuickAnswer: isQuickAnswer ? .True : .False, typePage: .Chat)
         tracker.trackEvent(messageSentEvent)
     }
     
@@ -990,7 +980,6 @@ public class OldChatViewModel: BaseViewModel, Paginable {
                 strongSelf.isLastPage = chat.messages.count < strongSelf.resultsPerPage
                 strongSelf.chat = chat
                 strongSelf.nextPage = page + 1
-
                 strongSelf.updateLoadedMessages(newMessages: chat.messages, page: page)
 
                 if strongSelf.chatStatus == .Forbidden {
@@ -1006,7 +995,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
                 case .NotFound:
                     //The chat doesn't exist yet, so this must be a new conversation -> this is success
                     strongSelf.isLastPage = true
-
+                    strongSelf.shouldSendFirstMessageEvent = true
                     strongSelf.updateLoadedMessages(newMessages: [], page: page)
 
                     strongSelf.delegate?.vmDidRefreshChatMessages()
@@ -1054,7 +1043,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
 
         let calendar = NSCalendar.currentCalendar()
 
-        guard let twoDaysAgo = calendar.dateByAddingUnit(.Minute, value: -2, toDate: NSDate(), options: []) else { return }
+        guard let twoDaysAgo = calendar.dateByAddingUnit(.Day, value: -2, toDate: NSDate(), options: []) else { return }
         let recentSellerMessages = messages.filter { $0.userId != myUserId && $0.createdAt?.compare(twoDaysAgo) == .OrderedDescending }
 
         /*
