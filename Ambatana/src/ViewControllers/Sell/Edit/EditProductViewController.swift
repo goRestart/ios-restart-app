@@ -49,6 +49,7 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
     @IBOutlet weak var titleDisclaimerLeadingConstraint: NSLayoutConstraint!
     @IBOutlet weak var titleDisclaimerHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var titleDisclaimerBottomConstraint: NSLayoutConstraint!
+    @IBOutlet weak var updateButtonBottomConstraint: NSLayoutConstraint!
     
     @IBOutlet weak var postFreeView: UIView!
     @IBOutlet weak var priceView: UIView!
@@ -86,22 +87,26 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
 
     // viewModel
     private var viewModel : EditProductViewModel
-
+    private var keyboardHelper: KeyboardHelper
+    private var tapRec: UITapGestureRecognizer?
     // Rx
     private let disposeBag = DisposeBag()
-
+    
+    private var activeField: UIView? = nil
 
     // MARK: - Lifecycle
     
-
-    init(viewModel: EditProductViewModel) {
-        self.viewModel = viewModel
-        super.init(viewModel: viewModel, nibName: "EditProductViewController")
-        
-        self.viewModel.delegate = self
-        automaticallyAdjustsScrollViewInsets = false
+    convenience init(viewModel: EditProductViewModel) {
+        self.init(viewModel: viewModel, nibName: "EditProductViewController", keyboardHelper: KeyboardHelper.sharedInstance)
     }
-
+    
+    required init(viewModel: EditProductViewModel, nibName nibNameOrNil: String?, keyboardHelper: KeyboardHelper) {
+        self.keyboardHelper = keyboardHelper
+        self.viewModel = viewModel
+        super.init(viewModel: viewModel, nibName: nibNameOrNil)
+        self.viewModel.delegate = self
+    }
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -152,6 +157,13 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
     }
 
     // MARK: - TextField Delegate Methods
+    
+    func textFieldShouldBeginEditing(textField: UITextField) -> Bool {
+        if let fieldContainer = textField.superview {
+             activeField = fieldContainer
+        }
+        return true
+    }
 
     func textFieldDidEndEditing(textField: UITextField) {
         guard let tag = TextFieldTag(rawValue: textField.tag) where tag == .ProductTitle else { return }
@@ -190,7 +202,7 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
     }
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
-        if textField.tag == TextFieldTag.ProductTitle.rawValue {
+        if textField.tag == TextFieldTag.ProductTitle.rawValue && !freePostingSwitch.on {
             let nextTag = textField.tag + 1
             if let nextView = view.viewWithTag(nextTag) {
                 nextView.becomeFirstResponder()
@@ -215,8 +227,13 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
             textView.text = nil
             textView.textColor = UIColor.blackColor()
         }
-        scrollView.setContentOffset(CGPointMake(0,textView.frame.origin.y+64), animated: true)
-
+    }
+    
+    func textViewShouldBeginEditing(textView: UITextView) -> Bool {
+        if let fieldContainer = textView.superview {
+            activeField = fieldContainer
+        }
+        return true
     }
     
     func textViewDidEndEditing(textView: UITextView) {
@@ -378,6 +395,7 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
         
         separatorContainerViewsConstraints.forEach { $0.constant = EditProductViewController.separatorOptionsViewDistance }
         containerEditOptionsView.layer.cornerRadius = LGUIKitConstants.containerCornerRadius
+        updateButtonBottomConstraint.constant = 0
         
         titleTextField.placeholder = LGLocalizedString.sellTitleFieldHint
         titleTextField.text = viewModel.title
@@ -435,6 +453,10 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
         self.imageCollectionView.registerNib(cellNib, forCellWithReuseIdentifier: sellProductCellReuseIdentifier)
         
         loadingLabel.text = LGLocalizedString.sellUploadingLabel
+        
+        // hide keyboard on tap
+        tapRec = UITapGestureRecognizer(target: self, action: #selector(scrollViewTapped))
+        updateTapRecognizer(true)
     }
 
     private func setupRxBindings() {
@@ -515,6 +537,26 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
         viewModel.isFreePosting.asObservable().bindNext{[weak self] active in
             self?.updateFreePostViews(active)
             }.addDisposableTo(disposeBag)
+        
+        var previousKbOrigin: CGFloat = CGFloat.max
+        keyboardHelper.rx_keyboardOrigin.asObservable().skip(1).distinctUntilChanged().bindNext { [weak self] origin in
+            guard let strongSelf = self else { return }
+            let viewHeight = strongSelf.view.height
+            let animationTime = strongSelf.keyboardHelper.animationTime
+            guard viewHeight >= origin else { return }
+            self?.updateButtonBottomConstraint.constant = viewHeight - origin
+            UIView.animateWithDuration(Double(animationTime)) {
+                strongSelf.view.layoutIfNeeded()
+                if origin < previousKbOrigin {
+                    if let active = strongSelf.activeField {
+                        var frame = active.frame
+                        frame.top = frame.top + strongSelf.containerEditOptionsView.top
+                        strongSelf.scrollView.scrollRectToVisible(frame, animated: false)
+                    }
+                }
+                previousKbOrigin = origin
+                }
+        }.addDisposableTo(disposeBag)
     }
     
     override func popBackViewController() {
@@ -553,6 +595,18 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
             self?.viewModel.didClose()
             action?()
         }
+    }
+    
+    private dynamic func scrollViewTapped() {
+        activeField?.endEditing(true)
+    }
+    
+    private func updateTapRecognizer(add: Bool) {
+        guard let tapRec = tapRec else { return }
+        if let recognizers = scrollView.gestureRecognizers where recognizers.contains(tapRec) {
+            scrollView.removeGestureRecognizer(tapRec)
+        }
+        scrollView.addGestureRecognizer(tapRec)
     }
     
     // MARK: - Share in facebook.
