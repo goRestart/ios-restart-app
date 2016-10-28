@@ -34,7 +34,7 @@ enum ShareType {
             countryTypes = otherCountriesTypes
         }
 
-        var resultShareTypes = countryTypes.filter { $0.canShare }
+        var resultShareTypes = countryTypes.filter { SocialSharer.canShareIn($0) }
 
         if var maxButtons = maxButtons where maxButtons > 0 {
             maxButtons = includeNative ? maxButtons-1 : maxButtons
@@ -50,28 +50,27 @@ enum ShareType {
         return resultShareTypes
     }
 
-    var canShare: Bool {
-        switch  self {
+    var trackingShareNetwork: EventParameterShareNetwork {
+        switch self {
         case .Email:
-            return MFMailComposeViewController.canSendMail()
-        case Facebook, .Twitter, .Native, .CopyLink:
-            return true
+            return .Email
         case .FBMessenger:
-            guard let url = NSURL(string: "fb-messenger-api://") else { return false }
-            let application = UIApplication.sharedApplication()
-            return application.canOpenURL(url)
+            return .FBMessenger
         case .Whatsapp:
-            guard let url = NSURL(string: "whatsapp://") else { return false }
-            let application = UIApplication.sharedApplication()
-            return application.canOpenURL(url)
+            return .Whatsapp
+        case .Facebook:
+            return .Facebook
+        case .Twitter:
+            return .Twitter
         case .Telegram:
-            guard let url = NSURL(string: "tg://") else { return false }
-            let application = UIApplication.sharedApplication()
-            return application.canOpenURL(url)
+            return .Telegram
+        case .CopyLink:
+            return .CopyLink
         case .SMS:
-            return MFMessageComposeViewController.canSendText()
+            return .SMS
+        case .Native:
+            return .Native
         }
-
     }
 }
 
@@ -101,124 +100,6 @@ final class SocialHelper {
 
     static func socialMessageCommercializer(shareUrl: String, thumbUrl: String?) -> SocialMessage {
         return CommercializerSocialMessage(shareUrl: shareUrl, thumbUrl: thumbUrl)
-    }
-
-    static func shareOnSMS(socialMessage: SocialMessage, viewController: UIViewController,
-                           delegate: MFMessageComposeViewControllerDelegate) {
-        if MFMessageComposeViewController.canSendText() {
-            let messageVC = MFMessageComposeViewController()
-            messageVC.body = socialMessage.smsShareText
-            messageVC.recipients = []
-            messageVC.messageComposeDelegate = delegate;
-            viewController.presentViewController(messageVC, animated: false, completion: nil)
-        } else {
-            viewController.showAutoFadingOutMessageAlert(LGLocalizedString.productShareSmsError)
-        }
-    }
-    
-    static func shareOnFacebook(socialMessage: SocialMessage, viewController: UIViewController,
-                                delegate: FBSDKSharingDelegate?) {
-        FBSDKShareDialog.showFromViewController(viewController, withContent: socialMessage.fbShareContent,
-                delegate: delegate)
-    }
-
-    static func shareOnTwitter(socialMessage: SocialMessage, viewController: UIViewController, delegate: TwitterShareDelegate) {
-
-        socialMessage.twitterComposer.showFromViewController(viewController) { result in
-            switch result {
-            case .Cancelled:
-                delegate.twitterShareCancelled()
-            case .Done:
-                delegate.twitterShareSuccess()
-            }
-        }
-    }
-
-    static func shareOnFbMessenger(socialMessage: SocialMessage, delegate: FBSDKSharingDelegate?) {
-        FBSDKMessageDialog.showWithContent(socialMessage.fbMessengerShareContent, delegate: delegate)
-    }
-
-    static func shareOnWhatsapp(socialMessage: SocialMessage, viewController: UIViewController) {
-        guard let url = generateWhatsappURL(socialMessage) else { return }
-
-        if !UIApplication.sharedApplication().openURL(url) {
-            viewController.showAutoFadingOutMessageAlert(LGLocalizedString.productShareWhatsappError)
-        }
-    }
-
-    static func shareOnTelegram(socialMessage: SocialMessage, viewController: UIViewController) {
-        guard let url = generateTelegramURL(socialMessage) else { return }
-
-        if !UIApplication.sharedApplication().openURL(url) {
-            viewController.showAutoFadingOutMessageAlert(LGLocalizedString.productShareTelegramError)
-        }
-    }
-
-    static func shareOnEmail(socialMessage: SocialMessage, viewController: UIViewController,
-        delegate: MFMailComposeViewControllerDelegate?) {
-            let isEmailAccountConfigured = MFMailComposeViewController.canSendMail()
-            if isEmailAccountConfigured {
-                let vc = MFMailComposeViewController()
-                vc.mailComposeDelegate = delegate
-                vc.setSubject(socialMessage.emailShareSubject)
-                vc.setMessageBody(socialMessage.emailShareBody, isHTML: socialMessage.emailShareIsHtml)
-                viewController.presentViewController(vc, animated: true, completion: nil)
-            }
-            else {
-                viewController.showAutoFadingOutMessageAlert(LGLocalizedString.productShareEmailError)
-            }
-    }
-
-    static func shareOnCopyLink(socialMessage: SocialMessage, viewController: UIViewController) {
-        UIPasteboard.generalPasteboard().string = socialMessage.copyLinkText
-        viewController.showAutoFadingOutMessageAlert(LGLocalizedString.productShareCopylinkOk)
-    }
-    
-    static func generateWhatsappURL(socialMessage: SocialMessage) -> NSURL? {
-        return generateMessageShareURL(socialMessage.whatsappShareText, withUrlScheme: Constants.whatsAppShareURL)
-    }
-
-    static func generateTelegramURL(socialMessage: SocialMessage) -> NSURL? {
-        return generateMessageShareURL(socialMessage.telegramShareText, withUrlScheme: Constants.telegramShareURL)
-    }
-
-    static func generateMessageShareURL(socialMessageText: String, withUrlScheme scheme: String) -> NSURL? {
-        let queryCharSet = NSMutableCharacterSet(charactersInString: "!*'();:@&=+$,/?%#[]")
-        queryCharSet.invert()
-        queryCharSet.formIntersectionWithCharacterSet(NSCharacterSet.URLQueryAllowedCharacterSet())
-        guard let urlEncodedShareText = socialMessageText
-            .stringByAddingPercentEncodingWithAllowedCharacters(queryCharSet) else { return nil }
-        return NSURL(string: String(format: scheme, urlEncodedShareText))
-    }
-
-    static func canShareInFacebook() -> Bool {
-        return true
-    }
-
-    static func canShareInTwitter() -> Bool {
-        return true
-    }
-
-    static func canShareInWhatsapp() -> Bool {
-        guard let url = NSURL(string: "whatsapp://") else { return false }
-        let application = UIApplication.sharedApplication()
-        return application.canOpenURL(url)
-    }
-
-    static func canShareInFBMessenger() -> Bool {
-        guard let url = NSURL(string: "fb-messenger-api://") else { return false }
-        let application = UIApplication.sharedApplication()
-        return application.canOpenURL(url)
-    }
-
-    static func canShareInEmail() -> Bool {
-        return ShareType.Email.canShare
-    }
-
-    static func canShareInTelegram() -> Bool {
-        guard let url = NSURL(string: "tg://") else { return false }
-        let application = UIApplication.sharedApplication()
-        return application.canOpenURL(url)
     }
 }
 

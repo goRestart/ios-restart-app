@@ -90,6 +90,26 @@ struct ProductSocialMessage: SocialMessage {
         self.isMine = isMine
     }
 
+//    static func socialMessageWithProduct(product: Product) -> SocialMessage {
+//        let productIsMine = Core.myUserRepository.myUser?.objectId == product.user.objectId
+//        let socialTitleMyProduct = product.price.free ? LGLocalizedString.productIsMineShareBodyFree :
+//            LGLocalizedString.productIsMineShareBody
+//        let socialTitle = productIsMine ? socialTitleMyProduct : LGLocalizedString.productShareBody
+//        return ProductSocialMessage(title: socialTitle, product: product, isMine: productIsMine)
+//    }
+//
+//    static func socialMessageUser(user: User, itsMe: Bool) -> SocialMessage {
+//        return UserSocialMessage(user: user, itsMe: itsMe)
+//    }
+//
+//    static func socialMessageAppShare() -> SocialMessage {
+//        return AppShareSocialMessage()
+//    }
+//
+//    static func socialMessageCommercializer(shareUrl: String, thumbUrl: String?) -> SocialMessage {
+//        return CommercializerSocialMessage(shareUrl: shareUrl, thumbUrl: thumbUrl)
+//    }
+
     var nativeShareItems: [AnyObject]? {
         guard let shareUrl = shareUrl(.Native) else { return nil }
         return [shareUrl, fullMessage()]

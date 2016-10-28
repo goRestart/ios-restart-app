@@ -57,7 +57,7 @@ class SocialShareView: UIView {
     var socialMessage: SocialMessage?
     var shareTypes = SocialShareView.defaultShareTypes
 
-    var facade: SocialShareFacade?
+    var socialSharer: SocialSharer?
 
     private let containerView = UIView()
     private let disposeBag = DisposeBag()
@@ -161,7 +161,7 @@ class SocialShareView: UIView {
             guard let socialMessage = strongSelf.socialMessage else { return }
             guard let viewController = strongSelf.delegate?.viewController() else { return }
 
-            strongSelf.facade?.share(socialMessage, shareType: .SMS, viewController: viewController)
+            strongSelf.socialSharer?.share(socialMessage, shareType: .SMS, viewController: viewController)
         }
     }
     
@@ -171,7 +171,7 @@ class SocialShareView: UIView {
             guard let socialMessage = strongSelf.socialMessage else { return }
             guard let viewController = strongSelf.delegate?.viewController() else { return }
 
-            strongSelf.facade?.share(socialMessage, shareType: .Facebook, viewController: viewController)
+            strongSelf.socialSharer?.share(socialMessage, shareType: .Facebook, viewController: viewController)
         }
     }
 
@@ -181,7 +181,7 @@ class SocialShareView: UIView {
             guard let socialMessage = strongSelf.socialMessage else { return }
             guard let viewController = strongSelf.delegate?.viewController() else { return }
 
-            strongSelf.facade?.share(socialMessage, shareType: .Twitter, viewController: viewController)
+            strongSelf.socialSharer?.share(socialMessage, shareType: .Twitter, viewController: viewController)
         }
     }
 
@@ -191,7 +191,7 @@ class SocialShareView: UIView {
             guard let socialMessage = strongSelf.socialMessage else { return }
             guard let viewController = strongSelf.delegate?.viewController() else { return }
 
-            strongSelf.facade?.share(socialMessage, shareType: .FBMessenger, viewController: viewController)
+            strongSelf.socialSharer?.share(socialMessage, shareType: .FBMessenger, viewController: viewController)
         }
     }
 
@@ -201,7 +201,7 @@ class SocialShareView: UIView {
             guard let socialMessage = strongSelf.socialMessage else { return }
             guard let viewController = strongSelf.delegate?.viewController() else { return }
 
-            strongSelf.facade?.share(socialMessage, shareType: .Whatsapp, viewController: viewController)
+            strongSelf.socialSharer?.share(socialMessage, shareType: .Whatsapp, viewController: viewController)
         }
     }
 
@@ -211,7 +211,7 @@ class SocialShareView: UIView {
             guard let socialMessage = strongSelf.socialMessage else { return }
             guard let viewController = strongSelf.delegate?.viewController() else { return }
 
-            strongSelf.facade?.share(socialMessage, shareType: .Telegram, viewController: viewController)
+            strongSelf.socialSharer?.share(socialMessage, shareType: .Telegram, viewController: viewController)
         }
     }
 
@@ -221,7 +221,7 @@ class SocialShareView: UIView {
             guard let socialMessage = strongSelf.socialMessage else { return }
             guard let viewController = strongSelf.delegate?.viewController() else { return }
 
-            strongSelf.facade?.share(socialMessage, shareType: .Email, viewController: viewController)
+            strongSelf.socialSharer?.share(socialMessage, shareType: .Email, viewController: viewController)
         }
     }
     
@@ -231,18 +231,17 @@ class SocialShareView: UIView {
             guard let socialMessage = strongSelf.socialMessage else { return }
             guard let viewController = strongSelf.delegate?.viewController() else { return }
 
-            strongSelf.facade?.share(socialMessage, shareType: .CopyLink, viewController: viewController)
+            strongSelf.socialSharer?.share(socialMessage, shareType: .CopyLink, viewController: viewController)
         }
     }
 
     private func createNativeShareButton() -> UIButton? {
-        // 👾
         return createButton(UIImage(named: "item_share_more"), accesibilityId: .SocialShareMore) { [weak self] in
             guard let strongSelf = self else { return }
             guard let socialMessage = strongSelf.socialMessage else { return }
             guard let viewController = strongSelf.delegate?.viewController() else { return }
 
-            strongSelf.facade?.share(socialMessage, shareType: .Native, viewController: viewController)
+            strongSelf.socialSharer?.share(socialMessage, shareType: .Native, viewController: viewController)
         }
     }
 

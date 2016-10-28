@@ -50,34 +50,9 @@ extension ProductViewModel {
 
 // MARK: - Share
 
-private extension ShareType {
-    var shareNetwork: EventParameterShareNetwork {
-        switch self {
-        case .Email:
-            return .Email
-        case .Facebook:
-            return .Facebook
-        case .FBMessenger:
-            return .FBMessenger
-        case .Whatsapp:
-            return .Whatsapp
-        case .Twitter:
-            return .Twitter
-        case .Telegram:
-            return .Telegram
-        case .CopyLink:
-            return .CopyLink
-        case .SMS:
-            return .SMS
-        case .Native:
-            return .Native
-        }
-    }
-}
-
 extension ProductVMTrackHelper {
     func trackShareStarted(shareType: ShareType, buttonPosition: EventParameterButtonPosition) {
-        let trackerEvent = TrackerEvent.productShare(product, network: shareType.shareNetwork,
+        let trackerEvent = TrackerEvent.productShare(product, network: shareType.trackingShareNetwork,
                                                      buttonPosition: buttonPosition, typePage: .ProductDetail)
         tracker.trackEvent(trackerEvent)
     }
@@ -86,12 +61,12 @@ extension ProductVMTrackHelper {
         let event: TrackerEvent?
         switch state {
         case .Completed:
-            event = TrackerEvent.productShareComplete(product, network: shareType.shareNetwork,
+            event = TrackerEvent.productShareComplete(product, network: shareType.trackingShareNetwork,
                                                       typePage: .ProductDetail)
         case .Failed:
             event = nil
         case .Cancelled:
-            event = TrackerEvent.productShareCancel(product, network: shareType.shareNetwork,
+            event = TrackerEvent.productShareCancel(product, network: shareType.trackingShareNetwork,
                                                     typePage: .ProductDetail)
         }
         if let event = event {

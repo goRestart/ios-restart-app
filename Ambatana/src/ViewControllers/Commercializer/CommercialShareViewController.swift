@@ -58,6 +58,9 @@ class CommercialShareViewController: BaseViewController {
         socialShareView.delegate = self
         socialShareView.buttonsSide = 70
         socialShareView.style = .Grid
+        let socialSharer = SocialSharer()
+        socialSharer.delegate = self
+        socialShareView.socialSharer = socialSharer
     }
 }
 
@@ -65,78 +68,20 @@ class CommercialShareViewController: BaseViewController {
 // MARK: - SocialShareViewDelegate
 
 extension CommercialShareViewController: SocialShareViewDelegate {
-
-//    func shareInEmail(){
-//        shareDelegate?.shareInEmail()
-//    }
-//
-//    func shareInEmailFinished(state: SocialShareState) {
-//        shareDelegate?.shareInEmailFinished(state)
-//    }
-//
-//
-//    func shareInFacebook() {
-//        shareDelegate?.shareInFacebook()
-//    }
-//
-//    func shareInFacebookFinished(state: SocialShareState) {
-//        switch state {
-//        case .Completed, .Cancelled:
-//            shareDelegate?.shareInFacebookFinished(state)
-//        case .Failed:
-//            showAutoFadingOutMessageAlert(LGLocalizedString.sellSendErrorSharingFacebook)
-//        }
-//    }
-//
-//    func shareInFBMessenger() {
-//        shareDelegate?.shareInFBMessenger()
-//    }
-//
-//    func shareInFBMessengerFinished(state: SocialShareState) {
-//        switch state {
-//        case .Completed, .Cancelled:
-//            shareDelegate?.shareInFBMessengerFinished(state)
-//        case .Failed:
-//            showAutoFadingOutMessageAlert(LGLocalizedString.sellSendErrorSharingFacebook)
-//        }
-//    }
-//
-//    func shareInWhatsApp() {
-//        shareDelegate?.shareInWhatsApp()
-//    }
-//
-//    func shareInTwitter() {
-//        shareDelegate?.shareInTwitter()
-//    }
-//
-//    func shareInTwitterFinished(state: SocialShareState) {
-//        switch state {
-//        case .Completed, .Cancelled:
-//            shareDelegate?.shareInTwitterFinished(state)
-//        case .Failed:
-//            break
-//        }
-//    }
-//
-//    func shareInTelegram() {
-//        shareDelegate?.shareInTelegram()
-//    }
-
     func viewController() -> UIViewController? {
         return self
     }
-
-//    func shareInSMS() {
-//        shareDelegate?.shareInSMS()
-//    }
-//    
-//    func shareInSMSFinished(state: SocialShareState) {
-//        shareDelegate?.shareInEmailFinished(state)
-//    }
-//    
-//    func shareInCopyLink() {
-//        shareDelegate?.shareInCopyLink()
-//    }
 }
 
-// TODO: Add the facade!!!
+
+// MARK: - SocialSharerDelegate
+
+extension CommercialShareViewController: SocialSharerDelegate {
+    func shareStartedIn(shareType: ShareType) {
+        // TODO: !!!
+    }
+
+    func shareFinishedIn(shareType: ShareType, withState state: SocialShareState) {
+        // TODO: !!!
+    }
+}

@@ -69,7 +69,7 @@ class ProductViewModel: BaseViewModel {
     let viewsCount = Variable<Int>(0)
     let favouritesCount = Variable<Int>(0)
     let socialMessage = Variable<SocialMessage?>(nil)
-    let facade: SocialShareFacade
+    let socialSharer: SocialSharer
 
     // UI - Output
     let thumbnailImage: UIImage?
@@ -156,17 +156,19 @@ class ProductViewModel: BaseViewModel {
         let locationManager = Core.locationManager
         
         let product = productRepository.build(fromChatproduct: product, chatInterlocutor: user)
+        let socialSharer = SocialSharer()
         
         self.init(myUserRepository: myUserRepository, productRepository: productRepository,
                   commercializerRepository: commercializerRepository, chatWrapper: chatWrapper,
                   stickersRepository: stickersRepository, locationManager: locationManager, countryHelper: countryHelper,
-                  product: product, thumbnailImage: thumbnailImage, navigator: navigator,
+                  product: product, thumbnailImage: thumbnailImage, socialSharer: socialSharer, navigator: navigator,
                   bubbleManager: BubbleNotificationManager.sharedInstance,
                   interestedBubbleManager: InterestedBubbleManager.sharedInstance)
         syncProduct(nil)
     }
     
     convenience init(product: Product, thumbnailImage: UIImage?, navigator: ProductDetailNavigator?) {
+        let socialSharer = SocialSharer()
         let myUserRepository = Core.myUserRepository
         let productRepository = Core.productRepository
         let commercializerRepository = Core.commercializerRepository
@@ -177,7 +179,7 @@ class ProductViewModel: BaseViewModel {
         self.init(myUserRepository: myUserRepository, productRepository: productRepository,
                   commercializerRepository: commercializerRepository, chatWrapper: chatWrapper,
                   stickersRepository: stickersRepository, locationManager: locationManager, countryHelper: countryHelper,
-                  product: product, thumbnailImage: thumbnailImage, navigator: navigator,
+                  product: product, thumbnailImage: thumbnailImage, socialSharer: socialSharer, navigator: navigator,
                   bubbleManager: BubbleNotificationManager.sharedInstance,
                   interestedBubbleManager: InterestedBubbleManager.sharedInstance)
     }
@@ -185,11 +187,11 @@ class ProductViewModel: BaseViewModel {
     init(myUserRepository: MyUserRepository, productRepository: ProductRepository,
          commercializerRepository: CommercializerRepository, chatWrapper: ChatWrapper,
          stickersRepository: StickersRepository, locationManager: LocationManager, countryHelper: CountryHelper,
-         product: Product, thumbnailImage: UIImage?, navigator: ProductDetailNavigator?,
+         product: Product, thumbnailImage: UIImage?, socialSharer: SocialSharer, navigator: ProductDetailNavigator?,
          bubbleManager: BubbleNotificationManager, interestedBubbleManager: InterestedBubbleManager) {
         self.product = Variable<Product>(product)
-        self.facade = SocialShareFacade()
         self.thumbnailImage = thumbnailImage
+        self.socialSharer = socialSharer
         self.myUserRepository = myUserRepository
         self.productRepository = productRepository
         self.countryHelper = countryHelper
@@ -231,7 +233,7 @@ class ProductViewModel: BaseViewModel {
 
         super.init()
 
-        facade.delegate = self
+        socialSharer.delegate = self
         setupRxBindings()
     }
     
@@ -540,7 +542,7 @@ extension ProductViewModel {
 
     func openShare(shareType: ShareType, fromViewController: UIViewController, barButtonItem: UIBarButtonItem? = nil) {
         guard let socialMessage = socialMessage.value else { return }
-        facade.share(socialMessage, shareType: shareType, viewController: fromViewController, barButtonItem: barButtonItem)
+        socialSharer.share(socialMessage, shareType: shareType, viewController: fromViewController, barButtonItem: barButtonItem)
     }
 }
 
@@ -1060,9 +1062,9 @@ private extension ProductViewModel {
 }
 
 
-// MARK: - SocialShareFacadeDelegate
+// MARK: - SocialSharerDelegate
 
-extension ProductViewModel: SocialShareFacadeDelegate {
+extension ProductViewModel: SocialSharerDelegate {
     func shareStartedIn(shareType: ShareType) {
         let buttonPosition: EventParameterButtonPosition
 
@@ -1105,6 +1107,8 @@ extension ProductViewModel: SocialShareFacadeDelegate {
             return LGLocalizedString.sellSendErrorSharingFacebook
         case (.FBMessenger, .Failed):
             return LGLocalizedString.sellSendErrorSharingFacebook
+        case (.CopyLink, .Completed):
+            return LGLocalizedString.productShareCopylinkOk
         case (.SMS, .Completed):
             return LGLocalizedString.productShareSmsOk
         case (.SMS, .Failed):
