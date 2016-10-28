@@ -88,7 +88,6 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
     // viewModel
     private var viewModel : EditProductViewModel
     private var keyboardHelper: KeyboardHelper
-    private var tapRec: UITapGestureRecognizer?
     // Rx
     private let disposeBag = DisposeBag()
     
@@ -97,14 +96,15 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
     // MARK: - Lifecycle
     
     convenience init(viewModel: EditProductViewModel) {
-        self.init(viewModel: viewModel, nibName: "EditProductViewController", keyboardHelper: KeyboardHelper.sharedInstance)
+        self.init(viewModel: viewModel, keyboardHelper: KeyboardHelper.sharedInstance)
     }
     
-    required init(viewModel: EditProductViewModel, nibName nibNameOrNil: String?, keyboardHelper: KeyboardHelper) {
+    required init(viewModel: EditProductViewModel, keyboardHelper: KeyboardHelper) {
         self.keyboardHelper = keyboardHelper
         self.viewModel = viewModel
-        super.init(viewModel: viewModel, nibName: nibNameOrNil)
+        super.init(viewModel: viewModel, nibName: "EditProductViewController")
         self.viewModel.delegate = self
+        automaticallyAdjustsScrollViewInsets = false
     }
     
     required init?(coder: NSCoder) {
@@ -116,7 +116,6 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
         setupUI()
         setAccesibilityIds()
         setupRxBindings()
-        
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -159,9 +158,8 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
     // MARK: - TextField Delegate Methods
     
     func textFieldShouldBeginEditing(textField: UITextField) -> Bool {
-        if let fieldContainer = textField.superview {
-             activeField = fieldContainer
-        }
+        // textField is inside a container, so we need to know which container is focused (to scroll to visible when keyboard was up)
+        activeField = textField.superview
         return true
     }
 
@@ -230,9 +228,8 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
     }
     
     func textViewShouldBeginEditing(textView: UITextView) -> Bool {
-        if let fieldContainer = textView.superview {
-            activeField = fieldContainer
-        }
+        // textView is inside a container, so we need to know which container is focused (to scroll to visible when keyboard was up)
+        activeField = textView.superview
         return true
     }
     
@@ -455,8 +452,8 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
         loadingLabel.text = LGLocalizedString.sellUploadingLabel
         
         // hide keyboard on tap
-        tapRec = UITapGestureRecognizer(target: self, action: #selector(scrollViewTapped))
-        updateTapRecognizer(true)
+        let tapRecognizer: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(scrollViewTapped))
+        scrollView.addGestureRecognizer(tapRecognizer)
     }
 
     private func setupRxBindings() {
@@ -599,14 +596,6 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
     
     private dynamic func scrollViewTapped() {
         activeField?.endEditing(true)
-    }
-    
-    private func updateTapRecognizer(add: Bool) {
-        guard let tapRec = tapRec else { return }
-        if let recognizers = scrollView.gestureRecognizers where recognizers.contains(tapRec) {
-            scrollView.removeGestureRecognizer(tapRec)
-        }
-        scrollView.addGestureRecognizer(tapRec)
     }
     
     // MARK: - Share in facebook.
