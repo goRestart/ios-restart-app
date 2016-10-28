@@ -626,7 +626,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
                 strongSelf.delegate?.vmDidSucceedSendingMessage(0)
                 if strongSelf.shouldSendFirstMessageEvent {
                     strongSelf.shouldSendFirstMessageEvent = false
-                    strongSelf.trakFirstMessage(type)
+                    strongSelf.trackFirstMessage(type)
                 }
                 strongSelf.trackMessageSent(isQuickAnswer, type: type)
                 strongSelf.afterSendMessageEvents()
