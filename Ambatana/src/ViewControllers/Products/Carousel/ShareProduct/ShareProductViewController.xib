@@ -56,7 +56,7 @@
                         </label>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JII-Ta-PUf" userLabel="shareButtonsContainer">
                             <subviews>
-                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BZG-8g-Yg9" customClass="SocialShareView" customModule="LetGo" customModuleProvider="target">
+                                <view contentMode="scaleToFill" horizontalCompressionResistancePriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="BZG-8g-Yg9" customClass="SocialShareView" customModule="LetGo" customModuleProvider="target">
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </view>
                             </subviews>
@@ -153,16 +153,18 @@
                         <constraint firstItem="G4p-po-p8J" firstAttribute="leading" secondItem="LcF-x9-B5r" secondAttribute="trailing" constant="11" id="JSq-dV-MIz"/>
                         <constraint firstItem="Foi-ZP-Ben" firstAttribute="centerY" secondItem="FzT-qZ-7Kl" secondAttribute="centerY" id="JVQ-W3-X7k"/>
                         <constraint firstItem="G4p-po-p8J" firstAttribute="centerX" secondItem="FzT-qZ-7Kl" secondAttribute="centerX" id="PSD-AI-P3J"/>
+                        <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="JII-Ta-PUf" secondAttribute="trailing" constant="20" id="Shq-92-Crk"/>
                         <constraint firstItem="Foi-ZP-Ben" firstAttribute="leading" secondItem="FzT-qZ-7Kl" secondAttribute="leading" constant="50" id="VMX-1P-4tH"/>
                         <constraint firstAttribute="trailing" secondItem="Foi-ZP-Ben" secondAttribute="trailing" constant="50" id="W1y-Ge-MxS"/>
                         <constraint firstItem="hBZ-FE-UCz" firstAttribute="leading" secondItem="FzT-qZ-7Kl" secondAttribute="leading" id="Xgw-Xb-Y1a"/>
                         <constraint firstItem="oew-Jp-QNd" firstAttribute="centerX" secondItem="FzT-qZ-7Kl" secondAttribute="centerX" id="Xjt-cR-YBN"/>
-                        <constraint firstItem="JII-Ta-PUf" firstAttribute="centerX" secondItem="FzT-qZ-7Kl" secondAttribute="centerX" id="akI-oP-jqq"/>
+                        <constraint firstItem="JII-Ta-PUf" firstAttribute="centerX" secondItem="FzT-qZ-7Kl" secondAttribute="centerX" id="Z8v-7e-DEU"/>
                         <constraint firstItem="QkZ-vI-8Y9" firstAttribute="centerX" secondItem="FzT-qZ-7Kl" secondAttribute="centerX" id="bfD-0u-LI7"/>
                         <constraint firstItem="rUF-8S-52b" firstAttribute="top" secondItem="oew-Jp-QNd" secondAttribute="bottom" constant="20" id="dyn-xL-Qgb"/>
                         <constraint firstItem="Foi-ZP-Ben" firstAttribute="centerX" secondItem="FzT-qZ-7Kl" secondAttribute="centerX" id="fEg-5n-WQk"/>
                         <constraint firstAttribute="trailing" secondItem="rUF-8S-52b" secondAttribute="trailing" constant="16" id="oCh-KQ-lrz"/>
                         <constraint firstItem="LcF-x9-B5r" firstAttribute="centerY" secondItem="G4p-po-p8J" secondAttribute="centerY" id="qHq-zs-1zl"/>
+                        <constraint firstItem="JII-Ta-PUf" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="FzT-qZ-7Kl" secondAttribute="leading" constant="20" id="rKn-fD-GWZ"/>
                         <constraint firstItem="rUF-8S-52b" firstAttribute="leading" secondItem="FzT-qZ-7Kl" secondAttribute="leading" constant="16" id="rMz-ye-dMg"/>
                         <constraint firstItem="hBZ-FE-UCz" firstAttribute="top" secondItem="FzT-qZ-7Kl" secondAttribute="top" constant="20" id="s9D-Kq-L4h"/>
                         <constraint firstItem="cgt-Go-iy4" firstAttribute="centerY" secondItem="G4p-po-p8J" secondAttribute="centerY" id="wJx-Tn-Vop"/>

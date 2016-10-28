@@ -218,8 +218,9 @@ class ProductCarouselViewModel: BaseViewModel {
     }
 
     func openFullScreenShare() {
-        guard let productVM = currentProductViewModel else { return }
-        navigator?.openFullScreenShare(productVM)
+        guard let shareFacadeDelegate = currentProductViewModel as? SocialShareFacadeDelegate else { return }
+        guard let socialMessage = currentProductViewModel?.socialMessage.value else { return }
+        navigator?.openFullScreenShare(shareFacadeDelegate, socialMessage: socialMessage)
     }
     
     // MARK: - Private Methods

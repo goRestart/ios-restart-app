@@ -10,7 +10,7 @@ import UIKit
 
 class ShareProductViewController: BaseViewController {
 
-    static let shareButtonWidth = 60
+    static let shareButtonWidth: CGFloat = 60
     static let gradientSize = 30
 
     @IBOutlet weak var titleLabel: UILabel!
@@ -58,34 +58,34 @@ class ShareProductViewController: BaseViewController {
     }
 
     @IBAction func copyButtonPressed(sender: AnyObject) {
-//        guard let socialMessage = viewModel.socialMessage else { return }
-//        SocialHelper.shareOnCopyLink(socialMessage, viewController: self)
+        SocialHelper.shareOnCopyLink(viewModel.socialMessage, viewController: self)
     }
 
 
     // MARK: - Private Methods
 
     private func setupUI() {
+
         view.layoutIfNeeded()
-        // TODO: uncomment localized vars when validated
-        titleLabel.text = "_SHARING IS WINNING!" //LGLocalizedString.productShareFullscreenTitle
-        subtitleLabel.text = "_Did you know that those who share their products are 100% more likely to be awesome?" //LGLocalizedString.productShareFullscreenSubtitle
-        orLabel.text = "_OR" //LGLocalizedString.commonOr
-        copyLabel.text = "_Copy" //LGLocalizedString.commonCopy
-//        linkLabel.text = viewModel.link
+        
+        shareButtonsContainerWidth.constant = CGFloat(viewModel.shareTypes.count)*ShareProductViewController.shareButtonWidth
+        titleLabel.text = LGLocalizedString.productShareFullscreenTitle
+        subtitleLabel.text = LGLocalizedString.productShareFullscreenSubtitle
+        orLabel.text = LGLocalizedString.commonOr
+        copyLabel.text = LGLocalizedString.commonCopy
+        linkLabel.text = viewModel.link
         linkButtonContainer.layer.cornerRadius = LGUIKitConstants.textfieldCornerRadius
 
         setupShareView()
         setupGradientView()
-
-        shareButtonsContainerWidth.constant = CGFloat(viewModel.shareTypes.count*ShareProductViewController.shareButtonWidth)
     }
 
     private func setupShareView() {
+        socialShareView.socialMessage = viewModel.socialMessage
         socialShareView.setupWithShareTypes(viewModel.shareTypes)
-//        socialShareView.socialMessage = viewModel.socialMessage
-        socialShareView.delegate = viewModel.shareDelegate
-        socialShareView.buttonsSide = 60
+        socialShareView.delegate = self
+        socialShareView.facadeDelegate = viewModel.shareFacadeDelegate
+        socialShareView.buttonsSide = ShareProductViewController.shareButtonWidth
         socialShareView.style = .Line
     }
 
@@ -109,6 +109,12 @@ class ShareProductViewController: BaseViewController {
 
 extension ShareProductViewController: ShareProductViewModelDelegate {
 
+}
+
+extension ShareProductViewController: SocialShareViewDelegate {
+    func viewController() -> UIViewController? {
+        return self
+    }
 }
 
 
