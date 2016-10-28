@@ -46,6 +46,11 @@ class PostProductCameraViewModel: BaseViewModel {
     private let keyValueStorage: KeyValueStorage   //cameraAlreadyShown
     let sourcePosting: PostingSource
     private var firstTimeAlertTimer: NSTimer?
+
+    private var skipCustomPermissions: Bool {
+        return sourcePosting == .OnboardingCamera && FeatureFlags.directPostInOnboarding
+    }
+
     // MARK: - Lifecycle
 
 
@@ -131,19 +136,28 @@ class PostProductCameraViewModel: BaseViewModel {
 
     private func setupRX() {
         cameraState.asObservable().subscribeNext{ [weak self] state in
+            guard let strongSelf = self else { return }
             switch state {
             case .MissingPermissions(let msg):
-                self?.infoTitle.value = LGLocalizedString.productPostCameraPermissionsTitle
-                self?.infoSubtitle.value = msg
-                self?.infoButton.value = LGLocalizedString.productPostCameraPermissionsButton
-                self?.infoShown.value = true
+                guard !strongSelf.skipCustomPermissions else {
+                    strongSelf.shouldShowFirstTimeAlert.value = true
+                    return
+                }
+                strongSelf.infoTitle.value = LGLocalizedString.productPostCameraPermissionsTitle
+                strongSelf.infoSubtitle.value = msg
+                strongSelf.infoButton.value = LGLocalizedString.productPostCameraPermissionsButton
+                strongSelf.infoShown.value = true
             case .PendingAskPermissions:
-                self?.infoTitle.value = LGLocalizedString.productPostCameraPermissionsTitle
-                self?.infoSubtitle.value = LGLocalizedString.productPostCameraPermissionsSubtitle
-                self?.infoButton.value = LGLocalizedString.productPostCameraPermissionsButton
-                self?.infoShown.value = true
+                guard !strongSelf.skipCustomPermissions else {
+                    strongSelf.shouldShowFirstTimeAlert.value = true
+                    return
+                }
+                strongSelf.infoTitle.value = LGLocalizedString.productPostCameraPermissionsTitle
+                strongSelf.infoSubtitle.value = LGLocalizedString.productPostCameraPermissionsSubtitle
+                strongSelf.infoButton.value = LGLocalizedString.productPostCameraPermissionsButton
+                strongSelf.infoShown.value = true
             case .TakingPhoto, .Capture, .Preview:
-                self?.infoShown.value = false
+                strongSelf.infoShown.value = false
             }
         }.addDisposableTo(disposeBag)
         

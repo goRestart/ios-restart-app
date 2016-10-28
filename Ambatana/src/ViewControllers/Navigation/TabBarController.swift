@@ -26,6 +26,7 @@ final class TabBarController: UITabBarController {
     private var floatingSellButtonMarginConstraint = NSLayoutConstraint()
 
     private let viewModel: TabBarViewModel
+    private var tooltip: Tooltip?
 
     // Rx
     private let disposeBag = DisposeBag()
@@ -87,19 +88,22 @@ final class TabBarController: UITabBarController {
 
         let alpha: CGFloat = hidden ? 0 : 1
         if animated {
-
             if !hidden {
                 floatingSellButton.hidden = false
+                tooltip?.hidden = false
             }
             UIView.animateWithDuration(0.35, animations: { [weak self] () -> Void in
                 self?.floatingSellButton.alpha = alpha
+                self?.tooltip?.alpha = alpha
                 }, completion: { [weak self] (completed) -> Void in
                     if completed {
                         self?.floatingSellButton.hidden = hidden
+                        self?.tooltip?.hidden = hidden
                     }
                 })
         } else {
             floatingSellButton.hidden = hidden
+            tooltip?.hidden = hidden
         }
     }
 
@@ -247,17 +251,17 @@ extension TabBarController: TabBarViewModelDelegate {
             targetView = floatingSellButton.giveAwayButton
         }
 
-        let tooltip = Tooltip(targetView: targetView, superView: view, title: text, style: .Black(closeEnabled: true),
+        tooltip = Tooltip(targetView: targetView, superView: view, title: text, style: .Black(closeEnabled: true),
                               peakOnTop: false, actionBlock: { [weak self] in
             self?.viewModel.giveAwayButtonPressed()
             self?.viewModel.tooltipDismissed()
         }, closeBlock: { [weak self] in
             self?.viewModel.tooltipDismissed()
         })
-
-        view.addSubview(tooltip)
-        setupExternalConstraintsForTooltip(tooltip, targetView: floatingSellButton, containerView: view)
-
+        if let toolTipShowed = tooltip {
+            view.addSubview(toolTipShowed)
+            setupExternalConstraintsForTooltip(toolTipShowed, targetView: floatingSellButton, containerView: view)
+        }
         view.layoutIfNeeded()
     }
 }

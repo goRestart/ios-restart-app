@@ -115,6 +115,12 @@ extension TabCoordinator: TabNavigator {
     func canOpenAppInvite() -> Bool {
         return appNavigator?.canOpenAppInvite() ?? false
     }
+
+    func openRatingList(userId: String) {
+        let vm = UserRatingListViewModel(userId: userId, tabNavigator: self)
+        let vc = UserRatingListViewController(viewModel: vm)
+        navigationController.pushViewController(vc, animated: true)
+    }
 }
 
 private extension TabCoordinator {

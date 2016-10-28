@@ -17,7 +17,7 @@ protocol NotificationsViewModelDelegate: BaseViewModelDelegate {
 class NotificationsViewModel: BaseViewModel {
 
     weak var delegate: NotificationsViewModelDelegate?
-    weak var tabNavigator: TabNavigator?
+    weak var navigator: NotificationsTabNavigator?
 
     let viewState = Variable<ViewState>(.Loading)
 
@@ -127,65 +127,41 @@ private extension NotificationsViewModel {
 
     private func buildNotification(notification: Notification) -> NotificationData? {
         switch notification.type {
-        case .Rating, .RatingUpdated: // Rating notifications not implemented yet
-            return nil
+        case let .Rating(userId, userImageUrl, userName, _, _):
+            return NotificationData(type: .Rating(userId: userId, userName: userName, userImage: userImageUrl),
+                                    date: notification.createdAt, isRead: notification.isRead,
+                                    primaryAction: { [weak self] in
+                                        self?.navigator?.openMyRatingList()
+                                    })
+        case let .RatingUpdated(userId, userImageUrl, userName, _, _):
+            return NotificationData(type: .RatingUpdated(userId: userId, userName: userName, userImage: userImageUrl),
+                                    date: notification.createdAt, isRead: notification.isRead,
+                                    primaryAction: { [weak self] in
+                                        self?.navigator?.openMyRatingList()
+                                    })
         case let .Like(_, _, productTitle, userId, userImageUrl, userName):
-
-            return buildLikeNotification(userId, userName: userName, userImage: userImageUrl, productTitle: productTitle,
-                                         date: notification.createdAt, isRead: notification.isRead)
-
+            return NotificationData(
+                type: .ProductFavorite(userId: userId, userName: userName, productTitle: productTitle, userImage: userImageUrl),
+                date: notification.createdAt, isRead: notification.isRead,
+                primaryAction: { [weak self] in
+                    let data = UserDetailData.Id(userId: userId, source: .Notifications)
+                    self?.navigator?.openUser(data)
+                })
         case let .Sold(productId, productImageUrl, _, _, _, _):
-            return buildSoldNotification(productId, productImage: productImageUrl, date: notification.createdAt,
-                                         isRead: notification.isRead)
+            return NotificationData(type: .ProductSold(productImage: productImageUrl), date: notification.createdAt,
+                                    isRead: notification.isRead,
+                                    primaryAction: { [weak self] in
+                                        let data = ProductDetailData.Id(productId: productId)
+                                        self?.navigator?.openProduct(data, source: .Notifications)
+                                    })
         }
-    }
-
-    private func buildLikeNotification(userId: String?, userName: String?, userImage: String?, productTitle: String?, date: NSDate, isRead: Bool ) -> NotificationData {
-        let message: String
-        if let productTitle = productTitle where !productTitle.isEmpty {
-            message = LGLocalizedString.notificationsTypeLikeWNameWTitle(userName ?? "", productTitle)
-        } else {
-            message = LGLocalizedString.notificationsTypeLikeWName(userName ?? "")
-        }
-        let userImagePlaceholder = LetgoAvatar.avatarWithID(userId, name: userName)
-        return NotificationData(type: .ProductFavorite, title: "", subtitle: message, date: date, isRead: isRead,
-                                primaryAction: { [weak self] in
-                                    guard let userId = userId else { return }
-                                    let data = UserDetailData.Id(userId: userId, source: .Notifications)
-                                    self?.tabNavigator?.openUser(data)
-                                },
-                                primaryActionText: LGLocalizedString.notificationsTypeLikeButton,
-                                icon: UIImage(named: "ic_favorite"),
-                                leftImage: userImage,
-                                leftImagePlaceholder: userImagePlaceholder)
-    }
-
-    private func buildSoldNotification(productId: String?, productImage: String?, date: NSDate, isRead: Bool) -> NotificationData {
-        let message = LGLocalizedString.notificationsTypeSold
-        let productPlaceholder = UIImage(named: "product_placeholder")
-        return NotificationData(type: .ProductSold, title: "", subtitle: message, date: date, isRead: isRead,
-                                primaryAction: { [weak self] in
-                                    guard let productId = productId else { return }
-                                    let data = ProductDetailData.Id(productId: productId)
-                                    self?.tabNavigator?.openProduct(data, source: .Notifications)
-                                },
-                                primaryActionText: LGLocalizedString.notificationsTypeSoldButton,
-                                icon: UIImage(named: "ic_dollar_sold"),
-                                leftImage: productImage,
-                                leftImagePlaceholder: productPlaceholder)
     }
 
     private func buildWelcomeNotification() -> NotificationData {
-        let title = LGLocalizedString.notificationsTypeWelcomeTitle
-        let subtitle: String
-        if let city = locationManager.currentPostalAddress?.city where !city.isEmpty {
-            subtitle = LGLocalizedString.notificationsTypeWelcomeSubtitleWCity(city)
-        } else {
-            subtitle = LGLocalizedString.notificationsTypeWelcomeSubtitle
-        }
-        return NotificationData(type: .Welcome, title: title, subtitle: subtitle, date: NSDate(), isRead: true,
-                                primaryAction: { [weak self] in self?.delegate?.vmOpenSell() },
-                                primaryActionText: LGLocalizedString.notificationsTypeWelcomeButton)
+        return NotificationData(type: .Welcome(city: locationManager.currentPostalAddress?.city),
+                                date: NSDate(), isRead: true, primaryAction: { [weak self] in
+                                    self?.delegate?.vmOpenSell()
+                                })
     }
 }
 
@@ -211,6 +187,10 @@ private extension NotificationDataType {
             return .ProductSold
         case .ProductFavorite:
             return .Favorite
+        case .Rating:
+            return .Rating
+        case .RatingUpdated:
+            return .RatingUpdated
         case .Welcome:
             return .Welcome
         }

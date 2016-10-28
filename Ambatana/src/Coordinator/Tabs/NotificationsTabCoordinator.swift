@@ -25,7 +25,7 @@ final class NotificationsTabCoordinator: TabCoordinator {
                   myUserRepository: myUserRepository, keyValueStorage: keyValueStorage, tracker: tracker,
                   rootViewController: rootViewController)
 
-        viewModel.tabNavigator = self
+        viewModel.navigator = self
     }
 
     override func shouldHideSellButtonAtViewController(viewController: UIViewController) -> Bool {
@@ -34,5 +34,8 @@ final class NotificationsTabCoordinator: TabCoordinator {
 }
 
 extension NotificationsTabCoordinator: NotificationsTabNavigator {
-
+    func openMyRatingList() {
+        guard let myUserId = myUserRepository.myUser?.objectId else { return }
+        openRatingList(myUserId)
+    }
 }

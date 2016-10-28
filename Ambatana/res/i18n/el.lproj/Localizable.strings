@@ -320,8 +320,11 @@
 "notifications_type_like_button" = "Δείτε το προφίλ τους";
 "notifications_type_like_w_name" = "%@ favorited your product";
 "notifications_type_like_w_name_w_title" = "%@ favorited your product: \"%@\"";
+"notifications_type_rating" = "%@ has reviewed you";
+"notifications_type_rating_button" = "See your reviews";
+"notifications_type_rating_updated" = "%@ has updated your review";
 "notifications_type_sold" = "Ένα προϊόν που προσθέσατε στα αγαπημένα σας έχει πωληθεί";
-"notifications_type_sold_button" = "Δείτε παρόμοια";
+"notifications_type_sold_button" = "Δείτε το προϊόν";
 "notifications_type_welcome_button" = "Ξεκινήστε να πουλάτε";
 "notifications_type_welcome_subtitle" = "Ξεκινήστε δημοσιεύοντας το πρώτο σας αντικείμενο για πώληση και αναζητήστε αντικείμενα κοντά σας.";
 "notifications_type_welcome_subtitle_w_city" = "Ξεκινήστε δημοσιεύοντας το πρώτο σας αντικείμενο για πώληση και αναζητήστε αντικείμενα σε %@.";
@@ -331,8 +334,8 @@
 "nps_survey_title" = "ΘΑ ΘΕΛΑΜΕ ΝΑ ΞΕΡΟΥΜΕ...";
 "nps_survey_very_bad" = "Όχι ιδιαίτερα";
 "nps_survey_very_good" = "Πάρα πολύ";
-"onboarding_direct_camera_alert_subtitle" = "Post your first product and start selling to people near you";
-"onboarding_direct_camera_alert_title" = "Start Making Cash!";
+"onboarding_direct_camera_alert_subtitle" = "Δημοσιεύστε το πρώτο σας προϊόν και ξεκινήστε να πουλάτε σε ανθρώπους δίπλα σας";
+"onboarding_direct_camera_alert_title" = "Ξεκινήστε να κερδίζετε μετρητά!";
 "onboarding_login_skip" = "Παράλειψη";
 "onboarding_posting_button_a" = "Πούλα τα Πράγματά Σου";
 "onboarding_posting_button_b" = "Ξεκινήστε";

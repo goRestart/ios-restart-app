@@ -320,8 +320,11 @@
 "notifications_type_like_button" = "Se profilen deres";
 "notifications_type_like_w_name" = "%@ favoriserte ditt produkt";
 "notifications_type_like_w_name_w_title" = "%@ favoriserte ditt produkt: \"%@\"";
+"notifications_type_rating" = "%@ has reviewed you";
+"notifications_type_rating_button" = "See your reviews";
+"notifications_type_rating_updated" = "%@ has updated your review";
 "notifications_type_sold" = "Et produkt du favoriserte ble solgt";
-"notifications_type_sold_button" = "Se ting som relaterer";
+"notifications_type_sold_button" = "Se produktet";
 "notifications_type_welcome_button" = "Start salget";
 "notifications_type_welcome_subtitle" = "Kom i gang ved å publisere ditt første produkt for salg og bla gjennom flotte produkter i ditt nærområde.";
 "notifications_type_welcome_subtitle_w_city" = "Kom i gang ved å publisere ditt første produkt for salg og bla gjennom flotte produkter i %@.";
@@ -331,8 +334,8 @@
 "nps_survey_title" = "VI ØNSKER Å VITE...";
 "nps_survey_very_bad" = "Ikke sannsynlig";
 "nps_survey_very_good" = "Ekstremt sannsynlig";
-"onboarding_direct_camera_alert_subtitle" = "Post your first product and start selling to people near you";
-"onboarding_direct_camera_alert_title" = "Start Making Cash!";
+"onboarding_direct_camera_alert_subtitle" = "Publiser ditt første produkt og sett i gang å selge til personer i ditt nærområde";
+"onboarding_direct_camera_alert_title" = "Begynn inntjeningen!";
 "onboarding_login_skip" = "Hopp over";
 "onboarding_posting_button_a" = "Selg dine ting";
 "onboarding_posting_button_b" = "Kom i gang";

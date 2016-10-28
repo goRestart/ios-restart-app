@@ -14,7 +14,7 @@ class BubbleNotificationManager {
 
     static let sharedInstance: BubbleNotificationManager = BubbleNotificationManager()
 
-    private var bubble: BubbleNotification?
+    private var taggedNotifications: [String : [BubbleNotification]] = [:]
 
 
     // Showing Methods
@@ -35,33 +35,53 @@ class BubbleNotificationManager {
         guard let window = appDelegate.window else { return }
 
         let frame = CGRect(x: 0, y: 0, width: window.frame.width, height: BubbleNotification.initialHeight)
-        bubble = BubbleNotification(frame: frame, data: data)
+        let bubble = BubbleNotification(frame: frame, data: data)
+        bubble.delegate = self
 
-        guard let bubble = bubble else { return }
         bubble.translatesAutoresizingMaskIntoConstraints = false
-
         window.addSubview(bubble)
         bubble.setupOnView(window)
-        bubble.showBubble()
+
+        if let tag = data.tagGroup {
+            if taggedNotifications[tag] == nil {
+                taggedNotifications[tag] = []
+            }
+            taggedNotifications[tag]?.append(bubble)
+        }
 
         guard let duration = duration else {
             // if no duration is defined, we set the default for bubbles with no buttons
-            NSTimer.scheduledTimerWithTimeInterval(BubbleNotificationManager.defaultDuration, target: self,
-                                                   selector: #selector(hideBubble), userInfo: nil, repeats: false)
+            bubble.showBubble(autoDismissTime: BubbleNotificationManager.defaultDuration)
             return
         }
 
         let finalDuration = (data.action == nil && duration <= 0) ? BubbleNotificationManager.defaultDuration : duration
-
-        if finalDuration > 0 {
-            NSTimer.scheduledTimerWithTimeInterval(finalDuration, target: self, selector: #selector(hideBubble),
-                                                   userInfo: nil, repeats: false)
-        }
+        bubble.showBubble(autoDismissTime: finalDuration)
     }
 
-    dynamic func hideBubble() {
-        guard let bubble = bubble else { return }
-        bubble.closeBubble()
-        self.bubble = nil
+    private func clearTagNotifications(tag: String?) {
+        guard let tag = tag, notifications = taggedNotifications[tag] else { return }
+        taggedNotifications[tag] = nil
+        notifications.forEach{ $0.closeBubble() }
+    }
+}
+
+
+// MARK: - BubbleNotificationDelegate
+
+extension BubbleNotificationManager: BubbleNotificationDelegate {
+
+    func bubbleNotificationSwiped(notification: BubbleNotification) {
+        notification.closeBubble()
+    }
+
+    func bubbleNotificationTimedOut(notification: BubbleNotification) {
+        notification.closeBubble()
+    }
+
+    func bubbleNotificationActionPressed(notification: BubbleNotification) {
+        notification.data.action?.action()
+        notification.closeBubble()
+        clearTagNotifications(notification.data.tagGroup)
     }
 }

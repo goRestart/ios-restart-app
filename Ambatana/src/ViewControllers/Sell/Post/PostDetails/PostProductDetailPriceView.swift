@@ -85,7 +85,7 @@ class PostProductDetailPriceView: BaseView {
         doneButton.setTitle(LGLocalizedString.productPostDone, forState: UIControlState.Normal)
         currencyLabel.text = viewModel.currencySymbol
         currencyLabel.textColor = UIColor.white
-        doneButton.setStyle(.Primary(fontSize: .Medium))
+        doneButton.setStyle(.Primary(fontSize: .Big))
         showFreeOption(viewModel.freeOptionAvailable)
     }
 
