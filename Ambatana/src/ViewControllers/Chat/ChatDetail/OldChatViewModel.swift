@@ -1030,9 +1030,14 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         }
         // Add disclaimer at the bottom of the first page
         if let bottomDisclaimerMessage = bottomDisclaimerMessage where page == 0 {
-            chatMessages = [bottomDisclaimerMessage] + loadedMessages
+            chatMessages = [bottomDisclaimerMessage] + chatMessages
         }
-        loadedMessages = chatMessages
+        if page == 0 {
+            loadedMessages = chatMessages
+        } else {
+            loadedMessages += chatMessages
+        }
+
     }
 
     private func afterRetrieveChatMessagesEvents() {
