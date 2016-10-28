@@ -320,11 +320,14 @@
 "notifications_type_like_button" = "Bekijk hun profiel";
 "notifications_type_like_w_name" = "%@ heeft jouw product gefavoriseerd";
 "notifications_type_like_w_name_w_title" = "%@ heeft jouw product gefavoriseerd: \"%@\"";
+"notifications_type_rating" = "%@ has reviewed you";
+"notifications_type_rating_button" = "See your reviews";
+"notifications_type_rating_updated" = "%@ has updated your review";
 "notifications_type_sold" = "Een product dat jij favoriseerde is verkocht";
-"notifications_type_sold_button" = "Zie gerelateerd";
+"notifications_type_sold_button" = "Bekijk het product";
 "notifications_type_welcome_button" = "Begin met verkopen";
-"notifications_type_welcome_subtitle" = "Ga aan de slag door het plaatsen van je eerste verkoopobject en blader door coole spullen in jouw buurt.";
-"notifications_type_welcome_subtitle_w_city" = "Ga aan de slag door het plaatsen van je eerste verkoopobject en blader door  coole spullen in %@.";
+"notifications_type_welcome_subtitle" = "Verdien geld door te verkopen wat je niet meer nodig hebt en vind geweldige deals in de buurt.";
+"notifications_type_welcome_subtitle_w_city" = "Verdien geld door te verkopen wat je niet meer nodig hebt en vind geweldige deals in %@.";
 "notifications_type_welcome_title" = "Welkom bij letgo!";
 "notifications_user_wo_name" = "Een gebruiker";
 "nps_survey_subtitle" = "Van 1 tot 10, hoe waarschijnlijk zul jij letgo aanbevelen aan een vriend(in)?";
@@ -477,7 +480,7 @@
 "product_sell_again_confirm_ok_button" = "Verkoop het opnieuw";
 "product_sell_again_confirm_title" = "Verkoop het opnieuw";
 "product_sell_again_error_generic" = "Er is een fout opgetreden bij het markeren van de beschikbaarheid van je product. Probeer het later nog eens.";
-"product_sell_again_free_button" = "Markeer het als weer beschikbaar";
+"product_sell_again_free_button" = "Markeer als beschikbaar";
 "product_sell_again_free_confirm_cancel_button" = "Annuleren";
 "product_sell_again_free_confirm_message" = "Markeer je product als beschikbaar zodat alle letgo gebruikers het weten";
 "product_sell_again_free_confirm_ok_button" = "Weggeven";

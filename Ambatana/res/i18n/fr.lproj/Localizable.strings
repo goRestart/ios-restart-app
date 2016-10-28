@@ -320,11 +320,14 @@
 "notifications_type_like_button" = "Découvrez leurs profils";
 "notifications_type_like_w_name" = "%@ a mis votre bien en favoris";
 "notifications_type_like_w_name_w_title" = "%@ a mis votre bien \"%@\" en favoris";
+"notifications_type_rating" = "%@ has reviewed you";
+"notifications_type_rating_button" = "See your reviews";
+"notifications_type_rating_updated" = "%@ has updated your review";
 "notifications_type_sold" = "Un bien que vous aviez mis en favoris a été vendu";
-"notifications_type_sold_button" = "Voir similaire";
+"notifications_type_sold_button" = "Découvrir le bien";
 "notifications_type_welcome_button" = "Commencer à vendre";
-"notifications_type_welcome_subtitle" = "Démarrez en postant votre premier bien à vendre et découvrez des biens intéressants près de chez vous";
-"notifications_type_welcome_subtitle_w_city" = "Commencez en postant votre premier bien à vendre et découvrez des biens intéressant dans %@";
+"notifications_type_welcome_subtitle" = "Gagnez de l'argent en vendant ce dont vous n'avez pas besoin et trouvez de bonnes affaires près de chez vous.";
+"notifications_type_welcome_subtitle_w_city" = "Gagnez de l'argent en vendant ce dont vous n'avez pas besoin et trouvez de bonnes affaires sur %@.";
 "notifications_type_welcome_title" = "Bienvenue chez letgo!";
 "notifications_user_wo_name" = "Un utilisateur";
 "nps_survey_subtitle" = "Sur une échelle de 1 à 10, quelles sont les chances que vous recommandiez letgo à l'un de vos amis ?";
@@ -477,7 +480,7 @@
 "product_sell_again_confirm_ok_button" = "Le vendre à nouveau";
 "product_sell_again_confirm_title" = "Le vendre à nouveau";
 "product_sell_again_error_generic" = "Une erreur est survenue. Veuillez réessayer.";
-"product_sell_again_free_button" = "Le marquer comme disponible";
+"product_sell_again_free_button" = "Redonner";
 "product_sell_again_free_confirm_cancel_button" = "Annuler";
 "product_sell_again_free_confirm_message" = "Marquez votre bien comme disponible pour que les utilisateurs letgo le sachent";
 "product_sell_again_free_confirm_ok_button" = "Donner";

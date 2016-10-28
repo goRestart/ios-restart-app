@@ -21,7 +21,6 @@ protocol UserViewModelDelegate: BaseViewModelDelegate {
     func vmOpenSettings(settingsVC: SettingsViewController)
     func vmOpenReportUser(reportUserVM: ReportUsersViewModel)
     func vmOpenHome()
-    func vmOpenRatingList(ratingListVM: UserRatingListViewModel)
     func vmShowUserActionSheet(cancelLabel: String, actions: [UIAction])
     func vmShowNativeShare(socialMessage: SocialMessage)
 }
@@ -320,8 +319,7 @@ extension UserViewModel {
 
     private func openRatings() {
         guard let userId = user.value?.objectId else { return }
-        let vm = UserRatingListViewModel(userId: userId, tabNavigator: tabNavigator)
-        delegate?.vmOpenRatingList(vm)
+        tabNavigator?.openRatingList(userId)
     }
 
     private func openPushPermissionsAlert() {

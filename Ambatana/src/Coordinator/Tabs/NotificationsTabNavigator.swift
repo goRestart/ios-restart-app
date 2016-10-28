@@ -7,5 +7,5 @@
 //
 
 protocol NotificationsTabNavigator: TabNavigator {
-
+    func openMyRatingList()
 }
