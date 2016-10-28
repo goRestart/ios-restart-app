@@ -15,6 +15,7 @@ class CommercialShareViewController: BaseViewController {
     @IBOutlet weak var socialShareView: SocialShareView!
 
     weak var shareDelegate: SocialShareViewDelegate?
+    weak var socialSharerDelegate: SocialSharerDelegate?
 
     var socialMessage: SocialMessage? {
         didSet {
@@ -59,7 +60,7 @@ class CommercialShareViewController: BaseViewController {
         socialShareView.buttonsSide = 70
         socialShareView.style = .Grid
         let socialSharer = SocialSharer()
-        socialSharer.delegate = self
+        socialSharer.delegate = socialSharerDelegate
         socialShareView.socialSharer = socialSharer
     }
 }
@@ -70,18 +71,5 @@ class CommercialShareViewController: BaseViewController {
 extension CommercialShareViewController: SocialShareViewDelegate {
     func viewController() -> UIViewController? {
         return self
-    }
-}
-
-
-// MARK: - SocialSharerDelegate
-
-extension CommercialShareViewController: SocialSharerDelegate {
-    func shareStartedIn(shareType: ShareType) {
-        // TODO: !!!
-    }
-
-    func shareFinishedIn(shareType: ShareType, withState state: SocialShareState) {
-        // TODO: !!!
     }
 }
