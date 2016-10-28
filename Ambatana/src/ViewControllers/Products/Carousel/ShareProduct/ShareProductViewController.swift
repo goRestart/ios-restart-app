@@ -10,6 +10,9 @@ import UIKit
 
 class ShareProductViewController: BaseViewController {
 
+    static let shareButtonWidth = 60
+    static let gradientSize = 30
+
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var subtitleLabel: UILabel!
     
@@ -24,7 +27,7 @@ class ShareProductViewController: BaseViewController {
     @IBOutlet weak var copyLabel: UILabel!
 
     @IBOutlet weak var gradientView: UIView!
-    var shadowLayer: CALayer?
+    var shadowLayer: CAGradientLayer?
 
     var viewModel: ShareProductViewModel
 
@@ -63,18 +66,18 @@ class ShareProductViewController: BaseViewController {
     // MARK: - Private Methods
 
     private func setupUI() {
-
-        titleLabel.text = viewModel.title
-        subtitleLabel.text = viewModel.subTitle
-        orLabel.text = "_ OR"
-
+        view.layoutIfNeeded()
+        // TODO: uncomment localized vars when validated
+        titleLabel.text = "_SHARING IS WINNING!" //LGLocalizedString.productShareFullscreenTitle
+        subtitleLabel.text = "_Did you know that those who share their products are 100% more likely to be awesome?" //LGLocalizedString.productShareFullscreenSubtitle
+        orLabel.text = "_OR" //LGLocalizedString.commonOr
+        copyLabel.text = "_Copy" //LGLocalizedString.commonCopy
         linkLabel.text = viewModel.link
-        copyLabel.text = "_Copy"
-
+        linkButtonContainer.layer.cornerRadius = LGUIKitConstants.textfieldCornerRadius
         setupShareView()
         setupGradientView()
-        // 👾
-        shareButtonsContainerWidth.constant = CGFloat(viewModel.shareTypes.count*60)
+
+        shareButtonsContainerWidth.constant = CGFloat(viewModel.shareTypes.count*ShareProductViewController.shareButtonWidth)
     }
 
     private func setupShareView() {
@@ -89,8 +92,13 @@ class ShareProductViewController: BaseViewController {
         if let shadowLayer = shadowLayer {
             shadowLayer.removeFromSuperlayer()
         }
-        shadowLayer = CAGradientLayer.gradientWithColor(UIColor.grayLighter, alphas:[0, 1], locations: [0, 1])
+        let gradientFinishSpot = CGFloat(ShareProductViewController.gradientSize)/gradientView.frame.width
+        shadowLayer = CAGradientLayer.gradientWithColor(UIColor.listBackgroundColor, alphas:[0, 1], locations: [0, gradientFinishSpot])
         if let shadowLayer = shadowLayer {
+            // make it horitzontal
+            shadowLayer.startPoint = CGPoint(x: 0, y: 0.5)
+            shadowLayer.endPoint = CGPoint(x: 1, y: 0.5)
+
             shadowLayer.frame = gradientView.bounds
             gradientView.layer.insertSublayer(shadowLayer, atIndex: 0)
         }

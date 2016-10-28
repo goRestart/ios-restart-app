@@ -102,18 +102,15 @@
                                     <nil key="textColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hIw-rf-Bbh" userLabel="gradientView">
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </view>
                                 <label userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="_Copy" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZDb-Jo-w2F">
-                                    <color key="backgroundColor" red="0.96862745100000003" green="0.95294117649999999" blue="0.95294117649999999" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                     <color key="textColor" red="1" green="0.2470588235" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <view alpha="0.59999999999999998" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hIw-rf-Bbh" userLabel="gradientView">
-                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    <constraints>
-                                        <constraint firstAttribute="width" constant="40" id="OH9-mp-bOe"/>
-                                    </constraints>
-                                </view>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6FO-EY-Itc">
                                     <connections>
                                         <action selector="copyButtonPressed:" destination="-1" eventType="touchUpInside" id="EhN-i4-fBY"/>
@@ -124,6 +121,7 @@
                             <constraints>
                                 <constraint firstAttribute="trailing" secondItem="6FO-EY-Itc" secondAttribute="trailing" id="1eD-6N-QAF"/>
                                 <constraint firstItem="LDq-I8-nNv" firstAttribute="centerY" secondItem="QkZ-vI-8Y9" secondAttribute="centerY" id="2DK-t1-VS4"/>
+                                <constraint firstAttribute="trailing" secondItem="hIw-rf-Bbh" secondAttribute="trailing" constant="15" id="6M6-gG-zpI"/>
                                 <constraint firstItem="hIw-rf-Bbh" firstAttribute="top" secondItem="QkZ-vI-8Y9" secondAttribute="top" id="71F-JM-8oe"/>
                                 <constraint firstItem="jzL-0M-3Tj" firstAttribute="top" secondItem="QkZ-vI-8Y9" secondAttribute="top" constant="14" id="95R-MT-A5D"/>
                                 <constraint firstAttribute="bottom" secondItem="6FO-EY-Itc" secondAttribute="bottom" id="CsV-Y1-x7d"/>
@@ -133,13 +131,13 @@
                                 <constraint firstItem="jzL-0M-3Tj" firstAttribute="centerY" secondItem="QkZ-vI-8Y9" secondAttribute="centerY" id="TQg-AH-4rv"/>
                                 <constraint firstAttribute="trailing" secondItem="LDq-I8-nNv" secondAttribute="trailing" constant="20" id="VSN-D7-Hfo"/>
                                 <constraint firstAttribute="bottom" secondItem="ZDb-Jo-w2F" secondAttribute="bottom" id="aPw-Rz-u7J"/>
-                                <constraint firstAttribute="trailing" secondItem="ZDb-Jo-w2F" secondAttribute="trailing" constant="15" id="c1j-ou-Euf"/>
                                 <constraint firstItem="jzL-0M-3Tj" firstAttribute="leading" secondItem="QkZ-vI-8Y9" secondAttribute="leading" constant="10" id="hpx-Z1-Nxx"/>
+                                <constraint firstItem="ZDb-Jo-w2F" firstAttribute="trailing" secondItem="hIw-rf-Bbh" secondAttribute="trailing" id="hzi-vp-L6m"/>
                                 <constraint firstAttribute="height" constant="50" id="iVO-y9-v8i"/>
                                 <constraint firstItem="ZDb-Jo-w2F" firstAttribute="top" secondItem="QkZ-vI-8Y9" secondAttribute="top" id="mCp-gd-ovx"/>
                                 <constraint firstItem="6FO-EY-Itc" firstAttribute="top" secondItem="QkZ-vI-8Y9" secondAttribute="top" id="pqf-IK-zq6"/>
                                 <constraint firstItem="LDq-I8-nNv" firstAttribute="leading" secondItem="jzL-0M-3Tj" secondAttribute="trailing" constant="10" id="qKe-QI-KxH"/>
-                                <constraint firstItem="ZDb-Jo-w2F" firstAttribute="leading" secondItem="hIw-rf-Bbh" secondAttribute="trailing" id="sAK-fd-sLZ"/>
+                                <constraint firstItem="ZDb-Jo-w2F" firstAttribute="leading" secondItem="hIw-rf-Bbh" secondAttribute="leading" constant="40" id="x9H-M3-ixv"/>
                             </constraints>
                         </view>
                     </subviews>

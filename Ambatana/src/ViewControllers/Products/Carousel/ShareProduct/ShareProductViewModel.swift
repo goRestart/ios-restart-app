@@ -24,13 +24,7 @@ class ShareProductViewModel: BaseViewModel {
     var link: String {
         return socialMessage?.copyLinkText ?? Constants.websiteURL
     }
-
-    var title: String {
-        return "_SHARING IS WINNING!"
-    }
-    var subTitle: String {
-        return "_Did you know that those who share their products are 100% more likely to be awesome?"
-    }
+    
 
     convenience init(productVM: ProductViewModel) {
         var systemCountryCode = ""
