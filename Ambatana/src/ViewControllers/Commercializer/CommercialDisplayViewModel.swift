@@ -19,7 +19,7 @@ public class CommercialDisplayViewModel: BaseViewModel {
     var selectedCommercial: Commercializer? {
         didSet {
             guard let shareUrl = selectedCommercial?.shareURL else { return }
-            socialShareMessage = SocialHelper.socialMessageCommercializer(shareUrl, thumbUrl: selectedCommercial?.thumbURL)
+            socialShareMessage = CommercializerSocialMessage(shareUrl: shareUrl, thumbUrl: selectedCommercial?.thumbURL)
         }
     }
     var numberOfCommercials: Int {

@@ -118,10 +118,9 @@ class SocialShareView: UIView {
     }
 
     private func buttonListForShareTypes(shareTypes: [ShareType]) -> [UIButton] {
-
         var buttons: [UIButton] = []
-
         for type in shareTypes {
+            guard SocialSharer.canShareIn(type) else { continue }
             switch type {
             case .Email:
                 guard let button = createEmailButton() else { break }

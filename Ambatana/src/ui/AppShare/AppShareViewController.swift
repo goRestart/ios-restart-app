@@ -67,17 +67,17 @@ class AppShareViewController: UIViewController {
     // MARK: - Actions
 
     @IBAction func onInviteFBMessenger(sender: AnyObject) {
-        let socialMessage = SocialHelper.socialMessageAppShare()
+        let socialMessage = AppShareSocialMessage()
         socialSharer.share(socialMessage, shareType: .FBMessenger, viewController: self)
     }
 
     @IBAction func onInviteWhatsapp(sender: AnyObject) {
-        let socialMessage = SocialHelper.socialMessageAppShare()
+        let socialMessage = AppShareSocialMessage()
         socialSharer.share(socialMessage, shareType: .Whatsapp, viewController: self)
     }
 
     @IBAction func onInviteEmail(sender: AnyObject) {
-        let socialMessage = SocialHelper.socialMessageAppShare()
+        let socialMessage = AppShareSocialMessage()
         socialSharer.share(socialMessage, shareType: .Email, viewController: self)
     }
 
@@ -152,7 +152,7 @@ class AppShareViewController: UIViewController {
 }
 
 
-// MARK: - SocialSharerDelegate
+// MARK: - SocialShareDelegate
 
 extension AppShareViewController: SocialSharerDelegate {
     func shareStartedIn(shareType: ShareType) {

@@ -110,12 +110,12 @@ class ProductPostedViewModel: BaseViewModel {
         }
     }
 
-    var shareInfo: SocialMessage? {
+    var socialMessage: SocialMessage? {
         switch status {
         case .Posting, .Error:
             return nil
         case let .Success(product):
-            return SocialHelper.socialMessageWithProduct(product)
+            return ProductSocialMessage(product: product)
         }
     }
 
@@ -173,53 +173,22 @@ class ProductPostedViewModel: BaseViewModel {
         navigator?.closeProductPostedAndOpenPost()
     }
 
-    func nativeShareInEmail() {
+    func shareStartedIn(shareType: ShareType) {
         guard let product = status.product else { return }
-        trackEvent(TrackerEvent.productSellConfirmationShare(product, network: .Email))
+        trackEvent(TrackerEvent.productSellConfirmationShare(product, network: shareType.trackingShareNetwork))
     }
 
-    func nativeShareInTwitter() {
+    func shareFinishedIn(shareType: ShareType, withState state: SocialShareState) {
         guard let product = status.product else { return }
-        trackEvent(TrackerEvent.productSellConfirmationShare(product, network: .Twitter))
-    }
 
-    func nativeShareInFacebook() {
-        guard let product = status.product else { return }
-        trackEvent(TrackerEvent.productSellConfirmationShare(product, network: .Facebook))
-    }
-
-    func nativeShareInFacebookFinished(state: SocialShareState) {
-        guard let product = status.product else { return }
         switch state {
         case .Completed:
-            trackEvent(TrackerEvent.productSellConfirmationShareComplete(product, network: .Facebook))
+            trackEvent(TrackerEvent.productSellConfirmationShareComplete(product, network: shareType.trackingShareNetwork))
         case .Cancelled:
-            trackEvent(TrackerEvent.productSellConfirmationShareCancel(product, network: .Facebook))
-        case .Failed:
-                break;
-        }
-    }
-
-    func nativeShareInFBMessenger() {
-        guard let product = status.product else { return }
-        trackEvent(TrackerEvent.productSellConfirmationShare(product, network: .FBMessenger))
-    }
-
-    func nativeShareInFBMessengerFinished(state: SocialShareState) {
-        guard let product = status.product else { return }
-        switch state {
-        case .Completed:
-            trackEvent(TrackerEvent.productSellConfirmationShareComplete(product, network: .FBMessenger))
-        case .Cancelled:
-            trackEvent(TrackerEvent.productSellConfirmationShareCancel(product, network: .FBMessenger))
+            trackEvent(TrackerEvent.productSellConfirmationShareCancel(product, network: shareType.trackingShareNetwork))
         case .Failed:
             break;
         }
-    }
-
-    func nativeShareInWhatsApp() {
-        guard let product = status.product else { return }
-        trackEvent(TrackerEvent.productSellConfirmationShare(product, network: .Whatsapp))
     }
     
 

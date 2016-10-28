@@ -310,7 +310,7 @@ class ProductViewModel: BaseViewModel {
 
             strongSelf.productIsFavoriteable.value = !product.isMine
             strongSelf.isFavorite.value = product.favorite
-            strongSelf.socialMessage.value = SocialHelper.socialMessageWithProduct(product)
+            strongSelf.socialMessage.value = ProductSocialMessage(product: product)
             strongSelf.productImageURLs.value = product.images.flatMap { return $0.fileURL }
             strongSelf.editButtonState.value = product.isMine ? .Enabled : .Hidden
 
@@ -729,7 +729,7 @@ extension ProductViewModel {
     }
 
     private var socialShareMessage: SocialMessage {
-        return SocialHelper.socialMessageWithProduct(product.value)
+        return ProductSocialMessage(product: product.value)
     }
 
     private var suggestMarkSoldWhenDeleting: Bool {

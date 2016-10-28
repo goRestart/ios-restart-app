@@ -188,19 +188,6 @@ extension SocialSharer: MFMessageComposeViewControllerDelegate {
 }
 
 
-// MARK: - TwitterShareDelegate
-
-extension SocialSharer: TwitterShareDelegate {
-    func twitterShareCancelled() {
-        delegate?.shareFinishedIn(.Twitter, withState: .Cancelled)
-    }
-
-    func twitterShareSuccess() {
-        delegate?.shareFinishedIn(.Twitter, withState: .Completed)
-    }
-}
-
-
 // MARK: - Private methods
 // MARK: > Share
 

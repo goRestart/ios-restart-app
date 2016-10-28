@@ -200,10 +200,6 @@ class MainProductsViewModel: BaseViewModel {
         tracker.trackEvent(TrackerEvent.filterStart())
     }
 
-    func shareDelegateForProduct(product: Product) -> MainProductsViewModelShareDelegate? {
-        return MainProductsViewModelShareDelegate(product: product, myUser: myUserRepository.myUser)
-    }
-
     /**
         Called when search button is pressed.
     */
@@ -603,44 +599,5 @@ private extension MainProductsViewModel {
             tracker.trackEvent(TrackerEvent.searchComplete(myUserRepository.myUser, searchQuery: searchType.query,
                 isTrending: searchType.isTrending, success: hasProducts ? .Success : .Failed))
         }
-    }
-}
-
-
-// MARK: - NativeShareDelegate
-
-public class MainProductsViewModelShareDelegate: NativeShareDelegate {
-
-    let sharingProduct: Product
-
-    var nativeShareSuccessMessage: String? { return LGLocalizedString.appShareSuccess }
-    var nativeShareErrorMessage: String? { return LGLocalizedString.appShareError }
-
-    init(product: Product, myUser: MyUser?) {
-        self.sharingProduct = product
-    }
-
-    func nativeShareInFacebook() {
-        let trackerEvent = TrackerEvent.productShare(sharingProduct, network: .Facebook,
-            buttonPosition: .None, typePage: .ProductList)
-        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
-    }
-
-    func nativeShareInTwitter() {
-        let trackerEvent = TrackerEvent.productShare(sharingProduct, network: .Twitter,
-            buttonPosition: .None, typePage: .ProductList)
-        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
-    }
-
-    func nativeShareInEmail() {
-        let trackerEvent = TrackerEvent.productShare(sharingProduct, network: .Email,
-            buttonPosition: .None, typePage: .ProductList)
-        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
-    }
-
-    func nativeShareInWhatsApp() {
-        let trackerEvent = TrackerEvent.productShare(sharingProduct, network: .Whatsapp,
-            buttonPosition: .None, typePage: .ProductList)
-        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
 }
