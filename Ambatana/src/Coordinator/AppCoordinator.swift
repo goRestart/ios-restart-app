@@ -714,7 +714,8 @@ private extension AppCoordinator {
                     })
                 let userName = conversation.interlocutor?.name ?? ""
                 let justMessage = message.stringByReplacingOccurrencesOfString(userName, withString: "").trim
-                let data = BubbleNotificationData(text: userName,
+                let data = BubbleNotificationData(tagGroup: conversationId,
+                                                  text: userName,
                                                   infoText: justMessage,
                                                   action: action,
                                                   iconURL: conversation.interlocutor?.avatar?.fileURL,
@@ -728,7 +729,8 @@ private extension AppCoordinator {
                 self?.openTab(.Chats, force: false)
                 self?.selectedTabCoordinator?.openChat(.DataIds(data: data))
                 })
-            let data = BubbleNotificationData(text: message,
+            let data = BubbleNotificationData(tagGroup: conversationId,
+                                              text: message,
                                               action: action)
             bubbleNotifManager.showBubble(data, duration: 3)
         }
