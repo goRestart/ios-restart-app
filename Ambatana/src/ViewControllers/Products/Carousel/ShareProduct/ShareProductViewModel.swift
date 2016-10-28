@@ -19,12 +19,12 @@ class ShareProductViewModel: BaseViewModel {
     var delegate: ShareProductViewModelDelegate?
     var shareDelegate: SocialShareViewDelegate?
     weak var navigator: ProductDetailNavigator?
-
-    var socialMessage: SocialMessage?
-    var link: String {
-        return socialMessage?.copyLinkText ?? Constants.websiteURL
-    }
     
+//    var socialMessage: SocialMessage?
+//    var link: String {
+//        return socialMessage?.copyLinkText ?? Constants.websiteURL
+//    }
+
 
     convenience init(productVM: ProductViewModel) {
         var systemCountryCode = ""
@@ -34,14 +34,13 @@ class ShareProductViewModel: BaseViewModel {
             systemCountryCode = NSLocale.currentLocale().objectForKey(NSLocaleCountryCode) as? String ?? ""
         }
         let countryCode = Core.locationManager.currentPostalAddress?.countryCode ?? systemCountryCode
-        self.init(productVM: productVM, countryCode: countryCode)
+        self.init(countryCode: countryCode)
     }
 
     // init w vm, locale & core.locationM
 
-    init(productVM: ProductViewModel, countryCode: String) {
-        self.shareDelegate = productVM
-        self.socialMessage = productVM.socialMessage.value
+    init(countryCode: String) {
+//        self.socialMessage = productVM.socialMessage.value
         self.shareTypes = ShareType.shareTypesForCountry(countryCode, maxButtons: 4, includeNative: true)
         super.init()
     }

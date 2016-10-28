@@ -66,77 +66,77 @@ class CommercialShareViewController: BaseViewController {
 
 extension CommercialShareViewController: SocialShareViewDelegate {
 
-    func shareInEmail(){
-        shareDelegate?.shareInEmail()
-    }
-
-    func shareInEmailFinished(state: SocialShareState) {
-        shareDelegate?.shareInEmailFinished(state)
-    }
-
-
-    func shareInFacebook() {
-        shareDelegate?.shareInFacebook()
-    }
-
-    func shareInFacebookFinished(state: SocialShareState) {
-        switch state {
-        case .Completed, .Cancelled:
-            shareDelegate?.shareInFacebookFinished(state)
-        case .Failed:
-            showAutoFadingOutMessageAlert(LGLocalizedString.sellSendErrorSharingFacebook)
-        }
-    }
-
-    func shareInFBMessenger() {
-        shareDelegate?.shareInFBMessenger()
-    }
-
-    func shareInFBMessengerFinished(state: SocialShareState) {
-        switch state {
-        case .Completed, .Cancelled:
-            shareDelegate?.shareInFBMessengerFinished(state)
-        case .Failed:
-            showAutoFadingOutMessageAlert(LGLocalizedString.sellSendErrorSharingFacebook)
-        }
-    }
-
-    func shareInWhatsApp() {
-        shareDelegate?.shareInWhatsApp()
-    }
-
-    func shareInTwitter() {
-        shareDelegate?.shareInTwitter()
-    }
-
-    func shareInTwitterFinished(state: SocialShareState) {
-        switch state {
-        case .Completed, .Cancelled:
-            shareDelegate?.shareInTwitterFinished(state)
-        case .Failed:
-            break
-        }
-    }
-
-    func shareInTelegram() {
-        shareDelegate?.shareInTelegram()
-    }
+//    func shareInEmail(){
+//        shareDelegate?.shareInEmail()
+//    }
+//
+//    func shareInEmailFinished(state: SocialShareState) {
+//        shareDelegate?.shareInEmailFinished(state)
+//    }
+//
+//
+//    func shareInFacebook() {
+//        shareDelegate?.shareInFacebook()
+//    }
+//
+//    func shareInFacebookFinished(state: SocialShareState) {
+//        switch state {
+//        case .Completed, .Cancelled:
+//            shareDelegate?.shareInFacebookFinished(state)
+//        case .Failed:
+//            showAutoFadingOutMessageAlert(LGLocalizedString.sellSendErrorSharingFacebook)
+//        }
+//    }
+//
+//    func shareInFBMessenger() {
+//        shareDelegate?.shareInFBMessenger()
+//    }
+//
+//    func shareInFBMessengerFinished(state: SocialShareState) {
+//        switch state {
+//        case .Completed, .Cancelled:
+//            shareDelegate?.shareInFBMessengerFinished(state)
+//        case .Failed:
+//            showAutoFadingOutMessageAlert(LGLocalizedString.sellSendErrorSharingFacebook)
+//        }
+//    }
+//
+//    func shareInWhatsApp() {
+//        shareDelegate?.shareInWhatsApp()
+//    }
+//
+//    func shareInTwitter() {
+//        shareDelegate?.shareInTwitter()
+//    }
+//
+//    func shareInTwitterFinished(state: SocialShareState) {
+//        switch state {
+//        case .Completed, .Cancelled:
+//            shareDelegate?.shareInTwitterFinished(state)
+//        case .Failed:
+//            break
+//        }
+//    }
+//
+//    func shareInTelegram() {
+//        shareDelegate?.shareInTelegram()
+//    }
 
     func viewController() -> UIViewController? {
         return self
     }
-    
-    func shareInSMS() {
-        shareDelegate?.shareInSMS()
-    }
-    
-    func shareInSMSFinished(state: SocialShareState) {
-        shareDelegate?.shareInEmailFinished(state)
-    }
-    
-    func shareInCopyLink() {
-        shareDelegate?.shareInCopyLink()
-    }
 
-    func openNativeShare() {}
+//    func shareInSMS() {
+//        shareDelegate?.shareInSMS()
+//    }
+//    
+//    func shareInSMSFinished(state: SocialShareState) {
+//        shareDelegate?.shareInEmailFinished(state)
+//    }
+//    
+//    func shareInCopyLink() {
+//        shareDelegate?.shareInCopyLink()
+//    }
 }
+
+// TODO: Add the facade!!!

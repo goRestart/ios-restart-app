@@ -13,6 +13,7 @@ import LGCollapsibleLabel
 
 protocol ProductCarouselMoreInfoDelegate: class {
     func didEndScrolling(topOverScroll: CGFloat, bottomOverScroll: CGFloat)
+    func viewControllerToShowShareOptions() -> UIViewController
 }
 
 
@@ -316,10 +317,11 @@ extension ProductCarouselMoreInfoView {
             .addDisposableTo(disposeBag)
         
         socialShareView.socialMessage = viewModel.socialMessage.value
+        socialShareView.facadeDelegate = viewModel
     }
     
     private func setupSocialShareView() {
-        socialShareView.delegate = viewModel
+        socialShareView.delegate = self
         socialShareView.style = .Grid
         socialShareView.gridColumns = 5
         switch DeviceFamily.current {
@@ -378,6 +380,17 @@ extension ProductCarouselMoreInfoView {
     }
 }
 
+
+// MARK: - SocialShareViewDelegate
+
+extension ProductCarouselMoreInfoView: SocialShareViewDelegate {
+    func viewController() -> UIViewController? {
+        return delegate?.viewControllerToShowShareOptions()
+    }
+}
+
+
+// MARK: - Accessibility ids
 
 extension ProductCarouselMoreInfoView {
     private func setAccessibilityIds() {

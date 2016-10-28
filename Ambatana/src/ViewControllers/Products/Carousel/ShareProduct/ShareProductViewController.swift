@@ -58,8 +58,8 @@ class ShareProductViewController: BaseViewController {
     }
 
     @IBAction func copyButtonPressed(sender: AnyObject) {
-        guard let socialMessage = viewModel.socialMessage else { return }
-        SocialHelper.shareOnCopyLink(socialMessage, viewController: self)
+//        guard let socialMessage = viewModel.socialMessage else { return }
+//        SocialHelper.shareOnCopyLink(socialMessage, viewController: self)
     }
 
 
@@ -72,8 +72,9 @@ class ShareProductViewController: BaseViewController {
         subtitleLabel.text = "_Did you know that those who share their products are 100% more likely to be awesome?" //LGLocalizedString.productShareFullscreenSubtitle
         orLabel.text = "_OR" //LGLocalizedString.commonOr
         copyLabel.text = "_Copy" //LGLocalizedString.commonCopy
-        linkLabel.text = viewModel.link
+//        linkLabel.text = viewModel.link
         linkButtonContainer.layer.cornerRadius = LGUIKitConstants.textfieldCornerRadius
+
         setupShareView()
         setupGradientView()
 
@@ -82,7 +83,7 @@ class ShareProductViewController: BaseViewController {
 
     private func setupShareView() {
         socialShareView.setupWithShareTypes(viewModel.shareTypes)
-        socialShareView.socialMessage = viewModel.socialMessage
+//        socialShareView.socialMessage = viewModel.socialMessage
         socialShareView.delegate = viewModel.shareDelegate
         socialShareView.buttonsSide = 60
         socialShareView.style = .Line
