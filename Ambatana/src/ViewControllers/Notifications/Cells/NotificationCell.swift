@@ -8,9 +8,7 @@
 
 import UIKit
 
-class ProductNotificationCell: UITableViewCell, ReusableCell {
-
-    static var reusableID = "ProductNotificationCell"
+class NotificationCell: UITableViewCell, ReusableCell {
 
     @IBOutlet weak var cellContainer: UIView!
     @IBOutlet weak var primaryImage: UIImageView!

@@ -16,6 +16,8 @@ public class NotificationCellDrawerFactory {
         switch notification.type {
         case .ProductFavorite, .ProductSold:
             return ProductNotificationCellDrawer()
+        case .Rating, .RatingUpdated:
+            return RatingNotificationCellDrawer()
         case .Welcome:
             return WelcomeNotificationCellDrawer()
         }
@@ -23,6 +25,7 @@ public class NotificationCellDrawerFactory {
 
     static func registerCells(tableView: UITableView) {
         ProductNotificationCellDrawer.registerCell(tableView)
+        RatingNotificationCellDrawer.registerCell(tableView)
         WelcomeNotificationCellDrawer.registerCell(tableView)
     }
 }

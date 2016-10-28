@@ -17,7 +17,7 @@ protocol NotificationsViewModelDelegate: BaseViewModelDelegate {
 class NotificationsViewModel: BaseViewModel {
 
     weak var delegate: NotificationsViewModelDelegate?
-    weak var tabNavigator: TabNavigator?
+    weak var navigator: NotificationsTabNavigator?
 
     let viewState = Variable<ViewState>(.Loading)
 
@@ -127,10 +127,13 @@ private extension NotificationsViewModel {
 
     private func buildNotification(notification: Notification) -> NotificationData? {
         switch notification.type {
-        case .Rating, .RatingUpdated: // Rating notifications not implemented yet
-            return nil
+        case let .Rating(userId, userImageUrl, userName, _, _):
+            return buildRatingNotification(userId, userName: userName, userImage: userImageUrl,
+                                           date: notification.createdAt, isRead: notification.isRead)
+        case let .RatingUpdated(userId, userImageUrl, userName, _, _):
+            return buildRatingUpdatedNotification(userId, userName: userName, userImage: userImageUrl,
+                                           date: notification.createdAt, isRead: notification.isRead)
         case let .Like(_, _, productTitle, userId, userImageUrl, userName):
-
             return buildLikeNotification(userId, userName: userName, userImage: userImageUrl, productTitle: productTitle,
                                          date: notification.createdAt, isRead: notification.isRead)
 
@@ -152,7 +155,7 @@ private extension NotificationsViewModel {
                                 primaryAction: { [weak self] in
                                     guard let userId = userId else { return }
                                     let data = UserDetailData.Id(userId: userId, source: .Notifications)
-                                    self?.tabNavigator?.openUser(data)
+                                    self?.navigator?.openUser(data)
                                 },
                                 primaryActionText: LGLocalizedString.notificationsTypeLikeButton,
                                 icon: UIImage(named: "ic_favorite"),
@@ -167,12 +170,34 @@ private extension NotificationsViewModel {
                                 primaryAction: { [weak self] in
                                     guard let productId = productId else { return }
                                     let data = ProductDetailData.Id(productId: productId)
-                                    self?.tabNavigator?.openProduct(data, source: .Notifications)
+                                    self?.navigator?.openProduct(data, source: .Notifications)
                                 },
                                 primaryActionText: LGLocalizedString.notificationsTypeSoldButton,
                                 icon: UIImage(named: "ic_dollar_sold"),
                                 leftImage: productImage,
                                 leftImagePlaceholder: productPlaceholder)
+    }
+
+    private func buildRatingNotification(userId: String?, userName: String?, userImage: String?, date: NSDate, isRead: Bool) -> NotificationData {
+        let message = LGLocalizedString.notificationsTypeRatingUpdated(userName ?? "")
+        let userImagePlaceholder = LetgoAvatar.avatarWithID(userId, name: userName)
+        return NotificationData(type: .Rating, title: "", subtitle: message, date: date, isRead: isRead,
+                                primaryAction: { [weak self] in self?.navigator?.openMyRatingList() },
+                                primaryActionText: LGLocalizedString.notificationsTypeRatingButton,
+                                icon: UIImage(named: "ic_rating_star"),
+                                leftImage: userImage,
+                                leftImagePlaceholder: userImagePlaceholder)
+    }
+
+    private func buildRatingUpdatedNotification(userId: String?, userName: String?, userImage: String?, date: NSDate, isRead: Bool) -> NotificationData {
+        let message = LGLocalizedString.notificationsTypeRating(userName ?? "")
+        let userImagePlaceholder = LetgoAvatar.avatarWithID(userId, name: userName)
+        return NotificationData(type: .RatingUpdated, title: "", subtitle: message, date: date, isRead: isRead,
+                                primaryAction: { [weak self] in self?.navigator?.openMyRatingList() },
+                                primaryActionText: LGLocalizedString.notificationsTypeRatingButton,
+                                icon: UIImage(named: "ic_rating_star"),
+                                leftImage: userImage,
+                                leftImagePlaceholder: userImagePlaceholder)
     }
 
     private func buildWelcomeNotification() -> NotificationData {
@@ -211,6 +236,10 @@ private extension NotificationDataType {
             return .ProductSold
         case .ProductFavorite:
             return .Favorite
+        case .Rating:
+            return .Rating
+        case .RatingUpdated:
+            return .RatingUpdated
         case .Welcome:
             return .Welcome
         }

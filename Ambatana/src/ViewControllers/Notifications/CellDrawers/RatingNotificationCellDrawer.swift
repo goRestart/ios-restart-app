@@ -8,7 +8,7 @@
 
 import LGCoreKit
 
-class ProductNotificationCellDrawer: BaseNotificationCellDrawer<NotificationCell> {
+class RatingNotificationCellDrawer: BaseNotificationCellDrawer<NotificationCell> {
     
     override func draw(cell: NotificationCell, data: NotificationData) {
         cell.actionLabel.text = data.subtitle

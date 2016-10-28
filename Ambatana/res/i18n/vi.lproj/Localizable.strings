@@ -320,11 +320,14 @@
 "notifications_type_like_button" = "Xem hồ sơ của họ";
 "notifications_type_like_w_name" = "%@ đã thích món đồ của bạn";
 "notifications_type_like_w_name_w_title" = "%@ đã thích món đồ của bạn: \"%@\"";
+"notifications_type_rating" = "%@ has reviewed you";
+"notifications_type_rating_button" = "See your reviews";
+"notifications_type_rating_updated" = "%@ has updated your review";
 "notifications_type_sold" = "Một sản phẩm bạn yêu thích vừa được bán";
-"notifications_type_sold_button" = "Xem liên quan";
+"notifications_type_sold_button" = "Xem sản phẩm";
 "notifications_type_welcome_button" = "Bắt đầu bán";
-"notifications_type_welcome_subtitle" = "Bắt đầu bằng việc đăng sản phẩm đầu tiên của bạn và xem những món đồ thú vị quanh bạn.";
-"notifications_type_welcome_subtitle_w_city" = "Bắt đầu bằng việc đăng bán sản phẩm đầu tiên của bạn và xem những món đồ thú vị tại %@.";
+"notifications_type_welcome_subtitle" = "Kiếm tiền bằng việc bán những gì bạn không cần đến và tìm các giao dịch tuyệt vời xung quanh.";
+"notifications_type_welcome_subtitle_w_city" = "Kiếm tiền bằng việc bán những gì bạn không cần đến và tìm các giao dịch tuyệt vời tại %@.";
 "notifications_type_welcome_title" = "Chào mừng đến với letgo!";
 "notifications_user_wo_name" = "Một người dùng";
 "nps_survey_subtitle" = "Bạn giới thiệu letgo với bạn bè như thế nào, theo thang điểm từ 1 đến 10?";
@@ -477,7 +480,7 @@
 "product_sell_again_confirm_ok_button" = "Bán lại";
 "product_sell_again_confirm_title" = "Bán lại";
 "product_sell_again_error_generic" = "Lỗi xảy ra trong khi đánh dấu sẵn có cho sản phẩm. Xin vui lòng thử lại sau.";
-"product_sell_again_free_button" = "Đánh dấu có sẵn lại";
+"product_sell_again_free_button" = "Đánh dấu có sẵn";
 "product_sell_again_free_confirm_cancel_button" = "Hủy";
 "product_sell_again_free_confirm_message" = "Đánh dấu có sẵn cho sản phẩm để mọi người letgo được biết";
 "product_sell_again_free_confirm_ok_button" = "Đồ tặng";

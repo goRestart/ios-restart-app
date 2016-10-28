@@ -320,6 +320,9 @@
 "notifications_type_like_button" = "Проверить профиль";
 "notifications_type_like_w_name" = "%@ добавил ваш товар в избранное";
 "notifications_type_like_w_name_w_title" = "%@ добавил ваш товар в избранное: \"%@\"";
+"notifications_type_rating" = "%@ has reviewed you";
+"notifications_type_rating_button" = "See your reviews";
+"notifications_type_rating_updated" = "%@ has updated your review";
 "notifications_type_sold" = "Товар из вашего избранного продан";
 "notifications_type_sold_button" = "Посмотреть похожее";
 "notifications_type_welcome_button" = "Начинайте продавать";
