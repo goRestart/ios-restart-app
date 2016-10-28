@@ -135,8 +135,17 @@ class NotificationsManager {
         requestingNotifications = true
         notificationsRepository.unreadNotificationsCount() { [weak self] result in
             self?.requestingNotifications = false
-            guard let count = result.value else { return }
-            self?.unreadNotificationsCount.value = count
+            guard let notificationCounts = result.value else { return }
+            self?.unreadNotificationsCount.value = notificationCounts.totalVisibleCount
         }
+    }
+}
+
+
+// MARK: - UnreadNotificationsCounts
+
+private extension UnreadNotificationsCounts {
+    var totalVisibleCount: Int {
+        return productLike + productSold + review + reviewUpdated
     }
 }
