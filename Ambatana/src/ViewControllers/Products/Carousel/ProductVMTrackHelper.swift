@@ -38,204 +38,65 @@ extension ProductViewModel {
 
     // MARK: Share
 
-    func trackShareInEmail(buttonPosition: EventParameterButtonPosition) {
-        trackHelper.shareInEmail(buttonPosition)
+    func trackShareStarted(shareType: ShareType, buttonPosition: EventParameterButtonPosition) {
+        trackHelper.trackShareStarted(shareType, buttonPosition: buttonPosition)
     }
 
-    func trackShareInEmailCompleted() {
-        trackHelper.shareInEmailCompleted()
-    }
-
-    func trackShareInEmailCancelled() {
-        trackHelper.shareInEmailCancelled()
-    }
-
-    func trackShareInFacebook(buttonPosition: EventParameterButtonPosition) {
-        trackHelper.shareInFacebook(buttonPosition)
-    }
-
-    func trackShareInFBCompleted() {
-        trackHelper.shareInFBCompleted()
-    }
-
-    func trackShareInFBCancelled() {
-        trackHelper.shareInFBCancelled()
-    }
-
-    func trackShareInFBMessenger() {
-        trackHelper.shareInFBMessenger()
-    }
-
-    func trackShareInFBMessengerCompleted() {
-        trackHelper.shareInFBMessengerCompleted()
-    }
-
-    func trackShareInFBMessengerCancelled() {
-        trackHelper.shareInFBMessengerCancelled()
-    }
-
-    func trackShareInWhatsApp() {
-        trackHelper.shareInWhatsApp()
-    }
-
-    func trackShareInTwitter() {
-        trackHelper.shareInTwitter()
-    }
-
-    func trackShareInTwitterCompleted() {
-        trackHelper.shareInTwitterCompleted()
-    }
-
-    func trackShareInTwitterCancelled() {
-        trackHelper.shareInTwitterCancelled()
-    }
-
-    func trackShareInTelegram() {
-        trackHelper.shareInTelegram()
-    }
-
-    func trackShareInWhatsappActivity() {
-        trackHelper.shareInWhatsappActivity()
-    }
-
-    func trackShareInTwitterActivity() {
-        trackHelper.shareInTwitterActivity()
-    }
-
-    func trackShareInSMS() {
-        trackHelper.shareInSMS()
-    }
-
-    func trackShareInSMSCompleted() {
-        trackHelper.shareInSMSCompleted()
-    }
-
-    func trackShareInSMSCancelled() {
-        trackHelper.shareInSMSCancelled()
-    }
-
-    func trackShareInCopyLink() {
-        trackHelper.shareInCopyLink()
+    func trackShareCompleted(shareType: ShareType, buttonPosition: EventParameterButtonPosition, state: SocialShareState) {
+        trackHelper.trackShareCompleted(shareType, buttonPosition: buttonPosition, state: state)
     }
 }
 
 
 // MARK: - Share
 
+private extension ShareType {
+    var shareNetwork: EventParameterShareNetwork {
+        switch self {
+        case .Email:
+            return .Email
+        case .Facebook:
+            return .Facebook
+        case .FBMessenger:
+            return .FBMessenger
+        case .Whatsapp:
+            return .Whatsapp
+        case .Twitter:
+            return .Twitter
+        case .Telegram:
+            return .Telegram
+        case .CopyLink:
+            return .CopyLink
+        case .SMS:
+            return .SMS
+        case .Native:
+            return .Native
+        }
+    }
+}
+
 extension ProductVMTrackHelper {
-    func shareInEmail(buttonPosition: EventParameterButtonPosition) {
-        let trackerEvent = TrackerEvent.productShare(product, network: .Email,
+    func trackShareStarted(shareType: ShareType, buttonPosition: EventParameterButtonPosition) {
+        let trackerEvent = TrackerEvent.productShare(product, network: shareType.shareNetwork,
                                                      buttonPosition: buttonPosition, typePage: .ProductDetail)
         tracker.trackEvent(trackerEvent)
     }
 
-    func shareInEmailCompleted() {
-        let trackerEvent = TrackerEvent.productShareComplete(product, network: .Email,
-                                                             typePage: .ProductDetail)
-        tracker.trackEvent(trackerEvent)
-    }
-
-    func shareInEmailCancelled() {
-        let trackerEvent = TrackerEvent.productShareCancel(product, network: .Email, typePage: .ProductDetail)
-        tracker.trackEvent(trackerEvent)
-    }
-
-    func shareInFacebook(buttonPosition: EventParameterButtonPosition) {
-        let trackerEvent = TrackerEvent.productShare(product, network: .Facebook,
-                                                     buttonPosition: buttonPosition, typePage: .ProductDetail)
-        tracker.trackEvent(trackerEvent)
-    }
-
-    func shareInFBCompleted() {
-        let trackerEvent = TrackerEvent.productShareComplete(product, network: .Facebook,
-                                                             typePage: .ProductDetail)
-        tracker.trackEvent(trackerEvent)
-    }
-
-    func shareInFBCancelled() {
-        let trackerEvent = TrackerEvent.productShareCancel(product, network: .Facebook, typePage: .ProductDetail)
-        tracker.trackEvent(trackerEvent)
-    }
-
-    func shareInFBMessenger() {
-        let trackerEvent = TrackerEvent.productShare(product, network: .FBMessenger, buttonPosition: .Bottom,
-                                                     typePage: .ProductDetail)
-        tracker.trackEvent(trackerEvent)
-    }
-
-    func shareInFBMessengerCompleted() {
-        let trackerEvent = TrackerEvent.productShareComplete(product, network: .FBMessenger,
-                                                             typePage: .ProductDetail)
-        tracker.trackEvent(trackerEvent)
-    }
-
-    func shareInFBMessengerCancelled() {
-        let trackerEvent = TrackerEvent.productShareCancel(product, network: .FBMessenger,
-                                                           typePage: .ProductDetail)
-        tracker.trackEvent(trackerEvent)
-    }
-
-    func shareInWhatsApp() {
-        let trackerEvent = TrackerEvent.productShare(product, network: .Whatsapp, buttonPosition: .Bottom,
-                                                     typePage: .ProductDetail)
-        tracker.trackEvent(trackerEvent)
-    }
-
-    func shareInTwitter() {
-        let trackerEvent = TrackerEvent.productShare(product, network: .Twitter, buttonPosition: .Bottom,
-                                                     typePage: .ProductDetail)
-        tracker.trackEvent(trackerEvent)
-    }
-
-    func shareInTwitterCompleted() {
-        let trackerEvent = TrackerEvent.productShareComplete(product, network: .Twitter, typePage: .ProductDetail)
-        tracker.trackEvent(trackerEvent)
-    }
-
-    func shareInTwitterCancelled() {
-        let trackerEvent = TrackerEvent.productShareCancel(product, network: .Twitter, typePage: .ProductDetail)
-        tracker.trackEvent(trackerEvent)
-    }
-
-
-    func shareInTelegram() {
-        let trackerEvent = TrackerEvent.productShare(product, network: .Telegram, buttonPosition: .Bottom,
-                                                     typePage: .ProductDetail)
-        tracker.trackEvent(trackerEvent)
-    }
-
-    func shareInWhatsappActivity() {
-        let trackerEvent = TrackerEvent.productShare(product, network: .Whatsapp, buttonPosition: .Top,
-                                                     typePage: .ProductDetail)
-        tracker.trackEvent(trackerEvent)
-    }
-
-    func shareInTwitterActivity() {
-        let trackerEvent = TrackerEvent.productShare(product, network: .Twitter, buttonPosition: .Top,
-                                                     typePage: .ProductDetail)
-        tracker.trackEvent(trackerEvent)
-    }
-
-    func shareInSMS() {
-        let trackerEvent = TrackerEvent.productShare(product, network: .SMS, buttonPosition: .Bottom,
-                                                     typePage: .ProductDetail)
-        tracker.trackEvent(trackerEvent)
-    }
-
-    func shareInSMSCompleted() {
-        let trackerEvent = TrackerEvent.productShareComplete(product, network: .SMS, typePage: .ProductDetail)
-        tracker.trackEvent(trackerEvent)
-    }
-
-    func shareInSMSCancelled() {
-        let trackerEvent = TrackerEvent.productShareCancel(product, network: .SMS, typePage: .ProductDetail)
-        tracker.trackEvent(trackerEvent)
-    }
-
-    func shareInCopyLink() {
-        let trackerEvent = TrackerEvent.productShare(product, network: .CopyLink, buttonPosition: .Bottom,
-                                                     typePage: .ProductDetail)
-        tracker.trackEvent(trackerEvent)
+    func trackShareCompleted(shareType: ShareType, buttonPosition: EventParameterButtonPosition, state: SocialShareState) {
+        let event: TrackerEvent?
+        switch state {
+        case .Completed:
+            event = TrackerEvent.productShareComplete(product, network: shareType.shareNetwork,
+                                                      typePage: .ProductDetail)
+        case .Failed:
+            event = nil
+        case .Cancelled:
+            event = TrackerEvent.productShareCancel(product, network: shareType.shareNetwork,
+                                                    typePage: .ProductDetail)
+        }
+        if let event = event {
+            tracker.trackEvent(event)
+        }
     }
 }
 

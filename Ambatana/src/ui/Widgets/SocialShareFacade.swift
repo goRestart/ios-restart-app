@@ -107,25 +107,19 @@ extension SocialShareFacade: FBSDKSharingDelegate {
 extension SocialShareFacade: MFMailComposeViewControllerDelegate {
     func mailComposeController(controller: MFMailComposeViewController, didFinishWithResult result: MFMailComposeResult,
                                error: NSError?) {
-        var message: String? = nil
+        let state: SocialShareState
         switch result {
         case .Failed:
-            message = LGLocalizedString.productShareEmailError
-            delegate?.shareIn(.Email, finishedWithState: .Failed)
+            state = .Failed
         case .Sent:
-            message = LGLocalizedString.productShareGenericOk
-            delegate?.shareIn(.Email, finishedWithState: .Completed)
-        case .Cancelled:
-            delegate?.shareIn(.Email, finishedWithState: .Cancelled)
-        case .Saved:
-            break
+            state = .Completed
+        case .Cancelled, .Saved:
+            state = .Cancelled
         }
 
-        // TODO: !
-//        controller.dismissViewControllerAnimated(true, completion: { [weak self] in
-//            guard let message = message else { return }
-//            self?.delegate?.viewController()?.showAutoFadingOutMessageAlert(message)
-//        })
+        controller.dismissViewControllerAnimated(true, completion: { [weak self] in
+            self?.delegate?.shareIn(.Email, finishedWithState: state)
+        })
     }
 }
 
@@ -135,23 +129,14 @@ extension SocialShareFacade: MFMailComposeViewControllerDelegate {
 extension SocialShareFacade: MFMessageComposeViewControllerDelegate {
     func messageComposeViewController(controller: MFMessageComposeViewController,
                                       didFinishWithResult result: MessageComposeResult) {
-        var message: String? = nil
         switch result {
         case .Failed:
-            message = LGLocalizedString.productShareSmsError
             delegate?.shareIn(.SMS, finishedWithState: .Failed)
         case .Sent:
-            message = LGLocalizedString.productShareSmsOk
             delegate?.shareIn(.SMS, finishedWithState: .Completed)
         case .Cancelled:
             delegate?.shareIn(.SMS, finishedWithState: .Cancelled)
         }
-
-        // TODO: !
-//        controller.dismissViewControllerAnimated(true, completion: { [weak self] in
-//            guard let message = message else { return }
-//            self?.delegate?.viewController()?.showAutoFadingOutMessageAlert(message)
-//            })
     }
 }
 
