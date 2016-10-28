@@ -320,11 +320,14 @@
 "notifications_type_like_button" = "Profillerine bak";
 "notifications_type_like_w_name" = "%@ ürününü favorilerine ekledi";
 "notifications_type_like_w_name_w_title" = "%@ şu ürününü favorilerine ekledi: \"%@\"";
+"notifications_type_rating" = "%@ has reviewed you";
+"notifications_type_rating_button" = "See your reviews";
+"notifications_type_rating_updated" = "%@ has updated your review";
 "notifications_type_sold" = "Favorilerine eklenmiş olduğun bir ürün satıldı";
-"notifications_type_sold_button" = "Benzer ürünleri gör";
+"notifications_type_sold_button" = "Ürünü gör";
 "notifications_type_welcome_button" = "Satış yapmaya başla";
-"notifications_type_welcome_subtitle" = "İlk ürününü satışa çıkarmakla başla ve bulunduğun çevredeki harika ürünleri keşfet.";
-"notifications_type_welcome_subtitle_w_city" = "İlk ürününü satışa çıkarmakla başla ve %@ içinde harika ürünler keşfet.";
+"notifications_type_welcome_subtitle" = "İhtiyacın olmayanları satarak para kazan ve bulunduğun çevredeki harika ürünleri keşfet.";
+"notifications_type_welcome_subtitle_w_city" = "İhtiyacın olmayanları satarak para kazan ve %@ içinde harika ürünler keşfet.";
 "notifications_type_welcome_title" = "letgo'ya hoşgeldin!";
 "notifications_user_wo_name" = "Bir kullanıcı";
 "nps_survey_subtitle" = "1'den 10'da kadar letgo'yu arkadaşına tavsiye etme olasılığın nedir?";
@@ -477,7 +480,7 @@
 "product_sell_again_confirm_ok_button" = "Tekrar Sat";
 "product_sell_again_confirm_title" = "Tekrar Sat";
 "product_sell_again_error_generic" = "Ürünün mevcut olarak işaretlenirken bir hata oluştu. Lütfen tekrar dene.";
-"product_sell_again_free_button" = "Tekrar mevcut olarak işaretle";
+"product_sell_again_free_button" = "Mevcut olarak işaretle";
 "product_sell_again_free_confirm_cancel_button" = "İptal";
 "product_sell_again_free_confirm_message" = "Ürününü mevcut olarak işaretle ki tüm letgo kullanıcıları haberdar olsun";
 "product_sell_again_free_confirm_ok_button" = "Ücretsiz Ver";

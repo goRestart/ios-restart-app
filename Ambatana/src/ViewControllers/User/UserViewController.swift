@@ -167,11 +167,6 @@ extension UserViewController: UserViewModelDelegate {
         guard let tabBarCtl = tabBarController as? TabBarController else { return }
         tabBarCtl.switchToTab(.Home)
     }
-
-    func vmOpenRatingList(ratingListVM: UserRatingListViewModel) {
-        let vc = UserRatingListViewController(viewModel: ratingListVM)
-        navigationController?.pushViewController(vc, animated: true)
-    }
     
     func vmShowUserActionSheet(cancelLabel: String, actions: [UIAction]) {
         showActionSheet(cancelLabel, actions: actions, barButtonItem: navigationItem.rightBarButtonItem)
