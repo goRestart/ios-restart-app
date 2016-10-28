@@ -1055,7 +1055,7 @@ private extension ProductViewModel {
 // MARK: - SocialShareFacadeDelegate
 
 extension ProductViewModel: SocialShareFacadeDelegate {
-    func shareIn(shareType: ShareType) {
+    func shareStartedIn(shareType: ShareType) {
         let buttonPosition: EventParameterButtonPosition
 
         // TODO: Take in account full screen mode
@@ -1069,7 +1069,7 @@ extension ProductViewModel: SocialShareFacadeDelegate {
         trackShareStarted(shareType, buttonPosition: buttonPosition)
     }
 
-    func shareIn(shareType: ShareType, finishedWithState state: SocialShareState) {
+    func shareFinishedIn(shareType: ShareType, withState state: SocialShareState) {
         let buttonPosition: EventParameterButtonPosition
 
         // TODO: Take in account full screen mode

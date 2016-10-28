@@ -10,8 +10,8 @@ import FBSDKShareKit
 import MessageUI
 
 protocol SocialShareFacadeDelegate: class {
-    func shareIn(shareType: ShareType)
-    func shareIn(shareType: ShareType, finishedWithState state: SocialShareState)
+    func shareStartedIn(shareType: ShareType)
+    func shareFinishedIn(shareType: ShareType, withState state: SocialShareState)
 }
 
 class SocialShareFacade: NSObject {
@@ -23,10 +23,10 @@ class SocialShareFacade: NSObject {
 extension SocialShareFacade {
     func share(socialMessage: SocialMessage, shareType: ShareType, viewController: UIViewController) {
         guard shareType.canShare else {
-            delegate?.shareIn(shareType, finishedWithState: .Failed)
+            delegate?.shareFinishedIn(shareType, withState: .Failed)
             return
         }
-        delegate?.shareIn(shareType)
+        delegate?.shareStartedIn(shareType)
 
         switch shareType {
         case .Email:
@@ -37,15 +37,15 @@ extension SocialShareFacade {
             SocialHelper.shareOnFbMessenger(socialMessage, delegate: self)
         case .Whatsapp:
             SocialHelper.shareOnWhatsapp(socialMessage, viewController: viewController)
-            delegate?.shareIn(shareType, finishedWithState: .Completed)
+            delegate?.shareFinishedIn(shareType, withState: .Completed)
         case .Twitter:
             SocialHelper.shareOnTwitter(socialMessage, viewController: viewController, delegate: self)
         case .Telegram:
             SocialHelper.shareOnTelegram(socialMessage, viewController: viewController)
-            delegate?.shareIn(shareType, finishedWithState: .Completed)
+            delegate?.shareFinishedIn(shareType, withState: .Completed)
         case .CopyLink:
             SocialHelper.shareOnCopyLink(socialMessage, viewController: viewController)
-            delegate?.shareIn(shareType, finishedWithState: .Completed)
+            delegate?.shareFinishedIn(shareType, withState: .Completed)
         case .SMS:
             SocialHelper.shareOnSMS(socialMessage, viewController: viewController, delegate: self)
         case .Native:
@@ -58,20 +58,19 @@ extension SocialShareFacade {
 // MARK: - FBSDKSharingDelegate
 
 extension SocialShareFacade: FBSDKSharingDelegate {
-
     func sharer(sharer: FBSDKSharing!, didCompleteWithResults results: [NSObject : AnyObject]!) {
         guard sharer != nil else { return }
 
-        switch (sharer.type) {
+        switch sharer.type {
         case .Facebook:
-            delegate?.shareIn(.Facebook, finishedWithState: .Completed)
+            delegate?.shareFinishedIn(.Facebook, withState: .Completed)
         case .FBMessenger:
             // Messenger always calls didCompleteWithResults, if it works,
             // will include the key "completionGesture" in the results dict
-            if let _ = results["completionGesture"] {
-                delegate?.shareIn(.FBMessenger, finishedWithState: .Completed)
+            if let results = results, _ = results["completionGesture"] {
+                delegate?.shareFinishedIn(.FBMessenger, withState: .Completed)
             } else {
-                delegate?.shareIn(.FBMessenger, finishedWithState: .Cancelled)
+                delegate?.shareFinishedIn(.FBMessenger, withState: .Cancelled)
             }
         case .Unknown:
             break
@@ -79,22 +78,26 @@ extension SocialShareFacade: FBSDKSharingDelegate {
     }
 
     func sharer(sharer: FBSDKSharing!, didFailWithError error: NSError!) {
-        switch (sharer.type) {
+        guard sharer != nil else { return }
+
+        switch sharer.type {
         case .Facebook:
-            delegate?.shareIn(.Facebook, finishedWithState: .Failed)
+            delegate?.shareFinishedIn(.Facebook, withState: .Failed)
         case .FBMessenger:
-            delegate?.shareIn(.FBMessenger, finishedWithState: .Failed)
+            delegate?.shareFinishedIn(.FBMessenger, withState: .Failed)
         case .Unknown:
             break
         }
     }
 
     func sharerDidCancel(sharer: FBSDKSharing!) {
-        switch (sharer.type) {
+        guard sharer != nil else { return }
+
+        switch sharer.type {
         case .Facebook:
-            delegate?.shareIn(.Facebook, finishedWithState: .Cancelled)
+            delegate?.shareFinishedIn(.Facebook, withState: .Cancelled)
         case .FBMessenger:
-            delegate?.shareIn(.FBMessenger, finishedWithState: .Cancelled)
+            delegate?.shareFinishedIn(.FBMessenger, withState: .Cancelled)
         case .Unknown:
             break
         }
@@ -118,7 +121,7 @@ extension SocialShareFacade: MFMailComposeViewControllerDelegate {
         }
 
         controller.dismissViewControllerAnimated(true, completion: { [weak self] in
-            self?.delegate?.shareIn(.Email, finishedWithState: state)
+            self?.delegate?.shareFinishedIn(.Email, withState: state)
         })
     }
 }
@@ -129,14 +132,16 @@ extension SocialShareFacade: MFMailComposeViewControllerDelegate {
 extension SocialShareFacade: MFMessageComposeViewControllerDelegate {
     func messageComposeViewController(controller: MFMessageComposeViewController,
                                       didFinishWithResult result: MessageComposeResult) {
+        let state: SocialShareState
         switch result {
         case .Failed:
-            delegate?.shareIn(.SMS, finishedWithState: .Failed)
+            state = .Failed
         case .Sent:
-            delegate?.shareIn(.SMS, finishedWithState: .Completed)
+            state = .Completed
         case .Cancelled:
-            delegate?.shareIn(.SMS, finishedWithState: .Cancelled)
+            state = .Cancelled
         }
+        delegate?.shareFinishedIn(.SMS, withState: state)
     }
 }
 
@@ -145,10 +150,10 @@ extension SocialShareFacade: MFMessageComposeViewControllerDelegate {
 
 extension SocialShareFacade: TwitterShareDelegate {
     func twitterShareCancelled() {
-        delegate?.shareIn(.Twitter, finishedWithState: .Cancelled)
+        delegate?.shareFinishedIn(.Twitter, withState: .Cancelled)
     }
 
     func twitterShareSuccess() {
-        delegate?.shareIn(.Twitter, finishedWithState: .Completed)
+        delegate?.shareFinishedIn(.Twitter, withState: .Completed)
     }
 }
