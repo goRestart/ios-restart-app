@@ -11,7 +11,7 @@ import Result
 public typealias NotificationsResult = Result<[Notification], RepositoryError>
 public typealias NotificationsCompletion = NotificationsResult -> Void
 
-public typealias NotificationsUnreadCountResult = Result<Int, RepositoryError>
+public typealias NotificationsUnreadCountResult = Result<UnreadNotificationsCounts, RepositoryError>
 public typealias NotificationsUnreadCountCompletion = NotificationsUnreadCountResult -> Void
 
 public final class NotificationsRepository {

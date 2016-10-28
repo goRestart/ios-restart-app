@@ -30,8 +30,6 @@ class NotificationsViewModel: BaseViewModel {
     private let locationManager: LocationManager
     private let tracker: Tracker
 
-    private var pendingCountersUpdate = false
-
     convenience override init() {
         self.init(notificationsRepository: Core.notificationsRepository,
                   productRepository: Core.productRepository,
@@ -59,13 +57,6 @@ class NotificationsViewModel: BaseViewModel {
 
         trackVisit()
         reloadNotifications()
-    }
-
-    override func didBecomeInactive() {
-        if pendingCountersUpdate {
-            pendingCountersUpdate = false
-            notificationsManager.updateCounters()
-        }
     }
 
     // MARK: - Public
@@ -107,6 +98,7 @@ class NotificationsViewModel: BaseViewModel {
                     strongSelf.viewState.value = .Empty(emptyViewModel)
                 } else {
                     strongSelf.viewState.value = .Data
+                    strongSelf.afterReloadOk()
                 }
             } else if let error = result.error {
                 let emptyViewModel = LGEmptyViewModel.respositoryErrorWithRetry(error,
@@ -117,6 +109,10 @@ class NotificationsViewModel: BaseViewModel {
                 strongSelf.viewState.value = .Error(emptyViewModel)
             }
         }
+    }
+
+    private func afterReloadOk() {
+        notificationsManager.updateNotificationCounters()
     }
 }
 
