@@ -1,5 +1,5 @@
 //
-//  SocialHelper.swift
+//  ShareType.swift
 //  LetGo
 //
 //  Created by AHL on 16/8/15.
