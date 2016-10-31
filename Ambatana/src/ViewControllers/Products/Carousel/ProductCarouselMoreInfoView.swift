@@ -317,7 +317,7 @@ extension ProductCarouselMoreInfoView {
             .addDisposableTo(disposeBag)
         
         socialShareView.socialMessage = viewModel.socialMessage.value
-        socialShareView.facade = viewModel.facade
+        socialShareView.socialSharer = viewModel.socialSharer
     }
     
     private func setupSocialShareView() {

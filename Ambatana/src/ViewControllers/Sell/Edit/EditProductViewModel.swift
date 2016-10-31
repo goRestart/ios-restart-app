@@ -353,7 +353,9 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
         if shareInFbChanged() {
             editedFields.append(.Share)
         }
-
+        if initialProduct.price.free != product.price.free {
+            editedFields.append(.FreePosting)
+        }
         return editedFields
     }
 
@@ -401,7 +403,7 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
 
     var fbShareContent: FBSDKShareLinkContent? {
         if let product = savedProduct {
-            return SocialHelper.socialMessageWithProduct(product).fbShareContent
+            return ProductSocialMessage(product: product).fbShareContent
         }
         return nil
     }

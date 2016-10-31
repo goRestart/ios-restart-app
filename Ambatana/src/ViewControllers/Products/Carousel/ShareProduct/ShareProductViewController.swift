@@ -57,7 +57,7 @@ class ShareProductViewController: BaseViewController {
     }
 
     @IBAction func copyButtonPressed(sender: AnyObject) {
-        SocialHelper.shareOnCopyLink(viewModel.socialMessage, viewController: self)
+        viewModel.copyLink()
     }
 
 
@@ -82,7 +82,7 @@ class ShareProductViewController: BaseViewController {
     private func setupShareView() {
         socialShareView.socialMessage = viewModel.socialMessage
         socialShareView.setupWithShareTypes(viewModel.shareTypes, useBigButtons: true)
-        socialShareView.facade = viewModel.shareFacade
+        socialShareView.socialSharer = viewModel.socialSharer
         socialShareView.delegate = self
         socialShareView.buttonsSide = ShareProductViewController.shareButtonWidth
         socialShareView.style = .Line
@@ -123,5 +123,9 @@ extension ShareProductViewController: ShareProductViewModelDelegate {
                 break
             }
         }
+    }
+
+    func vmViewControllerToShare() -> UIViewController {
+        return self
     }
 }

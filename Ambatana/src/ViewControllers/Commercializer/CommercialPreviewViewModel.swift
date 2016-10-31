@@ -22,7 +22,7 @@ class CommercialPreviewViewModel: BaseViewModel {
     }
     var socialShareMessage: SocialMessage? {
         guard let shareURL = commercializer.shareURL else { return nil }
-        return SocialHelper.socialMessageCommercializer(shareURL, thumbUrl: thumbURL)
+        return CommercializerSocialMessage(shareUrl: shareURL, thumbUrl: thumbURL)
     }
 
     private let commercializer: Commercializer

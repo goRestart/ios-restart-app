@@ -50,34 +50,9 @@ extension ProductViewModel {
 
 // MARK: - Share
 
-private extension ShareType {
-    var shareNetwork: EventParameterShareNetwork {
-        switch self {
-        case .Email:
-            return .Email
-        case .Facebook:
-            return .Facebook
-        case .FBMessenger:
-            return .FBMessenger
-        case .Whatsapp:
-            return .Whatsapp
-        case .Twitter:
-            return .Twitter
-        case .Telegram:
-            return .Telegram
-        case .CopyLink:
-            return .CopyLink
-        case .SMS:
-            return .SMS
-        case .Native:
-            return .Native
-        }
-    }
-}
-
 extension ProductVMTrackHelper {
     func trackShareStarted(shareType: ShareType, buttonPosition: EventParameterButtonPosition) {
-        let trackerEvent = TrackerEvent.productShare(product, network: shareType.shareNetwork,
+        let trackerEvent = TrackerEvent.productShare(product, network: shareType.trackingShareNetwork,
                                                      buttonPosition: buttonPosition, typePage: .ProductDetail)
         tracker.trackEvent(trackerEvent)
     }
@@ -86,12 +61,12 @@ extension ProductVMTrackHelper {
         let event: TrackerEvent?
         switch state {
         case .Completed:
-            event = TrackerEvent.productShareComplete(product, network: shareType.shareNetwork,
+            event = TrackerEvent.productShareComplete(product, network: shareType.trackingShareNetwork,
                                                       typePage: .ProductDetail)
         case .Failed:
             event = nil
         case .Cancelled:
-            event = TrackerEvent.productShareCancel(product, network: shareType.shareNetwork,
+            event = TrackerEvent.productShareCancel(product, network: shareType.trackingShareNetwork,
                                                     typePage: .ProductDetail)
         }
         if let event = event {
@@ -131,7 +106,7 @@ extension ProductVMTrackHelper {
     }
 
     func trackMarkSoldCompleted(source: EventParameterSellSourceValue) {
-        let trackerEvent = TrackerEvent.productMarkAsSold(source, product: product)
+        let trackerEvent = TrackerEvent.productMarkAsSold(source, product: product, freePostingMode: FeatureFlags.freePostingMode)
         tracker.trackEvent(trackerEvent)
     }
 
@@ -155,23 +130,27 @@ extension ProductVMTrackHelper {
         tracker.trackEvent(trackerEvent)
     }
 
-    func trackDirectMessageSent() {
+    func trackDirectMessageSent(shouldSendFirstMessageEvent: Bool) {
         let messageType = EventParameterMessageType.Text
-        let askQuestionEvent = TrackerEvent.productAskQuestion(product, messageType: messageType,
-                                                               typePage: .ProductDetail)
-        tracker.trackEvent(askQuestionEvent)
+        if shouldSendFirstMessageEvent {
+            let firstMessageEvent = TrackerEvent.firstMessage(product, messageType: messageType,
+                                                                   typePage: .ProductDetail)
+            tracker.trackEvent(firstMessageEvent)
+        }
         let messageSentEvent = TrackerEvent.userMessageSent(product, userTo: product.user,
-                                                            messageType: messageType, isQuickAnswer: .False)
+                                                            messageType: messageType, isQuickAnswer: .False, typePage: .ProductDetail)
         tracker.trackEvent(messageSentEvent)
     }
 
-    func trackDirectStickerSent(favorite: Bool) {
+    func trackDirectStickerSent(shouldSendFirstMessageEvent: Bool, favorite: Bool) {
         let messageType = favorite ? EventParameterMessageType.Favorite : EventParameterMessageType.Sticker
-        let askQuestionEvent = TrackerEvent.productAskQuestion(product, messageType: messageType,
-                                                               typePage: .ProductDetail)
-        tracker.trackEvent(askQuestionEvent)
+        if shouldSendFirstMessageEvent {
+            let firstMessageEvent = TrackerEvent.firstMessage(product, messageType: messageType,
+                                                             typePage: .ProductDetail)
+            tracker.trackEvent(firstMessageEvent)
+        }
         let messageSentEvent = TrackerEvent.userMessageSent(product, userTo: product.user,
-                                                            messageType: messageType, isQuickAnswer: .False)
+                                                            messageType: messageType, isQuickAnswer: .False, typePage: .ProductDetail)
         tracker.trackEvent(messageSentEvent)
     }
 

@@ -21,7 +21,6 @@ protocol UserViewModelDelegate: BaseViewModelDelegate {
     func vmOpenSettings(settingsVC: SettingsViewController)
     func vmOpenReportUser(reportUserVM: ReportUsersViewModel)
     func vmOpenHome()
-    func vmOpenRatingList(ratingListVM: UserRatingListViewModel)
     func vmShowUserActionSheet(cancelLabel: String, actions: [UIAction])
     func vmShowNativeShare(socialMessage: SocialMessage)
 }
@@ -175,7 +174,6 @@ extension UserViewModel {
     }
 
     func ratingsButtonPressed() {
-        guard FeatureFlags.userRatings else { return }
         openRatings()
     }
 
@@ -320,8 +318,7 @@ extension UserViewModel {
 
     private func openRatings() {
         guard let userId = user.value?.objectId else { return }
-        let vm = UserRatingListViewModel(userId: userId, tabNavigator: tabNavigator)
-        delegate?.vmOpenRatingList(vm)
+        tabNavigator?.openRatingList(userId)
     }
 
     private func openPushPermissionsAlert() {
@@ -440,10 +437,8 @@ extension UserViewModel {
             }
             strongSelf.userAvatarURL.value = user?.avatar?.fileURL
 
-            if FeatureFlags.userRatings {
-                strongSelf.userRatingAverage.value = user?.ratingAverage?.roundNearest(0.5)
-                strongSelf.userRatingCount.value = user?.ratingCount
-            }
+            strongSelf.userRatingAverage.value = user?.ratingAverage?.roundNearest(0.5)
+            strongSelf.userRatingCount.value = user?.ratingCount
 
             strongSelf.userName.value = user?.name
             strongSelf.userLocation.value = user?.postalAddress.cityCountryString
@@ -537,7 +532,7 @@ extension UserViewModel {
                 self?.socialMessage = nil
                 return
             }
-            self?.socialMessage = SocialHelper.socialMessageUser(user, itsMe: itsMe)
+            self?.socialMessage = UserSocialMessage(user: user, itsMe: itsMe)
         }.addDisposableTo(disposeBag)
     }
 }
@@ -612,24 +607,16 @@ private extension UserViewModel {
 }
 
 
-// MARK: - Share delegate 
+// MARK: - SocialSharerDelegate
 
-extension UserViewModel: NativeShareDelegate {
+extension UserViewModel: SocialSharerDelegate {
 
-    var nativeShareSuccessMessage: String? { return LGLocalizedString.userShareSuccess }
-    var nativeShareErrorMessage: String? { return LGLocalizedString.userShareError }
+    func shareStartedIn(shareType: ShareType) {
 
-    func nativeShareInFacebook() {
-        trackShareComplete(.Facebook)
     }
-    func nativeShareInTwitter() {
-        trackShareComplete(.Twitter)
-    }
-    func nativeShareInEmail() {
-        trackShareComplete(.Email)
-    }
-    func nativeShareInWhatsApp() {
-        trackShareComplete(.Whatsapp)
+
+    func shareFinishedIn(shareType: ShareType, withState state: SocialShareState) {
+        trackShareComplete(shareType.trackingShareNetwork)
     }
 }
 

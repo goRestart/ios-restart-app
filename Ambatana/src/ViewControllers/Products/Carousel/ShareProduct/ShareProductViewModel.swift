@@ -12,13 +12,14 @@ import LGCoreKit
 
 protocol ShareProductViewModelDelegate {
     func vmShareFinishedWithMessage(message: String, state: SocialShareState)
+    func vmViewControllerToShare() -> UIViewController
 }
 
 class ShareProductViewModel: BaseViewModel {
 
     var shareTypes: [ShareType]
     var delegate: ShareProductViewModelDelegate?
-    var shareFacade: SocialShareFacade?
+    var socialSharer: SocialSharer?
     weak var navigator: ProductDetailNavigator?
 
     var socialMessage: SocialMessage
@@ -35,25 +36,32 @@ class ShareProductViewModel: BaseViewModel {
             systemCountryCode = NSLocale.currentLocale().objectForKey(NSLocaleCountryCode) as? String ?? ""
         }
         let countryCode = Core.locationManager.currentPostalAddress?.countryCode ?? systemCountryCode
-        self.init(countryCode: countryCode, shareFacade: SocialShareFacade(), socialMessage: socialMessage)
+        self.init(countryCode: countryCode, shareFacade: SocialSharer(), socialMessage: socialMessage)
     }
 
     // init w vm, locale & core.locationM
 
-    init(countryCode: String, shareFacade: SocialShareFacade, socialMessage: SocialMessage) {
+    init(countryCode: String, shareFacade: SocialSharer, socialMessage: SocialMessage) {
         self.socialMessage = socialMessage
-        self.shareFacade = shareFacade
+        self.socialSharer = shareFacade
         self.shareTypes = ShareType.shareTypesForCountry(countryCode, maxButtons: 4, includeNative: true)
         super.init()
 
-        self.shareFacade?.delegate = self
+        self.socialSharer?.delegate = self
+    }
+
+    // MARK: - Public Methods
+
+    func copyLink() {
+        guard let vc = delegate?.vmViewControllerToShare() else { return }
+        socialSharer?.share(socialMessage, shareType: .CopyLink, viewController: vc)
     }
 }
 
 
 // MARK: - SocialShareFacadeDelegate
 
-extension ShareProductViewModel: SocialShareFacadeDelegate {
+extension ShareProductViewModel: SocialSharerDelegate {
     func shareStartedIn(shareType: ShareType) {
 
 //        trackShareStarted(shareType, buttonPosition: buttonPosition)

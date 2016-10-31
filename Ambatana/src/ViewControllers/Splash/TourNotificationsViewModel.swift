@@ -65,7 +65,7 @@ final class TourNotificationsViewModel: BaseViewModel {
         switch source {
         case .Onboarding:
             return Core.locationManager.shouldAskForLocationPermissions() ? .Location : .NoStep
-        case .ProductList, .Chat, .Sell, .Profile:
+        case .ProductList, .Chat, .Sell, .Profile, .ProductListBanner:
             return .NoStep
         }
     }
@@ -74,35 +74,20 @@ final class TourNotificationsViewModel: BaseViewModel {
     // MARK: - Tracking
     
     func viewDidLoad() {
-        let trackerEvent = TrackerEvent.permissionAlertStart(.Push, typePage: typePage(), alertType: .FullScreen,
+        let trackerEvent = TrackerEvent.permissionAlertStart(.Push, typePage: source.trackingParam, alertType: .FullScreen,
             permissionGoToSettings: .NotAvailable)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
     
     func userDidTapNoButton() {
-        let trackerEvent = TrackerEvent.permissionAlertCancel(.Push, typePage: typePage(), alertType: .FullScreen,
+        let trackerEvent = TrackerEvent.permissionAlertCancel(.Push, typePage: source.trackingParam, alertType: .FullScreen,
             permissionGoToSettings: .NotAvailable)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
     
     func userDidTapYesButton() {
-        let trackerEvent = TrackerEvent.permissionAlertComplete(.Push, typePage: typePage(), alertType: .FullScreen,
+        let trackerEvent = TrackerEvent.permissionAlertComplete(.Push, typePage: source.trackingParam, alertType: .FullScreen,
             permissionGoToSettings: .NotAvailable)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
-    }
-    
-    private func typePage() -> EventParameterTypePage {
-        switch source {
-        case .Onboarding:
-            return .Install
-        case .ProductList:
-            return .ProductList
-        case .Sell:
-            return .Sell
-        case .Chat:
-            return .Chat
-        case .Profile:
-            return .Profile
-        }
     }
 }

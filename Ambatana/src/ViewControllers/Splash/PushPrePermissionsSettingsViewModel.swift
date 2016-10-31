@@ -14,7 +14,7 @@ final class PushPrePermissionsSettingsViewModel: BaseViewModel {
 
     var title: String {
         switch source {
-        case .Onboarding, .ProductList, .Sell, .Profile:
+        case .Onboarding, .ProductList, .Sell, .Profile, .ProductListBanner:
             return LGLocalizedString.notificationsPermissionsSettingsTitle
         case .Chat(let buyer):
             return buyer ? LGLocalizedString.notificationsPermissionsSettingsTitleChat :
@@ -30,35 +30,20 @@ final class PushPrePermissionsSettingsViewModel: BaseViewModel {
     // MARK: - Tracking
     
     func viewDidLoad() {
-        let trackerEvent = TrackerEvent.permissionAlertStart(.Push, typePage: typePage(), alertType: .FullScreen,
+        let trackerEvent = TrackerEvent.permissionAlertStart(.Push, typePage: source.trackingParam, alertType: .FullScreen,
             permissionGoToSettings: .True)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
     
     func userDidTapNoButton() {
-        let trackerEvent = TrackerEvent.permissionAlertCancel(.Push, typePage: typePage(), alertType: .FullScreen,
+        let trackerEvent = TrackerEvent.permissionAlertCancel(.Push, typePage: source.trackingParam, alertType: .FullScreen,
             permissionGoToSettings: .True)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
     
     func userDidTapYesButton() {
-        let trackerEvent = TrackerEvent.permissionAlertComplete(.Push, typePage: typePage(), alertType: .FullScreen,
+        let trackerEvent = TrackerEvent.permissionAlertComplete(.Push, typePage: source.trackingParam, alertType: .FullScreen,
             permissionGoToSettings: .True)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
-    }
-    
-    private func typePage() -> EventParameterTypePage {
-        switch source {
-        case .Onboarding:
-            return .Install
-        case .ProductList:
-            return .ProductList
-        case .Sell:
-            return .Sell
-        case .Chat:
-            return .Chat
-        case .Profile:
-            return .Profile
-        }
     }
 }

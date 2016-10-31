@@ -69,7 +69,7 @@ class ProductViewModel: BaseViewModel {
     let viewsCount = Variable<Int>(0)
     let favouritesCount = Variable<Int>(0)
     let socialMessage = Variable<SocialMessage?>(nil)
-    let facade: SocialShareFacade
+    let socialSharer: SocialSharer
 
     // UI - Output
     let thumbnailImage: UIImage?
@@ -156,17 +156,19 @@ class ProductViewModel: BaseViewModel {
         let locationManager = Core.locationManager
         
         let product = productRepository.build(fromChatproduct: product, chatInterlocutor: user)
+        let socialSharer = SocialSharer()
         
         self.init(myUserRepository: myUserRepository, productRepository: productRepository,
                   commercializerRepository: commercializerRepository, chatWrapper: chatWrapper,
                   stickersRepository: stickersRepository, locationManager: locationManager, countryHelper: countryHelper,
-                  product: product, thumbnailImage: thumbnailImage, navigator: navigator,
+                  product: product, thumbnailImage: thumbnailImage, socialSharer: socialSharer, navigator: navigator,
                   bubbleManager: BubbleNotificationManager.sharedInstance,
                   interestedBubbleManager: InterestedBubbleManager.sharedInstance)
         syncProduct(nil)
     }
     
     convenience init(product: Product, thumbnailImage: UIImage?, navigator: ProductDetailNavigator?) {
+        let socialSharer = SocialSharer()
         let myUserRepository = Core.myUserRepository
         let productRepository = Core.productRepository
         let commercializerRepository = Core.commercializerRepository
@@ -177,7 +179,7 @@ class ProductViewModel: BaseViewModel {
         self.init(myUserRepository: myUserRepository, productRepository: productRepository,
                   commercializerRepository: commercializerRepository, chatWrapper: chatWrapper,
                   stickersRepository: stickersRepository, locationManager: locationManager, countryHelper: countryHelper,
-                  product: product, thumbnailImage: thumbnailImage, navigator: navigator,
+                  product: product, thumbnailImage: thumbnailImage, socialSharer: socialSharer, navigator: navigator,
                   bubbleManager: BubbleNotificationManager.sharedInstance,
                   interestedBubbleManager: InterestedBubbleManager.sharedInstance)
     }
@@ -185,11 +187,11 @@ class ProductViewModel: BaseViewModel {
     init(myUserRepository: MyUserRepository, productRepository: ProductRepository,
          commercializerRepository: CommercializerRepository, chatWrapper: ChatWrapper,
          stickersRepository: StickersRepository, locationManager: LocationManager, countryHelper: CountryHelper,
-         product: Product, thumbnailImage: UIImage?, navigator: ProductDetailNavigator?,
+         product: Product, thumbnailImage: UIImage?, socialSharer: SocialSharer, navigator: ProductDetailNavigator?,
          bubbleManager: BubbleNotificationManager, interestedBubbleManager: InterestedBubbleManager) {
         self.product = Variable<Product>(product)
-        self.facade = SocialShareFacade()
         self.thumbnailImage = thumbnailImage
+        self.socialSharer = socialSharer
         self.myUserRepository = myUserRepository
         self.productRepository = productRepository
         self.countryHelper = countryHelper
@@ -231,7 +233,7 @@ class ProductViewModel: BaseViewModel {
 
         super.init()
 
-        facade.delegate = self
+        socialSharer.delegate = self
         setupRxBindings()
     }
     
@@ -308,7 +310,7 @@ class ProductViewModel: BaseViewModel {
 
             strongSelf.productIsFavoriteable.value = !product.isMine
             strongSelf.isFavorite.value = product.favorite
-            strongSelf.socialMessage.value = SocialHelper.socialMessageWithProduct(product)
+            strongSelf.socialMessage.value = ProductSocialMessage(product: product)
             strongSelf.productImageURLs.value = product.images.flatMap { return $0.fileURL }
             strongSelf.editButtonState.value = product.isMine ? .Enabled : .Hidden
 
@@ -468,8 +470,8 @@ extension ProductViewModel {
 
         let text = message ?? LGLocalizedString.productChatDirectMessage(product.value.user.name ?? "")
         chatWrapper.sendMessageForProduct(product.value, text: text, sticker: nil, type: .Text) { [weak self] result in
-            if let _ = result.value {
-                self?.trackHelper.trackDirectMessageSent()
+            if let value = result.value {
+                self?.trackHelper.trackDirectMessageSent(value)
                 self?.delegate?.vmHideLoading(LGLocalizedString.productChatWithSellerSendOk, afterMessageCompletion: nil)
             } else if let error = result.error {
                 switch error {
@@ -540,7 +542,7 @@ extension ProductViewModel {
 
     func openShare(shareType: ShareType, fromViewController: UIViewController, barButtonItem: UIBarButtonItem? = nil) {
         guard let socialMessage = socialMessage.value else { return }
-        facade.share(socialMessage, shareType: shareType, viewController: fromViewController, barButtonItem: barButtonItem)
+        socialSharer.share(socialMessage, shareType: shareType, viewController: fromViewController, barButtonItem: barButtonItem)
     }
 }
 
@@ -727,7 +729,7 @@ extension ProductViewModel {
     }
 
     private var socialShareMessage: SocialMessage {
-        return SocialHelper.socialMessageWithProduct(product.value)
+        return ProductSocialMessage(product: product.value)
     }
 
     private var suggestMarkSoldWhenDeleting: Bool {
@@ -826,7 +828,7 @@ extension ProductViewModel {
             let message: String
             if let value = result.value {
                 strongSelf.product.value = value
-                message = strongSelf.product.value.price.free ? LGLocalizedString.productMarkAsSoldSuccessMessage : LGLocalizedString.productMarkAsSoldSuccessMessage
+                message = strongSelf.product.value.price.free ? LGLocalizedString.productMarkAsSoldFreeSuccessMessage : LGLocalizedString.productMarkAsSoldSuccessMessage
                 self?.trackHelper.trackMarkSoldCompleted(source)
                 markAsSoldCompletion = {
                     if RatingManager.sharedInstance.shouldShowRating {
@@ -866,8 +868,8 @@ extension ProductViewModel {
 
         chatWrapper.sendMessageForProduct(product.value, text: sticker.name, sticker: sticker, type: .Sticker) {
             [weak self] result in
-            if let _ = result.value {
-                self?.trackHelper.trackDirectStickerSent(favorite)
+            if let value = result.value {
+                self?.trackHelper.trackDirectStickerSent(value, favorite: favorite)
             } else if let error = result.error {
                 switch error {
                 case .Forbidden:
@@ -1060,9 +1062,9 @@ private extension ProductViewModel {
 }
 
 
-// MARK: - SocialShareFacadeDelegate
+// MARK: - SocialSharerDelegate
 
-extension ProductViewModel: SocialShareFacadeDelegate {
+extension ProductViewModel: SocialSharerDelegate {
     func shareStartedIn(shareType: ShareType) {
         let buttonPosition: EventParameterButtonPosition
 
@@ -1105,6 +1107,8 @@ extension ProductViewModel: SocialShareFacadeDelegate {
             return LGLocalizedString.sellSendErrorSharingFacebook
         case (.FBMessenger, .Failed):
             return LGLocalizedString.sellSendErrorSharingFacebook
+        case (.CopyLink, .Completed):
+            return LGLocalizedString.productShareCopylinkOk
         case (.SMS, .Completed):
             return LGLocalizedString.productShareSmsOk
         case (.SMS, .Failed):

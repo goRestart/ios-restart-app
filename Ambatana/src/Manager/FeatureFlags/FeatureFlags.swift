@@ -25,15 +25,8 @@ struct FeatureFlags {
         if Bumper.enabled {
             return Bumper.notificationsSection
         }
-        return false
+        return ABTests.notificationCenterEnabled.value
     }()
-
-    static var userRatings: Bool {
-        if Bumper.enabled {
-            return Bumper.userRatings
-        }
-        return false
-    }
     
     static var showNPSSurvey: Bool {
         if Bumper.enabled {
