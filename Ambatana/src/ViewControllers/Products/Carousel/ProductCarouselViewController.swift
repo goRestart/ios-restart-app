@@ -428,9 +428,8 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
 //            let reverseAlphaSignal = alphaSignal.asObservable().map { min(0, 1 - $0) }
             Observable.combineLatest(expandableButtonsView.expanded.asObservable(), alphaSignal,
                                      resultSelector: { (expanded, alpha) -> CGFloat in
-                                        let hola = expanded ? 0 : alpha
-                                        print(hola)
-                return hola
+                                        let hideFav = expanded ? 0 : alpha
+                return hideFav
             }).bindTo(favoriteButton.rx_alpha).addDisposableTo(disposeBag)
 
             // If expanded & we start to fade out the hide expandable buttons view
