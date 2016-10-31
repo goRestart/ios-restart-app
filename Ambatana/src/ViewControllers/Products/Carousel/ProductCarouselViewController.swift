@@ -302,27 +302,37 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         for type in viewModel.shareTypes {
             guard SocialSharer.canShareIn(type) else { continue }
             var image: UIImage? = UIImage()
+            var accessId: AccessibilityId?
             switch type {
             case .Email:
                 image = UIImage(named: "item_share_email")
+                accessId = AccessibilityId.SocialShareEmail
             case .Facebook:
                 image = UIImage(named: "item_share_fb")
+                accessId = AccessibilityId.SocialShareFacebook
             case .Twitter:
                 image = UIImage(named: "item_share_twitter")
+                accessId = AccessibilityId.SocialShareTwitter
             case .Native:
                 image = UIImage(named: "item_share_more")
+                accessId = AccessibilityId.SocialShareMore
             case .CopyLink:
                 image = UIImage(named: "item_share_link")
+                accessId = AccessibilityId.SocialShareCopyLink
             case .FBMessenger:
                 image = UIImage(named: "item_share_fb_messenger")
+                accessId = AccessibilityId.SocialShareFBMessenger
             case .Whatsapp:
                 image = UIImage(named: "item_share_whatsapp")
+                accessId = AccessibilityId.SocialShareWhatsapp
             case .Telegram:
                 image = UIImage(named: "item_share_telegram")
+                accessId = AccessibilityId.SocialShareTelegram
             case .SMS:
                 image = UIImage(named: "item_share_sms")
+                accessId = AccessibilityId.SocialShareSMS
             }
-            expandableButtons.addButton(image: image, bgColor: nil) { [weak self] in
+            expandableButtons.addButton(image: image, bgColor: nil, accessibilityId: accessId) { [weak self] in
                 guard let strongSelf = self else { return }
                 strongSelf.viewModel.socialSharer.share(socialMessage, shareType: type, viewController: strongSelf,
                                                         barButtonItem: nil)

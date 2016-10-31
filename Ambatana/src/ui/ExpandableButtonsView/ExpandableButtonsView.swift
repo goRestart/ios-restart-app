@@ -39,7 +39,7 @@ class ExpandableButtonsView: UIView {
 // MARK: - Public methods
 
 extension ExpandableButtonsView {
-    func addButton(image image: UIImage?, bgColor: UIColor?, action: () -> ()) {
+    func addButton(image image: UIImage?, bgColor: UIColor?, accessibilityId: AccessibilityId?, action: () -> ()) {
         guard !expanded.value else { return }
 
         let actionIdx = actions.count
@@ -50,7 +50,7 @@ extension ExpandableButtonsView {
         button.setImage(image, forState: .Normal)
         button.setBackgroundImage(bgColor?.imageWithSize(CGSize(width: 1, height: 1)), forState: .Normal)
         button.addTarget(self, action: #selector(buttonPressed), forControlEvents: .TouchUpInside)
-
+        button.accessibilityId = accessibilityId
         button.translatesAutoresizingMaskIntoConstraints = false
         addSubview(button)
 

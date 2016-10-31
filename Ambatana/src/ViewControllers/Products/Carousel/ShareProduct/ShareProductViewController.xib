@@ -8,6 +8,8 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ShareProductViewController" customModule="LetGo" customModuleProvider="target">
             <connections>
+                <outlet property="closeButton" destination="hBZ-FE-UCz" id="glv-vz-xzy"/>
+                <outlet property="copyButton" destination="6FO-EY-Itc" id="UYY-Pj-dB5"/>
                 <outlet property="copyLabel" destination="ZDb-Jo-w2F" id="s4b-jz-6sS"/>
                 <outlet property="gradientView" destination="hIw-rf-Bbh" id="mZ8-Si-nkC"/>
                 <outlet property="linkButtonContainer" destination="QkZ-vI-8Y9" id="GYR-bO-Z6i"/>

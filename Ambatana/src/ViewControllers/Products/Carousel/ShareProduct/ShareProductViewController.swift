@@ -13,6 +13,8 @@ class ShareProductViewController: BaseViewController {
     static let shareButtonWidth: CGFloat = 60
     static let gradientSize = 30
 
+    @IBOutlet weak var closeButton: UIButton!
+
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var subtitleLabel: UILabel!
     
@@ -25,6 +27,8 @@ class ShareProductViewController: BaseViewController {
     @IBOutlet weak var linkButtonContainer: UIView!
     @IBOutlet weak var linkLabel: UILabel!
     @IBOutlet weak var copyLabel: UILabel!
+
+    @IBOutlet weak var copyButton: UIButton!
 
     @IBOutlet weak var gradientView: UIView!
     var shadowLayer: CAGradientLayer?
@@ -127,5 +131,13 @@ extension ShareProductViewController: ShareProductViewModelDelegate {
 
     func vmViewControllerToShare() -> UIViewController {
         return self
+    }
+}
+
+extension ShareProductViewController {
+    func setAccessibilityIds() {
+        view.accessibilityId = AccessibilityId.ProductCarouselFullscreenShareView
+        closeButton.accessibilityId = AccessibilityId.ProductCarouselFullscreenShareCloseButton
+        copyButton.accessibilityId = AccessibilityId.ProductCarouselFullscreenShareCopyLinkButton
     }
 }
