@@ -15,8 +15,6 @@ protocol MainProductsViewModelDelegate: BaseViewModelDelegate {
     func vmDidSearch(searchViewModel: MainProductsViewModel)
     func vmShowFilters(filtersVM: FiltersViewModel)
     func vmShowTags(tags: [FilterTag])
-    func vmDidFailRetrievingProducts(hasProducts hasProducts: Bool, error: String?)
-    func vmDidSuceedRetrievingProducts(hasProducts hasProducts: Bool, isFirstPage: Bool)
 }
 
 protocol PermissionsDelegate: class {
@@ -48,17 +46,10 @@ class MainProductsViewModel: BaseViewModel {
     }
     let bannerCellPosition: Int = 8
     var filters: ProductFilters
-    
-    var infoBubblePresent: Bool {
-        guard let selectedOrdering = filters.selectedOrdering else { return true }
-        switch (selectedOrdering) {
-        case .Distance, .Creation:
-            return true
-        case .PriceAsc, .PriceDesc:
-            return false
-        }
-    }
+
+    let infoBubbleVisible = Variable<Bool>(false)
     let infoBubbleText = Variable<String>(LGLocalizedString.productPopularNearYou)
+    let errorMessage = Variable<String?>(nil)
 
     var tags: [FilterTag] {
         
@@ -295,6 +286,9 @@ class MainProductsViewModel: BaseViewModel {
         }
 
         productListRequester.filters = filters
+        infoBubbleVisible.value = false
+        errorMessage.value = nil
+        listViewModel.resetUI()
         listViewModel.refresh()
     }
     
@@ -391,7 +385,8 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate {
             listViewModel.setEmptyState(emptyViewModel)
         }
 
-        delegate?.vmDidSuceedRetrievingProducts(hasProducts: hasProducts, isFirstPage: page == 0)
+        errorMessage.value = nil
+        infoBubbleVisible.value = hasProducts && filters.infoBubblePresent
         if(page == 0) {
             bubbleDistance = 1
         }
@@ -422,7 +417,8 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate {
                 errorString = nil
             }
         }
-        delegate?.vmDidFailRetrievingProducts(hasProducts: hasProducts, error: errorString)
+        errorMessage.value = errorString
+        infoBubbleVisible.value = hasProducts && filters.infoBubblePresent
     }
 
     func productListVM(viewModel: ProductListViewModel, didSelectItemAtIndex index: Int,
@@ -593,6 +589,21 @@ extension MainProductsViewModel {
                                        text: LGLocalizedString.profilePermissionsAlertMessage,
                                        alertType: .IconAlert(icon: UIImage(named: "custom_permission_profile")),
                                        actions: [negative, positive])
+    }
+}
+
+
+// MARK: - Filters & bubble
+
+private extension ProductFilters {
+    var infoBubblePresent: Bool {
+        guard let selectedOrdering = selectedOrdering else { return true }
+        switch (selectedOrdering) {
+        case .Distance, .Creation:
+            return true
+        case .PriceAsc, .PriceDesc:
+            return false
+        }
     }
 }
 
