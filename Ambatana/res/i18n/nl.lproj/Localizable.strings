@@ -172,7 +172,7 @@
 "common_cancel" = "Annuleren";
 "common_chat_not_available" = "Oeps! Chat niet gevonden.";
 "common_collapse" = "Toon minder";
-"common_copy" = "Copy";
+"common_copy" = "Kopieren";
 "common_error" = "Fout";
 "common_error_connection_failed" = "Er is een fout opgetreden. Gelieve je internetverbinding te controleren.";
 "common_error_generic_body" = "Er is een fout opgetreden.";
@@ -187,7 +187,7 @@
 "common_next" = "Volgende";
 "common_no" = "Nee";
 "common_ok" = "OK";
-"common_or" = "OR";
+"common_or" = "OF";
 "common_product_not_available" = "Dit product is niet meer beschikbaar.";
 "common_product_sold" = "Dit product is verkocht.";
 "common_settings" = "Instellingen";
@@ -496,8 +496,8 @@
 "product_share_body" = "Kijk wat ik net gevonden heb bij letgo!";
 "product_share_copylink_ok" = "Jouw link is gekopieerd!";
 "product_share_email_error" = "Oeps! Het lijkt erop dat je geen account hebt aangemaakt in de Mail app.";
-"product_share_fullscreen_subtitle" = "Did you know that those who share their products are 100% more likely to be awesome?";
-"product_share_fullscreen_title" = "SHARING IS WINNING!";
+"product_share_fullscreen_subtitle" = "Wist je dat degenen die hun producten delen 100% meer kans hebben om geweldig te zijn?";
+"product_share_fullscreen_title" = "DELEN IS WINNEN!";
 "product_share_generic_error" = "Er is een fout opgetreden bij het delen van het product. Probeer het later nog eens.";
 "product_share_generic_ok" = "Product succesvol gedeeld!";
 "product_share_navbar_button" = "Delen";

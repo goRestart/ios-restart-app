@@ -172,7 +172,7 @@
 "common_cancel" = "Ακύρωση";
 "common_chat_not_available" = "Όπα! Η συνομιλία δε βρέθηκε.";
 "common_collapse" = "Δείτε Λιγότερα";
-"common_copy" = "Copy";
+"common_copy" = "Αντιγραφή";
 "common_error" = "Σφάλμα";
 "common_error_connection_failed" = "Παρουσιάστηκε σφάλμα. Παρακαλώ, ελέγξτε τη σύνδεσή σας στο Ίντερνετ.";
 "common_error_generic_body" = "Παρουσιάστηκε σφάλμα.";
@@ -187,7 +187,7 @@
 "common_next" = "Επόμενο";
 "common_no" = "Όχι";
 "common_ok" = "ΟΚ";
-"common_or" = "OR";
+"common_or" = "Η'";
 "common_product_not_available" = "Το προϊόν δεν είναι πλέον διαθέσιμο.";
 "common_product_sold" = "Το προϊόν έχει πουληθεί.";
 "common_settings" = "Ρυθμίσεις";
@@ -496,8 +496,8 @@
 "product_share_body" = "Δες τι βρήκα στο letgo!";
 "product_share_copylink_ok" = "Ο σύνδεσμός έχει αντιγραφεί!";
 "product_share_email_error" = "Όπα! Από ότι φαίνεται, δεν έχεις κάνει λογαριασμό στην εφαρμογή Mail.";
-"product_share_fullscreen_subtitle" = "Did you know that those who share their products are 100% more likely to be awesome?";
-"product_share_fullscreen_title" = "SHARING IS WINNING!";
+"product_share_fullscreen_subtitle" = "Γνωρίζατε ότι όσοι κοινοποιούν τα προϊόντα τους είναι 100% καλύτεροι;";
+"product_share_fullscreen_title" = "ΚΟΙΝΟΠΟΙΗΣΤΕ ΚΑΙ ΚΕΡΔΙΣΤΕ!";
 "product_share_generic_error" = "Παρουσιάστηκε σφάλμα κατά την κοινοποίηση του προϊόντος. Παρακαλώ, προσπαθήστε ξανά αργότερα.";
 "product_share_generic_ok" = "Επιτυχής κοινοποίηση του προϊόντος!";
 "product_share_navbar_button" = "Κοινοποίηση";

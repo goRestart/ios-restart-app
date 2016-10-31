@@ -1317,6 +1317,9 @@
 // Message subtitle when camera appears on free posting. 
 "product_post_free_camera_first_time_alert_subtitle" = "Take a good picture and find your item a new home!";
 
+// Pos another item button (free Version)
+"product_post_free_confirmation_another_button" = "Give away another item";
+
 // Message subtitle when loading an image (from iCloud) fails
 "product_post_gallery_load_image_error_subtitle" = "Choose another photo and try again.";
 

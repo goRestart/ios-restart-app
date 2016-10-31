@@ -37,9 +37,9 @@ class ProductPostedViewModel: BaseViewModel {
         case .Error:
             return false
         }
-
     }
 
+    
     // MARK: - Lifecycle
 
     init(postResult: ProductResult, trackingInfo: PostProductTrackingInfo) {
@@ -85,7 +85,7 @@ class ProductPostedViewModel: BaseViewModel {
         case .Posting:
             return nil
         case .Success:
-            return LGLocalizedString.productPostConfirmationAnotherButton
+            return wasFreePosting ? LGLocalizedString.productPostFreeConfirmationAnotherButton : LGLocalizedString.productPostConfirmationAnotherButton
         case .Error:
             return LGLocalizedString.productPostRetryButton
         }
