@@ -20,5 +20,5 @@ protocol ProductPostedNavigator: class {
     func cancelProductPosted()
     func closeProductPosted(product: Product)
     func closeProductPostedAndOpenEdit(product: Product)
-    func closeProductPostedAndOpenPost(postingSource: PostingSource)
+    func closeProductPostedAndOpenPost()
 }

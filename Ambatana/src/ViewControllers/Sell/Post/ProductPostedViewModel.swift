@@ -39,11 +39,6 @@ class ProductPostedViewModel: BaseViewModel {
         }
     }
 
-    var postingSource: PostingSource {
-        guard wasFreePosting else { return .SellButton }
-        return .GiveAwayButton
-    }
-    
     
     // MARK: - Lifecycle
 
@@ -183,7 +178,7 @@ class ProductPostedViewModel: BaseViewModel {
             trackEvent(TrackerEvent.productSellErrorPost(error))
         }
 
-        navigator?.closeProductPostedAndOpenPost(self.postingSource)
+        navigator?.closeProductPostedAndOpenPost()
     }
 
     func nativeShareInEmail() {
