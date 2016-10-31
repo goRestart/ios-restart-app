@@ -191,11 +191,11 @@ extension SellCoordinator: ProductPostedNavigator {
         }
     }
 
-    func closeProductPostedAndOpenPost() {
+    func closeProductPostedAndOpenPost(postingSource: PostingSource) {
         close(ProductPostedViewController.self, animated: true) { [weak self] in
             guard let strongSelf = self, parentVC = strongSelf.parentViewController else { return }
             // TODO: We have to have here sourcePosting (Free or not) to know if we want to sell or give away our next product.
-            let source: PostingSource = .SellButton
+            let source: PostingSource = postingSource
             let postProductVM = PostProductViewModel(source: source)
             let postProductVC = PostProductViewController(viewModel: postProductVM, forceCamera: source.forceCamera)
             strongSelf.viewController = postProductVC

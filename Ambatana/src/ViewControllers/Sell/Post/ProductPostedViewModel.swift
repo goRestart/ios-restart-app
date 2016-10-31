@@ -37,9 +37,14 @@ class ProductPostedViewModel: BaseViewModel {
         case .Error:
             return false
         }
-
     }
 
+    var postingSource: PostingSource {
+        guard wasFreePosting else { return .SellButton }
+        return .GiveAwayButton
+    }
+    
+    
     // MARK: - Lifecycle
 
     init(postResult: ProductResult, trackingInfo: PostProductTrackingInfo) {
@@ -85,7 +90,7 @@ class ProductPostedViewModel: BaseViewModel {
         case .Posting:
             return nil
         case .Success:
-            return LGLocalizedString.productPostConfirmationAnotherButton
+            return wasFreePosting ? LGLocalizedString.productPostFreeConfirmationAnotherButton : LGLocalizedString.productPostConfirmationAnotherButton
         case .Error:
             return LGLocalizedString.productPostRetryButton
         }
@@ -178,7 +183,7 @@ class ProductPostedViewModel: BaseViewModel {
             trackEvent(TrackerEvent.productSellErrorPost(error))
         }
 
-        navigator?.closeProductPostedAndOpenPost()
+        navigator?.closeProductPostedAndOpenPost(self.postingSource)
     }
 
     func nativeShareInEmail() {
