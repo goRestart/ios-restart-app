@@ -10,9 +10,9 @@
 		"description": "Notifications Section"
 	},
     {
-     "name": "UserReviews",
-     "values": ["Yes", "No"],
-     "description": "User Reviews Feature"
+        "name": "UserReviews",
+        "values": ["Yes", "No"],
+        "description": "User Reviews Feature"
 	},
     {
 		"name": "ShowNPSSurvey",
