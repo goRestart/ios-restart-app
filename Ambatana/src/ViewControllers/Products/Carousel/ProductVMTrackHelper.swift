@@ -48,6 +48,19 @@ extension ProductViewModel {
 }
 
 
+// MARK: - ShareProductTrackerDelegate (Full screen share view)
+
+extension ProductViewModel: ShareProductTrackerDelegate {
+    func shareProductShareStarted(shareType: ShareType) {
+        trackShareStarted(shareType, buttonPosition: .Top)
+    }
+
+    func shareProductShareCompleted(shareType: ShareType, state: SocialShareState) {
+        trackShareCompleted(shareType, buttonPosition: .Top, state: state)
+    }
+}
+
+
 // MARK: - Share
 
 extension ProductVMTrackHelper {

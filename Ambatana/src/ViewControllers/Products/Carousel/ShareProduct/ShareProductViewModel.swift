@@ -15,10 +15,16 @@ protocol ShareProductViewModelDelegate {
     func vmViewControllerToShare() -> UIViewController
 }
 
+protocol ShareProductTrackerDelegate {
+    func shareProductShareStarted(shareType: ShareType)
+    func shareProductShareCompleted(shareType: ShareType, state: SocialShareState)
+}
+
 class ShareProductViewModel: BaseViewModel {
 
     var shareTypes: [ShareType]
     var delegate: ShareProductViewModelDelegate?
+    var trackerDelegate: ShareProductTrackerDelegate?
     var socialSharer: SocialSharer?
     weak var navigator: ProductDetailNavigator?
 
@@ -29,6 +35,15 @@ class ShareProductViewModel: BaseViewModel {
 
 
     convenience init(socialMessage: SocialMessage) {
+        self.init(socialSharer: SocialSharer(), socialMessage: socialMessage,
+                  locale: NSLocale.currentLocale(), locationManager: Core.locationManager)
+    }
+
+    // init w vm, locale & core.locationM
+
+    init(socialSharer: SocialSharer, socialMessage: SocialMessage, locale: NSLocale,
+         locationManager: LocationManager) {
+
         var systemCountryCode = ""
         if #available(iOS 10.0, *) {
             systemCountryCode = NSLocale.currentLocale().countryCode ?? ""
@@ -36,14 +51,9 @@ class ShareProductViewModel: BaseViewModel {
             systemCountryCode = NSLocale.currentLocale().objectForKey(NSLocaleCountryCode) as? String ?? ""
         }
         let countryCode = Core.locationManager.currentPostalAddress?.countryCode ?? systemCountryCode
-        self.init(countryCode: countryCode, shareFacade: SocialSharer(), socialMessage: socialMessage)
-    }
 
-    // init w vm, locale & core.locationM
-
-    init(countryCode: String, shareFacade: SocialSharer, socialMessage: SocialMessage) {
         self.socialMessage = socialMessage
-        self.socialSharer = shareFacade
+        self.socialSharer = socialSharer
         self.shareTypes = ShareType.shareTypesForCountry(countryCode, maxButtons: 4, includeNative: true)
         super.init()
 
@@ -63,17 +73,14 @@ class ShareProductViewModel: BaseViewModel {
 
 extension ShareProductViewModel: SocialSharerDelegate {
     func shareStartedIn(shareType: ShareType) {
-
-//        trackShareStarted(shareType, buttonPosition: buttonPosition)
+        trackerDelegate?.shareProductShareStarted(shareType)
     }
 
     func shareFinishedIn(shareType: ShareType, withState state: SocialShareState) {
-
         if let message = messageForShareIn(shareType, finishedWithState: state) {
             delegate?.vmShareFinishedWithMessage(message, state: state)
         }
-
-//        trackShareCompleted(shareType, buttonPosition: buttonPosition, state: state)
+        trackerDelegate?.shareProductShareCompleted(shareType, state: state)
     }
 
     private func messageForShareIn(shareType: ShareType, finishedWithState state: SocialShareState) -> String? {
@@ -90,6 +97,8 @@ extension ShareProductViewModel: SocialSharerDelegate {
             return LGLocalizedString.productShareSmsOk
         case (.SMS, .Failed):
             return LGLocalizedString.productShareSmsError
+        case (.CopyLink, .Completed):
+            return LGLocalizedString.productShareCopylinkOk
         default:
             break
         }

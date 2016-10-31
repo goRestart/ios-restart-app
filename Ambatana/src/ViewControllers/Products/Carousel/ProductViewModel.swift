@@ -1068,7 +1068,6 @@ extension ProductViewModel: SocialSharerDelegate {
     func shareStartedIn(shareType: ShareType) {
         let buttonPosition: EventParameterButtonPosition
 
-        // TODO: Take in account full screen mode
         switch moreInfoState.value {
         case .Hidden:
             buttonPosition = .Top
@@ -1082,7 +1081,6 @@ extension ProductViewModel: SocialSharerDelegate {
     func shareFinishedIn(shareType: ShareType, withState state: SocialShareState) {
         let buttonPosition: EventParameterButtonPosition
 
-        // TODO: Take in account full screen mode
         switch moreInfoState.value {
         case .Hidden:
             buttonPosition = .Top

@@ -13,6 +13,7 @@ import CollectionVariable
 protocol ProductCarouselViewModelDelegate: BaseViewModelDelegate {
     func vmRefreshCurrent()
     func vmRemoveMoreInfoTooltip()
+    func vmShareFinishedWithMessage(message: String, state: SocialShareState)
 }
 
 enum CarouselMovement {
@@ -36,6 +37,9 @@ class ProductCarouselViewModel: BaseViewModel {
     var initialThumbnail: UIImage?
     weak var delegate: ProductCarouselViewModelDelegate?
     weak var navigator: ProductDetailNavigator?
+
+    var shareTypes: [ShareType]
+    var socialSharer: SocialSharer
 
     private var activeDisposeBag = DisposeBag()
 
@@ -81,10 +85,12 @@ class ProductCarouselViewModel: BaseViewModel {
                      source: EventParameterProductVisitSource) {
         let myUserRepository = Core.myUserRepository
         let productRepository = Core.productRepository
+        let locationManager = Core.locationManager
         let product = productRepository.build(fromChatproduct: chatProduct, chatInterlocutor: chatInterlocutor)
         self.init(myUserRepository: myUserRepository, productRepository: productRepository,
                   productListModels: nil, initialProduct: product, thumbnailImage: thumbnailImage,
-                  productListRequester: productListRequester, navigator: navigator, source: source)
+                  productListRequester: productListRequester, navigator: navigator, source: source,
+                  locale: NSLocale.currentLocale(), locationManager: locationManager, socialSharer: SocialSharer())
         syncFirstProduct()
     }
 
@@ -92,9 +98,11 @@ class ProductCarouselViewModel: BaseViewModel {
                      navigator: ProductDetailNavigator?, source: EventParameterProductVisitSource) {
         let myUserRepository = Core.myUserRepository
         let productRepository = Core.productRepository
+        let locationManager = Core.locationManager
         self.init(myUserRepository: myUserRepository, productRepository: productRepository,
                   productListModels: nil, initialProduct: product, thumbnailImage: thumbnailImage,
-                  productListRequester: productListRequester, navigator: navigator, source: source)
+                  productListRequester: productListRequester, navigator: navigator, source: source,
+                  locale: NSLocale.currentLocale(), locationManager: locationManager, socialSharer: SocialSharer())
     }
 
     convenience init(productListModels: [ProductCellModel], initialProduct: Product?, thumbnailImage: UIImage?,
@@ -102,16 +110,26 @@ class ProductCarouselViewModel: BaseViewModel {
                      source: EventParameterProductVisitSource) {
         let myUserRepository = Core.myUserRepository
         let productRepository = Core.productRepository
+        let locationManager = Core.locationManager
         self.init(myUserRepository: myUserRepository, productRepository: productRepository,
                   productListModels: productListModels, initialProduct: initialProduct,
                   thumbnailImage: thumbnailImage, productListRequester: productListRequester, navigator: navigator,
-                  source: source)
+                  source: source, locale: NSLocale.currentLocale(), locationManager: locationManager, socialSharer: SocialSharer())
     }
 
     init(myUserRepository: MyUserRepository, productRepository: ProductRepository,
          productListModels: [ProductCellModel]?, initialProduct: Product?, thumbnailImage: UIImage?,
          productListRequester: ProductListRequester?, navigator: ProductDetailNavigator?,
-         source: EventParameterProductVisitSource) {
+         source: EventParameterProductVisitSource, locale: NSLocale, locationManager: LocationManager, socialSharer: SocialSharer) {
+
+        var systemCountryCode = ""
+        if #available(iOS 10.0, *) {
+            systemCountryCode = locale.countryCode ?? ""
+        } else {
+            systemCountryCode = locale.objectForKey(NSLocaleCountryCode) as? String ?? ""
+        }
+        let countryCode = locationManager.currentPostalAddress?.countryCode ?? systemCountryCode
+
         self.myUserRepository = myUserRepository
         self.productRepository = productRepository
         if let productListModels = productListModels {
@@ -124,7 +142,10 @@ class ProductCarouselViewModel: BaseViewModel {
         self.navigator = navigator
         self.source = source
         self.isLastPage = productListRequester?.isLastPage(productListModels?.count ?? 0) ?? true
+        self.shareTypes = ShareType.shareTypesForCountry(countryCode, maxButtons: 4, includeNative: true)
+        self.socialSharer = socialSharer
         super.init()
+        self.socialSharer.delegate = self
         self.startIndex = indexForProduct(initialProduct) ?? 0
         self.currentProductViewModel = viewModelAtIndex(startIndex)
         self.currentProductViewModel?.isFirstProduct = true
@@ -219,7 +240,7 @@ class ProductCarouselViewModel: BaseViewModel {
 
     func openFullScreenShare() {
         guard let socialMessage = currentProductViewModel?.socialMessage.value else { return }
-        navigator?.openFullScreenShare(socialMessage)
+        navigator?.openFullScreenShare(socialMessage, trackerDelegate: currentProductViewModel)
     }
 
     func openShare(shareType: ShareType, fromViewController: UIViewController, barButtonItem: UIBarButtonItem? = nil) {
@@ -289,6 +310,44 @@ extension ProductCarouselViewModel {
             }
         }
         ImageDownloader.sharedInstance.downloadImagesWithURLs(imagesToPrefetch)
+    }
+}
+
+
+// MARK: - SocialShareFacadeDelegate
+
+extension ProductCarouselViewModel: SocialSharerDelegate {
+    func shareStartedIn(shareType: ShareType) {
+        currentProductViewModel?.trackShareStarted(shareType, buttonPosition: .Top)
+    }
+
+    func shareFinishedIn(shareType: ShareType, withState state: SocialShareState) {
+        if let message = messageForShareIn(shareType, finishedWithState: state) {
+            delegate?.vmShareFinishedWithMessage(message, state: state)
+        }
+        currentProductViewModel?.trackShareCompleted(shareType, buttonPosition: .Top, state: state)
+    }
+
+    private func messageForShareIn(shareType: ShareType, finishedWithState state: SocialShareState) -> String? {
+        switch (shareType, state) {
+        case (.Email, .Completed):
+            return LGLocalizedString.productShareGenericOk
+        case (.Email, .Failed):
+            return LGLocalizedString.productShareEmailError
+        case (.Facebook, .Failed):
+            return LGLocalizedString.sellSendErrorSharingFacebook
+        case (.FBMessenger, .Failed):
+            return LGLocalizedString.sellSendErrorSharingFacebook
+        case (.SMS, .Completed):
+            return LGLocalizedString.productShareSmsOk
+        case (.SMS, .Failed):
+            return LGLocalizedString.productShareSmsError
+        case (.CopyLink, .Completed):
+            return LGLocalizedString.productShareCopylinkOk
+        default:
+            break
+        }
+        return nil
     }
 }
 

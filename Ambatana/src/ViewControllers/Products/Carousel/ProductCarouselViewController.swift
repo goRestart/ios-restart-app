@@ -295,22 +295,40 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
 
     private func setupExpandableButtonsViewIfNeeded() {
         guard FeatureFlags.productDetailShareMode == .InPlace else { return }
-
+        guard let socialMessage = viewModel.currentProductViewModel?.socialMessage.value else { return }
         let expandableButtons = ExpandableButtonsView(buttonSide: 36, buttonSpacing: 7)
         expandableButtonsView = expandableButtons
 
-        expandableButtons.addButton(image: UIImage(named: "item_share_fb"), bgColor: nil, action: {
-            print("facebook")
-        })
-        expandableButtons.addButton(image: UIImage(named: "item_share_fb_messenger"), bgColor: nil, action: {
-            print("facebook msgr")
-        })
-        expandableButtons.addButton(image: UIImage(named: "item_share_link"), bgColor: nil, action: {
-            print("link")
-        })
-        expandableButtons.addButton(image: UIImage(named: "item_share_twitter"), bgColor: nil, action: {
-            print("twitter")
-        })
+        for type in viewModel.shareTypes {
+            guard SocialSharer.canShareIn(type) else { continue }
+            var image: UIImage? = UIImage()
+            switch type {
+            case .Email:
+                image = UIImage(named: "item_share_email")
+            case .Facebook:
+                image = UIImage(named: "item_share_fb")
+            case .Twitter:
+                image = UIImage(named: "item_share_twitter")
+            case .Native:
+                image = UIImage(named: "item_share_more")
+            case .CopyLink:
+                image = UIImage(named: "item_share_link")
+            case .FBMessenger:
+                image = UIImage(named: "item_share_fb_messenger")
+            case .Whatsapp:
+                image = UIImage(named: "item_share_whatsapp")
+            case .Telegram:
+                image = UIImage(named: "item_share_telegram")
+            case .SMS:
+                image = UIImage(named: "item_share_sms")
+            }
+            expandableButtons.addButton(image: image, bgColor: nil) { [weak self] in
+                guard let strongSelf = self else { return }
+                strongSelf.viewModel.socialSharer.share(socialMessage, shareType: type, viewController: strongSelf,
+                                                        barButtonItem: nil)
+            }
+        }
+
         expandableButtons.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(expandableButtons)
 
@@ -811,6 +829,17 @@ extension ProductCarouselViewController: ProductCarouselViewModelDelegate {
 
     func vmRemoveMoreInfoTooltip() {
         removeMoreInfoTooltip()
+    }
+
+    func vmShareFinishedWithMessage(message: String, state: SocialShareState) {
+        vmShowAutoFadingMessage(message) { [weak self] in
+            switch state {
+            case .Completed:
+                self?.expandableButtonsView?.shrink(animated: true)
+            case .Cancelled, .Failed:
+                break
+            }
+        }
     }
 }
 
