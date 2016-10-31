@@ -52,6 +52,7 @@ class SocialShareView: UIView {
     var specificCountry: String?
     var maxButtons: Int?
     var mustShowMoreOptions: Bool?
+    var useBigButtons: Bool = false
 
     weak var delegate: SocialShareViewDelegate?
     var socialMessage: SocialMessage?
@@ -78,8 +79,9 @@ class SocialShareView: UIView {
     }
 
     
-    func setupWithShareTypes(shareTypes: [ShareType]) {
+    func setupWithShareTypes(shareTypes: [ShareType], useBigButtons: Bool) {
         self.shareTypes = shareTypes
+        self.useBigButtons = useBigButtons
         setAvailableButtons()
     }
 
@@ -156,7 +158,8 @@ class SocialShareView: UIView {
     }
 
     private func createSMSButton() -> UIButton? {
-        return createButton(UIImage(named: "item_share_sms"), accesibilityId: .SocialShareSMS) { [weak self] in
+        let imageName = useBigButtons ? "item_share_sms_big" : "item_share_sms"
+        return createButton(UIImage(named: imageName), accesibilityId: .SocialShareSMS) { [weak self] in
             guard let strongSelf = self else { return }
             guard let socialMessage = strongSelf.socialMessage else { return }
             guard let viewController = strongSelf.delegate?.viewController() else { return }
@@ -166,7 +169,8 @@ class SocialShareView: UIView {
     }
     
     private func createFacebookButton() -> UIButton? {
-        return createButton(UIImage(named: "item_share_fb"), accesibilityId: .SocialShareFacebook) { [weak self] in
+        let imageName = useBigButtons ? "item_share_fb_big" : "item_share_fb"
+        return createButton(UIImage(named: imageName), accesibilityId: .SocialShareFacebook) { [weak self] in
             guard let strongSelf = self else { return }
             guard let socialMessage = strongSelf.socialMessage else { return }
             guard let viewController = strongSelf.delegate?.viewController() else { return }
@@ -176,7 +180,8 @@ class SocialShareView: UIView {
     }
 
     private func createTwitterButton() -> UIButton? {
-        return createButton(UIImage(named: "item_share_twitter"), accesibilityId: .SocialShareTwitter) { [weak self] in
+        let imageName = useBigButtons ? "item_share_twitter_big" : "item_share_twitter"
+        return createButton(UIImage(named: imageName), accesibilityId: .SocialShareTwitter) { [weak self] in
             guard let strongSelf = self else { return }
             guard let socialMessage = strongSelf.socialMessage else { return }
             guard let viewController = strongSelf.delegate?.viewController() else { return }
@@ -186,7 +191,8 @@ class SocialShareView: UIView {
     }
 
     private func createFacebookMessengerButton() -> UIButton? {
-        return createButton(UIImage(named: "item_share_fb_messenger"), accesibilityId: .SocialShareFBMessenger) { [weak self] in
+        let imageName = useBigButtons ? "item_share_fb_messenger_big" : "item_share_fb_messenger"
+        return createButton(UIImage(named: imageName), accesibilityId: .SocialShareFBMessenger) { [weak self] in
             guard let strongSelf = self else { return }
             guard let socialMessage = strongSelf.socialMessage else { return }
             guard let viewController = strongSelf.delegate?.viewController() else { return }
@@ -196,7 +202,8 @@ class SocialShareView: UIView {
     }
 
     private func createWhatsappButton() -> UIButton? {
-        return createButton(UIImage(named: "item_share_whatsapp"), accesibilityId: .SocialShareWhatsapp) { [weak self] in
+        let imageName = useBigButtons ? "item_share_whatsapp_big" : "item_share_whatsapp"
+        return createButton(UIImage(named: imageName), accesibilityId: .SocialShareWhatsapp) { [weak self] in
             guard let strongSelf = self else { return }
             guard let socialMessage = strongSelf.socialMessage else { return }
             guard let viewController = strongSelf.delegate?.viewController() else { return }
@@ -206,7 +213,8 @@ class SocialShareView: UIView {
     }
 
     private func createTelegramButton() -> UIButton? {
-        return createButton(UIImage(named: "item_share_telegram"), accesibilityId: .SocialShareTelegram) { [weak self] in
+        let imageName = useBigButtons ? "item_share_telegram_big" : "item_share_telegram"
+        return createButton(UIImage(named: imageName), accesibilityId: .SocialShareTelegram) { [weak self] in
             guard let strongSelf = self else { return }
             guard let socialMessage = strongSelf.socialMessage else { return }
             guard let viewController = strongSelf.delegate?.viewController() else { return }
@@ -216,7 +224,8 @@ class SocialShareView: UIView {
     }
 
     private func createEmailButton() -> UIButton? {
-        return createButton(UIImage(named: "item_share_email"), accesibilityId: .SocialShareEmail) { [weak self] in
+        let imageName = useBigButtons ? "item_share_email_big" : "item_share_email"
+        return createButton(UIImage(named: imageName), accesibilityId: .SocialShareEmail) { [weak self] in
             guard let strongSelf = self else { return }
             guard let socialMessage = strongSelf.socialMessage else { return }
             guard let viewController = strongSelf.delegate?.viewController() else { return }
@@ -226,7 +235,8 @@ class SocialShareView: UIView {
     }
     
     private func createCopyLinkButton() -> UIButton? {
-        return createButton(UIImage(named: "item_share_link"), accesibilityId: .SocialShareCopyLink) { [weak self] in
+        let imageName = useBigButtons ? "item_share_link_big" : "item_share_link"
+        return createButton(UIImage(named: imageName), accesibilityId: .SocialShareCopyLink) { [weak self] in
             guard let strongSelf = self else { return }
             guard let socialMessage = strongSelf.socialMessage else { return }
             guard let viewController = strongSelf.delegate?.viewController() else { return }
@@ -237,7 +247,8 @@ class SocialShareView: UIView {
 
     private func createNativeShareButton() -> UIButton? {
         // 👾
-        return createButton(UIImage(named: "item_share_more"), accesibilityId: .SocialShareMore) { [weak self] in
+        let imageName = useBigButtons ? "item_share_more_big" : "item_share_more"
+        return createButton(UIImage(named: imageName), accesibilityId: .SocialShareMore) { [weak self] in
             guard let strongSelf = self else { return }
             guard let socialMessage = strongSelf.socialMessage else { return }
             guard let viewController = strongSelf.delegate?.viewController() else { return }

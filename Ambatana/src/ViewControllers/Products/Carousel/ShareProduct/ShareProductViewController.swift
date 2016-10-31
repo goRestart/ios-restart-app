@@ -46,7 +46,6 @@ class ShareProductViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
         setupUI()
     }
 
@@ -82,9 +81,9 @@ class ShareProductViewController: BaseViewController {
 
     private func setupShareView() {
         socialShareView.socialMessage = viewModel.socialMessage
-        socialShareView.setupWithShareTypes(viewModel.shareTypes)
+        socialShareView.setupWithShareTypes(viewModel.shareTypes, useBigButtons: true)
+        socialShareView.facade = viewModel.shareFacade
         socialShareView.delegate = self
-        socialShareView.facadeDelegate = viewModel.shareFacadeDelegate
         socialShareView.buttonsSide = ShareProductViewController.shareButtonWidth
         socialShareView.style = .Line
     }
@@ -107,10 +106,6 @@ class ShareProductViewController: BaseViewController {
 }
 
 
-extension ShareProductViewController: ShareProductViewModelDelegate {
-
-}
-
 extension ShareProductViewController: SocialShareViewDelegate {
     func viewController() -> UIViewController? {
         return self
@@ -118,52 +113,15 @@ extension ShareProductViewController: SocialShareViewDelegate {
 }
 
 
-//extension ShareProductViewController: SocialShareViewDelegate {
-//    func shareInEmail() {}
-//
-//    func shareInEmailFinished(state: SocialShareState) {}
-//
-//    func shareInFacebook() {}
-//
-//    func shareInFacebookFinished(state: SocialShareState) {}
-//
-//    func shareInFBMessenger() {}
-//
-//    func shareInFBMessengerFinished(state: SocialShareState) {}
-//
-//    func shareInWhatsApp() {}
-//
-//    func shareInTwitter() {}
-//
-//    func shareInTwitterFinished(state: SocialShareState) {}
-//
-//    func shareInTelegram() {}
-//
-//    func shareInSMS() {}
-//
-//    func shareInSMSFinished(state: SocialShareState) {}
-//
-//    func shareInCopyLink() {}
-//
-//    func viewController() -> UIViewController?  {
-//        return self
-//    }
-//
-//    func openNativeShare() {
-//        presentNativeShare(socialMessage: viewModel.socialMessage, delegate: self)
-//    }
-//}
-
-//extension ShareProductViewController: NativeShareDelegate {
-//
-//    var nativeShareSuccessMessage: String? { return LGLocalizedString.productShareGenericOk }
-//    var nativeShareErrorMessage: String? { return LGLocalizedString.productShareGenericError }
-//
-//    func nativeShareInFacebook() {}
-//
-//    func nativeShareInTwitter() {}
-//
-//    func nativeShareInEmail() {}
-//
-//    func nativeShareInWhatsApp() {}
-//}
+extension ShareProductViewController: ShareProductViewModelDelegate {
+    func vmShareFinishedWithMessage(message: String, state: SocialShareState) {
+        vmShowAutoFadingMessage(message) { [weak self] in
+            switch state {
+            case .Completed:
+                self?.dismissViewControllerAnimated(true, completion: nil)
+            case .Cancelled, .Failed:
+                break
+            }
+        }
+    }
+}

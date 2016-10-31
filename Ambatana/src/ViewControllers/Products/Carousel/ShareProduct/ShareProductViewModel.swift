@@ -9,15 +9,16 @@
 import Foundation
 import LGCoreKit
 
-protocol ShareProductViewModelDelegate {
 
+protocol ShareProductViewModelDelegate {
+    func vmShareFinishedWithMessage(message: String, state: SocialShareState)
 }
 
 class ShareProductViewModel: BaseViewModel {
 
     var shareTypes: [ShareType]
     var delegate: ShareProductViewModelDelegate?
-    var shareFacadeDelegate: SocialShareFacadeDelegate?
+    var shareFacade: SocialShareFacade?
     weak var navigator: ProductDetailNavigator?
 
     var socialMessage: SocialMessage
@@ -26,7 +27,7 @@ class ShareProductViewModel: BaseViewModel {
     }
 
 
-    convenience init(shareFacadeDelegate: SocialShareFacadeDelegate, socialMessage: SocialMessage) {
+    convenience init(socialMessage: SocialMessage) {
         var systemCountryCode = ""
         if #available(iOS 10.0, *) {
             systemCountryCode = NSLocale.currentLocale().countryCode ?? ""
@@ -34,20 +35,56 @@ class ShareProductViewModel: BaseViewModel {
             systemCountryCode = NSLocale.currentLocale().objectForKey(NSLocaleCountryCode) as? String ?? ""
         }
         let countryCode = Core.locationManager.currentPostalAddress?.countryCode ?? systemCountryCode
-        self.init(countryCode: countryCode, shareFacadeDelegate: shareFacadeDelegate, socialMessage: socialMessage)
+        self.init(countryCode: countryCode, shareFacade: SocialShareFacade(), socialMessage: socialMessage)
     }
 
     // init w vm, locale & core.locationM
 
-    init(countryCode: String, shareFacadeDelegate: SocialShareFacadeDelegate, socialMessage: SocialMessage) {
+    init(countryCode: String, shareFacade: SocialShareFacade, socialMessage: SocialMessage) {
         self.socialMessage = socialMessage
-        self.shareFacadeDelegate = shareFacadeDelegate
+        self.shareFacade = shareFacade
         self.shareTypes = ShareType.shareTypesForCountry(countryCode, maxButtons: 4, includeNative: true)
         super.init()
+
+        self.shareFacade?.delegate = self
+    }
+}
+
+
+// MARK: - SocialShareFacadeDelegate
+
+extension ShareProductViewModel: SocialShareFacadeDelegate {
+    func shareStartedIn(shareType: ShareType) {
+
+//        trackShareStarted(shareType, buttonPosition: buttonPosition)
     }
 
+    func shareFinishedIn(shareType: ShareType, withState state: SocialShareState) {
 
-    // MARK: - Public Methods
+        if let message = messageForShareIn(shareType, finishedWithState: state) {
+            delegate?.vmShareFinishedWithMessage(message, state: state)
+        }
 
+//        trackShareCompleted(shareType, buttonPosition: buttonPosition, state: state)
+    }
 
+    private func messageForShareIn(shareType: ShareType, finishedWithState state: SocialShareState) -> String? {
+        switch (shareType, state) {
+        case (.Email, .Completed):
+            return LGLocalizedString.productShareGenericOk
+        case (.Email, .Failed):
+            return LGLocalizedString.productShareEmailError
+        case (.Facebook, .Failed):
+            return LGLocalizedString.sellSendErrorSharingFacebook
+        case (.FBMessenger, .Failed):
+            return LGLocalizedString.sellSendErrorSharingFacebook
+        case (.SMS, .Completed):
+            return LGLocalizedString.productShareSmsOk
+        case (.SMS, .Failed):
+            return LGLocalizedString.productShareSmsError
+        default:
+            break
+        }
+        return nil
+    }
 }
