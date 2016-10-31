@@ -124,12 +124,14 @@ private extension NotificationsViewModel {
     private func buildNotification(notification: Notification) -> NotificationData? {
         switch notification.type {
         case let .Rating(userId, userImageUrl, userName, _, _):
+            guard FeatureFlags.userReviews else { return nil }
             return NotificationData(type: .Rating(userId: userId, userName: userName, userImage: userImageUrl),
                                     date: notification.createdAt, isRead: notification.isRead,
                                     primaryAction: { [weak self] in
                                         self?.navigator?.openMyRatingList()
                                     })
         case let .RatingUpdated(userId, userImageUrl, userName, _, _):
+            guard FeatureFlags.userReviews else { return nil }
             return NotificationData(type: .RatingUpdated(userId: userId, userName: userName, userImage: userImageUrl),
                                     date: notification.createdAt, isRead: notification.isRead,
                                     primaryAction: { [weak self] in

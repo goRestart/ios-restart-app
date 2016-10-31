@@ -154,6 +154,10 @@ class NotificationsManager {
 
 private extension UnreadNotificationsCounts {
     var totalVisibleCount: Int {
-        return productLike + productSold + review + reviewUpdated
+        if FeatureFlags.userReviews {
+            return productLike + productSold + review + reviewUpdated
+        } else {
+            return productLike + productSold
+        }
     }
 }
