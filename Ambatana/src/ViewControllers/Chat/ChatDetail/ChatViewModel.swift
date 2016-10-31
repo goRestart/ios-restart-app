@@ -241,6 +241,12 @@ class ChatViewModel: BaseViewModel {
         }
     }
 
+    func didAppear() {
+        if conversation.value.isSaved && chatEnabled.value {
+            delegate?.vmShowKeyboard()
+        }
+    }
+
     func applicationWillEnterForeground() {
         refreshChatInfo()
     }
@@ -251,9 +257,6 @@ class ChatViewModel: BaseViewModel {
         guard !interlocutor.isBanned else { return }
         retrieveMoreMessages()
         loadStickersTooltip()
-        if conversation.value.isSaved && chatEnabled.value {
-            delegate?.vmShowKeyboard()
-        }
     }
 
     func wentBack() {
