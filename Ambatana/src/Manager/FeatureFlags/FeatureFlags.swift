@@ -85,6 +85,13 @@ struct FeatureFlags {
         }
         return ABTests.directPostInOnboarding.value
     }
+    
+    static var shareButtonWithIcon: Bool {
+        if Bumper.enabled {
+            return Bumper.shareButtonWithIcon
+        }
+        return ABTests.shareButtonWithIcon.value
+    }
 
 
     // MARK: - Private

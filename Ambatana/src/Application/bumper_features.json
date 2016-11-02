@@ -48,5 +48,10 @@
         "name": "DirectPostInOnboarding",
         "values": ["No", "Yes"],
         "description": "Last Onboarding step opens the camera"
+	},
+    {
+        "name": "ShareButtonWithIcon",
+        "values": ["Yes", "No"],
+        "description": "Share button with an icon and background"
 	}
 ]
