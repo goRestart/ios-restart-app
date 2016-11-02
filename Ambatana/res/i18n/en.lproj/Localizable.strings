@@ -976,7 +976,7 @@
 "notifications_type_rating_button" = "See your reviews";
 
 // User has updated your rating
-"notifications_type_rating_updated" = "%@ has updated your review";
+"notifications_type_rating_updated" = "%@ has updated their review";
 
 // Welcome notification subtitle
 "notifications_type_welcome_subtitle" = "Make money selling what you don't need and find great deals nearby.";
@@ -1316,6 +1316,9 @@
 
 // Message subtitle when camera appears on free posting. 
 "product_post_free_camera_first_time_alert_subtitle" = "Take a good picture and find your item a new home!";
+
+// Pos another item button (free Version)
+"product_post_free_confirmation_another_button" = "Give another item away";
 
 // Message subtitle when loading an image (from iCloud) fails
 "product_post_gallery_load_image_error_subtitle" = "Choose another photo and try again.";

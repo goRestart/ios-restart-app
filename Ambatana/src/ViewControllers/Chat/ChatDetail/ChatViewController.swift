@@ -106,6 +106,11 @@ class ChatViewController: SLKTextViewController {
         removeStickersTooltip()
     }
 
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        viewModel.didAppear()
+    }
+
     override func didMoveToParentViewController(parent: UIViewController?) {
         super.didMoveToParentViewController(parent)
         if parent == nil {

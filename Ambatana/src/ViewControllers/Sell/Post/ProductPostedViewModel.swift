@@ -29,9 +29,17 @@ class ProductPostedViewModel: BaseViewModel {
     private var trackingInfo: PostProductTrackingInfo
 
     var wasFreePosting: Bool {
-        return self.status.product?.price.free ?? false
+        switch self.status {
+        case let .Posting(_, product):
+            return product.price.free
+        case let .Success(product):
+            return product.price.free
+        case .Error:
+            return false
+        }
     }
 
+    
     // MARK: - Lifecycle
 
     init(postResult: ProductResult, trackingInfo: PostProductTrackingInfo) {
@@ -77,7 +85,7 @@ class ProductPostedViewModel: BaseViewModel {
         case .Posting:
             return nil
         case .Success:
-            return LGLocalizedString.productPostConfirmationAnotherButton
+            return wasFreePosting ? LGLocalizedString.productPostFreeConfirmationAnotherButton : LGLocalizedString.productPostConfirmationAnotherButton
         case .Error:
             return LGLocalizedString.productPostRetryButton
         }

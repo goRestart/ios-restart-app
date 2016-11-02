@@ -146,27 +146,6 @@ class ProductViewModel: BaseViewModel {
 
     // MARK: - Lifecycle
 
-    convenience init(product: ChatProduct, user: ChatInterlocutor, thumbnailImage: UIImage?, navigator: ProductDetailNavigator?) {
-        let myUserRepository = Core.myUserRepository
-        let productRepository = Core.productRepository
-        let commercializerRepository = Core.commercializerRepository
-        let countryHelper = Core.countryHelper
-        let chatWrapper = ChatWrapper()
-        let stickersRepository = Core.stickersRepository
-        let locationManager = Core.locationManager
-        
-        let product = productRepository.build(fromChatproduct: product, chatInterlocutor: user)
-        let socialSharer = SocialSharer()
-        
-        self.init(myUserRepository: myUserRepository, productRepository: productRepository,
-                  commercializerRepository: commercializerRepository, chatWrapper: chatWrapper,
-                  stickersRepository: stickersRepository, locationManager: locationManager, countryHelper: countryHelper,
-                  product: product, thumbnailImage: thumbnailImage, socialSharer: socialSharer, navigator: navigator,
-                  bubbleManager: BubbleNotificationManager.sharedInstance,
-                  interestedBubbleManager: InterestedBubbleManager.sharedInstance)
-        syncProduct(nil)
-    }
-    
     convenience init(product: Product, thumbnailImage: UIImage?, navigator: ProductDetailNavigator?) {
         let socialSharer = SocialSharer()
         let myUserRepository = Core.myUserRepository
@@ -298,6 +277,10 @@ class ProductViewModel: BaseViewModel {
             strongSelf.productStatusLabelColor.value = status.labelColor
             }.addDisposableTo(disposeBag)
 
+        status.asObservable().bindNext { [weak self] status in
+            self?.refreshDirectChats(status)
+        }.addDisposableTo(disposeBag)
+
         isFavorite.asObservable().subscribeNext { [weak self] _ in
             self?.refreshNavBarButtons()
         }.addDisposableTo(disposeBag)
@@ -306,7 +289,7 @@ class ProductViewModel: BaseViewModel {
             guard let strongSelf = self else { return }
             strongSelf.trackHelper.product = product
 
-            strongSelf.refreshStatus()
+            strongSelf.setStatus(product.viewModelStatus)
 
             strongSelf.productIsFavoriteable.value = !product.isMine
             strongSelf.isFavorite.value = product.favorite
@@ -335,10 +318,6 @@ class ProductViewModel: BaseViewModel {
             self?.refreshStatus()
         }.addDisposableTo(disposeBag)
 
-        status.asObservable().filter{ $0 == .OtherAvailable }.bindNext { [weak self] _ in
-            self?.refreshDirectChats()
-        }.addDisposableTo(disposeBag)
-
         productIsFavoriteable.asObservable().bindNext { [weak self] favoriteable in
             self?.favoriteButtonState.value = favoriteable ? .Enabled : .Hidden
         }.addDisposableTo(disposeBag)
@@ -358,7 +337,10 @@ class ProductViewModel: BaseViewModel {
     }
 
     private func refreshStatus() {
-        let productStatus = product.value.viewModelStatus
+        setStatus(product.value.viewModelStatus)
+    }
+
+    private func setStatus(productStatus: ProductViewModelStatus) {
         if let templates = commercializerAvailableTemplatesCount {
             status.value = productStatus.setCommercializable(templates > 0 && commercializerIsAvailable)
         } else {
@@ -366,11 +348,12 @@ class ProductViewModel: BaseViewModel {
         }
     }
 
-    private func refreshDirectChats() {
+    private func refreshDirectChats(productStatus: ProductViewModelStatus) {
+        stickersButtonEnabled.value = !selectableStickers.isEmpty && productStatus.directChatsAvailable
         stickersRepository.show(typeFilter: .Product) { [weak self] result in
             guard let stickers = result.value else { return }
             self?.selectableStickers = stickers
-            self?.stickersButtonEnabled.value = !stickers.isEmpty
+            self?.stickersButtonEnabled.value = !stickers.isEmpty && productStatus.directChatsAvailable
         }
     }
 }
@@ -969,6 +952,16 @@ private extension ProductViewModelStatus {
             return true
         case .NotAvailable, .Sold, .OtherSold, .OtherAvailable, .OtherSoldFree, .SoldFree, .OtherAvailableFree:
             return false
+        }
+    }
+
+    var directChatsAvailable: Bool {
+        switch self {
+        case .Pending, .PendingAndCommercializable, .Available, .AvailableAndCommercializable, .SoldFree,
+             .OtherSoldFree, .AvailableFree, .NotAvailable, .Sold, .OtherSold:
+            return false
+        case  .OtherAvailable,  .OtherAvailableFree:
+            return true
         }
     }
 

@@ -10,6 +10,11 @@
 		"description": "Notifications Section"
 	},
     {
+        "name": "UserReviews",
+        "values": ["Yes", "No"],
+        "description": "User Reviews Feature"
+	},
+    {
 		"name": "ShowNPSSurvey",
 		"values": ["No", "Yes"],
 		"description": "Show nps survey"
@@ -38,11 +43,6 @@
         "name": "FiltersReorder",
         "values": ["No", "Yes"],
         "description": "Product filters reorder"
-	},
-    {
-        "name": "HalfCameraButton",
-        "values": ["Yes", "No"],
-        "description": "Camera button cut in gallery"
 	},
     {
         "name": "FreePostingMode",

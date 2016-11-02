@@ -172,7 +172,7 @@
 "common_cancel" = "Annuler";
 "common_chat_not_available" = "Oops ! Chat non trouvé.";
 "common_collapse" = "Afficher moins";
-"common_copy" = "Copy";
+"common_copy" = "Copier";
 "common_error" = "Erreur";
 "common_error_connection_failed" = "Une erreur est survenue. Veuillez vérifier votre connexion Internet.";
 "common_error_generic_body" = "Une erreur est survenue.";
@@ -187,7 +187,7 @@
 "common_next" = "Suivant";
 "common_no" = "Non";
 "common_ok" = "OK";
-"common_or" = "OR";
+"common_or" = "OU";
 "common_product_not_available" = "Ce bien n'est plus disponible.";
 "common_product_sold" = "Ce bien a été vendu.";
 "common_settings" = "Réglages";
@@ -322,9 +322,9 @@
 "notifications_type_like_button" = "Découvrez leurs profils";
 "notifications_type_like_w_name" = "%@ a mis votre bien en favoris";
 "notifications_type_like_w_name_w_title" = "%@ a mis votre bien \"%@\" en favoris";
-"notifications_type_rating" = "%@ has reviewed you";
-"notifications_type_rating_button" = "See your reviews";
-"notifications_type_rating_updated" = "%@ has updated your review";
+"notifications_type_rating" = "%@ vous a noté";
+"notifications_type_rating_button" = "Voir vos notes";
+"notifications_type_rating_updated" = "%@ a modifié votre note";
 "notifications_type_sold" = "Un bien que vous aviez mis en favoris a été vendu";
 "notifications_type_sold_button" = "Découvrir le bien";
 "notifications_type_welcome_button" = "Commencer à vendre";
@@ -436,6 +436,7 @@
 "product_post_empty_gallery_title" = "Aucune photo trouvée";
 "product_post_free_camera_first_time_alert_subtitle" = "Prenez une bonne photo et offrez une nouvelle vie à vos biens !";
 "product_post_free_camera_first_time_alert_title" = "Que voulez-vous donner ?";
+"product_post_free_confirmation_another_button" = "Give another item away";
 "product_post_gallery_load_image_error_subtitle" = "Choisissez une autre photo et réessayez.";
 "product_post_gallery_load_image_error_title" = "La photo ne peux pas être chargée";
 "product_post_gallery_permissions_button" = "Autoriser";
@@ -496,8 +497,8 @@
 "product_share_body" = "Regarde ce que j'ai trouvé sur letgo !";
 "product_share_copylink_ok" = "Votre lien a été copié !";
 "product_share_email_error" = "Oops, il semble que vous n'avez pas paramétré de compte dans l'application Mail.";
-"product_share_fullscreen_subtitle" = "Did you know that those who share their products are 100% more likely to be awesome?";
-"product_share_fullscreen_title" = "SHARING IS WINNING!";
+"product_share_fullscreen_subtitle" = "Saviez-vous que les vendeurs qui partagent leurs biens ont bien plus de chance de les vendre rapidement ?";
+"product_share_fullscreen_title" = "PARTAGEZ ET PROFITEZ";
 "product_share_generic_error" = "Une erreur est survenue lors du partage du bien. Veuillez réessayer plus tard.";
 "product_share_generic_ok" = "Bien partagé avec succès !";
 "product_share_navbar_button" = "Partager";

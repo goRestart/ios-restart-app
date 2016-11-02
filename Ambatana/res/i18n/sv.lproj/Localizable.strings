@@ -172,7 +172,7 @@
 "common_cancel" = "Avbryt";
 "common_chat_not_available" = "Hoppsan! Chatten kunder inte hittas.";
 "common_collapse" = "Visa mindre";
-"common_copy" = "Copy";
+"common_copy" = "Kopiera";
 "common_error" = "Fel";
 "common_error_connection_failed" = "Ett fel uppstod. Var god kontrollera din internetanslutning.";
 "common_error_generic_body" = "Ett fel uppstod.";
@@ -187,7 +187,7 @@
 "common_next" = "Nästa";
 "common_no" = "Nej";
 "common_ok" = "Ok";
-"common_or" = "OR";
+"common_or" = "ELLER";
 "common_product_not_available" = "Denna produkt är inte tillgänglig.";
 "common_product_sold" = "Denna produkt är redan såld.";
 "common_settings" = "Inställningar";
@@ -322,9 +322,9 @@
 "notifications_type_like_button" = "Kolla deras profil";
 "notifications_type_like_w_name" = "%@ favoritmarkerade din produkt";
 "notifications_type_like_w_name_w_title" = "%@ favoritmarkerade din produkt: \"%@\"";
-"notifications_type_rating" = "%@ has reviewed you";
-"notifications_type_rating_button" = "See your reviews";
-"notifications_type_rating_updated" = "%@ has updated your review";
+"notifications_type_rating" = "%@ har gett dig ett omdöme";
+"notifications_type_rating_button" = "Kolla dina omdömen";
+"notifications_type_rating_updated" = "%@ har uppdaterat ditt omdöme";
 "notifications_type_sold" = "En produkt du favoritmarkerat har sålts";
 "notifications_type_sold_button" = "Kolla in varan";
 "notifications_type_welcome_button" = "Börja sälja";
@@ -436,6 +436,7 @@
 "product_post_empty_gallery_title" = "Inga bilder hittades";
 "product_post_free_camera_first_time_alert_subtitle" = "Ta en bra bild och hitta ett nytt hem till dina saker!";
 "product_post_free_camera_first_time_alert_title" = "Vad vill du ge bort?";
+"product_post_free_confirmation_another_button" = "Give another item away";
 "product_post_gallery_load_image_error_subtitle" = "Välj en annan bild och försök igen.";
 "product_post_gallery_load_image_error_title" = "Bilden kan inte laddas upp";
 "product_post_gallery_permissions_button" = "Tillåt";
@@ -496,8 +497,8 @@
 "product_share_body" = "Kolla vad jag hittade på letgo!";
 "product_share_copylink_ok" = "Din länk har kopierats!";
 "product_share_email_error" = "Hoppsan! Det verkar som att du inte har något konto i dina mailinstllningar.";
-"product_share_fullscreen_subtitle" = "Did you know that those who share their products are 100% more likely to be awesome?";
-"product_share_fullscreen_title" = "SHARING IS WINNING!";
+"product_share_fullscreen_subtitle" = "Visste du att det är 100% mer troligt att de som delar sina produkter är superbra?";
+"product_share_fullscreen_title" = "ATT DELA ÄR ATT VINNA!";
 "product_share_generic_error" = "Ett fel uppstod när produkten delades. Var vänlig försök igen senare.";
 "product_share_generic_ok" = "Produkten har delats!";
 "product_share_navbar_button" = "Dela";

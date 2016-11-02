@@ -24,7 +24,7 @@ final class SellCoordinator: Coordinator {
     private let productRepository: ProductRepository
     private let keyValueStorage: KeyValueStorage
     private let tracker: Tracker
-
+    private let postingSource: PostingSource
     weak var delegate: SellCoordinatorDelegate?
 
     private let disposeBag = DisposeBag()
@@ -45,7 +45,7 @@ final class SellCoordinator: Coordinator {
         self.productRepository = productRepository
         self.keyValueStorage = keyValueStorage
         self.tracker = tracker
-        
+        self.postingSource = source
         let postProductVM = PostProductViewModel(source: source)
         let postProductVC = PostProductViewController(viewModel: postProductVM, forceCamera: source.forceCamera)
         self.viewController = postProductVC
@@ -194,10 +194,8 @@ extension SellCoordinator: ProductPostedNavigator {
     func closeProductPostedAndOpenPost() {
         close(ProductPostedViewController.self, animated: true) { [weak self] in
             guard let strongSelf = self, parentVC = strongSelf.parentViewController else { return }
-
-            let source: PostingSource = .SellButton
-            let postProductVM = PostProductViewModel(source: source)
-            let postProductVC = PostProductViewController(viewModel: postProductVM, forceCamera: source.forceCamera)
+            let postProductVM = PostProductViewModel(source: strongSelf.postingSource)
+            let postProductVC = PostProductViewController(viewModel: postProductVM, forceCamera: strongSelf.postingSource.forceCamera)
             strongSelf.viewController = postProductVC
             postProductVM.navigator = self
 

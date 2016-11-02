@@ -172,7 +172,7 @@
 "common_cancel" = "Отмена";
 "common_chat_not_available" = "Упс! Чат не найден.";
 "common_collapse" = "Скрыть";
-"common_copy" = "Copy";
+"common_copy" = "Копировать";
 "common_error" = "Ошибка";
 "common_error_connection_failed" = "Произошла ошибка. Проверьте ваше соединение с Интернет.";
 "common_error_generic_body" = "Произошла ошибка.";
@@ -187,7 +187,7 @@
 "common_next" = "Далее";
 "common_no" = "Нет";
 "common_ok" = "OK";
-"common_or" = "OR";
+"common_or" = "ИЛИ";
 "common_product_not_available" = "Этот товар больше не доступен.";
 "common_product_sold" = "Это товар уже продан.";
 "common_settings" = "Настройки";
@@ -322,14 +322,14 @@
 "notifications_type_like_button" = "Проверить профиль";
 "notifications_type_like_w_name" = "%@ добавил ваш товар в избранное";
 "notifications_type_like_w_name_w_title" = "%@ добавил ваш товар в избранное: \"%@\"";
-"notifications_type_rating" = "%@ has reviewed you";
-"notifications_type_rating_button" = "See your reviews";
-"notifications_type_rating_updated" = "%@ has updated your review";
+"notifications_type_rating" = "%@ оценил вас";
+"notifications_type_rating_button" = "Посмотреть свои отзывы";
+"notifications_type_rating_updated" = "%@ обновил отзыв о вас";
 "notifications_type_sold" = "Товар из вашего избранного продан";
-"notifications_type_sold_button" = "Посмотреть похожее";
+"notifications_type_sold_button" = "Посмотреть товар";
 "notifications_type_welcome_button" = "Начинайте продавать";
-"notifications_type_welcome_subtitle" = "Начните с публикации первого товара на продажу и ищите отличные товары неподалеку.";
-"notifications_type_welcome_subtitle_w_city" = "Начните с публикации первого товара на продажу и ищите отличные товары в %@.";
+"notifications_type_welcome_subtitle" = "Получайте деньги, продавая не нужные больше вещи, и ищите отличные товары неподалеку.";
+"notifications_type_welcome_subtitle_w_city" = "Получайте деньги, продавая не нужные больше вещи, и ищите отличные товары в %@.";
 "notifications_type_welcome_title" = "Добро пожаловать на letgo!";
 "notifications_user_wo_name" = "Пользователь";
 "nps_survey_subtitle" = "По шкале от 1 до 10, насколько вероятно, что вы порекомендуете letgo друзьям?";
@@ -436,6 +436,7 @@
 "product_post_empty_gallery_title" = "Фотографии не найдены";
 "product_post_free_camera_first_time_alert_subtitle" = "Сделайте хорошее фото и найдите нового хозяина для вашей вещи!";
 "product_post_free_camera_first_time_alert_title" = "Что вы отдаете?";
+"product_post_free_confirmation_another_button" = "Give another item away";
 "product_post_gallery_load_image_error_subtitle" = "Выберите другое фото и попробуйте еще раз";
 "product_post_gallery_load_image_error_title" = "Фото не может быть загружено";
 "product_post_gallery_permissions_button" = "Разрешить";
@@ -482,7 +483,7 @@
 "product_sell_again_confirm_ok_button" = "Продать заново";
 "product_sell_again_confirm_title" = "Продать заново";
 "product_sell_again_error_generic" = "Произошла ошибка при смене статуса товара на доступный для продажи. Пожалуйста, попробуйте еще раз позже.";
-"product_sell_again_free_button" = "Отметить как снова доступный";
+"product_sell_again_free_button" = "Отметить как доступный";
 "product_sell_again_free_confirm_cancel_button" = "Отмена";
 "product_sell_again_free_confirm_message" = "Отметьте товар как доступный, чтобы пользователи letgo знали";
 "product_sell_again_free_confirm_ok_button" = "Отдать";
@@ -496,8 +497,8 @@
 "product_share_body" = "Посмотрите, что я нашел на letgo!";
 "product_share_copylink_ok" = "Ссылка скопирована!";
 "product_share_email_error" = "Упс, похоже, вы не создали аккаунт в почтовом приложении.";
-"product_share_fullscreen_subtitle" = "Did you know that those who share their products are 100% more likely to be awesome?";
-"product_share_fullscreen_title" = "SHARING IS WINNING!";
+"product_share_fullscreen_subtitle" = "Знаете ли вы, что те, кто делится своими товарами, на 100% более крутые?";
+"product_share_fullscreen_title" = "ПОДЕЛИТЕСЬ И ВЫИГРЫВАЙТЕ!";
 "product_share_generic_error" = "При размещении товара произошла ошибка. Пожалуйста, попробуйте еще раз позже.";
 "product_share_generic_ok" = "Товар успешно размещен!";
 "product_share_navbar_button" = "Поделиться";

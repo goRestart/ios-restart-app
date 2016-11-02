@@ -11,7 +11,7 @@ import Result
 typealias NotificationsDataSourceResult = Result<[Notification], ApiError>
 typealias NotificationsDataSourceCompletion = NotificationsDataSourceResult -> Void
 
-typealias NotificationsDataSourceUnreadCountResult = Result<Int, ApiError>
+typealias NotificationsDataSourceUnreadCountResult = Result<UnreadNotificationsCounts, ApiError>
 typealias NotificationsDataSourceUnreadCountCompletion = NotificationsDataSourceUnreadCountResult -> Void
 
 
