@@ -436,6 +436,7 @@
 "product_post_empty_gallery_title" = "Fotoğraf bulunamadı";
 "product_post_free_camera_first_time_alert_subtitle" = "Güzel bir fotoğraf çek ve eşyana yeni bir yuva bul!";
 "product_post_free_camera_first_time_alert_title" = "Hangi eşyanı ücretsiz veriyorsun?";
+"product_post_free_confirmation_another_button" = "Başka bir ürünü ücretsiz ver";
 "product_post_gallery_load_image_error_subtitle" = "Başka bir fotoğraf seç ve tekrar dene.";
 "product_post_gallery_load_image_error_title" = "Fotoğraf yüklenemedi";
 "product_post_gallery_permissions_button" = "İzin Ver";

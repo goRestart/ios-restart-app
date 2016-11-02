@@ -436,6 +436,7 @@
 "product_post_empty_gallery_title" = "Ingen bilder ble funnet";
 "product_post_free_camera_first_time_alert_subtitle" = "Ta et godt bilde og finn et nytt hjem for ditt produkt!";
 "product_post_free_camera_first_time_alert_title" = "Hva ønsker du å gi bort?";
+"product_post_free_confirmation_another_button" = "Give another item away";
 "product_post_gallery_load_image_error_subtitle" = "Velg et annet bilde, og prøv igjen";
 "product_post_gallery_load_image_error_title" = "Bildet kan ikke lastes";
 "product_post_gallery_permissions_button" = "Tillat";

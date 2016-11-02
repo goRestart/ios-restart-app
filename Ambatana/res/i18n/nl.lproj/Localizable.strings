@@ -436,6 +436,7 @@
 "product_post_empty_gallery_title" = "Geen foto's gevonden";
 "product_post_free_camera_first_time_alert_subtitle" = "Neem een goede foto en vind een nieuw thuis voor je item!";
 "product_post_free_camera_first_time_alert_title" = "Wat ga je weggeven?";
+"product_post_free_confirmation_another_button" = "Give another item away";
 "product_post_gallery_load_image_error_subtitle" = "Kies een andere foto en probeer het nog eens";
 "product_post_gallery_load_image_error_title" = "De foto kan niet worden geladen";
 "product_post_gallery_permissions_button" = "Toestaan";

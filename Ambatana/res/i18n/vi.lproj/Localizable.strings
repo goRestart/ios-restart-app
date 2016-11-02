@@ -436,6 +436,7 @@
 "product_post_empty_gallery_title" = "Không có ảnh nào";
 "product_post_free_camera_first_time_alert_subtitle" = "Chụp ảnh đẹp và tìm chủ mới cho món đồ của bạn!";
 "product_post_free_camera_first_time_alert_title" = "Bạn đang tặng gì?";
+"product_post_free_confirmation_another_button" = "Give another item away";
 "product_post_gallery_load_image_error_subtitle" = "Hãy chọn ảnh khác và thử lại.";
 "product_post_gallery_load_image_error_title" = "Không thể tải ảnh.";
 "product_post_gallery_permissions_button" = "Cho phép";

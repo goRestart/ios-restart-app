@@ -436,6 +436,7 @@
 "product_post_empty_gallery_title" = "Nem található fotó";
 "product_post_free_camera_first_time_alert_subtitle" = "Egy jó fotó, és már kereshetsz is neki új otthont!";
 "product_post_free_camera_first_time_alert_title" = "Mit fogsz elajándékozni?";
+"product_post_free_confirmation_another_button" = "Give another item away";
 "product_post_gallery_load_image_error_subtitle" = "Válassz másik fotót, vagy próbálkozz újra.";
 "product_post_gallery_load_image_error_title" = "A fotó betöltése sikertelen";
 "product_post_gallery_permissions_button" = "Engedélyezés";
