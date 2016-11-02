@@ -43,17 +43,9 @@ class ShareProductViewModel: BaseViewModel {
 
     init(socialSharer: SocialSharer, socialMessage: SocialMessage, locale: NSLocale,
          locationManager: LocationManager) {
-
-        var systemCountryCode = ""
-        if #available(iOS 10.0, *) {
-            systemCountryCode = NSLocale.currentLocale().countryCode ?? ""
-        } else {
-            systemCountryCode = NSLocale.currentLocale().objectForKey(NSLocaleCountryCode) as? String ?? ""
-        }
-        let countryCode = Core.locationManager.currentPostalAddress?.countryCode ?? systemCountryCode
-
-        self.socialMessage = socialMessage
         self.socialSharer = socialSharer
+        self.socialMessage = socialMessage
+        let countryCode = Core.locationManager.currentPostalAddress?.countryCode ?? locale.systemCountryCode
         self.shareTypes = ShareType.shareTypesForCountry(countryCode, maxButtons: 4, includeNative: true)
         super.init()
 
