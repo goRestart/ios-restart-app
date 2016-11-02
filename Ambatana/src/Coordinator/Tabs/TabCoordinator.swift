@@ -85,9 +85,8 @@ extension TabCoordinator: TabNavigator {
             openProduct(product, cellModels: cellModels, requester: requester, thumbnailImage: thumbnailImage,
                         originFrame: originFrame, showRelated: showRelated, source: source,
                         index: index)
-        case let .ProductChat(chatProduct, user, thumbnailImage, originFrame):
-            openProduct(chatProduct: chatProduct, user: user, thumbnailImage: thumbnailImage, originFrame: originFrame,
-                        source: source)
+        case let .ProductChat(chatConversation):
+            openProduct(chatConversation: chatConversation, source: source)
         }
     }
 
@@ -190,16 +189,15 @@ private extension TabCoordinator {
 
     }
 
-    func openProduct(chatProduct chatProduct: ChatProduct, user: ChatInterlocutor, thumbnailImage: UIImage?,
-                                 originFrame: CGRect?, source: EventParameterProductVisitSource) {
-        guard let productId = chatProduct.objectId else { return }
+    func openProduct(chatConversation chatConversation: ChatConversation, source: EventParameterProductVisitSource) {
+        guard let localProduct = LocalProduct(chatConversation: chatConversation, myUser: myUserRepository.myUser),
+            productId = localProduct.objectId else { return }
         let relatedRequester = RelatedProductListRequester(productId: productId)
         let filteredRequester = FilteredProductListRequester(offset: 0)
         let requester = ProductListMultiRequester(requesters: [relatedRequester, filteredRequester])
-        let vm = ProductCarouselViewModel(chatProduct: chatProduct, chatInterlocutor: user,
-                                          thumbnailImage: thumbnailImage, productListRequester: requester,
-                                          navigator: self, source: source)
-        openProduct(vm, thumbnailImage: thumbnailImage, originFrame: originFrame, productId: productId)
+        let vm = ProductCarouselViewModel(product: localProduct, productListRequester: requester,  navigator: self,
+                                          source: source)
+        openProduct(vm, thumbnailImage: nil, originFrame: nil, productId: productId)
     }
 
     func openProduct(viewModel: ProductCarouselViewModel, thumbnailImage: UIImage?, originFrame: CGRect?,

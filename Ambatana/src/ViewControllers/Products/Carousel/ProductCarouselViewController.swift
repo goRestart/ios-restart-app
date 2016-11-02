@@ -491,8 +491,7 @@ extension ProductCarouselViewController {
     }
 
     private func finishedTransition() {
-        guard let currentPVM = viewModel.currentProductViewModel else { return }
-        updateMoreInfo(currentPVM)
+        updateMoreInfo()
     }
     
     private func setupMoreInfo() {
@@ -516,9 +515,10 @@ extension ProductCarouselViewController {
         moreInfoView?.frame.origin.y = -view.bounds.height
     }
 
-    private func updateMoreInfo(viewModel: ProductViewModel) {
-        moreInfoView?.setupWith(viewModel: viewModel)
-        moreInfoState.asObservable().bindTo(viewModel.moreInfoState).addDisposableTo(activeDisposeBag)
+    private func updateMoreInfo() {
+        guard let currentPVM = viewModel.currentProductViewModel else { return }
+        moreInfoView?.setupWith(viewModel: currentPVM)
+        moreInfoState.asObservable().bindTo(currentPVM.moreInfoState).addDisposableTo(activeDisposeBag)
     }
 
     private func setupUserView(viewModel: ProductViewModel) {
@@ -667,11 +667,7 @@ extension ProductCarouselViewController {
     }
 
     private func refreshDirectChatElements(viewModel: ProductViewModel) {
-        viewModel.stickersButtonEnabled.asObservable().bindNext { [weak self] enabled in
-            guard let strongSelf = self else { return }
-            strongSelf.stickersButton.hidden = !enabled
-        }.addDisposableTo(activeDisposeBag)
-
+        viewModel.stickersButtonEnabled.asObservable().map { !$0 }.bindTo(stickersButton.rx_hidden).addDisposableTo(disposeBag)
         viewModel.directChatMessages.changesObservable.bindNext { [weak self] change in
             self?.directChatTable.handleCollectionChange(change, animation: .Top)
         }.addDisposableTo(activeDisposeBag)
@@ -749,6 +745,7 @@ extension ProductCarouselViewController: UserViewDelegate {
 extension ProductCarouselViewController: ProductCarouselViewModelDelegate {
     func vmRefreshCurrent() {
         refreshOverlayElements()
+        updateMoreInfo()
     }
 
     func vmRemoveMoreInfoTooltip() {
