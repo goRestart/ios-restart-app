@@ -10,22 +10,19 @@ import Foundation
 import LGCoreKit
 
 
-protocol ShareProductViewModelDelegate {
-    func vmShareFinishedWithMessage(message: String, state: SocialShareState)
+protocol ShareProductViewModelDelegate: BaseViewModelDelegate {
     func vmViewControllerToShare() -> UIViewController
 }
 
-protocol ShareProductTrackerDelegate {
-    func shareProductShareStarted(shareType: ShareType)
-    func shareProductShareCompleted(shareType: ShareType, state: SocialShareState)
-}
 
 class ShareProductViewModel: BaseViewModel {
+    let shareTypes: [ShareType]
 
-    var shareTypes: [ShareType]
-    var delegate: ShareProductViewModelDelegate?
-    var trackerDelegate: ShareProductTrackerDelegate?
-    var socialSharer: SocialSharer?
+    let product: Product
+    let socialSharer: SocialSharer?
+    private let tracker: Tracker
+
+    weak var delegate: ShareProductViewModelDelegate?
     weak var navigator: ProductDetailNavigator?
 
     var socialMessage: SocialMessage
@@ -33,17 +30,16 @@ class ShareProductViewModel: BaseViewModel {
         return socialMessage.copyLinkText ?? Constants.websiteURL
     }
 
-
-    convenience init(socialMessage: SocialMessage) {
-        self.init(socialSharer: SocialSharer(), socialMessage: socialMessage,
-                  locale: NSLocale.currentLocale(), locationManager: Core.locationManager)
+    convenience init(product: Product, socialMessage: SocialMessage) {
+        self.init(product: product, socialSharer: SocialSharer(), socialMessage: socialMessage,
+                  locale: NSLocale.currentLocale(), locationManager: Core.locationManager, tracker: TrackerProxy.sharedInstance)
     }
 
-    // init w vm, locale & core.locationM
-
-    init(socialSharer: SocialSharer, socialMessage: SocialMessage, locale: NSLocale,
-         locationManager: LocationManager) {
+    init(product: Product, socialSharer: SocialSharer, socialMessage: SocialMessage, locale: NSLocale,
+         locationManager: LocationManager, tracker: Tracker) {
+        self.product = product
         self.socialSharer = socialSharer
+        self.tracker = tracker
         self.socialMessage = socialMessage
         let countryCode = Core.locationManager.currentPostalAddress?.countryCode ?? locale.lg_countryCode
         self.shareTypes = ShareType.shareTypesForCountry(countryCode, maxButtons: 4, includeNative: true)
@@ -65,20 +61,41 @@ class ShareProductViewModel: BaseViewModel {
 
 extension ShareProductViewModel: SocialSharerDelegate {
     func shareStartedIn(shareType: ShareType) {
-        trackerDelegate?.shareProductShareStarted(shareType)
+        let trackerEvent = TrackerEvent.productShare(product, network: shareType.trackingShareNetwork,
+                                                     buttonPosition: .Top, typePage: .ProductDetail)
+        tracker.trackEvent(trackerEvent)
     }
 
     func shareFinishedIn(shareType: ShareType, withState state: SocialShareState) {
         if let message = messageForShareIn(shareType, finishedWithState: state) {
-            delegate?.vmShareFinishedWithMessage(message, state: state)
+            delegate?.vmShowAutoFadingMessage(message) { [weak self] in
+                switch state {
+                case .Completed:
+                    self?.delegate?.vmDismiss(nil)
+                case .Cancelled, .Failed:
+                    break
+                }
+            }
         }
-        trackerDelegate?.shareProductShareCompleted(shareType, state: state)
+
+        let event: TrackerEvent?
+        switch state {
+        case .Completed:
+            event = TrackerEvent.productShareComplete(product, network: shareType.trackingShareNetwork,
+                                                      typePage: .ProductDetail)
+        case .Failed:
+            event = nil
+        case .Cancelled:
+            event = TrackerEvent.productShareCancel(product, network: shareType.trackingShareNetwork,
+                                                    typePage: .ProductDetail)
+        }
+        if let event = event {
+            tracker.trackEvent(event)
+        }
     }
 
     private func messageForShareIn(shareType: ShareType, finishedWithState state: SocialShareState) -> String? {
         switch (shareType, state) {
-        case (.Email, .Completed):
-            return LGLocalizedString.productShareGenericOk
         case (.Email, .Failed):
             return LGLocalizedString.productShareEmailError
         case (.Facebook, .Failed):
@@ -91,6 +108,8 @@ extension ShareProductViewModel: SocialSharerDelegate {
             return LGLocalizedString.productShareSmsError
         case (.CopyLink, .Completed):
             return LGLocalizedString.productShareCopylinkOk
+        case (_, .Completed):
+            return LGLocalizedString.productShareGenericOk
         default:
             break
         }

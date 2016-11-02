@@ -1082,7 +1082,7 @@ extension ProductViewModel: SocialSharerDelegate {
         }
 
         if let message = messageForShareIn(shareType, finishedWithState: state) {
-            delegate?.vmViewControllerToShowShareOptions().showAutoFadingOutMessageAlert(message)
+            delegate?.vmShowAutoFadingMessage(message, completion: nil)
         }
 
         trackShareCompleted(shareType, buttonPosition: buttonPosition, state: state)
@@ -1090,8 +1090,6 @@ extension ProductViewModel: SocialSharerDelegate {
 
     private func messageForShareIn(shareType: ShareType, finishedWithState state: SocialShareState) -> String? {
         switch (shareType, state) {
-        case (.Email, .Completed):
-            return LGLocalizedString.productShareGenericOk
         case (.Email, .Failed):
             return LGLocalizedString.productShareEmailError
         case (.Facebook, .Failed):

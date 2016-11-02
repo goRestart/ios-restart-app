@@ -356,9 +356,8 @@ extension TabCoordinator: ProductDetailNavigator {
         openChatFromProduct(product)
     }
 
-    func openFullScreenShare(socialMessage: SocialMessage, trackerDelegate: ShareProductTrackerDelegate?) {
-        let shareProductVM = ShareProductViewModel(socialMessage: socialMessage)
-        shareProductVM.trackerDelegate = trackerDelegate
+    func openFullScreenShare(product: Product, socialMessage: SocialMessage) {
+        let shareProductVM = ShareProductViewModel(product: product, socialMessage: socialMessage)
         let shareProductVC = ShareProductViewController(viewModel: shareProductVM)
         navigationController.presentViewController(shareProductVC, animated: true, completion: nil)
     }

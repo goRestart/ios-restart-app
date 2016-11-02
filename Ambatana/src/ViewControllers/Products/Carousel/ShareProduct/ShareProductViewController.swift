@@ -118,17 +118,6 @@ extension ShareProductViewController: SocialShareViewDelegate {
 
 
 extension ShareProductViewController: ShareProductViewModelDelegate {
-    func vmShareFinishedWithMessage(message: String, state: SocialShareState) {
-        vmShowAutoFadingMessage(message) { [weak self] in
-            switch state {
-            case .Completed:
-                self?.dismissViewControllerAnimated(true, completion: nil)
-            case .Cancelled, .Failed:
-                break
-            }
-        }
-    }
-
     func vmViewControllerToShare() -> UIViewController {
         return self
     }

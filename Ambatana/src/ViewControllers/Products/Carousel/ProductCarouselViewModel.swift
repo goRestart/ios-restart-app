@@ -238,8 +238,10 @@ class ProductCarouselViewModel: BaseViewModel {
     }
 
     func openFullScreenShare() {
-        guard let socialMessage = currentProductViewModel?.socialMessage.value else { return }
-        navigator?.openFullScreenShare(socialMessage, trackerDelegate: currentProductViewModel)
+        guard let product = currentProductViewModel?.product.value,
+            socialMessage = currentProductViewModel?.socialMessage.value else { return }
+
+        navigator?.openFullScreenShare(product, socialMessage: socialMessage)
     }
 
     func openShare(shareType: ShareType, fromViewController: UIViewController, barButtonItem: UIBarButtonItem? = nil) {
@@ -329,8 +331,6 @@ extension ProductCarouselViewModel: SocialSharerDelegate {
 
     private func messageForShareIn(shareType: ShareType, finishedWithState state: SocialShareState) -> String? {
         switch (shareType, state) {
-        case (.Email, .Completed):
-            return LGLocalizedString.productShareGenericOk
         case (.Email, .Failed):
             return LGLocalizedString.productShareEmailError
         case (.Facebook, .Failed):
