@@ -836,15 +836,8 @@ extension ProductCarouselViewController: ProductCarouselViewModelDelegate {
         removeMoreInfoTooltip()
     }
 
-    func vmShareFinishedWithMessage(message: String, state: SocialShareState) {
-        vmShowAutoFadingMessage(message) { [weak self] in
-            switch state {
-            case .Completed:
-                self?.expandableButtonsView?.shrink(animated: true)
-            case .Cancelled, .Failed:
-                break
-            }
-        }
+    func vmHideExpandableShareButtons() {
+        expandableButtonsView?.shrink(animated: true)
     }
 }
 

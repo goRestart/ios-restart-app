@@ -13,7 +13,7 @@ import CollectionVariable
 protocol ProductCarouselViewModelDelegate: BaseViewModelDelegate {
     func vmRefreshCurrent()
     func vmRemoveMoreInfoTooltip()
-    func vmShareFinishedWithMessage(message: String, state: SocialShareState)
+    func vmHideExpandableShareButtons()
 }
 
 enum CarouselMovement {
@@ -324,7 +324,14 @@ extension ProductCarouselViewModel: SocialSharerDelegate {
 
     func shareFinishedIn(shareType: ShareType, withState state: SocialShareState) {
         if let message = messageForShareIn(shareType, finishedWithState: state) {
-            delegate?.vmShareFinishedWithMessage(message, state: state)
+            delegate?.vmShowAutoFadingMessage(message) { [weak self] in
+                switch state {
+                case .Completed:
+                    self?.delegate?.vmHideExpandableShareButtons()
+                case .Cancelled, .Failed:
+                    break
+                }
+            }
         }
         currentProductViewModel?.trackShareCompleted(shareType, buttonPosition: .Top, state: state)
     }
