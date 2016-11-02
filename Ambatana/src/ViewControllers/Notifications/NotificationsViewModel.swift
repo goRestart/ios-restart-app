@@ -30,8 +30,6 @@ class NotificationsViewModel: BaseViewModel {
     private let locationManager: LocationManager
     private let tracker: Tracker
 
-    private var pendingCountersUpdate = false
-
     convenience override init() {
         self.init(notificationsRepository: Core.notificationsRepository,
                   productRepository: Core.productRepository,
@@ -59,13 +57,6 @@ class NotificationsViewModel: BaseViewModel {
 
         trackVisit()
         reloadNotifications()
-    }
-
-    override func didBecomeInactive() {
-        if pendingCountersUpdate {
-            pendingCountersUpdate = false
-            notificationsManager.updateCounters()
-        }
     }
 
     // MARK: - Public
@@ -107,6 +98,7 @@ class NotificationsViewModel: BaseViewModel {
                     strongSelf.viewState.value = .Empty(emptyViewModel)
                 } else {
                     strongSelf.viewState.value = .Data
+                    strongSelf.afterReloadOk()
                 }
             } else if let error = result.error {
                 let emptyViewModel = LGEmptyViewModel.respositoryErrorWithRetry(error,
@@ -118,6 +110,10 @@ class NotificationsViewModel: BaseViewModel {
             }
         }
     }
+
+    private func afterReloadOk() {
+        notificationsManager.updateNotificationCounters()
+    }
 }
 
 
@@ -128,12 +124,14 @@ private extension NotificationsViewModel {
     private func buildNotification(notification: Notification) -> NotificationData? {
         switch notification.type {
         case let .Rating(userId, userImageUrl, userName, _, _):
+            guard FeatureFlags.userReviews else { return nil }
             return NotificationData(type: .Rating(userId: userId, userName: userName, userImage: userImageUrl),
                                     date: notification.createdAt, isRead: notification.isRead,
                                     primaryAction: { [weak self] in
                                         self?.navigator?.openMyRatingList()
                                     })
         case let .RatingUpdated(userId, userImageUrl, userName, _, _):
+            guard FeatureFlags.userReviews else { return nil }
             return NotificationData(type: .RatingUpdated(userId: userId, userName: userName, userImage: userImageUrl),
                                     date: notification.createdAt, isRead: notification.isRead,
                                     primaryAction: { [weak self] in

@@ -172,6 +172,7 @@
 "common_cancel" = "Cancelar";
 "common_chat_not_available" = "¡Ups! No se ha encontrado el chat.";
 "common_collapse" = "Ver Menos";
+"common_copy" = "Copy";
 "common_error" = "Error";
 "common_error_connection_failed" = "¡Ups! Se ha producido un error. Por favor, comprueba tu conexión a Internet.";
 "common_error_generic_body" = "Se ha producido un error.";
@@ -186,6 +187,7 @@
 "common_next" = "Siguiente";
 "common_no" = "No";
 "common_ok" = "Aceptar";
+"common_or" = "OR";
 "common_product_not_available" = "Este artículo ya no está disponible.";
 "common_product_sold" = "Este artículo ha sido vendido.";
 "common_settings" = "Ajustes";
@@ -494,6 +496,8 @@
 "product_share_body" = "¡Mira lo que he encontrado en letgo!";
 "product_share_copylink_ok" = "¡Se ha copiado el enlace!";
 "product_share_email_error" = "¡Ups! Parece que no tienes configurado tu email en este dispositivo.";
+"product_share_fullscreen_subtitle" = "Did you know that those who share their products are 100% more likely to be awesome?";
+"product_share_fullscreen_title" = "SHARING IS WINNING!";
 "product_share_generic_error" = "Se ha producido un error al compartir. Por favor, inténtalo de nuevo más tarde.";
 "product_share_generic_ok" = "¡Producto compartido!";
 "product_share_navbar_button" = "Compartir";

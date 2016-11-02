@@ -55,7 +55,7 @@ class WSChatListViewModel: BaseChatGroupedListViewModel<ChatConversation>, ChatL
         super.didFinishLoading()
 
         if active {
-            NotificationsManager.sharedInstance.updateCounters()
+            NotificationsManager.sharedInstance.updateChatCounters()
         }
     }
 

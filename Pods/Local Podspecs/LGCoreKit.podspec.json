@@ -1,0 +1,62 @@
+{
+  "name": "LGCoreKit",
+  "version": "1.4.0",
+  "license": "Copyright",
+  "summary": "letgo's CoreKit",
+  "homepage": "https://github.com/letgoapp/letgo-ios-lgcorekit",
+  "social_media_url": "https://twitter.com/ahernandezlopez",
+  "authors": {
+    "Albert Hernández López": "albert@letgo.com"
+  },
+  "source": {
+    "git": "git@github.com:letgoapp/letgo-ios-lgcorekit.git",
+    "tag": "1.4.0"
+  },
+  "platforms": {
+    "ios": "8.0"
+  },
+  "requires_arc": true,
+  "source_files": "LGCoreKit/**/*",
+  "resource_bundles": {
+    "LGCoreKitBundle": [
+      "LGCoreKitBundle/**/*.{plist}",
+      "LGCoreKitBundle/**/*.{json}"
+    ]
+  },
+  "frameworks": "CoreLocation",
+  "dependencies": {
+    "Alamofire": [
+      "~> 3.5.0"
+    ],
+    "Argo": [
+      "3.1.0"
+    ],
+    "CocoaLumberjack/Swift": [
+      "~> 2.4.0"
+    ],
+    "Curry": [
+      "~> 2.3.3"
+    ],
+    "JSONWebToken": [
+      "~> 1.5.0"
+    ],
+    "KeychainSwift": [
+      "~> 3.0.16"
+    ],
+    "Result": [
+      "~> 2.1.2"
+    ],
+    "SwiftWebSocket": [
+      "2.6.4"
+    ],
+    "RxSwift": [
+      "~> 2.6.0"
+    ],
+    "ReachabilitySwift": [
+      "~> 2.4.0"
+    ]
+  },
+  "pod_target_xcconfig": {
+    "SWIFT_VERSION": "2.3"
+  }
+}

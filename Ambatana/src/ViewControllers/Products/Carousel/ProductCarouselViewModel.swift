@@ -75,15 +75,13 @@ class ProductCarouselViewModel: BaseViewModel {
 
 
     // MARK: - Init
-    
-    convenience init(chatProduct: ChatProduct, chatInterlocutor: ChatInterlocutor, thumbnailImage: UIImage?,
-                     productListRequester: ProductListRequester?, navigator: ProductDetailNavigator?,
-                     source: EventParameterProductVisitSource) {
+
+    convenience init(product: LocalProduct, productListRequester: ProductListRequester?,
+                     navigator: ProductDetailNavigator?, source: EventParameterProductVisitSource) {
         let myUserRepository = Core.myUserRepository
         let productRepository = Core.productRepository
-        let product = productRepository.build(fromChatproduct: chatProduct, chatInterlocutor: chatInterlocutor)
         self.init(myUserRepository: myUserRepository, productRepository: productRepository,
-                  productListModels: nil, initialProduct: product, thumbnailImage: thumbnailImage,
+                  productListModels: nil, initialProduct: product, thumbnailImage: nil,
                   productListRequester: productListRequester, navigator: navigator, source: source)
         syncFirstProduct()
     }

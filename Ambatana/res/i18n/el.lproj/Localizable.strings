@@ -172,6 +172,7 @@
 "common_cancel" = "Ακύρωση";
 "common_chat_not_available" = "Όπα! Η συνομιλία δε βρέθηκε.";
 "common_collapse" = "Δείτε Λιγότερα";
+"common_copy" = "Αντιγραφή";
 "common_error" = "Σφάλμα";
 "common_error_connection_failed" = "Παρουσιάστηκε σφάλμα. Παρακαλώ, ελέγξτε τη σύνδεσή σας στο Ίντερνετ.";
 "common_error_generic_body" = "Παρουσιάστηκε σφάλμα.";
@@ -186,6 +187,7 @@
 "common_next" = "Επόμενο";
 "common_no" = "Όχι";
 "common_ok" = "ΟΚ";
+"common_or" = "Η'";
 "common_product_not_available" = "Το προϊόν δεν είναι πλέον διαθέσιμο.";
 "common_product_sold" = "Το προϊόν έχει πουληθεί.";
 "common_settings" = "Ρυθμίσεις";
@@ -320,14 +322,14 @@
 "notifications_type_like_button" = "Δείτε το προφίλ τους";
 "notifications_type_like_w_name" = "%@ favorited your product";
 "notifications_type_like_w_name_w_title" = "%@ favorited your product: \"%@\"";
-"notifications_type_rating" = "%@ has reviewed you";
-"notifications_type_rating_button" = "See your reviews";
-"notifications_type_rating_updated" = "%@ has updated your review";
+"notifications_type_rating" = "Ο/ Η %@ άφησε μια κριτική για εσάς";
+"notifications_type_rating_button" = "Δείτε τις κριτικές σας";
+"notifications_type_rating_updated" = "Ο/ Η %@ ενημέρωσε την κριτική σας";
 "notifications_type_sold" = "Ένα προϊόν που προσθέσατε στα αγαπημένα σας έχει πωληθεί";
 "notifications_type_sold_button" = "Δείτε το προϊόν";
 "notifications_type_welcome_button" = "Ξεκινήστε να πουλάτε";
-"notifications_type_welcome_subtitle" = "Ξεκινήστε δημοσιεύοντας το πρώτο σας αντικείμενο για πώληση και αναζητήστε αντικείμενα κοντά σας.";
-"notifications_type_welcome_subtitle_w_city" = "Ξεκινήστε δημοσιεύοντας το πρώτο σας αντικείμενο για πώληση και αναζητήστε αντικείμενα σε %@.";
+"notifications_type_welcome_subtitle" = "Κερδίστε χρήματα πουλώντας ό,τι δε χρειάζεστε και βρείτε υπέροχες προσφορές κοντά σας.";
+"notifications_type_welcome_subtitle_w_city" = "Κερδίστε χρήματα πουλώντας ό,τι δε χρειάζεστε και βρείτε υπέροχες σε %@.";
 "notifications_type_welcome_title" = "Καλωσήρθατε στο letgo!";
 "notifications_user_wo_name" = "Ένας χρήστης";
 "nps_survey_subtitle" = "Από το 1 ως το 10, πόσο θα θέλατε να προτείνετε το letgo σ' ένα φίλο;";
@@ -480,7 +482,7 @@
 "product_sell_again_confirm_ok_button" = "Πουλήστε το Ξανά";
 "product_sell_again_confirm_title" = "Πουλήστε το Ξανά";
 "product_sell_again_error_generic" = "Παρουσιάστηκε σφάλμα κατά το χαρακτηρισμό του προϊόντος ως διαθέσιμο. Παρακαλώ, προσπαθήστε ξανά αργότερα.";
-"product_sell_again_free_button" = "Μαρκάρετε το ως διαθέσιμο ξανά";
+"product_sell_again_free_button" = "Μαρκάρισμα ως διαθέσιμο";
 "product_sell_again_free_confirm_cancel_button" = "Ακύρωση";
 "product_sell_again_free_confirm_message" = "Μαρκάρετε το προϊόν σας ως διαθέσιμο ώστε να το ξέρουν όλοι οι χρήστες του letgo";
 "product_sell_again_free_confirm_ok_button" = "Δώστε Το";
@@ -494,6 +496,8 @@
 "product_share_body" = "Δες τι βρήκα στο letgo!";
 "product_share_copylink_ok" = "Ο σύνδεσμός έχει αντιγραφεί!";
 "product_share_email_error" = "Όπα! Από ότι φαίνεται, δεν έχεις κάνει λογαριασμό στην εφαρμογή Mail.";
+"product_share_fullscreen_subtitle" = "Γνωρίζατε ότι όσοι κοινοποιούν τα προϊόντα τους είναι 100% καλύτεροι;";
+"product_share_fullscreen_title" = "ΚΟΙΝΟΠΟΙΗΣΤΕ ΚΑΙ ΚΕΡΔΙΣΤΕ!";
 "product_share_generic_error" = "Παρουσιάστηκε σφάλμα κατά την κοινοποίηση του προϊόντος. Παρακαλώ, προσπαθήστε ξανά αργότερα.";
 "product_share_generic_ok" = "Επιτυχής κοινοποίηση του προϊόντος!";
 "product_share_navbar_button" = "Κοινοποίηση";

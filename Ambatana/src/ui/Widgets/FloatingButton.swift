@@ -99,7 +99,7 @@ class FloatingButton: UIView {
         containerView.clipsToBounds = true
 
         let titleIconSpacing: CGFloat = 10
-        let extraPadding: CGFloat = 10
+        let extraPadding: CGFloat = 6
         switch freePostingMode {
         case .Disabled, .OneButton:
             sellButton.setTitle(LGLocalizedString.tabBarToolTip, forState: .Normal)
@@ -116,6 +116,9 @@ class FloatingButton: UIView {
             sellButton.setImage(sellButtonImage, forState: .Highlighted)
             sellButton.titleLabel?.font = UIFont.bigButtonFont
             sellButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: titleIconSpacing, bottom: 0, right: -titleIconSpacing)
+            sellButton.titleLabel?.lineBreakMode = .ByTruncatingTail
+            sellButton.titleLabel?.textAlignment = .Center
+            sellButton.titleLabel?.numberOfLines = 2
             sellButton.contentEdgeInsets = UIEdgeInsets(top: 0, left: extraPadding, bottom: 0, right: 2*titleIconSpacing)
         }
         sellButton.setTitleColor(UIColor.white, forState: .Normal)
@@ -129,6 +132,9 @@ class FloatingButton: UIView {
 
         giveAwayButton.setTitle(LGLocalizedString.tabBarGiveAwayButton, forState: .Normal)
         giveAwayButton.titleLabel?.font = UIFont.bigButtonFont
+        giveAwayButton.titleLabel?.lineBreakMode = .ByTruncatingTail
+        giveAwayButton.titleLabel?.textAlignment = .Center
+        giveAwayButton.titleLabel?.numberOfLines = 2
         giveAwayButton.setTitleColor(UIColor.primaryColor, forState: .Normal)
         let giveAwayButtonImage = UIImage(named: "ic_main_give_away")
         giveAwayButton.setImage(giveAwayButtonImage, forState: .Normal)
