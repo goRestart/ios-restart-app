@@ -109,7 +109,7 @@ struct FeatureFlags {
 
         // Free posting is not allowed in Turkey. Check location & phone region.
         let turkey = "tr"
-        let systemCountryCode = (locale.objectForKey(NSLocaleCountryCode) as? String ?? "").lowercaseString
+        let systemCountryCode = locale.lg_countryCode
         let countryCode = (locationManager.currentPostalAddress?.countryCode ?? systemCountryCode).lowercaseString
 
         return systemCountryCode != turkey && countryCode != turkey

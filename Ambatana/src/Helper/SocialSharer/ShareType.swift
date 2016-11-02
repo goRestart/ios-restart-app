@@ -27,7 +27,7 @@ enum ShareType {
         let turkey = "tr"
 
         let countryTypes: [ShareType]
-        switch countryCode {
+        switch countryCode.lowercaseString {
         case turkey:
             countryTypes = turkeyTypes
         default:

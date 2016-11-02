@@ -45,7 +45,7 @@ class ShareProductViewModel: BaseViewModel {
          locationManager: LocationManager) {
         self.socialSharer = socialSharer
         self.socialMessage = socialMessage
-        let countryCode = Core.locationManager.currentPostalAddress?.countryCode ?? locale.systemCountryCode
+        let countryCode = Core.locationManager.currentPostalAddress?.countryCode ?? locale.lg_countryCode
         self.shareTypes = ShareType.shareTypesForCountry(countryCode, maxButtons: 4, includeNative: true)
         super.init()
 

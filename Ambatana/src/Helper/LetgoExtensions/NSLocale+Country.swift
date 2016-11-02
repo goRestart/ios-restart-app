@@ -7,11 +7,11 @@
 //
 
 extension NSLocale {
-    var systemCountryCode: String {
+    var lg_countryCode: String {
         if #available(iOS 10.0, *) {
-            return NSLocale.currentLocale().countryCode ?? ""
+            return (countryCode ?? "").lowercaseString
         } else {
-            return NSLocale.currentLocale().objectForKey(NSLocaleCountryCode) as? String ?? ""
+            return (objectForKey(NSLocaleCountryCode) as? String ?? "").lowercaseString
         }
     }
 }

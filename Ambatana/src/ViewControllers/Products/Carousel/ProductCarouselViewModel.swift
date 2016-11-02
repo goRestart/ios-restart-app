@@ -128,7 +128,7 @@ class ProductCarouselViewModel: BaseViewModel {
          productListModels: [ProductCellModel]?, initialProduct: Product?, thumbnailImage: UIImage?,
          productListRequester: ProductListRequester?, navigator: ProductDetailNavigator?,
          source: EventParameterProductVisitSource, locale: NSLocale, locationManager: LocationManager, socialSharer: SocialSharer) {
-        let countryCode = locationManager.currentPostalAddress?.countryCode ?? locale.systemCountryCode
+        let countryCode = locationManager.currentPostalAddress?.countryCode ?? locale.lg_countryCode
 
         self.myUserRepository = myUserRepository
         self.productRepository = productRepository
