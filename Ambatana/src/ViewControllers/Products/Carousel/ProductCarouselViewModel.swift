@@ -122,14 +122,7 @@ class ProductCarouselViewModel: BaseViewModel {
          productListRequester: ProductListRequester?, navigator: ProductDetailNavigator?,
          source: EventParameterProductVisitSource, locale: NSLocale, locationManager: LocationManager, socialSharer: SocialSharer) {
 
-        var systemCountryCode = ""
-        if #available(iOS 10.0, *) {
-            systemCountryCode = locale.countryCode ?? ""
-        } else {
-            systemCountryCode = locale.objectForKey(NSLocaleCountryCode) as? String ?? ""
-        }
-        let countryCode = locationManager.currentPostalAddress?.countryCode ?? systemCountryCode
-
+        let countryCode = locationManager.currentPostalAddress?.countryCode ?? locale.systemCountryCode
         self.myUserRepository = myUserRepository
         self.productRepository = productRepository
         if let productListModels = productListModels {
@@ -344,6 +337,8 @@ extension ProductCarouselViewModel: SocialSharerDelegate {
             return LGLocalizedString.productShareSmsError
         case (.CopyLink, .Completed):
             return LGLocalizedString.productShareCopylinkOk
+        case (_, .Completed):
+            return LGLocalizedString.productShareGenericOk
         default:
             break
         }

@@ -1111,6 +1111,8 @@ extension ProductViewModel: SocialSharerDelegate {
             return LGLocalizedString.productShareSmsOk
         case (.SMS, .Failed):
             return LGLocalizedString.productShareSmsError
+        case (_, .Completed):
+            return LGLocalizedString.productShareGenericOk
         default:
             break
         }

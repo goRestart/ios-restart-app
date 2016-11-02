@@ -10,12 +10,12 @@ import Foundation
 import LGCoreKit
 
 
-protocol ShareProductViewModelDelegate {
+protocol ShareProductViewModelDelegate: class {
     func vmShareFinishedWithMessage(message: String, state: SocialShareState)
     func vmViewControllerToShare() -> UIViewController
 }
 
-protocol ShareProductTrackerDelegate {
+protocol ShareProductTrackerDelegate: class {
     func shareProductShareStarted(shareType: ShareType)
     func shareProductShareCompleted(shareType: ShareType, state: SocialShareState)
 }
@@ -23,8 +23,8 @@ protocol ShareProductTrackerDelegate {
 class ShareProductViewModel: BaseViewModel {
 
     var shareTypes: [ShareType]
-    var delegate: ShareProductViewModelDelegate?
-    var trackerDelegate: ShareProductTrackerDelegate?
+    weak var delegate: ShareProductViewModelDelegate?
+    weak var trackerDelegate: ShareProductTrackerDelegate?
     var socialSharer: SocialSharer?
     weak var navigator: ProductDetailNavigator?
 
@@ -33,24 +33,17 @@ class ShareProductViewModel: BaseViewModel {
         return socialMessage.copyLinkText ?? Constants.websiteURL
     }
 
+    // MARK: - Lifecycle
 
     convenience init(socialMessage: SocialMessage) {
         self.init(socialSharer: SocialSharer(), socialMessage: socialMessage,
                   locale: NSLocale.currentLocale(), locationManager: Core.locationManager)
     }
 
-    // init w vm, locale & core.locationM
-
     init(socialSharer: SocialSharer, socialMessage: SocialMessage, locale: NSLocale,
          locationManager: LocationManager) {
 
-        var systemCountryCode = ""
-        if #available(iOS 10.0, *) {
-            systemCountryCode = NSLocale.currentLocale().countryCode ?? ""
-        } else {
-            systemCountryCode = NSLocale.currentLocale().objectForKey(NSLocaleCountryCode) as? String ?? ""
-        }
-        let countryCode = Core.locationManager.currentPostalAddress?.countryCode ?? systemCountryCode
+        let countryCode = locationManager.currentPostalAddress?.countryCode ?? locale.systemCountryCode
 
         self.socialMessage = socialMessage
         self.socialSharer = socialSharer
@@ -99,6 +92,8 @@ extension ShareProductViewModel: SocialSharerDelegate {
             return LGLocalizedString.productShareSmsError
         case (.CopyLink, .Completed):
             return LGLocalizedString.productShareCopylinkOk
+        case (_, .Completed):
+            return LGLocalizedString.productShareGenericOk
         default:
             break
         }

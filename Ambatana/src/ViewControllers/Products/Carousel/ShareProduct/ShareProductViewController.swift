@@ -10,8 +10,8 @@ import UIKit
 
 class ShareProductViewController: BaseViewController {
 
-    static let shareButtonWidth: CGFloat = 60
-    static let gradientSize = 30
+    private static let shareButtonWidth: CGFloat = 60
+    private static let gradientSize = 30
 
     @IBOutlet weak var closeButton: UIButton!
 
@@ -31,9 +31,9 @@ class ShareProductViewController: BaseViewController {
     @IBOutlet weak var copyButton: UIButton!
 
     @IBOutlet weak var gradientView: UIView!
-    var shadowLayer: CAGradientLayer?
+    private var shadowLayer: CAGradientLayer?
 
-    var viewModel: ShareProductViewModel
+    private var viewModel: ShareProductViewModel
 
 
     // MARK: - Lifecycle
