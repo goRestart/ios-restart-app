@@ -202,7 +202,7 @@ class PostProductViewController: BaseViewController {
 
     private func updateButtonsForPagerScroll(scroll: CGFloat) {
         galleryButton.alpha = scroll
-        let rightOffset = FeatureFlags.halfCameraButton ? 0 : (photoButton.frame.width/2 + rightMarginCameraIcon)
+        let rightOffset = photoButton.frame.width/2 + rightMarginCameraIcon
         let movement = view.width/2 - rightOffset
         photoButtonCenterX.constant = movement * (1.0 - scroll)
     }

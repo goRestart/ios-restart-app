@@ -18,14 +18,13 @@ public struct ABTests {
     static var messageOnFavorite = IntABDynamicVar(key: "messageOnFavorite", defaultValue: 0)
     static var interestedUsersMode = IntABDynamicVar(key: "interestedUsersMode", defaultValue: 0)
     static var filtersReorder = BoolABDynamicVar(key: "filtersReorder", defaultValue: false)
-    static var halfCameraButton = BoolABDynamicVar(key: "halfCameraButton", defaultValue: true)
     static var freePostingMode = IntABDynamicVar(key: "freePostingMode", defaultValue: 0)
     static var directPostInOnboarding = BoolABDynamicVar(key: "directPostInOnboarding", defaultValue: false)
     static var notificationCenterEnabled = BoolABDynamicVar(key: "notificationCenterEnabled", defaultValue: true)
 
     static private var allVariables: [ABVariable] {
         return [showNPSSurvey, nonStopProductDetail, onboardingPermissionsMode, messageOnFavorite,
-                interestedUsersMode, filtersReorder, halfCameraButton, freePostingMode, directPostInOnboarding,
+                interestedUsersMode, filtersReorder, freePostingMode, directPostInOnboarding,
                 notificationCenterEnabled]
     }
 
