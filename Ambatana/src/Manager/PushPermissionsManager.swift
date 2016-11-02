@@ -210,7 +210,7 @@ extension PrePermissionType {
     public var title: String {
         switch self {
         case .Onboarding:
-            return FeatureFlags.onboardinPermissionsMode.titleText
+            return LGLocalizedString.notificationsPermissions1TitleV2
         case .ProductList:
             return LGLocalizedString.notificationsPermissions2Title
         case .Chat:
@@ -266,17 +266,6 @@ extension PrePermissionType {
             return .Profile
         case .ProductListBanner:
             return .ProductListBanner
-        }
-    }
-}
-
-private extension OnboardingPermissionsMode {
-    var titleText: String {
-        switch self {
-        case .Original, .OneButtonOriginalImages:
-            return LGLocalizedString.notificationsPermissions1Title
-        case .OneButtonNewImages:
-            return LGLocalizedString.notificationsPermissions1TitleV2
         }
     }
 }
