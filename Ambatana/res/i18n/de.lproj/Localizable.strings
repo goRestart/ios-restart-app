@@ -436,6 +436,7 @@
 "product_post_empty_gallery_title" = "Keine Fotos gefunden";
 "product_post_free_camera_first_time_alert_subtitle" = "Mache ein gutes Foto und finde ein neues Zuhause für dein Produkt!";
 "product_post_free_camera_first_time_alert_title" = "Was möchtest du verschenken?";
+"product_post_free_confirmation_another_button" = "Give another item away";
 "product_post_gallery_load_image_error_subtitle" = "Bitte wähle ein anderes Foto und versuche es erneut.";
 "product_post_gallery_load_image_error_title" = "Das Foto kann nicht geladen werden";
 "product_post_gallery_permissions_button" = "Erlauben";

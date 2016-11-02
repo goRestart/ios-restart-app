@@ -436,6 +436,7 @@
 "product_post_empty_gallery_title" = "Aucune photo trouvée";
 "product_post_free_camera_first_time_alert_subtitle" = "Prenez une bonne photo et offrez une nouvelle vie à vos biens !";
 "product_post_free_camera_first_time_alert_title" = "Que voulez-vous donner ?";
+"product_post_free_confirmation_another_button" = "Donner un autre bien";
 "product_post_gallery_load_image_error_subtitle" = "Choisissez une autre photo et réessayez.";
 "product_post_gallery_load_image_error_title" = "La photo ne peux pas être chargée";
 "product_post_gallery_permissions_button" = "Autoriser";
