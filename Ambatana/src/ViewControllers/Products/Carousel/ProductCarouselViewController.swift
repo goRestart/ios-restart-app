@@ -445,7 +445,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
             Observable.combineLatest(expandableButtonsView.expanded.asObservable(), alphaSignal, resultSelector: { (expanded, alpha) -> Bool in
                 return expanded && alpha < 1
             }).filter { $0 == true }.subscribeNext({ [weak self] _ in
-                self?.switchExpandableButtonsView()
+                self?.expandableButtonsView?.switchExpanded(animated: true)
             }).addDisposableTo(disposeBag)
         } else {
             alphaSignal.bindTo(favoriteButton.rx_alpha).addDisposableTo(disposeBag)
@@ -1139,7 +1139,7 @@ extension ProductCarouselViewController: ProductViewModelDelegate {
         case .Native:
             viewModel.openShare(.Native, fromViewController: self, barButtonItem: navigationItem.rightBarButtonItems?.first)
         case .InPlace:
-            switchExpandableButtonsView()
+            expandableButtonsView?.switchExpanded(animated: true)
         case .FullScreen:
             viewModel.openFullScreenShare()
         }
@@ -1195,16 +1195,6 @@ extension ProductCarouselViewController: ProductViewModelDelegate {
 
     func vmViewControllerToShowShareOptions() -> UIViewController {
         return self
-    }
-}
-
-
-// MARK: - ExpandableButtonsView
-
-extension ProductCarouselViewController {
-    func switchExpandableButtonsView() {
-        guard let expandableButtonsView = expandableButtonsView else { return }
-        expandableButtonsView.switchExpanded(animated: true)
     }
 }
 
