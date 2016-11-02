@@ -10,12 +10,12 @@ import Foundation
 import LGCoreKit
 
 
-protocol ShareProductViewModelDelegate: class {
+protocol ShareProductViewModelDelegate {
     func vmShareFinishedWithMessage(message: String, state: SocialShareState)
     func vmViewControllerToShare() -> UIViewController
 }
 
-protocol ShareProductTrackerDelegate: class {
+protocol ShareProductTrackerDelegate {
     func shareProductShareStarted(shareType: ShareType)
     func shareProductShareCompleted(shareType: ShareType, state: SocialShareState)
 }
@@ -23,8 +23,8 @@ protocol ShareProductTrackerDelegate: class {
 class ShareProductViewModel: BaseViewModel {
 
     var shareTypes: [ShareType]
-    weak var delegate: ShareProductViewModelDelegate?
-    weak var trackerDelegate: ShareProductTrackerDelegate?
+    var delegate: ShareProductViewModelDelegate?
+    var trackerDelegate: ShareProductTrackerDelegate?
     var socialSharer: SocialSharer?
     weak var navigator: ProductDetailNavigator?
 
@@ -33,20 +33,19 @@ class ShareProductViewModel: BaseViewModel {
         return socialMessage.copyLinkText ?? Constants.websiteURL
     }
 
-    // MARK: - Lifecycle
 
     convenience init(socialMessage: SocialMessage) {
         self.init(socialSharer: SocialSharer(), socialMessage: socialMessage,
                   locale: NSLocale.currentLocale(), locationManager: Core.locationManager)
     }
 
+    // init w vm, locale & core.locationM
+
     init(socialSharer: SocialSharer, socialMessage: SocialMessage, locale: NSLocale,
          locationManager: LocationManager) {
-
-        let countryCode = locationManager.currentPostalAddress?.countryCode ?? locale.systemCountryCode
-
-        self.socialMessage = socialMessage
         self.socialSharer = socialSharer
+        self.socialMessage = socialMessage
+        let countryCode = Core.locationManager.currentPostalAddress?.countryCode ?? locale.lg_countryCode
         self.shareTypes = ShareType.shareTypesForCountry(countryCode, maxButtons: 4, includeNative: true)
         super.init()
 
@@ -92,8 +91,6 @@ extension ShareProductViewModel: SocialSharerDelegate {
             return LGLocalizedString.productShareSmsError
         case (.CopyLink, .Completed):
             return LGLocalizedString.productShareCopylinkOk
-        case (_, .Completed):
-            return LGLocalizedString.productShareGenericOk
         default:
             break
         }

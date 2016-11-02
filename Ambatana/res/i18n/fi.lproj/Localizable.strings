@@ -172,7 +172,7 @@
 "common_cancel" = "Peruuta";
 "common_chat_not_available" = "Hups! Keskustelu ei saatavilla.";
 "common_collapse" = "Näytä vähemmän";
-"common_copy" = "Copy";
+"common_copy" = "Kopioi";
 "common_error" = "Virhe";
 "common_error_connection_failed" = "Tapahtui virhe. Ole hyvä ja tarkista Internet-yhteytesi.";
 "common_error_generic_body" = "Tapahtui virhe.";
@@ -187,7 +187,7 @@
 "common_next" = "Seuraava";
 "common_no" = "Ei";
 "common_ok" = "OK";
-"common_or" = "OR";
+"common_or" = "TAI";
 "common_product_not_available" = "Tämä tuote ei ole enää saatavilla.";
 "common_product_sold" = "Tämä tuote on myyty.";
 "common_settings" = "Asetukset";
@@ -322,14 +322,14 @@
 "notifications_type_like_button" = "Käy katsomassa käyttäjän profiili";
 "notifications_type_like_w_name" = "%@ merkitsi tuotteesi suosikikseen";
 "notifications_type_like_w_name_w_title" = "%@ merkitsi tuotteesi \"%@\" suosikikseen";
-"notifications_type_rating" = "%@ has reviewed you";
-"notifications_type_rating_button" = "See your reviews";
-"notifications_type_rating_updated" = "%@ has updated your review";
+"notifications_type_rating" = "%@ on arvostellut sinut";
+"notifications_type_rating_button" = "Katso arvostelusi";
+"notifications_type_rating_updated" = "%@ on päivittänyt arvosteluasi";
 "notifications_type_sold" = "Suosikiksesi merkitsemäsi tuote on myyty";
 "notifications_type_sold_button" = "Katso tuote";
 "notifications_type_welcome_button" = "Aloita myyminen";
-"notifications_type_welcome_subtitle" = "Aloita julkaisemalla ensimmäinen tuotteesi myytäväksi ja selaa lähelläsi olevia siistejä tavaroita.";
-"notifications_type_welcome_subtitle_w_city" = "Aloita julkaisemalla ensimmäinen tuotteesi myytäväksi ja selaa siistejä tavaroita kaupungissa %@.";
+"notifications_type_welcome_subtitle" = "Tienaa rahaa myymällä asioita, joita et tarvitse, ja löydä mahtavia tarjouksia lähistöltäsi.";
+"notifications_type_welcome_subtitle_w_city" = "Tienaa rahaa myymällä asioita, joita et tarvitse, ja löydä mahtavia tarjouksia kaupungissa %@.";
 "notifications_type_welcome_title" = "Tervetuloa letgohun!";
 "notifications_user_wo_name" = "Käyttäjä";
 "nps_survey_subtitle" = "Asteikolla 1-10, kuinka todennäköisesti suosittelisit letgota ystävällesi?";
@@ -436,6 +436,7 @@
 "product_post_empty_gallery_title" = "Kuvia ei löytynyt";
 "product_post_free_camera_first_time_alert_subtitle" = "Ota hyvä kuva ja etsi tuotteellesi uusi koti!";
 "product_post_free_camera_first_time_alert_title" = "Mitä olet antamassa pois?";
+"product_post_free_confirmation_another_button" = "Give another item away";
 "product_post_gallery_load_image_error_subtitle" = "Valitse toinen kuva ja yritä uudelleen.";
 "product_post_gallery_load_image_error_title" = "Kuvan lataaminen ei onnistu";
 "product_post_gallery_permissions_button" = "Salli";
@@ -482,7 +483,7 @@
 "product_sell_again_confirm_ok_button" = "Myy uudelleen";
 "product_sell_again_confirm_title" = "Myy uudelleen";
 "product_sell_again_error_generic" = "Virhe tapahtui merkittäessä tuotettasi saatavilla olevaksi. Ole hyvä ja yritä myöhemmin uudelleen.";
-"product_sell_again_free_button" = "Merkitse jälleen saatavilla olevaksi";
+"product_sell_again_free_button" = "Merkitse vapaaksi";
 "product_sell_again_free_confirm_cancel_button" = "Peruuta";
 "product_sell_again_free_confirm_message" = "Merkitse tuotteesi saatavilla olevaksi, jotta kaikki letgon käyttäjät tietävät asiasta";
 "product_sell_again_free_confirm_ok_button" = "Anna pois";
@@ -496,8 +497,8 @@
 "product_share_body" = "Katso mitä juuri löysin letgosta!";
 "product_share_copylink_ok" = "Linkki kopioitu!";
 "product_share_email_error" = "Hups! Näyttää siltä, että et ole asettanut tiliä sähköpostisovellukseen.";
-"product_share_fullscreen_subtitle" = "Did you know that those who share their products are 100% more likely to be awesome?";
-"product_share_fullscreen_title" = "SHARING IS WINNING!";
+"product_share_fullscreen_subtitle" = "Tiesitkö, että tuotteensa jakavat ihmiset ovat 100 % todennäköisemmin mahtavia?";
+"product_share_fullscreen_title" = "JAKAMALLA VOITTAA!";
 "product_share_generic_error" = "Tuotetta jaettaessa tapahtui virhe. Ole hyvä ja yritä myöhemmin uudelleen.";
 "product_share_generic_ok" = "Tuote jaettiin onnistuneesti!";
 "product_share_navbar_button" = "Jaa";

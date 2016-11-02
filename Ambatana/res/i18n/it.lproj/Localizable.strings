@@ -172,7 +172,7 @@
 "common_cancel" = "Annulla";
 "common_chat_not_available" = "Ops! Chat non trovata.";
 "common_collapse" = "Mostra Meno";
-"common_copy" = "Copy";
+"common_copy" = "Copia";
 "common_error" = "Errore";
 "common_error_connection_failed" = "Si è verificato un errore. Verifica la tua connessione Internet.";
 "common_error_generic_body" = "Si è verificato un errore.";
@@ -187,7 +187,7 @@
 "common_next" = "Successivo";
 "common_no" = "No";
 "common_ok" = "OK";
-"common_or" = "OR";
+"common_or" = "O";
 "common_product_not_available" = "Questo prodotto non è più disponibile.";
 "common_product_sold" = "Questo prodotto è stato venduto.";
 "common_settings" = "Impostazioni";
@@ -436,6 +436,7 @@
 "product_post_empty_gallery_title" = "Nessuna foto trovata";
 "product_post_free_camera_first_time_alert_subtitle" = "Scatta una bella foto e trova un'altra casa al tuo oggetto!";
 "product_post_free_camera_first_time_alert_title" = "Che cosa regalerai?";
+"product_post_free_confirmation_another_button" = "Give another item away";
 "product_post_gallery_load_image_error_subtitle" = "Scegli un'altra foto e riprova.";
 "product_post_gallery_load_image_error_title" = "Impossibile caricare la foto";
 "product_post_gallery_permissions_button" = "Consenti";
@@ -496,8 +497,8 @@
 "product_share_body" = "Guarda cosa ho appena trovato su letgo!";
 "product_share_copylink_ok" = "Il tuo link è stato copiato!";
 "product_share_email_error" = "Ops! Sembra che tu non abbia impostato un account nella app di Mail.";
-"product_share_fullscreen_subtitle" = "Did you know that those who share their products are 100% more likely to be awesome?";
-"product_share_fullscreen_title" = "SHARING IS WINNING!";
+"product_share_fullscreen_subtitle" = "Sapevi che coloro che condividono il proprio prodotto hanno una probabilità del 100% di essere eccezionali?";
+"product_share_fullscreen_title" = "LA CONDIVISIONE È VINCENTE";
 "product_share_generic_error" = "Si è verificato un errore durante la condivisione del prodotto. Ti preghiamo di riprovare più tardi.";
 "product_share_generic_ok" = "Prodotto condiviso con successo!";
 "product_share_navbar_button" = "Condividi";

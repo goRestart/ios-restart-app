@@ -172,7 +172,7 @@
 "common_cancel" = "Abbrechen";
 "common_chat_not_available" = "Hoppla! Gespräch nicht gefunden.";
 "common_collapse" = "Weniger anzeigen";
-"common_copy" = "Copy";
+"common_copy" = "Kopieren";
 "common_error" = "Fehler";
 "common_error_connection_failed" = "Ein Fehler ist aufgetreten. Bitte überprüfe deine Internetverbindung.";
 "common_error_generic_body" = "Ein Fehler ist aufgetreten.";
@@ -187,7 +187,7 @@
 "common_next" = "Weiter";
 "common_no" = "Nein";
 "common_ok" = "OK";
-"common_or" = "OR";
+"common_or" = "ODER";
 "common_product_not_available" = "Das Produkt ist nicht mehr verfügbar.";
 "common_product_sold" = "Dieses Produkt wurde verkauft.";
 "common_settings" = "Einstellungen";
@@ -322,14 +322,14 @@
 "notifications_type_like_button" = "Schau dir das Profil an";
 "notifications_type_like_w_name" = "%@ hat dein Produkt als Favorit markiert";
 "notifications_type_like_w_name_w_title" = "%@ hat dein Produkt als Favorit markiert: \"%@\"";
-"notifications_type_rating" = "%@ has reviewed you";
-"notifications_type_rating_button" = "See your reviews";
-"notifications_type_rating_updated" = "%@ has updated your review";
+"notifications_type_rating" = "%@ hat dich bewertet";
+"notifications_type_rating_button" = "Schau deine Bewertungen an";
+"notifications_type_rating_updated" = "%@ hat deine Bewertung bearbeitet";
 "notifications_type_sold" = "Ein Produkt aus deinen Favoriten wurde verkauft";
 "notifications_type_sold_button" = "Ähnliches Produkt anschauen";
 "notifications_type_welcome_button" = "Fange an zu verkaufen!";
-"notifications_type_welcome_subtitle" = "Leg los und stelle dein erstes Produkt ein oder schau dir tolle Sachen in deiner Nähe an.";
-"notifications_type_welcome_subtitle_w_city" = "Leg los und stelle dein erstes Produkt ein oder schau dir tolle Sachen in %@ an.";
+"notifications_type_welcome_subtitle" = "Verdiene Geld, indem du Sachen verkaufst, die du nicht mehr brauchst, und finde tolle Schnäppchen in deiner Nähe an.";
+"notifications_type_welcome_subtitle_w_city" = "Verdiene Geld, indem du Sachen verkaufst, die du nicht mehr brauchst, und finde tolle Schnäppchen in %@.";
 "notifications_type_welcome_title" = "Willkommen auf letgo!";
 "notifications_user_wo_name" = "Ein Nutzer";
 "nps_survey_subtitle" = "Auf einer Skala von 1 bis 10, wie wahrscheinlich ist es, dass du letgo einem Freund empfehlen würdest?";
@@ -436,6 +436,7 @@
 "product_post_empty_gallery_title" = "Keine Fotos gefunden";
 "product_post_free_camera_first_time_alert_subtitle" = "Mache ein gutes Foto und finde ein neues Zuhause für dein Produkt!";
 "product_post_free_camera_first_time_alert_title" = "Was möchtest du verschenken?";
+"product_post_free_confirmation_another_button" = "Give another item away";
 "product_post_gallery_load_image_error_subtitle" = "Bitte wähle ein anderes Foto und versuche es erneut.";
 "product_post_gallery_load_image_error_title" = "Das Foto kann nicht geladen werden";
 "product_post_gallery_permissions_button" = "Erlauben";
@@ -482,7 +483,7 @@
 "product_sell_again_confirm_ok_button" = "Erneut verkaufen";
 "product_sell_again_confirm_title" = "Erneut verkaufen";
 "product_sell_again_error_generic" = "Dein Produkt konnte nicht als verfügbar markiert werden. Bitte versuche es später noch mal.";
-"product_sell_again_free_button" = "Markiere es als wieder verfügbar";
+"product_sell_again_free_button" = "Wieder verschenken";
 "product_sell_again_free_confirm_cancel_button" = "Abbrechen";
 "product_sell_again_free_confirm_message" = "Markiere dein Produkt als verfügbar, um andere letgo-Nutzer zu informieren";
 "product_sell_again_free_confirm_ok_button" = "Verschenken";
@@ -496,8 +497,8 @@
 "product_share_body" = "Schau mal, was ich gerade auf letgo gefunden habe!";
 "product_share_copylink_ok" = "Der Link wurde kopiert!";
 "product_share_email_error" = "Hoppla! Du scheinst kein Konto in der Mail-App eingerichtet zu haben.";
-"product_share_fullscreen_subtitle" = "Did you know that those who share their products are 100% more likely to be awesome?";
-"product_share_fullscreen_title" = "SHARING IS WINNING!";
+"product_share_fullscreen_subtitle" = "Wusstest du, dass Leute, die ihre Produkte teilen, mit einer Wahrscheinlichkeit von 100% phänomenal sind?";
+"product_share_fullscreen_title" = "TEILEN IST FÜR GEWINNER";
 "product_share_generic_error" = "Beim Teilen des Produkts ist ein Fehler aufgetreten. Bitte versuche es später noch mal.";
 "product_share_generic_ok" = "Produkt erfolgreich geteilt!";
 "product_share_navbar_button" = "Teilen";

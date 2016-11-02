@@ -79,18 +79,19 @@ class ProductCarouselViewModel: BaseViewModel {
 
 
     // MARK: - Init
-    
-    convenience init(chatProduct: ChatProduct, chatInterlocutor: ChatInterlocutor, thumbnailImage: UIImage?,
-                     productListRequester: ProductListRequester?, navigator: ProductDetailNavigator?,
-                     source: EventParameterProductVisitSource) {
+
+    convenience init(product: LocalProduct, productListRequester: ProductListRequester?,
+                     navigator: ProductDetailNavigator?, source: EventParameterProductVisitSource) {
         let myUserRepository = Core.myUserRepository
         let productRepository = Core.productRepository
         let locationManager = Core.locationManager
-        let product = productRepository.build(fromChatproduct: chatProduct, chatInterlocutor: chatInterlocutor)
+        let locale = NSLocale.currentLocale()
+        let socialSharer = SocialSharer()
+
         self.init(myUserRepository: myUserRepository, productRepository: productRepository,
-                  productListModels: nil, initialProduct: product, thumbnailImage: thumbnailImage,
+                  productListModels: nil, initialProduct: product, thumbnailImage: nil,
                   productListRequester: productListRequester, navigator: navigator, source: source,
-                  locale: NSLocale.currentLocale(), locationManager: locationManager, socialSharer: SocialSharer())
+                  locale: locale, locationManager: locationManager, socialSharer: socialSharer)
         syncFirstProduct()
     }
 
@@ -99,10 +100,13 @@ class ProductCarouselViewModel: BaseViewModel {
         let myUserRepository = Core.myUserRepository
         let productRepository = Core.productRepository
         let locationManager = Core.locationManager
+        let locale = NSLocale.currentLocale()
+        let socialSharer = SocialSharer()
+
         self.init(myUserRepository: myUserRepository, productRepository: productRepository,
                   productListModels: nil, initialProduct: product, thumbnailImage: thumbnailImage,
                   productListRequester: productListRequester, navigator: navigator, source: source,
-                  locale: NSLocale.currentLocale(), locationManager: locationManager, socialSharer: SocialSharer())
+                  locale: locale, locationManager: locationManager, socialSharer: socialSharer)
     }
 
     convenience init(productListModels: [ProductCellModel], initialProduct: Product?, thumbnailImage: UIImage?,
@@ -111,18 +115,20 @@ class ProductCarouselViewModel: BaseViewModel {
         let myUserRepository = Core.myUserRepository
         let productRepository = Core.productRepository
         let locationManager = Core.locationManager
+        let locale = NSLocale.currentLocale()
+        let socialSharer = SocialSharer()
+
         self.init(myUserRepository: myUserRepository, productRepository: productRepository,
                   productListModels: productListModels, initialProduct: initialProduct,
                   thumbnailImage: thumbnailImage, productListRequester: productListRequester, navigator: navigator,
-                  source: source, locale: NSLocale.currentLocale(), locationManager: locationManager, socialSharer: SocialSharer())
+                  source: source, locale: locale, locationManager: locationManager, socialSharer: socialSharer)
     }
 
     init(myUserRepository: MyUserRepository, productRepository: ProductRepository,
          productListModels: [ProductCellModel]?, initialProduct: Product?, thumbnailImage: UIImage?,
          productListRequester: ProductListRequester?, navigator: ProductDetailNavigator?,
          source: EventParameterProductVisitSource, locale: NSLocale, locationManager: LocationManager, socialSharer: SocialSharer) {
-
-        let countryCode = locationManager.currentPostalAddress?.countryCode ?? locale.systemCountryCode
+        let countryCode = locationManager.currentPostalAddress?.countryCode ?? locale.lg_countryCode
         self.myUserRepository = myUserRepository
         self.productRepository = productRepository
         if let productListModels = productListModels {

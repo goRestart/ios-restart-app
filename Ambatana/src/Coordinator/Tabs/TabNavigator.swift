@@ -19,8 +19,7 @@ enum ProductDetailData {
     case ProductAPI(product: Product, thumbnailImage: UIImage?, originFrame: CGRect?)
     case ProductList(product: Product, cellModels: [ProductCellModel], requester: ProductListRequester,
                      thumbnailImage: UIImage?, originFrame: CGRect?, showRelated: Bool, index: Int)
-    case ProductChat(chatProduct: ChatProduct, user: ChatInterlocutor,
-                     thumbnailImage: UIImage?, originFrame: CGRect?)
+    case ProductChat(chatConversation: ChatConversation)
 }
 
 enum ChatDetailData {

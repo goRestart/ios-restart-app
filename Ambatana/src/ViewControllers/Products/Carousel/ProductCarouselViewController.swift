@@ -445,7 +445,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
             Observable.combineLatest(expandableButtonsView.expanded.asObservable(), alphaSignal, resultSelector: { (expanded, alpha) -> Bool in
                 return expanded && alpha < 1
             }).filter { $0 == true }.subscribeNext({ [weak self] _ in
-                self?.switchExpandableButtonsView()
+                self?.expandableButtonsView?.switchExpanded(animated: true)
             }).addDisposableTo(disposeBag)
         } else {
             alphaSignal.bindTo(favoriteButton.rx_alpha).addDisposableTo(disposeBag)
@@ -570,8 +570,7 @@ extension ProductCarouselViewController {
     }
 
     private func finishedTransition() {
-        guard let currentPVM = viewModel.currentProductViewModel else { return }
-        updateMoreInfo(currentPVM)
+        updateMoreInfo()
     }
     
     private func setupMoreInfo() {
@@ -595,9 +594,10 @@ extension ProductCarouselViewController {
         moreInfoView?.frame.origin.y = -view.bounds.height
     }
 
-    private func updateMoreInfo(viewModel: ProductViewModel) {
-        moreInfoView?.setupWith(viewModel: viewModel)
-        moreInfoState.asObservable().bindTo(viewModel.moreInfoState).addDisposableTo(activeDisposeBag)
+    private func updateMoreInfo() {
+        guard let currentPVM = viewModel.currentProductViewModel else { return }
+        moreInfoView?.setupWith(viewModel: currentPVM)
+        moreInfoState.asObservable().bindTo(currentPVM.moreInfoState).addDisposableTo(activeDisposeBag)
     }
 
     private func setupUserView(viewModel: ProductViewModel) {
@@ -746,11 +746,7 @@ extension ProductCarouselViewController {
     }
 
     private func refreshDirectChatElements(viewModel: ProductViewModel) {
-        viewModel.stickersButtonEnabled.asObservable().bindNext { [weak self] enabled in
-            guard let strongSelf = self else { return }
-            strongSelf.stickersButton.hidden = !enabled
-        }.addDisposableTo(activeDisposeBag)
-
+        viewModel.stickersButtonEnabled.asObservable().map { !$0 }.bindTo(stickersButton.rx_hidden).addDisposableTo(disposeBag)
         viewModel.directChatMessages.changesObservable.bindNext { [weak self] change in
             self?.directChatTable.handleCollectionChange(change, animation: .Top)
         }.addDisposableTo(activeDisposeBag)
@@ -833,6 +829,7 @@ extension ProductCarouselViewController: UserViewDelegate {
 extension ProductCarouselViewController: ProductCarouselViewModelDelegate {
     func vmRefreshCurrent() {
         refreshOverlayElements()
+        updateMoreInfo()
     }
 
     func vmRemoveMoreInfoTooltip() {
@@ -1142,7 +1139,7 @@ extension ProductCarouselViewController: ProductViewModelDelegate {
         case .Native:
             viewModel.openShare(.Native, fromViewController: self, barButtonItem: navigationItem.rightBarButtonItems?.first)
         case .InPlace:
-            switchExpandableButtonsView()
+            expandableButtonsView?.switchExpanded(animated: true)
         case .FullScreen:
             viewModel.openFullScreenShare()
         }
@@ -1198,16 +1195,6 @@ extension ProductCarouselViewController: ProductViewModelDelegate {
 
     func vmViewControllerToShowShareOptions() -> UIViewController {
         return self
-    }
-}
-
-
-// MARK: - ExpandableButtonsView
-
-extension ProductCarouselViewController {
-    func switchExpandableButtonsView() {
-        guard let expandableButtonsView = expandableButtonsView else { return }
-        expandableButtonsView.switchExpanded(animated: true)
     }
 }
 

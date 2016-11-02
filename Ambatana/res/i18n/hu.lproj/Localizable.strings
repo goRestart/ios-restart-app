@@ -172,7 +172,7 @@
 "common_cancel" = "Mégse";
 "common_chat_not_available" = "Hoppá! A csevegés nem található.";
 "common_collapse" = "Kevesebbet";
-"common_copy" = "Copy";
+"common_copy" = "Másolás";
 "common_error" = "Hiba";
 "common_error_connection_failed" = "Hiba történt. Kérjük, ellenőrizd az internetkapcsolatot.";
 "common_error_generic_body" = "Hiba történt.";
@@ -187,7 +187,7 @@
 "common_next" = "Következő";
 "common_no" = "Nem";
 "common_ok" = "OK";
-"common_or" = "OR";
+"common_or" = "VAGY";
 "common_product_not_available" = "Ez a portéka már nem elérhető.";
 "common_product_sold" = "Ez a portéka eladásra került.";
 "common_settings" = "Beállítások";
@@ -322,14 +322,14 @@
 "notifications_type_like_button" = "Profil megtekintése";
 "notifications_type_like_w_name" = "%@ kedvencként jelölte portékádat";
 "notifications_type_like_w_name_w_title" = "%@ kedvencként jelölte portékádat: \"%@\"";
-"notifications_type_rating" = "%@ has reviewed you";
-"notifications_type_rating_button" = "See your reviews";
-"notifications_type_rating_updated" = "%@ has updated your review";
+"notifications_type_rating" = "%@ értékelt téged";
+"notifications_type_rating_button" = "Nézd át értékeléseidet";
+"notifications_type_rating_updated" = "%@ frissítette értékelésedet";
 "notifications_type_sold" = "Egy kedvencként jelölt portékát eladtak";
 "notifications_type_sold_button" = "Portéka megtekintése";
 "notifications_type_welcome_button" = "Kezdődhet az árusítás";
-"notifications_type_welcome_subtitle" = "Kezdj kereskedni első portékád meghirdetésével és a környékbeli különlegességek átböngészésével.";
-"notifications_type_welcome_subtitle_w_city" = "Kezdj kereskedni első portékád meghirdetésével és „%@” környékének különlegességeinek átböngészésével.";
+"notifications_type_welcome_subtitle" = "Keress pénzt szükségtelenné vált dolgaid eladásával, és fedezd fel a környékbeli hirdetéseket";
+"notifications_type_welcome_subtitle_w_city" = "Keress pénzt szükségtelenné vált dolgaid eladásával, és fedezd fel %@ hirdetéseit.";
 "notifications_type_welcome_title" = "Üdvözlet a letgo piacán!";
 "notifications_user_wo_name" = "Egy felhasználó";
 "nps_survey_subtitle" = "1-től 10-ig milyen szívesen ajánlanád a letgo szolgáltatást barátaidnak?";
@@ -436,6 +436,7 @@
 "product_post_empty_gallery_title" = "Nem található fotó";
 "product_post_free_camera_first_time_alert_subtitle" = "Egy jó fotó, és már kereshetsz is neki új otthont!";
 "product_post_free_camera_first_time_alert_title" = "Mit fogsz elajándékozni?";
+"product_post_free_confirmation_another_button" = "Give another item away";
 "product_post_gallery_load_image_error_subtitle" = "Válassz másik fotót, vagy próbálkozz újra.";
 "product_post_gallery_load_image_error_title" = "A fotó betöltése sikertelen";
 "product_post_gallery_permissions_button" = "Engedélyezés";
@@ -496,8 +497,8 @@
 "product_share_body" = "Nézzétek, mit találtam a letgo-n!";
 "product_share_copylink_ok" = "Hivatkozás kimásolva!";
 "product_share_email_error" = "Hoppá! Úgy tűnik, hogy nem állítottál be fiókot a Mail appban.";
-"product_share_fullscreen_subtitle" = "Did you know that those who share their products are 100% more likely to be awesome?";
-"product_share_fullscreen_title" = "SHARING IS WINNING!";
+"product_share_fullscreen_subtitle" = "Tudtad, hogy akik megosztják portékáikat, 100%-kal nagyobb valószínűséggel lesznek menők?";
+"product_share_fullscreen_title" = "A MEGOSZTÁS GYŐZELEM!";
 "product_share_generic_error" = "Hiba történt a portéka megosztása során. Próbálkozz újra később.";
 "product_share_generic_ok" = "Sikeresen megosztottad a portékát!";
 "product_share_navbar_button" = "Megosztás";
