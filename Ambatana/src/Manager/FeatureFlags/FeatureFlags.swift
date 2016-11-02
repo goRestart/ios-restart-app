@@ -93,6 +93,13 @@ struct FeatureFlags {
         return ABTests.directPostInOnboarding.value
     }
 
+    static var periscopeChat: Bool {
+        if Bumper.enabled {
+            return Bumper.periscopeChat
+        }
+        return ABTests.persicopeChat.value
+    }
+
 
     // MARK: - Private
 

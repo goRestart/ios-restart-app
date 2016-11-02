@@ -21,11 +21,12 @@ public struct ABTests {
     static var freePostingMode = IntABDynamicVar(key: "freePostingMode", defaultValue: 0)
     static var directPostInOnboarding = BoolABDynamicVar(key: "directPostInOnboarding", defaultValue: false)
     static var notificationCenterEnabled = BoolABDynamicVar(key: "notificationCenterEnabled", defaultValue: true)
+    static var persicopeChat = BoolABDynamicVar(key: "persicopeChat", defaultValue: false)
 
     static private var allVariables: [ABVariable] {
         return [showNPSSurvey, nonStopProductDetail, onboardingPermissionsMode, messageOnFavorite,
                 interestedUsersMode, filtersReorder, freePostingMode, directPostInOnboarding,
-                notificationCenterEnabled]
+                notificationCenterEnabled, persicopeChat]
     }
 
     static func registerVariables() {

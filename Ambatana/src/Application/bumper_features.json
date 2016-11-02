@@ -53,5 +53,10 @@
         "name": "DirectPostInOnboarding",
         "values": ["No", "Yes"],
         "description": "Last Onboarding step opens the camera"
+	},
+    {
+        "name": "PeriscopeChat",
+        "values": ["No", "Yes"],
+        "description": "Periscope chat from Product"
 	}
 ]
