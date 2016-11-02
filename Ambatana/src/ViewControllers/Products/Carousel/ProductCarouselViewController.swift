@@ -435,7 +435,6 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
 
         if let expandableButtonsView = expandableButtonsView {
             // Hide fav button if expandable buttons view is expanded, otherwise depend on reversed alpha
-//            let reverseAlphaSignal = alphaSignal.asObservable().map { min(0, 1 - $0) }
             Observable.combineLatest(expandableButtonsView.expanded.asObservable(), alphaSignal,
                                      resultSelector: { (expanded, alpha) -> CGFloat in
                                         let hideFav = expanded ? 0 : alpha
