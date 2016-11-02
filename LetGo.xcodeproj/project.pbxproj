@@ -741,6 +741,8 @@
 		C78F9DB71DC9ED1400884064 /* LocalProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = C78F9DB51DC9ED1300884064 /* LocalProduct.swift */; };
 		C78F9DB91DC9EE8500884064 /* LocalUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = C78F9DB81DC9EE8500884064 /* LocalUser.swift */; };
 		C78F9DBA1DC9EE8500884064 /* LocalUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = C78F9DB81DC9EE8500884064 /* LocalUser.swift */; };
+		C78F9DBC1DCA525F00884064 /* ChatTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C78F9DBB1DCA525F00884064 /* ChatTextView.swift */; };
+		C78F9DBD1DCA525F00884064 /* ChatTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C78F9DBB1DCA525F00884064 /* ChatTextView.swift */; };
 		C79643111D4F5AFA000C5FCE /* RelatedProductsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C79643101D4F5AFA000C5FCE /* RelatedProductsView.swift */; };
 		C79643121D4F5AFA000C5FCE /* RelatedProductsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C79643101D4F5AFA000C5FCE /* RelatedProductsView.swift */; };
 		C797404F1D2A95B100381A4A /* LeanplumTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C797404E1D2A95B100381A4A /* LeanplumTracker.swift */; };
@@ -1562,6 +1564,7 @@
 		C78BB50A1C5A314700614096 /* AppShareViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AppShareViewController.xib; sourceTree = "<group>"; };
 		C78F9DB51DC9ED1300884064 /* LocalProduct.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalProduct.swift; sourceTree = "<group>"; };
 		C78F9DB81DC9EE8500884064 /* LocalUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalUser.swift; sourceTree = "<group>"; };
+		C78F9DBB1DCA525F00884064 /* ChatTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatTextView.swift; sourceTree = "<group>"; };
 		C79643101D4F5AFA000C5FCE /* RelatedProductsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RelatedProductsView.swift; sourceTree = "<group>"; };
 		C797404E1D2A95B100381A4A /* LeanplumTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeanplumTracker.swift; sourceTree = "<group>"; };
 		C79842001CC8E8C900C300FF /* User+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "User+LG.swift"; sourceTree = "<group>"; };
@@ -2152,6 +2155,7 @@
 				2E5B95591D9579FF00318A40 /* InterestedBubbleManager.swift */,
 				50CBCD5D1BF0BB8F00A329BB /* CollectionViewFooter.swift */,
 				50CBCD5E1BF0BB8F00A329BB /* CollectionViewFooter.xib */,
+				C78F9DBB1DCA525F00884064 /* ChatTextView.swift */,
 				2E4436301BF389E000814624 /* LGNavBarSearchField.swift */,
 				2E4436321BF389EE00814624 /* LGNavBarSearchField.xib */,
 				2E6009B51B5CE5E500FC9CAC /* LGTextField.swift */,
@@ -4356,6 +4360,7 @@
 				C711A1AD1CDC99E5002D30D9 /* WelcomeNotificationCellDrawer.swift in Sources */,
 				6A5E19FE1D548F5400F92692 /* LGLocationCoordinates2D+Distance.swift in Sources */,
 				C7B588811CE1DFA6009B3975 /* ChatCellDrawerFactory.swift in Sources */,
+				C78F9DBC1DCA525F00884064 /* ChatTextView.swift in Sources */,
 				502B705B1BAAC3AE00C5D465 /* FloatingButton.swift in Sources */,
 				C75B5DC51D59E09500112368 /* ProductCarouselViewModel.swift in Sources */,
 				507F1BFB1C89DDF9001F0A95 /* PostalAddress+String.swift in Sources */,
@@ -4738,6 +4743,7 @@
 				C79740501D2A95B100381A4A /* LeanplumTracker.swift in Sources */,
 				C711A1AE1CDC99E5002D30D9 /* WelcomeNotificationCellDrawer.swift in Sources */,
 				C75B5DC61D59E09500112368 /* ProductCarouselViewModel.swift in Sources */,
+				C78F9DBD1DCA525F00884064 /* ChatTextView.swift in Sources */,
 				C7B588821CE1DFA6009B3975 /* ChatCellDrawerFactory.swift in Sources */,
 				6A5E1A111D548F5400F92692 /* UIImage+LG.swift in Sources */,
 				C7DB420D1C5138B500400945 /* FloatingButton.swift in Sources */,
