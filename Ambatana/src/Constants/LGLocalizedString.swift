@@ -1775,6 +1775,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("product_post_free_camera_first_time_alert_subtitle", comment: "")
 	}
 
+	static var productPostFreeConfirmationAnotherButton: String {
+		return NSLocalizedString("product_post_free_confirmation_another_button", comment: "")
+	}
+
 	static var productPostGalleryLoadImageErrorSubtitle: String {
 		return NSLocalizedString("product_post_gallery_load_image_error_subtitle", comment: "")
 	}

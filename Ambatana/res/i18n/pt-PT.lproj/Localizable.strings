@@ -172,6 +172,7 @@
 "common_cancel" = "Cancelar";
 "common_chat_not_available" = "Ops! Chat não encontrado.";
 "common_collapse" = "Mostrar menos";
+"common_copy" = "Copiar";
 "common_error" = "Erro";
 "common_error_connection_failed" = "Ocorreu um erro. Por favor verifique a sua ligação à internet.";
 "common_error_generic_body" = "Ocorreu um erro.";
@@ -186,6 +187,7 @@
 "common_next" = "Seguinte";
 "common_no" = "Não";
 "common_ok" = "Ok";
+"common_or" = "OU";
 "common_product_not_available" = "Artigo indisponível.";
 "common_product_sold" = "Este artigo foi vendido.";
 "common_settings" = "Definições";
@@ -320,9 +322,9 @@
 "notifications_type_like_button" = "Veja o seu perfil";
 "notifications_type_like_w_name" = "%@ marcou o seu produto como favorito";
 "notifications_type_like_w_name_w_title" = "%@ marcou como favorito o seu produto: \"%@\"";
-"notifications_type_rating" = "%@ has reviewed you";
-"notifications_type_rating_button" = "See your reviews";
-"notifications_type_rating_updated" = "%@ has updated your review";
+"notifications_type_rating" = "%@ fez-lhe uma avaliação";
+"notifications_type_rating_button" = "Veja as suas avaliações";
+"notifications_type_rating_updated" = "%@ atualizou a avaliação que lhe fez";
 "notifications_type_sold" = "Um produto marcado por si como favorito foi vendido";
 "notifications_type_sold_button" = "Dê uma olhada no produto";
 "notifications_type_welcome_button" = "Comece a vender";
@@ -494,6 +496,8 @@
 "product_share_body" = "Vê o que acabei de encontrar no letgo!";
 "product_share_copylink_ok" = "O seu link foi copiado!";
 "product_share_email_error" = "Ops, aparentemente não configurou uma conta na app de email.";
+"product_share_fullscreen_subtitle" = "Sabia que aqueles que partilham os seus produtos têm 100% mais possibilidades de serem impressionantes?";
+"product_share_fullscreen_title" = "PARTILHAR É GANHAR!";
 "product_share_generic_error" = "Ocorreu um erro ao partilhar o produto. Por favor tente novamente mais tarde.";
 "product_share_generic_ok" = "Produto partilhado com sucesso!";
 "product_share_navbar_button" = "Partilhar";

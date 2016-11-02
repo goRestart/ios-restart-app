@@ -172,6 +172,7 @@
 "common_cancel" = "İptal et";
 "common_chat_not_available" = "Oops! Sohbet bulunamadı.";
 "common_collapse" = "Daha az göster";
+"common_copy" = "Kopyala";
 "common_error" = "Hata";
 "common_error_connection_failed" = "Bir hata oluştu. Lütfen, İnternet bağlantını kontrol et.";
 "common_error_generic_body" = "Bir hata oluştu.";
@@ -186,6 +187,7 @@
 "common_next" = "İleri";
 "common_no" = "Hayır";
 "common_ok" = "Tamam";
+"common_or" = "YA DA";
 "common_product_not_available" = "Bu ürün artık bulunmuyor.";
 "common_product_sold" = "Bu ürün satıldı.";
 "common_settings" = "Ayarlar";
@@ -320,9 +322,9 @@
 "notifications_type_like_button" = "Profillerine bak";
 "notifications_type_like_w_name" = "%@ ürününü favorilerine ekledi";
 "notifications_type_like_w_name_w_title" = "%@ şu ürününü favorilerine ekledi: \"%@\"";
-"notifications_type_rating" = "%@ has reviewed you";
-"notifications_type_rating_button" = "See your reviews";
-"notifications_type_rating_updated" = "%@ has updated your review";
+"notifications_type_rating" = "%@  sana değerlendirme notu verdi";
+"notifications_type_rating_button" = "Değerlendirme notlarını gör";
+"notifications_type_rating_updated" = "%@ değerlendirme notunu güncelledi";
 "notifications_type_sold" = "Favorilerine eklenmiş olduğun bir ürün satıldı";
 "notifications_type_sold_button" = "Ürünü gör";
 "notifications_type_welcome_button" = "Satış yapmaya başla";
@@ -494,6 +496,8 @@
 "product_share_body" = "Bak, az önce letgo'da ne buldum!";
 "product_share_copylink_ok" = "Bağlantın kopyalandı!";
 "product_share_email_error" = "Oops! Görünüşe bakılırsa e-posta uygulamasında bir hesap oluşturmamışsın.";
+"product_share_fullscreen_subtitle" = "Ürünlerini paylaşanların harika insan olma ihtimalinin paylaşmayanlara göre  daha yüksek olduğunu biliyor muydun?";
+"product_share_fullscreen_title" = "PAYLAŞMAK KAZANMAKTIR!";
 "product_share_generic_error" = "Ürün paylaşılırken hata oluştu. Lütfen daha sonra tekrar dene.";
 "product_share_generic_ok" = "Ürün başarılıyla paylaşıldı.";
 "product_share_navbar_button" = "Paylaş";

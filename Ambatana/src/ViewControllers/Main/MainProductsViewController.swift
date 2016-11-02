@@ -173,47 +173,6 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
         loadTagsViewWithTags(tags)
     }
 
-
-    func vmDidFailRetrievingProducts(hasProducts hasProducts: Bool, error: String?) {
-        if let toastTitle = error {
-            toastView?.title = toastTitle
-            setToastViewHidden(false)
-        }
-
-        // Update distance label visibility
-        showInfoBubble(hasProducts, alpha: hasProducts ? 1:0)
-
-        // Floating sell button should be shown if has products
-        if let tabBarCtl = tabBarController as? TabBarController {
-
-            // Only if there's a change
-            let previouslyHidden = floatingSellButtonHidden
-            floatingSellButtonHidden = !hasProducts
-            if floatingSellButtonHidden != previouslyHidden  {
-                tabBarCtl.setSellFloatingButtonHidden(floatingSellButtonHidden, animated: true)
-            }
-        }
-    }
-
-    func vmDidSuceedRetrievingProducts(hasProducts hasProducts: Bool, isFirstPage: Bool) {
-        // Hide toast, if visible
-        setToastViewHidden(true)
-
-        // Update distance label visibility
-        showInfoBubble(hasProducts, alpha: hasProducts ? 1:0)
-
-        // If the first page load succeeds
-        guard isFirstPage else { return }
-
-        // Floating sell button should be shown
-        guard let tabBarCtl = tabBarController as? TabBarController else { return }
-        // Only if there's a change
-        let previouslyHidden = floatingSellButtonHidden
-        floatingSellButtonHidden = false
-        guard floatingSellButtonHidden != previouslyHidden else { return }
-        tabBarCtl.setSellFloatingButtonHidden(floatingSellButtonHidden, animated: true)
-    }
-    
     
     // MARK: UITextFieldDelegate Methods
 
@@ -353,17 +312,7 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     }
     
     private func setupInfoBubble() {
-        infoBubbleLabel.text = viewModel.infoBubbleText.value
         infoBubbleShadow.applyInfoBubbleShadow()
-
-        showInfoBubble(false, alpha: 0.0)
-    }
-    
-    private func showInfoBubble(show: Bool, alpha: CGFloat? = nil) {
-        infoBubbleShadow.hidden = !viewModel.infoBubblePresent || !show
-        if let alpha = alpha {
-            infoBubbleShadow.alpha = alpha
-        }
     }
 
     private func setupSearchAndTrending() {
@@ -376,6 +325,7 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
 
     private func setupRxBindings() {
         viewModel.infoBubbleText.asObservable().bindTo(infoBubbleLabel.rx_text).addDisposableTo(disposeBag)
+        viewModel.infoBubbleVisible.asObservable().map { !$0 }.bindTo(infoBubbleShadow.rx_hidden).addDisposableTo(disposeBag)
 
         topInset.asObservable().skip(1).bindNext { [weak self] topInset in
                 self?.productListView.collectionViewContentInset.top = topInset
@@ -383,6 +333,15 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
 
         viewModel.mainProductsHeader.asObservable().bindNext { [weak self] header in
             self?.productListView.refreshDataView()
+        }.addDisposableTo(disposeBag)
+
+        viewModel.errorMessage.asObservable().bindNext { [weak self] errorMessage in
+            if let toastTitle = errorMessage {
+                self?.toastView?.title = toastTitle
+                self?.setToastViewHidden(false)
+            } else {
+                self?.setToastViewHidden(true)
+            }
         }.addDisposableTo(disposeBag)
     }
 }

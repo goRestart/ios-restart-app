@@ -172,6 +172,7 @@
 "common_cancel" = "Cancel";
 "common_chat_not_available" = "Oops! Chat not found.";
 "common_collapse" = "Show Less";
+"common_copy" = "Copy";
 "common_error" = "Error";
 "common_error_connection_failed" = "An error has occurred. Please check your Internet connection.";
 "common_error_generic_body" = "An error occurred.";
@@ -186,6 +187,7 @@
 "common_next" = "Next";
 "common_no" = "No";
 "common_ok" = "OK";
+"common_or" = "OR";
 "common_product_not_available" = "This product is no longer available.";
 "common_product_sold" = "This product has been sold.";
 "common_settings" = "Settings";
@@ -494,6 +496,8 @@
 "product_share_body" = "Look what I just found on letgo!";
 "product_share_copylink_ok" = "Your link has been copied!";
 "product_share_email_error" = "Oops! You don't seem to have an account set up in the Mail app.";
+"product_share_fullscreen_subtitle" = "Did you know that those who share their products are 100% more likely to be awesome?";
+"product_share_fullscreen_title" = "SHARING IS WINNING!";
 "product_share_generic_error" = "An error occurred while sharing the product. Please try again later.";
 "product_share_generic_ok" = "Product successfully shared!";
 "product_share_navbar_button" = "Share";
