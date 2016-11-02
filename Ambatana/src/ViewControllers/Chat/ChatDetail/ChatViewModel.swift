@@ -424,10 +424,8 @@ class ChatViewModel: BaseViewModel {
         case .Deleted:
             break
         case .Pending, .Approved, .Discarded, .Sold, .SoldOld:
-            guard let interlocutor = conversation.value.interlocutor else { return }
             delegate?.vmHideKeyboard(false)
-            let data = ProductDetailData.ProductChat(chatProduct: product, user: interlocutor,
-                                                     thumbnailImage: nil, originFrame: nil)
+            let data = ProductDetailData.ProductChat(chatConversation: conversation.value)
             navigator?.openProduct(data, source: .Chat)
         }
     }

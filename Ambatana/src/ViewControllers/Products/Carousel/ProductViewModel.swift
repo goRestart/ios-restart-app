@@ -141,26 +141,6 @@ class ProductViewModel: BaseViewModel {
 
     // MARK: - Lifecycle
 
-    convenience init(product: ChatProduct, user: ChatInterlocutor, thumbnailImage: UIImage?, navigator: ProductDetailNavigator?) {
-        let myUserRepository = Core.myUserRepository
-        let productRepository = Core.productRepository
-        let commercializerRepository = Core.commercializerRepository
-        let countryHelper = Core.countryHelper
-        let chatWrapper = ChatWrapper()
-        let stickersRepository = Core.stickersRepository
-        let locationManager = Core.locationManager
-        
-        let product = productRepository.build(fromChatproduct: product, chatInterlocutor: user)
-        
-        self.init(myUserRepository: myUserRepository, productRepository: productRepository,
-                  commercializerRepository: commercializerRepository, chatWrapper: chatWrapper,
-                  stickersRepository: stickersRepository, locationManager: locationManager, countryHelper: countryHelper,
-                  product: product, thumbnailImage: thumbnailImage, navigator: navigator,
-                  bubbleManager: BubbleNotificationManager.sharedInstance,
-                  interestedBubbleManager: InterestedBubbleManager.sharedInstance)
-        syncProduct(nil)
-    }
-    
     convenience init(product: Product, thumbnailImage: UIImage?, navigator: ProductDetailNavigator?) {
         let myUserRepository = Core.myUserRepository
         let productRepository = Core.productRepository
