@@ -667,11 +667,7 @@ extension ProductCarouselViewController {
     }
 
     private func refreshDirectChatElements(viewModel: ProductViewModel) {
-        viewModel.stickersButtonEnabled.asObservable().bindNext { [weak self] enabled in
-            guard let strongSelf = self else { return }
-            strongSelf.stickersButton.hidden = !enabled
-        }.addDisposableTo(activeDisposeBag)
-
+        viewModel.stickersButtonEnabled.asObservable().map { !$0 }.bindTo(stickersButton.rx_hidden).addDisposableTo(disposeBag)
         viewModel.directChatMessages.changesObservable.bindNext { [weak self] change in
             self?.directChatTable.handleCollectionChange(change, animation: .Top)
         }.addDisposableTo(activeDisposeBag)
