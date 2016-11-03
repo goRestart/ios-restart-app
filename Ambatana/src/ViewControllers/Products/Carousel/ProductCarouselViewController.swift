@@ -548,7 +548,7 @@ extension ProductCarouselViewController {
             if navBarButtons.count == 1 {
                 switch navBarButtons[0].interface {
                 case .TextImage:
-                    strongSelf.setNavigationBarRightButtonWithAction(navBarButtons[0])
+                    strongSelf.setNavigationBarRightButtonSharing(navBarButtons[0])
                 default:
                     strongSelf.setLetGoRightButtonWith(navBarButtons[0], disposeBag: strongSelf.disposeBag,
                         buttonTintColor: UIColor.white)
@@ -568,7 +568,7 @@ extension ProductCarouselViewController {
         }.addDisposableTo(activeDisposeBag)
     }
     
-    private func setNavigationBarRightButtonWithAction(action: UIAction) {
+    private func setNavigationBarRightButtonSharing(action: UIAction) {
         let shareButton = UIButton(type: .System)
         let verticalSpacing: CGFloat = 5
         let horizontalSpacing: CGFloat = 6
