@@ -267,12 +267,10 @@ private extension TabCoordinator {
     func openChatFromProduct(product: Product) {
         if FeatureFlags.websocketChat {
             guard let chatVM = ChatViewModel(product: product, navigator: self) else { return }
-            chatVM.askQuestion = .ProductDetail
             let chatVC = ChatViewController(viewModel: chatVM, hidesBottomBar: false)
             navigationController.pushViewController(chatVC, animated: true)
         } else {
             guard let chatVM = OldChatViewModel(product: product, navigator: self) else { return }
-            chatVM.askQuestion = .ProductDetail
             let chatVC = OldChatViewController(viewModel: chatVM, hidesBottomBar: false)
             navigationController.pushViewController(chatVC, animated: true)
         }

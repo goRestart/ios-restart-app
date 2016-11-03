@@ -40,11 +40,6 @@
         "description": "Product filters reorder"
 	},
     {
-        "name": "HalfCameraButton",
-        "values": ["Yes", "No"],
-        "description": "Camera button cut in gallery"
-	},
-    {
         "name": "FreePostingMode",
         "values": ["Disabled", "SplitButton", "OneButton"],
         "description": "Free Posting Mode"
