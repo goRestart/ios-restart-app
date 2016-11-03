@@ -328,7 +328,7 @@
 "notifications_type_sold" = "Một sản phẩm bạn yêu thích vừa được bán";
 "notifications_type_sold_button" = "Xem sản phẩm";
 "notifications_type_welcome_button" = "Bắt đầu bán";
-"notifications_type_welcome_subtitle" = "Kiếm tiền bằng việc bán những gì bạn không cần đến và tìm các giao dịch tuyệt vời xung quanh.";
+"notifications_type_welcome_subtitle" = "Kiếm tiền bằng việc bán những gì bạn không cần đến và tìm các giao dịch tuyệt vời xung quanh";
 "notifications_type_welcome_subtitle_w_city" = "Kiếm tiền bằng việc bán những gì bạn không cần đến và tìm các giao dịch tuyệt vời tại %@.";
 "notifications_type_welcome_title" = "Chào mừng đến với letgo!";
 "notifications_user_wo_name" = "Một người dùng";

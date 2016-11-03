@@ -328,8 +328,8 @@
 "notifications_type_sold" = "A product you favorited has been sold";
 "notifications_type_sold_button" = "Check out the product";
 "notifications_type_welcome_button" = "Start selling";
-"notifications_type_welcome_subtitle" = "Make money selling what you don't need and find great deals nearby.";
-"notifications_type_welcome_subtitle_w_city" = "Make money selling what you don't need and find great deals in %@.";
+"notifications_type_welcome_subtitle" = "Make money selling what you don't need and find great deals nearby";
+"notifications_type_welcome_subtitle_w_city" = "Make money selling what you don't need and find great deals in %@";
 "notifications_type_welcome_title" = "Welcome to letgo!";
 "notifications_user_wo_name" = "A user";
 "nps_survey_subtitle" = "From 1 to 10, how likely are you to recommend letgo to a friend?";

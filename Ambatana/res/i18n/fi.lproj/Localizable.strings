@@ -324,7 +324,7 @@
 "notifications_type_like_w_name_w_title" = "%@ merkitsi tuotteesi \"%@\" suosikikseen";
 "notifications_type_rating" = "%@ on arvostellut sinut";
 "notifications_type_rating_button" = "Katso arvostelusi";
-"notifications_type_rating_updated" = "%@ on päivittänyt arvosteluasi";
+"notifications_type_rating_updated" = "%@ on päivittänyt arvosteluaan";
 "notifications_type_sold" = "Suosikiksesi merkitsemäsi tuote on myyty";
 "notifications_type_sold_button" = "Katso tuote";
 "notifications_type_welcome_button" = "Aloita myyminen";
@@ -436,7 +436,7 @@
 "product_post_empty_gallery_title" = "Kuvia ei löytynyt";
 "product_post_free_camera_first_time_alert_subtitle" = "Ota hyvä kuva ja etsi tuotteellesi uusi koti!";
 "product_post_free_camera_first_time_alert_title" = "Mitä olet antamassa pois?";
-"product_post_free_confirmation_another_button" = "Give another item away";
+"product_post_free_confirmation_another_button" = "Anna toinen tuote pois";
 "product_post_gallery_load_image_error_subtitle" = "Valitse toinen kuva ja yritä uudelleen.";
 "product_post_gallery_load_image_error_title" = "Kuvan lataaminen ei onnistu";
 "product_post_gallery_permissions_button" = "Salli";

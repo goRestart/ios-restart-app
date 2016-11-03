@@ -979,10 +979,10 @@
 "notifications_type_rating_updated" = "%@ has updated their review";
 
 // Welcome notification subtitle
-"notifications_type_welcome_subtitle" = "Make money selling what you don't need and find great deals nearby.";
+"notifications_type_welcome_subtitle" = "Make money selling what you don't need and find great deals nearby";
 
 // Welcome notification subtitle
-"notifications_type_welcome_subtitle_w_city" = "Make money selling what you don't need and find great deals in %@.";
+"notifications_type_welcome_subtitle_w_city" = "Make money selling what you don't need and find great deals in %@";
 
 // Welcome notification title
 "notifications_type_welcome_title" = "Welcome to letgo!";

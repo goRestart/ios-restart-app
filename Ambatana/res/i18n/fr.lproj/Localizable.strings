@@ -319,7 +319,7 @@
 "notifications_permissions_settings_yes_button" = "Oui, Activer";
 "notifications_permissions_yes_button" = "Oui, me Notifier";
 "notifications_title" = "Notifications";
-"notifications_type_like_button" = "Découvrez leurs profils";
+"notifications_type_like_button" = "Découvrez son profil";
 "notifications_type_like_w_name" = "%@ a mis votre bien en favoris";
 "notifications_type_like_w_name_w_title" = "%@ a mis votre bien \"%@\" en favoris";
 "notifications_type_rating" = "%@ vous a noté";
