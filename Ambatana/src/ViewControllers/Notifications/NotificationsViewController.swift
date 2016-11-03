@@ -146,6 +146,16 @@ extension NotificationsViewController: UITableViewDelegate, UITableViewDataSourc
 }
 
 
+// MARK: - Scrollable to top
+
+extension NotificationsViewController: ScrollableToTop {
+    func scrollToTop() {
+        let position = CGPoint(x: -tableView.contentInset.left, y: -tableView.contentInset.top)
+        tableView.setContentOffset(position, animated: true)
+    }
+}
+
+
 // MARK: - Accesibility
 
 private extension NotificationsViewController {
