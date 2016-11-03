@@ -548,7 +548,7 @@ extension ProductCarouselViewController {
             if navBarButtons.count == 1 {
                 switch navBarButtons[0].interface {
                 case .TextImage:
-                    strongSelf.createShareButton(navBarButtons[0])
+                    strongSelf.setNavigationBarRightButtonWithAction(navBarButtons[0])
                 default:
                     strongSelf.setLetGoRightButtonWith(navBarButtons[0], disposeBag: strongSelf.disposeBag,
                         buttonTintColor: UIColor.white)
@@ -568,17 +568,19 @@ extension ProductCarouselViewController {
         }.addDisposableTo(activeDisposeBag)
     }
     
-    private func createShareButton(action: UIAction) {
+    private func setNavigationBarRightButtonWithAction(action: UIAction) {
         let shareButton = UIButton(type: .System)
-        let spacing: CGFloat = 5
-        shareButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: spacing, bottom: 0, right: -spacing)
-        shareButton.contentEdgeInsets = UIEdgeInsets(top: spacing, left: spacing, bottom: spacing, right: 2*spacing)
+        let verticalSpacing: CGFloat = 5
+        let horizontalSpacing: CGFloat = 6
+        shareButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: horizontalSpacing / 2, bottom: 0, right: -horizontalSpacing / 2)
+        shareButton.contentEdgeInsets = UIEdgeInsets(top: verticalSpacing, left: horizontalSpacing, bottom: verticalSpacing, right: 3/2 * horizontalSpacing)
         shareButton.setTitle(action.text, forState: .Normal)
         shareButton.setTitleColor(UIColor.white, forState: .Normal)
-        shareButton.titleLabel?.font = UIFont.smallBodyFont
+        shareButton.titleLabel?.font = UIFont.systemSemiBoldFont(size: 17)
         if let imageIcon = action.image {
             shareButton.setImage(imageIcon.imageWithRenderingMode(.AlwaysTemplate), forState: .Normal)
         }
+        shareButton.tintColor = UIColor.white
         shareButton.sizeToFit()
         shareButton.layer.cornerRadius = shareButton.height/2
         shareButton.layer.backgroundColor = UIColor.blackTextLowAlpha.CGColor
