@@ -15,7 +15,12 @@ class CommercialShareViewController: BaseViewController {
     @IBOutlet weak var socialShareView: SocialShareView!
 
     weak var shareDelegate: SocialShareViewDelegate?
-    weak var socialSharerDelegate: SocialSharerDelegate?
+    private let socialSharer = SocialSharer()
+    weak var socialSharerDelegate: SocialSharerDelegate? {
+        didSet {
+            socialSharer.delegate = socialSharerDelegate
+        }
+    }
 
     var socialMessage: SocialMessage? {
         didSet {
@@ -59,7 +64,7 @@ class CommercialShareViewController: BaseViewController {
         socialShareView.delegate = self
         socialShareView.buttonsSide = 70
         socialShareView.style = .Grid
-        let socialSharer = SocialSharer()
+
         socialSharer.delegate = socialSharerDelegate
         socialShareView.socialSharer = socialSharer
     }
