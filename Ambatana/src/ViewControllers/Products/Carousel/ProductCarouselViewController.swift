@@ -332,7 +332,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
                 image = UIImage(named: "item_share_sms")
                 accessId = AccessibilityId.SocialShareSMS
             }
-            expandableButtons.addButton(image: image, bgColor: nil, accessibilityId: accessId) { [weak self] in
+            expandableButtons.addButton(image: image, accessibilityId: accessId) { [weak self] in
                 guard let strongSelf = self else { return }
                 strongSelf.viewModel.socialSharer.share(socialMessage, shareType: type, viewController: strongSelf,
                                                         barButtonItem: nil)
