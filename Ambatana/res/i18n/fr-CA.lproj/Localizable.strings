@@ -172,7 +172,7 @@
 "common_cancel" = "Annuler";
 "common_chat_not_available" = "Oups ! Clavardage non trouvé.";
 "common_collapse" = "Afficher Moins";
-"common_copy" = "Copy";
+"common_copy" = "Copier";
 "common_error" = "Erreur";
 "common_error_connection_failed" = "Une erreur est survenue. Veuillez vérifier votre connexion Internet.";
 "common_error_generic_body" = "Une erreur est survenue.";
@@ -187,7 +187,7 @@
 "common_next" = "Suivant";
 "common_no" = "Non";
 "common_ok" = "OK";
-"common_or" = "OR";
+"common_or" = "OU";
 "common_product_not_available" = "Ce produit n'est plus disponible.";
 "common_product_sold" = "Ce produit a été vendu.";
 "common_settings" = "Paramètres";
@@ -218,6 +218,7 @@
 "contact_subject_option_product_edit" = "Modifier ou supprimer le produit";
 "contact_subject_option_profile_edit" = "Modifier ou supprimer le profil";
 "contact_subject_option_report" = "Signaler utilisateur ou pourriel";
+"direct_answer_condition" = "What condition is this item in?";
 "direct_answer_free_available" = "Oui, c'est toujours disponible";
 "direct_answer_free_no_available" = "Désolé, je l'ai déjà donné !";
 "direct_answer_free_still_have" = "L'avez-vous toujours ?";
@@ -233,7 +234,9 @@
 "direct_answer_sold_question_message" = "Indiquez votre produit comme vendu pour que tous les utilisateurs de letgo le sachent";
 "direct_answer_sold_question_ok" = "Indiquer comme vendu";
 "direct_answer_sold_question_title" = "Déjà vendu ?";
+"direct_answer_still_available" = "Is this item still available?";
 "direct_answer_still_for_sale" = "Oui, c'est toujours en vente";
+"direct_answer_title" = "SELECT OR TYPE A MESSAGE";
 "direct_answer_whats_offer" = "Quelle est votre offre ?";
 "direct_answers_hide" = "Masquer Réponses Rapides";
 "direct_answers_show" = "Afficher Réponses Rapides";
@@ -322,9 +325,9 @@
 "notifications_type_like_button" = "Consulter leur profile";
 "notifications_type_like_w_name" = "%@ a mis votre produit en favori";
 "notifications_type_like_w_name_w_title" = "%@ a mis votre produit \"%@\" en favori";
-"notifications_type_rating" = "%@ has reviewed you";
-"notifications_type_rating_button" = "See your reviews";
-"notifications_type_rating_updated" = "%@ has updated your review";
+"notifications_type_rating" = "%@ vous a évalué";
+"notifications_type_rating_button" = "Voir vos évaluations";
+"notifications_type_rating_updated" = "%@ a mis à jour son évaluation";
 "notifications_type_sold" = "Un produit que vous aviez mis en favori a été vendu";
 "notifications_type_sold_button" = "Voir le produit";
 "notifications_type_welcome_button" = "Commencer à vendre";
@@ -436,6 +439,7 @@
 "product_post_empty_gallery_title" = "Aucune photo trouvée";
 "product_post_free_camera_first_time_alert_subtitle" = "Prenez une bonne photo et offrez une nouvelle vie à votre objet !";
 "product_post_free_camera_first_time_alert_title" = "Que donnez-vous ?";
+"product_post_free_confirmation_another_button" = "Donner un autre objet";
 "product_post_gallery_load_image_error_subtitle" = "Choisissez une autre photo et réessayez.";
 "product_post_gallery_load_image_error_title" = "La photo ne peut pas être chargée";
 "product_post_gallery_permissions_button" = "Autoriser";
@@ -496,8 +500,8 @@
 "product_share_body" = "Regarde ce que je viens de trouver sur letgo !";
 "product_share_copylink_ok" = "Votre lien a été copié !";
 "product_share_email_error" = "Oups ! Il semble que vous n'ayez pas paramétré de compte dans l'application Courriel.";
-"product_share_fullscreen_subtitle" = "Did you know that those who share their products are 100% more likely to be awesome?";
-"product_share_fullscreen_title" = "SHARING IS WINNING!";
+"product_share_fullscreen_subtitle" = "Saviez-vous que ceux qui partagent leurs produits ont 100% plus de chances d'être remarqués ?";
+"product_share_fullscreen_title" = "PARTAGER, C'EST GAGNANT !";
 "product_share_generic_error" = "Une erreur est survenue lors du partage du produit. Veuillez réessayer plus tard.";
 "product_share_generic_ok" = "Produit partagé avec succès !";
 "product_share_navbar_button" = "Partager";
@@ -601,7 +605,7 @@
 "sell_picture_selected_delete_button" = "Supprimer";
 "sell_picture_selected_save_into_camera_roll_button" = "Sauvegarder l'image sur la pellicule";
 "sell_picture_selected_title" = "Choisir une action";
-"sell_post_free_label" = "Donnez Vos Objets";
+"sell_post_free_label" = "Donner";
 "sell_price_field" = "Prix :";
 "sell_send_error_invalid_category" = "Veuillez choisir une catégorie pour le produit.";
 "sell_send_error_invalid_description" = "Veuillez indiquer une description valide pour votre produit.";
@@ -647,7 +651,7 @@
 "sign_up_username_field_hint" = "Nom complet";
 "tab_bar_give_away_button" = "Donnez des Objets";
 "tab_bar_give_away_tooltip" = "Vous pouvez maintenant donner des objets";
-"tab_bar_sell_stuff_button" = "Vendez des Objets";
+"tab_bar_sell_stuff_button" = "Vendre";
 "tab_bar_tool_tip" = "Vendez Vos Objets";
 "toast_error_internal" = "Oups ! Ça n'a pas fonctionné.";
 "toast_no_network" = "Pas de Connexion Internet";

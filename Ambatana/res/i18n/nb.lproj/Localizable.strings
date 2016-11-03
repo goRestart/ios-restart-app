@@ -218,6 +218,7 @@
 "contact_subject_option_product_edit" = "Endre/slett produktet";
 "contact_subject_option_profile_edit" = "Endre/slett profil";
 "contact_subject_option_report" = "Rapporter bruker/spam";
+"direct_answer_condition" = "What condition is this item in?";
 "direct_answer_free_available" = "Ja, produktet er fortsatt tilgjengelig";
 "direct_answer_free_no_available" = "Beklager, det er allerede gitt bort!";
 "direct_answer_free_still_have" = "Har du fortsatt produktet?";
@@ -233,7 +234,9 @@
 "direct_answer_sold_question_message" = "Marker ditt produkt som solgt slik at alle letgo-brukere vet det";
 "direct_answer_sold_question_ok" = "Merk som solgt";
 "direct_answer_sold_question_title" = "Allerede solgt produktet?";
+"direct_answer_still_available" = "Is this item still available?";
 "direct_answer_still_for_sale" = "Ja, produktet er fortsatt til salgs";
+"direct_answer_title" = "SELECT OR TYPE A MESSAGE";
 "direct_answer_whats_offer" = "Hva er ditt bud?";
 "direct_answers_hide" = "Skjul Hurtige Svar";
 "direct_answers_show" = "Vis Hurtige Svar";
@@ -436,6 +439,7 @@
 "product_post_empty_gallery_title" = "Ingen bilder ble funnet";
 "product_post_free_camera_first_time_alert_subtitle" = "Ta et godt bilde og finn et nytt hjem for ditt produkt!";
 "product_post_free_camera_first_time_alert_title" = "Hva ønsker du å gi bort?";
+"product_post_free_confirmation_another_button" = "Give another item away";
 "product_post_gallery_load_image_error_subtitle" = "Velg et annet bilde, og prøv igjen";
 "product_post_gallery_load_image_error_title" = "Bildet kan ikke lastes";
 "product_post_gallery_permissions_button" = "Tillat";

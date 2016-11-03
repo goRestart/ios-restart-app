@@ -651,6 +651,12 @@
 // Contact subject option report. Check attached image @ "contact_email_field_hint" segment
 "contact_subject_option_report" = "Report user or spam";
 
+// Chat direct answers title
+"direct_answer_title" = "SELECT OR TYPE A MESSAGE";
+
+// Chat direct answer as buyer
+"direct_answer_condition" = "What condition is this item in?";
+
 // Chat direct answer as a seller - free listing. yours
 "direct_answer_free_yours" = "It's yours!";
 
@@ -692,6 +698,9 @@
 
 // Alert to ask the user to mark the product as sold - possitive btn
 "direct_answer_sold_question_ok" = "Mark as sold";
+
+// Chat direct answer as buyer
+"direct_answer_still_available" = "Is this item still available?";
 
 // Alert to ask the user to mark the product as sold - title
 "direct_answer_sold_question_title" = "Already sold it?";
@@ -976,13 +985,13 @@
 "notifications_type_rating_button" = "See your reviews";
 
 // User has updated your rating
-"notifications_type_rating_updated" = "%@ has updated your review";
+"notifications_type_rating_updated" = "%@ has updated their review";
 
 // Welcome notification subtitle
-"notifications_type_welcome_subtitle" = "Make money selling what you don't need and find great deals nearby.";
+"notifications_type_welcome_subtitle" = "Make money selling what you don't need and find great deals nearby";
 
 // Welcome notification subtitle
-"notifications_type_welcome_subtitle_w_city" = "Make money selling what you don't need and find great deals in %@.";
+"notifications_type_welcome_subtitle_w_city" = "Make money selling what you don't need and find great deals in %@";
 
 // Welcome notification title
 "notifications_type_welcome_title" = "Welcome to letgo!";
@@ -1318,7 +1327,7 @@
 "product_post_free_camera_first_time_alert_subtitle" = "Take a good picture and find your item a new home!";
 
 // Pos another item button (free Version)
-"product_post_free_confirmation_another_button" = "Give away another item";
+"product_post_free_confirmation_another_button" = "Give another item away";
 
 // Message subtitle when loading an image (from iCloud) fails
 "product_post_gallery_load_image_error_subtitle" = "Choose another photo and try again.";

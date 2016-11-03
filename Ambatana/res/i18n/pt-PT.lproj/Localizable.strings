@@ -218,6 +218,7 @@
 "contact_subject_option_product_edit" = "Editar/eliminar artigo";
 "contact_subject_option_profile_edit" = "Editar/eliminar perfil";
 "contact_subject_option_report" = "Denunciar utilizador/spam";
+"direct_answer_condition" = "What condition is this item in?";
 "direct_answer_free_available" = "Sim, ainda está disponível";
 "direct_answer_free_no_available" = "Lamento mas já dei!";
 "direct_answer_free_still_have" = "Ainda tem?";
@@ -233,7 +234,9 @@
 "direct_answer_sold_question_message" = "Marque o seu produto como vendido para que todos os utilizadores letgo fiquem a saber";
 "direct_answer_sold_question_ok" = "Marcar como vendido";
 "direct_answer_sold_question_title" = "Já o vendeu?";
+"direct_answer_still_available" = "Is this item still available?";
 "direct_answer_still_for_sale" = "Sim, ainda está para venda";
+"direct_answer_title" = "SELECT OR TYPE A MESSAGE";
 "direct_answer_whats_offer" = "Qual é a sua oferta?";
 "direct_answers_hide" = "Esconder Respostas Rápidas";
 "direct_answers_show" = "Mostrar Respostas Rápidas";
@@ -324,11 +327,11 @@
 "notifications_type_like_w_name_w_title" = "%@ marcou como favorito o seu produto: \"%@\"";
 "notifications_type_rating" = "%@ fez-lhe uma avaliação";
 "notifications_type_rating_button" = "Veja as suas avaliações";
-"notifications_type_rating_updated" = "%@ atualizou a avaliação que lhe fez";
+"notifications_type_rating_updated" = "%@ atualizou a sua avaliação";
 "notifications_type_sold" = "Um produto marcado por si como favorito foi vendido";
 "notifications_type_sold_button" = "Dê uma olhada no produto";
 "notifications_type_welcome_button" = "Comece a vender";
-"notifications_type_welcome_subtitle" = "Faça dinheiro vendendo o que já não precisa e encontre excelentes negócios perto de si.";
+"notifications_type_welcome_subtitle" = "Faça dinheiro vendendo o que já não precisa e encontre excelentes negócios perto de si";
 "notifications_type_welcome_subtitle_w_city" = "Faça dinheiro vendendo o que já não precisa e encontre excelentes negócios no %@";
 "notifications_type_welcome_title" = "Bem-vindo ao letgo!";
 "notifications_user_wo_name" = "Um utilizador";
@@ -436,6 +439,7 @@
 "product_post_empty_gallery_title" = "Nenhuma foto encontrada";
 "product_post_free_camera_first_time_alert_subtitle" = "Tire uma boa fotografia e encontre um novo lar para o seu item!";
 "product_post_free_camera_first_time_alert_title" = "O que está a dar?";
+"product_post_free_confirmation_another_button" = "Dê outro item";
 "product_post_gallery_load_image_error_subtitle" = "Escolha outra foto e tente novamente.";
 "product_post_gallery_load_image_error_title" = "Não foi possível carregar a foto";
 "product_post_gallery_permissions_button" = "Permitir";

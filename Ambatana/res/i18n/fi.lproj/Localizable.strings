@@ -218,6 +218,7 @@
 "contact_subject_option_product_edit" = "Muokkaa/poista tuote";
 "contact_subject_option_profile_edit" = "Muokkaa/poista profiili";
 "contact_subject_option_report" = "Ilmianna käyttäjä/roskaposti";
+"direct_answer_condition" = "What condition is this item in?";
 "direct_answer_free_available" = "Kyllä, se on edelleen saatavilla";
 "direct_answer_free_no_available" = "Ikävä kyllä olen jo antanut sen pois!";
 "direct_answer_free_still_have" = "Onko sinulla vielä se?";
@@ -233,7 +234,9 @@
 "direct_answer_sold_question_message" = "Merkitse tuotteesi myydyksi, jotta kaikki letgon käyttäjät saavat tiedon";
 "direct_answer_sold_question_ok" = "Merkitse Myydyksi";
 "direct_answer_sold_question_title" = "Myitkö sen jo?";
+"direct_answer_still_available" = "Is this item still available?";
 "direct_answer_still_for_sale" = "Kyllä, se on edelleen myynnissä";
+"direct_answer_title" = "SELECT OR TYPE A MESSAGE";
 "direct_answer_whats_offer" = "Mitä tarjoat?";
 "direct_answers_hide" = "Piilota pikavastaukset";
 "direct_answers_show" = "Näytä pikavastaukset";
@@ -324,7 +327,7 @@
 "notifications_type_like_w_name_w_title" = "%@ merkitsi tuotteesi \"%@\" suosikikseen";
 "notifications_type_rating" = "%@ on arvostellut sinut";
 "notifications_type_rating_button" = "Katso arvostelusi";
-"notifications_type_rating_updated" = "%@ on päivittänyt arvosteluasi";
+"notifications_type_rating_updated" = "%@ on päivittänyt arvosteluaan";
 "notifications_type_sold" = "Suosikiksesi merkitsemäsi tuote on myyty";
 "notifications_type_sold_button" = "Katso tuote";
 "notifications_type_welcome_button" = "Aloita myyminen";
@@ -436,6 +439,7 @@
 "product_post_empty_gallery_title" = "Kuvia ei löytynyt";
 "product_post_free_camera_first_time_alert_subtitle" = "Ota hyvä kuva ja etsi tuotteellesi uusi koti!";
 "product_post_free_camera_first_time_alert_title" = "Mitä olet antamassa pois?";
+"product_post_free_confirmation_another_button" = "Anna toinen tuote pois";
 "product_post_gallery_load_image_error_subtitle" = "Valitse toinen kuva ja yritä uudelleen.";
 "product_post_gallery_load_image_error_title" = "Kuvan lataaminen ei onnistu";
 "product_post_gallery_permissions_button" = "Salli";

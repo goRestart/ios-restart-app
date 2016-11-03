@@ -218,6 +218,7 @@
 "contact_subject_option_product_edit" = "Produkt bearbeiten/löschen";
 "contact_subject_option_profile_edit" = "Profil bearbeiten/löschen";
 "contact_subject_option_report" = "Benutzer/Spam melden";
+"direct_answer_condition" = "What condition is this item in?";
 "direct_answer_free_available" = "Ja, es ist noch verfügbar";
 "direct_answer_free_no_available" = "Tut mir leid, ich hab's schon verschenkt.";
 "direct_answer_free_still_have" = "Hast du's noch?";
@@ -233,7 +234,9 @@
 "direct_answer_sold_question_message" = "Markiere dein Produkt als verkauft, damit die anderen letgo-Nutzer es sehen";
 "direct_answer_sold_question_ok" = "Als verkauft markieren";
 "direct_answer_sold_question_title" = "Hast du es bereits verkauft?";
+"direct_answer_still_available" = "Is this item still available?";
 "direct_answer_still_for_sale" = "Ja, es steht noch zum Verkauf";
+"direct_answer_title" = "SELECT OR TYPE A MESSAGE";
 "direct_answer_whats_offer" = "Wie viel bietest du?";
 "direct_answers_hide" = "Schnelle Antworten verbergen";
 "direct_answers_show" = "Schnelle Antworten anzeigen";
@@ -327,7 +330,7 @@
 "notifications_type_rating_updated" = "%@ hat deine Bewertung bearbeitet";
 "notifications_type_sold" = "Ein Produkt aus deinen Favoriten wurde verkauft";
 "notifications_type_sold_button" = "Ähnliches Produkt anschauen";
-"notifications_type_welcome_button" = "Fange an zu verkaufen!";
+"notifications_type_welcome_button" = "Fange an zu verkaufen";
 "notifications_type_welcome_subtitle" = "Verdiene Geld, indem du Sachen verkaufst, die du nicht mehr brauchst, und finde tolle Schnäppchen in deiner Nähe an.";
 "notifications_type_welcome_subtitle_w_city" = "Verdiene Geld, indem du Sachen verkaufst, die du nicht mehr brauchst, und finde tolle Schnäppchen in %@.";
 "notifications_type_welcome_title" = "Willkommen auf letgo!";
@@ -436,6 +439,7 @@
 "product_post_empty_gallery_title" = "Keine Fotos gefunden";
 "product_post_free_camera_first_time_alert_subtitle" = "Mache ein gutes Foto und finde ein neues Zuhause für dein Produkt!";
 "product_post_free_camera_first_time_alert_title" = "Was möchtest du verschenken?";
+"product_post_free_confirmation_another_button" = "Give another item away";
 "product_post_gallery_load_image_error_subtitle" = "Bitte wähle ein anderes Foto und versuche es erneut.";
 "product_post_gallery_load_image_error_title" = "Das Foto kann nicht geladen werden";
 "product_post_gallery_permissions_button" = "Erlauben";

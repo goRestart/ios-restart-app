@@ -218,6 +218,7 @@
 "contact_subject_option_product_edit" = "Modifier/supprimer le bien";
 "contact_subject_option_profile_edit" = "Modifier/supprimer le profil";
 "contact_subject_option_report" = "Signaler utilisateur/spam";
+"direct_answer_condition" = "What condition is this item in?";
 "direct_answer_free_available" = "Oui, c'est toujours disponible";
 "direct_answer_free_no_available" = "Désolé, je l'ai déjà donné !";
 "direct_answer_free_still_have" = "L'avez-vous toujours ?";
@@ -233,7 +234,9 @@
 "direct_answer_sold_question_message" = "Marquez votre bien comme vendu pour que les autres utilisateurs de letgo le sachent";
 "direct_answer_sold_question_ok" = "Marquer \"Vendu\"";
 "direct_answer_sold_question_title" = "Déjà vendu ?";
+"direct_answer_still_available" = "Is this item still available?";
 "direct_answer_still_for_sale" = "Oui, toujours en vente";
+"direct_answer_title" = "SELECT OR TYPE A MESSAGE";
 "direct_answer_whats_offer" = "Quelle est votre offre ?";
 "direct_answers_hide" = "Masquer Réponses Rapides";
 "direct_answers_show" = "Afficher Réponses Rapides";
@@ -319,7 +322,7 @@
 "notifications_permissions_settings_yes_button" = "Oui, Activer";
 "notifications_permissions_yes_button" = "Oui, me Notifier";
 "notifications_title" = "Notifications";
-"notifications_type_like_button" = "Découvrez leurs profils";
+"notifications_type_like_button" = "Découvrez son profil";
 "notifications_type_like_w_name" = "%@ a mis votre bien en favoris";
 "notifications_type_like_w_name_w_title" = "%@ a mis votre bien \"%@\" en favoris";
 "notifications_type_rating" = "%@ vous a noté";
@@ -436,6 +439,7 @@
 "product_post_empty_gallery_title" = "Aucune photo trouvée";
 "product_post_free_camera_first_time_alert_subtitle" = "Prenez une bonne photo et offrez une nouvelle vie à vos biens !";
 "product_post_free_camera_first_time_alert_title" = "Que voulez-vous donner ?";
+"product_post_free_confirmation_another_button" = "Donner un autre bien";
 "product_post_gallery_load_image_error_subtitle" = "Choisissez une autre photo et réessayez.";
 "product_post_gallery_load_image_error_title" = "La photo ne peux pas être chargée";
 "product_post_gallery_permissions_button" = "Autoriser";

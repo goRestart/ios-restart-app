@@ -218,6 +218,7 @@
 "contact_subject_option_product_edit" = "Portéka szerkesztése/törlése";
 "contact_subject_option_profile_edit" = "Profil szerkesztése/törlése";
 "contact_subject_option_report" = "Felhasználó/spam jelentése";
+"direct_answer_condition" = "What condition is this item in?";
 "direct_answer_free_available" = "Igen, még elérhető";
 "direct_answer_free_no_available" = "Bocsi, már elajándékoztam!";
 "direct_answer_free_still_have" = "Még megvan?";
@@ -233,7 +234,9 @@
 "direct_answer_sold_question_message" = "Jelöld a portékát eladottként, hogy mindenki tudjon róla";
 "direct_answer_sold_question_ok" = "Megjelölés eladottként";
 "direct_answer_sold_question_title" = "Már eladtad?";
+"direct_answer_still_available" = "Is this item still available?";
 "direct_answer_still_for_sale" = "Igen, még eladó";
+"direct_answer_title" = "SELECT OR TYPE A MESSAGE";
 "direct_answer_whats_offer" = "Mennyit ajánlasz?";
 "direct_answers_hide" = "Gyorsválaszok elrejtése";
 "direct_answers_show" = "Gyorsválaszok megjelenítése";
@@ -328,7 +331,7 @@
 "notifications_type_sold" = "Egy kedvencként jelölt portékát eladtak";
 "notifications_type_sold_button" = "Portéka megtekintése";
 "notifications_type_welcome_button" = "Kezdődhet az árusítás";
-"notifications_type_welcome_subtitle" = "Keress pénzt szükségtelenné vált dolgaid eladásával, és fedezd fel a környékbeli hirdetéseket";
+"notifications_type_welcome_subtitle" = "Keress pénzt szükségtelenné vált dolgaid eladásával, és fedezd fel a környékbeli hirdetéseket.";
 "notifications_type_welcome_subtitle_w_city" = "Keress pénzt szükségtelenné vált dolgaid eladásával, és fedezd fel %@ hirdetéseit.";
 "notifications_type_welcome_title" = "Üdvözlet a letgo piacán!";
 "notifications_user_wo_name" = "Egy felhasználó";
@@ -436,6 +439,7 @@
 "product_post_empty_gallery_title" = "Nem található fotó";
 "product_post_free_camera_first_time_alert_subtitle" = "Egy jó fotó, és már kereshetsz is neki új otthont!";
 "product_post_free_camera_first_time_alert_title" = "Mit fogsz elajándékozni?";
+"product_post_free_confirmation_another_button" = "Give another item away";
 "product_post_gallery_load_image_error_subtitle" = "Válassz másik fotót, vagy próbálkozz újra.";
 "product_post_gallery_load_image_error_title" = "A fotó betöltése sikertelen";
 "product_post_gallery_permissions_button" = "Engedélyezés";

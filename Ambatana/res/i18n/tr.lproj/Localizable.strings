@@ -218,6 +218,7 @@
 "contact_subject_option_product_edit" = "Ürünü düzenle/sil";
 "contact_subject_option_profile_edit" = "Profili düzenle/sil";
 "contact_subject_option_report" = "Kullanıcı/spam bildir";
+"direct_answer_condition" = "What condition is this item in?";
 "direct_answer_free_available" = "Evet, hala mevcut";
 "direct_answer_free_no_available" = "Üzgünüm, ürünü çoktan başkasına verdim!";
 "direct_answer_free_still_have" = "Ürün hala mevcut mu?";
@@ -233,7 +234,9 @@
 "direct_answer_sold_question_message" = "Diğer letgo kullanıcılarının bilmesi için ürününü satıldı olarak işaretle";
 "direct_answer_sold_question_ok" = "Satıldı olarak işaretle";
 "direct_answer_sold_question_title" = "Çoktan satıldı mı?";
+"direct_answer_still_available" = "Is this item still available?";
 "direct_answer_still_for_sale" = "Evet, halen satılık";
+"direct_answer_title" = "SELECT OR TYPE A MESSAGE";
 "direct_answer_whats_offer" = "Teklifin nedir?";
 "direct_answers_hide" = "Hızlı Cevapları Gizle";
 "direct_answers_show" = "Hızlı Cevapları Göster";
@@ -328,7 +331,7 @@
 "notifications_type_sold" = "Favorilerine eklenmiş olduğun bir ürün satıldı";
 "notifications_type_sold_button" = "Ürünü gör";
 "notifications_type_welcome_button" = "Satış yapmaya başla";
-"notifications_type_welcome_subtitle" = "İhtiyacın olmayanları satarak para kazan ve bulunduğun çevredeki harika ürünleri keşfet.";
+"notifications_type_welcome_subtitle" = "İhtiyacın olmayanları satarak para kazan ve bulunduğun çevredeki harika ürünleri keşfet";
 "notifications_type_welcome_subtitle_w_city" = "İhtiyacın olmayanları satarak para kazan ve %@ içinde harika ürünler keşfet.";
 "notifications_type_welcome_title" = "letgo'ya hoşgeldin!";
 "notifications_user_wo_name" = "Bir kullanıcı";
@@ -436,6 +439,7 @@
 "product_post_empty_gallery_title" = "Fotoğraf bulunamadı";
 "product_post_free_camera_first_time_alert_subtitle" = "Güzel bir fotoğraf çek ve eşyana yeni bir yuva bul!";
 "product_post_free_camera_first_time_alert_title" = "Hangi eşyanı ücretsiz veriyorsun?";
+"product_post_free_confirmation_another_button" = "Başka bir ürünü ücretsiz ver";
 "product_post_gallery_load_image_error_subtitle" = "Başka bir fotoğraf seç ve tekrar dene.";
 "product_post_gallery_load_image_error_title" = "Fotoğraf yüklenemedi";
 "product_post_gallery_permissions_button" = "İzin Ver";

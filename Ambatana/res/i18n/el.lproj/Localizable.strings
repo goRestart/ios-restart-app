@@ -218,6 +218,7 @@
 "contact_subject_option_product_edit" = "Επεξεργασία ή διαγραφή προϊόντος";
 "contact_subject_option_profile_edit" = "Επεξεργασία/διαγραφή προφίλ";
 "contact_subject_option_report" = "Αναφορά χρήστη/spam";
+"direct_answer_condition" = "What condition is this item in?";
 "direct_answer_free_available" = "Ναι, είναι ακόμη διαθέσιμο";
 "direct_answer_free_no_available" = "Συγγνώμη, το έχω ήδη χαρίσει!";
 "direct_answer_free_still_have" = "Το έχεις ακόμη;";
@@ -233,7 +234,9 @@
 "direct_answer_sold_question_message" = "Μαρκάρετε το προϊόν σας ως πουλημένο, για να το ξέρουν οι χρήστες του letgo";
 "direct_answer_sold_question_ok" = "Μάρκαρε ότι πωλήθηκε";
 "direct_answer_sold_question_title" = "Το πούλησες ήδη;";
+"direct_answer_still_available" = "Is this item still available?";
 "direct_answer_still_for_sale" = "Ναι, είναι ακόμη για πώληση";
+"direct_answer_title" = "SELECT OR TYPE A MESSAGE";
 "direct_answer_whats_offer" = "Ποια είναι η προσφορά σου;";
 "direct_answers_hide" = "Απόκρυψη Γρήγορων Απαντήσεων";
 "direct_answers_show" = "Προβολή Γρήγορων Απαντήσεων";
@@ -324,7 +327,7 @@
 "notifications_type_like_w_name_w_title" = "%@ favorited your product: \"%@\"";
 "notifications_type_rating" = "Ο/ Η %@ άφησε μια κριτική για εσάς";
 "notifications_type_rating_button" = "Δείτε τις κριτικές σας";
-"notifications_type_rating_updated" = "Ο/ Η %@ ενημέρωσε την κριτική σας";
+"notifications_type_rating_updated" = "Οι %@ ενημέρωσαν την κριτική τους";
 "notifications_type_sold" = "Ένα προϊόν που προσθέσατε στα αγαπημένα σας έχει πωληθεί";
 "notifications_type_sold_button" = "Δείτε το προϊόν";
 "notifications_type_welcome_button" = "Ξεκινήστε να πουλάτε";
@@ -436,6 +439,7 @@
 "product_post_empty_gallery_title" = "Δε βρέθηκαν φωτογραφίες";
 "product_post_free_camera_first_time_alert_subtitle" = "Τραβήξτε μια καλή φωτογραφία και βρείτε στα αντικείμενά σας ένα νέο σπίτι!";
 "product_post_free_camera_first_time_alert_title" = "Τί χαρίζετε;";
+"product_post_free_confirmation_another_button" = "Χαρίστε κάποιο άλλο αντικείμενο";
 "product_post_gallery_load_image_error_subtitle" = "Διαλέξτε μια άλλη φωτογραφία και προσπαθήστε ξανά.";
 "product_post_gallery_load_image_error_title" = "Η φωτογραφία δεν μπορεί να φορτώσει";
 "product_post_gallery_permissions_button" = "Πρόσβαση";

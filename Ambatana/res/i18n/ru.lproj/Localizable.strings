@@ -218,6 +218,7 @@
 "contact_subject_option_product_edit" = "Редактирование/удаление товара";
 "contact_subject_option_profile_edit" = "Редактирование/удаление профиля";
 "contact_subject_option_report" = "Жалоба на пользователя/спам";
+"direct_answer_condition" = "What condition is this item in?";
 "direct_answer_free_available" = "Да, товар еще доступен";
 "direct_answer_free_no_available" = "Извините, уже отдано!";
 "direct_answer_free_still_have" = "Еще актуально?";
@@ -233,7 +234,9 @@
 "direct_answer_sold_question_message" = "Отметьте, что товар продан, чтобы все пользователи letgo могли это видеть";
 "direct_answer_sold_question_ok" = "Отмечен как проданный";
 "direct_answer_sold_question_title" = "Уже продали?";
+"direct_answer_still_available" = "Is this item still available?";
 "direct_answer_still_for_sale" = "Да, все еще продается";
+"direct_answer_title" = "SELECT OR TYPE A MESSAGE";
 "direct_answer_whats_offer" = "Ваше предложение?";
 "direct_answers_hide" = "Спрятать популярные ответы";
 "direct_answers_show" = "Показать популярные ответы";
@@ -328,7 +331,7 @@
 "notifications_type_sold" = "Товар из вашего избранного продан";
 "notifications_type_sold_button" = "Посмотреть товар";
 "notifications_type_welcome_button" = "Начинайте продавать";
-"notifications_type_welcome_subtitle" = "Получайте деньги, продавая не нужные больше вещи, и ищите отличные товары неподалеку.";
+"notifications_type_welcome_subtitle" = "Получайте деньги, продавая не нужные больше вещи, и ищите отличные товары неподалеку";
 "notifications_type_welcome_subtitle_w_city" = "Получайте деньги, продавая не нужные больше вещи, и ищите отличные товары в %@.";
 "notifications_type_welcome_title" = "Добро пожаловать на letgo!";
 "notifications_user_wo_name" = "Пользователь";
@@ -436,6 +439,7 @@
 "product_post_empty_gallery_title" = "Фотографии не найдены";
 "product_post_free_camera_first_time_alert_subtitle" = "Сделайте хорошее фото и найдите нового хозяина для вашей вещи!";
 "product_post_free_camera_first_time_alert_title" = "Что вы отдаете?";
+"product_post_free_confirmation_another_button" = "Give another item away";
 "product_post_gallery_load_image_error_subtitle" = "Выберите другое фото и попробуйте еще раз";
 "product_post_gallery_load_image_error_title" = "Фото не может быть загружено";
 "product_post_gallery_permissions_button" = "Разрешить";

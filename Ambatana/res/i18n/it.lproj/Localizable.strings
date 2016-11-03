@@ -218,6 +218,7 @@
 "contact_subject_option_product_edit" = "Modifica/elimina prodotto";
 "contact_subject_option_profile_edit" = "Modifica/elimina profilo";
 "contact_subject_option_report" = "Segnala utente/spam";
+"direct_answer_condition" = "What condition is this item in?";
 "direct_answer_free_available" = "Sì, è ancora disponibile";
 "direct_answer_free_no_available" = "Spiacente, l'ho già regalato!";
 "direct_answer_free_still_have" = "È ancora disponibile?";
@@ -233,7 +234,9 @@
 "direct_answer_sold_question_message" = "Contrassegna il tuo prodotto come venduto, così anche gli altri utenti di letgo ne saranno a conoscenza";
 "direct_answer_sold_question_ok" = "Segna come venduto";
 "direct_answer_sold_question_title" = "Già venduto?";
+"direct_answer_still_available" = "Is this item still available?";
 "direct_answer_still_for_sale" = "Sì, è ancora in vendita";
+"direct_answer_title" = "SELECT OR TYPE A MESSAGE";
 "direct_answer_whats_offer" = "Qual è la tua offerta?";
 "direct_answers_hide" = "Nascondi Risposte Rapide";
 "direct_answers_show" = "Visualizza Risposte Rapide";
@@ -324,7 +327,7 @@
 "notifications_type_like_w_name_w_title" = "%@ ha aggiunto il tuo prodotto ai preferiti: \"%@\"";
 "notifications_type_rating" = "%@ ha lasciato una recensione su di te";
 "notifications_type_rating_button" = "Vedi le tue recensioni";
-"notifications_type_rating_updated" = "%@ ha aggiornato la tua recensione";
+"notifications_type_rating_updated" = "%@ ha aggiornato la propria recensione";
 "notifications_type_sold" = "Un prodotto presente tra i tuoi preferiti è stato venduto";
 "notifications_type_sold_button" = "Scopri il prodotto";
 "notifications_type_welcome_button" = "Inizia a vendere";
@@ -436,6 +439,7 @@
 "product_post_empty_gallery_title" = "Nessuna foto trovata";
 "product_post_free_camera_first_time_alert_subtitle" = "Scatta una bella foto e trova un'altra casa al tuo oggetto!";
 "product_post_free_camera_first_time_alert_title" = "Che cosa regalerai?";
+"product_post_free_confirmation_another_button" = "Regala un altro oggetto";
 "product_post_gallery_load_image_error_subtitle" = "Scegli un'altra foto e riprova.";
 "product_post_gallery_load_image_error_title" = "Impossibile caricare la foto";
 "product_post_gallery_permissions_button" = "Consenti";

@@ -218,6 +218,7 @@
 "contact_subject_option_product_edit" = "상품 수정 / 삭제";
 "contact_subject_option_profile_edit" = "프로필 수정 / 삭제";
 "contact_subject_option_report" = "유저/스팸 신고";
+"direct_answer_condition" = "What condition is this item in?";
 "direct_answer_free_available" = "네, 아직 있습니다";
 "direct_answer_free_no_available" = "죄송합니다. 이미 상품을 증정했습니다!";
 "direct_answer_free_still_have" = "아직 가지고 계신가요?";
@@ -233,7 +234,9 @@
 "direct_answer_sold_question_message" = "letgo 사용자가 알 수 있게, 상품을 판매완료로 표시하세요";
 "direct_answer_sold_question_ok" = "품절로 표시";
 "direct_answer_sold_question_title" = "이미 판매되었나요?";
+"direct_answer_still_available" = "Is this item still available?";
 "direct_answer_still_for_sale" = "네, 여전히 판매중입니다";
+"direct_answer_title" = "SELECT OR TYPE A MESSAGE";
 "direct_answer_whats_offer" = "어떤 흥정을 하기를 원하시나요?";
 "direct_answers_hide" = "자주 대답하는 목록 숨기기";
 "direct_answers_show" = "자주 대답하는 목록 보이기";
@@ -324,7 +327,7 @@
 "notifications_type_like_w_name_w_title" = "%@관심가는 상품:\"%@\"";
 "notifications_type_rating" = "%@가 회원님을 확인했습니다";
 "notifications_type_rating_button" = "리뷰 확인하기";
-"notifications_type_rating_updated" = "%@가 리뷰를 업데이트 하였습니다";
+"notifications_type_rating_updated" = "%@께서 리뷰를 업데이트 하였습니다";
 "notifications_type_sold" = "관심갖고 있던 상품이 판매되었습니다";
 "notifications_type_sold_button" = "상품 결제하기";
 "notifications_type_welcome_button" = "판매 시작하기";
@@ -436,6 +439,7 @@
 "product_post_empty_gallery_title" = "어떠한 사진도 찾을 수 없습니다";
 "product_post_free_camera_first_time_alert_subtitle" = "훌륭한 사진을 촬영하고 새 집을 위한 새 상품을 찾아보세요!";
 "product_post_free_camera_first_time_alert_title" = "무엇을 증정하시나요?";
+"product_post_free_confirmation_another_button" = "다른 상품을 증정하세요";
 "product_post_gallery_load_image_error_subtitle" = "다른 사진을 선택하시고 다시 시도해주세요";
 "product_post_gallery_load_image_error_title" = "사진을 불러올 수 없습니다";
 "product_post_gallery_permissions_button" = "허가";

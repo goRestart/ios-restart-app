@@ -172,7 +172,7 @@
 "common_cancel" = "Cancelar";
 "common_chat_not_available" = "¡Ups! No se ha encontrado el chat.";
 "common_collapse" = "Ver Menos";
-"common_copy" = "Copy";
+"common_copy" = "Copiar";
 "common_error" = "Error";
 "common_error_connection_failed" = "¡Ups! Se ha producido un error. Por favor, comprueba tu conexión a Internet.";
 "common_error_generic_body" = "Se ha producido un error.";
@@ -187,7 +187,7 @@
 "common_next" = "Siguiente";
 "common_no" = "No";
 "common_ok" = "Aceptar";
-"common_or" = "OR";
+"common_or" = "O";
 "common_product_not_available" = "Este artículo ya no está disponible.";
 "common_product_sold" = "Este artículo ha sido vendido.";
 "common_settings" = "Ajustes";
@@ -218,6 +218,7 @@
 "contact_subject_option_product_edit" = "Editar/borrar artículo";
 "contact_subject_option_profile_edit" = "Editar/borrar perfil";
 "contact_subject_option_report" = "Denunciar usuario/spam";
+"direct_answer_condition" = "What condition is this item in?";
 "direct_answer_free_available" = "Sí, todavía está disponible";
 "direct_answer_free_no_available" = "Perdona, ¡ya lo he regalado!";
 "direct_answer_free_still_have" = "¿Todavía lo tienes?";
@@ -233,7 +234,9 @@
 "direct_answer_sold_question_message" = "Marca tu producto como vendido para que lo sepan todos los usuarios de letgo";
 "direct_answer_sold_question_ok" = "Marcar como vendido";
 "direct_answer_sold_question_title" = "¿Ya lo has vendido?";
+"direct_answer_still_available" = "Is this item still available?";
 "direct_answer_still_for_sale" = "Sí, aún está en venta";
+"direct_answer_title" = "SELECT OR TYPE A MESSAGE";
 "direct_answer_whats_offer" = "¿Cuál es tu oferta?";
 "direct_answers_hide" = "Esconder respuestas rápidas";
 "direct_answers_show" = "Mostrar respuestas rápidas";
@@ -322,9 +325,9 @@
 "notifications_type_like_button" = "Visitar su perfil";
 "notifications_type_like_w_name" = "%@ ha marcado tu producto como favorito";
 "notifications_type_like_w_name_w_title" = "%@ ha marcado tu producto como favorito: \"%@\"";
-"notifications_type_rating" = "%@ has reviewed you";
-"notifications_type_rating_button" = "See your reviews";
-"notifications_type_rating_updated" = "%@ has updated your review";
+"notifications_type_rating" = "%@ te ha valorado";
+"notifications_type_rating_button" = "Ver tus valoraciones";
+"notifications_type_rating_updated" = "%@ ha actualizado su valoración";
 "notifications_type_sold" = "Un producto que marcaste como favorito se ha vendido";
 "notifications_type_sold_button" = "Ver el producto";
 "notifications_type_welcome_button" = "Empezar a vender";
@@ -436,6 +439,7 @@
 "product_post_empty_gallery_title" = "No se han encontrado fotos";
 "product_post_free_camera_first_time_alert_subtitle" = "¡Haz una buena foto y encuentra un nuevo hogar para tu artículo!";
 "product_post_free_camera_first_time_alert_title" = "¿Qué quieres regalar?";
+"product_post_free_confirmation_another_button" = "Regalar otro artículo";
 "product_post_gallery_load_image_error_subtitle" = "Selecciona otra foto o inténtalo de nuevo.";
 "product_post_gallery_load_image_error_title" = "No se ha podido cargar la foto";
 "product_post_gallery_permissions_button" = "Permitir";
@@ -496,8 +500,8 @@
 "product_share_body" = "¡Mira lo que he encontrado en letgo!";
 "product_share_copylink_ok" = "¡Se ha copiado el enlace!";
 "product_share_email_error" = "¡Ups! Parece que no tienes configurado tu email en este dispositivo.";
-"product_share_fullscreen_subtitle" = "Did you know that those who share their products are 100% more likely to be awesome?";
-"product_share_fullscreen_title" = "SHARING IS WINNING!";
+"product_share_fullscreen_subtitle" = "¿Sabes que compartir tus productos te convierte en una persona 100% mejor?";
+"product_share_fullscreen_title" = "¡COMPARTIR ES VIVIR!";
 "product_share_generic_error" = "Se ha producido un error al compartir. Por favor, inténtalo de nuevo más tarde.";
 "product_share_generic_ok" = "¡Producto compartido!";
 "product_share_navbar_button" = "Compartir";
