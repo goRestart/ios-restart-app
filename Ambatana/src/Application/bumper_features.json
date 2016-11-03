@@ -48,5 +48,10 @@
         "name": "DirectPostInOnboarding",
         "values": ["No", "Yes"],
         "description": "Last Onboarding step opens the camera"
+	},
+    {
+        "name": "ProductDetailShareMode",
+        "values": ["Native", "InPlace", "FullScreen"],
+        "description": "How the share options are presented in product detail"
 	}
 ]

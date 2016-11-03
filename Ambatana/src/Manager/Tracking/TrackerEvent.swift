@@ -226,6 +226,7 @@ public struct TrackerEvent {
         params[.ProductVisitSource] = source.rawValue
         return TrackerEvent(name: .ProductDetailVisit, params: params)
     }
+
     
     static func productDetailVisitMoreInfo(product: Product) -> TrackerEvent {
         var params = EventParameters()
