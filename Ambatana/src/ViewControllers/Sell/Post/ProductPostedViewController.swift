@@ -55,6 +55,7 @@ class ProductPostedViewController: BaseViewController, ProductPostedViewModelDel
         super.init(viewModel: viewModel, nibName: "ProductPostedViewController",
                    statusBarStyle: UIApplication.sharedApplication().statusBarStyle)
         viewModel.delegate = self
+        socialSharer.delegate = self
         modalPresentationStyle = .OverCurrentContext
         modalTransitionStyle = .CrossDissolve
         setReachabilityEnabled(false)
