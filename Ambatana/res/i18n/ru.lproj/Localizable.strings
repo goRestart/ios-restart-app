@@ -328,7 +328,7 @@
 "notifications_type_sold" = "Товар из вашего избранного продан";
 "notifications_type_sold_button" = "Посмотреть товар";
 "notifications_type_welcome_button" = "Начинайте продавать";
-"notifications_type_welcome_subtitle" = "Получайте деньги, продавая не нужные больше вещи, и ищите отличные товары неподалеку.";
+"notifications_type_welcome_subtitle" = "Получайте деньги, продавая не нужные больше вещи, и ищите отличные товары неподалеку";
 "notifications_type_welcome_subtitle_w_city" = "Получайте деньги, продавая не нужные больше вещи, и ищите отличные товары в %@.";
 "notifications_type_welcome_title" = "Добро пожаловать на letgo!";
 "notifications_user_wo_name" = "Пользователь";

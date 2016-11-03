@@ -12,7 +12,7 @@ import bumper
 
 extension Bumper  {
     static func initialize() {
-        Bumper.initialize([WebsocketChat.self, NotificationsSection.self, UserReviews.self, ShowNPSSurvey.self, NonStopProductDetail.self, OnboardingPermissionsMode.self, MessageOnFavoriteMode.self, InterestedUsersMode.self, FiltersReorder.self, FreePostingMode.self, DirectPostInOnboarding.self, ProductDetailShareMode.self])
+        Bumper.initialize([WebsocketChat.self, NotificationsSection.self, UserReviews.self, ShowNPSSurvey.self, NonStopProductDetail.self, MessageOnFavoriteMode.self, InterestedUsersMode.self, FiltersReorder.self, FreePostingMode.self, DirectPostInOnboarding.self, ProductDetailShareMode.self])
     } 
 
     static var websocketChat: Bool {
@@ -38,11 +38,6 @@ extension Bumper  {
     static var nonStopProductDetail: Bool {
         guard let value = Bumper.valueForKey(NonStopProductDetail.key) else { return true }
         return NonStopProductDetail(rawValue: value)?.asBool ?? true
-    }
-
-    static var onboardingPermissionsMode: OnboardingPermissionsMode {
-        guard let value = Bumper.valueForKey(OnboardingPermissionsMode.key) else { return .Original }
-        return OnboardingPermissionsMode(rawValue: value) ?? .Original 
     }
 
     static var messageOnFavoriteMode: MessageOnFavoriteMode {
@@ -120,22 +115,6 @@ enum NonStopProductDetail: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Non stop prod detail" } 
     var asBool: Bool { return self == .Yes }
-}
-
-enum OnboardingPermissionsMode: String, BumperFeature  {
-    case Original, OneButtonOriginalImages, OneButtonNewImages
-    static var defaultValue: String { return OnboardingPermissionsMode.Original.rawValue }
-    static var enumValues: [OnboardingPermissionsMode] { return [.Original, .OneButtonOriginalImages, .OneButtonNewImages]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Onboarding permissions" } 
-    static func fromPosition(position: Int) -> OnboardingPermissionsMode {
-        switch position { 
-            case 0: return .Original
-            case 1: return .OneButtonOriginalImages
-            case 2: return .OneButtonNewImages
-            default: return .Original
-        }
-    }
 }
 
 enum MessageOnFavoriteMode: String, BumperFeature  {

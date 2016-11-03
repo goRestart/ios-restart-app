@@ -327,7 +327,7 @@
 "notifications_type_rating_updated" = "%@ hat deine Bewertung bearbeitet";
 "notifications_type_sold" = "Ein Produkt aus deinen Favoriten wurde verkauft";
 "notifications_type_sold_button" = "Ähnliches Produkt anschauen";
-"notifications_type_welcome_button" = "Fange an zu verkaufen!";
+"notifications_type_welcome_button" = "Fange an zu verkaufen";
 "notifications_type_welcome_subtitle" = "Verdiene Geld, indem du Sachen verkaufst, die du nicht mehr brauchst, und finde tolle Schnäppchen in deiner Nähe an.";
 "notifications_type_welcome_subtitle_w_city" = "Verdiene Geld, indem du Sachen verkaufst, die du nicht mehr brauchst, und finde tolle Schnäppchen in %@.";
 "notifications_type_welcome_title" = "Willkommen auf letgo!";

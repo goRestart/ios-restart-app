@@ -328,7 +328,7 @@
 "notifications_type_sold" = "Egy kedvencként jelölt portékát eladtak";
 "notifications_type_sold_button" = "Portéka megtekintése";
 "notifications_type_welcome_button" = "Kezdődhet az árusítás";
-"notifications_type_welcome_subtitle" = "Keress pénzt szükségtelenné vált dolgaid eladásával, és fedezd fel a környékbeli hirdetéseket";
+"notifications_type_welcome_subtitle" = "Keress pénzt szükségtelenné vált dolgaid eladásával, és fedezd fel a környékbeli hirdetéseket.";
 "notifications_type_welcome_subtitle_w_city" = "Keress pénzt szükségtelenné vált dolgaid eladásával, és fedezd fel %@ hirdetéseit.";
 "notifications_type_welcome_title" = "Üdvözlet a letgo piacán!";
 "notifications_user_wo_name" = "Egy felhasználó";

@@ -25,11 +25,6 @@
         "description": "Non stop prod detail"
 	},
     {
-        "name": "OnboardingPermissionsMode",
-        "values": ["Original", "OneButtonOriginalImages", "OneButtonNewImages"],
-        "description": "Onboarding permissions"
-	},
-	{
         "name": "MessageOnFavoriteMode",
         "values": ["NoMessage", "NotificationPreMessage", "DirectMessage"],
         "description": "Message after favorite"

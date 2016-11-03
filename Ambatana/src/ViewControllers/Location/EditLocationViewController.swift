@@ -66,6 +66,11 @@ class EditLocationViewController: BaseViewController, EditLocationViewModelDeleg
         setRxBindings()
     }
 
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        aproxLocationArea.layer.cornerRadius = aproxLocationArea.width / 2
+    }
+
 
     // MARK: - IBActions
     
@@ -145,7 +150,6 @@ class EditLocationViewController: BaseViewController, EditLocationViewModelDeleg
         setLocationButton.setStyle(.Primary(fontSize: .Medium))
         setLocationButton.setTitle(LGLocalizedString.changeLocationApplyButton, forState: UIControlState.Normal)
         gpsLocationButton.layer.cornerRadius = 10
-        aproxLocationArea.layer.cornerRadius = aproxLocationArea.width / 2
         poiImage.hidden = true
         aproxLocationArea.hidden = true
 

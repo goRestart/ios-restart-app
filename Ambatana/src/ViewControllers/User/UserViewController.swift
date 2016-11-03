@@ -243,9 +243,9 @@ extension UserViewController {
 
     private func setupNavigationBar() {
         if let navBarUserView = navBarUserView {
-            navBarUserViewAlpha = 0
             navBarUserView.frame = CGRect(origin: CGPoint.zero, size: CGSize(width: CGFloat.max, height: UserViewController.navBarUserViewHeight))
             setNavBarTitleStyle(.Custom(navBarUserView))
+            navBarUserViewAlpha = 0
         }
 
         let backIcon = UIImage(named: "navbar_back_white_shadow")
