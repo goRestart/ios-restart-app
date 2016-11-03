@@ -105,6 +105,7 @@ public class CommercialDisplayViewController: BaseViewController {
         }
         let shareVC = CommercialShareViewController()
         shareVC.shareDelegate = self
+        shareVC.socialSharerDelegate = self
         shareVC.socialMessage = viewModel.socialShareMessage
         presentViewController(shareVC, animated: true, completion: nil)
     }
@@ -222,92 +223,23 @@ extension CommercialDisplayViewController: UIScrollViewDelegate, CommercialDispl
 }
 
 
+// MARK: - SocialSharerDelegate
+
+extension CommercialDisplayViewController: SocialSharerDelegate {
+    func shareStartedIn(shareType: ShareType) {
+        viewModel.shareStartedIn(shareType)
+    }
+
+    func shareFinishedIn(shareType: ShareType, withState state: SocialShareState) {
+        viewModel.shareFinishedIn(shareType, withState: state)
+    }
+}
+
+
 // MARK: - SocialShareViewDelegate
 
 extension CommercialDisplayViewController: SocialShareViewDelegate {
-
-    func shareInEmail(){
-        viewModel.didShareInEmail()
-    }
-
-    func shareInEmailFinished(state: SocialShareState) {
-        switch state {
-        case .Completed:
-            viewModel.didShareInEmailCompleted()
-        case .Cancelled, .Failed:
-            break
-        }
-    }
-
-    func shareInFacebook() {
-        viewModel.didShareInFacebook()
-    }
-
-    func shareInFacebookFinished(state: SocialShareState) {
-        switch state {
-        case .Completed:
-            viewModel.didShareInFBCompleted()
-        case .Cancelled:
-            break
-        case .Failed:
-            showAutoFadingOutMessageAlert(LGLocalizedString.sellSendErrorSharingFacebook)
-        }
-    }
-
-    func shareInFBMessenger() {
-        viewModel.didShareInFBMessenger()
-    }
-
-    func shareInFBMessengerFinished(state: SocialShareState) {
-        switch state {
-        case .Completed:
-            viewModel.didShareInFBMessengerCompleted()
-        case .Cancelled:
-            break
-        case .Failed:
-            showAutoFadingOutMessageAlert(LGLocalizedString.sellSendErrorSharingFacebook)
-        }
-    }
-
-    func shareInWhatsApp() {
-        viewModel.didShareInWhatsApp()
-    }
-
-    func shareInTwitter() {
-        viewModel.didShareInTwitter()
-    }
-
-    func shareInTwitterFinished(state: SocialShareState) {
-        switch state {
-        case .Completed:
-            viewModel.didShareInTwitterCompleted()
-        case .Cancelled, .Failed:
-            break
-        }
-    }
-
-    func shareInTelegram() {
-        viewModel.didShareInTelegram()
-    }
-
     func viewController() -> UIViewController? {
         return self
-    }
-    
-    func shareInSMS() {
-        viewModel.didShareInSMS()
-    }
-    
-    func shareInSMSFinished(state: SocialShareState) {
-        switch state {
-        case .Completed:
-            viewModel.didShareInSMSCompleted()
-        case .Cancelled, .Failed:
-            break
-        }
-    }
-    
-    func shareInCopyLink() {
-        viewModel.didShareInCopyLink()
     }
 }

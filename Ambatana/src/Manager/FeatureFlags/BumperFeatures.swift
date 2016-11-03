@@ -12,7 +12,7 @@ import bumper
 
 extension Bumper  {
     static func initialize() {
-        Bumper.initialize([WebsocketChat.self, NotificationsSection.self, UserReviews.self, ShowNPSSurvey.self, NonStopProductDetail.self, MessageOnFavoriteMode.self, InterestedUsersMode.self, FiltersReorder.self, FreePostingMode.self, DirectPostInOnboarding.self, ShareButtonWithIcon.self])
+        Bumper.initialize([WebsocketChat.self, NotificationsSection.self, UserReviews.self, ShowNPSSurvey.self, NonStopProductDetail.self, MessageOnFavoriteMode.self, InterestedUsersMode.self, FiltersReorder.self, FreePostingMode.self, DirectPostInOnboarding.self, ShareButtonWithIcon.self, ProductDetailShareMode.self])
     } 
 
     static var websocketChat: Bool {
@@ -68,6 +68,11 @@ extension Bumper  {
     static var shareButtonWithIcon: Bool {
         guard let value = Bumper.valueForKey(ShareButtonWithIcon.key) else { return true }
         return ShareButtonWithIcon(rawValue: value)?.asBool ?? true
+    }
+
+    static var productDetailShareMode: ProductDetailShareMode {
+        guard let value = Bumper.valueForKey(ProductDetailShareMode.key) else { return .Native }
+        return ProductDetailShareMode(rawValue: value) ?? .Native 
     } 
 }
 
@@ -188,7 +193,23 @@ enum ShareButtonWithIcon: String, BumperFeature  {
     static var defaultValue: String { return ShareButtonWithIcon.Yes.rawValue }
     static var enumValues: [ShareButtonWithIcon] { return [.Yes, .No]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Share button with an icon and background" } 
+    static var description: String { return "Share button with an icon" } 
     var asBool: Bool { return self == .Yes }
+}
+
+enum ProductDetailShareMode: String, BumperFeature  {
+    case Native, InPlace, FullScreen
+    static var defaultValue: String { return ProductDetailShareMode.Native.rawValue }
+    static var enumValues: [ProductDetailShareMode] { return [.Native, .InPlace, .FullScreen]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "How the share options are presented in product detail" } 
+    static func fromPosition(position: Int) -> ProductDetailShareMode {
+        switch position { 
+            case 0: return .Native
+            case 1: return .InPlace
+            case 2: return .FullScreen
+            default: return .Native
+        }
+    }
 }
 
