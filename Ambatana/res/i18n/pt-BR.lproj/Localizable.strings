@@ -324,12 +324,12 @@
 "notifications_type_like_w_name_w_title" = "%@ favorited your product: \"%@\"";
 "notifications_type_rating" = "%@ has reviewed you";
 "notifications_type_rating_button" = "See your reviews";
-"notifications_type_rating_updated" = "%@ has updated your review";
+"notifications_type_rating_updated" = "%@ has updated their review";
 "notifications_type_sold" = "A product you favorited has been sold";
 "notifications_type_sold_button" = "Check out the product";
 "notifications_type_welcome_button" = "Start selling";
-"notifications_type_welcome_subtitle" = "Make money selling what you don't need and find great deals nearby.";
-"notifications_type_welcome_subtitle_w_city" = "Make money selling what you don't need and find great deals in %@.";
+"notifications_type_welcome_subtitle" = "Make money selling what you don't need and find great deals nearby";
+"notifications_type_welcome_subtitle_w_city" = "Make money selling what you don't need and find great deals in %@";
 "notifications_type_welcome_title" = "Welcome to letgo!";
 "notifications_user_wo_name" = "A user";
 "nps_survey_subtitle" = "From 1 to 10, how likely are you to recommend letgo to a friend?";
@@ -436,6 +436,7 @@
 "product_post_empty_gallery_title" = "No photos found";
 "product_post_free_camera_first_time_alert_subtitle" = "Take a good picture and find your item a new home!";
 "product_post_free_camera_first_time_alert_title" = "What are you giving away?";
+"product_post_free_confirmation_another_button" = "Give another item away";
 "product_post_gallery_load_image_error_subtitle" = "Choose another photo and try again.";
 "product_post_gallery_load_image_error_title" = "The photo can't be loaded";
 "product_post_gallery_permissions_button" = "Allow";
