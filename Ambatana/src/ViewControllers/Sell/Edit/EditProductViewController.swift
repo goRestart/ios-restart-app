@@ -104,6 +104,7 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
         self.viewModel = viewModel
         super.init(viewModel: viewModel, nibName: "EditProductViewController")
         self.viewModel.delegate = self
+        automaticallyAdjustsScrollViewInsets = false
     }
     
     required init?(coder: NSCoder) {

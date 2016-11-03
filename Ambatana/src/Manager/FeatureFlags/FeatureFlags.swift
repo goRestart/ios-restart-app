@@ -49,13 +49,6 @@ struct FeatureFlags {
         return ABTests.nonStopProductDetail.value
     }
 
-    static var onboardinPermissionsMode: OnboardingPermissionsMode {
-        if Bumper.enabled {
-            return Bumper.onboardingPermissionsMode
-        }
-        return OnboardingPermissionsMode.fromPosition(ABTests.onboardingPermissionsMode.value)
-    }
-
     static var messageOnFavorite: MessageOnFavoriteMode {
         if Bumper.enabled {
             return Bumper.messageOnFavoriteMode

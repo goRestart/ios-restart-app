@@ -328,7 +328,7 @@
 "notifications_type_sold" = "Товар из вашего избранного продан";
 "notifications_type_sold_button" = "Посмотреть товар";
 "notifications_type_welcome_button" = "Начинайте продавать";
-"notifications_type_welcome_subtitle" = "Получайте деньги, продавая не нужные больше вещи, и ищите отличные товары неподалеку.";
+"notifications_type_welcome_subtitle" = "Получайте деньги, продавая не нужные больше вещи, и ищите отличные товары неподалеку";
 "notifications_type_welcome_subtitle_w_city" = "Получайте деньги, продавая не нужные больше вещи, и ищите отличные товары в %@.";
 "notifications_type_welcome_title" = "Добро пожаловать на letgo!";
 "notifications_user_wo_name" = "Пользователь";
@@ -436,6 +436,7 @@
 "product_post_empty_gallery_title" = "Фотографии не найдены";
 "product_post_free_camera_first_time_alert_subtitle" = "Сделайте хорошее фото и найдите нового хозяина для вашей вещи!";
 "product_post_free_camera_first_time_alert_title" = "Что вы отдаете?";
+"product_post_free_confirmation_another_button" = "Give another item away";
 "product_post_gallery_load_image_error_subtitle" = "Выберите другое фото и попробуйте еще раз";
 "product_post_gallery_load_image_error_title" = "Фото не может быть загружено";
 "product_post_gallery_permissions_button" = "Разрешить";
