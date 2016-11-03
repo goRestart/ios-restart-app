@@ -22,10 +22,12 @@ class ChatViewController: SLKTextViewController {
     let viewModel: ChatViewModel
     var keyboardShown: Bool = false
     var showingStickers = false
+    var showingQuickAnswers = false
     let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
     let relationInfoView = RelationInfoView.relationInfoView()   // informs if the user is blocked, or the product sold or inactive
     let relatedProductsView: RelatedProductsView
     let directAnswersPresenter: DirectAnswersPresenter
+    let directAnswersBigView: DirectAnswersBigView
     let stickersView: ChatStickersView
     let stickersCloseButton: UIButton
     var stickersWindow: UIWindow?
@@ -51,6 +53,7 @@ class ChatViewController: SLKTextViewController {
         self.productView = ChatProductView.chatProductView()
         self.relatedProductsView = RelatedProductsView()
         self.directAnswersPresenter = DirectAnswersPresenter()
+        self.directAnswersBigView = DirectAnswersBigView()
         self.stickersView = ChatStickersView()
         self.stickersCloseButton = UIButton(frame: CGRect.zero)
         self.keyboardHelper = keyboardHelper
@@ -142,6 +145,7 @@ class ChatViewController: SLKTextViewController {
     }
     
     override func didPressLeftButton(sender: AnyObject!) {
+//        showingQuickAnswers ? 
         showingStickers ? hideStickers() : showStickers()
     }
     
@@ -240,10 +244,17 @@ class ChatViewController: SLKTextViewController {
     }
 
     private func setupDirectAnswers() {
-        directAnswersPresenter.hidden = !viewModel.shouldShowDirectAnswers
-        directAnswersPresenter.setupOnTopOfView(relatedProductsView)
-        directAnswersPresenter.setDirectAnswers(viewModel.directAnswers)
-        directAnswersPresenter.delegate = viewModel
+        if FeatureFlags.newQuickAnswers {
+            directAnswersBigView.hidden = !viewModel.shouldShowDirectAnswers
+            directAnswersBigView.setupOnTopOfView(textInputbar)
+            directAnswersBigView.setupChatInfo(viewModel.isBuyer, isFree: FeatureFlags.freePostingMode.enabled && viewModel.productIsFree.value)
+            directAnswersBigView.delegate = viewModel
+        } else {
+            directAnswersPresenter.hidden = !viewModel.shouldShowDirectAnswers
+            directAnswersPresenter.setupOnTopOfView(relatedProductsView)
+            directAnswersPresenter.setDirectAnswers(viewModel.directAnswers)
+            directAnswersPresenter.delegate = viewModel
+        }
     }
 
     private func showActivityIndicator(show: Bool) {
@@ -254,6 +265,7 @@ class ChatViewController: SLKTextViewController {
         if !show { hideStickers() }
         guard viewModel.chatEnabled.value else { return }
         show ? presentKeyboard(animated) : dismissKeyboard(animated)
+        keyboardShown = show
     }
 
     private func removeStickersTooltip() {

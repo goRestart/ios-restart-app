@@ -67,6 +67,8 @@
 		2E3081D51D86A40400930E98 /* MockProductListRequester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E3081D41D86A40400930E98 /* MockProductListRequester.swift */; };
 		2E32AD151D6B0F2300AC8501 /* BubbleNotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E32AD141D6B0F2300AC8501 /* BubbleNotificationManager.swift */; };
 		2E32AD161D6B107100AC8501 /* BubbleNotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E32AD141D6B0F2300AC8501 /* BubbleNotificationManager.swift */; };
+		2E35EDD81DCB4B50006F80FC /* DirectAnswersBigView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E35EDD71DCB4B50006F80FC /* DirectAnswersBigView.swift */; };
+		2E35EDD91DCB4B50006F80FC /* DirectAnswersBigView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E35EDD71DCB4B50006F80FC /* DirectAnswersBigView.swift */; };
 		2E373FA11D3CDEF500AC811C /* UserRatingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E373F9F1D3CDEF400AC811C /* UserRatingCell.swift */; };
 		2E373FA21D3CDEF500AC811C /* UserRatingCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E373FA01D3CDEF400AC811C /* UserRatingCell.xib */; };
 		2E373FA51D3D019600AC811C /* UserRatingListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E373FA31D3D019600AC811C /* UserRatingListViewController.swift */; };
@@ -1128,6 +1130,7 @@
 		2E3081D11D86A25300930E98 /* ProductListMultiRequesterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProductListMultiRequesterSpec.swift; path = letgoTests/Unit/MultiRequester/ProductListMultiRequesterSpec.swift; sourceTree = SOURCE_ROOT; };
 		2E3081D41D86A40400930E98 /* MockProductListRequester.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockProductListRequester.swift; sourceTree = "<group>"; };
 		2E32AD141D6B0F2300AC8501 /* BubbleNotificationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BubbleNotificationManager.swift; sourceTree = "<group>"; };
+		2E35EDD71DCB4B50006F80FC /* DirectAnswersBigView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DirectAnswersBigView.swift; sourceTree = "<group>"; };
 		2E373F9F1D3CDEF400AC811C /* UserRatingCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserRatingCell.swift; path = Cells/UserRatingCell.swift; sourceTree = "<group>"; };
 		2E373FA01D3CDEF400AC811C /* UserRatingCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = UserRatingCell.xib; path = Cells/UserRatingCell.xib; sourceTree = "<group>"; };
 		2E373FA31D3D019600AC811C /* UserRatingListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserRatingListViewController.swift; sourceTree = "<group>"; };
@@ -3049,6 +3052,7 @@
 				C7B588161CE1DE1C009B3975 /* DirectAnswersCloseCell.swift */,
 				C7B588171CE1DE1C009B3975 /* DirectAnswersCloseCell.xib */,
 				C7B588181CE1DE1C009B3975 /* DirectAnswersPresenter.swift */,
+				2E35EDD71DCB4B50006F80FC /* DirectAnswersBigView.swift */,
 			);
 			path = DirectAnswers;
 			sourceTree = "<group>";
@@ -4325,6 +4329,7 @@
 				2E28B12B1D9912B2001BF8E4 /* Double+Rounding.swift in Sources */,
 				C7111EF91CA43822000C5C5A /* DeepLinksRouter.swift in Sources */,
 				50E0E84B1D40B11600A6397C /* UserViewHeaderContainer.swift in Sources */,
+				2E35EDD81DCB4B50006F80FC /* DirectAnswersBigView.swift in Sources */,
 				2E4A9DBA1D8054DE00F99026 /* ProductListMultiRequester.swift in Sources */,
 				C7C61E041D633FDB00F9505D /* SearchType.swift in Sources */,
 				50E8A08B1B79F8D800DE49CC /* ContactSubject.swift in Sources */,
@@ -4707,6 +4712,7 @@
 				C7DB42031C5138B500400945 /* MainSignUpViewController.swift in Sources */,
 				C7DB42041C5138B500400945 /* ContactSubject.swift in Sources */,
 				50E0E84C1D40B11600A6397C /* UserViewHeaderContainer.swift in Sources */,
+				2E35EDD91DCB4B50006F80FC /* DirectAnswersBigView.swift in Sources */,
 				C7C61E051D633FDB00F9505D /* SearchType.swift in Sources */,
 				C7111EFA1CA43822000C5C5A /* DeepLinksRouter.swift in Sources */,
 				C7DB42051C5138B500400945 /* PushPermissionsManager.swift in Sources */,
