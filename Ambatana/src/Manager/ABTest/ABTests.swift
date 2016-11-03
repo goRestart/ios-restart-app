@@ -14,7 +14,6 @@ public struct ABTests {
 
     static var showNPSSurvey = BoolABDynamicVar(key: "showNPSSurvey", defaultValue: false)
     static var nonStopProductDetail = BoolABDynamicVar(key: "nonStopProductDetail", defaultValue: false)
-    static var onboardingPermissionsMode = IntABDynamicVar(key: "onboardingPermissionsMode", defaultValue: 0)
     static var messageOnFavorite = IntABDynamicVar(key: "messageOnFavorite", defaultValue: 0)
     static var interestedUsersMode = IntABDynamicVar(key: "interestedUsersMode", defaultValue: 0)
     static var filtersReorder = BoolABDynamicVar(key: "filtersReorder", defaultValue: false)
@@ -23,9 +22,8 @@ public struct ABTests {
     static var notificationCenterEnabled = BoolABDynamicVar(key: "notificationCenterEnabled", defaultValue: true)
 
     static private var allVariables: [ABVariable] {
-        return [showNPSSurvey, nonStopProductDetail, onboardingPermissionsMode, messageOnFavorite,
-                interestedUsersMode, filtersReorder, freePostingMode, directPostInOnboarding,
-                notificationCenterEnabled]
+        return [showNPSSurvey, nonStopProductDetail, messageOnFavorite, interestedUsersMode, filtersReorder,
+                freePostingMode, directPostInOnboarding, notificationCenterEnabled]
     }
 
     static func registerVariables() {
