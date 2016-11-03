@@ -53,5 +53,10 @@
         "name": "DirectPostInOnboarding",
         "values": ["No", "Yes"],
         "description": "Last Onboarding step opens the camera"
+	},
+    {
+        "name": "NewQuickAnswers",
+        "values": ["No", "Yes"],
+        "description": "Use quick answers v2"
 	}
-]
+ ]

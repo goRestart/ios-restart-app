@@ -12,7 +12,7 @@ import bumper
 
 extension Bumper  {
     static func initialize() {
-        Bumper.initialize([WebsocketChat.self, NotificationsSection.self, UserReviews.self, ShowNPSSurvey.self, NonStopProductDetail.self, OnboardingPermissionsMode.self, MessageOnFavoriteMode.self, InterestedUsersMode.self, FiltersReorder.self, FreePostingMode.self, DirectPostInOnboarding.self])
+        Bumper.initialize([WebsocketChat.self, NotificationsSection.self, UserReviews.self, ShowNPSSurvey.self, NonStopProductDetail.self, OnboardingPermissionsMode.self, MessageOnFavoriteMode.self, InterestedUsersMode.self, FiltersReorder.self, FreePostingMode.self, DirectPostInOnboarding.self, NewQuickAnswers.self])
     } 
 
     static var websocketChat: Bool {
@@ -68,6 +68,11 @@ extension Bumper  {
     static var directPostInOnboarding: Bool {
         guard let value = Bumper.valueForKey(DirectPostInOnboarding.key) else { return false }
         return DirectPostInOnboarding(rawValue: value)?.asBool ?? false
+    }
+
+    static var newQuickAnswers: Bool {
+        guard let value = Bumper.valueForKey(NewQuickAnswers.key) else { return false }
+        return NewQuickAnswers(rawValue: value)?.asBool ?? false
     } 
 }
 
@@ -196,6 +201,15 @@ enum DirectPostInOnboarding: String, BumperFeature  {
     static var enumValues: [DirectPostInOnboarding] { return [.No, .Yes]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Last Onboarding step opens the camera" } 
+    var asBool: Bool { return self == .Yes }
+}
+
+enum NewQuickAnswers: String, BumperFeature  {
+    case No, Yes
+    static var defaultValue: String { return NewQuickAnswers.No.rawValue }
+    static var enumValues: [NewQuickAnswers] { return [.No, .Yes]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Use quick answers v2" } 
     var asBool: Bool { return self == .Yes }
 }
 

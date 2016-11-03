@@ -93,6 +93,13 @@ struct FeatureFlags {
         return ABTests.directPostInOnboarding.value
     }
 
+    static var newQuickAnswers: Bool {
+        if Bumper.enabled {
+            return Bumper.newQuickAnswers
+        }
+        return ABTests.newQuickAnswers.value
+    }
+
 
     // MARK: - Private
 
