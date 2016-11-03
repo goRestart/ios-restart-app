@@ -12,7 +12,7 @@ import bumper
 
 extension Bumper  {
     static func initialize() {
-        Bumper.initialize([WebsocketChat.self, NotificationsSection.self, UserReviews.self, ShowNPSSurvey.self, NonStopProductDetail.self, MessageOnFavoriteMode.self, InterestedUsersMode.self, FiltersReorder.self, FreePostingMode.self, DirectPostInOnboarding.self, ProductDetailShareMode.self])
+        Bumper.initialize([WebsocketChat.self, NotificationsSection.self, UserReviews.self, ShowNPSSurvey.self, NonStopProductDetail.self, MessageOnFavoriteMode.self, InterestedUsersMode.self, FiltersReorder.self, FreePostingMode.self, DirectPostInOnboarding.self, ShareButtonWithIcon.self, ProductDetailShareMode.self])
     } 
 
     static var websocketChat: Bool {
@@ -63,6 +63,11 @@ extension Bumper  {
     static var directPostInOnboarding: Bool {
         guard let value = Bumper.valueForKey(DirectPostInOnboarding.key) else { return false }
         return DirectPostInOnboarding(rawValue: value)?.asBool ?? false
+    }
+
+    static var shareButtonWithIcon: Bool {
+        guard let value = Bumper.valueForKey(ShareButtonWithIcon.key) else { return true }
+        return ShareButtonWithIcon(rawValue: value)?.asBool ?? true
     }
 
     static var productDetailShareMode: ProductDetailShareMode {
@@ -180,6 +185,15 @@ enum DirectPostInOnboarding: String, BumperFeature  {
     static var enumValues: [DirectPostInOnboarding] { return [.No, .Yes]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Last Onboarding step opens the camera" } 
+    var asBool: Bool { return self == .Yes }
+}
+
+enum ShareButtonWithIcon: String, BumperFeature  {
+    case Yes, No
+    static var defaultValue: String { return ShareButtonWithIcon.Yes.rawValue }
+    static var enumValues: [ShareButtonWithIcon] { return [.Yes, .No]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Share button with an icon" } 
     var asBool: Bool { return self == .Yes }
 }
 
