@@ -19,6 +19,7 @@ public struct ABTests {
     static var filtersReorder = BoolABDynamicVar(key: "filtersReorder", defaultValue: false)
     static var freePostingMode = IntABDynamicVar(key: "freePostingMode", defaultValue: 0)
     static var directPostInOnboarding = BoolABDynamicVar(key: "directPostInOnboarding", defaultValue: false)
+    static var productDetailShareMode = IntABDynamicVar(key: "productDetailShareMode", defaultValue: 0)
     static var notificationCenterEnabled = BoolABDynamicVar(key: "notificationCenterEnabled", defaultValue: true)
     static var persicopeChat = BoolABDynamicVar(key: "persicopeChat", defaultValue: false)
 

@@ -15,7 +15,8 @@ import CollectionVariable
 
 
 protocol ProductViewModelDelegate: class, BaseViewModelDelegate {
-    func vmShowNativeShare(socialMessage: SocialMessage)
+    func vmShowShareFromMain(socialMessage: SocialMessage)
+    func vmShowShareFromMoreInfo(socialMessage: SocialMessage)
 
     func vmOpenMainSignUp(signUpVM: SignUpViewModel, afterLoginAction: () -> ())
 
@@ -26,6 +27,9 @@ protocol ProductViewModelDelegate: class, BaseViewModelDelegate {
     func vmAskForRating()
     func vmShowOnboarding()
     func vmShowProductDelegateActionSheet(cancelLabel: String, actions: [UIAction])
+
+    func vmShareDidFailedWith(error: String)
+    func vmViewControllerToShowShareOptions() -> UIViewController
 }
 
 
@@ -65,6 +69,7 @@ class ProductViewModel: BaseViewModel {
     let viewsCount = Variable<Int>(0)
     let favouritesCount = Variable<Int>(0)
     let socialMessage = Variable<SocialMessage?>(nil)
+    let socialSharer: SocialSharer
 
     // UI - Output
     let thumbnailImage: UIImage?
@@ -143,6 +148,7 @@ class ProductViewModel: BaseViewModel {
     // MARK: - Lifecycle
 
     convenience init(product: Product, thumbnailImage: UIImage?, navigator: ProductDetailNavigator?) {
+        let socialSharer = SocialSharer()
         let myUserRepository = Core.myUserRepository
         let productRepository = Core.productRepository
         let commercializerRepository = Core.commercializerRepository
@@ -153,7 +159,7 @@ class ProductViewModel: BaseViewModel {
         self.init(myUserRepository: myUserRepository, productRepository: productRepository,
                   commercializerRepository: commercializerRepository, chatWrapper: chatWrapper,
                   stickersRepository: stickersRepository, locationManager: locationManager, countryHelper: countryHelper,
-                  product: product, thumbnailImage: thumbnailImage, navigator: navigator,
+                  product: product, thumbnailImage: thumbnailImage, socialSharer: socialSharer, navigator: navigator,
                   bubbleManager: BubbleNotificationManager.sharedInstance,
                   interestedBubbleManager: InterestedBubbleManager.sharedInstance)
     }
@@ -161,10 +167,11 @@ class ProductViewModel: BaseViewModel {
     init(myUserRepository: MyUserRepository, productRepository: ProductRepository,
          commercializerRepository: CommercializerRepository, chatWrapper: ChatWrapper,
          stickersRepository: StickersRepository, locationManager: LocationManager, countryHelper: CountryHelper,
-         product: Product, thumbnailImage: UIImage?, navigator: ProductDetailNavigator?,
+         product: Product, thumbnailImage: UIImage?, socialSharer: SocialSharer, navigator: ProductDetailNavigator?,
          bubbleManager: BubbleNotificationManager, interestedBubbleManager: InterestedBubbleManager) {
         self.product = Variable<Product>(product)
         self.thumbnailImage = thumbnailImage
+        self.socialSharer = socialSharer
         self.myUserRepository = myUserRepository
         self.productRepository = productRepository
         self.countryHelper = countryHelper
@@ -206,6 +213,7 @@ class ProductViewModel: BaseViewModel {
 
         super.init()
 
+        socialSharer.delegate = self
         setupRxBindings()
     }
     
@@ -287,7 +295,7 @@ class ProductViewModel: BaseViewModel {
 
             strongSelf.productIsFavoriteable.value = !product.isMine
             strongSelf.isFavorite.value = product.favorite
-            strongSelf.socialMessage.value = SocialHelper.socialMessageWithProduct(product)
+            strongSelf.socialMessage.value = ProductSocialMessage(product: product)
             strongSelf.productImageURLs.value = product.images.flatMap { return $0.fileURL }
             strongSelf.editButtonState.value = product.isMine ? .Enabled : .Hidden
 
@@ -521,6 +529,11 @@ extension ProductViewModel {
         trackHelper.trackInterestedUsersBubble(othersFavCount, productId: productId)
         showInterestedBubble.value = false
     }
+
+    func openShare(shareType: ShareType, fromViewController: UIViewController, barButtonItem: UIBarButtonItem? = nil) {
+        guard let socialMessage = socialMessage.value else { return }
+        socialSharer.share(socialMessage, shareType: shareType, viewController: fromViewController, barButtonItem: barButtonItem)
+    }
 }
 
 
@@ -592,8 +605,8 @@ extension ProductViewModel {
     private func buildShareNavBarAction() -> UIAction {
         return UIAction(interface: .Text(LGLocalizedString.productShareNavbarButton), action: { [weak self] in
             guard let strongSelf = self, socialMessage = strongSelf.socialMessage.value else { return }
-            strongSelf.delegate?.vmShowNativeShare(socialMessage)
-            }, accessibilityId: .ProductCarouselNavBarShareButton)
+            strongSelf.delegate?.vmShowShareFromMain(socialMessage)
+        }, accessibilityId: .ProductCarouselNavBarShareButton)
     }
 
     private func showOptionsMenu() {
@@ -618,8 +631,8 @@ extension ProductViewModel {
     private func buildShareAction() -> UIAction {
         return UIAction(interface: .Text(LGLocalizedString.productOptionShare), action: { [weak self] in
             guard let strongSelf = self, socialMessage = strongSelf.socialMessage.value else { return }
-            strongSelf.delegate?.vmShowNativeShare(socialMessage)
-            }, accessibilityId: .ProductCarouselNavBarShareButton)
+            strongSelf.delegate?.vmShowShareFromMoreInfo(socialMessage)
+        }, accessibilityId: .ProductCarouselNavBarShareButton)
     }
 
     private func buildCommercialAction() -> UIAction {
@@ -697,7 +710,7 @@ extension ProductViewModel {
     }
 
     private var socialShareMessage: SocialMessage {
-        return SocialHelper.socialMessageWithProduct(product.value)
+        return ProductSocialMessage(product: product.value)
     }
 
     private var suggestMarkSoldWhenDeleting: Bool {
@@ -975,6 +988,62 @@ private extension ProductViewModel {
     }
 }
 
+
+// MARK: - SocialSharerDelegate
+
+extension ProductViewModel: SocialSharerDelegate {
+    func shareStartedIn(shareType: ShareType) {
+        let buttonPosition: EventParameterButtonPosition
+
+        switch moreInfoState.value {
+        case .Hidden:
+            buttonPosition = .Top
+        case .Shown, .Moving:
+            buttonPosition = .Bottom
+        }
+
+        trackShareStarted(shareType, buttonPosition: buttonPosition)
+    }
+
+    func shareFinishedIn(shareType: ShareType, withState state: SocialShareState) {
+        let buttonPosition: EventParameterButtonPosition
+
+        switch moreInfoState.value {
+        case .Hidden:
+            buttonPosition = .Top
+        case .Shown, .Moving:
+            buttonPosition = .Bottom
+        }
+
+        if let message = messageForShareIn(shareType, finishedWithState: state) {
+            delegate?.vmShowAutoFadingMessage(message, completion: nil)
+        }
+
+        trackShareCompleted(shareType, buttonPosition: buttonPosition, state: state)
+    }
+
+    private func messageForShareIn(shareType: ShareType, finishedWithState state: SocialShareState) -> String? {
+        switch (shareType, state) {
+        case (.Email, .Failed):
+            return LGLocalizedString.productShareEmailError
+        case (.Facebook, .Failed):
+            return LGLocalizedString.sellSendErrorSharingFacebook
+        case (.FBMessenger, .Failed):
+            return LGLocalizedString.sellSendErrorSharingFacebook
+        case (.CopyLink, .Completed):
+            return LGLocalizedString.productShareCopylinkOk
+        case (.SMS, .Completed):
+            return LGLocalizedString.productShareSmsOk
+        case (.SMS, .Failed):
+            return LGLocalizedString.productShareSmsError
+        case (_, .Completed):
+            return LGLocalizedString.productShareGenericOk
+        default:
+            break
+        }
+        return nil
+    }
+}
 
 
 // MARK : - Product

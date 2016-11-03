@@ -50,8 +50,13 @@
         "description": "Last Onboarding step opens the camera"
 	},
     {
+        "name": "ProductDetailShareMode",
+        "values": ["Native", "InPlace", "FullScreen"],
+        "description": "How the share options are presented in product detail"
+	},
+    {
         "name": "PeriscopeChat",
         "values": ["No", "Yes"],
         "description": "Periscope chat from Product"
-	}
+    }
 ]

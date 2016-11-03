@@ -295,6 +295,7 @@ public enum EventParameterShareNetwork: String {
     case Telegram = "telegram"
     case SMS = "sms"
     case CopyLink = "copy_link"
+    case Native = "native"
 }
 
 public enum EventParameterNegotiablePrice: String {

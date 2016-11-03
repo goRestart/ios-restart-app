@@ -86,6 +86,13 @@ struct FeatureFlags {
         return ABTests.directPostInOnboarding.value
     }
 
+    static var productDetailShareMode: ProductDetailShareMode {
+        if Bumper.enabled {
+            return Bumper.productDetailShareMode
+        }
+        return ProductDetailShareMode.fromPosition(ABTests.productDetailShareMode.value)
+    }
+
     static var periscopeChat: Bool {
         if Bumper.enabled {
             return Bumper.periscopeChat
@@ -93,7 +100,7 @@ struct FeatureFlags {
         return ABTests.persicopeChat.value
     }
 
-
+    
     // MARK: - Private
 
     private static var freePostingModeAllowed: Bool {
@@ -102,7 +109,7 @@ struct FeatureFlags {
 
         // Free posting is not allowed in Turkey. Check location & phone region.
         let turkey = "tr"
-        let systemCountryCode = (locale.objectForKey(NSLocaleCountryCode) as? String ?? "").lowercaseString
+        let systemCountryCode = locale.lg_countryCode
         let countryCode = (locationManager.currentPostalAddress?.countryCode ?? systemCountryCode).lowercaseString
 
         return systemCountryCode != turkey && countryCode != turkey

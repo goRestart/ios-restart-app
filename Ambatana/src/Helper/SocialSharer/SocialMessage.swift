@@ -49,11 +49,6 @@ extension SocialMessage {
     }
 }
 
-public protocol TwitterShareDelegate: class {
-    func twitterShareCancelled()
-    func twitterShareSuccess()
-}
-
 enum ShareSource: String {
     case Facebook = "facebook"
     case Twitter = "twitter"
@@ -88,6 +83,14 @@ struct ProductSocialMessage: SocialMessage {
         self.productId = product.objectId ?? ""
         self.productDescription = product.description ?? ""
         self.isMine = isMine
+    }
+
+    init(product: Product) {
+        let productIsMine = Core.myUserRepository.myUser?.objectId == product.user.objectId
+        let socialTitleMyProduct = product.price.free ? LGLocalizedString.productIsMineShareBodyFree :
+            LGLocalizedString.productIsMineShareBody
+        let socialTitle = productIsMine ? socialTitleMyProduct : LGLocalizedString.productShareBody
+        self.init(title: socialTitle, product: product, isMine: productIsMine)
     }
 
     var nativeShareItems: [AnyObject]? {

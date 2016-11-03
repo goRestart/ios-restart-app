@@ -291,10 +291,10 @@ public class SignUpLogInViewModel: BaseViewModel {
     private func checkTermsAndConditionsEnabled() {
         let turkey = "tr"
 
-        let systemCountryCode = NSLocale.currentLocale().objectForKey(NSLocaleCountryCode) as? String ?? ""
+        let systemCountryCode = NSLocale.currentLocale().lg_countryCode
         let countryCode = locationManager.currentPostalAddress?.countryCode ?? systemCountryCode
 
-        termsAndConditionsEnabled = systemCountryCode.lowercaseString == turkey || countryCode.lowercaseString == turkey
+        termsAndConditionsEnabled = systemCountryCode == turkey || countryCode.lowercaseString == turkey
     }
 
     private func processLoginSessionError(error: SessionManagerError) {

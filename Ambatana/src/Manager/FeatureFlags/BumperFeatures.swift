@@ -12,7 +12,7 @@ import bumper
 
 extension Bumper  {
     static func initialize() {
-        Bumper.initialize([WebsocketChat.self, NotificationsSection.self, UserReviews.self, ShowNPSSurvey.self, NonStopProductDetail.self, MessageOnFavoriteMode.self, InterestedUsersMode.self, FiltersReorder.self, FreePostingMode.self, DirectPostInOnboarding.self, PeriscopeChat.self])
+        Bumper.initialize([WebsocketChat.self, NotificationsSection.self, UserReviews.self, ShowNPSSurvey.self, NonStopProductDetail.self, MessageOnFavoriteMode.self, InterestedUsersMode.self, FiltersReorder.self, FreePostingMode.self, DirectPostInOnboarding.self, ProductDetailShareMode.self, PeriscopeChat.self])
     } 
 
     static var websocketChat: Bool {
@@ -63,6 +63,11 @@ extension Bumper  {
     static var directPostInOnboarding: Bool {
         guard let value = Bumper.valueForKey(DirectPostInOnboarding.key) else { return false }
         return DirectPostInOnboarding(rawValue: value)?.asBool ?? false
+    }
+
+    static var productDetailShareMode: ProductDetailShareMode {
+        guard let value = Bumper.valueForKey(ProductDetailShareMode.key) else { return .Native }
+        return ProductDetailShareMode(rawValue: value) ?? .Native 
     }
 
     static var periscopeChat: Bool {
@@ -181,6 +186,22 @@ enum DirectPostInOnboarding: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Last Onboarding step opens the camera" } 
     var asBool: Bool { return self == .Yes }
+}
+
+enum ProductDetailShareMode: String, BumperFeature  {
+    case Native, InPlace, FullScreen
+    static var defaultValue: String { return ProductDetailShareMode.Native.rawValue }
+    static var enumValues: [ProductDetailShareMode] { return [.Native, .InPlace, .FullScreen]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "How the share options are presented in product detail" } 
+    static func fromPosition(position: Int) -> ProductDetailShareMode {
+        switch position { 
+            case 0: return .Native
+            case 1: return .InPlace
+            case 2: return .FullScreen
+            default: return .Native
+        }
+    }
 }
 
 enum PeriscopeChat: String, BumperFeature  {

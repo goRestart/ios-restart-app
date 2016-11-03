@@ -535,7 +535,7 @@ extension UserViewModel {
                 self?.socialMessage = nil
                 return
             }
-            self?.socialMessage = SocialHelper.socialMessageUser(user, itsMe: itsMe)
+            self?.socialMessage = UserSocialMessage(user: user, itsMe: itsMe)
         }.addDisposableTo(disposeBag)
     }
 }
@@ -610,24 +610,17 @@ private extension UserViewModel {
 }
 
 
-// MARK: - Share delegate 
+// MARK: - SocialSharerDelegate
 
-extension UserViewModel: NativeShareDelegate {
+extension UserViewModel: SocialSharerDelegate {
 
-    var nativeShareSuccessMessage: String? { return LGLocalizedString.userShareSuccess }
-    var nativeShareErrorMessage: String? { return LGLocalizedString.userShareError }
+    func shareStartedIn(shareType: ShareType) {
 
-    func nativeShareInFacebook() {
-        trackShareComplete(.Facebook)
     }
-    func nativeShareInTwitter() {
-        trackShareComplete(.Twitter)
-    }
-    func nativeShareInEmail() {
-        trackShareComplete(.Email)
-    }
-    func nativeShareInWhatsApp() {
-        trackShareComplete(.Whatsapp)
+
+    func shareFinishedIn(shareType: ShareType, withState state: SocialShareState) {
+        guard state == .Completed else { return }
+        trackShareComplete(shareType.trackingShareNetwork)
     }
 }
 
