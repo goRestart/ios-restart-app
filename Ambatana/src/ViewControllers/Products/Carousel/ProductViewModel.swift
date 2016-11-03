@@ -592,10 +592,18 @@ extension ProductViewModel {
     }
 
     private func buildShareNavBarAction() -> UIAction {
-        return UIAction(interface: .Text(LGLocalizedString.productShareNavbarButton), action: { [weak self] in
-            guard let strongSelf = self, socialMessage = strongSelf.socialMessage.value else { return }
-            strongSelf.delegate?.vmShowNativeShare(socialMessage)
-            }, accessibilityId: .ProductCarouselNavBarShareButton)
+        if FeatureFlags.shareButtonWithIcon {
+            // FIXME: Include correct image please.
+            return UIAction(interface: .TextImage(LGLocalizedString.productShareNavbarButton, UIImage(named:"ic_refresh")), action: { [weak self] in
+                guard let strongSelf = self, socialMessage = strongSelf.socialMessage.value else { return }
+                strongSelf.delegate?.vmShowNativeShare(socialMessage)
+                }, accessibilityId: .ProductCarouselNavBarShareButton)
+        } else {
+            return UIAction(interface: .Text(LGLocalizedString.productShareNavbarButton), action: { [weak self] in
+                guard let strongSelf = self, socialMessage = strongSelf.socialMessage.value else { return }
+                strongSelf.delegate?.vmShowNativeShare(socialMessage)
+                }, accessibilityId: .ProductCarouselNavBarShareButton)
+        }
     }
 
     private func showOptionsMenu() {

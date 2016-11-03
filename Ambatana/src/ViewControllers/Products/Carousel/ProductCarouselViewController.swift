@@ -546,8 +546,13 @@ extension ProductCarouselViewController {
             guard let strongSelf = self else { return }
 
             if navBarButtons.count == 1 {
-                strongSelf.setLetGoRightButtonWith(navBarButtons[0], disposeBag: strongSelf.disposeBag,
-                    buttonTintColor: UIColor.white)
+                switch navBarButtons[0].interface {
+                case .TextImage:
+                    strongSelf.createShareButton(navBarButtons[0])
+                default:
+                    strongSelf.setLetGoRightButtonWith(navBarButtons[0], disposeBag: strongSelf.disposeBag,
+                        buttonTintColor: UIColor.white)
+                }
             } else if navBarButtons.count > 1 {
                 var buttons = [UIButton]()
                 navBarButtons.forEach { navBarButton in
@@ -562,7 +567,30 @@ extension ProductCarouselViewController {
             }
         }.addDisposableTo(activeDisposeBag)
     }
-
+    
+    private func createShareButton(action: UIAction) {
+        let shareButton = UIButton(type: .System)
+        let spacing: CGFloat = 5
+        shareButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: spacing, bottom: 0, right: -spacing)
+        shareButton.contentEdgeInsets = UIEdgeInsets(top: spacing, left: spacing, bottom: spacing, right: 2*spacing)
+        shareButton.setTitle(action.text, forState: .Normal)
+        shareButton.setTitleColor(UIColor.white, forState: .Normal)
+        shareButton.titleLabel?.font = UIFont.smallBodyFont
+        if let imageIcon = action.image {
+            shareButton.setImage(imageIcon.imageWithRenderingMode(.AlwaysTemplate), forState: .Normal)
+        }
+        shareButton.sizeToFit()
+        shareButton.layer.cornerRadius = shareButton.height/2
+        shareButton.layer.backgroundColor = UIColor.blackTextLowAlpha.CGColor
+        let rightItem = UIBarButtonItem.init(customView: shareButton)
+        rightItem.style = .Plain
+        shareButton.rx_tap.bindNext{
+            action.action()
+            }.addDisposableTo(disposeBag)
+        navigationItem.rightBarButtonItems = nil
+        navigationItem.rightBarButtonItem = rightItem
+    }
+    
     private func setupRxProductUpdate(viewModel: ProductViewModel) {
         viewModel.product.asObservable().bindNext { [weak self] _ in
             guard let strongSelf = self else { return }
