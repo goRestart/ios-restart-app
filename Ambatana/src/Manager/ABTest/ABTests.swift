@@ -25,7 +25,8 @@ public struct ABTests {
 
     static private var allVariables: [ABVariable] {
         return [showNPSSurvey, nonStopProductDetail, messageOnFavorite, interestedUsersMode, filtersReorder,
-                freePostingMode, directPostInOnboarding, notificationCenterEnabled, persicopeChat]
+                freePostingMode, directPostInOnboarding, productDetailShareMode, notificationCenterEnabled, persicopeChat]
+
     }
 
     static func registerVariables() {
