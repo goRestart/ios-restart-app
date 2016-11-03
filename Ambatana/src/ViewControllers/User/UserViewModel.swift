@@ -619,6 +619,7 @@ extension UserViewModel: SocialSharerDelegate {
     }
 
     func shareFinishedIn(shareType: ShareType, withState state: SocialShareState) {
+        guard state == .Completed else { return }
         trackShareComplete(shareType.trackingShareNetwork)
     }
 }
