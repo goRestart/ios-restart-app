@@ -225,6 +225,12 @@
 		506846471CD390CA00FA00C2 /* AppNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506846461CD390CA00FA00C2 /* AppNavigator.swift */; };
 		506846481CD390CA00FA00C2 /* AppNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506846461CD390CA00FA00C2 /* AppNavigator.swift */; };
 		506DC19C1BBE7D8A00E59D27 /* levelup.caf in Resources */ = {isa = PBXBuildFile; fileRef = 506DC19B1BBE7D8A00E59D27 /* levelup.caf */; };
+		506DE2D51DCB6C9800006A91 /* ChatHeadGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506DE2D41DCB6C9800006A91 /* ChatHeadGroupView.swift */; };
+		506DE2D61DCB6C9800006A91 /* ChatHeadGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506DE2D41DCB6C9800006A91 /* ChatHeadGroupView.swift */; };
+		506DE2D81DCB6CA200006A91 /* ChatHeadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506DE2D71DCB6CA200006A91 /* ChatHeadView.swift */; };
+		506DE2D91DCB6CA200006A91 /* ChatHeadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506DE2D71DCB6CA200006A91 /* ChatHeadView.swift */; };
+		506DE2DB1DCB6DA800006A91 /* ChatHeadOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506DE2DA1DCB6DA800006A91 /* ChatHeadOverlayView.swift */; };
+		506DE2DC1DCB6DA800006A91 /* ChatHeadOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506DE2DA1DCB6DA800006A91 /* ChatHeadOverlayView.swift */; };
 		5076228A1CD0EB1D004E5D0D /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507622861CD0EB1D004E5D0D /* AppCoordinator.swift */; };
 		5076228B1CD0EB1D004E5D0D /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507622861CD0EB1D004E5D0D /* AppCoordinator.swift */; };
 		5076228C1CD0EB1D004E5D0D /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507622871CD0EB1D004E5D0D /* Coordinator.swift */; };
@@ -1246,6 +1252,9 @@
 		5067BAAF1C08C3B0007DA73B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		506846461CD390CA00FA00C2 /* AppNavigator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppNavigator.swift; sourceTree = "<group>"; };
 		506DC19B1BBE7D8A00E59D27 /* levelup.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = levelup.caf; sourceTree = "<group>"; };
+		506DE2D41DCB6C9800006A91 /* ChatHeadGroupView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatHeadGroupView.swift; sourceTree = "<group>"; };
+		506DE2D71DCB6CA200006A91 /* ChatHeadView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatHeadView.swift; sourceTree = "<group>"; };
+		506DE2DA1DCB6DA800006A91 /* ChatHeadOverlayView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatHeadOverlayView.swift; sourceTree = "<group>"; };
 		50731FDE1DB6236C00EDE04B /* fr-CA */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "fr-CA"; path = "fr-CA.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		50731FDF1DB6236C00EDE04B /* fr-CA */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "fr-CA"; path = "fr-CA.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		507622861CD0EB1D004E5D0D /* AppCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
@@ -2187,6 +2196,16 @@
 				506DC19B1BBE7D8A00E59D27 /* levelup.caf */,
 			);
 			path = sound;
+			sourceTree = "<group>";
+		};
+		506DE2D31DCB5CB300006A91 /* ChatHeads */ = {
+			isa = PBXGroup;
+			children = (
+				506DE2D41DCB6C9800006A91 /* ChatHeadGroupView.swift */,
+				506DE2D71DCB6CA200006A91 /* ChatHeadView.swift */,
+				506DE2DA1DCB6DA800006A91 /* ChatHeadOverlayView.swift */,
+			);
+			path = ChatHeads;
 			sourceTree = "<group>";
 		};
 		507622851CD0EB1D004E5D0D /* Coordinator */ = {
@@ -3247,6 +3266,7 @@
 		D458383C1AEE6A9100B5F181 /* ui */ = {
 			isa = PBXGroup;
 			children = (
+				506DE2D31DCB5CB300006A91 /* ChatHeads */,
 				2E00C4DE1D00364C00B95010 /* LGAlertViewController */,
 				6A4E805C1C7761A500C6423E /* CustomAvatars */,
 				2ECEAD0F1B9E0DB300C8B40C /* App Rating */,
@@ -4394,6 +4414,7 @@
 				C75018481D10681B007D4CE4 /* ChatOtherInfoCell.swift in Sources */,
 				502191101B2F1DC100ABD31F /* RememberPasswordViewModel.swift in Sources */,
 				6A5E1A0E1D548F5400F92692 /* UILabel+Rx.swift in Sources */,
+				506DE2D51DCB6C9800006A91 /* ChatHeadGroupView.swift in Sources */,
 				50C59BDB1CE0DB6400377124 /* NSUserDefaults+KeyValueStorage.swift in Sources */,
 				C783D9811C64BBA1000EE5CA /* ReportUsersViewModel.swift in Sources */,
 				C77593F11BF0E48D0097D62F /* FilterHeaderCell.swift in Sources */,
@@ -4412,6 +4433,7 @@
 				C7732F6A1D87FA3400EAD5B7 /* TourPostingViewController.swift in Sources */,
 				2E06EAED1D7051BA00A40704 /* FilterPriceCell.swift in Sources */,
 				6A12E04F1C635FF900C1BFE3 /* TourLoginViewModel.swift in Sources */,
+				506DE2DB1DCB6DA800006A91 /* ChatHeadOverlayView.swift in Sources */,
 				C77B7DBA1DBF9D150043C624 /* PushPermissionsHeader.swift in Sources */,
 				C727FBD11CD10E77002BC643 /* NotificationCell.swift in Sources */,
 				C7DE8ACB1C888761005CF37E /* EditProductViewModel.swift in Sources */,
@@ -4419,6 +4441,7 @@
 				6A5E19E81D548F5400F92692 /* Int+LG.swift in Sources */,
 				6A5E19F61D548F5400F92692 /* DeviceFamily.swift in Sources */,
 				C73189C91DBE3847005A93EE /* ListHeaderContainer.swift in Sources */,
+				506DE2D81DCB6CA200006A91 /* ChatHeadView.swift in Sources */,
 				6A383F851CB29B3E00F99D79 /* CreateCommercialViewModel.swift in Sources */,
 				C72794401D549342009C25AB /* ChangeUsernameViewModel.swift in Sources */,
 				5042D6771BDA8B6F00E54064 /* LGLocalizedString.swift in Sources */,
@@ -4776,6 +4799,7 @@
 				6A5E1A0F1D548F5400F92692 /* UILabel+Rx.swift in Sources */,
 				C7DB421B1C5138B500400945 /* FilterHeaderCell.swift in Sources */,
 				50C59BDC1CE0DB6400377124 /* NSUserDefaults+KeyValueStorage.swift in Sources */,
+				506DE2D61DCB6C9800006A91 /* ChatHeadGroupView.swift in Sources */,
 				C783D9821C64BBA1000EE5CA /* ReportUsersViewModel.swift in Sources */,
 				2E9716AA1D5A284F009B3A32 /* ExpressChatViewController.swift in Sources */,
 				C7DB421C1C5138B500400945 /* FiltersViewController.swift in Sources */,
@@ -4794,6 +4818,7 @@
 				2E06EAEF1D70595900A40704 /* FilterPriceCell.swift in Sources */,
 				2E3047EC1CA4083B0099C0BC /* CommercialDisplayViewController.swift in Sources */,
 				C7B588581CE1DE1C009B3975 /* DirectAnswersPresenter.swift in Sources */,
+				506DE2DC1DCB6DA800006A91 /* ChatHeadOverlayView.swift in Sources */,
 				C77B7DBB1DBF9D150043C624 /* PushPermissionsHeader.swift in Sources */,
 				6A12E0501C635FF900C1BFE3 /* TourLoginViewModel.swift in Sources */,
 				503996D91C60C3F0004D2E09 /* LGViewPagerTabItem.swift in Sources */,
@@ -4801,6 +4826,7 @@
 				6A5E19E91D548F5400F92692 /* Int+LG.swift in Sources */,
 				6A5E19F71D548F5400F92692 /* DeviceFamily.swift in Sources */,
 				C77B7DB31DBE3C290043C624 /* ListHeaderContainer.swift in Sources */,
+				506DE2D91DCB6CA200006A91 /* ChatHeadView.swift in Sources */,
 				C7DE8ACC1C888761005CF37E /* EditProductViewModel.swift in Sources */,
 				C72794411D549342009C25AB /* ChangeUsernameViewModel.swift in Sources */,
 				C7DB42201C5138B500400945 /* BaseViewModel.swift in Sources */,
