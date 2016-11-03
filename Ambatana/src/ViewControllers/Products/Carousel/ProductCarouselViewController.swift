@@ -34,6 +34,8 @@ protocol AnimatableTransition {
 class ProductCarouselViewController: BaseViewController, AnimatableTransition {
 
     static let interestedBubbleHeight: CGFloat = 50
+    static let shareButtonVerticalSpacing: CGFloat = 5
+    static let shareButtonHorizontalSpacing: CGFloat = 4
 
     @IBOutlet weak var imageBackground: UIImageView!
     @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
@@ -550,7 +552,7 @@ extension ProductCarouselViewController {
                 case .TextImage:
                     strongSelf.setNavigationBarRightButtonSharing(navBarButtons[0])
                 default:
-                    strongSelf.setLetGoRightButtonWith(navBarButtons[0], disposeBag: strongSelf.disposeBag,
+                    strongSelf.setLetGoRightButtonWith(navBarButtons[0], disposeBag: strongSelf.activeDisposeBag,
                         buttonTintColor: UIColor.white)
                 }
             } else if navBarButtons.count > 1 {
@@ -560,7 +562,7 @@ extension ProductCarouselViewController {
                     button.setImage(navBarButton.image, forState: .Normal)
                     button.rx_tap.bindNext { _ in
                         navBarButton.action()
-                        }.addDisposableTo(strongSelf.disposeBag)
+                        }.addDisposableTo(strongSelf.activeDisposeBag)
                     buttons.append(button)
                 }
                 strongSelf.setNavigationBarRightButtons(buttons)
@@ -570,10 +572,8 @@ extension ProductCarouselViewController {
     
     private func setNavigationBarRightButtonSharing(action: UIAction) {
         let shareButton = UIButton(type: .System)
-        let verticalSpacing: CGFloat = 5
-        let horizontalSpacing: CGFloat = 4
-        shareButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: horizontalSpacing, bottom: 0, right: -horizontalSpacing)
-        shareButton.contentEdgeInsets = UIEdgeInsets(top: verticalSpacing, left: 2*horizontalSpacing, bottom: verticalSpacing, right: 3*horizontalSpacing)
+        shareButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: ProductCarouselViewController.shareButtonHorizontalSpacing, bottom: 0, right: -ProductCarouselViewController.shareButtonHorizontalSpacing)
+        shareButton.contentEdgeInsets = UIEdgeInsets(top: ProductCarouselViewController.shareButtonVerticalSpacing, left: 2*ProductCarouselViewController.shareButtonHorizontalSpacing, bottom: ProductCarouselViewController.shareButtonVerticalSpacing, right: 3*ProductCarouselViewController.shareButtonHorizontalSpacing)
         shareButton.setTitle(action.text, forState: .Normal)
         shareButton.setTitleColor(UIColor.white, forState: .Normal)
         shareButton.titleLabel?.font = UIFont.systemSemiBoldFont(size: 17)
@@ -588,7 +588,7 @@ extension ProductCarouselViewController {
         rightItem.style = .Plain
         shareButton.rx_tap.bindNext{
             action.action()
-            }.addDisposableTo(disposeBag)
+            }.addDisposableTo(activeDisposeBag)
         navigationItem.rightBarButtonItems = nil
         navigationItem.rightBarButtonItem = rightItem
     }
