@@ -572,8 +572,14 @@ extension ProductCarouselViewController {
     
     private func setNavigationBarRightButtonSharing(action: UIAction) {
         let shareButton = UIButton(type: .System)
-        shareButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: ProductCarouselViewController.shareButtonHorizontalSpacing, bottom: 0, right: -ProductCarouselViewController.shareButtonHorizontalSpacing)
-        shareButton.contentEdgeInsets = UIEdgeInsets(top: ProductCarouselViewController.shareButtonVerticalSpacing, left: 2*ProductCarouselViewController.shareButtonHorizontalSpacing, bottom: ProductCarouselViewController.shareButtonVerticalSpacing, right: 3*ProductCarouselViewController.shareButtonHorizontalSpacing)
+        shareButton.titleEdgeInsets = UIEdgeInsets(top: 0,
+                                                   left: ProductCarouselViewController.shareButtonHorizontalSpacing,
+                                                   bottom: 0,
+                                                   right: -ProductCarouselViewController.shareButtonHorizontalSpacing)
+        shareButton.contentEdgeInsets = UIEdgeInsets(top: ProductCarouselViewController.shareButtonVerticalSpacing,
+                                                     left: 2*ProductCarouselViewController.shareButtonHorizontalSpacing,
+                                                     bottom: ProductCarouselViewController.shareButtonVerticalSpacing,
+                                                     right: 3*ProductCarouselViewController.shareButtonHorizontalSpacing)
         shareButton.setTitle(action.text, forState: .Normal)
         shareButton.setTitleColor(UIColor.white, forState: .Normal)
         shareButton.titleLabel?.font = UIFont.systemSemiBoldFont(size: 17)
