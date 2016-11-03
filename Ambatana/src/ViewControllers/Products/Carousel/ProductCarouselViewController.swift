@@ -16,8 +16,6 @@ enum ProductDetailButtonType {
     case SellItAgainFree
     case CreateCommercial
     case ChatWithSeller
-    case ContinueChatting
-    case Cancel
 }
 
 enum MoreInfoState {
@@ -419,53 +417,6 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
             self?.finishedTransition()
         }.addDisposableTo(disposeBag)
     }
-    
-    private func configureButton(button: UIButton, type: ProductDetailButtonType, viewModel: ProductViewModel) {
-        button.hidden = false
-        var action: (() -> ())?
-        switch type {
-        case .MarkAsSold:
-            button.setTitle(LGLocalizedString.productMarkAsSoldButton, forState: .Normal)
-            button.setStyle(.Terciary)
-            action = viewModel.markSold
-        case .MarkAsSoldFree:
-            button.setTitle(LGLocalizedString.productMarkAsSoldFreeButton, forState: .Normal)
-            button.setStyle(.Terciary)
-            action = viewModel.markSoldFree
-        case .SellItAgainFree:
-            button.setTitle(LGLocalizedString.productSellAgainFreeButton, forState: .Normal)
-            button.setStyle(.Secondary(fontSize: .Big, withBorder: false))
-            action = viewModel.resellFree
-        case .SellItAgain:
-            button.setTitle(LGLocalizedString.productSellAgainButton, forState: .Normal)
-            button.setStyle(.Secondary(fontSize: .Big, withBorder: false))
-            action = viewModel.resell
-        case .CreateCommercial:
-            button.setTitle(LGLocalizedString.productCreateCommercialButton, forState: .Normal)
-            button.setStyle(.Primary(fontSize: .Big))
-            action = viewModel.promoteProduct
-        case .ChatWithSeller:
-            let userName: String = viewModel.product.value.user.name?
-                .toNameReduced(maxChars: Constants.maxCharactersOnUserNameChatButton) ?? ""
-            let string = LGLocalizedString.productChatWithSellerNameButton(userName)
-            button.setTitle(string, forState: .Normal)
-            button.setStyle(.Primary(fontSize: .Big))
-            action =  { [weak self] in
-                let source: EventParameterTypePage = (self?.moreInfoState.value == .Shown) ? .ProductDetailMoreInfo : .ProductDetail
-                viewModel.chatWithSeller(source)
-            }
-        case .ContinueChatting:
-            button.setTitle(LGLocalizedString.productContinueChattingButton, forState: .Normal)
-            button.setStyle(.Secondary(fontSize: .Big, withBorder: false))
-        case .Cancel:
-            button.setTitle(LGLocalizedString.commonCancel, forState: .Normal)
-            button.setStyle(.Secondary(fontSize: .Big, withBorder: false))
-        }
-        
-        button.rx_tap.takeUntil(viewModel.status.asObservable().skip(1)).bindNext {
-            action?()
-        }.addDisposableTo(activeDisposeBag)
-    }
 }
 
 
@@ -591,37 +542,33 @@ extension ProductCarouselViewController {
         let userViewMarginWithoutButtons = itemsMargin
         
         guard buttonBottom.frame.origin.y > 0 else { return }
-        
-        viewModel.status.asObservable().subscribeNext { [weak self] status in
-            
-            guard let strongSelf = self else { return }
-            
-            strongSelf.buttonTop.hidden = true
-            strongSelf.buttonBottom.hidden = true
-            strongSelf.userViewBottomMargin = -(userViewMarginAboveBottomButton)
-            strongSelf.userViewRightMargin = -strongSelf.itemsMargin
+        viewModel.actionButtons.asObservable().bindNext { [weak self, weak viewModel] actionButtons in
+            guard let strongSelf = self, let viewModel = viewModel else { return }
 
-            switch status {
-            case .Pending, .NotAvailable, .OtherSold, .OtherSoldFree:
+            strongSelf.buttonTop.hidden = actionButtons.count < 2
+            strongSelf.buttonBottom.hidden = actionButtons.isEmpty
+            strongSelf.userViewRightMargin = actionButtons.isEmpty ?
+                -(strongSelf.itemsMargin + strongSelf.editButton.width) : strongSelf.itemsMargin
+
+            guard !actionButtons.isEmpty else {
                 strongSelf.userViewBottomMargin = -userViewMarginWithoutButtons
-                strongSelf.userViewRightMargin = strongSelf.userViewRightMargin - strongSelf.editButton.width
-            case .PendingAndCommercializable:
-                strongSelf.configureButton(strongSelf.buttonBottom, type: .CreateCommercial, viewModel: viewModel)
-            case .Available:
-                strongSelf.configureButton(strongSelf.buttonBottom, type: .MarkAsSold, viewModel: viewModel)
-            case .AvailableAndCommercializable:
-                strongSelf.configureButton(strongSelf.buttonBottom, type: .MarkAsSold, viewModel: viewModel)
-                strongSelf.configureButton(strongSelf.buttonTop, type: .CreateCommercial, viewModel: viewModel)
-                strongSelf.userViewBottomMargin = -(userViewMarginAboveTopButton)
-            case .Sold:
-                strongSelf.configureButton(strongSelf.buttonBottom, type: .SellItAgain, viewModel: viewModel)
-            case .OtherAvailable, .OtherAvailableFree:
-                strongSelf.configureButton(strongSelf.buttonBottom, type: .ChatWithSeller, viewModel: viewModel)
-            case .AvailableFree:
-                strongSelf.configureButton(strongSelf.buttonBottom, type: .MarkAsSoldFree , viewModel: viewModel)
-            case .SoldFree:
-                strongSelf.configureButton(strongSelf.buttonBottom, type: .SellItAgainFree, viewModel: viewModel)
+                return
             }
+
+            strongSelf.userViewBottomMargin = actionButtons.count == 1 ? -userViewMarginAboveBottomButton : -userViewMarginAboveTopButton
+            let takeUntilAction = viewModel.actionButtons.asObservable().skip(1)
+            guard let bottomAction = actionButtons.first else { return }
+            strongSelf.buttonBottom.configureWith(uiAction: bottomAction)
+            strongSelf.buttonBottom.rx_tap.takeUntil(takeUntilAction).bindNext {
+                bottomAction.action()
+            }.addDisposableTo(strongSelf.activeDisposeBag)
+
+            guard let topAction = actionButtons.last where actionButtons.count > 1 else { return }
+            strongSelf.buttonTop.configureWith(uiAction: topAction)
+            strongSelf.buttonTop.rx_tap.takeUntil(takeUntilAction).bindNext {
+                topAction.action()
+            }.addDisposableTo(strongSelf.activeDisposeBag)
+
         }.addDisposableTo(activeDisposeBag)
 
         viewModel.editButtonState.asObservable().bindTo(editButton.rx_state).addDisposableTo(disposeBag)

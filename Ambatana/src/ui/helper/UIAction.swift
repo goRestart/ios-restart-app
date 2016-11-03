@@ -37,7 +37,7 @@ enum UIActionInterface {
     case StyledText(String, UIActionInterfaceStyle)
     case Image(UIImage?)
     case TextImage(String, UIImage?)
-    case Button(String, UIActionInterfaceStyle)
+    case Button(String, ButtonStyle)
 }
 
 struct UIAction {
@@ -81,10 +81,12 @@ struct UIAction {
 
     var buttonStyle: ButtonStyle? {
         switch interface {
-        case .Text, .Image, .TextImage, .StyledText:
+        case .Text, .Image, .TextImage:
             return nil
+        case let .StyledText(_, interfaceStyle):
+            return interfaceStyle.buttonStyle
         case let .Button(_, style):
-            return style.buttonStyle
+            return style
         }
     }
 

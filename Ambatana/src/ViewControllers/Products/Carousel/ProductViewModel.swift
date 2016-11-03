@@ -72,6 +72,7 @@ class ProductViewModel: BaseViewModel {
     let directChatMessages = CollectionVariable<ChatViewMessage>([])
 
     let navBarButtons = Variable<[UIAction]>([])
+    let actionButtons = Variable<[UIAction]>([])
     private let productIsFavoriteable = Variable<Bool>(false)
     let favoriteButtonState = Variable<ButtonState>(.Enabled)
     let editButtonState = Variable<ButtonState>(.Hidden)
@@ -271,6 +272,7 @@ class ProductViewModel: BaseViewModel {
 
         status.asObservable().bindNext { [weak self] status in
             self?.refreshDirectChats(status)
+            self?.refreshActionButtons(status)
         }.addDisposableTo(disposeBag)
 
         isFavorite.asObservable().subscribeNext { [weak self] _ in
@@ -434,10 +436,15 @@ extension ProductViewModel {
             
             }, source: .MarkAsUnsold)         
     }
+
+    func chatWithSeller() {
+        let source: EventParameterTypePage = (moreInfoState.value == .Shown) ? .ProductDetailMoreInfo : .ProductDetail
+        chatWithSeller(source)
+    }
     
     func chatWithSeller(source: EventParameterTypePage) {
         trackHelper.trackChatWithSeller(source)
-        openChat()
+        navigator?.openProductChat(product.value)
     }
 
     func sendDirectMessage(message: String?) {
@@ -518,15 +525,6 @@ extension ProductViewModel {
 
 
 // MARK: - Private
-// MARK: - Chat button Actions
-
-extension ProductViewModel {
-    private func openChat() {
-        navigator?.openProductChat(product.value)
-    }
-}
-
-
 // MARK: - Commercializer
 
 extension ProductViewModel {
@@ -713,6 +711,50 @@ extension ProductViewModel {
 }
 
 
+// MARK: - Helper Action buttons
+
+extension ProductViewModel {
+
+    private func refreshActionButtons(status: ProductViewModelStatus) {
+        actionButtons.value = buildActionButtons(status)
+    }
+
+    private func buildActionButtons(status: ProductViewModelStatus) -> [UIAction] {
+        var actionButtons = [UIAction]()
+        switch status {
+        case .Pending, .NotAvailable, .OtherSold, .OtherSoldFree:
+            break
+        case .PendingAndCommercializable:
+            actionButtons.append(UIAction(interface: .Button(LGLocalizedString.productCreateCommercialButton, .Primary(fontSize: .Big)),
+                action: { [weak self] in self?.promoteProduct() }))
+        case .Available:
+            actionButtons.append(UIAction(interface: .Button(LGLocalizedString.productMarkAsSoldButton, .Terciary),
+                action: { [weak self] in self?.markSold() }))
+        case .AvailableAndCommercializable:
+            actionButtons.append(UIAction(interface: .Button(LGLocalizedString.productMarkAsSoldButton, .Terciary),
+                action: { [weak self] in self?.markSold() }))
+            actionButtons.append(UIAction(interface: .Button(LGLocalizedString.productCreateCommercialButton, .Primary(fontSize: .Big)),
+                action: { [weak self] in self?.promoteProduct() }))
+        case .Sold:
+            actionButtons.append(UIAction(interface: .Button(LGLocalizedString.productSellAgainButton, .Secondary(fontSize: .Big, withBorder: false)),
+                action: { [weak self] in self?.resell() }))
+        case .OtherAvailable, .OtherAvailableFree:
+            let userName: String = product.value.user.name?.toNameReduced(maxChars: Constants.maxCharactersOnUserNameChatButton) ?? ""
+            let buttonText = LGLocalizedString.productChatWithSellerNameButton(userName)
+            actionButtons.append(UIAction(interface: .Button(buttonText, .Primary(fontSize: .Big)),
+                action: { [weak self] in self?.chatWithSeller() }))
+        case .AvailableFree:
+            actionButtons.append(UIAction(interface: .Button(LGLocalizedString.productMarkAsSoldFreeButton, .Terciary),
+                action: { [weak self] in self?.markSoldFree() }))
+        case .SoldFree:
+            actionButtons.append(UIAction(interface: .Button(LGLocalizedString.productSellAgainFreeButton, .Secondary(fontSize: .Big, withBorder: false)),
+                action: { [weak self] in self?.resellFree() }))
+        }
+        return actionButtons
+    }
+}
+
+
 // MARK: - Private actions
 
 extension ProductViewModel {
@@ -877,6 +919,64 @@ extension ProductViewModel {
 }
 
 
+// MARK: - Interested Bubble logic
+
+extension ProductViewModel {
+    func showInterestedBubbleForProduct(id: String) {
+        interestedBubbleManager.showInterestedBubbleForProduct(id)
+    }
+
+    func shouldShowInterestedBubbleForProduct(id: String, fromFavoriteAction: Bool, forFirstProduct isFirstProduct: Bool) -> Bool {
+        return interestedBubbleManager.shouldShowInterestedBubbleForProduct(id, fromFavoriteAction: fromFavoriteAction, forFirstProduct: isFirstProduct) && !favoriteMessageBubbleShown && active
+    }
+}
+
+
+// MARK: - Direct stickers on favorite
+
+private extension ProductViewModel {
+
+    static let favouriteStickerName = ":love_it:"
+
+    private func checkSendFavoriteSticker() {
+        guard !favoriteMessageSent else { return }
+
+        switch FeatureFlags.messageOnFavorite {
+        case .NoMessage:
+            return
+        case .NotificationPreMessage:
+            guard !favoriteMessageBubbleShown else { return }
+            favoriteMessageBubbleShown = true
+            let data = BubbleNotificationData(text: LGLocalizedString.productBubbleFavoriteText,
+                                              action: buildNotificationButtonAction())
+            bubbleManager.showBubble(data, duration: 3)
+        case .DirectMessage:
+            sendFavoriteSticker()
+        }
+    }
+
+    private func sendFavoriteSticker() {
+        stickersRepository.show(typeFilter: .Chat) { [weak self] result in
+            guard let stickers = result.value else { return }
+            for sticker in stickers {
+                if sticker.name == ProductViewModel.favouriteStickerName {
+                    self?.favoriteMessageSent = true
+                    self?.sendStickerToSeller(sticker, favorite: true)
+                    break
+                }
+            }
+        }
+    }
+
+    private func buildNotificationButtonAction() -> UIAction {
+        return UIAction(interface: .Text(LGLocalizedString.productBubbleFavoriteButton), action: { [weak self] in
+            self?.sendFavoriteSticker()
+            }, accessibilityId: .ProductCarouselFavoriteMessageNotificationButton)
+    }
+}
+
+
+
 // MARK : - Product
 
 extension Product {
@@ -919,17 +1019,8 @@ extension Product {
     }
 }
 
-// MARK: - Interested Bubble logic
 
-extension ProductViewModel {
-    func showInterestedBubbleForProduct(id: String) {
-        interestedBubbleManager.showInterestedBubbleForProduct(id)
-    }
-
-    func shouldShowInterestedBubbleForProduct(id: String, fromFavoriteAction: Bool, forFirstProduct isFirstProduct: Bool) -> Bool {
-        return interestedBubbleManager.shouldShowInterestedBubbleForProduct(id, fromFavoriteAction: fromFavoriteAction, forFirstProduct: isFirstProduct) && !favoriteMessageBubbleShown && active
-    }
-}
+// MARK: - ProductViewModelStatus Helper extension
 
 private extension ProductViewModelStatus {
 
@@ -995,48 +1086,5 @@ private extension ProductViewModelStatus {
         case .Sold, .OtherSold, .NotAvailable, .OtherAvailable, .OtherSoldFree, .OtherAvailableFree, .SoldFree, .AvailableFree:
             return self
         }
-    }
-}
-
-
-private extension ProductViewModel {
-
-    static let favouriteStickerName = ":love_it:"
-
-    private func checkSendFavoriteSticker() {
-        guard !favoriteMessageSent else { return }
-
-        switch FeatureFlags.messageOnFavorite {
-        case .NoMessage:
-            return
-        case .NotificationPreMessage:
-            guard !favoriteMessageBubbleShown else { return }
-            favoriteMessageBubbleShown = true
-            let data = BubbleNotificationData(text: LGLocalizedString.productBubbleFavoriteText,
-                                              action: buildNotificationButtonAction())
-            bubbleManager.showBubble(data, duration: 3)
-        case .DirectMessage:
-            sendFavoriteSticker()
-        }
-    }
-
-    private func sendFavoriteSticker() {
-        stickersRepository.show(typeFilter: .Chat) { [weak self] result in
-            guard let stickers = result.value else { return }
-            for sticker in stickers {
-                if sticker.name == ProductViewModel.favouriteStickerName {
-                    self?.favoriteMessageSent = true
-                    self?.sendStickerToSeller(sticker, favorite: true)
-                    break
-                }
-            }
-        }
-    }
-
-    private func buildNotificationButtonAction() -> UIAction {
-        
-        return UIAction(interface: .Button(LGLocalizedString.productBubbleFavoriteButton, .Cancel), action: { [weak self] in
-            self?.sendFavoriteSticker()
-        }, accessibilityId: .ProductCarouselFavoriteMessageNotificationButton)
     }
 }

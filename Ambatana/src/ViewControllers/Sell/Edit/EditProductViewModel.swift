@@ -431,7 +431,7 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
 
         if shouldAskForPermission {
             // not enabled
-            let okAction = UIAction(interface: UIActionInterface.Button(LGLocalizedString.commonOk,
+            let okAction = UIAction(interface: UIActionInterface.StyledText(LGLocalizedString.commonOk,
                 .Default), action: permissionsActionBlock)
             let alertIcon = UIImage(named: "ic_location_alert")
             delegate?.vmShowAlertWithTitle(LGLocalizedString.editProductLocationAlertTitle,
