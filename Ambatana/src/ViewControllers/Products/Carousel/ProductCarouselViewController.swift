@@ -34,6 +34,8 @@ protocol AnimatableTransition {
 class ProductCarouselViewController: BaseViewController, AnimatableTransition {
 
     static let interestedBubbleHeight: CGFloat = 50
+    static let shareButtonVerticalSpacing: CGFloat = 5
+    static let shareButtonHorizontalSpacing: CGFloat = 4
 
     @IBOutlet weak var imageBackground: UIImageView!
     @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
@@ -625,8 +627,13 @@ extension ProductCarouselViewController {
             guard let strongSelf = self else { return }
 
             if navBarButtons.count == 1 {
-                strongSelf.setLetGoRightButtonWith(navBarButtons[0], disposeBag: strongSelf.disposeBag,
-                    buttonTintColor: UIColor.white)
+                switch navBarButtons[0].interface {
+                case .TextImage:
+                    strongSelf.setNavigationBarRightButtonSharing(navBarButtons[0])
+                default:
+                    strongSelf.setLetGoRightButtonWith(navBarButtons[0], disposeBag: strongSelf.activeDisposeBag,
+                        buttonTintColor: UIColor.white)
+                }
             } else if navBarButtons.count > 1 {
                 var buttons = [UIButton]()
                 navBarButtons.forEach { navBarButton in
@@ -634,14 +641,43 @@ extension ProductCarouselViewController {
                     button.setImage(navBarButton.image, forState: .Normal)
                     button.rx_tap.bindNext { _ in
                         navBarButton.action()
-                        }.addDisposableTo(strongSelf.disposeBag)
+                        }.addDisposableTo(strongSelf.activeDisposeBag)
                     buttons.append(button)
                 }
                 strongSelf.setNavigationBarRightButtons(buttons)
             }
         }.addDisposableTo(activeDisposeBag)
     }
-
+    
+    private func setNavigationBarRightButtonSharing(action: UIAction) {
+        let shareButton = UIButton(type: .System)
+        shareButton.titleEdgeInsets = UIEdgeInsets(top: 0,
+                                                   left: ProductCarouselViewController.shareButtonHorizontalSpacing,
+                                                   bottom: 0,
+                                                   right: -ProductCarouselViewController.shareButtonHorizontalSpacing)
+        shareButton.contentEdgeInsets = UIEdgeInsets(top: ProductCarouselViewController.shareButtonVerticalSpacing,
+                                                     left: 2*ProductCarouselViewController.shareButtonHorizontalSpacing,
+                                                     bottom: ProductCarouselViewController.shareButtonVerticalSpacing,
+                                                     right: 3*ProductCarouselViewController.shareButtonHorizontalSpacing)
+        shareButton.setTitle(action.text, forState: .Normal)
+        shareButton.setTitleColor(UIColor.white, forState: .Normal)
+        shareButton.titleLabel?.font = UIFont.systemSemiBoldFont(size: 17)
+        if let imageIcon = action.image {
+            shareButton.setImage(imageIcon.imageWithRenderingMode(.AlwaysTemplate), forState: .Normal)
+        }
+        shareButton.tintColor = UIColor.white
+        shareButton.sizeToFit()
+        shareButton.layer.cornerRadius = shareButton.height/2
+        shareButton.layer.backgroundColor = UIColor.blackTextLowAlpha.CGColor
+        let rightItem = UIBarButtonItem.init(customView: shareButton)
+        rightItem.style = .Plain
+        shareButton.rx_tap.bindNext{
+            action.action()
+            }.addDisposableTo(activeDisposeBag)
+        navigationItem.rightBarButtonItems = nil
+        navigationItem.rightBarButtonItem = rightItem
+    }
+    
     private func setupRxProductUpdate(viewModel: ProductViewModel) {
         viewModel.product.asObservable().bindNext { [weak self] _ in
             guard let strongSelf = self else { return }
@@ -872,6 +908,7 @@ extension ProductCarouselViewController: ProductCarouselCellDelegate {
             moreInfoView.frame.origin.y = moreInfoView.frame.origin.y-offset
         } else {
             moreInfoState.value = .Hidden
+            moreInfoView.frame.origin.y = -view.frame.height
         }
 
         let bottomOverScroll = max(offset-bottomLimit, 0)
