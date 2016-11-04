@@ -241,7 +241,7 @@ private extension PostProductViewModel {
 extension PostingSource {
     var typePage: EventParameterTypePage {
         switch self {
-        case .TabBar, .SellButton, .GiveAwayButton:  // TODO: Update tracking for give away
+        case .TabBar, .SellButton, .GiveAwayButton:
             return .Sell
         case .DeepLink:
             return .External
@@ -252,7 +252,7 @@ extension PostingSource {
 
     var buttonName: EventParameterButtonNameType? {
         switch self {
-        case .TabBar, .SellButton, .GiveAwayButton, .DeepLink: // TODO: Update tracking for give away
+        case .TabBar, .SellButton, .GiveAwayButton, .DeepLink:
             return nil
         case .OnboardingButton:
             return .SellYourStuff
