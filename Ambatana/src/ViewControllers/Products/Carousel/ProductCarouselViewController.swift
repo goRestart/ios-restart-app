@@ -37,9 +37,12 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var buttonBottom: UIButton!
+    @IBOutlet weak var buttonBottomHeight: NSLayoutConstraint!
     @IBOutlet weak var buttonBottomBottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var buttonBottomTrailingConstraint: NSLayoutConstraint!
     @IBOutlet weak var buttonTop: UIButton!
+    @IBOutlet weak var buttonTopHeight: NSLayoutConstraint!
+    @IBOutlet weak var buttonTopBottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var gradientShadowView: UIView!
     @IBOutlet weak var gradientShadowBottomView: UIView!
     @IBOutlet weak var favoriteButton: UIButton!
@@ -65,11 +68,6 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     private let disposeBag: DisposeBag = DisposeBag()
     private var currentIndex = 0
     private var userViewBottomConstraint: NSLayoutConstraint?
-    private var userViewBottomMargin: CGFloat = 0 {
-        didSet{
-            userViewBottomConstraint?.constant = userViewBottomMargin
-        }
-    }
     private var userViewRightConstraint: NSLayoutConstraint?
     private var userViewRightMargin: CGFloat = 0 {
         didSet{
@@ -227,7 +225,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         userView.delegate = self
         let leftMargin = NSLayoutConstraint(item: userView, attribute: .Leading, relatedBy: .Equal, toItem: view,
                                             attribute: .Leading, multiplier: 1, constant: itemsMargin)
-        let bottomMargin = NSLayoutConstraint(item: userView, attribute: .Bottom, relatedBy: .Equal, toItem: interestedBubbleContainer,
+        let bottomMargin = NSLayoutConstraint(item: userView, attribute: .Bottom, relatedBy: .Equal, toItem: buttonTop,
                                               attribute: .Top, multiplier: 1, constant: -itemsMargin)
         let rightMargin = NSLayoutConstraint(item: userView, attribute: .Trailing, relatedBy: .LessThanOrEqual,
                                              toItem: view, attribute: .Trailing, multiplier: 1,
@@ -615,26 +613,16 @@ extension ProductCarouselViewController {
     }
     
     private func refreshBottomButtons(viewModel: ProductViewModel) {
-        
-        let userViewMarginAboveBottomButton = itemsMargin + buttonBottom.height + itemsMargin
-        let userViewMarginAboveTopButton = userViewMarginAboveBottomButton + buttonTop.height + itemsMargin
-        let userViewMarginWithoutButtons = itemsMargin
-        
-        guard buttonBottom.frame.origin.y > 0 else { return }
         viewModel.actionButtons.asObservable().bindNext { [weak self, weak viewModel] actionButtons in
             guard let strongSelf = self, let viewModel = viewModel else { return }
 
-            strongSelf.buttonTop.hidden = actionButtons.count < 2
-            strongSelf.buttonBottom.hidden = actionButtons.isEmpty
-            strongSelf.userViewRightMargin = actionButtons.isEmpty ?
-                -(strongSelf.itemsMargin + strongSelf.editButton.width) : strongSelf.itemsMargin
+            strongSelf.buttonBottomHeight.constant = actionButtons.isEmpty ? 0 : 50
+            strongSelf.buttonTopBottomConstraint.constant = actionButtons.isEmpty ? 0 : strongSelf.itemsMargin
+            strongSelf.buttonTopHeight.constant = actionButtons.count < 2 ? 0 : 50
+            strongSelf.userViewBottomConstraint?.constant = actionButtons.count < 2 ? 0 : -strongSelf.itemsMargin
 
-            guard !actionButtons.isEmpty else {
-                strongSelf.userViewBottomMargin = -userViewMarginWithoutButtons
-                return
-            }
+            guard !actionButtons.isEmpty else { return }
 
-            strongSelf.userViewBottomMargin = actionButtons.count == 1 ? -userViewMarginAboveBottomButton : -userViewMarginAboveTopButton
             let takeUntilAction = viewModel.actionButtons.asObservable().skip(1)
             guard let bottomAction = actionButtons.first else { return }
             strongSelf.buttonBottom.configureWith(uiAction: bottomAction)
@@ -656,11 +644,20 @@ extension ProductCarouselViewController {
             viewModel?.editProduct()
         }.addDisposableTo(activeDisposeBag)
 
-        let editButtonEnabled = viewModel.editButtonState.asObservable().map { return $0 != .Hidden }
-        let bottomButtonCollapsed = Observable.combineLatest(viewModel.stickersButtonEnabled.asObservable(),
-                                    editButtonEnabled, resultSelector: { (stickers, edit) in return stickers || edit })
-        bottomButtonCollapsed.bindNext { [weak self] collapsed in
-            self?.buttonBottomTrailingConstraint.constant = (collapsed ? self?.buttonTrailingWithIcon : self?.itemsMargin) ?? 0
+        // When there's the edit/stickers button, the bottom button must adapt right margin to give space for it
+        let bottomRightButtonPresent = Observable.combineLatest(
+            viewModel.stickersButtonEnabled.asObservable(), viewModel.editButtonState.asObservable(),
+            resultSelector: { (stickers, edit) in return stickers || (edit != .Hidden) })
+        bottomRightButtonPresent.bindNext { [weak self] present in
+            self?.buttonBottomTrailingConstraint.constant = (present ? self?.buttonTrailingWithIcon : self?.itemsMargin) ?? 0
+        }.addDisposableTo(activeDisposeBag)
+
+        // When there's the edit/stickers button and there are no actionButtons, header is at bottom and must not overlap edit button
+        let userViewCollapsed = Observable.combineLatest(
+            bottomRightButtonPresent, viewModel.actionButtons.asObservable(),
+            resultSelector: { (buttonPresent, actionButtons) in return buttonPresent && actionButtons.isEmpty})
+        userViewCollapsed.bindNext { [weak self] collapsed in
+            self?.userViewRightMargin = (collapsed ? self?.buttonTrailingWithIcon : self?.itemsMargin) ?? 0
         }.addDisposableTo(activeDisposeBag)
     }
 
@@ -823,7 +820,6 @@ extension ProductCarouselViewController: ProductCarouselCellDelegate {
 
         let bottomOverScroll = max(offset-bottomLimit, 0)
         buttonBottomBottomConstraint.constant = itemsMargin + bottomOverScroll
-        userViewBottomConstraint?.constant = userViewBottomMargin - bottomOverScroll
     }
     
     func didEndDraggingCell() {

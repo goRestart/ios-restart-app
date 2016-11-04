@@ -12,8 +12,11 @@
             <connections>
                 <outlet property="buttonBottom" destination="ibM-CY-XRt" id="VOT-6P-Mmb"/>
                 <outlet property="buttonBottomBottomConstraint" destination="RFA-gI-HUy" id="8lO-ei-x1J"/>
+                <outlet property="buttonBottomHeight" destination="qTj-cW-IDe" id="4N1-Rl-PlK"/>
                 <outlet property="buttonBottomTrailingConstraint" destination="mUB-4Y-fBv" id="vgR-9d-PcT"/>
                 <outlet property="buttonTop" destination="Bn0-dg-QsD" id="A6s-ch-ER6"/>
+                <outlet property="buttonTopBottomConstraint" destination="hrM-0C-4HM" id="cqB-YP-aND"/>
+                <outlet property="buttonTopHeight" destination="dQK-Za-Zoq" id="4eR-dI-Sl8"/>
                 <outlet property="collectionView" destination="KRQ-9w-aXE" id="bJ1-9F-zMz"/>
                 <outlet property="directChatTable" destination="nEH-Ai-mnV" id="EK7-p6-rfs"/>
                 <outlet property="editButton" destination="375-7c-Uiw" id="x1Y-Dn-B6b"/>
@@ -101,7 +104,14 @@
                     </constraints>
                     <state key="normal" image="ic_favorite_big_off"/>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ibM-CY-XRt">
+                <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Bn0-dg-QsD">
+                    <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="50" id="dQK-Za-Zoq"/>
+                    </constraints>
+                    <state key="normal" title="Button TOP"/>
+                </button>
+                <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ibM-CY-XRt">
                     <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="50" id="qTj-cW-IDe"/>
@@ -120,13 +130,6 @@
                         <constraint firstAttribute="width" constant="50" id="hye-56-UqI"/>
                     </constraints>
                     <state key="normal" image="navbar_edit"/>
-                </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Bn0-dg-QsD">
-                    <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="50" id="dQK-Za-Zoq"/>
-                    </constraints>
-                    <state key="normal" title="Button TOP"/>
                 </button>
                 <tableView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="nEH-Ai-mnV" userLabel="directChatTable">
                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
@@ -150,12 +153,10 @@
                 <constraint firstAttribute="trailing" secondItem="375-7c-Uiw" secondAttribute="trailing" constant="15" id="Nbw-fp-NTT"/>
                 <constraint firstAttribute="trailing" secondItem="uPU-nT-EmU" secondAttribute="trailing" constant="15" id="Nmx-a2-PG1"/>
                 <constraint firstItem="PnK-9l-N8i" firstAttribute="height" secondItem="KRQ-9w-aXE" secondAttribute="height" multiplier="1:4" id="Oi9-HP-0Ex"/>
-                <constraint firstAttribute="trailing" secondItem="Bn0-dg-QsD" secondAttribute="trailing" constant="15" id="QNg-JR-SvF"/>
                 <constraint firstItem="a9q-ok-5NH" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="QVV-5q-SCh"/>
                 <constraint firstAttribute="trailing" secondItem="a9q-ok-5NH" secondAttribute="trailing" id="QcT-kq-k6o"/>
-                <constraint firstItem="G8H-Az-QBo" firstAttribute="top" secondItem="ibM-CY-XRt" secondAttribute="bottom" constant="16" id="RFA-gI-HUy"/>
-                <constraint firstItem="Bn0-dg-QsD" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="15" id="SjC-8f-ffg"/>
-                <constraint firstItem="ibM-CY-XRt" firstAttribute="top" secondItem="nEH-Ai-mnV" secondAttribute="bottom" constant="10" id="TVQ-LJ-Kbz"/>
+                <constraint firstItem="G8H-Az-QBo" firstAttribute="top" secondItem="ibM-CY-XRt" secondAttribute="bottom" constant="15" id="RFA-gI-HUy"/>
+                <constraint firstItem="Bn0-dg-QsD" firstAttribute="leading" secondItem="ibM-CY-XRt" secondAttribute="leading" id="TGb-vQ-cy5"/>
                 <constraint firstAttribute="bottom" secondItem="KRQ-9w-aXE" secondAttribute="bottom" id="U9j-sq-BMG"/>
                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="cLW-LX-KUg" secondAttribute="trailing" constant="20" id="UOw-5F-B5z"/>
                 <constraint firstItem="cLW-LX-KUg" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="80" id="VYu-gQ-F7J"/>
@@ -169,6 +170,7 @@
                 <constraint firstItem="PnK-9l-N8i" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="eCG-dd-JA4"/>
                 <constraint firstAttribute="trailing" secondItem="KRQ-9w-aXE" secondAttribute="trailing" id="ehR-ym-8FZ"/>
                 <constraint firstItem="ibM-CY-XRt" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="15" id="f81-FM-2O7"/>
+                <constraint firstItem="Bn0-dg-QsD" firstAttribute="trailing" secondItem="ibM-CY-XRt" secondAttribute="trailing" id="g9W-XY-9cz"/>
                 <constraint firstItem="ibM-CY-XRt" firstAttribute="top" secondItem="Bn0-dg-QsD" secondAttribute="bottom" constant="10" id="hrM-0C-4HM"/>
                 <constraint firstItem="cLW-LX-KUg" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="iKD-DZ-mFm"/>
                 <constraint firstItem="uPU-nT-EmU" firstAttribute="top" secondItem="ibM-CY-XRt" secondAttribute="top" id="j0C-20-hOj"/>
@@ -176,6 +178,7 @@
                 <constraint firstAttribute="trailing" secondItem="nEH-Ai-mnV" secondAttribute="trailing" id="kDw-uK-k9I"/>
                 <constraint firstItem="cLW-LX-KUg" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" id="lXW-NY-m3F"/>
                 <constraint firstItem="KRQ-9w-aXE" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="mFD-eh-LD5"/>
+                <constraint firstItem="uPU-nT-EmU" firstAttribute="top" secondItem="nEH-Ai-mnV" secondAttribute="bottom" constant="10" id="mIv-S1-bea"/>
                 <constraint firstAttribute="trailing" secondItem="ibM-CY-XRt" secondAttribute="trailing" constant="75" id="mUB-4Y-fBv"/>
                 <constraint firstItem="uPU-nT-EmU" firstAttribute="bottom" secondItem="ibM-CY-XRt" secondAttribute="bottom" id="pYN-MU-Aoz"/>
                 <constraint firstAttribute="trailing" secondItem="PnK-9l-N8i" secondAttribute="trailing" id="qdB-aa-b70"/>
