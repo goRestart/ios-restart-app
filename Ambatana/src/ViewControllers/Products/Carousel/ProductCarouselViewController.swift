@@ -272,23 +272,12 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
 
     func setupInterestedBubble() {
         interestedBubble.translatesAutoresizingMaskIntoConstraints = false
-
         interestedBubbleContainer.addSubview(interestedBubble)
-
-        let bubbleLeftConstraint = NSLayoutConstraint(item: interestedBubble, attribute: .Left, relatedBy: .Equal,
-                                                      toItem: interestedBubbleContainer, attribute: .Left, multiplier: 1,
-                                                      constant: 0)
-        let bubbleRightConstraint = NSLayoutConstraint(item: interestedBubble, attribute: .Right, relatedBy: .Equal,
-                                                       toItem: interestedBubbleContainer, attribute: .Right, multiplier: 1,
-                                                       constant: 0)
-        let bubbleTopConstraint = NSLayoutConstraint(item: interestedBubble, attribute: .Top, relatedBy: .Equal,
-                                                     toItem: interestedBubbleContainer, attribute: .Top, multiplier: 1,
-                                                     constant: 0)
-        let bubbleBottomConstraint = NSLayoutConstraint(item: interestedBubble, attribute: .Bottom, relatedBy: .Equal,
-                                                        toItem: interestedBubbleContainer, attribute: .Bottom, multiplier: 1,
-                                                        constant: 0)
-        interestedBubbleContainer.addConstraints([bubbleLeftConstraint, bubbleRightConstraint, bubbleTopConstraint,
-            bubbleBottomConstraint])
+        let views = ["bubble": interestedBubble]
+        interestedBubbleContainer.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-0-[bubble]-0-|",
+            options: [], metrics: nil, views: views))
+        interestedBubbleContainer.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-0-[bubble]-0-|",
+            options: [], metrics: nil, views: views))
     }
 
     private func setupExpandableButtonsViewIfNeeded() {
@@ -299,38 +288,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
 
         for type in viewModel.shareTypes {
             guard SocialSharer.canShareIn(type) else { continue }
-            var image: UIImage? = UIImage()
-            var accessId: AccessibilityId?
-            switch type {
-            case .Email:
-                image = UIImage(named: "item_share_email")
-                accessId = AccessibilityId.SocialShareEmail
-            case .Facebook:
-                image = UIImage(named: "item_share_fb")
-                accessId = AccessibilityId.SocialShareFacebook
-            case .Twitter:
-                image = UIImage(named: "item_share_twitter")
-                accessId = AccessibilityId.SocialShareTwitter
-            case .Native:
-                image = UIImage(named: "item_share_more")
-                accessId = AccessibilityId.SocialShareMore
-            case .CopyLink:
-                image = UIImage(named: "item_share_link")
-                accessId = AccessibilityId.SocialShareCopyLink
-            case .FBMessenger:
-                image = UIImage(named: "item_share_fb_messenger")
-                accessId = AccessibilityId.SocialShareFBMessenger
-            case .Whatsapp:
-                image = UIImage(named: "item_share_whatsapp")
-                accessId = AccessibilityId.SocialShareWhatsapp
-            case .Telegram:
-                image = UIImage(named: "item_share_telegram")
-                accessId = AccessibilityId.SocialShareTelegram
-            case .SMS:
-                image = UIImage(named: "item_share_sms")
-                accessId = AccessibilityId.SocialShareSMS
-            }
-            expandableButtons.addButton(image: image, accessibilityId: accessId) { [weak self] in
+            expandableButtons.addButton(image: type.smallImage, accessibilityId: type.accesibilityId) { [weak self] in
                 guard let strongSelf = self else { return }
                 strongSelf.viewModel.socialSharer.share(socialMessage, shareType: type, viewController: strongSelf,
                                                         barButtonItem: nil)
