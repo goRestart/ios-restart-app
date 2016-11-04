@@ -10,7 +10,8 @@ import LGCoreKit
 import UIKit
 
 final class ChatHeadGroupView: UIView {
-    private static let chatHeadSide: CGFloat = 50
+    static let chatHeadSide: CGFloat = 50
+    private static let chatHeadSpacing: CGFloat = 5
 
     private let chatHeadsContainer: UIView
     private var chatHeads: [ChatHeadView]

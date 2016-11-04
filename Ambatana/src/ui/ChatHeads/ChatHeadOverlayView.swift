@@ -9,9 +9,14 @@
 import UIKit
 
 final class ChatHeadOverlayView: UIView {
+    private static let snapPointCountPerSide: Int = 5
+    private static let chatHeadGroupMargin: CGFloat = 15
+
     private let chatHeadGroup: ChatHeadGroupView
     private var chatHeadGroupXConstraint: NSLayoutConstraint?
     private var chatHeadGroupYConstraint: NSLayoutConstraint?
+
+    private var magnetPoints: [CGPoint]
 
 
     // MARK: - Lifecycle
@@ -22,7 +27,9 @@ final class ChatHeadOverlayView: UIView {
 
     override init(frame: CGRect) {
         self.chatHeadGroup = ChatHeadGroupView()
+        self.magnetPoints = []
         super.init(frame: frame)
+
         setupUI()
         setupConstraints()
     }
@@ -30,12 +37,18 @@ final class ChatHeadOverlayView: UIView {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-}
 
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        magnetPoints = generateSnapPoints(ChatHeadOverlayView.snapPointCountPerSide)
+    }
 
-// MARK: - Overrides
+    override func didMoveToSuperview() {
+        super.didMoveToSuperview()
+        magnetPoints = generateSnapPoints(ChatHeadOverlayView.snapPointCountPerSide)
+        snapToNearestMagnetPoint(animated: false)
+    }
 
-extension ChatHeadOverlayView {
     override func hitTest(point: CGPoint, withEvent event: UIEvent?) -> UIView? {
         /* The only touchable element in the overlay is the chat head group, all others views are ignored.
          Therefore, otherwise hitTest will forward down in the view tree. */
@@ -70,13 +83,33 @@ private extension ChatHeadOverlayView {
 
     func setupConstraints() {
         let chatHeadGroupX = NSLayoutConstraint(item: chatHeadGroup, attribute: .Leading, relatedBy: .Equal,
-                                                toItem: self, attribute: .Leading, multiplier: 1, constant: 50)
+                                                toItem: self, attribute: .Leading, multiplier: 1, constant: 0)
         let chatHeadGroupY = NSLayoutConstraint(item: chatHeadGroup, attribute: .Top, relatedBy: .Equal,
-                                                toItem: self, attribute: .Top, multiplier: 1, constant: 50)
+                                                toItem: self, attribute: .Top, multiplier: 1, constant: 0)
         addConstraints([chatHeadGroupX, chatHeadGroupY])
 
         chatHeadGroupXConstraint = chatHeadGroupX
         chatHeadGroupYConstraint = chatHeadGroupY
+    }
+
+    func generateSnapPoints(countPerSide: Int) -> [CGPoint] {
+        var points = [CGPoint]()
+
+        let max = countPerSide + 1
+        let heightSegment = frame.height / CGFloat(max)
+        let leftX = ChatHeadOverlayView.chatHeadGroupMargin
+        let rightX = frame.width - ChatHeadGroupView.chatHeadSide - ChatHeadOverlayView.chatHeadGroupMargin
+
+        for i in 1..<max {
+            let y = heightSegment * CGFloat(i)
+
+            let pointLeft = CGPoint(x: leftX, y: y)
+            points.append(pointLeft)
+
+            let pointRight = CGPoint(x: rightX, y: y)
+            points.append(pointRight)
+        }
+        return points
     }
 }
 
@@ -88,7 +121,7 @@ private extension ChatHeadOverlayView {
         guard let chatHeadGroupXConstraint = chatHeadGroupXConstraint,
             chatHeadGroupYConstraint = chatHeadGroupYConstraint else { return }
         switch recognizer.state {
-        case .Possible, .Began, .Ended, .Cancelled, .Failed:
+        case .Possible, .Began:
             break
         case .Changed:
             let translation = recognizer.translationInView(self)
@@ -122,10 +155,36 @@ private extension ChatHeadOverlayView {
 
             // Layout the View
             layoutIfNeeded()
+        case .Ended, .Cancelled, .Failed:
+            snapToNearestMagnetPoint(animated: true)
         }
     }
 
+    func snapToNearestMagnetPoint(animated animated: Bool) {
+        guard let chatHeadGroupXConstraint = chatHeadGroupXConstraint,
+            chatHeadGroupYConstraint = chatHeadGroupYConstraint else { return }
 
+        let currentPoint = CGPoint(x: chatHeadGroupXConstraint.constant, y: chatHeadGroupYConstraint.constant)
+        guard let magnetPoint = currentPoint.nearestPointTo(magnetPoints) else { return }
+
+        snapTo(magnetPoint, animated: animated)
+    }
+
+    func snapTo(point: CGPoint, animated: Bool) {
+        chatHeadGroupXConstraint?.constant = point.x
+        chatHeadGroupYConstraint?.constant = point.y
+
+        let animations: () -> () = { [weak self] in
+            self?.layoutIfNeeded()
+        }
+        if animated {
+            UIView.animateWithDuration(0.3, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0,
+                                       options: [], animations: animations, completion: nil)
+        } else {
+            animations()
+        }
+
+    }
 }
 
 
