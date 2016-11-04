@@ -50,7 +50,8 @@ private extension ChatHeadView {
         layer.shadowOffset = CGSize.zero
         layer.shadowOpacity = 0.24
         layer.shadowRadius = 2.0
-        
+
+        avatarImageView.clipsToBounds = true
         avatarImageView.layer.borderWidth = 2
         avatarImageView.layer.borderColor = UIColor.white.CGColor
 
