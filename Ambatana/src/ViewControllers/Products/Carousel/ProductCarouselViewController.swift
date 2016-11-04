@@ -908,6 +908,7 @@ extension ProductCarouselViewController: ProductCarouselCellDelegate {
             moreInfoView.frame.origin.y = moreInfoView.frame.origin.y-offset
         } else {
             moreInfoState.value = .Hidden
+            moreInfoView.frame.origin.y = -view.frame.height
         }
 
         let bottomOverScroll = max(offset-bottomLimit, 0)
