@@ -1025,9 +1025,6 @@ private extension ProductViewModelStatus {
 
 
 private extension ProductViewModel {
-
-    static let favouriteStickerName = ":love_it:"
-
     private func checkSendFavoriteMessage() {
         guard !favoriteMessageSent else { return }
 
