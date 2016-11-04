@@ -461,13 +461,13 @@ extension ProductCarouselViewController {
         refreshPageControl(viewModel)
         refreshProductOnboarding(viewModel)
         refreshBottomButtons(viewModel)
+        refreshDirectChat(viewModel)
         refreshProductStatusLabel(viewModel)
         refreshDirectChatElements(viewModel)
         refreshFavoriteButton(viewModel)
         setupMoreInfo()
         refreshInterestedBubble(viewModel)
         refreshExpandableButtonsView()
-        chatTextView.resignFirstResponder()
     }
 
     private func finishedTransition() {
@@ -607,12 +607,6 @@ extension ProductCarouselViewController {
 
         }.addDisposableTo(activeDisposeBag)
 
-        chatTextView.placeholder = viewModel.directChatPlaceholder
-        viewModel.directChatEnabled.asObservable().bindNext { [weak self] enabled in
-            self?.buttonBottomBottomConstraint.constant = enabled ? CarouselUI.itemsMargin : 0
-            self?.chatContainerHeight.constant = enabled ? CarouselUI.buttonHeight : 0
-        }.addDisposableTo(activeDisposeBag)
-
         viewModel.editButtonState.asObservable().bindTo(editButton.rx_state).addDisposableTo(disposeBag)
         editButton.rx_tap.bindNext { [weak self, weak viewModel] in
             self?.hideMoreInfo()
@@ -633,6 +627,21 @@ extension ProductCarouselViewController {
             resultSelector: { (buttonPresent, actionButtons, directChat) in return buttonPresent && actionButtons.isEmpty && !directChat })
         userViewCollapsed.bindNext { [weak self] collapsed in
             self?.userViewRightMargin = collapsed ? CarouselUI.buttonTrailingWithIcon : CarouselUI.itemsMargin
+        }.addDisposableTo(activeDisposeBag)
+    }
+
+    private func refreshDirectChat(viewModel: ProductViewModel) {
+        chatTextView.placeholder = viewModel.directChatPlaceholder
+        chatTextView.resignFirstResponder()
+
+        viewModel.directChatEnabled.asObservable().bindNext { [weak self] enabled in
+            self?.buttonBottomBottomConstraint.constant = enabled ? CarouselUI.itemsMargin : 0
+            self?.chatContainerHeight.constant = enabled ? CarouselUI.buttonHeight : 0
+        }.addDisposableTo(activeDisposeBag)
+
+        chatTextView.rx_send.bindNext { [weak self, weak viewModel] textToSend in
+            viewModel?.sendDirectMessage(textToSend)
+            self?.chatTextView.clear()
         }.addDisposableTo(activeDisposeBag)
     }
 
