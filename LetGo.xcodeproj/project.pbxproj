@@ -3441,6 +3441,7 @@
 				502B70571BA9C7FD00C5D465 /* Warnings Script */,
 				40D7DA810D5C1A2EAF1D87FC /* [CP] Embed Pods Frameworks */,
 				BBFA7F7BD5812BEA4BE1060E /* [CP] Copy Pods Resources */,
+				2E35EDDA1DCB90EB006F80FC /* NewRelic Script */,
 			);
 			buildRules = (
 			);
@@ -3466,6 +3467,7 @@
 				C7DB428D1C5138B500400945 /* Warnings Script */,
 				1E5151AD4474E198792A8249 /* [CP] Embed Pods Frameworks */,
 				BDCB40D2F3B8E90C1A9A379A /* [CP] Copy Pods Resources */,
+				2E35EDDB1DCB9142006F80FC /* NewRelic Script */,
 			);
 			buildRules = (
 			);
@@ -3871,6 +3873,34 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LetGoGodMode/Pods-LetGoGodMode-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		2E35EDDA1DCB90EB006F80FC /* NewRelic Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "NewRelic Script";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "SCRIPT=`/usr/bin/find \"${SRCROOT}\" -name newrelic_postbuild.sh | head -n 1`\n\n/bin/sh \"${SCRIPT}\" \"AA448d0966d24653a9a1c92e2d37f86ef5ec61cc7c\"";
+		};
+		2E35EDDB1DCB9142006F80FC /* NewRelic Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "NewRelic Script";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "SCRIPT=`/usr/bin/find \"${SRCROOT}\" -name newrelic_postbuild.sh | head -n 1`\n\n/bin/sh \"${SCRIPT}\" \"AAfcb13d44209d7454436d2efa9974174d063a8d1d\"";
 		};
 		40D7DA810D5C1A2EAF1D87FC /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
