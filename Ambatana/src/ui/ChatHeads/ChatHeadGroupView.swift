@@ -102,7 +102,7 @@ private extension ChatHeadGroupView {
         chatHead.removeFromSuperview()
     }
 
-    dynamic func pressed() {
+    dynamic func pressed(recognizer: UITapGestureRecognizer) {
         guard chatHeads.count > 0 else { return }
 
         if chatHeads.count == 1 {

@@ -10,6 +10,8 @@ import UIKit
 
 final class ChatHeadOverlayView: UIView {
     private let chatHeadGroup: ChatHeadGroupView
+    private var chatHeadGroupXConstraint: NSLayoutConstraint?
+    private var chatHeadGroupYConstraint: NSLayoutConstraint?
 
 
     // MARK: - Lifecycle
@@ -36,8 +38,9 @@ final class ChatHeadOverlayView: UIView {
 extension ChatHeadOverlayView {
     override func hitTest(point: CGPoint, withEvent event: UIEvent?) -> UIView? {
         /* The only touchable element in the overlay is the chat head group, all others views are ignored.
-         Therefore, hitTest is forwarded down the view tree. */
-        let insideChatHeadGroup = chatHeadGroup.pointInside(point, withEvent: event)
+         Therefore, otherwise hitTest will forward down in the view tree. */
+        let convertedPoint = chatHeadGroup.convertPoint(point, fromView: self)
+        let insideChatHeadGroup = chatHeadGroup.pointInside(convertedPoint, withEvent: event)
         if insideChatHeadGroup {
             return chatHeadGroup
         } else {
@@ -47,14 +50,15 @@ extension ChatHeadOverlayView {
 }
 
 
-
-
 // MARK: - Private methods
 
 private extension ChatHeadOverlayView {
     func setupUI() {
         chatHeadGroup.translatesAutoresizingMaskIntoConstraints = false
         addSubview(chatHeadGroup)
+
+        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(panned))
+        chatHeadGroup.addGestureRecognizer(panGesture)
 
         guard let myUser = Core.myUserRepository.myUser else { return }
         guard let data1 = ChatHeadData(chat: FakeChat(id: "1"), myUser: myUser) else { return }
@@ -64,13 +68,55 @@ private extension ChatHeadOverlayView {
     }
 
     func setupConstraints() {
-        let views: [String: AnyObject] = ["chg": chatHeadGroup]
-        let hConstraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|-0-[chg]",
-                                                                          options: [], metrics: nil, views: views)
-        addConstraints(hConstraints)
-        let vConstraints = NSLayoutConstraint.constraintsWithVisualFormat("V:|-0-[chg]",
-                                                                          options: [], metrics: nil, views: views)
-        addConstraints(vConstraints)
+        let chatHeadGroupX = NSLayoutConstraint(item: chatHeadGroup, attribute: .Leading, relatedBy: .Equal,
+                                                toItem: self, attribute: .Leading, multiplier: 1, constant: 50)
+        let chatHeadGroupY = NSLayoutConstraint(item: chatHeadGroup, attribute: .Top, relatedBy: .Equal,
+                                                toItem: self, attribute: .Top, multiplier: 1, constant: 50)
+        addConstraints([chatHeadGroupX, chatHeadGroupY])
+
+        chatHeadGroupXConstraint = chatHeadGroupX
+        chatHeadGroupYConstraint = chatHeadGroupY
+    }
+
+    dynamic func panned(recognizer: UIPanGestureRecognizer) {
+        guard let chatHeadGroupXConstraint = chatHeadGroupXConstraint,
+            chatHeadGroupYConstraint = chatHeadGroupYConstraint else { return }
+        switch recognizer.state {
+        case .Possible, .Began, .Ended, .Cancelled, .Failed:
+            break
+        case .Changed:
+            let translation = recognizer.translationInView(self)
+
+            // Update the constraint's constants
+            chatHeadGroupXConstraint.constant += translation.x
+            chatHeadGroupYConstraint.constant += translation.y
+
+            // Assign the frame's position only for checking it's fully on the screen
+            guard var recognizerFrame = recognizer.view?.frame else { return }
+            recognizerFrame.origin.x = chatHeadGroupXConstraint.constant
+            recognizerFrame.origin.y = chatHeadGroupYConstraint.constant
+
+            // Check if UIImageView is completely inside its superView
+            if !CGRectContainsRect(bounds, recognizerFrame) {
+                if (chatHeadGroupYConstraint.constant < CGRectGetMinY(bounds)) {
+                    chatHeadGroupYConstraint.constant = 0
+                } else if (chatHeadGroupYConstraint.constant + CGRectGetHeight(recognizerFrame) > CGRectGetHeight(bounds)) {
+                    chatHeadGroupYConstraint.constant = CGRectGetHeight(bounds) - CGRectGetHeight(recognizerFrame)
+                }
+
+                if (chatHeadGroupXConstraint.constant < CGRectGetMinX(bounds)) {
+                    chatHeadGroupXConstraint.constant = 0
+                } else if (chatHeadGroupXConstraint.constant + CGRectGetWidth(recognizerFrame) > CGRectGetWidth(bounds)) {
+                    chatHeadGroupXConstraint.constant = CGRectGetWidth(bounds) - CGRectGetWidth(recognizerFrame)
+                }
+            }
+
+            // Reset translation
+            recognizer.setTranslation(CGPoint.zero, inView: self)
+
+            // Layout the View
+            layoutIfNeeded()
+        }
     }
 }
 
