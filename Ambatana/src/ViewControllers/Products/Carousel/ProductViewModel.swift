@@ -447,8 +447,8 @@ extension ProductViewModel {
         openChat()
     }
 
-    func sendDirectMessage(message: String?, showLoading: Bool) {
-        if showLoading {
+    func sendDirectMessage(message: String?, showFeedback: Bool) {
+        if showFeedback {
             delegate?.vmShowLoading(LGLocalizedString.productChatDirectMessageSending)
         }
 
@@ -456,13 +456,17 @@ extension ProductViewModel {
         chatWrapper.sendMessageForProduct(product.value, text: text, sticker: nil, type: .Text) { [weak self] result in
             if let value = result.value {
                 self?.trackHelper.trackDirectMessageSent(value)
-                self?.delegate?.vmHideLoading(LGLocalizedString.productChatWithSellerSendOk, afterMessageCompletion: nil)
+                if showFeedback {
+                    self?.delegate?.vmHideLoading(LGLocalizedString.productChatWithSellerSendOk, afterMessageCompletion: nil)
+                }
             } else if let error = result.error {
-                switch error {
-                case .Forbidden:
-                    self?.delegate?.vmHideLoading(LGLocalizedString.productChatDirectErrorBlockedUserMessage, afterMessageCompletion: nil)
-                case .Network, .Internal, .NotFound, .Unauthorized, .TooManyRequests, .UserNotVerified, .ServerError:
-                    self?.delegate?.vmHideLoading(LGLocalizedString.chatSendErrorGeneric, afterMessageCompletion: nil)
+                if showFeedback {
+                    switch error {
+                    case .Forbidden:
+                        self?.delegate?.vmHideLoading(LGLocalizedString.productChatDirectErrorBlockedUserMessage, afterMessageCompletion: nil)
+                    case .Network, .Internal, .NotFound, .Unauthorized, .TooManyRequests, .UserNotVerified, .ServerError:
+                        self?.delegate?.vmHideLoading(LGLocalizedString.chatSendErrorGeneric, afterMessageCompletion: nil)
+                    }
                 }
             }
         }
@@ -1036,7 +1040,7 @@ private extension ProductViewModel {
     }
 
     private func sendFavoriteMessage() {
-        sendDirectMessage(LGLocalizedString.productFavoriteDirectMessage, showLoading: false)
+        sendDirectMessage(LGLocalizedString.productFavoriteDirectMessage, showFeedback: false)
         favoriteMessageSent = true
     }
 }
