@@ -49,11 +49,11 @@ struct FeatureFlags {
         return ABTests.nonStopProductDetail.value
     }
 
-    static var messageOnFavorite: MessageOnFavoriteMode {
+    static var messageOnFavoriteRound2: MessageOnFavoriteRound2Mode {
         if Bumper.enabled {
-            return Bumper.messageOnFavoriteMode
+            return Bumper.messageOnFavoriteRound2Mode
         }
-        return MessageOnFavoriteMode.fromPosition(ABTests.messageOnFavorite.value)
+        return MessageOnFavoriteRound2Mode.fromPosition(ABTests.messageOnFavoriteRound2.value)
     }
 
     static var interestedUsersMode: InterestedUsersMode {
