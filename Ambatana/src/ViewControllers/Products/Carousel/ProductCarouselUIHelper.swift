@@ -20,6 +20,7 @@ struct CarouselUI {
     static let bottomOverscrollDragMargin: CGFloat = 70
 
     static let itemsMargin: CGFloat = 15
+    static let buttonHeight: CGFloat = 50
     static let buttonTrailingWithIcon: CGFloat = 75
 }
 

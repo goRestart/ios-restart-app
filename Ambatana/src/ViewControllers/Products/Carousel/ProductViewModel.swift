@@ -78,6 +78,11 @@ class ProductViewModel: BaseViewModel {
 
     let navBarButtons = Variable<[UIAction]>([])
     let actionButtons = Variable<[UIAction]>([])
+    let directChatEnabled = Variable<Bool>(false)
+    var directChatPlaceholder: String {
+        let userName = product.value.user.name?.toNameReduced(maxChars: Constants.maxCharactersOnUserNameChatButton) ?? ""
+        return LGLocalizedString.productChatWithSellerNameButton(userName)
+    }
     private let productIsFavoriteable = Variable<Bool>(false)
     let favoriteButtonState = Variable<ButtonState>(.Enabled)
     let editButtonState = Variable<ButtonState>(.Hidden)
@@ -281,6 +286,7 @@ class ProductViewModel: BaseViewModel {
         status.asObservable().bindNext { [weak self] status in
             self?.refreshDirectChats(status)
             self?.refreshActionButtons(status)
+            self?.directChatEnabled.value = FeatureFlags.periscopeChat && status.directChatsAvailable
         }.addDisposableTo(disposeBag)
 
         isFavorite.asObservable().subscribeNext { [weak self] _ in
@@ -759,10 +765,12 @@ extension ProductViewModel {
             actionButtons.append(UIAction(interface: .Button(LGLocalizedString.productSellAgainButton, .Secondary(fontSize: .Big, withBorder: false)),
                 action: { [weak self] in self?.resell() }))
         case .OtherAvailable, .OtherAvailableFree:
-            let userName: String = product.value.user.name?.toNameReduced(maxChars: Constants.maxCharactersOnUserNameChatButton) ?? ""
-            let buttonText = LGLocalizedString.productChatWithSellerNameButton(userName)
-            actionButtons.append(UIAction(interface: .Button(buttonText, .Primary(fontSize: .Big)),
-                action: { [weak self] in self?.chatWithSeller() }))
+            if !FeatureFlags.periscopeChat {
+                let userName: String = product.value.user.name?.toNameReduced(maxChars: Constants.maxCharactersOnUserNameChatButton) ?? ""
+                let buttonText = LGLocalizedString.productChatWithSellerNameButton(userName)
+                actionButtons.append(UIAction(interface: .Button(buttonText, .Primary(fontSize: .Big)),
+                    action: { [weak self] in self?.chatWithSeller() }))
+            }
         case .AvailableFree:
             actionButtons.append(UIAction(interface: .Button(LGLocalizedString.productMarkAsSoldFreeButton, .Terciary),
                 action: { [weak self] in self?.markSoldFree() }))

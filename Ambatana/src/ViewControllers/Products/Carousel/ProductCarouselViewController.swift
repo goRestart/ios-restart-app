@@ -21,6 +21,10 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     @IBOutlet weak var buttonTop: UIButton!
     @IBOutlet weak var buttonTopHeight: NSLayoutConstraint!
     @IBOutlet weak var buttonTopBottomConstraint: NSLayoutConstraint!
+    @IBOutlet weak var chatContainer: UIView!
+    @IBOutlet weak var chatContainerHeight: NSLayoutConstraint!
+    @IBOutlet weak var chatContainerBottomConstraint: NSLayoutConstraint!
+    @IBOutlet weak var chatContainerTrailingConstraint: NSLayoutConstraint!
     @IBOutlet weak var gradientShadowView: UIView!
     @IBOutlet weak var gradientShadowBottomView: UIView!
     @IBOutlet weak var favoriteButton: UIButton!
@@ -31,6 +35,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     
     @IBOutlet weak var directChatTable: UITableView!
     @IBOutlet weak var stickersButton: UIButton!
+    @IBOutlet weak var stickersButtonBottomConstraint: NSLayoutConstraint!
 
     @IBOutlet weak var interestedBubbleContainer: UIView!
     @IBOutlet weak var interestedBubbleContainerBottomConstraint: NSLayoutConstraint!
@@ -53,9 +58,27 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
             userViewRightConstraint?.constant = userViewRightMargin
         }
     }
-    private var bottomItemMargin: CGFloat = CarouselUI.itemsMargin {
+    private var buttonsRightMargin: CGFloat = CarouselUI.buttonTrailingWithIcon {
         didSet {
-            buttonBottomBottomConstraint?.constant = bottomItemMargin
+            buttonBottomTrailingConstraint?.constant = buttonsRightMargin
+            chatContainerTrailingConstraint?.constant = buttonsRightMargin
+        }
+    }
+    private var bottomItemsMargin: CGFloat = CarouselUI.itemsMargin {
+        didSet {
+            chatContainerBottomConstraint?.constant = bottomItemsMargin
+            stickersButtonBottomConstraint?.constant = bottomItemsMargin
+        }
+    }
+    private var interestedBubbleBottom: CGFloat = -CarouselUI.interestedBubbleHeight {
+        didSet {
+            interestedBubbleContainerBottomConstraint.constant = contentBottomMargin + interestedBubbleBottom
+        }
+    }
+    private var contentBottomMargin: CGFloat = 0 {
+        didSet {
+            interestedBubbleContainerBottomConstraint.constant = contentBottomMargin + interestedBubbleBottom
+
         }
     }
 
@@ -75,6 +98,8 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     private let moreInfoAlpha = Variable<CGFloat>(1)
     private let moreInfoState = Variable<MoreInfoState>(.Hidden)
 
+    private let chatTextView = ChatTextView()
+
     private var interestedBubble = InterestedBubble()
     private var interestedBubbleIsVisible: Bool = false
     private var interestedBubbleTimer: NSTimer = NSTimer()
@@ -85,6 +110,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     var pendingMovement: CarouselMovement?
 
     private let carouselImageDownloader: ImageDownloader = ImageDownloader.externalBuildImageDownloader(true)
+    private let keyboardHelper: KeyboardHelper = KeyboardHelper.sharedInstance
 
     // MARK: - Lifecycle
 
@@ -324,6 +350,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
                 self?.stickersButton.alpha = zooming ? 0 : 1
                 self?.editButton.alpha = zooming ? 0 : 1
                 self?.productStatusView.alpha = zooming ? 0 : 1
+                self?.chatContainer.alpha = zooming ? 0 : 1
             }
         }.addDisposableTo(disposeBag)
     }
@@ -351,6 +378,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         alphaSignal.bindTo(stickersButton.rx_alpha).addDisposableTo(disposeBag)
         alphaSignal.bindTo(editButton.rx_alpha).addDisposableTo(disposeBag)
         alphaSignal.bindTo(directChatTable.rx_alpha).addDisposableTo(disposeBag)
+        alphaSignal.bindTo(chatContainer.rx_alpha).addDisposableTo(disposeBag)
 
         if let expandableButtonsView = expandableButtonsView {
             // Hide fav button if expandable buttons view is expanded, otherwise depend on reversed alpha
@@ -439,6 +467,7 @@ extension ProductCarouselViewController {
         setupMoreInfo()
         refreshInterestedBubble(viewModel)
         refreshExpandableButtonsView()
+        chatTextView.resignFirstResponder()
     }
 
     private func finishedTransition() {
@@ -454,6 +483,7 @@ extension ProductCarouselViewController {
                 moreInfoAlpha.asObservable().bindTo(moreInfoView.dragView.rx_alpha).addDisposableTo(disposeBag)
             }
             view.bringSubviewToFront(buttonBottom)
+            view.bringSubviewToFront(chatContainer)
             view.bringSubviewToFront(stickersButton)
             view.bringSubviewToFront(editButton)
             view.bringSubviewToFront(interestedBubbleContainer)
@@ -555,9 +585,9 @@ extension ProductCarouselViewController {
         viewModel.actionButtons.asObservable().bindNext { [weak self, weak viewModel] actionButtons in
             guard let strongSelf = self, let viewModel = viewModel else { return }
 
-            strongSelf.buttonBottomHeight.constant = actionButtons.isEmpty ? 0 : 50
+            strongSelf.buttonBottomHeight.constant = actionButtons.isEmpty ? 0 : CarouselUI.buttonHeight
             strongSelf.buttonTopBottomConstraint.constant = actionButtons.isEmpty ? 0 : CarouselUI.itemsMargin
-            strongSelf.buttonTopHeight.constant = actionButtons.count < 2 ? 0 : 50
+            strongSelf.buttonTopHeight.constant = actionButtons.count < 2 ? 0 : CarouselUI.buttonHeight
             strongSelf.userViewBottomConstraint?.constant = actionButtons.count < 2 ? 0 : -CarouselUI.itemsMargin
 
             guard !actionButtons.isEmpty else { return }
@@ -577,6 +607,12 @@ extension ProductCarouselViewController {
 
         }.addDisposableTo(activeDisposeBag)
 
+        chatTextView.placeholder = viewModel.directChatPlaceholder
+        viewModel.directChatEnabled.asObservable().bindNext { [weak self] enabled in
+            self?.buttonBottomBottomConstraint.constant = enabled ? CarouselUI.itemsMargin : 0
+            self?.chatContainerHeight.constant = enabled ? CarouselUI.buttonHeight : 0
+        }.addDisposableTo(activeDisposeBag)
+
         viewModel.editButtonState.asObservable().bindTo(editButton.rx_state).addDisposableTo(disposeBag)
         editButton.rx_tap.bindNext { [weak self, weak viewModel] in
             self?.hideMoreInfo()
@@ -588,13 +624,13 @@ extension ProductCarouselViewController {
             viewModel.stickersButtonEnabled.asObservable(), viewModel.editButtonState.asObservable(),
             resultSelector: { (stickers, edit) in return stickers || (edit != .Hidden) })
         bottomRightButtonPresent.bindNext { [weak self] present in
-            self?.buttonBottomTrailingConstraint.constant = present ? CarouselUI.buttonTrailingWithIcon : CarouselUI.itemsMargin
+            self?.buttonsRightMargin = present ? CarouselUI.buttonTrailingWithIcon : CarouselUI.itemsMargin
         }.addDisposableTo(activeDisposeBag)
 
         // When there's the edit/stickers button and there are no actionButtons, header is at bottom and must not overlap edit button
         let userViewCollapsed = Observable.combineLatest(
-            bottomRightButtonPresent, viewModel.actionButtons.asObservable(),
-            resultSelector: { (buttonPresent, actionButtons) in return buttonPresent && actionButtons.isEmpty})
+            bottomRightButtonPresent, viewModel.actionButtons.asObservable(), viewModel.directChatEnabled.asObservable(),
+            resultSelector: { (buttonPresent, actionButtons, directChat) in return buttonPresent && actionButtons.isEmpty && !directChat })
         userViewCollapsed.bindNext { [weak self] collapsed in
             self?.userViewRightMargin = collapsed ? CarouselUI.buttonTrailingWithIcon : CarouselUI.itemsMargin
         }.addDisposableTo(activeDisposeBag)
@@ -758,7 +794,7 @@ extension ProductCarouselViewController: ProductCarouselCellDelegate {
         }
 
         let bottomOverScroll = max(offset-bottomLimit, 0)
-        bottomItemMargin = CarouselUI.itemsMargin + bottomOverScroll
+        bottomItemsMargin = CarouselUI.itemsMargin + bottomOverScroll
     }
     
     func didEndDraggingCell() {
@@ -926,7 +962,7 @@ extension ProductCarouselViewController: UICollectionViewDataSource, UICollectio
 
 // MARK: > Direct messages and stickers
 
-extension ProductCarouselViewController: UITableViewDataSource, UITableViewDelegate {
+extension ProductCarouselViewController: UITableViewDataSource, UITableViewDelegate, StickersSelectorDelegate {
 
     func setupDirectMessagesAndStickers() {
         ChatCellDrawerFactory.registerCells(directChatTable)
@@ -934,8 +970,27 @@ extension ProductCarouselViewController: UITableViewDataSource, UITableViewDeleg
         directChatTable.rowHeight = UITableViewAutomaticDimension
         directChatTable.estimatedRowHeight = 140
 
+        chatTextView.translatesAutoresizingMaskIntoConstraints = false
+        chatContainer.addSubview(chatTextView)
+        let views = ["chatText": chatTextView]
+        chatContainer.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-0-[chatText]-0-|",
+            options: [], metrics: nil, views: views))
+        chatContainer.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-0-[chatText]-0-|",
+            options: [], metrics: nil, views: views))
+
         stickersButton.rx_tap.bindNext { [weak self] in
             self?.viewModel.currentProductViewModel?.stickersButton()
+        }.addDisposableTo(disposeBag)
+
+        keyboardHelper.rx_keyboardOrigin.asObservable().skip(1).distinctUntilChanged().bindNext { [weak self] origin in
+            guard let strongSelf = self else { return }
+            let viewHeight = strongSelf.view.height
+            let animationTime = strongSelf.keyboardHelper.animationTime
+            guard viewHeight >= origin else { return }
+            self?.contentBottomMargin = viewHeight - origin
+            UIView.animateWithDuration(Double(animationTime)) {
+                strongSelf.view.layoutIfNeeded()
+            }
         }.addDisposableTo(disposeBag)
     }
 
@@ -955,6 +1010,15 @@ extension ProductCarouselViewController: UITableViewDataSource, UITableViewDeleg
 
         return cell
     }
+
+
+    // MARK: StickersSelectorDelegate
+
+    func stickersSelectorDidSelectSticker(sticker: Sticker) {
+        viewModel.currentProductViewModel?.sendSticker(sticker)
+    }
+
+    func stickersSelectorDidCancel() {}
 }
 
 
@@ -968,7 +1032,7 @@ extension ProductCarouselViewController {
         interestedBubbleIsVisible = true
         interestedBubble.updateInfo(text)
         delay(0.1) { [weak self] in
-            self?.interestedBubbleContainerBottomConstraint.constant = 0
+            self?.interestedBubbleBottom = 0
             UIView.animateWithDuration(0.3, animations: {
                 self?.view.layoutIfNeeded()
             })
@@ -987,7 +1051,7 @@ extension ProductCarouselViewController {
         guard interestedBubbleIsVisible else { return }
         interestedBubbleTimer.invalidate()
         interestedBubbleIsVisible = false
-        interestedBubbleContainerBottomConstraint.constant = -CarouselUI.interestedBubbleHeight
+        interestedBubbleBottom = -CarouselUI.interestedBubbleHeight
         UIView.animateWithDuration(duration, animations: { [weak self] in
             self?.view.layoutIfNeeded()
         }, completion: nil)
@@ -1076,17 +1140,6 @@ extension ProductCarouselViewController: ProductDetailOnboardingViewDelegate {
         navigationController?.setNavigationBarHidden(false, animated: false)
         productOnboardingView = nil
     }
-}
-
-
-// MARK: - StickersSelectorDelegate
-
-extension ProductCarouselViewController: StickersSelectorDelegate {
-    func stickersSelectorDidSelectSticker(sticker: Sticker) {
-        viewModel.currentProductViewModel?.sendSticker(sticker)
-    }
-
-    func stickersSelectorDidCancel() {}
 }
 
 
