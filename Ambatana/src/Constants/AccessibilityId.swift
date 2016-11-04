@@ -139,6 +139,11 @@ enum AccessibilityId: String {
     case ProductCarouselMoreInfoSocialShareView
     case ProductCarouselMoreInfoDescriptionLabel
 
+    // Fullscreen share
+    case ProductCarouselFullscreenShareView
+    case ProductCarouselFullscreenShareCloseButton
+    case ProductCarouselFullscreenShareCopyLinkButton
+
     // Product Carousel Cell
     case ProductCarouselCell
     case ProductCarouselCellCollectionView
@@ -256,6 +261,7 @@ enum AccessibilityId: String {
     case SocialShareTelegram
     case SocialShareCopyLink
     case SocialShareSMS
+    case SocialShareMore
 
     // MainSignUp
     case MainSignUpFacebookButton

@@ -71,6 +71,7 @@ class UserViewController: BaseViewController {
     private var bottomInset: CGFloat = 0
     private let cellDrawer: ProductCellDrawer
     private var viewModel: UserViewModel
+    private let socialSharer: SocialSharer
 
     private let headerExpandedPercentage = Variable<CGFloat>(1)
     private let disposeBag: DisposeBag
@@ -83,6 +84,9 @@ class UserViewController: BaseViewController {
         self.navBarUserView = UserView.userView(.CompactBorder(size: size))
         self.headerGestureRecognizer = UIPanGestureRecognizer()
         self.viewModel = viewModel
+        let socialSharer = SocialSharer()
+        socialSharer.delegate = viewModel
+        self.socialSharer = socialSharer
         self.cellDrawer = ProductCellDrawer()
         self.disposeBag = DisposeBag()
         super.init(viewModel: viewModel, nibName: "UserViewController", statusBarStyle: .LightContent,
@@ -173,8 +177,7 @@ extension UserViewController: UserViewModelDelegate {
     }
 
     func vmShowNativeShare(socialMessage: SocialMessage) {
-        let barButtonItem = navigationItem.rightBarButtonItems?.first
-        presentNativeShare(socialMessage: socialMessage, delegate: viewModel, barButtonItem: barButtonItem)
+        socialSharer.share(socialMessage, shareType: .Native, viewController: self, barButtonItem: navigationItem.rightBarButtonItems?.first)
     }
 }
 

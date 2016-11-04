@@ -34,6 +34,8 @@ protocol AnimatableTransition {
 class ProductCarouselViewController: BaseViewController, AnimatableTransition {
 
     static let interestedBubbleHeight: CGFloat = 50
+    static let shareButtonVerticalSpacing: CGFloat = 5
+    static let shareButtonHorizontalSpacing: CGFloat = 4
 
     @IBOutlet weak var imageBackground: UIImageView!
     @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
@@ -108,6 +110,8 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     private var interestedBubble = InterestedBubble()
     private var interestedBubbleIsVisible: Bool = false
     private var interestedBubbleTimer: NSTimer = NSTimer()
+
+    private var expandableButtonsView: ExpandableButtonsView?
 
     let animator: PushAnimator?
     var pendingMovement: CarouselMovement?
@@ -267,6 +271,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
 
         setupDirectMessagesAndStickers()
         setupInterestedBubble()
+        setupExpandableButtonsViewIfNeeded()
     }
 
     func setupInterestedBubble() {
@@ -288,9 +293,63 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
                                                         constant: 0)
         interestedBubbleContainer.addConstraints([bubbleLeftConstraint, bubbleRightConstraint, bubbleTopConstraint,
             bubbleBottomConstraint])
-
     }
-    
+
+    private func setupExpandableButtonsViewIfNeeded() {
+        guard FeatureFlags.productDetailShareMode == .InPlace else { return }
+        guard let socialMessage = viewModel.currentProductViewModel?.socialMessage.value else { return }
+        let expandableButtons = ExpandableButtonsView(buttonSide: 36, buttonSpacing: 7)
+        expandableButtonsView = expandableButtons
+
+        for type in viewModel.shareTypes {
+            guard SocialSharer.canShareIn(type) else { continue }
+            var image: UIImage? = UIImage()
+            var accessId: AccessibilityId?
+            switch type {
+            case .Email:
+                image = UIImage(named: "item_share_email")
+                accessId = AccessibilityId.SocialShareEmail
+            case .Facebook:
+                image = UIImage(named: "item_share_fb")
+                accessId = AccessibilityId.SocialShareFacebook
+            case .Twitter:
+                image = UIImage(named: "item_share_twitter")
+                accessId = AccessibilityId.SocialShareTwitter
+            case .Native:
+                image = UIImage(named: "item_share_more")
+                accessId = AccessibilityId.SocialShareMore
+            case .CopyLink:
+                image = UIImage(named: "item_share_link")
+                accessId = AccessibilityId.SocialShareCopyLink
+            case .FBMessenger:
+                image = UIImage(named: "item_share_fb_messenger")
+                accessId = AccessibilityId.SocialShareFBMessenger
+            case .Whatsapp:
+                image = UIImage(named: "item_share_whatsapp")
+                accessId = AccessibilityId.SocialShareWhatsapp
+            case .Telegram:
+                image = UIImage(named: "item_share_telegram")
+                accessId = AccessibilityId.SocialShareTelegram
+            case .SMS:
+                image = UIImage(named: "item_share_sms")
+                accessId = AccessibilityId.SocialShareSMS
+            }
+            expandableButtons.addButton(image: image, accessibilityId: accessId) { [weak self] in
+                guard let strongSelf = self else { return }
+                strongSelf.viewModel.socialSharer.share(socialMessage, shareType: type, viewController: strongSelf,
+                                                        barButtonItem: nil)
+            }
+        }
+
+        expandableButtons.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(expandableButtons)
+
+        view.addConstraint(NSLayoutConstraint(item: expandableButtons, attribute: .Trailing, relatedBy: .Equal,
+                                              toItem: view, attribute: .Trailing, multiplier: 1, constant: -15))
+        view.addConstraint(NSLayoutConstraint(item: expandableButtons, attribute: .Top, relatedBy: .Equal,
+                                              toItem: view, attribute: .Top, multiplier: 1, constant: 64))
+    }
+
     private func setupNavigationBar() {
         let backIconImage = UIImage(named: "ic_close_carousel")
         let backButton = UIBarButtonItem(image: backIconImage, style: UIBarButtonItemStyle.Plain,
@@ -333,6 +392,9 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     private func setupZoomRx() {
         cellZooming.asObservable().distinctUntilChanged().bindNext { [weak self] zooming in
             UIApplication.sharedApplication().setStatusBarHidden(zooming, withAnimation: .Fade)
+            if zooming {
+                self?.expandableButtonsView?.shrink(animated: true)
+            }
             UIView.animateWithDuration(0.3) {
                 self?.navigationController?.navigationBar.alpha = zooming ? 0 : 1
                 self?.buttonBottom.alpha = zooming ? 0 : 1
@@ -362,7 +424,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
                 let newValue = (midValue - minMargin) / (midPoint - minMargin*2)
                 return newValue
         }
-        
+
         alphaSignal.bindTo(buttonBottom.rx_alpha).addDisposableTo(disposeBag)
         alphaSignal.bindTo(userView.rx_alpha).addDisposableTo(disposeBag)
         alphaSignal.bindTo(pageControl.rx_alpha).addDisposableTo(disposeBag)
@@ -372,7 +434,25 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         alphaSignal.bindTo(stickersButton.rx_alpha).addDisposableTo(disposeBag)
         alphaSignal.bindTo(editButton.rx_alpha).addDisposableTo(disposeBag)
         alphaSignal.bindTo(directChatTable.rx_alpha).addDisposableTo(disposeBag)
-        alphaSignal.bindTo(favoriteButton.rx_alpha).addDisposableTo(disposeBag)
+
+        if let expandableButtonsView = expandableButtonsView {
+            // Hide fav button if expandable buttons view is expanded, otherwise depend on reversed alpha
+            Observable.combineLatest(expandableButtonsView.expanded.asObservable(), alphaSignal,
+                                     resultSelector: { (expanded, alpha) -> CGFloat in
+                                        let hideFav = expanded ? 0 : alpha
+                return hideFav
+            }).bindTo(favoriteButton.rx_alpha).addDisposableTo(disposeBag)
+
+            // If expanded & we start to fade out the hide expandable buttons view
+            Observable.combineLatest(expandableButtonsView.expanded.asObservable(), alphaSignal, resultSelector: { (expanded, alpha) -> Bool in
+                return expanded && alpha < 1
+            }).filter { $0 == true }.subscribeNext({ [weak self] _ in
+                self?.expandableButtonsView?.switchExpanded(animated: true)
+            }).addDisposableTo(disposeBag)
+        } else {
+            alphaSignal.bindTo(favoriteButton.rx_alpha).addDisposableTo(disposeBag)
+        }
+
         alphaSignal.bindNext{ [weak self] alpha in
             self?.moreInfoTooltip?.alpha = alpha
         }.addDisposableTo(disposeBag)
@@ -488,6 +568,7 @@ extension ProductCarouselViewController {
         refreshFavoriteButton(viewModel)
         setupMoreInfo()
         refreshInterestedBubble(viewModel)
+        refreshExpandableButtonsView()
     }
 
     private func finishedTransition() {
@@ -546,8 +627,13 @@ extension ProductCarouselViewController {
             guard let strongSelf = self else { return }
 
             if navBarButtons.count == 1 {
-                strongSelf.setLetGoRightButtonWith(navBarButtons[0], disposeBag: strongSelf.disposeBag,
-                    buttonTintColor: UIColor.white)
+                switch navBarButtons[0].interface {
+                case .TextImage:
+                    strongSelf.setNavigationBarRightButtonSharing(navBarButtons[0])
+                default:
+                    strongSelf.setLetGoRightButtonWith(navBarButtons[0], disposeBag: strongSelf.activeDisposeBag,
+                        buttonTintColor: UIColor.white)
+                }
             } else if navBarButtons.count > 1 {
                 var buttons = [UIButton]()
                 navBarButtons.forEach { navBarButton in
@@ -555,14 +641,43 @@ extension ProductCarouselViewController {
                     button.setImage(navBarButton.image, forState: .Normal)
                     button.rx_tap.bindNext { _ in
                         navBarButton.action()
-                        }.addDisposableTo(strongSelf.disposeBag)
+                        }.addDisposableTo(strongSelf.activeDisposeBag)
                     buttons.append(button)
                 }
                 strongSelf.setNavigationBarRightButtons(buttons)
             }
         }.addDisposableTo(activeDisposeBag)
     }
-
+    
+    private func setNavigationBarRightButtonSharing(action: UIAction) {
+        let shareButton = UIButton(type: .System)
+        shareButton.titleEdgeInsets = UIEdgeInsets(top: 0,
+                                                   left: ProductCarouselViewController.shareButtonHorizontalSpacing,
+                                                   bottom: 0,
+                                                   right: -ProductCarouselViewController.shareButtonHorizontalSpacing)
+        shareButton.contentEdgeInsets = UIEdgeInsets(top: ProductCarouselViewController.shareButtonVerticalSpacing,
+                                                     left: 2*ProductCarouselViewController.shareButtonHorizontalSpacing,
+                                                     bottom: ProductCarouselViewController.shareButtonVerticalSpacing,
+                                                     right: 3*ProductCarouselViewController.shareButtonHorizontalSpacing)
+        shareButton.setTitle(action.text, forState: .Normal)
+        shareButton.setTitleColor(UIColor.white, forState: .Normal)
+        shareButton.titleLabel?.font = UIFont.systemSemiBoldFont(size: 17)
+        if let imageIcon = action.image {
+            shareButton.setImage(imageIcon.imageWithRenderingMode(.AlwaysTemplate), forState: .Normal)
+        }
+        shareButton.tintColor = UIColor.white
+        shareButton.sizeToFit()
+        shareButton.layer.cornerRadius = shareButton.height/2
+        shareButton.layer.backgroundColor = UIColor.blackTextLowAlpha.CGColor
+        let rightItem = UIBarButtonItem.init(customView: shareButton)
+        rightItem.style = .Plain
+        shareButton.rx_tap.bindNext{
+            action.action()
+            }.addDisposableTo(activeDisposeBag)
+        navigationItem.rightBarButtonItems = nil
+        navigationItem.rightBarButtonItem = rightItem
+    }
+    
     private func setupRxProductUpdate(viewModel: ProductViewModel) {
         viewModel.product.asObservable().bindNext { [weak self] _ in
             guard let strongSelf = self else { return }
@@ -696,6 +811,11 @@ extension ProductCarouselViewController {
             self?.showInterestedBubble(text)
             }.addDisposableTo(activeDisposeBag)
     }
+
+    private func refreshExpandableButtonsView() {
+        guard let expandableButtonsView = expandableButtonsView where expandableButtonsView.expanded.value else { return }
+        expandableButtonsView.switchExpanded(animated: false)
+    }
 }
 
 
@@ -750,6 +870,10 @@ extension ProductCarouselViewController: ProductCarouselViewModelDelegate {
 
     func vmRemoveMoreInfoTooltip() {
         removeMoreInfoTooltip()
+    }
+
+    func vmHideExpandableShareButtons() {
+        expandableButtonsView?.shrink(animated: true)
     }
 }
 
@@ -885,11 +1009,7 @@ extension ProductCarouselViewController: ProductCarouselMoreInfoDelegate {
             hideMoreInfo()
         }
     }
-    
-    func shareDidFailedWith(error: String) {
-        showAutoFadingOutMessageAlert(error)
-    }
-    
+
     func viewControllerToShowShareOptions() -> UIViewController {
         return self
     }
@@ -1043,9 +1163,19 @@ extension ProductCarouselViewController {
 // MARK: > Product View Model Delegate
 
 extension ProductCarouselViewController: ProductViewModelDelegate {
-    func vmShowNativeShare(socialMessage: SocialMessage) {
-        let barButtonItem = navigationItem.rightBarButtonItems?.first
-        presentNativeShare(socialMessage: socialMessage, delegate: viewModel, barButtonItem: barButtonItem)
+    func vmShowShareFromMain(socialMessage: SocialMessage) {
+        switch FeatureFlags.productDetailShareMode {
+        case .Native:
+            viewModel.openShare(.Native, fromViewController: self, barButtonItem: navigationItem.rightBarButtonItems?.first)
+        case .InPlace:
+            expandableButtonsView?.switchExpanded(animated: true)
+        case .FullScreen:
+            viewModel.openFullScreenShare()
+        }
+    }
+
+    func vmShowShareFromMoreInfo(socialMessage: SocialMessage) {
+        viewModel.openShare(.Native, fromViewController: self, barButtonItem: navigationItem.rightBarButtonItems?.first)
     }
     
     func vmOpenMainSignUp(signUpVM: SignUpViewModel, afterLoginAction: () -> ()) {
@@ -1086,6 +1216,14 @@ extension ProductCarouselViewController: ProductViewModelDelegate {
         let vc = StickersSelectorViewController(stickers: stickers, interlocutorName: interlocutorName)
         vc.delegate = self
         navigationController?.presentViewController(vc, animated: false, completion: nil)
+    }
+
+    func vmShareDidFailedWith(error: String) {
+        showAutoFadingOutMessageAlert(error)
+    }
+
+    func vmViewControllerToShowShareOptions() -> UIViewController {
+        return self
     }
 }
 

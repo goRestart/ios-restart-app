@@ -40,15 +40,22 @@ class ProductPostedViewController: BaseViewController, ProductPostedViewModelDel
 
     private static let contentContainerShownHeight: CGFloat = 80
     private let viewModel: ProductPostedViewModel
+    private let socialSharer: SocialSharer
 
 
     // MARK: - View lifecycle
 
-    required init(viewModel: ProductPostedViewModel) {
+    convenience init(viewModel: ProductPostedViewModel) {
+        self.init(viewModel: viewModel, socialSharer: SocialSharer())
+    }
+
+    required init(viewModel: ProductPostedViewModel, socialSharer: SocialSharer) {
         self.viewModel = viewModel
+        self.socialSharer = socialSharer
         super.init(viewModel: viewModel, nibName: "ProductPostedViewController",
                    statusBarStyle: UIApplication.sharedApplication().statusBarStyle)
         viewModel.delegate = self
+        socialSharer.delegate = self
         modalPresentationStyle = .OverCurrentContext
         modalTransitionStyle = .CrossDissolve
         setReachabilityEnabled(false)
@@ -174,37 +181,24 @@ class ProductPostedViewController: BaseViewController, ProductPostedViewModelDel
     }
 
     private func shareButtonPressed() {
-        guard let shareInfo = viewModel.shareInfo else { return }
-
-        presentNativeShare(socialMessage: shareInfo, delegate: self)
+        guard let socialMessage = viewModel.socialMessage else { return }
+        socialSharer.share(socialMessage, shareType: .Native, viewController: self)
     }
 }
 
 
-// MARK: - NativeShareDelegate
+// MARK: - SocialSharerDelegate
 
-extension ProductPostedViewController: NativeShareDelegate {
-
-    var nativeShareSuccessMessage: String? { return LGLocalizedString.productShareGenericOk }
-    var nativeShareErrorMessage: String? { return LGLocalizedString.productShareGenericError }
-
-    func nativeShareInFacebook() {
-        viewModel.nativeShareInFacebook()
-        viewModel.nativeShareInFacebookFinished(.Completed)
+extension ProductPostedViewController: SocialSharerDelegate {
+    func shareStartedIn(shareType: ShareType) {
+        viewModel.shareStartedIn(shareType)
     }
 
-    func nativeShareInTwitter() {
-        viewModel.nativeShareInTwitter()
-    }
-
-    func nativeShareInEmail() {
-        viewModel.nativeShareInEmail()
-    }
-
-    func nativeShareInWhatsApp() {
-        viewModel.nativeShareInWhatsApp()
+    func shareFinishedIn(shareType: ShareType, withState state: SocialShareState) {
+        viewModel.shareFinishedIn(shareType, withState: state)
     }
 }
+
 
 // MARK: - Incentivise methods
 
