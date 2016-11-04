@@ -31,6 +31,22 @@ final class ChatHeadOverlayView: UIView {
 }
 
 
+// MARK: - Overrides
+
+extension ChatHeadOverlayView {
+    override func hitTest(point: CGPoint, withEvent event: UIEvent?) -> UIView? {
+        /* The only touchable element in the overlay is the chat head group, all others views are ignored.
+         Therefore, hitTest is forwarded down the view tree. */
+        let insideChatHeadGroup = chatHeadGroup.pointInside(point, withEvent: event)
+        if insideChatHeadGroup {
+            return chatHeadGroup
+        } else {
+            return nil
+        }
+    }
+}
+
+
 // MARK: - Private methods
 
 private extension ChatHeadOverlayView {
