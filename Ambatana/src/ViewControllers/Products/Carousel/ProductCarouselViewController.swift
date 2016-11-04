@@ -9,31 +9,7 @@
 import LGCoreKit
 import RxSwift
 
-enum ProductDetailButtonType {
-    case MarkAsSold
-    case MarkAsSoldFree
-    case SellItAgain
-    case SellItAgainFree
-    case CreateCommercial
-    case ChatWithSeller
-}
-
-enum MoreInfoState {
-    case Hidden
-    case Moving
-    case Shown
-}
-
-protocol AnimatableTransition {
-    var animator: PushAnimator? { get }
-}
-
-
 class ProductCarouselViewController: BaseViewController, AnimatableTransition {
-
-    static let interestedBubbleHeight: CGFloat = 50
-    static let shareButtonVerticalSpacing: CGFloat = 5
-    static let shareButtonHorizontalSpacing: CGFloat = 4
 
     @IBOutlet weak var imageBackground: UIImageView!
     @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
@@ -71,23 +47,19 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     private var currentIndex = 0
     private var userViewBottomConstraint: NSLayoutConstraint?
     private var userViewRightConstraint: NSLayoutConstraint?
-    private var userViewRightMargin: CGFloat = 0 {
-        didSet{
+
+    private var userViewRightMargin: CGFloat = -CarouselUI.itemsMargin {
+        didSet {
             userViewRightConstraint?.constant = userViewRightMargin
+        }
+    }
+    private var bottomItemMargin: CGFloat = CarouselUI.itemsMargin {
+        didSet {
+            buttonBottomBottomConstraint?.constant = bottomItemMargin
         }
     }
 
     private let pageControl: UIPageControl
-    private let pageControlWidth: CGFloat = 18
-    private let pageControlMargin: CGFloat = 18
-    private let moreInfoDragMargin: CGFloat = 45
-    private let moreInfoExtraHeight: CGFloat = 64
-    private let bottomOverscrollDragMargin: CGFloat = 70
-    
-    private let moreInfoTooltipMargin: CGFloat = 0
-
-    private let itemsMargin: CGFloat = 15
-    private let buttonTrailingWithIcon: CGFloat = 75
     private var moreInfoTooltip: Tooltip?
 
     private let collectionContentOffset = Variable<CGPoint>(CGPoint.zero)
@@ -206,32 +178,23 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         collectionView.directionalLockEnabled = true
         collectionView.alwaysBounceVertical = false
         automaticallyAdjustsScrollViewInsets = false
-        
-        pageControl.autoresizingMask = [.FlexibleRightMargin, .FlexibleBottomMargin]
-        pageControl.transform = CGAffineTransformMakeRotation(CGFloat(M_PI_2))
-        pageControl.frame.origin = CGPoint(x: pageControlMargin, y: topBarHeight + pageControlMargin)
-        pageControl.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.2)
-        pageControl.currentPageIndicatorTintColor = UIColor.whiteColor()
-        pageControl.hidesForSinglePage = true
-        pageControl.layer.cornerRadius = pageControlWidth/2
-        pageControl.clipsToBounds = true
+
+        CarouselUIHelper.setupPageControl(pageControl, topBarHeight: topBarHeight)
 
         let views = ["ev": fullScreenAvatarEffectView]
-        let blurHConstraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|[ev]|", options: [], metrics: nil,
-                                                                             views: views)
-        view.addConstraints(blurHConstraints)
-        let blurVConstraints = NSLayoutConstraint.constraintsWithVisualFormat("V:|[ev]|", options: [], metrics: nil,
-                                                                              views: views)
-        view.addConstraints(blurVConstraints)
+        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[ev]|", options: [], metrics: nil,
+                                                                             views: views))
+        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[ev]|", options: [], metrics: nil,
+                                                                              views: views))
 
         userView.delegate = self
         let leftMargin = NSLayoutConstraint(item: userView, attribute: .Leading, relatedBy: .Equal, toItem: view,
-                                            attribute: .Leading, multiplier: 1, constant: itemsMargin)
+                                            attribute: .Leading, multiplier: 1, constant: CarouselUI.itemsMargin)
         let bottomMargin = NSLayoutConstraint(item: userView, attribute: .Bottom, relatedBy: .Equal, toItem: buttonTop,
-                                              attribute: .Top, multiplier: 1, constant: -itemsMargin)
+                                              attribute: .Top, multiplier: 1, constant: -CarouselUI.itemsMargin)
         let rightMargin = NSLayoutConstraint(item: userView, attribute: .Trailing, relatedBy: .LessThanOrEqual,
                                              toItem: view, attribute: .Trailing, multiplier: 1,
-                                             constant: -itemsMargin)
+                                             constant: -CarouselUI.itemsMargin)
         let height = NSLayoutConstraint(item: userView, attribute: .Height, relatedBy: .Equal, toItem: nil,
                                          attribute: .NotAnAttribute, multiplier: 1, constant: 50)
         view.addConstraints([leftMargin, rightMargin, bottomMargin, height])
@@ -499,7 +462,7 @@ extension ProductCarouselViewController {
             view.bringSubviewToFront(directChatTable)
         }
         moreInfoView?.frame = view.bounds
-        moreInfoView?.height = view.height + moreInfoExtraHeight
+        moreInfoView?.height = view.height + CarouselUI.moreInfoExtraHeight
         moreInfoView?.frame.origin.y = -view.bounds.height
     }
 
@@ -557,30 +520,12 @@ extension ProductCarouselViewController {
     }
     
     private func setNavigationBarRightButtonSharing(action: UIAction) {
-        let shareButton = UIButton(type: .System)
-        shareButton.titleEdgeInsets = UIEdgeInsets(top: 0,
-                                                   left: ProductCarouselViewController.shareButtonHorizontalSpacing,
-                                                   bottom: 0,
-                                                   right: -ProductCarouselViewController.shareButtonHorizontalSpacing)
-        shareButton.contentEdgeInsets = UIEdgeInsets(top: ProductCarouselViewController.shareButtonVerticalSpacing,
-                                                     left: 2*ProductCarouselViewController.shareButtonHorizontalSpacing,
-                                                     bottom: ProductCarouselViewController.shareButtonVerticalSpacing,
-                                                     right: 3*ProductCarouselViewController.shareButtonHorizontalSpacing)
-        shareButton.setTitle(action.text, forState: .Normal)
-        shareButton.setTitleColor(UIColor.white, forState: .Normal)
-        shareButton.titleLabel?.font = UIFont.systemSemiBoldFont(size: 17)
-        if let imageIcon = action.image {
-            shareButton.setImage(imageIcon.imageWithRenderingMode(.AlwaysTemplate), forState: .Normal)
-        }
-        shareButton.tintColor = UIColor.white
-        shareButton.sizeToFit()
-        shareButton.layer.cornerRadius = shareButton.height/2
-        shareButton.layer.backgroundColor = UIColor.blackTextLowAlpha.CGColor
+        let shareButton = CarouselUIHelper.buildShareButton(action.text, icon: action.image)
         let rightItem = UIBarButtonItem.init(customView: shareButton)
         rightItem.style = .Plain
         shareButton.rx_tap.bindNext{
             action.action()
-            }.addDisposableTo(activeDisposeBag)
+        }.addDisposableTo(activeDisposeBag)
         navigationItem.rightBarButtonItems = nil
         navigationItem.rightBarButtonItem = rightItem
     }
@@ -602,8 +547,8 @@ extension ProductCarouselViewController {
     private func refreshPageControl(viewModel: ProductViewModel) {
         pageControl.currentPage = 0
         pageControl.numberOfPages = viewModel.product.value.images.count
-        pageControl.frame.size = CGSize(width: pageControlWidth, height:
-        pageControl.sizeForNumberOfPages(pageControl.numberOfPages).width + pageControlWidth)
+        pageControl.frame.size = CGSize(width: CarouselUI.pageControlWidth, height:
+        pageControl.sizeForNumberOfPages(pageControl.numberOfPages).width + CarouselUI.pageControlWidth)
     }
     
     private func refreshBottomButtons(viewModel: ProductViewModel) {
@@ -611,9 +556,9 @@ extension ProductCarouselViewController {
             guard let strongSelf = self, let viewModel = viewModel else { return }
 
             strongSelf.buttonBottomHeight.constant = actionButtons.isEmpty ? 0 : 50
-            strongSelf.buttonTopBottomConstraint.constant = actionButtons.isEmpty ? 0 : strongSelf.itemsMargin
+            strongSelf.buttonTopBottomConstraint.constant = actionButtons.isEmpty ? 0 : CarouselUI.itemsMargin
             strongSelf.buttonTopHeight.constant = actionButtons.count < 2 ? 0 : 50
-            strongSelf.userViewBottomConstraint?.constant = actionButtons.count < 2 ? 0 : -strongSelf.itemsMargin
+            strongSelf.userViewBottomConstraint?.constant = actionButtons.count < 2 ? 0 : -CarouselUI.itemsMargin
 
             guard !actionButtons.isEmpty else { return }
 
@@ -643,7 +588,7 @@ extension ProductCarouselViewController {
             viewModel.stickersButtonEnabled.asObservable(), viewModel.editButtonState.asObservable(),
             resultSelector: { (stickers, edit) in return stickers || (edit != .Hidden) })
         bottomRightButtonPresent.bindNext { [weak self] present in
-            self?.buttonBottomTrailingConstraint.constant = (present ? self?.buttonTrailingWithIcon : self?.itemsMargin) ?? 0
+            self?.buttonBottomTrailingConstraint.constant = present ? CarouselUI.buttonTrailingWithIcon : CarouselUI.itemsMargin
         }.addDisposableTo(activeDisposeBag)
 
         // When there's the edit/stickers button and there are no actionButtons, header is at bottom and must not overlap edit button
@@ -651,7 +596,7 @@ extension ProductCarouselViewController {
             bottomRightButtonPresent, viewModel.actionButtons.asObservable(),
             resultSelector: { (buttonPresent, actionButtons) in return buttonPresent && actionButtons.isEmpty})
         userViewCollapsed.bindNext { [weak self] collapsed in
-            self?.userViewRightMargin = (collapsed ? self?.buttonTrailingWithIcon : self?.itemsMargin) ?? 0
+            self?.userViewRightMargin = collapsed ? CarouselUI.buttonTrailingWithIcon : CarouselUI.itemsMargin
         }.addDisposableTo(activeDisposeBag)
     }
 
@@ -813,11 +758,11 @@ extension ProductCarouselViewController: ProductCarouselCellDelegate {
         }
 
         let bottomOverScroll = max(offset-bottomLimit, 0)
-        buttonBottomBottomConstraint.constant = itemsMargin + bottomOverScroll
+        bottomItemMargin = CarouselUI.itemsMargin + bottomOverScroll
     }
     
     func didEndDraggingCell() {
-        if moreInfoView?.frame.bottom > moreInfoDragMargin*2 {
+        if moreInfoView?.frame.bottom > CarouselUI.moreInfoDragMargin*2 {
             showMoreInfo()
         } else {
             hideMoreInfo()
@@ -849,13 +794,13 @@ extension ProductCarouselViewController {
     func dragMoreInfoButton(pan: UIPanGestureRecognizer) {
         let point = pan.locationInView(view)
         
-        if point.y >= moreInfoExtraHeight { // start dragging when point is below the navbar
+        if point.y >= CarouselUI.moreInfoExtraHeight { // start dragging when point is below the navbar
             moreInfoView?.frame.bottom = point.y
         }
         
         switch pan.state {
         case .Ended:
-            if point.y > moreInfoDragMargin {
+            if point.y > CarouselUI.moreInfoDragMargin {
                 showMoreInfo()
             } else {
                 hideMoreInfo()
@@ -906,7 +851,7 @@ extension ProductCarouselViewController {
 extension ProductCarouselViewController: ProductCarouselMoreInfoDelegate {
     
     func didEndScrolling(topOverScroll: CGFloat, bottomOverScroll: CGFloat) {
-        if topOverScroll > moreInfoDragMargin || bottomOverScroll > moreInfoDragMargin {
+        if topOverScroll > CarouselUI.moreInfoDragMargin || bottomOverScroll > CarouselUI.moreInfoDragMargin {
             hideMoreInfo()
         }
     }
@@ -924,23 +869,12 @@ extension ProductCarouselViewController {
     private func setupMoreInfoTooltip() {
         guard viewModel.shouldShowMoreInfoTooltip else { return }
         guard let moreInfoView = moreInfoView else { return }
-        
-        let tapTextAttributes: [String : AnyObject] = [NSForegroundColorAttributeName : UIColor.white,
-                                                       NSFontAttributeName : UIFont.systemBoldFont(size: 17)]
-        let infoTextAttributes: [String : AnyObject] = [ NSForegroundColorAttributeName : UIColor.grayLighter,
-                                                         NSFontAttributeName : UIFont.systemSemiBoldFont(size: 17)]
-        let plainText = LGLocalizedString.productMoreInfoTooltipPart2(LGLocalizedString.productMoreInfoTooltipPart1)
-        let resultText = NSMutableAttributedString(string: plainText, attributes: infoTextAttributes)
-        let boldRange = NSString(string: plainText).rangeOfString(LGLocalizedString.productMoreInfoTooltipPart1,
-                                                                  options: .CaseInsensitiveSearch)
-        resultText.addAttributes(tapTextAttributes, range: boldRange)
-        
-        let moreInfoTooltip = Tooltip(targetView: moreInfoView, superView: view, title: resultText,
+        let tooltipText = CarouselUIHelper.buildMoreInfoTooltipText()
+        let moreInfoTooltip = Tooltip(targetView: moreInfoView, superView: view, title: tooltipText,
                                       style: .Blue(closeEnabled: false), peakOnTop: true,
                                       actionBlock: { [weak self] in self?.showMoreInfo() }, closeBlock: nil)
         view.addSubview(moreInfoTooltip)
-        setupExternalConstraintsForTooltip(moreInfoTooltip, targetView: moreInfoView, containerView: view,
-                                           margin: moreInfoTooltipMargin)
+        setupExternalConstraintsForTooltip(moreInfoTooltip, targetView: moreInfoView, containerView: view)
         self.moreInfoTooltip = moreInfoTooltip
     }
     
@@ -1053,7 +987,7 @@ extension ProductCarouselViewController {
         guard interestedBubbleIsVisible else { return }
         interestedBubbleTimer.invalidate()
         interestedBubbleIsVisible = false
-        interestedBubbleContainerBottomConstraint.constant = -ProductCarouselViewController.interestedBubbleHeight
+        interestedBubbleContainerBottomConstraint.constant = -CarouselUI.interestedBubbleHeight
         UIView.animateWithDuration(duration, animations: { [weak self] in
             self?.view.layoutIfNeeded()
         }, completion: nil)
