@@ -10,7 +10,7 @@ import RxSwift
 
 public struct ABTests {
 
-    static let trackingData = Variable<[(String, AnyObject)]>([])
+    static let trackingData = Variable<[String]>([])
 
     static var showNPSSurvey = BoolABDynamicVar(key: "showNPSSurvey", defaultValue: false)
     static var nonStopProductDetail = BoolABDynamicVar(key: "nonStopProductDetail", defaultValue: false)

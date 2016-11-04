@@ -20,7 +20,7 @@ protocol ABDynamicVar {
     var value: ValueType { get }
     var defaultValue: ValueType { get }
     var lpVar: LPVar { get }
-    var trackingData: (String, AnyObject)? { get }
+    var trackingData: String? { get }
 }
 
 struct BoolABDynamicVar: ABDynamicVar, ABVariable {
@@ -75,14 +75,14 @@ struct IntABDynamicVar: ABDynamicVar, ABVariable {
 }
 
 protocol ABVariable {
-    var trackingData: (String, AnyObject)? { get }
+    var trackingData: String? { get }
     func register()
 }
 
 extension ABDynamicVar {
-    var trackingData: (String, AnyObject)? {
+    var trackingData: String? {
         guard let value = value as? AnyObject else { return nil }
-        return ("[Leanplum] \(key)", value)
+        return "\(key)-\(value)"
     }
     func register() {
         let _ = self.value
