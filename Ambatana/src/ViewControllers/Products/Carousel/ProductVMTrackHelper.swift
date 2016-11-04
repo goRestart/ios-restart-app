@@ -130,8 +130,8 @@ extension ProductVMTrackHelper {
         tracker.trackEvent(trackerEvent)
     }
 
-    func trackDirectMessageSent(shouldSendFirstMessageEvent: Bool) {
-        let messageType = EventParameterMessageType.Text
+    func trackDirectMessageSent(shouldSendFirstMessageEvent: Bool, favorite: Bool) {
+        let messageType = favorite ? EventParameterMessageType.Favorite : EventParameterMessageType.Text
         if shouldSendFirstMessageEvent {
             let firstMessageEvent = TrackerEvent.firstMessage(product, messageType: messageType,
                                                                    typePage: .ProductDetail)

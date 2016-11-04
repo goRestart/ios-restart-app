@@ -447,26 +447,27 @@ extension ProductViewModel {
         openChat()
     }
 
-    func sendDirectMessage(message: String?, showFeedback: Bool) {
-        if showFeedback {
-            delegate?.vmShowLoading(LGLocalizedString.productChatDirectMessageSending)
-        }
+    func sendDirectMessage(text: String, favorite: Bool) {
+        // Optimistic behavior
+        let message = LocalMessage(text: text, userId: myUserRepository.myUser?.objectId)
+        let messageView = chatViewMessageAdapter.adapt(message)
+        directChatMessages.insert(messageView, atIndex: 0)
 
-        let text = message ?? LGLocalizedString.productChatDirectMessage(product.value.user.name ?? "")
-        chatWrapper.sendMessageForProduct(product.value, text: text, sticker: nil, type: .Text) { [weak self] result in
+        chatWrapper.sendMessageForProduct(product.value, text: text, sticker: nil, type: .Text) {
+            [weak self] result in
             if let value = result.value {
-                self?.trackHelper.trackDirectMessageSent(value)
-                if showFeedback {
-                    self?.delegate?.vmHideLoading(LGLocalizedString.productChatWithSellerSendOk, afterMessageCompletion: nil)
-                }
+                self?.trackHelper.trackDirectMessageSent(value, favorite: favorite)
             } else if let error = result.error {
-                if showFeedback {
-                    switch error {
-                    case .Forbidden:
-                        self?.delegate?.vmHideLoading(LGLocalizedString.productChatDirectErrorBlockedUserMessage, afterMessageCompletion: nil)
-                    case .Network, .Internal, .NotFound, .Unauthorized, .TooManyRequests, .UserNotVerified, .ServerError:
-                        self?.delegate?.vmHideLoading(LGLocalizedString.chatSendErrorGeneric, afterMessageCompletion: nil)
-                    }
+                switch error {
+                case .Forbidden:
+                    self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.productChatDirectErrorBlockedUserMessage, completion: nil)
+                case .Network, .Internal, .NotFound, .Unauthorized, .TooManyRequests, .UserNotVerified, .ServerError:
+                    self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.chatSendErrorGeneric, completion: nil)
+                }
+
+                //Removing in case of failure
+                if let indexToRemove = self?.directChatMessages.value.indexOf({ $0.objectId == messageView.objectId }) {
+                    self?.directChatMessages.removeAtIndex(indexToRemove)
                 }
             }
         }
@@ -1037,7 +1038,7 @@ private extension ProductViewModel {
     }
 
     private func sendFavoriteMessage() {
-        sendDirectMessage(LGLocalizedString.productFavoriteDirectMessage, showFeedback: false)
+        sendDirectMessage(LGLocalizedString.productFavoriteDirectMessage, favorite: true)
         favoriteMessageSent = true
     }
 }
