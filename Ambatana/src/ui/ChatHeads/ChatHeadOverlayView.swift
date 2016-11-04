@@ -51,6 +51,7 @@ extension ChatHeadOverlayView {
 
 
 // MARK: - Private methods
+// MARK: > Setup
 
 private extension ChatHeadOverlayView {
     func setupUI() {
@@ -77,7 +78,12 @@ private extension ChatHeadOverlayView {
         chatHeadGroupXConstraint = chatHeadGroupX
         chatHeadGroupYConstraint = chatHeadGroupY
     }
+}
 
+
+// MARK: > Drag 'n' drop
+
+private extension ChatHeadOverlayView {
     dynamic func panned(recognizer: UIPanGestureRecognizer) {
         guard let chatHeadGroupXConstraint = chatHeadGroupXConstraint,
             chatHeadGroupYConstraint = chatHeadGroupYConstraint else { return }
@@ -118,6 +124,8 @@ private extension ChatHeadOverlayView {
             layoutIfNeeded()
         }
     }
+
+
 }
 
 
