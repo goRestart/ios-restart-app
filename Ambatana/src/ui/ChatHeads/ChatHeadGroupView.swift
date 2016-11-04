@@ -10,6 +10,8 @@ import LGCoreKit
 import UIKit
 
 final class ChatHeadGroupView: UIView {
+    private static let chatHeadSide: CGFloat = 50
+
     private let chatHeadsContainer: UIView
     private var chatHeads: [ChatHeadView]
 
@@ -64,6 +66,9 @@ private extension ChatHeadGroupView {
     func setupUI() {
         chatHeadsContainer.translatesAutoresizingMaskIntoConstraints = false
         addSubview(chatHeadsContainer)
+
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(pressed))
+        addGestureRecognizer(tapGesture)
     }
 
     func setupConstraints() {
@@ -83,16 +88,27 @@ private extension ChatHeadGroupView {
         addSubview(chatHead)
 
         let views: [String: AnyObject] = ["ch": chatHead]
-        let hConstraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|-0-[ch]-0-|",
-                                                                          options: [], metrics: nil, views: views)
+        let metrics: [String: AnyObject] = ["chs": ChatHeadGroupView.chatHeadSide]
+        let hConstraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|-0-[ch(chs)]-0-|",
+                                                                          options: [], metrics: metrics, views: views)
         addConstraints(hConstraints)
-        let vConstraints = NSLayoutConstraint.constraintsWithVisualFormat("V:|-0-[ch]-0-|",
-                                                                          options: [], metrics: nil, views: views)
+        let vConstraints = NSLayoutConstraint.constraintsWithVisualFormat("V:|-0-[ch(chs)]-0-|",
+                                                                          options: [], metrics: metrics, views: views)
         addConstraints(vConstraints)
     }
 
     func removeChatHeadAtIndex(index: Int) {
         let chatHead = chatHeads.removeAtIndex(index)
         chatHead.removeFromSuperview()
+    }
+
+    dynamic func pressed() {
+        guard chatHeads.count > 0 else { return }
+
+        if chatHeads.count == 1 {
+            print("1 chat")
+        } else {
+            print("more than 1 chat")
+        }
     }
 }

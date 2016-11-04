@@ -15,8 +15,6 @@ final class ChatHeadView: UIView {
     private let data: ChatHeadData
     private let avatarImageView: UIImageView
 
-    var pressedBlock: (() -> ())?
-
 
     // MARK: - Lifecycle
 
@@ -56,9 +54,6 @@ private extension ChatHeadView {
         avatarImageView.layer.borderWidth = 2
         avatarImageView.layer.borderColor = UIColor.white.CGColor
 
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(pressed))
-        addGestureRecognizer(tapGesture)
-
         avatarImageView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(avatarImageView)
     }
@@ -81,9 +76,5 @@ private extension ChatHeadView {
             guard let imageWithSource = result.value where url == imageURL else { return }
             self?.avatarImageView.image = imageWithSource.image
         }
-    }
-
-    dynamic func pressed() {
-        pressedBlock?()
     }
 }
