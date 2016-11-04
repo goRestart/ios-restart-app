@@ -14,18 +14,12 @@ protocol PostProductViewModelDelegate: BaseViewModelDelegate {
 }
 
 enum PostingSource {
+    case TabBar
     case SellButton
     case GiveAwayButton
     case DeepLink
     case OnboardingButton
     case OnboardingCamera
-
-    var forceCamera: Bool {
-        switch self {
-        case .SellButton, .GiveAwayButton, .DeepLink, .OnboardingButton, .OnboardingCamera:
-            return false
-        }
-    }
 }
 
 enum PostProductState {
@@ -152,7 +146,8 @@ class PostProductViewModel: BaseViewModel {
                 navigator?.cancelPostProduct()
                 return
             }
-            let trackingInfo = PostProductTrackingInfo(buttonName: .Close, imageSource: uploadedImageSource, price: nil)
+            let trackingInfo = PostProductTrackingInfo(buttonName: .Close, sellButtonPosition: postingSource.sellButtonPosition,
+                                                       imageSource: uploadedImageSource, price: nil)
             navigator?.closePostProductAndPostInBackground(product, images: [image], showConfirmation: false,
                                                            trackingInfo: trackingInfo)
         }
@@ -189,8 +184,8 @@ private extension PostProductViewModel {
     }
 
     func postProduct() {
-        let trackingInfo = PostProductTrackingInfo(buttonName: .Done, imageSource: uploadedImageSource,
-                                                   price: postDetailViewModel.price.value)
+        let trackingInfo = PostProductTrackingInfo(buttonName: .Done, sellButtonPosition: postingSource.sellButtonPosition,
+                                                   imageSource: uploadedImageSource, price: postDetailViewModel.price.value)
         if Core.sessionManager.loggedIn {
             guard let product = buildProduct(isFreePosting: false), image = uploadedImage else { return }
             navigator?.closePostProductAndPostInBackground(product, images: [image], showConfirmation: true,
@@ -207,8 +202,8 @@ private extension PostProductViewModel {
     
     func directPostFreeProduct() {
         // TODO: Update trakingInfo in case free product.
-        let trackingInfo = PostProductTrackingInfo(buttonName: .Done, imageSource: uploadedImageSource,
-                                                   price: postDetailViewModel.price.value)
+        let trackingInfo = PostProductTrackingInfo(buttonName: .Done, sellButtonPosition: postingSource.sellButtonPosition,
+                                                   imageSource: uploadedImageSource, price: postDetailViewModel.price.value)
         if let image = imageSelected {
         delegate?.postProductviewModel(self, shouldAskLoginWithCompletion: { [weak self] in
             guard let product = self?.buildProduct(isFreePosting:true) else { return }
@@ -237,8 +232,8 @@ private extension PostProductViewModel {
         case .SplitButton:
             eventParameterFreePosting = postingSource == .SellButton ? .True : .False
         }
-        let event = TrackerEvent.productSellStart(eventParameterFreePosting ,typePage: postingSource.typePage, buttonName: postingSource.buttonName)
-
+        let event = TrackerEvent.productSellStart(eventParameterFreePosting ,typePage: postingSource.typePage,
+                                                  buttonName: postingSource.buttonName, sellButtonPosition: postingSource.sellButtonPosition)
         tracker.trackEvent(event)
     }
 }
@@ -246,7 +241,7 @@ private extension PostProductViewModel {
 extension PostingSource {
     var typePage: EventParameterTypePage {
         switch self {
-        case .SellButton, .GiveAwayButton:  // TODO: Update tracking for give away
+        case .TabBar, .SellButton, .GiveAwayButton:  // TODO: Update tracking for give away
             return .Sell
         case .DeepLink:
             return .External
@@ -257,12 +252,22 @@ extension PostingSource {
 
     var buttonName: EventParameterButtonNameType? {
         switch self {
-        case .SellButton, .GiveAwayButton, .DeepLink: // TODO: Update tracking for give away
+        case .TabBar, .SellButton, .GiveAwayButton, .DeepLink: // TODO: Update tracking for give away
             return nil
         case .OnboardingButton:
             return .SellYourStuff
         case .OnboardingCamera:
             return .StartMakingCash
+        }
+    }
+    var sellButtonPosition: EventParameterSellButtonPosition {
+        switch self {
+        case .TabBar:
+            return .TabBar
+        case .SellButton, .GiveAwayButton:
+            return .FloatingButton
+        case .OnboardingButton, .OnboardingCamera, .DeepLink:
+            return .None
         }
     }
 }

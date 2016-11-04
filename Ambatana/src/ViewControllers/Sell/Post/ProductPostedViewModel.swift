@@ -215,8 +215,10 @@ class ProductPostedViewModel: BaseViewModel {
                 let buttonName = strongSelf.trackingInfo.buttonName
                 let negotiable = strongSelf.trackingInfo.negotiablePrice
                 let pictureSource = strongSelf.trackingInfo.imageSource
-                let event = TrackerEvent.productSellComplete(postedProduct,
-                                                             buttonName: buttonName, negotiable: negotiable, pictureSource: pictureSource, freePostingMode: FeatureFlags.freePostingMode)
+                let event = TrackerEvent.productSellComplete(postedProduct, buttonName: buttonName,
+                                                             sellButtonPosition: strongSelf.trackingInfo.sellButtonPosition,
+                                                             negotiable: negotiable, pictureSource: pictureSource,
+                                                             freePostingMode: FeatureFlags.freePostingMode)
                 strongSelf.trackEvent(event)
 
                 // Track product was sold in the first 24h (and not tracked before)
