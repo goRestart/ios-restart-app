@@ -218,7 +218,7 @@
 "contact_subject_option_product_edit" = "Modifica/elimina prodotto";
 "contact_subject_option_profile_edit" = "Modifica/elimina profilo";
 "contact_subject_option_report" = "Segnala utente/spam";
-"direct_answer_condition" = "What condition is this item in?";
+"direct_answer_condition" = "In che condizioni si trova l'oggetto?";
 "direct_answer_free_available" = "Sì, è ancora disponibile";
 "direct_answer_free_no_available" = "Spiacente, l'ho già regalato!";
 "direct_answer_free_still_have" = "È ancora disponibile?";
@@ -234,9 +234,9 @@
 "direct_answer_sold_question_message" = "Contrassegna il tuo prodotto come venduto, così anche gli altri utenti di letgo ne saranno a conoscenza";
 "direct_answer_sold_question_ok" = "Segna come venduto";
 "direct_answer_sold_question_title" = "Già venduto?";
-"direct_answer_still_available" = "Is this item still available?";
+"direct_answer_still_available" = "L'oggetto è ancora disponibile?";
 "direct_answer_still_for_sale" = "Sì, è ancora in vendita";
-"direct_answer_title" = "SELECT OR TYPE A MESSAGE";
+"direct_answer_title" = "SELEZIONA O DIGITA UN MESSAGGIO";
 "direct_answer_whats_offer" = "Qual è la tua offerta?";
 "direct_answers_hide" = "Nascondi Risposte Rapide";
 "direct_answers_show" = "Visualizza Risposte Rapide";
@@ -385,7 +385,7 @@
 "product_delete_success_message" = "Il tuo prodotto è stato eliminato con successo.";
 "product_distance_X_from_you" = "%@ da te";
 "product_distance_more_than_from_you" = "Più di %@ da te";
-"product_favorite_direct_message" = "I like it! Is it still available?";
+"product_favorite_direct_message" = "Mi piace! È ancora disponibile?";
 "product_free_price" = "Gratis";
 "product_is_mine_share_body" = "Guarda cosa sto vendendo su letgo!";
 "product_is_mine_share_body_free" = "Scopri quello che sto regalando su letgo!";

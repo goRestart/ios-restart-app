@@ -218,7 +218,7 @@
 "contact_subject_option_product_edit" = "Redigera/ta bort produkt";
 "contact_subject_option_profile_edit" = "Redigera/ta bort profil";
 "contact_subject_option_report" = "Rapporterar användare/spam";
-"direct_answer_condition" = "What condition is this item in?";
+"direct_answer_condition" = "I vilket skick är denna produkt?";
 "direct_answer_free_available" = "Ja, den finns fortfarande";
 "direct_answer_free_no_available" = "Tyvärr, jag har redan gett bort den!";
 "direct_answer_free_still_have" = "Finns den fortfarande?";
@@ -234,9 +234,9 @@
 "direct_answer_sold_question_message" = "Markera att din produkt är såld så att alla letgo-användare vet";
 "direct_answer_sold_question_ok" = "Markera som såld";
 "direct_answer_sold_question_title" = "Redan sålt den?";
-"direct_answer_still_available" = "Is this item still available?";
+"direct_answer_still_available" = "Är denna produkt fortfarande tillgänglig?";
 "direct_answer_still_for_sale" = "Ja, den är fortfarande till försäljning";
-"direct_answer_title" = "SELECT OR TYPE A MESSAGE";
+"direct_answer_title" = "VÄLJ ELLER SKRIV ETT MEDDELANDE";
 "direct_answer_whats_offer" = "Vad bjuder du?";
 "direct_answers_hide" = "Göm Snabba Svar";
 "direct_answers_show" = "Visa Snabba Svar";
@@ -385,7 +385,7 @@
 "product_delete_success_message" = "Din produkt har tagits bort.";
 "product_distance_X_from_you" = "%@ från dig";
 "product_distance_more_than_from_you" = "Mer än %@ från dig";
-"product_favorite_direct_message" = "I like it! Is it still available?";
+"product_favorite_direct_message" = "Jag gillar den! Är de fortfarande tillgänglig?";
 "product_free_price" = "Gratis";
 "product_is_mine_share_body" = "Kolla vad jag säljer på letgo!";
 "product_is_mine_share_body_free" = "Kolla vad jag skänker bort på letgo!";
