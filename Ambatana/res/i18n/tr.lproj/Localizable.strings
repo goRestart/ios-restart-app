@@ -385,7 +385,7 @@
 "product_delete_success_message" = "Ürün başarıyla silindi.";
 "product_distance_X_from_you" = "senden %@ uzakta";
 "product_distance_more_than_from_you" = "Senden %@'den daha uzakta";
-"product_favorite_direct_message" = "I like it! Is it still available?";
+"product_favorite_direct_message" = "Beğendim! Hala satılık mı?";
 "product_free_price" = "Bedava";
 "product_is_mine_share_body" = "letgo'da ne sattığıma bak!";
 "product_is_mine_share_body_free" = "letgo'da hangi eşyaları ücretsiz verdiğime bak!";

@@ -385,7 +385,7 @@
 "product_delete_success_message" = "고객님의 상품을 성공적으로 삭제되었습니다.";
 "product_distance_X_from_you" = "당신으로부터 %@";
 "product_distance_more_than_from_you" = "당신에게 %@ 더 많이";
-"product_favorite_direct_message" = "I like it! Is it still available?";
+"product_favorite_direct_message" = "마음에 드네요! 아직 판매하시나요?";
 "product_free_price" = "무료";
 "product_is_mine_share_body" = "letgo에서 무엇이 판매중인지 확인해보세요!";
 "product_is_mine_share_body_free" = "제가 letgo에서 무엇을 증정하고 있는지 확인해보세요!";
