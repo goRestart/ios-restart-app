@@ -86,7 +86,7 @@ extension ChatHeadGroupView {
 
         let animations: () -> () = { [weak self] in self?.layoutIfNeeded() }
         if animated {
-            UIView.animateWithDuration(0.35, animations: animations)
+            UIView.animateWithDuration(0.15, animations: animations)
         } else {
             animations()
         }

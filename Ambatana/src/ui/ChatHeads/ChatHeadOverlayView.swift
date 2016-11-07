@@ -186,7 +186,7 @@ private extension ChatHeadOverlayView {
             self?.layoutIfNeeded()
         }
         if animated {
-            UIView.animateWithDuration(0.3, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0,
+            UIView.animateWithDuration(0.5, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0,
                                        options: [], animations: animations, completion: nil)
         } else {
             animations()
