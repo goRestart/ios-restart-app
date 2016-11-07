@@ -35,7 +35,7 @@ final class TourLocationViewController: BaseViewController {
         case .iPhone4:
             super.init(viewModel: nil, nibName: "TourLocationViewControllerMini",
                        statusBarStyle: .LightContent)
-        case .iPhone5, .iPhone6, .iPhone6Plus, .unknown:
+        case .iPhone5, .iPhone6, .iPhone6Plus, .BiggerUnknown:
             super.init(viewModel: nil, nibName: "TourLocationViewController",
                        statusBarStyle: .LightContent)
         }
@@ -115,7 +115,7 @@ final class TourLocationViewController: BaseViewController {
             titleLabel.font = UIFont.tourNotificationsTitleMiniFont
             subtitleLabel.font = UIFont.tourNotificationsSubtitleMiniFont
             iphoneRightHeightConstraint.constant = TourLocationViewController.iphone5InfoHeight
-        case .iPhone6, .iPhone6Plus, .unknown:
+        case .iPhone6, .iPhone6Plus, .BiggerUnknown:
             titleLabel.font = UIFont.tourNotificationsTitleFont
             subtitleLabel.font = UIFont.tourNotificationsSubtitleFont
         }

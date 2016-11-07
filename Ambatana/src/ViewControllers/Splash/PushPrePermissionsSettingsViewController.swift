@@ -31,7 +31,7 @@ final class PushPrePermissionsSettingsViewController: BaseViewController {
         case .iPhone4, .iPhone5:
             super.init(viewModel: viewModel, nibName: "PushPrePermissionsSettingsViewControllerMini",
                        statusBarStyle: .LightContent)
-        case .iPhone6, .iPhone6Plus, .unknown:
+        case .iPhone6, .iPhone6Plus, .BiggerUnknown:
             super.init(viewModel: viewModel, nibName: "PushPrePermissionsSettingsViewController",
                        statusBarStyle: .LightContent)
         }
@@ -64,7 +64,7 @@ final class PushPrePermissionsSettingsViewController: BaseViewController {
             secondSectionLabel.font = UIFont.tourNotificationsSubtitleMiniFont
             notificationsLabel.font = UIFont.notificationsSettingsCellTextMiniFont
             allowNotificationsLabel.font = UIFont.notificationsSettingsCellTextMiniFont
-        case .iPhone6, .iPhone6Plus, .unknown:
+        case .iPhone6, .iPhone6Plus, .BiggerUnknown:
             titleLabel.font = UIFont.tourNotificationsTitleFont
             subtitleLabel.font = UIFont.tourNotificationsSubtitleFont
             firstSectionLabel.font = UIFont.tourNotificationsSubtitleFont
