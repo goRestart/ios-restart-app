@@ -388,7 +388,7 @@ extension Place {
             }
             if let state = postalAddress?.state {
                 if !result.isEmpty {
-                    result += ", "
+                    result += " "
                 }
                 result += state
             }

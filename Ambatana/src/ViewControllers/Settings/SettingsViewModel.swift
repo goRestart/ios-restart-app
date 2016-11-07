@@ -175,7 +175,7 @@ class SettingsViewModel: BaseViewModel {
         let placeholder = LetgoAvatar.avatarWithColor(UIColor.defaultAvatarColor, name: myUser?.name)
         settings.append(.ChangePhoto(placeholder: placeholder, avatarUrl: myUser?.avatar?.fileURL))
         settings.append(.ChangeUsername(name: myUser?.name ?? ""))
-        settings.append(.ChangeLocation(location: myUser?.postalAddress.city ?? myUser?.postalAddress.countryCode ?? ""))
+        settings.append(.ChangeLocation(location: myUser?.postalAddress.city ?? myUser?.postalAddress.state ?? myUser?.postalAddress.countryCode ?? ""))
         if commercializerEnabled {
             settings.append(.CreateCommercializer)
         }
