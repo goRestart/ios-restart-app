@@ -444,7 +444,7 @@ extension UserViewModel {
             }
 
             strongSelf.userName.value = user?.name
-            strongSelf.userLocation.value = user?.postalAddress.cityCountryString
+            strongSelf.userLocation.value = user?.postalAddress.cityStateString
 
             strongSelf.headerMode.value = strongSelf.isMyProfile ? .MyUser : .OtherUser
 

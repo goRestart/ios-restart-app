@@ -388,6 +388,13 @@ extension Place {
             }
         }
 
+        if let state = postalAddress?.state {
+            if !result.isEmpty {
+                result += ", "
+            }
+            result += state
+        }
+
         if let country = postalAddress?.countryCode {
             if !result.isEmpty {
                 result += ", "
