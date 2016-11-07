@@ -11,10 +11,13 @@ import UIKit
 
 final class ChatHeadGroupView: UIView {
     static let chatHeadSide: CGFloat = 50
-    private static let chatHeadSpacing: CGFloat = 5
+    private static let chatHeadSpacing: CGFloat = 3
 
     private let chatHeadsContainer: UIView
     private var chatHeads: [ChatHeadView]
+    private var leadingConstraints: [NSLayoutConstraint]
+    private var trailingConstraints: [NSLayoutConstraint]
+    private(set) var isLeftPositioned: Bool
 
 
     // MARK: - Lifecycle
@@ -26,6 +29,9 @@ final class ChatHeadGroupView: UIView {
     override init(frame: CGRect) {
         self.chatHeads = []
         self.chatHeadsContainer = UIView(frame: CGRect(x: 0, y: 0, width: frame.width, height: frame.height))
+        self.leadingConstraints = []
+        self.trailingConstraints = []
+        self.isLeftPositioned = true
         super.init(frame: frame)
         setupUI()
         setupConstraints()
@@ -57,6 +63,34 @@ extension ChatHeadGroupView {
     func removeChatHead(data: ChatHeadData) -> Bool {
         return removeChatHeadWithId(data.id)
     }
+
+    func setLeftPositioned(leftPositioned: Bool, animated: Bool) {
+        guard isLeftPositioned != leftPositioned else { return }
+
+        if leftPositioned {
+            for (idx, leading) in leadingConstraints.enumerate() {
+                leading.constant = CGFloat(idx) * ChatHeadGroupView.chatHeadSpacing
+            }
+            for (idx, trailing) in trailingConstraints.enumerate() {
+                trailing.constant = CGFloat(idx) * ChatHeadGroupView.chatHeadSpacing
+            }
+        } else {
+            for (idx, leading) in leadingConstraints.enumerate() {
+                leading.constant = CGFloat(-idx) * ChatHeadGroupView.chatHeadSpacing
+            }
+            for (idx, trailing) in trailingConstraints.enumerate() {
+                trailing.constant = CGFloat(-idx) * ChatHeadGroupView.chatHeadSpacing
+            }
+        }
+        isLeftPositioned = leftPositioned
+
+        let animations: () -> () = { [weak self] in self?.layoutIfNeeded() }
+        if animated {
+            UIView.animateWithDuration(0.35, animations: animations)
+        } else {
+            animations()
+        }
+    }
 }
 
 
@@ -83,24 +117,60 @@ private extension ChatHeadGroupView {
     }
 
     func addChatHeadSubview(chatHead: ChatHeadView) {
+        let firstAddition = chatHeads.isEmpty
         chatHeads.append(chatHead)
 
         chatHead.translatesAutoresizingMaskIntoConstraints = false
         addSubview(chatHead)
+        sendSubviewToBack(chatHead)
+
+        let leading: NSLayoutConstraint
+        let trailing: NSLayoutConstraint
+        let spacing = CGFloat(chatHeads.count) * ChatHeadGroupView.chatHeadSpacing
+        switch (firstAddition, isLeftPositioned) {
+        case (true, _):
+            leading = NSLayoutConstraint(item: chatHead, attribute: .Leading, relatedBy: .Equal,
+                                         toItem: self, attribute: .Leading, multiplier: 1, constant: 0)
+            trailing = NSLayoutConstraint(item: chatHead, attribute: .Trailing, relatedBy: .Equal,
+                                          toItem: self, attribute: .Trailing, multiplier: 1, constant: 0)
+        case (false, true):
+            leading = NSLayoutConstraint(item: chatHead, attribute: .Leading, relatedBy: .Equal,
+                                         toItem: self, attribute: .Leading, multiplier: 1, constant: -spacing)
+            trailing = NSLayoutConstraint(item: chatHead, attribute: .Trailing, relatedBy: .Equal,
+                                          toItem: self, attribute: .Trailing, multiplier: 1, constant: -spacing)
+        case (false, false):
+            leading = NSLayoutConstraint(item: chatHead, attribute: .Leading, relatedBy: .Equal,
+                                         toItem: self, attribute: .Leading, multiplier: 1, constant: spacing)
+            trailing = NSLayoutConstraint(item: chatHead, attribute: .Trailing, relatedBy: .Equal,
+                                          toItem: self, attribute: .Trailing, multiplier: 1, constant: spacing)
+        }
+        leadingConstraints.append(leading)
+        trailingConstraints.append(trailing)
+
+        let width = NSLayoutConstraint(item: chatHead, attribute: .Width, relatedBy: .Equal,
+                                       toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: ChatHeadGroupView.chatHeadSide)
+        addConstraints([leading, trailing, width])
 
         let views: [String: AnyObject] = ["ch": chatHead]
-        let metrics: [String: AnyObject] = ["chs": ChatHeadGroupView.chatHeadSide]
-        let hConstraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|-0-[ch(chs)]-0-|",
-                                                                          options: [], metrics: metrics, views: views)
-        addConstraints(hConstraints)
+        var metrics: [String: AnyObject] = [:]
+        metrics["chs"] = ChatHeadGroupView.chatHeadSide
+        metrics["spacing"] = -CGFloat(chatHeads.count) * ChatHeadGroupView.chatHeadSpacing
         let vConstraints = NSLayoutConstraint.constraintsWithVisualFormat("V:|-0-[ch(chs)]-0-|",
                                                                           options: [], metrics: metrics, views: views)
         addConstraints(vConstraints)
     }
 
     func removeChatHeadAtIndex(index: Int) {
+        guard 0..<chatHeads.count ~= index else { return }
         let chatHead = chatHeads.removeAtIndex(index)
         chatHead.removeFromSuperview()
+
+        if 0..<leadingConstraints.count ~= index {
+            leadingConstraints.removeAtIndex(index)
+        }
+        if 0..<trailingConstraints.count ~= index {
+            trailingConstraints.removeAtIndex(index)
+        }
     }
 
     dynamic func pressed(recognizer: UITapGestureRecognizer) {

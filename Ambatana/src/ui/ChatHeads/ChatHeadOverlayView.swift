@@ -150,6 +150,10 @@ private extension ChatHeadOverlayView {
                 }
             }
 
+            // Set as left/right positioned
+            let leftPositioned = (chatHeadGroupXConstraint.constant + chatHeadGroup.width/2) > CGRectGetMidX(bounds)
+            chatHeadGroup.setLeftPositioned(leftPositioned, animated: true)
+
             // Reset translation
             recognizer.setTranslation(CGPoint.zero, inView: self)
 
@@ -164,7 +168,8 @@ private extension ChatHeadOverlayView {
         guard let chatHeadGroupXConstraint = chatHeadGroupXConstraint,
             chatHeadGroupYConstraint = chatHeadGroupYConstraint else { return }
 
-        let currentPoint = CGPoint(x: chatHeadGroupXConstraint.constant, y: chatHeadGroupYConstraint.constant)
+        let currentPoint = CGPoint(x: chatHeadGroupXConstraint.constant,
+                                   y: chatHeadGroupYConstraint.constant)
         guard let magnetPoint = currentPoint.nearestPointTo(magnetPoints) else { return }
 
         snapTo(magnetPoint, animated: animated)
@@ -173,6 +178,9 @@ private extension ChatHeadOverlayView {
     func snapTo(point: CGPoint, animated: Bool) {
         chatHeadGroupXConstraint?.constant = point.x
         chatHeadGroupYConstraint?.constant = point.y
+
+        let leftPositioned = (point.x + chatHeadGroup.width/2) > CGRectGetMidX(bounds)
+        chatHeadGroup.setLeftPositioned(leftPositioned, animated: false)
 
         let animations: () -> () = { [weak self] in
             self?.layoutIfNeeded()
@@ -183,7 +191,6 @@ private extension ChatHeadOverlayView {
         } else {
             animations()
         }
-
     }
 }
 
