@@ -17,13 +17,13 @@ public class ChatCellDrawerFactory {
         let isMine = message.talkerId == myUserRepository.myUser?.objectId
         switch message.type {
         case .Offer, .Text:
-            return isMine ? ChatMyMessageCellDrawer() : ChatOthersMessageCellDrawer()
+            return isMine ? ChatMyMessageCellDrawer(autoHide: autoHide) : ChatOthersMessageCellDrawer(autoHide: autoHide)
         case .Sticker:
             return ChatStickerCellDrawer(messageIsMine: isMine, autoHide: autoHide)
         case .Disclaimer:
-            return ChatDisclaimerCellDrawer()
+            return ChatDisclaimerCellDrawer(autoHide: autoHide)
         case .UserInfo:
-            return ChatOtherInfoCellDrawer()
+            return ChatOtherInfoCellDrawer(autoHide: autoHide)
         }
     }
     

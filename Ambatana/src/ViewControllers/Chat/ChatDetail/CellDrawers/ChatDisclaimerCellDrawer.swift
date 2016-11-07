@@ -10,6 +10,10 @@ import Foundation
 import LGCoreKit
 
 class ChatDisclaimerCellDrawer: BaseChatCellDrawer<ChatDisclaimerCell> {
+
+    override init(autoHide: Bool) {
+        super.init(autoHide: autoHide)
+    }
     
     override func draw(cell: ChatDisclaimerCell, message: ChatViewMessage, delegate: AnyObject?) {
         switch message.type {

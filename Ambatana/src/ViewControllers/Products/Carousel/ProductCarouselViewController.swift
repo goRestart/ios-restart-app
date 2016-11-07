@@ -35,7 +35,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
 
     static let interestedBubbleHeight: CGFloat = 50
     static let shareButtonVerticalSpacing: CGFloat = 5
-    static let shareButtonHorizontalSpacing: CGFloat = 4
+    static let shareButtonHorizontalSpacing: CGFloat = 3
 
     @IBOutlet weak var imageBackground: UIImageView!
     @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
@@ -661,7 +661,7 @@ extension ProductCarouselViewController {
                                                      right: 3*ProductCarouselViewController.shareButtonHorizontalSpacing)
         shareButton.setTitle(action.text, forState: .Normal)
         shareButton.setTitleColor(UIColor.white, forState: .Normal)
-        shareButton.titleLabel?.font = UIFont.systemSemiBoldFont(size: 17)
+        shareButton.titleLabel?.font = UIFont.systemSemiBoldFont(size: 15)
         if let imageIcon = action.image {
             shareButton.setImage(imageIcon.imageWithRenderingMode(.AlwaysTemplate), forState: .Normal)
         }

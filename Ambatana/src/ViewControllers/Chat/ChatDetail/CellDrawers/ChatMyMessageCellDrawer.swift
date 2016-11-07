@@ -10,7 +10,11 @@ import Foundation
 import LGCoreKit
 
 class ChatMyMessageCellDrawer: BaseChatCellDrawer<ChatMyMessageCell> {
-    
+
+    override init(autoHide: Bool) {
+        super.init(autoHide: autoHide)
+    }
+
     override func draw(cell: ChatMyMessageCell, message: ChatViewMessage, delegate: AnyObject?) {
         cell.messageLabel.text = message.value ?? ""
         cell.dateLabel.text = message.sentAt?.formattedTime()

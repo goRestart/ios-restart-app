@@ -218,6 +218,7 @@
 "contact_subject_option_product_edit" = "Bewerk/Verwijder product";
 "contact_subject_option_profile_edit" = "Bewerken/verwijderen profiel";
 "contact_subject_option_report" = "Rapporteren gebruiker/spam";
+"direct_answer_condition" = "In welke conditie is dit item?";
 "direct_answer_free_available" = "Ja, het is nog beschikbaar";
 "direct_answer_free_no_available" = "Sorry, ik heb het al weggegeven!";
 "direct_answer_free_still_have" = "Is het nog beschikbaar?";
@@ -233,7 +234,9 @@
 "direct_answer_sold_question_message" = "Markeer je product als verkocht zodat alle letgo gebruikers dit weten";
 "direct_answer_sold_question_ok" = "Markeer als verkocht";
 "direct_answer_sold_question_title" = "Is het al verkocht?";
+"direct_answer_still_available" = "Is dit item nog beschikbaar?";
 "direct_answer_still_for_sale" = "Ja, het is nog steeds te koop";
+"direct_answer_title" = "SELECTEER OF TYP EEN BERICHT";
 "direct_answer_whats_offer" = "Wat is je bod?";
 "direct_answers_hide" = "Verberg Snelle Antwoorden";
 "direct_answers_show" = "Toon Snelle Antwoorden";
@@ -329,7 +332,7 @@
 "notifications_type_sold_button" = "Bekijk het product";
 "notifications_type_welcome_button" = "Begin met verkopen";
 "notifications_type_welcome_subtitle" = "Verdien geld door te verkopen wat je niet meer nodig hebt en vind geweldige deals in de buurt";
-"notifications_type_welcome_subtitle_w_city" = "Verdien geld door te verkopen wat je niet meer nodig hebt en vind geweldige deals in %@.";
+"notifications_type_welcome_subtitle_w_city" = "Verdien geld door te verkopen wat je niet meer nodig hebt en vind geweldige deals in %@";
 "notifications_type_welcome_title" = "Welkom bij letgo!";
 "notifications_user_wo_name" = "Een gebruiker";
 "nps_survey_subtitle" = "Van 1 tot 10, hoe waarschijnlijk zul jij letgo aanbevelen aan een vriend(in)?";
@@ -382,6 +385,7 @@
 "product_delete_success_message" = "Jouw product werd succesvol verwijderd.";
 "product_distance_X_from_you" = "%@ van bij jou";
 "product_distance_more_than_from_you" = "Meer dan %@ van bij jou";
+"product_favorite_direct_message" = "I like it! Is it still available?";
 "product_free_price" = "Gratis";
 "product_is_mine_share_body" = "Bekijk wat ik op letgo verkoop!";
 "product_is_mine_share_body_free" = "Check wat ik weggeef op letgo!";
