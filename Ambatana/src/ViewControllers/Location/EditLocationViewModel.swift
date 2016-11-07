@@ -386,13 +386,12 @@ extension Place {
                 }
                 result += city
             }
-        }
-
-        if let state = postalAddress?.state {
-            if !result.isEmpty {
-                result += ", "
+            if let state = postalAddress?.state {
+                if !result.isEmpty {
+                    result += ", "
+                }
+                result += state
             }
-            result += state
         }
 
         if let country = postalAddress?.countryCode {
@@ -401,6 +400,7 @@ extension Place {
             }
             result += country
         }
+
         return result
     }
 }
