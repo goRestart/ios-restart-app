@@ -119,6 +119,8 @@ final class AppCoordinator: NSObject {
         setupTabCoordinators()
         setupDeepLinkingRx()
         setupNotificationCenterObservers()
+        setupLeanplumPopUp()
+ 
     }
 
     deinit {
@@ -134,6 +136,7 @@ final class AppCoordinator: NSObject {
 // MARK: - AppNavigator
 
 extension AppCoordinator: AppNavigator {
+
     func open() {
         guard !openOnboarding() else { return }
         delegate?.appNavigatorDidOpenApp()
@@ -391,7 +394,22 @@ extension AppCoordinator: UITabBarControllerDelegate {
 // MARK: - Private methods
 // MARK: > Setup / tear down
 
+
 private extension AppCoordinator {
+    
+    
+    func showAlert(title: String, text: String, image: String, acceptButton: String) {
+        
+        let okAction = UIAction(interface: .Button(acceptButton, .Default),
+                                action: { _ in },
+                                accessibilityId: .UserPushPermissionCancel) // FIXME: Update accessibilityID.
+
+        let alertIcon = UIImage(contentsOfFile: image)
+        guard let alert = LGAlertViewController(title: title, text: text, alertType: .IconAlert(icon: alertIcon), actions: [okAction]) else { return }
+        tabBarCtl.presentViewController(alert, animated: true, completion: nil)
+    }
+    
+    
     func setupTabBarController() {
         tabBarCtl.delegate = self
         var viewControllers = tabCoordinators.map { $0.navigationController as UIViewController }
@@ -435,7 +453,45 @@ private extension AppCoordinator {
     func tearDownNotificationCenterObservers() {
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
+    
+    func setupLeanplumPopUp() {
+        let leamplumCustomPopUp =  "LETGO_POPUP"
+        // kLeanplumActionKindMessage: LeanplumActionKind | kLeanplumActionKindAction () need to be set as rawValue.
+        
+        
+        
+        let argumentTitle = LPActionArg.init(named: "Title", withString: "Title")
+        let argumentMessage = LPActionArg.init(named: "Message_text", withString: "Message")
+        let argumentImage = LPActionArg.init(named: "image", withFile: nil)
+        let argumentButton = LPActionArg.init(named: "Title_button_text", withString: "Accept")
+        let arguments = [argumentTitle, argumentMessage, argumentImage, argumentButton]
+        Leanplum.defineAction(leamplumCustomPopUp, ofKind: LeanplumActionKind(rawValue: 0b11), withArguments: arguments, withResponder:  { context in
+            self.showAlert(context.stringNamed("Title"), text: context.stringNamed("Message_text"), image: context.fileNamed("image") , acceptButton:context.stringNamed("Title_button_text"))
+            return true
+        })
+        
+//        [LPActionArg argNamed:LPMT_ARG_TITLE_TEXT withString:APP_NAME],
+//        [LPActionArg argNamed:LPMT_ARG_TITLE_COLOR withColor:[UIColor blackColor]],
+//        [LPActionArg argNamed:LPMT_ARG_MESSAGE_TEXT withString:LPMT_DEFAULT_POPUP_MESSAGE],
+//        [LPActionArg argNamed:LPMT_ARG_MESSAGE_COLOR withColor:[UIColor blackColor]],
+//        [LPActionArg argNamed:LPMT_ARG_BACKGROUND_IMAGE withFile:nil],
+//        [LPActionArg argNamed:LPMT_ARG_BACKGROUND_COLOR withColor:[UIColor whiteColor]],
+//        [LPActionArg argNamed:LPMT_ARG_ACCEPT_BUTTON_TEXT withString:LPMT_DEFAULT_OK_BUTTON_TEXT],
+//        [LPActionArg argNamed:LPMT_ARG_ACCEPT_BUTTON_BACKGROUND_COLOR withColor:[UIColor whiteColor]],
+//        [LPActionArg argNamed:LPMT_ARG_ACCEPT_BUTTON_TEXT_COLOR withColor:defaultButtonTextColor],
+//        [LPActionArg argNamed:LPMT_ARG_ACCEPT_ACTION withAction:nil],
+//        [LPActionArg argNamed:LPMT_ARG_LAYOUT_WIDTH withNumber:@(LPMT_DEFAULT_CENTER_POPUP_WIDTH)],
+//        [LPActionArg argNamed:LPMT_ARG_LAYOUT_HEIGHT withNumber:@(LPMT_DEFAULT_CENTER_POPUP_HEIGHT)]
+//        ]
+        
+//        Leanplum.defineAction(leamplumCustomPopUp, ofKind: LeanplumActionKind(rawValue: 0b11), withArguments: [], withResponder: { context in
+//            self.showAlert("1", text: "2", alertType: .PlainAlert, actions: nil)
+//            return true
+//        })
+    }
+    
 }
+
 
 
 // MARK: > NSNotificationCenter
