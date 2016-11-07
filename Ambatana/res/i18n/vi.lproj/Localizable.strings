@@ -218,6 +218,7 @@
 "contact_subject_option_product_edit" = "Chỉnh sửa/Xóa sản phẩm";
 "contact_subject_option_profile_edit" = "Chỉnh sửa/Xóa hồ sơ";
 "contact_subject_option_report" = "Báo cáo người dùng/spam";
+"direct_answer_condition" = "Món đồ này có tình trạng như thế nào?";
 "direct_answer_free_available" = "Có, sản phẩm vẫn còn";
 "direct_answer_free_no_available" = "Xin lỗi, tôi đã tặng rồi!";
 "direct_answer_free_still_have" = "Vẫn còn chứ?";
@@ -233,7 +234,9 @@
 "direct_answer_sold_question_message" = "Đánh dấu đã bán để mọi người dùng letgo đều biết";
 "direct_answer_sold_question_ok" = "Đánh dấu Đã bán";
 "direct_answer_sold_question_title" = "Đã bán rồi?";
+"direct_answer_still_available" = "Món đồ này còn không?";
 "direct_answer_still_for_sale" = "Có, sản phẩm vẫn đang bán";
+"direct_answer_title" = "CHỌN HOẶC GỬI TIN NHẮN";
 "direct_answer_whats_offer" = "Bạn đặt giá bao nhiêu?";
 "direct_answers_hide" = "Ẩn Trả Lời Nhanh";
 "direct_answers_show" = "Hiện Trả Lời Nhanh";
@@ -324,12 +327,12 @@
 "notifications_type_like_w_name_w_title" = "%@ đã thích món đồ của bạn: \"%@\"";
 "notifications_type_rating" = "%@ vừa đánh giá bạn";
 "notifications_type_rating_button" = "Xem đánh giá về bạn";
-"notifications_type_rating_updated" = "%@ vừa cập nhật đánh giá về bạn";
+"notifications_type_rating_updated" = "%@ vừa cập nhật đánh giá của mình";
 "notifications_type_sold" = "Một sản phẩm bạn yêu thích vừa được bán";
 "notifications_type_sold_button" = "Xem sản phẩm";
 "notifications_type_welcome_button" = "Bắt đầu bán";
 "notifications_type_welcome_subtitle" = "Kiếm tiền bằng việc bán những gì bạn không cần đến và tìm các giao dịch tuyệt vời xung quanh";
-"notifications_type_welcome_subtitle_w_city" = "Kiếm tiền bằng việc bán những gì bạn không cần đến và tìm các giao dịch tuyệt vời tại %@.";
+"notifications_type_welcome_subtitle_w_city" = "Kiếm tiền bằng việc bán những gì bạn không cần đến và tìm các giao dịch tuyệt vời tại %@";
 "notifications_type_welcome_title" = "Chào mừng đến với letgo!";
 "notifications_user_wo_name" = "Một người dùng";
 "nps_survey_subtitle" = "Bạn giới thiệu letgo với bạn bè như thế nào, theo thang điểm từ 1 đến 10?";
@@ -382,6 +385,7 @@
 "product_delete_success_message" = "Sản phẩm của bạn đã được xóa thành công.";
 "product_distance_X_from_you" = "%@ từ bạn";
 "product_distance_more_than_from_you" = "Hơn %@ từ bạn";
+"product_favorite_direct_message" = "I like it! Is it still available?";
 "product_free_price" = "Miễn phí";
 "product_is_mine_share_body" = "Hãy xem tôi đang bán gì trên letgo!";
 "product_is_mine_share_body_free" = "Xem tôi đang tặng gì trên letgo!";
@@ -436,7 +440,7 @@
 "product_post_empty_gallery_title" = "Không có ảnh nào";
 "product_post_free_camera_first_time_alert_subtitle" = "Chụp ảnh đẹp và tìm chủ mới cho món đồ của bạn!";
 "product_post_free_camera_first_time_alert_title" = "Bạn đang tặng gì?";
-"product_post_free_confirmation_another_button" = "Give another item away";
+"product_post_free_confirmation_another_button" = "Tặng món đồ khác";
 "product_post_gallery_load_image_error_subtitle" = "Hãy chọn ảnh khác và thử lại.";
 "product_post_gallery_load_image_error_title" = "Không thể tải ảnh.";
 "product_post_gallery_permissions_button" = "Cho phép";

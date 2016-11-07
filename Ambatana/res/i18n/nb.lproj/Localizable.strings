@@ -218,6 +218,7 @@
 "contact_subject_option_product_edit" = "Endre/slett produktet";
 "contact_subject_option_profile_edit" = "Endre/slett profil";
 "contact_subject_option_report" = "Rapporter bruker/spam";
+"direct_answer_condition" = "I hvilken stand er dette produktet?";
 "direct_answer_free_available" = "Ja, produktet er fortsatt tilgjengelig";
 "direct_answer_free_no_available" = "Beklager, det er allerede gitt bort!";
 "direct_answer_free_still_have" = "Har du fortsatt produktet?";
@@ -233,7 +234,9 @@
 "direct_answer_sold_question_message" = "Marker ditt produkt som solgt slik at alle letgo-brukere vet det";
 "direct_answer_sold_question_ok" = "Merk som solgt";
 "direct_answer_sold_question_title" = "Allerede solgt produktet?";
+"direct_answer_still_available" = "Er dette produktet fortsatt tilgjengelig?";
 "direct_answer_still_for_sale" = "Ja, produktet er fortsatt til salgs";
+"direct_answer_title" = "VELG ELLER SKRIV EN MELDING";
 "direct_answer_whats_offer" = "Hva er ditt bud?";
 "direct_answers_hide" = "Skjul Hurtige Svar";
 "direct_answers_show" = "Vis Hurtige Svar";
@@ -324,12 +327,12 @@
 "notifications_type_like_w_name_w_title" = "%@ favoriserte ditt produkt: \"%@\"";
 "notifications_type_rating" = "%@ har vurdert deg";
 "notifications_type_rating_button" = "See dine vurderinger";
-"notifications_type_rating_updated" = "%@ har oppdatert din vurdering";
+"notifications_type_rating_updated" = "%@ har oppdatert deres vurdering";
 "notifications_type_sold" = "Et produkt du favoriserte ble solgt";
 "notifications_type_sold_button" = "Se produktet";
 "notifications_type_welcome_button" = "Start salget";
-"notifications_type_welcome_subtitle" = "Tjen penger ved å selge det du ikke trenger og finn flotte dealer i ditt nærområde.";
-"notifications_type_welcome_subtitle_w_city" = "Tjen penger ved å selge det du ikke trenger og finn flotte dealer i %@.";
+"notifications_type_welcome_subtitle" = "Tjen penger ved å selge det du ikke trenger og finn flotte dealer i ditt nærområde";
+"notifications_type_welcome_subtitle_w_city" = "Tjen penger ved å selge det du ikke trenger og finn flotte dealer i %@";
 "notifications_type_welcome_title" = "Velkommen til letgo!";
 "notifications_user_wo_name" = "En bruker";
 "nps_survey_subtitle" = "På en skal 1 til 10 - hvor sannsynlig er det at du anbefaler letgo til en venn?";
@@ -382,6 +385,7 @@
 "product_delete_success_message" = "Sletting av ditt produkt var vellykket.";
 "product_distance_X_from_you" = "%@ fra deg";
 "product_distance_more_than_from_you" = "Mer enn %@ fra deg";
+"product_favorite_direct_message" = "I like it! Is it still available?";
 "product_free_price" = "Gis bort";
 "product_is_mine_share_body" = "Se hva jeg selger på letgo!";
 "product_is_mine_share_body_free" = "Se hva jeg gir bort på letgo!";
@@ -436,7 +440,7 @@
 "product_post_empty_gallery_title" = "Ingen bilder ble funnet";
 "product_post_free_camera_first_time_alert_subtitle" = "Ta et godt bilde og finn et nytt hjem for ditt produkt!";
 "product_post_free_camera_first_time_alert_title" = "Hva ønsker du å gi bort?";
-"product_post_free_confirmation_another_button" = "Give another item away";
+"product_post_free_confirmation_another_button" = "Gi bort et nytt produkt";
 "product_post_gallery_load_image_error_subtitle" = "Velg et annet bilde, og prøv igjen";
 "product_post_gallery_load_image_error_title" = "Bildet kan ikke lastes";
 "product_post_gallery_permissions_button" = "Tillat";

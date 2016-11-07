@@ -114,7 +114,6 @@ class ProductViewModel: BaseViewModel {
     var interestedBubbleTitle: String?
     var isFirstProduct: Bool = false
 
-    private var favoriteMessageBubbleShown: Bool = false
     private var favoriteMessageSent: Bool = false
 
     // UI - Input
@@ -448,20 +447,27 @@ extension ProductViewModel {
         openChat()
     }
 
-    func sendDirectMessage(message: String?) {
-        delegate?.vmShowLoading(LGLocalizedString.productChatDirectMessageSending)
+    func sendDirectMessage(text: String, favorite: Bool) {
+        // Optimistic behavior
+        let message = LocalMessage(text: text, userId: myUserRepository.myUser?.objectId)
+        let messageView = chatViewMessageAdapter.adapt(message)
+        directChatMessages.insert(messageView, atIndex: 0)
 
-        let text = message ?? LGLocalizedString.productChatDirectMessage(product.value.user.name ?? "")
-        chatWrapper.sendMessageForProduct(product.value, text: text, sticker: nil, type: .Text) { [weak self] result in
+        chatWrapper.sendMessageForProduct(product.value, text: text, sticker: nil, type: .Text) {
+            [weak self] result in
             if let value = result.value {
-                self?.trackHelper.trackDirectMessageSent(value)
-                self?.delegate?.vmHideLoading(LGLocalizedString.productChatWithSellerSendOk, afterMessageCompletion: nil)
+                self?.trackHelper.trackDirectMessageSent(value, favorite: favorite)
             } else if let error = result.error {
                 switch error {
                 case .Forbidden:
-                    self?.delegate?.vmHideLoading(LGLocalizedString.productChatDirectErrorBlockedUserMessage, afterMessageCompletion: nil)
+                    self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.productChatDirectErrorBlockedUserMessage, completion: nil)
                 case .Network, .Internal, .NotFound, .Unauthorized, .TooManyRequests, .UserNotVerified, .ServerError:
-                    self?.delegate?.vmHideLoading(LGLocalizedString.chatSendErrorGeneric, afterMessageCompletion: nil)
+                    self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.chatSendErrorGeneric, completion: nil)
+                }
+
+                //Removing in case of failure
+                if let indexToRemove = self?.directChatMessages.value.indexOf({ $0.objectId == messageView.objectId }) {
+                    self?.directChatMessages.removeAtIndex(indexToRemove)
                 }
             }
         }
@@ -760,7 +766,7 @@ extension ProductViewModel {
                 strongSelf.favoriteButtonState.value = .Enabled
                 strongSelf.refreshInterestedBubble(true, forFirstProduct: strongSelf.isFirstProduct)
             }
-            checkSendFavoriteSticker()
+            checkSendFavoriteMessage()
         }
     }
 
@@ -947,7 +953,7 @@ extension ProductViewModel {
     }
 
     func shouldShowInterestedBubbleForProduct(id: String, fromFavoriteAction: Bool, forFirstProduct isFirstProduct: Bool) -> Bool {
-        return interestedBubbleManager.shouldShowInterestedBubbleForProduct(id, fromFavoriteAction: fromFavoriteAction, forFirstProduct: isFirstProduct) && !favoriteMessageBubbleShown && active
+        return interestedBubbleManager.shouldShowInterestedBubbleForProduct(id, fromFavoriteAction: fromFavoriteAction, forFirstProduct: isFirstProduct) && active
     }
 }
 
@@ -1020,44 +1026,20 @@ private extension ProductViewModelStatus {
 
 
 private extension ProductViewModel {
-
-    static let favouriteStickerName = ":love_it:"
-
-    private func checkSendFavoriteSticker() {
+    private func checkSendFavoriteMessage() {
         guard !favoriteMessageSent else { return }
 
-        switch FeatureFlags.messageOnFavorite {
+        switch FeatureFlags.messageOnFavoriteRound2 {
         case .NoMessage:
             return
-        case .NotificationPreMessage:
-            guard !favoriteMessageBubbleShown else { return }
-            favoriteMessageBubbleShown = true
-            let data = BubbleNotificationData(text: LGLocalizedString.productBubbleFavoriteText,
-                                              action: buildNotificationButtonAction())
-            bubbleManager.showBubble(data, duration: 3)
         case .DirectMessage:
-            sendFavoriteSticker()
+            sendFavoriteMessage()
         }
     }
 
-    private func sendFavoriteSticker() {
-        stickersRepository.show(typeFilter: .Chat) { [weak self] result in
-            guard let stickers = result.value else { return }
-            for sticker in stickers {
-                if sticker.name == ProductViewModel.favouriteStickerName {
-                    self?.favoriteMessageSent = true
-                    self?.sendStickerToSeller(sticker, favorite: true)
-                    break
-                }
-            }
-        }
-    }
-
-    private func buildNotificationButtonAction() -> UIAction {
-        
-        return UIAction(interface: .Button(LGLocalizedString.productBubbleFavoriteButton, .Cancel), action: { [weak self] in
-            self?.sendFavoriteSticker()
-        }, accessibilityId: .ProductCarouselFavoriteMessageNotificationButton)
+    private func sendFavoriteMessage() {
+        sendDirectMessage(LGLocalizedString.productFavoriteDirectMessage, favorite: true)
+        favoriteMessageSent = true
     }
 }
 
