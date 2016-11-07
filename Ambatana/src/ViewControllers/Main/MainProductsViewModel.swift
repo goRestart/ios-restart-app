@@ -134,7 +134,7 @@ class MainProductsViewModel: BaseViewModel {
         self.tabNavigator = tabNavigator
         self.collections = CollectionCellType.allValuesShuffled
         self.productListRequester = FilteredProductListRequester()
-        let show3Columns = DeviceFamily.isWideScreen
+        let show3Columns = DeviceFamily.isWidestScreen
         let columns = show3Columns ? 3 : 2
         self.listViewModel = ProductListViewModel(requester: self.productListRequester, products: nil,
                                                   numberOfColumns: columns)

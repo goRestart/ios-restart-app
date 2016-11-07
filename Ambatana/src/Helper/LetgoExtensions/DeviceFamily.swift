@@ -30,8 +30,12 @@ enum DeviceFamily {
         }
     }
 
-    static var isWideScreen: Bool {
+    static var isWidestScreen: Bool {
         return UIScreen.mainScreen().bounds.width > DeviceFamily.iPhone6ScreenWidth
+    }
+    
+    static var isWideScreen: Bool {
+        return UIScreen.mainScreen().bounds.width > DeviceFamily.iPhone5ScreenWidth
     }
     
     static var isiPad: Bool {
@@ -39,4 +43,5 @@ enum DeviceFamily {
     }
 
     private static let iPhone6ScreenWidth: CGFloat = 375
+    private static let iPhone5ScreenWidth: CGFloat = 320
 }
