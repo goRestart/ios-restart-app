@@ -218,6 +218,7 @@
 "contact_subject_option_product_edit" = "Editar/borrar artículo";
 "contact_subject_option_profile_edit" = "Editar/borrar perfil";
 "contact_subject_option_report" = "Denunciar usuario/spam";
+"direct_answer_condition" = "¿En qué condición está el artículo?";
 "direct_answer_free_available" = "Sí, todavía está disponible";
 "direct_answer_free_no_available" = "Perdona, ¡ya lo he regalado!";
 "direct_answer_free_still_have" = "¿Todavía lo tienes?";
@@ -233,7 +234,9 @@
 "direct_answer_sold_question_message" = "Marca tu producto como vendido para que lo sepan todos los usuarios de letgo";
 "direct_answer_sold_question_ok" = "Marcar como vendido";
 "direct_answer_sold_question_title" = "¿Ya lo has vendido?";
+"direct_answer_still_available" = "¿Todavía está disponible?";
 "direct_answer_still_for_sale" = "Sí, aún está en venta";
+"direct_answer_title" = "SELECCIONA O TECLEA UN MENSAJE";
 "direct_answer_whats_offer" = "¿Cuál es tu oferta?";
 "direct_answers_hide" = "Esconder respuestas rápidas";
 "direct_answers_show" = "Mostrar respuestas rápidas";
@@ -328,8 +331,8 @@
 "notifications_type_sold" = "Un producto que marcaste como favorito se ha vendido";
 "notifications_type_sold_button" = "Ver el producto";
 "notifications_type_welcome_button" = "Empezar a vender";
-"notifications_type_welcome_subtitle" = "Gana dinero vendiendo lo que no necesitas y encuentra ofertas increíbles cerca de ti.";
-"notifications_type_welcome_subtitle_w_city" = "Gana dinero vendiendo lo que no necesitas y encuentra ofertas increíbles en %@.";
+"notifications_type_welcome_subtitle" = "Gana dinero vendiendo lo que no necesitas y encuentra ofertas increíbles cerca de ti";
+"notifications_type_welcome_subtitle_w_city" = "Gana dinero vendiendo lo que no necesitas y encuentra ofertas increíbles en %@";
 "notifications_type_welcome_title" = "¡Bienvenido a letgo!";
 "notifications_user_wo_name" = "Un usuario";
 "nps_survey_subtitle" = "Del 1 al 10, ¿con qué probabilidad recomendarías letgo a un amigo?";
@@ -382,6 +385,7 @@
 "product_delete_success_message" = "El artículo ha sido eliminado.";
 "product_distance_X_from_you" = "%@ de ti";
 "product_distance_more_than_from_you" = "A más de %@ de ti";
+"product_favorite_direct_message" = "¡Me gusta! ¿Todavía está disponible?";
 "product_free_price" = "Gratis";
 "product_is_mine_share_body" = "¡Échale un vistazo a lo que vendo en letgo!";
 "product_is_mine_share_body_free" = "¡Échale un vistazo a lo que regalo en letgo!";

@@ -26,24 +26,30 @@ class NotificationsViewModel: BaseViewModel {
     private let notificationsRepository: NotificationsRepository
     private let productRepository: ProductRepository
     private let userRepository: UserRepository
+    private let myUserRepository: MyUserRepository
     private let notificationsManager: NotificationsManager
     private let locationManager: LocationManager
     private let tracker: Tracker
+
+    private let disposeBag = DisposeBag()
 
     convenience override init() {
         self.init(notificationsRepository: Core.notificationsRepository,
                   productRepository: Core.productRepository,
                   userRepository: Core.userRepository,
+                  myUserRepository: Core.myUserRepository,
                   notificationsManager: NotificationsManager.sharedInstance,
                   locationManager: Core.locationManager,
                   tracker: TrackerProxy.sharedInstance)
     }
 
     init(notificationsRepository: NotificationsRepository, productRepository: ProductRepository,
-         userRepository: UserRepository, notificationsManager: NotificationsManager, locationManager: LocationManager,
+         userRepository: UserRepository, myUserRepository: MyUserRepository,
+         notificationsManager: NotificationsManager, locationManager: LocationManager,
          tracker: Tracker) {
         self.notificationsRepository = notificationsRepository
         self.productRepository = productRepository
+        self.myUserRepository = myUserRepository
         self.userRepository = userRepository
         self.notificationsManager = notificationsManager
         self.locationManager = locationManager
@@ -55,6 +61,9 @@ class NotificationsViewModel: BaseViewModel {
     override func didBecomeActive(firstTime: Bool) {
         super.didBecomeActive(firstTime)
 
+        if firstTime {
+            setupRx()
+        }
         trackVisit()
         reloadNotifications()
     }
@@ -82,6 +91,13 @@ class NotificationsViewModel: BaseViewModel {
 
 
     // MARK: - Private methods
+
+    private func setupRx() {
+        let loggedOut = myUserRepository.rx_myUser.asObservable().filter { return $0 == nil }
+        loggedOut.subscribeNext { [weak self] _ in
+            self?.viewState.value = .Loading
+        }.addDisposableTo(disposeBag)
+    }
 
     private func reloadNotifications() {
         notificationsRepository.index { [weak self] result in

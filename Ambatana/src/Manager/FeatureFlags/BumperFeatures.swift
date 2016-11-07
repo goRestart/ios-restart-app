@@ -12,7 +12,7 @@ import bumper
 
 extension Bumper  {
     static func initialize() {
-        Bumper.initialize([WebsocketChat.self, NotificationsSection.self, UserReviews.self, ShowNPSSurvey.self, NonStopProductDetail.self, MessageOnFavoriteMode.self, InterestedUsersMode.self, FiltersReorder.self, FreePostingMode.self, DirectPostInOnboarding.self])
+        Bumper.initialize([WebsocketChat.self, NotificationsSection.self, UserReviews.self, ShowNPSSurvey.self, NonStopProductDetail.self, MessageOnFavoriteRound2Mode.self, InterestedUsersMode.self, FiltersReorder.self, FreePostingMode.self, DirectPostInOnboarding.self, ShareButtonWithIcon.self, ProductDetailShareMode.self])
     } 
 
     static var websocketChat: Bool {
@@ -40,9 +40,9 @@ extension Bumper  {
         return NonStopProductDetail(rawValue: value)?.asBool ?? true
     }
 
-    static var messageOnFavoriteMode: MessageOnFavoriteMode {
-        guard let value = Bumper.valueForKey(MessageOnFavoriteMode.key) else { return .NoMessage }
-        return MessageOnFavoriteMode(rawValue: value) ?? .NoMessage 
+    static var messageOnFavoriteRound2Mode: MessageOnFavoriteRound2Mode {
+        guard let value = Bumper.valueForKey(MessageOnFavoriteRound2Mode.key) else { return .NoMessage }
+        return MessageOnFavoriteRound2Mode(rawValue: value) ?? .NoMessage 
     }
 
     static var interestedUsersMode: InterestedUsersMode {
@@ -63,6 +63,16 @@ extension Bumper  {
     static var directPostInOnboarding: Bool {
         guard let value = Bumper.valueForKey(DirectPostInOnboarding.key) else { return false }
         return DirectPostInOnboarding(rawValue: value)?.asBool ?? false
+    }
+
+    static var shareButtonWithIcon: Bool {
+        guard let value = Bumper.valueForKey(ShareButtonWithIcon.key) else { return true }
+        return ShareButtonWithIcon(rawValue: value)?.asBool ?? true
+    }
+
+    static var productDetailShareMode: ProductDetailShareMode {
+        guard let value = Bumper.valueForKey(ProductDetailShareMode.key) else { return .Native }
+        return ProductDetailShareMode(rawValue: value) ?? .Native 
     } 
 }
 
@@ -112,17 +122,16 @@ enum NonStopProductDetail: String, BumperFeature  {
     var asBool: Bool { return self == .Yes }
 }
 
-enum MessageOnFavoriteMode: String, BumperFeature  {
-    case NoMessage, NotificationPreMessage, DirectMessage
-    static var defaultValue: String { return MessageOnFavoriteMode.NoMessage.rawValue }
-    static var enumValues: [MessageOnFavoriteMode] { return [.NoMessage, .NotificationPreMessage, .DirectMessage]}
+enum MessageOnFavoriteRound2Mode: String, BumperFeature  {
+    case NoMessage, DirectMessage
+    static var defaultValue: String { return MessageOnFavoriteRound2Mode.NoMessage.rawValue }
+    static var enumValues: [MessageOnFavoriteRound2Mode] { return [.NoMessage, .DirectMessage]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Message after favorite" } 
-    static func fromPosition(position: Int) -> MessageOnFavoriteMode {
+    static var description: String { return "Message after favorite: The Return" } 
+    static func fromPosition(position: Int) -> MessageOnFavoriteRound2Mode {
         switch position { 
             case 0: return .NoMessage
-            case 1: return .NotificationPreMessage
-            case 2: return .DirectMessage
+            case 1: return .DirectMessage
             default: return .NoMessage
         }
     }
@@ -176,5 +185,30 @@ enum DirectPostInOnboarding: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Last Onboarding step opens the camera" } 
     var asBool: Bool { return self == .Yes }
+}
+
+enum ShareButtonWithIcon: String, BumperFeature  {
+    case Yes, No
+    static var defaultValue: String { return ShareButtonWithIcon.Yes.rawValue }
+    static var enumValues: [ShareButtonWithIcon] { return [.Yes, .No]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Share button with an icon" } 
+    var asBool: Bool { return self == .Yes }
+}
+
+enum ProductDetailShareMode: String, BumperFeature  {
+    case Native, InPlace, FullScreen
+    static var defaultValue: String { return ProductDetailShareMode.Native.rawValue }
+    static var enumValues: [ProductDetailShareMode] { return [.Native, .InPlace, .FullScreen]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "How the share options are presented in product detail" } 
+    static func fromPosition(position: Int) -> ProductDetailShareMode {
+        switch position { 
+            case 0: return .Native
+            case 1: return .InPlace
+            case 2: return .FullScreen
+            default: return .Native
+        }
+    }
 }
 

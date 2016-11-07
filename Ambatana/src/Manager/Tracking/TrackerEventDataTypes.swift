@@ -238,6 +238,7 @@ public enum EventParameterName: String {
     case NotificationType     = "notification-type"
     case ShownReason          = "shown-reason"
     case FreePosting          = "free-posting"
+    case SellButtonPosition   = "sell-button-position"
 }
 
 public enum EventParameterLoginSourceValue: String {
@@ -286,6 +287,12 @@ public enum EventParameterButtonPosition: String {
     case None = "N/A"
 }
 
+public enum EventParameterSellButtonPosition: String {
+    case TabBar = "tabbar-camera"
+    case FloatingButton = "big-button"
+    case None = "N/A"
+}
+
 public enum EventParameterShareNetwork: String {
     case Email = "email"
     case Facebook = "facebook"
@@ -295,6 +302,7 @@ public enum EventParameterShareNetwork: String {
     case Telegram = "telegram"
     case SMS = "sms"
     case CopyLink = "copy_link"
+    case Native = "native"
 }
 
 public enum EventParameterNegotiablePrice: String {
@@ -658,11 +666,14 @@ public struct EventParameters {
 
 struct PostProductTrackingInfo {
     var buttonName: EventParameterButtonNameType
+    var sellButtonPosition: EventParameterSellButtonPosition
     var imageSource: EventParameterPictureSource
     var negotiablePrice: EventParameterNegotiablePrice
 
-    init(buttonName: EventParameterButtonNameType, imageSource: EventParameterPictureSource?, price: String?) {
+    init(buttonName: EventParameterButtonNameType, sellButtonPosition: EventParameterSellButtonPosition,
+         imageSource: EventParameterPictureSource?, price: String?) {
         self.buttonName = buttonName
+        self.sellButtonPosition = sellButtonPosition
         self.imageSource = imageSource ?? .Camera
         if let price = price, let doublePrice = Double(price) {
             negotiablePrice = doublePrice > 0 ? .No : .Yes

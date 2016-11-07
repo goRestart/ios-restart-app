@@ -26,4 +26,15 @@ struct LocalMessage: Message {
         self.isRead = false
         self.warningStatus = .Normal
     }
+
+    init(text: String, userId: String?) {
+        self.objectId = NSDate().description
+        self.text = text
+        self.type = .Text
+        self.userId = userId ?? ""
+        self.createdAt = NSDate()
+        self.isRead = false
+        self.warningStatus = .Normal
+    }
+
 }

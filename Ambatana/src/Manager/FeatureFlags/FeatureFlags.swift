@@ -49,11 +49,11 @@ struct FeatureFlags {
         return ABTests.nonStopProductDetail.value
     }
 
-    static var messageOnFavorite: MessageOnFavoriteMode {
+    static var messageOnFavoriteRound2: MessageOnFavoriteRound2Mode {
         if Bumper.enabled {
-            return Bumper.messageOnFavoriteMode
+            return Bumper.messageOnFavoriteRound2Mode
         }
-        return MessageOnFavoriteMode.fromPosition(ABTests.messageOnFavorite.value)
+        return MessageOnFavoriteRound2Mode.fromPosition(ABTests.messageOnFavoriteRound2.value)
     }
 
     static var interestedUsersMode: InterestedUsersMode {
@@ -85,8 +85,22 @@ struct FeatureFlags {
         }
         return ABTests.directPostInOnboarding.value
     }
+    
+    static var shareButtonWithIcon: Bool {
+        if Bumper.enabled {
+            return Bumper.shareButtonWithIcon
+        }
+        return ABTests.shareButtonWithIcon.value
+    }
 
+    static var productDetailShareMode: ProductDetailShareMode {
+        if Bumper.enabled {
+            return Bumper.productDetailShareMode
+        }
+        return ProductDetailShareMode.fromPosition(ABTests.productDetailShareMode.value)
+    }
 
+    
     // MARK: - Private
 
     private static var freePostingModeAllowed: Bool {
@@ -95,7 +109,7 @@ struct FeatureFlags {
 
         // Free posting is not allowed in Turkey. Check location & phone region.
         let turkey = "tr"
-        let systemCountryCode = (locale.objectForKey(NSLocaleCountryCode) as? String ?? "").lowercaseString
+        let systemCountryCode = locale.lg_countryCode
         let countryCode = (locationManager.currentPostalAddress?.countryCode ?? systemCountryCode).lowercaseString
 
         return systemCountryCode != turkey && countryCode != turkey
