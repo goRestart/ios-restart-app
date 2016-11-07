@@ -19,17 +19,17 @@ class KeyboardHelper {
     
     var rx_keyboardHeight = Variable<CGFloat>(0.0)
     var rx_keyboardOrigin = Variable<CGFloat>(0.0)
-    
+    var rx_keyboardVisible = Variable<Bool>(false)
     
     init() {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(keyboardWillChange),
-                                                         name:UIKeyboardWillShowNotification, object: nil);
+                                                         name:UIKeyboardWillShowNotification, object: nil)
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(keyboardWillChange),
-                                                         name:UIKeyboardWillHideNotification, object: nil);
+                                                         name:UIKeyboardWillHideNotification, object: nil)
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(keyboardWillChange),
-                                                         name:UIKeyboardWillChangeFrameNotification, object: nil);
+                                                         name:UIKeyboardWillChangeFrameNotification, object: nil)
     }
     
     deinit {
@@ -44,6 +44,7 @@ class KeyboardHelper {
         
         rx_keyboardHeight.value = keyboardHeight
         rx_keyboardOrigin.value = keyboardOrigin
+        rx_keyboardVisible.value = keyboardOrigin < UIScreen.mainScreen().bounds.height
     }
 }
 
