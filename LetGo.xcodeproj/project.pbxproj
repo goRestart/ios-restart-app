@@ -2277,7 +2277,6 @@
 		508E4CE81B41A5BD007BD301 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				2EED4D241D23F03E0024328A /* ChatProduct+title.swift */,
 				72FC80031DD1EC2600255BBE /* Leanplum+LG.swift */,
 				50E8A08A1B79F8D800DE49CC /* ContactSubject.swift */,
 				C7363FB91BFA3E6500A4BF6F /* DistanceType+LG.swift */,
