@@ -525,8 +525,8 @@
 		6AF75D0E1CF4657B00EACCF0 /* ChatStickerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6AF75D0C1CF4657B00EACCF0 /* ChatStickerCell.xib */; };
 		7265BE5D1DB4CA9700DF1752 /* FreePostingMode+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7265BE5C1DB4CA9700DF1752 /* FreePostingMode+LG.swift */; };
 		7265BE5E1DB4CA9700DF1752 /* FreePostingMode+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7265BE5C1DB4CA9700DF1752 /* FreePostingMode+LG.swift */; };
-		72FC80041DD1EC2600255BBE /* Leanplum+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72FC80031DD1EC2600255BBE /* Leanplum+LG.swift */; };
-		72FC80051DD1EC2600255BBE /* Leanplum+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72FC80031DD1EC2600255BBE /* Leanplum+LG.swift */; };
+		72A83F641DD222100043EB3B /* Leanplum+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72A83F631DD222100043EB3B /* Leanplum+LG.swift */; };
+		72A83F651DD222100043EB3B /* Leanplum+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72A83F631DD222100043EB3B /* Leanplum+LG.swift */; };
 		B1BE6075C99CFB3D2FFD15B5 /* Pods_letgoTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2D3A9CDDF543002435A50F7 /* Pods_letgoTests.framework */; };
 		C703BDFE1C7F1AF900EC8EF2 /* EditLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C703BDFB1C7F1AF900EC8EF2 /* EditLocationViewController.swift */; };
 		C703BDFF1C7F1AF900EC8EF2 /* EditLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C703BDFB1C7F1AF900EC8EF2 /* EditLocationViewController.swift */; };
@@ -1445,7 +1445,7 @@
 		6AF75D0C1CF4657B00EACCF0 /* ChatStickerCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatStickerCell.xib; sourceTree = "<group>"; };
 		7166AA5BA494F5827085F946 /* Pods_LetGoGodMode.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LetGoGodMode.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7265BE5C1DB4CA9700DF1752 /* FreePostingMode+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "FreePostingMode+LG.swift"; path = "Ambatana/src/Helper/LetgoExtensions/FreePostingMode+LG.swift"; sourceTree = SOURCE_ROOT; };
-		72FC80031DD1EC2600255BBE /* Leanplum+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Leanplum+LG.swift"; sourceTree = "<group>"; };
+		72A83F631DD222100043EB3B /* Leanplum+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Leanplum+LG.swift"; sourceTree = "<group>"; };
 		7B2FD4C296937E707B24D7EB /* Pods-LetGoGodMode.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetGoGodMode.release.xcconfig"; path = "Pods/Target Support Files/Pods-LetGoGodMode/Pods-LetGoGodMode.release.xcconfig"; sourceTree = "<group>"; };
 		7ED714BB7ABD1804F5E818D4 /* Pods-LetGo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetGo.release.xcconfig"; path = "Pods/Target Support Files/Pods-LetGo/Pods-LetGo.release.xcconfig"; sourceTree = "<group>"; };
 		7FF25262DBFA224AC937A467 /* Pods_LetGo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LetGo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -2277,7 +2277,6 @@
 		508E4CE81B41A5BD007BD301 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				72FC80031DD1EC2600255BBE /* Leanplum+LG.swift */,
 				50E8A08A1B79F8D800DE49CC /* ContactSubject.swift */,
 				C7363FB91BFA3E6500A4BF6F /* DistanceType+LG.swift */,
 				C780281C1BF0FB64002B26C5 /* FilterSection.swift */,
@@ -2640,6 +2639,7 @@
 		6A5E19B61D548F5400F92692 /* 3rdPartyExtensions */ = {
 			isa = PBXGroup;
 			children = (
+				72A83F631DD222100043EB3B /* Leanplum+LG.swift */,
 				6A5E19B71D548F5400F92692 /* ExternalServiceAuthResult.swift */,
 				6A5E19B81D548F5400F92692 /* FBLoginHelper.swift */,
 				6A5E19B91D548F5400F92692 /* FBSDKSharing+LG.swift */,
@@ -4385,6 +4385,7 @@
 				50261B1F1AFB49B6006E88E0 /* DevelopmentEnvironment.swift in Sources */,
 				50C63B761DC3B63700836D85 /* ShareType.swift in Sources */,
 				2E50EBE31C8F0A9A0097CB82 /* ProcessingVideoDialogViewModel.swift in Sources */,
+				72A83F641DD222100043EB3B /* Leanplum+LG.swift in Sources */,
 				50C63B711DC3A79100836D85 /* SocialMessage.swift in Sources */,
 				C7B5884B1CE1DE1C009B3975 /* ChatViewModel.swift in Sources */,
 				2E373FAA1D3D135D00AC811C /* UserRatingListRequester.swift in Sources */,
@@ -4550,7 +4551,6 @@
 				2E373FA81D3D01AE00AC811C /* UserRatingListViewModel.swift in Sources */,
 				C735101E1D942B5000D67040 /* FeatureFlags.swift in Sources */,
 				C7B6FA8A1D182F4200DAA19D /* LocalChat.swift in Sources */,
-				72FC80041DD1EC2600255BBE /* Leanplum+LG.swift in Sources */,
 				6ACC24C41D2A90400064B165 /* GridDrawerManager.swift in Sources */,
 				C703BE021C7F1AF900EC8EF2 /* EditLocationViewModel.swift in Sources */,
 				C7B588891CE1DFA6009B3975 /* ChatMyMessageCell.swift in Sources */,
@@ -4773,6 +4773,7 @@
 				C7DB41F71C5138B500400945 /* DevelopmentEnvironment.swift in Sources */,
 				50C63B771DC3B63700836D85 /* ShareType.swift in Sources */,
 				C7E73E8B1CD1F77E000F2591 /* NotificationData.swift in Sources */,
+				72A83F651DD222100043EB3B /* Leanplum+LG.swift in Sources */,
 				50C63B721DC3A79100836D85 /* SocialMessage.swift in Sources */,
 				2E50EBE41C8F0A9A0097CB82 /* ProcessingVideoDialogViewModel.swift in Sources */,
 				C7B5884C1CE1DE1C009B3975 /* ChatViewModel.swift in Sources */,
@@ -4938,7 +4939,6 @@
 				C7F4CBA71C92CC5A008E40D6 /* LGViewPagerPage.swift in Sources */,
 				C735101F1D942B5000D67040 /* FeatureFlags.swift in Sources */,
 				C7B6FA8B1D182F4200DAA19D /* LocalChat.swift in Sources */,
-				72FC80051DD1EC2600255BBE /* Leanplum+LG.swift in Sources */,
 				6ACC24C51D2A90400064B165 /* GridDrawerManager.swift in Sources */,
 				C703BE031C7F1AF900EC8EF2 /* EditLocationViewModel.swift in Sources */,
 				C7B5888A1CE1DFA6009B3975 /* ChatMyMessageCell.swift in Sources */,
