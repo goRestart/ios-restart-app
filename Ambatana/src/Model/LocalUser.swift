@@ -26,7 +26,7 @@ struct LocalUser: User {
         self.objectId = chatInterlocutor.objectId
         self.name = chatInterlocutor.name
         self.avatar = chatInterlocutor.avatar
-        self.postalAddress =  PostalAddress(address: nil, city: nil, zipCode: nil, state: nil, countryCode: nil, country: nil)
+        self.postalAddress =  PostalAddress.emptyAddress()
         self.accounts = nil
         self.ratingAverage = nil
         self.ratingCount = nil
