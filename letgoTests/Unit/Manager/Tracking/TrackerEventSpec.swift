@@ -1404,7 +1404,8 @@ class TrackerEventSpec: QuickSpec {
 
             describe("productSellStart") {
                 beforeEach {
-                    sut = TrackerEvent.productSellStart(.Unset, typePage: .Sell, buttonName: .SellYourStuff)
+                    sut = TrackerEvent.productSellStart(.Unset, typePage: .Sell, buttonName: .SellYourStuff,
+                        sellButtonPosition: .TabBar)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("product-sell-start"))
@@ -1416,6 +1417,10 @@ class TrackerEventSpec: QuickSpec {
                 it("contains button name from which the event has been sent") {
                     let name = sut.params!.stringKeyParams["button-name"] as? String
                     expect(name).to(equal("sell-your-stuff"))
+                }
+                it("contains button position from which the event has been sent") {
+                    let position = sut.params!.stringKeyParams["sell-button-position"] as? String
+                    expect(position).to(equal("tabbar-camera"))
                 }
                 it("contains unset as EventParameterFreePosting") {
                     let freePosting = sut.params!.stringKeyParams["free-posting"] as? String
@@ -1464,7 +1469,7 @@ class TrackerEventSpec: QuickSpec {
                     product.objectId = "r4nd0m1D"
                     product.category = .HomeAndGarden
                     product.price = .Negotiable(20)
-                    sut = TrackerEvent.productSellComplete(product, buttonName: .Done, negotiable: .Yes,
+                    sut = TrackerEvent.productSellComplete(product, buttonName: .Done, sellButtonPosition: .FloatingButton, negotiable: .Yes,
                         pictureSource: .Gallery, freePostingMode: .OneButton)
                 }
                 it("has its event name") {
@@ -1493,6 +1498,10 @@ class TrackerEventSpec: QuickSpec {
                 it("contains button-name") {
                     let data = sut.params!.stringKeyParams["button-name"] as? String
                     expect(data).to(equal("done"))
+                }
+                it("contains sell-button-position") {
+                    let data = sut.params!.stringKeyParams["sell-button-position"] as? String
+                    expect(data).to(equal("big-button"))
                 }
                 it("contains negotiable-price") {
                     let data = sut.params!.stringKeyParams["negotiable-price"] as? String

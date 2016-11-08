@@ -218,6 +218,7 @@
 "contact_subject_option_product_edit" = "Επεξεργασία ή διαγραφή προϊόντος";
 "contact_subject_option_profile_edit" = "Επεξεργασία/διαγραφή προφίλ";
 "contact_subject_option_report" = "Αναφορά χρήστη/spam";
+"direct_answer_condition" = "Σε τί κατάσταση είναι αυτό το αντικείμενο;";
 "direct_answer_free_available" = "Ναι, είναι ακόμη διαθέσιμο";
 "direct_answer_free_no_available" = "Συγγνώμη, το έχω ήδη χαρίσει!";
 "direct_answer_free_still_have" = "Το έχεις ακόμη;";
@@ -233,7 +234,9 @@
 "direct_answer_sold_question_message" = "Μαρκάρετε το προϊόν σας ως πουλημένο, για να το ξέρουν οι χρήστες του letgo";
 "direct_answer_sold_question_ok" = "Μάρκαρε ότι πωλήθηκε";
 "direct_answer_sold_question_title" = "Το πούλησες ήδη;";
+"direct_answer_still_available" = "Είναι αυτό το αντικείμενο διαθέσιμο;";
 "direct_answer_still_for_sale" = "Ναι, είναι ακόμη για πώληση";
+"direct_answer_title" = "ΕΠΙΛΕΞΤΕ 'Η ΠΛΗΚΤΡΟΛΟΓΗΣΤΕ ΕΝΑ ΜΗΝΥΜΑ";
 "direct_answer_whats_offer" = "Ποια είναι η προσφορά σου;";
 "direct_answers_hide" = "Απόκρυψη Γρήγορων Απαντήσεων";
 "direct_answers_show" = "Προβολή Γρήγορων Απαντήσεων";
@@ -328,8 +331,8 @@
 "notifications_type_sold" = "Ένα προϊόν που προσθέσατε στα αγαπημένα σας έχει πωληθεί";
 "notifications_type_sold_button" = "Δείτε το προϊόν";
 "notifications_type_welcome_button" = "Ξεκινήστε να πουλάτε";
-"notifications_type_welcome_subtitle" = "Κερδίστε χρήματα πουλώντας ό,τι δε χρειάζεστε και βρείτε υπέροχες προσφορές κοντά σας.";
-"notifications_type_welcome_subtitle_w_city" = "Κερδίστε χρήματα πουλώντας ό,τι δε χρειάζεστε και βρείτε υπέροχες σε %@.";
+"notifications_type_welcome_subtitle" = "Κερδίστε χρήματα πουλώντας ό,τι δε χρειάζεστε και βρείτε υπέροχες προσφορές κοντά σας";
+"notifications_type_welcome_subtitle_w_city" = "Κερδίστε χρήματα πουλώντας ό,τι δε χρειάζεστε και βρείτε υπέροχες σε %@";
 "notifications_type_welcome_title" = "Καλωσήρθατε στο letgo!";
 "notifications_user_wo_name" = "Ένας χρήστης";
 "nps_survey_subtitle" = "Από το 1 ως το 10, πόσο θα θέλατε να προτείνετε το letgo σ' ένα φίλο;";
@@ -382,6 +385,7 @@
 "product_delete_success_message" = "Το προϊόν σας διαγράφηκε επιτυχώς.";
 "product_distance_X_from_you" = "%@ από εσάς";
 "product_distance_more_than_from_you" = "Περισσότερο από %@ από εσάς";
+"product_favorite_direct_message" = "Μου αρέσει! Είναι ακόμη διαθέσιμο;";
 "product_free_price" = "Δωρεάν";
 "product_is_mine_share_body" = "Δείτε τι πουλάω στο letgo!";
 "product_is_mine_share_body_free" = "Δείτε τί χαρίζω στο letgo!";

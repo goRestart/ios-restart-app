@@ -232,13 +232,12 @@ private extension AppDelegate {
 
         // Debug
         Debug.loggingOptions = [AppLoggingOptions.Navigation]
-        
+
         #if GOD_MODE
-            Debug.loggingOptions = [AppLoggingOptions.Navigation, AppLoggingOptions.Tracking, AppLoggingOptions.DeepLink]
+            Debug.loggingOptions = [.Navigation, .Tracking, .DeepLink]
         #endif
         
-        LGCoreKit.loggingOptions = [CoreLoggingOptions.Networking, CoreLoggingOptions.Persistence,
-                                    CoreLoggingOptions.Token, CoreLoggingOptions.Session, CoreLoggingOptions.WebSockets]
+        LGCoreKit.loggingOptions = [.Networking, .Persistence, .Token, .Session, .WebSockets]
         LGCoreKit.activateWebsocket = FeatureFlags.websocketChat
 
         // Logging
@@ -246,6 +245,13 @@ private extension AppDelegate {
             DDLog.addLogger(DDTTYLogger.sharedInstance())       // TTY = Xcode console
             DDTTYLogger.sharedInstance().colorsEnabled =  true
             DDLog.addLogger(DDASLLogger.sharedInstance())       // ASL = Apple System Logs
+        #endif
+
+        // New Relic
+        #if GOD_MODE
+            NewRelicAgent.startWithApplicationToken(Constants.newRelicGodModeToken)
+        #else
+            NewRelicAgent.startWithApplicationToken(Constants.newRelicProductionToken)
         #endif
 
         // Fabric

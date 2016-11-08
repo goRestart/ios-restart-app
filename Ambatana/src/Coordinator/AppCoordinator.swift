@@ -367,11 +367,11 @@ extension AppCoordinator: UITabBarControllerDelegate {
             result = !shouldOpenLogin
         case .Sell:
             afterLogInSuccessful = { [weak self] in
-                self?.openSell(.SellButton)
+                self?.openSell(.TabBar)
             }
             result = false
             if sessionManager.loggedIn {
-                openSell(.SellButton)
+                openSell(.TabBar)
             }
         }
 
@@ -383,7 +383,7 @@ extension AppCoordinator: UITabBarControllerDelegate {
                 // tab is changed after returning from this method
                 break
             case .Sell:
-                openSell(.SellButton)
+                openSell(.TabBar)
             }
         }
         return result

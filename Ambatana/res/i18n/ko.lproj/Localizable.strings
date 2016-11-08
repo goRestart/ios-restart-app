@@ -218,6 +218,7 @@
 "contact_subject_option_product_edit" = "상품 수정 / 삭제";
 "contact_subject_option_profile_edit" = "프로필 수정 / 삭제";
 "contact_subject_option_report" = "유저/스팸 신고";
+"direct_answer_condition" = "상품은 어떤 상태인가요?";
 "direct_answer_free_available" = "네, 아직 있습니다";
 "direct_answer_free_no_available" = "죄송합니다. 이미 상품을 증정했습니다!";
 "direct_answer_free_still_have" = "아직 가지고 계신가요?";
@@ -233,7 +234,9 @@
 "direct_answer_sold_question_message" = "letgo 사용자가 알 수 있게, 상품을 판매완료로 표시하세요";
 "direct_answer_sold_question_ok" = "품절로 표시";
 "direct_answer_sold_question_title" = "이미 판매되었나요?";
+"direct_answer_still_available" = "이 상품은 아직 판매가능한가요?";
 "direct_answer_still_for_sale" = "네, 여전히 판매중입니다";
+"direct_answer_title" = "메세지 선택 혹은 입력";
 "direct_answer_whats_offer" = "어떤 흥정을 하기를 원하시나요?";
 "direct_answers_hide" = "자주 대답하는 목록 숨기기";
 "direct_answers_show" = "자주 대답하는 목록 보이기";
@@ -328,8 +331,8 @@
 "notifications_type_sold" = "관심갖고 있던 상품이 판매되었습니다";
 "notifications_type_sold_button" = "상품 결제하기";
 "notifications_type_welcome_button" = "판매 시작하기";
-"notifications_type_welcome_subtitle" = "필요하지 않는 상품들을 판매하여 현금을 만들고 근처에서 저렴한 상품들을 찾아보세요.";
-"notifications_type_welcome_subtitle_w_city" = "필요하지 않는 상품들을 판매하여 현금을 만들고 %@에서 저렴한 상품들을 찾아보세요.";
+"notifications_type_welcome_subtitle" = "필요하지 않는 상품들을 판매하여 현금을 만들고 근처에서 저렴한 상품들을 찾아보세요";
+"notifications_type_welcome_subtitle_w_city" = "필요하지 않는 상품들을 판매하여 현금을 만들고 %@에서 저렴한 상품들을 찾아보세요";
 "notifications_type_welcome_title" = "letgo에 오신 것을 환영합니다!";
 "notifications_user_wo_name" = "유저";
 "nps_survey_subtitle" = "1에서 10 사이에 친구들에게 letgo의 평점은 몇점이라고 이야기해주고 싶으신가요?";
@@ -382,6 +385,7 @@
 "product_delete_success_message" = "고객님의 상품을 성공적으로 삭제되었습니다.";
 "product_distance_X_from_you" = "당신으로부터 %@";
 "product_distance_more_than_from_you" = "당신에게 %@ 더 많이";
+"product_favorite_direct_message" = "마음에 드네요! 아직 판매하시나요?";
 "product_free_price" = "무료";
 "product_is_mine_share_body" = "letgo에서 무엇이 판매중인지 확인해보세요!";
 "product_is_mine_share_body_free" = "제가 letgo에서 무엇을 증정하고 있는지 확인해보세요!";

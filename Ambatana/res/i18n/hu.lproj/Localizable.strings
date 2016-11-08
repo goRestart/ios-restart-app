@@ -218,6 +218,7 @@
 "contact_subject_option_product_edit" = "Portéka szerkesztése/törlése";
 "contact_subject_option_profile_edit" = "Profil szerkesztése/törlése";
 "contact_subject_option_report" = "Felhasználó/spam jelentése";
+"direct_answer_condition" = "Milyen állapotban van?";
 "direct_answer_free_available" = "Igen, még elérhető";
 "direct_answer_free_no_available" = "Bocsi, már elajándékoztam!";
 "direct_answer_free_still_have" = "Még megvan?";
@@ -233,7 +234,9 @@
 "direct_answer_sold_question_message" = "Jelöld a portékát eladottként, hogy mindenki tudjon róla";
 "direct_answer_sold_question_ok" = "Megjelölés eladottként";
 "direct_answer_sold_question_title" = "Már eladtad?";
+"direct_answer_still_available" = "Megvan még?";
 "direct_answer_still_for_sale" = "Igen, még eladó";
+"direct_answer_title" = "VÁLASZD KI VAGY ÍRD MEG AZ ÜZENETET";
 "direct_answer_whats_offer" = "Mennyit ajánlasz?";
 "direct_answers_hide" = "Gyorsválaszok elrejtése";
 "direct_answers_show" = "Gyorsválaszok megjelenítése";
@@ -324,12 +327,12 @@
 "notifications_type_like_w_name_w_title" = "%@ kedvencként jelölte portékádat: \"%@\"";
 "notifications_type_rating" = "%@ értékelt téged";
 "notifications_type_rating_button" = "Nézd át értékeléseidet";
-"notifications_type_rating_updated" = "%@ frissítette értékelésedet";
+"notifications_type_rating_updated" = "%@ frissítette értékelését";
 "notifications_type_sold" = "Egy kedvencként jelölt portékát eladtak";
 "notifications_type_sold_button" = "Portéka megtekintése";
 "notifications_type_welcome_button" = "Kezdődhet az árusítás";
-"notifications_type_welcome_subtitle" = "Keress pénzt szükségtelenné vált dolgaid eladásával, és fedezd fel a környékbeli hirdetéseket.";
-"notifications_type_welcome_subtitle_w_city" = "Keress pénzt szükségtelenné vált dolgaid eladásával, és fedezd fel %@ hirdetéseit.";
+"notifications_type_welcome_subtitle" = "Keress pénzt szükségtelenné vált dolgaid eladásával, és fedezd fel a környékbeli hirdetéseket";
+"notifications_type_welcome_subtitle_w_city" = "Keress pénzt szükségtelenné vált dolgaid eladásával, és fedezd fel %@ hirdetéseit";
 "notifications_type_welcome_title" = "Üdvözlet a letgo piacán!";
 "notifications_user_wo_name" = "Egy felhasználó";
 "nps_survey_subtitle" = "1-től 10-ig milyen szívesen ajánlanád a letgo szolgáltatást barátaidnak?";
@@ -382,6 +385,7 @@
 "product_delete_success_message" = "Portékád törlése sikeres.";
 "product_distance_X_from_you" = "%@-re tőled";
 "product_distance_more_than_from_you" = "Több, mint %@-re tőled";
+"product_favorite_direct_message" = "Tetszik! Megvan még?";
 "product_free_price" = "Ingyenes";
 "product_is_mine_share_body" = "Nézzétek, mit árulok a letgo piacán!";
 "product_is_mine_share_body_free" = "Nézzétek, mit szeretnék elajándékozni a letgo piacán!";
@@ -436,7 +440,7 @@
 "product_post_empty_gallery_title" = "Nem található fotó";
 "product_post_free_camera_first_time_alert_subtitle" = "Egy jó fotó, és már kereshetsz is neki új otthont!";
 "product_post_free_camera_first_time_alert_title" = "Mit fogsz elajándékozni?";
-"product_post_free_confirmation_another_button" = "Give another item away";
+"product_post_free_confirmation_another_button" = "Ajándékozz el mást is";
 "product_post_gallery_load_image_error_subtitle" = "Válassz másik fotót, vagy próbálkozz újra.";
 "product_post_gallery_load_image_error_title" = "A fotó betöltése sikertelen";
 "product_post_gallery_permissions_button" = "Engedélyezés";

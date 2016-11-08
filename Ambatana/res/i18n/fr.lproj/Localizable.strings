@@ -218,6 +218,7 @@
 "contact_subject_option_product_edit" = "Modifier/supprimer le bien";
 "contact_subject_option_profile_edit" = "Modifier/supprimer le profil";
 "contact_subject_option_report" = "Signaler utilisateur/spam";
+"direct_answer_condition" = "Quel est l'état du bien ?";
 "direct_answer_free_available" = "Oui, c'est toujours disponible";
 "direct_answer_free_no_available" = "Désolé, je l'ai déjà donné !";
 "direct_answer_free_still_have" = "L'avez-vous toujours ?";
@@ -233,7 +234,9 @@
 "direct_answer_sold_question_message" = "Marquez votre bien comme vendu pour que les autres utilisateurs de letgo le sachent";
 "direct_answer_sold_question_ok" = "Marquer \"Vendu\"";
 "direct_answer_sold_question_title" = "Déjà vendu ?";
+"direct_answer_still_available" = "Ce bien est-il toujours disponible ?";
 "direct_answer_still_for_sale" = "Oui, toujours en vente";
+"direct_answer_title" = "SÉLECTIONNEZ OU TAPEZ UN MESSAGE";
 "direct_answer_whats_offer" = "Quelle est votre offre ?";
 "direct_answers_hide" = "Masquer Réponses Rapides";
 "direct_answers_show" = "Afficher Réponses Rapides";
@@ -328,8 +331,8 @@
 "notifications_type_sold" = "Un bien que vous aviez mis en favoris a été vendu";
 "notifications_type_sold_button" = "Découvrir le bien";
 "notifications_type_welcome_button" = "Commencer à vendre";
-"notifications_type_welcome_subtitle" = "Gagnez de l'argent en vendant ce dont vous n'avez pas besoin et trouvez de bonnes affaires près de chez vous.";
-"notifications_type_welcome_subtitle_w_city" = "Gagnez de l'argent en vendant ce dont vous n'avez pas besoin et trouvez de bonnes affaires sur %@.";
+"notifications_type_welcome_subtitle" = "Gagnez de l'argent en vendant ce dont vous n'avez pas besoin et trouvez de bonnes affaires près de chez vous";
+"notifications_type_welcome_subtitle_w_city" = "Gagnez de l'argent en vendant ce dont vous n'avez pas besoin et trouvez de bonnes affaires sur %@";
 "notifications_type_welcome_title" = "Bienvenue chez letgo!";
 "notifications_user_wo_name" = "Un utilisateur";
 "nps_survey_subtitle" = "Sur une échelle de 1 à 10, quelles sont les chances que vous recommandiez letgo à l'un de vos amis ?";
@@ -382,6 +385,7 @@
 "product_delete_success_message" = "Votre bien a été supprimé avec succès.";
 "product_distance_X_from_you" = "à %@";
 "product_distance_more_than_from_you" = "A plus de %@";
+"product_favorite_direct_message" = "Le bien est-il toujours disponible ?";
 "product_free_price" = "Gratuit";
 "product_is_mine_share_body" = "Découvrez ce que je vend sur letgo !";
 "product_is_mine_share_body_free" = "Regardez ce que je donne sur letgo !";

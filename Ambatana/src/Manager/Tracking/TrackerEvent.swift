@@ -226,6 +226,7 @@ public struct TrackerEvent {
         params[.ProductVisitSource] = source.rawValue
         return TrackerEvent(name: .ProductDetailVisit, params: params)
     }
+
     
     static func productDetailVisitMoreInfo(product: Product) -> TrackerEvent {
         var params = EventParameters()
@@ -335,10 +336,12 @@ public struct TrackerEvent {
         return TrackerEvent(name: .ProductReport, params: params)
     }
 
-    static func productSellStart(freePosting: EventParameterFreePosting, typePage: EventParameterTypePage, buttonName: EventParameterButtonNameType?) -> TrackerEvent {
+    static func productSellStart(freePosting: EventParameterFreePosting, typePage: EventParameterTypePage,
+                                 buttonName: EventParameterButtonNameType?, sellButtonPosition: EventParameterSellButtonPosition) -> TrackerEvent {
         var params = EventParameters()
         params[.TypePage] = typePage.rawValue
         params[.ButtonName] = buttonName?.rawValue
+        params[.SellButtonPosition] = sellButtonPosition.rawValue
         params[.FreePosting] = freePosting.rawValue
         return TrackerEvent(name: .ProductSellStart, params: params)
     }
@@ -360,16 +363,19 @@ public struct TrackerEvent {
     }
 
     static func productSellComplete(product: Product) -> TrackerEvent {
-        return productSellComplete(product, buttonName: nil, negotiable: nil, pictureSource: nil, freePostingMode: FeatureFlags.freePostingMode)
+        return productSellComplete(product, buttonName: nil, sellButtonPosition: nil, negotiable: nil, pictureSource: nil,
+                                   freePostingMode: FeatureFlags.freePostingMode)
     }
 
     static func productSellComplete(product: Product, buttonName: EventParameterButtonNameType?,
-                                    negotiable: EventParameterNegotiablePrice?, pictureSource: EventParameterPictureSource?, freePostingMode: FreePostingMode) -> TrackerEvent {
+                                    sellButtonPosition: EventParameterSellButtonPosition?, negotiable: EventParameterNegotiablePrice?,
+                                    pictureSource: EventParameterPictureSource?, freePostingMode: FreePostingMode) -> TrackerEvent {
         var params = EventParameters()
         params[.FreePosting] = eventParameterFreePostingWithPrice(freePostingMode, price: product.price).rawValue
         params[.ProductId] = product.objectId ?? ""
         params[.CategoryId] = product.category.rawValue
         params[.ProductName] = product.name ?? ""
+        params[.SellButtonPosition] = sellButtonPosition?.rawValue
         params[.ProductDescription] = !(product.descr?.isEmpty ?? true)
         if let buttonName = buttonName {
             params[.ButtonName] = buttonName.rawValue

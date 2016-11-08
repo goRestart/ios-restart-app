@@ -403,7 +403,7 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
 
     var fbShareContent: FBSDKShareLinkContent? {
         if let product = savedProduct {
-            return SocialHelper.socialMessageWithProduct(product).fbShareContent
+            return ProductSocialMessage(product: product).fbShareContent
         }
         return nil
     }
