@@ -37,31 +37,17 @@ enum CollectionCellType: String {
     case Apple = "apple"
     case Transport = "transport"
     case Furniture = "furniture"
-    case Halloween = "halloween"
-
-    private static let halloweenStartDate   = "2016-10-01"
-    private static let halloweenEndDate     = "2016-11-07"
 
     static var allValues: [CollectionCellType] {
         let dateFormatter = NSDateFormatter()
         dateFormatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
         dateFormatter.dateFormat = "yyyy-MM-dd"
 
-        if halloweenEnabled {
-            return [.Gaming, .Apple, .Transport, .Furniture, .Halloween]
-        } else {
-            return [.Gaming, .Apple, .Transport, .Furniture]
-        }
+        return [.Gaming, .Apple, .Transport, .Furniture]
     }
 
     static var allValuesShuffled: [CollectionCellType] {
-        var values = allValues.shuffle()
-        guard let index = values.indexOf(.Halloween) else {
-            return values
-        }
-        values.removeAtIndex(index)
-        values.insert(.Halloween, atIndex: 0)
-        return values
+        return allValues.shuffle()
     }
 
     var image: UIImage? {
@@ -74,8 +60,6 @@ enum CollectionCellType: String {
             return UIImage(named: "collection_transport")
         case .Furniture:
             return UIImage(named: "collection_home")
-        case .Halloween:
-            return UIImage(named: "collection_halloween")
         }
     }
 
@@ -89,8 +73,6 @@ enum CollectionCellType: String {
             return LGLocalizedString.collectionTransportTitle
         case .Furniture:
             return LGLocalizedString.collectionFurnitureTitle
-        case .Halloween:
-            return LGLocalizedString.collectionHalloweenTitle
         }
     }
 
@@ -104,20 +86,6 @@ enum CollectionCellType: String {
             return "bike boat motorcycle car kayak trailer atv truck jeep rims camper cart scooter dirtbike jetski gokart four wheeler bicycle quad bike tractor bmw wheels canoe hoverboard Toyota bmx rv Chevy sub ford paddle Harley yamaha Jeep Honda mustang corvette dodge"
         case .Furniture:
             return "dresser couch furniture desk table patio bed stand chair sofa rug mirror futon bench stool frame recliner lamp cabinet ikea shelf antique bedroom book shelf tables end table bunk beds night stand canopy"
-        case .Halloween:
-            return "scary, halloween, costume, spooky, pumpkin, skeleton, zombie, fake blood, vampire, werewolf, ghost, terrifying, witch, ghoul, mummy"
         }
-    }
-    
-    private static var halloweenEnabled: Bool {
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-
-        guard let startDate = dateFormatter.dateFromString(halloweenStartDate)?.timeIntervalSinceNow,
-            endDate = dateFormatter.dateFromString(halloweenEndDate)?.timeIntervalSinceNow else {
-                return false
-        }
-        return startDate..<endDate ~= 0
     }
 }
