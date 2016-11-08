@@ -467,6 +467,9 @@ enum AccessibilityId: String {
     case ExpressChatCellProductTitle
     case ExpressChatCellProductPrice
     case ExpressChatCellTickSelected
+    
+    // Pop-up alert. 
+    case AcceptPopUpButton
 }
 
 extension UIAccessibilityIdentification {
