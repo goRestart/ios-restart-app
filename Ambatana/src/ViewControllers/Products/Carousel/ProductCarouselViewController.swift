@@ -551,7 +551,7 @@ extension ProductCarouselViewController {
     
     private func setNavigationBarRightButtonSharing(action: UIAction) {
         let shareButton = CarouselUIHelper.buildShareButton(action.text, icon: action.image)
-        let rightItem = UIBarButtonItem.init(customView: shareButton)
+        let rightItem = UIBarButtonItem(customView: shareButton)
         rightItem.style = .Plain
         shareButton.rx_tap.bindNext{
             action.action()
@@ -800,6 +800,7 @@ extension ProductCarouselViewController: ProductCarouselCellDelegate {
             moreInfoView.frame.origin.y = moreInfoView.frame.origin.y-offset
         } else {
             moreInfoState.value = .Hidden
+            moreInfoView.frame.origin.y = -view.frame.height
         }
 
         let bottomOverScroll = max(offset-bottomLimit, 0)

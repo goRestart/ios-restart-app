@@ -40,7 +40,7 @@ final class TourNotificationsViewController: BaseViewController {
         case .iPhone4:
             super.init(viewModel: viewModel, nibName: "TourNotificationsViewControllerMini",
                        statusBarStyle: .LightContent)
-        case .iPhone5, .iPhone6, .iPhone6Plus, .unknown:
+        case .iPhone5, .iPhone6, .iPhone6Plus, .BiggerUnknown:
             super.init(viewModel: viewModel, nibName: "TourNotificationsViewController", statusBarStyle: .LightContent)
         }
         modalPresentationStyle = .OverCurrentContext
@@ -137,7 +137,7 @@ final class TourNotificationsViewController: BaseViewController {
             titleLabel.font = UIFont.tourNotificationsTitleMiniFont
             subtitleLabel.font = UIFont.tourNotificationsSubtitleMiniFont
             iphoneRightHeightConstraint.constant = TourNotificationsViewController.iphone5InfoHeight
-        case .iPhone6, .iPhone6Plus, .unknown:
+        case .iPhone6, .iPhone6Plus, .BiggerUnknown:
             titleLabel.font = UIFont.tourNotificationsTitleFont
             subtitleLabel.font = UIFont.tourNotificationsSubtitleFont
         }

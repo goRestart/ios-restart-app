@@ -887,6 +887,14 @@ struct LGLocalizedString {
 		return NSLocalizedString("contact_subject_option_report", comment: "")
 	}
 
+	static var directAnswerTitle: String {
+		return NSLocalizedString("direct_answer_title", comment: "")
+	}
+
+	static var directAnswerCondition: String {
+		return NSLocalizedString("direct_answer_condition", comment: "")
+	}
+
 	static var directAnswerFreeYours: String {
 		return NSLocalizedString("direct_answer_free_yours", comment: "")
 	}
@@ -941,6 +949,10 @@ struct LGLocalizedString {
 
 	static var directAnswerSoldQuestionOk: String {
 		return NSLocalizedString("direct_answer_sold_question_ok", comment: "")
+	}
+
+	static var directAnswerStillAvailable: String {
+		return NSLocalizedString("direct_answer_still_available", comment: "")
 	}
 
 	static var directAnswerSoldQuestionTitle: String {
@@ -1541,6 +1553,10 @@ struct LGLocalizedString {
 
 	static func productDistanceXFromYou(var1: String) -> String {
 		return String(format: NSLocalizedString("product_distance_X_from_you", comment: ""), var1)
+	}
+
+	static var productFavoriteDirectMessage: String {
+		return NSLocalizedString("product_favorite_direct_message", comment: "")
 	}
 
 	static var productFreePrice: String {

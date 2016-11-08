@@ -218,6 +218,7 @@
 "contact_subject_option_product_edit" = "Produkt bearbeiten/löschen";
 "contact_subject_option_profile_edit" = "Profil bearbeiten/löschen";
 "contact_subject_option_report" = "Benutzer/Spam melden";
+"direct_answer_condition" = "In welchem Zustand ist der Artikel?";
 "direct_answer_free_available" = "Ja, es ist noch verfügbar";
 "direct_answer_free_no_available" = "Tut mir leid, ich hab's schon verschenkt.";
 "direct_answer_free_still_have" = "Hast du's noch?";
@@ -233,7 +234,9 @@
 "direct_answer_sold_question_message" = "Markiere dein Produkt als verkauft, damit die anderen letgo-Nutzer es sehen";
 "direct_answer_sold_question_ok" = "Als verkauft markieren";
 "direct_answer_sold_question_title" = "Hast du es bereits verkauft?";
+"direct_answer_still_available" = "Ist der Artikel noch verfügbar?";
 "direct_answer_still_for_sale" = "Ja, es steht noch zum Verkauf";
+"direct_answer_title" = "WÄHLE ODER SCHREIBE EINE NACHRICHT";
 "direct_answer_whats_offer" = "Wie viel bietest du?";
 "direct_answers_hide" = "Schnelle Antworten verbergen";
 "direct_answers_show" = "Schnelle Antworten anzeigen";
@@ -324,12 +327,12 @@
 "notifications_type_like_w_name_w_title" = "%@ hat dein Produkt als Favorit markiert: \"%@\"";
 "notifications_type_rating" = "%@ hat dich bewertet";
 "notifications_type_rating_button" = "Schau deine Bewertungen an";
-"notifications_type_rating_updated" = "%@ hat deine Bewertung bearbeitet";
+"notifications_type_rating_updated" = "%@ hat seine Bewertung bearbeitet";
 "notifications_type_sold" = "Ein Produkt aus deinen Favoriten wurde verkauft";
 "notifications_type_sold_button" = "Ähnliches Produkt anschauen";
 "notifications_type_welcome_button" = "Fange an zu verkaufen";
-"notifications_type_welcome_subtitle" = "Verdiene Geld, indem du Sachen verkaufst, die du nicht mehr brauchst, und finde tolle Schnäppchen in deiner Nähe an.";
-"notifications_type_welcome_subtitle_w_city" = "Verdiene Geld, indem du Sachen verkaufst, die du nicht mehr brauchst, und finde tolle Schnäppchen in %@.";
+"notifications_type_welcome_subtitle" = "Verdiene Geld, indem du Sachen verkaufst, die du nicht mehr brauchst, und finde tolle Schnäppchen in deiner Nähe an";
+"notifications_type_welcome_subtitle_w_city" = "Verdiene Geld, indem du Sachen verkaufst, die du nicht mehr brauchst, und finde tolle Schnäppchen in %@";
 "notifications_type_welcome_title" = "Willkommen auf letgo!";
 "notifications_user_wo_name" = "Ein Nutzer";
 "nps_survey_subtitle" = "Auf einer Skala von 1 bis 10, wie wahrscheinlich ist es, dass du letgo einem Freund empfehlen würdest?";
@@ -382,6 +385,7 @@
 "product_delete_success_message" = "Dein Produkt wurde erfolgreich gelöscht.";
 "product_distance_X_from_you" = "%@ von dir";
 "product_distance_more_than_from_you" = "Mehr als %@ von dir";
+"product_favorite_direct_message" = "Das gefällt mir! Ist es noch zu haben?";
 "product_free_price" = "Kostenlos";
 "product_is_mine_share_body" = "Schau dir an, was ich auf letgo verkaufe!";
 "product_is_mine_share_body_free" = "Schau an, was ich auf letgo verschenke!";
@@ -436,7 +440,7 @@
 "product_post_empty_gallery_title" = "Keine Fotos gefunden";
 "product_post_free_camera_first_time_alert_subtitle" = "Mache ein gutes Foto und finde ein neues Zuhause für dein Produkt!";
 "product_post_free_camera_first_time_alert_title" = "Was möchtest du verschenken?";
-"product_post_free_confirmation_another_button" = "Give another item away";
+"product_post_free_confirmation_another_button" = "Verschenke einen weiteren Artikel";
 "product_post_gallery_load_image_error_subtitle" = "Bitte wähle ein anderes Foto und versuche es erneut.";
 "product_post_gallery_load_image_error_title" = "Das Foto kann nicht geladen werden";
 "product_post_gallery_permissions_button" = "Erlauben";

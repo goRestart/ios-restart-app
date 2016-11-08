@@ -25,9 +25,9 @@
         "description": "Non stop prod detail"
 	},
     {
-        "name": "MessageOnFavoriteMode",
-        "values": ["NoMessage", "NotificationPreMessage", "DirectMessage"],
-        "description": "Message after favorite"
+        "name": "MessageOnFavoriteRound2Mode",
+        "values": ["NoMessage", "DirectMessage"],
+        "description": "Message after favorite: The Return"
 	},
     {
         "name": "InterestedUsersMode",

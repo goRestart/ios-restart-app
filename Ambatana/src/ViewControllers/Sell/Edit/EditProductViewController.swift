@@ -85,6 +85,8 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
 
     var lines: [CALayer] = []
 
+    var hideKbTapRecognizer: UITapGestureRecognizer?
+
     // viewModel
     private var viewModel : EditProductViewModel
     private var keyboardHelper: KeyboardHelper
@@ -452,8 +454,7 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
         loadingLabel.text = LGLocalizedString.sellUploadingLabel
         
         // hide keyboard on tap
-        let tapRecognizer: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(scrollViewTapped))
-        scrollView.addGestureRecognizer(tapRecognizer)
+        hideKbTapRecognizer = UITapGestureRecognizer(target: self, action: #selector(scrollViewTapped))
     }
 
     private func setupRxBindings() {
@@ -541,6 +542,7 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
             let viewHeight = strongSelf.view.height
             let animationTime = strongSelf.keyboardHelper.animationTime
             guard viewHeight >= origin else { return }
+
             self?.updateButtonBottomConstraint.constant = viewHeight - origin
             UIView.animateWithDuration(Double(animationTime)) {
                 strongSelf.view.layoutIfNeeded()
@@ -550,10 +552,23 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
                     strongSelf.scrollView.scrollRectToVisible(frame, animated: false)
                 }
                 previousKbOrigin = origin
-                }
+            }
+        }.addDisposableTo(disposeBag)
+
+        keyboardHelper.rx_keyboardVisible.asObservable().distinctUntilChanged().bindNext { [weak self] kbVisible in
+            self?.updateTapRecognizer(kbVisible)
         }.addDisposableTo(disposeBag)
     }
-    
+
+    private func updateTapRecognizer(add: Bool) {
+        guard let tapRec = hideKbTapRecognizer else { return }
+        if let recognizers = scrollView.gestureRecognizers where recognizers.contains(tapRec) {
+            scrollView.removeGestureRecognizer(tapRec)
+        }
+        guard add else { return }
+        scrollView.addGestureRecognizer(tapRec)
+    }
+
     override func popBackViewController() {
         super.popBackViewController()
     }

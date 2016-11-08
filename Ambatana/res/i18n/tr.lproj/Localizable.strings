@@ -218,6 +218,7 @@
 "contact_subject_option_product_edit" = "Ürünü düzenle/sil";
 "contact_subject_option_profile_edit" = "Profili düzenle/sil";
 "contact_subject_option_report" = "Kullanıcı/spam bildir";
+"direct_answer_condition" = "Ürünün durumu nasıldır?";
 "direct_answer_free_available" = "Evet, hala mevcut";
 "direct_answer_free_no_available" = "Üzgünüm, ürünü çoktan başkasına verdim!";
 "direct_answer_free_still_have" = "Ürün hala mevcut mu?";
@@ -233,7 +234,9 @@
 "direct_answer_sold_question_message" = "Diğer letgo kullanıcılarının bilmesi için ürününü satıldı olarak işaretle";
 "direct_answer_sold_question_ok" = "Satıldı olarak işaretle";
 "direct_answer_sold_question_title" = "Çoktan satıldı mı?";
+"direct_answer_still_available" = "Bu ürün hala satılık mı?";
 "direct_answer_still_for_sale" = "Evet, halen satılık";
+"direct_answer_title" = "SEÇ YA DA BİR MESAJ YAZ";
 "direct_answer_whats_offer" = "Teklifin nedir?";
 "direct_answers_hide" = "Hızlı Cevapları Gizle";
 "direct_answers_show" = "Hızlı Cevapları Göster";
@@ -329,7 +332,7 @@
 "notifications_type_sold_button" = "Ürünü gör";
 "notifications_type_welcome_button" = "Satış yapmaya başla";
 "notifications_type_welcome_subtitle" = "İhtiyacın olmayanları satarak para kazan ve bulunduğun çevredeki harika ürünleri keşfet";
-"notifications_type_welcome_subtitle_w_city" = "İhtiyacın olmayanları satarak para kazan ve %@ içinde harika ürünler keşfet.";
+"notifications_type_welcome_subtitle_w_city" = "İhtiyacın olmayanları satarak para kazan ve %@ içinde harika ürünler keşfet";
 "notifications_type_welcome_title" = "letgo'ya hoşgeldin!";
 "notifications_user_wo_name" = "Bir kullanıcı";
 "nps_survey_subtitle" = "1'den 10'da kadar letgo'yu arkadaşına tavsiye etme olasılığın nedir?";
@@ -382,6 +385,7 @@
 "product_delete_success_message" = "Ürün başarıyla silindi.";
 "product_distance_X_from_you" = "senden %@ uzakta";
 "product_distance_more_than_from_you" = "Senden %@'den daha uzakta";
+"product_favorite_direct_message" = "Beğendim! Hala satılık mı?";
 "product_free_price" = "Bedava";
 "product_is_mine_share_body" = "letgo'da ne sattığıma bak!";
 "product_is_mine_share_body_free" = "letgo'da hangi eşyaları ücretsiz verdiğime bak!";

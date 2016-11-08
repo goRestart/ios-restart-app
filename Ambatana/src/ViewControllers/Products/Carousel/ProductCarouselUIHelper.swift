@@ -11,7 +11,7 @@ import Foundation
 struct CarouselUI {
     static let interestedBubbleHeight: CGFloat = 50
     static let shareButtonVerticalSpacing: CGFloat = 5
-    static let shareButtonHorizontalSpacing: CGFloat = 4
+    static let shareButtonHorizontalSpacing: CGFloat = 3
 
     static let pageControlWidth: CGFloat = 18
     static let pageControlMargin: CGFloat = 18
@@ -48,7 +48,7 @@ class CarouselUIHelper {
                                                      right: 3*CarouselUI.shareButtonHorizontalSpacing)
         shareButton.setTitle(text, forState: .Normal)
         shareButton.setTitleColor(UIColor.white, forState: .Normal)
-        shareButton.titleLabel?.font = UIFont.systemSemiBoldFont(size: 17)
+        shareButton.titleLabel?.font = UIFont.systemSemiBoldFont(size: 15)
         if let imageIcon = icon {
             shareButton.setImage(imageIcon.imageWithRenderingMode(.AlwaysTemplate), forState: .Normal)
         }
