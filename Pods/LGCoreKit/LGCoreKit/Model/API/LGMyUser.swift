@@ -92,6 +92,7 @@ extension LGMyUser: Decodable {
         let avatar = "avatar_url"
         let address = "address"
         let city = "city"
+        let state = "state"
         let zipCode = "zip_code"
         let countryCode = "country_code"
         let newsletter = "newsletter"
