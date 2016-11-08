@@ -35,7 +35,6 @@ class NotificationsViewController: BaseViewController {
     required init(viewModel: NotificationsViewModel, nibName nibNameOrNil: String?) {
         self.viewModel = viewModel
         super.init(viewModel: viewModel, nibName: nibNameOrNil)
-        self.viewModel.delegate = self
 
         hidesBottomBarWhenPushed = false
         floatingSellButtonHidden = false
@@ -107,17 +106,6 @@ class NotificationsViewController: BaseViewController {
         emptyView.hidden = false
         tableView.hidden = true
         emptyView.setupWithModel(emptyViewModel)
-    }
-}
-
-
-// MARK: - NotificationsViewModelDelegate
-
-extension NotificationsViewController: NotificationsViewModelDelegate {
-    func vmOpenSell() {
-        if let tabBarController = tabBarController as? TabBarController {
-            tabBarController.sellButtonPressed()
-        }
     }
 }
 
