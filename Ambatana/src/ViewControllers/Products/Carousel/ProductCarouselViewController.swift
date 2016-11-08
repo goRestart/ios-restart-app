@@ -774,6 +774,10 @@ extension ProductCarouselViewController: ProductCarouselViewModelDelegate {
 
 extension ProductCarouselViewController: ProductCarouselCellDelegate {
     func didTapOnCarouselCell(cell: UICollectionViewCell) {
+        guard !chatTextView.isFirstResponder() else {
+            chatTextView.resignFirstResponder()
+            return
+        }
         guard let indexPath = collectionView.indexPathForCell(cell) else { return }
         let newIndexRow = indexPath.row + 1
         if newIndexRow < collectionView.numberOfItemsInSection(0) {

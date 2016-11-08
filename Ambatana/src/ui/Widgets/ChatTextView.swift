@@ -60,6 +60,10 @@ class ChatTextView: UIView {
         return textView.resignFirstResponder() || super.resignFirstResponder()
     }
 
+    override func isFirstResponder() -> Bool {
+        return textView.isFirstResponder() || super.isFirstResponder()
+    }
+
 
     // MARK: - Public methods
 
