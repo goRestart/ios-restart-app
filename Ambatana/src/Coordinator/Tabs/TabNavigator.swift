@@ -34,6 +34,7 @@ enum BackAction {
 }
 
 protocol TabNavigator: class {
+    func openSell(source: PostingSource)
     func openUser(data: UserDetailData)
     func openProduct(data: ProductDetailData, source: EventParameterProductVisitSource)
     func openChat(data: ChatDetailData)

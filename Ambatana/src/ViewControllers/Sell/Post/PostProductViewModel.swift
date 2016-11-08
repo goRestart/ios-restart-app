@@ -20,6 +20,7 @@ enum PostingSource {
     case DeepLink
     case OnboardingButton
     case OnboardingCamera
+    case Notifications
 }
 
 enum PostProductState {
@@ -247,12 +248,14 @@ extension PostingSource {
             return .External
         case .OnboardingButton, .OnboardingCamera:
             return .Onboarding
+        case .Notifications:
+            return .Notifications
         }
     }
 
     var buttonName: EventParameterButtonNameType? {
         switch self {
-        case .TabBar, .SellButton, .GiveAwayButton, .DeepLink:
+        case .TabBar, .SellButton, .GiveAwayButton, .DeepLink, .Notifications:
             return nil
         case .OnboardingButton:
             return .SellYourStuff
@@ -266,7 +269,7 @@ extension PostingSource {
             return .TabBar
         case .SellButton, .GiveAwayButton:
             return .FloatingButton
-        case .OnboardingButton, .OnboardingCamera, .DeepLink:
+        case .OnboardingButton, .OnboardingCamera, .DeepLink, .Notifications:
             return .None
         }
     }
