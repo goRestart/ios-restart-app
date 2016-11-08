@@ -357,6 +357,8 @@
 		50D67B9E1D182F07003AC0A5 /* SellNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D67B9C1D182F07003AC0A5 /* SellNavigator.swift */; };
 		50E0E84B1D40B11600A6397C /* UserViewHeaderContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E0E84A1D40B11600A6397C /* UserViewHeaderContainer.swift */; };
 		50E0E84C1D40B11600A6397C /* UserViewHeaderContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E0E84A1D40B11600A6397C /* UserViewHeaderContainer.swift */; };
+		50E7C1CA1DD1EB2A00182BCE /* ChatHeadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E7C1C91DD1EB2900182BCE /* ChatHeadManager.swift */; };
+		50E7C1CB1DD1EB2A00182BCE /* ChatHeadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E7C1C91DD1EB2900182BCE /* ChatHeadManager.swift */; };
 		50E8A08B1B79F8D800DE49CC /* ContactSubject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E8A08A1B79F8D800DE49CC /* ContactSubject.swift */; };
 		50EC64041C64B05500DC04C5 /* LGEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50EC64031C64B05500DC04C5 /* LGEmptyView.swift */; };
 		50EC64051C64B05500DC04C5 /* LGEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50EC64031C64B05500DC04C5 /* LGEmptyView.swift */; };
@@ -1357,6 +1359,7 @@
 		50D67B991D182EE9003AC0A5 /* SellCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SellCoordinator.swift; sourceTree = "<group>"; };
 		50D67B9C1D182F07003AC0A5 /* SellNavigator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SellNavigator.swift; sourceTree = "<group>"; };
 		50E0E84A1D40B11600A6397C /* UserViewHeaderContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserViewHeaderContainer.swift; sourceTree = "<group>"; };
+		50E7C1C91DD1EB2900182BCE /* ChatHeadManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatHeadManager.swift; sourceTree = "<group>"; };
 		50E8A08A1B79F8D800DE49CC /* ContactSubject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactSubject.swift; sourceTree = "<group>"; };
 		50EC64031C64B05500DC04C5 /* LGEmptyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGEmptyView.swift; sourceTree = "<group>"; };
 		50EC64091C64F99E00DC04C5 /* LGEmptyViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGEmptyViewModel.swift; sourceTree = "<group>"; };
@@ -2245,8 +2248,9 @@
 			children = (
 				506DE2DD1DCB8E7400006A91 /* ChatHeadData.swift */,
 				506DE2D41DCB6C9800006A91 /* ChatHeadGroupView.swift */,
-				506DE2D71DCB6CA200006A91 /* ChatHeadView.swift */,
+				50E7C1C91DD1EB2900182BCE /* ChatHeadManager.swift */,
 				506DE2DA1DCB6DA800006A91 /* ChatHeadOverlayView.swift */,
+				506DE2D71DCB6CA200006A91 /* ChatHeadView.swift */,
 			);
 			path = ChatHeads;
 			sourceTree = "<group>";
@@ -4472,6 +4476,7 @@
 				C7B588811CE1DFA6009B3975 /* ChatCellDrawerFactory.swift in Sources */,
 				502B705B1BAAC3AE00C5D465 /* FloatingButton.swift in Sources */,
 				C75B5DC51D59E09500112368 /* ProductCarouselViewModel.swift in Sources */,
+				50E7C1CA1DD1EB2A00182BCE /* ChatHeadManager.swift in Sources */,
 				50A61C221DCA1B5A0057436A /* NSLocale+Country.swift in Sources */,
 				507F1BFB1C89DDF9001F0A95 /* PostalAddress+String.swift in Sources */,
 				6A5E1A101D548F5400F92692 /* UIImage+LG.swift in Sources */,
@@ -4864,6 +4869,7 @@
 				C75B5DC61D59E09500112368 /* ProductCarouselViewModel.swift in Sources */,
 				C7B588821CE1DFA6009B3975 /* ChatCellDrawerFactory.swift in Sources */,
 				6A5E1A111D548F5400F92692 /* UIImage+LG.swift in Sources */,
+				50E7C1CB1DD1EB2A00182BCE /* ChatHeadManager.swift in Sources */,
 				50A61C231DCA1B5A0057436A /* NSLocale+Country.swift in Sources */,
 				C7DB420D1C5138B500400945 /* FloatingButton.swift in Sources */,
 				508010FF1D4748120073F362 /* SettingsViewController.swift in Sources */,
