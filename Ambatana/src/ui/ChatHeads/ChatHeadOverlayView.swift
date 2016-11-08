@@ -50,6 +50,8 @@ final class ChatHeadOverlayView: UIView {
     }
 
     override func hitTest(point: CGPoint, withEvent event: UIEvent?) -> UIView? {
+        guard !hidden else { return nil }
+        
         /* The only touchable element in the overlay is the chat head group, all others views are ignored.
          Therefore, otherwise hitTest will forward down in the view tree. */
         let convertedPoint = chatHeadGroup.convertPoint(point, fromView: self)
