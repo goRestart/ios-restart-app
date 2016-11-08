@@ -1186,5 +1186,6 @@ extension ProductCarouselViewController {
         fullScreenAvatarView.accessibilityId = .ProductCarouselFullScreenAvatarView
         pageControl.accessibilityId = .ProductCarouselPageControl
         userView.accessibilityId = .ProductCarouselUserView
+        chatTextView.accessibilityId = .ProductCarouselChatTextView
     }
 }

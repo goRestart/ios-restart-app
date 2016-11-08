@@ -47,9 +47,7 @@ class ChatTextView: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setupConstraints()
-        setupUI()
-        setupRX()
+        setup()
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -74,6 +72,12 @@ class ChatTextView: UIView {
 
 
     // MARK: - Private methods
+
+    private func setup() {
+        setupConstraints()
+        setupUI()
+        setupRX()
+    }
 
     private func setupConstraints() {
         if height < ChatTextView.minimumHeight {
@@ -165,5 +169,16 @@ extension ChatTextView: UITextFieldDelegate {
         guard let text = textField.text where !text.trim.isEmpty else { return false }
         tapEvents.onNext(Void())
         return true
+    }
+}
+
+
+
+// MARK: - AccesibilityIds
+
+private extension ChatTextView {
+    func setAccesibilityIds() {
+        textView.accessibilityId = .ChatTextViewTextField
+        sendButton.accessibilityId = .ChatTextViewSendButton
     }
 }
