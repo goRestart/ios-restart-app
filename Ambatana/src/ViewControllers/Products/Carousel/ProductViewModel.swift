@@ -461,7 +461,7 @@ extension ProductViewModel {
     }
 
     func sendDirectMessage(text: String) {
-        sendDirectMessage(text, favorite: false)
+        sendMessage(text, sticker: nil, favorite: false)
     }
 
     func openVideo() {
@@ -492,7 +492,7 @@ extension ProductViewModel {
 
     func sendSticker(sticker: Sticker) {
         ifLoggedInRunActionElseOpenChatSignup { [weak self] in
-            self?.sendStickerToSeller(sticker, favorite: false)
+            self?.sendMessage(sticker.name, sticker: sticker, favorite: false)
         }
     }
 
@@ -884,42 +884,24 @@ extension ProductViewModel {
         }
     }
 
-    private func sendStickerToSeller(sticker: Sticker, favorite: Bool) {
+    private func sendMessage(text: String, sticker: Sticker?, favorite: Bool) {
         // Optimistic behavior
-        let message = LocalMessage(sticker: sticker, userId: myUserRepository.myUser?.objectId)
-        let messageView = chatViewMessageAdapter.adapt(message)
-        directChatMessages.insert(messageView, atIndex: 0)
-
-        chatWrapper.sendMessageForProduct(product.value, text: sticker.name, sticker: sticker, type: .Sticker) {
-            [weak self] result in
-            if let value = result.value {
-                self?.trackHelper.trackDirectStickerSent(value, favorite: favorite)
-            } else if let error = result.error {
-                switch error {
-                case .Forbidden:
-                    self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.productChatDirectErrorBlockedUserMessage, completion: nil)
-                case .Network, .Internal, .NotFound, .Unauthorized, .TooManyRequests, .UserNotVerified, .ServerError:
-                    self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.chatSendErrorGeneric, completion: nil)
-                }
-
-                //Removing in case of failure
-                if let indexToRemove = self?.directChatMessages.value.indexOf({ $0.objectId == messageView.objectId }) {
-                    self?.directChatMessages.removeAtIndex(indexToRemove)
-                }
-            }
+        let message: LocalMessage
+        let type: ChatMessageType
+        if let sticker = sticker {
+            message = LocalMessage(sticker: sticker, userId: myUserRepository.myUser?.objectId)
+            type = .Sticker
+        } else {
+            message = LocalMessage(text: text, userId: myUserRepository.myUser?.objectId)
+            type = .Text
         }
-    }
-
-    private func sendDirectMessage(text: String, favorite: Bool) {
-        // Optimistic behavior
-        let message = LocalMessage(text: text, userId: myUserRepository.myUser?.objectId)
         let messageView = chatViewMessageAdapter.adapt(message)
         directChatMessages.insert(messageView, atIndex: 0)
 
-        chatWrapper.sendMessageForProduct(product.value, text: text, sticker: nil, type: .Text) {
+        chatWrapper.sendMessageForProduct(product.value, text: text, sticker: sticker, type: type) {
             [weak self] result in
-            if let value = result.value {
-                self?.trackHelper.trackDirectMessageSent(value, favorite: favorite)
+            if let firstMessage = result.value {
+                self?.trackHelper.trackMessageSent(firstMessage, fromFavorite: favorite, messageType: type)
             } else if let error = result.error {
                 switch error {
                 case .Forbidden:
@@ -985,7 +967,7 @@ private extension ProductViewModel {
     }
 
     private func sendFavoriteMessage() {
-        sendDirectMessage(LGLocalizedString.productFavoriteDirectMessage, favorite: true)
+        sendMessage(LGLocalizedString.productFavoriteDirectMessage, sticker: nil, favorite: true)
         favoriteMessageSent = true
     }
 }
