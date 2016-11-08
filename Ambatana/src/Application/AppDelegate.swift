@@ -399,5 +399,7 @@ private extension AppDelegate {
         let vConstraints = NSLayoutConstraint.constraintsWithVisualFormat("V:|-0-[cho]-0-|",
                                                                           options: [], metrics: nil, views: views)
         view.addConstraints(vConstraints)
+
+        ChatHeadManager.sharedInstance.setChatHeadOverlayView(chatHeadOverlay)
     }
 }
