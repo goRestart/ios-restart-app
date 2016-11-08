@@ -39,10 +39,6 @@ enum CollectionCellType: String {
     case Furniture = "furniture"
 
     static var allValues: [CollectionCellType] {
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-
         return [.Gaming, .Apple, .Transport, .Furniture]
     }
 
