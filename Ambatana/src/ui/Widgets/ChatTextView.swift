@@ -30,7 +30,7 @@ class ChatTextView: UIView {
     }
 
     var rx_send: Observable<String> {
-        return sendButton.rx_tap.map { [weak self] in self?.textView.text ?? "" }
+        return tapEvents.map { [weak self] in self?.textView.text ?? "" }
     }
 
     private let textView = UITextField()
@@ -38,6 +38,8 @@ class ChatTextView: UIView {
 
     private static let elementsMargin: CGFloat = 10
     private static let textViewMaxHeight: CGFloat = 120
+
+    private let tapEvents = PublishSubject<Void>()
 
     private let disposeBag = DisposeBag()
 
@@ -63,6 +65,7 @@ class ChatTextView: UIView {
 
     func clear() {
         textView.text = ""
+        sendButton.enabled = false
     }
 
 
@@ -110,12 +113,15 @@ class ChatTextView: UIView {
     private func setupUI() {
         textView.tintColor = UIColor.primaryColor
         textView.backgroundColor = UIColor.clearColor()
+        textView.returnKeyType = .Send
+        textView.delegate = self
         sendButton.setStyle(.Primary(fontSize: .Medium))
         sendButton.setTitle(LGLocalizedString.chatSendButton, forState: .Normal)
     }
 
     private func setupRX() {
         textView.rx_text.map { !$0.trim.isEmpty }.bindTo(sendButton.rx_enabled).addDisposableTo(disposeBag)
+        sendButton.rx_tap.bindTo(tapEvents).addDisposableTo(disposeBag)
     }
 
     private func setupBackgroundsWCorners() {
@@ -146,5 +152,14 @@ class ChatTextView: UIView {
         addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-0-[rightBckg]-0-|",
             options: [], metrics: nil, views: views))
 
+    }
+}
+
+
+extension ChatTextView: UITextFieldDelegate {
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        guard let text = textField.text where !text.trim.isEmpty else { return false }
+        tapEvents.onNext(Void())
+        return true
     }
 }
