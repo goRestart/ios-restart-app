@@ -56,10 +56,7 @@ final class ChatHeadOverlayView: UIView {
          Therefore, otherwise hitTest will forward down in the view tree. */
         let convertedPoint = chatHeadGroup.convertPoint(point, fromView: self)
         let insideChatHeadGroup = chatHeadGroup.pointInside(convertedPoint, withEvent: event)
-        if insideChatHeadGroup {
-            return chatHeadGroup
-        }
-        return nil
+        return insideChatHeadGroup ? chatHeadGroup : nil
     }
 }
 
