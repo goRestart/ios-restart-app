@@ -174,14 +174,13 @@ class ProductListViewModel: BaseViewModel {
     }
 
     func resetUI() {
-        objects = []
         pageNumber = 0
         refreshing = false
         state = .Loading
         isLastPage = false
         isLoading = false
         isOnErrorState = false
-        delegate?.vmReloadData(self)
+        clearList()
     }
  
 
