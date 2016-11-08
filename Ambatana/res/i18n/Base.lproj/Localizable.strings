@@ -1897,6 +1897,18 @@
 // Settings title. Check image @ "settings_change_password_button" segment
 "settings_title" = "Settings";
 
+// Settings section profile
+"settings_section_profile" = "Profile";
+
+// Settings section configuration
+"settings_section_config" = "Configuration";
+
+// Settings section support
+"settings_section_support" = "Support";
+
+// Settings option to turn on/off marketing notifications
+"settings_marketing_notifications_switch" = "Marketing Notifications";
+
 // Alert when you don't accept one of the above (just turkey)
 "sign_up_acceptance_error" = "To sign up you have to accept the Terms & Conditions and the Privacy Policy";
 

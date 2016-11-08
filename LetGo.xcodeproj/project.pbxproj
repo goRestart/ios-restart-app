@@ -2274,24 +2274,24 @@
 		508E4CE81B41A5BD007BD301 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				2EED4D241D23F03E0024328A /* ChatProduct+title.swift */,
 				50E8A08A1B79F8D800DE49CC /* ContactSubject.swift */,
 				C7363FB91BFA3E6500A4BF6F /* DistanceType+LG.swift */,
 				C780281C1BF0FB64002B26C5 /* FilterSection.swift */,
+				C7B6FA891D182F4200DAA19D /* LocalChat.swift */,
+				C74234051D59EC680082D1CD /* LocalMessage.swift */,
 				C78F9DB51DC9ED1300884064 /* LocalProduct.swift */,
 				C78F9DB81DC9EE8500884064 /* LocalUser.swift */,
+				C7E73E891CD1F77E000F2591 /* NotificationData.swift */,
+				507F1BFA1C89DDF9001F0A95 /* PostalAddress+String.swift */,
+				2E6B6E3C1D2BC0A500C10A20 /* PostIncentiviserItem.swift */,
+				C7239A191C158139006CB5A6 /* Product+Negotiable.swift */,
+				504652F11CC0F0B3003F5070 /* Product+Title.swift */,
 				508E4CE91B41A5D2007BD301 /* ProductCategory+LG.swift */,
 				C7132A3E1BF246D40000747A /* ProductFilters.swift */,
 				C7363FBB1BFA449A00A4BF6F /* ProductSortCriteria+LG.swift */,
 				C7DCFEC31C03625E00F7A4FB /* ProductTimeCriteria+LG.swift */,
-				C7239A191C158139006CB5A6 /* Product+Negotiable.swift */,
-				504652F11CC0F0B3003F5070 /* Product+Title.swift */,
-				507F1BFA1C89DDF9001F0A95 /* PostalAddress+String.swift */,
 				C79842001CC8E8C900C300FF /* User+LG.swift */,
-				C7E73E891CD1F77E000F2591 /* NotificationData.swift */,
-				C7B6FA891D182F4200DAA19D /* LocalChat.swift */,
-				2EED4D241D23F03E0024328A /* ChatProduct+title.swift */,
-				2E6B6E3C1D2BC0A500C10A20 /* PostIncentiviserItem.swift */,
-				C74234051D59EC680082D1CD /* LocalMessage.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";

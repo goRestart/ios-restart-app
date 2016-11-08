@@ -158,10 +158,6 @@ extension UserViewController: ProductListViewScrollDelegate {
 // MARK: - UserViewModelDelegate
 
 extension UserViewController: UserViewModelDelegate {
-    func vmOpenSettings(settingsVC: SettingsViewController) {
-        navigationController?.pushViewController(settingsVC, animated: true)
-    }
-
     func vmOpenReportUser(reportUserVM: ReportUsersViewModel) {
         let vc = ReportUsersViewController(viewModel: reportUserVM)
         navigationController?.pushViewController(vc, animated: true)

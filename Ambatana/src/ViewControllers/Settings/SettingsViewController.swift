@@ -81,7 +81,7 @@ class SettingsViewController: BaseViewController {
             }
         }.addDisposableTo(disposeBag)
 
-        viewModel.settingsChanges.bindNext { [weak self] change in
+        viewModel.sections.asObservable().bindNext { [weak self] _ in
             self?.tableView.reloadData()
         }.addDisposableTo(disposeBag)
     }
@@ -92,21 +92,29 @@ class SettingsViewController: BaseViewController {
 
 extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
 
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return viewModel.sectionCount
+    }
+
+    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return viewModel.sectionTitle(section)
+    }
+
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.settingsCount
+        return viewModel.settingsCount(section)
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCellWithIdentifier(SettingsCell.reusableID, forIndexPath: indexPath)
             as? SettingsCell else { return UITableViewCell() }
-        guard let setting = viewModel.settingAtIndex(indexPath.row) else { return UITableViewCell() }
+        guard let setting = viewModel.settingAtSection(indexPath.section, index: indexPath.row) else { return UITableViewCell() }
         cell.setupWithSetting(setting)
         return cell
     }
 
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
-        viewModel.settingSelectedAtIndex(indexPath.row)
+        viewModel.settingSelectedAtSection(indexPath.section, index: indexPath.row)
     }
 }
 
@@ -114,10 +122,6 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
 // MARK: - SettingsViewModelDelegate 
 
 extension SettingsViewController: SettingsViewModelDelegate {
-    func vmOpenSettingsDetailVC(vc: UIViewController) {
-        navigationController?.pushViewController(vc, animated: true)
-    }
-
     func vmOpenImagePick() {
         MediaPickerManager.showImagePickerIn(self)
     }
@@ -164,5 +168,101 @@ extension SettingsViewController: FBSDKAppInviteDialogDelegate {
 
     func appInviteDialog(appInviteDialog: FBSDKAppInviteDialog!, didFailWithError error: NSError!) {
         viewModel.fbAppInviteFailed()
+    }
+}
+
+
+// MARK: - LetGoSetting UI
+
+extension LetGoSetting {
+    var title: String {
+        switch (self) {
+        case .InviteFbFriends:
+            return LGLocalizedString.settingsInviteFacebookFriendsButton
+        case .ChangePhoto:
+            return LGLocalizedString.settingsChangeProfilePictureButton
+        case .ChangeUsername:
+            return LGLocalizedString.settingsChangeUsernameButton
+        case .ChangeLocation:
+            return LGLocalizedString.settingsChangeLocationButton
+        case .CreateCommercializer:
+            return LGLocalizedString.commercializerCreateFromSettings
+        case .ChangePassword:
+            return LGLocalizedString.settingsChangePasswordButton
+        case .Help:
+            return LGLocalizedString.settingsHelpButton
+        case .LogOut:
+            return LGLocalizedString.settingsLogoutButton
+        }
+    }
+
+    var image: UIImage? {
+        switch (self) {
+        case .InviteFbFriends:
+            return UIImage(named: "ic_fb_settings")
+        case .ChangeUsername:
+            return UIImage(named: "ic_change_username")
+        case .ChangeLocation:
+            return UIImage(named: "ic_location_edit")
+        case .CreateCommercializer:
+            return UIImage(named: "ic_play_video")
+        case .ChangePassword:
+            return UIImage(named: "edit_profile_password")
+        case .Help:
+            return UIImage(named: "ic_help")
+        case .LogOut:
+            return UIImage(named: "edit_profile_logout")
+        case let .ChangePhoto(placeholder,_):
+            return placeholder
+        }
+    }
+
+    var imageURL: NSURL? {
+        switch self {
+        case let .ChangePhoto(_,avatarUrl):
+            return avatarUrl
+        default:
+            return nil
+        }
+    }
+
+    var imageRounded: Bool {
+        switch self {
+        case .ChangePhoto:
+            return true
+        default:
+            return false
+        }
+    }
+
+    var textColor: UIColor {
+        switch (self) {
+        case .LogOut:
+            return UIColor.lightGrayColor()
+        case .CreateCommercializer:
+            return UIColor.primaryColor
+        default:
+            return UIColor.darkGrayColor()
+        }
+    }
+
+    var textValue: String? {
+        switch self {
+        case let .ChangeUsername(name):
+            return name
+        case let .ChangeLocation(location):
+            return location
+        default:
+            return nil
+        }
+    }
+
+    var showsDisclosure: Bool {
+        switch self {
+        case .LogOut:
+            return false
+        default:
+            return true
+        }
     }
 }

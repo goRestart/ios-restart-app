@@ -23,27 +23,29 @@ enum LetGoSetting {
     case LogOut
 }
 
+struct SettingsSection {
+    let title: String
+    let settings: [LetGoSetting]
+}
+
 protocol SettingsViewModelDelegate: BaseViewModelDelegate {
-    func vmOpenSettingsDetailVC(vc: UIViewController)
     func vmOpenImagePick()
     func vmOpenFbAppInvite(content: FBSDKAppInviteContent)
 }
 
 class SettingsViewModel: BaseViewModel {
 
+    weak var navigator: SettingsNavigator?
     weak var delegate: SettingsViewModelDelegate?
 
-    var settingsChanges: Observable<CollectionChange<LetGoSetting>> {
-        return settingsData.changesObservable
-    }
     let avatarLoadingProgress = Variable<Float?>(nil)
+    let sections = Variable<[SettingsSection]>([])
 
     private let myUserRepository: MyUserRepository
     private let commercializerRepository: CommercializerRepository
     private let locationManager: LocationManager
     private let tracker: Tracker
 
-    private let settingsData = CollectionVariable<LetGoSetting>([])
     private let kLetGoUserImageSquareSize: CGFloat = 1024
 
     private let disposeBag = DisposeBag()
@@ -81,45 +83,29 @@ class SettingsViewModel: BaseViewModel {
 
     // MARK: - Public
 
-    var settingsCount: Int {
-        return settingsData.value.count
+    var sectionCount: Int {
+        return sections.value.count
     }
 
-    func settingAtIndex(index: Int) -> LetGoSetting? {
-        guard 0..<settingsData.value.count ~= index else { return nil }
-        return settingsData.value[index]
+    func sectionTitle(section: Int) -> String {
+        guard 0..<sections.value.count ~= section else { return "" }
+        return sections.value[section].title
     }
 
-    func settingSelectedAtIndex(index: Int) {
-        guard let setting = settingAtIndex(index) else { return }
-        switch (setting) {
-        case .InviteFbFriends:
-            let content = FBSDKAppInviteContent()
-            content.appLinkURL = NSURL(string: Constants.facebookAppLinkURL)
-            content.appInvitePreviewImageURL = NSURL(string: Constants.facebookAppInvitePreviewImageURL)
-            delegate?.vmOpenFbAppInvite(content)
-            let trackerEvent = TrackerEvent.appInviteFriend(.Facebook, typePage: .Settings)
-            tracker.trackEvent(trackerEvent)
-        case .ChangePhoto:
-            delegate?.vmOpenImagePick()
-        case .ChangeUsername:
-            let vc = ChangeUsernameViewController()
-            delegate?.vmOpenSettingsDetailVC(vc)
-        case .ChangeLocation:
-            let vc = EditLocationViewController(viewModel: EditLocationViewModel(mode: .EditUserLocation))
-            delegate?.vmOpenSettingsDetailVC(vc)
-        case .CreateCommercializer:
-            let vc = CreateCommercialViewController(viewModel: CreateCommercialViewModel())
-            delegate?.vmOpenSettingsDetailVC(vc)
-        case .ChangePassword:
-            let vc = ChangePasswordViewController()
-            delegate?.vmOpenSettingsDetailVC(vc)
-        case .Help:
-            let vc = HelpViewController()
-            delegate?.vmOpenSettingsDetailVC(vc)
-        case .LogOut:
-            logoutUser()
-        }
+    func settingsCount(section: Int) -> Int {
+        guard 0..<sections.value.count ~= section else { return 0 }
+        return sections.value[section].settings.count
+    }
+
+    func settingAtSection(section: Int, index: Int) -> LetGoSetting? {
+        guard 0..<sections.value.count ~= index else { return nil }
+        guard 0..<sections.value[section].settings.count ~= index else { return nil }
+        return sections.value[section].settings[index]
+    }
+
+    func settingSelectedAtSection(section: Int, index: Int) {
+        guard let setting = settingAtSection(section, index: index) else { return }
+        settingSelected(setting)
     }
 
     func imageSelected(image: UIImage) {
@@ -168,25 +154,61 @@ class SettingsViewModel: BaseViewModel {
     // MARK: - Private
 
     private func populateSettings() {
-        var settings: [LetGoSetting] = []
-
+        var settingSections = [SettingsSection]()
+        var profileSettings = [LetGoSetting]()
         let myUser = myUserRepository.myUser
-        settings.append(.InviteFbFriends)
         let placeholder = LetgoAvatar.avatarWithColor(UIColor.defaultAvatarColor, name: myUser?.name)
-        settings.append(.ChangePhoto(placeholder: placeholder, avatarUrl: myUser?.avatar?.fileURL))
-        settings.append(.ChangeUsername(name: myUser?.name ?? ""))
-        settings.append(.ChangeLocation(location: myUser?.postalAddress.city ?? myUser?.postalAddress.countryCode ?? ""))
-        if commercializerEnabled {
-            settings.append(.CreateCommercializer)
-        }
-        if let email = myUser?.email where email.isEmail() {
-            settings.append(.ChangePassword)
-        }
-        settings.append(.Help)
-        settings.append(.LogOut)
+        profileSettings.append(.ChangePhoto(placeholder: placeholder, avatarUrl: myUser?.avatar?.fileURL))
+        profileSettings.append(.ChangeUsername(name: myUser?.name ?? ""))
+        profileSettings.append(.ChangeLocation(location: myUser?.postalAddress.city ?? myUser?.postalAddress.countryCode ?? ""))
+        settingSections.append(SettingsSection(title: LGLocalizedString.settingsSectionProfile, settings: profileSettings))
 
-        settingsData.removeAll()
-        settingsData.appendContentsOf(settings)
+        var socialSettings = [LetGoSetting]()
+        socialSettings.append(.InviteFbFriends)
+        if commercializerEnabled {
+            socialSettings.append(.CreateCommercializer)
+        }
+        settingSections.append(SettingsSection(title: "Social", settings: socialSettings))
+
+        var configSettings = [LetGoSetting]()
+        if let email = myUser?.email where email.isEmail() {
+            configSettings.append(.ChangePassword)
+        }
+        if !configSettings.isEmpty {
+            settingSections.append(SettingsSection(title: LGLocalizedString.settingsSectionConfig, settings: configSettings))
+        }
+
+        var supportSettings = [LetGoSetting]()
+        supportSettings.append(.Help)
+        supportSettings.append(.LogOut)
+        settingSections.append(SettingsSection(title: LGLocalizedString.settingsSectionSupport, settings: supportSettings))
+        sections.value = settingSections
+    }
+
+    private func settingSelected(setting: LetGoSetting) {
+        switch (setting) {
+        case .InviteFbFriends:
+            let content = FBSDKAppInviteContent()
+            content.appLinkURL = NSURL(string: Constants.facebookAppLinkURL)
+            content.appInvitePreviewImageURL = NSURL(string: Constants.facebookAppInvitePreviewImageURL)
+            delegate?.vmOpenFbAppInvite(content)
+            let trackerEvent = TrackerEvent.appInviteFriend(.Facebook, typePage: .Settings)
+            tracker.trackEvent(trackerEvent)
+        case .ChangePhoto:
+            delegate?.vmOpenImagePick()
+        case .ChangeUsername:
+            navigator?.openEditUserName()
+        case .ChangeLocation:
+            navigator?.openEditLocation()
+        case .CreateCommercializer:
+            navigator?.openCreateCommercials()
+        case .ChangePassword:
+            navigator?.openChangePassword()
+        case .Help:
+            navigator?.openHelp()
+        case .LogOut:
+            logoutUser()
+        }
     }
 
     private func logoutUser() {
@@ -199,99 +221,5 @@ class SettingsViewModel: BaseViewModel {
         myUserRepository.rx_myUser.asObservable().bindNext { [weak self] _ in
             self?.populateSettings()
         }.addDisposableTo(disposeBag)
-    }
-}
-
-
-extension LetGoSetting {
-    var title: String {
-        switch (self) {
-        case .InviteFbFriends:
-            return LGLocalizedString.settingsInviteFacebookFriendsButton
-        case .ChangePhoto:
-            return LGLocalizedString.settingsChangeProfilePictureButton
-        case .ChangeUsername:
-            return LGLocalizedString.settingsChangeUsernameButton
-        case .ChangeLocation:
-            return LGLocalizedString.settingsChangeLocationButton
-        case .CreateCommercializer:
-            return LGLocalizedString.commercializerCreateFromSettings
-        case .ChangePassword:
-            return LGLocalizedString.settingsChangePasswordButton
-        case .Help:
-            return LGLocalizedString.settingsHelpButton
-        case .LogOut:
-            return LGLocalizedString.settingsLogoutButton
-        }
-    }
-
-    var image: UIImage? {
-        switch (self) {
-        case .InviteFbFriends:
-            return UIImage(named: "ic_fb_settings")
-        case .ChangeUsername:
-            return UIImage(named: "ic_change_username")
-        case .ChangeLocation:
-            return UIImage(named: "ic_location_edit")
-        case .CreateCommercializer:
-            return UIImage(named: "ic_play_video")
-        case .ChangePassword:
-            return UIImage(named: "edit_profile_password")
-        case .Help:
-            return UIImage(named: "ic_help")
-        case .LogOut:
-            return UIImage(named: "edit_profile_logout")
-        case let .ChangePhoto(placeholder,_):
-            return placeholder
-        }
-    }
-
-    var imageURL: NSURL? {
-        switch self {
-        case let .ChangePhoto(_,avatarUrl):
-            return avatarUrl
-        default:
-            return nil
-        }
-    }
-
-    var imageRounded: Bool {
-        switch self {
-        case .ChangePhoto:
-            return true
-        default:
-            return false
-        }
-    }
-
-    var textColor: UIColor {
-        switch (self) {
-        case .LogOut:
-            return UIColor.lightGrayColor()
-        case .CreateCommercializer:
-            return UIColor.primaryColor
-        default:
-            return UIColor.darkGrayColor()
-        }
-    }
-
-    var textValue: String? {
-        switch self {
-        case let .ChangeUsername(name):
-            return name
-        case let .ChangeLocation(location):
-            return location
-        default:
-            return nil
-        }
-    }
-
-    var showsDisclosure: Bool {
-        switch self {
-        case .LogOut:
-            return false
-        default:
-            return true
-        }
     }
 }
