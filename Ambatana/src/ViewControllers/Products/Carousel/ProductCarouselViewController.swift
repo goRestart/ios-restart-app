@@ -1134,6 +1134,19 @@ extension ProductCarouselViewController: ProductViewModelDelegate {
     func vmViewControllerToShowShareOptions() -> UIViewController {
         return self
     }
+
+
+    // Loadings and alerts overrides to remove keyboard before showing
+
+    override func vmShowLoading(loadingMessage: String?) {
+        chatTextView.resignFirstResponder()
+        super.vmShowLoading(loadingMessage)
+    }
+
+    override func vmShowAutoFadingMessage(message: String, completion: (() -> ())?) {
+        chatTextView.resignFirstResponder()
+        super.vmShowAutoFadingMessage(message, completion: completion)
+    }
 }
 
 
