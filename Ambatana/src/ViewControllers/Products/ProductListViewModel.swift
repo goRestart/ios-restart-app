@@ -181,6 +181,7 @@ class ProductListViewModel: BaseViewModel {
         isLastPage = false
         isLoading = false
         isOnErrorState = false
+        delegate?.vmReloadData(self)
     }
  
 
