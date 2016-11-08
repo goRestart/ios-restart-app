@@ -39,5 +39,4 @@ extension Leanplum {
             return true
         })
     }
-    
 }
