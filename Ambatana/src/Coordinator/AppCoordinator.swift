@@ -16,6 +16,7 @@ final class AppCoordinator: NSObject {
     var presentedAlertController: UIAlertController?
 
     let tabBarCtl: TabBarController
+    let chatHeadOverlay: ChatHeadOverlayView
 
     private let mainTabBarCoordinator: MainTabCoordinator
     private let secondTabBarCoordinator: TabCoordinator
@@ -25,6 +26,7 @@ final class AppCoordinator: NSObject {
 
     private let configManager: ConfigManager
     private let sessionManager: SessionManager
+    private let chatHeadManager: ChatHeadManager
     private let keyValueStorage: KeyValueStorage
     private let pushPermissionsManager: PushPermissionsManager
     private let ratingManager: RatingManager
@@ -51,8 +53,10 @@ final class AppCoordinator: NSObject {
     convenience init(configManager: ConfigManager) {
         let tabBarViewModel = TabBarViewModel()
         let tabBarController = TabBarController(viewModel: tabBarViewModel)
+        let chatHeadOverlay = ChatHeadOverlayView()
 
         let sessionManager = Core.sessionManager
+        let chatHeadManager = ChatHeadManager.sharedInstance
         let keyValueStorage = KeyValueStorage.sharedInstance
         let pushPermissionsManager = PushPermissionsManager.sharedInstance
         let ratingManager = RatingManager.sharedInstance
@@ -68,8 +72,8 @@ final class AppCoordinator: NSObject {
         let commercializerRepository = Core.commercializerRepository
         let userRatingRepository = Core.userRatingRepository
 
-        self.init(tabBarController: tabBarController, configManager: configManager,
-                  sessionManager: sessionManager, keyValueStorage: keyValueStorage,
+        self.init(tabBarController: tabBarController, chatHeadOverlay: chatHeadOverlay, configManager: configManager,
+                  sessionManager: sessionManager, chatHeadManager: chatHeadManager, keyValueStorage: keyValueStorage,
                   pushPermissionsManager: pushPermissionsManager, ratingManager: ratingManager,
                   deepLinksRouter: deepLinksRouter, bubbleManager: bubbleManager, tracker: tracker,
                   productRepository: productRepository, userRepository: userRepository, myUserRepository: myUserRepository,
@@ -78,8 +82,8 @@ final class AppCoordinator: NSObject {
         tabBarViewModel.navigator = self
     }
 
-    init(tabBarController: TabBarController, configManager: ConfigManager,
-         sessionManager: SessionManager, keyValueStorage: KeyValueStorage,
+    init(tabBarController: TabBarController, chatHeadOverlay: ChatHeadOverlayView, configManager: ConfigManager,
+         sessionManager: SessionManager, chatHeadManager: ChatHeadManager, keyValueStorage: KeyValueStorage,
          pushPermissionsManager: PushPermissionsManager, ratingManager: RatingManager, deepLinksRouter: DeepLinksRouter,
          bubbleManager: BubbleNotificationManager, tracker: Tracker, productRepository: ProductRepository,
          userRepository: UserRepository, myUserRepository: MyUserRepository, oldChatRepository: OldChatRepository,
@@ -87,6 +91,7 @@ final class AppCoordinator: NSObject {
          userRatingRepository: UserRatingRepository) {
 
         self.tabBarCtl = tabBarController
+        self.chatHeadOverlay = chatHeadOverlay
         
         self.mainTabBarCoordinator = MainTabCoordinator()
         self.secondTabBarCoordinator = FeatureFlags.notificationsSection ? NotificationsTabCoordinator() :
@@ -98,6 +103,7 @@ final class AppCoordinator: NSObject {
 
         self.configManager = configManager
         self.sessionManager = sessionManager
+        self.chatHeadManager = chatHeadManager
         self.keyValueStorage = keyValueStorage
         self.pushPermissionsManager = pushPermissionsManager
         self.ratingManager = ratingManager
@@ -119,6 +125,7 @@ final class AppCoordinator: NSObject {
         setupTabCoordinators()
         setupDeepLinkingRx()
         setupNotificationCenterObservers()
+        setupChatHeads()
     }
 
     deinit {
@@ -432,6 +439,22 @@ private extension AppCoordinator {
                                                          name: LocationManager.Notification.MovedFarFromSavedManualLocation.rawValue, object: nil)
     }
 
+    func setupChatHeads() {
+        let view: UIView = tabBarCtl.tabBar.superview ?? tabBarCtl.view
+        chatHeadOverlay.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(chatHeadOverlay)
+
+        let views: [String: AnyObject] = ["cho": chatHeadOverlay]
+        let hConstraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|-0-[cho]-0-|",
+                                                                          options: [], metrics: nil, views: views)
+        view.addConstraints(hConstraints)
+        let vConstraints = NSLayoutConstraint.constraintsWithVisualFormat("V:|-0-[cho]-0-|",
+                                                                          options: [], metrics: nil, views: views)
+        view.addConstraints(vConstraints)
+
+        chatHeadManager.setChatHeadOverlayView(chatHeadOverlay)
+    }
+
     func tearDownNotificationCenterObservers() {
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
@@ -738,7 +761,7 @@ private extension AppCoordinator {
 }
 
 
-// MARK: Tab helper
+// MARK: - Tab helper
 
 private extension Tab {
     var logInRequired: Bool {

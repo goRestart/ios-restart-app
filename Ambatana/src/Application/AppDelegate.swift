@@ -26,7 +26,6 @@ import Firebase
 @UIApplicationMain
 final class AppDelegate: UIResponder {
     var window: UIWindow?
-    var chatHeadOverlay: ChatHeadOverlayView?
 
     private var configManager: ConfigManager?
     private var crashManager: CrashManager?
@@ -91,7 +90,6 @@ extension AppDelegate: UIApplicationDelegate {
                                                                   didFinishLaunchingWithOptions: launchOptions)
 
         appCoordinator.open()
-        setupChatHeadsAt(window)
 
         return deepLinksRouterContinuation || fbSdkContinuation
     }
@@ -355,7 +353,7 @@ private extension AppDelegate {
         } else {
             //We must keep it (even though it's deprecated) until we drop iOS8
             AppsFlyerTracker.sharedTracker().handleOpenURL(url, sourceApplication: sourceApplication,
-                                                       withAnnotation: annotation)
+                                                           withAnnotation: annotation)
         }
         
         return routerHandling || facebookHandling || googleHandling
@@ -378,28 +376,5 @@ private extension AppDelegate {
             keyValueStorage[.didCrash] = true
             crashManager.appCrashed = true
         }
-    }
-}
-
-
-// MARK: > Chat heads
-
-private extension AppDelegate {
-    func setupChatHeadsAt(view: UIView) {
-        let chatHeadOverlay = ChatHeadOverlayView(frame: view.frame)
-        self.chatHeadOverlay = chatHeadOverlay
-
-        chatHeadOverlay.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(chatHeadOverlay)
-
-        let views: [String: AnyObject] = ["cho": chatHeadOverlay]
-        let hConstraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|-0-[cho]-0-|",
-                                                                          options: [], metrics: nil, views: views)
-        view.addConstraints(hConstraints)
-        let vConstraints = NSLayoutConstraint.constraintsWithVisualFormat("V:|-0-[cho]-0-|",
-                                                                          options: [], metrics: nil, views: views)
-        view.addConstraints(vConstraints)
-
-        ChatHeadManager.sharedInstance.setChatHeadOverlayView(chatHeadOverlay)
     }
 }

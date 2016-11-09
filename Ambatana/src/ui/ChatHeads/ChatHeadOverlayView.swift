@@ -61,6 +61,17 @@ final class ChatHeadOverlayView: UIView {
 }
 
 
+// MARK: - Public methods
+
+extension ChatHeadOverlayView {
+    func setChatHeadDatas(datas: [ChatHeadData]) {
+        // TODO: ...
+        datas.forEach { chatHeadGroup.addChatHead($0) }
+    }
+
+}
+
+
 // MARK: - Private methods
 // MARK: > Setup
 
@@ -72,11 +83,11 @@ private extension ChatHeadOverlayView {
         let panGesture = UIPanGestureRecognizer(target: self, action: #selector(panned))
         chatHeadGroup.addGestureRecognizer(panGesture)
 
-        guard let myUser = Core.myUserRepository.myUser else { return }
-        guard let data1 = ChatHeadData(chat: FakeChat(id: "1"), myUser: myUser) else { return }
-        chatHeadGroup.addChatHead(data1)
-        guard let data2 = ChatHeadData(chat: FakeChat(id: "2"), myUser: myUser) else { return }
-        chatHeadGroup.addChatHead(data2)
+//        guard let myUser = Core.myUserRepository.myUser else { return }
+//        guard let data1 = ChatHeadData(chat: FakeChat(id: "1"), myUser: myUser) else { return }
+//        chatHeadGroup.addChatHead(data1)
+//        guard let data2 = ChatHeadData(chat: FakeChat(id: "2"), myUser: myUser) else { return }
+//        chatHeadGroup.addChatHead(data2)
     }
 
     func setupConstraints() {

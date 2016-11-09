@@ -41,13 +41,17 @@ final class ChatHeadManager {
         self.rx_chatHeadDatas = Variable<[ChatHeadData]>([])
         self.disposeBag = DisposeBag()
 
-        setup()
+        setupObservers()
         setupRx()
 
         // If logged in, retrieve chats for the first time
         if let _ = myUserRepository.myUser {
             updateChatHeadDatas()
         }
+    }
+
+    deinit {
+        tearDownObservers()
     }
 }
 
@@ -64,9 +68,13 @@ extension ChatHeadManager {
 // MARK: - Private methods
 
 extension ChatHeadManager {
-    func setup() {
+    func setupObservers() {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(applicationWillEnterForeground),
                                                          name: UIApplicationWillEnterForegroundNotification, object: nil)
+    }
+
+    func tearDownObservers() {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
     }
 
     func setupRx() {
@@ -101,6 +109,11 @@ extension ChatHeadManager {
                 self?.updateChatHeadDatas()
             }.addDisposableTo(disposeBag)
         }
+
+        // Update the chat head overlay on data change
+        rx_chatHeadDatas.asObservable().subscribeNext { [weak self] datas in
+            self?.rx_chatHeadOverlayView.value?.setChatHeadDatas(datas)
+        }.addDisposableTo(disposeBag)
     }
 
     func updateChatHeadDatas() {
