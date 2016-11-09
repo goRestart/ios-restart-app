@@ -16,6 +16,7 @@ final class ChatHeadOverlayView: UIView {
     private var chatHeadGroupXConstraint: NSLayoutConstraint?
     private var chatHeadGroupYConstraint: NSLayoutConstraint?
 
+    private var placedInMagnetPoint: Bool
     private var magnetPoints: [CGPoint]
 
 
@@ -27,6 +28,7 @@ final class ChatHeadOverlayView: UIView {
 
     override init(frame: CGRect) {
         self.chatHeadGroup = ChatHeadGroupView()
+        placedInMagnetPoint = false
         self.magnetPoints = []
         super.init(frame: frame)
 
@@ -66,6 +68,11 @@ final class ChatHeadOverlayView: UIView {
 extension ChatHeadOverlayView {
     func setChatHeadDatas(datas: [ChatHeadData]) {
         chatHeadGroup.setChatHeads(datas)
+
+        if !placedInMagnetPoint {
+            placedInMagnetPoint = true
+            snapToNearestMagnetPoint(animated: false)
+        }
     }
 
     func setChatHeadGroupViewDelegate(delegate: ChatHeadGroupViewDelegate?) {
