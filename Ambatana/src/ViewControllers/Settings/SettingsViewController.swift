@@ -52,12 +52,17 @@ class SettingsViewController: BaseViewController {
     // MARK: - Private
 
     private func setupUI() {
+        view.backgroundColor = UIColor.grayBackground
         settingProfileImageLabel.text = LGLocalizedString.settingsChangeProfilePictureLoading
         settingProfileImageView.hidden = true
         setNavBarTitle(LGLocalizedString.settingsTitle)
 
         let cellNib = UINib(nibName: SettingsCell.reusableID, bundle: nil)
         tableView.registerNib(cellNib, forCellReuseIdentifier: SettingsCell.reusableID)
+        let logoutCellNib = UINib(nibName: SettingsLogoutCell.reusableID, bundle: nil)
+        tableView.registerNib(logoutCellNib, forCellReuseIdentifier: SettingsLogoutCell.reusableID)
+        let infoCellNib = UINib(nibName: SettingsInfoCell.reusableID, bundle: nil)
+        tableView.registerNib(infoCellNib, forCellReuseIdentifier: SettingsInfoCell.reusableID)
         tableView.backgroundColor = UIColor.grayBackground
     }
 
@@ -89,16 +94,29 @@ class SettingsViewController: BaseViewController {
 extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
 
     private static let headerHeight: CGFloat = 50
+    private static let emptyHeaderHeight: CGFloat = 30
 
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return viewModel.sectionCount
     }
 
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return SettingsViewController.headerHeight
+        let title = viewModel.sectionTitle(section)
+        return title.isEmpty ? SettingsViewController.emptyHeaderHeight : SettingsViewController.headerHeight
     }
 
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let title = viewModel.sectionTitle(section)
+        guard !title.isEmpty else {
+            let container = UIView()
+            container.backgroundColor = UIColor.grayBackground
+            if section > 0 {
+                let topSeparator = UIView(frame: CGRect(x: 0, y: 0, width: tableView.width, height: LGUIKitConstants.onePixelSize))
+                topSeparator.backgroundColor = UIColor.grayLight
+                container.addSubview(topSeparator)
+            }
+            return container
+        }
         let container = UIView()
         container.backgroundColor = UIColor.grayBackground
         if section > 0 {
@@ -107,7 +125,7 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
             container.addSubview(topSeparator)
         }
         let label = UILabel(frame: CGRect(x: 12, y: 28, width: tableView.width, height: 15))
-        label.text = viewModel.sectionTitle(section).uppercase
+        label.text = title.uppercase
         label.font = UIFont.systemRegularFont(size: 13)
         label.textColor = UIColor.gray
         label.sizeToFit()
@@ -129,12 +147,24 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCellWithIdentifier(SettingsCell.reusableID, forIndexPath: indexPath)
-            as? SettingsCell else { return UITableViewCell() }
         guard let setting = viewModel.settingAtSection(indexPath.section, index: indexPath.row) else { return UITableViewCell() }
-        cell.setupWithSetting(setting)
-        cell.showBottomBorder = indexPath.row < viewModel.settingsCount(indexPath.section) - 1
-        return cell
+        switch setting {
+        case .LogOut:
+            guard let cell = tableView.dequeueReusableCellWithIdentifier(SettingsLogoutCell.reusableID, forIndexPath: indexPath)
+                as? SettingsLogoutCell else { return UITableViewCell() }
+            return cell
+        case .VersionInfo:
+            guard let cell = tableView.dequeueReusableCellWithIdentifier(SettingsInfoCell.reusableID, forIndexPath: indexPath)
+                as? SettingsInfoCell else { return UITableViewCell() }
+            cell.refreshData()
+            return cell
+        default:
+            guard let cell = tableView.dequeueReusableCellWithIdentifier(SettingsCell.reusableID, forIndexPath: indexPath)
+                as? SettingsCell else { return UITableViewCell() }
+            cell.setupWithSetting(setting)
+            cell.showBottomBorder = indexPath.row < viewModel.settingsCount(indexPath.section) - 1
+            return cell
+        }
     }
 
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
@@ -206,7 +236,9 @@ extension LetGoSetting {
         case .InviteFbFriends, .ChangePhoto, .ChangeUsername, .ChangeLocation, .CreateCommercializer, .ChangePassword, .Help:
             return 50
         case .LogOut:
-            return 80
+            return 44
+        case .VersionInfo:
+            return 30
         }
     }
 }

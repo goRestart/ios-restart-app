@@ -78,6 +78,8 @@ private extension LetGoSetting {
             return LGLocalizedString.settingsHelpButton
         case .LogOut:
             return LGLocalizedString.settingsLogoutButton
+        case .VersionInfo:
+            return ""
         }
     }
 
@@ -95,7 +97,7 @@ private extension LetGoSetting {
             return UIImage(named: "ic_setting_password")
         case .Help:
             return UIImage(named: "ic_setting_help")
-        case .LogOut:
+        case .LogOut, .VersionInfo:
             return nil
         case let .ChangePhoto(placeholder,_):
             return placeholder

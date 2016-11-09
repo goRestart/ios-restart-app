@@ -21,6 +21,7 @@ enum LetGoSetting {
     case ChangePassword
     case Help
     case LogOut
+    case VersionInfo
 }
 
 struct SettingsSection {
@@ -177,8 +178,12 @@ class SettingsViewModel: BaseViewModel {
 
         var supportSettings = [LetGoSetting]()
         supportSettings.append(.Help)
-        supportSettings.append(.LogOut)
         settingSections.append(SettingsSection(title: LGLocalizedString.settingsSectionSupport, settings: supportSettings))
+
+        var logoutAndInfo = [LetGoSetting]()
+        logoutAndInfo.append(.LogOut)
+        logoutAndInfo.append(.VersionInfo)
+        settingSections.append(SettingsSection(title: "", settings: logoutAndInfo))
         sections.value = settingSections
     }
 
@@ -205,6 +210,8 @@ class SettingsViewModel: BaseViewModel {
             navigator?.openHelp()
         case .LogOut:
             logoutUser()
+        case .VersionInfo:
+            break
         }
     }
 
