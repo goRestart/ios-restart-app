@@ -122,10 +122,11 @@ class MainProductsViewModel: BaseViewModel {
     // Search tracking state
     private var shouldTrackSearch = false
 
-    // Trending searches
+    // Suggestion searches
     let trendingSearches = Variable<[String]?>(nil)
     let lastSearches = Variable<[String]?>(nil)
-    var suggestionSearchSections = [SearchSuggestionType]()
+    var suggestionSearchSections: [SearchSuggestionType] = [.LastSearch, .Trending]
+    
     
     // MARK: - Lifecycle
     
@@ -560,10 +561,11 @@ extension MainProductsViewModel {
     
     func cleanUpLastSearches() {
         keyValueStorage[.lastSearches] = []
-        if let index = suggestionSearchSections.indexOf(.LastSearch) {
-            suggestionSearchSections.removeAtIndex(index)
-        }
         lastSearches.value = keyValueStorage[.lastSearches]
+    }
+    
+    func retrieveLastUserSearch() {
+        lastSearches.value = keyValueStorage[.lastSearches].reverse()
     }
 
     private func retrieveTrendingSearches() {
@@ -571,42 +573,19 @@ extension MainProductsViewModel {
 
         trendingSearchesRepository.index(currentCountryCode) { [weak self] result in
             guard let strongSelf = self else { return }
-            guard result.value?.count > 0 else {
-                guard let index = strongSelf.suggestionSearchSections.indexOf(.Trending) else { return }
-                strongSelf.suggestionSearchSections.removeAtIndex(index)
-                strongSelf.trendingSearches.value = result.value
-                return
-            }
-            guard !strongSelf.suggestionSearchSections.contains(.Trending) else { return }
-            strongSelf.suggestionSearchSections.append(.Trending)
             strongSelf.trendingSearches.value = result.value
         }
     }
     
-    private func retrieveLastUserSearch() {
-        lastSearches.value = keyValueStorage[.lastSearches].reverse()
-        guard lastSearches.value?.count > 0 else {
-            guard let index = suggestionSearchSections.indexOf(.LastSearch) else { return }
-            suggestionSearchSections.removeAtIndex(index)
-            return
-        }
-        guard !suggestionSearchSections.contains(.LastSearch) else { return }
-        suggestionSearchSections.append(.LastSearch)
-    }
-    
     private func updateLastSearchStoraged(query: String) {
         // Need to save only the last three and check if already exists.
-        if  keyValueStorage[.lastSearches].contains(query) {
-            return
-        }
-        if keyValueStorage[.lastSearches].count < 3 {
-            keyValueStorage[.lastSearches].append(query)
-        } else {
-            keyValueStorage[.lastSearches][2] = query
+        guard !keyValueStorage[.lastSearches].contains(query) else { return }
+        keyValueStorage[.lastSearches].append(query)
+        if keyValueStorage[.lastSearches].count > 3 {
+            keyValueStorage[.lastSearches].removeFirst()
         }
     }
 }
-
 
 // MARK: Push Permissions
 

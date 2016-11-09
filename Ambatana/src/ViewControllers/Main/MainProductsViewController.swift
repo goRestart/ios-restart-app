@@ -228,6 +228,7 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Cancel , target: self,
                                                             action: #selector(endEdit))
         suggestionsSearchesContainer.hidden = false
+        viewModel.retrieveLastUserSearch()
         navbarSearch.beginEdit()
     }
     
@@ -404,7 +405,12 @@ extension MainProductsViewController: UITableViewDelegate, UITableViewDataSource
     }
     
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 54
+        switch viewModel.suggestionSearchSections[section] {
+        case .LastSearch:
+            return viewModel.lastSearches.value?.count > 0 ? 54 : 0
+        case .Trending:
+            return viewModel.trendingSearches.value?.count > 0 ? 54 : 0
+        }
     }
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
