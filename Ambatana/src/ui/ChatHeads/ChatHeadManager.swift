@@ -14,6 +14,7 @@ final class ChatHeadManager {
 
     private static let conversationsIndexPageSize = 20
 
+    private let notificationsManager: NotificationsManager
     private let myUserRepository: MyUserRepository
     private let chatRepository: ChatRepository
     private let oldChatRepository: OldChatRepository
@@ -26,14 +27,17 @@ final class ChatHeadManager {
     // MARK: - Lifecycle
 
     convenience init() {
+        let notificationsManager = NotificationsManager.sharedInstance
         let myUserRepository = Core.myUserRepository
         let chatRepository = Core.chatRepository
         let oldChatRepository = Core.oldChatRepository
-        self.init(myUserRepository: myUserRepository, chatRepository: chatRepository,
-                  oldChatRepository: oldChatRepository)
+        self.init(notificationsManager: notificationsManager, myUserRepository: myUserRepository,
+                  chatRepository: chatRepository, oldChatRepository: oldChatRepository)
     }
 
-    init(myUserRepository: MyUserRepository, chatRepository: ChatRepository, oldChatRepository: OldChatRepository) {
+    init(notificationsManager: NotificationsManager, myUserRepository: MyUserRepository,
+         chatRepository: ChatRepository, oldChatRepository: OldChatRepository) {
+        self.notificationsManager = notificationsManager
         self.myUserRepository = myUserRepository
         self.chatRepository = chatRepository
         self.oldChatRepository = oldChatRepository
@@ -114,6 +118,14 @@ extension ChatHeadManager {
         rx_chatHeadDatas.asObservable().subscribeNext { [weak self] datas in
             self?.rx_chatHeadOverlayView.value?.setChatHeadDatas(datas)
         }.addDisposableTo(disposeBag)
+
+        // Badge
+        let unreadMsgCount = notificationsManager.unreadMessagesCount.asObservable()
+        Observable
+            .combineLatest(rx_chatHeadOverlayView.asObservable(),unreadMsgCount) { $0 }
+            .subscribeNext { (overlay, unreadMsgCount) in
+                overlay?.setBadge(unreadMsgCount ?? 0)
+            }.addDisposableTo(disposeBag)
     }
 
     func updateChatHeadDatas() {

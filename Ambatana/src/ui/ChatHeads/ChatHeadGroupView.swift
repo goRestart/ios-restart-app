@@ -16,12 +16,18 @@ protocol ChatHeadGroupViewDelegate: class {
 
 final class ChatHeadGroupView: UIView {
     static let chatHeadSide: CGFloat = 50
+    private static let countContainerMinSide: CGFloat = 22
     private static let chatHeadSpacing: CGFloat = 3
 
     private let chatHeadsContainer: UIView
     private var chatHeads: [ChatHeadView]
+    private let countContainer: UIView
+    private let countLabel: UILabel
+
     private var leadingConstraints: [NSLayoutConstraint]
     private var trailingConstraints: [NSLayoutConstraint]
+    private var countContainerLeading: NSLayoutConstraint?
+    private var countContainerTrailing: NSLayoutConstraint?
     private(set) var isLeftPositioned: Bool
 
     weak var delegate: ChatHeadGroupViewDelegate?
@@ -36,6 +42,11 @@ final class ChatHeadGroupView: UIView {
     override init(frame: CGRect) {
         self.chatHeads = []
         self.chatHeadsContainer = UIView(frame: CGRect(x: 0, y: 0, width: frame.width, height: frame.height))
+        self.countContainer = UIView(frame: CGRect(x: frame.width, y: frame.height,
+            width: ChatHeadGroupView.countContainerMinSide, height: ChatHeadGroupView.countContainerMinSide))
+        self.countLabel = UILabel(frame: CGRect(x: 0, y: 0,
+            width: ChatHeadGroupView.countContainerMinSide, height: ChatHeadGroupView.countContainerMinSide))
+
         self.leadingConstraints = []
         self.trailingConstraints = []
         self.isLeftPositioned = true
@@ -46,6 +57,11 @@ final class ChatHeadGroupView: UIView {
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        countContainer.layer.cornerRadius = countContainer.frame.height / 2
     }
 }
 
@@ -81,12 +97,20 @@ extension ChatHeadGroupView {
             for (idx, trailing) in trailingConstraints.enumerate() {
                 trailing.constant = CGFloat(idx) * ChatHeadGroupView.chatHeadSpacing
             }
+            if let countContainerLeading = countContainerLeading, countContainerTrailing = countContainerTrailing {
+                removeConstraint(countContainerLeading)
+                addConstraint(countContainerTrailing)
+            }
         } else {
             for (idx, leading) in leadingConstraints.enumerate() {
                 leading.constant = CGFloat(-idx) * ChatHeadGroupView.chatHeadSpacing
             }
             for (idx, trailing) in trailingConstraints.enumerate() {
                 trailing.constant = CGFloat(-idx) * ChatHeadGroupView.chatHeadSpacing
+            }
+            if let countContainerLeading = countContainerLeading, countContainerTrailing = countContainerTrailing {
+                removeConstraint(countContainerTrailing)
+                addConstraint(countContainerLeading)
             }
         }
         isLeftPositioned = leftPositioned
@@ -97,6 +121,11 @@ extension ChatHeadGroupView {
         } else {
             animations()
         }
+    }
+
+    func setBadge(badge: Int) {
+        let actualBadge = max(1, badge)
+        countLabel.text = badge > 99 ? "+99" : String(actualBadge)
     }
 }
 
@@ -109,18 +138,57 @@ private extension ChatHeadGroupView {
         chatHeadsContainer.translatesAutoresizingMaskIntoConstraints = false
         addSubview(chatHeadsContainer)
 
+        countContainer.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(countContainer)
+
+        countContainer.backgroundColor = UIColor.primaryColor
+        countLabel.translatesAutoresizingMaskIntoConstraints = false
+        countLabel.textColor = UIColor.white
+        countLabel.textAlignment = .Center
+        countLabel.font = UIFont.systemSemiBoldFont(size: 13)
+        countContainer.clipsToBounds = true
+        countContainer.addSubview(countLabel)
+
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(pressed))
         addGestureRecognizer(tapGesture)
     }
 
     func setupConstraints() {
-        let views: [String: AnyObject] = ["chc": chatHeadsContainer]
-        let hConstraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|-0-[chc]-0-|",
-                                                                          options: [], metrics: nil, views: views)
-        addConstraints(hConstraints)
-        let vConstraints = NSLayoutConstraint.constraintsWithVisualFormat("V:|-0-[chc]-0-|",
-                                                                          options: [], metrics: nil, views: views)
-        addConstraints(vConstraints)
+        let chcViews: [String: AnyObject] = ["chc": chatHeadsContainer]
+        let chcHConstraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|-0-[chc]-0-|",
+                                                                             options: [], metrics: nil, views: chcViews)
+        addConstraints(chcHConstraints)
+        let chcVConstraints = NSLayoutConstraint.constraintsWithVisualFormat("V:|-0-[chc]-0-|",
+                                                                             options: [], metrics: nil, views: chcViews)
+        addConstraints(chcVConstraints)
+
+        let ccLeading = NSLayoutConstraint(item: countContainer, attribute: .Leading, relatedBy: .Equal,
+                                           toItem: self, attribute: .Leading,
+                                           multiplier: 1, constant: ChatHeadGroupView.countContainerMinSide + ChatHeadGroupView.countContainerMinSide/2)
+        let ccTrailing = NSLayoutConstraint(item: countContainer, attribute: .Trailing, relatedBy: .Equal,
+                                            toItem: self, attribute: .Trailing,
+                                            multiplier: 1, constant: -(ChatHeadGroupView.countContainerMinSide + ChatHeadGroupView.countContainerMinSide/2))
+        let ccTop = NSLayoutConstraint(item: countContainer, attribute: .Top, relatedBy: .Equal,
+                                       toItem: self, attribute: .Top,
+                                       multiplier: 1, constant: -ChatHeadGroupView.countContainerMinSide/4)
+        let ccWidth = NSLayoutConstraint(item: countContainer, attribute: .Width, relatedBy: .GreaterThanOrEqual,
+                                         toItem: nil, attribute: .Width,
+                                         multiplier: 1, constant: ChatHeadGroupView.countContainerMinSide)
+        let ccHeight = NSLayoutConstraint(item: countContainer, attribute: .Height, relatedBy: .Equal,
+                                          toItem: nil, attribute: .Height,
+                                          multiplier: 1, constant: ChatHeadGroupView.countContainerMinSide)
+        addConstraints([ccTrailing, ccTop, ccWidth, ccHeight])
+        countContainerLeading = ccLeading
+        countContainerTrailing = ccTrailing
+
+        let clViews: [String: AnyObject] = ["cl": countLabel]
+        let clHConstraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|-2-[cl]-2-|",
+                                                                             options: [], metrics: nil, views: clViews)
+        addConstraints(clHConstraints)
+        let clVConstraints = NSLayoutConstraint.constraintsWithVisualFormat("V:|-0-[cl]-0-|",
+                                                                             options: [], metrics: nil, views: clViews)
+        addConstraints(clVConstraints)
+        countContainer.addSubview(countLabel)
     }
 
     func addChatHeadSubview(chatHead: ChatHeadView) {

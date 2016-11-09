@@ -72,6 +72,10 @@ extension ChatHeadOverlayView {
     func setChatHeadGroupViewDelegate(delegate: ChatHeadGroupViewDelegate?) {
         chatHeadGroup.delegate = delegate
     }
+
+    func setBadge(badge: Int) {
+        chatHeadGroup.setBadge(badge)
+    }
 }
 
 
