@@ -392,6 +392,34 @@ extension AppCoordinator: UITabBarControllerDelegate {
         }
         return result
     }
+
+    func tabBarController(tabBarController: UITabBarController, didSelectViewController viewController: UIViewController) {
+        guard let tab = tabAtController(viewController) else { return }
+        let hidden: Bool
+        switch tab {
+        case .Chats, .Sell:
+            hidden = true
+        case .Home, .Categories, .Notifications, .Profile:
+            hidden = false
+        }
+        chatHeadOverlay.hidden = hidden
+    }
+}
+
+
+// MARK: - ChatHeadGroupViewDelegate
+
+extension AppCoordinator: ChatHeadGroupViewDelegate {
+    func chatHeadGroup(view: ChatHeadGroupView, openChatDetailWithId id: String) {
+        let data = ConversationData.Conversation(conversationId: id)
+        
+        openTab(.Chats)
+        chatsTabBarCoordinator.openChat(.DataIds(data: data))
+    }
+
+    func chatHeadGroupOpenChatList(view: ChatHeadGroupView) {
+        openTab(.Chats)
+    }
 }
 
 
@@ -452,6 +480,7 @@ private extension AppCoordinator {
                                                                           options: [], metrics: nil, views: views)
         view.addConstraints(vConstraints)
 
+        chatHeadOverlay.setChatHeadGroupViewDelegate(self)
         chatHeadManager.setChatHeadOverlayView(chatHeadOverlay)
     }
 

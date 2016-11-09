@@ -69,6 +69,9 @@ extension ChatHeadOverlayView {
         datas.forEach { chatHeadGroup.addChatHead($0) }
     }
 
+    func setChatHeadGroupViewDelegate(delegate: ChatHeadGroupViewDelegate?) {
+        chatHeadGroup.delegate = delegate
+    }
 }
 
 

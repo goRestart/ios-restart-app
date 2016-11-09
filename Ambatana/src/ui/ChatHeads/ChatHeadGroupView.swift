@@ -9,6 +9,11 @@
 import LGCoreKit
 import UIKit
 
+protocol ChatHeadGroupViewDelegate: class {
+    func chatHeadGroup(view: ChatHeadGroupView, openChatDetailWithId id: String)
+    func chatHeadGroupOpenChatList(view: ChatHeadGroupView)
+}
+
 final class ChatHeadGroupView: UIView {
     static let chatHeadSide: CGFloat = 50
     private static let chatHeadSpacing: CGFloat = 3
@@ -18,6 +23,8 @@ final class ChatHeadGroupView: UIView {
     private var leadingConstraints: [NSLayoutConstraint]
     private var trailingConstraints: [NSLayoutConstraint]
     private(set) var isLeftPositioned: Bool
+
+    weak var delegate: ChatHeadGroupViewDelegate?
 
 
     // MARK: - Lifecycle
@@ -174,12 +181,12 @@ private extension ChatHeadGroupView {
     }
 
     dynamic func pressed(recognizer: UITapGestureRecognizer) {
-        guard chatHeads.count > 0 else { return }
+        guard !chatHeads.isEmpty else { return }
 
         if chatHeads.count == 1 {
-            print("1 chat")
+            delegate?.chatHeadGroup(self, openChatDetailWithId: chatHeads[0].id)
         } else {
-            print("more than 1 chat")
+            delegate?.chatHeadGroupOpenChatList(self)
         }
     }
 }
