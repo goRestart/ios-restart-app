@@ -621,14 +621,12 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         chatRepository.sendMessage(type, message: message, product: product, recipient: toUser) { [weak self] result in
             guard let strongSelf = self else { return }
             if let sentMessage = result.value, let adapter = self?.chatViewMessageAdapter {
+                //This is required to be called BEFORE any message insertion
+                strongSelf.trackMessageSent(isQuickAnswer, type: type)
+
                 let viewMessage = adapter.adapt(sentMessage)
                 strongSelf.loadedMessages.insert(viewMessage, atIndex: 0)
                 strongSelf.delegate?.vmDidSucceedSendingMessage(0)
-                if strongSelf.shouldSendFirstMessageEvent {
-                    strongSelf.shouldSendFirstMessageEvent = false
-                    strongSelf.trackFirstMessage(type)
-                }
-                strongSelf.trackMessageSent(isQuickAnswer, type: type)
                 strongSelf.afterSendMessageEvents()
             } else if let error = result.error {
                 switch error {
@@ -950,6 +948,10 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     }
     
     private func trackMessageSent(isQuickAnswer: Bool, type: MessageType) {
+        if shouldSendFirstMessageEvent {
+            shouldSendFirstMessageEvent = false
+            trackFirstMessage(type)
+        }
         let messageSentEvent = TrackerEvent.userMessageSent(product, userTo: otherUser,
                                                             messageType: type.trackingMessageType,
                                                             isQuickAnswer: isQuickAnswer ? .True : .False, typePage: .Chat)
