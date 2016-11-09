@@ -327,13 +327,13 @@ extension UserViewModel {
 
     private func openPushPermissionsAlert() {
         trackPushPermissionStart()
-        let positive = UIAction(interface: .Button(LGLocalizedString.profilePermissionsAlertOk, .Default),
+        let positive = UIAction(interface: .StyledText(LGLocalizedString.profilePermissionsAlertOk, .Default),
                                 action: { [weak self] in
                                     self?.trackPushPermissionComplete()
                                     PushPermissionsManager.sharedInstance.showPushPermissionsAlert(prePermissionType: .Profile)
                                 },
                                 accessibilityId: .UserPushPermissionOK)
-        let negative = UIAction(interface: .Button(LGLocalizedString.profilePermissionsAlertCancel, .Cancel),
+        let negative = UIAction(interface: .StyledText(LGLocalizedString.profilePermissionsAlertCancel, .Cancel),
                                 action: { [weak self] in
                                     self?.trackPushPermissionCancel()
                                 },
@@ -447,7 +447,7 @@ extension UserViewModel {
             }
 
             strongSelf.userName.value = user?.name
-            strongSelf.userLocation.value = user?.postalAddress.cityCountryString
+            strongSelf.userLocation.value = user?.postalAddress.cityStateString
 
             strongSelf.headerMode.value = strongSelf.isMyProfile ? .MyUser : .OtherUser
 

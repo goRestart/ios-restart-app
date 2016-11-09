@@ -20,7 +20,7 @@ private class MockMyUser: MyUser {
     var objectId: String?
     var name: String?
     var avatar: File?
-    var postalAddress: PostalAddress = PostalAddress(address: nil, city: nil, zipCode: nil, countryCode: nil, country: nil)
+    var postalAddress: PostalAddress = PostalAddress.emptyAddress()
     var accounts: [Account]?
     var ratingCount: Int?
     var ratingAverage: Float?

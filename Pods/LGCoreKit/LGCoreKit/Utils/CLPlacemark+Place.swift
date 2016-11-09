@@ -23,16 +23,20 @@ extension CLPlacemark {
 
         let address = postalAddressStringFromAddressDictionary(self.addressDictionary, addCountryName: false)
         let postalAddress = PostalAddress(address: address, city: self.locality, zipCode: self.postalCode,
-            countryCode: self.ISOcountryCode, country: self.country)
+                                          state: self.administrativeArea, countryCode: self.ISOcountryCode, country: self.country)
 
         place.postalAddress = postalAddress
 
         var resumedData = ""
         if let name = self.name {
             resumedData += name
+            // if the user searches for the city, then the city will appear twice in the resumedData string
+            if let city = self.locality where city != name {
+                resumedData += ", \(city)"
+            }
         }
-        if let city = self.locality {
-            resumedData += ", \(city)"
+        if let state = self.administrativeArea {
+            resumedData += ", \(state)"
         }
         if let zipCode = self.postalCode {
             resumedData += ", \(zipCode)"

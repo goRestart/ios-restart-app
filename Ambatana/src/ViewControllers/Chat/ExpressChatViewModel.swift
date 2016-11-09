@@ -85,7 +85,7 @@ class ExpressChatViewModel: BaseViewModel {
     func sendMessage() {
         let wrapper = ChatWrapper()
         for product in selectedProducts.value {
-            wrapper.sendMessageForProduct(product, text: messageText.value, sticker: nil, type: .Text) { [weak self] result in
+            wrapper.sendMessageForProduct(product, type:.Text(messageText.value)) { [weak self] result in
                 if let value = result.value {
                     self?.singleMessageExtraTrackings(value, product: product)
                 }

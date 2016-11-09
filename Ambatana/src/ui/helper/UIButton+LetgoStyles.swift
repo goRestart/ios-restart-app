@@ -6,6 +6,8 @@
 //  Copyright © 2016 Ambatana. All rights reserved.
 //
 
+import RxSwift
+
 enum ButtonFontSize {
     case Big
     case Medium
@@ -206,5 +208,13 @@ extension UIButton {
         let left = contentEdgeInsets.left < padding ? padding : contentEdgeInsets.left
         let right = contentEdgeInsets.right < padding ? padding : contentEdgeInsets.right
         contentEdgeInsets = UIEdgeInsets(top: 0, left: left, bottom: 0, right: right)
+    }
+
+    func configureWith(uiAction action: UIAction) {
+        setTitle(action.text, forState: .Normal)
+        setImage(action.image, forState: .Normal)
+        if let style = action.buttonStyle {
+            setStyle(style)
+        }
     }
 }

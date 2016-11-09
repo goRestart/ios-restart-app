@@ -168,7 +168,8 @@ class SettingsViewModel: BaseViewModel {
         let placeholder = LetgoAvatar.avatarWithColor(UIColor.defaultAvatarColor, name: myUser?.name)
         profileSettings.append(.ChangePhoto(placeholder: placeholder, avatarUrl: myUser?.avatar?.fileURL))
         profileSettings.append(.ChangeUsername(name: myUser?.name ?? ""))
-        profileSettings.append(.ChangeLocation(location: myUser?.postalAddress.city ?? myUser?.postalAddress.countryCode ?? ""))
+        profileSettings.append(.ChangeLocation(location: myUser?.postalAddress.city ?? myUser?.postalAddress.state ??
+            myUser?.postalAddress.countryCode ?? ""))
         if let email = myUser?.email where email.isEmail() {
             profileSettings.append(.ChangePassword)
         }

@@ -12,7 +12,7 @@ import bumper
 
 extension Bumper  {
     static func initialize() {
-        Bumper.initialize([WebsocketChat.self, NotificationsSection.self, UserReviews.self, ShowNPSSurvey.self, NonStopProductDetail.self, MessageOnFavoriteRound2Mode.self, InterestedUsersMode.self, FiltersReorder.self, FreePostingMode.self, DirectPostInOnboarding.self, ShareButtonWithIcon.self, ProductDetailShareMode.self])
+        Bumper.initialize([WebsocketChat.self, NotificationsSection.self, UserReviews.self, ShowNPSSurvey.self, NonStopProductDetail.self, MessageOnFavoriteRound2Mode.self, InterestedUsersMode.self, FiltersReorder.self, FreePostingMode.self, DirectPostInOnboarding.self, ShareButtonWithIcon.self, ProductDetailShareMode.self, PeriscopeChat.self])
     } 
 
     static var websocketChat: Bool {
@@ -73,6 +73,11 @@ extension Bumper  {
     static var productDetailShareMode: ProductDetailShareMode {
         guard let value = Bumper.valueForKey(ProductDetailShareMode.key) else { return .Native }
         return ProductDetailShareMode(rawValue: value) ?? .Native 
+    }
+
+    static var periscopeChat: Bool {
+        guard let value = Bumper.valueForKey(PeriscopeChat.key) else { return false }
+        return PeriscopeChat(rawValue: value)?.asBool ?? false
     } 
 }
 
@@ -210,5 +215,14 @@ enum ProductDetailShareMode: String, BumperFeature  {
             default: return .Native
         }
     }
+}
+
+enum PeriscopeChat: String, BumperFeature  {
+    case No, Yes
+    static var defaultValue: String { return PeriscopeChat.No.rawValue }
+    static var enumValues: [PeriscopeChat] { return [.No, .Yes]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Periscope chat from Product" } 
+    var asBool: Bool { return self == .Yes }
 }
 

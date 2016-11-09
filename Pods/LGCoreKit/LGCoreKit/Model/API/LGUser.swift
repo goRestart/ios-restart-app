@@ -42,7 +42,7 @@ struct LGUser: User {
     }
     
     init(chatInterlocutor: ChatInterlocutor) {
-        let postalAddress = PostalAddress(address: nil, city: nil, zipCode: nil, countryCode: nil, country: nil)
+        let postalAddress = PostalAddress.emptyAddress()
         self.init(objectId: chatInterlocutor.objectId, name: chatInterlocutor.name,
                   avatar: chatInterlocutor.avatar?.fileURL?.absoluteString,
                   postalAddress: postalAddress, ratingAverage: nil, ratingCount: nil, accounts: nil,
@@ -53,7 +53,7 @@ struct LGUser: User {
 extension LGUser {
     // Lifecycle
     init() {
-        let postalAddress = PostalAddress(address: nil, city: nil, zipCode: nil, countryCode: nil, country: nil)
+        let postalAddress = PostalAddress.emptyAddress()
         self.init(objectId: nil, name: nil, avatar: nil, postalAddress: postalAddress, ratingAverage: nil,
                   ratingCount: nil, accounts: nil, status: .Active, isDummy: false)
     }

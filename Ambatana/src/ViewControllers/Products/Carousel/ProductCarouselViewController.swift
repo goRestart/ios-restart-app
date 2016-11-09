@@ -9,41 +9,22 @@
 import LGCoreKit
 import RxSwift
 
-enum ProductDetailButtonType {
-    case MarkAsSold
-    case MarkAsSoldFree
-    case SellItAgain
-    case SellItAgainFree
-    case CreateCommercial
-    case ChatWithSeller
-    case ContinueChatting
-    case Cancel
-}
-
-enum MoreInfoState {
-    case Hidden
-    case Moving
-    case Shown
-}
-
-protocol AnimatableTransition {
-    var animator: PushAnimator? { get }
-}
-
-
 class ProductCarouselViewController: BaseViewController, AnimatableTransition {
-
-    static let interestedBubbleHeight: CGFloat = 50
-    static let shareButtonVerticalSpacing: CGFloat = 5
-    static let shareButtonHorizontalSpacing: CGFloat = 3
 
     @IBOutlet weak var imageBackground: UIImageView!
     @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var buttonBottom: UIButton!
+    @IBOutlet weak var buttonBottomHeight: NSLayoutConstraint!
     @IBOutlet weak var buttonBottomBottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var buttonBottomTrailingConstraint: NSLayoutConstraint!
     @IBOutlet weak var buttonTop: UIButton!
+    @IBOutlet weak var buttonTopHeight: NSLayoutConstraint!
+    @IBOutlet weak var buttonTopBottomConstraint: NSLayoutConstraint!
+    @IBOutlet weak var chatContainer: UIView!
+    @IBOutlet weak var chatContainerHeight: NSLayoutConstraint!
+    @IBOutlet weak var chatContainerBottomConstraint: NSLayoutConstraint!
+    @IBOutlet weak var chatContainerTrailingConstraint: NSLayoutConstraint!
     @IBOutlet weak var gradientShadowView: UIView!
     @IBOutlet weak var gradientShadowBottomView: UIView!
     @IBOutlet weak var favoriteButton: UIButton!
@@ -54,6 +35,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     
     @IBOutlet weak var directChatTable: UITableView!
     @IBOutlet weak var stickersButton: UIButton!
+    @IBOutlet weak var stickersButtonBottomConstraint: NSLayoutConstraint!
 
     @IBOutlet weak var interestedBubbleContainer: UIView!
     @IBOutlet weak var interestedBubbleContainerBottomConstraint: NSLayoutConstraint!
@@ -69,29 +51,38 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     private let disposeBag: DisposeBag = DisposeBag()
     private var currentIndex = 0
     private var userViewBottomConstraint: NSLayoutConstraint?
-    private var userViewBottomMargin: CGFloat = 0 {
-        didSet{
-            userViewBottomConstraint?.constant = userViewBottomMargin
+    private var userViewRightConstraint: NSLayoutConstraint?
+
+    private var userViewRightMargin: CGFloat = -CarouselUI.itemsMargin {
+        didSet {
+            userViewRightConstraint?.constant = userViewRightMargin
         }
     }
-    private var userViewRightConstraint: NSLayoutConstraint?
-    private var userViewRightMargin: CGFloat = 0 {
-        didSet{
-            userViewRightConstraint?.constant = userViewRightMargin
+    private var buttonsRightMargin: CGFloat = CarouselUI.buttonTrailingWithIcon {
+        didSet {
+            buttonBottomTrailingConstraint?.constant = buttonsRightMargin
+            chatContainerTrailingConstraint?.constant = buttonsRightMargin
+        }
+    }
+    private var bottomItemsMargin: CGFloat = CarouselUI.itemsMargin {
+        didSet {
+            chatContainerBottomConstraint?.constant = bottomItemsMargin
+            stickersButtonBottomConstraint?.constant = bottomItemsMargin
+        }
+    }
+    private var interestedBubbleBottom: CGFloat = -CarouselUI.interestedBubbleHeight {
+        didSet {
+            interestedBubbleContainerBottomConstraint.constant = contentBottomMargin + interestedBubbleBottom
+        }
+    }
+    private var contentBottomMargin: CGFloat = 0 {
+        didSet {
+            interestedBubbleContainerBottomConstraint.constant = contentBottomMargin + interestedBubbleBottom
+
         }
     }
 
     private let pageControl: UIPageControl
-    private let pageControlWidth: CGFloat = 18
-    private let pageControlMargin: CGFloat = 18
-    private let moreInfoDragMargin: CGFloat = 45
-    private let moreInfoExtraHeight: CGFloat = 64
-    private let bottomOverscrollDragMargin: CGFloat = 70
-    
-    private let moreInfoTooltipMargin: CGFloat = 0
-
-    private let itemsMargin: CGFloat = 15
-    private let buttonTrailingWithIcon: CGFloat = 75
     private var moreInfoTooltip: Tooltip?
 
     private let collectionContentOffset = Variable<CGPoint>(CGPoint.zero)
@@ -107,6 +98,8 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     private let moreInfoAlpha = Variable<CGFloat>(1)
     private let moreInfoState = Variable<MoreInfoState>(.Hidden)
 
+    private let chatTextView = ChatTextView()
+
     private var interestedBubble = InterestedBubble()
     private var interestedBubbleIsVisible: Bool = false
     private var interestedBubbleTimer: NSTimer = NSTimer()
@@ -117,6 +110,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     var pendingMovement: CarouselMovement?
 
     private let carouselImageDownloader: ImageDownloader = ImageDownloader.externalBuildImageDownloader(true)
+    private let keyboardHelper: KeyboardHelper = KeyboardHelper.sharedInstance
 
     // MARK: - Lifecycle
 
@@ -210,32 +204,23 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         collectionView.directionalLockEnabled = true
         collectionView.alwaysBounceVertical = false
         automaticallyAdjustsScrollViewInsets = false
-        
-        pageControl.autoresizingMask = [.FlexibleRightMargin, .FlexibleBottomMargin]
-        pageControl.transform = CGAffineTransformMakeRotation(CGFloat(M_PI_2))
-        pageControl.frame.origin = CGPoint(x: pageControlMargin, y: topBarHeight + pageControlMargin)
-        pageControl.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.2)
-        pageControl.currentPageIndicatorTintColor = UIColor.whiteColor()
-        pageControl.hidesForSinglePage = true
-        pageControl.layer.cornerRadius = pageControlWidth/2
-        pageControl.clipsToBounds = true
+
+        CarouselUIHelper.setupPageControl(pageControl, topBarHeight: topBarHeight)
 
         let views = ["ev": fullScreenAvatarEffectView]
-        let blurHConstraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|[ev]|", options: [], metrics: nil,
-                                                                             views: views)
-        view.addConstraints(blurHConstraints)
-        let blurVConstraints = NSLayoutConstraint.constraintsWithVisualFormat("V:|[ev]|", options: [], metrics: nil,
-                                                                              views: views)
-        view.addConstraints(blurVConstraints)
+        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[ev]|", options: [], metrics: nil,
+                                                                             views: views))
+        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[ev]|", options: [], metrics: nil,
+                                                                              views: views))
 
         userView.delegate = self
         let leftMargin = NSLayoutConstraint(item: userView, attribute: .Leading, relatedBy: .Equal, toItem: view,
-                                            attribute: .Leading, multiplier: 1, constant: itemsMargin)
-        let bottomMargin = NSLayoutConstraint(item: userView, attribute: .Bottom, relatedBy: .Equal, toItem: interestedBubbleContainer,
-                                              attribute: .Top, multiplier: 1, constant: -itemsMargin)
+                                            attribute: .Leading, multiplier: 1, constant: CarouselUI.itemsMargin)
+        let bottomMargin = NSLayoutConstraint(item: userView, attribute: .Bottom, relatedBy: .Equal, toItem: buttonTop,
+                                              attribute: .Top, multiplier: 1, constant: -CarouselUI.itemsMargin)
         let rightMargin = NSLayoutConstraint(item: userView, attribute: .Trailing, relatedBy: .LessThanOrEqual,
                                              toItem: view, attribute: .Trailing, multiplier: 1,
-                                             constant: -itemsMargin)
+                                             constant: -CarouselUI.itemsMargin)
         let height = NSLayoutConstraint(item: userView, attribute: .Height, relatedBy: .Equal, toItem: nil,
                                          attribute: .NotAnAttribute, multiplier: 1, constant: 50)
         view.addConstraints([leftMargin, rightMargin, bottomMargin, height])
@@ -276,23 +261,12 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
 
     func setupInterestedBubble() {
         interestedBubble.translatesAutoresizingMaskIntoConstraints = false
-
         interestedBubbleContainer.addSubview(interestedBubble)
-
-        let bubbleLeftConstraint = NSLayoutConstraint(item: interestedBubble, attribute: .Left, relatedBy: .Equal,
-                                                      toItem: interestedBubbleContainer, attribute: .Left, multiplier: 1,
-                                                      constant: 0)
-        let bubbleRightConstraint = NSLayoutConstraint(item: interestedBubble, attribute: .Right, relatedBy: .Equal,
-                                                       toItem: interestedBubbleContainer, attribute: .Right, multiplier: 1,
-                                                       constant: 0)
-        let bubbleTopConstraint = NSLayoutConstraint(item: interestedBubble, attribute: .Top, relatedBy: .Equal,
-                                                     toItem: interestedBubbleContainer, attribute: .Top, multiplier: 1,
-                                                     constant: 0)
-        let bubbleBottomConstraint = NSLayoutConstraint(item: interestedBubble, attribute: .Bottom, relatedBy: .Equal,
-                                                        toItem: interestedBubbleContainer, attribute: .Bottom, multiplier: 1,
-                                                        constant: 0)
-        interestedBubbleContainer.addConstraints([bubbleLeftConstraint, bubbleRightConstraint, bubbleTopConstraint,
-            bubbleBottomConstraint])
+        let views = ["bubble": interestedBubble]
+        interestedBubbleContainer.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-0-[bubble]-0-|",
+            options: [], metrics: nil, views: views))
+        interestedBubbleContainer.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-0-[bubble]-0-|",
+            options: [], metrics: nil, views: views))
     }
 
     private func setupExpandableButtonsViewIfNeeded() {
@@ -303,38 +277,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
 
         for type in viewModel.shareTypes {
             guard SocialSharer.canShareIn(type) else { continue }
-            var image: UIImage? = UIImage()
-            var accessId: AccessibilityId?
-            switch type {
-            case .Email:
-                image = UIImage(named: "item_share_email")
-                accessId = AccessibilityId.SocialShareEmail
-            case .Facebook:
-                image = UIImage(named: "item_share_fb")
-                accessId = AccessibilityId.SocialShareFacebook
-            case .Twitter:
-                image = UIImage(named: "item_share_twitter")
-                accessId = AccessibilityId.SocialShareTwitter
-            case .Native:
-                image = UIImage(named: "item_share_more")
-                accessId = AccessibilityId.SocialShareMore
-            case .CopyLink:
-                image = UIImage(named: "item_share_link")
-                accessId = AccessibilityId.SocialShareCopyLink
-            case .FBMessenger:
-                image = UIImage(named: "item_share_fb_messenger")
-                accessId = AccessibilityId.SocialShareFBMessenger
-            case .Whatsapp:
-                image = UIImage(named: "item_share_whatsapp")
-                accessId = AccessibilityId.SocialShareWhatsapp
-            case .Telegram:
-                image = UIImage(named: "item_share_telegram")
-                accessId = AccessibilityId.SocialShareTelegram
-            case .SMS:
-                image = UIImage(named: "item_share_sms")
-                accessId = AccessibilityId.SocialShareSMS
-            }
-            expandableButtons.addButton(image: image, accessibilityId: accessId) { [weak self] in
+            expandableButtons.addButton(image: type.smallImage, accessibilityId: type.accesibilityId) { [weak self] in
                 guard let strongSelf = self else { return }
                 strongSelf.viewModel.socialSharer.share(socialMessage, shareType: type, viewController: strongSelf,
                                                         barButtonItem: nil)
@@ -407,6 +350,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
                 self?.stickersButton.alpha = zooming ? 0 : 1
                 self?.editButton.alpha = zooming ? 0 : 1
                 self?.productStatusView.alpha = zooming ? 0 : 1
+                self?.chatContainer.alpha = zooming ? 0 : 1
             }
         }.addDisposableTo(disposeBag)
     }
@@ -434,6 +378,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         alphaSignal.bindTo(stickersButton.rx_alpha).addDisposableTo(disposeBag)
         alphaSignal.bindTo(editButton.rx_alpha).addDisposableTo(disposeBag)
         alphaSignal.bindTo(directChatTable.rx_alpha).addDisposableTo(disposeBag)
+        alphaSignal.bindTo(chatContainer.rx_alpha).addDisposableTo(disposeBag)
 
         if let expandableButtonsView = expandableButtonsView {
             // Hide fav button if expandable buttons view is expanded, otherwise depend on reversed alpha
@@ -499,53 +444,6 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
             self?.finishedTransition()
         }.addDisposableTo(disposeBag)
     }
-    
-    private func configureButton(button: UIButton, type: ProductDetailButtonType, viewModel: ProductViewModel) {
-        button.hidden = false
-        var action: (() -> ())?
-        switch type {
-        case .MarkAsSold:
-            button.setTitle(LGLocalizedString.productMarkAsSoldButton, forState: .Normal)
-            button.setStyle(.Terciary)
-            action = viewModel.markSold
-        case .MarkAsSoldFree:
-            button.setTitle(LGLocalizedString.productMarkAsSoldFreeButton, forState: .Normal)
-            button.setStyle(.Terciary)
-            action = viewModel.markSoldFree
-        case .SellItAgainFree:
-            button.setTitle(LGLocalizedString.productSellAgainFreeButton, forState: .Normal)
-            button.setStyle(.Secondary(fontSize: .Big, withBorder: false))
-            action = viewModel.resellFree
-        case .SellItAgain:
-            button.setTitle(LGLocalizedString.productSellAgainButton, forState: .Normal)
-            button.setStyle(.Secondary(fontSize: .Big, withBorder: false))
-            action = viewModel.resell
-        case .CreateCommercial:
-            button.setTitle(LGLocalizedString.productCreateCommercialButton, forState: .Normal)
-            button.setStyle(.Primary(fontSize: .Big))
-            action = viewModel.promoteProduct
-        case .ChatWithSeller:
-            let userName: String = viewModel.product.value.user.name?
-                .toNameReduced(maxChars: Constants.maxCharactersOnUserNameChatButton) ?? ""
-            let string = LGLocalizedString.productChatWithSellerNameButton(userName)
-            button.setTitle(string, forState: .Normal)
-            button.setStyle(.Primary(fontSize: .Big))
-            action =  { [weak self] in
-                let source: EventParameterTypePage = (self?.moreInfoState.value == .Shown) ? .ProductDetailMoreInfo : .ProductDetail
-                viewModel.chatWithSeller(source)
-            }
-        case .ContinueChatting:
-            button.setTitle(LGLocalizedString.productContinueChattingButton, forState: .Normal)
-            button.setStyle(.Secondary(fontSize: .Big, withBorder: false))
-        case .Cancel:
-            button.setTitle(LGLocalizedString.commonCancel, forState: .Normal)
-            button.setStyle(.Secondary(fontSize: .Big, withBorder: false))
-        }
-        
-        button.rx_tap.takeUntil(viewModel.status.asObservable().skip(1)).bindNext {
-            action?()
-        }.addDisposableTo(activeDisposeBag)
-    }
 }
 
 
@@ -563,6 +461,7 @@ extension ProductCarouselViewController {
         refreshPageControl(viewModel)
         refreshProductOnboarding(viewModel)
         refreshBottomButtons(viewModel)
+        refreshDirectChat(viewModel)
         refreshProductStatusLabel(viewModel)
         refreshDirectChatElements(viewModel)
         refreshFavoriteButton(viewModel)
@@ -584,6 +483,7 @@ extension ProductCarouselViewController {
                 moreInfoAlpha.asObservable().bindTo(moreInfoView.dragView.rx_alpha).addDisposableTo(disposeBag)
             }
             view.bringSubviewToFront(buttonBottom)
+            view.bringSubviewToFront(chatContainer)
             view.bringSubviewToFront(stickersButton)
             view.bringSubviewToFront(editButton)
             view.bringSubviewToFront(interestedBubbleContainer)
@@ -592,7 +492,7 @@ extension ProductCarouselViewController {
             view.bringSubviewToFront(directChatTable)
         }
         moreInfoView?.frame = view.bounds
-        moreInfoView?.height = view.height + moreInfoExtraHeight
+        moreInfoView?.height = view.height + CarouselUI.moreInfoExtraHeight
         moreInfoView?.frame.origin.y = -view.bounds.height
     }
 
@@ -650,30 +550,12 @@ extension ProductCarouselViewController {
     }
     
     private func setNavigationBarRightButtonSharing(action: UIAction) {
-        let shareButton = UIButton(type: .System)
-        shareButton.titleEdgeInsets = UIEdgeInsets(top: 0,
-                                                   left: ProductCarouselViewController.shareButtonHorizontalSpacing,
-                                                   bottom: 0,
-                                                   right: -ProductCarouselViewController.shareButtonHorizontalSpacing)
-        shareButton.contentEdgeInsets = UIEdgeInsets(top: ProductCarouselViewController.shareButtonVerticalSpacing,
-                                                     left: 2*ProductCarouselViewController.shareButtonHorizontalSpacing,
-                                                     bottom: ProductCarouselViewController.shareButtonVerticalSpacing,
-                                                     right: 3*ProductCarouselViewController.shareButtonHorizontalSpacing)
-        shareButton.setTitle(action.text, forState: .Normal)
-        shareButton.setTitleColor(UIColor.white, forState: .Normal)
-        shareButton.titleLabel?.font = UIFont.systemSemiBoldFont(size: 15)
-        if let imageIcon = action.image {
-            shareButton.setImage(imageIcon.imageWithRenderingMode(.AlwaysTemplate), forState: .Normal)
-        }
-        shareButton.tintColor = UIColor.white
-        shareButton.sizeToFit()
-        shareButton.layer.cornerRadius = shareButton.height/2
-        shareButton.layer.backgroundColor = UIColor.blackTextLowAlpha.CGColor
-        let rightItem = UIBarButtonItem.init(customView: shareButton)
+        let shareButton = CarouselUIHelper.buildShareButton(action.text, icon: action.image)
+        let rightItem = UIBarButtonItem(customView: shareButton)
         rightItem.style = .Plain
         shareButton.rx_tap.bindNext{
             action.action()
-            }.addDisposableTo(activeDisposeBag)
+        }.addDisposableTo(activeDisposeBag)
         navigationItem.rightBarButtonItems = nil
         navigationItem.rightBarButtonItem = rightItem
     }
@@ -695,48 +577,34 @@ extension ProductCarouselViewController {
     private func refreshPageControl(viewModel: ProductViewModel) {
         pageControl.currentPage = 0
         pageControl.numberOfPages = viewModel.product.value.images.count
-        pageControl.frame.size = CGSize(width: pageControlWidth, height:
-        pageControl.sizeForNumberOfPages(pageControl.numberOfPages).width + pageControlWidth)
+        pageControl.frame.size = CGSize(width: CarouselUI.pageControlWidth, height:
+        pageControl.sizeForNumberOfPages(pageControl.numberOfPages).width + CarouselUI.pageControlWidth)
     }
     
     private func refreshBottomButtons(viewModel: ProductViewModel) {
-        
-        let userViewMarginAboveBottomButton = itemsMargin + buttonBottom.height + itemsMargin
-        let userViewMarginAboveTopButton = userViewMarginAboveBottomButton + buttonTop.height + itemsMargin
-        let userViewMarginWithoutButtons = itemsMargin
-        
-        guard buttonBottom.frame.origin.y > 0 else { return }
-        
-        viewModel.status.asObservable().subscribeNext { [weak self] status in
-            
-            guard let strongSelf = self else { return }
-            
-            strongSelf.buttonTop.hidden = true
-            strongSelf.buttonBottom.hidden = true
-            strongSelf.userViewBottomMargin = -(userViewMarginAboveBottomButton)
-            strongSelf.userViewRightMargin = -strongSelf.itemsMargin
+        viewModel.actionButtons.asObservable().bindNext { [weak self, weak viewModel] actionButtons in
+            guard let strongSelf = self, let viewModel = viewModel else { return }
 
-            switch status {
-            case .Pending, .NotAvailable, .OtherSold, .OtherSoldFree:
-                strongSelf.userViewBottomMargin = -userViewMarginWithoutButtons
-                strongSelf.userViewRightMargin = strongSelf.userViewRightMargin - strongSelf.editButton.width
-            case .PendingAndCommercializable:
-                strongSelf.configureButton(strongSelf.buttonBottom, type: .CreateCommercial, viewModel: viewModel)
-            case .Available:
-                strongSelf.configureButton(strongSelf.buttonBottom, type: .MarkAsSold, viewModel: viewModel)
-            case .AvailableAndCommercializable:
-                strongSelf.configureButton(strongSelf.buttonBottom, type: .MarkAsSold, viewModel: viewModel)
-                strongSelf.configureButton(strongSelf.buttonTop, type: .CreateCommercial, viewModel: viewModel)
-                strongSelf.userViewBottomMargin = -(userViewMarginAboveTopButton)
-            case .Sold:
-                strongSelf.configureButton(strongSelf.buttonBottom, type: .SellItAgain, viewModel: viewModel)
-            case .OtherAvailable, .OtherAvailableFree:
-                strongSelf.configureButton(strongSelf.buttonBottom, type: .ChatWithSeller, viewModel: viewModel)
-            case .AvailableFree:
-                strongSelf.configureButton(strongSelf.buttonBottom, type: .MarkAsSoldFree , viewModel: viewModel)
-            case .SoldFree:
-                strongSelf.configureButton(strongSelf.buttonBottom, type: .SellItAgainFree, viewModel: viewModel)
-            }
+            strongSelf.buttonBottomHeight.constant = actionButtons.isEmpty ? 0 : CarouselUI.buttonHeight
+            strongSelf.buttonTopBottomConstraint.constant = actionButtons.isEmpty ? 0 : CarouselUI.itemsMargin
+            strongSelf.buttonTopHeight.constant = actionButtons.count < 2 ? 0 : CarouselUI.buttonHeight
+            strongSelf.userViewBottomConstraint?.constant = actionButtons.count < 2 ? 0 : -CarouselUI.itemsMargin
+
+            guard !actionButtons.isEmpty else { return }
+
+            let takeUntilAction = viewModel.actionButtons.asObservable().skip(1)
+            guard let bottomAction = actionButtons.first else { return }
+            strongSelf.buttonBottom.configureWith(uiAction: bottomAction)
+            strongSelf.buttonBottom.rx_tap.takeUntil(takeUntilAction).bindNext {
+                bottomAction.action()
+            }.addDisposableTo(strongSelf.activeDisposeBag)
+
+            guard let topAction = actionButtons.last where actionButtons.count > 1 else { return }
+            strongSelf.buttonTop.configureWith(uiAction: topAction)
+            strongSelf.buttonTop.rx_tap.takeUntil(takeUntilAction).bindNext {
+                topAction.action()
+            }.addDisposableTo(strongSelf.activeDisposeBag)
+
         }.addDisposableTo(activeDisposeBag)
 
         viewModel.editButtonState.asObservable().bindTo(editButton.rx_state).addDisposableTo(disposeBag)
@@ -745,11 +613,35 @@ extension ProductCarouselViewController {
             viewModel?.editProduct()
         }.addDisposableTo(activeDisposeBag)
 
-        let editButtonEnabled = viewModel.editButtonState.asObservable().map { return $0 != .Hidden }
-        let bottomButtonCollapsed = Observable.combineLatest(viewModel.stickersButtonEnabled.asObservable(),
-                                    editButtonEnabled, resultSelector: { (stickers, edit) in return stickers || edit })
-        bottomButtonCollapsed.bindNext { [weak self] collapsed in
-            self?.buttonBottomTrailingConstraint.constant = (collapsed ? self?.buttonTrailingWithIcon : self?.itemsMargin) ?? 0
+        // When there's the edit/stickers button, the bottom button must adapt right margin to give space for it
+        let bottomRightButtonPresent = Observable.combineLatest(
+            viewModel.stickersButtonEnabled.asObservable(), viewModel.editButtonState.asObservable(),
+            resultSelector: { (stickers, edit) in return stickers || (edit != .Hidden) })
+        bottomRightButtonPresent.bindNext { [weak self] present in
+            self?.buttonsRightMargin = present ? CarouselUI.buttonTrailingWithIcon : CarouselUI.itemsMargin
+        }.addDisposableTo(activeDisposeBag)
+
+        // When there's the edit/stickers button and there are no actionButtons, header is at bottom and must not overlap edit button
+        let userViewCollapsed = Observable.combineLatest(
+            bottomRightButtonPresent, viewModel.actionButtons.asObservable(), viewModel.directChatEnabled.asObservable(),
+            resultSelector: { (buttonPresent, actionButtons, directChat) in return buttonPresent && actionButtons.isEmpty && !directChat })
+        userViewCollapsed.bindNext { [weak self] collapsed in
+            self?.userViewRightMargin = collapsed ? CarouselUI.buttonTrailingWithIcon : CarouselUI.itemsMargin
+        }.addDisposableTo(activeDisposeBag)
+    }
+
+    private func refreshDirectChat(viewModel: ProductViewModel) {
+        chatTextView.placeholder = viewModel.directChatPlaceholder
+        chatTextView.resignFirstResponder()
+
+        viewModel.directChatEnabled.asObservable().bindNext { [weak self] enabled in
+            self?.buttonBottomBottomConstraint.constant = enabled ? CarouselUI.itemsMargin : 0
+            self?.chatContainerHeight.constant = enabled ? CarouselUI.buttonHeight : 0
+        }.addDisposableTo(activeDisposeBag)
+
+        chatTextView.rx_send.bindNext { [weak self, weak viewModel] textToSend in
+            viewModel?.sendDirectMessage(textToSend)
+            self?.chatTextView.clear()
         }.addDisposableTo(activeDisposeBag)
     }
 
@@ -882,6 +774,10 @@ extension ProductCarouselViewController: ProductCarouselViewModelDelegate {
 
 extension ProductCarouselViewController: ProductCarouselCellDelegate {
     func didTapOnCarouselCell(cell: UICollectionViewCell) {
+        guard !chatTextView.isFirstResponder() else {
+            chatTextView.resignFirstResponder()
+            return
+        }
         guard let indexPath = collectionView.indexPathForCell(cell) else { return }
         let newIndexRow = indexPath.row + 1
         if newIndexRow < collectionView.numberOfItemsInSection(0) {
@@ -912,12 +808,11 @@ extension ProductCarouselViewController: ProductCarouselCellDelegate {
         }
 
         let bottomOverScroll = max(offset-bottomLimit, 0)
-        buttonBottomBottomConstraint.constant = itemsMargin + bottomOverScroll
-        userViewBottomConstraint?.constant = userViewBottomMargin - bottomOverScroll
+        bottomItemsMargin = CarouselUI.itemsMargin + bottomOverScroll
     }
     
     func didEndDraggingCell() {
-        if moreInfoView?.frame.bottom > moreInfoDragMargin*2 {
+        if moreInfoView?.frame.bottom > CarouselUI.moreInfoDragMargin*2 {
             showMoreInfo()
         } else {
             hideMoreInfo()
@@ -949,13 +844,13 @@ extension ProductCarouselViewController {
     func dragMoreInfoButton(pan: UIPanGestureRecognizer) {
         let point = pan.locationInView(view)
         
-        if point.y >= moreInfoExtraHeight { // start dragging when point is below the navbar
+        if point.y >= CarouselUI.moreInfoExtraHeight { // start dragging when point is below the navbar
             moreInfoView?.frame.bottom = point.y
         }
         
         switch pan.state {
         case .Ended:
-            if point.y > moreInfoDragMargin {
+            if point.y > CarouselUI.moreInfoDragMargin {
                 showMoreInfo()
             } else {
                 hideMoreInfo()
@@ -1006,7 +901,7 @@ extension ProductCarouselViewController {
 extension ProductCarouselViewController: ProductCarouselMoreInfoDelegate {
     
     func didEndScrolling(topOverScroll: CGFloat, bottomOverScroll: CGFloat) {
-        if topOverScroll > moreInfoDragMargin || bottomOverScroll > moreInfoDragMargin {
+        if topOverScroll > CarouselUI.moreInfoDragMargin || bottomOverScroll > CarouselUI.moreInfoDragMargin {
             hideMoreInfo()
         }
     }
@@ -1024,23 +919,12 @@ extension ProductCarouselViewController {
     private func setupMoreInfoTooltip() {
         guard viewModel.shouldShowMoreInfoTooltip else { return }
         guard let moreInfoView = moreInfoView else { return }
-        
-        let tapTextAttributes: [String : AnyObject] = [NSForegroundColorAttributeName : UIColor.white,
-                                                       NSFontAttributeName : UIFont.systemBoldFont(size: 17)]
-        let infoTextAttributes: [String : AnyObject] = [ NSForegroundColorAttributeName : UIColor.grayLighter,
-                                                         NSFontAttributeName : UIFont.systemSemiBoldFont(size: 17)]
-        let plainText = LGLocalizedString.productMoreInfoTooltipPart2(LGLocalizedString.productMoreInfoTooltipPart1)
-        let resultText = NSMutableAttributedString(string: plainText, attributes: infoTextAttributes)
-        let boldRange = NSString(string: plainText).rangeOfString(LGLocalizedString.productMoreInfoTooltipPart1,
-                                                                  options: .CaseInsensitiveSearch)
-        resultText.addAttributes(tapTextAttributes, range: boldRange)
-        
-        let moreInfoTooltip = Tooltip(targetView: moreInfoView, superView: view, title: resultText,
+        let tooltipText = CarouselUIHelper.buildMoreInfoTooltipText()
+        let moreInfoTooltip = Tooltip(targetView: moreInfoView, superView: view, title: tooltipText,
                                       style: .Blue(closeEnabled: false), peakOnTop: true,
                                       actionBlock: { [weak self] in self?.showMoreInfo() }, closeBlock: nil)
         view.addSubview(moreInfoTooltip)
-        setupExternalConstraintsForTooltip(moreInfoTooltip, targetView: moreInfoView, containerView: view,
-                                           margin: moreInfoTooltipMargin)
+        setupExternalConstraintsForTooltip(moreInfoTooltip, targetView: moreInfoView, containerView: view)
         self.moreInfoTooltip = moreInfoTooltip
     }
     
@@ -1092,7 +976,7 @@ extension ProductCarouselViewController: UICollectionViewDataSource, UICollectio
 
 // MARK: > Direct messages and stickers
 
-extension ProductCarouselViewController: UITableViewDataSource, UITableViewDelegate {
+extension ProductCarouselViewController: UITableViewDataSource, UITableViewDelegate, StickersSelectorDelegate {
 
     func setupDirectMessagesAndStickers() {
         ChatCellDrawerFactory.registerCells(directChatTable)
@@ -1100,8 +984,27 @@ extension ProductCarouselViewController: UITableViewDataSource, UITableViewDeleg
         directChatTable.rowHeight = UITableViewAutomaticDimension
         directChatTable.estimatedRowHeight = 140
 
+        chatTextView.translatesAutoresizingMaskIntoConstraints = false
+        chatContainer.addSubview(chatTextView)
+        let views = ["chatText": chatTextView]
+        chatContainer.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-0-[chatText]-0-|",
+            options: [], metrics: nil, views: views))
+        chatContainer.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-0-[chatText]-0-|",
+            options: [], metrics: nil, views: views))
+
         stickersButton.rx_tap.bindNext { [weak self] in
             self?.viewModel.currentProductViewModel?.stickersButton()
+        }.addDisposableTo(disposeBag)
+
+        keyboardHelper.rx_keyboardOrigin.asObservable().skip(1).distinctUntilChanged().bindNext { [weak self] origin in
+            guard let strongSelf = self else { return }
+            let viewHeight = strongSelf.view.height
+            let animationTime = strongSelf.keyboardHelper.animationTime
+            guard viewHeight >= origin else { return }
+            self?.contentBottomMargin = viewHeight - origin
+            UIView.animateWithDuration(Double(animationTime)) {
+                strongSelf.view.layoutIfNeeded()
+            }
         }.addDisposableTo(disposeBag)
     }
 
@@ -1121,6 +1024,15 @@ extension ProductCarouselViewController: UITableViewDataSource, UITableViewDeleg
 
         return cell
     }
+
+
+    // MARK: StickersSelectorDelegate
+
+    func stickersSelectorDidSelectSticker(sticker: Sticker) {
+        viewModel.currentProductViewModel?.sendSticker(sticker)
+    }
+
+    func stickersSelectorDidCancel() {}
 }
 
 
@@ -1134,7 +1046,7 @@ extension ProductCarouselViewController {
         interestedBubbleIsVisible = true
         interestedBubble.updateInfo(text)
         delay(0.1) { [weak self] in
-            self?.interestedBubbleContainerBottomConstraint.constant = 0
+            self?.interestedBubbleBottom = 0
             UIView.animateWithDuration(0.3, animations: {
                 self?.view.layoutIfNeeded()
             })
@@ -1153,7 +1065,7 @@ extension ProductCarouselViewController {
         guard interestedBubbleIsVisible else { return }
         interestedBubbleTimer.invalidate()
         interestedBubbleIsVisible = false
-        interestedBubbleContainerBottomConstraint.constant = -ProductCarouselViewController.interestedBubbleHeight
+        interestedBubbleBottom = -CarouselUI.interestedBubbleHeight
         UIView.animateWithDuration(duration, animations: { [weak self] in
             self?.view.layoutIfNeeded()
         }, completion: nil)
@@ -1226,6 +1138,19 @@ extension ProductCarouselViewController: ProductViewModelDelegate {
     func vmViewControllerToShowShareOptions() -> UIViewController {
         return self
     }
+
+
+    // Loadings and alerts overrides to remove keyboard before showing
+
+    override func vmShowLoading(loadingMessage: String?) {
+        chatTextView.resignFirstResponder()
+        super.vmShowLoading(loadingMessage)
+    }
+
+    override func vmShowAutoFadingMessage(message: String, completion: (() -> ())?) {
+        chatTextView.resignFirstResponder()
+        super.vmShowAutoFadingMessage(message, completion: completion)
+    }
 }
 
 
@@ -1245,17 +1170,6 @@ extension ProductCarouselViewController: ProductDetailOnboardingViewDelegate {
 }
 
 
-// MARK: - StickersSelectorDelegate
-
-extension ProductCarouselViewController: StickersSelectorDelegate {
-    func stickersSelectorDidSelectSticker(sticker: Sticker) {
-        viewModel.currentProductViewModel?.sendSticker(sticker)
-    }
-
-    func stickersSelectorDidCancel() {}
-}
-
-
 // MARK: - Accessibility ids
 
 extension ProductCarouselViewController {
@@ -1272,5 +1186,6 @@ extension ProductCarouselViewController {
         fullScreenAvatarView.accessibilityId = .ProductCarouselFullScreenAvatarView
         pageControl.accessibilityId = .ProductCarouselPageControl
         userView.accessibilityId = .ProductCarouselUserView
+        chatTextView.accessibilityId = .ProductCarouselChatTextView
     }
 }
