@@ -31,7 +31,7 @@ extension Leanplum {
         let arguments = [argumentTitle, argumentMessage, argumentImage, argumentButton, argumentAction]
         // ofKind: LeanplumActionKind | kLeanplumActionKindAction  need to be set as rawValue.
         Leanplum.defineAction(leamplumCustomPopUp, ofKind: LeanplumActionKind(rawValue: 0b11), withArguments: arguments, withResponder:  { context in
-            let okAction = UIAction(interface: .Button(context.stringNamed(buttonTextIdentifier), .Default),
+            let okAction = UIAction(interface: .StyledText(context.stringNamed(buttonTextIdentifier), .Default),
                                     action: { context.runTrackedActionNamed(actionIdentifier) },
                                     accessibilityId: .AcceptPopUpButton)
             presenter.showLeanplumAlert(context.stringNamed(titleIdentifier), text: context.stringNamed(messageTextIdentifier), image: context.fileNamed(imageIdentifier) , action: okAction)

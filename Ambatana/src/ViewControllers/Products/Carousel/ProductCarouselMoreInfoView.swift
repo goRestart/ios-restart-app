@@ -10,12 +10,16 @@ import MapKit
 import RxSwift
 import LGCollapsibleLabel
 
+enum MoreInfoState {
+    case Hidden
+    case Moving
+    case Shown
+}
 
 protocol ProductCarouselMoreInfoDelegate: class {
     func didEndScrolling(topOverScroll: CGFloat, bottomOverScroll: CGFloat)
     func viewControllerToShowShareOptions() -> UIViewController
 }
-
 
 class ProductCarouselMoreInfoView: UIView {
     

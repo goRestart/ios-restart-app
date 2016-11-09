@@ -51,6 +51,7 @@ class ProductCarouselCell: UICollectionViewCell {
     func setupUI() {
         addSubview(collectionView)
 
+        collectionView.keyboardDismissMode = .OnDrag
         collectionView.frame = bounds
         collectionView.backgroundColor = UIColor.clearColor()
         collectionView.autoresizingMask = [.FlexibleHeight, .FlexibleWidth]

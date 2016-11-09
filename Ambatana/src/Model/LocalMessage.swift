@@ -37,4 +37,13 @@ struct LocalMessage: Message {
         self.warningStatus = .Normal
     }
 
+    init(type: ChatWrapperMessageType, userId: String?) {
+        self.objectId = NSDate().description
+        self.text = type.text
+        self.type = type.oldChatType
+        self.userId = userId ?? ""
+        self.createdAt = NSDate()
+        self.isRead = false
+        self.warningStatus = .Normal
+    }
 }
