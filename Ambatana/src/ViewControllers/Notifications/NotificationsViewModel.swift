@@ -9,14 +9,9 @@
 import LGCoreKit
 import RxSwift
 
-protocol NotificationsViewModelDelegate: BaseViewModelDelegate {
-    func vmOpenSell()
-}
-
 
 class NotificationsViewModel: BaseViewModel {
 
-    weak var delegate: NotificationsViewModelDelegate?
     weak var navigator: NotificationsTabNavigator?
 
     let viewState = Variable<ViewState>(.Loading)
@@ -109,7 +104,8 @@ class NotificationsViewModel: BaseViewModel {
                     let emptyViewModel = LGEmptyViewModel(icon: UIImage(named: "ic_notifications_empty" ),
                         title:  LGLocalizedString.notificationsEmptyTitle,
                         body: LGLocalizedString.notificationsEmptySubtitle, buttonTitle: LGLocalizedString.tabBarToolTip,
-                        action: { [weak self] in self?.delegate?.vmOpenSell() }, secondaryButtonTitle: nil, secondaryAction: nil)
+                        action: { [weak self] in self?.navigator?.openSell(.Notifications) },
+                        secondaryButtonTitle: nil, secondaryAction: nil)
 
                     strongSelf.viewState.value = .Empty(emptyViewModel)
                 } else {
@@ -174,7 +170,7 @@ private extension NotificationsViewModel {
     private func buildWelcomeNotification() -> NotificationData {
         return NotificationData(type: .Welcome(city: locationManager.currentPostalAddress?.city),
                                 date: NSDate(), isRead: true, primaryAction: { [weak self] in
-                                    self?.delegate?.vmOpenSell()
+                                    self?.navigator?.openSell(.Notifications)
                                 })
     }
 }

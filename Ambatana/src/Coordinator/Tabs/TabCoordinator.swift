@@ -63,6 +63,11 @@ class TabCoordinator: NSObject {
 // MARK: - TabNavigator
 
 extension TabCoordinator: TabNavigator {
+
+    func openSell(source: PostingSource) {
+        appNavigator?.openSell(source)
+    }
+
     func openUser(data: UserDetailData) {
         switch data {
         case let .Id(userId, source):
