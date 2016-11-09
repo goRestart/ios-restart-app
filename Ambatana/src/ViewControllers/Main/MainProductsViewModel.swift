@@ -195,7 +195,6 @@ class MainProductsViewModel: BaseViewModel {
     */
     func search(query: String) {
         guard !query.characters.isEmpty else { return }
-        updateLastSearchStoraged(query)
         delegate?.vmDidSearch(viewModelForSearch(.User(query: query)))
     }
 
@@ -365,7 +364,11 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate {
                               hasProducts: Bool) {
 
         trackRequestSuccess(page: page, hasProducts: hasProducts)
-
+        
+        if let queryString = productListRequester.queryString where hasProducts {
+            updateLastSearchStoraged(queryString)
+        }
+    
         if shouldRetryLoad {
             shouldRetryLoad = false
             listViewModel.retrieveProducts()
@@ -584,6 +587,7 @@ extension MainProductsViewModel {
         if keyValueStorage[.lastSearches].count > 3 {
             keyValueStorage[.lastSearches].removeFirst()
         }
+        lastSearches.value = keyValueStorage[.lastSearches]
     }
 }
 

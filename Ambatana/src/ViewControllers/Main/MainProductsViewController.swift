@@ -321,7 +321,7 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
         navbarSearch.searchTextField.delegate = self
         setNavBarTitleStyle(.Custom(navbarSearch))
 
-        setupTrendingTable()
+        setupSuggestionsTable()
     }
 
     private func setupRxBindings() {
@@ -380,7 +380,7 @@ extension MainProductsViewController: ProductListViewHeaderDelegate, PushPermiss
 
 extension MainProductsViewController: UITableViewDelegate, UITableViewDataSource {
 
-    func setupTrendingTable() {
+    func setupSuggestionsTable() {
         suggestionsSearchesTable.registerNib(UINib(nibName: SuggestionSearchCell.reusableID, bundle: nil),
                                           forCellReuseIdentifier: SuggestionSearchCell.reusableID)
 
@@ -390,11 +390,11 @@ extension MainProductsViewController: UITableViewDelegate, UITableViewDataSource
 
         viewModel.trendingSearches.asObservable().bindNext { [weak self] trendings in
             self?.suggestionsSearchesTable.reloadData()
-            //self?.trendingSearchesTable.hidden = (trendings?.count ?? 0) == 0
+           // self?.suggestionsSearchesTable.hidden = (trendings?.count ?? 0) == 0
         }.addDisposableTo(disposeBag)
         viewModel.lastSearches.asObservable().bindNext { [weak self] lastSearches in
             self?.suggestionsSearchesTable.reloadData()
-           // self?.trendingSearchesTable.hidden = (lastSearches?.count ?? 0) == 0
+            // self?.suggestionsSearchesTable.hidden = (lastSearches?.count ?? 0) == 0
             }.addDisposableTo(disposeBag)
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(keyboardWillShow(_:)),
@@ -528,7 +528,7 @@ extension MainProductsViewController {
         tagsCollectionView.accessibilityId = .MainProductsTagsCollection
         infoBubbleLabel.accessibilityId = .MainProductsInfoBubbleLabel
         navbarSearch.accessibilityId = .MainProductsNavBarSearch
-        suggestionsSearchesTable.accessibilityId = .MainProductsTrendingSearchesTable // FIXME: Refactor with suggestions names.
+        suggestionsSearchesTable.accessibilityId = .MainProductsSuggestionSearchesTable
         navigationItem.leftBarButtonItem?.accessibilityId = .MainProductsInviteButton
     }
 }
