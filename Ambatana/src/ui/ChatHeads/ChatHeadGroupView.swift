@@ -18,6 +18,8 @@ final class ChatHeadGroupView: UIView {
     static let chatHeadSide: CGFloat = 50
     private static let countContainerMinSide: CGFloat = 22
     private static let chatHeadSpacing: CGFloat = 3
+    private static let chatHeadsMaxCount: Int = 3
+    private static let badgeMax: Int = 99
 
     private let chatHeadsContainer: UIView
     private var chatHeads: [ChatHeadView]
@@ -112,7 +114,8 @@ extension ChatHeadGroupView {
 
     func setBadge(badge: Int) {
         let actualBadge = max(1, badge)
-        countLabel.text = badge > 99 ? "+99" : String(actualBadge)
+        countLabel.text = badge > ChatHeadGroupView.badgeMax ? "+\(ChatHeadGroupView.badgeMax)" : String(actualBadge)
+        countContainer.hidden = badge <= 0
     }
 }
 
@@ -180,6 +183,7 @@ private extension ChatHeadGroupView {
 
     func addChatHead(data: ChatHeadData) -> Bool {
         guard !chatHeads.contains({ return $0.id == data.id }) else { return false }
+        guard chatHeads.count < ChatHeadGroupView.chatHeadsMaxCount else { return false }
 
         let chatHeadView = ChatHeadView(data: data)
         addChatHeadSubview(chatHeadView)
@@ -201,6 +205,8 @@ private extension ChatHeadGroupView {
     }
 
     func addChatHeadSubview(chatHead: ChatHeadView) {
+        let spacing = CGFloat(chatHeads.count) * ChatHeadGroupView.chatHeadSpacing
+
         let firstAddition = chatHeads.isEmpty
         chatHeads.append(chatHead)
 
@@ -210,7 +216,6 @@ private extension ChatHeadGroupView {
 
         let leading: NSLayoutConstraint
         let trailing: NSLayoutConstraint
-        let spacing = CGFloat(chatHeads.count) * ChatHeadGroupView.chatHeadSpacing
         switch (firstAddition, isLeftPositioned) {
         case (true, _):
             leading = NSLayoutConstraint(item: chatHead, attribute: .Leading, relatedBy: .Equal,
