@@ -461,7 +461,7 @@ extension ProductViewModel {
     }
 
     func sendDirectMessage(text: String) {
-        sendMessage(text, sticker: nil, favorite: false)
+        sendMessage(.Text(text), favorite: false)
     }
 
     func openVideo() {
@@ -492,7 +492,7 @@ extension ProductViewModel {
 
     func sendSticker(sticker: Sticker) {
         ifLoggedInRunActionElseOpenChatSignup { [weak self] in
-            self?.sendMessage(sticker.name, sticker: sticker, favorite: false)
+            self?.sendMessage(.ChatSticker(sticker), favorite: false)
         }
     }
 
@@ -884,24 +884,16 @@ extension ProductViewModel {
         }
     }
 
-    private func sendMessage(text: String, sticker: Sticker?, favorite: Bool) {
+    private func sendMessage(type: ChatWrapperMessageType, favorite: Bool) {
         // Optimistic behavior
-        let message: LocalMessage
-        let type: ChatMessageType
-        if let sticker = sticker {
-            message = LocalMessage(sticker: sticker, userId: myUserRepository.myUser?.objectId)
-            type = .Sticker
-        } else {
-            message = LocalMessage(text: text, userId: myUserRepository.myUser?.objectId)
-            type = .Text
-        }
+        let message = LocalMessage(type: type, userId: myUserRepository.myUser?.objectId)
         let messageView = chatViewMessageAdapter.adapt(message)
         directChatMessages.insert(messageView, atIndex: 0)
 
-        chatWrapper.sendMessageForProduct(product.value, text: text, sticker: sticker, type: type) {
+        chatWrapper.sendMessageForProduct(product.value, type: type) {
             [weak self] result in
             if let firstMessage = result.value {
-                self?.trackHelper.trackMessageSent(firstMessage, fromFavorite: favorite, messageType: type)
+                self?.trackHelper.trackMessageSent(firstMessage, fromFavorite: favorite, messageType: type.chatType)
             } else if let error = result.error {
                 switch error {
                 case .Forbidden:
@@ -967,7 +959,7 @@ private extension ProductViewModel {
     }
 
     private func sendFavoriteMessage() {
-        sendMessage(LGLocalizedString.productFavoriteDirectMessage, sticker: nil, favorite: true)
+        sendMessage(.Text(LGLocalizedString.productFavoriteDirectMessage), favorite: true)
         favoriteMessageSent = true
     }
 }
