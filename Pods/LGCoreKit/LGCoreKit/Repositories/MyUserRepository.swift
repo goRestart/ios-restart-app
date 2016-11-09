@@ -220,6 +220,7 @@ public class MyUserRepository {
         params[JSONKeys.zipCode] = postalAddress.zipCode ?? ""
         params[JSONKeys.address] = postalAddress.address ?? ""
         params[JSONKeys.city] = postalAddress.city ?? ""
+        params[JSONKeys.state] = postalAddress.state ?? ""
         params[JSONKeys.countryCode] = postalAddress.countryCode ?? ""
         update(params, completion: completion)
     }
