@@ -66,6 +66,28 @@ extension ChatHeadManager {
     func setChatHeadOverlayView(chatHeadOverlayView: ChatHeadOverlayView?) {
         rx_chatHeadOverlayView.value = chatHeadOverlayView
     }
+
+    func updateChatHeadDatas() {
+        if FeatureFlags.websocketChat {
+            chatRepository.indexConversations(ChatHeadManager.conversationsIndexPageSize, offset: 0, filter: .None) { [weak self] result in
+                guard let conversations = result.value else { return }
+                let datas = conversations.flatMap { (conversation: ChatConversation) -> ChatHeadData? in
+                    guard conversation.unreadMessageCount > 0 else { return nil }
+                    return ChatHeadData(conversation: conversation)
+                }
+                self?.rx_chatHeadDatas.value = datas
+            }
+        } else {
+            oldChatRepository.index(.All, page: 1, numResults: ChatHeadManager.conversationsIndexPageSize) { [weak self] result in
+                guard let myUser = self?.myUserRepository.myUser, chats = result.value else { return }
+                let datas = chats.flatMap { (chat: Chat) -> ChatHeadData? in
+                    guard chat.msgUnreadCount > 0 else { return nil }
+                    return ChatHeadData(chat: chat, myUser: myUser)
+                }
+                self?.rx_chatHeadDatas.value = datas
+            }
+        }
+    }
 }
 
 
@@ -126,28 +148,6 @@ extension ChatHeadManager {
             .subscribeNext { (overlay, unreadMsgCount) in
                 overlay?.setBadge(unreadMsgCount ?? 0)
             }.addDisposableTo(disposeBag)
-    }
-
-    func updateChatHeadDatas() {
-        if FeatureFlags.websocketChat {
-            chatRepository.indexConversations(ChatHeadManager.conversationsIndexPageSize, offset: 0, filter: .None) { [weak self] result in
-                guard let conversations = result.value else { return }
-                let datas = conversations.flatMap { (conversation: ChatConversation) -> ChatHeadData? in
-                    guard conversation.unreadMessageCount > 0 else { return nil }
-                    return ChatHeadData(conversation: conversation)
-                }
-                self?.rx_chatHeadDatas.value = datas
-            }
-        } else {
-            oldChatRepository.index(.All, page: 1, numResults: ChatHeadManager.conversationsIndexPageSize) { [weak self] result in
-                guard let myUser = self?.myUserRepository.myUser, chats = result.value else { return }
-                let datas = chats.flatMap { (chat: Chat) -> ChatHeadData? in
-                    guard chat.msgUnreadCount > 0 else { return nil }
-                    return ChatHeadData(chat: chat, myUser: myUser)
-                }
-                self?.rx_chatHeadDatas.value = datas
-            }
-        }
     }
 
     dynamic private func applicationWillEnterForeground() {

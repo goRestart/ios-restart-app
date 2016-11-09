@@ -69,24 +69,11 @@ final class ChatHeadGroupView: UIView {
 // MARK: - Public methods
 
 extension ChatHeadGroupView {
-    func addChatHead(data: ChatHeadData) -> Bool {
-        guard !chatHeads.contains({ return $0.id == data.id }) else { return false }
-
-        let chatHeadView = ChatHeadView(data: data)
-        addChatHeadSubview(chatHeadView)
-        return true
+    func setChatHeads(datas: [ChatHeadData]) {
+        chatHeads.forEach { removeChatHeadView($0) }
+        datas.forEach { addChatHead($0) }
     }
-
-    func removeChatHeadWithId(id: String) -> Bool {
-        guard let idx = chatHeads.indexOf({ return $0.id == id }) else { return false }
-        removeChatHeadAtIndex(idx)
-        return true
-    }
-
-    func removeChatHead(data: ChatHeadData) -> Bool {
-        return removeChatHeadWithId(data.id)
-    }
-
+    
     func setLeftPositioned(leftPositioned: Bool, animated: Bool) {
         guard isLeftPositioned != leftPositioned else { return }
 
@@ -189,6 +176,28 @@ private extension ChatHeadGroupView {
                                                                              options: [], metrics: nil, views: clViews)
         addConstraints(clVConstraints)
         countContainer.addSubview(countLabel)
+    }
+
+    func addChatHead(data: ChatHeadData) -> Bool {
+        guard !chatHeads.contains({ return $0.id == data.id }) else { return false }
+
+        let chatHeadView = ChatHeadView(data: data)
+        addChatHeadSubview(chatHeadView)
+        return true
+    }
+
+    func removeChatHead(data: ChatHeadData) -> Bool {
+        return removeChatHeadWithId(data.id)
+    }
+
+    func removeChatHeadView(chatHead: ChatHeadView) -> Bool {
+        return removeChatHeadWithId(chatHead.id)
+    }
+
+    func removeChatHeadWithId(id: String) -> Bool {
+        guard let idx = chatHeads.indexOf({ return $0.id == id }) else { return false }
+        removeChatHeadAtIndex(idx)
+        return true
     }
 
     func addChatHeadSubview(chatHead: ChatHeadView) {

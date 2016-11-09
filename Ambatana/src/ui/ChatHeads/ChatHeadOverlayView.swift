@@ -65,8 +65,7 @@ final class ChatHeadOverlayView: UIView {
 
 extension ChatHeadOverlayView {
     func setChatHeadDatas(datas: [ChatHeadData]) {
-        // TODO: ...
-        datas.forEach { chatHeadGroup.addChatHead($0) }
+        chatHeadGroup.setChatHeads(datas)
     }
 
     func setChatHeadGroupViewDelegate(delegate: ChatHeadGroupViewDelegate?) {
