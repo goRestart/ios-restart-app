@@ -13,10 +13,6 @@ import CollectionVariable
 
 class SettingsViewController: BaseViewController {
 
-    // constants
-    private static let cellIdentifier = "SettingsCell"
-
-    // outlets & buttons
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var settingProfileImageView: UIView!
     @IBOutlet weak var settingProfileImageLabel: UILabel!
@@ -60,9 +56,9 @@ class SettingsViewController: BaseViewController {
         settingProfileImageView.hidden = true
         setNavBarTitle(LGLocalizedString.settingsTitle)
 
-        let cellNib = UINib(nibName: "SettingsCell", bundle: nil)
+        let cellNib = UINib(nibName: SettingsCell.reusableID, bundle: nil)
         tableView.registerNib(cellNib, forCellReuseIdentifier: SettingsCell.reusableID)
-        tableView.rowHeight = 60
+        tableView.backgroundColor = UIColor.grayBackground
     }
 
     private func setupAccessibilityIds() {
@@ -92,16 +88,44 @@ class SettingsViewController: BaseViewController {
 
 extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
 
+    private static let headerHeight: CGFloat = 50
+
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return viewModel.sectionCount
     }
 
-    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return viewModel.sectionTitle(section)
+    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return SettingsViewController.headerHeight
+    }
+
+    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let container = UIView()
+        container.backgroundColor = UIColor.grayBackground
+        if section > 0 {
+            let topSeparator = UIView(frame: CGRect(x: 0, y: 0, width: tableView.width, height: LGUIKitConstants.onePixelSize))
+            topSeparator.backgroundColor = UIColor.grayLight
+            container.addSubview(topSeparator)
+        }
+        let label = UILabel(frame: CGRect(x: 12, y: 28, width: tableView.width, height: 15))
+        label.text = viewModel.sectionTitle(section).uppercase
+        label.font = UIFont.systemRegularFont(size: 13)
+        label.textColor = UIColor.gray
+        label.sizeToFit()
+        container.addSubview(label)
+        let bottomSeparator = UIView(frame: CGRect(x: 0, y: SettingsViewController.headerHeight-LGUIKitConstants.onePixelSize,
+            width: tableView.width, height: LGUIKitConstants.onePixelSize))
+        bottomSeparator.backgroundColor = UIColor.grayLight
+        container.addSubview(bottomSeparator)
+        return container
     }
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel.settingsCount(section)
+    }
+
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        guard let setting = viewModel.settingAtSection(indexPath.section, index: indexPath.row) else { return 0 }
+        return setting.cellHeight
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -109,6 +133,7 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
             as? SettingsCell else { return UITableViewCell() }
         guard let setting = viewModel.settingAtSection(indexPath.section, index: indexPath.row) else { return UITableViewCell() }
         cell.setupWithSetting(setting)
+        cell.showBottomBorder = indexPath.row < viewModel.settingsCount(indexPath.section) - 1
         return cell
     }
 
@@ -175,94 +200,13 @@ extension SettingsViewController: FBSDKAppInviteDialogDelegate {
 // MARK: - LetGoSetting UI
 
 extension LetGoSetting {
-    var title: String {
-        switch (self) {
-        case .InviteFbFriends:
-            return LGLocalizedString.settingsInviteFacebookFriendsButton
-        case .ChangePhoto:
-            return LGLocalizedString.settingsChangeProfilePictureButton
-        case .ChangeUsername:
-            return LGLocalizedString.settingsChangeUsernameButton
-        case .ChangeLocation:
-            return LGLocalizedString.settingsChangeLocationButton
-        case .CreateCommercializer:
-            return LGLocalizedString.commercializerCreateFromSettings
-        case .ChangePassword:
-            return LGLocalizedString.settingsChangePasswordButton
-        case .Help:
-            return LGLocalizedString.settingsHelpButton
-        case .LogOut:
-            return LGLocalizedString.settingsLogoutButton
-        }
-    }
 
-    var image: UIImage? {
-        switch (self) {
-        case .InviteFbFriends:
-            return UIImage(named: "ic_fb_settings")
-        case .ChangeUsername:
-            return UIImage(named: "ic_change_username")
-        case .ChangeLocation:
-            return UIImage(named: "ic_location_edit")
-        case .CreateCommercializer:
-            return UIImage(named: "ic_play_video")
-        case .ChangePassword:
-            return UIImage(named: "edit_profile_password")
-        case .Help:
-            return UIImage(named: "ic_help")
-        case .LogOut:
-            return UIImage(named: "edit_profile_logout")
-        case let .ChangePhoto(placeholder,_):
-            return placeholder
-        }
-    }
-
-    var imageURL: NSURL? {
+    var cellHeight: CGFloat {
         switch self {
-        case let .ChangePhoto(_,avatarUrl):
-            return avatarUrl
-        default:
-            return nil
-        }
-    }
-
-    var imageRounded: Bool {
-        switch self {
-        case .ChangePhoto:
-            return true
-        default:
-            return false
-        }
-    }
-
-    var textColor: UIColor {
-        switch (self) {
+        case .InviteFbFriends, .ChangePhoto, .ChangeUsername, .ChangeLocation, .CreateCommercializer, .ChangePassword, .Help:
+            return 50
         case .LogOut:
-            return UIColor.lightGrayColor()
-        case .CreateCommercializer:
-            return UIColor.primaryColor
-        default:
-            return UIColor.darkGrayColor()
-        }
-    }
-
-    var textValue: String? {
-        switch self {
-        case let .ChangeUsername(name):
-            return name
-        case let .ChangeLocation(location):
-            return location
-        default:
-            return nil
-        }
-    }
-
-    var showsDisclosure: Bool {
-        switch self {
-        case .LogOut:
-            return false
-        default:
-            return true
+            return 80
         }
     }
 }

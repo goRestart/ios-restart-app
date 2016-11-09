@@ -1900,8 +1900,8 @@
 // Settings section profile
 "settings_section_profile" = "Profile";
 
-// Settings section configuration
-"settings_section_config" = "Configuration";
+// Settings section promote
+"settings_section_promote" = "Promote";
 
 // Settings section support
 "settings_section_support" = "Support";
@@ -1956,6 +1956,12 @@
 
 // Sign up username field hint. Check image @ "sign_up_email_field_hint" segment
 "sign_up_username_field_hint" = "Full name";
+
+// Title for Last Searches sections under Search suggestions.
+"suggestions_last_searches_title" = "Recent Searches";
+
+// Button title when user wants to remove Recent Search
+"suggestions_last_searches_clear_button" = "Clear";
 
 // Tab bar tool tip. Check attached image "tab_bar.png"
 "tab_bar_tool_tip" = "Sell Your Stuff";

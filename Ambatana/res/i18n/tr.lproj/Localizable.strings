@@ -632,6 +632,10 @@
 "settings_invite_facebook_friends_error" = "Davetin paylaşılırken hata oluştu.";
 "settings_invite_facebook_friends_ok" = "Davetin başarıyla paylaşıldı!";
 "settings_logout_button" = "Çıkış yap";
+"settings_marketing_notifications_switch" = "Marketing Notifications";
+"settings_section_profile" = "Profile";
+"settings_section_promote" = "Promote";
+"settings_section_support" = "Support";
 "settings_title" = "Ayarlar";
 "sign_up_acceptance_error" = "Kaydolmak için letgo Şartlar ve Koşullarını & Gizlilik Politikasını kabul etmelisin";
 "sign_up_email_field_hint" = "E-posta";
@@ -649,6 +653,8 @@
 "sign_up_terms_conditions_terms_part" = "Şartlar ve Koşullarını";
 "sign_up_title" = "Yeni hesap oluştur";
 "sign_up_username_field_hint" = "İsim";
+"suggestions_last_searches_clear_button" = "Clear";
+"suggestions_last_searches_title" = "Recent Searches";
 "tab_bar_give_away_button" = "Ücretsiz Ver";
 "tab_bar_give_away_tooltip" = "Şimdi eşyalarını ücretsiz olarak verebilirsin";
 "tab_bar_sell_stuff_button" = "Eşyanı Sat";

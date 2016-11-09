@@ -2555,8 +2555,8 @@ struct LGLocalizedString {
 		return NSLocalizedString("settings_section_profile", comment: "")
 	}
 
-	static var settingsSectionConfig: String {
-		return NSLocalizedString("settings_section_config", comment: "")
+	static var settingsSectionPromote: String {
+		return NSLocalizedString("settings_section_promote", comment: "")
 	}
 
 	static var settingsSectionSupport: String {
@@ -2629,6 +2629,14 @@ struct LGLocalizedString {
 
 	static var signUpUsernameFieldHint: String {
 		return NSLocalizedString("sign_up_username_field_hint", comment: "")
+	}
+
+	static var suggestionsLastSearchesTitle: String {
+		return NSLocalizedString("suggestions_last_searches_title", comment: "")
+	}
+
+	static var suggestionsLastSearchesClearButton: String {
+		return NSLocalizedString("suggestions_last_searches_clear_button", comment: "")
 	}
 
 	static var tabBarToolTip: String {

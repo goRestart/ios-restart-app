@@ -98,7 +98,7 @@ class SettingsViewModel: BaseViewModel {
     }
 
     func settingAtSection(section: Int, index: Int) -> LetGoSetting? {
-        guard 0..<sections.value.count ~= index else { return nil }
+        guard 0..<sections.value.count ~= section else { return nil }
         guard 0..<sections.value[section].settings.count ~= index else { return nil }
         return sections.value[section].settings[index]
     }
@@ -155,28 +155,24 @@ class SettingsViewModel: BaseViewModel {
 
     private func populateSettings() {
         var settingSections = [SettingsSection]()
+
+        var promoteSettings = [LetGoSetting]()
+        promoteSettings.append(.InviteFbFriends)
+        if commercializerEnabled {
+            promoteSettings.append(.CreateCommercializer)
+        }
+        settingSections.append(SettingsSection(title: LGLocalizedString.settingsSectionPromote, settings: promoteSettings))
+
         var profileSettings = [LetGoSetting]()
         let myUser = myUserRepository.myUser
         let placeholder = LetgoAvatar.avatarWithColor(UIColor.defaultAvatarColor, name: myUser?.name)
         profileSettings.append(.ChangePhoto(placeholder: placeholder, avatarUrl: myUser?.avatar?.fileURL))
         profileSettings.append(.ChangeUsername(name: myUser?.name ?? ""))
         profileSettings.append(.ChangeLocation(location: myUser?.postalAddress.city ?? myUser?.postalAddress.countryCode ?? ""))
-        settingSections.append(SettingsSection(title: LGLocalizedString.settingsSectionProfile, settings: profileSettings))
-
-        var socialSettings = [LetGoSetting]()
-        socialSettings.append(.InviteFbFriends)
-        if commercializerEnabled {
-            socialSettings.append(.CreateCommercializer)
-        }
-        settingSections.append(SettingsSection(title: "Social", settings: socialSettings))
-
-        var configSettings = [LetGoSetting]()
         if let email = myUser?.email where email.isEmail() {
-            configSettings.append(.ChangePassword)
+            profileSettings.append(.ChangePassword)
         }
-        if !configSettings.isEmpty {
-            settingSections.append(SettingsSection(title: LGLocalizedString.settingsSectionConfig, settings: configSettings))
-        }
+        settingSections.append(SettingsSection(title: LGLocalizedString.settingsSectionProfile, settings: profileSettings))
 
         var supportSettings = [LetGoSetting]()
         supportSettings.append(.Help)
@@ -212,9 +208,8 @@ class SettingsViewModel: BaseViewModel {
     }
 
     private func logoutUser() {
-        Core.sessionManager.logout()
         tracker.trackEvent(TrackerEvent.logout())
-        tracker.setUser(nil)
+        Core.sessionManager.logout()
     }
 
     private func setupRx() {
