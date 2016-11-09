@@ -142,7 +142,6 @@
 "collection_explore_button" = "Entdecken";
 "collection_furniture_title" = "Zuhause ist's doch am schönsten";
 "collection_gaming_title" = "Spiel mit mir";
-"collection_halloween_title" = "Süßes sonst gibt's Saures";
 "collection_transport_title" = "Reisen mit Stil";
 "commercializer_create_from_settings" = "Create a Free Commercial";
 "commercializer_display_share_alert" = "Share this masterpiece";
@@ -650,6 +649,8 @@
 "sign_up_terms_conditions_terms_part" = "Terms & Conditions";
 "sign_up_title" = "Neues Benutzerkonto anlegen";
 "sign_up_username_field_hint" = "Vollständiger Name";
+"suggestions_last_searches_clear_button" = "Clear";
+"suggestions_last_searches_title" = "Recent Searches";
 "tab_bar_give_away_button" = "Verschenken";
 "tab_bar_give_away_tooltip" = "Ab jetzt kannst du Sachen verschenken!";
 "tab_bar_sell_stuff_button" = "Sachen verkaufen";

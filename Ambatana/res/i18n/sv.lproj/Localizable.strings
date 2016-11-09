@@ -142,7 +142,6 @@
 "collection_explore_button" = "Utforska";
 "collection_furniture_title" = "Borta bra, hemma bäst";
 "collection_gaming_title" = "Nu kör vi";
-"collection_halloween_title" = "Bus eller godis";
 "collection_transport_title" = "Res med stil";
 "commercializer_create_from_settings" = "Create a Free Commercial";
 "commercializer_display_share_alert" = "Share this masterpiece";
@@ -650,6 +649,8 @@
 "sign_up_terms_conditions_terms_part" = "Terms & Conditions";
 "sign_up_title" = "Skapa nytt konto";
 "sign_up_username_field_hint" = "Fullständigt namn";
+"suggestions_last_searches_clear_button" = "Clear";
+"suggestions_last_searches_title" = "Recent Searches";
 "tab_bar_give_away_button" = "Ge bort den";
 "tab_bar_give_away_tooltip" = "Nu kan du skänka bort saker";
 "tab_bar_sell_stuff_button" = "Sälj prylar";

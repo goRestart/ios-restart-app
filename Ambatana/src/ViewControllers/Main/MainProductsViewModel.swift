@@ -29,6 +29,11 @@ struct MainProductsHeader: OptionSetType {
     static let SellButton = MainProductsHeader(rawValue:2)
 }
 
+enum SearchSuggestionType {
+    case LastSearch
+    case Trending
+}
+
 class MainProductsViewModel: BaseViewModel {
     
     // > Input
@@ -118,6 +123,8 @@ class MainProductsViewModel: BaseViewModel {
 
     // Trending searches
     let trendingSearches = Variable<[String]?>(nil)
+    let lastSearches = Variable<[String]?>(nil)
+    var suggestionSearchSections = [SearchSuggestionType]()
     
     // MARK: - Lifecycle
     
@@ -172,6 +179,7 @@ class MainProductsViewModel: BaseViewModel {
         updatePermissionsWarning()
         if let currentLocation = locationManager.currentLocation {
             retrieveProductsIfNeededWithNewLocation(currentLocation)
+            retrieveLastUserSearch()
             retrieveTrendingSearches()
         }
     }
@@ -485,6 +493,7 @@ extension MainProductsViewModel {
 
         // Retrieve products (should be place after tracking, as it updates lastReceivedLocation)
         retrieveProductsIfNeededWithNewLocation(newLocation)
+        retrieveLastUserSearch()
         retrieveTrendingSearches()
     }
 
@@ -511,7 +520,7 @@ extension MainProductsViewModel {
             shouldRetryLoad = true
         }
 
-        if shouldUpdate{
+        if shouldUpdate {
             listViewModel.retrieveProducts()
         }
 
@@ -521,13 +530,18 @@ extension MainProductsViewModel {
 }
 
 
-// MARK: - Trending searches
+// MARK: - Suggestions searches
 
 extension MainProductsViewModel {
 
     func trendingSearchAtIndex(index: Int) -> String? {
         guard let trendings = trendingSearches.value where 0..<trendings.count ~= index else { return nil }
         return trendings[index]
+    }
+    
+    func lastSearchAtIndex(index: Int) -> String? {
+        guard let lastSearches = lastSearches.value where 0..<lastSearches.count ~= index else { return nil }
+        return lastSearches[index]
     }
 
     func selectedTrendingSearchAtIndex(index: Int) {
@@ -539,8 +553,29 @@ extension MainProductsViewModel {
         guard let currentCountryCode = locationManager.currentPostalAddress?.countryCode else { return }
 
         trendingSearchesRepository.index(currentCountryCode) { [weak self] result in
-            self?.trendingSearches.value = result.value
+            guard let strongSelf = self else { return }
+            strongSelf.trendingSearches.value = result.value
+            guard strongSelf.trendingSearches.value?.count > 0 else {
+                if let index = strongSelf.suggestionSearchSections.indexOf(.Trending) {
+                    strongSelf.suggestionSearchSections.removeAtIndex(index)
+                }
+                return
+            }
+            guard !strongSelf.suggestionSearchSections.contains(.Trending) else { return }
+            strongSelf.suggestionSearchSections.append(.Trending)
         }
+    }
+    
+    private func retrieveLastUserSearch() {
+        lastSearches.value = ["value 1", "value2", "value3"] // FIXME: Change for access to our UserDefault.
+        guard lastSearches.value?.count > 0 else {
+            if let index = suggestionSearchSections.indexOf(.LastSearch) {
+                suggestionSearchSections.removeAtIndex(index)
+            }
+            return
+            }
+        guard !suggestionSearchSections.contains(.LastSearch) else { return }
+        suggestionSearchSections.append(.LastSearch)
     }
 }
 

@@ -142,7 +142,6 @@
 "collection_explore_button" = "Explorer";
 "collection_furniture_title" = "Rien ne vaut notre chez-nous";
 "collection_gaming_title" = "La partie est lancée";
-"collection_halloween_title" = "Des bonbons ou un sort";
 "collection_transport_title" = "Voyagez avec style";
 "commercializer_create_from_settings" = "Create a Free Commercial";
 "commercializer_display_share_alert" = "Share this masterpiece";
@@ -650,6 +649,8 @@
 "sign_up_terms_conditions_terms_part" = "Terms & Conditions";
 "sign_up_title" = "Créer un nouveau compte";
 "sign_up_username_field_hint" = "Nom complet";
+"suggestions_last_searches_clear_button" = "Clear";
+"suggestions_last_searches_title" = "Recent Searches";
 "tab_bar_give_away_button" = "Donnez des Objets";
 "tab_bar_give_away_tooltip" = "Vous pouvez maintenant donner des objets";
 "tab_bar_sell_stuff_button" = "Vendre";

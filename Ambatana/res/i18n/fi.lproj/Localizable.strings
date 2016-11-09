@@ -142,7 +142,6 @@
 "collection_explore_button" = "Tutustu";
 "collection_furniture_title" = "Koti vailla vertaa";
 "collection_gaming_title" = "Pistetään peli pystyyn";
-"collection_halloween_title" = "Karkki vai kepponen";
 "collection_transport_title" = "Matkusta tyylillä";
 "commercializer_create_from_settings" = "Create a Free Commercial";
 "commercializer_display_share_alert" = "Share this masterpiece";
@@ -650,6 +649,8 @@
 "sign_up_terms_conditions_terms_part" = "Terms & Conditions";
 "sign_up_title" = "Luo uusi tili";
 "sign_up_username_field_hint" = "Koko nimi";
+"suggestions_last_searches_clear_button" = "Clear";
+"suggestions_last_searches_title" = "Recent Searches";
 "tab_bar_give_away_button" = "Anna pois";
 "tab_bar_give_away_tooltip" = "Voit nyt antaa tavaroita pois";
 "tab_bar_sell_stuff_button" = "Myy tavaroita";

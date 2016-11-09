@@ -142,7 +142,6 @@
 "collection_explore_button" = "Keşfet";
 "collection_furniture_title" = "Evim güzel evim";
 "collection_gaming_title" = "Oyun başlasın";
-"collection_halloween_title" = "Şeker mi şaka mı";
 "collection_transport_title" = "Yola devam";
 "commercializer_create_from_settings" = "Create a Free Commercial";
 "commercializer_display_share_alert" = "Share this masterpiece";
@@ -325,7 +324,7 @@
 "notifications_type_like_button" = "Profillerine bak";
 "notifications_type_like_w_name" = "%@ ürününü favorilerine ekledi";
 "notifications_type_like_w_name_w_title" = "%@ şu ürününü favorilerine ekledi: \"%@\"";
-"notifications_type_rating" = "%@  sana değerlendirme notu verdi";
+"notifications_type_rating" = "%@ sana değerlendirme notu verdi";
 "notifications_type_rating_button" = "Değerlendirme notlarını gör";
 "notifications_type_rating_updated" = "%@ değerlendirme notunu güncelledi";
 "notifications_type_sold" = "Favorilerine eklenmiş olduğun bir ürün satıldı";
@@ -650,6 +649,8 @@
 "sign_up_terms_conditions_terms_part" = "Şartlar ve Koşullarını";
 "sign_up_title" = "Yeni hesap oluştur";
 "sign_up_username_field_hint" = "İsim";
+"suggestions_last_searches_clear_button" = "Clear";
+"suggestions_last_searches_title" = "Recent Searches";
 "tab_bar_give_away_button" = "Ücretsiz Ver";
 "tab_bar_give_away_tooltip" = "Şimdi eşyalarını ücretsiz olarak verebilirsin";
 "tab_bar_sell_stuff_button" = "Eşyanı Sat";

@@ -31,8 +31,8 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     @IBOutlet weak var infoBubbleTopConstraint: NSLayoutConstraint!
     
     private let navbarSearch: LGNavBarSearchField
-    @IBOutlet weak var trendingSearchesContainer: UIVisualEffectView!
-    @IBOutlet weak var trendingSearchesTable: UITableView!
+    @IBOutlet weak var suggestionsSearchesContainer: UIVisualEffectView!
+    @IBOutlet weak var suggestionsSearchesTable: UITableView!
     
     private var tagsViewController : FilterTagsViewController?
     private var tagsShowing : Bool = false
@@ -158,7 +158,7 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     // MARK: - MainProductsViewModelDelegate
 
     func vmDidSearch(searchViewModel: MainProductsViewModel) {
-        trendingSearchesContainer.hidden = true
+        suggestionsSearchesContainer.hidden = true
         let vc = MainProductsViewController(viewModel: searchViewModel)
         navigationController?.pushViewController(vc, animated: true)
     }
@@ -215,19 +215,19 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     }
 
     dynamic private func endEdit() {
-        trendingSearchesContainer.hidden = true
+        suggestionsSearchesContainer.hidden = true
         setFiltersNavbarButton()
         setInviteNavBarButton()
         navbarSearch.endEdit()
     }
 
     private func beginEdit() {
-        guard trendingSearchesContainer.hidden else { return }
+        guard suggestionsSearchesContainer.hidden else { return }
 
         viewModel.searchBegan()
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Cancel , target: self,
                                                             action: #selector(endEdit))
-        trendingSearchesContainer.hidden = false
+        suggestionsSearchesContainer.hidden = false
         navbarSearch.beginEdit()
     }
     
@@ -380,43 +380,71 @@ extension MainProductsViewController: ProductListViewHeaderDelegate, PushPermiss
 extension MainProductsViewController: UITableViewDelegate, UITableViewDataSource {
 
     func setupTrendingTable() {
-        trendingSearchesTable.registerNib(UINib(nibName: TrendingSearchCell.reusableID, bundle: nil),
-                                          forCellReuseIdentifier: TrendingSearchCell.reusableID)
+        suggestionsSearchesTable.registerNib(UINib(nibName: SuggestionSearchCell.reusableID, bundle: nil),
+                                          forCellReuseIdentifier: SuggestionSearchCell.reusableID)
 
-        let topConstraint = NSLayoutConstraint(item: trendingSearchesContainer, attribute: .Top, relatedBy: .Equal,
+        let topConstraint = NSLayoutConstraint(item: suggestionsSearchesContainer, attribute: .Top, relatedBy: .Equal,
                                                toItem: topLayoutGuide, attribute: .Bottom, multiplier: 1.0, constant: 0)
         view.addConstraint(topConstraint)
 
         viewModel.trendingSearches.asObservable().bindNext { [weak self] trendings in
-            self?.trendingSearchesTable.reloadData()
-            self?.trendingSearchesTable.hidden = (trendings?.count ?? 0) == 0
+            self?.suggestionsSearchesTable.reloadData()
+            //self?.trendingSearchesTable.hidden = (trendings?.count ?? 0) == 0
         }.addDisposableTo(disposeBag)
+        viewModel.lastSearches.asObservable().bindNext { [weak self] lastSearches in
+            self?.suggestionsSearchesTable.reloadData()
+           // self?.trendingSearchesTable.hidden = (lastSearches?.count ?? 0) == 0
+            }.addDisposableTo(disposeBag)
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(keyboardWillShow(_:)),
                                                          name: UIKeyboardWillShowNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(keyboardWillHide(_:)),
                                                          name: UIKeyboardWillHideNotification, object: nil)
 
-        addTrendingsTitle()
     }
-
-    private func addTrendingsTitle() {
+    
+    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 54
+    }
+    
+    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let container = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 54))
-        let trendingTitleLabel = UILabel()
-        trendingTitleLabel.translatesAutoresizingMaskIntoConstraints = false
-        trendingTitleLabel.textAlignment = .Center
-        trendingTitleLabel.font = UIFont.mediumHeadlineFont
-        trendingTitleLabel.textColor = UIColor.darkGrayText
-        trendingTitleLabel.text = LGLocalizedString.trendingSearchesTitle
-        container.addSubview(trendingTitleLabel)
-        var views = [String: AnyObject]()
-        views["label"] = trendingTitleLabel
-        container.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-16-[label]-0-|",
-            options: [], metrics: nil, views: views))
-        container.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-8-[label]-8-|",
-            options: [], metrics: nil, views: views))
+        let suggestionTitleLabel = UILabel()
+        suggestionTitleLabel.translatesAutoresizingMaskIntoConstraints = false
+        suggestionTitleLabel.textAlignment = .Left
+        suggestionTitleLabel.font = UIFont.sectionTitleFont
+        suggestionTitleLabel.textColor = UIColor.darkGrayText
+        container.addSubview(suggestionTitleLabel)
 
-        trendingSearchesTable.tableHeaderView = container
+        let clearButton = UIButton()
+        clearButton.translatesAutoresizingMaskIntoConstraints = false
+        clearButton.titleLabel?.textAlignment = .Right
+        clearButton.titleLabel?.font = UIFont.sectionTitleFont
+        clearButton.setTitleColor(UIColor.darkGrayText, forState: .Normal)
+        clearButton.setTitle(LGLocalizedString.suggestionsLastSearchesClearButton.uppercase, forState: .Normal)
+        container.addSubview(clearButton)
+        
+        var views = [String: AnyObject]()
+        views["label"] = suggestionTitleLabel
+        views["clear"] = clearButton
+        container.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-16-[label]-16-|",
+            options: [], metrics: nil, views: views))
+        container.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-16-[label]",
+            options: [], metrics: nil, views: views))
+        container.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-16-[clear]-16-|",
+            options: [], metrics: nil, views: views))
+        container.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:[clear]-16-|",
+            options: [], metrics: nil, views: views))
+        
+        switch viewModel.suggestionSearchSections[section] {
+        case .LastSearch:
+            suggestionTitleLabel.text = LGLocalizedString.suggestionsLastSearchesTitle.uppercase
+        case .Trending:
+            clearButton.hidden = true
+            suggestionTitleLabel.text = LGLocalizedString.trendingSearchesTitle.uppercase
+        }
+        
+        return container
     }
 
     @IBAction func trendingSearchesBckgPressed(sender: AnyObject) {
@@ -425,30 +453,49 @@ extension MainProductsViewController: UITableViewDelegate, UITableViewDataSource
 
     func keyboardWillShow(notification: NSNotification) {
         let kbAnimation = KeyboardAnimation(keyboardNotification: notification)
-        trendingSearchesTable.contentInset.bottom = kbAnimation.size.height
+        suggestionsSearchesTable.contentInset.bottom = kbAnimation.size.height
     }
 
     func keyboardWillHide(notification: NSNotification) {
-        trendingSearchesTable.contentInset.bottom = 0
+        suggestionsSearchesTable.contentInset.bottom = 0
     }
 
 
     // MARK: > TableView
 
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return viewModel.suggestionSearchSections.count
+    }
+    
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return TrendingSearchCell.cellHeight
+        return SuggestionSearchCell.cellHeight
     }
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.trendingSearches.value?.count ?? 0
+        switch viewModel.suggestionSearchSections[section] {
+        case .LastSearch:
+            return viewModel.lastSearches.value?.count ?? 0
+        case .Trending:
+            return viewModel.trendingSearches.value?.count ?? 0
+        }
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        guard let trendingSearch = viewModel.trendingSearchAtIndex(indexPath.row) else { return UITableViewCell() }
-        guard let cell = tableView.dequeueReusableCellWithIdentifier(TrendingSearchCell.reusableID,
-                            forIndexPath: indexPath) as? TrendingSearchCell else { return UITableViewCell() }
-        cell.trendingText.text = trendingSearch
-        return cell
+        switch viewModel.suggestionSearchSections[indexPath.section] {
+        case .LastSearch:
+            guard let lastSearch = viewModel.lastSearchAtIndex(indexPath.row) else { return UITableViewCell() }
+            guard let cell = tableView.dequeueReusableCellWithIdentifier(SuggestionSearchCell.reusableID,
+                                                                         forIndexPath: indexPath) as? SuggestionSearchCell else { return UITableViewCell() }
+            cell.suggestionText.text = lastSearch
+            return cell
+
+        case .Trending:
+            guard let trendingSearch = viewModel.trendingSearchAtIndex(indexPath.row) else { return UITableViewCell() }
+            guard let cell = tableView.dequeueReusableCellWithIdentifier(SuggestionSearchCell.reusableID,
+                                                                         forIndexPath: indexPath) as? SuggestionSearchCell else { return UITableViewCell() }
+            cell.suggestionText.text = trendingSearch
+            return cell
+        }
     }
 
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
@@ -465,7 +512,7 @@ extension MainProductsViewController {
         tagsCollectionView.accessibilityId = .MainProductsTagsCollection
         infoBubbleLabel.accessibilityId = .MainProductsInfoBubbleLabel
         navbarSearch.accessibilityId = .MainProductsNavBarSearch
-        trendingSearchesTable.accessibilityId = .MainProductsTrendingSearchesTable
+        suggestionsSearchesTable.accessibilityId = .MainProductsTrendingSearchesTable // FIXME: Refactor with suggestions names.
         navigationItem.leftBarButtonItem?.accessibilityId = .MainProductsInviteButton
     }
 }

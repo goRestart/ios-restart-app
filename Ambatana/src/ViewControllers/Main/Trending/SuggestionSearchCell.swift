@@ -8,8 +8,8 @@
 
 import UIKit
 
-class TrendingSearchCell: UITableViewCell, ReusableCell {
-    @IBOutlet weak var trendingText: UILabel!
+class SuggestionSearchCell: UITableViewCell, ReusableCell {
+    @IBOutlet weak var suggestionText: UILabel!
 
     static let cellHeight: CGFloat = 44
     
@@ -21,6 +21,6 @@ class TrendingSearchCell: UITableViewCell, ReusableCell {
 
     private func setAccessibilityIds() {
         self.accessibilityId = .TrendingSearchCell
-        trendingText.accessibilityId = .TrendingSearchCellTrendingText
+        suggestionText.accessibilityId = .TrendingSearchCellTrendingText
     }
 }

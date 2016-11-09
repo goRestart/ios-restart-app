@@ -142,7 +142,6 @@
 "collection_explore_button" = "Descubrir";
 "collection_furniture_title" = "Hogar, dulce hogar";
 "collection_gaming_title" = "¡A jugar!";
-"collection_halloween_title" = "Truco o trato";
 "collection_transport_title" = "Viaja con estilo";
 "commercializer_create_from_settings" = "Crear comercial gratis";
 "commercializer_display_share_alert" = "Comparte esta obra maestra";
@@ -650,6 +649,8 @@
 "sign_up_terms_conditions_terms_part" = "Terms & Conditions";
 "sign_up_title" = "Crear nueva cuenta";
 "sign_up_username_field_hint" = "Nombre y apellido";
+"suggestions_last_searches_clear_button" = "Clear";
+"suggestions_last_searches_title" = "Recent Searches";
 "tab_bar_give_away_button" = "Regalar";
 "tab_bar_give_away_tooltip" = "Ahora puedes regalar artículos";
 "tab_bar_sell_stuff_button" = "Vender";

@@ -142,7 +142,6 @@
 "collection_explore_button" = "탐색";
 "collection_furniture_title" = "집처럼 편안한 공간은 없습니다";
 "collection_gaming_title" = "게임이 켜져있습니다";
-"collection_halloween_title" = "사탕을 주지 않으면 괴롭힐거에요!";
 "collection_transport_title" = "화려하게 여행해보세요";
 "commercializer_create_from_settings" = "Create a Free Commercial";
 "commercializer_display_share_alert" = "Share this masterpiece";
@@ -557,7 +556,7 @@
 "rating_list_loading_error_message" = "평점을 불러오는 동안 오류가 발생했습니다.";
 "rating_list_rating_type_buyer_text_label" = "%@께서 상품을 구매하였습니다";
 "rating_list_rating_type_conversation_text_label" = "%@께서 상품에 관하여 채팅을 보냈습니다";
-"rating_list_rating_type_seller_text_label" = "%@ sold a product";
+"rating_list_rating_type_seller_text_label" = "%@께서 상품을 판매하였습니다";
 "rating_list_title" = "리뷰";
 "rating_view_dont_ask_again_button" = "다시 묻지 말아주세요";
 "rating_view_rate_us_label" = "평가해주세요:";
@@ -650,6 +649,8 @@
 "sign_up_terms_conditions_terms_part" = "사용약관";
 "sign_up_title" = "새 계정 만들기";
 "sign_up_username_field_hint" = "이름";
+"suggestions_last_searches_clear_button" = "Clear";
+"suggestions_last_searches_title" = "Recent Searches";
 "tab_bar_give_away_button" = "증정하기";
 "tab_bar_give_away_tooltip" = "이제 상품들을 증정하실 수 있습니다";
 "tab_bar_sell_stuff_button" = "물건 판매하기";
