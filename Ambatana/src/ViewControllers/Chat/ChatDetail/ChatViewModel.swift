@@ -86,16 +86,6 @@ class ChatViewModel: BaseViewModel {
         return false
     }
 
-    private var didSendMessage: Bool {
-        guard let myUserId = myUserRepository.myUser?.objectId else { return false }
-        for message in messages.value {
-            if message.talkerId == myUserId {
-                return true
-            }
-        }
-        return false
-    }
-
     var interlocutorEnabled: Bool {
         switch chatStatus.value {
         case .Forbidden, .UserDeleted, .UserPendingDelete:
@@ -568,12 +558,7 @@ extension ChatViewModel {
                 guard let id = newMessage.objectId else { return }
                 strongSelf.markMessageAsSent(id)
                 strongSelf.afterSendMessageEvents()
-                if strongSelf.shouldTrackFirstMessage {
-                        strongSelf.trackFirstMessage(type)
-                        strongSelf.shouldTrackFirstMessage = false
-                }
                 strongSelf.trackMessageSent(isQuickAnswer, type: type)
-                
             } else if let error = result.error {
                 // TODO: 🎪 Create an "errored" state for Chat Message so we can retry
                 switch error {
@@ -1011,8 +996,6 @@ private extension ChatViewModel {
 private extension ChatViewModel {
     
     private func trackFirstMessage(type: ChatMessageType) {
-        // only track ask question if I didn't send any message previously
-        guard !didSendMessage else { return }
         guard let product = conversation.value.product else { return }
         guard let userId = conversation.value.interlocutor?.objectId else { return }
 
@@ -1027,6 +1010,11 @@ private extension ChatViewModel {
     private func trackMessageSent(isQuickAnswer: Bool, type: ChatMessageType) {
         guard let product = conversation.value.product else { return }
         guard let userId = conversation.value.interlocutor?.objectId else { return }
+
+        if shouldTrackFirstMessage {
+            shouldTrackFirstMessage = false
+            trackFirstMessage(type)
+        }
         let messageSentEvent = TrackerEvent.userMessageSent(product, userToId: userId,
                                                             messageType: type.trackingMessageType,
                                                             isQuickAnswer: isQuickAnswer ? .True : .False, typePage: .Chat)
