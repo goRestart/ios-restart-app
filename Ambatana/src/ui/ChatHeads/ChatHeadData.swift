@@ -22,15 +22,14 @@ struct ChatHeadData {
     init?(chat: Chat, myUser: MyUser) {
         guard let id = chat.objectId else { return nil }
         let otherUser = chat.otherUser(myUser: myUser)
-        let placeholder = LetgoAvatar.avatarWithID(id, name: otherUser.name)
+        let placeholder = LetgoAvatar.avatarWithID(otherUser.objectId, name: otherUser.name)
         self.init(id: id, imageURL: otherUser.avatar?.fileURL, placeholder: placeholder)
     }
 
     init?(conversation: ChatConversation) {
         guard let id = conversation.objectId else { return nil }
-        guard let interlocutor = conversation.interlocutor else { return nil }
-
-        let placeholder = LetgoAvatar.avatarWithID(id, name: interlocutor.name)
-        self.init(id: id, imageURL: interlocutor.avatar?.fileURL, placeholder: placeholder)
+        let interlocutor = conversation.interlocutor
+        let placeholder = LetgoAvatar.avatarWithID(interlocutor?.objectId, name: interlocutor?.name)
+        self.init(id: id, imageURL: interlocutor?.avatar?.fileURL, placeholder: placeholder)
     }
 }
