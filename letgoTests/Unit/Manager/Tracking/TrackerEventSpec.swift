@@ -738,12 +738,12 @@ class TrackerEventSpec: QuickSpec {
                 beforeEach {
                     let myUser = MockUser()
                     myUser.objectId = "12345"
-                    myUser.postalAddress = PostalAddress(address: nil, city: "Barcelona", zipCode: "08026",
+                    myUser.postalAddress = PostalAddress(address: nil, city: "Barcelona", zipCode: "08026", state: "Catalonia",
                         countryCode: "ES", country: nil)
 
                     let productUser = MockUser()
                     productUser.objectId = "56897"
-                    productUser.postalAddress = PostalAddress(address: nil, city: "Amsterdam", zipCode: "GD 1013",
+                    productUser.postalAddress = PostalAddress(address: nil, city: "Amsterdam", zipCode: "GD 1013", state: "",
                         countryCode: "NL", country: nil)
 
                     let product = MockProduct()
@@ -754,7 +754,7 @@ class TrackerEventSpec: QuickSpec {
                     product.category = .HomeAndGarden
                     product.user = productUser
                     product.location = LGLocationCoordinates2D(latitude: 3.12354534, longitude: 7.23983292)
-                    product.postalAddress = PostalAddress(address: nil, city: "Baltimore", zipCode: "12345",
+                    product.postalAddress = PostalAddress(address: nil, city: "Baltimore", zipCode: "12345", state: "Catalonia",
                         countryCode: "US", country: nil)
 
                     sut = TrackerEvent.productDetailVisit(product, visitUserAction: .None, source: .ProductList)
@@ -806,12 +806,12 @@ class TrackerEventSpec: QuickSpec {
                 beforeEach {
                     let myUser = MockUser()
                     myUser.objectId = "12345"
-                    myUser.postalAddress = PostalAddress(address: nil, city: "Barcelona", zipCode: "08026",
+                    myUser.postalAddress = PostalAddress(address: nil, city: "Barcelona", zipCode: "08026", state: "Catalonia",
                         countryCode: "ES", country: nil)
 
                     let productUser = MockUser()
                     productUser.objectId = "56897"
-                    productUser.postalAddress = PostalAddress(address: nil, city: "Amsterdam", zipCode: "GD 1013",
+                    productUser.postalAddress = PostalAddress(address: nil, city: "Amsterdam", zipCode: "GD 1013", state: "",
                         countryCode: "NL", country: nil)
 
                     let product = MockProduct()
@@ -822,7 +822,7 @@ class TrackerEventSpec: QuickSpec {
                     product.category = .HomeAndGarden
                     product.user = productUser
                     product.location = LGLocationCoordinates2D(latitude: 3.12354534, longitude: 7.23983292)
-                    product.postalAddress = PostalAddress(address: nil, city: "Baltimore", zipCode: "12345",
+                    product.postalAddress = PostalAddress(address: nil, city: "Baltimore", zipCode: "12345", state: "MD",
                         countryCode: "US", country: nil)
 
                     sut = TrackerEvent.productDetailVisitMoreInfo(product)
@@ -873,12 +873,12 @@ class TrackerEventSpec: QuickSpec {
                 it("contains the product related params when passing by a product and my user") {
                     let myUser = MockUser()
                     myUser.objectId = "12345"
-                    myUser.postalAddress = PostalAddress(address: nil, city: "Barcelona", zipCode: "08026",
+                    myUser.postalAddress = PostalAddress(address: nil, city: "Barcelona", zipCode: "08026", state: "Catalonia",
                         countryCode: "ES", country: nil)
                     
                     let productUser = MockUser()
                     productUser.objectId = "56897"
-                    productUser.postalAddress = PostalAddress(address: nil, city: "Amsterdam", zipCode: "GD 1013",
+                    productUser.postalAddress = PostalAddress(address: nil, city: "Amsterdam", zipCode: "GD 1013", state: "",
                         countryCode: "NL", country: nil)
                     
                     let product = MockProduct()
@@ -889,7 +889,7 @@ class TrackerEventSpec: QuickSpec {
                     product.category = .HomeAndGarden
                     product.user = productUser
                     product.location = LGLocationCoordinates2D(latitude: 3.12354534, longitude: 7.23983292)
-                    product.postalAddress = PostalAddress(address: nil, city: "Baltimore", zipCode: "12345",
+                    product.postalAddress = PostalAddress(address: nil, city: "Baltimore", zipCode: "12345", state: "MD",
                         countryCode: "US", country: nil)
                     
                     sut = TrackerEvent.productFavorite(product, typePage: .ProductDetail)
@@ -946,7 +946,7 @@ class TrackerEventSpec: QuickSpec {
                 it("contains the product related params when passing by a product and my user") {
                     let productUser = MockUser()
                     productUser.objectId = "56897"
-                    productUser.postalAddress = PostalAddress(address: nil, city: "Amsterdam", zipCode: "GD 1013",
+                    productUser.postalAddress = PostalAddress(address: nil, city: "Amsterdam", zipCode: "GD 1013", state: "",
                         countryCode: "NL", country: nil)
                     
                     let product = MockProduct()
@@ -957,7 +957,7 @@ class TrackerEventSpec: QuickSpec {
                     product.category = .HomeAndGarden
                     product.user = productUser
                     product.location = LGLocationCoordinates2D(latitude: 3.12354534, longitude: 7.23983292)
-                    product.postalAddress = PostalAddress(address: nil, city: "Baltimore", zipCode: "12345",
+                    product.postalAddress = PostalAddress(address: nil, city: "Baltimore", zipCode: "12345", state: "MD",
                         countryCode: "US", country: nil)
                     
                     sut = TrackerEvent.productShare(product, network: .Email, buttonPosition: .Top
@@ -1244,12 +1244,12 @@ class TrackerEventSpec: QuickSpec {
                 it("contains the product related params when passing by a product and my user") {
                     let myUser = MockUser()
                     myUser.objectId = "12345"
-                    myUser.postalAddress = PostalAddress(address: nil, city: "Barcelona", zipCode: "08026",
+                    myUser.postalAddress = PostalAddress(address: nil, city: "Barcelona", zipCode: "08026", state: "",
                         countryCode: "ES", country: nil)
                     
                     let productUser = MockUser()
                     productUser.objectId = "56897"
-                    productUser.postalAddress = PostalAddress(address: nil, city: "Amsterdam", zipCode: "GD 1013",
+                    productUser.postalAddress = PostalAddress(address: nil, city: "Amsterdam", zipCode: "GD 1013", state: "",
                         countryCode: "NL", country: nil)
                     
                     let product = MockProduct()
@@ -1260,7 +1260,7 @@ class TrackerEventSpec: QuickSpec {
                     product.category = .HomeAndGarden
                     product.user = productUser
                     product.location = LGLocationCoordinates2D(latitude: 3.12354534, longitude: 7.23983292)
-                    product.postalAddress = PostalAddress(address: nil, city: "Baltimore", zipCode: "12345",
+                    product.postalAddress = PostalAddress(address: nil, city: "Baltimore", zipCode: "12345", state: "MD",
                         countryCode: "US", country: nil)
                     
                     sut = TrackerEvent.productMarkAsSold(.MarkAsSold, product: product, freePostingMode: .OneButton)
@@ -1296,7 +1296,7 @@ class TrackerEventSpec: QuickSpec {
                 it("contains the product related params when passing by a product and my user") {
                     let myUser = MockUser()
                     myUser.objectId = "12345"
-                    myUser.postalAddress = PostalAddress(address: nil, city: "Barcelona", zipCode: "08026",
+                    myUser.postalAddress = PostalAddress(address: nil, city: "Barcelona", zipCode: "08026", state: "Catalonia",
                         countryCode: "ES", country: nil)
                     
                     let product = MockProduct()
@@ -1307,7 +1307,7 @@ class TrackerEventSpec: QuickSpec {
                     product.category = ProductCategory(rawValue: 4)!
                     product.user = myUser
                     product.location = LGLocationCoordinates2D(latitude: 3.12354534, longitude: 7.23983292)
-                    product.postalAddress = PostalAddress(address: nil, city: "Baltimore", zipCode: "12345",
+                    product.postalAddress = PostalAddress(address: nil, city: "Baltimore", zipCode: "12345", state: "MD",
                         countryCode: "US", country: nil)
                     product.category = ProductCategory(rawValue: 4)!
                     
@@ -1343,12 +1343,12 @@ class TrackerEventSpec: QuickSpec {
                 it("contains the product related params when passing by a product and my user") {
                     let myUser = MockUser()
                     myUser.objectId = "12345"
-                    myUser.postalAddress = PostalAddress(address: nil, city: "Barcelona", zipCode: "08026",
+                    myUser.postalAddress = PostalAddress(address: nil, city: "Barcelona", zipCode: "08026", state: "Catalonia",
                         countryCode: "ES", country: nil)
                     
                     let productUser = MockUser()
                     productUser.objectId = "56897"
-                    productUser.postalAddress = PostalAddress(address: nil, city: "Amsterdam", zipCode: "GD 1013",
+                    productUser.postalAddress = PostalAddress(address: nil, city: "Amsterdam", zipCode: "GD 1013", state: "",
                         countryCode: "NL", country: nil)
                     
                     let product = MockProduct()
@@ -1359,7 +1359,7 @@ class TrackerEventSpec: QuickSpec {
                     product.category = .HomeAndGarden
                     product.user = productUser
                     product.location = LGLocationCoordinates2D(latitude: 3.12354534, longitude: 7.23983292)
-                    product.postalAddress = PostalAddress(address: nil, city: "Baltimore", zipCode: "12345",
+                    product.postalAddress = PostalAddress(address: nil, city: "Baltimore", zipCode: "12345", state: "MD",
                         countryCode: "US", country: nil)
                     
                     sut = TrackerEvent.productReport(product)
@@ -1654,7 +1654,7 @@ class TrackerEventSpec: QuickSpec {
                 it("contains the product related params when passing by a product and my user") {
                     let productUser = MockUser()
                     productUser.objectId = "56897"
-                    productUser.postalAddress = PostalAddress(address: nil, city: "Amsterdam", zipCode: "GD 1013",
+                    productUser.postalAddress = PostalAddress(address: nil, city: "Amsterdam", zipCode: "GD 1013", state: "",
                         countryCode: "NL", country: nil)
                     
                     let product = MockProduct()
@@ -1665,7 +1665,7 @@ class TrackerEventSpec: QuickSpec {
                     product.category = .HomeAndGarden
                     product.user = productUser
                     product.location = LGLocationCoordinates2D(latitude: 3.12354534, longitude: 7.23983292)
-                    product.postalAddress = PostalAddress(address: nil, city: "Baltimore", zipCode: "12345",
+                    product.postalAddress = PostalAddress(address: nil, city: "Baltimore", zipCode: "12345", state: "MD",
                         countryCode: "US", country: nil)
                     
                     sut = TrackerEvent.userMessageSent(product, userTo: productUser, messageType: .Text,
