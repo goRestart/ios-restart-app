@@ -197,13 +197,9 @@ class ChangePasswordViewController: UIViewController, UITextFieldDelegate, Chang
         confirmPasswordTextfield.tag = TextFieldTag.ConfirmPassword.rawValue
 
         setNavBarTitle(LGLocalizedString.changePasswordTitle)
-        
-        sendButton.setTitle(LGLocalizedString.changePasswordTitle, forState: UIControlState.Normal)
-        sendButton.setBackgroundImage(sendButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)), forState: .Normal)
-        sendButton.setBackgroundImage(UIColor.primaryColorDisabled.imageWithSize(CGSize(width: 1, height: 1)), forState: .Disabled)
-        sendButton.setBackgroundImage(UIColor.primaryColorHighlighted.imageWithSize(CGSize(width: 1, height: 1)), forState: .Highlighted)
 
-        sendButton.layer.cornerRadius = 4
+        sendButton.setStyle(.Primary(fontSize: .Big))
+        sendButton.setTitle(LGLocalizedString.changePasswordTitle, forState: UIControlState.Normal)
         sendButton.enabled = false
 
         // internationalization
