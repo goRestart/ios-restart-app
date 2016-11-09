@@ -103,6 +103,7 @@ class MainProductsViewModel: BaseViewModel {
     private let tracker: Tracker
     private let searchType: SearchType? // The initial search
     private let collections: [CollectionCellType]
+    private let keyValueStorage = KeyValueStorage.sharedInstance
     
     // > Delegate
     weak var delegate: MainProductsViewModelDelegate?
@@ -150,6 +151,7 @@ class MainProductsViewModel: BaseViewModel {
         if let search = searchType where !search.isCollection && !search.query.isEmpty {
             self.shouldTrackSearch = true
         }
+        
         super.init()
 
         setup()
@@ -192,6 +194,7 @@ class MainProductsViewModel: BaseViewModel {
     */
     func search(query: String) {
         guard !query.characters.isEmpty else { return }
+        updateLastSearchStoraged(query)
         delegate?.vmDidSearch(viewModelForSearch(.User(query: query)))
     }
 
@@ -263,7 +266,7 @@ class MainProductsViewModel: BaseViewModel {
         updateListView()
     }
 
-
+    
     // MARK: - Private methods
 
     private func setup() {
@@ -274,7 +277,8 @@ class MainProductsViewModel: BaseViewModel {
         setupSessionAndLocation()
         setupPermissionsNotification()
     }
-
+   
+    
     /**
         Returns a view model for search.
     
@@ -548,34 +552,58 @@ extension MainProductsViewModel {
         guard let trendingSearch = trendingSearchAtIndex(index) where !trendingSearch.isEmpty else { return }
         delegate?.vmDidSearch(viewModelForSearch(.Trending(query: trendingSearch)))
     }
+    
+    func selectedLastSearchAtIndex(index: Int) {
+        guard let lastSearch = lastSearchAtIndex(index) where !lastSearch.isEmpty else { return }
+        delegate?.vmDidSearch(viewModelForSearch(.User(query: lastSearch)))
+    }
+    
+    func cleanUpLastSearches() {
+        keyValueStorage[.lastSearches] = []
+        if let index = suggestionSearchSections.indexOf(.LastSearch) {
+            suggestionSearchSections.removeAtIndex(index)
+        }
+        lastSearches.value = keyValueStorage[.lastSearches]
+    }
 
     private func retrieveTrendingSearches() {
         guard let currentCountryCode = locationManager.currentPostalAddress?.countryCode else { return }
 
         trendingSearchesRepository.index(currentCountryCode) { [weak self] result in
             guard let strongSelf = self else { return }
-            strongSelf.trendingSearches.value = result.value
-            guard strongSelf.trendingSearches.value?.count > 0 else {
-                if let index = strongSelf.suggestionSearchSections.indexOf(.Trending) {
-                    strongSelf.suggestionSearchSections.removeAtIndex(index)
-                }
+            guard result.value?.count > 0 else {
+                guard let index = strongSelf.suggestionSearchSections.indexOf(.Trending) else { return }
+                strongSelf.suggestionSearchSections.removeAtIndex(index)
+                strongSelf.trendingSearches.value = result.value
                 return
             }
             guard !strongSelf.suggestionSearchSections.contains(.Trending) else { return }
             strongSelf.suggestionSearchSections.append(.Trending)
+            strongSelf.trendingSearches.value = result.value
         }
     }
     
     private func retrieveLastUserSearch() {
-        lastSearches.value = ["value 1", "value2", "value3"] // FIXME: Change for access to our UserDefault.
+        lastSearches.value = keyValueStorage[.lastSearches].reverse()
         guard lastSearches.value?.count > 0 else {
-            if let index = suggestionSearchSections.indexOf(.LastSearch) {
-                suggestionSearchSections.removeAtIndex(index)
-            }
+            guard let index = suggestionSearchSections.indexOf(.LastSearch) else { return }
+            suggestionSearchSections.removeAtIndex(index)
             return
-            }
+        }
         guard !suggestionSearchSections.contains(.LastSearch) else { return }
         suggestionSearchSections.append(.LastSearch)
+    }
+    
+    private func updateLastSearchStoraged(query: String) {
+        // Need to save only the last three and check if already exists.
+        if  keyValueStorage[.lastSearches].contains(query) {
+            return
+        }
+        if keyValueStorage[.lastSearches].count < 3 {
+            keyValueStorage[.lastSearches].append(query)
+        } else {
+            keyValueStorage[.lastSearches][2] = query
+        }
     }
 }
 

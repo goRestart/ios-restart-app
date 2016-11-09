@@ -422,6 +422,7 @@ extension MainProductsViewController: UITableViewDelegate, UITableViewDataSource
         clearButton.titleLabel?.font = UIFont.sectionTitleFont
         clearButton.setTitleColor(UIColor.darkGrayText, forState: .Normal)
         clearButton.setTitle(LGLocalizedString.suggestionsLastSearchesClearButton.uppercase, forState: .Normal)
+        clearButton.addTarget(self, action: #selector(cleanLastSearches), forControlEvents: .TouchUpInside)
         container.addSubview(clearButton)
         
         var views = [String: AnyObject]()
@@ -446,7 +447,11 @@ extension MainProductsViewController: UITableViewDelegate, UITableViewDataSource
         
         return container
     }
-
+    
+    dynamic private func cleanLastSearches() {
+        viewModel.cleanUpLastSearches()
+    }
+    
     @IBAction func trendingSearchesBckgPressed(sender: AnyObject) {
         endEdit()
     }
@@ -500,7 +505,12 @@ extension MainProductsViewController: UITableViewDelegate, UITableViewDataSource
 
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
-        viewModel.selectedTrendingSearchAtIndex(indexPath.row)
+        switch viewModel.suggestionSearchSections[indexPath.section] {
+        case .LastSearch:
+            viewModel.selectedLastSearchAtIndex(indexPath.row)
+        case .Trending:
+            viewModel.selectedTrendingSearchAtIndex(indexPath.row)
+        }
     }
 }
 

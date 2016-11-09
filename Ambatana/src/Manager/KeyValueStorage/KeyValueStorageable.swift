@@ -30,6 +30,7 @@ protocol KeyValueStorageable {
     subscript(key: DefaultsKey<[String: AnyObject]>) -> [String: AnyObject] { get set }
     subscript(key: DefaultsKey<NSDictionary?>) -> NSDictionary? { get set }
     subscript(key: DefaultsKey<NSDictionary>) -> NSDictionary { get set }
+    subscript(key: DefaultsKey<[String]>) -> [String] { get set }
 
     func get<T: UserDefaultsDecodable>(key: DefaultsKey<T>) -> T?
     func set<T: UserDefaultsDecodable>(key: DefaultsKey<T>, value: T?)
