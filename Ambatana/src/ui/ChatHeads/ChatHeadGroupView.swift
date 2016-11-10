@@ -30,6 +30,8 @@ final class ChatHeadGroupView: UIView {
     private var trailingConstraints: [NSLayoutConstraint]
     private var countContainerLeading: NSLayoutConstraint?
     private var countContainerTrailing: NSLayoutConstraint?
+
+    private(set) var badge: Int
     private(set) var isLeftPositioned: Bool
 
     weak var delegate: ChatHeadGroupViewDelegate?
@@ -48,9 +50,9 @@ final class ChatHeadGroupView: UIView {
             width: ChatHeadGroupView.countContainerMinSide, height: ChatHeadGroupView.countContainerMinSide))
         self.countLabel = UILabel(frame: CGRect(x: 0, y: 0,
             width: ChatHeadGroupView.countContainerMinSide, height: ChatHeadGroupView.countContainerMinSide))
-
         self.leadingConstraints = []
         self.trailingConstraints = []
+        self.badge = 1
         self.isLeftPositioned = true
         super.init(frame: frame)
         setupUI()
@@ -71,9 +73,25 @@ final class ChatHeadGroupView: UIView {
 // MARK: - Public methods
 
 extension ChatHeadGroupView {
-    func setChatHeads(datas: [ChatHeadData]) {
+    func setChatHeads(datas: [ChatHeadData], badge: Int) -> Bool {
+        let currentIds = chatHeads.map { $0.id }
+        let newIds = datas.map { $0.id }
+        let idsChanged = currentIds != newIds
+
+        let newBadge = max(1, badge)
+        let badgeChanged = self.badge != newBadge
+
+        guard idsChanged || badgeChanged else { return false }
+
+        // Remove old chat heads & add new ones
         chatHeads.forEach { removeChatHeadView($0) }
         datas.forEach { addChatHead($0) }
+
+        // Update badge
+        self.badge = newBadge
+        countLabel.text = badge > ChatHeadGroupView.badgeMax ? "+\(ChatHeadGroupView.badgeMax)" : String(newBadge)
+        countContainer.hidden = badge <= 0
+        return true
     }
     
     func setLeftPositioned(leftPositioned: Bool, animated: Bool) {
@@ -110,12 +128,6 @@ extension ChatHeadGroupView {
         } else {
             animations()
         }
-    }
-
-    func setBadge(badge: Int) {
-        let actualBadge = max(1, badge)
-        countLabel.text = badge > ChatHeadGroupView.badgeMax ? "+\(ChatHeadGroupView.badgeMax)" : String(actualBadge)
-        countContainer.hidden = badge <= 0
     }
 }
 

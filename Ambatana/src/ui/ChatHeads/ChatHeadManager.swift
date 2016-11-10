@@ -136,18 +136,12 @@ extension ChatHeadManager {
             }.addDisposableTo(disposeBag)
         }
 
-        // Update the chat head overlay on data change
-        rx_chatHeadDatas.asObservable().subscribeNext { [weak self] datas in
-            self?.rx_chatHeadOverlayView.value?.setChatHeadDatas(datas)
+        // Update the chat head dats and/or badge on data change
+        let unreadMsgCount = notificationsManager.unreadMessagesCount.asObservable().map { $0 ?? 0 }
+        Observable.combineLatest(rx_chatHeadDatas.asObservable(), unreadMsgCount) { $0 }
+            .subscribeNext { [weak self] (datas, badge) in
+                self?.rx_chatHeadOverlayView.value?.setChatHeadDatas(datas, badge: badge)
         }.addDisposableTo(disposeBag)
-
-        // Badge
-        let unreadMsgCount = notificationsManager.unreadMessagesCount.asObservable()
-        Observable
-            .combineLatest(rx_chatHeadOverlayView.asObservable(),unreadMsgCount) { $0 }
-            .subscribeNext { (overlay, unreadMsgCount) in
-                overlay?.setBadge(unreadMsgCount ?? 0)
-            }.addDisposableTo(disposeBag)
     }
 
     dynamic private func applicationWillEnterForeground() {

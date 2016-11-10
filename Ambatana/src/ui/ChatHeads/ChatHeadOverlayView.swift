@@ -20,6 +20,7 @@ final class ChatHeadOverlayView: UIView {
 
     private let deleteImageView: UIImageView
     private var deleteBottomConstraint: NSLayoutConstraint?
+    private var userDeletedChatHeads: Bool
 
     private var placedInMagnetPoint: Bool
     private var magnetPoints: [CGPoint]
@@ -35,6 +36,7 @@ final class ChatHeadOverlayView: UIView {
         self.chatHeadGroup = ChatHeadGroupView()
         self.deleteImageView = UIImageView()
         self.placedInMagnetPoint = false
+        self.userDeletedChatHeads = false
         self.magnetPoints = []
         super.init(frame: frame)
 
@@ -66,15 +68,29 @@ final class ChatHeadOverlayView: UIView {
         let insideChatHeadGroup = chatHeadGroup.pointInside(convertedPoint, withEvent: event)
         return insideChatHeadGroup ? chatHeadGroup : nil
     }
+
+    override var hidden: Bool {
+        get {
+            return super.hidden
+        }
+        set {
+            // If we want to show but user deleted then it does not updates hidden property
+            if !newValue && userDeletedChatHeads { return }
+            super.hidden = newValue
+        }
+    }
 }
 
 
 // MARK: - Public methods
 
 extension ChatHeadOverlayView {
-    func setChatHeadDatas(datas: [ChatHeadData]) {
-        hidden = false
-        chatHeadGroup.setChatHeads(datas)
+    func setChatHeadDatas(datas: [ChatHeadData], badge: Int) {
+        let didUpdate = chatHeadGroup.setChatHeads(datas, badge: badge)
+        if didUpdate {
+            userDeletedChatHeads = false // is resetted when receiving new datas
+            hidden = false
+        }
 
         if !placedInMagnetPoint {
             placedInMagnetPoint = true
@@ -84,10 +100,6 @@ extension ChatHeadOverlayView {
 
     func setChatHeadGroupViewDelegate(delegate: ChatHeadGroupViewDelegate?) {
         chatHeadGroup.delegate = delegate
-    }
-
-    func setBadge(badge: Int) {
-        chatHeadGroup.setBadge(badge)
     }
 }
 
@@ -210,6 +222,7 @@ private extension ChatHeadOverlayView {
             let currentPos = CGPoint(x: chatHeadGroupXConstraint.constant, y: chatHeadGroupYConstraint.constant)
             let distance = currentPos.distanceTo(deleteImageView.frame.origin)
             if distance <= ChatHeadOverlayView.chatHeadDistanceToHide {
+                userDeletedChatHeads = true
                 hidden = true
             }
 
