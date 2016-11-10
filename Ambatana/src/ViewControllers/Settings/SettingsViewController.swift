@@ -66,6 +66,7 @@ class SettingsViewController: BaseViewController {
         let switchCellNib = UINib(nibName: SettingsSwitchCell.reusableID, bundle: nil)
         tableView.registerNib(switchCellNib, forCellReuseIdentifier: SettingsSwitchCell.reusableID)
         tableView.backgroundColor = UIColor.grayBackground
+        tableView.contentInset.bottom = 15
     }
 
     private func setupAccessibilityIds() {
