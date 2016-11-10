@@ -366,11 +366,13 @@ extension MainProductsViewModel: ProductListViewCellsDelegate {
 extension MainProductsViewModel: ProductListViewModelDataDelegate {
     func productListVM(viewModel: ProductListViewModel, didSucceedRetrievingProductsPage page: UInt,
                               hasProducts: Bool) {
-
-        trackRequestSuccess(page: page, hasProducts: hasProducts)
         
+        trackRequestSuccess(page: page, hasProducts: hasProducts)
+        // Only save the string when there is products and we are not searching a collection
         if let queryString = productListRequester.queryString where hasProducts {
-            updateLastSearchStoraged(queryString)
+            if let searchType = searchType where !searchType.isCollection {
+                updateLastSearchStoraged(queryString)
+            }
         }
     
         if shouldRetryLoad {
