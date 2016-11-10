@@ -505,21 +505,17 @@ extension MainProductsViewController: UITableViewDelegate, UITableViewDataSource
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         guard let sectionType = getSearchSuggestionType(indexPath.section) else { return UITableViewCell() }
+        guard let cell = tableView.dequeueReusableCellWithIdentifier(SuggestionSearchCell.reusableID,
+                            forIndexPath: indexPath) as? SuggestionSearchCell else { return UITableViewCell() }
         switch sectionType {
         case .LastSearch:
             guard let lastSearch = viewModel.lastSearchAtIndex(indexPath.row) else { return UITableViewCell() }
-            guard let cell = tableView.dequeueReusableCellWithIdentifier(SuggestionSearchCell.reusableID,
-                                forIndexPath: indexPath) as? SuggestionSearchCell else { return UITableViewCell() }
             cell.suggestionText.text = lastSearch
-            return cell
-
         case .Trending:
             guard let trendingSearch = viewModel.trendingSearchAtIndex(indexPath.row) else { return UITableViewCell() }
-            guard let cell = tableView.dequeueReusableCellWithIdentifier(SuggestionSearchCell.reusableID,
-                                forIndexPath: indexPath) as? SuggestionSearchCell else { return UITableViewCell() }
             cell.suggestionText.text = trendingSearch
-            return cell
         }
+        return cell
     }
 
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
