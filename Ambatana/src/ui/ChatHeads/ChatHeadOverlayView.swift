@@ -21,7 +21,6 @@ final class ChatHeadOverlayView: UIView {
     private let deleteImageView: UIImageView
     private var deleteBottomConstraint: NSLayoutConstraint?
 
-
     private var placedInMagnetPoint: Bool
     private var magnetPoints: [CGPoint]
 
@@ -35,7 +34,7 @@ final class ChatHeadOverlayView: UIView {
     override init(frame: CGRect) {
         self.chatHeadGroup = ChatHeadGroupView()
         self.deleteImageView = UIImageView()
-        placedInMagnetPoint = false
+        self.placedInMagnetPoint = false
         self.magnetPoints = []
         super.init(frame: frame)
 
@@ -105,8 +104,8 @@ private extension ChatHeadOverlayView {
         chatHeadGroup.addGestureRecognizer(panGesture)
 
         deleteImageView.translatesAutoresizingMaskIntoConstraints = false
-        deleteImageView.image = UIImage(named: "ic_close_big")
-        deleteImageView.highlightedImage = UIImage(named: "ic_invite")
+        deleteImageView.image = UIImage(named: "ic_chat_heads_close")
+        deleteImageView.highlightedImage = UIImage(named: "ic_chat_heads_delete")
         addSubview(deleteImageView)
     }
 
@@ -198,7 +197,8 @@ private extension ChatHeadOverlayView {
             let currentPos = CGPoint(x: chatHeadGroupXConstraint.constant, y: chatHeadGroupYConstraint.constant)
             let distance = currentPos.distanceTo(deleteImageView.frame.origin)
             print(distance)
-            deleteImageView.highlighted = distance <= ChatHeadOverlayView.chatHeadDistanceToHide
+            let highlighted = distance <= ChatHeadOverlayView.chatHeadDistanceToHide
+            deleteImageView.highlighted = highlighted
 
             // Reset translation
             recognizer.setTranslation(CGPoint.zero, inView: self)
@@ -206,8 +206,6 @@ private extension ChatHeadOverlayView {
             // Layout the View
             layoutIfNeeded()
         case .Ended, .Cancelled, .Failed:
-            setDeleteImageViewHidden(true, animated: true)
-
             // If over delete then hide
             let currentPos = CGPoint(x: chatHeadGroupXConstraint.constant, y: chatHeadGroupYConstraint.constant)
             let distance = currentPos.distanceTo(deleteImageView.frame.origin)
@@ -215,6 +213,7 @@ private extension ChatHeadOverlayView {
                 hidden = true
             }
 
+            setDeleteImageViewHidden(true, animated: true)
             snapToNearestMagnetPoint(animated: true)
         }
     }
