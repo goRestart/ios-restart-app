@@ -2364,7 +2364,7 @@ class TrackerEventSpec: QuickSpec {
 
             describe("Marketing Push Notifications") {
                 beforeEach {
-                    sut = TrackerEvent.MarketingPushNotifications("123456", enabled: .True)
+                    sut = TrackerEvent.MarketingPushNotifications("123456", enabled: true)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("marketing-push-notifications"))
@@ -2374,8 +2374,8 @@ class TrackerEventSpec: QuickSpec {
                     expect(param) == "123456"
                 }
                 it("contains enabled param") {
-                    let param = sut.params!.stringKeyParams["enabled"] as? String
-                    expect(param) == "true"
+                    let param = sut.params!.stringKeyParams["enabled"] as? Bool
+                    expect(param) == true
                 }
             }
         }

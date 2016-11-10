@@ -617,11 +617,6 @@ public enum EventParameterFreePosting: String {
     case Unset = "N/A"
 }
 
-public enum EventParameterEnabled: String {
-    case True = "true"
-    case False = "false"
-}
-
 public struct EventParameters {
     private var params: [EventParameterName : AnyObject] = [:]
     
