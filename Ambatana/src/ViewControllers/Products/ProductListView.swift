@@ -95,7 +95,11 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     }
     var errorPadding: UIEdgeInsets {
         didSet {
-            topInsetErrorViewConstraint.constant = errorPadding.top
+            var headerHeight: CGFloat = 0
+            if let totalHeaderHeight = headerDelegate?.totalHeaderHeight() {
+                headerHeight = totalHeaderHeight
+            }
+            topInsetErrorViewConstraint.constant = errorPadding.top + headerHeight
             leftInsetErrorViewConstraint.constant = errorPadding.left
             bottomInsetErrorViewConstraint.constant = errorPadding.bottom
             rightInsetErrorViewConstraint.constant = errorPadding.right
@@ -504,8 +508,15 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
             dataView.hidden = false
             errorView.hidden = true
         case .Error(let emptyVM):
+            firstLoadView.hidden = true
+            dataView.hidden = true
+            errorView.hidden = false
             setErrorState(emptyVM)
         case .Empty(let emptyVM):
+            // Show/hide views
+            firstLoadView.hidden = true
+            dataView.hidden = false
+            errorView.hidden = false
             setErrorState(emptyVM)
         }
     }
@@ -524,11 +535,6 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
             errorButtonHeightConstraint.constant = 0
         }
         errorView.updateConstraintsIfNeeded()
-
-        // Show/hide views
-        firstLoadView.hidden = true
-        dataView.hidden = true
-        errorView.hidden = false
     }
 
     dynamic private func refreshControlTriggered() {
