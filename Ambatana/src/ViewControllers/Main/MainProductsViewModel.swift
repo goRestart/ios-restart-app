@@ -120,13 +120,13 @@ class MainProductsViewModel: BaseViewModel {
     // Suggestion searches
     let lastSearchesSavedMaximum = 10
     let lastSearchesShowMaximum = 3
-    let trendingSearches = Variable<[String]?>(nil)
-    let lastSearches = Variable<[String]?>(nil)
-    var lastSearchesCounter: Int? {
-        return lastSearches.value?.count
+    let trendingSearches = Variable<[String]>([])
+    let lastSearches = Variable<[String]>([])
+    var lastSearchesCounter: Int {
+        return lastSearches.value.count
     }
-    var trendingCounter: Int? {
-        return trendingSearches.value?.count
+    var trendingCounter: Int {
+        return trendingSearches.value.count
     }
     
     
@@ -547,13 +547,13 @@ extension MainProductsViewModel {
 extension MainProductsViewModel {
 
     func trendingSearchAtIndex(index: Int) -> String? {
-        guard let trendings = trendingSearches.value where 0..<trendings.count ~= index else { return nil }
-        return trendings[index]
+        guard  0..<trendingSearches.value.count ~= index else { return nil }
+        return trendingSearches.value[index]
     }
     
     func lastSearchAtIndex(index: Int) -> String? {
-        guard let lastSearches = lastSearches.value where 0..<lastSearches.count ~= index else { return nil }
-        return lastSearches[index]
+        guard 0..<lastSearches.value.count ~= index else { return nil }
+        return lastSearches.value[index]
     }
 
     func selectedTrendingSearchAtIndex(index: Int) {
@@ -576,7 +576,7 @@ extension MainProductsViewModel {
         var searchesToShow = [String]()
         let allSearchesSaved = keyValueStorage[.lastSearches]
         if allSearchesSaved.count > lastSearchesShowMaximum {
-            searchesToShow = Array(allSearchesSaved[allSearchesSaved.count-lastSearchesShowMaximum..<allSearchesSaved.count])
+            searchesToShow = Array(allSearchesSaved.suffix(lastSearchesShowMaximum))
         } else {
             searchesToShow = keyValueStorage[.lastSearches]
         }
@@ -587,8 +587,7 @@ extension MainProductsViewModel {
         guard let currentCountryCode = locationManager.currentPostalAddress?.countryCode else { return }
 
         trendingSearchesRepository.index(currentCountryCode) { [weak self] result in
-            guard let strongSelf = self else { return }
-            strongSelf.trendingSearches.value = result.value
+            self?.trendingSearches.value = result.value ?? []
         }
     }
     
@@ -601,7 +600,7 @@ extension MainProductsViewModel {
             searchesSaved.removeFirst()
         }
         keyValueStorage[.lastSearches] = searchesSaved
-        lastSearches.value = keyValueStorage[.lastSearches]
+        lastSearches.value = searchesSaved
     }
 }
 
