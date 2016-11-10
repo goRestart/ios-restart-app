@@ -901,6 +901,13 @@ public struct TrackerEvent {
         return TrackerEvent(name: .NotificationCenterComplete, params: params)
     }
 
+    static func MarketingPushNotifications(userId: String?, enabled: EventParameterEnabled) -> TrackerEvent {
+        var params = EventParameters()
+        params[.UserId] = userId
+        params[.Enabled] = enabled.rawValue
+        return TrackerEvent(name: .MarketingPushNotifications, params: params)
+    }
+
     // MARK: - Private methods
 
     private static func eventParameterLocationTypeForLocation(location: LGLocation) -> EventParameterLocationType? {

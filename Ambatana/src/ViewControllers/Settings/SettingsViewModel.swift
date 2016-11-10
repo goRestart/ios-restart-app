@@ -234,5 +234,9 @@ class SettingsViewModel: BaseViewModel {
 
     private func setMarketingNotifications(enabled: Bool) {
         notificationsManager.marketingNotifications.value = enabled
+
+        let event = TrackerEvent.MarketingPushNotifications(myUserRepository.myUser?.objectId,
+                                                            enabled: enabled ? .True : .False)
+        tracker.trackEvent(event)
     }
 }

@@ -142,6 +142,8 @@ public enum EventName: String {
 
     case NotificationCenterStart            = "notification-center-start"
     case NotificationCenterComplete         = "notification-center-complete"
+
+    case MarketingPushNotifications         = "marketing-push-notifications"
     
 
     // Constants
@@ -180,6 +182,7 @@ public enum EventParameterName: String {
     case ProductCurrency      = "product-currency"
     case ProductDescription   = "product-description"
     case ProductType          = "item-type"             // real (1) / dummy (0).
+    case UserId               = "user-id"
     case UserToId             = "user-to-id"
     case UserEmail            = "user-email"
     case UserCity             = "user-city"
@@ -239,6 +242,7 @@ public enum EventParameterName: String {
     case ShownReason          = "shown-reason"
     case FreePosting          = "free-posting"
     case SellButtonPosition   = "sell-button-position"
+    case Enabled              = "enabled"
 }
 
 public enum EventParameterLoginSourceValue: String {
@@ -611,6 +615,11 @@ public enum EventParameterFreePosting: String {
     case True = "true"
     case False = "false"
     case Unset = "N/A"
+}
+
+public enum EventParameterEnabled: String {
+    case True = "true"
+    case False = "false"
 }
 
 public struct EventParameters {
