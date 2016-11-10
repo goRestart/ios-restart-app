@@ -497,9 +497,9 @@ extension MainProductsViewController: UITableViewDelegate, UITableViewDataSource
         guard let sectionType = getSearchSuggestionType(section) else { return 0 }
         switch sectionType {
         case .LastSearch:
-            return viewModel.lastSearchesCounter ?? 0
+            return viewModel.lastSearchesCounter
         case .Trending:
-            return viewModel.trendingCounter ?? 0
+            return viewModel.trendingCounter
         }
     }
 
