@@ -13,6 +13,11 @@ import Result
 public typealias ChatWrapperResult = Result<Bool, RepositoryError>
 public typealias ChatWrapperCompletion = ChatWrapperResult -> Void
 
+enum ChatWrapperMessageType {
+    case Text(String)
+    case ChatSticker(Sticker)
+}
+
 class ChatWrapper {
 
     private let chatRepository: ChatRepository
@@ -31,19 +36,15 @@ class ChatWrapper {
     }
 
 
-    func sendMessageForProduct(product: Product, text: String?, sticker: Sticker?, type: ChatMessageType, completion: ChatWrapperCompletion?) {
+    func sendMessageForProduct(product: Product, type: ChatWrapperMessageType, completion: ChatWrapperCompletion?) {
         if FeatureFlags.websocketChat {
-            guard let text = text else {
-                completion?(Result(error: .Internal(message: "There's no message to send")))
-                return
-            }
-            sendWebSocketChatMessage(product, text: text, type: type, completion: completion)
+            sendWebSocketChatMessage(product, text: type.text, type: type.chatType, completion: completion)
         } else {
-            sendOldChatMessage(product, text: text, sticker: sticker, type: type.oldChatType, completion: completion)
+            sendOldChatMessage(product, text: type.text, type: type.oldChatType, completion: completion)
         }
     }
 
-    private func sendOldChatMessage(product: Product, text: String?, sticker: Sticker?, type: MessageType, completion: ChatWrapperCompletion?) {
+    private func sendOldChatMessage(product: Product, text: String?, type: MessageType, completion: ChatWrapperCompletion?) {
         guard let text = text else {
             completion?(Result(error: .Internal(message: "There's no message to send")))
             return
@@ -101,15 +102,30 @@ class ChatWrapper {
     }
 }
 
+extension ChatWrapperMessageType {
+    var text: String {
+        switch self {
+        case let .Text(text):
+            return text
+        case let .ChatSticker(sticker):
+            return sticker.name
+        }
+    }
 
-private extension ChatMessageType {
     var oldChatType: MessageType {
+            switch self {
+            case .Text:
+            return .Text
+            case .ChatSticker:
+            return .Sticker
+        }
+    }
+
+    var chatType: ChatMessageType {
         switch self {
         case .Text:
             return .Text
-        case .Offer:
-            return .Offer
-        case .Sticker:
+        case .ChatSticker:
             return .Sticker
         }
     }

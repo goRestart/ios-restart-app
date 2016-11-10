@@ -51,7 +51,7 @@ struct LocalProduct: Product {
         self.price = chatProduct.price
         self.currency = chatProduct.currency
         self.location = LGLocationCoordinates2D(latitude: 0, longitude: 0)
-        self.postalAddress = PostalAddress(address: nil, city: nil, zipCode: nil, countryCode: nil, country: nil)
+        self.postalAddress = PostalAddress.emptyAddress()
         self.languageCode = nil
         self.category = .Other
         self.status = chatProduct.status

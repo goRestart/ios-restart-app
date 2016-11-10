@@ -100,6 +100,13 @@ struct FeatureFlags {
         return ProductDetailShareMode.fromPosition(ABTests.productDetailShareMode.value)
     }
 
+    static var periscopeChat: Bool {
+        if Bumper.enabled {
+            return Bumper.periscopeChat
+        }
+        return ABTests.persicopeChat.value
+    }
+
     
     // MARK: - Private
 

@@ -69,7 +69,7 @@ struct LGProduct: Product {
         let user = LGUser(chatInterlocutor: chatInterlocutor)
         let images = [chatProduct.image].flatMap{$0}
         let location = LGLocationCoordinates2D(latitude: 0, longitude: 0)
-        let postalAddress = PostalAddress(address: nil, city: nil, zipCode: nil, countryCode: nil, country: nil)
+        let postalAddress = PostalAddress.emptyAddress()
         let category = ProductCategory.Other
         
         self.init(objectId: chatProduct.objectId, updatedAt: nil, createdAt: nil, name: chatProduct.name,

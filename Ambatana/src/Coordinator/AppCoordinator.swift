@@ -126,6 +126,7 @@ final class AppCoordinator: NSObject {
         setupDeepLinkingRx()
         setupNotificationCenterObservers()
         setupChatHeads()
+        setupLeanplumPopUp()
     }
 
     deinit {
@@ -141,6 +142,7 @@ final class AppCoordinator: NSObject {
 // MARK: - AppNavigator
 
 extension AppCoordinator: AppNavigator {
+
     func open() {
         guard !openOnboarding() else { return }
         delegate?.appNavigatorDidOpenApp()
@@ -442,7 +444,9 @@ extension AppCoordinator: ChatHeadOverlayViewDelegate {
 // MARK: - Private methods
 // MARK: > Setup / tear down
 
+
 private extension AppCoordinator {
+    
     func setupTabBarController() {
         tabBarCtl.delegate = self
         var viewControllers = tabCoordinators.map { $0.navigationController as UIViewController }
@@ -504,8 +508,21 @@ private extension AppCoordinator {
     func tearDownNotificationCenterObservers() {
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
+
 }
 
+extension AppCoordinator: CustomLeanplumPresenter {
+    
+    func setupLeanplumPopUp() {
+        Leanplum.customLeanplumAlert(self)
+    }
+    
+    func showLeanplumAlert(title: String, text: String, image: String, action: UIAction) {
+        let alertIcon = UIImage(contentsOfFile: image)
+        guard let alert = LGAlertViewController(title: title, text: text, alertType: .IconAlert(icon: alertIcon), actions: [action]) else { return }
+        tabBarCtl.presentViewController(alert, animated: true, completion: nil)
+    }
+}
 
 // MARK: > NSNotificationCenter
 

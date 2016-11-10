@@ -77,6 +77,12 @@ class ProductViewModel: BaseViewModel {
     let directChatMessages = CollectionVariable<ChatViewMessage>([])
 
     let navBarButtons = Variable<[UIAction]>([])
+    let actionButtons = Variable<[UIAction]>([])
+    let directChatEnabled = Variable<Bool>(false)
+    var directChatPlaceholder: String {
+        let userName = product.value.user.name?.toNameReduced(maxChars: Constants.maxCharactersOnUserNameChatButton) ?? ""
+        return LGLocalizedString.productChatWithSellerNameButton(userName)
+    }
     private let productIsFavoriteable = Variable<Bool>(false)
     let favoriteButtonState = Variable<ButtonState>(.Enabled)
     let editButtonState = Variable<ButtonState>(.Hidden)
@@ -278,6 +284,8 @@ class ProductViewModel: BaseViewModel {
 
         status.asObservable().bindNext { [weak self] status in
             self?.refreshDirectChats(status)
+            self?.refreshActionButtons(status)
+            self?.directChatEnabled.value = FeatureFlags.periscopeChat && status.directChatsAvailable
         }.addDisposableTo(disposeBag)
 
         isFavorite.asObservable().subscribeNext { [weak self] _ in
@@ -441,36 +449,19 @@ extension ProductViewModel {
             
             }, source: .MarkAsUnsold)         
     }
+
+    func chatWithSeller() {
+        let source: EventParameterTypePage = (moreInfoState.value == .Shown) ? .ProductDetailMoreInfo : .ProductDetail
+        chatWithSeller(source)
+    }
     
     func chatWithSeller(source: EventParameterTypePage) {
         trackHelper.trackChatWithSeller(source)
-        openChat()
+        navigator?.openProductChat(product.value)
     }
 
-    func sendDirectMessage(text: String, favorite: Bool) {
-        // Optimistic behavior
-        let message = LocalMessage(text: text, userId: myUserRepository.myUser?.objectId)
-        let messageView = chatViewMessageAdapter.adapt(message)
-        directChatMessages.insert(messageView, atIndex: 0)
-
-        chatWrapper.sendMessageForProduct(product.value, text: text, sticker: nil, type: .Text) {
-            [weak self] result in
-            if let value = result.value {
-                self?.trackHelper.trackDirectMessageSent(value, favorite: favorite)
-            } else if let error = result.error {
-                switch error {
-                case .Forbidden:
-                    self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.productChatDirectErrorBlockedUserMessage, completion: nil)
-                case .Network, .Internal, .NotFound, .Unauthorized, .TooManyRequests, .UserNotVerified, .ServerError:
-                    self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.chatSendErrorGeneric, completion: nil)
-                }
-
-                //Removing in case of failure
-                if let indexToRemove = self?.directChatMessages.value.indexOf({ $0.objectId == messageView.objectId }) {
-                    self?.directChatMessages.removeAtIndex(indexToRemove)
-                }
-            }
-        }
+    func sendDirectMessage(text: String) {
+        sendMessage(.Text(text), favorite: false)
     }
 
     func openVideo() {
@@ -501,7 +492,7 @@ extension ProductViewModel {
 
     func sendSticker(sticker: Sticker) {
         ifLoggedInRunActionElseOpenChatSignup { [weak self] in
-            self?.sendStickerToSeller(sticker, favorite: false)
+            self?.sendMessage(.ChatSticker(sticker), favorite: false)
         }
     }
 
@@ -537,15 +528,6 @@ extension ProductViewModel {
 
 
 // MARK: - Private
-// MARK: - Chat button Actions
-
-extension ProductViewModel {
-    private func openChat() {
-        navigator?.openProductChat(product.value)
-    }
-}
-
-
 // MARK: - Commercializer
 
 extension ProductViewModel {
@@ -739,6 +721,52 @@ extension ProductViewModel {
 }
 
 
+// MARK: - Helper Action buttons
+
+extension ProductViewModel {
+
+    private func refreshActionButtons(status: ProductViewModelStatus) {
+        actionButtons.value = buildActionButtons(status)
+    }
+
+    private func buildActionButtons(status: ProductViewModelStatus) -> [UIAction] {
+        var actionButtons = [UIAction]()
+        switch status {
+        case .Pending, .NotAvailable, .OtherSold, .OtherSoldFree:
+            break
+        case .PendingAndCommercializable:
+            actionButtons.append(UIAction(interface: .Button(LGLocalizedString.productCreateCommercialButton, .Primary(fontSize: .Big)),
+                action: { [weak self] in self?.promoteProduct() }))
+        case .Available:
+            actionButtons.append(UIAction(interface: .Button(LGLocalizedString.productMarkAsSoldButton, .Terciary),
+                action: { [weak self] in self?.markSold() }))
+        case .AvailableAndCommercializable:
+            actionButtons.append(UIAction(interface: .Button(LGLocalizedString.productMarkAsSoldButton, .Terciary),
+                action: { [weak self] in self?.markSold() }))
+            actionButtons.append(UIAction(interface: .Button(LGLocalizedString.productCreateCommercialButton, .Primary(fontSize: .Big)),
+                action: { [weak self] in self?.promoteProduct() }))
+        case .Sold:
+            actionButtons.append(UIAction(interface: .Button(LGLocalizedString.productSellAgainButton, .Secondary(fontSize: .Big, withBorder: false)),
+                action: { [weak self] in self?.resell() }))
+        case .OtherAvailable, .OtherAvailableFree:
+            if !FeatureFlags.periscopeChat {
+                let userName: String = product.value.user.name?.toNameReduced(maxChars: Constants.maxCharactersOnUserNameChatButton) ?? ""
+                let buttonText = LGLocalizedString.productChatWithSellerNameButton(userName)
+                actionButtons.append(UIAction(interface: .Button(buttonText, .Primary(fontSize: .Big)),
+                    action: { [weak self] in self?.chatWithSeller() }))
+            }
+        case .AvailableFree:
+            actionButtons.append(UIAction(interface: .Button(LGLocalizedString.productMarkAsSoldFreeButton, .Terciary),
+                action: { [weak self] in self?.markSoldFree() }))
+        case .SoldFree:
+            actionButtons.append(UIAction(interface: .Button(LGLocalizedString.productSellAgainFreeButton, .Secondary(fontSize: .Big, withBorder: false)),
+                action: { [weak self] in self?.resellFree() }))
+        }
+        return actionButtons
+    }
+}
+
+
 // MARK: - Private actions
 
 extension ProductViewModel {
@@ -856,16 +884,16 @@ extension ProductViewModel {
         }
     }
 
-    private func sendStickerToSeller(sticker: Sticker, favorite: Bool) {
+    private func sendMessage(type: ChatWrapperMessageType, favorite: Bool) {
         // Optimistic behavior
-        let message = LocalMessage(sticker: sticker, userId: myUserRepository.myUser?.objectId)
+        let message = LocalMessage(type: type, userId: myUserRepository.myUser?.objectId)
         let messageView = chatViewMessageAdapter.adapt(message)
         directChatMessages.insert(messageView, atIndex: 0)
 
-        chatWrapper.sendMessageForProduct(product.value, text: sticker.name, sticker: sticker, type: .Sticker) {
+        chatWrapper.sendMessageForProduct(product.value, type: type) {
             [weak self] result in
-            if let value = result.value {
-                self?.trackHelper.trackDirectStickerSent(value, favorite: favorite)
+            if let firstMessage = result.value {
+                self?.trackHelper.trackMessageSent(firstMessage, fromFavorite: favorite, messageType: type.chatType)
             } else if let error = result.error {
                 switch error {
                 case .Forbidden:
@@ -899,6 +927,97 @@ extension ProductViewModel {
     private func ifLoggedInRunActionElseOpenChatSignup(action: () -> ()) {
         delegate?.ifLoggedInThen(.DirectSticker, loginStyle: .Popup(LGLocalizedString.chatLoginPopupText),
                                  loggedInAction: action, elsePresentSignUpWithSuccessAction: action)
+    }
+}
+
+
+// MARK: - Interested Bubble logic
+
+extension ProductViewModel {
+    func showInterestedBubbleForProduct(id: String) {
+        interestedBubbleManager.showInterestedBubbleForProduct(id)
+    }
+
+    func shouldShowInterestedBubbleForProduct(id: String, fromFavoriteAction: Bool, forFirstProduct isFirstProduct: Bool) -> Bool {
+        return interestedBubbleManager.shouldShowInterestedBubbleForProduct(id, fromFavoriteAction: fromFavoriteAction, forFirstProduct: isFirstProduct) && active
+    }
+}
+
+
+// MARK: - Message on favorite
+
+private extension ProductViewModel {
+    private func checkSendFavoriteMessage() {
+        guard !favoriteMessageSent else { return }
+
+        switch FeatureFlags.messageOnFavoriteRound2 {
+        case .NoMessage:
+            return
+        case .DirectMessage:
+            sendFavoriteMessage()
+        }
+    }
+
+    private func sendFavoriteMessage() {
+        sendMessage(.Text(LGLocalizedString.productFavoriteDirectMessage), favorite: true)
+        favoriteMessageSent = true
+    }
+}
+
+
+// MARK: - SocialSharerDelegate
+
+extension ProductViewModel: SocialSharerDelegate {
+    func shareStartedIn(shareType: ShareType) {
+        let buttonPosition: EventParameterButtonPosition
+
+        switch moreInfoState.value {
+        case .Hidden:
+            buttonPosition = .Top
+        case .Shown, .Moving:
+            buttonPosition = .Bottom
+        }
+
+        trackShareStarted(shareType, buttonPosition: buttonPosition)
+    }
+
+    func shareFinishedIn(shareType: ShareType, withState state: SocialShareState) {
+        let buttonPosition: EventParameterButtonPosition
+
+        switch moreInfoState.value {
+        case .Hidden:
+            buttonPosition = .Top
+        case .Shown, .Moving:
+            buttonPosition = .Bottom
+        }
+
+        if let message = messageForShareIn(shareType, finishedWithState: state) {
+            delegate?.vmShowAutoFadingMessage(message, completion: nil)
+        }
+
+        trackShareCompleted(shareType, buttonPosition: buttonPosition, state: state)
+    }
+
+    private func messageForShareIn(shareType: ShareType, finishedWithState state: SocialShareState) -> String? {
+        switch (shareType, state) {
+        case (.Email, .Failed):
+            return LGLocalizedString.productShareEmailError
+        case (.Facebook, .Failed):
+            return LGLocalizedString.sellSendErrorSharingFacebook
+        case (.FBMessenger, .Failed):
+            return LGLocalizedString.sellSendErrorSharingFacebook
+        case (.CopyLink, .Completed):
+            return LGLocalizedString.productShareCopylinkOk
+        case (.SMS, .Completed):
+            return LGLocalizedString.productShareSmsOk
+        case (.SMS, .Failed):
+            return LGLocalizedString.productShareSmsError
+        case (_, .Completed):
+            return LGLocalizedString.productShareGenericOk
+        default:
+            break
+        }
+        return nil
     }
 }
 
@@ -945,17 +1064,8 @@ extension Product {
     }
 }
 
-// MARK: - Interested Bubble logic
 
-extension ProductViewModel {
-    func showInterestedBubbleForProduct(id: String) {
-        interestedBubbleManager.showInterestedBubbleForProduct(id)
-    }
-
-    func shouldShowInterestedBubbleForProduct(id: String, fromFavoriteAction: Bool, forFirstProduct isFirstProduct: Bool) -> Bool {
-        return interestedBubbleManager.shouldShowInterestedBubbleForProduct(id, fromFavoriteAction: fromFavoriteAction, forFirstProduct: isFirstProduct) && active
-    }
-}
+// MARK: - ProductViewModelStatus
 
 private extension ProductViewModelStatus {
 
@@ -1021,81 +1131,5 @@ private extension ProductViewModelStatus {
         case .Sold, .OtherSold, .NotAvailable, .OtherAvailable, .OtherSoldFree, .OtherAvailableFree, .SoldFree, .AvailableFree:
             return self
         }
-    }
-}
-
-
-private extension ProductViewModel {
-    private func checkSendFavoriteMessage() {
-        guard !favoriteMessageSent else { return }
-
-        switch FeatureFlags.messageOnFavoriteRound2 {
-        case .NoMessage:
-            return
-        case .DirectMessage:
-            sendFavoriteMessage()
-        }
-    }
-
-    private func sendFavoriteMessage() {
-        sendDirectMessage(LGLocalizedString.productFavoriteDirectMessage, favorite: true)
-        favoriteMessageSent = true
-    }
-}
-
-
-// MARK: - SocialSharerDelegate
-
-extension ProductViewModel: SocialSharerDelegate {
-    func shareStartedIn(shareType: ShareType) {
-        let buttonPosition: EventParameterButtonPosition
-
-        switch moreInfoState.value {
-        case .Hidden:
-            buttonPosition = .Top
-        case .Shown, .Moving:
-            buttonPosition = .Bottom
-        }
-
-        trackShareStarted(shareType, buttonPosition: buttonPosition)
-    }
-
-    func shareFinishedIn(shareType: ShareType, withState state: SocialShareState) {
-        let buttonPosition: EventParameterButtonPosition
-
-        switch moreInfoState.value {
-        case .Hidden:
-            buttonPosition = .Top
-        case .Shown, .Moving:
-            buttonPosition = .Bottom
-        }
-
-        if let message = messageForShareIn(shareType, finishedWithState: state) {
-            delegate?.vmShowAutoFadingMessage(message, completion: nil)
-        }
-
-        trackShareCompleted(shareType, buttonPosition: buttonPosition, state: state)
-    }
-
-    private func messageForShareIn(shareType: ShareType, finishedWithState state: SocialShareState) -> String? {
-        switch (shareType, state) {
-        case (.Email, .Failed):
-            return LGLocalizedString.productShareEmailError
-        case (.Facebook, .Failed):
-            return LGLocalizedString.sellSendErrorSharingFacebook
-        case (.FBMessenger, .Failed):
-            return LGLocalizedString.sellSendErrorSharingFacebook
-        case (.CopyLink, .Completed):
-            return LGLocalizedString.productShareCopylinkOk
-        case (.SMS, .Completed):
-            return LGLocalizedString.productShareSmsOk
-        case (.SMS, .Failed):
-            return LGLocalizedString.productShareSmsError
-        case (_, .Completed):
-            return LGLocalizedString.productShareGenericOk
-        default:
-            break
-        }
-        return nil
     }
 }

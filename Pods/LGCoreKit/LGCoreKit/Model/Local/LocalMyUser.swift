@@ -75,6 +75,7 @@ private struct MyUserUDKeys: LGMyUserUDKeys {
     let address = "address"
     let city = "city"
     let zipCode = "zipCode"
+    let state = "state"
     let countryCode = "countryCode"
     let country = "country"
     let accounts = "accounts"
@@ -96,9 +97,11 @@ extension LocalMyUser {
         let address = dictionary[keys.address] as? String
         let city = dictionary[keys.city] as? String
         let zipCode = dictionary[keys.zipCode] as? String
+        let state = dictionary[keys.state] as? String
         let countryCode = dictionary[keys.countryCode] as? String
         let country = dictionary[keys.country] as? String
-        let postalAddress = PostalAddress(address: address, city: city, zipCode: zipCode, countryCode: countryCode, country: country)
+        let postalAddress = PostalAddress(address: address, city: city, zipCode: zipCode, state: state,
+                                          countryCode: countryCode, country: country)
         let email = dictionary[keys.email] as? String
         var locationType: LGLocationType? = nil
         if let locationTypeRaw = dictionary[keys.locationType] as? String {
