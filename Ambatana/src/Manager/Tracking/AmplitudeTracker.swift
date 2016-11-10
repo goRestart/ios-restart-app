@@ -53,7 +53,6 @@ final class AmplitudeTracker: Tracker {
         Amplitude.instance().trackingSessionEvents = false
         Amplitude.instance().initializeApiKey(EnvironmentProxy.sharedInstance.amplitudeAPIKey)
         setupABTestsRx()
-        setupMktNotificationsRx()
     }
     
     func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?) {
@@ -135,6 +134,14 @@ final class AmplitudeTracker: Tracker {
         Amplitude.instance().identify(identify)
     }
 
+    func setMarketingNotifications(enabled: Bool) {
+        let identify = AMPIdentify()
+        let value = enabled ? AmplitudeTracker.userPropMktPushNotificationValueOn :
+            AmplitudeTracker.userPropMktPushNotificationValueOff
+        identify.set(AmplitudeTracker.userPropMktPushNotificationKey, value: value)
+        Amplitude.instance().identify(identify)
+    }
+
 
     // MARK: - Private
 
@@ -142,16 +149,6 @@ final class AmplitudeTracker: Tracker {
         ABTests.trackingData.asObservable().bindNext { trackingData in
             let identify = AMPIdentify()
             identify.set(AmplitudeTracker.userPropABTests, value: trackingData)
-            Amplitude.instance().identify(identify)
-        }.addDisposableTo(disposeBag)
-    }
-
-    private func setupMktNotificationsRx() {
-        NotificationsManager.sharedInstance.loggedInMktNofitications.bindNext { enabled in
-            let identify = AMPIdentify()
-            let value = enabled ? AmplitudeTracker.userPropMktPushNotificationValueOn :
-                AmplitudeTracker.userPropMktPushNotificationValueOff
-            identify.set(AmplitudeTracker.userPropMktPushNotificationKey, value: value)
             Amplitude.instance().identify(identify)
         }.addDisposableTo(disposeBag)
     }

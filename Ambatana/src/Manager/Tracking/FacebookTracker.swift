@@ -68,4 +68,5 @@ final class FacebookTracker: Tracker {
     func setLocation(location: LGLocation?) {}
     func setNotificationsPermission(enabled: Bool) {}
     func setGPSPermission(enabled: Bool) {}
+    func setMarketingNotifications(enabled: Bool) {}
 }
