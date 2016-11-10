@@ -25,7 +25,14 @@ class NotificationsManager {
             return chatCount + notificationsCount
         }
     }
-    let marketingNotifications = Variable<Bool>(true)
+    let marketingNotifications: Variable<Bool>
+    var loggedInMktNofitications: Observable<Bool> {
+        return Observable.combineLatest(marketingNotifications.asObservable(), loggedIn.asObservable(),
+                                        resultSelector: { enabled, loggedIn in
+                                            guard loggedIn else { return true }
+                                            return enabled
+        })
+    }
 
     private let disposeBag = DisposeBag()
 
@@ -33,7 +40,9 @@ class NotificationsManager {
     private let chatRepository: ChatRepository
     private let oldChatRepository: OldChatRepository
     private let notificationsRepository: NotificationsRepository
+    private let keyValueStorage: KeyValueStorage
 
+    private var loggedIn: Variable<Bool>
     private var requestingChat = false
     private var requestingNotifications = false
 
@@ -42,15 +51,20 @@ class NotificationsManager {
 
     convenience init() {
         self.init(sessionManager: Core.sessionManager, chatRepository: Core.chatRepository,
-                  oldChatRepository: Core.oldChatRepository, notificationsRepository: Core.notificationsRepository)
+                  oldChatRepository: Core.oldChatRepository, notificationsRepository: Core.notificationsRepository,
+                  keyValueStorage: KeyValueStorage.sharedInstance)
     }
 
     init(sessionManager: SessionManager, chatRepository: ChatRepository, oldChatRepository: OldChatRepository,
-         notificationsRepository: NotificationsRepository) {
+         notificationsRepository: NotificationsRepository, keyValueStorage: KeyValueStorage) {
         self.sessionManager = sessionManager
         self.chatRepository = chatRepository
         self.oldChatRepository = oldChatRepository
         self.notificationsRepository = notificationsRepository
+        self.keyValueStorage = keyValueStorage
+        self.loggedIn = Variable<Bool>(sessionManager.loggedIn)
+        let enabledMktNotifications = sessionManager.loggedIn && keyValueStorage.userMarketingNotifications
+        self.marketingNotifications = Variable<Bool>(enabledMktNotifications)
     }
 
     deinit {
@@ -66,6 +80,7 @@ class NotificationsManager {
                                                          name: UIApplicationWillEnterForegroundNotification, object: nil)
         setupRxBindings()
         updateCounters()
+        setupMarketingNotifications()
     }
 
     func updateCounters() {
@@ -108,10 +123,12 @@ class NotificationsManager {
     }
 
     dynamic private func login() {
+        loggedIn.value = true
         updateCounters()
     }
 
     dynamic private func logout() {
+        loggedIn.value = false
         unreadMessagesCount.value = 0
         unreadNotificationsCount.value = 0
     }
@@ -147,6 +164,22 @@ class NotificationsManager {
             guard let notificationCounts = result.value else { return }
             self?.unreadNotificationsCount.value = notificationCounts.totalVisibleCount
         }
+    }
+}
+
+
+// MARK: - MarketingNotifications {
+
+private extension NotificationsManager {
+    func setupMarketingNotifications() {
+        marketingNotifications.asObservable().skip(1).bindNext { [weak self] value in
+            self?.keyValueStorage.userMarketingNotifications = value
+        }.addDisposableTo(disposeBag)
+
+        loggedIn.asObservable().filter { $0 }.bindNext { [weak self] _ in
+            guard let keyValueStorage = self?.keyValueStorage else { return }
+            self?.marketingNotifications.value = keyValueStorage.userMarketingNotifications
+        }.addDisposableTo(disposeBag)
     }
 }
 

@@ -8,6 +8,7 @@
 
 import LGCoreKit
 import AppsFlyerTracker
+import RxSwift
 
 
 private extension TrackerEvent {
@@ -54,6 +55,10 @@ final class LeanplumTracker: Tracker {
     private static let userPropPushEnabled = "push-enabled"
     private static let userPropGpsEnabled = "gps-enabled"
 
+    private static let userPropMktNotificationsEnabled = "mkt-notifications-enabled"
+
+    private let disposeBag = DisposeBag()
+
     // MARK: - Tracker
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) {
@@ -64,6 +69,9 @@ final class LeanplumTracker: Tracker {
             ABTests.variablesUpdated()
         }
         Leanplum.start()
+        NotificationsManager.sharedInstance.loggedInMktNofitications.bindNext { [weak self] enabled in
+            self?.setMktNotifications(enabled)
+        }.addDisposableTo(disposeBag)
     }
 
     func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?) {
@@ -120,5 +128,12 @@ final class LeanplumTracker: Tracker {
     
     func setGPSPermission(enabled: Bool) {
         Leanplum.setUserAttributes([LeanplumTracker.userPropGpsEnabled : enabled ? "true" : "false"])
+    }
+
+
+    // MARK: - Private
+
+    private func setMktNotifications(enabled: Bool) {
+        Leanplum.setUserAttributes([LeanplumTracker.userPropMktNotificationsEnabled : enabled])
     }
 }
