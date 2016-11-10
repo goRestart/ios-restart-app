@@ -2382,7 +2382,7 @@ class TrackerEventSpec: QuickSpec {
                     sut = TrackerEvent.chatHeadsDelete()
                 }
                 it("has its event name") {
-                    expect(sut.name.rawValue).to(equal("chat-bubble-chat-delete"))
+                    expect(sut.name.rawValue).to(equal("chat-bubble-delete"))
                 }
             }
         }
