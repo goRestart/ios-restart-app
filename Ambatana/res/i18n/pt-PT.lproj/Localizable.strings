@@ -143,6 +143,7 @@
 "collection_furniture_title" = "Nada como estar em casa";
 "collection_gaming_title" = "E que tal um jogo?";
 "collection_transport_title" = "Viaje em estilo";
+"collection_you_title" = "Selected for you";
 "commercializer_create_from_settings" = "Create a Free Commercial";
 "commercializer_display_share_alert" = "Share this masterpiece";
 "commercializer_display_share_label" = "Share your masterpiece with the world and watch the offers come rolling in";
@@ -632,6 +633,10 @@
 "settings_invite_facebook_friends_error" = "Ocorreu um erro ao partilhar o seu convite.";
 "settings_invite_facebook_friends_ok" = "O seu convite foi partilhado com sucesso!";
 "settings_logout_button" = "Logout";
+"settings_marketing_notifications_switch" = "Notificações de marketing";
+"settings_section_profile" = "Perfil";
+"settings_section_promote" = "Promover";
+"settings_section_support" = "Suporte";
 "settings_title" = "Configurações";
 "sign_up_acceptance_error" = "To sign up you have to accept the Terms & Conditions and the Privacy Policy";
 "sign_up_email_field_hint" = "Email";
@@ -649,6 +654,8 @@
 "sign_up_terms_conditions_terms_part" = "Terms & Conditions";
 "sign_up_title" = "Criar uma nova conta";
 "sign_up_username_field_hint" = "Nome completo";
+"suggestions_last_searches_clear_button" = "Limpar";
+"suggestions_last_searches_title" = "Pesquisas recentes";
 "tab_bar_give_away_button" = "Dê";
 "tab_bar_give_away_tooltip" = "Agora pode dar as suas coisas";
 "tab_bar_sell_stuff_button" = "Venda";
