@@ -17,6 +17,11 @@ protocol PushAnimator: UIViewControllerAnimatedTransitioning {
     var completion: (() -> Void)? { get set }
 }
 
+protocol AnimatableTransition {
+    var animator: PushAnimator? { get }
+}
+
+
 class ProductCarouselPushAnimator: NSObject, PushAnimator {
     
     let originFrame: CGRect?

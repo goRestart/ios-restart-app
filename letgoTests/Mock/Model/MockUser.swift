@@ -43,7 +43,7 @@ final class MockUser: MockBaseModel, MyUser {
     // Lifecycle
     
     override init() {
-        self.postalAddress = PostalAddress(address: nil, city: nil, zipCode: nil, countryCode: nil, country: nil)
+        self.postalAddress = PostalAddress.emptyAddress()
         self.processed = NSNumber(bool: true)
         self.isDummy = false
         self.isAnonymous = false

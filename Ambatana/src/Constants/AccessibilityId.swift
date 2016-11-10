@@ -122,6 +122,7 @@ enum AccessibilityId: String {
     case ProductCarouselFullScreenAvatarView
     case ProductCarouselPageControl
     case ProductCarouselUserView
+    case ProductCarouselChatTextView
 
     case ProductCarouselNavBarEditButton
     case ProductCarouselNavBarShareButton
@@ -149,6 +150,10 @@ enum AccessibilityId: String {
     case ProductCarouselCellPlaceholderImage
     case ProductCarouselImageCell
     case ProductCarouselImageCellImageView
+
+    // Chat Text View
+    case ChatTextViewTextField
+    case ChatTextViewSendButton
 
     // User View
     case UserViewNameLabel
@@ -467,6 +472,9 @@ enum AccessibilityId: String {
     case ExpressChatCellProductTitle
     case ExpressChatCellProductPrice
     case ExpressChatCellTickSelected
+    
+    // Pop-up alert. 
+    case AcceptPopUpButton
 }
 
 extension UIAccessibilityIdentification {

@@ -13,6 +13,7 @@ struct LGDeviceLocation: DeviceLocation {
     let address: String?
     let city: String?
     let zipCode: String?
+    let state: String?
     let countryCode: String?
     let country : String?
 }

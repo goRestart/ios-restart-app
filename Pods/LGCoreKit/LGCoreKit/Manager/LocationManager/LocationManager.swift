@@ -320,8 +320,7 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
         completion: ((Result<MyUser, RepositoryError>) -> ())?) {
             
             postalAddressRetrievalService.retrieveAddressForLocation(location.location) { [weak self] result in
-                let postalAddress = result.value?.postalAddress ?? PostalAddress(address: nil, city: nil, zipCode: nil,
-                    countryCode: nil, country: nil)
+                let postalAddress = result.value?.postalAddress ?? PostalAddress.emptyAddress()
                 self?.updateLocation(location, postalAddress: postalAddress, userUpdateCompletion: completion)
             }
     }

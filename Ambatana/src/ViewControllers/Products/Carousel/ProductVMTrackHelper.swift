@@ -130,28 +130,17 @@ extension ProductVMTrackHelper {
         tracker.trackEvent(trackerEvent)
     }
 
-    func trackDirectMessageSent(shouldSendFirstMessageEvent: Bool, favorite: Bool) {
-        let messageType = favorite ? EventParameterMessageType.Favorite : EventParameterMessageType.Text
-        if shouldSendFirstMessageEvent {
-            let firstMessageEvent = TrackerEvent.firstMessage(product, messageType: messageType,
-                                                                   typePage: .ProductDetail)
+    func trackMessageSent(isFirstMessage: Bool, fromFavorite: Bool, messageType: ChatMessageType) {
+        let trackMessageType = fromFavorite ? EventParameterMessageType.Favorite : messageType.trackingMessageType
+        if isFirstMessage {
+            let firstMessageEvent = TrackerEvent.firstMessage(product, messageType: trackMessageType,
+                                                              typePage: .ProductDetail)
             tracker.trackEvent(firstMessageEvent)
         }
-        let messageSentEvent = TrackerEvent.userMessageSent(product, userTo: product.user,
-                                                            messageType: messageType, isQuickAnswer: .False, typePage: .ProductDetail)
+        let messageSentEvent = TrackerEvent.userMessageSent(product, userTo: product.user, messageType: trackMessageType,
+                                                            isQuickAnswer: .False, typePage: .ProductDetail)
         tracker.trackEvent(messageSentEvent)
-    }
 
-    func trackDirectStickerSent(shouldSendFirstMessageEvent: Bool, favorite: Bool) {
-        let messageType = favorite ? EventParameterMessageType.Favorite : EventParameterMessageType.Sticker
-        if shouldSendFirstMessageEvent {
-            let firstMessageEvent = TrackerEvent.firstMessage(product, messageType: messageType,
-                                                             typePage: .ProductDetail)
-            tracker.trackEvent(firstMessageEvent)
-        }
-        let messageSentEvent = TrackerEvent.userMessageSent(product, userTo: product.user,
-                                                            messageType: messageType, isQuickAnswer: .False, typePage: .ProductDetail)
-        tracker.trackEvent(messageSentEvent)
     }
 
     func trackInterestedUsersBubble(number: Int, productId: String) {

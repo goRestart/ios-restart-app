@@ -19,13 +19,14 @@ extension PostalAddress {
         }
         return components.isEmpty ? nil : components.joinWithSeparator(", ")
     }
-    var cityCountryString: String? {
+
+    var cityStateString: String? {
         var components = [String]()
         if let city = city where !city.isEmpty {
             components.append(city)
         }
-        if let country = country where !country.isEmpty {
-            components.append(country)
+        if let state = state where !state.isEmpty {
+            components.append(state)
         } else if let countryCode = countryCode where !countryCode.isEmpty {
             components.append(countryCode)
         }
