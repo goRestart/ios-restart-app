@@ -29,11 +29,6 @@ struct MainProductsHeader: OptionSetType {
     static let SellButton = MainProductsHeader(rawValue:2)
 }
 
-enum SearchSuggestionType {
-    case LastSearch
-    case Trending
-}
-
 class MainProductsViewModel: BaseViewModel {
     
     // > Input
@@ -103,7 +98,7 @@ class MainProductsViewModel: BaseViewModel {
     private let tracker: Tracker
     private let searchType: SearchType? // The initial search
     private let collections: [CollectionCellType]
-    private let keyValueStorage = KeyValueStorage.sharedInstance
+    private let keyValueStorage: KeyValueStorage
     
     // > Delegate
     weak var delegate: MainProductsViewModelDelegate?
@@ -123,11 +118,15 @@ class MainProductsViewModel: BaseViewModel {
     private var shouldTrackSearch = false
 
     // Suggestion searches
+    let lastSearchesSavedMaximum = 10
+    let lastSearchesShowMaximum = 3
     let trendingSearches = Variable<[String]?>(nil)
     let lastSearches = Variable<[String]?>(nil)
-    var suggestionSearchSections: [SearchSuggestionType] = [.LastSearch, .Trending]
-    var showSuggestionsTableView: Bool {
-        return lastSearches.value?.count > 0 || trendingSearches.value?.count > 0
+    var lastSearchesCounter: Int? {
+        return lastSearches.value?.count
+    }
+    var trendingCounter: Int? {
+        return trendingSearches.value?.count
     }
     
     
@@ -135,7 +134,7 @@ class MainProductsViewModel: BaseViewModel {
     
     init(myUserRepository: MyUserRepository, trendingSearchesRepository: TrendingSearchesRepository,
          locationManager: LocationManager, currencyHelper: CurrencyHelper, tracker: Tracker, searchType: SearchType? = nil,
-         filters: ProductFilters, tabNavigator: TabNavigator?) {
+         filters: ProductFilters, tabNavigator: TabNavigator?, keyValueStorage: KeyValueStorage) {
         self.myUserRepository = myUserRepository
         self.trendingSearchesRepository = trendingSearchesRepository
         self.locationManager = locationManager
@@ -146,6 +145,7 @@ class MainProductsViewModel: BaseViewModel {
         self.tabNavigator = tabNavigator
         self.collections = CollectionCellType.allValuesShuffled
         self.productListRequester = FilteredProductListRequester()
+        self.keyValueStorage = keyValueStorage
         let show3Columns = DeviceFamily.current.isWiderOrEqualThan(.iPhone6Plus)
         let columns = show3Columns ? 3 : 2
         self.listViewModel = ProductListViewModel(requester: self.productListRequester, products: nil,
@@ -167,9 +167,10 @@ class MainProductsViewModel: BaseViewModel {
         let locationManager = Core.locationManager
         let currencyHelper = Core.currencyHelper
         let tracker = TrackerProxy.sharedInstance
+        let keyValueStorage = KeyValueStorage.sharedInstance
         self.init(myUserRepository: myUserRepository, trendingSearchesRepository: trendingSearchesRepository,
                   locationManager: locationManager, currencyHelper: currencyHelper, tracker: tracker, searchType: searchType,
-                  filters: filters, tabNavigator: tabNavigator)
+                  filters: filters, tabNavigator: tabNavigator, keyValueStorage: keyValueStorage)
     }
     
     convenience init(searchType: SearchType? = nil, tabNavigator: TabNavigator?) {
@@ -571,7 +572,15 @@ extension MainProductsViewModel {
     }
     
     func retrieveLastUserSearch() {
-        lastSearches.value = keyValueStorage[.lastSearches].reverse()
+        // We saved up to lastSearchesSavedMaximum(10) but we show only lastSearchesShowMaximum(3)
+        var searchesToShow = [String]()
+        let allSearchesSaved = keyValueStorage[.lastSearches]
+        if allSearchesSaved.count > lastSearchesShowMaximum {
+            searchesToShow = Array(allSearchesSaved[allSearchesSaved.count-lastSearchesShowMaximum..<allSearchesSaved.count])
+        } else {
+            searchesToShow = keyValueStorage[.lastSearches]
+        }
+        lastSearches.value = searchesToShow.reverse()
     }
 
     private func retrieveTrendingSearches() {
@@ -584,10 +593,10 @@ extension MainProductsViewModel {
     }
     
     private func updateLastSearchStoraged(query: String) {
-        // Need to save only the last three and check if already exists.
+        // We save up to lastSearchesSavedMaximum(10)
         guard !keyValueStorage[.lastSearches].contains(query) else { return }
         keyValueStorage[.lastSearches].append(query)
-        if keyValueStorage[.lastSearches].count > 3 {
+        if keyValueStorage[.lastSearches].count > lastSearchesSavedMaximum {
             keyValueStorage[.lastSearches].removeFirst()
         }
         lastSearches.value = keyValueStorage[.lastSearches]

@@ -13,6 +13,11 @@ import CHTCollectionViewWaterfallLayout
 import RxSwift
 
 
+enum SearchSuggestionType {
+    case LastSearch
+    case Trending
+}
+
 class MainProductsViewController: BaseViewController, ProductListViewScrollDelegate, MainProductsViewModelDelegate,
     FilterTagsViewControllerDelegate, PermissionsDelegate, UITextFieldDelegate, ScrollableToTop {
     
@@ -26,6 +31,10 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     var tagsCollectionTopSpace: NSLayoutConstraint?
 
     private let infoBubbleTopMargin: CGFloat = 8
+    private let verticalMarginHeaderView: CGFloat = 16
+    private let horizontalMarginHeaderView: CGFloat = 16
+    private let sectionHeight: CGFloat = 54
+    private let numberOfSuggestionSections = 2
     @IBOutlet weak var infoBubbleLabel: UILabel!
     @IBOutlet weak var infoBubbleShadow: UIView!
     @IBOutlet weak var infoBubbleTopConstraint: NSLayoutConstraint!
@@ -387,18 +396,15 @@ extension MainProductsViewController: UITableViewDelegate, UITableViewDataSource
         let topConstraint = NSLayoutConstraint(item: suggestionsSearchesContainer, attribute: .Top, relatedBy: .Equal,
                                                toItem: topLayoutGuide, attribute: .Bottom, multiplier: 1.0, constant: 0)
         view.addConstraint(topConstraint)
-
-        viewModel.trendingSearches.asObservable().bindNext { [weak self] trendings in
-            guard let strongSelf = self else {return }
-            strongSelf.suggestionsSearchesTable.reloadData()
-            strongSelf.suggestionsSearchesTable.hidden = !strongSelf.viewModel.showSuggestionsTableView
+        
+        Observable.combineLatest(viewModel.trendingSearches.asObservable(), viewModel.lastSearches.asObservable()) { $0 }.bindNext { [weak self] (trendings, lastSearches) in
+            self?.suggestionsSearchesTable.reloadData()
+            guard let trendings = trendings else { return }
+            guard let lastSearches = lastSearches else { return }
+            let showSuggestions: Bool = !trendings.isEmpty || !lastSearches.isEmpty
+            self?.suggestionsSearchesTable.hidden = !showSuggestions
         }.addDisposableTo(disposeBag)
-        viewModel.lastSearches.asObservable().bindNext { [weak self] lastSearches in
-            guard let strongSelf = self else {return }
-            strongSelf.suggestionsSearchesTable.reloadData()
-            strongSelf.suggestionsSearchesTable.hidden = !strongSelf.viewModel.showSuggestionsTableView
-        }.addDisposableTo(disposeBag)
-
+        
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(keyboardWillShow(_:)),
                                                          name: UIKeyboardWillShowNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(keyboardWillHide(_:)),
@@ -407,16 +413,17 @@ extension MainProductsViewController: UITableViewDelegate, UITableViewDataSource
     }
     
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        switch viewModel.suggestionSearchSections[section] {
+        guard let sectionType = getSearchSuggestionType(section) else { return 0 }
+        switch sectionType {
         case .LastSearch:
-            return viewModel.lastSearches.value?.count > 0 ? 54 : 0
+            return viewModel.lastSearchesCounter > 0 ? sectionHeight : 0
         case .Trending:
-            return viewModel.trendingSearches.value?.count > 0 ? 54 : 0
+            return viewModel.trendingCounter > 0 ? sectionHeight : 0
         }
     }
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let container = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 54))
+        let container = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: sectionHeight))
         let suggestionTitleLabel = UILabel()
         suggestionTitleLabel.translatesAutoresizingMaskIntoConstraints = false
         suggestionTitleLabel.textAlignment = .Left
@@ -430,22 +437,26 @@ extension MainProductsViewController: UITableViewDelegate, UITableViewDataSource
         clearButton.titleLabel?.font = UIFont.sectionTitleFont
         clearButton.setTitleColor(UIColor.darkGrayText, forState: .Normal)
         clearButton.setTitle(LGLocalizedString.suggestionsLastSearchesClearButton.uppercase, forState: .Normal)
-        clearButton.addTarget(self, action: #selector(cleanLastSearches), forControlEvents: .TouchUpInside)
+        clearButton.addTarget(self, action: #selector(cleanSearchesButtonPressed), forControlEvents: .TouchUpInside)
         container.addSubview(clearButton)
         
         var views = [String: AnyObject]()
         views["label"] = suggestionTitleLabel
         views["clear"] = clearButton
-        container.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-16-[label]-16-|",
-            options: [], metrics: nil, views: views))
-        container.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-16-[label]",
-            options: [], metrics: nil, views: views))
-        container.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-16-[clear]-16-|",
-            options: [], metrics: nil, views: views))
-        container.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:[clear]-16-|",
-            options: [], metrics: nil, views: views))
+        var metrics = [String: AnyObject]()
+        metrics["verticalMarginHeaderView"] = verticalMarginHeaderView
+        metrics["horizontalMarginHeaderView"] = horizontalMarginHeaderView
+        container.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-verticalMarginHeaderView-[label]-verticalMarginHeaderView-|",
+            options: [], metrics: metrics, views: views))
+        container.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-horizontalMarginHeaderView-[label]",
+            options: [], metrics: metrics, views: views))
+        container.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-verticalMarginHeaderView-[clear]-verticalMarginHeaderView-|",
+            options: [], metrics: metrics, views: views))
+        container.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:[clear]-horizontalMarginHeaderView-|",
+            options: [], metrics: metrics, views: views))
         
-        switch viewModel.suggestionSearchSections[section] {
+        guard let sectionType = getSearchSuggestionType(section) else { return UIView() }
+        switch sectionType {
         case .LastSearch:
             suggestionTitleLabel.text = LGLocalizedString.suggestionsLastSearchesTitle.uppercase
         case .Trending:
@@ -455,7 +466,7 @@ extension MainProductsViewController: UITableViewDelegate, UITableViewDataSource
         return container
     }
     
-    dynamic private func cleanLastSearches() {
+    dynamic private func cleanSearchesButtonPressed() {
         viewModel.cleanUpLastSearches()
     }
     
@@ -476,7 +487,7 @@ extension MainProductsViewController: UITableViewDelegate, UITableViewDataSource
     // MARK: > TableView
 
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return viewModel.suggestionSearchSections.count
+        return numberOfSuggestionSections
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
@@ -484,16 +495,18 @@ extension MainProductsViewController: UITableViewDelegate, UITableViewDataSource
     }
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        switch viewModel.suggestionSearchSections[section] {
+        guard let sectionType = getSearchSuggestionType(section) else { return 0 }
+        switch sectionType {
         case .LastSearch:
-            return viewModel.lastSearches.value?.count ?? 0
+            return viewModel.lastSearchesCounter ?? 0
         case .Trending:
-            return viewModel.trendingSearches.value?.count ?? 0
+            return viewModel.trendingCounter ?? 0
         }
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        switch viewModel.suggestionSearchSections[indexPath.section] {
+        guard let sectionType = getSearchSuggestionType(indexPath.section) else { return UITableViewCell() }
+        switch sectionType {
         case .LastSearch:
             guard let lastSearch = viewModel.lastSearchAtIndex(indexPath.row) else { return UITableViewCell() }
             guard let cell = tableView.dequeueReusableCellWithIdentifier(SuggestionSearchCell.reusableID,
@@ -511,12 +524,25 @@ extension MainProductsViewController: UITableViewDelegate, UITableViewDataSource
     }
 
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
-        switch viewModel.suggestionSearchSections[indexPath.section] {
+        guard let sectionType = getSearchSuggestionType(indexPath.section) else { return }
+        switch sectionType {
         case .LastSearch:
             viewModel.selectedLastSearchAtIndex(indexPath.row)
         case .Trending:
             viewModel.selectedTrendingSearchAtIndex(indexPath.row)
+        }
+    }
+}
+
+private extension MainProductsViewController {
+    func getSearchSuggestionType(section: Int) -> SearchSuggestionType? {
+        switch section {
+        case 0:
+            return .LastSearch
+        case 1:
+            return .Trending
+        default:
+            return nil
         }
     }
 }
