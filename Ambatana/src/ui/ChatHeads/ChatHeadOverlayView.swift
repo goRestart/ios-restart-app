@@ -50,6 +50,7 @@ final class ChatHeadOverlayView: UIView {
 
         setupUI()
         setupConstraints()
+        setupAccessibilityIds()
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -155,6 +156,12 @@ private extension ChatHeadOverlayView {
         deleteBottomConstraint = deleteBottom
         addConstraints([deleteCenterX, deleteBottom])
     }
+
+    func setupAccessibilityIds() {
+        chatHeadGroup.accessibilityId = .ChatHeadsAvatars
+        deleteImageView.accessibilityId = .ChatHeadsDelete
+    }
+
 
     func generateSnapPoints(countPerSide: Int) -> [CGPoint] {
         var points = [CGPoint]()
