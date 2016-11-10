@@ -143,6 +143,7 @@
 "collection_furniture_title" = "Zuhause ist's doch am schönsten";
 "collection_gaming_title" = "Spiel mit mir";
 "collection_transport_title" = "Reisen mit Stil";
+"collection_you_title" = "Selected for you";
 "commercializer_create_from_settings" = "Create a Free Commercial";
 "commercializer_display_share_alert" = "Share this masterpiece";
 "commercializer_display_share_label" = "Share your masterpiece with the world and watch the offers come rolling in";
@@ -632,6 +633,10 @@
 "settings_invite_facebook_friends_error" = "Beim Teilen deiner Einladung ist ein Fehler aufgetreten.";
 "settings_invite_facebook_friends_ok" = "Deine Einladung wurde erfolgreich geteilt!";
 "settings_logout_button" = "Abmelden";
+"settings_marketing_notifications_switch" = "Marketing-Benachrichtigungen";
+"settings_section_profile" = "Profil";
+"settings_section_promote" = "Bewerben";
+"settings_section_support" = "Hilfe";
 "settings_title" = "Einstellungen";
 "sign_up_acceptance_error" = "To sign up you have to accept the Terms & Conditions and the Privacy Policy";
 "sign_up_email_field_hint" = "E-Mail-Adresse";
@@ -649,8 +654,8 @@
 "sign_up_terms_conditions_terms_part" = "Terms & Conditions";
 "sign_up_title" = "Neues Benutzerkonto anlegen";
 "sign_up_username_field_hint" = "Vollständiger Name";
-"suggestions_last_searches_clear_button" = "Clear";
-"suggestions_last_searches_title" = "Recent Searches";
+"suggestions_last_searches_clear_button" = "Löschen";
+"suggestions_last_searches_title" = "Zuletzt gesucht";
 "tab_bar_give_away_button" = "Verschenken";
 "tab_bar_give_away_tooltip" = "Ab jetzt kannst du Sachen verschenken!";
 "tab_bar_sell_stuff_button" = "Sachen verkaufen";

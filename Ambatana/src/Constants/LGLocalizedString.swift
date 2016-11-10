@@ -583,6 +583,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("collection_furniture_title", comment: "")
 	}
 
+	static var collectionYouTitle: String {
+		return NSLocalizedString("collection_you_title", comment: "")
+	}
+
 	static var collectionHalloweenTitle: String {
 		return NSLocalizedString("collection_halloween_title", comment: "")
 	}
@@ -2555,8 +2559,8 @@ struct LGLocalizedString {
 		return NSLocalizedString("settings_section_profile", comment: "")
 	}
 
-	static var settingsSectionConfig: String {
-		return NSLocalizedString("settings_section_config", comment: "")
+	static var settingsSectionPromote: String {
+		return NSLocalizedString("settings_section_promote", comment: "")
 	}
 
 	static var settingsSectionSupport: String {

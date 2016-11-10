@@ -143,6 +143,7 @@
 "collection_furniture_title" = "Casa dolce casa";
 "collection_gaming_title" = "Che il gioco abbia inizio";
 "collection_transport_title" = "Viaggia con stile";
+"collection_you_title" = "Selected for you";
 "commercializer_create_from_settings" = "Create a Free Commercial";
 "commercializer_display_share_alert" = "Share this masterpiece";
 "commercializer_display_share_label" = "Share your masterpiece with the world and watch the offers come rolling in";
@@ -632,6 +633,10 @@
 "settings_invite_facebook_friends_error" = "Si è verificato un errore durante la condivisione del tuo invito.";
 "settings_invite_facebook_friends_ok" = "Il tuo invito è stato condiviso con successo!";
 "settings_logout_button" = "Esci";
+"settings_marketing_notifications_switch" = "Notifiche marketing";
+"settings_section_profile" = "Profilo";
+"settings_section_promote" = "Promuovi";
+"settings_section_support" = "Supporto";
 "settings_title" = "Impostazioni";
 "sign_up_acceptance_error" = "To sign up you have to accept the Terms & Conditions and the Privacy Policy";
 "sign_up_email_field_hint" = "Email";
@@ -649,8 +654,8 @@
 "sign_up_terms_conditions_terms_part" = "Terms & Conditions";
 "sign_up_title" = "Crea nuovo account";
 "sign_up_username_field_hint" = "Nome e Cognome";
-"suggestions_last_searches_clear_button" = "Clear";
-"suggestions_last_searches_title" = "Recent Searches";
+"suggestions_last_searches_clear_button" = "Cancella";
+"suggestions_last_searches_title" = "Ricerche recenti";
 "tab_bar_give_away_button" = "Regala";
 "tab_bar_give_away_tooltip" = "Da oggi puoi regalare gli oggetti";
 "tab_bar_sell_stuff_button" = "Vendi oggetti";

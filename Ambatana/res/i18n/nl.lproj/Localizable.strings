@@ -143,6 +143,7 @@
 "collection_furniture_title" = "Geen plek als thuis";
 "collection_gaming_title" = "Het spel is begonnen";
 "collection_transport_title" = "Reizen in stijl";
+"collection_you_title" = "Selected for you";
 "commercializer_create_from_settings" = "Create a Free Commercial";
 "commercializer_display_share_alert" = "Share this masterpiece";
 "commercializer_display_share_label" = "Share your masterpiece with the world and watch the offers come rolling in";
@@ -632,6 +633,10 @@
 "settings_invite_facebook_friends_error" = "Er is een fout opgetreden bij het delen van je uitnodiging.";
 "settings_invite_facebook_friends_ok" = "Je uitnodiging werd succesvol gedeeld!";
 "settings_logout_button" = "Log uit";
+"settings_marketing_notifications_switch" = "Marketing Meldingen";
+"settings_section_profile" = "Profiel";
+"settings_section_promote" = "Promoten";
+"settings_section_support" = "Ondersteuning";
 "settings_title" = "Instellingen";
 "sign_up_acceptance_error" = "To sign up you have to accept the Terms & Conditions and the Privacy Policy";
 "sign_up_email_field_hint" = "E-mail";
@@ -649,8 +654,8 @@
 "sign_up_terms_conditions_terms_part" = "Terms & Conditions";
 "sign_up_title" = "Nieuw account aanmaken";
 "sign_up_username_field_hint" = "Volledige naam";
-"suggestions_last_searches_clear_button" = "Clear";
-"suggestions_last_searches_title" = "Recent Searches";
+"suggestions_last_searches_clear_button" = "Wissen";
+"suggestions_last_searches_title" = "Recente Zoekopdrachten";
 "tab_bar_give_away_button" = "Weggeven";
 "tab_bar_give_away_tooltip" = "Nu kun je het weggeven";
 "tab_bar_sell_stuff_button" = "Spullen Verkopen";

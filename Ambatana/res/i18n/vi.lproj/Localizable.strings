@@ -143,6 +143,7 @@
 "collection_furniture_title" = "Không nơi nào như ở nhà";
 "collection_gaming_title" = "Trò chơi đang bật";
 "collection_transport_title" = "Du lịch phong cách";
+"collection_you_title" = "Selected for you";
 "commercializer_create_from_settings" = "Create a Free Commercial";
 "commercializer_display_share_alert" = "Share this masterpiece";
 "commercializer_display_share_label" = "Share your masterpiece with the world and watch the offers come rolling in";
@@ -632,6 +633,10 @@
 "settings_invite_facebook_friends_error" = "Lỗi xảy ra trong khi chia sẻ lời mời.";
 "settings_invite_facebook_friends_ok" = "Lời mời của bạn đã được chia sẻ thành công!";
 "settings_logout_button" = "Đăng xuất";
+"settings_marketing_notifications_switch" = "Marketing Notifications";
+"settings_section_profile" = "Profile";
+"settings_section_promote" = "Promote";
+"settings_section_support" = "Support";
 "settings_title" = "Cài đặt";
 "sign_up_acceptance_error" = "To sign up you have to accept the Terms & Conditions and the Privacy Policy";
 "sign_up_email_field_hint" = "Email";

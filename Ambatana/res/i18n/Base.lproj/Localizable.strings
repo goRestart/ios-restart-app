@@ -430,6 +430,9 @@
 // Title of furniture collection
 "collection_furniture_title" = "No place like home";
 
+// Title of selected for you collection
+"collection_you_title" = "Selected for you";
+
 // Title of halloween collection
 "collection_halloween_title" = "Trick or treat";
 
@@ -1900,8 +1903,8 @@
 // Settings section profile
 "settings_section_profile" = "Profile";
 
-// Settings section configuration
-"settings_section_config" = "Configuration";
+// Settings section promote
+"settings_section_promote" = "Promote";
 
 // Settings section support
 "settings_section_support" = "Support";
