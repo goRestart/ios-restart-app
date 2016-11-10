@@ -12,7 +12,7 @@ import RxSwift
 final class ChatHeadManager {
     static let sharedInstance: ChatHeadManager = ChatHeadManager()
 
-    private static let conversationsIndexPageSize = 20
+    private static let conversationsIndexPageSize = ChatHeadGroupView.chatHeadsMaxCount
 
     private let notificationsManager: NotificationsManager
     private let myUserRepository: MyUserRepository
