@@ -389,12 +389,14 @@ extension MainProductsViewController: UITableViewDelegate, UITableViewDataSource
         view.addConstraint(topConstraint)
 
         viewModel.trendingSearches.asObservable().bindNext { [weak self] trendings in
-            self?.suggestionsSearchesTable.reloadData()
-           // self?.suggestionsSearchesTable.hidden = (trendings?.count ?? 0) == 0
+            guard let strongSelf = self else {return }
+            strongSelf.suggestionsSearchesTable.reloadData()
+            strongSelf.suggestionsSearchesTable.hidden = !strongSelf.viewModel.showSuggestionsTableView
         }.addDisposableTo(disposeBag)
         viewModel.lastSearches.asObservable().bindNext { [weak self] lastSearches in
-            self?.suggestionsSearchesTable.reloadData()
-            // self?.suggestionsSearchesTable.hidden = (lastSearches?.count ?? 0) == 0
+            guard let strongSelf = self else {return }
+            strongSelf.suggestionsSearchesTable.reloadData()
+            strongSelf.suggestionsSearchesTable.hidden = !strongSelf.viewModel.showSuggestionsTableView
             }.addDisposableTo(disposeBag)
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(keyboardWillShow(_:)),

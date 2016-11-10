@@ -126,6 +126,9 @@ class MainProductsViewModel: BaseViewModel {
     let trendingSearches = Variable<[String]?>(nil)
     let lastSearches = Variable<[String]?>(nil)
     var suggestionSearchSections: [SearchSuggestionType] = [.LastSearch, .Trending]
+    var showSuggestionsTableView: Bool {
+        return lastSearches.value?.count > 0 || trendingSearches.value?.count > 0
+    }
     
     
     // MARK: - Lifecycle

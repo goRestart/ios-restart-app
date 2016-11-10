@@ -1,5 +1,5 @@
 //
-//  TrendingSearchCell.swift
+//  SuggestionSearchCell.swift
 //  LetGo
 //
 //  Created by Eli Kohen on 07/06/16.
@@ -20,7 +20,7 @@ class SuggestionSearchCell: UITableViewCell, ReusableCell {
     }
 
     private func setAccessibilityIds() {
-        self.accessibilityId = .TrendingSearchCell
-        suggestionText.accessibilityId = .TrendingSearchCellTrendingText
+        self.accessibilityId = .SuggestionSearchCell
+        suggestionText.accessibilityId = .SuggestionSearchCellSuggestionText
     }
 }

@@ -65,9 +65,9 @@ enum AccessibilityId: String {
     case FilterTagCellTagIcon
     case FilterTagCellTagLabel
 
-    // TrendingSearchCell
-    case TrendingSearchCell
-    case TrendingSearchCellTrendingText
+    // SuggestionSearchCell
+    case SuggestionSearchCell
+    case SuggestionSearchCellSuggestionText
 
     // Categories
     case CategoriesCollectionView
