@@ -63,6 +63,8 @@ class SettingsViewController: BaseViewController {
         tableView.registerNib(logoutCellNib, forCellReuseIdentifier: SettingsLogoutCell.reusableID)
         let infoCellNib = UINib(nibName: SettingsInfoCell.reusableID, bundle: nil)
         tableView.registerNib(infoCellNib, forCellReuseIdentifier: SettingsInfoCell.reusableID)
+        let switchCellNib = UINib(nibName: SettingsSwitchCell.reusableID, bundle: nil)
+        tableView.registerNib(switchCellNib, forCellReuseIdentifier: SettingsSwitchCell.reusableID)
         tableView.backgroundColor = UIColor.grayBackground
     }
 
@@ -158,6 +160,12 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
                 as? SettingsInfoCell else { return UITableViewCell() }
             cell.refreshData()
             return cell
+        case .MarketingNotifications:
+            guard let cell = tableView.dequeueReusableCellWithIdentifier(SettingsSwitchCell.reusableID, forIndexPath: indexPath)
+                as? SettingsSwitchCell else { return UITableViewCell() }
+            cell.setupWithSetting(setting)
+            cell.showBottomBorder = indexPath.row < viewModel.settingsCount(indexPath.section) - 1
+            return cell
         default:
             guard let cell = tableView.dequeueReusableCellWithIdentifier(SettingsCell.reusableID, forIndexPath: indexPath)
                 as? SettingsCell else { return UITableViewCell() }
@@ -233,7 +241,8 @@ extension LetGoSetting {
 
     var cellHeight: CGFloat {
         switch self {
-        case .InviteFbFriends, .ChangePhoto, .ChangeUsername, .ChangeLocation, .CreateCommercializer, .ChangePassword, .Help:
+        case .InviteFbFriends, .ChangePhoto, .ChangeUsername, .ChangeLocation, .CreateCommercializer, .ChangePassword,
+             .Help, .MarketingNotifications:
             return 50
         case .LogOut:
             return 44

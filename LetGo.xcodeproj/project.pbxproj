@@ -639,6 +639,10 @@
 		C73FABBD1DD3895E008F4519 /* SettingsInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73FABBA1DD3895E008F4519 /* SettingsInfoCell.swift */; };
 		C73FABBE1DD3895E008F4519 /* SettingsInfoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C73FABBB1DD3895E008F4519 /* SettingsInfoCell.xib */; };
 		C73FABBF1DD3895E008F4519 /* SettingsInfoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C73FABBB1DD3895E008F4519 /* SettingsInfoCell.xib */; };
+		C73FABC21DD46A1D008F4519 /* SettingsSwitchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73FABC01DD46A1D008F4519 /* SettingsSwitchCell.swift */; };
+		C73FABC31DD46A1D008F4519 /* SettingsSwitchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73FABC01DD46A1D008F4519 /* SettingsSwitchCell.swift */; };
+		C73FABC41DD46A1D008F4519 /* SettingsSwitchCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C73FABC11DD46A1D008F4519 /* SettingsSwitchCell.xib */; };
+		C73FABC51DD46A1D008F4519 /* SettingsSwitchCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C73FABC11DD46A1D008F4519 /* SettingsSwitchCell.xib */; };
 		C74016D91D6467C9004C1E9D /* PostProductDetailPriceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74016D81D6467C9004C1E9D /* PostProductDetailPriceView.swift */; };
 		C74016DA1D6467C9004C1E9D /* PostProductDetailPriceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74016D81D6467C9004C1E9D /* PostProductDetailPriceView.swift */; };
 		C74016DC1D6467DB004C1E9D /* PostProductDetailPriceView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C74016DB1D6467DB004C1E9D /* PostProductDetailPriceView.xib */; };
@@ -1528,6 +1532,8 @@
 		C73FABB51DD37968008F4519 /* SettingsLogoutCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingsLogoutCell.xib; sourceTree = "<group>"; };
 		C73FABBA1DD3895E008F4519 /* SettingsInfoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsInfoCell.swift; sourceTree = "<group>"; };
 		C73FABBB1DD3895E008F4519 /* SettingsInfoCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingsInfoCell.xib; sourceTree = "<group>"; };
+		C73FABC01DD46A1D008F4519 /* SettingsSwitchCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsSwitchCell.swift; sourceTree = "<group>"; };
+		C73FABC11DD46A1D008F4519 /* SettingsSwitchCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingsSwitchCell.xib; sourceTree = "<group>"; };
 		C74016D81D6467C9004C1E9D /* PostProductDetailPriceView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostProductDetailPriceView.swift; sourceTree = "<group>"; };
 		C74016DB1D6467DB004C1E9D /* PostProductDetailPriceView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PostProductDetailPriceView.xib; sourceTree = "<group>"; };
 		C74016DE1D6468A7004C1E9D /* PostProductDetailViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostProductDetailViewModel.swift; sourceTree = "<group>"; };
@@ -2883,6 +2889,8 @@
 			children = (
 				C72794261D549334009C25AB /* SettingsCell.swift */,
 				C72794271D549334009C25AB /* SettingsCell.xib */,
+				C73FABC01DD46A1D008F4519 /* SettingsSwitchCell.swift */,
+				C73FABC11DD46A1D008F4519 /* SettingsSwitchCell.xib */,
 				C73FABB41DD37968008F4519 /* SettingsLogoutCell.swift */,
 				C73FABB51DD37968008F4519 /* SettingsLogoutCell.xib */,
 				C73FABBA1DD3895E008F4519 /* SettingsInfoCell.swift */,
@@ -3720,6 +3728,7 @@
 				C73FABBE1DD3895E008F4519 /* SettingsInfoCell.xib in Resources */,
 				C7363FB61BF9CB8D00A4BF6F /* FilterTagCell.xib in Resources */,
 				C7DE8AD91C8892C9005CF37E /* PostProductCameraView.xib in Resources */,
+				C73FABC41DD46A1D008F4519 /* SettingsSwitchCell.xib in Resources */,
 				2E373FA61D3D019600AC811C /* UserRatingListViewController.xib in Resources */,
 				C73189CA1DBE3847005A93EE /* ListHeaderContainer.xib in Resources */,
 				508011171D474ED80073F362 /* Commercializer.xcassets in Resources */,
@@ -3843,6 +3852,7 @@
 				C73FABBF1DD3895E008F4519 /* SettingsInfoCell.xib in Resources */,
 				C7DB42771C5138B500400945 /* FilterTagCell.xib in Resources */,
 				C7DE8ADA1C8892C9005CF37E /* PostProductCameraView.xib in Resources */,
+				C73FABC51DD46A1D008F4519 /* SettingsSwitchCell.xib in Resources */,
 				2E373FAF1D3E6F4E00AC811C /* UserRatingListViewController.xib in Resources */,
 				C77B7DB41DBE3C3E0043C624 /* ListHeaderContainer.xib in Resources */,
 				508011181D474ED80073F362 /* Commercializer.xcassets in Resources */,
@@ -4543,6 +4553,7 @@
 				6A5E19F61D548F5400F92692 /* DeviceFamily.swift in Sources */,
 				C73189C91DBE3847005A93EE /* ListHeaderContainer.swift in Sources */,
 				6A383F851CB29B3E00F99D79 /* CreateCommercialViewModel.swift in Sources */,
+				C73FABC21DD46A1D008F4519 /* SettingsSwitchCell.swift in Sources */,
 				C72794401D549342009C25AB /* ChangeUsernameViewModel.swift in Sources */,
 				5042D6771BDA8B6F00E54064 /* LGLocalizedString.swift in Sources */,
 				6A5E1A1A1D548F5400F92692 /* UIViewController+Alert.swift in Sources */,
@@ -4935,6 +4946,7 @@
 				6A5E19F71D548F5400F92692 /* DeviceFamily.swift in Sources */,
 				C77B7DB31DBE3C290043C624 /* ListHeaderContainer.swift in Sources */,
 				C7DE8ACC1C888761005CF37E /* EditProductViewModel.swift in Sources */,
+				C73FABC31DD46A1D008F4519 /* SettingsSwitchCell.swift in Sources */,
 				C72794411D549342009C25AB /* ChangeUsernameViewModel.swift in Sources */,
 				C7DB42201C5138B500400945 /* BaseViewModel.swift in Sources */,
 				6A5E1A1B1D548F5400F92692 /* UIViewController+Alert.swift in Sources */,

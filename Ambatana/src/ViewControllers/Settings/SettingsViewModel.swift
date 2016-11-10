@@ -17,6 +17,7 @@ enum LetGoSetting {
     case ChangePhoto(placeholder: UIImage?, avatarUrl: NSURL?)
     case ChangeUsername(name: String)
     case ChangeLocation(location: String)
+    case MarketingNotifications(initialState: Bool, changeClosure: (Bool -> Void))
     case CreateCommercializer
     case ChangePassword
     case Help
@@ -44,6 +45,7 @@ class SettingsViewModel: BaseViewModel {
 
     private let myUserRepository: MyUserRepository
     private let commercializerRepository: CommercializerRepository
+    private let notificationsManager: NotificationsManager
     private let locationManager: LocationManager
     private let tracker: Tracker
 
@@ -59,14 +61,16 @@ class SettingsViewModel: BaseViewModel {
 
     convenience override init() {
         self.init(myUserRepository: Core.myUserRepository, commercializerRepository: Core.commercializerRepository,
-                  locationManager: Core.locationManager, tracker: TrackerProxy.sharedInstance)
+                  locationManager: Core.locationManager, notificationsManager: NotificationsManager.sharedInstance,
+                  tracker: TrackerProxy.sharedInstance)
     }
 
     init(myUserRepository: MyUserRepository, commercializerRepository: CommercializerRepository,
-         locationManager: LocationManager, tracker: Tracker) {
+         locationManager: LocationManager, notificationsManager: NotificationsManager, tracker: Tracker) {
         self.myUserRepository = myUserRepository
         self.commercializerRepository = commercializerRepository
         self.locationManager = locationManager
+        self.notificationsManager = notificationsManager
         self.tracker = tracker
 
         super.init()
@@ -174,6 +178,8 @@ class SettingsViewModel: BaseViewModel {
         if let email = myUser?.email where email.isEmail() {
             profileSettings.append(.ChangePassword)
         }
+        profileSettings.append(.MarketingNotifications(initialState: notificationsManager.marketingNotifications.value,
+            changeClosure: { [weak self] enabled in self?.setMarketingNotifications(enabled) } ))
         settingSections.append(SettingsSection(title: LGLocalizedString.settingsSectionProfile, settings: profileSettings))
 
         var supportSettings = [LetGoSetting]()
@@ -210,7 +216,7 @@ class SettingsViewModel: BaseViewModel {
             navigator?.openHelp()
         case .LogOut:
             logoutUser()
-        case .VersionInfo:
+        case .VersionInfo, .MarketingNotifications:
             break
         }
     }
@@ -224,5 +230,9 @@ class SettingsViewModel: BaseViewModel {
         myUserRepository.rx_myUser.asObservable().bindNext { [weak self] _ in
             self?.populateSettings()
         }.addDisposableTo(disposeBag)
+    }
+
+    private func setMarketingNotifications(enabled: Bool) {
+        notificationsManager.marketingNotifications.value = enabled
     }
 }

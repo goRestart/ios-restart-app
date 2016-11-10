@@ -25,6 +25,7 @@ class NotificationsManager {
             return chatCount + notificationsCount
         }
     }
+    let marketingNotifications = Variable<Bool>(true)
 
     private let disposeBag = DisposeBag()
 

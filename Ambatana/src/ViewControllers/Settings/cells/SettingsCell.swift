@@ -27,10 +27,9 @@ class SettingsCell: UITableViewCell, ReusableCell {
 
     override func layoutSubviews() {
         super.layoutSubviews()
+        lines.forEach { $0.removeFromSuperlayer() }
+        lines.removeAll()
         if showBottomBorder {
-            // Redraw the lines
-            lines.forEach { $0.removeFromSuperlayer() }
-            lines.removeAll()
             lines.append(contentView.addBottomBorderWithWidth(LGUIKitConstants.onePixelSize, xPosition: 50, color: UIColor.lineGray))
         }
     }
@@ -46,6 +45,8 @@ class SettingsCell: UITableViewCell, ReusableCell {
         iconImageView.contentMode = setting.imageRounded ? .ScaleAspectFill : .Center
         iconImageView.rounded = setting.imageRounded
         disclosureImg.hidden = !setting.showsDisclosure
+
+
     }
 
     private func setupUI() {
@@ -74,6 +75,8 @@ private extension LetGoSetting {
             return LGLocalizedString.commercializerCreateFromSettings
         case .ChangePassword:
             return LGLocalizedString.settingsChangePasswordButton
+        case .MarketingNotifications:
+            return LGLocalizedString.settingsMarketingNotificationsSwitch
         case .Help:
             return LGLocalizedString.settingsHelpButton
         case .LogOut:
@@ -95,6 +98,8 @@ private extension LetGoSetting {
             return UIImage(named: "ic_setting_create_commercial")
         case .ChangePassword:
             return UIImage(named: "ic_setting_password")
+        case .MarketingNotifications:
+            return UIImage(named: "ic_setting_notifications")
         case .Help:
             return UIImage(named: "ic_setting_help")
         case .LogOut, .VersionInfo:
@@ -146,10 +151,19 @@ private extension LetGoSetting {
 
     var showsDisclosure: Bool {
         switch self {
-        case .LogOut:
+        case .LogOut, .MarketingNotifications:
             return false
         default:
             return true
+        }
+    }
+
+    var switchMode: Bool {
+        switch self {
+        case .MarketingNotifications:
+            return true
+        default:
+            return false
         }
     }
 }
