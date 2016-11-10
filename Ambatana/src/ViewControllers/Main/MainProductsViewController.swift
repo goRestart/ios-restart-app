@@ -397,7 +397,7 @@ extension MainProductsViewController: UITableViewDelegate, UITableViewDataSource
             guard let strongSelf = self else {return }
             strongSelf.suggestionsSearchesTable.reloadData()
             strongSelf.suggestionsSearchesTable.hidden = !strongSelf.viewModel.showSuggestionsTableView
-            }.addDisposableTo(disposeBag)
+        }.addDisposableTo(disposeBag)
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(keyboardWillShow(_:)),
                                                          name: UIKeyboardWillShowNotification, object: nil)
@@ -452,7 +452,6 @@ extension MainProductsViewController: UITableViewDelegate, UITableViewDataSource
             clearButton.hidden = true
             suggestionTitleLabel.text = LGLocalizedString.trendingSearchesTitle.uppercase
         }
-        
         return container
     }
     
@@ -498,14 +497,14 @@ extension MainProductsViewController: UITableViewDelegate, UITableViewDataSource
         case .LastSearch:
             guard let lastSearch = viewModel.lastSearchAtIndex(indexPath.row) else { return UITableViewCell() }
             guard let cell = tableView.dequeueReusableCellWithIdentifier(SuggestionSearchCell.reusableID,
-                                                                         forIndexPath: indexPath) as? SuggestionSearchCell else { return UITableViewCell() }
+                                forIndexPath: indexPath) as? SuggestionSearchCell else { return UITableViewCell() }
             cell.suggestionText.text = lastSearch
             return cell
 
         case .Trending:
             guard let trendingSearch = viewModel.trendingSearchAtIndex(indexPath.row) else { return UITableViewCell() }
             guard let cell = tableView.dequeueReusableCellWithIdentifier(SuggestionSearchCell.reusableID,
-                                                                         forIndexPath: indexPath) as? SuggestionSearchCell else { return UITableViewCell() }
+                                forIndexPath: indexPath) as? SuggestionSearchCell else { return UITableViewCell() }
             cell.suggestionText.text = trendingSearch
             return cell
         }
