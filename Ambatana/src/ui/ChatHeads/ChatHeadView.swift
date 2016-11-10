@@ -52,9 +52,6 @@ private extension ChatHeadView {
         layer.shadowRadius = 2.0
 
         avatarImageView.clipsToBounds = true
-        avatarImageView.layer.borderWidth = 2
-        avatarImageView.layer.borderColor = UIColor.white.CGColor
-
         avatarImageView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(avatarImageView)
     }

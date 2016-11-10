@@ -15,9 +15,9 @@ protocol ChatHeadGroupViewDelegate: class {
 }
 
 final class ChatHeadGroupView: UIView {
-    static let chatHeadSide: CGFloat = 50
+    static let chatHeadSide: CGFloat = 55
     private static let countContainerMinSide: CGFloat = 22
-    private static let chatHeadSpacing: CGFloat = 3
+    private static let chatHeadSpacing: CGFloat = 10
     private static let chatHeadsMaxCount: Int = 3
     private static let badgeMax: Int = 99
 
