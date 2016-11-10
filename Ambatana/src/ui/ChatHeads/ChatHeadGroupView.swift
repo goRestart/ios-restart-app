@@ -90,7 +90,7 @@ extension ChatHeadGroupView {
         // Update badge
         self.badge = newBadge
         countLabel.text = badge > ChatHeadGroupView.badgeMax ? "+\(ChatHeadGroupView.badgeMax)" : String(newBadge)
-        countContainer.hidden = badge <= 0
+        countContainer.hidden = (badge <= 0 || datas.isEmpty)
         return true
     }
     

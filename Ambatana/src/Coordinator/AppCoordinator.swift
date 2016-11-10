@@ -395,14 +395,7 @@ extension AppCoordinator: UITabBarControllerDelegate {
 
     func tabBarController(tabBarController: UITabBarController, didSelectViewController viewController: UIViewController) {
         guard let tab = tabAtController(viewController) else { return }
-        let hidden: Bool
-        switch tab {
-        case .Chats, .Sell:
-            hidden = true
-        case .Home, .Categories, .Notifications, .Profile:
-            hidden = false
-        }
-        chatHeadOverlay.hidden = hidden
+        chatHeadOverlay.hidden = tab.chatHeadsHidden
     }
 }
 
@@ -415,10 +408,33 @@ extension AppCoordinator: ChatHeadGroupViewDelegate {
         
         openTab(.Chats)
         chatsTabBarCoordinator.openChat(.DataIds(data: data))
+
+        tracker.trackEvent(TrackerEvent.chatHeadsOpen())
     }
 
     func chatHeadGroupOpenChatList(view: ChatHeadGroupView) {
         openTab(.Chats)
+
+        tracker.trackEvent(TrackerEvent.chatHeadsOpen())
+    }
+}
+
+
+// MARK: - ChatHeadOverlayViewDelegate
+
+extension AppCoordinator: ChatHeadOverlayViewDelegate {
+    func chatHeadOverlayViewCanShow(view: ChatHeadOverlayView) -> Bool {
+        let tabIdx = tabBarCtl.selectedIndex
+        guard let tab = Tab(index: tabIdx) else { return false }
+        return !tab.chatHeadsHidden
+    }
+
+    func chatHeadOverlayViewDidShow(view: ChatHeadOverlayView) {
+        tracker.trackEvent(TrackerEvent.chatHeadsStart())
+    }
+
+    func chatHeadOverlayViewUserDidDismiss(view: ChatHeadOverlayView) {
+        tracker.trackEvent(TrackerEvent.chatHeadsDelete())
     }
 }
 
@@ -480,6 +496,7 @@ private extension AppCoordinator {
                                                                           options: [], metrics: nil, views: views)
         view.addConstraints(vConstraints)
 
+        chatHeadOverlay.delegate = self
         chatHeadOverlay.setChatHeadGroupViewDelegate(self)
         chatHeadManager.setChatHeadOverlayView(chatHeadOverlay)
     }
@@ -813,6 +830,14 @@ private extension Tab {
             return .Chats
         case .Profile:
             return .Profile
+        }
+    }
+    var chatHeadsHidden: Bool {
+        switch self {
+        case .Chats, .Sell:
+            return true
+        case .Home, .Categories, .Notifications, .Profile:
+            return false
         }
     }
 }

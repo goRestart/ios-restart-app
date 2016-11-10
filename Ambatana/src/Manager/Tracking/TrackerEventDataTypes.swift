@@ -142,7 +142,11 @@ public enum EventName: String {
 
     case NotificationCenterStart            = "notification-center-start"
     case NotificationCenterComplete         = "notification-center-complete"
-    
+
+    case ChatHeadsStart                     = "chat-bubble-start"
+    case ChatHeadsOpen                      = "chat-bubble-complete"
+    case ChatHeadsDelete                    = "chat-bubble-delete"
+
 
     // Constants
     private static let eventNameDummyPrefix  = "dummy-"

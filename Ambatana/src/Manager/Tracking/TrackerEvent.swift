@@ -901,6 +901,19 @@ public struct TrackerEvent {
         return TrackerEvent(name: .NotificationCenterComplete, params: params)
     }
 
+    static func chatHeadsStart() -> TrackerEvent {
+        return TrackerEvent(name: .ChatHeadsStart, params: EventParameters())
+    }
+
+    static func chatHeadsOpen() -> TrackerEvent {
+        return TrackerEvent(name: .ChatHeadsOpen, params: EventParameters())
+    }
+
+    static func chatHeadsDelete() -> TrackerEvent {
+        return TrackerEvent(name: .ChatHeadsDelete, params: EventParameters())
+    }
+
+    
     // MARK: - Private methods
 
     private static func eventParameterLocationTypeForLocation(location: LGLocation) -> EventParameterLocationType? {

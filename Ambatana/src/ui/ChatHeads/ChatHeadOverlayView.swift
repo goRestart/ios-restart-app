@@ -8,6 +8,12 @@
 
 import UIKit
 
+protocol ChatHeadOverlayViewDelegate: class {
+    func chatHeadOverlayViewCanShow(view: ChatHeadOverlayView) -> Bool
+    func chatHeadOverlayViewDidShow(view: ChatHeadOverlayView)
+    func chatHeadOverlayViewUserDidDismiss(view: ChatHeadOverlayView)
+}
+
 final class ChatHeadOverlayView: UIView {
     private static let snapPointCountPerSide: Int = 5
     private static let chatHeadGroupMargin: CGFloat = -5
@@ -24,6 +30,8 @@ final class ChatHeadOverlayView: UIView {
 
     private var placedInMagnetPoint: Bool
     private var magnetPoints: [CGPoint]
+
+    weak var delegate: ChatHeadOverlayViewDelegate?
 
 
     // MARK: - Lifecycle
@@ -76,6 +84,8 @@ final class ChatHeadOverlayView: UIView {
         set {
             // If we want to show but user deleted then it does not updates hidden property
             if !newValue && userDeletedChatHeads { return }
+            guard hidden != newValue else { return }
+
             super.hidden = newValue
         }
     }
@@ -89,7 +99,13 @@ extension ChatHeadOverlayView {
         let didUpdate = chatHeadGroup.setChatHeads(datas, badge: badge)
         if didUpdate {
             userDeletedChatHeads = false // is resetted when receiving new datas
-            hidden = false
+
+            let wasHidden = hidden
+            let canShow = delegate?.chatHeadOverlayViewCanShow(self) ?? true
+            if canShow && wasHidden {
+                hidden = false
+                delegate?.chatHeadOverlayViewDidShow(self)
+            }
         }
 
         if !placedInMagnetPoint {
@@ -224,6 +240,7 @@ private extension ChatHeadOverlayView {
             if distance <= ChatHeadOverlayView.chatHeadDistanceToHide {
                 userDeletedChatHeads = true
                 hidden = true
+                delegate?.chatHeadOverlayViewUserDidDismiss(self)
             }
 
             setDeleteImageViewHidden(true, animated: true)
