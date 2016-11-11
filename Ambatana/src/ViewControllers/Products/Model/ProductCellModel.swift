@@ -93,12 +93,12 @@ enum CollectionCellType: String {
         case .Furniture:
             return "dresser couch furniture desk table patio bed stand chair sofa rug mirror futon bench stool frame recliner lamp cabinet ikea shelf antique bedroom book shelf tables end table bunk beds night stand canopy"
         case .You:
-            return KeyValueStorage.sharedInstance[.LastSearches].joinWithSeparator(" ")
+            return KeyValueStorage.sharedInstance[.lastSearches].reverse().joinWithSeparator(" ")
         }
     }
     
     private static var userCollectionEnable: Bool {
-        guard KeyValueStorage.sharedInstance[.LastSearches].count > 3 else { return false }
+        guard KeyValueStorage.sharedInstance[.lastSearches].count > 3 else { return false }
         return true
     }
 }
