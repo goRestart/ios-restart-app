@@ -43,14 +43,6 @@ enum CollectionCellType: String {
         return [.Gaming, .Apple, .Transport, .Furniture]
     }
 
-    static var generalCollectionsSuffled: [CollectionCellType] {
-       return generalCollections.shuffle()
-    }
-    
-    static var generalCollectionsWithForYou: [CollectionCellType] {
-        return [.You] + generalCollectionsSuffled
-    }
-
     var image: UIImage? {
         switch self {
         case .Gaming:
