@@ -2551,6 +2551,22 @@ struct LGLocalizedString {
 		return NSLocalizedString("settings_title", comment: "")
 	}
 
+	static var settingsSectionProfile: String {
+		return NSLocalizedString("settings_section_profile", comment: "")
+	}
+
+	static var settingsSectionPromote: String {
+		return NSLocalizedString("settings_section_promote", comment: "")
+	}
+
+	static var settingsSectionSupport: String {
+		return NSLocalizedString("settings_section_support", comment: "")
+	}
+
+	static var settingsMarketingNotificationsSwitch: String {
+		return NSLocalizedString("settings_marketing_notifications_switch", comment: "")
+	}
+
 	static var signUpAcceptanceError: String {
 		return NSLocalizedString("sign_up_acceptance_error", comment: "")
 	}
@@ -2613,6 +2629,14 @@ struct LGLocalizedString {
 
 	static var signUpUsernameFieldHint: String {
 		return NSLocalizedString("sign_up_username_field_hint", comment: "")
+	}
+
+	static var suggestionsLastSearchesTitle: String {
+		return NSLocalizedString("suggestions_last_searches_title", comment: "")
+	}
+
+	static var suggestionsLastSearchesClearButton: String {
+		return NSLocalizedString("suggestions_last_searches_clear_button", comment: "")
 	}
 
 	static var tabBarToolTip: String {

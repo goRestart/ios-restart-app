@@ -42,13 +42,6 @@ struct FeatureFlags {
         return ABTests.showNPSSurvey.value
     }
 
-    static var nonStopProductDetail: Bool {
-        if Bumper.enabled {
-            return Bumper.nonStopProductDetail
-        }
-        return ABTests.nonStopProductDetail.value
-    }
-
     static var messageOnFavoriteRound2: MessageOnFavoriteRound2Mode {
         if Bumper.enabled {
             return Bumper.messageOnFavoriteRound2Mode

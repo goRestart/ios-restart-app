@@ -789,12 +789,12 @@ private extension AppCoordinator {
             return
         }
 
-        tracker.trackEvent(TrackerEvent.InappChatNotificationStart())
+        tracker.trackEvent(TrackerEvent.inappChatNotificationStart())
         if FeatureFlags.websocketChat {
             chatRepository.showConversation(conversationId) { [weak self] result in
                 guard let conversation = result.value else { return }
                 let action = UIAction(interface: .Text(LGLocalizedString.appNotificationReply), action: { [weak self] in
-                    self?.tracker.trackEvent(TrackerEvent.InappChatNotificationComplete())
+                    self?.tracker.trackEvent(TrackerEvent.inappChatNotificationComplete())
                     self?.openTab(.Chats, force: false)
                     self?.selectedTabCoordinator?.openChat(.Conversation(conversation: conversation))
                     })
@@ -811,7 +811,7 @@ private extension AppCoordinator {
         } else {
             // Old chat cannot retrieve chat because it would mark messages as read.
             let action = UIAction(interface: .Text(LGLocalizedString.appNotificationReply), action: { [weak self] in
-                self?.tracker.trackEvent(TrackerEvent.InappChatNotificationComplete())
+                self?.tracker.trackEvent(TrackerEvent.inappChatNotificationComplete())
                 self?.openTab(.Chats, force: false)
                 self?.selectedTabCoordinator?.openChat(.DataIds(data: data))
                 })

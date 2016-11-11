@@ -632,6 +632,10 @@
 "settings_invite_facebook_friends_error" = "Lỗi xảy ra trong khi chia sẻ lời mời.";
 "settings_invite_facebook_friends_ok" = "Lời mời của bạn đã được chia sẻ thành công!";
 "settings_logout_button" = "Đăng xuất";
+"settings_marketing_notifications_switch" = "Marketing Notifications";
+"settings_section_profile" = "Profile";
+"settings_section_promote" = "Promote";
+"settings_section_support" = "Support";
 "settings_title" = "Cài đặt";
 "sign_up_acceptance_error" = "To sign up you have to accept the Terms & Conditions and the Privacy Policy";
 "sign_up_email_field_hint" = "Email";
@@ -649,6 +653,8 @@
 "sign_up_terms_conditions_terms_part" = "Terms & Conditions";
 "sign_up_title" = "Tạo tài khoản mới";
 "sign_up_username_field_hint" = "Họ tên";
+"suggestions_last_searches_clear_button" = "Clear";
+"suggestions_last_searches_title" = "Recent Searches";
 "tab_bar_give_away_button" = "Tặng";
 "tab_bar_give_away_tooltip" = "Giờ đây bạn có thể tặng các món đồ";
 "tab_bar_sell_stuff_button" = "Bán Đồ";

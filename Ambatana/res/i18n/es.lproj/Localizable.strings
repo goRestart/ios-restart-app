@@ -632,6 +632,10 @@
 "settings_invite_facebook_friends_error" = "Se ha producido un error al compartir tu invitación.";
 "settings_invite_facebook_friends_ok" = "¡Tu invitación ha sido enviada!";
 "settings_logout_button" = "Cerrar sesión";
+"settings_marketing_notifications_switch" = "Marketing Notifications";
+"settings_section_profile" = "Profile";
+"settings_section_promote" = "Promote";
+"settings_section_support" = "Support";
 "settings_title" = "Ajustes";
 "sign_up_acceptance_error" = "To sign up you have to accept the Terms & Conditions and the Privacy Policy";
 "sign_up_email_field_hint" = "Email";
@@ -649,6 +653,8 @@
 "sign_up_terms_conditions_terms_part" = "Terms & Conditions";
 "sign_up_title" = "Crear nueva cuenta";
 "sign_up_username_field_hint" = "Nombre y apellido";
+"suggestions_last_searches_clear_button" = "Clear";
+"suggestions_last_searches_title" = "Recent Searches";
 "tab_bar_give_away_button" = "Regalar";
 "tab_bar_give_away_tooltip" = "Ahora puedes regalar artículos";
 "tab_bar_sell_stuff_button" = "Vender";

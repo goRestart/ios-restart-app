@@ -632,6 +632,10 @@
 "settings_invite_facebook_friends_error" = "An error occurred while sharing your invitation.";
 "settings_invite_facebook_friends_ok" = "Your invitation was successfully shared!";
 "settings_logout_button" = "Log out";
+"settings_marketing_notifications_switch" = "Marketing Notifications";
+"settings_section_profile" = "Profile";
+"settings_section_promote" = "Promote";
+"settings_section_support" = "Support";
 "settings_title" = "Settings";
 "sign_up_acceptance_error" = "To sign up you have to accept the Terms & Conditions and the Privacy Policy";
 "sign_up_email_field_hint" = "Email";
@@ -649,6 +653,8 @@
 "sign_up_terms_conditions_terms_part" = "Terms & Conditions";
 "sign_up_title" = "Create new account";
 "sign_up_username_field_hint" = "Full name";
+"suggestions_last_searches_clear_button" = "Clear";
+"suggestions_last_searches_title" = "Recent Searches";
 "tab_bar_give_away_button" = "Give It Away";
 "tab_bar_give_away_tooltip" = "Now you can give items away";
 "tab_bar_sell_stuff_button" = "Sell Stuff";
