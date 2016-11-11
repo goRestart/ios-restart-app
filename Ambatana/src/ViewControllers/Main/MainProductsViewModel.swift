@@ -596,13 +596,16 @@ extension MainProductsViewModel {
     private func updateLastSearchStoraged(query: String) {
         // We save up to lastSearchesSavedMaximum(10)
         var searchesSaved = keyValueStorage[.lastSearches]
-        guard !searchesSaved.contains(query) else { return }
+        // Check if already exists and move to front.
+        if let index = searchesSaved.indexOf(query) {
+            searchesSaved.removeAtIndex(index)
+        }
         searchesSaved.append(query)
         if searchesSaved.count > lastSearchesSavedMaximum {
             searchesSaved.removeFirst()
         }
         keyValueStorage[.lastSearches] = searchesSaved
-        lastSearches.value = searchesSaved
+        retrieveLastUserSearch()
     }
 }
 
