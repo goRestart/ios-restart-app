@@ -104,18 +104,14 @@ extension ChatHeadManager {
     }
 
     func setupRx() {
-        // Overlay is hidden while logged out or there are no conversations with unread messages
+        // Overlay is hidden while logged out
         let loggedOut = myUserRepository.rx_myUser.asObservable()
             .map { $0 == nil }
             .distinctUntilChanged()
-        let chatHeadsDataEmpty = rx_chatHeadDatas.asObservable()
-            .map { $0.isEmpty }
-            .distinctUntilChanged()
-
         Observable
-            .combineLatest(rx_chatHeadOverlayView.asObservable(), loggedOut, chatHeadsDataEmpty) { ($0.0, $0.1 || $0.2) }
-            .subscribeNext { (overlay, hidden) in
-                overlay?.hidden = hidden
+            .combineLatest(rx_chatHeadOverlayView.asObservable(), loggedOut) { $0 }
+            .subscribeNext { (overlay, loggedOut) in
+                overlay?.hidden = loggedOut
             }.addDisposableTo(disposeBag)
 
         // Depending on chat source subscribe to chats events

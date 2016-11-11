@@ -8,6 +8,7 @@
 
 import LGCoreKit
 import UIKit
+import RxSwift
 
 protocol ChatHeadGroupViewDelegate: class {
     func chatHeadGroup(view: ChatHeadGroupView, openChatDetailWithId id: String)
@@ -23,6 +24,7 @@ final class ChatHeadGroupView: UIView {
 
     private let chatHeadsContainer: UIView
     private var chatHeads: [ChatHeadView]
+    let chatHeadsCount: Variable<Int>
     private let countContainer: UIView
     private let countLabel: UILabel
 
@@ -45,6 +47,7 @@ final class ChatHeadGroupView: UIView {
 
     override init(frame: CGRect) {
         self.chatHeads = []
+        self.chatHeadsCount = Variable<Int>(0)
         self.chatHeadsContainer = UIView(frame: CGRect(x: 0, y: 0, width: frame.width, height: frame.height))
         self.countContainer = UIView(frame: CGRect(x: frame.width, y: frame.height,
             width: ChatHeadGroupView.countContainerMinSide, height: ChatHeadGroupView.countContainerMinSide))
@@ -86,6 +89,7 @@ extension ChatHeadGroupView {
         // Remove old chat heads & add new ones
         chatHeads.forEach { removeChatHeadView($0) }
         datas.forEach { addChatHead($0) }
+        chatHeadsCount.value = chatHeads.count
 
         // Update badge
         self.badge = newBadge

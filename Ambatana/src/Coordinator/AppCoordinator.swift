@@ -16,6 +16,7 @@ final class AppCoordinator: NSObject {
     var presentedAlertController: UIAlertController?
 
     let tabBarCtl: TabBarController
+    private let selectedTab: Variable<Tab>
     let chatHeadOverlay: ChatHeadOverlayView
 
     private let mainTabBarCoordinator: MainTabCoordinator
@@ -91,6 +92,7 @@ final class AppCoordinator: NSObject {
          userRatingRepository: UserRatingRepository) {
 
         self.tabBarCtl = tabBarController
+        self.selectedTab = Variable<Tab>(.Home)
         self.chatHeadOverlay = chatHeadOverlay
         
         self.mainTabBarCoordinator = MainTabCoordinator()
@@ -397,7 +399,7 @@ extension AppCoordinator: UITabBarControllerDelegate {
 
     func tabBarController(tabBarController: UITabBarController, didSelectViewController viewController: UIViewController) {
         guard let tab = tabAtController(viewController) else { return }
-        chatHeadOverlay.hidden = tab.chatHeadsHidden
+        selectedTab.value = tab
     }
 }
 
@@ -425,16 +427,6 @@ extension AppCoordinator: ChatHeadGroupViewDelegate {
 // MARK: - ChatHeadOverlayViewDelegate
 
 extension AppCoordinator: ChatHeadOverlayViewDelegate {
-    func chatHeadOverlayViewCanShow(view: ChatHeadOverlayView) -> Bool {
-        let tabIdx = tabBarCtl.selectedIndex
-        guard let tab = Tab(index: tabIdx) else { return false }
-        return !tab.chatHeadsHidden
-    }
-
-    func chatHeadOverlayViewDidShow(view: ChatHeadOverlayView) {
-        tracker.trackEvent(TrackerEvent.chatHeadsStart())
-    }
-
     func chatHeadOverlayViewUserDidDismiss(view: ChatHeadOverlayView) {
         tracker.trackEvent(TrackerEvent.chatHeadsDelete())
     }
@@ -503,6 +495,21 @@ private extension AppCoordinator {
         chatHeadOverlay.delegate = self
         chatHeadOverlay.setChatHeadGroupViewDelegate(self)
         chatHeadManager.setChatHeadOverlayView(chatHeadOverlay)
+
+        // Chat heads should be hidden depending on the tab
+        let chatHeadsHidden = selectedTab.asObservable()
+            .map { $0.chatHeadsHidden }
+            .distinctUntilChanged()
+        chatHeadsHidden.bindTo(chatHeadOverlay.rx_hidden).addDisposableTo(disposeBag)
+
+        // Chat heads tracker event happens when chat head overlay is not hidden & its chat heads are visible
+        let chatHeadsStart = Observable.combineLatest(chatHeadsHidden, chatHeadOverlay.chatHeadsVisible.asObservable()) { !$0 && $1 }
+            .distinctUntilChanged()
+            .filter { $0 }
+
+        chatHeadsStart.subscribeNext { [weak self] shown in
+            self?.tracker.trackEvent(TrackerEvent.chatHeadsStart())
+            }.addDisposableTo(disposeBag)
     }
 
     func tearDownNotificationCenterObservers() {

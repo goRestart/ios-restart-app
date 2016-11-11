@@ -6,11 +6,10 @@
 //  Copyright © 2016 Ambatana. All rights reserved.
 //
 
+import RxSwift
 import UIKit
 
 protocol ChatHeadOverlayViewDelegate: class {
-    func chatHeadOverlayViewCanShow(view: ChatHeadOverlayView) -> Bool
-    func chatHeadOverlayViewDidShow(view: ChatHeadOverlayView)
     func chatHeadOverlayViewUserDidDismiss(view: ChatHeadOverlayView)
 }
 
@@ -26,10 +25,14 @@ final class ChatHeadOverlayView: UIView {
 
     private let deleteImageView: UIImageView
     private var deleteBottomConstraint: NSLayoutConstraint?
-    private var userDeletedChatHeads: Bool
+
+    let userDeletedChatHeads: Variable<Bool>
+    let chatHeadsVisible: Variable<Bool>
 
     private var placedInMagnetPoint: Bool
     private var magnetPoints: [CGPoint]
+
+    private let disposeBag: DisposeBag
 
     weak var delegate: ChatHeadOverlayViewDelegate?
 
@@ -43,13 +46,16 @@ final class ChatHeadOverlayView: UIView {
     override init(frame: CGRect) {
         self.chatHeadGroup = ChatHeadGroupView()
         self.deleteImageView = UIImageView()
+        self.userDeletedChatHeads = Variable<Bool>(false)
+        self.chatHeadsVisible = Variable<Bool>(false)
         self.placedInMagnetPoint = false
-        self.userDeletedChatHeads = false
         self.magnetPoints = []
+        self.disposeBag = DisposeBag()
         super.init(frame: frame)
 
         setupUI()
         setupConstraints()
+        setupRx()
         setupAccessibilityIds()
     }
 
@@ -77,42 +83,23 @@ final class ChatHeadOverlayView: UIView {
         let insideChatHeadGroup = chatHeadGroup.pointInside(convertedPoint, withEvent: event)
         return insideChatHeadGroup ? chatHeadGroup : nil
     }
-
-    override var hidden: Bool {
-        get {
-            return super.hidden
-        }
-        set {
-            // If we want to show but user deleted then it does not updates hidden property
-            if !newValue && userDeletedChatHeads { return }
-            guard hidden != newValue else { return }
-
-            super.hidden = newValue
-        }
-    }
 }
 
 
 // MARK: - Public methods
 
 extension ChatHeadOverlayView {
-    func setChatHeadDatas(datas: [ChatHeadData], badge: Int) {
+    func setChatHeadDatas(datas: [ChatHeadData], badge: Int) -> Bool {
         let didUpdate = chatHeadGroup.setChatHeads(datas, badge: badge)
         if didUpdate {
-            userDeletedChatHeads = false // is resetted when receiving new datas
-
-            let wasHidden = hidden
-            let canShow = delegate?.chatHeadOverlayViewCanShow(self) ?? true
-            if canShow && wasHidden {
-                hidden = false
-                delegate?.chatHeadOverlayViewDidShow(self)
-            }
+            userDeletedChatHeads.value = false // is resetted when receiving new datas
         }
 
         if !placedInMagnetPoint {
             placedInMagnetPoint = true
             snapToNearestMagnetPoint(animated: false)
         }
+        return didUpdate
     }
 
     func setChatHeadGroupViewDelegate(delegate: ChatHeadGroupViewDelegate?) {
@@ -126,6 +113,7 @@ extension ChatHeadOverlayView {
 
 private extension ChatHeadOverlayView {
     func setupUI() {
+        chatHeadGroup.hidden = true
         chatHeadGroup.translatesAutoresizingMaskIntoConstraints = false
         addSubview(chatHeadGroup)
 
@@ -155,6 +143,17 @@ private extension ChatHeadOverlayView {
                                               multiplier: 1, constant: ChatHeadOverlayView.deleteShownBottom)
         deleteBottomConstraint = deleteBottom
         addConstraints([deleteCenterX, deleteBottom])
+    }
+
+    func setupRx() {
+        // when user deletes chat heads chat head group is hidden
+        userDeletedChatHeads.asObservable()
+            .bindTo(chatHeadGroup.rx_hidden).addDisposableTo(disposeBag)
+
+        // user deleted chat heads & chat heads count is chat heads visibility
+        Observable.combineLatest(userDeletedChatHeads.asObservable(), chatHeadGroup.chatHeadsCount.asObservable()) { !$0 && $1 > 0 }
+            .distinctUntilChanged()
+            .bindTo(chatHeadsVisible).addDisposableTo(disposeBag)
     }
 
     func setupAccessibilityIds() {
@@ -245,8 +244,7 @@ private extension ChatHeadOverlayView {
             let currentPos = CGPoint(x: chatHeadGroupXConstraint.constant, y: chatHeadGroupYConstraint.constant)
             let distance = currentPos.distanceTo(deleteImageView.frame.origin)
             if distance <= ChatHeadOverlayView.chatHeadDistanceToHide {
-                userDeletedChatHeads = true
-                hidden = true
+                userDeletedChatHeads.value = true
                 delegate?.chatHeadOverlayViewUserDidDismiss(self)
             }
 
