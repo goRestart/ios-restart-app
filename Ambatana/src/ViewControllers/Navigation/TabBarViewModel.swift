@@ -19,16 +19,33 @@ class TabBarViewModel: BaseViewModel {
     weak var navigator: AppNavigator?
     weak var delegate: TabBarViewModelDelegate?
 
+
+    var notificationsBadge = Variable<String?>(nil)
+    var chatsBadge = Variable<String?>(nil)
+
     private let keyValueStorage: KeyValueStorage
+    private let notificationsManager: NotificationsManager
+    private let myUserRepository: MyUserRepository
     private var didAppearFirstTime: Bool
+
+    private let disposeBag = DisposeBag()
 
     
     // MARK: - View lifecycle
 
-    override init() {
-        keyValueStorage = KeyValueStorage.sharedInstance
-        didAppearFirstTime = false
+    convenience override init() {
+        self.init(keyValueStorage: KeyValueStorage.sharedInstance,
+                  notificationsManager: NotificationsManager.sharedInstance,
+                  myUserRepository: Core.myUserRepository)
+    }
+
+    init(keyValueStorage: KeyValueStorage, notificationsManager: NotificationsManager, myUserRepository: MyUserRepository) {
+        self.keyValueStorage = keyValueStorage
+        self.notificationsManager = notificationsManager
+        self.myUserRepository = myUserRepository
+        self.didAppearFirstTime = false
         super.init()
+        setupRx()
     }
 
     func didAppear() {
@@ -76,5 +93,21 @@ class TabBarViewModel: BaseViewModel {
 
     func externalSwitchToTab(tab: Tab) {
         delegate?.vmSwitchToTab(tab, force: false)
+    }
+
+
+    // MARK: - Private methods
+
+    private func setupRx() {
+        notificationsManager.unreadMessagesCount.asObservable()
+            .map { $0.flatMap { $0 > 0 ? String($0) : nil } }
+            .bindTo(chatsBadge).addDisposableTo(disposeBag)
+
+        Observable.combineLatest(myUserRepository.rx_myUser.asObservable(),
+            notificationsManager.unreadNotificationsCount.asObservable(),
+            resultSelector: { (myUser, count) in
+                guard myUser != nil else { return String(1) }
+                return count.flatMap { $0 > 0 ? String($0) : nil }
+            }).bindTo(notificationsBadge).addDisposableTo(disposeBag)
     }
 }
