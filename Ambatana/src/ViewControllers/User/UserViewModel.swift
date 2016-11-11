@@ -18,7 +18,6 @@ enum UserSource {
 }
 
 protocol UserViewModelDelegate: BaseViewModelDelegate {
-    func vmOpenSettings(settingsVC: SettingsViewController)
     func vmOpenReportUser(reportUserVM: ReportUsersViewModel)
     func vmOpenHome()
     func vmShowUserActionSheet(cancelLabel: String, actions: [UIAction])
@@ -71,7 +70,12 @@ class UserViewModel: BaseViewModel {
     let productListViewModel: Variable<ProductListViewModel>
 
     weak var delegate: UserViewModelDelegate?
-    weak var tabNavigator: TabNavigator?
+    weak var navigator: TabNavigator?
+    weak var profileNavigator: ProfileTabNavigator? {
+        didSet {
+            navigator = profileNavigator
+        }
+    }
 
     // Rx
     let disposeBag: DisposeBag
@@ -191,7 +195,7 @@ extension UserViewModel {
             verifyTypes.append(.Google)
         }
         guard !verifyTypes.isEmpty else { return }
-        tabNavigator?.openVerifyAccounts(verifyTypes,
+        navigator?.openVerifyAccounts(verifyTypes,
                                          source: .Profile(title: LGLocalizedString.chatConnectAccountsTitle,
                                             description: LGLocalizedString.profileConnectAccountsMessage), completionBlock: nil)
     }
@@ -313,13 +317,12 @@ extension UserViewModel {
     }
 
     private func openSettings() {
-        let vc = SettingsViewController(viewModel: SettingsViewModel())
-        delegate?.vmOpenSettings(vc)
+        profileNavigator?.openSettings()
     }
 
     private func openRatings() {
         guard let userId = user.value?.objectId else { return }
-        tabNavigator?.openRatingList(userId)
+        navigator?.openRatingList(userId)
     }
 
     private func openPushPermissionsAlert() {
@@ -588,7 +591,7 @@ extension UserViewModel: ProductListViewModelDataDelegate {
         let data = ProductDetailData.ProductList(product: product, cellModels: cellModels, requester: requester,
                                                  thumbnailImage: thumbnailImage, originFrame: originFrame,
                                                  showRelated: false, index: 0)
-        tabNavigator?.openProduct(data, source: .Profile)
+        navigator?.openProduct(data, source: .Profile)
     }
 }
 

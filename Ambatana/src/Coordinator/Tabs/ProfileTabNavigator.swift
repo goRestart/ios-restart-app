@@ -7,5 +7,14 @@
 //
 
 protocol ProfileTabNavigator: TabNavigator {
+    func openSettings()
+}
 
+protocol SettingsNavigator: class {
+    func showFbAppInvite()
+    func openEditUserName()
+    func openEditLocation()
+    func openCreateCommercials()
+    func openChangePassword()
+    func openHelp()
 }

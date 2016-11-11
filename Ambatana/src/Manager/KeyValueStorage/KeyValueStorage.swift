@@ -48,6 +48,7 @@ extension DefaultsKeys {
 
     static let didShowCommercializer = DefaultsKey<Bool>("didShowCommercializer")
     static let isGod = DefaultsKey<Bool>("isGod")
+    static let lastSearches = DefaultsKey<[String]>("lastSearches")
 }
 
 
@@ -231,6 +232,18 @@ extension KeyValueStorage {
             currentUserProperties = userProperties
         }
     }
+
+    var userMarketingNotifications: Bool {
+        get {
+            return currentUserProperties?.marketingNotifications ??
+                UserDefaultsUser.marketingNotificationsDefaultValue
+        }
+        set {
+            guard var userProperties = currentUserProperties else { return }
+            userProperties.marketingNotifications = newValue
+            currentUserProperties = userProperties
+        }
+    }
 }
 
 
@@ -338,6 +351,10 @@ extension KeyValueStorage: KeyValueStorageable {
         set { storage[key] = newValue }
     }
     subscript(key: DefaultsKey<NSDictionary>) -> NSDictionary {
+        get { return storage[key] }
+        set { storage[key] = newValue }
+    }
+    subscript(key: DefaultsKey<[String]>) -> [String] {
         get { return storage[key] }
         set { storage[key] = newValue }
     }

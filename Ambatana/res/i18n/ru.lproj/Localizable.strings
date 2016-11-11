@@ -143,7 +143,7 @@
 "collection_furniture_title" = "Милый дом";
 "collection_gaming_title" = "Игра началась";
 "collection_transport_title" = "Стильные путешествия";
-"collection_you_title" = "Selected for you";
+"collection_you_title" = "Отобранные для Вас";
 "commercializer_create_from_settings" = "Create a Free Commercial";
 "commercializer_display_share_alert" = "Share this masterpiece";
 "commercializer_display_share_label" = "Share your masterpiece with the world and watch the offers come rolling in";
@@ -234,7 +234,7 @@
 "direct_answer_sold_question_message" = "Отметьте, что товар продан, чтобы все пользователи letgo могли это видеть";
 "direct_answer_sold_question_ok" = "Отмечен как проданный";
 "direct_answer_sold_question_title" = "Уже продали?";
-"direct_answer_still_available" = "Is this item still available?";
+"direct_answer_still_available" = "Доступен ли данный товар?";
 "direct_answer_still_for_sale" = "Да, все еще продается";
 "direct_answer_title" = "ВЫБЕРИТЕ ИЛИ НАПИШИТЕ СООБЩЕНИЕ";
 "direct_answer_whats_offer" = "Ваше предложение?";
@@ -327,7 +327,7 @@
 "notifications_type_like_w_name_w_title" = "%@ добавил ваш товар в избранное: \"%@\"";
 "notifications_type_rating" = "%@ оценил вас";
 "notifications_type_rating_button" = "Посмотреть свои отзывы";
-"notifications_type_rating_updated" = "%@ обновил отзыв о вас";
+"notifications_type_rating_updated" = "%@ обновил свой отзыв";
 "notifications_type_sold" = "Товар из вашего избранного продан";
 "notifications_type_sold_button" = "Посмотреть товар";
 "notifications_type_welcome_button" = "Начинайте продавать";
@@ -385,7 +385,7 @@
 "product_delete_success_message" = "Ваш продукт был успешно удален.";
 "product_distance_X_from_you" = "%@ от вас";
 "product_distance_more_than_from_you" = "Более %@ от вас";
-"product_favorite_direct_message" = "I like it! Is it still available?";
+"product_favorite_direct_message" = "Мне нравится! Все еще доступно?";
 "product_free_price" = "Бесплатно";
 "product_is_mine_share_body" = "Смотрите, что я продаю на letgo!";
 "product_is_mine_share_body_free" = "Посмотрите, что я отдаю на letgo!";
@@ -440,7 +440,7 @@
 "product_post_empty_gallery_title" = "Фотографии не найдены";
 "product_post_free_camera_first_time_alert_subtitle" = "Сделайте хорошее фото и найдите нового хозяина для вашей вещи!";
 "product_post_free_camera_first_time_alert_title" = "Что вы отдаете?";
-"product_post_free_confirmation_another_button" = "Give another item away";
+"product_post_free_confirmation_another_button" = "Продать другой товар!";
 "product_post_gallery_load_image_error_subtitle" = "Выберите другое фото и попробуйте еще раз";
 "product_post_gallery_load_image_error_title" = "Фото не может быть загружено";
 "product_post_gallery_permissions_button" = "Разрешить";
@@ -633,9 +633,9 @@
 "settings_invite_facebook_friends_error" = "Произошла ошибка при отправке приглашения.";
 "settings_invite_facebook_friends_ok" = "Ваше приглашение успешно размещено!";
 "settings_logout_button" = "Выйти";
-"settings_marketing_notifications_switch" = "Marketing Notifications";
-"settings_section_profile" = "Profile";
-"settings_section_promote" = "Promote";
+"settings_marketing_notifications_switch" = "Маркетинговые уведомления";
+"settings_section_profile" = "Профиль";
+"settings_section_promote" = "Продвигать";
 "settings_section_support" = "Поддержка";
 "settings_title" = "Настройки";
 "sign_up_acceptance_error" = "To sign up you have to accept the Terms & Conditions and the Privacy Policy";
@@ -654,8 +654,8 @@
 "sign_up_terms_conditions_terms_part" = "Terms & Conditions";
 "sign_up_title" = "Создать новый аккаунт";
 "sign_up_username_field_hint" = "Полное имя";
-"suggestions_last_searches_clear_button" = "Clear";
-"suggestions_last_searches_title" = "Recent Searches";
+"suggestions_last_searches_clear_button" = "Стереть";
+"suggestions_last_searches_title" = "Недавний Поиск";
 "tab_bar_give_away_button" = "Отдать";
 "tab_bar_give_away_tooltip" = "Теперь вы можете отдавать вещи";
 "tab_bar_sell_stuff_button" = "Продать вещи";

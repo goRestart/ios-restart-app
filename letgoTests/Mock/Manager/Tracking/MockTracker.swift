@@ -22,6 +22,7 @@ class MockTracker: Tracker {
     var updateCoordsBlock: (Tracker -> ())?
     var notificationsPermissionChangedBlock: (Tracker -> ())?
     var gpsPermissionChangedBlock: (Tracker -> ())?
+    var setMarketingNotificationsBlock: (Tracker -> ())?
 
     // MARK: - Tracker
     
@@ -67,6 +68,9 @@ class MockTracker: Tracker {
 
     func setGPSPermission(enabled: Bool) {
         gpsPermissionChangedBlock?(self)
+    }
 
+    func setMarketingNotifications(enabled: Bool) {
+        setMarketingNotificationsBlock?(self)
     }
 }

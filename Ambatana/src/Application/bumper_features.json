@@ -20,11 +20,6 @@
 		"description": "Show nps survey"
 	},
     {
-        "name": "NonStopProductDetail",
-        "values": ["Yes", "No"],
-        "description": "Non stop prod detail"
-	},
-    {
         "name": "MessageOnFavoriteRound2Mode",
         "values": ["NoMessage", "DirectMessage"],
         "description": "Message after favorite: The Return"

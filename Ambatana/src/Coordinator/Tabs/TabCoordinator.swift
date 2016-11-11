@@ -159,16 +159,15 @@ private extension TabCoordinator {
         let relatedRequester: ProductListRequester = discover ? DiscoverProductListRequester(productId: productId) : RelatedProductListRequester(productId: productId)
         requestersArray.append(relatedRequester)
 
-        if FeatureFlags.nonStopProductDetail {
-            let listOffset = index + 1 // we need the product AFTER the current one
-            if let requester = requester {
-                let requesterCopy = requester.duplicate()
-                requesterCopy.updateInitialOffset(listOffset)
-                requestersArray.append(requesterCopy)
-            } else {
-                let filteredRequester = FilteredProductListRequester(offset: listOffset)
-                requestersArray.append(filteredRequester)
-            }
+        // Adding product list after related
+        let listOffset = index + 1 // we need the product AFTER the current one
+        if let requester = requester {
+            let requesterCopy = requester.duplicate()
+            requesterCopy.updateInitialOffset(listOffset)
+            requestersArray.append(requesterCopy)
+        } else {
+            let filteredRequester = FilteredProductListRequester(offset: listOffset)
+            requestersArray.append(filteredRequester)
         }
 
         let requester = ProductListMultiRequester(requesters: requestersArray)
@@ -241,7 +240,7 @@ private extension TabCoordinator {
         guard myUserRepository.myUser?.objectId != user.objectId else { return }
 
         let vm = UserViewModel(user: user, source: source)
-        vm.tabNavigator = self
+        vm.navigator = self
         let hidesBottomBarWhenPushed = navigationController.viewControllers.count == 1
         let vc = UserViewController(viewModel: vm, hidesBottomBarWhenPushed: hidesBottomBarWhenPushed)
         navigationController.pushViewController(vc, animated: true)
@@ -250,7 +249,7 @@ private extension TabCoordinator {
 
     func openUser(interlocutor: ChatInterlocutor) {
         let vm = UserViewModel(chatInterlocutor: interlocutor, source: .Chat)
-        vm.tabNavigator = self
+        vm.navigator = self
 
         let hidesBottomBarWhenPushed = navigationController.viewControllers.count == 1
         let vc = UserViewController(viewModel: vm, hidesBottomBarWhenPushed: hidesBottomBarWhenPushed)
