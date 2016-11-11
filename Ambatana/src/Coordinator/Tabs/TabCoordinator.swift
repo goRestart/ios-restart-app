@@ -159,16 +159,15 @@ private extension TabCoordinator {
         let relatedRequester: ProductListRequester = discover ? DiscoverProductListRequester(productId: productId) : RelatedProductListRequester(productId: productId)
         requestersArray.append(relatedRequester)
 
-        if FeatureFlags.nonStopProductDetail {
-            let listOffset = index + 1 // we need the product AFTER the current one
-            if let requester = requester {
-                let requesterCopy = requester.duplicate()
-                requesterCopy.updateInitialOffset(listOffset)
-                requestersArray.append(requesterCopy)
-            } else {
-                let filteredRequester = FilteredProductListRequester(offset: listOffset)
-                requestersArray.append(filteredRequester)
-            }
+        // Adding product list after related
+        let listOffset = index + 1 // we need the product AFTER the current one
+        if let requester = requester {
+            let requesterCopy = requester.duplicate()
+            requesterCopy.updateInitialOffset(listOffset)
+            requestersArray.append(requesterCopy)
+        } else {
+            let filteredRequester = FilteredProductListRequester(offset: listOffset)
+            requestersArray.append(filteredRequester)
         }
 
         let requester = ProductListMultiRequester(requesters: requestersArray)

@@ -12,7 +12,7 @@ import bumper
 
 extension Bumper  {
     static func initialize() {
-        Bumper.initialize([WebsocketChat.self, NotificationsSection.self, UserReviews.self, ShowNPSSurvey.self, NonStopProductDetail.self, MessageOnFavoriteRound2Mode.self, InterestedUsersMode.self, FiltersReorder.self, FreePostingMode.self, DirectPostInOnboarding.self, ShareButtonWithIcon.self, ProductDetailShareMode.self, PeriscopeChat.self])
+        Bumper.initialize([WebsocketChat.self, NotificationsSection.self, UserReviews.self, ShowNPSSurvey.self, MessageOnFavoriteRound2Mode.self, InterestedUsersMode.self, FiltersReorder.self, FreePostingMode.self, DirectPostInOnboarding.self, ShareButtonWithIcon.self, ProductDetailShareMode.self, PeriscopeChat.self])
     } 
 
     static var websocketChat: Bool {
@@ -33,11 +33,6 @@ extension Bumper  {
     static var showNPSSurvey: Bool {
         guard let value = Bumper.valueForKey(ShowNPSSurvey.key) else { return false }
         return ShowNPSSurvey(rawValue: value)?.asBool ?? false
-    }
-
-    static var nonStopProductDetail: Bool {
-        guard let value = Bumper.valueForKey(NonStopProductDetail.key) else { return true }
-        return NonStopProductDetail(rawValue: value)?.asBool ?? true
     }
 
     static var messageOnFavoriteRound2Mode: MessageOnFavoriteRound2Mode {
@@ -115,15 +110,6 @@ enum ShowNPSSurvey: String, BumperFeature  {
     static var enumValues: [ShowNPSSurvey] { return [.No, .Yes]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Show nps survey" } 
-    var asBool: Bool { return self == .Yes }
-}
-
-enum NonStopProductDetail: String, BumperFeature  {
-    case Yes, No
-    static var defaultValue: String { return NonStopProductDetail.Yes.rawValue }
-    static var enumValues: [NonStopProductDetail] { return [.Yes, .No]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Non stop prod detail" } 
     var asBool: Bool { return self == .Yes }
 }
 
