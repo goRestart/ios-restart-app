@@ -98,6 +98,7 @@ class MainProductsViewModel: BaseViewModel {
     private let tracker: Tracker
     private let searchType: SearchType? // The initial search
     private let collections: [CollectionCellType]
+    private let keyValueStorage: KeyValueStorage
     
     // > Delegate
     weak var delegate: MainProductsViewModelDelegate?
@@ -116,14 +117,24 @@ class MainProductsViewModel: BaseViewModel {
     // Search tracking state
     private var shouldTrackSearch = false
 
-    // Trending searches
-    let trendingSearches = Variable<[String]?>(nil)
+    // Suggestion searches
+    let lastSearchesSavedMaximum = 10
+    let lastSearchesShowMaximum = 3
+    let trendingSearches = Variable<[String]>([])
+    let lastSearches = Variable<[String]>([])
+    var lastSearchesCounter: Int {
+        return lastSearches.value.count
+    }
+    var trendingCounter: Int {
+        return trendingSearches.value.count
+    }
+    
     
     // MARK: - Lifecycle
     
     init(myUserRepository: MyUserRepository, trendingSearchesRepository: TrendingSearchesRepository,
          locationManager: LocationManager, currencyHelper: CurrencyHelper, tracker: Tracker, searchType: SearchType? = nil,
-         filters: ProductFilters, tabNavigator: TabNavigator?) {
+         filters: ProductFilters, tabNavigator: TabNavigator?, keyValueStorage: KeyValueStorage) {
         self.myUserRepository = myUserRepository
         self.trendingSearchesRepository = trendingSearchesRepository
         self.locationManager = locationManager
@@ -134,6 +145,7 @@ class MainProductsViewModel: BaseViewModel {
         self.tabNavigator = tabNavigator
         self.collections = CollectionCellType.allValuesShuffled
         self.productListRequester = FilteredProductListRequester()
+        self.keyValueStorage = keyValueStorage
         let show3Columns = DeviceFamily.current.isWiderOrEqualThan(.iPhone6Plus)
         let columns = show3Columns ? 3 : 2
         self.listViewModel = ProductListViewModel(requester: self.productListRequester, products: nil,
@@ -143,6 +155,7 @@ class MainProductsViewModel: BaseViewModel {
         if let search = searchType where !search.isCollection && !search.query.isEmpty {
             self.shouldTrackSearch = true
         }
+        
         super.init()
 
         setup()
@@ -154,9 +167,10 @@ class MainProductsViewModel: BaseViewModel {
         let locationManager = Core.locationManager
         let currencyHelper = Core.currencyHelper
         let tracker = TrackerProxy.sharedInstance
+        let keyValueStorage = KeyValueStorage.sharedInstance
         self.init(myUserRepository: myUserRepository, trendingSearchesRepository: trendingSearchesRepository,
                   locationManager: locationManager, currencyHelper: currencyHelper, tracker: tracker, searchType: searchType,
-                  filters: filters, tabNavigator: tabNavigator)
+                  filters: filters, tabNavigator: tabNavigator, keyValueStorage: keyValueStorage)
     }
     
     convenience init(searchType: SearchType? = nil, tabNavigator: TabNavigator?) {
@@ -172,6 +186,7 @@ class MainProductsViewModel: BaseViewModel {
         updatePermissionsWarning()
         if let currentLocation = locationManager.currentLocation {
             retrieveProductsIfNeededWithNewLocation(currentLocation)
+            retrieveLastUserSearch()
             retrieveTrendingSearches()
         }
     }
@@ -255,7 +270,7 @@ class MainProductsViewModel: BaseViewModel {
         updateListView()
     }
 
-
+    
     // MARK: - Private methods
 
     private func setup() {
@@ -266,7 +281,8 @@ class MainProductsViewModel: BaseViewModel {
         setupSessionAndLocation()
         setupPermissionsNotification()
     }
-
+   
+    
     /**
         Returns a view model for search.
     
@@ -350,9 +366,15 @@ extension MainProductsViewModel: ProductListViewCellsDelegate {
 extension MainProductsViewModel: ProductListViewModelDataDelegate {
     func productListVM(viewModel: ProductListViewModel, didSucceedRetrievingProductsPage page: UInt,
                               hasProducts: Bool) {
-
+        
         trackRequestSuccess(page: page, hasProducts: hasProducts)
-
+        // Only save the string when there is products and we are not searching a collection
+        if let queryString = productListRequester.queryString where hasProducts {
+            if let searchType = searchType where !searchType.isCollection {
+                updateLastSearchStoraged(queryString)
+            }
+        }
+    
         if shouldRetryLoad {
             shouldRetryLoad = false
             listViewModel.retrieveProducts()
@@ -485,6 +507,7 @@ extension MainProductsViewModel {
 
         // Retrieve products (should be place after tracking, as it updates lastReceivedLocation)
         retrieveProductsIfNeededWithNewLocation(newLocation)
+        retrieveLastUserSearch()
         retrieveTrendingSearches()
     }
 
@@ -511,7 +534,7 @@ extension MainProductsViewModel {
             shouldRetryLoad = true
         }
 
-        if shouldUpdate{
+        if shouldUpdate {
             listViewModel.retrieveProducts()
         }
 
@@ -521,29 +544,70 @@ extension MainProductsViewModel {
 }
 
 
-// MARK: - Trending searches
+// MARK: - Suggestions searches
 
 extension MainProductsViewModel {
 
     func trendingSearchAtIndex(index: Int) -> String? {
-        guard let trendings = trendingSearches.value where 0..<trendings.count ~= index else { return nil }
-        return trendings[index]
+        guard  0..<trendingSearches.value.count ~= index else { return nil }
+        return trendingSearches.value[index]
+    }
+    
+    func lastSearchAtIndex(index: Int) -> String? {
+        guard 0..<lastSearches.value.count ~= index else { return nil }
+        return lastSearches.value[index]
     }
 
     func selectedTrendingSearchAtIndex(index: Int) {
         guard let trendingSearch = trendingSearchAtIndex(index) where !trendingSearch.isEmpty else { return }
         delegate?.vmDidSearch(viewModelForSearch(.Trending(query: trendingSearch)))
     }
+    
+    func selectedLastSearchAtIndex(index: Int) {
+        guard let lastSearch = lastSearchAtIndex(index) where !lastSearch.isEmpty else { return }
+        delegate?.vmDidSearch(viewModelForSearch(.User(query: lastSearch)))
+    }
+    
+    func cleanUpLastSearches() {
+        keyValueStorage[.lastSearches] = []
+        lastSearches.value = keyValueStorage[.lastSearches]
+    }
+    
+    func retrieveLastUserSearch() {
+        // We saved up to lastSearchesSavedMaximum(10) but we show only lastSearchesShowMaximum(3)
+        var searchesToShow = [String]()
+        let allSearchesSaved = keyValueStorage[.lastSearches]
+        if allSearchesSaved.count > lastSearchesShowMaximum {
+            searchesToShow = Array(allSearchesSaved.suffix(lastSearchesShowMaximum))
+        } else {
+            searchesToShow = keyValueStorage[.lastSearches]
+        }
+        lastSearches.value = searchesToShow.reverse()
+    }
 
     private func retrieveTrendingSearches() {
         guard let currentCountryCode = locationManager.currentPostalAddress?.countryCode else { return }
 
         trendingSearchesRepository.index(currentCountryCode) { [weak self] result in
-            self?.trendingSearches.value = result.value
+            self?.trendingSearches.value = result.value ?? []
         }
     }
+    
+    private func updateLastSearchStoraged(query: String) {
+        // We save up to lastSearchesSavedMaximum(10)
+        var searchesSaved = keyValueStorage[.lastSearches]
+        // Check if already exists and move to front.
+        if let index = searchesSaved.indexOf(query) {
+            searchesSaved.removeAtIndex(index)
+        }
+        searchesSaved.append(query)
+        if searchesSaved.count > lastSearchesSavedMaximum {
+            searchesSaved.removeFirst()
+        }
+        keyValueStorage[.lastSearches] = searchesSaved
+        retrieveLastUserSearch()
+    }
 }
-
 
 // MARK: Push Permissions
 

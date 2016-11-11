@@ -101,6 +101,10 @@ extension MockKeyValueStorage: KeyValueStorageable {
         get { return keyValue[key._key] as? NSDictionary ?? NSDictionary() }
         set { keyValue[key._key] = newValue }
     }
+    subscript(key: DefaultsKey<[String]>) -> [String] {
+        get { return keyValue[key._key] as? [String] ?? [String]() }
+        set { keyValue[key._key] = newValue }
+    }
     func get<T: UserDefaultsDecodable>(key: DefaultsKey<T>) -> T? {
         guard let dict = keyValue[key._key] as? [String: AnyObject] else { return nil }
         return T.decode(dict)

@@ -30,7 +30,7 @@ enum AccessibilityId: String {
     case MainProductsListView
     case MainProductsTagsCollection
     case MainProductsInfoBubbleLabel
-    case MainProductsTrendingSearchesTable
+    case MainProductsSuggestionSearchesTable
 
     // Product List View
     case ProductListViewFirstLoadView
@@ -65,9 +65,9 @@ enum AccessibilityId: String {
     case FilterTagCellTagIcon
     case FilterTagCellTagLabel
 
-    // TrendingSearchCell
-    case TrendingSearchCell
-    case TrendingSearchCellTrendingText
+    // SuggestionSearchCell
+    case SuggestionSearchCell
+    case SuggestionSearchCellSuggestionText
 
     // Categories
     case CategoriesCollectionView
