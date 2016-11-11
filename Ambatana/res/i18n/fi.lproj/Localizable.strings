@@ -143,6 +143,7 @@
 "collection_furniture_title" = "Koti vailla vertaa";
 "collection_gaming_title" = "Pistetään peli pystyyn";
 "collection_transport_title" = "Matkusta tyylillä";
+"collection_you_title" = "Selected for you";
 "commercializer_create_from_settings" = "Create a Free Commercial";
 "commercializer_display_share_alert" = "Share this masterpiece";
 "commercializer_display_share_label" = "Share your masterpiece with the world and watch the offers come rolling in";
@@ -632,10 +633,10 @@
 "settings_invite_facebook_friends_error" = "Kutsuasi jaettaessa tapahtui virhe.";
 "settings_invite_facebook_friends_ok" = "Kutsusi jaettiin onnistuneesti!";
 "settings_logout_button" = "Kirjaudu ulos";
-"settings_marketing_notifications_switch" = "Marketing Notifications";
-"settings_section_profile" = "Profile";
-"settings_section_promote" = "Promote";
-"settings_section_support" = "Support";
+"settings_marketing_notifications_switch" = "Markkinointi-ilmoitukset";
+"settings_section_profile" = "Profiili";
+"settings_section_promote" = "Mainosta";
+"settings_section_support" = "Tuki";
 "settings_title" = "Asetukset";
 "sign_up_acceptance_error" = "To sign up you have to accept the Terms & Conditions and the Privacy Policy";
 "sign_up_email_field_hint" = "Sähköposti";
@@ -653,8 +654,8 @@
 "sign_up_terms_conditions_terms_part" = "Terms & Conditions";
 "sign_up_title" = "Luo uusi tili";
 "sign_up_username_field_hint" = "Koko nimi";
-"suggestions_last_searches_clear_button" = "Clear";
-"suggestions_last_searches_title" = "Recent Searches";
+"suggestions_last_searches_clear_button" = "Tyhjennä";
+"suggestions_last_searches_title" = "Viimeisimmät haut";
 "tab_bar_give_away_button" = "Anna pois";
 "tab_bar_give_away_tooltip" = "Voit nyt antaa tavaroita pois";
 "tab_bar_sell_stuff_button" = "Myy tavaroita";

@@ -143,6 +143,7 @@
 "collection_furniture_title" = "Borta bra, hemma bäst";
 "collection_gaming_title" = "Nu kör vi";
 "collection_transport_title" = "Res med stil";
+"collection_you_title" = "Selected for you";
 "commercializer_create_from_settings" = "Create a Free Commercial";
 "commercializer_display_share_alert" = "Share this masterpiece";
 "commercializer_display_share_label" = "Share your masterpiece with the world and watch the offers come rolling in";
@@ -632,9 +633,9 @@
 "settings_invite_facebook_friends_error" = "Ett fel uppstod då din inbjudan skickades.";
 "settings_invite_facebook_friends_ok" = "Din inbjudan skickades!";
 "settings_logout_button" = "Logga ut";
-"settings_marketing_notifications_switch" = "Marketing Notifications";
-"settings_section_profile" = "Profile";
-"settings_section_promote" = "Promote";
+"settings_marketing_notifications_switch" = "Marknadsföringsnotiser";
+"settings_section_profile" = "Profil";
+"settings_section_promote" = "Marknadsför";
 "settings_section_support" = "Support";
 "settings_title" = "Inställningar";
 "sign_up_acceptance_error" = "To sign up you have to accept the Terms & Conditions and the Privacy Policy";
@@ -653,8 +654,8 @@
 "sign_up_terms_conditions_terms_part" = "Terms & Conditions";
 "sign_up_title" = "Skapa nytt konto";
 "sign_up_username_field_hint" = "Fullständigt namn";
-"suggestions_last_searches_clear_button" = "Clear";
-"suggestions_last_searches_title" = "Recent Searches";
+"suggestions_last_searches_clear_button" = "Rensa";
+"suggestions_last_searches_title" = "Senaste sökningarna";
 "tab_bar_give_away_button" = "Ge bort den";
 "tab_bar_give_away_tooltip" = "Nu kan du skänka bort saker";
 "tab_bar_sell_stuff_button" = "Sälj prylar";
