@@ -97,7 +97,11 @@ class MainProductsViewModel: BaseViewModel {
 
     private let tracker: Tracker
     private let searchType: SearchType? // The initial search
-    private let collections: [CollectionCellType]
+    private var collections: [CollectionCellType] {
+        let generalCollections = CollectionCellType.generalCollectionSuffled
+        guard KeyValueStorage.sharedInstance[.lastSearches].count >= minimumSearchesSavedToShowCollection else { return generalCollections }
+        return [.You] + generalCollections
+    }
     private let keyValueStorage: KeyValueStorage
     
     // > Delegate
@@ -118,6 +122,7 @@ class MainProductsViewModel: BaseViewModel {
     private var shouldTrackSearch = false
 
     // Suggestion searches
+    let minimumSearchesSavedToShowCollection = 3
     let lastSearchesSavedMaximum = 10
     let lastSearchesShowMaximum = 3
     let trendingSearches = Variable<[String]>([])
@@ -143,7 +148,6 @@ class MainProductsViewModel: BaseViewModel {
         self.searchType = searchType
         self.filters = filters
         self.tabNavigator = tabNavigator
-        self.collections = CollectionCellType.allValuesShuffled
         self.productListRequester = FilteredProductListRequester()
         self.keyValueStorage = keyValueStorage
         let show3Columns = DeviceFamily.current.isWiderOrEqualThan(.iPhone6Plus)

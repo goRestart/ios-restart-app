@@ -39,17 +39,12 @@ enum CollectionCellType: String {
     case Furniture = "furniture"
     case You = "you"
     
-    static var allValues: [CollectionCellType] {
+    static var generalCollection: [CollectionCellType] {
         return [.Gaming, .Apple, .Transport, .Furniture]
     }
 
-    static var allValuesShuffled: [CollectionCellType] {
-        if userCollectionEnable {
-            var otherCollections = allValues.shuffle()
-            otherCollections.append(.You)
-            return otherCollections
-        }
-        return allValues.shuffle()
+    static var generalCollectionSuffled: [CollectionCellType] {
+       return generalCollection.shuffle()
     }
 
     var image: UIImage? {
@@ -95,10 +90,5 @@ enum CollectionCellType: String {
         case .You:
             return KeyValueStorage.sharedInstance[.lastSearches].reverse().joinWithSeparator(" ")
         }
-    }
-    
-    private static var userCollectionEnable: Bool {
-        guard KeyValueStorage.sharedInstance[.lastSearches].count > 3 else { return false }
-        return true
     }
 }
