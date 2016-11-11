@@ -606,7 +606,7 @@ class TrackerEventSpec: QuickSpec {
             describe("searchComplete") {
                 context("success"){
                     beforeEach {
-                        sut = TrackerEvent.searchComplete(nil, searchQuery: "iPhone", isTrending: false, success: .Success)
+                        sut = TrackerEvent.searchComplete(nil, searchQuery: "iPhone", isTrending: false, success: .Success, isLastSearch: true)
                     }
                     it("has its event name") {
                         expect(sut.name.rawValue).to(equal("search-complete"))
@@ -614,6 +614,10 @@ class TrackerEventSpec: QuickSpec {
                     it("contains the isTrending parameter") {
                         let searchQuery = sut.params!.stringKeyParams["trending-search"] as? Bool
                         expect(searchQuery) == false
+                    }
+                    it("contains the isLastSearch parameter") {
+                        let searchQuery = sut.params!.stringKeyParams["last-search"] as? Bool
+                        expect(searchQuery) == true
                     }
                     it("contains the search keyword related params when passing by the search query") {
                         let searchQuery = sut.params!.stringKeyParams["search-keyword"] as? String
@@ -626,7 +630,7 @@ class TrackerEventSpec: QuickSpec {
                 }
                 context("failure") {
                     beforeEach {
-                        sut = TrackerEvent.searchComplete(nil, searchQuery: "iPhone", isTrending: false, success: .Failed)
+                        sut = TrackerEvent.searchComplete(nil, searchQuery: "iPhone", isTrending: false, success: .Failed, isLastSearch: true)
                     }
                     it("search si no success") {
                         let searchSuccess = sut.params!.stringKeyParams["search-success"] as? String

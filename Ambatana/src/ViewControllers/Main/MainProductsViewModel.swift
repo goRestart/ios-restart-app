@@ -40,7 +40,7 @@ class MainProductsViewModel: BaseViewModel {
         switch searchType {
         case .Collection:
             return true
-        case .User, .Trending:
+        case .User, .Trending, .LastSearch:
             return false
         }
     }
@@ -565,7 +565,7 @@ extension MainProductsViewModel {
     
     func selectedLastSearchAtIndex(index: Int) {
         guard let lastSearch = lastSearchAtIndex(index) where !lastSearch.isEmpty else { return }
-        delegate?.vmDidSearch(viewModelForSearch(.User(query: lastSearch)))
+        delegate?.vmDidSearch(viewModelForSearch(.LastSearch(query: lastSearch)))
     }
     
     func cleanUpLastSearches() {
@@ -677,7 +677,7 @@ private extension MainProductsViewModel {
             switch searchType {
             case .Collection:
                 return .Collection
-            case .User, .Trending:
+            case .User, .Trending, .LastSearch:
                 if filters.isDefault() {
                     return .Search
                 } else {
@@ -708,7 +708,8 @@ private extension MainProductsViewModel {
         if let searchType = searchType where shouldTrackSearch && filters.isDefault() {
             shouldTrackSearch = false
             tracker.trackEvent(TrackerEvent.searchComplete(myUserRepository.myUser, searchQuery: searchType.query,
-                isTrending: searchType.isTrending, success: hasProducts ? .Success : .Failed))
+                                                           isTrending: searchType.isTrending,
+                                                           success: hasProducts ? .Success : .Failed, isLastSearch: searchType.isLastSearch))
         }
     }
 
