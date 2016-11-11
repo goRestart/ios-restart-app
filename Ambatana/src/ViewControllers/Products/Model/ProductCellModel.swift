@@ -39,16 +39,16 @@ enum CollectionCellType: String {
     case Furniture = "furniture"
     case You = "you"
     
-    static var generalCollection: [CollectionCellType] {
+    static var generalCollections: [CollectionCellType] {
         return [.Gaming, .Apple, .Transport, .Furniture]
     }
 
-    static var generalCollectionSuffled: [CollectionCellType] {
-       return generalCollection.shuffle()
+    static var generalCollectionsSuffled: [CollectionCellType] {
+       return generalCollections.shuffle()
     }
     
-    static var generalCollectionWithForYou: [CollectionCellType] {
-        return [.You] + generalCollection.shuffle()
+    static var generalCollectionsWithForYou: [CollectionCellType] {
+        return [.You] + generalCollectionsSuffled
     }
 
     var image: UIImage? {

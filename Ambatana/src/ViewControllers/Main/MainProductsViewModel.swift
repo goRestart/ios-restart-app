@@ -98,9 +98,9 @@ class MainProductsViewModel: BaseViewModel {
     private let tracker: Tracker
     private let searchType: SearchType? // The initial search
     private var collections: [CollectionCellType] {
-        let generalCollections = CollectionCellType.generalCollectionSuffled
+        let generalCollections = CollectionCellType.generalCollectionsSuffled
         guard KeyValueStorage.sharedInstance[.lastSearches].count >= minimumSearchesSavedToShowCollection else { return generalCollections }
-        return CollectionCellType.generalCollectionWithForYou
+        return CollectionCellType.generalCollectionsWithForYou
     }
     private let keyValueStorage: KeyValueStorage
     
