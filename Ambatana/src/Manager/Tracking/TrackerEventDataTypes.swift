@@ -246,6 +246,7 @@ public enum EventParameterName: String {
     case FreePosting          = "free-posting"
     case SellButtonPosition   = "sell-button-position"
     case Enabled              = "enabled"
+    case LastSearch           = "last-search"
 }
 
 public enum EventParameterLoginSourceValue: String {

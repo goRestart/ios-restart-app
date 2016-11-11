@@ -163,12 +163,13 @@ public struct TrackerEvent {
         return TrackerEvent(name: .SearchStart, params: params)
     }
 
-    static func searchComplete(user: User?, searchQuery: String, isTrending: Bool, success: EventParameterSearchCompleteSuccess)
+    static func searchComplete(user: User?, searchQuery: String, isTrending: Bool, success: EventParameterSearchCompleteSuccess, isLastSearch: Bool)
         -> TrackerEvent {
             var params = EventParameters()
             params[.SearchString] = searchQuery
             params[.SearchSuccess] = success.rawValue
             params[.TrendingSearch] = isTrending
+            params[.LastSearch] = isLastSearch
             return TrackerEvent(name: .SearchComplete, params: params)
     }
 

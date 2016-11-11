@@ -9,6 +9,7 @@
 enum SearchType {
     case User(query: String)
     case Trending(query: String)
+    case LastSearch(query: String)
     case Collection(type: CollectionCellType)
 
     var text: String {
@@ -16,6 +17,8 @@ enum SearchType {
         case let .User(query):
             return query
         case let .Trending(query):
+            return query
+        case let .LastSearch(query):
             return query
         case let .Collection(type):
             return type.title
@@ -28,6 +31,8 @@ enum SearchType {
             return query
         case let .Trending(query):
             return query
+        case let .LastSearch(query):
+            return query
         case let .Collection(type):
             return type.searchTextUS
         }
@@ -35,7 +40,7 @@ enum SearchType {
 
     var isTrending: Bool {
         switch self {
-        case .User, .Collection:
+        case .User, .Collection, .LastSearch:
             return false
         case .Trending:
             return true
@@ -44,9 +49,18 @@ enum SearchType {
 
     var isCollection: Bool {
         switch self {
-        case .User, .Trending:
+        case .User, .Trending, .LastSearch:
             return false
         case .Collection:
+            return true
+        }
+    }
+    
+    var isLastSearch: Bool {
+        switch self {
+        case .User, .Trending, .Collection:
+            return false
+        case .LastSearch:
             return true
         }
     }

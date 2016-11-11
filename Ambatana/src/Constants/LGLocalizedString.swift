@@ -583,6 +583,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("collection_furniture_title", comment: "")
 	}
 
+	static var collectionYouTitle: String {
+		return NSLocalizedString("collection_you_title", comment: "")
+	}
+
 	static var collectionHalloweenTitle: String {
 		return NSLocalizedString("collection_halloween_title", comment: "")
 	}

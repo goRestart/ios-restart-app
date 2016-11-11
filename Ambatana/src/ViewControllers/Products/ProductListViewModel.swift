@@ -151,6 +151,7 @@ class ProductListViewModel: BaseViewModel {
 
     func setEmptyState(viewModel: LGEmptyViewModel) {
         state = .Empty(viewModel)
+        objects = [ProductCellModel.EmptyCell(vm: viewModel)]
     }
 
     func refreshControlTriggered() {
@@ -247,6 +248,8 @@ class ProductListViewModel: BaseViewModel {
                                         originFrame: originFrame)
         case .CollectionCell(let type):
             dataDelegate?.vmDidSelectCollection(type)
+        case .EmptyCell:
+            return
         }
     }
 
@@ -275,7 +278,7 @@ class ProductListViewModel: BaseViewModel {
         switch item {
         case .ProductCell(let product):
             return product
-        case .CollectionCell:
+        case .CollectionCell, .EmptyCell:
             return nil
         }
     }
@@ -301,6 +304,8 @@ class ProductListViewModel: BaseViewModel {
         case .CollectionCell:
             let height = defaultCellSize.width*ProductListViewModel.cellBannerAspectRatio
             return CGSize(width: defaultCellSize.width, height: height)
+        case .EmptyCell:
+            return CGSize(width: defaultCellSize.width, height: 1)
         }
     }
         

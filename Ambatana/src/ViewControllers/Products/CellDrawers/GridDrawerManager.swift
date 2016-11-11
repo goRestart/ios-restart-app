@@ -19,11 +19,13 @@ class GridDrawerManager {
     var cellStyle: CellStyle = .Small
 
     private let productDrawer = ProductCellDrawer()
-    private let collectionDrawer = ProductCollectionCellDrawer();
+    private let collectionDrawer = ProductCollectionCellDrawer()
+    private let emptyCellDrawer = EmptyCellDrawer()
     
     func registerCell(inCollectionView collectionView: UICollectionView) {
         ProductCellDrawer.registerCell(collectionView)
         ProductCollectionCellDrawer.registerCell(collectionView)
+        EmptyCellDrawer.registerCell(collectionView)
     }
     
     func cell(model: ProductCellModel, collectionView: UICollectionView, atIndexPath: NSIndexPath) -> UICollectionViewCell {
@@ -32,6 +34,8 @@ class GridDrawerManager {
             return productDrawer.cell(collectionView, atIndexPath: atIndexPath)
         case .CollectionCell:
             return collectionDrawer.cell(collectionView, atIndexPath: atIndexPath)
+        case .EmptyCell:
+            return emptyCellDrawer.cell(collectionView, atIndexPath: atIndexPath)
         }
     }
     
@@ -40,11 +44,12 @@ class GridDrawerManager {
         case .ProductCell(let product) where cell is ProductCell:
             guard let cell = cell as? ProductCell else { return }
             return productDrawer.draw(product.cellData, style: cellStyle, inCell: cell)
-
         case .CollectionCell(let style) where cell is CollectionCell:
             guard let cell = cell as? CollectionCell else { return }
             return collectionDrawer.draw(style, style: cellStyle, inCell: cell)
-        
+        case .EmptyCell(let vm):
+            guard let cell = cell as? EmptyCell else { return }
+            return emptyCellDrawer.draw(vm, style: cellStyle, inCell: cell)
         default:
             assert(false, "⛔️ You shouldn't be here")
         }
