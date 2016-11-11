@@ -196,6 +196,20 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         refreshDataView()
     }
 
+    override func hitTest(point: CGPoint, withEvent event: UIEvent?) -> UIView? {
+        let hitView = super.hitTest(point, withEvent: event)
+        switch viewModel.state {
+        case .Empty:
+            guard let headerHeight = headerDelegate?.totalHeaderHeight() where headerHeight > 0 else { return errorView }
+            let collectionConvertedPoint = collectionView.convertPoint(point, fromView: self)
+            let collectionHeaderSize = CGSize(width: collectionView.frame.width, height: CGFloat(headerHeight))
+            let headerFrame = CGRect(origin: CGPointZero, size: collectionHeaderSize)
+            let insideHeader = CGRectContainsPoint(headerFrame, collectionConvertedPoint)
+            return insideHeader ? hitView : errorView
+        case .Data, .Loading, .Error:
+            return hitView
+        }
+    }
     
     // MARK: Public methods
 
