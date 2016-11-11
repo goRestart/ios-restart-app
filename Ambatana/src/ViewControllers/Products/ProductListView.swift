@@ -95,7 +95,11 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     }
     var errorPadding: UIEdgeInsets {
         didSet {
-            topInsetErrorViewConstraint.constant = errorPadding.top
+            var headerHeight: CGFloat = 0
+            if let totalHeaderHeight = headerDelegate?.totalHeaderHeight() {
+                headerHeight = totalHeaderHeight
+            }
+            topInsetErrorViewConstraint.constant = errorPadding.top + headerHeight
             leftInsetErrorViewConstraint.constant = errorPadding.left
             bottomInsetErrorViewConstraint.constant = errorPadding.bottom
             rightInsetErrorViewConstraint.constant = errorPadding.right
@@ -192,6 +196,20 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         refreshDataView()
     }
 
+    override func hitTest(point: CGPoint, withEvent event: UIEvent?) -> UIView? {
+        let hitView = super.hitTest(point, withEvent: event)
+        switch viewModel.state {
+        case .Empty:
+            guard let headerHeight = headerDelegate?.totalHeaderHeight() where headerHeight > 0 else { return errorView }
+            let collectionConvertedPoint = collectionView.convertPoint(point, fromView: self)
+            let collectionHeaderSize = CGSize(width: collectionView.frame.width, height: CGFloat(headerHeight))
+            let headerFrame = CGRect(origin: CGPointZero, size: collectionHeaderSize)
+            let insideHeader = CGRectContainsPoint(headerFrame, collectionConvertedPoint)
+            return insideHeader ? hitView : errorView
+        case .Data, .Loading, .Error:
+            return hitView
+        }
+    }
     
     // MARK: Public methods
 
@@ -504,8 +522,15 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
             dataView.hidden = false
             errorView.hidden = true
         case .Error(let emptyVM):
+            firstLoadView.hidden = true
+            dataView.hidden = true
+            errorView.hidden = false
             setErrorState(emptyVM)
         case .Empty(let emptyVM):
+            // Show/hide views
+            firstLoadView.hidden = true
+            dataView.hidden = false
+            errorView.hidden = false
             setErrorState(emptyVM)
         }
     }
@@ -524,11 +549,6 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
             errorButtonHeightConstraint.constant = 0
         }
         errorView.updateConstraintsIfNeeded()
-
-        // Show/hide views
-        firstLoadView.hidden = true
-        dataView.hidden = true
-        errorView.hidden = false
     }
 
     dynamic private func refreshControlTriggered() {

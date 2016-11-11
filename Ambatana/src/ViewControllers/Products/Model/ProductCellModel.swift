@@ -13,6 +13,7 @@ import LGCoreKit
 enum ProductCellModel {
     case ProductCell(product: Product)
     case CollectionCell(type: CollectionCellType)
+    case EmptyCell(vm: LGEmptyViewModel)
     
     init(product: Product) {
         self = ProductCellModel.ProductCell(product: product)
@@ -20,6 +21,10 @@ enum ProductCellModel {
 
     init(collection: CollectionCellType) {
         self = ProductCellModel.CollectionCell(type: collection)
+    }
+
+    init(emptyVM: LGEmptyViewModel) {
+        self = ProductCellModel.EmptyCell(vm: emptyVM)
     }
 }
 
