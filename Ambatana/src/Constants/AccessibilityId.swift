@@ -424,6 +424,7 @@ enum AccessibilityId: String {
     case SettingsCellIcon
     case SettingsCellTitle
     case SettingsCellValue
+    case SettingsCellSwitch
 
     // ChangeUsername
     case ChangeUsernameNameField

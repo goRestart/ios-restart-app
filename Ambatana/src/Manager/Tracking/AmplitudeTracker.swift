@@ -34,6 +34,10 @@ final class AmplitudeTracker: Tracker {
     // AB Tests
     private static let userPropABTests = "AB-test"
 
+    private static let userPropMktPushNotificationKey = "marketing-push-notification"
+    private static let userPropMktPushNotificationValueOn = "on"
+    private static let userPropMktPushNotificationValueOff = "off"
+
     // > Prefix
     private static let dummyEmailPrefix = "usercontent"
 
@@ -127,6 +131,14 @@ final class AmplitudeTracker: Tracker {
     func setGPSPermission(enabled: Bool) {
         let identify = AMPIdentify()
         identify.set(AmplitudeTracker.userPropGpsEnabled, value: enabled ? "true" : "false")
+        Amplitude.instance().identify(identify)
+    }
+
+    func setMarketingNotifications(enabled: Bool) {
+        let identify = AMPIdentify()
+        let value = enabled ? AmplitudeTracker.userPropMktPushNotificationValueOn :
+            AmplitudeTracker.userPropMktPushNotificationValueOff
+        identify.set(AmplitudeTracker.userPropMktPushNotificationKey, value: value)
         Amplitude.instance().identify(identify)
     }
 

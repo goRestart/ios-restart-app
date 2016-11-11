@@ -130,6 +130,17 @@ class TrackerProxySpec: QuickSpec {
                     expect(flag).to(beTrue())
                 }
             }
+            it("redirects to each tracker marketingNotifications:") {
+                var flags = [false, false, false]
+                tracker1.setMarketingNotificationsBlock = { (tracker: Tracker) in flags[0] = true }
+                tracker2.setMarketingNotificationsBlock = { (tracker: Tracker) in flags[1] = true }
+                tracker3.setMarketingNotificationsBlock = { (tracker: Tracker) in flags[2] = true }
+
+                sut.setMarketingNotifications(true)
+                for flag in flags {
+                    expect(flag).to(beTrue())
+                }
+            }
         }
     }
 }

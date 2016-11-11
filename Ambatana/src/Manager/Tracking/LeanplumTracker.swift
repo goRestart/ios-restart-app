@@ -54,6 +54,9 @@ final class LeanplumTracker: Tracker {
     private static let userPropPushEnabled = "push-enabled"
     private static let userPropGpsEnabled = "gps-enabled"
 
+    private static let userPropMktNotificationsEnabled = "mkt-notifications-enabled"
+
+
     // MARK: - Tracker
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) {
@@ -120,5 +123,9 @@ final class LeanplumTracker: Tracker {
     
     func setGPSPermission(enabled: Bool) {
         Leanplum.setUserAttributes([LeanplumTracker.userPropGpsEnabled : enabled ? "true" : "false"])
+    }
+
+    func setMarketingNotifications(enabled: Bool) {
+        Leanplum.setUserAttributes([LeanplumTracker.userPropMktNotificationsEnabled : enabled])
     }
 }

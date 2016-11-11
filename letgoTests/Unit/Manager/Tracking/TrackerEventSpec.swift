@@ -2361,6 +2361,23 @@ class TrackerEventSpec: QuickSpec {
                     expect(param) == "welcome"
                 }
             }
+
+            describe("Marketing Push Notifications") {
+                beforeEach {
+                    sut = TrackerEvent.MarketingPushNotifications("123456", enabled: true)
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("marketing-push-notifications"))
+                }
+                it("contains user-id param") {
+                    let param = sut.params!.stringKeyParams["user-id"] as? String
+                    expect(param) == "123456"
+                }
+                it("contains enabled param") {
+                    let param = sut.params!.stringKeyParams["enabled"] as? Bool
+                    expect(param) == true
+                }
+            }
         }
     }
 }

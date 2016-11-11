@@ -1,34 +1,33 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell contentMode="scaleToFill" restorationIdentifier="SettingsCell" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="SettingsCell" rowHeight="60" id="2dn-tF-94D" customClass="SettingsCell" customModule="LetGo" customModuleProvider="target">
+        <tableViewCell contentMode="scaleToFill" restorationIdentifier="SettingsCell" selectionStyle="default" indentationWidth="10" reuseIdentifier="SettingsCell" rowHeight="60" id="2dn-tF-94D" customClass="SettingsCell" customModule="LetGo" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="430" height="60"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="2dn-tF-94D" id="2oK-DW-fjJ">
-                <rect key="frame" x="0.0" y="0.0" width="397" height="59.5"/>
+                <frame key="frameInset" width="430" height="59"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" tag="1" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="UIV-I4-6nW" userLabel="Icon Image View">
-                        <rect key="frame" x="8" y="8" width="43" height="43"/>
                         <constraints>
                             <constraint firstAttribute="width" secondItem="UIV-I4-6nW" secondAttribute="height" multiplier="1:1" id="zr2-px-LKL"/>
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="750" verticalHuggingPriority="251" horizontalCompressionResistancePriority="250" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lsg-93-Cmg">
-                        <rect key="frame" x="397" y="8" width="0.0" height="43"/>
                         <constraints>
                             <constraint firstAttribute="width" relation="lessThanOrEqual" constant="100" id="l7W-2E-Lud"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                        <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="textColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                         <variation key="default">
                             <mask key="constraints">
@@ -37,15 +36,20 @@
                         </variation>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0M6-tW-fco">
-                        <rect key="frame" x="59" y="8" width="330" height="43"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_disclosure" translatesAutoresizingMaskIntoConstraints="NO" id="8hQ-zS-PjO">
+                        <constraints>
+                            <constraint firstAttribute="width" constant="34" id="FS2-b0-9cK"/>
+                        </constraints>
+                    </imageView>
                 </subviews>
                 <constraints>
                     <constraint firstItem="UIV-I4-6nW" firstAttribute="top" secondItem="2oK-DW-fjJ" secondAttribute="topMargin" id="1qC-yK-3da"/>
-                    <constraint firstAttribute="trailingMargin" secondItem="lsg-93-Cmg" secondAttribute="trailing" constant="-8" id="AYr-tD-Gqx"/>
+                    <constraint firstAttribute="trailing" secondItem="8hQ-zS-PjO" secondAttribute="trailing" id="JUe-C8-Zgw"/>
+                    <constraint firstItem="8hQ-zS-PjO" firstAttribute="leading" secondItem="lsg-93-Cmg" secondAttribute="trailing" id="NMU-OV-H4m"/>
                     <constraint firstItem="lsg-93-Cmg" firstAttribute="top" secondItem="2oK-DW-fjJ" secondAttribute="topMargin" id="OiN-Yk-cfa"/>
                     <constraint firstItem="0M6-tW-fco" firstAttribute="bottom" secondItem="2oK-DW-fjJ" secondAttribute="bottomMargin" id="Oq7-XM-Umb"/>
                     <constraint firstItem="0M6-tW-fco" firstAttribute="leading" secondItem="UIV-I4-6nW" secondAttribute="trailing" constant="8" id="Ow1-7l-hOf"/>
@@ -54,9 +58,12 @@
                     <constraint firstItem="0M6-tW-fco" firstAttribute="top" secondItem="2oK-DW-fjJ" secondAttribute="topMargin" id="pCw-HB-1Ez"/>
                     <constraint firstItem="lsg-93-Cmg" firstAttribute="bottom" secondItem="2oK-DW-fjJ" secondAttribute="bottomMargin" id="rdg-Dm-oeI"/>
                     <constraint firstItem="UIV-I4-6nW" firstAttribute="leading" secondItem="2oK-DW-fjJ" secondAttribute="leadingMargin" id="sNs-nX-G1h"/>
+                    <constraint firstItem="8hQ-zS-PjO" firstAttribute="top" secondItem="2oK-DW-fjJ" secondAttribute="top" id="tCm-bu-ZXt"/>
+                    <constraint firstAttribute="bottom" secondItem="8hQ-zS-PjO" secondAttribute="bottom" id="uRA-Kc-vaz"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
+                <outlet property="disclosureImg" destination="8hQ-zS-PjO" id="Qgz-16-gLf"/>
                 <outlet property="iconImageView" destination="UIV-I4-6nW" id="zer-3X-TaZ"/>
                 <outlet property="label" destination="0M6-tW-fco" id="WF1-RP-70B"/>
                 <outlet property="nameLabel" destination="lsg-93-Cmg" id="fIU-e9-uh6"/>
@@ -64,4 +71,7 @@
             <point key="canvasLocation" x="895" y="258"/>
         </tableViewCell>
     </objects>
+    <resources>
+        <image name="ic_disclosure" width="8" height="13"/>
+    </resources>
 </document>

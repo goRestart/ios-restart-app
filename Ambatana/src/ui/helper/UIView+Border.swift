@@ -20,9 +20,13 @@ extension UIView {
     }
 
     func addBottomBorderWithWidth(width: CGFloat, color: UIColor) -> CALayer {
+        return addBottomBorderWithWidth(width, xPosition: 0, color: color)
+    }
+
+    func addBottomBorderWithWidth(width: CGFloat, xPosition: CGFloat, color: UIColor) -> CALayer {
         let actualWidth = width / UIScreen.mainScreen().scale;
         let line = CALayer()
-        line.frame = CGRect(x: 0, y: frame.height - actualWidth, width: frame.width, height: actualWidth)
+        line.frame = CGRect(x: xPosition, y: frame.height - actualWidth, width: frame.width-xPosition, height: actualWidth)
         line.backgroundColor = color.CGColor
         layer.addSublayer(line)
         return line

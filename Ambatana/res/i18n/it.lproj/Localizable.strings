@@ -326,7 +326,7 @@
 "notifications_type_like_w_name_w_title" = "%@ ha aggiunto il tuo prodotto ai preferiti: \"%@\"";
 "notifications_type_rating" = "%@ ha lasciato una recensione su di te";
 "notifications_type_rating_button" = "Vedi le tue recensioni";
-"notifications_type_rating_updated" = "%@ ha aggiornato la propria recensione";
+"notifications_type_rating_updated" = "%@ ha aggiornato la recensione";
 "notifications_type_sold" = "Un prodotto presente tra i tuoi preferiti è stato venduto";
 "notifications_type_sold_button" = "Scopri il prodotto";
 "notifications_type_welcome_button" = "Inizia a vendere";
@@ -632,6 +632,10 @@
 "settings_invite_facebook_friends_error" = "Si è verificato un errore durante la condivisione del tuo invito.";
 "settings_invite_facebook_friends_ok" = "Il tuo invito è stato condiviso con successo!";
 "settings_logout_button" = "Esci";
+"settings_marketing_notifications_switch" = "Marketing Notifications";
+"settings_section_profile" = "Profile";
+"settings_section_promote" = "Promote";
+"settings_section_support" = "Support";
 "settings_title" = "Impostazioni";
 "sign_up_acceptance_error" = "To sign up you have to accept the Terms & Conditions and the Privacy Policy";
 "sign_up_email_field_hint" = "Email";
@@ -649,6 +653,8 @@
 "sign_up_terms_conditions_terms_part" = "Terms & Conditions";
 "sign_up_title" = "Crea nuovo account";
 "sign_up_username_field_hint" = "Nome e Cognome";
+"suggestions_last_searches_clear_button" = "Clear";
+"suggestions_last_searches_title" = "Recent Searches";
 "tab_bar_give_away_button" = "Regala";
 "tab_bar_give_away_tooltip" = "Da oggi puoi regalare gli oggetti";
 "tab_bar_sell_stuff_button" = "Vendi oggetti";
