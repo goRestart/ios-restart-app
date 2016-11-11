@@ -52,7 +52,7 @@ final class ChatHeadGroupView: UIView {
             width: ChatHeadGroupView.countContainerMinSide, height: ChatHeadGroupView.countContainerMinSide))
         self.leadingConstraints = []
         self.trailingConstraints = []
-        self.badge = 1
+        self.badge = 0
         self.isLeftPositioned = true
         super.init(frame: frame)
         setupUI()
@@ -78,7 +78,7 @@ extension ChatHeadGroupView {
         let newIds = datas.map { $0.id }
         let idsChanged = currentIds != newIds
 
-        let newBadge = max(1, badge)
+        let newBadge = max(0, badge)
         let badgeChanged = self.badge != newBadge
 
         guard idsChanged || badgeChanged else { return false }
@@ -143,11 +143,12 @@ private extension ChatHeadGroupView {
         countContainer.translatesAutoresizingMaskIntoConstraints = false
         addSubview(countContainer)
 
-        countContainer.backgroundColor = UIColor.primaryColor
         countLabel.translatesAutoresizingMaskIntoConstraints = false
         countLabel.textColor = UIColor.white
         countLabel.textAlignment = .Center
         countLabel.font = UIFont.systemSemiBoldFont(size: 13)
+        countContainer.hidden = true
+        countContainer.backgroundColor = UIColor.primaryColor
         countContainer.clipsToBounds = true
         countContainer.addSubview(countLabel)
 
