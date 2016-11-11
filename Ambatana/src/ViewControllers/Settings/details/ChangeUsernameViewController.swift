@@ -163,11 +163,7 @@ class ChangeUsernameViewController: BaseViewController, UITextFieldDelegate, Cha
         usernameTextfield.text = viewModel.username
         
         saveButton.setTitle(LGLocalizedString.changeUsernameSaveButton, forState: .Normal)
-        saveButton.setBackgroundImage(saveButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)), forState: .Normal)
-        saveButton.setBackgroundImage(UIColor.primaryColorDisabled.imageWithSize(CGSize(width: 1, height: 1)), forState: .Disabled)
-        saveButton.setBackgroundImage(UIColor.primaryColorHighlighted.imageWithSize(CGSize(width: 1, height: 1)), forState: .Highlighted)
-
-        saveButton.layer.cornerRadius = 4
+        saveButton.setStyle(.Primary(fontSize: .Big))
         saveButton.enabled = false
     }
 

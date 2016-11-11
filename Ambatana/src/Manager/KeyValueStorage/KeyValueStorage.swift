@@ -232,6 +232,18 @@ extension KeyValueStorage {
             currentUserProperties = userProperties
         }
     }
+
+    var userMarketingNotifications: Bool {
+        get {
+            return currentUserProperties?.marketingNotifications ??
+                UserDefaultsUser.marketingNotificationsDefaultValue
+        }
+        set {
+            guard var userProperties = currentUserProperties else { return }
+            userProperties.marketingNotifications = newValue
+            currentUserProperties = userProperties
+        }
+    }
 }
 
 

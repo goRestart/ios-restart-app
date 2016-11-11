@@ -13,10 +13,6 @@ import CollectionVariable
 
 class SettingsViewController: BaseViewController {
 
-    // constants
-    private static let cellIdentifier = "SettingsCell"
-
-    // outlets & buttons
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var settingProfileImageView: UIView!
     @IBOutlet weak var settingProfileImageLabel: UILabel!
@@ -56,13 +52,21 @@ class SettingsViewController: BaseViewController {
     // MARK: - Private
 
     private func setupUI() {
+        view.backgroundColor = UIColor.grayBackground
         settingProfileImageLabel.text = LGLocalizedString.settingsChangeProfilePictureLoading
         settingProfileImageView.hidden = true
         setNavBarTitle(LGLocalizedString.settingsTitle)
 
-        let cellNib = UINib(nibName: "SettingsCell", bundle: nil)
+        let cellNib = UINib(nibName: SettingsCell.reusableID, bundle: nil)
         tableView.registerNib(cellNib, forCellReuseIdentifier: SettingsCell.reusableID)
-        tableView.rowHeight = 60
+        let logoutCellNib = UINib(nibName: SettingsLogoutCell.reusableID, bundle: nil)
+        tableView.registerNib(logoutCellNib, forCellReuseIdentifier: SettingsLogoutCell.reusableID)
+        let infoCellNib = UINib(nibName: SettingsInfoCell.reusableID, bundle: nil)
+        tableView.registerNib(infoCellNib, forCellReuseIdentifier: SettingsInfoCell.reusableID)
+        let switchCellNib = UINib(nibName: SettingsSwitchCell.reusableID, bundle: nil)
+        tableView.registerNib(switchCellNib, forCellReuseIdentifier: SettingsSwitchCell.reusableID)
+        tableView.backgroundColor = UIColor.grayBackground
+        tableView.contentInset.bottom = 15
     }
 
     private func setupAccessibilityIds() {
@@ -81,8 +85,8 @@ class SettingsViewController: BaseViewController {
             }
         }.addDisposableTo(disposeBag)
 
-        viewModel.settingsChanges.bindNext { [weak self] change in
-            self?.tableView.reloadData()
+        viewModel.sections.asObservable().bindNext { [weak self] _ in
+            self?.tableView?.reloadData()
         }.addDisposableTo(disposeBag)
     }
 }
@@ -92,21 +96,89 @@ class SettingsViewController: BaseViewController {
 
 extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
 
+    private static let headerHeight: CGFloat = 50
+    private static let emptyHeaderHeight: CGFloat = 30
+
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return viewModel.sectionCount
+    }
+
+    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        let title = viewModel.sectionTitle(section)
+        return title.isEmpty ? SettingsViewController.emptyHeaderHeight : SettingsViewController.headerHeight
+    }
+
+    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let title = viewModel.sectionTitle(section)
+        guard !title.isEmpty else {
+            let container = UIView()
+            container.backgroundColor = UIColor.grayBackground
+            if section > 0 {
+                let topSeparator = UIView(frame: CGRect(x: 0, y: 0, width: tableView.width, height: LGUIKitConstants.onePixelSize))
+                topSeparator.backgroundColor = UIColor.grayLight
+                container.addSubview(topSeparator)
+            }
+            return container
+        }
+        let container = UIView()
+        container.backgroundColor = UIColor.grayBackground
+        if section > 0 {
+            let topSeparator = UIView(frame: CGRect(x: 0, y: 0, width: tableView.width, height: LGUIKitConstants.onePixelSize))
+            topSeparator.backgroundColor = UIColor.grayLight
+            container.addSubview(topSeparator)
+        }
+        let label = UILabel(frame: CGRect(x: 12, y: 28, width: tableView.width, height: 15))
+        label.text = title.uppercase
+        label.font = UIFont.systemRegularFont(size: 13)
+        label.textColor = UIColor.gray
+        label.sizeToFit()
+        container.addSubview(label)
+        let bottomSeparator = UIView(frame: CGRect(x: 0, y: SettingsViewController.headerHeight-LGUIKitConstants.onePixelSize,
+            width: tableView.width, height: LGUIKitConstants.onePixelSize))
+        bottomSeparator.backgroundColor = UIColor.grayLight
+        container.addSubview(bottomSeparator)
+        return container
+    }
+
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.settingsCount
+        return viewModel.settingsCount(section)
+    }
+
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        guard let setting = viewModel.settingAtSection(indexPath.section, index: indexPath.row) else { return 0 }
+        return setting.cellHeight
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCellWithIdentifier(SettingsCell.reusableID, forIndexPath: indexPath)
-            as? SettingsCell else { return UITableViewCell() }
-        guard let setting = viewModel.settingAtIndex(indexPath.row) else { return UITableViewCell() }
-        cell.setupWithSetting(setting)
-        return cell
+        guard let setting = viewModel.settingAtSection(indexPath.section, index: indexPath.row) else { return UITableViewCell() }
+        switch setting {
+        case .LogOut:
+            guard let cell = tableView.dequeueReusableCellWithIdentifier(SettingsLogoutCell.reusableID, forIndexPath: indexPath)
+                as? SettingsLogoutCell else { return UITableViewCell() }
+            return cell
+        case .VersionInfo:
+            guard let cell = tableView.dequeueReusableCellWithIdentifier(SettingsInfoCell.reusableID, forIndexPath: indexPath)
+                as? SettingsInfoCell else { return UITableViewCell() }
+            cell.refreshData()
+            return cell
+        case .MarketingNotifications:
+            guard let cell = tableView.dequeueReusableCellWithIdentifier(SettingsSwitchCell.reusableID, forIndexPath: indexPath)
+                as? SettingsSwitchCell else { return UITableViewCell() }
+            cell.setupWithSetting(setting)
+            cell.showBottomBorder = indexPath.row < viewModel.settingsCount(indexPath.section) - 1
+            return cell
+        default:
+            guard let cell = tableView.dequeueReusableCellWithIdentifier(SettingsCell.reusableID, forIndexPath: indexPath)
+                as? SettingsCell else { return UITableViewCell() }
+            cell.setupWithSetting(setting)
+            cell.showBottomBorder = indexPath.row < viewModel.settingsCount(indexPath.section) - 1
+            return cell
+        }
     }
 
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
-        viewModel.settingSelectedAtIndex(indexPath.row)
+        viewModel.settingSelectedAtSection(indexPath.section, index: indexPath.row)
     }
 }
 
@@ -114,10 +186,6 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
 // MARK: - SettingsViewModelDelegate 
 
 extension SettingsViewController: SettingsViewModelDelegate {
-    func vmOpenSettingsDetailVC(vc: UIViewController) {
-        navigationController?.pushViewController(vc, animated: true)
-    }
-
     func vmOpenImagePick() {
         MediaPickerManager.showImagePickerIn(self)
     }
@@ -164,5 +232,23 @@ extension SettingsViewController: FBSDKAppInviteDialogDelegate {
 
     func appInviteDialog(appInviteDialog: FBSDKAppInviteDialog!, didFailWithError error: NSError!) {
         viewModel.fbAppInviteFailed()
+    }
+}
+
+
+// MARK: - LetGoSetting UI
+
+extension LetGoSetting {
+
+    var cellHeight: CGFloat {
+        switch self {
+        case .InviteFbFriends, .ChangePhoto, .ChangeUsername, .ChangeLocation, .CreateCommercializer, .ChangePassword,
+             .Help, .MarketingNotifications:
+            return 50
+        case .LogOut:
+            return 44
+        case .VersionInfo:
+            return 30
+        }
     }
 }

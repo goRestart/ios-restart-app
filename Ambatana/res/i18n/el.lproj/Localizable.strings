@@ -143,7 +143,6 @@
 "collection_furniture_title" = "Πουθενά όπως στο σπίτι";
 "collection_gaming_title" = "Το παιχνίδι ξεκίνησε";
 "collection_transport_title" = "Ταξιδέψτε με στυλ";
-"collection_you_title" = "Selected for you";
 "commercializer_create_from_settings" = "Create a Free Commercial";
 "commercializer_display_share_alert" = "Share this masterpiece";
 "commercializer_display_share_label" = "Share your masterpiece with the world and watch the offers come rolling in";
@@ -633,10 +632,10 @@
 "settings_invite_facebook_friends_error" = "Παρουσιάστηκε σφάλμα κατά την κοινοποίηση της πρόσκλησης.";
 "settings_invite_facebook_friends_ok" = "Η πρόσκλησή σας κοινοποιήθηκε επιτυχώς!";
 "settings_logout_button" = "Αποσύνδεση";
-"settings_marketing_notifications_switch" = "Ειδοποιήσεις Μάρκετινγκ";
-"settings_section_profile" = "Προφίλ";
-"settings_section_promote" = "Προώθηση";
-"settings_section_support" = "Υποστήριξη";
+"settings_marketing_notifications_switch" = "Marketing Notifications";
+"settings_section_profile" = "Profile";
+"settings_section_promote" = "Promote";
+"settings_section_support" = "Support";
 "settings_title" = "Ρυθμίσεις";
 "sign_up_acceptance_error" = "To sign up you have to accept the Terms & Conditions and the Privacy Policy";
 "sign_up_email_field_hint" = "Email";
@@ -654,8 +653,8 @@
 "sign_up_terms_conditions_terms_part" = "Terms & Conditions";
 "sign_up_title" = "Δημιουργία νέου λογαριασμού";
 "sign_up_username_field_hint" = "Ονοματεπώνυμο";
-"suggestions_last_searches_clear_button" = "Εκκαθάριση";
-"suggestions_last_searches_title" = "Πρόσφατες Αναζητήσεις";
+"suggestions_last_searches_clear_button" = "Clear";
+"suggestions_last_searches_title" = "Recent Searches";
 "tab_bar_give_away_button" = "Χάρισέ Το";
 "tab_bar_give_away_tooltip" = "Τώρα μπορείτε να χαρίσετε αντικείμενα";
 "tab_bar_sell_stuff_button" = "Πουλά Πράγματα";

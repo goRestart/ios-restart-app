@@ -7,12 +7,15 @@
 //
 
 import LGCoreKit
+import RxSwift
 
 final class TrackerProxy: Tracker {
     private static let defaultTrackers: [Tracker] = [AmplitudeTracker(), AppsflyerTracker(), FacebookTracker(),
                                                      CrashlyticsTracker(), LeanplumTracker()]
 
     static let sharedInstance = TrackerProxy()
+
+    private let disposeBag = DisposeBag()
     private var trackers: [Tracker] = []
 
     private var notificationsPermissionEnabled: Bool {
@@ -68,6 +71,7 @@ final class TrackerProxy: Tracker {
         setUser(Core.myUserRepository.myUser)
         setGPSPermission(gpsPermissionEnabled)
         setNotificationsPermission(notificationsPermissionEnabled)
+        setupMktNotificationsRx()
     }
 
     func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?,
@@ -117,6 +121,9 @@ final class TrackerProxy: Tracker {
         trackers.forEach { $0.setGPSPermission(enabled) }
     }
 
+    func setMarketingNotifications(enabled: Bool) {
+        trackers.forEach { $0.setMarketingNotifications(enabled) }
+    }
 
     // MARK: Private methods
 
@@ -140,5 +147,11 @@ final class TrackerProxy: Tracker {
         } else {
             trackEvent(TrackerEvent.permissionSystemCancel(.Location, typePage: .ProductList))
         }
+    }
+
+    private func setupMktNotificationsRx() {
+        NotificationsManager.sharedInstance.loggedInMktNofitications.bindNext { [weak self] enabled in
+            self?.setMarketingNotifications(enabled)
+        }.addDisposableTo(disposeBag)
     }
 }
