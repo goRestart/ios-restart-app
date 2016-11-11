@@ -100,7 +100,7 @@ class MainProductsViewModel: BaseViewModel {
     private var collections: [CollectionCellType] {
         let generalCollections = CollectionCellType.generalCollectionSuffled
         guard KeyValueStorage.sharedInstance[.lastSearches].count >= minimumSearchesSavedToShowCollection else { return generalCollections }
-        return [.You] + generalCollections
+        return CollectionCellType.generalCollectionWithForYou
     }
     private let keyValueStorage: KeyValueStorage
     
