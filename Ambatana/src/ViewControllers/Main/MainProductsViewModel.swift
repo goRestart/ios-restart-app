@@ -97,10 +97,10 @@ class MainProductsViewModel: BaseViewModel {
 
     private let tracker: Tracker
     private let searchType: SearchType? // The initial search
-    private let generalCollectionsSuffled: [CollectionCellType]
+    private let generalCollectionsShuffled: [CollectionCellType]
     private var collections: [CollectionCellType] {
-        guard keyValueStorage[.lastSearches].count >= minimumSearchesSavedToShowCollection else { return generalCollectionsSuffled }
-        return [.You] + generalCollectionsSuffled
+        guard keyValueStorage[.lastSearches].count >= minimumSearchesSavedToShowCollection else { return generalCollectionsShuffled }
+        return [.You] + generalCollectionsShuffled
     }
     private let keyValueStorage: KeyValueStorage
     
@@ -146,7 +146,7 @@ class MainProductsViewModel: BaseViewModel {
         self.currencyHelper = currencyHelper
         self.tracker = tracker
         self.searchType = searchType
-        self.generalCollectionsSuffled = CollectionCellType.generalCollections.shuffle()
+        self.generalCollectionsShuffled = CollectionCellType.generalCollections.shuffle()
         self.filters = filters
         self.tabNavigator = tabNavigator
         self.productListRequester = FilteredProductListRequester()
