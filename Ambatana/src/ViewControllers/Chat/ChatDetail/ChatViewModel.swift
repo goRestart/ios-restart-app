@@ -72,7 +72,14 @@ class ChatViewModel: BaseViewModel {
     var keyForTextCaching: String { return userDefaultsSubKey }
     var relatedProducts: [Product] = []
     var shouldTrackFirstMessage: Bool = false
-    
+
+    private var buyerId: String? {
+        let myUserId = myUserRepository.myUser?.objectId
+        let interlocutorId = conversation.value.interlocutor?.objectId
+        let currentBuyer = conversation.value.amISelling ? interlocutorId : myUserId
+        return currentBuyer
+    }
+
     private var shouldShowSafetyTips: Bool {
         return !KeyValueStorage.sharedInstance.userChatSafetyTipsShown && didReceiveMessageFromOtherUser
     }
@@ -149,7 +156,7 @@ class ChatViewModel: BaseViewModel {
     private let disposeBag = DisposeBag()
     
     private var userDefaultsSubKey: String {
-        return "\(conversation.value.product?.objectId ?? productId) + \(conversation.value.interlocutor?.objectId)"
+        return "\(conversation.value.product?.objectId ?? productId) + \(buyerId ?? "offline")"
     }
 
     private var isBuyer: Bool {
@@ -497,11 +504,8 @@ extension ChatViewModel {
         switch data {
         case .Conversation(let conversationId):
             return conversationId == conversation.value.objectId
-        case let .ProductBuyer(productId, buyerId):
-            let myUserId = myUserRepository.myUser?.objectId
-            let interlocutorId = conversation.value.interlocutor?.objectId
-            let currentBuyer = conversation.value.amISelling ? myUserId : interlocutorId
-            return productId == conversation.value.product?.objectId && buyerId == currentBuyer
+        case let .ProductBuyer(productId, productBuyerId):
+            return productId == conversation.value.product?.objectId && productBuyerId == buyerId
         }
     }
 
