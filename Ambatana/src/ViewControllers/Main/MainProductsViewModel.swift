@@ -281,8 +281,8 @@ class MainProductsViewModel: BaseViewModel {
     private func setup() {
         listViewModel.dataDelegate = self
         productListRequester.filters = filters
-        productListRequester.queryString = searchType?.query
 
+        productListRequester.queryString = getSearchQuery(searchType)
         setupSessionAndLocation()
         setupPermissionsNotification()
     }
@@ -317,6 +317,24 @@ class MainProductsViewModel: BaseViewModel {
         } else {
             return LGLocalizedString.productDistanceMoreThanFromYou(distanceString)
         }
+    }
+    
+    private func getSearchQuery(searchType: SearchType?) -> String? {
+        var searchQuery = searchType?.query
+        if let searchTypeDefined = searchType {
+            switch searchTypeDefined {
+            case let .Collection(type):
+                switch type {
+                case .You:
+                    searchQuery = keyValueStorage[.lastSearches].reverse().joinWithSeparator(" ")
+                case .Apple, .Furniture, .Gaming, .Transport:
+                    break
+                }
+            case .User, .LastSearch, .Trending:
+                break
+            }
+        }
+        return searchQuery
     }
 }
 

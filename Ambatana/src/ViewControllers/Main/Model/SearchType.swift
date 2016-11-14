@@ -34,7 +34,7 @@ enum SearchType {
         case let .LastSearch(query):
             return query
         case let .Collection(type):
-            return type.searchTextUS
+            return type.searchTextUS ?? ""
         }
     }
 

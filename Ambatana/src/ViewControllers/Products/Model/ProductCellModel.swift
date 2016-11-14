@@ -78,7 +78,7 @@ enum CollectionCellType: String {
         }
     }
 
-    var searchTextUS: String {
+    var searchTextUS: String? {
         switch self {
         case .Gaming:
             return "ps4 xbox pokemon nintendo PS3 game boy Wii atari sega"
@@ -89,7 +89,7 @@ enum CollectionCellType: String {
         case .Furniture:
             return "dresser couch furniture desk table patio bed stand chair sofa rug mirror futon bench stool frame recliner lamp cabinet ikea shelf antique bedroom book shelf tables end table bunk beds night stand canopy"
         case .You:
-            return KeyValueStorage.sharedInstance[.lastSearches].reverse().joinWithSeparator(" ")
+            return nil
         }
     }
 }
