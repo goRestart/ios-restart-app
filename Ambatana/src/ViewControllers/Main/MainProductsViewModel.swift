@@ -282,7 +282,7 @@ class MainProductsViewModel: BaseViewModel {
         listViewModel.dataDelegate = self
         productListRequester.filters = filters
 
-        productListRequester.queryString = getSearchQuery(searchType)
+        productListRequester.queryString = searchType?.query
         setupSessionAndLocation()
         setupPermissionsNotification()
     }
@@ -317,24 +317,6 @@ class MainProductsViewModel: BaseViewModel {
         } else {
             return LGLocalizedString.productDistanceMoreThanFromYou(distanceString)
         }
-    }
-    
-    private func getSearchQuery(searchType: SearchType?) -> String? {
-        var searchQuery = searchType?.query
-        if let searchTypeDefined = searchType {
-            switch searchTypeDefined {
-            case let .Collection(type):
-                switch type {
-                case .You:
-                    searchQuery = keyValueStorage[.lastSearches].reverse().joinWithSeparator(" ")
-                case .Apple, .Furniture, .Gaming, .Transport:
-                    break
-                }
-            case .User, .LastSearch, .Trending:
-                break
-            }
-        }
-        return searchQuery
     }
 }
 
@@ -488,7 +470,15 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate {
 
     func vmDidSelectCollection(type: CollectionCellType){
         tracker.trackEvent(TrackerEvent.exploreCollection(type.rawValue))
-        delegate?.vmDidSearch(viewModelForSearch(.Collection(type: type)))
+        var query: String
+        switch type {
+        case .You:
+            query = keyValueStorage[.lastSearches].reverse().joinWithSeparator(" ")
+        case .Apple, .Furniture, .Gaming, .Transport:
+            guard let searchText =  type.searchTextUS else { return }
+            query =  searchText
+        }
+        delegate?.vmDidSearch(viewModelForSearch(.Collection(type: type, query: query)))
     }
     
     func vmUserDidTapInvite() {
