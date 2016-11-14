@@ -231,7 +231,7 @@ private extension PostProductViewModel {
         case .Disabled, .OneButton:
             eventParameterFreePosting = .Unset
         case .SplitButton:
-            eventParameterFreePosting = postingSource == .SellButton ? .True : .False
+            eventParameterFreePosting = postingSource == .SellButton ? .False : .True
         }
         let event = TrackerEvent.productSellStart(eventParameterFreePosting ,typePage: postingSource.typePage,
                                                   buttonName: postingSource.buttonName, sellButtonPosition: postingSource.sellButtonPosition)
