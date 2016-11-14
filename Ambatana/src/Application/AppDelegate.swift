@@ -78,6 +78,7 @@ extension AppDelegate: UIApplicationDelegate {
         self.navigator = appCoordinator
 
         let window = UIWindow(frame: UIScreen.mainScreen().bounds)
+        window.backgroundColor = UIColor.white
         window.rootViewController = appCoordinator.tabBarCtl
         self.window = window
 

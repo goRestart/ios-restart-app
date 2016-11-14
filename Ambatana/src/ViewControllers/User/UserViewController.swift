@@ -119,6 +119,7 @@ class UserViewController: BaseViewController {
 
     override func viewWillAppearFromBackground(fromBackground: Bool) {
         super.viewWillAppearFromBackground(fromBackground)
+        view.backgroundColor = viewModel.backgroundColor.value
 
         // UINavigationBar's title alpha gets resetted on view appear, does not allow initial 0.0 value
         if let navBarUserView = navBarUserView {
@@ -129,6 +130,16 @@ class UserViewController: BaseViewController {
                     navBarUserView.alpha = currentAlpha
                     navBarUserView.hidden = false
             }
+        }
+    }
+
+    override func viewWillDisappearToBackground(toBackground: Bool) {
+        super.viewWillDisappearToBackground(toBackground)
+
+        // Animating to clear background color as it glitches next screen translucent navBar
+        // http://stackoverflow.com/questions/28245061/why-does-setting-hidesbottombarwhenpushed-to-yes-with-a-translucent-navigation
+        UIView.animateWithDuration(0.3) { [weak self] in
+            self?.view.backgroundColor = UIColor.whiteColor()
         }
     }
 }
