@@ -42,7 +42,7 @@ enum CollectionCellType: String {
     case Apple = "apple"
     case Transport = "transport"
     case Furniture = "furniture"
-    case You = "you"
+    case You = "selected-for-you"
     
     static var generalCollections: [CollectionCellType] {
         return [.Gaming, .Apple, .Transport, .Furniture]
