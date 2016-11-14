@@ -54,7 +54,7 @@
                     </constraints>
                 </view>
             </subviews>
-            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="0EQ-JX-Fgn" secondAttribute="trailing" id="55h-oI-BDU"/>
                 <constraint firstItem="0EQ-JX-Fgn" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="5ux-Ky-EOI"/>
@@ -65,7 +65,6 @@
                 <constraint firstAttribute="trailing" secondItem="neH-e5-Q0w" secondAttribute="trailing" id="ban-9f-lgr"/>
                 <constraint firstItem="neH-e5-Q0w" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="nKk-hU-GR8"/>
             </constraints>
-            <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
         </view>
     </objects>
 </document>
