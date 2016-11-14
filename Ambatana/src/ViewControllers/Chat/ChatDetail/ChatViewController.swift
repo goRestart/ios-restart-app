@@ -396,6 +396,8 @@ extension ChatViewController {
         viewModel.userReviewTooltipVisible.asObservable()) { $0 }
             .subscribeNext { [weak self] (showReviewButton, showReviewTooltip) in
                 self?.productView.showReviewButton(showReviewButton, withTooltip: showReviewTooltip)
+                guard let tooltip = self?.productView.userRatingTooltip else { return }
+                self?.navigationController?.navigationBar.forceTouchesFor(tooltip)
             }.addDisposableTo(disposeBag)
 
         viewModel.messages.changesObservable.subscribeNext { [weak self] change in
