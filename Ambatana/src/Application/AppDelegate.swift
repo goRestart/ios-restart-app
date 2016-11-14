@@ -354,7 +354,7 @@ private extension AppDelegate {
         } else {
             //We must keep it (even though it's deprecated) until we drop iOS8
             AppsFlyerTracker.sharedTracker().handleOpenURL(url, sourceApplication: sourceApplication,
-                                                       withAnnotation: annotation)
+                                                           withAnnotation: annotation)
         }
         
         return routerHandling || facebookHandling || googleHandling

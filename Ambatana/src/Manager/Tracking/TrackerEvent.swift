@@ -880,34 +880,47 @@ public struct TrackerEvent {
         return TrackerEvent(name: .VerifyAccountComplete, params: params)
     }
 
-    static func InappChatNotificationStart() -> TrackerEvent {
+    static func inappChatNotificationStart() -> TrackerEvent {
         return TrackerEvent(name: .InappChatNotificationStart, params: EventParameters())
     }
 
-    static func InappChatNotificationComplete() -> TrackerEvent {
+    static func inappChatNotificationComplete() -> TrackerEvent {
         return TrackerEvent(name: .InappChatNotificationComplete, params: EventParameters())
     }
 
-    static func SignupCaptcha() -> TrackerEvent {
+    static func signupCaptcha() -> TrackerEvent {
         return TrackerEvent(name: .SignupCaptcha, params: EventParameters())
     }
 
-    static func NotificationCenterStart() -> TrackerEvent {
+    static func notificationCenterStart() -> TrackerEvent {
         return TrackerEvent(name: .NotificationCenterStart, params: EventParameters())
     }
 
-    static func NotificationCenterComplete(type: EventParameterNotificationType) -> TrackerEvent {
+    static func notificationCenterComplete(type: EventParameterNotificationType) -> TrackerEvent {
         var params = EventParameters()
         params[.NotificationType] = type.rawValue
         return TrackerEvent(name: .NotificationCenterComplete, params: params)
     }
 
-    static func MarketingPushNotifications(userId: String?, enabled: Bool) -> TrackerEvent {
+    static func marketingPushNotifications(userId: String?, enabled: Bool) -> TrackerEvent {
         var params = EventParameters()
         params[.UserId] = userId
         params[.Enabled] = enabled
         return TrackerEvent(name: .MarketingPushNotifications, params: params)
     }
+
+    static func chatHeadsStart() -> TrackerEvent {
+        return TrackerEvent(name: .ChatHeadsStart, params: EventParameters())
+    }
+
+    static func chatHeadsOpen() -> TrackerEvent {
+        return TrackerEvent(name: .ChatHeadsOpen, params: EventParameters())
+    }
+
+    static func chatHeadsDelete() -> TrackerEvent {
+        return TrackerEvent(name: .ChatHeadsDelete, params: EventParameters())
+    }
+
 
     // MARK: - Private methods
 

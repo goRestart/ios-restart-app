@@ -180,12 +180,12 @@ private extension NotificationsViewModel {
 
 private extension NotificationsViewModel {
     func trackVisit() {
-        let event = TrackerEvent.NotificationCenterStart()
+        let event = TrackerEvent.notificationCenterStart()
         tracker.trackEvent(event)
     }
 
     func trackItemPressed(type: EventParameterNotificationType) {
-        let event = TrackerEvent.NotificationCenterComplete(type)
+        let event = TrackerEvent.notificationCenterComplete(type)
         tracker.trackEvent(event)
     }
 }

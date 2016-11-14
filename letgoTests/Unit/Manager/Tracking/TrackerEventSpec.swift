@@ -2323,7 +2323,7 @@ class TrackerEventSpec: QuickSpec {
             }
             describe("In app chat notification start") {
                 beforeEach {
-                    sut = TrackerEvent.InappChatNotificationStart()
+                    sut = TrackerEvent.inappChatNotificationStart()
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("in-app-chat-notification-start"))
@@ -2331,7 +2331,7 @@ class TrackerEventSpec: QuickSpec {
             }
             describe("In app chat notification complete") {
                 beforeEach {
-                    sut = TrackerEvent.InappChatNotificationComplete()
+                    sut = TrackerEvent.inappChatNotificationComplete()
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("in-app-chat-notification-complete"))
@@ -2339,7 +2339,7 @@ class TrackerEventSpec: QuickSpec {
             }
             describe("Signup captcha") {
                 beforeEach {
-                    sut = TrackerEvent.SignupCaptcha()
+                    sut = TrackerEvent.signupCaptcha()
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("signup-captcha"))
@@ -2347,7 +2347,7 @@ class TrackerEventSpec: QuickSpec {
             }
             describe("Notification center start") {
                 beforeEach {
-                    sut = TrackerEvent.NotificationCenterStart()
+                    sut = TrackerEvent.notificationCenterStart()
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("notification-center-start"))
@@ -2355,7 +2355,7 @@ class TrackerEventSpec: QuickSpec {
             }
             describe("Notification center complete") {
                 beforeEach {
-                    sut = TrackerEvent.NotificationCenterComplete(.Welcome)
+                    sut = TrackerEvent.notificationCenterComplete(.Welcome)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("notification-center-complete"))
@@ -2365,10 +2365,9 @@ class TrackerEventSpec: QuickSpec {
                     expect(param) == "welcome"
                 }
             }
-
             describe("Marketing Push Notifications") {
                 beforeEach {
-                    sut = TrackerEvent.MarketingPushNotifications("123456", enabled: true)
+                    sut = TrackerEvent.marketingPushNotifications("123456", enabled: true)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("marketing-push-notifications"))
@@ -2380,6 +2379,30 @@ class TrackerEventSpec: QuickSpec {
                 it("contains enabled param") {
                     let param = sut.params!.stringKeyParams["enabled"] as? Bool
                     expect(param) == true
+                }
+            }
+            describe("chat heads start") {
+                beforeEach {
+                    sut = TrackerEvent.chatHeadsStart()
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("chat-bubble-start"))
+                }
+            }
+            describe("chat heads open") {
+                beforeEach {
+                    sut = TrackerEvent.chatHeadsOpen()
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("chat-bubble-complete"))
+                }
+            }
+            describe("chat heads delete") {
+                beforeEach {
+                    sut = TrackerEvent.chatHeadsDelete()
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("chat-bubble-delete"))
                 }
             }
         }

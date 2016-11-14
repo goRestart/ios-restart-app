@@ -52,9 +52,10 @@ class ChatGroupedViewModel: BaseViewModel {
     private(set) var blockedUsersListViewModel: BlockedUsersListViewModel
     private let currentPageViewModel = Variable<ChatGroupedListViewModelType?>(nil)
 
-    private var sessionManager: SessionManager
-    private var myUserRepository: MyUserRepository
-    private var chatRepository: ChatRepository
+    private let sessionManager: SessionManager
+    private let chatHeadManager: ChatHeadManager
+    private let myUserRepository: MyUserRepository
+    private let chatRepository: ChatRepository
 
     weak var delegate: ChatGroupedViewModelDelegate?
     weak var tabNavigator: TabNavigator? {
@@ -77,11 +78,13 @@ class ChatGroupedViewModel: BaseViewModel {
 
     override convenience init() {
         self.init(myUserRepository: Core.myUserRepository, chatRepository: Core.chatRepository,
-                  sessionManager: Core.sessionManager)
+                  sessionManager: Core.sessionManager, chatHeadManager: ChatHeadManager.sharedInstance)
     }
 
-    init(myUserRepository: MyUserRepository, chatRepository: ChatRepository, sessionManager: SessionManager) {
+    init(myUserRepository: MyUserRepository, chatRepository: ChatRepository,
+         sessionManager: SessionManager, chatHeadManager: ChatHeadManager) {
         self.sessionManager = sessionManager
+        self.chatHeadManager = chatHeadManager
         self.myUserRepository = myUserRepository
         self.chatRepository = chatRepository
         self.chatListViewModels = []
@@ -111,6 +114,11 @@ class ChatGroupedViewModel: BaseViewModel {
         }
         setupRxBindings()
         setupVerificationPendingEmptyVM()
+    }
+
+    override func didBecomeActive(firstTime: Bool) {
+        super.didBecomeActive(firstTime)
+        chatHeadManager.updateChatHeadDatas()
     }
 
     func setupVerificationPendingEmptyVM() {

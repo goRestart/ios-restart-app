@@ -222,6 +222,7 @@ final class TabBarController: UITabBarController {
 
         // Pop previous navigation to root
         navBarCtl.popToRootViewControllerAnimated(false)
+        navBarCtl.tabBarController?.setTabBarHidden(false, animated: false)
 
         selectedIndex = tab.index
 

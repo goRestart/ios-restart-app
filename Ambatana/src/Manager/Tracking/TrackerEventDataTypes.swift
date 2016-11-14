@@ -42,7 +42,7 @@ public enum EventName: String {
     case ProductShareCancel                 = "product-detail-share-cancel"
     case ProductShareComplete               = "product-detail-share-complete"
     
-    case FirstMessage                 = "product-detail-ask-question"
+    case FirstMessage                       = "product-detail-ask-question"
     case ProductChatButton                  = "product-detail-chat-button"
     case ProductMarkAsSold                  = "product-detail-sold"
     case ProductMarkAsUnsold                = "product-detail-unsold"
@@ -145,6 +145,9 @@ public enum EventName: String {
 
     case MarketingPushNotifications         = "marketing-push-notifications"
     
+    case ChatHeadsStart                     = "chat-bubble-start"
+    case ChatHeadsOpen                      = "chat-bubble-complete"
+    case ChatHeadsDelete                    = "chat-bubble-delete"
 
     // Constants
     private static let eventNameDummyPrefix  = "dummy-"

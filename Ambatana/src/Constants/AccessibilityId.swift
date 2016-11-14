@@ -476,6 +476,10 @@ enum AccessibilityId: String {
     
     // Pop-up alert. 
     case AcceptPopUpButton
+
+    // Chat Heads
+    case ChatHeadsAvatars
+    case ChatHeadsDelete
 }
 
 extension UIAccessibilityIdentification {
