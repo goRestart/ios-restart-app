@@ -49,7 +49,7 @@ class NPSViewController: BaseViewController {
     
     func setupUI() {
         npsButtons.forEach {
-            $0.layer.cornerRadius = $0.height/2
+            $0.cornerRadius = true
             $0.layer.borderColor = UIColor.primaryColor.CGColor
             $0.layer.borderWidth = 1.0
             $0.clipsToBounds = true

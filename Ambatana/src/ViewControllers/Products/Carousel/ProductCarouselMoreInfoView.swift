@@ -282,8 +282,8 @@ extension ProductCarouselMoreInfoView {
         descriptionLabel.expandTextColor = UIColor.whiteColor()
         
         setupSocialShareView()
-        
-        dragView.layer.cornerRadius = dragView.height/2
+
+        dragView.rounded = true
         dragView.layer.borderColor = UIColor.white.CGColor
         dragView.layer.borderWidth = 1
         dragView.backgroundColor = UIColor.clearColor()
