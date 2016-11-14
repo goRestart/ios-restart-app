@@ -97,7 +97,11 @@ class MainProductsViewModel: BaseViewModel {
 
     private let tracker: Tracker
     private let searchType: SearchType? // The initial search
-    private let collections: [CollectionCellType]
+    private let generalCollectionsShuffled: [CollectionCellType]
+    private var collections: [CollectionCellType] {
+        guard keyValueStorage[.lastSearches].count >= minimumSearchesSavedToShowCollection else { return generalCollectionsShuffled }
+        return [.You] + generalCollectionsShuffled
+    }
     private let keyValueStorage: KeyValueStorage
     
     // > Delegate
@@ -118,6 +122,7 @@ class MainProductsViewModel: BaseViewModel {
     private var shouldTrackSearch = false
 
     // Suggestion searches
+    let minimumSearchesSavedToShowCollection = 3
     let lastSearchesSavedMaximum = 10
     let lastSearchesShowMaximum = 3
     let trendingSearches = Variable<[String]>([])
@@ -141,9 +146,9 @@ class MainProductsViewModel: BaseViewModel {
         self.currencyHelper = currencyHelper
         self.tracker = tracker
         self.searchType = searchType
+        self.generalCollectionsShuffled = CollectionCellType.generalCollections.shuffle()
         self.filters = filters
         self.tabNavigator = tabNavigator
-        self.collections = CollectionCellType.allValuesShuffled
         self.productListRequester = FilteredProductListRequester()
         self.keyValueStorage = keyValueStorage
         let show3Columns = DeviceFamily.current.isWiderOrEqualThan(.iPhone6Plus)
@@ -276,8 +281,8 @@ class MainProductsViewModel: BaseViewModel {
     private func setup() {
         listViewModel.dataDelegate = self
         productListRequester.filters = filters
-        productListRequester.queryString = searchType?.query
 
+        productListRequester.queryString = searchType?.query
         setupSessionAndLocation()
         setupPermissionsNotification()
     }
@@ -465,7 +470,15 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate {
 
     func vmDidSelectCollection(type: CollectionCellType){
         tracker.trackEvent(TrackerEvent.exploreCollection(type.rawValue))
-        delegate?.vmDidSearch(viewModelForSearch(.Collection(type: type)))
+        var query: String
+        switch type {
+        case .You:
+            query = keyValueStorage[.lastSearches].reverse().joinWithSeparator(" ")
+        case .Apple, .Furniture, .Gaming, .Transport:
+            guard let searchText =  type.searchTextUS else { return }
+            query =  searchText
+        }
+        delegate?.vmDidSearch(viewModelForSearch(.Collection(type: type, query: query)))
     }
     
     func vmUserDidTapInvite() {

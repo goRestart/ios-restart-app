@@ -42,13 +42,10 @@ enum CollectionCellType: String {
     case Apple = "apple"
     case Transport = "transport"
     case Furniture = "furniture"
-
-    static var allValues: [CollectionCellType] {
+    case You = "you"
+    
+    static var generalCollections: [CollectionCellType] {
         return [.Gaming, .Apple, .Transport, .Furniture]
-    }
-
-    static var allValuesShuffled: [CollectionCellType] {
-        return allValues.shuffle()
     }
 
     var image: UIImage? {
@@ -61,6 +58,8 @@ enum CollectionCellType: String {
             return UIImage(named: "collection_transport")
         case .Furniture:
             return UIImage(named: "collection_home")
+        case .You:
+            return UIImage(named: "collection_you")
         }
     }
 
@@ -74,10 +73,12 @@ enum CollectionCellType: String {
             return LGLocalizedString.collectionTransportTitle
         case .Furniture:
             return LGLocalizedString.collectionFurnitureTitle
+        case .You:
+            return LGLocalizedString.collectionYouTitle
         }
     }
 
-    var searchTextUS: String {
+    var searchTextUS: String? {
         switch self {
         case .Gaming:
             return "ps4 xbox pokemon nintendo PS3 game boy Wii atari sega"
@@ -87,6 +88,8 @@ enum CollectionCellType: String {
             return "bike boat motorcycle car kayak trailer atv truck jeep rims camper cart scooter dirtbike jetski gokart four wheeler bicycle quad bike tractor bmw wheels canoe hoverboard Toyota bmx rv Chevy sub ford paddle Harley yamaha Jeep Honda mustang corvette dodge"
         case .Furniture:
             return "dresser couch furniture desk table patio bed stand chair sofa rug mirror futon bench stool frame recliner lamp cabinet ikea shelf antique bedroom book shelf tables end table bunk beds night stand canopy"
+        case .You:
+            return nil
         }
     }
 }
