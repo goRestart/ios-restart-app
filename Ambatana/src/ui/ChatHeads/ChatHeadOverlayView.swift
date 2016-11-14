@@ -230,7 +230,6 @@ private extension ChatHeadOverlayView {
             // If near delete then highlight it
             let currentPos = CGPoint(x: chatHeadGroupXConstraint.constant, y: chatHeadGroupYConstraint.constant)
             let distance = currentPos.distanceTo(deleteImageView.frame.origin)
-            print(distance)
             let highlighted = distance <= ChatHeadOverlayView.chatHeadDistanceToHide
             deleteImageView.highlighted = highlighted
 
