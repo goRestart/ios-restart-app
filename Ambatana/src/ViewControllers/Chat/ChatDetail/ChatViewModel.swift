@@ -129,6 +129,7 @@ class ChatViewModel: BaseViewModel {
     private var interlocutor: User?
     private let myMessagesCount = Variable<Int>(0)
     private let otherMessagesCount = Variable<Int>(0)
+    private let isEmptyConversation = Variable<Bool>(true)
     private let stickersTooltipVisible = Variable<Bool>(!KeyValueStorage.sharedInstance[.stickersTooltipAlreadyShown])
     private let reviewTooltipVisible = Variable<Bool>(!KeyValueStorage.sharedInstance[.userRatingTooltipAlreadyShown])
     let shouldShowReviewButton = Variable<Bool>(false)
@@ -347,6 +348,14 @@ class ChatViewModel: BaseViewModel {
             .distinctUntilChanged()
         let chatStatusReviewable = chatStatus.asObservable().map { $0.userReviewEnabled }.distinctUntilChanged()
 
+        let isEmptyMyMessages = myMessagesCount.asObservable()
+            .map { $0 == 0 }
+            .distinctUntilChanged()
+        
+        let isEmptyOtherMessages = otherMessagesCount.asObservable()
+            .map { $0 == 0 }
+            .distinctUntilChanged()
+        
         Observable.combineLatest(myMessagesReviewable, otherMessagesReviewable, chatStatusReviewable) { $0 && $1 && $2 }
             .bindTo(shouldShowReviewButton).addDisposableTo(disposeBag)
 
@@ -362,7 +371,10 @@ class ChatViewModel: BaseViewModel {
         conversation.asObservable().map{$0.lastMessageSentAt == nil}.bindNext{ [weak self] result in
             self?.shouldTrackFirstMessage = result
             }.addDisposableTo(disposeBag)
-
+        
+        Observable.combineLatest(isEmptyMyMessages, isEmptyOtherMessages) { $0 && $1 }
+            .bindTo(isEmptyConversation).addDisposableTo(disposeBag)
+        
         setupChatEventsRx()
     }
 
@@ -687,7 +699,7 @@ extension ChatViewModel {
                 actions.append(directAnswersAction)
             }
             
-            if !isDeleted {
+            if !isDeleted && !isEmptyConversation.value {
                 let delete = UIAction(interface: UIActionInterface.Text(LGLocalizedString.chatListDelete),
                                                    action: deleteAction)
                 actions.append(delete)
