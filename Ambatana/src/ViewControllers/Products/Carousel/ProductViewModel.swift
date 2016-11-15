@@ -461,7 +461,9 @@ extension ProductViewModel {
     }
 
     func sendDirectMessage(text: String) {
-        sendMessage(.Text(text), favorite: false)
+        ifLoggedInRunActionElseOpenChatSignup { [weak self] in
+            self?.sendMessage(.Text(text), favorite: false)
+        }
     }
 
     func openVideo() {
