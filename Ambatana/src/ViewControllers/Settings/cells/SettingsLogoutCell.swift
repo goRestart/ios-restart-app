@@ -24,7 +24,7 @@ class SettingsLogoutCell: UITableViewCell, ReusableCell {
 
     private func setupUI() {
         logoutButton.userInteractionEnabled = false
-        logoutButton.setStyle(.Logout(fontSize: .Medium))
+        logoutButton.setStyle(.Logout)
         logoutButton.layer.cornerRadius = 22
         logoutButton.setTitle(LGLocalizedString.settingsLogoutButton, forState: .Normal)
     }

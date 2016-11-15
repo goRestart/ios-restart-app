@@ -21,7 +21,7 @@ enum ButtonStyle {
     case Google
     case Facebook
     case Dark(fontSize: ButtonFontSize)
-    case Logout(fontSize: ButtonFontSize)
+    case Logout
     case Review
     case DarkField
     case LightField
@@ -128,8 +128,8 @@ enum ButtonStyle {
             fontSize = size
         case let .Dark(size):
             fontSize = size
-        case let .Logout(size):
-            fontSize = size
+        case .Logout:
+            fontSize = .Medium
         case let .Secondary(size,_):
             fontSize = size
         case .Terciary:
