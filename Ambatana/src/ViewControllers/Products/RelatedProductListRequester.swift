@@ -10,9 +10,16 @@ import LGCoreKit
 
 class RelatedProductListRequester: ProductListRequester {
 
+    var itemsPerPage: Int = Constants.numProductsPerPage2Columns
     private let productObjectId: String
     private let productRepository: ProductRepository
     private var offset: Int = 0
+
+    private var retrieveProductParams: RetrieveProductsParams {
+        var params = RetrieveProductsParams()
+        params.numProducts = itemsPerPage
+        return params
+    }
 
     convenience init(productId: String) {
         self.init(productId: productId, productRepository: Core.productRepository)
@@ -37,7 +44,8 @@ class RelatedProductListRequester: ProductListRequester {
     }
 
     func productsRetrieval(completion: ProductsCompletion?) {
-        productRepository.indexRelated(productId: productObjectId, params: RetrieveProductsParams(), pageOffset: offset) { [weak self] result in
+        productRepository.indexRelated(productId: productObjectId, params: retrieveProductParams, pageOffset: offset) {
+            [weak self] result in
             if let value = result.value {
                 self?.offset += value.count
             }
@@ -54,6 +62,7 @@ class RelatedProductListRequester: ProductListRequester {
     func duplicate() -> ProductListRequester {
         let r = RelatedProductListRequester(productId: productObjectId)
         r.offset = offset
+        r.itemsPerPage = itemsPerPage
         return r
     }
 }

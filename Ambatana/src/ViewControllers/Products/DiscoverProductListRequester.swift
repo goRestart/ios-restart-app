@@ -10,6 +10,7 @@ import LGCoreKit
 
 class DiscoverProductListRequester {
 
+    var itemsPerPage: Int = Constants.numProductsPerPage2Columns
     private let productObjectId: String
     private let productRepository: ProductRepository
     private var offset: Int = 0
@@ -49,6 +50,7 @@ extension DiscoverProductListRequester: ProductListRequester {
     func duplicate() -> ProductListRequester {
         let r = DiscoverProductListRequester(productId: productObjectId)
         r.offset = offset
+        r.itemsPerPage = itemsPerPage
         return r
     }
 }

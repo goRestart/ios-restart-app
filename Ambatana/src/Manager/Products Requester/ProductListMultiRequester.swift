@@ -18,6 +18,12 @@ class ProductListMultiRequester {
     private var hasChangedRequester: Bool // use it to ask for 1st page of next requester
     private var multiIsLastPage: Bool
 
+    var itemsPerPage: Int = Constants.numProductsPerPage2Columns {
+        didSet {
+            requestersArray.forEach { $0.itemsPerPage = itemsPerPage }
+        }
+    }
+
     // MARK: - Lifecycle
 
     convenience init() {

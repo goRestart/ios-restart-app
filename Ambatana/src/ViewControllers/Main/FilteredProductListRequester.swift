@@ -12,6 +12,8 @@ import CoreLocation
 
 class FilteredProductListRequester: ProductListRequester {
 
+    var itemsPerPage: Int = Constants.numProductsPerPage2Columns
+
     private let productRepository: ProductRepository
     private let locationManager: LocationManager
     private var queryFirstCallCoordinates: LGLocationCoordinates2D?
@@ -84,6 +86,7 @@ class FilteredProductListRequester: ProductListRequester {
     func duplicate() -> ProductListRequester {
         let requester = FilteredProductListRequester()
         requester.offset = offset
+        requester.itemsPerPage = itemsPerPage
         requester.queryFirstCallCoordinates = queryFirstCallCoordinates
         requester.queryFirstCallCountryCode = queryFirstCallCountryCode
         requester.queryString = queryString
@@ -137,6 +140,7 @@ private extension FilteredProductListRequester {
 
     private var retrieveProductsParams: RetrieveProductsParams {
         var params: RetrieveProductsParams = RetrieveProductsParams()
+        params.numProducts = itemsPerPage
         params.coordinates = queryCoordinates
         params.queryString = queryString
         params.countryCode = countryCode

@@ -34,6 +34,7 @@ extension ProductListViewModelDataDelegate {
 }
 
 protocol ProductListRequester: class {
+    var itemsPerPage: Int { get set }
     func canRetrieve() -> Bool
     func retrieveFirstPage(completion: ProductsCompletion?)
     func retrieveNextPage(completion: ProductsCompletion?)
@@ -50,9 +51,6 @@ class ProductListViewModel: BaseViewModel {
     private static let cellAspectRatio: CGFloat = 198.0 / cellMinHeight
     private static let cellBannerAspectRatio: CGFloat = 1.3
     private static let cellMaxThumbFactor: CGFloat = 2.0
-
-    
-    private static let itemsPagingThresholdPercentage: Float = 0.7    // when we should start ask for a new page
     
     var cellWidth: CGFloat {
         return (UIScreen.mainScreen().bounds.size.width - (productListFixedInset*2)) / CGFloat(numberOfColumns)
@@ -71,7 +69,7 @@ class ProductListViewModel: BaseViewModel {
     weak var dataDelegate: ProductListViewModelDataDelegate?
     
     // Requester
-    var productListRequester: ProductListRequester?
+    let productListRequester: ProductListRequester?
 
     //State
     private(set) var pageNumber: UInt
@@ -110,6 +108,10 @@ class ProductListViewModel: BaseViewModel {
     
     let numberOfColumns: Int
 
+    private var itemsPerPage: Int {
+        return numberOfColumns <= 2 ? Constants.numProductsPerPage2Columns : Constants.numProductsPerPageMoreColumns
+    }
+
     
     // MARK: - Lifecycle
 
@@ -122,6 +124,7 @@ class ProductListViewModel: BaseViewModel {
         self.productListRequester = requester
         self.defaultCellSize = CGSize.zero
         super.init()
+        self.productListRequester?.itemsPerPage = self.itemsPerPage
         let cellHeight = cellWidth * ProductListViewModel.cellAspectRatio
         self.defaultCellSize = CGSizeMake(cellWidth, cellHeight)
     }
@@ -190,15 +193,14 @@ class ProductListViewModel: BaseViewModel {
 
         isLoading = true
         isOnErrorState = false
-        let currentCount = numberOfProducts
-        let nextPageNumber = firstPage ? 0 : pageNumber + 1
 
-        if nextPageNumber == 0 && currentCount == 0 {
+        if firstPage && numberOfProducts == 0 {
             state = .Loading
         }
         
         let completion: ProductsCompletion = { [weak self] result in
             guard let strongSelf = self else { return }
+            let nextPageNumber = firstPage ? 0 : strongSelf.pageNumber + 1
             if let newProducts = result.value {
                 let productCellModels = newProducts.map(ProductCellModel.init)
                 let cellModels = self?.dataDelegate?.vmProcessReceivedProductPage(productCellModels, page: nextPageNumber) ?? productCellModels
@@ -208,11 +210,12 @@ class ProductListViewModel: BaseViewModel {
                     strongSelf.refreshing = false
                     indexes = [Int](0 ..< cellModels.count)
                 } else {
+                    let currentCount = strongSelf.numberOfProducts
                     strongSelf.objects += cellModels
                     indexes = [Int](currentCount ..< (currentCount+cellModels.count))
                 }
                 strongSelf.pageNumber = nextPageNumber
-                let hasProducts = strongSelf.objects.count > 0
+                let hasProducts = strongSelf.numberOfProducts > 0
                 strongSelf.isLastPage = strongSelf.productListRequester?.isLastPage(newProducts.count) ?? true
                 //This assignment should be ALWAYS before calling the delegates to give them the option to re-set the state
                 strongSelf.state = .Data
@@ -316,7 +319,8 @@ class ProductListViewModel: BaseViewModel {
         - parameter index: The index of the product currently visible on screen.
     */
     func setCurrentItemIndex(index: Int) {
-        let threshold = Int(Float(numberOfProducts) * ProductListViewModel.itemsPagingThresholdPercentage)
+        guard numberOfProducts > 0 else { return }
+        let threshold = numberOfProducts - Int(Float(itemsPerPage)*Constants.productsPagingThresholdPercentage)
         let shouldRetrieveProductsNextPage = index >= threshold && !isOnErrorState
         if shouldRetrieveProductsNextPage {
             retrieveProductsNextPage()

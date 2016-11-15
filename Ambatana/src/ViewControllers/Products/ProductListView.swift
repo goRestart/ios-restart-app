@@ -433,12 +433,6 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
             collectionView.insertItemsAtIndexPaths(indexPaths)
         }
     }
-
-    func vmDidUpdateProductDataAtIndex(vm: ProductListViewModel, index: Int) {
-        guard viewModel === vm else { return }
-        let indexPath = NSIndexPath(forRow: index, inSection: 0)
-        collectionView.reloadItemsAtIndexPaths([indexPath])
-    }
     
     
     // MARK: - Private methods

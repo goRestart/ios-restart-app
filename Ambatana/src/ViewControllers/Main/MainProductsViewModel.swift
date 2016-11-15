@@ -113,7 +113,7 @@ class MainProductsViewModel: BaseViewModel {
     
     // List VM
     let listViewModel: ProductListViewModel
-    private var productListRequester: FilteredProductListRequester
+    private let productListRequester: FilteredProductListRequester
     private var shouldRetryLoad = false
     private var lastReceivedLocation: LGLocation?
     private var bubbleDistance: Float = 1

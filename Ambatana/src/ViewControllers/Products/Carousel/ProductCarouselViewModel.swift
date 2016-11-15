@@ -71,7 +71,7 @@ class ProductCarouselViewModel: BaseViewModel {
     }
 
     private let source: EventParameterProductVisitSource
-    private var productListRequester: ProductListRequester?
+    private let productListRequester: ProductListRequester?
     private var productsViewModels: [String: ProductViewModel] = [:]
     private let myUserRepository: MyUserRepository
     private let productRepository: ProductRepository

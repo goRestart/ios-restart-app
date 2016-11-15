@@ -14,6 +14,7 @@ protocol UserProductListRequester: ProductListRequester {
 
 class UserFavoritesProductListRequester: UserProductListRequester {
 
+    var itemsPerPage: Int = 0 // Not used, favorites doesn't paginate
     var userObjectId: String? = nil
     let productRepository: ProductRepository
     let locationManager: LocationManager
@@ -61,6 +62,7 @@ class UserFavoritesProductListRequester: UserProductListRequester {
 
 class UserStatusesProductListRequester: UserProductListRequester {
 
+    var itemsPerPage: Int = Constants.numProductsPerPage2Columns
     var userObjectId: String? = nil
     private let statuses: [ProductStatus]
     private let productRepository: ProductRepository
@@ -110,12 +112,14 @@ class UserStatusesProductListRequester: UserProductListRequester {
     func duplicate() -> ProductListRequester {
         let r = UserStatusesProductListRequester(statuses: statuses)
         r.offset = offset
+        r.itemsPerPage = itemsPerPage
         r.userObjectId = userObjectId
         return r
     }
 
     private var retrieveProductsParams: RetrieveProductsParams? {
         var params: RetrieveProductsParams = RetrieveProductsParams()
+        params.numProducts = itemsPerPage
         if let currentLocation = locationManager.currentLocation {
             params.coordinates = LGLocationCoordinates2D(location: currentLocation)
         }
