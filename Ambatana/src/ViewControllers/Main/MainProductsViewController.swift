@@ -424,6 +424,7 @@ extension MainProductsViewController: UITableViewDelegate, UITableViewDataSource
     }
     
     func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        // Needed to avoid footer on grouped tableView.
         return 1.0
     }
     
