@@ -54,7 +54,7 @@ enum ButtonStyle {
         case .Dark:
             return UIColor.blackColor().colorWithAlphaComponent(0.3)
         case .Logout:
-            return UIColor.blackColor().colorWithAlphaComponent(0.08)
+            return UIColor.blackColor().colorWithAlphaComponent(0.1)
         case .Review:
             return UIColor.reviewColor
         case .DarkField:
@@ -79,7 +79,7 @@ enum ButtonStyle {
         case .Dark:
             return UIColor.blackColor().colorWithAlphaComponent(0.5)
         case .Logout:
-            return UIColor.blackColor().colorWithAlphaComponent(0.2)
+            return UIColor.blackColor().colorWithAlphaComponent(0.05)
         case .Review:
             return UIColor.reviewColorHighlighted
         case .DarkField, .LightField:
@@ -102,7 +102,7 @@ enum ButtonStyle {
         case .Dark:
             return UIColor.blackColor().colorWithAlphaComponent(0.3)
         case .Logout:
-            return UIColor.blackColor().colorWithAlphaComponent(0.04)
+            return UIColor.blackColor().colorWithAlphaComponent(0.05)
         case .Review:
             return UIColor.reviewColorDisabled
         case .DarkField, .LightField:
