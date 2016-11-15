@@ -34,6 +34,7 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     private let verticalMarginHeaderView: CGFloat = 16
     private let horizontalMarginHeaderView: CGFloat = 16
     private let sectionHeight: CGFloat = 54
+    private let firstSectionMarginTop: CGFloat = -36
     private let numberOfSuggestionSections = 2
     @IBOutlet weak var infoBubbleLabel: UILabel!
     @IBOutlet weak var infoBubbleShadow: UIView!
@@ -64,7 +65,6 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
         super.init(viewModel: viewModel, nibName: nibNameOrNil)
         viewModel.delegate = self
         viewModel.permissionsDelegate = self
-
         hidesBottomBarWhenPushed = false
         floatingSellButtonHidden = false
         hasTabBar = true
@@ -97,7 +97,9 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
             productListView.updateLayoutWithSeparation(6)
         }
         addSubview(productListView)
-
+        automaticallyAdjustsScrollViewInsets = false
+        //Add negative top inset to avoid extra padding adding by "grouped" table style.
+        suggestionsSearchesTable.contentInset = UIEdgeInsetsMake(firstSectionMarginTop, 0, 0, 0)
         setupInfoBubble()
         setupTagsView()
         setupSearchAndTrending()
@@ -419,6 +421,11 @@ extension MainProductsViewController: UITableViewDelegate, UITableViewDataSource
         case .Trending:
             return viewModel.trendingCounter > 0 ? sectionHeight : 0
         }
+    }
+    
+    func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        // Needed to avoid footer on grouped tableView.
+        return 1.0
     }
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
