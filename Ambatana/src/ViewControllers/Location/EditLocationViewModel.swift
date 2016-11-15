@@ -269,6 +269,8 @@ class EditLocationViewModel: BaseViewModel {
     }
 
     private func resultsForSearchText(textToSearch: String, autoSelectFirst: Bool) {
+        predictiveResults = []
+        delegate?.vmUpdateSearchTableWithResults([])
         searchService.retrieveAddressForLocation(textToSearch) { [weak self] result in
             if autoSelectFirst {
                 if let error = result.error {
