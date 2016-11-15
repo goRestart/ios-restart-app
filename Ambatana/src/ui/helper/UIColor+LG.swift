@@ -91,7 +91,7 @@ extension UIColor {
     static var gray: UIColor { return UIColor(rgb: 0xbdbdbd) }
     static var grayLight: UIColor { return UIColor(rgb: 0xdddddd) }
     static var grayLighter: UIColor { return UIColor(rgb: 0xede9e9) }
-    static var grayBackground: UIColor { return UIColor(rgb: 0xF5F5F5) }
+    static var grayBackground: UIColor { return UIColor(rgb: 0xF5F0F0) }
     static var white: UIColor { return UIColor(rgb: 0xFFFFFF) }
 
 

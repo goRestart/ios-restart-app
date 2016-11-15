@@ -21,13 +21,14 @@ enum ButtonStyle {
     case Google
     case Facebook
     case Dark(fontSize: ButtonFontSize)
+    case Logout(fontSize: ButtonFontSize)
     case Review
     case DarkField
     case LightField
     
     var titleColor: UIColor {
         switch self {
-        case .Primary, .Terciary, .Google, .Facebook, .Dark, .Review:
+        case .Primary, .Terciary, .Google, .Facebook, .Dark, .Review, .Logout:
             return UIColor.whiteColor()
         case .Secondary:
             return UIColor.primaryColor
@@ -52,6 +53,8 @@ enum ButtonStyle {
             return UIColor.googleColor
         case .Dark:
             return UIColor.blackColor().colorWithAlphaComponent(0.3)
+        case .Logout:
+            return UIColor.blackColor().colorWithAlphaComponent(0.08)
         case .Review:
             return UIColor.reviewColor
         case .DarkField:
@@ -75,6 +78,8 @@ enum ButtonStyle {
             return UIColor.googleColorHighlighted
         case .Dark:
             return UIColor.blackColor().colorWithAlphaComponent(0.5)
+        case .Logout:
+            return UIColor.blackColor().colorWithAlphaComponent(0.2)
         case .Review:
             return UIColor.reviewColorHighlighted
         case .DarkField, .LightField:
@@ -96,6 +101,8 @@ enum ButtonStyle {
             return UIColor.googleColorDisabled
         case .Dark:
             return UIColor.blackColor().colorWithAlphaComponent(0.3)
+        case .Logout:
+            return UIColor.blackColor().colorWithAlphaComponent(0.04)
         case .Review:
             return UIColor.reviewColorDisabled
         case .DarkField, .LightField:
@@ -121,6 +128,8 @@ enum ButtonStyle {
             fontSize = size
         case let .Dark(size):
             fontSize = size
+        case let .Logout(size):
+            fontSize = size
         case let .Secondary(size,_):
             fontSize = size
         case .Terciary:
@@ -135,7 +144,7 @@ enum ButtonStyle {
     
     var withBorder: Bool {
         switch self {
-        case .Primary, .Terciary, .Google, .Facebook, .Dark, .Review, .DarkField, .LightField:
+        case .Primary, .Terciary, .Google, .Facebook, .Dark, .Review, .DarkField, .LightField, .Logout:
             return false
         case let .Secondary(_, withBorder):
             return withBorder
@@ -153,7 +162,7 @@ enum ButtonStyle {
 
     var applyCornerRadius: Bool {
         switch self {
-        case .Primary, .Secondary, .Terciary, .Google, .Facebook, .Dark, .Review:
+        case .Primary, .Secondary, .Terciary, .Google, .Facebook, .Dark, .Review, .Logout:
             return true
         case .DarkField, .LightField:
             return false
