@@ -247,12 +247,12 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         fullScreenAvatarLeft = fullAvatarLeft
         view.addConstraints([fullAvatarTop, fullAvatarLeft])
         userView.showShadow(false)
-        
-        productStatusView.layer.cornerRadius = productStatusView.height/2
+
+        productStatusView.rounded = true
         productStatusLabel.textColor = UIColor.soldColor
         productStatusLabel.font = UIFont.productStatusSoldFont
 
-        editButton.layer.cornerRadius = editButton.height / 2
+        editButton.rounded = true
 
         setupDirectMessagesAndStickers()
         setupInterestedBubble()
