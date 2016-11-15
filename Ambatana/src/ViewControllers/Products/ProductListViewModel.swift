@@ -33,7 +33,7 @@ extension ProductListViewModelDataDelegate {
 }
 
 protocol ProductListRequester: class {
-    var itemsPerPage: Int { get set }
+    var itemsPerPage: Int { get }
     func canRetrieve() -> Bool
     func retrieveFirstPage(completion: ProductsCompletion?)
     func retrieveNextPage(completion: ProductsCompletion?)
@@ -107,10 +107,6 @@ class ProductListViewModel: BaseViewModel {
     
     let numberOfColumns: Int
 
-    private var itemsPerPage: Int {
-        return numberOfColumns <= 2 ? Constants.numProductsPerPage2Columns : Constants.numProductsPerPageMoreColumns
-    }
-
     
     // MARK: - Lifecycle
 
@@ -123,7 +119,6 @@ class ProductListViewModel: BaseViewModel {
         self.productListRequester = requester
         self.defaultCellSize = CGSize.zero
         super.init()
-        self.productListRequester?.itemsPerPage = self.itemsPerPage
         let cellHeight = cellWidth * ProductListViewModel.cellAspectRatio
         self.defaultCellSize = CGSizeMake(cellWidth, cellHeight)
     }
@@ -318,7 +313,7 @@ class ProductListViewModel: BaseViewModel {
         - parameter index: The index of the product currently visible on screen.
     */
     func setCurrentItemIndex(index: Int) {
-        guard numberOfProducts > 0 else { return }
+        guard let itemsPerPage = productListRequester?.itemsPerPage where numberOfProducts > 0 else { return }
         let threshold = numberOfProducts - Int(Float(itemsPerPage)*Constants.productsPagingThresholdPercentage)
         let shouldRetrieveProductsNextPage = index >= threshold && !isOnErrorState
         if shouldRetrieveProductsNextPage {

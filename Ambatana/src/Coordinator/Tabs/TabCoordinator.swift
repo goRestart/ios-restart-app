@@ -156,7 +156,9 @@ private extension TabCoordinator {
         guard let productId = product.objectId else { return }
 
         var requestersArray: [ProductListRequester] = []
-        let relatedRequester: ProductListRequester = discover ? DiscoverProductListRequester(productId: productId) : RelatedProductListRequester(productId: productId)
+        let relatedRequester: ProductListRequester = discover ?
+            DiscoverProductListRequester(productId: productId, itemsPerPage: Constants.numProductsPerPageDefault) :
+            RelatedProductListRequester(productId: productId, itemsPerPage: Constants.numProductsPerPageDefault)
         requestersArray.append(relatedRequester)
 
         // Adding product list after related
@@ -166,7 +168,7 @@ private extension TabCoordinator {
             requesterCopy.updateInitialOffset(listOffset)
             requestersArray.append(requesterCopy)
         } else {
-            let filteredRequester = FilteredProductListRequester(offset: listOffset)
+            let filteredRequester = FilteredProductListRequester(itemsPerPage: Constants.numProductsPerPageDefault, offset: listOffset)
             requestersArray.append(filteredRequester)
         }
 
@@ -196,8 +198,8 @@ private extension TabCoordinator {
     func openProduct(chatConversation chatConversation: ChatConversation, source: EventParameterProductVisitSource) {
         guard let localProduct = LocalProduct(chatConversation: chatConversation, myUser: myUserRepository.myUser),
             productId = localProduct.objectId else { return }
-        let relatedRequester = RelatedProductListRequester(productId: productId)
-        let filteredRequester = FilteredProductListRequester(offset: 0)
+        let relatedRequester = RelatedProductListRequester(productId: productId,  itemsPerPage: Constants.numProductsPerPageDefault)
+        let filteredRequester = FilteredProductListRequester( itemsPerPage: Constants.numProductsPerPageDefault, offset: 0)
         let requester = ProductListMultiRequester(requesters: [relatedRequester, filteredRequester])
         let vm = ProductCarouselViewModel(product: localProduct, productListRequester: requester,  navigator: self,
                                           source: source)

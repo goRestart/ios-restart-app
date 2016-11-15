@@ -51,8 +51,8 @@ struct Constants {
     static let productListFooterHeight: CGFloat = 70
     static let productListFixedInsets: CGFloat = 6
     static let productListNewLabelThreshold: NSTimeInterval = 60 * 60 * 24 // 1 day
-    static let numProductsPerPage2Columns = 20
-    static let numProductsPerPageMoreColumns = 40
+    static let numProductsPerPageDefault = 20
+    static let numProductsPerPageBig = 40
     static let productsPagingThresholdPercentage: Float = 0.4 // Percentage of page to check bottom threshold to paginate
     
     // Categories

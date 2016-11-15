@@ -195,7 +195,7 @@ extension RelatedProductsView: UICollectionViewDelegate, UICollectionViewDataSou
 private extension RelatedProductsView {
 
     func loadProducts(productId: String) {
-        requester = RelatedProductListRequester(productId: productId)
+        requester = RelatedProductListRequester(productId: productId, itemsPerPage: Constants.numProductsPerPageDefault)
         requester?.retrieveFirstPage { [weak self] result in
             guard let products = result.value where !products.isEmpty  else { return }
             let productCellModels = products.map(ProductCellModel.init)
