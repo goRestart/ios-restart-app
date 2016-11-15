@@ -12,8 +12,7 @@ import Result
 protocol ProductListViewModelDelegate: class {
     func vmReloadData(vm: ProductListViewModel)
     func vmDidUpdateState(vm: ProductListViewModel, state: ViewState)
-    func vmDidFailRetrievingProducts(vm: ProductListViewModel, page: UInt)
-    func vmDidSucceedRetrievingProductsPage(vm: ProductListViewModel, page: UInt, indexes: [Int])
+    func vmDidFinishLoading(vm: ProductListViewModel, page: UInt, indexes: [Int])
 }
 
 protocol ProductListViewModelDataDelegate: class {
@@ -144,7 +143,7 @@ class ProductListViewModel: BaseViewModel {
         refreshing = true
         if !retrieveProducts() {
             refreshing = false
-            delegate?.vmDidFailRetrievingProducts(self, page: 0)
+            delegate?.vmDidFinishLoading(self, page: 0, indexes: [])
         }
     }
 
@@ -219,7 +218,7 @@ class ProductListViewModel: BaseViewModel {
                 strongSelf.isLastPage = strongSelf.productListRequester?.isLastPage(newProducts.count) ?? true
                 //This assignment should be ALWAYS before calling the delegates to give them the option to re-set the state
                 strongSelf.state = .Data
-                strongSelf.delegate?.vmDidSucceedRetrievingProductsPage(strongSelf, page: nextPageNumber, indexes: indexes)
+                strongSelf.delegate?.vmDidFinishLoading(strongSelf, page: nextPageNumber, indexes: indexes)
                 strongSelf.dataDelegate?.productListVM(strongSelf, didSucceedRetrievingProductsPage: nextPageNumber,
                                                        hasProducts: hasProducts)
             } else if let error = result.error {
@@ -238,7 +237,7 @@ class ProductListViewModel: BaseViewModel {
     private func processError(error: RepositoryError, nextPageNumber: UInt) {
         isOnErrorState = true
         let hasProducts = objects.count > 0
-        delegate?.vmDidFailRetrievingProducts(self, page: nextPageNumber)
+        delegate?.vmDidFinishLoading(self, page: nextPageNumber, indexes: [])
         dataDelegate?.productListMV(self, didFailRetrievingProductsPage: nextPageNumber,
                                                hasProducts: hasProducts, error: error)
     }
