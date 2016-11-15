@@ -33,8 +33,17 @@ class ChatTextView: UIView {
         return tapEvents.map { [weak self] in self?.textView.text ?? "" }
     }
 
+    var rx_focus: Observable<Bool> {
+        return focus.asObservable().skip(1)
+    }
+
+    var hasFocus: Bool {
+        return focus.value
+    }
+
     private let textView = UITextField()
     private let sendButton = UIButton(type: .Custom)
+    private let focus = Variable<Bool>(false)
 
     private static let elementsMargin: CGFloat = 10
     private static let textViewMaxHeight: CGFloat = 120
@@ -165,13 +174,21 @@ class ChatTextView: UIView {
 
 
 extension ChatTextView: UITextFieldDelegate {
+
+    func textFieldDidBeginEditing(textField: UITextField) {
+        focus.value = true
+    }
+
+    func textFieldDidEndEditing(textField: UITextField) {
+        focus.value = false
+    }
+
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         guard let text = textField.text where !text.trim.isEmpty else { return false }
         tapEvents.onNext(Void())
         return true
     }
 }
-
 
 
 // MARK: - AccesibilityIds
