@@ -56,7 +56,7 @@ class SettingsViewController: BaseViewController {
         settingProfileImageLabel.text = LGLocalizedString.settingsChangeProfilePictureLoading
         settingProfileImageView.hidden = true
         setNavBarTitle(LGLocalizedString.settingsTitle)
-
+    
         let cellNib = UINib(nibName: SettingsCell.reusableID, bundle: nil)
         tableView.registerNib(cellNib, forCellReuseIdentifier: SettingsCell.reusableID)
         let logoutCellNib = UINib(nibName: SettingsLogoutCell.reusableID, bundle: nil)
@@ -67,6 +67,7 @@ class SettingsViewController: BaseViewController {
         tableView.registerNib(switchCellNib, forCellReuseIdentifier: SettingsSwitchCell.reusableID)
         tableView.backgroundColor = UIColor.grayBackground
         tableView.contentInset.bottom = 15
+        automaticallyAdjustsScrollViewInsets = false
     }
 
     private func setupAccessibilityIds() {
@@ -179,6 +180,11 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         viewModel.settingSelectedAtSection(indexPath.section, index: indexPath.row)
+    }
+    
+    func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        // Grouped tableview need empty footer to avoid default footer.
+        return LGUIKitConstants.onePixelSize
     }
 }
 
