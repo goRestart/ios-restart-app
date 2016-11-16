@@ -143,7 +143,7 @@
 "collection_furniture_title" = "Evim güzel evim";
 "collection_gaming_title" = "Oyun başlasın";
 "collection_transport_title" = "Yola devam";
-"collection_you_title" = "Selected for you";
+"collection_you_title" = "Senin için seçtiklerimiz";
 "commercializer_create_from_settings" = "Create a Free Commercial";
 "commercializer_display_share_alert" = "Share this masterpiece";
 "commercializer_display_share_label" = "Share your masterpiece with the world and watch the offers come rolling in";
@@ -606,7 +606,7 @@
 "sell_picture_selected_delete_button" = "Sil";
 "sell_picture_selected_save_into_camera_roll_button" = "Kaydet";
 "sell_picture_selected_title" = "Bir eylem seç";
-"sell_post_free_label" = "Ücretsiz ver";
+"sell_post_free_label" = "Bedava";
 "sell_price_field" = "Fiyat:";
 "sell_send_error_invalid_category" = "Lütfen, ürünün için bir kategori seç.";
 "sell_send_error_invalid_description" = "Lütfen, ürünün için geçerli bir açıklama gir.";

@@ -606,7 +606,7 @@
 "sell_picture_selected_delete_button" = "Удалить";
 "sell_picture_selected_save_into_camera_roll_button" = "Сохранить на диск";
 "sell_picture_selected_title" = "Выберите действие";
-"sell_post_free_label" = "Отдать";
+"sell_post_free_label" = "Бесплатно";
 "sell_price_field" = "Цена:";
 "sell_send_error_invalid_category" = "Пожалуйста, выберите категорию товара.";
 "sell_send_error_invalid_description" = "Пожалуйста, введите корректное описание товара.";

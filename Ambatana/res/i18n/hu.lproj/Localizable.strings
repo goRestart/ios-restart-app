@@ -143,7 +143,7 @@
 "collection_furniture_title" = "Az én váram...";
 "collection_gaming_title" = "Játékra fel";
 "collection_transport_title" = "Stílusos utazás";
-"collection_you_title" = "Selected for you";
+"collection_you_title" = "Neked válogatva";
 "commercializer_create_from_settings" = "Create a Free Commercial";
 "commercializer_display_share_alert" = "Share this masterpiece";
 "commercializer_display_share_label" = "Share your masterpiece with the world and watch the offers come rolling in";
@@ -555,9 +555,9 @@
 "rating_list_action_report_review_success_message" = "Jelentésed beküldve!";
 "rating_list_action_review_user" = "Felhasználó értékelése";
 "rating_list_loading_error_message" = "Hiba történt az értékelések betöltése során.";
-"rating_list_rating_type_buyer_text_label" = "%@ vásárolt";
-"rating_list_rating_type_conversation_text_label" = "%@ beszélgetett";
-"rating_list_rating_type_seller_text_label" = "%@ eladott";
+"rating_list_rating_type_buyer_text_label" = "%@ megvásárolt egy portékát";
+"rating_list_rating_type_conversation_text_label" = "%@ szóba hozott egy portékát";
+"rating_list_rating_type_seller_text_label" = "%@ eladott egy portékát";
 "rating_list_title" = "Értékelések";
 "rating_view_dont_ask_again_button" = "Ne kérdezz többet";
 "rating_view_rate_us_label" = "Értékelj minket:";
@@ -606,7 +606,7 @@
 "sell_picture_selected_delete_button" = "Törlés";
 "sell_picture_selected_save_into_camera_roll_button" = "Mentés lemezre";
 "sell_picture_selected_title" = "Válassz műveletet";
-"sell_post_free_label" = "Ajándékozok";
+"sell_post_free_label" = "Ingyenes";
 "sell_price_field" = "Ár:";
 "sell_send_error_invalid_category" = "Kérjük, válassz kategóriát a termékednek!";
 "sell_send_error_invalid_description" = "Kérjük, hogy érvényes leírást adj meg a portékához.";
@@ -633,10 +633,10 @@
 "settings_invite_facebook_friends_error" = "Hiba történt a meghívó megosztása során.";
 "settings_invite_facebook_friends_ok" = "A meghívó sikeresen megosztottad!";
 "settings_logout_button" = "Kijelentkezés";
-"settings_marketing_notifications_switch" = "Marketing Notifications";
-"settings_section_profile" = "Profile";
-"settings_section_promote" = "Promote";
-"settings_section_support" = "Support";
+"settings_marketing_notifications_switch" = "Marketinges értesítések";
+"settings_section_profile" = "Profil";
+"settings_section_promote" = "Hirdet";
+"settings_section_support" = "Támogatás";
 "settings_title" = "Beállítások";
 "sign_up_acceptance_error" = "To sign up you have to accept the Terms & Conditions and the Privacy Policy";
 "sign_up_email_field_hint" = "E-mail cím";
@@ -654,8 +654,8 @@
 "sign_up_terms_conditions_terms_part" = "Terms & Conditions";
 "sign_up_title" = "Új fiók létrehozása";
 "sign_up_username_field_hint" = "Teljes név";
-"suggestions_last_searches_clear_button" = "Clear";
-"suggestions_last_searches_title" = "Recent Searches";
+"suggestions_last_searches_clear_button" = "Törlés";
+"suggestions_last_searches_title" = "Legutóbbi keresések";
 "tab_bar_give_away_button" = "Ajándékozok";
 "tab_bar_give_away_tooltip" = "Mostantól el is ajándékozhatod dolgaidat.";
 "tab_bar_sell_stuff_button" = "Árusítok";

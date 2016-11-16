@@ -143,7 +143,7 @@
 "collection_furniture_title" = "Borta bra, hemma bäst";
 "collection_gaming_title" = "Nu kör vi";
 "collection_transport_title" = "Res med stil";
-"collection_you_title" = "Selected for you";
+"collection_you_title" = "Vald för dig";
 "commercializer_create_from_settings" = "Create a Free Commercial";
 "commercializer_display_share_alert" = "Share this masterpiece";
 "commercializer_display_share_label" = "Share your masterpiece with the world and watch the offers come rolling in";
@@ -606,7 +606,7 @@
 "sell_picture_selected_delete_button" = "Ta bort";
 "sell_picture_selected_save_into_camera_roll_button" = "Spara till hårddisk";
 "sell_picture_selected_title" = "Välj åtgärd";
-"sell_post_free_label" = "Skänk bort den";
+"sell_post_free_label" = "Gratis";
 "sell_price_field" = "Pris:";
 "sell_send_error_invalid_category" = "Var god välj kategori för produkten.";
 "sell_send_error_invalid_description" = "Var god ange en beskrivning av produkten.";

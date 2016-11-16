@@ -143,7 +143,7 @@
 "collection_furniture_title" = "Un bon chez-soi";
 "collection_gaming_title" = "La partie est lancée";
 "collection_transport_title" = "Voyagez avec style";
-"collection_you_title" = "Selected for you";
+"collection_you_title" = "Sélectionnés pour vous";
 "commercializer_create_from_settings" = "Create a Free Commercial";
 "commercializer_display_share_alert" = "Share this masterpiece";
 "commercializer_display_share_label" = "Share your masterpiece with the world and watch the offers come rolling in";
@@ -606,7 +606,7 @@
 "sell_picture_selected_delete_button" = "Supprimer";
 "sell_picture_selected_save_into_camera_roll_button" = "Sauvegarder";
 "sell_picture_selected_title" = "Choisir une action";
-"sell_post_free_label" = "Donner";
+"sell_post_free_label" = "Gratuit";
 "sell_price_field" = "Prix :";
 "sell_send_error_invalid_category" = "Veuillez choisir une catégorie pour le bien.";
 "sell_send_error_invalid_description" = "Veuillez insérer une description valide pour le bien.";
@@ -633,10 +633,10 @@
 "settings_invite_facebook_friends_error" = "Une erreur est survenue lors de l'envoi de l'invitation";
 "settings_invite_facebook_friends_ok" = "Votre invitation a été envoyée avec succès !";
 "settings_logout_button" = "Se déconnecter";
-"settings_marketing_notifications_switch" = "Marketing Notifications";
-"settings_section_profile" = "Profile";
-"settings_section_promote" = "Promote";
-"settings_section_support" = "Support";
+"settings_marketing_notifications_switch" = "Notifications Marketing";
+"settings_section_profile" = "Profil";
+"settings_section_promote" = "Promouvoir";
+"settings_section_support" = "Aide";
 "settings_title" = "Paramètres";
 "sign_up_acceptance_error" = "To sign up you have to accept the Terms & Conditions and the Privacy Policy";
 "sign_up_email_field_hint" = "Email";
@@ -654,8 +654,8 @@
 "sign_up_terms_conditions_terms_part" = "Terms & Conditions";
 "sign_up_title" = "Créer un nouveau compte";
 "sign_up_username_field_hint" = "Nom complet";
-"suggestions_last_searches_clear_button" = "Clear";
-"suggestions_last_searches_title" = "Recent Searches";
+"suggestions_last_searches_clear_button" = "Effacer";
+"suggestions_last_searches_title" = "Recherches Récentes";
 "tab_bar_give_away_button" = "Donner";
 "tab_bar_give_away_tooltip" = "Maintenant, vous pouvez donner vos biens";
 "tab_bar_sell_stuff_button" = "Vendre";

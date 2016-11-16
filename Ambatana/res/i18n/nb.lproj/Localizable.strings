@@ -143,7 +143,7 @@
 "collection_furniture_title" = "Hjemme best";
 "collection_gaming_title" = "Spillet er i gang";
 "collection_transport_title" = "Reis med stil";
-"collection_you_title" = "Selected for you";
+"collection_you_title" = "Valgt for deg";
 "commercializer_create_from_settings" = "Create a Free Commercial";
 "commercializer_display_share_alert" = "Share this masterpiece";
 "commercializer_display_share_label" = "Share your masterpiece with the world and watch the offers come rolling in";
@@ -606,7 +606,7 @@
 "sell_picture_selected_delete_button" = "Slett";
 "sell_picture_selected_save_into_camera_roll_button" = "Arkiver bilde";
 "sell_picture_selected_title" = "Velg en handling";
-"sell_post_free_label" = "Gi bort";
+"sell_post_free_label" = "Gratis";
 "sell_price_field" = "Pris:";
 "sell_send_error_invalid_category" = "Vennligst velg en kategori for produktet.";
 "sell_send_error_invalid_description" = "Vennligst legg til en produktbeskrivelse.";
