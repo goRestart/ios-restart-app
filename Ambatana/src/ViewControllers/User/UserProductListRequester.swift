@@ -14,6 +14,7 @@ protocol UserProductListRequester: ProductListRequester {
 
 class UserFavoritesProductListRequester: UserProductListRequester {
 
+    let itemsPerPage: Int = 0 // Not used, favorites doesn't paginate
     var userObjectId: String? = nil
     let productRepository: ProductRepository
     let locationManager: LocationManager
@@ -61,20 +62,24 @@ class UserFavoritesProductListRequester: UserProductListRequester {
 
 class UserStatusesProductListRequester: UserProductListRequester {
 
+    let itemsPerPage: Int
     var userObjectId: String? = nil
     private let statuses: [ProductStatus]
     private let productRepository: ProductRepository
     private let locationManager: LocationManager
     private var offset: Int = 0
 
-    convenience init(statuses: [ProductStatus]) {
-        self.init(productRepository: Core.productRepository, locationManager: Core.locationManager, statuses: statuses)
+    convenience init(statuses: [ProductStatus], itemsPerPage: Int) {
+        self.init(productRepository: Core.productRepository, locationManager: Core.locationManager, statuses: statuses,
+                  itemsPerPage: itemsPerPage)
     }
 
-    init(productRepository: ProductRepository, locationManager: LocationManager, statuses: [ProductStatus]) {
+    init(productRepository: ProductRepository, locationManager: LocationManager, statuses: [ProductStatus],
+         itemsPerPage: Int) {
         self.productRepository = productRepository
         self.locationManager = locationManager
         self.statuses = statuses
+        self.itemsPerPage = itemsPerPage
     }
 
     func canRetrieve() -> Bool { return userObjectId != nil }
@@ -108,7 +113,7 @@ class UserStatusesProductListRequester: UserProductListRequester {
     func updateInitialOffset(newOffset: Int) { }
 
     func duplicate() -> ProductListRequester {
-        let r = UserStatusesProductListRequester(statuses: statuses)
+        let r = UserStatusesProductListRequester(statuses: statuses, itemsPerPage: itemsPerPage)
         r.offset = offset
         r.userObjectId = userObjectId
         return r
@@ -116,6 +121,7 @@ class UserStatusesProductListRequester: UserProductListRequester {
 
     private var retrieveProductsParams: RetrieveProductsParams? {
         var params: RetrieveProductsParams = RetrieveProductsParams()
+        params.numProducts = itemsPerPage
         if let currentLocation = locationManager.currentLocation {
             params.coordinates = LGLocationCoordinates2D(location: currentLocation)
         }

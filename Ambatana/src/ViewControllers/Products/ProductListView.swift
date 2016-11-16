@@ -402,19 +402,8 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         refreshUIWithState(state)
     }
 
-    func vmDidFailRetrievingProducts(vm: ProductListViewModel, page: UInt) {
+    func vmDidFinishLoading(vm: ProductListViewModel, page: UInt, indexes: [Int]) {
         guard viewModel === vm else { return }
-        // Update the UI
-        if page == 0 {
-            refreshControl.endRefreshing()
-        } else {
-            reloadData()
-        }
-    }
-
-    func vmDidSucceedRetrievingProductsPage(vm: ProductListViewModel, page: UInt, indexes: [Int]) {
-        guard viewModel === vm else { return }
-        // First page
         if page == 0 {
             reloadData()
             if refreshControl.refreshing {
@@ -426,18 +415,14 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
             // Last page
             // Reload in order to be able to reload the footer
             reloadData()
-        } else {
+        } else if !indexes.isEmpty {
             // Middle pages
             // Insert animated
             let indexPaths = indexes.map{ NSIndexPath(forItem: $0, inSection: 0) }
             collectionView.insertItemsAtIndexPaths(indexPaths)
+        } else {
+            reloadData()
         }
-    }
-
-    func vmDidUpdateProductDataAtIndex(vm: ProductListViewModel, index: Int) {
-        guard viewModel === vm else { return }
-        let indexPath = NSIndexPath(forRow: index, inSection: 0)
-        collectionView.reloadItemsAtIndexPaths([indexPath])
     }
     
     

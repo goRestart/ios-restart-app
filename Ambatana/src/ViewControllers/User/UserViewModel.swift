@@ -125,9 +125,11 @@ class UserViewModel: BaseViewModel {
         self.user = Variable<User?>(user)
         self.source = source
 
-        self.sellingProductListRequester = UserStatusesProductListRequester(statuses: [.Pending, .Approved])
+        self.sellingProductListRequester = UserStatusesProductListRequester(statuses: [.Pending, .Approved],
+                                                                            itemsPerPage: Constants.numProductsPerPageDefault)
         self.sellingProductListViewModel = ProductListViewModel(requester: self.sellingProductListRequester)
-        self.soldProductListRequester = UserStatusesProductListRequester(statuses: [.Sold, .SoldOld])
+        self.soldProductListRequester = UserStatusesProductListRequester(statuses: [.Sold, .SoldOld],
+                                                                         itemsPerPage: Constants.numProductsPerPageDefault)
         self.soldProductListViewModel = ProductListViewModel(requester: self.soldProductListRequester)
         self.favoritesProductListRequester = UserFavoritesProductListRequester()
         self.favoritesProductListViewModel = ProductListViewModel(requester: self.favoritesProductListRequester)
