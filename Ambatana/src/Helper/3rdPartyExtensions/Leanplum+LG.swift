@@ -35,7 +35,10 @@ extension Leanplum {
             let okAction = UIAction(interface: .StyledText(context.stringNamed(buttonTextIdentifier), .Default),
                                     action: { context.runTrackedActionNamed(actionIdentifier) },
                                     accessibilityId: .AcceptPopUpButton)
-            presenter.showLeanplumAlert(context.stringNamed(titleIdentifier), text: context.stringNamed(messageTextIdentifier), image: context.fileNamed(imageIdentifier) , action: okAction)
+            guard let title = context.stringNamed(titleIdentifier) else { return false}
+            guard let message = context.stringNamed(messageTextIdentifier) else { return false}
+            guard let image = context.fileNamed(imageIdentifier) else { return false}
+            presenter.showLeanplumAlert(title, text:message, image:image, action: okAction)
             return true
         })
     }
