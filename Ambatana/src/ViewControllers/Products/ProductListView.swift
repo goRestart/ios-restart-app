@@ -403,7 +403,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     }
 
     func vmDidFinishLoading(vm: ProductListViewModel, page: UInt, indexes: [Int]) {
-         guard viewModel === vm else { return }
+        guard viewModel === vm else { return }
         if page == 0 {
             reloadData()
             if refreshControl.refreshing {
@@ -420,6 +420,8 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
             // Insert animated
             let indexPaths = indexes.map{ NSIndexPath(forItem: $0, inSection: 0) }
             collectionView.insertItemsAtIndexPaths(indexPaths)
+        } else {
+            reloadData()
         }
     }
     
