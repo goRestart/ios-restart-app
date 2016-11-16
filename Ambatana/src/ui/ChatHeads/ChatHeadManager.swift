@@ -45,12 +45,14 @@ final class ChatHeadManager {
         self.rx_chatHeadDatas = Variable<[ChatHeadData]>([])
         self.disposeBag = DisposeBag()
 
-        setupObservers()
-        setupRx()
+        if FeatureFlags.chatHeadBubbles {
+            setupObservers()
+            setupRx()
 
-        // If logged in, retrieve chats for the first time
-        if let _ = myUserRepository.myUser {
-            updateChatHeadDatas()
+            // If logged in, retrieve chats for the first time
+            if let _ = myUserRepository.myUser {
+                updateChatHeadDatas()
+            }
         }
     }
 
