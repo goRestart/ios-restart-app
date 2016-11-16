@@ -125,7 +125,7 @@
 "chat_safety_tips_message" = "• Møt personlig og betal med kontanter.\n\n• Gjør all kommunikasjon via letgo chat.\n\n• For godt til å være sant? Finn en annen kjøper/selger.";
 "chat_safety_tips_title" = "SIKKERHETSTIPS";
 "chat_send_button" = "Send";
-"chat_send_error_generic" = "En feil oppstod ved sending av melding. Vennligst prøv igjen senere.";
+"chat_send_error_generic" = "En feil har oppstått ved sending av meldingen. Vennligst prøv igjen senere.";
 "chat_stickers_tooltip_add_stickers" = "Legg til morsomme etiketter";
 "chat_stickers_tooltip_new" = "NYHET!";
 "chat_unblock_user" = "Opphev blokkering";

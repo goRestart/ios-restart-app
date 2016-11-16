@@ -125,7 +125,7 @@
 "chat_safety_tips_message" = "• Rencontrez en personne et payez en argent comptant.\n\n• Clavardez toujours dans l'appli letgo.\n\n• Une offre vous semble trop belle pour être vraie ? Faites attention !";
 "chat_safety_tips_title" = "CONSEILS DE SÉCURITÉ";
 "chat_send_button" = "Envoyer";
-"chat_send_error_generic" = "Il y a eu une erreur lors de l'envoi du message. Veuillez réessayer plus tard.";
+"chat_send_error_generic" = "Une erreur est survenue lors de l'envoi du message. Veuillez réessayer.";
 "chat_stickers_tooltip_add_stickers" = "Ajoutez des autocollants amusants";
 "chat_stickers_tooltip_new" = "NOUVEAU !";
 "chat_unblock_user" = "Débloquer l'Utilisateur";
