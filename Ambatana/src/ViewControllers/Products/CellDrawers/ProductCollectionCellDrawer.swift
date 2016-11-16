@@ -10,13 +10,9 @@ import Foundation
 
 class ProductCollectionCellDrawer: BaseCollectionCellDrawer<CollectionCell>, GridCellDrawer {
     func draw(model: CollectionCellType, style: CellStyle, inCell cell: CollectionCell) {
-        switch style {
-        case .Small:
-            cell.title.font = UIFont.systemBoldFont(size: 20)
-        case .Big:
-            cell.title.font = UIFont.systemBoldFont(size: 24)
-        }
+        cell.layoutIfNeeded()
         cell.imageView.image = model.image
         cell.title.text = model.title.uppercase
+        cell.title.font = UIFont.systemBoldFont(size: cell.title.fontSizeAdjusted())
     }
 }
