@@ -109,7 +109,9 @@ extension ApiClient {
         if shouldRenewToken(response) {
             logMessage(.Verbose, type: [CoreLoggingOptions.Networking, CoreLoggingOptions.Token],
                        message: response.logMessage)
-            switch req.requiredAuthLevel {
+
+            let requestTokenLevel = decodeRequestToken(response)?.level ?? .Nonexistent
+            switch requestTokenLevel {
             case .Installation:
                 tokenDAO.deleteInstallationToken()
                 request(req, decoder: decoder, completion: completion)
@@ -382,14 +384,35 @@ private extension ApiClient {
         guard let authenticationInfo = response.response?.allHeaderFields["authentication-info"] as? String else {
             return nil
         }
-        guard let token = authenticationInfo.componentsSeparatedByString(" ").last,
+        return decodeAuthInfo(authenticationInfo)
+    }
+
+    /**
+     Decodes the given response's request and returns a token.
+     - parameter response: The request response.
+     - returns: The token with value as `"Bearer <token>"`.
+     */
+    func decodeRequestToken<T>(response: Response<T, NSError>) -> Token? {
+        guard let authenticationInfo = response.request?.allHTTPHeaderFields?["Authorization"] else {
+            return nil
+        }
+        return decodeAuthInfo(authenticationInfo)
+    }
+
+    /**
+     Decodes the given auth info and returns a token.
+     - parameter authInfo: The auth info.
+     - returns: The token with value as `"Bearer <token>"`.
+     */
+    func decodeAuthInfo(authInfo: String) -> Token? {
+        guard let token = authInfo.componentsSeparatedByString(" ").last,
             authLevel = token.tokenAuthLevel else {
                 logMessage(.Error, type: [CoreLoggingOptions.Networking, CoreLoggingOptions.Token],
-                           message: "Invalid JWT; authentication-info: \(authenticationInfo)")
-                report(CoreReportNetworking.InvalidJWT, message: "authentication-info: \(authenticationInfo)")
+                           message: "Invalid JWT; authentication-info: \(authInfo)")
+                report(CoreReportNetworking.InvalidJWT, message: "authentication-info: \(authInfo)")
                 return nil
         }
-        return Token(value: authenticationInfo, level: authLevel)
+        return Token(value: authInfo, level: authLevel)
     }
 }
 
