@@ -100,6 +100,13 @@ struct FeatureFlags {
         return ABTests.persicopeChat.value
     }
 
+    static var chatHeadBubbles: Bool {
+        if Bumper.enabled {
+            return Bumper.chatHeadBubbles
+        }
+        return ABTests.chatHeadBubbles.value
+    }
+
     
     // MARK: - Private
 
