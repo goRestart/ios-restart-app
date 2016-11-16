@@ -69,7 +69,7 @@ class LGAlertViewController: UIViewController {
 
     // MARK: - Lifecycle
 
-    init?(title: String, text: String, alertType: AlertType, actions: [UIAction]?) {
+    init?(title: String?, text: String, alertType: AlertType, actions: [UIAction]?) {
         self.alertTitle = title
         self.alertText = text
         self.alertActions = actions

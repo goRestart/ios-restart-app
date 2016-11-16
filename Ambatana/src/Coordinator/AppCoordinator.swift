@@ -524,7 +524,7 @@ extension AppCoordinator: CustomLeanplumPresenter {
         Leanplum.customLeanplumAlert(self)
     }
     
-    func showLeanplumAlert(title: String, text: String, image: String, action: UIAction) {
+    func showLeanplumAlert(title: String?, text: String, image: String, action: UIAction) {
         let alertIcon = UIImage(contentsOfFile: image)
         guard let alert = LGAlertViewController(title: title, text: text, alertType: .IconAlert(icon: alertIcon), actions: [action]) else { return }
         tabBarCtl.presentViewController(alert, animated: true, completion: nil)
