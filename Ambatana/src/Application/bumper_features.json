@@ -58,5 +58,10 @@
         "name": "PeriscopeChat",
         "values": ["No", "Yes"],
         "description": "Periscope chat from Product"
+    },
+    {
+        "name": "ChatHeadBubbles",
+        "values": ["No", "Yes"],
+        "description": "Chat head bubbles"
     }
 ]
