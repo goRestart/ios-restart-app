@@ -125,7 +125,7 @@
 "chat_safety_tips_message" = "• Meet in person and pay in cash.\n\n• Keep conversations in the letgo chat.\n\n• Too good to be true? Find another buyer/seller!";
 "chat_safety_tips_title" = "STAY SAFE";
 "chat_send_button" = "Send";
-"chat_send_error_generic" = "There was an error sending the message. Please try again later.";
+"chat_send_error_generic" = "An error occurred while sending the message. Please try again.";
 "chat_stickers_tooltip_add_stickers" = "Add fun stickers";
 "chat_stickers_tooltip_new" = "NEW!";
 "chat_unblock_user" = "Unblock User";
@@ -606,7 +606,7 @@
 "sell_picture_selected_delete_button" = "Delete";
 "sell_picture_selected_save_into_camera_roll_button" = "Save to camera roll";
 "sell_picture_selected_title" = "Choose an action";
-"sell_post_free_label" = "Give it away";
+"sell_post_free_label" = "Free";
 "sell_price_field" = "Price:";
 "sell_send_error_invalid_category" = "Please choose a category for the product.";
 "sell_send_error_invalid_description" = "Please insert a valid description for your product.";

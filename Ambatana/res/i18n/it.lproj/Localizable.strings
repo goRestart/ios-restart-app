@@ -143,7 +143,7 @@
 "collection_furniture_title" = "Casa dolce casa";
 "collection_gaming_title" = "Che il gioco abbia inizio";
 "collection_transport_title" = "Viaggia con stile";
-"collection_you_title" = "Selected for you";
+"collection_you_title" = "Selezionati per te";
 "commercializer_create_from_settings" = "Create a Free Commercial";
 "commercializer_display_share_alert" = "Share this masterpiece";
 "commercializer_display_share_label" = "Share your masterpiece with the world and watch the offers come rolling in";
@@ -606,7 +606,7 @@
 "sell_picture_selected_delete_button" = "Elimina";
 "sell_picture_selected_save_into_camera_roll_button" = "Salva su disco";
 "sell_picture_selected_title" = "Scegli un'azione";
-"sell_post_free_label" = "Regala";
+"sell_post_free_label" = "Gratis";
 "sell_price_field" = "Prezzo:";
 "sell_send_error_invalid_category" = "Scegli una categoria per il prodotto.";
 "sell_send_error_invalid_description" = "Inserisci una descrizione valida per il prodotto.";

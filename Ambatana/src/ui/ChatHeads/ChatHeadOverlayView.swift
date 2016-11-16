@@ -16,7 +16,7 @@ protocol ChatHeadOverlayViewDelegate: class {
 final class ChatHeadOverlayView: UIView {
     private static let snapPointCountPerSide: Int = 5
     private static let chatHeadGroupMargin: CGFloat = -5
-    private static let chatHeadDistanceToHide: CGFloat = 35
+    private static let chatHeadDistanceToHide: CGFloat = 85
     private static let deleteShownBottom: CGFloat = 150
 
     private let chatHeadGroup: ChatHeadGroupView

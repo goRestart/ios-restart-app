@@ -101,10 +101,10 @@ class AppShareViewController: UIViewController {
         inviteFBMessengerBtn.setTitle(LGLocalizedString.appShareFbmessengerButton, forState: UIControlState.Normal)
         inviteWhatsappBtn.setTitle(LGLocalizedString.appShareWhatsappButton, forState: UIControlState.Normal)
         inviteEmailBtn.setTitle(LGLocalizedString.appShareEmailButton, forState: UIControlState.Normal)
-        
-        inviteFBMessengerBtn.layer.cornerRadius = inviteFBMessengerBtn.frame.height/2
-        inviteWhatsappBtn.layer.cornerRadius = inviteWhatsappBtn.frame.height/2
-        inviteEmailBtn.layer.cornerRadius = inviteEmailBtn.frame.height/2
+
+        inviteFBMessengerBtn.rounded = true
+        inviteWhatsappBtn.rounded = true
+        inviteEmailBtn.rounded = true
         
         if !SocialSharer.canShareIn(.FBMessenger) {
             inviteFBMessengerHeight.constant = 0

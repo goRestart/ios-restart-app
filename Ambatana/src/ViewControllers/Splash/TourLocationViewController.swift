@@ -101,7 +101,7 @@ final class TourLocationViewController: BaseViewController {
         yesButton.setTitle(LGLocalizedString.locationPermissionsButton, forState: .Normal)
         yesButton.setStyle(.Primary(fontSize: .Medium))
 
-        labelContainer.layer.cornerRadius = labelContainer.height/2
+        labelContainer.rounded = true
         distanceLabel.font = UIFont.tourLocationDistanceLabelFont
         distanceLabel.textColor = UIColor.black
         alertOkLabel.text = LGLocalizedString.locationPermissionsAllowButton

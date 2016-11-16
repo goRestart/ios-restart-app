@@ -35,7 +35,7 @@ def shared_pods
     pod "NewRelicAgent",        "~> 5.8.3"
 
 	# letgo Core
-    pod "LGCoreKit",            "1.4.3"     # :path => "../lgcorekit"
+    pod "LGCoreKit",            "1.4.4"     # :path => "../lgcorekit"
 
 	# Slack Chat controller
     pod "SlackTextViewController", "1.9.4"  # Swift 3.0: -

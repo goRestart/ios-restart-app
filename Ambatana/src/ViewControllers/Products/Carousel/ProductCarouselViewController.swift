@@ -247,12 +247,12 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         fullScreenAvatarLeft = fullAvatarLeft
         view.addConstraints([fullAvatarTop, fullAvatarLeft])
         userView.showShadow(false)
-        
-        productStatusView.layer.cornerRadius = productStatusView.height/2
+
+        productStatusView.rounded = true
         productStatusLabel.textColor = UIColor.soldColor
         productStatusLabel.font = UIFont.productStatusSoldFont
 
-        editButton.layer.cornerRadius = editButton.height / 2
+        editButton.rounded = true
 
         setupDirectMessagesAndStickers()
         setupInterestedBubble()
@@ -461,7 +461,6 @@ extension ProductCarouselViewController {
         refreshPageControl(viewModel)
         refreshProductOnboarding(viewModel)
         refreshBottomButtons(viewModel)
-        refreshDirectChat(viewModel)
         refreshProductStatusLabel(viewModel)
         refreshDirectChatElements(viewModel)
         refreshFavoriteButton(viewModel)
@@ -483,9 +482,9 @@ extension ProductCarouselViewController {
                 moreInfoAlpha.asObservable().bindTo(moreInfoView.dragView.rx_alpha).addDisposableTo(disposeBag)
             }
             view.bringSubviewToFront(buttonBottom)
-            view.bringSubviewToFront(chatContainer)
             view.bringSubviewToFront(stickersButton)
             view.bringSubviewToFront(editButton)
+            view.bringSubviewToFront(chatContainer)
             view.bringSubviewToFront(interestedBubbleContainer)
             view.bringSubviewToFront(fullScreenAvatarEffectView)
             view.bringSubviewToFront(fullScreenAvatarView)
@@ -630,21 +629,6 @@ extension ProductCarouselViewController {
         }.addDisposableTo(activeDisposeBag)
     }
 
-    private func refreshDirectChat(viewModel: ProductViewModel) {
-        chatTextView.placeholder = viewModel.directChatPlaceholder
-        chatTextView.resignFirstResponder()
-
-        viewModel.directChatEnabled.asObservable().bindNext { [weak self] enabled in
-            self?.buttonBottomBottomConstraint.constant = enabled ? CarouselUI.itemsMargin : 0
-            self?.chatContainerHeight.constant = enabled ? CarouselUI.buttonHeight : 0
-        }.addDisposableTo(activeDisposeBag)
-
-        chatTextView.rx_send.bindNext { [weak self, weak viewModel] textToSend in
-            viewModel?.sendDirectMessage(textToSend)
-            self?.chatTextView.clear()
-        }.addDisposableTo(activeDisposeBag)
-    }
-
     private func refreshProductOnboarding(viewModel: ProductViewModel) {
         guard  let navigationCtrlView = navigationController?.view ?? view else { return }
         guard self.viewModel.shouldShowOnboarding else { return }
@@ -675,9 +659,23 @@ extension ProductCarouselViewController {
 
     private func refreshDirectChatElements(viewModel: ProductViewModel) {
         viewModel.stickersButtonEnabled.asObservable().map { !$0 }.bindTo(stickersButton.rx_hidden).addDisposableTo(disposeBag)
+
+        chatTextView.placeholder = viewModel.directChatPlaceholder
+        chatTextView.resignFirstResponder()
+
+        viewModel.directChatEnabled.asObservable().bindNext { [weak self] enabled in
+            self?.buttonBottomBottomConstraint.constant = enabled ? CarouselUI.itemsMargin : 0
+            self?.chatContainerHeight.constant = enabled ? CarouselUI.buttonHeight : 0
+            }.addDisposableTo(activeDisposeBag)
+
+        chatTextView.rx_send.bindNext { [weak self, weak viewModel] textToSend in
+            viewModel?.sendDirectMessage(textToSend)
+            self?.chatTextView.clear()
+            }.addDisposableTo(activeDisposeBag)
+
         viewModel.directChatMessages.changesObservable.bindNext { [weak self] change in
             self?.directChatTable.handleCollectionChange(change, animation: .Top)
-        }.addDisposableTo(activeDisposeBag)
+            }.addDisposableTo(activeDisposeBag)
         directChatTable.reloadData()
     }
 
@@ -1004,6 +1002,15 @@ extension ProductCarouselViewController: UITableViewDataSource, UITableViewDeleg
             self?.contentBottomMargin = viewHeight - origin
             UIView.animateWithDuration(Double(animationTime)) {
                 strongSelf.view.layoutIfNeeded()
+            }
+        }.addDisposableTo(disposeBag)
+
+        chatTextView.rx_focus.bindNext { [weak self] focus in
+            guard let strongSelf = self else { return }
+            strongSelf.chatContainerTrailingConstraint.constant = focus ? CarouselUI.itemsMargin : strongSelf.buttonsRightMargin
+            UIView.animateWithDuration(Double(0.2)) {
+                strongSelf.stickersButton.alpha = focus ? 0 : 1
+                strongSelf.chatContainer.layoutIfNeeded()
             }
         }.addDisposableTo(disposeBag)
     }

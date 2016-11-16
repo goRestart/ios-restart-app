@@ -362,7 +362,7 @@
 "chat_send_button" = "Send";
 
 // Chat send error generic. Message displayal is like the other error messages
-"chat_send_error_generic" = "There was an error sending the message. Please try again later.";
+"chat_send_error_generic" = "An error occurred while sending the message. Please try again.";
 
 // Chat tooltip add stickers text
 "chat_stickers_tooltip_add_stickers" = "Add fun stickers";
@@ -1820,7 +1820,7 @@
 "sell_price_field" = "Price:";
 
 // Sell edit product price as "give it away"
-"sell_post_free_label" = "Give it away";
+"sell_post_free_label" = "Free";
 
 // Sell send error invalid category. Check attached image "sell_send_error.png"
 "sell_send_error_invalid_category" = "Please choose a category for the product.";

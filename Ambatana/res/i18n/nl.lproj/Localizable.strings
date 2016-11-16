@@ -143,7 +143,7 @@
 "collection_furniture_title" = "Geen plek als thuis";
 "collection_gaming_title" = "Het spel is begonnen";
 "collection_transport_title" = "Reizen in stijl";
-"collection_you_title" = "Selected for you";
+"collection_you_title" = "Voor jou geselecteerd";
 "commercializer_create_from_settings" = "Create a Free Commercial";
 "commercializer_display_share_alert" = "Share this masterpiece";
 "commercializer_display_share_label" = "Share your masterpiece with the world and watch the offers come rolling in";
@@ -606,7 +606,7 @@
 "sell_picture_selected_delete_button" = "Verwijderen";
 "sell_picture_selected_save_into_camera_roll_button" = "Opslaan";
 "sell_picture_selected_title" = "Kies een handeling";
-"sell_post_free_label" = "Weggeven";
+"sell_post_free_label" = "Gratis";
 "sell_price_field" = "Prijs:";
 "sell_send_error_invalid_category" = "Kies a.u.b. een categorie voor het product.";
 "sell_send_error_invalid_description" = "Voer a.u.b. een geldige beschrijving in voor het product.";

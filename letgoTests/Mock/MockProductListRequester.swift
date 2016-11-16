@@ -13,16 +13,16 @@ import Result
 
 class MockProductListRequester: ProductListRequester {
 
+    var itemsPerPage: Int
     var offset: Int
     var canRetrieveItems: Bool
     var requesterResult: ProductsResult?
     private var items: [Product] = []
-    private var pageSize: Int
 
     init(canRetrieve: Bool, offset: Int, pageSize: Int) {
         self.canRetrieveItems = canRetrieve
         self.offset = offset
-        self.pageSize = pageSize
+        self.itemsPerPage = pageSize
     }
 
     func generateItems(numItems: Int) {
@@ -37,30 +37,30 @@ class MockProductListRequester: ProductListRequester {
 
     func retrieveFirstPage(completion: ProductsCompletion?) {
         var firstPageItems: [Product] = []
-        for i in offset..<offset+pageSize {
+        for i in offset..<offset+itemsPerPage {
             if i < items.count {
                 firstPageItems.append(items[i])
             }
         }
-        offset = offset + pageSize
+        offset = offset + itemsPerPage
         requesterResult = Result(value: firstPageItems)
         performAfterDelayWithCompletion(completion)
     }
 
     func retrieveNextPage(completion: ProductsCompletion?) {
         var nextPageItems: [Product] = []
-        for i in offset..<offset+pageSize {
+        for i in offset..<offset+itemsPerPage {
             if i < items.count {
                 nextPageItems.append(items[i])
             }
         }
-        offset = offset + pageSize
+        offset = offset + itemsPerPage
         requesterResult = Result(value: nextPageItems)
         performAfterDelayWithCompletion(completion)
     }
 
     func isLastPage(resultCount: Int) -> Bool {
-        return resultCount < pageSize
+        return resultCount < itemsPerPage
     }
 
     func updateInitialOffset(newOffset: Int) {

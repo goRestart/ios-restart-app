@@ -113,7 +113,7 @@ class MainProductsViewModel: BaseViewModel {
     
     // List VM
     let listViewModel: ProductListViewModel
-    private var productListRequester: FilteredProductListRequester
+    private let productListRequester: FilteredProductListRequester
     private var shouldRetryLoad = false
     private var lastReceivedLocation: LGLocation?
     private var bubbleDistance: Float = 1
@@ -149,10 +149,11 @@ class MainProductsViewModel: BaseViewModel {
         self.generalCollectionsShuffled = CollectionCellType.generalCollections.shuffle()
         self.filters = filters
         self.tabNavigator = tabNavigator
-        self.productListRequester = FilteredProductListRequester()
         self.keyValueStorage = keyValueStorage
         let show3Columns = DeviceFamily.current.isWiderOrEqualThan(.iPhone6Plus)
         let columns = show3Columns ? 3 : 2
+        let itemsPerPage = show3Columns ? Constants.numProductsPerPageBig : Constants.numProductsPerPageDefault
+        self.productListRequester = FilteredProductListRequester(itemsPerPage: itemsPerPage)
         self.listViewModel = ProductListViewModel(requester: self.productListRequester, products: nil,
                                                   numberOfColumns: columns)
         self.listViewModel.productListFixedInset = show3Columns ? 6 : 10

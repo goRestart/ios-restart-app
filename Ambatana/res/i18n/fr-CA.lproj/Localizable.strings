@@ -143,7 +143,7 @@
 "collection_furniture_title" = "Rien ne vaut notre chez-nous";
 "collection_gaming_title" = "La partie est lancée";
 "collection_transport_title" = "Voyagez avec style";
-"collection_you_title" = "Selected for you";
+"collection_you_title" = "Sélectionnés pour vous";
 "commercializer_create_from_settings" = "Create a Free Commercial";
 "commercializer_display_share_alert" = "Share this masterpiece";
 "commercializer_display_share_label" = "Share your masterpiece with the world and watch the offers come rolling in";
@@ -606,7 +606,7 @@
 "sell_picture_selected_delete_button" = "Supprimer";
 "sell_picture_selected_save_into_camera_roll_button" = "Sauvegarder l'image sur la pellicule";
 "sell_picture_selected_title" = "Choisir une action";
-"sell_post_free_label" = "Donner";
+"sell_post_free_label" = "Gratuit";
 "sell_price_field" = "Prix :";
 "sell_send_error_invalid_category" = "Veuillez choisir une catégorie pour le produit.";
 "sell_send_error_invalid_description" = "Veuillez indiquer une description valide pour votre produit.";
