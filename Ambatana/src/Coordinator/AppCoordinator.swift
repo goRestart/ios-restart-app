@@ -147,7 +147,7 @@ extension AppCoordinator: AppNavigator {
 
     func open() {
         guard !openOnboarding() else { return }
-        delegate?.appNavigatorDidOpenApp()
+        afterOpenAppEvents()
 
         if let deepLink = deepLinksRouter.consumeInitialDeepLink() {
             openExternalDeepLink(deepLink, initialDeepLink: true)
@@ -167,6 +167,11 @@ extension AppCoordinator: AppNavigator {
         onboardingCoordinator.delegate = self
         openCoordinator(coordinator: onboardingCoordinator, parent: tabBarCtl, animated: true, completion: nil)
         return true
+    }
+
+    private func afterOpenAppEvents() {
+        chatHeadManager.initialize()
+        delegate?.appNavigatorDidOpenApp()
     }
 
     func openForceUpdateAlertIfNeeded() {
@@ -280,7 +285,7 @@ extension AppCoordinator: SellCoordinatorDelegate {
 
 extension AppCoordinator: OnboardingCoordinatorDelegate {
     func onboardingCoordinator(coordinator: OnboardingCoordinator, didFinishPosting posting: Bool, source: PostingSource?) {
-        delegate?.appNavigatorDidOpenApp()
+        afterOpenAppEvents()
         if let source = source where posting {
             openSell(source)
         }

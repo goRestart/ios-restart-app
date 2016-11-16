@@ -44,16 +44,6 @@ final class ChatHeadManager {
         self.rx_chatHeadOverlayView = Variable<ChatHeadOverlayView?>(nil)
         self.rx_chatHeadDatas = Variable<[ChatHeadData]>([])
         self.disposeBag = DisposeBag()
-
-        if FeatureFlags.chatHeadBubbles {
-            setupObservers()
-            setupRx()
-
-            // If logged in, retrieve chats for the first time
-            if let _ = myUserRepository.myUser {
-                updateChatHeadDatas()
-            }
-        }
     }
 
     deinit {
@@ -65,6 +55,19 @@ final class ChatHeadManager {
 // MARK: - Public methods
 
 extension ChatHeadManager {
+
+    func initialize() {
+        guard FeatureFlags.chatHeadBubbles else { return }
+
+        setupObservers()
+        setupRx()
+
+        // If logged in, retrieve chats for the first time
+        if let _ = myUserRepository.myUser {
+            updateChatHeadDatas()
+        }
+    }
+
     func setChatHeadOverlayView(chatHeadOverlayView: ChatHeadOverlayView?) {
         rx_chatHeadOverlayView.value = chatHeadOverlayView
     }
