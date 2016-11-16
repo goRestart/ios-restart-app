@@ -143,7 +143,7 @@
 "collection_furniture_title" = "Không nơi nào như ở nhà";
 "collection_gaming_title" = "Trò chơi đang bật";
 "collection_transport_title" = "Du lịch phong cách";
-"collection_you_title" = "Selected for you";
+"collection_you_title" = "Lựa chọn cho bạn";
 "commercializer_create_from_settings" = "Create a Free Commercial";
 "commercializer_display_share_alert" = "Share this masterpiece";
 "commercializer_display_share_label" = "Share your masterpiece with the world and watch the offers come rolling in";
@@ -606,7 +606,7 @@
 "sell_picture_selected_delete_button" = "Xóa";
 "sell_picture_selected_save_into_camera_roll_button" = "Lưu vào ổ đĩa";
 "sell_picture_selected_title" = "Hãy chọn một hành động";
-"sell_post_free_label" = "Tặng";
+"sell_post_free_label" = "Miễn phí";
 "sell_price_field" = "Giá:";
 "sell_send_error_invalid_category" = "Vui lòng chọn một danh mục cho sản phẩm.";
 "sell_send_error_invalid_description" = "Vui lòng nhập một mô tả hợp lệ cho sản phẩm.";
@@ -633,10 +633,10 @@
 "settings_invite_facebook_friends_error" = "Lỗi xảy ra trong khi chia sẻ lời mời.";
 "settings_invite_facebook_friends_ok" = "Lời mời của bạn đã được chia sẻ thành công!";
 "settings_logout_button" = "Đăng xuất";
-"settings_marketing_notifications_switch" = "Marketing Notifications";
-"settings_section_profile" = "Profile";
-"settings_section_promote" = "Promote";
-"settings_section_support" = "Support";
+"settings_marketing_notifications_switch" = "Thông báo Marketing";
+"settings_section_profile" = "Hồ sơ";
+"settings_section_promote" = "Xúc tiến";
+"settings_section_support" = "Hỗ trợ";
 "settings_title" = "Cài đặt";
 "sign_up_acceptance_error" = "To sign up you have to accept the Terms & Conditions and the Privacy Policy";
 "sign_up_email_field_hint" = "Email";
@@ -654,8 +654,8 @@
 "sign_up_terms_conditions_terms_part" = "Terms & Conditions";
 "sign_up_title" = "Tạo tài khoản mới";
 "sign_up_username_field_hint" = "Họ tên";
-"suggestions_last_searches_clear_button" = "Clear";
-"suggestions_last_searches_title" = "Recent Searches";
+"suggestions_last_searches_clear_button" = "Xóa";
+"suggestions_last_searches_title" = "Tìm kiếm Gần đây";
 "tab_bar_give_away_button" = "Tặng";
 "tab_bar_give_away_tooltip" = "Giờ đây bạn có thể tặng các món đồ";
 "tab_bar_sell_stuff_button" = "Bán Đồ";

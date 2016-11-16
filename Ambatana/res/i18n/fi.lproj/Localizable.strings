@@ -143,7 +143,7 @@
 "collection_furniture_title" = "Koti vailla vertaa";
 "collection_gaming_title" = "Pistetään peli pystyyn";
 "collection_transport_title" = "Matkusta tyylillä";
-"collection_you_title" = "Selected for you";
+"collection_you_title" = "Sinulle valikoituja";
 "commercializer_create_from_settings" = "Create a Free Commercial";
 "commercializer_display_share_alert" = "Share this masterpiece";
 "commercializer_display_share_label" = "Share your masterpiece with the world and watch the offers come rolling in";
@@ -606,7 +606,7 @@
 "sell_picture_selected_delete_button" = "Poista";
 "sell_picture_selected_save_into_camera_roll_button" = "Tallenna levylle";
 "sell_picture_selected_title" = "Valitse toiminto";
-"sell_post_free_label" = "Anna pois tavaroita";
+"sell_post_free_label" = "Ilmainen";
 "sell_price_field" = "Hinta:";
 "sell_send_error_invalid_category" = "Ole hyvä, ja valitse tuotteelle kategoria.";
 "sell_send_error_invalid_description" = "Ole hyvä ja syötä tuotteelle kelvollinen kuvaus.";

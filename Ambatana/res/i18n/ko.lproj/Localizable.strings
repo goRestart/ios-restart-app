@@ -143,7 +143,7 @@
 "collection_furniture_title" = "집처럼 편안한 공간은 없습니다";
 "collection_gaming_title" = "게임이 켜져있습니다";
 "collection_transport_title" = "화려하게 여행해보세요";
-"collection_you_title" = "Selected for you";
+"collection_you_title" = "당신을 위한 선택";
 "commercializer_create_from_settings" = "Create a Free Commercial";
 "commercializer_display_share_alert" = "Share this masterpiece";
 "commercializer_display_share_label" = "Share your masterpiece with the world and watch the offers come rolling in";
@@ -606,7 +606,7 @@
 "sell_picture_selected_delete_button" = "삭제";
 "sell_picture_selected_save_into_camera_roll_button" = "사진 저장";
 "sell_picture_selected_title" = "활동을 선택하세요";
-"sell_post_free_label" = "무료로 드릴게요";
+"sell_post_free_label" = "무료";
 "sell_price_field" = "가격:";
 "sell_send_error_invalid_category" = "제품의 목록을 선택해 주세요.";
 "sell_send_error_invalid_description" = "제품의 가능한 정보를 입력하여주세요.";
