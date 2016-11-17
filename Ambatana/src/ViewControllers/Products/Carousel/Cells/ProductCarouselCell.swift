@@ -118,6 +118,12 @@ extension ProductCarouselCell: UICollectionViewDelegate, UICollectionViewDataSou
             let productCarouselTag = self.tag
             imageCell.tag = imageCellTag
             imageCell.position = indexPath.row
+            
+            imageCell.backgroundColor = UIColor.placeholderBackgroundColor(product?.objectId)
+            imageCell.zooming.subscribeNext { [weak self] (zooming, position) in
+                guard let currentPage = self?.currentPage where position == currentPage else { return }
+                self?.delegate?.isZooming(zooming)
+            }.addDisposableTo(disposeBag)
 
             if imageCell.imageURL != imageURL { //Avoid reloading same image in the cell
                 if let placeholder = placeholderImage where indexPath.row == 0 {
@@ -125,7 +131,6 @@ extension ProductCarouselCell: UICollectionViewDelegate, UICollectionViewDataSou
                 } else {
                     imageCell.imageView.image = nil
                 }
-
 
                 imageDownloader.downloadImageWithURL(imageURL) { [weak self] (result, url) in
                     if let value = result.value where self?.tag == productCarouselTag && cell.tag == imageCellTag {
@@ -135,12 +140,6 @@ extension ProductCarouselCell: UICollectionViewDelegate, UICollectionViewDataSou
                 }
             }
             
-            imageCell.backgroundColor = UIColor.placeholderBackgroundColor(product?.objectId)
-            imageCell.zooming.subscribeNext { [weak self] (zooming, position) in
-                guard let currentPage = self?.currentPage where position == currentPage else { return }
-                self?.delegate?.isZooming(zooming)
-            }.addDisposableTo(disposeBag)
-
             return imageCell
     }
     
