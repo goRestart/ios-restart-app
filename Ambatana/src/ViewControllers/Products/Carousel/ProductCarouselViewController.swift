@@ -661,6 +661,7 @@ extension ProductCarouselViewController {
         viewModel.stickersButtonEnabled.asObservable().map { !$0 }.bindTo(stickersButton.rx_hidden).addDisposableTo(disposeBag)
 
         chatTextView.placeholder = viewModel.directChatPlaceholder
+        chatTextView.clear()
         chatTextView.resignFirstResponder()
 
         viewModel.directChatEnabled.asObservable().bindNext { [weak self] enabled in
@@ -865,6 +866,7 @@ extension ProductCarouselViewController {
     @IBAction func showMoreInfo() {
         guard moreInfoState.value == .Hidden || moreInfoState.value == .Moving else { return }
 
+        chatTextView.resignFirstResponder()
         moreInfoState.value = .Shown
         viewModel.didOpenMoreInfo()
 
@@ -906,6 +908,10 @@ extension ProductCarouselViewController: ProductCarouselMoreInfoDelegate {
 
     func viewControllerToShowShareOptions() -> UIViewController {
         return self
+    }
+
+    func willShowBigMap() {
+        chatTextView.resignFirstResponder()
     }
 }
 
