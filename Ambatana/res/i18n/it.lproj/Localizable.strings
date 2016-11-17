@@ -125,7 +125,7 @@
 "chat_safety_tips_message" = "• Incontra di persona e paga in contanti.\n\n• Continua le conversazioni nella chat di letgo.\n\n• Troppo bello per essere vero? Trova un altro venditore/acquirente,";
 "chat_safety_tips_title" = "CONSIGLI UTILI";
 "chat_send_button" = "Invia";
-"chat_send_error_generic" = "Si è verificato un errore durante l'invio del messaggio. Riprova più tardi.";
+"chat_send_error_generic" = "Si è verificato un errore durante l'invio del messaggio. Riprova.";
 "chat_stickers_tooltip_add_stickers" = "Aggiungi divertenti adesivi";
 "chat_stickers_tooltip_new" = "NOVITÀ!";
 "chat_unblock_user" = "Sblocca Utente";

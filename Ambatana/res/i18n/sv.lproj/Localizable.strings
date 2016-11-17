@@ -125,7 +125,7 @@
 "chat_safety_tips_message" = "• Möt varandra och betala kontant.\n\n• Håll samtalen i letgo-chatten.\n\n• För bra för att vara sant? Hitta en annan köpare/säljare.";
 "chat_safety_tips_title" = "SÄKERHETSTIPS";
 "chat_send_button" = "Skicka";
-"chat_send_error_generic" = "Ett fel uppstod vid sändning av meddlande. Var god försök senare.";
+"chat_send_error_generic" = "Ett fel uppstod när meddelandet sändes. Vänligen försök igen.";
 "chat_stickers_tooltip_add_stickers" = "Lägg till roliga stickers";
 "chat_stickers_tooltip_new" = "NY!";
 "chat_unblock_user" = "Avblockera användare";
