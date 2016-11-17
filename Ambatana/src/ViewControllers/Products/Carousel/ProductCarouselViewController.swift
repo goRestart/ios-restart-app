@@ -1016,7 +1016,7 @@ extension ProductCarouselViewController: UITableViewDataSource, UITableViewDeleg
             strongSelf.chatContainerTrailingConstraint.constant = focus ? CarouselUI.itemsMargin : strongSelf.buttonsRightMargin
             UIView.animateWithDuration(Double(0.2)) {
                 strongSelf.stickersButton.alpha = focus ? 0 : 1
-                strongSelf.chatContainer.layoutIfNeeded()
+                strongSelf.chatContainer.superview?.layoutIfNeeded()
             }
         }.addDisposableTo(disposeBag)
     }
