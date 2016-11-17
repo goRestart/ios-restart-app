@@ -471,6 +471,7 @@ extension ProductCarouselViewController {
     }
 
     private func finishedTransition() {
+        UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: .Fade)
         updateMoreInfo()
     }
     
