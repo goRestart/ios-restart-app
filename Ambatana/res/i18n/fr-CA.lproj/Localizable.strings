@@ -616,7 +616,7 @@
 "sell_send_error_invalid_title" = "Veuillez indiquer un titre valide pour votre produit.";
 "sell_send_error_sharing_facebook" = "Une erreur est survenue lors du partage sur Facebook. Veuillez réessayer plus tard.";
 "sell_share_fb_content" = "Découvrez ce que je vends sur letgo !";
-"sell_share_on_facebook_label" = "Partager mon produit sur Facebook";
+"sell_share_on_facebook_label" = "Partager sur Facebook";
 "sell_title_autogen_autotrans_label" = "Titre suggéré par letgo et traduit par Google";
 "sell_title_autogen_label" = "Titre suggéré par letgo";
 "sell_title_field_hint" = "Titre (optionnel)";
