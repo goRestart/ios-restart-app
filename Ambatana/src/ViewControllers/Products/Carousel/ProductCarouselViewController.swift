@@ -1000,24 +1000,20 @@ extension ProductCarouselViewController: UITableViewDataSource, UITableViewDeleg
             self?.viewModel.currentProductViewModel?.stickersButton()
         }.addDisposableTo(disposeBag)
 
+        var previousKbOrigin: CGFloat = CGFloat.max
         keyboardHelper.rx_keyboardOrigin.asObservable().skip(1).distinctUntilChanged().bindNext { [weak self] origin in
             guard let strongSelf = self else { return }
             let viewHeight = strongSelf.view.height
             let animationTime = strongSelf.keyboardHelper.animationTime
             guard viewHeight >= origin else { return }
             self?.contentBottomMargin = viewHeight - origin
+            let showingKb = origin < previousKbOrigin
+            strongSelf.chatContainerTrailingConstraint.constant = showingKb ? CarouselUI.itemsMargin : strongSelf.buttonsRightMargin
             UIView.animateWithDuration(Double(animationTime)) {
+                strongSelf.stickersButton.alpha = showingKb ? 0 : 1
                 strongSelf.view.layoutIfNeeded()
             }
-        }.addDisposableTo(disposeBag)
-
-        chatTextView.rx_focus.bindNext { [weak self] focus in
-            guard let strongSelf = self else { return }
-            strongSelf.chatContainerTrailingConstraint.constant = focus ? CarouselUI.itemsMargin : strongSelf.buttonsRightMargin
-            UIView.animateWithDuration(Double(0.2)) {
-                strongSelf.stickersButton.alpha = focus ? 0 : 1
-                strongSelf.chatContainer.superview?.layoutIfNeeded()
-            }
+            previousKbOrigin = origin
         }.addDisposableTo(disposeBag)
     }
 
