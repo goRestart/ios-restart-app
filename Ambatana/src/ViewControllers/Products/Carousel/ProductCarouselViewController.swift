@@ -152,6 +152,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
 
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
+        UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: .Fade)
         forceCloseInterestedBubble()
     }
 
