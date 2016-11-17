@@ -910,7 +910,7 @@ extension ProductCarouselViewController: ProductCarouselMoreInfoDelegate {
         return self
     }
 
-    func willShowBigMap() {
+    func requestFocus() {
         chatTextView.resignFirstResponder()
     }
 }
