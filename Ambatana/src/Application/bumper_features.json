@@ -63,5 +63,10 @@
         "name": "ChatHeadBubbles",
         "values": ["No", "Yes"],
         "description": "Chat head bubbles"
+    },
+    {
+        "name": "ShowLiquidProductsToNewUser",
+        "values": ["Yes", "No"],
+        "description": "show liquid products to new user"
     }
-]
+ ]

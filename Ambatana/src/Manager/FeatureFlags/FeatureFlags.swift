@@ -106,6 +106,13 @@ struct FeatureFlags {
         }
         return ABTests.chatHeadBubbles.value
     }
+    
+    static var showLiquidProductsToNewUser: Bool {
+        if Bumper.enabled {
+            return Bumper.showLiquidProductsToNewUser
+        }
+        return ABTests.showLiquidProductsToNewUser.value
+    }
 
     
     // MARK: - Private

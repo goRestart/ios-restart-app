@@ -16,23 +16,26 @@ class FilteredProductListRequester: ProductListRequester {
     private let productRepository: ProductRepository
     private let locationManager: LocationManager
     private var queryFirstCallCoordinates: LGLocationCoordinates2D?
+    private var keyValueStorage: KeyValueStorage
     private var queryFirstCallCountryCode: String?
     private var offset: Int = 0
     private var initialOffset: Int
-
     var queryString: String?
     var filters: ProductFilters?
 
     convenience init(itemsPerPage: Int, offset: Int = 0) {
-        self.init(productRepository: Core.productRepository, locationManager: Core.locationManager,
+        let keyValueStorage = KeyValueStorage.sharedInstance
+        self.init(productRepository: Core.productRepository, locationManager: Core.locationManager, keyValueStorage: keyValueStorage,
                   itemsPerPage: itemsPerPage, offset: offset)
+       
     }
 
-    init(productRepository: ProductRepository, locationManager: LocationManager, itemsPerPage: Int, offset: Int) {
+    init(productRepository: ProductRepository, locationManager: LocationManager, keyValueStorage: KeyValueStorage, itemsPerPage: Int, offset: Int) {
         self.productRepository = productRepository
         self.locationManager = locationManager
         self.initialOffset = offset
         self.itemsPerPage = itemsPerPage
+        self.keyValueStorage = keyValueStorage
     }
 
 
@@ -47,7 +50,7 @@ class FilteredProductListRequester: ProductListRequester {
             queryFirstCallCoordinates = LGLocationCoordinates2D(location: currentLocation)
             queryFirstCallCountryCode = locationManager.currentPostalAddress?.countryCode
         }
-     
+        
         retrieve() { [weak self] result in
             guard let indexProducts = result.value, useLimbo = self?.prependLimbo where useLimbo else {
                 self?.offset = result.value?.count ?? self?.offset ?? 0
@@ -144,7 +147,7 @@ private extension FilteredProductListRequester {
         params.coordinates = queryCoordinates
         params.queryString = queryString
         params.countryCode = countryCode
-        params.categoryIds = filters?.selectedCategories.flatMap{ $0.rawValue }
+        params.categoryIds = setupCategories()
         params.timeCriteria = filters?.selectedWithin
         params.sortCriteria = filters?.selectedOrdering
         params.distanceRadius = filters?.distanceRadius
@@ -169,5 +172,20 @@ private extension FilteredProductListRequester {
         if let queryString = queryString where !queryString.isEmpty { return false }
         guard let filters = filters else { return true }
         return filters.isDefault()
+    }
+    
+    private func setupCategories() -> [Int]? {
+        var categories: [Int]? = nil
+        let query = queryString ?? ""
+        if let filters = filters where FeatureFlags.showLiquidProductsToNewUser {
+            if query.isEmpty && filters.isDefault() && keyValueStorage[.showLiquidCategories] {
+                let mainCategories: [ProductCategory] = [.CarsAndMotors]
+               // let mainCategories: [ProductCategory] = [.CarsAndMotors, .Electronics, .HomeAndGarden, .SportsLeisureAndGames]
+                categories = mainCategories.flatMap { $0.rawValue }
+            } else {
+                categories = filters.selectedCategories.flatMap{ $0.rawValue }
+            }
+        }
+        return categories
     }
 }

@@ -12,7 +12,7 @@ import bumper
 
 extension Bumper  {
     static func initialize() {
-        Bumper.initialize([WebsocketChat.self, NotificationsSection.self, UserReviews.self, ShowNPSSurvey.self, MessageOnFavoriteRound2Mode.self, InterestedUsersMode.self, FiltersReorder.self, FreePostingMode.self, DirectPostInOnboarding.self, ShareButtonWithIcon.self, ProductDetailShareMode.self, PeriscopeChat.self, ChatHeadBubbles.self])
+        Bumper.initialize([WebsocketChat.self, NotificationsSection.self, UserReviews.self, ShowNPSSurvey.self, MessageOnFavoriteRound2Mode.self, InterestedUsersMode.self, FiltersReorder.self, FreePostingMode.self, DirectPostInOnboarding.self, ShareButtonWithIcon.self, ProductDetailShareMode.self, PeriscopeChat.self, ChatHeadBubbles.self, ShowLiquidProductsToNewUser.self])
     } 
 
     static var websocketChat: Bool {
@@ -78,6 +78,11 @@ extension Bumper  {
     static var chatHeadBubbles: Bool {
         guard let value = Bumper.valueForKey(ChatHeadBubbles.key) else { return false }
         return ChatHeadBubbles(rawValue: value)?.asBool ?? false
+    }
+
+    static var showLiquidProductsToNewUser: Bool {
+        guard let value = Bumper.valueForKey(ShowLiquidProductsToNewUser.key) else { return true }
+        return ShowLiquidProductsToNewUser(rawValue: value)?.asBool ?? true
     } 
 }
 
@@ -223,6 +228,15 @@ enum ChatHeadBubbles: String, BumperFeature  {
     static var enumValues: [ChatHeadBubbles] { return [.No, .Yes]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Chat head bubbles" } 
+    var asBool: Bool { return self == .Yes }
+}
+
+enum ShowLiquidProductsToNewUser: String, BumperFeature  {
+    case Yes, No
+    static var defaultValue: String { return ShowLiquidProductsToNewUser.Yes.rawValue }
+    static var enumValues: [ShowLiquidProductsToNewUser] { return [.Yes, .No]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "show liquid products to new user" } 
     var asBool: Bool { return self == .Yes }
 }
 
