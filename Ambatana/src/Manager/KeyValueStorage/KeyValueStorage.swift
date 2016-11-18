@@ -49,7 +49,6 @@ extension DefaultsKeys {
     static let didShowCommercializer = DefaultsKey<Bool>("didShowCommercializer")
     static let isGod = DefaultsKey<Bool>("isGod")
     static let lastSearches = DefaultsKey<[String]>("lastSearches")
-    static let showLiquidCategories = DefaultsKey<Bool>("showLiquidCategories")
 }
 
 

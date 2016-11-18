@@ -16,26 +16,23 @@ class FilteredProductListRequester: ProductListRequester {
     private let productRepository: ProductRepository
     private let locationManager: LocationManager
     private var queryFirstCallCoordinates: LGLocationCoordinates2D?
-    private var keyValueStorage: KeyValueStorage
     private var queryFirstCallCountryCode: String?
     private var offset: Int = 0
     private var initialOffset: Int
+
     var queryString: String?
     var filters: ProductFilters?
 
     convenience init(itemsPerPage: Int, offset: Int = 0) {
-        let keyValueStorage = KeyValueStorage.sharedInstance
-        self.init(productRepository: Core.productRepository, locationManager: Core.locationManager, keyValueStorage: keyValueStorage,
+        self.init(productRepository: Core.productRepository, locationManager: Core.locationManager,
                   itemsPerPage: itemsPerPage, offset: offset)
-       
     }
 
-    init(productRepository: ProductRepository, locationManager: LocationManager, keyValueStorage: KeyValueStorage, itemsPerPage: Int, offset: Int) {
+    init(productRepository: ProductRepository, locationManager: LocationManager, itemsPerPage: Int, offset: Int) {
         self.productRepository = productRepository
         self.locationManager = locationManager
         self.initialOffset = offset
         self.itemsPerPage = itemsPerPage
-        self.keyValueStorage = keyValueStorage
     }
 
 
@@ -147,7 +144,7 @@ private extension FilteredProductListRequester {
         params.coordinates = queryCoordinates
         params.queryString = queryString
         params.countryCode = countryCode
-        params.categoryIds = setupCategories()
+        params.categoryIds = filters?.selectedCategories.flatMap{ $0.rawValue }
         params.timeCriteria = filters?.selectedWithin
         params.sortCriteria = filters?.selectedOrdering
         params.distanceRadius = filters?.distanceRadius
@@ -172,18 +169,5 @@ private extension FilteredProductListRequester {
         if let queryString = queryString where !queryString.isEmpty { return false }
         guard let filters = filters else { return true }
         return filters.isDefault()
-    }
-    
-    private func setupCategories() -> [Int]? {
-        guard let filters = filters else { return nil }
-        guard FeatureFlags.showLiquidProductsToNewUser else { return filters.selectedCategories.flatMap{ $0.rawValue } }
-        
-        var categories: [Int] = filters.selectedCategories.flatMap{ $0.rawValue }
-        let query = queryString ?? ""
-        if query.isEmpty && categories.isEmpty && keyValueStorage[.showLiquidCategories] {
-                let mainCategories: [ProductCategory] = [.CarsAndMotors, .Electronics, .HomeAndGarden, .SportsLeisureAndGames]
-                categories = mainCategories.flatMap { $0.rawValue }
-            }
-        return categories
     }
 }
