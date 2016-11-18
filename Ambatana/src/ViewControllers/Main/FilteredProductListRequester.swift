@@ -175,17 +175,15 @@ private extension FilteredProductListRequester {
     }
     
     private func setupCategories() -> [Int]? {
-        var categories: [Int]? = nil
+        guard let filters = filters else { return nil }
+        guard FeatureFlags.showLiquidProductsToNewUser else { return filters.selectedCategories.flatMap{ $0.rawValue } }
+        
+        var categories: [Int] = filters.selectedCategories.flatMap{ $0.rawValue }
         let query = queryString ?? ""
-        if let filters = filters where FeatureFlags.showLiquidProductsToNewUser {
-            if query.isEmpty && filters.isDefault() && keyValueStorage[.showLiquidCategories] {
-                let mainCategories: [ProductCategory] = [.CarsAndMotors]
-               // let mainCategories: [ProductCategory] = [.CarsAndMotors, .Electronics, .HomeAndGarden, .SportsLeisureAndGames]
+        if query.isEmpty && categories.isEmpty && keyValueStorage[.showLiquidCategories] {
+                let mainCategories: [ProductCategory] = [.CarsAndMotors, .Electronics, .HomeAndGarden, .SportsLeisureAndGames]
                 categories = mainCategories.flatMap { $0.rawValue }
-            } else {
-                categories = filters.selectedCategories.flatMap{ $0.rawValue }
             }
-        }
         return categories
     }
 }
