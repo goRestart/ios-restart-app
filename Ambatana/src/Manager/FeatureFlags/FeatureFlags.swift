@@ -107,6 +107,13 @@ struct FeatureFlags {
         return ABTests.chatHeadBubbles.value
     }
 
+    static var saveMailLogout: Bool {
+        if Bumper.enabled {
+            return Bumper.saveMailLogout
+        }
+        return ABTests.saveMailLogout.value
+    }
+
     
     // MARK: - Private
 
