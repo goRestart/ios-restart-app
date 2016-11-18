@@ -392,6 +392,12 @@ class ChatViewModel: BaseViewModel {
 
         let expressBannerTriggered = Observable.combineLatest(firstInteractionDone.asObservable(),
                                                               expressBannerTimerFinished.asObservable()) { $0 || $1 }
+        /**
+            Express chat banner is shown after 3 seconds or 1st interaction if:
+                - the product has related products
+                - we're not showing the related products already over the keyboard
+                - user hasn't SENT messages via express chat for this product
+         */
         Observable.combineLatest(expressBannerTriggered,
             hasRelatedProducts.asObservable(),
             relatedProductsEnabled.asObservable(),
