@@ -15,6 +15,7 @@ class OldChatViewController: SLKTextViewController {
 
     let navBarHeight: CGFloat = 64
     let inputBarHeight: CGFloat = 44
+    let expressBannerHeight: CGFloat = 44
     var productView: ChatProductView
     var selectedCellIndexPath: NSIndexPath?
     var viewModel: OldChatViewModel
@@ -23,6 +24,8 @@ class OldChatViewController: SLKTextViewController {
     let stickersView: ChatStickersView
     let stickersCloseButton: UIButton
     var stickersWindow: UIWindow?
+    let expressChatBanner: UIView
+    var bannerTopConstraint: NSLayoutConstraint = NSLayoutConstraint()
     var activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
     var relationInfoView = RelationInfoView.relationInfoView()   // informs if the user is blocked, or the product sold or inactive
     var directAnswersPresenter: DirectAnswersPresenter
@@ -49,6 +52,7 @@ class OldChatViewController: SLKTextViewController {
         self.relatedProductsView = RelatedProductsView()
         self.stickersView = ChatStickersView()
         self.stickersCloseButton = UIButton(frame: CGRect.zero)
+        self.expressChatBanner = UIView()
         self.keyboardHelper = keyboardHelper
         super.init(tableViewStyle: .Plain)
         self.viewModel.delegate = self
@@ -79,6 +83,7 @@ class OldChatViewController: SLKTextViewController {
         setupStickersView()
         initStickersWindow()
         setupSendingRx()
+        setupExpressBannerRx()
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(menuControllerWillShow(_:)),
                                                          name: UIMenuControllerWillShowMenuNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(menuControllerWillHide(_:)),
@@ -240,8 +245,9 @@ class OldChatViewController: SLKTextViewController {
         }
         
         updateProductView()
+        setupExpressChatBanner()
     }
-    
+
     private func setupNavigationBar() {
         productView.height = navigationBarHeight
         productView.layoutIfNeeded()
@@ -252,8 +258,10 @@ class OldChatViewController: SLKTextViewController {
     
     private func addSubviews() {
         relationInfoView.translatesAutoresizingMaskIntoConstraints = false
+        expressChatBanner.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(relationInfoView)
         view.addSubview(activityIndicator)
+        view.addSubview(expressChatBanner)
     }
     
     private func setupFrames() {
@@ -268,11 +276,21 @@ class OldChatViewController: SLKTextViewController {
     }
 
     private func setupConstraints() {
-        let views: [String: AnyObject] = ["relationInfoView": relationInfoView]
+        var views: [String: AnyObject] = ["relationInfoView": relationInfoView]
         view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-0-[relationInfoView]-0-|", options: [],
             metrics: nil, views: views))
         view.addConstraint(NSLayoutConstraint(item: relationInfoView, attribute: .Top, relatedBy: .Equal,
                                               toItem: topLayoutGuide, attribute: .Bottom, multiplier: 1, constant: 0))
+
+        let bannerHeight = NSLayoutConstraint(item: expressChatBanner, attribute: .Height, relatedBy: .GreaterThanOrEqual, toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: expressBannerHeight)
+        expressChatBanner.addConstraint(bannerHeight)
+
+        views = ["expressChatBanner": expressChatBanner]
+        bannerTopConstraint = NSLayoutConstraint(item: expressChatBanner, attribute: .Top, relatedBy: .Equal, toItem: topLayoutGuide, attribute: .Bottom, multiplier: 1, constant: -expressBannerHeight)
+        let bannerSides = NSLayoutConstraint.constraintsWithVisualFormat("H:|-0-[expressChatBanner]-0-|", options: [], metrics: nil, views: views)
+
+        view.addConstraint(bannerTopConstraint)
+        view.addConstraints(bannerSides)
     }
 
     private func setupRelatedProducts() {
@@ -777,6 +795,104 @@ extension OldChatViewController {
     }
 }
 
+
+// MARK: ExpressChatBanner
+
+extension OldChatViewController {
+    private func setupExpressChatBanner() {
+        expressChatBanner.layer.borderWidth = 1
+        expressChatBanner.layer.borderColor = UIColor.grayLight.CGColor
+        expressChatBanner.backgroundColor = UIColor.white
+        expressChatBanner.hidden = true
+
+        // subviews
+        let titleLabel = UILabel()
+        let actionButton = UIButton(type: .Custom)
+        let closeButton = UIButton()
+        expressChatBanner.addSubview(titleLabel)
+        expressChatBanner.addSubview(actionButton)
+        expressChatBanner.addSubview(closeButton)
+
+        // constraints
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        actionButton.translatesAutoresizingMaskIntoConstraints = false
+        closeButton.translatesAutoresizingMaskIntoConstraints = false
+        var closeButtonSize = 0
+        var closeButtonMargin = 0
+        let sideMargin = 12
+        if DeviceFamily.current == .iPhone4 {
+            closeButtonSize = 15
+            closeButtonMargin = sideMargin
+        }
+        let views: [String : AnyObject] = ["title": titleLabel, "action": actionButton, "close": closeButton]
+        let metrics: [String : AnyObject] = ["vMargin": 7, "closeSize": closeButtonSize, "closeMargin": closeButtonMargin, "sideMargin": sideMargin]
+
+        expressChatBanner.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-(sideMargin)-[title(>=20)]-[action]-(sideMargin)-[close(closeSize)]-(closeMargin)-|", options: [.AlignAllCenterY], metrics: metrics, views: views))
+        expressChatBanner.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-(vMargin)-[title]-(vMargin)-|", options: [], metrics: metrics, views: views))
+        expressChatBanner.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-(>=vMargin)-[action(30)]-(>=vMargin)-|", options: [], metrics: metrics, views: views))
+        expressChatBanner.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-(>=vMargin)-[close(closeSize)]-(>=vMargin)-|", options: [], metrics: metrics, views: views))
+
+        expressChatBanner.layoutIfNeeded()
+
+        // Setup data
+        // title label
+        titleLabel.textColor = UIColor.grayText
+        titleLabel.numberOfLines = 0
+        titleLabel.font = UIFont.mediumBodyFont
+        titleLabel.text = LGLocalizedString.chatExpressBannerTitle
+        titleLabel.setContentHuggingPriority(749, forAxis: .Horizontal)
+        // action button
+        actionButton.setStyle(.Secondary(fontSize: .Small, withBorder: true))
+        actionButton.titleLabel?.adjustsFontSizeToFitWidth = true
+        actionButton.titleLabel?.minimumScaleFactor = 0.8
+        actionButton.setTitle(LGLocalizedString.chatExpressBannerButtonTitle, forState: .Normal)
+        actionButton.addTarget(self, action: #selector(bannerActionButtonTapped), forControlEvents: .TouchUpInside)
+        actionButton.setContentCompressionResistancePriority(751, forAxis: .Horizontal)
+        actionButton.accessibilityId = .ExpressChatBannerActionButton
+
+        closeButton.setImage(UIImage(named: "ic_close_dark"), forState: .Normal)
+        closeButton.addTarget(self, action: #selector(bannerCloseButtonTapped), forControlEvents: .TouchUpInside)
+        closeButton.accessibilityId = .ExpressChatBannerCloseButton
+    }
+
+    func setupExpressBannerRx() {
+        viewModel.shouldShowExpressBanner.asObservable().skip(1).bindNext { [weak self] showBanner in
+            if showBanner {
+                self?.showBanner()
+            } else {
+                self?.hideBanner()
+            }
+        }.addDisposableTo(disposeBag)
+    }
+
+    func showBanner() {
+        expressChatBanner.hidden = false
+        bannerTopConstraint.constant = 0
+        UIView.animateWithDuration(0.5) { [weak self] in
+            self?.view.layoutIfNeeded()
+        }
+    }
+
+    func hideBanner() {
+        bannerTopConstraint.constant = -expressChatBanner.frame.height
+        UIView.animateWithDuration(0.5, animations: { [weak self] in
+            self?.view.layoutIfNeeded()
+        }) { [weak self] _ in
+            self?.expressChatBanner.hidden = true
+        }
+    }
+
+    private dynamic func bannerActionButtonTapped() {
+        viewModel.bannerActionButtonTapped()
+        hideBanner()
+    }
+
+    private dynamic func bannerCloseButtonTapped() {
+        hideBanner()
+    }
+}
+
+
 extension OldChatViewController {
     func setAccessibilityIds() {
         tableView?.accessibilityId = .ChatViewTableView
@@ -786,5 +902,6 @@ extension OldChatViewController {
         textInputbar.rightButton.accessibilityId = .ChatViewSendButton
         textInputbar.accessibilityId = .ChatViewTextInputBar
         stickersCloseButton.accessibilityId = .ChatViewCloseStickersButton
+        expressChatBanner.accessibilityId = .ExpressChatBanner
     }
 }
