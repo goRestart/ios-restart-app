@@ -72,6 +72,8 @@
 "chat_deleted_disclaimer_w_name" = "%@ isimli kullanıcının hesabı artık aktif olmadığı için bu sohbete devam edemezsin.";
 "chat_deleted_disclaimer_wo_name" = "Bu hesap artık aktif olmadığı için bu sohbete devam edemezsin.";
 "chat_disclaimer_letgo_team" = "LETGO EKİBİ";
+"chat_express_banner_button_title" = "See Deals";
+"chat_express_banner_title" = "Related deals near you";
 "chat_express_contact_one_button_text" = "1 satıcı ile iletişime geç";
 "chat_express_contact_sellers_label" = "Bu satıcılarla, diğer alıcılardan önce iletişime geçmelisin!";
 "chat_express_contact_various_button_text" = "%@ satıcı ile iletişime geç";
@@ -288,9 +290,11 @@
 "main_sign_up_error_request_already_sent" = "İsteğin işleme alınmıştır. Tekrar denemeden önce lütfen bekle.";
 "main_sign_up_error_user_rejected" = "Girmiş olduğun email hatalıdır. Lütfen kontrol edip tekrar dene.";
 "main_sign_up_facebook_connect_button" = "Facebook ile devam et";
+"main_sign_up_facebook_connect_button_w_name" = "Log in as %@";
 "main_sign_up_fb_connect_error_email_taken" = "E-posta adresin zaten kayıtlı. Lütfen, bu adresi kullanarak giriş yap.";
 "main_sign_up_fb_connect_error_generic" = "Giriş yapılamıyor. Lütfen tekrar dene.";
 "main_sign_up_google_connect_button" = "Google ile devam et";
+"main_sign_up_google_connect_button_w_name" = "Log in as %@";
 "main_sign_up_help_button" = "Yardım";
 "main_sign_up_log_in_label" = "Giriş yap";
 "main_sign_up_or_label" = "VEYA E-POSTANI KULLAN";
@@ -632,6 +636,8 @@
 "settings_invite_facebook_friends_button" = "Facebook'taki arkadaşlarını davet et";
 "settings_invite_facebook_friends_error" = "Davetin paylaşılırken hata oluştu.";
 "settings_invite_facebook_friends_ok" = "Davetin başarıyla paylaşıldı!";
+"settings_logout_alert_message" = "Are you sure you want to log out?";
+"settings_logout_alert_ok" = "Log out";
 "settings_logout_button" = "Çıkış yap";
 "settings_marketing_notifications_switch" = "Reklam Bildirimleri";
 "settings_section_profile" = "Profil";

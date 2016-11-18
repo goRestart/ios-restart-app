@@ -72,6 +72,8 @@
 "chat_deleted_disclaimer_w_name" = "Non puoi continuare questa conversazione perché l'account di %@ non è più attivo.";
 "chat_deleted_disclaimer_wo_name" = "Non puoi continuare questa conversazione perché questo account non è più attivo.";
 "chat_disclaimer_letgo_team" = "IL TEAM DI LETGO";
+"chat_express_banner_button_title" = "See Deals";
+"chat_express_banner_title" = "Related deals near you";
 "chat_express_contact_one_button_text" = "Contatta 1 venditore";
 "chat_express_contact_sellers_label" = "Contatta questi venditori prima che altri acquirenti te li soffino da sotto il naso!";
 "chat_express_contact_various_button_text" = "Contatta %@ venditori";
@@ -288,9 +290,11 @@
 "main_sign_up_error_request_already_sent" = "La tua richiesta è già stata elaborata. Attendi prima di provare di nuovo.";
 "main_sign_up_error_user_rejected" = "L'indirizzo email da te inserito non è corretto. Verificalo e riprova.";
 "main_sign_up_facebook_connect_button" = "Continua con Facebook";
+"main_sign_up_facebook_connect_button_w_name" = "Log in as %@";
 "main_sign_up_fb_connect_error_email_taken" = "Il tuo indirizzo email è già registrato. Ti preghiamo di utilizzarlo per effettuare l'accesso.";
 "main_sign_up_fb_connect_error_generic" = "Impossibile effettuare l'accesso. Riprova.";
 "main_sign_up_google_connect_button" = "Continua con Google";
+"main_sign_up_google_connect_button_w_name" = "Log in as %@";
 "main_sign_up_help_button" = "Aiuto";
 "main_sign_up_log_in_label" = "Accedi";
 "main_sign_up_or_label" = "O UTILIZZA LA TUA EMAIL";
@@ -632,6 +636,8 @@
 "settings_invite_facebook_friends_button" = "Invita Amici di Facebook";
 "settings_invite_facebook_friends_error" = "Si è verificato un errore durante la condivisione del tuo invito.";
 "settings_invite_facebook_friends_ok" = "Il tuo invito è stato condiviso con successo!";
+"settings_logout_alert_message" = "Are you sure you want to log out?";
+"settings_logout_alert_ok" = "Log out";
 "settings_logout_button" = "Esci";
 "settings_marketing_notifications_switch" = "Notifiche marketing";
 "settings_section_profile" = "Profilo";
