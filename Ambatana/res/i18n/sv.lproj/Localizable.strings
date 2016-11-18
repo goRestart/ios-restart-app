@@ -72,6 +72,8 @@
 "chat_deleted_disclaimer_w_name" = "Du kan inte fortsätta denna konversation, för %@s konto är inte längre aktivt.";
 "chat_deleted_disclaimer_wo_name" = "Du kan inte fortsätta den här konversationen för detta konto är inte längre aktivt.";
 "chat_disclaimer_letgo_team" = "LETGO-TEAMET";
+"chat_express_banner_button_title" = "See Deals";
+"chat_express_banner_title" = "Related deals near you";
 "chat_express_contact_one_button_text" = "Kontakta 1 säljare";
 "chat_express_contact_sellers_label" = "Kontakta dessa säljare innan andra köpare hittar dem!";
 "chat_express_contact_various_button_text" = "Kontakta %@ säljare";
@@ -125,7 +127,7 @@
 "chat_safety_tips_message" = "• Möt varandra och betala kontant.\n\n• Håll samtalen i letgo-chatten.\n\n• För bra för att vara sant? Hitta en annan köpare/säljare.";
 "chat_safety_tips_title" = "SÄKERHETSTIPS";
 "chat_send_button" = "Skicka";
-"chat_send_error_generic" = "Ett fel uppstod vid sändning av meddlande. Var god försök senare.";
+"chat_send_error_generic" = "Ett fel uppstod när meddelandet sändes. Vänligen försök igen.";
 "chat_stickers_tooltip_add_stickers" = "Lägg till roliga stickers";
 "chat_stickers_tooltip_new" = "NY!";
 "chat_unblock_user" = "Avblockera användare";

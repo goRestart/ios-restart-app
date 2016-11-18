@@ -72,6 +72,8 @@
 "chat_deleted_disclaimer_w_name" = "Δεν μπορείτε να συνεχίσετε αυτή τη συνομιλία επειδή ο λογαριασμός του %@ δεν είναι πια ενεργός.";
 "chat_deleted_disclaimer_wo_name" = "Δεν μπορείτε να συνεχίσετε αυτή τη συνομιλία επειδή ο λογαριασμός αυτός δεν είναι πια ενεργός.";
 "chat_disclaimer_letgo_team" = "ΟΜΑΔΑ LETGO";
+"chat_express_banner_button_title" = "See Deals";
+"chat_express_banner_title" = "Related deals near you";
 "chat_express_contact_one_button_text" = "Επικοινωνία με 1 πωλητή";
 "chat_express_contact_sellers_label" = "Επικοινωνήστε με αυτούς τους πωλητές πριν σας προλάβουν άλλοι αγοραστές!";
 "chat_express_contact_various_button_text" = "Επικοινωνία με %@ πωλητές";
@@ -125,7 +127,7 @@
 "chat_safety_tips_message" = "• Συναντηθείτε πρόσωπο με πρόσωπο και πληρώστε μετρητά.\n\n• Αποθηκεύστε τις συνομιλίες σας στο chat του letgo.\n\n• Πολύ καλό για να είναι αληθινό; Βρείτε κάποιον άλλο αγοραστή/πωλητή!";
 "chat_safety_tips_title" = "ΣΥΜΒΟΥΛΈΣ ΑΣΦΑΛΕΊΑΣ";
 "chat_send_button" = "Αποστολή";
-"chat_send_error_generic" = "Παρουσιάσθηκε σφάλμα κατά την αποστολή του μηνύματος. Θα πρέπει να προσπαθήσεις ξανά αργότερα.";
+"chat_send_error_generic" = "Παρουσιάστηκε σφάλμα κατά την αποστολή του μηνύματος. Παρακαλώ προσπαθήστε ξανά.";
 "chat_stickers_tooltip_add_stickers" = "Προσθέστε αυτοκόλλητα";
 "chat_stickers_tooltip_new" = "ΝΕΟ!";
 "chat_unblock_user" = "Ξεμπλοκάρισμα Χρήστη";

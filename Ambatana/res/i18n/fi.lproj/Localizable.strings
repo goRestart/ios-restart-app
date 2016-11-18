@@ -72,6 +72,8 @@
 "chat_deleted_disclaimer_w_name" = "Et voi jatkaa tätä keskustelua, koska käyttäjän %@ tili ei ole enää aktiivinen.";
 "chat_deleted_disclaimer_wo_name" = "Et voi jatkaa tätä keskustelua, koska tämä tili ei ole enää aktiivinen.";
 "chat_disclaimer_letgo_team" = "LETGO-TIIMI";
+"chat_express_banner_button_title" = "See Deals";
+"chat_express_banner_title" = "Related deals near you";
 "chat_express_contact_one_button_text" = "Ota yhteyttä yhteen myyjään";
 "chat_express_contact_sellers_label" = "Ota yhteyttä näihin myyjiin, ennen kuin muut ostajat nappaavat ne!";
 "chat_express_contact_various_button_text" = "Ota yhteyttä %@ myyjään";
@@ -125,7 +127,7 @@
 "chat_safety_tips_message" = "• Tavatkaa kasvokkain ja maksakaa käteisellä.\n\n• Käy keskusteluja vain letgon chatissä.\n\n• Kuulostaako liian hyvältä ollakseen totta? Etsi toinen ostaja/myyjä.";
 "chat_safety_tips_title" = "TURVALLISUUSVINKIT";
 "chat_send_button" = "Lähetä";
-"chat_send_error_generic" = "Viestiä lähetettäessä tapahtui virhe. Ole hyvä ja yritä myöhemmin uudelleen.";
+"chat_send_error_generic" = "Viestiä lähetettäessä tapahtui virhe. Ole hyvä ja yritä uudelleen.";
 "chat_stickers_tooltip_add_stickers" = "Lisää hauskoja tarroja";
 "chat_stickers_tooltip_new" = "UUTTA!";
 "chat_unblock_user" = "Poista käyttäjän esto";

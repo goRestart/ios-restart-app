@@ -72,6 +72,8 @@
 "chat_deleted_disclaimer_w_name" = "Vous ne pouvez pas continuer cette discussion car le compte de %@ n'est plus actif.";
 "chat_deleted_disclaimer_wo_name" = "Vous ne pouvez plus continuer cette discussion car ce compte n'est plus actif.";
 "chat_disclaimer_letgo_team" = "EQUIPE LETGO";
+"chat_express_banner_button_title" = "See Deals";
+"chat_express_banner_title" = "Related deals near you";
 "chat_express_contact_one_button_text" = "Contacter 1 vendeur";
 "chat_express_contact_sellers_label" = "Contactez ces vendeurs avant que d'autres acheteurs ne le fassent !";
 "chat_express_contact_various_button_text" = "Contacter %@ vendeurs";
@@ -125,7 +127,7 @@
 "chat_safety_tips_message" = "• Rencontrez en personne et payez en liquide.\n\n• Chattez dans l'appli letgo.\n\n• Si cela semble trop beau pour être vrai, méfiez-vous !";
 "chat_safety_tips_title" = "CONSEILS DE SECURITÉ";
 "chat_send_button" = "Envoyer";
-"chat_send_error_generic" = "Il y a eu une erreur lors de l'envoi du message. Veuillez réessayer plus tard.";
+"chat_send_error_generic" = "Une erreur est survenue lors de l'envoi du message. Veuillez réessayer.";
 "chat_stickers_tooltip_add_stickers" = "Envoyez des stickers !";
 "chat_stickers_tooltip_new" = "NOUVEAU !";
 "chat_unblock_user" = "Débloquer l'Utilisateur";

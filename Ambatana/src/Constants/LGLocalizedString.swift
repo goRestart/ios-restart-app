@@ -311,6 +311,14 @@ struct LGLocalizedString {
 		return NSLocalizedString("chat_deleted_disclaimer_wo_name", comment: "")
 	}
 
+	static var chatExpressBannerButtonTitle: String {
+		return NSLocalizedString("chat_express_banner_button_title", comment: "")
+	}
+
+	static var chatExpressBannerTitle: String {
+		return NSLocalizedString("chat_express_banner_title", comment: "")
+	}
+
 	static var chatExpressDontMissLabel: String {
 		return NSLocalizedString("chat_express_dont_miss_label", comment: "")
 	}

@@ -72,6 +72,8 @@
 "chat_deleted_disclaimer_w_name" = "Vous ne pouvez pas continuer cette discussion, car le compte de %@ n'est plus actif.";
 "chat_deleted_disclaimer_wo_name" = "Vous ne pouvez pas continuer cette discussion, car ce compte n'est plus actif.";
 "chat_disclaimer_letgo_team" = "ÉQUIPE LETGO";
+"chat_express_banner_button_title" = "See Deals";
+"chat_express_banner_title" = "Related deals near you";
 "chat_express_contact_one_button_text" = "Contacter 1 vendeur";
 "chat_express_contact_sellers_label" = "Contactez ces vendeurs avant que d'autres acheteurs ne le fassent !";
 "chat_express_contact_various_button_text" = "Contacter %@ vendeurs";
@@ -125,7 +127,7 @@
 "chat_safety_tips_message" = "• Rencontrez en personne et payez en argent comptant.\n\n• Clavardez toujours dans l'appli letgo.\n\n• Une offre vous semble trop belle pour être vraie ? Faites attention !";
 "chat_safety_tips_title" = "CONSEILS DE SÉCURITÉ";
 "chat_send_button" = "Envoyer";
-"chat_send_error_generic" = "Il y a eu une erreur lors de l'envoi du message. Veuillez réessayer plus tard.";
+"chat_send_error_generic" = "Une erreur est survenue lors de l'envoi du message. Veuillez réessayer.";
 "chat_stickers_tooltip_add_stickers" = "Ajoutez des autocollants amusants";
 "chat_stickers_tooltip_new" = "NOUVEAU !";
 "chat_unblock_user" = "Débloquer l'Utilisateur";
@@ -616,7 +618,7 @@
 "sell_send_error_invalid_title" = "Veuillez indiquer un titre valide pour votre produit.";
 "sell_send_error_sharing_facebook" = "Une erreur est survenue lors du partage sur Facebook. Veuillez réessayer plus tard.";
 "sell_share_fb_content" = "Découvrez ce que je vends sur letgo !";
-"sell_share_on_facebook_label" = "Partager mon produit sur Facebook";
+"sell_share_on_facebook_label" = "Partager sur Facebook";
 "sell_title_autogen_autotrans_label" = "Titre suggéré par letgo et traduit par Google";
 "sell_title_autogen_label" = "Titre suggéré par letgo";
 "sell_title_field_hint" = "Titre (optionnel)";
