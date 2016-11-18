@@ -115,6 +115,8 @@ public class SignUpLogInViewModel: BaseViewModel {
         }
     }
 
+    private var loginFromSignupAttempted: Bool
+
     // MARK: - Lifecycle
     
     init(sessionManager: SessionManager, locationManager: LocationManager, source: EventParameterLoginSourceValue, action: LoginActionType) {
@@ -129,6 +131,7 @@ public class SignUpLogInViewModel: BaseViewModel {
         self.newsletterAccepted = false
         self.currentActionType = action
         self.termsAndConditionsEnabled = false
+        self.loginFromSignupAttempted = false
         super.init()
         self.checkTermsAndConditionsEnabled()
     }
@@ -326,7 +329,24 @@ public class SignUpLogInViewModel: BaseViewModel {
             }
         case .Conflict(let cause):
             switch cause {
-            case .UserExists, .NotSpecified, .Other:
+            case .UserExists:
+                if loginFromSignupAttempted {
+                    message = LGLocalizedString.signUpSendErrorEmailTaken(email)
+                } else {
+                    loginFromSignupAttempted = true
+                    sessionManager.login(email, password: password) { [weak self] loginResult in
+                        guard let strongSelf = self else { return }
+                        if let _ = loginResult.value {
+                            let trackerEvent = TrackerEvent.loginEmail(strongSelf.loginSource)
+                            TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+                            strongSelf.delegate?.viewModelDidLogIn(strongSelf)
+                        } else if let _ = loginResult.error {
+                            strongSelf.processSignUpSessionError(error)
+                        }
+                    }
+                    return
+                }
+            case .NotSpecified, .Other:
                 message = LGLocalizedString.signUpSendErrorEmailTaken(email)
             case .EmailRejected:
                 message = LGLocalizedString.mainSignUpErrorUserRejected
