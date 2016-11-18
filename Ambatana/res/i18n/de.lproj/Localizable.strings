@@ -125,7 +125,7 @@
 "chat_safety_tips_message" = "• Triff dich persönlich und zahle bar.\n\n• Unterhalte dich ausschließlich via der letgo-Gesprächsfunktion.\n\n• Klingt zu gut klingt, um wahr zu sein? Finde einen anderen Käufer/Verkäufer.";
 "chat_safety_tips_title" = "SICHERHEITSTIPPS";
 "chat_send_button" = "Senden";
-"chat_send_error_generic" = "Beim Senden der Nachricht ist ein Fehler aufgetreten. Versuche es bitte später noch einmal.";
+"chat_send_error_generic" = "Beim Senden der Nachricht ist ein Fehler aufgetreten. Bitte versuche es noch einmal.";
 "chat_stickers_tooltip_add_stickers" = "Sticker hinzufügen";
 "chat_stickers_tooltip_new" = "NEU!";
 "chat_unblock_user" = "Blockierung aufheben";
@@ -300,7 +300,7 @@
 "main_sign_up_terms_conditions_privacy_part" = "Datenschutz-Richtlinien";
 "main_sign_up_terms_conditions_terms_part" = "Nutzungsbedingungen";
 "notifications_empty_subtitle" = "Stelle etwas zum Verkauf ein, damit hier etwas Leben reinkommt";
-"notifications_empty_title" = "(NOCH) KEINE BENACHRICHTIGUNGEN";
+"notifications_empty_title" = "(NOCH) KEINE MITTEILUNGEN";
 "notifications_permissions_1_push" = "Claudia: Ich interessiere mich für das Smartphone. Wären 100€ okay?";
 "notifications_permissions_1_subtitle" = "Möchtest du benachrichtigt werden, wenn dir ein anderer Nutzer eine Nachricht schickt?";
 "notifications_permissions_1_title" = "Mitteilungen";
@@ -321,7 +321,7 @@
 "notifications_permissions_settings_title_chat" = "Verpasse keine Antwort!";
 "notifications_permissions_settings_yes_button" = "Ja, aktivieren";
 "notifications_permissions_yes_button" = "Ja, benachrichtigt mich";
-"notifications_title" = "Benachrichtigungen";
+"notifications_title" = "Mitteilungen";
 "notifications_type_like_button" = "Schau dir das Profil an";
 "notifications_type_like_w_name" = "%@ hat dein Produkt als Favorit markiert";
 "notifications_type_like_w_name_w_title" = "%@ hat dein Produkt als Favorit markiert: \"%@\"";

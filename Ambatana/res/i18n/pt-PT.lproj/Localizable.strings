@@ -125,7 +125,7 @@
 "chat_safety_tips_message" = "• Marque encontros pessoalmente e pague em dinheiro.\n\n• Mantenha as conversas no chat do letgo.\n\n• Bom demais para ser verdade? Encontre outro vendedor/comprador.";
 "chat_safety_tips_title" = "DICAS DE SEGURANÇA";
 "chat_send_button" = "Enviar";
-"chat_send_error_generic" = "Ocorreu um erro no envio da mensagem. Por favor tente novamente mais tarde.";
+"chat_send_error_generic" = "Surgiu um erro ao enviar a mensagem. Por favor tente de novo.";
 "chat_stickers_tooltip_add_stickers" = "Adicionar adesivos divertidos";
 "chat_stickers_tooltip_new" = "NOVO!";
 "chat_unblock_user" = "Desbloquear utilizador";
