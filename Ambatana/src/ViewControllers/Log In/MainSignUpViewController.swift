@@ -8,6 +8,7 @@
 
 import LGCoreKit
 import Result
+import RxSwift
 
 class MainSignUpViewController: BaseViewController, SignUpViewModelDelegate, UITextViewDelegate, GIDSignInUIDelegate {
 
@@ -49,16 +50,19 @@ class MainSignUpViewController: BaseViewController, SignUpViewModelDelegate, UIT
     // Bar Buttons
     private var closeButton: UIBarButtonItem?
     private var helpButton: UIBarButtonItem?
-    
-    
+
     // > Helper
     var lines: [CALayer]
+
+    private let disposeBag: DisposeBag
+
     
     // MARK: - Lifecycle
     
     init(viewModel: SignUpViewModel) {
         self.viewModel = viewModel
         self.lines = []
+        self.disposeBag = DisposeBag()
         super.init(viewModel: viewModel, nibName: "MainSignUpViewController",
                    navBarBackgroundStyle: .Transparent(substyle: .Light))
         self.viewModel.delegate = self
@@ -72,6 +76,7 @@ class MainSignUpViewController: BaseViewController, SignUpViewModelDelegate, UIT
         super.viewDidLoad()
         
         setupUI()
+        setupRx()
         setAccesibilityIds()
 
         switch DeviceFamily.current {
@@ -201,8 +206,6 @@ class MainSignUpViewController: BaseViewController, SignUpViewModelDelegate, UIT
         quicklyLabel.font = UIFont.smallBodyFont
         quicklyLabel.backgroundColor = view.backgroundColor
 
-        connectFBButton.setTitle(LGLocalizedString.mainSignUpFacebookConnectButton, forState: .Normal)
-        connectGoogleButton.setTitle(LGLocalizedString.mainSignUpGoogleConnectButton, forState: .Normal)
         orLabel.text = LGLocalizedString.mainSignUpOrLabel
         orLabel.font = UIFont.smallBodyFont
         orLabel.backgroundColor = view.backgroundColor
@@ -210,6 +213,30 @@ class MainSignUpViewController: BaseViewController, SignUpViewModelDelegate, UIT
         logInButton.setTitle(LGLocalizedString.mainSignUpLogInLabel, forState: .Normal)
 
         setupTermsAndConditions()
+    }
+
+    private func setupRx() {
+        // Facebook button title
+        viewModel.previousFacebookUsername.asObservable()
+            .map { username in
+                if let username = username {
+                    return LGLocalizedString.mainSignUpFacebookConnectButtonWName(username)
+                } else {
+                    return LGLocalizedString.mainSignUpFacebookConnectButton
+                }
+            }.bindTo(connectFBButton.rx_title)
+            .addDisposableTo(disposeBag)
+
+        // Google button title
+        viewModel.previousGoogleUsername.asObservable()
+            .map { username in
+                if let username = username {
+                    return LGLocalizedString.mainSignUpGoogleConnectButtonWName(username)
+                } else {
+                    return LGLocalizedString.mainSignUpGoogleConnectButton
+                }
+            }.bindTo(connectGoogleButton.rx_title)
+            .addDisposableTo(disposeBag)
     }
     
     private func adaptConstraintsToiPhone4() {

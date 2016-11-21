@@ -10,7 +10,7 @@ import Foundation
 import LGCoreKit
 
 enum ExternalServiceAuthResult {
-    case Success
+    case Success(myUser: MyUser)
     case Cancelled
     case Network
     case Forbidden

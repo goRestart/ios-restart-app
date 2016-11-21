@@ -60,10 +60,10 @@ class FBLoginHelper {
     private static func loginToManagerWith(token: String, sessionManager: SessionManager,
         tracker: Tracker, loginSource: EventParameterLoginSourceValue, completion: FBLoginCompletion) {
             sessionManager.loginFacebook(token) { result in
-                if let _ = result.value {
+                if let myUser = result.value {
                     let trackerEvent = TrackerEvent.loginFB(loginSource)
                     tracker.trackEvent(trackerEvent)
-                    callCompletion(completion, withResult: .Success)
+                    callCompletion(completion, withResult: .Success(myUser: myUser))
                 } else if let error = result.error {
                     // If session managers fails we should FB logout to clear the fb token
                     let loginManager = FBSDKLoginManager()
