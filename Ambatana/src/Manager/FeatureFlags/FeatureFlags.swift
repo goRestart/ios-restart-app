@@ -9,7 +9,23 @@
 import bumper
 import LGCoreKit
 
-struct FeatureFlags {
+protocol FeatureFlaggeable {
+    static var websocketChat: Bool { get }
+    static var notificationsSection: Bool { get }
+    static var userReviews: Bool { get }
+    static var messageOnFavoriteRound2: MessageOnFavoriteRound2Mode { get }
+    static var interestedUsersMode: InterestedUsersMode { get }
+    static var filtersReorder: Bool { get }
+    static var freePostingMode: FreePostingMode { get }
+    static var directPostInOnboarding: Bool { get }
+    static var shareButtonWithIcon: Bool { get }
+    static var productDetailShareMode: ProductDetailShareMode { get }
+    static var periscopeChat: Bool { get }
+    static var chatHeadBubbles: Bool { get }
+    static var showLiquidProductsToNewUser: Bool { get }
+}
+
+struct FeatureFlags: FeatureFlaggeable {
     static func setup() {
         Bumper.initialize()
     }
@@ -105,6 +121,13 @@ struct FeatureFlags {
             return Bumper.chatHeadBubbles
         }
         return ABTests.chatHeadBubbles.value
+    }
+    
+    static var showLiquidProductsToNewUser: Bool {
+        if Bumper.enabled {
+            return Bumper.showLiquidProductsToNewUser
+        }
+        return ABTests.showLiquidProductsToNewUser.value
     }
 
     
