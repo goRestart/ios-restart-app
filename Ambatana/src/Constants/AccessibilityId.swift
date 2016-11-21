@@ -419,6 +419,8 @@ enum AccessibilityId: String {
 
     // Settings
     case SettingsList
+    case SettingsLogoutAlertCancel
+    case SettingsLogoutAlertOK
 
     // SettingsCell
     case SettingsCellIcon
