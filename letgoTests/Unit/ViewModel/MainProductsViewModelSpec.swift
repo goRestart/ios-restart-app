@@ -1,0 +1,147 @@
+//
+//  MainProductsViewModel.swift
+//  LetGo
+//
+//  Created by Juan Iglesias on 18/11/16.
+//  Copyright © 2016 Ambatana. All rights reserved.
+//
+
+@testable import LetGo
+import LGCoreKit
+import Quick
+import Nimble
+
+
+class MainProductsViewModelSpec: QuickSpec {
+    override func spec() {
+
+        describe("MainProductsViewModelSpec") {
+            var sut: MainProductsViewModel!
+            
+            let keyValueStorage = KeyValueStorage.sharedInstance
+            let mockFeatureFlags = MockFeatureFlags.self
+            let filters = ProductFilters()
+            weak var tabNavigator: TabNavigator?
+            
+            describe("Initialization") {
+                
+                context("with feature flag enabled") {
+                    beforeEach {
+                        mockFeatureFlags.showLiquidProductsToNewUser = true
+                    }
+                    it("has firstDate nil (first time in Letgo)") {
+                        keyValueStorage[.firstRunDate] = nil
+                        sut = MainProductsViewModel(myUserRepository: Core.myUserRepository, trendingSearchesRepository: Core.trendingSearchesRepository, locationManager: Core.locationManager, currencyHelper: Core.currencyHelper, tracker: TrackerProxy.sharedInstance, filters: filters, tabNavigator: tabNavigator, keyValueStorage: keyValueStorage, featureFlags: mockFeatureFlags)
+                        expect(sut.currentActiveFilters?.selectedCategories) == [.CarsAndMotors, .Electronics, .HomeAndGarden, .SportsLeisureAndGames]
+                    }
+                    it("has firstDate no nil (more than one first in Letgo)") {
+                        keyValueStorage[.firstRunDate] =  NSDate()
+                        sut = MainProductsViewModel(myUserRepository: Core.myUserRepository, trendingSearchesRepository: Core.trendingSearchesRepository, locationManager: Core.locationManager, currencyHelper: Core.currencyHelper, tracker: TrackerProxy.sharedInstance, filters: filters, tabNavigator: tabNavigator, keyValueStorage: keyValueStorage, featureFlags: mockFeatureFlags)
+                        expect(sut.currentActiveFilters?.selectedCategories) == []
+                    }
+                }
+                context("with feature flag disabled") {
+                    beforeEach {
+                      mockFeatureFlags.showLiquidProductsToNewUser = false
+                    }
+                    it("has firstDate nil (first time in Letgo)") {
+                        keyValueStorage[.firstRunDate] = nil
+                        sut = MainProductsViewModel(myUserRepository: Core.myUserRepository, trendingSearchesRepository: Core.trendingSearchesRepository, locationManager: Core.locationManager, currencyHelper: Core.currencyHelper, tracker: TrackerProxy.sharedInstance, filters: filters, tabNavigator: tabNavigator, keyValueStorage: keyValueStorage, featureFlags: mockFeatureFlags)
+                        expect(sut.currentActiveFilters?.selectedCategories) == []
+                    }
+                    it("has firstDate no nil (more than one first in Letgo)") {
+                        keyValueStorage[.firstRunDate] =  NSDate()
+                        sut = MainProductsViewModel(myUserRepository: Core.myUserRepository, trendingSearchesRepository: Core.trendingSearchesRepository, locationManager: Core.locationManager, currencyHelper: Core.currencyHelper, tracker: TrackerProxy.sharedInstance, filters: filters, tabNavigator: tabNavigator, keyValueStorage: keyValueStorage, featureFlags: mockFeatureFlags)
+                        expect(sut.currentActiveFilters?.selectedCategories) == []
+                    }
+                }
+            }
+ 
+            describe("Filter section edited") {
+                var userFilters: ProductFilters!
+                var filtersViewModel: FiltersViewModel!
+                
+                beforeEach {
+                    filtersViewModel = FiltersViewModel()
+                    userFilters = ProductFilters()
+                    userFilters.distanceRadius = 50
+                    userFilters.selectedCategories = []
+                }
+                context("feature flag enabled") {
+                
+                    beforeEach {
+                        mockFeatureFlags.showLiquidProductsToNewUser = true
+                        keyValueStorage[.firstRunDate] = nil
+                        sut = MainProductsViewModel(myUserRepository: Core.myUserRepository, trendingSearchesRepository: Core.trendingSearchesRepository, locationManager: Core.locationManager, currencyHelper: Core.currencyHelper, tracker: TrackerProxy.sharedInstance, filters: filters, tabNavigator: tabNavigator, keyValueStorage: keyValueStorage, featureFlags: mockFeatureFlags)
+                    }
+                    context("User set some filters") {
+                        
+                        beforeEach {
+                            sut.viewModelDidUpdateFilters(filtersViewModel, filters: userFilters)
+                        }
+                        it("has filters with liquid categories") {
+                            expect(sut.currentActiveFilters?.selectedCategories) == [.CarsAndMotors, .Electronics, .HomeAndGarden, .SportsLeisureAndGames]
+                        }
+                        it("has filters set by user") {
+                            expect(sut.currentActiveFilters?.distanceRadius) == 50
+                        }
+                        it("has no user categories") {
+                            expect(sut.userActiveFilters?.selectedCategories) == []
+                        }
+                    }
+                    
+                    context("user set filters and remove them") {
+                        beforeEach {
+                            let userFiltersRemoved = ProductFilters()
+                            sut.viewModelDidUpdateFilters(filtersViewModel, filters: userFiltersRemoved)
+                        }
+                        it("has not filters set by user") {
+                            expect(sut.userActiveFilters?.selectedCategories) == []
+                        }
+                        it("has liquid categories on request") {
+                            expect(sut.currentActiveFilters?.selectedCategories) == [.CarsAndMotors, .Electronics, .HomeAndGarden, .SportsLeisureAndGames]
+                        }
+                    }
+                }
+                context("feature flag disabled") {
+                    
+                    beforeEach {
+                        mockFeatureFlags.showLiquidProductsToNewUser = false
+                        keyValueStorage[.firstRunDate] = nil
+                        sut = MainProductsViewModel(myUserRepository: Core.myUserRepository, trendingSearchesRepository: Core.trendingSearchesRepository, locationManager: Core.locationManager, currencyHelper: Core.currencyHelper, tracker: TrackerProxy.sharedInstance, filters: filters, tabNavigator: tabNavigator, keyValueStorage: keyValueStorage, featureFlags: mockFeatureFlags)
+                    }
+                    context("User set some filters") {
+                        
+                        beforeEach {
+                            sut.viewModelDidUpdateFilters(filtersViewModel, filters: userFilters)
+                        }
+                        it("has no filters with liquid categories") {
+                            expect(sut.currentActiveFilters?.selectedCategories) == []
+                        }
+                        it("has filters set by user") {
+                            expect(sut.currentActiveFilters?.distanceRadius) == 50
+                        }
+                        it("has no categories set by user ") {
+                            expect(sut.userActiveFilters?.selectedCategories) == []
+                        }
+                    }
+                    
+                    context("user set filters and remove them") {
+                        beforeEach {
+                            let userFiltersRemoved = ProductFilters()
+                            sut.viewModelDidUpdateFilters(filtersViewModel, filters: userFiltersRemoved)
+                        }
+                        it("has not filters set by user") {
+                            expect(sut.userActiveFilters?.selectedCategories) == []
+                        }
+                        it("has no liquid categories on requester") {
+                            expect(sut.currentActiveFilters?.selectedCategories) == []
+                        }
+                    }
+                }
+               
+            }
+        }
+    }
+}
+
