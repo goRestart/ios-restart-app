@@ -110,7 +110,7 @@ class UserViewModel: BaseViewModel {
         let myUserRepository = Core.myUserRepository
         let userRepository = Core.userRepository
         let tracker = TrackerProxy.sharedInstance
-        let user = userRepository.build(fromChatInterlocutor: chatInterlocutor)
+        let user = LocalUser(chatInterlocutor: chatInterlocutor)
         self.init(sessionManager: sessionManager, myUserRepository: myUserRepository, userRepository: userRepository,
                   tracker: tracker, isMyProfile: false, user: user, source: source)
     }
@@ -424,7 +424,7 @@ extension UserViewModel {
 
     private func setupUserInfoRxBindings() {
         if itsMe {
-            myUserRepository.rx_myUser.asObservable().bindNext { [weak self] myUser in
+            myUserRepository.rx_myUser.bindNext { [weak self] myUser in
                 self?.user.value = myUser
                 self?.refreshIfLoading()
             }.addDisposableTo(disposeBag)

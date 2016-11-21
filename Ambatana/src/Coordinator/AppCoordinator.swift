@@ -477,11 +477,11 @@ private extension AppCoordinator {
 
     func setupNotificationCenterObservers() {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(logout(_:)),
-                                                         name: SessionManager.Notification.Logout.rawValue, object: nil)
+                                                         name: SessionNotification.Logout.rawValue, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(kickedOut(_:)),
-                                                         name: SessionManager.Notification.KickedOut.rawValue, object: nil)
+                                                         name: SessionNotification.KickedOut.rawValue, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(askUserToUpdateLocation),
-                                                         name: LocationManager.Notification.MovedFarFromSavedManualLocation.rawValue, object: nil)
+                                                         name: LocationNotification.MovedFarFromSavedManualLocation.rawValue, object: nil)
     }
 
     func setupChatHeads() {
@@ -560,7 +560,7 @@ private extension AppCoordinator {
 
         // We should ask only one time
         NSNotificationCenter.defaultCenter().removeObserver(self,
-                                                            name: LocationManager.Notification.MovedFarFromSavedManualLocation.rawValue,
+                                                            name: LocationNotification.MovedFarFromSavedManualLocation.rawValue,
                                                             object: nil)
     }
 }
