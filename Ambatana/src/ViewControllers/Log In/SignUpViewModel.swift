@@ -61,11 +61,11 @@ class SignUpViewModel: BaseViewModel {
     }
 
     private let sessionManager: SessionManager
-    private let keyValueStorage: KeyValueStorage
+    private let keyValueStorage: KeyValueStorageable
     private let tracker: Tracker
     let appearance: LoginAppearance
     private let loginSource: EventParameterLoginSourceValue
-    private let googleLoginHelper: GoogleLoginHelper
+    private let googleLoginHelper: ExternalAuthHelper
 
     let previousFacebookUsername: Variable<String?>
     let previousGoogleUsername: Variable<String?>
@@ -75,14 +75,14 @@ class SignUpViewModel: BaseViewModel {
 
     // MARK: - Lifecycle
     
-    init(sessionManager: SessionManager, keyValueStorage: KeyValueStorage, tracker: Tracker,
-         appearance: LoginAppearance, source: EventParameterLoginSourceValue) {
+    init(sessionManager: SessionManager, keyValueStorage: KeyValueStorageable, tracker: Tracker,
+         appearance: LoginAppearance, source: EventParameterLoginSourceValue, googleLoginHelper: ExternalAuthHelper) {
         self.sessionManager = sessionManager
         self.keyValueStorage = keyValueStorage
         self.tracker = tracker
         self.appearance = appearance
         self.loginSource = source
-        self.googleLoginHelper = GoogleLoginHelper(loginSource: source)
+        self.googleLoginHelper = googleLoginHelper
         self.previousFacebookUsername = Variable<String?>(nil)
         self.previousGoogleUsername = Variable<String?>(nil)
         super.init()
@@ -97,8 +97,9 @@ class SignUpViewModel: BaseViewModel {
         let sessionManager = Core.sessionManager
         let keyValueStorage = KeyValueStorage.sharedInstance
         let tracker = TrackerProxy.sharedInstance
+        let googleLoginHelper = GoogleLoginHelper(loginSource: source)
         self.init(sessionManager: sessionManager, keyValueStorage: keyValueStorage, tracker: tracker,
-                  appearance: appearance, source: source)
+                  appearance: appearance, source: source, googleLoginHelper: googleLoginHelper)
     }
 
 
