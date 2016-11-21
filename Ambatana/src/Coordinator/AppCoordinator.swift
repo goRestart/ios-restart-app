@@ -810,11 +810,8 @@ private extension AppCoordinator {
                     self?.openTab(.Chats, force: false)
                     self?.selectedTabCoordinator?.openChat(.Conversation(conversation: conversation))
                     })
-                let userName = conversation.interlocutor?.name ?? ""
-                let justMessage = message.stringByReplacingOccurrencesOfString(userName, withString: "").trim
                 let data = BubbleNotificationData(tagGroup: conversationId,
-                                                  text: userName,
-                                                  infoText: justMessage,
+                                                  text: message,
                                                   action: action,
                                                   iconURL: conversation.interlocutor?.avatar?.fileURL,
                                                   iconImage: UIImage(named: "user_placeholder"))
