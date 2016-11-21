@@ -103,8 +103,8 @@ class SignUpViewModelSpec: QuickSpec {
                     let myUser = MockMyUser()
                     myUser.name = "Albert"
 
-                    sessionManager.myUserResult = Result<MyUser, SessionManagerError>(value: myUser)
-                    googleLoginHelper = MockExternalAuthHelper(result: .Success(myUser: myUser))
+//                    sessionManager.myUserResult = Result<MyUser, SessionManagerError>(value: myUser)
+                    googleLoginHelper.loginResult = .Success(myUser: myUser)
 
                     sut.logInWithGoogle()
                 }
