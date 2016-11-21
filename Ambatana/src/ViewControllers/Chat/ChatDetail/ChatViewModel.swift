@@ -1244,7 +1244,7 @@ extension ChatViewModel {
     private func retrieveRelatedProducts() {
         guard isBuyer else { return }
         guard let productId = conversation.value.product?.objectId else { return }
-        productRepository.indexRelated(productId: productId, params: RetrieveProductsParams(), pageOffset: 0) {
+        productRepository.indexRelated(productId: productId, params: RetrieveProductsParams()) {
             [weak self] result in
             guard let strongSelf = self else { return }
             if let value = result.value {
