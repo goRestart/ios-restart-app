@@ -62,6 +62,7 @@ class SignUpViewModel: BaseViewModel {
 
     private let sessionManager: SessionManager
     private let keyValueStorage: KeyValueStorage
+    private let tracker: Tracker
     let appearance: LoginAppearance
     private let loginSource: EventParameterLoginSourceValue
     private let googleLoginHelper: GoogleLoginHelper
@@ -74,10 +75,11 @@ class SignUpViewModel: BaseViewModel {
 
     // MARK: - Lifecycle
     
-    init(sessionManager: SessionManager, keyValueStorage: KeyValueStorage,
-                appearance: LoginAppearance, source: EventParameterLoginSourceValue) {
+    init(sessionManager: SessionManager, keyValueStorage: KeyValueStorage, tracker: Tracker,
+         appearance: LoginAppearance, source: EventParameterLoginSourceValue) {
         self.sessionManager = sessionManager
         self.keyValueStorage = keyValueStorage
+        self.tracker = tracker
         self.appearance = appearance
         self.loginSource = source
         self.googleLoginHelper = GoogleLoginHelper(loginSource: source)
@@ -88,13 +90,14 @@ class SignUpViewModel: BaseViewModel {
         updatePreviousEmailAndUsernamesFromKeyValueStorage()
 
         // Tracking
-        TrackerProxy.sharedInstance.trackEvent(TrackerEvent.loginVisit(loginSource))
+        tracker.trackEvent(TrackerEvent.loginVisit(loginSource))
     }
     
     convenience init(appearance: LoginAppearance, source: EventParameterLoginSourceValue) {
         let sessionManager = Core.sessionManager
         let keyValueStorage = KeyValueStorage.sharedInstance
-        self.init(sessionManager: sessionManager, keyValueStorage: keyValueStorage,
+        let tracker = TrackerProxy.sharedInstance
+        self.init(sessionManager: sessionManager, keyValueStorage: keyValueStorage, tracker: tracker,
                   appearance: appearance, source: source)
     }
 
@@ -102,7 +105,7 @@ class SignUpViewModel: BaseViewModel {
     // MARK: - Public methods
 
     func logInWithFacebook() {
-        FBLoginHelper.logInWithFacebook(sessionManager, tracker: TrackerProxy.sharedInstance, loginSource: loginSource,
+        FBLoginHelper.logInWithFacebook(sessionManager, tracker: tracker, loginSource: loginSource,
             managerStart: { [weak self] in
                 guard let strongSelf = self else { return }
                 strongSelf.delegate?.viewModelDidStartLoggingIn(strongSelf)
@@ -128,7 +131,7 @@ class SignUpViewModel: BaseViewModel {
 
     func abandon() {
         let trackerEvent = TrackerEvent.loginAbandon(loginSource)
-        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+        tracker.trackEvent(trackerEvent)
     }
 
     func loginSignupViewModelForLogin() -> SignUpLogInViewModel {
@@ -183,11 +186,11 @@ class SignUpViewModel: BaseViewModel {
     }
 
     private func trackLoginFBFailedWithError(error: EventParameterLoginError) {
-        TrackerProxy.sharedInstance.trackEvent(TrackerEvent.loginFBError(error))
+        tracker.trackEvent(TrackerEvent.loginFBError(error))
     }
 
     private func trackLoginGoogleFailedWithError(error: EventParameterLoginError) {
-        TrackerProxy.sharedInstance.trackEvent(TrackerEvent.loginGoogleError(error))
+        tracker.trackEvent(TrackerEvent.loginGoogleError(error))
     }
 }
 
