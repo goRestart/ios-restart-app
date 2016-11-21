@@ -83,6 +83,7 @@ class MainProductsViewModelSpec: QuickSpec {
                             expect(sut.currentActiveFilters?.selectedCategories) == [.CarsAndMotors, .Electronics, .HomeAndGarden, .SportsLeisureAndGames]
                         }
                         it("has filters set by user") {
+                            //TODO: We should implement equalable in ProductFilters to compare currentActiveFilters with userFilters.
                             expect(sut.currentActiveFilters?.distanceRadius) == 50
                         }
                         it("has no user categories") {
