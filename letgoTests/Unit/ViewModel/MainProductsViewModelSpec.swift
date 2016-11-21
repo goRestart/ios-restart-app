@@ -19,7 +19,7 @@ class MainProductsViewModelSpec: QuickSpec {
     
             var sut: MainProductsViewModel!
             let keyValueStorage = MockKeyValueStorage()
-            let mockFeatureFlags = MockFeatureFlags.self
+            let mockFeatureFlags = MockFeatureFlags()
             let filters = ProductFilters()
             weak var tabNavigator: TabNavigator?
             

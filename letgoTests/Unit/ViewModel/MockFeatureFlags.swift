@@ -11,18 +11,17 @@ import Foundation
 
 class MockFeatureFlags: FeatureFlaggeable {
     
-    static var websocketChat: Bool = false
-    static var notificationsSection: Bool = false
-    static var userReviews: Bool = false
-    static var showNPSSurvey: Bool = false
-    static var messageOnFavoriteRound2: MessageOnFavoriteRound2Mode = .NoMessage
-    static var interestedUsersMode: InterestedUsersMode = .NoNotification
-    static var filtersReorder: Bool = false
-    static var freePostingMode: FreePostingMode = .OneButton
-    static var directPostInOnboarding: Bool = false
-    static var shareButtonWithIcon: Bool = false
-    static var productDetailShareMode: ProductDetailShareMode = .Native
-    static var periscopeChat: Bool = false
-    static var chatHeadBubbles: Bool = false
-    static var showLiquidProductsToNewUser: Bool = false
+    var websocketChat: Bool = false
+    var notificationsSection: Bool = false
+    var userReviews: Bool = false
+    var messageOnFavoriteRound2: MessageOnFavoriteRound2Mode = .NoMessage
+    var interestedUsersMode: InterestedUsersMode = .NoNotification
+    var filtersReorder: Bool = false
+    var freePostingMode: FreePostingMode = .OneButton
+    var directPostInOnboarding: Bool = false
+    var shareButtonWithIcon: Bool = false
+    var productDetailShareMode: ProductDetailShareMode = .Native
+    var periscopeChat: Bool = false
+    var chatHeadBubbles: Bool = false
+    var showLiquidProductsToNewUser: Bool = false
 }
