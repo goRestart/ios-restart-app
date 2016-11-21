@@ -29,12 +29,11 @@ final class AppCoordinator: NSObject {
     private let sessionManager: SessionManager
     private let chatHeadManager: ChatHeadManager
     private let keyValueStorage: KeyValueStorage
-    private let featureFlags: FeatureFlags
+
     private let pushPermissionsManager: PushPermissionsManager
     private let ratingManager: RatingManager
     private let bubbleNotifManager: BubbleNotificationManager
     private let tracker: Tracker
-
     private let deepLinksRouter: DeepLinksRouter
 
     private let productRepository: ProductRepository
@@ -44,7 +43,7 @@ final class AppCoordinator: NSObject {
     private let chatRepository: ChatRepository
     private let commercializerRepository: CommercializerRepository
     private let userRatingRepository: UserRatingRepository
-
+    private let featureFlags: FeatureFlags
     weak var delegate: AppNavigatorDelegate?
 
     private let disposeBag = DisposeBag()
@@ -60,7 +59,6 @@ final class AppCoordinator: NSObject {
         let sessionManager = Core.sessionManager
         let chatHeadManager = ChatHeadManager.sharedInstance
         let keyValueStorage = KeyValueStorage.sharedInstance
-        let featureFlags = FeatureFlags.sharedInstance
         let pushPermissionsManager = PushPermissionsManager.sharedInstance
         let ratingManager = RatingManager.sharedInstance
         let deepLinksRouter = DeepLinksRouter.sharedInstance
@@ -74,24 +72,26 @@ final class AppCoordinator: NSObject {
         let chatRepository = Core.chatRepository
         let commercializerRepository = Core.commercializerRepository
         let userRatingRepository = Core.userRatingRepository
+        let featureFlags = FeatureFlags.sharedInstance
 
         self.init(tabBarController: tabBarController, chatHeadOverlay: chatHeadOverlay, configManager: configManager,
                   sessionManager: sessionManager, chatHeadManager: chatHeadManager, keyValueStorage: keyValueStorage,
-                  featureFlags: featureFlags, pushPermissionsManager: pushPermissionsManager, ratingManager: ratingManager,
+                  pushPermissionsManager: pushPermissionsManager, ratingManager: ratingManager,
                   deepLinksRouter: deepLinksRouter, bubbleManager: bubbleManager, tracker: tracker,
                   productRepository: productRepository, userRepository: userRepository, myUserRepository: myUserRepository,
                   oldChatRepository: oldChatRepository, chatRepository: chatRepository,
-                  commercializerRepository: commercializerRepository, userRatingRepository: userRatingRepository)
+                  commercializerRepository: commercializerRepository, userRatingRepository: userRatingRepository,
+                  featureFlags: featureFlags)
         tabBarViewModel.navigator = self
     }
 
     init(tabBarController: TabBarController, chatHeadOverlay: ChatHeadOverlayView, configManager: ConfigManager,
          sessionManager: SessionManager, chatHeadManager: ChatHeadManager, keyValueStorage: KeyValueStorage,
-         featureFlags: FeatureFlags, pushPermissionsManager: PushPermissionsManager, ratingManager: RatingManager, deepLinksRouter: DeepLinksRouter,
+         pushPermissionsManager: PushPermissionsManager, ratingManager: RatingManager, deepLinksRouter: DeepLinksRouter,
          bubbleManager: BubbleNotificationManager, tracker: Tracker, productRepository: ProductRepository,
          userRepository: UserRepository, myUserRepository: MyUserRepository, oldChatRepository: OldChatRepository,
          chatRepository: ChatRepository, commercializerRepository: CommercializerRepository,
-         userRatingRepository: UserRatingRepository) {
+         userRatingRepository: UserRatingRepository, featureFlags: FeatureFlags) {
 
         self.tabBarCtl = tabBarController
         self.selectedTab = Variable<Tab>(.Home)
@@ -123,7 +123,9 @@ final class AppCoordinator: NSObject {
         self.chatRepository = chatRepository
         self.commercializerRepository = commercializerRepository
         self.userRatingRepository = userRatingRepository
-
+        
+        self.featureFlags = featureFlags
+        
         super.init()
         setupTabBarController()
         setupTabCoordinators()
@@ -586,7 +588,7 @@ private extension AppCoordinator {
         guard let vcs = tabBarCtl.viewControllers else { return nil }
         let vc = controller.navigationController ?? controller
         guard let index = vcs.indexOf(vc) else { return nil }
-        return Tab(index: index)
+        return Tab(index: index, featureFlags: featureFlags)
     }
 
     func topViewControllerInController(controller: UIViewController) -> UIViewController {

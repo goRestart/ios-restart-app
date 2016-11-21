@@ -146,6 +146,7 @@ class ChatViewModel: BaseViewModel {
     private let tracker: Tracker
     private let configManager: ConfigManager
     private let sessionManager: SessionManager
+    private let featureFlags: FeatureFlags
     
     private var isDeleted = false
     private var shouldAskProductSold: Bool = false
@@ -184,11 +185,12 @@ class ChatViewModel: BaseViewModel {
         let stickersRepository = Core.stickersRepository
         let configManager = ConfigManager.sharedInstance
         let sessionManager = Core.sessionManager
+        let featureFlags = FeatureFlags.sharedInstance
 
         self.init(conversation: conversation, myUserRepository: myUserRepository, chatRepository: chatRepository,
                   productRepository: productRepository, userRepository: userRepository,
                   stickersRepository: stickersRepository, tracker: tracker, configManager: configManager,
-                  sessionManager: sessionManager, navigator: navigator)
+                  sessionManager: sessionManager, navigator: navigator, featureFlags: featureFlags)
     }
     
     convenience init?(product: Product, navigator: ChatDetailNavigator?) {
@@ -202,26 +204,28 @@ class ChatViewModel: BaseViewModel {
         let tracker = TrackerProxy.sharedInstance
         let configManager = ConfigManager.sharedInstance
         let sessionManager = Core.sessionManager
-
+        let featureFlags = FeatureFlags.sharedInstance
         let amISelling = myUserRepository.myUser?.objectId == sellerId
         let empty = EmptyConversation(objectId: nil, unreadMessageCount: 0, lastMessageSentAt: nil, product: nil,
                                       interlocutor: nil, amISelling: amISelling)
         self.init(conversation: empty, myUserRepository: myUserRepository, chatRepository: chatRepository,
                   productRepository: productRepository, userRepository: userRepository,
                   stickersRepository: stickersRepository ,tracker: tracker, configManager: configManager,
-                  sessionManager: sessionManager, navigator: navigator)
+                  sessionManager: sessionManager, navigator: navigator, featureFlags: featureFlags)
         self.setupConversationFromProduct(product)
     }
     
     init(conversation: ChatConversation, myUserRepository: MyUserRepository, chatRepository: ChatRepository,
           productRepository: ProductRepository, userRepository: UserRepository, stickersRepository: StickersRepository,
-          tracker: Tracker, configManager: ConfigManager, sessionManager: SessionManager, navigator: ChatDetailNavigator?) {
+          tracker: Tracker, configManager: ConfigManager, sessionManager: SessionManager, navigator: ChatDetailNavigator?,
+          featureFlags: FeatureFlags) {
         self.conversation = Variable<ChatConversation>(conversation)
         self.myUserRepository = myUserRepository
         self.chatRepository = chatRepository
         self.productRepository = productRepository
         self.userRepository = userRepository
         self.tracker = tracker
+        self.featureFlags = featureFlags
         self.configManager = configManager
         self.sessionManager = sessionManager
         self.stickersRepository = stickersRepository
@@ -1118,7 +1122,7 @@ extension ChatViewModel: DirectAnswersPresenterDelegate {
         let emptyAction: () -> Void = { [weak self] in
             self?.clearProductSoldDirectAnswer()
         }
-        if FeatureFlags.freePostingMode.enabled && productIsFree.value {
+        if featureFlags.freePostingMode.enabled && productIsFree.value {
             if !conversation.value.amISelling {
                 return [DirectAnswer(text: LGLocalizedString.directAnswerInterested, action: emptyAction),
                         DirectAnswer(text: LGLocalizedString.directAnswerFreeStillHave, action: emptyAction),

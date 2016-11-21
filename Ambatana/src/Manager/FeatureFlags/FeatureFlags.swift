@@ -13,6 +13,7 @@ protocol FeatureFlaggeable {
     var websocketChat: Bool { get }
     var notificationsSection: Bool { get }
     var userReviews: Bool { get }
+    var showNPSSurvey: Bool { get }
     var messageOnFavoriteRound2: MessageOnFavoriteRound2Mode { get }
     var interestedUsersMode: InterestedUsersMode { get }
     var filtersReorder: Bool { get }
@@ -25,7 +26,7 @@ protocol FeatureFlaggeable {
     var showLiquidProductsToNewUser: Bool { get }
 }
 
-class FeatureFlags: FeatureFlaggeable {
+public class FeatureFlags: FeatureFlaggeable {
     
     static let sharedInstance: FeatureFlags = FeatureFlags()
     

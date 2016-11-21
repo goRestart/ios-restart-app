@@ -14,6 +14,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     var websocketChat: Bool = false
     var notificationsSection: Bool = false
     var userReviews: Bool = false
+    var showNPSSurvey: Bool = false
     var messageOnFavoriteRound2: MessageOnFavoriteRound2Mode = .NoMessage
     var interestedUsersMode: InterestedUsersMode = .NoNotification
     var filtersReorder: Bool = false

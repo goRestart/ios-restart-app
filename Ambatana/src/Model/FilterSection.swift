@@ -30,8 +30,8 @@ extension FilterSection {
         }
     }
     
-    public static func allValues()  -> [FilterSection] {
-        return FeatureFlags.filtersReorder ? [.Location, .Distance, .Price, .Categories, .Within, .SortBy] :
+    public static func allValues(featureFlags: FeatureFlags)  -> [FilterSection] {
+        return featureFlags.filtersReorder ? [.Location, .Distance, .Price, .Categories, .Within, .SortBy] :
                                              [.Location, .Categories, .Distance, .SortBy, .Within, .Price]
     }
     

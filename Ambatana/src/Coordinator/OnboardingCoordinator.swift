@@ -23,13 +23,17 @@ class OnboardingCoordinator: Coordinator {
 
     private let locationManager: LocationManager
     private var presentedViewControllers: [UIViewController] = []
+    
+    private let featureFlags: FeatureFlags
 
     convenience init() {
-        self.init(keyValueStorage: KeyValueStorage.sharedInstance, locationManager: Core.locationManager)
+        self.init(keyValueStorage: KeyValueStorage.sharedInstance, locationManager: Core.locationManager,
+                  featureFlags: FeatureFlags.sharedInstance)
     }
 
-    init(keyValueStorage: KeyValueStorage, locationManager: LocationManager) {
+    init(keyValueStorage: KeyValueStorage, locationManager: LocationManager, featureFlags: FeatureFlags) {
         self.locationManager = locationManager
+        self.featureFlags = featureFlags
         let signUpVM = SignUpViewModel(appearance: .Dark, source: .Install)
         let tourVM = TourLoginViewModel()
         viewController = TourLoginViewController(signUpViewModel: signUpVM, tourLoginViewModel: tourVM)
@@ -98,7 +102,7 @@ class OnboardingCoordinator: Coordinator {
     }
 
     private func openTourPosting() {
-        if FeatureFlags.directPostInOnboarding {
+        if featureFlags.directPostInOnboarding {
             tourPostingPost(fromCamera: true)
         } else {
             let topVC = topViewController()

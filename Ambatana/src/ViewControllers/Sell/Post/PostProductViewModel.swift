@@ -61,6 +61,7 @@ class PostProductViewModel: BaseViewModel {
     private let fileRepository: FileRepository
     private let tracker: Tracker
     private let commercializerRepository: CommercializerRepository
+    private let featureFlags: FeatureFlags
     private var imageSelected: UIImage?
     private var pendingToUploadImage: UIImage?
     private var uploadedImage: File?
@@ -74,12 +75,13 @@ class PostProductViewModel: BaseViewModel {
         let fileRepository = Core.fileRepository
         let commercializerRepository = Core.commercializerRepository
         let tracker = TrackerProxy.sharedInstance
+        let featureFlags = FeatureFlags.sharedInstance
         self.init(source: source, productRepository: productRepository, fileRepository: fileRepository,
-                  commercializerRepository: commercializerRepository, tracker: tracker)
+                  commercializerRepository: commercializerRepository, tracker: tracker, featureFlags: featureFlags)
     }
 
     init(source: PostingSource, productRepository: ProductRepository, fileRepository: FileRepository,
-         commercializerRepository: CommercializerRepository, tracker: Tracker) {
+         commercializerRepository: CommercializerRepository, tracker: Tracker, featureFlags: FeatureFlags) {
         self.postingSource = source
         self.productRepository = productRepository
         self.fileRepository = fileRepository
@@ -87,6 +89,7 @@ class PostProductViewModel: BaseViewModel {
         self.postDetailViewModel = PostProductDetailViewModel()
         self.postProductCameraViewModel = PostProductCameraViewModel(postingSource: source)
         self.tracker = tracker
+        self.featureFlags = featureFlags
         super.init()
         self.postDetailViewModel.delegate = self
     }
@@ -108,7 +111,7 @@ class PostProductViewModel: BaseViewModel {
     func imageSelected(image: UIImage, source: EventParameterPictureSource) {
         uploadedImageSource = source
         imageSelected = image
-        if (FeatureFlags.freePostingMode == .SplitButton && postingSource == .GiveAwayButton) {
+        if (featureFlags.freePostingMode == .SplitButton && postingSource == .GiveAwayButton) {
             postFreeProduct()
             return
         }
@@ -227,7 +230,7 @@ private extension PostProductViewModel {
 private extension PostProductViewModel {
     func trackVisit() {
         let eventParameterFreePosting: EventParameterFreePosting
-        switch FeatureFlags.freePostingMode {
+        switch featureFlags.freePostingMode {
         case .Disabled, .OneButton:
             eventParameterFreePosting = .Unset
         case .SplitButton:

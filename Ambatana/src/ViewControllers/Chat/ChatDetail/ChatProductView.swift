@@ -37,6 +37,9 @@ class ChatProductView: UIView {
     let labelHeight: CGFloat = 20
     let separatorHeight: CGFloat = 0.5
     weak var delegate: ChatProductViewDelegate?
+    
+    //TODO: This should be decided in different place (i.e where chatProductView is created)
+    private var featureFlags: FeatureFlags = FeatureFlags.sharedInstance
 
 
     static func chatProductView() -> ChatProductView {
@@ -49,7 +52,7 @@ class ChatProductView: UIView {
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
-
+    
     override func layoutSubviews() {
         super.layoutSubviews()
         userAvatar.layer.cornerRadius = userAvatar.frame.height / 2
@@ -70,9 +73,9 @@ class ChatProductView: UIView {
     }
 
     func showReviewButton(showButton: Bool, withTooltip: Bool) {
-        userName.hidden = showButton && FeatureFlags.userReviews
-        reviewButton.hidden = !showButton || !FeatureFlags.userReviews
-        if showButton && withTooltip && FeatureFlags.userReviews {
+        userName.hidden = showButton && featureFlags.userReviews
+        reviewButton.hidden = !showButton || !featureFlags.userReviews
+        if showButton && withTooltip && featureFlags.userReviews {
             showUserRatingTooltip()
         }
     }

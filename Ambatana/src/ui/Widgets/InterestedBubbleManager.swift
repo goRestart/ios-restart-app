@@ -36,10 +36,10 @@ class InterestedBubbleManager {
      
      */
 
-    func shouldShowInterestedBubbleForProduct(id: String, fromFavoriteAction: Bool, forFirstProduct isFirstProduct: Bool) -> Bool {
+    func shouldShowInterestedBubbleForProduct(id: String, fromFavoriteAction: Bool, forFirstProduct isFirstProduct: Bool, featureFlags: FeatureFlags) -> Bool {
 
         var featureFlagDependantValue: Bool = true
-        switch FeatureFlags.interestedUsersMode {
+        switch featureFlags.interestedUsersMode {
         case .NoNotification:
             return false
         case .Original:

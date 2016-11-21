@@ -23,21 +23,24 @@ class ChatWrapper {
     private let chatRepository: ChatRepository
     private let oldChatRepository: OldChatRepository
     private let myUserRepository: MyUserRepository
+    private let featureFlags: FeatureFlags
 
     convenience init() {
         self.init(chatRepository: Core.chatRepository, oldChatRepository: Core.oldChatRepository,
-                  myUserRepository: Core.myUserRepository)
+                  myUserRepository: Core.myUserRepository, featureFlags: FeatureFlags.sharedInstance)
     }
 
-    init(chatRepository: ChatRepository, oldChatRepository: OldChatRepository, myUserRepository: MyUserRepository) {
+    init(chatRepository: ChatRepository, oldChatRepository: OldChatRepository, myUserRepository: MyUserRepository,
+         featureFlags: FeatureFlags) {
         self.chatRepository = chatRepository
         self.oldChatRepository = oldChatRepository
         self.myUserRepository = myUserRepository
+        self.featureFlags = featureFlags
     }
 
 
     func sendMessageForProduct(product: Product, type: ChatWrapperMessageType, completion: ChatWrapperCompletion?) {
-        if FeatureFlags.websocketChat {
+        if featureFlags.websocketChat {
             sendWebSocketChatMessage(product, text: type.text, type: type.chatType, completion: completion)
         } else {
             sendOldChatMessage(product, text: type.text, type: type.oldChatType, completion: completion)

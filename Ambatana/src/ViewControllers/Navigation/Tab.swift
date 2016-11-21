@@ -12,12 +12,12 @@
 enum Tab {
     case Home, Categories, Notifications, Sell, Chats, Profile
 
-    init?(index: Int) {
+    init?(index: Int,featureFlags: FeatureFlags) {
         switch index {
         case 0:
             self = .Home
         case 1:
-            self = FeatureFlags.notificationsSection ? .Notifications : .Categories
+            self = featureFlags.notificationsSection ? .Notifications : .Categories
         case 2:
             self = .Sell
         case 3:
@@ -75,8 +75,8 @@ enum Tab {
         }
     }
 
-    static var all: [Tab] {
-        if FeatureFlags.notificationsSection {
+    func all(featureFlags: FeatureFlags) -> [Tab] {
+        if featureFlags.notificationsSection {
             return [.Home, .Notifications, .Sell, .Chats, .Profile]
         } else {
             return [.Home, .Categories, .Sell, .Chats, .Profile]

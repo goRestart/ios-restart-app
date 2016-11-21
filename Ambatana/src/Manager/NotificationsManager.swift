@@ -41,6 +41,7 @@ class NotificationsManager {
     private let oldChatRepository: OldChatRepository
     private let notificationsRepository: NotificationsRepository
     private let keyValueStorage: KeyValueStorage
+    private let featureFlags: FeatureFlags
 
     private var loggedIn: Variable<Bool>
     private var requestingChat = false
@@ -52,16 +53,17 @@ class NotificationsManager {
     convenience init() {
         self.init(sessionManager: Core.sessionManager, chatRepository: Core.chatRepository,
                   oldChatRepository: Core.oldChatRepository, notificationsRepository: Core.notificationsRepository,
-                  keyValueStorage: KeyValueStorage.sharedInstance)
+                  keyValueStorage: KeyValueStorage.sharedInstance, featureFlags: FeatureFlags.sharedInstance)
     }
 
     init(sessionManager: SessionManager, chatRepository: ChatRepository, oldChatRepository: OldChatRepository,
-         notificationsRepository: NotificationsRepository, keyValueStorage: KeyValueStorage) {
+         notificationsRepository: NotificationsRepository, keyValueStorage: KeyValueStorage, featureFlags: FeatureFlags) {
         self.sessionManager = sessionManager
         self.chatRepository = chatRepository
         self.oldChatRepository = oldChatRepository
         self.notificationsRepository = notificationsRepository
         self.keyValueStorage = keyValueStorage
+        self.featureFlags = featureFlags
         self.loggedIn = Variable<Bool>(sessionManager.loggedIn)
         let enabledMktNotifications = sessionManager.loggedIn && keyValueStorage.userMarketingNotifications
         self.marketingNotifications = Variable<Bool>(enabledMktNotifications)
@@ -104,7 +106,7 @@ class NotificationsManager {
             UIApplication.sharedApplication().applicationIconBadgeNumber = count
         }.addDisposableTo(disposeBag)
 
-        if FeatureFlags.websocketChat {
+        if featureFlags.websocketChat {
             chatRepository.chatEvents.filter { event in
                 switch event.type {
                 case .InterlocutorMessageSent:
@@ -141,7 +143,7 @@ class NotificationsManager {
         guard sessionManager.loggedIn && !requestingChat else { return }
         requestingChat = true
 
-        if FeatureFlags.websocketChat {
+        if featureFlags.websocketChat {
             chatRepository.chatUnreadMessagesCount() { [weak self] result in
                 self?.requestingChat = false
                 guard let count = result.value?.totalUnreadMessages else { return }
@@ -157,7 +159,7 @@ class NotificationsManager {
     }
 
     private func requestNotificationCounters() {
-        guard FeatureFlags.notificationsSection && sessionManager.loggedIn && !requestingNotifications else { return }
+        guard featureFlags.notificationsSection && sessionManager.loggedIn && !requestingNotifications else { return }
         requestingNotifications = true
         notificationsRepository.unreadNotificationsCount() { [weak self] result in
             self?.requestingNotifications = false
@@ -188,7 +190,7 @@ private extension NotificationsManager {
 
 private extension UnreadNotificationsCounts {
     var totalVisibleCount: Int {
-        if FeatureFlags.userReviews {
+        if FeatureFlags.sharedInstance.userReviews {
             return productLike + productSold + review + reviewUpdated
         } else {
             return productLike + productSold

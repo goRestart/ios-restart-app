@@ -103,7 +103,7 @@ class MainProductsViewModel: BaseViewModel {
         return [.You] + generalCollectionsShuffled
     }
     private let keyValueStorage: KeyValueStorageable
-    private let featureFlags: FeatureFlaggeable.Type
+    private let featureFlags: FeatureFlags
     
     // > Delegate
     weak var delegate: MainProductsViewModelDelegate?
@@ -147,7 +147,7 @@ class MainProductsViewModel: BaseViewModel {
     init(myUserRepository: MyUserRepository, trendingSearchesRepository: TrendingSearchesRepository,
          locationManager: LocationManager, currencyHelper: CurrencyHelper, tracker: Tracker, searchType: SearchType? = nil,
          filters: ProductFilters, tabNavigator: TabNavigator?, keyValueStorage: KeyValueStorageable,
-         featureFlags: FeatureFlaggeable.Type) {
+         featureFlags: FeatureFlags) {
         self.myUserRepository = myUserRepository
         self.trendingSearchesRepository = trendingSearchesRepository
         self.locationManager = locationManager
@@ -183,7 +183,7 @@ class MainProductsViewModel: BaseViewModel {
         let currencyHelper = Core.currencyHelper
         let tracker = TrackerProxy.sharedInstance
         let keyValueStorage = KeyValueStorage.sharedInstance
-        let featureFlags = FeatureFlags.self
+        let featureFlags = FeatureFlags.sharedInstance
         self.init(myUserRepository: myUserRepository, trendingSearchesRepository: trendingSearchesRepository,
                   locationManager: locationManager, currencyHelper: currencyHelper, tracker: tracker, searchType: searchType,
                   filters: filters, tabNavigator: tabNavigator, keyValueStorage: keyValueStorage, featureFlags: featureFlags)

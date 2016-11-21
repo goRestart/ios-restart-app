@@ -257,6 +257,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     private let stickersRepository: StickersRepository
     private let chatViewMessageAdapter: ChatViewMessageAdapter
     private let tracker: Tracker
+    private let featureFlags: FeatureFlags
     private let configManager: ConfigManager
     private let sessionManager: SessionManager
     private var shouldSendFirstMessageEvent: Bool = false
@@ -343,7 +344,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
 
     convenience init?(chat: Chat, navigator: ChatDetailNavigator?) {
         self.init(chat: chat, myUserRepository: Core.myUserRepository, configManager: ConfigManager.sharedInstance,
-                  sessionManager: Core.sessionManager, navigator: navigator)
+                  sessionManager: Core.sessionManager, navigator: navigator, featureFlags: FeatureFlags.sharedInstance)
     }
     
     convenience init?(product: Product, navigator: ChatDetailNavigator?) {
@@ -351,27 +352,31 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         let chat = LocalChat(product: product, myUser: myUserRepository.myUser)
         let configManager = ConfigManager.sharedInstance
         let sessionManager = Core.sessionManager
+        let featureFlags = FeatureFlags.sharedInstance
         self.init(chat: chat, myUserRepository: myUserRepository,
-                  configManager: configManager, sessionManager: sessionManager, navigator: navigator)
+                  configManager: configManager, sessionManager: sessionManager, navigator: navigator,
+                  featureFlags: featureFlags)
     }
 
     convenience init?(chat: Chat, myUserRepository: MyUserRepository, configManager: ConfigManager,
-                      sessionManager: SessionManager, navigator: ChatDetailNavigator?) {
+                      sessionManager: SessionManager, navigator: ChatDetailNavigator?, featureFlags: FeatureFlags) {
         let chatRepository = Core.oldChatRepository
         let productRepository = Core.productRepository
         let userRepository = Core.userRepository
         let tracker = TrackerProxy.sharedInstance
         let sessionManager = Core.sessionManager
         let stickersRepository = Core.stickersRepository
+        let featureFlags = FeatureFlags.sharedInstance
         self.init(chat: chat, myUserRepository: myUserRepository, chatRepository: chatRepository,
                   productRepository: productRepository, userRepository: userRepository,
                   stickersRepository: stickersRepository, tracker: tracker,
-                  configManager: configManager, sessionManager: sessionManager, navigator: navigator)
+                  configManager: configManager, sessionManager: sessionManager, navigator: navigator, featureFlags: featureFlags)
     }
 
     init?(chat: Chat, myUserRepository: MyUserRepository, chatRepository: OldChatRepository,
           productRepository: ProductRepository, userRepository: UserRepository, stickersRepository: StickersRepository,
-          tracker: Tracker, configManager: ConfigManager, sessionManager: SessionManager, navigator: ChatDetailNavigator?) {
+          tracker: Tracker, configManager: ConfigManager, sessionManager: SessionManager, navigator: ChatDetailNavigator?,
+        featureFlags: FeatureFlags) {
         self.chat = chat
         self.myUserRepository = myUserRepository
         self.chatRepository = chatRepository
@@ -380,6 +385,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         self.stickersRepository = stickersRepository
         self.chatViewMessageAdapter = ChatViewMessageAdapter()
         self.tracker = tracker
+        self.featureFlags = featureFlags
         self.configManager = configManager
         self.sessionManager = sessionManager
         self.navigator = navigator
@@ -1079,7 +1085,7 @@ extension OldChatViewModel: DirectAnswersPresenterDelegate {
             self?.clearProductSoldDirectAnswer()
         }
         
-        if FeatureFlags.freePostingMode.enabled && product.price.free {
+        if featureFlags.freePostingMode.enabled && product.price.free {
             if isBuyer {
                 return [DirectAnswer(text: LGLocalizedString.directAnswerInterested, action: emptyAction),
                         DirectAnswer(text: LGLocalizedString.directAnswerFreeStillHave, action: emptyAction),

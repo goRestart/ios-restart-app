@@ -111,10 +111,17 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
 
     private let carouselImageDownloader: ImageDownloader = ImageDownloader.externalBuildImageDownloader(true)
     private let keyboardHelper: KeyboardHelper = KeyboardHelper.sharedInstance
+    
+    private let featureFlags: FeatureFlags
 
     // MARK: - Lifecycle
 
-    init(viewModel: ProductCarouselViewModel, pushAnimator: ProductCarouselPushAnimator?) {
+    convenience init(viewModel: ProductCarouselViewModel, pushAnimator: ProductCarouselPushAnimator?) {
+        let featureFlags = FeatureFlags.sharedInstance
+        self.init(viewModel:viewModel, pushAnimator: pushAnimator, featureFlags: featureFlags)
+    }
+    
+    init(viewModel: ProductCarouselViewModel, pushAnimator: ProductCarouselPushAnimator?, featureFlags: FeatureFlags) {
         self.viewModel = viewModel
         self.userView = UserView.userView(.WithProductInfo)
         let blurEffect = UIBlurEffect(style: .Dark)
@@ -122,6 +129,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         self.fullScreenAvatarView = UIImageView(frame: CGRect.zero)
         self.animator = pushAnimator
         self.pageControl = UIPageControl(frame: CGRect.zero)
+        self.featureFlags = featureFlags
         super.init(viewModel: viewModel, nibName: "ProductCarouselViewController", statusBarStyle: .LightContent,
                    navBarBackgroundStyle: .Transparent(substyle: .Dark))
         self.viewModel.delegate = self
@@ -271,7 +279,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     }
 
     private func setupExpandableButtonsViewIfNeeded() {
-        guard FeatureFlags.productDetailShareMode == .InPlace else { return }
+        guard featureFlags.productDetailShareMode == .InPlace else { return }
         guard let socialMessage = viewModel.currentProductViewModel?.socialMessage.value else { return }
         let expandableButtons = ExpandableButtonsView(buttonSide: 36, buttonSpacing: 7)
         expandableButtonsView = expandableButtons
@@ -1088,7 +1096,7 @@ extension ProductCarouselViewController {
 
 extension ProductCarouselViewController: ProductViewModelDelegate {
     func vmShowShareFromMain(socialMessage: SocialMessage) {
-        switch FeatureFlags.productDetailShareMode {
+        switch featureFlags.productDetailShareMode {
         case .Native:
             viewModel.openShare(.Native, fromViewController: self, barButtonItem: navigationItem.rightBarButtonItems?.first)
         case .InPlace:

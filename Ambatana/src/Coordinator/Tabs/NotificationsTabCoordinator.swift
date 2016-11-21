@@ -19,11 +19,12 @@ final class NotificationsTabCoordinator: TabCoordinator {
         let keyValueStorage = KeyValueStorage.sharedInstance
         let tracker = TrackerProxy.sharedInstance
         let viewModel = NotificationsViewModel()
+        let featureFlags = FeatureFlags.sharedInstance
         let rootViewController = NotificationsViewController(viewModel: viewModel)
         self.init(productRepository: productRepository, userRepository: userRepository,
                   chatRepository: chatRepository, oldChatRepository: oldChatRepository,
                   myUserRepository: myUserRepository, keyValueStorage: keyValueStorage, tracker: tracker,
-                  rootViewController: rootViewController)
+                  rootViewController: rootViewController, featureFlags: featureFlags)
 
         viewModel.navigator = self
     }

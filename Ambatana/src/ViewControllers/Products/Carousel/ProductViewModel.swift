@@ -137,6 +137,7 @@ class ProductViewModel: BaseViewModel {
     private let chatViewMessageAdapter: ChatViewMessageAdapter
     private let interestedBubbleManager: InterestedBubbleManager
     private let bubbleManager: BubbleNotificationManager
+    private let featureFlags: FeatureFlags
 
     // Retrieval status
     private var relationRetrieved = false
@@ -160,19 +161,22 @@ class ProductViewModel: BaseViewModel {
         let chatWrapper = ChatWrapper()
         let stickersRepository = Core.stickersRepository
         let locationManager = Core.locationManager
+        let featureFlags = FeatureFlags.sharedInstance
+        
         self.init(myUserRepository: myUserRepository, productRepository: productRepository,
                   commercializerRepository: commercializerRepository, chatWrapper: chatWrapper,
                   stickersRepository: stickersRepository, locationManager: locationManager, countryHelper: countryHelper,
                   product: product, thumbnailImage: thumbnailImage, socialSharer: socialSharer, navigator: navigator,
                   bubbleManager: BubbleNotificationManager.sharedInstance,
-                  interestedBubbleManager: InterestedBubbleManager.sharedInstance)
+                  interestedBubbleManager: InterestedBubbleManager.sharedInstance, featureFlags: featureFlags)
     }
 
     init(myUserRepository: MyUserRepository, productRepository: ProductRepository,
          commercializerRepository: CommercializerRepository, chatWrapper: ChatWrapper,
          stickersRepository: StickersRepository, locationManager: LocationManager, countryHelper: CountryHelper,
          product: Product, thumbnailImage: UIImage?, socialSharer: SocialSharer, navigator: ProductDetailNavigator?,
-         bubbleManager: BubbleNotificationManager, interestedBubbleManager: InterestedBubbleManager) {
+         bubbleManager: BubbleNotificationManager, interestedBubbleManager: InterestedBubbleManager,
+         featureFlags: FeatureFlags) {
         self.product = Variable<Product>(product)
         self.thumbnailImage = thumbnailImage
         self.socialSharer = socialSharer
@@ -189,7 +193,7 @@ class ProductViewModel: BaseViewModel {
         self.chatViewMessageAdapter = ChatViewMessageAdapter()
         self.bubbleManager = bubbleManager
         self.interestedBubbleManager = interestedBubbleManager
-
+        self.featureFlags = featureFlags
         let ownerId = product.user.objectId
         self.ownerId = ownerId
         let myUser = myUserRepository.myUser
@@ -285,7 +289,7 @@ class ProductViewModel: BaseViewModel {
         status.asObservable().bindNext { [weak self] status in
             self?.refreshDirectChats(status)
             self?.refreshActionButtons(status)
-            self?.directChatEnabled.value = FeatureFlags.periscopeChat && status.directChatsAvailable
+            self?.directChatEnabled.value = self?.featureFlags.periscopeChat && status.directChatsAvailable
         }.addDisposableTo(disposeBag)
 
         isFavorite.asObservable().subscribeNext { [weak self] _ in
@@ -296,7 +300,7 @@ class ProductViewModel: BaseViewModel {
             guard let strongSelf = self else { return }
             strongSelf.trackHelper.product = product
 
-            strongSelf.setStatus(product.viewModelStatus)
+            strongSelf.setStatus(product.viewModelStatus(self?.featureFlags))
 
             strongSelf.productIsFavoriteable.value = !product.isMine
             strongSelf.isFavorite.value = product.favorite
@@ -344,7 +348,7 @@ class ProductViewModel: BaseViewModel {
     }
 
     private func refreshStatus() {
-        setStatus(product.value.viewModelStatus)
+        setStatus(product.value.viewModelStatus(featureFlags))
     }
 
     private func setStatus(productStatus: ProductViewModelStatus) {
@@ -507,7 +511,7 @@ extension ProductViewModel {
     func refreshInterestedBubble(fromFavoriteAction: Bool, forFirstProduct isFirstProduct: Bool) {
         // check that the bubble hasn't been shown yet for this product
         guard let productId = product.value.objectId where shouldShowInterestedBubbleForProduct(productId, fromFavoriteAction: fromFavoriteAction, forFirstProduct: isFirstProduct) else { return }
-        guard product.value.viewModelStatus == .OtherAvailable else { return }
+        guard product.value.viewModelStatus(featureFlags) == .OtherAvailable else { return }
         // we need at least 1 favorited without counting ours but when coming from favorite action,
         // favourites count is not updated, so no need to substract 1)
         let othersFavCount = min(isFavorite.value && !fromFavoriteAction ? favouritesCount.value - 1 : favouritesCount.value, 5)
@@ -595,7 +599,7 @@ extension ProductViewModel {
     }
 
     private func buildShareNavBarAction() -> UIAction {
- 		if FeatureFlags.shareButtonWithIcon && DeviceFamily.current.isWiderOrEqualThan(.iPhone6) {
+ 		if featureFlags.shareButtonWithIcon && DeviceFamily.current.isWiderOrEqualThan(.iPhone6) {
             return UIAction(interface: .TextImage(LGLocalizedString.productShareNavbarButton, UIImage(named:"ic_share")), action: { [weak self] in
                 guard let strongSelf = self, socialMessage = strongSelf.socialMessage.value else { return }
                 strongSelf.delegate?.vmShowShareFromMain(socialMessage)
@@ -751,7 +755,7 @@ extension ProductViewModel {
             actionButtons.append(UIAction(interface: .Button(LGLocalizedString.productSellAgainButton, .Secondary(fontSize: .Big, withBorder: false)),
                 action: { [weak self] in self?.resell() }))
         case .OtherAvailable, .OtherAvailableFree:
-            if !FeatureFlags.periscopeChat {
+            if !featureFlags.periscopeChat {
                 let userName: String = product.value.user.name?.toNameReduced(maxChars: Constants.maxCharactersOnUserNameChatButton) ?? ""
                 let buttonText = LGLocalizedString.productChatWithSellerNameButton(userName)
                 actionButtons.append(UIAction(interface: .Button(buttonText, .Primary(fontSize: .Big)),
@@ -941,7 +945,7 @@ extension ProductViewModel {
     }
 
     func shouldShowInterestedBubbleForProduct(id: String, fromFavoriteAction: Bool, forFirstProduct isFirstProduct: Bool) -> Bool {
-        return interestedBubbleManager.shouldShowInterestedBubbleForProduct(id, fromFavoriteAction: fromFavoriteAction, forFirstProduct: isFirstProduct) && active
+        return interestedBubbleManager.shouldShowInterestedBubbleForProduct(id, fromFavoriteAction: fromFavoriteAction, forFirstProduct: isFirstProduct, featureFlags: featureFlags) && active
     }
 }
 
@@ -952,7 +956,7 @@ private extension ProductViewModel {
     private func checkSendFavoriteMessage() {
         guard !favoriteMessageSent else { return }
 
-        switch FeatureFlags.messageOnFavoriteRound2 {
+        switch featureFlags.messageOnFavoriteRound2 {
         case .NoMessage:
             return
         case .DirectMessage:
@@ -1027,14 +1031,14 @@ extension ProductViewModel: SocialSharerDelegate {
 // MARK : - Product
 
 extension Product {
-    private var viewModelStatus: ProductViewModelStatus {
+    private func viewModelStatus(featureFlags: FeatureFlags) -> ProductViewModelStatus {
         switch status {
         case .Pending:
             return isMine ? .Pending : .NotAvailable
         case .Discarded, .Deleted:
             return .NotAvailable
         case .Approved:
-            switch FeatureFlags.freePostingMode {
+            switch featureFlags.freePostingMode {
             case .Disabled:
                 return isMine ? .Available : .OtherAvailable
             case .OneButton, .SplitButton:
@@ -1045,7 +1049,7 @@ extension Product {
                 }
             }
         case .Sold, .SoldOld:
-            switch FeatureFlags.freePostingMode {
+            switch featureFlags.freePostingMode {
             case .Disabled:
                 return isMine ? .Sold : .OtherSold
             case .OneButton, .SplitButton:
