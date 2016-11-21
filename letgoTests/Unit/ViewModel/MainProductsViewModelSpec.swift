@@ -20,9 +20,9 @@ class MainProductsViewModelSpec: QuickSpec {
             var sut: MainProductsViewModel!
             var keyValueStorage: MockKeyValueStorage!
             var filters: ProductFilters!
-            var mockFeatureFlags: MockFeatureFlags!
+            var mockFeatureFlags: MockFeatureFlags.Type!
             
-            beforeach {
+            beforeEach {
                 keyValueStorage = MockKeyValueStorage()
                 mockFeatureFlags = MockFeatureFlags.self
                 filters = ProductFilters()
