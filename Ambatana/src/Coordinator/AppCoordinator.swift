@@ -29,6 +29,7 @@ final class AppCoordinator: NSObject {
     private let sessionManager: SessionManager
     private let chatHeadManager: ChatHeadManager
     private let keyValueStorage: KeyValueStorage
+    private let featureFlags: FeatureFlags
     private let pushPermissionsManager: PushPermissionsManager
     private let ratingManager: RatingManager
     private let bubbleNotifManager: BubbleNotificationManager
@@ -59,6 +60,7 @@ final class AppCoordinator: NSObject {
         let sessionManager = Core.sessionManager
         let chatHeadManager = ChatHeadManager.sharedInstance
         let keyValueStorage = KeyValueStorage.sharedInstance
+        let featureFlags = FeatureFlags.sharedInstance
         let pushPermissionsManager = PushPermissionsManager.sharedInstance
         let ratingManager = RatingManager.sharedInstance
         let deepLinksRouter = DeepLinksRouter.sharedInstance
@@ -75,7 +77,7 @@ final class AppCoordinator: NSObject {
 
         self.init(tabBarController: tabBarController, chatHeadOverlay: chatHeadOverlay, configManager: configManager,
                   sessionManager: sessionManager, chatHeadManager: chatHeadManager, keyValueStorage: keyValueStorage,
-                  pushPermissionsManager: pushPermissionsManager, ratingManager: ratingManager,
+                  featureFlags: featureFlags, pushPermissionsManager: pushPermissionsManager, ratingManager: ratingManager,
                   deepLinksRouter: deepLinksRouter, bubbleManager: bubbleManager, tracker: tracker,
                   productRepository: productRepository, userRepository: userRepository, myUserRepository: myUserRepository,
                   oldChatRepository: oldChatRepository, chatRepository: chatRepository,
@@ -85,7 +87,7 @@ final class AppCoordinator: NSObject {
 
     init(tabBarController: TabBarController, chatHeadOverlay: ChatHeadOverlayView, configManager: ConfigManager,
          sessionManager: SessionManager, chatHeadManager: ChatHeadManager, keyValueStorage: KeyValueStorage,
-         pushPermissionsManager: PushPermissionsManager, ratingManager: RatingManager, deepLinksRouter: DeepLinksRouter,
+         featureFlags: FeatureFlags, pushPermissionsManager: PushPermissionsManager, ratingManager: RatingManager, deepLinksRouter: DeepLinksRouter,
          bubbleManager: BubbleNotificationManager, tracker: Tracker, productRepository: ProductRepository,
          userRepository: UserRepository, myUserRepository: MyUserRepository, oldChatRepository: OldChatRepository,
          chatRepository: ChatRepository, commercializerRepository: CommercializerRepository,
@@ -96,7 +98,7 @@ final class AppCoordinator: NSObject {
         self.chatHeadOverlay = chatHeadOverlay
         
         self.mainTabBarCoordinator = MainTabCoordinator()
-        self.secondTabBarCoordinator = FeatureFlags.notificationsSection ? NotificationsTabCoordinator() :
+        self.secondTabBarCoordinator = featureFlags.notificationsSection ? NotificationsTabCoordinator() :
                                                                            CategoriesTabCoordinator()
         self.chatsTabBarCoordinator = ChatsTabCoordinator()
         self.profileTabBarCoordinator = ProfileTabCoordinator()
@@ -210,7 +212,7 @@ extension AppCoordinator: AppNavigator {
     }
     
     func openNPSSurvey() {
-        guard FeatureFlags.showNPSSurvey else { return }
+        guard featureFlags.showNPSSurvey else { return }
         delay(3) { [weak self] in
             let vc = NPSViewController(viewModel: NPSViewModel())
             self?.tabBarCtl.presentViewController(vc, animated: true, completion: nil)
@@ -752,7 +754,7 @@ private extension AppCoordinator {
     }
 
     func openMyUserRatings() {
-        guard FeatureFlags.userReviews else { return }
+        guard featureFlags.userReviews else { return }
         guard let navCtl = selectedNavigationController else { return }
 
         guard let myUserId = myUserRepository.myUser?.objectId else { return }
@@ -763,7 +765,7 @@ private extension AppCoordinator {
     }
 
     func openUserRatingForUserFromRating(ratingId: String) {
-        guard FeatureFlags.userReviews else { return }
+        guard featureFlags.userReviews else { return }
         guard let navCtl = selectedNavigationController else { return }
 
         navCtl.showLoadingMessageAlert()
@@ -802,7 +804,7 @@ private extension AppCoordinator {
         }
 
         tracker.trackEvent(TrackerEvent.inappChatNotificationStart())
-        if FeatureFlags.websocketChat {
+        if featureFlags.websocketChat {
             chatRepository.showConversation(conversationId) { [weak self] result in
                 guard let conversation = result.value else { return }
                 let action = UIAction(interface: .Text(LGLocalizedString.appNotificationReply), action: { [weak self] in
