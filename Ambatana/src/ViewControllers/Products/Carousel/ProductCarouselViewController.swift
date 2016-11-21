@@ -152,6 +152,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
 
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
+        UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: .Fade)
         forceCloseInterestedBubble()
     }
 
@@ -470,6 +471,7 @@ extension ProductCarouselViewController {
     }
 
     private func finishedTransition() {
+        UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: .Fade)
         updateMoreInfo()
     }
     
@@ -661,6 +663,7 @@ extension ProductCarouselViewController {
         viewModel.stickersButtonEnabled.asObservable().map { !$0 }.bindTo(stickersButton.rx_hidden).addDisposableTo(disposeBag)
 
         chatTextView.placeholder = viewModel.directChatPlaceholder
+        chatTextView.clear()
         chatTextView.resignFirstResponder()
 
         viewModel.directChatEnabled.asObservable().bindNext { [weak self] enabled in
@@ -865,6 +868,7 @@ extension ProductCarouselViewController {
     @IBAction func showMoreInfo() {
         guard moreInfoState.value == .Hidden || moreInfoState.value == .Moving else { return }
 
+        chatTextView.resignFirstResponder()
         moreInfoState.value = .Shown
         viewModel.didOpenMoreInfo()
 
@@ -906,6 +910,10 @@ extension ProductCarouselViewController: ProductCarouselMoreInfoDelegate {
 
     func viewControllerToShowShareOptions() -> UIViewController {
         return self
+    }
+
+    func requestFocus() {
+        chatTextView.resignFirstResponder()
     }
 }
 
@@ -994,24 +1002,20 @@ extension ProductCarouselViewController: UITableViewDataSource, UITableViewDeleg
             self?.viewModel.currentProductViewModel?.stickersButton()
         }.addDisposableTo(disposeBag)
 
+        var previousKbOrigin: CGFloat = CGFloat.max
         keyboardHelper.rx_keyboardOrigin.asObservable().skip(1).distinctUntilChanged().bindNext { [weak self] origin in
             guard let strongSelf = self else { return }
             let viewHeight = strongSelf.view.height
             let animationTime = strongSelf.keyboardHelper.animationTime
             guard viewHeight >= origin else { return }
             self?.contentBottomMargin = viewHeight - origin
+            let showingKb = origin < previousKbOrigin
+            strongSelf.chatContainerTrailingConstraint.constant = showingKb ? CarouselUI.itemsMargin : strongSelf.buttonsRightMargin
             UIView.animateWithDuration(Double(animationTime)) {
+                strongSelf.stickersButton.alpha = showingKb ? 0 : 1
                 strongSelf.view.layoutIfNeeded()
             }
-        }.addDisposableTo(disposeBag)
-
-        chatTextView.rx_focus.bindNext { [weak self] focus in
-            guard let strongSelf = self else { return }
-            strongSelf.chatContainerTrailingConstraint.constant = focus ? CarouselUI.itemsMargin : strongSelf.buttonsRightMargin
-            UIView.animateWithDuration(Double(0.2)) {
-                strongSelf.stickersButton.alpha = focus ? 0 : 1
-                strongSelf.chatContainer.layoutIfNeeded()
-            }
+            previousKbOrigin = origin
         }.addDisposableTo(disposeBag)
     }
 

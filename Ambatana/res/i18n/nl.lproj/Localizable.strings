@@ -125,7 +125,7 @@
 "chat_safety_tips_message" = "• Persoonlijk ontmoeten en contant betalen.\n \n• Voer gesprekken in de letgo chat.\n \n• Klinkt het te mooi om waar te zijn? Vind een andere koper/verkoper.";
 "chat_safety_tips_title" = "VEILIGHEIDSTIPS";
 "chat_send_button" = "Versturen";
-"chat_send_error_generic" = "Er is een fout opgetreden bij het versturen van het bericht. Probeer het later nog eens.";
+"chat_send_error_generic" = "Er is een fout opgetreden tijdens het versturen van het bericht. Probeer het later nog eens.";
 "chat_stickers_tooltip_add_stickers" = "Voeg leuke stickers toe";
 "chat_stickers_tooltip_new" = "NIEUW!";
 "chat_unblock_user" = "Deblokkeer gebruiker";

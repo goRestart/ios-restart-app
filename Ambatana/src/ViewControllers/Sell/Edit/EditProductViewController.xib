@@ -59,6 +59,27 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
+                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0ZP-zJ-OwV" userLabel="Loading View">
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_Uploading product, please wait..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="DIJ-41-73M" userLabel="Loading Label">
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <color key="textColor" red="0.50196081400000003" green="0.50196081400000003" blue="0.50196081400000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="U7G-g9-Rhv" userLabel="Loading Progress View">
+                            <color key="progressTintColor" red="0.0" green="0.57647058819999997" blue="0.81960784310000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        </progressView>
+                    </subviews>
+                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="trailing" secondItem="U7G-g9-Rhv" secondAttribute="trailing" constant="16" id="0kk-8q-F9B"/>
+                        <constraint firstItem="U7G-g9-Rhv" firstAttribute="top" secondItem="DIJ-41-73M" secondAttribute="bottom" constant="8" id="DuP-q0-EWY"/>
+                        <constraint firstItem="DIJ-41-73M" firstAttribute="leading" secondItem="0ZP-zJ-OwV" secondAttribute="leading" constant="8" id="EZP-DV-Bwo"/>
+                        <constraint firstAttribute="centerY" secondItem="DIJ-41-73M" secondAttribute="centerY" constant="32" id="N0v-dn-kGK"/>
+                        <constraint firstItem="U7G-g9-Rhv" firstAttribute="leading" secondItem="0ZP-zJ-OwV" secondAttribute="leading" constant="16" id="hx9-vV-ixj"/>
+                        <constraint firstAttribute="trailing" secondItem="DIJ-41-73M" secondAttribute="trailing" constant="8" id="tTb-kD-vK7"/>
+                    </constraints>
+                </view>
                 <scrollView multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eiL-oq-GEV">
                     <subviews>
                         <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="YDb-eR-n02" userLabel="Image Collection View">
@@ -330,7 +351,7 @@
                                                 <action selector="shareFBSwitchChanged:" destination="-1" eventType="valueChanged" id="93O-vq-6fA"/>
                                             </connections>
                                         </switch>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_share on Facebook" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="omw-7q-aKH" userLabel="Share FB Label">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_share on Facebook" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.69999999999999996" translatesAutoresizingMaskIntoConstraints="NO" id="omw-7q-aKH" userLabel="Share FB Label">
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
@@ -342,6 +363,7 @@
                                         <constraint firstAttribute="height" constant="44" id="G0w-PX-a3w"/>
                                         <constraint firstAttribute="bottom" secondItem="zs3-HW-uL1" secondAttribute="bottom" constant="6" id="GWE-ya-qkQ"/>
                                         <constraint firstItem="omw-7q-aKH" firstAttribute="leading" secondItem="63L-8Z-UTO" secondAttribute="leading" constant="16" id="PLN-rK-59w"/>
+                                        <constraint firstAttribute="trailing" secondItem="omw-7q-aKH" secondAttribute="trailing" constant="72" id="SJZ-2v-1xs"/>
                                         <constraint firstAttribute="trailing" secondItem="zs3-HW-uL1" secondAttribute="trailing" constant="15" id="hYV-0e-voh"/>
                                         <constraint firstItem="omw-7q-aKH" firstAttribute="centerY" secondItem="63L-8Z-UTO" secondAttribute="centerY" id="rBf-X3-yAA"/>
                                     </constraints>
@@ -407,27 +429,6 @@
                         <constraint firstItem="hgl-q6-NPc" firstAttribute="leading" secondItem="RHn-Oh-ilJ" secondAttribute="leading" constant="16" id="oFs-LM-6XL"/>
                         <constraint firstAttribute="trailing" secondItem="hgl-q6-NPc" secondAttribute="trailing" constant="16" id="q1o-g3-4yF"/>
                         <constraint firstAttribute="bottom" secondItem="hgl-q6-NPc" secondAttribute="bottom" constant="15" id="wuQ-H1-GVD"/>
-                    </constraints>
-                </view>
-                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0ZP-zJ-OwV" userLabel="Loading View">
-                    <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_Uploading product, please wait..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="DIJ-41-73M" userLabel="Loading Label">
-                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                            <color key="textColor" red="0.50196081400000003" green="0.50196081400000003" blue="0.50196081400000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                        <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="U7G-g9-Rhv" userLabel="Loading Progress View">
-                            <color key="progressTintColor" red="0.0" green="0.57647058819999997" blue="0.81960784310000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        </progressView>
-                    </subviews>
-                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    <constraints>
-                        <constraint firstAttribute="trailing" secondItem="U7G-g9-Rhv" secondAttribute="trailing" constant="16" id="0kk-8q-F9B"/>
-                        <constraint firstItem="U7G-g9-Rhv" firstAttribute="top" secondItem="DIJ-41-73M" secondAttribute="bottom" constant="8" id="DuP-q0-EWY"/>
-                        <constraint firstItem="DIJ-41-73M" firstAttribute="leading" secondItem="0ZP-zJ-OwV" secondAttribute="leading" constant="8" id="EZP-DV-Bwo"/>
-                        <constraint firstAttribute="centerY" secondItem="DIJ-41-73M" secondAttribute="centerY" constant="32" id="N0v-dn-kGK"/>
-                        <constraint firstItem="U7G-g9-Rhv" firstAttribute="leading" secondItem="0ZP-zJ-OwV" secondAttribute="leading" constant="16" id="hx9-vV-ixj"/>
-                        <constraint firstAttribute="trailing" secondItem="DIJ-41-73M" secondAttribute="trailing" constant="8" id="tTb-kD-vK7"/>
                     </constraints>
                 </view>
             </subviews>

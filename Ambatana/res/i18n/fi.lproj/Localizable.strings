@@ -125,7 +125,7 @@
 "chat_safety_tips_message" = "• Tavatkaa kasvokkain ja maksakaa käteisellä.\n\n• Käy keskusteluja vain letgon chatissä.\n\n• Kuulostaako liian hyvältä ollakseen totta? Etsi toinen ostaja/myyjä.";
 "chat_safety_tips_title" = "TURVALLISUUSVINKIT";
 "chat_send_button" = "Lähetä";
-"chat_send_error_generic" = "Viestiä lähetettäessä tapahtui virhe. Ole hyvä ja yritä myöhemmin uudelleen.";
+"chat_send_error_generic" = "Viestiä lähetettäessä tapahtui virhe. Ole hyvä ja yritä uudelleen.";
 "chat_stickers_tooltip_add_stickers" = "Lisää hauskoja tarroja";
 "chat_stickers_tooltip_new" = "UUTTA!";
 "chat_unblock_user" = "Poista käyttäjän esto";

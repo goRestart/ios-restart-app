@@ -282,6 +282,8 @@ class EditLocationViewModel: BaseViewModel {
                     self?.setPlace(place, forceLocation: true, fromGps: false, enableSave: true)
                 }
             } else {
+                // Guard to avoid slow responses override last one
+                guard let currentText = self?.searchText.value.0 where currentText == textToSearch else { return }
                 if let suggestions = result.value {
                     self?.predictiveResults = suggestions
                     let suggestionsStrings : [String] = suggestions.flatMap {$0.placeResumedData}

@@ -125,7 +125,7 @@
 "chat_safety_tips_message" = "• Találkozzatok személyesen, készpénzt használjatok.\n\n• A letgo chaten beszéljétek meg a tranzakciót.\n\n• Túl szép, hogy igaz legyen? Keress valaki mást!";
 "chat_safety_tips_title" = "BIZTONSÁGI TANÁCSAINK";
 "chat_send_button" = "Küldés";
-"chat_send_error_generic" = "Hiba történt az üzenet elküldése során. Próbálkozz újra később.";
+"chat_send_error_generic" = "Hiba történt az üzenet küldése során. Próbálkozz újra.";
 "chat_stickers_tooltip_add_stickers" = "Mókás matricák";
 "chat_stickers_tooltip_new" = "ÚJ!";
 "chat_unblock_user" = "Blokkolás feloldása";
