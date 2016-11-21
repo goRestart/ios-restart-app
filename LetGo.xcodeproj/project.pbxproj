@@ -366,6 +366,7 @@
 		50E7C1CA1DD1EB2A00182BCE /* ChatHeadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E7C1C91DD1EB2900182BCE /* ChatHeadManager.swift */; };
 		50E7C1CB1DD1EB2A00182BCE /* ChatHeadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E7C1C91DD1EB2900182BCE /* ChatHeadManager.swift */; };
 		50E8A08B1B79F8D800DE49CC /* ContactSubject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E8A08A1B79F8D800DE49CC /* ContactSubject.swift */; };
+		50E96E6D1DE3486A009DB88A /* SignUpViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E96E6C1DE3486A009DB88A /* SignUpViewModelSpec.swift */; };
 		50EC64041C64B05500DC04C5 /* LGEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50EC64031C64B05500DC04C5 /* LGEmptyView.swift */; };
 		50EC64051C64B05500DC04C5 /* LGEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50EC64031C64B05500DC04C5 /* LGEmptyView.swift */; };
 		50EC640A1C64F99E00DC04C5 /* LGEmptyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50EC64091C64F99E00DC04C5 /* LGEmptyViewModel.swift */; };
@@ -1390,6 +1391,7 @@
 		50E0E84A1D40B11600A6397C /* UserViewHeaderContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserViewHeaderContainer.swift; sourceTree = "<group>"; };
 		50E7C1C91DD1EB2900182BCE /* ChatHeadManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatHeadManager.swift; sourceTree = "<group>"; };
 		50E8A08A1B79F8D800DE49CC /* ContactSubject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactSubject.swift; sourceTree = "<group>"; };
+		50E96E6C1DE3486A009DB88A /* SignUpViewModelSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpViewModelSpec.swift; sourceTree = "<group>"; };
 		50EC64031C64B05500DC04C5 /* LGEmptyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGEmptyView.swift; sourceTree = "<group>"; };
 		50EC64091C64F99E00DC04C5 /* LGEmptyViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGEmptyViewModel.swift; sourceTree = "<group>"; };
 		50F0BAA51B28937800E50A68 /* SignUpViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpViewModel.swift; sourceTree = "<group>"; };
@@ -1954,6 +1956,7 @@
 			isa = PBXGroup;
 			children = (
 				2EE602671C638EF600AF94E4 /* ChatViewModelSpec.swift */,
+				50E96E6C1DE3486A009DB88A /* SignUpViewModelSpec.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -5094,6 +5097,7 @@
 				50C9E50D1B74EEED001E4E92 /* DLImageResizing.swift in Sources */,
 				50C59BE11CE1F06800377124 /* MockKeyValueStorage.swift in Sources */,
 				50C9E4DC1B73A238001E4E92 /* MockProduct.swift in Sources */,
+				50E96E6D1DE3486A009DB88A /* SignUpViewModelSpec.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
