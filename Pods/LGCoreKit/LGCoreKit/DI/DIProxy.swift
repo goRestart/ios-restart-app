@@ -57,6 +57,9 @@ final class DIProxy: InternalDI {
     var sessionManager: SessionManager {
         return di.sessionManager
     }
+    var internalSessionManager: InternalSessionManager {
+        return di.internalSessionManager
+    }
     var locationManager: LocationManager {
         return di.locationManager
     }
@@ -66,14 +69,23 @@ final class DIProxy: InternalDI {
     var myUserRepository: MyUserRepository {
         return di.myUserRepository
     }
+    var internalMyUserRepository: InternalMyUserRepository {
+        return di.internalMyUserRepository
+    }
     var installationRepository: InstallationRepository {
         return di.installationRepository
+    }
+    var internalInstallationRepository: InternalInstallationRepository {
+        return di.internalInstallationRepository
     }
     var oldChatRepository: OldChatRepository {
         return di.oldChatRepository
     }
     var commercializerRepository: CommercializerRepository {
         return di.commercializerRepository
+    }
+    var internalCommercializerRepository: InternalCommercializerRepository {
+        return di.internalCommercializerRepository
     }
     var chatRepository: ChatRepository {
         return di.chatRepository

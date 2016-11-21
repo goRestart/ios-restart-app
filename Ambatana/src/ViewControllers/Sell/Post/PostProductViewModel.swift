@@ -217,7 +217,7 @@ private extension PostProductViewModel {
         let price = isFreePosting ? ProductPrice.Free : postDetailViewModel.productPrice
         let title = postDetailViewModel.productTitle
         let description = postDetailViewModel.productDescription
-        return productRepository.buildNewProduct(title, description: description, price: price)
+        return productRepository.buildNewProduct(title, description: description, price: price, category: .Unassigned)
     }
 }
 

@@ -493,12 +493,12 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate {
 extension MainProductsViewModel {
     private func setupSessionAndLocation() {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(sessionDidChange),
-                                                         name: SessionManager.Notification.Login.rawValue, object: nil)
+                                                         name: SessionNotification.Login.rawValue, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(sessionDidChange),
-                                                         name: SessionManager.Notification.Logout.rawValue, object: nil)
+                                                         name: SessionNotification.Logout.rawValue, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(locationDidChange),
                                                          
-                                                         name: LocationManager.Notification.LocationUpdate.rawValue, object: nil)
+                                                         name: LocationNotification.LocationUpdate.rawValue, object: nil)
     }
 
     dynamic private func sessionDidChange() {

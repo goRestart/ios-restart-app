@@ -54,7 +54,7 @@ final class TourLocationViewController: BaseViewController {
         setupAccessibilityIds()
         viewModel.viewDidLoad()
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(didAskNativeLocationPermission),
-            name: LocationManager.Notification.LocationDidChangeAuthorization.rawValue, object: nil)
+            name: LocationNotification.LocationDidChangeAuthorization.rawValue, object: nil)
     }
 
     func didAskNativeLocationPermission() {

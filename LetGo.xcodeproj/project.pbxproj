@@ -798,6 +798,8 @@
 		C79842041CC903A500C300FF /* MockAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = C79842031CC903A500C300FF /* MockAccount.swift */; };
 		C79842051CC903A500C300FF /* MockAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = C79842031CC903A500C300FF /* MockAccount.swift */; };
 		C79842061CC903A500C300FF /* MockAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = C79842031CC903A500C300FF /* MockAccount.swift */; };
+		C79895BF1DE2F60500DD58BF /* MockMyUserRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = C79895BE1DE2F60500DD58BF /* MockMyUserRepository.swift */; };
+		C79895C21DE2FE4000DD58BF /* HOF.swift in Sources */ = {isa = PBXBuildFile; fileRef = C79895C11DE2FE4000DD58BF /* HOF.swift */; };
 		C7AB4EC61CD39C67007B573D /* NotificationsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AB4EC51CD39C67007B573D /* NotificationsManager.swift */; };
 		C7AB4EC71CD39C67007B573D /* NotificationsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AB4EC51CD39C67007B573D /* NotificationsManager.swift */; };
 		C7B543241D6F49CE005FBA30 /* UIView+Screenshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B543231D6F49CE005FBA30 /* UIView+Screenshot.swift */; };
@@ -1640,6 +1642,8 @@
 		C797404E1D2A95B100381A4A /* LeanplumTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeanplumTracker.swift; sourceTree = "<group>"; };
 		C79842001CC8E8C900C300FF /* User+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "User+LG.swift"; sourceTree = "<group>"; };
 		C79842031CC903A500C300FF /* MockAccount.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockAccount.swift; sourceTree = "<group>"; };
+		C79895BE1DE2F60500DD58BF /* MockMyUserRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockMyUserRepository.swift; sourceTree = "<group>"; };
+		C79895C11DE2FE4000DD58BF /* HOF.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HOF.swift; sourceTree = "<group>"; };
 		C7AB4EC51CD39C67007B573D /* NotificationsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationsManager.swift; sourceTree = "<group>"; };
 		C7B543231D6F49CE005FBA30 /* UIView+Screenshot.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Screenshot.swift"; sourceTree = "<group>"; };
 		C7B543261D758BA7005FBA30 /* VerifyAccountsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerifyAccountsViewController.swift; sourceTree = "<group>"; };
@@ -2537,6 +2541,8 @@
 		50C9E4D51B739FF6001E4E92 /* Mock */ = {
 			isa = PBXGroup;
 			children = (
+				C79895C01DE2FE3600DD58BF /* Helper */,
+				C79895BD1DE2F5F700DD58BF /* Repositories */,
 				2E3081D31D86A3EC00930E98 /* ProductRequester */,
 				2EF4E3A71D3686F800A09DFD /* Config */,
 				50C9E4DF1B749DD0001E4E92 /* Manager */,
@@ -3135,6 +3141,22 @@
 				C79643101D4F5AFA000C5FCE /* RelatedProductsView.swift */,
 			);
 			path = RelatedProducts;
+			sourceTree = "<group>";
+		};
+		C79895BD1DE2F5F700DD58BF /* Repositories */ = {
+			isa = PBXGroup;
+			children = (
+				C79895BE1DE2F60500DD58BF /* MockMyUserRepository.swift */,
+			);
+			path = Repositories;
+			sourceTree = "<group>";
+		};
+		C79895C01DE2FE3600DD58BF /* Helper */ = {
+			isa = PBXGroup;
+			children = (
+				C79895C11DE2FE4000DD58BF /* HOF.swift */,
+			);
+			path = Helper;
 			sourceTree = "<group>";
 		};
 		C7B587FA1CE1DE1C009B3975 /* BlockedUsers */ = {
@@ -5084,7 +5106,9 @@
 				50C9E4D81B73A017001E4E92 /* MockUser.swift in Sources */,
 				50C9E4CE1B735402001E4E92 /* TrackerEventSpec.swift in Sources */,
 				50C9E4DA1B73A047001E4E92 /* MockBaseModel.swift in Sources */,
+				C79895C21DE2FE4000DD58BF /* HOF.swift in Sources */,
 				2EBF3E251C298EB70024D947 /* MockChat.swift in Sources */,
+				C79895BF1DE2F60500DD58BF /* MockMyUserRepository.swift in Sources */,
 				2E0342F01CDB59950074EB34 /* VersionCheckerSpec.swift in Sources */,
 				2E0342EF1CDB598D0074EB34 /* MockAppVersion.swift in Sources */,
 				2EF4E3BD1D3688C400A09DFD /* MockConfigRetrieveService.swift in Sources */,

@@ -27,12 +27,12 @@ public class LGCoreKit {
         EnvironmentProxy.sharedInstance.setEnvironmentType(environmentType)
 
         // Managers setup
-        InternalCore.sessionManager.initialize()
+        InternalCore.internalSessionManager.initialize()
         InternalCore.locationManager.initialize()
     }
 
     public static func start() {
-        InternalCore.commercializerRepository.indexTemplates(nil)
+        InternalCore.internalCommercializerRepository.indexTemplates(nil)
         guard let userId = InternalCore.myUserRepository.myUser?.objectId else { return }
         InternalCore.productRepository.indexFavorites(userId, completion: nil)
         InternalCore.stickersRepository.show(nil) // Sync stickers to NSUserDefaults
@@ -40,7 +40,7 @@ public class LGCoreKit {
     
     public static func refreshData() {
         // Ask for the commercializer templates
-        InternalCore.commercializerRepository.indexTemplates(nil)
+        InternalCore.internalCommercializerRepository.indexTemplates(nil)
         // Refresh my user
         InternalCore.myUserRepository.refresh(nil)
     }

@@ -321,7 +321,7 @@ class ProductViewModel: BaseViewModel {
                 self?.statsViewVisible.value = visible
         }.addDisposableTo(disposeBag)
 
-        myUserRepository.rx_myUser.asObservable().bindNext { [weak self] _ in
+        myUserRepository.rx_myUser.bindNext { [weak self] _ in
             self?.refreshStatus()
         }.addDisposableTo(disposeBag)
 
