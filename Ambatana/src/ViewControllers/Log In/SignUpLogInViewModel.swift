@@ -112,7 +112,6 @@ public class SignUpLogInViewModel: BaseViewModel {
     private let sessionManager: SessionManager
     private let locationManager: LocationManager
 
-
     private var newsletterParameter: EventParameterNewsletter {
         if !termsAndConditionsEnabled {
             return .Unset
@@ -120,7 +119,6 @@ public class SignUpLogInViewModel: BaseViewModel {
             return newsletterAccepted ? .True : .False
         }
     }
-
 
 
     // MARK: - Lifecycle
@@ -205,7 +203,26 @@ public class SignUpLogInViewModel: BaseViewModel {
 
                     strongSelf.delegate?.viewModelDidSignUp(strongSelf)
                 } else if let sessionManagerError = signUpResult.error {
-                    strongSelf.processSignUpSessionError(sessionManagerError)
+                    switch sessionManagerError {
+                    case .Conflict(let cause):
+                        switch cause {
+                        case .UserExists:
+                            strongSelf.sessionManager.login(strongSelf.email, password: strongSelf.password) { [weak self] loginResult in
+                                guard let strongSelf = self else { return }
+                                if let _ = loginResult.value {
+                                    let trackerEvent = TrackerEvent.loginEmail(strongSelf.loginSource)
+                                    TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+                                    strongSelf.delegate?.viewModelDidLogIn(strongSelf)
+                                } else if let _ = loginResult.error {
+                                    strongSelf.processSignUpSessionError(sessionManagerError)
+                                }
+                            }
+                        default:
+                            strongSelf.processSignUpSessionError(sessionManagerError)
+                        }
+                    default:
+                        strongSelf.processSignUpSessionError(sessionManagerError)
+                    }
                 }
             }
 

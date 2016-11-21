@@ -33,16 +33,16 @@ final class CoreDI: InternalDI {
         let deviceIdDAO = DeviceIdKeychainDAO(keychain: CoreDI.keychain)
         let installationDAO = InstallationUserDefaultsDAO(userDefaults: userDefaults)
         let installationDataSource = InstallationApiDataSource(apiClient: apiClient)
-        let installationRepository = InstallationRepository(deviceIdDao: deviceIdDAO, dao: installationDAO,
+        let installationRepository = LGInstallationRepository(deviceIdDao: deviceIdDAO, dao: installationDAO,
                                                             dataSource: installationDataSource, appVersion: appVersion,
                                                             locale: locale, timeZone: timeZone)
         
         let myUserDataSource = MyUserApiDataSource(apiClient: apiClient)
         let myUserDAO = MyUserUDDAO(userDefaults: userDefaults)
-        let myUserRepository = MyUserRepository(dataSource: myUserDataSource, dao: myUserDAO, locale: locale)
+        let myUserRepository = LGMyUserRepository(dataSource: myUserDataSource, dao: myUserDAO, locale: locale)
         
         let chatDataSource = ChatWebSocketDataSource(webSocketClient: webSocketClient, apiClient: apiClient)
-        let chatRepository = ChatRepository(dataSource: chatDataSource, myUserRepository: myUserRepository)
+        let chatRepository = LGChatRepository(dataSource: chatDataSource, myUserRepository: myUserRepository)
         self.chatRepository = chatRepository
         
         let sensorLocationService = CLLocationManager()
@@ -55,7 +55,7 @@ final class CoreDI: InternalDI {
         let countryInfoDAO: CountryInfoDAO = CountryInfoPlistDAO()
         let countryHelper = CountryHelper(locale: locale, countryInfoDAO: countryInfoDAO)
         
-        let locationManager = LocationManager(myUserRepository: myUserRepository,
+        let locationManager = LGLocationManager(myUserRepository: myUserRepository,
             sensorLocationService: sensorLocationService, ipLookupLocationService: ipLookupLocationService,
             postalAddressRetrievalService: postalAddressRetrievalService, deviceLocationDAO: deviceLocationDAO,
             countryHelper: countryHelper)
@@ -65,7 +65,7 @@ final class CoreDI: InternalDI {
         let productsLimboDAO = ProductsLimboUDDAO(userDefaults: userDefaults)
         let reachability = try? Reachability.reachabilityForInternetConnection()
 
-        let sessionManager = SessionManager(apiClient: apiClient, websocketClient: webSocketClient, locationManager: locationManager,
+        let sessionManager = LGSessionManager(apiClient: apiClient, websocketClient: webSocketClient,
             myUserRepository: myUserRepository, installationRepository: installationRepository, tokenDAO: tokenDAO,
             deviceLocationDAO: deviceLocationDAO, favoritesDAO: favoritesDAO, reachability: reachability)
 
@@ -74,31 +74,31 @@ final class CoreDI: InternalDI {
         webSocketClient.sessionManager = sessionManager
         self.apiClient = apiClient
         self.webSocketClient = webSocketClient
-        self.sessionManager = sessionManager
+        self.internalSessionManager = sessionManager
         self.locationManager = locationManager
         
-        self.myUserRepository = myUserRepository
-        self.installationRepository = installationRepository
+        self.internalMyUserRepository = myUserRepository
+        self.internalInstallationRepository = installationRepository
         let oldChatDataSource = ChatApiDataSource(apiClient: apiClient)
-        let oldchatRepository = OldChatRepository(dataSource: oldChatDataSource, myUserRepository: myUserRepository)
+        let oldchatRepository = LGOldChatRepository(dataSource: oldChatDataSource, myUserRepository: myUserRepository)
         self.oldChatRepository = oldchatRepository
 
         let commercializerDataSource = CommercializerApiDataSource(apiClient: self.apiClient)
-        let commercializerRepository = CommercializerRepository(dataSource: commercializerDataSource,
+        let commercializerRepository = LGCommercializerRepository(dataSource: commercializerDataSource,
                                                                 myUserRepository: myUserRepository)
-        self.commercializerRepository = commercializerRepository
+        self.internalCommercializerRepository = commercializerRepository
 
         let notificationsDataSource = NotificationsApiDataSource(apiClient: self.apiClient)
-        self.notificationsRepository = NotificationsRepository(dataSource: notificationsDataSource)
+        self.notificationsRepository = LGNotificationsRepository(dataSource: notificationsDataSource)
         
         let stickersDataSoruce = StickersApiDataSource(apiClient: self.apiClient)
-        self.stickersRepository = StickersRepository(dataSource: stickersDataSoruce, stickersDAO: stickersDAO)
+        self.stickersRepository = LGStickersRepository(dataSource: stickersDataSoruce, stickersDAO: stickersDAO)
 
         let trendingSearchesDataSource = TrendingSearchesApiDataSource(apiClient: self.apiClient)
-        self.trendingSearchesRepository = TrendingSearchesRepository(dataSource: trendingSearchesDataSource)
+        self.trendingSearchesRepository = LGTrendingSearchesRepository(dataSource: trendingSearchesDataSource)
 
         let userRatingDataSource = UserRatingApiDataSource(apiClient: self.apiClient)
-        self.userRatingRepository = UserRatingRepository(dataSource: userRatingDataSource, myUserRepository: myUserRepository)
+        self.userRatingRepository = LGUserRatingRepository(dataSource: userRatingDataSource, myUserRepository: myUserRepository)
         
         self.deviceIdDAO = deviceIdDAO
         self.installationDAO = installationDAO
@@ -137,45 +137,57 @@ final class CoreDI: InternalDI {
 
     
     // MARK: > Manager
-    
-    let sessionManager: SessionManager
+
+    var sessionManager: SessionManager {
+        return internalSessionManager
+    }
+    let internalSessionManager: InternalSessionManager
     let locationManager: LocationManager
     
     
     // MARK: > Repository
-    
-    let myUserRepository: MyUserRepository
-    let installationRepository: InstallationRepository
+
+    var myUserRepository: MyUserRepository {
+        return internalMyUserRepository
+    }
+    let internalMyUserRepository: InternalMyUserRepository
+    var installationRepository: InstallationRepository {
+        return internalInstallationRepository
+    }
+    let internalInstallationRepository: InternalInstallationRepository
     let oldChatRepository: OldChatRepository
-    let commercializerRepository: CommercializerRepository
+    var commercializerRepository: CommercializerRepository {
+        return internalCommercializerRepository
+    }
+    let internalCommercializerRepository: InternalCommercializerRepository
     let chatRepository: ChatRepository
     let notificationsRepository: NotificationsRepository
     let stickersRepository: StickersRepository
     let trendingSearchesRepository: TrendingSearchesRepository
     let userRatingRepository: UserRatingRepository
     lazy var categoryRepository: CategoryRepository = {
-        return CategoryRepository()
+        return LGCategoryRepository()
     }()
 
     lazy var productRepository: ProductRepository = {
         let dataSource = ProductApiDataSource(apiClient: self.apiClient)
-        return ProductRepository(productDataSource: dataSource, myUserRepository: self.myUserRepository,
+        return LGProductRepository(productDataSource: dataSource, myUserRepository: self.internalMyUserRepository,
                                  fileRepository: self.fileRepository, favoritesDAO: self.favoritesDAO,
                                  productsLimboDAO: self.productsLimboDAO, locationManager: self.locationManager,
                                  currencyHelper: self.currencyHelper)
     }()
     lazy var fileRepository: FileRepository = {
         let dataSource = FileApiDataSource(apiClient: self.apiClient)
-        return LGFileRepository(myUserRepository: self.myUserRepository, fileDataSource: dataSource)
+        return LGFileRepository(myUserRepository: self.internalMyUserRepository, fileDataSource: dataSource)
     }()
     
     lazy var contactRepository: ContactRepository = {
         let dataSource = ContactApiDataSource(apiClient: self.apiClient)
-        return ContactRepository(contactDataSource: dataSource)
+        return LGContactRepository(contactDataSource: dataSource)
     }()
     lazy var userRepository: UserRepository = {
         let dataSource = UserApiDataSource(apiClient: self.apiClient)
-        return UserRepository(dataSource: dataSource, myUserRepository: self.myUserRepository)
+        return LGUserRepository(dataSource: dataSource, myUserRepository: self.internalMyUserRepository)
     }()
 
 

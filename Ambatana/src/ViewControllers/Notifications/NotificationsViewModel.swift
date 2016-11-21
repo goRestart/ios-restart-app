@@ -88,7 +88,7 @@ class NotificationsViewModel: BaseViewModel {
     // MARK: - Private methods
 
     private func setupRx() {
-        let loggedOut = myUserRepository.rx_myUser.asObservable().filter { return $0 == nil }
+        let loggedOut = myUserRepository.rx_myUser.filter { return $0 == nil }
         loggedOut.subscribeNext { [weak self] _ in
             self?.viewState.value = .Loading
         }.addDisposableTo(disposeBag)

@@ -88,7 +88,7 @@ class ChatGroupedListView: BaseView, ChatGroupedListViewModelDelegate, Scrollabl
 
         if firstTime {
             NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ChatGroupedListView.clear),
-                name: SessionManager.Notification.Logout.rawValue, object: nil)
+                name: SessionNotification.Logout.rawValue, object: nil)
             
             viewModel.retrieveFirstPage()
         }

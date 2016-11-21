@@ -146,7 +146,7 @@ extension URLRequestAuthenticable {
 class AFApiClient: ApiClient {
 
     let alamofireManager: Manager
-    weak var sessionManager: SessionManager?
+    weak var sessionManager: InternalSessionManager?
     weak var installationRepository: InstallationRepository?
 
     let tokenDAO: TokenDAO

@@ -70,7 +70,7 @@ class CommercializerManager {
             selector: #selector(CommercializerManager.applicationDidBecomeActive),
             name: UIApplicationDidBecomeActiveNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(CommercializerManager.loggedIn),
-                                                         name: SessionManager.Notification.Login.rawValue, object: nil)
+                                                         name: SessionNotification.Login.rawValue, object: nil)
     }
 
     func commercializerCreatedAndPending(productId productId: String, templateId: String) {

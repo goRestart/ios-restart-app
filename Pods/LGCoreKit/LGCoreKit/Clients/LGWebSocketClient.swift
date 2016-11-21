@@ -60,7 +60,7 @@ class LGWebSocketClient: WebSocketClient {
     private var closeClosure: (() -> ())?
     private var pingTimer: NSTimer?
 
-    weak var sessionManager: SessionManager?
+    weak var sessionManager: InternalSessionManager?
     
     let requestQueue = NSOperationQueue()
     let eventBus = PublishSubject<ChatEvent>()

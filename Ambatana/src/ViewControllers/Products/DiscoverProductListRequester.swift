@@ -59,8 +59,16 @@ extension DiscoverProductListRequester: ProductListRequester {
 // MARK: - DiscoverProductListRequester
 
 private extension DiscoverProductListRequester {
+
+    private var retrieveProductsParams: RetrieveProductsParams {
+        var params = RetrieveProductsParams()
+        params.offset = offset
+        params.numProducts = itemsPerPage
+        return params
+    }
+
     func productsRetrieval(completion: ProductsCompletion?) {
-        productRepository.indexDiscover(productId: productObjectId, params: RetrieveProductsParams(), pageOffset: offset) { [weak self] result in
+        productRepository.indexDiscover(productId: productObjectId, params: retrieveProductsParams) { [weak self] result in
             if let value = result.value {
                 self?.offset += value.count
             }
