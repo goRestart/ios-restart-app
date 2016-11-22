@@ -493,8 +493,8 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate {
 
     func vmDidSelectCollection(type: CollectionCellType){
         tracker.trackEvent(TrackerEvent.exploreCollection(type.rawValue))
-        let query = queryForCollection(type)
-        delegate?.vmDidSearch(viewModelForSearch(.Collection(type: type, query: query ?? "")))
+        let query = queryForCollection(type) ?? ""
+        delegate?.vmDidSearch(viewModelForSearch(.Collection(type: type, query: query)))
     }
     
     func vmUserDidTapInvite() {
