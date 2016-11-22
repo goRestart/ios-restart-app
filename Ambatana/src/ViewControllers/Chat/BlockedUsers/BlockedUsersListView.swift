@@ -25,19 +25,19 @@ class BlockedUsersListView: ChatGroupedListView, BlockedUsersListViewModelDelega
     // MARK: - Lifecycle
 
     convenience init(viewModel: BlockedUsersListViewModel) {
-        self.init(viewModel: viewModel, frame: CGRectZero)
+        self.init(viewModel: viewModel, sessionManager: Core.sessionManager, frame: CGRectZero)
     }
 
-    init(viewModel: BlockedUsersListViewModel, frame: CGRect) {
+    init(viewModel: BlockedUsersListViewModel, sessionManager: SessionManager, frame: CGRect) {
         self.viewModel = viewModel
-        super.init(viewModel: viewModel, frame: frame)
+        super.init(viewModel: viewModel, sessionManager: sessionManager, frame: frame)
 
         viewModel.delegate = self
     }
 
-    init?(viewModel: BlockedUsersListViewModel, coder aDecoder: NSCoder) {
+    init?(viewModel: BlockedUsersListViewModel, sessionManager: SessionManager, coder aDecoder: NSCoder) {
         self.viewModel = viewModel
-        super.init(viewModel: viewModel, coder: aDecoder)
+        super.init(viewModel: viewModel, sessionManager: sessionManager, coder: aDecoder)
 
         viewModel.delegate = self
     }
