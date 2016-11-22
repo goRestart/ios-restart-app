@@ -696,6 +696,7 @@ private extension ProductFilters {
     }
 }
 
+
 // MARK: - Queries for Collections
 
 private extension MainProductsViewModel {
