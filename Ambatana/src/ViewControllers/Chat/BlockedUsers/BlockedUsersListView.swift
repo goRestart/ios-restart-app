@@ -25,7 +25,7 @@ class BlockedUsersListView: ChatGroupedListView, BlockedUsersListViewModelDelega
     // MARK: - Lifecycle
 
     convenience init(viewModel: BlockedUsersListViewModel) {
-        self.init(viewModel: viewModel, sessionManager: Core.sessionManager, frame: CGRectZero)
+        self.init(viewModel: viewModel, sessionManager: Core.sessionManager, frame: CGRect.zero)
     }
 
     init(viewModel: BlockedUsersListViewModel, sessionManager: SessionManager, frame: CGRect) {

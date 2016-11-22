@@ -59,7 +59,7 @@ class ChatGroupedListView: BaseView, ChatGroupedListViewModelDelegate, Scrollabl
     // MARK: - Lifecycle
 
     convenience init<T: BaseViewModel where T: ChatGroupedListViewModel>(viewModel: T) {
-        self.init(viewModel: viewModel, sessionManager: Core.sessionManager, frame: CGRectZero)
+        self.init(viewModel: viewModel, sessionManager: Core.sessionManager, frame: CGRect.zero)
     }
 
     init<T: BaseViewModel where T: ChatGroupedListViewModel>(viewModel: T, sessionManager: SessionManager, frame: CGRect) {

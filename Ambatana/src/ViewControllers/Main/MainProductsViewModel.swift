@@ -188,7 +188,7 @@ class MainProductsViewModel: BaseViewModel {
         let currencyHelper = Core.currencyHelper
         let tracker = TrackerProxy.sharedInstance
         let keyValueStorage = KeyValueStorage.sharedInstance
-            let featureFlags = FeatureFlags.self
+        let featureFlags = FeatureFlags.self
         self.init(sessionManager: sessionManager, myUserRepository: myUserRepository, trendingSearchesRepository: trendingSearchesRepository,
                   locationManager: locationManager, currencyHelper: currencyHelper, tracker: tracker, searchType: searchType,
                   filters: filters, tabNavigator: tabNavigator, keyValueStorage: keyValueStorage, featureFlags: featureFlags)
