@@ -28,7 +28,7 @@ protocol FeatureFlaggeable {
     var freePostingModeAllowed: Bool { get }
 }
 
-struct FeatureFlags: FeatureFlaggeable {
+class FeatureFlags: FeatureFlaggeable {
     
     static let sharedInstance: FeatureFlags = FeatureFlags()
     
