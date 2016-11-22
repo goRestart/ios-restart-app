@@ -493,7 +493,7 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate {
 
     func vmDidSelectCollection(type: CollectionCellType){
         tracker.trackEvent(TrackerEvent.exploreCollection(type.rawValue))
-        let query = queryForCollection(type) ?? ""
+        let query = queryForCollection(type)
         delegate?.vmDidSearch(viewModelForSearch(.Collection(type: type, query: query)))
     }
     
@@ -700,7 +700,7 @@ private extension ProductFilters {
 // MARK: - Queries for Collections
 
 private extension MainProductsViewModel {
-    func queryForCollection(type: CollectionCellType) -> String? {
+    func queryForCollection(type: CollectionCellType) -> String {
         var query: String
         switch type {
         case .You:
@@ -714,9 +714,12 @@ private extension MainProductsViewModel {
             case .BrandsPrior:
                 query = "mustang Honda Harley corvette dodge Toyota yamaha motorcycle Jeep atv bike boat car kayak trailer truck jeep rims camper cart scooter dirtbike jetski gokart four wheeler bicycle quad bike tractor bmw wheels canoe hoverboard bmx rv Chevy sub ford paddle"
             }
-        case .Apple, .Furniture, .Gaming:
-            guard let searchText =  type.searchTextUS else { return nil }
-            query =  searchText
+        case .Gaming:
+            query = "ps4 xbox pokemon nintendo PS3 game boy Wii atari sega"
+        case .Apple:
+            query = "iphone apple iPad MacBook iPod Mac iMac"
+        case .Furniture:
+            query = "dresser couch furniture desk table patio bed stand chair sofa rug mirror futon bench stool frame recliner lamp cabinet ikea shelf antique bedroom book shelf tables end table bunk beds night stand canopy"
         }
         return query
     }
