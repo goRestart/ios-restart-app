@@ -40,15 +40,15 @@ class OldChatViewController: SLKTextViewController {
     }
     
     convenience init(viewModel: OldChatViewModel, hidesBottomBar: Bool) {
-        self.init(viewModel: viewModel, keyboardHelper: KeyboardHelper.sharedInstance)
+        self.init(viewModel: viewModel, keyboardHelper: KeyboardHelper.sharedInstance, featureFlags: FeatureFlags.sharedInstance)
         hidesBottomBarWhenPushed = hidesBottomBar
     }
     
     // MARK: - View lifecycle
-    required init(viewModel: OldChatViewModel, keyboardHelper: KeyboardHelper = KeyboardHelper.sharedInstance) {
+    required init(viewModel: OldChatViewModel, keyboardHelper: KeyboardHelper = KeyboardHelper.sharedInstance, featureFlags: FeatureFlags = FeatureFlags.sharedInstance) {
         self.viewModel = viewModel
-        self.productView = ChatProductView.chatProductView()
-        self.directAnswersPresenter = DirectAnswersPresenter()
+        self.productView = ChatProductView.chatProductView(featureFlags.userReviews)
+        self.directAnswersPresenter = DirectAnswersPresenter(websocketChatActive: featureFlags.websocketChat)
         self.relatedProductsView = RelatedProductsView()
         self.stickersView = ChatStickersView()
         self.stickersCloseButton = UIButton(frame: CGRect.zero)

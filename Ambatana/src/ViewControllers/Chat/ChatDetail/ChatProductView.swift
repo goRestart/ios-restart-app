@@ -30,7 +30,8 @@ class ChatProductView: UIView {
     @IBOutlet weak var reviewButton: UIButton!
 
     var userRatingTooltip: Tooltip?
-
+    var showUserReviews: Bool = false
+    
     let imageHeight: CGFloat = 64
     let imageWidth: CGFloat = 64
     let margin: CGFloat = 8
@@ -38,12 +39,10 @@ class ChatProductView: UIView {
     let separatorHeight: CGFloat = 0.5
     weak var delegate: ChatProductViewDelegate?
     
-    //TODO: This should be decided in different place (i.e where chatProductView is created)
-    private var featureFlags: FeatureFlags = FeatureFlags.sharedInstance
 
-
-    static func chatProductView() -> ChatProductView {
+    static func chatProductView(showUserReviews: Bool) -> ChatProductView {
         let view = NSBundle.mainBundle().loadNibNamed("ChatProductView", owner: self, options: nil)?.first as? ChatProductView
+        view?.showUserReviews = showUserReviews
         view?.setupUI()
         view?.setAccessibilityIds()
         return view!
@@ -73,9 +72,9 @@ class ChatProductView: UIView {
     }
 
     func showReviewButton(showButton: Bool, withTooltip: Bool) {
-        userName.hidden = showButton && featureFlags.userReviews
-        reviewButton.hidden = !showButton || !featureFlags.userReviews
-        if showButton && withTooltip && featureFlags.userReviews {
+        userName.hidden = showButton && showUserReviews
+        reviewButton.hidden = !showButton || !showUserReviews
+        if showButton && withTooltip && showUserReviews {
             showUserRatingTooltip()
         }
     }

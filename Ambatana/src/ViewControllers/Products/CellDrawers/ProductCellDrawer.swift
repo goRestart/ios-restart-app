@@ -13,8 +13,7 @@ class ProductCellDrawer: BaseCollectionCellDrawer<ProductCell>, GridCellDrawer {
         if let thumbURL = model.thumbUrl {
             cell.setImageUrl(thumbURL)
         }
-        //TODO: Inject on productCellDrawer FeatureFlags. 
-        if (FeatureFlags.sharedInstance.freePostingModeAllowed && model.isFree) {
+        if model.isFree {
             cell.setFreeStripe()
         }
     }

@@ -24,7 +24,7 @@ final class CategoriesTabCoordinator: TabCoordinator {
         self.init(productRepository: productRepository, userRepository: userRepository,
                   chatRepository: chatRepository, oldChatRepository: oldChatRepository,
                   myUserRepository: myUserRepository, keyValueStorage: keyValueStorage,
-                  tracker: tracker, rootViewController: rootViewController, featureFlags:featureFlags )
+                  tracker: tracker, rootViewController: rootViewController, featureFlags:featureFlags)
         
         viewModel.tabNavigator = self
     }

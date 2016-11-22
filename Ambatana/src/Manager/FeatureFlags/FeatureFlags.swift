@@ -41,12 +41,11 @@ class FeatureFlags: FeatureFlaggeable {
         Bumper.initialize()
     }
     
-    convenience init()
-    {
+    convenience init() {
         self.init(locale: NSLocale.currentLocale(), locationManager: Core.locationManager)
     }
 
-    
+
     // MARK: - A/B Tests features
 
      var websocketChat: Bool = {

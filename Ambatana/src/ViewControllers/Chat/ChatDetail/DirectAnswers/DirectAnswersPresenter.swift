@@ -36,11 +36,15 @@ class DirectAnswersPresenter : NSObject, UICollectionViewDelegate, UICollectionV
     private let directAnswersHeight: CGFloat = 48
     private weak var collectionView: UICollectionView?
     private var answers: [DirectAnswer] = []
-
+    private var websocketChatActive: Bool = false
     private static let disabledAlpha: CGFloat = 0.6
 
 
     // MARK: - Public methods
+    
+    init(websocketChatActive: Bool) {
+        self.websocketChatActive = websocketChatActive
+    }
 
     func setupOnTopOfView(sibling: UIView) {
         buildCollectionOverView(sibling)
@@ -94,8 +98,7 @@ class DirectAnswersPresenter : NSObject, UICollectionViewDelegate, UICollectionV
     }
 
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        //TODO: FeatureFlags should be either injected or be a parameter.
-        if FeatureFlags.sharedInstance.websocketChat {
+        if websocketChatActive {
             collectionView.deselectItemAtIndexPath(indexPath, animated: true)
         }
         guard enabled else { return }
