@@ -8,6 +8,7 @@
 
 import CoreLocation
 import Result
+import RxSwift
 
 
 // MARK: - LocationManager
@@ -21,6 +22,10 @@ class LGLocationManager: NSObject, CLLocationManagerDelegate, LocationManager {
         case .Restricted, .Denied, .NotDetermined:
             return false
         }
+    }
+
+    var locationEvents: Observable<LocationEvent> {
+        return events
     }
 
     // Repositories
@@ -41,6 +46,9 @@ class LGLocationManager: NSObject, CLLocationManagerDelegate, LocationManager {
     private var sensorLocation: LGLocation?
     private var inaccurateLocation: LGLocation?
     private var lastNotifiedLocation: LGLocation?
+    private let events = PublishSubject<LocationEvent>()
+
+    private var sessionDisposeBag = DisposeBag()
 
     /**
      Returns if the manual location is enabled.
@@ -85,24 +93,23 @@ class LGLocationManager: NSObject, CLLocationManagerDelegate, LocationManager {
         // Setup
         self.sensorLocationService.locationManagerDelegate = self
         self.setup()
-
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(login(_:)),
-                                                         name: SessionNotification.Login.rawValue, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(logout(_:)),
-                                                         name: SessionNotification.Logout.rawValue, object: nil)
     }
-
-    deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: SessionNotification.Login.rawValue,
-                                                            object: nil)
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: SessionNotification.Logout.rawValue,
-                                                            object: nil)
-    }
-
-
 
     func initialize() {
         retrieveInaccurateLocation()
+    }
+
+    func observeSessionManager(sessionManager: SessionManager) {
+        sessionDisposeBag = DisposeBag()
+        sessionManager.sessionEvents.subscribeNext { [weak self] event in
+            switch event {
+            case .Login:
+                self?.setup()
+                self?.checkUserLocationAndUpdate()
+            case .Logout:
+                self?.isManualLocationEnabled = false
+            }
+        }.addDisposableTo(sessionDisposeBag)
     }
 
 
@@ -240,8 +247,7 @@ class LGLocationManager: NSObject, CLLocationManagerDelegate, LocationManager {
         // Only notify if there really is a change in the auth status, not always
         guard let currentStatus = dao.locationStatus where currentStatus != status else { return }
 
-        NSNotificationCenter.defaultCenter()
-            .postNotificationName(LocationNotification.LocationDidChangeAuthorization.rawValue, object: nil)
+        events.onNext(.ChangedPermissions)
     }
 
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
@@ -400,7 +406,7 @@ class LGLocationManager: NSObject, CLLocationManagerDelegate, LocationManager {
         if let myUserLocation = myUser.location where myUserLocation.type == .Manual && location.type != .Manual &&
             myUserLocation.distanceFromLocation(location) > manualLocationThreshold {
 
-            notifyMovedFarFromSavedManualLocation()
+            events.onNext(.MovedFarFromSavedManualLocation)
         }
     }
 
@@ -413,49 +419,13 @@ class LGLocationManager: NSObject, CLLocationManagerDelegate, LocationManager {
         guard let currentLocation = currentLocation where currentLocation != lastNotifiedLocation else { return }
 
         lastNotifiedLocation = currentLocation
-        notifyLocationUpdate(currentLocation)
+        events.onNext(.LocationUpdate)
     }
 
-
-    // MARK: > NSNotificationCenter
 
     /**
-     Notifies about a location update.
-     - parameter location: The location to notify about.
+     Checks current user and updates user location if needed
      */
-    private func notifyLocationUpdate(location: LGLocation) {
-        NSNotificationCenter.defaultCenter().postNotificationName(LocationNotification.LocationUpdate.rawValue,
-                                                                  object: location)
-    }
-
-    /**
-     Notifies about that the user moved far from the saved manual location.
-     */
-    private func notifyMovedFarFromSavedManualLocation() {
-        NSNotificationCenter.defaultCenter().postNotificationName(LocationNotification.MovedFarFromSavedManualLocation.rawValue,
-                                                                  object: nil)
-    }
-
-    /**
-     Called when login notification is launched.
-     - parameter notification: The notification that arised this method.
-     */
-    dynamic private func login(notification: NSNotification) {
-        guard notification.name == SessionNotification.Login.rawValue else { return }
-        setup()
-        checkUserLocationAndUpdate()
-    }
-
-    /**
-     Called when logout notification is launched.
-     - parameter notification: The notification that arised this method.
-     */
-    dynamic private func logout(notification: NSNotification) {
-        guard notification.name == SessionNotification.Logout.rawValue else { return }
-
-        isManualLocationEnabled = false
-    }
-
     private func checkUserLocationAndUpdate() {
         guard let myUser = myUserRepository.myUser else { return }
 

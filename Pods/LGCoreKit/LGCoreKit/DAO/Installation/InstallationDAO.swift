@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import RxSwift
 
 protocol InstallationDAO {
 
@@ -15,6 +16,7 @@ protocol InstallationDAO {
     If there is an Installation cached, will return that one.
     */
     var installation: Installation? { get }
+    var rx_installation: Observable<Installation?> { get }
 
     /**
     Save an Installation instance.
