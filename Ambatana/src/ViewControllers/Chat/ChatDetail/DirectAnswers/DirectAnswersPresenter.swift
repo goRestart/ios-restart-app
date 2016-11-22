@@ -94,7 +94,8 @@ class DirectAnswersPresenter : NSObject, UICollectionViewDelegate, UICollectionV
     }
 
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        if featureFlags.websocketChat {
+        //TODO: FeatureFlags should be either injected or be a parameter.
+        if FeatureFlags.sharedInstance.websocketChat {
             collectionView.deselectItemAtIndexPath(indexPath, animated: true)
         }
         guard enabled else { return }

@@ -35,7 +35,7 @@ final class TabBarController: UITabBarController {
     
     // MARK: - Lifecycle
 
-    init(viewModel: TabBarViewModel) {
+    convenience init(viewModel: TabBarViewModel) {
         let featureFlags = FeatureFlags.sharedInstance
         self.init(viewModel: viewModel, featureFlags: featureFlags)
     }

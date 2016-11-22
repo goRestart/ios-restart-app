@@ -23,13 +23,19 @@ class ChatStickersView: UIView {
     }
 
     weak var delegate: ChatStickersViewDelegate?
-
+    
+    private var featureFlags: FeatureFlags
     private let collectionView: UICollectionView
     private var numberOfColumns: Int = 3
     private var stickers: [Sticker] = []
 
-    init() {
+    convenience init() {
+        self.init(featureFlags: FeatureFlags.sharedInstance)
+    }
+    
+    init(featureFlags: FeatureFlags) {
         let layout = UICollectionViewFlowLayout()
+        self.featureFlags = featureFlags
         layout.scrollDirection = .Vertical
         layout.minimumLineSpacing = 0
         layout.minimumInteritemSpacing = 0

@@ -47,6 +47,8 @@ class PostProductCameraViewModel: BaseViewModel {
     let sourcePosting: PostingSource
     private var firstTimeAlertTimer: NSTimer?
 
+    private let featureFlags: FeatureFlags
+    
     private var skipCustomPermissions: Bool {
         return sourcePosting == .OnboardingCamera && featureFlags.directPostInOnboarding
     }
@@ -54,9 +56,10 @@ class PostProductCameraViewModel: BaseViewModel {
     // MARK: - Lifecycle
 
 
-    init(postingSource: PostingSource, keyValueStorage: KeyValueStorage) {
+    init(postingSource: PostingSource, keyValueStorage: KeyValueStorage, featureFlags: FeatureFlags) {
         self.keyValueStorage = keyValueStorage
         self.sourcePosting = postingSource
+        self.featureFlags = featureFlags
         super.init()
         setupFirstShownLiterals()
         setupRX()
@@ -64,7 +67,8 @@ class PostProductCameraViewModel: BaseViewModel {
 
     convenience init(postingSource: PostingSource) {
         let keyValueStorage = KeyValueStorage.sharedInstance
-        self.init(postingSource: postingSource, keyValueStorage: keyValueStorage)
+        let featureFlags = FeatureFlags.sharedInstance
+        self.init(postingSource: postingSource, keyValueStorage: keyValueStorage, featureFlags: featureFlags)
     }
 
     override func didBecomeActive(firstTime: Bool) {
