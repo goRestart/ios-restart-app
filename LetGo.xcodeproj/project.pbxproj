@@ -235,7 +235,6 @@
 		5061ACBB1DE35E6D002E5423 /* MockMyUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5061ACBA1DE35E6D002E5423 /* MockMyUser.swift */; };
 		5061ACBE1DE36534002E5423 /* ExternalAuthHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5061ACBC1DE3637D002E5423 /* ExternalAuthHelper.swift */; };
 		5061ACBF1DE36535002E5423 /* ExternalAuthHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5061ACBC1DE3637D002E5423 /* ExternalAuthHelper.swift */; };
-		5061ACC11DE3674E002E5423 /* MockExternalAuthHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5061ACC01DE3674E002E5423 /* MockExternalAuthHelper.swift */; };
 		5063949A1C8D97050091C831 /* BaseViewModelDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506394991C8D97050091C831 /* BaseViewModelDelegate.swift */; };
 		5063949C1C8D97520091C831 /* UIAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5063949B1C8D97520091C831 /* UIAction.swift */; };
 		5063949D1C8DA8FD0091C831 /* UIAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5063949B1C8D97520091C831 /* UIAction.swift */; };
@@ -334,6 +333,9 @@
 		50C63B741DC3A79100836D85 /* SocialSharer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C63B701DC3A79100836D85 /* SocialSharer.swift */; };
 		50C63B761DC3B63700836D85 /* ShareType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C63B751DC3B63700836D85 /* ShareType.swift */; };
 		50C63B771DC3B63700836D85 /* ShareType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C63B751DC3B63700836D85 /* ShareType.swift */; };
+		50C7428D1DE4673000D629B0 /* SignUpLogInViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C7428C1DE4673000D629B0 /* SignUpLogInViewModelSpec.swift */; };
+		50C7428F1DE4682000D629B0 /* MockExternalAuthHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C7428E1DE4682000D629B0 /* MockExternalAuthHelper.swift */; };
+		50C742911DE4683700D629B0 /* MockLocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C742901DE4683700D629B0 /* MockLocationManager.swift */; };
 		50C9E4B91B71FBB7001E4E92 /* Tracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C9E4B81B71FBB7001E4E92 /* Tracker.swift */; };
 		50C9E4BB1B71FBD7001E4E92 /* TrackerEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C9E4BA1B71FBD7001E4E92 /* TrackerEvent.swift */; };
 		50C9E4BD1B721F6B001E4E92 /* TrackerProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C9E4BC1B721F6B001E4E92 /* TrackerProxy.swift */; };
@@ -1305,7 +1307,6 @@
 		5061ACB81DE35519002E5423 /* MockSessionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockSessionManager.swift; sourceTree = "<group>"; };
 		5061ACBA1DE35E6D002E5423 /* MockMyUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockMyUser.swift; sourceTree = "<group>"; };
 		5061ACBC1DE3637D002E5423 /* ExternalAuthHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExternalAuthHelper.swift; sourceTree = "<group>"; };
-		5061ACC01DE3674E002E5423 /* MockExternalAuthHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockExternalAuthHelper.swift; sourceTree = "<group>"; };
 		506394991C8D97050091C831 /* BaseViewModelDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseViewModelDelegate.swift; sourceTree = "<group>"; };
 		5063949B1C8D97520091C831 /* UIAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIAction.swift; sourceTree = "<group>"; };
 		5063B7D11B4676ED00039D05 /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -1373,6 +1374,9 @@
 		50C63B6F1DC3A79100836D85 /* SocialMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialMessage.swift; sourceTree = "<group>"; };
 		50C63B701DC3A79100836D85 /* SocialSharer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialSharer.swift; sourceTree = "<group>"; };
 		50C63B751DC3B63700836D85 /* ShareType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShareType.swift; sourceTree = "<group>"; };
+		50C7428C1DE4673000D629B0 /* SignUpLogInViewModelSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpLogInViewModelSpec.swift; sourceTree = "<group>"; };
+		50C7428E1DE4682000D629B0 /* MockExternalAuthHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockExternalAuthHelper.swift; sourceTree = "<group>"; };
+		50C742901DE4683700D629B0 /* MockLocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockLocationManager.swift; sourceTree = "<group>"; };
 		50C9E4B81B71FBB7001E4E92 /* Tracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tracker.swift; sourceTree = "<group>"; };
 		50C9E4BA1B71FBD7001E4E92 /* TrackerEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackerEvent.swift; sourceTree = "<group>"; };
 		50C9E4BC1B721F6B001E4E92 /* TrackerProxy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackerProxy.swift; sourceTree = "<group>"; };
@@ -1970,6 +1974,7 @@
 			children = (
 				2EE602671C638EF600AF94E4 /* ChatViewModelSpec.swift */,
 				50E96E6C1DE3486A009DB88A /* SignUpViewModelSpec.swift */,
+				50C7428C1DE4673000D629B0 /* SignUpLogInViewModelSpec.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -2585,6 +2590,7 @@
 				2EE4BD271CDB4C3400EAADF9 /* MockAppVersion.swift */,
 				5061ACB81DE35519002E5423 /* MockSessionManager.swift */,
 				50C59BE01CE1F06800377124 /* MockKeyValueStorage.swift */,
+				50C742901DE4683700D629B0 /* MockLocationManager.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -3067,7 +3073,6 @@
 			children = (
 				50C9E4CB1B7353E6001E4E92 /* Manager */,
 				C75018441D0EFBDB007D4CE4 /* String+LGSpec.swift */,
-				5061ACC01DE3674E002E5423 /* MockExternalAuthHelper.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -3171,6 +3176,7 @@
 			isa = PBXGroup;
 			children = (
 				C79895C11DE2FE4000DD58BF /* HOF.swift */,
+				50C7428E1DE4682000D629B0 /* MockExternalAuthHelper.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -5122,13 +5128,14 @@
 				2E0342F21CDB7A850074EB34 /* CrashManagerSpec.swift in Sources */,
 				2E3081D21D86A25300930E98 /* ProductListMultiRequesterSpec.swift in Sources */,
 				2EF4E3BC1D3688C400A09DFD /* MockConfigFileDAO.swift in Sources */,
+				50C7428F1DE4682000D629B0 /* MockExternalAuthHelper.swift in Sources */,
 				50C9E4D81B73A017001E4E92 /* MockUser.swift in Sources */,
 				50C9E4CE1B735402001E4E92 /* TrackerEventSpec.swift in Sources */,
 				50C9E4DA1B73A047001E4E92 /* MockBaseModel.swift in Sources */,
 				C79895C21DE2FE4000DD58BF /* HOF.swift in Sources */,
-				5061ACC11DE3674E002E5423 /* MockExternalAuthHelper.swift in Sources */,
 				2EBF3E251C298EB70024D947 /* MockChat.swift in Sources */,
 				C79895BF1DE2F60500DD58BF /* MockMyUserRepository.swift in Sources */,
+				50C742911DE4683700D629B0 /* MockLocationManager.swift in Sources */,
 				2E0342F01CDB59950074EB34 /* VersionCheckerSpec.swift in Sources */,
 				2E0342EF1CDB598D0074EB34 /* MockAppVersion.swift in Sources */,
 				2EF4E3BD1D3688C400A09DFD /* MockConfigRetrieveService.swift in Sources */,
@@ -5140,6 +5147,7 @@
 				50C9E4DC1B73A238001E4E92 /* MockProduct.swift in Sources */,
 				5061ACB91DE35519002E5423 /* MockSessionManager.swift in Sources */,
 				50E96E6D1DE3486A009DB88A /* SignUpViewModelSpec.swift in Sources */,
+				50C7428D1DE4673000D629B0 /* SignUpLogInViewModelSpec.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

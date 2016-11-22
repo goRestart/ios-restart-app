@@ -43,10 +43,10 @@ protocol SignUpLogInViewModelDelegate: class {
 
 public class SignUpLogInViewModel: BaseViewModel {
     let loginSource: EventParameterLoginSourceValue
-    let googleLoginHelper: GoogleLoginHelper
-    let fbLoginHelper: FBLoginHelper
+    let googleLoginHelper: ExternalAuthHelper
+    let fbLoginHelper: ExternalAuthHelper
     let tracker: Tracker
-    let keyValueStorage: KeyValueStorage
+    let keyValueStorage: KeyValueStorageable
 
     weak var delegate: SignUpLogInViewModelDelegate?
     
@@ -124,8 +124,8 @@ public class SignUpLogInViewModel: BaseViewModel {
 
     // MARK: - Lifecycle
     
-    init(sessionManager: SessionManager, locationManager: LocationManager, keyValueStorage: KeyValueStorage,
-         googleLoginHelper: GoogleLoginHelper, fbLoginHelper: FBLoginHelper, tracker: Tracker,
+    init(sessionManager: SessionManager, locationManager: LocationManager, keyValueStorage: KeyValueStorageable,
+         googleLoginHelper: ExternalAuthHelper, fbLoginHelper: ExternalAuthHelper, tracker: Tracker,
          source: EventParameterLoginSourceValue, action: LoginActionType) {
         self.sessionManager = sessionManager
         self.locationManager = locationManager

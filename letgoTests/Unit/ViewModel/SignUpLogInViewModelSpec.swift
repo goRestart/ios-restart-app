@@ -1,8 +1,8 @@
 //
-//  SignUpViewModelSpec.swift
+//  SignUpLogInViewModelSpec.swift
 //  LetGo
 //
-//  Created by Albert Hernández López on 21/11/16.
+//  Created by Albert Hernández López on 22/11/16.
 //  Copyright © 2016 Ambatana. All rights reserved.
 //
 
@@ -13,12 +13,13 @@ import Nimble
 import Result
 
 
-class SignUpViewModelSpec: QuickSpec {
+class SignUpLogInViewModelSpec: QuickSpec {
     override func spec() {
 
-        describe("SignUpViewModelSpec") {
-            var sut: SignUpViewModel!
+        fdescribe("SignUpLogInViewModelSpec") {
+            var sut: SignUpLogInViewModel!
             var sessionManager: MockSessionManager!
+            var locationManager: MockLocationManager!
             var keyValueStorage: MockKeyValueStorage!
             var tracker: MockTracker!
             var googleLoginHelper: MockExternalAuthHelper!
@@ -26,18 +27,23 @@ class SignUpViewModelSpec: QuickSpec {
 
             beforeEach {
                 sessionManager = MockSessionManager()
+                locationManager = MockLocationManager()
                 keyValueStorage = MockKeyValueStorage()
                 tracker = MockTracker()
                 let myUser = MockMyUser()
                 googleLoginHelper = MockExternalAuthHelper(result: .Success(myUser: myUser))
                 fbLoginHelper = MockExternalAuthHelper(result: .Success(myUser: myUser))
-                sut = SignUpViewModel(sessionManager: sessionManager, keyValueStorage: keyValueStorage,
-                    tracker: tracker, appearance: .Dark, source: .Install,
-                    googleLoginHelper: googleLoginHelper, fbLoginHelper: fbLoginHelper)
+
+                sut = SignUpLogInViewModel(sessionManager: sessionManager, locationManager: locationManager,
+                    keyValueStorage: keyValueStorage, googleLoginHelper: googleLoginHelper,
+                    fbLoginHelper: fbLoginHelper, tracker: tracker, source: .Install, action: .Signup)
             }
 
             describe("initialization") {
                 context("did not log in previously") {
+                    it("has an empty email") {
+                        expect(sut.email) == ""
+                    }
                     it("does not have a previous facebook username") {
                         expect(sut.previousFacebookUsername.value).to(beNil())
                     }
@@ -51,11 +57,14 @@ class SignUpViewModelSpec: QuickSpec {
                         keyValueStorage[.previousUserAccountProvider] = "letgo"
                         keyValueStorage[.previousUserEmailOrName] = "albert@letgo.com"
 
-                        sut = SignUpViewModel(sessionManager: sessionManager, keyValueStorage: keyValueStorage,
-                            tracker: tracker, appearance: .Dark, source: .Install,
-                            googleLoginHelper: googleLoginHelper, fbLoginHelper: fbLoginHelper)
+                        sut = SignUpLogInViewModel(sessionManager: sessionManager, locationManager: locationManager,
+                            keyValueStorage: keyValueStorage, googleLoginHelper: googleLoginHelper,
+                            fbLoginHelper: fbLoginHelper, tracker: tracker, source: .Install, action: .Signup)
                     }
 
+                    it("has an email") {
+                        expect(sut.email) == "albert@letgo.com"
+                    }
                     it("does not have a previous facebook username") {
                         expect(sut.previousFacebookUsername.value).to(beNil())
                     }
@@ -69,11 +78,14 @@ class SignUpViewModelSpec: QuickSpec {
                         keyValueStorage[.previousUserAccountProvider] = "facebook"
                         keyValueStorage[.previousUserEmailOrName] = "Albert FB"
 
-                        sut = SignUpViewModel(sessionManager: sessionManager, keyValueStorage: keyValueStorage,
-                            tracker: tracker, appearance: .Dark, source: .Install,
-                            googleLoginHelper: googleLoginHelper, fbLoginHelper: fbLoginHelper)
+                        sut = SignUpLogInViewModel(sessionManager: sessionManager, locationManager: locationManager,
+                            keyValueStorage: keyValueStorage, googleLoginHelper: googleLoginHelper,
+                            fbLoginHelper: fbLoginHelper, tracker: tracker, source: .Install, action: .Signup)
                     }
 
+                    it("has an empty email") {
+                        expect(sut.email) == ""
+                    }
                     it("has a previous facebook username") {
                         expect(sut.previousFacebookUsername.value) == "Albert FB"
                     }
@@ -87,16 +99,66 @@ class SignUpViewModelSpec: QuickSpec {
                         keyValueStorage[.previousUserAccountProvider] = "google"
                         keyValueStorage[.previousUserEmailOrName] = "Albert Google"
 
-                        sut = SignUpViewModel(sessionManager: sessionManager, keyValueStorage: keyValueStorage,
-                            tracker: tracker, appearance: .Dark, source: .Install,
-                            googleLoginHelper: googleLoginHelper, fbLoginHelper: fbLoginHelper)
+                        sut = SignUpLogInViewModel(sessionManager: sessionManager, locationManager: locationManager,
+                            keyValueStorage: keyValueStorage, googleLoginHelper: googleLoginHelper,
+                            fbLoginHelper: fbLoginHelper, tracker: tracker, source: .Install, action: .Signup)
                     }
 
+                    it("has an empty email") {
+                        expect(sut.email) == ""
+                    }
                     it("does not have a previous facebook username") {
                         expect(sut.previousFacebookUsername.value).to(beNil())
                     }
                     it("has a previous google username") {
                         expect(sut.previousGoogleUsername.value) == "Albert Google"
+                    }
+                }
+            }
+
+            describe("login with email") {
+                context("successful") {
+                    var myUser: MockMyUser!
+
+                    beforeEach {
+                        let email = "albert@letgo.com"
+
+                        myUser = MockMyUser()
+                        myUser.email = email
+                        sessionManager.myUserResult = SessionMyUserResult(value: myUser)
+
+                        sut.email = email
+                        sut.password = "123456"
+                        sut.logIn()
+                    }
+
+                    it("saves letgo as previous user account provider") {
+                        let provider = keyValueStorage[.previousUserAccountProvider]
+                        expect(provider) == "letgo"
+                    }
+                    it("saves the user email as previous email") {
+                        let username = keyValueStorage[.previousUserEmailOrName]
+                        expect(username) == myUser.email
+                    }
+                }
+
+                context("error") {
+                    beforeEach {
+                        let email = "albert@letgo.com"
+                        sessionManager.myUserResult = SessionMyUserResult(error: .Network)
+
+                        sut.email = email
+                        sut.password = "123456"
+                        sut.logIn()
+                    }
+
+                    it("does not save a user account provider") {
+                        let provider = keyValueStorage[.previousUserAccountProvider]
+                        expect(provider).to(beNil())
+                    }
+                    it("does not save a previous user name") {
+                        let username = keyValueStorage[.previousUserEmailOrName]
+                        expect(username).to(beNil())
                     }
                 }
             }
