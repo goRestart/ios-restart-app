@@ -72,6 +72,8 @@
 "chat_deleted_disclaimer_w_name" = "Вы не можете продолжать чат, так как аккаунт %@ больше не активен.";
 "chat_deleted_disclaimer_wo_name" = "Вы не можете продолжать чат, так как этот аккаунт больше не активен.";
 "chat_disclaimer_letgo_team" = "КОМАНДА LETGO";
+"chat_express_banner_button_title" = "See Deals";
+"chat_express_banner_title" = "Related deals near you";
 "chat_express_contact_one_button_text" = "Связаться с продавцом";
 "chat_express_contact_sellers_label" = "Свяжитесь с продавцами, пока другие покупатели не перехватили товар!";
 "chat_express_contact_various_button_text" = "Связаться с продавцами %@";

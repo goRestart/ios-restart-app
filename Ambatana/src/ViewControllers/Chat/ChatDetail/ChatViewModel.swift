@@ -73,6 +73,12 @@ class ChatViewModel: BaseViewModel {
     var relatedProducts: [Product] = []
     var shouldTrackFirstMessage: Bool = false
 
+    var shouldShowExpressBanner = Variable<Bool>(false)
+    var firstInteractionDone = Variable<Bool>(false)
+    var expressBannerTimerFinished = Variable<Bool>(false)
+    var hasRelatedProducts = Variable<Bool>(false)
+    var expressMessagesAlreadySent = Variable<Bool>(false)
+
     private var buyerId: String? {
         let myUserId = myUserRepository.myUser?.objectId
         let interlocutorId = conversation.value.interlocutor?.objectId
@@ -146,7 +152,9 @@ class ChatViewModel: BaseViewModel {
     private let tracker: Tracker
     private let configManager: ConfigManager
     private let sessionManager: SessionManager
-    
+    private let keyValueStorage: KeyValueStorage
+
+
     private var isDeleted = false
     private var shouldAskProductSold: Bool = false
     private var isSendingQuickAnswer = false
@@ -184,11 +192,12 @@ class ChatViewModel: BaseViewModel {
         let stickersRepository = Core.stickersRepository
         let configManager = ConfigManager.sharedInstance
         let sessionManager = Core.sessionManager
+        let keyValueStorage = KeyValueStorage.sharedInstance
 
         self.init(conversation: conversation, myUserRepository: myUserRepository, chatRepository: chatRepository,
                   productRepository: productRepository, userRepository: userRepository,
                   stickersRepository: stickersRepository, tracker: tracker, configManager: configManager,
-                  sessionManager: sessionManager, navigator: navigator)
+                  sessionManager: sessionManager, keyValueStorage: keyValueStorage, navigator: navigator)
     }
     
     convenience init?(product: Product, navigator: ChatDetailNavigator?) {
@@ -202,6 +211,7 @@ class ChatViewModel: BaseViewModel {
         let tracker = TrackerProxy.sharedInstance
         let configManager = ConfigManager.sharedInstance
         let sessionManager = Core.sessionManager
+        let keyValueStorage = KeyValueStorage.sharedInstance
 
         let amISelling = myUserRepository.myUser?.objectId == sellerId
         let empty = EmptyConversation(objectId: nil, unreadMessageCount: 0, lastMessageSentAt: nil, product: nil,
@@ -209,13 +219,14 @@ class ChatViewModel: BaseViewModel {
         self.init(conversation: empty, myUserRepository: myUserRepository, chatRepository: chatRepository,
                   productRepository: productRepository, userRepository: userRepository,
                   stickersRepository: stickersRepository ,tracker: tracker, configManager: configManager,
-                  sessionManager: sessionManager, navigator: navigator)
+                  sessionManager: sessionManager, keyValueStorage: keyValueStorage, navigator: navigator)
         self.setupConversationFromProduct(product)
     }
     
     init(conversation: ChatConversation, myUserRepository: MyUserRepository, chatRepository: ChatRepository,
           productRepository: ProductRepository, userRepository: UserRepository, stickersRepository: StickersRepository,
-          tracker: Tracker, configManager: ConfigManager, sessionManager: SessionManager, navigator: ChatDetailNavigator?) {
+          tracker: Tracker, configManager: ConfigManager, sessionManager: SessionManager, keyValueStorage: KeyValueStorage,
+          navigator: ChatDetailNavigator?) {
         self.conversation = Variable<ChatConversation>(conversation)
         self.myUserRepository = myUserRepository
         self.chatRepository = chatRepository
@@ -224,6 +235,8 @@ class ChatViewModel: BaseViewModel {
         self.tracker = tracker
         self.configManager = configManager
         self.sessionManager = sessionManager
+        self.keyValueStorage = keyValueStorage
+
         self.stickersRepository = stickersRepository
         self.chatViewMessageAdapter = ChatViewMessageAdapter()
         self.navigator = navigator
@@ -236,6 +249,8 @@ class ChatViewModel: BaseViewModel {
         refreshChatInfo()
         if firstTime {
             retrieveRelatedProducts()
+            launchExpressChatTimer()
+            expressMessagesAlreadySent.value = expressChatMessageSentForCurrentProduct()
         }
     }
 
@@ -262,7 +277,7 @@ class ChatViewModel: BaseViewModel {
         guard isBuyer else { return }
         guard !relatedProducts.isEmpty else { return }
         guard let productId = conversation.value.product?.objectId else { return }
-        navigator?.openExpressChat(relatedProducts, sourceProductId: productId)
+        navigator?.openExpressChat(relatedProducts, sourceProductId: productId, forcedOpen: false)
     }
 
     func setupConversationFromProduct(product: Product) {
@@ -374,7 +389,23 @@ class ChatViewModel: BaseViewModel {
         
         Observable.combineLatest(isEmptyMyMessages, isEmptyOtherMessages) { $0 && $1 }
             .bindTo(isEmptyConversation).addDisposableTo(disposeBag)
-        
+
+        let expressBannerTriggered = Observable.combineLatest(firstInteractionDone.asObservable(),
+                                                              expressBannerTimerFinished.asObservable()) { $0 || $1 }
+        /**
+            Express chat banner is shown after 3 seconds or 1st interaction if:
+                - the product has related products
+                - we're not showing the related products already over the keyboard
+                - user hasn't SENT messages via express chat for this product
+         */
+        Observable.combineLatest(expressBannerTriggered,
+            hasRelatedProducts.asObservable(),
+            relatedProductsEnabled.asObservable(),
+        expressMessagesAlreadySent.asObservable()) { $0 && $1 && !$2 && !$3 }
+            .distinctUntilChanged().bindNext { [weak self] shouldShowBanner in
+                self?.shouldShowExpressBanner.value = shouldShowBanner && FeatureFlags.expressChatBanner
+        }.addDisposableTo(disposeBag)
+
         setupChatEventsRx()
     }
 
@@ -505,6 +536,11 @@ class ChatViewModel: BaseViewModel {
         KeyValueStorage.sharedInstance[.stickersTooltipAlreadyShown] = true
         stickersTooltipVisible.value = false
     }
+
+    func bannerActionButtonTapped() {
+        guard let productId = conversation.value.product?.objectId else { return }
+        navigator?.openExpressChat(relatedProducts, sourceProductId: productId, forcedOpen: true)
+    }
 }
 
 
@@ -591,6 +627,7 @@ extension ChatViewModel {
     }
 
     private func afterSendMessageEvents() {
+        firstInteractionDone.value = true
         if shouldAskProductSold {
             shouldAskProductSold = false
             let action = UIAction(interface: UIActionInterface.Text(LGLocalizedString.directAnswerSoldQuestionOk),
@@ -1249,6 +1286,7 @@ extension ChatViewModel {
             guard let strongSelf = self else { return }
             if let value = result.value {
                 strongSelf.relatedProducts = strongSelf.relatedWithoutMyProducts(value)
+                strongSelf.updateExpressChatBanner()
             }
         }
     }
@@ -1262,5 +1300,28 @@ extension ChatViewModel {
             }
         }
         return cleanRelatedProducts
+    }
+
+    // Express Chat Banner methods
+
+    private func updateExpressChatBanner() {
+        hasRelatedProducts.value = !relatedProducts.isEmpty
+    }
+
+    private func launchExpressChatTimer() {
+        let _ = NSTimer.scheduledTimerWithTimeInterval(3.0, target: self, selector: #selector(updateBannerTimerStatus),
+                                                       userInfo: nil, repeats: false)
+    }
+
+    private dynamic func updateBannerTimerStatus() {
+        expressBannerTimerFinished.value = true
+    }
+
+    private func expressChatMessageSentForCurrentProduct() -> Bool {
+        guard let productId = conversation.value.product?.objectId else { return false }
+        for productSentId in keyValueStorage.userProductsWithExpressChatMessageSent {
+            if productSentId == productId { return true }
+        }
+        return false
     }
 }

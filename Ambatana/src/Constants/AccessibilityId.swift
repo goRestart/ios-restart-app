@@ -473,6 +473,11 @@ enum AccessibilityId: String {
     case ExpressChatCellProductTitle
     case ExpressChatCellProductPrice
     case ExpressChatCellTickSelected
+
+    // ExpressChatBanner
+    case ExpressChatBanner
+    case ExpressChatBannerActionButton
+    case ExpressChatBannerCloseButton
     
     // Pop-up alert. 
     case AcceptPopUpButton

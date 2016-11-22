@@ -226,6 +226,12 @@
 // When a user asked to delete his account (disclaimer message)
 "chat_deleted_disclaimer_wo_name" = "You can't continue this conversation because this account is no longer active.";
 
+// text in chat express banner action button
+"chat_express_banner_button_title" = "See Deals";
+
+// text in chat express banner title label
+"chat_express_banner_title" = "Related deals near you";
+
 // Express chat, don't miss out label text
 "chat_express_dont_miss_label" = "Don't miss out on these deals";
 

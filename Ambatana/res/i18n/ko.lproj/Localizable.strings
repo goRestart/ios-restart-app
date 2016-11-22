@@ -72,6 +72,8 @@
 "chat_deleted_disclaimer_w_name" = "%@의 계정이 비활성화 되었기 때문에 사용자께서는 이 대화를 진행하실 수 없습니다.";
 "chat_deleted_disclaimer_wo_name" = "이 계정이 비활성화 되었기 때문에 사용자께서는 이 대화를 진행하실 수 없습니다.";
 "chat_disclaimer_letgo_team" = "LETGO 팀";
+"chat_express_banner_button_title" = "See Deals";
+"chat_express_banner_title" = "Related deals near you";
 "chat_express_contact_one_button_text" = "1 판매자에게 연락하기";
 "chat_express_contact_sellers_label" = "다른 구매자가 사가기 전에, 구매자에게 연락해보세요!";
 "chat_express_contact_various_button_text" = "%@ 판매자들에게 연락하기";

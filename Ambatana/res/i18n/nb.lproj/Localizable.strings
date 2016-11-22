@@ -72,6 +72,8 @@
 "chat_deleted_disclaimer_w_name" = "Du kan ikke fortsette denne samtalen, fordi %@'s konto ikke lenger er aktiv.";
 "chat_deleted_disclaimer_wo_name" = "Du kan ikke fortsette denne samtalen, fordi denne kontoen ikke lenger er aktiv.";
 "chat_disclaimer_letgo_team" = "LETGO TEAMET";
+"chat_express_banner_button_title" = "See Deals";
+"chat_express_banner_title" = "Related deals near you";
 "chat_express_contact_one_button_text" = "Kontakt 1 selger";
 "chat_express_contact_sellers_label" = "Kontakt disse selgere før andre kjøpere får sjansen!";
 "chat_express_contact_various_button_text" = "Kontakt %@ selgere";

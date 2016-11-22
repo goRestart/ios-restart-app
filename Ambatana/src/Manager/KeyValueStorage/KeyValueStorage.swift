@@ -224,6 +224,18 @@ extension KeyValueStorage {
         }
     }
 
+    var userProductsWithExpressChatMessageSent: [String] {
+        get {
+            return currentUserProperties?.productsWithExpressChatMessageSent ??
+                UserDefaultsUser.productsWithExpressChatMessageSentDefaultValue
+        }
+        set {
+            guard var userProperties = currentUserProperties else { return }
+            userProperties.productsWithExpressChatMessageSent = newValue
+            currentUserProperties = userProperties
+        }
+    }
+
     var userMarketingNotifications: Bool {
         get {
             return currentUserProperties?.marketingNotifications ??

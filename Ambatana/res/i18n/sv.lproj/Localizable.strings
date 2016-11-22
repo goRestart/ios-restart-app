@@ -72,6 +72,8 @@
 "chat_deleted_disclaimer_w_name" = "Du kan inte fortsätta denna konversation, för %@s konto är inte längre aktivt.";
 "chat_deleted_disclaimer_wo_name" = "Du kan inte fortsätta den här konversationen för detta konto är inte längre aktivt.";
 "chat_disclaimer_letgo_team" = "LETGO-TEAMET";
+"chat_express_banner_button_title" = "See Deals";
+"chat_express_banner_title" = "Related deals near you";
 "chat_express_contact_one_button_text" = "Kontakta 1 säljare";
 "chat_express_contact_sellers_label" = "Kontakta dessa säljare innan andra köpare hittar dem!";
 "chat_express_contact_various_button_text" = "Kontakta %@ säljare";
