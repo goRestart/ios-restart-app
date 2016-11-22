@@ -35,6 +35,7 @@ class PostProductDetailViewModel: BaseViewModel {
         return description.value.isEmpty ? nil : description.value
     }
 
+    var featureFlags: FeatureFlags
     let currencySymbol: String?
 
     var freeOptionAvailable: Bool {

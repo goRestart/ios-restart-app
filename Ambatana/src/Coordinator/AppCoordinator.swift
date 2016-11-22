@@ -84,7 +84,7 @@ final class AppCoordinator: NSObject {
                   productRepository: productRepository, userRepository: userRepository, myUserRepository: myUserRepository,
                   oldChatRepository: oldChatRepository, chatRepository: chatRepository,
                   commercializerRepository: commercializerRepository, userRatingRepository: userRatingRepository,
-                  locationManager: locationManager, locationManager: locationManager)
+                  locationManager: locationManager, featureFlags: featureFlags)
         tabBarViewModel.navigator = self
     }
 
@@ -94,7 +94,7 @@ final class AppCoordinator: NSObject {
          bubbleManager: BubbleNotificationManager, tracker: Tracker, productRepository: ProductRepository,
          userRepository: UserRepository, myUserRepository: MyUserRepository, oldChatRepository: OldChatRepository,
          chatRepository: ChatRepository, commercializerRepository: CommercializerRepository,
-         userRatingRepository: UserRatingRepository, locationManager: LocationManager, locationManager: locationManager) {
+         userRatingRepository: UserRatingRepository, locationManager: LocationManager, featureFlags: FeatureFlags) {
 
         self.tabBarCtl = tabBarController
         self.selectedTab = Variable<Tab>(.Home)

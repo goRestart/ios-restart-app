@@ -183,9 +183,9 @@ class PostProductCameraViewModel: BaseViewModel {
     }
     
     private func setupFirstShownLiterals() {
-        firstTimeTitle = FeatureFlags.directPostInOnboarding ? LGLocalizedString.onboardingDirectCameraAlertTitle :
+        firstTimeTitle = featureFlags.directPostInOnboarding ? LGLocalizedString.onboardingDirectCameraAlertTitle :
             LGLocalizedString.productPostCameraFirstTimeAlertTitle
-        firstTimeSubtitle = FeatureFlags.directPostInOnboarding ? LGLocalizedString.onboardingDirectCameraAlertSubtitle :
+        firstTimeSubtitle = featureFlags.directPostInOnboarding ? LGLocalizedString.onboardingDirectCameraAlertSubtitle :
             LGLocalizedString.productPostCameraFirstTimeAlertSubtitle
     }
 

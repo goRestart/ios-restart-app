@@ -215,14 +215,14 @@ class ChatViewModel: BaseViewModel {
         let configManager = ConfigManager.sharedInstance
         let sessionManager = Core.sessionManager
         let keyValueStorage = KeyValueStorage.sharedInstance
-
+        let featureFlags = FeatureFlags.sharedInstance
         let amISelling = myUserRepository.myUser?.objectId == sellerId
         let empty = EmptyConversation(objectId: nil, unreadMessageCount: 0, lastMessageSentAt: nil, product: nil,
                                       interlocutor: nil, amISelling: amISelling)
         self.init(conversation: empty, myUserRepository: myUserRepository, chatRepository: chatRepository,
                   productRepository: productRepository, userRepository: userRepository,
                   stickersRepository: stickersRepository ,tracker: tracker, configManager: configManager,
-                  sessionManager: sessionManager, keyValueStorage: keyValueStorage, navigator: navigator)
+                  sessionManager: sessionManager, keyValueStorage: keyValueStorage, navigator: navigator, featureFlags: featureFlags)
         self.setupConversationFromProduct(product)
     }
     
@@ -407,7 +407,8 @@ class ChatViewModel: BaseViewModel {
             relatedProductsEnabled.asObservable(),
         expressMessagesAlreadySent.asObservable()) { $0 && $1 && !$2 && !$3 }
             .distinctUntilChanged().bindNext { [weak self] shouldShowBanner in
-                self?.shouldShowExpressBanner.value = shouldShowBanner && FeatureFlags.expressChatBanner
+                guard let strongSelf = self else { return }
+                self?.shouldShowExpressBanner.value = shouldShowBanner && strongSelf.featureFlags.expressChatBanner
         }.addDisposableTo(disposeBag)
 
         setupChatEventsRx()

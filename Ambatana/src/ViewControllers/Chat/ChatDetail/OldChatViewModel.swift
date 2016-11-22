@@ -372,7 +372,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
                   productRepository: productRepository, userRepository: userRepository,
                   stickersRepository: stickersRepository, tracker: tracker,
                   configManager: configManager, sessionManager: sessionManager, navigator: navigator,
-                  keyValueStorage: keyValueStorage)
+                  keyValueStorage: keyValueStorage, featureFlags: featureFlags)
     }
 
     init?(chat: Chat, myUserRepository: MyUserRepository, chatRepository: OldChatRepository,
@@ -635,7 +635,8 @@ public class OldChatViewModel: BaseViewModel, Paginable {
             relatedProductsEnabled.asObservable(),
         expressMessagesAlreadySent.asObservable()) { $0 && $1 && !$2 && !$3 }
             .distinctUntilChanged().bindNext { [weak self] shouldShowBanner in
-                self?.shouldShowExpressBanner.value = shouldShowBanner && FeatureFlags.expressChatBanner
+                guard let strongSelf = self else { return }
+                self?.shouldShowExpressBanner.value = shouldShowBanner && strongSelf.featureFlags.expressChatBanner
         }.addDisposableTo(disposeBag)
 
         setupDeepLinksRx()

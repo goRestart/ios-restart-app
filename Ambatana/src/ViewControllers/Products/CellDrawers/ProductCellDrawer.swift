@@ -15,7 +15,6 @@ class ProductCellDrawer: BaseCollectionCellDrawer<ProductCell>, GridCellDrawer {
         }
         //TODO: Inject on productCellDrawer FeatureFlags. 
         if (FeatureFlags.sharedInstance.freePostingModeAllowed && model.isFree) {
-
             cell.setFreeStripe()
         }
     }

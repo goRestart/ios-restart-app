@@ -90,6 +90,7 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
     // viewModel
     private var viewModel : EditProductViewModel
     private var keyboardHelper: KeyboardHelper
+    private var featureFlags: FeatureFlags
     // Rx
     private let disposeBag = DisposeBag()
     
@@ -98,12 +99,13 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
     // MARK: - Lifecycle
     
     convenience init(viewModel: EditProductViewModel) {
-        self.init(viewModel: viewModel, keyboardHelper: KeyboardHelper.sharedInstance)
+        self.init(viewModel: viewModel, keyboardHelper: KeyboardHelper.sharedInstance, featureFlags: FeatureFlags.sharedInstance)
     }
     
-    required init(viewModel: EditProductViewModel, keyboardHelper: KeyboardHelper) {
+    required init(viewModel: EditProductViewModel, keyboardHelper: KeyboardHelper, featureFlags: FeatureFlags) {
         self.keyboardHelper = keyboardHelper
         self.viewModel = viewModel
+        self.featureFlags = featureFlags
         super.init(viewModel: viewModel, nibName: "EditProductViewController")
         self.viewModel.delegate = self
         automaticallyAdjustsScrollViewInsets = false

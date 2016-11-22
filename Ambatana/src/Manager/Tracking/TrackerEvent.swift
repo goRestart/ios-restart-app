@@ -363,8 +363,9 @@ public struct TrackerEvent {
     }
 
     static func productSellComplete(product: Product) -> TrackerEvent {
+        //TODO: Check how could we have featureFlags injected here. 
         return productSellComplete(product, buttonName: nil, sellButtonPosition: nil, negotiable: nil, pictureSource: nil,
-                                   freePostingModeAllowed: FeatureFlags.freePostingModeAllowed)
+                                   freePostingModeAllowed: FeatureFlags.sharedInstance.freePostingModeAllowed)
     }
 
     static func productSellComplete(product: Product, buttonName: EventParameterButtonNameType?,

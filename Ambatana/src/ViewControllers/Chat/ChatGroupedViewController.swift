@@ -255,7 +255,7 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
     private func setupUI() {
         //TODO: remove!!!!
         #if GOD_MODE
-        let chatType = FeatureFlags.websocketChat ? "New" : "Old"
+        let chatType = featureFlags.websocketChat ? "New" : "Old"
         let leftButton = UIBarButtonItem(title: chatType, style: .Plain, target: self, action: #selector(chatInfo))
         navigationItem.leftBarButtonItem = leftButton
         #endif

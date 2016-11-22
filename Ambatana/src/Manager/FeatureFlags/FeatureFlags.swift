@@ -27,6 +27,8 @@ protocol FeatureFlaggeable {
 
 struct FeatureFlags: FeatureFlaggeable {
     
+    static let sharedInstance: FeatureFlags = FeatureFlags()
+    
     private let locale: NSLocale
     private let locationManager: LocationManager
     
@@ -152,13 +154,13 @@ struct FeatureFlags: FeatureFlaggeable {
     // MARK: - Country features
 
     var freePostingModeAllowed: Bool {
-        return !FeatureFlags.matchesLocationOrRegion("tr")
+        return !matchesLocationOrRegion("tr")
     }
     
     // MARK: - Private
     
     /// Checks location & phone region.
-    private func matchesLocationOrRegion(code: String, locale: locale, locationManager: locationManager) -> Bool {
+    private func matchesLocationOrRegion(code: String) -> Bool {
         let systemCountryCode = locale.lg_countryCode
         let countryCode = (locationManager.currentPostalAddress?.countryCode ?? systemCountryCode).lowercaseString
         return systemCountryCode == code || countryCode == code
