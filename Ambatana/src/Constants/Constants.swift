@@ -40,7 +40,8 @@ struct Constants {
 
     
     // Tab bar
-    static let tabBarSellFloatingButtonHeight: CGFloat = 70
+    static let tabBarSellFloatingButtonHeight: CGFloat = 50
+    static let tabBarSellFloatingButtonMargin: CGFloat = 15
     
     // Product List
     static let productListMaxDistanceLabel = 20
