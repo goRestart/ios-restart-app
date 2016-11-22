@@ -12,22 +12,17 @@ import LGCoreKit
 class FBLoginHelper {
     private static let fbPermissions = ["email", "public_profile", "user_friends", "user_birthday", "user_likes"]
 
-    private let tracker: Tracker
-    private let loginSource: EventParameterLoginSourceValue
     private let sessionManager: SessionManager
 
 
     // MARK: - Lifecycle
 
-    convenience init(loginSource: EventParameterLoginSourceValue) {
+    convenience init() {
         let sessionManager = Core.sessionManager
-        let tracker = TrackerProxy.sharedInstance
-        self.init(sessionManager: sessionManager, tracker: tracker, loginSource: loginSource)
+        self.init(sessionManager: sessionManager)
     }
 
-    init(sessionManager: SessionManager, tracker: Tracker, loginSource: EventParameterLoginSourceValue) {
-        self.tracker = tracker
-        self.loginSource = loginSource
+    init(sessionManager: SessionManager) {
         self.sessionManager = sessionManager
     }
 }
@@ -67,10 +62,6 @@ extension FBLoginHelper: ExternalAuthHelper {
                 authCompletion?()
                 self?.sessionManager.loginFacebook(token, completion: { result in
                     if let myUser = result.value {
-                        if let loginSource = self?.loginSource {
-                            let trackerEvent = TrackerEvent.loginFB(loginSource)
-                            self?.tracker.trackEvent(trackerEvent)
-                        }
                         loginCompletion?(.Success(myUser: myUser))
                     } else if let error = result.error {
                         loginCompletion?(ExternalServiceAuthResult(sessionError: error))

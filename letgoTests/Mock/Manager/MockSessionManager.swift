@@ -20,35 +20,35 @@ class MockSessionManager: SessionManager {
 
     func signUp(email: String, password: String, name: String, newsletter: Bool?,
                 completion: SessionMyUserCompletion?) {
-        completion?(myUserResult)
+        performAfterDelayWithCompletion(completion, result: myUserResult)
     }
 
     func signUp(email: String, password: String, name: String, newsletter: Bool?, recaptchaToken: String,
                 completion: SessionMyUserCompletion?) {
-        completion?(myUserResult)
+        performAfterDelayWithCompletion(completion, result: myUserResult)
     }
 
     func login(email: String, password: String, completion: SessionMyUserCompletion?) {
-        completion?(myUserResult)
+        performAfterDelayWithCompletion(completion, result: myUserResult)
     }
 
     func loginFacebook(token: String, completion: SessionMyUserCompletion?) {
-        completion?(myUserResult)
+        performAfterDelayWithCompletion(completion, result: myUserResult)
     }
 
     func loginGoogle(token: String, completion: SessionMyUserCompletion?) {
-        completion?(myUserResult)
+        performAfterDelayWithCompletion(completion, result: myUserResult)
     }
 
     func recoverPassword(email: String, completion: SessionEmptyCompletion?) {
-        completion?(resetPasswordResult)
+        performAfterDelayWithCompletion(completion, result: resetPasswordResult)
     }
 
     func logout() {
     }
 
     func connectChat(completion: SessionEmptyCompletion?) {
-        completion?(connectChatResult)
+        performAfterDelayWithCompletion(completion, result: connectChatResult)
     }
 
     func disconnectChat() {

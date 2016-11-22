@@ -12,22 +12,17 @@ import LGCoreKit
 
 class GoogleLoginHelper: NSObject {
     private var googleSignInCompletion: ExternalAuthTokenRetrievalCompletion?
-    private let tracker: Tracker
-    private let loginSource: EventParameterLoginSourceValue
     private let sessionManager: SessionManager
     
     
     // MARK: - Lifecycle
-    
-    convenience init(loginSource: EventParameterLoginSourceValue) {
+
+    convenience override init() {
         let sessionManager = Core.sessionManager
-        let tracker = TrackerProxy.sharedInstance
-        self.init(sessionManager: sessionManager, tracker: tracker, loginSource: loginSource)
+        self.init(sessionManager: sessionManager)
     }
     
-    init(sessionManager: SessionManager, tracker: Tracker, loginSource: EventParameterLoginSourceValue) {
-        self.tracker = tracker
-        self.loginSource = loginSource
+    init(sessionManager: SessionManager) {
         self.sessionManager = sessionManager
     }
 }
@@ -75,12 +70,8 @@ extension GoogleLoginHelper: ExternalAuthHelper {
             switch result {
             case let .Success(serverAuthCode):
                 authCompletion?()
-                self?.sessionManager.loginGoogle(serverAuthCode) { [weak self] result in
+                self?.sessionManager.loginGoogle(serverAuthCode) { result in
                     if let myUser = result.value {
-                        if let loginSource = self?.loginSource {
-                            let trackerEvent = TrackerEvent.loginGoogle(loginSource)
-                            self?.tracker.trackEvent(trackerEvent)
-                        }
                         loginCompletion?(.Success(myUser: myUser))
                     } else if let error = result.error {
                         loginCompletion?(ExternalServiceAuthResult(sessionError: error))

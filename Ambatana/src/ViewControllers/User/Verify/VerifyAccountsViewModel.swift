@@ -74,8 +74,8 @@ class VerifyAccountsViewModel: BaseViewModel {
 
     convenience init(verificationTypes: [VerificationType], source: VerifyAccountsSource, completionBlock: (() -> Void)?) {
         let myUserRepository = Core.myUserRepository
-        let googleHelper = GoogleLoginHelper(loginSource: source.loginSource)
-        let fbLoginHelper = FBLoginHelper(loginSource: source.loginSource)
+        let googleHelper = GoogleLoginHelper()
+        let fbLoginHelper = FBLoginHelper()
         let tracker = TrackerProxy.sharedInstance
         self.init(verificationTypes: verificationTypes, source: source, myUserRepository: myUserRepository,
                   googleHelper: googleHelper, fbLoginHelper: fbLoginHelper, tracker: tracker,

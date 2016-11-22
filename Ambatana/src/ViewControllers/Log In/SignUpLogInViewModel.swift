@@ -47,6 +47,7 @@ public class SignUpLogInViewModel: BaseViewModel {
     let fbLoginHelper: ExternalAuthHelper
     let tracker: Tracker
     let keyValueStorage: KeyValueStorageable
+    let locale: NSLocale
 
     weak var delegate: SignUpLogInViewModelDelegate?
     
@@ -125,7 +126,7 @@ public class SignUpLogInViewModel: BaseViewModel {
     // MARK: - Lifecycle
     
     init(sessionManager: SessionManager, locationManager: LocationManager, keyValueStorage: KeyValueStorageable,
-         googleLoginHelper: ExternalAuthHelper, fbLoginHelper: ExternalAuthHelper, tracker: Tracker,
+         googleLoginHelper: ExternalAuthHelper, fbLoginHelper: ExternalAuthHelper, tracker: Tracker, locale: NSLocale,
          source: EventParameterLoginSourceValue, action: LoginActionType) {
         self.sessionManager = sessionManager
         self.locationManager = locationManager
@@ -134,6 +135,7 @@ public class SignUpLogInViewModel: BaseViewModel {
         self.googleLoginHelper = googleLoginHelper
         self.fbLoginHelper = fbLoginHelper
         self.tracker = tracker
+        self.locale = locale
         self.username = ""
         self.email = ""
         self.password = ""
@@ -158,12 +160,13 @@ public class SignUpLogInViewModel: BaseViewModel {
         let sessionManager = Core.sessionManager
         let locationManager = Core.locationManager
         let keyValueStorage = KeyValueStorage.sharedInstance
-        let googleLoginHelper = GoogleLoginHelper(loginSource: source)
-        let fbLoginHelper = FBLoginHelper(loginSource: source)
+        let googleLoginHelper = GoogleLoginHelper()
+        let fbLoginHelper = FBLoginHelper()
         let tracker = TrackerProxy.sharedInstance
+        let locale = NSLocale.currentLocale()
         self.init(sessionManager: sessionManager, locationManager: locationManager, keyValueStorage: keyValueStorage,
                   googleLoginHelper: googleLoginHelper, fbLoginHelper: fbLoginHelper, tracker: tracker,
-                  source: source, action: action)
+                  locale: locale, source: source, action: action)
     }
     
     
@@ -294,21 +297,35 @@ public class SignUpLogInViewModel: BaseViewModel {
             guard let strongSelf = self else { return }
             strongSelf.delegate?.viewModelDidStartAuthWithExternalService(strongSelf)
         }, loginCompletion: { [weak self] result in
-            guard let error = self?.processExternalServiceAuthResult(result, accountProvider: .Facebook) else { return }
-            self?.trackLoginFBFailedWithError(error)
+            let error = self?.processExternalServiceAuthResult(result, accountProvider: .Facebook)
+            switch result {
+            case .Success:
+                self?.trackLoginFBOK()
+            default:
+                break
+            }
+            if let error = error {
+                self?.trackLoginFBFailedWithError(error)
+            }
         })
     }
 
     public func logInWithGoogle() {
-        
         googleLoginHelper.login({ [weak self] in
             // Google OAuth completed. Token obtained
             guard let strongSelf = self else { return }
             self?.delegate?.viewModelDidStartAuthWithExternalService(strongSelf)
         }) { [weak self] result in
-            // Login with Bouncer finished with success or fail
-            guard let error = self?.processExternalServiceAuthResult(result, accountProvider: .Google) else { return }
-            self?.trackLoginGoogleFailedWithError(error)
+            let error = self?.processExternalServiceAuthResult(result, accountProvider: .Google)
+            switch result {
+            case .Success:
+                self?.trackLoginGoogleOK()
+            default:
+                break
+            }
+            if let error = error {
+                self?.trackLoginGoogleFailedWithError(error)
+            }
         }
     }
 
@@ -339,7 +356,7 @@ public class SignUpLogInViewModel: BaseViewModel {
     private func checkTermsAndConditionsEnabled() {
         let turkey = "tr"
 
-        let systemCountryCode = NSLocale.currentLocale().lg_countryCode
+        let systemCountryCode = locale.lg_countryCode
         let countryCode = locationManager.currentPostalAddress?.countryCode ?? systemCountryCode
 
         termsAndConditionsEnabled = systemCountryCode == turkey || countryCode.lowercaseString == turkey
@@ -469,13 +486,21 @@ public class SignUpLogInViewModel: BaseViewModel {
     
     
     // MARK: - Trackings
-    
+
     private func trackLoginEmailFailedWithError(error: EventParameterLoginError) {
         tracker.trackEvent(TrackerEvent.loginEmailError(error))
     }
 
+    private func trackLoginFBOK() {
+        tracker.trackEvent(TrackerEvent.loginFB(loginSource))
+    }
+
     private func trackLoginFBFailedWithError(error: EventParameterLoginError) {
         tracker.trackEvent(TrackerEvent.loginFBError(error))
+    }
+
+    private func trackLoginGoogleOK() {
+        tracker.trackEvent(TrackerEvent.loginGoogle(loginSource))
     }
 
     private func trackLoginGoogleFailedWithError(error: EventParameterLoginError) {

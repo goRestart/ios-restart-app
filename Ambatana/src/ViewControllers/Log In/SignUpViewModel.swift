@@ -101,8 +101,8 @@ class SignUpViewModel: BaseViewModel {
         let sessionManager = Core.sessionManager
         let keyValueStorage = KeyValueStorage.sharedInstance
         let tracker = TrackerProxy.sharedInstance
-        let googleLoginHelper = GoogleLoginHelper(loginSource: source)
-        let fbLoginHelper = FBLoginHelper(loginSource: source)
+        let googleLoginHelper = GoogleLoginHelper()
+        let fbLoginHelper = FBLoginHelper()
         self.init(sessionManager: sessionManager, keyValueStorage: keyValueStorage, tracker: tracker,
                   appearance: appearance, source: source,
                   googleLoginHelper: googleLoginHelper, fbLoginHelper: fbLoginHelper)
@@ -112,13 +112,21 @@ class SignUpViewModel: BaseViewModel {
     // MARK: - Public methods
 
     func logInWithFacebook() {
-        fbLoginHelper.login({[weak self] in
+        fbLoginHelper.login({ [weak self] _ in
             guard let strongSelf = self else { return }
-            self?.delegate?.viewModelDidStartLoggingIn(strongSelf)
-        }, loginCompletion: { [weak self] result in
-            guard let error = self?.processAuthResult(result, accountProvider: .Facebook) else { return }
-            self?.trackLoginFBFailedWithError(error)
-        })
+            strongSelf.delegate?.viewModelDidStartLoggingIn(strongSelf)
+            }, loginCompletion: { [weak self] result in
+                let error = self?.processAuthResult(result, accountProvider: .Facebook)
+                switch result {
+                case .Success:
+                    self?.trackLoginFBOK()
+                default:
+                    break
+                }
+                if let error = error {
+                    self?.trackLoginFBFailedWithError(error)
+                }
+            })
     }
 
     func logInWithGoogle() {
@@ -126,11 +134,18 @@ class SignUpViewModel: BaseViewModel {
             // Google OAuth completed. Token obtained
             guard let strongSelf = self else { return }
             self?.delegate?.viewModelDidStartLoggingIn(strongSelf)
-        }, loginCompletion: { [weak self] result in
-            // Login with Bouncer finished with success or fail
-            guard let error = self?.processAuthResult(result, accountProvider: .Google) else { return }
-            self?.trackLoginGoogleFailedWithError(error)
-        })
+        }) { [weak self] result in
+            let error = self?.processAuthResult(result, accountProvider: .Google)
+            switch result {
+            case .Success:
+                self?.trackLoginGoogleOK()
+            default:
+                break
+            }
+            if let error = error {
+                self?.trackLoginGoogleFailedWithError(error)
+            }
+        }
     }
 
     func abandon() {
@@ -189,8 +204,16 @@ class SignUpViewModel: BaseViewModel {
         return loginError
     }
 
+    private func trackLoginFBOK() {
+        tracker.trackEvent(TrackerEvent.loginFB(loginSource))
+    }
+
     private func trackLoginFBFailedWithError(error: EventParameterLoginError) {
         tracker.trackEvent(TrackerEvent.loginFBError(error))
+    }
+
+    private func trackLoginGoogleOK() {
+        tracker.trackEvent(TrackerEvent.loginGoogle(loginSource))
     }
 
     private func trackLoginGoogleFailedWithError(error: EventParameterLoginError) {
