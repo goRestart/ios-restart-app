@@ -91,10 +91,10 @@ class SignUpViewModel: BaseViewModel {
         self.previousGoogleUsername = Variable<String?>(nil)
         super.init()
 
-        updatePreviousEmailAndUsernamesFromKeyValueStorage()
+        let rememberedAccount = updatePreviousEmailAndUsernamesFromKeyValueStorage()
 
         // Tracking
-        tracker.trackEvent(TrackerEvent.loginVisit(loginSource))
+        tracker.trackEvent(TrackerEvent.loginVisit(loginSource, rememberedAccount: rememberedAccount))
     }
     
     convenience init(appearance: LoginAppearance, source: EventParameterLoginSourceValue) {
@@ -227,12 +227,13 @@ class SignUpViewModel: BaseViewModel {
 // MARK: > Previous user name
 
 private extension SignUpViewModel {
-    private func updatePreviousEmailAndUsernamesFromKeyValueStorage() {
+    private func updatePreviousEmailAndUsernamesFromKeyValueStorage() -> Bool {
         guard let accountProviderString = keyValueStorage[.previousUserAccountProvider],
-            accountProvider = AccountProvider(rawValue: accountProviderString) else { return }
+            accountProvider = AccountProvider(rawValue: accountProviderString) else { return false }
 
         let username = keyValueStorage[.previousUserEmailOrName]
         updatePreviousEmailAndUsernames(accountProvider, username: username)
+        return true
     }
 
     private func updatePreviousEmailAndUsernames(accountProvider: AccountProvider, username: String?) {

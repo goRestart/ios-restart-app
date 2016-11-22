@@ -44,9 +44,9 @@ public struct TrackerEvent {
         return TrackerEvent(name: .Location, params: params)
     }
 
-    static func loginVisit(source: EventParameterLoginSourceValue) -> TrackerEvent {
+    static func loginVisit(source: EventParameterLoginSourceValue, rememberedAccount: Bool) -> TrackerEvent {
         var params = EventParameters()
-        params.addLoginParams(source)
+        params.addLoginParams(source, rememberedAccount: rememberedAccount)
         return TrackerEvent(name: .LoginVisit, params: params)
     }
 
