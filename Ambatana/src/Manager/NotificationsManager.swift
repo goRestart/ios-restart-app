@@ -75,9 +75,9 @@ class NotificationsManager {
 
     func setup() {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(login),
-                                                         name: SessionManager.Notification.Login.rawValue, object: nil)
+                                                         name: SessionNotification.Login.rawValue, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(logout),
-                                                         name: SessionManager.Notification.Logout.rawValue, object: nil)
+                                                         name: SessionNotification.Logout.rawValue, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(applicationWillEnterForeground),
                                                          name: UIApplicationWillEnterForegroundNotification, object: nil)
         setupRxBindings()

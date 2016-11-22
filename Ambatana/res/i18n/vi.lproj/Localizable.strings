@@ -72,6 +72,8 @@
 "chat_deleted_disclaimer_w_name" = "Bạn không thể tiếp tục cuộc trò chuyện này bởi tài khoản của %@ không còn hoạt động.";
 "chat_deleted_disclaimer_wo_name" = "Bạn không thể tiếp tục cuộc trò chuyện này bởi tài khoản này không còn hoạt động.";
 "chat_disclaimer_letgo_team" = "ĐỘI NGŨ LETGO";
+"chat_express_banner_button_title" = "See Deals";
+"chat_express_banner_title" = "Related deals near you";
 "chat_express_contact_one_button_text" = "Liên hệ 1 người bán";
 "chat_express_contact_sellers_label" = "Liên lạc với người bán trước khi người mua khác mua được";
 "chat_express_contact_various_button_text" = "Liên hệ %@ người bán";

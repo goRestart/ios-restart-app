@@ -94,9 +94,8 @@ class UserStatusesProductListRequester: UserProductListRequester {
     }
     
     private func productsRetrieval(completion: ProductsCompletion?) {
-        guard let params = retrieveProductsParams else { return }
         guard let userId = userObjectId else { return  }
-        productRepository.index(userId: userId, params: params, pageOffset: offset) { [weak self] result in
+        productRepository.index(userId: userId, params: retrieveProductsParams) { [weak self] result in
             if let products = result.value where !products.isEmpty {
                 self?.offset += products.count
                 //User posted previously -> Store it
@@ -119,8 +118,9 @@ class UserStatusesProductListRequester: UserProductListRequester {
         return r
     }
 
-    private var retrieveProductsParams: RetrieveProductsParams? {
+    private var retrieveProductsParams: RetrieveProductsParams {
         var params: RetrieveProductsParams = RetrieveProductsParams()
+        params.offset = offset
         params.numProducts = itemsPerPage
         if let currentLocation = locationManager.currentLocation {
             params.coordinates = LGLocationCoordinates2D(location: currentLocation)

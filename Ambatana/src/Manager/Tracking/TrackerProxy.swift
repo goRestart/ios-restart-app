@@ -46,18 +46,18 @@ final class TrackerProxy: Tracker {
         self.trackers = trackers
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(locationUpdate),
-            name: LocationManager.Notification.LocationUpdate.rawValue, object: nil)
+            name: LocationNotification.LocationUpdate.rawValue, object: nil)
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(sessionUpdate),
-            name: SessionManager.Notification.Login.rawValue, object: nil)
+            name: SessionNotification.Login.rawValue, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(sessionUpdate),
-            name: SessionManager.Notification.Logout.rawValue, object: nil)
+            name: SessionNotification.Logout.rawValue, object: nil)
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(installationCreate),
-            name: InstallationRepository.Notification.Create.rawValue, object: nil)
+            name: InstallationNotification.Create.rawValue, object: nil)
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(locationManagerDidChangeAuthorization),
-            name: LocationManager.Notification.LocationDidChangeAuthorization.rawValue, object: nil)
+            name: LocationNotification.LocationDidChangeAuthorization.rawValue, object: nil)
     }
 
 

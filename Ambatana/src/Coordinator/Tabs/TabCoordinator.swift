@@ -315,10 +315,10 @@ private extension TabCoordinator {
             }
             switch data {
             case let .Conversation(conversationId):
-                oldChatRepository.retrieveMessagesWithConversationId(conversationId,
+                oldChatRepository.retrieveMessagesWithConversationId(conversationId, page: 0,
                                                     numResults: Constants.numMessagesPerPage, completion: completion)
             case let .ProductBuyer(productId, buyerId):
-                oldChatRepository.retrieveMessagesWithProductId(productId, buyerId: buyerId,
+                oldChatRepository.retrieveMessagesWithProductId(productId, buyerId: buyerId, page: 0,
                                                     numResults: Constants.numMessagesPerPage, completion: completion)
             }
         }
@@ -379,8 +379,8 @@ extension TabCoordinator: ChatDetailNavigator {
         navigationController.popViewControllerAnimated(true)
     }
 
-    func openExpressChat(products: [Product], sourceProductId: String) {
-        guard let expressChatCoordinator = ExpressChatCoordinator(products: products, sourceProductId: sourceProductId) else { return }
+    func openExpressChat(products: [Product], sourceProductId: String, forcedOpen: Bool) {
+        guard let expressChatCoordinator = ExpressChatCoordinator(products: products, sourceProductId: sourceProductId, forcedOpen: forcedOpen) else { return }
         expressChatCoordinator.delegate = self
         openCoordinator(coordinator: expressChatCoordinator, parent: rootViewController, animated: true, completion: nil)
     }

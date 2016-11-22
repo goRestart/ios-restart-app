@@ -72,6 +72,8 @@
 "chat_deleted_disclaimer_w_name" = "Δεν μπορείτε να συνεχίσετε αυτή τη συνομιλία επειδή ο λογαριασμός του %@ δεν είναι πια ενεργός.";
 "chat_deleted_disclaimer_wo_name" = "Δεν μπορείτε να συνεχίσετε αυτή τη συνομιλία επειδή ο λογαριασμός αυτός δεν είναι πια ενεργός.";
 "chat_disclaimer_letgo_team" = "ΟΜΑΔΑ LETGO";
+"chat_express_banner_button_title" = "See Deals";
+"chat_express_banner_title" = "Related deals near you";
 "chat_express_contact_one_button_text" = "Επικοινωνία με 1 πωλητή";
 "chat_express_contact_sellers_label" = "Επικοινωνήστε με αυτούς τους πωλητές πριν σας προλάβουν άλλοι αγοραστές!";
 "chat_express_contact_various_button_text" = "Επικοινωνία με %@ πωλητές";

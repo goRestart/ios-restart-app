@@ -72,6 +72,8 @@
 "chat_deleted_disclaimer_w_name" = "Du kannst dieses Gespräch nicht fortführen, weil das Benutzerkonto von %@ nicht mehr aktiv ist.";
 "chat_deleted_disclaimer_wo_name" = "Du kannst dieses Gespräch nicht fortführen, weil dieses Benutzerkonto nicht mehr aktiv ist.";
 "chat_disclaimer_letgo_team" = "LETGO-TEAM";
+"chat_express_banner_button_title" = "See Deals";
+"chat_express_banner_title" = "Related deals near you";
 "chat_express_contact_one_button_text" = "Kontaktiere 1 Verkäufer";
 "chat_express_contact_sellers_label" = "Schreibe den Verkäufer an, bevor jemand anderes sie wegschnappt!";
 "chat_express_contact_various_button_text" = "Kontaktiere %@ Verkäufer";

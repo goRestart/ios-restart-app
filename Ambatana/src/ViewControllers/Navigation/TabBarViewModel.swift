@@ -106,7 +106,7 @@ class TabBarViewModel: BaseViewModel {
             .map { $0.flatMap { $0 > 0 ? String($0) : nil } }
             .bindTo(chatsBadge).addDisposableTo(disposeBag)
 
-        Observable.combineLatest(myUserRepository.rx_myUser.asObservable(),
+        Observable.combineLatest(myUserRepository.rx_myUser,
             notificationsManager.unreadNotificationsCount.asObservable(),
             resultSelector: { [weak self] (myUser, count) in
                 guard let strongSelf = self else { return nil }

@@ -72,6 +72,8 @@
 "chat_deleted_disclaimer_w_name" = "You can't continue this conversation because %@'s account is no longer active.";
 "chat_deleted_disclaimer_wo_name" = "You can't continue this conversation because this account is no longer active.";
 "chat_disclaimer_letgo_team" = "LETGO TEAM";
+"chat_express_banner_button_title" = "See Deals";
+"chat_express_banner_title" = "Related deals near you";
 "chat_express_contact_one_button_text" = "Contact 1 seller";
 "chat_express_contact_sellers_label" = "Contact these sellers before other buyers snatch them up!";
 "chat_express_contact_various_button_text" = "Contact %@ sellers";

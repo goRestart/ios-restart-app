@@ -134,6 +134,13 @@ public class FeatureFlags: FeatureFlaggeable {
         return ABTests.showLiquidProductsToNewUser.value
     }
 
+    static var expressChatBanner: Bool {
+        if Bumper.enabled {
+            return Bumper.expressChatBanner
+        }
+        return ABTests.expressChatBanner.value
+    }
+
     
     // MARK: - Private
 

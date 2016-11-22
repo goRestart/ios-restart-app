@@ -113,7 +113,7 @@ extension ChatHeadManager {
 
     func setupRx() {
         // Overlay is hidden while logged out
-        let loggedOut = myUserRepository.rx_myUser.asObservable()
+        let loggedOut = myUserRepository.rx_myUser
             .map { $0 == nil }
             .distinctUntilChanged()
         Observable

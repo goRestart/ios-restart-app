@@ -13,7 +13,7 @@ import RxSwift
 import Argo
 
 protocol ApiClient: class {
-    weak var sessionManager: SessionManager? { get }
+    weak var sessionManager: InternalSessionManager? { get }
     weak var installationRepository: InstallationRepository? { get }
 
     var tokenDAO: TokenDAO { get }
