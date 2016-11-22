@@ -353,6 +353,8 @@ public enum EventParameterMessageType: String {
     case Offer      = "offer"
     case Sticker    = "sticker"
     case Favorite   = "favorite"
+    case QuickAnswer = "quick-answer"
+    case ExpressChat = "express-chat"
 }
 
 public enum EventParameterLoginError {

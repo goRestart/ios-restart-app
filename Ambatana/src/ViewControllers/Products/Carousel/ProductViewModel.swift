@@ -462,7 +462,7 @@ extension ProductViewModel {
 
     func sendDirectMessage(text: String) {
         ifLoggedInRunActionElseOpenChatSignup { [weak self] in
-            self?.sendMessage(.Text(text), favorite: false)
+            self?.sendMessage(.Text(text))
         }
     }
 
@@ -494,7 +494,7 @@ extension ProductViewModel {
 
     func sendSticker(sticker: Sticker) {
         ifLoggedInRunActionElseOpenChatSignup { [weak self] in
-            self?.sendMessage(.ChatSticker(sticker), favorite: false)
+            self?.sendMessage(.ChatSticker(sticker))
         }
     }
 
@@ -886,7 +886,7 @@ extension ProductViewModel {
         }
     }
 
-    private func sendMessage(type: ChatWrapperMessageType, favorite: Bool) {
+    private func sendMessage(type: ChatWrapperMessageType) {
         // Optimistic behavior
         let message = LocalMessage(type: type, userId: myUserRepository.myUser?.objectId)
         let messageView = chatViewMessageAdapter.adapt(message)
@@ -895,7 +895,7 @@ extension ProductViewModel {
         chatWrapper.sendMessageForProduct(product.value, type: type) {
             [weak self] result in
             if let firstMessage = result.value {
-                self?.trackHelper.trackMessageSent(firstMessage, fromFavorite: favorite, messageType: type.chatType)
+                self?.trackHelper.trackMessageSent(firstMessage, messageType: type.chatType)
             } else if let error = result.error {
                 switch error {
                 case .Forbidden:
@@ -961,7 +961,7 @@ private extension ProductViewModel {
     }
 
     private func sendFavoriteMessage() {
-        sendMessage(.Text(LGLocalizedString.productFavoriteDirectMessage), favorite: true)
+        sendMessage(.FavoritedProduct(LGLocalizedString.productFavoriteDirectMessage))
         favoriteMessageSent = true
     }
 }

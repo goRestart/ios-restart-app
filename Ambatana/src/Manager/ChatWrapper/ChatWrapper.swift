@@ -16,6 +16,9 @@ public typealias ChatWrapperCompletion = ChatWrapperResult -> Void
 enum ChatWrapperMessageType {
     case Text(String)
     case ChatSticker(Sticker)
+    case QuickAnswer(String)
+    case ExpressChat(String)
+    case FavoritedProduct(String)
 }
 
 class ChatWrapper {
@@ -109,15 +112,23 @@ extension ChatWrapperMessageType {
             return text
         case let .ChatSticker(sticker):
             return sticker.name
+        case let .QuickAnswer(text):
+            return text
+        case let .ExpressChat(text):
+            return text
+        case let .FavoritedProduct(text):
+            return text
         }
     }
 
     var oldChatType: MessageType {
-            switch self {
-            case .Text:
+        switch self {
+        case .Text:
             return .Text
-            case .ChatSticker:
+        case .ChatSticker:
             return .Sticker
+        case .QuickAnswer, .ExpressChat, .FavoritedProduct: // Legacy chat doesn't use this types
+            return .Text
         }
     }
 
@@ -127,6 +138,12 @@ extension ChatWrapperMessageType {
             return .Text
         case .ChatSticker:
             return .Sticker
+        case .QuickAnswer:
+            return .QuickAnswer
+        case .ExpressChat:
+            return .ExpressChat
+        case .FavoritedProduct:
+            return .FavoritedProduct
         }
     }
 }
