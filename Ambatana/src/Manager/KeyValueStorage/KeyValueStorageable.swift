@@ -9,7 +9,7 @@
 import LGCoreKit
 import SwiftyUserDefaults
 
-protocol KeyValueStorageable {
+protocol KeyValueStorageable: class {
     subscript(key: DefaultsKey<String?>) -> String? { get set }
     subscript(key: DefaultsKey<String>) -> String { get set }
     subscript(key: DefaultsKey<NSString?>) -> NSString? { get set }

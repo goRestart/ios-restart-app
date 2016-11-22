@@ -858,7 +858,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     private func markForbiddenAsRead() {
         guard let userBuyer = buyer else { return }
         //We just get the last one as backend will mark all of them as read
-        chatRepository.retrieveMessagesWithProduct(product, buyer: userBuyer, numResults: 1, completion: nil)
+        chatRepository.retrieveMessagesWithProduct(product, buyer: userBuyer, page: 0, numResults: 1, completion: nil)
     }
     
     private func onProductSoldDirectAnswer() {
@@ -1283,7 +1283,8 @@ extension OldChatViewModel {
     private func retrieveRelatedProducts() {
         guard isBuyer else { return }
         guard let productId = product.objectId else { return }
-        productRepository.indexRelated(productId: productId, params: RetrieveProductsParams()) { [weak self] result in
+        productRepository.indexRelated(productId: productId, params: RetrieveProductsParams()) {
+            [weak self] result in
             guard let strongSelf = self else { return }
             if let value = result.value {
                 strongSelf.relatedProducts = strongSelf.relatedWithoutMyProducts(value)

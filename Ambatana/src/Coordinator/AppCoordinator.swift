@@ -148,7 +148,7 @@ extension AppCoordinator: AppNavigator {
     func open() {
         guard !openOnboarding() else { return }
         afterOpenAppEvents()
-
+        
         if let deepLink = deepLinksRouter.consumeInitialDeepLink() {
             openExternalDeepLink(deepLink, initialDeepLink: true)
         }
@@ -161,8 +161,8 @@ extension AppCoordinator: AppNavigator {
         if keyValueStorage[.firstRunDate] == nil {
             keyValueStorage[.firstRunDate] = NSDate()
         }
+        
         pushPermissionsManager.shouldAskForListPermissionsOnCurrentSession = false
-
         let onboardingCoordinator = OnboardingCoordinator()
         onboardingCoordinator.delegate = self
         openCoordinator(coordinator: onboardingCoordinator, parent: tabBarCtl, animated: true, completion: nil)
@@ -477,11 +477,11 @@ private extension AppCoordinator {
 
     func setupNotificationCenterObservers() {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(logout(_:)),
-                                                         name: SessionManager.Notification.Logout.rawValue, object: nil)
+                                                         name: SessionNotification.Logout.rawValue, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(kickedOut(_:)),
-                                                         name: SessionManager.Notification.KickedOut.rawValue, object: nil)
+                                                         name: SessionNotification.KickedOut.rawValue, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(askUserToUpdateLocation),
-                                                         name: LocationManager.Notification.MovedFarFromSavedManualLocation.rawValue, object: nil)
+                                                         name: LocationNotification.MovedFarFromSavedManualLocation.rawValue, object: nil)
     }
 
     func setupChatHeads() {
@@ -560,7 +560,7 @@ private extension AppCoordinator {
 
         // We should ask only one time
         NSNotificationCenter.defaultCenter().removeObserver(self,
-                                                            name: LocationManager.Notification.MovedFarFromSavedManualLocation.rawValue,
+                                                            name: LocationNotification.MovedFarFromSavedManualLocation.rawValue,
                                                             object: nil)
     }
 }
@@ -810,11 +810,8 @@ private extension AppCoordinator {
                     self?.openTab(.Chats, force: false)
                     self?.selectedTabCoordinator?.openChat(.Conversation(conversation: conversation))
                     })
-                let userName = conversation.interlocutor?.name ?? ""
-                let justMessage = message.stringByReplacingOccurrencesOfString(userName, withString: "").trim
                 let data = BubbleNotificationData(tagGroup: conversationId,
-                                                  text: userName,
-                                                  infoText: justMessage,
+                                                  text: message,
                                                   action: action,
                                                   iconURL: conversation.interlocutor?.avatar?.fileURL,
                                                   iconImage: UIImage(named: "user_placeholder"))

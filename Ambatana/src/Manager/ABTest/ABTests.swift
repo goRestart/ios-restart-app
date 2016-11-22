@@ -24,11 +24,12 @@ public struct ABTests {
     static var shareButtonWithIcon = BoolABDynamicVar(key: "shareButtonWithIcon", defaultValue: false)
     static var chatHeadBubbles = BoolABDynamicVar(key: "chatHeadBubbles", defaultValue: false)
     static var expressChatBanner = BoolABDynamicVar(key: "expressChatBanner", defaultValue: false)
+    static var showLiquidProductsToNewUser = BoolABDynamicVar(key: "showLiquidProductsToNewUser", defaultValue: false)
 
     static private var allVariables: [ABVariable] {
         return [showNPSSurvey, messageOnFavoriteRound2, interestedUsersMode, filtersReorder,
                 freePostingMode, directPostInOnboarding, productDetailShareMode, notificationCenterEnabled,
-                persicopeChat, shareButtonWithIcon, chatHeadBubbles, expressChatBanner]
+                persicopeChat, shareButtonWithIcon, chatHeadBubbles, expressChatBanner, showLiquidProductsToNewUser]
     }
 
     static func registerVariables() {

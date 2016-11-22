@@ -68,5 +68,10 @@
         "name": "ExpressChatBanner",
         "values": ["No", "Yes"],
         "description": "Show express chat banner in chat detail"
+    },
+    {
+        "name": "ShowLiquidProductsToNewUser",
+        "values": ["No", "Yes"],
+        "description": "show liquid products to new user"
     }
-]
+ ]

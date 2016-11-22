@@ -47,7 +47,7 @@ class FilteredProductListRequester: ProductListRequester {
             queryFirstCallCoordinates = LGLocationCoordinates2D(location: currentLocation)
             queryFirstCallCountryCode = locationManager.currentPostalAddress?.countryCode
         }
-     
+        
         retrieve() { [weak self] result in
             guard let indexProducts = result.value, useLimbo = self?.prependLimbo where useLimbo else {
                 self?.offset = result.value?.count ?? self?.offset ?? 0
@@ -73,7 +73,7 @@ class FilteredProductListRequester: ProductListRequester {
     }
     
     private func retrieve(completion: ProductsCompletion?) {
-        productRepository.index(retrieveProductsParams, pageOffset: offset, completion: completion)
+        productRepository.index(retrieveProductsParams, completion: completion)
     }
 
     func isLastPage(resultCount: Int) -> Bool {
@@ -141,6 +141,7 @@ private extension FilteredProductListRequester {
     private var retrieveProductsParams: RetrieveProductsParams {
         var params: RetrieveProductsParams = RetrieveProductsParams()
         params.numProducts = itemsPerPage
+        params.offset = offset
         params.coordinates = queryCoordinates
         params.queryString = queryString
         params.countryCode = countryCode

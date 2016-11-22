@@ -31,7 +31,7 @@ class StickersManager {
     }
 
     private func setupRx() {
-        stickersRepository.stickers.asObservable()
+        stickersRepository.stickers
             .map { $0.flatMap { NSURL(string: $0.url) }
             }.bindNext { [weak self] urls in
                 self?.imageDownloader.downloadImagesWithURLs(urls)

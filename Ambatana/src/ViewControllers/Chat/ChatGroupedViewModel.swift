@@ -326,7 +326,7 @@ extension ChatGroupedViewModel {
 
         }.addDisposableTo(disposeBag)
 
-        chatRepository.wsChatStatus.asObservable().map { wsChatStatus in
+        chatRepository.chatStatus.map { wsChatStatus in
             switch wsChatStatus {
             case .Closed, .Closing, .Opening, .OpenAuthenticated, .OpenNotAuthenticated:
                 return false

@@ -543,6 +543,8 @@
 		6AF75D0B1CF457D800EACCF0 /* ChatViewMessageAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AF75D091CF457D800EACCF0 /* ChatViewMessageAdapter.swift */; };
 		6AF75D0D1CF4657B00EACCF0 /* ChatStickerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6AF75D0C1CF4657B00EACCF0 /* ChatStickerCell.xib */; };
 		6AF75D0E1CF4657B00EACCF0 /* ChatStickerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6AF75D0C1CF4657B00EACCF0 /* ChatStickerCell.xib */; };
+		7215B9BD1DDF2378008AC77B /* MainProductsViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7215B9BC1DDF2378008AC77B /* MainProductsViewModelSpec.swift */; };
+		7215B9BF1DDF5DCA008AC77B /* MockFeatureFlags.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7215B9BE1DDF5DCA008AC77B /* MockFeatureFlags.swift */; };
 		723A45C91DDC4D470001D02C /* UILabel+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 723A45C81DDC4D470001D02C /* UILabel+LG.swift */; };
 		723A45CA1DDC4D470001D02C /* UILabel+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 723A45C81DDC4D470001D02C /* UILabel+LG.swift */; };
 		7265BE5D1DB4CA9700DF1752 /* FreePostingMode+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7265BE5C1DB4CA9700DF1752 /* FreePostingMode+LG.swift */; };
@@ -797,9 +799,9 @@
 		C79740501D2A95B100381A4A /* LeanplumTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C797404E1D2A95B100381A4A /* LeanplumTracker.swift */; };
 		C79842011CC8E8C900C300FF /* User+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = C79842001CC8E8C900C300FF /* User+LG.swift */; };
 		C79842021CC8E8C900C300FF /* User+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = C79842001CC8E8C900C300FF /* User+LG.swift */; };
-		C79842041CC903A500C300FF /* MockAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = C79842031CC903A500C300FF /* MockAccount.swift */; };
-		C79842051CC903A500C300FF /* MockAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = C79842031CC903A500C300FF /* MockAccount.swift */; };
 		C79842061CC903A500C300FF /* MockAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = C79842031CC903A500C300FF /* MockAccount.swift */; };
+		C79895BF1DE2F60500DD58BF /* MockMyUserRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = C79895BE1DE2F60500DD58BF /* MockMyUserRepository.swift */; };
+		C79895C21DE2FE4000DD58BF /* HOF.swift in Sources */ = {isa = PBXBuildFile; fileRef = C79895C11DE2FE4000DD58BF /* HOF.swift */; };
 		C7AB4EC61CD39C67007B573D /* NotificationsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AB4EC51CD39C67007B573D /* NotificationsManager.swift */; };
 		C7AB4EC71CD39C67007B573D /* NotificationsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AB4EC51CD39C67007B573D /* NotificationsManager.swift */; };
 		C7B543241D6F49CE005FBA30 /* UIView+Screenshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B543231D6F49CE005FBA30 /* UIView+Screenshot.swift */; };
@@ -1492,6 +1494,8 @@
 		6AF75D091CF457D800EACCF0 /* ChatViewMessageAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatViewMessageAdapter.swift; sourceTree = "<group>"; };
 		6AF75D0C1CF4657B00EACCF0 /* ChatStickerCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatStickerCell.xib; sourceTree = "<group>"; };
 		7166AA5BA494F5827085F946 /* Pods_LetGoGodMode.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LetGoGodMode.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7215B9BC1DDF2378008AC77B /* MainProductsViewModelSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainProductsViewModelSpec.swift; sourceTree = "<group>"; };
+		7215B9BE1DDF5DCA008AC77B /* MockFeatureFlags.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockFeatureFlags.swift; sourceTree = "<group>"; };
 		723A45C81DDC4D470001D02C /* UILabel+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UILabel+LG.swift"; sourceTree = "<group>"; };
 		7265BE5C1DB4CA9700DF1752 /* FreePostingMode+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "FreePostingMode+LG.swift"; path = "Ambatana/src/Helper/LetgoExtensions/FreePostingMode+LG.swift"; sourceTree = SOURCE_ROOT; };
 		72A83F631DD222100043EB3B /* Leanplum+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Leanplum+LG.swift"; sourceTree = "<group>"; };
@@ -1643,6 +1647,8 @@
 		C797404E1D2A95B100381A4A /* LeanplumTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeanplumTracker.swift; sourceTree = "<group>"; };
 		C79842001CC8E8C900C300FF /* User+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "User+LG.swift"; sourceTree = "<group>"; };
 		C79842031CC903A500C300FF /* MockAccount.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockAccount.swift; sourceTree = "<group>"; };
+		C79895BE1DE2F60500DD58BF /* MockMyUserRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockMyUserRepository.swift; sourceTree = "<group>"; };
+		C79895C11DE2FE4000DD58BF /* HOF.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HOF.swift; sourceTree = "<group>"; };
 		C7AB4EC51CD39C67007B573D /* NotificationsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationsManager.swift; sourceTree = "<group>"; };
 		C7B543231D6F49CE005FBA30 /* UIView+Screenshot.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Screenshot.swift"; sourceTree = "<group>"; };
 		C7B543261D758BA7005FBA30 /* VerifyAccountsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerifyAccountsViewController.swift; sourceTree = "<group>"; };
@@ -1957,6 +1963,8 @@
 			isa = PBXGroup;
 			children = (
 				2EE602671C638EF600AF94E4 /* ChatViewModelSpec.swift */,
+				7215B9BE1DDF5DCA008AC77B /* MockFeatureFlags.swift */,
+				7215B9BC1DDF2378008AC77B /* MainProductsViewModelSpec.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -2541,6 +2549,8 @@
 		50C9E4D51B739FF6001E4E92 /* Mock */ = {
 			isa = PBXGroup;
 			children = (
+				C79895C01DE2FE3600DD58BF /* Helper */,
+				C79895BD1DE2F5F700DD58BF /* Repositories */,
 				2E3081D31D86A3EC00930E98 /* ProductRequester */,
 				2EF4E3A71D3686F800A09DFD /* Config */,
 				50C9E4DF1B749DD0001E4E92 /* Manager */,
@@ -3139,6 +3149,22 @@
 				C79643101D4F5AFA000C5FCE /* RelatedProductsView.swift */,
 			);
 			path = RelatedProducts;
+			sourceTree = "<group>";
+		};
+		C79895BD1DE2F5F700DD58BF /* Repositories */ = {
+			isa = PBXGroup;
+			children = (
+				C79895BE1DE2F60500DD58BF /* MockMyUserRepository.swift */,
+			);
+			path = Repositories;
+			sourceTree = "<group>";
+		};
+		C79895C01DE2FE3600DD58BF /* Helper */ = {
+			isa = PBXGroup;
+			children = (
+				C79895C11DE2FE4000DD58BF /* HOF.swift */,
+			);
+			path = Helper;
 			sourceTree = "<group>";
 		};
 		C7B587FA1CE1DE1C009B3975 /* BlockedUsers */ = {
@@ -4662,7 +4688,6 @@
 				C703BE021C7F1AF900EC8EF2 /* EditLocationViewModel.swift in Sources */,
 				C7B588891CE1DFA6009B3975 /* ChatMyMessageCell.swift in Sources */,
 				50C59BD81CE0DB4400377124 /* UserDefaultsUser.swift in Sources */,
-				C79842041CC903A500C300FF /* MockAccount.swift in Sources */,
 				50146BCA1D4F5F7B00B0F635 /* CategoriesTabCoordinator.swift in Sources */,
 				2E64D41A1D11B34F00257B69 /* Tooltip.swift in Sources */,
 			);
@@ -5065,7 +5090,6 @@
 				C703BE031C7F1AF900EC8EF2 /* EditLocationViewModel.swift in Sources */,
 				C7B5888A1CE1DFA6009B3975 /* ChatMyMessageCell.swift in Sources */,
 				50C59BD91CE0DB4400377124 /* UserDefaultsUser.swift in Sources */,
-				C79842051CC903A500C300FF /* MockAccount.swift in Sources */,
 				50146BCB1D4F5F7B00B0F635 /* CategoriesTabCoordinator.swift in Sources */,
 				2E64D41B1D11B34F00257B69 /* Tooltip.swift in Sources */,
 			);
@@ -5075,6 +5099,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7215B9BF1DDF5DCA008AC77B /* MockFeatureFlags.swift in Sources */,
 				50F344F21D3CDEA2000A8774 /* MockChatProduct.swift in Sources */,
 				C75018451D0EFBDB007D4CE4 /* String+LGSpec.swift in Sources */,
 				50C9E4E21B749DE9001E4E92 /* MockTracker.swift in Sources */,
@@ -5090,10 +5115,13 @@
 				50C9E4D81B73A017001E4E92 /* MockUser.swift in Sources */,
 				50C9E4CE1B735402001E4E92 /* TrackerEventSpec.swift in Sources */,
 				50C9E4DA1B73A047001E4E92 /* MockBaseModel.swift in Sources */,
+				C79895C21DE2FE4000DD58BF /* HOF.swift in Sources */,
 				2EBF3E251C298EB70024D947 /* MockChat.swift in Sources */,
+				C79895BF1DE2F60500DD58BF /* MockMyUserRepository.swift in Sources */,
 				2E0342F01CDB59950074EB34 /* VersionCheckerSpec.swift in Sources */,
 				2E0342EF1CDB598D0074EB34 /* MockAppVersion.swift in Sources */,
 				2EF4E3BD1D3688C400A09DFD /* MockConfigRetrieveService.swift in Sources */,
+				7215B9BD1DDF2378008AC77B /* MainProductsViewModelSpec.swift in Sources */,
 				2EF4E3C71D36891C00A09DFD /* LGConfigDAOSpec.swift in Sources */,
 				50C9E4DE1B749DB7001E4E92 /* TrackerProxySpec.swift in Sources */,
 				50C59BC51CE0B84700377124 /* RatingManagerSpec.swift in Sources */,

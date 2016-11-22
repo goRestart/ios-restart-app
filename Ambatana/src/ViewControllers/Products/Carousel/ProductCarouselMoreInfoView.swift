@@ -18,6 +18,7 @@ enum MoreInfoState {
 
 protocol ProductCarouselMoreInfoDelegate: class {
     func didEndScrolling(topOverScroll: CGFloat, bottomOverScroll: CGFloat)
+    func requestFocus()
     func viewControllerToShowShareOptions() -> UIViewController
 }
 
@@ -161,6 +162,7 @@ extension ProductCarouselMoreInfoView: MKMapViewDelegate {
     func showBigMap() {
         guard !bigMapVisible else { return }
         bigMapVisible = true
+        delegate?.requestFocus()
         if let locationZone = locationZone {
             overlayMap.addOverlay(locationZone)
         }

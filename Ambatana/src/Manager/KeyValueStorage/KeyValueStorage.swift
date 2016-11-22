@@ -52,35 +52,26 @@ extension DefaultsKeys {
 }
 
 
-// MARK: - UserProvider
-
-// TODO: Remove until MyUserRepository is a protocol
-protocol UserProvider {
-    var myUser: MyUser? { get }
-}
-extension MyUserRepository: UserProvider {}
-
-
 // MARK: - KeyValueStorage
 
 class KeyValueStorage {
     static let sharedInstance: KeyValueStorage = KeyValueStorage()
 
     private var storage: KeyValueStorageable
-    private let userProvider: UserProvider
+    private let myUserRepository: MyUserRepository
 
 
     // MARK: - Lifecycle
 
-    init(storage: KeyValueStorageable, userProvider: UserProvider) {
+    init(storage: KeyValueStorageable, myUserRepository: MyUserRepository) {
         self.storage = storage
-        self.userProvider = userProvider
+        self.myUserRepository = myUserRepository
     }
 
     convenience init() {
-        let userProvider = Core.myUserRepository
+        let myUserRepository = Core.myUserRepository
         let userDefaults = NSUserDefaults.standardUserDefaults()
-        self.init(storage: userDefaults, userProvider: userProvider)
+        self.init(storage: userDefaults, myUserRepository: myUserRepository)
     }
 }
 
@@ -263,7 +254,7 @@ extension KeyValueStorage {
 
 private extension KeyValueStorage {
     private var currentUserId: String? {
-        return userProvider.myUser?.objectId
+        return myUserRepository.myUser?.objectId
     }
     private var currentUserKey: DefaultsKey<UserDefaultsUser>? {
         guard let currentUserId = currentUserId else { return nil }

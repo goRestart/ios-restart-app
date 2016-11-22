@@ -18,21 +18,7 @@ public typealias UserRatingEmptyResult = Result<Void, RepositoryError>
 public typealias UserRatingEmptyCompletion = UserRatingEmptyResult -> Void
 
 
-public class UserRatingRepository {
-
-    let dataSource: UserRatingDataSource
-    let myUserRepository: MyUserRepository
-
-
-    // MARK: - Lifecycle
-
-    init(dataSource: UserRatingDataSource, myUserRepository: MyUserRepository) {
-        self.dataSource = dataSource
-        self.myUserRepository = myUserRepository
-    }
-
-
-    // MARK: - Public methods
+public protocol UserRatingRepository {
 
     /**
      Retrieves all ratings the given user has received
@@ -42,11 +28,7 @@ public class UserRatingRepository {
      - parameter limit: Number of items in each page
      - parameter completion: The completion closure
      */
-    public func index(userId: String, offset: Int, limit: Int, completion: UserRatingsCompletion?) {
-        dataSource.index(userId, offset: offset, limit: limit) { result in
-            handleApiResult(result, completion: completion)
-        }
-    }
+    func index(userId: String, offset: Int, limit: Int, completion: UserRatingsCompletion?)
 
     /**
      Retrieves the rating the logged user has made to the given user
@@ -54,11 +36,7 @@ public class UserRatingRepository {
      - parameter ratingId: id of the rating to retrieve
      - parameter completion: The completion closure
      */
-    public func show(ratingId: String, completion: UserRatingCompletion?) {
-        dataSource.show(ratingId) { result in
-            handleApiResult(result, completion: completion)
-        }
-    }
+    func show(ratingId: String, completion: UserRatingCompletion?)
 
     /**
      Retrieves the rating the logged user has made to the given user
@@ -67,15 +45,7 @@ public class UserRatingRepository {
      - parameter type: Rating type
      - parameter completion: The completion closure
      */
-    public func show(userId: String, type: UserRatingType, completion: UserRatingCompletion?) {
-        guard let userFromId = myUserRepository.myUser?.objectId else {
-            completion?(UserRatingResult(error: .Internal(message: "Missing objectId in MyUser")))
-            return
-        }
-        dataSource.show(userId, userFromId: userFromId, type: type) { result in
-            handleApiResult(result, completion: completion)
-        }
-    }
+    func show(userId: String, type: UserRatingType, completion: UserRatingCompletion?)
 
     /**
      Adds a new rating to the given user
@@ -86,19 +56,8 @@ public class UserRatingRepository {
      - parameter type:       rating type (Conversation, Seller(productId), Buyer(productId))
      - parameter completion: The completion closure
      */
-    public func createRating(userId: String, value: Int, comment: String?, type: UserRatingType,
-                             completion: UserRatingCompletion?) {
-        guard let userFromId = myUserRepository.myUser?.objectId else {
-            completion?(UserRatingResult(error: .Internal(message: "Missing objectId in MyUser")))
-            return
-        }
-
-        dataSource.create(userId, userFromId: userFromId, value: value, comment: comment, type: type) {
-            result in
-            handleApiResult(result, completion: completion)
-        }
-    }
-
+    func createRating(userId: String, value: Int, comment: String?, type: UserRatingType,
+                             completion: UserRatingCompletion?)
     /**
      Updates the given rating
 
@@ -107,23 +66,7 @@ public class UserRatingRepository {
      - parameter comment:    new rating comment
      - parameter completion: the completion closure
      */
-    public func updateRating(rating: UserRating, value: Int?, comment: String?, completion: UserRatingCompletion?) {
-        guard let myUserId = myUserRepository.myUser?.objectId else {
-            completion?(UserRatingResult(error: .Internal(message: "Missing objectId in MyUser")))
-            return
-        }
-        guard let ratingId = rating.objectId else {
-            completion?(UserRatingResult(error: .Internal(message: "Missing objectId in rating object")))
-            return
-        }
-        guard rating.userFrom.objectId == myUserId else {
-            completion?(UserRatingResult(error: .Internal(message: "Rating doesn't belong to MyUser")))
-            return
-        }
-        dataSource.update(ratingId, value: value, comment: comment) { result in
-             handleApiResult(result, completion: completion)
-        }
-    }
+    func updateRating(rating: UserRating, value: Int?, comment: String?, completion: UserRatingCompletion?)
 
     /**
      Reports a received rating
@@ -131,21 +74,5 @@ public class UserRatingRepository {
      - parameter rating:     the rating to report
      - parameter completion: the completion closure
     */
-    public func reportRating(rating: UserRating, completion: UserRatingEmptyCompletion?) {
-        guard let myUserId = myUserRepository.myUser?.objectId else {
-            completion?(UserRatingEmptyResult(error: .Internal(message: "Missing objectId in MyUser")))
-            return
-        }
-        guard let ratingId = rating.objectId else {
-            completion?(UserRatingEmptyResult(error: .Internal(message: "Missing objectId in rating object")))
-            return
-        }
-        guard rating.userToId == myUserId else {
-            completion?(UserRatingEmptyResult(error: .Internal(message: "MyUser is not the rating receiver")))
-            return
-        }
-        dataSource.report(ratingId) { result in
-            handleApiResult(result, completion: completion)
-        }
-    }
+    func reportRating(rating: UserRating, completion: UserRatingEmptyCompletion?)
 }

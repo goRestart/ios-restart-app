@@ -70,7 +70,6 @@ final class ChatHeadOverlayView: UIView {
 
     override func didMoveToSuperview() {
         super.didMoveToSuperview()
-        magnetPoints = generateSnapPoints(ChatHeadOverlayView.snapPointCountPerSide)
         snapToNearestMagnetPoint(animated: false)
     }
 
@@ -95,7 +94,7 @@ extension ChatHeadOverlayView {
             userDeletedChatHeads.value = false // is resetted when receiving new datas
         }
 
-        if !placedInMagnetPoint {
+        if !placedInMagnetPoint && !magnetPoints.isEmpty {
             placedInMagnetPoint = true
             snapToNearestMagnetPoint(animated: false)
         }
