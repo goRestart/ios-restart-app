@@ -287,9 +287,10 @@ class ProductViewModel: BaseViewModel {
             }.addDisposableTo(disposeBag)
 
         status.asObservable().bindNext { [weak self] status in
-            self?.refreshDirectChats(status)
-            self?.refreshActionButtons(status)
-            self?.directChatEnabled.value = self?.featureFlags.periscopeChat && status.directChatsAvailable
+            guard let strongSelf = self else { return }
+            strongSelf.refreshDirectChats(status)
+            strongSelf.refreshActionButtons(status)
+            strongSelf.directChatEnabled.value = strongSelf.featureFlags.periscopeChat && status.directChatsAvailable
         }.addDisposableTo(disposeBag)
 
         isFavorite.asObservable().subscribeNext { [weak self] _ in
@@ -300,7 +301,7 @@ class ProductViewModel: BaseViewModel {
             guard let strongSelf = self else { return }
             strongSelf.trackHelper.product = product
 
-            strongSelf.setStatus(product.viewModelStatus(self?.featureFlags))
+            strongSelf.setStatus(product.viewModelStatus(strongSelf.featureFlags))
 
             strongSelf.productIsFavoriteable.value = !product.isMine
             strongSelf.isFavorite.value = product.favorite

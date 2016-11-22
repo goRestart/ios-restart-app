@@ -34,6 +34,7 @@ class UserViewModel: BaseViewModel {
     private let myUserRepository: MyUserRepository
     private let userRepository: UserRepository
     private let tracker: Tracker
+    private let featureFlags: FeatureFlags
 
     // Data & VMs
     private let user: Variable<User?>
@@ -446,7 +447,7 @@ extension UserViewModel {
             }
             strongSelf.userAvatarURL.value = user?.avatar?.fileURL
 
-            if featureFlags.userReviews {
+            if strongSelf.featureFlags.userReviews {
                 strongSelf.userRatingAverage.value = user?.ratingAverage?.roundNearest(0.5)
                 strongSelf.userRatingCount.value = user?.ratingCount
             }

@@ -108,8 +108,9 @@ class TabBarViewModel: BaseViewModel {
 
         Observable.combineLatest(myUserRepository.rx_myUser.asObservable(),
             notificationsManager.unreadNotificationsCount.asObservable(),
-            resultSelector: { (myUser, count) in
-                guard featureFlags.notificationsSection else { return nil }
+            resultSelector: { [weak self] (myUser, count) in
+                guard let strongSelf = self else { return nil }
+                guard strongSelf.featureFlags.notificationsSection else { return nil }
                 guard myUser != nil else { return String(1) }
                 return count.flatMap { $0 > 0 ? String($0) : nil }
             }).bindTo(notificationsBadge).addDisposableTo(disposeBag)

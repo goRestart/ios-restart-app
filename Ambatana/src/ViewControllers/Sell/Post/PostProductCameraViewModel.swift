@@ -48,7 +48,7 @@ class PostProductCameraViewModel: BaseViewModel {
     private var firstTimeAlertTimer: NSTimer?
 
     private var skipCustomPermissions: Bool {
-        return sourcePosting == .OnboardingCamera && FeatureFlags.directPostInOnboarding
+        return sourcePosting == .OnboardingCamera && featureFlags.directPostInOnboarding
     }
 
     // MARK: - Lifecycle
@@ -183,9 +183,9 @@ class PostProductCameraViewModel: BaseViewModel {
             firstTimeTitle = LGLocalizedString.productPostFreeCameraFirstTimeAlertTitle
             firstTimeSubtitle = LGLocalizedString.productPostFreeCameraFirstTimeAlertSubtitle
         } else {
-            firstTimeTitle = FeatureFlags.directPostInOnboarding ? LGLocalizedString.onboardingDirectCameraAlertTitle :
+            firstTimeTitle = featureFlags.directPostInOnboarding ? LGLocalizedString.onboardingDirectCameraAlertTitle :
                 LGLocalizedString.productPostCameraFirstTimeAlertTitle
-            firstTimeSubtitle = FeatureFlags.directPostInOnboarding ? LGLocalizedString.onboardingDirectCameraAlertSubtitle :
+            firstTimeSubtitle = featureFlags.directPostInOnboarding ? LGLocalizedString.onboardingDirectCameraAlertSubtitle :
                 LGLocalizedString.productPostCameraFirstTimeAlertSubtitle
         }
     }

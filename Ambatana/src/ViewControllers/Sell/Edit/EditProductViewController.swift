@@ -436,14 +436,10 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
         
         shareFBSwitch.on = viewModel.shouldShareInFB
         shareFBLabel.text = LGLocalizedString.sellShareOnFacebookLabel
-        
-        if FeatureFlags.freePostingMode.enabled {
-            postFreeViewHeightConstraint.constant = EditProductViewController.viewOptionGenericHeight
-            freePostViewSeparatorTopConstraint.constant = EditProductViewController.separatorOptionsViewDistance
-        } else {
-            postFreeViewHeightConstraint.constant = 0
-            freePostViewSeparatorTopConstraint.constant = 0
-        }
+
+        postFreeViewHeightConstraint.constant = EditProductViewController.viewOptionGenericHeight
+        freePostViewSeparatorTopConstraint.constant = EditProductViewController.separatorOptionsViewDistance
+      
         
         // CollectionView
         imageCollectionView.delegate = self

@@ -27,7 +27,8 @@ final class TabBarController: UITabBarController {
 
     private let viewModel: TabBarViewModel
     private var tooltip: Tooltip?
-
+    private var featureFlags: FeatureFlags
+    
     // Rx
     private let disposeBag = DisposeBag()
 
@@ -35,10 +36,17 @@ final class TabBarController: UITabBarController {
     // MARK: - Lifecycle
 
     init(viewModel: TabBarViewModel) {
+        let featureFlags = FeatureFlags.sharedInstance
+        self.init(viewModel: viewModel, featureFlags: featureFlags)
+    }
+    
+    init(viewModel: TabBarViewModel, featureFlags: FeatureFlags) {
         self.floatingSellButton = FloatingButton()
         self.viewModel = viewModel
+        self.featureFlags = featureFlags
         super.init(nibName: nil, bundle: nil)
     }
+
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -147,7 +155,7 @@ final class TabBarController: UITabBarController {
     func setupTabBarItems() {
         guard let viewControllers = viewControllers else { return }
         for (index, vc) in viewControllers.enumerate() {
-            guard let tab = Tab(index: index) else { continue }
+            guard let tab = Tab(index: index, featureFlags: featureFlags) else { continue }
             let tabBarItem = UITabBarItem(title: nil, image: UIImage(named: tab.tabIconImageName), selectedImage: nil)
             // UI Test accessibility Ids
             tabBarItem.accessibilityId = tab.accessibilityId
@@ -314,7 +322,7 @@ extension TabBarController: UIGestureRecognizerDelegate {
     }
 
     func gestureRecognizerShouldBegin(gestureRecognizer: UIGestureRecognizer) -> Bool {
-        if FeatureFlags.notificationsSection {
+        if featureFlags.notificationsSection {
             return selectedIndex == Tab.Home.index // Home tab because it won't show the login modal view
         } else {
             return selectedIndex == Tab.Categories.index // Categories tab because it won't show the login modal view
