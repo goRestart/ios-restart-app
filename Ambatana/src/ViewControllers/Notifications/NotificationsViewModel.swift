@@ -25,7 +25,7 @@ class NotificationsViewModel: BaseViewModel {
     private let notificationsManager: NotificationsManager
     private let locationManager: LocationManager
     private let tracker: Tracker
-    private let featureFlags: FeatureFlags
+    private let featureFlags: FeatureFlaggeable
     private let disposeBag = DisposeBag()
 
     convenience override init() {
@@ -41,7 +41,7 @@ class NotificationsViewModel: BaseViewModel {
     init(notificationsRepository: NotificationsRepository, productRepository: ProductRepository,
          userRepository: UserRepository, myUserRepository: MyUserRepository,
          notificationsManager: NotificationsManager, locationManager: LocationManager,
-         tracker: Tracker, featureFlags: FeatureFlags) {
+         tracker: Tracker, featureFlags: FeatureFlaggeable) {
         self.notificationsRepository = notificationsRepository
         self.productRepository = productRepository
         self.myUserRepository = myUserRepository

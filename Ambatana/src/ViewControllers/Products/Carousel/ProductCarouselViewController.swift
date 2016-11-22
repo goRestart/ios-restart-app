@@ -112,7 +112,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     private let carouselImageDownloader: ImageDownloader = ImageDownloader.externalBuildImageDownloader(true)
     private let keyboardHelper: KeyboardHelper = KeyboardHelper.sharedInstance
     
-    private let featureFlags: FeatureFlags
+    private let featureFlags: FeatureFlaggeable
 
     // MARK: - Lifecycle
 
@@ -121,7 +121,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         self.init(viewModel:viewModel, pushAnimator: pushAnimator, featureFlags: featureFlags)
     }
     
-    init(viewModel: ProductCarouselViewModel, pushAnimator: ProductCarouselPushAnimator?, featureFlags: FeatureFlags) {
+    init(viewModel: ProductCarouselViewModel, pushAnimator: ProductCarouselPushAnimator?, featureFlags: FeatureFlaggeable) {
         self.viewModel = viewModel
         self.userView = UserView.userView(.WithProductInfo)
         let blurEffect = UIBlurEffect(style: .Dark)

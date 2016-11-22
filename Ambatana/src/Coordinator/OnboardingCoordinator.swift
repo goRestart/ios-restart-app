@@ -24,14 +24,14 @@ class OnboardingCoordinator: Coordinator {
     private let locationManager: LocationManager
     private var presentedViewControllers: [UIViewController] = []
     
-    private let featureFlags: FeatureFlags
+    private let featureFlags: FeatureFlaggeable
 
     convenience init() {
         self.init(keyValueStorage: KeyValueStorage.sharedInstance, locationManager: Core.locationManager,
                   featureFlags: FeatureFlags.sharedInstance)
     }
 
-    init(keyValueStorage: KeyValueStorage, locationManager: LocationManager, featureFlags: FeatureFlags) {
+    init(keyValueStorage: KeyValueStorage, locationManager: LocationManager, featureFlags: FeatureFlaggeable) {
         self.locationManager = locationManager
         self.featureFlags = featureFlags
         let signUpVM = SignUpViewModel(appearance: .Dark, source: .Install)

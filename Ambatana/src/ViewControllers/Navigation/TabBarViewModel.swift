@@ -27,7 +27,7 @@ class TabBarViewModel: BaseViewModel {
     private let notificationsManager: NotificationsManager
     private let myUserRepository: MyUserRepository
     private var didAppearFirstTime: Bool
-    private var featureFlags: FeatureFlags
+    private var featureFlags: FeatureFlaggeable
 
     private let disposeBag = DisposeBag()
 
@@ -41,7 +41,7 @@ class TabBarViewModel: BaseViewModel {
     }
 
     init(keyValueStorage: KeyValueStorage, notificationsManager: NotificationsManager, myUserRepository: MyUserRepository,
-         featureFlags: FeatureFlags) {
+         featureFlags: FeatureFlaggeable) {
         self.keyValueStorage = keyValueStorage
         self.notificationsManager = notificationsManager
         self.myUserRepository = myUserRepository

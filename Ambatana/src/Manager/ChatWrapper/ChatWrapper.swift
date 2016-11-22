@@ -23,7 +23,7 @@ class ChatWrapper {
     private let chatRepository: ChatRepository
     private let oldChatRepository: OldChatRepository
     private let myUserRepository: MyUserRepository
-    private let featureFlags: FeatureFlags
+    private let featureFlags: FeatureFlaggeable
 
     convenience init() {
         self.init(chatRepository: Core.chatRepository, oldChatRepository: Core.oldChatRepository,
@@ -31,7 +31,7 @@ class ChatWrapper {
     }
 
     init(chatRepository: ChatRepository, oldChatRepository: OldChatRepository, myUserRepository: MyUserRepository,
-         featureFlags: FeatureFlags) {
+         featureFlags: FeatureFlaggeable) {
         self.chatRepository = chatRepository
         self.oldChatRepository = oldChatRepository
         self.myUserRepository = myUserRepository

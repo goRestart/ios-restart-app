@@ -43,7 +43,7 @@ final class AppCoordinator: NSObject {
     private let chatRepository: ChatRepository
     private let commercializerRepository: CommercializerRepository
     private let userRatingRepository: UserRatingRepository
-    private let featureFlags: FeatureFlags
+    private let featureFlags: FeatureFlaggeable
     private let locationManager: LocationManager
 
     weak var delegate: AppNavigatorDelegate?
@@ -94,7 +94,7 @@ final class AppCoordinator: NSObject {
          bubbleManager: BubbleNotificationManager, tracker: Tracker, productRepository: ProductRepository,
          userRepository: UserRepository, myUserRepository: MyUserRepository, oldChatRepository: OldChatRepository,
          chatRepository: ChatRepository, commercializerRepository: CommercializerRepository,
-         userRatingRepository: UserRatingRepository, locationManager: LocationManager, featureFlags: FeatureFlags) {
+         userRatingRepository: UserRatingRepository, locationManager: LocationManager, featureFlags: FeatureFlaggeable) {
 
         self.tabBarCtl = tabBarController
         self.selectedTab = Variable<Tab>(.Home)

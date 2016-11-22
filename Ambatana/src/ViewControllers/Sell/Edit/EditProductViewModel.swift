@@ -175,7 +175,7 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
     let locationManager: LocationManager
     let commercializerRepository: CommercializerRepository
     let tracker: Tracker
-    let featureFlags: FeatureFlags
+    let featureFlags: FeatureFlaggeable
 
     // Delegate
     weak var delegate: EditProductViewModelDelegate?
@@ -203,7 +203,7 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
     
     init(myUserRepository: MyUserRepository, productRepository: ProductRepository, categoryRepository: CategoryRepository,
          locationManager: LocationManager, commercializerRepository: CommercializerRepository, tracker: Tracker,
-         product: Product, featureFlags: FeatureFlags) {
+         product: Product, featureFlags: FeatureFlaggeable) {
         self.myUserRepository = myUserRepository
         self.productRepository = productRepository
         self.categoryRepository = categoryRepository

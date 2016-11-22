@@ -10,19 +10,22 @@ import bumper
 import LGCoreKit
 
 protocol FeatureFlaggeable {
-     var websocketChat: Bool { get }
-     var notificationsSection: Bool { get }
-     var userReviews: Bool { get }
-     var messageOnFavoriteRound2: MessageOnFavoriteRound2Mode { get }
-     var interestedUsersMode: InterestedUsersMode { get }
-     var filtersReorder: Bool { get }
-     var directPostInOnboarding: Bool { get }
-     var shareButtonWithIcon: Bool { get }
-     var productDetailShareMode: ProductDetailShareMode { get }
-     var periscopeChat: Bool { get }
-     var chatHeadBubbles: Bool { get }
-     var showLiquidProductsToNewUser: Bool { get }
-     var keywordsTravelCollection: KeywordsTravelCollection { get }
+    var websocketChat: Bool { get }
+    var notificationsSection: Bool { get }
+    var userReviews: Bool { get }
+    var showNPSSurvey: Bool { get }
+    var messageOnFavoriteRound2: MessageOnFavoriteRound2Mode { get }
+    var interestedUsersMode: InterestedUsersMode { get }
+    var filtersReorder: Bool { get }
+    var directPostInOnboarding: Bool { get }
+    var shareButtonWithIcon: Bool { get }
+    var productDetailShareMode: ProductDetailShareMode { get }
+    var periscopeChat: Bool { get }
+    var chatHeadBubbles: Bool { get }
+    var showLiquidProductsToNewUser: Bool { get }
+    var expressChatBanner: Bool { get }
+    var keywordsTravelCollection: KeywordsTravelCollection { get }
+    var freePostingModeAllowed: Bool { get }
 }
 
 struct FeatureFlags: FeatureFlaggeable {

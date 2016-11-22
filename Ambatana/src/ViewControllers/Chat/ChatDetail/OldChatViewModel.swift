@@ -243,7 +243,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     private let stickersRepository: StickersRepository
     private let chatViewMessageAdapter: ChatViewMessageAdapter
     private let tracker: Tracker
-    private let featureFlags: FeatureFlags
+    private let featureFlags: FeatureFlaggeable
     private let configManager: ConfigManager
     private let sessionManager: SessionManager
     private let keyValueStorage: KeyValueStorage
@@ -360,7 +360,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
 
     convenience init?(chat: Chat, myUserRepository: MyUserRepository, configManager: ConfigManager,
                       sessionManager: SessionManager, navigator: ChatDetailNavigator?, keyValueStorage: KeyValueStorage,
-						featureFlags: FeatureFlags) {
+						featureFlags: FeatureFlaggeable) {
         let chatRepository = Core.oldChatRepository
         let productRepository = Core.productRepository
         let userRepository = Core.userRepository
@@ -378,7 +378,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     init?(chat: Chat, myUserRepository: MyUserRepository, chatRepository: OldChatRepository,
           productRepository: ProductRepository, userRepository: UserRepository, stickersRepository: StickersRepository,
           tracker: Tracker, configManager: ConfigManager, sessionManager: SessionManager, navigator: ChatDetailNavigator?,
-          keyValueStorage: KeyValueStorage, featureFlags: FeatureFlags) {
+          keyValueStorage: KeyValueStorage, featureFlags: FeatureFlaggeable) {
         self.chat = chat
         self.myUserRepository = myUserRepository
         self.chatRepository = chatRepository

@@ -18,7 +18,7 @@ final class ChatHeadManager {
     private let myUserRepository: MyUserRepository
     private let chatRepository: ChatRepository
     private let oldChatRepository: OldChatRepository
-    private let featureFlags: FeatureFlags
+    private let featureFlags: FeatureFlaggeable
 
     private let rx_chatHeadOverlayView: Variable<ChatHeadOverlayView?>
     private let rx_chatHeadDatas: Variable<[ChatHeadData]>
@@ -38,7 +38,7 @@ final class ChatHeadManager {
     }
 
     init(notificationsManager: NotificationsManager, myUserRepository: MyUserRepository,
-         chatRepository: ChatRepository, oldChatRepository: OldChatRepository, featureFlags: FeatureFlags) {
+         chatRepository: ChatRepository, oldChatRepository: OldChatRepository, featureFlags: FeatureFlaggeable) {
         self.notificationsManager = notificationsManager
         self.myUserRepository = myUserRepository
         self.chatRepository = chatRepository

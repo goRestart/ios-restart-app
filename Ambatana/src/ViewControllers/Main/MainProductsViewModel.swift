@@ -104,7 +104,7 @@ class MainProductsViewModel: BaseViewModel {
         return [.You] + generalCollectionsShuffled
     }
     private let keyValueStorage: KeyValueStorageable
-    private let featureFlags: FeatureFlags
+    private let featureFlags: FeatureFlaggeable
     
     // > Delegate
     weak var delegate: MainProductsViewModelDelegate?
@@ -150,7 +150,7 @@ class MainProductsViewModel: BaseViewModel {
     init(sessionManager: SessionManager, myUserRepository: MyUserRepository, trendingSearchesRepository: TrendingSearchesRepository,
          locationManager: LocationManager, currencyHelper: CurrencyHelper, tracker: Tracker, searchType: SearchType? = nil,
          filters: ProductFilters, tabNavigator: TabNavigator?, keyValueStorage: KeyValueStorageable,
-         featureFlags: FeatureFlags) {
+         featureFlags: FeatureFlaggeable) {
         
         self.sessionManager = sessionManager
         self.myUserRepository = myUserRepository

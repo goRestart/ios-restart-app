@@ -27,7 +27,7 @@ final class TabBarController: UITabBarController {
 
     private let viewModel: TabBarViewModel
     private var tooltip: Tooltip?
-    private var featureFlags: FeatureFlags
+    private var featureFlags: FeatureFlaggeable
     
     // Rx
     private let disposeBag = DisposeBag()
@@ -40,7 +40,7 @@ final class TabBarController: UITabBarController {
         self.init(viewModel: viewModel, featureFlags: featureFlags)
     }
     
-    init(viewModel: TabBarViewModel, featureFlags: FeatureFlags) {
+    init(viewModel: TabBarViewModel, featureFlags: FeatureFlaggeable) {
         self.floatingSellButton = FloatingButton()
         self.viewModel = viewModel
         self.featureFlags = featureFlags

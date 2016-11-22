@@ -90,7 +90,7 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
     // viewModel
     private var viewModel : EditProductViewModel
     private var keyboardHelper: KeyboardHelper
-    private var featureFlags: FeatureFlags
+    private var featureFlags: FeatureFlaggeable
     // Rx
     private let disposeBag = DisposeBag()
     
@@ -102,7 +102,7 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
         self.init(viewModel: viewModel, keyboardHelper: KeyboardHelper.sharedInstance, featureFlags: FeatureFlags.sharedInstance)
     }
     
-    required init(viewModel: EditProductViewModel, keyboardHelper: KeyboardHelper, featureFlags: FeatureFlags) {
+    required init(viewModel: EditProductViewModel, keyboardHelper: KeyboardHelper, featureFlags: FeatureFlaggeable) {
         self.keyboardHelper = keyboardHelper
         self.viewModel = viewModel
         self.featureFlags = featureFlags

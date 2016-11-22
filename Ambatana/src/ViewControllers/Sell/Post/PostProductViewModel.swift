@@ -60,7 +60,7 @@ class PostProductViewModel: BaseViewModel {
     private let fileRepository: FileRepository
     private let tracker: Tracker
     private let commercializerRepository: CommercializerRepository
-    private let featureFlags: FeatureFlags
+    private let featureFlags: FeatureFlaggeable
     private var imageSelected: UIImage?
     private var pendingToUploadImage: UIImage?
     private var uploadedImage: File?
@@ -80,7 +80,7 @@ class PostProductViewModel: BaseViewModel {
     }
 
     init(source: PostingSource, productRepository: ProductRepository, fileRepository: FileRepository,
-         commercializerRepository: CommercializerRepository, tracker: Tracker, featureFlags: FeatureFlags) {
+         commercializerRepository: CommercializerRepository, tracker: Tracker, featureFlags: FeatureFlaggeable) {
         self.postingSource = source
         self.productRepository = productRepository
         self.fileRepository = fileRepository

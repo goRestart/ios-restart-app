@@ -34,7 +34,7 @@ final class AppDelegate: UIResponder {
     private var productRepository: ProductRepository?
     private var locationManager: LocationManager?
     private var sessionManager: SessionManager?
-    private var featureFlags: FeatureFlags?
+    private var featureFlags: FeatureFlaggeable?
 
     private var navigator: AppNavigator?
 

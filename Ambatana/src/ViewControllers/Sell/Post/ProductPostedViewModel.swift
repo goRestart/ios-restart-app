@@ -27,7 +27,7 @@ class ProductPostedViewModel: BaseViewModel {
     private var status: ProductPostedStatus
     private var productRepository: ProductRepository?
     private var trackingInfo: PostProductTrackingInfo
-    private var featureFlags: FeatureFlags
+    private var featureFlags: FeatureFlaggeable
 
     var wasFreePosting: Bool {
         switch self.status {
@@ -58,7 +58,7 @@ class ProductPostedViewModel: BaseViewModel {
     }
 
     init(productRepository: ProductRepository, productToPost: Product,
-         productImage: UIImage, trackingInfo: PostProductTrackingInfo, featureFlags: FeatureFlags) {
+         productImage: UIImage, trackingInfo: PostProductTrackingInfo, featureFlags: FeatureFlaggeable) {
             self.productRepository = productRepository
             self.trackingInfo = trackingInfo
             self.featureFlags = featureFlags
@@ -222,7 +222,7 @@ class ProductPostedViewModel: BaseViewModel {
                 let event = TrackerEvent.productSellComplete(postedProduct, buttonName: buttonName,
                                                              sellButtonPosition: strongSelf.trackingInfo.sellButtonPosition,
                                                              negotiable: negotiable, pictureSource: pictureSource,
-                                                             freePostingModeAllowed: featureFlags.freePostingModeAllowed)
+                                                             freePostingModeAllowed: strongSelf.featureFlags.freePostingModeAllowed)
                 strongSelf.trackEvent(event)
 
                 // Track product was sold in the first 24h (and not tracked before)

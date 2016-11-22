@@ -34,7 +34,7 @@ class UserViewModel: BaseViewModel {
     private let myUserRepository: MyUserRepository
     private let userRepository: UserRepository
     private let tracker: Tracker
-    private let featureFlags: FeatureFlags
+    private let featureFlags: FeatureFlaggeable
 
     // Data & VMs
     private let user: Variable<User?>
@@ -120,7 +120,7 @@ class UserViewModel: BaseViewModel {
     }
 
     init(sessionManager: SessionManager, myUserRepository: MyUserRepository, userRepository: UserRepository,
-         tracker: Tracker, isMyProfile: Bool, user: User?, source: UserSource, featureFlags: FeatureFlags) {
+         tracker: Tracker, isMyProfile: Bool, user: User?, source: UserSource, featureFlags: FeatureFlaggeable) {
         self.sessionManager = sessionManager
         self.myUserRepository = myUserRepository
         self.userRepository = userRepository

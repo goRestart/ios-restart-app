@@ -24,7 +24,7 @@ final class SellCoordinator: Coordinator {
     private let productRepository: ProductRepository
     private let keyValueStorage: KeyValueStorage
     private let tracker: Tracker
-    private let featureFlags: FeatureFlags
+    private let featureFlags: FeatureFlaggeable
     private let postingSource: PostingSource
     weak var delegate: SellCoordinatorDelegate?
 

@@ -137,7 +137,7 @@ class ProductViewModel: BaseViewModel {
     private let chatViewMessageAdapter: ChatViewMessageAdapter
     private let interestedBubbleManager: InterestedBubbleManager
     private let bubbleManager: BubbleNotificationManager
-    private let featureFlags: FeatureFlags
+    private let featureFlags: FeatureFlaggeable
 
     // Retrieval status
     private var relationRetrieved = false
@@ -176,7 +176,7 @@ class ProductViewModel: BaseViewModel {
          stickersRepository: StickersRepository, locationManager: LocationManager, countryHelper: CountryHelper,
          product: Product, thumbnailImage: UIImage?, socialSharer: SocialSharer, navigator: ProductDetailNavigator?,
          bubbleManager: BubbleNotificationManager, interestedBubbleManager: InterestedBubbleManager,
-         featureFlags: FeatureFlags) {
+         featureFlags: FeatureFlaggeable) {
         self.product = Variable<Product>(product)
         self.thumbnailImage = thumbnailImage
         self.socialSharer = socialSharer
@@ -1032,7 +1032,7 @@ extension ProductViewModel: SocialSharerDelegate {
 // MARK : - Product
 
 extension Product {
-    private func viewModelStatus(featureFlags: FeatureFlags) -> ProductViewModelStatus {
+    private func viewModelStatus(featureFlags: FeatureFlaggeable) -> ProductViewModelStatus {
         switch status {
         case .Pending:
             return isMine ? .Pending : .NotAvailable

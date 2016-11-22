@@ -28,7 +28,7 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
     let disposeBag: DisposeBag
     
     // FeatureFlags
-    private let featureFlags: FeatureFlags
+    private let featureFlags: FeatureFlaggeable
 
 
     // MARK: - Lifecycle
@@ -37,7 +37,7 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
         setEditing(!editing, animated: true)
     }
 
-    init(viewModel: ChatGroupedViewModel, featureFlags: FeatureFlags) {
+    init(viewModel: ChatGroupedViewModel, featureFlags: FeatureFlaggeable) {
         self.featureFlags = featureFlags
         self.viewModel = viewModel
         self.viewPager = LGViewPager()

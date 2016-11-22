@@ -36,7 +36,7 @@ class InterestedBubbleManager {
      
      */
 
-    func shouldShowInterestedBubbleForProduct(id: String, fromFavoriteAction: Bool, forFirstProduct isFirstProduct: Bool, featureFlags: FeatureFlags) -> Bool {
+    func shouldShowInterestedBubbleForProduct(id: String, fromFavoriteAction: Bool, forFirstProduct isFirstProduct: Bool, featureFlags: FeatureFlaggeable) -> Bool {
 
         var featureFlagDependantValue: Bool = true
         switch featureFlags.interestedUsersMode {

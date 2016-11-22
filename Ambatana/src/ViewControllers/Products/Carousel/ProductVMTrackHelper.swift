@@ -12,13 +12,13 @@ class ProductVMTrackHelper {
 
     var product: Product
     private let tracker: Tracker
-    private var featureFlags: FeatureFlags
+    private var featureFlags: FeatureFlaggeable
 
     convenience init(product: Product) {
         self.init(tracker: TrackerProxy.sharedInstance, product: product, featureFlags: FeatureFlags.sharedInstance)
     }
 
-    init(tracker: Tracker, product: Product, featureFlags: FeatureFlags) {
+    init(tracker: Tracker, product: Product, featureFlags: FeatureFlaggeable) {
         self.tracker = tracker
         self.product = product
         self.featureFlags = featureFlags

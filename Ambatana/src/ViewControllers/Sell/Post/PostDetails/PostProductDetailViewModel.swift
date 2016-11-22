@@ -35,7 +35,7 @@ class PostProductDetailViewModel: BaseViewModel {
         return description.value.isEmpty ? nil : description.value
     }
 
-    var featureFlags: FeatureFlags
+    var featureFlags: FeatureFlaggeable
     let currencySymbol: String?
 
     var freeOptionAvailable: Bool {
@@ -52,7 +52,7 @@ class PostProductDetailViewModel: BaseViewModel {
         self.init(currencySymbol: currencySymbol, featureFlags: featureFlags)
     }
 
-    init(currencySymbol: String?, featureFlags: FeatureFlags) {
+    init(currencySymbol: String?, featureFlags: FeatureFlaggeable) {
         self.currencySymbol = currencySymbol
         self.featureFlags = featureFlags
         super.init()

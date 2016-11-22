@@ -148,7 +148,7 @@ class FiltersViewModel: BaseViewModel {
 
     private var productFilter : ProductFilters
     
-    private let featureFlags: FeatureFlags
+    private let featureFlags: FeatureFlaggeable
     
     override convenience init() {
         self.init(currentFilters: ProductFilters())
@@ -162,7 +162,7 @@ class FiltersViewModel: BaseViewModel {
     
     required init(categoryRepository: CategoryRepository, categories: [FilterCategoryItem],
                   withinTimes: [ProductTimeCriteria], sortOptions: [ProductSortCriteria], currentFilters: ProductFilters,
-        featureFlags: FeatureFlags) {
+        featureFlags: FeatureFlaggeable) {
         self.categoryRepository = categoryRepository
         self.categories = categories
         self.withinTimes = withinTimes

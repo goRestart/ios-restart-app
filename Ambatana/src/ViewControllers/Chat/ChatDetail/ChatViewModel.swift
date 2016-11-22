@@ -152,7 +152,7 @@ class ChatViewModel: BaseViewModel {
     private let tracker: Tracker
     private let configManager: ConfigManager
     private let sessionManager: SessionManager
-    private let featureFlags: FeatureFlags
+    private let featureFlags: FeatureFlaggeable
     
     private let keyValueStorage: KeyValueStorage
 
@@ -229,7 +229,7 @@ class ChatViewModel: BaseViewModel {
     init(conversation: ChatConversation, myUserRepository: MyUserRepository, chatRepository: ChatRepository,
           productRepository: ProductRepository, userRepository: UserRepository, stickersRepository: StickersRepository,
           tracker: Tracker, configManager: ConfigManager, sessionManager: SessionManager, keyValueStorage: KeyValueStorage,
-          navigator: ChatDetailNavigator?, featureFlags: FeatureFlags) {
+          navigator: ChatDetailNavigator?, featureFlags: FeatureFlaggeable) {
         self.conversation = Variable<ChatConversation>(conversation)
         self.myUserRepository = myUserRepository
         self.chatRepository = chatRepository

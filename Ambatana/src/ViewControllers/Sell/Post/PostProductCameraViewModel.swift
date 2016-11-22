@@ -47,7 +47,7 @@ class PostProductCameraViewModel: BaseViewModel {
     let sourcePosting: PostingSource
     private var firstTimeAlertTimer: NSTimer?
 
-    private let featureFlags: FeatureFlags
+    private let featureFlags: FeatureFlaggeable
     
     private var skipCustomPermissions: Bool {
         return sourcePosting == .OnboardingCamera && featureFlags.directPostInOnboarding
@@ -56,7 +56,7 @@ class PostProductCameraViewModel: BaseViewModel {
     // MARK: - Lifecycle
 
 
-    init(postingSource: PostingSource, keyValueStorage: KeyValueStorage, featureFlags: FeatureFlags) {
+    init(postingSource: PostingSource, keyValueStorage: KeyValueStorage, featureFlags: FeatureFlaggeable) {
         self.keyValueStorage = keyValueStorage
         self.sourcePosting = postingSource
         self.featureFlags = featureFlags

@@ -41,7 +41,7 @@ class NotificationsManager {
     private let oldChatRepository: OldChatRepository
     private let notificationsRepository: NotificationsRepository
     private let keyValueStorage: KeyValueStorage
-    private let featureFlags: FeatureFlags
+    private let featureFlags: FeatureFlaggeable
 
     private var loggedIn: Variable<Bool>
     private var requestingChat = false
@@ -57,7 +57,7 @@ class NotificationsManager {
     }
 
     init(sessionManager: SessionManager, chatRepository: ChatRepository, oldChatRepository: OldChatRepository,
-         notificationsRepository: NotificationsRepository, keyValueStorage: KeyValueStorage, featureFlags: FeatureFlags) {
+         notificationsRepository: NotificationsRepository, keyValueStorage: KeyValueStorage, featureFlags: FeatureFlaggeable) {
         self.sessionManager = sessionManager
         self.chatRepository = chatRepository
         self.oldChatRepository = oldChatRepository

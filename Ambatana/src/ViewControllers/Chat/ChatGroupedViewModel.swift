@@ -56,7 +56,7 @@ class ChatGroupedViewModel: BaseViewModel {
     private let chatHeadManager: ChatHeadManager
     private let myUserRepository: MyUserRepository
     private let chatRepository: ChatRepository
-    private let featureFlags: FeatureFlags
+    private let featureFlags: FeatureFlaggeable
 
     weak var delegate: ChatGroupedViewModelDelegate?
     weak var tabNavigator: TabNavigator? {
@@ -84,7 +84,7 @@ class ChatGroupedViewModel: BaseViewModel {
     }
 
     init(myUserRepository: MyUserRepository, chatRepository: ChatRepository,
-         sessionManager: SessionManager, chatHeadManager: ChatHeadManager, featureFlags: FeatureFlags) {
+         sessionManager: SessionManager, chatHeadManager: ChatHeadManager, featureFlags: FeatureFlaggeable) {
         self.sessionManager = sessionManager
         self.chatHeadManager = chatHeadManager
         self.myUserRepository = myUserRepository

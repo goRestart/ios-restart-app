@@ -26,7 +26,7 @@ class TabCoordinator: NSObject {
     let myUserRepository: MyUserRepository
     let keyValueStorage: KeyValueStorage
     let tracker: Tracker
-    let featureFlags: FeatureFlags
+    let featureFlags: FeatureFlaggeable
     let disposeBag = DisposeBag()
 
     weak var tabCoordinatorDelegate: TabCoordinatorDelegate?
@@ -37,7 +37,7 @@ class TabCoordinator: NSObject {
     init(productRepository: ProductRepository, userRepository: UserRepository, chatRepository: ChatRepository,
          oldChatRepository: OldChatRepository, myUserRepository: MyUserRepository,
          keyValueStorage: KeyValueStorage, tracker: Tracker, rootViewController: UIViewController,
-         featureFlags: FeatureFlags) {
+         featureFlags: FeatureFlaggeable) {
         self.productRepository = productRepository
         self.userRepository = userRepository
         self.chatRepository = chatRepository

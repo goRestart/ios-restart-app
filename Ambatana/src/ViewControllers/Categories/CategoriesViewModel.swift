@@ -16,7 +16,7 @@ protocol CategoriesViewModelDelegate: class {
 class CategoriesViewModel: BaseViewModel {
 
     private let categoryRepository: CategoryRepository
-    private let featureFlags: FeatureFlags
+    private let featureFlags: FeatureFlaggeable
     private var categories: [FilterCategoryItem]
 
     var numOfCategories : Int {
@@ -31,7 +31,7 @@ class CategoriesViewModel: BaseViewModel {
         self.init(categoryRepository: Core.categoryRepository, categories: [], featureFlags: FeatureFlags.sharedInstance)
     }
 
-    required init(categoryRepository: CategoryRepository, categories: [FilterCategoryItem], featureFlags: FeatureFlags) {
+    required init(categoryRepository: CategoryRepository, categories: [FilterCategoryItem], featureFlags: FeatureFlaggeable) {
         self.categoryRepository = categoryRepository
         self.categories = categories
         self.featureFlags = featureFlags
