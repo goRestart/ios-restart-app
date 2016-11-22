@@ -7,6 +7,7 @@
 //
 
 import LGCoreKit
+import RxSwift
 
 class MockSessionManager: SessionManager {
     var myUserResult: SessionMyUserResult!
@@ -15,6 +16,8 @@ class MockSessionManager: SessionManager {
 
     
     // MARK: - SessionManager
+
+    var sessionEvents: Observable<SessionEvent> = PublishSubject<SessionEvent>()
 
     var loggedIn: Bool = false
 

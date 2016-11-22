@@ -8,6 +8,7 @@
 
 import CoreLocation
 import LGCoreKit
+import RxSwift
 
 class MockLocationManager: LocationManager {
     var myUserResult: MyUserResult?
@@ -16,6 +17,7 @@ class MockLocationManager: LocationManager {
 
     // MARK: - LocationManager
 
+    var locationEvents: Observable<LocationEvent> = PublishSubject<LocationEvent>()
     var didAcceptPermissions: Bool = false
     var isManualLocationEnabled: Bool = false
     var manualLocationThreshold: Double = 1000
