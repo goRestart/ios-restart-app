@@ -1,3 +1,4 @@
+
 //
 //  GoogleLoginHelper.swift
 //  LetGo
@@ -9,12 +10,8 @@
 import Foundation
 import LGCoreKit
 
-enum GoogleSignInResult {
-    case Success(serverAuthCode: String), Cancelled, Error(error: NSError?)
-}
-
 class GoogleLoginHelper: NSObject {
-    private var googleSignInCompletion: ((result: GoogleSignInResult) -> ())?
+    private var googleSignInCompletion: ExternalAuthTokenRetrievalCompletion?
     private let tracker: Tracker
     private let loginSource: EventParameterLoginSourceValue
     private let sessionManager: SessionManager
@@ -39,7 +36,7 @@ class GoogleLoginHelper: NSObject {
 // MARK: - Public methods
 
 extension GoogleLoginHelper {
-    func googleSignIn(googleSignInCompletion: (result: GoogleSignInResult) -> Void) {
+    func googleSignIn(googleSignInCompletion: ExternalAuthTokenRetrievalCompletion) {
         self.googleSignInCompletion = googleSignInCompletion
         GIDSignIn.sharedInstance().delegate = self
         GIDSignIn.sharedInstance().signOut()
@@ -61,11 +58,11 @@ extension GoogleLoginHelper: GIDSignInDelegate {
 
     @objc func signIn(signIn: GIDSignIn!, didSignInForUser user: GIDGoogleUser!, withError error: NSError!) {
         if let serverAuthCode = user?.serverAuthCode {
-            googleSignInCompletion?(result: .Success(serverAuthCode:serverAuthCode))
+            googleSignInCompletion?(.Success(serverAuthCode:serverAuthCode))
         } else if let loginError = error where loginError.code == -5 {
-            googleSignInCompletion?(result: .Cancelled)
+            googleSignInCompletion?(.Cancelled)
         } else {
-            googleSignInCompletion?(result: .Error(error: error))
+            googleSignInCompletion?(.Error(error: error))
         }
     }
 }

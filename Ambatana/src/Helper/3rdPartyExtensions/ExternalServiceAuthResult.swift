@@ -46,3 +46,11 @@ enum ExternalServiceAuthResult {
         }
     }
 }
+
+enum ExternalAuthTokenRetrievalResult {
+    case Success(serverAuthCode: String)
+    case Cancelled
+    case Error(error: NSError?)
+}
+
+typealias ExternalAuthTokenRetrievalCompletion = ExternalAuthTokenRetrievalResult -> ()

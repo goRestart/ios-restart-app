@@ -9,10 +9,6 @@
 import FBSDKLoginKit
 import LGCoreKit
 
-enum FBConnectResult {
-    case Success(token: String), Cancelled, Error(error: NSError?)
-}
-
 class FBLoginHelper {
     private static let fbPermissions = ["email", "public_profile", "user_friends", "user_birthday", "user_likes"]
 
@@ -40,14 +36,14 @@ class FBLoginHelper {
 // MARK: - Public methods
 
 extension FBLoginHelper {
-    func connectWithFacebook(completion: FBConnectResult -> ()) {
+    func connectWithFacebook(completion: ExternalAuthTokenRetrievalCompletion) {
         let loginManager = FBSDKLoginManager()
         loginManager.logOut()
         loginManager.logInWithReadPermissions(FBLoginHelper.fbPermissions, fromViewController: nil) {
             (result: FBSDKLoginManagerLoginResult!, error: NSError!) -> Void in
             if let result = result {
                 if let token = result.token?.tokenString {
-                    completion(.Success(token: token))
+                    completion(.Success(serverAuthCode: token))
                 } else if result.isCancelled {
                     completion(.Cancelled)
                 } else {
