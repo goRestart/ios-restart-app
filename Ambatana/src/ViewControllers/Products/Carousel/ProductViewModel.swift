@@ -1034,13 +1034,13 @@ extension Product {
         case .Discarded, .Deleted:
             return .NotAvailable
         case .Approved:
-            if (price.free) {
+            if price.free {
                 return isMine ? .AvailableFree : .OtherAvailableFree
             } else {
                 return isMine ? .Available : .OtherAvailable
             }
         case .Sold, .SoldOld:
-            if (price.free) {
+            if price.free {
                 return isMine ? .SoldFree : .OtherSoldFree
             } else {
                 return isMine ? .Sold : .OtherSold

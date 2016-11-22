@@ -90,6 +90,11 @@ class PostProductViewModel: BaseViewModel {
         self.postDetailViewModel.delegate = self
     }
 
+    override func didBecomeActive(firstTime: Bool) {
+        super.didBecomeActive(firstTime)
+        guard firstTime else { return }
+        trackVisit()
+    }
 
     // MARK: - Public methods
    
@@ -196,6 +201,14 @@ private extension PostProductViewModel {
 
 
 // MARK: - Tracking
+
+private extension PostProductViewModel {
+    func trackVisit() {
+        let event = TrackerEvent.productSellStart(postingSource.typePage,
+                                                  buttonName: postingSource.buttonName, sellButtonPosition: postingSource.sellButtonPosition)
+        tracker.trackEvent(event)
+    }
+}
 
 extension PostingSource {
     var typePage: EventParameterTypePage {

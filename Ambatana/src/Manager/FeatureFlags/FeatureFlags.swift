@@ -140,17 +140,17 @@ struct FeatureFlags: FeatureFlaggeable {
     // MARK: - Country features
 
     static var freePostingModeAllowed: Bool {
-        return !FeatureFlags.matchesLocationAndRegion("tr")
+        return !FeatureFlags.matchesLocationOrRegion("tr")
     }
     
     // MARK: - Private
     
     /// Checks location & phone region.
-    private static func matchesLocationAndRegion(code: String,
+    private static func matchesLocationOrRegion(code: String,
                                                  locale: NSLocale = NSLocale.currentLocale(),
                                                  locationManager: LocationManager = Core.locationManager) -> Bool {
         let systemCountryCode = locale.lg_countryCode
         let countryCode = (locationManager.currentPostalAddress?.countryCode ?? systemCountryCode).lowercaseString
-        return systemCountryCode != code && countryCode != code
+        return systemCountryCode == code || countryCode == code
     }
 }
