@@ -221,7 +221,8 @@ public class SignUpLogInViewModel: BaseViewModel {
                             strongSelf.sessionManager.login(strongSelf.email, password: strongSelf.password) { [weak self] loginResult in
                                 guard let strongSelf = self else { return }
                                 if let _ = loginResult.value {
-                                    let trackerEvent = TrackerEvent.loginEmail(strongSelf.loginSource)
+                                    let rememberedAccount = strongSelf.previousEmail.value != nil
+                                    let trackerEvent = TrackerEvent.loginEmail(strongSelf.loginSource, rememberedAccount: rememberedAccount)
                                     self?.tracker.trackEvent(trackerEvent)
                                     strongSelf.delegate?.viewModelDidLogIn(strongSelf)
                                 } else if let _ = loginResult.error {
@@ -273,7 +274,8 @@ public class SignUpLogInViewModel: BaseViewModel {
                 if let user = loginResult.value {
                     self?.savePreviousEmailOrUsername(.Email, userEmailOrName: user.email)
 
-                    let trackerEvent = TrackerEvent.loginEmail(strongSelf.loginSource)
+                    let rememberedAccount = strongSelf.previousEmail.value != nil
+                    let trackerEvent = TrackerEvent.loginEmail(strongSelf.loginSource, rememberedAccount: rememberedAccount)
                     self?.tracker.trackEvent(trackerEvent)
 
                     strongSelf.delegate?.viewModelDidLogIn(strongSelf)
@@ -492,7 +494,8 @@ public class SignUpLogInViewModel: BaseViewModel {
     }
 
     private func trackLoginFBOK() {
-        tracker.trackEvent(TrackerEvent.loginFB(loginSource))
+        let rememberedAccount = previousFacebookUsername.value != nil
+        tracker.trackEvent(TrackerEvent.loginFB(loginSource, rememberedAccount: rememberedAccount))
     }
 
     private func trackLoginFBFailedWithError(error: EventParameterLoginError) {
@@ -500,7 +503,8 @@ public class SignUpLogInViewModel: BaseViewModel {
     }
 
     private func trackLoginGoogleOK() {
-        tracker.trackEvent(TrackerEvent.loginGoogle(loginSource))
+        let rememberedAccount = previousGoogleUsername.value != nil
+        tracker.trackEvent(TrackerEvent.loginGoogle(loginSource, rememberedAccount: rememberedAccount))
     }
 
     private func trackLoginGoogleFailedWithError(error: EventParameterLoginError) {

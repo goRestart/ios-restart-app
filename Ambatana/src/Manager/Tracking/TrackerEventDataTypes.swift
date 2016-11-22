@@ -196,6 +196,7 @@ public enum EventParameterName: String {
     case TrendingSearch       = "trending-search"
     case Description          = "description"           // error description: why form validation failure.
     case LoginSource          = "login-type"            // the login source
+    case LoginRememberedAccount = "existing"
     case LocationType         = "location-type"
     case ShareNetwork         = "share-network"
     case ButtonPosition       = "button-position"
@@ -635,8 +636,11 @@ public struct EventParameters {
         }
     }
     
-    internal mutating func addLoginParams(source: EventParameterLoginSourceValue) {
+    internal mutating func addLoginParams(source: EventParameterLoginSourceValue, rememberedAccount: Bool? = nil) {
         params[.LoginSource] = source.rawValue
+        if let rememberedAccount = rememberedAccount {
+            params[.LoginRememberedAccount] = rememberedAccount
+        }
     }
     
     internal mutating func addProductParams(product: Product) {

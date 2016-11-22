@@ -205,7 +205,8 @@ class SignUpViewModel: BaseViewModel {
     }
 
     private func trackLoginFBOK() {
-        tracker.trackEvent(TrackerEvent.loginFB(loginSource))
+        let rememberedAccount = previousFacebookUsername.value != nil
+        tracker.trackEvent(TrackerEvent.loginFB(loginSource, rememberedAccount: rememberedAccount))
     }
 
     private func trackLoginFBFailedWithError(error: EventParameterLoginError) {
@@ -213,7 +214,8 @@ class SignUpViewModel: BaseViewModel {
     }
 
     private func trackLoginGoogleOK() {
-        tracker.trackEvent(TrackerEvent.loginGoogle(loginSource))
+        let rememberedAccount = previousGoogleUsername.value != nil
+        tracker.trackEvent(TrackerEvent.loginGoogle(loginSource, rememberedAccount: rememberedAccount))
     }
 
     private func trackLoginGoogleFailedWithError(error: EventParameterLoginError) {

@@ -144,6 +144,11 @@ class TrackerEventSpec: QuickSpec {
                     sut = TrackerEvent.loginVisit(.Sell)
                     expect(sut.name.rawValue).to(equal("login-screen"))
                 }
+                it("contains the existing param") {
+                    sut = TrackerEvent.loginVisit(.Sell)
+                    let existing = sut.params!.stringKeyParams["existing"] as! Bool
+                    expect(existing) == true
+                }
                 it("contains the appropiate login source when visiting login from posting") {
                     sut = TrackerEvent.loginVisit(.Sell)
                     expect(sut.params).notTo(beNil())
@@ -267,11 +272,16 @@ class TrackerEventSpec: QuickSpec {
 
             describe("loginFB") {
                 it("has its event name") {
-                    sut = TrackerEvent.loginFB(.Sell)
+                    sut = TrackerEvent.loginFB(.Sell, rememberedAccount: true)
                     expect(sut.name.rawValue).to(equal("login-fb"))
                 }
+                it("contains the existing param") {
+                    sut = TrackerEvent.loginFB(.Sell, rememberedAccount: true)
+                    let existing = sut.params!.stringKeyParams["existing"] as! Bool
+                    expect(existing) == true
+                }
                 it("contains the appropiate login source logging in via FB from posting") {
-                    sut = TrackerEvent.loginFB(.Sell)
+                    sut = TrackerEvent.loginFB(.Sell, rememberedAccount: true)
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
@@ -279,7 +289,7 @@ class TrackerEventSpec: QuickSpec {
                     expect(loginType).to(equal("posting"))
                 }
                 it("contains the appropiate login source logging in via FB from chats") {
-                    sut = TrackerEvent.loginFB(.Chats)
+                    sut = TrackerEvent.loginFB(.Chats, rememberedAccount: true)
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
@@ -287,7 +297,7 @@ class TrackerEventSpec: QuickSpec {
                     expect(loginType).to(equal("messages"))
                 }
                 it("contains the appropiate login source logging in via FB from profile") {
-                    sut = TrackerEvent.loginFB(.Profile)
+                    sut = TrackerEvent.loginFB(.Profile, rememberedAccount: true)
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
@@ -295,7 +305,7 @@ class TrackerEventSpec: QuickSpec {
                     expect(loginType).to(equal("view-profile"))
                 }
                 it("contains the appropiate login source logging in via FB from mark as favourite") {
-                    sut = TrackerEvent.loginFB(.Favourite)
+                    sut = TrackerEvent.loginFB(.Favourite, rememberedAccount: true)
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
@@ -303,7 +313,7 @@ class TrackerEventSpec: QuickSpec {
                     expect(loginType).to(equal("favourite"))
                 }
                 it("contains the appropiate login source logging in via FB from mark as sold") {
-                    sut = TrackerEvent.loginFB(.MarkAsSold)
+                    sut = TrackerEvent.loginFB(.MarkAsSold, rememberedAccount: true)
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
@@ -311,7 +321,7 @@ class TrackerEventSpec: QuickSpec {
                     expect(loginType).to(equal("mark-as-sold"))
                 }
                 it("contains the appropiate login source logging in via FB from as a question") {
-                    sut = TrackerEvent.loginFB(.AskQuestion)
+                    sut = TrackerEvent.loginFB(.AskQuestion, rememberedAccount: true)
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
@@ -319,7 +329,7 @@ class TrackerEventSpec: QuickSpec {
                     expect(loginType).to(equal("question"))
                 }
                 it("contains the appropiate login source logging in via FB from report fraud") {
-                    sut = TrackerEvent.loginFB(.ReportFraud)
+                    sut = TrackerEvent.loginFB(.ReportFraud, rememberedAccount: true)
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
@@ -330,11 +340,16 @@ class TrackerEventSpec: QuickSpec {
 
             describe("loginEmail") {
                 it("has its event name") {
-                    sut = TrackerEvent.loginEmail(.Sell)
+                    sut = TrackerEvent.loginEmail(.Sell, rememberedAccount: true)
                     expect(sut.name.rawValue).to(equal("login-email"))
                 }
+                it("contains the existing param") {
+                    sut = TrackerEvent.loginEmail(.Sell, rememberedAccount: true)
+                    let existing = sut.params!.stringKeyParams["existing"] as! Bool
+                    expect(existing) == true
+                }
                 it("contains the appropiate login source logging in via email from posting") {
-                    sut = TrackerEvent.loginEmail(.Sell)
+                    sut = TrackerEvent.loginEmail(.Sell, rememberedAccount: true)
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
@@ -342,7 +357,7 @@ class TrackerEventSpec: QuickSpec {
                     expect(loginType).to(equal("posting"))
                 }
                 it("contains the appropiate login source logging in via email from chats") {
-                    sut = TrackerEvent.loginEmail(.Chats)
+                    sut = TrackerEvent.loginEmail(.Chats, rememberedAccount: true)
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
@@ -350,7 +365,7 @@ class TrackerEventSpec: QuickSpec {
                     expect(loginType).to(equal("messages"))
                 }
                 it("contains the appropiate login source logging in via email from profile") {
-                    sut = TrackerEvent.loginEmail(.Profile)
+                    sut = TrackerEvent.loginEmail(.Profile, rememberedAccount: true)
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
@@ -358,7 +373,7 @@ class TrackerEventSpec: QuickSpec {
                     expect(loginType).to(equal("view-profile"))
                 }
                 it("contains the appropiate login source logging in via email from mark as favourite") {
-                    sut = TrackerEvent.loginEmail(.Favourite)
+                    sut = TrackerEvent.loginEmail(.Favourite, rememberedAccount: true)
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
@@ -366,7 +381,7 @@ class TrackerEventSpec: QuickSpec {
                     expect(loginType).to(equal("favourite"))
                 }
                 it("contains the appropiate login source logging in via email from mark as sold") {
-                    sut = TrackerEvent.loginEmail(.MarkAsSold)
+                    sut = TrackerEvent.loginEmail(.MarkAsSold, rememberedAccount: true)
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
@@ -374,7 +389,7 @@ class TrackerEventSpec: QuickSpec {
                     expect(loginType).to(equal("mark-as-sold"))
                 }
                 it("contains the appropiate login source logging in via email from as a question") {
-                    sut = TrackerEvent.loginEmail(.AskQuestion)
+                    sut = TrackerEvent.loginEmail(.AskQuestion, rememberedAccount: true)
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
@@ -382,7 +397,7 @@ class TrackerEventSpec: QuickSpec {
                     expect(loginType).to(equal("question"))
                 }
                 it("contains the appropiate login source logging in via email from report fraud") {
-                    sut = TrackerEvent.loginEmail(.ReportFraud)
+                    sut = TrackerEvent.loginEmail(.ReportFraud, rememberedAccount: true)
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())

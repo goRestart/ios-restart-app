@@ -56,21 +56,21 @@ public struct TrackerEvent {
         return TrackerEvent(name: .LoginAbandon, params: params)
     }
 
-    static func loginFB(source: EventParameterLoginSourceValue) -> TrackerEvent {
+    static func loginFB(source: EventParameterLoginSourceValue, rememberedAccount: Bool) -> TrackerEvent {
         var params = EventParameters()
-        params.addLoginParams(source)
+        params.addLoginParams(source, rememberedAccount: rememberedAccount)
         return TrackerEvent(name: .LoginFB, params: params)
     }
     
-    static func loginGoogle(source: EventParameterLoginSourceValue) -> TrackerEvent {
+    static func loginGoogle(source: EventParameterLoginSourceValue, rememberedAccount: Bool) -> TrackerEvent {
         var params = EventParameters()
-        params.addLoginParams(source)
+        params.addLoginParams(source, rememberedAccount: rememberedAccount)
         return TrackerEvent(name: .LoginGoogle, params: params)
     }
 
-    static func loginEmail(source: EventParameterLoginSourceValue) -> TrackerEvent {
+    static func loginEmail(source: EventParameterLoginSourceValue, rememberedAccount: Bool) -> TrackerEvent {
         var params = EventParameters()
-        params.addLoginParams(source)
+        params.addLoginParams(source, rememberedAccount: rememberedAccount)
         return TrackerEvent(name: .LoginEmail, params: params)
     }
 
