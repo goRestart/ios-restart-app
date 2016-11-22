@@ -493,14 +493,7 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate {
 
     func vmDidSelectCollection(type: CollectionCellType){
         tracker.trackEvent(TrackerEvent.exploreCollection(type.rawValue))
-        var query: String
-        switch type {
-        case .You:
-            query = keyValueStorage[.lastSearches].reverse().joinWithSeparator(" ")
-        case .Apple, .Furniture, .Gaming, .Transport:
-            guard let searchText =  type.searchTextUS else { return }
-            query =  searchText
-        }
+        let query = queryForCollection(type)
         delegate?.vmDidSearch(viewModelForSearch(.Collection(type: type, query: query)))
     }
     
@@ -700,6 +693,35 @@ private extension ProductFilters {
         case .PriceAsc, .PriceDesc:
             return false
         }
+    }
+}
+
+
+// MARK: - Queries for Collections
+
+private extension MainProductsViewModel {
+    func queryForCollection(type: CollectionCellType) -> String {
+        var query: String
+        switch type {
+        case .You:
+            query = keyValueStorage[.lastSearches].reverse().joinWithSeparator(" ")
+        case .Transport:
+            switch FeatureFlags.keywordsTravelCollection {
+            case .Standard:
+                query = "bike boat motorcycle car kayak trailer atv truck jeep rims camper cart scooter dirtbike jetski gokart four wheeler bicycle quad bike tractor bmw wheels canoe hoverboard Toyota bmx rv Chevy sub ford paddle Harley yamaha Jeep Honda mustang corvette dodge"
+            case .CarsPrior:
+                query = "car motorcycle boat scooter kayak trailer atv truck bike jeep rims camper cart dirtbike jetski gokart four wheeler bicycle quad bike tractor bmw wheels canoe hoverboard Toyota bmx rv Chevy sub ford paddle Harley yamaha Jeep Honda mustang corvette dodge"
+            case .BrandsPrior:
+                query = "mustang Honda Harley corvette dodge Toyota yamaha motorcycle Jeep atv bike boat car kayak trailer truck jeep rims camper cart scooter dirtbike jetski gokart four wheeler bicycle quad bike tractor bmw wheels canoe hoverboard bmx rv Chevy sub ford paddle"
+            }
+        case .Gaming:
+            query = "ps4 xbox pokemon nintendo PS3 game boy Wii atari sega"
+        case .Apple:
+            query = "iphone apple iPad MacBook iPod Mac iMac"
+        case .Furniture:
+            query = "dresser couch furniture desk table patio bed stand chair sofa rug mirror futon bench stool frame recliner lamp cabinet ikea shelf antique bedroom book shelf tables end table bunk beds night stand canopy"
+        }
+        return query
     }
 }
 

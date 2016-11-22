@@ -448,6 +448,7 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
         self.imageCollectionView.registerNib(cellNib, forCellWithReuseIdentifier: sellProductCellReuseIdentifier)
         
         loadingLabel.text = LGLocalizedString.sellUploadingLabel
+        view.bringSubviewToFront(loadingView)
         
         // hide keyboard on tap
         hideKbTapRecognizer = UITapGestureRecognizer(target: self, action: #selector(scrollViewTapped))

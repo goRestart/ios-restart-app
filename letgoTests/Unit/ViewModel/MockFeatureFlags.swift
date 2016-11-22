@@ -25,4 +25,5 @@ class MockFeatureFlags: FeatureFlaggeable {
     var periscopeChat: Bool = false
     var chatHeadBubbles: Bool = false
     var showLiquidProductsToNewUser: Bool = false
+	var keywordsTravelCollection: KeywordsTravelCollection = .Standard
 }

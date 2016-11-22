@@ -24,6 +24,7 @@ protocol FeatureFlaggeable {
     var periscopeChat: Bool { get }
     var chatHeadBubbles: Bool { get }
     var showLiquidProductsToNewUser: Bool { get }
+	var keywordsTravelCollection: KeywordsTravelCollection { get }
 }
 
 public class FeatureFlags: FeatureFlaggeable {
@@ -134,13 +135,20 @@ public class FeatureFlags: FeatureFlaggeable {
         return ABTests.showLiquidProductsToNewUser.value
     }
 
-    static var expressChatBanner: Bool {
+  	var expressChatBanner: Bool {
         if Bumper.enabled {
             return Bumper.expressChatBanner
         }
         return ABTests.expressChatBanner.value
     }
-
+    
+   	var keywordsTravelCollection: KeywordsTravelCollection {
+        if Bumper.enabled {
+            return Bumper.keywordsTravelCollection
+        }
+        return KeywordsTravelCollection.fromPosition(ABTests.keywordsTravelCollection.value)
+    }
+  
     
     // MARK: - Private
 
