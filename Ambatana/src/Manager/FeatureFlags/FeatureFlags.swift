@@ -16,7 +16,6 @@ protocol FeatureFlaggeable {
     static var messageOnFavoriteRound2: MessageOnFavoriteRound2Mode { get }
     static var interestedUsersMode: InterestedUsersMode { get }
     static var filtersReorder: Bool { get }
-    static var freePostingMode: FreePostingMode { get }
     static var directPostInOnboarding: Bool { get }
     static var shareButtonWithIcon: Bool { get }
     static var productDetailShareMode: ProductDetailShareMode { get }
