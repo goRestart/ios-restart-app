@@ -236,7 +236,7 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
         for file in product.images { productImages.append(file) }
 
         self.shouldShareInFB = myUserRepository.myUser?.facebookAccount != nil
-        self.isFreePosting.value = product.price.free
+        self.isFreePosting.value = FeatureFlags.freePostingModeAllowed && product.price.free
         super.init()
 
         setupCategories()
