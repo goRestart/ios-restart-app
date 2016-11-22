@@ -72,10 +72,6 @@ class NotificationsManager {
     }
 
     func setup() {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(login),
-                                                         name: SessionNotification.Login.rawValue, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(logout),
-                                                         name: SessionNotification.Logout.rawValue, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(applicationWillEnterForeground),
                                                          name: UIApplicationWillEnterForegroundNotification, object: nil)
         setupRxBindings()
@@ -99,6 +95,18 @@ class NotificationsManager {
     // MARK: - Private
 
     private func setupRxBindings() {
+        sessionManager.sessionEvents.bindNext { [weak self] event in
+            switch event {
+            case .Login:
+                self?.updateCounters()
+            case .Logout:
+                self?.unreadMessagesCount.value = 0
+                self?.unreadNotificationsCount.value = 0
+            }
+        }.addDisposableTo(disposeBag)
+
+        sessionManager.sessionEvents.map { $0.isLogin }.bindTo(loggedIn).addDisposableTo(disposeBag)
+
         globalCount.bindNext { count in
             guard let count = count else { return }
             UIApplication.sharedApplication().applicationIconBadgeNumber = count
@@ -120,17 +128,6 @@ class NotificationsManager {
                 self?.requestChatCounters()
             }.addDisposableTo(disposeBag)
         }
-    }
-
-    dynamic private func login() {
-        loggedIn.value = true
-        updateCounters()
-    }
-
-    dynamic private func logout() {
-        loggedIn.value = false
-        unreadMessagesCount.value = 0
-        unreadNotificationsCount.value = 0
     }
 
     dynamic private func applicationWillEnterForeground() {

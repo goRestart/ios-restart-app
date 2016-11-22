@@ -8,6 +8,7 @@
 
 import Result
 import KeychainSwift
+import RxSwift
 
 class LGInstallationRepository: InternalInstallationRepository {
 
@@ -48,6 +49,9 @@ class LGInstallationRepository: InternalInstallationRepository {
      */
     var installation: Installation? {
         return dao.installation
+    }
+    var rx_installation: Observable<Installation?> {
+        return dao.rx_installation
     }
 
     var installationId: String {
@@ -118,14 +122,7 @@ class LGInstallationRepository: InternalInstallationRepository {
      */
     func create(completion: ((Result<Installation, ApiError>) -> ())?) {
         let params = buildInstallationCreateParams()
-        create(params) { result in
-            if let installation = result.value {
-                NSNotificationCenter.defaultCenter().postNotificationName(InstallationNotification.Create.rawValue, object: nil)
-                completion?(Result<Installation, ApiError>(value: installation))
-            } else if let error = result.error {
-                completion?(Result<Installation, ApiError>(error: error))
-            }
-        }
+        create(params, completion: completion)
     }
 
     /**

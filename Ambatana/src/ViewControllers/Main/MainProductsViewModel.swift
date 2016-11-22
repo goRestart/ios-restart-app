@@ -90,6 +90,7 @@ class MainProductsViewModel: BaseViewModel {
     let mainProductsHeader = Variable<MainProductsHeader>([])
 
     // Manager & repositories
+    private let sessionManager: SessionManager
     private let myUserRepository: MyUserRepository
     private let trendingSearchesRepository: TrendingSearchesRepository
     private let locationManager: LocationManager
@@ -140,14 +141,17 @@ class MainProductsViewModel: BaseViewModel {
     var trendingCounter: Int {
         return trendingSearches.value.count
     }
+
+    private let disposeBag = DisposeBag()
     
     
     // MARK: - Lifecycle
     
-    init(myUserRepository: MyUserRepository, trendingSearchesRepository: TrendingSearchesRepository,
+    init(sessionManager: SessionManager, myUserRepository: MyUserRepository, trendingSearchesRepository: TrendingSearchesRepository,
          locationManager: LocationManager, currencyHelper: CurrencyHelper, tracker: Tracker, searchType: SearchType? = nil,
          filters: ProductFilters, tabNavigator: TabNavigator?, keyValueStorage: KeyValueStorageable,
          featureFlags: FeatureFlaggeable.Type) {
+        self.sessionManager = sessionManager
         self.myUserRepository = myUserRepository
         self.trendingSearchesRepository = trendingSearchesRepository
         self.locationManager = locationManager
@@ -177,6 +181,7 @@ class MainProductsViewModel: BaseViewModel {
     }
     
     convenience init(searchType: SearchType? = nil, filters: ProductFilters, tabNavigator: TabNavigator?) {
+        let sessionManager = Core.sessionManager
         let myUserRepository = Core.myUserRepository
         let trendingSearchesRepository = Core.trendingSearchesRepository
         let locationManager = Core.locationManager
@@ -184,7 +189,7 @@ class MainProductsViewModel: BaseViewModel {
         let tracker = TrackerProxy.sharedInstance
         let keyValueStorage = KeyValueStorage.sharedInstance
         let featureFlags = FeatureFlags.self
-        self.init(myUserRepository: myUserRepository, trendingSearchesRepository: trendingSearchesRepository,
+        self.init(sessionManager: sessionManager, myUserRepository: myUserRepository, trendingSearchesRepository: trendingSearchesRepository,
                   locationManager: locationManager, currencyHelper: currencyHelper, tracker: tracker, searchType: searchType,
                   filters: filters, tabNavigator: tabNavigator, keyValueStorage: keyValueStorage, featureFlags: featureFlags)
     }
@@ -507,16 +512,13 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate {
 
 extension MainProductsViewModel {
     private func setupSessionAndLocation() {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(sessionDidChange),
-                                                         name: SessionNotification.Login.rawValue, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(sessionDidChange),
-                                                         name: SessionNotification.Logout.rawValue, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(locationDidChange),
-                                                         
-                                                         name: LocationNotification.LocationUpdate.rawValue, object: nil)
+        sessionManager.sessionEvents.bindNext { [weak self] _ in self?.sessionDidChange() }.addDisposableTo(disposeBag)
+        locationManager.locationEvents.filter { $0 == .LocationUpdate }.bindNext { [weak self] _ in
+            self?.locationDidChange()
+        }.addDisposableTo(disposeBag)
     }
 
-    dynamic private func sessionDidChange() {
+    private func sessionDidChange() {
         guard listViewModel.canRetrieveProducts else {
             shouldRetryLoad = true
             return
@@ -524,7 +526,7 @@ extension MainProductsViewModel {
         listViewModel.retrieveProducts()
     }
 
-    dynamic private func locationDidChange() {
+    private func locationDidChange() {
         guard let newLocation = locationManager.currentLocation else { return }
 
         // Tracking: when a new location is received and has different type than previous one
