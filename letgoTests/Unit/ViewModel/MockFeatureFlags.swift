@@ -18,7 +18,6 @@ class MockFeatureFlags: FeatureFlaggeable {
     static var messageOnFavoriteRound2: MessageOnFavoriteRound2Mode = .NoMessage
     static var interestedUsersMode: InterestedUsersMode = .NoNotification
     static var filtersReorder: Bool = false
-    static var freePostingMode: FreePostingMode = .OneButton
     static var directPostInOnboarding: Bool = false
     static var shareButtonWithIcon: Bool = false
     static var productDetailShareMode: ProductDetailShareMode = .Native

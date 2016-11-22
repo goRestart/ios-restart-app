@@ -1426,10 +1426,6 @@ class TrackerEventSpec: QuickSpec {
                     let position = sut.params!.stringKeyParams["sell-button-position"] as? String
                     expect(position).to(equal("tabbar-camera"))
                 }
-                it("contains unset as EventParameterFreePosting") {
-                    let freePosting = sut.params!.stringKeyParams["free-posting"] as? String
-                    expect(freePosting).to(equal("N/A"))
-                }
             }
 
             describe("productSellFormValidationFailed") {
