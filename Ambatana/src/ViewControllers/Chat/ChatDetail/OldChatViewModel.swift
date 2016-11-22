@@ -116,7 +116,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
 
     var shouldShowDirectAnswers: Bool {
         return directAnswersAvailable &&
-            KeyValueStorage.sharedInstance.userLoadChatShowDirectAnswersForKey(userDefaultsSubKey)
+            keyValueStorage.userLoadChatShowDirectAnswersForKey(userDefaultsSubKey)
     }
     var keyForTextCaching: String {
         return userDefaultsSubKey
@@ -155,22 +155,8 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     }
 
     var directAnswersAvailable: Bool {
-        return chatEnabled && !relatedProductsEnabled
+        return chatEnabled && !relatedProductsEnabled.value
     }
-
-    var relatedProductsEnabled: Bool {
-        guard isBuyer else { return false }
-        switch chatStatus {
-        case .Forbidden, .UserDeleted, .UserPendingDelete, .ProductDeleted, .ProductSold:
-            return true
-        case  .Available:
-            return sellerDidntAnswer
-        case .Blocked, .BlockedBy:
-            return false
-        }
-    }
-
-    var sellerDidntAnswer: Bool = false
 
     var chatEnabled: Bool {
         switch chatStatus {
@@ -232,8 +218,8 @@ public class OldChatViewModel: BaseViewModel, Paginable {
 
     var shouldShowUserReviewTooltip: Bool {
         // we don't want both tooltips at the same time.  !st stickers, then rating
-        return !KeyValueStorage.sharedInstance[.userRatingTooltipAlreadyShown] &&
-            KeyValueStorage.sharedInstance[.stickersTooltipAlreadyShown]
+        return !keyValueStorage[.userRatingTooltipAlreadyShown] &&
+            keyValueStorage[.stickersTooltipAlreadyShown]
     }
 
     // MARK: Paginable
@@ -259,6 +245,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     private let tracker: Tracker
     private let configManager: ConfigManager
     private let sessionManager: SessionManager
+    private let keyValueStorage: KeyValueStorage
     private var shouldSendFirstMessageEvent: Bool = false
     private var chat: Chat
     private var product: Product
@@ -282,7 +269,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         return !isMyProduct
     }
     private var shouldShowSafetyTips: Bool {
-        return !KeyValueStorage.sharedInstance.userChatSafetyTipsShown && didReceiveMessageFromOtherUser
+        return !keyValueStorage.userChatSafetyTipsShown && didReceiveMessageFromOtherUser
     }
     private var didReceiveMessageFromOtherUser: Bool {
         guard let otherUserId = otherUser?.objectId else { return false }
@@ -335,7 +322,19 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         guard chat.isSaved else { return true }
         return !isLoading && isLastPage
     }
-    
+
+    // MARK: - express chat banner
+    var shouldShowExpressBanner = Variable<Bool>(false)
+    var firstInteractionDone = Variable<Bool>(false)
+    var expressBannerTimerFinished = Variable<Bool>(false)
+    var hasRelatedProducts = Variable<Bool>(false)
+    var expressMessagesAlreadySent = Variable<Bool>(false)
+
+    // MARK: - related products
+    var relatedProductsEnabled = Variable<Bool>(false)
+    var chatStatusEnablesRelatedProducts = Variable<Bool>(false)
+    var sellerDidntAnswer = Variable<Bool>(false)
+
     private let disposeBag = DisposeBag()
     
     
@@ -343,7 +342,8 @@ public class OldChatViewModel: BaseViewModel, Paginable {
 
     convenience init?(chat: Chat, navigator: ChatDetailNavigator?) {
         self.init(chat: chat, myUserRepository: Core.myUserRepository, configManager: ConfigManager.sharedInstance,
-                  sessionManager: Core.sessionManager, navigator: navigator)
+                  sessionManager: Core.sessionManager, navigator: navigator,
+                  keyValueStorage: KeyValueStorage.sharedInstance)
     }
     
     convenience init?(product: Product, navigator: ChatDetailNavigator?) {
@@ -352,11 +352,12 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         let configManager = ConfigManager.sharedInstance
         let sessionManager = Core.sessionManager
         self.init(chat: chat, myUserRepository: myUserRepository,
-                  configManager: configManager, sessionManager: sessionManager, navigator: navigator)
+                  configManager: configManager, sessionManager: sessionManager, navigator: navigator,
+                  keyValueStorage: KeyValueStorage.sharedInstance)
     }
 
     convenience init?(chat: Chat, myUserRepository: MyUserRepository, configManager: ConfigManager,
-                      sessionManager: SessionManager, navigator: ChatDetailNavigator?) {
+                      sessionManager: SessionManager, navigator: ChatDetailNavigator?, keyValueStorage: KeyValueStorage) {
         let chatRepository = Core.oldChatRepository
         let productRepository = Core.productRepository
         let userRepository = Core.userRepository
@@ -366,12 +367,14 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         self.init(chat: chat, myUserRepository: myUserRepository, chatRepository: chatRepository,
                   productRepository: productRepository, userRepository: userRepository,
                   stickersRepository: stickersRepository, tracker: tracker,
-                  configManager: configManager, sessionManager: sessionManager, navigator: navigator)
+                  configManager: configManager, sessionManager: sessionManager, navigator: navigator,
+                  keyValueStorage: keyValueStorage)
     }
 
     init?(chat: Chat, myUserRepository: MyUserRepository, chatRepository: OldChatRepository,
           productRepository: ProductRepository, userRepository: UserRepository, stickersRepository: StickersRepository,
-          tracker: Tracker, configManager: ConfigManager, sessionManager: SessionManager, navigator: ChatDetailNavigator?) {
+          tracker: Tracker, configManager: ConfigManager, sessionManager: SessionManager, navigator: ChatDetailNavigator?,
+          keyValueStorage: KeyValueStorage) {
         self.chat = chat
         self.myUserRepository = myUserRepository
         self.chatRepository = chatRepository
@@ -383,6 +386,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         self.configManager = configManager
         self.sessionManager = sessionManager
         self.navigator = navigator
+        self.keyValueStorage = keyValueStorage
         self.loadedMessages = []
         self.product = chat.product
         if let myUser = myUserRepository.myUser {
@@ -393,13 +397,16 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         loadStickers()
         if otherUser == nil { return nil }
 
-        setupDeepLinksRx()
+        setupRx()
     }
     
     override func didBecomeActive(firstTime: Bool) {
         if firstTime {
             retrieveRelatedProducts()
+            chatStatusEnablesRelatedProducts.value = statusEnableRelatedProducts()
             checkShowRelatedProducts()
+            launchExpressChatTimer()
+            expressMessagesAlreadySent.value = expressChatMessageSentForCurrentProduct()
         }
 
        refreshChatInfo()
@@ -430,7 +437,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         guard isBuyer else { return }
         guard !relatedProducts.isEmpty else { return }
         guard let productId = product.objectId else { return }
-        navigator?.openExpressChat(relatedProducts, sourceProductId: productId)
+        navigator?.openExpressChat(relatedProducts, sourceProductId: productId, forcedOpen: false)
     }
     
     func showScammerDisclaimerMessage() {
@@ -438,8 +445,20 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         delegate?.vmDidRefreshChatMessages()
     }
 
+    func statusEnableRelatedProducts() -> Bool {
+        guard isBuyer else { return false }
+        switch chatStatus {
+        case .Forbidden, .UserDeleted, .UserPendingDelete, .ProductDeleted, .ProductSold:
+            return true
+        case  .Available:
+            return true
+        case .Blocked, .BlockedBy:
+            return false
+        }
+    }
+
     func checkShowRelatedProducts() {
-        guard relatedProductsEnabled else { return }
+        guard relatedProductsEnabled.value else { return }
         delegate?.vmShowRelatedProducts(product.objectId)
     }
     
@@ -482,17 +501,17 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     }
 
     func reviewUserPressed() {
-        KeyValueStorage.sharedInstance[.userRatingTooltipAlreadyShown] = true
+        keyValueStorage[.userRatingTooltipAlreadyShown] = true
         guard let otherUser = otherUser, reviewData = RateUserData(user: otherUser) else { return }
         delegate?.vmShowUserRating(.Chat, data: reviewData)
     }
 
     func closeReviewTooltipPressed() {
-        KeyValueStorage.sharedInstance[.userRatingTooltipAlreadyShown] = true
+        keyValueStorage[.userRatingTooltipAlreadyShown] = true
     }
     
     func safetyTipsDismissed() {
-        KeyValueStorage.sharedInstance.userChatSafetyTipsShown = true
+        keyValueStorage.userChatSafetyTipsShown = true
     }
     
     func optionsBtnPressed() {
@@ -557,10 +576,14 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     }
 
     func stickersShown() {
-        KeyValueStorage.sharedInstance[.stickersTooltipAlreadyShown] = true
+        keyValueStorage[.stickersTooltipAlreadyShown] = true
         delegate?.vmDidUpdateProduct(messageToShow: nil)
     }
-    
+
+    func bannerActionButtonTapped() {
+        guard let productId = product.objectId else { return }
+        navigator?.openExpressChat(relatedProducts, sourceProductId: productId, forcedOpen: true)
+    }
     
     // MARK: - private methods
     
@@ -588,7 +611,31 @@ public class OldChatViewModel: BaseViewModel, Paginable {
             }
         }
     }
-    
+
+    private func setupRx() {
+
+        Observable.combineLatest(chatStatusEnablesRelatedProducts.asObservable(), sellerDidntAnswer.asObservable()) { $0 || $1 }
+            .bindTo(relatedProductsEnabled).addDisposableTo(disposeBag)
+
+        let expressBannerTriggered = Observable.combineLatest(firstInteractionDone.asObservable(),
+                                                              expressBannerTimerFinished.asObservable()) { $0 || $1 }
+        /**
+         Express chat banner is shown after 3 seconds or 1st interaction if:
+            - the product has related products
+            - we're not showing the related products already over the keyboard
+            - user hasn't SENT messages via express chat for this product
+         */
+        Observable.combineLatest(expressBannerTriggered,
+            hasRelatedProducts.asObservable(),
+            relatedProductsEnabled.asObservable(),
+        expressMessagesAlreadySent.asObservable()) { $0 && $1 && !$2 && !$3 }
+            .distinctUntilChanged().bindNext { [weak self] shouldShowBanner in
+                self?.shouldShowExpressBanner.value = shouldShowBanner && FeatureFlags.expressChatBanner
+        }.addDisposableTo(disposeBag)
+
+        setupDeepLinksRx()
+    }
+
     private func setupDeepLinksRx() {
         DeepLinksRouter.sharedInstance.chatDeepLinks.subscribeNext { [weak self] deepLink in
             switch deepLink.action {
@@ -678,6 +725,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     }
 
     private func afterSendMessageEvents() {
+        firstInteractionDone.value = true
         if shouldAskProductSold {
             shouldAskProductSold = false
             delegate?.vmShowQuestion(title: LGLocalizedString.directAnswerSoldQuestionTitle,
@@ -697,7 +745,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     }
 
     private func loadStickersTooltip() {
-        guard chatEnabled && !KeyValueStorage.sharedInstance[.stickersTooltipAlreadyShown] else { return }
+        guard chatEnabled && !keyValueStorage[.stickersTooltipAlreadyShown] else { return }
 
         var newTextAttributes = [String : AnyObject]()
         newTextAttributes[NSForegroundColorAttributeName] = UIColor.primaryColorHighlighted
@@ -1062,7 +1110,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
             - the first page is full (this case covers the super eager buyer who sent 20 messages in less than 48h and
               didn't got any answer. We show him the related items too)
          */
-        sellerDidntAnswer = recentSellerMessages.isEmpty &&
+        sellerDidntAnswer.value = recentSellerMessages.isEmpty &&
             (oldestMessageDate.compare(twoDaysAgo) == .OrderedAscending || messages.count == Constants.numMessagesPerPage)
 
         checkShowRelatedProducts()
@@ -1079,7 +1127,7 @@ extension OldChatViewModel: DirectAnswersPresenterDelegate {
             self?.clearProductSoldDirectAnswer()
         }
         
-        if FeatureFlags.freePostingMode.enabled && product.price.free {
+        if FeatureFlags.freePostingModeAllowed && product.price.free {
             if isBuyer {
                 return [DirectAnswer(text: LGLocalizedString.directAnswerInterested, action: emptyAction),
                         DirectAnswer(text: LGLocalizedString.directAnswerFreeStillHave, action: emptyAction),
@@ -1123,7 +1171,7 @@ extension OldChatViewModel: DirectAnswersPresenterDelegate {
     }
     
     private func showDirectAnswers(show: Bool) {
-        KeyValueStorage.sharedInstance.userSaveChatShowDirectAnswersForKey(userDefaultsSubKey, value: show)
+        keyValueStorage.userSaveChatShowDirectAnswersForKey(userDefaultsSubKey, value: show)
         delegate?.vmDidUpdateDirectAnswers()
     }
 }
@@ -1240,6 +1288,7 @@ extension OldChatViewModel {
             guard let strongSelf = self else { return }
             if let value = result.value {
                 strongSelf.relatedProducts = strongSelf.relatedWithoutMyProducts(value)
+                strongSelf.updateExpressChatBanner()
             }
         }
     }
@@ -1253,5 +1302,28 @@ extension OldChatViewModel {
             }
         }
         return cleanRelatedProducts
+    }
+
+    // Express Chat Banner methods
+
+    private func updateExpressChatBanner() {
+        hasRelatedProducts.value = !relatedProducts.isEmpty
+    }
+
+    private func launchExpressChatTimer() {
+        let _ = NSTimer.scheduledTimerWithTimeInterval(3.0, target: self, selector: #selector(updateBannerTimerStatus),
+                                                       userInfo: nil, repeats: false)
+    }
+
+    private dynamic func updateBannerTimerStatus() {
+        expressBannerTimerFinished.value = true
+    }
+
+    private func expressChatMessageSentForCurrentProduct() -> Bool {
+        guard let productId = product.objectId else { return false }
+        for productSentId in keyValueStorage.userProductsWithExpressChatMessageSent {
+            if productSentId == productId { return true }
+        }
+        return false
     }
 }

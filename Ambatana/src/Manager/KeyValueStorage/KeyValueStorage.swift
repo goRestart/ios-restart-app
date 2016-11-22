@@ -41,7 +41,6 @@ extension DefaultsKeys {
     static let pushPermissionsDidShowNativeAlert = DefaultsKey<Bool>("didShowNativePushPermissionsDialog")
 
     static let cameraAlreadyShown = DefaultsKey<Bool>("cameraAlreadyShown")
-    static let cameraAlreadyShownFreePosting = DefaultsKey<Bool>("cameraAlreadyShownFreePosting")
     static let giveAwayTooltipAlreadyShown = DefaultsKey<Bool>("giveAwayTooltipAlreadyShown")
     static let stickersTooltipAlreadyShown = DefaultsKey<Bool>("stickersTooltipAlreadyShown")
     static let userRatingTooltipAlreadyShown = DefaultsKey<Bool>("userRatingTooltipAlreadyShown")
@@ -223,6 +222,18 @@ extension KeyValueStorage {
         set {
             guard var userProperties = currentUserProperties else { return }
             userProperties.productsWithExpressChatAlreadyShown = newValue
+            currentUserProperties = userProperties
+        }
+    }
+
+    var userProductsWithExpressChatMessageSent: [String] {
+        get {
+            return currentUserProperties?.productsWithExpressChatMessageSent ??
+                UserDefaultsUser.productsWithExpressChatMessageSentDefaultValue
+        }
+        set {
+            guard var userProperties = currentUserProperties else { return }
+            userProperties.productsWithExpressChatMessageSent = newValue
             currentUserProperties = userProperties
         }
     }

@@ -35,11 +35,6 @@
         "description": "Product filters reorder"
 	},
     {
-        "name": "FreePostingMode",
-        "values": ["Disabled", "SplitButton", "OneButton"],
-        "description": "Free Posting Mode"
-	},
-    {
         "name": "DirectPostInOnboarding",
         "values": ["No", "Yes"],
         "description": "Last Onboarding step opens the camera"
@@ -68,5 +63,20 @@
         "name": "SaveMailLogout",
         "values": ["No", "Yes"],
         "description": "Remembers email or FB/Google username on logout"
+    },
+    {
+        "name": "ExpressChatBanner",
+        "values": ["No", "Yes"],
+        "description": "Show express chat banner in chat detail"
+    },
+    {
+        "name": "ShowLiquidProductsToNewUser",
+        "values": ["No", "Yes"],
+        "description": "show liquid products to new user"
+    },
+    {
+        "name": "KeywordsTravelCollection",
+        "values": ["Standard", "CarsPrior", "BrandsPrior"],
+        "description": "Keywords prioritize on Travel Collection"
     }
-]
+ ]

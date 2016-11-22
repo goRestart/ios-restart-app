@@ -23,41 +23,40 @@ final class TrackerProxy: Tracker {
     }
 
     private var gpsPermissionEnabled: Bool {
-       return Core.locationManager.locationServiceStatus == .Enabled(.Authorized)
+       return locationManager.locationServiceStatus == .Enabled(.Authorized)
     }
 
-    private var installation: Installation? {
-        return Core.installationRepository.installation
-    }
-
-    private var myUser: MyUser? {
-        guard Core.sessionManager.loggedIn else { return nil }
-        return Core.myUserRepository.myUser
-    }
-
-    private var currentLocation: LGLocation? {
-        return Core.locationManager.currentLocation
-    }
+    private let locationManager: LocationManager
+    private let sessionManager: SessionManager
+    private let myUserRepository: MyUserRepository
+    private let installationRepository: InstallationRepository
+    private let notificationsManager: NotificationsManager
 
 
     // MARK: - Lifecycle
 
-    init(trackers: [Tracker] = TrackerProxy.defaultTrackers) {
+    convenience init() {
+        self.init(trackers: TrackerProxy.defaultTrackers)
+    }
+
+    convenience init(trackers: [Tracker]) {
+        self.init(trackers: trackers,
+                  sessionManager: Core.sessionManager,
+                  myUserRepository: Core.myUserRepository,
+                  locationManager: Core.locationManager,
+                  installationRepository: Core.installationRepository,
+                  notificationsManager: NotificationsManager.sharedInstance)
+    }
+
+    init(trackers: [Tracker], sessionManager: SessionManager, myUserRepository: MyUserRepository,
+         locationManager: LocationManager, installationRepository: InstallationRepository,
+         notificationsManager: NotificationsManager) {
         self.trackers = trackers
-
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(locationUpdate),
-            name: LocationNotification.LocationUpdate.rawValue, object: nil)
-
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(sessionUpdate),
-            name: SessionNotification.Login.rawValue, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(sessionUpdate),
-            name: SessionNotification.Logout.rawValue, object: nil)
-
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(installationCreate),
-            name: InstallationNotification.Create.rawValue, object: nil)
-
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(locationManagerDidChangeAuthorization),
-            name: LocationNotification.LocationDidChangeAuthorization.rawValue, object: nil)
+        self.locationManager = locationManager
+        self.sessionManager = sessionManager
+        self.myUserRepository = myUserRepository
+        self.installationRepository = installationRepository
+        self.notificationsManager = notificationsManager
     }
 
 
@@ -67,10 +66,9 @@ final class TrackerProxy: Tracker {
         didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) {
             trackers.forEach { $0.application(application, didFinishLaunchingWithOptions: launchOptions) }
 
-        setInstallation(Core.installationRepository.installation)
-        setUser(Core.myUserRepository.myUser)
         setGPSPermission(gpsPermissionEnabled)
         setNotificationsPermission(notificationsPermissionEnabled)
+        setupEventsRx()
         setupMktNotificationsRx()
     }
 
@@ -127,19 +125,29 @@ final class TrackerProxy: Tracker {
 
     // MARK: Private methods
 
-    private dynamic func locationUpdate() {
-        setLocation(currentLocation)
+    private func setupEventsRx() {
+        myUserRepository.rx_myUser.bindNext { [weak self] myUser in
+            let user = (self?.sessionManager.loggedIn ?? false) ? myUser : nil
+            self?.setUser(user)
+        }.addDisposableTo(disposeBag)
+
+        installationRepository.rx_installation.bindNext { [weak self] installation in
+            self?.setInstallation(installation)
+        }.addDisposableTo(disposeBag)
+
+        locationManager.locationEvents.bindNext { [weak self] event in
+            switch event {
+            case .ChangedPermissions:
+                self?.locationManagerDidChangePermissions()
+            case .LocationUpdate:
+                self?.setLocation(self?.locationManager.currentLocation)
+            case .MovedFarFromSavedManualLocation:
+                break
+            }
+        }.addDisposableTo(disposeBag)
     }
 
-    private dynamic func sessionUpdate() {
-        setUser(myUser)
-    }
-
-    private dynamic func installationCreate() {
-        setInstallation(installation)
-    }
-
-    private dynamic func locationManagerDidChangeAuthorization() {
+    private func locationManagerDidChangePermissions() {
         setGPSPermission(gpsPermissionEnabled)
 
         if gpsPermissionEnabled {
@@ -150,7 +158,7 @@ final class TrackerProxy: Tracker {
     }
 
     private func setupMktNotificationsRx() {
-        NotificationsManager.sharedInstance.loggedInMktNofitications.bindNext { [weak self] enabled in
+        notificationsManager.loggedInMktNofitications.bindNext { [weak self] enabled in
             self?.setMarketingNotifications(enabled)
         }.addDisposableTo(disposeBag)
     }

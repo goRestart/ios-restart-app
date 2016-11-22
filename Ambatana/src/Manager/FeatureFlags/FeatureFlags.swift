@@ -9,10 +9,28 @@
 import bumper
 import LGCoreKit
 
-struct FeatureFlags {
+protocol FeatureFlaggeable {
+    static var websocketChat: Bool { get }
+    static var notificationsSection: Bool { get }
+    static var userReviews: Bool { get }
+    static var messageOnFavoriteRound2: MessageOnFavoriteRound2Mode { get }
+    static var interestedUsersMode: InterestedUsersMode { get }
+    static var filtersReorder: Bool { get }
+    static var directPostInOnboarding: Bool { get }
+    static var shareButtonWithIcon: Bool { get }
+    static var productDetailShareMode: ProductDetailShareMode { get }
+    static var periscopeChat: Bool { get }
+    static var chatHeadBubbles: Bool { get }
+    static var showLiquidProductsToNewUser: Bool { get }
+    static var keywordsTravelCollection: KeywordsTravelCollection { get }
+}
+
+struct FeatureFlags: FeatureFlaggeable {
     static func setup() {
         Bumper.initialize()
     }
+    
+    // MARK: - A/B Tests features
 
     static var websocketChat: Bool = {
         if Bumper.enabled {
@@ -63,15 +81,6 @@ struct FeatureFlags {
         return ABTests.filtersReorder.value
     }
 
-    static var freePostingMode: FreePostingMode {
-        guard freePostingModeAllowed else { return .Disabled }
-
-        if Bumper.enabled {
-            return Bumper.freePostingMode
-        }
-        return FreePostingMode.fromPosition(ABTests.freePostingMode.value)
-    }
-
     static var directPostInOnboarding: Bool {
         if Bumper.enabled {
             return Bumper.directPostInOnboarding
@@ -114,18 +123,41 @@ struct FeatureFlags {
         return ABTests.saveMailLogout.value
     }
 
+    static var showLiquidProductsToNewUser: Bool {
+        if Bumper.enabled {
+            return Bumper.showLiquidProductsToNewUser
+        }
+        return ABTests.showLiquidProductsToNewUser.value
+    }
+
+    static var expressChatBanner: Bool {
+        if Bumper.enabled {
+            return Bumper.expressChatBanner
+        }
+        return ABTests.expressChatBanner.value
+    }
+
+    static var keywordsTravelCollection: KeywordsTravelCollection {
+        if Bumper.enabled {
+            return Bumper.keywordsTravelCollection
+        }
+        return KeywordsTravelCollection.fromPosition(ABTests.keywordsTravelCollection.value)
+    }
+
+    // MARK: - Country features
+
+    static var freePostingModeAllowed: Bool {
+        return !FeatureFlags.matchesLocationOrRegion("tr")
+    }
     
     // MARK: - Private
-
-    private static var freePostingModeAllowed: Bool {
-        let locale = NSLocale.currentLocale()
-        let locationManager = Core.locationManager
-
-        // Free posting is not allowed in Turkey. Check location & phone region.
-        let turkey = "tr"
+    
+    /// Checks location & phone region.
+    private static func matchesLocationOrRegion(code: String,
+                                                 locale: NSLocale = NSLocale.currentLocale(),
+                                                 locationManager: LocationManager = Core.locationManager) -> Bool {
         let systemCountryCode = locale.lg_countryCode
         let countryCode = (locationManager.currentPostalAddress?.countryCode ?? systemCountryCode).lowercaseString
-
-        return systemCountryCode != turkey && countryCode != turkey
+        return systemCountryCode == code || countryCode == code
     }
 }

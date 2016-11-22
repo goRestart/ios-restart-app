@@ -15,11 +15,15 @@ class MyUserUDDAO: MyUserDAO {
     static let MyUserKeyMainKey = "MyUser"
 
     // iVars
-    let userDefaults: NSUserDefaults
     var myUser: MyUser? {
-        return rx_myUser.value
+        return myUserVar.value
     }
-    let rx_myUser = Variable<MyUser?>(nil)
+    var rx_myUser: Observable<MyUser?> {
+        return myUserVar.asObservable()
+    }
+
+    private let userDefaults: NSUserDefaults
+    private let myUserVar = Variable<MyUser?>(nil)
 
 
     // MARK: - Lifecycle
@@ -31,14 +35,14 @@ class MyUserUDDAO: MyUserDAO {
 
     init(userDefaults: NSUserDefaults) {
         self.userDefaults = userDefaults
-        self.rx_myUser.value = fetch()
+        self.myUserVar.value = fetch()
     }
 
 
     // MARK : - MyUserDAO
 
     func save(theMyUser: MyUser) {
-        rx_myUser.value = theMyUser
+        myUserVar.value = theMyUser
 
         let localMyUser = LocalMyUser(myUser: theMyUser)
         let dict: [String: AnyObject] = localMyUser.encode()
@@ -46,7 +50,7 @@ class MyUserUDDAO: MyUserDAO {
     }
 
     func delete() {
-        rx_myUser.value = nil
+        myUserVar.value = nil
         userDefaults.removeObjectForKey(MyUserUDDAO.MyUserKeyMainKey)
     }
 

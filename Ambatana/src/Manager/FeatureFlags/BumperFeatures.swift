@@ -12,7 +12,7 @@ import bumper
 
 extension Bumper  {
     static func initialize() {
-        Bumper.initialize([WebsocketChat.self, NotificationsSection.self, UserReviews.self, ShowNPSSurvey.self, MessageOnFavoriteRound2Mode.self, InterestedUsersMode.self, FiltersReorder.self, FreePostingMode.self, DirectPostInOnboarding.self, ShareButtonWithIcon.self, ProductDetailShareMode.self, PeriscopeChat.self, ChatHeadBubbles.self, SaveMailLogout.self])
+        Bumper.initialize([WebsocketChat.self, NotificationsSection.self, UserReviews.self, ShowNPSSurvey.self, MessageOnFavoriteRound2Mode.self, InterestedUsersMode.self, FiltersReorder.self, DirectPostInOnboarding.self, ShareButtonWithIcon.self, ProductDetailShareMode.self, PeriscopeChat.self, ChatHeadBubbles.self, SaveMailLogout.self, ExpressChatBanner.self, ShowLiquidProductsToNewUser.self, KeywordsTravelCollection.self])
     } 
 
     static var websocketChat: Bool {
@@ -50,11 +50,6 @@ extension Bumper  {
         return FiltersReorder(rawValue: value)?.asBool ?? false
     }
 
-    static var freePostingMode: FreePostingMode {
-        guard let value = Bumper.valueForKey(FreePostingMode.key) else { return .Disabled }
-        return FreePostingMode(rawValue: value) ?? .Disabled 
-    }
-
     static var directPostInOnboarding: Bool {
         guard let value = Bumper.valueForKey(DirectPostInOnboarding.key) else { return false }
         return DirectPostInOnboarding(rawValue: value)?.asBool ?? false
@@ -83,6 +78,21 @@ extension Bumper  {
     static var saveMailLogout: Bool {
         guard let value = Bumper.valueForKey(SaveMailLogout.key) else { return false }
         return SaveMailLogout(rawValue: value)?.asBool ?? false
+    }
+
+    static var expressChatBanner: Bool {
+        guard let value = Bumper.valueForKey(ExpressChatBanner.key) else { return false }
+        return ExpressChatBanner(rawValue: value)?.asBool ?? false
+    }
+
+    static var showLiquidProductsToNewUser: Bool {
+        guard let value = Bumper.valueForKey(ShowLiquidProductsToNewUser.key) else { return false }
+        return ShowLiquidProductsToNewUser(rawValue: value)?.asBool ?? false
+    }
+
+    static var keywordsTravelCollection: KeywordsTravelCollection {
+        guard let value = Bumper.valueForKey(KeywordsTravelCollection.key) else { return .Standard }
+        return KeywordsTravelCollection(rawValue: value) ?? .Standard 
     } 
 }
 
@@ -163,22 +173,6 @@ enum FiltersReorder: String, BumperFeature  {
     var asBool: Bool { return self == .Yes }
 }
 
-enum FreePostingMode: String, BumperFeature  {
-    case Disabled, SplitButton, OneButton
-    static var defaultValue: String { return FreePostingMode.Disabled.rawValue }
-    static var enumValues: [FreePostingMode] { return [.Disabled, .SplitButton, .OneButton]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Free Posting Mode" } 
-    static func fromPosition(position: Int) -> FreePostingMode {
-        switch position { 
-            case 0: return .Disabled
-            case 1: return .SplitButton
-            case 2: return .OneButton
-            default: return .Disabled
-        }
-    }
-}
-
 enum DirectPostInOnboarding: String, BumperFeature  {
     case No, Yes
     static var defaultValue: String { return DirectPostInOnboarding.No.rawValue }
@@ -238,5 +232,39 @@ enum SaveMailLogout: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Remembers email or FB/Google username on logout" } 
     var asBool: Bool { return self == .Yes }
+}
+
+enum ExpressChatBanner: String, BumperFeature  {
+    case No, Yes
+    static var defaultValue: String { return ExpressChatBanner.No.rawValue }
+    static var enumValues: [ExpressChatBanner] { return [.No, .Yes]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Show express chat banner in chat detail" } 
+    var asBool: Bool { return self == .Yes }
+}
+
+enum ShowLiquidProductsToNewUser: String, BumperFeature  {
+    case No, Yes
+    static var defaultValue: String { return ShowLiquidProductsToNewUser.No.rawValue }
+    static var enumValues: [ShowLiquidProductsToNewUser] { return [.No, .Yes]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "show liquid products to new user" } 
+    var asBool: Bool { return self == .Yes }
+}
+
+enum KeywordsTravelCollection: String, BumperFeature  {
+    case Standard, CarsPrior, BrandsPrior
+    static var defaultValue: String { return KeywordsTravelCollection.Standard.rawValue }
+    static var enumValues: [KeywordsTravelCollection] { return [.Standard, .CarsPrior, .BrandsPrior]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Keywords prioritize on Travel Collection" } 
+    static func fromPosition(position: Int) -> KeywordsTravelCollection {
+        switch position { 
+            case 0: return .Standard
+            case 1: return .CarsPrior
+            case 2: return .BrandsPrior
+            default: return .Standard
+        }
+    }
 }
 

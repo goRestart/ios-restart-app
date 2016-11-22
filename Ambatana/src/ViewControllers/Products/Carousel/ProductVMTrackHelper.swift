@@ -106,7 +106,7 @@ extension ProductVMTrackHelper {
     }
 
     func trackMarkSoldCompleted(source: EventParameterSellSourceValue) {
-        let trackerEvent = TrackerEvent.productMarkAsSold(source, product: product, freePostingMode: FeatureFlags.freePostingMode)
+        let trackerEvent = TrackerEvent.productMarkAsSold(source, product: product, freePostingModeAllowed: FeatureFlags.freePostingModeAllowed)
         tracker.trackEvent(trackerEvent)
     }
 

@@ -60,6 +60,12 @@ func handleApiResult<T>(result: Result<T, ApiError>,
  */
 class LGSessionManager: InternalSessionManager {
 
+    var sessionEvents: Observable<SessionEvent> {
+        return events
+    }
+
+    var reachability: ReachableNotifier?
+
     // Manager & repositories
     private let apiClient: ApiClient
     private let websocketClient: WebSocketClient
@@ -74,7 +80,7 @@ class LGSessionManager: InternalSessionManager {
     // Router
     let webSocketCommandRouter = WebSocketCommandRouter(uuidGenerator: LGUUID())
 
-    var reachability: ReachableNotifier?
+    private let events = PublishSubject<SessionEvent>()
 
     private let disposeBag = DisposeBag()
 
@@ -302,10 +308,7 @@ class LGSessionManager: InternalSessionManager {
      */
     func tearDownSession(kicked kicked: Bool) {
         cleanSession()
-        NSNotificationCenter.defaultCenter().postNotificationName(SessionNotification.Logout.rawValue, object: nil)
-        if kicked {
-            NSNotificationCenter.defaultCenter().postNotificationName(SessionNotification.KickedOut.rawValue, object: nil)
-        }
+        events.onNext(.Logout(kickedOut: kicked))
     }
 
     func authenticateWebSocket(completion: (Result<Void, SessionManagerError> -> ())?) {
@@ -469,8 +472,8 @@ class LGSessionManager: InternalSessionManager {
     private func setupSession(myUser: MyUser) {
         myUserRepository.save(myUser)
         myUserRepository.updateIfLocaleChanged()
-        LGCoreKit.setupAfterLoggedIn {
-            NSNotificationCenter.defaultCenter().postNotificationName(SessionNotification.Login.rawValue, object: nil)
+        LGCoreKit.setupAfterLoggedIn { [weak self] in
+            self?.events.onNext(.Login)
         }
 
         connectChat(nil)
