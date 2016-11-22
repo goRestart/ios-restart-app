@@ -91,8 +91,8 @@ extension Bumper  {
     }
 
     static var keywordsTravelCollection: KeywordsTravelCollection {
-        guard let value = Bumper.valueForKey(KeywordsTravelCollection.key) else { return .standard }
-        return KeywordsTravelCollection(rawValue: value) ?? .standard 
+        guard let value = Bumper.valueForKey(KeywordsTravelCollection.key) else { return .Standard }
+        return KeywordsTravelCollection(rawValue: value) ?? .Standard 
     } 
 }
 
@@ -260,17 +260,17 @@ enum ShowLiquidProductsToNewUser: String, BumperFeature  {
 }
 
 enum KeywordsTravelCollection: String, BumperFeature  {
-    case standard, CarsPrior, BrandsPrior
-    static var defaultValue: String { return KeywordsTravelCollection.standard.rawValue }
-    static var enumValues: [KeywordsTravelCollection] { return [.standard, .CarsPrior, .BrandsPrior]}
+    case Standard, CarsPrior, BrandsPrior
+    static var defaultValue: String { return KeywordsTravelCollection.Standard.rawValue }
+    static var enumValues: [KeywordsTravelCollection] { return [.Standard, .CarsPrior, .BrandsPrior]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Keywords prioritize on Travel Collection" } 
     static func fromPosition(position: Int) -> KeywordsTravelCollection {
         switch position { 
-            case 0: return .standard
+            case 0: return .Standard
             case 1: return .CarsPrior
             case 2: return .BrandsPrior
-            default: return .standard
+            default: return .Standard
         }
     }
 }

@@ -76,7 +76,7 @@
     },
     {
         "name": "KeywordsTravelCollection",
-        "values": ["standard", "CarsPrior", "BrandsPrior"],
+        "values": ["Standard", "CarsPrior", "BrandsPrior"],
         "description": "Keywords prioritize on Travel Collection"
     }
  ]

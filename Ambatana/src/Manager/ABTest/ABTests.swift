@@ -25,7 +25,7 @@ public struct ABTests {
     static var chatHeadBubbles = BoolABDynamicVar(key: "chatHeadBubbles", defaultValue: false)
     static var expressChatBanner = BoolABDynamicVar(key: "expressChatBanner", defaultValue: false)
     static var showLiquidProductsToNewUser = BoolABDynamicVar(key: "showLiquidProductsToNewUser", defaultValue: false)
-    static var keywordsTravelCollection = BoolABDynamicVar(key: "keywordsTravelCollection", defaultValue: false)
+    static var keywordsTravelCollection = IntABDynamicVar(key: "keywordsTravelCollection", defaultValue: 0)
     
     static private var allVariables: [ABVariable] {
         return [showNPSSurvey, messageOnFavoriteRound2, interestedUsersMode, filtersReorder,

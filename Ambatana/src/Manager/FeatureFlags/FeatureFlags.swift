@@ -23,7 +23,7 @@ protocol FeatureFlaggeable {
     static var periscopeChat: Bool { get }
     static var chatHeadBubbles: Bool { get }
     static var showLiquidProductsToNewUser: Bool { get }
-    static var keywordsTravelCollection: Bool { get }
+    static var keywordsTravelCollection: KeywordsTravelCollection { get }
 }
 
 struct FeatureFlags: FeatureFlaggeable {
@@ -138,13 +138,13 @@ struct FeatureFlags: FeatureFlaggeable {
         return ABTests.expressChatBanner.value
     }
     
-    static var keywordsTravelCollection: Bool {
+    static var keywordsTravelCollection: KeywordsTravelCollection {
         if Bumper.enabled {
             return Bumper.keywordsTravelCollection
         }
-        return ABTests.keywordsTravelCollection.value
+        return KeywordsTravelCollection.fromPosition(ABTests.keywordsTravelCollection.value)
     }
-
+  
     
     // MARK: - Private
 
