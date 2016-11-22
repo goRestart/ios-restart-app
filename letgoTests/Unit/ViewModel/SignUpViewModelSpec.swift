@@ -22,15 +22,18 @@ class SignUpViewModelSpec: QuickSpec {
             var keyValueStorage: MockKeyValueStorage!
             var tracker: MockTracker!
             var googleLoginHelper: MockExternalAuthHelper!
+            var fbLoginHelper: MockExternalAuthHelper!
 
             beforeEach {
                 sessionManager = MockSessionManager()
                 keyValueStorage = MockKeyValueStorage()
                 tracker = MockTracker()
-                googleLoginHelper = MockExternalAuthHelper(result: .Success(myUser: MockMyUser()))
+                let myUser = MockMyUser()
+                googleLoginHelper = MockExternalAuthHelper(result: .Success(myUser: myUser))
+                fbLoginHelper = MockExternalAuthHelper(result: .Success(myUser: myUser))
                 sut = SignUpViewModel(sessionManager: sessionManager, keyValueStorage: keyValueStorage,
-                                      tracker: tracker, appearance: .Dark, source: .Install,
-                                      googleLoginHelper: googleLoginHelper)
+                    tracker: tracker, appearance: .Dark, source: .Install,
+                    googleLoginHelper: googleLoginHelper, fbLoginHelper: fbLoginHelper)
             }
 
             describe("initialization") {
@@ -50,7 +53,7 @@ class SignUpViewModelSpec: QuickSpec {
 
                         sut = SignUpViewModel(sessionManager: sessionManager, keyValueStorage: keyValueStorage,
                             tracker: tracker, appearance: .Dark, source: .Install,
-                            googleLoginHelper: googleLoginHelper)
+                            googleLoginHelper: googleLoginHelper, fbLoginHelper: fbLoginHelper)
                     }
 
                     it("does not have a previous facebook username") {
@@ -68,7 +71,7 @@ class SignUpViewModelSpec: QuickSpec {
 
                         sut = SignUpViewModel(sessionManager: sessionManager, keyValueStorage: keyValueStorage,
                             tracker: tracker, appearance: .Dark, source: .Install,
-                            googleLoginHelper: googleLoginHelper)
+                            googleLoginHelper: googleLoginHelper, fbLoginHelper: fbLoginHelper)
                     }
 
                     it("has a previous facebook username") {
@@ -86,7 +89,7 @@ class SignUpViewModelSpec: QuickSpec {
 
                         sut = SignUpViewModel(sessionManager: sessionManager, keyValueStorage: keyValueStorage,
                             tracker: tracker, appearance: .Dark, source: .Install,
-                            googleLoginHelper: googleLoginHelper)
+                            googleLoginHelper: googleLoginHelper, fbLoginHelper: fbLoginHelper)
                     }
 
                     it("does not have a previous facebook username") {
@@ -98,24 +101,81 @@ class SignUpViewModelSpec: QuickSpec {
                 }
             }
 
-            describe("login with google successful") {
-                beforeEach {
-                    let myUser = MockMyUser()
-                    myUser.name = "Albert"
+            describe("login with google") {
+                context("successful") {
+                    var myUser: MockMyUser!
 
-//                    sessionManager.myUserResult = Result<MyUser, SessionManagerError>(value: myUser)
-                    googleLoginHelper.loginResult = .Success(myUser: myUser)
+                    beforeEach {
+                        myUser = MockMyUser()
+                        myUser.name = "Albert"
 
-                    sut.logInWithGoogle()
+                        googleLoginHelper.loginResult = .Success(myUser: myUser)
+                        sut.logInWithGoogle()
+                    }
+
+                    it("saves google as previous user account provider") {
+                        let provider = keyValueStorage[.previousUserAccountProvider]
+                        expect(provider) == "google"
+                    }
+                    it("saves the user name as previous user name") {
+                        let username = keyValueStorage[.previousUserEmailOrName]
+                        expect(username) == myUser.name
+                    }
                 }
 
-                it("saves google as previous user account provider") {
-                    let provider = keyValueStorage[.previousUserAccountProvider]
-                    expect(provider) == "google"
+                context("error") {
+                    beforeEach {
+                        googleLoginHelper.loginResult = .Cancelled
+                        sut.logInWithGoogle()
+                    }
+
+                    it("does not save a user account provider") {
+                        let provider = keyValueStorage[.previousUserAccountProvider]
+                        expect(provider).to(beNil())
+                    }
+                    it("does not save a previous user name") {
+                        let username = keyValueStorage[.previousUserEmailOrName]
+                        expect(username).to(beNil())
+                    }
                 }
-                it("saves the user name as previous user name") {
-                    let username = keyValueStorage[.previousUserEmailOrName]
-                    expect(username) == "Albert"
+            }
+
+            describe("login with facebook") {
+                context("successful") {
+                    var myUser: MockMyUser!
+
+                    beforeEach {
+                        myUser = MockMyUser()
+                        myUser.name = "Albert"
+
+                        fbLoginHelper.loginResult = .Success(myUser: myUser)
+                        sut.logInWithFacebook()
+                    }
+
+                    it("saves google as previous user account provider") {
+                        let provider = keyValueStorage[.previousUserAccountProvider]
+                        expect(provider) == "facebook"
+                    }
+                    it("saves the user name as previous user name") {
+                        let username = keyValueStorage[.previousUserEmailOrName]
+                        expect(username) == myUser.name
+                    }
+                }
+
+                context("error") {
+                    beforeEach {
+                        fbLoginHelper.loginResult = .Cancelled
+                        sut.logInWithFacebook()
+                    }
+
+                    it("does not save a user account provider") {
+                        let provider = keyValueStorage[.previousUserAccountProvider]
+                        expect(provider).to(beNil())
+                    }
+                    it("does not save a previous user name") {
+                        let username = keyValueStorage[.previousUserEmailOrName]
+                        expect(username).to(beNil())
+                    }
                 }
             }
         }

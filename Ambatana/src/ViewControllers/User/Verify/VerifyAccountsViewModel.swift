@@ -52,6 +52,7 @@ class VerifyAccountsViewModel: BaseViewModel {
     let typedEmail = Variable<String>("")
 
     private let googleHelper: GoogleLoginHelper
+    private let fbLoginHelper: FBLoginHelper
     private let myUserRepository: MyUserRepository
     private let tracker: Tracker
     private let source: VerifyAccountsSource
@@ -74,17 +75,21 @@ class VerifyAccountsViewModel: BaseViewModel {
     convenience init(verificationTypes: [VerificationType], source: VerifyAccountsSource, completionBlock: (() -> Void)?) {
         let myUserRepository = Core.myUserRepository
         let googleHelper = GoogleLoginHelper(loginSource: source.loginSource)
+        let fbLoginHelper = FBLoginHelper(loginSource: source.loginSource)
         let tracker = TrackerProxy.sharedInstance
         self.init(verificationTypes: verificationTypes, source: source, myUserRepository: myUserRepository,
-                  googleHelper: googleHelper, tracker: tracker, completionBlock: completionBlock)
+                  googleHelper: googleHelper, fbLoginHelper: fbLoginHelper, tracker: tracker,
+                  completionBlock: completionBlock)
     }
 
     init(verificationTypes: [VerificationType], source: VerifyAccountsSource, myUserRepository: MyUserRepository,
-         googleHelper: GoogleLoginHelper, tracker: Tracker, completionBlock: (() -> Void)?) {
+         googleHelper: GoogleLoginHelper, fbLoginHelper: FBLoginHelper,
+         tracker: Tracker, completionBlock: (() -> Void)?) {
         self.types = verificationTypes
         self.source = source
         self.myUserRepository = myUserRepository
         self.googleHelper = googleHelper
+        self.fbLoginHelper = fbLoginHelper
         self.tracker = tracker
         self.completionBlock = completionBlock
         super.init()
@@ -170,7 +175,7 @@ class VerifyAccountsViewModel: BaseViewModel {
 private extension VerifyAccountsViewModel {
     func connectWithFacebook() {
         fbButtonState.value = .Loading
-        FBLoginHelper.connectWithFacebook { [weak self] result in
+        fbLoginHelper.connectWithFacebook { [weak self] result in
             self?.fbButtonState.value = .Enabled
             switch result {
             case let .Success(token):

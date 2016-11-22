@@ -42,12 +42,13 @@ protocol SignUpLogInViewModelDelegate: class {
 }
 
 public class SignUpLogInViewModel: BaseViewModel {
-    
-    // Delegate
-    weak var delegate: SignUpLogInViewModelDelegate?
     let loginSource: EventParameterLoginSourceValue
     let googleLoginHelper: GoogleLoginHelper
+    let fbLoginHelper: FBLoginHelper
+    let tracker: Tracker
     let keyValueStorage: KeyValueStorage
+
+    weak var delegate: SignUpLogInViewModelDelegate?
     
     // Action Type
     var currentActionType : LoginActionType {
@@ -124,12 +125,15 @@ public class SignUpLogInViewModel: BaseViewModel {
     // MARK: - Lifecycle
     
     init(sessionManager: SessionManager, locationManager: LocationManager, keyValueStorage: KeyValueStorage,
+         googleLoginHelper: GoogleLoginHelper, fbLoginHelper: FBLoginHelper, tracker: Tracker,
          source: EventParameterLoginSourceValue, action: LoginActionType) {
         self.sessionManager = sessionManager
         self.locationManager = locationManager
         self.keyValueStorage = keyValueStorage
         self.loginSource = source
-        self.googleLoginHelper = GoogleLoginHelper(loginSource: source)
+        self.googleLoginHelper = googleLoginHelper
+        self.fbLoginHelper = fbLoginHelper
+        self.tracker = tracker
         self.username = ""
         self.email = ""
         self.password = ""
@@ -154,7 +158,11 @@ public class SignUpLogInViewModel: BaseViewModel {
         let sessionManager = Core.sessionManager
         let locationManager = Core.locationManager
         let keyValueStorage = KeyValueStorage.sharedInstance
+        let googleLoginHelper = GoogleLoginHelper(loginSource: source)
+        let fbLoginHelper = FBLoginHelper(loginSource: source)
+        let tracker = TrackerProxy.sharedInstance
         self.init(sessionManager: sessionManager, locationManager: locationManager, keyValueStorage: keyValueStorage,
+                  googleLoginHelper: googleLoginHelper, fbLoginHelper: fbLoginHelper, tracker: tracker,
                   source: source, action: action)
     }
     
@@ -198,7 +206,7 @@ public class SignUpLogInViewModel: BaseViewModel {
                     self?.savePreviousEmailOrUsername(.Email, userEmailOrName: user.email)
 
                     // Tracking
-                    TrackerProxy.sharedInstance.trackEvent(TrackerEvent.signupEmail(strongSelf.loginSource,
+                    self?.tracker.trackEvent(TrackerEvent.signupEmail(strongSelf.loginSource,
                         newsletter: strongSelf.newsletterParameter))
 
                     strongSelf.delegate?.viewModelDidSignUp(strongSelf)
@@ -211,7 +219,7 @@ public class SignUpLogInViewModel: BaseViewModel {
                                 guard let strongSelf = self else { return }
                                 if let _ = loginResult.value {
                                     let trackerEvent = TrackerEvent.loginEmail(strongSelf.loginSource)
-                                    TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+                                    self?.tracker.trackEvent(trackerEvent)
                                     strongSelf.delegate?.viewModelDidLogIn(strongSelf)
                                 } else if let _ = loginResult.error {
                                     strongSelf.processSignUpSessionError(sessionManagerError)
@@ -263,7 +271,7 @@ public class SignUpLogInViewModel: BaseViewModel {
                     self?.savePreviousEmailOrUsername(.Email, userEmailOrName: user.email)
 
                     let trackerEvent = TrackerEvent.loginEmail(strongSelf.loginSource)
-                    TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+                    self?.tracker.trackEvent(trackerEvent)
 
                     strongSelf.delegate?.viewModelDidLogIn(strongSelf)
                 } else if let sessionManagerError = loginResult.error {
@@ -282,16 +290,13 @@ public class SignUpLogInViewModel: BaseViewModel {
     }
     
     public func logInWithFacebook() {
-        FBLoginHelper.logInWithFacebook(sessionManager, tracker: TrackerProxy.sharedInstance, loginSource: loginSource,
-            managerStart: { [weak self] in
-                guard let strongSelf = self else { return }
-                strongSelf.delegate?.viewModelDidStartAuthWithExternalService(strongSelf)
-            },
-            completion: { [weak self] result in
-                guard let error = self?.processExternalServiceAuthResult(result, accountProvider: .Facebook) else { return }
-                self?.trackLoginFBFailedWithError(error)
-            }
-        )
+        fbLoginHelper.login({ [weak self] _ in
+            guard let strongSelf = self else { return }
+            strongSelf.delegate?.viewModelDidStartAuthWithExternalService(strongSelf)
+        }, loginCompletion: { [weak self] result in
+            guard let error = self?.processExternalServiceAuthResult(result, accountProvider: .Facebook) else { return }
+            self?.trackLoginFBFailedWithError(error)
+        })
     }
 
     public func logInWithGoogle() {
@@ -466,19 +471,19 @@ public class SignUpLogInViewModel: BaseViewModel {
     // MARK: - Trackings
     
     private func trackLoginEmailFailedWithError(error: EventParameterLoginError) {
-        TrackerProxy.sharedInstance.trackEvent(TrackerEvent.loginEmailError(error))
+        tracker.trackEvent(TrackerEvent.loginEmailError(error))
     }
 
     private func trackLoginFBFailedWithError(error: EventParameterLoginError) {
-        TrackerProxy.sharedInstance.trackEvent(TrackerEvent.loginFBError(error))
+        tracker.trackEvent(TrackerEvent.loginFBError(error))
     }
 
     private func trackLoginGoogleFailedWithError(error: EventParameterLoginError) {
-        TrackerProxy.sharedInstance.trackEvent(TrackerEvent.loginGoogleError(error))
+        tracker.trackEvent(TrackerEvent.loginGoogleError(error))
     }
 
     private func trackSignupEmailFailedWithError(error: EventParameterLoginError) {
-        TrackerProxy.sharedInstance.trackEvent(TrackerEvent.signupError(error))
+        tracker.trackEvent(TrackerEvent.signupError(error))
     }
 }
 

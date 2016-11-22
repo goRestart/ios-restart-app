@@ -65,7 +65,9 @@ class SignUpViewModel: BaseViewModel {
     private let tracker: Tracker
     let appearance: LoginAppearance
     private let loginSource: EventParameterLoginSourceValue
+
     private let googleLoginHelper: ExternalAuthHelper
+    private let fbLoginHelper: ExternalAuthHelper
 
     let previousFacebookUsername: Variable<String?>
     let previousGoogleUsername: Variable<String?>
@@ -76,13 +78,15 @@ class SignUpViewModel: BaseViewModel {
     // MARK: - Lifecycle
     
     init(sessionManager: SessionManager, keyValueStorage: KeyValueStorageable, tracker: Tracker,
-         appearance: LoginAppearance, source: EventParameterLoginSourceValue, googleLoginHelper: ExternalAuthHelper) {
+         appearance: LoginAppearance, source: EventParameterLoginSourceValue, googleLoginHelper: ExternalAuthHelper,
+         fbLoginHelper: ExternalAuthHelper) {
         self.sessionManager = sessionManager
         self.keyValueStorage = keyValueStorage
         self.tracker = tracker
         self.appearance = appearance
         self.loginSource = source
         self.googleLoginHelper = googleLoginHelper
+        self.fbLoginHelper = fbLoginHelper
         self.previousFacebookUsername = Variable<String?>(nil)
         self.previousGoogleUsername = Variable<String?>(nil)
         super.init()
@@ -98,24 +102,23 @@ class SignUpViewModel: BaseViewModel {
         let keyValueStorage = KeyValueStorage.sharedInstance
         let tracker = TrackerProxy.sharedInstance
         let googleLoginHelper = GoogleLoginHelper(loginSource: source)
+        let fbLoginHelper = FBLoginHelper(loginSource: source)
         self.init(sessionManager: sessionManager, keyValueStorage: keyValueStorage, tracker: tracker,
-                  appearance: appearance, source: source, googleLoginHelper: googleLoginHelper)
+                  appearance: appearance, source: source,
+                  googleLoginHelper: googleLoginHelper, fbLoginHelper: fbLoginHelper)
     }
 
 
     // MARK: - Public methods
 
     func logInWithFacebook() {
-        FBLoginHelper.logInWithFacebook(sessionManager, tracker: tracker, loginSource: loginSource,
-            managerStart: { [weak self] in
-                guard let strongSelf = self else { return }
-                strongSelf.delegate?.viewModelDidStartLoggingIn(strongSelf)
-            },
-            completion: { [weak self] result in
-                guard let error = self?.processAuthResult(result, accountProvider: .Facebook) else { return }
-                self?.trackLoginFBFailedWithError(error)
-            }
-        )
+        fbLoginHelper.login({[weak self] in
+            guard let strongSelf = self else { return }
+            self?.delegate?.viewModelDidStartLoggingIn(strongSelf)
+        }, loginCompletion: { [weak self] result in
+            guard let error = self?.processAuthResult(result, accountProvider: .Facebook) else { return }
+            self?.trackLoginFBFailedWithError(error)
+        })
     }
 
     func logInWithGoogle() {
@@ -123,11 +126,11 @@ class SignUpViewModel: BaseViewModel {
             // Google OAuth completed. Token obtained
             guard let strongSelf = self else { return }
             self?.delegate?.viewModelDidStartLoggingIn(strongSelf)
-        }) { [weak self] result in
+        }, loginCompletion: { [weak self] result in
             // Login with Bouncer finished with success or fail
             guard let error = self?.processAuthResult(result, accountProvider: .Google) else { return }
             self?.trackLoginGoogleFailedWithError(error)
-        }
+        })
     }
 
     func abandon() {
