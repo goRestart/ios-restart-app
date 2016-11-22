@@ -103,7 +103,8 @@ class MainProductsViewModel: BaseViewModel {
         guard keyValueStorage[.lastSearches].count >= minimumSearchesSavedToShowCollection else { return generalCollectionsShuffled }
         return [.You] + generalCollectionsShuffled
     }
-    private let keyValueStorage: KeyValueStorage
+    private let keyValueStorage: KeyValueStorageable
+    private let featureFlags: FeatureFlaggeable.Type
     
     // > Delegate
     weak var delegate: MainProductsViewModelDelegate?
@@ -115,6 +116,12 @@ class MainProductsViewModel: BaseViewModel {
     // List VM
     let listViewModel: ProductListViewModel
     private let productListRequester: FilteredProductListRequester
+    var currentActiveFilters: ProductFilters? {
+        return productListRequester.filters
+    }
+    var userActiveFilters: ProductFilters? {
+        return filters
+    }
     private var shouldRetryLoad = false
     private var lastReceivedLocation: LGLocation?
     private var bubbleDistance: Float = 1
@@ -142,7 +149,8 @@ class MainProductsViewModel: BaseViewModel {
     
     init(sessionManager: SessionManager, myUserRepository: MyUserRepository, trendingSearchesRepository: TrendingSearchesRepository,
          locationManager: LocationManager, currencyHelper: CurrencyHelper, tracker: Tracker, searchType: SearchType? = nil,
-         filters: ProductFilters, tabNavigator: TabNavigator?, keyValueStorage: KeyValueStorage) {
+         filters: ProductFilters, tabNavigator: TabNavigator?, keyValueStorage: KeyValueStorageable,
+         featureFlags: FeatureFlaggeable.Type) {
         self.sessionManager = sessionManager
         self.myUserRepository = myUserRepository
         self.trendingSearchesRepository = trendingSearchesRepository
@@ -154,6 +162,7 @@ class MainProductsViewModel: BaseViewModel {
         self.filters = filters
         self.tabNavigator = tabNavigator
         self.keyValueStorage = keyValueStorage
+        self.featureFlags = featureFlags
         let show3Columns = DeviceFamily.current.isWiderOrEqualThan(.iPhone6Plus)
         let columns = show3Columns ? 3 : 2
         let itemsPerPage = show3Columns ? Constants.numProductsPerPageBig : Constants.numProductsPerPageDefault
@@ -179,9 +188,10 @@ class MainProductsViewModel: BaseViewModel {
         let currencyHelper = Core.currencyHelper
         let tracker = TrackerProxy.sharedInstance
         let keyValueStorage = KeyValueStorage.sharedInstance
+            let featureFlags = FeatureFlags.self
         self.init(sessionManager: sessionManager, myUserRepository: myUserRepository, trendingSearchesRepository: trendingSearchesRepository,
                   locationManager: locationManager, currencyHelper: currencyHelper, tracker: tracker, searchType: searchType,
-                  filters: filters, tabNavigator: tabNavigator, keyValueStorage: keyValueStorage)
+                  filters: filters, tabNavigator: tabNavigator, keyValueStorage: keyValueStorage, featureFlags: featureFlags)
     }
     
     convenience init(searchType: SearchType? = nil, tabNavigator: TabNavigator?) {
@@ -286,7 +296,7 @@ class MainProductsViewModel: BaseViewModel {
 
     private func setup() {
         listViewModel.dataDelegate = self
-        productListRequester.filters = filters
+        productListRequester.filters = setupFiltersForRequester()
 
         productListRequester.queryString = searchType?.query
         setupSessionAndLocation()
@@ -308,7 +318,7 @@ class MainProductsViewModel: BaseViewModel {
             infoBubbleText.value = LGLocalizedString.productPopularNearYou
         }
 
-        productListRequester.filters = filters
+        productListRequester.filters = setupFiltersForRequester()
         infoBubbleVisible.value = false
         errorMessage.value = nil
         listViewModel.resetUI()
@@ -323,6 +333,18 @@ class MainProductsViewModel: BaseViewModel {
         } else {
             return LGLocalizedString.productDistanceMoreThanFromYou(distanceString)
         }
+    }
+    
+    private func setupFiltersForRequester() -> ProductFilters {
+        guard featureFlags.showLiquidProductsToNewUser else { return filters }
+        guard keyValueStorage[.firstRunDate] == nil else { return filters }
+        var filtersForRequester: ProductFilters = filters
+        let query = searchType?.query ?? ""
+        if query.isEmpty && filters.selectedCategories.isEmpty {
+            let mainCategories: [ProductCategory] = [.CarsAndMotors, .Electronics, .HomeAndGarden, .SportsLeisureAndGames]
+            filtersForRequester.selectedCategories = mainCategories
+        }
+        return filtersForRequester
     }
 }
 

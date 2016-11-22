@@ -72,6 +72,8 @@
 "chat_deleted_disclaimer_w_name" = "%@ isimli kullanıcının hesabı artık aktif olmadığı için bu sohbete devam edemezsin.";
 "chat_deleted_disclaimer_wo_name" = "Bu hesap artık aktif olmadığı için bu sohbete devam edemezsin.";
 "chat_disclaimer_letgo_team" = "LETGO EKİBİ";
+"chat_express_banner_button_title" = "See Deals";
+"chat_express_banner_title" = "Related deals near you";
 "chat_express_contact_one_button_text" = "1 satıcı ile iletişime geç";
 "chat_express_contact_sellers_label" = "Bu satıcılarla, diğer alıcılardan önce iletişime geçmelisin!";
 "chat_express_contact_various_button_text" = "%@ satıcı ile iletişime geç";

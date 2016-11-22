@@ -148,7 +148,7 @@ extension AppCoordinator: AppNavigator {
     func open() {
         guard !openOnboarding() else { return }
         afterOpenAppEvents()
-
+        
         if let deepLink = deepLinksRouter.consumeInitialDeepLink() {
             openExternalDeepLink(deepLink, initialDeepLink: true)
         }
@@ -161,8 +161,8 @@ extension AppCoordinator: AppNavigator {
         if keyValueStorage[.firstRunDate] == nil {
             keyValueStorage[.firstRunDate] = NSDate()
         }
+        
         pushPermissionsManager.shouldAskForListPermissionsOnCurrentSession = false
-
         let onboardingCoordinator = OnboardingCoordinator()
         onboardingCoordinator.delegate = self
         openCoordinator(coordinator: onboardingCoordinator, parent: tabBarCtl, animated: true, completion: nil)

@@ -72,6 +72,8 @@
 "chat_deleted_disclaimer_w_name" = "Nem tudod folytatni a beszélgetést, mert %@ fiókja már nem aktív.";
 "chat_deleted_disclaimer_wo_name" = "Nem tudod folytatni a beszélgetést, mert ez a fiók már nem aktív.";
 "chat_disclaimer_letgo_team" = "A LETGO CSAPATA";
+"chat_express_banner_button_title" = "See Deals";
+"chat_express_banner_title" = "Related deals near you";
 "chat_express_contact_one_button_text" = "Üzenet 1 eladónak";
 "chat_express_contact_sellers_label" = "Lépj kapcsolatba az eladókkal, mielőtt mások elhappolják!";
 "chat_express_contact_various_button_text" = "Üzenet %@ eladónak";

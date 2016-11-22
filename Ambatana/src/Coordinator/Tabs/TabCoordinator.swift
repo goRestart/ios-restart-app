@@ -377,8 +377,8 @@ extension TabCoordinator: ChatDetailNavigator {
         navigationController.popViewControllerAnimated(true)
     }
 
-    func openExpressChat(products: [Product], sourceProductId: String) {
-        guard let expressChatCoordinator = ExpressChatCoordinator(products: products, sourceProductId: sourceProductId) else { return }
+    func openExpressChat(products: [Product], sourceProductId: String, forcedOpen: Bool) {
+        guard let expressChatCoordinator = ExpressChatCoordinator(products: products, sourceProductId: sourceProductId, forcedOpen: forcedOpen) else { return }
         expressChatCoordinator.delegate = self
         openCoordinator(coordinator: expressChatCoordinator, parent: rootViewController, animated: true, completion: nil)
     }

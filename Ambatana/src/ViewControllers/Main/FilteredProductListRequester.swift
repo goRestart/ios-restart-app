@@ -47,7 +47,7 @@ class FilteredProductListRequester: ProductListRequester {
             queryFirstCallCoordinates = LGLocationCoordinates2D(location: currentLocation)
             queryFirstCallCountryCode = locationManager.currentPostalAddress?.countryCode
         }
-     
+        
         retrieve() { [weak self] result in
             guard let indexProducts = result.value, useLimbo = self?.prependLimbo where useLimbo else {
                 self?.offset = result.value?.count ?? self?.offset ?? 0

@@ -72,6 +72,8 @@
 "chat_deleted_disclaimer_w_name" = "Vous ne pouvez pas continuer cette discussion car le compte de %@ n'est plus actif.";
 "chat_deleted_disclaimer_wo_name" = "Vous ne pouvez plus continuer cette discussion car ce compte n'est plus actif.";
 "chat_disclaimer_letgo_team" = "EQUIPE LETGO";
+"chat_express_banner_button_title" = "See Deals";
+"chat_express_banner_title" = "Related deals near you";
 "chat_express_contact_one_button_text" = "Contacter 1 vendeur";
 "chat_express_contact_sellers_label" = "Contactez ces vendeurs avant que d'autres acheteurs ne le fassent !";
 "chat_express_contact_various_button_text" = "Contacter %@ vendeurs";

@@ -72,6 +72,8 @@
 "chat_deleted_disclaimer_w_name" = "Não pode dar continuidade a esta conversa porque a conta de %@ já não se encontra ativa.";
 "chat_deleted_disclaimer_wo_name" = "Não pode dar continuidade a esta conversa porque esta conta já não se encontra ativa.";
 "chat_disclaimer_letgo_team" = "EQUIPA LETGO";
+"chat_express_banner_button_title" = "See Deals";
+"chat_express_banner_title" = "Related deals near you";
 "chat_express_contact_one_button_text" = "Contacte 1 vendedor";
 "chat_express_contact_sellers_label" = "Contacte estes vendedores antes que outros compradores os arrebatam!";
 "chat_express_contact_various_button_text" = "Contacte %@ vendedores";

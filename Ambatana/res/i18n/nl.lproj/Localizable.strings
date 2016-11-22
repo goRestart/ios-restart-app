@@ -72,6 +72,8 @@
 "chat_deleted_disclaimer_w_name" = "Je kunt niet verdergaan met dit gesprek omdat %@'s account niet meer actief is.";
 "chat_deleted_disclaimer_wo_name" = "Je kunt niet verder gaan met dit gesprek omdat dit account niet meer actief is.";
 "chat_disclaimer_letgo_team" = "LETGO TEAM";
+"chat_express_banner_button_title" = "See Deals";
+"chat_express_banner_title" = "Related deals near you";
 "chat_express_contact_one_button_text" = "Contacteer 1 verkoper";
 "chat_express_contact_sellers_label" = "Neem contact op met deze verkopers voordat andere kopers dat doen!";
 "chat_express_contact_various_button_text" = "Contacteer %@ verkopers";

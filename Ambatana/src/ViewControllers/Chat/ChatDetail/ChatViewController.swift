@@ -17,6 +17,7 @@ class ChatViewController: SLKTextViewController {
 
     let navBarHeight: CGFloat = 64
     let inputBarHeight: CGFloat = 44
+    let expressBannerHeight: CGFloat = 44
     let productView: ChatProductView
     var selectedCellIndexPath: NSIndexPath?
     let viewModel: ChatViewModel
@@ -31,7 +32,8 @@ class ChatViewController: SLKTextViewController {
     var stickersWindow: UIWindow?
     let keyboardHelper: KeyboardHelper
     let disposeBag = DisposeBag()
-
+    let expressChatBanner: ChatBanner
+    var bannerTopConstraint: NSLayoutConstraint = NSLayoutConstraint()
     var stickersTooltip: Tooltip?
 
     var blockedToastOffset: CGFloat {
@@ -54,8 +56,10 @@ class ChatViewController: SLKTextViewController {
         self.stickersView = ChatStickersView()
         self.stickersCloseButton = UIButton(frame: CGRect.zero)
         self.keyboardHelper = keyboardHelper
+        self.expressChatBanner = ChatBanner()
         super.init(tableViewStyle: .Plain)
         self.viewModel.delegate = self
+        self.expressChatBanner.delegate = self
         setReachabilityEnabled(true)
         hidesBottomBarWhenPushed = true
     }
@@ -195,8 +199,14 @@ class ChatViewController: SLKTextViewController {
         }
         
         productView.delegate = self
+
+        let action = UIAction(interface: .Button(LGLocalizedString.chatExpressBannerButtonTitle,
+            .Secondary(fontSize: .Small, withBorder: true)), action: { [weak self] in
+                self?.viewModel.bannerActionButtonTapped()
+            })
+        expressChatBanner.setupChatBannerWith(LGLocalizedString.chatExpressBannerTitle, action: action)
     }
-    
+
     private func setupNavigationBar() {
         productView.height = navigationBarHeight
         productView.layoutIfNeeded()
@@ -207,10 +217,12 @@ class ChatViewController: SLKTextViewController {
     
     private func addSubviews() {
         relationInfoView.translatesAutoresizingMaskIntoConstraints = false
+        expressChatBanner.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(relationInfoView)
         view.addSubview(activityIndicator)
+        view.addSubview(expressChatBanner)
     }
-    
+
     private func setupFrames() {
         if let tableView = tableView {
             tableView.contentInset.bottom = navBarHeight + blockedToastOffset
@@ -223,12 +235,23 @@ class ChatViewController: SLKTextViewController {
     }
     
     private func setupConstraints() {
-        let views: [String: AnyObject] = ["relationInfoView": relationInfoView]
+        var views: [String: AnyObject] = ["relationInfoView": relationInfoView]
         view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-0-[relationInfoView]-0-|", options: [],
             metrics: nil, views: views))
         view.addConstraint(NSLayoutConstraint(item: relationInfoView, attribute: .Top, relatedBy: .Equal,
             toItem: topLayoutGuide, attribute: .Bottom, multiplier: 1, constant: 0))
+
+        let bannerHeight = NSLayoutConstraint(item: expressChatBanner, attribute: .Height, relatedBy: .GreaterThanOrEqual, toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: expressBannerHeight)
+        expressChatBanner.addConstraint(bannerHeight)
+
+        views = ["expressChatBanner": expressChatBanner]
+        bannerTopConstraint = NSLayoutConstraint(item: expressChatBanner, attribute: .Top, relatedBy: .Equal, toItem: topLayoutGuide, attribute: .Bottom, multiplier: 1, constant: -expressBannerHeight)
+        let bannerSides = NSLayoutConstraint.constraintsWithVisualFormat("H:|-0-[expressChatBanner]-0-|", options: [], metrics: nil, views: views)
+
+        view.addConstraint(bannerTopConstraint)
+        view.addConstraints(bannerSides)
     }
+
 
     private func setupRelatedProducts() {
         relatedProductsView.setupOnTopOfView(textInputbar)
@@ -365,6 +388,35 @@ extension ChatViewController: ChatStickersViewDelegate {
 }
 
 
+// MARK: - ExpressChatBanner
+
+extension ChatViewController {
+    func showBanner() {
+        expressChatBanner.hidden = false
+        bannerTopConstraint.constant = 0
+        UIView.animateWithDuration(0.5) { [weak self] in
+            self?.view.layoutIfNeeded()
+        }
+    }
+
+    func hideBanner() {
+        bannerTopConstraint.constant = -expressChatBanner.frame.height
+        UIView.animateWithDuration(0.5, animations: { [weak self] in
+            self?.view.layoutIfNeeded()
+        }) { [weak self] _ in
+            self?.expressChatBanner.hidden = true
+        }
+    }
+}
+
+
+extension ChatViewController: ChatBannerDelegate {
+    func chatBannerDidFinish() {
+        hideBanner()
+    }
+}
+
+
 // MARK: - Rx config
 
 extension ChatViewController {
@@ -430,6 +482,14 @@ extension ChatViewController {
                     self?.productView.userAvatar.image = placeholder
                 }
             }.addDisposableTo(disposeBag)
+
+        viewModel.shouldShowExpressBanner.asObservable().skip(1).bindNext { [weak self] showBanner in
+            if showBanner {
+                self?.showBanner()
+            } else {
+                self?.hideBanner()
+            }
+        }.addDisposableTo(disposeBag)
     }
 }
 
@@ -712,5 +772,6 @@ extension ChatViewController {
         textInputbar.rightButton.accessibilityId = .ChatViewSendButton
         textInputbar.accessibilityId = .ChatViewTextInputBar
         stickersCloseButton.accessibilityId = .ChatViewCloseStickersButton
+        expressChatBanner.accessibilityId = .ExpressChatBanner
     }
 }
