@@ -12,7 +12,7 @@ import bumper
 
 extension Bumper  {
     static func initialize() {
-        Bumper.initialize([WebsocketChat.self, NotificationsSection.self, UserReviews.self, ShowNPSSurvey.self, MessageOnFavoriteRound2Mode.self, InterestedUsersMode.self, FiltersReorder.self, FreePostingMode.self, DirectPostInOnboarding.self, ShareButtonWithIcon.self, ProductDetailShareMode.self, PeriscopeChat.self, ChatHeadBubbles.self, ExpressChatBanner.self, ShowLiquidProductsToNewUser.self])
+        Bumper.initialize([WebsocketChat.self, NotificationsSection.self, UserReviews.self, ShowNPSSurvey.self, MessageOnFavoriteRound2Mode.self, InterestedUsersMode.self, FiltersReorder.self, FreePostingMode.self, DirectPostInOnboarding.self, ShareButtonWithIcon.self, ProductDetailShareMode.self, PeriscopeChat.self, ChatHeadBubbles.self, ExpressChatBanner.self, ShowLiquidProductsToNewUser.self, KeywordsTravelCollection.self])
     } 
 
     static var websocketChat: Bool {
@@ -88,6 +88,11 @@ extension Bumper  {
     static var showLiquidProductsToNewUser: Bool {
         guard let value = Bumper.valueForKey(ShowLiquidProductsToNewUser.key) else { return false }
         return ShowLiquidProductsToNewUser(rawValue: value)?.asBool ?? false
+    }
+
+    static var keywordsTravelCollection: KeywordsTravelCollection {
+        guard let value = Bumper.valueForKey(KeywordsTravelCollection.key) else { return .standard }
+        return KeywordsTravelCollection(rawValue: value) ?? .standard 
     } 
 }
 
@@ -252,5 +257,21 @@ enum ShowLiquidProductsToNewUser: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "show liquid products to new user" } 
     var asBool: Bool { return self == .Yes }
+}
+
+enum KeywordsTravelCollection: String, BumperFeature  {
+    case standard, CarsPrior, BrandsPrior
+    static var defaultValue: String { return KeywordsTravelCollection.standard.rawValue }
+    static var enumValues: [KeywordsTravelCollection] { return [.standard, .CarsPrior, .BrandsPrior]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Keywords prioritize on Travel Collection" } 
+    static func fromPosition(position: Int) -> KeywordsTravelCollection {
+        switch position { 
+            case 0: return .standard
+            case 1: return .CarsPrior
+            case 2: return .BrandsPrior
+            default: return .standard
+        }
+    }
 }
 
