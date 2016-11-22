@@ -547,6 +547,8 @@
 		7215B9BF1DDF5DCA008AC77B /* MockFeatureFlags.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7215B9BE1DDF5DCA008AC77B /* MockFeatureFlags.swift */; };
 		723A45C91DDC4D470001D02C /* UILabel+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 723A45C81DDC4D470001D02C /* UILabel+LG.swift */; };
 		723A45CA1DDC4D470001D02C /* UILabel+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 723A45C81DDC4D470001D02C /* UILabel+LG.swift */; };
+		723E6AE21DE47C3C0015A9A0 /* NewRelic+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 723E6AE11DE47C3C0015A9A0 /* NewRelic+LG.swift */; };
+		723E6AE31DE47C3C0015A9A0 /* NewRelic+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 723E6AE11DE47C3C0015A9A0 /* NewRelic+LG.swift */; };
 		7265BE5D1DB4CA9700DF1752 /* FreePostingMode+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7265BE5C1DB4CA9700DF1752 /* FreePostingMode+LG.swift */; };
 		7265BE5E1DB4CA9700DF1752 /* FreePostingMode+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7265BE5C1DB4CA9700DF1752 /* FreePostingMode+LG.swift */; };
 		72A83F641DD222100043EB3B /* Leanplum+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72A83F631DD222100043EB3B /* Leanplum+LG.swift */; };
@@ -1499,6 +1501,7 @@
 		7215B9BC1DDF2378008AC77B /* MainProductsViewModelSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainProductsViewModelSpec.swift; sourceTree = "<group>"; };
 		7215B9BE1DDF5DCA008AC77B /* MockFeatureFlags.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockFeatureFlags.swift; sourceTree = "<group>"; };
 		723A45C81DDC4D470001D02C /* UILabel+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UILabel+LG.swift"; sourceTree = "<group>"; };
+		723E6AE11DE47C3C0015A9A0 /* NewRelic+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NewRelic+LG.swift"; sourceTree = "<group>"; };
 		7265BE5C1DB4CA9700DF1752 /* FreePostingMode+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "FreePostingMode+LG.swift"; path = "Ambatana/src/Helper/LetgoExtensions/FreePostingMode+LG.swift"; sourceTree = SOURCE_ROOT; };
 		72A83F631DD222100043EB3B /* Leanplum+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Leanplum+LG.swift"; sourceTree = "<group>"; };
 		7B2FD4C296937E707B24D7EB /* Pods-LetGoGodMode.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetGoGodMode.release.xcconfig"; path = "Pods/Target Support Files/Pods-LetGoGodMode/Pods-LetGoGodMode.release.xcconfig"; sourceTree = "<group>"; };
@@ -2729,6 +2732,7 @@
 				6A5E19B81D548F5400F92692 /* FBLoginHelper.swift */,
 				6A5E19B91D548F5400F92692 /* FBSDKSharing+LG.swift */,
 				6A5E19BA1D548F5400F92692 /* GoogleLoginHelper.swift */,
+				723E6AE11DE47C3C0015A9A0 /* NewRelic+LG.swift */,
 			);
 			path = 3rdPartyExtensions;
 			sourceTree = "<group>";
@@ -4336,6 +4340,7 @@
 				50EC64041C64B05500DC04C5 /* LGEmptyView.swift in Sources */,
 				C7B5882B1CE1DE1C009B3975 /* BlockedUsersListViewModel.swift in Sources */,
 				50146BDC1D4F90F100B0F635 /* MainTabNavigator.swift in Sources */,
+				723E6AE21DE47C3C0015A9A0 /* NewRelic+LG.swift in Sources */,
 				50CBCD5F1BF0BB8F00A329BB /* CollectionViewFooter.swift in Sources */,
 				50560B971B25D18F0021D8D9 /* BaseViewController.swift in Sources */,
 				C71C5D5E1D958974006EB3CE /* BumperFeatures.swift in Sources */,
@@ -4739,6 +4744,7 @@
 				C7B5882C1CE1DE1C009B3975 /* BlockedUsersListViewModel.swift in Sources */,
 				2E373FB01D3E6F5100AC811C /* UserRatingListViewModel.swift in Sources */,
 				50146BDD1D4F90F100B0F635 /* MainTabNavigator.swift in Sources */,
+				723E6AE31DE47C3C0015A9A0 /* NewRelic+LG.swift in Sources */,
 				C7DB41981C5138B500400945 /* CollectionViewFooter.swift in Sources */,
 				C7DB41991C5138B500400945 /* BaseViewController.swift in Sources */,
 				6A12E0531C63988100C1BFE3 /* TourNotificationsViewController.swift in Sources */,
