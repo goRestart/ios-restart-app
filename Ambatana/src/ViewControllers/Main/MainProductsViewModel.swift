@@ -493,15 +493,8 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate {
 
     func vmDidSelectCollection(type: CollectionCellType){
         tracker.trackEvent(TrackerEvent.exploreCollection(type.rawValue))
-        var query: String
-        switch type {
-        case .You:
-            query = keyValueStorage[.lastSearches].reverse().joinWithSeparator(" ")
-        case .Apple, .Furniture, .Gaming, .Transport:
-            guard let searchText =  type.searchTextUS else { return }
-            query =  searchText
-        }
-        delegate?.vmDidSearch(viewModelForSearch(.Collection(type: type, query: query)))
+        let query = queryForCollection(type)
+        delegate?.vmDidSearch(viewModelForSearch(.Collection(type: type, query: query ?? "")))
     }
     
     func vmUserDidTapInvite() {
@@ -700,6 +693,31 @@ private extension ProductFilters {
         case .PriceAsc, .PriceDesc:
             return false
         }
+    }
+}
+
+// MARK: - Queries for Collections
+
+private extension MainProductsViewModel {
+    func queryForCollection(type: CollectionCellType) -> String? {
+        var query: String
+        switch type {
+        case .You:
+            query = keyValueStorage[.lastSearches].reverse().joinWithSeparator(" ")
+        case .Transport:
+            switch FeatureFlags.keywordsTravelCollection {
+            case .Standard:
+                query = "bike boat motorcycle car kayak trailer atv truck jeep rims camper cart scooter dirtbike jetski gokart four wheeler bicycle quad bike tractor bmw wheels canoe hoverboard Toyota bmx rv Chevy sub ford paddle Harley yamaha Jeep Honda mustang corvette dodge"
+            case .CarsPrior:
+                query = "car motorcycle boat scooter kayak trailer atv truck bike jeep rims camper cart dirtbike jetski gokart four wheeler bicycle quad bike tractor bmw wheels canoe hoverboard Toyota bmx rv Chevy sub ford paddle Harley yamaha Jeep Honda mustang corvette dodge"
+            case .BrandsPrior:
+                query = "mustang Honda Harley corvette dodge Toyota yamaha motorcycle Jeep atv bike boat car kayak trailer truck jeep rims camper cart scooter dirtbike jetski gokart four wheeler bicycle quad bike tractor bmw wheels canoe hoverboard bmx rv Chevy sub ford paddle"
+            }
+        case .Apple, .Furniture, .Gaming:
+            guard let searchText =  type.searchTextUS else { return nil }
+            query =  searchText
+        }
+        return query
     }
 }
 

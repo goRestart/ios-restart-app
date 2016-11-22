@@ -85,7 +85,7 @@ enum CollectionCellType: String {
         case .Apple:
             return "iphone apple iPad MacBook iPod Mac iMac"
         case .Transport:
-            return "bike boat motorcycle car kayak trailer atv truck jeep rims camper cart scooter dirtbike jetski gokart four wheeler bicycle quad bike tractor bmw wheels canoe hoverboard Toyota bmx rv Chevy sub ford paddle Harley yamaha Jeep Honda mustang corvette dodge"
+            return nil
         case .Furniture:
             return "dresser couch furniture desk table patio bed stand chair sofa rug mirror futon bench stool frame recliner lamp cabinet ikea shelf antique bedroom book shelf tables end table bunk beds night stand canopy"
         case .You:
