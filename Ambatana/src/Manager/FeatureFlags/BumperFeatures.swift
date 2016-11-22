@@ -12,9 +12,9 @@ import bumper
 
 extension Bumper  {
     static func initialize() {
-        Bumper.initialize([WebsocketChat.self, NotificationsSection.self, UserReviews.self, ShowNPSSurvey.self, MessageOnFavoriteRound2Mode.self, InterestedUsersMode.self, FiltersReorder.self, FreePostingMode.self, DirectPostInOnboarding.self, ShareButtonWithIcon.self, ProductDetailShareMode.self, PeriscopeChat.self, ChatHeadBubbles.self, ExpressChatBanner.self, ShowLiquidProductsToNewUser.self, KeywordsTravelCollection.self])
+        Bumper.initialize([WebsocketChat.self, NotificationsSection.self, UserReviews.self, ShowNPSSurvey.self, MessageOnFavoriteRound2Mode.self, InterestedUsersMode.self, FiltersReorder.self, DirectPostInOnboarding.self, ShareButtonWithIcon.self, ProductDetailShareMode.self, PeriscopeChat.self, ChatHeadBubbles.self, ExpressChatBanner.self, ShowLiquidProductsToNewUser.self, KeywordsTravelCollection.self])
     } 
-
+	
     static var websocketChat: Bool {
         guard let value = Bumper.valueForKey(WebsocketChat.key) else { return false }
         return WebsocketChat(rawValue: value)?.asBool ?? false
@@ -48,11 +48,6 @@ extension Bumper  {
     static var filtersReorder: Bool {
         guard let value = Bumper.valueForKey(FiltersReorder.key) else { return false }
         return FiltersReorder(rawValue: value)?.asBool ?? false
-    }
-
-    static var freePostingMode: FreePostingMode {
-        guard let value = Bumper.valueForKey(FreePostingMode.key) else { return .Disabled }
-        return FreePostingMode(rawValue: value) ?? .Disabled 
     }
 
     static var directPostInOnboarding: Bool {
@@ -171,22 +166,6 @@ enum FiltersReorder: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Product filters reorder" } 
     var asBool: Bool { return self == .Yes }
-}
-
-enum FreePostingMode: String, BumperFeature  {
-    case Disabled, SplitButton, OneButton
-    static var defaultValue: String { return FreePostingMode.Disabled.rawValue }
-    static var enumValues: [FreePostingMode] { return [.Disabled, .SplitButton, .OneButton]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Free Posting Mode" } 
-    static func fromPosition(position: Int) -> FreePostingMode {
-        switch position { 
-            case 0: return .Disabled
-            case 1: return .SplitButton
-            case 2: return .OneButton
-            default: return .Disabled
-        }
-    }
 }
 
 enum DirectPostInOnboarding: String, BumperFeature  {

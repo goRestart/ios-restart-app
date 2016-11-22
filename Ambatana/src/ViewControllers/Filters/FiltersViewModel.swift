@@ -211,7 +211,7 @@ class FiltersViewModel: BaseViewModel {
                                                         sortBy: productFilter.selectedOrdering,
                                                         postedWithin: productFilter.selectedWithin,
                                                         priceRange: productFilter.priceRange,
-                                                        freePostingMode: FeatureFlags.freePostingMode)
+                                                        freePostingModeAllowed: FeatureFlags.freePostingModeAllowed)
         TrackerProxy.sharedInstance.trackEvent(trackingEvent)
         
         dataDelegate?.viewModelDidUpdateFilters(self, filters: productFilter)
@@ -232,7 +232,7 @@ class FiltersViewModel: BaseViewModel {
     }
 
     private func buildFilterCategoryItemsWithCategories(categories: [ProductCategory]) -> [FilterCategoryItem] {
-        let filterCatItems: [FilterCategoryItem] = FeatureFlags.freePostingMode.enabled ? [.Free] : []
+        let filterCatItems: [FilterCategoryItem] = FeatureFlags.freePostingModeAllowed ? [.Free] : []
         let builtCategories = categories.map { FilterCategoryItem(category: $0) }
         return filterCatItems + builtCategories
     }

@@ -38,7 +38,7 @@ class PostProductDetailViewModel: BaseViewModel {
     let currencySymbol: String?
     
     var freeOptionAvailable: Bool {
-        return FeatureFlags.freePostingMode.enabled && FeatureFlags.freePostingMode == .OneButton
+        return FeatureFlags.freePostingModeAllowed
     }
 
     private let disposeBag = DisposeBag()
