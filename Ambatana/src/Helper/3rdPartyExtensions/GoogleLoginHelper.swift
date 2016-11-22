@@ -14,24 +14,24 @@ enum GoogleSignInResult {
 }
 
 class GoogleLoginHelper: NSObject, GIDSignInDelegate {
-
     private var googleSignInCompletion: ((result: GoogleSignInResult) -> ())?
-    private var tracker: Tracker
-    private var loginSource: EventParameterLoginSourceValue
-    private var sessionManager: SessionManager
+    private let tracker: Tracker
+    private let loginSource: EventParameterLoginSourceValue
+    private let sessionManager: SessionManager
     
     
     // MARK: - Lifecycle
     
     convenience init(loginSource: EventParameterLoginSourceValue) {
+        let sessionManager = Core.sessionManager
         let tracker = TrackerProxy.sharedInstance
-        self.init(tracker: tracker, loginSource: loginSource)
+        self.init(sessionManager: sessionManager, tracker: tracker, loginSource: loginSource)
     }
     
-    init(tracker: Tracker, loginSource: EventParameterLoginSourceValue) {
+    init(sessionManager: SessionManager, tracker: Tracker, loginSource: EventParameterLoginSourceValue) {
         self.tracker = tracker
         self.loginSource = loginSource
-        self.sessionManager = Core.sessionManager
+        self.sessionManager = sessionManager
     }
 
     

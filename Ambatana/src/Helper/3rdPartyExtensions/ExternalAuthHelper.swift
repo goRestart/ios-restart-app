@@ -6,7 +6,7 @@
 //  Copyright © 2016 Ambatana. All rights reserved.
 //
 
-import Foundation
+import LGCoreKit
 
 typealias ExternalAuthLoginCompletion = (ExternalServiceAuthResult -> ())
 
