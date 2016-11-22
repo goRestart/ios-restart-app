@@ -36,7 +36,11 @@ final class TrackerProxy: Tracker {
     // MARK: - Lifecycle
 
     convenience init() {
-        self.init(trackers: TrackerProxy.defaultTrackers,
+        self.init(trackers: TrackerProxy.defaultTrackers)
+    }
+
+    convenience init(trackers: [Tracker]) {
+        self.init(trackers: trackers,
                   sessionManager: Core.sessionManager,
                   myUserRepository: Core.myUserRepository,
                   locationManager: Core.locationManager,
