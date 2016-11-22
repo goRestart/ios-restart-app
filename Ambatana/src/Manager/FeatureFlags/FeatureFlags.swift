@@ -41,7 +41,7 @@ class FeatureFlags: FeatureFlaggeable {
         Bumper.initialize()
     }
     
-    init()
+    convenience init()
     {
         self.init(locale: NSLocale.currentLocale(), locationManager: Core.locationManager)
     }
