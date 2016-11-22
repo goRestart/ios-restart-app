@@ -10,6 +10,7 @@ import bumper
 import LGCoreKit
 
 protocol FeatureFlaggeable {
+    
     var websocketChat: Bool { get }
     var notificationsSection: Bool { get }
     var userReviews: Bool { get }

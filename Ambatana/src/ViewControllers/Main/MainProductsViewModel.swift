@@ -706,7 +706,7 @@ private extension MainProductsViewModel {
         case .You:
             query = keyValueStorage[.lastSearches].reverse().joinWithSeparator(" ")
         case .Transport:
-            switch FeatureFlags.keywordsTravelCollection {
+            switch featureFlags.keywordsTravelCollection {
             case .Standard:
                 query = "bike boat motorcycle car kayak trailer atv truck jeep rims camper cart scooter dirtbike jetski gokart four wheeler bicycle quad bike tractor bmw wheels canoe hoverboard Toyota bmx rv Chevy sub ford paddle Harley yamaha Jeep Honda mustang corvette dodge"
             case .CarsPrior:
