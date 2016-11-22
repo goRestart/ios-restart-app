@@ -73,5 +73,10 @@
         "name": "ShowLiquidProductsToNewUser",
         "values": ["No", "Yes"],
         "description": "show liquid products to new user"
+    },
+    {
+        "name": "KeywordsTravelCollection",
+        "values": ["Standard", "CarsPrior", "BrandsPrior"],
+        "description": "Keywords prioritize on Travel Collection"
     }
  ]
