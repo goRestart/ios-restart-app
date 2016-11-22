@@ -1034,26 +1034,16 @@ extension Product {
         case .Discarded, .Deleted:
             return .NotAvailable
         case .Approved:
-            switch FeatureFlags.freePostingMode {
-            case .Disabled:
+            if (price.free) {
+                return isMine ? .AvailableFree : .OtherAvailableFree
+            } else {
                 return isMine ? .Available : .OtherAvailable
-            case .OneButton, .SplitButton:
-                if (price.free) {
-                    return isMine ? .AvailableFree : .OtherAvailableFree
-                } else {
-                    return isMine ? .Available : .OtherAvailable
-                }
             }
         case .Sold, .SoldOld:
-            switch FeatureFlags.freePostingMode {
-            case .Disabled:
+            if (price.free) {
+                return isMine ? .SoldFree : .OtherSoldFree
+            } else {
                 return isMine ? .Sold : .OtherSold
-            case .OneButton, .SplitButton:
-                if (price.free) {
-                    return isMine ? .SoldFree : .OtherSoldFree
-                } else {
-                    return isMine ? .Sold : .OtherSold
-                }
             }
         }
     }

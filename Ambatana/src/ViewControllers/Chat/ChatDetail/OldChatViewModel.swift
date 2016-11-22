@@ -1127,7 +1127,7 @@ extension OldChatViewModel: DirectAnswersPresenterDelegate {
             self?.clearProductSoldDirectAnswer()
         }
         
-        if FeatureFlags.freePostingMode.enabled && product.price.free {
+        if FeatureFlags.freePostingModeAllowed && product.price.free {
             if isBuyer {
                 return [DirectAnswer(text: LGLocalizedString.directAnswerInterested, action: emptyAction),
                         DirectAnswer(text: LGLocalizedString.directAnswerFreeStillHave, action: emptyAction),

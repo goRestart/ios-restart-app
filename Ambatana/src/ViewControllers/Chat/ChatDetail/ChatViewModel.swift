@@ -1155,7 +1155,7 @@ extension ChatViewModel: DirectAnswersPresenterDelegate {
         let emptyAction: () -> Void = { [weak self] in
             self?.clearProductSoldDirectAnswer()
         }
-        if FeatureFlags.freePostingMode.enabled && productIsFree.value {
+        if FeatureFlags.freePostingModeAllowed && productIsFree.value {
             if !conversation.value.amISelling {
                 return [DirectAnswer(text: LGLocalizedString.directAnswerInterested, action: emptyAction),
                         DirectAnswer(text: LGLocalizedString.directAnswerFreeStillHave, action: emptyAction),

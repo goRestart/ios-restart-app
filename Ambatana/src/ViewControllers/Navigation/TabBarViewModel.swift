@@ -51,7 +51,7 @@ class TabBarViewModel: BaseViewModel {
     func didAppear() {
         guard !didAppearFirstTime else { return }
         didAppearFirstTime = true
-        guard FeatureFlags.freePostingMode != .Disabled && !keyValueStorage[.giveAwayTooltipAlreadyShown] else { return }
+        guard FeatureFlags.freePostingModeAllowed && !keyValueStorage[.giveAwayTooltipAlreadyShown] else { return }
 
         var newTextAttributes = [String : AnyObject]()
         newTextAttributes[NSForegroundColorAttributeName] = UIColor.primaryColorHighlighted
@@ -81,10 +81,6 @@ class TabBarViewModel: BaseViewModel {
 
     func sellButtonPressed() {
         navigator?.openSell(.SellButton)
-    }
-
-    func giveAwayButtonPressed() {
-        navigator?.openSell(.GiveAwayButton)
     }
 
     func userRating(source: RateUserSource, data: RateUserData) {

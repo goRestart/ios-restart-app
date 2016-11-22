@@ -165,7 +165,6 @@ final class TabBarController: UITabBarController {
 
     private func setupSellButtons() {
         floatingSellButton.sellCompletion = { [weak self] in self?.sellButtonPressed() }
-        floatingSellButton.giveAwayCompletion = { [weak self] in self?.viewModel.giveAwayButtonPressed() }
         floatingSellButton.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(floatingSellButton)
 
@@ -240,17 +239,8 @@ extension TabBarController: TabBarViewModelDelegate {
     }
 
     func vmShowTooltipAtSellButtonWithText(text: NSAttributedString) {
-        let targetView: UIView
-        switch FeatureFlags.freePostingMode {
-        case .Disabled, .OneButton:
-            targetView = floatingSellButton
-        case .SplitButton:
-            targetView = floatingSellButton.giveAwayButton
-        }
-
-        tooltip = Tooltip(targetView: targetView, superView: view, title: text, style: .Black(closeEnabled: true),
+        tooltip = Tooltip(targetView: floatingSellButton, superView: view, title: text, style: .Black(closeEnabled: true),
                               peakOnTop: false, actionBlock: { [weak self] in
-            self?.viewModel.giveAwayButtonPressed()
             self?.viewModel.tooltipDismissed()
         }, closeBlock: { [weak self] in
             self?.viewModel.tooltipDismissed()
@@ -341,7 +331,6 @@ extension TabBarController: AppRatingViewDelegate {
 extension TabBarController {
     func setAccessibilityIds() {
         floatingSellButton.sellButton.accessibilityId = AccessibilityId.TabBarFloatingSellButton
-        floatingSellButton.giveAwayButton.accessibilityId = AccessibilityId.TabBarFloatingGiveAwayButton
     }
 }
 

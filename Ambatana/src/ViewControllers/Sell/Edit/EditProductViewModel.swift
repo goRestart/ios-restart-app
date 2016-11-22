@@ -267,7 +267,7 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
         }
         let name = title ?? ""
         let description = (descr ?? "").stringByRemovingEmoji()
-        let priceAmount = isFreePosting.value && FeatureFlags.freePostingMode.enabled ? ProductPrice.Free : ProductPrice.Normal((price ?? "0").toPriceDouble())
+        let priceAmount = isFreePosting.value && FeatureFlags.freePostingModeAllowed ? ProductPrice.Free : ProductPrice.Normal((price ?? "0").toPriceDouble())
         let currency = initialProduct.currency
 
         let editedProduct = productRepository.updateProduct(initialProduct, name: name, description: description,

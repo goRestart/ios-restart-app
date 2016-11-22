@@ -30,6 +30,8 @@ struct FeatureFlags: FeatureFlaggeable {
     static func setup() {
         Bumper.initialize()
     }
+    
+    // MARK: - A/B Tests features
 
     static var websocketChat: Bool = {
         if Bumper.enabled {
@@ -80,15 +82,6 @@ struct FeatureFlags: FeatureFlaggeable {
         return ABTests.filtersReorder.value
     }
 
-    static var freePostingMode: FreePostingMode {
-        guard freePostingModeAllowed else { return .Disabled }
-
-        if Bumper.enabled {
-            return Bumper.freePostingMode
-        }
-        return FreePostingMode.fromPosition(ABTests.freePostingMode.value)
-    }
-
     static var directPostInOnboarding: Bool {
         if Bumper.enabled {
             return Bumper.directPostInOnboarding
@@ -137,26 +130,28 @@ struct FeatureFlags: FeatureFlaggeable {
         }
         return ABTests.expressChatBanner.value
     }
-    
+
     static var keywordsTravelCollection: KeywordsTravelCollection {
         if Bumper.enabled {
             return Bumper.keywordsTravelCollection
         }
         return KeywordsTravelCollection.fromPosition(ABTests.keywordsTravelCollection.value)
     }
-  
+
+    // MARK: - Country features
+
+    static var freePostingModeAllowed: Bool {
+        return !FeatureFlags.matchesLocationAndRegion("tr")
+    }
     
     // MARK: - Private
-
-    private static var freePostingModeAllowed: Bool {
-        let locale = NSLocale.currentLocale()
-        let locationManager = Core.locationManager
-
-        // Free posting is not allowed in Turkey. Check location & phone region.
-        let turkey = "tr"
+    
+    /// Checks location & phone region.
+    private static func matchesLocationAndRegion(code: String,
+                                                 locale: NSLocale = NSLocale.currentLocale(),
+                                                 locationManager: LocationManager = Core.locationManager) -> Bool {
         let systemCountryCode = locale.lg_countryCode
         let countryCode = (locationManager.currentPostalAddress?.countryCode ?? systemCountryCode).lowercaseString
-
-        return systemCountryCode != turkey && countryCode != turkey
+        return systemCountryCode != code && countryCode != code
     }
 }

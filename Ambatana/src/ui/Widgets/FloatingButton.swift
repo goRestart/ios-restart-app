@@ -12,35 +12,19 @@ class FloatingButton: UIView {
     private static let height: CGFloat = 50
     private let containerView: UIView
     let sellButton: UIButton
-    let giveAwayButton: UIButton
 
     var sellCompletion: (() -> ())?
-    var giveAwayCompletion: (() -> ())?
-
 
     // MARK: - Lifecycle
 
-    convenience init() {
-        self.init(freePostingMode: FeatureFlags.freePostingMode)
-    }
-
-    override convenience init(frame: CGRect) {
-        self.init(frame: CGRect.zero, freePostingMode: FeatureFlags.freePostingMode)
-    }
-
-    convenience init(freePostingMode: FreePostingMode) {
-        self.init(frame: CGRect.zero, freePostingMode: freePostingMode)
-    }
-
-    init(frame: CGRect, freePostingMode: FreePostingMode) {
+    override init(frame: CGRect) {
         self.containerView = UIView()
         self.sellButton = UIButton(type: .Custom)
-        self.giveAwayButton = UIButton(type: .Custom)
 
         super.init(frame: frame)
 
-        setupConstraints(freePostingMode)
-        setupUI(freePostingMode)
+        setupConstraints()
+        setupUI()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -55,7 +39,7 @@ class FloatingButton: UIView {
 
     // MARK: - Private methods
 
-    private func setupConstraints(freePostingMode: FreePostingMode) {
+    private func setupConstraints() {
         containerView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(containerView)
         sellButton.translatesAutoresizingMaskIntoConstraints = false
@@ -68,59 +52,28 @@ class FloatingButton: UIView {
                                                                       metrics: nil, views: containerViews))
 
         let metrics: [String: AnyObject] = ["h": FloatingButton.height]
-        let views: [String: AnyObject] = ["sb": sellButton, "gab": giveAwayButton]
+        let views: [String: AnyObject] = ["sb": sellButton]
         containerView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-0-[sb(h)]-0-|", options: [],
                                                                                     metrics: metrics, views: views))
 
-        let hConstraintsVF: String
-        switch freePostingMode {
-        case .Disabled, .OneButton:
-            hConstraintsVF = "H:|-0-[sb]-0-|"
-
-        case .SplitButton:
-            giveAwayButton.translatesAutoresizingMaskIntoConstraints = false
-            containerView.addSubview(giveAwayButton)
-
-            hConstraintsVF = "H:|-0-[sb]-0-[gab]-0-|"
-            containerView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-0-[gab]-0-|", options: [],
-                                                                                        metrics: nil, views: views))
-
-            containerView.addConstraint(NSLayoutConstraint(item: sellButton, attribute: .Width, relatedBy: .Equal,
-                                                           toItem: giveAwayButton, attribute: .Width,
-                                                           multiplier: 1.0, constant: 0))
-        }
-        let hConstraints = NSLayoutConstraint.constraintsWithVisualFormat(hConstraintsVF, options: [],
+        let hConstraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|-0-[sb]-0-|", options: [],
                                                                           metrics: nil, views: views)
         containerView.addConstraints(hConstraints)
     }
 
-    private func setupUI(freePostingMode: FreePostingMode) {
+    private func setupUI() {
         applyFloatingButtonShadow()
         containerView.clipsToBounds = true
 
         let titleIconSpacing: CGFloat = 10
         let extraPadding: CGFloat = 6
-        switch freePostingMode {
-        case .Disabled, .OneButton:
-            sellButton.setTitle(LGLocalizedString.tabBarToolTip, forState: .Normal)
-            let sellButtonImage = UIImage(named: "ic_sell_white")
-            sellButton.setImage(sellButtonImage, forState: .Normal)
-            sellButton.setImage(sellButtonImage, forState: .Highlighted)
-            sellButton.titleLabel?.font = UIFont.bigButtonFont
-            sellButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: titleIconSpacing, bottom: 0, right: -titleIconSpacing)
-            sellButton.contentEdgeInsets = UIEdgeInsets(top: 0, left: 2*extraPadding, bottom: 0, right: 2*extraPadding+titleIconSpacing)
-        case .SplitButton:
-            sellButton.setTitle(LGLocalizedString.tabBarSellStuffButton, forState: .Normal)
-            let sellButtonImage = UIImage(named: "ic_main_sell")
-            sellButton.setImage(sellButtonImage, forState: .Normal)
-            sellButton.setImage(sellButtonImage, forState: .Highlighted)
-            sellButton.titleLabel?.font = UIFont.bigButtonFont
-            sellButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: titleIconSpacing, bottom: 0, right: -titleIconSpacing)
-            sellButton.titleLabel?.lineBreakMode = .ByTruncatingTail
-            sellButton.titleLabel?.textAlignment = .Center
-            sellButton.titleLabel?.numberOfLines = 2
-            sellButton.contentEdgeInsets = UIEdgeInsets(top: 0, left: extraPadding, bottom: 0, right: 2*titleIconSpacing)
-        }
+        sellButton.setTitle(LGLocalizedString.tabBarToolTip, forState: .Normal)
+        let sellButtonImage = UIImage(named: "ic_sell_white")
+        sellButton.setImage(sellButtonImage, forState: .Normal)
+        sellButton.setImage(sellButtonImage, forState: .Highlighted)
+        sellButton.titleLabel?.font = UIFont.bigButtonFont
+        sellButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: titleIconSpacing, bottom: 0, right: -titleIconSpacing)
+        sellButton.contentEdgeInsets = UIEdgeInsets(top: 0, left: 2*extraPadding, bottom: 0, right: 2*extraPadding+titleIconSpacing)
         sellButton.setTitleColor(UIColor.white, forState: .Normal)
         sellButton.setBackgroundImage(UIColor.primaryColor.imageWithSize(CGSize(width: 1, height: 1)),
                                       forState: .Normal)
@@ -129,32 +82,9 @@ class FloatingButton: UIView {
         sellButton.setBackgroundImage(UIColor.primaryColorDisabled.imageWithSize(CGSize(width: 1, height: 1)),
                                       forState: .Disabled)
         sellButton.addTarget(self, action: #selector(runSellCompletion), forControlEvents: .TouchUpInside)
-
-        giveAwayButton.setTitle(LGLocalizedString.tabBarGiveAwayButton, forState: .Normal)
-        giveAwayButton.titleLabel?.font = UIFont.bigButtonFont
-        giveAwayButton.titleLabel?.lineBreakMode = .ByTruncatingTail
-        giveAwayButton.titleLabel?.textAlignment = .Center
-        giveAwayButton.titleLabel?.numberOfLines = 2
-        giveAwayButton.setTitleColor(UIColor.primaryColor, forState: .Normal)
-        let giveAwayButtonImage = UIImage(named: "ic_main_give_away")
-        giveAwayButton.setImage(giveAwayButtonImage, forState: .Normal)
-        giveAwayButton.setImage(giveAwayButtonImage, forState: .Highlighted)
-        giveAwayButton.setBackgroundImage(UIColor.secondaryColor.imageWithSize(CGSize(width: 1, height: 1)),
-                                          forState: .Normal)
-        giveAwayButton.setBackgroundImage(UIColor.secondaryColorHighlighted.imageWithSize(CGSize(width: 1, height: 1)),
-                                          forState: .Highlighted)
-        giveAwayButton.setBackgroundImage(UIColor.secondaryColorDisabled.imageWithSize(CGSize(width: 1, height: 1)),
-                                          forState: .Disabled)
-        giveAwayButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: titleIconSpacing, bottom: 0, right: -titleIconSpacing)
-        giveAwayButton.contentEdgeInsets = UIEdgeInsets(top: 0, left: extraPadding, bottom: 0, right: 2*titleIconSpacing+extraPadding)
-        giveAwayButton.addTarget(self, action: #selector(runGiveAwayCompletion), forControlEvents: .TouchUpInside)
     }
 
     private dynamic func runSellCompletion() {
         sellCompletion?()
-    }
-
-    private dynamic func runGiveAwayCompletion() {
-        giveAwayCompletion?()
     }
 }
