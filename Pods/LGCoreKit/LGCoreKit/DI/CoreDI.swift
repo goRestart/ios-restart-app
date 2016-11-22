@@ -69,6 +69,8 @@ final class CoreDI: InternalDI {
             myUserRepository: myUserRepository, installationRepository: installationRepository, tokenDAO: tokenDAO,
             deviceLocationDAO: deviceLocationDAO, favoritesDAO: favoritesDAO, reachability: reachability)
 
+        locationManager.observeSessionManager(sessionManager)
+
         apiClient.installationRepository = installationRepository
         apiClient.sessionManager = sessionManager
         webSocketClient.sessionManager = sessionManager

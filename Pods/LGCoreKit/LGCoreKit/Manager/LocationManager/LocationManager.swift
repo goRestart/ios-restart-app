@@ -8,14 +8,17 @@
 
 import CoreLocation
 import Result
+import RxSwift
 
-public enum LocationNotification: String {
-    case LocationUpdate = "LocationManager.LocationUpdate"
-    case MovedFarFromSavedManualLocation = "LocationManager.MovedFarFromSavedManualLocation"
-    case LocationDidChangeAuthorization = "LocationManager.LocationDidChangeAuthorization"
+public enum LocationEvent {
+    case LocationUpdate
+    case MovedFarFromSavedManualLocation
+    case ChangedPermissions
 }
 
-public protocol LocationManager{
+public protocol LocationManager {
+
+    var locationEvents: Observable<LocationEvent> { get }
 
     var didAcceptPermissions: Bool { get }
     var isManualLocationEnabled: Bool { get }

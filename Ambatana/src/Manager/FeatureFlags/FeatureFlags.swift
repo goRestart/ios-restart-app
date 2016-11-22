@@ -10,158 +10,157 @@ import bumper
 import LGCoreKit
 
 protocol FeatureFlaggeable {
-    
-    var websocketChat: Bool { get }
-    var notificationsSection: Bool { get }
-    var userReviews: Bool { get }
-    var showNPSSurvey: Bool { get }
-    var messageOnFavoriteRound2: MessageOnFavoriteRound2Mode { get }
-    var interestedUsersMode: InterestedUsersMode { get }
-    var filtersReorder: Bool { get }
-    var freePostingMode: FreePostingMode { get }
-    var directPostInOnboarding: Bool { get }
-    var shareButtonWithIcon: Bool { get }
-    var productDetailShareMode: ProductDetailShareMode { get }
-    var periscopeChat: Bool { get }
-    var chatHeadBubbles: Bool { get }
-    var showLiquidProductsToNewUser: Bool { get }
-	var keywordsTravelCollection: KeywordsTravelCollection { get }
+     var websocketChat: Bool { get }
+     var notificationsSection: Bool { get }
+     var userReviews: Bool { get }
+     var messageOnFavoriteRound2: MessageOnFavoriteRound2Mode { get }
+     var interestedUsersMode: InterestedUsersMode { get }
+     var filtersReorder: Bool { get }
+     var directPostInOnboarding: Bool { get }
+     var shareButtonWithIcon: Bool { get }
+     var productDetailShareMode: ProductDetailShareMode { get }
+     var periscopeChat: Bool { get }
+     var chatHeadBubbles: Bool { get }
+     var showLiquidProductsToNewUser: Bool { get }
+     var keywordsTravelCollection: KeywordsTravelCollection { get }
 }
 
-public class FeatureFlags: FeatureFlaggeable {
+struct FeatureFlags: FeatureFlaggeable {
     
-    static let sharedInstance: FeatureFlags = FeatureFlags()
+    private let locale: NSLocale
+    private let locationManager: LocationManager
     
-    private init() {
+    init(locale: NSLocale, locationManager: LocationManager) {
+        self.locale = locale
+        self.locationManager = locationManager
         Bumper.initialize()
     }
+    
+    init()
+    {
+        self.init(locale: NSLocale.currentLocale(), locationManager: Core.locationManager)
+    }
 
-    var websocketChat: Bool = {
+    
+    // MARK: - A/B Tests features
+
+     var websocketChat: Bool = {
         if Bumper.enabled {
             return Bumper.websocketChat
         }
         return false
     }()
     
-    var notificationsSection: Bool = {
+     var notificationsSection: Bool = {
         if Bumper.enabled {
             return Bumper.notificationsSection
         }
         return ABTests.notificationCenterEnabled.value
     }()
 
-    var userReviews: Bool {
+     var userReviews: Bool {
         if Bumper.enabled {
             return Bumper.userReviews
         }
         return false
     }
 
-    var showNPSSurvey: Bool {
+     var showNPSSurvey: Bool {
         if Bumper.enabled {
             return Bumper.showNPSSurvey
         }
         return ABTests.showNPSSurvey.value
     }
 
-    var messageOnFavoriteRound2: MessageOnFavoriteRound2Mode {
+     var messageOnFavoriteRound2: MessageOnFavoriteRound2Mode {
         if Bumper.enabled {
             return Bumper.messageOnFavoriteRound2Mode
         }
         return MessageOnFavoriteRound2Mode.fromPosition(ABTests.messageOnFavoriteRound2.value)
     }
 
-    var interestedUsersMode: InterestedUsersMode {
+     var interestedUsersMode: InterestedUsersMode {
         if Bumper.enabled {
             return Bumper.interestedUsersMode
         }
         return InterestedUsersMode.fromPosition(ABTests.interestedUsersMode.value)
     }
 
-    var filtersReorder: Bool {
+     var filtersReorder: Bool {
         if Bumper.enabled {
             return Bumper.filtersReorder
         }
         return ABTests.filtersReorder.value
     }
 
-    var freePostingMode: FreePostingMode {
-        guard freePostingModeAllowed else { return .Disabled }
-
-        if Bumper.enabled {
-            return Bumper.freePostingMode
-        }
-        return FreePostingMode.fromPosition(ABTests.freePostingMode.value)
-    }
-
-    var directPostInOnboarding: Bool {
+     var directPostInOnboarding: Bool {
         if Bumper.enabled {
             return Bumper.directPostInOnboarding
         }
         return ABTests.directPostInOnboarding.value
     }
     
-    var shareButtonWithIcon: Bool {
+     var shareButtonWithIcon: Bool {
         if Bumper.enabled {
             return Bumper.shareButtonWithIcon
         }
         return ABTests.shareButtonWithIcon.value
     }
 
-    var productDetailShareMode: ProductDetailShareMode {
+     var productDetailShareMode: ProductDetailShareMode {
         if Bumper.enabled {
             return Bumper.productDetailShareMode
         }
         return ProductDetailShareMode.fromPosition(ABTests.productDetailShareMode.value)
     }
 
-    var periscopeChat: Bool {
+     var periscopeChat: Bool {
         if Bumper.enabled {
             return Bumper.periscopeChat
         }
         return ABTests.persicopeChat.value
     }
 
-    var chatHeadBubbles: Bool {
+     var chatHeadBubbles: Bool {
         if Bumper.enabled {
             return Bumper.chatHeadBubbles
         }
         return ABTests.chatHeadBubbles.value
     }
     
-    var showLiquidProductsToNewUser: Bool {
+     var showLiquidProductsToNewUser: Bool {
         if Bumper.enabled {
             return Bumper.showLiquidProductsToNewUser
         }
         return ABTests.showLiquidProductsToNewUser.value
     }
 
-  	var expressChatBanner: Bool {
+     var expressChatBanner: Bool {
         if Bumper.enabled {
             return Bumper.expressChatBanner
         }
         return ABTests.expressChatBanner.value
     }
-    
-   	var keywordsTravelCollection: KeywordsTravelCollection {
+
+     var keywordsTravelCollection: KeywordsTravelCollection {
         if Bumper.enabled {
             return Bumper.keywordsTravelCollection
         }
         return KeywordsTravelCollection.fromPosition(ABTests.keywordsTravelCollection.value)
     }
-  
+
+    // MARK: - Country features
+
+    var freePostingModeAllowed: Bool {
+        return !FeatureFlags.matchesLocationOrRegion("tr")
+    }
     
     // MARK: - Private
-
-    private var freePostingModeAllowed: Bool {
-        let locale = NSLocale.currentLocale()
-        let locationManager = Core.locationManager
-
-        // Free posting is not allowed in Turkey. Check location & phone region.
-        let turkey = "tr"
+    
+    /// Checks location & phone region.
+    private func matchesLocationOrRegion(code: String, locale: locale, locationManager: locationManager) -> Bool {
         let systemCountryCode = locale.lg_countryCode
         let countryCode = (locationManager.currentPostalAddress?.countryCode ?? systemCountryCode).lowercaseString
-
-        return systemCountryCode != turkey && countryCode != turkey
+        return systemCountryCode == code || countryCode == code
     }
 }

@@ -35,7 +35,7 @@ class LGMyUserRepository: InternalMyUserRepository {
         return dao.myUser
     }
     var rx_myUser: Observable<MyUser?> {
-        return dao.rx_myUser.asObservable()
+        return dao.rx_myUser
     }
 
 

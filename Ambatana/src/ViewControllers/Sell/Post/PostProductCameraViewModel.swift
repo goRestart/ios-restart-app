@@ -183,15 +183,10 @@ class PostProductCameraViewModel: BaseViewModel {
     }
     
     private func setupFirstShownLiterals() {
-        if sourcePosting.isFreePosting {
-            firstTimeTitle = LGLocalizedString.productPostFreeCameraFirstTimeAlertTitle
-            firstTimeSubtitle = LGLocalizedString.productPostFreeCameraFirstTimeAlertSubtitle
-        } else {
-            firstTimeTitle = featureFlags.directPostInOnboarding ? LGLocalizedString.onboardingDirectCameraAlertTitle :
-                LGLocalizedString.productPostCameraFirstTimeAlertTitle
-            firstTimeSubtitle = featureFlags.directPostInOnboarding ? LGLocalizedString.onboardingDirectCameraAlertSubtitle :
-                LGLocalizedString.productPostCameraFirstTimeAlertSubtitle
-        }
+        firstTimeTitle = FeatureFlags.directPostInOnboarding ? LGLocalizedString.onboardingDirectCameraAlertTitle :
+            LGLocalizedString.productPostCameraFirstTimeAlertTitle
+        firstTimeSubtitle = FeatureFlags.directPostInOnboarding ? LGLocalizedString.onboardingDirectCameraAlertSubtitle :
+            LGLocalizedString.productPostCameraFirstTimeAlertSubtitle
     }
 
     private func checkCameraState() {
@@ -229,23 +224,14 @@ class PostProductCameraViewModel: BaseViewModel {
         case .PendingAskPermissions:
             askForPermissions()
         case .Capture:
-            if sourcePosting.isFreePosting {
-                shouldShowFirstTimeAlert.value = !keyValueStorage[.cameraAlreadyShownFreePosting]
-            } else {
-                shouldShowFirstTimeAlert.value = !keyValueStorage[.cameraAlreadyShown]
-            }
-            
+            shouldShowFirstTimeAlert.value = !keyValueStorage[.cameraAlreadyShown]
         case .TakingPhoto, .Preview, .MissingPermissions:
             break
         }
     }
 
     private func showFirstTimeAlert() {
-        if sourcePosting.isFreePosting {
-            keyValueStorage[.cameraAlreadyShownFreePosting] = true
-        } else {
-            keyValueStorage[.cameraAlreadyShown] = true
-        }
+        keyValueStorage[.cameraAlreadyShown] = true
         firstTimeAlertTimer = NSTimer.scheduledTimerWithTimeInterval(5, target: self,
                                                                      selector: #selector(timerHideFirstTimeAlert),
                                                                      userInfo: nil, repeats: false)
@@ -308,17 +294,6 @@ private extension CameraSourceMode {
             return .Rear
         case .Rear:
             return .Front
-        }
-    }
-}
-
-private extension PostingSource {
-    var isFreePosting: Bool {
-        switch self {
-        case .DeepLink, .OnboardingButton, .OnboardingCamera, .SellButton, .TabBar, .Notifications:
-            return false
-        case .GiveAwayButton:
-            return true
         }
     }
 }

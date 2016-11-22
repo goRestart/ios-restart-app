@@ -18,12 +18,11 @@ class MockFeatureFlags: FeatureFlaggeable {
     var messageOnFavoriteRound2: MessageOnFavoriteRound2Mode = .NoMessage
     var interestedUsersMode: InterestedUsersMode = .NoNotification
     var filtersReorder: Bool = false
-    var freePostingMode: FreePostingMode = .OneButton
     var directPostInOnboarding: Bool = false
     var shareButtonWithIcon: Bool = false
     var productDetailShareMode: ProductDetailShareMode = .Native
     var periscopeChat: Bool = false
     var chatHeadBubbles: Bool = false
     var showLiquidProductsToNewUser: Bool = false
-	var keywordsTravelCollection: KeywordsTravelCollection = .Standard
+    var keywordsTravelCollection: KeywordsTravelCollection = .Standard
 }

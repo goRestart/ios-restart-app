@@ -16,7 +16,6 @@ protocol PostProductViewModelDelegate: BaseViewModelDelegate {
 enum PostingSource {
     case TabBar
     case SellButton
-    case GiveAwayButton
     case DeepLink
     case OnboardingButton
     case OnboardingCamera
@@ -93,13 +92,12 @@ class PostProductViewModel: BaseViewModel {
         super.init()
         self.postDetailViewModel.delegate = self
     }
-    
+
     override func didBecomeActive(firstTime: Bool) {
         super.didBecomeActive(firstTime)
         guard firstTime else { return }
         trackVisit()
     }
-    
 
     // MARK: - Public methods
    
@@ -111,10 +109,6 @@ class PostProductViewModel: BaseViewModel {
     func imageSelected(image: UIImage, source: EventParameterPictureSource) {
         uploadedImageSource = source
         imageSelected = image
-        if (featureFlags.freePostingMode == .SplitButton && postingSource == .GiveAwayButton) {
-            postFreeProduct()
-            return
-        }
         guard Core.sessionManager.loggedIn else {
             pendingToUploadImage = image
             state.value = .DetailsSelection
@@ -155,10 +149,6 @@ class PostProductViewModel: BaseViewModel {
             navigator?.closePostProductAndPostInBackground(product, images: [image], showConfirmation: false,
                                                            trackingInfo: trackingInfo)
         }
-    }
-    
-    func postFreeProduct() {
-        directPostFreeProduct()
     }
 }
 
@@ -203,18 +193,6 @@ private extension PostProductViewModel {
             navigator?.cancelPostProduct()
         }
     }
-    
-    func directPostFreeProduct() {
-        // TODO: Update trakingInfo in case free product.
-        let trackingInfo = PostProductTrackingInfo(buttonName: .Done, sellButtonPosition: postingSource.sellButtonPosition,
-                                                   imageSource: uploadedImageSource, price: postDetailViewModel.price.value)
-        if let image = imageSelected {
-        delegate?.postProductviewModel(self, shouldAskLoginWithCompletion: { [weak self] in
-            guard let product = self?.buildProduct(isFreePosting:true) else { return }
-            self?.navigator?.closePostProductAndPostLater(product, image: image, trackingInfo: trackingInfo)
-            })
-        }
-    }
 
     func buildProduct(isFreePosting isFreePosting: Bool) -> Product? {
         let price = isFreePosting ? ProductPrice.Free : postDetailViewModel.productPrice
@@ -229,15 +207,8 @@ private extension PostProductViewModel {
 
 private extension PostProductViewModel {
     func trackVisit() {
-        let eventParameterFreePosting: EventParameterFreePosting
-        switch featureFlags.freePostingMode {
-        case .Disabled, .OneButton:
-            eventParameterFreePosting = .Unset
-        case .SplitButton:
-            eventParameterFreePosting = postingSource == .SellButton ? .False : .True
-        }
-        let event = TrackerEvent.productSellStart(eventParameterFreePosting ,typePage: postingSource.typePage,
-                                                  buttonName: postingSource.buttonName, sellButtonPosition: postingSource.sellButtonPosition)
+        let event = TrackerEvent.productSellStart(postingSource.typePage,buttonName: postingSource.buttonName,
+                                                  sellButtonPosition: postingSource.sellButtonPosition)
         tracker.trackEvent(event)
     }
 }
@@ -245,7 +216,7 @@ private extension PostProductViewModel {
 extension PostingSource {
     var typePage: EventParameterTypePage {
         switch self {
-        case .TabBar, .SellButton, .GiveAwayButton:
+        case .TabBar, .SellButton:
             return .Sell
         case .DeepLink:
             return .External
@@ -258,7 +229,7 @@ extension PostingSource {
 
     var buttonName: EventParameterButtonNameType? {
         switch self {
-        case .TabBar, .SellButton, .GiveAwayButton, .DeepLink, .Notifications:
+        case .TabBar, .SellButton, .DeepLink, .Notifications:
             return nil
         case .OnboardingButton:
             return .SellYourStuff
@@ -270,7 +241,7 @@ extension PostingSource {
         switch self {
         case .TabBar:
             return .TabBar
-        case .SellButton, .GiveAwayButton:
+        case .SellButton:
             return .FloatingButton
         case .OnboardingButton, .OnboardingCamera, .DeepLink, .Notifications:
             return .None

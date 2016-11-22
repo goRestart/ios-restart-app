@@ -53,23 +53,10 @@ final class TourLocationViewController: BaseViewController {
         setupUI()
         setupAccessibilityIds()
         viewModel.viewDidLoad()
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(didAskNativeLocationPermission),
-            name: LocationNotification.LocationDidChangeAuthorization.rawValue, object: nil)
-    }
-
-    func didAskNativeLocationPermission() {
-        let time = dispatch_time(DISPATCH_TIME_NOW, Int64(0.5 * Double(NSEC_PER_SEC)))
-        dispatch_after(time, dispatch_get_main_queue()) { [weak self] in
-            self?.openNextStep()
-        }
     }
 
     func close() {
         viewModel.userDidTapNoButton()
-        openNextStep()
-    }
-
-    func openNextStep() {
         viewModel.nextStep()
     }
 

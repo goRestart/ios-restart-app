@@ -7,15 +7,10 @@
 //
 
 import Result
-import KeychainSwift
+import RxSwift
 
 public typealias InstallationResult = Result<Installation, RepositoryError>
 public typealias InstallationCompletion = InstallationResult -> Void
-
-
-public enum InstallationNotification: String {
-    case Create = "InstallationRepository.Create"
-}
 
 
 public protocol InstallationRepository: class {
@@ -27,6 +22,7 @@ public protocol InstallationRepository: class {
     If there is no object stored, means the installation doesn't exist and should be created
     */
     var installation: Installation? { get }
+    var rx_installation: Observable<Installation?> { get }
 
     /**
     Updates the installation push token.
@@ -34,7 +30,7 @@ public protocol InstallationRepository: class {
     - parameter token:      New Push token to update in API
     - parameter completion: Closure to execute when the opeartion finishes
     */
-    func updatePushToken(token: String, completion: ((Result<Installation, RepositoryError>) -> ())?)
+    func updatePushToken(token: String, completion: InstallationCompletion?)
 
 }
 

@@ -52,7 +52,7 @@ class CategoriesViewModel: BaseViewModel {
     }
 
     private func buildFullCategoryItemsWithCategories(categories: [ProductCategory]) -> [FilterCategoryItem] {
-        let filterCatItems: [FilterCategoryItem] = featureFlags.freePostingMode.enabled ? [.Free] : []
+        let filterCatItems: [FilterCategoryItem] = featureFlags.freePostingModeAllowed ? [.Free] : []
         let builtCategories = categories.map { FilterCategoryItem(category: $0) }
         return filterCatItems + builtCategories
     }

@@ -30,16 +30,18 @@ class CommercializerManager {
 
     private var pendingTemplates: [String:[String]] = [:]
     private let commercializerRepository: CommercializerRepository
+    private let sessionManager: SessionManager
     private let disposeBag = DisposeBag()
 
     private var status = CommercializerManagerStatus.Idle
 
     convenience init() {
-        self.init(commercializerRepository: Core.commercializerRepository)
+        self.init(commercializerRepository: Core.commercializerRepository, sessionManager: Core.sessionManager)
     }
 
-    init(commercializerRepository: CommercializerRepository) {
+    init(commercializerRepository: CommercializerRepository, sessionManager: SessionManager) {
         self.commercializerRepository = commercializerRepository
+        self.sessionManager = sessionManager
     }
 
     deinit {
@@ -69,8 +71,11 @@ class CommercializerManager {
         NSNotificationCenter.defaultCenter().addObserver(self,
             selector: #selector(CommercializerManager.applicationDidBecomeActive),
             name: UIApplicationDidBecomeActiveNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(CommercializerManager.loggedIn),
-                                                         name: SessionNotification.Login.rawValue, object: nil)
+
+        sessionManager.sessionEvents.filter { $0.isLogin }.bindNext{ [weak self] _ in
+            self?.loadPendingTemplates()
+            self?.refreshPendingTemplates()
+        }.addDisposableTo(disposeBag)
     }
 
     func commercializerCreatedAndPending(productId productId: String, templateId: String) {
@@ -93,11 +98,6 @@ class CommercializerManager {
     // MARK: - Internal
 
     dynamic func applicationDidBecomeActive() {
-        refreshPendingTemplates()
-    }
-
-    dynamic func loggedIn() {
-        loadPendingTemplates()
         refreshPendingTemplates()
     }
 

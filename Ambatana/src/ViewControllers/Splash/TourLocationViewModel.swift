@@ -6,6 +6,9 @@
 //  Copyright © 2016 Ambatana. All rights reserved.
 //
 
+import RxSwift
+import LGCoreKit
+
 final class TourLocationViewModel: BaseViewModel {
 
     var title: String {
@@ -24,9 +27,21 @@ final class TourLocationViewModel: BaseViewModel {
     let typePage: EventParameterTypePage
 
     weak var navigator: TourLocationNavigator?
-    
-    init(source: EventParameterTypePage) {
+
+    private let disposeBag = DisposeBag()
+
+    convenience init(source: EventParameterTypePage) {
+        self.init(source: source, locationManager: Core.locationManager)
+    }
+
+    init(source: EventParameterTypePage, locationManager: LocationManager) {
         self.typePage = source
+        super.init()
+
+        locationManager.locationEvents.map { $0 == .ChangedPermissions }.observeOn(MainScheduler.instance)
+            .bindNext { [weak self] _ in
+                self?.nextStep()
+        }.addDisposableTo(disposeBag)
     }
 
     func nextStep() {
