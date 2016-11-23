@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11542" systemVersion="15G1108" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -12,7 +16,7 @@
             <rect key="frame" x="0.0" y="0.0" width="160" height="40"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="j4c-6K-nbq">
+                <imageView clipsSubviews="YES" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="j4c-6K-nbq">
                     <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
                     <constraints>
                         <constraint firstAttribute="width" secondItem="j4c-6K-nbq" secondAttribute="height" multiplier="1:1" id="urp-qg-NdE"/>
@@ -24,17 +28,17 @@
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Odín C." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3PK-NL-M1r">
                             <rect key="frame" x="0.0" y="0.0" width="100" height="18"/>
                             <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
-                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nSf-FG-uxy" userLabel="Subtitle Label">
                             <rect key="frame" x="0.0" y="18" width="100" height="0.0"/>
                             <fontDescription key="fontDescription" type="system" weight="light" pointSize="11"/>
-                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                     </subviews>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstAttribute="trailing" secondItem="nSf-FG-uxy" secondAttribute="trailing" id="9hR-t0-hvb"/>
                         <constraint firstItem="3PK-NL-M1r" firstAttribute="top" secondItem="ZlW-xO-9bZ" secondAttribute="top" id="LWr-Rg-hdI"/>
@@ -46,7 +50,7 @@
                     </constraints>
                 </view>
             </subviews>
-            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="ZlW-xO-9bZ" firstAttribute="top" relation="greaterThanOrEqual" secondItem="iN0-l3-epB" secondAttribute="top" id="5WS-B4-oap"/>
                 <constraint firstItem="j4c-6K-nbq" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="FdU-AC-bEm"/>
@@ -63,8 +67,9 @@
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
                 <outlet property="subtitleLabel" destination="nSf-FG-uxy" id="zo3-x7-yob"/>
+                <outlet property="textInfoContainer" destination="ZlW-xO-9bZ" id="cvk-xM-JrR"/>
+                <outlet property="titleLabel" destination="3PK-NL-M1r" id="4SY-vn-3GN"/>
                 <outlet property="userAvatarImageView" destination="j4c-6K-nbq" id="hry-vN-n8T"/>
-                <outlet property="userNameLabel" destination="3PK-NL-M1r" id="slS-bA-DKS"/>
                 <outletCollection property="avatarMarginConstraints" destination="FdU-AC-bEm" collectionClass="NSMutableArray" id="fow-Jq-VRv"/>
                 <outletCollection property="avatarMarginConstraints" destination="QOa-wF-hRO" collectionClass="NSMutableArray" id="UdT-sU-uwR"/>
                 <outletCollection property="avatarMarginConstraints" destination="pQY-Bk-hA4" collectionClass="NSMutableArray" id="jbC-bB-wZ6"/>
