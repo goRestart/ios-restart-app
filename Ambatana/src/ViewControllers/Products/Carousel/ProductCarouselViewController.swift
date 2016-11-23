@@ -724,6 +724,10 @@ extension ProductCarouselViewController: UserViewDelegate {
     func userViewAvatarPressed(userView: UserView) {
         viewModel.openProductOwnerProfile()
     }
+    
+    func userViewTextInfoContainerPressed(userView: UserView) {
+        showMoreInfo()
+    }
 
     func userViewAvatarLongPressStarted(userView: UserView) {
         view.bringSubviewToFront(fullScreenAvatarView)
