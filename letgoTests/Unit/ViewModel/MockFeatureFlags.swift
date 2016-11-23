@@ -27,4 +27,5 @@ class MockFeatureFlags: FeatureFlaggeable {
     var expressChatBanner: Bool = true
     var keywordsTravelCollection: KeywordsTravelCollection = .Standard
     var freePostingModeAllowed: Bool = true
+    var commercializerAfterPosting: Bool = true
 }

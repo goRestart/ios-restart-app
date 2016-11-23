@@ -319,7 +319,7 @@ private extension AppCoordinator {
 
     func openPromoteIfNeeded(product product: Product) -> Bool {
         // TODO: Promote Coordinator (move tracking into promote coordinator)
-        guard FeatureFlags.commercializerAfterPosting else { return false }
+        guard featureFlags.commercializerAfterPosting else { return false }
 
         // We do not promote if it's a failure or if it's a success w/o country code
         guard let productId = product.objectId, countryCode = product.postalAddress.countryCode else { return false }

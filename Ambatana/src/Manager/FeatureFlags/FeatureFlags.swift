@@ -26,6 +26,7 @@ protocol FeatureFlaggeable {
     var expressChatBanner: Bool { get }
     var keywordsTravelCollection: KeywordsTravelCollection { get }
     var freePostingModeAllowed: Bool { get }
+    var commercializerAfterPosting: Bool { get }
 }
 
 class FeatureFlags: FeatureFlaggeable {
@@ -154,7 +155,7 @@ class FeatureFlags: FeatureFlaggeable {
         return KeywordsTravelCollection.fromPosition(ABTests.keywordsTravelCollection.value)
     }
 
-    static var commercializerAfterPosting: Bool {
+    var commercializerAfterPosting: Bool {
         if Bumper.enabled {
             return Bumper.commercializerAfterPosting
         }
