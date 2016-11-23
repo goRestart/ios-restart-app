@@ -47,6 +47,7 @@ public class SignUpLogInViewModel: BaseViewModel {
     let fbLoginHelper: ExternalAuthHelper
     let tracker: Tracker
     let keyValueStorage: KeyValueStorageable
+    let featureFlags: FeatureFlaggeable
     let locale: NSLocale
 
     weak var delegate: SignUpLogInViewModelDelegate?
@@ -126,11 +127,13 @@ public class SignUpLogInViewModel: BaseViewModel {
     // MARK: - Lifecycle
     
     init(sessionManager: SessionManager, locationManager: LocationManager, keyValueStorage: KeyValueStorageable,
-         googleLoginHelper: ExternalAuthHelper, fbLoginHelper: ExternalAuthHelper, tracker: Tracker, locale: NSLocale,
+         googleLoginHelper: ExternalAuthHelper, fbLoginHelper: ExternalAuthHelper, tracker: Tracker,
+         featureFlags: FeatureFlaggeable, locale: NSLocale,
          source: EventParameterLoginSourceValue, action: LoginActionType) {
         self.sessionManager = sessionManager
         self.locationManager = locationManager
         self.keyValueStorage = keyValueStorage
+        self.featureFlags = featureFlags
         self.loginSource = source
         self.googleLoginHelper = googleLoginHelper
         self.fbLoginHelper = fbLoginHelper
@@ -163,10 +166,11 @@ public class SignUpLogInViewModel: BaseViewModel {
         let googleLoginHelper = GoogleLoginHelper()
         let fbLoginHelper = FBLoginHelper()
         let tracker = TrackerProxy.sharedInstance
+        let featureFlags = FeatureFlags.sharedInstance
         let locale = NSLocale.currentLocale()
         self.init(sessionManager: sessionManager, locationManager: locationManager, keyValueStorage: keyValueStorage,
                   googleLoginHelper: googleLoginHelper, fbLoginHelper: fbLoginHelper, tracker: tracker,
-                  locale: locale, source: source, action: action)
+                  featureFlags: featureFlags, locale: locale, source: source, action: action)
     }
     
     
@@ -525,6 +529,8 @@ private extension SignUpLogInViewModel {
     }
 
     private func updatePreviousEmailAndUsernames(accountProvider: AccountProvider, userEmailOrName: String?) {
+        guard featureFlags.saveMailLogout else { return }
+
         switch accountProvider {
         case .Email:
             previousEmail.value = userEmailOrName
@@ -542,6 +548,8 @@ private extension SignUpLogInViewModel {
     }
 
     private func savePreviousEmailOrUsername(accountProvider: AccountProvider, userEmailOrName: String?) {
+        guard featureFlags.saveMailLogout else { return }
+
         keyValueStorage[.previousUserAccountProvider] = accountProvider.rawValue
         keyValueStorage[.previousUserEmailOrName] = userEmailOrName
     }

@@ -23,6 +23,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     var productDetailShareMode: ProductDetailShareMode = .Native
     var periscopeChat: Bool = false
     var chatHeadBubbles: Bool = false
+    var saveMailLogout: Bool = false
     var showLiquidProductsToNewUser: Bool = false
     var expressChatBanner: Bool = true
     var keywordsTravelCollection: KeywordsTravelCollection = .Standard
