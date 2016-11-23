@@ -61,9 +61,6 @@ class ShareProductViewModel: BaseViewModel {
 
 extension ShareProductViewModel: SocialSharerDelegate {
     func shareStartedIn(shareType: ShareType) {
-        let trackerEvent = TrackerEvent.productShare(product, network: shareType.trackingShareNetwork,
-                                                     buttonPosition: .Top, typePage: .ProductDetail)
-        tracker.trackEvent(trackerEvent)
     }
 
     func shareFinishedIn(shareType: ShareType, withState state: SocialShareState) {

@@ -242,14 +242,19 @@ public struct TrackerEvent {
         return TrackerEvent(name: .ProductFavorite, params: params)
     }
 
-    static func productShare(product: Product, network: EventParameterShareNetwork,
-        buttonPosition: EventParameterButtonPosition, typePage: EventParameterTypePage) -> TrackerEvent {
-            var params = EventParameters()
-            params.addProductParams(product)
+    static func productShare(product: Product, network: EventParameterShareNetwork?,
+                             buttonPosition: EventParameterButtonPosition,
+                             typePage: EventParameterTypePage) -> TrackerEvent {
+        var params = EventParameters()
+        params.addProductParams(product)
+        if let network = network where network != .Native {
             params[.ShareNetwork] = network.rawValue
-            params[.ButtonPosition] = buttonPosition.rawValue
-            params[.TypePage] = typePage.rawValue
-            return TrackerEvent(name: .ProductShare, params: params)
+        } else {
+            params[.ShareNetwork] = "N/A"
+        }
+        params[.ButtonPosition] = buttonPosition.rawValue
+        params[.TypePage] = typePage.rawValue
+        return TrackerEvent(name: .ProductShare, params: params)
     }
 
     static func productShareCancel(product: Product, network: EventParameterShareNetwork,
