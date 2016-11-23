@@ -53,9 +53,9 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     private var userViewBottomConstraint: NSLayoutConstraint?
     private var userViewRightConstraint: NSLayoutConstraint?
 
-    private var userViewRightMargin: CGFloat = -CarouselUI.itemsMargin {
+    private var userViewRightMargin: CGFloat = CarouselUI.itemsMargin {
         didSet {
-            userViewRightConstraint?.constant = userViewRightMargin
+            userViewRightConstraint?.constant = -userViewRightMargin
         }
     }
     private var buttonsRightMargin: CGFloat = CarouselUI.buttonTrailingWithIcon {
