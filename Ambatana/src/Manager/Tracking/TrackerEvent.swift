@@ -247,11 +247,16 @@ public struct TrackerEvent {
                              typePage: EventParameterTypePage) -> TrackerEvent {
         var params = EventParameters()
         params.addProductParams(product)
-        if let network = network where network != .Native {
-            params[.ShareNetwork] = network.rawValue
-        } else {
-            params[.ShareNetwork] = "N/A"
+
+        // When starting share if native then the network is considered as N/A
+        var actualNetwork = network ?? .NotAvailable
+        switch actualNetwork {
+        case .Native:
+            actualNetwork = .NotAvailable
+        case .Email, .Facebook, .Whatsapp, .Twitter, .FBMessenger, .Telegram, .SMS, .CopyLink, .NotAvailable:
+            break
         }
+        params[.ShareNetwork] = actualNetwork.rawValue
         params[.ButtonPosition] = buttonPosition.rawValue
         params[.TypePage] = typePage.rawValue
         return TrackerEvent(name: .ProductShare, params: params)
