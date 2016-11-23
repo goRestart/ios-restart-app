@@ -864,6 +864,9 @@
 // Main sign up facebook connect button. Check image @ "main_sign_up_already_registered_label" segment
 "main_sign_up_facebook_connect_button" = "Continue with Facebook";
 
+// Main sign up facebook connect button with user name. Check image @ "main_sign_up_already_registered_label" segment
+"main_sign_up_facebook_connect_button_w_name" = "Log in as %@";
+
 // Main sign up fb connect error email taken. Message displayal is like the other error messages
 "main_sign_up_fb_connect_error_email_taken" = "Your email address is already registered. Please use it to log in.";
 
@@ -878,6 +881,9 @@
 
 // Main sign up google connect button. Check image @ "main_sign_up_already_registered_label" segment
 "main_sign_up_google_connect_button" = "Continue with Google";
+
+// Main sign up google connect button with user name. Check image @ "main_sign_up_already_registered_label" segment
+"main_sign_up_google_connect_button_w_name" = "Log in as %@";
 
 // Main sign up help button. Check image @ "main_sign_up_already_registered_label" segment
 "main_sign_up_help_button" = "Help";
@@ -1902,6 +1908,12 @@
 
 // Settings logout button. Check image @ "settings_change_password_button" segment
 "settings_logout_button" = "Log out";
+
+// Settings logout confirmation message.
+"settings_logout_alert_message" = "Are you sure you want to log out?";
+
+// Settings logout confirmation ok button.
+"settings_logout_alert_ok" = "Log out";
 
 // Settings title. Check image @ "settings_change_password_button" segment
 "settings_title" = "Settings";

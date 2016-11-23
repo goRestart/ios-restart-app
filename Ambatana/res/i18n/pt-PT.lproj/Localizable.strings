@@ -290,9 +290,11 @@
 "main_sign_up_error_request_already_sent" = "O seu pedido já foi processado. Por favor aguarde antes de tentar novamente.";
 "main_sign_up_error_user_rejected" = "O email inserido está incorreto. Por favor verifique e tente de novo.";
 "main_sign_up_facebook_connect_button" = "Continuar com o Facebook";
+"main_sign_up_facebook_connect_button_w_name" = "Log in as %@";
 "main_sign_up_fb_connect_error_email_taken" = "O seu endereço de email já se encontra registado. Por favor utilize-o para efetuar o login.";
 "main_sign_up_fb_connect_error_generic" = "Não foi possível efetuar o login. Por favor tente novamente.";
 "main_sign_up_google_connect_button" = "Continuar com o Google";
+"main_sign_up_google_connect_button_w_name" = "Log in as %@";
 "main_sign_up_help_button" = "Ajuda";
 "main_sign_up_log_in_label" = "Login";
 "main_sign_up_or_label" = "OU USE O SEU EMAIL";
@@ -634,6 +636,8 @@
 "settings_invite_facebook_friends_button" = "Convidar amigos do Facebook";
 "settings_invite_facebook_friends_error" = "Ocorreu um erro ao partilhar o seu convite.";
 "settings_invite_facebook_friends_ok" = "O seu convite foi partilhado com sucesso!";
+"settings_logout_alert_message" = "Are you sure you want to log out?";
+"settings_logout_alert_ok" = "Log out";
 "settings_logout_button" = "Logout";
 "settings_marketing_notifications_switch" = "Notificações de marketing";
 "settings_section_profile" = "Perfil";

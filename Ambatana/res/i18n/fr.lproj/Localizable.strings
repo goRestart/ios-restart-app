@@ -290,9 +290,11 @@
 "main_sign_up_error_request_already_sent" = "Votre demande a déjà été traitée. Veuillez attendre avant de réessayer.";
 "main_sign_up_error_user_rejected" = "L'email que vous avez entré est incorrect. Veuillez le vérifier et réessayer.";
 "main_sign_up_facebook_connect_button" = "Continuer avec Facebook";
+"main_sign_up_facebook_connect_button_w_name" = "Log in as %@";
 "main_sign_up_fb_connect_error_email_taken" = "Votre adresse email est déjà enregistrée. Utilisez-là pour vous connecter.";
 "main_sign_up_fb_connect_error_generic" = "Impossible de se connecter. Veuillez réessayer.";
 "main_sign_up_google_connect_button" = "Continuer avec Google";
+"main_sign_up_google_connect_button_w_name" = "Log in as %@";
 "main_sign_up_help_button" = "Aide";
 "main_sign_up_log_in_label" = "Se Connecter";
 "main_sign_up_or_label" = "OU UTILISEZ VOTRE EMAIL";
@@ -634,6 +636,8 @@
 "settings_invite_facebook_friends_button" = "Invitez des amis Facebook";
 "settings_invite_facebook_friends_error" = "Une erreur est survenue lors de l'envoi de l'invitation";
 "settings_invite_facebook_friends_ok" = "Votre invitation a été envoyée avec succès !";
+"settings_logout_alert_message" = "Are you sure you want to log out?";
+"settings_logout_alert_ok" = "Log out";
 "settings_logout_button" = "Se déconnecter";
 "settings_marketing_notifications_switch" = "Notifications Marketing";
 "settings_section_profile" = "Profil";
