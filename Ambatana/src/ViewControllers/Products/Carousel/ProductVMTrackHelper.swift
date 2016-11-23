@@ -12,14 +12,16 @@ class ProductVMTrackHelper {
 
     var product: Product
     private let tracker: Tracker
+    private var featureFlags: FeatureFlaggeable
 
     convenience init(product: Product) {
-        self.init(tracker: TrackerProxy.sharedInstance, product: product)
+        self.init(tracker: TrackerProxy.sharedInstance, product: product, featureFlags: FeatureFlags.sharedInstance)
     }
 
-    init(tracker: Tracker, product: Product) {
+    init(tracker: Tracker, product: Product, featureFlags: FeatureFlaggeable) {
         self.tracker = tracker
         self.product = product
+        self.featureFlags = featureFlags
     }
 }
 
@@ -106,7 +108,7 @@ extension ProductVMTrackHelper {
     }
 
     func trackMarkSoldCompleted(source: EventParameterSellSourceValue) {
-        let trackerEvent = TrackerEvent.productMarkAsSold(source, product: product, freePostingModeAllowed: FeatureFlags.freePostingModeAllowed)
+        let trackerEvent = TrackerEvent.productMarkAsSold(source, product: product, freePostingModeAllowed: featureFlags.freePostingModeAllowed)
         tracker.trackEvent(trackerEvent)
     }
 
@@ -130,8 +132,8 @@ extension ProductVMTrackHelper {
         tracker.trackEvent(trackerEvent)
     }
 
-    func trackMessageSent(isFirstMessage: Bool, fromFavorite: Bool, messageType: ChatMessageType) {
-        let trackMessageType = fromFavorite ? EventParameterMessageType.Favorite : messageType.trackingMessageType
+    func trackMessageSent(isFirstMessage: Bool, messageType: ChatMessageType) {
+        let trackMessageType = messageType.trackingMessageType
         if isFirstMessage {
             let firstMessageEvent = TrackerEvent.firstMessage(product, messageType: trackMessageType,
                                                               typePage: .ProductDetail)

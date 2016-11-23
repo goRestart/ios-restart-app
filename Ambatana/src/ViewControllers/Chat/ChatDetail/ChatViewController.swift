@@ -35,6 +35,7 @@ class ChatViewController: SLKTextViewController {
     let expressChatBanner: ChatBanner
     var bannerTopConstraint: NSLayoutConstraint = NSLayoutConstraint()
     var stickersTooltip: Tooltip?
+    var featureFlags: FeatureFlaggeable
 
     var blockedToastOffset: CGFloat {
         return relationInfoView.hidden ? 0 : RelationInfoView.defaultHeight
@@ -44,18 +45,19 @@ class ChatViewController: SLKTextViewController {
     // MARK: - View lifecycle
     
     convenience init(viewModel: ChatViewModel, hidesBottomBar: Bool) {
-        self.init(viewModel: viewModel, keyboardHelper: KeyboardHelper.sharedInstance)
+        self.init(viewModel: viewModel, keyboardHelper: KeyboardHelper.sharedInstance, featureFlags: FeatureFlags.sharedInstance)
         hidesBottomBarWhenPushed = hidesBottomBar
     }
 
-    required init(viewModel: ChatViewModel, keyboardHelper: KeyboardHelper = KeyboardHelper.sharedInstance) {
+    required init(viewModel: ChatViewModel, keyboardHelper: KeyboardHelper = KeyboardHelper.sharedInstance, featureFlags: FeatureFlaggeable = FeatureFlags.sharedInstance) {
         self.viewModel = viewModel
-        self.productView = ChatProductView.chatProductView()
+        self.productView = ChatProductView.chatProductView(featureFlags.userReviews)
         self.relatedProductsView = RelatedProductsView()
-        self.directAnswersPresenter = DirectAnswersPresenter()
+        self.directAnswersPresenter = DirectAnswersPresenter(websocketChatActive: featureFlags.websocketChat)
         self.stickersView = ChatStickersView()
         self.stickersCloseButton = UIButton(frame: CGRect.zero)
         self.keyboardHelper = keyboardHelper
+        self.featureFlags = featureFlags
         self.expressChatBanner = ChatBanner()
         super.init(tableViewStyle: .Plain)
         self.viewModel.delegate = self

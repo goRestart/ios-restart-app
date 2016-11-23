@@ -20,17 +20,17 @@ class MainProductsViewModelSpec: QuickSpec {
             var sut: MainProductsViewModel!
             var keyValueStorage: MockKeyValueStorage!
             var filters: ProductFilters!
-            var mockFeatureFlags: MockFeatureFlags.Type!
+            var mockFeatureFlags: MockFeatureFlags!
             
             beforeEach {
                 keyValueStorage = MockKeyValueStorage()
-                mockFeatureFlags = MockFeatureFlags.self
+                mockFeatureFlags = MockFeatureFlags()
                 filters = ProductFilters()
             }
           
             describe("Initialization") {
                 
-                context("with feature flag: showLiquidProductsToNewUser enabled") {
+                context("with feature flag: showLiquid ProductsToNewUser enabled") {
                     beforeEach {
                         mockFeatureFlags.showLiquidProductsToNewUser = true
                     }

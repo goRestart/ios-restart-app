@@ -18,6 +18,7 @@ final class ChatHeadManager {
     private let myUserRepository: MyUserRepository
     private let chatRepository: ChatRepository
     private let oldChatRepository: OldChatRepository
+    private let featureFlags: FeatureFlaggeable
 
     private let rx_chatHeadOverlayView: Variable<ChatHeadOverlayView?>
     private let rx_chatHeadDatas: Variable<[ChatHeadData]>
@@ -31,16 +32,18 @@ final class ChatHeadManager {
         let myUserRepository = Core.myUserRepository
         let chatRepository = Core.chatRepository
         let oldChatRepository = Core.oldChatRepository
+        let featureFlags = FeatureFlags.sharedInstance
         self.init(notificationsManager: notificationsManager, myUserRepository: myUserRepository,
-                  chatRepository: chatRepository, oldChatRepository: oldChatRepository)
+                  chatRepository: chatRepository, oldChatRepository: oldChatRepository, featureFlags: featureFlags)
     }
 
     init(notificationsManager: NotificationsManager, myUserRepository: MyUserRepository,
-         chatRepository: ChatRepository, oldChatRepository: OldChatRepository) {
+         chatRepository: ChatRepository, oldChatRepository: OldChatRepository, featureFlags: FeatureFlaggeable) {
         self.notificationsManager = notificationsManager
         self.myUserRepository = myUserRepository
         self.chatRepository = chatRepository
         self.oldChatRepository = oldChatRepository
+        self.featureFlags = featureFlags
         self.rx_chatHeadOverlayView = Variable<ChatHeadOverlayView?>(nil)
         self.rx_chatHeadDatas = Variable<[ChatHeadData]>([])
         self.disposeBag = DisposeBag()
@@ -57,7 +60,7 @@ final class ChatHeadManager {
 extension ChatHeadManager {
 
     func initialize() {
-        guard FeatureFlags.chatHeadBubbles else { return }
+        guard featureFlags.chatHeadBubbles else { return }
 
         setupObservers()
         setupRx()
@@ -73,7 +76,7 @@ extension ChatHeadManager {
     }
 
     func updateChatHeadDatas() {
-        if FeatureFlags.websocketChat {
+        if featureFlags.websocketChat {
             chatRepository.indexConversations(ChatHeadManager.conversationsIndexPageSize, offset: 0, filter: .None) { [weak self] result in
                 guard let conversations = result.value else { return }
                 let datas = conversations.flatMap { (conversation: ChatConversation) -> ChatHeadData? in
@@ -120,7 +123,7 @@ extension ChatHeadManager {
             }.addDisposableTo(disposeBag)
 
         // Depending on chat source subscribe to chats events
-        if FeatureFlags.websocketChat {
+        if featureFlags.websocketChat {
             chatRepository.chatEvents.filter { event in
                 switch event.type {
                 case .InterlocutorMessageSent:

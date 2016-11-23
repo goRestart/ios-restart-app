@@ -56,6 +56,7 @@ class ChatGroupedViewModel: BaseViewModel {
     private let chatHeadManager: ChatHeadManager
     private let myUserRepository: MyUserRepository
     private let chatRepository: ChatRepository
+    private let featureFlags: FeatureFlaggeable
 
     weak var delegate: ChatGroupedViewModelDelegate?
     weak var tabNavigator: TabNavigator? {
@@ -78,15 +79,17 @@ class ChatGroupedViewModel: BaseViewModel {
 
     override convenience init() {
         self.init(myUserRepository: Core.myUserRepository, chatRepository: Core.chatRepository,
-                  sessionManager: Core.sessionManager, chatHeadManager: ChatHeadManager.sharedInstance)
+                  sessionManager: Core.sessionManager, chatHeadManager: ChatHeadManager.sharedInstance,
+                  featureFlags: FeatureFlags.sharedInstance)
     }
 
     init(myUserRepository: MyUserRepository, chatRepository: ChatRepository,
-         sessionManager: SessionManager, chatHeadManager: ChatHeadManager) {
+         sessionManager: SessionManager, chatHeadManager: ChatHeadManager, featureFlags: FeatureFlaggeable) {
         self.sessionManager = sessionManager
         self.chatHeadManager = chatHeadManager
         self.myUserRepository = myUserRepository
         self.chatRepository = chatRepository
+        self.featureFlags = featureFlags
         self.chatListViewModels = []
         self.blockedUsersListViewModel = BlockedUsersListViewModel()
         self.disposeBag = DisposeBag()
@@ -241,7 +244,7 @@ class ChatGroupedViewModel: BaseViewModel {
             }
         )
         let chatListViewModel: ChatListViewModel
-        if FeatureFlags.websocketChat {
+        if featureFlags.websocketChat {
             chatListViewModel = WSChatListViewModel(chatsType: chatsType, tabNavigator: tabNavigator)
         } else {
             chatListViewModel = OldChatListViewModel(chatsType: chatsType, tabNavigator: tabNavigator)
@@ -262,7 +265,7 @@ class ChatGroupedViewModel: BaseViewModel {
             secondaryButtonTitle: nil, secondaryAction: nil
         )
         let chatListViewModel: ChatListViewModel
-        if FeatureFlags.websocketChat {
+        if featureFlags.websocketChat {
             chatListViewModel = WSChatListViewModel(chatsType: chatsType, tabNavigator: tabNavigator)
         } else {
             chatListViewModel = OldChatListViewModel(chatsType: chatsType, tabNavigator: tabNavigator)
@@ -283,7 +286,7 @@ class ChatGroupedViewModel: BaseViewModel {
             secondaryButtonTitle: nil, secondaryAction: nil
         )
         let chatListViewModel: ChatListViewModel
-        if FeatureFlags.websocketChat {
+        if featureFlags.websocketChat {
             chatListViewModel = WSChatListViewModel(chatsType: chatsType, tabNavigator: tabNavigator)
         } else {
             chatListViewModel = OldChatListViewModel(chatsType: chatsType, tabNavigator: tabNavigator)

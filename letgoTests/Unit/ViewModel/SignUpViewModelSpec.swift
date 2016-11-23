@@ -23,6 +23,7 @@ class SignUpViewModelSpec: QuickSpec {
             var sut: SignUpViewModel!
             var sessionManager: MockSessionManager!
             var keyValueStorage: MockKeyValueStorage!
+            var featureFlags: MockFeatureFlags!
             var tracker: MockTracker!
             var googleLoginHelper: MockExternalAuthHelper!
             var fbLoginHelper: MockExternalAuthHelper!
@@ -30,12 +31,13 @@ class SignUpViewModelSpec: QuickSpec {
             beforeEach {
                 sessionManager = MockSessionManager()
                 keyValueStorage = MockKeyValueStorage()
+                featureFlags = MockFeatureFlags()
                 tracker = MockTracker()
                 let myUser = MockMyUser()
                 googleLoginHelper = MockExternalAuthHelper(result: .Success(myUser: myUser))
                 fbLoginHelper = MockExternalAuthHelper(result: .Success(myUser: myUser))
                 sut = SignUpViewModel(sessionManager: sessionManager, keyValueStorage: keyValueStorage,
-                    tracker: tracker, appearance: .Dark, source: .Install,
+                    featureFlags: featureFlags, tracker: tracker, appearance: .Dark, source: .Install,
                     googleLoginHelper: googleLoginHelper, fbLoginHelper: fbLoginHelper)
                 sut.delegate = self
 
@@ -53,13 +55,72 @@ class SignUpViewModelSpec: QuickSpec {
                     }
                 }
 
-                context("previously logged in by email") {
+                context("AB test saveMailLogout enabled") {
                     beforeEach {
-                        keyValueStorage[.previousUserAccountProvider] = "letgo"
-                        keyValueStorage[.previousUserEmailOrName] = "albert@letgo.com"
+                        featureFlags.saveMailLogout = true
+                    }
+
+                    context("previously logged in by email") {
+                        beforeEach {
+                            keyValueStorage[.previousUserAccountProvider] = "letgo"
+                            keyValueStorage[.previousUserEmailOrName] = "albert@letgo.com"
+
+                            sut = SignUpViewModel(sessionManager: sessionManager, keyValueStorage: keyValueStorage,
+                                featureFlags: featureFlags, tracker: tracker, appearance: .Dark, source: .Install,
+                                googleLoginHelper: googleLoginHelper, fbLoginHelper: fbLoginHelper)
+                        }
+
+                        it("does not have a previous facebook username") {
+                            expect(sut.previousFacebookUsername.value).to(beNil())
+                        }
+                        it("does not have a previous google username") {
+                            expect(sut.previousGoogleUsername.value).to(beNil())
+                        }
+                    }
+
+                    context("previously logged in by facebook") {
+                        beforeEach {
+                            keyValueStorage[.previousUserAccountProvider] = "facebook"
+                            keyValueStorage[.previousUserEmailOrName] = "Albert FB"
+
+                            sut = SignUpViewModel(sessionManager: sessionManager, keyValueStorage: keyValueStorage,
+                                featureFlags: featureFlags, tracker: tracker, appearance: .Dark, source: .Install,
+                                googleLoginHelper: googleLoginHelper, fbLoginHelper: fbLoginHelper)
+                        }
+
+                        it("has a previous facebook username") {
+                            expect(sut.previousFacebookUsername.value) == "Albert FB"
+                        }
+                        it("does not have a previous google username") {
+                            expect(sut.previousGoogleUsername.value).to(beNil())
+                        }
+                    }
+
+                    context("previously logged in by google") {
+                        beforeEach {
+                            keyValueStorage[.previousUserAccountProvider] = "google"
+                            keyValueStorage[.previousUserEmailOrName] = "Albert Google"
+
+                            sut = SignUpViewModel(sessionManager: sessionManager, keyValueStorage: keyValueStorage,
+                                featureFlags: featureFlags, tracker: tracker, appearance: .Dark, source: .Install,
+                                googleLoginHelper: googleLoginHelper, fbLoginHelper: fbLoginHelper)
+                        }
+
+                        it("does not have a previous facebook username") {
+                            expect(sut.previousFacebookUsername.value).to(beNil())
+                        }
+                        it("has a previous google username") {
+                            expect(sut.previousGoogleUsername.value) == "Albert Google"
+                        }
+                    }
+                }
+
+                context("AB test saveMailLogout disabled") {
+                    beforeEach {
+                        featureFlags.saveMailLogout = false
 
                         sut = SignUpViewModel(sessionManager: sessionManager, keyValueStorage: keyValueStorage,
-                            tracker: tracker, appearance: .Dark, source: .Install,
+                            featureFlags: featureFlags, tracker: tracker, appearance: .Dark, source: .Install,
                             googleLoginHelper: googleLoginHelper, fbLoginHelper: fbLoginHelper)
                     }
 
@@ -68,42 +129,6 @@ class SignUpViewModelSpec: QuickSpec {
                     }
                     it("does not have a previous google username") {
                         expect(sut.previousGoogleUsername.value).to(beNil())
-                    }
-                }
-
-                context("previously logged in by facebook") {
-                    beforeEach {
-                        keyValueStorage[.previousUserAccountProvider] = "facebook"
-                        keyValueStorage[.previousUserEmailOrName] = "Albert FB"
-
-                        sut = SignUpViewModel(sessionManager: sessionManager, keyValueStorage: keyValueStorage,
-                            tracker: tracker, appearance: .Dark, source: .Install,
-                            googleLoginHelper: googleLoginHelper, fbLoginHelper: fbLoginHelper)
-                    }
-
-                    it("has a previous facebook username") {
-                        expect(sut.previousFacebookUsername.value) == "Albert FB"
-                    }
-                    it("does not have a previous google username") {
-                        expect(sut.previousGoogleUsername.value).to(beNil())
-                    }
-                }
-
-                context("previously logged in by google") {
-                    beforeEach {
-                        keyValueStorage[.previousUserAccountProvider] = "google"
-                        keyValueStorage[.previousUserEmailOrName] = "Albert Google"
-
-                        sut = SignUpViewModel(sessionManager: sessionManager, keyValueStorage: keyValueStorage,
-                            tracker: tracker, appearance: .Dark, source: .Install,
-                            googleLoginHelper: googleLoginHelper, fbLoginHelper: fbLoginHelper)
-                    }
-
-                    it("does not have a previous facebook username") {
-                        expect(sut.previousFacebookUsername.value).to(beNil())
-                    }
-                    it("has a previous google username") {
-                        expect(sut.previousGoogleUsername.value) == "Albert Google"
                     }
                 }
             }
@@ -115,22 +140,49 @@ class SignUpViewModelSpec: QuickSpec {
                     beforeEach {
                         myUser = MockMyUser()
                         myUser.name = "Albert"
-
                         googleLoginHelper.loginResult = .Success(myUser: myUser)
-                        sut.logInWithGoogle()
-                        expect(self.loading).toEventually(beFalse())
                     }
 
-                    it("saves google as previous user account provider") {
-                        let provider = keyValueStorage[.previousUserAccountProvider]
-                        expect(provider) == "google"
+                    context("AB test saveMailLogout enabled") {
+                        beforeEach {
+                            featureFlags.saveMailLogout = true
+
+                            sut.logInWithGoogle()
+                            expect(self.loading).toEventually(beFalse())
+                        }
+
+                        it("saves google as previous user account provider") {
+                            let provider = keyValueStorage[.previousUserAccountProvider]
+                            expect(provider) == "google"
+                        }
+                        it("saves the user name as previous user name") {
+                            let username = keyValueStorage[.previousUserEmailOrName]
+                            expect(username) == myUser.name
+                        }
+                        it("tracks login-screen & login-google events") {
+                            expect(tracker.trackedEvents.map({ $0.actualName })) == ["login-screen", "login-google"]
+                        }
                     }
-                    it("saves the user name as previous user name") {
-                        let username = keyValueStorage[.previousUserEmailOrName]
-                        expect(username) == myUser.name
-                    }
-                    it("tracks login-screen & login-google events") {
-                        expect(tracker.trackedEvents.map({ $0.actualName })) == ["login-screen", "login-google"]
+
+                    context("AB test saveMailLogout disabled") {
+                        beforeEach {
+                            featureFlags.saveMailLogout = false
+
+                            sut.logInWithGoogle()
+                            expect(self.loading).toEventually(beFalse())
+                        }
+
+                        it("does not save any user account provider") {
+                            let provider = keyValueStorage[.previousUserAccountProvider]
+                            expect(provider).to(beNil())
+                        }
+                        it("does not save any previous user email or name") {
+                            let username = keyValueStorage[.previousUserEmailOrName]
+                            expect(username).to(beNil())
+                        }
+                        it("tracks login-screen & login-google events") {
+                            expect(tracker.trackedEvents.map({ $0.actualName })) == ["login-screen", "login-google"]
+                        }
                     }
                 }
 
@@ -162,22 +214,49 @@ class SignUpViewModelSpec: QuickSpec {
                     beforeEach {
                         myUser = MockMyUser()
                         myUser.name = "Albert"
-
                         fbLoginHelper.loginResult = .Success(myUser: myUser)
-                        sut.logInWithFacebook()
-                        expect(self.loading).toEventually(beFalse())
                     }
 
-                    it("saves google as previous user account provider") {
-                        let provider = keyValueStorage[.previousUserAccountProvider]
-                        expect(provider) == "facebook"
+                    context("AB test saveMailLogout enabled") {
+                        beforeEach {
+                            featureFlags.saveMailLogout = true
+
+                            sut.logInWithFacebook()
+                            expect(self.loading).toEventually(beFalse())
+                        }
+
+                        it("saves google as previous user account provider") {
+                            let provider = keyValueStorage[.previousUserAccountProvider]
+                            expect(provider) == "facebook"
+                        }
+                        it("saves the user name as previous user name") {
+                            let username = keyValueStorage[.previousUserEmailOrName]
+                            expect(username) == myUser.name
+                        }
+                        it("tracks login-screen & login-fb events") {
+                            expect(tracker.trackedEvents.map({ $0.actualName })) == ["login-screen", "login-fb"]
+                        }
                     }
-                    it("saves the user name as previous user name") {
-                        let username = keyValueStorage[.previousUserEmailOrName]
-                        expect(username) == myUser.name
-                    }
-                    it("tracks login-screen & login-fb events") {
-                        expect(tracker.trackedEvents.map({ $0.actualName })) == ["login-screen", "login-fb"]
+
+                    context("AB test saveMailLogout disabled") {
+                        beforeEach {
+                            featureFlags.saveMailLogout = false
+
+                            sut.logInWithFacebook()
+                            expect(self.loading).toEventually(beFalse())
+                        }
+
+                        it("does not save any user account provider") {
+                            let provider = keyValueStorage[.previousUserAccountProvider]
+                            expect(provider).to(beNil())
+                        }
+                        it("does not save any previous user email or name") {
+                            let username = keyValueStorage[.previousUserEmailOrName]
+                            expect(username).to(beNil())
+                        }
+                        it("tracks login-screen & login-fb events") {
+                            expect(tracker.trackedEvents.map({ $0.actualName })) == ["login-screen", "login-fb"]
+                        }
                     }
                 }
 

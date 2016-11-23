@@ -62,6 +62,7 @@ class SignUpViewModel: BaseViewModel {
 
     private let sessionManager: SessionManager
     private let keyValueStorage: KeyValueStorageable
+    private let featureFlags: FeatureFlaggeable
     private let tracker: Tracker
     let appearance: LoginAppearance
     private let loginSource: EventParameterLoginSourceValue
@@ -77,11 +78,12 @@ class SignUpViewModel: BaseViewModel {
 
     // MARK: - Lifecycle
     
-    init(sessionManager: SessionManager, keyValueStorage: KeyValueStorageable, tracker: Tracker,
-         appearance: LoginAppearance, source: EventParameterLoginSourceValue, googleLoginHelper: ExternalAuthHelper,
-         fbLoginHelper: ExternalAuthHelper) {
+    init(sessionManager: SessionManager, keyValueStorage: KeyValueStorageable, featureFlags: FeatureFlaggeable,
+         tracker: Tracker, appearance: LoginAppearance, source: EventParameterLoginSourceValue,
+         googleLoginHelper: ExternalAuthHelper, fbLoginHelper: ExternalAuthHelper) {
         self.sessionManager = sessionManager
         self.keyValueStorage = keyValueStorage
+        self.featureFlags = featureFlags
         self.tracker = tracker
         self.appearance = appearance
         self.loginSource = source
@@ -100,11 +102,12 @@ class SignUpViewModel: BaseViewModel {
     convenience init(appearance: LoginAppearance, source: EventParameterLoginSourceValue) {
         let sessionManager = Core.sessionManager
         let keyValueStorage = KeyValueStorage.sharedInstance
+        let featureFlags = FeatureFlags.sharedInstance
         let tracker = TrackerProxy.sharedInstance
         let googleLoginHelper = GoogleLoginHelper()
         let fbLoginHelper = FBLoginHelper()
-        self.init(sessionManager: sessionManager, keyValueStorage: keyValueStorage, tracker: tracker,
-                  appearance: appearance, source: source,
+        self.init(sessionManager: sessionManager, keyValueStorage: keyValueStorage, featureFlags: featureFlags,
+                  tracker: tracker, appearance: appearance, source: source,
                   googleLoginHelper: googleLoginHelper, fbLoginHelper: fbLoginHelper)
     }
 
@@ -237,6 +240,8 @@ private extension SignUpViewModel {
     }
 
     private func updatePreviousEmailAndUsernames(accountProvider: AccountProvider, username: String?) {
+        guard featureFlags.saveMailLogout else { return }
+
         switch accountProvider {
         case .Email:
             previousFacebookUsername.value = nil
@@ -251,6 +256,8 @@ private extension SignUpViewModel {
     }
 
     private func savePreviousEmailOrUsername(accountProvider: AccountProvider, username: String?) {
+        guard featureFlags.saveMailLogout else { return }
+
         keyValueStorage[.previousUserAccountProvider] = accountProvider.rawValue
         keyValueStorage[.previousUserEmailOrName] = username
     }

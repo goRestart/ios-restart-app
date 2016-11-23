@@ -362,9 +362,9 @@ public struct TrackerEvent {
         return TrackerEvent(name: .ProductSellSharedFB, params: params)
     }
 
-    static func productSellComplete(product: Product) -> TrackerEvent {
+    static func productSellComplete(product: Product, freePostingModeAllowed: Bool) -> TrackerEvent {
         return productSellComplete(product, buttonName: nil, sellButtonPosition: nil, negotiable: nil, pictureSource: nil,
-                                   freePostingModeAllowed: FeatureFlags.freePostingModeAllowed)
+                                   freePostingModeAllowed: freePostingModeAllowed)
     }
 
     static func productSellComplete(product: Product, buttonName: EventParameterButtonNameType?,
