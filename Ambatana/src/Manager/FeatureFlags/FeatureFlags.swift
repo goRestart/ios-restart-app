@@ -137,7 +137,14 @@ struct FeatureFlags: FeatureFlaggeable {
         return ABTests.expressChatBanner.value
     }
 
-    
+    static var postAfterDeleteMode: PostAfterDeleteMode {
+        if Bumper.enabled {
+            return Bumper.postAfterDeleteMode
+        }
+        return PostAfterDeleteMode.fromPosition(ABTests.postAfterDeleteMode.value)
+    }
+
+
     // MARK: - Private
 
     private static var freePostingModeAllowed: Bool {

@@ -829,17 +829,44 @@ extension ProductViewModel {
         productRepository.delete(product.value) { [weak self] result in
             guard let strongSelf = self else { return }
 
+            var afterMessageAction: (() -> ())? = {}
             var message: String? = nil
             if let value = result.value {
+                switch FeatureFlags.postAfterDeleteMode {
+                case .Original:
+                    message = LGLocalizedString.productDeleteSuccessMessage
+                    afterMessageAction = {
+                        strongSelf.delegate?.vmPop()
+                    }
+                case .FullScreen:
+                    print("fullscreen")
+                    message = nil
+                    afterMessageAction = {
+                        // open tuned congrats screen
+                    }
+                case .Alert:
+                    print("alert")
+                    message = nil
+                    afterMessageAction = {
+                        strongSelf.delegate?.vmPop()
+                        // open alert
+                        let action = UIAction(interface: .Button("_ Post Another Item", .Primary(fontSize: .Medium)), action: {
+                                strongSelf.navigator?.openSell(.DeleteProduct)
+                            }, accessibilityId: .PostDeleteAlertButton)
+                        strongSelf.delegate?.vmShowAlertWithTitle("_NO LUCK THIS TIME",
+                                                                  text: "_Try posting something else and start making money.",
+                                                                  alertType: .PlainAlert, actions: [action])
+                    }
+                }
                 strongSelf.product.value = value
-                message = LGLocalizedString.productDeleteSuccessMessage
                 self?.trackHelper.trackDeleteCompleted()
             } else if let _ = result.error {
                 message = LGLocalizedString.productDeleteSendErrorGeneric
+                afterMessageAction = {
+                    strongSelf.delegate?.vmPop()
+                }
             }
-            strongSelf.delegate?.vmHideLoading(message, afterMessageCompletion: { () -> () in
-                strongSelf.delegate?.vmPop()
-            })
+            strongSelf.delegate?.vmHideLoading(message, afterMessageCompletion: afterMessageAction)
         }
     }
 

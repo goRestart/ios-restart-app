@@ -311,7 +311,7 @@ private extension CameraSourceMode {
 private extension PostingSource {
     var isFreePosting: Bool {
         switch self {
-        case .DeepLink, .OnboardingButton, .OnboardingCamera, .SellButton, .TabBar, .Notifications:
+        case .DeepLink, .OnboardingButton, .OnboardingCamera, .SellButton, .TabBar, .Notifications, .DeleteProduct:
             return false
         case .GiveAwayButton:
             return true
