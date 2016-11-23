@@ -257,7 +257,7 @@ private extension AppDelegate {
         #else
             NewRelicAgent.startWithApplicationToken(Constants.newRelicProductionToken)
         #endif
-
+        
         // Fabric
         Twitter.sharedInstance().startWithConsumerKey(EnvironmentProxy.sharedInstance.twitterConsumerKey,
                                                       consumerSecret: EnvironmentProxy.sharedInstance.twitterConsumerSecret)
