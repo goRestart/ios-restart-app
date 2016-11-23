@@ -196,6 +196,7 @@ public enum EventParameterName: String {
     case TrendingSearch       = "trending-search"
     case Description          = "description"           // error description: why form validation failure.
     case LoginSource          = "login-type"            // the login source
+    case LoginRememberedAccount = "existing"
     case LocationType         = "location-type"
     case ShareNetwork         = "share-network"
     case ButtonPosition       = "button-position"
@@ -247,6 +248,7 @@ public enum EventParameterName: String {
     case SellButtonPosition   = "sell-button-position"
     case Enabled              = "enabled"
     case LastSearch           = "last-search"
+    case ExpressChatTrigger   = "express-chat-trigger"
 }
 
 public enum EventParameterLoginSourceValue: String {
@@ -353,6 +355,8 @@ public enum EventParameterMessageType: String {
     case Offer      = "offer"
     case Sticker    = "sticker"
     case Favorite   = "favorite"
+    case QuickAnswer = "quick-answer"
+    case ExpressChat = "express-chat"
 }
 
 public enum EventParameterLoginError {
@@ -622,6 +626,11 @@ public enum EventParameterFreePosting: String {
     case Unset = "N/A"
 }
 
+public enum EventParameterExpressChatTrigger: String {
+    case Automatic = "automatic"
+    case Manual = "manual"
+}
+
 public struct EventParameters {
     private var params: [EventParameterName : AnyObject] = [:]
     
@@ -636,8 +645,11 @@ public struct EventParameters {
         }
     }
     
-    internal mutating func addLoginParams(source: EventParameterLoginSourceValue) {
+    internal mutating func addLoginParams(source: EventParameterLoginSourceValue, rememberedAccount: Bool? = nil) {
         params[.LoginSource] = source.rawValue
+        if let rememberedAccount = rememberedAccount {
+            params[.LoginRememberedAccount] = rememberedAccount
+        }
     }
     
     internal mutating func addProductParams(product: Product) {

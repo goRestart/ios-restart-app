@@ -155,7 +155,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     
     // MARK: - Lifecycle
     
-    init(viewModel: ProductListViewModel, frame: CGRect) {
+    init(viewModel: ProductListViewModel,featureFlags: FeatureFlaggeable, frame: CGRect) {
         self.viewModel = viewModel
         let padding = UIEdgeInsetsZero
         self.dataPadding = padding
@@ -165,13 +165,13 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         self.lastContentOffset = 0
         self.scrollingDown = true
         super.init(viewModel: viewModel, frame: frame)
-        
+        drawerManager.freePostingAllowed = featureFlags.freePostingModeAllowed
         viewModel.delegate = self
         setupUI()
         setAccessibilityIds()
     }
     
-    init?(viewModel: ProductListViewModel, coder aDecoder: NSCoder) {
+    init?(viewModel: ProductListViewModel, featureFlags: FeatureFlaggeable, coder aDecoder: NSCoder) {
         self.viewModel = viewModel
         let padding = UIEdgeInsetsZero
         self.dataPadding = padding
@@ -181,14 +181,14 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         self.lastContentOffset = 0
         self.scrollingDown = true
         super.init(viewModel: viewModel, coder: aDecoder)
-        
+        drawerManager.freePostingAllowed = featureFlags.freePostingModeAllowed
         viewModel.delegate = self
         setupUI()
         setAccessibilityIds()
     }
     
     required convenience init?(coder aDecoder: NSCoder) {
-        self.init(viewModel: ProductListViewModel(requester: nil), coder: aDecoder)
+        self.init(viewModel: ProductListViewModel(requester: nil),featureFlags: FeatureFlags.sharedInstance, coder: aDecoder)
     }
 
     internal override func didBecomeActive(firstTime: Bool) {

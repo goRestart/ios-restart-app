@@ -25,19 +25,19 @@ class ExpressChatCoordinator: Coordinator {
 
     // MARK: - Lifecycle
 
-    convenience init?(products: [Product], sourceProductId: String, forcedOpen: Bool) {
-        self.init(products: products, sourceProductId: sourceProductId, keyValueStorage: KeyValueStorage.sharedInstance, forcedOpen: forcedOpen)
+    convenience init?(products: [Product], sourceProductId: String, manualOpen: Bool) {
+        self.init(products: products, sourceProductId: sourceProductId, keyValueStorage: KeyValueStorage.sharedInstance, manualOpen: manualOpen)
     }
 
-    init?(products: [Product], sourceProductId: String, keyValueStorage: KeyValueStorage, forcedOpen: Bool) {
-        let vm = ExpressChatViewModel(productList: products, sourceProductId: sourceProductId)
+    init?(products: [Product], sourceProductId: String, keyValueStorage: KeyValueStorage, manualOpen: Bool) {
+        let vm = ExpressChatViewModel(productList: products, sourceProductId: sourceProductId, manualOpen: manualOpen)
         let vc = ExpressChatViewController(viewModel: vm)
         self.viewController = vc
         self.keyValueStorage = keyValueStorage
 
         vm.navigator = self
 
-        if !forcedOpen {
+        if !manualOpen {
             // user didn't pressed "Don't show again"
             guard keyValueStorage.userShouldShowExpressChat else { return nil }
             // express chat hasn't been shown for this product

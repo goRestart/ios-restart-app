@@ -26,7 +26,7 @@ class TabCoordinator: NSObject {
     let myUserRepository: MyUserRepository
     let keyValueStorage: KeyValueStorage
     let tracker: Tracker
-
+    let featureFlags: FeatureFlaggeable
     let disposeBag = DisposeBag()
 
     weak var tabCoordinatorDelegate: TabCoordinatorDelegate?
@@ -36,7 +36,8 @@ class TabCoordinator: NSObject {
 
     init(productRepository: ProductRepository, userRepository: UserRepository, chatRepository: ChatRepository,
          oldChatRepository: OldChatRepository, myUserRepository: MyUserRepository,
-         keyValueStorage: KeyValueStorage, tracker: Tracker, rootViewController: UIViewController) {
+         keyValueStorage: KeyValueStorage, tracker: Tracker, rootViewController: UIViewController,
+         featureFlags: FeatureFlaggeable) {
         self.productRepository = productRepository
         self.userRepository = userRepository
         self.chatRepository = chatRepository
@@ -45,6 +46,7 @@ class TabCoordinator: NSObject {
         self.keyValueStorage = keyValueStorage
         self.tracker = tracker
         self.rootViewController = rootViewController
+        self.featureFlags = featureFlags
         self.navigationController = UINavigationController(rootViewController: rootViewController)
 
         super.init()
@@ -271,7 +273,7 @@ private extension TabCoordinator {
     }
 
     func openChatFromProduct(product: Product) {
-        if FeatureFlags.websocketChat {
+        if featureFlags.websocketChat {
             guard let chatVM = ChatViewModel(product: product, navigator: self) else { return }
             let chatVC = ChatViewController(viewModel: chatVM, hidesBottomBar: false)
             navigationController.pushViewController(chatVC, animated: true)
@@ -285,7 +287,7 @@ private extension TabCoordinator {
     func openChatFromConversationData(data: ConversationData) {
         navigationController.showLoadingMessageAlert()
 
-        if FeatureFlags.websocketChat {
+        if featureFlags.websocketChat {
             let completion: ChatConversationCompletion = { [weak self] result in
                 self?.navigationController.dismissLoadingMessageAlert { [weak self] in
                     if let conversation = result.value {
@@ -386,8 +388,8 @@ extension TabCoordinator: ChatDetailNavigator {
         navigationController.popViewControllerAnimated(true)
     }
 
-    func openExpressChat(products: [Product], sourceProductId: String, forcedOpen: Bool) {
-        guard let expressChatCoordinator = ExpressChatCoordinator(products: products, sourceProductId: sourceProductId, forcedOpen: forcedOpen) else { return }
+    func openExpressChat(products: [Product], sourceProductId: String, manualOpen: Bool) {
+        guard let expressChatCoordinator = ExpressChatCoordinator(products: products, sourceProductId: sourceProductId, manualOpen: manualOpen) else { return }
         expressChatCoordinator.delegate = self
         openCoordinator(coordinator: expressChatCoordinator, parent: rootViewController, animated: true, completion: nil)
     }

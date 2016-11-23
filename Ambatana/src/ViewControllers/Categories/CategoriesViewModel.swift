@@ -16,6 +16,7 @@ protocol CategoriesViewModelDelegate: class {
 class CategoriesViewModel: BaseViewModel {
 
     private let categoryRepository: CategoryRepository
+    private let featureFlags: FeatureFlaggeable
     private var categories: [FilterCategoryItem]
 
     var numOfCategories : Int {
@@ -27,12 +28,13 @@ class CategoriesViewModel: BaseViewModel {
 
     
     override convenience init() {
-        self.init(categoryRepository: Core.categoryRepository, categories: [])
+        self.init(categoryRepository: Core.categoryRepository, categories: [], featureFlags: FeatureFlags.sharedInstance)
     }
 
-    required init(categoryRepository: CategoryRepository, categories: [FilterCategoryItem]) {
+    required init(categoryRepository: CategoryRepository, categories: [FilterCategoryItem], featureFlags: FeatureFlaggeable) {
         self.categoryRepository = categoryRepository
         self.categories = categories
+        self.featureFlags = featureFlags
         super.init()
     }
     
@@ -50,7 +52,7 @@ class CategoriesViewModel: BaseViewModel {
     }
 
     private func buildFullCategoryItemsWithCategories(categories: [ProductCategory]) -> [FilterCategoryItem] {
-        let filterCatItems: [FilterCategoryItem] = FeatureFlags.freePostingMode.enabled ? [.Free] : []
+        let filterCatItems: [FilterCategoryItem] = featureFlags.freePostingModeAllowed ? [.Free] : []
         let builtCategories = categories.map { FilterCategoryItem(category: $0) }
         return filterCatItems + builtCategories
     }

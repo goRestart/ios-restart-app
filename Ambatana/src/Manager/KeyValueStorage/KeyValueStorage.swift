@@ -41,7 +41,6 @@ extension DefaultsKeys {
     static let pushPermissionsDidShowNativeAlert = DefaultsKey<Bool>("didShowNativePushPermissionsDialog")
 
     static let cameraAlreadyShown = DefaultsKey<Bool>("cameraAlreadyShown")
-    static let cameraAlreadyShownFreePosting = DefaultsKey<Bool>("cameraAlreadyShownFreePosting")
     static let giveAwayTooltipAlreadyShown = DefaultsKey<Bool>("giveAwayTooltipAlreadyShown")
     static let stickersTooltipAlreadyShown = DefaultsKey<Bool>("stickersTooltipAlreadyShown")
     static let userRatingTooltipAlreadyShown = DefaultsKey<Bool>("userRatingTooltipAlreadyShown")
@@ -49,6 +48,9 @@ extension DefaultsKeys {
     static let didShowCommercializer = DefaultsKey<Bool>("didShowCommercializer")
     static let isGod = DefaultsKey<Bool>("isGod")
     static let lastSearches = DefaultsKey<[String]>("lastSearches")
+
+    static let previousUserAccountProvider = DefaultsKey<String?>("previousUserAccountProvider")
+    static let previousUserEmailOrName = DefaultsKey<String?>("previousUserEmailOrName")
 }
 
 

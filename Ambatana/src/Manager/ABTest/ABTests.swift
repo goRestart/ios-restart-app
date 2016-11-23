@@ -16,22 +16,24 @@ public struct ABTests {
     static var messageOnFavoriteRound2 = IntABDynamicVar(key: "messageOnFavoriteRound2", defaultValue: 0)
     static var interestedUsersMode = IntABDynamicVar(key: "interestedUsersMode", defaultValue: 0)
     static var filtersReorder = BoolABDynamicVar(key: "filtersReorder", defaultValue: false)
-    static var freePostingMode = IntABDynamicVar(key: "freePostingMode", defaultValue: 0)
     static var directPostInOnboarding = BoolABDynamicVar(key: "directPostInOnboarding", defaultValue: false)
     static var productDetailShareMode = IntABDynamicVar(key: "productDetailShareMode", defaultValue: 0)
     static var notificationCenterEnabled = BoolABDynamicVar(key: "notificationCenterEnabled", defaultValue: true)
     static var persicopeChat = BoolABDynamicVar(key: "persicopeChat", defaultValue: false)
     static var shareButtonWithIcon = BoolABDynamicVar(key: "shareButtonWithIcon", defaultValue: false)
     static var chatHeadBubbles = BoolABDynamicVar(key: "chatHeadBubbles", defaultValue: false)
+    static var saveMailLogout = BoolABDynamicVar(key: "saveMailLogout", defaultValue: false)
     static var expressChatBanner = BoolABDynamicVar(key: "expressChatBanner", defaultValue: false)
     static var showLiquidProductsToNewUser = BoolABDynamicVar(key: "showLiquidProductsToNewUser", defaultValue: false)
     static var postAfterDeleteMode = IntABDynamicVar(key: "postAfterDeleteMode", defaultValue: 0)
+    static var keywordsTravelCollection = IntABDynamicVar(key: "keywordsTravelCollection", defaultValue: 0)
+    static var commercializerAfterPosting = BoolABDynamicVar(key: "commercializerAfterPosting", defaultValue: false)
 
     static private var allVariables: [ABVariable] {
         return [showNPSSurvey, messageOnFavoriteRound2, interestedUsersMode, filtersReorder,
-                freePostingMode, directPostInOnboarding, productDetailShareMode, notificationCenterEnabled,
+                directPostInOnboarding, productDetailShareMode, notificationCenterEnabled,
                 persicopeChat, shareButtonWithIcon, chatHeadBubbles, expressChatBanner, showLiquidProductsToNewUser,
-                postAfterDeleteMode]
+                postAfterDeleteMode, keywordsTravelCollection, commercializerAfterPosting]
     }
 
     static func registerVariables() {

@@ -21,6 +21,7 @@ class ExpressChatViewModel: BaseViewModel {
     private var trackerProxy: TrackerProxy
     private var productList: [Product]
     private var sourceProductId: String
+    private var manualOpen: Bool
     var productListCount: Int {
         return productList.count
     }
@@ -42,15 +43,17 @@ class ExpressChatViewModel: BaseViewModel {
 
     // MARK: - Lifecycle
 
-    convenience init(productList: [Product], sourceProductId: String) {
-        self.init(productList: productList, sourceProductId: sourceProductId, chatRepository: Core.chatRepository,
-                  keyValueStorage: KeyValueStorage.sharedInstance, trackerProxy: TrackerProxy.sharedInstance)
+    convenience init(productList: [Product], sourceProductId: String, manualOpen: Bool) {
+        self.init(productList: productList, sourceProductId: sourceProductId, manualOpen: manualOpen,
+                  chatRepository: Core.chatRepository, keyValueStorage: KeyValueStorage.sharedInstance,
+                  trackerProxy: TrackerProxy.sharedInstance)
     }
 
-    init(productList: [Product], sourceProductId: String, chatRepository: ChatRepository, keyValueStorage: KeyValueStorage,
-         trackerProxy: TrackerProxy) {
+    init(productList: [Product], sourceProductId: String, manualOpen: Bool, chatRepository: ChatRepository,
+         keyValueStorage: KeyValueStorage, trackerProxy: TrackerProxy) {
         self.productList = productList
         self.sourceProductId = sourceProductId
+        self.manualOpen = manualOpen
         self.selectedProducts.value = productList
         self.chatRepository = chatRepository
         self.keyValueStorage = keyValueStorage
@@ -85,7 +88,7 @@ class ExpressChatViewModel: BaseViewModel {
     func sendMessage() {
         let wrapper = ChatWrapper()
         for product in selectedProducts.value {
-            wrapper.sendMessageForProduct(product, type:.Text(messageText.value)) { [weak self] result in
+            wrapper.sendMessageForProduct(product, type:.ExpressChat(messageText.value)) { [weak self] result in
                 if let value = result.value {
                     self?.singleMessageExtraTrackings(value, product: product)
                 }
@@ -153,7 +156,8 @@ class ExpressChatViewModel: BaseViewModel {
 
 extension ExpressChatViewModel {
     func trackExpressChatStart() {
-        let event = TrackerEvent.expressChatStart()
+        let trigger: EventParameterExpressChatTrigger = manualOpen ? .Manual : .Automatic
+        let event = TrackerEvent.expressChatStart(trigger)
         trackerProxy.trackEvent(event)
     }
 
@@ -169,12 +173,14 @@ extension ExpressChatViewModel {
     }
 
     func trackExpressChatComplete(numChats: Int) {
-        let event = TrackerEvent.expressChatComplete(numChats)
+        let trigger: EventParameterExpressChatTrigger = manualOpen ? .Manual : .Automatic
+        let event = TrackerEvent.expressChatComplete(numChats, trigger: trigger)
         trackerProxy.trackEvent(event)
     }
 
     func trackExpressChatDontAsk() {
-        let event = TrackerEvent.expressChatDontAsk()
+        let trigger: EventParameterExpressChatTrigger = manualOpen ? .Manual : .Automatic
+        let event = TrackerEvent.expressChatDontAsk(trigger)
         trackerProxy.trackEvent(event)
     }
 }

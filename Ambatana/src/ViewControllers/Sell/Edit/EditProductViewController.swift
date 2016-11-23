@@ -90,6 +90,7 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
     // viewModel
     private var viewModel : EditProductViewModel
     private var keyboardHelper: KeyboardHelper
+    private var featureFlags: FeatureFlaggeable
     // Rx
     private let disposeBag = DisposeBag()
     
@@ -98,12 +99,13 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
     // MARK: - Lifecycle
     
     convenience init(viewModel: EditProductViewModel) {
-        self.init(viewModel: viewModel, keyboardHelper: KeyboardHelper.sharedInstance)
+        self.init(viewModel: viewModel, keyboardHelper: KeyboardHelper.sharedInstance, featureFlags: FeatureFlags.sharedInstance)
     }
     
-    required init(viewModel: EditProductViewModel, keyboardHelper: KeyboardHelper) {
+    required init(viewModel: EditProductViewModel, keyboardHelper: KeyboardHelper, featureFlags: FeatureFlaggeable) {
         self.keyboardHelper = keyboardHelper
         self.viewModel = viewModel
+        self.featureFlags = featureFlags
         super.init(viewModel: viewModel, nibName: "EditProductViewController")
         self.viewModel.delegate = self
         automaticallyAdjustsScrollViewInsets = false
@@ -436,8 +438,8 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
         
         shareFBSwitch.on = viewModel.shouldShareInFB
         shareFBLabel.text = LGLocalizedString.sellShareOnFacebookLabel
-        
-        if FeatureFlags.freePostingMode.enabled {
+
+        if featureFlags.freePostingModeAllowed {
             postFreeViewHeightConstraint.constant = EditProductViewController.viewOptionGenericHeight
             freePostViewSeparatorTopConstraint.constant = EditProductViewController.separatorOptionsViewDistance
         } else {
@@ -452,6 +454,7 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
         self.imageCollectionView.registerNib(cellNib, forCellWithReuseIdentifier: sellProductCellReuseIdentifier)
         
         loadingLabel.text = LGLocalizedString.sellUploadingLabel
+        view.bringSubviewToFront(loadingView)
         
         // hide keyboard on tap
         hideKbTapRecognizer = UITapGestureRecognizer(target: self, action: #selector(scrollViewTapped))

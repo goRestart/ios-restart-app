@@ -35,11 +35,6 @@
         "description": "Product filters reorder"
 	},
     {
-        "name": "FreePostingMode",
-        "values": ["Disabled", "SplitButton", "OneButton"],
-        "description": "Free Posting Mode"
-	},
-    {
         "name": "DirectPostInOnboarding",
         "values": ["No", "Yes"],
         "description": "Last Onboarding step opens the camera"
@@ -65,6 +60,11 @@
         "description": "Chat head bubbles"
     },
     {
+        "name": "SaveMailLogout",
+        "values": ["No", "Yes"],
+        "description": "Remembers email or FB/Google username on logout"
+    },
+    {
         "name": "ExpressChatBanner",
         "values": ["No", "Yes"],
         "description": "Show express chat banner in chat detail"
@@ -78,5 +78,15 @@
         "name": "PostAfterDeleteMode",
         "values": ["Original", "FullScreen", "Alert"],
         "description": "Posting incentivation after delete"
-	}
+    },
+    {
+        "name": "KeywordsTravelCollection",
+        "values": ["Standard", "CarsPrior", "BrandsPrior"],
+        "description": "Keywords prioritize on Travel Collection"
+    },
+    {
+        "name": "CommercializerAfterPosting",
+        "values": ["No", "Yes"],
+        "description": "Commercializer after posting"
+    }
  ]

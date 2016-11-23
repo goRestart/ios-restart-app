@@ -34,6 +34,7 @@ final class AppDelegate: UIResponder {
     private var productRepository: ProductRepository?
     private var locationManager: LocationManager?
     private var sessionManager: SessionManager?
+    private var featureFlags: FeatureFlaggeable?
 
     private var navigator: AppNavigator?
 
@@ -50,14 +51,14 @@ extension AppDelegate: UIApplicationDelegate {
     func application(application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         ABTests.registerVariables()
-
+        self.featureFlags = FeatureFlags.sharedInstance
         setupAppearance()
         setupLibraries(application, launchOptions: launchOptions)
         self.productRepository = Core.productRepository
         self.locationManager = Core.locationManager
         self.sessionManager = Core.sessionManager
         self.configManager = ConfigManager.sharedInstance
-
+    
         let keyValueStorage = KeyValueStorage.sharedInstance
         let versionChecker = VersionChecker.sharedInstance
 
@@ -66,7 +67,7 @@ extension AppDelegate: UIApplicationDelegate {
                                         versionChange: VersionChecker.sharedInstance.versionChange)
         self.crashManager = crashManager
         self.keyValueStorage = keyValueStorage
-
+        
         setupRxBindings()
         crashCheck()
 
@@ -226,7 +227,6 @@ private extension AppDelegate {
     }
 
     private func setupLibraries(application: UIApplication, launchOptions: [NSObject: AnyObject]?) {
-        FeatureFlags.setup()
         
         let environmentHelper = EnvironmentsHelper()
         EnvironmentProxy.sharedInstance.setEnvironmentType(environmentHelper.appEnvironment)
@@ -239,7 +239,10 @@ private extension AppDelegate {
         #endif
         
         LGCoreKit.loggingOptions = [.Networking, .Persistence, .Token, .Session, .WebSockets]
-        LGCoreKit.activateWebsocket = FeatureFlags.websocketChat
+        if let featureFlags = featureFlags {
+            LGCoreKit.activateWebsocket = featureFlags.websocketChat
+        }
+        
 
         // Logging
         #if GOD_MODE
@@ -254,7 +257,7 @@ private extension AppDelegate {
         #else
             NewRelicAgent.startWithApplicationToken(Constants.newRelicProductionToken)
         #endif
-
+        
         // Fabric
         Twitter.sharedInstance().startWithConsumerKey(EnvironmentProxy.sharedInstance.twitterConsumerKey,
                                                       consumerSecret: EnvironmentProxy.sharedInstance.twitterConsumerSecret)

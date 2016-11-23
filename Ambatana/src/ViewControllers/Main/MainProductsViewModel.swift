@@ -90,6 +90,7 @@ class MainProductsViewModel: BaseViewModel {
     let mainProductsHeader = Variable<MainProductsHeader>([])
 
     // Manager & repositories
+    private let sessionManager: SessionManager
     private let myUserRepository: MyUserRepository
     private let trendingSearchesRepository: TrendingSearchesRepository
     private let locationManager: LocationManager
@@ -103,7 +104,7 @@ class MainProductsViewModel: BaseViewModel {
         return [.You] + generalCollectionsShuffled
     }
     private let keyValueStorage: KeyValueStorageable
-    private let featureFlags: FeatureFlaggeable.Type
+    private let featureFlags: FeatureFlaggeable
     
     // > Delegate
     weak var delegate: MainProductsViewModelDelegate?
@@ -140,14 +141,18 @@ class MainProductsViewModel: BaseViewModel {
     var trendingCounter: Int {
         return trendingSearches.value.count
     }
+
+    private let disposeBag = DisposeBag()
     
     
     // MARK: - Lifecycle
     
-    init(myUserRepository: MyUserRepository, trendingSearchesRepository: TrendingSearchesRepository,
+    init(sessionManager: SessionManager, myUserRepository: MyUserRepository, trendingSearchesRepository: TrendingSearchesRepository,
          locationManager: LocationManager, currencyHelper: CurrencyHelper, tracker: Tracker, searchType: SearchType? = nil,
          filters: ProductFilters, tabNavigator: TabNavigator?, keyValueStorage: KeyValueStorageable,
-         featureFlags: FeatureFlaggeable.Type) {
+         featureFlags: FeatureFlaggeable) {
+        
+        self.sessionManager = sessionManager
         self.myUserRepository = myUserRepository
         self.trendingSearchesRepository = trendingSearchesRepository
         self.locationManager = locationManager
@@ -177,14 +182,15 @@ class MainProductsViewModel: BaseViewModel {
     }
     
     convenience init(searchType: SearchType? = nil, filters: ProductFilters, tabNavigator: TabNavigator?) {
+        let sessionManager = Core.sessionManager
         let myUserRepository = Core.myUserRepository
         let trendingSearchesRepository = Core.trendingSearchesRepository
         let locationManager = Core.locationManager
         let currencyHelper = Core.currencyHelper
         let tracker = TrackerProxy.sharedInstance
         let keyValueStorage = KeyValueStorage.sharedInstance
-        let featureFlags = FeatureFlags.self
-        self.init(myUserRepository: myUserRepository, trendingSearchesRepository: trendingSearchesRepository,
+        let featureFlags = FeatureFlags.sharedInstance
+        self.init(sessionManager: sessionManager,myUserRepository: myUserRepository, trendingSearchesRepository: trendingSearchesRepository,
                   locationManager: locationManager, currencyHelper: currencyHelper, tracker: tracker, searchType: searchType,
                   filters: filters, tabNavigator: tabNavigator, keyValueStorage: keyValueStorage, featureFlags: featureFlags)
     }
@@ -493,14 +499,7 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate {
 
     func vmDidSelectCollection(type: CollectionCellType){
         tracker.trackEvent(TrackerEvent.exploreCollection(type.rawValue))
-        var query: String
-        switch type {
-        case .You:
-            query = keyValueStorage[.lastSearches].reverse().joinWithSeparator(" ")
-        case .Apple, .Furniture, .Gaming, .Transport:
-            guard let searchText =  type.searchTextUS else { return }
-            query =  searchText
-        }
+        let query = queryForCollection(type)
         delegate?.vmDidSearch(viewModelForSearch(.Collection(type: type, query: query)))
     }
     
@@ -514,16 +513,13 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate {
 
 extension MainProductsViewModel {
     private func setupSessionAndLocation() {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(sessionDidChange),
-                                                         name: SessionNotification.Login.rawValue, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(sessionDidChange),
-                                                         name: SessionNotification.Logout.rawValue, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(locationDidChange),
-                                                         
-                                                         name: LocationNotification.LocationUpdate.rawValue, object: nil)
+        sessionManager.sessionEvents.bindNext { [weak self] _ in self?.sessionDidChange() }.addDisposableTo(disposeBag)
+        locationManager.locationEvents.filter { $0 == .LocationUpdate }.bindNext { [weak self] _ in
+            self?.locationDidChange()
+        }.addDisposableTo(disposeBag)
     }
 
-    dynamic private func sessionDidChange() {
+    private func sessionDidChange() {
         guard listViewModel.canRetrieveProducts else {
             shouldRetryLoad = true
             return
@@ -531,7 +527,7 @@ extension MainProductsViewModel {
         listViewModel.retrieveProducts()
     }
 
-    dynamic private func locationDidChange() {
+    private func locationDidChange() {
         guard let newLocation = locationManager.currentLocation else { return }
 
         // Tracking: when a new location is received and has different type than previous one
@@ -700,6 +696,35 @@ private extension ProductFilters {
         case .PriceAsc, .PriceDesc:
             return false
         }
+    }
+}
+
+
+// MARK: - Queries for Collections
+
+private extension MainProductsViewModel {
+    func queryForCollection(type: CollectionCellType) -> String {
+        var query: String
+        switch type {
+        case .You:
+            query = keyValueStorage[.lastSearches].reverse().joinWithSeparator(" ")
+        case .Transport:
+            switch featureFlags.keywordsTravelCollection {
+            case .Standard:
+                query = "bike boat motorcycle car kayak trailer atv truck jeep rims camper cart scooter dirtbike jetski gokart four wheeler bicycle quad bike tractor bmw wheels canoe hoverboard Toyota bmx rv Chevy sub ford paddle Harley yamaha Jeep Honda mustang corvette dodge"
+            case .CarsPrior:
+                query = "car motorcycle boat scooter kayak trailer atv truck bike jeep rims camper cart dirtbike jetski gokart four wheeler bicycle quad bike tractor bmw wheels canoe hoverboard Toyota bmx rv Chevy sub ford paddle Harley yamaha Jeep Honda mustang corvette dodge"
+            case .BrandsPrior:
+                query = "mustang Honda Harley corvette dodge Toyota yamaha motorcycle Jeep atv bike boat car kayak trailer truck jeep rims camper cart scooter dirtbike jetski gokart four wheeler bicycle quad bike tractor bmw wheels canoe hoverboard bmx rv Chevy sub ford paddle"
+            }
+        case .Gaming:
+            query = "ps4 xbox pokemon nintendo PS3 game boy Wii atari sega"
+        case .Apple:
+            query = "iphone apple iPad MacBook iPod Mac iMac"
+        case .Furniture:
+            query = "dresser couch furniture desk table patio bed stand chair sofa rug mirror futon bench stool frame recliner lamp cabinet ikea shelf antique bedroom book shelf tables end table bunk beds night stand canopy"
+        }
+        return query
     }
 }
 

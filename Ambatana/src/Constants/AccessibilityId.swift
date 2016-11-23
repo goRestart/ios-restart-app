@@ -21,7 +21,6 @@ enum AccessibilityId: String {
     case TabBarFourthTab
     case TabBarFifthTab
     case TabBarFloatingSellButton
-    case TabBarFloatingGiveAwayButton
 
     // Main Products List
     case MainProductsNavBarSearch
@@ -163,6 +162,7 @@ enum AccessibilityId: String {
     // User View
     case UserViewNameLabel
     case UserViewSubtitleLabel
+    case UserViewTextInfoContainer
 
     // Notifications
     case NotificationsRefresh
@@ -424,6 +424,8 @@ enum AccessibilityId: String {
 
     // Settings
     case SettingsList
+    case SettingsLogoutAlertCancel
+    case SettingsLogoutAlertOK
 
     // SettingsCell
     case SettingsCellIcon

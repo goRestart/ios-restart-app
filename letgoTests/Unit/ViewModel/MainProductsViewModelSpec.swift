@@ -20,28 +20,28 @@ class MainProductsViewModelSpec: QuickSpec {
             var sut: MainProductsViewModel!
             var keyValueStorage: MockKeyValueStorage!
             var filters: ProductFilters!
-            var mockFeatureFlags: MockFeatureFlags.Type!
+            var mockFeatureFlags: MockFeatureFlags!
             
             beforeEach {
                 keyValueStorage = MockKeyValueStorage()
-                mockFeatureFlags = MockFeatureFlags.self
+                mockFeatureFlags = MockFeatureFlags()
                 filters = ProductFilters()
             }
           
             describe("Initialization") {
                 
-                context("with feature flag: showLiquidProductsToNewUser enabled") {
+                context("with feature flag: showLiquid ProductsToNewUser enabled") {
                     beforeEach {
                         mockFeatureFlags.showLiquidProductsToNewUser = true
                     }
                     it("has firstDate nil (first time in Letgo)") {
                         keyValueStorage[.firstRunDate] = nil
-                        sut = MainProductsViewModel(myUserRepository: Core.myUserRepository, trendingSearchesRepository: Core.trendingSearchesRepository, locationManager: Core.locationManager, currencyHelper: Core.currencyHelper, tracker: TrackerProxy.sharedInstance, filters: filters, tabNavigator: nil, keyValueStorage: keyValueStorage, featureFlags: mockFeatureFlags)
+                        sut = MainProductsViewModel(sessionManager: Core.sessionManager, myUserRepository: Core.myUserRepository, trendingSearchesRepository: Core.trendingSearchesRepository, locationManager: Core.locationManager, currencyHelper: Core.currencyHelper, tracker: TrackerProxy.sharedInstance, filters: filters, tabNavigator: nil, keyValueStorage: keyValueStorage, featureFlags: mockFeatureFlags)
                         expect(sut.currentActiveFilters?.selectedCategories) == [.CarsAndMotors, .Electronics, .HomeAndGarden, .SportsLeisureAndGames]
                     }
                     it("has firstDate no nil (more than one time in Letgo)") {
                         keyValueStorage[.firstRunDate] =  NSDate()
-                        sut = MainProductsViewModel(myUserRepository: Core.myUserRepository, trendingSearchesRepository: Core.trendingSearchesRepository, locationManager: Core.locationManager, currencyHelper: Core.currencyHelper, tracker: TrackerProxy.sharedInstance, filters: filters, tabNavigator: nil, keyValueStorage: keyValueStorage, featureFlags: mockFeatureFlags)
+                        sut = MainProductsViewModel(sessionManager: Core.sessionManager, myUserRepository: Core.myUserRepository, trendingSearchesRepository: Core.trendingSearchesRepository, locationManager: Core.locationManager, currencyHelper: Core.currencyHelper, tracker: TrackerProxy.sharedInstance, filters: filters, tabNavigator: nil, keyValueStorage: keyValueStorage, featureFlags: mockFeatureFlags)
                         expect(sut.currentActiveFilters?.selectedCategories) == []
                     }
                 }
@@ -51,12 +51,12 @@ class MainProductsViewModelSpec: QuickSpec {
                     }
                     it("has firstDate nil (first time in Letgo)") {
                         keyValueStorage[.firstRunDate] = nil
-                        sut = MainProductsViewModel(myUserRepository: Core.myUserRepository, trendingSearchesRepository: Core.trendingSearchesRepository, locationManager: Core.locationManager, currencyHelper: Core.currencyHelper, tracker: TrackerProxy.sharedInstance, filters: filters, tabNavigator: nil, keyValueStorage: keyValueStorage, featureFlags: mockFeatureFlags)
+                        sut = MainProductsViewModel(sessionManager: Core.sessionManager, myUserRepository: Core.myUserRepository, trendingSearchesRepository: Core.trendingSearchesRepository, locationManager: Core.locationManager, currencyHelper: Core.currencyHelper, tracker: TrackerProxy.sharedInstance, filters: filters, tabNavigator: nil, keyValueStorage: keyValueStorage, featureFlags: mockFeatureFlags)
                         expect(sut.currentActiveFilters?.selectedCategories) == []
                     }
                     it("has firstDate no nil (more than one time in Letgo)") {
                         keyValueStorage[.firstRunDate] =  NSDate()
-                        sut = MainProductsViewModel(myUserRepository: Core.myUserRepository, trendingSearchesRepository: Core.trendingSearchesRepository, locationManager: Core.locationManager, currencyHelper: Core.currencyHelper, tracker: TrackerProxy.sharedInstance, filters: filters, tabNavigator: nil, keyValueStorage: keyValueStorage, featureFlags: mockFeatureFlags)
+                        sut = MainProductsViewModel(sessionManager: Core.sessionManager, myUserRepository: Core.myUserRepository, trendingSearchesRepository: Core.trendingSearchesRepository, locationManager: Core.locationManager, currencyHelper: Core.currencyHelper, tracker: TrackerProxy.sharedInstance, filters: filters, tabNavigator: nil, keyValueStorage: keyValueStorage, featureFlags: mockFeatureFlags)
                         expect(sut.currentActiveFilters?.selectedCategories) == []
                     }
                 }
@@ -77,7 +77,7 @@ class MainProductsViewModelSpec: QuickSpec {
                     beforeEach {
                         mockFeatureFlags.showLiquidProductsToNewUser = true
                         keyValueStorage[.firstRunDate] = nil
-                        sut = MainProductsViewModel(myUserRepository: Core.myUserRepository, trendingSearchesRepository: Core.trendingSearchesRepository, locationManager: Core.locationManager, currencyHelper: Core.currencyHelper, tracker: TrackerProxy.sharedInstance, filters: filters, tabNavigator: nil, keyValueStorage: keyValueStorage, featureFlags: mockFeatureFlags)
+                        sut = MainProductsViewModel(sessionManager: Core.sessionManager, myUserRepository: Core.myUserRepository, trendingSearchesRepository: Core.trendingSearchesRepository, locationManager: Core.locationManager, currencyHelper: Core.currencyHelper, tracker: TrackerProxy.sharedInstance, filters: filters, tabNavigator: nil, keyValueStorage: keyValueStorage, featureFlags: mockFeatureFlags)
                     }
                     context("when user set some filters") {
                         
@@ -114,7 +114,7 @@ class MainProductsViewModelSpec: QuickSpec {
                     beforeEach {
                         mockFeatureFlags.showLiquidProductsToNewUser = false
                         keyValueStorage[.firstRunDate] = nil
-                        sut = MainProductsViewModel(myUserRepository: Core.myUserRepository, trendingSearchesRepository: Core.trendingSearchesRepository, locationManager: Core.locationManager, currencyHelper: Core.currencyHelper, tracker: TrackerProxy.sharedInstance, filters: filters, tabNavigator: nil, keyValueStorage: keyValueStorage, featureFlags: mockFeatureFlags)
+                        sut = MainProductsViewModel(sessionManager: Core.sessionManager, myUserRepository: Core.myUserRepository, trendingSearchesRepository: Core.trendingSearchesRepository, locationManager: Core.locationManager, currencyHelper: Core.currencyHelper, tracker: TrackerProxy.sharedInstance, filters: filters, tabNavigator: nil, keyValueStorage: keyValueStorage, featureFlags: mockFeatureFlags)
                     }
                     context("when user set some filters") {
                         

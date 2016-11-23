@@ -215,7 +215,15 @@ class SettingsViewModel: BaseViewModel {
         case .Help:
             navigator?.openHelp()
         case .LogOut:
-            logoutUser()
+            let positive = UIAction(interface: .StyledText(LGLocalizedString.settingsLogoutAlertOk, .Default),
+                                    action: { [weak self] in
+                    self?.logoutUser()
+                }, accessibilityId: .SettingsLogoutAlertOK)
+
+            let negative = UIAction(interface: .StyledText(LGLocalizedString.commonCancel, .Cancel),
+                                    action: {}, accessibilityId: .SettingsLogoutAlertCancel)
+            delegate?.vmShowAlertWithTitle(nil, text: LGLocalizedString.settingsLogoutAlertMessage,
+                                           alertType: .PlainAlert, actions: [positive, negative])
         case .VersionInfo, .MarketingNotifications:
             break
         }

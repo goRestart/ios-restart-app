@@ -72,8 +72,8 @@
 "chat_deleted_disclaimer_w_name" = "Du kan inte fortsätta denna konversation, för %@s konto är inte längre aktivt.";
 "chat_deleted_disclaimer_wo_name" = "Du kan inte fortsätta den här konversationen för detta konto är inte längre aktivt.";
 "chat_disclaimer_letgo_team" = "LETGO-TEAMET";
-"chat_express_banner_button_title" = "Se fynd";
-"chat_express_banner_title" = "Liknande fynd nära dig";
+"chat_express_banner_button_title" = "See Deals";
+"chat_express_banner_title" = "Related deals near you";
 "chat_express_contact_one_button_text" = "Kontakta 1 säljare";
 "chat_express_contact_sellers_label" = "Kontakta dessa säljare innan andra köpare hittar dem!";
 "chat_express_contact_various_button_text" = "Kontakta %@ säljare";
@@ -290,11 +290,11 @@
 "main_sign_up_error_request_already_sent" = "Din begäran har redan registrerats. Vänligen vänta innan du försöker igen.";
 "main_sign_up_error_user_rejected" = "Den e-postadress du skrev in är inte korrekt. Kolla den och försök igen.";
 "main_sign_up_facebook_connect_button" = "Fortsätt med Facebook";
-"main_sign_up_facebook_connect_button_w_name" = "Logga in som %@";
+"main_sign_up_facebook_connect_button_w_name" = "Log in as %@";
 "main_sign_up_fb_connect_error_email_taken" = "Din e-postadress är redan registrerad. Använd den för att logga in.";
 "main_sign_up_fb_connect_error_generic" = "Kunde inte logga in. Vänligen försök igen.";
 "main_sign_up_google_connect_button" = "Fortsätt med Google";
-"main_sign_up_google_connect_button_w_name" = "Logga in som %@";
+"main_sign_up_google_connect_button_w_name" = "Log in as %@";
 "main_sign_up_help_button" = "Hjälp";
 "main_sign_up_log_in_label" = "Logga in";
 "main_sign_up_or_label" = "ELLER ANVÄND DIN E-POST";
@@ -384,9 +384,6 @@
 "product_delete_confirm_ok_button" = "Jag vill inte sälja den";
 "product_delete_confirm_sold_button" = "Jag har redan sålt den";
 "product_delete_confirm_title" = "Ta bort produkt";
-"product_delete_post_button_title" = "Post Another Item";
-"product_delete_post_subtitle" = "Try posting something else and start making money.";
-"product_delete_post_title" = "NO LUCK THIS TIME?";
 "product_delete_send_error_generic" = "Hoppsan! Vi kunde inte ta bort din produkt, var god försök igen.";
 "product_delete_sold_confirm_message" = "Är du säker på att du vill ta bort denna produkt?";
 "product_delete_success_message" = "Din produkt har tagits bort.";
@@ -639,8 +636,8 @@
 "settings_invite_facebook_friends_button" = "Bjud in dina vänner på Facebook";
 "settings_invite_facebook_friends_error" = "Ett fel uppstod då din inbjudan skickades.";
 "settings_invite_facebook_friends_ok" = "Din inbjudan skickades!";
-"settings_logout_alert_message" = "Är du säker på att du vill logga ut?";
-"settings_logout_alert_ok" = "Logga ut";
+"settings_logout_alert_message" = "Are you sure you want to log out?";
+"settings_logout_alert_ok" = "Log out";
 "settings_logout_button" = "Logga ut";
 "settings_marketing_notifications_switch" = "Marknadsföringsnotiser";
 "settings_section_profile" = "Profil";
