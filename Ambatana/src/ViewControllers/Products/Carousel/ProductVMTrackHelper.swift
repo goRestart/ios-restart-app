@@ -40,7 +40,7 @@ extension ProductViewModel {
 
     // MARK: Share
 
-    func trackShareStarted(shareType: ShareType, buttonPosition: EventParameterButtonPosition) {
+    func trackShareStarted(shareType: ShareType?, buttonPosition: EventParameterButtonPosition) {
         trackHelper.trackShareStarted(shareType, buttonPosition: buttonPosition)
     }
 
@@ -53,8 +53,8 @@ extension ProductViewModel {
 // MARK: - Share
 
 extension ProductVMTrackHelper {
-    func trackShareStarted(shareType: ShareType, buttonPosition: EventParameterButtonPosition) {
-        let trackerEvent = TrackerEvent.productShare(product, network: shareType.trackingShareNetwork,
+    func trackShareStarted(shareType: ShareType?, buttonPosition: EventParameterButtonPosition) {
+        let trackerEvent = TrackerEvent.productShare(product, network: shareType?.trackingShareNetwork,
                                                      buttonPosition: buttonPosition, typePage: .ProductDetail)
         tracker.trackEvent(trackerEvent)
     }

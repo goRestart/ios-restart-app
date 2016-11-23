@@ -242,14 +242,24 @@ public struct TrackerEvent {
         return TrackerEvent(name: .ProductFavorite, params: params)
     }
 
-    static func productShare(product: Product, network: EventParameterShareNetwork,
-        buttonPosition: EventParameterButtonPosition, typePage: EventParameterTypePage) -> TrackerEvent {
-            var params = EventParameters()
-            params.addProductParams(product)
-            params[.ShareNetwork] = network.rawValue
-            params[.ButtonPosition] = buttonPosition.rawValue
-            params[.TypePage] = typePage.rawValue
-            return TrackerEvent(name: .ProductShare, params: params)
+    static func productShare(product: Product, network: EventParameterShareNetwork?,
+                             buttonPosition: EventParameterButtonPosition,
+                             typePage: EventParameterTypePage) -> TrackerEvent {
+        var params = EventParameters()
+        params.addProductParams(product)
+
+        // When starting share if native then the network is considered as N/A
+        var actualNetwork = network ?? .NotAvailable
+        switch actualNetwork {
+        case .Native:
+            actualNetwork = .NotAvailable
+        case .Email, .Facebook, .Whatsapp, .Twitter, .FBMessenger, .Telegram, .SMS, .CopyLink, .NotAvailable:
+            break
+        }
+        params[.ShareNetwork] = actualNetwork.rawValue
+        params[.ButtonPosition] = buttonPosition.rawValue
+        params[.TypePage] = typePage.rawValue
+        return TrackerEvent(name: .ProductShare, params: params)
     }
 
     static func productShareCancel(product: Product, network: EventParameterShareNetwork,

@@ -1104,6 +1104,9 @@ extension ProductCarouselViewController: ProductViewModelDelegate {
         case .Native:
             viewModel.openShare(.Native, fromViewController: self, barButtonItem: navigationItem.rightBarButtonItems?.first)
         case .InPlace:
+            if let expandableButtonsView = expandableButtonsView where !expandableButtonsView.expanded.value {
+                viewModel.didOpenInPlaceShare()
+            }
             expandableButtonsView?.switchExpanded(animated: true)
         case .FullScreen:
             viewModel.openFullScreenShare()
