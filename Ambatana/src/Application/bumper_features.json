@@ -83,5 +83,10 @@
         "name": "CommercializerAfterPosting",
         "values": ["No", "Yes"],
         "description": "Commercializer after posting"
+    },
+    {
+        "name": "PostingMultiPictureEnabled",
+        "values": ["No", "Yes"],
+        "description": "Posting multi picture enabled"
     }
  ]

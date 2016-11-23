@@ -28,6 +28,7 @@ protocol FeatureFlaggeable {
     var keywordsTravelCollection: KeywordsTravelCollection { get }
     var freePostingModeAllowed: Bool { get }
     var commercializerAfterPosting: Bool { get }
+    var postingMultiPictureEnabled: Bool { get }
 }
 
 class FeatureFlags: FeatureFlaggeable {
@@ -168,6 +169,13 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.commercializerAfterPosting
         }
         return ABTests.commercializerAfterPosting.value
+    }
+
+    var postingMultiPictureEnabled: Bool {
+        if Bumper.enabled {
+            return Bumper.postingMultiPictureEnabled
+        }
+        return ABTests.postingMultiPictureEnabled.value
     }
 
 

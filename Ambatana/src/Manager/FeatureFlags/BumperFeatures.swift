@@ -12,7 +12,7 @@ import bumper
 
 extension Bumper  {
     static func initialize() {
-        Bumper.initialize([WebsocketChat.self, NotificationsSection.self, UserReviews.self, ShowNPSSurvey.self, MessageOnFavoriteRound2Mode.self, InterestedUsersMode.self, FiltersReorder.self, DirectPostInOnboarding.self, ShareButtonWithIcon.self, ProductDetailShareMode.self, PeriscopeChat.self, ChatHeadBubbles.self, SaveMailLogout.self, ExpressChatBanner.self, ShowLiquidProductsToNewUser.self, KeywordsTravelCollection.self, CommercializerAfterPosting.self])
+        Bumper.initialize([WebsocketChat.self, NotificationsSection.self, UserReviews.self, ShowNPSSurvey.self, MessageOnFavoriteRound2Mode.self, InterestedUsersMode.self, FiltersReorder.self, DirectPostInOnboarding.self, ShareButtonWithIcon.self, ProductDetailShareMode.self, PeriscopeChat.self, ChatHeadBubbles.self, SaveMailLogout.self, ExpressChatBanner.self, ShowLiquidProductsToNewUser.self, KeywordsTravelCollection.self, CommercializerAfterPosting.self, PostingMultiPictureEnabled.self])
     } 
 
     static var websocketChat: Bool {
@@ -98,6 +98,11 @@ extension Bumper  {
     static var commercializerAfterPosting: Bool {
         guard let value = Bumper.valueForKey(CommercializerAfterPosting.key) else { return false }
         return CommercializerAfterPosting(rawValue: value)?.asBool ?? false
+    }
+
+    static var postingMultiPictureEnabled: Bool {
+        guard let value = Bumper.valueForKey(PostingMultiPictureEnabled.key) else { return false }
+        return PostingMultiPictureEnabled(rawValue: value)?.asBool ?? false
     } 
 }
 
@@ -279,6 +284,15 @@ enum CommercializerAfterPosting: String, BumperFeature  {
     static var enumValues: [CommercializerAfterPosting] { return [.No, .Yes]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Commercializer after posting" } 
+    var asBool: Bool { return self == .Yes }
+}
+
+enum PostingMultiPictureEnabled: String, BumperFeature  {
+    case No, Yes
+    static var defaultValue: String { return PostingMultiPictureEnabled.No.rawValue }
+    static var enumValues: [PostingMultiPictureEnabled] { return [.No, .Yes]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Posting multi picture enabled" } 
     var asBool: Bool { return self == .Yes }
 }
 

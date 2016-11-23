@@ -29,4 +29,5 @@ class MockFeatureFlags: FeatureFlaggeable {
     var keywordsTravelCollection: KeywordsTravelCollection = .Standard
     var freePostingModeAllowed: Bool = true
     var commercializerAfterPosting: Bool = true
+    var postingMultiPictureEnabled: Bool = true
 }
