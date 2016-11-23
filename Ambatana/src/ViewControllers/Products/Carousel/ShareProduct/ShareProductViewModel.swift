@@ -12,6 +12,7 @@ import LGCoreKit
 
 protocol ShareProductViewModelDelegate: BaseViewModelDelegate {
     func vmViewControllerToShare() -> UIViewController
+    func viewControllerShouldClose()
 }
 
 
@@ -56,7 +57,11 @@ class ShareProductViewModel: BaseViewModel {
     }
     
     func closeActionPressed() {
-        navigator?.closeShareProduct(product)
+        if let navigator = navigator {
+            navigator.closeShareProduct(product)
+        } else {
+            delegate?.viewControllerShouldClose()
+        }
     }
 }
 
