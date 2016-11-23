@@ -81,7 +81,7 @@ class ProductPostedViewController: BaseViewController, ProductPostedViewModelDel
     // MARK: - IBActions
 
     @IBAction func onCloseButton(sender: AnyObject) {
-        viewModel.closeActionPressed()
+        viewModel.closeActionPressedForSharing()
     }
 
     @IBAction func onMainButton(sender: AnyObject) {

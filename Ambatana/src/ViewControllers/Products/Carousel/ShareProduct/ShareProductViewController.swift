@@ -57,7 +57,7 @@ class ShareProductViewController: BaseViewController {
     // MARK: - Public Methods
 
     @IBAction func closeButtonPressed(sender: AnyObject) {
-        dismissViewControllerAnimated(true, completion: nil)
+        viewModel.closeActionPressed()
     }
 
     @IBAction func copyButtonPressed(sender: AnyObject) {

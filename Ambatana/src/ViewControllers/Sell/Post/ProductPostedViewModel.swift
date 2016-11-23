@@ -164,6 +164,15 @@ class ProductPostedViewModel: BaseViewModel {
             navigator?.cancelProductPosted()
         }
     }
+    
+    func closeActionPressedForSharing() {
+        guard let product = status.product,
+            let socialMessage = socialMessage else {
+            closeActionPressed()
+            return
+        }
+        navigator?.closeProductPostedAndOpenShare(product, socialMessage: socialMessage)
+    }
 
     func editActionPressed() {
         guard let product = status.product else { return }
