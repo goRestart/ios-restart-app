@@ -12,7 +12,6 @@ import RxCocoa
 
 
 protocol RelatedProductsViewDelegate: class {
-    func relatedProductsViewDidShow(view: RelatedProductsView)
     func relatedProductsView(view: RelatedProductsView, showProduct product: Product, atIndex index: Int,
                              productListModels: [ProductCellModel], requester: ProductListRequester,
                              thumbnailImage: UIImage?, originFrame: CGRect?)
