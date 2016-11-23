@@ -8,21 +8,36 @@
 
 import UIKit
 
-class FloatingButton: UIView {
-    private static let height: CGFloat = 50
-    private let containerView: UIView
-    let sellButton: UIButton
+public enum FloatingIconPosition {
+    case Left
+    case Right
+}
 
-    var sellCompletion: (() -> ())?
+class FloatingButton: UIView {
+    private static let titleIconSpacing: CGFloat = 10
+    private static let sideMargin: CGFloat = 20
+    
+    private let containerView: UIView
+    private let icon: UIImageView
+    private let iconPosition: FloatingIconPosition
+    private let label: UILabel
+    private let button: UIButton
+
+    var buttonTouchBlock: (() -> ())?
 
     // MARK: - Lifecycle
-
-    override init(frame: CGRect) {
-        self.containerView = UIView()
-        self.sellButton = UIButton(type: .Custom)
-
-        super.init(frame: frame)
-
+    
+    init(with title: String, image: UIImage?, position: FloatingIconPosition) {
+        containerView = UIView()
+        icon = UIImageView(frame: CGRectZero)
+        icon.image = image
+        iconPosition = position
+        label = UILabel()
+        label.text = title
+        button = UIButton(type: .Custom)
+        
+        super.init(frame: CGRectZero)
+        
         setupConstraints()
         setupUI()
     }
@@ -35,56 +50,61 @@ class FloatingButton: UIView {
         super.layoutSubviews()
         containerView.layer.cornerRadius = height / 2
     }
+    
+    override func intrinsicContentSize() -> CGSize {
+        return CGSize(width: UIViewNoIntrinsicMetric, height: LGUIKitConstants.tabBarSellFloatingButtonHeight)
+    }
+    
+    // MARK: - Setters
 
+    func setIcon(with image: UIImage?) {
+        icon.image = image
+    }
+    
+    func setTitle(with string: String) {
+        label.text = string
+    }
 
     // MARK: - Private methods
 
     private func setupConstraints() {
         containerView.translatesAutoresizingMaskIntoConstraints = false
+        button.translatesAutoresizingMaskIntoConstraints = false
+        icon.translatesAutoresizingMaskIntoConstraints = false
+        label.translatesAutoresizingMaskIntoConstraints = false
+        
         addSubview(containerView)
-        sellButton.translatesAutoresizingMaskIntoConstraints = false
-        containerView.addSubview(sellButton)
+        containerView.addSubview(button)
+        containerView.addSubview(icon)
+        containerView.addSubview(label)
+    
+        let views = ["c": containerView, "b": button, "l": label, "i": icon]
+        addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[c]|", options: [], metrics: nil, views: views))
+        addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[c]|", options: [], metrics: nil, views: views))
+        containerView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[b]|", options: [], metrics: nil, views: views))
+        containerView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[l]|", options: [], metrics: nil, views: views))
+        containerView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[i]|", options: [], metrics: nil, views: views))
+        containerView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[b]|", options: [], metrics: nil, views: views))
 
-        let containerViews: [String: AnyObject] = ["c": containerView]
-        addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-0-[c]-0-|", options: [],
-                                                                      metrics: nil, views: containerViews))
-        addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-0-[c]-0-|", options: [],
-                                                                      metrics: nil, views: containerViews))
-
-        let metrics: [String: AnyObject] = ["h": FloatingButton.height]
-        let views: [String: AnyObject] = ["sb": sellButton]
-        containerView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-0-[sb(h)]-0-|", options: [],
-                                                                                    metrics: metrics, views: views))
-
-        let hConstraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|-0-[sb]-0-|", options: [],
-                                                                          metrics: nil, views: views)
-        containerView.addConstraints(hConstraints)
+        let leftView = iconPosition == .Left ? "i" : "l"
+        let rightView = iconPosition == .Left ? "l" : "i"
+        let metrics = ["spacing": FloatingButton.titleIconSpacing, "margin": FloatingButton.sideMargin]
+        containerView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-margin-[\(leftView)]-spacing-[\(rightView)]-margin-|",
+            options: [], metrics: metrics, views: views))
     }
 
     private func setupUI() {
         applyFloatingButtonShadow()
         containerView.clipsToBounds = true
 
-        let titleIconSpacing: CGFloat = 10
-        let extraPadding: CGFloat = 6
-        sellButton.setTitle(LGLocalizedString.tabBarToolTip, forState: .Normal)
-        let sellButtonImage = UIImage(named: "ic_sell_white")
-        sellButton.setImage(sellButtonImage, forState: .Normal)
-        sellButton.setImage(sellButtonImage, forState: .Highlighted)
-        sellButton.titleLabel?.font = UIFont.bigButtonFont
-        sellButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: titleIconSpacing, bottom: 0, right: -titleIconSpacing)
-        sellButton.contentEdgeInsets = UIEdgeInsets(top: 0, left: 2*extraPadding, bottom: 0, right: 2*extraPadding+titleIconSpacing)
-        sellButton.setTitleColor(UIColor.white, forState: .Normal)
-        sellButton.setBackgroundImage(UIColor.primaryColor.imageWithSize(CGSize(width: 1, height: 1)),
-                                      forState: .Normal)
-        sellButton.setBackgroundImage(UIColor.primaryColorHighlighted.imageWithSize(CGSize(width: 1, height: 1)),
-                                      forState: .Highlighted)
-        sellButton.setBackgroundImage(UIColor.primaryColorDisabled.imageWithSize(CGSize(width: 1, height: 1)),
-                                      forState: .Disabled)
-        sellButton.addTarget(self, action: #selector(runSellCompletion), forControlEvents: .TouchUpInside)
+        icon.contentMode = .ScaleAspectFit
+        label.font = UIFont.bigButtonFont
+        label.textColor = UIColor.white
+        button.setStyle(.Primary(fontSize: .Big)) // just for backgrounds
+        button.addTarget(self, action: #selector(didPressButton), forControlEvents: .TouchUpInside)
     }
 
-    private dynamic func runSellCompletion() {
-        sellCompletion?()
+    private dynamic func didPressButton() {
+        buttonTouchBlock?()
     }
 }
