@@ -83,5 +83,10 @@
         "name": "CommercializerAfterPosting",
         "values": ["No", "Yes"],
         "description": "Commercializer after posting"
+    },
+    {
+        "name": "RelatedProductsOnMoreInfo",
+        "values": ["No", "Yes"],
+        "description": "Related Products on More Info"
     }
  ]
