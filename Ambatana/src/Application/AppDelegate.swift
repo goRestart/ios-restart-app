@@ -251,12 +251,11 @@ private extension AppDelegate {
         // New Relic
         #if GOD_MODE
             NewRelicAgent.startWithApplicationToken(Constants.newRelicGodModeToken)
-            NewRelicAgent.addSessionAttributes()
         #else
             NewRelicAgent.startWithApplicationToken(Constants.newRelicProductionToken)
-            NewRelicAgent.addSessionAttributes()
         #endif
-
+        NewRelicAgent.addSessionAttributes()
+        
         // Fabric
         Twitter.sharedInstance().startWithConsumerKey(EnvironmentProxy.sharedInstance.twitterConsumerKey,
                                                       consumerSecret: EnvironmentProxy.sharedInstance.twitterConsumerSecret)

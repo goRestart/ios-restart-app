@@ -17,9 +17,16 @@ extension NewRelicAgent {
         case Guest = "guest"
     }
     
+    enum SessionAttributes: String {
+        case SessionType = "session_type"
+        case SessionSubjectId = "session_subject_id"
+    }
+    
     static func addSessionAttributes() {
+        
         var sessionType: String = SessionType.Guest.rawValue
         var sessionId: String?
+        
         if let userId = Core.myUserRepository.myUser?.objectId {
             sessionType =  SessionType.User.rawValue
             sessionId = userId
@@ -27,7 +34,7 @@ extension NewRelicAgent {
             sessionType = SessionType.App.rawValue
             sessionId = installationId
         }
-        NewRelic.setAttribute("session_type", value: sessionType)
-        NewRelic.setAttribute("session_subject_id", value: sessionId)
+        NewRelic.setAttribute(SessionAttributes.SessionType.rawValue, value: sessionType)
+        NewRelic.setAttribute(SessionAttributes.SessionSubjectId.rawValue, value: sessionId)
     }
 }
