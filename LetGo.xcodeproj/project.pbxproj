@@ -1082,6 +1082,8 @@
 		C7F22D861DB7A55C00353803 /* RecaptchaViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F22D841DB7A55C00353803 /* RecaptchaViewModel.swift */; };
 		C7F2E1F21CBFF53F00744D7B /* AppsFlyerDeepLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F2E1F11CBFF53F00744D7B /* AppsFlyerDeepLink.swift */; };
 		C7F2E1F31CBFF53F00744D7B /* AppsFlyerDeepLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F2E1F11CBFF53F00744D7B /* AppsFlyerDeepLink.swift */; };
+		C7F3F1E11DE5A95F00652447 /* ChatRelatedProductsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F3F1E01DE5A95F00652447 /* ChatRelatedProductsView.swift */; };
+		C7F3F1E21DE5A95F00652447 /* ChatRelatedProductsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F3F1E01DE5A95F00652447 /* ChatRelatedProductsView.swift */; };
 		C7F4CBA31C9181A5008E40D6 /* PostProductCameraViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F4CBA21C9181A5008E40D6 /* PostProductCameraViewModel.swift */; };
 		C7F4CBA41C9181A5008E40D6 /* PostProductCameraViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F4CBA21C9181A5008E40D6 /* PostProductCameraViewModel.swift */; };
 		C7F4CBA61C92CC5A008E40D6 /* LGViewPagerPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F4CBA51C92CC5A008E40D6 /* LGViewPagerPage.swift */; };
@@ -1734,6 +1736,7 @@
 		C7F22D7F1DB7A3A200353803 /* RecaptchaViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RecaptchaViewController.xib; sourceTree = "<group>"; };
 		C7F22D841DB7A55C00353803 /* RecaptchaViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecaptchaViewModel.swift; sourceTree = "<group>"; };
 		C7F2E1F11CBFF53F00744D7B /* AppsFlyerDeepLink.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppsFlyerDeepLink.swift; sourceTree = "<group>"; };
+		C7F3F1E01DE5A95F00652447 /* ChatRelatedProductsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatRelatedProductsView.swift; sourceTree = "<group>"; };
 		C7F4CBA21C9181A5008E40D6 /* PostProductCameraViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostProductCameraViewModel.swift; sourceTree = "<group>"; };
 		C7F4CBA51C92CC5A008E40D6 /* LGViewPagerPage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGViewPagerPage.swift; sourceTree = "<group>"; };
 		C7F6F7501CB5081F000147F9 /* CommercialShareViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CommercialShareViewController.swift; path = Commercializer/CommercialShareViewController.swift; sourceTree = "<group>"; };
@@ -3189,6 +3192,7 @@
 				C7B588101CE1DE1C009B3975 /* ChatViewController.swift */,
 				C7B588111CE1DE1C009B3975 /* ChatViewModel.swift */,
 				6AF75D061CF449AF00EACCF0 /* ChatViewMessage.swift */,
+				C7F3F1E01DE5A95F00652447 /* ChatRelatedProductsView.swift */,
 				6AF75D091CF457D800EACCF0 /* ChatViewMessageAdapter.swift */,
 				C7B5881A1CE1DE1C009B3975 /* OldChatViewController.swift */,
 				C7B5881B1CE1DE1C009B3975 /* OldChatViewModel.swift */,
@@ -4543,6 +4547,7 @@
 				6A672C161CCFB76E00AB9175 /* UIFont+LG.swift in Sources */,
 				C74016DF1D6468A7004C1E9D /* PostProductDetailViewModel.swift in Sources */,
 				2E245C5E1C11A88B00A3969B /* PushPermissionsManager.swift in Sources */,
+				C7F3F1E11DE5A95F00652447 /* ChatRelatedProductsView.swift in Sources */,
 				C727943C1D549342009C25AB /* ChangeUsernameViewController.swift in Sources */,
 				C7740DF41DC386EC00988036 /* ProductSoldNotificationCellDrawer.swift in Sources */,
 				C7111EFC1CA43885000C5C5A /* DeepLink.swift in Sources */,
@@ -4945,6 +4950,7 @@
 				C74016E01D6468A7004C1E9D /* PostProductDetailViewModel.swift in Sources */,
 				C727943D1D549342009C25AB /* ChangeUsernameViewController.swift in Sources */,
 				6A672C171CCFB76E00AB9175 /* UIFont+LG.swift in Sources */,
+				C7F3F1E21DE5A95F00652447 /* ChatRelatedProductsView.swift in Sources */,
 				507F1BFC1C89DDF9001F0A95 /* PostalAddress+String.swift in Sources */,
 				C7740DF51DC386EC00988036 /* ProductSoldNotificationCellDrawer.swift in Sources */,
 				6A5E19DD1D548F5400F92692 /* ExternalServiceAuthResult.swift in Sources */,

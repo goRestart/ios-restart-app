@@ -29,7 +29,7 @@ class OldChatViewController: SLKTextViewController {
     var activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
     var relationInfoView = RelationInfoView.relationInfoView()   // informs if the user is blocked, or the product sold or inactive
     var directAnswersPresenter: DirectAnswersPresenter
-    let relatedProductsView: RelatedProductsView
+    let relatedProductsView: ChatRelatedProductsView
     let keyboardHelper: KeyboardHelper
     let disposeBag = DisposeBag()
 
@@ -49,7 +49,7 @@ class OldChatViewController: SLKTextViewController {
         self.viewModel = viewModel
         self.productView = ChatProductView.chatProductView(featureFlags.userReviews)
         self.directAnswersPresenter = DirectAnswersPresenter(websocketChatActive: featureFlags.websocketChat)
-        self.relatedProductsView = RelatedProductsView()
+        self.relatedProductsView = ChatRelatedProductsView()
         self.stickersView = ChatStickersView()
         self.stickersCloseButton = UIButton(frame: CGRect.zero)
         self.expressChatBanner = ChatBanner()
