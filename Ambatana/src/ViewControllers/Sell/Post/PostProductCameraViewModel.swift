@@ -47,16 +47,19 @@ class PostProductCameraViewModel: BaseViewModel {
     let sourcePosting: PostingSource
     private var firstTimeAlertTimer: NSTimer?
 
+    private let featureFlags: FeatureFlaggeable
+    
     private var skipCustomPermissions: Bool {
-        return sourcePosting == .OnboardingCamera && FeatureFlags.directPostInOnboarding
+        return sourcePosting == .OnboardingCamera && featureFlags.directPostInOnboarding
     }
 
     // MARK: - Lifecycle
 
 
-    init(postingSource: PostingSource, keyValueStorage: KeyValueStorage) {
+    init(postingSource: PostingSource, keyValueStorage: KeyValueStorage, featureFlags: FeatureFlaggeable) {
         self.keyValueStorage = keyValueStorage
         self.sourcePosting = postingSource
+        self.featureFlags = featureFlags
         super.init()
         setupFirstShownLiterals()
         setupRX()
@@ -64,7 +67,8 @@ class PostProductCameraViewModel: BaseViewModel {
 
     convenience init(postingSource: PostingSource) {
         let keyValueStorage = KeyValueStorage.sharedInstance
-        self.init(postingSource: postingSource, keyValueStorage: keyValueStorage)
+        let featureFlags = FeatureFlags.sharedInstance
+        self.init(postingSource: postingSource, keyValueStorage: keyValueStorage, featureFlags: featureFlags)
     }
 
     override func didBecomeActive(firstTime: Bool) {
@@ -179,9 +183,9 @@ class PostProductCameraViewModel: BaseViewModel {
     }
     
     private func setupFirstShownLiterals() {
-        firstTimeTitle = FeatureFlags.directPostInOnboarding ? LGLocalizedString.onboardingDirectCameraAlertTitle :
+        firstTimeTitle = featureFlags.directPostInOnboarding ? LGLocalizedString.onboardingDirectCameraAlertTitle :
             LGLocalizedString.productPostCameraFirstTimeAlertTitle
-        firstTimeSubtitle = FeatureFlags.directPostInOnboarding ? LGLocalizedString.onboardingDirectCameraAlertSubtitle :
+        firstTimeSubtitle = featureFlags.directPostInOnboarding ? LGLocalizedString.onboardingDirectCameraAlertSubtitle :
             LGLocalizedString.productPostCameraFirstTimeAlertSubtitle
     }
 

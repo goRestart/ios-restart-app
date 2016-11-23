@@ -29,11 +29,11 @@ final class AppCoordinator: NSObject {
     private let sessionManager: SessionManager
     private let chatHeadManager: ChatHeadManager
     private let keyValueStorage: KeyValueStorage
+
     private let pushPermissionsManager: PushPermissionsManager
     private let ratingManager: RatingManager
     private let bubbleNotifManager: BubbleNotificationManager
     private let tracker: Tracker
-
     private let deepLinksRouter: DeepLinksRouter
 
     private let productRepository: ProductRepository
@@ -43,6 +43,7 @@ final class AppCoordinator: NSObject {
     private let chatRepository: ChatRepository
     private let commercializerRepository: CommercializerRepository
     private let userRatingRepository: UserRatingRepository
+    private let featureFlags: FeatureFlaggeable
     private let locationManager: LocationManager
 
     weak var delegate: AppNavigatorDelegate?
@@ -73,6 +74,7 @@ final class AppCoordinator: NSObject {
         let chatRepository = Core.chatRepository
         let commercializerRepository = Core.commercializerRepository
         let userRatingRepository = Core.userRatingRepository
+        let featureFlags = FeatureFlags.sharedInstance
         let locationManager = Core.locationManager
 
         self.init(tabBarController: tabBarController, chatHeadOverlay: chatHeadOverlay, configManager: configManager,
@@ -82,7 +84,7 @@ final class AppCoordinator: NSObject {
                   productRepository: productRepository, userRepository: userRepository, myUserRepository: myUserRepository,
                   oldChatRepository: oldChatRepository, chatRepository: chatRepository,
                   commercializerRepository: commercializerRepository, userRatingRepository: userRatingRepository,
-                  locationManager: locationManager)
+                  locationManager: locationManager, featureFlags: featureFlags)
         tabBarViewModel.navigator = self
     }
 
@@ -92,14 +94,14 @@ final class AppCoordinator: NSObject {
          bubbleManager: BubbleNotificationManager, tracker: Tracker, productRepository: ProductRepository,
          userRepository: UserRepository, myUserRepository: MyUserRepository, oldChatRepository: OldChatRepository,
          chatRepository: ChatRepository, commercializerRepository: CommercializerRepository,
-         userRatingRepository: UserRatingRepository, locationManager: LocationManager) {
+         userRatingRepository: UserRatingRepository, locationManager: LocationManager, featureFlags: FeatureFlaggeable) {
 
         self.tabBarCtl = tabBarController
         self.selectedTab = Variable<Tab>(.Home)
         self.chatHeadOverlay = chatHeadOverlay
         
         self.mainTabBarCoordinator = MainTabCoordinator()
-        self.secondTabBarCoordinator = FeatureFlags.notificationsSection ? NotificationsTabCoordinator() :
+        self.secondTabBarCoordinator = featureFlags.notificationsSection ? NotificationsTabCoordinator() :
                                                                            CategoriesTabCoordinator()
         self.chatsTabBarCoordinator = ChatsTabCoordinator()
         self.profileTabBarCoordinator = ProfileTabCoordinator()
@@ -124,6 +126,9 @@ final class AppCoordinator: NSObject {
         self.chatRepository = chatRepository
         self.commercializerRepository = commercializerRepository
         self.userRatingRepository = userRatingRepository
+        
+        self.featureFlags = featureFlags
+        
         self.locationManager = locationManager
 
         super.init()
@@ -210,7 +215,7 @@ extension AppCoordinator: AppNavigator {
     }
     
     func openNPSSurvey() {
-        guard FeatureFlags.showNPSSurvey else { return }
+        guard featureFlags.showNPSSurvey else { return }
         delay(3) { [weak self] in
             let vc = NPSViewController(viewModel: NPSViewModel())
             self?.tabBarCtl.presentViewController(vc, animated: true, completion: nil)
@@ -574,7 +579,7 @@ private extension AppCoordinator {
         guard let vcs = tabBarCtl.viewControllers else { return nil }
         let vc = controller.navigationController ?? controller
         guard let index = vcs.indexOf(vc) else { return nil }
-        return Tab(index: index)
+        return Tab(index: index, featureFlags: featureFlags)
     }
 
     func topViewControllerInController(controller: UIViewController) -> UIViewController {
@@ -742,7 +747,7 @@ private extension AppCoordinator {
     }
 
     func openMyUserRatings() {
-        guard FeatureFlags.userReviews else { return }
+        guard featureFlags.userReviews else { return }
         guard let navCtl = selectedNavigationController else { return }
 
         guard let myUserId = myUserRepository.myUser?.objectId else { return }
@@ -753,7 +758,7 @@ private extension AppCoordinator {
     }
 
     func openUserRatingForUserFromRating(ratingId: String) {
-        guard FeatureFlags.userReviews else { return }
+        guard featureFlags.userReviews else { return }
         guard let navCtl = selectedNavigationController else { return }
 
         navCtl.showLoadingMessageAlert()
@@ -792,7 +797,7 @@ private extension AppCoordinator {
         }
 
         tracker.trackEvent(TrackerEvent.inappChatNotificationStart())
-        if FeatureFlags.websocketChat {
+        if featureFlags.websocketChat {
             chatRepository.showConversation(conversationId) { [weak self] result in
                 guard let conversation = result.value else { return }
                 let action = UIAction(interface: .Text(LGLocalizedString.appNotificationReply), action: { [weak self] in

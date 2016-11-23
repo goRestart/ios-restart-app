@@ -152,6 +152,8 @@ class ChatViewModel: BaseViewModel {
     private let tracker: Tracker
     private let configManager: ConfigManager
     private let sessionManager: SessionManager
+    private let featureFlags: FeatureFlaggeable
+    
     private let keyValueStorage: KeyValueStorage
 
 
@@ -192,12 +194,13 @@ class ChatViewModel: BaseViewModel {
         let stickersRepository = Core.stickersRepository
         let configManager = ConfigManager.sharedInstance
         let sessionManager = Core.sessionManager
+        let featureFlags = FeatureFlags.sharedInstance
         let keyValueStorage = KeyValueStorage.sharedInstance
 
         self.init(conversation: conversation, myUserRepository: myUserRepository, chatRepository: chatRepository,
                   productRepository: productRepository, userRepository: userRepository,
                   stickersRepository: stickersRepository, tracker: tracker, configManager: configManager,
-                  sessionManager: sessionManager, keyValueStorage: keyValueStorage, navigator: navigator)
+                  sessionManager: sessionManager, keyValueStorage: keyValueStorage, navigator: navigator, featureFlags: featureFlags)
     }
     
     convenience init?(product: Product, navigator: ChatDetailNavigator?) {
@@ -212,27 +215,28 @@ class ChatViewModel: BaseViewModel {
         let configManager = ConfigManager.sharedInstance
         let sessionManager = Core.sessionManager
         let keyValueStorage = KeyValueStorage.sharedInstance
-
+        let featureFlags = FeatureFlags.sharedInstance
         let amISelling = myUserRepository.myUser?.objectId == sellerId
         let empty = EmptyConversation(objectId: nil, unreadMessageCount: 0, lastMessageSentAt: nil, product: nil,
                                       interlocutor: nil, amISelling: amISelling)
         self.init(conversation: empty, myUserRepository: myUserRepository, chatRepository: chatRepository,
                   productRepository: productRepository, userRepository: userRepository,
                   stickersRepository: stickersRepository ,tracker: tracker, configManager: configManager,
-                  sessionManager: sessionManager, keyValueStorage: keyValueStorage, navigator: navigator)
+                  sessionManager: sessionManager, keyValueStorage: keyValueStorage, navigator: navigator, featureFlags: featureFlags)
         self.setupConversationFromProduct(product)
     }
     
     init(conversation: ChatConversation, myUserRepository: MyUserRepository, chatRepository: ChatRepository,
           productRepository: ProductRepository, userRepository: UserRepository, stickersRepository: StickersRepository,
           tracker: Tracker, configManager: ConfigManager, sessionManager: SessionManager, keyValueStorage: KeyValueStorage,
-          navigator: ChatDetailNavigator?) {
+          navigator: ChatDetailNavigator?, featureFlags: FeatureFlaggeable) {
         self.conversation = Variable<ChatConversation>(conversation)
         self.myUserRepository = myUserRepository
         self.chatRepository = chatRepository
         self.productRepository = productRepository
         self.userRepository = userRepository
         self.tracker = tracker
+        self.featureFlags = featureFlags
         self.configManager = configManager
         self.sessionManager = sessionManager
         self.keyValueStorage = keyValueStorage
@@ -403,7 +407,8 @@ class ChatViewModel: BaseViewModel {
             relatedProductsEnabled.asObservable(),
         expressMessagesAlreadySent.asObservable()) { $0 && $1 && !$2 && !$3 }
             .distinctUntilChanged().bindNext { [weak self] shouldShowBanner in
-                self?.shouldShowExpressBanner.value = shouldShowBanner && FeatureFlags.expressChatBanner
+                guard let strongSelf = self else { return }
+                self?.shouldShowExpressBanner.value = shouldShowBanner && strongSelf.featureFlags.expressChatBanner
         }.addDisposableTo(disposeBag)
 
         setupChatEventsRx()
@@ -1155,7 +1160,8 @@ extension ChatViewModel: DirectAnswersPresenterDelegate {
         let emptyAction: () -> Void = { [weak self] in
             self?.clearProductSoldDirectAnswer()
         }
-        if FeatureFlags.freePostingModeAllowed && productIsFree.value {
+        if featureFlags.freePostingModeAllowed && productIsFree.value {
+
             if !conversation.value.amISelling {
                 return [DirectAnswer(text: LGLocalizedString.directAnswerInterested, action: emptyAction),
                         DirectAnswer(text: LGLocalizedString.directAnswerFreeStillHave, action: emptyAction),

@@ -148,6 +148,7 @@ class FiltersViewModel: BaseViewModel {
 
     private var productFilter : ProductFilters
     
+    private let featureFlags: FeatureFlaggeable
     
     override convenience init() {
         self.init(currentFilters: ProductFilters())
@@ -156,17 +157,19 @@ class FiltersViewModel: BaseViewModel {
     convenience init(currentFilters: ProductFilters) {
         self.init(categoryRepository: Core.categoryRepository, categories: [],
             withinTimes: ProductTimeCriteria.allValues(), sortOptions: ProductSortCriteria.allValues(),
-            currentFilters: currentFilters)
+            currentFilters: currentFilters, featureFlags: FeatureFlags.sharedInstance)
     }
     
     required init(categoryRepository: CategoryRepository, categories: [FilterCategoryItem],
-                  withinTimes: [ProductTimeCriteria], sortOptions: [ProductSortCriteria], currentFilters: ProductFilters) {
+                  withinTimes: [ProductTimeCriteria], sortOptions: [ProductSortCriteria], currentFilters: ProductFilters,
+        featureFlags: FeatureFlaggeable) {
         self.categoryRepository = categoryRepository
         self.categories = categories
         self.withinTimes = withinTimes
         self.sortOptions = sortOptions
         self.productFilter = currentFilters
         self.sections = []
+        self.featureFlags = featureFlags
         super.init()
         self.sections = generateSections()
     }
@@ -174,7 +177,7 @@ class FiltersViewModel: BaseViewModel {
     // MARK: - Actions
 
     private func generateSections() -> [FilterSection] {
-        var updatedSections = FilterSection.allValues()
+        var updatedSections = FilterSection.allValues(featureFlags)
         guard let idx = updatedSections.indexOf(FilterSection.Price) where priceCellsDisabled else { return updatedSections }
         updatedSections.removeAtIndex(idx)
         return updatedSections
@@ -211,7 +214,7 @@ class FiltersViewModel: BaseViewModel {
                                                         sortBy: productFilter.selectedOrdering,
                                                         postedWithin: productFilter.selectedWithin,
                                                         priceRange: productFilter.priceRange,
-                                                        freePostingModeAllowed: FeatureFlags.freePostingModeAllowed)
+                                                        freePostingModeAllowed: featureFlags.freePostingModeAllowed)
         TrackerProxy.sharedInstance.trackEvent(trackingEvent)
         
         dataDelegate?.viewModelDidUpdateFilters(self, filters: productFilter)
@@ -232,7 +235,7 @@ class FiltersViewModel: BaseViewModel {
     }
 
     private func buildFilterCategoryItemsWithCategories(categories: [ProductCategory]) -> [FilterCategoryItem] {
-        let filterCatItems: [FilterCategoryItem] = FeatureFlags.freePostingModeAllowed ? [.Free] : []
+        let filterCatItems: [FilterCategoryItem] = featureFlags.freePostingModeAllowed ? [.Free] : []
         let builtCategories = categories.map { FilterCategoryItem(category: $0) }
         return filterCatItems + builtCategories
     }

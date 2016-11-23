@@ -20,10 +20,11 @@ final class ProfileTabCoordinator: TabCoordinator {
         let tracker = TrackerProxy.sharedInstance
         let viewModel = UserViewModel.myUserUserViewModel(.TabBar)
         let rootViewController = UserViewController(viewModel: viewModel)
+        let featureFlags = FeatureFlags.sharedInstance
         self.init(productRepository: productRepository, userRepository: userRepository,
                   chatRepository: chatRepository, oldChatRepository: oldChatRepository,
                   myUserRepository: myUserRepository, keyValueStorage: keyValueStorage, tracker: tracker,
-                  rootViewController: rootViewController)
+                  rootViewController: rootViewController, featureFlags: featureFlags)
 
         viewModel.profileNavigator = self
     }

@@ -104,7 +104,7 @@ class MainProductsViewModel: BaseViewModel {
         return [.You] + generalCollectionsShuffled
     }
     private let keyValueStorage: KeyValueStorageable
-    private let featureFlags: FeatureFlaggeable.Type
+    private let featureFlags: FeatureFlaggeable
     
     // > Delegate
     weak var delegate: MainProductsViewModelDelegate?
@@ -150,7 +150,8 @@ class MainProductsViewModel: BaseViewModel {
     init(sessionManager: SessionManager, myUserRepository: MyUserRepository, trendingSearchesRepository: TrendingSearchesRepository,
          locationManager: LocationManager, currencyHelper: CurrencyHelper, tracker: Tracker, searchType: SearchType? = nil,
          filters: ProductFilters, tabNavigator: TabNavigator?, keyValueStorage: KeyValueStorageable,
-         featureFlags: FeatureFlaggeable.Type) {
+         featureFlags: FeatureFlaggeable) {
+        
         self.sessionManager = sessionManager
         self.myUserRepository = myUserRepository
         self.trendingSearchesRepository = trendingSearchesRepository
@@ -188,8 +189,8 @@ class MainProductsViewModel: BaseViewModel {
         let currencyHelper = Core.currencyHelper
         let tracker = TrackerProxy.sharedInstance
         let keyValueStorage = KeyValueStorage.sharedInstance
-        let featureFlags = FeatureFlags.self
-        self.init(sessionManager: sessionManager, myUserRepository: myUserRepository, trendingSearchesRepository: trendingSearchesRepository,
+        let featureFlags = FeatureFlags.sharedInstance
+        self.init(sessionManager: sessionManager,myUserRepository: myUserRepository, trendingSearchesRepository: trendingSearchesRepository,
                   locationManager: locationManager, currencyHelper: currencyHelper, tracker: tracker, searchType: searchType,
                   filters: filters, tabNavigator: tabNavigator, keyValueStorage: keyValueStorage, featureFlags: featureFlags)
     }
@@ -708,7 +709,7 @@ private extension MainProductsViewModel {
         case .You:
             query = keyValueStorage[.lastSearches].reverse().joinWithSeparator(" ")
         case .Transport:
-            switch FeatureFlags.keywordsTravelCollection {
+            switch featureFlags.keywordsTravelCollection {
             case .Standard:
                 query = "bike boat motorcycle car kayak trailer atv truck jeep rims camper cart scooter dirtbike jetski gokart four wheeler bicycle quad bike tractor bmw wheels canoe hoverboard Toyota bmx rv Chevy sub ford paddle Harley yamaha Jeep Honda mustang corvette dodge"
             case .CarsPrior:
