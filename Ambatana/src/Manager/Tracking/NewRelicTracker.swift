@@ -25,18 +25,6 @@ final class NewRelicTracker: Tracker {
     // MARK: - Tracker
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) {
-        var sessionType: String = NewRelicTracker.guestSessionType
-        var sessionId: String?
-        
-        if let userId = Core.myUserRepository.myUser?.objectId {
-            sessionType =  NewRelicTracker.UserSessionType
-            sessionId = userId
-        } else if let installationId = Core.installationRepository.installation?.objectId {
-            sessionType = NewRelicTracker.appSessionType
-            sessionId = installationId
-        }
-        NewRelic.setAttribute(NewRelicTracker.sessionType, value: sessionType)
-        NewRelic.setAttribute(NewRelicTracker.sessionSubjectId, value: sessionId)
     }
     
     func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?) {
