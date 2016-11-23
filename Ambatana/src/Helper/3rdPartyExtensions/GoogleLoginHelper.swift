@@ -1,3 +1,4 @@
+
 //
 //  GoogleLoginHelper.swift
 //  LetGo
@@ -9,34 +10,28 @@
 import Foundation
 import LGCoreKit
 
-typealias GoogleLoginCompletion = ((result: ExternalServiceAuthResult) -> ())?
+class GoogleLoginHelper: NSObject {
+    private var googleSignInCompletion: ExternalAuthTokenRetrievalCompletion?
+    private let sessionManager: SessionManager
+    
+    
+    // MARK: - Lifecycle
 
-enum GoogleSignInResult {
-    case Success(serverAuthCode: String), Cancelled, Error(error: NSError?)
+    convenience override init() {
+        let sessionManager = Core.sessionManager
+        self.init(sessionManager: sessionManager)
+    }
+    
+    init(sessionManager: SessionManager) {
+        self.sessionManager = sessionManager
+    }
 }
 
-class GoogleLoginHelper: NSObject, GIDSignInDelegate {
 
-    private var googleSignInCompletion: ((result: GoogleSignInResult) -> ())?
-    private var tracker: Tracker
-    private var loginSource: EventParameterLoginSourceValue
-    private var sessionManager: SessionManager
-    
-    
-    // MARK: - Inits
-    
-    convenience init(loginSource: EventParameterLoginSourceValue) {
-        let tracker = TrackerProxy.sharedInstance
-        self.init(tracker: tracker, loginSource: loginSource)
-    }
-    
-    init(tracker: Tracker, loginSource: EventParameterLoginSourceValue) {
-        self.tracker = tracker
-        self.loginSource = loginSource
-        self.sessionManager = Core.sessionManager
-    }
+// MARK: - Public methods
 
-    func googleSignIn(googleSignInCompletion: (result: GoogleSignInResult) -> Void) {
+extension GoogleLoginHelper {
+    func googleSignIn(googleSignInCompletion: ExternalAuthTokenRetrievalCompletion) {
         self.googleSignInCompletion = googleSignInCompletion
         GIDSignIn.sharedInstance().delegate = self
         GIDSignIn.sharedInstance().signOut()
@@ -46,45 +41,47 @@ class GoogleLoginHelper: NSObject, GIDSignInDelegate {
         GIDSignIn.sharedInstance().clientID = EnvironmentProxy.sharedInstance.googleClientID
         GIDSignIn.sharedInstance().signIn()
     }
+}
 
-    func login(authCompletion: (() -> Void)?, loginCompletion: GoogleLoginCompletion) {
-        googleSignIn { [weak self] result in
-                switch result {
-                case let .Success(serverAuthCode):
-                    authCompletion?()
-                    self?.sessionManager.loginGoogle(serverAuthCode) { [weak self] result in
-                        if let _ = result.value {
-                            if let loginSource = self?.loginSource {
-                                let trackerEvent = TrackerEvent.loginGoogle(loginSource)
-                                self?.tracker.trackEvent(trackerEvent)
-                            }
-                            loginCompletion?(result: .Success)
-                        } else if let error = result.error {
-                            loginCompletion?(result: ExternalServiceAuthResult(sessionError: error))
-                        }
-                    }
-                case .Cancelled:
-                    loginCompletion?(result: .Cancelled)
-                case .Error:
-                    loginCompletion?(result: .Internal(description: "Google SDK error"))
-                }
-        }
-    }
-    
-    
-    // MARK: GIDSignInDelegate
-    
+
+// MARK: - GIDSignInDelegate
+
+extension GoogleLoginHelper: GIDSignInDelegate {
     @objc func signIn(signIn: GIDSignIn!, didDisconnectWithUser user: GIDGoogleUser!, withError error: NSError!) {
-        // Need to be implemented by the protocol
+        // Needs to be implemented by the protocol
     }
-    
+
     @objc func signIn(signIn: GIDSignIn!, didSignInForUser user: GIDGoogleUser!, withError error: NSError!) {
         if let serverAuthCode = user?.serverAuthCode {
-            googleSignInCompletion?(result: .Success(serverAuthCode:serverAuthCode))
+            googleSignInCompletion?(.Success(serverAuthCode:serverAuthCode))
         } else if let loginError = error where loginError.code == -5 {
-            googleSignInCompletion?(result: .Cancelled)
+            googleSignInCompletion?(.Cancelled)
         } else {
-            googleSignInCompletion?(result: .Error(error: error))
+            googleSignInCompletion?(.Error(error: error))
+        }
+    }
+}
+
+// MARK: - ExternalAuthHelper
+
+extension GoogleLoginHelper: ExternalAuthHelper {
+    func login(authCompletion: (() -> Void)?, loginCompletion: ExternalAuthLoginCompletion?) {
+        googleSignIn { [weak self] result in
+            switch result {
+            case let .Success(serverAuthCode):
+                authCompletion?()
+                self?.sessionManager.loginGoogle(serverAuthCode) { result in
+                    if let myUser = result.value {
+                        loginCompletion?(.Success(myUser: myUser))
+                    } else if let error = result.error {
+                        loginCompletion?(ExternalServiceAuthResult(sessionError: error))
+                    }
+                }
+            case .Cancelled:
+                loginCompletion?(.Cancelled)
+            case .Error:
+                loginCompletion?(.Internal(description: "Google SDK error"))
+            }
         }
     }
 }

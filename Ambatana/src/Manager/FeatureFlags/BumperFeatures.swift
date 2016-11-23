@@ -12,9 +12,9 @@ import bumper
 
 extension Bumper  {
     static func initialize() {
-        Bumper.initialize([WebsocketChat.self, NotificationsSection.self, UserReviews.self, ShowNPSSurvey.self, MessageOnFavoriteRound2Mode.self, InterestedUsersMode.self, FiltersReorder.self, DirectPostInOnboarding.self, ShareButtonWithIcon.self, ProductDetailShareMode.self, PeriscopeChat.self, ChatHeadBubbles.self, ExpressChatBanner.self, ShowLiquidProductsToNewUser.self, KeywordsTravelCollection.self])
+        Bumper.initialize([WebsocketChat.self, NotificationsSection.self, UserReviews.self, ShowNPSSurvey.self, MessageOnFavoriteRound2Mode.self, InterestedUsersMode.self, FiltersReorder.self, DirectPostInOnboarding.self, ShareButtonWithIcon.self, ProductDetailShareMode.self, PeriscopeChat.self, ChatHeadBubbles.self, SaveMailLogout.self, ExpressChatBanner.self, ShowLiquidProductsToNewUser.self, KeywordsTravelCollection.self, CommercializerAfterPosting.self])
     } 
-	
+
     static var websocketChat: Bool {
         guard let value = Bumper.valueForKey(WebsocketChat.key) else { return false }
         return WebsocketChat(rawValue: value)?.asBool ?? false
@@ -75,6 +75,11 @@ extension Bumper  {
         return ChatHeadBubbles(rawValue: value)?.asBool ?? false
     }
 
+    static var saveMailLogout: Bool {
+        guard let value = Bumper.valueForKey(SaveMailLogout.key) else { return false }
+        return SaveMailLogout(rawValue: value)?.asBool ?? false
+    }
+
     static var expressChatBanner: Bool {
         guard let value = Bumper.valueForKey(ExpressChatBanner.key) else { return false }
         return ExpressChatBanner(rawValue: value)?.asBool ?? false
@@ -88,6 +93,11 @@ extension Bumper  {
     static var keywordsTravelCollection: KeywordsTravelCollection {
         guard let value = Bumper.valueForKey(KeywordsTravelCollection.key) else { return .Standard }
         return KeywordsTravelCollection(rawValue: value) ?? .Standard 
+    }
+
+    static var commercializerAfterPosting: Bool {
+        guard let value = Bumper.valueForKey(CommercializerAfterPosting.key) else { return false }
+        return CommercializerAfterPosting(rawValue: value)?.asBool ?? false
     } 
 }
 
@@ -220,6 +230,15 @@ enum ChatHeadBubbles: String, BumperFeature  {
     var asBool: Bool { return self == .Yes }
 }
 
+enum SaveMailLogout: String, BumperFeature  {
+    case No, Yes
+    static var defaultValue: String { return SaveMailLogout.No.rawValue }
+    static var enumValues: [SaveMailLogout] { return [.No, .Yes]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Remembers email or FB/Google username on logout" } 
+    var asBool: Bool { return self == .Yes }
+}
+
 enum ExpressChatBanner: String, BumperFeature  {
     case No, Yes
     static var defaultValue: String { return ExpressChatBanner.No.rawValue }
@@ -252,5 +271,14 @@ enum KeywordsTravelCollection: String, BumperFeature  {
             default: return .Standard
         }
     }
+}
+
+enum CommercializerAfterPosting: String, BumperFeature  {
+    case No, Yes
+    static var defaultValue: String { return CommercializerAfterPosting.No.rawValue }
+    static var enumValues: [CommercializerAfterPosting] { return [.No, .Yes]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Commercializer after posting" } 
+    var asBool: Bool { return self == .Yes }
 }
 

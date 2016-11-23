@@ -9,6 +9,7 @@
 import JBKenBurnsView
 import LGCoreKit
 import Result
+import RxSwift
 import UIKit
 
 class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UITextViewDelegate, GIDSignInUIDelegate {
@@ -54,6 +55,9 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
     @IBOutlet weak var sendButton: UIButton!
     
     private var helpButton: UIBarButtonItem!
+
+    private let disposeBag: DisposeBag
+
     
     // Constants & enum
 
@@ -81,6 +85,7 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
         self.appearance = appearance
         self.keyboardFocus = keyboardFocus
         self.lines = []
+        self.disposeBag = DisposeBag()
 
         let statusBarStyle: UIStatusBarStyle
         let navBarBackgroundStyle: NavBarBackgroundStyle
@@ -105,6 +110,7 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        setupRx()
         setAccessibilityIds()
     }
 
@@ -362,13 +368,12 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
 
         newsletterLabel.text = LGLocalizedString.signUpNewsleter
         newsletterLabel.textColor = UIColor.grayText
-        connectFBButton.setTitle(LGLocalizedString.mainSignUpFacebookConnectButton, forState: .Normal)
-        connectGoogleButton.setTitle(LGLocalizedString.mainSignUpGoogleConnectButton, forState: .Normal)
         orLabel.text = LGLocalizedString.mainSignUpOrLabel
         orLabel.font = UIFont.smallBodyFont
         forgotPasswordButton.setTitle(LGLocalizedString.logInResetPasswordButton, forState: .Normal)
 
         emailTextField.clearButtonOffset = 0
+        emailTextField.text = viewModel.email
         passwordTextField.clearButtonOffset = 0
         usernameTextField.clearButtonOffset = 0
 
@@ -424,6 +429,30 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
         emailTextField.hidden = false
 
         showPasswordButton.hidden = !(viewModel.showPasswordShouldBeVisible)
+    }
+
+    private func setupRx() {
+        // Facebook button title
+        viewModel.previousFacebookUsername.asObservable()
+            .map { username in
+                if let username = username {
+                    return LGLocalizedString.mainSignUpFacebookConnectButtonWName(username)
+                } else {
+                    return LGLocalizedString.mainSignUpFacebookConnectButton
+                }
+            }.bindTo(connectFBButton.rx_title)
+            .addDisposableTo(disposeBag)
+
+        // Google button title
+        viewModel.previousGoogleUsername.asObservable()
+            .map { username in
+                if let username = username {
+                    return LGLocalizedString.mainSignUpGoogleConnectButtonWName(username)
+                } else {
+                    return LGLocalizedString.mainSignUpGoogleConnectButton
+                }
+            }.bindTo(connectGoogleButton.rx_title)
+            .addDisposableTo(disposeBag)
     }
 
     private func updateUI() {

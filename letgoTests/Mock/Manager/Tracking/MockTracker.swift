@@ -24,6 +24,9 @@ class MockTracker: Tracker {
     var gpsPermissionChangedBlock: (Tracker -> ())?
     var setMarketingNotificationsBlock: (Tracker -> ())?
 
+    var trackedEvents: [TrackerEvent] = []
+
+
     // MARK: - Tracker
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) {
@@ -55,6 +58,7 @@ class MockTracker: Tracker {
     }
     
     func trackEvent(event: TrackerEvent) {
+        trackedEvents.append(event)
         trackEventBlock?(self)
     }
 

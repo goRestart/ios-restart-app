@@ -10,7 +10,7 @@ import Foundation
 import LGCoreKit
 
 enum ExternalServiceAuthResult {
-    case Success
+    case Success(myUser: MyUser)
     case Cancelled
     case Network
     case Forbidden
@@ -46,3 +46,11 @@ enum ExternalServiceAuthResult {
         }
     }
 }
+
+enum ExternalAuthTokenRetrievalResult {
+    case Success(serverAuthCode: String)
+    case Cancelled
+    case Error(error: NSError?)
+}
+
+typealias ExternalAuthTokenRetrievalCompletion = ExternalAuthTokenRetrievalResult -> ()

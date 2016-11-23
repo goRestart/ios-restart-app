@@ -12,22 +12,6 @@ import Quick
 import Nimble
 import SwiftyUserDefaults
 
-private class MockMyUser: MyUser {
-    var objectId: String?
-    var name: String?
-    var avatar: File?
-    var postalAddress: PostalAddress = PostalAddress.emptyAddress()
-    var accounts: [Account]?
-    var ratingCount: Int?
-    var ratingAverage: Float?
-    var status: UserStatus = .Active
-
-    var isDummy: Bool = false
-    var email: String?
-    var location: LGLocation?
-    var localeIdentifier: String?
-}
-
 class RatingManagerSpec: QuickSpec {
     override func spec() {
         var sut: RatingManager!

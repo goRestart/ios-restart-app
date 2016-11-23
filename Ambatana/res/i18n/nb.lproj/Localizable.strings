@@ -290,9 +290,11 @@
 "main_sign_up_error_request_already_sent" = "Din forespørsel er allerede prosessert. Vennligst vent før du prøver igjen.";
 "main_sign_up_error_user_rejected" = "E-postadressen du valgte er ugyldig. Vennligst sjekk og prøv igjen.";
 "main_sign_up_facebook_connect_button" = "Fortsett med Facebook";
+"main_sign_up_facebook_connect_button_w_name" = "Log in as %@";
 "main_sign_up_fb_connect_error_email_taken" = "Din e-postadresse er allerede registrert. Vennligst bruk den til å logge inn.";
 "main_sign_up_fb_connect_error_generic" = "Feil ved innlogging. Vennligst prøv igjen.";
 "main_sign_up_google_connect_button" = "Fortsett med Google";
+"main_sign_up_google_connect_button_w_name" = "Log in as %@";
 "main_sign_up_help_button" = "Hjelp";
 "main_sign_up_log_in_label" = "Logg inn";
 "main_sign_up_or_label" = "ELLER BRUK DIN E-POST";
@@ -634,6 +636,8 @@
 "settings_invite_facebook_friends_button" = "Inviter Facebook-venner";
 "settings_invite_facebook_friends_error" = "En feil oppstod ved deling av din invitasjon.";
 "settings_invite_facebook_friends_ok" = "Din invitasjon ble delt!";
+"settings_logout_alert_message" = "Are you sure you want to log out?";
+"settings_logout_alert_ok" = "Log out";
 "settings_logout_button" = "Logg ut";
 "settings_marketing_notifications_switch" = "Reklamevarslinger";
 "settings_section_profile" = "Profil";

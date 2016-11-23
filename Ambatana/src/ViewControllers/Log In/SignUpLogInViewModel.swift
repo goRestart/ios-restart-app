@@ -9,6 +9,7 @@
 import Foundation
 import LGCoreKit
 import Result
+import RxSwift
 
 public enum LoginActionType: Int{
     case Signup, Login
@@ -41,11 +42,15 @@ protocol SignUpLogInViewModelDelegate: class {
 }
 
 public class SignUpLogInViewModel: BaseViewModel {
-    
-    // Delegate
-    weak var delegate: SignUpLogInViewModelDelegate?
     let loginSource: EventParameterLoginSourceValue
-    let googleLoginHelper: GoogleLoginHelper
+    let googleLoginHelper: ExternalAuthHelper
+    let fbLoginHelper: ExternalAuthHelper
+    let tracker: Tracker
+    let keyValueStorage: KeyValueStorageable
+    let featureFlags: FeatureFlaggeable
+    let locale: NSLocale
+
+    weak var delegate: SignUpLogInViewModelDelegate?
     
     // Action Type
     var currentActionType : LoginActionType {
@@ -80,6 +85,10 @@ public class SignUpLogInViewModel: BaseViewModel {
     }
 
     var termsAndConditionsEnabled: Bool
+
+    private let previousEmail: Variable<String?>
+    let previousFacebookUsername: Variable<String?>
+    let previousGoogleUsername: Variable<String?>
 
     func attributedLegalText(linkColor: UIColor) -> NSAttributedString {
         guard let conditionsURL = termsAndConditionsURL, privacyURL = privacyURL else {
@@ -117,11 +126,19 @@ public class SignUpLogInViewModel: BaseViewModel {
 
     // MARK: - Lifecycle
     
-    init(sessionManager: SessionManager, locationManager: LocationManager, source: EventParameterLoginSourceValue, action: LoginActionType) {
+    init(sessionManager: SessionManager, locationManager: LocationManager, keyValueStorage: KeyValueStorageable,
+         googleLoginHelper: ExternalAuthHelper, fbLoginHelper: ExternalAuthHelper, tracker: Tracker,
+         featureFlags: FeatureFlaggeable, locale: NSLocale,
+         source: EventParameterLoginSourceValue, action: LoginActionType) {
         self.sessionManager = sessionManager
         self.locationManager = locationManager
+        self.keyValueStorage = keyValueStorage
+        self.featureFlags = featureFlags
         self.loginSource = source
-        self.googleLoginHelper = GoogleLoginHelper(loginSource: source)
+        self.googleLoginHelper = googleLoginHelper
+        self.fbLoginHelper = fbLoginHelper
+        self.tracker = tracker
+        self.locale = locale
         self.username = ""
         self.email = ""
         self.password = ""
@@ -129,14 +146,31 @@ public class SignUpLogInViewModel: BaseViewModel {
         self.newsletterAccepted = false
         self.currentActionType = action
         self.termsAndConditionsEnabled = false
+        self.previousEmail = Variable<String?>(nil)
+        self.previousFacebookUsername = Variable<String?>(nil)
+        self.previousGoogleUsername = Variable<String?>(nil)
         super.init()
-        self.checkTermsAndConditionsEnabled()
+
+        checkTermsAndConditionsEnabled()
+        updatePreviousEmailAndUsernamesFromKeyValueStorage()
+
+        if let previousEmail = previousEmail.value {
+            self.email = previousEmail
+        }
     }
     
     convenience init(source: EventParameterLoginSourceValue, action: LoginActionType) {
         let sessionManager = Core.sessionManager
         let locationManager = Core.locationManager
-        self.init(sessionManager: sessionManager, locationManager: locationManager, source: source, action: action)
+        let keyValueStorage = KeyValueStorage.sharedInstance
+        let googleLoginHelper = GoogleLoginHelper()
+        let fbLoginHelper = FBLoginHelper()
+        let tracker = TrackerProxy.sharedInstance
+        let featureFlags = FeatureFlags.sharedInstance
+        let locale = NSLocale.currentLocale()
+        self.init(sessionManager: sessionManager, locationManager: locationManager, keyValueStorage: keyValueStorage,
+                  googleLoginHelper: googleLoginHelper, fbLoginHelper: fbLoginHelper, tracker: tracker,
+                  featureFlags: featureFlags, locale: locale, source: source, action: action)
     }
     
     
@@ -175,8 +209,11 @@ public class SignUpLogInViewModel: BaseViewModel {
             let completion: (Result<MyUser, SessionManagerError>) -> () = { [weak self] signUpResult in
                 guard let strongSelf = self else { return }
 
-                if let _ = signUpResult.value {
-                    TrackerProxy.sharedInstance.trackEvent(TrackerEvent.signupEmail(strongSelf.loginSource,
+                if let user = signUpResult.value {
+                    self?.savePreviousEmailOrUsername(.Email, userEmailOrName: user.email)
+
+                    // Tracking
+                    self?.tracker.trackEvent(TrackerEvent.signupEmail(strongSelf.loginSource,
                         newsletter: strongSelf.newsletterParameter))
 
                     strongSelf.delegate?.viewModelDidSignUp(strongSelf)
@@ -188,8 +225,9 @@ public class SignUpLogInViewModel: BaseViewModel {
                             strongSelf.sessionManager.login(strongSelf.email, password: strongSelf.password) { [weak self] loginResult in
                                 guard let strongSelf = self else { return }
                                 if let _ = loginResult.value {
-                                    let trackerEvent = TrackerEvent.loginEmail(strongSelf.loginSource)
-                                    TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+                                    let rememberedAccount = strongSelf.previousEmail.value != nil
+                                    let trackerEvent = TrackerEvent.loginEmail(strongSelf.loginSource, rememberedAccount: rememberedAccount)
+                                    self?.tracker.trackEvent(trackerEvent)
                                     strongSelf.delegate?.viewModelDidLogIn(strongSelf)
                                 } else if let _ = loginResult.error {
                                     strongSelf.processSignUpSessionError(sessionManagerError)
@@ -237,9 +275,12 @@ public class SignUpLogInViewModel: BaseViewModel {
             sessionManager.login(email, password: password) { [weak self] loginResult in
                 guard let strongSelf = self else { return }
 
-                if let _ = loginResult.value {
-                    let trackerEvent = TrackerEvent.loginEmail(strongSelf.loginSource)
-                    TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+                if let user = loginResult.value {
+                    self?.savePreviousEmailOrUsername(.Email, userEmailOrName: user.email)
+
+                    let rememberedAccount = strongSelf.previousEmail.value != nil
+                    let trackerEvent = TrackerEvent.loginEmail(strongSelf.loginSource, rememberedAccount: rememberedAccount)
+                    self?.tracker.trackEvent(trackerEvent)
 
                     strongSelf.delegate?.viewModelDidLogIn(strongSelf)
                 } else if let sessionManagerError = loginResult.error {
@@ -258,34 +299,45 @@ public class SignUpLogInViewModel: BaseViewModel {
     }
     
     public func logInWithFacebook() {
-        FBLoginHelper.logInWithFacebook(sessionManager, tracker: TrackerProxy.sharedInstance, loginSource: loginSource,
-            managerStart: { [weak self] in
-                guard let strongSelf = self else { return }
-                strongSelf.delegate?.viewModelDidStartAuthWithExternalService(strongSelf)
-            },
-            completion: { [weak self] result in
-                guard let error = self?.processExternalServiceAuthResult(result) else { return }
+        fbLoginHelper.login({ [weak self] _ in
+            guard let strongSelf = self else { return }
+            strongSelf.delegate?.viewModelDidStartAuthWithExternalService(strongSelf)
+        }, loginCompletion: { [weak self] result in
+            let error = self?.processExternalServiceAuthResult(result, accountProvider: .Facebook)
+            switch result {
+            case .Success:
+                self?.trackLoginFBOK()
+            default:
+                break
+            }
+            if let error = error {
                 self?.trackLoginFBFailedWithError(error)
             }
-        )
+        })
     }
 
     public func logInWithGoogle() {
-        
         googleLoginHelper.login({ [weak self] in
             // Google OAuth completed. Token obtained
             guard let strongSelf = self else { return }
             self?.delegate?.viewModelDidStartAuthWithExternalService(strongSelf)
         }) { [weak self] result in
-            // Login with Bouncer finished with success or fail
-            guard let error = self?.processExternalServiceAuthResult(result) else { return }
-            self?.trackLoginGoogleFailedWithError(error)
+            let error = self?.processExternalServiceAuthResult(result, accountProvider: .Google)
+            switch result {
+            case .Success:
+                self?.trackLoginGoogleOK()
+            default:
+                break
+            }
+            if let error = error {
+                self?.trackLoginGoogleFailedWithError(error)
+            }
         }
     }
 
 
     // MARK: - Private methods
-    
+
     private func sendButtonShouldBeEnabled() -> Bool {
         return  email.characters.count > 0 && password.characters.count > 0 &&
             (currentActionType == .Login || ( currentActionType == .Signup && username.characters.count > 0))
@@ -310,7 +362,7 @@ public class SignUpLogInViewModel: BaseViewModel {
     private func checkTermsAndConditionsEnabled() {
         let turkey = "tr"
 
-        let systemCountryCode = NSLocale.currentLocale().lg_countryCode
+        let systemCountryCode = locale.lg_countryCode
         let countryCode = locationManager.currentPostalAddress?.countryCode ?? systemCountryCode
 
         termsAndConditionsEnabled = systemCountryCode == turkey || countryCode.lowercaseString == turkey
@@ -398,10 +450,12 @@ public class SignUpLogInViewModel: BaseViewModel {
         }
     }
 
-    private func processExternalServiceAuthResult(result: ExternalServiceAuthResult) -> EventParameterLoginError? {
+    private func processExternalServiceAuthResult(result: ExternalServiceAuthResult,
+                                                  accountProvider: AccountProvider) -> EventParameterLoginError? {
         var loginError: EventParameterLoginError? = nil
         switch result {
-        case .Success:
+        case let .Success(myUser):
+            savePreviousEmailOrUsername(accountProvider, userEmailOrName: myUser.name)
             delegate?.viewModelDidAuthWithExternalService(self)
         case .Cancelled:
             delegate?.viewModelDidCancelAuthWithExternalService(self)
@@ -438,20 +492,69 @@ public class SignUpLogInViewModel: BaseViewModel {
     
     
     // MARK: - Trackings
-    
+
     private func trackLoginEmailFailedWithError(error: EventParameterLoginError) {
-        TrackerProxy.sharedInstance.trackEvent(TrackerEvent.loginEmailError(error))
+        tracker.trackEvent(TrackerEvent.loginEmailError(error))
+    }
+
+    private func trackLoginFBOK() {
+        let rememberedAccount = previousFacebookUsername.value != nil
+        tracker.trackEvent(TrackerEvent.loginFB(loginSource, rememberedAccount: rememberedAccount))
     }
 
     private func trackLoginFBFailedWithError(error: EventParameterLoginError) {
-        TrackerProxy.sharedInstance.trackEvent(TrackerEvent.loginFBError(error))
+        tracker.trackEvent(TrackerEvent.loginFBError(error))
+    }
+
+    private func trackLoginGoogleOK() {
+        let rememberedAccount = previousGoogleUsername.value != nil
+        tracker.trackEvent(TrackerEvent.loginGoogle(loginSource, rememberedAccount: rememberedAccount))
     }
 
     private func trackLoginGoogleFailedWithError(error: EventParameterLoginError) {
-        TrackerProxy.sharedInstance.trackEvent(TrackerEvent.loginGoogleError(error))
+        tracker.trackEvent(TrackerEvent.loginGoogleError(error))
     }
 
     private func trackSignupEmailFailedWithError(error: EventParameterLoginError) {
-        TrackerProxy.sharedInstance.trackEvent(TrackerEvent.signupError(error))
+        tracker.trackEvent(TrackerEvent.signupError(error))
+    }
+}
+
+
+// MARK: > Previous email/user name
+
+private extension SignUpLogInViewModel {
+    private func updatePreviousEmailAndUsernamesFromKeyValueStorage() {
+        guard let accountProviderString = keyValueStorage[.previousUserAccountProvider],
+            accountProvider = AccountProvider(rawValue: accountProviderString) else { return }
+
+        let userEmailOrName = keyValueStorage[.previousUserEmailOrName]
+        updatePreviousEmailAndUsernames(accountProvider, userEmailOrName: userEmailOrName)
+    }
+
+    private func updatePreviousEmailAndUsernames(accountProvider: AccountProvider, userEmailOrName: String?) {
+        guard featureFlags.saveMailLogout else { return }
+
+        switch accountProvider {
+        case .Email:
+            previousEmail.value = userEmailOrName
+            previousFacebookUsername.value = nil
+            previousGoogleUsername.value = nil
+        case .Facebook:
+            previousEmail.value = nil
+            previousFacebookUsername.value = userEmailOrName
+            previousGoogleUsername.value = nil
+        case .Google:
+            previousEmail.value = nil
+            previousFacebookUsername.value = nil
+            previousGoogleUsername.value = userEmailOrName
+        }
+    }
+
+    private func savePreviousEmailOrUsername(accountProvider: AccountProvider, userEmailOrName: String?) {
+        guard featureFlags.saveMailLogout else { return }
+
+        keyValueStorage[.previousUserAccountProvider] = accountProvider.rawValue
+        keyValueStorage[.previousUserEmailOrName] = userEmailOrName
     }
 }

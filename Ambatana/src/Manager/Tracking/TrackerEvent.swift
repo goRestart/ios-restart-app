@@ -44,9 +44,9 @@ public struct TrackerEvent {
         return TrackerEvent(name: .Location, params: params)
     }
 
-    static func loginVisit(source: EventParameterLoginSourceValue) -> TrackerEvent {
+    static func loginVisit(source: EventParameterLoginSourceValue, rememberedAccount: Bool) -> TrackerEvent {
         var params = EventParameters()
-        params.addLoginParams(source)
+        params.addLoginParams(source, rememberedAccount: rememberedAccount)
         return TrackerEvent(name: .LoginVisit, params: params)
     }
 
@@ -56,21 +56,21 @@ public struct TrackerEvent {
         return TrackerEvent(name: .LoginAbandon, params: params)
     }
 
-    static func loginFB(source: EventParameterLoginSourceValue) -> TrackerEvent {
+    static func loginFB(source: EventParameterLoginSourceValue, rememberedAccount: Bool) -> TrackerEvent {
         var params = EventParameters()
-        params.addLoginParams(source)
+        params.addLoginParams(source, rememberedAccount: rememberedAccount)
         return TrackerEvent(name: .LoginFB, params: params)
     }
     
-    static func loginGoogle(source: EventParameterLoginSourceValue) -> TrackerEvent {
+    static func loginGoogle(source: EventParameterLoginSourceValue, rememberedAccount: Bool) -> TrackerEvent {
         var params = EventParameters()
-        params.addLoginParams(source)
+        params.addLoginParams(source, rememberedAccount: rememberedAccount)
         return TrackerEvent(name: .LoginGoogle, params: params)
     }
 
-    static func loginEmail(source: EventParameterLoginSourceValue) -> TrackerEvent {
+    static func loginEmail(source: EventParameterLoginSourceValue, rememberedAccount: Bool) -> TrackerEvent {
         var params = EventParameters()
-        params.addLoginParams(source)
+        params.addLoginParams(source, rememberedAccount: rememberedAccount)
         return TrackerEvent(name: .LoginEmail, params: params)
     }
 
@@ -835,18 +835,23 @@ public struct TrackerEvent {
         return TrackerEvent(name: .OpenApp, params: params)
     }
 
-    static func expressChatStart() -> TrackerEvent {
-        return TrackerEvent(name: .ExpressChatStart, params: EventParameters())
+    static func expressChatStart(trigger: EventParameterExpressChatTrigger) -> TrackerEvent {
+        var params = EventParameters()
+        params[.ExpressChatTrigger] = trigger.rawValue
+        return TrackerEvent(name: .ExpressChatStart, params: params)
     }
 
-    static func expressChatComplete(numConversations: Int) -> TrackerEvent {
+    static func expressChatComplete(numConversations: Int, trigger: EventParameterExpressChatTrigger) -> TrackerEvent {
         var params = EventParameters()
         params[.ExpressConversations] = numConversations
+        params[.ExpressChatTrigger] = trigger.rawValue
         return TrackerEvent(name: .ExpressChatComplete, params: params)
     }
 
-    static func expressChatDontAsk() -> TrackerEvent {
-        return TrackerEvent(name: .ExpressChatDontAsk, params: EventParameters())
+    static func expressChatDontAsk(trigger: EventParameterExpressChatTrigger) -> TrackerEvent {
+        var params = EventParameters()
+        params[.ExpressChatTrigger] = trigger.rawValue
+        return TrackerEvent(name: .ExpressChatDontAsk, params: params)
     }
 
     static func productDetailInterestedUsers(number: Int, productId: String)  -> TrackerEvent {

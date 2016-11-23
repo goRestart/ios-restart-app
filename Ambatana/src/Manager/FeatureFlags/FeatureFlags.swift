@@ -22,10 +22,12 @@ protocol FeatureFlaggeable {
     var productDetailShareMode: ProductDetailShareMode { get }
     var periscopeChat: Bool { get }
     var chatHeadBubbles: Bool { get }
+    var saveMailLogout: Bool { get }
     var showLiquidProductsToNewUser: Bool { get }
     var expressChatBanner: Bool { get }
     var keywordsTravelCollection: KeywordsTravelCollection { get }
     var freePostingModeAllowed: Bool { get }
+    var commercializerAfterPosting: Bool { get }
 }
 
 class FeatureFlags: FeatureFlaggeable {
@@ -40,6 +42,7 @@ class FeatureFlags: FeatureFlaggeable {
         self.locationManager = locationManager
         Bumper.initialize()
     }
+
     
     convenience init() {
         self.init(locale: NSLocale.currentLocale(), locationManager: Core.locationManager)
@@ -131,8 +134,15 @@ class FeatureFlags: FeatureFlaggeable {
         }
         return ABTests.chatHeadBubbles.value
     }
-    
-     var showLiquidProductsToNewUser: Bool {
+
+    var saveMailLogout: Bool {
+        if Bumper.enabled {
+            return Bumper.saveMailLogout
+        }
+        return ABTests.saveMailLogout.value
+    }
+
+    var showLiquidProductsToNewUser: Bool {
         if Bumper.enabled {
             return Bumper.showLiquidProductsToNewUser
         }
@@ -153,11 +163,20 @@ class FeatureFlags: FeatureFlaggeable {
         return KeywordsTravelCollection.fromPosition(ABTests.keywordsTravelCollection.value)
     }
 
+    var commercializerAfterPosting: Bool {
+        if Bumper.enabled {
+            return Bumper.commercializerAfterPosting
+        }
+        return ABTests.commercializerAfterPosting.value
+    }
+
+
     // MARK: - Country features
 
     var freePostingModeAllowed: Bool {
         return !matchesLocationOrRegion("tr")
     }
+
     
     // MARK: - Private
     
