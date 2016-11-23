@@ -41,7 +41,7 @@ final class TabBarController: UITabBarController {
     }
     
     init(viewModel: TabBarViewModel, featureFlags: FeatureFlaggeable) {
-        self.floatingSellButton = FloatingButton(with: LGLocalizedString.tabBarToolTip, image: UIImage(named: "ic_sell_white"), position: .Right)
+        self.floatingSellButton = FloatingButton(with: LGLocalizedString.tabBarToolTip, image: UIImage(named: "ic_sell_white"), position: .Left)
         self.viewModel = viewModel
         self.featureFlags = featureFlags
         super.init(nibName: nil, bundle: nil)
