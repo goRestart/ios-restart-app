@@ -12,7 +12,8 @@ extension Priceable {
     func priceString() -> String {
         let priceValue = price.value ?? 0
         
-        if FeatureFlags.freePostingModeAllowed && price.free {
+        // TODO: Injected in priceString the FeatureFlags or a value to check if it is enabled.
+        if FeatureFlags.sharedInstance.freePostingModeAllowed && price.free {
             return LGLocalizedString.productFreePrice
         } else {
             return priceValue > 0 ? formattedPrice() :  LGLocalizedString.productNegotiablePrice

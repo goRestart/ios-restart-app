@@ -27,18 +27,26 @@ final class TabBarController: UITabBarController {
 
     private let viewModel: TabBarViewModel
     private var tooltip: Tooltip?
-
+    private var featureFlags: FeatureFlaggeable
+    
     // Rx
     private let disposeBag = DisposeBag()
 
     
     // MARK: - Lifecycle
 
-    init(viewModel: TabBarViewModel) {
-        self.floatingSellButton = FloatingButton()
+    convenience init(viewModel: TabBarViewModel) {
+        let featureFlags = FeatureFlags.sharedInstance
+        self.init(viewModel: viewModel, featureFlags: featureFlags)
+    }
+    
+    init(viewModel: TabBarViewModel, featureFlags: FeatureFlaggeable) {
+        self.floatingSellButton = FloatingButton(with: LGLocalizedString.tabBarToolTip, image: UIImage(named: "ic_sell_white"), position: .Left)
         self.viewModel = viewModel
+        self.featureFlags = featureFlags
         super.init(nibName: nil, bundle: nil)
     }
+
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -147,7 +155,7 @@ final class TabBarController: UITabBarController {
     func setupTabBarItems() {
         guard let viewControllers = viewControllers else { return }
         for (index, vc) in viewControllers.enumerate() {
-            guard let tab = Tab(index: index) else { continue }
+            guard let tab = Tab(index: index, featureFlags: featureFlags) else { continue }
             let tabBarItem = UITabBarItem(title: nil, image: UIImage(named: tab.tabIconImageName), selectedImage: nil)
             // UI Test accessibility Ids
             tabBarItem.accessibilityId = tab.accessibilityId
@@ -164,7 +172,7 @@ final class TabBarController: UITabBarController {
     }
 
     private func setupSellButtons() {
-        floatingSellButton.sellCompletion = { [weak self] in self?.sellButtonPressed() }
+        floatingSellButton.buttonTouchBlock = { [weak self] in self?.sellButtonPressed() }
         floatingSellButton.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(floatingSellButton)
 
@@ -172,12 +180,13 @@ final class TabBarController: UITabBarController {
                                     relatedBy: .Equal, toItem: view, attribute: .CenterX, multiplier: 1, constant: 0)
         floatingSellButtonMarginConstraint = NSLayoutConstraint(item: floatingSellButton, attribute: .Bottom,
                                                 relatedBy: .Equal, toItem: view, attribute: .Bottom, multiplier: 1,
-                                                constant: -(tabBar.frame.height + 15)) // 15 above tabBar
+                                                constant: -(tabBar.frame.height + LGUIKitConstants.tabBarSellFloatingButtonDistance))
         view.addConstraints([sellCenterXConstraint, floatingSellButtonMarginConstraint])
 
         let views: [String: AnyObject] = ["fsb" : floatingSellButton]
-        let hConstraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|-(>=15)-[fsb]-(>=15)-|",
-                                                                          options: [], metrics: nil, views: views)
+        let metrics: [String: AnyObject] = ["margin" : LGUIKitConstants.tabBarSellFloatingButtonDistance]
+        let hConstraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|-(>=margin)-[fsb]-(>=margin)-|",
+                                                                          options: [], metrics: metrics, views: views)
         view.addConstraints(hConstraints)
     }
 
@@ -304,7 +313,7 @@ extension TabBarController: UIGestureRecognizerDelegate {
     }
 
     func gestureRecognizerShouldBegin(gestureRecognizer: UIGestureRecognizer) -> Bool {
-        if FeatureFlags.notificationsSection {
+        if featureFlags.notificationsSection {
             return selectedIndex == Tab.Home.index // Home tab because it won't show the login modal view
         } else {
             return selectedIndex == Tab.Categories.index // Categories tab because it won't show the login modal view
@@ -330,7 +339,8 @@ extension TabBarController: AppRatingViewDelegate {
 
 extension TabBarController {
     func setAccessibilityIds() {
-        floatingSellButton.sellButton.accessibilityId = AccessibilityId.TabBarFloatingSellButton
+        floatingSellButton.isAccessibilityElement = true
+        floatingSellButton.accessibilityId = AccessibilityId.TabBarFloatingSellButton
     }
 }
 

@@ -83,7 +83,9 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
 
         topInset.value = topBarHeight
         productListView.collectionViewContentInset.top = topBarHeight
-        productListView.collectionViewContentInset.bottom = tabBarHeight + Constants.tabBarSellFloatingButtonHeight
+        productListView.collectionViewContentInset.bottom = tabBarHeight
+            + LGUIKitConstants.tabBarSellFloatingButtonHeight
+            + LGUIKitConstants.tabBarSellFloatingButtonDistance
         if let image =  UIImage(named: "pattern_white") {
             productListView.setErrorViewStyle(bgColor: UIColor(patternImage: image), borderColor: UIColor.lineGray,
                                               containerColor: UIColor.white)
