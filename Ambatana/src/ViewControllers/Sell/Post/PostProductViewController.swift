@@ -196,8 +196,8 @@ class PostProductViewController: BaseViewController {
             guard let scrollView = self?.detailsScroll, viewHeight = self?.view.height,
             let detailsRect = self?.productDetailView.frame else { return }
             scrollView.contentInset.bottom = viewHeight - origin
-            let hideView = (viewHeight - origin) > 0
-            self?.loadingViewHidden(hide: hideView)
+            let showingKeyboard = (viewHeight - origin) > 0
+            self?.loadingViewHidden(hide: showingKeyboard)
             scrollView.scrollRectToVisible(detailsRect, animated: false)
             
         }.addDisposableTo(disposeBag)
