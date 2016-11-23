@@ -154,7 +154,7 @@ enum AccessibilityId: String {
     // Product Carousel Post Delete screens
     case PostDeleteAlertButton
     case PostDeleteFullscreenButton
-    case PostDeleteFullscreenIncentiveContainer
+    case PostDeleteFullscreenIncentiveView
 
     // Chat Text View
     case ChatTextViewTextField

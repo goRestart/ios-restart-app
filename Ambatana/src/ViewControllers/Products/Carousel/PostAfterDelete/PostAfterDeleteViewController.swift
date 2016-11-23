@@ -8,7 +8,7 @@
 
 import UIKit
 
-class PostAfterDeleteViewController: UIViewController {
+class PostAfterDeleteViewController: BaseViewController {
 
     @IBOutlet weak var closeButton: UIButton!
     @IBOutlet weak var contentContainer: UIView!
@@ -18,27 +18,63 @@ class PostAfterDeleteViewController: UIViewController {
     @IBOutlet weak var mainButton: UIButton!
     @IBOutlet weak var incentiveContainer: UIView!
 
+    var viewModel: PostAfterDeleteViewModel
+
+    required init(viewModel: PostAfterDeleteViewModel) {
+        self.viewModel = viewModel
+        super.init(viewModel: viewModel, nibName: "PostAfterDeleteViewController",
+                   statusBarStyle: UIApplication.sharedApplication().statusBarStyle)
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        setupUI()
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    private func setupUI() {
+        setStatusBarHidden(true)
+        mainButton.setStyle(.Primary(fontSize: .Big))
+        mainButton.setTitle(viewModel.buttonTitle, forState: .Normal)
+        mainButton.accessibilityId = .PostDeleteFullscreenButton
+
+        mainTextLabel.text = viewModel.title
+        secondaryTextLabel.text = viewModel.subTitle
+
+        iconView.image = viewModel.icon
+
+        guard let postIncentivatorView = PostIncentivatorView.postIncentivatorView(false) else { return }
+        incentiveContainer.addSubview(postIncentivatorView)
+        let views: [String : AnyObject] = ["postIncentivatorView": postIncentivatorView]
+        incentiveContainer.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-0-[postIncentivatorView]-0-|",
+            options: [], metrics: nil, views: views))
+        incentiveContainer.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-0-[postIncentivatorView]-0-|",
+            options: [], metrics: nil, views: views))
+        postIncentivatorView.delegate = self
+        postIncentivatorView.accessibilityId = .PostDeleteFullscreenIncentiveView
+        postIncentivatorView.setupIncentiviseView()
     }
-    
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    private func closeWithFadeOutWithCompletion(completion: (() -> Void)?) {
+        dismissViewControllerAnimated(true, completion: completion)
     }
-    */
 
+    @IBAction func onCloseButtonTapped(sender: AnyObject) {
+        closeWithFadeOutWithCompletion(nil)
+    }
+
+    @IBAction func onMainButtonTapped(sender: AnyObject) {
+        closeWithFadeOutWithCompletion(viewModel.mainButtonAction)
+    }
+}
+
+// MARK: - Incentivise methods
+
+extension PostAfterDeleteViewController: PostIncentivatorViewDelegate {
+    func incentivatorTapped() {
+        closeWithFadeOutWithCompletion(viewModel.mainButtonAction)
+    }
 }

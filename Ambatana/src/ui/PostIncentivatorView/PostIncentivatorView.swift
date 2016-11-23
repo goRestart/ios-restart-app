@@ -49,6 +49,7 @@ class PostIncentivatorView: UIView {
         guard let view = NSBundle.mainBundle().loadNibNamed("PostIncentivatorView", owner: self, options: nil)?.first
             as? PostIncentivatorView else { return nil }
         view.isFree = isFree
+        view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }
 
@@ -57,8 +58,7 @@ class PostIncentivatorView: UIView {
     }
 
 
-    func setupIncentiviseView() {
-
+    func setupIncentiviseView() {        
         let itemPack = PostIncentiviserItem.incentiviserPack(isFree ?? false)
 
         guard itemPack.count == 3 else {

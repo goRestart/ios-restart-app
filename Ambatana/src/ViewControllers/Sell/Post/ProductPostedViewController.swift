@@ -26,17 +26,6 @@ class ProductPostedViewController: BaseViewController, ProductPostedViewModelDel
 
     // incentivize items
     @IBOutlet weak var incentiveContainer: UIView!
-//    @IBOutlet weak var incentiveLabel: UILabel!
-//    @IBOutlet weak var firstImage: UIImageView!
-//    @IBOutlet weak var firstNameLabel: UILabel!
-//    @IBOutlet weak var firstCountLabel: UILabel!
-//    @IBOutlet weak var secondImage: UIImageView!
-//    @IBOutlet weak var secondNameLabel: UILabel!
-//    @IBOutlet weak var secondCountLabel: UILabel!
-//    @IBOutlet weak var thirdImage: UIImageView!
-//    @IBOutlet weak var thirdNameLabel: UILabel!
-//    @IBOutlet weak var thirdCountLabel: UILabel!
-
 
     private static let contentContainerShownHeight: CGFloat = 80
     private let viewModel: ProductPostedViewModel
@@ -131,9 +120,6 @@ class ProductPostedViewController: BaseViewController, ProductPostedViewModelDel
             options: [], metrics: nil, views: views))
         postIncentivatorView.delegate = self
         postIncentivatorView.setupIncentiviseView()
-
-
-//        setupIncentiviseView()
     }
 
     private func setupStatic(loadingSuccessful: Bool) {
@@ -219,57 +205,6 @@ extension ProductPostedViewController: PostIncentivatorViewDelegate {
     func incentivatorTapped() {
         viewModel.mainActionPressed()
     }
-//    func setupIncentiviseView() {
-//
-//        let itemPack = PostIncentiviserItem.incentiviserPack(viewModel.wasFreePosting)
-//
-//        guard itemPack.count == 3 else {
-//            incentiveContainer.hidden = true
-//            return
-//        }
-//
-//        let firstItem = itemPack[0]
-//        let secondItem = itemPack[1]
-//        let thirdItem = itemPack[2]
-//
-//        firstImage.image = firstItem.image
-//        firstNameLabel.text = firstItem.name
-//        firstNameLabel.textColor = UIColor.blackText
-//        firstCountLabel.text = firstItem.searchCount
-//        firstCountLabel.textColor = UIColor.darkGrayText
-//
-//        secondImage.image = secondItem.image
-//        secondNameLabel.text = secondItem.name
-//        secondNameLabel.textColor = UIColor.blackText
-//        secondCountLabel.text = secondItem.searchCount
-//        secondCountLabel.textColor = UIColor.darkGrayText
-//
-//        thirdImage.image = thirdItem.image
-//        thirdNameLabel.text = thirdItem.name
-//        thirdNameLabel.textColor = UIColor.blackText
-//        thirdCountLabel.text = thirdItem.searchCount
-//        thirdCountLabel.textColor = UIColor.darkGrayText
-//
-//        incentiveLabel.attributedText = incentiveText
-//        
-//        let tap = UITapGestureRecognizer(target: self, action: #selector(onMainButton(_:)))
-//        incentiveContainer.addGestureRecognizer(tap)
-//    }
-//
-//    var incentiveText: NSAttributedString {
-//        let gotAnyTextAttributes: [String : AnyObject] = [NSForegroundColorAttributeName : UIColor.darkGrayText,
-//                                                       NSFontAttributeName : UIFont.systemBoldFont(size: 15)]
-//        let lookingForTextAttributes: [String : AnyObject] = [ NSForegroundColorAttributeName : UIColor.darkGrayText,
-//                                                         NSFontAttributeName : UIFont.mediumBodyFont]
-//        let secondPartString = viewModel.wasFreePosting ? LGLocalizedString.productPostIncentiveGotAnyFree :
-//                                                          LGLocalizedString.productPostIncentiveGotAny
-//        let plainText = LGLocalizedString.productPostIncentiveLookingFor(secondPartString)
-//        let resultText = NSMutableAttributedString(string: plainText, attributes: lookingForTextAttributes)
-//        let boldRange = NSString(string: plainText).rangeOfString(secondPartString, options: .CaseInsensitiveSearch)
-//        resultText.addAttributes(gotAnyTextAttributes, range: boldRange)
-//
-//        return resultText
-//    }
 }
 
 

@@ -839,22 +839,21 @@ extension ProductViewModel {
                         strongSelf.delegate?.vmPop()
                     }
                 case .FullScreen:
-                    print("fullscreen")
-                    message = nil
-                    afterMessageAction = {
-                        // open tuned congrats screen
-                    }
-                case .Alert:
-                    print("alert")
                     message = nil
                     afterMessageAction = {
                         strongSelf.delegate?.vmPop()
-                        // open alert
-                        let action = UIAction(interface: .Button("_ Post Another Item", .Primary(fontSize: .Medium)), action: {
+                        strongSelf.navigator?.openFullScreenPostAfterDelete()
+                    }
+                case .Alert:
+                    message = nil
+                    afterMessageAction = {
+                        strongSelf.delegate?.vmPop()
+                        let action = UIAction(interface: .Button(LGLocalizedString.productDeletePostButtonTitle,
+                            .Primary(fontSize: .Medium)), action: {
                                 strongSelf.navigator?.openSell(.DeleteProduct)
                             }, accessibilityId: .PostDeleteAlertButton)
-                        strongSelf.delegate?.vmShowAlertWithTitle("_NO LUCK THIS TIME",
-                                                                  text: "_Try posting something else and start making money.",
+                        strongSelf.delegate?.vmShowAlertWithTitle(LGLocalizedString.productDeletePostTitle,
+                                                                  text: LGLocalizedString.productDeletePostSubtitle,
                                                                   alertType: .PlainAlert, actions: [action])
                     }
                 }
