@@ -30,17 +30,19 @@ class ChatProductView: UIView {
     @IBOutlet weak var reviewButton: UIButton!
 
     var userRatingTooltip: Tooltip?
-
+    var showUserReviews: Bool = false
+    
     let imageHeight: CGFloat = 64
     let imageWidth: CGFloat = 64
     let margin: CGFloat = 8
     let labelHeight: CGFloat = 20
     let separatorHeight: CGFloat = 0.5
     weak var delegate: ChatProductViewDelegate?
+    
 
-
-    static func chatProductView() -> ChatProductView {
+    static func chatProductView(showUserReviews: Bool) -> ChatProductView {
         let view = NSBundle.mainBundle().loadNibNamed("ChatProductView", owner: self, options: nil)?.first as? ChatProductView
+        view?.showUserReviews = showUserReviews
         view?.setupUI()
         view?.setAccessibilityIds()
         return view!
@@ -49,7 +51,7 @@ class ChatProductView: UIView {
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
-
+    
     override func layoutSubviews() {
         super.layoutSubviews()
         userAvatar.layer.cornerRadius = userAvatar.frame.height / 2
@@ -70,9 +72,9 @@ class ChatProductView: UIView {
     }
 
     func showReviewButton(showButton: Bool, withTooltip: Bool) {
-        userName.hidden = showButton && FeatureFlags.userReviews
-        reviewButton.hidden = !showButton || !FeatureFlags.userReviews
-        if showButton && withTooltip && FeatureFlags.userReviews {
+        userName.hidden = showButton && showUserReviews
+        reviewButton.hidden = !showButton || !showUserReviews
+        if showButton && withTooltip && showUserReviews {
             showUserRatingTooltip()
         }
     }

@@ -16,6 +16,9 @@ public typealias ChatWrapperCompletion = ChatWrapperResult -> Void
 enum ChatWrapperMessageType {
     case Text(String)
     case ChatSticker(Sticker)
+    case QuickAnswer(String)
+    case ExpressChat(String)
+    case FavoritedProduct(String)
 }
 
 class ChatWrapper {
@@ -23,21 +26,24 @@ class ChatWrapper {
     private let chatRepository: ChatRepository
     private let oldChatRepository: OldChatRepository
     private let myUserRepository: MyUserRepository
+    private let featureFlags: FeatureFlaggeable
 
     convenience init() {
         self.init(chatRepository: Core.chatRepository, oldChatRepository: Core.oldChatRepository,
-                  myUserRepository: Core.myUserRepository)
+                  myUserRepository: Core.myUserRepository, featureFlags: FeatureFlags.sharedInstance)
     }
 
-    init(chatRepository: ChatRepository, oldChatRepository: OldChatRepository, myUserRepository: MyUserRepository) {
+    init(chatRepository: ChatRepository, oldChatRepository: OldChatRepository, myUserRepository: MyUserRepository,
+         featureFlags: FeatureFlaggeable) {
         self.chatRepository = chatRepository
         self.oldChatRepository = oldChatRepository
         self.myUserRepository = myUserRepository
+        self.featureFlags = featureFlags
     }
 
 
     func sendMessageForProduct(product: Product, type: ChatWrapperMessageType, completion: ChatWrapperCompletion?) {
-        if FeatureFlags.websocketChat {
+        if featureFlags.websocketChat {
             sendWebSocketChatMessage(product, text: type.text, type: type.chatType, completion: completion)
         } else {
             sendOldChatMessage(product, text: type.text, type: type.oldChatType, completion: completion)
@@ -109,15 +115,23 @@ extension ChatWrapperMessageType {
             return text
         case let .ChatSticker(sticker):
             return sticker.name
+        case let .QuickAnswer(text):
+            return text
+        case let .ExpressChat(text):
+            return text
+        case let .FavoritedProduct(text):
+            return text
         }
     }
 
     var oldChatType: MessageType {
-            switch self {
-            case .Text:
+        switch self {
+        case .Text:
             return .Text
-            case .ChatSticker:
+        case .ChatSticker:
             return .Sticker
+        case .QuickAnswer, .ExpressChat, .FavoritedProduct: // Legacy chat doesn't use this types
+            return .Text
         }
     }
 
@@ -127,6 +141,12 @@ extension ChatWrapperMessageType {
             return .Text
         case .ChatSticker:
             return .Sticker
+        case .QuickAnswer:
+            return .QuickAnswer
+        case .ExpressChat:
+            return .ExpressChat
+        case .FavoritedProduct:
+            return .FavoritedProduct
         }
     }
 }
