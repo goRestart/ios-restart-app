@@ -52,10 +52,6 @@ class PostProductViewController: BaseViewController {
 
     // MARK: - Lifecycle
 
-    convenience init(forceCamera: Bool, source: PostingSource) {
-        self.init(viewModel: PostProductViewModel(source: source), forceCamera: forceCamera)
-    }
-
     convenience init(viewModel: PostProductViewModel, forceCamera: Bool) {
         self.init(viewModel: viewModel, forceCamera: forceCamera, keyboardHelper: KeyboardHelper.sharedInstance)
     }
@@ -64,7 +60,7 @@ class PostProductViewController: BaseViewController {
         let viewPagerConfig = LGViewPagerConfig(tabPosition: .Hidden, tabLayout: .Fixed, tabHeight: 54)
         self.viewPager = LGViewPager(config: viewPagerConfig, frame: CGRect.zero)
         self.cameraView = PostProductCameraView(viewModel: viewModel.postProductCameraViewModel)
-        self.galleryView = PostProductGalleryView()
+        self.galleryView = PostProductGalleryView(multiSelectionEnabled: viewModel.galleryMultiSelectionEnabled)
         self.keyboardHelper = keyboardHelper
         self.viewModel = viewModel
         self.forceCamera = forceCamera

@@ -82,8 +82,9 @@ class PostProductGalleryView: BaseView, LGViewPagerPage {
 
     // MARK: - Lifecycle
 
-    convenience init() {
-        self.init(viewModel: PostProductGalleryViewModel(), frame: CGRect.zero)
+    convenience init(multiSelectionEnabled: Bool) {
+        let viewModel = PostProductGalleryViewModel(multiSelectionEnabled: multiSelectionEnabled)
+        self.init(viewModel: viewModel, frame: CGRect.zero)
     }
 
     init(viewModel: PostProductGalleryViewModel, frame: CGRect) {

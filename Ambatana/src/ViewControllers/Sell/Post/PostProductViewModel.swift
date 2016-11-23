@@ -60,7 +60,7 @@ class PostProductViewModel: BaseViewModel {
     private let fileRepository: FileRepository
     private let tracker: Tracker
     private let commercializerRepository: CommercializerRepository
-    private let featureFlags: FeatureFlaggeable
+    let galleryMultiSelectionEnabled: Bool
     private var imageSelected: UIImage?
     private var pendingToUploadImage: UIImage?
     private var uploadedImage: File?
@@ -76,11 +76,12 @@ class PostProductViewModel: BaseViewModel {
         let tracker = TrackerProxy.sharedInstance
         let featureFlags = FeatureFlags.sharedInstance
         self.init(source: source, productRepository: productRepository, fileRepository: fileRepository,
-                  commercializerRepository: commercializerRepository, tracker: tracker, featureFlags: featureFlags)
+                  commercializerRepository: commercializerRepository, tracker: tracker,
+                  galleryMultiSelectionEnabled: featureFlags.postingMultiPictureEnabled)
     }
 
     init(source: PostingSource, productRepository: ProductRepository, fileRepository: FileRepository,
-         commercializerRepository: CommercializerRepository, tracker: Tracker, featureFlags: FeatureFlaggeable) {
+         commercializerRepository: CommercializerRepository, tracker: Tracker, galleryMultiSelectionEnabled: Bool) {
         self.postingSource = source
         self.productRepository = productRepository
         self.fileRepository = fileRepository
@@ -88,7 +89,7 @@ class PostProductViewModel: BaseViewModel {
         self.postDetailViewModel = PostProductDetailViewModel()
         self.postProductCameraViewModel = PostProductCameraViewModel(postingSource: source)
         self.tracker = tracker
-        self.featureFlags = featureFlags
+        self.galleryMultiSelectionEnabled = galleryMultiSelectionEnabled
         super.init()
         self.postDetailViewModel.delegate = self
     }

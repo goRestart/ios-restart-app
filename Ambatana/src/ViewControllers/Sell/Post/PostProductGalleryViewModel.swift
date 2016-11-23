@@ -44,6 +44,7 @@ class PostProductGalleryViewModel: BaseViewModel {
         (PostProductGalleryViewModel.cellSpacing * (PostProductGalleryViewModel.columnCount + 1))) /
         PostProductGalleryViewModel.columnCount
 
+    private let multiSelectionEnabled: Bool
     private var albums: [PHAssetCollection] = []
     private var photosAsset: PHFetchResult?
 
@@ -54,7 +55,8 @@ class PostProductGalleryViewModel: BaseViewModel {
 
     // MARK: - Lifecycle
 
-    override init() {
+    init(multiSelectionEnabled: Bool) {
+        self.multiSelectionEnabled = multiSelectionEnabled
         super.init()
         setupRX()
     }
