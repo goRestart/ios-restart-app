@@ -835,18 +835,23 @@ public struct TrackerEvent {
         return TrackerEvent(name: .OpenApp, params: params)
     }
 
-    static func expressChatStart() -> TrackerEvent {
-        return TrackerEvent(name: .ExpressChatStart, params: EventParameters())
+    static func expressChatStart(trigger: EventParameterExpressChatTrigger) -> TrackerEvent {
+        var params = EventParameters()
+        params[.ExpressChatTrigger] = trigger.rawValue
+        return TrackerEvent(name: .ExpressChatStart, params: params)
     }
 
-    static func expressChatComplete(numConversations: Int) -> TrackerEvent {
+    static func expressChatComplete(numConversations: Int, trigger: EventParameterExpressChatTrigger) -> TrackerEvent {
         var params = EventParameters()
         params[.ExpressConversations] = numConversations
+        params[.ExpressChatTrigger] = trigger.rawValue
         return TrackerEvent(name: .ExpressChatComplete, params: params)
     }
 
-    static func expressChatDontAsk() -> TrackerEvent {
-        return TrackerEvent(name: .ExpressChatDontAsk, params: EventParameters())
+    static func expressChatDontAsk(trigger: EventParameterExpressChatTrigger) -> TrackerEvent {
+        var params = EventParameters()
+        params[.ExpressChatTrigger] = trigger.rawValue
+        return TrackerEvent(name: .ExpressChatDontAsk, params: params)
     }
 
     static func productDetailInterestedUsers(number: Int, productId: String)  -> TrackerEvent {

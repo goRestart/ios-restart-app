@@ -247,6 +247,7 @@ public enum EventParameterName: String {
     case SellButtonPosition   = "sell-button-position"
     case Enabled              = "enabled"
     case LastSearch           = "last-search"
+    case ExpressChatTrigger   = "express-chat-trigger"
 }
 
 public enum EventParameterLoginSourceValue: String {
@@ -621,6 +622,11 @@ public enum EventParameterFreePosting: String {
     case True = "true"
     case False = "false"
     case Unset = "N/A"
+}
+
+public enum EventParameterExpressChatTrigger: String {
+    case Automatic = "automatic"
+    case Manual = "manual"
 }
 
 public struct EventParameters {

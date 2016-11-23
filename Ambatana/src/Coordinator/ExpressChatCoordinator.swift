@@ -30,7 +30,7 @@ class ExpressChatCoordinator: Coordinator {
     }
 
     init?(products: [Product], sourceProductId: String, keyValueStorage: KeyValueStorage, forcedOpen: Bool) {
-        let vm = ExpressChatViewModel(productList: products, sourceProductId: sourceProductId)
+        let vm = ExpressChatViewModel(productList: products, sourceProductId: sourceProductId, manualOpen: forcedOpen)
         let vc = ExpressChatViewController(viewModel: vm)
         self.viewController = vc
         self.keyValueStorage = keyValueStorage
