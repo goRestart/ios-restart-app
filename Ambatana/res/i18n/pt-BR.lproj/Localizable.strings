@@ -290,9 +290,11 @@
 "main_sign_up_error_request_already_sent" = "Your request has already been processed. Please wait before trying again.";
 "main_sign_up_error_user_rejected" = "The email you entered is incorrect. Please check it and try again.";
 "main_sign_up_facebook_connect_button" = "Continue with Facebook";
+"main_sign_up_facebook_connect_button_w_name" = "Log in as %@";
 "main_sign_up_fb_connect_error_email_taken" = "Your email address is already registered. Please use it to log in.";
 "main_sign_up_fb_connect_error_generic" = "Unable to log in. Please try again.";
 "main_sign_up_google_connect_button" = "Continue with Google";
+"main_sign_up_google_connect_button_w_name" = "Log in as %@";
 "main_sign_up_help_button" = "Help";
 "main_sign_up_log_in_label" = "Log In";
 "main_sign_up_or_label" = "OR USE YOUR EMAIL";
@@ -382,6 +384,9 @@
 "product_delete_confirm_ok_button" = "I don't want to sell it";
 "product_delete_confirm_sold_button" = "I already sold it";
 "product_delete_confirm_title" = "Delete Product";
+"product_delete_post_button_title" = "Post Another Item";
+"product_delete_post_subtitle" = "Try posting something else and start making money.";
+"product_delete_post_title" = "NO LUCK THIS TIME?";
 "product_delete_send_error_generic" = "Oops! We couldn't delete your product. Please try again.";
 "product_delete_sold_confirm_message" = "Are you sure you want to delete this product?";
 "product_delete_success_message" = "Your product was successfully deleted.";
@@ -634,6 +639,8 @@
 "settings_invite_facebook_friends_button" = "Invite Facebook Friends";
 "settings_invite_facebook_friends_error" = "An error occurred while sharing your invitation.";
 "settings_invite_facebook_friends_ok" = "Your invitation was successfully shared!";
+"settings_logout_alert_message" = "Are you sure you want to log out?";
+"settings_logout_alert_ok" = "Log out";
 "settings_logout_button" = "Log out";
 "settings_marketing_notifications_switch" = "Marketing Notifications";
 "settings_section_profile" = "Profile";

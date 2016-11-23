@@ -72,8 +72,8 @@
 "chat_deleted_disclaimer_w_name" = "%@의 계정이 비활성화 되었기 때문에 사용자께서는 이 대화를 진행하실 수 없습니다.";
 "chat_deleted_disclaimer_wo_name" = "이 계정이 비활성화 되었기 때문에 사용자께서는 이 대화를 진행하실 수 없습니다.";
 "chat_disclaimer_letgo_team" = "LETGO 팀";
-"chat_express_banner_button_title" = "See Deals";
-"chat_express_banner_title" = "Related deals near you";
+"chat_express_banner_button_title" = "할인 확인하기";
+"chat_express_banner_title" = "근처의 관련 할인상품";
 "chat_express_contact_one_button_text" = "1 판매자에게 연락하기";
 "chat_express_contact_sellers_label" = "다른 구매자가 사가기 전에, 구매자에게 연락해보세요!";
 "chat_express_contact_various_button_text" = "%@ 판매자들에게 연락하기";
@@ -290,9 +290,11 @@
 "main_sign_up_error_request_already_sent" = "사용자의 요청은 이미 진행되었습니다. 다시 시도하기 전에 잠시만 기다려주세요.";
 "main_sign_up_error_user_rejected" = "입력하신 이메일이 일치하지 않습니다. 다시 확인하시고 입력해주세요.";
 "main_sign_up_facebook_connect_button" = "페이스북과 연결하기";
+"main_sign_up_facebook_connect_button_w_name" = "%@로 로그인";
 "main_sign_up_fb_connect_error_email_taken" = "로그인할 수 없습니다, 고객님의 페이스북 이메일은 이미 등록되어 있습니다. 다시 시도해주세요.";
 "main_sign_up_fb_connect_error_generic" = "로그인할 수 없습니다. 다시 시도해주세요.";
 "main_sign_up_google_connect_button" = "구글과 연결하기";
+"main_sign_up_google_connect_button_w_name" = "%@로 로그인";
 "main_sign_up_help_button" = "도움";
 "main_sign_up_log_in_label" = "로그인";
 "main_sign_up_or_label" = "혹은 이메일 사용하기";
@@ -382,6 +384,9 @@
 "product_delete_confirm_ok_button" = "판매하고 싶지 않습니다";
 "product_delete_confirm_sold_button" = "이미 팔았습니다";
 "product_delete_confirm_title" = "제품 삭제하기";
+"product_delete_post_button_title" = "Post Another Item";
+"product_delete_post_subtitle" = "Try posting something else and start making money.";
+"product_delete_post_title" = "NO LUCK THIS TIME?";
 "product_delete_send_error_generic" = "앗! 제품을 삭제할 수 없습니다. 다시 시도해주세요.";
 "product_delete_sold_confirm_message" = "이 상품을 정말 삭제하기를 원하세요?";
 "product_delete_success_message" = "고객님의 상품을 성공적으로 삭제되었습니다.";
@@ -634,6 +639,8 @@
 "settings_invite_facebook_friends_button" = "페이스북 친구 초대하기";
 "settings_invite_facebook_friends_error" = "초대를 공유하는 동안 오류가 발생했습니다.";
 "settings_invite_facebook_friends_ok" = "초대가 성공적으로 공유되었습니다!";
+"settings_logout_alert_message" = "로그아웃 하시겠습니까?";
+"settings_logout_alert_ok" = "로그아웃";
 "settings_logout_button" = "로그아웃";
 "settings_marketing_notifications_switch" = "마케팅 알림";
 "settings_section_profile" = "프로필";

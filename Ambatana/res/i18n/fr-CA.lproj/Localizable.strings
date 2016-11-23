@@ -72,8 +72,8 @@
 "chat_deleted_disclaimer_w_name" = "Vous ne pouvez pas continuer cette discussion, car le compte de %@ n'est plus actif.";
 "chat_deleted_disclaimer_wo_name" = "Vous ne pouvez pas continuer cette discussion, car ce compte n'est plus actif.";
 "chat_disclaimer_letgo_team" = "ÉQUIPE LETGO";
-"chat_express_banner_button_title" = "See Deals";
-"chat_express_banner_title" = "Related deals near you";
+"chat_express_banner_button_title" = "Voir les Aubaines";
+"chat_express_banner_title" = "Aubaines similaires à proximité";
 "chat_express_contact_one_button_text" = "Contacter 1 vendeur";
 "chat_express_contact_sellers_label" = "Contactez ces vendeurs avant que d'autres acheteurs ne le fassent !";
 "chat_express_contact_various_button_text" = "Contacter %@ vendeurs";
@@ -290,9 +290,11 @@
 "main_sign_up_error_request_already_sent" = "Votre demande a déjà été traitée. Veuillez attendre avant de réessayer.";
 "main_sign_up_error_user_rejected" = "Le courriel que vous avez indiqué est incorrect. Veuillez le vérifier et réessayer.";
 "main_sign_up_facebook_connect_button" = "Continuer avec Facebook";
+"main_sign_up_facebook_connect_button_w_name" = "Se connecter en tant que %@";
 "main_sign_up_fb_connect_error_email_taken" = "Votre adresse courriel est déjà enregistrée. Veuillez l'utiliser pour vous connecter.";
 "main_sign_up_fb_connect_error_generic" = "Impossible de se connecter. Veuillez réessayer.";
 "main_sign_up_google_connect_button" = "Continuer avec Google";
+"main_sign_up_google_connect_button_w_name" = "Se connecter en tant que %@";
 "main_sign_up_help_button" = "Aide";
 "main_sign_up_log_in_label" = "Se Connecter";
 "main_sign_up_or_label" = "OU UTILISEZ VOTRE COURRIEL";
@@ -382,6 +384,9 @@
 "product_delete_confirm_ok_button" = "Je ne veux pas le vendre";
 "product_delete_confirm_sold_button" = "Je l'ai déjà vendu";
 "product_delete_confirm_title" = "Supprimer le Produit";
+"product_delete_post_button_title" = "Post Another Item";
+"product_delete_post_subtitle" = "Try posting something else and start making money.";
+"product_delete_post_title" = "NO LUCK THIS TIME?";
 "product_delete_send_error_generic" = "Oups ! Nous n'avons pas pu supprimer votre produit. Veuillez réessayer.";
 "product_delete_sold_confirm_message" = "Etes-vous certain de vouloir supprimer ce produit ?";
 "product_delete_success_message" = "Votre produit a été supprimé avec succès.";
@@ -634,6 +639,8 @@
 "settings_invite_facebook_friends_button" = "Invitez des Amis Facebook";
 "settings_invite_facebook_friends_error" = "Une erreur est survenue lors de l'envoi de votre invitation.";
 "settings_invite_facebook_friends_ok" = "Votre invitation a été envoyée avec succès !";
+"settings_logout_alert_message" = "Êtes-vous certain de vouloir vous déconnecter ?";
+"settings_logout_alert_ok" = "Se déconnecter";
 "settings_logout_button" = "Se déconnecter";
 "settings_marketing_notifications_switch" = "Notifications";
 "settings_section_profile" = "Profil";

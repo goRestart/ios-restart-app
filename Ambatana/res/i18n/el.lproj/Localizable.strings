@@ -72,8 +72,8 @@
 "chat_deleted_disclaimer_w_name" = "Δεν μπορείτε να συνεχίσετε αυτή τη συνομιλία επειδή ο λογαριασμός του %@ δεν είναι πια ενεργός.";
 "chat_deleted_disclaimer_wo_name" = "Δεν μπορείτε να συνεχίσετε αυτή τη συνομιλία επειδή ο λογαριασμός αυτός δεν είναι πια ενεργός.";
 "chat_disclaimer_letgo_team" = "ΟΜΑΔΑ LETGO";
-"chat_express_banner_button_title" = "See Deals";
-"chat_express_banner_title" = "Related deals near you";
+"chat_express_banner_button_title" = "Δείτε Προσφορές";
+"chat_express_banner_title" = "Παρόμοιες προσφορές κοντά σας";
 "chat_express_contact_one_button_text" = "Επικοινωνία με 1 πωλητή";
 "chat_express_contact_sellers_label" = "Επικοινωνήστε με αυτούς τους πωλητές πριν σας προλάβουν άλλοι αγοραστές!";
 "chat_express_contact_various_button_text" = "Επικοινωνία με %@ πωλητές";
@@ -290,9 +290,11 @@
 "main_sign_up_error_request_already_sent" = "Το αίτημά σας έχει ήδη προχωρήσει. Παρακαλώ περιμένετε πριν προσπαθήσετε ξανά.";
 "main_sign_up_error_user_rejected" = "Το email που εισάγατε είναι λανθασμένο. Παρακαλώ ελέγξτε το και δοκιμάστε ξανά.";
 "main_sign_up_facebook_connect_button" = "Συνέχεια με το Facebook";
+"main_sign_up_facebook_connect_button_w_name" = "Συνδεθείτε ως %@";
 "main_sign_up_fb_connect_error_email_taken" = "Το email σας χρησιμοποιείται ήδη. Παρακαλώ, χρησιμοποιήστε το για να συνδεθείτε.";
 "main_sign_up_fb_connect_error_generic" = "Αδυναμία σύνδεσης. Θα πρέπει να προσπαθήσεις ξανά!";
 "main_sign_up_google_connect_button" = "Συνέχεια με το Google";
+"main_sign_up_google_connect_button_w_name" = "Συνδεθείτε ως %@";
 "main_sign_up_help_button" = "Βοήθεια";
 "main_sign_up_log_in_label" = "Σύνδεση";
 "main_sign_up_or_label" = "Ή ΧΡΗΣΙΜΟΠΟΙΗΣΤΕ ΤΟ EMAIL ΣΑΣ";
@@ -382,6 +384,9 @@
 "product_delete_confirm_ok_button" = "Δε θέλω να το πουλήσω";
 "product_delete_confirm_sold_button" = "Το πούλησα ήδη!";
 "product_delete_confirm_title" = "Διαγραφή Προϊόντος";
+"product_delete_post_button_title" = "Post Another Item";
+"product_delete_post_subtitle" = "Try posting something else and start making money.";
+"product_delete_post_title" = "NO LUCK THIS TIME?";
 "product_delete_send_error_generic" = "Όπα! Δε μπορέσαμε να διαγράψουμε το προϊόν σας! Παρακαλώ προσπαθήστε ξανά!";
 "product_delete_sold_confirm_message" = "Επιβεβαίωση διαγραφής προϊόντος;";
 "product_delete_success_message" = "Το προϊόν σας διαγράφηκε επιτυχώς.";
@@ -634,6 +639,8 @@
 "settings_invite_facebook_friends_button" = "Προσκαλέστε φίλους στο Facebook";
 "settings_invite_facebook_friends_error" = "Παρουσιάστηκε σφάλμα κατά την κοινοποίηση της πρόσκλησης.";
 "settings_invite_facebook_friends_ok" = "Η πρόσκλησή σας κοινοποιήθηκε επιτυχώς!";
+"settings_logout_alert_message" = "Είστε σίγουροι ότι θέλετε να αποσυνδεθείτε;";
+"settings_logout_alert_ok" = "Αποσύνδεση";
 "settings_logout_button" = "Αποσύνδεση";
 "settings_marketing_notifications_switch" = "Ειδοποιήσεις Μάρκετινγκ";
 "settings_section_profile" = "Προφίλ";

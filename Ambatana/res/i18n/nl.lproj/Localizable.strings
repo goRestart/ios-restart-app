@@ -72,8 +72,8 @@
 "chat_deleted_disclaimer_w_name" = "Je kunt niet verdergaan met dit gesprek omdat %@'s account niet meer actief is.";
 "chat_deleted_disclaimer_wo_name" = "Je kunt niet verder gaan met dit gesprek omdat dit account niet meer actief is.";
 "chat_disclaimer_letgo_team" = "LETGO TEAM";
-"chat_express_banner_button_title" = "See Deals";
-"chat_express_banner_title" = "Related deals near you";
+"chat_express_banner_button_title" = "Bekijk Deals";
+"chat_express_banner_title" = "Gerelateerde deals in jouw buurt";
 "chat_express_contact_one_button_text" = "Contacteer 1 verkoper";
 "chat_express_contact_sellers_label" = "Neem contact op met deze verkopers voordat andere kopers dat doen!";
 "chat_express_contact_various_button_text" = "Contacteer %@ verkopers";
@@ -290,9 +290,11 @@
 "main_sign_up_error_request_already_sent" = "Je aanvraag is al verwerkt. Gelieve te wachten voordat je het opnieuw probeert.";
 "main_sign_up_error_user_rejected" = "Het e-mailadres dat je hebt ingevoerd is onjuist. Controleer het en probeer het opnieuw.";
 "main_sign_up_facebook_connect_button" = "Doorgaan met Facebook";
+"main_sign_up_facebook_connect_button_w_name" = "Log in als %@";
 "main_sign_up_fb_connect_error_email_taken" = "Jouw e-mailadres is al geregistreerd. Gebruik het a.u.b. om in te loggen.";
 "main_sign_up_fb_connect_error_generic" = "Niet in staat om in te loggen. Gelieve het nog eens te proberen.";
 "main_sign_up_google_connect_button" = "Doorgaan met Google";
+"main_sign_up_google_connect_button_w_name" = "Log in als %@";
 "main_sign_up_help_button" = "Hulp";
 "main_sign_up_log_in_label" = "Inloggen";
 "main_sign_up_or_label" = "OF GEBRUIK JE E-MAIL";
@@ -382,6 +384,9 @@
 "product_delete_confirm_ok_button" = "Ik wil het niet verkopen";
 "product_delete_confirm_sold_button" = "Ik heb het al verkocht ";
 "product_delete_confirm_title" = "Verwijder Product";
+"product_delete_post_button_title" = "Post Another Item";
+"product_delete_post_subtitle" = "Try posting something else and start making money.";
+"product_delete_post_title" = "NO LUCK THIS TIME?";
 "product_delete_send_error_generic" = "Oeps! We konden jouw product niet verwijderen. Probeer het opnieuw.";
 "product_delete_sold_confirm_message" = "Weet je zeker dat je dit product wilt verwijderen?";
 "product_delete_success_message" = "Jouw product werd succesvol verwijderd.";
@@ -634,6 +639,8 @@
 "settings_invite_facebook_friends_button" = "Nodig Facebook vrienden uit";
 "settings_invite_facebook_friends_error" = "Er is een fout opgetreden bij het delen van je uitnodiging.";
 "settings_invite_facebook_friends_ok" = "Je uitnodiging werd succesvol gedeeld!";
+"settings_logout_alert_message" = "Weet je zeker dat je wilt uitloggen?";
+"settings_logout_alert_ok" = "Uitloggen";
 "settings_logout_button" = "Log uit";
 "settings_marketing_notifications_switch" = "Marketing Meldingen";
 "settings_section_profile" = "Profiel";
