@@ -837,7 +837,7 @@ extension ProductViewModel {
             var afterMessageAction: (() -> ())? = {}
             var message: String? = nil
             if let value = result.value {
-                switch FeatureFlags.postAfterDeleteMode {
+                switch strongSelf.featureFlags.postAfterDeleteMode {
                 case .Original:
                     message = LGLocalizedString.productDeleteSuccessMessage
                     afterMessageAction = {
