@@ -31,7 +31,7 @@ final class NewRelicTracker: Tracker {
         if let userId = Core.myUserRepository.myUser?.objectId {
             sessionType =  NewRelicTracker.UserSessionType
             sessionId = userId
-        }else if let installationId = Core.installationRepository.installation?.objectId {
+        } else if let installationId = Core.installationRepository.installation?.objectId {
             sessionType = NewRelicTracker.appSessionType
             sessionId = installationId
         }
