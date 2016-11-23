@@ -43,6 +43,7 @@ class ProductCell: UICollectionViewCell, ReusableCell {
         super.awakeFromNib()
         self.setupUI()
         self.resetUI()
+        self.setAccessibilityIds()
     }
 
     override func prepareForReuse() {
