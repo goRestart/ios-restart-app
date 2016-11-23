@@ -30,11 +30,11 @@ class MockLocationManager: LocationManager {
     var currentPostalAddress: PostalAddress?
 
     func setManualLocation(location: CLLocation, postalAddress: PostalAddress, completion: MyUserCompletion?) {
-        completion?(myUserResult!)
+        performAfterDelayWithCompletion(completion, result: myUserResult!)
     }
 
     func setAutomaticLocation(userUpdateCompletion: MyUserCompletion?) {
-        userUpdateCompletion?(myUserResult!)
+        performAfterDelayWithCompletion(userUpdateCompletion, result: myUserResult!)
     }
 
     var locationServiceStatus: LocationServiceStatus = .Disabled
