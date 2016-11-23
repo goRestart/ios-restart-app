@@ -37,11 +37,6 @@ struct Constants {
     static let userURL = "\(Constants.websiteURL)/user/%@"
     static let whatsAppShareURL = "whatsapp://send?text=%@"
     static let telegramShareURL = "tg://msg?text=%@"
-
-    
-    // Tab bar
-    static let tabBarSellFloatingButtonHeight: CGFloat = 50
-    static let tabBarSellFloatingButtonMargin: CGFloat = 15
     
     // Product List
     static let productListMaxDistanceLabel = 20

@@ -180,11 +180,11 @@ final class TabBarController: UITabBarController {
                                     relatedBy: .Equal, toItem: view, attribute: .CenterX, multiplier: 1, constant: 0)
         floatingSellButtonMarginConstraint = NSLayoutConstraint(item: floatingSellButton, attribute: .Bottom,
                                                 relatedBy: .Equal, toItem: view, attribute: .Bottom, multiplier: 1,
-                                                constant: -(tabBar.frame.height + Constants.tabBarSellFloatingButtonMargin))
+                                                constant: -(tabBar.frame.height + LGUIKitConstants.tabBarSellFloatingButtonDistance))
         view.addConstraints([sellCenterXConstraint, floatingSellButtonMarginConstraint])
 
         let views: [String: AnyObject] = ["fsb" : floatingSellButton]
-        let metrics: [String: AnyObject] = ["margin" : Constants.tabBarSellFloatingButtonMargin]
+        let metrics: [String: AnyObject] = ["margin" : LGUIKitConstants.tabBarSellFloatingButtonDistance]
         let hConstraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|-(>=margin)-[fsb]-(>=margin)-|",
                                                                           options: [], metrics: metrics, views: views)
         view.addConstraints(hConstraints)

@@ -52,7 +52,7 @@ class FloatingButton: UIView {
     }
     
     override func intrinsicContentSize() -> CGSize {
-        return CGSize(width: UIViewNoIntrinsicMetric, height: Constants.tabBarSellFloatingButtonHeight)
+        return CGSize(width: UIViewNoIntrinsicMetric, height: LGUIKitConstants.tabBarSellFloatingButtonHeight)
     }
     
     // MARK: - Setters
