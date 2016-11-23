@@ -93,10 +93,10 @@ class SignUpViewModel: BaseViewModel {
         self.previousGoogleUsername = Variable<String?>(nil)
         super.init()
 
-        updatePreviousEmailAndUsernamesFromKeyValueStorage()
+        let rememberedAccount = updatePreviousEmailAndUsernamesFromKeyValueStorage()
 
         // Tracking
-        tracker.trackEvent(TrackerEvent.loginVisit(loginSource))
+        tracker.trackEvent(TrackerEvent.loginVisit(loginSource, rememberedAccount: rememberedAccount))
     }
     
     convenience init(appearance: LoginAppearance, source: EventParameterLoginSourceValue) {
@@ -208,7 +208,8 @@ class SignUpViewModel: BaseViewModel {
     }
 
     private func trackLoginFBOK() {
-        tracker.trackEvent(TrackerEvent.loginFB(loginSource))
+        let rememberedAccount = previousFacebookUsername.value != nil
+        tracker.trackEvent(TrackerEvent.loginFB(loginSource, rememberedAccount: rememberedAccount))
     }
 
     private func trackLoginFBFailedWithError(error: EventParameterLoginError) {
@@ -216,7 +217,8 @@ class SignUpViewModel: BaseViewModel {
     }
 
     private func trackLoginGoogleOK() {
-        tracker.trackEvent(TrackerEvent.loginGoogle(loginSource))
+        let rememberedAccount = previousGoogleUsername.value != nil
+        tracker.trackEvent(TrackerEvent.loginGoogle(loginSource, rememberedAccount: rememberedAccount))
     }
 
     private func trackLoginGoogleFailedWithError(error: EventParameterLoginError) {
@@ -228,12 +230,13 @@ class SignUpViewModel: BaseViewModel {
 // MARK: > Previous user name
 
 private extension SignUpViewModel {
-    private func updatePreviousEmailAndUsernamesFromKeyValueStorage() {
+    private func updatePreviousEmailAndUsernamesFromKeyValueStorage() -> Bool {
         guard let accountProviderString = keyValueStorage[.previousUserAccountProvider],
-            accountProvider = AccountProvider(rawValue: accountProviderString) else { return }
+            accountProvider = AccountProvider(rawValue: accountProviderString) else { return false }
 
         let username = keyValueStorage[.previousUserEmailOrName]
         updatePreviousEmailAndUsernames(accountProvider, username: username)
+        return true
     }
 
     private func updatePreviousEmailAndUsernames(accountProvider: AccountProvider, username: String?) {
