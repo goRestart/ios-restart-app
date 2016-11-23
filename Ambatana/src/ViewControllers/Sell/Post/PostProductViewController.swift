@@ -196,7 +196,10 @@ class PostProductViewController: BaseViewController {
             guard let scrollView = self?.detailsScroll, viewHeight = self?.view.height,
             let detailsRect = self?.productDetailView.frame else { return }
             scrollView.contentInset.bottom = viewHeight - origin
+            let showingKeyboard = (viewHeight - origin) > 0
+            self?.loadingViewHidden(hide: showingKeyboard)
             scrollView.scrollRectToVisible(detailsRect, animated: false)
+            
         }.addDisposableTo(disposeBag)
     }
 
@@ -205,6 +208,13 @@ class PostProductViewController: BaseViewController {
         let rightOffset = photoButton.frame.width/2 + rightMarginCameraIcon
         let movement = view.width/2 - rightOffset
         photoButtonCenterX.constant = movement * (1.0 - scroll)
+    }
+    
+    private func loadingViewHidden(hide hide: Bool) {
+        guard !DeviceFamily.current.isWiderOrEqualThan(.iPhone6) else { return }
+        UIView.animateWithDuration(0.3, animations: { () -> Void in
+            self.customLoadingView.alpha = hide ? 0.0 : 1.0
+        })
     }
 }
 
