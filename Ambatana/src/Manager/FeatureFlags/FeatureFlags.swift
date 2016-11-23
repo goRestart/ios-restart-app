@@ -29,6 +29,7 @@ struct FeatureFlags: FeatureFlaggeable {
     static func setup() {
         Bumper.initialize()
     }
+
     
     // MARK: - A/B Tests features
 
@@ -137,11 +138,20 @@ struct FeatureFlags: FeatureFlaggeable {
         return KeywordsTravelCollection.fromPosition(ABTests.keywordsTravelCollection.value)
     }
 
+    static var commercializerAfterPosting: Bool {
+        if Bumper.enabled {
+            return Bumper.commercializerAfterPosting
+        }
+        return ABTests.commercializerAfterPosting.value
+    }
+
+
     // MARK: - Country features
 
     static var freePostingModeAllowed: Bool {
         return !FeatureFlags.matchesLocationOrRegion("tr")
     }
+
     
     // MARK: - Private
     
