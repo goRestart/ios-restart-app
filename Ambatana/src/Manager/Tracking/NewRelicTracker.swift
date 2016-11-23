@@ -52,9 +52,24 @@ final class NewRelicTracker: Tracker {
     }
     
     func setInstallation(installation: Installation?) {
+        var sessionType =  NewRelicTracker.guestSessionType
+        var sessionId: String?
+        if let sessionIdValue = installation?.objectId {
+            sessionId = sessionIdValue
+            sessionType = NewRelicTracker.appSessionType
+        }
+        NewRelic.setAttribute(NewRelicTracker.sessionType, value: sessionType)
+        NewRelic.setAttribute(NewRelicTracker.sessionSubjectId, value: sessionId)
     }
     
     func setUser(user: MyUser?) {
+        let sessionType =  NewRelicTracker.UserSessionType
+        if let sessionId = user?.objectId {
+            NewRelic.setAttribute(NewRelicTracker.sessionType, value: sessionType)
+            NewRelic.setAttribute(NewRelicTracker.sessionSubjectId, value: sessionId)
+        } else {
+            setInstallation(Core.installationRepository.installation)
+        }
     }
     
     func trackEvent(event: TrackerEvent) {
