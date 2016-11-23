@@ -290,9 +290,11 @@
 "main_sign_up_error_request_already_sent" = "사용자의 요청은 이미 진행되었습니다. 다시 시도하기 전에 잠시만 기다려주세요.";
 "main_sign_up_error_user_rejected" = "입력하신 이메일이 일치하지 않습니다. 다시 확인하시고 입력해주세요.";
 "main_sign_up_facebook_connect_button" = "페이스북과 연결하기";
+"main_sign_up_facebook_connect_button_w_name" = "Log in as %@";
 "main_sign_up_fb_connect_error_email_taken" = "로그인할 수 없습니다, 고객님의 페이스북 이메일은 이미 등록되어 있습니다. 다시 시도해주세요.";
 "main_sign_up_fb_connect_error_generic" = "로그인할 수 없습니다. 다시 시도해주세요.";
 "main_sign_up_google_connect_button" = "구글과 연결하기";
+"main_sign_up_google_connect_button_w_name" = "Log in as %@";
 "main_sign_up_help_button" = "도움";
 "main_sign_up_log_in_label" = "로그인";
 "main_sign_up_or_label" = "혹은 이메일 사용하기";
@@ -634,6 +636,8 @@
 "settings_invite_facebook_friends_button" = "페이스북 친구 초대하기";
 "settings_invite_facebook_friends_error" = "초대를 공유하는 동안 오류가 발생했습니다.";
 "settings_invite_facebook_friends_ok" = "초대가 성공적으로 공유되었습니다!";
+"settings_logout_alert_message" = "Are you sure you want to log out?";
+"settings_logout_alert_ok" = "Log out";
 "settings_logout_button" = "로그아웃";
 "settings_marketing_notifications_switch" = "마케팅 알림";
 "settings_section_profile" = "프로필";

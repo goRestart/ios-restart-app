@@ -1171,6 +1171,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("main_sign_up_facebook_connect_button", comment: "")
 	}
 
+	static func mainSignUpFacebookConnectButtonWName(var1: String) -> String {
+		return String(format: NSLocalizedString("main_sign_up_facebook_connect_button_w_name", comment: ""), var1)
+	}
+
 	static var mainSignUpFbConnectErrorEmailTaken: String {
 		return NSLocalizedString("main_sign_up_fb_connect_error_email_taken", comment: "")
 	}
@@ -1189,6 +1193,10 @@ struct LGLocalizedString {
 
 	static var mainSignUpGoogleConnectButton: String {
 		return NSLocalizedString("main_sign_up_google_connect_button", comment: "")
+	}
+
+	static func mainSignUpGoogleConnectButtonWName(var1: String) -> String {
+		return String(format: NSLocalizedString("main_sign_up_google_connect_button_w_name", comment: ""), var1)
 	}
 
 	static var mainSignUpHelpButton: String {
@@ -2557,6 +2565,14 @@ struct LGLocalizedString {
 
 	static var settingsLogoutButton: String {
 		return NSLocalizedString("settings_logout_button", comment: "")
+	}
+
+	static var settingsLogoutAlertMessage: String {
+		return NSLocalizedString("settings_logout_alert_message", comment: "")
+	}
+
+	static var settingsLogoutAlertOk: String {
+		return NSLocalizedString("settings_logout_alert_ok", comment: "")
 	}
 
 	static var settingsTitle: String {

@@ -9,8 +9,9 @@
 import UIKit
 import LGCoreKit
 import Result
+import RxSwift
 
-public enum LoginSource: String {
+enum LoginSource: String {
     case Chats = "messages"
     case Sell = "posting"
     case Profile = "view-profile"
@@ -21,7 +22,7 @@ public enum LoginSource: String {
     case ReportFraud = "report-fraud"
 }
 
-public enum LoginAppearance {
+enum LoginAppearance {
     case Dark, Light
 }
 
@@ -32,7 +33,7 @@ protocol SignUpViewModelDelegate: class {
     func viewModel(viewModel: SignUpViewModel, didFailLoginIn message: String)
 }
 
-public class SignUpViewModel: BaseViewModel {
+class SignUpViewModel: BaseViewModel {
 
     var attributedLegalText: NSAttributedString {
         guard let conditionsURL = termsAndConditionsURL, let privacyURL = privacyURL else {
@@ -60,75 +61,118 @@ public class SignUpViewModel: BaseViewModel {
     }
 
     private let sessionManager: SessionManager
+    private let keyValueStorage: KeyValueStorageable
+    private let featureFlags: FeatureFlaggeable
+    private let tracker: Tracker
     let appearance: LoginAppearance
     private let loginSource: EventParameterLoginSourceValue
-    private let googleLoginHelper: GoogleLoginHelper
+
+    private let googleLoginHelper: ExternalAuthHelper
+    private let fbLoginHelper: ExternalAuthHelper
+
+    let previousFacebookUsername: Variable<String?>
+    let previousGoogleUsername: Variable<String?>
 
     weak var delegate: SignUpViewModelDelegate?
+
+
+    // MARK: - Lifecycle
     
-    // Public methods
-    
-    public init(sessionManager: SessionManager, appearance: LoginAppearance, source: EventParameterLoginSourceValue) {
+    init(sessionManager: SessionManager, keyValueStorage: KeyValueStorageable, featureFlags: FeatureFlaggeable,
+         tracker: Tracker, appearance: LoginAppearance, source: EventParameterLoginSourceValue,
+         googleLoginHelper: ExternalAuthHelper, fbLoginHelper: ExternalAuthHelper) {
         self.sessionManager = sessionManager
+        self.keyValueStorage = keyValueStorage
+        self.featureFlags = featureFlags
+        self.tracker = tracker
         self.appearance = appearance
         self.loginSource = source
-        self.googleLoginHelper = GoogleLoginHelper(loginSource: source)
+        self.googleLoginHelper = googleLoginHelper
+        self.fbLoginHelper = fbLoginHelper
+        self.previousFacebookUsername = Variable<String?>(nil)
+        self.previousGoogleUsername = Variable<String?>(nil)
         super.init()
-        
+
+        updatePreviousEmailAndUsernamesFromKeyValueStorage()
+
         // Tracking
-        TrackerProxy.sharedInstance.trackEvent(TrackerEvent.loginVisit(loginSource))
+        tracker.trackEvent(TrackerEvent.loginVisit(loginSource))
     }
     
-    public convenience init(appearance: LoginAppearance, source: EventParameterLoginSourceValue) {
+    convenience init(appearance: LoginAppearance, source: EventParameterLoginSourceValue) {
         let sessionManager = Core.sessionManager
-        self.init(sessionManager: sessionManager, appearance: appearance, source: source)
-    }
-    
-    public func logInWithFacebook() {
-        FBLoginHelper.logInWithFacebook(sessionManager, tracker: TrackerProxy.sharedInstance, loginSource: loginSource,
-            managerStart: { [weak self] in
-                guard let strongSelf = self else { return }
-                strongSelf.delegate?.viewModelDidStartLoggingIn(strongSelf)
-            },
-            completion: { [weak self] result in
-                guard let error = self?.processAuthResult(result) else { return }
-                self?.trackLoginFBFailedWithError(error)
-            }
-        )
+        let keyValueStorage = KeyValueStorage.sharedInstance
+        let featureFlags = FeatureFlags.sharedInstance
+        let tracker = TrackerProxy.sharedInstance
+        let googleLoginHelper = GoogleLoginHelper()
+        let fbLoginHelper = FBLoginHelper()
+        self.init(sessionManager: sessionManager, keyValueStorage: keyValueStorage, featureFlags: featureFlags,
+                  tracker: tracker, appearance: appearance, source: source,
+                  googleLoginHelper: googleLoginHelper, fbLoginHelper: fbLoginHelper)
     }
 
-    public func logInWithGoogle() {
+
+    // MARK: - Public methods
+
+    func logInWithFacebook() {
+        fbLoginHelper.login({ [weak self] _ in
+            guard let strongSelf = self else { return }
+            strongSelf.delegate?.viewModelDidStartLoggingIn(strongSelf)
+            }, loginCompletion: { [weak self] result in
+                let error = self?.processAuthResult(result, accountProvider: .Facebook)
+                switch result {
+                case .Success:
+                    self?.trackLoginFBOK()
+                default:
+                    break
+                }
+                if let error = error {
+                    self?.trackLoginFBFailedWithError(error)
+                }
+            })
+    }
+
+    func logInWithGoogle() {
         googleLoginHelper.login({ [weak self] in
             // Google OAuth completed. Token obtained
             guard let strongSelf = self else { return }
             self?.delegate?.viewModelDidStartLoggingIn(strongSelf)
         }) { [weak self] result in
-            // Login with Bouncer finished with success or fail
-            guard let error = self?.processAuthResult(result) else { return }
-            self?.trackLoginGoogleFailedWithError(error)
+            let error = self?.processAuthResult(result, accountProvider: .Google)
+            switch result {
+            case .Success:
+                self?.trackLoginGoogleOK()
+            default:
+                break
+            }
+            if let error = error {
+                self?.trackLoginGoogleFailedWithError(error)
+            }
         }
     }
 
-    public func abandon() {
+    func abandon() {
         let trackerEvent = TrackerEvent.loginAbandon(loginSource)
-        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+        tracker.trackEvent(trackerEvent)
     }
 
-    public func loginSignupViewModelForLogin() -> SignUpLogInViewModel {
+    func loginSignupViewModelForLogin() -> SignUpLogInViewModel {
         return SignUpLogInViewModel(source: loginSource, action: .Login)
     }
 
-    public func loginSignupViewModelForSignUp() -> SignUpLogInViewModel {
+    func loginSignupViewModelForSignUp() -> SignUpLogInViewModel {
         return SignUpLogInViewModel(source: loginSource, action: .Signup)
     }
 
 
     // MARK: - Private methods
 
-    private func processAuthResult(result: ExternalServiceAuthResult) -> EventParameterLoginError? {
+    private func processAuthResult(result: ExternalServiceAuthResult,
+                                   accountProvider: AccountProvider) -> EventParameterLoginError? {
         var loginError: EventParameterLoginError? = nil
         switch result {
-        case .Success:
+        case let .Success(myUser):
+            savePreviousEmailOrUsername(accountProvider, username: myUser.name)
             delegate?.viewModeldidFinishLoginIn(self)
         case .Cancelled:
             delegate?.viewModeldidCancelLoginIn(self)
@@ -163,11 +207,55 @@ public class SignUpViewModel: BaseViewModel {
         return loginError
     }
 
+    private func trackLoginFBOK() {
+        tracker.trackEvent(TrackerEvent.loginFB(loginSource))
+    }
+
     private func trackLoginFBFailedWithError(error: EventParameterLoginError) {
-        TrackerProxy.sharedInstance.trackEvent(TrackerEvent.loginFBError(error))
+        tracker.trackEvent(TrackerEvent.loginFBError(error))
+    }
+
+    private func trackLoginGoogleOK() {
+        tracker.trackEvent(TrackerEvent.loginGoogle(loginSource))
     }
 
     private func trackLoginGoogleFailedWithError(error: EventParameterLoginError) {
-        TrackerProxy.sharedInstance.trackEvent(TrackerEvent.loginGoogleError(error))
+        tracker.trackEvent(TrackerEvent.loginGoogleError(error))
+    }
+}
+
+
+// MARK: > Previous user name
+
+private extension SignUpViewModel {
+    private func updatePreviousEmailAndUsernamesFromKeyValueStorage() {
+        guard let accountProviderString = keyValueStorage[.previousUserAccountProvider],
+            accountProvider = AccountProvider(rawValue: accountProviderString) else { return }
+
+        let username = keyValueStorage[.previousUserEmailOrName]
+        updatePreviousEmailAndUsernames(accountProvider, username: username)
+    }
+
+    private func updatePreviousEmailAndUsernames(accountProvider: AccountProvider, username: String?) {
+        guard featureFlags.saveMailLogout else { return }
+
+        switch accountProvider {
+        case .Email:
+            previousFacebookUsername.value = nil
+            previousGoogleUsername.value = nil
+        case .Facebook:
+            previousFacebookUsername.value = username
+            previousGoogleUsername.value = nil
+        case .Google:
+            previousFacebookUsername.value = nil
+            previousGoogleUsername.value = username
+        }
+    }
+
+    private func savePreviousEmailOrUsername(accountProvider: AccountProvider, username: String?) {
+        guard featureFlags.saveMailLogout else { return }
+
+        keyValueStorage[.previousUserAccountProvider] = accountProvider.rawValue
+        keyValueStorage[.previousUserEmailOrName] = username
     }
 }

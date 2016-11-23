@@ -60,6 +60,11 @@
         "description": "Chat head bubbles"
     },
     {
+        "name": "SaveMailLogout",
+        "values": ["No", "Yes"],
+        "description": "Remembers email or FB/Google username on logout"
+    },
+    {
         "name": "ExpressChatBanner",
         "values": ["No", "Yes"],
         "description": "Show express chat banner in chat detail"
