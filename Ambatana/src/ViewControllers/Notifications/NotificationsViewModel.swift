@@ -25,7 +25,7 @@ class NotificationsViewModel: BaseViewModel {
     private let notificationsManager: NotificationsManager
     private let locationManager: LocationManager
     private let tracker: Tracker
-
+    private let featureFlags: FeatureFlaggeable
     private let disposeBag = DisposeBag()
 
     convenience override init() {
@@ -35,13 +35,13 @@ class NotificationsViewModel: BaseViewModel {
                   myUserRepository: Core.myUserRepository,
                   notificationsManager: NotificationsManager.sharedInstance,
                   locationManager: Core.locationManager,
-                  tracker: TrackerProxy.sharedInstance)
+                  tracker: TrackerProxy.sharedInstance, featureFlags: FeatureFlags.sharedInstance)
     }
 
     init(notificationsRepository: NotificationsRepository, productRepository: ProductRepository,
          userRepository: UserRepository, myUserRepository: MyUserRepository,
          notificationsManager: NotificationsManager, locationManager: LocationManager,
-         tracker: Tracker) {
+         tracker: Tracker, featureFlags: FeatureFlaggeable) {
         self.notificationsRepository = notificationsRepository
         self.productRepository = productRepository
         self.myUserRepository = myUserRepository
@@ -49,7 +49,7 @@ class NotificationsViewModel: BaseViewModel {
         self.notificationsManager = notificationsManager
         self.locationManager = locationManager
         self.tracker = tracker
-
+        self.featureFlags = featureFlags
         super.init()
     }
 
@@ -136,14 +136,14 @@ private extension NotificationsViewModel {
     private func buildNotification(notification: Notification) -> NotificationData? {
         switch notification.type {
         case let .Rating(userId, userImageUrl, userName, _, _):
-            guard FeatureFlags.userReviews else { return nil }
+            guard featureFlags.userReviews else { return nil }
             return NotificationData(type: .Rating(userId: userId, userName: userName, userImage: userImageUrl),
                                     date: notification.createdAt, isRead: notification.isRead,
                                     primaryAction: { [weak self] in
                                         self?.navigator?.openMyRatingList()
                                     })
         case let .RatingUpdated(userId, userImageUrl, userName, _, _):
-            guard FeatureFlags.userReviews else { return nil }
+            guard featureFlags.userReviews else { return nil }
             return NotificationData(type: .RatingUpdated(userId: userId, userName: userName, userImage: userImageUrl),
                                     date: notification.createdAt, isRead: notification.isRead,
                                     primaryAction: { [weak self] in

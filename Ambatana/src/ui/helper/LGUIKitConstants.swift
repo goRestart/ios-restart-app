@@ -24,6 +24,8 @@ struct LGUIKitConstants {
 
     static let horitzontalDistanceMedium = 10
     static let horitzontalDistanceSmall = 5
+    
+    static let tabBarSellFloatingButtonDistance: CGFloat = 15
 
     // Message Distances
     private static let messageLongDistance = 50
@@ -38,7 +40,6 @@ struct LGUIKitConstants {
     // Max Widths
     static let alertWidth = 270
     static let tooltipWidth: CGFloat = 270
-
 
     // MARK: - Corner radius
     static let defaultCornerRadius: CGFloat = 4
@@ -56,6 +57,7 @@ struct LGUIKitConstants {
     static let bigButtonHeight = 50
     static let mediumButtonHeight = 44
     static let smallButtonHeight = 30
+    static let tabBarSellFloatingButtonHeight: CGFloat = 50
 
     // MARK: - Sizes
     static var onePixelSize: CGFloat {

@@ -35,24 +35,26 @@ class PostProductDetailViewModel: BaseViewModel {
         return description.value.isEmpty ? nil : description.value
     }
 
+    var featureFlags: FeatureFlaggeable
     let currencySymbol: String?
-    
-    var freeOptionAvailable: Bool {
-        return FeatureFlags.freePostingMode.enabled && FeatureFlags.freePostingMode == .OneButton
-    }
 
+    var freeOptionAvailable: Bool {
+        return featureFlags.freePostingModeAllowed
+    }
     private let disposeBag = DisposeBag()
 
     override convenience  init() {
         var currencySymbol: String? = nil
+        let featureFlags = FeatureFlags.sharedInstance
         if let countryCode = Core.locationManager.currentPostalAddress?.countryCode {
             currencySymbol = Core.currencyHelper.currencyWithCountryCode(countryCode).symbol
         }
-        self.init(currencySymbol: currencySymbol)
+        self.init(currencySymbol: currencySymbol, featureFlags: featureFlags)
     }
 
-    init(currencySymbol: String?) {
+    init(currencySymbol: String?, featureFlags: FeatureFlaggeable) {
         self.currencySymbol = currencySymbol
+        self.featureFlags = featureFlags
         super.init()
     }
 

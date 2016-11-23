@@ -175,6 +175,7 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
     let locationManager: LocationManager
     let commercializerRepository: CommercializerRepository
     let tracker: Tracker
+    let featureFlags: FeatureFlaggeable
 
     // Delegate
     weak var delegate: EditProductViewModelDelegate?
@@ -193,21 +194,23 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
         let locationManager = Core.locationManager
         let commercializerRepository = Core.commercializerRepository
         let tracker = TrackerProxy.sharedInstance
+        let featureFlags = FeatureFlags.sharedInstance
         self.init(myUserRepository: myUserRepository, productRepository: productRepository,
                   categoryRepository: categoryRepository, locationManager: locationManager,
-                  commercializerRepository: commercializerRepository, tracker: tracker, product: product)
+                  commercializerRepository: commercializerRepository, tracker: tracker, product: product,
+                  featureFlags: featureFlags)
     }
     
     init(myUserRepository: MyUserRepository, productRepository: ProductRepository, categoryRepository: CategoryRepository,
          locationManager: LocationManager, commercializerRepository: CommercializerRepository, tracker: Tracker,
-         product: Product) {
+         product: Product, featureFlags: FeatureFlaggeable) {
         self.myUserRepository = myUserRepository
         self.productRepository = productRepository
         self.categoryRepository = categoryRepository
         self.locationManager = locationManager
         self.commercializerRepository = commercializerRepository
         self.tracker = tracker
-        
+        self.featureFlags = featureFlags
         self.initialProduct = product
 
         self.title = product.title
@@ -236,7 +239,7 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
         for file in product.images { productImages.append(file) }
 
         self.shouldShareInFB = myUserRepository.myUser?.facebookAccount != nil
-        self.isFreePosting.value = product.price.free
+        self.isFreePosting.value = featureFlags.freePostingModeAllowed && product.price.free
         super.init()
 
         setupCategories()
@@ -267,7 +270,8 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
         }
         let name = title ?? ""
         let description = (descr ?? "").stringByRemovingEmoji()
-        let priceAmount = isFreePosting.value && FeatureFlags.freePostingMode.enabled ? ProductPrice.Free : ProductPrice.Normal((price ?? "0").toPriceDouble())
+
+        let priceAmount = isFreePosting.value && featureFlags.freePostingModeAllowed ? ProductPrice.Free : ProductPrice.Normal((price ?? "0").toPriceDouble())
         let currency = initialProduct.currency
 
         let editedProduct = productRepository.updateProduct(initialProduct, name: name, description: description,

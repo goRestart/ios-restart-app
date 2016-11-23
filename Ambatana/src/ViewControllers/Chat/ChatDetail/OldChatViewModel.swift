@@ -243,6 +243,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     private let stickersRepository: StickersRepository
     private let chatViewMessageAdapter: ChatViewMessageAdapter
     private let tracker: Tracker
+    private let featureFlags: FeatureFlaggeable
     private let configManager: ConfigManager
     private let sessionManager: SessionManager
     private let keyValueStorage: KeyValueStorage
@@ -343,7 +344,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     convenience init?(chat: Chat, navigator: ChatDetailNavigator?) {
         self.init(chat: chat, myUserRepository: Core.myUserRepository, configManager: ConfigManager.sharedInstance,
                   sessionManager: Core.sessionManager, navigator: navigator,
-                  keyValueStorage: KeyValueStorage.sharedInstance)
+                  keyValueStorage: KeyValueStorage.sharedInstance, featureFlags: FeatureFlags.sharedInstance)
     }
     
     convenience init?(product: Product, navigator: ChatDetailNavigator?) {
@@ -351,30 +352,33 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         let chat = LocalChat(product: product, myUser: myUserRepository.myUser)
         let configManager = ConfigManager.sharedInstance
         let sessionManager = Core.sessionManager
+        let featureFlags = FeatureFlags.sharedInstance
         self.init(chat: chat, myUserRepository: myUserRepository,
                   configManager: configManager, sessionManager: sessionManager, navigator: navigator,
-                  keyValueStorage: KeyValueStorage.sharedInstance)
+                  keyValueStorage: KeyValueStorage.sharedInstance, featureFlags: featureFlags)
     }
 
     convenience init?(chat: Chat, myUserRepository: MyUserRepository, configManager: ConfigManager,
-                      sessionManager: SessionManager, navigator: ChatDetailNavigator?, keyValueStorage: KeyValueStorage) {
+                      sessionManager: SessionManager, navigator: ChatDetailNavigator?, keyValueStorage: KeyValueStorage,
+						featureFlags: FeatureFlaggeable) {
         let chatRepository = Core.oldChatRepository
         let productRepository = Core.productRepository
         let userRepository = Core.userRepository
         let tracker = TrackerProxy.sharedInstance
         let sessionManager = Core.sessionManager
         let stickersRepository = Core.stickersRepository
+        let featureFlags = FeatureFlags.sharedInstance
         self.init(chat: chat, myUserRepository: myUserRepository, chatRepository: chatRepository,
                   productRepository: productRepository, userRepository: userRepository,
                   stickersRepository: stickersRepository, tracker: tracker,
                   configManager: configManager, sessionManager: sessionManager, navigator: navigator,
-                  keyValueStorage: keyValueStorage)
+                  keyValueStorage: keyValueStorage, featureFlags: featureFlags)
     }
 
     init?(chat: Chat, myUserRepository: MyUserRepository, chatRepository: OldChatRepository,
           productRepository: ProductRepository, userRepository: UserRepository, stickersRepository: StickersRepository,
           tracker: Tracker, configManager: ConfigManager, sessionManager: SessionManager, navigator: ChatDetailNavigator?,
-          keyValueStorage: KeyValueStorage) {
+          keyValueStorage: KeyValueStorage, featureFlags: FeatureFlaggeable) {
         self.chat = chat
         self.myUserRepository = myUserRepository
         self.chatRepository = chatRepository
@@ -383,6 +387,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         self.stickersRepository = stickersRepository
         self.chatViewMessageAdapter = ChatViewMessageAdapter()
         self.tracker = tracker
+        self.featureFlags = featureFlags
         self.configManager = configManager
         self.sessionManager = sessionManager
         self.navigator = navigator
@@ -630,7 +635,8 @@ public class OldChatViewModel: BaseViewModel, Paginable {
             relatedProductsEnabled.asObservable(),
         expressMessagesAlreadySent.asObservable()) { $0 && $1 && !$2 && !$3 }
             .distinctUntilChanged().bindNext { [weak self] shouldShowBanner in
-                self?.shouldShowExpressBanner.value = shouldShowBanner && FeatureFlags.expressChatBanner
+                guard let strongSelf = self else { return }
+                self?.shouldShowExpressBanner.value = shouldShowBanner && strongSelf.featureFlags.expressChatBanner
         }.addDisposableTo(disposeBag)
 
         setupDeepLinksRx()
@@ -1126,8 +1132,7 @@ extension OldChatViewModel: DirectAnswersPresenterDelegate {
         let emptyAction: () -> Void = { [weak self] in
             self?.clearProductSoldDirectAnswer()
         }
-        
-        if FeatureFlags.freePostingMode.enabled && product.price.free {
+        if featureFlags.freePostingModeAllowed && product.price.free {
             if isBuyer {
                 return [DirectAnswer(text: LGLocalizedString.directAnswerInterested, action: emptyAction),
                         DirectAnswer(text: LGLocalizedString.directAnswerFreeStillHave, action: emptyAction),

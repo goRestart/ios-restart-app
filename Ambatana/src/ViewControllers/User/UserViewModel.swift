@@ -34,6 +34,7 @@ class UserViewModel: BaseViewModel {
     private let myUserRepository: MyUserRepository
     private let userRepository: UserRepository
     private let tracker: Tracker
+    private let featureFlags: FeatureFlaggeable
 
     // Data & VMs
     private let user: Variable<User?>
@@ -92,8 +93,9 @@ class UserViewModel: BaseViewModel {
         let myUserRepository = Core.myUserRepository
         let userRepository = Core.userRepository
         let tracker = TrackerProxy.sharedInstance
+        let featureFlags = FeatureFlags.sharedInstance
         self.init(sessionManager: sessionManager, myUserRepository: myUserRepository, userRepository: userRepository,
-            tracker: tracker, isMyProfile: true, user: nil, source: source)
+                  tracker: tracker, isMyProfile: true, user: nil, source: source, featureFlags: featureFlags)
     }
 
     convenience init(user: User, source: UserSource) {
@@ -101,8 +103,9 @@ class UserViewModel: BaseViewModel {
         let myUserRepository = Core.myUserRepository
         let userRepository = Core.userRepository
         let tracker = TrackerProxy.sharedInstance
+        let featureFlags = FeatureFlags.sharedInstance
         self.init(sessionManager: sessionManager, myUserRepository: myUserRepository, userRepository: userRepository,
-            tracker: tracker, isMyProfile: false, user: user, source: source)
+                  tracker: tracker, isMyProfile: false, user: user, source: source, featureFlags: featureFlags)
     }
     
     convenience init(chatInterlocutor: ChatInterlocutor, source: UserSource) {
@@ -110,13 +113,14 @@ class UserViewModel: BaseViewModel {
         let myUserRepository = Core.myUserRepository
         let userRepository = Core.userRepository
         let tracker = TrackerProxy.sharedInstance
+		let featureFlags = FeatureFlags.sharedInstance
         let user = LocalUser(chatInterlocutor: chatInterlocutor)
         self.init(sessionManager: sessionManager, myUserRepository: myUserRepository, userRepository: userRepository,
-                  tracker: tracker, isMyProfile: false, user: user, source: source)
+                  tracker: tracker, isMyProfile: false, user: user, source: source, featureFlags: featureFlags)
     }
 
     init(sessionManager: SessionManager, myUserRepository: MyUserRepository, userRepository: UserRepository,
-        tracker: Tracker, isMyProfile: Bool, user: User?, source: UserSource) {
+         tracker: Tracker, isMyProfile: Bool, user: User?, source: UserSource, featureFlags: FeatureFlaggeable) {
         self.sessionManager = sessionManager
         self.myUserRepository = myUserRepository
         self.userRepository = userRepository
@@ -124,7 +128,7 @@ class UserViewModel: BaseViewModel {
         self.isMyProfile = isMyProfile
         self.user = Variable<User?>(user)
         self.source = source
-
+        self.featureFlags = featureFlags
         self.sellingProductListRequester = UserStatusesProductListRequester(statuses: [.Pending, .Approved],
                                                                             itemsPerPage: Constants.numProductsPerPageDefault)
         self.sellingProductListViewModel = ProductListViewModel(requester: self.sellingProductListRequester)
@@ -180,7 +184,7 @@ extension UserViewModel {
     }
 
     func ratingsButtonPressed() {
-        guard FeatureFlags.userReviews else { return }
+        guard featureFlags.userReviews else { return }
         openRatings()
     }
 
@@ -443,7 +447,7 @@ extension UserViewModel {
             }
             strongSelf.userAvatarURL.value = user?.avatar?.fileURL
 
-            if FeatureFlags.userReviews {
+            if strongSelf.featureFlags.userReviews {
                 strongSelf.userRatingAverage.value = user?.ratingAverage?.roundNearest(0.5)
                 strongSelf.userRatingCount.value = user?.ratingCount
             }

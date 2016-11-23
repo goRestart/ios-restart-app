@@ -27,6 +27,7 @@ class ProductPostedViewModel: BaseViewModel {
     private var status: ProductPostedStatus
     private var productRepository: ProductRepository?
     private var trackingInfo: PostProductTrackingInfo
+    private var featureFlags: FeatureFlaggeable
 
     var wasFreePosting: Bool {
         switch self.status {
@@ -44,20 +45,23 @@ class ProductPostedViewModel: BaseViewModel {
 
     init(postResult: ProductResult, trackingInfo: PostProductTrackingInfo) {
         self.trackingInfo = trackingInfo
+        self.featureFlags = FeatureFlags.sharedInstance
         self.status = ProductPostedStatus(result: postResult)
         super.init()
     }
 
     convenience init(productToPost: Product, productImage: UIImage, trackingInfo: PostProductTrackingInfo) {
         let productRepository = Core.productRepository
+        let featureFlags = FeatureFlags.sharedInstance
         self.init(productRepository: productRepository, productToPost: productToPost,
-            productImage: productImage, trackingInfo: trackingInfo)
+                  productImage: productImage, trackingInfo: trackingInfo, featureFlags: featureFlags)
     }
 
     init(productRepository: ProductRepository, productToPost: Product,
-        productImage: UIImage, trackingInfo: PostProductTrackingInfo) {
+         productImage: UIImage, trackingInfo: PostProductTrackingInfo, featureFlags: FeatureFlaggeable) {
             self.productRepository = productRepository
             self.trackingInfo = trackingInfo
+            self.featureFlags = featureFlags
             self.status = ProductPostedStatus(image: productImage, product: productToPost)
             super.init()
     }
@@ -218,7 +222,7 @@ class ProductPostedViewModel: BaseViewModel {
                 let event = TrackerEvent.productSellComplete(postedProduct, buttonName: buttonName,
                                                              sellButtonPosition: strongSelf.trackingInfo.sellButtonPosition,
                                                              negotiable: negotiable, pictureSource: pictureSource,
-                                                             freePostingMode: FeatureFlags.freePostingMode)
+                                                             freePostingModeAllowed: strongSelf.featureFlags.freePostingModeAllowed)
                 strongSelf.trackEvent(event)
 
                 // Track product was sold in the first 24h (and not tracked before)

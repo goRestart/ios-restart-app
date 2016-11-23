@@ -47,6 +47,9 @@ DerivedData
 #
 # Pods/
 
+# Local podspecs (pod local references)
+Pods/Local Podspecs/
+
 #Single files
 LetGo.xcscmblueprint
 report.xml

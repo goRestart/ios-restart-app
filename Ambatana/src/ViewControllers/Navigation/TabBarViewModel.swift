@@ -27,6 +27,7 @@ class TabBarViewModel: BaseViewModel {
     private let notificationsManager: NotificationsManager
     private let myUserRepository: MyUserRepository
     private var didAppearFirstTime: Bool
+    private var featureFlags: FeatureFlaggeable
 
     private let disposeBag = DisposeBag()
 
@@ -36,13 +37,15 @@ class TabBarViewModel: BaseViewModel {
     convenience override init() {
         self.init(keyValueStorage: KeyValueStorage.sharedInstance,
                   notificationsManager: NotificationsManager.sharedInstance,
-                  myUserRepository: Core.myUserRepository)
+                  myUserRepository: Core.myUserRepository, featureFlags: FeatureFlags.sharedInstance)
     }
 
-    init(keyValueStorage: KeyValueStorage, notificationsManager: NotificationsManager, myUserRepository: MyUserRepository) {
+    init(keyValueStorage: KeyValueStorage, notificationsManager: NotificationsManager, myUserRepository: MyUserRepository,
+         featureFlags: FeatureFlaggeable) {
         self.keyValueStorage = keyValueStorage
         self.notificationsManager = notificationsManager
         self.myUserRepository = myUserRepository
+        self.featureFlags = featureFlags
         self.didAppearFirstTime = false
         super.init()
         setupRx()
@@ -51,7 +54,7 @@ class TabBarViewModel: BaseViewModel {
     func didAppear() {
         guard !didAppearFirstTime else { return }
         didAppearFirstTime = true
-        guard FeatureFlags.freePostingMode != .Disabled && !keyValueStorage[.giveAwayTooltipAlreadyShown] else { return }
+        guard featureFlags.freePostingModeAllowed && !keyValueStorage[.giveAwayTooltipAlreadyShown] else { return }
 
         var newTextAttributes = [String : AnyObject]()
         newTextAttributes[NSForegroundColorAttributeName] = UIColor.primaryColorHighlighted
@@ -83,10 +86,6 @@ class TabBarViewModel: BaseViewModel {
         navigator?.openSell(.SellButton)
     }
 
-    func giveAwayButtonPressed() {
-        navigator?.openSell(.GiveAwayButton)
-    }
-
     func userRating(source: RateUserSource, data: RateUserData) {
         navigator?.openUserRating(source, data: data)
     }
@@ -105,8 +104,9 @@ class TabBarViewModel: BaseViewModel {
 
         Observable.combineLatest(myUserRepository.rx_myUser,
             notificationsManager.unreadNotificationsCount.asObservable(),
-            resultSelector: { (myUser, count) in
-                guard FeatureFlags.notificationsSection else { return nil }
+            resultSelector: { [weak self] (myUser, count) in
+                guard let strongSelf = self else { return nil }
+                guard strongSelf.featureFlags.notificationsSection else { return nil }
                 guard myUser != nil else { return String(1) }
                 return count.flatMap { $0 > 0 ? String($0) : nil }
             }).bindTo(notificationsBadge).addDisposableTo(disposeBag)

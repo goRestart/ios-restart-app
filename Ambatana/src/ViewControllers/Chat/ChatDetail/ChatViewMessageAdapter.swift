@@ -51,7 +51,7 @@ class ChatViewMessageAdapter {
         switch message.type {
         case .Offer:
             type = ChatViewMessageType.Offer(text: message.text)
-        case .Text:
+        case .Text, .QuickAnswer, .ExpressChat, .FavoritedProduct:
             type = ChatViewMessageType.Text(text: message.text)
         case .Sticker:
             if let sticker = stickersRepository.sticker(message.text) {
