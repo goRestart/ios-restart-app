@@ -2230,16 +2230,20 @@ class TrackerEventSpec: QuickSpec {
             describe("express chat") {
                 context("express chat start") {
                     beforeEach {
-                        sut = TrackerEvent.expressChatStart()
+                        sut = TrackerEvent.expressChatStart(.Automatic)
                     }
                     it("has its event name") {
                         expect(sut.name.rawValue) == "express-chat-start"
+                    }
+                    it("has its trigger") {
+                        let trigger = sut.params!.stringKeyParams["express-chat-trigger"] as? String
+                        expect(trigger) == "automatic"
                     }
                 }
 
                 context("express chat complete") {
                     beforeEach {
-                        sut = TrackerEvent.expressChatComplete(3)
+                        sut = TrackerEvent.expressChatComplete(3, trigger: .Automatic)
                     }
                     it("has its event name") {
                         expect(sut.name.rawValue) == "express-chat-complete"
@@ -2248,14 +2252,22 @@ class TrackerEventSpec: QuickSpec {
                         let expressConversations = sut.params!.stringKeyParams["express-conversations"] as? Int
                         expect(expressConversations) == 3
                     }
+                    it("has its trigger") {
+                        let trigger = sut.params!.stringKeyParams["express-chat-trigger"] as? String
+                        expect(trigger) == "automatic"
+                    }
                 }
 
                 context("express chat don't ask again") {
                     beforeEach {
-                        sut = TrackerEvent.expressChatDontAsk()
+                        sut = TrackerEvent.expressChatDontAsk(.Automatic)
                     }
                     it("has its event name") {
                         expect(sut.name.rawValue) == "express-chat-dont-ask"
+                    }
+                    it("has its trigger") {
+                        let trigger = sut.params!.stringKeyParams["express-chat-trigger"] as? String
+                        expect(trigger) == "automatic"
                     }
                 }
             }
