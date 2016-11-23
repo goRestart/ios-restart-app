@@ -41,7 +41,7 @@ final class TabBarController: UITabBarController {
     }
     
     init(viewModel: TabBarViewModel, featureFlags: FeatureFlaggeable) {
-        self.floatingSellButton = FloatingButton()
+        self.floatingSellButton = FloatingButton(with: LGLocalizedString.tabBarToolTip, image: UIImage(named: "ic_sell_white"), position: .Left)
         self.viewModel = viewModel
         self.featureFlags = featureFlags
         super.init(nibName: nil, bundle: nil)
@@ -172,7 +172,7 @@ final class TabBarController: UITabBarController {
     }
 
     private func setupSellButtons() {
-        floatingSellButton.sellCompletion = { [weak self] in self?.sellButtonPressed() }
+        floatingSellButton.buttonTouchBlock = { [weak self] in self?.sellButtonPressed() }
         floatingSellButton.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(floatingSellButton)
 
@@ -180,12 +180,13 @@ final class TabBarController: UITabBarController {
                                     relatedBy: .Equal, toItem: view, attribute: .CenterX, multiplier: 1, constant: 0)
         floatingSellButtonMarginConstraint = NSLayoutConstraint(item: floatingSellButton, attribute: .Bottom,
                                                 relatedBy: .Equal, toItem: view, attribute: .Bottom, multiplier: 1,
-                                                constant: -(tabBar.frame.height + 15)) // 15 above tabBar
+                                                constant: -(tabBar.frame.height + LGUIKitConstants.tabBarSellFloatingButtonDistance))
         view.addConstraints([sellCenterXConstraint, floatingSellButtonMarginConstraint])
 
         let views: [String: AnyObject] = ["fsb" : floatingSellButton]
-        let hConstraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|-(>=15)-[fsb]-(>=15)-|",
-                                                                          options: [], metrics: nil, views: views)
+        let metrics: [String: AnyObject] = ["margin" : LGUIKitConstants.tabBarSellFloatingButtonDistance]
+        let hConstraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|-(>=margin)-[fsb]-(>=margin)-|",
+                                                                          options: [], metrics: metrics, views: views)
         view.addConstraints(hConstraints)
     }
 
@@ -338,7 +339,8 @@ extension TabBarController: AppRatingViewDelegate {
 
 extension TabBarController {
     func setAccessibilityIds() {
-        floatingSellButton.sellButton.accessibilityId = AccessibilityId.TabBarFloatingSellButton
+        floatingSellButton.isAccessibilityElement = true
+        floatingSellButton.accessibilityId = AccessibilityId.TabBarFloatingSellButton
     }
 }
 
