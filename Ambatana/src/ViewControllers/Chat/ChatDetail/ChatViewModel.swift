@@ -161,7 +161,7 @@ class ChatViewModel: BaseViewModel {
     private var shouldAskProductSold: Bool = false
     private var isSendingQuickAnswer = false
     private var productId: String? // Only used when accessing a chat from a product
-    private var preSendMessageCompletion: ((text: String, isQuickAnswer: Bool, type: ChatMessageType) -> Void)?
+    private var preSendMessageCompletion: ((text: String, type: ChatMessageType) -> Void)?
     private var afterRetrieveMessagesCompletion: (() -> Void)?
 
     private let disposeBag = DisposeBag()
@@ -578,20 +578,20 @@ extension ChatViewModel {
 extension ChatViewModel {
     
     func sendSticker(sticker: Sticker) {
-        sendMessage(sticker.name, isQuickAnswer: false, type: .Sticker)
+        sendMessage(sticker.name, type: .Sticker)
     }
     
     func sendText(text: String, isQuickAnswer: Bool) {
-        sendMessage(text, isQuickAnswer: isQuickAnswer, type: .Text)
+        sendMessage(text, type: isQuickAnswer ? .QuickAnswer : .Text)
     }
     
-    private func sendMessage(text: String, isQuickAnswer: Bool, type: ChatMessageType) {
+    private func sendMessage(text: String, type: ChatMessageType) {
         if let preSendMessageCompletion = preSendMessageCompletion {
-            preSendMessageCompletion(text: text, isQuickAnswer: isQuickAnswer, type: type)
+            preSendMessageCompletion(text: text, type: type)
             return
         }
 
-        if isQuickAnswer {
+        if type == .QuickAnswer {
             if isSendingQuickAnswer { return }
             isSendingQuickAnswer = true
         }
@@ -600,7 +600,7 @@ extension ChatViewModel {
         guard let convId = conversation.value.objectId else { return }
         guard let userId = myUserRepository.myUser?.objectId else { return }
         
-        if !isQuickAnswer && type != .Sticker {
+        if type == .Text {
             delegate?.vmClearText()
         }
 
@@ -615,7 +615,7 @@ extension ChatViewModel {
                 guard let id = newMessage.objectId else { return }
                 strongSelf.markMessageAsSent(id)
                 strongSelf.afterSendMessageEvents()
-                strongSelf.trackMessageSent(isQuickAnswer, type: type)
+                strongSelf.trackMessageSent(type: type)
             } else if let error = result.error {
                 // TODO: 🎪 Create an "errored" state for Chat Message so we can retry
                 switch error {
@@ -625,7 +625,7 @@ extension ChatViewModel {
                     self?.delegate?.vmDidFailSendingMessage()
                 }
             }
-            if isQuickAnswer {
+            if type == .QuickAnswer {
                 self?.isSendingQuickAnswer = false
             }
         }
@@ -1024,7 +1024,7 @@ private extension ChatViewModel {
         interlocutorId.value = sellerId
 
         // Configure login + send actions
-        preSendMessageCompletion = { [weak self] (text: String, isQuickAnswer: Bool, type: ChatMessageType) in
+        preSendMessageCompletion = { [weak self] (text: String, type: ChatMessageType) in
             self?.delegate?.vmHideKeyboard(false)
             self?.delegate?.vmRequestLogin() { [weak self] in
                 guard let strongSelf = self else { return }
@@ -1040,7 +1040,7 @@ private extension ChatViewModel {
                 self?.afterRetrieveMessagesCompletion = { [weak self] in
                     self?.afterRetrieveMessagesCompletion = nil
                     guard let messages = self?.messages.value where messages.isEmpty else { return }
-                    self?.sendMessage(text, isQuickAnswer: isQuickAnswer, type: type)
+                    self?.sendMessage(text, type: type)
                 }
                 self?.syncConversation(productId, sellerId: sellerId)
             }
@@ -1065,7 +1065,7 @@ private extension ChatViewModel {
         TrackerProxy.sharedInstance.trackEvent(firstMessageEvent)
     }
 
-    private func trackMessageSent(isQuickAnswer: Bool, type: ChatMessageType) {
+    private func trackMessageSent(type type: ChatMessageType) {
         guard let product = conversation.value.product else { return }
         guard let userId = conversation.value.interlocutor?.objectId else { return }
 
@@ -1075,7 +1075,8 @@ private extension ChatViewModel {
         }
         let messageSentEvent = TrackerEvent.userMessageSent(product, userToId: userId,
                                                             messageType: type.trackingMessageType,
-                                                            isQuickAnswer: isQuickAnswer ? .True : .False, typePage: .Chat)
+                                                            isQuickAnswer: type == .QuickAnswer ? .True : .False,
+                                                            typePage: .Chat)
         TrackerProxy.sharedInstance.trackEvent(messageSentEvent)
     }
     
@@ -1274,6 +1275,12 @@ extension ChatMessageType {
             return .Offer
         case .Sticker:
             return .Sticker
+        case .FavoritedProduct:
+            return .Favorite
+        case .ExpressChat:
+            return .ExpressChat
+        case .QuickAnswer:
+            return .QuickAnswer
         }
     }
 }
