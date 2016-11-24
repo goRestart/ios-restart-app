@@ -42,7 +42,6 @@ class ProductPostedViewController: BaseViewController, ProductPostedViewModelDel
     private let viewModel: ProductPostedViewModel
     private let socialSharer: SocialSharer
 
-
     // MARK: - View lifecycle
 
     convenience init(viewModel: ProductPostedViewModel) {
@@ -89,7 +88,7 @@ class ProductPostedViewController: BaseViewController, ProductPostedViewModelDel
     }
 
     @IBAction func onSharebutton(sender: AnyObject) {
-        shareButtonPressed()
+        viewModel.shareActionPressed()
     }
     
     @IBAction func onEditButton(sender: AnyObject) {
@@ -110,7 +109,10 @@ class ProductPostedViewController: BaseViewController, ProductPostedViewModelDel
     func productPostedViewModel(viewModel: ProductPostedViewModel, setupStaticState correct: Bool) {
         setupStatic(correct)
     }
-
+    
+    func productPostedViewModelShareNative() {
+        shareButtonPressed()
+    }
 
     // MARK: - Private methods
 

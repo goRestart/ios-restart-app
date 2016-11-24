@@ -281,7 +281,7 @@ class ChatViewModel: BaseViewModel {
         guard isBuyer else { return }
         guard !relatedProducts.isEmpty else { return }
         guard let productId = conversation.value.product?.objectId else { return }
-        navigator?.openExpressChat(relatedProducts, sourceProductId: productId, forcedOpen: false)
+        navigator?.openExpressChat(relatedProducts, sourceProductId: productId, manualOpen: false)
     }
 
     func setupConversationFromProduct(product: Product) {
@@ -544,7 +544,7 @@ class ChatViewModel: BaseViewModel {
 
     func bannerActionButtonTapped() {
         guard let productId = conversation.value.product?.objectId else { return }
-        navigator?.openExpressChat(relatedProducts, sourceProductId: productId, forcedOpen: true)
+        navigator?.openExpressChat(relatedProducts, sourceProductId: productId, manualOpen: true)
     }
 }
 

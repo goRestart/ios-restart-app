@@ -237,16 +237,22 @@ class ProductCarouselViewModel: BaseViewModel {
         delegate?.vmRemoveMoreInfoTooltip()
     }
 
+    func didOpenInPlaceShare() {
+        currentProductViewModel?.trackShareStarted(nil, buttonPosition: .Top)
+    }
+
     func openFullScreenShare() {
         guard let product = currentProductViewModel?.product.value,
             socialMessage = currentProductViewModel?.socialMessage.value else { return }
 
+        currentProductViewModel?.trackShareStarted(nil, buttonPosition: .Top)
         navigator?.openFullScreenShare(product, socialMessage: socialMessage)
     }
 
     func openShare(shareType: ShareType, fromViewController: UIViewController, barButtonItem: UIBarButtonItem? = nil) {
         currentProductViewModel?.openShare(shareType, fromViewController: fromViewController)
     }
+
 
     // MARK: - Private Methods
     
@@ -315,11 +321,10 @@ extension ProductCarouselViewModel {
 }
 
 
-// MARK: - SocialShareFacadeDelegate
+// MARK: - SocialSharerDelegate
 
 extension ProductCarouselViewModel: SocialSharerDelegate {
     func shareStartedIn(shareType: ShareType) {
-        currentProductViewModel?.trackShareStarted(shareType, buttonPosition: .Top)
     }
 
     func shareFinishedIn(shareType: ShareType, withState state: SocialShareState) {

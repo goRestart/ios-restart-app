@@ -15,6 +15,7 @@ protocol ProductPostedViewModelDelegate: class {
     func productPostedViewModelSetupLoadingState(viewModel: ProductPostedViewModel)
     func productPostedViewModel(viewModel: ProductPostedViewModel, finishedLoadingState correct: Bool)
     func productPostedViewModel(viewModel: ProductPostedViewModel, setupStaticState correct: Bool)
+    func productPostedViewModelShareNative()
 }
 
 
@@ -157,11 +158,28 @@ class ProductPostedViewModel: BaseViewModel {
         case let .Error(error):
             trackEvent(TrackerEvent.productSellErrorClose(error))
         }
-
-        if let product = product {
-            navigator?.closeProductPosted(product)
-        } else {
+        
+        guard let productValue = product else {
             navigator?.cancelProductPosted()
+            return
+        }
+        
+        if featureFlags.shareAfterPosting {
+            if let socialMessage = socialMessage {
+                navigator?.closeProductPostedAndOpenShare(productValue, socialMessage: socialMessage)
+            } else {
+                navigator?.cancelProductPosted()
+            }
+        } else {
+            navigator?.closeProductPosted(productValue)
+        }
+    }
+    
+    func shareActionPressed() {
+        if featureFlags.shareAfterPosting {
+            closeActionPressed()
+        } else {
+            delegate?.productPostedViewModelShareNative()
         }
     }
 

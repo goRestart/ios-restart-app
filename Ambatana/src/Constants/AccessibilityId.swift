@@ -157,6 +157,7 @@ enum AccessibilityId: String {
     // User View
     case UserViewNameLabel
     case UserViewSubtitleLabel
+    case UserViewTextInfoContainer
 
     // Notifications
     case NotificationsRefresh

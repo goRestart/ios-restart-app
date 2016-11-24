@@ -85,6 +85,11 @@
         "description": "Commercializer after posting"
     },
     {
+         "name": "ShareAfterPosting",
+        "values": ["No", "Yes"],
+        "description": "Show sharing screen after posting (forced)"
+    },
+    {
         "name": "PostingMultiPictureEnabled",
         "values": ["No", "Yes"],
         "description": "Posting multi picture enabled"
