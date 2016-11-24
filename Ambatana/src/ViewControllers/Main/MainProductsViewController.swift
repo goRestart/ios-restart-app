@@ -19,7 +19,7 @@ enum SearchSuggestionType {
 }
 
 class MainProductsViewController: BaseViewController, ProductListViewScrollDelegate, MainProductsViewModelDelegate,
-    FilterTagsViewControllerDelegate, PermissionsDelegate, UITextFieldDelegate, ScrollableToTop {
+    FilterTagsViewControllerDelegate, UITextFieldDelegate, ScrollableToTop {
     
     // ViewModel
     var viewModel: MainProductsViewModel
@@ -64,7 +64,6 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
         self.viewModel = viewModel
         super.init(viewModel: viewModel, nibName: nibNameOrNil)
         viewModel.delegate = self
-        viewModel.permissionsDelegate = self
         hidesBottomBarWhenPushed = false
         floatingSellButtonHidden = false
         hasTabBar = true
@@ -132,14 +131,6 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     func scrollToTop() {
         guard viewLoaded else { return }
         productListView.scrollToTop(true)
-    }
-
-
-    // MARK: - PermissionsDelegate
-
-    func mainProductsViewModelShowPushPermissionsAlert(mainProductsViewModel: MainProductsViewModel) {
-        guard let tabBarCtl = tabBarController else { return }
-        PushPermissionsManager.sharedInstance.showPrePermissionsViewFrom(tabBarCtl, type: .ProductList, completion: nil)
     }
     
 

@@ -17,10 +17,6 @@ protocol MainProductsViewModelDelegate: BaseViewModelDelegate {
     func vmShowTags(tags: [FilterTag])
 }
 
-protocol PermissionsDelegate: class {
-    func mainProductsViewModelShowPushPermissionsAlert(mainProductsViewModel: MainProductsViewModel)
-}
-
 struct MainProductsHeader: OptionSetType {
     let rawValue : Int
     init(rawValue:Int){ self.rawValue = rawValue}
@@ -108,7 +104,6 @@ class MainProductsViewModel: BaseViewModel {
     
     // > Delegate
     weak var delegate: MainProductsViewModelDelegate?
-    weak var permissionsDelegate: PermissionsDelegate?
 
     // > Navigator
     weak var tabNavigator: TabNavigator?
@@ -388,10 +383,7 @@ extension MainProductsViewModel: ProductListViewCellsDelegate {
         }
     }
 
-    func visibleBottomCell(index: Int) {
-        guard index == Constants.itemIndexPushPermissionsTrigger else { return }
-        permissionsDelegate?.mainProductsViewModelShowPushPermissionsAlert(self)
-    }
+    func visibleBottomCell(index: Int) { }
 }
 
 
