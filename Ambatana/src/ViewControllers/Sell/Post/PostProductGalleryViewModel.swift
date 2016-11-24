@@ -28,6 +28,7 @@ enum AlbumSelectionIconState {
 
 class PostProductGalleryViewModel: BaseViewModel {
 
+    let maxImagesSelected = 5
     weak var delegate: PostProductGalleryViewModelDelegate?
     weak var galleryDelegate: PostProductGalleryViewDelegate?
 
@@ -36,7 +37,9 @@ class PostProductGalleryViewModel: BaseViewModel {
     let galleryState = Variable<GalleryState>(.Normal)
     let albumTitle = Variable<String>(LGLocalizedString.productPostGalleryTab)
     let albumIconState = Variable<AlbumSelectionIconState>(.Down)
-    let imageSelected = Variable<UIImage?>(nil)
+    let imagesSelected = Variable<[UIImage]?>(nil)
+    let positionsSelected = Variable<[Int]?>(nil)
+    let lastImageSelected = Variable<UIImage?>(nil)
 
     private static let columnCount: CGFloat = 4
     private static let cellSpacing: CGFloat = 4
@@ -49,6 +52,8 @@ class PostProductGalleryViewModel: BaseViewModel {
     private var photosAsset: PHFetchResult?
 
     private var lastImageRequestId: PHImageRequestID?
+
+    private var imagesSelectedCount: Int = 0
 
     let disposeBag = DisposeBag()
 
@@ -71,8 +76,8 @@ class PostProductGalleryViewModel: BaseViewModel {
     // MARK: - Public methods
 
     func postButtonPressed() {
-        guard let imageSelected = imageSelected.value else { return }
-        galleryDelegate?.productGalleryDidSelectImage(imageSelected)
+        guard let imagesSelected = imagesSelected.value else { return }
+        galleryDelegate?.productGalleryDidSelectImages(imagesSelected)
     }
 
     var imagesCount: Int {
@@ -265,17 +270,29 @@ class PostProductGalleryViewModel: BaseViewModel {
 
     private func selectImageAtIndex(index: Int, autoScroll: Bool) {
         galleryState.value = .Loading
-        imageSelected.value = nil
+        lastImageSelected.value = nil
         delegate?.vmDidSelectItemAtIndex(index, shouldScroll: autoScroll)
 
+
         let imageRequestId = imageAtIndex(index, size: nil) { [weak self] image in
-            self?.imageSelected.value = image
+            self?.lastImageSelected.value = image
             self?.galleryState.value = image != nil ? .Normal : .LoadImageError
         }
         if let lastId = lastImageRequestId where imageRequestId != lastId {
             PHImageManager.defaultManager().cancelImageRequest(lastId)
         }
         lastImageRequestId = imageRequestId
+
+        // 👾 add image to imagesSelected.value
+        if imagesSelectedCount <= maxImagesSelected {
+
+        } else {
+            // remove 1st selected and add the new one
+            imagesSelected.value?.removeAtIndex(0)
+            positionsSelected.value?.removeAtIndex(0)
+            imagesSelected.value?.append(lastImageSelected.value)
+            positionsSelected.value?.append(index)
+        }
     }
 
     private func imageAtIndex(index: Int, size: CGSize?, handler: UIImage? -> Void) -> PHImageRequestID? {

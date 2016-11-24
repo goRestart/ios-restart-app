@@ -319,7 +319,7 @@ extension PostProductViewController: PostProductCameraViewDelegate {
     }
 
     func productCameraDidTakeImage(image: UIImage) {
-        viewModel.imageSelected(image, source: .Camera)
+        viewModel.imagesSelected([image], source: .Camera)
     }
 
     func productCameraRequestHideTabs(hide: Bool) {
@@ -340,8 +340,8 @@ extension PostProductViewController: PostProductGalleryViewDelegate {
         onCloseButton(galleryView)
     }
 
-    func productGalleryDidSelectImage(image: UIImage) {
-        viewModel.imageSelected(image, source: .Gallery)
+    func productGalleryDidSelectImages(images: [UIImage]) {
+        viewModel.imagesSelected(images, source: .Gallery)
     }
 
     func productGalleryRequestsScrollLock(lock: Bool) {

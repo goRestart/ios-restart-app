@@ -51,27 +51,27 @@ class ProductPostedViewModel: BaseViewModel {
         super.init()
     }
 
-    convenience init(productToPost: Product, productImage: UIImage, trackingInfo: PostProductTrackingInfo) {
+    convenience init(productToPost: Product, productImages: [UIImage], trackingInfo: PostProductTrackingInfo) {
         let productRepository = Core.productRepository
         let featureFlags = FeatureFlags.sharedInstance
         self.init(productRepository: productRepository, productToPost: productToPost,
-                  productImage: productImage, trackingInfo: trackingInfo, featureFlags: featureFlags)
+                  productImages: productImages, trackingInfo: trackingInfo, featureFlags: featureFlags)
     }
 
     init(productRepository: ProductRepository, productToPost: Product,
-         productImage: UIImage, trackingInfo: PostProductTrackingInfo, featureFlags: FeatureFlaggeable) {
+         productImages: [UIImage], trackingInfo: PostProductTrackingInfo, featureFlags: FeatureFlaggeable) {
             self.productRepository = productRepository
             self.trackingInfo = trackingInfo
             self.featureFlags = featureFlags
-            self.status = ProductPostedStatus(image: productImage, product: productToPost)
+            self.status = ProductPostedStatus(images: productImages, product: productToPost)
             super.init()
     }
 
     override func didBecomeActive(firstTime: Bool) {
         if firstTime {
             switch status {
-            case let .Posting(image, product):
-                postProduct(image, product: product)
+            case let .Posting(images, product):
+                postProduct(images, product: product)
             case .Success:
                 delegate?.productPostedViewModel(self, setupStaticState: true)
                 trackProductUploadResultScreen()
@@ -224,12 +224,12 @@ class ProductPostedViewModel: BaseViewModel {
 
     // MARK: - Private methods
 
-    private func postProduct(image: UIImage, product: Product) {
+    private func postProduct(images: [UIImage], product: Product) {
         guard let productRepository = productRepository else { return }
 
         delegate?.productPostedViewModelSetupLoadingState(self)
 
-        productRepository.create(product, images: [image], progress: nil) { [weak self] result in
+        productRepository.create(product, images: images, progress: nil) { [weak self] result in
             guard let strongSelf = self else { return }
 
             // Tracking
@@ -292,7 +292,7 @@ class ProductPostedViewModel: BaseViewModel {
 // MARK: - ProductPostedStatus
 
 private enum ProductPostedStatus {
-    case Posting(image: UIImage, product: Product)
+    case Posting(images: [UIImage], product: Product)
     case Success(product: Product)
     case Error(error: EventParameterPostProductError)
 
@@ -314,8 +314,8 @@ private enum ProductPostedStatus {
         }
     }
 
-    init(image: UIImage, product: Product) {
-        self = .Posting(image: image, product: product)
+    init(images: [UIImage], product: Product) {
+        self = .Posting(images: images, product: product)
     }
 
     init(result: ProductResult) {

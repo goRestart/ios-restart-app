@@ -13,7 +13,7 @@ class GalleryImageCell: UICollectionViewCell, ReusableCell {
     static var reusableID = "GalleryImageCell"
 
     @IBOutlet weak var image: UIImageView!
-    @IBOutlet weak var selectedImage: UIImageView!
+    @IBOutlet weak var selectedCountlabel: UILabel!
 
     
     // MARK: - Lifecycle
@@ -31,7 +31,7 @@ class GalleryImageCell: UICollectionViewCell, ReusableCell {
 
     override var selected: Bool {
         didSet {
-            selectedImage.hidden = !selected
+            selectedCountlabel.hidden = !selected
         }
     }
 
@@ -39,13 +39,14 @@ class GalleryImageCell: UICollectionViewCell, ReusableCell {
 
     // Sets up the UI
     private func setupUI() {
-        selectedImage.layer.borderWidth = 2
-        selectedImage.layer.borderColor = UIColor.whiteColor().CGColor
+        selectedCountlabel.layer.borderWidth = 2
+        selectedCountlabel.layer.borderColor = UIColor.whiteColor().CGColor
     }
 
     // Resets the UI to the initial state
     private func resetUI() {
         image.image = nil
-        selectedImage.hidden = true
+        selectedCountlabel.hidden = true
+//        selectedImage.hidden = true
     }
 }

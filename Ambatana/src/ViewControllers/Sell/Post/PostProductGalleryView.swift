@@ -13,7 +13,7 @@ import RxCocoa
 
 protocol PostProductGalleryViewDelegate: class {
     func productGalleryCloseButton()
-    func productGalleryDidSelectImage(image: UIImage)
+    func productGalleryDidSelectImages(images: [UIImage])
     func productGalleryRequestsScrollLock(lock: Bool)
     func productGalleryDidPressTakePhoto()
     func productGalleryShowActionSheet(cancelAction: UIAction, actions: [UIAction])
@@ -149,6 +149,7 @@ class PostProductGalleryView: BaseView, LGViewPagerPage {
         let cellNib = UINib(nibName: GalleryImageCell.reusableID, bundle: nil)
         collectionView.registerNib(cellNib, forCellWithReuseIdentifier: GalleryImageCell.reusableID)
         collectionView.alwaysBounceVertical = true
+        collectionView.allowsMultipleSelection = true
         if let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
             layout.minimumInteritemSpacing = 4.0
         }
@@ -292,7 +293,8 @@ extension PostProductGalleryView {
         albumButton.addConstraints([left,centerV])
 
         viewModel.albumTitle.asObservable().bindTo(albumButton.rx_title).addDisposableTo(disposeBag)
-        viewModel.imageSelected.asObservable().bindTo(selectedImage.rx_image).addDisposableTo(disposeBag)
+        viewModel.lastImageSelected.asObservable().bindTo(selectedImage.rx_image).addDisposableTo(disposeBag)
+        // 👾 add here to imagesselected?
 
         viewModel.albumIconState.asObservable().subscribeNext{ [weak self] status in
             switch status{
