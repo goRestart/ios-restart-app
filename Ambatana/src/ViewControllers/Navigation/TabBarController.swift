@@ -228,6 +228,9 @@ final class TabBarController: UITabBarController {
             guard shouldSelectVC else { return }
         }
 
+        // Dismiss all presented view controllers
+        navBarCtl.dismissAllPresented()
+
         // Pop previous navigation to root
         navBarCtl.popToRootViewControllerAnimated(false)
         navBarCtl.tabBarController?.setTabBarHidden(false, animated: false)
