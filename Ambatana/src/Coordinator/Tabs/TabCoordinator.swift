@@ -370,7 +370,25 @@ extension TabCoordinator: ProductDetailNavigator {
         navigationController.presentViewController(shareProductVC, animated: true, completion: nil)
     }
 
-    func openFullScreenPostAfterDelete() {
+    func closeAfterDelete() {
+        closeProductDetail()
+        switch featureFlags.postAfterDeleteMode {
+        case .Original:
+            break
+        case .FullScreen:
+            openFullScreenPostAfterDelete()
+        case .Alert:
+            let action = UIAction(interface: .Button(LGLocalizedString.productDeletePostButtonTitle,
+                .Primary(fontSize: .Medium)), action: { [weak self] in
+                    self?.openSell(.DeleteProduct)
+                }, accessibilityId: .PostDeleteAlertButton)
+            navigationController.showAlertWithTitle(LGLocalizedString.productDeletePostTitle,
+                                                    text: LGLocalizedString.productDeletePostSubtitle,
+                                                    alertType: .PlainAlert, actions: [action])
+        }
+    }
+
+    private func openFullScreenPostAfterDelete() {
         let openSellAction: (() -> Void) = { [weak self] in
             self?.openSell(.DeleteProduct)
         }

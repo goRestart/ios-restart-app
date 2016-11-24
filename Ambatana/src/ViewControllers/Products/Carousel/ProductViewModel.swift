@@ -841,33 +841,18 @@ extension ProductViewModel {
                 switch strongSelf.featureFlags.postAfterDeleteMode {
                 case .Original:
                     message = LGLocalizedString.productDeleteSuccessMessage
-                    afterMessageAction = {
-                        strongSelf.delegate?.vmPop()
-                    }
-                case .FullScreen:
-                    message = nil
-                    afterMessageAction = {
-                        strongSelf.delegate?.vmPop()
-                        strongSelf.navigator?.openFullScreenPostAfterDelete()
-                    }
-                case .Alert:
-                    message = nil
-                    afterMessageAction = {
-                        strongSelf.delegate?.vmPop()
-                        let action = UIAction(interface: .Button(LGLocalizedString.productDeletePostButtonTitle,
-                            .Primary(fontSize: .Medium)), action: {
-                                strongSelf.navigator?.openSell(.DeleteProduct)
-                            }, accessibilityId: .PostDeleteAlertButton)
-                        strongSelf.delegate?.vmShowAlertWithTitle(LGLocalizedString.productDeletePostTitle,
-                                                                  text: LGLocalizedString.productDeletePostSubtitle,
-                                                                  alertType: .PlainAlert, actions: [action])
-                    }
+                case .FullScreen, .Alert:
+                    break
+                }
+                afterMessageAction = { [weak self] in
+                    self?.navigator?.closeAfterDelete()
                 }
                 strongSelf.product.value = value
                 self?.trackHelper.trackDeleteCompleted()
             } else if let _ = result.error {
                 message = LGLocalizedString.productDeleteSendErrorGeneric
             }
+
             strongSelf.delegate?.vmHideLoading(message, afterMessageCompletion: afterMessageAction)
         }
     }
