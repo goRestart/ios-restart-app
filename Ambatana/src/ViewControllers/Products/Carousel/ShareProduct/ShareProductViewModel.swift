@@ -12,6 +12,7 @@ import LGCoreKit
 
 protocol ShareProductViewModelDelegate: BaseViewModelDelegate {
     func vmViewControllerToShare() -> UIViewController
+    func viewControllerShouldClose()
 }
 
 
@@ -23,7 +24,7 @@ class ShareProductViewModel: BaseViewModel {
     private let tracker: Tracker
 
     weak var delegate: ShareProductViewModelDelegate?
-    weak var navigator: ProductDetailNavigator?
+    weak var navigator: ShareProductNavigator?
 
     var socialMessage: SocialMessage
     var link: String {
@@ -53,6 +54,14 @@ class ShareProductViewModel: BaseViewModel {
     func copyLink() {
         guard let vc = delegate?.vmViewControllerToShare() else { return }
         socialSharer?.share(socialMessage, shareType: .CopyLink, viewController: vc)
+    }
+    
+    func closeActionPressed() {
+        if let navigator = navigator {
+            navigator.closeShareProduct(product)
+        } else {
+            delegate?.viewControllerShouldClose()
+        }
     }
 }
 

@@ -83,5 +83,10 @@
         "name": "CommercializerAfterPosting",
         "values": ["No", "Yes"],
         "description": "Commercializer after posting"
+    },
+    {
+        "name": "ShareAfterPosting",
+        "values": ["No", "Yes"],
+        "description": "Show sharing screen after posting (forced)"
     }
  ]
