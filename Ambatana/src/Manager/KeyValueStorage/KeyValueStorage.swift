@@ -50,6 +50,7 @@ extension DefaultsKeys {
 
     static let previousUserAccountProvider = DefaultsKey<String?>("previousUserAccountProvider")
     static let previousUserEmailOrName = DefaultsKey<String?>("previousUserEmailOrName")
+    static let sessionNumber = DefaultsKey<Int>("sessionNumber")
 }
 
 
