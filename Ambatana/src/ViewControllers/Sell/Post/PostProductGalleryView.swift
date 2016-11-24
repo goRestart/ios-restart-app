@@ -182,6 +182,7 @@ extension PostProductGalleryView: PostProductGalleryViewModelDelegate {
         animateToState(collapsed: false) { [weak self] in
             self?.selectItemAtIndex(index)
         }
+        collectionView.reloadData()
     }
 
     func vmShowActionSheet(cancelAction: UIAction, actions: [UIAction]) {
@@ -208,6 +209,10 @@ extension PostProductGalleryView: UICollectionViewDataSource, UICollectionViewDe
                 forIndexPath: indexPath) as? GalleryImageCell else { return UICollectionViewCell() }
             viewModel.imageForCellAtIndex(indexPath.row) { image in
                 galleryCell.image.image = image
+            }
+            if let positionsSelected = viewModel.positionsSelected.value where positionsSelected.contains(indexPath.item) {
+                galleryCell.selected = true
+                galleryCell.selectedCountlabel.text = "\(positionsSelected.indexOf(indexPath.item))"
             }
             return galleryCell
     }

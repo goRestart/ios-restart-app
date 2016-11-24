@@ -275,24 +275,27 @@ class PostProductGalleryViewModel: BaseViewModel {
 
 
         let imageRequestId = imageAtIndex(index, size: nil) { [weak self] image in
+            guard let strongSelf = self else { return }
             self?.lastImageSelected.value = image
-            self?.galleryState.value = image != nil ? .Normal : .LoadImageError
+
+            if let image = image {
+                strongSelf.galleryState.value = .Normal
+                // 👾 add image to imagesSelected.value
+                strongSelf.imagesSelected.value?.append(image)
+                strongSelf.positionsSelected.value?.append(index)
+                if strongSelf.imagesSelectedCount > strongSelf.maxImagesSelected {
+                    // remove 1st selected and add the new one
+                    strongSelf.imagesSelected.value?.removeAtIndex(0)
+                    strongSelf.positionsSelected.value?.removeAtIndex(0)
+                }
+            } else {
+                strongSelf.galleryState.value = .LoadImageError
+            }
         }
         if let lastId = lastImageRequestId where imageRequestId != lastId {
             PHImageManager.defaultManager().cancelImageRequest(lastId)
         }
         lastImageRequestId = imageRequestId
-
-        // 👾 add image to imagesSelected.value
-        if imagesSelectedCount <= maxImagesSelected {
-
-        } else {
-            // remove 1st selected and add the new one
-            imagesSelected.value?.removeAtIndex(0)
-            positionsSelected.value?.removeAtIndex(0)
-            imagesSelected.value?.append(lastImageSelected.value)
-            positionsSelected.value?.append(index)
-        }
     }
 
     private func imageAtIndex(index: Int, size: CGSize?, handler: UIImage? -> Void) -> PHImageRequestID? {
