@@ -47,7 +47,7 @@ final class TourNotificationsViewModel: BaseViewModel {
         switch source {
         case .Onboarding:
             return Core.locationManager.shouldAskForLocationPermissions() ? .Location : .NoStep
-        case .ProductList, .Chat, .Sell, .Profile, .ProductListBanner:
+        case .Chat, .Sell, .Profile, .ProductListBanner:
             return .NoStep
         }
     }
