@@ -50,6 +50,8 @@ class MainProductsViewModel: BaseViewModel {
     let infoBubbleVisible = Variable<Bool>(false)
     let infoBubbleText = Variable<String>(LGLocalizedString.productPopularNearYou)
     let errorMessage = Variable<String?>(nil)
+    
+    private static let firstVersionNumber = 1
 
     var tags: [FilterTag] {
         
@@ -338,7 +340,7 @@ class MainProductsViewModel: BaseViewModel {
     
     private func setupFiltersForRequester() -> ProductFilters {
         guard featureFlags.showLiquidProductsToNewUser else { return filters }
-        guard keyValueStorage[.firstRunDate] == nil else { return filters }
+        guard keyValueStorage[.sessionNumber] == MainProductsViewModel.firstVersionNumber else { return filters }
         var filtersForRequester: ProductFilters = filters
         let query = searchType?.query ?? ""
         if query.isEmpty && filters.selectedCategories.isEmpty {
