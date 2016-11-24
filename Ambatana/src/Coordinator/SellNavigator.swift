@@ -21,4 +21,9 @@ protocol ProductPostedNavigator: class {
     func closeProductPosted(product: Product)
     func closeProductPostedAndOpenEdit(product: Product)
     func closeProductPostedAndOpenPost()
+    func closeProductPostedAndOpenShare(product: Product, socialMessage: SocialMessage)
+}
+
+protocol ShareProductNavigator: class {
+    func closeShareProduct(product: Product)
 }

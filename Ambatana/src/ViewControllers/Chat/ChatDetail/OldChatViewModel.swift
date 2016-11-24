@@ -442,7 +442,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         guard isBuyer else { return }
         guard !relatedProducts.isEmpty else { return }
         guard let productId = product.objectId else { return }
-        navigator?.openExpressChat(relatedProducts, sourceProductId: productId, forcedOpen: false)
+        navigator?.openExpressChat(relatedProducts, sourceProductId: productId, manualOpen: false)
     }
     
     func showScammerDisclaimerMessage() {
@@ -587,7 +587,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
 
     func bannerActionButtonTapped() {
         guard let productId = product.objectId else { return }
-        navigator?.openExpressChat(relatedProducts, sourceProductId: productId, forcedOpen: true)
+        navigator?.openExpressChat(relatedProducts, sourceProductId: productId, manualOpen: true)
     }
     
     // MARK: - private methods

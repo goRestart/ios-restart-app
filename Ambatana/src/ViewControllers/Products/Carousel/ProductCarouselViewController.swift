@@ -53,9 +53,9 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     private var userViewBottomConstraint: NSLayoutConstraint?
     private var userViewRightConstraint: NSLayoutConstraint?
 
-    private var userViewRightMargin: CGFloat = -CarouselUI.itemsMargin {
+    private var userViewRightMargin: CGFloat = CarouselUI.itemsMargin {
         didSet {
-            userViewRightConstraint?.constant = userViewRightMargin
+            userViewRightConstraint?.constant = -userViewRightMargin
         }
     }
     private var buttonsRightMargin: CGFloat = CarouselUI.buttonTrailingWithIcon {
@@ -724,6 +724,10 @@ extension ProductCarouselViewController: UserViewDelegate {
     func userViewAvatarPressed(userView: UserView) {
         viewModel.openProductOwnerProfile()
     }
+    
+    func userViewTextInfoContainerPressed(userView: UserView) {
+        showMoreInfo()
+    }
 
     func userViewAvatarLongPressStarted(userView: UserView) {
         view.bringSubviewToFront(fullScreenAvatarView)
@@ -1100,6 +1104,9 @@ extension ProductCarouselViewController: ProductViewModelDelegate {
         case .Native:
             viewModel.openShare(.Native, fromViewController: self, barButtonItem: navigationItem.rightBarButtonItems?.first)
         case .InPlace:
+            if let expandableButtonsView = expandableButtonsView where !expandableButtonsView.expanded.value {
+                viewModel.didOpenInPlaceShare()
+            }
             expandableButtonsView?.switchExpanded(animated: true)
         case .FullScreen:
             viewModel.openFullScreenShare()

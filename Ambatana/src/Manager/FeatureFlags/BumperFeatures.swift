@@ -12,7 +12,7 @@ import bumper
 
 extension Bumper  {
     static func initialize() {
-        Bumper.initialize([WebsocketChat.self, NotificationsSection.self, UserReviews.self, ShowNPSSurvey.self, MessageOnFavoriteRound2Mode.self, InterestedUsersMode.self, FiltersReorder.self, DirectPostInOnboarding.self, ShareButtonWithIcon.self, ProductDetailShareMode.self, PeriscopeChat.self, ChatHeadBubbles.self, SaveMailLogout.self, ExpressChatBanner.self, ShowLiquidProductsToNewUser.self, KeywordsTravelCollection.self, CommercializerAfterPosting.self, RelatedProductsOnMoreInfo.self])
+        Bumper.initialize([WebsocketChat.self, NotificationsSection.self, UserReviews.self, ShowNPSSurvey.self, MessageOnFavoriteRound2Mode.self, InterestedUsersMode.self, FiltersReorder.self, DirectPostInOnboarding.self, ShareButtonWithIcon.self, ProductDetailShareMode.self, PeriscopeChat.self, ChatHeadBubbles.self, SaveMailLogout.self, ExpressChatBanner.self, ShowLiquidProductsToNewUser.self, KeywordsTravelCollection.self, CommercializerAfterPosting.self, RelatedProductsOnMoreInfo.self, ShareAfterPosting.self])
     } 
 
     static var websocketChat: Bool {
@@ -103,6 +103,11 @@ extension Bumper  {
     static var relatedProductsOnMoreInfo: Bool {
         guard let value = Bumper.valueForKey(RelatedProductsOnMoreInfo.key) else { return false }
         return RelatedProductsOnMoreInfo(rawValue: value)?.asBool ?? false
+    }
+
+    static var shareAfterPosting: Bool {
+        guard let value = Bumper.valueForKey(ShareAfterPosting.key) else { return false }
+        return ShareAfterPosting(rawValue: value)?.asBool ?? false
     } 
 }
 
@@ -293,6 +298,15 @@ enum RelatedProductsOnMoreInfo: String, BumperFeature  {
     static var enumValues: [RelatedProductsOnMoreInfo] { return [.No, .Yes]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Related Products on More Info" } 
+    var asBool: Bool { return self == .Yes }
+}
+
+enum ShareAfterPosting: String, BumperFeature  {
+    case No, Yes
+    static var defaultValue: String { return ShareAfterPosting.No.rawValue }
+    static var enumValues: [ShareAfterPosting] { return [.No, .Yes]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Show sharing screen after posting (forced)" } 
     var asBool: Bool { return self == .Yes }
 }
 

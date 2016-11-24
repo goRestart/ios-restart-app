@@ -218,7 +218,7 @@ extension UserViewController {
     }
 
     private func setupAccessibilityIds() {
-        navBarUserView?.userNameLabel.accessibilityId = .UserHeaderCollapsedNameLabel
+        navBarUserView?.titleLabel.accessibilityId = .UserHeaderCollapsedNameLabel
         navBarUserView?.subtitleLabel.accessibilityId = .UserHeaderCollapsedLocationLabel
         userNameLabel.accessibilityId = .UserHeaderExpandedNameLabel
         userLocationLabel.accessibilityId = .UserHeaderExpandedLocationLabel

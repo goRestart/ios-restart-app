@@ -313,6 +313,7 @@ public enum EventParameterShareNetwork: String {
     case SMS = "sms"
     case CopyLink = "copy_link"
     case Native = "native"
+    case NotAvailable = "N/A"
 }
 
 public enum EventParameterNegotiablePrice: String {

@@ -26,6 +26,7 @@ protocol FeatureFlaggeable {
     var showLiquidProductsToNewUser: Bool { get }
     var expressChatBanner: Bool { get }
     var keywordsTravelCollection: KeywordsTravelCollection { get }
+    var shareAfterPosting: Bool { get }
     var freePostingModeAllowed: Bool { get }
     var commercializerAfterPosting: Bool { get }
     var relatedProductsOnMoreInfo: Bool { get }
@@ -162,6 +163,13 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.keywordsTravelCollection
         }
         return KeywordsTravelCollection.fromPosition(ABTests.keywordsTravelCollection.value)
+    }
+    
+    var shareAfterPosting: Bool {
+        if Bumper.enabled {
+            return Bumper.shareAfterPosting
+        }
+        return ABTests.shareAfterPosting.value
     }
 
     var commercializerAfterPosting: Bool {
