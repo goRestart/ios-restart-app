@@ -166,10 +166,12 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     
     override func viewWillAppearFromBackground(fromBackground: Bool) {
         super.viewWillAppearFromBackground(fromBackground)
+        guard didSetupAfterLayout else { return }
         //TODO: We should refactor how tabBar is hidden. Maybe by using BaseViewController -> hasTabBar
         // Force tabBar to hide when view appears from background.
         self.tabBarController?.setTabBarHidden(true, animated: false)
     }
+    
 
     /*
      We need to setup some properties after we are sure the view has the final frame, to do that
