@@ -1567,6 +1567,18 @@ struct LGLocalizedString {
 		return NSLocalizedString("product_delete_success_message", comment: "")
 	}
 
+	static var productDeletePostButtonTitle: String {
+		return NSLocalizedString("product_delete_post_button_title", comment: "")
+	}
+
+	static var productDeletePostTitle: String {
+		return NSLocalizedString("product_delete_post_title", comment: "")
+	}
+
+	static var productDeletePostSubtitle: String {
+		return NSLocalizedString("product_delete_post_subtitle", comment: "")
+	}
+
 	static func productDistanceMoreThanFromYou(var1: String) -> String {
 		return String(format: NSLocalizedString("product_distance_more_than_from_you", comment: ""), var1)
 	}
