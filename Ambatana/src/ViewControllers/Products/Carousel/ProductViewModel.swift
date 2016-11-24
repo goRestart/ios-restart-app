@@ -834,7 +834,7 @@ extension ProductViewModel {
         productRepository.delete(product.value) { [weak self] result in
             guard let strongSelf = self else { return }
 
-            var afterMessageAction: (() -> ())? = {}
+            var afterMessageAction: (() -> ())? = nil
             var message: String? = nil
             if let value = result.value {
                 switch strongSelf.featureFlags.postAfterDeleteMode {
@@ -866,9 +866,6 @@ extension ProductViewModel {
                 self?.trackHelper.trackDeleteCompleted()
             } else if let _ = result.error {
                 message = LGLocalizedString.productDeleteSendErrorGeneric
-                afterMessageAction = {
-                    strongSelf.delegate?.vmPop()
-                }
             }
             strongSelf.delegate?.vmHideLoading(message, afterMessageCompletion: afterMessageAction)
         }
