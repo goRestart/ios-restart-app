@@ -15,7 +15,8 @@ public enum FloatingIconPosition {
 
 class FloatingButton: UIView {
     private static let titleIconSpacing: CGFloat = 10
-    private static let sideMargin: CGFloat = 20
+    private static let sideMargin: CGFloat = 25
+    private static let iconSize: CGFloat = 28
     
     private let containerView: UIView
     private let icon: UIImageView
@@ -82,8 +83,6 @@ class FloatingButton: UIView {
         addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[c]|", options: [], metrics: nil, views: views))
         addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[c]|", options: [], metrics: nil, views: views))
         containerView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[b]|", options: [], metrics: nil, views: views))
-        containerView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[l]|", options: [], metrics: nil, views: views))
-        containerView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[i]|", options: [], metrics: nil, views: views))
         containerView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[b]|", options: [], metrics: nil, views: views))
 
         let leftView = iconPosition == .Left ? "i" : "l"
@@ -91,6 +90,17 @@ class FloatingButton: UIView {
         let metrics = ["spacing": FloatingButton.titleIconSpacing, "margin": FloatingButton.sideMargin]
         containerView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-margin-[\(leftView)]-spacing-[\(rightView)]-margin-|",
             options: [], metrics: metrics, views: views))
+        
+        containerView.addConstraint(NSLayoutConstraint(item: icon, attribute: .CenterY, relatedBy: .Equal,
+            toItem: containerView, attribute: .CenterY, multiplier: 1, constant: 0))
+        containerView.addConstraint(NSLayoutConstraint(item: label, attribute: .CenterY, relatedBy: .Equal,
+            toItem: containerView, attribute: .CenterY, multiplier: 1, constant: 0))
+        
+        
+        containerView.addConstraint(NSLayoutConstraint(item: icon, attribute: .Width, relatedBy: .Equal,
+            toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: FloatingButton.iconSize))
+        containerView.addConstraint(NSLayoutConstraint(item: icon, attribute: .Height, relatedBy: .Equal,
+            toItem: icon, attribute: .Width, multiplier: 1, constant: 0))
     }
 
     private func setupUI() {
@@ -98,7 +108,7 @@ class FloatingButton: UIView {
         containerView.clipsToBounds = true
 
         icon.contentMode = .ScaleAspectFit
-        label.font = UIFont.bigButtonFont
+        label.font = UIFont.veryBigButtonFont
         label.textColor = UIColor.white
         button.setStyle(.Primary(fontSize: .Big)) // just for backgrounds
         button.addTarget(self, action: #selector(didPressButton), forControlEvents: .TouchUpInside)
