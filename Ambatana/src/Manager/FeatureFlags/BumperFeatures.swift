@@ -12,7 +12,7 @@ import bumper
 
 extension Bumper  {
     static func initialize() {
-        Bumper.initialize([WebsocketChat.self, NotificationsSection.self, UserReviews.self, ShowNPSSurvey.self, MessageOnFavoriteRound2Mode.self, InterestedUsersMode.self, FiltersReorder.self, DirectPostInOnboarding.self, ShareButtonWithIcon.self, ProductDetailShareMode.self, PeriscopeChat.self, ChatHeadBubbles.self, SaveMailLogout.self, ExpressChatBanner.self, ShowLiquidProductsToNewUser.self, KeywordsTravelCollection.self, CommercializerAfterPosting.self, ShareAfterPosting.self])
+        Bumper.initialize([WebsocketChat.self, NotificationsSection.self, UserReviews.self, ShowNPSSurvey.self, MessageOnFavoriteRound2Mode.self, InterestedUsersMode.self, FiltersReorder.self, DirectPostInOnboarding.self, ShareButtonWithIcon.self, ProductDetailShareMode.self, PeriscopeChat.self, ChatHeadBubbles.self, SaveMailLogout.self, ExpressChatBanner.self, ShowLiquidProductsToNewUser.self, PostAfterDeleteMode.self, KeywordsTravelCollection.self, CommercializerAfterPosting.self, ShareAfterPosting.self])
     } 
 
     static var websocketChat: Bool {
@@ -88,6 +88,11 @@ extension Bumper  {
     static var showLiquidProductsToNewUser: Bool {
         guard let value = Bumper.valueForKey(ShowLiquidProductsToNewUser.key) else { return false }
         return ShowLiquidProductsToNewUser(rawValue: value)?.asBool ?? false
+    }
+
+    static var postAfterDeleteMode: PostAfterDeleteMode {
+        guard let value = Bumper.valueForKey(PostAfterDeleteMode.key) else { return .Original }
+        return PostAfterDeleteMode(rawValue: value) ?? .Original 
     }
 
     static var keywordsTravelCollection: KeywordsTravelCollection {
@@ -260,6 +265,22 @@ enum ShowLiquidProductsToNewUser: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "show liquid products to new user" } 
     var asBool: Bool { return self == .Yes }
+}
+
+enum PostAfterDeleteMode: String, BumperFeature  {
+    case Original, FullScreen, Alert
+    static var defaultValue: String { return PostAfterDeleteMode.Original.rawValue }
+    static var enumValues: [PostAfterDeleteMode] { return [.Original, .FullScreen, .Alert]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Posting incentivation after delete" } 
+    static func fromPosition(position: Int) -> PostAfterDeleteMode {
+        switch position { 
+            case 0: return .Original
+            case 1: return .FullScreen
+            case 2: return .Alert
+            default: return .Original
+        }
+    }
 }
 
 enum KeywordsTravelCollection: String, BumperFeature  {

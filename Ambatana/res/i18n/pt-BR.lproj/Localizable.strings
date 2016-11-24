@@ -384,6 +384,9 @@
 "product_delete_confirm_ok_button" = "I don't want to sell it";
 "product_delete_confirm_sold_button" = "I already sold it";
 "product_delete_confirm_title" = "Delete Product";
+"product_delete_post_button_title" = "Post Another Item";
+"product_delete_post_subtitle" = "Try posting something else and start making money.";
+"product_delete_post_title" = "NO LUCK THIS TIME?";
 "product_delete_send_error_generic" = "Oops! We couldn't delete your product. Please try again.";
 "product_delete_sold_confirm_message" = "Are you sure you want to delete this product?";
 "product_delete_success_message" = "Your product was successfully deleted.";

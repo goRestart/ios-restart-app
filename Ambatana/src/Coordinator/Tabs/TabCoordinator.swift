@@ -369,6 +369,33 @@ extension TabCoordinator: ProductDetailNavigator {
         let shareProductVC = ShareProductViewController(viewModel: shareProductVM)
         navigationController.presentViewController(shareProductVC, animated: true, completion: nil)
     }
+
+    func closeAfterDelete() {
+        closeProductDetail()
+        switch featureFlags.postAfterDeleteMode {
+        case .Original:
+            break
+        case .FullScreen:
+            openFullScreenPostAfterDelete()
+        case .Alert:
+            let action = UIAction(interface: .Button(LGLocalizedString.productDeletePostButtonTitle,
+                .Primary(fontSize: .Medium)), action: { [weak self] in
+                    self?.openSell(.DeleteProduct)
+                }, accessibilityId: .PostDeleteAlertButton)
+            navigationController.showAlertWithTitle(LGLocalizedString.productDeletePostTitle,
+                                                    text: LGLocalizedString.productDeletePostSubtitle,
+                                                    alertType: .PlainAlert, actions: [action])
+        }
+    }
+
+    private func openFullScreenPostAfterDelete() {
+        let openSellAction: (() -> Void) = { [weak self] in
+            self?.openSell(.DeleteProduct)
+        }
+        let vm = PostAfterDeleteViewModel(action: openSellAction)
+        let vc = PostAfterDeleteViewController(viewModel: vm)
+        navigationController.presentViewController(vc, animated: true, completion: nil)
+    }
 }
 
 

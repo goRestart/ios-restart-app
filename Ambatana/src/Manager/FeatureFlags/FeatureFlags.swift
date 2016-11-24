@@ -25,6 +25,7 @@ protocol FeatureFlaggeable {
     var saveMailLogout: Bool { get }
     var showLiquidProductsToNewUser: Bool { get }
     var expressChatBanner: Bool { get }
+    var postAfterDeleteMode: PostAfterDeleteMode { get }
     var keywordsTravelCollection: KeywordsTravelCollection { get }
     var shareAfterPosting: Bool { get }
     var freePostingModeAllowed: Bool { get }
@@ -150,14 +151,21 @@ class FeatureFlags: FeatureFlaggeable {
         return ABTests.showLiquidProductsToNewUser.value
     }
 
-     var expressChatBanner: Bool {
+    var expressChatBanner: Bool {
         if Bumper.enabled {
             return Bumper.expressChatBanner
         }
         return ABTests.expressChatBanner.value
     }
 
-     var keywordsTravelCollection: KeywordsTravelCollection {
+    var postAfterDeleteMode: PostAfterDeleteMode {
+        if Bumper.enabled {
+            return Bumper.postAfterDeleteMode
+        }
+        return PostAfterDeleteMode.fromPosition(ABTests.postAfterDeleteMode.value)
+    }
+
+    var keywordsTravelCollection: KeywordsTravelCollection {
         if Bumper.enabled {
             return Bumper.keywordsTravelCollection
         }
