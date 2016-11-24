@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11542" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11542" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina3_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -49,13 +49,13 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_Do you want to be notified when another user sends you a message?" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uj3-fy-ofE">
-                                <rect key="frame" x="8" y="93" width="304" height="41"/>
+                                <rect key="frame" x="8" y="95" width="304" height="41"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="v3H-cU-ytk" userLabel="iPhone View Container">
-                                <rect key="frame" x="48" y="147" width="224" height="204"/>
+                                <rect key="frame" x="48" y="149" width="224" height="204"/>
                                 <subviews>
                                     <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YAY-xM-KwV" userLabel="iPhone View">
                                         <rect key="frame" x="6" y="0.0" width="212" height="204"/>
@@ -135,24 +135,13 @@
                                 </variation>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_Message Notifications" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gXC-0a-nJJ">
-                                <rect key="frame" x="8" y="54" width="304" height="29"/>
+                                <rect key="frame" x="8" y="56" width="304" height="29"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DDd-7O-z2N">
-                                <rect key="frame" x="16" y="26" width="24" height="24"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="24" id="8s0-sy-klj"/>
-                                    <constraint firstAttribute="width" constant="24" id="yhx-9k-Ri3"/>
-                                </constraints>
-                                <state key="normal" image="ic_close"/>
-                                <connections>
-                                    <action selector="closeButtonPressed:" destination="-1" eventType="touchUpInside" id="e6M-ec-0eV"/>
-                                </connections>
-                            </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1fb-yZ-LPM" userLabel="push_container">
-                                <rect key="frame" x="30" y="195" width="260" height="66"/>
+                                <rect key="frame" x="30" y="197" width="260" height="66"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_push" translatesAutoresizingMaskIntoConstraints="NO" id="dfU-ex-uWe">
                                         <rect key="frame" x="0.0" y="0.0" width="260" height="66"/>
@@ -207,7 +196,7 @@
                                 </variation>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ed0-sW-LvT" userLabel="alert_container">
-                                <rect key="frame" x="30" y="167" width="260" height="165"/>
+                                <rect key="frame" x="30" y="169" width="260" height="165"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_permissions_alert" translatesAutoresizingMaskIntoConstraints="NO" id="AiC-DB-mnX">
                                         <rect key="frame" x="0.0" y="0.0" width="260" height="165"/>
@@ -232,20 +221,31 @@
                                     <constraint firstAttribute="bottom" secondItem="AiC-DB-mnX" secondAttribute="bottom" id="rBd-9n-ogE"/>
                                 </constraints>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DDd-7O-z2N">
+                                <rect key="frame" x="0.0" y="10" width="56" height="56"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="56" id="8s0-sy-klj"/>
+                                    <constraint firstAttribute="width" constant="56" id="yhx-9k-Ri3"/>
+                                </constraints>
+                                <state key="normal" image="ic_close"/>
+                                <connections>
+                                    <action selector="closeButtonPressed:" destination="-1" eventType="touchUpInside" id="e6M-ec-0eV"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="gXC-0a-nJJ" secondAttribute="trailing" constant="8" id="1Ce-8q-maY"/>
-                            <constraint firstItem="gXC-0a-nJJ" firstAttribute="top" secondItem="DDd-7O-z2N" secondAttribute="bottom" constant="4" id="1cx-Ix-Nbb"/>
+                            <constraint firstItem="gXC-0a-nJJ" firstAttribute="top" secondItem="DDd-7O-z2N" secondAttribute="bottom" constant="-10" id="1cx-Ix-Nbb"/>
                             <constraint firstAttribute="bottom" secondItem="c2d-xa-4J4" secondAttribute="bottom" constant="17" id="24c-wJ-Fye"/>
                             <constraint firstItem="ed0-sW-LvT" firstAttribute="centerX" secondItem="THg-Sc-rjD" secondAttribute="centerX" id="2md-CK-G0O"/>
                             <constraint firstItem="ed0-sW-LvT" firstAttribute="centerY" secondItem="v3H-cU-ytk" secondAttribute="centerY" id="8i9-ph-OTx"/>
-                            <constraint firstItem="DDd-7O-z2N" firstAttribute="leading" secondItem="THg-Sc-rjD" secondAttribute="leading" constant="16" id="9G5-TJ-s3f"/>
+                            <constraint firstItem="DDd-7O-z2N" firstAttribute="leading" secondItem="THg-Sc-rjD" secondAttribute="leading" id="9G5-TJ-s3f"/>
                             <constraint firstItem="gXC-0a-nJJ" firstAttribute="leading" secondItem="THg-Sc-rjD" secondAttribute="leading" constant="8" id="ERD-Nm-bzn"/>
                             <constraint firstItem="1fb-yZ-LPM" firstAttribute="top" secondItem="e5E-wj-RMQ" secondAttribute="bottom" id="Efo-rR-7ca"/>
                             <constraint firstItem="uj3-fy-ofE" firstAttribute="top" secondItem="gXC-0a-nJJ" secondAttribute="bottom" constant="10" id="GnG-nx-8ZC"/>
                             <constraint firstItem="v3H-cU-ytk" firstAttribute="top" secondItem="uj3-fy-ofE" secondAttribute="bottom" constant="13" id="IAq-fx-g59"/>
-                            <constraint firstItem="DDd-7O-z2N" firstAttribute="top" secondItem="THg-Sc-rjD" secondAttribute="top" constant="26" id="PhI-fT-iKB"/>
+                            <constraint firstItem="DDd-7O-z2N" firstAttribute="top" secondItem="THg-Sc-rjD" secondAttribute="top" constant="10" id="PhI-fT-iKB"/>
                             <constraint firstItem="v3H-cU-ytk" firstAttribute="centerX" secondItem="THg-Sc-rjD" secondAttribute="centerX" id="Ve5-oO-00X"/>
                             <constraint firstItem="c2d-xa-4J4" firstAttribute="leading" secondItem="THg-Sc-rjD" secondAttribute="leading" constant="15" id="WEa-Vi-NE8"/>
                             <constraint firstItem="1fb-yZ-LPM" firstAttribute="leading" secondItem="THg-Sc-rjD" secondAttribute="leading" constant="30" id="aRa-vB-wgw"/>
