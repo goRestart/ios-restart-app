@@ -38,9 +38,19 @@ class FeatureFlags: FeatureFlaggeable {
     private let locationManager: LocationManager
     
     init(locale: NSLocale, locationManager: LocationManager) {
+        Bumper.initialize()
+
+        // Initialize all vars that shouldn't change over application lifetime
+        if Bumper.enabled {
+            self.websocketChat = Bumper.websocketChat
+            self.notificationsSection = Bumper.notificationsSection
+        } else {
+            self.websocketChat = false
+            self.notificationsSection = ABTests.notificationCenterEnabled.value
+        }
+
         self.locale = locale
         self.locationManager = locationManager
-        Bumper.initialize()
     }
 
     
@@ -51,19 +61,9 @@ class FeatureFlags: FeatureFlaggeable {
 
     // MARK: - A/B Tests features
 
-     var websocketChat: Bool = {
-        if Bumper.enabled {
-            return Bumper.websocketChat
-        }
-        return false
-    }()
+     let websocketChat: Bool
     
-     var notificationsSection: Bool = {
-        if Bumper.enabled {
-            return Bumper.notificationsSection
-        }
-        return ABTests.notificationCenterEnabled.value
-    }()
+     let notificationsSection: Bool
 
      var userReviews: Bool {
         if Bumper.enabled {
