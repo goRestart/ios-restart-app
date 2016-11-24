@@ -45,6 +45,9 @@ class PostIncentivatorView: UIView {
         return resultText
     }
 
+
+    // MARK: - Lifecycle
+
     static func postIncentivatorView(isFree: Bool) -> PostIncentivatorView? {
         guard let view = NSBundle.mainBundle().loadNibNamed("PostIncentivatorView", owner: self, options: nil)?.first
             as? PostIncentivatorView else { return nil }
@@ -57,6 +60,8 @@ class PostIncentivatorView: UIView {
         super.init(coder: aDecoder)
     }
 
+
+    // MARK: - Public methods
 
     func setupIncentiviseView() {        
         let itemPack = PostIncentiviserItem.incentiviserPack(isFree ?? false)
@@ -94,6 +99,8 @@ class PostIncentivatorView: UIView {
         self.addGestureRecognizer(tap)
     }
 
+
+    // MARK: - Private methods
 
     dynamic private func onTap() {
         delegate?.incentivatorTapped()
