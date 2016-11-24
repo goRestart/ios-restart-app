@@ -34,16 +34,21 @@ class OnboardingCoordinator: Coordinator {
     init(keyValueStorage: KeyValueStorage, locationManager: LocationManager, featureFlags: FeatureFlaggeable) {
         self.locationManager = locationManager
         self.featureFlags = featureFlags
-        let signUpVM = SignUpViewModel(appearance: .Dark, source: .Install)
-        let tourVM = TourLoginViewModel()
-        viewController = TourLoginViewController(signUpViewModel: signUpVM, tourLoginViewModel: tourVM)
 
-        tourVM.navigator = self
+        viewController = TourBlurBackgroundViewController()
     }
 
     func open(parent parent: UIViewController, animated: Bool, completion: (() -> Void)?) {
         guard viewController.parentViewController == nil else { return }
-        parent.presentViewController(viewController, animated: animated, completion: completion)
+        parent.presentViewController(viewController, animated: false) { [weak self] in
+            guard let strongSelf = self else { return }
+            let signUpVM = SignUpViewModel(appearance: .Dark, source: .Install)
+            let tourVM = TourLoginViewModel()
+            tourVM.navigator = strongSelf
+            let tourVC = TourLoginViewController(signUpViewModel: signUpVM, tourLoginViewModel: tourVM)
+            strongSelf.presentedViewControllers.append(tourVC)
+            strongSelf.viewController.presentViewController(tourVC, animated: true, completion: completion)
+        }
     }
 
     func close(animated animated: Bool, completion: (() -> Void)?) {
@@ -53,7 +58,7 @@ class OnboardingCoordinator: Coordinator {
     private func recursiveClose(animated animated: Bool, completion: (() -> Void)?) {
         if let vc = presentedViewControllers.last {
             presentedViewControllers.removeLast()
-            vc.dismissViewControllerAnimated(animated) { [weak self] in
+            vc.dismissViewControllerAnimated(false) { [weak self] in
                 self?.recursiveClose(animated: false, completion: completion)
             }
         } else {
@@ -70,9 +75,9 @@ class OnboardingCoordinator: Coordinator {
     }
 
     private func hideVC(viewController: UIViewController) {
-        UIView.animateWithDuration(0.3, delay: 0.1, options: UIViewAnimationOptions.CurveEaseInOut, animations: {
+        UIView.animateWithDuration(0.3) {
             viewController.view.alpha = 0
-        }, completion: nil)
+        }
     }
 
     private func topViewController() -> UIViewController {

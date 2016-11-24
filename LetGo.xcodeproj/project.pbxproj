@@ -1092,6 +1092,10 @@
 		C7F22D861DB7A55C00353803 /* RecaptchaViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F22D841DB7A55C00353803 /* RecaptchaViewModel.swift */; };
 		C7F2E1F21CBFF53F00744D7B /* AppsFlyerDeepLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F2E1F11CBFF53F00744D7B /* AppsFlyerDeepLink.swift */; };
 		C7F2E1F31CBFF53F00744D7B /* AppsFlyerDeepLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F2E1F11CBFF53F00744D7B /* AppsFlyerDeepLink.swift */; };
+		C7F3F1E51DE5EF6A00652447 /* TourBlurBackgroundViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F3F1E31DE5EF6A00652447 /* TourBlurBackgroundViewController.swift */; };
+		C7F3F1E61DE5EF6A00652447 /* TourBlurBackgroundViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F3F1E31DE5EF6A00652447 /* TourBlurBackgroundViewController.swift */; };
+		C7F3F1E71DE5EF6A00652447 /* TourBlurBackgroundViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C7F3F1E41DE5EF6A00652447 /* TourBlurBackgroundViewController.xib */; };
+		C7F3F1E81DE5EF6A00652447 /* TourBlurBackgroundViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C7F3F1E41DE5EF6A00652447 /* TourBlurBackgroundViewController.xib */; };
 		C7F4CBA31C9181A5008E40D6 /* PostProductCameraViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F4CBA21C9181A5008E40D6 /* PostProductCameraViewModel.swift */; };
 		C7F4CBA41C9181A5008E40D6 /* PostProductCameraViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F4CBA21C9181A5008E40D6 /* PostProductCameraViewModel.swift */; };
 		C7F4CBA61C92CC5A008E40D6 /* LGViewPagerPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F4CBA51C92CC5A008E40D6 /* LGViewPagerPage.swift */; };
@@ -1752,6 +1756,8 @@
 		C7F22D7F1DB7A3A200353803 /* RecaptchaViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RecaptchaViewController.xib; sourceTree = "<group>"; };
 		C7F22D841DB7A55C00353803 /* RecaptchaViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecaptchaViewModel.swift; sourceTree = "<group>"; };
 		C7F2E1F11CBFF53F00744D7B /* AppsFlyerDeepLink.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppsFlyerDeepLink.swift; sourceTree = "<group>"; };
+		C7F3F1E31DE5EF6A00652447 /* TourBlurBackgroundViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TourBlurBackgroundViewController.swift; sourceTree = "<group>"; };
+		C7F3F1E41DE5EF6A00652447 /* TourBlurBackgroundViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TourBlurBackgroundViewController.xib; sourceTree = "<group>"; };
 		C7F4CBA21C9181A5008E40D6 /* PostProductCameraViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostProductCameraViewModel.swift; sourceTree = "<group>"; };
 		C7F4CBA51C92CC5A008E40D6 /* LGViewPagerPage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGViewPagerPage.swift; sourceTree = "<group>"; };
 		C7F6F7501CB5081F000147F9 /* CommercialShareViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CommercialShareViewController.swift; path = Commercializer/CommercialShareViewController.swift; sourceTree = "<group>"; };
@@ -2246,6 +2252,8 @@
 		50560B941B25D18F0021D8D9 /* Splash */ = {
 			isa = PBXGroup;
 			children = (
+				C7F3F1E31DE5EF6A00652447 /* TourBlurBackgroundViewController.swift */,
+				C7F3F1E41DE5EF6A00652447 /* TourBlurBackgroundViewController.xib */,
 				6A12E0481C635F6B00C1BFE3 /* TourLoginViewController.swift */,
 				6A12E04E1C635FF900C1BFE3 /* TourLoginViewModel.swift */,
 				6A12E04A1C635FA000C1BFE3 /* TourLoginViewController.xib */,
@@ -3858,6 +3866,7 @@
 				C7F18A971C89CB4C00D23319 /* PostProductGalleryView.xib in Resources */,
 				2E06EAEE1D7051BA00A40704 /* FilterPriceCell.xib in Resources */,
 				500DC12B1BDA1C4C00B494FA /* ios-devel.json in Resources */,
+				C7F3F1E71DE5EF6A00652447 /* TourBlurBackgroundViewController.xib in Resources */,
 				2EDCFA321BFF8AB00000E47D /* SignUpLogInViewController.xib in Resources */,
 				50CA9FAD1C91695F00350C5F /* UserViewController.xib in Resources */,
 				2E26F06C1C89998A00C8D789 /* ProcessingVideoDialogViewController.xib in Resources */,
@@ -3983,6 +3992,7 @@
 				C7F18A981C89CB4C00D23319 /* PostProductGalleryView.xib in Resources */,
 				2E06EAF01D70595E00A40704 /* FilterPriceCell.xib in Resources */,
 				C7DB42851C5138B500400945 /* ios-devel.json in Resources */,
+				C7F3F1E81DE5EF6A00652447 /* TourBlurBackgroundViewController.xib in Resources */,
 				C7DB42861C5138B500400945 /* SignUpLogInViewController.xib in Resources */,
 				50CA9FAE1C91695F00350C5F /* UserViewController.xib in Resources */,
 				2E26F06D1C89998A00C8D789 /* ProcessingVideoDialogViewController.xib in Resources */,
@@ -4502,6 +4512,7 @@
 				C7B588851CE1DFA6009B3975 /* ChatOthersMessageCellDrawer.swift in Sources */,
 				50261B211AFB49C0006E88E0 /* ProductionEnvironment.swift in Sources */,
 				6A5E1A121D548F5400F92692 /* UINavigationController+LG.swift in Sources */,
+				C7F3F1E51DE5EF6A00652447 /* TourBlurBackgroundViewController.swift in Sources */,
 				C71589B41C4F8E1C00E7563E /* PopupSignUpViewController.swift in Sources */,
 				6A5E19F21D548F5400F92692 /* UnicodeScalar+LG.swift in Sources */,
 				C7363FB21BF9CB5B00A4BF6F /* FilterTagsViewController.swift in Sources */,
@@ -4906,6 +4917,7 @@
 				C74931771D3526EF00E117F1 /* UserRatingCoordinator.swift in Sources */,
 				6A5E1A131D548F5400F92692 /* UINavigationController+LG.swift in Sources */,
 				C7B588801CE1DFA6009B3975 /* ChatCellDrawer.swift in Sources */,
+				C7F3F1E61DE5EF6A00652447 /* TourBlurBackgroundViewController.swift in Sources */,
 				C7B588861CE1DFA6009B3975 /* ChatOthersMessageCellDrawer.swift in Sources */,
 				C7DB41DE1C5138B500400945 /* PopupSignUpViewController.swift in Sources */,
 				6A5E19F31D548F5400F92692 /* UnicodeScalar+LG.swift in Sources */,
