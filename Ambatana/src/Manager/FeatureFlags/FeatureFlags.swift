@@ -27,6 +27,7 @@ protocol FeatureFlaggeable {
     var expressChatBanner: Bool { get }
     var postAfterDeleteMode: PostAfterDeleteMode { get }
     var keywordsTravelCollection: KeywordsTravelCollection { get }
+    var shareAfterPosting: Bool { get }
     var freePostingModeAllowed: Bool { get }
     var commercializerAfterPosting: Bool { get }
 }
@@ -169,6 +170,13 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.keywordsTravelCollection
         }
         return KeywordsTravelCollection.fromPosition(ABTests.keywordsTravelCollection.value)
+    }
+    
+    var shareAfterPosting: Bool {
+        if Bumper.enabled {
+            return Bumper.shareAfterPosting
+        }
+        return ABTests.shareAfterPosting.value
     }
 
     var commercializerAfterPosting: Bool {

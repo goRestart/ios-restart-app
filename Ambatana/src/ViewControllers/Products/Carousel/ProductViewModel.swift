@@ -121,6 +121,7 @@ class ProductViewModel: BaseViewModel {
     var isFirstProduct: Bool = false
 
     private var favoriteMessageSent: Bool = false
+    private var alreadyTrackedFirstMessageSent: Bool = false
 
     // UI - Input
     let moreInfoState = Variable<MoreInfoState>(.Hidden)
@@ -922,8 +923,10 @@ extension ProductViewModel {
 
         chatWrapper.sendMessageForProduct(product.value, type: type) {
             [weak self] result in
-            if let firstMessage = result.value {
-                self?.trackHelper.trackMessageSent(firstMessage, messageType: type.chatType)
+            if let firstMessage = result.value, alreadyTrackedFirstMessageSent = self?.alreadyTrackedFirstMessageSent {
+                self?.trackHelper.trackMessageSent(firstMessage && !alreadyTrackedFirstMessageSent,
+                                                   messageType: type.chatType)
+                self?.alreadyTrackedFirstMessageSent = true
             } else if let error = result.error {
                 switch error {
                 case .Forbidden:

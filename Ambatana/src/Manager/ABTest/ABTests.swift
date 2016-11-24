@@ -28,12 +28,14 @@ public struct ABTests {
     static var postAfterDeleteMode = IntABDynamicVar(key: "postAfterDeleteMode", defaultValue: 0)
     static var keywordsTravelCollection = IntABDynamicVar(key: "keywordsTravelCollection", defaultValue: 0)
     static var commercializerAfterPosting = BoolABDynamicVar(key: "commercializerAfterPosting", defaultValue: false)
+    static var shareAfterPosting = BoolABDynamicVar(key: "shareAfterPosting", defaultValue: false)
 
+    
     static private var allVariables: [ABVariable] {
-        return [showNPSSurvey, messageOnFavoriteRound2, interestedUsersMode, filtersReorder,
-                directPostInOnboarding, productDetailShareMode, notificationCenterEnabled,
-                persicopeChat, shareButtonWithIcon, chatHeadBubbles, expressChatBanner, showLiquidProductsToNewUser,
-                postAfterDeleteMode, keywordsTravelCollection, commercializerAfterPosting]
+        return [showNPSSurvey, messageOnFavoriteRound2, interestedUsersMode, filtersReorder, directPostInOnboarding,
+                productDetailShareMode, notificationCenterEnabled, persicopeChat, shareButtonWithIcon, chatHeadBubbles,
+                saveMailLogout, expressChatBanner, showLiquidProductsToNewUser, postAfterDeleteMode,
+                keywordsTravelCollection, commercializerAfterPosting, shareAfterPosting]
     }
 
     static func registerVariables() {
