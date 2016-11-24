@@ -22,8 +22,7 @@ class PostAfterDeleteViewController: BaseViewController {
 
     required init(viewModel: PostAfterDeleteViewModel) {
         self.viewModel = viewModel
-        super.init(viewModel: viewModel, nibName: "PostAfterDeleteViewController",
-                   statusBarStyle: UIApplication.sharedApplication().statusBarStyle)
+        super.init(viewModel: viewModel, nibName: "PostAfterDeleteViewController")
     }
 
     required init?(coder aDecoder: NSCoder) {
