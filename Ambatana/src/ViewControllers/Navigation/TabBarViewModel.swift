@@ -10,7 +10,7 @@ import LGCoreKit
 import RxSwift
 
 protocol TabBarViewModelDelegate: BaseViewModelDelegate {
-    func vmSwitchToTab(tab: Tab, force: Bool)
+    func vmSwitchToTab(tab: Tab, force: Bool, completion: (() -> ())?)
     func vmShowTooltipAtSellButtonWithText(text: NSAttributedString)
 }
 
@@ -90,8 +90,8 @@ class TabBarViewModel: BaseViewModel {
         navigator?.openUserRating(source, data: data)
     }
 
-    func externalSwitchToTab(tab: Tab) {
-        delegate?.vmSwitchToTab(tab, force: false)
+    func externalSwitchToTab(tab: Tab, completion: (() -> ())?) {
+        delegate?.vmSwitchToTab(tab, force: false, completion: completion)
     }
 
 
