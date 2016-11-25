@@ -65,7 +65,9 @@ extension ProfileTabCoordinator: SettingsNavigator {
     }
 
     func openChangePassword() {
-        let vc = ChangePasswordViewController()
+        let vm = ChangePasswordViewModel()
+        vm.navigator = self
+        let vc = ChangePasswordViewController(viewModel: vm)
         navigationController.pushViewController(vc, animated: true)
     }
 
@@ -88,6 +90,12 @@ extension ProfileTabCoordinator: ChangeUsernameNavigator {
 
 extension ProfileTabCoordinator: EditLocationNavigator {
     func locationSaved() {
+        navigationController.popViewControllerAnimated(true)
+    }
+}
+
+extension ProfileTabCoordinator: ChangePasswordNavigator {
+    func passwordSaved() {
         navigationController.popViewControllerAnimated(true)
     }
 }

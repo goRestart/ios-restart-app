@@ -44,6 +44,7 @@ protocol ChangePasswordViewModelDelegate: class {
 public class ChangePasswordViewModel: BaseViewModel {
    
     weak var delegate : ChangePasswordViewModelDelegate?
+    weak var navigator: ChangePasswordNavigator?
     
     private let myUserRepository: MyUserRepository
     private var token: String?
@@ -132,6 +133,14 @@ public class ChangePasswordViewModel: BaseViewModel {
         }
         return true
     }
+
+    
+    public func passwordChangedCorrectly() {
+        if let navigator = navigator {
+            navigator.passwordSaved()
+        }
+    }
+
     
     // MARK: - private methods
     

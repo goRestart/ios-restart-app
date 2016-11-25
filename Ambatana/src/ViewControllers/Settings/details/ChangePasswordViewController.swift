@@ -146,7 +146,7 @@ class ChangePasswordViewController: UIViewController, UITextFieldDelegate, Chang
                     self.confirmPasswordTextfield.text = ""
                     
                     self.showAutoFadingOutMessageAlert(LGLocalizedString.changePasswordSendOk) { [weak self] in
-                        self?.navigationController?.popViewControllerAnimated(true)
+                        viewModel.passwordChangedCorrectly()
                     }
                 }
                 break

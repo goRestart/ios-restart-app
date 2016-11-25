@@ -44,9 +44,10 @@ protocol ChangeUsernameViewModelDelegate : class {
 class ChangeUsernameViewModel: BaseViewModel {
     
     weak var delegate : ChangeUsernameViewModelDelegate?
+    weak var navigator: ChangeUsernameNavigator?
     
     let myUserRepository: MyUserRepository
-    weak var navigator: ChangeUsernameNavigator?
+
     let tracker: Tracker
     
     var username: String {
