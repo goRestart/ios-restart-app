@@ -417,6 +417,8 @@
 "product_mark_as_sold_free_success_message" = "Glückwunsch! Dein Produkt wurde erfolgreich als verschenkt markiert";
 "product_mark_as_sold_success_message" = "Glückwunsch, dein Produkt wurde erfolgreich als verkauft markiert!";
 "product_more_info_open_button" = "WEITERE INFOS";
+"product_more_info_related_title" = "YOU MIGHT BE INTERESTED IN:";
+"product_more_info_related_view_more" = "View more";
 "product_more_info_tooltip_part_1" = "Drücke";
 "product_more_info_tooltip_part_2" = "%@ für weitere Infos";
 "product_negotiable_price" = "Verhandelbar";

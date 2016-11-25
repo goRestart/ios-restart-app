@@ -417,6 +417,8 @@
 "product_mark_as_sold_free_success_message" = "Συγχαρητήρια! Το προϊόν σας έχει μαρκαριστεί επιτυχώς ως χαρισμένο";
 "product_mark_as_sold_success_message" = "Συγχαρητήρια, το προϊόν σας έχει πωληθεί επιτυχώς!";
 "product_more_info_open_button" = "ΠΛΗΡΟΦΟΡΙΕΣ";
+"product_more_info_related_title" = "YOU MIGHT BE INTERESTED IN:";
+"product_more_info_related_view_more" = "View more";
 "product_more_info_tooltip_part_1" = "Πατήστε";
 "product_more_info_tooltip_part_2" = "%@ για πληροφορίες";
 "product_negotiable_price" = "Συζητήσιμη";

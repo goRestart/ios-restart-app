@@ -417,6 +417,8 @@
 "product_mark_as_sold_free_success_message" = "Grattis! Din produkt har märkts som bortskänkt";
 "product_mark_as_sold_success_message" = "Grattis, din produkt har markerats som såld!";
 "product_more_info_open_button" = "MER INFO";
+"product_more_info_related_title" = "YOU MIGHT BE INTERESTED IN:";
+"product_more_info_related_view_more" = "View more";
 "product_more_info_tooltip_part_1" = "Klicka";
 "product_more_info_tooltip_part_2" = "%@ för mer information";
 "product_negotiable_price" = "Förhandlingsbart";

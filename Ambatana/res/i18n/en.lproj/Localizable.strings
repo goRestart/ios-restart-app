@@ -1269,6 +1269,12 @@
 // Button to open the More Info view tapping or dragging it
 "product_more_info_open_button" = "MORE INFO";
 
+// Related items title on product more info
+"product_more_info_related_title" = "YOU MIGHT BE INTERESTED IN:";
+
+// View more related items button on product more info
+"product_more_info_related_view_more" = "View more";
+
 // Text when price is 0$ 
 "product_negotiable_price" = "Negotiable";
 

@@ -417,6 +417,8 @@
 "product_mark_as_sold_free_success_message" = "Congratulations! Your product has been successfully marked as given away";
 "product_mark_as_sold_success_message" = "Congratulations, your product was successfully marked as sold!";
 "product_more_info_open_button" = "MORE INFO";
+"product_more_info_related_title" = "YOU MIGHT BE INTERESTED IN:";
+"product_more_info_related_view_more" = "View more";
 "product_more_info_tooltip_part_1" = "Tap";
 "product_more_info_tooltip_part_2" = "%@ to see more info";
 "product_negotiable_price" = "Negotiable";

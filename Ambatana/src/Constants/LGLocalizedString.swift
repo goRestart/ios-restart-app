@@ -1711,6 +1711,14 @@ struct LGLocalizedString {
 		return NSLocalizedString("product_more_info_open_button", comment: "")
 	}
 
+	static var productMoreInfoRelatedTitle: String {
+		return NSLocalizedString("product_more_info_related_title", comment: "")
+	}
+
+	static var productMoreInfoRelatedViewMore: String {
+		return NSLocalizedString("product_more_info_related_view_more", comment: "")
+	}
+
 	static var productNegotiablePrice: String {
 		return NSLocalizedString("product_negotiable_price", comment: "")
 	}
