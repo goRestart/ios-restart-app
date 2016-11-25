@@ -889,6 +889,7 @@ extension ProductCarouselViewController {
     @IBAction func showMoreInfo() {
         guard moreInfoState.value == .Hidden || moreInfoState.value == .Moving else { return }
 
+        moreInfoView?.viewWillShow()
         chatTextView.resignFirstResponder()
         moreInfoState.value = .Shown
         viewModel.didOpenMoreInfo()

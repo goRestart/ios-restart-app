@@ -110,6 +110,12 @@ class ProductCarouselMoreInfoView: UIView {
         configureBottomPanel()
     }
 
+    func viewWillShow() {
+        if !relatedItemsContainer.hidden {
+            relatedProductsView.productId.value = viewModel?.product.value.objectId
+        }
+    }
+
     func dismissed() {
         scrollView.contentOffset = CGPoint.zero
         descriptionLabel.collapsed = true
@@ -420,10 +426,6 @@ private extension ProductCarouselMoreInfoView {
         if !socialShareContainer.hidden {
             socialShareView.socialMessage = viewModel.socialMessage.value
             socialShareView.socialSharer = viewModel.socialSharer
-        }
-
-        if !relatedItemsContainer.hidden {
-            relatedProductsView.productId.value = viewModel.product.value.objectId
         }
     }
 }
