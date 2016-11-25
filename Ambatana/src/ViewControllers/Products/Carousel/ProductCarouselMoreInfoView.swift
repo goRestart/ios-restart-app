@@ -7,6 +7,7 @@
 //
 
 import MapKit
+import LGCoreKit
 import RxSwift
 import LGCollapsibleLabel
 
@@ -51,7 +52,8 @@ class ProductCarouselMoreInfoView: UIView {
 
     @IBOutlet weak var relatedItemsContainer: UIView!
     @IBOutlet weak var relatedItemsTitle: UILabel!
-    private var relatedProductsView = RelatedProductsView(productsDiameter: ProductCarouselMoreInfoView.relatedItemsHeight, frame: CGRect.zero)
+    private var relatedProductsView = RelatedProductsView(productsDiameter: ProductCarouselMoreInfoView.relatedItemsHeight,
+                                                          frame: CGRect.zero)
 
 
     private let disposeBag = DisposeBag()
@@ -128,10 +130,7 @@ class ProductCarouselMoreInfoView: UIView {
 extension ProductCarouselMoreInfoView {
     func addGestures() {
         let tap = UITapGestureRecognizer(target: self, action: #selector(hideBigMap))
-        let tap2 = UITapGestureRecognizer(target: self, action: #selector(hideBigMap))
-
-        scrollView.addGestureRecognizer(tap)
-        visualEffectView.addGestureRecognizer(tap2)
+        visualEffectView.addGestureRecognizer(tap)
     }
 }
 
@@ -382,6 +381,8 @@ private extension ProductCarouselMoreInfoView {
                     self?.relatedItemsContainer.alpha = alpha
                 }
             }.addDisposableTo(disposeBag)
+
+        relatedProductsView.delegate = self
     }
 
 
@@ -427,10 +428,6 @@ private extension ProductCarouselMoreInfoView {
             socialShareView.socialMessage = viewModel.socialMessage.value
             socialShareView.socialSharer = viewModel.socialSharer
         }
-
-        if !relatedItemsContainer.hidden {
-            relatedProductsView.delegate = viewModel
-        }
     }
 }
 
@@ -452,6 +449,22 @@ extension ProductCarouselMoreInfoView {
 extension ProductCarouselMoreInfoView: SocialShareViewDelegate {
     func viewController() -> UIViewController? {
         return delegate?.viewControllerToShowShareOptions()
+    }
+}
+
+
+// MARK: - RelatedProductsViewDelegate
+
+extension ProductCarouselMoreInfoView: RelatedProductsViewDelegate {
+    func relatedProductsView(view: RelatedProductsView, showProduct product: Product, atIndex index: Int,
+                             productListModels: [ProductCellModel], requester: ProductListRequester,
+                             thumbnailImage: UIImage?, originFrame: CGRect?) {
+        var finalFrame: CGRect? = nil
+        if let originFrame = originFrame {
+            finalFrame = relatedItemsContainer.convertRect(originFrame, toView: self)
+        }
+        viewModel?.relatedProductsView(view, showProduct: product, atIndex: index, productListModels: productListModels,
+                                       requester: requester, thumbnailImage: thumbnailImage, originFrame: finalFrame)
     }
 }
 
