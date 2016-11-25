@@ -455,9 +455,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         switch chatStatus {
         case .Forbidden, .UserDeleted, .UserPendingDelete, .ProductDeleted, .ProductSold:
             return true
-        case  .Available:
-            return true
-        case .Blocked, .BlockedBy:
+        case  .Available, .Blocked, .BlockedBy:
             return false
         }
     }

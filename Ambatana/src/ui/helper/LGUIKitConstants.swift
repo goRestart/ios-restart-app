@@ -57,7 +57,7 @@ struct LGUIKitConstants {
     static let bigButtonHeight = 50
     static let mediumButtonHeight = 44
     static let smallButtonHeight = 30
-    static let tabBarSellFloatingButtonHeight: CGFloat = 50
+    static let tabBarSellFloatingButtonHeight: CGFloat = 60
 
     // MARK: - Sizes
     static var onePixelSize: CGFloat {

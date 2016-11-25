@@ -63,6 +63,8 @@ extension AppDelegate: UIApplicationDelegate {
         let versionChecker = VersionChecker.sharedInstance
 
         keyValueStorage[.lastRunAppVersion] = versionChecker.currentVersion.version
+        keyValueStorage[.sessionNumber] += 1
+        
         let crashManager = CrashManager(appCrashed: keyValueStorage[.didCrash],
                                         versionChange: VersionChecker.sharedInstance.versionChange)
         self.crashManager = crashManager
@@ -180,6 +182,7 @@ extension AppDelegate: UIApplicationDelegate {
 
     func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
         PushManager.sharedInstance.application(application, didRegisterForRemoteNotificationsWithDeviceToken: deviceToken)
+        AppsFlyerTracker.sharedTracker().registerUninstall(deviceToken)
     }
 
     func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
