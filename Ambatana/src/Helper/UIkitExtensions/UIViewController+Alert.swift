@@ -55,7 +55,11 @@ extension UIViewController {
     func dismissLoadingMessageAlert(completion: (() -> Void)? = nil) {
         if let alert = self.loading {
             self.loading = nil
-            alert.dismissViewControllerAnimated(true, completion: completion)
+            if let _ = alert.presentingViewController {
+                alert.dismissViewControllerAnimated(true, completion: completion)
+            } else {
+                completion?()
+            }
         } else {
             completion?()
         }

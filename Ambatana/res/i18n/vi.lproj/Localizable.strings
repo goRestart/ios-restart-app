@@ -72,8 +72,8 @@
 "chat_deleted_disclaimer_w_name" = "Bạn không thể tiếp tục cuộc trò chuyện này bởi tài khoản của %@ không còn hoạt động.";
 "chat_deleted_disclaimer_wo_name" = "Bạn không thể tiếp tục cuộc trò chuyện này bởi tài khoản này không còn hoạt động.";
 "chat_disclaimer_letgo_team" = "ĐỘI NGŨ LETGO";
-"chat_express_banner_button_title" = "See Deals";
-"chat_express_banner_title" = "Related deals near you";
+"chat_express_banner_button_title" = "Xem Giao dịch";
+"chat_express_banner_title" = "Giao dịch gần bạn";
 "chat_express_contact_one_button_text" = "Liên hệ 1 người bán";
 "chat_express_contact_sellers_label" = "Liên lạc với người bán trước khi người mua khác mua được";
 "chat_express_contact_various_button_text" = "Liên hệ %@ người bán";
@@ -290,11 +290,11 @@
 "main_sign_up_error_request_already_sent" = "Yêu cầu của bạn đã được xử lý. Vui lòng chờ trước khi thử lại.";
 "main_sign_up_error_user_rejected" = "Email bạn nhập không đúng. Vui lòng kiểm tra và thử lại.";
 "main_sign_up_facebook_connect_button" = "Tiếp tục với Facebook";
-"main_sign_up_facebook_connect_button_w_name" = "Log in as %@";
+"main_sign_up_facebook_connect_button_w_name" = "Đăng nhập với tư cách %@";
 "main_sign_up_fb_connect_error_email_taken" = "Địa chỉ email của bạn đã được đăng kí. Xin vui lòng đăng nhập theo địa chỉ email này.";
 "main_sign_up_fb_connect_error_generic" = "Không thể đăng nhập. Xin vui lòng thử lại.";
 "main_sign_up_google_connect_button" = "Tiếp tục với Google";
-"main_sign_up_google_connect_button_w_name" = "Log in as %@";
+"main_sign_up_google_connect_button_w_name" = "Đăng nhập với tư cách %@";
 "main_sign_up_help_button" = "Trợ giúp";
 "main_sign_up_log_in_label" = "Đăng nhập";
 "main_sign_up_or_label" = "HOẶC SỬ DỤNG EMAIL CỦA BẠN";
@@ -384,6 +384,9 @@
 "product_delete_confirm_ok_button" = "Tôi không muốn bán nữa";
 "product_delete_confirm_sold_button" = "Tôi đã bán rồi";
 "product_delete_confirm_title" = "Xóa sản phẩm";
+"product_delete_post_button_title" = "Đăng Sản phẩm khác";
+"product_delete_post_subtitle" = "Hãy thử đăng một món đồ khác và bắt đầu kiếm tiền.";
+"product_delete_post_title" = "KHÔNG MAY MẮN LẦN NÀY?";
 "product_delete_send_error_generic" = "Ồ! Chúng tôi không thể xóa sản phẩm của bạn. Xin vui lòng thử lại.";
 "product_delete_sold_confirm_message" = "Bạn có chắc chắn muốn xóa sản phẩm này?";
 "product_delete_success_message" = "Sản phẩm của bạn đã được xóa thành công.";
@@ -636,8 +639,8 @@
 "settings_invite_facebook_friends_button" = "Mời bạn bè trên Facebook";
 "settings_invite_facebook_friends_error" = "Lỗi xảy ra trong khi chia sẻ lời mời.";
 "settings_invite_facebook_friends_ok" = "Lời mời của bạn đã được chia sẻ thành công!";
-"settings_logout_alert_message" = "Are you sure you want to log out?";
-"settings_logout_alert_ok" = "Log out";
+"settings_logout_alert_message" = "Bạn có chắc chắn muốn đăng xuất?";
+"settings_logout_alert_ok" = "Đăng xuất";
 "settings_logout_button" = "Đăng xuất";
 "settings_marketing_notifications_switch" = "Thông báo Marketing";
 "settings_section_profile" = "Hồ sơ";

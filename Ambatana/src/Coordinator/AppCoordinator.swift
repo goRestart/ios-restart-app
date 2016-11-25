@@ -166,8 +166,7 @@ extension AppCoordinator: AppNavigator {
         if keyValueStorage[.firstRunDate] == nil {
             keyValueStorage[.firstRunDate] = NSDate()
         }
-        
-        pushPermissionsManager.shouldAskForListPermissionsOnCurrentSession = false
+
         let onboardingCoordinator = OnboardingCoordinator()
         onboardingCoordinator.delegate = self
         openCoordinator(coordinator: onboardingCoordinator, parent: tabBarCtl, animated: true, completion: nil)
