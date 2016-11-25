@@ -63,6 +63,8 @@ extension AppDelegate: UIApplicationDelegate {
         let versionChecker = VersionChecker.sharedInstance
 
         keyValueStorage[.lastRunAppVersion] = versionChecker.currentVersion.version
+        keyValueStorage[.sessionNumber] += 1
+        
         let crashManager = CrashManager(appCrashed: keyValueStorage[.didCrash],
                                         versionChange: VersionChecker.sharedInstance.versionChange)
         self.crashManager = crashManager

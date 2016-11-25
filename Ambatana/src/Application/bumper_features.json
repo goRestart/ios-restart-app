@@ -75,6 +75,11 @@
         "description": "show liquid products to new user"
     },
     {
+        "name": "PostAfterDeleteMode",
+        "values": ["Original", "FullScreen", "Alert"],
+        "description": "Posting incentivation after delete"
+    },
+    {
         "name": "KeywordsTravelCollection",
         "values": ["Standard", "CarsPrior", "BrandsPrior"],
         "description": "Keywords prioritize on Travel Collection"

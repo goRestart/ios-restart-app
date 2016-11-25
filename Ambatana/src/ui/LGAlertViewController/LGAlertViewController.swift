@@ -152,12 +152,17 @@ class LGAlertViewController: UIViewController {
         button.accessibilityId = action.accessibilityId
         button.setStyle(action.buttonStyle ?? .Primary(fontSize: .Medium))
         button.rx_tap.bindNext { [weak self] _ in
-            action.action()
-            self?.closeWithFadeOut()
+            self?.closeWithFadeOutWithCompletion {
+                action.action()
+            }
         }.addDisposableTo(disposeBag)
     }
 
     dynamic private func closeWithFadeOut() {
-        dismissViewControllerAnimated(true, completion: nil)
+        closeWithFadeOutWithCompletion(nil)
+    }
+
+    private func closeWithFadeOutWithCompletion(completion: (() -> Void)?) {
+        dismissViewControllerAnimated(true, completion: completion)
     }
 }

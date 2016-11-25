@@ -17,10 +17,6 @@ protocol MainProductsViewModelDelegate: BaseViewModelDelegate {
     func vmShowTags(tags: [FilterTag])
 }
 
-protocol PermissionsDelegate: class {
-    func mainProductsViewModelShowPushPermissionsAlert(mainProductsViewModel: MainProductsViewModel)
-}
-
 struct MainProductsHeader: OptionSetType {
     let rawValue : Int
     init(rawValue:Int){ self.rawValue = rawValue}
@@ -50,6 +46,8 @@ class MainProductsViewModel: BaseViewModel {
     let infoBubbleVisible = Variable<Bool>(false)
     let infoBubbleText = Variable<String>(LGLocalizedString.productPopularNearYou)
     let errorMessage = Variable<String?>(nil)
+    
+    private static let firstVersionNumber = 1
 
     var tags: [FilterTag] {
         
@@ -108,7 +106,6 @@ class MainProductsViewModel: BaseViewModel {
     
     // > Delegate
     weak var delegate: MainProductsViewModelDelegate?
-    weak var permissionsDelegate: PermissionsDelegate?
 
     // > Navigator
     weak var tabNavigator: TabNavigator?
@@ -338,7 +335,7 @@ class MainProductsViewModel: BaseViewModel {
     
     private func setupFiltersForRequester() -> ProductFilters {
         guard featureFlags.showLiquidProductsToNewUser else { return filters }
-        guard keyValueStorage[.firstRunDate] == nil else { return filters }
+        guard keyValueStorage[.sessionNumber] == MainProductsViewModel.firstVersionNumber else { return filters }
         var filtersForRequester: ProductFilters = filters
         let query = searchType?.query ?? ""
         if query.isEmpty && filters.selectedCategories.isEmpty {
@@ -388,10 +385,7 @@ extension MainProductsViewModel: ProductListViewCellsDelegate {
         }
     }
 
-    func visibleBottomCell(index: Int) {
-        guard index == Constants.itemIndexPushPermissionsTrigger else { return }
-        permissionsDelegate?.mainProductsViewModelShowPushPermissionsAlert(self)
-    }
+    func visibleBottomCell(index: Int) { }
 }
 
 

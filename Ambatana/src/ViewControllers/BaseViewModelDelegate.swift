@@ -64,11 +64,7 @@ extension UIViewController: BaseViewModelDelegate {
     }
     
     func vmShowAlertWithTitle(title: String?, text: String, alertType: AlertType, actions: [UIAction]?) {
-        guard let alert = LGAlertViewController(title: title, text: text, alertType: alertType, actions: actions) else {
-            return
-        }
-        let presenter: UIViewController = tabBarController ?? navigationController ?? self
-        presenter.presentViewController(alert, animated: true, completion: nil)
+        showAlertWithTitle(title, text: text, alertType: alertType, actions: actions)
     }
 
     func ifLoggedInThen(source: EventParameterLoginSourceValue, loginStyle: LoginStyle, loggedInAction: () -> Void,

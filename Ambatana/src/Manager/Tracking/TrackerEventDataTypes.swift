@@ -496,6 +496,7 @@ public enum EventParameterTypePage: String {
     case IncentivizePosting = "incentivize-posting"
     case UserRatingList = "user-rating-list"
     case ExpressChat = "express-chat"
+    case ProductDelete = "product-delete"
 }
 
 public enum EventParameterPermissionType: String {
