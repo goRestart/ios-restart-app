@@ -336,7 +336,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     }
 
     private func setupCollectionRx() {
-        viewModel.objectChanges.bindNext { [weak self] change in
+        viewModel.objectChanges.observeOn(MainScheduler.instance).bindNext { [weak self] change in
             self?.collectionView.handleCollectionChange(change)
         }.addDisposableTo(disposeBag)
     }
