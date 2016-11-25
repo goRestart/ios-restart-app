@@ -46,6 +46,7 @@ class ChangeUsernameViewModel: BaseViewModel {
     weak var delegate : ChangeUsernameViewModelDelegate?
     
     let myUserRepository: MyUserRepository
+    weak var navigator: ChangeUsernameNavigator?
     let tracker: Tracker
     
     var username: String {
@@ -133,4 +134,7 @@ class ChangeUsernameViewModel: BaseViewModel {
         return isValidUsername(username)
     }
     
+    func userNameSaved() {
+        navigator?.userNameSaved()
+    }
 }

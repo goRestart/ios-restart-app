@@ -27,6 +27,7 @@ final class ProfileTabCoordinator: TabCoordinator {
                   rootViewController: rootViewController, featureFlags: featureFlags)
 
         viewModel.profileNavigator = self
+
     }
 }
 
@@ -45,7 +46,9 @@ extension ProfileTabCoordinator: SettingsNavigator {
     }
 
     func openEditUserName() {
-        let vc = ChangeUsernameViewController()
+        let vm = ChangeUsernameViewModel()
+        vm.navigator = self
+        let vc = ChangeUsernameViewController(vm: vm)
         navigationController.pushViewController(vc, animated: true)
     }
 
@@ -67,5 +70,12 @@ extension ProfileTabCoordinator: SettingsNavigator {
     func openHelp() {
         let vc = HelpViewController()
         navigationController.pushViewController(vc, animated: true)
+    }
+}
+
+
+extension ProfileTabCoordinator: ChangeUsernameNavigator {
+    func userNameSaved() {
+        navigationController.popViewControllerAnimated(true)
     }
 }

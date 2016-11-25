@@ -569,6 +569,8 @@
 		72660D6A1DE598430001E487 /* NewRelicTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72660D681DE598430001E487 /* NewRelicTracker.swift */; };
 		72A83F641DD222100043EB3B /* Leanplum+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72A83F631DD222100043EB3B /* Leanplum+LG.swift */; };
 		72A83F651DD222100043EB3B /* Leanplum+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72A83F631DD222100043EB3B /* Leanplum+LG.swift */; };
+		72FF6B881DE879BB00D3E107 /* ChangeUsernameNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72FF6B871DE879BB00D3E107 /* ChangeUsernameNavigator.swift */; };
+		72FF6B891DE879BB00D3E107 /* ChangeUsernameNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72FF6B871DE879BB00D3E107 /* ChangeUsernameNavigator.swift */; };
 		B1BE6075C99CFB3D2FFD15B5 /* Pods_letgoTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2D3A9CDDF543002435A50F7 /* Pods_letgoTests.framework */; };
 		C703BDFE1C7F1AF900EC8EF2 /* EditLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C703BDFB1C7F1AF900EC8EF2 /* EditLocationViewController.swift */; };
 		C703BDFF1C7F1AF900EC8EF2 /* EditLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C703BDFB1C7F1AF900EC8EF2 /* EditLocationViewController.swift */; };
@@ -1535,6 +1537,7 @@
 		723A45C81DDC4D470001D02C /* UILabel+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UILabel+LG.swift"; sourceTree = "<group>"; };
 		72660D681DE598430001E487 /* NewRelicTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewRelicTracker.swift; sourceTree = "<group>"; };
 		72A83F631DD222100043EB3B /* Leanplum+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Leanplum+LG.swift"; sourceTree = "<group>"; };
+		72FF6B871DE879BB00D3E107 /* ChangeUsernameNavigator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangeUsernameNavigator.swift; sourceTree = "<group>"; };
 		7B2FD4C296937E707B24D7EB /* Pods-LetGoGodMode.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetGoGodMode.release.xcconfig"; path = "Pods/Target Support Files/Pods-LetGoGodMode/Pods-LetGoGodMode.release.xcconfig"; sourceTree = "<group>"; };
 		7ED714BB7ABD1804F5E818D4 /* Pods-LetGo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetGo.release.xcconfig"; path = "Pods/Target Support Files/Pods-LetGo/Pods-LetGo.release.xcconfig"; sourceTree = "<group>"; };
 		7FF25262DBFA224AC937A467 /* Pods_LetGo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LetGo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -2160,6 +2163,7 @@
 				50146BDE1D4F910000B0F635 /* NotificationsTabNavigator.swift */,
 				50146BD21D4F5FC700B0F635 /* ProfileTabCoordinator.swift */,
 				50146BE11D4F910B00B0F635 /* ProfileTabNavigator.swift */,
+				72FF6B871DE879BB00D3E107 /* ChangeUsernameNavigator.swift */,
 				50146BC01D4F5F5B00B0F635 /* TabCoordinator.swift */,
 				50146BC11D4F5F5B00B0F635 /* TabNavigator.swift */,
 			);
@@ -4564,6 +4568,7 @@
 				C7F22D851DB7A55C00353803 /* RecaptchaViewModel.swift in Sources */,
 				6A4E80611C77620900C6423E /* LetgoAvatar.swift in Sources */,
 				6AB674F31C97042A0080F4BF /* CommercialButton.swift in Sources */,
+				72FF6B881DE879BB00D3E107 /* ChangeUsernameNavigator.swift in Sources */,
 				503D4BF11CCE53AE0039FE14 /* UserViewHeaderAccounts.swift in Sources */,
 				C7DB42981C521DC900400945 /* EnvironmentsHelper.swift in Sources */,
 				C7B588831CE1DFA6009B3975 /* ChatMyMessageCellDrawer.swift in Sources */,
@@ -4972,6 +4977,7 @@
 				C7F22D861DB7A55C00353803 /* RecaptchaViewModel.swift in Sources */,
 				2E2D53DF1D369AFF00348D12 /* Config.swift in Sources */,
 				C7DB42991C521DC900400945 /* EnvironmentsHelper.swift in Sources */,
+				72FF6B891DE879BB00D3E107 /* ChangeUsernameNavigator.swift in Sources */,
 				6A4E80621C77620900C6423E /* LetgoAvatar.swift in Sources */,
 				6AB674F41C97042F0080F4BF /* CommercialButton.swift in Sources */,
 				503D4BF21CCE53C30039FE14 /* UserViewHeaderAccounts.swift in Sources */,
