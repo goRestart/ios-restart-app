@@ -566,6 +566,7 @@ public enum EventParameterRatingSource: String {
 
 public enum EventParameterProductVisitSource: String {
     case ProductList = "product-list"
+    case ProductDetail = "product-detail"
     case Collection = "collection"
     case Search = "search"
     case Filter = "filter"

@@ -15,7 +15,6 @@ protocol RelatedProductsViewDelegate: class {
     func relatedProductsView(view: RelatedProductsView, showProduct product: Product, atIndex index: Int,
                              productListModels: [ProductCellModel], requester: ProductListRequester,
                              thumbnailImage: UIImage?, originFrame: CGRect?)
-
 }
 
 

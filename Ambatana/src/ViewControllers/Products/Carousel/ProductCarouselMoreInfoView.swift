@@ -427,6 +427,10 @@ private extension ProductCarouselMoreInfoView {
             socialShareView.socialMessage = viewModel.socialMessage.value
             socialShareView.socialSharer = viewModel.socialSharer
         }
+
+        if !relatedItemsContainer.hidden {
+            relatedProductsView.delegate = viewModel
+        }
     }
 }
 

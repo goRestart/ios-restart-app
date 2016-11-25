@@ -82,6 +82,7 @@ class ChatRelatedProductsView: UIView {
         infoLabel.font = UIFont.sectionTitleFont
         addSubview(infoLabel)
 
+        relatedProductsView.delegate = self
         relatedProductsView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(relatedProductsView)
 
@@ -128,7 +129,13 @@ extension ChatRelatedProductsView: RelatedProductsViewDelegate {
     func relatedProductsView(view: RelatedProductsView, showProduct product: Product, atIndex index: Int,
                              productListModels: [ProductCellModel], requester: ProductListRequester,
                              thumbnailImage: UIImage?, originFrame: CGRect?) {
+
+        var realFrame: CGRect? = nil
+        if let originFrame = originFrame, parentView = superview {
+            realFrame = convertRect(originFrame, toView: parentView)
+        }
+
         delegate?.relatedProductsView(self, showProduct: product, atIndex: index, productListModels: productListModels,
-                                      requester: requester, thumbnailImage: thumbnailImage, originFrame: originFrame)
+                                      requester: requester, thumbnailImage: thumbnailImage, originFrame: realFrame)
     }
 }
