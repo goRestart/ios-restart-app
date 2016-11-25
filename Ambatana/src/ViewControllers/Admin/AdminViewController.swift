@@ -72,9 +72,12 @@ class AdminViewController: UIViewController, UITableViewDataSource, UITableViewD
             openFlex()
         case 1:
             openFeatureToggle()
+        case 2,3:
+            UIPasteboard.generalPasteboard().string = subtitleForCellAtIndexPath(indexPath) ?? ""
         default:
             break
         }
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
