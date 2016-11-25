@@ -52,6 +52,7 @@ class ProductCarouselMoreInfoView: UIView {
 
     @IBOutlet weak var relatedItemsContainer: UIView!
     @IBOutlet weak var relatedItemsTitle: UILabel!
+    @IBOutlet weak var relatedItemsViewMoreButton: UIButton!
     private var relatedProductsView = RelatedProductsView(productsDiameter: ProductCarouselMoreInfoView.relatedItemsHeight,
                                                           frame: CGRect.zero)
 
@@ -365,6 +366,11 @@ private extension ProductCarouselMoreInfoView {
         relatedItemsTitle.font = UIFont.productRelatedItemsTitleFont
         relatedItemsTitle.text = LGLocalizedString.productMoreInfoRelatedTitle
 
+        relatedItemsViewMoreButton.setTitle(LGLocalizedString.productMoreInfoRelatedViewMore, forState: .Normal)
+        relatedItemsViewMoreButton.rx_tap.bindNext { [weak self] in
+            self?.viewModel?.openRelatedItems()
+        }.addDisposableTo(disposeBag)
+
         relatedProductsView.translatesAutoresizingMaskIntoConstraints = false
         relatedItemsContainer.addSubview(relatedProductsView)
 
@@ -382,7 +388,6 @@ private extension ProductCarouselMoreInfoView {
                     self?.relatedItemsContainer.alpha = alpha
                 }
             }.addDisposableTo(disposeBag)
-
         relatedProductsView.delegate = self
     }
 

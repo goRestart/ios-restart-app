@@ -396,6 +396,23 @@ extension TabCoordinator: ProductDetailNavigator {
         let vc = PostAfterDeleteViewController(viewModel: vm)
         navigationController.presentViewController(vc, animated: true, completion: nil)
     }
+
+    func openRelatedItems(product: Product) {
+        guard let productId = product.objectId else { return }
+        let vm = ProductsViewModel(relatedProductId: productId)
+        vm.navigator = self
+        let vc = ProductsViewController(viewModel: vm)
+        navigationController.pushViewController(vc, animated: true)
+    }
+}
+
+
+// MARK: ProductListNavigator
+
+extension TabCoordinator: ProductListNavigator {
+    func closeProductList() {
+        navigationController.popViewControllerAnimated(true)
+    }
 }
 
 

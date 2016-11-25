@@ -689,6 +689,12 @@
 		C74016DD1D6467DB004C1E9D /* PostProductDetailPriceView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C74016DB1D6467DB004C1E9D /* PostProductDetailPriceView.xib */; };
 		C74016DF1D6468A7004C1E9D /* PostProductDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74016DE1D6468A7004C1E9D /* PostProductDetailViewModel.swift */; };
 		C74016E01D6468A7004C1E9D /* PostProductDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74016DE1D6468A7004C1E9D /* PostProductDetailViewModel.swift */; };
+		C7415ED61DE880BD0003D6C1 /* ProductsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7415ED41DE880BD0003D6C1 /* ProductsViewController.swift */; };
+		C7415ED71DE880BD0003D6C1 /* ProductsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7415ED41DE880BD0003D6C1 /* ProductsViewController.swift */; };
+		C7415ED81DE880BD0003D6C1 /* ProductsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C7415ED51DE880BD0003D6C1 /* ProductsViewController.xib */; };
+		C7415ED91DE880BD0003D6C1 /* ProductsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C7415ED51DE880BD0003D6C1 /* ProductsViewController.xib */; };
+		C7415EDB1DE898580003D6C1 /* ProductsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7415EDA1DE898580003D6C1 /* ProductsViewModel.swift */; };
+		C7415EDC1DE898580003D6C1 /* ProductsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7415EDA1DE898580003D6C1 /* ProductsViewModel.swift */; };
 		C74234061D59EC680082D1CD /* LocalMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74234051D59EC680082D1CD /* LocalMessage.swift */; };
 		C74234071D5A01440082D1CD /* LocalMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74234051D59EC680082D1CD /* LocalMessage.swift */; };
 		C74234091D5A028B0082D1CD /* ProductVMTrackHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74234081D5A028B0082D1CD /* ProductVMTrackHelper.swift */; };
@@ -1611,6 +1617,9 @@
 		C74016D81D6467C9004C1E9D /* PostProductDetailPriceView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostProductDetailPriceView.swift; sourceTree = "<group>"; };
 		C74016DB1D6467DB004C1E9D /* PostProductDetailPriceView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PostProductDetailPriceView.xib; sourceTree = "<group>"; };
 		C74016DE1D6468A7004C1E9D /* PostProductDetailViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostProductDetailViewModel.swift; sourceTree = "<group>"; };
+		C7415ED41DE880BD0003D6C1 /* ProductsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductsViewController.swift; sourceTree = "<group>"; };
+		C7415ED51DE880BD0003D6C1 /* ProductsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProductsViewController.xib; sourceTree = "<group>"; };
+		C7415EDA1DE898580003D6C1 /* ProductsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductsViewModel.swift; sourceTree = "<group>"; };
 		C74234051D59EC680082D1CD /* LocalMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalMessage.swift; sourceTree = "<group>"; };
 		C74234081D5A028B0082D1CD /* ProductVMTrackHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductVMTrackHelper.swift; sourceTree = "<group>"; };
 		C742340B1D5A132D0082D1CD /* UITableView+Changes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITableView+Changes.swift"; sourceTree = "<group>"; };
@@ -2282,6 +2291,9 @@
 				D412E07E1B4EFF2800683FFD /* ProductListViewModel.swift */,
 				2E4B359B1CC90A9500B8CB64 /* RelatedProductListRequester.swift */,
 				501495ED1D895B5800AC67CA /* DiscoverProductListRequester.swift */,
+				C7415ED41DE880BD0003D6C1 /* ProductsViewController.swift */,
+				C7415ED51DE880BD0003D6C1 /* ProductsViewController.xib */,
+				C7415EDA1DE898580003D6C1 /* ProductsViewModel.swift */,
 			);
 			path = Products;
 			sourceTree = "<group>";
@@ -3889,6 +3901,7 @@
 				50BA5C081C3C096D00F34042 /* GoogleService-Info.plist in Resources */,
 				5021910E1B2F1DAA00ABD31F /* RememberPasswordViewController.xib in Resources */,
 				C7B588471CE1DE1C009B3975 /* ChatProductView.xib in Resources */,
+				C7415ED81DE880BD0003D6C1 /* ProductsViewController.xib in Resources */,
 				2E97169F1D59E958009B3A32 /* ExpressChatViewController.xib in Resources */,
 				2E2C7B301C859F0C00F46E8F /* PromoteProductViewController.xib in Resources */,
 				C74016DC1D6467DB004C1E9D /* PostProductDetailPriceView.xib in Resources */,
@@ -4017,6 +4030,7 @@
 				C7DB427B1C5138B500400945 /* GoogleService-Info.plist in Resources */,
 				C7DB427C1C5138B500400945 /* RememberPasswordViewController.xib in Resources */,
 				C7B588481CE1DE1C009B3975 /* ChatProductView.xib in Resources */,
+				C7415ED91DE880BD0003D6C1 /* ProductsViewController.xib in Resources */,
 				2E2C7B311C859F0C00F46E8F /* PromoteProductViewController.xib in Resources */,
 				C74016DD1D6467DB004C1E9D /* PostProductDetailPriceView.xib in Resources */,
 				508011201D474ED80073F362 /* Icons-Launchers.xcassets in Resources */,
@@ -4701,6 +4715,7 @@
 				502191101B2F1DC100ABD31F /* RememberPasswordViewModel.swift in Sources */,
 				6A5E1A0E1D548F5400F92692 /* UILabel+Rx.swift in Sources */,
 				506DE2D51DCB6C9800006A91 /* ChatHeadGroupView.swift in Sources */,
+				C7415ED61DE880BD0003D6C1 /* ProductsViewController.swift in Sources */,
 				50C59BDB1CE0DB6400377124 /* NSUserDefaults+KeyValueStorage.swift in Sources */,
 				C783D9811C64BBA1000EE5CA /* ReportUsersViewModel.swift in Sources */,
 				C77593F11BF0E48D0097D62F /* FilterHeaderCell.swift in Sources */,
@@ -4740,6 +4755,7 @@
 				D4912A831B08E12C00DACD5A /* UIImage+Tint.swift in Sources */,
 				2E32AD151D6B0F2300AC8501 /* BubbleNotificationManager.swift in Sources */,
 				C74931791D3533DE00E117F1 /* UserRatingNavigator.swift in Sources */,
+				C7415EDB1DE898580003D6C1 /* ProductsViewModel.swift in Sources */,
 				50CA9FB01C91696800350C5F /* UserViewModel.swift in Sources */,
 				C7B89CB91C20271E00536A6C /* SocialShareView.swift in Sources */,
 				6A5E1A181D548F5400F92692 /* UIView+Geometry.swift in Sources */,
@@ -5110,6 +5126,7 @@
 				50C59BDC1CE0DB6400377124 /* NSUserDefaults+KeyValueStorage.swift in Sources */,
 				506DE2D61DCB6C9800006A91 /* ChatHeadGroupView.swift in Sources */,
 				C783D9821C64BBA1000EE5CA /* ReportUsersViewModel.swift in Sources */,
+				C7415ED71DE880BD0003D6C1 /* ProductsViewController.swift in Sources */,
 				2E9716AA1D5A284F009B3A32 /* ExpressChatViewController.swift in Sources */,
 				C7DB421C1C5138B500400945 /* FiltersViewController.swift in Sources */,
 				6AF75D081CF449AF00EACCF0 /* ChatViewMessage.swift in Sources */,
@@ -5149,6 +5166,7 @@
 				C7DB42221C5138B500400945 /* LGNavBarSearchField.swift in Sources */,
 				2E32AD161D6B107100AC8501 /* BubbleNotificationManager.swift in Sources */,
 				C7B588881CE1DFA6009B3975 /* ChatBubbleCell.swift in Sources */,
+				C7415EDC1DE898580003D6C1 /* ProductsViewModel.swift in Sources */,
 				C7DB42241C5138B500400945 /* UIImage+Tint.swift in Sources */,
 				C749317A1D3533DE00E117F1 /* UserRatingNavigator.swift in Sources */,
 				6A5E1A191D548F5400F92692 /* UIView+Geometry.swift in Sources */,
