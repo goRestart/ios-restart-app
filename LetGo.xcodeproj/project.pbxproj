@@ -571,6 +571,8 @@
 		72A83F651DD222100043EB3B /* Leanplum+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72A83F631DD222100043EB3B /* Leanplum+LG.swift */; };
 		72FF6B881DE879BB00D3E107 /* ChangeUsernameNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72FF6B871DE879BB00D3E107 /* ChangeUsernameNavigator.swift */; };
 		72FF6B891DE879BB00D3E107 /* ChangeUsernameNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72FF6B871DE879BB00D3E107 /* ChangeUsernameNavigator.swift */; };
+		72FF6B8B1DE88F7000D3E107 /* EditLocationNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72FF6B8A1DE88F7000D3E107 /* EditLocationNavigator.swift */; };
+		72FF6B8C1DE88F7000D3E107 /* EditLocationNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72FF6B8A1DE88F7000D3E107 /* EditLocationNavigator.swift */; };
 		B1BE6075C99CFB3D2FFD15B5 /* Pods_letgoTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2D3A9CDDF543002435A50F7 /* Pods_letgoTests.framework */; };
 		C703BDFE1C7F1AF900EC8EF2 /* EditLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C703BDFB1C7F1AF900EC8EF2 /* EditLocationViewController.swift */; };
 		C703BDFF1C7F1AF900EC8EF2 /* EditLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C703BDFB1C7F1AF900EC8EF2 /* EditLocationViewController.swift */; };
@@ -1538,6 +1540,7 @@
 		72660D681DE598430001E487 /* NewRelicTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewRelicTracker.swift; sourceTree = "<group>"; };
 		72A83F631DD222100043EB3B /* Leanplum+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Leanplum+LG.swift"; sourceTree = "<group>"; };
 		72FF6B871DE879BB00D3E107 /* ChangeUsernameNavigator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangeUsernameNavigator.swift; sourceTree = "<group>"; };
+		72FF6B8A1DE88F7000D3E107 /* EditLocationNavigator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditLocationNavigator.swift; sourceTree = "<group>"; };
 		7B2FD4C296937E707B24D7EB /* Pods-LetGoGodMode.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetGoGodMode.release.xcconfig"; path = "Pods/Target Support Files/Pods-LetGoGodMode/Pods-LetGoGodMode.release.xcconfig"; sourceTree = "<group>"; };
 		7ED714BB7ABD1804F5E818D4 /* Pods-LetGo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetGo.release.xcconfig"; path = "Pods/Target Support Files/Pods-LetGo/Pods-LetGo.release.xcconfig"; sourceTree = "<group>"; };
 		7FF25262DBFA224AC937A467 /* Pods_LetGo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LetGo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -2164,6 +2167,7 @@
 				50146BD21D4F5FC700B0F635 /* ProfileTabCoordinator.swift */,
 				50146BE11D4F910B00B0F635 /* ProfileTabNavigator.swift */,
 				72FF6B871DE879BB00D3E107 /* ChangeUsernameNavigator.swift */,
+				72FF6B8A1DE88F7000D3E107 /* EditLocationNavigator.swift */,
 				50146BC01D4F5F5B00B0F635 /* TabCoordinator.swift */,
 				50146BC11D4F5F5B00B0F635 /* TabNavigator.swift */,
 			);
@@ -4541,6 +4545,7 @@
 				506846471CD390CA00FA00C2 /* AppNavigator.swift in Sources */,
 				72660D691DE598430001E487 /* NewRelicTracker.swift in Sources */,
 				C79842011CC8E8C900C300FF /* User+LG.swift in Sources */,
+				72FF6B8B1DE88F7000D3E107 /* EditLocationNavigator.swift in Sources */,
 				C7B588531CE1DE1C009B3975 /* DirectAnswersCloseCell.swift in Sources */,
 				6A5E1A0A1D548F5400F92692 /* UIBarItem+Rx.swift in Sources */,
 				C7798EA21D2EB6AB00C81DD4 /* UICollectionView+Helper.swift in Sources */,
@@ -4950,6 +4955,7 @@
 				5095988A1C8733B70026AE2D /* Logger.swift in Sources */,
 				72660D6A1DE598430001E487 /* NewRelicTracker.swift in Sources */,
 				C7DB41DC1C5138B500400945 /* CAGradientLayer+Color.swift in Sources */,
+				72FF6B8C1DE88F7000D3E107 /* EditLocationNavigator.swift in Sources */,
 				C7111F061CA438C2000C5C5A /* UriScheme.swift in Sources */,
 				6A5E1A0B1D548F5400F92692 /* UIBarItem+Rx.swift in Sources */,
 				506846481CD390CA00FA00C2 /* AppNavigator.swift in Sources */,

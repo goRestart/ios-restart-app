@@ -53,7 +53,9 @@ extension ProfileTabCoordinator: SettingsNavigator {
     }
 
     func openEditLocation() {
-        let vc = EditLocationViewController(viewModel: EditLocationViewModel(mode: .EditUserLocation))
+        let vm = EditLocationViewModel(mode: .EditUserLocation)
+        vm.navigator = self
+        let vc = EditLocationViewController(viewModel: vm)
         navigationController.pushViewController(vc, animated: true)
     }
 
@@ -78,4 +80,16 @@ extension ProfileTabCoordinator: ChangeUsernameNavigator {
     func userNameSaved() {
         navigationController.popViewControllerAnimated(true)
     }
+    
+    func goBack() {
+        navigationController.popViewControllerAnimated(true)
+    }
 }
+
+extension ProfileTabCoordinator: EditLocationNavigator {
+    func locationSaved() {
+        navigationController.popViewControllerAnimated(true)
+    }
+}
+
+

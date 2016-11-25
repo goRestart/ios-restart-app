@@ -125,7 +125,7 @@ class ChangeUsernameViewController: BaseViewController, UITextFieldDelegate, Cha
         switch (result) {
         case .Success:
             completion = {
-                self.showAutoFadingOutMessageAlert(LGLocalizedString.changeUsernameSendOk) { [weak self] in
+                self.showAutoFadingOutMessageAlert(LGLocalizedString.changeUsernameSendOk) { _ in
                     viewModel.userNameSaved()
                 }
             }

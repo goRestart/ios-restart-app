@@ -31,6 +31,7 @@ enum EditLocationMode {
 class EditLocationViewModel: BaseViewModel {
    
     weak var delegate: EditLocationViewModelDelegate?
+    weak var navigator: EditLocationNavigator?
     weak var locationDelegate: EditLocationDelegate?
     
     private let locationManager: LocationManager
@@ -151,7 +152,7 @@ class EditLocationViewModel: BaseViewModel {
             updateUserLocation()
         case .SelectLocation, .EditProductLocation:
             locationDelegate?.editLocationDidSelectPlace(currentPlace)
-            delegate?.vmGoBack()
+            locationSaved()
         }
     }
 
@@ -303,7 +304,7 @@ class EditLocationViewModel: BaseViewModel {
                     let trackerEvent = TrackerEvent.profileEditEditLocation(myUserLocation)
                     self?.tracker.trackEvent(trackerEvent)
                 }
-                self?.delegate?.vmGoBack()
+                self?.locationSaved()
             } else {
                 self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.changeLocationErrorUpdatingLocationMessage, completion: nil)
             }
@@ -319,6 +320,14 @@ class EditLocationViewModel: BaseViewModel {
                 locationManager.setManualLocation(location, postalAddress: postalAddress, completion: myCompletion)
         } else {
             delegate?.vmShowAutoFadingMessage(LGLocalizedString.changeLocationErrorUpdatingLocationMessage, completion: nil)
+        }
+    }
+    
+    private func locationSaved() {
+        if let navigator = navigator {
+            navigator.locationSaved()
+        } else {
+            delegate?.vmGoBack()
         }
     }
 }
