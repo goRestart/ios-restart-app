@@ -72,8 +72,8 @@
 "chat_deleted_disclaimer_w_name" = "Et voi jatkaa tätä keskustelua, koska käyttäjän %@ tili ei ole enää aktiivinen.";
 "chat_deleted_disclaimer_wo_name" = "Et voi jatkaa tätä keskustelua, koska tämä tili ei ole enää aktiivinen.";
 "chat_disclaimer_letgo_team" = "LETGO-TIIMI";
-"chat_express_banner_button_title" = "See Deals";
-"chat_express_banner_title" = "Related deals near you";
+"chat_express_banner_button_title" = "Katso tarjouksia";
+"chat_express_banner_title" = "Vastaavia tarjouksia lähelläsi";
 "chat_express_contact_one_button_text" = "Ota yhteyttä yhteen myyjään";
 "chat_express_contact_sellers_label" = "Ota yhteyttä näihin myyjiin, ennen kuin muut ostajat nappaavat ne!";
 "chat_express_contact_various_button_text" = "Ota yhteyttä %@ myyjään";
@@ -290,11 +290,11 @@
 "main_sign_up_error_request_already_sent" = "Pyyntösi on jo käsitelty. Ole hyvä ja odota, ennen kuin yrität uudelleen.";
 "main_sign_up_error_user_rejected" = "Syöttämäsi sähköposti on väärä. Tarkista osoite ja yritä uudelleen.";
 "main_sign_up_facebook_connect_button" = "Jatka Facebookin avulla";
-"main_sign_up_facebook_connect_button_w_name" = "Log in as %@";
+"main_sign_up_facebook_connect_button_w_name" = "Kirjaudu sisään nimellä %@";
 "main_sign_up_fb_connect_error_email_taken" = "Sähköpostiosoitteesi on jo rekisteröity. Ole hyvä ja käytä sitä sisäänkirjautumiseen.";
 "main_sign_up_fb_connect_error_generic" = "Kirjautuminen ei onnistunut. Ole hyvä ja yritä uudelleen.";
 "main_sign_up_google_connect_button" = "Jatka Googlen avulla";
-"main_sign_up_google_connect_button_w_name" = "Log in as %@";
+"main_sign_up_google_connect_button_w_name" = "Kirjaudu sisään nimellä %@";
 "main_sign_up_help_button" = "Ohje";
 "main_sign_up_log_in_label" = "Kirjaudu sisään";
 "main_sign_up_or_label" = "TAI KÄYTÄ SÄHKÖPOSTIASI";
@@ -384,6 +384,9 @@
 "product_delete_confirm_ok_button" = "En halua myydä sitä";
 "product_delete_confirm_sold_button" = "Myin sen jo";
 "product_delete_confirm_title" = "Poista tuote";
+"product_delete_post_button_title" = "Julkaise toinen tuote";
+"product_delete_post_subtitle" = "Kokeile laittaa jotakin muuta myyntiin ja aloita tienaaminen.";
+"product_delete_post_title" = "EIKÖ TÄLLÄ KERTAA ONNISTANUT?";
 "product_delete_send_error_generic" = "Hups! Emme pystyneet poistamaan tuotettasi. Ole hyvä ja yritä uudelleen.";
 "product_delete_sold_confirm_message" = "Oletko varma että haluat poistaa tämän tuotteen?";
 "product_delete_success_message" = "Tuotteesi poistettiin onnistuneesti.";
@@ -414,6 +417,8 @@
 "product_mark_as_sold_free_success_message" = "Onneksi olkoon! Tuotteesi merkittiin pois annetuksi onnistuneesti";
 "product_mark_as_sold_success_message" = "Onneksi olkoon, tuotteesi merkittiin onnistuneesti myydyksi!";
 "product_more_info_open_button" = "LISÄTIEDOT";
+"product_more_info_related_title" = "YOU MIGHT BE INTERESTED IN:";
+"product_more_info_related_view_more" = "View more";
 "product_more_info_tooltip_part_1" = "Paina";
 "product_more_info_tooltip_part_2" = "%@ nähdäksesi lisätietoja";
 "product_negotiable_price" = "Neuvoteltavissa";
@@ -636,8 +641,8 @@
 "settings_invite_facebook_friends_button" = "Kutsu Facebook-kavereita";
 "settings_invite_facebook_friends_error" = "Kutsuasi jaettaessa tapahtui virhe.";
 "settings_invite_facebook_friends_ok" = "Kutsusi jaettiin onnistuneesti!";
-"settings_logout_alert_message" = "Are you sure you want to log out?";
-"settings_logout_alert_ok" = "Log out";
+"settings_logout_alert_message" = "Oletko varma että haluat kirjautua ulos?";
+"settings_logout_alert_ok" = "Kirjaudu ulos";
 "settings_logout_button" = "Kirjaudu ulos";
 "settings_marketing_notifications_switch" = "Markkinointi-ilmoitukset";
 "settings_section_profile" = "Profiili";

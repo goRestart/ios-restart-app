@@ -31,8 +31,6 @@ class ProductCarouselMoreInfoView: UIView {
     @IBOutlet weak var addressLabel: UILabel!
     @IBOutlet weak var distanceLabel: UILabel!
     @IBOutlet weak var mapView: MKMapView!
-    @IBOutlet weak var socialShareTitleLabel: UILabel!
-    @IBOutlet weak var socialShareView: SocialShareView!
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var scrollViewContent: UIView!
     @IBOutlet weak var visualEffectView: UIVisualEffectView!
@@ -45,7 +43,15 @@ class ProductCarouselMoreInfoView: UIView {
     @IBOutlet weak var dragViewTitle: UILabel!
     @IBOutlet weak var dragViewImage: UIImageView!
 
-    
+    @IBOutlet weak var socialShareContainer: UIView!
+    @IBOutlet weak var socialShareTitleLabel: UILabel!
+    @IBOutlet weak var socialShareView: SocialShareView!
+
+    @IBOutlet weak var relatedItemsContainer: UIView!
+    @IBOutlet weak var relatedItemsTitle: UILabel!
+    private var relatedProductsView = RelatedProductsView(productsDiameter: 80, frame: CGRect.zero)
+
+
     private let disposeBag = DisposeBag()
     private var currentVmDisposeBag = DisposeBag()
     private var viewModel: ProductViewModel?
@@ -80,7 +86,6 @@ class ProductCarouselMoreInfoView: UIView {
         view.setupUI()
         view.setupStatsView()
         view.setAccessibilityIds()
-        view.setupContent()
         view.addGestures()
         view.configureMapView()
         view.configureOverlayMapView()
@@ -282,8 +287,11 @@ extension ProductCarouselMoreInfoView {
         descriptionLabel.collapseText = LGLocalizedString.commonCollapse.uppercase
         descriptionLabel.gradientColor = UIColor.clearColor()
         descriptionLabel.expandTextColor = UIColor.whiteColor()
-        
+
+        socialShareTitleLabel.text = LGLocalizedString.productShareTitleLabel
         setupSocialShareView()
+
+        setupRelatedItems()
 
         dragView.rounded = true
         dragView.layer.borderColor = UIColor.white.CGColor
@@ -316,8 +324,6 @@ extension ProductCarouselMoreInfoView {
         
         addressLabel.text = viewModel.productAddress.value
         distanceLabel.text = viewModel.productDistance.value
-        
-        socialShareTitleLabel.text = LGLocalizedString.productShareTitleLabel
         
         viewModel.productDescription.asObservable().bindTo(descriptionLabel.rx_optionalMainText)
             .addDisposableTo(disposeBag)
@@ -355,6 +361,10 @@ extension ProductCarouselMoreInfoView {
         let bottom = NSLayoutConstraint(item: statsView, attribute: .Bottom, relatedBy: .Equal, toItem: statsContainerView,
                                      attribute: .Bottom, multiplier: 1, constant: 0)
         statsContainerView.addConstraints([top, right, left, bottom])
+    }
+
+    private func setupRelatedItems() {
+        
     }
 
     private func setupStatsRx() {

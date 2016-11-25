@@ -1161,6 +1161,15 @@
 // Product delete success message.  Message displayal is like the other error messages.
 "product_delete_success_message" = "Your product was successfully deleted.";
 
+// Incentivate post after delete fullscreen button title
+"product_delete_post_button_title" = "Post Another Item";
+
+// Incentivate post after delete fullscreen text title
+"product_delete_post_title" = "NO LUCK THIS TIME?";
+
+// Incentivate post after delete fullscreen text subtitle
+"product_delete_post_subtitle" = "Try posting something else and start making money.";
+
 // Product distance from you. Check image @ "product_ask_a_question_button" segment
 "product_distance_more_than_from_you" = "More than %@ from you";
 
@@ -1259,6 +1268,12 @@
 
 // Button to open the More Info view tapping or dragging it
 "product_more_info_open_button" = "MORE INFO";
+
+// Related items title on product more info
+"product_more_info_related_title" = "YOU MIGHT BE INTERESTED IN:";
+
+// View more related items button on product more info
+"product_more_info_related_view_more" = "View more";
 
 // Text when price is 0$ 
 "product_negotiable_price" = "Negotiable";
