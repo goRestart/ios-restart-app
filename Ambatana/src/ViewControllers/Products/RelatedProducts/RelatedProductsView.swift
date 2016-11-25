@@ -34,7 +34,11 @@ class RelatedProductsView: UIView {
     private let productsDiameter: CGFloat
 
     private var requester: ProductListRequester?
-    private var objects: [ProductCellModel] = []
+    private var objects: [ProductCellModel] = [] {
+        didSet {
+            hasProducts.value = !objects.isEmpty
+        }
+    }
     private let drawerManager = GridDrawerManager()
 
     private let disposeBag = DisposeBag()
@@ -83,9 +87,7 @@ class RelatedProductsView: UIView {
     private func setupRx() {
         productId.asObservable().bindNext{ [weak self] productId in
              guard let productId = productId else {
-                self?.hasProducts.value = false
-                self?.objects = []
-                self?.collectionView.reloadData()
+                self?.clear()
                 return
             }
             self?.loadProducts(productId)
@@ -114,6 +116,11 @@ extension RelatedProductsView: UICollectionViewDelegate, UICollectionViewDataSou
             layout.itemSize = CGSize(width: productsDiameter, height: productsDiameter)
             layout.minimumInteritemSpacing = RelatedProductsView.itemsSpacing
         }
+    }
+
+    private func clear() {
+        objects = []
+        collectionView.reloadData()
     }
 
     private func itemAtIndex(index: Int) -> ProductCellModel? {
@@ -162,6 +169,7 @@ extension RelatedProductsView: UICollectionViewDelegate, UICollectionViewDataSou
 private extension RelatedProductsView {
 
     func loadProducts(productId: String) {
+        clear()
         requester = RelatedProductListRequester(productId: productId, itemsPerPage: Constants.numProductsPerPageDefault)
         requester?.retrieveFirstPage { [weak self] result in
             if let products = result.value where !products.isEmpty {
@@ -171,7 +179,6 @@ private extension RelatedProductsView {
                 self?.objects = []
             }
             self?.collectionView.reloadData()
-            self?.hasProducts.value = !(self?.objects.isEmpty ?? true)
         }
     }
 }

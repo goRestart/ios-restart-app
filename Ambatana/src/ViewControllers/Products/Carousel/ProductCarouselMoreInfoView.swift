@@ -23,6 +23,8 @@ protocol ProductCarouselMoreInfoDelegate: class {
 }
 
 class ProductCarouselMoreInfoView: UIView {
+
+    private static let relatedItemsHeight: CGFloat = 80
     
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var priceLabel: UILabel!
@@ -49,7 +51,7 @@ class ProductCarouselMoreInfoView: UIView {
 
     @IBOutlet weak var relatedItemsContainer: UIView!
     @IBOutlet weak var relatedItemsTitle: UILabel!
-    private var relatedProductsView = RelatedProductsView(productsDiameter: 80, frame: CGRect.zero)
+    private var relatedProductsView = RelatedProductsView(productsDiameter: ProductCarouselMoreInfoView.relatedItemsHeight, frame: CGRect.zero)
 
 
     private let disposeBag = DisposeBag()
@@ -81,14 +83,17 @@ class ProductCarouselMoreInfoView: UIView {
 
     weak var delegate: ProductCarouselMoreInfoDelegate?
 
-    static func moreInfoView() -> ProductCarouselMoreInfoView {
+    static func moreInfoView() -> ProductCarouselMoreInfoView{
+        return moreInfoView(FeatureFlags.sharedInstance)
+    }
+
+    static func moreInfoView(featureFlags: FeatureFlaggeable) -> ProductCarouselMoreInfoView {
         let view = NSBundle.mainBundle().loadNibNamed("ProductCarouselMoreInfoView", owner: self, options: nil)!.first as! ProductCarouselMoreInfoView
-        view.setupUI()
+        view.setupUI(featureFlags)
         view.setupStatsView()
+        view.setupOverlayMapView()
         view.setAccessibilityIds()
         view.addGestures()
-        view.configureMapView()
-        view.configureOverlayMapView()
         return view
     }
     
@@ -96,13 +101,13 @@ class ProductCarouselMoreInfoView: UIView {
         super.init(coder: aDecoder)
     }
     
-    func setupWith(viewModel viewModel: ProductViewModel) {
+    func setViewModel(viewModel: ProductViewModel) {
         self.viewModel = viewModel
         currentVmDisposeBag = DisposeBag()
-        setupUI()
-        setupContent()
+        configureContent()
         configureMapView()
-        setupStatsRx()
+        configureStatsRx()
+        configureBottomPanel()
     }
 
     func dismissed() {
@@ -129,6 +134,25 @@ extension ProductCarouselMoreInfoView {
 
 extension ProductCarouselMoreInfoView: MKMapViewDelegate {
 
+    // Initial setup
+    func setupOverlayMapView() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(showBigMap))
+        mapView.addGestureRecognizer(tap)
+        
+        overlayMap.frame = convertRect(mapView.frame, fromView: scrollViewContent)
+        overlayMap.layer.cornerRadius = LGUIKitConstants.mapCornerRadius
+        overlayMap.clipsToBounds = true
+        overlayMap.region = mapView.region
+
+        let tapHide = UITapGestureRecognizer(target: self, action: #selector(hideBigMap))
+        overlayMap.addGestureRecognizer(tapHide)
+
+        overlayMap.alpha = 0
+
+        addSubview(overlayMap)
+    }
+
+    // Configuration for each VM
     func configureMapView() {
         guard let coordinate = viewModel?.productLocation.value else { return }
         let clCoordinate = CLLocationCoordinate2D(latitude: coordinate.latitude, longitude: coordinate.longitude)
@@ -145,23 +169,6 @@ extension ProductCarouselMoreInfoView: MKMapViewDelegate {
 
         locationZone = MKCircle(centerCoordinate:coordinate.coordinates2DfromLocation(),
                                 radius: Constants.accurateRegionRadius)
-    }
-
-    func configureOverlayMapView() {
-        let tap = UITapGestureRecognizer(target: self, action: #selector(showBigMap))
-        mapView.addGestureRecognizer(tap)
-        
-        overlayMap.frame = convertRect(mapView.frame, fromView: scrollViewContent)
-        overlayMap.layer.cornerRadius = LGUIKitConstants.mapCornerRadius
-        overlayMap.clipsToBounds = true
-        overlayMap.region = mapView.region
-
-        let tapHide = UITapGestureRecognizer(target: self, action: #selector(hideBigMap))
-        overlayMap.addGestureRecognizer(tapHide)
-
-        overlayMap.alpha = 0
-
-        addSubview(overlayMap)
     }
     
     func showBigMap() {
@@ -247,11 +254,14 @@ extension ProductCarouselMoreInfoView: UIScrollViewDelegate {
 }
 
 
-// MARK: - UI
+// MARK: - Private
 
-extension ProductCarouselMoreInfoView {
-    private func setupUI() {
+private extension ProductCarouselMoreInfoView {
 
+
+    // MARK: > Setup (initial)
+
+    func setupUI(featureFlags: FeatureFlaggeable) {
         scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: scrollBottomInset, right: 0)
         
         titleLabel.textColor = UIColor.whiteColor()
@@ -288,10 +298,10 @@ extension ProductCarouselMoreInfoView {
         descriptionLabel.gradientColor = UIColor.clearColor()
         descriptionLabel.expandTextColor = UIColor.whiteColor()
 
-        socialShareTitleLabel.text = LGLocalizedString.productShareTitleLabel
         setupSocialShareView()
-
         setupRelatedItems()
+        socialShareContainer.hidden = featureFlags.relatedProductsOnMoreInfo
+        relatedItemsContainer.hidden = !featureFlags.relatedProductsOnMoreInfo
 
         dragView.rounded = true
         dragView.layer.borderColor = UIColor.white.CGColor
@@ -311,36 +321,6 @@ extension ProductCarouselMoreInfoView {
         }
         
         scrollView.delegate = self
-    }
-    
-    private func setupContent() {
-        guard let viewModel = viewModel else { return }
-        titleLabel.text = viewModel.productTitle.value
-        priceLabel.text = viewModel.productPrice.value
-        autoTitleLabel.text = viewModel.productTitleAutogenerated.value ?
-            LGLocalizedString.productAutoGeneratedTitleLabel : nil
-        transTitleLabel.text = viewModel.productTitleAutoTranslated.value ?
-            LGLocalizedString.productAutoGeneratedTranslatedTitleLabel : nil
-        
-        addressLabel.text = viewModel.productAddress.value
-        distanceLabel.text = viewModel.productDistance.value
-        
-        viewModel.productDescription.asObservable().bindTo(descriptionLabel.rx_optionalMainText)
-            .addDisposableTo(disposeBag)
-        
-        socialShareView.socialMessage = viewModel.socialMessage.value
-        socialShareView.socialSharer = viewModel.socialSharer
-    }
-    
-    private func setupSocialShareView() {
-        socialShareView.delegate = self
-        socialShareView.style = .Grid
-        socialShareView.gridColumns = 5
-        switch DeviceFamily.current {
-        case .iPhone4, .iPhone5:
-            socialShareView.buttonsSide = 50
-        default: break
-        }
     }
 
     private func setupStatsView() {
@@ -363,11 +343,63 @@ extension ProductCarouselMoreInfoView {
         statsContainerView.addConstraints([top, right, left, bottom])
     }
 
-    private func setupRelatedItems() {
-        
+    private func setupSocialShareView() {
+        socialShareTitleLabel.text = LGLocalizedString.productShareTitleLabel
+
+        socialShareView.delegate = self
+        socialShareView.style = .Grid
+        socialShareView.gridColumns = 5
+        switch DeviceFamily.current {
+        case .iPhone4, .iPhone5:
+            socialShareView.buttonsSide = 50
+        default: break
+        }
     }
 
-    private func setupStatsRx() {
+    private func setupRelatedItems() {
+        relatedItemsTitle.text = LGLocalizedString.productMoreInfoRelatedTitle
+
+        relatedProductsView.translatesAutoresizingMaskIntoConstraints = false
+        relatedItemsContainer.addSubview(relatedProductsView)
+
+        let views = [ "title" : relatedItemsTitle, "items" : relatedProductsView ]
+        let metrics = [ "interMargin" : CGFloat(10), "margin" : CGFloat(15), "height" : ProductCarouselMoreInfoView.relatedItemsHeight]
+        relatedItemsContainer.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[title]-interMargin-[items(height)]-margin-|",
+            options: [], metrics: metrics, views: views))
+        relatedItemsContainer.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-0-[items]-0-|",
+            options: [], metrics: metrics, views: views))
+
+        relatedProductsView.hasProducts.asObservable().distinctUntilChanged()
+            .map { $0 ? CGFloat(1) : CGFloat(0) }
+            .bindNext { alpha in
+                UIView.animateWithDuration(0.2) { [weak self] in
+                    self?.relatedItemsContainer.alpha = alpha
+                }
+            }.addDisposableTo(disposeBag)
+    }
+
+
+    // MARK: > Configuration (each view model)
+
+    private func configureContent() {
+        guard let viewModel = viewModel else { return }
+        scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: scrollBottomInset, right: 0)
+
+        titleLabel.text = viewModel.productTitle.value
+        priceLabel.text = viewModel.productPrice.value
+        autoTitleLabel.text = viewModel.productTitleAutogenerated.value ?
+            LGLocalizedString.productAutoGeneratedTitleLabel : nil
+        transTitleLabel.text = viewModel.productTitleAutoTranslated.value ?
+            LGLocalizedString.productAutoGeneratedTranslatedTitleLabel : nil
+
+        addressLabel.text = viewModel.productAddress.value
+        distanceLabel.text = viewModel.productDistance.value
+
+        viewModel.productDescription.asObservable().bindTo(descriptionLabel.rx_optionalMainText)
+            .addDisposableTo(disposeBag)
+    }
+
+    private func configureStatsRx() {
         guard let viewModel = viewModel else { return }
         viewModel.statsViewVisible.asObservable().distinctUntilChanged().bindNext { [weak self] visible in
             self?.statsContainerViewHeightConstraint.constant = visible ? self?.statsContainerViewHeight ?? 0 : 0
@@ -380,7 +412,19 @@ extension ProductCarouselMoreInfoView {
                 guard let statsView = self?.statsView else { return }
                 statsView.updateStatsWithInfo(views, favouritesCount: favorites, postedDate: date)
         }.addDisposableTo(currentVmDisposeBag)
-                                 
+    }
+
+    private func configureBottomPanel() {
+        guard let viewModel = viewModel else { return }
+
+        if !socialShareContainer.hidden {
+            socialShareView.socialMessage = viewModel.socialMessage.value
+            socialShareView.socialSharer = viewModel.socialSharer
+        }
+
+        if !relatedItemsContainer.hidden {
+            relatedProductsView.productId.value = viewModel.product.value.objectId
+        }
     }
 }
 
