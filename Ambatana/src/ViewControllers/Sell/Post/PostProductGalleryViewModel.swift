@@ -15,6 +15,7 @@ import RxCocoa
 protocol PostProductGalleryViewModelDelegate: class {
     func vmDidUpdateGallery()
     func vmDidSelectItemAtIndex(index: Int, shouldScroll: Bool)
+    func vmDidDeselectItemAtIndex(index: Int)
     func vmShowActionSheet(cancelAction: UIAction, actions: [UIAction])
 }
 
@@ -28,7 +29,13 @@ enum AlbumSelectionIconState {
 
 class PostProductGalleryViewModel: BaseViewModel {
 
-    let maxImagesSelected = 5
+    var maxImagesSelected: Int {
+        return featureFlags.postingMultiPictureEnabled ? 5 : 1
+    }
+
+    var featureFlags: FeatureFlags
+    var keyValueStorage: KeyValueStorage
+
     weak var delegate: PostProductGalleryViewModelDelegate?
     weak var galleryDelegate: PostProductGalleryViewDelegate?
 
@@ -37,9 +44,10 @@ class PostProductGalleryViewModel: BaseViewModel {
     let galleryState = Variable<GalleryState>(.Normal)
     let albumTitle = Variable<String>(LGLocalizedString.productPostGalleryTab)
     let albumIconState = Variable<AlbumSelectionIconState>(.Down)
-    let imagesSelected = Variable<[UIImage]?>(nil)
-    let positionsSelected = Variable<[Int]?>(nil)
+    let imagesSelected = Variable<[UIImage]>([])
+    let positionsSelected = Variable<[Int]>([])
     let lastImageSelected = Variable<UIImage?>(nil)
+    let imageSelectionEnabled = Variable<Bool>(true)
 
     private static let columnCount: CGFloat = 4
     private static let cellSpacing: CGFloat = 4
@@ -53,15 +61,22 @@ class PostProductGalleryViewModel: BaseViewModel {
 
     private var lastImageRequestId: PHImageRequestID?
 
-    private var imagesSelectedCount: Int = 0
+    var imagesSelectedCount = Variable<Int>(0)
 
     let disposeBag = DisposeBag()
 
 
     // MARK: - Lifecycle
 
-    init(multiSelectionEnabled: Bool) {
+    convenience init(multiSelectionEnabled: Bool) {
+        self.init(multiSelectionEnabled: multiSelectionEnabled, featureFlags: FeatureFlags.sharedInstance,
+                  keyValueStorage: KeyValueStorage.sharedInstance)
+    }
+
+    required init(multiSelectionEnabled: Bool, featureFlags: FeatureFlags, keyValueStorage: KeyValueStorage) {
         self.multiSelectionEnabled = multiSelectionEnabled
+        self.featureFlags = featureFlags
+        self.keyValueStorage = keyValueStorage
         super.init()
         setupRX()
     }
@@ -76,8 +91,8 @@ class PostProductGalleryViewModel: BaseViewModel {
     // MARK: - Public methods
 
     func postButtonPressed() {
-        guard let imagesSelected = imagesSelected.value else { return }
-        galleryDelegate?.productGalleryDidSelectImages(imagesSelected)
+        guard !imagesSelected.value.isEmpty else { return }
+        galleryDelegate?.productGalleryDidSelectImages(imagesSelected.value)
     }
 
     var imagesCount: Int {
@@ -96,6 +111,10 @@ class PostProductGalleryViewModel: BaseViewModel {
 
     func imageSelectedAtIndex(index: Int) {
         selectImageAtIndex(index, autoScroll: true)
+    }
+
+    func imageDeselectedAtIndex(index: Int) {
+        deselectImageAtIndex(index)
     }
 
     func albumButtonPressed() {
@@ -150,6 +169,25 @@ class PostProductGalleryViewModel: BaseViewModel {
         visible.asObservable().distinctUntilChanged().filter{ $0 }
             .subscribeNext{ [weak self] _ in self?.didBecomeVisible() }
             .addDisposableTo(disposeBag)
+
+        imagesSelected.asObservable().bindNext { [weak self] imgsSelected in
+            self?.imagesSelectedCount.value = imgsSelected.count
+        }.addDisposableTo(disposeBag)
+
+        // 👾
+        imagesSelectedCount.asObservable().bindNext { [weak self] numImgs in
+            guard let strongSelf = self else { return }
+            if numImgs <= 0 {
+                if let title = strongSelf.keyValueStorage.userPostProductLastGalleryAlbumSelected {
+                    strongSelf.albumTitle.value = title
+                    strongSelf.albumIconState.value = .Down
+                }
+            } else {
+                // build title with num of selected pics
+                strongSelf.albumTitle.value = "\(numImgs) pics selected"
+                strongSelf.albumIconState.value = .Hidden
+            }
+        }.addDisposableTo(disposeBag)
     }
 
     private static func collectAlbumsOfType(type: PHAssetCollectionType,
@@ -235,7 +273,7 @@ class PostProductGalleryViewModel: BaseViewModel {
 
     private func selectLastAlbumSelected() {
         guard !albums.isEmpty else { return }
-        let lastName = KeyValueStorage.sharedInstance.userPostProductLastGalleryAlbumSelected
+        let lastName = keyValueStorage.userPostProductLastGalleryAlbumSelected
         for assetCollection in albums {
             if let lastName = lastName, albumName = assetCollection.localizedTitle where lastName == albumName {
                 selectAlbum(assetCollection)
@@ -249,7 +287,7 @@ class PostProductGalleryViewModel: BaseViewModel {
 
         let title = assetCollection.localizedTitle
         if let title = title {
-            KeyValueStorage.sharedInstance.userPostProductLastGalleryAlbumSelected = title
+            keyValueStorage.userPostProductLastGalleryAlbumSelected = title
             albumTitle.value = title
         } else {
             albumTitle.value = LGLocalizedString.productPostGalleryTab
@@ -280,13 +318,16 @@ class PostProductGalleryViewModel: BaseViewModel {
 
             if let image = image {
                 strongSelf.galleryState.value = .Normal
-                // 👾 add image to imagesSelected.value
-                strongSelf.imagesSelected.value?.append(image)
-                strongSelf.positionsSelected.value?.append(index)
-                if strongSelf.imagesSelectedCount > strongSelf.maxImagesSelected {
-                    // remove 1st selected and add the new one
-                    strongSelf.imagesSelected.value?.removeAtIndex(0)
-                    strongSelf.positionsSelected.value?.removeAtIndex(0)
+                strongSelf.imagesSelected.value.append(image)
+                strongSelf.positionsSelected.value.append(index)
+                if strongSelf.imagesSelectedCount.value >= strongSelf.maxImagesSelected {
+                    if strongSelf.featureFlags.postingMultiPictureEnabled {
+                        // Block interaction!!!
+                        strongSelf.imageSelectionEnabled.value = false
+                    } else {
+                        strongSelf.imagesSelected.value.removeFirst()
+                        strongSelf.positionsSelected.value.removeFirst()
+                    }
                 }
             } else {
                 strongSelf.galleryState.value = .LoadImageError
@@ -296,6 +337,23 @@ class PostProductGalleryViewModel: BaseViewModel {
             PHImageManager.defaultManager().cancelImageRequest(lastId)
         }
         lastImageRequestId = imageRequestId
+    }
+
+    private func deselectImageAtIndex(index: Int) {
+        guard let selectedImageIndex = positionsSelected.value.indexOf(index) where 0..<imagesSelected.value.count ~= selectedImageIndex else { return }
+
+        imageSelectionEnabled.value = true
+        imagesSelected.value.removeAtIndex(selectedImageIndex)
+        positionsSelected.value.removeAtIndex(selectedImageIndex)
+
+        if selectedImageIndex == imagesSelected.value.count {
+            // just deselected last image selected, we should change the previewed one to the last selected, unless is the 1st one
+            let numImgs = imagesSelected.value.count
+            if numImgs > 0 {
+                lastImageSelected.value = imagesSelected.value[numImgs-1]
+            }
+        }
+        delegate?.vmDidDeselectItemAtIndex(index)
     }
 
     private func imageAtIndex(index: Int, size: CGSize?, handler: UIImage? -> Void) -> PHImageRequestID? {

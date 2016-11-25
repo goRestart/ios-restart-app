@@ -29,6 +29,10 @@
                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <view alpha="0.59999999999999998" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dHz-qY-kZd" userLabel="DisabledCellView">
+                        <rect key="frame" x="0.0" y="0.0" width="131" height="130"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
                 </subviews>
             </view>
             <constraints>
@@ -38,11 +42,16 @@
                 <constraint firstItem="6iW-HO-UUd" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="POd-Bi-Q9k"/>
                 <constraint firstAttribute="bottom" secondItem="6iW-HO-UUd" secondAttribute="bottom" id="ZAU-JC-eZ7"/>
                 <constraint firstAttribute="trailing" secondItem="on6-kw-wa9" secondAttribute="trailing" id="cRx-bM-8wP"/>
+                <constraint firstItem="dHz-qY-kZd" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="ch7-mw-Fp1"/>
+                <constraint firstAttribute="bottom" secondItem="dHz-qY-kZd" secondAttribute="bottom" id="f4W-iJ-DOM"/>
+                <constraint firstItem="dHz-qY-kZd" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="iTI-lx-rS2"/>
                 <constraint firstAttribute="bottom" secondItem="on6-kw-wa9" secondAttribute="bottom" id="oai-6Q-4rd"/>
                 <constraint firstItem="on6-kw-wa9" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="qt0-kb-UUN"/>
+                <constraint firstAttribute="trailing" secondItem="dHz-qY-kZd" secondAttribute="trailing" id="vsL-KH-jQt"/>
             </constraints>
             <size key="customSize" width="131" height="130"/>
             <connections>
+                <outlet property="disabledView" destination="dHz-qY-kZd" id="bk8-pM-YS3"/>
                 <outlet property="image" destination="on6-kw-wa9" id="PPM-CT-dS4"/>
                 <outlet property="selectedCountlabel" destination="6iW-HO-UUd" id="iMM-IA-PmE"/>
             </connections>

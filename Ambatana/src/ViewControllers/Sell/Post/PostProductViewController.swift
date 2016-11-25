@@ -356,6 +356,10 @@ extension PostProductViewController: PostProductGalleryViewDelegate {
         showActionSheet(cancelAction, actions: actions, sourceView: galleryView.albumButton,
                         sourceRect: galleryView.albumButton.frame, completion: nil)
     }
+
+    func productGallerySelectionFull(selectionFull: Bool) {
+        photoButton.hidden = selectionFull
+    }
 }
 
 

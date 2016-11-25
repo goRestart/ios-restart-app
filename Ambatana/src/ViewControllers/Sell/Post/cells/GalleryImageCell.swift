@@ -14,7 +14,13 @@ class GalleryImageCell: UICollectionViewCell, ReusableCell {
 
     @IBOutlet weak var image: UIImageView!
     @IBOutlet weak var selectedCountlabel: UILabel!
+    @IBOutlet weak var disabledView: UIView!
 
+    var disabled: Bool = false {
+        didSet {
+            disabledView.hidden = !disabled
+        }
+    }
     
     // MARK: - Lifecycle
 
@@ -47,6 +53,6 @@ class GalleryImageCell: UICollectionViewCell, ReusableCell {
     private func resetUI() {
         image.image = nil
         selectedCountlabel.hidden = true
-//        selectedImage.hidden = true
+        self.disabled = false
     }
 }

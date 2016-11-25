@@ -17,6 +17,7 @@ protocol PostProductGalleryViewDelegate: class {
     func productGalleryRequestsScrollLock(lock: Bool)
     func productGalleryDidPressTakePhoto()
     func productGalleryShowActionSheet(cancelAction: UIAction, actions: [UIAction])
+    func productGallerySelectionFull(selectionFull: Bool)
 }
 
 class PostProductGalleryView: BaseView, LGViewPagerPage {
@@ -182,7 +183,10 @@ extension PostProductGalleryView: PostProductGalleryViewModelDelegate {
         animateToState(collapsed: false) { [weak self] in
             self?.selectItemAtIndex(index)
         }
-        collectionView.reloadData()
+    }
+
+    func vmDidDeselectItemAtIndex(index: Int) {
+//        collectionView.reloadData()
     }
 
     func vmShowActionSheet(cancelAction: UIAction, actions: [UIAction]) {
@@ -210,9 +214,19 @@ extension PostProductGalleryView: UICollectionViewDataSource, UICollectionViewDe
             viewModel.imageForCellAtIndex(indexPath.row) { image in
                 galleryCell.image.image = image
             }
-            if let positionsSelected = viewModel.positionsSelected.value where positionsSelected.contains(indexPath.item) {
+            if viewModel.positionsSelected.value.contains(indexPath.item) {
+                galleryCell.disabled = false
                 galleryCell.selected = true
-                galleryCell.selectedCountlabel.text = "\(positionsSelected.indexOf(indexPath.item))"
+                collectionView.selectItemAtIndexPath(indexPath, animated: false, scrollPosition: .None)
+                if let position = viewModel.positionsSelected.value.indexOf(indexPath.item) {
+                    galleryCell.selectedCountlabel.text = "\(position + 1)"
+                }
+            } else if viewModel.imagesSelectedCount.value >= viewModel.maxImagesSelected {
+                galleryCell.disabled = true
+                galleryCell.selected = false
+            } else {
+                galleryCell.selected = false
+                galleryCell.disabled = false
             }
             return galleryCell
     }
@@ -221,9 +235,30 @@ extension PostProductGalleryView: UICollectionViewDataSource, UICollectionViewDe
         viewModel.imageSelectedAtIndex(indexPath.row)
     }
 
+    func collectionView(collectionView: UICollectionView, shouldSelectItemAtIndexPath indexPath: NSIndexPath) -> Bool {
+        return viewModel.imageSelectionEnabled.value
+    }
+    
+    func collectionView(collectionView: UICollectionView, didDeselectItemAtIndexPath indexPath: NSIndexPath) {
+        viewModel.imageDeselectedAtIndex(indexPath.row)
+    }
+
+    func collectionView(collectionView: UICollectionView, shouldDeselectItemAtIndexPath indexPath: NSIndexPath) -> Bool {
+        return true
+    }
+
     private func selectItemAtIndex(index: Int) {
         let indexPath = NSIndexPath(forItem: index, inSection: 0)
         collectionView.selectItemAtIndexPath(indexPath, animated: false, scrollPosition: .None)
+        let layoutAttributes = collectionView.layoutAttributesForItemAtIndexPath(indexPath)
+        if let layoutAttributes = layoutAttributes {
+            collectionView.scrollRectToVisible(layoutAttributes.frame, animated: true)
+        }
+    }
+
+    private func deselectItemAtIndex(index: Int) {
+        let indexPath = NSIndexPath(forItem: index, inSection: 0)
+        collectionView.deselectItemAtIndexPath(indexPath, animated: false)
         let layoutAttributes = collectionView.layoutAttributesForItemAtIndexPath(indexPath)
         if let layoutAttributes = layoutAttributes {
             collectionView.scrollRectToVisible(layoutAttributes.frame, animated: true)
@@ -273,6 +308,15 @@ extension PostProductGalleryView {
                 self?.postButton.enabled = false
             }
         }.addDisposableTo(disposeBag)
+
+        viewModel.imagesSelected.asObservable().bindNext { [weak self] imgsSelected in
+            // album button change title and disable if imgsSelected.count > 0
+            self?.collectionView.reloadData()
+        }
+
+        viewModel.imageSelectionEnabled.asObservable().distinctUntilChanged().bindNext { [weak self] interactionEnabled in
+            self?.delegate?.productGallerySelectionFull(!interactionEnabled)
+        }.addDisposableTo(disposeBag)
     }
 
     @IBAction func onInfoButtonPressed(sender: AnyObject) {
@@ -296,6 +340,7 @@ extension PostProductGalleryView {
         let centerV = NSLayoutConstraint(item: albumButtonTick, attribute: .CenterY, relatedBy: .Equal,
             toItem: albumButton, attribute: .CenterY, multiplier: 1.0, constant: 2)
         albumButton.addConstraints([left,centerV])
+
 
         viewModel.albumTitle.asObservable().bindTo(albumButton.rx_title).addDisposableTo(disposeBag)
         viewModel.lastImageSelected.asObservable().bindTo(selectedImage.rx_image).addDisposableTo(disposeBag)
