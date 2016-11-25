@@ -292,9 +292,6 @@ private extension ProductCarouselMoreInfoView {
         mapView.layer.cornerRadius = LGUIKitConstants.mapCornerRadius
         mapView.clipsToBounds = true
         
-        socialShareTitleLabel.textColor = UIColor.whiteColor()
-        socialShareTitleLabel.font = UIFont.productSocialShareTitleFont
-        
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(toggleDescriptionState))
         descriptionLabel.textColor = UIColor.grayLight
         descriptionLabel.addGestureRecognizer(tapGesture)
@@ -349,6 +346,8 @@ private extension ProductCarouselMoreInfoView {
     }
 
     private func setupSocialShareView() {
+        socialShareTitleLabel.textColor = UIColor.whiteColor()
+        socialShareTitleLabel.font = UIFont.productSocialShareTitleFont
         socialShareTitleLabel.text = LGLocalizedString.productShareTitleLabel
 
         socialShareView.delegate = self
@@ -362,6 +361,8 @@ private extension ProductCarouselMoreInfoView {
     }
 
     private func setupRelatedItems() {
+        relatedItemsTitle.textColor = UIColor.whiteColor()
+        relatedItemsTitle.font = UIFont.productRelatedItemsTitleFont
         relatedItemsTitle.text = LGLocalizedString.productMoreInfoRelatedTitle
 
         relatedProductsView.translatesAutoresizingMaskIntoConstraints = false
@@ -482,5 +483,7 @@ extension ProductCarouselMoreInfoView {
         socialShareTitleLabel.accessibilityId = .ProductCarouselMoreInfoSocialShareTitleLabel
         socialShareView.accessibilityId = .ProductCarouselMoreInfoSocialShareView
         descriptionLabel.accessibilityId = .ProductCarouselMoreInfoDescriptionLabel
+        relatedItemsTitle.accessibilityId = .ProductCarouselMoreInfoRelatedItemsTitleLabel
+        relatedProductsView.accessibilityId = .ProductCarouselMoreInfoRelatedItemsView
     }
 }
