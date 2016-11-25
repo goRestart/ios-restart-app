@@ -18,3 +18,20 @@ protocol SettingsNavigator: class {
     func openChangePassword()
     func openHelp()
 }
+
+protocol ChangeUsernameNavigator: class {
+    func userNameSaved()
+}
+
+protocol ChangePasswordNavigator: class {
+    func passwordSaved()
+}
+
+protocol EditLocationNavigator: class {
+    func locationSaved()
+}
+
+protocol HelpNavigator: class {
+    func openTerms(url: NSURL?)
+    func openPrivacy(url: NSURL?)
+}

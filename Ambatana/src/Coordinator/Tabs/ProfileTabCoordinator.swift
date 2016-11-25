@@ -7,6 +7,7 @@
 //
 
 import LGCoreKit
+import SafariServices
 
 final class ProfileTabCoordinator: TabCoordinator {
 
@@ -72,7 +73,9 @@ extension ProfileTabCoordinator: SettingsNavigator {
     }
 
     func openHelp() {
-        let vc = HelpViewController()
+        let vm = HelpViewModel()
+        vm.navigator = self
+        let vc = HelpViewController(viewModel: vm)
         navigationController.pushViewController(vc, animated: true)
     }
 }
@@ -97,6 +100,29 @@ extension ProfileTabCoordinator: EditLocationNavigator {
 extension ProfileTabCoordinator: ChangePasswordNavigator {
     func passwordSaved() {
         navigationController.popViewControllerAnimated(true)
+    }
+}
+
+extension ProfileTabCoordinator: HelpNavigator {
+    
+    private func openURL(url: NSURL) {
+        if #available(iOS 9.0, *) {
+            let svc = SFSafariViewController(URL: url, entersReaderIfAvailable: false)
+            svc.view.tintColor = UIColor.primaryColor
+            self.navigationController.presentViewController(svc, animated: true, completion: nil)
+        } else {
+            UIApplication.sharedApplication().openURL(url)
+        }
+    }
+    
+    func openTerms(url: NSURL?) {
+        guard let url = url else { return }
+        openURL(url)
+        
+    }
+    func openPrivacy(url: NSURL?) {
+        guard let url = url else { return }
+        openURL(url)
     }
 }
 
