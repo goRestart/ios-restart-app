@@ -385,8 +385,8 @@
 "product_delete_confirm_sold_button" = "Myin sen jo";
 "product_delete_confirm_title" = "Poista tuote";
 "product_delete_post_button_title" = "Julkaise toinen tuote";
-"product_delete_post_subtitle" = "Try posting something else and start making money.";
-"product_delete_post_title" = "NO LUCK THIS TIME?";
+"product_delete_post_subtitle" = "Kokeile laittaa jotakin muuta myyntiin ja aloita tienaaminen.";
+"product_delete_post_title" = "EIKÖ TÄLLÄ KERTAA ONNISTANUT?";
 "product_delete_send_error_generic" = "Hups! Emme pystyneet poistamaan tuotettasi. Ole hyvä ja yritä uudelleen.";
 "product_delete_sold_confirm_message" = "Oletko varma että haluat poistaa tämän tuotteen?";
 "product_delete_success_message" = "Tuotteesi poistettiin onnistuneesti.";
@@ -417,6 +417,8 @@
 "product_mark_as_sold_free_success_message" = "Onneksi olkoon! Tuotteesi merkittiin pois annetuksi onnistuneesti";
 "product_mark_as_sold_success_message" = "Onneksi olkoon, tuotteesi merkittiin onnistuneesti myydyksi!";
 "product_more_info_open_button" = "LISÄTIEDOT";
+"product_more_info_related_title" = "YOU MIGHT BE INTERESTED IN:";
+"product_more_info_related_view_more" = "View more";
 "product_more_info_tooltip_part_1" = "Paina";
 "product_more_info_tooltip_part_2" = "%@ nähdäksesi lisätietoja";
 "product_negotiable_price" = "Neuvoteltavissa";

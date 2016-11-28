@@ -417,6 +417,8 @@
 "product_mark_as_sold_free_success_message" = "Parabéns! O seu produto foi marcado como dado com sucesso";
 "product_mark_as_sold_success_message" = "Parabéns, o seu artigo foi com sucesso marcado como vendido!";
 "product_more_info_open_button" = "MAIS INFORMAÇÕES";
+"product_more_info_related_title" = "YOU MIGHT BE INTERESTED IN:";
+"product_more_info_related_view_more" = "View more";
 "product_more_info_tooltip_part_1" = "Toque";
 "product_more_info_tooltip_part_2" = "%@ para mais informações";
 "product_negotiable_price" = "Negociável";

@@ -417,6 +417,8 @@
 "product_mark_as_sold_free_success_message" = "Gratulerer! Ditt produkt har blitt markert som gitt bort";
 "product_mark_as_sold_success_message" = "Gratulerer, ditt produkt ble merket som solgt!";
 "product_more_info_open_button" = "MER INFO";
+"product_more_info_related_title" = "YOU MIGHT BE INTERESTED IN:";
+"product_more_info_related_view_more" = "View more";
 "product_more_info_tooltip_part_1" = "Trykk";
 "product_more_info_tooltip_part_2" = "%@ for å se mer info";
 "product_negotiable_price" = "Kan diskuteres";
