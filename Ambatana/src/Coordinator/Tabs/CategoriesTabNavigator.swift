@@ -6,6 +6,6 @@
 //  Copyright © 2016 Ambatana. All rights reserved.
 //
 
-protocol CategoriesTabNavigator: TabNavigator {
-
+protocol CategoriesTabNavigator: MainTabNavigator {
+    func openMainProducts(with filters: ProductFilters)
 }
