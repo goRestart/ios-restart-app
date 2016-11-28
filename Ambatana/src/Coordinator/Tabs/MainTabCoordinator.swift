@@ -8,7 +8,7 @@
 
 import LGCoreKit
 
-final class MainTabCoordinator: TabCoordinator {
+class MainTabCoordinator: TabCoordinator {
 
     convenience init() {
         let productRepository = Core.productRepository
@@ -48,13 +48,17 @@ final class MainTabCoordinator: TabCoordinator {
 }
 
 extension MainTabCoordinator: MainTabNavigator {
-    func openMainProduct(with mainProductViewModel: MainProductsViewModel) {
-        let vc = MainProductsViewController(viewModel: mainProductViewModel)
+    func openMainProduct(withSearchType searchType: SearchType, productFilters: ProductFilters) {
+        let vm = MainProductsViewModel(searchType: searchType, filters: productFilters)
+        vm.navigator = self
+        let vc = MainProductsViewController(viewModel: vm)
         navigationController.pushViewController(vc, animated: true)
     }
     
-    func showFilters(with filtersViewModel: FiltersViewModel) {
-        let vc = FiltersViewController(viewModel: filtersViewModel)
+    func showFilters(with productFilters: ProductFilters, filtersVMDataDelegate: FiltersViewModelDataDelegate?) {
+        let vm = FiltersViewModel(currentFilters: productFilters ?? ProductFilters())
+        vm.dataDelegate = filtersVMDataDelegate
+        let vc = FiltersViewController(viewModel: vm)
         let navVC = UINavigationController(rootViewController: vc)
         navigationController.presentViewController(navVC, animated: true, completion: nil)
     }

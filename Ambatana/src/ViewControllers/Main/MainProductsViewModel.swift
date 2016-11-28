@@ -12,8 +12,7 @@ import Result
 import RxSwift
 
 protocol MainProductsViewModelDelegate: BaseViewModelDelegate {
-    func vmDidSearch(searchViewModel: MainProductsViewModel)
-    func vmShowFilters(filtersVM: FiltersViewModel)
+    func vmDidSearch()
     func vmShowTags(tags: [FilterTag])
 }
 
@@ -217,14 +216,13 @@ class MainProductsViewModel: BaseViewModel {
     */
     func search(query: String) {
         guard !query.characters.isEmpty else { return }
-        delegate?.vmDidSearch(viewModelForSearch(.User(query: query)))
+    
+        delegate?.vmDidSearch()
+        navigator?.openMainProduct(withSearchType: .User(query: query), productFilters: filters)
     }
 
     func showFilters() {
-        let filtersVM = FiltersViewModel(currentFilters: filters ?? ProductFilters())
-        filtersVM.dataDelegate = self
-        delegate?.vmShowFilters(filtersVM)
-        
+        navigator?.showFilters(with: filters, filtersVMDelegate: nil, filtersVMDataDelegate: self)
         // Tracking
         tracker.trackEvent(TrackerEvent.filterStart())
     }
@@ -493,7 +491,8 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate {
     func vmDidSelectCollection(type: CollectionCellType){
         tracker.trackEvent(TrackerEvent.exploreCollection(type.rawValue))
         let query = queryForCollection(type)
-        delegate?.vmDidSearch(viewModelForSearch(.Collection(type: type, query: query)))
+        delegate?.vmDidSearch()
+        navigator?.openMainProduct(withSearchType: .Collection(type: type, query: query), productFilters: filters)
     }
     
     func vmUserDidTapInvite() {
@@ -585,12 +584,14 @@ extension MainProductsViewModel {
 
     func selectedTrendingSearchAtIndex(index: Int) {
         guard let trendingSearch = trendingSearchAtIndex(index) where !trendingSearch.isEmpty else { return }
-        delegate?.vmDidSearch(viewModelForSearch(.Trending(query: trendingSearch)))
+        delegate?.vmDidSearch()
+        navigator?.openMainProduct(withSearchType: .Trending(query: trendingSearch), productFilters: filters)
     }
     
     func selectedLastSearchAtIndex(index: Int) {
         guard let lastSearch = lastSearchAtIndex(index) where !lastSearch.isEmpty else { return }
-        delegate?.vmDidSearch(viewModelForSearch(.LastSearch(query: lastSearch)))
+        delegate?.vmDidSearch()
+        navigator?.openMainProduct(withSearchType: .LastSearch(query: lastSearch), productFilters: filters)
     }
     
     func cleanUpLastSearches() {

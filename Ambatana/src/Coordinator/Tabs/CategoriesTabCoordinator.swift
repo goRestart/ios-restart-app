@@ -8,7 +8,7 @@
 
 import LGCoreKit
 
-final class CategoriesTabCoordinator: TabCoordinator {
+final class CategoriesTabCoordinator: MainTabCoordinator {
 
     convenience init() {
         let productRepository = Core.productRepository
@@ -38,6 +38,7 @@ final class CategoriesTabCoordinator: TabCoordinator {
 extension CategoriesTabCoordinator: CategoriesTabNavigator {
     func openMainProducts(with filters: ProductFilters) {
         let vm = MainProductsViewModel(filters: filters)
+        vm.navigator = self
         let vc = MainProductsViewController(viewModel: vm)
         navigationController.pushViewController(vc, animated: true)
     }
