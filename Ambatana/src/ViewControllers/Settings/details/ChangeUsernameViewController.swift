@@ -24,7 +24,7 @@ class ChangeUsernameViewController: BaseViewController, UITextFieldDelegate, Cha
     init(vm: ChangeUsernameViewModel) {
         self.viewModel = vm
         self.lines = []
-        super.init(viewModel:viewModel, nibName: "ChangeUsernameViewController")
+        super.init(viewModel: viewModel, nibName: "ChangeUsernameViewController")
         self.viewModel.delegate = self
     }
     

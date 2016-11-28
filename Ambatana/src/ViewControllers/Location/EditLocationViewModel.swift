@@ -107,6 +107,11 @@ class EditLocationViewModel: BaseViewModel {
         self.setRxBindings()
     }
     
+    override func backButtonPressed() -> Bool {
+        closeLocation()
+        return true
+    }
+    
     
     // MARK: public methods
 
@@ -152,7 +157,7 @@ class EditLocationViewModel: BaseViewModel {
             updateUserLocation()
         case .SelectLocation, .EditProductLocation:
             locationDelegate?.editLocationDidSelectPlace(currentPlace)
-            locationSaved()
+            closeLocation()
         }
     }
 
@@ -304,7 +309,7 @@ class EditLocationViewModel: BaseViewModel {
                     let trackerEvent = TrackerEvent.profileEditEditLocation(myUserLocation)
                     self?.tracker.trackEvent(trackerEvent)
                 }
-                self?.locationSaved()
+                self?.closeLocation()
             } else {
                 self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.changeLocationErrorUpdatingLocationMessage, completion: nil)
             }
@@ -323,9 +328,9 @@ class EditLocationViewModel: BaseViewModel {
         }
     }
     
-    private func locationSaved() {
+    private func closeLocation() {
         if let navigator = navigator {
-            navigator.locationSaved()
+            navigator.closeEditLocation()
         } else {
             delegate?.vmGoBack()
         }

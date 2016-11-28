@@ -141,6 +141,6 @@ class ChangeUsernameViewModel: BaseViewModel {
     }
     
     func userNameSaved() {
-        navigator?.userNameSaved()
+        navigator?.closeChangeUsername()
     }
 }

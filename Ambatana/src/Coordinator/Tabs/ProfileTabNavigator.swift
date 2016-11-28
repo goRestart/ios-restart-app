@@ -24,17 +24,14 @@ protocol SettingsNavigator: class {
 
 protocol ChangeUsernameNavigator: class {
     func closeChangeUsername()
-    func userNameSaved()
 }
 
 protocol ChangePasswordNavigator: class {
     func closeChangePassword()
-    func passwordSaved()
 }
 
 protocol EditLocationNavigator: class {
     func closeEditLocation()
-    func locationSaved()
 }
 
 protocol HelpNavigator: class {
