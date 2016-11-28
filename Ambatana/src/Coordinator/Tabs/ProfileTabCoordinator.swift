@@ -129,7 +129,6 @@ extension ProfileTabCoordinator: HelpNavigator {
     
     func openTerms(url: NSURL) {
         openURL(url)
-        
     }
     
     func openPrivacy(url: NSURL) {
