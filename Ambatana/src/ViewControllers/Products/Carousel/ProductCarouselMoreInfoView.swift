@@ -490,5 +490,6 @@ extension ProductCarouselMoreInfoView {
         descriptionLabel.accessibilityId = .ProductCarouselMoreInfoDescriptionLabel
         relatedItemsTitle.accessibilityId = .ProductCarouselMoreInfoRelatedItemsTitleLabel
         relatedProductsView.accessibilityId = .ProductCarouselMoreInfoRelatedItemsView
+        relatedItemsViewMoreButton.accessibilityId = .ProductCarouselMoreInfoRelatedViewMoreButton
     }
 }
