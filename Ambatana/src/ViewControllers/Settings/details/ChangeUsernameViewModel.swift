@@ -69,6 +69,11 @@ class ChangeUsernameViewModel: BaseViewModel {
         self.init(myUserRepository: myUserRepository, tracker: tracker)
     }
     
+    override func backButtonPressed() -> Bool {
+        navigator?.closeChangeUsername()
+        return true
+    }
+    
 
     // MARK: - public methods
 

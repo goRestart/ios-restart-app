@@ -30,6 +30,11 @@ public class HelpViewModel: BaseViewModel {
         self.installationRepository = installationRepository
     }
     
+    override func backButtonPressed() -> Bool {
+        navigator?.closeHelp()
+        return true
+    }
+    
     public var url: NSURL? {
         return LetgoURLHelper.buildHelpURL(myUserRepository.myUser, installation: installationRepository.installation)
     }

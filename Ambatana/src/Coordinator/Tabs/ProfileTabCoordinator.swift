@@ -78,6 +78,10 @@ extension ProfileTabCoordinator: SettingsNavigator {
         let vc = HelpViewController(viewModel: vm)
         navigationController.pushViewController(vc, animated: true)
     }
+    
+    func closeSettings() {
+        navigationController.popViewControllerAnimated(true)
+    }
 }
 
 
@@ -86,7 +90,7 @@ extension ProfileTabCoordinator: ChangeUsernameNavigator {
         navigationController.popViewControllerAnimated(true)
     }
     
-    func goBack() {
+    func closeChangeUsername() {
         navigationController.popViewControllerAnimated(true)
     }
 }
@@ -95,10 +99,18 @@ extension ProfileTabCoordinator: EditLocationNavigator {
     func locationSaved() {
         navigationController.popViewControllerAnimated(true)
     }
+    
+    func closeEditLocation() {
+        navigationController.popViewControllerAnimated(true)
+    }
 }
 
 extension ProfileTabCoordinator: ChangePasswordNavigator {
     func passwordSaved() {
+        navigationController.popViewControllerAnimated(true)
+    }
+    
+    func closeChangePassword() {
         navigationController.popViewControllerAnimated(true)
     }
 }
@@ -119,8 +131,13 @@ extension ProfileTabCoordinator: HelpNavigator {
         openURL(url)
         
     }
+    
     func openPrivacy(url: NSURL) {
         openURL(url)
+    }
+    
+    func closeHelp() {
+        navigationController.popViewControllerAnimated(true)
     }
 }
 

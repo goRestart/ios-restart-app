@@ -80,6 +80,11 @@ public class ChangePasswordViewModel: BaseViewModel {
         self.token = token
     }
     
+    override func backButtonPressed() -> Bool {
+        navigator?.closeChangePassword()
+        return true
+    }
+    
     
     // MARK: - public methods
         
@@ -140,7 +145,7 @@ public class ChangePasswordViewModel: BaseViewModel {
             navigator.passwordSaved()
         }
     }
-
+    
     
     // MARK: - private methods
     

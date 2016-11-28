@@ -17,21 +17,26 @@ protocol SettingsNavigator: class {
     func openCreateCommercials()
     func openChangePassword()
     func openHelp()
+    func closeSettings()
 }
 
 protocol ChangeUsernameNavigator: class {
+    func closeChangeUsername()
     func userNameSaved()
 }
 
 protocol ChangePasswordNavigator: class {
+    func closeChangePassword()
     func passwordSaved()
 }
 
 protocol EditLocationNavigator: class {
+    func closeEditLocation()
     func locationSaved()
 }
 
 protocol HelpNavigator: class {
+    func closeHelp()
     func openTerms(url: NSURL)
     func openPrivacy(url: NSURL)
 }

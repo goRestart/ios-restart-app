@@ -84,6 +84,11 @@ class SettingsViewModel: BaseViewModel {
             tracker.trackEvent(TrackerEvent.profileEditStart())
         }
     }
+    
+    override func backButtonPressed() -> Bool {
+        navigator?.closeSettings()
+        return true
+    }
 
 
     // MARK: - Public

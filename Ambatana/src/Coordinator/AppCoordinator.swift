@@ -746,6 +746,7 @@ private extension AppCoordinator {
 
     func openResetPassword(token: String) {
         let viewModel = ChangePasswordViewModel(token: token)
+        viewModel.navigator = self
         let vc = ChangePasswordViewController(viewModel: viewModel)
         let navCtl = UINavigationController(rootViewController: vc)
 
@@ -833,6 +834,15 @@ private extension AppCoordinator {
                                               action: action)
             bubbleNotifManager.showBubble(data, duration: 3)
         }
+    }
+}
+
+extension AppCoordinator: ChangePasswordNavigator {
+    func closeChangePassword() {
+        tabBarCtl.dismissViewControllerAnimated(true, completion: nil)
+    }
+    func passwordSaved() {
+        tabBarCtl.dismissViewControllerAnimated(true, completion: nil)
     }
 }
 
