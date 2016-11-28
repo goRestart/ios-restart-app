@@ -436,7 +436,7 @@ public class BaseViewController: UIViewController, TabBarShowable {
             super.popBackViewController()
         }
     }
-    
+
     public override func viewDidLoad() {
         super.viewDidLoad()
         viewLoaded = true

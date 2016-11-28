@@ -14,23 +14,26 @@ class SimpleProductsViewModel: BaseViewModel {
     weak var navigator: SimpleProductsNavigator?
 
     let title: String
+    let productVisitSource: EventParameterProductVisitSource
     let productListRequester: ProductListRequester
     let productListViewModel: ProductListViewModel
     let featureFlags: FeatureFlaggeable
 
-    convenience init(relatedProductId: String) {
+    convenience init(relatedProductId: String, productVisitSource: EventParameterProductVisitSource) {
         let show3Columns = DeviceFamily.current.isWiderOrEqualThan(.iPhone6Plus)
         let itemsPerPage = show3Columns ? Constants.numProductsPerPageBig : Constants.numProductsPerPageDefault
         let requester = RelatedProductListRequester(productId: relatedProductId, itemsPerPage: itemsPerPage)
-        self.init(requester: requester, title: LGLocalizedString.relatedItemsTitle)
+        self.init(requester: requester, title: LGLocalizedString.relatedItemsTitle, productVisitSource: productVisitSource)
     }
 
-    convenience init(requester: ProductListRequester, title: String) {
-        self.init(requester: requester, title: title, featureFlags: FeatureFlags.sharedInstance)
+    convenience init(requester: ProductListRequester, title: String, productVisitSource: EventParameterProductVisitSource) {
+        self.init(requester: requester, title: title, productVisitSource: productVisitSource, featureFlags: FeatureFlags.sharedInstance)
     }
 
-    init(requester: ProductListRequester, title: String, featureFlags: FeatureFlaggeable) {
+    init(requester: ProductListRequester, title: String, productVisitSource: EventParameterProductVisitSource,
+         featureFlags: FeatureFlaggeable) {
         self.title = title
+        self.productVisitSource = productVisitSource
         self.productListRequester = requester
         let show3Columns = DeviceFamily.current.isWiderOrEqualThan(.iPhone6Plus)
         let columns = show3Columns ? 3 : 2
@@ -71,7 +74,7 @@ extension SimpleProductsViewModel: ProductListViewModelDataDelegate {
         let data = ProductDetailData.ProductList(product: product, cellModels: cellModels,
                                                  requester: productListRequester, thumbnailImage: thumbnailImage,
                                                  originFrame: originFrame, showRelated: false, index: index)
-        navigator?.openProduct(data, source: .RelatedProductList)
+        navigator?.openProduct(data, source: productVisitSource)
     }
 
     func vmProcessReceivedProductPage(products: [ProductCellModel], page: UInt) -> [ProductCellModel] {

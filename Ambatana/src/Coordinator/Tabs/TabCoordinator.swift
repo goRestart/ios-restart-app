@@ -397,9 +397,9 @@ extension TabCoordinator: ProductDetailNavigator {
         navigationController.presentViewController(vc, animated: true, completion: nil)
     }
 
-    func openRelatedItems(product: Product) {
+    func openRelatedItems(product: Product, productVisitSource: EventParameterProductVisitSource) {
         guard let productId = product.objectId else { return }
-        let vm = SimpleProductsViewModel(relatedProductId: productId)
+        let vm = SimpleProductsViewModel(relatedProductId: productId, productVisitSource: productVisitSource)
         vm.navigator = self
         let vc = SimpleProductsViewController(viewModel: vm)
         navigationController.pushViewController(vc, animated: true)

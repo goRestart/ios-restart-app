@@ -511,7 +511,7 @@ extension ProductViewModel {
     }
 
     func openRelatedItems() {
-        navigator?.openRelatedItems(product.value)
+        navigator?.openRelatedItems(product.value, productVisitSource: .MoreInfoRelated)
     }
 
     func refreshInterestedBubble(fromFavoriteAction: Bool, forFirstProduct isFirstProduct: Bool) {
@@ -995,7 +995,7 @@ extension ProductViewModel: RelatedProductsViewDelegate {
                              thumbnailImage: UIImage?, originFrame: CGRect?) {
         let data = ProductDetailData.ProductList(product: product, cellModels: productListModels, requester: requester,
                                                  thumbnailImage: thumbnailImage, originFrame: originFrame, showRelated: false, index: index)
-        navigator?.openProduct(data, source: .ProductDetail)
+        navigator?.openProduct(data, source: .MoreInfoRelated)
     }
 }
 

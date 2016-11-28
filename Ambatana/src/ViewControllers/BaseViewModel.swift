@@ -38,7 +38,6 @@ public class BaseViewModel {
 
     }
 
-
     /*
      Called on standard back button press. Return false for native behavior or true if handled back internally
      Defaults to false

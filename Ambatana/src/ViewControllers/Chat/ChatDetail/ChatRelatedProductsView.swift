@@ -22,7 +22,7 @@ protocol ChatRelatedProductsViewDelegate: class {
 
 class ChatRelatedProductsView: UIView {
 
-    private static let relatedProductsHeigh: CGFloat = 100
+    private static let relatedProductsHeight: CGFloat = 100
     private static let elementsMargin: CGFloat = 10
     private static let itemsSpacing: CGFloat = 5
 
@@ -34,7 +34,8 @@ class ChatRelatedProductsView: UIView {
 
     private var topConstraint: NSLayoutConstraint?
     private let infoLabel = UILabel()
-    private let relatedProductsView = RelatedProductsView(productsDiameter: ChatRelatedProductsView.relatedProductsHeigh, frame: CGRect.zero)
+    private let relatedProductsView = RelatedProductsView(productsDiameter: ChatRelatedProductsView.relatedProductsHeight,
+                                                          frame: CGRect.zero)
     private let visible = Variable<Bool>(false)
 
     private let disposeBag = DisposeBag()
@@ -59,12 +60,12 @@ class ChatRelatedProductsView: UIView {
         translatesAutoresizingMaskIntoConstraints = false
         guard let parentView = sibling.superview else { return }
         parentView.addSubview(self)
-        let top = NSLayoutConstraint(item: self, attribute: NSLayoutAttribute.Top, relatedBy:
-            NSLayoutRelation.Equal, toItem: sibling, attribute: NSLayoutAttribute.Top, multiplier: 1.0, constant: 0)
-        let left = NSLayoutConstraint(item: self, attribute: NSLayoutAttribute.Left, relatedBy: NSLayoutRelation.Equal,
-                                      toItem: sibling, attribute: NSLayoutAttribute.Left, multiplier: 1.0, constant: 0)
-        let right = NSLayoutConstraint(item: self, attribute: NSLayoutAttribute.Right, relatedBy: NSLayoutRelation.Equal,
-                                       toItem: sibling, attribute: NSLayoutAttribute.Right, multiplier: 1, constant: 0)
+        let top = NSLayoutConstraint(item: self, attribute: .Top, relatedBy: .Equal, toItem: sibling, attribute: .Top,
+                                     multiplier: 1.0, constant: 0)
+        let left = NSLayoutConstraint(item: self, attribute: .Left, relatedBy: .Equal, toItem: sibling, attribute: .Left,
+                                      multiplier: 1.0, constant: 0)
+        let right = NSLayoutConstraint(item: self, attribute: .Right, relatedBy: .Equal, toItem: sibling, attribute: .Right,
+                                       multiplier: 1, constant: 0)
         parentView.addConstraints([top,left,right])
         topConstraint = top
     }
@@ -92,7 +93,7 @@ class ChatRelatedProductsView: UIView {
 
     private func setupConstraints() {
         let views = ["infoLabel": infoLabel, "relatedView": relatedProductsView]
-        let metrics = ["margin": ChatRelatedProductsView.elementsMargin, "relatedHeight": ChatRelatedProductsView.relatedProductsHeigh]
+        let metrics = ["margin": ChatRelatedProductsView.elementsMargin, "relatedHeight": ChatRelatedProductsView.relatedProductsHeight]
         addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-margin-[infoLabel]-margin-|", options: [],
             metrics: metrics, views: views))
         addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[relatedView]|", options: [], metrics: nil,
