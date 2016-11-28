@@ -36,6 +36,7 @@ class ProductsViewController: BaseViewController {
 
     private func setupUI() {
         view.backgroundColor = UIColor.listBackgroundColor
+        title = viewModel.title
 
         productList.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(productList)
