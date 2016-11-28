@@ -983,6 +983,19 @@ private extension ProductViewModel {
 }
 
 
+// MARK: - RelatedProductsViewDelegate
+
+extension ProductViewModel: RelatedProductsViewDelegate {
+    func relatedProductsView(view: RelatedProductsView, showProduct product: Product, atIndex index: Int,
+                             productListModels: [ProductCellModel], requester: ProductListRequester,
+                             thumbnailImage: UIImage?, originFrame: CGRect?) {
+        let data = ProductDetailData.ProductList(product: product, cellModels: productListModels, requester: requester,
+                                                 thumbnailImage: thumbnailImage, originFrame: originFrame, showRelated: false, index: index)
+        navigator?.openProduct(data, source: .MoreInfoRelated)
+    }
+}
+
+
 // MARK: - SocialSharerDelegate
 
 extension ProductViewModel: SocialSharerDelegate {

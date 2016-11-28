@@ -1711,6 +1711,14 @@ struct LGLocalizedString {
 		return NSLocalizedString("product_more_info_open_button", comment: "")
 	}
 
+	static var productMoreInfoRelatedTitle: String {
+		return NSLocalizedString("product_more_info_related_title", comment: "")
+	}
+
+	static var productMoreInfoRelatedViewMore: String {
+		return NSLocalizedString("product_more_info_related_view_more", comment: "")
+	}
+
 	static var productNegotiablePrice: String {
 		return NSLocalizedString("product_negotiable_price", comment: "")
 	}
@@ -2301,6 +2309,10 @@ struct LGLocalizedString {
 
 	static var ratingViewTitleLabelUppercase: String {
 		return NSLocalizedString("rating_view_title_label_uppercase", comment: "")
+	}
+
+	static var relatedItemsTitle: String {
+		return NSLocalizedString("related_items_title", comment: "")
 	}
 
 	static var reportUserCounterfeit: String {

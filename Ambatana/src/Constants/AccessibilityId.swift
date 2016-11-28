@@ -136,6 +136,8 @@ enum AccessibilityId: String {
     case ProductCarouselMoreInfoMapView
     case ProductCarouselMoreInfoSocialShareTitleLabel
     case ProductCarouselMoreInfoSocialShareView
+    case ProductCarouselMoreInfoRelatedItemsTitleLabel
+    case ProductCarouselMoreInfoRelatedItemsView
     case ProductCarouselMoreInfoDescriptionLabel
 
     // Fullscreen share

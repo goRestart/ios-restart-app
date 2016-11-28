@@ -417,6 +417,8 @@
 "product_mark_as_sold_free_success_message" = "Gefeliciteerd! Je product is succesvol gemarkeerd als weggegeven";
 "product_mark_as_sold_success_message" = "Gefeliciteerd, jouw product werd succesvol gemarkeerd als verkocht!";
 "product_more_info_open_button" = "MEER INFO";
+"product_more_info_related_title" = "YOU MIGHT BE INTERESTED IN:";
+"product_more_info_related_view_more" = "View more";
 "product_more_info_tooltip_part_1" = "Tik";
 "product_more_info_tooltip_part_2" = "%@ om meer informatie te zien";
 "product_negotiable_price" = "Bespreekbaar";
