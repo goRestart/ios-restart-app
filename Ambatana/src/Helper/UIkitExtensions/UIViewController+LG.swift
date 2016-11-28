@@ -190,14 +190,16 @@ extension UIViewController {
         }
     }
 
-
     /**
      Helper to recursively dismiss all presented view controllers
      */
-    func dismissAllPresented() {
-        guard let presented = presentedViewController else { return }
-        presented.dismissAllPresented()
-        presented.dismissViewControllerAnimated(false, completion: nil)
+    func dismissAllPresented(completion: (() -> ())?) {
+        guard let presented = presentedViewController else {
+            completion?()
+            return
+        }
+        presented.dismissAllPresented(nil)
+        presented.dismissViewControllerAnimated(false, completion: completion)
     }
 }
 
