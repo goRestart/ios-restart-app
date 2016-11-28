@@ -43,8 +43,7 @@ extension ProfileTabCoordinator: ProfileTabNavigator {
 }
 
 extension ProfileTabCoordinator: SettingsNavigator {
-    func showFbAppInvite(content: FBSDKAppInviteContent) {
-        guard let delegate = navigationController.visibleViewController as? FBSDKAppInviteDialogDelegate else { return }
+    func showFbAppInvite(content: FBSDKAppInviteContent, delegate: FBSDKAppInviteDialogDelegate) {
         FBSDKAppInviteDialog.showFromViewController(navigationController.visibleViewController, withContent: content, delegate: delegate)
     }
 
@@ -110,7 +109,7 @@ extension ProfileTabCoordinator: ChangePasswordNavigator {
 
 extension ProfileTabCoordinator: HelpNavigator {
     
-    private func openURL(url: NSURL) {
+    func openURL(url: NSURL) {
         if #available(iOS 9.0, *) {
             let svc = SFSafariViewController(URL: url, entersReaderIfAvailable: false)
             svc.view.tintColor = UIColor.primaryColor
@@ -118,14 +117,6 @@ extension ProfileTabCoordinator: HelpNavigator {
         } else {
             UIApplication.sharedApplication().openURL(url)
         }
-    }
-    
-    func openTerms(url: NSURL) {
-        openURL(url)
-    }
-    
-    func openPrivacy(url: NSURL) {
-        openURL(url)
     }
     
     func closeHelp() {

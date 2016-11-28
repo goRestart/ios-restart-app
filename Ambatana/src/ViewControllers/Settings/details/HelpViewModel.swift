@@ -51,10 +51,10 @@ public class HelpViewModel: BaseViewModel {
         switch type {
         case .Privacy:
             guard let url = privacyURL else { return }
-            navigator?.openPrivacy(url)
+            navigator?.openURL(url)
         case .Terms:
             guard let url = termsAndConditionsURL else { return }
-            navigator?.openTerms(url)
+            navigator?.openURL(url)
         }
     }
 }
