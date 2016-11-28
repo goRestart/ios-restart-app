@@ -214,6 +214,7 @@ extension PostProductGalleryView: UICollectionViewDataSource, UICollectionViewDe
             viewModel.imageForCellAtIndex(indexPath.row) { image in
                 galleryCell.image.image = image
             }
+            galleryCell.multipleSelectionEnabled = viewModel.multiSelectionEnabled
             if viewModel.positionsSelected.value.contains(indexPath.item) {
                 galleryCell.disabled = false
                 galleryCell.selected = true
@@ -222,7 +223,7 @@ extension PostProductGalleryView: UICollectionViewDataSource, UICollectionViewDe
                     galleryCell.selectedCountlabel.text = "\(position + 1)"
                 }
             } else if viewModel.imagesSelectedCount.value >= viewModel.maxImagesSelected {
-                galleryCell.disabled = true
+                galleryCell.disabled = viewModel.multiSelectionEnabled
                 galleryCell.selected = false
             } else {
                 galleryCell.selected = false
@@ -343,8 +344,8 @@ extension PostProductGalleryView {
 
 
         viewModel.albumTitle.asObservable().bindTo(albumButton.rx_title).addDisposableTo(disposeBag)
+        viewModel.albumButtonEnabled.asObservable().bindTo(albumButton.rx_enabled).addDisposableTo(disposeBag)
         viewModel.lastImageSelected.asObservable().bindTo(selectedImage.rx_image).addDisposableTo(disposeBag)
-        // 👾 add here to imagesselected?
 
         viewModel.albumIconState.asObservable().subscribeNext{ [weak self] status in
             switch status{

@@ -30,10 +30,9 @@ enum AlbumSelectionIconState {
 class PostProductGalleryViewModel: BaseViewModel {
 
     var maxImagesSelected: Int {
-        return featureFlags.postingMultiPictureEnabled ? 5 : 1
+        return multiSelectionEnabled ? 5 : 1
     }
 
-    var featureFlags: FeatureFlags
     var keyValueStorage: KeyValueStorage
 
     weak var delegate: PostProductGalleryViewModelDelegate?
@@ -48,6 +47,7 @@ class PostProductGalleryViewModel: BaseViewModel {
     let positionsSelected = Variable<[Int]>([])
     let lastImageSelected = Variable<UIImage?>(nil)
     let imageSelectionEnabled = Variable<Bool>(true)
+    let albumButtonEnabled = Variable<Bool>(true)
 
     private static let columnCount: CGFloat = 4
     private static let cellSpacing: CGFloat = 4
@@ -55,7 +55,8 @@ class PostProductGalleryViewModel: BaseViewModel {
         (PostProductGalleryViewModel.cellSpacing * (PostProductGalleryViewModel.columnCount + 1))) /
         PostProductGalleryViewModel.columnCount
 
-    private let multiSelectionEnabled: Bool
+    let multiSelectionEnabled: Bool
+
     private var albums: [PHAssetCollection] = []
     private var photosAsset: PHFetchResult?
 
@@ -69,13 +70,11 @@ class PostProductGalleryViewModel: BaseViewModel {
     // MARK: - Lifecycle
 
     convenience init(multiSelectionEnabled: Bool) {
-        self.init(multiSelectionEnabled: multiSelectionEnabled, featureFlags: FeatureFlags.sharedInstance,
-                  keyValueStorage: KeyValueStorage.sharedInstance)
+        self.init(multiSelectionEnabled: multiSelectionEnabled, keyValueStorage: KeyValueStorage.sharedInstance)
     }
 
-    required init(multiSelectionEnabled: Bool, featureFlags: FeatureFlags, keyValueStorage: KeyValueStorage) {
+    required init(multiSelectionEnabled: Bool, keyValueStorage: KeyValueStorage) {
         self.multiSelectionEnabled = multiSelectionEnabled
-        self.featureFlags = featureFlags
         self.keyValueStorage = keyValueStorage
         super.init()
         setupRX()
@@ -174,17 +173,18 @@ class PostProductGalleryViewModel: BaseViewModel {
             self?.imagesSelectedCount.value = imgsSelected.count
         }.addDisposableTo(disposeBag)
 
-        // 👾
         imagesSelectedCount.asObservable().bindNext { [weak self] numImgs in
             guard let strongSelf = self else { return }
             if numImgs <= 0 {
                 if let title = strongSelf.keyValueStorage.userPostProductLastGalleryAlbumSelected {
                     strongSelf.albumTitle.value = title
                     strongSelf.albumIconState.value = .Down
+                    strongSelf.albumButtonEnabled.value = true
                 }
-            } else {
+            } else if strongSelf.multiSelectionEnabled {
                 // build title with num of selected pics
-                strongSelf.albumTitle.value = "\(numImgs) pics selected"
+                strongSelf.albumButtonEnabled.value = false
+                strongSelf.albumTitle.value =  String(format: LGLocalizedString.productPostGalleryMultiplePicsSelected, numImgs)
                 strongSelf.albumIconState.value = .Hidden
             }
         }.addDisposableTo(disposeBag)
@@ -320,14 +320,14 @@ class PostProductGalleryViewModel: BaseViewModel {
                 strongSelf.galleryState.value = .Normal
                 strongSelf.imagesSelected.value.append(image)
                 strongSelf.positionsSelected.value.append(index)
-                if strongSelf.imagesSelectedCount.value >= strongSelf.maxImagesSelected {
-                    if strongSelf.featureFlags.postingMultiPictureEnabled {
-                        // Block interaction!!!
-                        strongSelf.imageSelectionEnabled.value = false
-                    } else {
-                        strongSelf.imagesSelected.value.removeFirst()
-                        strongSelf.positionsSelected.value.removeFirst()
-                    }
+
+                if strongSelf.multiSelectionEnabled {
+                    // Block interaction when 5 images are selected
+                    strongSelf.imageSelectionEnabled.value = strongSelf.imagesSelectedCount.value < strongSelf.maxImagesSelected
+                } else if strongSelf.imagesSelectedCount.value > strongSelf.maxImagesSelected {
+                    // on single selection don't let the array have more than 1 pic
+                    strongSelf.imagesSelected.value.removeFirst()
+                    strongSelf.positionsSelected.value.removeFirst()
                 }
             } else {
                 strongSelf.galleryState.value = .LoadImageError
