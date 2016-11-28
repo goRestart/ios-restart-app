@@ -44,11 +44,10 @@ class ProductCarouselImageCell: UICollectionViewCell, UIScrollViewDelegate {
         let zoomLevel = (screenAspectRatio / aspectRatio).roundNearest(ProductCarouselImageCell.zoomDecimalsRounding)
         scrollView.minimumZoomScale = min(1, zoomLevel)
 
-        let actualZoomLevel = aspectRatio >= LGUIKitConstants.horizontalImageMinAspectRatio ? zoomLevel : 1.0
-        imageView.bounds = CGRect(x: 0, y: 0, width: bounds.width/actualZoomLevel, height: bounds.height)
+        imageView.bounds = CGRect(x: 0, y: 0, width: bounds.width/zoomLevel, height: bounds.height)
         scrollView.contentSize = imageView.bounds.size
-        referenceZoomLevel = actualZoomLevel
-        scrollView.setZoomScale(actualZoomLevel, animated: false)
+        referenceZoomLevel = zoomLevel
+        scrollView.setZoomScale(zoomLevel, animated: false)
 
         imageView.image = img
         backgroundImage.image = img
