@@ -10,7 +10,7 @@
 import LGCoreKit
 import DeviceUtil
 
-enum URLType {
+enum HelpURLType {
     case Terms
     case Privacy
 }
@@ -42,12 +42,13 @@ public class HelpViewModel: BaseViewModel {
         return LetgoURLHelper.composeURL(Constants.privacyURL)
     }
     
-    func openInternalUrl(type: URLType) {
+    func openInternalUrl(type: HelpURLType) {
+        guard let url = privacyURL else { return }
         switch type {
         case .Privacy:
-            navigator?.openPrivacy(privacyURL)
+            navigator?.openPrivacy(url)
         case .Terms:
-            navigator?.openTerms(termsAndConditionsURL)
+            navigator?.openTerms(url)
         }
     }
 }

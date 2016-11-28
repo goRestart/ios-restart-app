@@ -32,6 +32,6 @@ protocol EditLocationNavigator: class {
 }
 
 protocol HelpNavigator: class {
-    func openTerms(url: NSURL?)
-    func openPrivacy(url: NSURL?)
+    func openTerms(url: NSURL)
+    func openPrivacy(url: NSURL)
 }
