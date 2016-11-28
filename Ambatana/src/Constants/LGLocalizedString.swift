@@ -2311,6 +2311,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("rating_view_title_label_uppercase", comment: "")
 	}
 
+	static var relatedItemsTitle: String {
+		return NSLocalizedString("related_items_title", comment: "")
+	}
+
 	static var reportUserCounterfeit: String {
 		return NSLocalizedString("report_user_counterfeit", comment: "")
 	}

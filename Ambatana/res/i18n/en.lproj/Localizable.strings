@@ -1717,6 +1717,9 @@
 // Rating view title label.  Check attached image "rating_view.png" (but uppercase)
 "rating_view_title_label_uppercase" = "GIVE US 5 STARS!";
 
+// Title when showing list of related items
+"related_items_title" = "Related items";
+
 // Type Counterfeit items
 "report_user_counterfeit" = "Counterfeit items";
 
