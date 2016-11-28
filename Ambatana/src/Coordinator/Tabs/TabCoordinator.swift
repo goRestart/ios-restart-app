@@ -399,18 +399,18 @@ extension TabCoordinator: ProductDetailNavigator {
 
     func openRelatedItems(product: Product) {
         guard let productId = product.objectId else { return }
-        let vm = ProductsViewModel(relatedProductId: productId)
+        let vm = SimpleProductsViewModel(relatedProductId: productId)
         vm.navigator = self
-        let vc = ProductsViewController(viewModel: vm)
+        let vc = SimpleProductsViewController(viewModel: vm)
         navigationController.pushViewController(vc, animated: true)
     }
 }
 
 
-// MARK: ProductListNavigator
+// MARK: SimpleProductsNavigator
 
-extension TabCoordinator: ProductListNavigator {
-    func closeProductList() {
+extension TabCoordinator: SimpleProductsNavigator {
+    func closeSimpleProducts() {
         navigationController.popViewControllerAnimated(true)
     }
 }

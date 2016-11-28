@@ -54,8 +54,8 @@ protocol ProductDetailNavigator: TabNavigator {
     func closeAfterDelete()
 }
 
-protocol ProductListNavigator: class {
-    func closeProductList()
+protocol SimpleProductsNavigator: class {
+    func closeSimpleProducts()
     func openProduct(data: ProductDetailData, source: EventParameterProductVisitSource)
 }
 

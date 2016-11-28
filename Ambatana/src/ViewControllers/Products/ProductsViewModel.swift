@@ -9,9 +9,9 @@
 import Foundation
 import LGCoreKit
 
-class ProductsViewModel: BaseViewModel {
+class SimpleProductsViewModel: BaseViewModel {
 
-    weak var navigator: ProductListNavigator?
+    weak var navigator: SimpleProductsNavigator?
 
     let title: String
     let productListRequester: ProductListRequester
@@ -50,13 +50,13 @@ class ProductsViewModel: BaseViewModel {
 
     override func backButtonPressed() -> Bool {
         guard let navigator = navigator else { return false }
-        navigator.closeProductList()
+        navigator.closeSimpleProducts()
         return true
     }
 }
 
 
-extension ProductsViewModel: ProductListViewModelDataDelegate {
+extension SimpleProductsViewModel: ProductListViewModelDataDelegate {
     func productListMV(viewModel: ProductListViewModel, didFailRetrievingProductsPage page: UInt, hasProducts: Bool,
                        error: RepositoryError) {
 

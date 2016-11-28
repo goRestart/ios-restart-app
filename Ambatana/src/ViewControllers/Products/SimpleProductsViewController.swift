@@ -8,12 +8,12 @@
 
 import UIKit
 
-class ProductsViewController: BaseViewController {
+class SimpleProductsViewController: BaseViewController {
 
-    private let viewModel: ProductsViewModel
+    private let viewModel: SimpleProductsViewModel
     private let productList: ProductListView
 
-    required init(viewModel: ProductsViewModel) {
+    required init(viewModel: SimpleProductsViewModel) {
         self.viewModel = viewModel
         self.productList = ProductListView(viewModel: viewModel.productListViewModel,
                                            featureFlags: viewModel.featureFlags, frame: CGRect.zero)
