@@ -80,8 +80,8 @@ final class TabBarController: UITabBarController {
     
     // MARK: - Public methods
     
-    func switchToTab(tab: Tab) {
-        viewModel.externalSwitchToTab(tab)
+    func switchToTab(tab: Tab, completion: (() -> ())? = nil) {
+        viewModel.externalSwitchToTab(tab, completion: completion)
     }
 
 
@@ -219,7 +219,7 @@ final class TabBarController: UITabBarController {
 
      - parameter The: tab to go to.
      */
-    private func switchToTab(tab: Tab, checkIfShouldSwitch: Bool) {
+    private func switchToTab(tab: Tab, checkIfShouldSwitch: Bool, completion: (() -> ())?) {
         guard let navBarCtl = selectedViewController as? UINavigationController else { return }
         guard let viewControllers = viewControllers where tab.index < viewControllers.count else { return }
         guard let vc = (viewControllers as NSArray).objectAtIndex(tab.index) as? UIViewController else { return }
@@ -228,14 +228,20 @@ final class TabBarController: UITabBarController {
             guard shouldSelectVC else { return }
         }
 
-        // Pop previous navigation to root
-        navBarCtl.popToRootViewControllerAnimated(false)
-        navBarCtl.tabBarController?.setTabBarHidden(false, animated: false)
+        // Dismiss all presented view controllers
+        navBarCtl.dismissAllPresented { [weak self, weak navBarCtl] in
+            // Pop previous navigation to root
+            navBarCtl?.popToRootViewControllerAnimated(false)
+            navBarCtl?.tabBarController?.setTabBarHidden(false, animated: false)
 
-        selectedIndex = tab.index
+            guard let strongSelf = self else { return }
 
-        // Notify the delegate, as programmatically change doesn't do it
-        delegate?.tabBarController?(self, didSelectViewController: vc)
+            strongSelf.selectedIndex = tab.index
+            // Notify the delegate, as programmatically change doesn't do it
+            strongSelf.delegate?.tabBarController?(strongSelf, didSelectViewController: vc)
+
+            completion?()
+        }
     }
 }
 
@@ -243,8 +249,8 @@ final class TabBarController: UITabBarController {
 // MARK: - TabBarViewModelDelegate
 
 extension TabBarController: TabBarViewModelDelegate {
-    func vmSwitchToTab(tab: Tab, force: Bool) {
-        switchToTab(tab, checkIfShouldSwitch: !force)
+    func vmSwitchToTab(tab: Tab, force: Bool, completion: (() -> ())?) {
+        switchToTab(tab, checkIfShouldSwitch: !force, completion: completion)
     }
 
     func vmShowTooltipAtSellButtonWithText(text: NSAttributedString) {

@@ -73,12 +73,13 @@ class AdminViewController: UIViewController, UITableViewDataSource, UITableViewD
         case 1:
             openFeatureToggle()
         default:
-            break
+            UIPasteboard.generalPasteboard().string = subtitleForCellAtIndexPath(indexPath) ?? ""
         }
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 4
+        return 5
     }
     
     // MARK: - Private
@@ -99,9 +100,11 @@ class AdminViewController: UIViewController, UITableViewDataSource, UITableViewD
         case 1:
             return "🎪 Bumper Features"
         case 2:
-            return "Installation id"
+            return "📱 Installation id"
         case 3:
-            return "User id"
+            return "😎 User id"
+        case 4:
+            return "📲 Push token"
         default:
             return "Not implemented"
         }
@@ -114,6 +117,8 @@ class AdminViewController: UIViewController, UITableViewDataSource, UITableViewD
             return Core.installationRepository.installation?.objectId ?? propertyNotFound
         case 3:
             return Core.myUserRepository.myUser?.objectId ?? propertyNotFound
+        case 4:
+            return Core.installationRepository.installation?.deviceToken ?? propertyNotFound
         default:
             return ""
         }

@@ -25,17 +25,19 @@ public struct ABTests {
     static var saveMailLogout = BoolABDynamicVar(key: "saveMailLogout", defaultValue: false)
     static var expressChatBanner = BoolABDynamicVar(key: "expressChatBanner", defaultValue: false)
     static var showLiquidProductsToNewUser = BoolABDynamicVar(key: "showLiquidProductsToNewUser", defaultValue: false)
+    static var postAfterDeleteMode = IntABDynamicVar(key: "postAfterDeleteMode", defaultValue: 0)
     static var keywordsTravelCollection = IntABDynamicVar(key: "keywordsTravelCollection", defaultValue: 0)
     static var commercializerAfterPosting = BoolABDynamicVar(key: "commercializerAfterPosting", defaultValue: false)
+    static var relatedProductsOnMoreInfo = BoolABDynamicVar(key: "relatedProductsOnMoreInfo", defaultValue: false)
     static var shareAfterPosting = BoolABDynamicVar(key: "shareAfterPosting", defaultValue: false)
     static var postingMultiPictureEnabled = BoolABDynamicVar(key: "postingMultiPictureEnabled", defaultValue: false)
 
     static private var allVariables: [ABVariable] {
-        return [showNPSSurvey, messageOnFavoriteRound2, interestedUsersMode, filtersReorder,
-                directPostInOnboarding, productDetailShareMode, notificationCenterEnabled,
-                persicopeChat, shareButtonWithIcon, chatHeadBubbles, saveMailLogout,
-                expressChatBanner, showLiquidProductsToNewUser, keywordsTravelCollection,
-                commercializerAfterPosting, shareAfterPosting, postingMultiPictureEnabled]
+        return [showNPSSurvey, messageOnFavoriteRound2, interestedUsersMode, filtersReorder, directPostInOnboarding,
+                productDetailShareMode, notificationCenterEnabled, persicopeChat, shareButtonWithIcon, chatHeadBubbles,
+                saveMailLogout, expressChatBanner, showLiquidProductsToNewUser, postAfterDeleteMode,
+                keywordsTravelCollection, commercializerAfterPosting, relatedProductsOnMoreInfo, shareAfterPosting,
+                postingMultiPictureEnabled]
     }
 
     static func registerVariables() {

@@ -55,7 +55,11 @@ extension UIViewController {
     func dismissLoadingMessageAlert(completion: (() -> Void)? = nil) {
         if let alert = self.loading {
             self.loading = nil
-            alert.dismissViewControllerAnimated(true, completion: completion)
+            if let _ = alert.presentingViewController {
+                alert.dismissViewControllerAnimated(true, completion: completion)
+            } else {
+                completion?()
+            }
         } else {
             completion?()
         }
@@ -118,6 +122,13 @@ extension UIViewController {
         showAlert(title, message: message, actions: totalActions)
     }
 
+    func showAlertWithTitle(title: String?, text: String, alertType: AlertType, actions: [UIAction]?) {
+        guard let alert = LGAlertViewController(title: title, text: text, alertType: alertType, actions: actions) else {
+            return
+        }
+        let presenter: UIViewController = tabBarController ?? navigationController ?? self
+        presenter.presentViewController(alert, animated: true, completion: nil)
+    }
 
     func showActionSheet(cancelAction: UIAction, actions: [UIAction], barButtonItem: UIBarButtonItem? = nil,
                          completion: (() -> Void)? = nil) {

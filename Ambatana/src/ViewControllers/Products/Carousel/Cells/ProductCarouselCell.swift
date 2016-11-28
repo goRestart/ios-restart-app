@@ -132,10 +132,10 @@ extension ProductCarouselCell: UICollectionViewDelegate, UICollectionViewDataSou
                     imageCell.imageView.image = nil
                 }
 
-                imageDownloader.downloadImageWithURL(imageURL) { [weak self] (result, url) in
+                imageDownloader.downloadImageWithURL(imageURL) { [weak self, weak imageCell] (result, url) in
                     if let value = result.value where self?.tag == productCarouselTag && cell.tag == imageCellTag {
-                        imageCell.imageURL = imageURL
-                        imageCell.setImage(value.image)
+                        imageCell?.imageURL = imageURL
+                        imageCell?.setImage(value.image)
                     }
                 }
             }

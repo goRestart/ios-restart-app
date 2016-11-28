@@ -1,8 +1,11 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11542" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -29,14 +32,16 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Jtg-Yw-wsg">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                     <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="Ffu-Kw-Zed">
-                        <frame key="frameInset"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="h4F-Ow-rJi">
+                                <rect key="frame" x="0.0" y="20" width="56" height="56"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="24" id="4Xl-8c-JSQ"/>
-                                    <constraint firstAttribute="width" constant="24" id="Dqy-Vp-3a9"/>
+                                    <constraint firstAttribute="height" constant="56" id="4Xl-8c-JSQ"/>
+                                    <constraint firstAttribute="width" constant="56" id="Dqy-Vp-3a9"/>
                                 </constraints>
                                 <state key="normal" image="ic_close"/>
                                 <connections>
@@ -44,11 +49,13 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Message Notifications" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AJ9-Mr-fTy">
+                                <rect key="frame" x="8" y="86" width="359" height="29"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_Do you want to be notified when another user sends you a message?" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zbC-cJ-1Dr">
+                                <rect key="frame" x="41.5" y="151" width="292" height="41"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="292" id="WAC-F2-cpe"/>
                                 </constraints>
@@ -57,16 +64,20 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="naH-1U-zAK" userLabel="iPhone View Container">
+                                <rect key="frame" x="75.5" y="231" width="224" height="289"/>
                                 <subviews>
                                     <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bvA-GW-C3e" userLabel="iPhone View">
+                                        <rect key="frame" x="6" y="0.0" width="212" height="289"/>
                                         <subviews>
                                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="iphone_top" translatesAutoresizingMaskIntoConstraints="NO" id="9vo-xu-8hy" userLabel="iPhone Top Image View">
+                                                <rect key="frame" x="0.0" y="0.0" width="212" height="48"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="212" id="1EC-Uc-HQA"/>
                                                     <constraint firstAttribute="height" constant="48" id="pcw-JH-HrO"/>
                                                 </constraints>
                                             </imageView>
                                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="top" image="iphone_left" translatesAutoresizingMaskIntoConstraints="NO" id="uLV-W2-o43" userLabel="iPhone Left Image View">
+                                                <rect key="frame" x="0.0" y="48" width="16" height="241"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="241" id="jP8-AM-9Gz"/>
                                                     <constraint firstAttribute="width" constant="16" id="vJA-Rf-7nf"/>
@@ -78,12 +89,15 @@
                                                 </variation>
                                             </imageView>
                                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="top" image="iphone_right" translatesAutoresizingMaskIntoConstraints="NO" id="bkK-L2-qTL" userLabel="iPhone Right Image View">
+                                                <rect key="frame" x="196" y="48" width="16" height="241"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="16" id="CpS-vm-Tev"/>
                                                     <constraint firstAttribute="height" constant="241" id="vcS-AF-vHe"/>
                                                 </constraints>
                                             </imageView>
-                                            <imageView userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_notifications" translatesAutoresizingMaskIntoConstraints="NO" id="XB1-JO-2SQ"/>
+                                            <imageView userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_notifications" translatesAutoresizingMaskIntoConstraints="NO" id="XB1-JO-2SQ">
+                                                <rect key="frame" x="15" y="48" width="182" height="241"/>
+                                            </imageView>
                                         </subviews>
                                         <constraints>
                                             <constraint firstItem="9vo-xu-8hy" firstAttribute="top" secondItem="bvA-GW-C3e" secondAttribute="top" id="5Pk-vr-CfP"/>
@@ -103,6 +117,7 @@
                                         </constraints>
                                     </view>
                                     <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="iphone_bottom" translatesAutoresizingMaskIntoConstraints="NO" id="JPn-Bf-tfL" userLabel="iPhone Bottom Image View">
+                                        <rect key="frame" x="0.0" y="284" width="224" height="5"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="5" id="EDY-Gg-qv4"/>
                                             <constraint firstAttribute="width" constant="224" id="Kef-7u-kKI"/>
@@ -120,8 +135,10 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vTT-Ha-41J" userLabel="push_container">
+                                <rect key="frame" x="57.5" y="279" width="260" height="66"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_push" translatesAutoresizingMaskIntoConstraints="NO" id="rcs-wv-SrL">
+                                        <rect key="frame" x="0.0" y="0.0" width="260" height="66"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="66" id="wBq-aq-r4m"/>
                                         </constraints>
@@ -132,16 +149,19 @@
                                         </variation>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="letgo" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jYt-rb-LgK">
+                                        <rect key="frame" x="39" y="12" width="29.5" height="14.5"/>
                                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="12"/>
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_now" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DHM-rx-U2H">
+                                        <rect key="frame" x="75.5" y="13" width="26.5" height="13.5"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_Isabella: I'm very interested in your phone. Can you let go of it for $100?" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="meJ-Xh-Uwi">
+                                        <rect key="frame" x="38" y="27.5" width="214" height="29"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
@@ -171,9 +191,13 @@
                                 </variation>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Blx-QB-ulX" userLabel="alert_container">
+                                <rect key="frame" x="57.5" y="293" width="260" height="165"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_permissions_alert" translatesAutoresizingMaskIntoConstraints="NO" id="aiP-CI-IAH"/>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_permissions_alert" translatesAutoresizingMaskIntoConstraints="NO" id="aiP-CI-IAH">
+                                        <rect key="frame" x="0.0" y="0.0" width="260" height="165"/>
+                                    </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="llK-Z7-QNq" userLabel="alertOkLabel">
+                                        <rect key="frame" x="170.5" y="134" width="49.5" height="23"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="19"/>
                                         <color key="textColor" red="0.98660099506378174" green="0.14062686264514923" blue="0.26615336537361145" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
@@ -193,6 +217,7 @@
                                 </constraints>
                             </view>
                             <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="u0D-Fq-hAN">
+                                <rect key="frame" x="15" y="606" width="345" height="44"/>
                                 <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="DQk-sn-E88"/>
@@ -207,7 +232,7 @@
                         <constraints>
                             <constraint firstItem="u0D-Fq-hAN" firstAttribute="leading" secondItem="Ffu-Kw-Zed" secondAttribute="leading" constant="15" id="0XL-Y1-Vz9"/>
                             <constraint firstItem="vTT-Ha-41J" firstAttribute="centerX" secondItem="Ffu-Kw-Zed" secondAttribute="centerX" id="9eR-1l-cWq"/>
-                            <constraint firstItem="h4F-Ow-rJi" firstAttribute="leading" secondItem="Ffu-Kw-Zed" secondAttribute="leading" constant="16" id="BWK-Zg-g2y"/>
+                            <constraint firstItem="h4F-Ow-rJi" firstAttribute="leading" secondItem="Ffu-Kw-Zed" secondAttribute="leading" id="BWK-Zg-g2y"/>
                             <constraint firstAttribute="trailing" secondItem="AJ9-Mr-fTy" secondAttribute="trailing" constant="8" id="EYX-4f-VAZ"/>
                             <constraint firstItem="Blx-QB-ulX" firstAttribute="centerX" secondItem="Ffu-Kw-Zed" secondAttribute="centerX" id="S8i-FW-Fxm"/>
                             <constraint firstItem="AJ9-Mr-fTy" firstAttribute="top" secondItem="h4F-Ow-rJi" secondAttribute="bottom" constant="10" id="SWG-kr-NWd"/>
@@ -217,7 +242,7 @@
                             <constraint firstItem="zbC-cJ-1Dr" firstAttribute="top" secondItem="AJ9-Mr-fTy" secondAttribute="bottom" constant="36" id="l6s-wU-sxQ"/>
                             <constraint firstItem="Blx-QB-ulX" firstAttribute="centerY" secondItem="naH-1U-zAK" secondAttribute="centerY" id="nRb-Nb-A2r"/>
                             <constraint firstItem="AJ9-Mr-fTy" firstAttribute="leading" secondItem="Ffu-Kw-Zed" secondAttribute="leading" constant="8" id="o9o-ch-8W2"/>
-                            <constraint firstItem="h4F-Ow-rJi" firstAttribute="top" secondItem="Ffu-Kw-Zed" secondAttribute="top" constant="36" id="qQv-ht-xq1"/>
+                            <constraint firstItem="h4F-Ow-rJi" firstAttribute="top" secondItem="Ffu-Kw-Zed" secondAttribute="top" constant="20" id="qQv-ht-xq1"/>
                             <constraint firstItem="zbC-cJ-1Dr" firstAttribute="centerX" secondItem="Ffu-Kw-Zed" secondAttribute="centerX" id="toR-el-z48"/>
                             <constraint firstItem="naH-1U-zAK" firstAttribute="centerX" secondItem="Ffu-Kw-Zed" secondAttribute="centerX" id="yg0-A4-KRA"/>
                             <constraint firstItem="naH-1U-zAK" firstAttribute="top" secondItem="zbC-cJ-1Dr" secondAttribute="bottom" constant="39" id="yla-7w-TBN"/>

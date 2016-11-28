@@ -14,7 +14,7 @@ final class PushPrePermissionsSettingsViewModel: BaseViewModel {
 
     var title: String {
         switch source {
-        case .Onboarding, .ProductList, .Sell, .Profile, .ProductListBanner:
+        case .Onboarding, .Sell, .Profile, .ProductListBanner:
             return LGLocalizedString.notificationsPermissionsSettingsTitle
         case .Chat(let buyer):
             return buyer ? LGLocalizedString.notificationsPermissionsSettingsTitleChat :

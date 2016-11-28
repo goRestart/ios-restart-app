@@ -36,7 +36,6 @@ extension DefaultsKeys {
     static let didShowProductDetailOnboardingOthersProduct = DefaultsKey<Bool>("didShowProductDetailOnboardingOthersProduct")
     static let productMoreInfoTooltipDismissed = DefaultsKey<Bool>("showMoreInfoTooltip")
 
-    static let pushPermissionsDidAskAtList = DefaultsKey<Bool>("didAskForPushPermissionsAtList")
     static let pushPermissionsDailyDate = DefaultsKey<NSDate?>("dailyPermissionDate")
     static let pushPermissionsDidShowNativeAlert = DefaultsKey<Bool>("didShowNativePushPermissionsDialog")
 
@@ -51,6 +50,7 @@ extension DefaultsKeys {
 
     static let previousUserAccountProvider = DefaultsKey<String?>("previousUserAccountProvider")
     static let previousUserEmailOrName = DefaultsKey<String?>("previousUserEmailOrName")
+    static let sessionNumber = DefaultsKey<Int>("sessionNumber")
 }
 
 

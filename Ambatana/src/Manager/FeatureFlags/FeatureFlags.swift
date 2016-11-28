@@ -25,11 +25,13 @@ protocol FeatureFlaggeable {
     var saveMailLogout: Bool { get }
     var showLiquidProductsToNewUser: Bool { get }
     var expressChatBanner: Bool { get }
+    var postAfterDeleteMode: PostAfterDeleteMode { get }
     var keywordsTravelCollection: KeywordsTravelCollection { get }
     var shareAfterPosting: Bool { get }
     var freePostingModeAllowed: Bool { get }
     var commercializerAfterPosting: Bool { get }
     var postingMultiPictureEnabled: Bool { get }
+    var relatedProductsOnMoreInfo: Bool { get }
 }
 
 class FeatureFlags: FeatureFlaggeable {
@@ -40,9 +42,19 @@ class FeatureFlags: FeatureFlaggeable {
     private let locationManager: LocationManager
     
     init(locale: NSLocale, locationManager: LocationManager) {
+        Bumper.initialize()
+
+        // Initialize all vars that shouldn't change over application lifetime
+        if Bumper.enabled {
+            self.websocketChat = Bumper.websocketChat
+            self.notificationsSection = Bumper.notificationsSection
+        } else {
+            self.websocketChat = false
+            self.notificationsSection = ABTests.notificationCenterEnabled.value
+        }
+
         self.locale = locale
         self.locationManager = locationManager
-        Bumper.initialize()
     }
 
     
@@ -53,19 +65,9 @@ class FeatureFlags: FeatureFlaggeable {
 
     // MARK: - A/B Tests features
 
-     var websocketChat: Bool = {
-        if Bumper.enabled {
-            return Bumper.websocketChat
-        }
-        return false
-    }()
+     let websocketChat: Bool
     
-     var notificationsSection: Bool = {
-        if Bumper.enabled {
-            return Bumper.notificationsSection
-        }
-        return ABTests.notificationCenterEnabled.value
-    }()
+     let notificationsSection: Bool
 
      var userReviews: Bool {
         if Bumper.enabled {
@@ -151,14 +153,21 @@ class FeatureFlags: FeatureFlaggeable {
         return ABTests.showLiquidProductsToNewUser.value
     }
 
-     var expressChatBanner: Bool {
+    var expressChatBanner: Bool {
         if Bumper.enabled {
             return Bumper.expressChatBanner
         }
         return ABTests.expressChatBanner.value
     }
 
-     var keywordsTravelCollection: KeywordsTravelCollection {
+    var postAfterDeleteMode: PostAfterDeleteMode {
+        if Bumper.enabled {
+            return Bumper.postAfterDeleteMode
+        }
+        return PostAfterDeleteMode.fromPosition(ABTests.postAfterDeleteMode.value)
+    }
+
+    var keywordsTravelCollection: KeywordsTravelCollection {
         if Bumper.enabled {
             return Bumper.keywordsTravelCollection
         }
@@ -184,6 +193,14 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.postingMultiPictureEnabled
         }
         return ABTests.postingMultiPictureEnabled.value
+
+    }
+
+    var relatedProductsOnMoreInfo: Bool {
+        if Bumper.enabled {
+            return Bumper.relatedProductsOnMoreInfo
+        }
+        return ABTests.relatedProductsOnMoreInfo.value
     }
 
 

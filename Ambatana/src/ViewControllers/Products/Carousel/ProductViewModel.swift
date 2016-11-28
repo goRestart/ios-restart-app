@@ -835,17 +835,25 @@ extension ProductViewModel {
         productRepository.delete(product.value) { [weak self] result in
             guard let strongSelf = self else { return }
 
+            var afterMessageAction: (() -> ())? = nil
             var message: String? = nil
             if let value = result.value {
+                switch strongSelf.featureFlags.postAfterDeleteMode {
+                case .Original:
+                    message = LGLocalizedString.productDeleteSuccessMessage
+                case .FullScreen, .Alert:
+                    break
+                }
+                afterMessageAction = { [weak self] in
+                    self?.navigator?.closeAfterDelete()
+                }
                 strongSelf.product.value = value
-                message = LGLocalizedString.productDeleteSuccessMessage
                 self?.trackHelper.trackDeleteCompleted()
             } else if let _ = result.error {
                 message = LGLocalizedString.productDeleteSendErrorGeneric
             }
-            strongSelf.delegate?.vmHideLoading(message, afterMessageCompletion: { () -> () in
-                strongSelf.delegate?.vmPop()
-            })
+
+            strongSelf.delegate?.vmHideLoading(message, afterMessageCompletion: afterMessageAction)
         }
     }
 
@@ -971,6 +979,19 @@ private extension ProductViewModel {
     private func sendFavoriteMessage() {
         sendMessage(.FavoritedProduct(LGLocalizedString.productFavoriteDirectMessage))
         favoriteMessageSent = true
+    }
+}
+
+
+// MARK: - RelatedProductsViewDelegate
+
+extension ProductViewModel: RelatedProductsViewDelegate {
+    func relatedProductsView(view: RelatedProductsView, showProduct product: Product, atIndex index: Int,
+                             productListModels: [ProductCellModel], requester: ProductListRequester,
+                             thumbnailImage: UIImage?, originFrame: CGRect?) {
+        let data = ProductDetailData.ProductList(product: product, cellModels: productListModels, requester: requester,
+                                                 thumbnailImage: thumbnailImage, originFrame: originFrame, showRelated: false, index: index)
+        navigator?.openProduct(data, source: .MoreInfoRelated)
     }
 }
 

@@ -50,6 +50,7 @@ protocol ProductDetailNavigator: TabNavigator {
     func editProduct(product: Product, closeCompletion: ((Product?) -> Void)?)
     func openProductChat(product: Product)
     func openFullScreenShare(product: Product, socialMessage: SocialMessage)
+    func closeAfterDelete()
 }
 
 protocol ChatDetailNavigator: TabNavigator {

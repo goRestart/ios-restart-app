@@ -11,6 +11,7 @@ import RxSwift
 class ProductCarouselImageCell: UICollectionViewCell, UIScrollViewDelegate {
     
     static let identifier = "ProductCarouselImageCell"
+    private static let zoomDecimalsRounding: CGFloat = 0.0001
 
     var zooming = PublishSubject<(Bool, Int)>()
     var position: Int = 0
@@ -40,7 +41,7 @@ class ProductCarouselImageCell: UICollectionViewCell, UIScrollViewDelegate {
         guard let img = image else { return }
         let aspectRatio = img.size.width / img.size.height
         let screenAspectRatio = UIScreen.mainScreen().bounds.width / UIScreen.mainScreen().bounds.height
-        let zoomLevel = (screenAspectRatio / aspectRatio).roundNearest(0.000001)
+        let zoomLevel = (screenAspectRatio / aspectRatio).roundNearest(ProductCarouselImageCell.zoomDecimalsRounding)
         scrollView.minimumZoomScale = min(1, zoomLevel)
 
         let actualZoomLevel = aspectRatio >= LGUIKitConstants.horizontalImageMinAspectRatio ? zoomLevel : 1.0
@@ -100,7 +101,10 @@ class ProductCarouselImageCell: UICollectionViewCell, UIScrollViewDelegate {
         imageView.center = CGPointMake(scrollView.contentSize.width * 0.5 + offsetX,
                                        scrollView.contentSize.height * 0.5 + offsetY)
 
-        zooming.onNext((scrollView.zoomScale.roundNearest(0.000001) > referenceZoomLevel.roundNearest(0.000001), position))
+        let zoomScale = scrollView.zoomScale.roundNearest(ProductCarouselImageCell.zoomDecimalsRounding)
+        let referenceZoomScale = referenceZoomLevel.roundNearest(ProductCarouselImageCell.zoomDecimalsRounding)
+        let isZooming = zoomScale > referenceZoomScale
+        zooming.onNext((isZooming, position))
     }
 }
 

@@ -140,8 +140,8 @@ final class AppCoordinator: NSObject {
         setupLeanplumPopUp()
     }
 
-    func openTab(tab: Tab) {
-        openTab(tab, force: false)
+    func openTab(tab: Tab, completion: (() -> ())?) {
+        openTab(tab, force: false, completion: completion)
     }
 }
 
@@ -166,8 +166,7 @@ extension AppCoordinator: AppNavigator {
         if keyValueStorage[.firstRunDate] == nil {
             keyValueStorage[.firstRunDate] = NSDate()
         }
-        
-        pushPermissionsManager.shouldAskForListPermissionsOnCurrentSession = false
+
         let onboardingCoordinator = OnboardingCoordinator()
         onboardingCoordinator.delegate = self
         openCoordinator(coordinator: onboardingCoordinator, parent: tabBarCtl, animated: true, completion: nil)
@@ -382,7 +381,7 @@ extension AppCoordinator: UITabBarControllerDelegate {
 
         switch tab {
         case .Home, .Categories, .Notifications, .Chats, .Profile:
-            afterLogInSuccessful = { [weak self] in self?.openTab(tab, force: true) }
+            afterLogInSuccessful = { [weak self] in self?.openTab(tab, force: true, completion: nil) }
             result = !shouldOpenLogin
         case .Sell:
             afterLogInSuccessful = { [weak self] in
@@ -421,14 +420,14 @@ extension AppCoordinator: ChatHeadGroupViewDelegate {
     func chatHeadGroup(view: ChatHeadGroupView, openChatDetailWithId id: String) {
         let data = ConversationData.Conversation(conversationId: id)
         
-        openTab(.Chats)
+        openTab(.Chats, completion: nil)
         chatsTabBarCoordinator.openChat(.DataIds(data: data))
 
         tracker.trackEvent(TrackerEvent.chatHeadsOpen())
     }
 
     func chatHeadGroupOpenChatList(view: ChatHeadGroupView) {
-        openTab(.Chats)
+        openTab(.Chats, completion: nil)
 
         tracker.trackEvent(TrackerEvent.chatHeadsOpen())
     }
@@ -488,9 +487,10 @@ private extension AppCoordinator {
             case .Login:
                 break
             case let .Logout(kickedOut):
-                self?.openTab(.Home)
-                if kickedOut {
-                    self?.tabBarCtl.showAutoFadingOutMessageAlert(LGLocalizedString.toastErrorInternal)
+                self?.openTab(.Home) { [weak self] in
+                    if kickedOut {
+                        self?.tabBarCtl.showAutoFadingOutMessageAlert(LGLocalizedString.toastErrorInternal)
+                    }
                 }
             }
         }.addDisposableTo(disposeBag)
@@ -607,10 +607,10 @@ private extension AppCoordinator {
         coordinator.open(parent: parent, animated: animated, completion: completion)
     }
 
-    func openTab(tab: Tab, force: Bool) {
+    func openTab(tab: Tab, force: Bool, completion: (() -> ())?) {
         let shouldOpen = force || shouldOpenTab(tab)
         if shouldOpen {
-            tabBarCtl.switchToTab(tab)
+            tabBarCtl.switchToTab(tab, completion: completion)
         }
     }
 
@@ -644,7 +644,7 @@ private extension AppCoordinator {
         switch deepLink.action {
         case .Home:
             afterDelayClosure = { [weak self] in
-                self?.openTab(.Home, force: false)
+                self?.openTab(.Home, force: false, completion: nil)
             }
         case .Sell:
             afterDelayClosure = { [weak self] in
@@ -656,33 +656,37 @@ private extension AppCoordinator {
             }
         case let .User(userId):
             if userId == myUserRepository.myUser?.objectId {
-                openTab(.Profile, force: false)
+                openTab(.Profile, force: false, completion: nil)
             } else {
                 afterDelayClosure = { [weak self] in
                     self?.selectedTabCoordinator?.openUser(UserDetailData.Id(userId: userId, source: .Link))
                 }
             }
         case .Conversations:
-            openTab(.Chats, force: false)
+            openTab(.Chats, force: false, completion: nil)
         case let .Conversation(data):
             afterDelayClosure = { [weak self] in
-                self?.openTab(.Chats, force: false)
-                self?.chatsTabBarCoordinator.openChat(.DataIds(data: data))
+                self?.openTab(.Chats, force: false) { [weak self] in
+                    self?.chatsTabBarCoordinator.openChat(.DataIds(data: data))
+                }
             }
         case .Message(_, let data):
             afterDelayClosure = { [weak self] in
-                self?.openTab(.Chats, force: false)
-                self?.chatsTabBarCoordinator.openChat(.DataIds(data: data))
+                self?.openTab(.Chats, force: false) { [weak self] in
+                    self?.chatsTabBarCoordinator.openChat(.DataIds(data: data))
+                }
             }
         case .Search(let query, let categories):
             afterDelayClosure = { [weak self] in
-                self?.openTab(.Home, force: false)
-                self?.mainTabBarCoordinator.openSearch(query, categoriesString: categories)
+                self?.openTab(.Home, force: false) { [weak self] in
+                    self?.mainTabBarCoordinator.openSearch(query, categoriesString: categories)
+                }
             }
         case .ResetPassword(let token):
             afterDelayClosure = { [weak self] in
-                self?.openTab(.Home, force: false)
-                self?.openResetPassword(token)
+                self?.openTab(.Home, force: false) { [weak self] in
+                    self?.openResetPassword(token)
+                }
             }
         case .Commercializer:
             break // Handled on CommercializerManager
@@ -693,13 +697,15 @@ private extension AppCoordinator {
             }
         case .UserRatings:
             afterDelayClosure = { [weak self] in
-                self?.openTab(.Profile)
-                self?.openMyUserRatings()
+                self?.openTab(.Profile) { [weak self] in
+                    self?.openMyUserRatings()
+                }
             }
         case let .UserRating(ratingId):
             afterDelayClosure = { [weak self] in
-                self?.openTab(.Profile)
-                self?.openUserRatingForUserFromRating(ratingId)
+                self?.openTab(.Profile) { [weak self] in
+                    self?.openUserRatingForUserFromRating(ratingId)
+                }
             }
         }
 
@@ -803,9 +809,10 @@ private extension AppCoordinator {
                 guard let conversation = result.value else { return }
                 let action = UIAction(interface: .Text(LGLocalizedString.appNotificationReply), action: { [weak self] in
                     self?.tracker.trackEvent(TrackerEvent.inappChatNotificationComplete())
-                    self?.openTab(.Chats, force: false)
-                    self?.selectedTabCoordinator?.openChat(.Conversation(conversation: conversation))
-                    })
+                    self?.openTab(.Chats, force: false) { [weak self] in
+                        self?.selectedTabCoordinator?.openChat(.Conversation(conversation: conversation))
+                    }
+                })
                 let data = BubbleNotificationData(tagGroup: conversationId,
                                                   text: message,
                                                   action: action,
@@ -817,9 +824,10 @@ private extension AppCoordinator {
             // Old chat cannot retrieve chat because it would mark messages as read.
             let action = UIAction(interface: .Text(LGLocalizedString.appNotificationReply), action: { [weak self] in
                 self?.tracker.trackEvent(TrackerEvent.inappChatNotificationComplete())
-                self?.openTab(.Chats, force: false)
-                self?.selectedTabCoordinator?.openChat(.DataIds(data: data))
-                })
+                self?.openTab(.Chats, force: false) { [weak self] in
+                    self?.selectedTabCoordinator?.openChat(.DataIds(data: data))
+                }
+            })
             let data = BubbleNotificationData(tagGroup: conversationId,
                                               text: message,
                                               action: action)

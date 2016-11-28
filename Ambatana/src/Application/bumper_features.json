@@ -75,6 +75,11 @@
         "description": "show liquid products to new user"
     },
     {
+        "name": "PostAfterDeleteMode",
+        "values": ["Original", "FullScreen", "Alert"],
+        "description": "Posting incentivation after delete"
+    },
+    {
         "name": "KeywordsTravelCollection",
         "values": ["Standard", "CarsPrior", "BrandsPrior"],
         "description": "Keywords prioritize on Travel Collection"
@@ -85,7 +90,12 @@
         "description": "Commercializer after posting"
     },
     {
-         "name": "ShareAfterPosting",
+        "name": "RelatedProductsOnMoreInfo",
+        "values": ["No", "Yes"],
+        "description": "Related Products on More Info"
+    },
+    {
+        "name": "ShareAfterPosting",
         "values": ["No", "Yes"],
         "description": "Show sharing screen after posting (forced)"
     },
