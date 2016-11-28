@@ -516,7 +516,7 @@ extension ProductCarouselViewController {
 
     private func updateMoreInfo() {
         guard let currentPVM = viewModel.currentProductViewModel else { return }
-        moreInfoView?.setupWith(viewModel: currentPVM)
+        moreInfoView?.setViewModel(currentPVM)
         moreInfoState.asObservable().bindTo(currentPVM.moreInfoState).addDisposableTo(activeDisposeBag)
     }
 
@@ -889,6 +889,7 @@ extension ProductCarouselViewController {
     @IBAction func showMoreInfo() {
         guard moreInfoState.value == .Hidden || moreInfoState.value == .Moving else { return }
 
+        moreInfoView?.viewWillShow()
         chatTextView.resignFirstResponder()
         moreInfoState.value = .Shown
         viewModel.didOpenMoreInfo()

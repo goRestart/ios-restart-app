@@ -137,6 +137,7 @@ extension UIFont {
     static var productAddresFont: UIFont { return UIFont.systemMediumFont(size: 13) }
     static var productDistanceFont: UIFont { return UIFont.systemBoldFont(size: 13) }
     static var productSocialShareTitleFont: UIFont { return UIFont.systemRegularFont(size: 13) }
+    static var productRelatedItemsTitleFont: UIFont { return UIFont.systemRegularFont(size: 13) }
     static var productStatusSoldFont: UIFont { return UIFont.systemMediumFont(size: 13) }
 }
 
