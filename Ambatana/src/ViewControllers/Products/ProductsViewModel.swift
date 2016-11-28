@@ -13,6 +13,7 @@ class ProductsViewModel: BaseViewModel {
 
     weak var navigator: ProductListNavigator?
 
+    let title: String
     let productListRequester: ProductListRequester
     let productListViewModel: ProductListViewModel
     let featureFlags: FeatureFlaggeable
@@ -21,14 +22,15 @@ class ProductsViewModel: BaseViewModel {
         let show3Columns = DeviceFamily.current.isWiderOrEqualThan(.iPhone6Plus)
         let itemsPerPage = show3Columns ? Constants.numProductsPerPageBig : Constants.numProductsPerPageDefault
         let requester = RelatedProductListRequester(productId: relatedProductId, itemsPerPage: itemsPerPage)
-        self.init(requester: requester)
+        self.init(requester: requester, title: LGLocalizedString.relatedItemsTitle)
     }
 
-    convenience init(requester: ProductListRequester) {
-        self.init(requester: requester, featureFlags: FeatureFlags.sharedInstance)
+    convenience init(requester: ProductListRequester, title: String) {
+        self.init(requester: requester, title: title, featureFlags: FeatureFlags.sharedInstance)
     }
 
-    init(requester: ProductListRequester, featureFlags: FeatureFlaggeable) {
+    init(requester: ProductListRequester, title: String, featureFlags: FeatureFlaggeable) {
+        self.title = title
         self.productListRequester = requester
         let show3Columns = DeviceFamily.current.isWiderOrEqualThan(.iPhone6Plus)
         let columns = show3Columns ? 3 : 2

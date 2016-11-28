@@ -143,12 +143,12 @@
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     <constraints>
-                                        <constraint firstItem="T2u-dk-Qo9" firstAttribute="top" secondItem="dL5-F7-IVZ" secondAttribute="top" id="NcW-i9-yTK"/>
                                         <constraint firstItem="PHl-K0-6fq" firstAttribute="centerY" secondItem="T2u-dk-Qo9" secondAttribute="centerY" constant="1" id="SWz-JG-AvU"/>
                                         <constraint firstAttribute="trailing" secondItem="T2u-dk-Qo9" secondAttribute="trailing" constant="15" id="YJW-Bv-hI2"/>
                                         <constraint firstItem="pGO-uc-yxC" firstAttribute="top" secondItem="dL5-F7-IVZ" secondAttribute="top" id="bM5-fq-Yrt"/>
                                         <constraint firstItem="T2u-dk-Qo9" firstAttribute="leading" secondItem="pGO-uc-yxC" secondAttribute="trailing" constant="8" id="kgM-LI-KlP"/>
                                         <constraint firstItem="pGO-uc-yxC" firstAttribute="leading" secondItem="dL5-F7-IVZ" secondAttribute="leading" constant="15" id="pKX-wc-fsJ"/>
+                                        <constraint firstItem="T2u-dk-Qo9" firstAttribute="centerY" secondItem="pGO-uc-yxC" secondAttribute="centerY" id="qz3-MM-vFG"/>
                                         <constraint firstAttribute="height" constant="135" id="tZo-ej-65p"/>
                                         <constraint firstItem="PHl-K0-6fq" firstAttribute="trailing" secondItem="T2u-dk-Qo9" secondAttribute="trailing" id="url-2U-87Y"/>
                                     </constraints>
