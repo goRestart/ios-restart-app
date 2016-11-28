@@ -249,6 +249,7 @@ public enum EventParameterName: String {
     case Enabled              = "enabled"
     case LastSearch           = "last-search"
     case ExpressChatTrigger   = "express-chat-trigger"
+    case NumberPhotosPosting  = "number-photos-posting"
 }
 
 public enum EventParameterLoginSourceValue: String {

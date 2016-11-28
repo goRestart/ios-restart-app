@@ -1510,6 +1510,10 @@ class TrackerEventSpec: QuickSpec {
                     let data = sut.params!.stringKeyParams["product-description"] as? Bool
                     expect(data).to(equal(false))
                 }
+                it("contains number-photos-posting") {
+                    let data = sut.params!.stringKeyParams["number-photos-posting"] as? Int
+                    expect(data).to(equal(0))
+                }
                 it("contains button-name") {
                     let data = sut.params!.stringKeyParams["button-name"] as? String
                     expect(data).to(equal("done"))
