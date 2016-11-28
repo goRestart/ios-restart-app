@@ -185,10 +185,6 @@ extension PostProductGalleryView: PostProductGalleryViewModelDelegate {
         }
     }
 
-    func vmDidDeselectItemAtIndex(index: Int) {
-//        collectionView.reloadData()
-    }
-
     func vmShowActionSheet(cancelAction: UIAction, actions: [UIAction]) {
         delegate?.productGalleryShowActionSheet(cancelAction, actions: actions)
     }

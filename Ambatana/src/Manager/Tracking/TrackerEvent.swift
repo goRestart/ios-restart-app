@@ -372,11 +372,6 @@ public struct TrackerEvent {
         return TrackerEvent(name: .ProductSellSharedFB, params: params)
     }
 
-//    static func productSellComplete(product: Product, freePostingModeAllowed: Bool) -> TrackerEvent {
-//        return productSellComplete(product, buttonName: nil, sellButtonPosition: nil, negotiable: nil, pictureSource: nil,
-//                                   freePostingModeAllowed: freePostingModeAllowed)
-//    }
-
     static func productSellComplete(product: Product, buttonName: EventParameterButtonNameType?,
                                     sellButtonPosition: EventParameterSellButtonPosition?, negotiable: EventParameterNegotiablePrice?,
                                     pictureSource: EventParameterPictureSource?, freePostingModeAllowed: Bool) -> TrackerEvent {

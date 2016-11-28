@@ -15,7 +15,6 @@ import RxCocoa
 protocol PostProductGalleryViewModelDelegate: class {
     func vmDidUpdateGallery()
     func vmDidSelectItemAtIndex(index: Int, shouldScroll: Bool)
-    func vmDidDeselectItemAtIndex(index: Int)
     func vmShowActionSheet(cancelAction: UIAction, actions: [UIAction])
 }
 
@@ -29,10 +28,7 @@ enum AlbumSelectionIconState {
 
 class PostProductGalleryViewModel: BaseViewModel {
 
-    var maxImagesSelected: Int {
-        return multiSelectionEnabled ? 5 : 1
-    }
-
+    let maxImagesSelected: Int
     var keyValueStorage: KeyValueStorage
 
     weak var delegate: PostProductGalleryViewModelDelegate?
@@ -75,6 +71,7 @@ class PostProductGalleryViewModel: BaseViewModel {
 
     required init(multiSelectionEnabled: Bool, keyValueStorage: KeyValueStorage) {
         self.multiSelectionEnabled = multiSelectionEnabled
+        self.maxImagesSelected = multiSelectionEnabled ? Constants.maxImageCount : 1
         self.keyValueStorage = keyValueStorage
         super.init()
         setupRX()
@@ -353,7 +350,6 @@ class PostProductGalleryViewModel: BaseViewModel {
                 lastImageSelected.value = imagesSelected.value[numImgs-1]
             }
         }
-        delegate?.vmDidDeselectItemAtIndex(index)
     }
 
     private func imageAtIndex(index: Int, size: CGSize?, handler: UIImage? -> Void) -> PHImageRequestID? {

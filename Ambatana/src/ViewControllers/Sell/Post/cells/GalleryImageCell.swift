@@ -62,6 +62,6 @@ class GalleryImageCell: UICollectionViewCell, ReusableCell {
         selectedImage.hidden = true
 
         selectedCountlabel.hidden = true
-        self.disabled = false
+        disabled = false
     }
 }

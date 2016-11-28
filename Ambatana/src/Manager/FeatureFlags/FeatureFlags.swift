@@ -193,7 +193,6 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.postingMultiPictureEnabled
         }
         return ABTests.postingMultiPictureEnabled.value
-
     }
 
     var relatedProductsOnMoreInfo: Bool {
