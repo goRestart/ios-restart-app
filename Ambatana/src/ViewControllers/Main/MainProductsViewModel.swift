@@ -222,7 +222,7 @@ class MainProductsViewModel: BaseViewModel {
     }
 
     func showFilters() {
-        navigator?.showFilters(with: filters, filtersVMDelegate: nil, filtersVMDataDelegate: self)
+        navigator?.showFilters(with: filters, filtersVMDataDelegate: self)
         // Tracking
         tracker.trackEvent(TrackerEvent.filterStart())
     }
