@@ -1528,6 +1528,127 @@ class TrackerEventSpec: QuickSpec {
                 }
             }
 
+            describe("productSellConfirmation") {
+                beforeEach {
+                    let product = MockProduct()
+                    product.objectId = "r4nd0m1D"
+                    sut = TrackerEvent.productSellConfirmation(product)
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("product-sell-confirmation"))
+                }
+                it("contains product-id") {
+                    let productId = sut.params!.stringKeyParams["product-id"] as? String
+                    expect(productId).to(equal("r4nd0m1D"))
+                }
+            }
+
+            describe("productSellConfirmationPost") {
+                beforeEach {
+                    let product = MockProduct()
+                    product.objectId = "r4nd0m1D"
+                    sut = TrackerEvent.productSellConfirmationPost(product, buttonType: .Button)
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("product-sell-confirmation-post"))
+                }
+                it("contains button-type") {
+                    let parameter = sut.params!.stringKeyParams["button-type"] as? String
+                    expect(parameter).to(equal("button"))
+                }
+                it("contains product-id") {
+                    let productId = sut.params!.stringKeyParams["product-id"] as? String
+                    expect(productId).to(equal("r4nd0m1D"))
+                }
+            }
+
+            describe("productSellConfirmationEdit") {
+                beforeEach {
+                    let product = MockProduct()
+                    product.objectId = "r4nd0m1D"
+                    sut = TrackerEvent.productSellConfirmationEdit(product)
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("product-sell-confirmation-edit"))
+                }
+                it("contains product-id") {
+                    let productId = sut.params!.stringKeyParams["product-id"] as? String
+                    expect(productId).to(equal("r4nd0m1D"))
+                }
+            }
+
+            describe("productSellConfirmationClose") {
+                beforeEach {
+                    let product = MockProduct()
+                    product.objectId = "r4nd0m1D"
+                    sut = TrackerEvent.productSellConfirmationClose(product)
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("product-sell-confirmation-close"))
+                }
+                it("contains product-id") {
+                    let productId = sut.params!.stringKeyParams["product-id"] as? String
+                    expect(productId).to(equal("r4nd0m1D"))
+                }
+            }
+
+            describe("productSellConfirmationShare") {
+                beforeEach {
+                    let product = MockProduct()
+                    product.objectId = "r4nd0m1D"
+                    sut = TrackerEvent.productSellConfirmationShare(product, network: .Facebook)
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("product-sell-confirmation-share"))
+                }
+                it("contains product-id") {
+                    let productId = sut.params!.stringKeyParams["product-id"] as? String
+                    expect(productId).to(equal("r4nd0m1D"))
+                }
+                it("contains share-network") {
+                    let data = sut.params!.stringKeyParams["share-network"] as? String
+                    expect(data).to(equal("facebook"))
+                }
+            }
+
+            describe("productSellConfirmationShareCancel") {
+                beforeEach {
+                    let product = MockProduct()
+                    product.objectId = "r4nd0m1D"
+                    sut = TrackerEvent.productSellConfirmationShareCancel(product, network: .Facebook)
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("product-sell-confirmation-share-cancel"))
+                }
+                it("contains product-id") {
+                    let productId = sut.params!.stringKeyParams["product-id"] as? String
+                    expect(productId).to(equal("r4nd0m1D"))
+                }
+                it("contains share-network") {
+                    let data = sut.params!.stringKeyParams["share-network"] as? String
+                    expect(data).to(equal("facebook"))
+                }
+            }
+
+            describe("productSellConfirmationShareComplete") {
+                beforeEach {
+                    let product = MockProduct()
+                    product.objectId = "r4nd0m1D"
+                    sut = TrackerEvent.productSellConfirmationShareComplete(product, network: .Facebook)
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("product-sell-confirmation-share-complete"))
+                }
+                it("contains product-id") {
+                    let productId = sut.params!.stringKeyParams["product-id"] as? String
+                    expect(productId).to(equal("r4nd0m1D"))
+                }
+                it("contains share-network") {
+                    let data = sut.params!.stringKeyParams["share-network"] as? String
+                    expect(data).to(equal("facebook"))
+                }
+            }
+
             describe("productEditStart") {
                 it("has its event name") {
                     let user = MockUser()
@@ -1620,7 +1741,6 @@ class TrackerEventSpec: QuickSpec {
                     expect(sut.params!.stringKeyParams["edited-fields"]).notTo(beNil())
                     let editedFields = sut.params!.stringKeyParams["edited-fields"] as? String
                     expect(editedFields).to(equal("title,category"))
-
                 }
             }
             
