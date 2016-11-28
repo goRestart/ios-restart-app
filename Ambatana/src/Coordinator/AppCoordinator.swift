@@ -23,6 +23,8 @@ final class AppCoordinator: NSObject {
     private let secondTabBarCoordinator: TabCoordinator
     private let chatsTabBarCoordinator: ChatsTabCoordinator
     private let profileTabBarCoordinator: ProfileTabCoordinator
+    private let categoriesTabBarCoordinator: CategoriesTabCoordinator
+    private let notificationsTabBarCoordinator: NotificationsTabCoordinator
     private let tabCoordinators: [TabCoordinator]
 
     private let configManager: ConfigManager
@@ -101,8 +103,10 @@ final class AppCoordinator: NSObject {
         self.chatHeadOverlay = chatHeadOverlay
         
         self.mainTabBarCoordinator = MainTabCoordinator()
-        self.secondTabBarCoordinator = featureFlags.notificationsSection ? NotificationsTabCoordinator() :
-                                                                           CategoriesTabCoordinator()
+        self.categoriesTabBarCoordinator = CategoriesTabCoordinator()
+        self.notificationsTabBarCoordinator = NotificationsTabCoordinator()
+        self.secondTabBarCoordinator = featureFlags.notificationsSection ? notificationsTabBarCoordinator :
+                                                                           categoriesTabBarCoordinator
         self.chatsTabBarCoordinator = ChatsTabCoordinator()
         self.profileTabBarCoordinator = ProfileTabCoordinator()
         self.tabCoordinators = [mainTabBarCoordinator, secondTabBarCoordinator, chatsTabBarCoordinator,

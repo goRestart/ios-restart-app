@@ -7,5 +7,5 @@
 //
 
 protocol CategoriesTabNavigator: TabNavigator {
-
+    func openMainProducts(with filters: ProductFilters)
 }

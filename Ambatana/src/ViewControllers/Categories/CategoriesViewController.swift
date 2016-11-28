@@ -110,13 +110,7 @@ class CategoriesViewController: BaseViewController, CategoriesViewModelDelegate,
     }
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        
-        guard let productsViewModel = viewModel.productsViewModelForCategoryAtIndex(indexPath.row) else {
-            return
-        }
-        
-        let categoriesVC = MainProductsViewController(viewModel: productsViewModel)
-        self.navigationController?.pushViewController(categoriesVC, animated: true)
+        viewModel.didSelectItemAtIndex(indexPath.row)
     }
 
     private func setAccessibilityIds() {
