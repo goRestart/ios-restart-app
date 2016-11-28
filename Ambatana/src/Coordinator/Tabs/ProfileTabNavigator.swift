@@ -6,12 +6,14 @@
 //  Copyright © 2016 Ambatana. All rights reserved.
 //
 
+import FBSDKShareKit
+
 protocol ProfileTabNavigator: TabNavigator {
     func openSettings()
 }
 
 protocol SettingsNavigator: class {
-    func showFbAppInvite()
+    func showFbAppInvite(content: FBSDKAppInviteContent)
     func openEditUserName()
     func openEditLocation()
     func openCreateCommercials()

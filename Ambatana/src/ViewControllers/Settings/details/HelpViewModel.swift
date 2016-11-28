@@ -48,11 +48,12 @@ public class HelpViewModel: BaseViewModel {
     }
     
     func openInternalUrl(type: HelpURLType) {
-        guard let url = privacyURL else { return }
         switch type {
         case .Privacy:
+            guard let url = privacyURL else { return }
             navigator?.openPrivacy(url)
         case .Terms:
+            guard let url = termsAndConditionsURL else { return }
             navigator?.openTerms(url)
         }
     }

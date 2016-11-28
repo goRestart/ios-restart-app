@@ -32,7 +32,6 @@ struct SettingsSection {
 
 protocol SettingsViewModelDelegate: BaseViewModelDelegate {
     func vmOpenImagePick()
-    func vmOpenFbAppInvite(content: FBSDKAppInviteContent)
 }
 
 class SettingsViewModel: BaseViewModel {
@@ -204,7 +203,7 @@ class SettingsViewModel: BaseViewModel {
             let content = FBSDKAppInviteContent()
             content.appLinkURL = NSURL(string: Constants.facebookAppLinkURL)
             content.appInvitePreviewImageURL = NSURL(string: Constants.facebookAppInvitePreviewImageURL)
-            delegate?.vmOpenFbAppInvite(content)
+            navigator?.showFbAppInvite(content)
             let trackerEvent = TrackerEvent.appInviteFriend(.Facebook, typePage: .Settings)
             tracker.trackEvent(trackerEvent)
         case .ChangePhoto:
