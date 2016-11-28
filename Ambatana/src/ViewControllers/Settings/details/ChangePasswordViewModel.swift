@@ -141,9 +141,7 @@ public class ChangePasswordViewModel: BaseViewModel {
 
     
     public func passwordChangedCorrectly() {
-        if let navigator = navigator {
-            navigator.closeChangePassword()
-        }
+        navigator?.closeChangePassword()
     }
     
     
