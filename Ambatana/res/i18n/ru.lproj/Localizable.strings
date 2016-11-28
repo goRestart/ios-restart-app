@@ -72,8 +72,8 @@
 "chat_deleted_disclaimer_w_name" = "Вы не можете продолжать чат, так как аккаунт %@ больше не активен.";
 "chat_deleted_disclaimer_wo_name" = "Вы не можете продолжать чат, так как этот аккаунт больше не активен.";
 "chat_disclaimer_letgo_team" = "КОМАНДА LETGO";
-"chat_express_banner_button_title" = "See Deals";
-"chat_express_banner_title" = "Related deals near you";
+"chat_express_banner_button_title" = "Предложения";
+"chat_express_banner_title" = "Похожие предложения рядом";
 "chat_express_contact_one_button_text" = "Связаться с продавцом";
 "chat_express_contact_sellers_label" = "Свяжитесь с продавцами, пока другие покупатели не перехватили товар!";
 "chat_express_contact_various_button_text" = "Связаться с продавцами %@";
@@ -290,11 +290,11 @@
 "main_sign_up_error_request_already_sent" = "Ваш запрос обрабатывается. Пожалуйста, подождите перед следующей попыткой.";
 "main_sign_up_error_user_rejected" = "Указанный е-мейл или пароль некорректен. Пожалуйста, проверьте их и попробуйте еще раз.";
 "main_sign_up_facebook_connect_button" = "Вход через Facebook";
-"main_sign_up_facebook_connect_button_w_name" = "Log in as %@";
+"main_sign_up_facebook_connect_button_w_name" = "Войти как %@";
 "main_sign_up_fb_connect_error_email_taken" = "Ваш e-mail уже зарегистрирован. Пожалуйста, используйте его для входа.";
 "main_sign_up_fb_connect_error_generic" = "Вход невозможен. Пожалуйста, попробуйте еще раз.";
 "main_sign_up_google_connect_button" = "Вход через Google";
-"main_sign_up_google_connect_button_w_name" = "Log in as %@";
+"main_sign_up_google_connect_button_w_name" = "Войти как %@";
 "main_sign_up_help_button" = "Помощь";
 "main_sign_up_log_in_label" = "Войти";
 "main_sign_up_or_label" = "ИЛИ ЧЕРЕЗ E-MAIL";
@@ -384,6 +384,9 @@
 "product_delete_confirm_ok_button" = "Я не хочу его продавать";
 "product_delete_confirm_sold_button" = "Уже продал";
 "product_delete_confirm_title" = "Удалить товар";
+"product_delete_post_button_title" = "Разместить другой товар";
+"product_delete_post_subtitle" = "Попробуйте разместить что-либо еще и начинайте получать деньги.";
+"product_delete_post_title" = "НЕ ПОВЕЗЛО НА ЭТОТ РАЗ?";
 "product_delete_send_error_generic" = "Упс! Мы не смогли удалить товар. Пожалуйста, попробуйте еще раз.";
 "product_delete_sold_confirm_message" = "Вы точно хотите удалить этот товар?";
 "product_delete_success_message" = "Ваш продукт был успешно удален.";
@@ -414,6 +417,8 @@
 "product_mark_as_sold_free_success_message" = "Поздравляем! Ваш товар отмечен как отданный";
 "product_mark_as_sold_success_message" = "Поздравляем! Ваш продукт был продан!";
 "product_more_info_open_button" = "ЕЩЕ";
+"product_more_info_related_title" = "YOU MIGHT BE INTERESTED IN:";
+"product_more_info_related_view_more" = "View more";
 "product_more_info_tooltip_part_1" = "Нажмите";
 "product_more_info_tooltip_part_2" = "%@ просмотреть больше информации";
 "product_negotiable_price" = "Обсуждаема";
@@ -636,8 +641,8 @@
 "settings_invite_facebook_friends_button" = "Пригласить друзей из Facebook";
 "settings_invite_facebook_friends_error" = "Произошла ошибка при отправке приглашения.";
 "settings_invite_facebook_friends_ok" = "Ваше приглашение успешно размещено!";
-"settings_logout_alert_message" = "Are you sure you want to log out?";
-"settings_logout_alert_ok" = "Log out";
+"settings_logout_alert_message" = "Вы точно хотите выйти?";
+"settings_logout_alert_ok" = "Выйти";
 "settings_logout_button" = "Выйти";
 "settings_marketing_notifications_switch" = "Маркетинговые уведомления";
 "settings_section_profile" = "Профиль";

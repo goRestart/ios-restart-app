@@ -72,8 +72,8 @@
 "chat_deleted_disclaimer_w_name" = "Nem tudod folytatni a beszélgetést, mert %@ fiókja már nem aktív.";
 "chat_deleted_disclaimer_wo_name" = "Nem tudod folytatni a beszélgetést, mert ez a fiók már nem aktív.";
 "chat_disclaimer_letgo_team" = "A LETGO CSAPATA";
-"chat_express_banner_button_title" = "See Deals";
-"chat_express_banner_title" = "Related deals near you";
+"chat_express_banner_button_title" = "Alkalmi vételek";
+"chat_express_banner_title" = "Kapcsolódó alkalmi vételek a közelben";
 "chat_express_contact_one_button_text" = "Üzenet 1 eladónak";
 "chat_express_contact_sellers_label" = "Lépj kapcsolatba az eladókkal, mielőtt mások elhappolják!";
 "chat_express_contact_various_button_text" = "Üzenet %@ eladónak";
@@ -290,11 +290,11 @@
 "main_sign_up_error_request_already_sent" = "Kérésed már feldolgozás alatt van. Várj egy kicsit, mielőtt újra próbálkoznál.";
 "main_sign_up_error_user_rejected" = "A megadott e-mail cím helytelen. Ellenőrizd, majd próbálkozz újra.";
 "main_sign_up_facebook_connect_button" = "Folytatás a Facebookkal";
-"main_sign_up_facebook_connect_button_w_name" = "Log in as %@";
+"main_sign_up_facebook_connect_button_w_name" = "Bejelentkezés mint %@";
 "main_sign_up_fb_connect_error_email_taken" = "Már tartozik regisztráció az e-mail címedhez. Jelentkezz be vele!";
 "main_sign_up_fb_connect_error_generic" = "A bejelentkezés sikertelen, próbálkozz újra.";
 "main_sign_up_google_connect_button" = "Google-csatlakozás";
-"main_sign_up_google_connect_button_w_name" = "Log in as %@";
+"main_sign_up_google_connect_button_w_name" = "Bejelentkezés mint %@";
 "main_sign_up_help_button" = "Segítség";
 "main_sign_up_log_in_label" = "Bejelentkezés";
 "main_sign_up_or_label" = "VAGY E-MAIL";
@@ -384,6 +384,9 @@
 "product_delete_confirm_ok_button" = "Nem akarom eladni";
 "product_delete_confirm_sold_button" = "Már eladtam";
 "product_delete_confirm_title" = "Portéka törlése";
+"product_delete_post_button_title" = "Meghirdetek valami mást";
+"product_delete_post_subtitle" = "Próbálj meghirdetni valami mást, hogy pénzt kereshess.";
+"product_delete_post_title" = "NEM JÁRTÁL SIKERREL?";
 "product_delete_send_error_generic" = "Hoppá! Nem sikerült törölni a portékát. Próbálkozz újra!";
 "product_delete_sold_confirm_message" = "Biztosan törölni szerenéd ezt a portékát?";
 "product_delete_success_message" = "Portékád törlése sikeres.";
@@ -414,6 +417,8 @@
 "product_mark_as_sold_free_success_message" = "Gratulálunk! Portékád sikeresen elajándékozottá vált";
 "product_mark_as_sold_success_message" = "Gratulálunk, a portéka sikeresen megjelölve eladottként!";
 "product_more_info_open_button" = "RÉSZLETEK";
+"product_more_info_related_title" = "TALÁN ÉRDEKEL:";
+"product_more_info_related_view_more" = "Továbbiak";
 "product_more_info_tooltip_part_1" = "Koppints";
 "product_more_info_tooltip_part_2" = "%@ a részletekért";
 "product_negotiable_price" = "Alkudható";
@@ -636,8 +641,8 @@
 "settings_invite_facebook_friends_button" = "Szólj másoknak is";
 "settings_invite_facebook_friends_error" = "Hiba történt a meghívó megosztása során.";
 "settings_invite_facebook_friends_ok" = "A meghívó sikeresen megosztottad!";
-"settings_logout_alert_message" = "Are you sure you want to log out?";
-"settings_logout_alert_ok" = "Log out";
+"settings_logout_alert_message" = "Biztosan ki szeretnél jelentkezni?";
+"settings_logout_alert_ok" = "Kijelentkezés";
 "settings_logout_button" = "Kijelentkezés";
 "settings_marketing_notifications_switch" = "Marketinges értesítések";
 "settings_section_profile" = "Profil";

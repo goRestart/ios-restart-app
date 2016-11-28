@@ -1567,6 +1567,18 @@ struct LGLocalizedString {
 		return NSLocalizedString("product_delete_success_message", comment: "")
 	}
 
+	static var productDeletePostButtonTitle: String {
+		return NSLocalizedString("product_delete_post_button_title", comment: "")
+	}
+
+	static var productDeletePostTitle: String {
+		return NSLocalizedString("product_delete_post_title", comment: "")
+	}
+
+	static var productDeletePostSubtitle: String {
+		return NSLocalizedString("product_delete_post_subtitle", comment: "")
+	}
+
 	static func productDistanceMoreThanFromYou(var1: String) -> String {
 		return String(format: NSLocalizedString("product_distance_more_than_from_you", comment: ""), var1)
 	}
@@ -1699,6 +1711,14 @@ struct LGLocalizedString {
 		return NSLocalizedString("product_more_info_open_button", comment: "")
 	}
 
+	static var productMoreInfoRelatedTitle: String {
+		return NSLocalizedString("product_more_info_related_title", comment: "")
+	}
+
+	static var productMoreInfoRelatedViewMore: String {
+		return NSLocalizedString("product_more_info_related_view_more", comment: "")
+	}
+
 	static var productNegotiablePrice: String {
 		return NSLocalizedString("product_negotiable_price", comment: "")
 	}
@@ -1821,6 +1841,10 @@ struct LGLocalizedString {
 
 	static var productPostGalleryLoadImageErrorTitle: String {
 		return NSLocalizedString("product_post_gallery_load_image_error_title", comment: "")
+	}
+
+	static var productPostGalleryMultiplePicsSelected: String {
+		return NSLocalizedString("product_post_gallery_multiple_pics_selected", comment: "")
 	}
 
 	static var productPostGalleryPermissionsButton: String {
@@ -2289,6 +2313,10 @@ struct LGLocalizedString {
 
 	static var ratingViewTitleLabelUppercase: String {
 		return NSLocalizedString("rating_view_title_label_uppercase", comment: "")
+	}
+
+	static var relatedItemsTitle: String {
+		return NSLocalizedString("related_items_title", comment: "")
 	}
 
 	static var reportUserCounterfeit: String {

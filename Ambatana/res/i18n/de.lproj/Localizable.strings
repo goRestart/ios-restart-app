@@ -72,8 +72,8 @@
 "chat_deleted_disclaimer_w_name" = "Du kannst dieses Gespräch nicht fortführen, weil das Benutzerkonto von %@ nicht mehr aktiv ist.";
 "chat_deleted_disclaimer_wo_name" = "Du kannst dieses Gespräch nicht fortführen, weil dieses Benutzerkonto nicht mehr aktiv ist.";
 "chat_disclaimer_letgo_team" = "LETGO-TEAM";
-"chat_express_banner_button_title" = "See Deals";
-"chat_express_banner_title" = "Related deals near you";
+"chat_express_banner_button_title" = "Angebote ansehen";
+"chat_express_banner_title" = "Passende Angebote in deiner Nähe";
 "chat_express_contact_one_button_text" = "Kontaktiere 1 Verkäufer";
 "chat_express_contact_sellers_label" = "Schreibe den Verkäufer an, bevor jemand anderes sie wegschnappt!";
 "chat_express_contact_various_button_text" = "Kontaktiere %@ Verkäufer";
@@ -290,11 +290,11 @@
 "main_sign_up_error_request_already_sent" = "Deine Anfrage wurde bereits bearbeitet. Bitte warte ein wenig, bevor du es erneut versuchst.";
 "main_sign_up_error_user_rejected" = "Die eingegebene E-Mail-Adresse ist falsch. Bitte überprüfe deine Eingabe und versuche es erneut.";
 "main_sign_up_facebook_connect_button" = "Mit Facebook anmelden";
-"main_sign_up_facebook_connect_button_w_name" = "Log in as %@";
+"main_sign_up_facebook_connect_button_w_name" = "Anmelden als %@";
 "main_sign_up_fb_connect_error_email_taken" = "Deine E-Mail-Adresse ist bereits registriert. Bitte nutze sie, um dich anzumelden.";
 "main_sign_up_fb_connect_error_generic" = "Anmeldung fehlgeschlagen. Bitte versuche es erneut.";
 "main_sign_up_google_connect_button" = "Mit Google anmelden";
-"main_sign_up_google_connect_button_w_name" = "Log in as %@";
+"main_sign_up_google_connect_button_w_name" = "Anmelden als %@";
 "main_sign_up_help_button" = "Hilfe";
 "main_sign_up_log_in_label" = "Anmelden";
 "main_sign_up_or_label" = "ODER E-MAIL-ADRESSE";
@@ -384,6 +384,9 @@
 "product_delete_confirm_ok_button" = "Ich möchte es nicht verkaufen";
 "product_delete_confirm_sold_button" = "Ich habe es bereits verkauft";
 "product_delete_confirm_title" = "Produkt löschen";
+"product_delete_post_button_title" = "Stelle ein anderes Produkt ein";
+"product_delete_post_subtitle" = "Versuche etwas anderes einzustellen und fange an Geld zu verdienen.";
+"product_delete_post_title" = "DIESMAL KEIN GLÜCK GEHABT?";
 "product_delete_send_error_generic" = "Hoppla! Wir konnten dein Produkt leider nicht löschen. Bitte versuche es erneut.";
 "product_delete_sold_confirm_message" = "Bist du sicher, dass du dieses Produkt löschen möchtest?";
 "product_delete_success_message" = "Dein Produkt wurde erfolgreich gelöscht.";
@@ -414,6 +417,8 @@
 "product_mark_as_sold_free_success_message" = "Glückwunsch! Dein Produkt wurde erfolgreich als verschenkt markiert";
 "product_mark_as_sold_success_message" = "Glückwunsch, dein Produkt wurde erfolgreich als verkauft markiert!";
 "product_more_info_open_button" = "WEITERE INFOS";
+"product_more_info_related_title" = "YOU MIGHT BE INTERESTED IN:";
+"product_more_info_related_view_more" = "View more";
 "product_more_info_tooltip_part_1" = "Drücke";
 "product_more_info_tooltip_part_2" = "%@ für weitere Infos";
 "product_negotiable_price" = "Verhandelbar";
@@ -636,8 +641,8 @@
 "settings_invite_facebook_friends_button" = "Lade Facebook-Freunde ein";
 "settings_invite_facebook_friends_error" = "Beim Teilen deiner Einladung ist ein Fehler aufgetreten.";
 "settings_invite_facebook_friends_ok" = "Deine Einladung wurde erfolgreich geteilt!";
-"settings_logout_alert_message" = "Are you sure you want to log out?";
-"settings_logout_alert_ok" = "Log out";
+"settings_logout_alert_message" = "Bist du sicher, dass du dich abmelden möchtest?";
+"settings_logout_alert_ok" = "Abmelden";
 "settings_logout_button" = "Abmelden";
 "settings_marketing_notifications_switch" = "Marketing-Benachrichtigungen";
 "settings_section_profile" = "Profil";

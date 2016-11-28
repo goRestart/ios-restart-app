@@ -72,8 +72,8 @@
 "chat_deleted_disclaimer_w_name" = "Du kan ikke fortsette denne samtalen, fordi %@'s konto ikke lenger er aktiv.";
 "chat_deleted_disclaimer_wo_name" = "Du kan ikke fortsette denne samtalen, fordi denne kontoen ikke lenger er aktiv.";
 "chat_disclaimer_letgo_team" = "LETGO TEAMET";
-"chat_express_banner_button_title" = "See Deals";
-"chat_express_banner_title" = "Related deals near you";
+"chat_express_banner_button_title" = "Se dealer";
+"chat_express_banner_title" = "Relaterte dealer i ditt område";
 "chat_express_contact_one_button_text" = "Kontakt 1 selger";
 "chat_express_contact_sellers_label" = "Kontakt disse selgere før andre kjøpere får sjansen!";
 "chat_express_contact_various_button_text" = "Kontakt %@ selgere";
@@ -290,11 +290,11 @@
 "main_sign_up_error_request_already_sent" = "Din forespørsel er allerede prosessert. Vennligst vent før du prøver igjen.";
 "main_sign_up_error_user_rejected" = "E-postadressen du valgte er ugyldig. Vennligst sjekk og prøv igjen.";
 "main_sign_up_facebook_connect_button" = "Fortsett med Facebook";
-"main_sign_up_facebook_connect_button_w_name" = "Log in as %@";
+"main_sign_up_facebook_connect_button_w_name" = "Logg inn som %@";
 "main_sign_up_fb_connect_error_email_taken" = "Din e-postadresse er allerede registrert. Vennligst bruk den til å logge inn.";
 "main_sign_up_fb_connect_error_generic" = "Feil ved innlogging. Vennligst prøv igjen.";
 "main_sign_up_google_connect_button" = "Fortsett med Google";
-"main_sign_up_google_connect_button_w_name" = "Log in as %@";
+"main_sign_up_google_connect_button_w_name" = "Logg inn som %@";
 "main_sign_up_help_button" = "Hjelp";
 "main_sign_up_log_in_label" = "Logg inn";
 "main_sign_up_or_label" = "ELLER BRUK DIN E-POST";
@@ -384,6 +384,9 @@
 "product_delete_confirm_ok_button" = "Jeg ønsker ikke å selge produktet";
 "product_delete_confirm_sold_button" = "Jeg har allerede solgt produktet";
 "product_delete_confirm_title" = "Slett produktet";
+"product_delete_post_button_title" = "Publiser et nytt produkt";
+"product_delete_post_subtitle" = "Prøv å publisere noe annet og sett i gang inntjeningen.";
+"product_delete_post_title" = "Fikk du ikke solgt produktet?";
 "product_delete_send_error_generic" = "Oops! Vi kunne ikke slette produktet ditt. Vennligst prøv igjen.";
 "product_delete_sold_confirm_message" = "Er du sikker på at du vil slette dette produktet?";
 "product_delete_success_message" = "Sletting av ditt produkt var vellykket.";
@@ -414,6 +417,8 @@
 "product_mark_as_sold_free_success_message" = "Gratulerer! Ditt produkt har blitt markert som gitt bort";
 "product_mark_as_sold_success_message" = "Gratulerer, ditt produkt ble merket som solgt!";
 "product_more_info_open_button" = "MER INFO";
+"product_more_info_related_title" = "YOU MIGHT BE INTERESTED IN:";
+"product_more_info_related_view_more" = "View more";
 "product_more_info_tooltip_part_1" = "Trykk";
 "product_more_info_tooltip_part_2" = "%@ for å se mer info";
 "product_negotiable_price" = "Kan diskuteres";
@@ -636,8 +641,8 @@
 "settings_invite_facebook_friends_button" = "Inviter Facebook-venner";
 "settings_invite_facebook_friends_error" = "En feil oppstod ved deling av din invitasjon.";
 "settings_invite_facebook_friends_ok" = "Din invitasjon ble delt!";
-"settings_logout_alert_message" = "Are you sure you want to log out?";
-"settings_logout_alert_ok" = "Log out";
+"settings_logout_alert_message" = "Er du sikker på at du vil logge ut?";
+"settings_logout_alert_ok" = "Logg ut";
 "settings_logout_button" = "Logg ut";
 "settings_marketing_notifications_switch" = "Reklamevarslinger";
 "settings_section_profile" = "Profil";
