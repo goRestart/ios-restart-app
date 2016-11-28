@@ -417,6 +417,8 @@
 "product_mark_as_sold_free_success_message" = "¡Enhorabuena! Tu artículo ha sido marcado como regalado";
 "product_mark_as_sold_success_message" = "¡Enhorabuena, tu producto ha sido marcado como vendido!";
 "product_more_info_open_button" = "MÁS INFO";
+"product_more_info_related_title" = "YOU MIGHT BE INTERESTED IN:";
+"product_more_info_related_view_more" = "View more";
 "product_more_info_tooltip_part_1" = "Pulsa";
 "product_more_info_tooltip_part_2" = "%@ para ver más detalles";
 "product_negotiable_price" = "Negociable";

@@ -417,6 +417,8 @@
 "product_mark_as_sold_free_success_message" = "축하드립니다! 상품이 증정완료로 표시되었습니다";
 "product_mark_as_sold_success_message" = "축하드립니다, 고객님의 제품이 품절로 표시되었습니다.";
 "product_more_info_open_button" = "더 많은 정보";
+"product_more_info_related_title" = "YOU MIGHT BE INTERESTED IN:";
+"product_more_info_related_view_more" = "View more";
 "product_more_info_tooltip_part_1" = "탭";
 "product_more_info_tooltip_part_2" = "%@ 더 많은 정보 확인하기";
 "product_negotiable_price" = "흥정가능한";

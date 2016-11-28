@@ -417,6 +417,8 @@
 "product_mark_as_sold_free_success_message" = "Tebrikler! Ürünün başarıyla ücretsiz verildi olarak işaretlendi";
 "product_mark_as_sold_success_message" = "Tebrikler, ürünün satıldı olarak işaretlendi!";
 "product_more_info_open_button" = "DAHA FAZLA BİLGİ";
+"product_more_info_related_title" = "YOU MIGHT BE INTERESTED IN:";
+"product_more_info_related_view_more" = "View more";
 "product_more_info_tooltip_part_1" = "dokun";
 "product_more_info_tooltip_part_2" = "Daha fazla bilgi için %@";
 "product_negotiable_price" = "Pazarlık edilebilir";

@@ -417,6 +417,8 @@
 "product_mark_as_sold_free_success_message" = "Félicitations ! Votre produit a été indiqué comme donné avec succès";
 "product_mark_as_sold_success_message" = "Félicitations, votre produit a été indiqué comme vendu !";
 "product_more_info_open_button" = "PLUS D'INFO";
+"product_more_info_related_title" = "YOU MIGHT BE INTERESTED IN:";
+"product_more_info_related_view_more" = "View more";
 "product_more_info_tooltip_part_1" = "Sélectionnez";
 "product_more_info_tooltip_part_2" = "%@ pour voir plus d'infos";
 "product_negotiable_price" = "Négociable";

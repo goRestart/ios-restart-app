@@ -384,9 +384,9 @@
 "product_delete_confirm_ok_button" = "Nem akarom eladni";
 "product_delete_confirm_sold_button" = "Már eladtam";
 "product_delete_confirm_title" = "Portéka törlése";
-"product_delete_post_button_title" = "Mást is meghirdetek";
-"product_delete_post_subtitle" = "Try posting something else and start making money.";
-"product_delete_post_title" = "NO LUCK THIS TIME?";
+"product_delete_post_button_title" = "Meghirdetek valami mást";
+"product_delete_post_subtitle" = "Próbálj meghirdetni valami mást, hogy pénzt kereshess.";
+"product_delete_post_title" = "NEM JÁRTÁL SIKERREL?";
 "product_delete_send_error_generic" = "Hoppá! Nem sikerült törölni a portékát. Próbálkozz újra!";
 "product_delete_sold_confirm_message" = "Biztosan törölni szerenéd ezt a portékát?";
 "product_delete_success_message" = "Portékád törlése sikeres.";
@@ -417,6 +417,8 @@
 "product_mark_as_sold_free_success_message" = "Gratulálunk! Portékád sikeresen elajándékozottá vált";
 "product_mark_as_sold_success_message" = "Gratulálunk, a portéka sikeresen megjelölve eladottként!";
 "product_more_info_open_button" = "RÉSZLETEK";
+"product_more_info_related_title" = "TALÁN ÉRDEKEL:";
+"product_more_info_related_view_more" = "Továbbiak";
 "product_more_info_tooltip_part_1" = "Koppints";
 "product_more_info_tooltip_part_2" = "%@ a részletekért";
 "product_negotiable_price" = "Alkudható";

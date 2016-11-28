@@ -417,6 +417,8 @@
 "product_mark_as_sold_free_success_message" = "Chúc mừng! Sản phẩm đã được đánh dấu đã tặng thành công";
 "product_mark_as_sold_success_message" = "Chúc mừng, sản phẩm của bạn đã được đánh dấu đã bán!";
 "product_more_info_open_button" = "THÊM THÔNG TIN";
+"product_more_info_related_title" = "YOU MIGHT BE INTERESTED IN:";
+"product_more_info_related_view_more" = "View more";
 "product_more_info_tooltip_part_1" = "Chạm";
 "product_more_info_tooltip_part_2" = "%@ để xem thêm thông tin";
 "product_negotiable_price" = "Có thể thương lượng";
