@@ -203,7 +203,7 @@ class SettingsViewModel: BaseViewModel {
             let content = FBSDKAppInviteContent()
             content.appLinkURL = NSURL(string: Constants.facebookAppLinkURL)
             content.appInvitePreviewImageURL = NSURL(string: Constants.facebookAppInvitePreviewImageURL)
-            guard let delegate = self as? FBSDKAppInviteDialogDelegate else { return }
+            guard let delegate = delegate as? FBSDKAppInviteDialogDelegate else { return }
             navigator?.showFbAppInvite(content, delegate: delegate)
             let trackerEvent = TrackerEvent.appInviteFriend(.Facebook, typePage: .Settings)
             tracker.trackEvent(trackerEvent)

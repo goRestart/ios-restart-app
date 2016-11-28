@@ -179,7 +179,7 @@ class ChangePasswordViewController: BaseViewController, UITextFieldDelegate, Cha
         
         if isRootViewController() {
             let closeButton = UIBarButtonItem(image: UIImage(named: "navbar_close"), style: .Plain, target: self,
-                action: #selector(ChangePasswordViewController.popBackViewController))
+                action: #selector(popBackViewController))
             navigationItem.leftBarButtonItem = closeButton
         }
         
