@@ -10,7 +10,7 @@ import LGCoreKit
 import Result
 import UIKit
 
-class ChangePasswordViewController: UIViewController, UITextFieldDelegate, ChangePasswordViewModelDelegate {
+class ChangePasswordViewController: BaseViewController, UITextFieldDelegate, ChangePasswordViewModelDelegate {
     
     // outlets & buttons
     @IBOutlet weak var passwordTextfield: LGTextField!
@@ -28,7 +28,7 @@ class ChangePasswordViewController: UIViewController, UITextFieldDelegate, Chang
     init(viewModel: ChangePasswordViewModel) {
         self.viewModel = viewModel
         self.lines = []
-        super.init(nibName: "ChangePasswordViewController", bundle: NSBundle.mainBundle())
+        super.init(viewModel:viewModel, nibName: "ChangePasswordViewController")
         self.viewModel.delegate = self
     }
     
@@ -145,8 +145,8 @@ class ChangePasswordViewController: UIViewController, UITextFieldDelegate, Chang
                     self.passwordTextfield.text = ""
                     self.confirmPasswordTextfield.text = ""
                     
-                    self.showAutoFadingOutMessageAlert(LGLocalizedString.changePasswordSendOk) { [weak self] in
-                        self?.navigationController?.popViewControllerAnimated(true)
+                    self.showAutoFadingOutMessageAlert(LGLocalizedString.changePasswordSendOk) { _ in
+                        viewModel.passwordChangedCorrectly()
                     }
                 }
                 break
@@ -172,12 +172,6 @@ class ChangePasswordViewController: UIViewController, UITextFieldDelegate, Chang
         sendButton.enabled = enabled
     }
     
-    func closeButtonPressed() {
-        if isRootViewController() {
-            dismissViewControllerAnimated(true, completion: nil)
-        }
-    }
-    
     
     // MARK: Private methods
     
@@ -185,7 +179,7 @@ class ChangePasswordViewController: UIViewController, UITextFieldDelegate, Chang
         
         if isRootViewController() {
             let closeButton = UIBarButtonItem(image: UIImage(named: "navbar_close"), style: .Plain, target: self,
-                action: #selector(ChangePasswordViewController.closeButtonPressed))
+                action: #selector(popBackViewController))
             navigationItem.leftBarButtonItem = closeButton
         }
         
