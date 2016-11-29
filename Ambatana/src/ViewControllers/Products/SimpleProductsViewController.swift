@@ -27,7 +27,6 @@ class SimpleProductsViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
         setupUI()
     }
 
