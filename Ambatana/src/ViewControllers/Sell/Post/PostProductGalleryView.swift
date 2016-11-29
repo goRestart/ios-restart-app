@@ -216,7 +216,7 @@ extension PostProductGalleryView: UICollectionViewDataSource, UICollectionViewDe
                 galleryCell.selected = true
                 collectionView.selectItemAtIndexPath(indexPath, animated: false, scrollPosition: .None)
                 if let position = viewModel.positionsSelected.value.indexOf(indexPath.item) {
-                    galleryCell.selectedCountlabel.text = "\(position + 1)"
+                    galleryCell.multipleSelectionCountLabel.text = "\(position + 1)"
                 }
             } else if viewModel.imagesSelectedCount.value >= viewModel.maxImagesSelected {
                 galleryCell.disabled = viewModel.multiSelectionEnabled

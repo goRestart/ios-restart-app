@@ -53,6 +53,7 @@ class GalleryImageCell: UICollectionViewCell, ReusableCell {
         simpleSelectionCheckView.layer.borderColor = UIColor.whiteColor().CGColor
 
         multipleSelectionCountLabel.layer.borderWidth = 2
+        multipleSelectionCountLabel.layer.cornerRadius = LGUIKitConstants.productCellCornerRadius
         multipleSelectionCountLabel.layer.borderColor = UIColor.whiteColor().CGColor
     }
 
@@ -63,5 +64,8 @@ class GalleryImageCell: UICollectionViewCell, ReusableCell {
 
         multipleSelectionCountLabel.hidden = true
         disabled = false
+
+        contentView.clipsToBounds = true
+        contentView.layer.cornerRadius = multipleSelectionEnabled ? LGUIKitConstants.productCellCornerRadius : 0
     }
 }
