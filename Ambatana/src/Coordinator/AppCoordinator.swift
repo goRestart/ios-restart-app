@@ -213,6 +213,12 @@ extension AppCoordinator: AppNavigator {
         tabBarCtl.presentViewController(viewController, animated: true, completion: nil)
     }
     
+    func openResetPassword(token: String) {
+        let changePasswordCoordinator = ChangePasswordCoordinator(token: token)
+        changePasswordCoordinator.delegate = self
+        openCoordinator(coordinator: changePasswordCoordinator, parent: tabBarCtl, animated: true, completion: nil)
+    }
+    
     func openNPSSurvey() {
         guard featureFlags.showNPSSurvey else { return }
         delay(3) { [weak self] in
@@ -307,6 +313,13 @@ extension AppCoordinator: UserRatingCoordinatorDelegate {
             tabBarCtl.showAppRatingView(EventParameterRatingSource.Chat)
         }
     }
+}
+
+// MARK: - ChangePasswordCoordinatorDelegate
+
+
+extension AppCoordinator: ChangePasswordCoordinatorDelegate {
+    func changePasswordCoordinatorDidCancel(coordinator: ChangePasswordCoordinator) {}
 }
 
 private extension AppCoordinator {
@@ -742,16 +755,6 @@ private extension AppCoordinator {
             if tabCoordinator.navigationController === navigationController { return tabCoordinator }
         }
         return nil
-    }
-
-    func openResetPassword(token: String) {
-        let viewModel = ChangePasswordViewModel(token: token)
-        viewModel.navigator = self
-        let vc = ChangePasswordViewController(viewModel: viewModel)
-        let navCtl = UINavigationController(rootViewController: vc)
-
-        // TODO: Should open a Reset Password coordinator child calling `openChild`
-        tabBarCtl.presentViewController(navCtl, animated: true, completion: nil)
     }
 
     func openMyUserRatings() {

@@ -569,6 +569,8 @@
 		72660D6A1DE598430001E487 /* NewRelicTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72660D681DE598430001E487 /* NewRelicTracker.swift */; };
 		72A83F641DD222100043EB3B /* Leanplum+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72A83F631DD222100043EB3B /* Leanplum+LG.swift */; };
 		72A83F651DD222100043EB3B /* Leanplum+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72A83F631DD222100043EB3B /* Leanplum+LG.swift */; };
+		72C99E9C1DED7417006361C1 /* ChangePasswordCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72C99E9B1DED7417006361C1 /* ChangePasswordCoordinator.swift */; };
+		72C99E9D1DED7417006361C1 /* ChangePasswordCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72C99E9B1DED7417006361C1 /* ChangePasswordCoordinator.swift */; };
 		B1BE6075C99CFB3D2FFD15B5 /* Pods_letgoTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2D3A9CDDF543002435A50F7 /* Pods_letgoTests.framework */; };
 		C703BDFE1C7F1AF900EC8EF2 /* EditLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C703BDFB1C7F1AF900EC8EF2 /* EditLocationViewController.swift */; };
 		C703BDFF1C7F1AF900EC8EF2 /* EditLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C703BDFB1C7F1AF900EC8EF2 /* EditLocationViewController.swift */; };
@@ -1535,6 +1537,7 @@
 		723A45C81DDC4D470001D02C /* UILabel+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UILabel+LG.swift"; sourceTree = "<group>"; };
 		72660D681DE598430001E487 /* NewRelicTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewRelicTracker.swift; sourceTree = "<group>"; };
 		72A83F631DD222100043EB3B /* Leanplum+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Leanplum+LG.swift"; sourceTree = "<group>"; };
+		72C99E9B1DED7417006361C1 /* ChangePasswordCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangePasswordCoordinator.swift; sourceTree = "<group>"; };
 		7B2FD4C296937E707B24D7EB /* Pods-LetGoGodMode.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetGoGodMode.release.xcconfig"; path = "Pods/Target Support Files/Pods-LetGoGodMode/Pods-LetGoGodMode.release.xcconfig"; sourceTree = "<group>"; };
 		7ED714BB7ABD1804F5E818D4 /* Pods-LetGo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetGo.release.xcconfig"; path = "Pods/Target Support Files/Pods-LetGo/Pods-LetGo.release.xcconfig"; sourceTree = "<group>"; };
 		7FF25262DBFA224AC937A467 /* Pods_LetGo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LetGo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -2381,6 +2384,7 @@
 				50D67B991D182EE9003AC0A5 /* SellCoordinator.swift */,
 				50D67B9C1D182F07003AC0A5 /* SellNavigator.swift */,
 				C74931751D3526EF00E117F1 /* UserRatingCoordinator.swift */,
+				72C99E9B1DED7417006361C1 /* ChangePasswordCoordinator.swift */,
 				C74931781D3533DE00E117F1 /* UserRatingNavigator.swift */,
 				C7732F711D883C7700EAD5B7 /* OnboardingCoordinator.swift */,
 				C7732F741D8842B800EAD5B7 /* OnboardingNavigator.swift */,
@@ -4696,6 +4700,7 @@
 				502191101B2F1DC100ABD31F /* RememberPasswordViewModel.swift in Sources */,
 				6A5E1A0E1D548F5400F92692 /* UILabel+Rx.swift in Sources */,
 				506DE2D51DCB6C9800006A91 /* ChatHeadGroupView.swift in Sources */,
+				72C99E9C1DED7417006361C1 /* ChangePasswordCoordinator.swift in Sources */,
 				50C59BDB1CE0DB6400377124 /* NSUserDefaults+KeyValueStorage.swift in Sources */,
 				C783D9811C64BBA1000EE5CA /* ReportUsersViewModel.swift in Sources */,
 				C77593F11BF0E48D0097D62F /* FilterHeaderCell.swift in Sources */,
@@ -5104,6 +5109,7 @@
 				50C59BDC1CE0DB6400377124 /* NSUserDefaults+KeyValueStorage.swift in Sources */,
 				506DE2D61DCB6C9800006A91 /* ChatHeadGroupView.swift in Sources */,
 				C783D9821C64BBA1000EE5CA /* ReportUsersViewModel.swift in Sources */,
+				72C99E9D1DED7417006361C1 /* ChangePasswordCoordinator.swift in Sources */,
 				2E9716AA1D5A284F009B3A32 /* ExpressChatViewController.swift in Sources */,
 				C7DB421C1C5138B500400945 /* FiltersViewController.swift in Sources */,
 				6AF75D081CF449AF00EACCF0 /* ChatViewMessage.swift in Sources */,
