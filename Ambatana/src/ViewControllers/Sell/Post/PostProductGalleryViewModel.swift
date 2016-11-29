@@ -337,7 +337,8 @@ class PostProductGalleryViewModel: BaseViewModel {
     }
 
     private func deselectImageAtIndex(index: Int) {
-        guard let selectedImageIndex = positionsSelected.value.indexOf(index) where 0..<imagesSelected.value.count ~= selectedImageIndex else { return }
+        guard let selectedImageIndex = positionsSelected.value.indexOf(index) where
+            0..<imagesSelected.value.count ~= selectedImageIndex && 0..<positionsSelected.value.count ~= selectedImageIndex else { return }
 
         imageSelectionEnabled.value = true
         imagesSelected.value.removeAtIndex(selectedImageIndex)

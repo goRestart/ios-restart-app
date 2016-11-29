@@ -150,9 +150,7 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
     var category: ProductCategory?
     var shouldShareInFB: Bool
 
-    var maxImageCount: Int {
-        return Constants.maxImageCount
-    }
+    let maxImageCount = Constants.maxImageCount
     
     var descr: String? {
         didSet {

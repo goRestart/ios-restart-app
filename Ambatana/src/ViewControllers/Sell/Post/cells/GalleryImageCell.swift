@@ -13,8 +13,8 @@ class GalleryImageCell: UICollectionViewCell, ReusableCell {
     static var reusableID = "GalleryImageCell"
 
     @IBOutlet weak var image: UIImageView!
-    @IBOutlet weak var selectedImage: UIImageView!
-    @IBOutlet weak var selectedCountlabel: UILabel!
+    @IBOutlet weak var simpleSelectionCheckView: UIImageView!
+    @IBOutlet weak var multipleSelectionCountLabel: UILabel!
     @IBOutlet weak var disabledView: UIView!
 
     var multipleSelectionEnabled: Bool = false
@@ -40,8 +40,8 @@ class GalleryImageCell: UICollectionViewCell, ReusableCell {
 
     override var selected: Bool {
         didSet {
-            selectedImage.hidden = !selected || multipleSelectionEnabled
-            selectedCountlabel.hidden = !selected || !multipleSelectionEnabled
+            simpleSelectionCheckView.hidden = !selected || multipleSelectionEnabled
+            multipleSelectionCountLabel.hidden = !selected || !multipleSelectionEnabled
         }
     }
 
@@ -49,19 +49,19 @@ class GalleryImageCell: UICollectionViewCell, ReusableCell {
 
     // Sets up the UI
     private func setupUI() {
-        selectedImage.layer.borderWidth = 2
-        selectedImage.layer.borderColor = UIColor.whiteColor().CGColor
+        simpleSelectionCheckView.layer.borderWidth = 2
+        simpleSelectionCheckView.layer.borderColor = UIColor.whiteColor().CGColor
 
-        selectedCountlabel.layer.borderWidth = 2
-        selectedCountlabel.layer.borderColor = UIColor.whiteColor().CGColor
+        multipleSelectionCountLabel.layer.borderWidth = 2
+        multipleSelectionCountLabel.layer.borderColor = UIColor.whiteColor().CGColor
     }
 
     // Resets the UI to the initial state
     private func resetUI() {
         image.image = nil
-        selectedImage.hidden = true
+        simpleSelectionCheckView.hidden = true
 
-        selectedCountlabel.hidden = true
+        multipleSelectionCountLabel.hidden = true
         disabled = false
     }
 }

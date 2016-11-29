@@ -61,8 +61,8 @@
             <connections>
                 <outlet property="disabledView" destination="dHz-qY-kZd" id="bk8-pM-YS3"/>
                 <outlet property="image" destination="on6-kw-wa9" id="PPM-CT-dS4"/>
-                <outlet property="selectedCountlabel" destination="6iW-HO-UUd" id="iMM-IA-PmE"/>
-                <outlet property="selectedImage" destination="LyS-KQ-1lI" id="723-4x-Z8y"/>
+                <outlet property="multipleSelectionCountLabel" destination="6iW-HO-UUd" id="2dI-6m-Uh7"/>
+                <outlet property="simpleSelectionCheckView" destination="LyS-KQ-1lI" id="qpE-52-J1n"/>
             </connections>
             <point key="canvasLocation" x="782.5" y="508"/>
         </collectionViewCell>
