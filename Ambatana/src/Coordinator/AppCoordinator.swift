@@ -315,13 +315,6 @@ extension AppCoordinator: UserRatingCoordinatorDelegate {
     }
 }
 
-// MARK: - ChangePasswordCoordinatorDelegate
-
-
-extension AppCoordinator: ChangePasswordCoordinatorDelegate {
-    func changePasswordCoordinatorDidCancel(coordinator: ChangePasswordCoordinator) {}
-}
-
 private extension AppCoordinator {
     func refreshSelectedProductsRefreshable() {
         guard let selectedVC = tabBarCtl.selectedViewController else { return }
@@ -362,7 +355,6 @@ private extension AppCoordinator {
         return true
     }
 }
-
 
 
 // MARK: - TabCoordinatorDelegate

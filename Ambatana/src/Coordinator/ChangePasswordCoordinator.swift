@@ -8,10 +8,6 @@
 
 import Foundation
 
-protocol ChangePasswordCoordinatorDelegate: CoordinatorDelegate {
-    func changePasswordCoordinatorDidCancel(coordinator: ChangePasswordCoordinator)
-}
-
 final class ChangePasswordCoordinator: Coordinator {
     var child: Coordinator?
     
@@ -19,7 +15,7 @@ final class ChangePasswordCoordinator: Coordinator {
     var viewController: UIViewController
     var presentedAlertController: UIAlertController?
     
-    weak var delegate: ChangePasswordCoordinatorDelegate?
+    weak var delegate: CoordinatorDelegate?
     
     
     // MARK: - Lifecycle
@@ -52,7 +48,6 @@ final class ChangePasswordCoordinator: Coordinator {
         let dismiss: () -> Void = { [weak self] in
             self?.viewController.dismissViewControllerAnimated(animated) { [weak self] in
                 guard let strongSelf = self else { return }
-                strongSelf.delegate?.changePasswordCoordinatorDidCancel(strongSelf)
                 strongSelf.delegate?.coordinatorDidClose(strongSelf)
                 completion?()
             }
