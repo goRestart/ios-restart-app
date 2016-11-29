@@ -36,6 +36,8 @@ public enum EventName: String {
     
     case ProductDetailVisit                 = "product-detail-visit"
     case ProductDetailVisitMoreInfo         = "product-detail-visit-more-info"
+    case MoreInfoRelatedItemsComplete       = "more-info-related-items-complete"
+    case MoreInfoRelatedItemsViewMore       = "more-info-related-items-view-more"
     
     case ProductFavorite                    = "product-detail-favorite"
     case ProductShare                       = "product-detail-share"
