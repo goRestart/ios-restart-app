@@ -436,9 +436,10 @@ public struct TrackerEvent {
         return TrackerEvent(name: .ProductSellConfirmation, params: params)
     }
 
-    static func productSellConfirmationPost(product: Product) -> TrackerEvent {
+    static func productSellConfirmationPost(product: Product, buttonType: EventParameterButtonType) -> TrackerEvent {
         var params = EventParameters()
         params[.ProductId] = product.objectId ?? ""
+        params[.ButtonType] = buttonType.rawValue
         return TrackerEvent(name: .ProductSellConfirmationPost, params: params)
     }
 
