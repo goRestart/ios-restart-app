@@ -149,4 +149,14 @@ extension ProductVMTrackHelper {
         let interestedUsersEvent = TrackerEvent.productDetailInterestedUsers(number, productId: productId)
         tracker.trackEvent(interestedUsersEvent)
     }
+
+    func trackMoreInfoRelatedItemsComplete(itemPosition: Int) {
+        let event = TrackerEvent.moreInfoRelatedItemsComplete(product, itemPosition: itemPosition)
+        tracker.trackEvent(event)
+    }
+
+    func trackMoreInfoRelatedItemsViewMore() {
+        let event = TrackerEvent.moreInfoRelatedItemsViewMore(product)
+        tracker.trackEvent(event)
+    }
 }

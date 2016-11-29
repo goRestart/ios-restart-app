@@ -195,11 +195,17 @@ class ProductPostedViewModel: BaseViewModel {
         case .Posting:
             break
         case let .Success(product):
-            trackEvent(TrackerEvent.productSellConfirmationPost(product))
+            trackEvent(TrackerEvent.productSellConfirmationPost(product, buttonType: .Button))
         case let .Error(error):
             trackEvent(TrackerEvent.productSellErrorPost(error))
         }
 
+        navigator?.closeProductPostedAndOpenPost()
+    }
+
+    func incentivateSectionPressed() {
+        guard let product = status.product else { return }
+        trackEvent(TrackerEvent.productSellConfirmationPost(product, buttonType: .ItemPicture))
         navigator?.closeProductPostedAndOpenPost()
     }
 

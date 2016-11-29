@@ -510,6 +510,11 @@ extension ProductViewModel {
         }, source: .Favourite)
     }
 
+    func openRelatedItems() {
+        trackHelper.trackMoreInfoRelatedItemsViewMore()
+        navigator?.openRelatedItems(product.value, productVisitSource: .MoreInfoRelated)
+    }
+
     func refreshInterestedBubble(fromFavoriteAction: Bool, forFirstProduct isFirstProduct: Bool) {
         // check that the bubble hasn't been shown yet for this product
         guard let productId = product.value.objectId where shouldShowInterestedBubbleForProduct(productId, fromFavoriteAction: fromFavoriteAction, forFirstProduct: isFirstProduct) else { return }
@@ -979,6 +984,20 @@ private extension ProductViewModel {
     private func sendFavoriteMessage() {
         sendMessage(.FavoritedProduct(LGLocalizedString.productFavoriteDirectMessage))
         favoriteMessageSent = true
+    }
+}
+
+
+// MARK: - RelatedProductsViewDelegate
+
+extension ProductViewModel: RelatedProductsViewDelegate {
+    func relatedProductsView(view: RelatedProductsView, showProduct product: Product, atIndex index: Int,
+                             productListModels: [ProductCellModel], requester: ProductListRequester,
+                             thumbnailImage: UIImage?, originFrame: CGRect?) {
+        trackHelper.trackMoreInfoRelatedItemsComplete(index)
+        let data = ProductDetailData.ProductList(product: product, cellModels: productListModels, requester: requester,
+                                                 thumbnailImage: thumbnailImage, originFrame: originFrame, showRelated: false, index: index)
+        navigator?.openProduct(data, source: .MoreInfoRelated)
     }
 }
 

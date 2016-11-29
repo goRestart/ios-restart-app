@@ -1244,14 +1244,14 @@ private extension ChatViewModel {
 
 // MARK: - Related products
 
-extension ChatViewModel: RelatedProductsViewDelegate {
+extension ChatViewModel: ChatRelatedProductsViewDelegate {
 
-    func relatedProductsViewDidShow(view: RelatedProductsView) {
+    func relatedProductsViewDidShow(view: ChatRelatedProductsView) {
         let relatedShownReason = EventParameterRelatedShownReason(chatInfoStatus: chatStatus.value)
         tracker.trackEvent(TrackerEvent.chatRelatedItemsStart(relatedShownReason))
     }
 
-    func relatedProductsView(view: RelatedProductsView, showProduct product: Product, atIndex index: Int,
+    func relatedProductsView(view: ChatRelatedProductsView, showProduct product: Product, atIndex index: Int,
                              productListModels: [ProductCellModel], requester: ProductListRequester,
                              thumbnailImage: UIImage?, originFrame: CGRect?) {
         let relatedShownReason = EventParameterRelatedShownReason(chatInfoStatus: chatStatus.value)

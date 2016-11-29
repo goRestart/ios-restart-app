@@ -25,7 +25,7 @@ class ChatViewController: SLKTextViewController {
     var showingStickers = false
     let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
     let relationInfoView = RelationInfoView.relationInfoView()   // informs if the user is blocked, or the product sold or inactive
-    let relatedProductsView: RelatedProductsView
+    let relatedProductsView: ChatRelatedProductsView
     let directAnswersPresenter: DirectAnswersPresenter
     let stickersView: ChatStickersView
     let stickersCloseButton: UIButton
@@ -52,7 +52,7 @@ class ChatViewController: SLKTextViewController {
     required init(viewModel: ChatViewModel, keyboardHelper: KeyboardHelper = KeyboardHelper.sharedInstance, featureFlags: FeatureFlaggeable = FeatureFlags.sharedInstance) {
         self.viewModel = viewModel
         self.productView = ChatProductView.chatProductView(featureFlags.userReviews)
-        self.relatedProductsView = RelatedProductsView()
+        self.relatedProductsView = ChatRelatedProductsView()
         self.directAnswersPresenter = DirectAnswersPresenter(websocketChatActive: featureFlags.websocketChat)
         self.stickersView = ChatStickersView()
         self.stickersCloseButton = UIButton(frame: CGRect.zero)

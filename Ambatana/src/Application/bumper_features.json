@@ -90,6 +90,11 @@
         "description": "Commercializer after posting"
     },
     {
+        "name": "RelatedProductsOnMoreInfo",
+        "values": ["No", "Yes"],
+        "description": "Related Products on More Info"
+    },
+    {
         "name": "ShareAfterPosting",
         "values": ["No", "Yes"],
         "description": "Show sharing screen after posting (forced)"

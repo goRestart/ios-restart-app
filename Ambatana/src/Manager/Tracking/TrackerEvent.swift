@@ -228,11 +228,23 @@ public struct TrackerEvent {
         return TrackerEvent(name: .ProductDetailVisit, params: params)
     }
 
-    
     static func productDetailVisitMoreInfo(product: Product) -> TrackerEvent {
         var params = EventParameters()
         params.addProductParams(product)
         return TrackerEvent(name: .ProductDetailVisitMoreInfo, params: params)
+    }
+
+    static func moreInfoRelatedItemsComplete(product: Product, itemPosition: Int) -> TrackerEvent {
+        var params = EventParameters()
+        params.addProductParams(product)
+        params[.ItemPosition] = itemPosition
+        return TrackerEvent(name: .MoreInfoRelatedItemsComplete, params: params)
+    }
+
+    static func moreInfoRelatedItemsViewMore(product: Product) -> TrackerEvent {
+        var params = EventParameters()
+        params.addProductParams(product)
+        return TrackerEvent(name: .MoreInfoRelatedItemsViewMore, params: params)
     }
 
     static func productFavorite(product: Product, typePage: EventParameterTypePage) -> TrackerEvent {
@@ -436,9 +448,10 @@ public struct TrackerEvent {
         return TrackerEvent(name: .ProductSellConfirmation, params: params)
     }
 
-    static func productSellConfirmationPost(product: Product) -> TrackerEvent {
+    static func productSellConfirmationPost(product: Product, buttonType: EventParameterButtonType) -> TrackerEvent {
         var params = EventParameters()
         params[.ProductId] = product.objectId ?? ""
+        params[.ButtonType] = buttonType.rawValue
         return TrackerEvent(name: .ProductSellConfirmationPost, params: params)
     }
 
