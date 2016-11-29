@@ -510,6 +510,10 @@ extension ProductViewModel {
         }, source: .Favourite)
     }
 
+    func openRelatedItems() {
+        navigator?.openRelatedItems(product.value, productVisitSource: .MoreInfoRelated)
+    }
+
     func refreshInterestedBubble(fromFavoriteAction: Bool, forFirstProduct isFirstProduct: Bool) {
         // check that the bubble hasn't been shown yet for this product
         guard let productId = product.value.objectId where shouldShowInterestedBubbleForProduct(productId, fromFavoriteAction: fromFavoriteAction, forFirstProduct: isFirstProduct) else { return }
