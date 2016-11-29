@@ -12,8 +12,7 @@ import Result
 import RxSwift
 
 protocol MainProductsViewModelDelegate: BaseViewModelDelegate {
-    func vmDidSearch(searchViewModel: MainProductsViewModel)
-    func vmShowFilters(filtersVM: FiltersViewModel)
+    func vmDidSearch()
     func vmShowTags(tags: [FilterTag])
 }
 
@@ -82,7 +81,7 @@ class MainProductsViewModel: BaseViewModel {
     }
 
     var shouldShowInviteButton: Bool {
-        return tabNavigator?.canOpenAppInvite() ?? false
+        return navigator?.canOpenAppInvite() ?? false
     }
 
     let mainProductsHeader = Variable<MainProductsHeader>([])
@@ -108,7 +107,7 @@ class MainProductsViewModel: BaseViewModel {
     weak var delegate: MainProductsViewModelDelegate?
 
     // > Navigator
-    weak var tabNavigator: TabNavigator?
+    weak var navigator: MainTabNavigator?
     
     // List VM
     let listViewModel: ProductListViewModel
@@ -146,7 +145,7 @@ class MainProductsViewModel: BaseViewModel {
     
     init(sessionManager: SessionManager, myUserRepository: MyUserRepository, trendingSearchesRepository: TrendingSearchesRepository,
          locationManager: LocationManager, currencyHelper: CurrencyHelper, tracker: Tracker, searchType: SearchType? = nil,
-         filters: ProductFilters, tabNavigator: TabNavigator?, keyValueStorage: KeyValueStorageable,
+         filters: ProductFilters, keyValueStorage: KeyValueStorageable,
          featureFlags: FeatureFlaggeable) {
         
         self.sessionManager = sessionManager
@@ -158,7 +157,6 @@ class MainProductsViewModel: BaseViewModel {
         self.searchType = searchType
         self.generalCollectionsShuffled = CollectionCellType.generalCollections.shuffle()
         self.filters = filters
-        self.tabNavigator = tabNavigator
         self.keyValueStorage = keyValueStorage
         self.featureFlags = featureFlags
         let show3Columns = DeviceFamily.current.isWiderOrEqualThan(.iPhone6Plus)
@@ -178,7 +176,7 @@ class MainProductsViewModel: BaseViewModel {
         setup()
     }
     
-    convenience init(searchType: SearchType? = nil, filters: ProductFilters, tabNavigator: TabNavigator?) {
+    convenience init(searchType: SearchType? = nil, filters: ProductFilters) {
         let sessionManager = Core.sessionManager
         let myUserRepository = Core.myUserRepository
         let trendingSearchesRepository = Core.trendingSearchesRepository
@@ -189,12 +187,12 @@ class MainProductsViewModel: BaseViewModel {
         let featureFlags = FeatureFlags.sharedInstance
         self.init(sessionManager: sessionManager,myUserRepository: myUserRepository, trendingSearchesRepository: trendingSearchesRepository,
                   locationManager: locationManager, currencyHelper: currencyHelper, tracker: tracker, searchType: searchType,
-                  filters: filters, tabNavigator: tabNavigator, keyValueStorage: keyValueStorage, featureFlags: featureFlags)
+                  filters: filters, keyValueStorage: keyValueStorage, featureFlags: featureFlags)
     }
     
     convenience init(searchType: SearchType? = nil, tabNavigator: TabNavigator?) {
         let filters = ProductFilters()
-        self.init(searchType: searchType, filters: filters, tabNavigator: tabNavigator)
+        self.init(searchType: searchType, filters: filters)
     }
 
     deinit {
@@ -218,14 +216,13 @@ class MainProductsViewModel: BaseViewModel {
     */
     func search(query: String) {
         guard !query.characters.isEmpty else { return }
-        delegate?.vmDidSearch(viewModelForSearch(.User(query: query)))
+    
+        delegate?.vmDidSearch()
+        navigator?.openMainProduct(withSearchType: .User(query: query), productFilters: filters)
     }
 
     func showFilters() {
-        let filtersVM = FiltersViewModel(currentFilters: filters ?? ProductFilters())
-        filtersVM.dataDelegate = self
-        delegate?.vmShowFilters(filtersVM)
-        
+        navigator?.showFilters(with: filters, filtersVMDataDelegate: self)
         // Tracking
         tracker.trackEvent(TrackerEvent.filterStart())
     }
@@ -308,7 +305,7 @@ class MainProductsViewModel: BaseViewModel {
         - returns: A view model for search.
     */
     private func viewModelForSearch(searchType: SearchType) -> MainProductsViewModel {
-        return MainProductsViewModel(searchType: searchType, filters: filters, tabNavigator: tabNavigator)
+        return MainProductsViewModel(searchType: searchType, filters: filters)
     }
     
     private func updateListView() {
@@ -476,7 +473,7 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate {
         let data = ProductDetailData.ProductList(product: product, cellModels: cellModels,
                                                  requester: productListRequester, thumbnailImage: thumbnailImage,
                                                  originFrame: originFrame, showRelated: showRelated, index: index)
-        tabNavigator?.openProduct(data, source: productVisitSource)
+        navigator?.openProduct(data, source: productVisitSource)
     }
     
     func vmProcessReceivedProductPage(products: [ProductCellModel], page: UInt) -> [ProductCellModel] {
@@ -494,11 +491,12 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate {
     func vmDidSelectCollection(type: CollectionCellType){
         tracker.trackEvent(TrackerEvent.exploreCollection(type.rawValue))
         let query = queryForCollection(type)
-        delegate?.vmDidSearch(viewModelForSearch(.Collection(type: type, query: query)))
+        delegate?.vmDidSearch()
+        navigator?.openMainProduct(withSearchType: .Collection(type: type, query: query), productFilters: filters)
     }
     
     func vmUserDidTapInvite() {
-        tabNavigator?.openAppInvite()
+        navigator?.openAppInvite()
     }
 }
 
@@ -586,12 +584,14 @@ extension MainProductsViewModel {
 
     func selectedTrendingSearchAtIndex(index: Int) {
         guard let trendingSearch = trendingSearchAtIndex(index) where !trendingSearch.isEmpty else { return }
-        delegate?.vmDidSearch(viewModelForSearch(.Trending(query: trendingSearch)))
+        delegate?.vmDidSearch()
+        navigator?.openMainProduct(withSearchType: .Trending(query: trendingSearch), productFilters: filters)
     }
     
     func selectedLastSearchAtIndex(index: Int) {
         guard let lastSearch = lastSearchAtIndex(index) where !lastSearch.isEmpty else { return }
-        delegate?.vmDidSearch(viewModelForSearch(.LastSearch(query: lastSearch)))
+        delegate?.vmDidSearch()
+        navigator?.openMainProduct(withSearchType: .LastSearch(query: lastSearch), productFilters: filters)
     }
     
     func cleanUpLastSearches() {

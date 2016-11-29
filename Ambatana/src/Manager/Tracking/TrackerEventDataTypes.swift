@@ -205,6 +205,7 @@ public enum EventParameterName: String {
     case LocationEnabled      = "location-enabled"
     case LocationAllowed      = "location-allowed"
     case ButtonName           = "button-name"
+    case ButtonType           = "button-type"
     case FilterLat            = "filter-lat"
     case FilterLng            = "filter-lng"
     case FilterDistanceRadius = "distance-radius"
@@ -291,6 +292,11 @@ public enum EventParameterButtonNameType: String {
     case Done = "done"
     case SellYourStuff = "sell-your-stuff"
     case StartMakingCash = "start-making-cash"
+}
+
+public enum EventParameterButtonType: String {
+    case Button = "button"
+    case ItemPicture = "item-picture"
 }
 
 public enum EventParameterButtonPosition: String {
