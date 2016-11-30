@@ -32,7 +32,6 @@ struct SettingsSection {
 
 protocol SettingsViewModelDelegate: BaseViewModelDelegate {
     func vmOpenImagePick()
-    func vmOpenFbAppInvite(content: FBSDKAppInviteContent)
 }
 
 class SettingsViewModel: BaseViewModel {
@@ -83,6 +82,11 @@ class SettingsViewModel: BaseViewModel {
         if firstTime {
             tracker.trackEvent(TrackerEvent.profileEditStart())
         }
+    }
+    
+    override func backButtonPressed() -> Bool {
+        navigator?.closeSettings()
+        return true
     }
 
 
@@ -199,7 +203,8 @@ class SettingsViewModel: BaseViewModel {
             let content = FBSDKAppInviteContent()
             content.appLinkURL = NSURL(string: Constants.facebookAppLinkURL)
             content.appInvitePreviewImageURL = NSURL(string: Constants.facebookAppInvitePreviewImageURL)
-            delegate?.vmOpenFbAppInvite(content)
+            guard let delegate = delegate as? FBSDKAppInviteDialogDelegate else { return }
+            navigator?.showFbAppInvite(content, delegate: delegate)
             let trackerEvent = TrackerEvent.appInviteFriend(.Facebook, typePage: .Settings)
             tracker.trackEvent(trackerEvent)
         case .ChangePhoto:

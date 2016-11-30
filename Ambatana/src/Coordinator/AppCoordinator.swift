@@ -23,6 +23,8 @@ final class AppCoordinator: NSObject {
     private let secondTabBarCoordinator: TabCoordinator
     private let chatsTabBarCoordinator: ChatsTabCoordinator
     private let profileTabBarCoordinator: ProfileTabCoordinator
+    private let categoriesTabBarCoordinator: CategoriesTabCoordinator
+    private let notificationsTabBarCoordinator: NotificationsTabCoordinator
     private let tabCoordinators: [TabCoordinator]
 
     private let configManager: ConfigManager
@@ -101,8 +103,10 @@ final class AppCoordinator: NSObject {
         self.chatHeadOverlay = chatHeadOverlay
         
         self.mainTabBarCoordinator = MainTabCoordinator()
-        self.secondTabBarCoordinator = featureFlags.notificationsSection ? NotificationsTabCoordinator() :
-                                                                           CategoriesTabCoordinator()
+        self.categoriesTabBarCoordinator = CategoriesTabCoordinator()
+        self.notificationsTabBarCoordinator = NotificationsTabCoordinator()
+        self.secondTabBarCoordinator = featureFlags.notificationsSection ? notificationsTabBarCoordinator :
+                                                                           categoriesTabBarCoordinator
         self.chatsTabBarCoordinator = ChatsTabCoordinator()
         self.profileTabBarCoordinator = ProfileTabCoordinator()
         self.tabCoordinators = [mainTabBarCoordinator, secondTabBarCoordinator, chatsTabBarCoordinator,
@@ -211,6 +215,12 @@ extension AppCoordinator: AppNavigator {
         let viewModel = VerifyAccountsViewModel(verificationTypes: types, source: source, completionBlock: completionBlock)
         let viewController = VerifyAccountsViewController(viewModel: viewModel)
         tabBarCtl.presentViewController(viewController, animated: true, completion: nil)
+    }
+    
+    func openResetPassword(token: String) {
+        let changePasswordCoordinator = ChangePasswordCoordinator(token: token)
+        changePasswordCoordinator.delegate = self
+        openCoordinator(coordinator: changePasswordCoordinator, parent: tabBarCtl, animated: true, completion: nil)
     }
     
     func openNPSSurvey() {
@@ -349,7 +359,6 @@ private extension AppCoordinator {
         return true
     }
 }
-
 
 
 // MARK: - TabCoordinatorDelegate
@@ -744,15 +753,6 @@ private extension AppCoordinator {
         return nil
     }
 
-    func openResetPassword(token: String) {
-        let viewModel = ChangePasswordViewModel(token: token)
-        let vc = ChangePasswordViewController(viewModel: viewModel)
-        let navCtl = UINavigationController(rootViewController: vc)
-
-        // TODO: Should open a Reset Password coordinator child calling `openChild`
-        tabBarCtl.presentViewController(navCtl, animated: true, completion: nil)
-    }
-
     func openMyUserRatings() {
         guard featureFlags.userReviews else { return }
         guard let navCtl = selectedNavigationController else { return }
@@ -833,6 +833,15 @@ private extension AppCoordinator {
                                               action: action)
             bubbleNotifManager.showBubble(data, duration: 3)
         }
+    }
+}
+
+extension AppCoordinator: ChangePasswordNavigator {
+    func closeChangePassword() {
+        tabBarCtl.dismissViewControllerAnimated(true, completion: nil)
+    }
+    func passwordSaved() {
+        tabBarCtl.dismissViewControllerAnimated(true, completion: nil)
     }
 }
 

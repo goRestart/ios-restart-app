@@ -10,10 +10,16 @@
 import LGCoreKit
 import DeviceUtil
 
+enum HelpURLType {
+    case Terms
+    case Privacy
+}
+
 public class HelpViewModel: BaseViewModel {
    
     let myUserRepository: MyUserRepository
     let installationRepository: InstallationRepository
+    weak var navigator: HelpNavigator?
     
     convenience override init() {
         self.init(myUserRepository: Core.myUserRepository, installationRepository: Core.installationRepository)
@@ -22,6 +28,11 @@ public class HelpViewModel: BaseViewModel {
     init(myUserRepository: MyUserRepository, installationRepository: InstallationRepository) {
         self.myUserRepository = myUserRepository
         self.installationRepository = installationRepository
+    }
+    
+    override func backButtonPressed() -> Bool {
+        navigator?.closeHelp()
+        return true
     }
     
     public var url: NSURL? {
@@ -34,5 +45,16 @@ public class HelpViewModel: BaseViewModel {
     
     var privacyURL: NSURL? {
         return LetgoURLHelper.composeURL(Constants.privacyURL)
+    }
+    
+    func openInternalUrl(type: HelpURLType) {
+        switch type {
+        case .Privacy:
+            guard let url = privacyURL else { return }
+            navigator?.openURL(url)
+        case .Terms:
+            guard let url = termsAndConditionsURL else { return }
+            navigator?.openURL(url)
+        }
     }
 }

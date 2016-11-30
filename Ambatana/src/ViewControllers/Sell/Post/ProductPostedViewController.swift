@@ -205,7 +205,7 @@ extension ProductPostedViewController: SocialSharerDelegate {
 extension ProductPostedViewController: PostIncentivatorViewDelegate {
 
     func incentivatorTapped() {
-        viewModel.mainActionPressed()
+        viewModel.incentivateSectionPressed()
     }
 }
 

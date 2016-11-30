@@ -195,10 +195,6 @@ extension SettingsViewController: SettingsViewModelDelegate {
     func vmOpenImagePick() {
         MediaPickerManager.showImagePickerIn(self)
     }
-
-    func vmOpenFbAppInvite(content: FBSDKAppInviteContent) {
-        FBSDKAppInviteDialog.showFromViewController(self, withContent: content, delegate: self)
-    }
 }
 
 
