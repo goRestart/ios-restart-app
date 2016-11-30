@@ -220,6 +220,12 @@ extension AppCoordinator: AppNavigator {
         tabBarCtl.presentViewController(viewController, animated: true, completion: nil)
     }
     
+    func openResetPassword(token: String) {
+        let changePasswordCoordinator = ChangePasswordCoordinator(token: token)
+        changePasswordCoordinator.delegate = self
+        openCoordinator(coordinator: changePasswordCoordinator, parent: tabBarCtl, animated: true, completion: nil)
+    }
+    
     func openNPSSurvey() {
         guard featureFlags.showNPSSurvey else { return }
         delay(3) { [weak self] in
@@ -356,7 +362,6 @@ private extension AppCoordinator {
         return true
     }
 }
-
 
 
 // MARK: - TabCoordinatorDelegate
@@ -751,15 +756,6 @@ private extension AppCoordinator {
         return nil
     }
 
-    func openResetPassword(token: String) {
-        let viewModel = ChangePasswordViewModel(token: token)
-        let vc = ChangePasswordViewController(viewModel: viewModel)
-        let navCtl = UINavigationController(rootViewController: vc)
-
-        // TODO: Should open a Reset Password coordinator child calling `openChild`
-        tabBarCtl.presentViewController(navCtl, animated: true, completion: nil)
-    }
-
     func openMyUserRatings() {
         guard featureFlags.userReviews else { return }
         guard let navCtl = selectedNavigationController else { return }
@@ -840,6 +836,15 @@ private extension AppCoordinator {
                                               action: action)
             bubbleNotifManager.showBubble(data, duration: 3)
         }
+    }
+}
+
+extension AppCoordinator: ChangePasswordNavigator {
+    func closeChangePassword() {
+        tabBarCtl.dismissViewControllerAnimated(true, completion: nil)
+    }
+    func passwordSaved() {
+        tabBarCtl.dismissViewControllerAnimated(true, completion: nil)
     }
 }
 
