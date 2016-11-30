@@ -11,7 +11,7 @@ import RxSwift
 
 final class TrackerProxy: Tracker {
     private static let defaultTrackers: [Tracker] = [AmplitudeTracker(), AppsflyerTracker(), FacebookTracker(),
-                                                     CrashlyticsTracker(), LeanplumTracker(), NewRelicTracker()]
+                                                     CrashlyticsTracker(), LeanplumTracker()]
 
     static let sharedInstance = TrackerProxy()
 
