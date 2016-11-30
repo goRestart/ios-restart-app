@@ -93,5 +93,10 @@
         "name": "ShareAfterPosting",
         "values": ["No", "Yes"],
         "description": "Show sharing screen after posting (forced)"
+    },
+    {
+    "name": "PeriscopeImprovement",
+    "values": ["No", "Yes"],
+    "description": "periscope chat improvements"
     }
  ]
