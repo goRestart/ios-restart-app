@@ -62,6 +62,7 @@ class GalleryImageCell: UICollectionViewCell, ReusableCell {
         image.image = nil
         simpleSelectionCheckView.hidden = true
 
+        multipleSelectionCountLabel.text = nil
         multipleSelectionCountLabel.hidden = true
         disabled = false
 

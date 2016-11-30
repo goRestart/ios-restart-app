@@ -168,6 +168,8 @@ class PostProductGalleryViewModel: BaseViewModel {
 
         imagesSelected.asObservable().bindNext { [weak self] imgsSelected in
             self?.imagesSelectedCount.value = imgsSelected.count
+            guard imgsSelected.count < 1 else { return }
+            self?.lastImageSelected.value = nil
         }.addDisposableTo(disposeBag)
 
         imagesSelectedCount.asObservable().bindNext { [weak self] numImgs in
@@ -299,6 +301,8 @@ class PostProductGalleryViewModel: BaseViewModel {
             galleryState.value = .Empty
         } else {
             galleryState.value = .Normal
+            // for multiple selection we don't select an initial image
+            guard !multiSelectionEnabled else { return }
             selectImageAtIndex(0, autoScroll: false)
         }
     }
