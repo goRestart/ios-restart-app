@@ -241,7 +241,7 @@ extension PostProductGalleryView: UICollectionViewDataSource, UICollectionViewDe
     }
 
     func collectionView(collectionView: UICollectionView, shouldDeselectItemAtIndexPath indexPath: NSIndexPath) -> Bool {
-        return true
+        return viewModel.multiSelectionEnabled
     }
 
     private func selectItemAtIndex(index: Int) {
@@ -307,9 +307,8 @@ extension PostProductGalleryView {
         }.addDisposableTo(disposeBag)
 
         viewModel.imagesSelected.asObservable().bindNext { [weak self] imgsSelected in
-            // album button change title and disable if imgsSelected.count > 0
             self?.collectionView.reloadData()
-        }
+        }.addDisposableTo(disposeBag)
 
         viewModel.imageSelectionEnabled.asObservable().distinctUntilChanged().bindNext { [weak self] interactionEnabled in
             self?.delegate?.productGallerySelectionFull(!interactionEnabled)
