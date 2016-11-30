@@ -7,6 +7,7 @@
 //
 
 import CoreLocation
+import StoreKit
 import FBSDKShareKit
 import LGCoreKit
 import Result
@@ -618,6 +619,7 @@ extension ProductViewModel {
         }
     }
 
+
     private func showOptionsMenu() {
         var actions = [UIAction]()
         let isMine = product.value.isMine
@@ -634,6 +636,12 @@ extension ProductViewModel {
         if isDeletable {
             actions.append(buildDeleteButton())
         }
+
+        if featureFlags.monetizationEnabled {
+            // also, if the product is bumpeable && there are in-app purchase products
+            actions.append(buildMonetizationButton())
+        }
+
         delegate?.vmShowProductDelegateActionSheet(LGLocalizedString.commonCancel, actions: actions)
     }
 
@@ -729,6 +737,13 @@ extension ProductViewModel {
         case .Approved:
             return true
         }
+    }
+
+    private func buildMonetizationButton() -> UIAction {
+        let title = "_Bump Up"
+        return UIAction(interface: .Text(title), action: { [weak self] in
+                print("Bump Up pressed!!! 💸")
+            })
     }
 }
 

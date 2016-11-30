@@ -31,6 +31,7 @@ protocol FeatureFlaggeable {
     var freePostingModeAllowed: Bool { get }
     var commercializerAfterPosting: Bool { get }
     var relatedProductsOnMoreInfo: Bool { get }
+    var monetizationEnabled: Bool { get }
 }
 
 class FeatureFlags: FeatureFlaggeable {
@@ -192,6 +193,13 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.relatedProductsOnMoreInfo
         }
         return ABTests.relatedProductsOnMoreInfo.value
+    }
+
+    var monetizationEnabled: Bool {
+        if Bumper.enabled {
+            return Bumper.monetizationEnabled
+        }
+        return false
     }
 
 

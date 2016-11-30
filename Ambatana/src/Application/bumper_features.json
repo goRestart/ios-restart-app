@@ -98,5 +98,10 @@
         "name": "ShareAfterPosting",
         "values": ["No", "Yes"],
         "description": "Show sharing screen after posting (forced)"
+    },
+    {
+        "name": "MonetizationEnabled",
+        "values": ["No", "Yes"],
+        "description": "USer can make in-app purchases"
     }
  ]

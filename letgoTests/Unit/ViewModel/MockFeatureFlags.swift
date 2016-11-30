@@ -32,4 +32,5 @@ class MockFeatureFlags: FeatureFlaggeable {
     var freePostingModeAllowed: Bool = true
     var commercializerAfterPosting: Bool = true
     var relatedProductsOnMoreInfo: Bool = true
+    var monetizationEnabled: Bool = false
 }
