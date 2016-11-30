@@ -30,7 +30,7 @@ def shared_pods
 
 	# Tracking
 	pod "Amplitude-iOS",        "~> 3.8.5"  # Swift 3.0: -
-    pod "AppsFlyerFramework",   "~> 4.5.9"  # Swift 3.0: -
+    pod "AppsFlyerFramework",   "~> 4.5.12"  # Swift 3.0: -
     pod "Leanplum-iOS-SDK",     "~> 1.4.0"  # Swift 3.0: -
     pod "NewRelicAgent",        "~> 5.8.3"
 
