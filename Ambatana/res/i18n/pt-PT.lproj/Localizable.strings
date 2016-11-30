@@ -417,8 +417,8 @@
 "product_mark_as_sold_free_success_message" = "Parabéns! O seu produto foi marcado como dado com sucesso";
 "product_mark_as_sold_success_message" = "Parabéns, o seu artigo foi com sucesso marcado como vendido!";
 "product_more_info_open_button" = "MAIS INFORMAÇÕES";
-"product_more_info_related_title" = "YOU MIGHT BE INTERESTED IN:";
-"product_more_info_related_view_more" = "View more";
+"product_more_info_related_title" = "PODERÁ TER INTERESSE EM:";
+"product_more_info_related_view_more" = "Ver mais";
 "product_more_info_tooltip_part_1" = "Toque";
 "product_more_info_tooltip_part_2" = "%@ para mais informações";
 "product_negotiable_price" = "Negociável";
@@ -452,6 +452,7 @@
 "product_post_free_confirmation_another_button" = "Dê outro item";
 "product_post_gallery_load_image_error_subtitle" = "Escolha outra foto e tente novamente.";
 "product_post_gallery_load_image_error_title" = "Não foi possível carregar a foto";
+"product_post_gallery_multiple_pics_selected" = "%i fotos selecionadas";
 "product_post_gallery_permissions_button" = "Permitir";
 "product_post_gallery_permissions_subtitle" = "Para selecionar um foto existente deve permitir o acesso às Fotos";
 "product_post_gallery_permissions_title" = "Permitir o acesso às Fotos";
@@ -573,6 +574,7 @@
 "rating_view_remind_later_button" = "Lembre-me mais tarde";
 "rating_view_title_label" = "Adora o letgo?";
 "rating_view_title_label_uppercase" = "DÊ-NOS 5 ESTRELAS!";
+"related_items_title" = "Items relacionados";
 "report_user_counterfeit" = "Itens contrafeitos";
 "report_user_error_already_reported" = "Já reportou este utilizador!";
 "report_user_inactive" = "Inativo";

@@ -452,6 +452,7 @@
 "product_post_free_confirmation_another_button" = "Продать другой товар!";
 "product_post_gallery_load_image_error_subtitle" = "Выберите другое фото и попробуйте еще раз";
 "product_post_gallery_load_image_error_title" = "Фото не может быть загружено";
+"product_post_gallery_multiple_pics_selected" = "%i photos selected";
 "product_post_gallery_permissions_button" = "Разрешить";
 "product_post_gallery_permissions_subtitle" = "Для выбора имеющихся фотографий, разрешите доступ к Фотографиям";
 "product_post_gallery_permissions_title" = "Разрешите доступ к Фотографиям";
@@ -573,6 +574,7 @@
 "rating_view_remind_later_button" = "Напомнить позже";
 "rating_view_title_label" = "Вам нравится letgo?";
 "rating_view_title_label_uppercase" = "ПОСТАВЬТЕ НАМ 5 ЗВЕЗД!";
+"related_items_title" = "Related items";
 "report_user_counterfeit" = "Поддельные товары";
 "report_user_error_already_reported" = "Вы уже пожаловались на этого пользователя!";
 "report_user_inactive" = "Не отвечает";

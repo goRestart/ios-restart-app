@@ -1369,7 +1369,7 @@
 "product_post_gallery_load_image_error_title" = "The photo can't be loaded";
 
 // Title for the gallery in multiple selection
-"product_post_gallery_multiple_pics_selected" = "%i pics selected";
+"product_post_gallery_multiple_pics_selected" = "%i photos selected";
 
 // Button text when user didn't allow access to gallery
 "product_post_gallery_permissions_button" = "Allow";
@@ -1379,6 +1379,9 @@
 
 // Message title when user didn't allow access to gallery
 "product_post_gallery_permissions_title" = "Allow access to Photos";
+
+// Message to ask user to select a picture or more
+"product_post_gallery_select_pictures" = "_ Please, select up to 5 images to upload.";
 
 // Gallery tab on posting
 "product_post_gallery_tab" = "GALLERY";

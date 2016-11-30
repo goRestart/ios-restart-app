@@ -417,8 +417,8 @@
 "product_mark_as_sold_free_success_message" = "Gratulerer! Ditt produkt har blitt markert som gitt bort";
 "product_mark_as_sold_success_message" = "Gratulerer, ditt produkt ble merket som solgt!";
 "product_more_info_open_button" = "MER INFO";
-"product_more_info_related_title" = "YOU MIGHT BE INTERESTED IN:";
-"product_more_info_related_view_more" = "View more";
+"product_more_info_related_title" = "DU KAN VÆRE INTERESSERT I:";
+"product_more_info_related_view_more" = "Se flere";
 "product_more_info_tooltip_part_1" = "Trykk";
 "product_more_info_tooltip_part_2" = "%@ for å se mer info";
 "product_negotiable_price" = "Kan diskuteres";
@@ -452,6 +452,7 @@
 "product_post_free_confirmation_another_button" = "Gi bort et nytt produkt";
 "product_post_gallery_load_image_error_subtitle" = "Velg et annet bilde, og prøv igjen";
 "product_post_gallery_load_image_error_title" = "Bildet kan ikke lastes";
+"product_post_gallery_multiple_pics_selected" = "%i valgte bilder";
 "product_post_gallery_permissions_button" = "Tillat";
 "product_post_gallery_permissions_subtitle" = "Du må tillate tilgang til bilder for å kunne velge et eksisterende bilde";
 "product_post_gallery_permissions_title" = "Tillat tilgang til bilder";
@@ -573,6 +574,7 @@
 "rating_view_remind_later_button" = "Påminn meg senere";
 "rating_view_title_label" = "Liker du letgo?";
 "rating_view_title_label_uppercase" = "GI OSS 5 STJERNER!";
+"related_items_title" = "Relaterte produkter";
 "report_user_counterfeit" = "Forfalskede produkter";
 "report_user_error_already_reported" = "Du har allerede rapportert denne brukeren!";
 "report_user_inactive" = "Inaktiv";
