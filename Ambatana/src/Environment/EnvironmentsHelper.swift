@@ -17,9 +17,10 @@ class EnvironmentsHelper {
         case Production = "Production"
         case Staging = "Staging"
         case Canary = "Canary"
+        case Escrow = "Escrow"
     }
 
-    private(set) var coreEnvironment: EnvironmentType
+    private(set) var coreEnvironment: EnvironmentType = .Production
 
     var appEnvironment: AppEnvironmentType {
         switch coreEnvironment {
@@ -29,13 +30,14 @@ class EnvironmentsHelper {
             return .Production
         case .Production:
             return .Production
+        case .Escrow:
+            return .Escrow
         }
     }
 
     init() {
-        self.coreEnvironment = .Production
-    #if GOD_MODE
         self.coreEnvironment = getCoreEnvironment()
+    #if GOD_MODE
         self.checkEnvironmentChange()
     #endif
     }
@@ -43,12 +45,18 @@ class EnvironmentsHelper {
     func getCoreEnvironment() -> EnvironmentType {
         //First check xcode environment
         let envArgs = NSProcessInfo.processInfo().environment
-        if envArgs["-environment-prod"] != nil {
+        if envArgs["-environment-letgo"] != nil {
+            setSettingsEnvironment(.Production, key: EnvironmentsHelper.settingsEnvironmentKey)
+            return .Production
+        } else if envArgs["-environment-prod"] != nil {
             setSettingsEnvironment(.Production, key: EnvironmentsHelper.settingsEnvironmentKey)
             return .Production
         } else if envArgs["-environment-dev"] != nil {
             setSettingsEnvironment(.Staging, key: EnvironmentsHelper.settingsEnvironmentKey)
             return .Staging
+        } else if envArgs["-environment-escrow"] != nil {
+            setSettingsEnvironment(.Escrow, key: EnvironmentsHelper.settingsEnvironmentKey)
+            return .Escrow
         }
 
         //Last check settings
@@ -81,6 +89,8 @@ class EnvironmentsHelper {
             return .Canary
         case .Staging:
             return .Staging
+        case .Escrow:
+            return .Escrow
         }
     }
 
@@ -93,6 +103,8 @@ class EnvironmentsHelper {
             userDefaults.setValue(SettingsEnvironment.Canary.rawValue, forKey: key)
         case .Production:
             userDefaults.setValue(SettingsEnvironment.Production.rawValue, forKey: key)
+        case .Escrow:
+            userDefaults.setValue(SettingsEnvironment.Escrow.rawValue, forKey: key)
         }
     }
 }

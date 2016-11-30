@@ -93,6 +93,9 @@ final class PushManager {
         case .Development:
             Leanplum.setAppId(EnvironmentProxy.sharedInstance.leanplumAppId,
                               withDevelopmentKey:EnvironmentProxy.sharedInstance.leanplumEnvKey)
+        case .Escrow:
+            Leanplum.setAppId(EnvironmentProxy.sharedInstance.leanplumAppId,
+                              withDevelopmentKey:EnvironmentProxy.sharedInstance.leanplumEnvKey)
         }
     }
 

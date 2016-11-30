@@ -26,6 +26,7 @@
 				<string>Production</string>
 				<string>Canary</string>
 				<string>Staging</string>
+				<string>Escrow</string>
 			</array>
 			<key>Type</key>
 			<string>PSMultiValueSpecifier</string>
