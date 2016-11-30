@@ -11,6 +11,15 @@ import Photos
 import RxSwift
 import RxCocoa
 
+struct ImageSelected {
+    var image: UIImage
+    var index: Int  // the index in the collection
+
+    init(image: UIImage, index: Int) {
+        self.image = image
+        self.index = index
+    }
+}
 
 protocol PostProductGalleryViewModelDelegate: class {
     func vmDidUpdateGallery()
@@ -39,8 +48,7 @@ class PostProductGalleryViewModel: BaseViewModel {
     let galleryState = Variable<GalleryState>(.Normal)
     let albumTitle = Variable<String>(LGLocalizedString.productPostGalleryTab)
     let albumIconState = Variable<AlbumSelectionIconState>(.Down)
-    let imagesSelected = Variable<[UIImage]>([])
-    let positionsSelected = Variable<[Int]>([])
+    let imagesSelected = Variable<[ImageSelected]>([])
     let lastImageSelected = Variable<UIImage?>(nil)
     let imageSelectionEnabled = Variable<Bool>(true)
     let albumButtonEnabled = Variable<Bool>(true)
@@ -88,7 +96,7 @@ class PostProductGalleryViewModel: BaseViewModel {
 
     func postButtonPressed() {
         guard !imagesSelected.value.isEmpty else { return }
-        galleryDelegate?.productGalleryDidSelectImages(imagesSelected.value)
+        galleryDelegate?.productGalleryDidSelectImages(imagesSelected.value.map { $0.image })
     }
 
     var imagesCount: Int {
@@ -319,8 +327,7 @@ class PostProductGalleryViewModel: BaseViewModel {
 
             if let image = image {
                 strongSelf.galleryState.value = .Normal
-                strongSelf.imagesSelected.value.append(image)
-                strongSelf.positionsSelected.value.append(index)
+                strongSelf.imagesSelected.value.append(ImageSelected(image: image, index: index))
 
                 if strongSelf.multiSelectionEnabled {
                     // Block interaction when 5 images are selected
@@ -328,7 +335,6 @@ class PostProductGalleryViewModel: BaseViewModel {
                 } else if strongSelf.imagesSelectedCount.value > strongSelf.maxImagesSelected {
                     // on single selection don't let the array have more than 1 pic
                     strongSelf.imagesSelected.value.removeFirst()
-                    strongSelf.positionsSelected.value.removeFirst()
                 }
             } else {
                 strongSelf.galleryState.value = .LoadImageError
@@ -341,18 +347,18 @@ class PostProductGalleryViewModel: BaseViewModel {
     }
 
     private func deselectImageAtIndex(index: Int) {
-        guard let selectedImageIndex = positionsSelected.value.indexOf(index) where
-            0..<imagesSelected.value.count ~= selectedImageIndex && 0..<positionsSelected.value.count ~= selectedImageIndex else { return }
+        let selectedIndexes: [Int] = imagesSelected.value.map { $0.index }
+        guard let selectedImageIndex = selectedIndexes.indexOf(index) where
+            0..<imagesSelectedCount.value ~= selectedImageIndex else { return }
 
         imageSelectionEnabled.value = true
         imagesSelected.value.removeAtIndex(selectedImageIndex)
-        positionsSelected.value.removeAtIndex(selectedImageIndex)
 
         if selectedImageIndex == imagesSelected.value.count {
             // just deselected last image selected, we should change the previewed one to the last selected, unless is the 1st one
             let numImgs = imagesSelected.value.count
             if numImgs > 0 {
-                lastImageSelected.value = imagesSelected.value[numImgs-1]
+                lastImageSelected.value = imagesSelected.value[numImgs-1].image
             }
         }
     }

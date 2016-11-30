@@ -211,11 +211,12 @@ extension PostProductGalleryView: UICollectionViewDataSource, UICollectionViewDe
                 galleryCell.image.image = image
             }
             galleryCell.multipleSelectionEnabled = viewModel.multiSelectionEnabled
-            if viewModel.positionsSelected.value.contains(indexPath.item) {
+            let selectedIndexes = viewModel.imagesSelected.value.map { $0.index }
+            if selectedIndexes.contains(indexPath.item) {
                 galleryCell.disabled = false
                 galleryCell.selected = true
                 collectionView.selectItemAtIndexPath(indexPath, animated: false, scrollPosition: .None)
-                if let position = viewModel.positionsSelected.value.indexOf(indexPath.item) {
+                if let position = selectedIndexes.indexOf(indexPath.item) {
                     galleryCell.multipleSelectionCountLabel.text = "\(position + 1)"
                 }
             } else if viewModel.imagesSelectedCount.value >= viewModel.maxImagesSelected {
