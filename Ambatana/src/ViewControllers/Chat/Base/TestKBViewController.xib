@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11542" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="TestKBViewController" customModule="LetGo" customModuleProvider="target">
+            <connections>
+                <outlet property="centerLabel" destination="PNl-wc-C8f" id="ljd-r2-N2M"/>
+                <outlet property="contentView" destination="3ck-t5-s3w" id="BF7-cd-heu"/>
+                <outlet property="textField" destination="x30-H4-QIK" id="FwM-m2-kfp"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3ck-t5-s3w" userLabel="contentView">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="427"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PNl-wc-C8f">
+                            <rect key="frame" x="166" y="203" width="42" height="21"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="x30-H4-QIK">
+                            <rect key="frame" x="8" y="25" width="359" height="30"/>
+                            <nil key="textColor"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <textInputTraits key="textInputTraits"/>
+                        </textField>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="09D-Bt-Aho">
+                            <rect key="frame" x="150" y="63" width="75" height="30"/>
+                            <state key="normal" title="ResignText"/>
+                            <connections>
+                                <action selector="resignTextFieldBtn:" destination="-1" eventType="touchUpInside" id="AoM-UN-mQO"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstItem="09D-Bt-Aho" firstAttribute="top" secondItem="x30-H4-QIK" secondAttribute="bottom" constant="8" id="13U-dQ-l74"/>
+                        <constraint firstItem="x30-H4-QIK" firstAttribute="top" secondItem="3ck-t5-s3w" secondAttribute="top" constant="25" id="9TX-9r-t5Q"/>
+                        <constraint firstAttribute="trailing" secondItem="x30-H4-QIK" secondAttribute="trailing" constant="8" id="ADt-Xg-d5J"/>
+                        <constraint firstItem="PNl-wc-C8f" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="3ck-t5-s3w" secondAttribute="leading" constant="10" id="KGU-EU-Mfz"/>
+                        <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="PNl-wc-C8f" secondAttribute="trailing" constant="10" id="bT4-x6-LwK"/>
+                        <constraint firstItem="PNl-wc-C8f" firstAttribute="centerY" secondItem="3ck-t5-s3w" secondAttribute="centerY" id="iEH-T0-Qh9"/>
+                        <constraint firstItem="x30-H4-QIK" firstAttribute="leading" secondItem="3ck-t5-s3w" secondAttribute="leading" constant="8" id="pkY-PR-B7d"/>
+                        <constraint firstItem="09D-Bt-Aho" firstAttribute="centerX" secondItem="3ck-t5-s3w" secondAttribute="centerX" id="qMI-IT-wS6"/>
+                        <constraint firstItem="PNl-wc-C8f" firstAttribute="centerX" secondItem="3ck-t5-s3w" secondAttribute="centerX" id="wye-zT-o4K"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="3ck-t5-s3w" secondAttribute="trailing" id="OgY-Ig-B8u"/>
+                <constraint firstAttribute="bottom" secondItem="3ck-t5-s3w" secondAttribute="bottom" constant="240" placeholder="YES" id="l7R-4g-vaQ"/>
+                <constraint firstItem="3ck-t5-s3w" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="tOi-oG-gVU"/>
+                <constraint firstItem="3ck-t5-s3w" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="zoh-G6-vBM"/>
+            </constraints>
+            <point key="canvasLocation" x="33.5" y="54.5"/>
+        </view>
+    </objects>
+</document>
