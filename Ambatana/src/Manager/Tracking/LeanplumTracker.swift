@@ -7,7 +7,7 @@
 //
 
 import LGCoreKit
-import AppsFlyerTracker
+import AppsFlyerLib
 
 
 private extension TrackerEvent {
