@@ -42,6 +42,9 @@ class GalleryImageCell: UICollectionViewCell, ReusableCell {
         didSet {
             simpleSelectionCheckView.hidden = !selected || multipleSelectionEnabled
             multipleSelectionCountLabel.hidden = !selected || !multipleSelectionEnabled
+            if multipleSelectionCountLabel.hidden {
+                multipleSelectionCountLabel.text = nil
+            }
         }
     }
 
@@ -49,6 +52,8 @@ class GalleryImageCell: UICollectionViewCell, ReusableCell {
 
     // Sets up the UI
     private func setupUI() {
+        multipleSelectionCountLabel.text = nil
+
         simpleSelectionCheckView.layer.borderWidth = 2
         simpleSelectionCheckView.layer.borderColor = UIColor.whiteColor().CGColor
 

@@ -24,6 +24,7 @@ struct ImageSelected {
 protocol PostProductGalleryViewModelDelegate: class {
     func vmDidUpdateGallery()
     func vmDidSelectItemAtIndex(index: Int, shouldScroll: Bool)
+    func vmDidDeselectItemAtIndex(index: Int)
     func vmShowActionSheet(cancelAction: UIAction, actions: [UIAction])
 }
 
@@ -61,12 +62,16 @@ class PostProductGalleryViewModel: BaseViewModel {
 
     let multiSelectionEnabled: Bool
 
+    var shouldUpdateDisabledCells: Bool = false
+
     private var albums: [PHAssetCollection] = []
     private var photosAsset: PHFetchResult?
 
     private var lastImageRequestId: PHImageRequestID?
 
-    var imagesSelectedCount = Variable<Int>(0)
+    var imagesSelectedCount: Int {
+        return imagesSelected.value.count
+    }
 
     let disposeBag = DisposeBag()
 
@@ -175,19 +180,15 @@ class PostProductGalleryViewModel: BaseViewModel {
             .addDisposableTo(disposeBag)
 
         imagesSelected.asObservable().bindNext { [weak self] imgsSelected in
-            self?.imagesSelectedCount.value = imgsSelected.count
-            guard imgsSelected.count < 1 else { return }
-            self?.lastImageSelected.value = nil
-        }.addDisposableTo(disposeBag)
-
-        imagesSelectedCount.asObservable().bindNext { [weak self] numImgs in
+            let numImgs = imgsSelected.count
             guard let strongSelf = self else { return }
-            if numImgs <= 0 {
+            if numImgs < 1 {
                 if let title = strongSelf.keyValueStorage.userPostProductLastGalleryAlbumSelected {
                     strongSelf.albumTitle.value = title
                     strongSelf.albumIconState.value = .Down
                     strongSelf.albumButtonEnabled.value = true
                 }
+                strongSelf.lastImageSelected.value = nil
             } else if strongSelf.multiSelectionEnabled {
                 // build title with num of selected pics
                 strongSelf.albumButtonEnabled.value = false
@@ -327,14 +328,15 @@ class PostProductGalleryViewModel: BaseViewModel {
 
             if let image = image {
                 strongSelf.galleryState.value = .Normal
+                strongSelf.shouldUpdateDisabledCells = strongSelf.multiSelectionEnabled &&
+                    strongSelf.imagesSelected.value.count == strongSelf.maxImagesSelected - 1
                 strongSelf.imagesSelected.value.append(ImageSelected(image: image, index: index))
-
                 if strongSelf.multiSelectionEnabled {
                     // Block interaction when 5 images are selected
-                    strongSelf.imageSelectionEnabled.value = strongSelf.imagesSelectedCount.value < strongSelf.maxImagesSelected
-                } else if strongSelf.imagesSelectedCount.value > strongSelf.maxImagesSelected {
+                    strongSelf.imageSelectionEnabled.value = strongSelf.imagesSelectedCount < strongSelf.maxImagesSelected
+                } else if strongSelf.imagesSelectedCount > strongSelf.maxImagesSelected {
                     // on single selection don't let the array have more than 1 pic
-                    strongSelf.imagesSelected.value.removeFirst()
+                    strongSelf.deselectImageAtIndex(strongSelf.imagesSelected.value[0].index)
                 }
             } else {
                 strongSelf.galleryState.value = .LoadImageError
@@ -349,9 +351,11 @@ class PostProductGalleryViewModel: BaseViewModel {
     private func deselectImageAtIndex(index: Int) {
         let selectedIndexes: [Int] = imagesSelected.value.map { $0.index }
         guard let selectedImageIndex = selectedIndexes.indexOf(index) where
-            0..<imagesSelectedCount.value ~= selectedImageIndex else { return }
+            0..<imagesSelectedCount ~= selectedImageIndex else { return }
 
         imageSelectionEnabled.value = true
+        shouldUpdateDisabledCells = multiSelectionEnabled && imagesSelected.value.count == maxImagesSelected
+
         imagesSelected.value.removeAtIndex(selectedImageIndex)
 
         if selectedImageIndex == imagesSelected.value.count {
@@ -361,6 +365,7 @@ class PostProductGalleryViewModel: BaseViewModel {
                 lastImageSelected.value = imagesSelected.value[numImgs-1].image
             }
         }
+        delegate?.vmDidDeselectItemAtIndex(index)
     }
 
     private func imageAtIndex(index: Int, size: CGSize?, handler: UIImage? -> Void) -> PHImageRequestID? {

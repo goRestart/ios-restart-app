@@ -161,12 +161,17 @@ class PostProductGalleryView: BaseView, LGViewPagerPage {
         collectionGradientView.layer.addSublayer(shadowLayer)
 
         infoButton.setStyle(.Primary(fontSize: .Medium))
-        loadImageErrorTitleLabel.text = LGLocalizedString.productPostGalleryLoadImageErrorTitle
-        loadImageErrorSubtitleLabel.text = LGLocalizedString.productPostGalleryLoadImageErrorSubtitle
+
+        resetLoadImageErrorViewInfo()
 
         setAccesibilityIds()
         setupRX()
         setupAlbumSelection()
+    }
+
+    private func resetLoadImageErrorViewInfo() {
+        loadImageErrorTitleLabel.text = LGLocalizedString.productPostGalleryLoadImageErrorTitle
+        loadImageErrorSubtitleLabel.text = LGLocalizedString.productPostGalleryLoadImageErrorSubtitle
     }
 }
 
@@ -182,6 +187,12 @@ extension PostProductGalleryView: PostProductGalleryViewModelDelegate {
     func vmDidSelectItemAtIndex(index: Int, shouldScroll: Bool) {
         animateToState(collapsed: false) { [weak self] in
             self?.selectItemAtIndex(index)
+        }
+    }
+
+    func vmDidDeselectItemAtIndex(index: Int) {
+        animateToState(collapsed: false) { [weak self] in
+            self?.deselectItemAtIndex(index)
         }
     }
 
@@ -211,7 +222,7 @@ extension PostProductGalleryView: UICollectionViewDataSource, UICollectionViewDe
                 galleryCell.image.image = image
             }
             galleryCell.multipleSelectionEnabled = viewModel.multiSelectionEnabled
-            let selectedIndexes = viewModel.imagesSelected.value.map { $0.index }
+            let selectedIndexes: [Int] = viewModel.imagesSelected.value.map { $0.index }
             if selectedIndexes.contains(indexPath.item) {
                 galleryCell.disabled = false
                 galleryCell.selected = true
@@ -219,7 +230,7 @@ extension PostProductGalleryView: UICollectionViewDataSource, UICollectionViewDe
                 if let position = selectedIndexes.indexOf(indexPath.item) {
                     galleryCell.multipleSelectionCountLabel.text = "\(position + 1)"
                 }
-            } else if viewModel.imagesSelectedCount.value >= viewModel.maxImagesSelected {
+            } else if viewModel.imagesSelectedCount >= viewModel.maxImagesSelected {
                 galleryCell.disabled = viewModel.multiSelectionEnabled
                 galleryCell.selected = false
             } else {
@@ -297,6 +308,7 @@ extension PostProductGalleryView {
             case .Normal:
                 self?.infoContainer.hidden = true
                 self?.postButton.enabled = true
+                self?.loadImageErrorView.hidden = self?.viewModel.imagesSelectedCount != 0
             case .LoadImageError:
                 self?.infoContainer.hidden = true
                 self?.loadImageErrorView.hidden = false
@@ -307,8 +319,28 @@ extension PostProductGalleryView {
             }
         }.addDisposableTo(disposeBag)
 
-        viewModel.imagesSelected.asObservable().bindNext { [weak self] imgsSelected in
-            self?.collectionView.reloadData()
+        viewModel.imagesSelected.asObservable().observeOn(MainScheduler.instance).bindNext { [weak self] imgsSelected in
+            guard let strongSelf = self else { return }
+            guard strongSelf.viewModel.multiSelectionEnabled else { return }
+            guard !strongSelf.viewModel.shouldUpdateDisabledCells else {
+                strongSelf.collectionView.reloadData()
+                return
+            }
+            var indexes: [NSIndexPath] = []
+            for imgSel in imgsSelected {
+                indexes.append(NSIndexPath(forItem: imgSel.index, inSection: 0))
+            }
+
+            strongSelf.collectionView.reloadItemsAtIndexPaths(indexes)
+
+            if imgsSelected.count == 0 {
+                strongSelf.loadImageErrorTitleLabel.text = LGLocalizedString.productPostGallerySelectPictures
+                strongSelf.loadImageErrorSubtitleLabel.text = nil
+                strongSelf.loadImageErrorView.hidden = false
+            } else {
+                strongSelf.resetLoadImageErrorViewInfo()
+                strongSelf.loadImageErrorView.hidden = true
+            }
         }.addDisposableTo(disposeBag)
 
         viewModel.imageSelectionEnabled.asObservable().distinctUntilChanged().bindNext { [weak self] interactionEnabled in
