@@ -291,7 +291,7 @@ class ProductViewModel: BaseViewModel {
             guard let strongSelf = self else { return }
             strongSelf.refreshDirectChats(status)
             strongSelf.refreshActionButtons(status)
-            strongSelf.directChatEnabled.value = strongSelf.featureFlags.periscopeChat && status.directChatsAvailable
+            strongSelf.directChatEnabled.value = status.directChatsAvailable
         }.addDisposableTo(disposeBag)
 
         isFavorite.asObservable().subscribeNext { [weak self] _ in
@@ -762,12 +762,7 @@ extension ProductViewModel {
             actionButtons.append(UIAction(interface: .Button(LGLocalizedString.productSellAgainButton, .Secondary(fontSize: .Big, withBorder: false)),
                 action: { [weak self] in self?.resell() }))
         case .OtherAvailable, .OtherAvailableFree:
-            if !featureFlags.periscopeChat {
-                let userName: String = product.value.user.name?.toNameReduced(maxChars: Constants.maxCharactersOnUserNameChatButton) ?? ""
-                let buttonText = LGLocalizedString.productChatWithSellerNameButton(userName)
-                actionButtons.append(UIAction(interface: .Button(buttonText, .Primary(fontSize: .Big)),
-                    action: { [weak self] in self?.chatWithSeller() }))
-            }
+            break
         case .AvailableFree:
             actionButtons.append(UIAction(interface: .Button(LGLocalizedString.productMarkAsSoldFreeButton, .Terciary),
                 action: { [weak self] in self?.markSoldFree() }))
