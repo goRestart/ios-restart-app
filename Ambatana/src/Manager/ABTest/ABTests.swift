@@ -19,7 +19,6 @@ public struct ABTests {
     static var directPostInOnboarding = BoolABDynamicVar(key: "directPostInOnboarding", defaultValue: false)
     static var productDetailShareMode = IntABDynamicVar(key: "productDetailShareMode", defaultValue: 0)
     static var notificationCenterEnabled = BoolABDynamicVar(key: "notificationCenterEnabled", defaultValue: true)
-    static var persicopeChat = BoolABDynamicVar(key: "persicopeChat", defaultValue: false)
     static var shareButtonWithIcon = BoolABDynamicVar(key: "shareButtonWithIcon", defaultValue: false)
     static var chatHeadBubbles = BoolABDynamicVar(key: "chatHeadBubbles", defaultValue: false)
     static var saveMailLogout = BoolABDynamicVar(key: "saveMailLogout", defaultValue: false)
@@ -34,7 +33,7 @@ public struct ABTests {
 
     static private var allVariables: [ABVariable] {
         return [showNPSSurvey, messageOnFavoriteRound2, interestedUsersMode, filtersReorder, directPostInOnboarding,
-                productDetailShareMode, notificationCenterEnabled, persicopeChat, shareButtonWithIcon, chatHeadBubbles,
+                productDetailShareMode, notificationCenterEnabled, shareButtonWithIcon, chatHeadBubbles,
                 saveMailLogout, expressChatBanner, showLiquidProductsToNewUser, postAfterDeleteMode,
                 keywordsTravelCollection, commercializerAfterPosting, relatedProductsOnMoreInfo, shareAfterPosting,
                 postingMultiPictureEnabled]

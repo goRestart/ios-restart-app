@@ -21,7 +21,6 @@ class MockFeatureFlags: FeatureFlaggeable {
     var directPostInOnboarding: Bool = false
     var shareButtonWithIcon: Bool = false
     var productDetailShareMode: ProductDetailShareMode = .Native
-    var periscopeChat: Bool = false
     var chatHeadBubbles: Bool = false
     var saveMailLogout: Bool = false
     var showLiquidProductsToNewUser: Bool = false

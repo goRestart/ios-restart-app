@@ -12,7 +12,7 @@ import bumper
 
 extension Bumper  {
     static func initialize() {
-        Bumper.initialize([WebsocketChat.self, NotificationsSection.self, UserReviews.self, ShowNPSSurvey.self, MessageOnFavoriteRound2Mode.self, InterestedUsersMode.self, FiltersReorder.self, DirectPostInOnboarding.self, ShareButtonWithIcon.self, ProductDetailShareMode.self, PeriscopeChat.self, ChatHeadBubbles.self, SaveMailLogout.self, ExpressChatBanner.self, ShowLiquidProductsToNewUser.self, PostAfterDeleteMode.self, KeywordsTravelCollection.self, CommercializerAfterPosting.self, RelatedProductsOnMoreInfo.self, ShareAfterPosting.self, PostingMultiPictureEnabled.self])
+        Bumper.initialize([WebsocketChat.self, NotificationsSection.self, UserReviews.self, ShowNPSSurvey.self, MessageOnFavoriteRound2Mode.self, InterestedUsersMode.self, FiltersReorder.self, DirectPostInOnboarding.self, ShareButtonWithIcon.self, ProductDetailShareMode.self, ChatHeadBubbles.self, SaveMailLogout.self, ExpressChatBanner.self, ShowLiquidProductsToNewUser.self, PostAfterDeleteMode.self, KeywordsTravelCollection.self, CommercializerAfterPosting.self, RelatedProductsOnMoreInfo.self, ShareAfterPosting.self, PostingMultiPictureEnabled.self])
     } 
 
     static var websocketChat: Bool {
@@ -63,11 +63,6 @@ extension Bumper  {
     static var productDetailShareMode: ProductDetailShareMode {
         guard let value = Bumper.valueForKey(ProductDetailShareMode.key) else { return .Native }
         return ProductDetailShareMode(rawValue: value) ?? .Native 
-    }
-
-    static var periscopeChat: Bool {
-        guard let value = Bumper.valueForKey(PeriscopeChat.key) else { return false }
-        return PeriscopeChat(rawValue: value)?.asBool ?? false
     }
 
     static var chatHeadBubbles: Bool {
@@ -230,15 +225,6 @@ enum ProductDetailShareMode: String, BumperFeature  {
             default: return .Native
         }
     }
-}
-
-enum PeriscopeChat: String, BumperFeature  {
-    case No, Yes
-    static var defaultValue: String { return PeriscopeChat.No.rawValue }
-    static var enumValues: [PeriscopeChat] { return [.No, .Yes]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Periscope chat from Product" } 
-    var asBool: Bool { return self == .Yes }
 }
 
 enum ChatHeadBubbles: String, BumperFeature  {

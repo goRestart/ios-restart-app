@@ -20,7 +20,6 @@ protocol FeatureFlaggeable {
     var directPostInOnboarding: Bool { get }
     var shareButtonWithIcon: Bool { get }
     var productDetailShareMode: ProductDetailShareMode { get }
-    var periscopeChat: Bool { get }
     var chatHeadBubbles: Bool { get }
     var saveMailLogout: Bool { get }
     var showLiquidProductsToNewUser: Bool { get }
@@ -123,13 +122,6 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.productDetailShareMode
         }
         return ProductDetailShareMode.fromPosition(ABTests.productDetailShareMode.value)
-    }
-
-     var periscopeChat: Bool {
-        if Bumper.enabled {
-            return Bumper.periscopeChat
-        }
-        return ABTests.persicopeChat.value
     }
 
      var chatHeadBubbles: Bool {
