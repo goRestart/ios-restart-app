@@ -417,8 +417,8 @@
 "product_mark_as_sold_free_success_message" = "Chúc mừng! Sản phẩm đã được đánh dấu đã tặng thành công";
 "product_mark_as_sold_success_message" = "Chúc mừng, sản phẩm của bạn đã được đánh dấu đã bán!";
 "product_more_info_open_button" = "THÊM THÔNG TIN";
-"product_more_info_related_title" = "YOU MIGHT BE INTERESTED IN:";
-"product_more_info_related_view_more" = "View more";
+"product_more_info_related_title" = "BẠN CÓ THỂ QUAN TÂM TỚI:";
+"product_more_info_related_view_more" = "Xem thêm";
 "product_more_info_tooltip_part_1" = "Chạm";
 "product_more_info_tooltip_part_2" = "%@ để xem thêm thông tin";
 "product_negotiable_price" = "Có thể thương lượng";
@@ -452,9 +452,11 @@
 "product_post_free_confirmation_another_button" = "Tặng món đồ khác";
 "product_post_gallery_load_image_error_subtitle" = "Hãy chọn ảnh khác và thử lại.";
 "product_post_gallery_load_image_error_title" = "Không thể tải ảnh.";
+"product_post_gallery_multiple_pics_selected" = "%i ảnh được chọn";
 "product_post_gallery_permissions_button" = "Cho phép";
 "product_post_gallery_permissions_subtitle" = "Để chọn ảnh hiện có, bạn cần cho phép truy cập Ảnh";
 "product_post_gallery_permissions_title" = "Cho phép truy cập Ảnh";
+"product_post_gallery_select_pictures" = "Select up to 5 images to upload";
 "product_post_gallery_tab" = "THƯ VIỆN HÌNH ẢNH";
 "product_post_generic_error" = "Có lỗi xảy ra trong khi đăng sản phẩm.";
 "product_post_incentive_bike" = "Xe đạp";
@@ -573,6 +575,7 @@
 "rating_view_remind_later_button" = "Nhắc tôi sau";
 "rating_view_title_label" = "Bạn có thích letgo không?";
 "rating_view_title_label_uppercase" = "ĐÁNH GIÁ 5 SAO CHO CHÚNG TÔI!";
+"related_items_title" = "Sản phẩm liên quan";
 "report_user_counterfeit" = "Hàng giả";
 "report_user_error_already_reported" = "Bạn đã báo cáo người dùng này rồi!";
 "report_user_inactive" = "Không hoạt động";
