@@ -13,7 +13,6 @@
 
 // Tracking
 #import <Leanplum/Leanplum.h>
-#import <NewRelicAgent/NewRelic.h>
 
 // Google
 #import <Google/SignIn.h>
