@@ -21,6 +21,18 @@ private extension TrackerEvent {
             }
         }
     }
+
+    // Criteo: https://ambatana.atlassian.net/browse/ABIOS-1966 (2)
+    var shouldTrackRegisteredUIAchievement: Bool {
+        get {
+            switch name {
+            case .LoginFB, .LoginGoogle, .SignupEmail:
+                return true
+            default:
+                return false
+            }
+        }
+    }
 }
 
 final class AppsflyerTracker: Tracker {
@@ -58,8 +70,12 @@ final class AppsflyerTracker: Tracker {
     }
     
     func trackEvent(event: TrackerEvent) {
+        let tracker = AppsFlyerTracker.sharedTracker()
         if event.shouldTrack {
-            AppsFlyerTracker.sharedTracker().trackEvent(event.actualName, withValues: event.params?.stringKeyParams)
+            tracker.trackEvent(event.actualName, withValues: event.params?.stringKeyParams)
+        }
+        if event.shouldTrackRegisteredUIAchievement {
+            tracker.trackEvent(AFEventAchievementUnlocked, withValues: ["ui_achievement": "registered"])
         }
     }
 
