@@ -65,8 +65,13 @@ final class AppsflyerTracker: Tracker {
     }
 
     func setUser(user: MyUser?) {
-        guard let email = user?.email else { return }
-        AppsFlyerTracker.sharedTracker().setUserEmails([email], withCryptType: EmailCryptTypeSHA1)
+        guard let user = user else { return }
+
+        let tracker = AppsFlyerTracker.sharedTracker()
+        if let email = user.email {
+            tracker.setUserEmails([email], withCryptType: EmailCryptTypeSHA1)
+        }
+        tracker.trackEvent("af_user_status", withValues: ["ui_status": "login"])
     }
     
     func trackEvent(event: TrackerEvent) {
