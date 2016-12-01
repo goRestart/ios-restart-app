@@ -122,12 +122,23 @@ extension TextViewController {
         textView.toRightOf(leadingTextContainer, margin: viewMargins)
         textViewRightConstraint = textView.alignParentRight(margin: viewMargins)
 
+        let topSeparator = UIView()
+        topSeparator.translatesAutoresizingMaskIntoConstraints = false
+        textAreaContainer.addSubview(topSeparator)
+        topSeparator.fitHorzontallyToParent()
+        topSeparator.alignParentTop()
+        topSeparator.backgroundColor = UIColor.lineGray
+        topSeparator.setHeightConstraint(LGUIKitConstants.onePixelSize)
+
         textAreaContainer.setMinHeight(minTextContainerHeight)
         textAreaContainer.toTopOf(keyboardView)
+
+
 
         mainResponder = textView
         textView.layer.borderWidth = LGUIKitConstants.onePixelSize
         textView.layer.borderColor = UIColor.lineGray.CGColor
+        textView.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
 
 
         // TODO CORRECT TEXTS
