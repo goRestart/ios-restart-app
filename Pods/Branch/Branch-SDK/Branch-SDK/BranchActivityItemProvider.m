@@ -93,6 +93,13 @@
         @"WhatsApp", @"net.whatsapp.WhatsApp.ShareExtension",
         @"WeChat", @"com.tencent.xin.sharetimeline",
         @"LINE", @"jp.naver.line.Share",
+		@"Pinterest", @"pinterest.ShareExtension",
+
+        //  Keys for older app versions --
+
+        @"Facebook",    @"com.facebook.Facebook.ShareExtension",
+        @"Twitter",     @"com.atebits.Tweetie2.ShareExtension",
+
         nil
     ];
     // Set to a more human readible sting if we can identify it

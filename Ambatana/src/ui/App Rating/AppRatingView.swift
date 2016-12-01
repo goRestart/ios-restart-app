@@ -9,7 +9,7 @@
 import UIKit
 import LGCoreKit
 
-protocol AppRatingViewDelegate {
+protocol AppRatingViewDelegate: class {
     func appRatingViewDidSelectRating(rating: Int)
 }
 
@@ -23,7 +23,7 @@ class AppRatingView: UIView {
     @IBOutlet weak var headerImageView: UIImageView!
     @IBOutlet var stars: [UIButton]!
     
-    var delegate: AppRatingViewDelegate?
+    weak var delegate: AppRatingViewDelegate?
     var ratingSource: EventParameterRatingSource?
     
     static func ratingView(source: EventParameterRatingSource) -> AppRatingView? {
