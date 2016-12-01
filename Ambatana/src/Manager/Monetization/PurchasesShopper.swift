@@ -15,14 +15,16 @@ protocol PurchasesShopperDelegate: class {
 
 class PurchasesShopper: NSObject {
 
+    static let sharedInstance: PurchasesShopper = PurchasesShopper()
+
     private var products: [SKProduct]
     var productsRequest: SKProductsRequest
 
     weak var delegate: PurchasesShopperDelegate?
 
-    init(ids: [String]) {
+    override init() {
         self.products = []
-        self.productsRequest = SKProductsRequest(productIdentifiers: Set(ids))
+        self.productsRequest = SKProductsRequest()
         super.init()
         productsRequest.delegate = self
     }
@@ -30,7 +32,8 @@ class PurchasesShopper: NSObject {
     /**
         Check products with itunes connect
      */
-    func productsRequestStart() {
+    func productsRequestStartwithIds(ids: [String]) {
+        productsRequest = SKProductsRequest(productIdentifiers: Set(ids))
         productsRequest.start()
     }
 
@@ -53,9 +56,9 @@ extension PurchasesShopper: SKProductsRequestDelegate {
 //            // Handle any invalid product identifiers. ( ? )
 //        }
 
-        // -> display store UI
         delegate?.shopperFinishedProductsRequestWithProducts(products)
     }
+    
 }
 
 

@@ -140,6 +140,7 @@ class ProductViewModel: BaseViewModel {
     private let interestedBubbleManager: InterestedBubbleManager
     private let bubbleManager: BubbleNotificationManager
     private let featureFlags: FeatureFlaggeable
+    private let purchasesShopper: PurchasesShopper
 
     // Retrieval status
     private var relationRetrieved = false
@@ -170,7 +171,8 @@ class ProductViewModel: BaseViewModel {
                   stickersRepository: stickersRepository, locationManager: locationManager, countryHelper: countryHelper,
                   product: product, thumbnailImage: thumbnailImage, socialSharer: socialSharer, navigator: navigator,
                   bubbleManager: BubbleNotificationManager.sharedInstance,
-                  interestedBubbleManager: InterestedBubbleManager.sharedInstance, featureFlags: featureFlags)
+                  interestedBubbleManager: InterestedBubbleManager.sharedInstance, featureFlags: featureFlags,
+                  purchasesShopper: PurchasesShopper.sharedInstance)
     }
 
     init(myUserRepository: MyUserRepository, productRepository: ProductRepository,
@@ -178,7 +180,7 @@ class ProductViewModel: BaseViewModel {
          stickersRepository: StickersRepository, locationManager: LocationManager, countryHelper: CountryHelper,
          product: Product, thumbnailImage: UIImage?, socialSharer: SocialSharer, navigator: ProductDetailNavigator?,
          bubbleManager: BubbleNotificationManager, interestedBubbleManager: InterestedBubbleManager,
-         featureFlags: FeatureFlaggeable) {
+         featureFlags: FeatureFlaggeable, purchasesShopper: PurchasesShopper) {
         self.product = Variable<Product>(product)
         self.thumbnailImage = thumbnailImage
         self.socialSharer = socialSharer
@@ -196,6 +198,7 @@ class ProductViewModel: BaseViewModel {
         self.bubbleManager = bubbleManager
         self.interestedBubbleManager = interestedBubbleManager
         self.featureFlags = featureFlags
+        self.purchasesShopper = purchasesShopper
         let ownerId = product.user.objectId
         self.ownerId = ownerId
         let myUser = myUserRepository.myUser
@@ -224,6 +227,7 @@ class ProductViewModel: BaseViewModel {
         super.init()
 
         socialSharer.delegate = self
+        purchasesShopper.delegate = self
         setupRxBindings()
     }
     
@@ -267,6 +271,11 @@ class ProductViewModel: BaseViewModel {
                 self?.commercializers.value = value
             }
         }
+
+        // TODO: check if the product is bumpeable and if it is, get the product ids
+        //       with the product Ids launch a request to itunes (to see which are available and get the prices)
+        //       this will launch the delegate func that will present the user the UI to finally choose and make the purchase
+        purchasesShopper.productsRequestStartwithIds(["letgo.ios.bumpup"])
     }
     
     func syncProduct(completion: (() -> ())?) {
@@ -1171,5 +1180,24 @@ private extension ProductViewModelStatus {
         case .Sold, .OtherSold, .NotAvailable, .OtherAvailable, .OtherSoldFree, .OtherAvailableFree, .SoldFree, .AvailableFree:
             return self
         }
+    }
+}
+
+
+// MARK: PurchasesShopperDelegate
+
+extension ProductViewModel: PurchasesShopperDelegate {
+    func shopperFinishedProductsRequestWithProducts(products: [SKProduct]) {
+        guard let purchase = products.first else { return }
+        // TODO: temp UI to test the payments
+        let text = "_\(purchase.localizedDescription) at \(purchase.price)"
+
+        let payAction = UIAction(interface: .Text(LGLocalizedString.productMarkAsSoldConfirmOkButton),
+                                    action: { [weak self] in
+                                        print("💸🐵💰🐵💰🐵💰🐵💰🐵💰💸")
+                                        self?.purchasesShopper.requestPaymentForProduct(purchase)
+            })
+
+        delegate?.vmShowAlert(purchase.localizedTitle, message: text, cancelLabel: "_Cancel", actions: [payAction])
     }
 }
