@@ -11,17 +11,30 @@ import RxSwift
 
 class TextViewController: KeyboardViewController {
 
-    let viewMargins: CGFloat = 8
+    var viewMargins: CGFloat = 8
+    var maxTextViewHeight: CGFloat = 100
+    var minTextContainerHeight: CGFloat = 40
+    var invertedTable = true {
+        didSet {
+            updateInverted()
+        }
+    }
 
     let tableView = UITableView()
     let aboveTextContainer = UIView()
-    let leadingTextContainer = UIView()
     let textView = UITextView()
-    var textViewRightConstraint = NSLayoutConstraint()
     let sendButton = UIButton(type: .Custom)
+    var leftActions: [UIAction] = [] {
+        didSet {
+            updateLeftActions()
+        }
+    }
 
+    private let leadingTextContainer = UIView()
+    private var textViewRightConstraint = NSLayoutConstraint()
+    private var textViewHeight: NSLayoutConstraint?
     private let textAreaContainer = UIView()
-
+    private var leftActionsDisposeBag = DisposeBag()
     private let disposeBag = DisposeBag()
 
 
@@ -43,20 +56,59 @@ class TextViewController: KeyboardViewController {
     // MARK: - Private
 
     private func setupUI() {
-        setupTextUI()
+        view.backgroundColor = UIColor.whiteColor()
+        setupTextArea()
         setupTable()
+    }
+}
+
+
+// MARK: - Table
+
+extension TextViewController: UITableViewDelegate, UITableViewDataSource {
+
+    private func setupTable() {
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(tableView)
+        tableView.fitHorzontallyToParent()
+        tableView.alignParentTop()
+        tableView.toTopOf(textAreaContainer)
+        tableView.backgroundColor = UIColor.clearColor()
+        tableView.separatorStyle = .None
+        updateInverted()
+
+        tableView.keyboardDismissMode = .OnDrag
+        tableView.delegate = self
+        tableView.dataSource = self
+    }
+
+    private func updateInverted() {
+        tableView.transform = invertedTable ? CGAffineTransformMake(1, 0, 0, -1, 0, 0) : CGAffineTransformIdentity;
     }
 
 
-    private func setupTextUI() {
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 0
+    }
+
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        return UITableViewCell()
+    }
+}
+
+
+// MARK: - TextArea
+
+extension TextViewController {
+    private func setupTextArea() {
         textAreaContainer.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(textAreaContainer)
         textAreaContainer.fitHorzontallyToParent()
 
         leadingTextContainer.translatesAutoresizingMaskIntoConstraints = false
         textAreaContainer.addSubview(leadingTextContainer)
-        leadingTextContainer.fitVerticallyToParent()
         leadingTextContainer.alignParentLeft()
+        leadingTextContainer.alignParentBottom()
         leadingTextContainer.setContentHuggingPriority(UILayoutPriorityRequired, forAxis: .Horizontal)
 
         sendButton.translatesAutoresizingMaskIntoConstraints = false
@@ -70,9 +122,22 @@ class TextViewController: KeyboardViewController {
         textView.toRightOf(leadingTextContainer, margin: viewMargins)
         textViewRightConstraint = textView.alignParentRight(margin: viewMargins)
 
-        textAreaContainer.setMinHeight(40)
+        textAreaContainer.setMinHeight(minTextContainerHeight)
         textAreaContainer.toTopOf(keyboardView)
 
+        mainResponder = textView
+        textView.layer.borderWidth = LGUIKitConstants.onePixelSize
+        textView.layer.borderColor = UIColor.lineGray.CGColor
+
+
+        // TODO CORRECT TEXTS
+        sendButton.setTitleColor(UIColor.redText, forState: .Normal)
+        sendButton.setTitle("_Send", forState: .Normal)
+
+        setupTextAreaRx()
+    }
+
+    private func setupTextAreaRx() {
         let emptyText = textView.rx_text.map { $0.trim.isEmpty }
         emptyText.bindTo(sendButton.rx_hidden).addDisposableTo(disposeBag)
         emptyText.bindNext { [weak self] empty in
@@ -83,23 +148,57 @@ class TextViewController: KeyboardViewController {
             }
         }.addDisposableTo(disposeBag)
 
-        mainResponder = textView
-        textView.layer.borderWidth = LGUIKitConstants.onePixelSize
-        textView.layer.borderColor = UIColor.lineGray.CGColor
-        textView.scrollEnabled = false
-
-        // TODO CORRECT TEXTS
-        sendButton.setTitleColor(UIColor.redText, forState: .Normal)
-        sendButton.setTitle("_Send", forState: .Normal)
+        textView.rx_text.asObservable().bindNext { [weak self] _ in
+            self?.fitTextViewHeight()
+        }.addDisposableTo(disposeBag)
     }
 
-    private func setupTable() {
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(tableView)
-        tableView.fitHorzontallyToParent()
-        tableView.alignParentTop()
-        tableView.toTopOf(textAreaContainer)
+    private func updateLeftActions() {
+        leftActionsDisposeBag = DisposeBag()
+        leadingTextContainer.subviews.forEach { $0.removeFromSuperview() }
 
-        tableView.keyboardDismissMode = .OnDrag
+        var prevButton: UIButton?
+        for action in leftActions {
+            guard let image = action.image else { continue }
+            let button = UIButton()
+            button.setImage(image, forState: .Normal)
+            button.rx_tap.subscribeNext(action.action).addDisposableTo(leftActionsDisposeBag)
+            button.translatesAutoresizingMaskIntoConstraints = false
+            leadingTextContainer.addSubview(button)
+            button.setHeightConstraint(minTextContainerHeight)
+            button.setWidthConstraint(minTextContainerHeight)
+            button.fitVerticallyToParent()
+            if let prevButton = prevButton {
+                button.toRightOf(prevButton)
+            } else {
+                button.alignParentLeft()
+            }
+            prevButton = button
+        }
+        if let lastButton = prevButton {
+            lastButton.alignParentRight()
+        }
     }
+
+    private func fitTextViewHeight() {
+        let newHeight = min(maxTextViewHeight, textView.contentHeight)
+        if let textViewHeight = textViewHeight {
+            textViewHeight.constant = newHeight
+        } else {
+            textViewHeight = textView.setHeightConstraint(newHeight)
+        }
+    }
+}
+
+private extension UITextView {
+
+    var contentHeight: CGFloat {
+
+        var intrinsicContentSize = contentSize;
+        intrinsicContentSize.width += (textContainerInset.left + textContainerInset.right ) / 2.0;
+        intrinsicContentSize.height += (textContainerInset.top + textContainerInset.bottom) / 2.0;
+
+        return intrinsicContentSize.height;
+    }
+
 }

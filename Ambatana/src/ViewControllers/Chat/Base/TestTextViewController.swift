@@ -23,6 +23,11 @@ class TestTextViewController: TextViewController {
 
         let leftBarBtn = UIBarButtonItem(title: "Close", style: .Done, target: self, action: #selector(close))
         navigationItem.leftBarButtonItem = leftBarBtn
+
+
+        let testAction1 = UIAction(interface: .Image(UIImage(named: "ic_stickers")), action: { print("first button pressed")})
+        let testAction2 = UIAction(interface: .Image(UIImage(named: "ic_keyboard")), action: { print("second button pressed")})
+        leftActions = [testAction1, testAction2]
     }
 
     dynamic private func close() {
