@@ -2931,6 +2931,7 @@
 		2FDBCD5E579B14339C1597F7B485B98A /* Reporter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Reporter.swift; path = LGCoreKit/Reporter/Reporter.swift; sourceTree = "<group>"; };
 		3025FE9FF6A1C498E963E001789FD872 /* FLEXArgumentInputJSONObjectView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = FLEXArgumentInputJSONObjectView.m; path = Classes/Editing/ArgumentInputViews/FLEXArgumentInputJSONObjectView.m; sourceTree = "<group>"; };
 		304B27B5D1CAA03BC4842A21D475BA46 /* OHHTTPStubsResponse.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = OHHTTPStubsResponse.m; path = OHHTTPStubs/Sources/OHHTTPStubsResponse.m; sourceTree = "<group>"; };
+		3066A13586EFE0DD8FA7CEA21DC2C356 /* AppsFlyerLib.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AppsFlyerLib.framework; sourceTree = "<group>"; };
 		307B7D53C8DF4196B1BD36A2F584ED02 /* FBSDKShareDialog.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = FBSDKShareDialog.m; path = FBSDKShareKit/FBSDKShareKit/FBSDKShareDialog.m; sourceTree = "<group>"; };
 		307D601FAF9F7BDB340067C26147B5F8 /* TypeAliases.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TypeAliases.swift; path = LGCoreKit/TypeAliases.swift; sourceTree = "<group>"; };
 		30C2606C04DB8FCD5AF344B8F419C7DE /* SessionManager.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SessionManager.swift; path = LGCoreKit/Manager/SessionManager.swift; sourceTree = "<group>"; };
@@ -4356,7 +4357,6 @@
 		FB76239ECA8A912DA67833948C9F5DFE /* QuickTestSuite.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = QuickTestSuite.swift; path = Sources/Quick/QuickTestSuite.swift; sourceTree = "<group>"; };
 		FB874D9BE8DB9B84BA026E75CA4CBBE4 /* Argo.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Argo.swift; path = Argo/Operators/Argo.swift; sourceTree = "<group>"; };
 		FBA106743C8F103335EE290C3BC0C0DC /* RxBlocking-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "RxBlocking-dummy.m"; sourceTree = "<group>"; };
-		FC1334EF1C3FAA44C46697BCC070E147 /* AppsFlyerTracker.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AppsFlyerTracker.framework; sourceTree = "<group>"; };
 		FC33656E751FDDACA8D03161A3E54C93 /* Filter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Filter.swift; path = Sources/Quick/Filter.swift; sourceTree = "<group>"; };
 		FC45FC3C0DCF2AFF23AABF0AB3BA5FFB /* NSNotificationCenter+Rx.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "NSNotificationCenter+Rx.swift"; path = "RxCocoa/Common/Observables/NSNotificationCenter+Rx.swift"; sourceTree = "<group>"; };
 		FC49A93FFC6FE2E31F36B8EACD7DE5BA /* Hash.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Hash.swift; path = Sources/CryptoSwift/Hash.swift; sourceTree = "<group>"; };
@@ -5803,6 +5803,14 @@
 			path = "../Target Support Files/SwiftWebSocket";
 			sourceTree = "<group>";
 		};
+		4DBFCFC0DB6406DF878E1F3918DBFE85 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				3066A13586EFE0DD8FA7CEA21DC2C356 /* AppsFlyerLib.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		4E6045E2A3DE6AAC3D51C456E856000E /* NSDictionary+URLArguments */ = {
 			isa = PBXGroup;
 			children = (
@@ -6616,7 +6624,7 @@
 		A5502BEC9BF0073A9C54EBA92FD3EA13 /* AppsFlyerFramework */ = {
 			isa = PBXGroup;
 			children = (
-				D9CC2372BE093244A48AA9A809356AEE /* Frameworks */,
+				4DBFCFC0DB6406DF878E1F3918DBFE85 /* Frameworks */,
 			);
 			path = AppsFlyerFramework;
 			sourceTree = "<group>";
@@ -7347,14 +7355,6 @@
 				57220F064815FF8383924C6615DC5110 /* GTMReadMonitorInputStream.m */,
 			);
 			name = Full;
-			sourceTree = "<group>";
-		};
-		D9CC2372BE093244A48AA9A809356AEE /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				FC1334EF1C3FAA44C46697BCC070E147 /* AppsFlyerTracker.framework */,
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		DB333968A9FDA8B1FD992B86250D027B /* Result */ = {
