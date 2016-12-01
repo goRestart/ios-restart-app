@@ -78,6 +78,11 @@ class ChatTextView: UIView {
         textView.text = ""
         sendButton.enabled = false
     }
+    
+    func setupInitText() {
+        textView.text = LGLocalizedString.chatExpressTextFieldText
+        sendButton.enabled = true
+    }
 
 
     // MARK: - Private methods
