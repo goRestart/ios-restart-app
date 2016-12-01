@@ -1380,14 +1380,17 @@
 // Message title when user didn't allow access to gallery
 "product_post_gallery_permissions_title" = "Allow access to Photos";
 
-// Message to ask user to select a picture or more
-"product_post_gallery_select_pictures" = "_ Please, select up to 5 images to upload.";
+// Title message to ask user to select a picture or more
+"product_post_gallery_select_pictures_title" = "Choose photos";
+
+// Subtitle message to ask user to select a picture or more
+"product_post_gallery_select_pictures_subtitle" = "Select up to 5 images to upload";
 
 // Gallery tab on posting
 "product_post_gallery_tab" = "GALLERY";
 
 // When posting failed but it's our fault
-"product_post_generic_error" = "There was an error while posting your product.";
+"product_post_generic_error" = "An error occurred while posting your product.";
 
 // product name bikes
 "product_post_incentive_bike" = "Bikes";
@@ -1910,7 +1913,7 @@
 "settings_change_profile_picture_button" = "Photo";
 
 // Settings change profile picture error generic. Message displayal is like the other error messages.
-"settings_change_profile_picture_error_generic" = "There was an error setting the profile picture.";
+"settings_change_profile_picture_error_generic" = "An error occurred while changing the profile picture.";
 
 // Settings change profile picture loading. Check attached image "settings_change_profile_picture_loading.png"
 "settings_change_profile_picture_loading" = "Setting profile image. Please wait...";

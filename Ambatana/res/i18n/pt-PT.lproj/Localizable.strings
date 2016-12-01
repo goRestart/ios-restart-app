@@ -456,6 +456,8 @@
 "product_post_gallery_permissions_button" = "Permitir";
 "product_post_gallery_permissions_subtitle" = "Para selecionar um foto existente deve permitir o acesso às Fotos";
 "product_post_gallery_permissions_title" = "Permitir o acesso às Fotos";
+"product_post_gallery_select_pictures_subtitle" = "Select up to 5 images to upload";
+"product_post_gallery_select_pictures_title" = "Choose photos";
 "product_post_gallery_tab" = "BIBLIOTECA";
 "product_post_generic_error" = "Ocorreu um erro ao publicar o seu produto.";
 "product_post_incentive_bike" = "Bicicletas";

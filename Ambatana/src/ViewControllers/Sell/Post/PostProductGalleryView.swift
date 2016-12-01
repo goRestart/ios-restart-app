@@ -336,8 +336,8 @@ extension PostProductGalleryView {
             strongSelf.collectionView.reloadItemsAtIndexPaths(indexes)
 
             if imgsSelected.count == 0 {
-                strongSelf.loadImageErrorTitleLabel.text = LGLocalizedString.productPostGallerySelectPictures
-                strongSelf.loadImageErrorSubtitleLabel.text = nil
+                strongSelf.loadImageErrorTitleLabel.text = LGLocalizedString.productPostGallerySelectPicturesTitle
+                strongSelf.loadImageErrorSubtitleLabel.text = LGLocalizedString.productPostGallerySelectPicturesSubtitle
                 strongSelf.loadImageErrorView.hidden = false
             } else {
                 strongSelf.resetLoadImageErrorViewInfo()

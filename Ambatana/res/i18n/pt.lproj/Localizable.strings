@@ -456,8 +456,10 @@
 "product_post_gallery_permissions_button" = "Allow";
 "product_post_gallery_permissions_subtitle" = "To select an existing photo, you must allow access to Photos";
 "product_post_gallery_permissions_title" = "Allow access to Photos";
+"product_post_gallery_select_pictures_subtitle" = "Select up to 5 images to upload";
+"product_post_gallery_select_pictures_title" = "Choose photos";
 "product_post_gallery_tab" = "GALLERY";
-"product_post_generic_error" = "There was an error while posting your product.";
+"product_post_generic_error" = "An error occurred while posting your product.";
 "product_post_incentive_bike" = "Bikes";
 "product_post_incentive_car" = "Cars";
 "product_post_incentive_dresser" = "Dressers";
@@ -636,7 +638,7 @@
 "settings_change_location_button" = "Location";
 "settings_change_password_button" = "Password";
 "settings_change_profile_picture_button" = "Photo";
-"settings_change_profile_picture_error_generic" = "There was an error setting the profile picture.";
+"settings_change_profile_picture_error_generic" = "An error occurred while changing the profile picture.";
 "settings_change_profile_picture_loading" = "Setting profile image. Please wait...";
 "settings_change_username_button" = "Name";
 "settings_help_button" = "Help";

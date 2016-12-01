@@ -456,6 +456,8 @@
 "product_post_gallery_permissions_button" = "Toestaan";
 "product_post_gallery_permissions_subtitle" = "Om een bestaande foto te selecteren, moet je de toegang tot Foto's toestaan";
 "product_post_gallery_permissions_title" = "Geef toegang tot Foto's";
+"product_post_gallery_select_pictures_subtitle" = "Select up to 5 images to upload";
+"product_post_gallery_select_pictures_title" = "Choose photos";
 "product_post_gallery_tab" = "BIBLIOTHEEK";
 "product_post_generic_error" = "Er is een fout opgetreden tijdens het plaatsen van jouw product.";
 "product_post_incentive_bike" = "Fietsen";

@@ -456,6 +456,8 @@
 "product_post_gallery_permissions_button" = "Engedélyezés";
 "product_post_gallery_permissions_subtitle" = "Meglévő fotó kiválasztásához hozzáférést kell adnod a Fotókhoz";
 "product_post_gallery_permissions_title" = "Hozzáférés engedélyezése a Fotókhoz";
+"product_post_gallery_select_pictures_subtitle" = "Select up to 5 images to upload";
+"product_post_gallery_select_pictures_title" = "Choose photos";
 "product_post_gallery_tab" = "GALÉRIA";
 "product_post_generic_error" = "Hiba történt a portéka meghirdetése során.";
 "product_post_incentive_bike" = "Kerékpárok";

@@ -456,8 +456,11 @@
 "product_post_gallery_permissions_button" = "Tillat";
 "product_post_gallery_permissions_subtitle" = "Du må tillate tilgang til bilder for å kunne velge et eksisterende bilde";
 "product_post_gallery_permissions_title" = "Tillat tilgang til bilder";
+"product_post_gallery_select_pictures" = "Velg opp til fem bilder å laste opp";
+"product_post_gallery_select_pictures_subtitle" = "Select up to 5 images to upload";
+"product_post_gallery_select_pictures_title" = "Choose photos";
 "product_post_gallery_tab" = "BIBLIOTEK";
-"product_post_generic_error" = "Det oppstod en feil ved publisering av ditt produkt.";
+"product_post_generic_error" = "En feil oppstod ved publisering av ditt produkt.";
 "product_post_incentive_bike" = "Sykler";
 "product_post_incentive_car" = "Biler";
 "product_post_incentive_dresser" = "Kommoder";

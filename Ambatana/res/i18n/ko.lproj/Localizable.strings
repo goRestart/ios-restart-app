@@ -456,6 +456,8 @@
 "product_post_gallery_permissions_button" = "허가";
 "product_post_gallery_permissions_subtitle" = "가지고 계신 사진을 선택하기 위해서는, 사진 활용에 대한 접근을 허가해주셔야합니다";
 "product_post_gallery_permissions_title" = "사진 사용 허가";
+"product_post_gallery_select_pictures_subtitle" = "Select up to 5 images to upload";
+"product_post_gallery_select_pictures_title" = "Choose photos";
 "product_post_gallery_tab" = "사진첩";
 "product_post_generic_error" = "회원님의 상품을 게시하는데 오류가 발생했습니다.";
 "product_post_incentive_bike" = "자전거";

@@ -456,8 +456,11 @@
 "product_post_gallery_permissions_button" = "İzin Ver";
 "product_post_gallery_permissions_subtitle" = "Mevcut bir fotoğrafı seçmek için, Resimlerine erişime izin vermelisin";
 "product_post_gallery_permissions_title" = "Fotoğraflara erişime izin ver";
+"product_post_gallery_select_pictures" = "5 görsele kadar seçip yükle";
+"product_post_gallery_select_pictures_subtitle" = "Select up to 5 images to upload";
+"product_post_gallery_select_pictures_title" = "Choose photos";
 "product_post_gallery_tab" = "KÜTÜPHANE";
-"product_post_generic_error" = "Bir hata oluştuğu için ürün yayınlanamadı.";
+"product_post_generic_error" = "Ürünün yüklenirken bir hata oluştu.";
 "product_post_incentive_bike" = "Bisikletler";
 "product_post_incentive_car" = "Arabalar";
 "product_post_incentive_dresser" = "Şifonyerler";
