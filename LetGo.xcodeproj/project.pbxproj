@@ -831,6 +831,8 @@
 		C78F9DBA1DC9EE8500884064 /* LocalUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = C78F9DB81DC9EE8500884064 /* LocalUser.swift */; };
 		C78F9DBC1DCA525F00884064 /* ChatTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C78F9DBB1DCA525F00884064 /* ChatTextView.swift */; };
 		C78F9DBD1DCA525F00884064 /* ChatTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C78F9DBB1DCA525F00884064 /* ChatTextView.swift */; };
+		C7905B871DF1D090009CD191 /* UITextView+Lines.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7905B861DF1D090009CD191 /* UITextView+Lines.swift */; };
+		C7905B881DF1D090009CD191 /* UITextView+Lines.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7905B861DF1D090009CD191 /* UITextView+Lines.swift */; };
 		C79643111D4F5AFA000C5FCE /* RelatedProductsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C79643101D4F5AFA000C5FCE /* RelatedProductsView.swift */; };
 		C79643121D4F5AFA000C5FCE /* RelatedProductsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C79643101D4F5AFA000C5FCE /* RelatedProductsView.swift */; };
 		C797404F1D2A95B100381A4A /* LeanplumTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C797404E1D2A95B100381A4A /* LeanplumTracker.swift */; };
@@ -1711,6 +1713,7 @@
 		C78F9DB51DC9ED1300884064 /* LocalProduct.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalProduct.swift; sourceTree = "<group>"; };
 		C78F9DB81DC9EE8500884064 /* LocalUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalUser.swift; sourceTree = "<group>"; };
 		C78F9DBB1DCA525F00884064 /* ChatTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatTextView.swift; sourceTree = "<group>"; };
+		C7905B861DF1D090009CD191 /* UITextView+Lines.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITextView+Lines.swift"; sourceTree = "<group>"; };
 		C79643101D4F5AFA000C5FCE /* RelatedProductsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RelatedProductsView.swift; sourceTree = "<group>"; };
 		C797404E1D2A95B100381A4A /* LeanplumTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeanplumTracker.swift; sourceTree = "<group>"; };
 		C79842001CC8E8C900C300FF /* User+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "User+LG.swift"; sourceTree = "<group>"; };
@@ -2896,6 +2899,7 @@
 				C7B543231D6F49CE005FBA30 /* UIView+Screenshot.swift */,
 				C7DFB0B61DDA256E005C9B9D /* UIView+Corners.swift */,
 				C7415EED1DEF21260003D6C1 /* UIView+Constraints.swift */,
+				C7905B861DF1D090009CD191 /* UITextView+Lines.swift */,
 			);
 			path = UIkitExtensions;
 			sourceTree = "<group>";
@@ -4597,6 +4601,7 @@
 				C79842011CC8E8C900C300FF /* User+LG.swift in Sources */,
 				C7415EEB1DEF1E300003D6C1 /* TextViewController.swift in Sources */,
 				C7B588531CE1DE1C009B3975 /* DirectAnswersCloseCell.swift in Sources */,
+				C7905B871DF1D090009CD191 /* UITextView+Lines.swift in Sources */,
 				6A5E1A0A1D548F5400F92692 /* UIBarItem+Rx.swift in Sources */,
 				C7798EA21D2EB6AB00C81DD4 /* UICollectionView+Helper.swift in Sources */,
 				2E28B1291D99129D001BF8E4 /* CGFloat+rounding.swift in Sources */,
@@ -5014,6 +5019,7 @@
 				C7DB41DC1C5138B500400945 /* CAGradientLayer+Color.swift in Sources */,
 				C7415EEC1DEF1E300003D6C1 /* TextViewController.swift in Sources */,
 				C7111F061CA438C2000C5C5A /* UriScheme.swift in Sources */,
+				C7905B881DF1D090009CD191 /* UITextView+Lines.swift in Sources */,
 				6A5E1A0B1D548F5400F92692 /* UIBarItem+Rx.swift in Sources */,
 				506846481CD390CA00FA00C2 /* AppNavigator.swift in Sources */,
 				C79842021CC8E8C900C300FF /* User+LG.swift in Sources */,
