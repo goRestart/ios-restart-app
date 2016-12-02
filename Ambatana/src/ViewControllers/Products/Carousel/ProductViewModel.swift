@@ -304,7 +304,7 @@ class ProductViewModel: BaseViewModel {
             guard let strongSelf = self else { return }
             strongSelf.refreshDirectChats(status)
             strongSelf.refreshActionButtons(status)
-            strongSelf.directChatEnabled.value = strongSelf.featureFlags.periscopeChat && status.directChatsAvailable
+            strongSelf.directChatEnabled.value = status.directChatsAvailable
         }.addDisposableTo(disposeBag)
 
         isFavorite.asObservable().subscribeNext { [weak self] _ in
@@ -524,6 +524,7 @@ extension ProductViewModel {
     }
 
     func openRelatedItems() {
+        trackHelper.trackMoreInfoRelatedItemsViewMore()
         navigator?.openRelatedItems(product.value, productVisitSource: .MoreInfoRelated)
     }
 
@@ -777,12 +778,7 @@ extension ProductViewModel {
             actionButtons.append(UIAction(interface: .Button(LGLocalizedString.productSellAgainButton, .Secondary(fontSize: .Big, withBorder: false)),
                 action: { [weak self] in self?.resell() }))
         case .OtherAvailable, .OtherAvailableFree:
-            if !featureFlags.periscopeChat {
-                let userName: String = product.value.user.name?.toNameReduced(maxChars: Constants.maxCharactersOnUserNameChatButton) ?? ""
-                let buttonText = LGLocalizedString.productChatWithSellerNameButton(userName)
-                actionButtons.append(UIAction(interface: .Button(buttonText, .Primary(fontSize: .Big)),
-                    action: { [weak self] in self?.chatWithSeller() }))
-            }
+            break
         case .AvailableFree:
             actionButtons.append(UIAction(interface: .Button(LGLocalizedString.productMarkAsSoldFreeButton, .Terciary),
                 action: { [weak self] in self?.markSoldFree() }))
@@ -1009,6 +1005,7 @@ extension ProductViewModel: RelatedProductsViewDelegate {
     func relatedProductsView(view: RelatedProductsView, showProduct product: Product, atIndex index: Int,
                              productListModels: [ProductCellModel], requester: ProductListRequester,
                              thumbnailImage: UIImage?, originFrame: CGRect?) {
+        trackHelper.trackMoreInfoRelatedItemsComplete(index)
         let data = ProductDetailData.ProductList(product: product, cellModels: productListModels, requester: requester,
                                                  thumbnailImage: thumbnailImage, originFrame: originFrame, showRelated: false, index: index)
         navigator?.openProduct(data, source: .MoreInfoRelated)

@@ -21,8 +21,8 @@ class ChangeUsernameViewController: BaseViewController, UITextFieldDelegate, Cha
     
     var lines: [CALayer]
     
-    init() {
-        self.viewModel = ChangeUsernameViewModel()
+    init(vm: ChangeUsernameViewModel) {
+        self.viewModel = vm
         self.lines = []
         super.init(viewModel: viewModel, nibName: "ChangeUsernameViewController")
         self.viewModel.delegate = self
@@ -125,8 +125,8 @@ class ChangeUsernameViewController: BaseViewController, UITextFieldDelegate, Cha
         switch (result) {
         case .Success:
             completion = {
-                self.showAutoFadingOutMessageAlert(LGLocalizedString.changeUsernameSendOk) { [weak self] in
-                    self?.navigationController?.popViewControllerAnimated(true)
+                self.showAutoFadingOutMessageAlert(LGLocalizedString.changeUsernameSendOk) { _ in
+                    viewModel.userNameSaved()
                 }
             }
             break

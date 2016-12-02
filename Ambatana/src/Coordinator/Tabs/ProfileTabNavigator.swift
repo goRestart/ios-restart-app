@@ -6,15 +6,35 @@
 //  Copyright © 2016 Ambatana. All rights reserved.
 //
 
+import FBSDKShareKit
+
 protocol ProfileTabNavigator: TabNavigator {
     func openSettings()
 }
 
 protocol SettingsNavigator: class {
-    func showFbAppInvite()
+    func showFbAppInvite(content: FBSDKAppInviteContent, delegate: FBSDKAppInviteDialogDelegate)
     func openEditUserName()
     func openEditLocation()
     func openCreateCommercials()
     func openChangePassword()
     func openHelp()
+    func closeSettings()
+}
+
+protocol ChangeUsernameNavigator: class {
+    func closeChangeUsername()
+}
+
+protocol ChangePasswordNavigator: class {
+    func closeChangePassword()
+}
+
+protocol EditLocationNavigator: class {
+    func closeEditLocation()
+}
+
+protocol HelpNavigator: class {
+    func closeHelp()
+    func openURL(url: NSURL)
 }

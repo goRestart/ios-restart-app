@@ -241,15 +241,7 @@ class LGViewPager: UIView, UIScrollViewDelegate {
             break
         }
     }
-
-    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
-        switch scrollView {
-        case pagesScrollView:
-            updateCurrentPageAndNotifyDelegate(false)
-        default:
-            break
-        }
-    }
+    
 
     func scrollViewDidEndScrollingAnimation(scrollView: UIScrollView) {
 
@@ -267,7 +259,7 @@ class LGViewPager: UIView, UIScrollViewDelegate {
         if decelerate {
             switch scrollView {
             case pagesScrollView:
-                updateCurrentPageAndNotifyDelegate(false)
+                updateCurrentPageAndNotifyDelegate(true)
             default:
                 break
             }
