@@ -681,7 +681,7 @@ extension ProductCarouselViewController {
         viewModel.stickersButtonEnabled.asObservable().map { !$0 }.bindTo(stickersButton.rx_hidden).addDisposableTo(disposeBag)
         chatTextView.placeholder = viewModel.directChatPlaceholder
         if viewModel.shouldShowTextOnChatView() {
-            chatTextView.setInitialText()
+            chatTextView.setInitialText(LGLocalizedString.chatExpressTextFieldText)
         } else {
             chatTextView.clear()
             chatTextView.resignFirstResponder()

@@ -16,7 +16,7 @@ class ChatTextView: UIView {
     static let minimumButtonWidth: CGFloat = 70
     static let buttonMargin: CGFloat = 3
     
-    static let defaultText = LGLocalizedString.chatExpressTextFieldText
+    var currentDefaultText = ""
 
     var placeholder: String? {
         get {
@@ -44,7 +44,7 @@ class ChatTextView: UIView {
     }
     
     var isInitialText: Bool {
-        return textView.text == ChatTextView.defaultText
+        return textView.text == currentDefaultText
     }
     
     
@@ -87,8 +87,9 @@ class ChatTextView: UIView {
         sendButton.enabled = false
     }
     
-    func setInitialText() {
-        textView.text = ChatTextView.defaultText
+    func setInitialText(defaultText: String) {
+        textView.text = defaultText
+        currentDefaultText = defaultText
         sendButton.enabled = true
         initialTextActive = true
     }
