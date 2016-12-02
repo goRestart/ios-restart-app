@@ -1055,7 +1055,7 @@ extension ProductCarouselViewController: UITableViewDataSource, UITableViewDeleg
         guard let messages = viewModel.currentProductViewModel?.directChatMessages.value else { return UITableViewCell() }
         guard 0..<messages.count ~= indexPath.row else { return UITableViewCell() }
         let message = messages[indexPath.row]
-        let drawer = ChatCellDrawerFactory.drawerForMessage(message, autoHide: true)
+        let drawer = ChatCellDrawerFactory.drawerForMessage(message, autoHide: true, disclosure: true)
         let cell = drawer.cell(tableView, atIndexPath: indexPath)
 
         drawer.draw(cell, message: message, delegate: self)
