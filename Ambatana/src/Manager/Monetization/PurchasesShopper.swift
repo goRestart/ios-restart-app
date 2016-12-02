@@ -34,6 +34,7 @@ class PurchasesShopper: NSObject {
      */
     func productsRequestStartwithIds(ids: [String]) {
         productsRequest = SKProductsRequest(productIdentifiers: Set(ids))
+        productsRequest.delegate = self
         productsRequest.start()
     }
 

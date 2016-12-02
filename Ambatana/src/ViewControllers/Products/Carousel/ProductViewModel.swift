@@ -275,7 +275,10 @@ class ProductViewModel: BaseViewModel {
         // TODO: check if the product is bumpeable and if it is, get the product ids
         //       with the product Ids launch a request to itunes (to see which are available and get the prices)
         //       this will launch the delegate func that will present the user the UI to finally choose and make the purchase
-        purchasesShopper.productsRequestStartwithIds(["letgo.ios.bumpup"])
+        if featureFlags.monetizationEnabled {
+            // also, if the product is bumpeable && there are in-app purchase products
+            purchasesShopper.productsRequestStartwithIds(["letgo.ios.bumpup"])
+        }
     }
     
     func syncProduct(completion: (() -> ())?) {
@@ -646,10 +649,6 @@ extension ProductViewModel {
             actions.append(buildDeleteButton())
         }
 
-        if featureFlags.monetizationEnabled {
-            // also, if the product is bumpeable && there are in-app purchase products
-            actions.append(buildMonetizationButton())
-        }
 
         delegate?.vmShowProductDelegateActionSheet(LGLocalizedString.commonCancel, actions: actions)
     }
@@ -746,13 +745,6 @@ extension ProductViewModel {
         case .Approved:
             return true
         }
-    }
-
-    private func buildMonetizationButton() -> UIAction {
-        let title = "_Bump Up"
-        return UIAction(interface: .Text(title), action: { [weak self] in
-                print("Bump Up pressed!!! 💸")
-            })
     }
 }
 
