@@ -284,7 +284,15 @@ extension TextViewController: UITextViewDelegate {
     }
 
     private func fitTextView() {
-        textViewHeight.constant = textView.appropriateHeight(textMaxLines)
+        let appropriateHeight = textView.appropriateHeight(textMaxLines)
+        guard textViewHeight.constant != appropriateHeight else { return }
+        textViewHeight.constant = appropriateHeight
+        if textView.isFirstResponder() {
+            UIView.animateWithDuration(0.2, delay: 0, options: [.CurveEaseInOut, .LayoutSubviews, .BeginFromCurrentState],
+                                       animations: { [weak self] in
+                                            self?.textView.scrollToCaret(animated: false)
+                                        }, completion: nil)
+        }
     }
 }
 
@@ -337,6 +345,17 @@ extension UITextView {
         }
         guard lines > 0 else { return 1 }
         return UInt(lines)
+    }
+
+    func scrollToCaret(animated animated: Bool) {
+        if animated {
+            scrollRangeToVisible(selectedRange)
+        } else {
+            UIView.performWithoutAnimation { [weak self] in
+                guard let selectedRange = self?.selectedRange else { return }
+                self?.scrollRangeToVisible(selectedRange)
+            }
+        }
     }
 
     private func heightForLines(lines: UInt) -> CGFloat {
