@@ -66,7 +66,7 @@ extension UIView {
     }
 
     func toTopOf(view: UIView, margin: CGFloat = 0) -> NSLayoutConstraint {
-        let constraint = NSLayoutConstraint(item: self, attribute: .Bottom, relatedBy: .Equal, toItem: view, attribute: .Top, multiplier: 1, constant: margin)
+        let constraint = NSLayoutConstraint(item: view, attribute: .Top, relatedBy: .Equal, toItem: self, attribute: .Bottom, multiplier: 1, constant: margin)
         superview?.addConstraint(constraint)
         return constraint
     }

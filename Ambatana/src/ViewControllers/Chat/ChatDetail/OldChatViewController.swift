@@ -7,7 +7,6 @@
 //
 
 import UIKit
-//import SlackTextViewController
 import LGCoreKit
 import RxSwift
 
@@ -30,7 +29,6 @@ class OldChatViewController: TextViewController {
     var relationInfoView = RelationInfoView.relationInfoView()   // informs if the user is blocked, or the product sold or inactive
     var directAnswersPresenter: DirectAnswersPresenter
     let relatedProductsView: ChatRelatedProductsView
-    let keyboardHelper: KeyboardHelper
     let disposeBag = DisposeBag()
 
     var stickersTooltip: Tooltip?
@@ -38,14 +36,17 @@ class OldChatViewController: TextViewController {
     var blockedToastOffset: CGFloat {
         return relationInfoView.hidden ? 0 : RelationInfoView.defaultHeight
     }
-    
+
+    convenience init(viewModel: OldChatViewModel) {
+        self.init(viewModel: viewModel, hidesBottomBar: true)
+    }
+
     convenience init(viewModel: OldChatViewModel, hidesBottomBar: Bool) {
-        self.init(viewModel: viewModel, keyboardHelper: KeyboardHelper.sharedInstance, featureFlags: FeatureFlags.sharedInstance)
-        hidesBottomBarWhenPushed = hidesBottomBar
+        self.init(viewModel: viewModel, featureFlags: FeatureFlags.sharedInstance, hidesBottomBar: hidesBottomBar)
     }
     
     // MARK: - View lifecycle
-    required init(viewModel: OldChatViewModel, keyboardHelper: KeyboardHelper = KeyboardHelper.sharedInstance, featureFlags: FeatureFlags = FeatureFlags.sharedInstance) {
+    required init(viewModel: OldChatViewModel, featureFlags: FeatureFlags, hidesBottomBar: Bool) {
         self.viewModel = viewModel
         self.productView = ChatProductView.chatProductView(featureFlags.userReviews)
         self.directAnswersPresenter = DirectAnswersPresenter(websocketChatActive: featureFlags.websocketChat)
@@ -53,13 +54,11 @@ class OldChatViewController: TextViewController {
         self.stickersView = ChatStickersView()
         self.stickersCloseButton = UIButton(frame: CGRect.zero)
         self.expressChatBanner = ChatBanner()
-        self.keyboardHelper = keyboardHelper
         super.init(viewModel: viewModel, nibName: nil)
-//        super.init(tableViewStyle: .Plain)
         self.viewModel.delegate = self
         self.expressChatBanner.delegate = self
         setReachabilityEnabled(true)
-        hidesBottomBarWhenPushed = true
+        hidesBottomBarWhenPushed = hidesBottomBar
     }
     
     required init(coder decoder: NSCoder) {
@@ -74,9 +73,7 @@ class OldChatViewController: TextViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        if let tableView = tableView {
-            ChatCellDrawerFactory.registerCells(tableView)
-//        }
+        ChatCellDrawerFactory.registerCells(tableView)
         setNavBarBackButton(nil)
         setupUI()
         setupToastView()
@@ -90,27 +87,16 @@ class OldChatViewController: TextViewController {
                                                          name: UIMenuControllerWillShowMenuNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(menuControllerWillHide(_:)),
                                                          name: UIMenuControllerWillHideMenuNotification, object: nil)
-//        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(applicationWillEnterForeground(_:)),
-//                                                         name: UIApplicationWillEnterForegroundNotification, object: nil)
     }
-
-//    dynamic private func applicationWillEnterForeground(notification: NSNotification) {
-//        viewModel.applicationWillEnterForeground()
-//    }
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        
-//        UIApplication.sharedApplication().setStatusBarStyle(.Default, animated: true)
-//        setNavBarBackgroundStyle(.Default)
-//        updateReachableAndToastViewVisibilityIfNeeded()
-//        viewModel.active = true
+
         updateChatInteraction(viewModel.chatEnabled)
     }
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
-//        viewModel.active = false
         removeStickersTooltip()
     }
 
@@ -143,14 +129,6 @@ class OldChatViewController: TextViewController {
     override func sendButtonPressed() {
         viewModel.sendText(textView.text, isQuickAnswer: false)
     }
-
-//    override func didPressRightButton(sender: AnyObject!) {
-//        viewModel.sendText(textView.text, isQuickAnswer: false)
-//    }
-
-//    override func didPressLeftButton(sender: AnyObject!) {
-//        showingStickers ? hideStickers() : showStickers()
-//    }
 
     /**
      Slack Caches the text in the textView if you close the view before sending
@@ -230,14 +208,6 @@ class OldChatViewController: TextViewController {
         textViewFont = UIFont.systemFontOfSize(17)
         textView.backgroundColor = UIColor.whiteColor()
         textViewBarColor = UIColor.whiteColor()
-//        textInputbar.backgroundColor = UIColor.whiteColor()
-//        textInputbar.clipsToBounds = true
-//        textInputbar.translucent = false
-//        textInputbar.rightButton.setTitle(LGLocalizedString.chatSendButton, forState: .Normal)
-//        rightButton.tintColor = UIColor.primaryColor
-//        rightButton.titleLabel?.font = UIFont.smallButtonFont
-//        leftButton.setImage(UIImage(named: "ic_stickers"), forState: .Normal)
-//        leftButton.tintColor = UIColor.grayDark
         sendButton.setTitle(LGLocalizedString.chatSendButton, forState: .Normal)
         sendButton.tintColor = UIColor.primaryColor
         sendButton.titleLabel?.font = UIFont.smallButtonFont
@@ -248,11 +218,6 @@ class OldChatViewController: TextViewController {
         setupConstraints()
 
         relationInfoView.setupUIForStatus(viewModel.chatStatus, otherUserName: viewModel.otherUserName)
-//        textInputbarHidden = !viewModel.chatEnabled
-        textViewBarHidden = !viewModel.chatEnabled
-        
-        // chat info view setup
-//        keyboardPanningEnabled = false
 
         if let patternBackground = UIColor.emptyViewBackgroundColor {
             tableView.backgroundColor = UIColor.clearColor()
@@ -285,11 +250,9 @@ class OldChatViewController: TextViewController {
     }
     
     private func setupFrames() {
-//        if let tableView = tableView {
-            tableView.contentInset.bottom = navBarHeight + blockedToastOffset
-            tableView.frame = CGRectMake(0, blockedToastOffset,
-                                         tableView.width, tableView.height - blockedToastOffset)
-//        }
+        tableView.contentInset.bottom = navBarHeight + blockedToastOffset
+        tableView.frame = CGRectMake(0, blockedToastOffset,
+                                     tableView.width, tableView.height - blockedToastOffset)
 
         activityIndicator.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
         activityIndicator.center = view.center
@@ -369,7 +332,6 @@ class OldChatViewController: TextViewController {
     }
     
     private func updateChatInteraction(enabled: Bool) {
-//        setTextInputbarHidden(!enabled, animated: true)
         setTextViewBarHidden(!enabled, animated: true)
         textView.userInteractionEnabled = enabled
         if !enabled {
@@ -634,7 +596,6 @@ extension OldChatViewController {
      - parameter notification: NSNotification received
      */
     func menuControllerWillShow(notification: NSNotification) {
-//        guard let tableView = tableView else { return }
         guard let indexPath = selectedCellIndexPath else { return }
         guard let cell = tableView.cellForRowAtIndexPath(indexPath) as? ChatBubbleCell else { return }
         selectedCellIndexPath = nil
@@ -739,7 +700,7 @@ extension OldChatViewController {
     }
 
     private func setupStickersView() {
-        let height = keyboardHelper.keyboardHeight
+        let height = keyboardFrame.height
         let frame = CGRectMake(0, view.frame.height - height, view.frame.width, height)
         stickersView.frame = frame
         stickersView.delegate = self
@@ -761,21 +722,18 @@ extension OldChatViewController {
         stickersWindow?.addSubview(stickersCloseButton)
         stickersView.hidden = true
         showingStickers = false
-        
-        let originSignal = keyboardHelper.rx_keyboardOrigin.asObservable().distinctUntilChanged()
-        let heightSignal = keyboardHelper.rx_keyboardHeight.asObservable().distinctUntilChanged()
-        let combined = Observable.combineLatest(originSignal, heightSignal) { $0 }
-        
-        combined.bindNext { [weak self] (origin, height) in
+
+        keyboardChanges.bindNext { [weak self] change in
             guard let `self` = self else { return }
+            let origin = change.origin
+            let height = change.height
             let windowFrame = CGRectMake(0, origin-self.inputBarHeight, self.view.width, height+self.inputBarHeight)
             let stickersFrame = CGRect(x: 0, y: self.inputBarHeight, width: self.view.width, height: height)
             let buttonFrame = CGRect(x: 0, y: 0, width: self.view.width, height: self.inputBarHeight)
             self.stickersWindow?.frame = windowFrame
             self.stickersView.frame = stickersFrame
             self.stickersCloseButton.frame = buttonFrame
-
-            }.addDisposableTo(disposeBag)
+        }.addDisposableTo(disposeBag)
     }
 
     func showStickers() {
@@ -784,22 +742,19 @@ extension OldChatViewController {
         showKeyboard(true, animated: false)
         stickersWindow?.hidden = false
         stickersView.hidden = false
-
         let action = UIAction(interface: .Image(UIImage(named: "ic_keyboard")), action: { [weak self] in
             self?.hideStickers()
-        })
+        }, accessibilityId: .ChatViewStickersButton)
         leftActions = [action]
-//        leftButton.setImage(UIImage(named: "ic_keyboard"), forState: .Normal)
         showingStickers = true
     }
     
     func hideStickers() {
         stickersWindow?.hidden = true
         stickersView.hidden = true
-//        leftButton.setImage(UIImage(named: "ic_stickers"), forState: .Normal)
         let action = UIAction(interface: .Image(UIImage(named: "ic_stickers")), action: { [weak self] in
             self?.showStickers()
-        })
+            }, accessibilityId: .ChatViewStickersButton)
         leftActions = [action]
         showingStickers = false
     }
@@ -869,7 +824,6 @@ extension OldChatViewController {
         tableView.accessibilityId = .ChatViewTableView
         navigationItem.rightBarButtonItem?.accessibilityId = .ChatViewMoreOptionsButton
         navigationItem.backBarButtonItem?.accessibilityId = .ChatViewBackButton
-//        textInputbar.leftButton.accessibilityId = .ChatViewStickersButton
         sendButton.accessibilityId = .ChatViewSendButton
         textViewBar.accessibilityId = .ChatViewTextInputBar
         stickersCloseButton.accessibilityId = .ChatViewCloseStickersButton

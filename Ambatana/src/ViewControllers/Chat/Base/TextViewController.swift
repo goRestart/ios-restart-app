@@ -23,7 +23,7 @@ class TextViewController: KeyboardViewController {
     }
     var textViewBarHidden = false {
         didSet {
-            textViewBarMaxHeight.constant = textViewBarHidden ? 0 : maxTextViewBarHeight
+            textViewBarBottom.constant = textViewBarHidden ? -textViewBar.height : 0
         }
     }
     var textViewFont: UIFont = UIFont.systemFontOfSize(17) {
@@ -52,7 +52,7 @@ class TextViewController: KeyboardViewController {
 
     private let maxTextViewBarHeight: CGFloat = 1000
     private let textViewInsets: CGFloat = 7
-    private var textViewBarMaxHeight = NSLayoutConstraint()
+    private var textViewBarBottom = NSLayoutConstraint()
     private var textViewRightConstraint = NSLayoutConstraint()
     private var textViewHeight = NSLayoutConstraint()
     private var leftActionsDisposeBag = DisposeBag()
@@ -86,7 +86,7 @@ class TextViewController: KeyboardViewController {
     }
 
     func presentKeyboard(animated: Bool) {
-        guard !textView.isFirstResponder() else { return }
+        guard !textViewBarHidden && !textView.isFirstResponder() else { return }
         if !animated {
             UIView.performWithoutAnimation { [weak self] in
                 self?.textView.becomeFirstResponder()
@@ -192,9 +192,9 @@ extension TextViewController: UITextViewDelegate {
         let minHeight = textView.minimumHeight + textViewMargin*2
         textViewBar.frame = CGRect(x: 0, y: TextViewController.initialKbOrigin, width: view.width, height: minHeight)
         textViewBar.translatesAutoresizingMaskIntoConstraints = false
+        textViewBar.clipsToBounds = true
         view.addSubview(textViewBar)
         textViewBar.fitHorzontallyToParent()
-        textViewBarMaxHeight = textViewBar.setMaxHeight(textViewBarHidden ? 0 : maxTextViewBarHeight)
 
         leftButtonsContainer.translatesAutoresizingMaskIntoConstraints = false
         textViewBar.addSubview(leftButtonsContainer)
@@ -223,7 +223,7 @@ extension TextViewController: UITextViewDelegate {
         topSeparator.backgroundColor = UIColor.lineGray
         topSeparator.setHeightConstraint(LGUIKitConstants.onePixelSize)
 
-        textViewBar.toTopOf(keyboardView)
+        textViewBarBottom = textViewBar.toTopOf(keyboardView, margin: textViewBarHidden ? -textViewBar.height : 0)
 
         mainResponder = textView
         textView.delegate = self

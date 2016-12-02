@@ -22,12 +22,6 @@ class KeyboardHelper {
     
     init() {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(keyboardWillChange),
-                                                         name:UIKeyboardWillShowNotification, object: nil)
-        
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(keyboardWillChange),
-                                                         name:UIKeyboardWillHideNotification, object: nil)
-        
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(keyboardWillChange),
                                                          name:UIKeyboardWillChangeFrameNotification, object: nil)
     }
     

@@ -29,6 +29,7 @@ struct KeyboardChange: CustomStringConvertible {
 class KeyboardViewController: BaseViewController {
 
     static let initialKbOrigin = UIScreen.mainScreen().bounds.height
+    static let initialKbWidth = UIScreen.mainScreen().bounds.width
 
     var keyboardChanges: Observable<KeyboardChange> {
         return changes.asObservable().skip(1)
@@ -64,6 +65,8 @@ class KeyboardViewController: BaseViewController {
         //Setup keyboard frame
         keyboardView.translatesAutoresizingMaskIntoConstraints = false
         keyboardView.userInteractionEnabled = false
+        keyboardView.frame = CGRect(x: 0, y: KeyboardViewController.initialKbOrigin,
+                                    width: KeyboardViewController.initialKbWidth, height: 0)
         view.addSubview(keyboardView)
         let views = [ "keyboardFrame" : keyboardView ]
         view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[keyboardFrame]|", options: [],
