@@ -74,7 +74,6 @@ class OldChatViewController: TextViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         ChatCellDrawerFactory.registerCells(tableView)
-        setNavBarBackButton(nil)
         setupUI()
         setupToastView()
         setupRelatedProducts()
@@ -115,12 +114,6 @@ class OldChatViewController: TextViewController {
     override func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
         guard !text.hasEmojis() else { return false }
         return super.textView(textView, shouldChangeTextInRange: range, replacementText: text)
-    }
-    
-    // This method overrides a private method in SLKTextViewController that was returning an incorrect bottom
-    // margin when hidesBottombar is false.
-    func slk_appropriateBottomMargin() -> CGFloat {
-        return 0
     }
     
     
