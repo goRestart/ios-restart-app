@@ -15,6 +15,8 @@ class ChatTextView: UIView {
     static let minimumWidth: CGFloat = 100
     static let minimumButtonWidth: CGFloat = 70
     static let buttonMargin: CGFloat = 3
+    
+    static let defaultText = LGLocalizedString.chatExpressTextFieldText
 
     var placeholder: String? {
         get {
@@ -40,7 +42,12 @@ class ChatTextView: UIView {
     var hasFocus: Bool {
         return focus.value
     }
-
+    
+    var isInitialText: Bool {
+        return textView.text == ChatTextView.defaultText
+    }
+    
+    
     private let textView = UITextField()
     private let sendButton = UIButton(type: .Custom)
     private let focus = Variable<Bool>(false)
@@ -81,7 +88,7 @@ class ChatTextView: UIView {
     }
     
     func setInitialText() {
-        textView.text = LGLocalizedString.chatExpressTextFieldText
+        textView.text = ChatTextView.defaultText
         sendButton.enabled = true
         initialTextActive = true
     }

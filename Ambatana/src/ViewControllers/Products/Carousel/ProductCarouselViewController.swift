@@ -693,8 +693,9 @@ extension ProductCarouselViewController {
             }.addDisposableTo(activeDisposeBag)
 
         chatTextView.rx_send.bindNext { [weak self, weak viewModel] textToSend in
-            viewModel?.sendDirectMessage(textToSend)
-            self?.chatTextView.clear()
+            guard let strongSelf = self else { return }
+            viewModel?.sendDirectMessage(textToSend, isDefaultText: strongSelf.chatTextView.isInitialText)
+            strongSelf.chatTextView.clear()
             }.addDisposableTo(activeDisposeBag)
 
         viewModel.directChatMessages.changesObservable.bindNext { [weak self] change in
