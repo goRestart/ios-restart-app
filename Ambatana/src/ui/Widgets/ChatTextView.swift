@@ -44,7 +44,7 @@ class ChatTextView: UIView {
     private let textView = UITextField()
     private let sendButton = UIButton(type: .Custom)
     private let focus = Variable<Bool>(false)
-    private var initTextIsSetUp = false
+    private var initialTextActive = false
 
     private static let elementsMargin: CGFloat = 10
     private static let textViewMaxHeight: CGFloat = 120
@@ -80,10 +80,10 @@ class ChatTextView: UIView {
         sendButton.enabled = false
     }
     
-    func setupInitText() {
+    func setInitialText() {
         textView.text = LGLocalizedString.chatExpressTextFieldText
         sendButton.enabled = true
-        initTextIsSetUp = true
+        initialTextActive = true
     }
 
 
@@ -197,10 +197,10 @@ extension ChatTextView: UITextFieldDelegate {
     }
     
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
-        if string.isEmpty && initTextIsSetUp {
+        if string.isEmpty && initialTextActive {
             clear()
         }
-        initTextIsSetUp = false
+        initialTextActive = false
         return true
     }
 }
