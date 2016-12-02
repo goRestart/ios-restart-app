@@ -50,6 +50,8 @@ class TextViewController: KeyboardViewController {
         }
     }
 
+    private static var keyTextCache = [String : String]()
+
     private let maxTextViewBarHeight: CGFloat = 1000
     private let textViewInsets: CGFloat = 7
     private var textViewBarBottom = NSLayoutConstraint()
@@ -235,6 +237,10 @@ extension TextViewController: UITextViewDelegate {
         sendButton.setTitle("Send", forState: .Normal)
 
         setupTextAreaRx()
+
+        if let keyTextCache = keyForTextCaching() {
+            textView.text = TextViewController.keyTextCache[keyTextCache]
+        }
     }
 
     private func setupTextAreaRx() {
@@ -248,8 +254,13 @@ extension TextViewController: UITextViewDelegate {
             }
         }.addDisposableTo(disposeBag)
 
-        textView.rx_text.bindNext { [weak self] _ in
+        textView.rx_text.bindNext { [weak self] text in
             self?.fitTextView()
+        }.addDisposableTo(disposeBag)
+
+        textView.rx_text.skip(1).bindNext { [weak self] text in
+            guard let keyTextCache = self?.keyForTextCaching() else { return }
+            TextViewController.keyTextCache[keyTextCache] = text
         }.addDisposableTo(disposeBag)
 
         sendButton.rx_tap.bindNext { [weak self] in self?.sendButtonPressed() }.addDisposableTo(disposeBag)
