@@ -123,7 +123,7 @@ extension ProductVMTrackHelper {
     }
 
     func trackChatWithSeller(source: EventParameterTypePage) {
-        let trackerEvent = TrackerEvent.productDetailChatButton(product, typePage: source)
+        let trackerEvent = TrackerEvent.productDetailOpenChat(product, typePage: source)
         tracker.trackEvent(trackerEvent)
     }
 
