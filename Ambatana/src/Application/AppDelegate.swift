@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Ignacio Nieto Carvajal. All rights reserved.
 //
 
-import AppsFlyerTracker
+import AppsFlyerLib
 import Branch
 import Crashlytics
 import CocoaLumberjack
@@ -252,13 +252,6 @@ private extension AppDelegate {
             DDLog.addLogger(DDTTYLogger.sharedInstance())       // TTY = Xcode console
             DDTTYLogger.sharedInstance().colorsEnabled =  true
             DDLog.addLogger(DDASLLogger.sharedInstance())       // ASL = Apple System Logs
-        #endif
-
-        // New Relic
-        #if GOD_MODE
-            NewRelicAgent.startWithApplicationToken(Constants.newRelicGodModeToken)
-        #else
-            NewRelicAgent.startWithApplicationToken(Constants.newRelicProductionToken)
         #endif
         
         // Fabric

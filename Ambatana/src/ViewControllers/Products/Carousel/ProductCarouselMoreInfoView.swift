@@ -103,13 +103,13 @@ class ProductCarouselMoreInfoView: UIView {
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
-    
+
     func setViewModel(viewModel: ProductViewModel) {
         self.viewModel = viewModel
         currentVmDisposeBag = DisposeBag()
-        configureContent()
+        configureContent(currentVmDisposeBag)
         configureMapView()
-        configureStatsRx()
+        configureStatsRx(currentVmDisposeBag)
         configureBottomPanel()
     }
 
@@ -383,18 +383,19 @@ private extension ProductCarouselMoreInfoView {
 
         relatedProductsView.hasProducts.asObservable().distinctUntilChanged()
             .map { $0 ? CGFloat(1) : CGFloat(0) }
-            .bindNext { alpha in
-                UIView.animateWithDuration(0.2) { [weak self] in
+            .bindNext { [weak self] alpha in
+                UIView.animateWithDuration(0.2) {
                     self?.relatedItemsContainer.alpha = alpha
                 }
             }.addDisposableTo(disposeBag)
+
         relatedProductsView.delegate = self
     }
 
 
     // MARK: > Configuration (each view model)
 
-    private func configureContent() {
+    private func configureContent(disposeBag: DisposeBag) {
         guard let viewModel = viewModel else { return }
         scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: scrollBottomInset, right: 0)
 
@@ -412,19 +413,19 @@ private extension ProductCarouselMoreInfoView {
             .addDisposableTo(disposeBag)
     }
 
-    private func configureStatsRx() {
+    private func configureStatsRx(disposeBag: DisposeBag) {
         guard let viewModel = viewModel else { return }
         viewModel.statsViewVisible.asObservable().distinctUntilChanged().bindNext { [weak self] visible in
             self?.statsContainerViewHeightConstraint.constant = visible ? self?.statsContainerViewHeight ?? 0 : 0
             self?.statsContainerViewTopConstraint.constant = visible ? self?.statsContainerViewTop ?? 0 : 0
-        }.addDisposableTo(currentVmDisposeBag)
+        }.addDisposableTo(disposeBag)
 
         let infos = Observable.combineLatest(viewModel.viewsCount.asObservable(), viewModel.favouritesCount.asObservable(),
                                              viewModel.productCreationDate.asObservable()) { $0 }
         infos.subscribeNext { [weak self] (views, favorites, date) in
                 guard let statsView = self?.statsView else { return }
                 statsView.updateStatsWithInfo(views, favouritesCount: favorites, postedDate: date)
-        }.addDisposableTo(currentVmDisposeBag)
+        }.addDisposableTo(disposeBag)
     }
 
     private func configureBottomPanel() {
