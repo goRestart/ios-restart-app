@@ -320,11 +320,11 @@ public struct TrackerEvent {
         return TrackerEvent(name: .FirstMessage, params: params)
     }
 
-    static func productDetailChatButton(product: Product, typePage: EventParameterTypePage) -> TrackerEvent {
+    static func productDetailOpenChat(product: Product, typePage: EventParameterTypePage) -> TrackerEvent {
         var params = EventParameters()
         params[.ProductId] = product.objectId
         params[.TypePage] = typePage.rawValue
-        return TrackerEvent(name: .ProductChatButton, params: params)
+        return TrackerEvent(name: .ProductOpenChat, params: params)
     }
 
     static func productMarkAsSold(source: EventParameterSellSourceValue, product: Product, freePostingModeAllowed: Bool)
