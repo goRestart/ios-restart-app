@@ -33,7 +33,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     @IBOutlet weak var productStatusView: UIView!
     @IBOutlet weak var productStatusLabel: UILabel!
     
-    @IBOutlet weak var directChatTable: UITableView!
+    @IBOutlet weak var directChatTable: CustomTouchesTableView!
     @IBOutlet weak var stickersButton: UIButton!
     @IBOutlet weak var stickersButtonBottomConstraint: NSLayoutConstraint!
 
@@ -1015,6 +1015,8 @@ extension ProductCarouselViewController: UITableViewDataSource, UITableViewDeleg
         directChatTable.transform = CGAffineTransformMake(1, 0, 0, -1, 0, 0)
         directChatTable.rowHeight = UITableViewAutomaticDimension
         directChatTable.estimatedRowHeight = 140
+        directChatTable.isCellHiddenBlock = { return !$0.contentView.hidden }
+        directChatTable.didSelectRowAtIndexPath = {  [weak self] _ in self?.viewModel.openChatWithSeller() }
 
         chatTextView.translatesAutoresizingMaskIntoConstraints = false
         chatContainer.addSubview(chatTextView)
@@ -1060,6 +1062,10 @@ extension ProductCarouselViewController: UITableViewDataSource, UITableViewDeleg
         cell.transform = tableView.transform
 
         return cell
+    }
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        viewModel.openChatWithSeller()
     }
 
 
