@@ -83,6 +83,12 @@ extension UIView {
         return constraint
     }
 
+    func setMaxHeight(height: CGFloat) -> NSLayoutConstraint {
+        let constraint = NSLayoutConstraint(item: self, attribute: .Height, relatedBy: .LessThanOrEqual, toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: height)
+        addConstraint(constraint)
+        return constraint
+    }
+
     func setHeightConstraint(height: CGFloat) -> NSLayoutConstraint {
         let constraint = NSLayoutConstraint(item: self, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: height)
         addConstraint(constraint)

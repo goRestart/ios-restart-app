@@ -33,6 +33,9 @@ class KeyboardViewController: BaseViewController {
     var keyboardChanges: Observable<KeyboardChange> {
         return changes.asObservable().skip(1)
     }
+    var keyboardVisible: Bool {
+        return changes.value.visible
+    }
     var keyboardFrame: CGRect {
         return keyboardView.frame
     }

@@ -24,6 +24,15 @@ class TestTextViewController: TextViewController {
         let leftBarBtn = UIBarButtonItem(title: "Close", style: .Done, target: self, action: #selector(close))
         navigationItem.leftBarButtonItem = leftBarBtn
 
+        textView.placeholder = LGLocalizedString.chatMessageFieldHint
+        textView.placeholderColor = UIColor.gray
+        textView.placeholderFont = UIFont.systemFontOfSize(17)
+        textView.tintColor = UIColor.primaryColor
+        textViewFont = UIFont.systemFontOfSize(17)
+
+        sendButton.setTitle(LGLocalizedString.chatSendButton, forState: .Normal)
+        sendButton.tintColor = UIColor.primaryColor
+        sendButton.titleLabel?.font = UIFont.smallButtonFont
 
         let testAction1 = UIAction(interface: .Image(UIImage(named: "ic_stickers")), action: { print("first button pressed")})
         let testAction2 = UIAction(interface: .Image(UIImage(named: "ic_keyboard")), action: { print("second button pressed")})
