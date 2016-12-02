@@ -1063,10 +1063,6 @@ extension ProductCarouselViewController: UITableViewDataSource, UITableViewDeleg
 
         return cell
     }
-    
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        viewModel.openChatWithSeller()
-    }
 
 
     // MARK: StickersSelectorDelegate
