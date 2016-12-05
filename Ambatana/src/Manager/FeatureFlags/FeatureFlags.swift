@@ -193,6 +193,13 @@ class FeatureFlags: FeatureFlaggeable {
         }
         return ABTests.periscopeImprovement.value
     }
+    
+    var favoriteWithBadgeOnProfile: Bool {
+        if Bumper.enabled {
+            return Bumper.favoriteWithBadgeOnProfile
+        }
+        return ABTests.favoriteWithBadgeOnProfile.value
+    }
 
 
     // MARK: - Country features
