@@ -128,7 +128,11 @@ class UserViewController: BaseViewController {
     override func viewWillAppearFromBackground(fromBackground: Bool) {
         super.viewWillAppearFromBackground(fromBackground)
         view.backgroundColor = viewModel.backgroundColor.value
-        notificationsManager.clearFavoriteCounter()
+        
+        if notificationsManager.favoriteCounter > 0 {
+            notificationsManager.clearFavoriteCounter()
+            headerContainer.header?.setFavoriteTab()
+        }
         // UINavigationBar's title alpha gets resetted on view appear, does not allow initial 0.0 value
         if let navBarUserView = navBarUserView {
             let currentAlpha: CGFloat = navBarUserViewAlpha

@@ -36,6 +36,10 @@ class NotificationsManager {
                                             return enabled
         })
     }
+    
+    var favoriteCounter: Int  {
+        return favoriteCount.value ?? 0
+    }
 
     private let disposeBag = DisposeBag()
 
@@ -99,10 +103,8 @@ class NotificationsManager {
     
     
     func increaseFavoriteCounter() {
-        let actualValue = keyValueStorage.productsMarkAsFavorite ?? 0
-        let increasedFavoriteValue = actualValue + 1
-        keyValueStorage.productsMarkAsFavorite = increasedFavoriteValue
-        favoriteCount.value = increasedFavoriteValue
+        keyValueStorage.productsMarkAsFavorite = 1
+        favoriteCount.value = 1
     }
     
     func clearFavoriteCounter() {
