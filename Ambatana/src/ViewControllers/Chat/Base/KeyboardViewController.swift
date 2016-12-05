@@ -15,6 +15,9 @@ struct KeyboardChange: CustomStringConvertible {
     let animationTime: CGFloat
     let animationOptions: UIViewAnimationOptions
     let visible: Bool
+    /* Identifies whether the keyboard belongs to the current app. With multitasking on iPad, all visible apps are
+     notified when the keyboard appears and disappears. The value of this key is true for the app that caused the 
+     keyboard to appear and false for any other apps. */
     let isLocal: Bool
 
     private static func empty() -> KeyboardChange {
