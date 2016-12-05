@@ -33,7 +33,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     @IBOutlet weak var productStatusView: UIView!
     @IBOutlet weak var productStatusLabel: UILabel!
     
-    @IBOutlet weak var directChatTable: UITableView!
+    @IBOutlet weak var directChatTable: CustomTouchesTableView!
     @IBOutlet weak var stickersButton: UIButton!
     @IBOutlet weak var stickersButtonBottomConstraint: NSLayoutConstraint!
 
@@ -675,13 +675,17 @@ extension ProductCarouselViewController {
             .bindTo(productStatusLabel.rx_text)
             .addDisposableTo(activeDisposeBag)
     }
+    
 
     private func refreshDirectChatElements(viewModel: ProductViewModel) {
         viewModel.stickersButtonEnabled.asObservable().map { !$0 }.bindTo(stickersButton.rx_hidden).addDisposableTo(disposeBag)
-
         chatTextView.placeholder = viewModel.directChatPlaceholder
-        chatTextView.clear()
-        chatTextView.resignFirstResponder()
+        if viewModel.shouldShowTextOnChatView() {
+            chatTextView.setInitialText()
+        } else {
+            chatTextView.clear()
+            chatTextView.resignFirstResponder()
+        }
 
         viewModel.directChatEnabled.asObservable().bindNext { [weak self] enabled in
             self?.buttonBottomBottomConstraint.constant = enabled ? CarouselUI.itemsMargin : 0
@@ -1011,6 +1015,8 @@ extension ProductCarouselViewController: UITableViewDataSource, UITableViewDeleg
         directChatTable.transform = CGAffineTransformMake(1, 0, 0, -1, 0, 0)
         directChatTable.rowHeight = UITableViewAutomaticDimension
         directChatTable.estimatedRowHeight = 140
+        directChatTable.isCellHiddenBlock = { return !$0.contentView.hidden }
+        directChatTable.didSelectRowAtIndexPath = {  [weak self] _ in self?.viewModel.openChatWithSeller() }
 
         chatTextView.translatesAutoresizingMaskIntoConstraints = false
         chatContainer.addSubview(chatTextView)
@@ -1049,7 +1055,7 @@ extension ProductCarouselViewController: UITableViewDataSource, UITableViewDeleg
         guard let messages = viewModel.currentProductViewModel?.directChatMessages.value else { return UITableViewCell() }
         guard 0..<messages.count ~= indexPath.row else { return UITableViewCell() }
         let message = messages[indexPath.row]
-        let drawer = ChatCellDrawerFactory.drawerForMessage(message, autoHide: true)
+        let drawer = ChatCellDrawerFactory.drawerForMessage(message, autoHide: true, disclosure: true)
         let cell = drawer.cell(tableView, atIndexPath: indexPath)
 
         drawer.draw(cell, message: message, delegate: self)

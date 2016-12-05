@@ -253,13 +253,6 @@ private extension AppDelegate {
             DDTTYLogger.sharedInstance().colorsEnabled =  true
             DDLog.addLogger(DDASLLogger.sharedInstance())       // ASL = Apple System Logs
         #endif
-
-        // New Relic
-        #if GOD_MODE
-            NewRelicAgent.startWithApplicationToken(Constants.newRelicGodModeToken)
-        #else
-            NewRelicAgent.startWithApplicationToken(Constants.newRelicProductionToken)
-        #endif
         
         // Fabric
         Twitter.sharedInstance().startWithConsumerKey(EnvironmentProxy.sharedInstance.twitterConsumerKey,
