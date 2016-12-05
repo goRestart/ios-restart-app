@@ -1162,34 +1162,53 @@ extension ChatViewModel: DirectAnswersPresenterDelegate {
             self?.clearProductSoldDirectAnswer()
         }
         if featureFlags.freePostingModeAllowed && productIsFree.value {
-
             if !conversation.value.amISelling {
-                return [DirectAnswer(text: LGLocalizedString.directAnswerInterested, action: emptyAction),
-                        DirectAnswer(text: LGLocalizedString.directAnswerFreeStillHave, action: emptyAction),
-                        DirectAnswer(text: LGLocalizedString.directAnswerMeetUp, action: emptyAction),
-                        DirectAnswer(text: LGLocalizedString.directAnswerNotInterested, action: emptyAction)]
+                var directAnswers = [DirectAnswer(text: LGLocalizedString.directAnswerInterested, action: emptyAction),
+                                     DirectAnswer(text: LGLocalizedString.directAnswerFreeStillHave, action: emptyAction),
+                                     DirectAnswer(text: LGLocalizedString.directAnswerMeetUp, action: emptyAction)]
+                if !featureFlags.newQuickAnswers {
+                    directAnswers.append(DirectAnswer(text: LGLocalizedString.directAnswerNotInterested, action: emptyAction))
+                }
+                return directAnswers
             } else {
-                return [DirectAnswer(text: LGLocalizedString.directAnswerFreeYours, action: emptyAction),
-                        DirectAnswer(text: LGLocalizedString.directAnswerFreeAvailable, action: emptyAction),
-                        DirectAnswer(text: LGLocalizedString.directAnswerMeetUp, action: emptyAction),
-                        DirectAnswer(text: LGLocalizedString.directAnswerFreeNoAvailable, action: emptyAction)]
+                var directAnswers = [DirectAnswer(text: LGLocalizedString.directAnswerFreeYours, action: emptyAction),
+                                     DirectAnswer(text: LGLocalizedString.directAnswerFreeAvailable, action: emptyAction),
+                                     DirectAnswer(text: LGLocalizedString.directAnswerMeetUp, action: emptyAction)]
+                if !featureFlags.newQuickAnswers {
+                    directAnswers.append(DirectAnswer(text: LGLocalizedString.directAnswerFreeNoAvailable, action: emptyAction))
+                }
+                return directAnswers
             }
         } else {
             if !conversation.value.amISelling {
-                return [DirectAnswer(text: LGLocalizedString.directAnswerInterested, action: emptyAction),
-                        DirectAnswer(text: LGLocalizedString.directAnswerIsNegotiable, action: emptyAction),
-                        DirectAnswer(text: LGLocalizedString.directAnswerLikeToBuy, action: emptyAction),
-                        DirectAnswer(text: LGLocalizedString.directAnswerMeetUp, action: emptyAction),
-                        DirectAnswer(text: LGLocalizedString.directAnswerNotInterested, action: emptyAction)]
+                if featureFlags.newQuickAnswers {
+                    return [DirectAnswer(text: LGLocalizedString.directAnswerStillAvailable, action: emptyAction),
+                            DirectAnswer(text: LGLocalizedString.directAnswerIsNegotiable, action: emptyAction),
+                            DirectAnswer(text: LGLocalizedString.directAnswerCondition, action: emptyAction)]
+                } else {
+                    return [DirectAnswer(text: LGLocalizedString.directAnswerInterested, action: emptyAction),
+                            DirectAnswer(text: LGLocalizedString.directAnswerIsNegotiable, action: emptyAction),
+                            DirectAnswer(text: LGLocalizedString.directAnswerLikeToBuy, action: emptyAction),
+                            DirectAnswer(text: LGLocalizedString.directAnswerMeetUp, action: emptyAction),
+                            DirectAnswer(text: LGLocalizedString.directAnswerNotInterested, action: emptyAction)]
+                }
             } else {
-                return [DirectAnswer(text: LGLocalizedString.directAnswerStillForSale, action: emptyAction),
-                        DirectAnswer(text: LGLocalizedString.directAnswerWhatsOffer, action: emptyAction),
-                        DirectAnswer(text: LGLocalizedString.directAnswerNegotiableYes, action: emptyAction),
-                        DirectAnswer(text: LGLocalizedString.directAnswerNegotiableNo, action: emptyAction),
-                        DirectAnswer(text: LGLocalizedString.directAnswerNotInterested, action: emptyAction),
-                        DirectAnswer(text: LGLocalizedString.directAnswerProductSold, action: { [weak self] in
-                            self?.onProductSoldDirectAnswer()
-                            })]
+                if featureFlags.newQuickAnswers {
+                    return [DirectAnswer(text: LGLocalizedString.directAnswerStillForSale, action: emptyAction),
+                            DirectAnswer(text: LGLocalizedString.directAnswerProductSold, action: { [weak self] in
+                                self?.onProductSoldDirectAnswer()
+                                }),
+                            DirectAnswer(text: LGLocalizedString.directAnswerWhatsOffer, action: emptyAction)]
+                } else {
+                    return [DirectAnswer(text: LGLocalizedString.directAnswerStillForSale, action: emptyAction),
+                            DirectAnswer(text: LGLocalizedString.directAnswerWhatsOffer, action: emptyAction),
+                            DirectAnswer(text: LGLocalizedString.directAnswerNegotiableYes, action: emptyAction),
+                            DirectAnswer(text: LGLocalizedString.directAnswerNegotiableNo, action: emptyAction),
+                            DirectAnswer(text: LGLocalizedString.directAnswerNotInterested, action: emptyAction),
+                            DirectAnswer(text: LGLocalizedString.directAnswerProductSold, action: { [weak self] in
+                                self?.onProductSoldDirectAnswer()
+                                })]
+                }
             }
         }
     }
