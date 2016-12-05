@@ -76,6 +76,7 @@ class UserViewController: BaseViewController {
     private let headerExpandedPercentage = Variable<CGFloat>(1)
     private let disposeBag: DisposeBag
     private var notificationsManager: NotificationsManager
+    private var featureFlags: FeatureFlaggeable
 
 
     // MARK: - Lifecycle
@@ -84,8 +85,9 @@ class UserViewController: BaseViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    init(viewModel: UserViewModel, hidesBottomBarWhenPushed: Bool = false, notificationsManager: NotificationsManager) {
+    init(viewModel: UserViewModel, hidesBottomBarWhenPushed: Bool = false, notificationsManager: NotificationsManager, featureFlags: FeatureFlaggeable) {
         self.notificationsManager = notificationsManager
+        self.featureFlags = featureFlags
         let size = CGSize(width: CGFloat.max, height: UserViewController.navBarUserViewHeight)
         self.navBarUserView = UserView.userView(.CompactBorder(size: size))
         self.headerGestureRecognizer = UIPanGestureRecognizer()
@@ -107,7 +109,8 @@ class UserViewController: BaseViewController {
     
     convenience init(viewModel: UserViewModel, hidesBottomBarWhenPushed: Bool = false) {
         let notificationsManager = NotificationsManager.sharedInstance
-        self.init(viewModel: viewModel, hidesBottomBarWhenPushed: hidesBottomBarWhenPushed, notificationsManager: notificationsManager)
+        let featureFlags = FeatureFlags.sharedInstance
+        self.init(viewModel: viewModel, hidesBottomBarWhenPushed: hidesBottomBarWhenPushed, notificationsManager: notificationsManager, featureFlags: featureFlags)
     }
 
     override func viewDidLoad() {
@@ -129,7 +132,7 @@ class UserViewController: BaseViewController {
         super.viewWillAppearFromBackground(fromBackground)
         view.backgroundColor = viewModel.backgroundColor.value
         
-        if notificationsManager.favoriteCounter > 0 {
+        if (featureFlags.favoriteWithBadgeOnProfile && notificationsManager.favoriteCounter > 0) {
             notificationsManager.clearFavoriteCounter()
             headerContainer.header?.setFavoriteTab()
         }

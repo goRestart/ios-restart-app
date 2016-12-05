@@ -718,10 +718,12 @@ extension ProductCarouselViewController {
 
         favoriteButton.rx_tap.bindNext { [weak viewModel] in
             viewModel?.switchFavorite()
-            if let viewModel = viewModel where !viewModel.isFavorite.value {
-                self.notificationsManager.increaseFavoriteCounter()
-            } else {
-                self.notificationsManager.decreaseFavoriteCounter()
+            if self.featureFlags.favoriteWithBadgeOnProfile {
+                if let viewModel = viewModel where !viewModel.isFavorite.value {
+                    self.notificationsManager.increaseFavoriteCounter()
+                } else {
+                    self.notificationsManager.decreaseFavoriteCounter()
+                }
             }
         }.addDisposableTo(activeDisposeBag)
     }
