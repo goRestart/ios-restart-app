@@ -29,6 +29,7 @@ final class TourNotificationsViewController: BaseViewController {
     @IBOutlet weak var alertOkLabel: UILabel!
 
     var completion: (() -> ())?
+    var pushDialogWasShown = false
     
 
     // MARK: - Lifecycle
@@ -59,6 +60,10 @@ final class TourNotificationsViewController: BaseViewController {
         NSNotificationCenter.defaultCenter().addObserver(self,
             selector: #selector(TourNotificationsViewController.didRegisterUserNotificationSettings),
             name: PushManager.Notification.DidRegisterUserNotificationSettings.rawValue, object: nil)
+        
+        NSNotificationCenter.defaultCenter().addObserver(self,
+                                                         selector: #selector(didBecomeActive),
+                                                         name: UIApplicationDidBecomeActiveNotification, object: nil)
         viewModel.viewDidLoad()
     }
 
@@ -69,8 +74,14 @@ final class TourNotificationsViewController: BaseViewController {
             self?.openNextStep()
         }
     }
-
     
+    
+    func didBecomeActive() {
+        guard pushDialogWasShown else { return }
+        openNextStep()
+    }
+    
+        
     // MARK: - Navigation
     
     func openNextStep() {
@@ -98,6 +109,7 @@ final class TourNotificationsViewController: BaseViewController {
     @IBAction func yesButtonPressed(sender: AnyObject) {
         viewModel.userDidTapYesButton()
         PushPermissionsManager.sharedInstance.showPushPermissionsAlert(prePermissionType: .Onboarding)
+        pushDialogWasShown = true
     }
     
     func showTourLocation() {
