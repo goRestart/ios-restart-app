@@ -113,17 +113,15 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     private let keyboardHelper: KeyboardHelper = KeyboardHelper.sharedInstance
     
     private let featureFlags: FeatureFlaggeable
-    private let notificationsManager: NotificationsManager
 
     // MARK: - Lifecycle
 
     convenience init(viewModel: ProductCarouselViewModel, pushAnimator: ProductCarouselPushAnimator?) {
         let featureFlags = FeatureFlags.sharedInstance
-        let notificationsManager = NotificationsManager.sharedInstance
-        self.init(viewModel:viewModel, pushAnimator: pushAnimator, featureFlags: featureFlags, notificationsManager: notificationsManager)
+        self.init(viewModel:viewModel, pushAnimator: pushAnimator, featureFlags: featureFlags)
     }
     
-    init(viewModel: ProductCarouselViewModel, pushAnimator: ProductCarouselPushAnimator?, featureFlags: FeatureFlaggeable, notificationsManager: NotificationsManager) {
+    init(viewModel: ProductCarouselViewModel, pushAnimator: ProductCarouselPushAnimator?, featureFlags: FeatureFlaggeable) {
         self.viewModel = viewModel
         self.userView = UserView.userView(.WithProductInfo)
         let blurEffect = UIBlurEffect(style: .Dark)
@@ -132,7 +130,6 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         self.animator = pushAnimator
         self.pageControl = UIPageControl(frame: CGRect.zero)
         self.featureFlags = featureFlags
-        self.notificationsManager = notificationsManager
         super.init(viewModel: viewModel, nibName: "ProductCarouselViewController", statusBarStyle: .LightContent,
                    navBarBackgroundStyle: .Transparent(substyle: .Dark))
         self.viewModel.delegate = self
@@ -718,11 +715,6 @@ extension ProductCarouselViewController {
 
         favoriteButton.rx_tap.bindNext { [weak viewModel] in
             viewModel?.switchFavorite()
-            if let viewModel = viewModel where !viewModel.isFavorite.value {
-                self.notificationsManager.increaseFavoriteCounter()
-            } else {
-                self.notificationsManager.decreaseFavoriteCounter()
-            }
         }.addDisposableTo(activeDisposeBag)
     }
 
