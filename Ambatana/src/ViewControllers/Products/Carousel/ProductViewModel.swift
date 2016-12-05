@@ -793,9 +793,9 @@ extension ProductViewModel {
                 guard let strongSelf = self else { return }
                 if let product = result.value {
                     strongSelf.isFavorite.value = product.favorite
+                    strongSelf.notificationsManager.decreaseFavoriteCounter()
                 }
                 strongSelf.favoriteButtonState.value = .Enabled
-                strongSelf.notificationsManager.decreaseFavoriteCounter()
             }
         } else {
             productRepository.saveFavorite(product.value) { [weak self] result in
@@ -803,14 +803,13 @@ extension ProductViewModel {
                 if let product = result.value {
                     strongSelf.isFavorite.value = product.favorite
                     self?.trackHelper.trackSaveFavoriteCompleted()
-
+                    strongSelf.notificationsManager.increaseFavoriteCounter()
                     if RatingManager.sharedInstance.shouldShowRating {
                         strongSelf.delegate?.vmAskForRating()
                     }
                 }
                 strongSelf.favoriteButtonState.value = .Enabled
                 strongSelf.refreshInterestedBubble(true, forFirstProduct: strongSelf.isFirstProduct)
-                strongSelf.notificationsManager.increaseFavoriteCounter()
             }
             checkSendFavoriteMessage()
         }
