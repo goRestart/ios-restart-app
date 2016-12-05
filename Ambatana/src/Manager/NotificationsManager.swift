@@ -19,13 +19,11 @@ class NotificationsManager {
     let favoriteCount = Variable<Int?>(nil)
     let unreadNotificationsCount = Variable<Int?>(nil)
     var globalCount: Observable<Int?> {
-        return Observable.combineLatest(unreadMessagesCount.asObservable(), unreadNotificationsCount.asObservable(),
-                                        favoriteCount.asObservable()) {
-                                        (unreadMessages: Int?, notifications: Int?, favorites: Int?) in
+        return Observable.combineLatest(unreadMessagesCount.asObservable(), unreadNotificationsCount.asObservable()) {
+                                        (unreadMessages: Int?, notifications: Int?) in
             let chatCount = unreadMessages ?? 0
             let notificationsCount = notifications ?? 0
-            let favorites = favorites ?? 0
-            return chatCount + notificationsCount + favorites
+            return chatCount + notificationsCount
         }
     }
     let marketingNotifications: Variable<Bool>
@@ -103,6 +101,7 @@ class NotificationsManager {
     
     
     func increaseFavoriteCounter() {
+        guard featureFlags.favoriteWithBadgeOnProfile else { return }
         let actualValue = keyValueStorage.productsMarkAsFavorite ?? 0
         let increasedFavoriteValue = actualValue + 1
         keyValueStorage.productsMarkAsFavorite = increasedFavoriteValue
@@ -110,6 +109,7 @@ class NotificationsManager {
     }
     
     func decreaseFavoriteCounter() {
+        guard featureFlags.favoriteWithBadgeOnProfile else { return }
         let actualValue = keyValueStorage.productsMarkAsFavorite ?? 0
         let decreasedFavoriteValue = actualValue - 1
         if decreasedFavoriteValue > 0 {
