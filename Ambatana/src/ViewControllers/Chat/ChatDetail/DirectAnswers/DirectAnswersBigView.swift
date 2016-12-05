@@ -120,12 +120,13 @@ class DirectAnswersBigView: UIView {
         titleLabel.alignParentTop()
         titleLabel.setHeightConstraint(DirectAnswersBigView.itemHeight)
         titleLabel.fitHorzontallyToParent(margin: DirectAnswersBigView.itemMargin)
+
+        addTopViewBorderWith(width: LGUIKitConstants.onePixelSize, color: UIColor.lineGray)
     }
 
     private func buildAnswerButton(answer: DirectAnswer) -> UIButton {
-        let button = UIButton(type: .Custom)
         let width = DirectAnswersBigView.defaultWidth - DirectAnswersBigView.itemMargin*2
-        button.frame = CGRect(x: 0, y: 0, width: width, height: DirectAnswersBigView.itemHeight)
+        let button = UIButton(frame: CGRect(x: 0, y: 0, width: width, height: DirectAnswersBigView.itemHeight))
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setHeightConstraint(DirectAnswersBigView.itemHeight)
         button.setTitle(answer.text, forState: .Normal)

@@ -49,6 +49,16 @@ extension UIView {
         layer.addSublayer(line)
         return line
     }
+
+    func addTopViewBorderWith(width width: CGFloat, color: UIColor) {
+        let topSeparator = UIView()
+        topSeparator.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(topSeparator)
+        topSeparator.fitHorzontallyToParent()
+        topSeparator.alignParentTop()
+        topSeparator.backgroundColor = color
+        topSeparator.setHeightConstraint(width)
+    }
 }
 
 
