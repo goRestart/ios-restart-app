@@ -699,10 +699,6 @@
 		C7415EDC1DE898580003D6C1 /* SimpleProductsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7415EDA1DE898580003D6C1 /* SimpleProductsViewModel.swift */; };
 		C7415EE21DEDDB460003D6C1 /* KeyboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7415EE11DEDDB460003D6C1 /* KeyboardViewController.swift */; };
 		C7415EE31DEDDB460003D6C1 /* KeyboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7415EE11DEDDB460003D6C1 /* KeyboardViewController.swift */; };
-		C7415EE61DEEE0C00003D6C1 /* TestKBViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7415EE41DEEE0C00003D6C1 /* TestKBViewController.swift */; };
-		C7415EE71DEEE0C00003D6C1 /* TestKBViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7415EE41DEEE0C00003D6C1 /* TestKBViewController.swift */; };
-		C7415EE81DEEE0C00003D6C1 /* TestKBViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C7415EE51DEEE0C00003D6C1 /* TestKBViewController.xib */; };
-		C7415EE91DEEE0C00003D6C1 /* TestKBViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C7415EE51DEEE0C00003D6C1 /* TestKBViewController.xib */; };
 		C7415EEB1DEF1E300003D6C1 /* TextViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7415EEA1DEF1E300003D6C1 /* TextViewController.swift */; };
 		C7415EEC1DEF1E300003D6C1 /* TextViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7415EEA1DEF1E300003D6C1 /* TextViewController.swift */; };
 		C7415EEE1DEF21260003D6C1 /* UIView+Constraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7415EED1DEF21260003D6C1 /* UIView+Constraints.swift */; };
@@ -1638,8 +1634,6 @@
 		C7415ED51DE880BD0003D6C1 /* SimpleProductsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SimpleProductsViewController.xib; sourceTree = "<group>"; };
 		C7415EDA1DE898580003D6C1 /* SimpleProductsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleProductsViewModel.swift; sourceTree = "<group>"; };
 		C7415EE11DEDDB460003D6C1 /* KeyboardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardViewController.swift; sourceTree = "<group>"; };
-		C7415EE41DEEE0C00003D6C1 /* TestKBViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestKBViewController.swift; sourceTree = "<group>"; };
-		C7415EE51DEEE0C00003D6C1 /* TestKBViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TestKBViewController.xib; sourceTree = "<group>"; };
 		C7415EEA1DEF1E300003D6C1 /* TextViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextViewController.swift; sourceTree = "<group>"; };
 		C7415EED1DEF21260003D6C1 /* UIView+Constraints.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Constraints.swift"; sourceTree = "<group>"; };
 		C7415EF01DEF2A180003D6C1 /* TestTextViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestTextViewController.swift; sourceTree = "<group>"; };
@@ -3140,8 +3134,6 @@
 			isa = PBXGroup;
 			children = (
 				C7415EE11DEDDB460003D6C1 /* KeyboardViewController.swift */,
-				C7415EE41DEEE0C00003D6C1 /* TestKBViewController.swift */,
-				C7415EE51DEEE0C00003D6C1 /* TestKBViewController.xib */,
 				C7415EEA1DEF1E300003D6C1 /* TextViewController.swift */,
 				C7415EF01DEF2A180003D6C1 /* TestTextViewController.swift */,
 			);
@@ -3959,7 +3951,6 @@
 				6AA26D001CFDCA2000546063 /* ChatDisclaimerCell.xib in Resources */,
 				C727FBD31CD10E77002BC643 /* NotificationCell.xib in Resources */,
 				C7F18A971C89CB4C00D23319 /* PostProductGalleryView.xib in Resources */,
-				C7415EE81DEEE0C00003D6C1 /* TestKBViewController.xib in Resources */,
 				2E06EAEE1D7051BA00A40704 /* FilterPriceCell.xib in Resources */,
 				500DC12B1BDA1C4C00B494FA /* ios-devel.json in Resources */,
 				C7F3F1E71DE5EF6A00652447 /* TourBlurBackgroundViewController.xib in Resources */,
@@ -4089,7 +4080,6 @@
 				6AA26D011CFDCA2000546063 /* ChatDisclaimerCell.xib in Resources */,
 				C727FBD41CD10E77002BC643 /* NotificationCell.xib in Resources */,
 				C7F18A981C89CB4C00D23319 /* PostProductGalleryView.xib in Resources */,
-				C7415EE91DEEE0C00003D6C1 /* TestKBViewController.xib in Resources */,
 				2E06EAF01D70595E00A40704 /* FilterPriceCell.xib in Resources */,
 				C7DB42851C5138B500400945 /* ios-devel.json in Resources */,
 				C7F3F1E81DE5EF6A00652447 /* TourBlurBackgroundViewController.xib in Resources */,
@@ -4737,7 +4727,6 @@
 				C74016D91D6467C9004C1E9D /* PostProductDetailPriceView.swift in Sources */,
 				50146BD31D4F5FC700B0F635 /* ProfileTabCoordinator.swift in Sources */,
 				C711A1A91CDC99E5002D30D9 /* NotificationCellDrawerFactory.swift in Sources */,
-				C7415EE61DEEE0C00003D6C1 /* TestKBViewController.swift in Sources */,
 				C7F22D801DB7A3A200353803 /* RecaptchaViewController.swift in Sources */,
 				D4912A8A1B08FFF900DACD5A /* UIView+Border.swift in Sources */,
 				C754E0131CB2679D006FDFD5 /* CommercialPreviewViewController.swift in Sources */,
@@ -5155,7 +5144,6 @@
 				C7DB42141C5138B500400945 /* CategoryCell.swift in Sources */,
 				C711A1AA1CDC99E5002D30D9 /* NotificationCellDrawerFactory.swift in Sources */,
 				C7F22D811DB7A3A200353803 /* RecaptchaViewController.swift in Sources */,
-				C7415EE71DEEE0C00003D6C1 /* TestKBViewController.swift in Sources */,
 				C754E0141CB2679D006FDFD5 /* CommercialPreviewViewController.swift in Sources */,
 				C7DB42151C5138B500400945 /* SignUpLogInViewModel.swift in Sources */,
 				C731B8791CE22BBE00F31D46 /* WSChatListViewModel.swift in Sources */,

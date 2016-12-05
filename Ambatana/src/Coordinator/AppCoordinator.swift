@@ -200,13 +200,9 @@ extension AppCoordinator: AppNavigator {
     }
 
     func openSell(source: PostingSource) {
-//        let sellCoordinator = SellCoordinator(source: source)
-//        sellCoordinator.delegate = self
-//        openCoordinator(coordinator: sellCoordinator, parent: tabBarCtl, animated: true, completion: nil)
-
-        let vc = TestTextViewController()
-        let navC = UINavigationController(rootViewController: vc)
-        tabBarCtl.presentViewController(navC, animated: true, completion: nil)
+        let sellCoordinator = SellCoordinator(source: source)
+        sellCoordinator.delegate = self
+        openCoordinator(coordinator: sellCoordinator, parent: tabBarCtl, animated: true, completion: nil)
     }
 
     func openUserRating(source: RateUserSource, data: RateUserData) {
