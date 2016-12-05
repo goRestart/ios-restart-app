@@ -72,6 +72,8 @@
 "chat_deleted_disclaimer_w_name" = "Vous ne pouvez pas continuer cette discussion, car le compte de %@ n'est plus actif.";
 "chat_deleted_disclaimer_wo_name" = "Vous ne pouvez pas continuer cette discussion, car ce compte n'est plus actif.";
 "chat_disclaimer_letgo_team" = "ÉQUIPE LETGO";
+"chat_express_banner_button_title" = "Voir les Aubaines";
+"chat_express_banner_title" = "Aubaines similaires à proximité";
 "chat_express_contact_one_button_text" = "Contacter 1 vendeur";
 "chat_express_contact_sellers_label" = "Contactez ces vendeurs avant que d'autres acheteurs ne le fassent !";
 "chat_express_contact_various_button_text" = "Contacter %@ vendeurs";
@@ -125,7 +127,7 @@
 "chat_safety_tips_message" = "• Rencontrez en personne et payez en argent comptant.\n\n• Clavardez toujours dans l'appli letgo.\n\n• Une offre vous semble trop belle pour être vraie ? Faites attention !";
 "chat_safety_tips_title" = "CONSEILS DE SÉCURITÉ";
 "chat_send_button" = "Envoyer";
-"chat_send_error_generic" = "Il y a eu une erreur lors de l'envoi du message. Veuillez réessayer plus tard.";
+"chat_send_error_generic" = "Une erreur est survenue lors de l'envoi du message. Veuillez réessayer.";
 "chat_stickers_tooltip_add_stickers" = "Ajoutez des autocollants amusants";
 "chat_stickers_tooltip_new" = "NOUVEAU !";
 "chat_unblock_user" = "Débloquer l'Utilisateur";
@@ -142,8 +144,8 @@
 "collection_explore_button" = "Explorer";
 "collection_furniture_title" = "Rien ne vaut notre chez-nous";
 "collection_gaming_title" = "La partie est lancée";
-"collection_halloween_title" = "Des bonbons ou un sort";
 "collection_transport_title" = "Voyagez avec style";
+"collection_you_title" = "Sélectionnés pour vous";
 "commercializer_create_from_settings" = "Create a Free Commercial";
 "commercializer_display_share_alert" = "Share this masterpiece";
 "commercializer_display_share_label" = "Share your masterpiece with the world and watch the offers come rolling in";
@@ -218,7 +220,7 @@
 "contact_subject_option_product_edit" = "Modifier ou supprimer le produit";
 "contact_subject_option_profile_edit" = "Modifier ou supprimer le profil";
 "contact_subject_option_report" = "Signaler utilisateur ou pourriel";
-"direct_answer_condition" = "What condition is this item in?";
+"direct_answer_condition" = "Ce produit est-il en bon état ?";
 "direct_answer_free_available" = "Oui, c'est toujours disponible";
 "direct_answer_free_no_available" = "Désolé, je l'ai déjà donné !";
 "direct_answer_free_still_have" = "L'avez-vous toujours ?";
@@ -234,9 +236,9 @@
 "direct_answer_sold_question_message" = "Indiquez votre produit comme vendu pour que tous les utilisateurs de letgo le sachent";
 "direct_answer_sold_question_ok" = "Indiquer comme vendu";
 "direct_answer_sold_question_title" = "Déjà vendu ?";
-"direct_answer_still_available" = "Is this item still available?";
+"direct_answer_still_available" = "Ce produit est-il toujours disponible ?";
 "direct_answer_still_for_sale" = "Oui, c'est toujours en vente";
-"direct_answer_title" = "SELECT OR TYPE A MESSAGE";
+"direct_answer_title" = "SÉLECTIONNEZ OU TAPEZ UN MESSAGE";
 "direct_answer_whats_offer" = "Quelle est votre offre ?";
 "direct_answers_hide" = "Masquer Réponses Rapides";
 "direct_answers_show" = "Afficher Réponses Rapides";
@@ -288,9 +290,11 @@
 "main_sign_up_error_request_already_sent" = "Votre demande a déjà été traitée. Veuillez attendre avant de réessayer.";
 "main_sign_up_error_user_rejected" = "Le courriel que vous avez indiqué est incorrect. Veuillez le vérifier et réessayer.";
 "main_sign_up_facebook_connect_button" = "Continuer avec Facebook";
+"main_sign_up_facebook_connect_button_w_name" = "Se connecter en tant que %@";
 "main_sign_up_fb_connect_error_email_taken" = "Votre adresse courriel est déjà enregistrée. Veuillez l'utiliser pour vous connecter.";
 "main_sign_up_fb_connect_error_generic" = "Impossible de se connecter. Veuillez réessayer.";
 "main_sign_up_google_connect_button" = "Continuer avec Google";
+"main_sign_up_google_connect_button_w_name" = "Se connecter en tant que %@";
 "main_sign_up_help_button" = "Aide";
 "main_sign_up_log_in_label" = "Se Connecter";
 "main_sign_up_or_label" = "OU UTILISEZ VOTRE COURRIEL";
@@ -331,8 +335,8 @@
 "notifications_type_sold" = "Un produit que vous aviez mis en favori a été vendu";
 "notifications_type_sold_button" = "Voir le produit";
 "notifications_type_welcome_button" = "Commencer à vendre";
-"notifications_type_welcome_subtitle" = "Gagnez de l'argent en vendant ce dont vous n'avez pas besoin et découvrez des aubaines près de chez vous.";
-"notifications_type_welcome_subtitle_w_city" = "Gagnez de l'argent en vendant ce dont vous n'avez pas besoin et découvrez des aubaines à %@.";
+"notifications_type_welcome_subtitle" = "Gagnez de l'argent en vendant ce dont vous n'avez pas besoin et découvrez des aubaines près de chez vous";
+"notifications_type_welcome_subtitle_w_city" = "Gagnez de l'argent en vendant ce dont vous n'avez pas besoin et découvrez des aubaines à %@";
 "notifications_type_welcome_title" = "Bienvenue sur letgo !";
 "notifications_user_wo_name" = "Un utilisateur";
 "nps_survey_subtitle" = "Sur une échelle de 1 à 10, quelles sont les chances pour que vous recommandiez letgo à un ami ?";
@@ -380,11 +384,15 @@
 "product_delete_confirm_ok_button" = "Je ne veux pas le vendre";
 "product_delete_confirm_sold_button" = "Je l'ai déjà vendu";
 "product_delete_confirm_title" = "Supprimer le Produit";
+"product_delete_post_button_title" = "Publiez un Autre Objet";
+"product_delete_post_subtitle" = "Essayez de publier autre chose et commencez à gagner de l'argent.";
+"product_delete_post_title" = "MEILLEURE CHANCE LA PROCHAINE FOIS !";
 "product_delete_send_error_generic" = "Oups ! Nous n'avons pas pu supprimer votre produit. Veuillez réessayer.";
 "product_delete_sold_confirm_message" = "Etes-vous certain de vouloir supprimer ce produit ?";
 "product_delete_success_message" = "Votre produit a été supprimé avec succès.";
 "product_distance_X_from_you" = "à %@ de chez vous";
 "product_distance_more_than_from_you" = "À plus de %@ de chez vous";
+"product_favorite_direct_message" = "J'aime ça ! Est-ce que c'est toujours disponible ?";
 "product_free_price" = "Gratuit";
 "product_is_mine_share_body" = "Découvrez ce que je vends sur letgo !";
 "product_is_mine_share_body_free" = "Regardez ce que je donne sur letgo !";
@@ -409,6 +417,8 @@
 "product_mark_as_sold_free_success_message" = "Félicitations ! Votre produit a été indiqué comme donné avec succès";
 "product_mark_as_sold_success_message" = "Félicitations, votre produit a été indiqué comme vendu !";
 "product_more_info_open_button" = "PLUS D'INFO";
+"product_more_info_related_title" = "YOU MIGHT BE INTERESTED IN:";
+"product_more_info_related_view_more" = "View more";
 "product_more_info_tooltip_part_1" = "Sélectionnez";
 "product_more_info_tooltip_part_2" = "%@ pour voir plus d'infos";
 "product_negotiable_price" = "Négociable";
@@ -605,7 +615,7 @@
 "sell_picture_selected_delete_button" = "Supprimer";
 "sell_picture_selected_save_into_camera_roll_button" = "Sauvegarder l'image sur la pellicule";
 "sell_picture_selected_title" = "Choisir une action";
-"sell_post_free_label" = "Donner";
+"sell_post_free_label" = "Gratuit";
 "sell_price_field" = "Prix :";
 "sell_send_error_invalid_category" = "Veuillez choisir une catégorie pour le produit.";
 "sell_send_error_invalid_description" = "Veuillez indiquer une description valide pour votre produit.";
@@ -615,7 +625,7 @@
 "sell_send_error_invalid_title" = "Veuillez indiquer un titre valide pour votre produit.";
 "sell_send_error_sharing_facebook" = "Une erreur est survenue lors du partage sur Facebook. Veuillez réessayer plus tard.";
 "sell_share_fb_content" = "Découvrez ce que je vends sur letgo !";
-"sell_share_on_facebook_label" = "Partager mon produit sur Facebook";
+"sell_share_on_facebook_label" = "Partager sur Facebook";
 "sell_title_autogen_autotrans_label" = "Titre suggéré par letgo et traduit par Google";
 "sell_title_autogen_label" = "Titre suggéré par letgo";
 "sell_title_field_hint" = "Titre (optionnel)";
@@ -631,7 +641,13 @@
 "settings_invite_facebook_friends_button" = "Invitez des Amis Facebook";
 "settings_invite_facebook_friends_error" = "Une erreur est survenue lors de l'envoi de votre invitation.";
 "settings_invite_facebook_friends_ok" = "Votre invitation a été envoyée avec succès !";
+"settings_logout_alert_message" = "Êtes-vous certain de vouloir vous déconnecter ?";
+"settings_logout_alert_ok" = "Se déconnecter";
 "settings_logout_button" = "Se déconnecter";
+"settings_marketing_notifications_switch" = "Notifications";
+"settings_section_profile" = "Profil";
+"settings_section_promote" = "Promouvoir";
+"settings_section_support" = "Assistance";
 "settings_title" = "Paramètres";
 "sign_up_acceptance_error" = "To sign up you have to accept the Terms & Conditions and the Privacy Policy";
 "sign_up_email_field_hint" = "Courriel";
@@ -649,6 +665,8 @@
 "sign_up_terms_conditions_terms_part" = "Terms & Conditions";
 "sign_up_title" = "Créer un nouveau compte";
 "sign_up_username_field_hint" = "Nom complet";
+"suggestions_last_searches_clear_button" = "Effacer";
+"suggestions_last_searches_title" = "Recherches Récentes";
 "tab_bar_give_away_button" = "Donnez des Objets";
 "tab_bar_give_away_tooltip" = "Vous pouvez maintenant donner des objets";
 "tab_bar_sell_stuff_button" = "Vendre";

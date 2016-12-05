@@ -36,28 +36,22 @@ extension DefaultsKeys {
     static let didShowProductDetailOnboardingOthersProduct = DefaultsKey<Bool>("didShowProductDetailOnboardingOthersProduct")
     static let productMoreInfoTooltipDismissed = DefaultsKey<Bool>("showMoreInfoTooltip")
 
-    static let pushPermissionsDidAskAtList = DefaultsKey<Bool>("didAskForPushPermissionsAtList")
     static let pushPermissionsDailyDate = DefaultsKey<NSDate?>("dailyPermissionDate")
     static let pushPermissionsDidShowNativeAlert = DefaultsKey<Bool>("didShowNativePushPermissionsDialog")
 
     static let cameraAlreadyShown = DefaultsKey<Bool>("cameraAlreadyShown")
-    static let cameraAlreadyShownFreePosting = DefaultsKey<Bool>("cameraAlreadyShownFreePosting")
     static let giveAwayTooltipAlreadyShown = DefaultsKey<Bool>("giveAwayTooltipAlreadyShown")
     static let stickersTooltipAlreadyShown = DefaultsKey<Bool>("stickersTooltipAlreadyShown")
     static let userRatingTooltipAlreadyShown = DefaultsKey<Bool>("userRatingTooltipAlreadyShown")
 
     static let didShowCommercializer = DefaultsKey<Bool>("didShowCommercializer")
     static let isGod = DefaultsKey<Bool>("isGod")
+    static let lastSearches = DefaultsKey<[String]>("lastSearches")
+
+    static let previousUserAccountProvider = DefaultsKey<String?>("previousUserAccountProvider")
+    static let previousUserEmailOrName = DefaultsKey<String?>("previousUserEmailOrName")
+    static let sessionNumber = DefaultsKey<Int>("sessionNumber")
 }
-
-
-// MARK: - UserProvider
-
-// TODO: Remove until MyUserRepository is a protocol
-protocol UserProvider {
-    var myUser: MyUser? { get }
-}
-extension MyUserRepository: UserProvider {}
 
 
 // MARK: - KeyValueStorage
@@ -66,20 +60,20 @@ class KeyValueStorage {
     static let sharedInstance: KeyValueStorage = KeyValueStorage()
 
     private var storage: KeyValueStorageable
-    private let userProvider: UserProvider
+    private let myUserRepository: MyUserRepository
 
 
     // MARK: - Lifecycle
 
-    init(storage: KeyValueStorageable, userProvider: UserProvider) {
+    init(storage: KeyValueStorageable, myUserRepository: MyUserRepository) {
         self.storage = storage
-        self.userProvider = userProvider
+        self.myUserRepository = myUserRepository
     }
 
     convenience init() {
-        let userProvider = Core.myUserRepository
+        let myUserRepository = Core.myUserRepository
         let userDefaults = NSUserDefaults.standardUserDefaults()
-        self.init(storage: userDefaults, userProvider: userProvider)
+        self.init(storage: userDefaults, myUserRepository: myUserRepository)
     }
 }
 
@@ -231,6 +225,30 @@ extension KeyValueStorage {
             currentUserProperties = userProperties
         }
     }
+
+    var userProductsWithExpressChatMessageSent: [String] {
+        get {
+            return currentUserProperties?.productsWithExpressChatMessageSent ??
+                UserDefaultsUser.productsWithExpressChatMessageSentDefaultValue
+        }
+        set {
+            guard var userProperties = currentUserProperties else { return }
+            userProperties.productsWithExpressChatMessageSent = newValue
+            currentUserProperties = userProperties
+        }
+    }
+
+    var userMarketingNotifications: Bool {
+        get {
+            return currentUserProperties?.marketingNotifications ??
+                UserDefaultsUser.marketingNotificationsDefaultValue
+        }
+        set {
+            guard var userProperties = currentUserProperties else { return }
+            userProperties.marketingNotifications = newValue
+            currentUserProperties = userProperties
+        }
+    }
 }
 
 
@@ -238,7 +256,7 @@ extension KeyValueStorage {
 
 private extension KeyValueStorage {
     private var currentUserId: String? {
-        return userProvider.myUser?.objectId
+        return myUserRepository.myUser?.objectId
     }
     private var currentUserKey: DefaultsKey<UserDefaultsUser>? {
         guard let currentUserId = currentUserId else { return nil }
@@ -338,6 +356,10 @@ extension KeyValueStorage: KeyValueStorageable {
         set { storage[key] = newValue }
     }
     subscript(key: DefaultsKey<NSDictionary>) -> NSDictionary {
+        get { return storage[key] }
+        set { storage[key] = newValue }
+    }
+    subscript(key: DefaultsKey<[String]>) -> [String] {
         get { return storage[key] }
         set { storage[key] = newValue }
     }

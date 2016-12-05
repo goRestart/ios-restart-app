@@ -11,6 +11,15 @@ import LGCoreKit
 
 class BaseChatCellDrawer<T: UITableViewCell where T: ReusableCell>: BaseTableCellDrawer<T>, ChatCellDrawer {
 
+    private let autoHideTime: NSTimeInterval = 3
+    private let autoHideFadeTime: NSTimeInterval = 0.3
+
+    let autoHide: Bool
+
+    init(autoHide: Bool) {
+        self.autoHide = autoHide
+    }
+
     /**
     Draw the cell, proxy method to `draw(cell: T...)`
     If the cell is not of type T, it will do nothing.
@@ -24,10 +33,25 @@ class BaseChatCellDrawer<T: UITableViewCell where T: ReusableCell>: BaseTableCel
     func draw(cell: UITableViewCell, message: ChatViewMessage, delegate: AnyObject?) {
         guard let myCell = cell as? T else { return }
         draw(myCell, message: message, delegate: delegate)
+
+        checkAutoHide(myCell, message: message)
     }
     
     /**
     Abstract method that should be implemented by the subclasses.
     */
     func draw(cell: T, message: ChatViewMessage, delegate: AnyObject?) {}
+
+
+    private func checkAutoHide(cell: T, message: ChatViewMessage) {
+        guard let timeInterval = message.sentAt?.timeIntervalSinceNow where autoHide  else { return }
+        let diffTime = autoHideTime + timeInterval
+        guard 0.0..<autoHideTime ~= diffTime else {
+            cell.contentView.alpha = 0
+            return
+        }
+        cell.contentView.alpha = 1
+        UIView.animateWithDuration(autoHideFadeTime, delay: diffTime, options: .CurveEaseIn,
+                                   animations: { cell.contentView.alpha = 0 }, completion: { _ in cell.contentView.hidden = true })
+    }
 }

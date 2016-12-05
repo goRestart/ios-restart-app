@@ -8,7 +8,7 @@
 
 import LGCoreKit
 
-final class CategoriesTabCoordinator: TabCoordinator {
+final class CategoriesTabCoordinator: MainTabCoordinator {
 
     convenience init() {
         let productRepository = Core.productRepository
@@ -18,14 +18,15 @@ final class CategoriesTabCoordinator: TabCoordinator {
         let myUserRepository = Core.myUserRepository
         let keyValueStorage = KeyValueStorage.sharedInstance
         let tracker = TrackerProxy.sharedInstance
+        let featureFlags = FeatureFlags.sharedInstance
         let viewModel = CategoriesViewModel()
         let rootViewController = CategoriesViewController(viewModel: viewModel)
         self.init(productRepository: productRepository, userRepository: userRepository,
                   chatRepository: chatRepository, oldChatRepository: oldChatRepository,
                   myUserRepository: myUserRepository, keyValueStorage: keyValueStorage,
-                  tracker: tracker, rootViewController: rootViewController)
+                  tracker: tracker, rootViewController: rootViewController, featureFlags:featureFlags)
         
-        viewModel.tabNavigator = self
+        viewModel.navigator = self
     }
 
     // Note: override in subclasses
@@ -35,5 +36,11 @@ final class CategoriesTabCoordinator: TabCoordinator {
 }
 
 extension CategoriesTabCoordinator: CategoriesTabNavigator {
-
+    func openMainProducts(with filters: ProductFilters) {
+        let vm = MainProductsViewModel(filters: filters)
+        vm.navigator = self
+        let vc = MainProductsViewController(viewModel: vm)
+        navigationController.pushViewController(vc, animated: true)
+    }
 }
+ 

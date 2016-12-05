@@ -9,14 +9,9 @@
 import LGCoreKit
 import RxSwift
 
-protocol NotificationsViewModelDelegate: BaseViewModelDelegate {
-    func vmOpenSell()
-}
-
 
 class NotificationsViewModel: BaseViewModel {
 
-    weak var delegate: NotificationsViewModelDelegate?
     weak var navigator: NotificationsTabNavigator?
 
     let viewState = Variable<ViewState>(.Loading)
@@ -26,35 +21,44 @@ class NotificationsViewModel: BaseViewModel {
     private let notificationsRepository: NotificationsRepository
     private let productRepository: ProductRepository
     private let userRepository: UserRepository
+    private let myUserRepository: MyUserRepository
     private let notificationsManager: NotificationsManager
     private let locationManager: LocationManager
     private let tracker: Tracker
+    private let featureFlags: FeatureFlaggeable
+    private let disposeBag = DisposeBag()
 
     convenience override init() {
         self.init(notificationsRepository: Core.notificationsRepository,
                   productRepository: Core.productRepository,
                   userRepository: Core.userRepository,
+                  myUserRepository: Core.myUserRepository,
                   notificationsManager: NotificationsManager.sharedInstance,
                   locationManager: Core.locationManager,
-                  tracker: TrackerProxy.sharedInstance)
+                  tracker: TrackerProxy.sharedInstance, featureFlags: FeatureFlags.sharedInstance)
     }
 
     init(notificationsRepository: NotificationsRepository, productRepository: ProductRepository,
-         userRepository: UserRepository, notificationsManager: NotificationsManager, locationManager: LocationManager,
-         tracker: Tracker) {
+         userRepository: UserRepository, myUserRepository: MyUserRepository,
+         notificationsManager: NotificationsManager, locationManager: LocationManager,
+         tracker: Tracker, featureFlags: FeatureFlaggeable) {
         self.notificationsRepository = notificationsRepository
         self.productRepository = productRepository
+        self.myUserRepository = myUserRepository
         self.userRepository = userRepository
         self.notificationsManager = notificationsManager
         self.locationManager = locationManager
         self.tracker = tracker
-
+        self.featureFlags = featureFlags
         super.init()
     }
 
     override func didBecomeActive(firstTime: Bool) {
         super.didBecomeActive(firstTime)
 
+        if firstTime {
+            setupRx()
+        }
         trackVisit()
         reloadNotifications()
     }
@@ -83,6 +87,13 @@ class NotificationsViewModel: BaseViewModel {
 
     // MARK: - Private methods
 
+    private func setupRx() {
+        let loggedOut = myUserRepository.rx_myUser.filter { return $0 == nil }
+        loggedOut.subscribeNext { [weak self] _ in
+            self?.viewState.value = .Loading
+        }.addDisposableTo(disposeBag)
+    }
+
     private func reloadNotifications() {
         notificationsRepository.index { [weak self] result in
             guard let strongSelf = self else { return }
@@ -93,7 +104,8 @@ class NotificationsViewModel: BaseViewModel {
                     let emptyViewModel = LGEmptyViewModel(icon: UIImage(named: "ic_notifications_empty" ),
                         title:  LGLocalizedString.notificationsEmptyTitle,
                         body: LGLocalizedString.notificationsEmptySubtitle, buttonTitle: LGLocalizedString.tabBarToolTip,
-                        action: { [weak self] in self?.delegate?.vmOpenSell() }, secondaryButtonTitle: nil, secondaryAction: nil)
+                        action: { [weak self] in self?.navigator?.openSell(.Notifications) },
+                        secondaryButtonTitle: nil, secondaryAction: nil)
 
                     strongSelf.viewState.value = .Empty(emptyViewModel)
                 } else {
@@ -124,14 +136,14 @@ private extension NotificationsViewModel {
     private func buildNotification(notification: Notification) -> NotificationData? {
         switch notification.type {
         case let .Rating(userId, userImageUrl, userName, _, _):
-            guard FeatureFlags.userReviews else { return nil }
+            guard featureFlags.userReviews else { return nil }
             return NotificationData(type: .Rating(userId: userId, userName: userName, userImage: userImageUrl),
                                     date: notification.createdAt, isRead: notification.isRead,
                                     primaryAction: { [weak self] in
                                         self?.navigator?.openMyRatingList()
                                     })
         case let .RatingUpdated(userId, userImageUrl, userName, _, _):
-            guard FeatureFlags.userReviews else { return nil }
+            guard featureFlags.userReviews else { return nil }
             return NotificationData(type: .RatingUpdated(userId: userId, userName: userName, userImage: userImageUrl),
                                     date: notification.createdAt, isRead: notification.isRead,
                                     primaryAction: { [weak self] in
@@ -158,7 +170,7 @@ private extension NotificationsViewModel {
     private func buildWelcomeNotification() -> NotificationData {
         return NotificationData(type: .Welcome(city: locationManager.currentPostalAddress?.city),
                                 date: NSDate(), isRead: true, primaryAction: { [weak self] in
-                                    self?.delegate?.vmOpenSell()
+                                    self?.navigator?.openSell(.Notifications)
                                 })
     }
 }
@@ -168,12 +180,12 @@ private extension NotificationsViewModel {
 
 private extension NotificationsViewModel {
     func trackVisit() {
-        let event = TrackerEvent.NotificationCenterStart()
+        let event = TrackerEvent.notificationCenterStart()
         tracker.trackEvent(event)
     }
 
     func trackItemPressed(type: EventParameterNotificationType) {
-        let event = TrackerEvent.NotificationCenterComplete(type)
+        let event = TrackerEvent.notificationCenterComplete(type)
         tracker.trackEvent(event)
     }
 }

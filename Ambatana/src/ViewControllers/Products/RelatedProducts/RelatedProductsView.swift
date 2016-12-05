@@ -12,11 +12,9 @@ import RxCocoa
 
 
 protocol RelatedProductsViewDelegate: class {
-    func relatedProductsViewDidShow(view: RelatedProductsView)
     func relatedProductsView(view: RelatedProductsView, showProduct product: Product, atIndex index: Int,
                              productListModels: [ProductCellModel], requester: ProductListRequester,
                              thumbnailImage: UIImage?, originFrame: CGRect?)
-
 }
 
 
@@ -26,20 +24,20 @@ class RelatedProductsView: UIView {
     private static let elementsMargin: CGFloat = 10
     private static let itemsSpacing: CGFloat = 5
 
-    let title = Variable<String>("")
     let productId = Variable<String?>(nil)
-    let visibleHeight = Variable<CGFloat>(0)
+    let hasProducts = Variable<Bool>(false)
 
     weak var delegate: RelatedProductsViewDelegate?
 
-    private var topConstraint: NSLayoutConstraint?
-    private let infoLabel = UILabel()
     private let collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout())
     private let productsDiameter: CGFloat
-    private let visible = Variable<Bool>(false)
 
     private var requester: ProductListRequester?
-    private var objects: [ProductCellModel] = []
+    private var objects: [ProductCellModel] = [] {
+        didSet {
+            hasProducts.value = !objects.isEmpty
+        }
+    }
     private let drawerManager = GridDrawerManager()
 
     private let disposeBag = DisposeBag()
@@ -64,34 +62,10 @@ class RelatedProductsView: UIView {
     }
 
 
-    // MARK: - Public
-
-    func setupOnTopOfView(sibling: UIView) {
-        translatesAutoresizingMaskIntoConstraints = false
-        guard let parentView = sibling.superview else { return }
-        parentView.addSubview(self)
-        let top = NSLayoutConstraint(item: self, attribute: NSLayoutAttribute.Top, relatedBy:
-            NSLayoutRelation.Equal, toItem: sibling, attribute: NSLayoutAttribute.Top, multiplier: 1.0, constant: 0)
-        let left = NSLayoutConstraint(item: self, attribute: NSLayoutAttribute.Left, relatedBy: NSLayoutRelation.Equal,
-                                      toItem: sibling, attribute: NSLayoutAttribute.Left, multiplier: 1.0, constant: 0)
-        let right = NSLayoutConstraint(item: self, attribute: NSLayoutAttribute.Right, relatedBy: NSLayoutRelation.Equal,
-                                       toItem: sibling, attribute: NSLayoutAttribute.Right, multiplier: 1, constant: 0)
-        parentView.addConstraints([top,left,right])
-        topConstraint = top
-    }
-
-
     // MARK: - Private
 
     private func setup() {
-        backgroundColor = UIColor.whiteColor()
-        layer.borderWidth = LGUIKitConstants.onePixelSize
-        layer.borderColor = UIColor.lineGray.CGColor
-
-        infoLabel.translatesAutoresizingMaskIntoConstraints = false
-        infoLabel.textColor = UIColor.grayDark
-        infoLabel.font = UIFont.sectionTitleFont
-        addSubview(infoLabel)
+        backgroundColor = UIColor.clearColor()
 
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(collectionView)
@@ -102,28 +76,22 @@ class RelatedProductsView: UIView {
     }
 
     private func setupConstraints() {
-        let views = ["infoLabel": infoLabel, "collectionView": collectionView]
-        let metrics = ["margin": RelatedProductsView.elementsMargin, "collectionHeight": productsDiameter]
-        addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-margin-[infoLabel]-margin-|", options: [],
-            metrics: metrics, views: views))
+        let views = ["collectionView": collectionView]
         addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[collectionView]|", options: [], metrics: nil,
             views: views))
-        addConstraints(NSLayoutConstraint.constraintsWithVisualFormat(
-            "V:|-margin-[infoLabel]-margin-[collectionView(collectionHeight)]-margin-|",
-            options: [], metrics: metrics, views: views))
+        addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[collectionView]|", options: [], metrics: nil,
+            views: views))
     }
 
     private func setupRx() {
-        title.asObservable().bindTo(infoLabel.rx_text).addDisposableTo(disposeBag)
         productId.asObservable().bindNext{ [weak self] productId in
              guard let productId = productId else {
-                self?.animateToVisible(false)
+                self?.clear()
                 return
             }
             self?.loadProducts(productId)
         }.addDisposableTo(disposeBag)
-        visible.asObservable().map{!$0}.bindTo(self.rx_hidden).addDisposableTo(disposeBag)
-        visible.asObservable().map{ [weak self] in $0 ? self?.height ?? 0 : 0 }.bindTo(visibleHeight).addDisposableTo(disposeBag)
+        hasProducts.asObservable().map { !$0 }.bindTo(self.rx_hidden).addDisposableTo(disposeBag)
     }
 }
 
@@ -147,6 +115,11 @@ extension RelatedProductsView: UICollectionViewDelegate, UICollectionViewDataSou
             layout.itemSize = CGSize(width: productsDiameter, height: productsDiameter)
             layout.minimumInteritemSpacing = RelatedProductsView.itemsSpacing
         }
+    }
+
+    private func clear() {
+        objects = []
+        collectionView.reloadData()
     }
 
     private func itemAtIndex(index: Int) -> ProductCellModel? {
@@ -182,7 +155,7 @@ extension RelatedProductsView: UICollectionViewDelegate, UICollectionViewDataSou
             delegate?.relatedProductsView(self, showProduct: product, atIndex: indexPath.row,
                                           productListModels: objects, requester: requester,
                                           thumbnailImage: thumbnailImage, originFrame: originFrame)
-        case .CollectionCell:
+        case .CollectionCell, .EmptyCell:
             // No banners or collections here
             break
         }
@@ -195,24 +168,16 @@ extension RelatedProductsView: UICollectionViewDelegate, UICollectionViewDataSou
 private extension RelatedProductsView {
 
     func loadProducts(productId: String) {
-        requester = RelatedProductListRequester(productId: productId)
+        clear()
+        requester = RelatedProductListRequester(productId: productId, itemsPerPage: Constants.numProductsPerPageDefault)
         requester?.retrieveFirstPage { [weak self] result in
-            guard let products = result.value where !products.isEmpty  else { return }
-            let productCellModels = products.map(ProductCellModel.init)
-            self?.objects = productCellModels
+            if let products = result.value where !products.isEmpty {
+                let productCellModels = products.map(ProductCellModel.init)
+                self?.objects = productCellModels
+            } else {
+                self?.objects = []
+            }
             self?.collectionView.reloadData()
-            self?.animateToVisible(true)
-        }
-    }
-
-    func animateToVisible(visible: Bool) {
-        self.visible.value = visible
-        topConstraint?.constant = visible ? -height : 0
-        UIView.animateWithDuration(0.3) { [weak self] in
-            self?.superview?.layoutIfNeeded()
-        }
-        if visible {
-            delegate?.relatedProductsViewDidShow(self)
         }
     }
 }

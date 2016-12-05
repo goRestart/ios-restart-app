@@ -30,11 +30,11 @@ def shared_pods
 
 	# Tracking
 	pod "Amplitude-iOS",        "~> 3.8.5"  # Swift 3.0: -
-    pod "AppsFlyerFramework",   "~> 4.5.9"  # Swift 3.0: -
+    pod "AppsFlyerFramework",   "~> 4.5.12"  # Swift 3.0: -
     pod "Leanplum-iOS-SDK",     "~> 1.4.0"  # Swift 3.0: -
 
 	# letgo Core
-    pod "LGCoreKit",            "1.4.1"     #:path => "../lgcorekit"
+    pod "LGCoreKit",            "1.5.2"     #:path => "../lgcorekit"
 
 	# Slack Chat controller
     pod "SlackTextViewController", "1.9.4"  # Swift 3.0: -

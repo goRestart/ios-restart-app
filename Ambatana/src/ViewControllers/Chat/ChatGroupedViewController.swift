@@ -26,6 +26,9 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
 
     // Rx
     let disposeBag: DisposeBag
+    
+    // FeatureFlags
+    private let featureFlags: FeatureFlaggeable
 
 
     // MARK: - Lifecycle
@@ -34,24 +37,25 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
         setEditing(!editing, animated: true)
     }
 
-    init(viewModel: ChatGroupedViewModel) {
+    init(viewModel: ChatGroupedViewModel, featureFlags: FeatureFlaggeable) {
+        self.featureFlags = featureFlags
         self.viewModel = viewModel
         self.viewPager = LGViewPager()
         self.pages = []
         self.disposeBag = DisposeBag()
         super.init(viewModel: viewModel, nibName: nil)
-
+        
         self.editButton = UIBarButtonItem(title: LGLocalizedString.chatListDelete, style: .Plain, target: self,
-            action: #selector(ChatGroupedViewController.edit))
-
+                                          action: #selector(edit))
+        
         automaticallyAdjustsScrollViewInsets = false
         hidesBottomBarWhenPushed = false
         hasTabBar = true
-
+        
         viewModel.delegate = self
         for index in 0..<viewModel.chatListsCount {
             let page: ChatListView
-            if FeatureFlags.websocketChat {
+            if featureFlags.websocketChat {
                 guard let pageVM = viewModel.wsChatListViewModelForTabAtIndex(index) else { continue }
                 page = ChatListView(viewModel: pageVM)
             } else {
@@ -65,14 +69,20 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
             page.delegate = self
             pages.append(page)
         }
-
+        
         let pageVM = viewModel.blockedUsersListViewModel
         let page = BlockedUsersListView(viewModel: pageVM)
         page.chatGroupedListViewDelegate = self
         page.blockedUsersListViewDelegate = self
         pages.append(page)
-
+        
         setupRxBindings()
+        
+        
+    }
+    
+    convenience init(viewModel: ChatGroupedViewModel) {
+        self.init(viewModel: viewModel, featureFlags: FeatureFlags.sharedInstance)
     }
 
     
@@ -245,7 +255,7 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
     private func setupUI() {
         //TODO: remove!!!!
         #if GOD_MODE
-        let chatType = FeatureFlags.websocketChat ? "New" : "Old"
+        let chatType = featureFlags.websocketChat ? "New" : "Old"
         let leftButton = UIBarButtonItem(title: chatType, style: .Plain, target: self, action: #selector(chatInfo))
         navigationItem.leftBarButtonItem = leftButton
         #endif
@@ -274,7 +284,7 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
     }
 
     private dynamic func chatInfo() {
-        let message = FeatureFlags.websocketChat ? "You're using the F*ng new chat!!" : "You're using the crappy old chat :("
+        let message = featureFlags.websocketChat ? "You're using the F*ng new chat!!" : "You're using the crappy old chat :("
         showAutoFadingOutMessageAlert(message)
     }
 

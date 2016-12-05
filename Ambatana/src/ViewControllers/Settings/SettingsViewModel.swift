@@ -17,33 +17,37 @@ enum LetGoSetting {
     case ChangePhoto(placeholder: UIImage?, avatarUrl: NSURL?)
     case ChangeUsername(name: String)
     case ChangeLocation(location: String)
+    case MarketingNotifications(initialState: Bool, changeClosure: (Bool -> Void))
     case CreateCommercializer
     case ChangePassword
     case Help
     case LogOut
+    case VersionInfo
+}
+
+struct SettingsSection {
+    let title: String
+    let settings: [LetGoSetting]
 }
 
 protocol SettingsViewModelDelegate: BaseViewModelDelegate {
-    func vmOpenSettingsDetailVC(vc: UIViewController)
     func vmOpenImagePick()
-    func vmOpenFbAppInvite(content: FBSDKAppInviteContent)
 }
 
 class SettingsViewModel: BaseViewModel {
 
+    weak var navigator: SettingsNavigator?
     weak var delegate: SettingsViewModelDelegate?
 
-    var settingsChanges: Observable<CollectionChange<LetGoSetting>> {
-        return settingsData.changesObservable
-    }
     let avatarLoadingProgress = Variable<Float?>(nil)
+    let sections = Variable<[SettingsSection]>([])
 
     private let myUserRepository: MyUserRepository
     private let commercializerRepository: CommercializerRepository
+    private let notificationsManager: NotificationsManager
     private let locationManager: LocationManager
     private let tracker: Tracker
 
-    private let settingsData = CollectionVariable<LetGoSetting>([])
     private let kLetGoUserImageSquareSize: CGFloat = 1024
 
     private let disposeBag = DisposeBag()
@@ -56,14 +60,16 @@ class SettingsViewModel: BaseViewModel {
 
     convenience override init() {
         self.init(myUserRepository: Core.myUserRepository, commercializerRepository: Core.commercializerRepository,
-                  locationManager: Core.locationManager, tracker: TrackerProxy.sharedInstance)
+                  locationManager: Core.locationManager, notificationsManager: NotificationsManager.sharedInstance,
+                  tracker: TrackerProxy.sharedInstance)
     }
 
     init(myUserRepository: MyUserRepository, commercializerRepository: CommercializerRepository,
-         locationManager: LocationManager, tracker: Tracker) {
+         locationManager: LocationManager, notificationsManager: NotificationsManager, tracker: Tracker) {
         self.myUserRepository = myUserRepository
         self.commercializerRepository = commercializerRepository
         self.locationManager = locationManager
+        self.notificationsManager = notificationsManager
         self.tracker = tracker
 
         super.init()
@@ -77,49 +83,38 @@ class SettingsViewModel: BaseViewModel {
             tracker.trackEvent(TrackerEvent.profileEditStart())
         }
     }
+    
+    override func backButtonPressed() -> Bool {
+        navigator?.closeSettings()
+        return true
+    }
 
 
     // MARK: - Public
 
-    var settingsCount: Int {
-        return settingsData.value.count
+    var sectionCount: Int {
+        return sections.value.count
     }
 
-    func settingAtIndex(index: Int) -> LetGoSetting? {
-        guard 0..<settingsData.value.count ~= index else { return nil }
-        return settingsData.value[index]
+    func sectionTitle(section: Int) -> String {
+        guard 0..<sections.value.count ~= section else { return "" }
+        return sections.value[section].title
     }
 
-    func settingSelectedAtIndex(index: Int) {
-        guard let setting = settingAtIndex(index) else { return }
-        switch (setting) {
-        case .InviteFbFriends:
-            let content = FBSDKAppInviteContent()
-            content.appLinkURL = NSURL(string: Constants.facebookAppLinkURL)
-            content.appInvitePreviewImageURL = NSURL(string: Constants.facebookAppInvitePreviewImageURL)
-            delegate?.vmOpenFbAppInvite(content)
-            let trackerEvent = TrackerEvent.appInviteFriend(.Facebook, typePage: .Settings)
-            tracker.trackEvent(trackerEvent)
-        case .ChangePhoto:
-            delegate?.vmOpenImagePick()
-        case .ChangeUsername:
-            let vc = ChangeUsernameViewController()
-            delegate?.vmOpenSettingsDetailVC(vc)
-        case .ChangeLocation:
-            let vc = EditLocationViewController(viewModel: EditLocationViewModel(mode: .EditUserLocation))
-            delegate?.vmOpenSettingsDetailVC(vc)
-        case .CreateCommercializer:
-            let vc = CreateCommercialViewController(viewModel: CreateCommercialViewModel())
-            delegate?.vmOpenSettingsDetailVC(vc)
-        case .ChangePassword:
-            let vc = ChangePasswordViewController()
-            delegate?.vmOpenSettingsDetailVC(vc)
-        case .Help:
-            let vc = HelpViewController()
-            delegate?.vmOpenSettingsDetailVC(vc)
-        case .LogOut:
-            logoutUser()
-        }
+    func settingsCount(section: Int) -> Int {
+        guard 0..<sections.value.count ~= section else { return 0 }
+        return sections.value[section].settings.count
+    }
+
+    func settingAtSection(section: Int, index: Int) -> LetGoSetting? {
+        guard 0..<sections.value.count ~= section else { return nil }
+        guard 0..<sections.value[section].settings.count ~= index else { return nil }
+        return sections.value[section].settings[index]
+    }
+
+    func settingSelectedAtSection(section: Int, index: Int) {
+        guard let setting = settingAtSection(section, index: index) else { return }
+        settingSelected(setting)
     }
 
     func imageSelected(image: UIImage) {
@@ -168,130 +163,92 @@ class SettingsViewModel: BaseViewModel {
     // MARK: - Private
 
     private func populateSettings() {
-        var settings: [LetGoSetting] = []
+        var settingSections = [SettingsSection]()
 
-        let myUser = myUserRepository.myUser
-        settings.append(.InviteFbFriends)
-        let placeholder = LetgoAvatar.avatarWithColor(UIColor.defaultAvatarColor, name: myUser?.name)
-        settings.append(.ChangePhoto(placeholder: placeholder, avatarUrl: myUser?.avatar?.fileURL))
-        settings.append(.ChangeUsername(name: myUser?.name ?? ""))
-        settings.append(.ChangeLocation(location: myUser?.postalAddress.city ?? myUser?.postalAddress.countryCode ?? ""))
+        var promoteSettings = [LetGoSetting]()
+        promoteSettings.append(.InviteFbFriends)
         if commercializerEnabled {
-            settings.append(.CreateCommercializer)
+            promoteSettings.append(.CreateCommercializer)
         }
-        if let email = myUser?.email where email.isEmail() {
-            settings.append(.ChangePassword)
-        }
-        settings.append(.Help)
-        settings.append(.LogOut)
+        settingSections.append(SettingsSection(title: LGLocalizedString.settingsSectionPromote, settings: promoteSettings))
 
-        settingsData.removeAll()
-        settingsData.appendContentsOf(settings)
+        var profileSettings = [LetGoSetting]()
+        let myUser = myUserRepository.myUser
+        let placeholder = LetgoAvatar.avatarWithColor(UIColor.defaultAvatarColor, name: myUser?.name)
+        profileSettings.append(.ChangePhoto(placeholder: placeholder, avatarUrl: myUser?.avatar?.fileURL))
+        profileSettings.append(.ChangeUsername(name: myUser?.name ?? ""))
+        profileSettings.append(.ChangeLocation(location: myUser?.postalAddress.city ?? myUser?.postalAddress.state ??
+            myUser?.postalAddress.countryCode ?? ""))
+        if let email = myUser?.email where email.isEmail() {
+            profileSettings.append(.ChangePassword)
+        }
+        profileSettings.append(.MarketingNotifications(initialState: notificationsManager.marketingNotifications.value,
+            changeClosure: { [weak self] enabled in self?.setMarketingNotifications(enabled) } ))
+        settingSections.append(SettingsSection(title: LGLocalizedString.settingsSectionProfile, settings: profileSettings))
+
+        var supportSettings = [LetGoSetting]()
+        supportSettings.append(.Help)
+        settingSections.append(SettingsSection(title: LGLocalizedString.settingsSectionSupport, settings: supportSettings))
+
+        var logoutAndInfo = [LetGoSetting]()
+        logoutAndInfo.append(.LogOut)
+        logoutAndInfo.append(.VersionInfo)
+        settingSections.append(SettingsSection(title: "", settings: logoutAndInfo))
+        sections.value = settingSections
+    }
+
+    private func settingSelected(setting: LetGoSetting) {
+        switch (setting) {
+        case .InviteFbFriends:
+            let content = FBSDKAppInviteContent()
+            content.appLinkURL = NSURL(string: Constants.facebookAppLinkURL)
+            content.appInvitePreviewImageURL = NSURL(string: Constants.facebookAppInvitePreviewImageURL)
+            guard let delegate = delegate as? FBSDKAppInviteDialogDelegate else { return }
+            navigator?.showFbAppInvite(content, delegate: delegate)
+            let trackerEvent = TrackerEvent.appInviteFriend(.Facebook, typePage: .Settings)
+            tracker.trackEvent(trackerEvent)
+        case .ChangePhoto:
+            delegate?.vmOpenImagePick()
+        case .ChangeUsername:
+            navigator?.openEditUserName()
+        case .ChangeLocation:
+            navigator?.openEditLocation()
+        case .CreateCommercializer:
+            navigator?.openCreateCommercials()
+        case .ChangePassword:
+            navigator?.openChangePassword()
+        case .Help:
+            navigator?.openHelp()
+        case .LogOut:
+            let positive = UIAction(interface: .StyledText(LGLocalizedString.settingsLogoutAlertOk, .Default),
+                                    action: { [weak self] in
+                    self?.logoutUser()
+                }, accessibilityId: .SettingsLogoutAlertOK)
+
+            let negative = UIAction(interface: .StyledText(LGLocalizedString.commonCancel, .Cancel),
+                                    action: {}, accessibilityId: .SettingsLogoutAlertCancel)
+            delegate?.vmShowAlertWithTitle(nil, text: LGLocalizedString.settingsLogoutAlertMessage,
+                                           alertType: .PlainAlert, actions: [positive, negative])
+        case .VersionInfo, .MarketingNotifications:
+            break
+        }
     }
 
     private func logoutUser() {
-        Core.sessionManager.logout()
         tracker.trackEvent(TrackerEvent.logout())
-        tracker.setUser(nil)
+        Core.sessionManager.logout()
     }
 
     private func setupRx() {
-        myUserRepository.rx_myUser.asObservable().bindNext { [weak self] _ in
+        myUserRepository.rx_myUser.bindNext { [weak self] _ in
             self?.populateSettings()
         }.addDisposableTo(disposeBag)
     }
-}
 
+    private func setMarketingNotifications(enabled: Bool) {
+        notificationsManager.marketingNotifications.value = enabled
 
-extension LetGoSetting {
-    var title: String {
-        switch (self) {
-        case .InviteFbFriends:
-            return LGLocalizedString.settingsInviteFacebookFriendsButton
-        case .ChangePhoto:
-            return LGLocalizedString.settingsChangeProfilePictureButton
-        case .ChangeUsername:
-            return LGLocalizedString.settingsChangeUsernameButton
-        case .ChangeLocation:
-            return LGLocalizedString.settingsChangeLocationButton
-        case .CreateCommercializer:
-            return LGLocalizedString.commercializerCreateFromSettings
-        case .ChangePassword:
-            return LGLocalizedString.settingsChangePasswordButton
-        case .Help:
-            return LGLocalizedString.settingsHelpButton
-        case .LogOut:
-            return LGLocalizedString.settingsLogoutButton
-        }
-    }
-
-    var image: UIImage? {
-        switch (self) {
-        case .InviteFbFriends:
-            return UIImage(named: "ic_fb_settings")
-        case .ChangeUsername:
-            return UIImage(named: "ic_change_username")
-        case .ChangeLocation:
-            return UIImage(named: "ic_location_edit")
-        case .CreateCommercializer:
-            return UIImage(named: "ic_play_video")
-        case .ChangePassword:
-            return UIImage(named: "edit_profile_password")
-        case .Help:
-            return UIImage(named: "ic_help")
-        case .LogOut:
-            return UIImage(named: "edit_profile_logout")
-        case let .ChangePhoto(placeholder,_):
-            return placeholder
-        }
-    }
-
-    var imageURL: NSURL? {
-        switch self {
-        case let .ChangePhoto(_,avatarUrl):
-            return avatarUrl
-        default:
-            return nil
-        }
-    }
-
-    var imageRounded: Bool {
-        switch self {
-        case .ChangePhoto:
-            return true
-        default:
-            return false
-        }
-    }
-
-    var textColor: UIColor {
-        switch (self) {
-        case .LogOut:
-            return UIColor.lightGrayColor()
-        case .CreateCommercializer:
-            return UIColor.primaryColor
-        default:
-            return UIColor.darkGrayColor()
-        }
-    }
-
-    var textValue: String? {
-        switch self {
-        case let .ChangeUsername(name):
-            return name
-        case let .ChangeLocation(location):
-            return location
-        default:
-            return nil
-        }
-    }
-
-    var showsDisclosure: Bool {
-        switch self {
-        case .LogOut:
-            return false
-        default:
-            return true
-        }
+        let event = TrackerEvent.marketingPushNotifications(myUserRepository.myUser?.objectId, enabled: enabled)
+        tracker.trackEvent(event)
     }
 }

@@ -10,17 +10,26 @@ import LGCoreKit
 
 class RelatedProductListRequester: ProductListRequester {
 
+    let itemsPerPage: Int
     private let productObjectId: String
     private let productRepository: ProductRepository
     private var offset: Int = 0
 
-    convenience init(productId: String) {
-        self.init(productId: productId, productRepository: Core.productRepository)
+    private var retrieveProductParams: RetrieveProductsParams {
+        var params = RetrieveProductsParams()
+        params.numProducts = itemsPerPage
+        params.offset = offset
+        return params
     }
 
-    init(productId: String, productRepository: ProductRepository) {
+    convenience init(productId: String, itemsPerPage: Int) {
+        self.init(productId: productId, itemsPerPage: itemsPerPage, productRepository: Core.productRepository)
+    }
+
+    init(productId: String, itemsPerPage: Int, productRepository: ProductRepository) {
         self.productObjectId = productId
         self.productRepository = productRepository
+        self.itemsPerPage = itemsPerPage
     }
 
     func canRetrieve() -> Bool {
@@ -37,7 +46,8 @@ class RelatedProductListRequester: ProductListRequester {
     }
 
     func productsRetrieval(completion: ProductsCompletion?) {
-        productRepository.indexRelated(productId: productObjectId, params: RetrieveProductsParams(), pageOffset: offset) { [weak self] result in
+        productRepository.indexRelated(productId: productObjectId, params: retrieveProductParams) {
+            [weak self] result in
             if let value = result.value {
                 self?.offset += value.count
             }
@@ -52,7 +62,7 @@ class RelatedProductListRequester: ProductListRequester {
     func updateInitialOffset(newOffset: Int) {}
 
     func duplicate() -> ProductListRequester {
-        let r = RelatedProductListRequester(productId: productObjectId)
+        let r = RelatedProductListRequester(productId: productObjectId, itemsPerPage: itemsPerPage)
         r.offset = offset
         return r
     }

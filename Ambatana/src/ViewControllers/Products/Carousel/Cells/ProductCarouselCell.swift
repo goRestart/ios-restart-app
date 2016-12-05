@@ -51,6 +51,7 @@ class ProductCarouselCell: UICollectionViewCell {
     func setupUI() {
         addSubview(collectionView)
 
+        collectionView.keyboardDismissMode = .OnDrag
         collectionView.frame = bounds
         collectionView.backgroundColor = UIColor.clearColor()
         collectionView.autoresizingMask = [.FlexibleHeight, .FlexibleWidth]
@@ -73,10 +74,6 @@ class ProductCarouselCell: UICollectionViewCell {
         delegate?.didTapOnCarouselCell(self)
     }
 
-    func visibleCell() -> ProductCarouselImageCell? {
-        return collectionView.visibleCells().first as? ProductCarouselImageCell
-    }
-    
     func configureCellWithProduct(product: Product, placeholderImage: UIImage?, indexPath: NSIndexPath,
                                   imageDownloader: ImageDownloader) {
         self.tag = indexPath.hash
@@ -101,6 +98,9 @@ class ProductCarouselCell: UICollectionViewCell {
     }
 }
 
+
+// MARK: - UICollectionViewDataSource & UICollectionViewDelegate 
+
 extension ProductCarouselCell: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return numberOfImages()
@@ -117,6 +117,8 @@ extension ProductCarouselCell: UICollectionViewDelegate, UICollectionViewDataSou
             let productCarouselTag = self.tag
             imageCell.tag = imageCellTag
             imageCell.position = indexPath.row
+            imageCell.backgroundColor = UIColor.placeholderBackgroundColor(product?.objectId)
+            imageCell.delegate = self
 
             if imageCell.imageURL != imageURL { //Avoid reloading same image in the cell
                 if let placeholder = placeholderImage where indexPath.row == 0 {
@@ -125,24 +127,22 @@ extension ProductCarouselCell: UICollectionViewDelegate, UICollectionViewDataSou
                     imageCell.imageView.image = nil
                 }
 
-
-                imageDownloader.downloadImageWithURL(imageURL) { [weak self] (result, url) in
+                imageDownloader.downloadImageWithURL(imageURL) { [weak self, weak imageCell] (result, url) in
                     if let value = result.value where self?.tag == productCarouselTag && cell.tag == imageCellTag {
-                        imageCell.imageURL = imageURL
-                        imageCell.setImage(value.image)
+                        imageCell?.imageURL = imageURL
+                        imageCell?.setImage(value.image)
                     }
                 }
             }
             
-            imageCell.backgroundColor = UIColor.placeholderBackgroundColor(product?.objectId)
-            imageCell.zooming.subscribeNext { [weak self] (zooming, position) in
-                guard let currentPage = self?.currentPage where position == currentPage else { return }
-                self?.delegate?.isZooming(zooming)
-            }.addDisposableTo(disposeBag)
-
             return imageCell
     }
-    
+
+    func collectionView(collectionView: UICollectionView, willDisplayCell cell: UICollectionViewCell, forItemAtIndexPath indexPath: NSIndexPath) {
+        guard let imageCell = cell as? ProductCarouselImageCell else { return }
+        imageCell.resetZoom()
+    }
+
     func scrollViewDidScroll(scrollView: UIScrollView) {
         let pageSize = collectionView.frame.size.height;
         let numImages = numberOfImages()
@@ -173,8 +173,21 @@ extension ProductCarouselCell: UICollectionViewDelegate, UICollectionViewDataSou
 }
 
 
-extension ProductCarouselCell {
-    private func setAccessibilityIds() {
+// MARK: - ProductCarouselImageCellDelegate
+
+extension ProductCarouselCell: ProductCarouselImageCellDelegate {
+    func isZooming(zooming: Bool, pageAtIndex index: Int) {
+        guard index == currentPage else { return }
+        delegate?.isZooming(zooming)
+    }
+}
+
+
+// MARK: - Private methods
+// MARK: > Accessibility
+
+private extension ProductCarouselCell {
+    func setAccessibilityIds() {
         self.accessibilityId = .ProductCarouselCell
         collectionView.accessibilityId = .ProductCarouselCellCollectionView
         placeholderImage?.accessibilityId = .ProductCarouselCellPlaceholderImage

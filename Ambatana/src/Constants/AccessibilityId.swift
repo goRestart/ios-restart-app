@@ -21,7 +21,6 @@ enum AccessibilityId: String {
     case TabBarFourthTab
     case TabBarFifthTab
     case TabBarFloatingSellButton
-    case TabBarFloatingGiveAwayButton
 
     // Main Products List
     case MainProductsNavBarSearch
@@ -30,7 +29,7 @@ enum AccessibilityId: String {
     case MainProductsListView
     case MainProductsTagsCollection
     case MainProductsInfoBubbleLabel
-    case MainProductsTrendingSearchesTable
+    case MainProductsSuggestionSearchesTable
 
     // Product List View
     case ProductListViewFirstLoadView
@@ -65,9 +64,9 @@ enum AccessibilityId: String {
     case FilterTagCellTagIcon
     case FilterTagCellTagLabel
 
-    // TrendingSearchCell
-    case TrendingSearchCell
-    case TrendingSearchCellTrendingText
+    // SuggestionSearchCell
+    case SuggestionSearchCell
+    case SuggestionSearchCellSuggestionText
 
     // Categories
     case CategoriesCollectionView
@@ -121,8 +120,8 @@ enum AccessibilityId: String {
     case ProductCarouselEditButton
     case ProductCarouselFullScreenAvatarView
     case ProductCarouselPageControl
-    case ProductCarouselFavoriteMessageNotificationButton
     case ProductCarouselUserView
+    case ProductCarouselChatTextView
 
     case ProductCarouselNavBarEditButton
     case ProductCarouselNavBarShareButton
@@ -137,7 +136,15 @@ enum AccessibilityId: String {
     case ProductCarouselMoreInfoMapView
     case ProductCarouselMoreInfoSocialShareTitleLabel
     case ProductCarouselMoreInfoSocialShareView
+    case ProductCarouselMoreInfoRelatedItemsTitleLabel
+    case ProductCarouselMoreInfoRelatedItemsView
+    case ProductCarouselMoreInfoRelatedViewMoreButton
     case ProductCarouselMoreInfoDescriptionLabel
+
+    // Fullscreen share
+    case ProductCarouselFullscreenShareView
+    case ProductCarouselFullscreenShareCloseButton
+    case ProductCarouselFullscreenShareCopyLinkButton
 
     // Product Carousel Cell
     case ProductCarouselCell
@@ -146,9 +153,19 @@ enum AccessibilityId: String {
     case ProductCarouselImageCell
     case ProductCarouselImageCellImageView
 
+    // Product Carousel Post Delete screens
+    case PostDeleteAlertButton
+    case PostDeleteFullscreenButton
+    case PostDeleteFullscreenIncentiveView
+
+    // Chat Text View
+    case ChatTextViewTextField
+    case ChatTextViewSendButton
+
     // User View
     case UserViewNameLabel
     case UserViewSubtitleLabel
+    case UserViewTextInfoContainer
 
     // Notifications
     case NotificationsRefresh
@@ -256,6 +273,7 @@ enum AccessibilityId: String {
     case SocialShareTelegram
     case SocialShareCopyLink
     case SocialShareSMS
+    case SocialShareMore
 
     // MainSignUp
     case MainSignUpFacebookButton
@@ -363,13 +381,11 @@ enum AccessibilityId: String {
     // TourNotifications
     case TourNotificationsCloseButton
     case TourNotificationsOKButton
-    case TourNotificationsCancelButton
     case TourNotificationsAlert
 
     // TourLocation
     case TourLocationCloseButton
     case TourLocationOKButton
-    case TourLocationCancelButton
     case TourLocationAlert
 
     // TourPosting
@@ -411,11 +427,14 @@ enum AccessibilityId: String {
 
     // Settings
     case SettingsList
+    case SettingsLogoutAlertCancel
+    case SettingsLogoutAlertOK
 
     // SettingsCell
     case SettingsCellIcon
     case SettingsCellTitle
     case SettingsCellValue
+    case SettingsCellSwitch
 
     // ChangeUsername
     case ChangeUsernameNameField
@@ -464,6 +483,18 @@ enum AccessibilityId: String {
     case ExpressChatCellProductTitle
     case ExpressChatCellProductPrice
     case ExpressChatCellTickSelected
+
+    // ExpressChatBanner
+    case ExpressChatBanner
+    case ExpressChatBannerActionButton
+    case ExpressChatBannerCloseButton
+    
+    // Pop-up alert. 
+    case AcceptPopUpButton
+
+    // Chat Heads
+    case ChatHeadsAvatars
+    case ChatHeadsDelete
 }
 
 extension UIAccessibilityIdentification {

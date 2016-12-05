@@ -47,6 +47,16 @@ public protocol DI: class {
 
 
 protocol InternalDI: DI {
+
+    // Manager
+    var internalSessionManager: InternalSessionManager { get }
+
+    // Repository
+    var internalMyUserRepository: InternalMyUserRepository { get }
+    var internalInstallationRepository: InternalInstallationRepository { get }
+    var internalCommercializerRepository: InternalCommercializerRepository { get }
+
+
     // Clients
     var apiClient: ApiClient { get }
     var webSocketClient: WebSocketClient { get }

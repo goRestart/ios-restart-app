@@ -311,6 +311,14 @@ struct LGLocalizedString {
 		return NSLocalizedString("chat_deleted_disclaimer_wo_name", comment: "")
 	}
 
+	static var chatExpressBannerButtonTitle: String {
+		return NSLocalizedString("chat_express_banner_button_title", comment: "")
+	}
+
+	static var chatExpressBannerTitle: String {
+		return NSLocalizedString("chat_express_banner_title", comment: "")
+	}
+
 	static var chatExpressDontMissLabel: String {
 		return NSLocalizedString("chat_express_dont_miss_label", comment: "")
 	}
@@ -581,6 +589,10 @@ struct LGLocalizedString {
 
 	static var collectionFurnitureTitle: String {
 		return NSLocalizedString("collection_furniture_title", comment: "")
+	}
+
+	static var collectionYouTitle: String {
+		return NSLocalizedString("collection_you_title", comment: "")
 	}
 
 	static var collectionHalloweenTitle: String {
@@ -1159,6 +1171,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("main_sign_up_facebook_connect_button", comment: "")
 	}
 
+	static func mainSignUpFacebookConnectButtonWName(var1: String) -> String {
+		return String(format: NSLocalizedString("main_sign_up_facebook_connect_button_w_name", comment: ""), var1)
+	}
+
 	static var mainSignUpFbConnectErrorEmailTaken: String {
 		return NSLocalizedString("main_sign_up_fb_connect_error_email_taken", comment: "")
 	}
@@ -1177,6 +1193,10 @@ struct LGLocalizedString {
 
 	static var mainSignUpGoogleConnectButton: String {
 		return NSLocalizedString("main_sign_up_google_connect_button", comment: "")
+	}
+
+	static func mainSignUpGoogleConnectButtonWName(var1: String) -> String {
+		return String(format: NSLocalizedString("main_sign_up_google_connect_button_w_name", comment: ""), var1)
 	}
 
 	static var mainSignUpHelpButton: String {
@@ -1547,12 +1567,28 @@ struct LGLocalizedString {
 		return NSLocalizedString("product_delete_success_message", comment: "")
 	}
 
+	static var productDeletePostButtonTitle: String {
+		return NSLocalizedString("product_delete_post_button_title", comment: "")
+	}
+
+	static var productDeletePostTitle: String {
+		return NSLocalizedString("product_delete_post_title", comment: "")
+	}
+
+	static var productDeletePostSubtitle: String {
+		return NSLocalizedString("product_delete_post_subtitle", comment: "")
+	}
+
 	static func productDistanceMoreThanFromYou(var1: String) -> String {
 		return String(format: NSLocalizedString("product_distance_more_than_from_you", comment: ""), var1)
 	}
 
 	static func productDistanceXFromYou(var1: String) -> String {
 		return String(format: NSLocalizedString("product_distance_X_from_you", comment: ""), var1)
+	}
+
+	static var productFavoriteDirectMessage: String {
+		return NSLocalizedString("product_favorite_direct_message", comment: "")
 	}
 
 	static var productFreePrice: String {
@@ -1673,6 +1709,14 @@ struct LGLocalizedString {
 
 	static var productMoreInfoOpenButton: String {
 		return NSLocalizedString("product_more_info_open_button", comment: "")
+	}
+
+	static var productMoreInfoRelatedTitle: String {
+		return NSLocalizedString("product_more_info_related_title", comment: "")
+	}
+
+	static var productMoreInfoRelatedViewMore: String {
+		return NSLocalizedString("product_more_info_related_view_more", comment: "")
 	}
 
 	static var productNegotiablePrice: String {
@@ -2267,6 +2311,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("rating_view_title_label_uppercase", comment: "")
 	}
 
+	static var relatedItemsTitle: String {
+		return NSLocalizedString("related_items_title", comment: "")
+	}
+
 	static var reportUserCounterfeit: String {
 		return NSLocalizedString("report_user_counterfeit", comment: "")
 	}
@@ -2543,8 +2591,32 @@ struct LGLocalizedString {
 		return NSLocalizedString("settings_logout_button", comment: "")
 	}
 
+	static var settingsLogoutAlertMessage: String {
+		return NSLocalizedString("settings_logout_alert_message", comment: "")
+	}
+
+	static var settingsLogoutAlertOk: String {
+		return NSLocalizedString("settings_logout_alert_ok", comment: "")
+	}
+
 	static var settingsTitle: String {
 		return NSLocalizedString("settings_title", comment: "")
+	}
+
+	static var settingsSectionProfile: String {
+		return NSLocalizedString("settings_section_profile", comment: "")
+	}
+
+	static var settingsSectionPromote: String {
+		return NSLocalizedString("settings_section_promote", comment: "")
+	}
+
+	static var settingsSectionSupport: String {
+		return NSLocalizedString("settings_section_support", comment: "")
+	}
+
+	static var settingsMarketingNotificationsSwitch: String {
+		return NSLocalizedString("settings_marketing_notifications_switch", comment: "")
 	}
 
 	static var signUpAcceptanceError: String {
@@ -2609,6 +2681,14 @@ struct LGLocalizedString {
 
 	static var signUpUsernameFieldHint: String {
 		return NSLocalizedString("sign_up_username_field_hint", comment: "")
+	}
+
+	static var suggestionsLastSearchesTitle: String {
+		return NSLocalizedString("suggestions_last_searches_title", comment: "")
+	}
+
+	static var suggestionsLastSearchesClearButton: String {
+		return NSLocalizedString("suggestions_last_searches_clear_button", comment: "")
 	}
 
 	static var tabBarToolTip: String {

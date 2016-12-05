@@ -9,8 +9,11 @@
 import Foundation
 import FLEX
 import bumper
+import LGCoreKit
 
 class AdminViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+    
+    private static let cellIdentifier = "AdminCell"
     var tableView: UITableView = UITableView()
     
     static func canOpenAdminPanel() -> Bool {
@@ -30,6 +33,7 @@ class AdminViewController: UIViewController, UITableViewDataSource, UITableViewD
         tableView.dataSource = self
         tableView.tableFooterView = UIView(frame: CGRect.zero)
         tableView.backgroundColor = UIColor(white: 0.9, alpha: 1)
+        tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: AdminViewController.cellIdentifier)
         view.addSubview(tableView)
         title = "🙏 God Panel 🙏"
         
@@ -56,8 +60,9 @@ class AdminViewController: UIViewController, UITableViewDataSource, UITableViewD
     // MARK: - TableView
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = UITableViewCell()
+        let cell = UITableViewCell(style: .Subtitle, reuseIdentifier: AdminViewController.cellIdentifier)
         cell.textLabel?.text = titleForCellAtIndexPath(indexPath)
+        cell.detailTextLabel?.text = subtitleForCellAtIndexPath(indexPath)
         return cell
     }
     
@@ -68,14 +73,14 @@ class AdminViewController: UIViewController, UITableViewDataSource, UITableViewD
         case 1:
             openFeatureToggle()
         default:
-            break
+            UIPasteboard.generalPasteboard().string = subtitleForCellAtIndexPath(indexPath) ?? ""
         }
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 2
+        return 5
     }
-    
     
     // MARK: - Private
     
@@ -94,8 +99,28 @@ class AdminViewController: UIViewController, UITableViewDataSource, UITableViewD
             return "👾 FLEX"
         case 1:
             return "🎪 Bumper Features"
+        case 2:
+            return "📱 Installation id"
+        case 3:
+            return "😎 User id"
+        case 4:
+            return "📲 Push token"
         default:
             return "Not implemented"
+        }
+    }
+    
+    private func subtitleForCellAtIndexPath(indexPath: NSIndexPath) -> String {
+        let propertyNotFound = "None"
+        switch indexPath.row {
+        case 2:
+            return Core.installationRepository.installation?.objectId ?? propertyNotFound
+        case 3:
+            return Core.myUserRepository.myUser?.objectId ?? propertyNotFound
+        case 4:
+            return Core.installationRepository.installation?.deviceToken ?? propertyNotFound
+        default:
+            return ""
         }
     }
 }

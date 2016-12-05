@@ -52,9 +52,11 @@ class ChatGroupedViewModel: BaseViewModel {
     private(set) var blockedUsersListViewModel: BlockedUsersListViewModel
     private let currentPageViewModel = Variable<ChatGroupedListViewModelType?>(nil)
 
-    private var sessionManager: SessionManager
-    private var myUserRepository: MyUserRepository
-    private var chatRepository: ChatRepository
+    private let sessionManager: SessionManager
+    private let chatHeadManager: ChatHeadManager
+    private let myUserRepository: MyUserRepository
+    private let chatRepository: ChatRepository
+    private let featureFlags: FeatureFlaggeable
 
     weak var delegate: ChatGroupedViewModelDelegate?
     weak var tabNavigator: TabNavigator? {
@@ -77,13 +79,17 @@ class ChatGroupedViewModel: BaseViewModel {
 
     override convenience init() {
         self.init(myUserRepository: Core.myUserRepository, chatRepository: Core.chatRepository,
-                  sessionManager: Core.sessionManager)
+                  sessionManager: Core.sessionManager, chatHeadManager: ChatHeadManager.sharedInstance,
+                  featureFlags: FeatureFlags.sharedInstance)
     }
 
-    init(myUserRepository: MyUserRepository, chatRepository: ChatRepository, sessionManager: SessionManager) {
+    init(myUserRepository: MyUserRepository, chatRepository: ChatRepository,
+         sessionManager: SessionManager, chatHeadManager: ChatHeadManager, featureFlags: FeatureFlaggeable) {
         self.sessionManager = sessionManager
+        self.chatHeadManager = chatHeadManager
         self.myUserRepository = myUserRepository
         self.chatRepository = chatRepository
+        self.featureFlags = featureFlags
         self.chatListViewModels = []
         self.blockedUsersListViewModel = BlockedUsersListViewModel()
         self.disposeBag = DisposeBag()
@@ -111,6 +117,11 @@ class ChatGroupedViewModel: BaseViewModel {
         }
         setupRxBindings()
         setupVerificationPendingEmptyVM()
+    }
+
+    override func didBecomeActive(firstTime: Bool) {
+        super.didBecomeActive(firstTime)
+        chatHeadManager.updateChatHeadDatas()
     }
 
     func setupVerificationPendingEmptyVM() {
@@ -233,7 +244,7 @@ class ChatGroupedViewModel: BaseViewModel {
             }
         )
         let chatListViewModel: ChatListViewModel
-        if FeatureFlags.websocketChat {
+        if featureFlags.websocketChat {
             chatListViewModel = WSChatListViewModel(chatsType: chatsType, tabNavigator: tabNavigator)
         } else {
             chatListViewModel = OldChatListViewModel(chatsType: chatsType, tabNavigator: tabNavigator)
@@ -254,7 +265,7 @@ class ChatGroupedViewModel: BaseViewModel {
             secondaryButtonTitle: nil, secondaryAction: nil
         )
         let chatListViewModel: ChatListViewModel
-        if FeatureFlags.websocketChat {
+        if featureFlags.websocketChat {
             chatListViewModel = WSChatListViewModel(chatsType: chatsType, tabNavigator: tabNavigator)
         } else {
             chatListViewModel = OldChatListViewModel(chatsType: chatsType, tabNavigator: tabNavigator)
@@ -275,7 +286,7 @@ class ChatGroupedViewModel: BaseViewModel {
             secondaryButtonTitle: nil, secondaryAction: nil
         )
         let chatListViewModel: ChatListViewModel
-        if FeatureFlags.websocketChat {
+        if featureFlags.websocketChat {
             chatListViewModel = WSChatListViewModel(chatsType: chatsType, tabNavigator: tabNavigator)
         } else {
             chatListViewModel = OldChatListViewModel(chatsType: chatsType, tabNavigator: tabNavigator)
@@ -318,7 +329,7 @@ extension ChatGroupedViewModel {
 
         }.addDisposableTo(disposeBag)
 
-        chatRepository.wsChatStatus.asObservable().map { wsChatStatus in
+        chatRepository.chatStatus.map { wsChatStatus in
             switch wsChatStatus {
             case .Closed, .Closing, .Opening, .OpenAuthenticated, .OpenNotAuthenticated:
                 return false

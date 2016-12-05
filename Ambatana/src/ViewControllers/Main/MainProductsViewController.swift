@@ -13,8 +13,13 @@ import CHTCollectionViewWaterfallLayout
 import RxSwift
 
 
+enum SearchSuggestionType {
+    case LastSearch
+    case Trending
+}
+
 class MainProductsViewController: BaseViewController, ProductListViewScrollDelegate, MainProductsViewModelDelegate,
-    FilterTagsViewControllerDelegate, PermissionsDelegate, UITextFieldDelegate, ScrollableToTop {
+    FilterTagsViewControllerDelegate, UITextFieldDelegate, ScrollableToTop {
     
     // ViewModel
     var viewModel: MainProductsViewModel
@@ -26,13 +31,18 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     var tagsCollectionTopSpace: NSLayoutConstraint?
 
     private let infoBubbleTopMargin: CGFloat = 8
+    private let verticalMarginHeaderView: CGFloat = 16
+    private let horizontalMarginHeaderView: CGFloat = 16
+    private let sectionHeight: CGFloat = 54
+    private let firstSectionMarginTop: CGFloat = -36
+    private let numberOfSuggestionSections = 2
     @IBOutlet weak var infoBubbleLabel: UILabel!
     @IBOutlet weak var infoBubbleShadow: UIView!
     @IBOutlet weak var infoBubbleTopConstraint: NSLayoutConstraint!
     
     private let navbarSearch: LGNavBarSearchField
-    @IBOutlet weak var trendingSearchesContainer: UIVisualEffectView!
-    @IBOutlet weak var trendingSearchesTable: UITableView!
+    @IBOutlet weak var suggestionsSearchesContainer: UIVisualEffectView!
+    @IBOutlet weak var suggestionsSearchesTable: UITableView!
     
     private var tagsViewController : FilterTagsViewController?
     private var tagsShowing : Bool = false
@@ -54,8 +64,6 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
         self.viewModel = viewModel
         super.init(viewModel: viewModel, nibName: nibNameOrNil)
         viewModel.delegate = self
-        viewModel.permissionsDelegate = self
-
         hidesBottomBarWhenPushed = false
         floatingSellButtonHidden = false
         hasTabBar = true
@@ -74,7 +82,9 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
 
         topInset.value = topBarHeight
         productListView.collectionViewContentInset.top = topBarHeight
-        productListView.collectionViewContentInset.bottom = tabBarHeight + Constants.tabBarSellFloatingButtonHeight
+        productListView.collectionViewContentInset.bottom = tabBarHeight
+            + LGUIKitConstants.tabBarSellFloatingButtonHeight
+            + LGUIKitConstants.tabBarSellFloatingButtonDistance
         if let image =  UIImage(named: "pattern_white") {
             productListView.setErrorViewStyle(bgColor: UIColor(patternImage: image), borderColor: UIColor.lineGray,
                                               containerColor: UIColor.white)
@@ -83,12 +93,14 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
         productListView.headerDelegate = self
         productListView.cellsDelegate = viewModel
         productListView.switchViewModel(viewModel.listViewModel)
-        let show3Columns = DeviceFamily.isWideScreen
+        let show3Columns = DeviceFamily.current.isWiderOrEqualThan(.iPhone6Plus)
         if show3Columns {
             productListView.updateLayoutWithSeparation(6)
         }
         addSubview(productListView)
-
+        automaticallyAdjustsScrollViewInsets = false
+        //Add negative top inset to avoid extra padding adding by "grouped" table style.
+        suggestionsSearchesTable.contentInset = UIEdgeInsetsMake(firstSectionMarginTop, 0, 0, 0)
         setupInfoBubble()
         setupTagsView()
         setupSearchAndTrending()
@@ -120,14 +132,6 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
         guard viewLoaded else { return }
         productListView.scrollToTop(true)
     }
-
-
-    // MARK: - PermissionsDelegate
-
-    func mainProductsViewModelShowPushPermissionsAlert(mainProductsViewModel: MainProductsViewModel) {
-        guard let tabBarCtl = tabBarController else { return }
-        PushPermissionsManager.sharedInstance.showPrePermissionsViewFrom(tabBarCtl, type: .ProductList, completion: nil)
-    }
     
 
     // MARK: - ProductListViewScrollDelegate
@@ -157,16 +161,8 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     
     // MARK: - MainProductsViewModelDelegate
 
-    func vmDidSearch(searchViewModel: MainProductsViewModel) {
-        trendingSearchesContainer.hidden = true
-        let vc = MainProductsViewController(viewModel: searchViewModel)
-        navigationController?.pushViewController(vc, animated: true)
-    }
-
-    func vmShowFilters(filtersVM: FiltersViewModel) {
-        let vc = FiltersViewController(viewModel: filtersVM)
-        let navVC = UINavigationController(rootViewController: vc)
-        presentViewController(navVC, animated: true, completion: nil)
+    func vmDidSearch() {
+        suggestionsSearchesContainer.hidden = true
     }
 
     func vmShowTags(tags: [FilterTag]) {
@@ -215,19 +211,20 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     }
 
     dynamic private func endEdit() {
-        trendingSearchesContainer.hidden = true
+        suggestionsSearchesContainer.hidden = true
         setFiltersNavbarButton()
         setInviteNavBarButton()
         navbarSearch.endEdit()
     }
 
     private func beginEdit() {
-        guard trendingSearchesContainer.hidden else { return }
+        guard suggestionsSearchesContainer.hidden else { return }
 
         viewModel.searchBegan()
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Cancel , target: self,
                                                             action: #selector(endEdit))
-        trendingSearchesContainer.hidden = false
+        suggestionsSearchesContainer.hidden = false
+        viewModel.retrieveLastUserSearch()
         navbarSearch.beginEdit()
     }
     
@@ -320,7 +317,7 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
         navbarSearch.searchTextField.delegate = self
         setNavBarTitleStyle(.Custom(navbarSearch))
 
-        setupTrendingTable()
+        setupSuggestionsTable()
     }
 
     private func setupRxBindings() {
@@ -379,81 +376,161 @@ extension MainProductsViewController: ProductListViewHeaderDelegate, PushPermiss
 
 extension MainProductsViewController: UITableViewDelegate, UITableViewDataSource {
 
-    func setupTrendingTable() {
-        trendingSearchesTable.registerNib(UINib(nibName: TrendingSearchCell.reusableID, bundle: nil),
-                                          forCellReuseIdentifier: TrendingSearchCell.reusableID)
+    func setupSuggestionsTable() {
+        suggestionsSearchesTable.registerNib(UINib(nibName: SuggestionSearchCell.reusableID, bundle: nil),
+                                          forCellReuseIdentifier: SuggestionSearchCell.reusableID)
 
-        let topConstraint = NSLayoutConstraint(item: trendingSearchesContainer, attribute: .Top, relatedBy: .Equal,
+        let topConstraint = NSLayoutConstraint(item: suggestionsSearchesContainer, attribute: .Top, relatedBy: .Equal,
                                                toItem: topLayoutGuide, attribute: .Bottom, multiplier: 1.0, constant: 0)
         view.addConstraint(topConstraint)
-
-        viewModel.trendingSearches.asObservable().bindNext { [weak self] trendings in
-            self?.trendingSearchesTable.reloadData()
-            self?.trendingSearchesTable.hidden = (trendings?.count ?? 0) == 0
-        }.addDisposableTo(disposeBag)
-
+        
+        Observable.combineLatest(viewModel.trendingSearches.asObservable(), viewModel.lastSearches.asObservable()) { trendings, lastSearches in
+            return trendings.count + lastSearches.count
+            }.bindNext { [weak self] totalCount in
+                self?.suggestionsSearchesTable.reloadData()
+                self?.suggestionsSearchesTable.hidden = totalCount == 0
+            }.addDisposableTo(disposeBag)
+        
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(keyboardWillShow(_:)),
                                                          name: UIKeyboardWillShowNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(keyboardWillHide(_:)),
                                                          name: UIKeyboardWillHideNotification, object: nil)
 
-        addTrendingsTitle()
     }
+    
+    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        guard let sectionType = getSearchSuggestionType(section) else { return 0 }
+        switch sectionType {
+        case .LastSearch:
+            return viewModel.lastSearchesCounter > 0 ? sectionHeight : 0
+        case .Trending:
+            return viewModel.trendingCounter > 0 ? sectionHeight : 0
+        }
+    }
+    
+    func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        // Needed to avoid footer on grouped tableView.
+        return 1.0
+    }
+    
+    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let container = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: sectionHeight))
+        let suggestionTitleLabel = UILabel()
+        suggestionTitleLabel.translatesAutoresizingMaskIntoConstraints = false
+        suggestionTitleLabel.textAlignment = .Left
+        suggestionTitleLabel.font = UIFont.sectionTitleFont
+        suggestionTitleLabel.textColor = UIColor.darkGrayText
+        container.addSubview(suggestionTitleLabel)
 
-    private func addTrendingsTitle() {
-        let container = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 54))
-        let trendingTitleLabel = UILabel()
-        trendingTitleLabel.translatesAutoresizingMaskIntoConstraints = false
-        trendingTitleLabel.textAlignment = .Center
-        trendingTitleLabel.font = UIFont.mediumHeadlineFont
-        trendingTitleLabel.textColor = UIColor.darkGrayText
-        trendingTitleLabel.text = LGLocalizedString.trendingSearchesTitle
-        container.addSubview(trendingTitleLabel)
+        let clearButton = UIButton()
+        clearButton.translatesAutoresizingMaskIntoConstraints = false
+        clearButton.titleLabel?.textAlignment = .Right
+        clearButton.titleLabel?.font = UIFont.sectionTitleFont
+        clearButton.setTitleColor(UIColor.darkGrayText, forState: .Normal)
+        clearButton.setTitle(LGLocalizedString.suggestionsLastSearchesClearButton.uppercase, forState: .Normal)
+        clearButton.addTarget(self, action: #selector(cleanSearchesButtonPressed), forControlEvents: .TouchUpInside)
+        container.addSubview(clearButton)
+        
         var views = [String: AnyObject]()
-        views["label"] = trendingTitleLabel
-        container.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-16-[label]-0-|",
-            options: [], metrics: nil, views: views))
-        container.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-8-[label]-8-|",
-            options: [], metrics: nil, views: views))
-
-        trendingSearchesTable.tableHeaderView = container
+        views["label"] = suggestionTitleLabel
+        views["clear"] = clearButton
+        var metrics = [String: AnyObject]()
+        metrics["verticalMarginHeaderView"] = verticalMarginHeaderView
+        metrics["horizontalMarginHeaderView"] = horizontalMarginHeaderView
+        container.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-verticalMarginHeaderView-[label]-verticalMarginHeaderView-|",
+            options: [], metrics: metrics, views: views))
+        container.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-horizontalMarginHeaderView-[label]",
+            options: [], metrics: metrics, views: views))
+        container.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-verticalMarginHeaderView-[clear]-verticalMarginHeaderView-|",
+            options: [], metrics: metrics, views: views))
+        container.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:[clear]-horizontalMarginHeaderView-|",
+            options: [], metrics: metrics, views: views))
+        
+        guard let sectionType = getSearchSuggestionType(section) else { return UIView() }
+        switch sectionType {
+        case .LastSearch:
+            suggestionTitleLabel.text = LGLocalizedString.suggestionsLastSearchesTitle.uppercase
+        case .Trending:
+            clearButton.hidden = true
+            suggestionTitleLabel.text = LGLocalizedString.trendingSearchesTitle.uppercase
+        }
+        return container
     }
-
+    
+    dynamic private func cleanSearchesButtonPressed() {
+        viewModel.cleanUpLastSearches()
+    }
+    
     @IBAction func trendingSearchesBckgPressed(sender: AnyObject) {
         endEdit()
     }
 
     func keyboardWillShow(notification: NSNotification) {
         let kbAnimation = KeyboardAnimation(keyboardNotification: notification)
-        trendingSearchesTable.contentInset.bottom = kbAnimation.size.height
+        suggestionsSearchesTable.contentInset.bottom = kbAnimation.size.height
     }
 
     func keyboardWillHide(notification: NSNotification) {
-        trendingSearchesTable.contentInset.bottom = 0
+        suggestionsSearchesTable.contentInset.bottom = 0
     }
 
 
     // MARK: > TableView
 
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return numberOfSuggestionSections
+    }
+    
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return TrendingSearchCell.cellHeight
+        return SuggestionSearchCell.cellHeight
     }
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.trendingSearches.value?.count ?? 0
+        guard let sectionType = getSearchSuggestionType(section) else { return 0 }
+        switch sectionType {
+        case .LastSearch:
+            return viewModel.lastSearchesCounter
+        case .Trending:
+            return viewModel.trendingCounter
+        }
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        guard let trendingSearch = viewModel.trendingSearchAtIndex(indexPath.row) else { return UITableViewCell() }
-        guard let cell = tableView.dequeueReusableCellWithIdentifier(TrendingSearchCell.reusableID,
-                            forIndexPath: indexPath) as? TrendingSearchCell else { return UITableViewCell() }
-        cell.trendingText.text = trendingSearch
+        guard let sectionType = getSearchSuggestionType(indexPath.section) else { return UITableViewCell() }
+        guard let cell = tableView.dequeueReusableCellWithIdentifier(SuggestionSearchCell.reusableID,
+                            forIndexPath: indexPath) as? SuggestionSearchCell else { return UITableViewCell() }
+        switch sectionType {
+        case .LastSearch:
+            guard let lastSearch = viewModel.lastSearchAtIndex(indexPath.row) else { return UITableViewCell() }
+            cell.suggestionText.text = lastSearch
+        case .Trending:
+            guard let trendingSearch = viewModel.trendingSearchAtIndex(indexPath.row) else { return UITableViewCell() }
+            cell.suggestionText.text = trendingSearch
+        }
         return cell
     }
 
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
-        viewModel.selectedTrendingSearchAtIndex(indexPath.row)
+        guard let sectionType = getSearchSuggestionType(indexPath.section) else { return }
+        switch sectionType {
+        case .LastSearch:
+            viewModel.selectedLastSearchAtIndex(indexPath.row)
+        case .Trending:
+            viewModel.selectedTrendingSearchAtIndex(indexPath.row)
+        }
+    }
+}
+
+private extension MainProductsViewController {
+    func getSearchSuggestionType(section: Int) -> SearchSuggestionType? {
+        switch section {
+        case 0:
+            return .LastSearch
+        case 1:
+            return .Trending
+        default:
+            return nil
+        }
     }
 }
 
@@ -465,7 +542,7 @@ extension MainProductsViewController {
         tagsCollectionView.accessibilityId = .MainProductsTagsCollection
         infoBubbleLabel.accessibilityId = .MainProductsInfoBubbleLabel
         navbarSearch.accessibilityId = .MainProductsNavBarSearch
-        trendingSearchesTable.accessibilityId = .MainProductsTrendingSearchesTable
+        suggestionsSearchesTable.accessibilityId = .MainProductsSuggestionSearchesTable
         navigationItem.leftBarButtonItem?.accessibilityId = .MainProductsInviteButton
     }
 }

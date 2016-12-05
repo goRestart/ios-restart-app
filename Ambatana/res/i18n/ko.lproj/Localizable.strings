@@ -72,6 +72,8 @@
 "chat_deleted_disclaimer_w_name" = "%@의 계정이 비활성화 되었기 때문에 사용자께서는 이 대화를 진행하실 수 없습니다.";
 "chat_deleted_disclaimer_wo_name" = "이 계정이 비활성화 되었기 때문에 사용자께서는 이 대화를 진행하실 수 없습니다.";
 "chat_disclaimer_letgo_team" = "LETGO 팀";
+"chat_express_banner_button_title" = "할인 확인하기";
+"chat_express_banner_title" = "근처의 관련 할인상품";
 "chat_express_contact_one_button_text" = "1 판매자에게 연락하기";
 "chat_express_contact_sellers_label" = "다른 구매자가 사가기 전에, 구매자에게 연락해보세요!";
 "chat_express_contact_various_button_text" = "%@ 판매자들에게 연락하기";
@@ -125,7 +127,7 @@
 "chat_safety_tips_message" = "•직접 만나고 현금 결제하기.\n\n•letgo 채팅으로 대화 진행하기.\n\n•믿기에 너무 좋은 가격인가요? 다른 구매자/판매자를 찾아보세요.";
 "chat_safety_tips_title" = "안전 정책";
 "chat_send_button" = "발송";
-"chat_send_error_generic" = "메세지를 보내는데 오류가 발생했습니다. 다시 시도해주세요.";
+"chat_send_error_generic" = "메세지를 발송하는데 오류가 발생했습니다. 다시 시도해주세요.";
 "chat_stickers_tooltip_add_stickers" = "웃긴 스티커를 추가해보세요";
 "chat_stickers_tooltip_new" = "새로운!";
 "chat_unblock_user" = "사용자 차단 해제하기";
@@ -142,8 +144,8 @@
 "collection_explore_button" = "탐색";
 "collection_furniture_title" = "집처럼 편안한 공간은 없습니다";
 "collection_gaming_title" = "게임이 켜져있습니다";
-"collection_halloween_title" = "사탕을 주지 않으면 괴롭힐거에요!";
 "collection_transport_title" = "화려하게 여행해보세요";
+"collection_you_title" = "당신을 위한 선택";
 "commercializer_create_from_settings" = "Create a Free Commercial";
 "commercializer_display_share_alert" = "Share this masterpiece";
 "commercializer_display_share_label" = "Share your masterpiece with the world and watch the offers come rolling in";
@@ -218,7 +220,7 @@
 "contact_subject_option_product_edit" = "상품 수정 / 삭제";
 "contact_subject_option_profile_edit" = "프로필 수정 / 삭제";
 "contact_subject_option_report" = "유저/스팸 신고";
-"direct_answer_condition" = "What condition is this item in?";
+"direct_answer_condition" = "상품은 어떤 상태인가요?";
 "direct_answer_free_available" = "네, 아직 있습니다";
 "direct_answer_free_no_available" = "죄송합니다. 이미 상품을 증정했습니다!";
 "direct_answer_free_still_have" = "아직 가지고 계신가요?";
@@ -234,9 +236,9 @@
 "direct_answer_sold_question_message" = "letgo 사용자가 알 수 있게, 상품을 판매완료로 표시하세요";
 "direct_answer_sold_question_ok" = "품절로 표시";
 "direct_answer_sold_question_title" = "이미 판매되었나요?";
-"direct_answer_still_available" = "Is this item still available?";
+"direct_answer_still_available" = "이 상품은 아직 판매가능한가요?";
 "direct_answer_still_for_sale" = "네, 여전히 판매중입니다";
-"direct_answer_title" = "SELECT OR TYPE A MESSAGE";
+"direct_answer_title" = "메세지 선택 혹은 입력";
 "direct_answer_whats_offer" = "어떤 흥정을 하기를 원하시나요?";
 "direct_answers_hide" = "자주 대답하는 목록 숨기기";
 "direct_answers_show" = "자주 대답하는 목록 보이기";
@@ -288,9 +290,11 @@
 "main_sign_up_error_request_already_sent" = "사용자의 요청은 이미 진행되었습니다. 다시 시도하기 전에 잠시만 기다려주세요.";
 "main_sign_up_error_user_rejected" = "입력하신 이메일이 일치하지 않습니다. 다시 확인하시고 입력해주세요.";
 "main_sign_up_facebook_connect_button" = "페이스북과 연결하기";
+"main_sign_up_facebook_connect_button_w_name" = "%@로 로그인";
 "main_sign_up_fb_connect_error_email_taken" = "로그인할 수 없습니다, 고객님의 페이스북 이메일은 이미 등록되어 있습니다. 다시 시도해주세요.";
 "main_sign_up_fb_connect_error_generic" = "로그인할 수 없습니다. 다시 시도해주세요.";
 "main_sign_up_google_connect_button" = "구글과 연결하기";
+"main_sign_up_google_connect_button_w_name" = "%@로 로그인";
 "main_sign_up_help_button" = "도움";
 "main_sign_up_log_in_label" = "로그인";
 "main_sign_up_or_label" = "혹은 이메일 사용하기";
@@ -331,8 +335,8 @@
 "notifications_type_sold" = "관심갖고 있던 상품이 판매되었습니다";
 "notifications_type_sold_button" = "상품 결제하기";
 "notifications_type_welcome_button" = "판매 시작하기";
-"notifications_type_welcome_subtitle" = "필요하지 않는 상품들을 판매하여 현금을 만들고 근처에서 저렴한 상품들을 찾아보세요.";
-"notifications_type_welcome_subtitle_w_city" = "필요하지 않는 상품들을 판매하여 현금을 만들고 %@에서 저렴한 상품들을 찾아보세요.";
+"notifications_type_welcome_subtitle" = "필요하지 않는 상품들을 판매하여 현금을 만들고 근처에서 저렴한 상품들을 찾아보세요";
+"notifications_type_welcome_subtitle_w_city" = "필요하지 않는 상품들을 판매하여 현금을 만들고 %@에서 저렴한 상품들을 찾아보세요";
 "notifications_type_welcome_title" = "letgo에 오신 것을 환영합니다!";
 "notifications_user_wo_name" = "유저";
 "nps_survey_subtitle" = "1에서 10 사이에 친구들에게 letgo의 평점은 몇점이라고 이야기해주고 싶으신가요?";
@@ -380,11 +384,15 @@
 "product_delete_confirm_ok_button" = "판매하고 싶지 않습니다";
 "product_delete_confirm_sold_button" = "이미 팔았습니다";
 "product_delete_confirm_title" = "제품 삭제하기";
+"product_delete_post_button_title" = "다른 상품 게시하기";
+"product_delete_post_subtitle" = "다른 상품을 게시하고 다시 현금을 마련해보세요.";
+"product_delete_post_title" = "당첨되지 않으셨나요?";
 "product_delete_send_error_generic" = "앗! 제품을 삭제할 수 없습니다. 다시 시도해주세요.";
 "product_delete_sold_confirm_message" = "이 상품을 정말 삭제하기를 원하세요?";
 "product_delete_success_message" = "고객님의 상품을 성공적으로 삭제되었습니다.";
 "product_distance_X_from_you" = "당신으로부터 %@";
 "product_distance_more_than_from_you" = "당신에게 %@ 더 많이";
+"product_favorite_direct_message" = "마음에 드네요! 아직 판매하시나요?";
 "product_free_price" = "무료";
 "product_is_mine_share_body" = "letgo에서 무엇이 판매중인지 확인해보세요!";
 "product_is_mine_share_body_free" = "제가 letgo에서 무엇을 증정하고 있는지 확인해보세요!";
@@ -409,6 +417,8 @@
 "product_mark_as_sold_free_success_message" = "축하드립니다! 상품이 증정완료로 표시되었습니다";
 "product_mark_as_sold_success_message" = "축하드립니다, 고객님의 제품이 품절로 표시되었습니다.";
 "product_more_info_open_button" = "더 많은 정보";
+"product_more_info_related_title" = "YOU MIGHT BE INTERESTED IN:";
+"product_more_info_related_view_more" = "View more";
 "product_more_info_tooltip_part_1" = "탭";
 "product_more_info_tooltip_part_2" = "%@ 더 많은 정보 확인하기";
 "product_negotiable_price" = "흥정가능한";
@@ -556,7 +566,7 @@
 "rating_list_loading_error_message" = "평점을 불러오는 동안 오류가 발생했습니다.";
 "rating_list_rating_type_buyer_text_label" = "%@께서 상품을 구매하였습니다";
 "rating_list_rating_type_conversation_text_label" = "%@께서 상품에 관하여 채팅을 보냈습니다";
-"rating_list_rating_type_seller_text_label" = "%@ sold a product";
+"rating_list_rating_type_seller_text_label" = "%@께서 상품을 판매하였습니다";
 "rating_list_title" = "리뷰";
 "rating_view_dont_ask_again_button" = "다시 묻지 말아주세요";
 "rating_view_rate_us_label" = "평가해주세요:";
@@ -605,7 +615,7 @@
 "sell_picture_selected_delete_button" = "삭제";
 "sell_picture_selected_save_into_camera_roll_button" = "사진 저장";
 "sell_picture_selected_title" = "활동을 선택하세요";
-"sell_post_free_label" = "무료로 드릴게요";
+"sell_post_free_label" = "무료";
 "sell_price_field" = "가격:";
 "sell_send_error_invalid_category" = "제품의 목록을 선택해 주세요.";
 "sell_send_error_invalid_description" = "제품의 가능한 정보를 입력하여주세요.";
@@ -631,7 +641,13 @@
 "settings_invite_facebook_friends_button" = "페이스북 친구 초대하기";
 "settings_invite_facebook_friends_error" = "초대를 공유하는 동안 오류가 발생했습니다.";
 "settings_invite_facebook_friends_ok" = "초대가 성공적으로 공유되었습니다!";
+"settings_logout_alert_message" = "로그아웃 하시겠습니까?";
+"settings_logout_alert_ok" = "로그아웃";
 "settings_logout_button" = "로그아웃";
+"settings_marketing_notifications_switch" = "마케팅 알림";
+"settings_section_profile" = "프로필";
+"settings_section_promote" = "광고";
+"settings_section_support" = "지원";
 "settings_title" = "설정";
 "sign_up_acceptance_error" = "가입버튼을 누름으로써, 사용약관 및 개인정보보호 약관에 동의합니다";
 "sign_up_email_field_hint" = "이메일";
@@ -649,6 +665,8 @@
 "sign_up_terms_conditions_terms_part" = "사용약관";
 "sign_up_title" = "새 계정 만들기";
 "sign_up_username_field_hint" = "이름";
+"suggestions_last_searches_clear_button" = "삭제";
+"suggestions_last_searches_title" = "최근 검색";
 "tab_bar_give_away_button" = "증정하기";
 "tab_bar_give_away_tooltip" = "이제 상품들을 증정하실 수 있습니다";
 "tab_bar_sell_stuff_button" = "물건 판매하기";

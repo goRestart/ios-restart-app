@@ -22,9 +22,6 @@ public class ProductDetailOnboardingView: UIView {
     @IBOutlet weak var swipeToGoLabel: UILabel!
     @IBOutlet weak var scrollToSeeLabel: UILabel!
 
-    @IBOutlet weak var tapToSwipeConstraint: NSLayoutConstraint!
-    @IBOutlet weak var scrollToSwipeConstraint: NSLayoutConstraint!
-
     private var showChatsStep = false
 
     private let disposeBag = DisposeBag()
@@ -33,7 +30,7 @@ public class ProductDetailOnboardingView: UIView {
 
     // MARK: - Lifecycle
 
-    public static func instanceFromNibWithState() -> ProductDetailOnboardingView {
+    public static func instanceFromNibWithState() -> ProductDetailOnboardingView { 
         let view = NSBundle.mainBundle().loadNibNamed("ProductDetailOnboardingView", owner: self, options: nil)!
             .first as! ProductDetailOnboardingView
         return view
@@ -48,9 +45,6 @@ public class ProductDetailOnboardingView: UIView {
     }
 
     public func setupUI() {
-        if DeviceFamily.current == .iPhone4 {
-            adaptConstraintsToiPhone4()
-        }
         setupFingersView()
         setupViewsVisibility()
         setupTapRecognizers()
@@ -91,11 +85,6 @@ public class ProductDetailOnboardingView: UIView {
         UIView.animateWithDuration(0.35) { [weak self] in
             self?.setupViewsVisibility()
         }
-    }
-
-    private func adaptConstraintsToiPhone4() {
-        tapToSwipeConstraint.constant = 30
-        scrollToSwipeConstraint.constant = 30
     }
 
     private func setAccessibilityIds() {

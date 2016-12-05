@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Ignacio Nieto Carvajal. All rights reserved.
 //
 
-import AppsFlyerTracker
+import AppsFlyerLib
 import Branch
 import Crashlytics
 import CocoaLumberjack
@@ -34,6 +34,7 @@ final class AppDelegate: UIResponder {
     private var productRepository: ProductRepository?
     private var locationManager: LocationManager?
     private var sessionManager: SessionManager?
+    private var featureFlags: FeatureFlaggeable?
 
     private var navigator: AppNavigator?
 
@@ -50,23 +51,25 @@ extension AppDelegate: UIApplicationDelegate {
     func application(application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         ABTests.registerVariables()
-
+        self.featureFlags = FeatureFlags.sharedInstance
         setupAppearance()
         setupLibraries(application, launchOptions: launchOptions)
         self.productRepository = Core.productRepository
         self.locationManager = Core.locationManager
         self.sessionManager = Core.sessionManager
         self.configManager = ConfigManager.sharedInstance
-
+    
         let keyValueStorage = KeyValueStorage.sharedInstance
         let versionChecker = VersionChecker.sharedInstance
 
         keyValueStorage[.lastRunAppVersion] = versionChecker.currentVersion.version
+        keyValueStorage[.sessionNumber] += 1
+        
         let crashManager = CrashManager(appCrashed: keyValueStorage[.didCrash],
                                         versionChange: VersionChecker.sharedInstance.versionChange)
         self.crashManager = crashManager
         self.keyValueStorage = keyValueStorage
-
+        
         setupRxBindings()
         crashCheck()
 
@@ -78,6 +81,7 @@ extension AppDelegate: UIApplicationDelegate {
         self.navigator = appCoordinator
 
         let window = UIWindow(frame: UIScreen.mainScreen().bounds)
+        window.backgroundColor = UIColor.white
         window.rootViewController = appCoordinator.tabBarCtl
         self.window = window
 
@@ -178,6 +182,7 @@ extension AppDelegate: UIApplicationDelegate {
 
     func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
         PushManager.sharedInstance.application(application, didRegisterForRemoteNotificationsWithDeviceToken: deviceToken)
+        AppsFlyerTracker.sharedTracker().registerUninstall(deviceToken)
     }
 
     func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
@@ -225,21 +230,22 @@ private extension AppDelegate {
     }
 
     private func setupLibraries(application: UIApplication, launchOptions: [NSObject: AnyObject]?) {
-        FeatureFlags.setup()
         
         let environmentHelper = EnvironmentsHelper()
         EnvironmentProxy.sharedInstance.setEnvironmentType(environmentHelper.appEnvironment)
 
         // Debug
         Debug.loggingOptions = [AppLoggingOptions.Navigation]
-        
+
         #if GOD_MODE
-            Debug.loggingOptions = [AppLoggingOptions.Navigation, AppLoggingOptions.Tracking, AppLoggingOptions.DeepLink]
+            Debug.loggingOptions = [.Navigation, .Tracking, .DeepLink]
         #endif
         
-        LGCoreKit.loggingOptions = [CoreLoggingOptions.Networking, CoreLoggingOptions.Persistence,
-                                    CoreLoggingOptions.Token, CoreLoggingOptions.Session, CoreLoggingOptions.WebSockets]
-        LGCoreKit.activateWebsocket = FeatureFlags.websocketChat
+        LGCoreKit.loggingOptions = [.Networking, .Persistence, .Token, .Session, .WebSockets]
+        if let featureFlags = featureFlags {
+            LGCoreKit.activateWebsocket = featureFlags.websocketChat
+        }
+        
 
         // Logging
         #if GOD_MODE
@@ -247,7 +253,7 @@ private extension AppDelegate {
             DDTTYLogger.sharedInstance().colorsEnabled =  true
             DDLog.addLogger(DDASLLogger.sharedInstance())       // ASL = Apple System Logs
         #endif
-
+        
         // Fabric
         Twitter.sharedInstance().startWithConsumerKey(EnvironmentProxy.sharedInstance.twitterConsumerKey,
                                                       consumerSecret: EnvironmentProxy.sharedInstance.twitterConsumerSecret)
@@ -347,7 +353,7 @@ private extension AppDelegate {
         } else {
             //We must keep it (even though it's deprecated) until we drop iOS8
             AppsFlyerTracker.sharedTracker().handleOpenURL(url, sourceApplication: sourceApplication,
-                                                       withAnnotation: annotation)
+                                                           withAnnotation: annotation)
         }
         
         return routerHandling || facebookHandling || googleHandling

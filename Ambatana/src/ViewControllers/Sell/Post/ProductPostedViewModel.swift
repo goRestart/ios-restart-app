@@ -15,6 +15,7 @@ protocol ProductPostedViewModelDelegate: class {
     func productPostedViewModelSetupLoadingState(viewModel: ProductPostedViewModel)
     func productPostedViewModel(viewModel: ProductPostedViewModel, finishedLoadingState correct: Bool)
     func productPostedViewModel(viewModel: ProductPostedViewModel, setupStaticState correct: Bool)
+    func productPostedViewModelShareNative()
 }
 
 
@@ -27,6 +28,7 @@ class ProductPostedViewModel: BaseViewModel {
     private var status: ProductPostedStatus
     private var productRepository: ProductRepository?
     private var trackingInfo: PostProductTrackingInfo
+    private var featureFlags: FeatureFlaggeable
 
     var wasFreePosting: Bool {
         switch self.status {
@@ -44,20 +46,23 @@ class ProductPostedViewModel: BaseViewModel {
 
     init(postResult: ProductResult, trackingInfo: PostProductTrackingInfo) {
         self.trackingInfo = trackingInfo
+        self.featureFlags = FeatureFlags.sharedInstance
         self.status = ProductPostedStatus(result: postResult)
         super.init()
     }
 
     convenience init(productToPost: Product, productImage: UIImage, trackingInfo: PostProductTrackingInfo) {
         let productRepository = Core.productRepository
+        let featureFlags = FeatureFlags.sharedInstance
         self.init(productRepository: productRepository, productToPost: productToPost,
-            productImage: productImage, trackingInfo: trackingInfo)
+                  productImage: productImage, trackingInfo: trackingInfo, featureFlags: featureFlags)
     }
 
     init(productRepository: ProductRepository, productToPost: Product,
-        productImage: UIImage, trackingInfo: PostProductTrackingInfo) {
+         productImage: UIImage, trackingInfo: PostProductTrackingInfo, featureFlags: FeatureFlaggeable) {
             self.productRepository = productRepository
             self.trackingInfo = trackingInfo
+            self.featureFlags = featureFlags
             self.status = ProductPostedStatus(image: productImage, product: productToPost)
             super.init()
     }
@@ -118,12 +123,12 @@ class ProductPostedViewModel: BaseViewModel {
         }
     }
 
-    var shareInfo: SocialMessage? {
+    var socialMessage: SocialMessage? {
         switch status {
         case .Posting, .Error:
             return nil
         case let .Success(product):
-            return SocialHelper.socialMessageWithProduct(product)
+            return ProductSocialMessage(product: product)
         }
     }
 
@@ -153,11 +158,28 @@ class ProductPostedViewModel: BaseViewModel {
         case let .Error(error):
             trackEvent(TrackerEvent.productSellErrorClose(error))
         }
-
-        if let product = product {
-            navigator?.closeProductPosted(product)
-        } else {
+        
+        guard let productValue = product else {
             navigator?.cancelProductPosted()
+            return
+        }
+        
+        if featureFlags.shareAfterPosting {
+            if let socialMessage = socialMessage {
+                navigator?.closeProductPostedAndOpenShare(productValue, socialMessage: socialMessage)
+            } else {
+                navigator?.cancelProductPosted()
+            }
+        } else {
+            navigator?.closeProductPosted(productValue)
+        }
+    }
+    
+    func shareActionPressed() {
+        if featureFlags.shareAfterPosting {
+            closeActionPressed()
+        } else {
+            delegate?.productPostedViewModelShareNative()
         }
     }
 
@@ -173,7 +195,7 @@ class ProductPostedViewModel: BaseViewModel {
         case .Posting:
             break
         case let .Success(product):
-            trackEvent(TrackerEvent.productSellConfirmationPost(product))
+            trackEvent(TrackerEvent.productSellConfirmationPost(product, buttonType: .Button))
         case let .Error(error):
             trackEvent(TrackerEvent.productSellErrorPost(error))
         }
@@ -181,53 +203,28 @@ class ProductPostedViewModel: BaseViewModel {
         navigator?.closeProductPostedAndOpenPost()
     }
 
-    func nativeShareInEmail() {
+    func incentivateSectionPressed() {
         guard let product = status.product else { return }
-        trackEvent(TrackerEvent.productSellConfirmationShare(product, network: .Email))
+        trackEvent(TrackerEvent.productSellConfirmationPost(product, buttonType: .ItemPicture))
+        navigator?.closeProductPostedAndOpenPost()
     }
 
-    func nativeShareInTwitter() {
+    func shareStartedIn(shareType: ShareType) {
         guard let product = status.product else { return }
-        trackEvent(TrackerEvent.productSellConfirmationShare(product, network: .Twitter))
+        trackEvent(TrackerEvent.productSellConfirmationShare(product, network: shareType.trackingShareNetwork))
     }
 
-    func nativeShareInFacebook() {
+    func shareFinishedIn(shareType: ShareType, withState state: SocialShareState) {
         guard let product = status.product else { return }
-        trackEvent(TrackerEvent.productSellConfirmationShare(product, network: .Facebook))
-    }
 
-    func nativeShareInFacebookFinished(state: SocialShareState) {
-        guard let product = status.product else { return }
         switch state {
         case .Completed:
-            trackEvent(TrackerEvent.productSellConfirmationShareComplete(product, network: .Facebook))
+            trackEvent(TrackerEvent.productSellConfirmationShareComplete(product, network: shareType.trackingShareNetwork))
         case .Cancelled:
-            trackEvent(TrackerEvent.productSellConfirmationShareCancel(product, network: .Facebook))
-        case .Failed:
-                break;
-        }
-    }
-
-    func nativeShareInFBMessenger() {
-        guard let product = status.product else { return }
-        trackEvent(TrackerEvent.productSellConfirmationShare(product, network: .FBMessenger))
-    }
-
-    func nativeShareInFBMessengerFinished(state: SocialShareState) {
-        guard let product = status.product else { return }
-        switch state {
-        case .Completed:
-            trackEvent(TrackerEvent.productSellConfirmationShareComplete(product, network: .FBMessenger))
-        case .Cancelled:
-            trackEvent(TrackerEvent.productSellConfirmationShareCancel(product, network: .FBMessenger))
+            trackEvent(TrackerEvent.productSellConfirmationShareCancel(product, network: shareType.trackingShareNetwork))
         case .Failed:
             break;
         }
-    }
-
-    func nativeShareInWhatsApp() {
-        guard let product = status.product else { return }
-        trackEvent(TrackerEvent.productSellConfirmationShare(product, network: .Whatsapp))
     }
     
 
@@ -246,8 +243,10 @@ class ProductPostedViewModel: BaseViewModel {
                 let buttonName = strongSelf.trackingInfo.buttonName
                 let negotiable = strongSelf.trackingInfo.negotiablePrice
                 let pictureSource = strongSelf.trackingInfo.imageSource
-                let event = TrackerEvent.productSellComplete(postedProduct,
-                                                             buttonName: buttonName, negotiable: negotiable, pictureSource: pictureSource, freePostingMode: FeatureFlags.freePostingMode)
+                let event = TrackerEvent.productSellComplete(postedProduct, buttonName: buttonName,
+                                                             sellButtonPosition: strongSelf.trackingInfo.sellButtonPosition,
+                                                             negotiable: negotiable, pictureSource: pictureSource,
+                                                             freePostingModeAllowed: strongSelf.featureFlags.freePostingModeAllowed)
                 strongSelf.trackEvent(event)
 
                 // Track product was sold in the first 24h (and not tracked before)

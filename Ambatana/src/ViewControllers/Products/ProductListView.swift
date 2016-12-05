@@ -95,7 +95,11 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     }
     var errorPadding: UIEdgeInsets {
         didSet {
-            topInsetErrorViewConstraint.constant = errorPadding.top
+            var headerHeight: CGFloat = 0
+            if let totalHeaderHeight = headerDelegate?.totalHeaderHeight() {
+                headerHeight = totalHeaderHeight
+            }
+            topInsetErrorViewConstraint.constant = errorPadding.top + headerHeight
             leftInsetErrorViewConstraint.constant = errorPadding.left
             bottomInsetErrorViewConstraint.constant = errorPadding.bottom
             rightInsetErrorViewConstraint.constant = errorPadding.right
@@ -151,7 +155,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     
     // MARK: - Lifecycle
     
-    init(viewModel: ProductListViewModel, frame: CGRect) {
+    init(viewModel: ProductListViewModel,featureFlags: FeatureFlaggeable, frame: CGRect) {
         self.viewModel = viewModel
         let padding = UIEdgeInsetsZero
         self.dataPadding = padding
@@ -161,13 +165,13 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         self.lastContentOffset = 0
         self.scrollingDown = true
         super.init(viewModel: viewModel, frame: frame)
-        
+        drawerManager.freePostingAllowed = featureFlags.freePostingModeAllowed
         viewModel.delegate = self
         setupUI()
         setAccessibilityIds()
     }
     
-    init?(viewModel: ProductListViewModel, coder aDecoder: NSCoder) {
+    init?(viewModel: ProductListViewModel, featureFlags: FeatureFlaggeable, coder aDecoder: NSCoder) {
         self.viewModel = viewModel
         let padding = UIEdgeInsetsZero
         self.dataPadding = padding
@@ -177,14 +181,14 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         self.lastContentOffset = 0
         self.scrollingDown = true
         super.init(viewModel: viewModel, coder: aDecoder)
-        
+        drawerManager.freePostingAllowed = featureFlags.freePostingModeAllowed
         viewModel.delegate = self
         setupUI()
         setAccessibilityIds()
     }
     
     required convenience init?(coder aDecoder: NSCoder) {
-        self.init(viewModel: ProductListViewModel(requester: nil), coder: aDecoder)
+        self.init(viewModel: ProductListViewModel(requester: nil),featureFlags: FeatureFlags.sharedInstance, coder: aDecoder)
     }
 
     internal override func didBecomeActive(firstTime: Bool) {
@@ -192,6 +196,20 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         refreshDataView()
     }
 
+    override func hitTest(point: CGPoint, withEvent event: UIEvent?) -> UIView? {
+        let hitView = super.hitTest(point, withEvent: event)
+        switch viewModel.state {
+        case .Empty:
+            guard let headerHeight = headerDelegate?.totalHeaderHeight() where headerHeight > 0 else { return errorView }
+            let collectionConvertedPoint = collectionView.convertPoint(point, fromView: self)
+            let collectionHeaderSize = CGSize(width: collectionView.frame.width, height: CGFloat(headerHeight))
+            let headerFrame = CGRect(origin: CGPointZero, size: collectionHeaderSize)
+            let insideHeader = CGRectContainsPoint(headerFrame, collectionConvertedPoint)
+            return insideHeader ? hitView : errorView
+        case .Data, .Loading, .Error:
+            return hitView
+        }
+    }
     
     // MARK: Public methods
 
@@ -384,19 +402,8 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         refreshUIWithState(state)
     }
 
-    func vmDidFailRetrievingProducts(vm: ProductListViewModel, page: UInt) {
+    func vmDidFinishLoading(vm: ProductListViewModel, page: UInt, indexes: [Int]) {
         guard viewModel === vm else { return }
-        // Update the UI
-        if page == 0 {
-            refreshControl.endRefreshing()
-        } else {
-            reloadData()
-        }
-    }
-
-    func vmDidSucceedRetrievingProductsPage(vm: ProductListViewModel, page: UInt, indexes: [Int]) {
-        guard viewModel === vm else { return }
-        // First page
         if page == 0 {
             reloadData()
             if refreshControl.refreshing {
@@ -408,18 +415,14 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
             // Last page
             // Reload in order to be able to reload the footer
             reloadData()
-        } else {
+        } else if !indexes.isEmpty {
             // Middle pages
             // Insert animated
             let indexPaths = indexes.map{ NSIndexPath(forItem: $0, inSection: 0) }
             collectionView.insertItemsAtIndexPaths(indexPaths)
+        } else {
+            reloadData()
         }
-    }
-
-    func vmDidUpdateProductDataAtIndex(vm: ProductListViewModel, index: Int) {
-        guard viewModel === vm else { return }
-        let indexPath = NSIndexPath(forRow: index, inSection: 0)
-        collectionView.reloadItemsAtIndexPaths([indexPath])
     }
     
     
@@ -504,8 +507,15 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
             dataView.hidden = false
             errorView.hidden = true
         case .Error(let emptyVM):
+            firstLoadView.hidden = true
+            dataView.hidden = true
+            errorView.hidden = false
             setErrorState(emptyVM)
         case .Empty(let emptyVM):
+            // Show/hide views
+            firstLoadView.hidden = true
+            dataView.hidden = false
+            errorView.hidden = false
             setErrorState(emptyVM)
         }
     }
@@ -524,11 +534,6 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
             errorButtonHeightConstraint.constant = 0
         }
         errorView.updateConstraintsIfNeeded()
-
-        // Show/hide views
-        firstLoadView.hidden = true
-        dataView.hidden = true
-        errorView.hidden = false
     }
 
     dynamic private func refreshControlTriggered() {

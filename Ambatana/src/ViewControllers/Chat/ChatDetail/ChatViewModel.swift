@@ -72,7 +72,20 @@ class ChatViewModel: BaseViewModel {
     var keyForTextCaching: String { return userDefaultsSubKey }
     var relatedProducts: [Product] = []
     var shouldTrackFirstMessage: Bool = false
-    
+
+    var shouldShowExpressBanner = Variable<Bool>(false)
+    var firstInteractionDone = Variable<Bool>(false)
+    var expressBannerTimerFinished = Variable<Bool>(false)
+    var hasRelatedProducts = Variable<Bool>(false)
+    var expressMessagesAlreadySent = Variable<Bool>(false)
+
+    private var buyerId: String? {
+        let myUserId = myUserRepository.myUser?.objectId
+        let interlocutorId = conversation.value.interlocutor?.objectId
+        let currentBuyer = conversation.value.amISelling ? interlocutorId : myUserId
+        return currentBuyer
+    }
+
     private var shouldShowSafetyTips: Bool {
         return !KeyValueStorage.sharedInstance.userChatSafetyTipsShown && didReceiveMessageFromOtherUser
     }
@@ -80,16 +93,6 @@ class ChatViewModel: BaseViewModel {
     private var didReceiveMessageFromOtherUser: Bool {
         for message in messages.value {
             if message.talkerId == conversation.value.interlocutor?.objectId {
-                return true
-            }
-        }
-        return false
-    }
-
-    private var didSendMessage: Bool {
-        guard let myUserId = myUserRepository.myUser?.objectId else { return false }
-        for message in messages.value {
-            if message.talkerId == myUserId {
                 return true
             }
         }
@@ -106,9 +109,6 @@ class ChatViewModel: BaseViewModel {
     }
 
     var shouldShowDirectAnswers: Bool {
-        if FeatureFlags.newQuickAnswers {
-            return directAnswersAvailable && !didSendMessage
-        }
         return directAnswersAvailable && KeyValueStorage.sharedInstance.userLoadChatShowDirectAnswersForKey(userDefaultsSubKey)
     }
 
@@ -135,6 +135,7 @@ class ChatViewModel: BaseViewModel {
     private var interlocutor: User?
     private let myMessagesCount = Variable<Int>(0)
     private let otherMessagesCount = Variable<Int>(0)
+    private let isEmptyConversation = Variable<Bool>(true)
     private let stickersTooltipVisible = Variable<Bool>(!KeyValueStorage.sharedInstance[.stickersTooltipAlreadyShown])
     private let reviewTooltipVisible = Variable<Bool>(!KeyValueStorage.sharedInstance[.userRatingTooltipAlreadyShown])
     let shouldShowReviewButton = Variable<Bool>(false)
@@ -151,21 +152,25 @@ class ChatViewModel: BaseViewModel {
     private let tracker: Tracker
     private let configManager: ConfigManager
     private let sessionManager: SessionManager
+    private let featureFlags: FeatureFlaggeable
     
+    private let keyValueStorage: KeyValueStorage
+
+
     private var isDeleted = false
     private var shouldAskProductSold: Bool = false
     private var isSendingQuickAnswer = false
     private var productId: String? // Only used when accessing a chat from a product
-    private var preSendMessageCompletion: ((text: String, isQuickAnswer: Bool, type: ChatMessageType) -> Void)?
+    private var preSendMessageCompletion: ((text: String, type: ChatMessageType) -> Void)?
     private var afterRetrieveMessagesCompletion: (() -> Void)?
 
     private let disposeBag = DisposeBag()
     
     private var userDefaultsSubKey: String {
-        return "\(conversation.value.product?.objectId ?? productId) + \(conversation.value.interlocutor?.objectId)"
+        return "\(conversation.value.product?.objectId ?? productId) + \(buyerId ?? "offline")"
     }
 
-    var isBuyer: Bool {
+    private var isBuyer: Bool {
         return !conversation.value.amISelling
     }
 
@@ -189,11 +194,13 @@ class ChatViewModel: BaseViewModel {
         let stickersRepository = Core.stickersRepository
         let configManager = ConfigManager.sharedInstance
         let sessionManager = Core.sessionManager
+        let featureFlags = FeatureFlags.sharedInstance
+        let keyValueStorage = KeyValueStorage.sharedInstance
 
         self.init(conversation: conversation, myUserRepository: myUserRepository, chatRepository: chatRepository,
                   productRepository: productRepository, userRepository: userRepository,
                   stickersRepository: stickersRepository, tracker: tracker, configManager: configManager,
-                  sessionManager: sessionManager, navigator: navigator)
+                  sessionManager: sessionManager, keyValueStorage: keyValueStorage, navigator: navigator, featureFlags: featureFlags)
     }
     
     convenience init?(product: Product, navigator: ChatDetailNavigator?) {
@@ -207,28 +214,33 @@ class ChatViewModel: BaseViewModel {
         let tracker = TrackerProxy.sharedInstance
         let configManager = ConfigManager.sharedInstance
         let sessionManager = Core.sessionManager
-
+        let keyValueStorage = KeyValueStorage.sharedInstance
+        let featureFlags = FeatureFlags.sharedInstance
         let amISelling = myUserRepository.myUser?.objectId == sellerId
         let empty = EmptyConversation(objectId: nil, unreadMessageCount: 0, lastMessageSentAt: nil, product: nil,
                                       interlocutor: nil, amISelling: amISelling)
         self.init(conversation: empty, myUserRepository: myUserRepository, chatRepository: chatRepository,
                   productRepository: productRepository, userRepository: userRepository,
                   stickersRepository: stickersRepository ,tracker: tracker, configManager: configManager,
-                  sessionManager: sessionManager, navigator: navigator)
+                  sessionManager: sessionManager, keyValueStorage: keyValueStorage, navigator: navigator, featureFlags: featureFlags)
         self.setupConversationFromProduct(product)
     }
     
     init(conversation: ChatConversation, myUserRepository: MyUserRepository, chatRepository: ChatRepository,
           productRepository: ProductRepository, userRepository: UserRepository, stickersRepository: StickersRepository,
-          tracker: Tracker, configManager: ConfigManager, sessionManager: SessionManager, navigator: ChatDetailNavigator?) {
+          tracker: Tracker, configManager: ConfigManager, sessionManager: SessionManager, keyValueStorage: KeyValueStorage,
+          navigator: ChatDetailNavigator?, featureFlags: FeatureFlaggeable) {
         self.conversation = Variable<ChatConversation>(conversation)
         self.myUserRepository = myUserRepository
         self.chatRepository = chatRepository
         self.productRepository = productRepository
         self.userRepository = userRepository
         self.tracker = tracker
+        self.featureFlags = featureFlags
         self.configManager = configManager
         self.sessionManager = sessionManager
+        self.keyValueStorage = keyValueStorage
+
         self.stickersRepository = stickersRepository
         self.chatViewMessageAdapter = ChatViewMessageAdapter()
         self.navigator = navigator
@@ -241,6 +253,8 @@ class ChatViewModel: BaseViewModel {
         refreshChatInfo()
         if firstTime {
             retrieveRelatedProducts()
+            launchExpressChatTimer()
+            expressMessagesAlreadySent.value = expressChatMessageSentForCurrentProduct()
         }
     }
 
@@ -267,7 +281,7 @@ class ChatViewModel: BaseViewModel {
         guard isBuyer else { return }
         guard !relatedProducts.isEmpty else { return }
         guard let productId = conversation.value.product?.objectId else { return }
-        navigator?.openExpressChat(relatedProducts, sourceProductId: productId)
+        navigator?.openExpressChat(relatedProducts, sourceProductId: productId, manualOpen: false)
     }
 
     func setupConversationFromProduct(product: Product) {
@@ -353,6 +367,14 @@ class ChatViewModel: BaseViewModel {
             .distinctUntilChanged()
         let chatStatusReviewable = chatStatus.asObservable().map { $0.userReviewEnabled }.distinctUntilChanged()
 
+        let isEmptyMyMessages = myMessagesCount.asObservable()
+            .map { $0 == 0 }
+            .distinctUntilChanged()
+        
+        let isEmptyOtherMessages = otherMessagesCount.asObservable()
+            .map { $0 == 0 }
+            .distinctUntilChanged()
+        
         Observable.combineLatest(myMessagesReviewable, otherMessagesReviewable, chatStatusReviewable) { $0 && $1 && $2 }
             .bindTo(shouldShowReviewButton).addDisposableTo(disposeBag)
 
@@ -368,6 +390,26 @@ class ChatViewModel: BaseViewModel {
         conversation.asObservable().map{$0.lastMessageSentAt == nil}.bindNext{ [weak self] result in
             self?.shouldTrackFirstMessage = result
             }.addDisposableTo(disposeBag)
+        
+        Observable.combineLatest(isEmptyMyMessages, isEmptyOtherMessages) { $0 && $1 }
+            .bindTo(isEmptyConversation).addDisposableTo(disposeBag)
+
+        let expressBannerTriggered = Observable.combineLatest(firstInteractionDone.asObservable(),
+                                                              expressBannerTimerFinished.asObservable()) { $0 || $1 }
+        /**
+            Express chat banner is shown after 3 seconds or 1st interaction if:
+                - the product has related products
+                - we're not showing the related products already over the keyboard
+                - user hasn't SENT messages via express chat for this product
+         */
+        Observable.combineLatest(expressBannerTriggered,
+            hasRelatedProducts.asObservable(),
+            relatedProductsEnabled.asObservable(),
+        expressMessagesAlreadySent.asObservable()) { $0 && $1 && !$2 && !$3 }
+            .distinctUntilChanged().bindNext { [weak self] shouldShowBanner in
+                guard let strongSelf = self else { return }
+                self?.shouldShowExpressBanner.value = shouldShowBanner && strongSelf.featureFlags.expressChatBanner
+        }.addDisposableTo(disposeBag)
 
         setupChatEventsRx()
     }
@@ -397,7 +439,7 @@ class ChatViewModel: BaseViewModel {
     }
 
     func setupChatEventsRx() {
-        chatRepository.wsChatStatus.asObservable().bindNext { [weak self] wsChatStatus in
+        chatRepository.chatStatus.bindNext { [weak self] wsChatStatus in
             switch wsChatStatus {
             case .Closed, .Closing, .Opening, .OpenAuthenticated, .OpenNotAuthenticated:
                 break
@@ -499,6 +541,11 @@ class ChatViewModel: BaseViewModel {
         KeyValueStorage.sharedInstance[.stickersTooltipAlreadyShown] = true
         stickersTooltipVisible.value = false
     }
+
+    func bannerActionButtonTapped() {
+        guard let productId = conversation.value.product?.objectId else { return }
+        navigator?.openExpressChat(relatedProducts, sourceProductId: productId, manualOpen: true)
+    }
 }
 
 
@@ -510,11 +557,8 @@ extension ChatViewModel {
         switch data {
         case .Conversation(let conversationId):
             return conversationId == conversation.value.objectId
-        case let .ProductBuyer(productId, buyerId):
-            let myUserId = myUserRepository.myUser?.objectId
-            let interlocutorId = conversation.value.interlocutor?.objectId
-            let currentBuyer = conversation.value.amISelling ? myUserId : interlocutorId
-            return productId == conversation.value.product?.objectId && buyerId == currentBuyer
+        case let .ProductBuyer(productId, productBuyerId):
+            return productId == conversation.value.product?.objectId && productBuyerId == buyerId
         }
     }
 
@@ -534,20 +578,20 @@ extension ChatViewModel {
 extension ChatViewModel {
     
     func sendSticker(sticker: Sticker) {
-        sendMessage(sticker.name, isQuickAnswer: false, type: .Sticker)
+        sendMessage(sticker.name, type: .Sticker)
     }
     
     func sendText(text: String, isQuickAnswer: Bool) {
-        sendMessage(text, isQuickAnswer: isQuickAnswer, type: .Text)
+        sendMessage(text, type: isQuickAnswer ? .QuickAnswer : .Text)
     }
     
-    private func sendMessage(text: String, isQuickAnswer: Bool, type: ChatMessageType) {
+    private func sendMessage(text: String, type: ChatMessageType) {
         if let preSendMessageCompletion = preSendMessageCompletion {
-            preSendMessageCompletion(text: text, isQuickAnswer: isQuickAnswer, type: type)
+            preSendMessageCompletion(text: text, type: type)
             return
         }
 
-        if isQuickAnswer {
+        if type == .QuickAnswer {
             if isSendingQuickAnswer { return }
             isSendingQuickAnswer = true
         }
@@ -556,7 +600,7 @@ extension ChatViewModel {
         guard let convId = conversation.value.objectId else { return }
         guard let userId = myUserRepository.myUser?.objectId else { return }
         
-        if !isQuickAnswer && type != .Sticker {
+        if type == .Text {
             delegate?.vmClearText()
         }
 
@@ -571,12 +615,7 @@ extension ChatViewModel {
                 guard let id = newMessage.objectId else { return }
                 strongSelf.markMessageAsSent(id)
                 strongSelf.afterSendMessageEvents()
-                if strongSelf.shouldTrackFirstMessage {
-                        strongSelf.trackFirstMessage(type)
-                        strongSelf.shouldTrackFirstMessage = false
-                }
-                strongSelf.trackMessageSent(isQuickAnswer, type: type)
-                
+                strongSelf.trackMessageSent(type: type)
             } else if let error = result.error {
                 // TODO: 🎪 Create an "errored" state for Chat Message so we can retry
                 switch error {
@@ -586,13 +625,14 @@ extension ChatViewModel {
                     self?.delegate?.vmDidFailSendingMessage()
                 }
             }
-            if isQuickAnswer {
+            if type == .QuickAnswer {
                 self?.isSendingQuickAnswer = false
             }
         }
     }
 
     private func afterSendMessageEvents() {
+        firstInteractionDone.value = true
         if shouldAskProductSold {
             shouldAskProductSold = false
             let action = UIAction(interface: UIActionInterface.Text(LGLocalizedString.directAnswerSoldQuestionOk),
@@ -701,7 +741,7 @@ extension ChatViewModel {
                 actions.append(directAnswersAction)
             }
             
-            if !isDeleted {
+            if !isDeleted && !isEmptyConversation.value {
                 let delete = UIAction(interface: UIActionInterface.Text(LGLocalizedString.chatListDelete),
                                                    action: deleteAction)
                 actions.append(delete)
@@ -984,7 +1024,7 @@ private extension ChatViewModel {
         interlocutorId.value = sellerId
 
         // Configure login + send actions
-        preSendMessageCompletion = { [weak self] (text: String, isQuickAnswer: Bool, type: ChatMessageType) in
+        preSendMessageCompletion = { [weak self] (text: String, type: ChatMessageType) in
             self?.delegate?.vmHideKeyboard(false)
             self?.delegate?.vmRequestLogin() { [weak self] in
                 guard let strongSelf = self else { return }
@@ -1000,7 +1040,7 @@ private extension ChatViewModel {
                 self?.afterRetrieveMessagesCompletion = { [weak self] in
                     self?.afterRetrieveMessagesCompletion = nil
                     guard let messages = self?.messages.value where messages.isEmpty else { return }
-                    self?.sendMessage(text, isQuickAnswer: isQuickAnswer, type: type)
+                    self?.sendMessage(text, type: type)
                 }
                 self?.syncConversation(productId, sellerId: sellerId)
             }
@@ -1014,8 +1054,6 @@ private extension ChatViewModel {
 private extension ChatViewModel {
     
     private func trackFirstMessage(type: ChatMessageType) {
-        // only track ask question if I didn't send any message previously
-        guard !didSendMessage else { return }
         guard let product = conversation.value.product else { return }
         guard let userId = conversation.value.interlocutor?.objectId else { return }
 
@@ -1027,12 +1065,18 @@ private extension ChatViewModel {
         TrackerProxy.sharedInstance.trackEvent(firstMessageEvent)
     }
 
-    private func trackMessageSent(isQuickAnswer: Bool, type: ChatMessageType) {
+    private func trackMessageSent(type type: ChatMessageType) {
         guard let product = conversation.value.product else { return }
         guard let userId = conversation.value.interlocutor?.objectId else { return }
+
+        if shouldTrackFirstMessage {
+            shouldTrackFirstMessage = false
+            trackFirstMessage(type)
+        }
         let messageSentEvent = TrackerEvent.userMessageSent(product, userToId: userId,
                                                             messageType: type.trackingMessageType,
-                                                            isQuickAnswer: isQuickAnswer ? .True : .False, typePage: .Chat)
+                                                            isQuickAnswer: type == .QuickAnswer ? .True : .False,
+                                                            typePage: .Chat)
         TrackerProxy.sharedInstance.trackEvent(messageSentEvent)
     }
     
@@ -1117,60 +1161,35 @@ extension ChatViewModel: DirectAnswersPresenterDelegate {
         let emptyAction: () -> Void = { [weak self] in
             self?.clearProductSoldDirectAnswer()
         }
-        if FeatureFlags.freePostingMode.enabled && productIsFree.value {
-            if FeatureFlags.newQuickAnswers {
-                if !conversation.value.amISelling {
-                    return [DirectAnswer(text: LGLocalizedString.directAnswerInterested, action: emptyAction),
-                            DirectAnswer(text: LGLocalizedString.directAnswerFreeStillHave, action: emptyAction),
-                            DirectAnswer(text: LGLocalizedString.directAnswerMeetUp, action: emptyAction)]
-                } else {
-                    return [DirectAnswer(text: LGLocalizedString.directAnswerFreeYours, action: emptyAction),
-                            DirectAnswer(text: LGLocalizedString.directAnswerFreeAvailable, action: emptyAction),
-                            DirectAnswer(text: LGLocalizedString.directAnswerMeetUp, action: emptyAction)]
-                }
+        if featureFlags.freePostingModeAllowed && productIsFree.value {
+
+            if !conversation.value.amISelling {
+                return [DirectAnswer(text: LGLocalizedString.directAnswerInterested, action: emptyAction),
+                        DirectAnswer(text: LGLocalizedString.directAnswerFreeStillHave, action: emptyAction),
+                        DirectAnswer(text: LGLocalizedString.directAnswerMeetUp, action: emptyAction),
+                        DirectAnswer(text: LGLocalizedString.directAnswerNotInterested, action: emptyAction)]
             } else {
-                if !conversation.value.amISelling {
-                    return [DirectAnswer(text: LGLocalizedString.directAnswerInterested, action: emptyAction),
-                            DirectAnswer(text: LGLocalizedString.directAnswerFreeStillHave, action: emptyAction),
-                            DirectAnswer(text: LGLocalizedString.directAnswerMeetUp, action: emptyAction),
-                            DirectAnswer(text: LGLocalizedString.directAnswerNotInterested, action: emptyAction)]
-                } else {
-                    return [DirectAnswer(text: LGLocalizedString.directAnswerFreeYours, action: emptyAction),
-                            DirectAnswer(text: LGLocalizedString.directAnswerFreeAvailable, action: emptyAction),
-                            DirectAnswer(text: LGLocalizedString.directAnswerMeetUp, action: emptyAction),
-                            DirectAnswer(text: LGLocalizedString.directAnswerFreeNoAvailable, action: emptyAction)]
-                }
+                return [DirectAnswer(text: LGLocalizedString.directAnswerFreeYours, action: emptyAction),
+                        DirectAnswer(text: LGLocalizedString.directAnswerFreeAvailable, action: emptyAction),
+                        DirectAnswer(text: LGLocalizedString.directAnswerMeetUp, action: emptyAction),
+                        DirectAnswer(text: LGLocalizedString.directAnswerFreeNoAvailable, action: emptyAction)]
             }
         } else {
-            if FeatureFlags.newQuickAnswers {
-                if !conversation.value.amISelling {
-                    return [DirectAnswer(text: LGLocalizedString.directAnswerInterested, action: emptyAction),
-                            DirectAnswer(text: LGLocalizedString.directAnswerIsNegotiable, action: emptyAction),
-                            DirectAnswer(text: LGLocalizedString.directAnswerLikeToBuy, action: emptyAction)]
-                } else {
-                    return [DirectAnswer(text: LGLocalizedString.directAnswerStillForSale, action: emptyAction),
-                            DirectAnswer(text: LGLocalizedString.directAnswerProductSold, action: { [weak self] in
-                                self?.onProductSoldDirectAnswer()
-                                }),
-                            DirectAnswer(text: LGLocalizedString.directAnswerWhatsOffer, action: emptyAction)]
-                }
+            if !conversation.value.amISelling {
+                return [DirectAnswer(text: LGLocalizedString.directAnswerInterested, action: emptyAction),
+                        DirectAnswer(text: LGLocalizedString.directAnswerIsNegotiable, action: emptyAction),
+                        DirectAnswer(text: LGLocalizedString.directAnswerLikeToBuy, action: emptyAction),
+                        DirectAnswer(text: LGLocalizedString.directAnswerMeetUp, action: emptyAction),
+                        DirectAnswer(text: LGLocalizedString.directAnswerNotInterested, action: emptyAction)]
             } else {
-                if !conversation.value.amISelling {
-                    return [DirectAnswer(text: LGLocalizedString.directAnswerInterested, action: emptyAction),
-                            DirectAnswer(text: LGLocalizedString.directAnswerIsNegotiable, action: emptyAction),
-                            DirectAnswer(text: LGLocalizedString.directAnswerLikeToBuy, action: emptyAction),
-                            DirectAnswer(text: LGLocalizedString.directAnswerMeetUp, action: emptyAction),
-                            DirectAnswer(text: LGLocalizedString.directAnswerNotInterested, action: emptyAction)]
-                } else {
-                    return [DirectAnswer(text: LGLocalizedString.directAnswerStillForSale, action: emptyAction),
-                            DirectAnswer(text: LGLocalizedString.directAnswerWhatsOffer, action: emptyAction),
-                            DirectAnswer(text: LGLocalizedString.directAnswerNegotiableYes, action: emptyAction),
-                            DirectAnswer(text: LGLocalizedString.directAnswerNegotiableNo, action: emptyAction),
-                            DirectAnswer(text: LGLocalizedString.directAnswerNotInterested, action: emptyAction),
-                            DirectAnswer(text: LGLocalizedString.directAnswerProductSold, action: { [weak self] in
-                                self?.onProductSoldDirectAnswer()
-                                })]
-                }
+                return [DirectAnswer(text: LGLocalizedString.directAnswerStillForSale, action: emptyAction),
+                        DirectAnswer(text: LGLocalizedString.directAnswerWhatsOffer, action: emptyAction),
+                        DirectAnswer(text: LGLocalizedString.directAnswerNegotiableYes, action: emptyAction),
+                        DirectAnswer(text: LGLocalizedString.directAnswerNegotiableNo, action: emptyAction),
+                        DirectAnswer(text: LGLocalizedString.directAnswerNotInterested, action: emptyAction),
+                        DirectAnswer(text: LGLocalizedString.directAnswerProductSold, action: { [weak self] in
+                            self?.onProductSoldDirectAnswer()
+                            })]
             }
         }
     }
@@ -1225,14 +1244,14 @@ private extension ChatViewModel {
 
 // MARK: - Related products
 
-extension ChatViewModel: RelatedProductsViewDelegate {
+extension ChatViewModel: ChatRelatedProductsViewDelegate {
 
-    func relatedProductsViewDidShow(view: RelatedProductsView) {
+    func relatedProductsViewDidShow(view: ChatRelatedProductsView) {
         let relatedShownReason = EventParameterRelatedShownReason(chatInfoStatus: chatStatus.value)
         tracker.trackEvent(TrackerEvent.chatRelatedItemsStart(relatedShownReason))
     }
 
-    func relatedProductsView(view: RelatedProductsView, showProduct product: Product, atIndex index: Int,
+    func relatedProductsView(view: ChatRelatedProductsView, showProduct product: Product, atIndex index: Int,
                              productListModels: [ProductCellModel], requester: ProductListRequester,
                              thumbnailImage: UIImage?, originFrame: CGRect?) {
         let relatedShownReason = EventParameterRelatedShownReason(chatInfoStatus: chatStatus.value)
@@ -1241,20 +1260,6 @@ extension ChatViewModel: RelatedProductsViewDelegate {
                                                  thumbnailImage: thumbnailImage, originFrame: originFrame,
                                                  showRelated: false, index: 0)
         navigator?.openProduct(data, source: .Chat)
-    }
-}
-
-extension ChatViewModel:  DirectAnswersBigViewDelegate {
-    func directAnswersBigViewEmptyAction() {
-        clearProductSoldDirectAnswer()
-    }
-
-    func directAnswersBigViewProductSold() {
-        onProductSoldDirectAnswer()
-    }
-
-    func directAnswersBigViewDidShow() {
-        
     }
 }
 
@@ -1270,6 +1275,12 @@ extension ChatMessageType {
             return .Offer
         case .Sticker:
             return .Sticker
+        case .FavoritedProduct:
+            return .Favorite
+        case .ExpressChat:
+            return .ExpressChat
+        case .QuickAnswer:
+            return .QuickAnswer
         }
     }
 }
@@ -1283,10 +1294,12 @@ extension ChatViewModel {
     private func retrieveRelatedProducts() {
         guard isBuyer else { return }
         guard let productId = conversation.value.product?.objectId else { return }
-        productRepository.indexRelated(productId: productId, params: RetrieveProductsParams()) { [weak self] result in
+        productRepository.indexRelated(productId: productId, params: RetrieveProductsParams()) {
+            [weak self] result in
             guard let strongSelf = self else { return }
             if let value = result.value {
                 strongSelf.relatedProducts = strongSelf.relatedWithoutMyProducts(value)
+                strongSelf.updateExpressChatBanner()
             }
         }
     }
@@ -1300,5 +1313,28 @@ extension ChatViewModel {
             }
         }
         return cleanRelatedProducts
+    }
+
+    // Express Chat Banner methods
+
+    private func updateExpressChatBanner() {
+        hasRelatedProducts.value = !relatedProducts.isEmpty
+    }
+
+    private func launchExpressChatTimer() {
+        let _ = NSTimer.scheduledTimerWithTimeInterval(3.0, target: self, selector: #selector(updateBannerTimerStatus),
+                                                       userInfo: nil, repeats: false)
+    }
+
+    private dynamic func updateBannerTimerStatus() {
+        expressBannerTimerFinished.value = true
+    }
+
+    private func expressChatMessageSentForCurrentProduct() -> Bool {
+        guard let productId = conversation.value.product?.objectId else { return false }
+        for productSentId in keyValueStorage.userProductsWithExpressChatMessageSent {
+            if productSentId == productId { return true }
+        }
+        return false
     }
 }

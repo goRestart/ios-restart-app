@@ -10,11 +10,13 @@ import Foundation
 import LGCoreKit
 
 final class TourLocationViewController: BaseViewController {
+    private static let iphone5InfoHeight: CGFloat = 210
+    private static let iphone4InfoHeight: CGFloat = 200
+
+    let viewModel: TourLocationViewModel
+
     @IBOutlet weak var closeButton: UIButton!
     @IBOutlet weak var yesButton: UIButton!
-    @IBOutlet weak var noButton: UIButton!
-    @IBOutlet weak var noButtonHeight: NSLayoutConstraint!
-    @IBOutlet weak var noButtonTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var subtitleLabel: UILabel!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var iphoneRightHeightConstraint: NSLayoutConstraint!
@@ -24,15 +26,6 @@ final class TourLocationViewController: BaseViewController {
     @IBOutlet weak var alertContainer: UIView!
     @IBOutlet weak var alertOkLabel: UILabel!
 
-    private var iphone5InfoHeight: CGFloat {
-        return viewModel.showNoButton ? 165 : 210
-    }
-    private var iphone4InfoHeight: CGFloat {
-        return viewModel.showNoButton ? 156 : 200
-    }
-
-    let viewModel: TourLocationViewModel
-    
     
     // MARK: - Lifecycle
 
@@ -42,7 +35,7 @@ final class TourLocationViewController: BaseViewController {
         case .iPhone4:
             super.init(viewModel: nil, nibName: "TourLocationViewControllerMini",
                        statusBarStyle: .LightContent)
-        case .iPhone5, .iPhone6, .iPhone6Plus, .unknown:
+        case .iPhone5, .iPhone6, .iPhone6Plus, .BiggerUnknown:
             super.init(viewModel: nil, nibName: "TourLocationViewController",
                        statusBarStyle: .LightContent)
         }
@@ -60,23 +53,10 @@ final class TourLocationViewController: BaseViewController {
         setupUI()
         setupAccessibilityIds()
         viewModel.viewDidLoad()
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(didAskNativeLocationPermission),
-            name: LocationManager.Notification.LocationDidChangeAuthorization.rawValue, object: nil)
-    }
-
-    func didAskNativeLocationPermission() {
-        let time = dispatch_time(DISPATCH_TIME_NOW, Int64(0.5 * Double(NSEC_PER_SEC)))
-        dispatch_after(time, dispatch_get_main_queue()) { [weak self] in
-            self?.openNextStep()
-        }
     }
 
     func close() {
         viewModel.userDidTapNoButton()
-        openNextStep()
-    }
-
-    func openNextStep() {
         viewModel.nextStep()
     }
 
@@ -108,20 +88,7 @@ final class TourLocationViewController: BaseViewController {
         yesButton.setTitle(LGLocalizedString.locationPermissionsButton, forState: .Normal)
         yesButton.setStyle(.Primary(fontSize: .Medium))
 
-        if viewModel.showNoButton {
-            noButton.backgroundColor = UIColor.clearColor()
-            noButton.layer.cornerRadius = noButton.height / 2
-            noButton.layer.borderWidth = 1
-            noButton.layer.borderColor = UIColor.whiteColor().CGColor
-            noButton.tintColor = UIColor.whiteColor()
-            noButton.titleLabel?.font = UIFont.tourButtonFont
-            noButton.setTitle(LGLocalizedString.commonNo, forState: .Normal)
-        } else {
-            noButtonHeight.constant = 0
-            noButtonTopConstraint.constant = 0
-        }
-        
-        labelContainer.layer.cornerRadius = labelContainer.height/2
+        labelContainer.rounded = true
         distanceLabel.font = UIFont.tourLocationDistanceLabelFont
         distanceLabel.textColor = UIColor.black
         alertOkLabel.text = LGLocalizedString.locationPermissionsAllowButton
@@ -130,12 +97,12 @@ final class TourLocationViewController: BaseViewController {
         case .iPhone4:
             titleLabel.font = UIFont.tourNotificationsTitleMiniFont
             subtitleLabel.font = UIFont.tourNotificationsSubtitleMiniFont
-            iphoneRightHeightConstraint.constant = iphone4InfoHeight
+            iphoneRightHeightConstraint.constant = TourLocationViewController.iphone4InfoHeight
         case .iPhone5:
             titleLabel.font = UIFont.tourNotificationsTitleMiniFont
             subtitleLabel.font = UIFont.tourNotificationsSubtitleMiniFont
-            iphoneRightHeightConstraint.constant = iphone5InfoHeight
-        case .iPhone6, .iPhone6Plus, .unknown:
+            iphoneRightHeightConstraint.constant = TourLocationViewController.iphone5InfoHeight
+        case .iPhone6, .iPhone6Plus, .BiggerUnknown:
             titleLabel.font = UIFont.tourNotificationsTitleFont
             subtitleLabel.font = UIFont.tourNotificationsSubtitleFont
         }
@@ -149,7 +116,6 @@ final class TourLocationViewController: BaseViewController {
     private func setupAccessibilityIds() {
         closeButton.accessibilityId = .TourLocationCloseButton
         yesButton.accessibilityId = .TourLocationOKButton
-        noButton.accessibilityId = .TourLocationCancelButton
         alertContainer.accessibilityId = .TourLocationAlert
     }
 }

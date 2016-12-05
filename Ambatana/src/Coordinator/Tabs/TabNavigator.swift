@@ -34,6 +34,7 @@ enum BackAction {
 }
 
 protocol TabNavigator: class {
+    func openSell(source: PostingSource)
     func openUser(data: UserDetailData)
     func openProduct(data: ProductDetailData, source: EventParameterProductVisitSource)
     func openChat(data: ChatDetailData)
@@ -48,9 +49,17 @@ protocol ProductDetailNavigator: TabNavigator {
      // closeCompletion's Product is nil if edit is cancelled
     func editProduct(product: Product, closeCompletion: ((Product?) -> Void)?)
     func openProductChat(product: Product)
+    func openFullScreenShare(product: Product, socialMessage: SocialMessage)
+    func openRelatedItems(product: Product, productVisitSource: EventParameterProductVisitSource)
+    func closeAfterDelete()
+}
+
+protocol SimpleProductsNavigator: class {
+    func closeSimpleProducts()
+    func openProduct(data: ProductDetailData, source: EventParameterProductVisitSource)
 }
 
 protocol ChatDetailNavigator: TabNavigator {
     func closeChatDetail()
-    func openExpressChat(products: [Product], sourceProductId: String)
+    func openExpressChat(products: [Product], sourceProductId: String, manualOpen: Bool)
 }

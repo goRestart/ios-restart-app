@@ -31,6 +31,13 @@ final class AmplitudeTracker: Tracker {
 
     private static let userPropUserRating = "user-rating"
 
+    // AB Tests
+    private static let userPropABTests = "AB-test"
+
+    private static let userPropMktPushNotificationKey = "marketing-push-notification"
+    private static let userPropMktPushNotificationValueOn = "on"
+    private static let userPropMktPushNotificationValueOff = "off"
+
     // > Prefix
     private static let dummyEmailPrefix = "usercontent"
 
@@ -127,16 +134,21 @@ final class AmplitudeTracker: Tracker {
         Amplitude.instance().identify(identify)
     }
 
+    func setMarketingNotifications(enabled: Bool) {
+        let identify = AMPIdentify()
+        let value = enabled ? AmplitudeTracker.userPropMktPushNotificationValueOn :
+            AmplitudeTracker.userPropMktPushNotificationValueOff
+        identify.set(AmplitudeTracker.userPropMktPushNotificationKey, value: value)
+        Amplitude.instance().identify(identify)
+    }
+
 
     // MARK: - Private
 
     private func setupABTestsRx() {
         ABTests.trackingData.asObservable().bindNext { trackingData in
             let identify = AMPIdentify()
-            for (key, value) in trackingData {
-                guard let value = value as? NSObject else { continue }
-                identify.set(key, value: value)
-            }
+            identify.set(AmplitudeTracker.userPropABTests, value: trackingData)
             Amplitude.instance().identify(identify)
         }.addDisposableTo(disposeBag)
     }

@@ -72,6 +72,8 @@
 "chat_deleted_disclaimer_w_name" = "Je kunt niet verdergaan met dit gesprek omdat %@'s account niet meer actief is.";
 "chat_deleted_disclaimer_wo_name" = "Je kunt niet verder gaan met dit gesprek omdat dit account niet meer actief is.";
 "chat_disclaimer_letgo_team" = "LETGO TEAM";
+"chat_express_banner_button_title" = "Bekijk Deals";
+"chat_express_banner_title" = "Gerelateerde deals in jouw buurt";
 "chat_express_contact_one_button_text" = "Contacteer 1 verkoper";
 "chat_express_contact_sellers_label" = "Neem contact op met deze verkopers voordat andere kopers dat doen!";
 "chat_express_contact_various_button_text" = "Contacteer %@ verkopers";
@@ -125,7 +127,7 @@
 "chat_safety_tips_message" = "• Persoonlijk ontmoeten en contant betalen.\n \n• Voer gesprekken in de letgo chat.\n \n• Klinkt het te mooi om waar te zijn? Vind een andere koper/verkoper.";
 "chat_safety_tips_title" = "VEILIGHEIDSTIPS";
 "chat_send_button" = "Versturen";
-"chat_send_error_generic" = "Er is een fout opgetreden bij het versturen van het bericht. Probeer het later nog eens.";
+"chat_send_error_generic" = "Er is een fout opgetreden tijdens het versturen van het bericht. Probeer het later nog eens.";
 "chat_stickers_tooltip_add_stickers" = "Voeg leuke stickers toe";
 "chat_stickers_tooltip_new" = "NIEUW!";
 "chat_unblock_user" = "Deblokkeer gebruiker";
@@ -142,8 +144,8 @@
 "collection_explore_button" = "Verkennen";
 "collection_furniture_title" = "Geen plek als thuis";
 "collection_gaming_title" = "Het spel is begonnen";
-"collection_halloween_title" = "Trick or treat";
 "collection_transport_title" = "Reizen in stijl";
+"collection_you_title" = "Voor jou geselecteerd";
 "commercializer_create_from_settings" = "Create a Free Commercial";
 "commercializer_display_share_alert" = "Share this masterpiece";
 "commercializer_display_share_label" = "Share your masterpiece with the world and watch the offers come rolling in";
@@ -218,7 +220,7 @@
 "contact_subject_option_product_edit" = "Bewerk/Verwijder product";
 "contact_subject_option_profile_edit" = "Bewerken/verwijderen profiel";
 "contact_subject_option_report" = "Rapporteren gebruiker/spam";
-"direct_answer_condition" = "What condition is this item in?";
+"direct_answer_condition" = "In welke conditie is dit item?";
 "direct_answer_free_available" = "Ja, het is nog beschikbaar";
 "direct_answer_free_no_available" = "Sorry, ik heb het al weggegeven!";
 "direct_answer_free_still_have" = "Is het nog beschikbaar?";
@@ -234,9 +236,9 @@
 "direct_answer_sold_question_message" = "Markeer je product als verkocht zodat alle letgo gebruikers dit weten";
 "direct_answer_sold_question_ok" = "Markeer als verkocht";
 "direct_answer_sold_question_title" = "Is het al verkocht?";
-"direct_answer_still_available" = "Is this item still available?";
+"direct_answer_still_available" = "Is dit item nog beschikbaar?";
 "direct_answer_still_for_sale" = "Ja, het is nog steeds te koop";
-"direct_answer_title" = "SELECT OR TYPE A MESSAGE";
+"direct_answer_title" = "SELECTEER OF TYP EEN BERICHT";
 "direct_answer_whats_offer" = "Wat is je bod?";
 "direct_answers_hide" = "Verberg Snelle Antwoorden";
 "direct_answers_show" = "Toon Snelle Antwoorden";
@@ -288,9 +290,11 @@
 "main_sign_up_error_request_already_sent" = "Je aanvraag is al verwerkt. Gelieve te wachten voordat je het opnieuw probeert.";
 "main_sign_up_error_user_rejected" = "Het e-mailadres dat je hebt ingevoerd is onjuist. Controleer het en probeer het opnieuw.";
 "main_sign_up_facebook_connect_button" = "Doorgaan met Facebook";
+"main_sign_up_facebook_connect_button_w_name" = "Log in als %@";
 "main_sign_up_fb_connect_error_email_taken" = "Jouw e-mailadres is al geregistreerd. Gebruik het a.u.b. om in te loggen.";
 "main_sign_up_fb_connect_error_generic" = "Niet in staat om in te loggen. Gelieve het nog eens te proberen.";
 "main_sign_up_google_connect_button" = "Doorgaan met Google";
+"main_sign_up_google_connect_button_w_name" = "Log in als %@";
 "main_sign_up_help_button" = "Hulp";
 "main_sign_up_log_in_label" = "Inloggen";
 "main_sign_up_or_label" = "OF GEBRUIK JE E-MAIL";
@@ -332,7 +336,7 @@
 "notifications_type_sold_button" = "Bekijk het product";
 "notifications_type_welcome_button" = "Begin met verkopen";
 "notifications_type_welcome_subtitle" = "Verdien geld door te verkopen wat je niet meer nodig hebt en vind geweldige deals in de buurt";
-"notifications_type_welcome_subtitle_w_city" = "Verdien geld door te verkopen wat je niet meer nodig hebt en vind geweldige deals in %@.";
+"notifications_type_welcome_subtitle_w_city" = "Verdien geld door te verkopen wat je niet meer nodig hebt en vind geweldige deals in %@";
 "notifications_type_welcome_title" = "Welkom bij letgo!";
 "notifications_user_wo_name" = "Een gebruiker";
 "nps_survey_subtitle" = "Van 1 tot 10, hoe waarschijnlijk zul jij letgo aanbevelen aan een vriend(in)?";
@@ -380,11 +384,15 @@
 "product_delete_confirm_ok_button" = "Ik wil het niet verkopen";
 "product_delete_confirm_sold_button" = "Ik heb het al verkocht ";
 "product_delete_confirm_title" = "Verwijder Product";
+"product_delete_post_button_title" = "Plaats een ander item";
+"product_delete_post_subtitle" = "Probeer iets anders te plaatsen en begin met geld te verdienen.";
+"product_delete_post_title" = "GEEN GELUK DIT KEER?";
 "product_delete_send_error_generic" = "Oeps! We konden jouw product niet verwijderen. Probeer het opnieuw.";
 "product_delete_sold_confirm_message" = "Weet je zeker dat je dit product wilt verwijderen?";
 "product_delete_success_message" = "Jouw product werd succesvol verwijderd.";
 "product_distance_X_from_you" = "%@ van bij jou";
 "product_distance_more_than_from_you" = "Meer dan %@ van bij jou";
+"product_favorite_direct_message" = "Ik vind het leuk! Is het nog beschikbaar?";
 "product_free_price" = "Gratis";
 "product_is_mine_share_body" = "Bekijk wat ik op letgo verkoop!";
 "product_is_mine_share_body_free" = "Check wat ik weggeef op letgo!";
@@ -409,6 +417,8 @@
 "product_mark_as_sold_free_success_message" = "Gefeliciteerd! Je product is succesvol gemarkeerd als weggegeven";
 "product_mark_as_sold_success_message" = "Gefeliciteerd, jouw product werd succesvol gemarkeerd als verkocht!";
 "product_more_info_open_button" = "MEER INFO";
+"product_more_info_related_title" = "YOU MIGHT BE INTERESTED IN:";
+"product_more_info_related_view_more" = "View more";
 "product_more_info_tooltip_part_1" = "Tik";
 "product_more_info_tooltip_part_2" = "%@ om meer informatie te zien";
 "product_negotiable_price" = "Bespreekbaar";
@@ -605,7 +615,7 @@
 "sell_picture_selected_delete_button" = "Verwijderen";
 "sell_picture_selected_save_into_camera_roll_button" = "Opslaan";
 "sell_picture_selected_title" = "Kies een handeling";
-"sell_post_free_label" = "Weggeven";
+"sell_post_free_label" = "Gratis";
 "sell_price_field" = "Prijs:";
 "sell_send_error_invalid_category" = "Kies a.u.b. een categorie voor het product.";
 "sell_send_error_invalid_description" = "Voer a.u.b. een geldige beschrijving in voor het product.";
@@ -631,7 +641,13 @@
 "settings_invite_facebook_friends_button" = "Nodig Facebook vrienden uit";
 "settings_invite_facebook_friends_error" = "Er is een fout opgetreden bij het delen van je uitnodiging.";
 "settings_invite_facebook_friends_ok" = "Je uitnodiging werd succesvol gedeeld!";
+"settings_logout_alert_message" = "Weet je zeker dat je wilt uitloggen?";
+"settings_logout_alert_ok" = "Uitloggen";
 "settings_logout_button" = "Log uit";
+"settings_marketing_notifications_switch" = "Marketing Meldingen";
+"settings_section_profile" = "Profiel";
+"settings_section_promote" = "Promoten";
+"settings_section_support" = "Ondersteuning";
 "settings_title" = "Instellingen";
 "sign_up_acceptance_error" = "To sign up you have to accept the Terms & Conditions and the Privacy Policy";
 "sign_up_email_field_hint" = "E-mail";
@@ -649,6 +665,8 @@
 "sign_up_terms_conditions_terms_part" = "Terms & Conditions";
 "sign_up_title" = "Nieuw account aanmaken";
 "sign_up_username_field_hint" = "Volledige naam";
+"suggestions_last_searches_clear_button" = "Wissen";
+"suggestions_last_searches_title" = "Recente Zoekopdrachten";
 "tab_bar_give_away_button" = "Weggeven";
 "tab_bar_give_away_tooltip" = "Nu kun je het weggeven";
 "tab_bar_sell_stuff_button" = "Spullen Verkopen";

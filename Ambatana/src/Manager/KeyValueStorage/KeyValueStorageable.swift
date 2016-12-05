@@ -9,7 +9,7 @@
 import LGCoreKit
 import SwiftyUserDefaults
 
-protocol KeyValueStorageable {
+protocol KeyValueStorageable: class {
     subscript(key: DefaultsKey<String?>) -> String? { get set }
     subscript(key: DefaultsKey<String>) -> String { get set }
     subscript(key: DefaultsKey<NSString?>) -> NSString? { get set }
@@ -30,6 +30,7 @@ protocol KeyValueStorageable {
     subscript(key: DefaultsKey<[String: AnyObject]>) -> [String: AnyObject] { get set }
     subscript(key: DefaultsKey<NSDictionary?>) -> NSDictionary? { get set }
     subscript(key: DefaultsKey<NSDictionary>) -> NSDictionary { get set }
+    subscript(key: DefaultsKey<[String]>) -> [String] { get set }
 
     func get<T: UserDefaultsDecodable>(key: DefaultsKey<T>) -> T?
     func set<T: UserDefaultsDecodable>(key: DefaultsKey<T>, value: T?)

@@ -6,15 +6,27 @@
 //  Copyright (c) 2015 Ambatana. All rights reserved.
 //
 
-import AppsFlyerTracker
+import AppsFlyerLib
 import LGCoreKit
 
 private extension TrackerEvent {
     var shouldTrack: Bool {
         get {
             switch name {
-            case .FirstMessage, .ProductMarkAsSold, .ProductSellComplete, .ProductSellComplete24h,
-                 .CommercializerStart, .CommercializerComplete:
+            case .FirstMessage, .ProductMarkAsSold, .ProductSellStart, .ProductSellComplete,
+                 .ProductSellComplete24h, .CommercializerStart, .CommercializerComplete:
+                return true
+            default:
+                return false
+            }
+        }
+    }
+
+    // Criteo: https://ambatana.atlassian.net/browse/ABIOS-1966 (2)
+    var shouldTrackRegisteredUIAchievement: Bool {
+        get {
+            switch name {
+            case .LoginFB, .LoginGoogle, .SignupEmail:
                 return true
             default:
                 return false
@@ -53,17 +65,27 @@ final class AppsflyerTracker: Tracker {
     }
 
     func setUser(user: MyUser?) {
-        guard let email = user?.email else { return }
-        AppsFlyerTracker.sharedTracker().setUserEmails([email], withCryptType: EmailCryptTypeSHA1)
+        guard let user = user else { return }
+
+        let tracker = AppsFlyerTracker.sharedTracker()
+        if let email = user.email {
+            tracker.setUserEmails([email], withCryptType: EmailCryptTypeSHA1)
+        }
+        tracker.trackEvent("af_user_status", withValues: ["ui_status": "login"])
     }
     
     func trackEvent(event: TrackerEvent) {
+        let tracker = AppsFlyerTracker.sharedTracker()
         if event.shouldTrack {
-            AppsFlyerTracker.sharedTracker().trackEvent(event.actualName, withValues: event.params?.stringKeyParams)
+            tracker.trackEvent(event.actualName, withValues: event.params?.stringKeyParams)
+        }
+        if event.shouldTrackRegisteredUIAchievement {
+            tracker.trackEvent(AFEventAchievementUnlocked, withValues: ["ui_achievement": "registered"])
         }
     }
 
     func setLocation(location: LGLocation?) {}
     func setNotificationsPermission(enabled: Bool) {}
     func setGPSPermission(enabled: Bool) {}
+    func setMarketingNotifications(enabled: Bool) {}
 }

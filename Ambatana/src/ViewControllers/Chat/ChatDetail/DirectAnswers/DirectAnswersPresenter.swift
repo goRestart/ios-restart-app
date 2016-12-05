@@ -13,6 +13,8 @@ protocol DirectAnswersPresenterDelegate : class {
 
 class DirectAnswersPresenter : NSObject, UICollectionViewDelegate, UICollectionViewDataSource {
 
+    private static let defaultWidth = UIScreen.mainScreen().bounds.width
+
     weak var delegate: DirectAnswersPresenterDelegate?
 
     var height: CGFloat {
@@ -36,11 +38,15 @@ class DirectAnswersPresenter : NSObject, UICollectionViewDelegate, UICollectionV
     private let directAnswersHeight: CGFloat = 48
     private weak var collectionView: UICollectionView?
     private var answers: [DirectAnswer] = []
-
+    private var websocketChatActive: Bool = false
     private static let disabledAlpha: CGFloat = 0.6
 
 
     // MARK: - Public methods
+    
+    init(websocketChatActive: Bool) {
+        self.websocketChatActive = websocketChatActive
+    }
 
     func setupOnTopOfView(sibling: UIView) {
         buildCollectionOverView(sibling)
@@ -94,7 +100,7 @@ class DirectAnswersPresenter : NSObject, UICollectionViewDelegate, UICollectionV
     }
 
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        if FeatureFlags.websocketChat {
+        if websocketChatActive {
             collectionView.deselectItemAtIndexPath(indexPath, animated: true)
         }
         guard enabled else { return }
@@ -113,7 +119,8 @@ class DirectAnswersPresenter : NSObject, UICollectionViewDelegate, UICollectionV
     // MARK: - Private methods
 
     private func buildCollectionOverView(sibling: UIView) {
-        let view = UICollectionView(frame: CGRect(x: 0, y: 0, width: 200, height: directAnswersHeight),
+        let view = UICollectionView(frame: CGRect(x: 0, y: sibling.top - directAnswersHeight,
+            width: DirectAnswersPresenter.defaultWidth, height: directAnswersHeight),
             collectionViewLayout: UICollectionViewFlowLayout())
         view.translatesAutoresizingMaskIntoConstraints = false
         guard let parentView = sibling.superview else { return }

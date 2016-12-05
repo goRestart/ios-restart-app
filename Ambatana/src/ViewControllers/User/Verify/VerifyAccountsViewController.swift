@@ -83,9 +83,9 @@ class VerifyAccountsViewController: BaseViewController, GIDSignInUIDelegate {
         contentContainer.layer.cornerRadius = LGUIKitConstants.alertCornerRadius
         fbButton.setStyle(.Facebook)
         googleButton.setStyle(.Google)
-        emailButton.layer.cornerRadius = emailButton.height/2
-        emailContainer.layer.cornerRadius = emailContainer.height/2
-        emailTextFieldButton.layer.cornerRadius = emailTextFieldButton.height/2
+        emailButton.rounded = true
+        emailContainer.rounded = true
+        emailTextFieldButton.rounded = true
         emailTextField.placeholder = LGLocalizedString.profileVerifyEmailButton
 
         titleLabel.text = viewModel.titleText

@@ -22,6 +22,7 @@
 
 @end
 
+
 @implementation BranchOpenRequest
 
 - (id)initWithCallback:(callbackWithStatus)callback {
@@ -64,7 +65,19 @@
     [cdDict setObject:[contentDiscoveryManifest getManifestVersion] forKey:BRANCH_MANIFEST_VERSION_KEY];
     [cdDict setObject:[BNCSystemObserver getBundleID] forKey:BRANCH_BUNDLE_IDENTIFIER];
     [self safeSetValue:cdDict forKey:BRANCH_CONTENT_DISCOVER_KEY onDict:params];    
-    
+
+    if (preferenceHelper.appleSearchAdDetails) {
+        NSString *encodedSearchData = nil;
+        @try {
+            NSData *jsonData = [BNCEncodingUtils encodeDictionaryToJsonData:preferenceHelper.appleSearchAdDetails];
+            encodedSearchData = [BNCEncodingUtils base64EncodeData:jsonData];
+        } @catch (id e) { }
+        [self safeSetValue:encodedSearchData
+                    forKey:BRANCH_REQUEST_KEY_SEARCH_AD
+                    onDict:params];
+    }
+    /**/
+
     [serverInterface postRequest:params url:[preferenceHelper getAPIURL:BRANCH_REQUEST_ENDPOINT_OPEN] key:key callback:callback];
 }
 
@@ -139,6 +152,7 @@
     preferenceHelper.spotlightIdentifier = nil;
     preferenceHelper.universalLinkUrl = nil;
     preferenceHelper.externalIntentURI = nil;
+    preferenceHelper.appleSearchAdDetails = nil;
     
     if (data[BRANCH_RESPONSE_KEY_BRANCH_IDENTITY]) {
         preferenceHelper.identityID = data[BRANCH_RESPONSE_KEY_BRANCH_IDENTITY];

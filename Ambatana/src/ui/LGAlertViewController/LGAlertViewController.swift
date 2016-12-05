@@ -69,7 +69,7 @@ class LGAlertViewController: UIViewController {
 
     // MARK: - Lifecycle
 
-    init?(title: String, text: String, alertType: AlertType, actions: [UIAction]?) {
+    init?(title: String?, text: String, alertType: AlertType, actions: [UIAction]?) {
         self.alertTitle = title
         self.alertText = text
         self.alertActions = actions
@@ -152,12 +152,17 @@ class LGAlertViewController: UIViewController {
         button.accessibilityId = action.accessibilityId
         button.setStyle(action.buttonStyle ?? .Primary(fontSize: .Medium))
         button.rx_tap.bindNext { [weak self] _ in
-            action.action()
-            self?.closeWithFadeOut()
+            self?.closeWithFadeOutWithCompletion {
+                action.action()
+            }
         }.addDisposableTo(disposeBag)
     }
 
     dynamic private func closeWithFadeOut() {
-        dismissViewControllerAnimated(true, completion: nil)
+        closeWithFadeOutWithCompletion(nil)
+    }
+
+    private func closeWithFadeOutWithCompletion(completion: (() -> Void)?) {
+        dismissViewControllerAnimated(true, completion: completion)
     }
 }

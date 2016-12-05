@@ -12,7 +12,7 @@ protocol BaseViewModelDelegate: class {
     func vmShowLoading(loadingMessage: String?)
     func vmHideLoading(finishedMessage: String?, afterMessageCompletion: (() -> ())?)
 
-    func vmShowAlertWithTitle(title: String, text: String, alertType: AlertType, actions: [UIAction]?)
+    func vmShowAlertWithTitle(title: String?, text: String, alertType: AlertType, actions: [UIAction]?)
     func vmShowAlert(title: String?, message: String?, actions: [UIAction])
     func vmShowAlert(title: String?, message: String?, cancelLabel: String, actions: [UIAction])
     func vmShowActionSheet(cancelAction: UIAction, actions: [UIAction])
@@ -63,12 +63,8 @@ extension UIViewController: BaseViewModelDelegate {
         dismissViewControllerAnimated(true, completion: completion)
     }
     
-    func vmShowAlertWithTitle(title: String, text: String, alertType: AlertType, actions: [UIAction]?) {
-        guard let alert = LGAlertViewController(title: title, text: text, alertType: alertType, actions: actions) else {
-            return
-        }
-        let presenter: UIViewController = tabBarController ?? navigationController ?? self
-        presenter.presentViewController(alert, animated: true, completion: nil)
+    func vmShowAlertWithTitle(title: String?, text: String, alertType: AlertType, actions: [UIAction]?) {
+        showAlertWithTitle(title, text: text, alertType: alertType, actions: actions)
     }
 
     func ifLoggedInThen(source: EventParameterLoginSourceValue, loginStyle: LoginStyle, loggedInAction: () -> Void,

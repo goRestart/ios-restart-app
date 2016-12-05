@@ -7,7 +7,7 @@
 //
 
 import LGCoreKit
-import AppsFlyerTracker
+import AppsFlyerLib
 
 
 private extension TrackerEvent {
@@ -19,7 +19,7 @@ private extension TrackerEvent {
                  .UserMessageSent,
                  .LoginEmail, .LoginFB, .LoginGoogle, .SignupEmail,
                  .SearchComplete, .FilterComplete,
-                 .FirstMessage, .ProductChatButton, .ProductFavorite, .ProductShareComplete,
+                 .FirstMessage, .ProductOpenChat, .ProductFavorite, .ProductShareComplete,
                  .ProductMarkAsSold, .ProductDetailVisit,
                  .ProductSellComplete, .ProductSellStart,
                  .ProfileVisit, .NPSStart, .NPSComplete:
@@ -53,6 +53,9 @@ final class LeanplumTracker: Tracker {
     // enabled permissions
     private static let userPropPushEnabled = "push-enabled"
     private static let userPropGpsEnabled = "gps-enabled"
+
+    private static let userPropMktNotificationsEnabled = "mkt-notifications-enabled"
+
 
     // MARK: - Tracker
 
@@ -120,5 +123,9 @@ final class LeanplumTracker: Tracker {
     
     func setGPSPermission(enabled: Bool) {
         Leanplum.setUserAttributes([LeanplumTracker.userPropGpsEnabled : enabled ? "true" : "false"])
+    }
+
+    func setMarketingNotifications(enabled: Bool) {
+        Leanplum.setUserAttributes([LeanplumTracker.userPropMktNotificationsEnabled : enabled])
     }
 }

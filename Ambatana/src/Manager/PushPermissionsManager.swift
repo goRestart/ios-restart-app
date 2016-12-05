@@ -9,7 +9,6 @@
 import LGCoreKit
 
 public enum PrePermissionType {
-    case ProductList
     case ProductListBanner
     case Sell
     case Chat(buyer: Bool)
@@ -20,12 +19,11 @@ public enum PrePermissionType {
 public class PushPermissionsManager: NSObject {
 
     public static let sharedInstance: PushPermissionsManager = PushPermissionsManager()
-    var shouldAskForListPermissionsOnCurrentSession: Bool = true
     var pushPermissionsSettingsMode: Bool {
         return KeyValueStorage.sharedInstance[.pushPermissionsDidShowNativeAlert]
     }
     private var didShowSystemPermissions: Bool = false
-    private var prePermissionType: PrePermissionType = .ProductList
+    private var prePermissionType: PrePermissionType = .ProductListBanner
     private var typePage: EventParameterTypePage {
         return prePermissionType.trackingParam
     }
@@ -42,8 +40,6 @@ public class PushPermissionsManager: NSObject {
             return false
         }
         switch (prePermissionType) {
-        case .ProductList:
-            return shouldAskForListPermissions()
         case .Chat:
             return shouldAskForDailyPermissions()
         case .Sell, .Onboarding, .Profile, .ProductListBanner:
@@ -82,8 +78,6 @@ public class PushPermissionsManager: NSObject {
         let pushRepeateDate = NSDate().dateByAddingTimeInterval(Constants.pushPermissionRepeatTime)
 
         switch prePermissionType {
-        case .ProductList:
-            keyValueStorage[.pushPermissionsDidAskAtList] = true
         case .Chat, .Sell:
             keyValueStorage[.pushPermissionsDailyDate] = pushRepeateDate
         case .Profile, .Onboarding, .ProductListBanner:
@@ -118,10 +112,6 @@ public class PushPermissionsManager: NSObject {
     
     
     // MARK: - Private methods
-
-    private func shouldAskForListPermissions() -> Bool {
-        return !KeyValueStorage.sharedInstance[.pushPermissionsDidAskAtList] && shouldAskForListPermissionsOnCurrentSession
-    }
 
     private func shouldAskForDailyPermissions() -> Bool {
         guard let showDate = KeyValueStorage.sharedInstance[.pushPermissionsDailyDate] else { return true }
@@ -210,9 +200,7 @@ extension PrePermissionType {
     public var title: String {
         switch self {
         case .Onboarding:
-            return FeatureFlags.onboardinPermissionsMode.titleText
-        case .ProductList:
-            return LGLocalizedString.notificationsPermissions2Title
+            return LGLocalizedString.notificationsPermissions1TitleV2
         case .Chat:
             return LGLocalizedString.notificationsPermissions3Title
         case .Sell:
@@ -225,8 +213,6 @@ extension PrePermissionType {
     public var subtitle: String {
         switch self {
         case .Onboarding:
-            return LGLocalizedString.notificationsPermissions1Subtitle
-        case .ProductList:
             return LGLocalizedString.notificationsPermissions1Subtitle
         case .Chat:
             return LGLocalizedString.notificationsPermissions3Subtitle
@@ -241,8 +227,6 @@ extension PrePermissionType {
         switch self {
         case .Onboarding:
             return LGLocalizedString.notificationsPermissions1Push
-        case .ProductList:
-            return LGLocalizedString.notificationsPermissions1Push
         case .Chat:
             return LGLocalizedString.notificationsPermissions3Push
         case .Sell:
@@ -256,8 +240,6 @@ extension PrePermissionType {
         switch self {
         case .Onboarding:
             return .Install
-        case .ProductList:
-            return .ProductList
         case .Chat:
             return .Chat
         case .Sell:
@@ -266,17 +248,6 @@ extension PrePermissionType {
             return .Profile
         case .ProductListBanner:
             return .ProductListBanner
-        }
-    }
-}
-
-private extension OnboardingPermissionsMode {
-    var titleText: String {
-        switch self {
-        case .Original, .OneButtonOriginalImages:
-            return LGLocalizedString.notificationsPermissions1Title
-        case .OneButtonNewImages:
-            return LGLocalizedString.notificationsPermissions1TitleV2
         }
     }
 }

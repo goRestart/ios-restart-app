@@ -26,29 +26,25 @@ class ProductPostedViewController: BaseViewController, ProductPostedViewModelDel
 
     // incentivize items
     @IBOutlet weak var incentiveContainer: UIView!
-    @IBOutlet weak var incentiveLabel: UILabel!
-    @IBOutlet weak var firstImage: UIImageView!
-    @IBOutlet weak var firstNameLabel: UILabel!
-    @IBOutlet weak var firstCountLabel: UILabel!
-    @IBOutlet weak var secondImage: UIImageView!
-    @IBOutlet weak var secondNameLabel: UILabel!
-    @IBOutlet weak var secondCountLabel: UILabel!
-    @IBOutlet weak var thirdImage: UIImageView!
-    @IBOutlet weak var thirdNameLabel: UILabel!
-    @IBOutlet weak var thirdCountLabel: UILabel!
-
 
     private static let contentContainerShownHeight: CGFloat = 80
     private let viewModel: ProductPostedViewModel
-
+    private let socialSharer: SocialSharer
 
     // MARK: - View lifecycle
 
-    required init(viewModel: ProductPostedViewModel) {
+    convenience init(viewModel: ProductPostedViewModel) {
+        self.init(viewModel: viewModel, socialSharer: SocialSharer())
+    }
+
+    required init(viewModel: ProductPostedViewModel, socialSharer: SocialSharer) {
         self.viewModel = viewModel
+        self.socialSharer = socialSharer
         super.init(viewModel: viewModel, nibName: "ProductPostedViewController",
                    statusBarStyle: UIApplication.sharedApplication().statusBarStyle)
         viewModel.delegate = self
+        socialSharer.delegate = self
+
         modalPresentationStyle = .OverCurrentContext
         modalTransitionStyle = .CrossDissolve
         setReachabilityEnabled(false)
@@ -82,7 +78,7 @@ class ProductPostedViewController: BaseViewController, ProductPostedViewModelDel
     }
 
     @IBAction func onSharebutton(sender: AnyObject) {
-        shareButtonPressed()
+        viewModel.shareActionPressed()
     }
     
     @IBAction func onEditButton(sender: AnyObject) {
@@ -103,7 +99,10 @@ class ProductPostedViewController: BaseViewController, ProductPostedViewModelDel
     func productPostedViewModel(viewModel: ProductPostedViewModel, setupStaticState correct: Bool) {
         setupStatic(correct)
     }
-
+    
+    func productPostedViewModelShareNative() {
+        shareButtonPressed()
+    }
 
     // MARK: - Private methods
 
@@ -114,7 +113,15 @@ class ProductPostedViewController: BaseViewController, ProductPostedViewModelDel
         editButton.setTitle(LGLocalizedString.productPostConfirmationEdit, forState: UIControlState.Normal)
         loadingIndicator.color = UIColor.primaryColor
 
-        setupIncentiviseView()
+        guard let postIncentivatorView = PostIncentivatorView.postIncentivatorView(viewModel.wasFreePosting) else { return }
+        incentiveContainer.addSubview(postIncentivatorView)
+        let views: [String : AnyObject] = ["postIncentivatorView": postIncentivatorView]
+        incentiveContainer.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[postIncentivatorView]|",
+            options: [], metrics: nil, views: views))
+        incentiveContainer.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[postIncentivatorView]|",
+            options: [], metrics: nil, views: views))
+        postIncentivatorView.delegate = self
+        postIncentivatorView.setupIncentiviseView()
     }
 
     private func setupStatic(loadingSuccessful: Bool) {
@@ -174,92 +181,31 @@ class ProductPostedViewController: BaseViewController, ProductPostedViewModelDel
     }
 
     private func shareButtonPressed() {
-        guard let shareInfo = viewModel.shareInfo else { return }
-
-        presentNativeShare(socialMessage: shareInfo, delegate: self)
+        guard let socialMessage = viewModel.socialMessage else { return }
+        socialSharer.share(socialMessage, shareType: .Native, viewController: self)
     }
 }
 
 
-// MARK: - NativeShareDelegate
+// MARK: - SocialSharerDelegate
 
-extension ProductPostedViewController: NativeShareDelegate {
-
-    var nativeShareSuccessMessage: String? { return LGLocalizedString.productShareGenericOk }
-    var nativeShareErrorMessage: String? { return LGLocalizedString.productShareGenericError }
-
-    func nativeShareInFacebook() {
-        viewModel.nativeShareInFacebook()
-        viewModel.nativeShareInFacebookFinished(.Completed)
+extension ProductPostedViewController: SocialSharerDelegate {
+    func shareStartedIn(shareType: ShareType) {
+        viewModel.shareStartedIn(shareType)
     }
 
-    func nativeShareInTwitter() {
-        viewModel.nativeShareInTwitter()
-    }
-
-    func nativeShareInEmail() {
-        viewModel.nativeShareInEmail()
-    }
-
-    func nativeShareInWhatsApp() {
-        viewModel.nativeShareInWhatsApp()
+    func shareFinishedIn(shareType: ShareType, withState state: SocialShareState) {
+        viewModel.shareFinishedIn(shareType, withState: state)
     }
 }
+
 
 // MARK: - Incentivise methods
 
-extension ProductPostedViewController {
+extension ProductPostedViewController: PostIncentivatorViewDelegate {
 
-    func setupIncentiviseView() {
-
-        let itemPack = PostIncentiviserItem.incentiviserPack(viewModel.wasFreePosting)
-
-        guard itemPack.count == 3 else {
-            incentiveContainer.hidden = true
-            return
-        }
-
-        let firstItem = itemPack[0]
-        let secondItem = itemPack[1]
-        let thirdItem = itemPack[2]
-
-        firstImage.image = firstItem.image
-        firstNameLabel.text = firstItem.name
-        firstNameLabel.textColor = UIColor.blackText
-        firstCountLabel.text = firstItem.searchCount
-        firstCountLabel.textColor = UIColor.darkGrayText
-
-        secondImage.image = secondItem.image
-        secondNameLabel.text = secondItem.name
-        secondNameLabel.textColor = UIColor.blackText
-        secondCountLabel.text = secondItem.searchCount
-        secondCountLabel.textColor = UIColor.darkGrayText
-
-        thirdImage.image = thirdItem.image
-        thirdNameLabel.text = thirdItem.name
-        thirdNameLabel.textColor = UIColor.blackText
-        thirdCountLabel.text = thirdItem.searchCount
-        thirdCountLabel.textColor = UIColor.darkGrayText
-
-        incentiveLabel.attributedText = incentiveText
-        
-        let tap = UITapGestureRecognizer(target: self, action: #selector(onMainButton(_:)))
-        incentiveContainer.addGestureRecognizer(tap)
-    }
-
-    var incentiveText: NSAttributedString {
-        let gotAnyTextAttributes: [String : AnyObject] = [NSForegroundColorAttributeName : UIColor.darkGrayText,
-                                                       NSFontAttributeName : UIFont.systemBoldFont(size: 15)]
-        let lookingForTextAttributes: [String : AnyObject] = [ NSForegroundColorAttributeName : UIColor.darkGrayText,
-                                                         NSFontAttributeName : UIFont.mediumBodyFont]
-        let secondPartString = viewModel.wasFreePosting ? LGLocalizedString.productPostIncentiveGotAnyFree :
-                                                          LGLocalizedString.productPostIncentiveGotAny
-        let plainText = LGLocalizedString.productPostIncentiveLookingFor(secondPartString)
-        let resultText = NSMutableAttributedString(string: plainText, attributes: lookingForTextAttributes)
-        let boldRange = NSString(string: plainText).rangeOfString(secondPartString, options: .CaseInsensitiveSearch)
-        resultText.addAttributes(gotAnyTextAttributes, range: boldRange)
-
-        return resultText
+    func incentivatorTapped() {
+        viewModel.incentivateSectionPressed()
     }
 }
 

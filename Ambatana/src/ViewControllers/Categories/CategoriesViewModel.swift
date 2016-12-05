@@ -16,6 +16,7 @@ protocol CategoriesViewModelDelegate: class {
 class CategoriesViewModel: BaseViewModel {
 
     private let categoryRepository: CategoryRepository
+    private let featureFlags: FeatureFlaggeable
     private var categories: [FilterCategoryItem]
 
     var numOfCategories : Int {
@@ -23,16 +24,17 @@ class CategoriesViewModel: BaseViewModel {
     }
 
     weak var delegate: CategoriesViewModelDelegate?
-    weak var tabNavigator: TabNavigator?
+    weak var navigator: CategoriesTabNavigator?
 
     
     override convenience init() {
-        self.init(categoryRepository: Core.categoryRepository, categories: [])
+        self.init(categoryRepository: Core.categoryRepository, categories: [], featureFlags: FeatureFlags.sharedInstance)
     }
 
-    required init(categoryRepository: CategoryRepository, categories: [FilterCategoryItem]) {
+    required init(categoryRepository: CategoryRepository, categories: [FilterCategoryItem], featureFlags: FeatureFlaggeable) {
         self.categoryRepository = categoryRepository
         self.categories = categories
+        self.featureFlags = featureFlags
         super.init()
     }
     
@@ -50,7 +52,7 @@ class CategoriesViewModel: BaseViewModel {
     }
 
     private func buildFullCategoryItemsWithCategories(categories: [ProductCategory]) -> [FilterCategoryItem] {
-        let filterCatItems: [FilterCategoryItem] = FeatureFlags.freePostingMode.enabled ? [.Free] : []
+        let filterCatItems: [FilterCategoryItem] = featureFlags.freePostingModeAllowed ? [.Free] : []
         let builtCategories = categories.map { FilterCategoryItem(category: $0) }
         return filterCatItems + builtCategories
     }
@@ -69,13 +71,7 @@ class CategoriesViewModel: BaseViewModel {
         return nil
     }
     
-    /**
-        Returns a view model for category.
-    
-        :param:  index index of the category of the products to show
-        :return: A view model for category.
-    */
-    func productsViewModelForCategoryAtIndex(index: Int) -> MainProductsViewModel? {
+    private func filtersForCategoryAtIndex(index: Int) -> ProductFilters? {
         if index < numOfCategories {
             //Access from categories should be the exact same behavior as access filters and select that category
             var productFilters = ProductFilters()
@@ -86,8 +82,13 @@ class CategoriesViewModel: BaseViewModel {
             case .Category(let cat):
                 productFilters.toggleCategory(cat)
             }
-            return MainProductsViewModel(filters: productFilters, tabNavigator: tabNavigator)
+            return productFilters
         }
         return nil
+    }
+    
+    func didSelectItemAtIndex(index: Int) {
+        guard let productFilters = filtersForCategoryAtIndex(index) else { return }
+        navigator?.openMainProducts(with: productFilters)
     }
 }

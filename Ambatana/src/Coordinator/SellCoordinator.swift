@@ -24,6 +24,7 @@ final class SellCoordinator: Coordinator {
     private let productRepository: ProductRepository
     private let keyValueStorage: KeyValueStorage
     private let tracker: Tracker
+    private let featureFlags: FeatureFlaggeable
     private let postingSource: PostingSource
     weak var delegate: SellCoordinatorDelegate?
 
@@ -36,18 +37,20 @@ final class SellCoordinator: Coordinator {
         let productRepository = Core.productRepository
         let keyValueStorage = KeyValueStorage.sharedInstance
         let tracker = TrackerProxy.sharedInstance
+        let featureFlags = FeatureFlags.sharedInstance
         self.init(source: source, productRepository: productRepository,
-                  keyValueStorage: keyValueStorage, tracker: tracker)
+                  keyValueStorage: keyValueStorage, tracker: tracker, featureFlags: featureFlags)
     }
 
     init(source: PostingSource, productRepository: ProductRepository,
-         keyValueStorage: KeyValueStorage, tracker: Tracker) {
+         keyValueStorage: KeyValueStorage, tracker: Tracker, featureFlags: FeatureFlags) {
         self.productRepository = productRepository
         self.keyValueStorage = keyValueStorage
         self.tracker = tracker
         self.postingSource = source
+        self.featureFlags = featureFlags
         let postProductVM = PostProductViewModel(source: source)
-        let postProductVC = PostProductViewController(viewModel: postProductVM, forceCamera: source.forceCamera)
+        let postProductVC = PostProductViewController(viewModel: postProductVM, forceCamera: false)
         self.viewController = postProductVC
 
         postProductVM.navigator = self
@@ -195,11 +198,34 @@ extension SellCoordinator: ProductPostedNavigator {
         close(ProductPostedViewController.self, animated: true) { [weak self] in
             guard let strongSelf = self, parentVC = strongSelf.parentViewController else { return }
             let postProductVM = PostProductViewModel(source: strongSelf.postingSource)
-            let postProductVC = PostProductViewController(viewModel: postProductVM, forceCamera: strongSelf.postingSource.forceCamera)
+            let postProductVC = PostProductViewController(viewModel: postProductVM, forceCamera: false)
             strongSelf.viewController = postProductVC
             postProductVM.navigator = self
 
             strongSelf.open(parent: parentVC, animated: true, completion: nil)
+        }
+    }
+    
+    func closeProductPostedAndOpenShare(product: Product, socialMessage: SocialMessage) {
+        close(ProductPostedViewController.self, animated: true) { [weak self] in
+            guard let strongSelf = self, parentVC = strongSelf.parentViewController else { return }
+            let shareProductVM = ShareProductViewModel(product: product, socialMessage: socialMessage)
+            let shareProductVC = ShareProductViewController(viewModel: shareProductVM)
+            shareProductVM.navigator = self
+            strongSelf.viewController = shareProductVC
+            
+            parentVC.presentViewController(shareProductVC, animated: true, completion: nil)
+        }
+    }
+}
+
+extension SellCoordinator: ShareProductNavigator {
+    func closeShareProduct(product: Product) {
+        close(ShareProductViewController.self, animated: true) { [weak self] in
+            guard let strongSelf = self, delegate = strongSelf.delegate else { return }
+            
+            delegate.sellCoordinator(strongSelf, didFinishWithProduct: product)
+            delegate.coordinatorDidClose(strongSelf)
         }
     }
 }
@@ -210,9 +236,10 @@ extension SellCoordinator: ProductPostedNavigator {
 private extension SellCoordinator {
     func trackPost(result: ProductResult, trackingInfo: PostProductTrackingInfo) {
         guard let product = result.value else { return }
-        let event = TrackerEvent.productSellComplete(product, buttonName: trackingInfo.buttonName,
-                                                     negotiable: trackingInfo.negotiablePrice,
-                                                     pictureSource: trackingInfo.imageSource, freePostingMode: FeatureFlags.freePostingMode)
+        let event = TrackerEvent.productSellComplete(product, buttonName: trackingInfo.buttonName, sellButtonPosition: trackingInfo.sellButtonPosition,
+                                                     negotiable: trackingInfo.negotiablePrice, pictureSource: trackingInfo.imageSource,
+                                                     freePostingModeAllowed: featureFlags.freePostingModeAllowed)
+
         tracker.trackEvent(event)
 
         // Track product was sold in the first 24h (and not tracked before)

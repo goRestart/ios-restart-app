@@ -23,31 +23,13 @@ final class TourNotificationsViewModel: BaseViewModel {
     let pushText: String
     let source: PrePermissionType
     var showPushInfo: Bool {
-        switch FeatureFlags.onboardinPermissionsMode {
-        case .Original, .OneButtonOriginalImages:
-            return true
-        case .OneButtonNewImages:
-            return false
-        }
+        return false
     }
     var showAlertInfo: Bool {
         return !showPushInfo
     }
     var infoImage: UIImage? {
-        switch FeatureFlags.onboardinPermissionsMode {
-        case .Original, .OneButtonOriginalImages:
-            return UIImage(named: "img_notifications")
-        case .OneButtonNewImages:
-            return UIImage(named: "img_permissions_background")
-        }
-    }
-    var showNoButton: Bool {
-        switch FeatureFlags.onboardinPermissionsMode {
-        case .Original:
-            return true
-        case .OneButtonNewImages, .OneButtonOriginalImages:
-            return false
-        }
+        return UIImage(named: "img_permissions_background")
     }
     
     init(title: String, subtitle: String, pushText: String, source: PrePermissionType) {
@@ -65,7 +47,7 @@ final class TourNotificationsViewModel: BaseViewModel {
         switch source {
         case .Onboarding:
             return Core.locationManager.shouldAskForLocationPermissions() ? .Location : .NoStep
-        case .ProductList, .Chat, .Sell, .Profile, .ProductListBanner:
+        case .Chat, .Sell, .Profile, .ProductListBanner:
             return .NoStep
         }
     }

@@ -24,6 +24,8 @@ struct LGUIKitConstants {
 
     static let horitzontalDistanceMedium = 10
     static let horitzontalDistanceSmall = 5
+    
+    static let tabBarSellFloatingButtonDistance: CGFloat = 15
 
     // Message Distances
     private static let messageLongDistance = 50
@@ -39,11 +41,11 @@ struct LGUIKitConstants {
     static let alertWidth = 270
     static let tooltipWidth: CGFloat = 270
 
-
     // MARK: - Corner radius
     static let defaultCornerRadius: CGFloat = 4
     static let productCellCornerRadius: CGFloat = 10
     static let notificationCellCornerRadius: CGFloat = 10
+    static let chatTextViewCornerRadius: CGFloat = 10
     static let tooltipCornerRadius: CGFloat = 10
     static let chatCellCornerRadius: CGFloat = 10
     static let textfieldCornerRadius: CGFloat = 10
@@ -55,13 +57,11 @@ struct LGUIKitConstants {
     static let bigButtonHeight = 50
     static let mediumButtonHeight = 44
     static let smallButtonHeight = 30
+    static let tabBarSellFloatingButtonHeight: CGFloat = 60
 
     // MARK: - Sizes
     static var onePixelSize: CGFloat {
         return 1 / UIScreen.mainScreen().scale
     }
     static let enabledButtonHeight: CGFloat = 44
-    
-    //0.9 so it will consider images that are slightly vertical as horizontal ones (for better rendering)
-    static let horizontalImageMinAspectRatio: CGFloat = 0.9
 }

@@ -7,6 +7,7 @@
 //
 
 import LGCoreKit
+import RxSwift
 
 protocol ChatGroupedListViewDelegate: class {
     func chatGroupedListViewShouldUpdateInfoIndicators()
@@ -50,15 +51,20 @@ class ChatGroupedListView: BaseView, ChatGroupedListViewModelDelegate, Scrollabl
     private var viewModel: ChatGroupedListViewModel
     weak var chatGroupedListViewDelegate: ChatGroupedListViewDelegate?
 
+    private let sessionManager: SessionManager
+
+    private let disposeBag = DisposeBag()
+
 
     // MARK: - Lifecycle
 
     convenience init<T: BaseViewModel where T: ChatGroupedListViewModel>(viewModel: T) {
-        self.init(viewModel: viewModel, frame: CGRectZero)
+        self.init(viewModel: viewModel, sessionManager: Core.sessionManager, frame: CGRect.zero)
     }
 
-    init<T: BaseViewModel where T: ChatGroupedListViewModel>(viewModel: T, frame: CGRect) {
+    init<T: BaseViewModel where T: ChatGroupedListViewModel>(viewModel: T, sessionManager: SessionManager, frame: CGRect) {
         self.viewModel = viewModel
+        self.sessionManager = sessionManager
         super.init(viewModel: viewModel, frame: frame)
 
         viewModel.chatGroupedDelegate = self
@@ -66,8 +72,9 @@ class ChatGroupedListView: BaseView, ChatGroupedListViewModelDelegate, Scrollabl
         resetUI()
     }
 
-    init?<T: BaseViewModel where T: ChatGroupedListViewModel>(viewModel: T, coder aDecoder: NSCoder) {
+    init?<T: BaseViewModel where T: ChatGroupedListViewModel>(viewModel: T, sessionManager: SessionManager, coder aDecoder: NSCoder) {
         self.viewModel = viewModel
+        self.sessionManager = sessionManager
         super.init(viewModel: viewModel, coder: aDecoder)
 
         viewModel.chatGroupedDelegate = self
@@ -87,8 +94,9 @@ class ChatGroupedListView: BaseView, ChatGroupedListViewModelDelegate, Scrollabl
         super.didBecomeActive(firstTime)
 
         if firstTime {
-            NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ChatGroupedListView.clear),
-                name: SessionManager.Notification.Logout.rawValue, object: nil)
+            sessionManager.sessionEvents.filter { $0.isLogout }.bindNext { [weak self] _ in
+                self?.clear()
+            }.addDisposableTo(disposeBag)
             
             viewModel.retrieveFirstPage()
         }

@@ -21,8 +21,8 @@ class ChangeUsernameViewController: BaseViewController, UITextFieldDelegate, Cha
     
     var lines: [CALayer]
     
-    init() {
-        self.viewModel = ChangeUsernameViewModel()
+    init(vm: ChangeUsernameViewModel) {
+        self.viewModel = vm
         self.lines = []
         super.init(viewModel: viewModel, nibName: "ChangeUsernameViewController")
         self.viewModel.delegate = self
@@ -125,8 +125,8 @@ class ChangeUsernameViewController: BaseViewController, UITextFieldDelegate, Cha
         switch (result) {
         case .Success:
             completion = {
-                self.showAutoFadingOutMessageAlert(LGLocalizedString.changeUsernameSendOk) { [weak self] in
-                    self?.navigationController?.popViewControllerAnimated(true)
+                self.showAutoFadingOutMessageAlert(LGLocalizedString.changeUsernameSendOk) { _ in
+                    viewModel.userNameSaved()
                 }
             }
             break
@@ -163,11 +163,7 @@ class ChangeUsernameViewController: BaseViewController, UITextFieldDelegate, Cha
         usernameTextfield.text = viewModel.username
         
         saveButton.setTitle(LGLocalizedString.changeUsernameSaveButton, forState: .Normal)
-        saveButton.setBackgroundImage(saveButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)), forState: .Normal)
-        saveButton.setBackgroundImage(UIColor.primaryColorDisabled.imageWithSize(CGSize(width: 1, height: 1)), forState: .Disabled)
-        saveButton.setBackgroundImage(UIColor.primaryColorHighlighted.imageWithSize(CGSize(width: 1, height: 1)), forState: .Highlighted)
-
-        saveButton.layer.cornerRadius = 4
+        saveButton.setStyle(.Primary(fontSize: .Big))
         saveButton.enabled = false
     }
 

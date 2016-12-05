@@ -12,42 +12,22 @@ import Quick
 import Nimble
 import SwiftyUserDefaults
 
-private class MockUserProvider: UserProvider {
-    var myUser: MyUser?
-}
-
-private class MockMyUser: MyUser {
-    var objectId: String?
-    var name: String?
-    var avatar: File?
-    var postalAddress: PostalAddress = PostalAddress(address: nil, city: nil, zipCode: nil, countryCode: nil, country: nil)
-    var accounts: [Account]?
-    var ratingCount: Int?
-    var ratingAverage: Float?
-    var status: UserStatus = .Active
-
-    var isDummy: Bool = false
-    var email: String?
-    var location: LGLocation?
-    var localeIdentifier: String?
-}
-
 class RatingManagerSpec: QuickSpec {
     override func spec() {
         var sut: RatingManager!
 
-        var mockUserProvider: MockUserProvider!
+        var mockUserProvider: MockMyUserRepository!
         var keyValueStorage: KeyValueStorage!
         var crashManager: CrashManager!
 
         describe("Rating Manager") {
             beforeEach {
                 let mockStorage = MockKeyValueStorage()
-                mockUserProvider = MockUserProvider()
+                mockUserProvider = MockMyUserRepository()
                 let myUser = MockMyUser()
                 myUser.objectId = "12345"
-                mockUserProvider.myUser = myUser
-                keyValueStorage = KeyValueStorage(storage: mockStorage, userProvider: mockUserProvider)
+                mockUserProvider.myUserVar.value = myUser
+                keyValueStorage = KeyValueStorage(storage: mockStorage, myUserRepository: mockUserProvider)
             }
 
             describe("app crashed w/o any update") {

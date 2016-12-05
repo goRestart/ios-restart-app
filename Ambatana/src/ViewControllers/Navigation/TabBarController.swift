@@ -27,18 +27,26 @@ final class TabBarController: UITabBarController {
 
     private let viewModel: TabBarViewModel
     private var tooltip: Tooltip?
-
+    private var featureFlags: FeatureFlaggeable
+    
     // Rx
     private let disposeBag = DisposeBag()
 
     
     // MARK: - Lifecycle
 
-    init(viewModel: TabBarViewModel) {
-        self.floatingSellButton = FloatingButton()
+    convenience init(viewModel: TabBarViewModel) {
+        let featureFlags = FeatureFlags.sharedInstance
+        self.init(viewModel: viewModel, featureFlags: featureFlags)
+    }
+    
+    init(viewModel: TabBarViewModel, featureFlags: FeatureFlaggeable) {
+        self.floatingSellButton = FloatingButton(with: LGLocalizedString.tabBarToolTip, image: UIImage(named: "ic_sell_white"), position: .Left)
         self.viewModel = viewModel
+        self.featureFlags = featureFlags
         super.init(nibName: nil, bundle: nil)
     }
+
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -72,8 +80,8 @@ final class TabBarController: UITabBarController {
     
     // MARK: - Public methods
     
-    func switchToTab(tab: Tab) {
-        viewModel.externalSwitchToTab(tab)
+    func switchToTab(tab: Tab, completion: (() -> ())? = nil) {
+        viewModel.externalSwitchToTab(tab, completion: completion)
     }
 
 
@@ -147,7 +155,7 @@ final class TabBarController: UITabBarController {
     func setupTabBarItems() {
         guard let viewControllers = viewControllers else { return }
         for (index, vc) in viewControllers.enumerate() {
-            guard let tab = Tab(index: index) else { continue }
+            guard let tab = Tab(index: index, featureFlags: featureFlags) else { continue }
             let tabBarItem = UITabBarItem(title: nil, image: UIImage(named: tab.tabIconImageName), selectedImage: nil)
             // UI Test accessibility Ids
             tabBarItem.accessibilityId = tab.accessibilityId
@@ -164,8 +172,7 @@ final class TabBarController: UITabBarController {
     }
 
     private func setupSellButtons() {
-        floatingSellButton.sellCompletion = { [weak self] in self?.sellButtonPressed() }
-        floatingSellButton.giveAwayCompletion = { [weak self] in self?.viewModel.giveAwayButtonPressed() }
+        floatingSellButton.buttonTouchBlock = { [weak self] in self?.sellButtonPressed() }
         floatingSellButton.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(floatingSellButton)
 
@@ -173,12 +180,13 @@ final class TabBarController: UITabBarController {
                                     relatedBy: .Equal, toItem: view, attribute: .CenterX, multiplier: 1, constant: 0)
         floatingSellButtonMarginConstraint = NSLayoutConstraint(item: floatingSellButton, attribute: .Bottom,
                                                 relatedBy: .Equal, toItem: view, attribute: .Bottom, multiplier: 1,
-                                                constant: -(tabBar.frame.height + 15)) // 15 above tabBar
+                                                constant: -(tabBar.frame.height + LGUIKitConstants.tabBarSellFloatingButtonDistance))
         view.addConstraints([sellCenterXConstraint, floatingSellButtonMarginConstraint])
 
         let views: [String: AnyObject] = ["fsb" : floatingSellButton]
-        let hConstraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|-(>=15)-[fsb]-(>=15)-|",
-                                                                          options: [], metrics: nil, views: views)
+        let metrics: [String: AnyObject] = ["margin" : LGUIKitConstants.tabBarSellFloatingButtonDistance]
+        let hConstraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|-(>=margin)-[fsb]-(>=margin)-|",
+                                                                          options: [], metrics: metrics, views: views)
         view.addConstraints(hConstraints)
     }
 
@@ -186,14 +194,10 @@ final class TabBarController: UITabBarController {
         guard let vcs = viewControllers where 0..<vcs.count ~= Tab.Chats.index else { return }
 
         let chatsTab = vcs[Tab.Chats.index].tabBarItem
-        NotificationsManager.sharedInstance.unreadMessagesCount.asObservable().map {
-            $0.flatMap { $0 > 0 ? String($0) : nil }
-        }.bindTo(chatsTab.rx_badgeValue).addDisposableTo(disposeBag)
+        viewModel.chatsBadge.asObservable().bindTo(chatsTab.rx_badgeValue).addDisposableTo(disposeBag)
 
         let notificationsTab = vcs[Tab.Notifications.index].tabBarItem
-        NotificationsManager.sharedInstance.unreadNotificationsCount.asObservable().map {
-            $0.flatMap { $0 > 0 ? String($0) : nil }
-        }.bindTo(notificationsTab.rx_badgeValue).addDisposableTo(disposeBag)
+        viewModel.notificationsBadge.asObservable().bindTo(notificationsTab.rx_badgeValue).addDisposableTo(disposeBag)
     }
 
     
@@ -215,7 +219,7 @@ final class TabBarController: UITabBarController {
 
      - parameter The: tab to go to.
      */
-    private func switchToTab(tab: Tab, checkIfShouldSwitch: Bool) {
+    private func switchToTab(tab: Tab, checkIfShouldSwitch: Bool, completion: (() -> ())?) {
         guard let navBarCtl = selectedViewController as? UINavigationController else { return }
         guard let viewControllers = viewControllers where tab.index < viewControllers.count else { return }
         guard let vc = (viewControllers as NSArray).objectAtIndex(tab.index) as? UIViewController else { return }
@@ -224,13 +228,20 @@ final class TabBarController: UITabBarController {
             guard shouldSelectVC else { return }
         }
 
-        // Pop previous navigation to root
-        navBarCtl.popToRootViewControllerAnimated(false)
+        // Dismiss all presented view controllers
+        navBarCtl.dismissAllPresented { [weak self, weak navBarCtl] in
+            // Pop previous navigation to root
+            navBarCtl?.popToRootViewControllerAnimated(false)
+            navBarCtl?.tabBarController?.setTabBarHidden(false, animated: false)
 
-        selectedIndex = tab.index
+            guard let strongSelf = self else { return }
 
-        // Notify the delegate, as programmatically change doesn't do it
-        delegate?.tabBarController?(self, didSelectViewController: vc)
+            strongSelf.selectedIndex = tab.index
+            // Notify the delegate, as programmatically change doesn't do it
+            strongSelf.delegate?.tabBarController?(strongSelf, didSelectViewController: vc)
+
+            completion?()
+        }
     }
 }
 
@@ -238,22 +249,13 @@ final class TabBarController: UITabBarController {
 // MARK: - TabBarViewModelDelegate
 
 extension TabBarController: TabBarViewModelDelegate {
-    func vmSwitchToTab(tab: Tab, force: Bool) {
-        switchToTab(tab, checkIfShouldSwitch: !force)
+    func vmSwitchToTab(tab: Tab, force: Bool, completion: (() -> ())?) {
+        switchToTab(tab, checkIfShouldSwitch: !force, completion: completion)
     }
 
     func vmShowTooltipAtSellButtonWithText(text: NSAttributedString) {
-        let targetView: UIView
-        switch FeatureFlags.freePostingMode {
-        case .Disabled, .OneButton:
-            targetView = floatingSellButton
-        case .SplitButton:
-            targetView = floatingSellButton.giveAwayButton
-        }
-
-        tooltip = Tooltip(targetView: targetView, superView: view, title: text, style: .Black(closeEnabled: true),
+        tooltip = Tooltip(targetView: floatingSellButton, superView: view, title: text, style: .Black(closeEnabled: true),
                               peakOnTop: false, actionBlock: { [weak self] in
-            self?.viewModel.giveAwayButtonPressed()
             self?.viewModel.tooltipDismissed()
         }, closeBlock: { [weak self] in
             self?.viewModel.tooltipDismissed()
@@ -317,7 +319,7 @@ extension TabBarController: UIGestureRecognizerDelegate {
     }
 
     func gestureRecognizerShouldBegin(gestureRecognizer: UIGestureRecognizer) -> Bool {
-        if FeatureFlags.notificationsSection {
+        if featureFlags.notificationsSection {
             return selectedIndex == Tab.Home.index // Home tab because it won't show the login modal view
         } else {
             return selectedIndex == Tab.Categories.index // Categories tab because it won't show the login modal view
@@ -343,8 +345,8 @@ extension TabBarController: AppRatingViewDelegate {
 
 extension TabBarController {
     func setAccessibilityIds() {
-        floatingSellButton.sellButton.accessibilityId = AccessibilityId.TabBarFloatingSellButton
-        floatingSellButton.giveAwayButton.accessibilityId = AccessibilityId.TabBarFloatingGiveAwayButton
+        floatingSellButton.isAccessibilityElement = true
+        floatingSellButton.accessibilityId = AccessibilityId.TabBarFloatingSellButton
     }
 }
 

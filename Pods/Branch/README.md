@@ -32,6 +32,7 @@ ___
   + [Setting the user id for tracking influencers](#persistent-identities)
   + [Logging a user out](#logout)
   + [Tracking custom events](#register-custom-events)
+  + [Tracking Apple Search Ad Attribution](#apple-search-ads)
 
 4. Branch Universal Objects
   + [Instantiate a Branch Universal Object](#branch-universal-object)
@@ -210,7 +211,7 @@ To deep link, Branch must initialize a session to check if the user originated f
 
 - (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray *restorableObjects))restorationHandler {
     BOOL handledByBranch = [[Branch getInstance] continueUserActivity:userActivity];
-    
+
     return handledByBranch;
 }
 
@@ -249,6 +250,22 @@ func application(_ application: UIApplication, didReceiveRemoteNotification laun
     Branch.getInstance().handlePushNotification(launchOptions)
 }
 ```
+
+
+Note:  If your application delegate declares the method:
+
+```
+- (BOOL) application:willFinishLaunchingWithOptions:
+```
+
+In Swift:
+
+```
+optional func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey : Any]? = nil) -> Bool
+```
+
+it must return ```YES``` for Branch to work.
+
 
 #### Parameters
 
@@ -420,7 +437,8 @@ Branch.getInstance().setIdentity(your user id)  // your user id should not excee
 
 #### Parameters
 
-None
+**identity** (NSString *) _required_
+: This is the alias you'd like to label your user in the Branch system. Note that we only support a single alias per user.
 
 ### Logout
 
@@ -486,7 +504,63 @@ Some example events you might want to track:
 
 ####Parameters
 
-None
+
+**event** (NSString *) _required_
+: This is the event string you'd like to send to Branch. You can view the attribution of which links drove events to occur in the analytics.
+
+**state** (NSDictionary *) _optional_
+: If you'd like to pass additional metadata along with the event, you should use this dictionary. For example, this is how you pass revenue into Branch using the BNCPurchaseAmount constant as a key.
+
+### Apple Search Ads
+
+Branch can help track your Apple Search Ad campaigns by fetching the search ad attribution from
+Apple at app install.  You can then use the parameters you've set in the Apple Search Ad dashboard,
+parameters such as the campaign name, and take special action in you app after an install, or simply
+track the effectiveness of a campaign in the Branch dashboard, along with other your other Branch
+statistics, such as total installs, referrals, and app link statistics.
+
+1. External resources
+  + [Apple Search Ads](https://searchads.apple.com/)
+  + [Apple Search Ads for Developers](https://developer.apple.com/app-store/search-ads/)
+  + [Apple Search Ads WWDC](https://developer.apple.com/videos/play/wwdc2016/302/)
+
+
+#### Methods
+
+##### `- (void) delayInitToCheckForSearchAds`
+
+Call this method to enable checking for Apple Search Ads before Branch initialization.  This method
+must be called before you initialize your Branch session.
+
+Note that this will add about 1 second from call to initSession to callback due to Apple's latency.
+
+###### Objective-C
+```objc
+[[Branch getInstance] delayInitToCheckForSearchAds];
+```
+
+###### Swift
+```swift
+Branch.getInstance().delayInitToCheckForSearchAds
+```
+
+##### `- (void) setAppleSearchAdsDebugMode`
+
+The `setAppleSearchAdsDebugMode` method sets the SDK into Apple Search Ad debug mode.  In this mode
+fake campaign params are returned 100% of the time.  This is for testing only.
+
+Warning: This should not be used in production.
+
+###### Objective-C
+```objc
+[[Branch getInstance] setAppleSearchAdsDebugMode];
+```
+
+###### Swift
+```swift
+Branch.getInstance().setAppleSearchAdsDebugMode
+```
+
 
 ## Branch Universal Object (for deep links, content analytics and indexing)
 
@@ -693,13 +767,13 @@ You have the ability to control the direct deep linking of each link by insertin
 
 ### UIActivityView Share Sheet
 
-UIActivityView is the standard way of allowing users to share content from your app. Once you've created your `Branch Universal Object`, which is the reference to the content you're interested in, you can then automatically share it _without having to create a link_ using the mechanism below..
+UIActivityView is the standard way of allowing users to share content from your app. Once you've created your `Branch Universal Object`, which is the reference to the content you're interested in, you can then automatically share it _without having to create a link_ using the mechanism below.
 
 **Sample UIActivityView Share Sheet**
 
 ![UIActivityView Share Sheet](https://dev.branch.io/img/pages/getting-started/branch-universal-object/ios_share_sheet.png)
 
-The Branch iOS SDK includes a wrapper on the UIActivityViewController, that will generate a Branch short URL and automatically tag it with the channel the user selects (Facebook, Twitter, etc.).
+The Branch iOS SDK includes a wrapper on the UIActivityViewController, that will generate a Branch short URL and automatically tag it with the channel the user selects (Facebook, Twitter, etc.). Note that certain channels restrict access to certain fields. For example, Facebook prohibits you from pre-populating a message.
 
 #### Methods
 
@@ -719,7 +793,7 @@ linkProperties.feature = @"sharing";
 ```objc
 [branchUniversalObject showShareSheetWithLinkProperties:linkProperties
                                            andShareText:@"Super amazing thing I want to share!"
-                                     fromViewController:self 
+                                     fromViewController:self
                                              completion:^(NSString *activityType, BOOL completed){
     NSLog(@"finished presenting");
 }];
@@ -748,9 +822,9 @@ branchUniversalObject.showShareSheet(with: linkProperties,
 
 **andShareText**: A dictionary to use while building up the Branch link.
 
-**fromViewController**: 
+**fromViewController**:
 
-**completion**: 
+**completion**:
 
 #### Further Customization
 

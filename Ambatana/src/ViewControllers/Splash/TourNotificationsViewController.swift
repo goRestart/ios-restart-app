@@ -10,6 +10,10 @@ import Foundation
 import LGCoreKit
 
 final class TourNotificationsViewController: BaseViewController {
+
+    private static let iphone5InfoHeight: CGFloat = 210
+    private static let iphone4InfoHeight: CGFloat = 200
+
     let viewModel: TourNotificationsViewModel
 
     @IBOutlet weak var closeButton: UIButton!
@@ -18,21 +22,11 @@ final class TourNotificationsViewController: BaseViewController {
     @IBOutlet weak var subtitleLabel: UILabel!
     @IBOutlet weak var iphoneRightHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var iphoneBckgImage: UIImageView!
-    @IBOutlet weak var noButton: UIButton!
-    @IBOutlet weak var noButtonHeight: NSLayoutConstraint!
-    @IBOutlet weak var noButtonTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var pushContainer: UIView!
     @IBOutlet weak var notificationTimeLabel: UILabel!
     @IBOutlet weak var notificationMessageLabel: UILabel!
     @IBOutlet weak var alertContainer: UIView!
     @IBOutlet weak var alertOkLabel: UILabel!
-
-    private var iphone5InfoHeight: CGFloat {
-        return viewModel.showNoButton ? 165 : 210
-    }
-    private var iphone4InfoHeight: CGFloat {
-        return viewModel.showNoButton ? 156 : 200
-    }
 
     var completion: (() -> ())?
     
@@ -46,7 +40,7 @@ final class TourNotificationsViewController: BaseViewController {
         case .iPhone4:
             super.init(viewModel: viewModel, nibName: "TourNotificationsViewControllerMini",
                        statusBarStyle: .LightContent)
-        case .iPhone5, .iPhone6, .iPhone6Plus, .unknown:
+        case .iPhone5, .iPhone6, .iPhone6Plus, .BiggerUnknown:
             super.init(viewModel: viewModel, nibName: "TourNotificationsViewController", statusBarStyle: .LightContent)
         }
         modalPresentationStyle = .OverCurrentContext
@@ -124,7 +118,6 @@ final class TourNotificationsViewController: BaseViewController {
         subtitleLabel.text = viewModel.subtitle
         notificationMessageLabel.text = viewModel.pushText
         
-        noButton.setTitle(LGLocalizedString.commonNo, forState: .Normal)
         notifyButton.setTitle(LGLocalizedString.notificationsPermissionsYesButton, forState: .Normal)
         notificationTimeLabel.text = LGLocalizedString.commonTimeNowLabel
 
@@ -134,28 +127,17 @@ final class TourNotificationsViewController: BaseViewController {
     func setupUI() {
         iphoneBckgImage.image = viewModel.infoImage
         notifyButton.setStyle(.Primary(fontSize: .Medium))
-        if viewModel.showNoButton {
-            noButton.backgroundColor = UIColor.clearColor()
-            noButton.layer.cornerRadius = noButton.height / 2
-            noButton.layer.borderWidth = 1
-            noButton.layer.borderColor = UIColor.whiteColor().CGColor
-            noButton.tintColor = UIColor.whiteColor()
-            noButton.titleLabel?.font = UIFont.tourButtonFont
-        } else {
-            noButtonHeight.constant = 0
-            noButtonTopConstraint.constant = 0
-        }
-        
+
         switch DeviceFamily.current {
         case .iPhone4:
             titleLabel.font = UIFont.tourNotificationsTitleMiniFont
             subtitleLabel.font = UIFont.tourNotificationsSubtitleMiniFont
-            iphoneRightHeightConstraint.constant = iphone4InfoHeight
+            iphoneRightHeightConstraint.constant = TourNotificationsViewController.iphone4InfoHeight
         case .iPhone5:
             titleLabel.font = UIFont.tourNotificationsTitleMiniFont
             subtitleLabel.font = UIFont.tourNotificationsSubtitleMiniFont
-            iphoneRightHeightConstraint.constant = iphone5InfoHeight
-        case .iPhone6, .iPhone6Plus, .unknown:
+            iphoneRightHeightConstraint.constant = TourNotificationsViewController.iphone5InfoHeight
+        case .iPhone6, .iPhone6Plus, .BiggerUnknown:
             titleLabel.font = UIFont.tourNotificationsTitleFont
             subtitleLabel.font = UIFont.tourNotificationsSubtitleFont
         }
@@ -169,7 +151,6 @@ final class TourNotificationsViewController: BaseViewController {
     func setupAccessibilityIds() {
         closeButton.accessibilityId = .TourNotificationsCloseButton
         notifyButton.accessibilityId = .TourNotificationsOKButton
-        noButton.accessibilityId = .TourNotificationsCancelButton
         alertContainer.accessibilityId = .TourNotificationsAlert
     }
 }

@@ -10,6 +10,7 @@ protocol UserViewDelegate: class {
     func userViewAvatarPressed(userView: UserView)
     func userViewAvatarLongPressStarted(userView: UserView)
     func userViewAvatarLongPressEnded(userView: UserView)
+    func userViewTextInfoContainerPressed(userView: UserView)
 }
 
 enum UserViewStyle {
@@ -89,8 +90,8 @@ enum UserViewStyle {
 class UserView: UIView {
     @IBOutlet weak var userAvatarImageView: UIImageView!
     @IBOutlet var avatarMarginConstraints: [NSLayoutConstraint]!
-
-    @IBOutlet weak var userNameLabel: UILabel!
+    @IBOutlet weak var textInfoContainer: UIView!
+    @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var subtitleLabel: UILabel!
 
     private var style: UserViewStyle = .Full
@@ -141,11 +142,11 @@ class UserView: UIView {
                 self?.userAvatarImageView.image = imageWithSource.image
             }
         }
-        userNameLabel.text = userName
+        titleLabel.text = userName
         subtitleLabel.text = subtitle
         
         if style.textHasShadow {
-            [userNameLabel, subtitleLabel].forEach { label in
+            [titleLabel, subtitleLabel].forEach { label in
                 label.layer.shadowColor = UIColor.black.CGColor
                 label.layer.shadowOffset = CGSize.zero
                 label.layer.shadowRadius = 2.0
@@ -174,8 +175,8 @@ class UserView: UIView {
         showShadow(true)
 
         backgroundColor = style.bgColor
-        userNameLabel.font = style.usernameLabelFont
-        userNameLabel.textColor = style.usernameLabelColor
+        titleLabel.font = style.usernameLabelFont
+        titleLabel.textColor = style.usernameLabelColor
         subtitleLabel.font = style.subtitleLabelFont
         subtitleLabel.textColor = style.subtitleLabelColor
 
@@ -183,8 +184,11 @@ class UserView: UIView {
             userAvatarImageView.layer.borderWidth = 2
             userAvatarImageView.layer.borderColor = borderColor.CGColor
         }
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(avatarPressed))
-        addGestureRecognizer(tapGesture)
+        let tapGestureOnAvatar = UITapGestureRecognizer(target: self, action: #selector(avatarPressed))
+        userAvatarImageView.addGestureRecognizer(tapGestureOnAvatar)
+        
+        let tapGestureOnText = UITapGestureRecognizer(target: self, action: #selector(textPressed))
+        textInfoContainer.addGestureRecognizer(tapGestureOnText)
 
         let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(avatarLongPressed(_:)))
         addGestureRecognizer(longPressGesture)
@@ -194,6 +198,10 @@ class UserView: UIView {
 
     dynamic private func avatarPressed() {
         delegate?.userViewAvatarPressed(self)
+    }
+    
+    dynamic private func textPressed() {
+        delegate?.userViewTextInfoContainerPressed(self)
     }
 
     dynamic private func avatarLongPressed(recognizer: UILongPressGestureRecognizer) {
@@ -208,7 +216,8 @@ class UserView: UIView {
     }
 
     private func setAccesibilityIds() {
-        userNameLabel.accessibilityId = .UserViewNameLabel
+        titleLabel.accessibilityId = .UserViewNameLabel
         subtitleLabel.accessibilityId = .UserViewSubtitleLabel
+        textInfoContainer.accessibilityId = .UserViewTextInfoContainer
     }
 }

@@ -8,7 +8,7 @@
 
 import LGCoreKit
 
-final class MainTabCoordinator: TabCoordinator {
+class MainTabCoordinator: TabCoordinator {
 
     convenience init() {
         let productRepository = Core.productRepository
@@ -18,14 +18,15 @@ final class MainTabCoordinator: TabCoordinator {
         let myUserRepository = Core.myUserRepository
         let keyValueStorage = KeyValueStorage.sharedInstance
         let tracker = TrackerProxy.sharedInstance
+        let featureFlags = FeatureFlags.sharedInstance
         let viewModel = MainProductsViewModel(searchType: nil, tabNavigator: nil)
         let rootViewController = MainProductsViewController(viewModel: viewModel)
         self.init(productRepository: productRepository, userRepository: userRepository,
                   chatRepository: chatRepository, oldChatRepository: oldChatRepository,
                   myUserRepository: myUserRepository, keyValueStorage: keyValueStorage,
-                  tracker: tracker, rootViewController: rootViewController)
+                  tracker: tracker, rootViewController: rootViewController, featureFlags: featureFlags)
 
-        viewModel.tabNavigator = self
+        viewModel.navigator = self
     }
 
     func openSearch(query: String, categoriesString: String?) {
@@ -33,7 +34,8 @@ final class MainTabCoordinator: TabCoordinator {
         if let categoriesString = categoriesString {
             filters.selectedCategories = ProductCategory.categoriesFromString(categoriesString)
         }
-        let viewModel = MainProductsViewModel(searchType: .User(query: query), filters: filters, tabNavigator: self)
+        let viewModel = MainProductsViewModel(searchType: .User(query: query), filters: filters)
+        viewModel.navigator = self
         let vc = MainProductsViewController(viewModel: viewModel)
 
         navigationController.pushViewController(vc, animated: true)
@@ -46,5 +48,18 @@ final class MainTabCoordinator: TabCoordinator {
 }
 
 extension MainTabCoordinator: MainTabNavigator {
+    func openMainProduct(withSearchType searchType: SearchType, productFilters: ProductFilters) {
+        let vm = MainProductsViewModel(searchType: searchType, filters: productFilters)
+        vm.navigator = self
+        let vc = MainProductsViewController(viewModel: vm)
+        navigationController.pushViewController(vc, animated: true)
+    }
     
+    func showFilters(with productFilters: ProductFilters, filtersVMDataDelegate: FiltersViewModelDataDelegate?) {
+        let vm = FiltersViewModel(currentFilters: productFilters ?? ProductFilters())
+        vm.dataDelegate = filtersVMDataDelegate
+        let vc = FiltersViewController(viewModel: vm)
+        let navVC = UINavigationController(rootViewController: vc)
+        navigationController.presentViewController(navVC, animated: true, completion: nil)
+    }
 }

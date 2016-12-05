@@ -170,7 +170,7 @@ platform :ios do
 
     crashlytics(
       ipa_path: Actions.lane_context[Actions::SharedValues::IPA_OUTPUT_PATH],
-      crashlytics_path: "./Crashlytics.framework",
+      crashlytics_path: "./Pods/Crashlytics",
       api_token: 'da82303e33e3a2dc304cdccaa4e19dba00334a34',
       build_secret: '964f1bd4540dbfa7d78d93439cf95e216ec156e046a4e46db36778084770ebbe',
       notes: "#{changelog}",
@@ -235,7 +235,8 @@ platform :ios do
       scheme: ENV["XCODE_SCHEME"],
       configuration: "Release",
       use_legacy_build_api: true,
-      include_bitcode: false
+      include_bitcode: true,
+      toolchain: "com.apple.dt.toolchain.Swift_2_3"
     )
 
     rb_backup_symbols(
@@ -255,7 +256,7 @@ platform :ios do
       force: true,  # Set to true to skip PDF verification
       submit_for_review: true,
       automatic_release: false,
-      submission_information: { 
+      submission_information: {
         export_compliance_encryption_updated: false,
         add_id_info_uses_idfa: true,
         add_id_info_serves_ads: false,
@@ -292,7 +293,7 @@ platform :ios do
   desc "Will test"
   lane :test do
     scan(
-      scheme: "LetGo", 
+      scheme: "LetGo",
       device: "iPhone 6 (9.3)",
       output_style: "rspec",
       output_directory: "./scanresults",
@@ -321,18 +322,18 @@ platform :ios do
 
     testException = nil
     begin
-      test 
+      test
     rescue => ex
       testException = ex
     end
 
     lg_github_status(
       gh_pull_request: pullRequest,
-      gh_status_finished: true, 
+      gh_status_finished: true,
       scan_results_junit: "./scanresults/report.junit",
       scan_results_url: ENV["GITHUB_STATUS_DETAIL"]
       )
-    if testException 
+    if testException
       raise testException
     end
   end

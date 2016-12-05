@@ -16,21 +16,26 @@ final class AppCoordinator: NSObject {
     var presentedAlertController: UIAlertController?
 
     let tabBarCtl: TabBarController
+    private let selectedTab: Variable<Tab>
+    let chatHeadOverlay: ChatHeadOverlayView
 
     private let mainTabBarCoordinator: MainTabCoordinator
     private let secondTabBarCoordinator: TabCoordinator
     private let chatsTabBarCoordinator: ChatsTabCoordinator
     private let profileTabBarCoordinator: ProfileTabCoordinator
+    private let categoriesTabBarCoordinator: CategoriesTabCoordinator
+    private let notificationsTabBarCoordinator: NotificationsTabCoordinator
     private let tabCoordinators: [TabCoordinator]
 
     private let configManager: ConfigManager
     private let sessionManager: SessionManager
+    private let chatHeadManager: ChatHeadManager
     private let keyValueStorage: KeyValueStorage
+
     private let pushPermissionsManager: PushPermissionsManager
     private let ratingManager: RatingManager
     private let bubbleNotifManager: BubbleNotificationManager
     private let tracker: Tracker
-
     private let deepLinksRouter: DeepLinksRouter
 
     private let productRepository: ProductRepository
@@ -40,6 +45,8 @@ final class AppCoordinator: NSObject {
     private let chatRepository: ChatRepository
     private let commercializerRepository: CommercializerRepository
     private let userRatingRepository: UserRatingRepository
+    private let featureFlags: FeatureFlaggeable
+    private let locationManager: LocationManager
 
     weak var delegate: AppNavigatorDelegate?
 
@@ -51,8 +58,10 @@ final class AppCoordinator: NSObject {
     convenience init(configManager: ConfigManager) {
         let tabBarViewModel = TabBarViewModel()
         let tabBarController = TabBarController(viewModel: tabBarViewModel)
+        let chatHeadOverlay = ChatHeadOverlayView()
 
         let sessionManager = Core.sessionManager
+        let chatHeadManager = ChatHeadManager.sharedInstance
         let keyValueStorage = KeyValueStorage.sharedInstance
         let pushPermissionsManager = PushPermissionsManager.sharedInstance
         let ratingManager = RatingManager.sharedInstance
@@ -67,30 +76,37 @@ final class AppCoordinator: NSObject {
         let chatRepository = Core.chatRepository
         let commercializerRepository = Core.commercializerRepository
         let userRatingRepository = Core.userRatingRepository
+        let featureFlags = FeatureFlags.sharedInstance
+        let locationManager = Core.locationManager
 
-        self.init(tabBarController: tabBarController, configManager: configManager,
-                  sessionManager: sessionManager, keyValueStorage: keyValueStorage,
+        self.init(tabBarController: tabBarController, chatHeadOverlay: chatHeadOverlay, configManager: configManager,
+                  sessionManager: sessionManager, chatHeadManager: chatHeadManager, keyValueStorage: keyValueStorage,
                   pushPermissionsManager: pushPermissionsManager, ratingManager: ratingManager,
                   deepLinksRouter: deepLinksRouter, bubbleManager: bubbleManager, tracker: tracker,
                   productRepository: productRepository, userRepository: userRepository, myUserRepository: myUserRepository,
                   oldChatRepository: oldChatRepository, chatRepository: chatRepository,
-                  commercializerRepository: commercializerRepository, userRatingRepository: userRatingRepository)
+                  commercializerRepository: commercializerRepository, userRatingRepository: userRatingRepository,
+                  locationManager: locationManager, featureFlags: featureFlags)
         tabBarViewModel.navigator = self
     }
 
-    init(tabBarController: TabBarController, configManager: ConfigManager,
-         sessionManager: SessionManager, keyValueStorage: KeyValueStorage,
+    init(tabBarController: TabBarController, chatHeadOverlay: ChatHeadOverlayView, configManager: ConfigManager,
+         sessionManager: SessionManager, chatHeadManager: ChatHeadManager, keyValueStorage: KeyValueStorage,
          pushPermissionsManager: PushPermissionsManager, ratingManager: RatingManager, deepLinksRouter: DeepLinksRouter,
          bubbleManager: BubbleNotificationManager, tracker: Tracker, productRepository: ProductRepository,
          userRepository: UserRepository, myUserRepository: MyUserRepository, oldChatRepository: OldChatRepository,
          chatRepository: ChatRepository, commercializerRepository: CommercializerRepository,
-         userRatingRepository: UserRatingRepository) {
+         userRatingRepository: UserRatingRepository, locationManager: LocationManager, featureFlags: FeatureFlaggeable) {
 
         self.tabBarCtl = tabBarController
+        self.selectedTab = Variable<Tab>(.Home)
+        self.chatHeadOverlay = chatHeadOverlay
         
         self.mainTabBarCoordinator = MainTabCoordinator()
-        self.secondTabBarCoordinator = FeatureFlags.notificationsSection ? NotificationsTabCoordinator() :
-                                                                           CategoriesTabCoordinator()
+        self.categoriesTabBarCoordinator = CategoriesTabCoordinator()
+        self.notificationsTabBarCoordinator = NotificationsTabCoordinator()
+        self.secondTabBarCoordinator = featureFlags.notificationsSection ? notificationsTabBarCoordinator :
+                                                                           categoriesTabBarCoordinator
         self.chatsTabBarCoordinator = ChatsTabCoordinator()
         self.profileTabBarCoordinator = ProfileTabCoordinator()
         self.tabCoordinators = [mainTabBarCoordinator, secondTabBarCoordinator, chatsTabBarCoordinator,
@@ -98,6 +114,7 @@ final class AppCoordinator: NSObject {
 
         self.configManager = configManager
         self.sessionManager = sessionManager
+        self.chatHeadManager = chatHeadManager
         self.keyValueStorage = keyValueStorage
         self.pushPermissionsManager = pushPermissionsManager
         self.ratingManager = ratingManager
@@ -113,20 +130,22 @@ final class AppCoordinator: NSObject {
         self.chatRepository = chatRepository
         self.commercializerRepository = commercializerRepository
         self.userRatingRepository = userRatingRepository
+        
+        self.featureFlags = featureFlags
+        
+        self.locationManager = locationManager
 
         super.init()
         setupTabBarController()
         setupTabCoordinators()
         setupDeepLinkingRx()
-        setupNotificationCenterObservers()
+        setupCoreEventsRx()
+        setupChatHeads()
+        setupLeanplumPopUp()
     }
 
-    deinit {
-        tearDownNotificationCenterObservers()
-    }
-
-    func openTab(tab: Tab) {
-        openTab(tab, force: false)
+    func openTab(tab: Tab, completion: (() -> ())?) {
+        openTab(tab, force: false, completion: completion)
     }
 }
 
@@ -134,10 +153,11 @@ final class AppCoordinator: NSObject {
 // MARK: - AppNavigator
 
 extension AppCoordinator: AppNavigator {
+
     func open() {
         guard !openOnboarding() else { return }
-        delegate?.appNavigatorDidOpenApp()
-
+        afterOpenAppEvents()
+        
         if let deepLink = deepLinksRouter.consumeInitialDeepLink() {
             openExternalDeepLink(deepLink, initialDeepLink: true)
         }
@@ -150,12 +170,16 @@ extension AppCoordinator: AppNavigator {
         if keyValueStorage[.firstRunDate] == nil {
             keyValueStorage[.firstRunDate] = NSDate()
         }
-        pushPermissionsManager.shouldAskForListPermissionsOnCurrentSession = false
 
         let onboardingCoordinator = OnboardingCoordinator()
         onboardingCoordinator.delegate = self
         openCoordinator(coordinator: onboardingCoordinator, parent: tabBarCtl, animated: true, completion: nil)
         return true
+    }
+
+    private func afterOpenAppEvents() {
+        chatHeadManager.initialize()
+        delegate?.appNavigatorDidOpenApp()
     }
 
     func openForceUpdateAlertIfNeeded() {
@@ -193,8 +217,14 @@ extension AppCoordinator: AppNavigator {
         tabBarCtl.presentViewController(viewController, animated: true, completion: nil)
     }
     
+    func openResetPassword(token: String) {
+        let changePasswordCoordinator = ChangePasswordCoordinator(token: token)
+        changePasswordCoordinator.delegate = self
+        openCoordinator(coordinator: changePasswordCoordinator, parent: tabBarCtl, animated: true, completion: nil)
+    }
+    
     func openNPSSurvey() {
-        guard FeatureFlags.showNPSSurvey else { return }
+        guard featureFlags.showNPSSurvey else { return }
         delay(3) { [weak self] in
             let vc = NPSViewController(viewModel: NPSViewModel())
             self?.tabBarCtl.presentViewController(vc, animated: true, completion: nil)
@@ -269,7 +299,7 @@ extension AppCoordinator: SellCoordinatorDelegate {
 
 extension AppCoordinator: OnboardingCoordinatorDelegate {
     func onboardingCoordinator(coordinator: OnboardingCoordinator, didFinishPosting posting: Bool, source: PostingSource?) {
-        delegate?.appNavigatorDidOpenApp()
+        afterOpenAppEvents()
         if let source = source where posting {
             openSell(source)
         }
@@ -298,6 +328,7 @@ private extension AppCoordinator {
 
     func openPromoteIfNeeded(product product: Product) -> Bool {
         // TODO: Promote Coordinator (move tracking into promote coordinator)
+        guard featureFlags.commercializerAfterPosting else { return false }
 
         // We do not promote if it's a failure or if it's a success w/o country code
         guard let productId = product.objectId, countryCode = product.postalAddress.countryCode else { return false }
@@ -330,7 +361,6 @@ private extension AppCoordinator {
 }
 
 
-
 // MARK: - TabCoordinatorDelegate
 
 extension AppCoordinator: TabCoordinatorDelegate {
@@ -360,15 +390,15 @@ extension AppCoordinator: UITabBarControllerDelegate {
 
         switch tab {
         case .Home, .Categories, .Notifications, .Chats, .Profile:
-            afterLogInSuccessful = { [weak self] in self?.openTab(tab, force: true) }
+            afterLogInSuccessful = { [weak self] in self?.openTab(tab, force: true, completion: nil) }
             result = !shouldOpenLogin
         case .Sell:
             afterLogInSuccessful = { [weak self] in
-                self?.openSell(.SellButton)
+                self?.openSell(.TabBar)
             }
             result = false
             if sessionManager.loggedIn {
-                openSell(.SellButton)
+                openSell(.TabBar)
             }
         }
 
@@ -380,10 +410,44 @@ extension AppCoordinator: UITabBarControllerDelegate {
                 // tab is changed after returning from this method
                 break
             case .Sell:
-                openSell(.SellButton)
+                openSell(.TabBar)
             }
         }
         return result
+    }
+
+    func tabBarController(tabBarController: UITabBarController, didSelectViewController viewController: UIViewController) {
+        guard let tab = tabAtController(viewController) else { return }
+        selectedTab.value = tab
+    }
+}
+
+
+// MARK: - ChatHeadGroupViewDelegate
+
+extension AppCoordinator: ChatHeadGroupViewDelegate {
+    func chatHeadGroup(view: ChatHeadGroupView, openChatDetailWithId id: String) {
+        let data = ConversationData.Conversation(conversationId: id)
+        
+        openTab(.Chats, completion: nil)
+        chatsTabBarCoordinator.openChat(.DataIds(data: data))
+
+        tracker.trackEvent(TrackerEvent.chatHeadsOpen())
+    }
+
+    func chatHeadGroupOpenChatList(view: ChatHeadGroupView) {
+        openTab(.Chats, completion: nil)
+
+        tracker.trackEvent(TrackerEvent.chatHeadsOpen())
+    }
+}
+
+
+// MARK: - ChatHeadOverlayViewDelegate
+
+extension AppCoordinator: ChatHeadOverlayViewDelegate {
+    func chatHeadOverlayViewUserDidDismiss(view: ChatHeadOverlayView) {
+        tracker.trackEvent(TrackerEvent.chatHeadsDelete())
     }
 }
 
@@ -391,7 +455,9 @@ extension AppCoordinator: UITabBarControllerDelegate {
 // MARK: - Private methods
 // MARK: > Setup / tear down
 
+
 private extension AppCoordinator {
+    
     func setupTabBarController() {
         tabBarCtl.delegate = self
         var viewControllers = tabCoordinators.map { $0.navigationController as UIViewController }
@@ -423,47 +489,84 @@ private extension AppCoordinator {
             }.addDisposableTo(disposeBag)
     }
 
-    func setupNotificationCenterObservers() {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(logout(_:)),
-                                                         name: SessionManager.Notification.Logout.rawValue, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(kickedOut(_:)),
-                                                         name: SessionManager.Notification.KickedOut.rawValue, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(askUserToUpdateLocation),
-                                                         name: LocationManager.Notification.MovedFarFromSavedManualLocation.rawValue, object: nil)
+
+    func setupCoreEventsRx() {
+        sessionManager.sessionEvents.bindNext { [weak self] event in
+            switch event {
+            case .Login:
+                break
+            case let .Logout(kickedOut):
+                self?.openTab(.Home) { [weak self] in
+                    if kickedOut {
+                        self?.tabBarCtl.showAutoFadingOutMessageAlert(LGLocalizedString.toastErrorInternal)
+                    }
+                }
+            }
+        }.addDisposableTo(disposeBag)
+
+        locationManager.locationEvents.filter { $0 == .MovedFarFromSavedManualLocation }.take(1).bindNext {
+            [weak self] _ in
+            self?.askUserToUpdateLocation()
+        }.addDisposableTo(disposeBag)
     }
 
-    func tearDownNotificationCenterObservers() {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+    func setupChatHeads() {
+        let view: UIView = tabBarCtl.tabBar.superview ?? tabBarCtl.view
+        chatHeadOverlay.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(chatHeadOverlay)
+
+        let views: [String: AnyObject] = ["cho": chatHeadOverlay]
+        let hConstraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|-0-[cho]-0-|",
+                                                                          options: [], metrics: nil, views: views)
+        view.addConstraints(hConstraints)
+        let vConstraints = NSLayoutConstraint.constraintsWithVisualFormat("V:|-0-[cho]-0-|",
+                                                                          options: [], metrics: nil, views: views)
+        view.addConstraints(vConstraints)
+
+        chatHeadOverlay.delegate = self
+        chatHeadOverlay.setChatHeadGroupViewDelegate(self)
+        chatHeadManager.setChatHeadOverlayView(chatHeadOverlay)
+
+        // Chat heads should be hidden depending on the tab
+        let chatHeadsHidden = selectedTab.asObservable()
+            .map { $0.chatHeadsHidden }
+            .distinctUntilChanged()
+        chatHeadsHidden.bindTo(chatHeadOverlay.rx_hidden).addDisposableTo(disposeBag)
+
+        // Chat heads tracker event happens when chat head overlay is not hidden & its chat heads are visible
+        let chatHeadsStart = Observable.combineLatest(chatHeadsHidden, chatHeadOverlay.chatHeadsVisible.asObservable()) { !$0 && $1 }
+            .distinctUntilChanged()
+            .filter { $0 }
+
+        chatHeadsStart.subscribeNext { [weak self] shown in
+            self?.tracker.trackEvent(TrackerEvent.chatHeadsStart())
+            }.addDisposableTo(disposeBag)
     }
-}
 
 
-// MARK: > NSNotificationCenter
-
-private extension AppCoordinator {
-    dynamic func logout(notification: NSNotification) {
-        openTab(.Home)
-    }
-
-    dynamic func kickedOut(notification: NSNotification) {
-        tabBarCtl.showAutoFadingOutMessageAlert(LGLocalizedString.toastErrorInternal)
-    }
-
-    dynamic func askUserToUpdateLocation() {
+    func askUserToUpdateLocation() {
         guard let navCtl = selectedNavigationController else { return }
-
         guard navCtl.isAtRootViewController else { return }
 
-        let yesAction = UIAction(interface: .StyledText(LGLocalizedString.commonOk, .Default), action: {
-            Core.locationManager.setAutomaticLocation(nil)
-        })
+        let yesAction = UIAction(interface: .StyledText(LGLocalizedString.commonOk, .Default), action: { [weak self] in
+            self?.locationManager.setAutomaticLocation(nil)
+            })
         navCtl.showAlert(nil, message: LGLocalizedString.changeLocationRecommendUpdateLocationMessage,
                          cancelLabel: LGLocalizedString.commonCancel, actions: [yesAction])
+    }
 
-        // We should ask only one time
-        NSNotificationCenter.defaultCenter().removeObserver(self,
-                                                            name: LocationManager.Notification.MovedFarFromSavedManualLocation.rawValue,
-                                                            object: nil)
+}
+
+extension AppCoordinator: CustomLeanplumPresenter {
+    
+    func setupLeanplumPopUp() {
+        Leanplum.customLeanplumAlert(self)
+    }
+    
+    func showLeanplumAlert(title: String?, text: String, image: String, action: UIAction) {
+        let alertIcon = UIImage(contentsOfFile: image)
+        guard let alert = LGAlertViewController(title: title, text: text, alertType: .IconAlert(icon: alertIcon), actions: [action]) else { return }
+        tabBarCtl.presentViewController(alert, animated: true, completion: nil)
     }
 }
 
@@ -486,7 +589,7 @@ private extension AppCoordinator {
         guard let vcs = tabBarCtl.viewControllers else { return nil }
         let vc = controller.navigationController ?? controller
         guard let index = vcs.indexOf(vc) else { return nil }
-        return Tab(index: index)
+        return Tab(index: index, featureFlags: featureFlags)
     }
 
     func topViewControllerInController(controller: UIViewController) -> UIViewController {
@@ -513,10 +616,10 @@ private extension AppCoordinator {
         coordinator.open(parent: parent, animated: animated, completion: completion)
     }
 
-    func openTab(tab: Tab, force: Bool) {
+    func openTab(tab: Tab, force: Bool, completion: (() -> ())?) {
         let shouldOpen = force || shouldOpenTab(tab)
         if shouldOpen {
-            tabBarCtl.switchToTab(tab)
+            tabBarCtl.switchToTab(tab, completion: completion)
         }
     }
 
@@ -550,7 +653,7 @@ private extension AppCoordinator {
         switch deepLink.action {
         case .Home:
             afterDelayClosure = { [weak self] in
-                self?.openTab(.Home, force: false)
+                self?.openTab(.Home, force: false, completion: nil)
             }
         case .Sell:
             afterDelayClosure = { [weak self] in
@@ -562,33 +665,37 @@ private extension AppCoordinator {
             }
         case let .User(userId):
             if userId == myUserRepository.myUser?.objectId {
-                openTab(.Profile, force: false)
+                openTab(.Profile, force: false, completion: nil)
             } else {
                 afterDelayClosure = { [weak self] in
                     self?.selectedTabCoordinator?.openUser(UserDetailData.Id(userId: userId, source: .Link))
                 }
             }
         case .Conversations:
-            openTab(.Chats, force: false)
+            openTab(.Chats, force: false, completion: nil)
         case let .Conversation(data):
             afterDelayClosure = { [weak self] in
-                self?.openTab(.Chats, force: false)
-                self?.chatsTabBarCoordinator.openChat(.DataIds(data: data))
+                self?.openTab(.Chats, force: false) { [weak self] in
+                    self?.chatsTabBarCoordinator.openChat(.DataIds(data: data))
+                }
             }
         case .Message(_, let data):
             afterDelayClosure = { [weak self] in
-                self?.openTab(.Chats, force: false)
-                self?.chatsTabBarCoordinator.openChat(.DataIds(data: data))
+                self?.openTab(.Chats, force: false) { [weak self] in
+                    self?.chatsTabBarCoordinator.openChat(.DataIds(data: data))
+                }
             }
         case .Search(let query, let categories):
             afterDelayClosure = { [weak self] in
-                self?.openTab(.Home, force: false)
-                self?.mainTabBarCoordinator.openSearch(query, categoriesString: categories)
+                self?.openTab(.Home, force: false) { [weak self] in
+                    self?.mainTabBarCoordinator.openSearch(query, categoriesString: categories)
+                }
             }
         case .ResetPassword(let token):
             afterDelayClosure = { [weak self] in
-                self?.openTab(.Home, force: false)
-                self?.openResetPassword(token)
+                self?.openTab(.Home, force: false) { [weak self] in
+                    self?.openResetPassword(token)
+                }
             }
         case .Commercializer:
             break // Handled on CommercializerManager
@@ -599,13 +706,15 @@ private extension AppCoordinator {
             }
         case .UserRatings:
             afterDelayClosure = { [weak self] in
-                self?.openTab(.Profile)
-                self?.openMyUserRatings()
+                self?.openTab(.Profile) { [weak self] in
+                    self?.openMyUserRatings()
+                }
             }
         case let .UserRating(ratingId):
             afterDelayClosure = { [weak self] in
-                self?.openTab(.Profile)
-                self?.openUserRatingForUserFromRating(ratingId)
+                self?.openTab(.Profile) { [weak self] in
+                    self?.openUserRatingForUserFromRating(ratingId)
+                }
             }
         }
 
@@ -644,17 +753,8 @@ private extension AppCoordinator {
         return nil
     }
 
-    func openResetPassword(token: String) {
-        let viewModel = ChangePasswordViewModel(token: token)
-        let vc = ChangePasswordViewController(viewModel: viewModel)
-        let navCtl = UINavigationController(rootViewController: vc)
-
-        // TODO: Should open a Reset Password coordinator child calling `openChild`
-        tabBarCtl.presentViewController(navCtl, animated: true, completion: nil)
-    }
-
     func openMyUserRatings() {
-        guard FeatureFlags.userReviews else { return }
+        guard featureFlags.userReviews else { return }
         guard let navCtl = selectedNavigationController else { return }
 
         guard let myUserId = myUserRepository.myUser?.objectId else { return }
@@ -665,7 +765,7 @@ private extension AppCoordinator {
     }
 
     func openUserRatingForUserFromRating(ratingId: String) {
-        guard FeatureFlags.userReviews else { return }
+        guard featureFlags.userReviews else { return }
         guard let navCtl = selectedNavigationController else { return }
 
         navCtl.showLoadingMessageAlert()
@@ -703,20 +803,18 @@ private extension AppCoordinator {
             return
         }
 
-        tracker.trackEvent(TrackerEvent.InappChatNotificationStart())
-        if FeatureFlags.websocketChat {
+        tracker.trackEvent(TrackerEvent.inappChatNotificationStart())
+        if featureFlags.websocketChat {
             chatRepository.showConversation(conversationId) { [weak self] result in
                 guard let conversation = result.value else { return }
                 let action = UIAction(interface: .Text(LGLocalizedString.appNotificationReply), action: { [weak self] in
-                    self?.tracker.trackEvent(TrackerEvent.InappChatNotificationComplete())
-                    self?.openTab(.Chats, force: false)
-                    self?.selectedTabCoordinator?.openChat(.Conversation(conversation: conversation))
-                    })
-                let userName = conversation.interlocutor?.name ?? ""
-                let justMessage = message.stringByReplacingOccurrencesOfString(userName, withString: "").trim
+                    self?.tracker.trackEvent(TrackerEvent.inappChatNotificationComplete())
+                    self?.openTab(.Chats, force: false) { [weak self] in
+                        self?.selectedTabCoordinator?.openChat(.Conversation(conversation: conversation))
+                    }
+                })
                 let data = BubbleNotificationData(tagGroup: conversationId,
-                                                  text: userName,
-                                                  infoText: justMessage,
+                                                  text: message,
                                                   action: action,
                                                   iconURL: conversation.interlocutor?.avatar?.fileURL,
                                                   iconImage: UIImage(named: "user_placeholder"))
@@ -725,10 +823,11 @@ private extension AppCoordinator {
         } else {
             // Old chat cannot retrieve chat because it would mark messages as read.
             let action = UIAction(interface: .Text(LGLocalizedString.appNotificationReply), action: { [weak self] in
-                self?.tracker.trackEvent(TrackerEvent.InappChatNotificationComplete())
-                self?.openTab(.Chats, force: false)
-                self?.selectedTabCoordinator?.openChat(.DataIds(data: data))
-                })
+                self?.tracker.trackEvent(TrackerEvent.inappChatNotificationComplete())
+                self?.openTab(.Chats, force: false) { [weak self] in
+                    self?.selectedTabCoordinator?.openChat(.DataIds(data: data))
+                }
+            })
             let data = BubbleNotificationData(tagGroup: conversationId,
                                               text: message,
                                               action: action)
@@ -737,8 +836,17 @@ private extension AppCoordinator {
     }
 }
 
+extension AppCoordinator: ChangePasswordNavigator {
+    func closeChangePassword() {
+        tabBarCtl.dismissViewControllerAnimated(true, completion: nil)
+    }
+    func passwordSaved() {
+        tabBarCtl.dismissViewControllerAnimated(true, completion: nil)
+    }
+}
 
-// MARK: Tab helper
+
+// MARK: - Tab helper
 
 private extension Tab {
     var logInRequired: Bool {
@@ -761,6 +869,14 @@ private extension Tab {
             return .Chats
         case .Profile:
             return .Profile
+        }
+    }
+    var chatHeadsHidden: Bool {
+        switch self {
+        case .Chats, .Sell:
+            return true
+        case .Home, .Categories, .Notifications, .Profile:
+            return false
         }
     }
 }

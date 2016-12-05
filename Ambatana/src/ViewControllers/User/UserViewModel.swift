@@ -18,7 +18,6 @@ enum UserSource {
 }
 
 protocol UserViewModelDelegate: BaseViewModelDelegate {
-    func vmOpenSettings(settingsVC: SettingsViewController)
     func vmOpenReportUser(reportUserVM: ReportUsersViewModel)
     func vmOpenHome()
     func vmShowUserActionSheet(cancelLabel: String, actions: [UIAction])
@@ -35,6 +34,7 @@ class UserViewModel: BaseViewModel {
     private let myUserRepository: MyUserRepository
     private let userRepository: UserRepository
     private let tracker: Tracker
+    private let featureFlags: FeatureFlaggeable
 
     // Data & VMs
     private let user: Variable<User?>
@@ -71,7 +71,12 @@ class UserViewModel: BaseViewModel {
     let productListViewModel: Variable<ProductListViewModel>
 
     weak var delegate: UserViewModelDelegate?
-    weak var tabNavigator: TabNavigator?
+    weak var navigator: TabNavigator?
+    weak var profileNavigator: ProfileTabNavigator? {
+        didSet {
+            navigator = profileNavigator
+        }
+    }
 
     // Rx
     let disposeBag: DisposeBag
@@ -88,8 +93,9 @@ class UserViewModel: BaseViewModel {
         let myUserRepository = Core.myUserRepository
         let userRepository = Core.userRepository
         let tracker = TrackerProxy.sharedInstance
+        let featureFlags = FeatureFlags.sharedInstance
         self.init(sessionManager: sessionManager, myUserRepository: myUserRepository, userRepository: userRepository,
-            tracker: tracker, isMyProfile: true, user: nil, source: source)
+                  tracker: tracker, isMyProfile: true, user: nil, source: source, featureFlags: featureFlags)
     }
 
     convenience init(user: User, source: UserSource) {
@@ -97,8 +103,9 @@ class UserViewModel: BaseViewModel {
         let myUserRepository = Core.myUserRepository
         let userRepository = Core.userRepository
         let tracker = TrackerProxy.sharedInstance
+        let featureFlags = FeatureFlags.sharedInstance
         self.init(sessionManager: sessionManager, myUserRepository: myUserRepository, userRepository: userRepository,
-            tracker: tracker, isMyProfile: false, user: user, source: source)
+                  tracker: tracker, isMyProfile: false, user: user, source: source, featureFlags: featureFlags)
     }
     
     convenience init(chatInterlocutor: ChatInterlocutor, source: UserSource) {
@@ -106,13 +113,14 @@ class UserViewModel: BaseViewModel {
         let myUserRepository = Core.myUserRepository
         let userRepository = Core.userRepository
         let tracker = TrackerProxy.sharedInstance
-        let user = userRepository.build(fromChatInterlocutor: chatInterlocutor)
+		let featureFlags = FeatureFlags.sharedInstance
+        let user = LocalUser(chatInterlocutor: chatInterlocutor)
         self.init(sessionManager: sessionManager, myUserRepository: myUserRepository, userRepository: userRepository,
-                  tracker: tracker, isMyProfile: false, user: user, source: source)
+                  tracker: tracker, isMyProfile: false, user: user, source: source, featureFlags: featureFlags)
     }
 
     init(sessionManager: SessionManager, myUserRepository: MyUserRepository, userRepository: UserRepository,
-        tracker: Tracker, isMyProfile: Bool, user: User?, source: UserSource) {
+         tracker: Tracker, isMyProfile: Bool, user: User?, source: UserSource, featureFlags: FeatureFlaggeable) {
         self.sessionManager = sessionManager
         self.myUserRepository = myUserRepository
         self.userRepository = userRepository
@@ -120,10 +128,12 @@ class UserViewModel: BaseViewModel {
         self.isMyProfile = isMyProfile
         self.user = Variable<User?>(user)
         self.source = source
-
-        self.sellingProductListRequester = UserStatusesProductListRequester(statuses: [.Pending, .Approved])
+        self.featureFlags = featureFlags
+        self.sellingProductListRequester = UserStatusesProductListRequester(statuses: [.Pending, .Approved],
+                                                                            itemsPerPage: Constants.numProductsPerPageDefault)
         self.sellingProductListViewModel = ProductListViewModel(requester: self.sellingProductListRequester)
-        self.soldProductListRequester = UserStatusesProductListRequester(statuses: [.Sold, .SoldOld])
+        self.soldProductListRequester = UserStatusesProductListRequester(statuses: [.Sold, .SoldOld],
+                                                                         itemsPerPage: Constants.numProductsPerPageDefault)
         self.soldProductListViewModel = ProductListViewModel(requester: self.soldProductListRequester)
         self.favoritesProductListRequester = UserFavoritesProductListRequester()
         self.favoritesProductListViewModel = ProductListViewModel(requester: self.favoritesProductListRequester)
@@ -174,7 +184,7 @@ extension UserViewModel {
     }
 
     func ratingsButtonPressed() {
-        guard FeatureFlags.userReviews else { return }
+        guard featureFlags.userReviews else { return }
         openRatings()
     }
 
@@ -191,7 +201,7 @@ extension UserViewModel {
             verifyTypes.append(.Google)
         }
         guard !verifyTypes.isEmpty else { return }
-        tabNavigator?.openVerifyAccounts(verifyTypes,
+        navigator?.openVerifyAccounts(verifyTypes,
                                          source: .Profile(title: LGLocalizedString.chatConnectAccountsTitle,
                                             description: LGLocalizedString.profileConnectAccountsMessage), completionBlock: nil)
     }
@@ -313,24 +323,23 @@ extension UserViewModel {
     }
 
     private func openSettings() {
-        let vc = SettingsViewController(viewModel: SettingsViewModel())
-        delegate?.vmOpenSettings(vc)
+        profileNavigator?.openSettings()
     }
 
     private func openRatings() {
         guard let userId = user.value?.objectId else { return }
-        tabNavigator?.openRatingList(userId)
+        navigator?.openRatingList(userId)
     }
 
     private func openPushPermissionsAlert() {
         trackPushPermissionStart()
-        let positive = UIAction(interface: .Button(LGLocalizedString.profilePermissionsAlertOk, .Default),
+        let positive = UIAction(interface: .StyledText(LGLocalizedString.profilePermissionsAlertOk, .Default),
                                 action: { [weak self] in
                                     self?.trackPushPermissionComplete()
                                     PushPermissionsManager.sharedInstance.showPushPermissionsAlert(prePermissionType: .Profile)
                                 },
                                 accessibilityId: .UserPushPermissionOK)
-        let negative = UIAction(interface: .Button(LGLocalizedString.profilePermissionsAlertCancel, .Cancel),
+        let negative = UIAction(interface: .StyledText(LGLocalizedString.profilePermissionsAlertCancel, .Cancel),
                                 action: { [weak self] in
                                     self?.trackPushPermissionCancel()
                                 },
@@ -419,7 +428,7 @@ extension UserViewModel {
 
     private func setupUserInfoRxBindings() {
         if itsMe {
-            myUserRepository.rx_myUser.asObservable().bindNext { [weak self] myUser in
+            myUserRepository.rx_myUser.bindNext { [weak self] myUser in
                 self?.user.value = myUser
                 self?.refreshIfLoading()
             }.addDisposableTo(disposeBag)
@@ -438,13 +447,13 @@ extension UserViewModel {
             }
             strongSelf.userAvatarURL.value = user?.avatar?.fileURL
 
-            if FeatureFlags.userReviews {
+            if strongSelf.featureFlags.userReviews {
                 strongSelf.userRatingAverage.value = user?.ratingAverage?.roundNearest(0.5)
                 strongSelf.userRatingCount.value = user?.ratingCount
             }
 
             strongSelf.userName.value = user?.name
-            strongSelf.userLocation.value = user?.postalAddress.cityCountryString
+            strongSelf.userLocation.value = user?.postalAddress.cityStateString
 
             strongSelf.headerMode.value = strongSelf.isMyProfile ? .MyUser : .OtherUser
 
@@ -535,7 +544,7 @@ extension UserViewModel {
                 self?.socialMessage = nil
                 return
             }
-            self?.socialMessage = SocialHelper.socialMessageUser(user, itsMe: itsMe)
+            self?.socialMessage = UserSocialMessage(user: user, itsMe: itsMe)
         }.addDisposableTo(disposeBag)
     }
 }
@@ -588,7 +597,7 @@ extension UserViewModel: ProductListViewModelDataDelegate {
         let data = ProductDetailData.ProductList(product: product, cellModels: cellModels, requester: requester,
                                                  thumbnailImage: thumbnailImage, originFrame: originFrame,
                                                  showRelated: false, index: 0)
-        tabNavigator?.openProduct(data, source: .Profile)
+        navigator?.openProduct(data, source: .Profile)
     }
 }
 
@@ -610,24 +619,17 @@ private extension UserViewModel {
 }
 
 
-// MARK: - Share delegate 
+// MARK: - SocialSharerDelegate
 
-extension UserViewModel: NativeShareDelegate {
+extension UserViewModel: SocialSharerDelegate {
 
-    var nativeShareSuccessMessage: String? { return LGLocalizedString.userShareSuccess }
-    var nativeShareErrorMessage: String? { return LGLocalizedString.userShareError }
+    func shareStartedIn(shareType: ShareType) {
 
-    func nativeShareInFacebook() {
-        trackShareComplete(.Facebook)
     }
-    func nativeShareInTwitter() {
-        trackShareComplete(.Twitter)
-    }
-    func nativeShareInEmail() {
-        trackShareComplete(.Email)
-    }
-    func nativeShareInWhatsApp() {
-        trackShareComplete(.Whatsapp)
+
+    func shareFinishedIn(shareType: ShareType, withState state: SocialShareState) {
+        guard state == .Completed else { return }
+        trackShareComplete(shareType.trackingShareNetwork)
     }
 }
 

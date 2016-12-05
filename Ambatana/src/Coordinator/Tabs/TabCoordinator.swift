@@ -26,7 +26,7 @@ class TabCoordinator: NSObject {
     let myUserRepository: MyUserRepository
     let keyValueStorage: KeyValueStorage
     let tracker: Tracker
-
+    let featureFlags: FeatureFlaggeable
     let disposeBag = DisposeBag()
 
     weak var tabCoordinatorDelegate: TabCoordinatorDelegate?
@@ -36,7 +36,8 @@ class TabCoordinator: NSObject {
 
     init(productRepository: ProductRepository, userRepository: UserRepository, chatRepository: ChatRepository,
          oldChatRepository: OldChatRepository, myUserRepository: MyUserRepository,
-         keyValueStorage: KeyValueStorage, tracker: Tracker, rootViewController: UIViewController) {
+         keyValueStorage: KeyValueStorage, tracker: Tracker, rootViewController: UIViewController,
+         featureFlags: FeatureFlaggeable) {
         self.productRepository = productRepository
         self.userRepository = userRepository
         self.chatRepository = chatRepository
@@ -45,6 +46,7 @@ class TabCoordinator: NSObject {
         self.keyValueStorage = keyValueStorage
         self.tracker = tracker
         self.rootViewController = rootViewController
+        self.featureFlags = featureFlags
         self.navigationController = UINavigationController(rootViewController: rootViewController)
 
         super.init()
@@ -63,6 +65,11 @@ class TabCoordinator: NSObject {
 // MARK: - TabNavigator
 
 extension TabCoordinator: TabNavigator {
+
+    func openSell(source: PostingSource) {
+        appNavigator?.openSell(source)
+    }
+
     func openUser(data: UserDetailData) {
         switch data {
         case let .Id(userId, source):
@@ -151,19 +158,20 @@ private extension TabCoordinator {
         guard let productId = product.objectId else { return }
 
         var requestersArray: [ProductListRequester] = []
-        let relatedRequester: ProductListRequester = discover ? DiscoverProductListRequester(productId: productId) : RelatedProductListRequester(productId: productId)
+        let relatedRequester: ProductListRequester = discover ?
+            DiscoverProductListRequester(productId: productId, itemsPerPage: Constants.numProductsPerPageDefault) :
+            RelatedProductListRequester(productId: productId, itemsPerPage: Constants.numProductsPerPageDefault)
         requestersArray.append(relatedRequester)
 
-        if FeatureFlags.nonStopProductDetail {
-            let listOffset = index + 1 // we need the product AFTER the current one
-            if let requester = requester {
-                let requesterCopy = requester.duplicate()
-                requesterCopy.updateInitialOffset(listOffset)
-                requestersArray.append(requesterCopy)
-            } else {
-                let filteredRequester = FilteredProductListRequester(offset: listOffset)
-                requestersArray.append(filteredRequester)
-            }
+        // Adding product list after related
+        let listOffset = index + 1 // we need the product AFTER the current one
+        if let requester = requester {
+            let requesterCopy = requester.duplicate()
+            requesterCopy.updateInitialOffset(listOffset)
+            requestersArray.append(requesterCopy)
+        } else {
+            let filteredRequester = FilteredProductListRequester(itemsPerPage: Constants.numProductsPerPageDefault, offset: listOffset)
+            requestersArray.append(filteredRequester)
         }
 
         let requester = ProductListMultiRequester(requesters: requestersArray)
@@ -192,8 +200,8 @@ private extension TabCoordinator {
     func openProduct(chatConversation chatConversation: ChatConversation, source: EventParameterProductVisitSource) {
         guard let localProduct = LocalProduct(chatConversation: chatConversation, myUser: myUserRepository.myUser),
             productId = localProduct.objectId else { return }
-        let relatedRequester = RelatedProductListRequester(productId: productId)
-        let filteredRequester = FilteredProductListRequester(offset: 0)
+        let relatedRequester = RelatedProductListRequester(productId: productId,  itemsPerPage: Constants.numProductsPerPageDefault)
+        let filteredRequester = FilteredProductListRequester( itemsPerPage: Constants.numProductsPerPageDefault, offset: 0)
         let requester = ProductListMultiRequester(requesters: [relatedRequester, filteredRequester])
         let vm = ProductCarouselViewModel(product: localProduct, productListRequester: requester,  navigator: self,
                                           source: source)
@@ -236,7 +244,7 @@ private extension TabCoordinator {
         guard myUserRepository.myUser?.objectId != user.objectId else { return }
 
         let vm = UserViewModel(user: user, source: source)
-        vm.tabNavigator = self
+        vm.navigator = self
         let hidesBottomBarWhenPushed = navigationController.viewControllers.count == 1
         let vc = UserViewController(viewModel: vm, hidesBottomBarWhenPushed: hidesBottomBarWhenPushed)
         navigationController.pushViewController(vc, animated: true)
@@ -245,7 +253,7 @@ private extension TabCoordinator {
 
     func openUser(interlocutor: ChatInterlocutor) {
         let vm = UserViewModel(chatInterlocutor: interlocutor, source: .Chat)
-        vm.tabNavigator = self
+        vm.navigator = self
 
         let hidesBottomBarWhenPushed = navigationController.viewControllers.count == 1
         let vc = UserViewController(viewModel: vm, hidesBottomBarWhenPushed: hidesBottomBarWhenPushed)
@@ -265,7 +273,7 @@ private extension TabCoordinator {
     }
 
     func openChatFromProduct(product: Product) {
-        if FeatureFlags.websocketChat {
+        if featureFlags.websocketChat {
             guard let chatVM = ChatViewModel(product: product, navigator: self) else { return }
             let chatVC = ChatViewController(viewModel: chatVM, hidesBottomBar: false)
             navigationController.pushViewController(chatVC, animated: true)
@@ -279,7 +287,7 @@ private extension TabCoordinator {
     func openChatFromConversationData(data: ConversationData) {
         navigationController.showLoadingMessageAlert()
 
-        if FeatureFlags.websocketChat {
+        if featureFlags.websocketChat {
             let completion: ChatConversationCompletion = { [weak self] result in
                 self?.navigationController.dismissLoadingMessageAlert { [weak self] in
                     if let conversation = result.value {
@@ -307,10 +315,10 @@ private extension TabCoordinator {
             }
             switch data {
             case let .Conversation(conversationId):
-                oldChatRepository.retrieveMessagesWithConversationId(conversationId,
+                oldChatRepository.retrieveMessagesWithConversationId(conversationId, page: 0,
                                                     numResults: Constants.numMessagesPerPage, completion: completion)
             case let .ProductBuyer(productId, buyerId):
-                oldChatRepository.retrieveMessagesWithProductId(productId, buyerId: buyerId,
+                oldChatRepository.retrieveMessagesWithProductId(productId, buyerId: buyerId, page: 0,
                                                     numResults: Constants.numMessagesPerPage, completion: completion)
             }
         }
@@ -355,6 +363,56 @@ extension TabCoordinator: ProductDetailNavigator {
     func openProductChat(product: Product) {
         openChatFromProduct(product)
     }
+
+    func openFullScreenShare(product: Product, socialMessage: SocialMessage) {
+        let shareProductVM = ShareProductViewModel(product: product, socialMessage: socialMessage)
+        let shareProductVC = ShareProductViewController(viewModel: shareProductVM)
+        navigationController.presentViewController(shareProductVC, animated: true, completion: nil)
+    }
+
+    func closeAfterDelete() {
+        closeProductDetail()
+        switch featureFlags.postAfterDeleteMode {
+        case .Original:
+            break
+        case .FullScreen:
+            openFullScreenPostAfterDelete()
+        case .Alert:
+            let action = UIAction(interface: .Button(LGLocalizedString.productDeletePostButtonTitle,
+                .Primary(fontSize: .Medium)), action: { [weak self] in
+                    self?.openSell(.DeleteProduct)
+                }, accessibilityId: .PostDeleteAlertButton)
+            navigationController.showAlertWithTitle(LGLocalizedString.productDeletePostTitle,
+                                                    text: LGLocalizedString.productDeletePostSubtitle,
+                                                    alertType: .PlainAlert, actions: [action])
+        }
+    }
+
+    private func openFullScreenPostAfterDelete() {
+        let openSellAction: (() -> Void) = { [weak self] in
+            self?.openSell(.DeleteProduct)
+        }
+        let vm = PostAfterDeleteViewModel(action: openSellAction)
+        let vc = PostAfterDeleteViewController(viewModel: vm)
+        navigationController.presentViewController(vc, animated: true, completion: nil)
+    }
+
+    func openRelatedItems(product: Product, productVisitSource: EventParameterProductVisitSource) {
+        guard let productId = product.objectId else { return }
+        let vm = SimpleProductsViewModel(relatedProductId: productId, productVisitSource: productVisitSource)
+        vm.navigator = self
+        let vc = SimpleProductsViewController(viewModel: vm)
+        navigationController.pushViewController(vc, animated: true)
+    }
+}
+
+
+// MARK: SimpleProductsNavigator
+
+extension TabCoordinator: SimpleProductsNavigator {
+    func closeSimpleProducts() {
+        navigationController.popViewControllerAnimated(true)
+    }
 }
 
 
@@ -365,8 +423,8 @@ extension TabCoordinator: ChatDetailNavigator {
         navigationController.popViewControllerAnimated(true)
     }
 
-    func openExpressChat(products: [Product], sourceProductId: String) {
-        guard let expressChatCoordinator = ExpressChatCoordinator(products: products, sourceProductId: sourceProductId) else { return }
+    func openExpressChat(products: [Product], sourceProductId: String, manualOpen: Bool) {
+        guard let expressChatCoordinator = ExpressChatCoordinator(products: products, sourceProductId: sourceProductId, manualOpen: manualOpen) else { return }
         expressChatCoordinator.delegate = self
         openCoordinator(coordinator: expressChatCoordinator, parent: rootViewController, animated: true, completion: nil)
     }

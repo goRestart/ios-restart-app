@@ -31,6 +31,7 @@ enum EditLocationMode {
 class EditLocationViewModel: BaseViewModel {
    
     weak var delegate: EditLocationViewModelDelegate?
+    weak var navigator: EditLocationNavigator?
     weak var locationDelegate: EditLocationDelegate?
     
     private let locationManager: LocationManager
@@ -106,6 +107,11 @@ class EditLocationViewModel: BaseViewModel {
         self.setRxBindings()
     }
     
+    override func backButtonPressed() -> Bool {
+        closeLocation()
+        return true
+    }
+    
     
     // MARK: public methods
 
@@ -151,7 +157,7 @@ class EditLocationViewModel: BaseViewModel {
             updateUserLocation()
         case .SelectLocation, .EditProductLocation:
             locationDelegate?.editLocationDidSelectPlace(currentPlace)
-            delegate?.vmGoBack()
+            closeLocation()
         }
     }
 
@@ -269,6 +275,8 @@ class EditLocationViewModel: BaseViewModel {
     }
 
     private func resultsForSearchText(textToSearch: String, autoSelectFirst: Bool) {
+        predictiveResults = []
+        delegate?.vmUpdateSearchTableWithResults([])
         searchService.retrieveAddressForLocation(textToSearch) { [weak self] result in
             if autoSelectFirst {
                 if let error = result.error {
@@ -280,6 +288,8 @@ class EditLocationViewModel: BaseViewModel {
                     self?.setPlace(place, forceLocation: true, fromGps: false, enableSave: true)
                 }
             } else {
+                // Guard to avoid slow responses override last one
+                guard let currentText = self?.searchText.value.0 where currentText == textToSearch else { return }
                 if let suggestions = result.value {
                     self?.predictiveResults = suggestions
                     let suggestionsStrings : [String] = suggestions.flatMap {$0.placeResumedData}
@@ -299,7 +309,7 @@ class EditLocationViewModel: BaseViewModel {
                     let trackerEvent = TrackerEvent.profileEditEditLocation(myUserLocation)
                     self?.tracker.trackEvent(trackerEvent)
                 }
-                self?.delegate?.vmGoBack()
+                self?.closeLocation()
             } else {
                 self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.changeLocationErrorUpdatingLocationMessage, completion: nil)
             }
@@ -315,6 +325,14 @@ class EditLocationViewModel: BaseViewModel {
                 locationManager.setManualLocation(location, postalAddress: postalAddress, completion: myCompletion)
         } else {
             delegate?.vmShowAutoFadingMessage(LGLocalizedString.changeLocationErrorUpdatingLocationMessage, completion: nil)
+        }
+    }
+    
+    private func closeLocation() {
+        if let navigator = navigator {
+            navigator.closeEditLocation()
+        } else {
+            delegate?.vmGoBack()
         }
     }
 }
@@ -386,6 +404,12 @@ extension Place {
                 }
                 result += city
             }
+            if let state = postalAddress?.state {
+                if !result.isEmpty {
+                    result += " "
+                }
+                result += state
+            }
         }
 
         if let country = postalAddress?.countryCode {
@@ -394,6 +418,7 @@ extension Place {
             }
             result += country
         }
+
         return result
     }
 }

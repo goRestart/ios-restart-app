@@ -23,23 +23,32 @@ class OnboardingCoordinator: Coordinator {
 
     private let locationManager: LocationManager
     private var presentedViewControllers: [UIViewController] = []
+    
+    private let featureFlags: FeatureFlaggeable
 
     convenience init() {
-        self.init(keyValueStorage: KeyValueStorage.sharedInstance, locationManager: Core.locationManager)
+        self.init(keyValueStorage: KeyValueStorage.sharedInstance, locationManager: Core.locationManager,
+                  featureFlags: FeatureFlags.sharedInstance)
     }
 
-    init(keyValueStorage: KeyValueStorage, locationManager: LocationManager) {
+    init(keyValueStorage: KeyValueStorage, locationManager: LocationManager, featureFlags: FeatureFlaggeable) {
         self.locationManager = locationManager
-        let signUpVM = SignUpViewModel(appearance: .Dark, source: .Install)
-        let tourVM = TourLoginViewModel()
-        viewController = TourLoginViewController(signUpViewModel: signUpVM, tourLoginViewModel: tourVM)
+        self.featureFlags = featureFlags
 
-        tourVM.navigator = self
+        viewController = TourBlurBackgroundViewController()
     }
 
     func open(parent parent: UIViewController, animated: Bool, completion: (() -> Void)?) {
         guard viewController.parentViewController == nil else { return }
-        parent.presentViewController(viewController, animated: animated, completion: completion)
+        parent.presentViewController(viewController, animated: false) { [weak self] in
+            guard let strongSelf = self else { return }
+            let signUpVM = SignUpViewModel(appearance: .Dark, source: .Install)
+            let tourVM = TourLoginViewModel()
+            tourVM.navigator = strongSelf
+            let tourVC = TourLoginViewController(signUpViewModel: signUpVM, tourLoginViewModel: tourVM)
+            strongSelf.presentedViewControllers.append(tourVC)
+            strongSelf.viewController.presentViewController(tourVC, animated: true, completion: completion)
+        }
     }
 
     func close(animated animated: Bool, completion: (() -> Void)?) {
@@ -49,7 +58,7 @@ class OnboardingCoordinator: Coordinator {
     private func recursiveClose(animated animated: Bool, completion: (() -> Void)?) {
         if let vc = presentedViewControllers.last {
             presentedViewControllers.removeLast()
-            vc.dismissViewControllerAnimated(animated) { [weak self] in
+            vc.dismissViewControllerAnimated(false) { [weak self] in
                 self?.recursiveClose(animated: false, completion: completion)
             }
         } else {
@@ -66,9 +75,9 @@ class OnboardingCoordinator: Coordinator {
     }
 
     private func hideVC(viewController: UIViewController) {
-        UIView.animateWithDuration(0.3, delay: 0.1, options: UIViewAnimationOptions.CurveEaseInOut, animations: {
+        UIView.animateWithDuration(0.3) {
             viewController.view.alpha = 0
-        }, completion: nil)
+        }
     }
 
     private func topViewController() -> UIViewController {
@@ -98,7 +107,7 @@ class OnboardingCoordinator: Coordinator {
     }
 
     private func openTourPosting() {
-        if FeatureFlags.directPostInOnboarding {
+        if featureFlags.directPostInOnboarding {
             tourPostingPost(fromCamera: true)
         } else {
             let topVC = topViewController()

@@ -41,7 +41,7 @@ class MockProduct: MockBaseModel, Product {
     override init() {
         self.images = []
         self.location = LGLocationCoordinates2D(latitude:0,longitude:0)
-        self.postalAddress = PostalAddress(address: nil, city: nil, zipCode: nil, countryCode: nil, country: nil)
+        self.postalAddress = PostalAddress.emptyAddress()
         self.status = .Pending
         self.category = .Electronics
         self.user = MockUser()

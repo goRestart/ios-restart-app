@@ -25,22 +25,24 @@ class ExpressChatCoordinator: Coordinator {
 
     // MARK: - Lifecycle
 
-    convenience init?(products: [Product], sourceProductId: String) {
-        self.init(products: products, sourceProductId: sourceProductId, keyValueStorage: KeyValueStorage.sharedInstance)
+    convenience init?(products: [Product], sourceProductId: String, manualOpen: Bool) {
+        self.init(products: products, sourceProductId: sourceProductId, keyValueStorage: KeyValueStorage.sharedInstance, manualOpen: manualOpen)
     }
 
-    init?(products: [Product], sourceProductId: String, keyValueStorage: KeyValueStorage) {
-        let vm = ExpressChatViewModel(productList: products, sourceProductId: sourceProductId)
+    init?(products: [Product], sourceProductId: String, keyValueStorage: KeyValueStorage, manualOpen: Bool) {
+        let vm = ExpressChatViewModel(productList: products, sourceProductId: sourceProductId, manualOpen: manualOpen)
         let vc = ExpressChatViewController(viewModel: vm)
         self.viewController = vc
         self.keyValueStorage = keyValueStorage
 
         vm.navigator = self
 
-        // user didn't pressed "Don't show again"
-        guard keyValueStorage.userShouldShowExpressChat else { return nil }
-        // express chat hasn't been shown for this product
-        guard !expressChatAlreadyShownForProduct(sourceProductId) else { return nil }
+        if !manualOpen {
+            // user didn't pressed "Don't show again"
+            guard keyValueStorage.userShouldShowExpressChat else { return nil }
+            // express chat hasn't been shown for this product
+            guard !expressChatAlreadyShownForProduct(sourceProductId) else { return nil }
+        }
     }
 
     func open(parent parent: UIViewController, animated: Bool, completion: (() -> Void)?) {
@@ -67,10 +69,12 @@ extension ExpressChatCoordinator: ExpressChatNavigator {
     }
 
     func sentMessage(forProduct: String, count: Int) {
+        saveProductAsExpressChatMessageSent(forProduct)
         saveProductAsExpressChatShown(forProduct)
         close(count, animated: true, completion: nil)
     }
 
+    // save products which already have shown the express chat
     private func saveProductAsExpressChatShown(productId: String) {
         var productsExpressShown = keyValueStorage.userProductsWithExpressChatAlreadyShown
 
@@ -84,6 +88,24 @@ extension ExpressChatCoordinator: ExpressChatNavigator {
     private func expressChatAlreadyShownForProduct(productId: String) -> Bool {
         for productShownId in keyValueStorage.userProductsWithExpressChatAlreadyShown {
             if productShownId == productId { return true }
+        }
+        return false
+    }
+
+    // save products which sent messages
+    private func saveProductAsExpressChatMessageSent(productId: String) {
+        var productsExpressSent = keyValueStorage.userProductsWithExpressChatMessageSent
+
+        for productSentId in productsExpressSent {
+            if productSentId == productId { return }
+        }
+        productsExpressSent.append(productId)
+        keyValueStorage.userProductsWithExpressChatMessageSent = productsExpressSent
+    }
+
+    private func expressChatMessageSentForProduct(productId: String) -> Bool {
+        for productSentId in keyValueStorage.userProductsWithExpressChatMessageSent {
+            if productSentId == productId { return true }
         }
         return false
     }

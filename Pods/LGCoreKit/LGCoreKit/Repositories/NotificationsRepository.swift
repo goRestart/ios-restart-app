@@ -14,37 +14,19 @@ public typealias NotificationsCompletion = NotificationsResult -> Void
 public typealias NotificationsUnreadCountResult = Result<UnreadNotificationsCounts, RepositoryError>
 public typealias NotificationsUnreadCountCompletion = NotificationsUnreadCountResult -> Void
 
-public final class NotificationsRepository {
-
-    let dataSource: NotificationsDataSource
-
-    // MARK: - Lifecycle
-
-    init(dataSource: NotificationsDataSource) {
-        self.dataSource = dataSource
-    }
-
-    // MARK: - Public methods
+public protocol NotificationsRepository {
 
     /**
      Retrieves all notifications from the loged-in user
 
      - parameter completion: The completion closure
      */
-    public func index(completion: NotificationsCompletion?) {
-        dataSource.index { result in
-            handleApiResult(result, completion: completion)
-        }
-    }
+    func index(completion: NotificationsCompletion?)
 
     /**
      Retrieves the unread notifications count.
 
      - parameter completion: The completion closure.
      */
-    public func unreadNotificationsCount(completion: NotificationsUnreadCountCompletion?) {
-        dataSource.unreadCount { result in
-            handleApiResult(result, completion: completion)
-        }
-    }
+    func unreadNotificationsCount(completion: NotificationsUnreadCountCompletion?)
 }

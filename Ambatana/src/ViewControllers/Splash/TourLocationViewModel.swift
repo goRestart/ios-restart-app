@@ -6,51 +6,42 @@
 //  Copyright © 2016 Ambatana. All rights reserved.
 //
 
+import RxSwift
+import LGCoreKit
+
 final class TourLocationViewModel: BaseViewModel {
 
     var title: String {
-        switch FeatureFlags.onboardinPermissionsMode {
-        case .Original, .OneButtonOriginalImages:
-            return LGLocalizedString.locationPermissionsTitle
-        case .OneButtonNewImages:
-            return LGLocalizedString.locationPermissionsTitleV2
-
-        }
+        return LGLocalizedString.locationPermissionsTitleV2
     }
     var showBubbleInfo: Bool {
-        switch FeatureFlags.onboardinPermissionsMode {
-        case .Original, .OneButtonOriginalImages:
-            return true
-        case .OneButtonNewImages:
-            return false
-        }
+        return false
     }
     var showAlertInfo: Bool {
         return !showBubbleInfo
     }
     var infoImage: UIImage? {
-        switch FeatureFlags.onboardinPermissionsMode {
-        case .Original, .OneButtonOriginalImages:
-            return UIImage(named: "img_notifications")
-        case .OneButtonNewImages:
-            return UIImage(named: "img_permissions_background")
-        }
+        return UIImage(named: "img_permissions_background")
     }
-    var showNoButton: Bool {
-        switch FeatureFlags.onboardinPermissionsMode {
-        case .Original:
-            return true
-        case .OneButtonNewImages, .OneButtonOriginalImages:
-            return false
-        }
-    }
-    
+
     let typePage: EventParameterTypePage
 
     weak var navigator: TourLocationNavigator?
-    
-    init(source: EventParameterTypePage) {
+
+    private let disposeBag = DisposeBag()
+
+    convenience init(source: EventParameterTypePage) {
+        self.init(source: source, locationManager: Core.locationManager)
+    }
+
+    init(source: EventParameterTypePage, locationManager: LocationManager) {
         self.typePage = source
+        super.init()
+
+        locationManager.locationEvents.map { $0 == .ChangedPermissions }.observeOn(MainScheduler.instance)
+            .bindNext { [weak self] _ in
+                self?.nextStep()
+        }.addDisposableTo(disposeBag)
     }
 
     func nextStep() {

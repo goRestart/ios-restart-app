@@ -72,6 +72,8 @@
 "chat_deleted_disclaimer_w_name" = "You can't continue this conversation because %@'s account is no longer active.";
 "chat_deleted_disclaimer_wo_name" = "You can't continue this conversation because this account is no longer active.";
 "chat_disclaimer_letgo_team" = "LETGO TEAM";
+"chat_express_banner_button_title" = "See Deals";
+"chat_express_banner_title" = "Related deals near you";
 "chat_express_contact_one_button_text" = "Contact 1 seller";
 "chat_express_contact_sellers_label" = "Contact these sellers before other buyers snatch them up!";
 "chat_express_contact_various_button_text" = "Contact %@ sellers";
@@ -125,7 +127,7 @@
 "chat_safety_tips_message" = "• Meet in person and pay in cash.\n\n• Keep conversations in the letgo chat.\n\n• Too good to be true? Find another buyer/seller!";
 "chat_safety_tips_title" = "STAY SAFE";
 "chat_send_button" = "Send";
-"chat_send_error_generic" = "There was an error sending the message. Please try again later.";
+"chat_send_error_generic" = "An error occurred while sending the message. Please try again.";
 "chat_stickers_tooltip_add_stickers" = "Add fun stickers";
 "chat_stickers_tooltip_new" = "NEW!";
 "chat_unblock_user" = "Unblock User";
@@ -142,8 +144,8 @@
 "collection_explore_button" = "Explore";
 "collection_furniture_title" = "No place like home";
 "collection_gaming_title" = "The game is on";
-"collection_halloween_title" = "Trick or treat";
 "collection_transport_title" = "Travel in style";
+"collection_you_title" = "Selected for you";
 "commercializer_create_from_settings" = "Create a Free Commercial";
 "commercializer_display_share_alert" = "Share this masterpiece";
 "commercializer_display_share_label" = "Share your masterpiece with the world and watch the offers come rolling in";
@@ -288,9 +290,11 @@
 "main_sign_up_error_request_already_sent" = "Your request has already been processed. Please wait before trying again.";
 "main_sign_up_error_user_rejected" = "The email you entered is incorrect. Please check it and try again.";
 "main_sign_up_facebook_connect_button" = "Continue with Facebook";
+"main_sign_up_facebook_connect_button_w_name" = "Log in as %@";
 "main_sign_up_fb_connect_error_email_taken" = "Your email address is already registered. Please use it to log in.";
 "main_sign_up_fb_connect_error_generic" = "Unable to log in. Please try again.";
 "main_sign_up_google_connect_button" = "Continue with Google";
+"main_sign_up_google_connect_button_w_name" = "Log in as %@";
 "main_sign_up_help_button" = "Help";
 "main_sign_up_log_in_label" = "Log In";
 "main_sign_up_or_label" = "OR USE YOUR EMAIL";
@@ -380,11 +384,15 @@
 "product_delete_confirm_ok_button" = "I don't want to sell it";
 "product_delete_confirm_sold_button" = "I already sold it";
 "product_delete_confirm_title" = "Delete Product";
+"product_delete_post_button_title" = "Post Another Item";
+"product_delete_post_subtitle" = "Try posting something else and start making money.";
+"product_delete_post_title" = "NO LUCK THIS TIME?";
 "product_delete_send_error_generic" = "Oops! We couldn't delete your product. Please try again.";
 "product_delete_sold_confirm_message" = "Are you sure you want to delete this product?";
 "product_delete_success_message" = "Your product was successfully deleted.";
 "product_distance_X_from_you" = "%@ from you";
 "product_distance_more_than_from_you" = "More than %@ from you";
+"product_favorite_direct_message" = "I like it! Is it still available?";
 "product_free_price" = "Free";
 "product_is_mine_share_body" = "Check out what I'm selling on letgo!";
 "product_is_mine_share_body_free" = "Check out what I'm giving away on letgo!";
@@ -409,6 +417,8 @@
 "product_mark_as_sold_free_success_message" = "Congratulations! Your product has been successfully marked as given away";
 "product_mark_as_sold_success_message" = "Congratulations, your product was successfully marked as sold!";
 "product_more_info_open_button" = "MORE INFO";
+"product_more_info_related_title" = "YOU MIGHT BE INTERESTED IN:";
+"product_more_info_related_view_more" = "View more";
 "product_more_info_tooltip_part_1" = "Tap";
 "product_more_info_tooltip_part_2" = "%@ to see more info";
 "product_negotiable_price" = "Negotiable";
@@ -605,7 +615,7 @@
 "sell_picture_selected_delete_button" = "Delete";
 "sell_picture_selected_save_into_camera_roll_button" = "Save to camera roll";
 "sell_picture_selected_title" = "Choose an action";
-"sell_post_free_label" = "Give it away";
+"sell_post_free_label" = "Free";
 "sell_price_field" = "Price:";
 "sell_send_error_invalid_category" = "Please choose a category for the product.";
 "sell_send_error_invalid_description" = "Please insert a valid description for your product.";
@@ -631,7 +641,13 @@
 "settings_invite_facebook_friends_button" = "Invite Facebook Friends";
 "settings_invite_facebook_friends_error" = "An error occurred while sharing your invitation.";
 "settings_invite_facebook_friends_ok" = "Your invitation was successfully shared!";
+"settings_logout_alert_message" = "Are you sure you want to log out?";
+"settings_logout_alert_ok" = "Log out";
 "settings_logout_button" = "Log out";
+"settings_marketing_notifications_switch" = "Marketing Notifications";
+"settings_section_profile" = "Profile";
+"settings_section_promote" = "Promote";
+"settings_section_support" = "Support";
 "settings_title" = "Settings";
 "sign_up_acceptance_error" = "To sign up you have to accept the Terms & Conditions and the Privacy Policy";
 "sign_up_email_field_hint" = "Email";
@@ -649,6 +665,8 @@
 "sign_up_terms_conditions_terms_part" = "Terms & Conditions";
 "sign_up_title" = "Create new account";
 "sign_up_username_field_hint" = "Full name";
+"suggestions_last_searches_clear_button" = "Clear";
+"suggestions_last_searches_title" = "Recent Searches";
 "tab_bar_give_away_button" = "Give It Away";
 "tab_bar_give_away_tooltip" = "Now you can give items away";
 "tab_bar_sell_stuff_button" = "Sell Stuff";

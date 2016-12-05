@@ -3,7 +3,7 @@ PODS:
   - AlamofireImage (2.5.0):
     - Alamofire (~> 3.5)
   - Amplitude-iOS (3.8.5)
-  - AppsFlyerFramework (4.5.9)
+  - AppsFlyerFramework (4.5.12)
   - Argo (3.1.0)
   - Bolts (1.8.4):
     - Bolts/AppLinks (= 1.8.4)
@@ -11,11 +11,11 @@ PODS:
   - Bolts/AppLinks (1.8.4):
     - Bolts/Tasks
   - Bolts/Tasks (1.8.4)
-  - Branch (0.12.12):
-    - Branch/Core (= 0.12.12)
-    - Branch/without-IDFA (= 0.12.12)
-  - Branch/Core (0.12.12)
-  - Branch/without-IDFA (0.12.12)
+  - Branch (0.12.18):
+    - Branch/Core (= 0.12.18)
+    - Branch/without-IDFA (= 0.12.18)
+  - Branch/Core (0.12.18)
+  - Branch/without-IDFA (0.12.18)
   - bumper (0.2.0)
   - CHTCollectionViewWaterfallLayout (0.9.5):
     - CHTCollectionViewWaterfallLayout/ObjC (= 0.9.5)
@@ -34,7 +34,7 @@ PODS:
   - CryptoSwift (0.4.1)
   - Curry (2.3.3)
   - DeviceUtil (1.3.8)
-  - Fabric (1.6.10)
+  - Fabric (1.6.11)
   - FastttCamera (0.3.4):
     - FastttCamera/Default (= 0.3.4)
   - FastttCamera/Default (0.3.4)
@@ -68,30 +68,40 @@ PODS:
     - GoogleSignIn (~> 4.0)
   - GoogleAppUtilities (1.1.2):
     - GoogleSymbolUtilities (~> 1.1)
-  - GoogleAuthUtilities (2.0.2):
-    - GoogleNetworkingUtilities (~> 1.2)
-    - GoogleSymbolUtilities (~> 1.1)
   - GoogleIDFASupport (3.14.0)
   - GoogleInterchangeUtilities (1.2.2):
     - GoogleSymbolUtilities (~> 1.1)
-  - GoogleNetworkingUtilities (1.2.2):
-    - GoogleSymbolUtilities (~> 1.1)
-  - GoogleSignIn (4.0.0):
+  - GoogleSignIn (4.0.1):
     - GoogleAppUtilities (~> 1.1)
-    - GoogleAuthUtilities (~> 2.0)
-    - GoogleNetworkingUtilities (~> 1.2)
-    - GoogleUtilities (~> 1.3)
+    - GoogleToolboxForMac/NSDictionary+URLArguments (~> 2.1)
+    - GTMOAuth2 (~> 1.0)
+    - GTMSessionFetcher/Core (~> 1.1)
   - GoogleSymbolUtilities (1.1.2)
+  - GoogleToolboxForMac/DebugUtils (2.1.0):
+    - GoogleToolboxForMac/Defines (= 2.1.0)
+  - GoogleToolboxForMac/Defines (2.1.0)
+  - GoogleToolboxForMac/NSDictionary+URLArguments (2.1.0):
+    - GoogleToolboxForMac/DebugUtils (= 2.1.0)
+    - GoogleToolboxForMac/Defines (= 2.1.0)
+    - GoogleToolboxForMac/NSString+URLArguments (= 2.1.0)
+  - GoogleToolboxForMac/NSString+URLArguments (2.1.0)
   - GoogleUtilities (1.3.2):
     - GoogleSymbolUtilities (~> 1.1)
+  - GTMOAuth2 (1.1.4):
+    - GTMSessionFetcher (~> 1.1)
+  - GTMSessionFetcher (1.1.7):
+    - GTMSessionFetcher/Full (= 1.1.7)
+  - GTMSessionFetcher/Core (1.1.7)
+  - GTMSessionFetcher/Full (1.1.7):
+    - GTMSessionFetcher/Core (= 1.1.7)
   - JBKenBurnsView (1.0)
   - JSONWebToken (1.5.0):
     - CryptoSwift (~> 0.4.0)
   - KeychainSwift (3.0.16)
   - KMPlaceholderTextView (1.2.2)
-  - Leanplum-iOS-SDK (1.4.0.2)
+  - Leanplum-iOS-SDK (1.4.1)
   - LGCollapsibleLabel (0.2.0)
-  - LGCoreKit (1.4.1):
+  - LGCoreKit (1.5.2):
     - Alamofire (~> 3.5.0)
     - Argo (= 3.1.0)
     - CocoaLumberjack/Swift (~> 2.4.0)
@@ -103,31 +113,31 @@ PODS:
     - RxSwift (~> 2.6.0)
     - SwiftWebSocket (= 2.6.4)
   - Nimble (4.1.0)
-  - OHHTTPStubs (5.2.1):
-    - OHHTTPStubs/Default (= 5.2.1)
-  - OHHTTPStubs/Core (5.2.1)
-  - OHHTTPStubs/Default (5.2.1):
+  - OHHTTPStubs (5.2.3):
+    - OHHTTPStubs/Default (= 5.2.3)
+  - OHHTTPStubs/Core (5.2.3)
+  - OHHTTPStubs/Default (5.2.3):
     - OHHTTPStubs/Core
     - OHHTTPStubs/JSON
     - OHHTTPStubs/NSURLSession
     - OHHTTPStubs/OHPathHelpers
-  - OHHTTPStubs/JSON (5.2.1):
+  - OHHTTPStubs/JSON (5.2.3):
     - OHHTTPStubs/Core
-  - OHHTTPStubs/NSURLSession (5.2.1):
+  - OHHTTPStubs/NSURLSession (5.2.3):
     - OHHTTPStubs/Core
-  - OHHTTPStubs/OHPathHelpers (5.2.1)
-  - OHHTTPStubs/Swift (5.2.1):
+  - OHHTTPStubs/OHPathHelpers (5.2.3)
+  - OHHTTPStubs/Swift (5.2.3):
     - OHHTTPStubs/Core
   - Quick (0.9.3)
   - ReachabilitySwift (2.4)
   - Result (2.1.3)
-  - RxBlocking (2.6.0):
-    - RxSwift (~> 2.5)
-  - RxCocoa (2.6.0):
-    - RxSwift (~> 2.5)
-  - RxSwift (2.6.0)
-  - RxTests (2.6.0):
-    - RxSwift (~> 2.5)
+  - RxBlocking (2.6.1):
+    - RxSwift (~> 2.6)
+  - RxCocoa (2.6.1):
+    - RxSwift (~> 2.6)
+  - RxSwift (2.6.1)
+  - RxTests (2.6.1):
+    - RxSwift (~> 2.6)
   - SlackTextViewController (1.9.4)
   - SwiftWebSocket (2.6.4)
   - SwiftyUserDefaults (2.2.1)
@@ -140,7 +150,7 @@ PODS:
 DEPENDENCIES:
   - AlamofireImage (~> 2.5.0)
   - Amplitude-iOS (~> 3.8.5)
-  - AppsFlyerFramework (~> 4.5.9)
+  - AppsFlyerFramework (~> 4.5.12)
   - Argo (= 3.1.0)
   - Branch (~> 0.12.12)
   - bumper (= 0.2.0)
@@ -162,7 +172,7 @@ DEPENDENCIES:
   - KMPlaceholderTextView (~> 1.2.2)
   - Leanplum-iOS-SDK (~> 1.4.0)
   - LGCollapsibleLabel (= 0.2.0)
-  - LGCoreKit (= 1.4.1)
+  - LGCoreKit (= 1.5.2)
   - Nimble (~> 4.1.0)
   - OHHTTPStubs (~> 5.2.1)
   - OHHTTPStubs/Swift
@@ -202,10 +212,10 @@ SPEC CHECKSUMS:
   Alamofire: 0dfba1184a543e2aa160f4e39cac4e8aba48d223
   AlamofireImage: 2d34936e5201270bb17a316a786e90e83b4a249d
   Amplitude-iOS: de7cfde0c791d05fb0e0f82bd34cbd3585ccd63f
-  AppsFlyerFramework: 93c3eda4d73b8477641fabe6952260ee70ee1077
+  AppsFlyerFramework: 495b343632cda4d1a42e13f25d5adfb91d0ee52a
   Argo: bb0e94e309d6ceb8fa58910205c8968be101e429
   Bolts: 8a7995239dbe724f9cba2248b766d48b7ebdd322
-  Branch: 714cc02afc4676902f14f949157cdbf8c73f64f4
+  Branch: 94efdf8da4cd28fa8fb9c877dc19cb6be2204e66
   bumper: bea4ea20dfc0591a9821796b4b28d0bfe53b0488
   CHTCollectionViewWaterfallLayout: 775ff73f48cfc13859b62d8bceb96e772e4a0318
   CocoaLumberjack: aa9dcab71bdf9eaf2a63bbd9ddc87863efe45457
@@ -214,7 +224,7 @@ SPEC CHECKSUMS:
   CryptoSwift: 25b5aff3f260967391f8fff2e9abe4254d2c6fd5
   Curry: 37223f4467e4802a08b6a414b526dcd919a4a777
   DeviceUtil: 9e91dd78b14cd51715d6fada8871c71b00283023
-  Fabric: c73f371ee543e3f0b80608f2674750e4910d1669
+  Fabric: 5911403591946b8228ab1c51d98f1d7137e863c6
   FastttCamera: 51f16712cbd5bdb08bc6231b957325c6be5e478d
   FBSDKCoreKit: fc7fa53d16b095ee3fd53f0cd59f1df8bcbb634d
   FBSDKLoginKit: 073f79b3b2e762fc6f54a283fe15f45372d59f5f
@@ -227,29 +237,30 @@ SPEC CHECKSUMS:
   FLEX: bd1a39e55b56bb413b6f1b34b3c10a0dc44ef079
   Google: 813c467362eabc11385f5a5cc9ad0cb651a58f4e
   GoogleAppUtilities: a8a552aa74f6597f805e45b5a3962766c3134973
-  GoogleAuthUtilities: ccad2e0a9284699973ff57c0dd24c3893657fda4
   GoogleIDFASupport: aaf8c10bd429abb1c15349d5252244f5eda8ead1
   GoogleInterchangeUtilities: d5bc4d88d5b661ab72f9d70c58d02ca8c27ad1f7
-  GoogleNetworkingUtilities: 3edd3a8161347494f2da60ea0deddc8a472d94cb
-  GoogleSignIn: 09036ed61f8e75f1424100d63f7719480b2428c3
+  GoogleSignIn: a8694c0a8e6d1b0ec77c58014de5bfd4ba2fa766
   GoogleSymbolUtilities: 631ee17048aa5e9ab133470d768ea997a5ef9b96
+  GoogleToolboxForMac: 2b2596cbb7186865e98cadf2b1e262d851c2b168
   GoogleUtilities: 8bbc733218aad26306f9d4a253823986110e3358
+  GTMOAuth2: 7fc9c10f5c745f4d9850419ea88889fe3baa6b7d
+  GTMSessionFetcher: a1f8ed39e4fe21c68957daed472c7afbcdf29166
   JBKenBurnsView: e40d10fcd4fbeb652c29fa431d4748780a4672ff
   JSONWebToken: 6c8968ace6b60b2e6156a7bbe5019fd9b5ff9b5a
   KeychainSwift: a5bb85cd498ce2217b55e055ec59e9268d83384c
   KMPlaceholderTextView: bbff031935d84f7eedb585e7f77120020fbae9e8
-  Leanplum-iOS-SDK: acd1b67d17b4ce09a8be363300910542aeeec5ef
+  Leanplum-iOS-SDK: 21bac3f21444768e3a892c9e5cbada6fe7abaa5d
   LGCollapsibleLabel: f1631ac1274b268731e3f6a74b121e97a97626da
-  LGCoreKit: 6a67d2611913f4bae2a93b56ef3d0a3115246b2c
+  LGCoreKit: cc0b28a010c45b087d2d29393708439d2619b0ac
   Nimble: 97a0a4cae5124c117115634b2d055d8c97d0af19
-  OHHTTPStubs: 3a42f25c00563b71355ac73112ba2324e9e6cef4
+  OHHTTPStubs: e238cd5b66d8efa51c861db45895de8fe079f4a7
   Quick: 13a2a2b19a5d8e3ed4fd0c36ee46597fd77ebf71
   ReachabilitySwift: dc7452dab85ff881904215e1a113326ad8d07beb
   Result: 18e1a7597fbcca5923c565b40a25a98afafdee02
-  RxBlocking: f2e0a7e74d5e9d3029d2b1118e2af01f583fbdd8
-  RxCocoa: 89ab00d5753502520227940e3a0e0a0413683c6b
-  RxSwift: 77f3a0b15324baa7a1c9bfa9f199648a82424e26
-  RxTests: cdcc379c70e80089a8bc2c99515223339d1c3b81
+  RxBlocking: ff9f5a592b813dd9e3bacd1bf82f72dc00f60ad8
+  RxCocoa: 3bb2820fd2a1ba48a70d38926bec0803838ae802
+  RxSwift: 0147fbf94e65c6085da9540de92848189ac1c3f6
+  RxTests: ddd7dac9e9379d7eea5383447949ed4eafd0b0fc
   SlackTextViewController: d490f354dba963bc469a6b9ce3213978eaed67a5
   SwiftWebSocket: fdb5b4393cede304d44befbaeb0c8ef14c28d3bb
   SwiftyUserDefaults: 7abdba50a50ea0c18ee8903af3c88e4c1cb8448d
@@ -257,6 +268,6 @@ SPEC CHECKSUMS:
   TwitterCore: 817eae3e291fa4125b47789e26a4f6f024115c1f
   TwitterKit: 8a383da8d9c21b0423716381ea8bbfce20622d91
 
-PODFILE CHECKSUM: f2a2e4479074e8c66ede776d2f3fe7a6f7678ea9
+PODFILE CHECKSUM: 1c8655459e7a234d783f884c80e9fd4786bb77c6
 
 COCOAPODS: 1.1.0.rc.3

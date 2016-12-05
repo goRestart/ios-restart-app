@@ -226,6 +226,12 @@
 // When a user asked to delete his account (disclaimer message)
 "chat_deleted_disclaimer_wo_name" = "You can't continue this conversation because this account is no longer active.";
 
+// text in chat express banner action button
+"chat_express_banner_button_title" = "See Deals";
+
+// text in chat express banner title label
+"chat_express_banner_title" = "Related deals near you";
+
 // Express chat, don't miss out label text
 "chat_express_dont_miss_label" = "Don't miss out on these deals";
 
@@ -362,7 +368,7 @@
 "chat_send_button" = "Send";
 
 // Chat send error generic. Message displayal is like the other error messages
-"chat_send_error_generic" = "There was an error sending the message. Please try again later.";
+"chat_send_error_generic" = "An error occurred while sending the message. Please try again.";
 
 // Chat tooltip add stickers text
 "chat_stickers_tooltip_add_stickers" = "Add fun stickers";
@@ -429,6 +435,9 @@
 
 // Title of furniture collection
 "collection_furniture_title" = "No place like home";
+
+// Title of selected for you collection
+"collection_you_title" = "Selected for you";
 
 // Title of halloween collection
 "collection_halloween_title" = "Trick or treat";
@@ -855,6 +864,9 @@
 // Main sign up facebook connect button. Check image @ "main_sign_up_already_registered_label" segment
 "main_sign_up_facebook_connect_button" = "Continue with Facebook";
 
+// Main sign up facebook connect button with user name. Check image @ "main_sign_up_already_registered_label" segment
+"main_sign_up_facebook_connect_button_w_name" = "Log in as %@";
+
 // Main sign up fb connect error email taken. Message displayal is like the other error messages
 "main_sign_up_fb_connect_error_email_taken" = "Your email address is already registered. Please use it to log in.";
 
@@ -869,6 +881,9 @@
 
 // Main sign up google connect button. Check image @ "main_sign_up_already_registered_label" segment
 "main_sign_up_google_connect_button" = "Continue with Google";
+
+// Main sign up google connect button with user name. Check image @ "main_sign_up_already_registered_label" segment
+"main_sign_up_google_connect_button_w_name" = "Log in as %@";
 
 // Main sign up help button. Check image @ "main_sign_up_already_registered_label" segment
 "main_sign_up_help_button" = "Help";
@@ -1146,11 +1161,23 @@
 // Product delete success message.  Message displayal is like the other error messages.
 "product_delete_success_message" = "Your product was successfully deleted.";
 
+// Incentivate post after delete fullscreen button title
+"product_delete_post_button_title" = "Post Another Item";
+
+// Incentivate post after delete fullscreen text title
+"product_delete_post_title" = "NO LUCK THIS TIME?";
+
+// Incentivate post after delete fullscreen text subtitle
+"product_delete_post_subtitle" = "Try posting something else and start making money.";
+
 // Product distance from you. Check image @ "product_ask_a_question_button" segment
 "product_distance_more_than_from_you" = "More than %@ from you";
 
 // Product distance from you. Check image @ "product_ask_a_question_button" segment
 "product_distance_X_from_you" = "%@ from you";
+
+// direct message on product favorite
+"product_favorite_direct_message" = "I like it! Is it still available?";
 
 // Message to show on Free product
 "product_free_price" = "Free";
@@ -1241,6 +1268,12 @@
 
 // Button to open the More Info view tapping or dragging it
 "product_more_info_open_button" = "MORE INFO";
+
+// Related items title on product more info
+"product_more_info_related_title" = "YOU MIGHT BE INTERESTED IN:";
+
+// View more related items button on product more info
+"product_more_info_related_view_more" = "View more";
 
 // Text when price is 0$ 
 "product_negotiable_price" = "Negotiable";
@@ -1684,6 +1717,9 @@
 // Rating view title label.  Check attached image "rating_view.png" (but uppercase)
 "rating_view_title_label_uppercase" = "GIVE US 5 STARS!";
 
+// Title when showing list of related items
+"related_items_title" = "Related items";
+
 // Type Counterfeit items
 "report_user_counterfeit" = "Counterfeit items";
 
@@ -1814,7 +1850,7 @@
 "sell_price_field" = "Price:";
 
 // Sell edit product price as "give it away"
-"sell_post_free_label" = "Give it away";
+"sell_post_free_label" = "Free";
 
 // Sell send error invalid category. Check attached image "sell_send_error.png"
 "sell_send_error_invalid_category" = "Please choose a category for the product.";
@@ -1891,8 +1927,26 @@
 // Settings logout button. Check image @ "settings_change_password_button" segment
 "settings_logout_button" = "Log out";
 
+// Settings logout confirmation message.
+"settings_logout_alert_message" = "Are you sure you want to log out?";
+
+// Settings logout confirmation ok button.
+"settings_logout_alert_ok" = "Log out";
+
 // Settings title. Check image @ "settings_change_password_button" segment
 "settings_title" = "Settings";
+
+// Settings section profile
+"settings_section_profile" = "Profile";
+
+// Settings section promote
+"settings_section_promote" = "Promote";
+
+// Settings section support
+"settings_section_support" = "Support";
+
+// Settings option to turn on/off marketing notifications
+"settings_marketing_notifications_switch" = "Marketing Notifications";
 
 // Alert when you don't accept one of the above (just turkey)
 "sign_up_acceptance_error" = "To sign up you have to accept the Terms & Conditions and the Privacy Policy";
@@ -1941,6 +1995,12 @@
 
 // Sign up username field hint. Check image @ "sign_up_email_field_hint" segment
 "sign_up_username_field_hint" = "Full name";
+
+// Title for Last Searches sections under Search suggestions.
+"suggestions_last_searches_title" = "Recent Searches";
+
+// Button title when user wants to remove Recent Search
+"suggestions_last_searches_clear_button" = "Clear";
 
 // Tab bar tool tip. Check attached image "tab_bar.png"
 "tab_bar_tool_tip" = "Sell Your Stuff";

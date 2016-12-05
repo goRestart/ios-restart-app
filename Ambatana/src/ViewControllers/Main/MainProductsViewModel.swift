@@ -12,13 +12,8 @@ import Result
 import RxSwift
 
 protocol MainProductsViewModelDelegate: BaseViewModelDelegate {
-    func vmDidSearch(searchViewModel: MainProductsViewModel)
-    func vmShowFilters(filtersVM: FiltersViewModel)
+    func vmDidSearch()
     func vmShowTags(tags: [FilterTag])
-}
-
-protocol PermissionsDelegate: class {
-    func mainProductsViewModelShowPushPermissionsAlert(mainProductsViewModel: MainProductsViewModel)
 }
 
 struct MainProductsHeader: OptionSetType {
@@ -40,7 +35,7 @@ class MainProductsViewModel: BaseViewModel {
         switch searchType {
         case .Collection:
             return true
-        case .User, .Trending:
+        case .User, .Trending, .LastSearch:
             return false
         }
     }
@@ -50,6 +45,8 @@ class MainProductsViewModel: BaseViewModel {
     let infoBubbleVisible = Variable<Bool>(false)
     let infoBubbleText = Variable<String>(LGLocalizedString.productPopularNearYou)
     let errorMessage = Variable<String?>(nil)
+    
+    private static let firstVersionNumber = 1
 
     var tags: [FilterTag] {
         
@@ -84,12 +81,13 @@ class MainProductsViewModel: BaseViewModel {
     }
 
     var shouldShowInviteButton: Bool {
-        return tabNavigator?.canOpenAppInvite() ?? false
+        return navigator?.canOpenAppInvite() ?? false
     }
 
     let mainProductsHeader = Variable<MainProductsHeader>([])
 
     // Manager & repositories
+    private let sessionManager: SessionManager
     private let myUserRepository: MyUserRepository
     private let trendingSearchesRepository: TrendingSearchesRepository
     private let locationManager: LocationManager
@@ -97,18 +95,29 @@ class MainProductsViewModel: BaseViewModel {
 
     private let tracker: Tracker
     private let searchType: SearchType? // The initial search
-    private let collections: [CollectionCellType]
+    private let generalCollectionsShuffled: [CollectionCellType]
+    private var collections: [CollectionCellType] {
+        guard keyValueStorage[.lastSearches].count >= minimumSearchesSavedToShowCollection else { return generalCollectionsShuffled }
+        return [.You] + generalCollectionsShuffled
+    }
+    private let keyValueStorage: KeyValueStorageable
+    private let featureFlags: FeatureFlaggeable
     
     // > Delegate
     weak var delegate: MainProductsViewModelDelegate?
-    weak var permissionsDelegate: PermissionsDelegate?
 
     // > Navigator
-    weak var tabNavigator: TabNavigator?
+    weak var navigator: MainTabNavigator?
     
     // List VM
     let listViewModel: ProductListViewModel
-    private var productListRequester: FilteredProductListRequester
+    private let productListRequester: FilteredProductListRequester
+    var currentActiveFilters: ProductFilters? {
+        return productListRequester.filters
+    }
+    var userActiveFilters: ProductFilters? {
+        return filters
+    }
     private var shouldRetryLoad = false
     private var lastReceivedLocation: LGLocation?
     private var bubbleDistance: Float = 1
@@ -116,26 +125,44 @@ class MainProductsViewModel: BaseViewModel {
     // Search tracking state
     private var shouldTrackSearch = false
 
-    // Trending searches
-    let trendingSearches = Variable<[String]?>(nil)
+    // Suggestion searches
+    let minimumSearchesSavedToShowCollection = 3
+    let lastSearchesSavedMaximum = 10
+    let lastSearchesShowMaximum = 3
+    let trendingSearches = Variable<[String]>([])
+    let lastSearches = Variable<[String]>([])
+    var lastSearchesCounter: Int {
+        return lastSearches.value.count
+    }
+    var trendingCounter: Int {
+        return trendingSearches.value.count
+    }
+
+    private let disposeBag = DisposeBag()
+    
     
     // MARK: - Lifecycle
     
-    init(myUserRepository: MyUserRepository, trendingSearchesRepository: TrendingSearchesRepository,
+    init(sessionManager: SessionManager, myUserRepository: MyUserRepository, trendingSearchesRepository: TrendingSearchesRepository,
          locationManager: LocationManager, currencyHelper: CurrencyHelper, tracker: Tracker, searchType: SearchType? = nil,
-         filters: ProductFilters, tabNavigator: TabNavigator?) {
+         filters: ProductFilters, keyValueStorage: KeyValueStorageable,
+         featureFlags: FeatureFlaggeable) {
+        
+        self.sessionManager = sessionManager
         self.myUserRepository = myUserRepository
         self.trendingSearchesRepository = trendingSearchesRepository
         self.locationManager = locationManager
         self.currencyHelper = currencyHelper
         self.tracker = tracker
         self.searchType = searchType
+        self.generalCollectionsShuffled = CollectionCellType.generalCollections.shuffle()
         self.filters = filters
-        self.tabNavigator = tabNavigator
-        self.collections = CollectionCellType.allValuesShuffled
-        self.productListRequester = FilteredProductListRequester()
-        let show3Columns = DeviceFamily.isWideScreen
+        self.keyValueStorage = keyValueStorage
+        self.featureFlags = featureFlags
+        let show3Columns = DeviceFamily.current.isWiderOrEqualThan(.iPhone6Plus)
         let columns = show3Columns ? 3 : 2
+        let itemsPerPage = show3Columns ? Constants.numProductsPerPageBig : Constants.numProductsPerPageDefault
+        self.productListRequester = FilteredProductListRequester(itemsPerPage: itemsPerPage)
         self.listViewModel = ProductListViewModel(requester: self.productListRequester, products: nil,
                                                   numberOfColumns: columns)
         self.listViewModel.productListFixedInset = show3Columns ? 6 : 10
@@ -143,25 +170,29 @@ class MainProductsViewModel: BaseViewModel {
         if let search = searchType where !search.isCollection && !search.query.isEmpty {
             self.shouldTrackSearch = true
         }
+        
         super.init()
 
         setup()
     }
     
-    convenience init(searchType: SearchType? = nil, filters: ProductFilters, tabNavigator: TabNavigator?) {
+    convenience init(searchType: SearchType? = nil, filters: ProductFilters) {
+        let sessionManager = Core.sessionManager
         let myUserRepository = Core.myUserRepository
         let trendingSearchesRepository = Core.trendingSearchesRepository
         let locationManager = Core.locationManager
         let currencyHelper = Core.currencyHelper
         let tracker = TrackerProxy.sharedInstance
-        self.init(myUserRepository: myUserRepository, trendingSearchesRepository: trendingSearchesRepository,
+        let keyValueStorage = KeyValueStorage.sharedInstance
+        let featureFlags = FeatureFlags.sharedInstance
+        self.init(sessionManager: sessionManager,myUserRepository: myUserRepository, trendingSearchesRepository: trendingSearchesRepository,
                   locationManager: locationManager, currencyHelper: currencyHelper, tracker: tracker, searchType: searchType,
-                  filters: filters, tabNavigator: tabNavigator)
+                  filters: filters, keyValueStorage: keyValueStorage, featureFlags: featureFlags)
     }
     
     convenience init(searchType: SearchType? = nil, tabNavigator: TabNavigator?) {
         let filters = ProductFilters()
-        self.init(searchType: searchType, filters: filters, tabNavigator: tabNavigator)
+        self.init(searchType: searchType, filters: filters)
     }
 
     deinit {
@@ -172,6 +203,7 @@ class MainProductsViewModel: BaseViewModel {
         updatePermissionsWarning()
         if let currentLocation = locationManager.currentLocation {
             retrieveProductsIfNeededWithNewLocation(currentLocation)
+            retrieveLastUserSearch()
             retrieveTrendingSearches()
         }
     }
@@ -184,20 +216,15 @@ class MainProductsViewModel: BaseViewModel {
     */
     func search(query: String) {
         guard !query.characters.isEmpty else { return }
-        delegate?.vmDidSearch(viewModelForSearch(.User(query: query)))
+    
+        delegate?.vmDidSearch()
+        navigator?.openMainProduct(withSearchType: .User(query: query), productFilters: filters)
     }
 
     func showFilters() {
-        let filtersVM = FiltersViewModel(currentFilters: filters ?? ProductFilters())
-        filtersVM.dataDelegate = self
-        delegate?.vmShowFilters(filtersVM)
-        
+        navigator?.showFilters(with: filters, filtersVMDataDelegate: self)
         // Tracking
         tracker.trackEvent(TrackerEvent.filterStart())
-    }
-
-    func shareDelegateForProduct(product: Product) -> MainProductsViewModelShareDelegate? {
-        return MainProductsViewModelShareDelegate(product: product, myUser: myUserRepository.myUser)
     }
 
     /**
@@ -259,25 +286,26 @@ class MainProductsViewModel: BaseViewModel {
         updateListView()
     }
 
-
+    
     // MARK: - Private methods
 
     private func setup() {
         listViewModel.dataDelegate = self
-        productListRequester.filters = filters
-        productListRequester.queryString = searchType?.query
+        productListRequester.filters = setupFiltersForRequester()
 
+        productListRequester.queryString = searchType?.query
         setupSessionAndLocation()
         setupPermissionsNotification()
     }
-
+   
+    
     /**
         Returns a view model for search.
     
         - returns: A view model for search.
     */
     private func viewModelForSearch(searchType: SearchType) -> MainProductsViewModel {
-        return MainProductsViewModel(searchType: searchType, filters: filters, tabNavigator: tabNavigator)
+        return MainProductsViewModel(searchType: searchType, filters: filters)
     }
     
     private func updateListView() {
@@ -285,7 +313,7 @@ class MainProductsViewModel: BaseViewModel {
             infoBubbleText.value = LGLocalizedString.productPopularNearYou
         }
 
-        productListRequester.filters = filters
+        productListRequester.filters = setupFiltersForRequester()
         infoBubbleVisible.value = false
         errorMessage.value = nil
         listViewModel.resetUI()
@@ -300,6 +328,18 @@ class MainProductsViewModel: BaseViewModel {
         } else {
             return LGLocalizedString.productDistanceMoreThanFromYou(distanceString)
         }
+    }
+    
+    private func setupFiltersForRequester() -> ProductFilters {
+        guard featureFlags.showLiquidProductsToNewUser else { return filters }
+        guard keyValueStorage[.sessionNumber] == MainProductsViewModel.firstVersionNumber else { return filters }
+        var filtersForRequester: ProductFilters = filters
+        let query = searchType?.query ?? ""
+        if query.isEmpty && filters.selectedCategories.isEmpty {
+            let mainCategories: [ProductCategory] = [.CarsAndMotors, .Electronics, .HomeAndGarden, .SportsLeisureAndGames]
+            filtersForRequester.selectedCategories = mainCategories
+        }
+        return filtersForRequester
     }
 }
 
@@ -342,10 +382,7 @@ extension MainProductsViewModel: ProductListViewCellsDelegate {
         }
     }
 
-    func visibleBottomCell(index: Int) {
-        guard index == Constants.itemIndexPushPermissionsTrigger else { return }
-        permissionsDelegate?.mainProductsViewModelShowPushPermissionsAlert(self)
-    }
+    func visibleBottomCell(index: Int) { }
 }
 
 
@@ -354,9 +391,15 @@ extension MainProductsViewModel: ProductListViewCellsDelegate {
 extension MainProductsViewModel: ProductListViewModelDataDelegate {
     func productListVM(viewModel: ProductListViewModel, didSucceedRetrievingProductsPage page: UInt,
                               hasProducts: Bool) {
-
+        
         trackRequestSuccess(page: page, hasProducts: hasProducts)
-
+        // Only save the string when there is products and we are not searching a collection
+        if let queryString = productListRequester.queryString where hasProducts {
+            if let searchType = searchType where !searchType.isCollection {
+                updateLastSearchStoraged(queryString)
+            }
+        }
+    
         if shouldRetryLoad {
             shouldRetryLoad = false
             listViewModel.retrieveProducts()
@@ -430,7 +473,7 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate {
         let data = ProductDetailData.ProductList(product: product, cellModels: cellModels,
                                                  requester: productListRequester, thumbnailImage: thumbnailImage,
                                                  originFrame: originFrame, showRelated: showRelated, index: index)
-        tabNavigator?.openProduct(data, source: productVisitSource)
+        navigator?.openProduct(data, source: productVisitSource)
     }
     
     func vmProcessReceivedProductPage(products: [ProductCellModel], page: UInt) -> [ProductCellModel] {
@@ -447,11 +490,13 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate {
 
     func vmDidSelectCollection(type: CollectionCellType){
         tracker.trackEvent(TrackerEvent.exploreCollection(type.rawValue))
-        delegate?.vmDidSearch(viewModelForSearch(.Collection(type: type)))
+        let query = queryForCollection(type)
+        delegate?.vmDidSearch()
+        navigator?.openMainProduct(withSearchType: .Collection(type: type, query: query), productFilters: filters)
     }
     
     func vmUserDidTapInvite() {
-        tabNavigator?.openAppInvite()
+        navigator?.openAppInvite()
     }
 }
 
@@ -460,16 +505,13 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate {
 
 extension MainProductsViewModel {
     private func setupSessionAndLocation() {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(sessionDidChange),
-                                                         name: SessionManager.Notification.Login.rawValue, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(sessionDidChange),
-                                                         name: SessionManager.Notification.Logout.rawValue, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(locationDidChange),
-                                                         
-                                                         name: LocationManager.Notification.LocationUpdate.rawValue, object: nil)
+        sessionManager.sessionEvents.bindNext { [weak self] _ in self?.sessionDidChange() }.addDisposableTo(disposeBag)
+        locationManager.locationEvents.filter { $0 == .LocationUpdate }.bindNext { [weak self] _ in
+            self?.locationDidChange()
+        }.addDisposableTo(disposeBag)
     }
 
-    dynamic private func sessionDidChange() {
+    private func sessionDidChange() {
         guard listViewModel.canRetrieveProducts else {
             shouldRetryLoad = true
             return
@@ -477,7 +519,7 @@ extension MainProductsViewModel {
         listViewModel.retrieveProducts()
     }
 
-    dynamic private func locationDidChange() {
+    private func locationDidChange() {
         guard let newLocation = locationManager.currentLocation else { return }
 
         // Tracking: when a new location is received and has different type than previous one
@@ -489,6 +531,7 @@ extension MainProductsViewModel {
 
         // Retrieve products (should be place after tracking, as it updates lastReceivedLocation)
         retrieveProductsIfNeededWithNewLocation(newLocation)
+        retrieveLastUserSearch()
         retrieveTrendingSearches()
     }
 
@@ -515,7 +558,7 @@ extension MainProductsViewModel {
             shouldRetryLoad = true
         }
 
-        if shouldUpdate{
+        if shouldUpdate {
             listViewModel.retrieveProducts()
         }
 
@@ -525,29 +568,72 @@ extension MainProductsViewModel {
 }
 
 
-// MARK: - Trending searches
+// MARK: - Suggestions searches
 
 extension MainProductsViewModel {
 
     func trendingSearchAtIndex(index: Int) -> String? {
-        guard let trendings = trendingSearches.value where 0..<trendings.count ~= index else { return nil }
-        return trendings[index]
+        guard  0..<trendingSearches.value.count ~= index else { return nil }
+        return trendingSearches.value[index]
+    }
+    
+    func lastSearchAtIndex(index: Int) -> String? {
+        guard 0..<lastSearches.value.count ~= index else { return nil }
+        return lastSearches.value[index]
     }
 
     func selectedTrendingSearchAtIndex(index: Int) {
         guard let trendingSearch = trendingSearchAtIndex(index) where !trendingSearch.isEmpty else { return }
-        delegate?.vmDidSearch(viewModelForSearch(.Trending(query: trendingSearch)))
+        delegate?.vmDidSearch()
+        navigator?.openMainProduct(withSearchType: .Trending(query: trendingSearch), productFilters: filters)
+    }
+    
+    func selectedLastSearchAtIndex(index: Int) {
+        guard let lastSearch = lastSearchAtIndex(index) where !lastSearch.isEmpty else { return }
+        delegate?.vmDidSearch()
+        navigator?.openMainProduct(withSearchType: .LastSearch(query: lastSearch), productFilters: filters)
+    }
+    
+    func cleanUpLastSearches() {
+        keyValueStorage[.lastSearches] = []
+        lastSearches.value = keyValueStorage[.lastSearches]
+    }
+    
+    func retrieveLastUserSearch() {
+        // We saved up to lastSearchesSavedMaximum(10) but we show only lastSearchesShowMaximum(3)
+        var searchesToShow = [String]()
+        let allSearchesSaved = keyValueStorage[.lastSearches]
+        if allSearchesSaved.count > lastSearchesShowMaximum {
+            searchesToShow = Array(allSearchesSaved.suffix(lastSearchesShowMaximum))
+        } else {
+            searchesToShow = keyValueStorage[.lastSearches]
+        }
+        lastSearches.value = searchesToShow.reverse()
     }
 
     private func retrieveTrendingSearches() {
         guard let currentCountryCode = locationManager.currentPostalAddress?.countryCode else { return }
 
         trendingSearchesRepository.index(currentCountryCode) { [weak self] result in
-            self?.trendingSearches.value = result.value
+            self?.trendingSearches.value = result.value ?? []
         }
     }
+    
+    private func updateLastSearchStoraged(query: String) {
+        // We save up to lastSearchesSavedMaximum(10)
+        var searchesSaved = keyValueStorage[.lastSearches]
+        // Check if already exists and move to front.
+        if let index = searchesSaved.indexOf(query) {
+            searchesSaved.removeAtIndex(index)
+        }
+        searchesSaved.append(query)
+        if searchesSaved.count > lastSearchesSavedMaximum {
+            searchesSaved.removeFirst()
+        }
+        keyValueStorage[.lastSearches] = searchesSaved
+        retrieveLastUserSearch()
+    }
 }
-
 
 // MARK: Push Permissions
 
@@ -574,13 +660,13 @@ extension MainProductsViewModel {
 
     private func openPushPermissionsAlert() {
         trackPushPermissionStart()
-        let positive = UIAction(interface: .Button(LGLocalizedString.profilePermissionsAlertOk, .Default),
+        let positive = UIAction(interface: .StyledText(LGLocalizedString.profilePermissionsAlertOk, .Default),
                                 action: { [weak self] in
                                     self?.trackPushPermissionComplete()
                                     PushPermissionsManager.sharedInstance.showPushPermissionsAlert(prePermissionType: .ProductListBanner)
             },
                                 accessibilityId: .UserPushPermissionOK)
-        let negative = UIAction(interface: .Button(LGLocalizedString.profilePermissionsAlertCancel, .Cancel),
+        let negative = UIAction(interface: .StyledText(LGLocalizedString.profilePermissionsAlertCancel, .Cancel),
                                 action: { [weak self] in
                                     self?.trackPushPermissionCancel()
             },
@@ -608,6 +694,35 @@ private extension ProductFilters {
 }
 
 
+// MARK: - Queries for Collections
+
+private extension MainProductsViewModel {
+    func queryForCollection(type: CollectionCellType) -> String {
+        var query: String
+        switch type {
+        case .You:
+            query = keyValueStorage[.lastSearches].reverse().joinWithSeparator(" ")
+        case .Transport:
+            switch featureFlags.keywordsTravelCollection {
+            case .Standard:
+                query = "bike boat motorcycle car kayak trailer atv truck jeep rims camper cart scooter dirtbike jetski gokart four wheeler bicycle quad bike tractor bmw wheels canoe hoverboard Toyota bmx rv Chevy sub ford paddle Harley yamaha Jeep Honda mustang corvette dodge"
+            case .CarsPrior:
+                query = "car motorcycle boat scooter kayak trailer atv truck bike jeep rims camper cart dirtbike jetski gokart four wheeler bicycle quad bike tractor bmw wheels canoe hoverboard Toyota bmx rv Chevy sub ford paddle Harley yamaha Jeep Honda mustang corvette dodge"
+            case .BrandsPrior:
+                query = "mustang Honda Harley corvette dodge Toyota yamaha motorcycle Jeep atv bike boat car kayak trailer truck jeep rims camper cart scooter dirtbike jetski gokart four wheeler bicycle quad bike tractor bmw wheels canoe hoverboard bmx rv Chevy sub ford paddle"
+            }
+        case .Gaming:
+            query = "ps4 xbox pokemon nintendo PS3 game boy Wii atari sega"
+        case .Apple:
+            query = "iphone apple iPad MacBook iPod Mac iMac"
+        case .Furniture:
+            query = "dresser couch furniture desk table patio bed stand chair sofa rug mirror futon bench stool frame recliner lamp cabinet ikea shelf antique bedroom book shelf tables end table bunk beds night stand canopy"
+        }
+        return query
+    }
+}
+
+
 // MARK: - Tracking
 
 private extension MainProductsViewModel {
@@ -617,7 +732,7 @@ private extension MainProductsViewModel {
             switch searchType {
             case .Collection:
                 return .Collection
-            case .User, .Trending:
+            case .User, .Trending, .LastSearch:
                 if filters.isDefault() {
                     return .Search
                 } else {
@@ -648,7 +763,8 @@ private extension MainProductsViewModel {
         if let searchType = searchType where shouldTrackSearch && filters.isDefault() {
             shouldTrackSearch = false
             tracker.trackEvent(TrackerEvent.searchComplete(myUserRepository.myUser, searchQuery: searchType.query,
-                isTrending: searchType.isTrending, success: hasProducts ? .Success : .Failed))
+                                                           isTrending: searchType.isTrending,
+                                                           success: hasProducts ? .Success : .Failed, isLastSearch: searchType.isLastSearch))
         }
     }
 
@@ -674,44 +790,5 @@ private extension MainProductsViewModel {
         let trackerEvent = TrackerEvent.permissionAlertCancel(.Push, typePage: .ProductListBanner, alertType: .Custom,
                                                               permissionGoToSettings: goToSettings)
         tracker.trackEvent(trackerEvent)
-    }
-}
-
-
-// MARK: - NativeShareDelegate
-
-public class MainProductsViewModelShareDelegate: NativeShareDelegate {
-
-    let sharingProduct: Product
-
-    var nativeShareSuccessMessage: String? { return LGLocalizedString.appShareSuccess }
-    var nativeShareErrorMessage: String? { return LGLocalizedString.appShareError }
-
-    init(product: Product, myUser: MyUser?) {
-        self.sharingProduct = product
-    }
-
-    func nativeShareInFacebook() {
-        let trackerEvent = TrackerEvent.productShare(sharingProduct, network: .Facebook,
-            buttonPosition: .None, typePage: .ProductList)
-        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
-    }
-
-    func nativeShareInTwitter() {
-        let trackerEvent = TrackerEvent.productShare(sharingProduct, network: .Twitter,
-            buttonPosition: .None, typePage: .ProductList)
-        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
-    }
-
-    func nativeShareInEmail() {
-        let trackerEvent = TrackerEvent.productShare(sharingProduct, network: .Email,
-            buttonPosition: .None, typePage: .ProductList)
-        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
-    }
-
-    func nativeShareInWhatsApp() {
-        let trackerEvent = TrackerEvent.productShare(sharingProduct, network: .Whatsapp,
-            buttonPosition: .None, typePage: .ProductList)
-        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
 }

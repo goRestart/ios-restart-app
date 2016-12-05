@@ -36,14 +36,16 @@ public enum EventName: String {
     
     case ProductDetailVisit                 = "product-detail-visit"
     case ProductDetailVisitMoreInfo         = "product-detail-visit-more-info"
+    case MoreInfoRelatedItemsComplete       = "more-info-related-items-complete"
+    case MoreInfoRelatedItemsViewMore       = "more-info-related-items-view-more"
     
     case ProductFavorite                    = "product-detail-favorite"
     case ProductShare                       = "product-detail-share"
     case ProductShareCancel                 = "product-detail-share-cancel"
     case ProductShareComplete               = "product-detail-share-complete"
     
-    case FirstMessage                 = "product-detail-ask-question"
-    case ProductChatButton                  = "product-detail-chat-button"
+    case FirstMessage                       = "product-detail-ask-question"
+    case ProductOpenChat                    = "product-detail-open-chat"
     case ProductMarkAsSold                  = "product-detail-sold"
     case ProductMarkAsUnsold                = "product-detail-unsold"
     
@@ -142,7 +144,12 @@ public enum EventName: String {
 
     case NotificationCenterStart            = "notification-center-start"
     case NotificationCenterComplete         = "notification-center-complete"
+
+    case MarketingPushNotifications         = "marketing-push-notifications"
     
+    case ChatHeadsStart                     = "chat-bubble-start"
+    case ChatHeadsOpen                      = "chat-bubble-complete"
+    case ChatHeadsDelete                    = "chat-bubble-delete"
 
     // Constants
     private static let eventNameDummyPrefix  = "dummy-"
@@ -180,6 +187,7 @@ public enum EventParameterName: String {
     case ProductCurrency      = "product-currency"
     case ProductDescription   = "product-description"
     case ProductType          = "item-type"             // real (1) / dummy (0).
+    case UserId               = "user-id"
     case UserToId             = "user-to-id"
     case UserEmail            = "user-email"
     case UserCity             = "user-city"
@@ -190,12 +198,14 @@ public enum EventParameterName: String {
     case TrendingSearch       = "trending-search"
     case Description          = "description"           // error description: why form validation failure.
     case LoginSource          = "login-type"            // the login source
+    case LoginRememberedAccount = "existing"
     case LocationType         = "location-type"
     case ShareNetwork         = "share-network"
     case ButtonPosition       = "button-position"
     case LocationEnabled      = "location-enabled"
     case LocationAllowed      = "location-allowed"
     case ButtonName           = "button-name"
+    case ButtonType           = "button-type"
     case FilterLat            = "filter-lat"
     case FilterLng            = "filter-lng"
     case FilterDistanceRadius = "distance-radius"
@@ -238,6 +248,10 @@ public enum EventParameterName: String {
     case NotificationType     = "notification-type"
     case ShownReason          = "shown-reason"
     case FreePosting          = "free-posting"
+    case SellButtonPosition   = "sell-button-position"
+    case Enabled              = "enabled"
+    case LastSearch           = "last-search"
+    case ExpressChatTrigger   = "express-chat-trigger"
 }
 
 public enum EventParameterLoginSourceValue: String {
@@ -280,9 +294,20 @@ public enum EventParameterButtonNameType: String {
     case StartMakingCash = "start-making-cash"
 }
 
+public enum EventParameterButtonType: String {
+    case Button = "button"
+    case ItemPicture = "item-picture"
+}
+
 public enum EventParameterButtonPosition: String {
     case Top = "top"
     case Bottom = "bottom"
+    case None = "N/A"
+}
+
+public enum EventParameterSellButtonPosition: String {
+    case TabBar = "tabbar-camera"
+    case FloatingButton = "big-button"
     case None = "N/A"
 }
 
@@ -295,6 +320,8 @@ public enum EventParameterShareNetwork: String {
     case Telegram = "telegram"
     case SMS = "sms"
     case CopyLink = "copy_link"
+    case Native = "native"
+    case NotAvailable = "N/A"
 }
 
 public enum EventParameterNegotiablePrice: String {
@@ -337,6 +364,8 @@ public enum EventParameterMessageType: String {
     case Offer      = "offer"
     case Sticker    = "sticker"
     case Favorite   = "favorite"
+    case QuickAnswer = "quick-answer"
+    case ExpressChat = "express-chat"
 }
 
 public enum EventParameterLoginError {
@@ -475,6 +504,7 @@ public enum EventParameterTypePage: String {
     case IncentivizePosting = "incentivize-posting"
     case UserRatingList = "user-rating-list"
     case ExpressChat = "express-chat"
+    case ProductDelete = "product-delete"
 }
 
 public enum EventParameterPermissionType: String {
@@ -544,6 +574,7 @@ public enum EventParameterRatingSource: String {
 
 public enum EventParameterProductVisitSource: String {
     case ProductList = "product-list"
+    case MoreInfoRelated = "more-info-related"
     case Collection = "collection"
     case Search = "search"
     case Filter = "filter"
@@ -605,6 +636,11 @@ public enum EventParameterFreePosting: String {
     case Unset = "N/A"
 }
 
+public enum EventParameterExpressChatTrigger: String {
+    case Automatic = "automatic"
+    case Manual = "manual"
+}
+
 public struct EventParameters {
     private var params: [EventParameterName : AnyObject] = [:]
     
@@ -619,8 +655,11 @@ public struct EventParameters {
         }
     }
     
-    internal mutating func addLoginParams(source: EventParameterLoginSourceValue) {
+    internal mutating func addLoginParams(source: EventParameterLoginSourceValue, rememberedAccount: Bool? = nil) {
         params[.LoginSource] = source.rawValue
+        if let rememberedAccount = rememberedAccount {
+            params[.LoginRememberedAccount] = rememberedAccount
+        }
     }
     
     internal mutating func addProductParams(product: Product) {
@@ -658,11 +697,14 @@ public struct EventParameters {
 
 struct PostProductTrackingInfo {
     var buttonName: EventParameterButtonNameType
+    var sellButtonPosition: EventParameterSellButtonPosition
     var imageSource: EventParameterPictureSource
     var negotiablePrice: EventParameterNegotiablePrice
 
-    init(buttonName: EventParameterButtonNameType, imageSource: EventParameterPictureSource?, price: String?) {
+    init(buttonName: EventParameterButtonNameType, sellButtonPosition: EventParameterSellButtonPosition,
+         imageSource: EventParameterPictureSource?, price: String?) {
         self.buttonName = buttonName
+        self.sellButtonPosition = sellButtonPosition
         self.imageSource = imageSource ?? .Camera
         if let price = price, let doublePrice = Double(price) {
             negotiablePrice = doublePrice > 0 ? .No : .Yes

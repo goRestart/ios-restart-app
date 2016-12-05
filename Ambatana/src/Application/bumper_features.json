@@ -6,7 +6,7 @@
 	},
 	{
 		"name": "NotificationsSection",
-		"values": ["No", "Yes"],
+		"values": ["Yes", "No"],
 		"description": "Notifications Section"
 	},
     {
@@ -20,19 +20,9 @@
 		"description": "Show nps survey"
 	},
     {
-        "name": "NonStopProductDetail",
-        "values": ["Yes", "No"],
-        "description": "Non stop prod detail"
-	},
-    {
-        "name": "OnboardingPermissionsMode",
-        "values": ["Original", "OneButtonOriginalImages", "OneButtonNewImages"],
-        "description": "Onboarding permissions"
-	},
-	{
-        "name": "MessageOnFavoriteMode",
-        "values": ["NoMessage", "NotificationPreMessage", "DirectMessage"],
-        "description": "Message after favorite"
+        "name": "MessageOnFavoriteRound2Mode",
+        "values": ["NoMessage", "DirectMessage"],
+        "description": "Message after favorite: The Return"
 	},
     {
         "name": "InterestedUsersMode",
@@ -45,15 +35,70 @@
         "description": "Product filters reorder"
 	},
     {
-        "name": "FreePostingMode",
-        "values": ["Disabled", "SplitButton", "OneButton"],
-        "description": "Free Posting Mode"
-	},
-    {
         "name": "DirectPostInOnboarding",
         "values": ["No", "Yes"],
         "description": "Last Onboarding step opens the camera"
 	},
+    {
+        "name": "ShareButtonWithIcon",
+        "values": ["Yes", "No"],
+        "description": "Share button with an icon"
+	},
+    {
+        "name": "ProductDetailShareMode",
+        "values": ["Native", "InPlace", "FullScreen"],
+        "description": "How the share options are presented in product detail"
+	},
+    {
+        "name": "ChatHeadBubbles",
+        "values": ["No", "Yes"],
+        "description": "Chat head bubbles"
+    },
+    {
+        "name": "SaveMailLogout",
+        "values": ["No", "Yes"],
+        "description": "Remembers email or FB/Google username on logout"
+    },
+    {
+        "name": "ExpressChatBanner",
+        "values": ["No", "Yes"],
+        "description": "Show express chat banner in chat detail"
+    },
+    {
+        "name": "ShowLiquidProductsToNewUser",
+        "values": ["No", "Yes"],
+        "description": "show liquid products to new user"
+    },
+    {
+        "name": "PostAfterDeleteMode",
+        "values": ["Original", "FullScreen", "Alert"],
+        "description": "Posting incentivation after delete"
+    },
+    {
+        "name": "KeywordsTravelCollection",
+        "values": ["Standard", "CarsPrior", "BrandsPrior"],
+        "description": "Keywords prioritize on Travel Collection"
+    },
+    {
+        "name": "CommercializerAfterPosting",
+        "values": ["No", "Yes"],
+        "description": "Commercializer after posting"
+    },
+    {
+        "name": "RelatedProductsOnMoreInfo",
+        "values": ["No", "Yes"],
+        "description": "Related Products on More Info"
+    },
+    {
+        "name": "ShareAfterPosting",
+        "values": ["No", "Yes"],
+        "description": "Show sharing screen after posting (forced)"
+    },
+    {
+        "name": "PeriscopeImprovement",
+        "values": ["No", "Yes"],
+        "description": "periscope chat improvements"
+    },
     {
         "name": "NewQuickAnswers",
         "values": ["No", "Yes"],

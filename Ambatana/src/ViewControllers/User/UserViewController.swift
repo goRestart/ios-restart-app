@@ -71,6 +71,7 @@ class UserViewController: BaseViewController {
     private var bottomInset: CGFloat = 0
     private let cellDrawer: ProductCellDrawer
     private var viewModel: UserViewModel
+    private let socialSharer: SocialSharer
 
     private let headerExpandedPercentage = Variable<CGFloat>(1)
     private let disposeBag: DisposeBag
@@ -83,6 +84,9 @@ class UserViewController: BaseViewController {
         self.navBarUserView = UserView.userView(.CompactBorder(size: size))
         self.headerGestureRecognizer = UIPanGestureRecognizer()
         self.viewModel = viewModel
+        let socialSharer = SocialSharer()
+        socialSharer.delegate = viewModel
+        self.socialSharer = socialSharer
         self.cellDrawer = ProductCellDrawer()
         self.disposeBag = DisposeBag()
         super.init(viewModel: viewModel, nibName: "UserViewController", statusBarStyle: .LightContent,
@@ -115,6 +119,7 @@ class UserViewController: BaseViewController {
 
     override func viewWillAppearFromBackground(fromBackground: Bool) {
         super.viewWillAppearFromBackground(fromBackground)
+        view.backgroundColor = viewModel.backgroundColor.value
 
         // UINavigationBar's title alpha gets resetted on view appear, does not allow initial 0.0 value
         if let navBarUserView = navBarUserView {
@@ -125,6 +130,16 @@ class UserViewController: BaseViewController {
                     navBarUserView.alpha = currentAlpha
                     navBarUserView.hidden = false
             }
+        }
+    }
+
+    override func viewWillDisappearToBackground(toBackground: Bool) {
+        super.viewWillDisappearToBackground(toBackground)
+
+        // Animating to clear background color as it glitches next screen translucent navBar
+        // http://stackoverflow.com/questions/28245061/why-does-setting-hidesbottombarwhenpushed-to-yes-with-a-translucent-navigation
+        UIView.animateWithDuration(0.3) { [weak self] in
+            self?.view.backgroundColor = UIColor.whiteColor()
         }
     }
 }
@@ -154,10 +169,6 @@ extension UserViewController: ProductListViewScrollDelegate {
 // MARK: - UserViewModelDelegate
 
 extension UserViewController: UserViewModelDelegate {
-    func vmOpenSettings(settingsVC: SettingsViewController) {
-        navigationController?.pushViewController(settingsVC, animated: true)
-    }
-
     func vmOpenReportUser(reportUserVM: ReportUsersViewModel) {
         let vc = ReportUsersViewController(viewModel: reportUserVM)
         navigationController?.pushViewController(vc, animated: true)
@@ -173,8 +184,7 @@ extension UserViewController: UserViewModelDelegate {
     }
 
     func vmShowNativeShare(socialMessage: SocialMessage) {
-        let barButtonItem = navigationItem.rightBarButtonItems?.first
-        presentNativeShare(socialMessage: socialMessage, delegate: viewModel, barButtonItem: barButtonItem)
+        socialSharer.share(socialMessage, shareType: .Native, viewController: self, barButtonItem: navigationItem.rightBarButtonItems?.first)
     }
 }
 
@@ -208,7 +218,7 @@ extension UserViewController {
     }
 
     private func setupAccessibilityIds() {
-        navBarUserView?.userNameLabel.accessibilityId = .UserHeaderCollapsedNameLabel
+        navBarUserView?.titleLabel.accessibilityId = .UserHeaderCollapsedNameLabel
         navBarUserView?.subtitleLabel.accessibilityId = .UserHeaderCollapsedLocationLabel
         userNameLabel.accessibilityId = .UserHeaderExpandedNameLabel
         userLocationLabel.accessibilityId = .UserHeaderExpandedLocationLabel
@@ -240,9 +250,9 @@ extension UserViewController {
 
     private func setupNavigationBar() {
         if let navBarUserView = navBarUserView {
-            navBarUserViewAlpha = 0
             navBarUserView.frame = CGRect(origin: CGPoint.zero, size: CGSize(width: CGFloat.max, height: UserViewController.navBarUserViewHeight))
             setNavBarTitleStyle(.Custom(navBarUserView))
+            navBarUserViewAlpha = 0
         }
 
         let backIcon = UIImage(named: "navbar_back_white_shadow")

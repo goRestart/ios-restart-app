@@ -10,17 +10,19 @@ import LGCoreKit
 
 class DiscoverProductListRequester {
 
+    let itemsPerPage: Int
     private let productObjectId: String
     private let productRepository: ProductRepository
     private var offset: Int = 0
 
-    convenience init(productId: String) {
-        self.init(productId: productId, productRepository: Core.productRepository)
+    convenience init(productId: String, itemsPerPage: Int) {
+        self.init(productId: productId, itemsPerPage: itemsPerPage, productRepository: Core.productRepository)
     }
 
-    init(productId: String, productRepository: ProductRepository) {
+    init(productId: String, itemsPerPage: Int, productRepository: ProductRepository) {
         self.productObjectId = productId
         self.productRepository = productRepository
+        self.itemsPerPage = itemsPerPage
     }
 }
 
@@ -47,7 +49,7 @@ extension DiscoverProductListRequester: ProductListRequester {
     func updateInitialOffset(newOffset: Int) {}
 
     func duplicate() -> ProductListRequester {
-        let r = DiscoverProductListRequester(productId: productObjectId)
+        let r = DiscoverProductListRequester(productId: productObjectId, itemsPerPage: itemsPerPage)
         r.offset = offset
         return r
     }
@@ -57,8 +59,16 @@ extension DiscoverProductListRequester: ProductListRequester {
 // MARK: - DiscoverProductListRequester
 
 private extension DiscoverProductListRequester {
+
+    private var retrieveProductsParams: RetrieveProductsParams {
+        var params = RetrieveProductsParams()
+        params.offset = offset
+        params.numProducts = itemsPerPage
+        return params
+    }
+
     func productsRetrieval(completion: ProductsCompletion?) {
-        productRepository.indexDiscover(productId: productObjectId, params: RetrieveProductsParams(), pageOffset: offset) { [weak self] result in
+        productRepository.indexDiscover(productId: productObjectId, params: retrieveProductsParams) { [weak self] result in
             if let value = result.value {
                 self?.offset += value.count
             }

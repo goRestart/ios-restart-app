@@ -35,7 +35,6 @@ class NotificationsViewController: BaseViewController {
     required init(viewModel: NotificationsViewModel, nibName nibNameOrNil: String?) {
         self.viewModel = viewModel
         super.init(viewModel: viewModel, nibName: nibNameOrNil)
-        self.viewModel.delegate = self
 
         hidesBottomBarWhenPushed = false
         floatingSellButtonHidden = false
@@ -111,17 +110,6 @@ class NotificationsViewController: BaseViewController {
 }
 
 
-// MARK: - NotificationsViewModelDelegate
-
-extension NotificationsViewController: NotificationsViewModelDelegate {
-    func vmOpenSell() {
-        if let tabBarController = tabBarController as? TabBarController {
-            tabBarController.sellButtonPressed()
-        }
-    }
-}
-
-
 // MARK: - UITableViewDelegate, UITableViewDataSource
 
 extension NotificationsViewController: UITableViewDelegate, UITableViewDataSource {
@@ -142,6 +130,16 @@ extension NotificationsViewController: UITableViewDelegate, UITableViewDataSourc
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         viewModel.selectedItemAtIndex(indexPath.row)
+    }
+}
+
+
+// MARK: - Scrollable to top
+
+extension NotificationsViewController: ScrollableToTop {
+    func scrollToTop() {
+        let position = CGPoint(x: -tableView.contentInset.left, y: -tableView.contentInset.top)
+        tableView.setContentOffset(position, animated: true)
     }
 }
 

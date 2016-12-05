@@ -18,7 +18,7 @@ struct LGUnreadNotificationsCounts: UnreadNotificationsCounts {
 
     init(total: Int?, sold: Int?, like: Int?, review: Int?, reviewUpdated: Int?) {
         self.total = total ?? 0
-        self.productSold = total ?? 0
+        self.productSold = sold ?? 0
         self.productLike = like ?? 0
         self.review = review ?? 0
         self.reviewUpdated = reviewUpdated ?? 0

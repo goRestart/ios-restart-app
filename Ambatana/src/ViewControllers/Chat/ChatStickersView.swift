@@ -23,13 +23,19 @@ class ChatStickersView: UIView {
     }
 
     weak var delegate: ChatStickersViewDelegate?
-
+    
+    private var featureFlags: FeatureFlaggeable
     private let collectionView: UICollectionView
     private var numberOfColumns: Int = 3
     private var stickers: [Sticker] = []
 
-    init() {
+    convenience init() {
+        self.init(featureFlags: FeatureFlags.sharedInstance)
+    }
+    
+    init(featureFlags: FeatureFlaggeable) {
         let layout = UICollectionViewFlowLayout()
+        self.featureFlags = featureFlags
         layout.scrollDirection = .Vertical
         layout.minimumLineSpacing = 0
         layout.minimumInteritemSpacing = 0
@@ -88,7 +94,7 @@ extension ChatStickersView: UICollectionViewDataSource, UICollectionViewDelegate
     }
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        if FeatureFlags.websocketChat {
+        if featureFlags.websocketChat {
             collectionView.deselectItemAtIndexPath(indexPath, animated: true)
         }
         guard enabled else { return }

@@ -44,9 +44,9 @@ public struct TrackerEvent {
         return TrackerEvent(name: .Location, params: params)
     }
 
-    static func loginVisit(source: EventParameterLoginSourceValue) -> TrackerEvent {
+    static func loginVisit(source: EventParameterLoginSourceValue, rememberedAccount: Bool) -> TrackerEvent {
         var params = EventParameters()
-        params.addLoginParams(source)
+        params.addLoginParams(source, rememberedAccount: rememberedAccount)
         return TrackerEvent(name: .LoginVisit, params: params)
     }
 
@@ -56,21 +56,21 @@ public struct TrackerEvent {
         return TrackerEvent(name: .LoginAbandon, params: params)
     }
 
-    static func loginFB(source: EventParameterLoginSourceValue) -> TrackerEvent {
+    static func loginFB(source: EventParameterLoginSourceValue, rememberedAccount: Bool) -> TrackerEvent {
         var params = EventParameters()
-        params.addLoginParams(source)
+        params.addLoginParams(source, rememberedAccount: rememberedAccount)
         return TrackerEvent(name: .LoginFB, params: params)
     }
     
-    static func loginGoogle(source: EventParameterLoginSourceValue) -> TrackerEvent {
+    static func loginGoogle(source: EventParameterLoginSourceValue, rememberedAccount: Bool) -> TrackerEvent {
         var params = EventParameters()
-        params.addLoginParams(source)
+        params.addLoginParams(source, rememberedAccount: rememberedAccount)
         return TrackerEvent(name: .LoginGoogle, params: params)
     }
 
-    static func loginEmail(source: EventParameterLoginSourceValue) -> TrackerEvent {
+    static func loginEmail(source: EventParameterLoginSourceValue, rememberedAccount: Bool) -> TrackerEvent {
         var params = EventParameters()
-        params.addLoginParams(source)
+        params.addLoginParams(source, rememberedAccount: rememberedAccount)
         return TrackerEvent(name: .LoginEmail, params: params)
     }
 
@@ -163,12 +163,13 @@ public struct TrackerEvent {
         return TrackerEvent(name: .SearchStart, params: params)
     }
 
-    static func searchComplete(user: User?, searchQuery: String, isTrending: Bool, success: EventParameterSearchCompleteSuccess)
+    static func searchComplete(user: User?, searchQuery: String, isTrending: Bool, success: EventParameterSearchCompleteSuccess, isLastSearch: Bool)
         -> TrackerEvent {
             var params = EventParameters()
             params[.SearchString] = searchQuery
             params[.SearchSuccess] = success.rawValue
             params[.TrendingSearch] = isTrending
+            params[.LastSearch] = isLastSearch
             return TrackerEvent(name: .SearchComplete, params: params)
     }
 
@@ -178,7 +179,7 @@ public struct TrackerEvent {
 
     static func filterComplete(coordinates: LGLocationCoordinates2D?, distanceRadius: Int?,
                                distanceUnit: DistanceType, categories: [ProductCategory]?, sortBy: ProductSortCriteria?,
-                               postedWithin: ProductTimeCriteria?, priceRange: FilterPriceRange, freePostingMode: FreePostingMode) -> TrackerEvent {
+                               postedWithin: ProductTimeCriteria?, priceRange: FilterPriceRange, freePostingModeAllowed: Bool) -> TrackerEvent {
         var params = EventParameters()
 
         // Filter Coordinates
@@ -214,7 +215,7 @@ public struct TrackerEvent {
         params[.PriceFrom] = eventParameterHasPriceFilter(priceRange.min).rawValue
         params[.PriceTo] = eventParameterHasPriceFilter(priceRange.max).rawValue
         
-        params[.FreePosting] = eventParameterFreePostingWithPriceRange(freePostingMode, priceRange: priceRange).rawValue
+        params[.FreePosting] = eventParameterFreePostingWithPriceRange(freePostingModeAllowed, priceRange: priceRange).rawValue
 
         return TrackerEvent(name: .FilterComplete, params: params)
     }
@@ -226,11 +227,24 @@ public struct TrackerEvent {
         params[.ProductVisitSource] = source.rawValue
         return TrackerEvent(name: .ProductDetailVisit, params: params)
     }
-    
+
     static func productDetailVisitMoreInfo(product: Product) -> TrackerEvent {
         var params = EventParameters()
         params.addProductParams(product)
         return TrackerEvent(name: .ProductDetailVisitMoreInfo, params: params)
+    }
+
+    static func moreInfoRelatedItemsComplete(product: Product, itemPosition: Int) -> TrackerEvent {
+        var params = EventParameters()
+        params.addProductParams(product)
+        params[.ItemPosition] = itemPosition
+        return TrackerEvent(name: .MoreInfoRelatedItemsComplete, params: params)
+    }
+
+    static func moreInfoRelatedItemsViewMore(product: Product) -> TrackerEvent {
+        var params = EventParameters()
+        params.addProductParams(product)
+        return TrackerEvent(name: .MoreInfoRelatedItemsViewMore, params: params)
     }
 
     static func productFavorite(product: Product, typePage: EventParameterTypePage) -> TrackerEvent {
@@ -240,14 +254,24 @@ public struct TrackerEvent {
         return TrackerEvent(name: .ProductFavorite, params: params)
     }
 
-    static func productShare(product: Product, network: EventParameterShareNetwork,
-        buttonPosition: EventParameterButtonPosition, typePage: EventParameterTypePage) -> TrackerEvent {
-            var params = EventParameters()
-            params.addProductParams(product)
-            params[.ShareNetwork] = network.rawValue
-            params[.ButtonPosition] = buttonPosition.rawValue
-            params[.TypePage] = typePage.rawValue
-            return TrackerEvent(name: .ProductShare, params: params)
+    static func productShare(product: Product, network: EventParameterShareNetwork?,
+                             buttonPosition: EventParameterButtonPosition,
+                             typePage: EventParameterTypePage) -> TrackerEvent {
+        var params = EventParameters()
+        params.addProductParams(product)
+
+        // When starting share if native then the network is considered as N/A
+        var actualNetwork = network ?? .NotAvailable
+        switch actualNetwork {
+        case .Native:
+            actualNetwork = .NotAvailable
+        case .Email, .Facebook, .Whatsapp, .Twitter, .FBMessenger, .Telegram, .SMS, .CopyLink, .NotAvailable:
+            break
+        }
+        params[.ShareNetwork] = actualNetwork.rawValue
+        params[.ButtonPosition] = buttonPosition.rawValue
+        params[.TypePage] = typePage.rawValue
+        return TrackerEvent(name: .ProductShare, params: params)
     }
 
     static func productShareCancel(product: Product, network: EventParameterShareNetwork,
@@ -296,14 +320,14 @@ public struct TrackerEvent {
         return TrackerEvent(name: .FirstMessage, params: params)
     }
 
-    static func productDetailChatButton(product: Product, typePage: EventParameterTypePage) -> TrackerEvent {
+    static func productDetailOpenChat(product: Product, typePage: EventParameterTypePage) -> TrackerEvent {
         var params = EventParameters()
         params[.ProductId] = product.objectId
         params[.TypePage] = typePage.rawValue
-        return TrackerEvent(name: .ProductChatButton, params: params)
+        return TrackerEvent(name: .ProductOpenChat, params: params)
     }
 
-    static func productMarkAsSold(source: EventParameterSellSourceValue, product: Product, freePostingMode: FreePostingMode)
+    static func productMarkAsSold(source: EventParameterSellSourceValue, product: Product, freePostingModeAllowed: Bool)
         -> TrackerEvent {
             var params = EventParameters()
 
@@ -314,7 +338,7 @@ public struct TrackerEvent {
             params[.ProductPrice] = product.price.value
             params[.ProductCurrency] = product.currency.code
             params[.CategoryId] = product.category.rawValue
-            params[.FreePosting] = eventParameterFreePostingWithPrice(freePostingMode, price: product.price).rawValue
+            params[.FreePosting] = eventParameterFreePostingWithPrice(freePostingModeAllowed, price: product.price).rawValue
             return TrackerEvent(name: .ProductMarkAsSold, params: params)
     }
 
@@ -335,11 +359,12 @@ public struct TrackerEvent {
         return TrackerEvent(name: .ProductReport, params: params)
     }
 
-    static func productSellStart(freePosting: EventParameterFreePosting, typePage: EventParameterTypePage, buttonName: EventParameterButtonNameType?) -> TrackerEvent {
+    static func productSellStart(typePage: EventParameterTypePage,
+                                 buttonName: EventParameterButtonNameType?, sellButtonPosition: EventParameterSellButtonPosition) -> TrackerEvent {
         var params = EventParameters()
         params[.TypePage] = typePage.rawValue
         params[.ButtonName] = buttonName?.rawValue
-        params[.FreePosting] = freePosting.rawValue
+        params[.SellButtonPosition] = sellButtonPosition.rawValue
         return TrackerEvent(name: .ProductSellStart, params: params)
     }
 
@@ -359,17 +384,20 @@ public struct TrackerEvent {
         return TrackerEvent(name: .ProductSellSharedFB, params: params)
     }
 
-    static func productSellComplete(product: Product) -> TrackerEvent {
-        return productSellComplete(product, buttonName: nil, negotiable: nil, pictureSource: nil, freePostingMode: FeatureFlags.freePostingMode)
+    static func productSellComplete(product: Product, freePostingModeAllowed: Bool) -> TrackerEvent {
+        return productSellComplete(product, buttonName: nil, sellButtonPosition: nil, negotiable: nil, pictureSource: nil,
+                                   freePostingModeAllowed: freePostingModeAllowed)
     }
 
     static func productSellComplete(product: Product, buttonName: EventParameterButtonNameType?,
-                                    negotiable: EventParameterNegotiablePrice?, pictureSource: EventParameterPictureSource?, freePostingMode: FreePostingMode) -> TrackerEvent {
+                                    sellButtonPosition: EventParameterSellButtonPosition?, negotiable: EventParameterNegotiablePrice?,
+                                    pictureSource: EventParameterPictureSource?, freePostingModeAllowed: Bool) -> TrackerEvent {
         var params = EventParameters()
-        params[.FreePosting] = eventParameterFreePostingWithPrice(freePostingMode, price: product.price).rawValue
+        params[.FreePosting] = eventParameterFreePostingWithPrice(freePostingModeAllowed, price: product.price).rawValue
         params[.ProductId] = product.objectId ?? ""
         params[.CategoryId] = product.category.rawValue
         params[.ProductName] = product.name ?? ""
+        params[.SellButtonPosition] = sellButtonPosition?.rawValue
         params[.ProductDescription] = !(product.descr?.isEmpty ?? true)
         if let buttonName = buttonName {
             params[.ButtonName] = buttonName.rawValue
@@ -420,9 +448,10 @@ public struct TrackerEvent {
         return TrackerEvent(name: .ProductSellConfirmation, params: params)
     }
 
-    static func productSellConfirmationPost(product: Product) -> TrackerEvent {
+    static func productSellConfirmationPost(product: Product, buttonType: EventParameterButtonType) -> TrackerEvent {
         var params = EventParameters()
         params[.ProductId] = product.objectId ?? ""
+        params[.ButtonType] = buttonType.rawValue
         return TrackerEvent(name: .ProductSellConfirmationPost, params: params)
     }
 
@@ -829,18 +858,23 @@ public struct TrackerEvent {
         return TrackerEvent(name: .OpenApp, params: params)
     }
 
-    static func expressChatStart() -> TrackerEvent {
-        return TrackerEvent(name: .ExpressChatStart, params: EventParameters())
+    static func expressChatStart(trigger: EventParameterExpressChatTrigger) -> TrackerEvent {
+        var params = EventParameters()
+        params[.ExpressChatTrigger] = trigger.rawValue
+        return TrackerEvent(name: .ExpressChatStart, params: params)
     }
 
-    static func expressChatComplete(numConversations: Int) -> TrackerEvent {
+    static func expressChatComplete(numConversations: Int, trigger: EventParameterExpressChatTrigger) -> TrackerEvent {
         var params = EventParameters()
         params[.ExpressConversations] = numConversations
+        params[.ExpressChatTrigger] = trigger.rawValue
         return TrackerEvent(name: .ExpressChatComplete, params: params)
     }
 
-    static func expressChatDontAsk() -> TrackerEvent {
-        return TrackerEvent(name: .ExpressChatDontAsk, params: EventParameters())
+    static func expressChatDontAsk(trigger: EventParameterExpressChatTrigger) -> TrackerEvent {
+        var params = EventParameters()
+        params[.ExpressChatTrigger] = trigger.rawValue
+        return TrackerEvent(name: .ExpressChatDontAsk, params: params)
     }
 
     static func productDetailInterestedUsers(number: Int, productId: String)  -> TrackerEvent {
@@ -873,27 +907,47 @@ public struct TrackerEvent {
         return TrackerEvent(name: .VerifyAccountComplete, params: params)
     }
 
-    static func InappChatNotificationStart() -> TrackerEvent {
+    static func inappChatNotificationStart() -> TrackerEvent {
         return TrackerEvent(name: .InappChatNotificationStart, params: EventParameters())
     }
 
-    static func InappChatNotificationComplete() -> TrackerEvent {
+    static func inappChatNotificationComplete() -> TrackerEvent {
         return TrackerEvent(name: .InappChatNotificationComplete, params: EventParameters())
     }
 
-    static func SignupCaptcha() -> TrackerEvent {
+    static func signupCaptcha() -> TrackerEvent {
         return TrackerEvent(name: .SignupCaptcha, params: EventParameters())
     }
 
-    static func NotificationCenterStart() -> TrackerEvent {
+    static func notificationCenterStart() -> TrackerEvent {
         return TrackerEvent(name: .NotificationCenterStart, params: EventParameters())
     }
 
-    static func NotificationCenterComplete(type: EventParameterNotificationType) -> TrackerEvent {
+    static func notificationCenterComplete(type: EventParameterNotificationType) -> TrackerEvent {
         var params = EventParameters()
         params[.NotificationType] = type.rawValue
         return TrackerEvent(name: .NotificationCenterComplete, params: params)
     }
+
+    static func marketingPushNotifications(userId: String?, enabled: Bool) -> TrackerEvent {
+        var params = EventParameters()
+        params[.UserId] = userId
+        params[.Enabled] = enabled
+        return TrackerEvent(name: .MarketingPushNotifications, params: params)
+    }
+
+    static func chatHeadsStart() -> TrackerEvent {
+        return TrackerEvent(name: .ChatHeadsStart, params: EventParameters())
+    }
+
+    static func chatHeadsOpen() -> TrackerEvent {
+        return TrackerEvent(name: .ChatHeadsOpen, params: EventParameters())
+    }
+
+    static func chatHeadsDelete() -> TrackerEvent {
+        return TrackerEvent(name: .ChatHeadsDelete, params: EventParameters())
+    }
+
 
     // MARK: - Private methods
 
@@ -948,13 +1002,13 @@ public struct TrackerEvent {
         return price != nil ? .True : .False
     }
     
-    private static func eventParameterFreePostingWithPrice(freePostingMode: FreePostingMode, price: ProductPrice) -> EventParameterFreePosting {
-        guard freePostingMode.enabled else {return .Unset}
+    private static func eventParameterFreePostingWithPrice(freePostingModeAllowed: Bool, price: ProductPrice) -> EventParameterFreePosting {
+        guard freePostingModeAllowed else {return .Unset}
         return price.free ? .True : .False
     }
     
-    private static func eventParameterFreePostingWithPriceRange(freePostingMode: FreePostingMode, priceRange: FilterPriceRange) -> EventParameterFreePosting {
-        guard freePostingMode.enabled else {return .Unset}
+    private static func eventParameterFreePostingWithPriceRange(freePostingModeAllowed: Bool, priceRange: FilterPriceRange) -> EventParameterFreePosting {
+        guard freePostingModeAllowed else {return .Unset}
         return priceRange.free ? .True : .False
     }
 }
