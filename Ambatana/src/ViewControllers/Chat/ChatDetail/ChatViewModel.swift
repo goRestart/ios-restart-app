@@ -108,7 +108,8 @@ class ChatViewModel: BaseViewModel {
     }
 
     private var directAnswersAvailable: Bool {
-        return chatEnabled.value && !relatedProductsEnabled.value
+        guard let relatedProducts = relatedProductsEnabled.value else { return false }
+        return chatEnabled.value && !relatedProducts
     }
 
     var shouldShowUserReviewTooltip: Bool {
@@ -122,11 +123,11 @@ class ChatViewModel: BaseViewModel {
     let interlocutorHasMutedYou = Variable<Bool>(false)
     let chatStatus = Variable<ChatInfoViewStatus>(.Available)
     let chatEnabled = Variable<Bool>(true)
-    let relatedProductsEnabled = Variable<Bool>(false)
+    let relatedProductsEnabled = Variable<Bool?>(false)
     let directAnswersVisible = Variable<Bool>(false)
     let interlocutorTyping = Variable<Bool>(false)
     let messages = CollectionVariable<ChatViewMessage>([])
-    private let sellerDidntAnswer = Variable<Bool>(false)
+    private let sellerDidntAnswer = Variable<Bool?>(nil)
     private let conversation: Variable<ChatConversation>
     private var interlocutor: User?
     private let myMessagesCount = Variable<Int>(0)
@@ -348,12 +349,17 @@ class ChatViewModel: BaseViewModel {
         }.addDisposableTo(disposeBag)
 
         relatedProductsEnabled.asObservable().bindNext { [weak self] enabled in
-            self?.delegate?.vmShowRelatedProducts(enabled ? self?.conversation.value.product?.objectId : nil)
+            self?.delegate?.vmShowRelatedProducts( (enabled ?? false) ? self?.conversation.value.product?.objectId : nil)
         }.addDisposableTo(disposeBag)
 
         let relatedProductsConversation = conversation.asObservable().map { $0.relatedProductsEnabled }
-        Observable.combineLatest(relatedProductsConversation, sellerDidntAnswer.asObservable()) { $0 || $1 }
-            .bindTo(relatedProductsEnabled).addDisposableTo(disposeBag)
+        Observable.combineLatest(relatedProductsConversation, sellerDidntAnswer.asObservable()) { [weak self] in
+            guard let strongSelf = self else { return nil }
+            guard strongSelf.isBuyer else { return $0 }
+            if $0 { return true }
+            guard let didntAnswer = $1 else { return nil }
+            return didntAnswer
+        }.bindTo(relatedProductsEnabled).addDisposableTo(disposeBag)
 
         let cfgManager = configManager
         let myMessagesReviewable = myMessagesCount.asObservable()
@@ -401,7 +407,7 @@ class ChatViewModel: BaseViewModel {
          */
         Observable.combineLatest(expressBannerTriggered,
             hasRelatedProducts.asObservable(),
-            relatedProductsEnabled.asObservable(),
+            relatedProductsEnabled.asObservable().map { $0 ?? false },
         expressMessagesAlreadySent.asObservable()) { $0 && $1 && !$2 && !$3 }
             .distinctUntilChanged().bindNext { [weak self] shouldShowBanner in
                 guard let strongSelf = self else { return }
@@ -411,10 +417,13 @@ class ChatViewModel: BaseViewModel {
         setupChatEventsRx()
 
         userDirectAnswersEnabled.value = keyValueStorage.userLoadChatShowDirectAnswersForKey(userDefaultsSubKey)
-        let directAnswers = Observable.combineLatest(chatEnabled.asObservable(),
+        let directAnswers: Observable<Bool> = Observable.combineLatest(chatEnabled.asObservable(),
                                         relatedProductsEnabled.asObservable(),
                                         userDirectAnswersEnabled.asObservable(),
-                                        resultSelector: { return $0 && !$1 && $2 }).distinctUntilChanged()
+                                        resultSelector: { chat, related, directAnswers in
+                                            guard let relatedEnabled = related else { return false }
+                                            return chat && !relatedEnabled && directAnswers
+                                        }).distinctUntilChanged()
         directAnswers.bindTo(directAnswersVisible).addDisposableTo(disposeBag)
     }
 
