@@ -31,6 +31,7 @@ protocol FeatureFlaggeable {
     var commercializerAfterPosting: Bool { get }
     var relatedProductsOnMoreInfo: Bool { get }
     var periscopeImprovement: Bool { get }
+    var favoriteWithBadgeOnProfile: Bool { get }
 }
 
 class FeatureFlags: FeatureFlaggeable {

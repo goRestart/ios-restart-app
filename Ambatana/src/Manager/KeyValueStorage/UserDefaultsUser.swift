@@ -26,6 +26,7 @@ struct UserDefaultsUser {
     static let productsWithExpressChatAlreadyShownDefaultValue: [String] = []
     static let productsWithExpressChatMessageSentDefaultValue: [String] = []
     static let marketingNotificationsDefaultValue = true
+    static let productsMarkAsFavoriteDafaultValue: Int? = nil
 
     var appShared: Bool
     var userLocationApproximate: Bool
@@ -43,6 +44,7 @@ struct UserDefaultsUser {
     var productsWithExpressChatAlreadyShown: [String]
     var productsWithExpressChatMessageSent: [String]
     var marketingNotifications: Bool
+    var productsMarkAsFavorite: Int?
 
     init() {
         let appShared = UserDefaultsUser.appSharedDefaultValue
@@ -61,6 +63,7 @@ struct UserDefaultsUser {
         let productsWithExpressChatAlreadyShown = UserDefaultsUser.productsWithExpressChatAlreadyShownDefaultValue
         let productsWithExpressChatMessageSent = UserDefaultsUser.productsWithExpressChatMessageSentDefaultValue
         let marketingNotifications = UserDefaultsUser.marketingNotificationsDefaultValue
+        let productsMarkAsFavorite = UserDefaultsUser.productsMarkAsFavoriteDafaultValue
 
         self.init(appShared: appShared, userLocationApproximate: userLocationApproximate,
                   chatSafetyTipsShown: chatSafetyTipsShown, ratingAlreadyRated: ratingAlreadyRated,
@@ -73,7 +76,7 @@ struct UserDefaultsUser {
                   shouldShowExpressChat: shouldShowExpressChat,
                   productsWithExpressChatAlreadyShown: productsWithExpressChatAlreadyShown,
                   productsWithExpressChatMessageSent: productsWithExpressChatMessageSent,
-                  marketingNotifications: marketingNotifications)
+                  marketingNotifications: marketingNotifications, productsMarkAsFavorite: productsMarkAsFavorite)
     }
 
     init(appShared: Bool, userLocationApproximate: Bool, chatSafetyTipsShown: Bool, ratingAlreadyRated: Bool,
@@ -81,7 +84,7 @@ struct UserDefaultsUser {
          postProductLastGalleryAlbumSelected: String?, postProductLastTabSelected: Int, postProductPostedPreviously: Bool,
          commercializersPending: [String:[String]], trackingProductSellComplete24hTracked: Bool,
          shouldShowCommercializerAfterPosting: Bool, shouldShowExpressChat: Bool, productsWithExpressChatAlreadyShown: [String],
-         productsWithExpressChatMessageSent: [String], marketingNotifications: Bool) {
+         productsWithExpressChatMessageSent: [String], marketingNotifications: Bool, productsMarkAsFavorite: Int?) {
         self.appShared = appShared
         self.userLocationApproximate = userLocationApproximate
         self.chatSafetyTipsShown = chatSafetyTipsShown
@@ -98,6 +101,7 @@ struct UserDefaultsUser {
         self.productsWithExpressChatAlreadyShown = productsWithExpressChatAlreadyShown
         self.productsWithExpressChatMessageSent = productsWithExpressChatMessageSent
         self.marketingNotifications = marketingNotifications
+        self.productsMarkAsFavorite = productsMarkAsFavorite
     }
 }
 
@@ -135,7 +139,8 @@ extension UserDefaultsUser: UserDefaultsDecodable {
         let productsWithExpressChatAlreadyShown = dictionary.decode(UserDefaultsUserKey.ProductsWithExpressChatAlreadyShown.rawValue, defaultValue: UserDefaultsUser.productsWithExpressChatAlreadyShownDefaultValue)
         let productsWithExpressChatMessageSent = dictionary.decode(UserDefaultsUserKey.ProductsWithExpressChatMessageSent.rawValue, defaultValue: UserDefaultsUser.productsWithExpressChatMessageSentDefaultValue)
         let marketingNotifications = dictionary.decode(UserDefaultsUserKey.MarketingNotifications.rawValue, defaultValue: UserDefaultsUser.marketingNotificationsDefaultValue)
-
+        let productsMarkAsFavorite = dictionary.decode(UserDefaultsUserKey.ProductsMarkAsFavorite.rawValue, defaultValue: UserDefaultsUser.productsMarkAsFavoriteDafaultValue)
+        
         return UserDefaultsUser(appShared: appShared, userLocationApproximate: userLocationApproximate,
                                 chatSafetyTipsShown: chatSafetyTipsShown, ratingAlreadyRated: ratingAlreadyRated,
                                 ratingRemindMeLaterDate: ratingRemindMeLaterDate,
@@ -149,7 +154,7 @@ extension UserDefaultsUser: UserDefaultsDecodable {
                                 shouldShowExpressChat: shouldShowExpressChat,
                                 productsWithExpressChatAlreadyShown: productsWithExpressChatAlreadyShown,
                                 productsWithExpressChatMessageSent: productsWithExpressChatMessageSent,
-                                marketingNotifications: marketingNotifications)
+                                marketingNotifications: marketingNotifications, productsMarkAsFavorite: productsMarkAsFavorite)
     }
 
     func encode() -> [String: AnyObject] {
@@ -175,6 +180,9 @@ extension UserDefaultsUser: UserDefaultsDecodable {
         dict.encode(UserDefaultsUserKey.ProductsWithExpressChatAlreadyShown.rawValue, value: productsWithExpressChatAlreadyShown)
         dict.encode(UserDefaultsUserKey.ProductsWithExpressChatMessageSent.rawValue, value: productsWithExpressChatMessageSent)
         dict.encode(UserDefaultsUserKey.MarketingNotifications.rawValue, value: marketingNotifications)
+        if let productsMarkAsFavorite = productsMarkAsFavorite {
+            dict.encode(UserDefaultsUserKey.ProductsMarkAsFavorite.rawValue, value: productsMarkAsFavorite)
+        }
         return dict
     }
 }
@@ -208,6 +216,7 @@ private enum UserDefaultsUserKey: String {
     case ProductsWithExpressChatAlreadyShown = "productsWithExpressChatAlreadyShown"
     case ProductsWithExpressChatMessageSent = "productsWithExpressChatMessageSent"
     case MarketingNotifications = "marketingNotifications"
+    case ProductsMarkAsFavorite = "productsMarkAsFavorite"
 }
 
 

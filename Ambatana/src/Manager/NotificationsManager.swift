@@ -16,13 +16,16 @@ class NotificationsManager {
 
     // Rx
     let unreadMessagesCount = Variable<Int?>(nil)
+    let favoriteCount = Variable<Int?>(nil)
     let unreadNotificationsCount = Variable<Int?>(nil)
     var globalCount: Observable<Int?> {
-        return Observable.combineLatest(unreadMessagesCount.asObservable(), unreadNotificationsCount.asObservable()) {
-            (unreadMessages: Int?, notifications: Int?) in
+        return Observable.combineLatest(unreadMessagesCount.asObservable(), unreadNotificationsCount.asObservable(),
+                                        favoriteCount.asObservable()) {
+                                        (unreadMessages: Int?, notifications: Int?, favorites: Int?) in
             let chatCount = unreadMessages ?? 0
             let notificationsCount = notifications ?? 0
-            return chatCount + notificationsCount
+            let favorites = favorites ?? 0
+            return chatCount + notificationsCount + favorites
         }
     }
     let marketingNotifications: Variable<Bool>
@@ -92,6 +95,18 @@ class NotificationsManager {
 
     func updateNotificationCounters() {
         requestNotificationCounters()
+    }
+    
+    
+    func increaseFavoriteCounter() {
+        let increasedFavoriteValue = keyValueStorage.productsMarkAsFavorite ?? 0 + 1
+        keyValueStorage.productsMarkAsFavorite = increasedFavoriteValue
+        favoriteCount.value = increasedFavoriteValue
+    }
+    
+    func clearFavoriteCounter() {
+        keyValueStorage.productsMarkAsFavorite = nil
+        favoriteCount.value = nil
     }
 
     // MARK: - Private
