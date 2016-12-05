@@ -144,7 +144,7 @@ extension TextViewController: UITableViewDelegate, UITableViewDataSource {
     private func setupTable() {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(tableView)
-        tableView.fitHorzontallyToParent()
+        tableView.fitHorizontallyToParent()
         tableView.alignParentTop()
         tableView.toTopOf(textViewBar)
         tableView.backgroundColor = UIColor.clearColor()
@@ -162,7 +162,7 @@ extension TextViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     private func updateInverted() {
-        tableView.transform = invertedTable ? CGAffineTransformMake(1, 0, 0, -1, 0, 0) : CGAffineTransformIdentity;
+        tableView.transform = invertedTable ? CGAffineTransformMake(1, 0, 0, -1, 0, 0) : CGAffineTransformIdentity
     }
 
 
@@ -197,7 +197,7 @@ extension TextViewController: UITextViewDelegate {
         textViewBar.translatesAutoresizingMaskIntoConstraints = false
         textViewBar.clipsToBounds = true
         view.addSubview(textViewBar)
-        textViewBar.fitHorzontallyToParent()
+        textViewBar.fitHorizontallyToParent()
 
         leftButtonsContainer.translatesAutoresizingMaskIntoConstraints = false
         textViewBar.addSubview(leftButtonsContainer)
@@ -221,7 +221,7 @@ extension TextViewController: UITextViewDelegate {
         let topSeparator = UIView()
         topSeparator.translatesAutoresizingMaskIntoConstraints = false
         textViewBar.addSubview(topSeparator)
-        topSeparator.fitHorzontallyToParent()
+        topSeparator.fitHorizontallyToParent()
         topSeparator.alignParentTop()
         topSeparator.backgroundColor = UIColor.lineGray
         topSeparator.setHeightConstraint(LGUIKitConstants.onePixelSize)
