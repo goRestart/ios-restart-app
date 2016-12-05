@@ -35,10 +35,6 @@ class NotificationsManager {
         })
     }
     
-    var favoriteCounter: Int  {
-        return favoriteCount.value ?? 0
-    }
-
     private let disposeBag = DisposeBag()
 
     private let sessionManager: SessionManager

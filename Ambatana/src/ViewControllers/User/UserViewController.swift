@@ -132,7 +132,7 @@ class UserViewController: BaseViewController {
         super.viewWillAppearFromBackground(fromBackground)
         view.backgroundColor = viewModel.backgroundColor.value
         
-        if notificationsManager.favoriteCounter > 0 {
+        if notificationsManager.favoriteCount.value > 0 {
             notificationsManager.clearFavoriteCounter()
             headerContainer.header?.setFavoriteTab()
         }
