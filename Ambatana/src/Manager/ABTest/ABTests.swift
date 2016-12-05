@@ -13,7 +13,6 @@ public struct ABTests {
     static let trackingData = Variable<[String]>([])
 
     static var showNPSSurvey = BoolABDynamicVar(key: "showNPSSurvey", defaultValue: false)
-    static var messageOnFavoriteRound2 = IntABDynamicVar(key: "messageOnFavoriteRound2", defaultValue: 0)
     static var interestedUsersMode = IntABDynamicVar(key: "interestedUsersMode", defaultValue: 0)
     static var filtersReorder = BoolABDynamicVar(key: "filtersReorder", defaultValue: false)
     static var directPostInOnboarding = BoolABDynamicVar(key: "directPostInOnboarding", defaultValue: false)
@@ -33,7 +32,7 @@ public struct ABTests {
 
     
     static private var allVariables: [ABVariable] {
-        return [showNPSSurvey, messageOnFavoriteRound2, interestedUsersMode, filtersReorder, directPostInOnboarding,
+        return [showNPSSurvey, interestedUsersMode, filtersReorder, directPostInOnboarding,
                 productDetailShareMode, notificationCenterEnabled, shareButtonWithIcon, chatHeadBubbles,
                 saveMailLogout, expressChatBanner, showLiquidProductsToNewUser, postAfterDeleteMode,
                 keywordsTravelCollection, commercializerAfterPosting, relatedProductsOnMoreInfo, shareAfterPosting, periscopeImprovement]

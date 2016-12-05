@@ -20,11 +20,6 @@
 		"description": "Show nps survey"
 	},
     {
-        "name": "MessageOnFavoriteRound2Mode",
-        "values": ["NoMessage", "DirectMessage"],
-        "description": "Message after favorite: The Return"
-	},
-    {
         "name": "InterestedUsersMode",
         "values": ["NoNotification", "Original", "LimitedPrints"],
         "description": "Interested users bubble mode"

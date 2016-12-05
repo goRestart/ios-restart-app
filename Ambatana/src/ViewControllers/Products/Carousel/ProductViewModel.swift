@@ -806,7 +806,6 @@ extension ProductViewModel {
                 strongSelf.favoriteButtonState.value = .Enabled
                 strongSelf.refreshInterestedBubble(true, forFirstProduct: strongSelf.isFirstProduct)
             }
-            checkSendFavoriteMessage()
         }
     }
 
@@ -962,27 +961,6 @@ extension ProductViewModel {
 
     func shouldShowInterestedBubbleForProduct(id: String, fromFavoriteAction: Bool, forFirstProduct isFirstProduct: Bool) -> Bool {
         return interestedBubbleManager.shouldShowInterestedBubbleForProduct(id, fromFavoriteAction: fromFavoriteAction, forFirstProduct: isFirstProduct, featureFlags: featureFlags) && active
-    }
-}
-
-
-// MARK: - Message on favorite
-
-private extension ProductViewModel {
-    private func checkSendFavoriteMessage() {
-        guard !favoriteMessageSent else { return }
-
-        switch featureFlags.messageOnFavoriteRound2 {
-        case .NoMessage:
-            return
-        case .DirectMessage:
-            sendFavoriteMessage()
-        }
-    }
-
-    private func sendFavoriteMessage() {
-        sendMessage(.FavoritedProduct(LGLocalizedString.productFavoriteDirectMessage))
-        favoriteMessageSent = true
     }
 }
 
