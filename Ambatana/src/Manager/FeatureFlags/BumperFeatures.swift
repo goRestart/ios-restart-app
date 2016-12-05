@@ -12,7 +12,7 @@ import bumper
 
 extension Bumper  {
     static func initialize() {
-        Bumper.initialize([WebsocketChat.self, NotificationsSection.self, UserReviews.self, ShowNPSSurvey.self, MessageOnFavoriteRound2Mode.self, InterestedUsersMode.self, FiltersReorder.self, DirectPostInOnboarding.self, ShareButtonWithIcon.self, ProductDetailShareMode.self, ChatHeadBubbles.self, SaveMailLogout.self, ExpressChatBanner.self, ShowLiquidProductsToNewUser.self, PostAfterDeleteMode.self, KeywordsTravelCollection.self, CommercializerAfterPosting.self, RelatedProductsOnMoreInfo.self, ShareAfterPosting.self, PeriscopeImprovement.self])
+        Bumper.initialize([WebsocketChat.self, NotificationsSection.self, UserReviews.self, ShowNPSSurvey.self, MessageOnFavoriteRound2Mode.self, InterestedUsersMode.self, FiltersReorder.self, DirectPostInOnboarding.self, ShareButtonWithIcon.self, ProductDetailShareMode.self, ChatHeadBubbles.self, SaveMailLogout.self, ExpressChatBanner.self, ShowLiquidProductsToNewUser.self, PostAfterDeleteMode.self, KeywordsTravelCollection.self, CommercializerAfterPosting.self, RelatedProductsOnMoreInfo.self, ShareAfterPosting.self, PeriscopeImprovement.self, NewQuickAnswers.self])
     } 
 
     static var websocketChat: Bool {
@@ -113,6 +113,11 @@ extension Bumper  {
     static var periscopeImprovement: Bool {
         guard let value = Bumper.valueForKey(PeriscopeImprovement.key) else { return false }
         return PeriscopeImprovement(rawValue: value)?.asBool ?? false
+    }
+
+    static var newQuickAnswers: Bool {
+        guard let value = Bumper.valueForKey(NewQuickAnswers.key) else { return false }
+        return NewQuickAnswers(rawValue: value)?.asBool ?? false
     } 
 }
 
@@ -328,6 +333,15 @@ enum PeriscopeImprovement: String, BumperFeature  {
     static var enumValues: [PeriscopeImprovement] { return [.No, .Yes]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "periscope chat improvements" } 
+    var asBool: Bool { return self == .Yes }
+}
+
+enum NewQuickAnswers: String, BumperFeature  {
+    case No, Yes
+    static var defaultValue: String { return NewQuickAnswers.No.rawValue }
+    static var enumValues: [NewQuickAnswers] { return [.No, .Yes]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Use quick answers v2" } 
     var asBool: Bool { return self == .Yes }
 }
 

@@ -7,45 +7,8 @@
 //
 
 import UIKit
-import RxSwift
-
-protocol DirectAnswersBigViewDelegate: class {
-    func directAnswersBigViewEmptyAction()
-    func directAnswersBigViewProductSold()
-    func directAnswersBigViewDidShow()
-}
 
 class DirectAnswersBigView: UIView {
-
-    var directAnswers: [DirectAnswer] {
-        let emptyAction: () -> Void = { [weak self] in
-            self?.delegate?.directAnswersBigViewEmptyAction()
-        }
-
-        if isFree.value {
-            if isBuyer.value {
-                return [DirectAnswer(text: LGLocalizedString.directAnswerInterested, action: emptyAction),
-                        DirectAnswer(text: LGLocalizedString.directAnswerFreeStillHave, action: emptyAction),
-                        DirectAnswer(text: LGLocalizedString.directAnswerMeetUp, action: emptyAction)]
-            } else {
-                return [DirectAnswer(text: LGLocalizedString.directAnswerFreeYours, action: emptyAction),
-                        DirectAnswer(text: LGLocalizedString.directAnswerFreeAvailable, action: emptyAction),
-                        DirectAnswer(text: LGLocalizedString.directAnswerMeetUp, action: emptyAction)]
-            }
-        } else {
-            if isBuyer.value {
-                return [DirectAnswer(text: LGLocalizedString.directAnswerStillAvailable, action: emptyAction),
-                        DirectAnswer(text: LGLocalizedString.directAnswerIsNegotiable, action: emptyAction),
-                        DirectAnswer(text: LGLocalizedString.directAnswerCondition, action: emptyAction)]
-            } else {
-                return [DirectAnswer(text: LGLocalizedString.directAnswerStillForSale, action: emptyAction),
-                        DirectAnswer(text: LGLocalizedString.directAnswerProductSold, action: { [weak self] in
-                            self?.delegate?.directAnswersBigViewProductSold()
-                        }),
-                        DirectAnswer(text: LGLocalizedString.directAnswerWhatsOffer, action: emptyAction)]
-            }
-        }
-    }
 
     private static let titleHeight: CGFloat = 40
     private static let answerHeight: CGFloat = 50
@@ -56,12 +19,7 @@ class DirectAnswersBigView: UIView {
     private var thirdAnswerLabel: UILabel = UILabel()
     private var topConstraint: NSLayoutConstraint?
 
-    weak var delegate: DirectAnswersBigViewDelegate?
-
-    private let isBuyer = Variable<Bool>(true)
-    private let isFree = Variable<Bool>(false)
-
-    private let disposeBag = DisposeBag()
+    private var directAnswers: [DirectAnswer] = []
 
     // MARK: - Lifecycle
 
@@ -73,14 +31,10 @@ class DirectAnswersBigView: UIView {
         super.init(frame: frame)
         setupData()
         setupConstraints()
-        setupRx()
     }
 
     required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        setupData()
-        setupConstraints()
-        setupRx()
+        fatalError("init(coder:) has not been implemented")
     }
 
 
@@ -100,9 +54,8 @@ class DirectAnswersBigView: UIView {
         topConstraint = top
     }
 
-    func setupChatInfo(isBuyer: Bool, isFree: Bool) {
-        self.isBuyer.value = isBuyer
-        self.isFree.value = isFree
+    func setDirectAnswers(directAnswers: [DirectAnswer]) {
+
     }
 
     // MARK: - Private
@@ -147,24 +100,5 @@ class DirectAnswersBigView: UIView {
 
         addConstraints([titleTop, titleHeight, firstLabelTop, firstLabelHeight, secondLabelTop, secondLabelHeight,
             thirdLabelTop, thirdLabelHeight, thirdLabelBottom])
-    }
-
-    func setupRx() {
-        isBuyer.asObservable().bindNext { [weak self] isBuyer in
-            self?.setupData()
-        }.addDisposableTo(disposeBag)
-        isFree.asObservable().bindNext { [weak self] isFree in
-            self?.setupData()
-        }.addDisposableTo(disposeBag)
-    }
-
-    func animateToVisible(visible: Bool) {
-        topConstraint?.constant = visible ? -height : 0
-        UIView.animateWithDuration(0.3) { [weak self] in
-            self?.superview?.layoutIfNeeded()
-        }
-        if visible {
-            delegate?.directAnswersBigViewDidShow()
-        }
     }
 }
