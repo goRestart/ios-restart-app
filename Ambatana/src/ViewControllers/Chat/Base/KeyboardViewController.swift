@@ -115,7 +115,6 @@ class KeyboardViewController: BaseViewController {
     }
 
     private func applyChange(kbChange: KeyboardChange, animated: Bool) {
-        print("kbChange: \(kbChange) - animated: \(animated)")
         guard kbChange.isLocal else { return }
         // Main responder check
         if let mainResponder = mainResponder where kbChange.visible && !mainResponder.isFirstResponder() { return }
