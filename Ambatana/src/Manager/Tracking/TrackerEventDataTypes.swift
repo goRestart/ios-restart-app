@@ -366,6 +366,7 @@ public enum EventParameterMessageType: String {
     case Favorite   = "favorite"
     case QuickAnswer = "quick-answer"
     case ExpressChat = "express-chat"
+    case PeriscopeDirect = "periscope-direct"
 }
 
 public enum EventParameterLoginError {
