@@ -236,7 +236,7 @@ class ChatViewController: TextViewController {
     }
 
     private func setupDirectAnswers() {
-        directAnswersPresenter.hidden = !viewModel.shouldShowDirectAnswers
+        directAnswersPresenter.hidden = !viewModel.directAnswersVisible.value
         directAnswersPresenter.setDirectAnswers(viewModel.directAnswers)
         directAnswersPresenter.setupOnTopOfView(relatedProductsView)
         directAnswersPresenter.delegate = viewModel
@@ -400,11 +400,7 @@ extension ChatViewController {
 
     private func setupRxBindings() {
         viewModel.chatEnabled.asObservable().bindNext { [weak self] enabled in
-            guard let strongSelf = self else { return }
             self?.setTextViewBarHidden(!enabled, animated: true)
-            UIView.performWithoutAnimation({ 
-                self?.directAnswersPresenter.hidden = !strongSelf.viewModel.shouldShowDirectAnswers
-            })
             self?.textView.userInteractionEnabled = enabled
             }.addDisposableTo(disposeBag)
 
@@ -466,6 +462,11 @@ extension ChatViewController {
             } else {
                 self?.hideBanner()
             }
+        }.addDisposableTo(disposeBag)
+
+        viewModel.directAnswersVisible.asObservable().bindNext { [weak self] visible in
+            self?.directAnswersPresenter.hidden = !visible
+            self?.tableView.reloadData()
         }.addDisposableTo(disposeBag)
     }
 }
@@ -535,11 +536,6 @@ extension ChatViewController: ChatViewModelDelegate {
     
     func vmDidFailSendingMessage() {
         showAutoFadingOutMessageAlert(LGLocalizedString.chatMessageLoadGenericError)
-    }
-    
-    func vmDidUpdateDirectAnswers() {
-        directAnswersPresenter.hidden = !viewModel.shouldShowDirectAnswers
-        tableView.reloadData()
     }
 
     func vmShowRelatedProducts(productId: String?) {

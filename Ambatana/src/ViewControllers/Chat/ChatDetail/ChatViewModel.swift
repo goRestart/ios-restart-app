@@ -11,7 +11,6 @@ import RxSwift
 import CollectionVariable
 
 protocol ChatViewModelDelegate: BaseViewModelDelegate {
-    func vmDidUpdateDirectAnswers()
     func vmShowRelatedProducts(productId: String?)
 
     func vmDidFailSendingMessage()
@@ -99,17 +98,13 @@ class ChatViewModel: BaseViewModel {
         return false
     }
 
-    var interlocutorEnabled: Bool {
+    private var interlocutorEnabled: Bool {
         switch chatStatus.value {
         case .Forbidden, .UserDeleted, .UserPendingDelete:
             return false
         case .Available, .ProductSold, .ProductDeleted, .Blocked, .BlockedBy:
             return true
         }
-    }
-
-    var shouldShowDirectAnswers: Bool {
-        return directAnswersAvailable && KeyValueStorage.sharedInstance.userLoadChatShowDirectAnswersForKey(userDefaultsSubKey)
     }
 
     private var directAnswersAvailable: Bool {
@@ -128,6 +123,7 @@ class ChatViewModel: BaseViewModel {
     let chatStatus = Variable<ChatInfoViewStatus>(.Available)
     let chatEnabled = Variable<Bool>(true)
     let relatedProductsEnabled = Variable<Bool>(false)
+    let directAnswersVisible = Variable<Bool>(false)
     let interlocutorTyping = Variable<Bool>(false)
     let messages = CollectionVariable<ChatViewMessage>([])
     private let sellerDidntAnswer = Variable<Bool>(false)
@@ -138,6 +134,7 @@ class ChatViewModel: BaseViewModel {
     private let isEmptyConversation = Variable<Bool>(true)
     private let stickersTooltipVisible = Variable<Bool>(!KeyValueStorage.sharedInstance[.stickersTooltipAlreadyShown])
     private let reviewTooltipVisible = Variable<Bool>(!KeyValueStorage.sharedInstance[.userRatingTooltipAlreadyShown])
+    private let userDirectAnswersEnabled = Variable<Bool>(false)
     let shouldShowReviewButton = Variable<Bool>(false)
     let userReviewTooltipVisible = Variable<Bool>(false)
 
@@ -412,6 +409,13 @@ class ChatViewModel: BaseViewModel {
         }.addDisposableTo(disposeBag)
 
         setupChatEventsRx()
+
+        userDirectAnswersEnabled.value = keyValueStorage.userLoadChatShowDirectAnswersForKey(userDefaultsSubKey)
+        let directAnswers = Observable.combineLatest(chatEnabled.asObservable(),
+                                        relatedProductsEnabled.asObservable(),
+                                        userDirectAnswersEnabled.asObservable(),
+                                        resultSelector: { return $0 && !$1 && $2 }).distinctUntilChanged()
+        directAnswers.bindTo(directAnswersVisible).addDisposableTo(disposeBag)
     }
 
     func updateMessagesCounts(changeInMessages: CollectionChange<ChatViewMessage>) {
@@ -734,7 +738,7 @@ extension ChatViewModel {
 
         if conversation.value.isSaved {
             if directAnswersAvailable {
-                let directAnswersText = shouldShowDirectAnswers ? LGLocalizedString.directAnswersHide :
+                let directAnswersText = directAnswersVisible.value ? LGLocalizedString.directAnswersHide :
                     LGLocalizedString.directAnswersShow
                 let directAnswersAction = UIAction(interface: UIActionInterface.Text(directAnswersText),
                                                    action: toggleDirectAnswers)
@@ -765,10 +769,6 @@ extension ChatViewModel {
         }
         
         delegate?.vmShowActionSheet(LGLocalizedString.commonCancel, actions: actions)
-    }
-    
-    private func toggleDirectAnswers() {
-        showDirectAnswers(!shouldShowDirectAnswers)
     }
     
     private func deleteAction() {
@@ -1223,10 +1223,14 @@ extension ChatViewModel: DirectAnswersPresenterDelegate {
     func directAnswersDidTapClose(controller: DirectAnswersPresenter) {
         showDirectAnswers(false)
     }
-    
+
+    private func toggleDirectAnswers() {
+        showDirectAnswers(!userDirectAnswersEnabled.value)
+    }
+
     private func showDirectAnswers(show: Bool) {
         KeyValueStorage.sharedInstance.userSaveChatShowDirectAnswersForKey(userDefaultsSubKey, value: show)
-        delegate?.vmDidUpdateDirectAnswers()
+        userDirectAnswersEnabled.value = show
     }
     
     private func clearProductSoldDirectAnswer() {
