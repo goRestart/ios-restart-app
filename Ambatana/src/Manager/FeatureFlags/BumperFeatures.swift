@@ -21,8 +21,8 @@ extension Bumper  {
     }
 
     static var notificationsSection: Bool {
-        guard let value = Bumper.valueForKey(NotificationsSection.key) else { return false }
-        return NotificationsSection(rawValue: value)?.asBool ?? false
+        guard let value = Bumper.valueForKey(NotificationsSection.key) else { return true }
+        return NotificationsSection(rawValue: value)?.asBool ?? true
     }
 
     static var userReviews: Bool {
@@ -122,9 +122,9 @@ enum WebsocketChat: String, BumperFeature  {
 }
 
 enum NotificationsSection: String, BumperFeature  {
-    case No, Yes
-    static var defaultValue: String { return NotificationsSection.No.rawValue }
-    static var enumValues: [NotificationsSection] { return [.No, .Yes]}
+    case Yes, No
+    static var defaultValue: String { return NotificationsSection.Yes.rawValue }
+    static var enumValues: [NotificationsSection] { return [.Yes, .No]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Notifications Section" } 
     var asBool: Bool { return self == .Yes }

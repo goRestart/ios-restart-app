@@ -79,6 +79,7 @@ class TextViewController: KeyboardViewController {
     // MARK: - Public
 
     func setTextViewBarHidden(hidden: Bool, animated: Bool) {
+        guard textViewBarHidden != hidden else { return }
         textViewBarHidden = hidden
         if animated {
             UIView.animateWithDuration(0.2) { [weak self] in
@@ -247,8 +248,10 @@ extension TextViewController: UITextViewDelegate {
         let emptyText = textView.rx_text.map { $0.trim.isEmpty }
         emptyText.bindTo(sendButton.rx_hidden).addDisposableTo(disposeBag)
         emptyText.bindNext { [weak self] empty in
-            guard let buttonWidth = self?.sendButton.width, let margin = self?.viewMargins else { return }
-            self?.textViewRightConstraint.constant = empty ? margin : margin + buttonWidth + margin
+            guard let strongSelf = self, margin = self?.viewMargins else { return }
+            let rightConstraint = empty ? margin : margin + strongSelf.sendButton.width + margin
+            guard strongSelf.textViewRightConstraint.constant != rightConstraint else { return }
+            self?.textViewRightConstraint.constant = rightConstraint
             UIView.animateWithDuration(0.2) { [weak self] in
                 self?.view.layoutIfNeeded()
             }

@@ -159,7 +159,9 @@ class OldChatViewController: TextViewController {
         let cell = drawer.cell(tableView, atIndexPath: indexPath)
         
         drawer.draw(cell, message: message, delegate: self)
-        cell.transform = tableView.transform
+        UIView.performWithoutAnimation {
+            cell.transform = tableView.transform
+        }
 
         return cell
     }
