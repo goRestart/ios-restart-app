@@ -215,10 +215,6 @@ extension UserViewModel {
         delegate?.vmShowNativeShare(socialMessage)
         trackShareStart()
     }
-    
-    func forceFavoriteTab() {
-        tab.value = .Favorites
-    }
 }
 
 
