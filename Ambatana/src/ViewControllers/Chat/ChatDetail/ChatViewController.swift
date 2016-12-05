@@ -54,7 +54,8 @@ class ChatViewController: TextViewController {
         self.viewModel = viewModel
         self.productView = ChatProductView.chatProductView(featureFlags.userReviews)
         self.relatedProductsView = ChatRelatedProductsView()
-        self.directAnswersPresenter = DirectAnswersPresenter(websocketChatActive: featureFlags.websocketChat)
+        self.directAnswersPresenter = DirectAnswersPresenter(newDirectAnswers: featureFlags.newQuickAnswers,
+                                                             websocketChatActive: featureFlags.websocketChat)
         self.stickersView = ChatStickersView()
         self.stickersCloseButton = UIButton(frame: CGRect.zero)
         self.featureFlags = featureFlags
@@ -236,8 +237,8 @@ class ChatViewController: TextViewController {
 
     private func setupDirectAnswers() {
         directAnswersPresenter.hidden = !viewModel.shouldShowDirectAnswers
-        directAnswersPresenter.setupOnTopOfView(relatedProductsView)
         directAnswersPresenter.setDirectAnswers(viewModel.directAnswers)
+        directAnswersPresenter.setupOnTopOfView(relatedProductsView)
         directAnswersPresenter.delegate = viewModel
     }
 

@@ -18,46 +18,69 @@ class DirectAnswersPresenter : NSObject, UICollectionViewDelegate, UICollectionV
     weak var delegate: DirectAnswersPresenterDelegate?
 
     var height: CGFloat {
-        return hidden ? 0 : directAnswersHeight
+        if let bigView = bigView {
+            return hidden ? 0 : bigView.accurateHeight
+        }
+        if let _ = collectionView {
+            return hidden ? 0 : directAnswersCollectionHeight
+        }
+        return 0
     }
 
     var hidden: Bool = false {
         didSet {
+            bigView?.hidden = hidden
             collectionView?.hidden = hidden
         }
     }
 
     var enabled: Bool = true {
         didSet {
+            bigView?.enabled = enabled
             if enabled {
                 collectionView?.deselectAll()
             }
         }
     }
 
-    private let directAnswersHeight: CGFloat = 48
+    private let directAnswersCollectionHeight: CGFloat = 48
     private weak var collectionView: UICollectionView?
+    private weak var bigView: DirectAnswersBigView?
+
+
     private var answers: [DirectAnswer] = []
-    private var websocketChatActive: Bool = false
+    private let websocketChatActive: Bool
+    private let newDirectAnswers: Bool
     private static let disabledAlpha: CGFloat = 0.6
 
 
     // MARK: - Public methods
     
-    init(websocketChatActive: Bool) {
+    init(newDirectAnswers: Bool, websocketChatActive: Bool) {
+        self.newDirectAnswers = newDirectAnswers
         self.websocketChatActive = websocketChatActive
     }
 
     func setupOnTopOfView(sibling: UIView) {
-        buildCollectionOverView(sibling)
-        guard let collectionView = collectionView else { return }
-        setupCollection(collectionView)
+        if newDirectAnswers {
+            let directAnswersView = DirectAnswersBigView()
+            directAnswersView.delegate = self
+            directAnswersView.enabled = enabled
+            directAnswersView.hidden = hidden
+            directAnswersView.setDirectAnswers(answers)
+            directAnswersView.setupOnTopOfView(sibling)
+            bigView = directAnswersView
+        } else {
+            buildCollectionOverView(sibling)
+            guard let collectionView = collectionView else { return }
+            setupCollection(collectionView)
+        }
     }
 
     func setDirectAnswers(answers: [DirectAnswer]) {
         self.answers = answers
+        self.bigView?.setDirectAnswers(answers)
         self.collectionView?.reloadData()
-        setAccessibilityIds()
     }
 
 
@@ -119,8 +142,8 @@ class DirectAnswersPresenter : NSObject, UICollectionViewDelegate, UICollectionV
     // MARK: - Private methods
 
     private func buildCollectionOverView(sibling: UIView) {
-        let view = UICollectionView(frame: CGRect(x: 0, y: sibling.top - directAnswersHeight,
-            width: DirectAnswersPresenter.defaultWidth, height: directAnswersHeight),
+        let view = UICollectionView(frame: CGRect(x: 0, y: sibling.top - directAnswersCollectionHeight,
+            width: DirectAnswersPresenter.defaultWidth, height: directAnswersCollectionHeight),
             collectionViewLayout: UICollectionViewFlowLayout())
         view.translatesAutoresizingMaskIntoConstraints = false
         guard let parentView = sibling.superview else { return }
@@ -133,7 +156,7 @@ class DirectAnswersPresenter : NSObject, UICollectionViewDelegate, UICollectionV
         let right = NSLayoutConstraint(item: view, attribute: NSLayoutAttribute.Right, relatedBy: NSLayoutRelation.Equal,
             toItem: sibling, attribute: NSLayoutAttribute.Right, multiplier: 1, constant: 0)
         let height = NSLayoutConstraint(item: view, attribute: NSLayoutAttribute.Height, relatedBy: NSLayoutRelation.Equal,
-            toItem: nil, attribute: NSLayoutAttribute.NotAnAttribute, multiplier: 1, constant: directAnswersHeight)
+            toItem: nil, attribute: NSLayoutAttribute.NotAnAttribute, multiplier: 1, constant: directAnswersCollectionHeight)
         view.addConstraint(height)
         parentView.addConstraints([bottom,left,right])
 
@@ -161,11 +184,14 @@ class DirectAnswersPresenter : NSObject, UICollectionViewDelegate, UICollectionV
             layout.scrollDirection = UICollectionViewScrollDirection.Horizontal
             layout.minimumInteritemSpacing = 4.0
         }
+
+        collectionView.accessibilityId = .DirectAnswersPresenterCollectionView
     }
 }
 
-extension DirectAnswersPresenter {
-    func setAccessibilityIds() {
-        collectionView?.accessibilityId = .DirectAnswersPresenterCollectionView
+
+extension DirectAnswersPresenter: DirectAnswersBigViewDelegate {
+    func directAnswersBigViewDidSelectAnswer(answer: DirectAnswer) {
+        delegate?.directAnswersDidTapAnswer(self, answer: answer)
     }
 }

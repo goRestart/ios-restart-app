@@ -49,7 +49,8 @@ class OldChatViewController: TextViewController {
     required init(viewModel: OldChatViewModel, featureFlags: FeatureFlags, hidesBottomBar: Bool) {
         self.viewModel = viewModel
         self.productView = ChatProductView.chatProductView(featureFlags.userReviews)
-        self.directAnswersPresenter = DirectAnswersPresenter(websocketChatActive: featureFlags.websocketChat)
+        self.directAnswersPresenter = DirectAnswersPresenter(newDirectAnswers: featureFlags.newQuickAnswers,
+                                                             websocketChatActive: featureFlags.websocketChat)
         self.relatedProductsView = ChatRelatedProductsView()
         self.stickersView = ChatStickersView()
         self.stickersCloseButton = UIButton(frame: CGRect.zero)
