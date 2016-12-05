@@ -720,6 +720,8 @@ extension ProductCarouselViewController {
             viewModel?.switchFavorite()
             if let viewModel = viewModel where !viewModel.isFavorite.value {
                 self.notificationsManager.increaseFavoriteCounter()
+            } else {
+                self.notificationsManager.decreaseFavoriteCounter()
             }
         }.addDisposableTo(activeDisposeBag)
     }
