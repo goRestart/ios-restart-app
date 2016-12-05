@@ -10,7 +10,7 @@ import UIKit
 import LGCoreKit
 import RxSwift
 
-class OldChatViewController: TextViewController {
+class OldChatViewController: TextViewController, UITableViewDelegate, UITableViewDataSource {
 
     let navBarHeight: CGFloat = 64
     let inputBarHeight: CGFloat = 44
@@ -136,7 +136,7 @@ class OldChatViewController: TextViewController {
     
     // MARK: > TableView Delegate
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel.objectCount
     }
     
@@ -150,7 +150,7 @@ class OldChatViewController: TextViewController {
         return UIView(frame: CGRect())
     }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         guard indexPath.row < viewModel.objectCount else {
             return UITableViewCell()
         }
@@ -190,7 +190,9 @@ class OldChatViewController: TextViewController {
         view.backgroundColor = UIColor.grayBackground
         
         setupNavigationBar()
-        
+
+        tableView.delegate = self
+        tableView.dataSource = self
         tableView.clipsToBounds = true
         tableView.estimatedRowHeight = 120
         tableView.rowHeight = UITableViewAutomaticDimension

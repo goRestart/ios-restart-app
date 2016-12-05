@@ -144,6 +144,8 @@ class ChatViewController: TextViewController {
 
         setupNavigationBar()
 
+        tableView.delegate = self
+        tableView.dataSource = self
         tableView.clipsToBounds = true
         tableView.estimatedRowHeight = 120
         tableView.rowHeight = UITableViewAutomaticDimension
@@ -472,9 +474,9 @@ extension ChatViewController {
 
 // MARK: - TableView Delegate & DataSource
 
-extension ChatViewController {
+extension ChatViewController: UITableViewDelegate, UITableViewDataSource  {
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel.objectCount
     }
     
@@ -488,7 +490,7 @@ extension ChatViewController {
         return UIView(frame: CGRect())
     }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         guard indexPath.row < viewModel.objectCount, let message = viewModel.messageAtIndex(indexPath.row) else {
             return UITableViewCell()
         }
