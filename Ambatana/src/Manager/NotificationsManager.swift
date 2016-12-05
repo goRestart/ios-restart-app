@@ -99,7 +99,8 @@ class NotificationsManager {
     
     
     func increaseFavoriteCounter() {
-        let increasedFavoriteValue = keyValueStorage.productsMarkAsFavorite ?? 0 + 1
+        let actualValue = keyValueStorage.productsMarkAsFavorite ?? 0
+        let increasedFavoriteValue = actualValue + 1
         keyValueStorage.productsMarkAsFavorite = increasedFavoriteValue
         favoriteCount.value = increasedFavoriteValue
     }
