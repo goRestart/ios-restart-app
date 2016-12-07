@@ -1843,6 +1843,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("product_post_gallery_load_image_error_title", comment: "")
 	}
 
+	static var productPostGalleryMultiplePicsSelected: String {
+		return NSLocalizedString("product_post_gallery_multiple_pics_selected", comment: "")
+	}
+
 	static var productPostGalleryPermissionsButton: String {
 		return NSLocalizedString("product_post_gallery_permissions_button", comment: "")
 	}
@@ -1853,6 +1857,10 @@ struct LGLocalizedString {
 
 	static var productPostGalleryPermissionsTitle: String {
 		return NSLocalizedString("product_post_gallery_permissions_title", comment: "")
+	}
+
+	static var productPostGallerySelectPictures: String {
+		return NSLocalizedString("product_post_gallery_select_pictures", comment: "")
 	}
 
 	static var productPostGalleryTab: String {

@@ -417,8 +417,8 @@
 "product_mark_as_sold_free_success_message" = "Συγχαρητήρια! Το προϊόν σας έχει μαρκαριστεί επιτυχώς ως χαρισμένο";
 "product_mark_as_sold_success_message" = "Συγχαρητήρια, το προϊόν σας έχει πωληθεί επιτυχώς!";
 "product_more_info_open_button" = "ΠΛΗΡΟΦΟΡΙΕΣ";
-"product_more_info_related_title" = "YOU MIGHT BE INTERESTED IN:";
-"product_more_info_related_view_more" = "View more";
+"product_more_info_related_title" = "ΜΠΟΡΕΙ ΝΑ ΕΝΔΙΑΦΕΡΕΣΤΕ ΓΙΑ:";
+"product_more_info_related_view_more" = "Δείτε περισσότερα";
 "product_more_info_tooltip_part_1" = "Πατήστε";
 "product_more_info_tooltip_part_2" = "%@ για πληροφορίες";
 "product_negotiable_price" = "Συζητήσιμη";
@@ -452,9 +452,11 @@
 "product_post_free_confirmation_another_button" = "Χαρίστε κάποιο άλλο αντικείμενο";
 "product_post_gallery_load_image_error_subtitle" = "Διαλέξτε μια άλλη φωτογραφία και προσπαθήστε ξανά.";
 "product_post_gallery_load_image_error_title" = "Η φωτογραφία δεν μπορεί να φορτώσει";
+"product_post_gallery_multiple_pics_selected" = "%i επιλεγμένες φωτογραφίες";
 "product_post_gallery_permissions_button" = "Πρόσβαση";
 "product_post_gallery_permissions_subtitle" = "Για να επιλέξετε μια υπάρχουσα φωτογραφία, θα πρέπει να επιτρέψετε την πρόσβαση στις Φωτογραφίες";
 "product_post_gallery_permissions_title" = "Επιτρέψτε πρόσβαση στις Φωτογραφίες";
+"product_post_gallery_select_pictures" = "Select up to 5 images to upload";
 "product_post_gallery_tab" = "ΓΚΑΛΕΡΙ";
 "product_post_generic_error" = "Παρουσιάστηκε σφάλμα κατά τη δημοσίευση του αντικειμένου σας.";
 "product_post_incentive_bike" = "Ποδήλατα";
@@ -573,6 +575,7 @@
 "rating_view_remind_later_button" = "Θύμισέ το μου αργότερα";
 "rating_view_title_label" = "Σου αρέσει το letgo;";
 "rating_view_title_label_uppercase" = "ΔΩΣΤΕ ΜΑΣ 5 ΑΣΤΕΡΙΑ!";
+"related_items_title" = "Σχετικά αντικείμενα";
 "report_user_counterfeit" = "Πλαστά στοιχεία";
 "report_user_error_already_reported" = "Έχετε ήδη κάνει αναφορά αυτού του χρήστη!";
 "report_user_inactive" = "Ανενεργός";
