@@ -172,7 +172,7 @@ DEPENDENCIES:
   - KMPlaceholderTextView (~> 1.2.2)
   - Leanplum-iOS-SDK (~> 1.4.0)
   - LGCollapsibleLabel (= 0.2.0)
-  - LGCoreKit (= 1.6.0)
+  - LGCoreKit (from `https://github.com/letgoapp/letgo-ios-lgcorekit`, commit `8e8c26655df544ae61d5e9eddafbede7b1a31b3f`)
   - Nimble (~> 4.1.0)
   - OHHTTPStubs (~> 5.2.1)
   - OHHTTPStubs/Swift
@@ -193,6 +193,9 @@ EXTERNAL SOURCES:
   JBKenBurnsView:
     :commit: 56419f79cb763f8d2ee3a75e4eca51ebc1deab6a
     :git: https://github.com/letgoapp/JBKenBurns
+  LGCoreKit:
+    :commit: 8e8c26655df544ae61d5e9eddafbede7b1a31b3f
+    :git: https://github.com/letgoapp/letgo-ios-lgcorekit
   TMReachability:
     :commit: e34782b386307e386348b481c02c176d58ba45e6
     :git: https://github.com/albertbori/Reachability
@@ -204,6 +207,9 @@ CHECKOUT OPTIONS:
   JBKenBurnsView:
     :commit: 56419f79cb763f8d2ee3a75e4eca51ebc1deab6a
     :git: https://github.com/letgoapp/JBKenBurns
+  LGCoreKit:
+    :commit: 8e8c26655df544ae61d5e9eddafbede7b1a31b3f
+    :git: https://github.com/letgoapp/letgo-ios-lgcorekit
   TMReachability:
     :commit: e34782b386307e386348b481c02c176d58ba45e6
     :git: https://github.com/albertbori/Reachability
@@ -251,7 +257,7 @@ SPEC CHECKSUMS:
   KMPlaceholderTextView: bbff031935d84f7eedb585e7f77120020fbae9e8
   Leanplum-iOS-SDK: 21bac3f21444768e3a892c9e5cbada6fe7abaa5d
   LGCollapsibleLabel: f1631ac1274b268731e3f6a74b121e97a97626da
-  LGCoreKit: 56aaff03c486bd258cae0a8e859a7e16dba83af3
+  LGCoreKit: 32d48f360be11d30692de0e7d9a165697f171c2c
   Nimble: 97a0a4cae5124c117115634b2d055d8c97d0af19
   OHHTTPStubs: e238cd5b66d8efa51c861db45895de8fe079f4a7
   Quick: 13a2a2b19a5d8e3ed4fd0c36ee46597fd77ebf71
@@ -268,6 +274,6 @@ SPEC CHECKSUMS:
   TwitterCore: 817eae3e291fa4125b47789e26a4f6f024115c1f
   TwitterKit: 8a383da8d9c21b0423716381ea8bbfce20622d91
 
-PODFILE CHECKSUM: af6c9d955a75384f8e48fd04ef5370540e6ca00b
+PODFILE CHECKSUM: 2b3425c217e7ead61046fb1e640a4f84b657fd12
 
-COCOAPODS: 1.1.1
+COCOAPODS: 1.1.0.rc.3
