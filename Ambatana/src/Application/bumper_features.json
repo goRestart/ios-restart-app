@@ -90,8 +90,13 @@
         "description": "Show sharing screen after posting (forced)"
     },
     {
-    "name": "PeriscopeImprovement",
-    "values": ["No", "Yes"],
-    "description": "periscope chat improvements"
+        "name": "PeriscopeImprovement",
+        "values": ["No", "Yes"],
+        "description": "periscope chat improvements"
+    },
+    {
+        "name": "FavoriteWithBadgeOnProfile",
+        "values": ["No", "Yes"],
+        "description": "Badge on profile when favorite"
     }
  ]

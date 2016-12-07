@@ -22,6 +22,7 @@ class TabBarViewModel: BaseViewModel {
 
     var notificationsBadge = Variable<String?>(nil)
     var chatsBadge = Variable<String?>(nil)
+    var favoriteBadge = Variable<String?>(nil)
 
     private let keyValueStorage: KeyValueStorage
     private let notificationsManager: NotificationsManager
@@ -101,6 +102,10 @@ class TabBarViewModel: BaseViewModel {
         notificationsManager.unreadMessagesCount.asObservable()
             .map { $0.flatMap { $0 > 0 ? String($0) : nil } }
             .bindTo(chatsBadge).addDisposableTo(disposeBag)
+        
+        notificationsManager.favoriteCount.asObservable()
+            .map { $0.flatMap { $0 > 0 ? String($0) : nil } }
+            .bindTo(favoriteBadge).addDisposableTo(disposeBag)
 
         Observable.combineLatest(myUserRepository.rx_myUser,
             notificationsManager.unreadNotificationsCount.asObservable(),
