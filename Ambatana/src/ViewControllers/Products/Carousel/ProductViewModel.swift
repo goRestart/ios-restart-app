@@ -120,8 +120,8 @@ class ProductViewModel: BaseViewModel {
     var interestedBubbleTitle: String?
     var isFirstProduct: Bool = false
 
-    private var favoriteMessageSent: Bool = false
     private var alreadyTrackedFirstMessageSent: Bool = false
+    private static let bubbleTagGroup = "favorite.bubble.group"
 
     // UI - Input
     let moreInfoState = Variable<MoreInfoState>(.Hidden)
@@ -806,7 +806,22 @@ extension ProductViewModel {
                 strongSelf.favoriteButtonState.value = .Enabled
                 strongSelf.refreshInterestedBubble(true, forFirstProduct: strongSelf.isFirstProduct)
             }
+            navigator?.showBubble(with: favoriteBubbleNotificationData(), duration: 5)
         }
+    }
+    
+    private func favoriteBubbleNotificationData() -> BubbleNotificationData {
+        let action = UIAction(interface: .Text(LGLocalizedString.productBubbleFavoriteButton), action: { [weak self] in
+            guard let product = self?.product.value else { return }
+            self?.navigator?.openProductChat(product)
+        })
+        let data = BubbleNotificationData(tagGroup: ProductViewModel.bubbleTagGroup,
+                                          text: LGLocalizedString.productBubbleFavoriteButton,
+                                          infoText: LGLocalizedString.productBubbleFavoriteText,
+                                          action: action,
+                                          iconURL: nil,
+                                          iconImage: UIImage(named: "user_placeholder"))
+        return data
     }
 
     private func report() {
