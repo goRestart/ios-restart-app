@@ -417,8 +417,8 @@
 "product_mark_as_sold_free_success_message" = "Grattis! Din produkt har märkts som bortskänkt";
 "product_mark_as_sold_success_message" = "Grattis, din produkt har markerats som såld!";
 "product_more_info_open_button" = "MER INFO";
-"product_more_info_related_title" = "YOU MIGHT BE INTERESTED IN:";
-"product_more_info_related_view_more" = "View more";
+"product_more_info_related_title" = "DU KANSKE ÄR INTRESSERAD AV:";
+"product_more_info_related_view_more" = "Läs mer";
 "product_more_info_tooltip_part_1" = "Klicka";
 "product_more_info_tooltip_part_2" = "%@ för mer information";
 "product_negotiable_price" = "Förhandlingsbart";
@@ -452,9 +452,11 @@
 "product_post_free_confirmation_another_button" = "Skänk bort en sak till";
 "product_post_gallery_load_image_error_subtitle" = "Välj en annan bild och försök igen.";
 "product_post_gallery_load_image_error_title" = "Bilden kan inte laddas upp";
+"product_post_gallery_multiple_pics_selected" = "%i bilder valda";
 "product_post_gallery_permissions_button" = "Tillåt";
 "product_post_gallery_permissions_subtitle" = "Du måste tillåta åtkomst till Bilder för att välja en sparad bild";
 "product_post_gallery_permissions_title" = "Tillåt åtkomst till Bilder";
+"product_post_gallery_select_pictures" = "Select up to 5 images to upload";
 "product_post_gallery_tab" = "BIBLIOTEK";
 "product_post_generic_error" = "Ett fel uppstod när vi skulle lägga upp din produkt.";
 "product_post_incentive_bike" = "Cyklar";
@@ -573,6 +575,7 @@
 "rating_view_remind_later_button" = "Påminn mig senare";
 "rating_view_title_label" = "Älskar du letgo?";
 "rating_view_title_label_uppercase" = "GE OSS 5 STJÄRNOR!";
+"related_items_title" = "Relaterade produkter";
 "report_user_counterfeit" = "Oäkta varor";
 "report_user_error_already_reported" = "Du har redan rapporterat denna användare!";
 "report_user_inactive" = "Inaktiv";

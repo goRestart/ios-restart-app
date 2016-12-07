@@ -57,23 +57,28 @@ class ProductCarouselImageCell: UICollectionViewCell {
 extension ProductCarouselImageCell {
     func setImage(image: UIImage?) {
         guard let img = image else { return }
-        let aspectRatio = img.size.width / img.size.height
-        let screenAspectRatio = UIScreen.mainScreen().bounds.width / UIScreen.mainScreen().bounds.height
-        let zoomLevel = (screenAspectRatio / aspectRatio).roundNearest(ProductCarouselImageCell.zoomDecimalsRounding)
-        scrollView.minimumZoomScale = min(1, zoomLevel)
 
-        imageView.bounds = CGRect(x: 0, y: 0, width: bounds.width/zoomLevel, height: bounds.height)
+        let imgAspectRatio = img.size.width / img.size.height
+        let screenAspectRatio = UIScreen.mainScreen().bounds.width / UIScreen.mainScreen().bounds.height
+
+        let zoomLevel = screenAspectRatio / imgAspectRatio
+        let actualZoomLevel = imgAspectRatio >= LGUIKitConstants.horizontalImageMinAspectRatio ? zoomLevel : 1.0
+        scrollView.minimumZoomScale = min(1, actualZoomLevel)
+
+        imageView.bounds = CGRect(x: 0, y: 0, width: bounds.width/actualZoomLevel, height: bounds.height)
         scrollView.contentSize = imageView.bounds.size
-        referenceZoomLevel = zoomLevel
-        scrollView.setZoomScale(zoomLevel, animated: false)
+        referenceZoomLevel = actualZoomLevel
+        scrollView.setZoomScale(actualZoomLevel, animated: false)
 
         imageView.image = img
         backgroundImage.image = img
 
+        scrollView.scrollEnabled = false
         delegate?.isZooming(false, pageAtIndex: position)
     }
 
     func resetZoom() {
+        scrollView.scrollEnabled = false
         scrollView.zoomScale = referenceZoomLevel
     }
 }
@@ -89,9 +94,8 @@ extension ProductCarouselImageCell: UIScrollViewDelegate {
         imageView.center = CGPointMake(scrollView.contentSize.width * 0.5 + offsetX,
                                        scrollView.contentSize.height * 0.5 + offsetY)
 
-        let zoomScale = scrollView.zoomScale.roundNearest(ProductCarouselImageCell.zoomDecimalsRounding)
-        let referenceZoomScale = referenceZoomLevel.roundNearest(ProductCarouselImageCell.zoomDecimalsRounding)
-        let zooming = zoomScale > referenceZoomScale
+        let zooming = scrollView.zoomScale > referenceZoomLevel
+        scrollView.scrollEnabled = zooming
         delegate?.isZooming(zooming, pageAtIndex: position)
     }
 

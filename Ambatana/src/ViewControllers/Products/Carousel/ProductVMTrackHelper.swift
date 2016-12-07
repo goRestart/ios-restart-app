@@ -132,14 +132,13 @@ extension ProductVMTrackHelper {
         tracker.trackEvent(trackerEvent)
     }
 
-    func trackMessageSent(isFirstMessage: Bool, messageType: ChatMessageType) {
-        let trackMessageType = messageType.trackingMessageType
+    func trackMessageSent(isFirstMessage: Bool, messageType: EventParameterMessageType) {
         if isFirstMessage {
-            let firstMessageEvent = TrackerEvent.firstMessage(product, messageType: trackMessageType,
+            let firstMessageEvent = TrackerEvent.firstMessage(product, messageType: messageType,
                                                               typePage: .ProductDetail)
             tracker.trackEvent(firstMessageEvent)
         }
-        let messageSentEvent = TrackerEvent.userMessageSent(product, userTo: product.user, messageType: trackMessageType,
+        let messageSentEvent = TrackerEvent.userMessageSent(product, userTo: product.user, messageType: messageType,
                                                             isQuickAnswer: .False, typePage: .ProductDetail)
         tracker.trackEvent(messageSentEvent)
 

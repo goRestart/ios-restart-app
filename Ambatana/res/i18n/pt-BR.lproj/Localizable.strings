@@ -452,11 +452,13 @@
 "product_post_free_confirmation_another_button" = "Give another item away";
 "product_post_gallery_load_image_error_subtitle" = "Choose another photo and try again.";
 "product_post_gallery_load_image_error_title" = "The photo can't be loaded";
+"product_post_gallery_multiple_pics_selected" = "%i photos selected";
 "product_post_gallery_permissions_button" = "Allow";
 "product_post_gallery_permissions_subtitle" = "To select an existing photo, you must allow access to Photos";
 "product_post_gallery_permissions_title" = "Allow access to Photos";
+"product_post_gallery_select_pictures" = "Select up to 5 images to upload";
 "product_post_gallery_tab" = "GALLERY";
-"product_post_generic_error" = "There was an error while posting your product.";
+"product_post_generic_error" = "An error occurred while posting your product.";
 "product_post_incentive_bike" = "Bikes";
 "product_post_incentive_car" = "Cars";
 "product_post_incentive_dresser" = "Dressers";
@@ -573,6 +575,7 @@
 "rating_view_remind_later_button" = "Remind me later";
 "rating_view_title_label" = "Do you love letgo?";
 "rating_view_title_label_uppercase" = "GIVE US 5 STARS!";
+"related_items_title" = "Related items";
 "report_user_counterfeit" = "Counterfeit items";
 "report_user_error_already_reported" = "You already reported this user!";
 "report_user_inactive" = "Inactive";
