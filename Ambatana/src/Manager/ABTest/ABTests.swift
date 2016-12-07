@@ -30,6 +30,7 @@ public struct ABTests {
     static var shareAfterPosting = BoolABDynamicVar(key: "shareAfterPosting", defaultValue: false)
     static var periscopeImprovement = BoolABDynamicVar(key: "periscopeImprovement", defaultValue: false)
     static var favoriteWithBadgeOnProfile = BoolABDynamicVar(key: "favoriteWithBadgeOnProfile", defaultValue: false)
+    static var favoriteWithBubbleToChat = BoolABDynamicVar(key: "favoriteWithBubbleToChat", defaultValue: false)
 
     
     static private var allVariables: [ABVariable] {
@@ -37,7 +38,7 @@ public struct ABTests {
                 productDetailShareMode, notificationCenterEnabled, shareButtonWithIcon, chatHeadBubbles,
                 saveMailLogout, expressChatBanner, showLiquidProductsToNewUser, postAfterDeleteMode,
                 keywordsTravelCollection, commercializerAfterPosting, relatedProductsOnMoreInfo, shareAfterPosting,
-                periscopeImprovement, favoriteWithBadgeOnProfile]
+                periscopeImprovement, favoriteWithBadgeOnProfile, favoriteWithBubbleToChat]
     }
 
     static func registerVariables() {

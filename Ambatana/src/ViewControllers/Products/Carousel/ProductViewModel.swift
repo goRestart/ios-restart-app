@@ -120,7 +120,6 @@ class ProductViewModel: BaseViewModel {
     var interestedBubbleTitle: String?
     var isFirstProduct: Bool = false
     
-    private var favoriteMessageSent: Bool = false
     private var alreadyTrackedFirstMessageSent: Bool = false
     private static let bubbleTagGroup = "favorite.bubble.group"
 
@@ -816,15 +815,10 @@ extension ProductViewModel {
                 strongSelf.favoriteButtonState.value = .Enabled
                 strongSelf.refreshInterestedBubble(true, forFirstProduct: strongSelf.isFirstProduct)
             }
-            
-            navigator?.showBubble(with: favoriteBubbleNotificationData(), duration: 5)
+            if featureFlags.favoriteWithBubbleToChat {
+                navigator?.showBubble(with: favoriteBubbleNotificationData(), duration: 5)
+            }
         }
-    }
-    
-    private func sendFavoriteMessage() {
-        guard !favoriteMessageSent else { return }
-        sendMessage(.FavoritedProduct(LGLocalizedString.productFavoriteDirectMessage))
-        favoriteMessageSent = true
     }
     
     private func favoriteBubbleNotificationData() -> BubbleNotificationData {

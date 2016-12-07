@@ -12,7 +12,7 @@ import bumper
 
 extension Bumper  {
     static func initialize() {
-        Bumper.initialize([WebsocketChat.self, NotificationsSection.self, UserReviews.self, ShowNPSSurvey.self, InterestedUsersMode.self, FiltersReorder.self, DirectPostInOnboarding.self, ShareButtonWithIcon.self, ProductDetailShareMode.self, ChatHeadBubbles.self, SaveMailLogout.self, ExpressChatBanner.self, ShowLiquidProductsToNewUser.self, PostAfterDeleteMode.self, KeywordsTravelCollection.self, CommercializerAfterPosting.self, RelatedProductsOnMoreInfo.self, ShareAfterPosting.self, PeriscopeImprovement.self, FavoriteWithBadgeOnProfile.self])
+        Bumper.initialize([WebsocketChat.self, NotificationsSection.self, UserReviews.self, ShowNPSSurvey.self, InterestedUsersMode.self, FiltersReorder.self, DirectPostInOnboarding.self, ShareButtonWithIcon.self, ProductDetailShareMode.self, ChatHeadBubbles.self, SaveMailLogout.self, ExpressChatBanner.self, ShowLiquidProductsToNewUser.self, PostAfterDeleteMode.self, KeywordsTravelCollection.self, CommercializerAfterPosting.self, RelatedProductsOnMoreInfo.self, ShareAfterPosting.self, PeriscopeImprovement.self, FavoriteWithBadgeOnProfile.self, FavoriteWithBubbleToChat.self])
     } 
 
     static var websocketChat: Bool {
@@ -113,6 +113,11 @@ extension Bumper  {
     static var favoriteWithBadgeOnProfile: Bool {
         guard let value = Bumper.valueForKey(FavoriteWithBadgeOnProfile.key) else { return false }
         return FavoriteWithBadgeOnProfile(rawValue: value)?.asBool ?? false
+    }
+
+    static var favoriteWithBubbleToChat: Bool {
+        guard let value = Bumper.valueForKey(FavoriteWithBubbleToChat.key) else { return false }
+        return FavoriteWithBubbleToChat(rawValue: value)?.asBool ?? false
     } 
 }
 
@@ -322,6 +327,15 @@ enum FavoriteWithBadgeOnProfile: String, BumperFeature  {
     static var enumValues: [FavoriteWithBadgeOnProfile] { return [.No, .Yes]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Badge on profile when favorite" } 
+    var asBool: Bool { return self == .Yes }
+}
+
+enum FavoriteWithBubbleToChat: String, BumperFeature  {
+    case No, Yes
+    static var defaultValue: String { return FavoriteWithBubbleToChat.No.rawValue }
+    static var enumValues: [FavoriteWithBubbleToChat] { return [.No, .Yes]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "show a bubble to chat with the vendor when selecting a product favorite" } 
     var asBool: Bool { return self == .Yes }
 }
 

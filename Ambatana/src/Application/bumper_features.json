@@ -98,5 +98,10 @@
         "name": "FavoriteWithBadgeOnProfile",
         "values": ["No", "Yes"],
         "description": "Badge on profile when favorite"
+    },
+    {
+        "name": "FavoriteWithBubbleToChat",
+        "values": ["No", "Yes"],
+        "description": "show a bubble to chat with the vendor when selecting a product favorite"
     }
  ]

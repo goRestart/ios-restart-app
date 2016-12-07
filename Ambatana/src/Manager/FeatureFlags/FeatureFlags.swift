@@ -31,6 +31,7 @@ protocol FeatureFlaggeable {
     var relatedProductsOnMoreInfo: Bool { get }
     var periscopeImprovement: Bool { get }
     var favoriteWithBadgeOnProfile: Bool { get }
+    var favoriteWithBubbleToChat: Bool { get }
 }
 
 class FeatureFlags: FeatureFlaggeable {
@@ -192,6 +193,13 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.favoriteWithBadgeOnProfile
         }
         return ABTests.favoriteWithBadgeOnProfile.value
+    }
+    
+    var favoriteWithBubbleToChat: Bool {
+        if Bumper.enabled {
+            return Bumper.favoriteWithBubbleToChat
+        }
+        return ABTests.favoriteWithBubbleToChat.value
     }
 
 
