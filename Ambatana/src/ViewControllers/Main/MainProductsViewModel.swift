@@ -447,9 +447,10 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate {
         }
 
         if page == 0 && !hasProducts {
-            let emptyViewModel = LGEmptyViewModel.respositoryErrorWithRetry(error,
-                                        action:  { [weak viewModel] in viewModel?.refresh() })
-            listViewModel.setErrorState(emptyViewModel)
+            if let emptyViewModel = LGEmptyViewModel.respositoryErrorWithRetry(error,
+                                                                               action:  { [weak viewModel] in viewModel?.refresh() }) {
+                listViewModel.setErrorState(emptyViewModel)
+            }
         }
 
         var errorString: String? = nil
