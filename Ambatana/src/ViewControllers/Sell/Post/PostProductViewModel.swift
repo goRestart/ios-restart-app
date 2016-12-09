@@ -125,7 +125,7 @@ class PostProductViewModel: BaseViewModel {
                 switch (error) {
                 case .Internal, .Unauthorized, .NotFound, .Forbidden, .TooManyRequests, .UserNotVerified, .ServerError:
                     errorString = LGLocalizedString.productPostGenericError
-                case .Network:
+                case .Network, .NetworkFailedOnBackground:
                     errorString = LGLocalizedString.productPostNetworkError
                 }
                 strongSelf.state.value = .ErrorUpload(message: errorString)

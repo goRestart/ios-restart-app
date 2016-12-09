@@ -113,12 +113,13 @@ class NotificationsViewModel: BaseViewModel {
                     strongSelf.afterReloadOk()
                 }
             } else if let error = result.error {
-                let emptyViewModel = LGEmptyViewModel.respositoryErrorWithRetry(error,
+                if let emptyViewModel = LGEmptyViewModel.respositoryErrorWithRetry(error,
                     action: { [weak self] in
                         self?.viewState.value = .Loading
                         self?.reloadNotifications()
-                    })
-                strongSelf.viewState.value = .Error(emptyViewModel)
+                    }) {
+                    strongSelf.viewState.value = .Error(emptyViewModel)
+                }
             }
         }
     }

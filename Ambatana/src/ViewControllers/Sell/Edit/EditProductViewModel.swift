@@ -26,7 +26,7 @@ enum ProductCreateValidationError: ErrorType {
         switch repoError {
         case .Internal:
             self = .Internal
-        case .Network:
+        case .Network, .NetworkFailedOnBackground:
             self = .Network
         case .ServerError, .NotFound, .Forbidden, .Unauthorized, .TooManyRequests, .UserNotVerified:
             self = ServerError(code: repoError.errorCode)

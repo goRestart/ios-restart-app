@@ -66,7 +66,7 @@ public class RememberPasswordViewModel: BaseViewModel {
                     var errorMessage: String?
                     var errorDescription: EventParameterLoginError?
                     switch (error) {
-                    case .Network:
+                    case .Network, .NetworkFailedOnBackground:
                         errorMessage = LGLocalizedString.commonErrorConnectionFailed
                         errorDescription = .Network
                     case .BadRequest(let cause):

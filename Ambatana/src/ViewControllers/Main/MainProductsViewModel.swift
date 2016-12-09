@@ -447,15 +447,16 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate {
         }
 
         if page == 0 && !hasProducts {
-            let emptyViewModel = LGEmptyViewModel.respositoryErrorWithRetry(error,
-                                        action:  { [weak viewModel] in viewModel?.refresh() })
-            listViewModel.setErrorState(emptyViewModel)
+            if let emptyViewModel = LGEmptyViewModel.respositoryErrorWithRetry(error,
+                                                                               action:  { [weak viewModel] in viewModel?.refresh() }) {
+                listViewModel.setErrorState(emptyViewModel)
+            }
         }
 
         var errorString: String? = nil
         if hasProducts && page > 0 {
             switch error {
-            case .Network:
+            case .Network, .NetworkFailedOnBackground:
                 errorString = LGLocalizedString.toastNoNetwork
             case .Internal, .NotFound, .Forbidden, .TooManyRequests, .UserNotVerified, .ServerError:
                 errorString = LGLocalizedString.toastErrorInternal

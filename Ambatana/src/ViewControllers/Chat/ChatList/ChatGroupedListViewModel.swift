@@ -188,8 +188,9 @@ class BaseChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
             dispatch_async(dispatch_get_main_queue()) {
                 // Status update
                 if let error = queueError {
-                    let emptyVM = strongSelf.emptyViewModelForError(error)
-                    strongSelf.status = .Error(emptyVM)
+                    if let emptyVM = strongSelf.emptyViewModelForError(error) {
+                        strongSelf.status = .Error(emptyVM)
+                    }
                 } else if let emptyVM = strongSelf.emptyStatusViewModel where reloadedObjects.isEmpty {
                     strongSelf.status = .Empty(emptyVM)
                 } else {
@@ -243,8 +244,9 @@ class BaseChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
                 strongSelf.chatGroupedDelegate?.chatGroupedListViewModelDidSucceedRetrievingObjectList(page)
             } else if let error = result.error {
                 if firstPage && strongSelf.objectCount == 0 {
-                    let emptyVM = strongSelf.emptyViewModelForError(error)
-                    strongSelf.status = .Error(emptyVM)
+                    if let emptyVM = strongSelf.emptyViewModelForError(error) {
+                        strongSelf.status = .Error(emptyVM)
+                    }
                 } else {
                     strongSelf.status = .Data
                 }
@@ -260,12 +262,15 @@ class BaseChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
 
     // MARK: - Private methods
 
-    private func emptyViewModelForError(error: RepositoryError) -> LGEmptyViewModel {
+    private func emptyViewModelForError(error: RepositoryError) -> LGEmptyViewModel? {
         let retryAction: () -> () = { [weak self] in
             self?.retrieveFirstPage()
         }
-        let emptyVM: LGEmptyViewModel
+        var emptyVM: LGEmptyViewModel?
         switch error {
+        case .NetworkFailedOnBackground:
+            emptyVM = nil
+            return emptyVM
         case .Network:
             emptyVM = LGEmptyViewModel.networkErrorWithRetry(retryAction)
         case .Internal, .NotFound, .Forbidden, .Unauthorized, .TooManyRequests, .UserNotVerified, .ServerError:
