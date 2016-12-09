@@ -225,7 +225,7 @@ private extension VerifyAccountsViewModel {
                 switch error {
                 case .TooManyRequests:
                     self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.profileVerifyEmailTooManyRequests, completion: { self?.verificationFailed() })
-                case .Network, .NetworkFailedOnBackground:
+                case .Network:
                     self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.commonErrorNetworkBody, completion: { self?.verificationFailed() })
                 case .Forbidden, .Internal, .NotFound, .Unauthorized, .UserNotVerified, .ServerError:
                     self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.commonErrorGenericBody, completion: { self?.verificationFailed() })

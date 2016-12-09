@@ -107,7 +107,7 @@ extension SellCoordinator: PostProductNavigator {
                 } else if let error = result.error {
                     let sellError: EventParameterPostProductError
                     switch error {
-                    case .Network, .NetworkFailedOnBackground:
+                    case .Network:
                         sellError = .Network
                     case .ServerError, .NotFound, .Forbidden, .Unauthorized, .TooManyRequests, .UserNotVerified:
                         sellError = .ServerError(code: error.errorCode)

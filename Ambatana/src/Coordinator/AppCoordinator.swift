@@ -777,7 +777,7 @@ private extension AppCoordinator {
             } else if let error = result.error {
                 let message: String
                 switch error {
-                case .Network, .NetworkFailedOnBackground:
+                case .Network:
                     message = LGLocalizedString.commonErrorConnectionFailed
                 case .Internal, .NotFound, .Unauthorized, .Forbidden, .TooManyRequests, .UserNotVerified, .ServerError:
                     message = LGLocalizedString.commonUserReviewNotAvailable

@@ -20,7 +20,7 @@ enum ChangeUsernameError: ErrorType {
     
     init(repositoryError: RepositoryError) {
         switch repositoryError {
-        case .Network, .NetworkFailedOnBackground:
+        case .Network:
             self = .Internal
         case .NotFound:
             self = .NotFound

@@ -207,7 +207,7 @@ public class PromoteProductViewModel: BaseViewModel {
 
                     var paramError: EventParameterCommercializerError = .Internal
                     switch error {
-                    case .Network, .NetworkFailedOnBackground:
+                    case .Network:
                         paramError = .Network
                     case .Internal, .Forbidden, .NotFound, .Unauthorized, .TooManyRequests, .UserNotVerified, .ServerError:
                         break
