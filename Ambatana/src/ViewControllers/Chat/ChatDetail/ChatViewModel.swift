@@ -621,7 +621,7 @@ extension ChatViewModel {
                 switch error {
                 case .UserNotVerified:
                     self?.showUserNotVerifiedAlert()
-                case .Forbidden, .Internal, .Network,  .NotFound, .TooManyRequests, .Unauthorized, .ServerError:
+                case .Forbidden, .Internal, .Network, .NotFound, .TooManyRequests, .Unauthorized, .ServerError:
                     self?.delegate?.vmDidFailSendingMessage()
                 }
             }
