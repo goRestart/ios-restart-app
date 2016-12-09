@@ -456,7 +456,8 @@
 "product_post_gallery_permissions_button" = "허가";
 "product_post_gallery_permissions_subtitle" = "가지고 계신 사진을 선택하기 위해서는, 사진 활용에 대한 접근을 허가해주셔야합니다";
 "product_post_gallery_permissions_title" = "사진 사용 허가";
-"product_post_gallery_select_pictures" = "Select up to 5 images to upload";
+"product_post_gallery_select_pictures_subtitle" = "업로드를 위해 최대 5장의 사진을 선택해주세요";
+"product_post_gallery_select_pictures_title" = "사진 선택";
 "product_post_gallery_tab" = "사진첩";
 "product_post_generic_error" = "회원님의 상품을 게시하는데 오류가 발생했습니다.";
 "product_post_incentive_bike" = "자전거";
@@ -637,7 +638,7 @@
 "settings_change_location_button" = "위치";
 "settings_change_password_button" = "비밀번호";
 "settings_change_profile_picture_button" = "사진";
-"settings_change_profile_picture_error_generic" = "프로필 사진을 등록하는 동안 오류가 발생했습니다.";
+"settings_change_profile_picture_error_generic" = "프로필 사진을 변경하는 동안 오류가 발생했습니다.";
 "settings_change_profile_picture_loading" = "프로필사진을 등록중입니다. 잠시만 기다려주세요...";
 "settings_change_username_button" = "이름";
 "settings_help_button" = "도움";

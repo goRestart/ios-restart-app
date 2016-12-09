@@ -1859,8 +1859,12 @@ struct LGLocalizedString {
 		return NSLocalizedString("product_post_gallery_permissions_title", comment: "")
 	}
 
-	static var productPostGallerySelectPictures: String {
-		return NSLocalizedString("product_post_gallery_select_pictures", comment: "")
+	static var productPostGallerySelectPicturesTitle: String {
+		return NSLocalizedString("product_post_gallery_select_pictures_title", comment: "")
+	}
+
+	static var productPostGallerySelectPicturesSubtitle: String {
+		return NSLocalizedString("product_post_gallery_select_pictures_subtitle", comment: "")
 	}
 
 	static var productPostGalleryTab: String {

@@ -456,7 +456,8 @@
 "product_post_gallery_permissions_button" = "Toestaan";
 "product_post_gallery_permissions_subtitle" = "Om een bestaande foto te selecteren, moet je de toegang tot Foto's toestaan";
 "product_post_gallery_permissions_title" = "Geef toegang tot Foto's";
-"product_post_gallery_select_pictures" = "Select up to 5 images to upload";
+"product_post_gallery_select_pictures_subtitle" = "Selecteer maximaal 5 afbeeldingen om te uploaden";
+"product_post_gallery_select_pictures_title" = "Kies foto's";
 "product_post_gallery_tab" = "BIBLIOTHEEK";
 "product_post_generic_error" = "Er is een fout opgetreden tijdens het plaatsen van jouw product.";
 "product_post_incentive_bike" = "Fietsen";
@@ -500,11 +501,11 @@
 "product_sell_again_error_generic" = "Er is een fout opgetreden bij het markeren van de beschikbaarheid van je product. Probeer het later nog eens.";
 "product_sell_again_free_button" = "Markeer als beschikbaar";
 "product_sell_again_free_confirm_cancel_button" = "Annuleren";
-"product_sell_again_free_confirm_message" = "Markeer je product als beschikbaar zodat alle letgo gebruikers het weten";
+"product_sell_again_free_confirm_message" = "Wil je je product als beschikbaar markeren?";
 "product_sell_again_free_confirm_ok_button" = "Weggeven";
 "product_sell_again_free_confirm_title" = "Markeer als beschikbaar";
-"product_sell_again_free_success_message" = "Gefeliciteerd! Je product is weer beschikbaar om weg te geven";
-"product_sell_again_success_message" = "Gefeliciteerd, je product werd succesvol gemarkeerd als beschikbaar!";
+"product_sell_again_free_success_message" = "Gefeliciteerd! Je product is weer beschikbaar om weg te geven.";
+"product_sell_again_success_message" = "Gefeliciteerd! Je product werd succesvol gemarkeerd als beschikbaar.";
 "product_sell_camera_permissions_error" = "Om een foto te maken, geef letgo toegang tot je Camera in je instellingen.";
 "product_sell_camera_restricted_error" = "De toegang tot je Camera is beperkt. Controleer je instellingen en probeer het opnieuw.";
 "product_sell_photolibrary_permissions_error" = "Om een foto te uploaden, geef letgo toegang tot je Fotobibliotheek in je instellingen.";
@@ -637,7 +638,7 @@
 "settings_change_location_button" = "Locatie";
 "settings_change_password_button" = "Wachtwoord";
 "settings_change_profile_picture_button" = "Foto";
-"settings_change_profile_picture_error_generic" = "Er is een fout opgetreden bij het instellen van de profielfoto.";
+"settings_change_profile_picture_error_generic" = "Er is een fout opgetreden tijdens het wijzigen van de profielfoto.";
 "settings_change_profile_picture_loading" = "Instellen van jouw profielfoto, even geduld a.u.b.";
 "settings_change_username_button" = "Naam";
 "settings_help_button" = "Hulp";

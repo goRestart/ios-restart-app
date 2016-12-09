@@ -456,7 +456,8 @@
 "product_post_gallery_permissions_button" = "Autoriser";
 "product_post_gallery_permissions_subtitle" = "Pour choisir une photo existante, vous devez allouer l'accès aux Photos";
 "product_post_gallery_permissions_title" = "Permettre l'accès aux Photos";
-"product_post_gallery_select_pictures" = "Select up to 5 images to upload";
+"product_post_gallery_select_pictures_subtitle" = "Sélectionnez jusqu'à 5 images à uploader";
+"product_post_gallery_select_pictures_title" = "Choisir une photo";
 "product_post_gallery_tab" = "BIBLIOTHÈQUE";
 "product_post_generic_error" = "Une erreur est survenue lors de la publication de votre bien.";
 "product_post_incentive_bike" = "Vélos";
@@ -503,7 +504,7 @@
 "product_sell_again_free_confirm_message" = "Marquez votre bien comme disponible pour que les utilisateurs letgo le sachent";
 "product_sell_again_free_confirm_ok_button" = "Donner";
 "product_sell_again_free_confirm_title" = "Marquez comme disponible";
-"product_sell_again_free_success_message" = "Félicitations ! Votre bien est de nouveau disponible pour être donné";
+"product_sell_again_free_success_message" = "Félicitations ! Votre bien est de nouveau disponible pour être donné.";
 "product_sell_again_success_message" = "Félicitations, votre bien est bien en vente !";
 "product_sell_camera_permissions_error" = "Pour prendre une photo, donner accès à votre appareil photo à letgo dans les réglages.";
 "product_sell_camera_restricted_error" = "L'accès à votre appareil photo est restreint. Veuillez vérifier vos réglages et réessayer.";
@@ -637,7 +638,7 @@
 "settings_change_location_button" = "Localisation";
 "settings_change_password_button" = "Mot de passe";
 "settings_change_profile_picture_button" = "Photo";
-"settings_change_profile_picture_error_generic" = "Une erreur est survenue lors du paramétrage de votre photo de profil.";
+"settings_change_profile_picture_error_generic" = "Une erreur est survenue lors du changement de votre photo de profil.";
 "settings_change_profile_picture_loading" = "Paramétrage de votre image de profil, veuillez patienter...";
 "settings_change_username_button" = "Nom";
 "settings_help_button" = "Aide";
