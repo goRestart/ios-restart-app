@@ -111,9 +111,8 @@ class ProductCarouselMoreInfoView: UIView {
     }
     
     deinit {
+        // Force mapView removal
         mapView.removeFromSuperview()
-        
-        print("mapView: \(mapView)")
     }
 }
 
