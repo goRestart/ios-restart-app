@@ -22,6 +22,11 @@ protocol ProductCarouselMoreInfoDelegate: class {
     func viewControllerToShowShareOptions() -> UIViewController
 }
 
+extension MKMapView {
+    // Create a unique isntance of MKMapView due to: http://stackoverflow.com/questions/36417350/mkmapview-using-a-lot-of-memory-each-time-i-load-its-view
+    @nonobjc static let sharedInstance = MKMapView()
+}
+
 class ProductCarouselMoreInfoView: UIView {
     
     @IBOutlet weak var titleLabel: UILabel!
@@ -30,7 +35,6 @@ class ProductCarouselMoreInfoView: UIView {
     @IBOutlet weak var transTitleLabel: UILabel!
     @IBOutlet weak var addressLabel: UILabel!
     @IBOutlet weak var distanceLabel: UILabel!
-    @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var socialShareTitleLabel: UILabel!
     @IBOutlet weak var socialShareView: SocialShareView!
     @IBOutlet weak var scrollView: UIScrollView!
@@ -45,6 +49,7 @@ class ProductCarouselMoreInfoView: UIView {
     @IBOutlet weak var dragViewTitle: UILabel!
     @IBOutlet weak var dragViewImage: UIImageView!
 
+    let mapView: MKMapView = MKMapView.sharedInstance
     
     private let disposeBag = DisposeBag()
     private var currentVmDisposeBag = DisposeBag()
@@ -103,6 +108,12 @@ class ProductCarouselMoreInfoView: UIView {
     func dismissed() {
         scrollView.contentOffset = CGPoint.zero
         descriptionLabel.collapsed = true
+    }
+    
+    deinit {
+        mapView.removeFromSuperview()
+        
+        print("mapView: \(mapView)")
     }
 }
 
@@ -247,6 +258,21 @@ extension ProductCarouselMoreInfoView: UIScrollViewDelegate {
 extension ProductCarouselMoreInfoView {
     private func setupUI() {
 
+        if mapView.superview == nil {
+            mapView.translatesAutoresizingMaskIntoConstraints = false
+            scrollViewContent.addSubview(mapView)
+            scrollViewContent.addConstraint(NSLayoutConstraint(item: scrollViewContent, attribute: .Trailing, relatedBy: .Equal,
+                toItem: mapView, attribute: .Trailing, multiplier: 1, constant: 15))
+            scrollViewContent.addConstraint(NSLayoutConstraint(item: scrollViewContent, attribute: .Leading, relatedBy: .Equal,
+                toItem: mapView, attribute: .Leading, multiplier: 1, constant: -15))
+            scrollViewContent.addConstraint(NSLayoutConstraint(item: mapView, attribute: .Height, relatedBy: .Equal,
+                toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: 150))
+            scrollViewContent.addConstraint(NSLayoutConstraint(item: mapView, attribute: .Bottom, relatedBy: .Equal,
+                toItem: socialShareTitleLabel, attribute: .Top, multiplier: 1, constant: -30))
+            scrollViewContent.addConstraint(NSLayoutConstraint(item: mapView, attribute: .Top, relatedBy: .Equal,
+                toItem: addressLabel, attribute: .Bottom, multiplier: 1, constant: 8))
+        }
+        
         scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: scrollBottomInset, right: 0)
         
         titleLabel.textColor = UIColor.whiteColor()
@@ -275,6 +301,7 @@ extension ProductCarouselMoreInfoView {
         socialShareTitleLabel.textColor = UIColor.whiteColor()
         socialShareTitleLabel.font = UIFont.productSocialShareTitleFont
         
+        // TODO: this is being called twice!!! because there is not guard viewModel in this method
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(toggleDescriptionState))
         descriptionLabel.textColor = UIColor.grayLight
         descriptionLabel.addGestureRecognizer(tapGesture)
