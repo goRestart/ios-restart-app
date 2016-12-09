@@ -32,4 +32,5 @@ class MockFeatureFlags: FeatureFlaggeable {
     var relatedProductsOnMoreInfo: Bool = true
     var periscopeImprovement: Bool = false
     var favoriteWithBadgeOnProfile: Bool = false
+    var favoriteWithBubbleToChat: Bool = false
 }

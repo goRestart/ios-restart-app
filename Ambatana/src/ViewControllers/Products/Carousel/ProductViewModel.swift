@@ -825,7 +825,7 @@ extension ProductViewModel {
         let action = UIAction(interface: .Text(LGLocalizedString.productBubbleFavoriteButton), action: { [weak self] in
             guard let product = self?.product.value else { return }
             self?.navigator?.openProductChat(product)
-        })
+        }, accessibilityId: .BubbleButton)
         let data = BubbleNotificationData(tagGroup: ProductViewModel.bubbleTagGroup,
                                           text: LGLocalizedString.productBubbleFavoriteButton,
                                           infoText: LGLocalizedString.productBubbleFavoriteText,
