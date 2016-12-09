@@ -234,10 +234,14 @@ class BaseChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
                 strongSelf.isLastPage = value.count < strongSelf.resultsPerPage
                 strongSelf.nextPage = page + 1
 
-                if let emptyVM = strongSelf.emptyStatusViewModel where firstPage && strongSelf.objectCount == 0 {
-                    strongSelf.status = .Empty(emptyVM)
+                if let emptyVM = strongSelf.emptyStatusViewModel {
+                    if firstPage && strongSelf.objectCount == 0 {
+                        strongSelf.status = .Empty(emptyVM)
+                    } else {
+                        strongSelf.status = .Data
+                    }
                 } else {
-                    strongSelf.status = .Data
+                    strongSelf.retrieveFirstPage()
                 }
                 strongSelf.chatGroupedDelegate?.chatGroupedListViewModelShouldUpdateStatus()
                 strongSelf.chatGroupedDelegate?.chatGroupedListViewModelDidSucceedRetrievingObjectList(page)
@@ -245,6 +249,8 @@ class BaseChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
                 if firstPage && strongSelf.objectCount == 0 {
                     if let emptyVM = strongSelf.emptyViewModelForError(error) {
                         strongSelf.status = .Error(emptyVM)
+                    } else {
+                        self?.retrieveFirstPage()
                     }
                 } else {
                     strongSelf.status = .Data
