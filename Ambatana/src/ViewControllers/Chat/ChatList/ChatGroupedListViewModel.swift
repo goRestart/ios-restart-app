@@ -166,13 +166,12 @@ class BaseChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
         var queueError: RepositoryError?
         dispatch_async(chatReloadQueue, { [weak self] in
             guard let strongSelf = self else { return }
-
             for page in strongSelf.firstPage..<strongSelf.nextPage {
                 let result = synchronize({ completion in
                     self?.index(page, completion: { (result: Result<[T], RepositoryError>) -> () in
                         completion(result)
                     })
-                    }, timeoutWith: Result<[T], RepositoryError>(error: RepositoryError.Network(errorCode: 408, onBackground: false)))
+                    }, timeoutWith: Result<[T], RepositoryError>(error: RepositoryError.setupNetworkGenericError()))
 
                 if let value = result.value {
                     reloadedObjects += value
