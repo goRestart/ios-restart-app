@@ -172,7 +172,7 @@ class BaseChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
                     self?.index(page, completion: { (result: Result<[T], RepositoryError>) -> () in
                         completion(result)
                     })
-                    }, timeoutWith: Result<[T], RepositoryError>(error: RepositoryError.Network))
+                    }, timeoutWith: Result<[T], RepositoryError>(error: RepositoryError.Network(errorCode: 408, onBackground: false)))
 
                 if let value = result.value {
                     reloadedObjects += value
