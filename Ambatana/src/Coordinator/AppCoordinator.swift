@@ -31,6 +31,7 @@ final class AppCoordinator: NSObject {
     private let sessionManager: SessionManager
     private let chatHeadManager: ChatHeadManager
     private let keyValueStorage: KeyValueStorage
+    private let telephonyNetwork: TelephonyNetworkConfigurable
 
     private let pushPermissionsManager: PushPermissionsManager
     private let ratingManager: RatingManager
@@ -78,6 +79,7 @@ final class AppCoordinator: NSObject {
         let userRatingRepository = Core.userRatingRepository
         let featureFlags = FeatureFlags.sharedInstance
         let locationManager = Core.locationManager
+        let telephonyNetwork = TelephonyNetworkConfig()
 
         self.init(tabBarController: tabBarController, chatHeadOverlay: chatHeadOverlay, configManager: configManager,
                   sessionManager: sessionManager, chatHeadManager: chatHeadManager, keyValueStorage: keyValueStorage,
@@ -86,7 +88,7 @@ final class AppCoordinator: NSObject {
                   productRepository: productRepository, userRepository: userRepository, myUserRepository: myUserRepository,
                   oldChatRepository: oldChatRepository, chatRepository: chatRepository,
                   commercializerRepository: commercializerRepository, userRatingRepository: userRatingRepository,
-                  locationManager: locationManager, featureFlags: featureFlags)
+                  locationManager: locationManager, featureFlags: featureFlags, telephonyNetwork: telephonyNetwork)
         tabBarViewModel.navigator = self
     }
 
@@ -96,7 +98,8 @@ final class AppCoordinator: NSObject {
          bubbleManager: BubbleNotificationManager, tracker: Tracker, productRepository: ProductRepository,
          userRepository: UserRepository, myUserRepository: MyUserRepository, oldChatRepository: OldChatRepository,
          chatRepository: ChatRepository, commercializerRepository: CommercializerRepository,
-         userRatingRepository: UserRatingRepository, locationManager: LocationManager, featureFlags: FeatureFlaggeable) {
+         userRatingRepository: UserRatingRepository, locationManager: LocationManager, featureFlags: FeatureFlaggeable,
+         telephonyNetwork: TelephonyNetworkConfigurable ) {
 
         self.tabBarCtl = tabBarController
         self.selectedTab = Variable<Tab>(.Home)
@@ -132,7 +135,7 @@ final class AppCoordinator: NSObject {
         self.userRatingRepository = userRatingRepository
         
         self.featureFlags = featureFlags
-        
+        self.telephonyNetwork = telephonyNetwork
         self.locationManager = locationManager
 
         super.init()
@@ -209,6 +212,11 @@ extension AppCoordinator: AppNavigator {
         let userRatingCoordinator = UserRatingCoordinator(source: source, data: data)
         userRatingCoordinator.delegate = self
         openCoordinator(coordinator: userRatingCoordinator, parent: tabBarCtl, animated: true, completion: nil)
+    }
+    
+    func openChangeLocation() {
+        // TODO: Should navigate to change Location.
+        print("😨😨😨😨😨😨😨😨😨😨😨😨😨😨😨😨😨")
     }
 
     func openVerifyAccounts(types: [VerificationType], source: VerifyAccountsSource, completionBlock: (() -> Void)?) {
@@ -508,7 +516,16 @@ private extension AppCoordinator {
             [weak self] _ in
             self?.askUserToUpdateLocation()
         }.addDisposableTo(disposeBag)
-    }
+        
+        locationManager.locationEvents.filter { $0 == .LocationUpdate }.take(1).bindNext {
+            [weak self] location in
+            guard let strongSelf = self else { return }
+          //  if strongSelf.telephonyNetwork.isTurkishCarrier() && NSLocale.currentLocale().isNotTurkish {
+                print("REMOVE: Turkish carrier")
+                strongSelf.askUserToUpdateLocationManually()
+          //  }
+            }.addDisposableTo(disposeBag)
+       }
 
     func setupChatHeads() {
         let view: UIView = tabBarCtl.tabBar.superview ?? tabBarCtl.view
@@ -554,7 +571,19 @@ private extension AppCoordinator {
         navCtl.showAlert(nil, message: LGLocalizedString.changeLocationRecommendUpdateLocationMessage,
                          cancelLabel: LGLocalizedString.commonCancel, actions: [yesAction])
     }
-
+    
+    func askUserToUpdateLocationManually() {
+        guard let navCtl = selectedNavigationController else { return }
+        guard navCtl.isAtRootViewController else { return }
+        
+        let yesAction = UIAction(interface: .StyledText(LGLocalizedString.commonOk, .Default), action: { [weak self] in
+            self?.openTab(.Profile) { [weak self] in
+                self?.openChangeLocation()
+            }
+            })
+            navCtl.showAlert(nil, message: LGLocalizedString.changeLocationRecommendUpdateLocationMessage,
+                         cancelLabel: LGLocalizedString.commonCancel, actions: [yesAction])
+    }
 }
 
 extension AppCoordinator: CustomLeanplumPresenter {

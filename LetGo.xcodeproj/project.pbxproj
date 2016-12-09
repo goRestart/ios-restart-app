@@ -569,6 +569,8 @@
 		7288D7441DF0752B003A9B90 /* CustomTouchesTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7288D7421DF0752B003A9B90 /* CustomTouchesTableView.swift */; };
 		72A83F641DD222100043EB3B /* Leanplum+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72A83F631DD222100043EB3B /* Leanplum+LG.swift */; };
 		72A83F651DD222100043EB3B /* Leanplum+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72A83F631DD222100043EB3B /* Leanplum+LG.swift */; };
+		72B76C831DF80B3A001A18CE /* TelephonyNetworkConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72B76C821DF80B3A001A18CE /* TelephonyNetworkConfig.swift */; };
+		72B76C841DF80B3A001A18CE /* TelephonyNetworkConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72B76C821DF80B3A001A18CE /* TelephonyNetworkConfig.swift */; };
 		72C99E9C1DED7417006361C1 /* ChangePasswordCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72C99E9B1DED7417006361C1 /* ChangePasswordCoordinator.swift */; };
 		72C99E9D1DED7417006361C1 /* ChangePasswordCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72C99E9B1DED7417006361C1 /* ChangePasswordCoordinator.swift */; };
 		B1BE6075C99CFB3D2FFD15B5 /* Pods_letgoTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2D3A9CDDF543002435A50F7 /* Pods_letgoTests.framework */; };
@@ -1553,6 +1555,7 @@
 		723A45C81DDC4D470001D02C /* UILabel+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UILabel+LG.swift"; sourceTree = "<group>"; };
 		7288D7421DF0752B003A9B90 /* CustomTouchesTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTouchesTableView.swift; sourceTree = "<group>"; };
 		72A83F631DD222100043EB3B /* Leanplum+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Leanplum+LG.swift"; sourceTree = "<group>"; };
+		72B76C821DF80B3A001A18CE /* TelephonyNetworkConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TelephonyNetworkConfig.swift; path = ../Helper/FoundationExtensions/TelephonyNetworkConfig.swift; sourceTree = "<group>"; };
 		72C99E9B1DED7417006361C1 /* ChangePasswordCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangePasswordCoordinator.swift; sourceTree = "<group>"; };
 		7B2FD4C296937E707B24D7EB /* Pods-LetGoGodMode.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetGoGodMode.release.xcconfig"; path = "Pods/Target Support Files/Pods-LetGoGodMode/Pods-LetGoGodMode.release.xcconfig"; sourceTree = "<group>"; };
 		7ED714BB7ABD1804F5E818D4 /* Pods-LetGo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetGo.release.xcconfig"; path = "Pods/Target Support Files/Pods-LetGo/Pods-LetGo.release.xcconfig"; sourceTree = "<group>"; };
@@ -2953,6 +2956,7 @@
 		6AEF66B11C5A153E0025D43C /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
+				72B76C821DF80B3A001A18CE /* TelephonyNetworkConfig.swift */,
 				6AEF66B21C5A155C0025D43C /* Paginable.swift */,
 				50F681F11C8F4586001F33A3 /* RxPaginable.swift */,
 			);
@@ -4786,6 +4790,7 @@
 				2E4B359C1CC90A9500B8CB64 /* RelatedProductListRequester.swift in Sources */,
 				C742340C1D5A132D0082D1CD /* UITableView+Changes.swift in Sources */,
 				C7AB4EC61CD39C67007B573D /* NotificationsManager.swift in Sources */,
+				72B76C831DF80B3A001A18CE /* TelephonyNetworkConfig.swift in Sources */,
 				C7F4CBA61C92CC5A008E40D6 /* LGViewPagerPage.swift in Sources */,
 				2E373FA81D3D01AE00AC811C /* UserRatingListViewModel.swift in Sources */,
 				C735101E1D942B5000D67040 /* FeatureFlags.swift in Sources */,
@@ -5202,6 +5207,7 @@
 				2E6B6E3E1D2BCC9800C10A20 /* PostIncentiviserItem.swift in Sources */,
 				C742340D1D5A132D0082D1CD /* UITableView+Changes.swift in Sources */,
 				2E4B359D1CC90A9500B8CB64 /* RelatedProductListRequester.swift in Sources */,
+				72B76C841DF80B3A001A18CE /* TelephonyNetworkConfig.swift in Sources */,
 				C7AB4EC71CD39C67007B573D /* NotificationsManager.swift in Sources */,
 				C7F4CBA71C92CC5A008E40D6 /* LGViewPagerPage.swift in Sources */,
 				C735101F1D942B5000D67040 /* FeatureFlags.swift in Sources */,
