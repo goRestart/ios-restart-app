@@ -256,21 +256,21 @@ extension ProductCarouselMoreInfoView: UIScrollViewDelegate {
 
 extension ProductCarouselMoreInfoView {
     private func setupUI() {
-
-        if mapView.superview == nil {
-            mapView.translatesAutoresizingMaskIntoConstraints = false
-            scrollViewContent.addSubview(mapView)
-            scrollViewContent.addConstraint(NSLayoutConstraint(item: scrollViewContent, attribute: .Trailing, relatedBy: .Equal,
-                toItem: mapView, attribute: .Trailing, multiplier: 1, constant: 15))
-            scrollViewContent.addConstraint(NSLayoutConstraint(item: scrollViewContent, attribute: .Leading, relatedBy: .Equal,
-                toItem: mapView, attribute: .Leading, multiplier: 1, constant: -15))
-            scrollViewContent.addConstraint(NSLayoutConstraint(item: mapView, attribute: .Height, relatedBy: .Equal,
-                toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: 150))
-            scrollViewContent.addConstraint(NSLayoutConstraint(item: mapView, attribute: .Bottom, relatedBy: .Equal,
-                toItem: socialShareTitleLabel, attribute: .Top, multiplier: 1, constant: -30))
-            scrollViewContent.addConstraint(NSLayoutConstraint(item: mapView, attribute: .Top, relatedBy: .Equal,
-                toItem: addressLabel, attribute: .Bottom, multiplier: 1, constant: 8))
+        if mapView.superview != nil {
+            mapView.removeFromSuperview()
         }
+        mapView.translatesAutoresizingMaskIntoConstraints = false
+        scrollViewContent.addSubview(mapView)
+        scrollViewContent.addConstraint(NSLayoutConstraint(item: scrollViewContent, attribute: .Trailing, relatedBy: .Equal,
+                                                           toItem: mapView, attribute: .Trailing, multiplier: 1, constant: 15))
+        scrollViewContent.addConstraint(NSLayoutConstraint(item: scrollViewContent, attribute: .Leading, relatedBy: .Equal,
+                                                           toItem: mapView, attribute: .Leading, multiplier: 1, constant: -15))
+        scrollViewContent.addConstraint(NSLayoutConstraint(item: mapView, attribute: .Height, relatedBy: .Equal,
+                                                           toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: 150))
+        scrollViewContent.addConstraint(NSLayoutConstraint(item: mapView, attribute: .Bottom, relatedBy: .Equal,
+                                                           toItem: socialShareTitleLabel, attribute: .Top, multiplier: 1, constant: -30))
+        scrollViewContent.addConstraint(NSLayoutConstraint(item: mapView, attribute: .Top, relatedBy: .Equal,
+                                                           toItem: addressLabel, attribute: .Bottom, multiplier: 1, constant: 8))
         
         scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: scrollBottomInset, right: 0)
         
