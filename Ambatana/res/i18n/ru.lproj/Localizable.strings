@@ -498,14 +498,14 @@
 "product_sell_again_confirm_message" = "Хотите отметить этот товар как доступный для продажи, чтобы он снова стал видимым для покупателей?";
 "product_sell_again_confirm_ok_button" = "Продать заново";
 "product_sell_again_confirm_title" = "Продать заново";
-"product_sell_again_error_generic" = "Произошла ошибка при смене статуса товара на доступный для продажи. Пожалуйста, попробуйте еще раз позже.";
+"product_sell_again_error_generic" = "Произошла ошибка при смене статуса товара на доступный. Пожалуйста, попробуйте еще раз.";
 "product_sell_again_free_button" = "Отметить как доступный";
 "product_sell_again_free_confirm_cancel_button" = "Отмена";
-"product_sell_again_free_confirm_message" = "Отметьте товар как доступный, чтобы пользователи letgo знали";
+"product_sell_again_free_confirm_message" = "Хотите пометить ваш товар как доступный?";
 "product_sell_again_free_confirm_ok_button" = "Отдать";
 "product_sell_again_free_confirm_title" = "Отметить как доступный";
 "product_sell_again_free_success_message" = "Поздравляем! Ваш товар снова доступен для дарения.";
-"product_sell_again_success_message" = "Поздравляем, ваш товар успешно отмечен как доступный для продажи!";
+"product_sell_again_success_message" = "Поздравляем, ваш товар успешно отмечен как доступный.";
 "product_sell_camera_permissions_error" = "Чтобы сделать снимок, откройте letgo доступ к вашей камере в настройках.";
 "product_sell_camera_restricted_error" = "Доступ к вашей камере запрещен. Пожалуйста, проверьте настройки и попробуйте еще раз.";
 "product_sell_photolibrary_permissions_error" = "Для загрузки фотографии откройте letgo доступ к вашей фотогалерее в настройках.";
