@@ -54,7 +54,7 @@ extension UIView {
         let topSeparator = UIView()
         topSeparator.translatesAutoresizingMaskIntoConstraints = false
         addSubview(topSeparator)
-        topSeparator.fitHorzontallyToParent()
+        topSeparator.fitHorizontallyToParent()
         topSeparator.alignParentTop()
         topSeparator.backgroundColor = color
         topSeparator.setHeightConstraint(width)

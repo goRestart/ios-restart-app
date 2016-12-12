@@ -76,7 +76,7 @@ class DirectAnswersBigView: UIView {
         translatesAutoresizingMaskIntoConstraints = false
         guard let parentView = sibling.superview else { return }
         parentView.addSubview(self)
-        fitHorzontallyToParent()
+        fitHorizontallyToParent()
         bottomConstraint = toTopOf(sibling, margin: hidden ? -accurateHeight : 0)
     }
 
@@ -95,7 +95,7 @@ class DirectAnswersBigView: UIView {
             let button = buildAnswerButton(answer)
             button.tag = index
             addSubview(button)
-            button.fitHorzontallyToParent(margin: DirectAnswersBigView.itemMargin)
+            button.fitHorizontallyToParent(margin: DirectAnswersBigView.itemMargin)
             button.toBottomOf(previousItem)
             button.addTarget(self, action: #selector(buttonPressed(_:)), forControlEvents: .TouchUpInside)
 
@@ -119,7 +119,7 @@ class DirectAnswersBigView: UIView {
         addSubview(titleLabel)
         titleLabel.alignParentTop()
         titleLabel.setHeightConstraint(DirectAnswersBigView.itemHeight)
-        titleLabel.fitHorzontallyToParent(margin: DirectAnswersBigView.itemMargin)
+        titleLabel.fitHorizontallyToParent(margin: DirectAnswersBigView.itemMargin)
 
         addTopViewBorderWith(width: LGUIKitConstants.onePixelSize, color: UIColor.lineGray)
     }

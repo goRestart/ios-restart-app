@@ -207,13 +207,7 @@ extension TextViewController: UITextViewDelegate {
         sendButton.toRightOf(textView, margin: viewMargins)
         sendButton.setHeightConstraint(minHeight)
 
-        let topSeparator = UIView()
-        topSeparator.translatesAutoresizingMaskIntoConstraints = false
-        textViewBar.addSubview(topSeparator)
-        topSeparator.fitHorizontallyToParent()
-        topSeparator.alignParentTop()
-        topSeparator.backgroundColor = UIColor.lineGray
-        topSeparator.setHeightConstraint(LGUIKitConstants.onePixelSize)
+        textViewBar.addTopViewBorderWith(width: LGUIKitConstants.onePixelSize, color: UIColor.lineGray)
 
         textViewBarBottom = textViewBar.toTopOf(keyboardView, margin: textViewBarHidden ? -textViewBar.height : 0)
 
