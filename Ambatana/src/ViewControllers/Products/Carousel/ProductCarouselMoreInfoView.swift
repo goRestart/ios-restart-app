@@ -156,10 +156,8 @@ extension ProductCarouselMoreInfoView: MKMapViewDelegate {
         let tap = UITapGestureRecognizer(target: self, action: #selector(showBigMap))
         mapView.addGestureRecognizer(tap)
         
-        overlayMap.frame = convertRect(mapView.frame, fromView: scrollViewContent)
         overlayMap.layer.cornerRadius = LGUIKitConstants.mapCornerRadius
         overlayMap.clipsToBounds = true
-        overlayMap.region = mapView.region
 
         let tapHide = UITapGestureRecognizer(target: self, action: #selector(hideBigMap))
         overlayMap.addGestureRecognizer(tapHide)
