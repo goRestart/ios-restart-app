@@ -505,11 +505,7 @@
 "product_sell_again_free_confirm_ok_button" = "Donner";
 "product_sell_again_free_confirm_title" = "Marquez comme disponible";
 "product_sell_again_free_success_message" = "Félicitations ! Votre bien est de nouveau disponible pour être donné.";
-<<<<<<< HEAD
 "product_sell_again_success_message" = "Félicitations, votre bien a bien été indiqué comme disponible !";
-=======
-"product_sell_again_success_message" = "Félicitations, votre bien est bien en vente !";
->>>>>>> develop
 "product_sell_camera_permissions_error" = "Pour prendre une photo, donner accès à votre appareil photo à letgo dans les réglages.";
 "product_sell_camera_restricted_error" = "L'accès à votre appareil photo est restreint. Veuillez vérifier vos réglages et réessayer.";
 "product_sell_photolibrary_permissions_error" = "Pour uploader une photo, donnez l'accès à votre galerie d'images à letgo dans vos réglages.";
