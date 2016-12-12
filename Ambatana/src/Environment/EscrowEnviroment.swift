@@ -13,10 +13,10 @@ class EscrowEnvironment: AppEnvironment {
     
     // Tracking
     let appsFlyerAPIKey = "5EKnCjmwmNKjE2e7gYBo6T"
-    let amplitudeAPIKey = "6d37fbd6c25243c57676e6d4ce7948bf"
+    let amplitudeAPIKey = ""
     
     // App indexing
-    let googleAppIndexingId: UInt = 986339882
+    let googleAppIndexingId: UInt = 0
     
     // Google login
     let googleServerClientID = "914431496661-7s28hvdioe432kpco4lvh53frmkqlllv.apps.googleusercontent.com"
@@ -30,9 +30,9 @@ class EscrowEnvironment: AppEnvironment {
     let twitterConsumerSecret = "QftWuBwJMb0UrfvGOErcIS6Oyf7d6RGn60HfN4DRLjgt7XmTgI"
     
     // Leanplum
-    let leanplumAppId = "app_gYgnjLc98J3vIVHbmdD9W0Qwvy0A3KHMdo4PKd0zJD4"
-    let leanplumEnvKey = "prod_OQEDqHOM3iZxZSKbcMuhnMZcee4PKDji5yJGfS5jn64"
+    let leanplumAppId = ""
+    let leanplumEnvKey = ""
     
     // Config
-    var configURL = "https://letgo-images.s3.amazonaws.com/config/ios.json"
+    var configURL = "https://www.escrowverification.com/config/ios.json"
 }
