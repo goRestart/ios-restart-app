@@ -160,7 +160,7 @@ class ChatViewController: TextViewController {
         sendButton.setTitle(LGLocalizedString.chatSendButton, forState: .Normal)
         sendButton.tintColor = UIColor.primaryColor
         sendButton.titleLabel?.font = UIFont.smallButtonFont
-        hideStickers()
+        reloadLeftActions()
 
         addSubviews()
         setupFrames()
@@ -358,7 +358,7 @@ extension ChatViewController: UIGestureRecognizerDelegate {
     func reloadLeftActions() {
         var actions = [UIAction]()
 
-        if /*!showingStickers &&*/ featureFlags.newQuickAnswers && viewModel.directAnswersState.value != .NotAvailable {
+        if featureFlags.newQuickAnswers && viewModel.directAnswersState.value != .NotAvailable {
             let image = UIImage(named: "ic_quick_answers")
             let quickAnswersAction = UIAction(interface: .Image(image), action: { [weak self] in
                 self?.viewModel.directAnswersButtonPressed()

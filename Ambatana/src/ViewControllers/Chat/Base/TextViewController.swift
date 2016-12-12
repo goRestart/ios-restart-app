@@ -133,6 +133,8 @@ class TextViewController: KeyboardViewController {
         view.backgroundColor = UIColor.whiteColor()
         setupTextArea()
         setupTable()
+
+        updateLeftActions()
     }
 }
 
