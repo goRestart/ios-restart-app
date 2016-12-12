@@ -7,7 +7,6 @@
 //
 
 import CoreLocation
-import StoreKit
 import FBSDKShareKit
 import LGCoreKit
 import Result
@@ -1176,17 +1175,16 @@ private extension ProductViewModelStatus {
 // MARK: PurchasesShopperDelegate
 
 extension ProductViewModel: PurchasesShopperDelegate {
-    func shopperFinishedProductsRequestWithProducts(products: [SKProduct]) {
+    func shopperFinishedProductsRequestWithProducts(products: [MonetizationProduct]) {
         guard let purchase = products.first else { return }
         // TODO: temp UI to test the payments
-        let text = "_\(purchase.localizedDescription) at \(purchase.price)"
+        let text = "_\(purchase.description) at \(purchase.price)"
 
         let payAction = UIAction(interface: .Text(LGLocalizedString.productMarkAsSoldConfirmOkButton),
                                     action: { [weak self] in
-                                        print("💸🐵💰🐵💰🐵💰🐵💰🐵💰💸")
                                         self?.purchasesShopper.requestPaymentForProduct(purchase)
             })
 
-        delegate?.vmShowAlert(purchase.localizedTitle, message: text, cancelLabel: "_Cancel", actions: [payAction])
+        delegate?.vmShowAlert(purchase.title, message: text, cancelLabel: LGLocalizedString.commonCancel, actions: [payAction])
     }
 }

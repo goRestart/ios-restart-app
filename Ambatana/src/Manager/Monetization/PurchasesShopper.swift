@@ -9,15 +9,42 @@
 import Foundation
 import StoreKit
 
+
 protocol PurchasesShopperDelegate: class {
-    func shopperFinishedProductsRequestWithProducts(products: [SKProduct])
+    func shopperFinishedProductsRequestWithProducts(products: [MonetizationProduct])
 }
+
+
+struct MonetizationProduct {
+    var id: String {
+        return product.productIdentifier
+    }
+    var price: String {
+        let priceFormatter = NSNumberFormatter()
+        priceFormatter.formatterBehavior = .Behavior10_4
+        priceFormatter.numberStyle = .CurrencyStyle
+        priceFormatter.locale = product.priceLocale
+        return priceFormatter.stringFromNumber(product.price) ?? ""
+    }
+    var title: String {
+        return product.localizedTitle
+    }
+    var description: String {
+        return product.localizedDescription
+    }
+    private var product: SKProduct
+
+    init(product: SKProduct) {
+        self.product = product
+    }
+}
+
 
 class PurchasesShopper: NSObject {
 
     static let sharedInstance: PurchasesShopper = PurchasesShopper()
 
-    private var products: [SKProduct]
+    private var products: [MonetizationProduct]
     var productsRequest: SKProductsRequest
 
     weak var delegate: PurchasesShopperDelegate?
@@ -38,8 +65,9 @@ class PurchasesShopper: NSObject {
         productsRequest.start()
     }
 
-    func requestPaymentForProduct(product: SKProduct) {
-        let payment = SKMutablePayment(product: product)
+    func requestPaymentForProduct(product: MonetizationProduct) {
+        
+        let payment = SKMutablePayment(product: product.product)
         payment.quantity = 1
         SKPaymentQueue.defaultQueue().addPayment(payment)
     }
@@ -51,15 +79,15 @@ class PurchasesShopper: NSObject {
 extension PurchasesShopper: SKProductsRequestDelegate {
     dynamic func productsRequest(request: SKProductsRequest, didReceiveResponse response: SKProductsResponse) {
 
-        products = response.products
-
+        // TODO: manage "invalidProductIdentifiers"
 //        for invalidIdentifier in response.invalidProductIdentifiers {
 //            // Handle any invalid product identifiers. ( ? )
 //        }
 
+        products = response.products.flatMap { MonetizationProduct(product: $0) }
+
         delegate?.shopperFinishedProductsRequestWithProducts(products)
     }
-    
 }
 
 
