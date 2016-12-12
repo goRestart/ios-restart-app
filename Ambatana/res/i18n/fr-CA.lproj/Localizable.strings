@@ -417,8 +417,8 @@
 "product_mark_as_sold_free_success_message" = "Félicitations ! Votre produit a été indiqué comme donné avec succès";
 "product_mark_as_sold_success_message" = "Félicitations, votre produit a été indiqué comme vendu !";
 "product_more_info_open_button" = "PLUS D'INFO";
-"product_more_info_related_title" = "YOU MIGHT BE INTERESTED IN:";
-"product_more_info_related_view_more" = "View more";
+"product_more_info_related_title" = "VOUS POURRIEZ ÊTRE INTÉRESSÉ PAR :";
+"product_more_info_related_view_more" = "Afficher plus";
 "product_more_info_tooltip_part_1" = "Sélectionnez";
 "product_more_info_tooltip_part_2" = "%@ pour voir plus d'infos";
 "product_negotiable_price" = "Négociable";
@@ -452,9 +452,12 @@
 "product_post_free_confirmation_another_button" = "Donner un autre objet";
 "product_post_gallery_load_image_error_subtitle" = "Choisissez une autre photo et réessayez.";
 "product_post_gallery_load_image_error_title" = "La photo ne peut pas être chargée";
+"product_post_gallery_multiple_pics_selected" = "%i photos sélectionnées";
 "product_post_gallery_permissions_button" = "Autoriser";
 "product_post_gallery_permissions_subtitle" = "Pour choisir une photo existante, vous devez autoriser l'accès aux Photos";
 "product_post_gallery_permissions_title" = "Permettre l'accès aux Photos";
+"product_post_gallery_select_pictures_subtitle" = "Sélectionnez jusqu'à 5 images à télécharger";
+"product_post_gallery_select_pictures_title" = "Choisissez des photos";
 "product_post_gallery_tab" = "ALBUM";
 "product_post_generic_error" = "Une erreur est survenue lors de la publication de votre produit.";
 "product_post_incentive_bike" = "Vélos";
@@ -495,13 +498,13 @@
 "product_sell_again_confirm_message" = "Souhaitez-vous indiquer ce produit comme disponible afin que les acheteurs puissent le voir à nouveau ?";
 "product_sell_again_confirm_ok_button" = "Le Vendre à Nouveau";
 "product_sell_again_confirm_title" = "Le Vendre à Nouveau";
-"product_sell_again_error_generic" = "Une erreur est survenue lors de l'indication de votre produit comme disponible. Veuillez réessayer plus tard.";
+"product_sell_again_error_generic" = "Une erreur est survenue lors de l'indication de votre produit comme disponible. Veuillez réessayer.";
 "product_sell_again_free_button" = "Indiquer comme disponible";
 "product_sell_again_free_confirm_cancel_button" = "Annuler";
-"product_sell_again_free_confirm_message" = "Indiquer votre produit comme disponible afin que tous les utilisateurs letgo soient informés";
+"product_sell_again_free_confirm_message" = "Voulez-vous indiquer que votre produit est disponible ?";
 "product_sell_again_free_confirm_ok_button" = "Donner";
 "product_sell_again_free_confirm_title" = "Indiquer comme disponible";
-"product_sell_again_free_success_message" = "Félicitations ! Votre produit est de nouveau disponible pour être donné";
+"product_sell_again_free_success_message" = "Félicitations ! Votre produit est de nouveau disponible pour être donné.";
 "product_sell_again_success_message" = "Félicitations, votre produit a bien été indiqué comme disponible !";
 "product_sell_camera_permissions_error" = "Pour prendre une photo, vos paramètres doivent permettre à letgo d'avoir accès à votre Appareil Photo.";
 "product_sell_camera_restricted_error" = "L'accès à votre Appareil Photo est restreint. Veuillez vérifier vos paramètres et réessayer.";
@@ -573,6 +576,7 @@
 "rating_view_remind_later_button" = "Me le rappeler plus tard";
 "rating_view_title_label" = "Aimez-vous letgo ?";
 "rating_view_title_label_uppercase" = "DONNEZ-NOUS 5 ÉTOILES !";
+"related_items_title" = "Produits associés";
 "report_user_counterfeit" = "Contrefaçons";
 "report_user_error_already_reported" = "Vous avez déjà signalé cet utilisateur !";
 "report_user_inactive" = "Inactif";
@@ -634,7 +638,7 @@
 "settings_change_location_button" = "Localisation";
 "settings_change_password_button" = "Mot de passe";
 "settings_change_profile_picture_button" = "Photo";
-"settings_change_profile_picture_error_generic" = "Une erreur est survenue lors du paramétrage de l'image de profil.";
+"settings_change_profile_picture_error_generic" = "Une erreur est survenue lors du changement de l'image de profil.";
 "settings_change_profile_picture_loading" = "Paramétrage de l'image de profil. Veuillez patienter...";
 "settings_change_username_button" = "Nom";
 "settings_help_button" = "Aide";

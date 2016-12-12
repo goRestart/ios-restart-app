@@ -14,8 +14,7 @@ import Result
 public enum RepositoryError: ErrorType {
     
     case Internal(message: String)
-    
-    case Network
+    case Network(errorCode: Int, onBackground: Bool)
     case NotFound
     case Unauthorized(code: Int?)
     case Forbidden
@@ -28,8 +27,8 @@ public enum RepositoryError: ErrorType {
 
     public init(apiError: ApiError) {
         switch apiError {
-        case .Network:
-            self = .Network
+        case let .Network(errorCode, onBackground):
+            self = .Network(errorCode: errorCode, onBackground: onBackground)
         case let .Internal(description):
             self = .Internal(message: description)
         case .BadRequest(let cause):
@@ -79,6 +78,10 @@ public enum RepositoryError: ErrorType {
         case let .ServerError(code):
             return code
         }
+    }
+    
+    public static func setupNetworkGenericError() -> RepositoryError {
+        return .Network(errorCode: 408, onBackground: false)
     }
 }
 
