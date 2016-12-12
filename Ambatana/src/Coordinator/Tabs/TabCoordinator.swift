@@ -369,6 +369,50 @@ extension TabCoordinator: ProductDetailNavigator {
         let shareProductVC = ShareProductViewController(viewModel: shareProductVM)
         navigationController.presentViewController(shareProductVC, animated: true, completion: nil)
     }
+
+    func closeAfterDelete() {
+        closeProductDetail()
+        switch featureFlags.postAfterDeleteMode {
+        case .Original:
+            break
+        case .FullScreen:
+            openFullScreenPostAfterDelete()
+        case .Alert:
+            let action = UIAction(interface: .Button(LGLocalizedString.productDeletePostButtonTitle,
+                .Primary(fontSize: .Medium)), action: { [weak self] in
+                    self?.openSell(.DeleteProduct)
+                }, accessibilityId: .PostDeleteAlertButton)
+            navigationController.showAlertWithTitle(LGLocalizedString.productDeletePostTitle,
+                                                    text: LGLocalizedString.productDeletePostSubtitle,
+                                                    alertType: .PlainAlert, actions: [action])
+        }
+    }
+
+    private func openFullScreenPostAfterDelete() {
+        let openSellAction: (() -> Void) = { [weak self] in
+            self?.openSell(.DeleteProduct)
+        }
+        let vm = PostAfterDeleteViewModel(action: openSellAction)
+        let vc = PostAfterDeleteViewController(viewModel: vm)
+        navigationController.presentViewController(vc, animated: true, completion: nil)
+    }
+
+    func openRelatedItems(product: Product, productVisitSource: EventParameterProductVisitSource) {
+        guard let productId = product.objectId else { return }
+        let vm = SimpleProductsViewModel(relatedProductId: productId, productVisitSource: productVisitSource)
+        vm.navigator = self
+        let vc = SimpleProductsViewController(viewModel: vm)
+        navigationController.pushViewController(vc, animated: true)
+    }
+}
+
+
+// MARK: SimpleProductsNavigator
+
+extension TabCoordinator: SimpleProductsNavigator {
+    func closeSimpleProducts() {
+        navigationController.popViewControllerAnimated(true)
+    }
 }
 
 

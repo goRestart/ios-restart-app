@@ -24,7 +24,7 @@ class CategoriesViewModel: BaseViewModel {
     }
 
     weak var delegate: CategoriesViewModelDelegate?
-    weak var tabNavigator: TabNavigator?
+    weak var navigator: CategoriesTabNavigator?
 
     
     override convenience init() {
@@ -71,13 +71,7 @@ class CategoriesViewModel: BaseViewModel {
         return nil
     }
     
-    /**
-        Returns a view model for category.
-    
-        :param:  index index of the category of the products to show
-        :return: A view model for category.
-    */
-    func productsViewModelForCategoryAtIndex(index: Int) -> MainProductsViewModel? {
+    private func filtersForCategoryAtIndex(index: Int) -> ProductFilters? {
         if index < numOfCategories {
             //Access from categories should be the exact same behavior as access filters and select that category
             var productFilters = ProductFilters()
@@ -88,8 +82,13 @@ class CategoriesViewModel: BaseViewModel {
             case .Category(let cat):
                 productFilters.toggleCategory(cat)
             }
-            return MainProductsViewModel(filters: productFilters, tabNavigator: tabNavigator)
+            return productFilters
         }
         return nil
+    }
+    
+    func didSelectItemAtIndex(index: Int) {
+        guard let productFilters = filtersForCategoryAtIndex(index) else { return }
+        navigator?.openMainProducts(with: productFilters)
     }
 }

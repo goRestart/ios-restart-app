@@ -161,16 +161,8 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     
     // MARK: - MainProductsViewModelDelegate
 
-    func vmDidSearch(searchViewModel: MainProductsViewModel) {
+    func vmDidSearch() {
         suggestionsSearchesContainer.hidden = true
-        let vc = MainProductsViewController(viewModel: searchViewModel)
-        navigationController?.pushViewController(vc, animated: true)
-    }
-
-    func vmShowFilters(filtersVM: FiltersViewModel) {
-        let vc = FiltersViewController(viewModel: filtersVM)
-        let navVC = UINavigationController(rootViewController: vc)
-        presentViewController(navVC, animated: true, completion: nil)
     }
 
     func vmShowTags(tags: [FilterTag]) {

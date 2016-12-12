@@ -19,20 +19,24 @@ public struct ABTests {
     static var directPostInOnboarding = BoolABDynamicVar(key: "directPostInOnboarding", defaultValue: false)
     static var productDetailShareMode = IntABDynamicVar(key: "productDetailShareMode", defaultValue: 0)
     static var notificationCenterEnabled = BoolABDynamicVar(key: "notificationCenterEnabled", defaultValue: true)
-    static var persicopeChat = BoolABDynamicVar(key: "persicopeChat", defaultValue: false)
     static var shareButtonWithIcon = BoolABDynamicVar(key: "shareButtonWithIcon", defaultValue: false)
     static var chatHeadBubbles = BoolABDynamicVar(key: "chatHeadBubbles", defaultValue: false)
     static var saveMailLogout = BoolABDynamicVar(key: "saveMailLogout", defaultValue: false)
     static var expressChatBanner = BoolABDynamicVar(key: "expressChatBanner", defaultValue: false)
     static var showLiquidProductsToNewUser = BoolABDynamicVar(key: "showLiquidProductsToNewUser", defaultValue: false)
+    static var postAfterDeleteMode = IntABDynamicVar(key: "postAfterDeleteMode", defaultValue: 0)
     static var keywordsTravelCollection = IntABDynamicVar(key: "keywordsTravelCollection", defaultValue: 0)
     static var commercializerAfterPosting = BoolABDynamicVar(key: "commercializerAfterPosting", defaultValue: false)
+    static var relatedProductsOnMoreInfo = BoolABDynamicVar(key: "relatedProductsOnMoreInfo", defaultValue: false)
+    static var shareAfterPosting = BoolABDynamicVar(key: "shareAfterPosting", defaultValue: false)
+    static var periscopeImprovement = BoolABDynamicVar(key: "periscopeImprovement", defaultValue: false)
+
     
     static private var allVariables: [ABVariable] {
-        return [showNPSSurvey, messageOnFavoriteRound2, interestedUsersMode, filtersReorder,
-                directPostInOnboarding, productDetailShareMode, notificationCenterEnabled,
-                persicopeChat, shareButtonWithIcon, chatHeadBubbles, saveMailLogout,
-                expressChatBanner, showLiquidProductsToNewUser, keywordsTravelCollection, commercializerAfterPosting]
+        return [showNPSSurvey, messageOnFavoriteRound2, interestedUsersMode, filtersReorder, directPostInOnboarding,
+                productDetailShareMode, notificationCenterEnabled, shareButtonWithIcon, chatHeadBubbles,
+                saveMailLogout, expressChatBanner, showLiquidProductsToNewUser, postAfterDeleteMode,
+                keywordsTravelCollection, commercializerAfterPosting, relatedProductsOnMoreInfo, shareAfterPosting, periscopeImprovement]
     }
 
     static func registerVariables() {

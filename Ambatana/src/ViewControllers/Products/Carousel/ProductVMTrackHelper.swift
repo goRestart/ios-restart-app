@@ -123,7 +123,7 @@ extension ProductVMTrackHelper {
     }
 
     func trackChatWithSeller(source: EventParameterTypePage) {
-        let trackerEvent = TrackerEvent.productDetailChatButton(product, typePage: source)
+        let trackerEvent = TrackerEvent.productDetailOpenChat(product, typePage: source)
         tracker.trackEvent(trackerEvent)
     }
 
@@ -132,14 +132,13 @@ extension ProductVMTrackHelper {
         tracker.trackEvent(trackerEvent)
     }
 
-    func trackMessageSent(isFirstMessage: Bool, messageType: ChatMessageType) {
-        let trackMessageType = messageType.trackingMessageType
+    func trackMessageSent(isFirstMessage: Bool, messageType: EventParameterMessageType) {
         if isFirstMessage {
-            let firstMessageEvent = TrackerEvent.firstMessage(product, messageType: trackMessageType,
+            let firstMessageEvent = TrackerEvent.firstMessage(product, messageType: messageType,
                                                               typePage: .ProductDetail)
             tracker.trackEvent(firstMessageEvent)
         }
-        let messageSentEvent = TrackerEvent.userMessageSent(product, userTo: product.user, messageType: trackMessageType,
+        let messageSentEvent = TrackerEvent.userMessageSent(product, userTo: product.user, messageType: messageType,
                                                             isQuickAnswer: .False, typePage: .ProductDetail)
         tracker.trackEvent(messageSentEvent)
 
@@ -148,5 +147,15 @@ extension ProductVMTrackHelper {
     func trackInterestedUsersBubble(number: Int, productId: String) {
         let interestedUsersEvent = TrackerEvent.productDetailInterestedUsers(number, productId: productId)
         tracker.trackEvent(interestedUsersEvent)
+    }
+
+    func trackMoreInfoRelatedItemsComplete(itemPosition: Int) {
+        let event = TrackerEvent.moreInfoRelatedItemsComplete(product, itemPosition: itemPosition)
+        tracker.trackEvent(event)
+    }
+
+    func trackMoreInfoRelatedItemsViewMore() {
+        let event = TrackerEvent.moreInfoRelatedItemsViewMore(product)
+        tracker.trackEvent(event)
     }
 }

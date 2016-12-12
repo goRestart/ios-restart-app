@@ -20,14 +20,17 @@ protocol FeatureFlaggeable {
     var directPostInOnboarding: Bool { get }
     var shareButtonWithIcon: Bool { get }
     var productDetailShareMode: ProductDetailShareMode { get }
-    var periscopeChat: Bool { get }
     var chatHeadBubbles: Bool { get }
     var saveMailLogout: Bool { get }
     var showLiquidProductsToNewUser: Bool { get }
     var expressChatBanner: Bool { get }
+    var postAfterDeleteMode: PostAfterDeleteMode { get }
     var keywordsTravelCollection: KeywordsTravelCollection { get }
+    var shareAfterPosting: Bool { get }
     var freePostingModeAllowed: Bool { get }
     var commercializerAfterPosting: Bool { get }
+    var relatedProductsOnMoreInfo: Bool { get }
+    var periscopeImprovement: Bool { get }
 }
 
 class FeatureFlags: FeatureFlaggeable {
@@ -121,13 +124,6 @@ class FeatureFlags: FeatureFlaggeable {
         return ProductDetailShareMode.fromPosition(ABTests.productDetailShareMode.value)
     }
 
-     var periscopeChat: Bool {
-        if Bumper.enabled {
-            return Bumper.periscopeChat
-        }
-        return ABTests.persicopeChat.value
-    }
-
      var chatHeadBubbles: Bool {
         if Bumper.enabled {
             return Bumper.chatHeadBubbles
@@ -149,18 +145,32 @@ class FeatureFlags: FeatureFlaggeable {
         return ABTests.showLiquidProductsToNewUser.value
     }
 
-     var expressChatBanner: Bool {
+    var expressChatBanner: Bool {
         if Bumper.enabled {
             return Bumper.expressChatBanner
         }
         return ABTests.expressChatBanner.value
     }
 
-     var keywordsTravelCollection: KeywordsTravelCollection {
+    var postAfterDeleteMode: PostAfterDeleteMode {
+        if Bumper.enabled {
+            return Bumper.postAfterDeleteMode
+        }
+        return PostAfterDeleteMode.fromPosition(ABTests.postAfterDeleteMode.value)
+    }
+
+    var keywordsTravelCollection: KeywordsTravelCollection {
         if Bumper.enabled {
             return Bumper.keywordsTravelCollection
         }
         return KeywordsTravelCollection.fromPosition(ABTests.keywordsTravelCollection.value)
+    }
+    
+    var shareAfterPosting: Bool {
+        if Bumper.enabled {
+            return Bumper.shareAfterPosting
+        }
+        return ABTests.shareAfterPosting.value
     }
 
     var commercializerAfterPosting: Bool {
@@ -168,6 +178,20 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.commercializerAfterPosting
         }
         return ABTests.commercializerAfterPosting.value
+    }
+
+    var relatedProductsOnMoreInfo: Bool {
+        if Bumper.enabled {
+            return Bumper.relatedProductsOnMoreInfo
+        }
+        return ABTests.relatedProductsOnMoreInfo.value
+    }
+    
+    var periscopeImprovement: Bool {
+        if Bumper.enabled {
+            return Bumper.periscopeImprovement
+        }
+        return ABTests.periscopeImprovement.value
     }
 
 

@@ -6,7 +6,7 @@
 	},
 	{
 		"name": "NotificationsSection",
-		"values": ["No", "Yes"],
+		"values": ["Yes", "No"],
 		"description": "Notifications Section"
 	},
     {
@@ -50,11 +50,6 @@
         "description": "How the share options are presented in product detail"
 	},
     {
-        "name": "PeriscopeChat",
-        "values": ["No", "Yes"],
-        "description": "Periscope chat from Product"
-    },
-    {
         "name": "ChatHeadBubbles",
         "values": ["No", "Yes"],
         "description": "Chat head bubbles"
@@ -75,6 +70,11 @@
         "description": "show liquid products to new user"
     },
     {
+        "name": "PostAfterDeleteMode",
+        "values": ["Original", "FullScreen", "Alert"],
+        "description": "Posting incentivation after delete"
+    },
+    {
         "name": "KeywordsTravelCollection",
         "values": ["Standard", "CarsPrior", "BrandsPrior"],
         "description": "Keywords prioritize on Travel Collection"
@@ -83,5 +83,20 @@
         "name": "CommercializerAfterPosting",
         "values": ["No", "Yes"],
         "description": "Commercializer after posting"
+    },
+    {
+        "name": "RelatedProductsOnMoreInfo",
+        "values": ["No", "Yes"],
+        "description": "Related Products on More Info"
+    },
+    {
+        "name": "ShareAfterPosting",
+        "values": ["No", "Yes"],
+        "description": "Show sharing screen after posting (forced)"
+    },
+    {
+    "name": "PeriscopeImprovement",
+    "values": ["No", "Yes"],
+    "description": "periscope chat improvements"
     }
  ]

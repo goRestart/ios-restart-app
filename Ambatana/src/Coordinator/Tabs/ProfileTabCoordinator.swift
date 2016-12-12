@@ -7,6 +7,8 @@
 //
 
 import LGCoreKit
+import SafariServices
+import FBSDKShareKit
 
 final class ProfileTabCoordinator: TabCoordinator {
 
@@ -27,6 +29,7 @@ final class ProfileTabCoordinator: TabCoordinator {
                   rootViewController: rootViewController, featureFlags: featureFlags)
 
         viewModel.profileNavigator = self
+
     }
 }
 
@@ -40,17 +43,21 @@ extension ProfileTabCoordinator: ProfileTabNavigator {
 }
 
 extension ProfileTabCoordinator: SettingsNavigator {
-    func showFbAppInvite() {
-        //TODO: INTEGRATE W NEW SHARER
+    func showFbAppInvite(content: FBSDKAppInviteContent, delegate: FBSDKAppInviteDialogDelegate) {
+        FBSDKAppInviteDialog.showFromViewController(navigationController.visibleViewController, withContent: content, delegate: delegate)
     }
 
     func openEditUserName() {
-        let vc = ChangeUsernameViewController()
+        let vm = ChangeUsernameViewModel()
+        vm.navigator = self
+        let vc = ChangeUsernameViewController(vm: vm)
         navigationController.pushViewController(vc, animated: true)
     }
 
     func openEditLocation() {
-        let vc = EditLocationViewController(viewModel: EditLocationViewModel(mode: .EditUserLocation))
+        let vm = EditLocationViewModel(mode: .EditUserLocation)
+        vm.navigator = self
+        let vc = EditLocationViewController(viewModel: vm)
         navigationController.pushViewController(vc, animated: true)
     }
 
@@ -60,12 +67,61 @@ extension ProfileTabCoordinator: SettingsNavigator {
     }
 
     func openChangePassword() {
-        let vc = ChangePasswordViewController()
+        let vm = ChangePasswordViewModel()
+        vm.navigator = self
+        let vc = ChangePasswordViewController(viewModel: vm)
         navigationController.pushViewController(vc, animated: true)
     }
 
     func openHelp() {
-        let vc = HelpViewController()
+        let vm = HelpViewModel()
+        vm.navigator = self
+        let vc = HelpViewController(viewModel: vm)
         navigationController.pushViewController(vc, animated: true)
     }
+    
+    func closeSettings() {
+        navigationController.popViewControllerAnimated(true)
+    }
 }
+
+
+extension ProfileTabCoordinator: ChangeUsernameNavigator {
+    
+    func closeChangeUsername() {
+        navigationController.popViewControllerAnimated(true)
+    }
+}
+
+extension ProfileTabCoordinator: EditLocationNavigator {
+    
+    func closeEditLocation() {
+        navigationController.popViewControllerAnimated(true)
+    }
+}
+
+extension ProfileTabCoordinator: ChangePasswordNavigator {
+    
+    func closeChangePassword() {
+        navigationController.popViewControllerAnimated(true)
+    }
+}
+
+extension ProfileTabCoordinator: HelpNavigator {
+    
+    func openURL(url: NSURL) {
+        if #available(iOS 9.0, *) {
+            let svc = SFSafariViewController(URL: url, entersReaderIfAvailable: false)
+            svc.view.tintColor = UIColor.primaryColor
+            navigationController.presentViewController(svc, animated: true, completion: nil)
+        } else {
+            UIApplication.sharedApplication().openURL(url)
+        }
+    }
+    
+    func closeHelp() {
+        navigationController.popViewControllerAnimated(true)
+    }
+}
+
+

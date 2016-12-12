@@ -205,6 +205,29 @@ extension SellCoordinator: ProductPostedNavigator {
             strongSelf.open(parent: parentVC, animated: true, completion: nil)
         }
     }
+    
+    func closeProductPostedAndOpenShare(product: Product, socialMessage: SocialMessage) {
+        close(ProductPostedViewController.self, animated: true) { [weak self] in
+            guard let strongSelf = self, parentVC = strongSelf.parentViewController else { return }
+            let shareProductVM = ShareProductViewModel(product: product, socialMessage: socialMessage)
+            let shareProductVC = ShareProductViewController(viewModel: shareProductVM)
+            shareProductVM.navigator = self
+            strongSelf.viewController = shareProductVC
+            
+            parentVC.presentViewController(shareProductVC, animated: true, completion: nil)
+        }
+    }
+}
+
+extension SellCoordinator: ShareProductNavigator {
+    func closeShareProduct(product: Product) {
+        close(ShareProductViewController.self, animated: true) { [weak self] in
+            guard let strongSelf = self, delegate = strongSelf.delegate else { return }
+            
+            delegate.sellCoordinator(strongSelf, didFinishWithProduct: product)
+            delegate.coordinatorDidClose(strongSelf)
+        }
+    }
 }
 
 

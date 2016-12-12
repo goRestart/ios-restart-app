@@ -291,7 +291,7 @@ class ProductViewModel: BaseViewModel {
             guard let strongSelf = self else { return }
             strongSelf.refreshDirectChats(status)
             strongSelf.refreshActionButtons(status)
-            strongSelf.directChatEnabled.value = strongSelf.featureFlags.periscopeChat && status.directChatsAvailable
+            strongSelf.directChatEnabled.value = status.directChatsAvailable
         }.addDisposableTo(disposeBag)
 
         isFavorite.asObservable().subscribeNext { [weak self] _ in
@@ -466,9 +466,13 @@ extension ProductViewModel {
         navigator?.openProductChat(product.value)
     }
 
-    func sendDirectMessage(text: String) {
+    func sendDirectMessage(text: String, isDefaultText: Bool) {
         ifLoggedInRunActionElseOpenChatSignup { [weak self] in
-            self?.sendMessage(.Text(text))
+            if isDefaultText {
+                self?.sendMessage(.PeriscopeDirect(text))
+            } else {
+                self?.sendMessage(.Text(text))
+            }
         }
     }
 
@@ -510,6 +514,11 @@ extension ProductViewModel {
         }, source: .Favourite)
     }
 
+    func openRelatedItems() {
+        trackHelper.trackMoreInfoRelatedItemsViewMore()
+        navigator?.openRelatedItems(product.value, productVisitSource: .MoreInfoRelated)
+    }
+
     func refreshInterestedBubble(fromFavoriteAction: Bool, forFirstProduct isFirstProduct: Bool) {
         // check that the bubble hasn't been shown yet for this product
         guard let productId = product.value.objectId where shouldShowInterestedBubbleForProduct(productId, fromFavoriteAction: fromFavoriteAction, forFirstProduct: isFirstProduct) else { return }
@@ -531,6 +540,10 @@ extension ProductViewModel {
     func openShare(shareType: ShareType, fromViewController: UIViewController, barButtonItem: UIBarButtonItem? = nil) {
         guard let socialMessage = socialMessage.value else { return }
         socialSharer.share(socialMessage, shareType: shareType, viewController: fromViewController, barButtonItem: barButtonItem)
+    }
+    
+    func shouldShowTextOnChatView() -> Bool {
+       return featureFlags.periscopeImprovement
     }
 }
 
@@ -757,12 +770,7 @@ extension ProductViewModel {
             actionButtons.append(UIAction(interface: .Button(LGLocalizedString.productSellAgainButton, .Secondary(fontSize: .Big, withBorder: false)),
                 action: { [weak self] in self?.resell() }))
         case .OtherAvailable, .OtherAvailableFree:
-            if !featureFlags.periscopeChat {
-                let userName: String = product.value.user.name?.toNameReduced(maxChars: Constants.maxCharactersOnUserNameChatButton) ?? ""
-                let buttonText = LGLocalizedString.productChatWithSellerNameButton(userName)
-                actionButtons.append(UIAction(interface: .Button(buttonText, .Primary(fontSize: .Big)),
-                    action: { [weak self] in self?.chatWithSeller() }))
-            }
+            break
         case .AvailableFree:
             actionButtons.append(UIAction(interface: .Button(LGLocalizedString.productMarkAsSoldFreeButton, .Terciary),
                 action: { [weak self] in self?.markSoldFree() }))
@@ -835,17 +843,25 @@ extension ProductViewModel {
         productRepository.delete(product.value) { [weak self] result in
             guard let strongSelf = self else { return }
 
+            var afterMessageAction: (() -> ())? = nil
             var message: String? = nil
             if let value = result.value {
+                switch strongSelf.featureFlags.postAfterDeleteMode {
+                case .Original:
+                    message = LGLocalizedString.productDeleteSuccessMessage
+                case .FullScreen, .Alert:
+                    break
+                }
+                afterMessageAction = { [weak self] in
+                    self?.navigator?.closeAfterDelete()
+                }
                 strongSelf.product.value = value
-                message = LGLocalizedString.productDeleteSuccessMessage
                 self?.trackHelper.trackDeleteCompleted()
             } else if let _ = result.error {
                 message = LGLocalizedString.productDeleteSendErrorGeneric
             }
-            strongSelf.delegate?.vmHideLoading(message, afterMessageCompletion: { () -> () in
-                strongSelf.delegate?.vmPop()
-            })
+
+            strongSelf.delegate?.vmHideLoading(message, afterMessageCompletion: afterMessageAction)
         }
     }
 
@@ -902,7 +918,7 @@ extension ProductViewModel {
             [weak self] result in
             if let firstMessage = result.value, alreadyTrackedFirstMessageSent = self?.alreadyTrackedFirstMessageSent {
                 self?.trackHelper.trackMessageSent(firstMessage && !alreadyTrackedFirstMessageSent,
-                                                   messageType: type.chatType)
+                                                   messageType: type.chatTrackerType)
                 self?.alreadyTrackedFirstMessageSent = true
             } else if let error = result.error {
                 switch error {
@@ -971,6 +987,20 @@ private extension ProductViewModel {
     private func sendFavoriteMessage() {
         sendMessage(.FavoritedProduct(LGLocalizedString.productFavoriteDirectMessage))
         favoriteMessageSent = true
+    }
+}
+
+
+// MARK: - RelatedProductsViewDelegate
+
+extension ProductViewModel: RelatedProductsViewDelegate {
+    func relatedProductsView(view: RelatedProductsView, showProduct product: Product, atIndex index: Int,
+                             productListModels: [ProductCellModel], requester: ProductListRequester,
+                             thumbnailImage: UIImage?, originFrame: CGRect?) {
+        trackHelper.trackMoreInfoRelatedItemsComplete(index)
+        let data = ProductDetailData.ProductList(product: product, cellModels: productListModels, requester: requester,
+                                                 thumbnailImage: thumbnailImage, originFrame: originFrame, showRelated: false, index: index)
+        navigator?.openProduct(data, source: .MoreInfoRelated)
     }
 }
 

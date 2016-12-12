@@ -15,6 +15,8 @@ class ChatTextView: UIView {
     static let minimumWidth: CGFloat = 100
     static let minimumButtonWidth: CGFloat = 70
     static let buttonMargin: CGFloat = 3
+    
+    var currentDefaultText = ""
 
     var placeholder: String? {
         get {
@@ -40,10 +42,16 @@ class ChatTextView: UIView {
     var hasFocus: Bool {
         return focus.value
     }
-
+    
+    var isInitialText: Bool {
+        return textView.text == currentDefaultText
+    }
+    
+    
     private let textView = UITextField()
     private let sendButton = UIButton(type: .Custom)
     private let focus = Variable<Bool>(false)
+    private var initialTextActive = false
 
     private static let elementsMargin: CGFloat = 10
     private static let textViewMaxHeight: CGFloat = 120
@@ -77,6 +85,13 @@ class ChatTextView: UIView {
     func clear() {
         textView.text = ""
         sendButton.enabled = false
+    }
+    
+    func setInitialText(defaultText: String) {
+        textView.text = defaultText
+        currentDefaultText = defaultText
+        sendButton.enabled = true
+        initialTextActive = true
     }
 
 
@@ -186,6 +201,14 @@ extension ChatTextView: UITextFieldDelegate {
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         guard let text = textField.text where !text.trim.isEmpty else { return false }
         tapEvents.onNext(Void())
+        return true
+    }
+    
+    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+        if string.isEmpty && initialTextActive {
+            clear()
+        }
+        initialTextActive = false
         return true
     }
 }

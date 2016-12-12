@@ -36,6 +36,8 @@ public enum EventName: String {
     
     case ProductDetailVisit                 = "product-detail-visit"
     case ProductDetailVisitMoreInfo         = "product-detail-visit-more-info"
+    case MoreInfoRelatedItemsComplete       = "more-info-related-items-complete"
+    case MoreInfoRelatedItemsViewMore       = "more-info-related-items-view-more"
     
     case ProductFavorite                    = "product-detail-favorite"
     case ProductShare                       = "product-detail-share"
@@ -43,7 +45,7 @@ public enum EventName: String {
     case ProductShareComplete               = "product-detail-share-complete"
     
     case FirstMessage                       = "product-detail-ask-question"
-    case ProductChatButton                  = "product-detail-chat-button"
+    case ProductOpenChat                    = "product-detail-open-chat"
     case ProductMarkAsSold                  = "product-detail-sold"
     case ProductMarkAsUnsold                = "product-detail-unsold"
     
@@ -203,6 +205,7 @@ public enum EventParameterName: String {
     case LocationEnabled      = "location-enabled"
     case LocationAllowed      = "location-allowed"
     case ButtonName           = "button-name"
+    case ButtonType           = "button-type"
     case FilterLat            = "filter-lat"
     case FilterLng            = "filter-lng"
     case FilterDistanceRadius = "distance-radius"
@@ -291,6 +294,11 @@ public enum EventParameterButtonNameType: String {
     case StartMakingCash = "start-making-cash"
 }
 
+public enum EventParameterButtonType: String {
+    case Button = "button"
+    case ItemPicture = "item-picture"
+}
+
 public enum EventParameterButtonPosition: String {
     case Top = "top"
     case Bottom = "bottom"
@@ -358,6 +366,7 @@ public enum EventParameterMessageType: String {
     case Favorite   = "favorite"
     case QuickAnswer = "quick-answer"
     case ExpressChat = "express-chat"
+    case PeriscopeDirect = "periscope-direct"
 }
 
 public enum EventParameterLoginError {
@@ -496,6 +505,7 @@ public enum EventParameterTypePage: String {
     case IncentivizePosting = "incentivize-posting"
     case UserRatingList = "user-rating-list"
     case ExpressChat = "express-chat"
+    case ProductDelete = "product-delete"
 }
 
 public enum EventParameterPermissionType: String {
@@ -565,6 +575,7 @@ public enum EventParameterRatingSource: String {
 
 public enum EventParameterProductVisitSource: String {
     case ProductList = "product-list"
+    case MoreInfoRelated = "more-info-related"
     case Collection = "collection"
     case Search = "search"
     case Filter = "filter"

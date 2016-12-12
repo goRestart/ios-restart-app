@@ -3,7 +3,7 @@ PODS:
   - AlamofireImage (2.5.0):
     - Alamofire (~> 3.5)
   - Amplitude-iOS (3.8.5)
-  - AppsFlyerFramework (4.5.9)
+  - AppsFlyerFramework (4.5.12)
   - Argo (3.1.0)
   - Bolts (1.8.4):
     - Bolts/AppLinks (= 1.8.4)
@@ -11,11 +11,11 @@ PODS:
   - Bolts/AppLinks (1.8.4):
     - Bolts/Tasks
   - Bolts/Tasks (1.8.4)
-  - Branch (0.12.16):
-    - Branch/Core (= 0.12.16)
-    - Branch/without-IDFA (= 0.12.16)
-  - Branch/Core (0.12.16)
-  - Branch/without-IDFA (0.12.16)
+  - Branch (0.12.19):
+    - Branch/Core (= 0.12.19)
+    - Branch/without-IDFA (= 0.12.19)
+  - Branch/Core (0.12.19)
+  - Branch/without-IDFA (0.12.19)
   - bumper (0.2.0)
   - CHTCollectionViewWaterfallLayout (0.9.5):
     - CHTCollectionViewWaterfallLayout/ObjC (= 0.9.5)
@@ -99,9 +99,9 @@ PODS:
     - CryptoSwift (~> 0.4.0)
   - KeychainSwift (3.0.16)
   - KMPlaceholderTextView (1.2.2)
-  - Leanplum-iOS-SDK (1.4.0.2)
+  - Leanplum-iOS-SDK (1.4.1)
   - LGCollapsibleLabel (0.2.0)
-  - LGCoreKit (1.5.3):
+  - LGCoreKit (1.6.1):
     - Alamofire (~> 3.5.0)
     - Argo (= 3.1.0)
     - CocoaLumberjack/Swift (~> 2.4.0)
@@ -111,7 +111,7 @@ PODS:
     - ReachabilitySwift (~> 2.4.0)
     - Result (~> 2.1.2)
     - RxSwift (~> 2.6.0)
-    - SwiftWebSocket (= 2.6.4)
+    - SocketRocket (= 0.5.1)
   - Nimble (4.1.0)
   - OHHTTPStubs (5.2.2):
     - OHHTTPStubs/Default (= 5.2.2)
@@ -139,7 +139,7 @@ PODS:
   - RxTests (2.6.1):
     - RxSwift (~> 2.6)
   - SlackTextViewController (1.9.4)
-  - SwiftWebSocket (2.6.4)
+  - SocketRocket (0.5.1)
   - SwiftyUserDefaults (2.2.1)
   - TMReachability (3.2)
   - TwitterCore (2.3.0):
@@ -150,9 +150,9 @@ PODS:
 DEPENDENCIES:
   - AlamofireImage (~> 2.5.0)
   - Amplitude-iOS (~> 3.8.5)
-  - AppsFlyerFramework (~> 4.5.9)
+  - AppsFlyerFramework (~> 4.5.12)
   - Argo (= 3.1.0)
-  - Branch (~> 0.12.12)
+  - Branch (~> 0.12.18)
   - bumper (= 0.2.0)
   - CHTCollectionViewWaterfallLayout (~> 0.9.5)
   - CocoaLumberjack/Swift (~> 2.4.0)
@@ -170,9 +170,9 @@ DEPENDENCIES:
   - GoogleIDFASupport (~> 3.14.0)
   - JBKenBurnsView (from `https://github.com/letgoapp/JBKenBurns`, commit `56419f79cb763f8d2ee3a75e4eca51ebc1deab6a`)
   - KMPlaceholderTextView (~> 1.2.2)
-  - Leanplum-iOS-SDK (~> 1.4.0)
+  - Leanplum-iOS-SDK (~> 1.4.1)
   - LGCollapsibleLabel (= 0.2.0)
-  - LGCoreKit (from `https://github.com/letgoapp/letgo-ios-lgcorekit`, commit `366d5ab1152fcd69048555cd111e282e002b0778`)
+  - LGCoreKit (= 1.6.1)
   - Nimble (~> 4.1.0)
   - OHHTTPStubs (~> 5.2.1)
   - OHHTTPStubs/Swift
@@ -193,9 +193,6 @@ EXTERNAL SOURCES:
   JBKenBurnsView:
     :commit: 56419f79cb763f8d2ee3a75e4eca51ebc1deab6a
     :git: https://github.com/letgoapp/JBKenBurns
-  LGCoreKit:
-    :commit: 366d5ab1152fcd69048555cd111e282e002b0778
-    :git: https://github.com/letgoapp/letgo-ios-lgcorekit
   TMReachability:
     :commit: e34782b386307e386348b481c02c176d58ba45e6
     :git: https://github.com/albertbori/Reachability
@@ -207,9 +204,6 @@ CHECKOUT OPTIONS:
   JBKenBurnsView:
     :commit: 56419f79cb763f8d2ee3a75e4eca51ebc1deab6a
     :git: https://github.com/letgoapp/JBKenBurns
-  LGCoreKit:
-    :commit: 366d5ab1152fcd69048555cd111e282e002b0778
-    :git: https://github.com/letgoapp/letgo-ios-lgcorekit
   TMReachability:
     :commit: e34782b386307e386348b481c02c176d58ba45e6
     :git: https://github.com/albertbori/Reachability
@@ -218,10 +212,10 @@ SPEC CHECKSUMS:
   Alamofire: 0dfba1184a543e2aa160f4e39cac4e8aba48d223
   AlamofireImage: 2d34936e5201270bb17a316a786e90e83b4a249d
   Amplitude-iOS: de7cfde0c791d05fb0e0f82bd34cbd3585ccd63f
-  AppsFlyerFramework: 93c3eda4d73b8477641fabe6952260ee70ee1077
+  AppsFlyerFramework: 495b343632cda4d1a42e13f25d5adfb91d0ee52a
   Argo: bb0e94e309d6ceb8fa58910205c8968be101e429
   Bolts: 8a7995239dbe724f9cba2248b766d48b7ebdd322
-  Branch: d74f14f69a04cd3c405ed11dab14c9a331ad3971
+  Branch: 75ed1785250502588cfb4a5de40a5136bdaa1573
   bumper: bea4ea20dfc0591a9821796b4b28d0bfe53b0488
   CHTCollectionViewWaterfallLayout: 775ff73f48cfc13859b62d8bceb96e772e4a0318
   CocoaLumberjack: aa9dcab71bdf9eaf2a63bbd9ddc87863efe45457
@@ -255,9 +249,9 @@ SPEC CHECKSUMS:
   JSONWebToken: 6c8968ace6b60b2e6156a7bbe5019fd9b5ff9b5a
   KeychainSwift: a5bb85cd498ce2217b55e055ec59e9268d83384c
   KMPlaceholderTextView: bbff031935d84f7eedb585e7f77120020fbae9e8
-  Leanplum-iOS-SDK: acd1b67d17b4ce09a8be363300910542aeeec5ef
+  Leanplum-iOS-SDK: 21bac3f21444768e3a892c9e5cbada6fe7abaa5d
   LGCollapsibleLabel: f1631ac1274b268731e3f6a74b121e97a97626da
-  LGCoreKit: 6d3c343964a295cfe7ac0be5789a510a19e944dd
+  LGCoreKit: 27395ec3574bdca2603c61df623c3b9122c735cb
   Nimble: 97a0a4cae5124c117115634b2d055d8c97d0af19
   OHHTTPStubs: 34d9d0994e64fcf8552dbfade5ce82ada913ee31
   Quick: 13a2a2b19a5d8e3ed4fd0c36ee46597fd77ebf71
@@ -268,12 +262,12 @@ SPEC CHECKSUMS:
   RxSwift: 0147fbf94e65c6085da9540de92848189ac1c3f6
   RxTests: ddd7dac9e9379d7eea5383447949ed4eafd0b0fc
   SlackTextViewController: d490f354dba963bc469a6b9ce3213978eaed67a5
-  SwiftWebSocket: fdb5b4393cede304d44befbaeb0c8ef14c28d3bb
+  SocketRocket: d57c7159b83c3c6655745cd15302aa24b6bae531
   SwiftyUserDefaults: 7abdba50a50ea0c18ee8903af3c88e4c1cb8448d
   TMReachability: 48c99d728a8b0ad4493800592484b8cbb65c896c
   TwitterCore: 817eae3e291fa4125b47789e26a4f6f024115c1f
   TwitterKit: 8a383da8d9c21b0423716381ea8bbfce20622d91
 
-PODFILE CHECKSUM: 59e40bf0e1a69c8148f1414e2d88b65e6d12aa54
+PODFILE CHECKSUM: 8fec7b9746f74179d513b80e5d024eea0dea011b
 
 COCOAPODS: 1.1.0.rc.3

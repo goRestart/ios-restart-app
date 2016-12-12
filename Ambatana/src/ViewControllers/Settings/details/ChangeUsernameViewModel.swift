@@ -44,8 +44,10 @@ protocol ChangeUsernameViewModelDelegate : class {
 class ChangeUsernameViewModel: BaseViewModel {
     
     weak var delegate : ChangeUsernameViewModelDelegate?
+    weak var navigator: ChangeUsernameNavigator?
     
     let myUserRepository: MyUserRepository
+
     let tracker: Tracker
     
     var username: String {
@@ -65,6 +67,11 @@ class ChangeUsernameViewModel: BaseViewModel {
         let myUserRepository = Core.myUserRepository
         let tracker = TrackerProxy.sharedInstance
         self.init(myUserRepository: myUserRepository, tracker: tracker)
+    }
+    
+    override func backButtonPressed() -> Bool {
+        navigator?.closeChangeUsername()
+        return true
     }
     
 
@@ -132,5 +139,8 @@ class ChangeUsernameViewModel: BaseViewModel {
     func enableSaveButton() -> Bool {
         return isValidUsername(username)
     }
-    
+
+    func userNameSaved() {
+        navigator?.closeChangeUsername()
+    }
 }

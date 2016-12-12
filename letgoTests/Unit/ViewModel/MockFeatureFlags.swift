@@ -21,12 +21,15 @@ class MockFeatureFlags: FeatureFlaggeable {
     var directPostInOnboarding: Bool = false
     var shareButtonWithIcon: Bool = false
     var productDetailShareMode: ProductDetailShareMode = .Native
-    var periscopeChat: Bool = false
     var chatHeadBubbles: Bool = false
     var saveMailLogout: Bool = false
     var showLiquidProductsToNewUser: Bool = false
     var expressChatBanner: Bool = true
+    var postAfterDeleteMode: PostAfterDeleteMode = .Original
     var keywordsTravelCollection: KeywordsTravelCollection = .Standard
+    var shareAfterPosting: Bool = false
     var freePostingModeAllowed: Bool = true
     var commercializerAfterPosting: Bool = true
+    var relatedProductsOnMoreInfo: Bool = true
+    var periscopeImprovement: Bool = false
 }
