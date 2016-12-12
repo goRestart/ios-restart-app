@@ -11,6 +11,8 @@ import UIKit
 class ChatMyMessageCell: ChatBubbleCell, ReusableCell {
 
     @IBOutlet weak var checkImageView: UIImageView!
+    @IBOutlet weak var disclosureImageView: UIImageView!
+    @IBOutlet var marginRightConstraints: [NSLayoutConstraint]!
     
     override func setSelected(selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)

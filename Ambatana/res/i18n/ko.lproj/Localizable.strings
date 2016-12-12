@@ -456,8 +456,8 @@
 "product_post_gallery_permissions_button" = "허가";
 "product_post_gallery_permissions_subtitle" = "가지고 계신 사진을 선택하기 위해서는, 사진 활용에 대한 접근을 허가해주셔야합니다";
 "product_post_gallery_permissions_title" = "사진 사용 허가";
-"product_post_gallery_select_pictures_subtitle" = "Select up to 5 images to upload";
-"product_post_gallery_select_pictures_title" = "Choose photos";
+"product_post_gallery_select_pictures_subtitle" = "업로드를 위해 최대 5장의 사진을 선택해주세요";
+"product_post_gallery_select_pictures_title" = "사진 선택";
 "product_post_gallery_tab" = "사진첩";
 "product_post_generic_error" = "회원님의 상품을 게시하는데 오류가 발생했습니다.";
 "product_post_incentive_bike" = "자전거";
@@ -501,11 +501,11 @@
 "product_sell_again_error_generic" = "판매가능으로 표시하는 동안에 오류가 발생했습니다. 다시 시도해주세요";
 "product_sell_again_free_button" = "다시 가능함으로 표시하기";
 "product_sell_again_free_confirm_cancel_button" = "취소";
-"product_sell_again_free_confirm_message" = "letgo 사용자들이 알 수 있도록 상품 증정 가능 표시를 해주세요";
+"product_sell_again_free_confirm_message" = "상품 증정 가능 표시를 하시겠습니까?";
 "product_sell_again_free_confirm_ok_button" = "증정";
 "product_sell_again_free_confirm_title" = "증정가능으로 표시";
-"product_sell_again_free_success_message" = "축하드립니다! 상품을 다시 증정하실 수 있게 되었습니다";
-"product_sell_again_success_message" = "축하드립니다, 회원님의 상품이 성공적으로 판매 가능으로 표시되었습니다!";
+"product_sell_again_free_success_message" = "축하드립니다! 상품을 다시 증정하실 수 있게 되었습니다.";
+"product_sell_again_success_message" = "축하드립니다! 회원님의 상품이 성공적으로 판매 가능으로 표시되었습니다.";
 "product_sell_camera_permissions_error" = "사진을 촬영하기 위해, 설정에서 letgo에 카메라 사용 허가를 설정하여주십시오.";
 "product_sell_camera_restricted_error" = "카메라 접근이 제한되어 있습니다. 설정을 확인하시고 다시 시도해주세요.";
 "product_sell_photolibrary_permissions_error" = "사진을 업로드하기위해, 설정에서 letgo가 사진첩에 접근할 수 있도록 허가해주십시오.";
@@ -638,7 +638,7 @@
 "settings_change_location_button" = "위치";
 "settings_change_password_button" = "비밀번호";
 "settings_change_profile_picture_button" = "사진";
-"settings_change_profile_picture_error_generic" = "프로필 사진을 등록하는 동안 오류가 발생했습니다.";
+"settings_change_profile_picture_error_generic" = "프로필 사진을 변경하는 동안 오류가 발생했습니다.";
 "settings_change_profile_picture_loading" = "프로필사진을 등록중입니다. 잠시만 기다려주세요...";
 "settings_change_username_button" = "이름";
 "settings_help_button" = "도움";

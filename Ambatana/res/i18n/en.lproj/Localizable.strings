@@ -1189,13 +1189,13 @@
 "product_sell_again_free_confirm_cancel_button" = "Cancel";
 
 // Alert message when product is mark as ready to give away (mark as available)
-"product_sell_again_free_confirm_message" = "Mark your product as available so all letgo users know";
+"product_sell_again_free_confirm_message" = "Do you want to mark your product as available?";
 
 // Product ready to give away again ok button. (mark as available)
 "product_sell_again_free_confirm_ok_button" = "Give Away";
 
 // Confirmation message when product is again available to give away
-"product_sell_again_free_success_message" = "Congratulations! Your product is available to give away again";
+"product_sell_again_free_success_message" = "Congratulations! Your product is available to give away again.";
 
 // Alert title when product is mark as ready to give away (mark as available)
 "product_sell_again_free_confirm_title" = "Mark as available";
@@ -1507,10 +1507,10 @@
 "product_sell_again_confirm_title" = "Sell It Again";
 
 // Product sell again error generic. Message displayal is like the other error messages
-"product_sell_again_error_generic" = "An error occurred while marking your product as available. Please try again later.";
+"product_sell_again_error_generic" = "An error occurred while marking your product as available. Please try again.";
 
 // Product sell again success message. Message displayal is like the other error messages
-"product_sell_again_success_message" = "Congratulations, your product was successfully marked as available!";
+"product_sell_again_success_message" = "Congratulations! Your product has been successfully marked as available.";
 
 // Ask the user to activate Camera access in setting because it was denied before
 "product_sell_camera_permissions_error" = "To snap a picture, give letgo access to your Camera in your settings.";

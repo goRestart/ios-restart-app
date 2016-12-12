@@ -107,8 +107,4 @@ struct Constants {
 
     // Websocket chat 
     static let websocketChatDisconnectTimeout: NSTimeInterval = 15
-
-    // NewRelic
-    static let newRelicGodModeToken = "AAfcb13d44209d7454436d2efa9974174d063a8d1d"
-    static let newRelicProductionToken = "AA448d0966d24653a9a1c92e2d37f86ef5ec61cc7c"
 }

@@ -32,4 +32,5 @@ class MockFeatureFlags: FeatureFlaggeable {
     var commercializerAfterPosting: Bool = true
     var postingMultiPictureEnabled: Bool = true
     var relatedProductsOnMoreInfo: Bool = true
+    var periscopeImprovement: Bool = false
 }

@@ -466,9 +466,13 @@ extension ProductViewModel {
         navigator?.openProductChat(product.value)
     }
 
-    func sendDirectMessage(text: String) {
+    func sendDirectMessage(text: String, isDefaultText: Bool) {
         ifLoggedInRunActionElseOpenChatSignup { [weak self] in
-            self?.sendMessage(.Text(text))
+            if isDefaultText {
+                self?.sendMessage(.PeriscopeDirect(text))
+            } else {
+                self?.sendMessage(.Text(text))
+            }
         }
     }
 
@@ -536,6 +540,10 @@ extension ProductViewModel {
     func openShare(shareType: ShareType, fromViewController: UIViewController, barButtonItem: UIBarButtonItem? = nil) {
         guard let socialMessage = socialMessage.value else { return }
         socialSharer.share(socialMessage, shareType: shareType, viewController: fromViewController, barButtonItem: barButtonItem)
+    }
+    
+    func shouldShowTextOnChatView() -> Bool {
+       return featureFlags.periscopeImprovement
     }
 }
 
@@ -910,7 +918,7 @@ extension ProductViewModel {
             [weak self] result in
             if let firstMessage = result.value, alreadyTrackedFirstMessageSent = self?.alreadyTrackedFirstMessageSent {
                 self?.trackHelper.trackMessageSent(firstMessage && !alreadyTrackedFirstMessageSent,
-                                                   messageType: type.chatType)
+                                                   messageType: type.chatTrackerType)
                 self?.alreadyTrackedFirstMessageSent = true
             } else if let error = result.error {
                 switch error {
