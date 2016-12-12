@@ -456,7 +456,8 @@
 "product_post_gallery_permissions_button" = "Allow";
 "product_post_gallery_permissions_subtitle" = "To select an existing photo, you must allow access to Photos";
 "product_post_gallery_permissions_title" = "Allow access to Photos";
-"product_post_gallery_select_pictures" = "Select up to 5 images to upload";
+"product_post_gallery_select_pictures_subtitle" = "Select up to 5 images to upload";
+"product_post_gallery_select_pictures_title" = "Choose photos";
 "product_post_gallery_tab" = "GALLERY";
 "product_post_generic_error" = "An error occurred while posting your product.";
 "product_post_incentive_bike" = "Bikes";
@@ -497,14 +498,14 @@
 "product_sell_again_confirm_message" = "Do you want to mark this product as available so it's visible to buyers again?";
 "product_sell_again_confirm_ok_button" = "Sell It Again";
 "product_sell_again_confirm_title" = "Sell It Again";
-"product_sell_again_error_generic" = "An error occurred while marking your product as available. Please try again later.";
+"product_sell_again_error_generic" = "An error occurred while marking your product as available. Please try again.";
 "product_sell_again_free_button" = "Mark as available";
 "product_sell_again_free_confirm_cancel_button" = "Cancel";
-"product_sell_again_free_confirm_message" = "Mark your product as available so all letgo users know";
+"product_sell_again_free_confirm_message" = "Do you want to mark your product as available?";
 "product_sell_again_free_confirm_ok_button" = "Give Away";
 "product_sell_again_free_confirm_title" = "Mark as available";
-"product_sell_again_free_success_message" = "Congratulations! Your product is available to give away again";
-"product_sell_again_success_message" = "Congratulations, your product was successfully marked as available!";
+"product_sell_again_free_success_message" = "Congratulations! Your product is available to give away again.";
+"product_sell_again_success_message" = "Congratulations! Your product has been successfully marked as available.";
 "product_sell_camera_permissions_error" = "To snap a picture, give letgo access to your Camera in your settings.";
 "product_sell_camera_restricted_error" = "Access to your Camera is restricted. Please check your settings and try again.";
 "product_sell_photolibrary_permissions_error" = "To upload a picture, give letgo access to your Photo Library in your settings.";
@@ -637,7 +638,7 @@
 "settings_change_location_button" = "Location";
 "settings_change_password_button" = "Password";
 "settings_change_profile_picture_button" = "Photo";
-"settings_change_profile_picture_error_generic" = "There was an error setting the profile picture.";
+"settings_change_profile_picture_error_generic" = "An error occurred while changing the profile picture.";
 "settings_change_profile_picture_loading" = "Setting profile image. Please wait...";
 "settings_change_username_button" = "Name";
 "settings_help_button" = "Help";

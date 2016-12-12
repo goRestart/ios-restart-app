@@ -37,12 +37,12 @@ enum ExternalServiceAuthResult {
             self = .Internal(description: "TooManyRequests")
         case .UserNotVerified:
             self = .Internal(description: "UserNotVerified")
-        case .Network:
-            self = .Network
         case .NotFound:
             self = .NotFound
         case .Scammer:
             self = .Forbidden
+        case .Network:
+            self = .Network
         }
     }
 }
