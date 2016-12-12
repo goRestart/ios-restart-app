@@ -121,6 +121,8 @@ class ProductViewModel: BaseViewModel {
     var interestedBubbleTitle: String?
     var isFirstProduct: Bool = false
 
+    let showBumpUpBubble = Variable<Bool>(false)
+
     private var favoriteMessageSent: Bool = false
     private var alreadyTrackedFirstMessageSent: Bool = false
 
