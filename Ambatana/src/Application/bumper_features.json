@@ -6,7 +6,7 @@
 	},
 	{
 		"name": "NotificationsSection",
-		"values": ["No", "Yes"],
+		"values": ["Yes", "No"],
 		"description": "Notifications Section"
 	},
     {
@@ -49,11 +49,6 @@
         "values": ["Native", "InPlace", "FullScreen"],
         "description": "How the share options are presented in product detail"
 	},
-    {
-        "name": "PeriscopeChat",
-        "values": ["No", "Yes"],
-        "description": "Periscope chat from Product"
-    },
     {
         "name": "ChatHeadBubbles",
         "values": ["No", "Yes"],
@@ -98,5 +93,10 @@
         "name": "ShareAfterPosting",
         "values": ["No", "Yes"],
         "description": "Show sharing screen after posting (forced)"
+    },
+    {
+    "name": "PeriscopeImprovement",
+    "values": ["No", "Yes"],
+    "description": "periscope chat improvements"
     }
  ]

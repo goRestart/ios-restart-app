@@ -22,6 +22,7 @@ protocol ChatRelatedProductsViewDelegate: class {
 
 class ChatRelatedProductsView: UIView {
 
+    private static let defaultWidth = UIScreen.mainScreen().bounds.width
     private static let relatedProductsHeight: CGFloat = 100
     private static let elementsMargin: CGFloat = 10
     private static let itemsSpacing: CGFloat = 5
@@ -57,6 +58,8 @@ class ChatRelatedProductsView: UIView {
     // MARK: - Public
 
     func setupOnTopOfView(sibling: UIView) {
+        frame = CGRect(x: 0, y: sibling.top,
+                       width: ChatRelatedProductsView.defaultWidth, height: ChatRelatedProductsView.relatedProductsHeight)
         translatesAutoresizingMaskIntoConstraints = false
         guard let parentView = sibling.superview else { return }
         parentView.addSubview(self)

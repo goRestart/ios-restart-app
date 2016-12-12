@@ -417,8 +417,8 @@
 "product_mark_as_sold_free_success_message" = "Grattis! Din produkt har märkts som bortskänkt";
 "product_mark_as_sold_success_message" = "Grattis, din produkt har markerats som såld!";
 "product_more_info_open_button" = "MER INFO";
-"product_more_info_related_title" = "YOU MIGHT BE INTERESTED IN:";
-"product_more_info_related_view_more" = "View more";
+"product_more_info_related_title" = "DU KANSKE ÄR INTRESSERAD AV:";
+"product_more_info_related_view_more" = "Läs mer";
 "product_more_info_tooltip_part_1" = "Klicka";
 "product_more_info_tooltip_part_2" = "%@ för mer information";
 "product_negotiable_price" = "Förhandlingsbart";
@@ -452,11 +452,14 @@
 "product_post_free_confirmation_another_button" = "Skänk bort en sak till";
 "product_post_gallery_load_image_error_subtitle" = "Välj en annan bild och försök igen.";
 "product_post_gallery_load_image_error_title" = "Bilden kan inte laddas upp";
+"product_post_gallery_multiple_pics_selected" = "%i bilder valda";
 "product_post_gallery_permissions_button" = "Tillåt";
 "product_post_gallery_permissions_subtitle" = "Du måste tillåta åtkomst till Bilder för att välja en sparad bild";
 "product_post_gallery_permissions_title" = "Tillåt åtkomst till Bilder";
+"product_post_gallery_select_pictures_subtitle" = "Välj upp till 5 bilder för uppladdning";
+"product_post_gallery_select_pictures_title" = "Välj bilder";
 "product_post_gallery_tab" = "BIBLIOTEK";
-"product_post_generic_error" = "Ett fel uppstod när vi skulle lägga upp din produkt.";
+"product_post_generic_error" = "Ett fel uppstod när din produkt skulle läggas upp.";
 "product_post_incentive_bike" = "Cyklar";
 "product_post_incentive_car" = "Bilar";
 "product_post_incentive_dresser" = "Byråer";
@@ -501,7 +504,7 @@
 "product_sell_again_free_confirm_message" = "Markera din produkt som tillgänglig så att alla letgo-användare vet";
 "product_sell_again_free_confirm_ok_button" = "Skänk bort";
 "product_sell_again_free_confirm_title" = "Markera som tillgänglig";
-"product_sell_again_free_success_message" = "Grattis! Din produkt är tillgänglig för att skänka bort igen";
+"product_sell_again_free_success_message" = "Grattis! Din produkt är tillgänglig för att skänka bort igen.";
 "product_sell_again_success_message" = "Grattis! Din produkt har markerats som tillgänglig!";
 "product_sell_camera_permissions_error" = "För att ta en bild, ändra inställningarna så att letgo får tillgång till din kamera.";
 "product_sell_camera_restricted_error" = "Din kamera är inte tillgänglig. Var vänlig kontrollera dina inställningar och försök igen.";
@@ -573,6 +576,7 @@
 "rating_view_remind_later_button" = "Påminn mig senare";
 "rating_view_title_label" = "Älskar du letgo?";
 "rating_view_title_label_uppercase" = "GE OSS 5 STJÄRNOR!";
+"related_items_title" = "Relaterade produkter";
 "report_user_counterfeit" = "Oäkta varor";
 "report_user_error_already_reported" = "Du har redan rapporterat denna användare!";
 "report_user_inactive" = "Inaktiv";
@@ -634,7 +638,7 @@
 "settings_change_location_button" = "Plats";
 "settings_change_password_button" = "Lösenord";
 "settings_change_profile_picture_button" = "Bild";
-"settings_change_profile_picture_error_generic" = "Ett fel uppstod vid val av profilbild.";
+"settings_change_profile_picture_error_generic" = "Ett fel uppstod vid ändring av profilbild.";
 "settings_change_profile_picture_loading" = "Ställer in din profilbild, var god vänta...";
 "settings_change_username_button" = "Namn";
 "settings_help_button" = "Hjälp";

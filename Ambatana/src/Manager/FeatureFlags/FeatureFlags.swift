@@ -20,7 +20,6 @@ protocol FeatureFlaggeable {
     var directPostInOnboarding: Bool { get }
     var shareButtonWithIcon: Bool { get }
     var productDetailShareMode: ProductDetailShareMode { get }
-    var periscopeChat: Bool { get }
     var chatHeadBubbles: Bool { get }
     var saveMailLogout: Bool { get }
     var showLiquidProductsToNewUser: Bool { get }
@@ -31,6 +30,7 @@ protocol FeatureFlaggeable {
     var freePostingModeAllowed: Bool { get }
     var commercializerAfterPosting: Bool { get }
     var relatedProductsOnMoreInfo: Bool { get }
+    var periscopeImprovement: Bool { get }
 }
 
 class FeatureFlags: FeatureFlaggeable {
@@ -124,13 +124,6 @@ class FeatureFlags: FeatureFlaggeable {
         return ProductDetailShareMode.fromPosition(ABTests.productDetailShareMode.value)
     }
 
-     var periscopeChat: Bool {
-        if Bumper.enabled {
-            return Bumper.periscopeChat
-        }
-        return ABTests.persicopeChat.value
-    }
-
      var chatHeadBubbles: Bool {
         if Bumper.enabled {
             return Bumper.chatHeadBubbles
@@ -192,6 +185,13 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.relatedProductsOnMoreInfo
         }
         return ABTests.relatedProductsOnMoreInfo.value
+    }
+    
+    var periscopeImprovement: Bool {
+        if Bumper.enabled {
+            return Bumper.periscopeImprovement
+        }
+        return ABTests.periscopeImprovement.value
     }
 
 

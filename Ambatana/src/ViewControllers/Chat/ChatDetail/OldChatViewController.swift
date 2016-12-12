@@ -7,11 +7,10 @@
 //
 
 import UIKit
-import SlackTextViewController
 import LGCoreKit
 import RxSwift
 
-class OldChatViewController: SLKTextViewController {
+class OldChatViewController: TextViewController, UITableViewDelegate, UITableViewDataSource {
 
     let navBarHeight: CGFloat = 64
     let inputBarHeight: CGFloat = 44
@@ -30,7 +29,6 @@ class OldChatViewController: SLKTextViewController {
     var relationInfoView = RelationInfoView.relationInfoView()   // informs if the user is blocked, or the product sold or inactive
     var directAnswersPresenter: DirectAnswersPresenter
     let relatedProductsView: ChatRelatedProductsView
-    let keyboardHelper: KeyboardHelper
     let disposeBag = DisposeBag()
 
     var stickersTooltip: Tooltip?
@@ -38,14 +36,17 @@ class OldChatViewController: SLKTextViewController {
     var blockedToastOffset: CGFloat {
         return relationInfoView.hidden ? 0 : RelationInfoView.defaultHeight
     }
-    
+
+    convenience init(viewModel: OldChatViewModel) {
+        self.init(viewModel: viewModel, hidesBottomBar: true)
+    }
+
     convenience init(viewModel: OldChatViewModel, hidesBottomBar: Bool) {
-        self.init(viewModel: viewModel, keyboardHelper: KeyboardHelper.sharedInstance, featureFlags: FeatureFlags.sharedInstance)
-        hidesBottomBarWhenPushed = hidesBottomBar
+        self.init(viewModel: viewModel, featureFlags: FeatureFlags.sharedInstance, hidesBottomBar: hidesBottomBar)
     }
     
     // MARK: - View lifecycle
-    required init(viewModel: OldChatViewModel, keyboardHelper: KeyboardHelper = KeyboardHelper.sharedInstance, featureFlags: FeatureFlags = FeatureFlags.sharedInstance) {
+    required init(viewModel: OldChatViewModel, featureFlags: FeatureFlags, hidesBottomBar: Bool) {
         self.viewModel = viewModel
         self.productView = ChatProductView.chatProductView(featureFlags.userReviews)
         self.directAnswersPresenter = DirectAnswersPresenter(websocketChatActive: featureFlags.websocketChat)
@@ -53,12 +54,11 @@ class OldChatViewController: SLKTextViewController {
         self.stickersView = ChatStickersView()
         self.stickersCloseButton = UIButton(frame: CGRect.zero)
         self.expressChatBanner = ChatBanner()
-        self.keyboardHelper = keyboardHelper
-        super.init(tableViewStyle: .Plain)
+        super.init(viewModel: viewModel, nibName: nil)
         self.viewModel.delegate = self
         self.expressChatBanner.delegate = self
         setReachabilityEnabled(true)
-        hidesBottomBarWhenPushed = true
+        hidesBottomBarWhenPushed = hidesBottomBar
     }
     
     required init(coder decoder: NSCoder) {
@@ -73,10 +73,7 @@ class OldChatViewController: SLKTextViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        if let tableView = tableView {
-            ChatCellDrawerFactory.registerCells(tableView)
-        }
-        setNavBarBackButton(nil)
+        ChatCellDrawerFactory.registerCells(tableView)
         setupUI()
         setupToastView()
         setupRelatedProducts()
@@ -89,27 +86,16 @@ class OldChatViewController: SLKTextViewController {
                                                          name: UIMenuControllerWillShowMenuNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(menuControllerWillHide(_:)),
                                                          name: UIMenuControllerWillHideMenuNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(applicationWillEnterForeground(_:)),
-                                                         name: UIApplicationWillEnterForegroundNotification, object: nil)
-    }
-
-    dynamic private func applicationWillEnterForeground(notification: NSNotification) {
-        viewModel.applicationWillEnterForeground()
     }
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        
-        UIApplication.sharedApplication().setStatusBarStyle(.Default, animated: true)
-        setNavBarBackgroundStyle(.Default)
-        updateReachableAndToastViewVisibilityIfNeeded()
-        viewModel.active = true
+
         updateChatInteraction(viewModel.chatEnabled)
     }
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
-        viewModel.active = false
         removeStickersTooltip()
     }
 
@@ -130,23 +116,13 @@ class OldChatViewController: SLKTextViewController {
         return super.textView(textView, shouldChangeTextInRange: range, replacementText: text)
     }
     
-    // This method overrides a private method in SLKTextViewController that was returning an incorrect bottom
-    // margin when hidesBottombar is false.
-    func slk_appropriateBottomMargin() -> CGFloat {
-        return 0
-    }
-    
     
     // MARK: > Slack methods
-    
-    override func didPressRightButton(sender: AnyObject!) {
+
+    override func sendButtonPressed() {
         viewModel.sendText(textView.text, isQuickAnswer: false)
     }
-    
-    override func didPressLeftButton(sender: AnyObject!) {
-        showingStickers ? hideStickers() : showStickers()
-    }
-    
+
     /**
      Slack Caches the text in the textView if you close the view before sending
      Need to override this method to set the cache key to the product id
@@ -160,21 +136,21 @@ class OldChatViewController: SLKTextViewController {
     
     // MARK: > TableView Delegate
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel.objectCount
     }
     
-    override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         // Just to reserve the space for directAnswersView
         return directAnswersPresenter.height + relatedProductsView.visibleHeight.value
     }
     
-    override func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         // Empty transparent header just below directAnswersView
         return UIView(frame: CGRect())
     }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         guard indexPath.row < viewModel.objectCount else {
             return UITableViewCell()
         }
@@ -183,23 +159,25 @@ class OldChatViewController: SLKTextViewController {
         let cell = drawer.cell(tableView, atIndexPath: indexPath)
         
         drawer.draw(cell, message: message, delegate: self)
-        cell.transform = tableView.transform
+        UIView.performWithoutAnimation {
+            cell.transform = tableView.transform
+        }
 
         return cell
     }
 
-    override func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell,
+    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell,
                             forRowAtIndexPath indexPath: NSIndexPath) {
         dispatch_async(dispatch_get_main_queue()) { [weak self] in
             self?.viewModel.setCurrentIndex(indexPath.row)
         }
     }
 
-    override func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         return UITableViewAutomaticDimension
     }
     
-    override func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
         showKeyboard(false, animated: true)
     }
     
@@ -212,36 +190,34 @@ class OldChatViewController: SLKTextViewController {
         view.backgroundColor = UIColor.grayBackground
         
         setupNavigationBar()
-        
-        tableView?.clipsToBounds = true
-        tableView?.estimatedRowHeight = 120
-        tableView?.rowHeight = UITableViewAutomaticDimension
-        tableView?.separatorStyle = .None
-        tableView?.backgroundColor = UIColor.grayBackground
-        tableView?.allowsSelection = false
+
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.clipsToBounds = true
+        tableView.estimatedRowHeight = 120
+        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.separatorStyle = .None
+        tableView.backgroundColor = UIColor.grayBackground
+        tableView.allowsSelection = false
         textView.placeholder = LGLocalizedString.chatMessageFieldHint
+        textView.placeholderColor = UIColor.gray
+        textView.placeholderFont = UIFont.systemFontOfSize(17)
+        textViewFont = UIFont.systemFontOfSize(17)
         textView.backgroundColor = UIColor.whiteColor()
-        textInputbar.backgroundColor = UIColor.whiteColor()
-        textInputbar.clipsToBounds = true
-        textInputbar.translucent = false
-        textInputbar.rightButton.setTitle(LGLocalizedString.chatSendButton, forState: .Normal)
-        rightButton.tintColor = UIColor.primaryColor
-        rightButton.titleLabel?.font = UIFont.smallButtonFont
-        leftButton.setImage(UIImage(named: "ic_stickers"), forState: .Normal)
-        leftButton.tintColor = UIColor.grayDark
+        textViewBarColor = UIColor.whiteColor()
+        sendButton.setTitle(LGLocalizedString.chatSendButton, forState: .Normal)
+        sendButton.tintColor = UIColor.primaryColor
+        sendButton.titleLabel?.font = UIFont.smallButtonFont
+        hideStickers()
 
         addSubviews()
         setupFrames()
         setupConstraints()
 
         relationInfoView.setupUIForStatus(viewModel.chatStatus, otherUserName: viewModel.otherUserName)
-        textInputbarHidden = !viewModel.chatEnabled
-        
-        // chat info view setup
-        keyboardPanningEnabled = false
-        
+
         if let patternBackground = UIColor.emptyViewBackgroundColor {
-            tableView?.backgroundColor = UIColor.clearColor()
+            tableView.backgroundColor = UIColor.clearColor()
             view.backgroundColor = patternBackground
         }
         
@@ -271,12 +247,10 @@ class OldChatViewController: SLKTextViewController {
     }
     
     private func setupFrames() {
-        if let tableView = tableView {
-            tableView.contentInset.bottom = navBarHeight + blockedToastOffset
-            tableView.frame = CGRectMake(0, blockedToastOffset,
-                                         tableView.width, tableView.height - blockedToastOffset)
-        }
-        
+        tableView.contentInset.bottom = navBarHeight + blockedToastOffset
+        tableView.frame = CGRectMake(0, blockedToastOffset,
+                                     tableView.width, tableView.height - blockedToastOffset)
+
         activityIndicator.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
         activityIndicator.center = view.center
     }
@@ -300,11 +274,11 @@ class OldChatViewController: SLKTextViewController {
     }
 
     private func setupRelatedProducts() {
-        relatedProductsView.setupOnTopOfView(textInputbar)
+        relatedProductsView.setupOnTopOfView(textViewBar)
         relatedProductsView.title.value = LGLocalizedString.chatRelatedProductsTitle
         relatedProductsView.delegate = viewModel
         relatedProductsView.visibleHeight.asObservable().distinctUntilChanged().bindNext { [weak self] _ in
-            self?.tableView?.reloadData()
+            self?.tableView.reloadData()
             }.addDisposableTo(disposeBag)
     }
 
@@ -355,7 +329,7 @@ class OldChatViewController: SLKTextViewController {
     }
     
     private func updateChatInteraction(enabled: Bool) {
-        setTextInputbarHidden(!enabled, animated: true)
+        setTextViewBarHidden(!enabled, animated: true)
         textView.userInteractionEnabled = enabled
         if !enabled {
             removeStickersTooltip()
@@ -431,7 +405,7 @@ extension OldChatViewController: OldChatViewModelDelegate {
     
     func vmDidRefreshChatMessages() {
         showActivityIndicator(false)
-        tableView?.reloadData()
+        tableView.reloadData()
     }
     
     func vmUpdateAfterReceivingMessagesAtPositions(positions: [Int], isUpdate: Bool) {
@@ -439,15 +413,15 @@ extension OldChatViewController: OldChatViewModelDelegate {
         
         guard positions.count > 0 else { return }
         if isUpdate {
-            tableView?.reloadData()
+            tableView.reloadData()
             return
         }
         
         let newPositions: [NSIndexPath] = positions.map({NSIndexPath(forRow: $0, inSection: 0)})
         
-        tableView?.beginUpdates()
-        tableView?.insertRowsAtIndexPaths(newPositions, withRowAnimation: .Automatic)
-        tableView?.endUpdates()
+        tableView.beginUpdates()
+        tableView.insertRowsAtIndexPaths(newPositions, withRowAnimation: .Automatic)
+        tableView.endUpdates()
     }
     
     
@@ -462,11 +436,11 @@ extension OldChatViewController: OldChatViewModelDelegate {
     }
     
     func vmDidSucceedSendingMessage(index: Int) {
-        tableView?.beginUpdates()
+        tableView.beginUpdates()
         let indexPath = NSIndexPath(forRow: index, inSection: 0)
-        tableView?.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
-        tableView?.endUpdates()
-        tableView?.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Top, animated: true)
+        tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+        tableView.endUpdates()
+        tableView.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Top, animated: true)
     }
     
     
@@ -474,7 +448,7 @@ extension OldChatViewController: OldChatViewModelDelegate {
     
     func vmDidUpdateDirectAnswers() {
         directAnswersPresenter.hidden = !viewModel.shouldShowDirectAnswers
-        tableView?.reloadData()
+        tableView.reloadData()
     }
     
     func vmDidUpdateProduct(messageToShow message: String?) {
@@ -575,7 +549,7 @@ extension OldChatViewController: OldChatViewModelDelegate {
     func vmLoadStickersTooltipWithText(text: NSAttributedString) {
         guard stickersTooltip == nil else { return }
 
-        stickersTooltip = Tooltip(targetView: leftButton, superView: view, title: text, style: .Black(closeEnabled: true),
+        stickersTooltip = Tooltip(targetView: leftButtonsContainer, superView: view, title: text, style: .Black(closeEnabled: true),
                                   peakOnTop: false, actionBlock: { [weak self] in
                                     self?.showStickers()
                             }, closeBlock: { [weak self] in
@@ -584,7 +558,7 @@ extension OldChatViewController: OldChatViewModelDelegate {
 
         guard let tooltip = stickersTooltip else { return }
         view.addSubview(tooltip)
-        setupExternalConstraintsForTooltip(tooltip, targetView: leftButton, containerView: view)
+        setupExternalConstraintsForTooltip(tooltip, targetView: leftButtonsContainer, containerView: view)
 
         view.layoutIfNeeded()
     }
@@ -603,7 +577,7 @@ extension OldChatViewController {
     // It is an open issue in the Library https://github.com/slackhq/SlackTextViewController/issues/137
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        tableView?.contentInset.bottom = navBarHeight + blockedToastOffset
+        tableView.contentInset.bottom = navBarHeight + blockedToastOffset
     }
 }
 
@@ -619,7 +593,6 @@ extension OldChatViewController {
      - parameter notification: NSNotification received
      */
     func menuControllerWillShow(notification: NSNotification) {
-        guard let tableView = tableView else { return }
         guard let indexPath = selectedCellIndexPath else { return }
         guard let cell = tableView.cellForRowAtIndexPath(indexPath) as? ChatBubbleCell else { return }
         selectedCellIndexPath = nil
@@ -640,7 +613,7 @@ extension OldChatViewController {
                                                          name: UIMenuControllerWillShowMenuNotification, object: nil)
     }
     
-    override func tableView(tableView: UITableView, shouldShowMenuForRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+    func tableView(tableView: UITableView, shouldShowMenuForRowAtIndexPath indexPath: NSIndexPath) -> Bool {
         let message = viewModel.messageAtIndex(indexPath.row)
         guard message.copyEnabled else { return false }
 
@@ -648,7 +621,7 @@ extension OldChatViewController {
         return true
     }
     
-    override func tableView(tableView: UITableView, canPerformAction action: Selector, forRowAtIndexPath
+    func tableView(tableView: UITableView, canPerformAction action: Selector, forRowAtIndexPath
         indexPath: NSIndexPath, withSender sender: AnyObject?) -> Bool {
         if action == #selector(copy(_:)) {
             guard let cell = tableView.cellForRowAtIndexPath(indexPath) else { return false }
@@ -658,7 +631,7 @@ extension OldChatViewController {
         return false
     }
     
-    override  func tableView(tableView: UITableView, performAction action: Selector, forRowAtIndexPath
+    func tableView(tableView: UITableView, performAction action: Selector, forRowAtIndexPath
         indexPath: NSIndexPath, withSender sender: AnyObject?) {
         if action == #selector(copy(_:)) {
             UIPasteboard.generalPasteboard().string =  viewModel.textOfMessageAtIndex(indexPath.row)
@@ -724,13 +697,13 @@ extension OldChatViewController {
     }
 
     private func setupStickersView() {
-        let height = keyboardHelper.keyboardHeight
+        let height = keyboardFrame.height
         let frame = CGRectMake(0, view.frame.height - height, view.frame.width, height)
         stickersView.frame = frame
         stickersView.delegate = self
         vmDidUpdateStickers()
         stickersView.hidden = true
-        singleTapGesture.addTarget(self, action: #selector(hideStickers))
+        singleTapGesture?.addTarget(self, action: #selector(hideStickers))
         stickersCloseButton.addTarget(self, action: #selector(hideStickers), forControlEvents: .TouchUpInside)
         stickersCloseButton.backgroundColor = UIColor.clearColor()
     }
@@ -746,21 +719,18 @@ extension OldChatViewController {
         stickersWindow?.addSubview(stickersCloseButton)
         stickersView.hidden = true
         showingStickers = false
-        
-        let originSignal = keyboardHelper.rx_keyboardOrigin.asObservable().distinctUntilChanged()
-        let heightSignal = keyboardHelper.rx_keyboardHeight.asObservable().distinctUntilChanged()
-        let combined = Observable.combineLatest(originSignal, heightSignal) { $0 }
-        
-        combined.bindNext { [weak self] (origin, height) in
+
+        keyboardChanges.bindNext { [weak self] change in
             guard let `self` = self else { return }
+            let origin = change.origin
+            let height = change.height
             let windowFrame = CGRectMake(0, origin-self.inputBarHeight, self.view.width, height+self.inputBarHeight)
             let stickersFrame = CGRect(x: 0, y: self.inputBarHeight, width: self.view.width, height: height)
             let buttonFrame = CGRect(x: 0, y: 0, width: self.view.width, height: self.inputBarHeight)
             self.stickersWindow?.frame = windowFrame
             self.stickersView.frame = stickersFrame
             self.stickersCloseButton.frame = buttonFrame
-
-            }.addDisposableTo(disposeBag)
+        }.addDisposableTo(disposeBag)
     }
 
     func showStickers() {
@@ -769,14 +739,20 @@ extension OldChatViewController {
         showKeyboard(true, animated: false)
         stickersWindow?.hidden = false
         stickersView.hidden = false
-        leftButton.setImage(UIImage(named: "ic_keyboard"), forState: .Normal)
+        let action = UIAction(interface: .Image(UIImage(named: "ic_keyboard")), action: { [weak self] in
+            self?.hideStickers()
+        }, accessibilityId: .ChatViewStickersButton)
+        leftActions = [action]
         showingStickers = true
     }
     
     func hideStickers() {
         stickersWindow?.hidden = true
         stickersView.hidden = true
-        leftButton.setImage(UIImage(named: "ic_stickers"), forState: .Normal)
+        let action = UIAction(interface: .Image(UIImage(named: "ic_stickers")), action: { [weak self] in
+            self?.showStickers()
+            }, accessibilityId: .ChatViewStickersButton)
+        leftActions = [action]
         showingStickers = false
     }
 }
@@ -793,7 +769,7 @@ extension OldChatViewController: ChatStickersViewDelegate {
 extension OldChatViewController {
     func setupSendingRx() {
         let sendActionsEnabled = viewModel.isSendingMessage.asObservable().map { !$0 }
-        sendActionsEnabled.bindTo(rightButton.rx_enabled).addDisposableTo(disposeBag)
+        sendActionsEnabled.bindTo(sendButton.rx_enabled).addDisposableTo(disposeBag)
         sendActionsEnabled.bindNext { [weak self] enabled in
             self?.stickersView.enabled = enabled
             self?.directAnswersPresenter.enabled = enabled
@@ -842,12 +818,11 @@ extension OldChatViewController: ChatBannerDelegate {
 
 extension OldChatViewController {
     func setAccessibilityIds() {
-        tableView?.accessibilityId = .ChatViewTableView
+        tableView.accessibilityId = .ChatViewTableView
         navigationItem.rightBarButtonItem?.accessibilityId = .ChatViewMoreOptionsButton
         navigationItem.backBarButtonItem?.accessibilityId = .ChatViewBackButton
-        textInputbar.leftButton.accessibilityId = .ChatViewStickersButton
-        textInputbar.rightButton.accessibilityId = .ChatViewSendButton
-        textInputbar.accessibilityId = .ChatViewTextInputBar
+        sendButton.accessibilityId = .ChatViewSendButton
+        textViewBar.accessibilityId = .ChatViewTextInputBar
         stickersCloseButton.accessibilityId = .ChatViewCloseStickersButton
         expressChatBanner.accessibilityId = .ExpressChatBanner
     }

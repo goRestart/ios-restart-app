@@ -45,7 +45,7 @@ public enum EventName: String {
     case ProductShareComplete               = "product-detail-share-complete"
     
     case FirstMessage                       = "product-detail-ask-question"
-    case ProductChatButton                  = "product-detail-chat-button"
+    case ProductOpenChat                    = "product-detail-open-chat"
     case ProductMarkAsSold                  = "product-detail-sold"
     case ProductMarkAsUnsold                = "product-detail-unsold"
     
@@ -366,6 +366,7 @@ public enum EventParameterMessageType: String {
     case Favorite   = "favorite"
     case QuickAnswer = "quick-answer"
     case ExpressChat = "express-chat"
+    case PeriscopeDirect = "periscope-direct"
 }
 
 public enum EventParameterLoginError {

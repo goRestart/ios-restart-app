@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol FilterPriceCellDelegate {
+protocol FilterPriceCellDelegate: class {
     func priceTextFieldValueActive()
     func priceTextFieldValueChanged(value: String?, tag: Int)
 }
@@ -23,7 +23,7 @@ class FilterPriceCell: UICollectionViewCell {
     @IBOutlet weak var bottomSeparatorHeight: NSLayoutConstraint!
     @IBOutlet weak var topSeparatorHeight: NSLayoutConstraint!
 
-    var delegate: FilterPriceCellDelegate?
+    weak var delegate: FilterPriceCellDelegate?
 
     override func awakeFromNib() {
         super.awakeFromNib()

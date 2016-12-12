@@ -11,7 +11,7 @@ import RxSwift
 
 final class TrackerProxy: Tracker {
     private static let defaultTrackers: [Tracker] = [AmplitudeTracker(), AppsflyerTracker(), FacebookTracker(),
-                                                     CrashlyticsTracker(), LeanplumTracker(), NewRelicTracker()]
+                                                     CrashlyticsTracker(), LeanplumTracker()]
 
     static let sharedInstance = TrackerProxy()
 
@@ -63,8 +63,8 @@ final class TrackerProxy: Tracker {
     // MARK: - Tracker
 
     func application(application: UIApplication,
-        didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) {
-            trackers.forEach { $0.application(application, didFinishLaunchingWithOptions: launchOptions) }
+                     didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) {
+        trackers.forEach { $0.application(application, didFinishLaunchingWithOptions: launchOptions) }
 
         setGPSPermission(gpsPermissionEnabled)
         setNotificationsPermission(notificationsPermissionEnabled)

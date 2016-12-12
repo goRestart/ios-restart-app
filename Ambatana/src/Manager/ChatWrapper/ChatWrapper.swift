@@ -15,6 +15,7 @@ public typealias ChatWrapperCompletion = ChatWrapperResult -> Void
 
 enum ChatWrapperMessageType {
     case Text(String)
+    case PeriscopeDirect(String)
     case ChatSticker(Sticker)
     case QuickAnswer(String)
     case ExpressChat(String)
@@ -121,6 +122,8 @@ extension ChatWrapperMessageType {
             return text
         case let .FavoritedProduct(text):
             return text
+        case let .PeriscopeDirect(text):
+            return text
         }
     }
 
@@ -130,12 +133,29 @@ extension ChatWrapperMessageType {
             return .Text
         case .ChatSticker:
             return .Sticker
-        case .QuickAnswer, .ExpressChat, .FavoritedProduct: // Legacy chat doesn't use this types
+        case .QuickAnswer, .ExpressChat, .FavoritedProduct, .PeriscopeDirect: // Legacy chat doesn't use this types
             return .Text
         }
     }
 
     var chatType: ChatMessageType {
+        switch self {
+        case .Text:
+            return .Text
+        case .PeriscopeDirect:
+            return .Text
+        case .ChatSticker:
+            return .Sticker
+        case .QuickAnswer:
+            return .QuickAnswer
+        case .ExpressChat:
+            return .ExpressChat
+        case .FavoritedProduct:
+            return .FavoritedProduct
+        }
+    }
+    
+    var chatTrackerType: EventParameterMessageType {
         switch self {
         case .Text:
             return .Text
@@ -146,7 +166,9 @@ extension ChatWrapperMessageType {
         case .ExpressChat:
             return .ExpressChat
         case .FavoritedProduct:
-            return .FavoritedProduct
+            return .Favorite
+        case .PeriscopeDirect:
+            return .PeriscopeDirect
         }
     }
 }

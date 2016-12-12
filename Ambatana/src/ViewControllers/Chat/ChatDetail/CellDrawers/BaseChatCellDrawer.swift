@@ -52,6 +52,6 @@ class BaseChatCellDrawer<T: UITableViewCell where T: ReusableCell>: BaseTableCel
         }
         cell.contentView.alpha = 1
         UIView.animateWithDuration(autoHideFadeTime, delay: diffTime, options: .CurveEaseIn,
-                                   animations: { cell.contentView.alpha = 0 }, completion: nil)
+                                   animations: { cell.contentView.alpha = 0 }, completion: { _ in cell.contentView.hidden = true })
     }
 }
