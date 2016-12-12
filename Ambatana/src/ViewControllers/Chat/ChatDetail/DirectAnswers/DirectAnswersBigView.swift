@@ -104,6 +104,15 @@ class DirectAnswersBigView: UIView {
         lastItemConstraint = previousItem.alignParentBottom(margin: DirectAnswersBigView.itemMargin)
     }
 
+    func setHidden(hidden: Bool, animated: Bool) {
+        self.hidden = hidden
+        if animated {
+            UIView.animateWithDuration(0.2) { [weak self] in
+                self?.superview?.layoutIfNeeded()
+            }
+        }
+    }
+
 
     // MARK: - Private
 

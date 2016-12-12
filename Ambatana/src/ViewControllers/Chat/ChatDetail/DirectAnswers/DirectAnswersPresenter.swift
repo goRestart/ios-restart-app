@@ -29,7 +29,7 @@ class DirectAnswersPresenter : NSObject, UICollectionViewDelegate, UICollectionV
 
     var hidden: Bool = true {
         didSet {
-            bigView?.hidden = hidden
+            bigView?.setHidden(hidden, animated: true)
             collectionView?.hidden = hidden
         }
     }

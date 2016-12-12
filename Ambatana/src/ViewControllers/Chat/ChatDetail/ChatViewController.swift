@@ -27,7 +27,6 @@ class ChatViewController: TextViewController {
     let relatedProductsView: ChatRelatedProductsView
     let directAnswersPresenter: DirectAnswersPresenter
     let stickersView: ChatStickersView
-    let stickersCloseButton: UIButton
     var stickersWindow: UIWindow?
     let disposeBag = DisposeBag()
     let expressChatBanner: ChatBanner
@@ -57,7 +56,6 @@ class ChatViewController: TextViewController {
         self.directAnswersPresenter = DirectAnswersPresenter(newDirectAnswers: featureFlags.newQuickAnswers,
                                                              websocketChatActive: featureFlags.websocketChat)
         self.stickersView = ChatStickersView()
-        self.stickersCloseButton = UIButton(frame: CGRect.zero)
         self.featureFlags = featureFlags
         self.expressChatBanner = ChatBanner()
         super.init(viewModel: viewModel, nibName: nil)
@@ -73,7 +71,6 @@ class ChatViewController: TextViewController {
     
     deinit {
         stickersView.removeFromSuperview()
-        stickersCloseButton.removeFromSuperview()
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
 
@@ -238,7 +235,7 @@ class ChatViewController: TextViewController {
     }
 
     private func setupDirectAnswers() {
-        directAnswersPresenter.hidden = viewModel.directAnswersVisible.value != .Visible
+        directAnswersPresenter.hidden = viewModel.directAnswersState.value != .Visible
         directAnswersPresenter.setDirectAnswers(viewModel.directAnswers)
         directAnswersPresenter.setupOnTopOfView(relatedProductsView)
         directAnswersPresenter.delegate = viewModel
@@ -295,7 +292,7 @@ extension ChatViewController: ConversationDataDisplayer {
 
 // MARK: - Stickers & Direct answers
 
-extension ChatViewController {
+extension ChatViewController: UIGestureRecognizerDelegate {
     
     private func setupStickersView() {
         let height = keyboardFrame.height
@@ -307,8 +304,14 @@ extension ChatViewController {
             }.addDisposableTo(disposeBag)
         stickersView.hidden = true
         singleTapGesture?.addTarget(self, action: #selector(hideStickers))
-        stickersCloseButton.addTarget(self, action: #selector(hideStickers), forControlEvents: .TouchUpInside)
-        stickersCloseButton.backgroundColor = UIColor.clearColor()
+        let textTapGesture = UITapGestureRecognizer(target: self, action: #selector(hideStickers))
+        textTapGesture.delegate = self
+        textView.addGestureRecognizer(textTapGesture)
+    }
+
+    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer,
+                           shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
     }
     
     private func initStickersWindow() {
@@ -319,7 +322,6 @@ extension ChatViewController {
         stickersWindow?.addSubview(stickersView)
         stickersWindow?.hidden = true
         stickersWindow?.backgroundColor = UIColor.clearColor()
-        stickersWindow?.addSubview(stickersCloseButton)
         stickersView.hidden = true
         showingStickers = false
 
@@ -327,16 +329,15 @@ extension ChatViewController {
             guard let `self` = self else { return }
             let origin = change.origin
             let height = change.height
-            let windowFrame = CGRectMake(0, origin-self.inputBarHeight, self.view.width, height+self.inputBarHeight)
-            let stickersFrame = CGRect(x: 0, y: self.inputBarHeight, width: self.view.width, height: height)
-            let buttonFrame = CGRect(x: 0, y: 0, width: self.view.width, height: self.inputBarHeight)
+            let windowFrame = CGRectMake(0, origin, self.view.width, height)
+            let stickersFrame = CGRect(x: 0, y: 0, width: self.view.width, height: height)
             self.stickersWindow?.frame = windowFrame
             self.stickersView.frame = stickersFrame
-            self.stickersCloseButton.frame = buttonFrame
         }.addDisposableTo(disposeBag)
     }
     
     func showStickers() {
+        guard !showingStickers else { return }
         viewModel.stickersShown()
         removeStickersTooltip()
         showKeyboard(true, animated: false)
@@ -347,6 +348,7 @@ extension ChatViewController {
     }
     
     func hideStickers() {
+        guard showingStickers else { return }
         stickersWindow?.hidden = true
         stickersView.hidden = true
         showingStickers = false
@@ -354,13 +356,24 @@ extension ChatViewController {
     }
 
     func reloadLeftActions() {
+        var actions = [UIAction]()
+
+        if /*!showingStickers &&*/ featureFlags.newQuickAnswers && viewModel.directAnswersState.value != .NotAvailable {
+            let image = UIImage(named: "ic_quick_answers")
+            let quickAnswersAction = UIAction(interface: .Image(image), action: { [weak self] in
+                self?.viewModel.directAnswersButtonPressed()
+                }, accessibilityId: .ChatViewStickersButton)
+            actions.append(quickAnswersAction)
+        }
+
         let image = UIImage(named: showingStickers ? "ic_keyboard" : "ic_stickers")
         let kbAction = UIAction(interface: .Image(image), action: { [weak self] in
             guard let showing = self?.showingStickers else { return }
             showing ? self?.hideStickers() : self?.showStickers()
         }, accessibilityId: .ChatViewStickersButton)
+        actions.append(kbAction)
 
-        leftActions = [kbAction]
+        leftActions = actions
     }
 }
 
@@ -470,13 +483,24 @@ extension ChatViewController {
             }
         }.addDisposableTo(disposeBag)
 
-        viewModel.directAnswersVisible.asObservable().bindNext { [weak self] state in
+        viewModel.directAnswersState.asObservable().bindNext { [weak self] state in
             guard let strongSelf = self else { return }
             let visible = state == .Visible
             strongSelf.directAnswersPresenter.hidden = !visible
             strongSelf.tableView.reloadData()
-            if strongSelf.featureFlags.newQuickAnswers && visible {
-                strongSelf.dismissKeyboard(true)
+            if strongSelf.featureFlags.newQuickAnswers {
+                strongSelf.reloadLeftActions()
+                if visible {
+                    strongSelf.dismissKeyboard(true)
+                }
+            }
+        }.addDisposableTo(disposeBag)
+
+        keyboardChanges.bindNext { [weak self] change in
+            if change.visible {
+                self?.viewModel.keyboardShown()
+            } else {
+                self?.hideStickers()
             }
         }.addDisposableTo(disposeBag)
     }
@@ -755,7 +779,6 @@ extension ChatViewController {
         navigationItem.backBarButtonItem?.accessibilityId = .ChatViewBackButton
         sendButton.accessibilityId = .ChatViewSendButton
         textViewBar.accessibilityId = .ChatViewTextInputBar
-        stickersCloseButton.accessibilityId = .ChatViewCloseStickersButton
         expressChatBanner.accessibilityId = .ExpressChatBanner
     }
 }

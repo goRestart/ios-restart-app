@@ -127,7 +127,7 @@ class ChatViewModel: BaseViewModel {
     let chatStatus = Variable<ChatInfoViewStatus>(.Available)
     let chatEnabled = Variable<Bool>(true)
     let relatedProductsState = Variable<ChatRelatedItemsState>(.Loading)
-    let directAnswersVisible = Variable<DirectAnswersState>(.NotAvailable)
+    let directAnswersState = Variable<DirectAnswersState>(.NotAvailable)
     let interlocutorTyping = Variable<Bool>(false)
     let messages = CollectionVariable<ChatViewMessage>([])
     private let sellerDidntAnswer = Variable<Bool?>(nil)
@@ -261,7 +261,7 @@ class ChatViewModel: BaseViewModel {
 
     func didAppear() {
         // On new quick answers, if visible we shouldn't show keyboard
-        if featureFlags.newQuickAnswers && directAnswersVisible.value == .Visible { return }
+        if featureFlags.newQuickAnswers && directAnswersState.value == .Visible { return }
         if conversation.value.isSaved && chatEnabled.value {
             delegate?.vmShowKeyboard()
         }
@@ -426,7 +426,10 @@ class ChatViewModel: BaseViewModel {
 
         setupChatEventsRx()
 
-        userDirectAnswersEnabled.value = keyValueStorage.userLoadChatShowDirectAnswersForKey(userDefaultsSubKey)
+        if !featureFlags.newQuickAnswers {
+            // New quick answers don't depende on saved state
+            userDirectAnswersEnabled.value = keyValueStorage.userLoadChatShowDirectAnswersForKey(userDefaultsSubKey)
+        }
         let directAnswers: Observable<DirectAnswersState> = Observable.combineLatest(chatEnabled.asObservable(),
                                         relatedProductsState.asObservable(),
                                         userDirectAnswersEnabled.asObservable(),
@@ -439,7 +442,7 @@ class ChatViewModel: BaseViewModel {
                                                 return directAnswers ? .Visible : .Hidden
                                             }
                                         }).distinctUntilChanged()
-        directAnswers.bindTo(directAnswersVisible).addDisposableTo(disposeBag)
+        directAnswers.bindTo(directAnswersState).addDisposableTo(disposeBag)
     }
 
     func updateMessagesCounts(changeInMessages: CollectionChange<ChatViewMessage>) {
@@ -573,6 +576,16 @@ class ChatViewModel: BaseViewModel {
     func bannerActionButtonTapped() {
         guard let productId = conversation.value.product?.objectId else { return }
         navigator?.openExpressChat(relatedProducts, sourceProductId: productId, manualOpen: true)
+    }
+
+    func directAnswersButtonPressed() {
+        toggleDirectAnswers()
+    }
+
+    func keyboardShown() {
+        if featureFlags.newQuickAnswers && directAnswersState.value != .NotAvailable {
+            showDirectAnswers(false)
+        }
     }
 }
 
@@ -761,8 +774,8 @@ extension ChatViewModel {
         actions.append(safetyTips)
 
         if conversation.value.isSaved {
-            if directAnswersVisible.value != .NotAvailable {
-                let visible = directAnswersVisible.value == .Visible
+            if !featureFlags.newQuickAnswers && directAnswersState.value != .NotAvailable {
+                let visible = directAnswersState.value == .Visible
                 let directAnswersText = visible ? LGLocalizedString.directAnswersHide : LGLocalizedString.directAnswersShow
                 let directAnswersAction = UIAction(interface: UIActionInterface.Text(directAnswersText),
                                                    action: toggleDirectAnswers)
@@ -944,6 +957,7 @@ extension ChatViewModel {
                 strongSelf.updateMessages(newMessages: value, isFirstPage: true)
                 strongSelf.afterRetrieveChatMessagesEvents()
                 strongSelf.checkSellerDidntAnswer(value)
+                strongSelf.checkShouldShowDirectAnswers(value)
             } else if let _ = result.error {
                 strongSelf.delegate?.vmDidFailRetrievingChatMessages()
             }
@@ -1027,6 +1041,15 @@ extension ChatViewModel {
          */
         sellerDidntAnswer.value = recentSellerMessages.isEmpty &&
             (oldestMessageDate.compare(twoDaysAgo) == .OrderedAscending || messages.count == Constants.numMessagesPerPage)
+    }
+
+    private func checkShouldShowDirectAnswers(messages: [ChatMessage]) {
+        // If there's no previous message from me, we should show direct answers
+        guard let myUserId = myUserRepository.myUser?.objectId else { return }
+        for message in messages {
+            guard message.talkerId != myUserId else { return }
+        }
+        userDirectAnswersEnabled.value = true
     }
 }
 
@@ -1253,7 +1276,9 @@ extension ChatViewModel: DirectAnswersPresenterDelegate {
     }
 
     private func showDirectAnswers(show: Bool) {
-        KeyValueStorage.sharedInstance.userSaveChatShowDirectAnswersForKey(userDefaultsSubKey, value: show)
+        if !featureFlags.newQuickAnswers {
+            KeyValueStorage.sharedInstance.userSaveChatShowDirectAnswersForKey(userDefaultsSubKey, value: show)
+        }
         userDirectAnswersEnabled.value = show
     }
     

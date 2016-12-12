@@ -350,7 +350,6 @@ enum AccessibilityId: String {
     case ChatViewBackButton
     case ChatViewStickersButton
     case ChatViewSendButton
-    case ChatViewCloseStickersButton
     case ChatViewTextInputBar
 
     // DirectAnswers

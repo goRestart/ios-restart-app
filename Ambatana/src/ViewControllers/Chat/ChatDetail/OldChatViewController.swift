@@ -829,7 +829,7 @@ extension OldChatViewController {
         navigationItem.backBarButtonItem?.accessibilityId = .ChatViewBackButton
         sendButton.accessibilityId = .ChatViewSendButton
         textViewBar.accessibilityId = .ChatViewTextInputBar
-        stickersCloseButton.accessibilityId = .ChatViewCloseStickersButton
+//        stickersCloseButton.accessibilityId = .ChatViewCloseStickersButton
         expressChatBanner.accessibilityId = .ExpressChatBanner
     }
 }
