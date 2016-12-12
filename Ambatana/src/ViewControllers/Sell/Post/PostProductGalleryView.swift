@@ -324,8 +324,10 @@ extension PostProductGalleryView {
             guard strongSelf.viewModel.multiSelectionEnabled else { return }
             strongSelf.collectionView.userInteractionEnabled = false
             guard !strongSelf.viewModel.shouldUpdateDisabledCells else {
-                NSTimer.scheduledTimerWithTimeInterval(0.3, target: strongSelf, selector: #selector(strongSelf.updateDisabledCells),
-                    userInfo: nil, repeats: false)
+                delay(0.3) { [weak self] in
+                    self?.collectionView.reloadData()
+                    self?.collectionView.userInteractionEnabled = true
+                }
                 return
             }
             var indexes: [NSIndexPath] = []
@@ -353,11 +355,6 @@ extension PostProductGalleryView {
 
     @IBAction func onInfoButtonPressed(sender: AnyObject) {
         viewModel.infoButtonPressed()
-    }
-
-    private dynamic func updateDisabledCells() {
-        collectionView.reloadData()
-        collectionView.userInteractionEnabled = true
     }
 }
 
