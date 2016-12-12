@@ -238,7 +238,7 @@ class ChatViewController: TextViewController {
     }
 
     private func setupDirectAnswers() {
-        directAnswersPresenter.hidden = !viewModel.directAnswersVisible.value
+        directAnswersPresenter.hidden = viewModel.directAnswersVisible.value != .Visible
         directAnswersPresenter.setDirectAnswers(viewModel.directAnswers)
         directAnswersPresenter.setupOnTopOfView(relatedProductsView)
         directAnswersPresenter.delegate = viewModel
@@ -293,7 +293,7 @@ extension ChatViewController: ConversationDataDisplayer {
 }
 
 
-// MARK: - Stickers
+// MARK: - Stickers & Direct answers
 
 extension ChatViewController {
     
@@ -342,21 +342,25 @@ extension ChatViewController {
         showKeyboard(true, animated: false)
         stickersWindow?.hidden = false
         stickersView.hidden = false
-        let action = UIAction(interface: .Image(UIImage(named: "ic_keyboard")), action: { [weak self] in
-            self?.hideStickers()
-            }, accessibilityId: .ChatViewStickersButton)
-        leftActions = [action]
         showingStickers = true
+        reloadLeftActions()
     }
     
     func hideStickers() {
         stickersWindow?.hidden = true
         stickersView.hidden = true
-        let action = UIAction(interface: .Image(UIImage(named: "ic_stickers")), action: { [weak self] in
-            self?.showStickers()
-            }, accessibilityId: .ChatViewStickersButton)
-        leftActions = [action]
         showingStickers = false
+        reloadLeftActions()
+    }
+
+    func reloadLeftActions() {
+        let image = UIImage(named: showingStickers ? "ic_keyboard" : "ic_stickers")
+        let kbAction = UIAction(interface: .Image(image), action: { [weak self] in
+            guard let showing = self?.showingStickers else { return }
+            showing ? self?.hideStickers() : self?.showStickers()
+        }, accessibilityId: .ChatViewStickersButton)
+
+        leftActions = [kbAction]
     }
 }
 
@@ -466,9 +470,14 @@ extension ChatViewController {
             }
         }.addDisposableTo(disposeBag)
 
-        viewModel.directAnswersVisible.asObservable().bindNext { [weak self] visible in
-            self?.directAnswersPresenter.hidden = !visible
-            self?.tableView.reloadData()
+        viewModel.directAnswersVisible.asObservable().bindNext { [weak self] state in
+            guard let strongSelf = self else { return }
+            let visible = state == .Visible
+            strongSelf.directAnswersPresenter.hidden = !visible
+            strongSelf.tableView.reloadData()
+            if strongSelf.featureFlags.newQuickAnswers && visible {
+                strongSelf.dismissKeyboard(true)
+            }
         }.addDisposableTo(disposeBag)
     }
 }

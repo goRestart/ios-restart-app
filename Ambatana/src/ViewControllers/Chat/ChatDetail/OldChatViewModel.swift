@@ -98,7 +98,11 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         return otherUser?.name
     }
 
-    var stickers: [Sticker] = []
+    private(set) var stickers: [Sticker] = [] {
+        didSet {
+            delegate?.vmDidUpdateStickers()
+        }
+    }
 
     var userRelation: UserUserRelation? {
         didSet {
@@ -610,7 +614,6 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         stickersRepository.show { [weak self] result in
             if let value = result.value {
                 self?.stickers = value
-                self?.delegate?.vmDidUpdateStickers()
             }
         }
     }

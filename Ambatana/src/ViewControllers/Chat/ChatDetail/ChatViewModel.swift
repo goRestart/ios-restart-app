@@ -41,6 +41,14 @@ struct EmptyConversation: ChatConversation {
     var amISelling: Bool 
 }
 
+enum ChatRelatedItemsState {
+    case Loading, Visible, Hidden
+}
+
+enum DirectAnswersState {
+    case NotAvailable, Visible, Hidden
+}
+
 class ChatViewModel: BaseViewModel {
     
     
@@ -107,11 +115,6 @@ class ChatViewModel: BaseViewModel {
         }
     }
 
-    private var directAnswersAvailable: Bool {
-        guard let relatedProducts = relatedProductsEnabled.value else { return false }
-        return chatEnabled.value && !relatedProducts
-    }
-
     var shouldShowUserReviewTooltip: Bool {
         // we don't want both tooltips at the same time.  !st stickers, then rating
         return !KeyValueStorage.sharedInstance[.userRatingTooltipAlreadyShown] &&
@@ -123,8 +126,8 @@ class ChatViewModel: BaseViewModel {
     let interlocutorHasMutedYou = Variable<Bool>(false)
     let chatStatus = Variable<ChatInfoViewStatus>(.Available)
     let chatEnabled = Variable<Bool>(true)
-    let relatedProductsEnabled = Variable<Bool?>(false)
-    let directAnswersVisible = Variable<Bool>(false)
+    let relatedProductsState = Variable<ChatRelatedItemsState>(.Loading)
+    let directAnswersVisible = Variable<DirectAnswersState>(.NotAvailable)
     let interlocutorTyping = Variable<Bool>(false)
     let messages = CollectionVariable<ChatViewMessage>([])
     private let sellerDidntAnswer = Variable<Bool?>(nil)
@@ -257,6 +260,8 @@ class ChatViewModel: BaseViewModel {
     }
 
     func didAppear() {
+        // On new quick answers, if visible we shouldn't show keyboard
+        if featureFlags.newQuickAnswers && directAnswersVisible.value == .Visible { return }
         if conversation.value.isSaved && chatEnabled.value {
             delegate?.vmShowKeyboard()
         }
@@ -348,18 +353,23 @@ class ChatViewModel: BaseViewModel {
             }
         }.addDisposableTo(disposeBag)
 
-        relatedProductsEnabled.asObservable().bindNext { [weak self] enabled in
-            self?.delegate?.vmShowRelatedProducts( (enabled ?? false) ? self?.conversation.value.product?.objectId : nil)
+        relatedProductsState.asObservable().bindNext { [weak self] state in
+            switch state {
+            case .Loading, .Hidden:
+                self?.delegate?.vmShowRelatedProducts(nil)
+            case .Visible:
+                self?.delegate?.vmShowRelatedProducts(self?.conversation.value.product?.objectId)
+            }
         }.addDisposableTo(disposeBag)
 
         let relatedProductsConversation = conversation.asObservable().map { $0.relatedProductsEnabled }
         Observable.combineLatest(relatedProductsConversation, sellerDidntAnswer.asObservable()) { [weak self] in
-            guard let strongSelf = self else { return nil }
-            guard strongSelf.isBuyer else { return $0 }
-            if $0 { return true }
-            guard let didntAnswer = $1 else { return nil }
-            return didntAnswer
-        }.bindTo(relatedProductsEnabled).addDisposableTo(disposeBag)
+            guard let strongSelf = self else { return .Loading }
+            guard strongSelf.isBuyer else { return $0 ? .Visible : .Hidden }
+            if $0 { return .Visible }
+            guard let didntAnswer = $1 else { return .Loading }
+            return didntAnswer ? .Visible : .Hidden
+        }.bindTo(relatedProductsState).addDisposableTo(disposeBag)
 
         let cfgManager = configManager
         let myMessagesReviewable = myMessagesCount.asObservable()
@@ -407,7 +417,7 @@ class ChatViewModel: BaseViewModel {
          */
         Observable.combineLatest(expressBannerTriggered,
             hasRelatedProducts.asObservable(),
-            relatedProductsEnabled.asObservable().map { $0 ?? false },
+            relatedProductsState.asObservable().map { $0 == .Visible },
         expressMessagesAlreadySent.asObservable()) { $0 && $1 && !$2 && !$3 }
             .distinctUntilChanged().bindNext { [weak self] shouldShowBanner in
                 guard let strongSelf = self else { return }
@@ -417,12 +427,17 @@ class ChatViewModel: BaseViewModel {
         setupChatEventsRx()
 
         userDirectAnswersEnabled.value = keyValueStorage.userLoadChatShowDirectAnswersForKey(userDefaultsSubKey)
-        let directAnswers: Observable<Bool> = Observable.combineLatest(chatEnabled.asObservable(),
-                                        relatedProductsEnabled.asObservable(),
+        let directAnswers: Observable<DirectAnswersState> = Observable.combineLatest(chatEnabled.asObservable(),
+                                        relatedProductsState.asObservable(),
                                         userDirectAnswersEnabled.asObservable(),
-                                        resultSelector: { chat, related, directAnswers in
-                                            guard let relatedEnabled = related else { return false }
-                                            return chat && !relatedEnabled && directAnswers
+                                        resultSelector: { chatEnabled, relatedState, directAnswers in
+                                            switch relatedState {
+                                            case .Loading, .Visible:
+                                                return .NotAvailable
+                                            case .Hidden:
+                                                guard chatEnabled else { return .NotAvailable }
+                                                return directAnswers ? .Visible : .Hidden
+                                            }
                                         }).distinctUntilChanged()
         directAnswers.bindTo(directAnswersVisible).addDisposableTo(disposeBag)
     }
@@ -746,9 +761,9 @@ extension ChatViewModel {
         actions.append(safetyTips)
 
         if conversation.value.isSaved {
-            if directAnswersAvailable {
-                let directAnswersText = directAnswersVisible.value ? LGLocalizedString.directAnswersHide :
-                    LGLocalizedString.directAnswersShow
+            if directAnswersVisible.value != .NotAvailable {
+                let visible = directAnswersVisible.value == .Visible
+                let directAnswersText = visible ? LGLocalizedString.directAnswersHide : LGLocalizedString.directAnswersShow
                 let directAnswersAction = UIAction(interface: UIActionInterface.Text(directAnswersText),
                                                    action: toggleDirectAnswers)
                 actions.append(directAnswersAction)

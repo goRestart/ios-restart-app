@@ -203,6 +203,7 @@ class OldChatViewController: TextViewController, UITableViewDelegate, UITableVie
         textView.placeholder = LGLocalizedString.chatMessageFieldHint
         textView.placeholderColor = UIColor.gray
         textView.placeholderFont = UIFont.systemFontOfSize(17)
+        textView.tintColor = UIColor.primaryColor
         textViewFont = UIFont.systemFontOfSize(17)
         textView.backgroundColor = UIColor.whiteColor()
         textViewBarColor = UIColor.whiteColor()
@@ -740,21 +741,25 @@ extension OldChatViewController {
         showKeyboard(true, animated: false)
         stickersWindow?.hidden = false
         stickersView.hidden = false
-        let action = UIAction(interface: .Image(UIImage(named: "ic_keyboard")), action: { [weak self] in
-            self?.hideStickers()
-        }, accessibilityId: .ChatViewStickersButton)
-        leftActions = [action]
         showingStickers = true
+        reloadLeftActions()
     }
     
     func hideStickers() {
         stickersWindow?.hidden = true
         stickersView.hidden = true
-        let action = UIAction(interface: .Image(UIImage(named: "ic_stickers")), action: { [weak self] in
-            self?.showStickers()
-            }, accessibilityId: .ChatViewStickersButton)
-        leftActions = [action]
         showingStickers = false
+        reloadLeftActions()
+    }
+
+    func reloadLeftActions() {
+        let image = UIImage(named: showingStickers ? "ic_keyboard" : "ic_stickers")
+        let kbAction = UIAction(interface: .Image(image), action: { [weak self] in
+            guard let showing = self?.showingStickers else { return }
+            showing ? self?.hideStickers() : self?.showStickers()
+        }, accessibilityId: .ChatViewStickersButton)
+
+        leftActions = [kbAction]
     }
 }
 
