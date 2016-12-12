@@ -66,6 +66,7 @@ struct Constants {
     static let pushPermissionRepeatTime: NSTimeInterval = (60 * 60 * 24) // 1 day
 
     // Product posting
+    static let maxImageCount = 5
     static let maxPriceIntegerCharacters = 9
     static let maxPriceFractionalCharacters = 2
 

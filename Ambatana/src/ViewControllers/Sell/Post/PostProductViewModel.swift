@@ -35,16 +35,17 @@ class PostProductViewModel: BaseViewModel {
 
     weak var delegate: PostProductViewModelDelegate?
     weak var navigator: PostProductNavigator?
+    private let sessionManager: SessionManager
 
     var usePhotoButtonText: String {
-        if Core.sessionManager.loggedIn {
+        if sessionManager.loggedIn {
             return LGLocalizedString.productPostUsePhoto
         } else {
             return LGLocalizedString.productPostUsePhotoNotLogged
         }
     }
     var confirmationOkText: String {
-        if Core.sessionManager.loggedIn {
+        if sessionManager.loggedIn {
             return LGLocalizedString.productPostProductPosted
         } else {
             return LGLocalizedString.productPostProductPostedNotLogged
@@ -61,10 +62,10 @@ class PostProductViewModel: BaseViewModel {
     private let fileRepository: FileRepository
     private let tracker: Tracker
     private let commercializerRepository: CommercializerRepository
-    private let featureFlags: FeatureFlaggeable
-    private var imageSelected: UIImage?
-    private var pendingToUploadImage: UIImage?
-    private var uploadedImage: File?
+    let galleryMultiSelectionEnabled: Bool
+    private var imagesSelected: [UIImage]?
+    private var pendingToUploadImages: [UIImage]?
+    private var uploadedImages: [File]?
     private var uploadedImageSource: EventParameterPictureSource?
     
 
@@ -76,12 +77,15 @@ class PostProductViewModel: BaseViewModel {
         let commercializerRepository = Core.commercializerRepository
         let tracker = TrackerProxy.sharedInstance
         let featureFlags = FeatureFlags.sharedInstance
+        let sessionManager = Core.sessionManager
         self.init(source: source, productRepository: productRepository, fileRepository: fileRepository,
-                  commercializerRepository: commercializerRepository, tracker: tracker, featureFlags: featureFlags)
+                  commercializerRepository: commercializerRepository, tracker: tracker, sessionManager: sessionManager,
+                  galleryMultiSelectionEnabled: featureFlags.postingMultiPictureEnabled)
     }
 
     init(source: PostingSource, productRepository: ProductRepository, fileRepository: FileRepository,
-         commercializerRepository: CommercializerRepository, tracker: Tracker, featureFlags: FeatureFlaggeable) {
+         commercializerRepository: CommercializerRepository, tracker: Tracker, sessionManager: SessionManager,
+         galleryMultiSelectionEnabled: Bool) {
         self.postingSource = source
         self.productRepository = productRepository
         self.fileRepository = fileRepository
@@ -89,7 +93,8 @@ class PostProductViewModel: BaseViewModel {
         self.postDetailViewModel = PostProductDetailViewModel()
         self.postProductCameraViewModel = PostProductCameraViewModel(postingSource: source)
         self.tracker = tracker
-        self.featureFlags = featureFlags
+        self.sessionManager = sessionManager
+        self.galleryMultiSelectionEnabled = galleryMultiSelectionEnabled
         super.init()
         self.postDetailViewModel.delegate = self
     }
@@ -103,24 +108,24 @@ class PostProductViewModel: BaseViewModel {
     // MARK: - Public methods
    
     func retryButtonPressed() {
-        guard let image = imageSelected, source = uploadedImageSource else { return }
-        imageSelected(image, source: source)
+        guard let images = imagesSelected, source = uploadedImageSource else { return }
+        imagesSelected(images, source: source)
     }
 
-    func imageSelected(image: UIImage, source: EventParameterPictureSource) {
+    func imagesSelected(images: [UIImage], source: EventParameterPictureSource) {
         uploadedImageSource = source
-        imageSelected = image
-        guard Core.sessionManager.loggedIn else {
-            pendingToUploadImage = image
+        imagesSelected = images
+        guard sessionManager.loggedIn else {
+            pendingToUploadImages = images
             state.value = .DetailsSelection
             return
         }
 
         state.value = .UploadingImage
 
-        fileRepository.upload(image, progress: nil) { [weak self] result in
+        fileRepository.upload(images, progress: nil) { [weak self] result in
             guard let strongSelf = self else { return }
-            guard let image = result.value else {
+            guard let images = result.value else {
                 guard let error = result.error else { return }
                 let errorString: String
                 switch (error) {
@@ -132,22 +137,22 @@ class PostProductViewModel: BaseViewModel {
                 strongSelf.state.value = .ErrorUpload(message: errorString)
                 return
             }
-            strongSelf.uploadedImage = image
+            strongSelf.uploadedImages = images
             strongSelf.state.value = .DetailsSelection
         }
     }
 
     func closeButtonPressed() {
-        if pendingToUploadImage != nil {
+        if pendingToUploadImages != nil {
             openPostAbandonAlertNotLoggedIn()
         } else {
-            guard let product = buildProduct(isFreePosting: false), image = uploadedImage else {
+            guard let product = buildProduct(isFreePosting: false), images = uploadedImages else {
                 navigator?.cancelPostProduct()
                 return
             }
             let trackingInfo = PostProductTrackingInfo(buttonName: .Close, sellButtonPosition: postingSource.sellButtonPosition,
                                                        imageSource: uploadedImageSource, price: nil)
-            navigator?.closePostProductAndPostInBackground(product, images: [image], showConfirmation: false,
+            navigator?.closePostProductAndPostInBackground(product, images: images, showConfirmation: false,
                                                            trackingInfo: trackingInfo)
         }
     }
@@ -181,14 +186,14 @@ private extension PostProductViewModel {
     func postProduct() {
         let trackingInfo = PostProductTrackingInfo(buttonName: .Done, sellButtonPosition: postingSource.sellButtonPosition,
                                                    imageSource: uploadedImageSource, price: postDetailViewModel.price.value)
-        if Core.sessionManager.loggedIn {
-            guard let product = buildProduct(isFreePosting: false), image = uploadedImage else { return }
-            navigator?.closePostProductAndPostInBackground(product, images: [image], showConfirmation: true,
+        if sessionManager.loggedIn {
+            guard let product = buildProduct(isFreePosting: false), images = uploadedImages else { return }
+            navigator?.closePostProductAndPostInBackground(product, images: images, showConfirmation: true,
                                                            trackingInfo: trackingInfo)
-        } else if let image = pendingToUploadImage {
+        } else if let images = pendingToUploadImages {
             delegate?.postProductviewModel(self, shouldAskLoginWithCompletion: { [weak self] in
                 guard let product = self?.buildProduct(isFreePosting:false) else { return }
-                self?.navigator?.closePostProductAndPostLater(product, image: image, trackingInfo: trackingInfo)
+                self?.navigator?.closePostProductAndPostLater(product, images: images, trackingInfo: trackingInfo)
                 })
         } else {
             navigator?.cancelPostProduct()

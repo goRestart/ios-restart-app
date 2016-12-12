@@ -498,14 +498,14 @@
 "product_sell_again_confirm_message" = "Ønsker du å markere dette produktet som tilgjengelig slik at det synliggjøres for kjøpere igjen?";
 "product_sell_again_confirm_ok_button" = "Selg på nytt";
 "product_sell_again_confirm_title" = "Selg på nytt";
-"product_sell_again_error_generic" = "En feil oppstod ved å markere produktet ditt som tilgjengelig. Vennligst prøv igjen senere.";
+"product_sell_again_error_generic" = "En feil oppstod ved å markere produktet ditt som tilgjengelig. Vennligst prøv igjen.";
 "product_sell_again_free_button" = "Marker som tilgjengelig";
 "product_sell_again_free_confirm_cancel_button" = "Avbryt";
 "product_sell_again_free_confirm_message" = "Maker ditt produkt som tilgjengelig slik at alle letgo bruker vet det";
 "product_sell_again_free_confirm_ok_button" = "Gis bort";
 "product_sell_again_free_confirm_title" = "Marker som tilgjengelig";
 "product_sell_again_free_success_message" = "Gratulerer! Ditt produkt er tilgjengelig for å gi bort igjen.";
-"product_sell_again_success_message" = "Gratulerer, ditt produkt ble markert som tilgjengelig!";
+"product_sell_again_success_message" = "Gratulerer! Ditt produkt ble markert som tilgjengelig!";
 "product_sell_camera_permissions_error" = "Gi letgo tilgang til ditt kamera i dine innstillinger, for å kunne ta et bilde.";
 "product_sell_camera_restricted_error" = "Din kamera-tilgang er begrenset. Vennligst sjekk innstillingene dine og prøv igjen.";
 "product_sell_photolibrary_permissions_error" = "Gi letgo tilgang til ditt bildegalleri i dine innstillinge, for å kunne laste opp et bilde.";

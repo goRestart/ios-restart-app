@@ -95,8 +95,13 @@
         "description": "Show sharing screen after posting (forced)"
     },
     {
-    "name": "PeriscopeImprovement",
-    "values": ["No", "Yes"],
-    "description": "periscope chat improvements"
+        "name": "PostingMultiPictureEnabled",
+        "values": ["No", "Yes"],
+        "description": "Posting multi picture enabled"
+    },
+    {
+        "name": "PeriscopeImprovement",
+        "values": ["No", "Yes"],
+        "description": "periscope chat improvements"
     }
  ]
