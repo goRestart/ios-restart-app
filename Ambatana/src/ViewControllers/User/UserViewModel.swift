@@ -35,6 +35,7 @@ class UserViewModel: BaseViewModel {
     private let userRepository: UserRepository
     private let tracker: Tracker
     private let featureFlags: FeatureFlaggeable
+    private let notificationsManager: NotificationsManager
 
     // Data & VMs
     private let user: Variable<User?>
@@ -94,8 +95,10 @@ class UserViewModel: BaseViewModel {
         let userRepository = Core.userRepository
         let tracker = TrackerProxy.sharedInstance
         let featureFlags = FeatureFlags.sharedInstance
+        let notificationsManager = NotificationsManager.sharedInstance
         self.init(sessionManager: sessionManager, myUserRepository: myUserRepository, userRepository: userRepository,
-                  tracker: tracker, isMyProfile: true, user: nil, source: source, featureFlags: featureFlags)
+                  tracker: tracker, isMyProfile: true, user: nil, source: source, featureFlags: featureFlags,
+                  notificationsManager: notificationsManager)
     }
 
     convenience init(user: User, source: UserSource) {
@@ -104,8 +107,10 @@ class UserViewModel: BaseViewModel {
         let userRepository = Core.userRepository
         let tracker = TrackerProxy.sharedInstance
         let featureFlags = FeatureFlags.sharedInstance
+        let notificationsManager = NotificationsManager.sharedInstance
         self.init(sessionManager: sessionManager, myUserRepository: myUserRepository, userRepository: userRepository,
-                  tracker: tracker, isMyProfile: false, user: user, source: source, featureFlags: featureFlags)
+                  tracker: tracker, isMyProfile: false, user: user, source: source, featureFlags: featureFlags,
+                  notificationsManager: notificationsManager)
     }
     
     convenience init(chatInterlocutor: ChatInterlocutor, source: UserSource) {
@@ -114,13 +119,16 @@ class UserViewModel: BaseViewModel {
         let userRepository = Core.userRepository
         let tracker = TrackerProxy.sharedInstance
 		let featureFlags = FeatureFlags.sharedInstance
+        let notificationsManager = NotificationsManager.sharedInstance
         let user = LocalUser(chatInterlocutor: chatInterlocutor)
         self.init(sessionManager: sessionManager, myUserRepository: myUserRepository, userRepository: userRepository,
-                  tracker: tracker, isMyProfile: false, user: user, source: source, featureFlags: featureFlags)
+                  tracker: tracker, isMyProfile: false, user: user, source: source, featureFlags: featureFlags,
+                  notificationsManager: notificationsManager)
     }
 
     init(sessionManager: SessionManager, myUserRepository: MyUserRepository, userRepository: UserRepository,
-         tracker: Tracker, isMyProfile: Bool, user: User?, source: UserSource, featureFlags: FeatureFlaggeable) {
+         tracker: Tracker, isMyProfile: Bool, user: User?, source: UserSource, featureFlags: FeatureFlaggeable,
+         notificationsManager: NotificationsManager) {
         self.sessionManager = sessionManager
         self.myUserRepository = myUserRepository
         self.userRepository = userRepository
@@ -129,6 +137,7 @@ class UserViewModel: BaseViewModel {
         self.user = Variable<User?>(user)
         self.source = source
         self.featureFlags = featureFlags
+        self.notificationsManager = notificationsManager
         self.sellingProductListRequester = UserStatusesProductListRequester(statuses: [.Pending, .Approved],
                                                                             itemsPerPage: Constants.numProductsPerPageDefault)
         self.sellingProductListViewModel = ProductListViewModel(requester: self.sellingProductListRequester)
@@ -214,6 +223,12 @@ extension UserViewModel {
         guard let socialMessage = socialMessage else { return }
         delegate?.vmShowNativeShare(socialMessage)
         trackShareStart()
+    }
+    
+    func shouldCleanFavoriteBadge() -> Bool {
+        guard let  favoriteCounter = notificationsManager.favoriteCount.value else {return false}
+        guard favoriteCounter > 0 else { return false}
+        return isMyUser
     }
 }
 

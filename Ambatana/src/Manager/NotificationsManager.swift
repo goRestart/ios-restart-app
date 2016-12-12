@@ -84,6 +84,7 @@ class NotificationsManager {
 
     func updateCounters() {
         requestChatCounters()
+        requestFavoriteCounter()
         requestNotificationCounters()
     }
 
@@ -93,6 +94,10 @@ class NotificationsManager {
 
     func updateNotificationCounters() {
         requestNotificationCounters()
+    }
+    
+    func requestFavoriteCounter() {
+        favoriteCount.value = keyValueStorage.productsMarkAsFavorite > 0 ? 1 : nil
     }
     
     
