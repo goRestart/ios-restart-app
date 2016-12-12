@@ -498,14 +498,14 @@
 "product_sell_again_confirm_message" = "Möchtest du dieses Produkt als verfügbar markieren, so dass es für Käufer wieder sichtbar wird?";
 "product_sell_again_confirm_ok_button" = "Erneut verkaufen";
 "product_sell_again_confirm_title" = "Erneut verkaufen";
-"product_sell_again_error_generic" = "Dein Produkt konnte nicht als verfügbar markiert werden. Bitte versuche es später noch mal.";
+"product_sell_again_error_generic" = "Dein Produkt konnte nicht als verfügbar markiert werden. Bitte versuche es noch mal.";
 "product_sell_again_free_button" = "Wieder verschenken";
 "product_sell_again_free_confirm_cancel_button" = "Abbrechen";
-"product_sell_again_free_confirm_message" = "Markiere dein Produkt als verfügbar, um andere letgo-Nutzer zu informieren";
+"product_sell_again_free_confirm_message" = "Möchtest du dein Produkt als verfügbar markieren?";
 "product_sell_again_free_confirm_ok_button" = "Verschenken";
 "product_sell_again_free_confirm_title" = "Als verfügbar markieren";
 "product_sell_again_free_success_message" = "Glückwunsch! Dein Produkt ist jetzt wieder als zum Verschenken verfügbar.";
-"product_sell_again_success_message" = "Glückwunsch, dein Produkt wurde erfolgreich als verfügbar markiert!";
+"product_sell_again_success_message" = "Glückwunsch! Dein Produkt wurde als verfügbar markiert.";
 "product_sell_camera_permissions_error" = "Erlaube letgo in deinen Einstellungen den Zugriff auf deine Kamera, um Bilder zu machen.";
 "product_sell_camera_restricted_error" = "Zugriff auf deine Kamera nicht möglich. Bitte überprüfe deine Einstellungen und versuche es erneut.";
 "product_sell_photolibrary_permissions_error" = "Erlaube letgo in deinen Einstellungen den Zugriff auf deine Fotomediathek, um Fotos hochladen zu können.";

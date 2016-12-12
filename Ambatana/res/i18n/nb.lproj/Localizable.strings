@@ -501,7 +501,7 @@
 "product_sell_again_error_generic" = "En feil oppstod ved å markere produktet ditt som tilgjengelig. Vennligst prøv igjen.";
 "product_sell_again_free_button" = "Marker som tilgjengelig";
 "product_sell_again_free_confirm_cancel_button" = "Avbryt";
-"product_sell_again_free_confirm_message" = "Maker ditt produkt som tilgjengelig slik at alle letgo bruker vet det";
+"product_sell_again_free_confirm_message" = "Ønsker du å markere ditt produkt som tilgjengelig?";
 "product_sell_again_free_confirm_ok_button" = "Gis bort";
 "product_sell_again_free_confirm_title" = "Marker som tilgjengelig";
 "product_sell_again_free_success_message" = "Gratulerer! Ditt produkt er tilgjengelig for å gi bort igjen.";
