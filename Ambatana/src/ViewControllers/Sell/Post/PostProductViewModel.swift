@@ -35,7 +35,7 @@ class PostProductViewModel: BaseViewModel {
 
     weak var delegate: PostProductViewModelDelegate?
     weak var navigator: PostProductNavigator?
-    let sessionManager: SessionManager
+    private let sessionManager: SessionManager
 
     var usePhotoButtonText: String {
         if sessionManager.loggedIn {
