@@ -11,7 +11,7 @@ import Foundation
 
 extension UIView {
 
-    func fitHorzontallyToParent(margin margin: CGFloat = 0) -> [NSLayoutConstraint] {
+    func fitHorizontallyToParent(margin margin: CGFloat = 0) -> [NSLayoutConstraint] {
         let views = ["view" : self]
         let metrics = [ "margin" : margin ]
         let constraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|-margin-[view]-margin-|", options: [], metrics: metrics, views: views)

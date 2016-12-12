@@ -139,12 +139,12 @@ class TextViewController: KeyboardViewController {
 
 // MARK: - Table
 
-extension TextViewController: UITableViewDelegate, UITableViewDataSource {
+extension TextViewController {
 
     private func setupTable() {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(tableView)
-        tableView.fitHorzontallyToParent()
+        tableView.fitHorizontallyToParent()
         tableView.alignParentTop()
         tableView.toTopOf(textViewBar)
         tableView.backgroundColor = UIColor.clearColor()
@@ -152,8 +152,6 @@ extension TextViewController: UITableViewDelegate, UITableViewDataSource {
         updateInverted()
 
         tableView.keyboardDismissMode = .OnDrag
-        tableView.delegate = self
-        tableView.dataSource = self
 
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(scrollViewTap))
         tapGesture.requireGestureRecognizerToFail(tableView.panGestureRecognizer)
@@ -162,16 +160,7 @@ extension TextViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     private func updateInverted() {
-        tableView.transform = invertedTable ? CGAffineTransformMake(1, 0, 0, -1, 0, 0) : CGAffineTransformIdentity;
-    }
-
-
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 0
-    }
-
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        return UITableViewCell()
+        tableView.transform = invertedTable ? CGAffineTransformMake(1, 0, 0, -1, 0, 0) : CGAffineTransformIdentity
     }
 
     dynamic private func scrollViewTap() {
@@ -197,7 +186,7 @@ extension TextViewController: UITextViewDelegate {
         textViewBar.translatesAutoresizingMaskIntoConstraints = false
         textViewBar.clipsToBounds = true
         view.addSubview(textViewBar)
-        textViewBar.fitHorzontallyToParent()
+        textViewBar.fitHorizontallyToParent()
 
         leftButtonsContainer.translatesAutoresizingMaskIntoConstraints = false
         textViewBar.addSubview(leftButtonsContainer)
@@ -218,7 +207,13 @@ extension TextViewController: UITextViewDelegate {
         sendButton.toRightOf(textView, margin: viewMargins)
         sendButton.setHeightConstraint(minHeight)
 
-        textViewBar.addTopViewBorderWith(width: LGUIKitConstants.onePixelSize, color: UIColor.lineGray)
+        let topSeparator = UIView()
+        topSeparator.translatesAutoresizingMaskIntoConstraints = false
+        textViewBar.addSubview(topSeparator)
+        topSeparator.fitHorizontallyToParent()
+        topSeparator.alignParentTop()
+        topSeparator.backgroundColor = UIColor.lineGray
+        topSeparator.setHeightConstraint(LGUIKitConstants.onePixelSize)
 
         textViewBarBottom = textViewBar.toTopOf(keyboardView, margin: textViewBarHidden ? -textViewBar.height : 0)
 

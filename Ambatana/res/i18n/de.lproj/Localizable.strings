@@ -417,8 +417,8 @@
 "product_mark_as_sold_free_success_message" = "Glückwunsch! Dein Produkt wurde erfolgreich als verschenkt markiert";
 "product_mark_as_sold_success_message" = "Glückwunsch, dein Produkt wurde erfolgreich als verkauft markiert!";
 "product_more_info_open_button" = "WEITERE INFOS";
-"product_more_info_related_title" = "YOU MIGHT BE INTERESTED IN:";
-"product_more_info_related_view_more" = "View more";
+"product_more_info_related_title" = "VIELLEICHT GEFÄLLT DIR AUCH:";
+"product_more_info_related_view_more" = "Weitere anzeigen";
 "product_more_info_tooltip_part_1" = "Drücke";
 "product_more_info_tooltip_part_2" = "%@ für weitere Infos";
 "product_negotiable_price" = "Verhandelbar";
@@ -452,9 +452,11 @@
 "product_post_free_confirmation_another_button" = "Verschenke einen weiteren Artikel";
 "product_post_gallery_load_image_error_subtitle" = "Bitte wähle ein anderes Foto und versuche es erneut.";
 "product_post_gallery_load_image_error_title" = "Das Foto kann nicht geladen werden";
+"product_post_gallery_multiple_pics_selected" = "%i Fotos ausgewählt";
 "product_post_gallery_permissions_button" = "Erlauben";
 "product_post_gallery_permissions_subtitle" = "Um ein existierendes Foto nutzen zu können, musst du den Zugriff auf deine Fotos erlauben";
 "product_post_gallery_permissions_title" = "Zugriff auf Fotos erlauben";
+"product_post_gallery_select_pictures" = "Select up to 5 images to upload";
 "product_post_gallery_tab" = "BIBLIOTHEK";
 "product_post_generic_error" = "Beim Einstellen deines Produkts ist ein Fehler aufgetreten.";
 "product_post_incentive_bike" = "Fahrräder";
@@ -573,6 +575,7 @@
 "rating_view_remind_later_button" = "Später erinnern";
 "rating_view_title_label" = "Gefällt dir letgo?";
 "rating_view_title_label_uppercase" = "GIB UNS 5 STERNE!";
+"related_items_title" = "Ähnliche Artikel";
 "report_user_counterfeit" = "Gefälschte Ware";
 "report_user_error_already_reported" = "Du hast diesen Nutzer bereits gemeldet!";
 "report_user_inactive" = "Inaktiv";
