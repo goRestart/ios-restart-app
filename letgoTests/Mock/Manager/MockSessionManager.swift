@@ -12,7 +12,6 @@ import RxSwift
 class MockSessionManager: SessionManager {
     var myUserResult: SessionMyUserResult!
     var resetPasswordResult: SessionEmptyResult!
-    var connectChatResult: SessionEmptyResult!
 
     
     // MARK: - SessionManager
@@ -50,8 +49,7 @@ class MockSessionManager: SessionManager {
     func logout() {
     }
 
-    func connectChat(completion: SessionEmptyCompletion?) {
-        performAfterDelayWithCompletion(completion, result: connectChatResult)
+    func connectChat() {
     }
 
     func disconnectChat() {

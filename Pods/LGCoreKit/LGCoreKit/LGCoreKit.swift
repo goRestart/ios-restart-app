@@ -19,6 +19,8 @@ public class LGCoreKit {
     public static var activateWebsocket = false
     public static var quadKeyZoomLevel = LGCoreKitConstants.defaultQuadKeyPrecision
 
+
+
     public static func initialize(launchOptions: [NSObject: AnyObject]?) {
         initialize(launchOptions, environmentType: .Production)
     }
@@ -38,13 +40,21 @@ public class LGCoreKit {
         InternalCore.stickersRepository.show(nil) // Sync stickers to NSUserDefaults
     }
     
-    public static func refreshData() {
+    public static func applicationWillEnterForeground() {
         // Ask for the commercializer templates
         InternalCore.internalCommercializerRepository.indexTemplates(nil)
         // Refresh my user
         InternalCore.myUserRepository.refresh(nil)
     }
-    
+
+    public static func applicationDidBecomeActive() {
+        InternalCore.internalSessionManager.applicationDidBecomeActive()
+    }
+
+    public static func applicationDidEnterBackground() {
+        InternalCore.internalSessionManager.applicationDidEnterBackground()
+    }
+
     static func setupAfterLoggedIn(completion: (() -> ())?) {
         guard let userId = InternalCore.myUserRepository.myUser?.objectId else {
             completion?()

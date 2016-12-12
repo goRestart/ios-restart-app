@@ -104,7 +104,4 @@ struct Constants {
     // interested bubble
     static let maxInterestedBubblesPerSessionOriginal = 2
     static let maxInterestedBubblesPerSessionLimitedPrints = 3
-
-    // Websocket chat 
-    static let websocketChatDisconnectTimeout: NSTimeInterval = 15
 }
