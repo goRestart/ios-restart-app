@@ -52,10 +52,6 @@ class PostProductViewController: BaseViewController {
 
     // MARK: - Lifecycle
 
-    convenience init(forceCamera: Bool, source: PostingSource) {
-        self.init(viewModel: PostProductViewModel(source: source), forceCamera: forceCamera)
-    }
-
     convenience init(viewModel: PostProductViewModel, forceCamera: Bool) {
         self.init(viewModel: viewModel, forceCamera: forceCamera, keyboardHelper: KeyboardHelper.sharedInstance)
     }
@@ -64,7 +60,7 @@ class PostProductViewController: BaseViewController {
         let viewPagerConfig = LGViewPagerConfig(tabPosition: .Hidden, tabLayout: .Fixed, tabHeight: 54)
         self.viewPager = LGViewPager(config: viewPagerConfig, frame: CGRect.zero)
         self.cameraView = PostProductCameraView(viewModel: viewModel.postProductCameraViewModel)
-        self.galleryView = PostProductGalleryView()
+        self.galleryView = PostProductGalleryView(multiSelectionEnabled: viewModel.galleryMultiSelectionEnabled)
         self.keyboardHelper = keyboardHelper
         self.viewModel = viewModel
         self.forceCamera = forceCamera
@@ -323,7 +319,7 @@ extension PostProductViewController: PostProductCameraViewDelegate {
     }
 
     func productCameraDidTakeImage(image: UIImage) {
-        viewModel.imageSelected(image, source: .Camera)
+        viewModel.imagesSelected([image], source: .Camera)
     }
 
     func productCameraRequestHideTabs(hide: Bool) {
@@ -344,8 +340,8 @@ extension PostProductViewController: PostProductGalleryViewDelegate {
         onCloseButton(galleryView)
     }
 
-    func productGalleryDidSelectImage(image: UIImage) {
-        viewModel.imageSelected(image, source: .Gallery)
+    func productGalleryDidSelectImages(images: [UIImage]) {
+        viewModel.imagesSelected(images, source: .Gallery)
     }
 
     func productGalleryRequestsScrollLock(lock: Bool) {
@@ -359,6 +355,10 @@ extension PostProductViewController: PostProductGalleryViewDelegate {
     func productGalleryShowActionSheet(cancelAction: UIAction, actions: [UIAction]) {
         showActionSheet(cancelAction, actions: actions, sourceView: galleryView.albumButton,
                         sourceRect: galleryView.albumButton.frame, completion: nil)
+    }
+
+    func productGallerySelectionFull(selectionFull: Bool) {
+        photoButton.hidden = selectionFull
     }
 }
 

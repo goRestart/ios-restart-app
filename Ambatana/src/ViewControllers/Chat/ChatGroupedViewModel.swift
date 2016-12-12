@@ -338,19 +338,18 @@ extension ChatGroupedViewModel {
             }
         }.bindTo(verificationPending).addDisposableTo(disposeBag)
 
+        // When verification pending changes from false to true then display verify accounts
+        verificationPending.asObservable().filter { $0 }.distinctUntilChanged().subscribeNext { [weak self] _ in
+            self?.tabNavigator?.openVerifyAccounts([.Facebook, .Google, .Email(self?.myUserRepository.myUser?.email)],
+                source: .Chat(title: LGLocalizedString.chatConnectAccountsTitle,
+                    description: LGLocalizedString.chatNotVerifiedAlertMessage),
+                completionBlock: nil)
+        }.addDisposableTo(disposeBag)
+
         verificationPending.asObservable().filter { !$0 }.bindTo(editButtonEnabled).addDisposableTo(disposeBag)
     }
 
     func tryToReconnectChat() {
-        sessionManager.connectChat { [weak self] result in
-            if let _ = result.value {
-                self?.verificationPending.value = false
-            } else {
-                self?.tabNavigator?.openVerifyAccounts([.Facebook, .Google, .Email(self?.myUserRepository.myUser?.email)],
-                    source: .Chat(title: LGLocalizedString.chatConnectAccountsTitle,
-                        description: LGLocalizedString.chatNotVerifiedAlertMessage),
-                    completionBlock: nil)
-            }
-        }
+        sessionManager.connectChat()
     }
 }

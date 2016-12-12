@@ -13,10 +13,11 @@ import RxCocoa
 
 protocol PostProductGalleryViewDelegate: class {
     func productGalleryCloseButton()
-    func productGalleryDidSelectImage(image: UIImage)
+    func productGalleryDidSelectImages(images: [UIImage])
     func productGalleryRequestsScrollLock(lock: Bool)
     func productGalleryDidPressTakePhoto()
     func productGalleryShowActionSheet(cancelAction: UIAction, actions: [UIAction])
+    func productGallerySelectionFull(selectionFull: Bool)
 }
 
 class PostProductGalleryView: BaseView, LGViewPagerPage {
@@ -82,8 +83,9 @@ class PostProductGalleryView: BaseView, LGViewPagerPage {
 
     // MARK: - Lifecycle
 
-    convenience init() {
-        self.init(viewModel: PostProductGalleryViewModel(), frame: CGRect.zero)
+    convenience init(multiSelectionEnabled: Bool) {
+        let viewModel = PostProductGalleryViewModel(multiSelectionEnabled: multiSelectionEnabled)
+        self.init(viewModel: viewModel, frame: CGRect.zero)
     }
 
     init(viewModel: PostProductGalleryViewModel, frame: CGRect) {
@@ -148,6 +150,7 @@ class PostProductGalleryView: BaseView, LGViewPagerPage {
         let cellNib = UINib(nibName: GalleryImageCell.reusableID, bundle: nil)
         collectionView.registerNib(cellNib, forCellWithReuseIdentifier: GalleryImageCell.reusableID)
         collectionView.alwaysBounceVertical = true
+        collectionView.allowsMultipleSelection = true
         if let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
             layout.minimumInteritemSpacing = 4.0
         }
@@ -158,12 +161,17 @@ class PostProductGalleryView: BaseView, LGViewPagerPage {
         collectionGradientView.layer.addSublayer(shadowLayer)
 
         infoButton.setStyle(.Primary(fontSize: .Medium))
-        loadImageErrorTitleLabel.text = LGLocalizedString.productPostGalleryLoadImageErrorTitle
-        loadImageErrorSubtitleLabel.text = LGLocalizedString.productPostGalleryLoadImageErrorSubtitle
+
+        resetLoadImageErrorViewInfo()
 
         setAccesibilityIds()
         setupRX()
         setupAlbumSelection()
+    }
+
+    private func resetLoadImageErrorViewInfo() {
+        loadImageErrorTitleLabel.text = LGLocalizedString.productPostGalleryLoadImageErrorTitle
+        loadImageErrorSubtitleLabel.text = LGLocalizedString.productPostGalleryLoadImageErrorSubtitle
     }
 }
 
@@ -179,6 +187,12 @@ extension PostProductGalleryView: PostProductGalleryViewModelDelegate {
     func vmDidSelectItemAtIndex(index: Int, shouldScroll: Bool) {
         animateToState(collapsed: false) { [weak self] in
             self?.selectItemAtIndex(index)
+        }
+    }
+
+    func vmDidDeselectItemAtIndex(index: Int) {
+        animateToState(collapsed: false) { [weak self] in
+            self?.deselectItemAtIndex(index)
         }
     }
 
@@ -207,6 +221,22 @@ extension PostProductGalleryView: UICollectionViewDataSource, UICollectionViewDe
             viewModel.imageForCellAtIndex(indexPath.row) { image in
                 galleryCell.image.image = image
             }
+            galleryCell.multipleSelectionEnabled = viewModel.multiSelectionEnabled
+            let selectedIndexes: [Int] = viewModel.imagesSelected.value.map { $0.index }
+            if selectedIndexes.contains(indexPath.item) {
+                galleryCell.disabled = false
+                galleryCell.selected = true
+                collectionView.selectItemAtIndexPath(indexPath, animated: false, scrollPosition: .None)
+                if let position = selectedIndexes.indexOf(indexPath.item) {
+                    galleryCell.multipleSelectionCountLabel.text = "\(position + 1)"
+                }
+            } else if viewModel.imagesSelectedCount >= viewModel.maxImagesSelected {
+                galleryCell.disabled = viewModel.multiSelectionEnabled
+                galleryCell.selected = false
+            } else {
+                galleryCell.selected = false
+                galleryCell.disabled = false
+            }
             return galleryCell
     }
 
@@ -214,9 +244,30 @@ extension PostProductGalleryView: UICollectionViewDataSource, UICollectionViewDe
         viewModel.imageSelectedAtIndex(indexPath.row)
     }
 
+    func collectionView(collectionView: UICollectionView, shouldSelectItemAtIndexPath indexPath: NSIndexPath) -> Bool {
+        return viewModel.imageSelectionEnabled.value
+    }
+    
+    func collectionView(collectionView: UICollectionView, didDeselectItemAtIndexPath indexPath: NSIndexPath) {
+        viewModel.imageDeselectedAtIndex(indexPath.row)
+    }
+
+    func collectionView(collectionView: UICollectionView, shouldDeselectItemAtIndexPath indexPath: NSIndexPath) -> Bool {
+        return viewModel.multiSelectionEnabled
+    }
+
     private func selectItemAtIndex(index: Int) {
         let indexPath = NSIndexPath(forItem: index, inSection: 0)
         collectionView.selectItemAtIndexPath(indexPath, animated: false, scrollPosition: .None)
+        let layoutAttributes = collectionView.layoutAttributesForItemAtIndexPath(indexPath)
+        if let layoutAttributes = layoutAttributes {
+            collectionView.scrollRectToVisible(layoutAttributes.frame, animated: true)
+        }
+    }
+
+    private func deselectItemAtIndex(index: Int) {
+        let indexPath = NSIndexPath(forItem: index, inSection: 0)
+        collectionView.deselectItemAtIndexPath(indexPath, animated: false)
         let layoutAttributes = collectionView.layoutAttributesForItemAtIndexPath(indexPath)
         if let layoutAttributes = layoutAttributes {
             collectionView.scrollRectToVisible(layoutAttributes.frame, animated: true)
@@ -257,6 +308,7 @@ extension PostProductGalleryView {
             case .Normal:
                 self?.infoContainer.hidden = true
                 self?.postButton.enabled = true
+                self?.loadImageErrorView.hidden = self?.viewModel.imagesSelectedCount != 0
             case .LoadImageError:
                 self?.infoContainer.hidden = true
                 self?.loadImageErrorView.hidden = false
@@ -265,6 +317,39 @@ extension PostProductGalleryView {
                 self?.imageLoadActivityIndicator.startAnimating()
                 self?.postButton.enabled = false
             }
+        }.addDisposableTo(disposeBag)
+
+        viewModel.imagesSelected.asObservable().observeOn(MainScheduler.instance).bindNext { [weak self] imgsSelected in
+            guard let strongSelf = self else { return }
+            guard strongSelf.viewModel.multiSelectionEnabled else { return }
+            strongSelf.collectionView.userInteractionEnabled = false
+            guard !strongSelf.viewModel.shouldUpdateDisabledCells else {
+                delay(0.3) { [weak self] in
+                    self?.collectionView.reloadData()
+                    self?.collectionView.userInteractionEnabled = true
+                }
+                return
+            }
+            var indexes: [NSIndexPath] = []
+            for imgSel in imgsSelected {
+                indexes.append(NSIndexPath(forItem: imgSel.index, inSection: 0))
+            }
+
+            strongSelf.collectionView.reloadItemsAtIndexPaths(indexes)
+
+            if imgsSelected.count == 0 {
+                strongSelf.loadImageErrorTitleLabel.text = LGLocalizedString.productPostGallerySelectPicturesTitle
+                strongSelf.loadImageErrorSubtitleLabel.text = LGLocalizedString.productPostGallerySelectPicturesSubtitle
+                strongSelf.loadImageErrorView.hidden = false
+            } else {
+                strongSelf.resetLoadImageErrorViewInfo()
+                strongSelf.loadImageErrorView.hidden = true
+            }
+            strongSelf.collectionView.userInteractionEnabled = true
+        }.addDisposableTo(disposeBag)
+
+        viewModel.imageSelectionEnabled.asObservable().distinctUntilChanged().bindNext { [weak self] interactionEnabled in
+            self?.delegate?.productGallerySelectionFull(!interactionEnabled)
         }.addDisposableTo(disposeBag)
     }
 
@@ -290,8 +375,10 @@ extension PostProductGalleryView {
             toItem: albumButton, attribute: .CenterY, multiplier: 1.0, constant: 2)
         albumButton.addConstraints([left,centerV])
 
+
         viewModel.albumTitle.asObservable().bindTo(albumButton.rx_title).addDisposableTo(disposeBag)
-        viewModel.imageSelected.asObservable().bindTo(selectedImage.rx_image).addDisposableTo(disposeBag)
+        viewModel.albumButtonEnabled.asObservable().bindTo(albumButton.rx_enabled).addDisposableTo(disposeBag)
+        viewModel.lastImageSelected.asObservable().bindTo(selectedImage.rx_image).addDisposableTo(disposeBag)
 
         viewModel.albumIconState.asObservable().subscribeNext{ [weak self] status in
             switch status{
